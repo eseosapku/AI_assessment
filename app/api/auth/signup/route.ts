@@ -58,7 +58,7 @@ export async function POST(request: NextRequest) {
     if (dbError || !newUser) {
       console.error('Database error:', dbError)
       return NextResponse.json(
-        { error: 'Failed to create account' },
+        { error: dbError?.message || 'Failed to create account' },
         { status: 500 }
       )
     }
