@@ -2,74 +2,49 @@
 
 import { motion } from 'framer-motion'
 import { User, Plus, LogOut } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ThemeToggle from './ThemeToggle'
 import ProfileSidebar from './ProfileSidebar'
 import AssessmentCard from './AssessmentCard'
 import FlowForm from './FlowForm'
 import { useAuth } from './AuthProvider'
+import { supabase } from '@/lib/supabase'
 
 export default function Dashboard() {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
+  const [recentAssessments, setRecentAssessments] = useState<any[]>([])
   const { user, logout } = useAuth()
 
-  const recentAssessments = [
-    {
-      id: '1',
-      date: 'Feb 24, 2026',
-      subject: 'Mathematics',
-      topic: 'Calculus - Derivatives',
-      grade: 'A',
-      score: 92,
-      feedback: 'Excellent work! You demonstrated a strong understanding of derivative rules and applications. Focus on implicit differentiation for even better results.'
-    },
-    {
-      id: '2',
-      date: 'Feb 22, 2026',
-      subject: 'Physics',
-      topic: 'Electromagnetism',
-      grade: 'B+',
-      score: 87,
-      feedback: 'Good grasp of electromagnetic concepts. Pay more attention to the right-hand rule applications and magnetic field calculations.'
-    },
-    {
-      id: '3',
-      date: 'Feb 20, 2026',
-      subject: 'Chemistry',
-      topic: 'Organic Chemistry - Alkanes',
-      grade: 'A+',
-      score: 98,
-      feedback: 'Outstanding! Your understanding of IUPAC nomenclature and structural formulas is exceptional. Keep up the excellent work.'
-    },
-    {
-      id: '4',
-      date: 'Feb 18, 2026',
-      subject: 'Biology',
-      topic: 'Cell Biology - Mitosis',
-      grade: 'A',
-      score: 91,
-      feedback: 'Strong understanding of cell division processes. Consider reviewing the regulatory checkpoints for even deeper comprehension.'
-    },
-    {
-      id: '5',
-      date: 'Feb 16, 2026',
-      subject: 'Computer Science',
-      topic: 'Data Structures - Binary Trees',
-      grade: 'B+',
-      score: 88,
-      feedback: 'Good grasp of tree traversal algorithms. Work on balancing techniques for improved performance understanding.'
-    },
-    {
-      id: '6',
-      date: 'Feb 14, 2026',
-      subject: 'English',
-      topic: 'Literary Analysis - Shakespeare',
-      grade: 'A',
-      score: 93,
-      feedback: 'Excellent critical analysis skills. Your interpretation of themes and symbolism shows deep literary understanding.'
+  useEffect(() => {
+    const fetchRecentAssessments = async () => {
+      if (!user?.id) return
+
+      const { data, error } = await supabase
+        .from('results')
+        .select('*, assessments(subject, difficulty)')
+        .eq('user_id', user.id)
+        .order('created_at', { ascending: false })
+        .limit(6)
+
+      if (error) {
+        console.error('Error fetching assessments:', error)
+      } else if (data) {
+        const formattedData = data.map(item => ({
+          id: item.id,
+          date: new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+          subject: item.assessments?.subject || 'Assessment',
+          topic: item.assessments?.difficulty || 'General',
+          grade: item.percentage >= 90 ? 'A+' : item.percentage >= 80 ? 'A' : item.percentage >= 70 ? 'B+' : item.percentage >= 60 ? 'B' : item.percentage >= 50 ? 'C' : 'D',
+          score: item.score,
+          feedback: item.feedback?.text || 'No feedback available.'
+        }))
+        setRecentAssessments(formattedData)
+      }
     }
-  ]
+
+    fetchRecentAssessments()
+  }, [user])
 
   return (
     <div className="min-h-screen bg-apple-gray dark:bg-apple-black transition-colors duration-300 flex flex-col">

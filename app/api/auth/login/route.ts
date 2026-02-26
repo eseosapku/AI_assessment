@@ -1,13 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { supabase } from '@/lib/supabase'
+import bcrypt from 'bcryptjs'
 
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
 
-    // In production, validate against database
-    // For now, simulate authentication
-    
-    // Mock user validation
+    // Validation
     if (!email || !password) {
       return NextResponse.json(
         { error: 'Email and password are required' },
@@ -15,14 +14,38 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Simulate successful login
+    // Find user by email
+    const { data: userData, error: dbError } = await supabase
+      .from('users')
+      .select('*')
+      .eq('email', email)
+      .single()
+
+    if (dbError || !userData) {
+      return NextResponse.json(
+        { error: 'Invalid email or password' },
+        { status: 401 }
+      )
+    }
+
+    // Verify password
+    const isValidPassword = await bcrypt.compare(password, userData.password_hash)
+
+    if (!isValidPassword) {
+      return NextResponse.json(
+        { error: 'Invalid email or password' },
+        { status: 401 }
+      )
+    }
+
+    // Return user data (without password)
     const user = {
-      id: 'user-' + Date.now(),
-      name: 'Alex Johnson',
-      email: email,
-      studentId: 'STD-2024-1234',
-      class: 'Grade 12 - Science',
-      subjects: ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
+      id: userData.id,
+      name: userData.name,
+      email: userData.email,
+      studentId: userData.student_id,
+      class: userData.class,
+      subjects: userData.subjects
     }
 
     return NextResponse.json({

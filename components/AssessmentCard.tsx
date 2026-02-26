@@ -33,7 +33,7 @@ export default function AssessmentCard({ assessment }: AssessmentCardProps) {
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       whileHover={{ y: -4 }}
-      className="card p-4 sm:p-6 relative">
+      className="card p-4 sm:p-6 relative"
     >
       <div className="flex justify-between items-start mb-4">
         <div className="flex-1 min-w-0">

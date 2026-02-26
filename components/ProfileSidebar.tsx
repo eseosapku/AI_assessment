@@ -33,7 +33,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
-            className="fixed right-0 top-0 bottom-0 w-full sm:w-96 glass dark:glass-dark z-50 p-6 sm:p-8 overflow-y-auto">
+            className="fixed right-0 top-0 bottom-0 w-full sm:w-96 glass dark:glass-dark z-50 p-6 sm:p-8 overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-6 sm:mb-8">
               <h2 className="text-xl sm:text-2xl font-semibold">Profile</h2>

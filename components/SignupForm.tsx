@@ -11,6 +11,7 @@ export default function SignupForm() {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
+  const [className, setClassName] = useState('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
@@ -32,10 +33,15 @@ export default function SignupForm() {
       return
     }
 
+    if (!className) {
+      setError('Please select a class/grade')
+      return
+    }
+
     setIsLoading(true)
 
     try {
-      await signup(name, email, password)
+      await signup(name, email, password, className)
     } catch (err) {
       setError('Failed to create account. Please try again.')
     } finally {
@@ -99,6 +105,35 @@ export default function SignupForm() {
                 required
                 className="w-full pl-12 pr-4 py-3 rounded-apple bg-apple-gray dark:bg-gray-800 border-2 border-transparent focus:border-apple-blue outline-none transition-all"
               />
+            </div>
+          </div>
+
+          {/* Class/Grade Field */}
+          <div>
+            <label htmlFor="className" className="block text-sm font-medium mb-2">
+              Class / Grade
+            </label>
+            <div className="relative">
+              <select
+                id="className"
+                value={className}
+                onChange={(e) => setClassName(e.target.value)}
+                required
+                className="w-full px-4 py-3 rounded-apple bg-apple-gray dark:bg-gray-800 border-2 border-transparent focus:border-apple-blue outline-none transition-all appearance-none"
+              >
+                <option value="" disabled>Select your class/grade</option>
+                <option value="Grade 9">Grade 9</option>
+                <option value="Grade 10">Grade 10</option>
+                <option value="Grade 11">Grade 11</option>
+                <option value="Grade 12">Grade 12</option>
+                <option value="College Freshman">College Freshman</option>
+                <option value="College Sophomore">College Sophomore</option>
+                <option value="College Junior">College Junior</option>
+                <option value="College Senior">College Senior</option>
+              </select>
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-apple-dark-gray">
+                <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+              </div>
             </div>
           </div>
 

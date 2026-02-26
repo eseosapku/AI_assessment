@@ -1,43 +1,33 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { supabase } from '@/lib/supabase'
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { assessment_id, score, grade, answers, completed_at } = body
+    const { user_id, subject, topics, score, grade, feedback } = body
 
-    // In production, save to Supabase or your database
-    // For now, we'll just log it
-    console.log('Assessment Result:', {
-      assessment_id,
-      score,
-      grade,
-      answers,
-      completed_at
-    })
-
-    /* 
-    // Example Supabase save (uncomment when configured)
-    const { createClient } = require('@supabase/supabase-js')
-    const supabase = createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-    )
+    if (!user_id) {
+      return NextResponse.json({ error: 'User ID is required' }, { status: 400 })
+    }
 
     const { data, error } = await supabase
-      .from('assessment_results')
+      .from('results')
       .insert([
         {
-          assessment_id,
-          student_id: 'current_user_id', // Get from auth
+          user_id,
+          assessment_id: body.assessment_id || null,
+          answers: body.answers || {},
           score,
-          grade,
-          answers,
-          completed_at
+          total_questions: body.total_questions || 10,
+          percentage: score,
+          feedback: { text: feedback }
         }
       ])
 
-    if (error) throw error
-    */
+    if (error) {
+      console.error('Supabase insert error:', error)
+      throw error
+    }
 
     return NextResponse.json({
       success: true,

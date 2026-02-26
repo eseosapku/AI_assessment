@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronRight } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
+import { useAuth } from './AuthProvider'
 
 interface FlowFormProps {
   onClose: () => void
@@ -11,6 +12,7 @@ interface FlowFormProps {
 
 export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
+  const { user } = useAuth()
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
     subject: '',
@@ -64,19 +66,36 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     setTimeout(() => setStep(5), 300)
   }
 
-  const handleStartAssessment = async () => {
-    // Call API to generate assessment
-    const response = await fetch('/api/generate-assessment', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(formData)
-    })
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState('')
 
-    const data = await response.json()
+  const handleStartAssessment = async () => {
+    setIsLoading(true)
+    setError('')
     
-    // Store assessment data and navigate to assessment page
-    sessionStorage.setItem('currentAssessment', JSON.stringify(data))
-    router.push('/assessment')
+    try {
+      // Call API to generate assessment
+      const response = await fetch('/api/generate-assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...formData, className: user?.class, user_id: user?.id })
+      })
+
+      const data = await response.json()
+      
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to generate assessment')
+      }
+      
+      // Store assessment data and navigate to assessment page
+      sessionStorage.setItem('currentAssessment', JSON.stringify(data))
+      router.push('/assessment')
+    } catch (err: any) {
+      setError(err.message)
+      console.error('Assessment generation error:', err)
+    } finally {
+      setIsLoading(false)
+    }
   }
 
   return (
@@ -252,13 +271,20 @@ export default function FlowForm({ onClose }: FlowFormProps) {
 
               <motion.button
                 onClick={handleStartAssessment}
+                disabled={isLoading}
                 whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="w-full btn-primary flex items-center justify-center gap-2"
+                className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                <span>Start Assessment</span>
-                <ChevronRight className="w-5 h-5" />
+                <span>{isLoading ? 'Generating AI Assessment...' : 'Start Assessment'}</span>
+                {!isLoading && <ChevronRight className="w-5 h-5" />}
               </motion.button>
+
+              {error && (
+                <div className="mt-4 p-3 rounded-apple bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-600 dark:text-red-400 text-center">
+                  {error}
+                </div>
+              )}
             </motion.div>
           )}
         </motion.div>

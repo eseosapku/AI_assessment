@@ -1,85 +1,129 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { GoogleGenerativeAI } from '@google/generative-ai'
+
+const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { subject, topics, count, style } = body
+    const { subject, topics, count, style, className } = body
 
-    // In production, replace with actual Gemini API call
-    const geminiApiKey = process.env.GEMINI_API_KEY
+    // Validation
+    if (!subject || !topics || !count) {
+      return NextResponse.json(
+        { error: 'Subject, topics, and count are required' },
+        { status: 400 }
+      )
+    }
 
     // Construct the AI prompt
-    const prompt = `You are the engine for a premium AI Assessment Platform. Generate a structured JSON response for a student assessment based on the following inputs:
+    const prompt = `You are an expert educational assessment generator. Create ${count} multiple-choice questions for a ${style} assessment.
 
-Subject: ${subject}
-Topics: ${topics.join(', ')}
-Question Count: ${count}
-Style: ${style}
+**Subject:** ${subject}
+**Topics:** ${topics.join(', ')}
+**Question Count:** ${count}
+**Style:** ${style}
+${className ? `**Target Audience/Grade Level:** ${className}` : ''}
 
-Requirements:
-1. Time Calculation: Calculate the ideal duration (in minutes) based on the complexity of the subject and the number of questions.
-2. Question Generation:
-   - If 'Exam Style', mimic the tone and complexity of official board past papers.
-   - If 'Test Style', focus on formative concepts from standard textbooks.
-   - All questions must be Multiple Choice (MCQ) with 4 options each.
-3. Feedback Loop: For each question, provide a "Rationalization" explaining why the correct answer is right and why distractors are wrong.
+**Requirements:**
+1. Generate exactly ${count} questions
+2. Each question must have 4 options (A, B, C, D)
+3. Include detailed explanations for correct answers
+4. Questions should be appropriate for ${style === 'Exam Style' ? 'high-stakes exams' : 'practice tests'}
+5. Vary difficulty levels appropriately
+${className ? `6. Ensure the vocabulary, concepts, and difficulty are strictly appropriate for a student in ${className}.` : ''}
+7. CRITICAL: For any math equations, formulas, or scientific notation, you MUST use LaTeX formatting. Wrap inline math in single dollar signs (e.g., $x^2 + y^2 = z^2$) and block math in double dollar signs (e.g., $$\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$).
 
-Output Format (STRICT JSON):
+**CRITICAL: Return ONLY valid JSON in this EXACT format (no markdown, no additional text):**
+
 {
-  "assessment_id": "unique_id",
-  "estimated_time": number_in_minutes,
-  "questions_array": [
+  "assessment_id": "${Date.now()}-${Math.random().toString(36).substr(2, 9)}",
+  "estimated_time": ${count * 2},
+  "questions": [
     {
       "id": 1,
-      "question": "question_text",
-      "options": ["option_1", "option_2", "option_3", "option_4"],
-      "correct_answer": index_of_correct_option (0-3),
-      "feedback_text": "detailed_explanation"
+      "question": "Question text here?",
+      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "correct_answer": 0,
+      "explanation": "Detailed explanation why this is correct"
     }
   ]
 }
 
-Return ONLY the JSON object, no additional text.`
+Generate the assessment now:`
 
-    // Mock response for development (replace with actual Gemini API call)
-    const mockResponse = generateMockAssessment(subject, topics, count, style)
+    try {
+      // Get Gemini model
+      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
+      
+      // Generate content
+      const result = await model.generateContent(prompt)
+      const response = await result.response
+      const text = response.text()
+      
+      // Clean the response (remove markdown code blocks if present)
+      let cleanedText = text.trim()
+      if (cleanedText.startsWith('```json')) {
+        cleanedText = cleanedText.replace(/```json\n?/g, '').replace(/```\n?/g, '')
+      } else if (cleanedText.startsWith('```')) {
+        cleanedText = cleanedText.replace(/```\n?/g, '')
+      }
+      
+      // Parse JSON
+      const assessmentData = JSON.parse(cleanedText)
+      
+      // Save assessment to database
+      const { supabase } = require('@/lib/supabase')
+      const { data: dbAssessment, error: dbError } = await supabase
+        .from('assessments')
+        .insert([
+          {
+            user_id: body.user_id || null,
+            subject,
+            difficulty: style,
+            duration: count * 2,
+            questions_data: assessmentData.questions,
+            status: 'completed'
+          }
+        ])
+        .select()
+        .single()
 
-    /* 
-    // Actual Gemini API call (uncomment when ready)
-    const response = await fetch('https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-goog-api-key': geminiApiKey || ''
-      },
-      body: JSON.stringify({
-        contents: [{
-          parts: [{
-            text: prompt
-          }]
-        }],
-        generationConfig: {
-          temperature: 0.7,
-          topK: 40,
-          topP: 0.95,
-          maxOutputTokens: 8192,
-        }
+      if (dbError) {
+        console.error('Error saving assessment to DB:', dbError)
+      }
+      
+      return NextResponse.json({
+        ...assessmentData,
+        assessment_id: dbAssessment?.id || assessmentData.assessment_id,
+        subject,
+        topics,
+        style
       })
-    })
-
-    const data = await response.json()
-    const generatedText = data.candidates[0].content.parts[0].text
-    const assessmentData = JSON.parse(generatedText)
-    */
-
-    return NextResponse.json({
-      ...mockResponse,
-      subject,
-      topics
-    })
+      
+    } catch (aiError: any) {
+      console.error('Gemini AI Error:', aiError)
+      
+      // If it's a quota error, return a specific message
+      if (aiError.message?.includes('429') || aiError.message?.includes('Quota')) {
+        return NextResponse.json(
+          { error: 'AI rate limit exceeded. Please wait a minute and try again.' },
+          { status: 429 }
+        )
+      }
+      
+      // Fallback to mock data if AI fails for other reasons
+      const mockResponse = generateMockAssessment(subject, topics, count, style)
+      return NextResponse.json({
+        ...mockResponse,
+        subject,
+        topics,
+        ai_fallback: true
+      })
+    }
 
   } catch (error) {
-    console.error('Error generating assessment:', error)
+    console.error('Generate assessment error:', error)
     return NextResponse.json(
       { error: 'Failed to generate assessment' },
       { status: 500 }
@@ -106,7 +150,7 @@ function generateMockAssessment(subject: string, topics: string[], count: number
         'Option D: This is clearly incorrect'
       ],
       correct_answer: 0,
-      feedback_text: `The correct answer is Option A. This demonstrates a fundamental understanding of ${topic} in ${subject}. Option B is incorrect because it represents a common misconception. Option C fails to account for key principles. Option D contradicts the basic theory.`
+      explanation: `The correct answer is Option A. This demonstrates a fundamental understanding of ${topic} in ${subject}. Option B is incorrect because it represents a common misconception. Option C fails to account for key principles. Option D contradicts the basic theory.`
     })
   }
 
@@ -117,6 +161,6 @@ function generateMockAssessment(subject: string, topics: string[], count: number
   return {
     assessment_id: `ASS-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
     estimated_time: estimatedTime,
-    questions_array: questions
+    questions: questions
   }
 }
