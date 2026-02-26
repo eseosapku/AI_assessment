@@ -1,0 +1,144 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --apple-white: #FFFFFF;
+    --apple-black: #1D1D1F;
+    --apple-blue: #007AFF;
+    --apple-gray: #F5F5F7;
+    --apple-dark-gray: #86868B;
+  }
+
+  body {
+    @apply bg-apple-white dark:bg-apple-black text-apple-black dark:text-apple-white;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Effect */
+  .glass {
+    background: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+  }
+
+  .glass-dark {
+    background: rgba(29, 29, 31, 0.7);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+
+  /* Apple Button */
+  .btn-primary {
+    @apply bg-apple-blue text-white px-6 py-3 rounded-apple font-medium;
+    @apply hover:bg-opacity-90 transition-all duration-300;
+    @apply active:scale-95;
+  }
+
+  .btn-secondary {
+    @apply bg-apple-gray dark:bg-gray-800 text-apple-black dark:text-white;
+    @apply px-6 py-3 rounded-apple font-medium;
+    @apply hover:bg-opacity-80 transition-all duration-300;
+    @apply active:scale-95;
+  }
+
+  /* Apple Card */
+  .card {
+    @apply bg-white dark:bg-gray-900 rounded-apple shadow-apple;
+    @apply transition-all duration-300;
+    @apply hover:shadow-apple-lg hover:-translate-y-1;
+  }
+
+  /* MCQ Option */
+  .mcq-option {
+    @apply p-4 rounded-apple border-2 border-gray-200 dark:border-gray-700;
+    @apply cursor-pointer transition-all duration-300;
+    @apply hover:border-apple-blue hover:bg-apple-blue hover:bg-opacity-5;
+  }
+
+  .mcq-option.selected {
+    @apply border-apple-blue bg-apple-blue bg-opacity-10;
+    @apply scale-[1.02];
+    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+  }
+
+  /* Smooth Transitions */
+  .smooth-appear {
+    animation: smoothAppear 0.4s ease-out;
+  }
+
+  @keyframes smoothAppear {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  
+  /* Touch-friendly tap targets for mobile */
+  .tap-target {
+    min-height: 44px;
+    min-width: 44px;
+  }
+  
+  /* Line clamping for responsive text */
+  .line-clamp-1 {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  /* Safe area insets for mobile devices with notches */
+  .safe-top {
+    padding-top: env(safe-area-inset-top);
+  }
+  
+  .safe-bottom {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
+
+/* Mobile-specific optimizations */
+@media (max-width: 640px) {
+  /* Disable hover effects on touch devices */
+  .card:hover {
+    box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
+  }
+  
+  /* Optimize font rendering on mobile */
+  body {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+  }
+}
