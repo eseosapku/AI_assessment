@@ -1,3 +1,4 @@
+import { Suspense } from 'react'
 import ResetPasswordForm from '@/components/ResetPasswordForm'
 import ThemeToggle from '@/components/ThemeToggle'
 
@@ -7,7 +8,9 @@ export default function ResetPasswordPage() {
       <div className="absolute top-4 right-4">
         <ThemeToggle />
       </div>
-      <ResetPasswordForm />
+      <Suspense fallback={<div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-apple-blue"></div>}>
+        <ResetPasswordForm />
+      </Suspense>
     </main>
   )
 }
