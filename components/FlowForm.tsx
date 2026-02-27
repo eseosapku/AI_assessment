@@ -104,36 +104,39 @@ export default function FlowForm({ onClose }: FlowFormProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black bg-opacity-40 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        className="fixed inset-0 bg-black/40 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6"
         onClick={onClose}
       >
         <motion.div
-          initial={{ scale: 0.9, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          exit={{ scale: 0.9, opacity: 0 }}
+          initial={{ scale: 0.95, opacity: 0, y: 20 }}
+          animate={{ scale: 1, opacity: 1, y: 0 }}
+          exit={{ scale: 0.95, opacity: 0, y: 20 }}
           onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-2xl glass dark:glass-dark rounded-apple p-8 max-h-[90vh] overflow-y-auto"
+          className="w-full max-w-2xl bg-white dark:bg-[#1c1c1e] rounded-3xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200/50 dark:border-gray-800/50"
         >
           {/* Header */}
           <div className="flex justify-between items-center mb-6 sm:mb-8">
-            <h2 className="text-xl sm:text-2xl font-bold">Create Assessment</h2>
+            <div>
+              <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">New Assessment</h2>
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Configure your AI-generated test</p>
+            </div>
             <motion.button
               onClick={onClose}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
-              className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
-              <X className="w-5 h-5" />
+              <X className="w-6 h-6 text-gray-500" />
             </motion.button>
           </div>
 
           {/* Progress Indicator */}
-          <div className="flex gap-1 sm:gap-2 mb-6 sm:mb-8">
+          <div className="flex gap-2 mb-8">
             {[1, 2, 3, 4, 5].map((s) => (
               <div
                 key={s}
-                className={`h-1 flex-1 rounded-full transition-all duration-300 ${
-                  s <= step ? 'bg-apple-blue' : 'bg-gray-300 dark:bg-gray-700'
+                className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
+                  s <= step ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'
                 }`}
               />
             ))}

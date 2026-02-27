@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 import { Mail, Lock, Eye, EyeOff, LogIn } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 
@@ -35,18 +36,24 @@ export default function LoginForm() {
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-md"
     >
-      <div className="glass dark:glass-dark rounded-apple p-8 sm:p-10">
+      <div className="bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-xl rounded-3xl p-8 sm:p-10 shadow-2xl border border-gray-200/50 dark:border-gray-800/50">
         <div className="text-center mb-8">
           <motion.div
             initial={{ scale: 0.5 }}
             animate={{ scale: 1 }}
             transition={{ type: 'spring', stiffness: 200 }}
-            className="w-20 h-20 bg-gradient-to-br from-apple-blue to-blue-600 rounded-full flex items-center justify-center mx-auto mb-4"
+            className="relative w-24 h-24 mx-auto mb-6"
           >
-            <LogIn className="w-10 h-10 text-white" />
+            <Image 
+              src="/logo.png" 
+              alt="Brain Ink Logo" 
+              fill
+              className="object-contain"
+              priority
+            />
           </motion.div>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Welcome Back</h1>
-          <p className="text-sm text-apple-dark-gray">Sign in to continue your learning journey</p>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2 text-gray-900 dark:text-white tracking-tight">Welcome Back</h1>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Sign in to continue your learning journey</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">

@@ -17,10 +17,10 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-apple-gray dark:bg-apple-black flex items-center justify-center">
+      <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-apple-blue mx-auto mb-4"></div>
-          <p className="text-apple-dark-gray">Loading...</p>
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto mb-4"></div>
+          <p className="text-gray-500 dark:text-gray-400 font-medium">Loading Brain Ink...</p>
         </div>
       </div>
     )

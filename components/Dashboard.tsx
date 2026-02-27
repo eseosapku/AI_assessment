@@ -1,8 +1,9 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { User, Plus, LogOut } from 'lucide-react'
+import { User, Plus, LogOut, Brain, TrendingUp, Award, Clock } from 'lucide-react'
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import ThemeToggle from './ThemeToggle'
 import ProfileSidebar from './ProfileSidebar'
 import AssessmentCard from './AssessmentCard'
@@ -14,6 +15,7 @@ export default function Dashboard() {
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [recentAssessments, setRecentAssessments] = useState<any[]>([])
+  const [stats, setStats] = useState({ total: 0, avgScore: 0 })
   const { user, logout } = useAuth()
 
   useEffect(() => {
@@ -25,12 +27,11 @@ export default function Dashboard() {
         .select('*, assessments(subject, difficulty)')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
-        .limit(6)
 
       if (error) {
         console.error('Error fetching assessments:', error)
       } else if (data) {
-        const formattedData = data.map(item => ({
+        const formattedData = data.slice(0, 6).map(item => ({
           id: item.id,
           date: new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
           subject: item.assessments?.subject || 'Assessment',
@@ -40,6 +41,11 @@ export default function Dashboard() {
           feedback: item.feedback?.text || 'No feedback available.'
         }))
         setRecentAssessments(formattedData)
+        
+        if (data.length > 0) {
+          const avg = data.reduce((acc, curr) => acc + curr.score, 0) / data.length
+          setStats({ total: data.length, avgScore: Math.round(avg) })
+        }
       }
     }
 
@@ -47,88 +53,172 @@ export default function Dashboard() {
   }, [user])
 
   return (
-    <div className="min-h-screen bg-apple-gray dark:bg-apple-black transition-colors duration-300 flex flex-col">
-      {/* Header */}
-      <header className="glass dark:glass-dark sticky top-0 z-30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
-          <div className="flex justify-between items-center">
-            <div>
-              <h1 className="text-xl sm:text-2xl font-bold">AI Assessment</h1>
-              <p className="text-xs sm:text-sm text-apple-dark-gray mt-1 hidden sm:block">
-                Welcome back, {user?.name || 'Student'}
-              </p>
+    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 flex flex-col font-sans">
+      {/* Premium Header */}
+      <header className="glass dark:glass-dark sticky top-0 z-30 border-b border-gray-200/50 dark:border-gray-800/50">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 sm:h-20 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="relative w-8 h-8 sm:w-10 sm:h-10 flex-shrink-0">
+              {/* Brain Ink Logo */}
+              <Image 
+                src="/logo.png" 
+                alt="Brain Ink Logo" 
+                fill
+                className="object-contain"
+                priority
+              />
             </div>
+            <span className="text-lg sm:text-xl font-bold tracking-tight text-gray-900 dark:text-white">
+              Brain Ink
+            </span>
+          </div>
 
-            <div className="flex items-center gap-2 sm:gap-4">
-              <motion.button
-                onClick={logout}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
-                title="Logout"
-              >
-                <LogOut className="w-5 h-5 text-apple-dark-gray" />
-              </motion.button>
-              <ThemeToggle />
-              <motion.button
-                onClick={() => setIsProfileOpen(true)}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-10 h-10 rounded-full bg-gradient-to-br from-apple-blue to-blue-600 flex items-center justify-center"
-              >
-                <User className="w-5 h-5 text-white" />
-              </motion.button>
-            </div>
+          <div className="flex items-center gap-3 sm:gap-5">
+            <ThemeToggle />
+            <div className="h-6 w-px bg-gray-200 dark:bg-gray-800 hidden sm:block"></div>
+            <motion.button
+              onClick={() => setIsProfileOpen(true)}
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+              className="flex items-center gap-2 sm:gap-3 pl-2 sm:pl-0"
+            >
+              <div className="hidden sm:flex flex-col items-end">
+                <span className="text-sm font-medium text-gray-900 dark:text-white">{user?.name || 'Student'}</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">Pro Member</span>
+              </div>
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-gradient-to-tr from-blue-600 to-blue-400 flex items-center justify-center shadow-sm border border-white/20">
+                <User className="w-4 h-4 sm:w-5 sm:h-5 text-white" />
+              </div>
+            </motion.button>
           </div>
         </div>
       </header>
 
       {/* Main Content */}
-      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 lg:py-12 w-full">
+      <div className="flex-1 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 w-full">
+        
+        {/* Welcome & Stats Section */}
+        <div className="mb-10 sm:mb-12">
+          <h1 className="text-3xl sm:text-4xl font-bold text-gray-900 dark:text-white mb-2 tracking-tight">
+            Welcome back, {user?.name?.split(' ')[0] || 'Student'}
+          </h1>
+          <p className="text-gray-500 dark:text-gray-400 text-base sm:text-lg mb-8">
+            Ready to continue your learning journey?
+          </p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-6">
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }}
+              className="card p-6 flex items-center gap-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center text-blue-600 dark:text-blue-400">
+                <Brain className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Total Assessments</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.total}</p>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
+              className="card p-6 flex items-center gap-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400">
+                <TrendingUp className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Average Score</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.avgScore}%</p>
+              </div>
+            </motion.div>
+
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
+              className="card p-6 flex items-center gap-4"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-purple-50 dark:bg-purple-900/20 flex items-center justify-center text-purple-600 dark:text-purple-400">
+                <Award className="w-6 h-6" />
+              </div>
+              <div>
+                <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Current Status</p>
+                <p className="text-2xl font-bold text-gray-900 dark:text-white">Active</p>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+
         {/* Quick Action */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="mb-6 sm:mb-8"
+          transition={{ delay: 0.4 }}
+          className="mb-10 sm:mb-12"
         >
           <motion.button
             onClick={() => setIsFormOpen(true)}
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full p-4 sm:p-6 lg:p-8 card flex items-center justify-center gap-2 sm:gap-3 text-apple-blue hover:bg-apple-blue hover:bg-opacity-5 transition-colors"
+            whileHover={{ scale: 1.01, y: -2 }}
+            whileTap={{ scale: 0.99 }}
+            className="w-full p-6 sm:p-8 rounded-3xl bg-gradient-to-r from-blue-600 to-blue-800 text-white shadow-lg shadow-blue-900/20 flex items-center justify-between group transition-all"
           >
-            <Plus className="w-5 h-5 sm:w-6 sm:h-6" />
-            <span className="text-base sm:text-lg font-semibold">Start New Assessment</span>
+            <div className="flex items-center gap-4 sm:gap-6 text-left">
+              <div className="w-14 h-14 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center group-hover:scale-110 transition-transform">
+                <Plus className="w-7 h-7 text-white" />
+              </div>
+              <div>
+                <h3 className="text-xl sm:text-2xl font-bold mb-1">Start New Assessment</h3>
+                <p className="text-blue-100 text-sm sm:text-base">Generate a personalized AI test in seconds</p>
+              </div>
+            </div>
+            <div className="hidden sm:flex items-center justify-center w-10 h-10 rounded-full bg-white/10 group-hover:bg-white/20 transition-colors">
+              <span className="text-xl">→</span>
+            </div>
           </motion.button>
         </motion.div>
 
         {/* Recent Assessments */}
-        <div className="pb-8">
-          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">Recent Assessments</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-            {recentAssessments.map((assessment, index) => (
-              <motion.div
-                key={assessment.id}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: index * 0.1 }}
-              >
-                <AssessmentCard assessment={assessment} />
-              </motion.div>
-            ))}
+        <div className="pb-12">
+          <div className="flex items-center justify-between mb-6">
+            <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white tracking-tight">Recent Activity</h2>
+            <button className="text-sm font-medium text-blue-600 dark:text-blue-400 hover:underline">View All</button>
           </div>
+          
+          {recentAssessments.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6">
+              {recentAssessments.map((assessment, index) => (
+                <motion.div
+                  key={assessment.id}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.5 + (index * 0.1) }}
+                >
+                  <AssessmentCard assessment={assessment} />
+                </motion.div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 card border-dashed border-2 border-gray-300 dark:border-gray-700 bg-transparent shadow-none">
+              <Clock className="w-12 h-12 text-gray-400 mx-auto mb-4 opacity-50" />
+              <h3 className="text-lg font-medium text-gray-900 dark:text-white mb-1">No assessments yet</h3>
+              <p className="text-gray-500 dark:text-gray-400">Start your first assessment to see your progress here.</p>
+            </div>
+          )}
         </div>
 
         {/* Footer Info */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-800 text-center"
+          transition={{ delay: 0.8 }}
+          className="mt-8 pt-8 border-t border-gray-200/60 dark:border-gray-800/60 flex flex-col sm:flex-row items-center justify-between gap-4"
         >
-          <p className="text-sm text-apple-dark-gray">
-            Powered by AI • Total Assessments: {recentAssessments.length}
-          </p>
+          <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+            <Brain className="w-4 h-4" />
+            <span>Powered by Brain Ink AI</span>
+          </div>
+          <div className="text-sm text-gray-500 dark:text-gray-400">
+            © {new Date().getFullYear()} Brain Ink. All rights reserved.
+          </div>
         </motion.div>
       </div>
 

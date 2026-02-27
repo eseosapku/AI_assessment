@@ -164,26 +164,29 @@ export default function AssessmentPage() {
 
   if (showResults && results) {
     return (
-      <div className="min-h-screen bg-apple-gray dark:bg-apple-black py-8 px-4 sm:px-6 lg:px-8">
+      <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] py-8 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto space-y-8">
           {/* Results Header */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="glass dark:glass-dark rounded-apple p-8 text-center"
+            className="bg-white dark:bg-[#1c1c1e] rounded-3xl p-8 sm:p-12 text-center shadow-xl border border-gray-200/50 dark:border-gray-800/50"
           >
-            <h1 className="text-3xl font-bold mb-2">Assessment Complete!</h1>
-            <p className="text-apple-dark-gray mb-6">{assessment.subject} - {assessment.topics.join(', ')}</p>
+            <div className="w-20 h-20 mx-auto bg-green-50 dark:bg-green-900/20 rounded-full flex items-center justify-center mb-6">
+              <Check className="w-10 h-10 text-green-500" />
+            </div>
+            <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-gray-900 dark:text-white tracking-tight">Assessment Complete!</h1>
+            <p className="text-gray-500 dark:text-gray-400 mb-10 text-lg">{assessment.subject} - {assessment.topics.join(', ')}</p>
             
-            <div className="flex justify-center items-center gap-8 mb-8">
-              <div>
-                <div className="text-5xl font-bold text-apple-blue mb-1">{results.score}%</div>
-                <div className="text-sm text-apple-dark-gray uppercase tracking-wider">Score</div>
+            <div className="flex justify-center items-center gap-12 mb-10">
+              <div className="text-center">
+                <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">{results.score}%</div>
+                <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Final Score</div>
               </div>
-              <div className="w-px h-16 bg-gray-200 dark:bg-gray-700"></div>
-              <div>
-                <div className="text-5xl font-bold text-apple-blue mb-1">{results.grade}</div>
-                <div className="text-sm text-apple-dark-gray uppercase tracking-wider">Grade</div>
+              <div className="w-px h-20 bg-gray-200 dark:bg-gray-800"></div>
+              <div className="text-center">
+                <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">{results.grade}</div>
+                <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Grade</div>
               </div>
             </div>
 
@@ -294,57 +297,57 @@ export default function AssessmentPage() {
   const progress = ((currentQuestion + 1) / assessment.questions.length) * 100
 
   return (
-    <div className="min-h-screen bg-apple-gray dark:bg-apple-black flex flex-col">
+    <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex flex-col font-sans">
       {/* Header */}
-      <div className="glass dark:glass-dark sticky top-0 z-30">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-3 sm:py-4">
-          <div className="flex justify-between items-center gap-2">
+      <div className="bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-xl sticky top-0 z-30 border-b border-gray-200/50 dark:border-gray-800/50">
+        <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
+          <div className="flex justify-between items-center gap-4">
             <div className="flex-1 min-w-0">
-              <h1 className="text-base sm:text-lg font-semibold truncate">{assessment.subject}</h1>
-              <p className="text-xs sm:text-sm text-apple-dark-gray truncate">{assessment.topics.join(', ')}</p>
+              <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight truncate">{assessment.subject}</h1>
+              <p className="text-sm text-gray-500 dark:text-gray-400 truncate mt-0.5">{assessment.topics.join(', ')}</p>
             </div>
 
             <motion.div
-              className={`flex items-center gap-1 sm:gap-2 px-3 sm:px-4 py-2 rounded-full glass dark:glass-dark ${getTimerColor()}`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 ${getTimerColor()}`}
               animate={timeRemaining < 120 ? { scale: [1, 1.05, 1] } : {}}
               transition={{ repeat: Infinity, duration: 1 }}
             >
               <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="font-mono font-semibold text-sm sm:text-base">{formatTime(timeRemaining)}</span>
+              <span className="font-mono font-bold text-sm sm:text-base tracking-tight">{formatTime(timeRemaining)}</span>
             </motion.div>
           </div>
 
           {/* Progress Bar */}
-          <div className="mt-4 h-1 bg-gray-300 dark:bg-gray-700 rounded-full overflow-hidden">
+          <div className="mt-5 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
             <motion.div
-              className="h-full bg-apple-blue"
+              className="h-full bg-blue-600"
               initial={{ width: 0 }}
               animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.3 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
             />
           </div>
         </div>
       </div>
 
       {/* Question Content */}
-      <div className="flex-1 flex items-center justify-center p-4 sm:p-6">
+      <div className="flex-1 flex items-center justify-center p-4 sm:p-6 lg:p-8">
         <div className="w-full max-w-3xl">
           <AnimatePresence mode="wait">
             <motion.div
               key={currentQuestion}
-              initial={{ opacity: 0, x: 50 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -50 }}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="card p-4 sm:p-6 lg:p-8"
+              className="bg-white dark:bg-[#1c1c1e] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-gray-200/50 dark:border-gray-800/50"
             >
               {/* Question Number */}
-              <div className="text-xs sm:text-sm text-apple-dark-gray mb-3 sm:mb-4">
+              <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold mb-6">
                 Question {currentQuestion + 1} of {assessment.questions.length}
               </div>
 
               {/* Question Text */}
-              <h2 className="text-lg sm:text-xl lg:text-2xl font-semibold mb-6 sm:mb-8 leading-relaxed">
+              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight">
                 <Latex>{question.question}</Latex>
               </h2>
 

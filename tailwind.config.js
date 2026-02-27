@@ -19,11 +19,11 @@ module.exports = {
         sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'sans-serif'],
       },
       borderRadius: {
-        'apple': '20px',
+        'apple': '24px',
       },
       boxShadow: {
-        'apple': '0 2px 16px rgba(0, 0, 0, 0.08)',
-        'apple-lg': '0 8px 32px rgba(0, 0, 0, 0.12)',
+        'apple': '0 4px 24px -4px rgba(0, 0, 0, 0.04)',
+        'apple-lg': '0 12px 48px -8px rgba(0, 0, 0, 0.08)',
       },
       backdropBlur: {
         'apple': '40px',

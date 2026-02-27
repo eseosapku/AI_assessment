@@ -22,51 +22,54 @@
 @layer components {
   /* Glassmorphism Effect */
   .glass {
-    background: rgba(255, 255, 255, 0.7);
+    background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.02);
   }
 
   .glass-dark {
-    background: rgba(29, 29, 31, 0.7);
+    background: rgba(29, 29, 31, 0.85);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 4px 24px -4px rgba(0, 0, 0, 0.2);
   }
 
   /* Apple Button */
   .btn-primary {
-    @apply bg-apple-blue text-white px-6 py-3 rounded-apple font-medium;
-    @apply hover:bg-opacity-90 transition-all duration-300;
-    @apply active:scale-95;
+    @apply bg-apple-blue text-white px-6 py-3 rounded-apple font-medium shadow-sm;
+    @apply hover:bg-blue-600 hover:shadow-md transition-all duration-300;
+    @apply active:scale-[0.98];
   }
 
   .btn-secondary {
-    @apply bg-apple-gray dark:bg-gray-800 text-apple-black dark:text-white;
-    @apply px-6 py-3 rounded-apple font-medium;
-    @apply hover:bg-opacity-80 transition-all duration-300;
-    @apply active:scale-95;
+    @apply bg-white dark:bg-gray-800 text-apple-black dark:text-white border border-gray-200 dark:border-gray-700;
+    @apply px-6 py-3 rounded-apple font-medium shadow-sm;
+    @apply hover:bg-gray-50 dark:hover:bg-gray-700 transition-all duration-300;
+    @apply active:scale-[0.98];
   }
 
   /* Apple Card */
   .card {
-    @apply bg-white dark:bg-gray-900 rounded-apple shadow-apple;
+    @apply bg-white dark:bg-[#1c1c1e] rounded-apple border border-gray-100 dark:border-gray-800/60;
+    box-shadow: 0 2px 12px -2px rgba(0, 0, 0, 0.03), 0 8px 24px -4px rgba(0, 0, 0, 0.02);
     @apply transition-all duration-300;
-    @apply hover:shadow-apple-lg hover:-translate-y-1;
+    @apply hover:shadow-apple-lg hover:-translate-y-1 hover:border-gray-200 dark:hover:border-gray-700;
   }
 
   /* MCQ Option */
   .mcq-option {
-    @apply p-4 rounded-apple border-2 border-gray-200 dark:border-gray-700;
+    @apply p-5 rounded-2xl border-2 border-gray-100 dark:border-gray-800/60 bg-white dark:bg-[#1c1c1e];
     @apply cursor-pointer transition-all duration-300;
-    @apply hover:border-apple-blue hover:bg-apple-blue hover:bg-opacity-5;
+    @apply hover:border-blue-500/30 hover:bg-blue-50/50 dark:hover:bg-blue-900/10;
   }
 
   .mcq-option.selected {
-    @apply border-apple-blue bg-apple-blue bg-opacity-10;
-    @apply scale-[1.02];
-    box-shadow: 0 0 0 4px rgba(0, 122, 255, 0.1);
+    @apply border-blue-600 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-500;
+    @apply scale-[1.01];
+    box-shadow: 0 4px 20px -4px rgba(37, 99, 235, 0.15);
   }
 
   /* Smooth Transitions */

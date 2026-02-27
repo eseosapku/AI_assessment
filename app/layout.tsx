@@ -7,8 +7,8 @@ import { AuthProvider } from '@/components/AuthProvider'
 const inter = Inter({ subsets: ['latin'] })
 
 export const metadata: Metadata = {
-  title: 'AI Assessment Platform',
-  description: 'Premium AI-powered assessment platform with Apple design principles',
+  title: 'Brain Ink | AI Assessment Platform',
+  description: 'Enterprise-grade AI-powered assessment platform by Brain Ink.',
 }
 
 export const viewport: Viewport = {
