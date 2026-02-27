@@ -80,9 +80,22 @@ export default function AssessmentCard({ assessment }: AssessmentCardProps) {
             <Trophy className="w-4 h-4 text-apple-blue" />
             AI Feedback
           </h4>
-          <p className="text-sm text-apple-dark-gray leading-relaxed">
-            {assessment.feedback}
-          </p>
+          <div className="text-sm text-apple-dark-gray leading-relaxed space-y-1">
+            {assessment.feedback.split('\n').map((line, i) => {
+              if (!line.trim()) return <div key={i} className="h-2"></div>
+              const parts = line.split(/(\*\*.*?\*\*)/g)
+              return (
+                <div key={i}>
+                  {parts.map((part, j) => {
+                    if (part.startsWith('**') && part.endsWith('**')) {
+                      return <strong key={j} className="font-bold text-gray-900 dark:text-gray-100">{part.slice(2, -2)}</strong>
+                    }
+                    return part
+                  })}
+                </div>
+              )
+            })}
+          </div>
         </motion.div>
       )}
     </motion.div>

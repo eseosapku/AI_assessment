@@ -198,9 +198,22 @@ export default function AssessmentPage() {
                   <p className="text-sm">Analyzing your performance...</p>
                 </div>
               ) : (
-                <p className="text-sm sm:text-base text-blue-900 dark:text-blue-100 leading-relaxed">
-                  {feedback}
-                </p>
+                <div className="text-sm sm:text-base text-blue-900 dark:text-blue-100 leading-relaxed space-y-1">
+                  {feedback.split('\n').map((line, i) => {
+                    if (!line.trim()) return <div key={i} className="h-2"></div>
+                    const parts = line.split(/(\*\*.*?\*\*)/g)
+                    return (
+                      <div key={i}>
+                        {parts.map((part, j) => {
+                          if (part.startsWith('**') && part.endsWith('**')) {
+                            return <strong key={j} className="font-bold">{part.slice(2, -2)}</strong>
+                          }
+                          return part
+                        })}
+                      </div>
+                    )
+                  })}
+                </div>
               )}
             </div>
           </motion.div>

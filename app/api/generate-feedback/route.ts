@@ -30,8 +30,25 @@ They scored ${score}% (Grade: ${grade}).
 Here is their performance breakdown:
 ${performanceSummary}
 
-Based on their answers, provide a short, personalized feedback paragraph (3-4 sentences). 
-Highlight what they did well, identify any specific areas or concepts they struggled with based on their incorrect answers, and offer a brief tip for improvement. Keep the tone supportive and educational. Do not use markdown formatting like bold or italics, just plain text.`
+Based on their answers, provide personalized feedback strictly following this exact format (use bold for headers as shown):
+
+Great work on your ${assessment.subject} assessment!
+Scoring ${score}% shows a [brief comment on their overall performance] ⭐
+
+**What you did well**
+[Bullet point 1 of what they did well based on correct answers]
+[Bullet point 2 of what they did well]
+[Bullet point 3 of what they did well]
+
+**Areas to improve**
+[Topic 1]: [Specific feedback based on incorrect answers]
+[Topic 2]: [Specific feedback based on incorrect answers]
+
+**How to improve**
+[Actionable tip 1]
+[Actionable tip 2]
+
+Keep the tone supportive and educational. Do not use markdown lists (like - or *), just plain text for the bullet points, but DO use **bold** for the headers as shown above.`
 
     try {
       const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
