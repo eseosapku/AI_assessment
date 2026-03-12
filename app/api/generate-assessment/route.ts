@@ -150,10 +150,10 @@ Generate the assessment now:`
       )
     }
 
-  } catch (error) {
+  } catch (error: any) {
     console.error('Generate assessment error:', error)
     return NextResponse.json(
-      { error: 'Failed to generate assessment' },
+      { error: `Failed to generate assessment: ${error?.message || String(error)}` },
       { status: 500 }
     )
   }
