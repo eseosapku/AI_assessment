@@ -2,8 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 
 export async function POST(request: NextRequest) {
-  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
   try {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
     const body = await request.json()
     const { assessment, answers, score, grade, className } = body
 

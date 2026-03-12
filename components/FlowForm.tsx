@@ -104,7 +104,9 @@ export default function FlowForm({ onClose }: FlowFormProps) {
         }),
       })
 
-      const data = await response.json()
+      const text = await response.text()
+      if (!text) throw new Error('Server returned an empty response. Please try again.')
+      const data = JSON.parse(text)
 
       if (!response.ok) {
         throw new Error(data.error || 'Failed to generate assessment')

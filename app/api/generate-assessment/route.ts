@@ -3,8 +3,8 @@ import Groq from 'groq-sdk'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
 
 export async function POST(request: NextRequest) {
-  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
   try {
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
     const body = await request.json()
     const { subject, topics, count, style, className, grade, curriculum } = body
 
