@@ -4,7 +4,11 @@ import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
 
 export async function POST(request: NextRequest) {
   try {
-    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
+    const apiKey = process.env.GROQ_API_KEY
+    if (!apiKey) {
+      return NextResponse.json({ error: 'GROQ_API_KEY not set on server' }, { status: 500 })
+    }
+    const groq = new Groq({ apiKey })
     const body = await request.json()
     const { subject, topics, count, style, className, grade, curriculum } = body
 
