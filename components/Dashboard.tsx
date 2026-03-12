@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { User, Plus, LogOut, Brain, TrendingUp, Award, Clock } from 'lucide-react'
+import { User, Plus, LogOut, Brain, TrendingUp, Award, Clock, Zap } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import ThemeToggle from './ThemeToggle'
@@ -16,6 +16,8 @@ export default function Dashboard() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [recentAssessments, setRecentAssessments] = useState<any[]>([])
   const [stats, setStats] = useState({ total: 0, avgScore: 0 })
+  const [dailyUsed, setDailyUsed] = useState(0)
+  const DAILY_QUIZ_LIMIT = 7200 // 14,400 Groq free requests / 2 per quiz
   const { user, logout } = useAuth()
 
   useEffect(() => {
@@ -50,6 +52,18 @@ export default function Dashboard() {
     }
 
     fetchRecentAssessments()
+
+    const fetchDailyUsage = async () => {
+      const startOfDay = new Date()
+      startOfDay.setHours(0, 0, 0, 0)
+      const { count } = await supabase
+        .from('assessments')
+        .select('*', { count: 'exact', head: true })
+        .gte('created_at', startOfDay.toISOString())
+      setDailyUsed(count || 0)
+    }
+
+    fetchDailyUsage()
   }, [user])
 
   return (
@@ -147,6 +161,42 @@ export default function Dashboard() {
             </motion.div>
           </div>
         </div>
+
+        {/* Daily AI Quota Bar */}
+        {(() => {
+          const pct = Math.min((dailyUsed / DAILY_QUIZ_LIMIT) * 100, 100)
+          const remaining = Math.max(DAILY_QUIZ_LIMIT - dailyUsed, 0)
+          const barColor = pct < 50 ? 'bg-green-500' : pct < 80 ? 'bg-amber-500' : 'bg-red-500'
+          const textColor = pct < 50 ? 'text-green-600 dark:text-green-400' : pct < 80 ? 'text-amber-600 dark:text-amber-400' : 'text-red-600 dark:text-red-400'
+          return (
+            <motion.div
+              initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.35 }}
+              className="card p-5 sm:p-6 mb-6 sm:mb-8"
+            >
+              <div className="flex items-center justify-between mb-3">
+                <div className="flex items-center gap-2">
+                  <Zap className="w-4 h-4 text-blue-500" />
+                  <span className="text-sm font-semibold text-gray-700 dark:text-gray-300">Daily AI Quota</span>
+                </div>
+                <span className={`text-sm font-bold ${textColor}`}>
+                  {remaining.toLocaleString()} quizzes left today
+                </span>
+              </div>
+              <div className="w-full h-3 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${pct}%` }}
+                  transition={{ duration: 1, ease: 'easeOut' }}
+                  className={`h-full rounded-full ${barColor}`}
+                />
+              </div>
+              <div className="flex justify-between mt-2">
+                <span className="text-xs text-gray-400">{dailyUsed.toLocaleString()} used</span>
+                <span className="text-xs text-gray-400">{DAILY_QUIZ_LIMIT.toLocaleString()} daily limit (Groq free tier)</span>
+              </div>
+            </motion.div>
+          )
+        })()}
 
         {/* Quick Action */}
         <motion.div

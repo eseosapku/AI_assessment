@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import Groq from 'groq-sdk'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
 export async function POST(request: NextRequest) {
   try {
@@ -30,35 +30,37 @@ They scored ${score}% (Grade: ${grade}).
 Here is their performance breakdown:
 ${performanceSummary}
 
-Based on their answers, provide personalized feedback strictly following this exact format (use bold for headers as shown):
+Based on their answers, provide personalized feedback strictly following this exact format:
 
-Great work on your ${assessment.subject} assessment!
-Scoring ${score}% shows a [brief comment on their overall performance] ⭐
+Great work on your ${assessment.subject} assessment! 🎯
+Scoring ${score}% shows a [brief comment on their overall performance]
 
 **What you did well**
-[Bullet point 1 of what they did well based on correct answers]
-[Bullet point 2 of what they did well]
-[Bullet point 3 of what they did well]
+✅ [What they did well based on correct answers]
+✅ [Second strength]
+✅ [Third strength]
 
 **Areas to improve**
-[Topic 1]: [Specific feedback based on incorrect answers]
-[Topic 2]: [Specific feedback based on incorrect answers]
+⚠️ [Topic 1]: [Specific feedback based on incorrect answers]
+⚠️ [Topic 2]: [Specific feedback based on incorrect answers]
 
 **How to improve**
-[Actionable tip 1]
-[Actionable tip 2]
+💡 [Actionable tip 1]
+💡 [Actionable tip 2]
 
-Keep the tone supportive and educational. Do not use markdown lists (like - or *), just plain text for the bullet points, but DO use **bold** for the headers as shown above.`
+Keep the tone supportive and educational. Use exactly the symbols shown (✅ ⚠️ 💡). Do NOT use markdown dashes or asterisks for list items. DO use **bold** for the three section headers exactly as shown.`
 
     try {
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
-      const result = await model.generateContent(prompt)
-      const response = await result.response
-      const feedback = response.text().trim()
-      
+      const completion = await groq.chat.completions.create({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+      })
+      const feedback = completion.choices[0]?.message?.content?.trim() || ''
+
       return NextResponse.json({ feedback })
     } catch (aiError: any) {
-      console.error('Gemini AI Error:', aiError)
+      console.error('Groq AI Error:', aiError)
       return NextResponse.json(
         { feedback: "Great effort on completing the assessment! Review the explanations for the questions you missed to improve your understanding of these topics." },
         { status: 200 } // Fallback feedback

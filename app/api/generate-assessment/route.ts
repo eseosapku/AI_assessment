@@ -1,8 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { GoogleGenerativeAI } from '@google/generative-ai'
+import Groq from 'groq-sdk'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
 
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
+const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
 
 export async function POST(request: NextRequest) {
   try {
@@ -42,7 +42,7 @@ ${curriculumBlock}
 4. Questions should be appropriate for ${style.includes('Exam') ? 'high-stakes national exams (O-Level or A-Level as applicable)' : 'classroom practice tests'}
 5. Vary difficulty levels (recall, application, analysis) as per the competence-based approach
 6. Ensure vocabulary, context, and difficulty strictly match the grade level and REB curriculum standards
-7. CRITICAL: For any math equations, formulas, or scientific notation, you MUST use LaTeX formatting. Wrap inline math in single dollar signs (e.g., $x^2 + y^2 = z^2$) and block math in double dollar signs (e.g., $$\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$).
+7. CRITICAL LATEX IN JSON: For math equations, use LaTeX with dollar signs. IMPORTANT: Since output is JSON, ALL LaTeX backslashes must be doubled. Use \\\\frac not \\frac, \\\\sqrt not \\sqrt, \\\\circ not \\circ, \\\\pi not \\pi, \\\\theta not \\theta, \\\\times not \\times, \\\\pm not \\pm. Examples: "$x^2 + y^2 = z^2$", "$\\\\frac{1}{2}$", "$\\\\sqrt{3}$", "$90^\\\\circ$", "$$\\\\frac{-b \\\\pm \\\\sqrt{b^2-4ac}}{2a}$$".
 
 **CRITICAL: Return ONLY a valid JSON object. No markdown, no explanation, no extra text — just the JSON.**
 
@@ -69,19 +69,14 @@ Rules:
 Generate the assessment now:`
 
     try {
-      // Get Gemini model with JSON mode enforced
-      const model = genAI.getGenerativeModel({
-        model: 'gemini-2.0-flash',
-        generationConfig: {
-          responseMimeType: 'application/json',
-          temperature: 0.7,
-        },
+      const completion = await groq.chat.completions.create({
+        model: 'llama-3.3-70b-versatile',
+        messages: [{ role: 'user', content: prompt }],
+        temperature: 0.7,
+        response_format: { type: 'json_object' },
       })
 
-      // Generate content
-      const result = await model.generateContent(prompt)
-      const response = result.response
-      const text = response.text()
+      const text = completion.choices[0]?.message?.content || ''
 
       // Robust JSON extraction: strip markdown fences, then find the outermost {...}
       let cleanedText = text.trim()
@@ -90,6 +85,9 @@ Generate the assessment now:`
         .replace(/^```\s*/i, '')
         .replace(/```\s*$/i, '')
         .trim()
+
+      // Fix LaTeX backslashes corrupted by JSON parsing (\frac → \\frac, etc.)
+      cleanedText = cleanedText.replace(/(?<!\\)\\([a-zA-Z])/g, '\\\\$1')
 
       // If there's still surrounding text, extract the JSON object
       if (!cleanedText.startsWith('{')) {
@@ -138,7 +136,7 @@ Generate the assessment now:`
       })
       
     } catch (aiError: any) {
-      console.error('Gemini AI Error:', aiError)
+      console.error('Groq AI Error:', aiError)
 
       if (aiError.message?.includes('429') || aiError.message?.includes('Quota')) {
         return NextResponse.json(

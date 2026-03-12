@@ -201,18 +201,21 @@ export default function AssessmentPage() {
                   <p className="text-sm">Analyzing your performance...</p>
                 </div>
               ) : (
-                <div className="text-sm sm:text-base text-blue-900 dark:text-blue-100 leading-relaxed space-y-1">
+                <div className="text-sm sm:text-base leading-relaxed space-y-1">
                   {feedback.split('\n').map((line, i) => {
                     if (!line.trim()) return <div key={i} className="h-2"></div>
-                    const parts = line.split(/(\*\*.*?\*\*)/g)
+                    const isHeader = /^\*\*.*\*\*$/.test(line.trim())
+                    if (isHeader) {
+                      const text = line.trim().slice(2, -2)
+                      return (
+                        <div key={i} className="flex items-center gap-2 mt-4 mb-1 pb-1 border-b border-blue-300 dark:border-blue-600">
+                          <strong className="text-blue-700 dark:text-blue-300 font-bold text-base">{text}</strong>
+                        </div>
+                      )
+                    }
                     return (
-                      <div key={i}>
-                        {parts.map((part, j) => {
-                          if (part.startsWith('**') && part.endsWith('**')) {
-                            return <strong key={j} className="font-bold">{part.slice(2, -2)}</strong>
-                          }
-                          return part
-                        })}
+                      <div key={i} className="text-blue-900 dark:text-blue-100 pl-1">
+                        {line}
                       </div>
                     )
                   })}
