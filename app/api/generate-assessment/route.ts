@@ -2,9 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
 
-const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
-
 export async function POST(request: NextRequest) {
+  const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
   try {
     const body = await request.json()
     const { subject, topics, count, style, className, grade, curriculum } = body
