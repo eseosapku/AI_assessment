@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { GoogleGenerativeAI } from '@google/generative-ai'
+import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
 
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || '')
 
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { subject, topics, count, style, className } = body
+    const { subject, topics, count, style, className, grade, curriculum } = body
 
     // Validation
     if (!subject || !topics || !count) {
@@ -16,61 +17,96 @@ export async function POST(request: NextRequest) {
       )
     }
 
+    // Build curriculum context block
+    const curriculumBlock =
+      curriculum === 'rwanda-reb' && grade
+        ? getCurriculumContext(grade as GradeLevel, subject, topics)
+        : className
+        ? `**Target Audience/Grade Level:** ${className}`
+        : ''
+
     // Construct the AI prompt
-    const prompt = `You are an expert educational assessment generator. Create ${count} multiple-choice questions for a ${style} assessment.
+    const prompt = `You are an expert educational assessment generator aligned with the Rwanda National Competence-Based Curriculum (REB). Create ${count} multiple-choice questions for a ${style} assessment.
+
+${curriculumBlock}
 
 **Subject:** ${subject}
 **Topics:** ${topics.join(', ')}
 **Question Count:** ${count}
 **Style:** ${style}
-${className ? `**Target Audience/Grade Level:** ${className}` : ''}
 
 **Requirements:**
-1. Generate exactly ${count} questions
+1. Generate exactly ${count} questions strictly based on the Rwanda Education Board (REB) syllabus topics listed above
 2. Each question must have 4 options (A, B, C, D)
 3. Include detailed explanations for correct answers
-4. Questions should be appropriate for ${style === 'Exam Style' ? 'high-stakes exams' : 'practice tests'}
-5. Vary difficulty levels appropriately
-${className ? `6. Ensure the vocabulary, concepts, and difficulty are strictly appropriate for a student in ${className}.` : ''}
+4. Questions should be appropriate for ${style.includes('Exam') ? 'high-stakes national exams (O-Level or A-Level as applicable)' : 'classroom practice tests'}
+5. Vary difficulty levels (recall, application, analysis) as per the competence-based approach
+6. Ensure vocabulary, context, and difficulty strictly match the grade level and REB curriculum standards
 7. CRITICAL: For any math equations, formulas, or scientific notation, you MUST use LaTeX formatting. Wrap inline math in single dollar signs (e.g., $x^2 + y^2 = z^2$) and block math in double dollar signs (e.g., $$\\frac{-b \\pm \\sqrt{b^2 - 4ac}}{2a}$$).
 
-**CRITICAL: Return ONLY valid JSON in this EXACT format (no markdown, no additional text):**
+**CRITICAL: Return ONLY a valid JSON object. No markdown, no explanation, no extra text — just the JSON.**
 
+The JSON must follow this exact schema:
 {
-  "assessment_id": "${Date.now()}-${Math.random().toString(36).substr(2, 9)}",
+  "assessment_id": "auto",
   "estimated_time": ${count * 2},
   "questions": [
     {
       "id": 1,
-      "question": "Question text here?",
-      "options": ["Option A", "Option B", "Option C", "Option D"],
+      "question": "Full question text here?",
+      "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
       "correct_answer": 0,
-      "explanation": "Detailed explanation why this is correct"
+      "explanation": "Detailed explanation of why the correct answer is right and why others are wrong"
     }
   ]
 }
 
+Rules:
+- "correct_answer" is the zero-based index (0=A, 1=B, 2=C, 3=D)
+- Generate all ${count} questions
+- Do NOT wrap in markdown code blocks
+
 Generate the assessment now:`
 
     try {
-      // Get Gemini model
-      const model = genAI.getGenerativeModel({ model: "gemini-2.5-flash" })
-      
+      // Get Gemini model with JSON mode enforced
+      const model = genAI.getGenerativeModel({
+        model: 'gemini-2.0-flash',
+        generationConfig: {
+          responseMimeType: 'application/json',
+          temperature: 0.7,
+        },
+      })
+
       // Generate content
       const result = await model.generateContent(prompt)
-      const response = await result.response
+      const response = result.response
       const text = response.text()
-      
-      // Clean the response (remove markdown code blocks if present)
+
+      // Robust JSON extraction: strip markdown fences, then find the outermost {...}
       let cleanedText = text.trim()
-      if (cleanedText.startsWith('```json')) {
-        cleanedText = cleanedText.replace(/```json\n?/g, '').replace(/```\n?/g, '')
-      } else if (cleanedText.startsWith('```')) {
-        cleanedText = cleanedText.replace(/```\n?/g, '')
+      cleanedText = cleanedText
+        .replace(/^```json\s*/i, '')
+        .replace(/^```\s*/i, '')
+        .replace(/```\s*$/i, '')
+        .trim()
+
+      // If there's still surrounding text, extract the JSON object
+      if (!cleanedText.startsWith('{')) {
+        const jsonMatch = cleanedText.match(/\{[\s\S]*\}/)
+        if (jsonMatch) {
+          cleanedText = jsonMatch[0]
+        }
       }
-      
+
       // Parse JSON
-      const assessmentData = JSON.parse(cleanedText)
+      let assessmentData: any
+      try {
+        assessmentData = JSON.parse(cleanedText)
+      } catch (parseError) {
+        console.error('JSON parse failed. Raw response:', text)
+        throw new Error(`AI returned invalid JSON. Raw: ${text.substring(0, 200)}`)
+      }
       
       // Save assessment to database
       const { supabase } = require('@/lib/supabase')
@@ -103,23 +139,18 @@ Generate the assessment now:`
       
     } catch (aiError: any) {
       console.error('Gemini AI Error:', aiError)
-      
-      // If it's a quota error, return a specific message
+
       if (aiError.message?.includes('429') || aiError.message?.includes('Quota')) {
         return NextResponse.json(
           { error: 'AI rate limit exceeded. Please wait a minute and try again.' },
           { status: 429 }
         )
       }
-      
-      // Fallback to mock data if AI fails for other reasons
-      const mockResponse = generateMockAssessment(subject, topics, count, style)
-      return NextResponse.json({
-        ...mockResponse,
-        subject,
-        topics,
-        ai_fallback: true
-      })
+
+      return NextResponse.json(
+        { error: `AI generation failed: ${aiError.message || 'Unknown error'}. Please try again.` },
+        { status: 500 }
+      )
     }
 
   } catch (error) {
@@ -128,39 +159,5 @@ Generate the assessment now:`
       { error: 'Failed to generate assessment' },
       { status: 500 }
     )
-  }
-}
-
-// Mock assessment generator for development
-function generateMockAssessment(subject: string, topics: string[], count: number, style: string) {
-  const questionsPerTopic = Math.ceil(count / topics.length)
-  const questions = []
-
-  for (let i = 0; i < count; i++) {
-    const topicIndex = Math.floor(i / questionsPerTopic)
-    const topic = topics[topicIndex] || topics[0]
-
-    questions.push({
-      id: i + 1,
-      question: `${subject} - ${topic}: Sample question ${i + 1}. What is the fundamental concept related to this topic?`,
-      options: [
-        'Option A: This is the correct answer demonstrating understanding',
-        'Option B: This is a plausible but incorrect distractor',
-        'Option C: This is another common misconception',
-        'Option D: This is clearly incorrect'
-      ],
-      correct_answer: 0,
-      explanation: `The correct answer is Option A. This demonstrates a fundamental understanding of ${topic} in ${subject}. Option B is incorrect because it represents a common misconception. Option C fails to account for key principles. Option D contradicts the basic theory.`
-    })
-  }
-
-  // Time calculation: ~1.5 minutes per question for exam style, ~1 minute for test style
-  const timePerQuestion = style.includes('Exam') ? 1.5 : 1
-  const estimatedTime = Math.ceil(count * timePerQuestion)
-
-  return {
-    assessment_id: `ASS-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`,
-    estimated_time: estimatedTime,
-    questions: questions
   }
 }
