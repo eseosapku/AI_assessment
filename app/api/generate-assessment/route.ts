@@ -10,7 +10,7 @@ function fixLatexInRawJson(raw: string): string {
   return raw.replace(/(?<!\\)\\(?!["\\/nrtbfuU])([a-zA-Z])/g, '\\\\$1')
 }
 
-// ── Gemini 2.0 Flash for accurate SVG diagram generation ──────────────────────
+// ── Gemini 2.0 Flash for SVG diagram generation ───────────────────────────────
 async function generateDiagramSvg(
   question: string,
   subject: string,
@@ -46,24 +46,18 @@ Generate the SVG now:`
         }),
       }
     )
-
-    if (!res.ok) {
-      console.error('Gemini diagram error:', await res.text())
-      return null
-    }
-
+    if (!res.ok) return null
     const data = await res.json()
     const raw: string = data.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
     const cleaned = raw.replace(/```svg\s*/gi, '').replace(/```\s*/g, '').trim()
     const match = cleaned.match(/<svg[\s\S]*?<\/svg>/i)
     return match ? match[0] : null
-  } catch (err) {
-    console.error('Gemini diagram generation failed:', err)
+  } catch {
     return null
   }
 }
 
-// Subjects that require a reading passage / extract for long-form questions
+// ── Subjects that need reading passages ───────────────────────────────────────
 const PASSAGE_SUBJECTS = [
   'english', 'english language', 'english literature', 'literature', 'literature in english',
   'french', 'kinyarwanda', 'swahili', 'history', 'general paper', 'global perspectives',
@@ -74,7 +68,99 @@ function needsPassage(subject: string): boolean {
   return PASSAGE_SUBJECTS.some((s) => subject.toLowerCase().includes(s))
 }
 
-// ── Build prompt based on question type ──────────────────────────────────────
+// ── Stage 2: Generate a single full passage for one question ──────────────────
+// Called in batches AFTER the main question generation to avoid TPM spikes.
+async function generatePassage(
+  question: string,
+  subject: string,
+  hint: string,
+  groq: Groq
+): Promise<{ text: string; source: string } | null> {
+  const prompt = `You are creating a reading extract for a ${subject} exam paper.
+
+QUESTION THE STUDENT WILL ANSWER: "${question}"
+PASSAGE DESCRIPTION: ${hint}
+
+Write a high-quality reading extract (AT LEAST 500 words, aim for 550–700 words) that:
+1. Is directly relevant to the question above — the student MUST be able to answer using this text
+2. Prioritises real public-domain literary works (Dickens, Austen, Hardy, Brontë, Eliot, Conrad, Achebe, Shakespeare, etc.) or original passages written in the style of a CAIE/Cambridge unseen comprehension text
+3. Is rich in language techniques, vivid description, character voice, or argument — something worth analysing
+4. Has natural paragraph breaks (use \\n\\n between paragraphs)
+5. Reads exactly as it would appear printed in a real exam booklet
+
+Return ONLY valid JSON (no markdown):
+{
+  "text": "<full passage, 500–700 words, paragraph breaks as \\n\\n>",
+  "source": "<specific attribution — Author, Full Title (Year), Chapter/Line if applicable, e.g. 'Charles Dickens, Great Expectations (1861), Chapter 1' OR 'Original passage written in the style of a CAIE IGCSE unseen comprehension text'>"
+}`
+
+  try {
+    const completion = await groq.chat.completions.create({
+      model: 'llama-3.3-70b-versatile',
+      messages: [{ role: 'user', content: prompt }],
+      temperature: 0.75,
+      response_format: { type: 'json_object' },
+    })
+    let text = (completion.choices[0]?.message?.content || '').trim()
+    text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim()
+    const data = JSON.parse(text)
+    if (!data.text || data.text.split(/\s+/).length < 200) return null
+    return { text: data.text, source: data.source || 'Original passage' }
+  } catch (err) {
+    console.error('Passage generation failed:', err)
+    return null
+  }
+}
+
+// Process passage jobs in batches of 2, with a 4-second gap between batches
+// to stay comfortably under Groq's free-tier TPM limit.
+const PASSAGE_BATCH_SIZE = 2
+const PASSAGE_BATCH_DELAY_MS = 4000
+
+async function generateAllPassages(
+  questions: any[],
+  groq: Groq,
+  subject: string
+): Promise<void> {
+  const jobs = questions
+    .map((q, idx) => ({ q, idx }))
+    .filter(({ q }) => q.needs_passage && q.passage_hint)
+
+  for (let i = 0; i < jobs.length; i += PASSAGE_BATCH_SIZE) {
+    const batch = jobs.slice(i, i + PASSAGE_BATCH_SIZE)
+
+    // Delay between batches (skip before first batch)
+    if (i > 0) {
+      await new Promise((r) => setTimeout(r, PASSAGE_BATCH_DELAY_MS))
+    }
+
+    const results = await Promise.all(
+      batch.map(({ q, idx }) =>
+        generatePassage(q.question, subject, q.passage_hint, groq)
+          .then((result) => ({ idx, result }))
+          .catch(() => ({ idx, result: null }))
+      )
+    )
+
+    results.forEach(({ idx, result }) => {
+      if (result) {
+        questions[idx].passage = result.text
+        questions[idx].passage_source = result.source
+      }
+      // Remove internal staging fields
+      delete questions[idx].needs_passage
+      delete questions[idx].passage_hint
+    })
+  }
+
+  // Clean up any remaining staging fields on questions that didn't need a passage
+  questions.forEach((q) => {
+    delete q.needs_passage
+    delete q.passage_hint
+  })
+}
+
+// ── Build the main question-generation prompt ─────────────────────────────────
 function buildPrompt(opts: {
   subject: string
   topics: string[]
@@ -91,61 +177,51 @@ function buildPrompt(opts: {
 
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
   const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
-  // Long-form with passages needs ~12 min each (reading + writing); MCQ with passages ~4 min each
   const mcqTime = subjectNeedsPassage ? 4 : 2
   const lfTime = subjectNeedsPassage ? 12 : 8
   const estimatedTime = mcqCount * mcqTime + lfCount * lfTime
 
   const diagramNote = hasDiagramSupport
-    ? `DIAGRAMS: For up to ${MAX_DIAGRAMS} MCQ questions where a visual is essential, add "needs_diagram": true and "diagram_hint": "<precise description of what to draw and where to place the X marker>". Do NOT add for text/calculation questions.`
+    ? `DIAGRAMS: For up to ${MAX_DIAGRAMS} MCQ questions where a visual is ESSENTIAL (geometry, circuits, anatomy, graphs), add "needs_diagram": true and "diagram_hint": "<precise description>". Do NOT add for text/calculation questions.`
     : ''
 
+  // For passage subjects, the main call only asks for a short passage_hint.
+  // Full 500+ word passages are generated separately to avoid TPM overload.
   const passageNote = subjectNeedsPassage
-    ? `PASSAGES — CRITICAL RULES FOR ${subject.toUpperCase()}:
-   Every question (both MCQ and long-form) MUST include a substantial reading extract. Follow these rules exactly:
-
-   1. LENGTH: Each passage must be AT LEAST 500 words. Do not write short summaries — write the full extract as it would appear in a real exam paper.
-
-   2. VARIETY: Use AT LEAST 3 DIFFERENT extracts across the assessment. Do NOT reuse the same passage for multiple questions unless they form a deliberate question set on one text.
-
-   3. SOURCES — use real, well-known material in this priority order:
-      a) Reproduce real exam extracts or passages from actual Cambridge, CAIE, WAEC, or KCSE past papers (prose comprehension, poetry, or unseen text passages) — write them fully as they appeared.
-      b) Public-domain literary works (authors who died before 1928): Charles Dickens, Jane Austen, Thomas Hardy, George Eliot, Joseph Conrad, Charlotte Brontë, Oscar Wilde, William Shakespeare, John Keats, Alfred Lord Tennyson, Walt Whitman, Chinua Achebe (pre-1970 excerpts), Ngugi wa Thiong'o early works, etc.
-      c) If writing an original passage, match the register and style of a real CAIE/Cambridge unseen comprehension text — formal, literary-quality prose or poetry, NOT generic AI text.
-
-   4. ATTRIBUTION: "passage_source" must be specific: author, full title, year of publication, and chapter or stanza if applicable. Example: "Charles Dickens, Bleak House (1853), Chapter 1" or "CAIE IGCSE English Language Paper 1, 2019 — Specimen passage (reproduced in exam style)".
-
-   5. QUESTIONS must be tied to the passage — ask students to analyse language, quote evidence, discuss character, explain effects of structure, etc. The passage must be necessary to answer the question.`
-    : `PASSAGES: Only include "passage" and "passage_source" if the specific question genuinely requires a source text to answer (e.g. a history source question). Leave them out for questions the student can answer from knowledge alone.`
+    ? `PASSAGES: For EVERY question, add:
+   - "needs_passage": true
+   - "passage_hint": a 40-60 word description of what kind of passage to write — include: suggested author/work (e.g. "opening of a Dickens novel about poverty"), genre, tone, what literary techniques it should feature, and what aspect the question will ask about. Make each question's passage_hint DIFFERENT from the others — use at least 3 different authors/genres/styles across the assessment.
+   Do NOT write the actual passage text here — it will be generated separately.`
+    : `PASSAGES: Only add "needs_passage": true and "passage_hint" if the question genuinely requires a source text (e.g. a history source question). Leave them out for knowledge-based questions.`
 
   const mcqSchema = `{
       "id": <number>,
       "type": "mcq",
-      "question": "<question text directly about the passage>",
+      "question": "<question text directly about the passage — e.g. 'How does the writer create a sense of dread in lines 1-8?'>",
       "options": ["<A>", "<B>", "<C>", "<D>"],
       "correct_answer": <0-3>,
       "explanation": "<detailed explanation referencing the passage>"${hasDiagramSupport ? `,
       "needs_diagram": false,
       "diagram_hint": ""` : ''}${subjectNeedsPassage ? `,
-      "passage": "<MINIMUM 500 WORDS — full literary or exam-style extract. Must be a real or realistic exam-quality text. Different passage from other questions unless forming a set>",
-      "passage_source": "<specific attribution: author, full title, year, chapter/section>"` : ''}
+      "needs_passage": true,
+      "passage_hint": "<40-60 word description of the passage to write>"` : ''}
     }`
 
   const lfSchema = `{
       "id": <number>,
       "type": "longform",
-      "question": "<question requiring extended written analysis of the passage>",
-      "marks": <integer 4-8 for analytical questions>,
+      "question": "<analytical question requiring extended writing — e.g. 'How does the writer use language to convey the character's isolation? Refer closely to the text.'>",
+      "marks": <integer 4-8>,
       "marking_criteria": [
-        "<criterion 1 — one mark point per entry, e.g. 'Identifies a specific technique with quote'>",
+        "<criterion 1 — e.g. 'Identifies a language technique with a direct quote from the passage'>",
         "<criterion 2 — e.g. 'Explains the effect of the technique on the reader'>",
         "<criterion 3>",
         "..."
       ],
-      "model_answer": "<comprehensive model answer of 200-400 words that a top student would write, using P.E.E or similar analytical structure>",
-      "explanation": "<what analytical skills this question tests>",
-      "passage": "<MINIMUM 500 WORDS — full literary or exam-style extract. Must be a real or realistic exam-quality text. Use a DIFFERENT passage from other questions unless forming a deliberate set>",
-      "passage_source": "<specific attribution: author, full title, year, chapter/section>"
+      "model_answer": "<200-350 word model answer using P.E.E structure with specific textual evidence>",
+      "explanation": "<what analytical skill this question assesses>"${subjectNeedsPassage ? `,
+      "needs_passage": true,
+      "passage_hint": "<40-60 word description of the passage to write — different author/style from other questions>"` : ''}
     }`
 
   const lfSchemaNoPassage = `{
@@ -168,13 +244,13 @@ function buildPrompt(opts: {
   let questionInstruction = ''
 
   if (questionType === 'mcq') {
-    questionInstruction = `Generate exactly ${count} multiple-choice questions.${subjectNeedsPassage ? ` Each MCQ must be based on a passage of AT LEAST 500 words. Use at least 3 different passages across the ${count} questions.` : ''}`
+    questionInstruction = `Generate exactly ${count} multiple-choice questions.${subjectNeedsPassage ? ` Every MCQ must reference a passage. Use at least 3 different passage_hints with different authors/styles.` : ''}`
     questionsBlock = `    ${mcqSchema}`
   } else if (questionType === 'longform') {
-    questionInstruction = `Generate exactly ${count} long-form analytical questions. Each must have 4–8 marks. Provide one clear marking criterion per mark.${subjectNeedsPassage ? ` Every question MUST include a passage of AT LEAST 500 words. Use at least 3 different, distinct passages (different authors/texts) across the ${count} questions — do NOT repeat the same extract.` : ''}`
+    questionInstruction = `Generate exactly ${count} long-form analytical questions. Each must have 4–8 marks with one criterion per mark.${subjectNeedsPassage ? ` Every question needs a passage. Use at least 3 different passage_hints pointing to different authors/genres — do NOT repeat the same text.` : ''}`
     questionsBlock = `    ${activeLfSchema}`
   } else {
-    questionInstruction = `Generate exactly ${count} questions total: ${mcqCount} multiple-choice (type "mcq") and ${lfCount} long-form (type "longform"). Mix them in a logical order.${subjectNeedsPassage ? ` Every question MUST include a passage of AT LEAST 500 words. Use at least 3 different, distinct passages from different authors or texts — do NOT reuse the same extract unless questions deliberately form a set on one text (max 2 questions per extract).` : ''}`
+    questionInstruction = `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform"), mixed in logical order.${subjectNeedsPassage ? ` Every question needs a passage. Use at least 3 different passage_hints across the set.` : ''}`
     questionsBlock = `    ${mcqSchema},
     ${activeLfSchema}`
   }
@@ -193,9 +269,9 @@ ${curriculumBlock}
 **Requirements:**
 1. All questions must be strictly based on the ${curriculumName} syllabus topics listed above.
 2. Vary difficulty: recall, application, analysis.
-3. LaTeX in JSON: use doubled backslashes — \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta, \\\\times, \\\\pm, \\\\angle, \\\\triangle.
+3. LaTeX in JSON: use doubled backslashes — \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta.
 ${questionType !== 'longform' ? `4. ${diagramNote}` : ''}
-${`5. ${passageNote}`}
+5. ${passageNote}
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 
@@ -213,6 +289,7 @@ Generate all ${count} questions now.`
   return { prompt, estimatedTime }
 }
 
+// ── Main route handler ────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   try {
     const groqKey = process.env.GROQ_API_KEY
@@ -229,7 +306,6 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
     }
 
-    // Curriculum context
     let curriculumBlock = ''
     if (curriculum === 'rwanda-reb' && grade) {
       curriculumBlock = getCurriculumContext(grade as GradeLevel, subject, topics)
@@ -245,16 +321,9 @@ export async function POST(request: NextRequest) {
       : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = geminiKey.length > 0
 
-    // ── Step 1: Groq generates questions ─────────────────────────────────────
+    // ── Stage 1: Generate question skeletons (no full passages yet) ───────────
     const { prompt, estimatedTime } = buildPrompt({
-      subject,
-      topics,
-      count,
-      style,
-      curriculumName,
-      curriculumBlock,
-      questionType,
-      hasDiagramSupport,
+      subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport,
     })
 
     let assessmentData: any
@@ -277,44 +346,47 @@ export async function POST(request: NextRequest) {
     } catch (err: any) {
       console.error('Groq/parse error:', err)
       if (err.message?.includes('429')) {
-        return NextResponse.json({ error: 'AI rate limit exceeded. Please wait a minute.' }, { status: 429 })
+        return NextResponse.json({ error: 'AI rate limit exceeded. Please wait a minute and try again.' }, { status: 429 })
       }
       return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
     }
 
-    // ── Step 2: Generate SVG diagrams via Gemini (MCQ only) ───────────────────
+    // ── Stage 2a: Generate SVG diagrams via Gemini (MCQ only, parallel) ───────
     if (hasDiagramSupport && Array.isArray(assessmentData.questions)) {
       const diagramJobs: Array<{ idx: number; hint: string }> = []
-
       assessmentData.questions.forEach((q: any, idx: number) => {
         if (q.type !== 'longform' && q.needs_diagram && q.diagram_hint && diagramJobs.length < MAX_DIAGRAMS) {
           diagramJobs.push({ idx, hint: q.diagram_hint })
         }
       })
-
       if (diagramJobs.length > 0) {
         const svgResults = await Promise.all(
           diagramJobs.map(({ hint, idx }) =>
             generateDiagramSvg(assessmentData.questions[idx].question, subject, hint, geminiKey)
           )
         )
-
         svgResults.forEach((svg, jobIdx) => {
-          const { idx } = diagramJobs[jobIdx]
-          if (svg) {
-            assessmentData.questions[idx].diagram_svg = svg
-          }
+          if (svg) assessmentData.questions[diagramJobs[jobIdx].idx].diagram_svg = svg
         })
       }
-
-      // Clean up internal diagram hint fields
       assessmentData.questions = assessmentData.questions.map((q: any) => {
         const { needs_diagram, diagram_hint, ...rest } = q
         return rest
       })
     }
 
-    // Save to database
+    // ── Stage 2b: Generate full passages in batches (avoids TPM spike) ────────
+    if (Array.isArray(assessmentData.questions) && needsPassage(subject)) {
+      await generateAllPassages(assessmentData.questions, groq, subject)
+    } else if (Array.isArray(assessmentData.questions)) {
+      // Non-passage subjects — still clean up any stray staging fields
+      assessmentData.questions.forEach((q: any) => {
+        delete q.needs_passage
+        delete q.passage_hint
+      })
+    }
+
+    // ── Save to database ───────────────────────────────────────────────────────
     const { supabase } = require('@/lib/supabase')
     const { data: dbAssessment, error: dbError } = await supabase
       .from('assessments')
