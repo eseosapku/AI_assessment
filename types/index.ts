@@ -10,12 +10,42 @@ export interface Assessment {
   feedback: string
 }
 
-export interface Question {
+export interface MCQQuestion {
   id: number
+  type?: 'mcq'
   question: string
   options: string[]
   correct_answer: number
-  feedback_text: string
+  feedback_text?: string
+  explanation?: string
+  diagram_svg?: string
+}
+
+export interface LongFormQuestion {
+  id: number
+  type: 'longform'
+  question: string
+  marks: number
+  marking_criteria: string[]
+  model_answer: string
+  explanation: string
+  diagram_svg?: string
+}
+
+export type Question = MCQQuestion | LongFormQuestion
+
+export interface CriterionResult {
+  criterion: string
+  met: boolean
+  relevant_quote: string | null
+  note: string
+}
+
+export interface LongFormGrade {
+  marks_awarded: number
+  marks_total: number
+  criteria_results: CriterionResult[]
+  general_feedback: string
 }
 
 export interface AssessmentData {
@@ -32,6 +62,7 @@ export interface FormData {
   count: number
   style: string
   time: string
+  questionType?: 'mcq' | 'longform' | 'mixed'
 }
 
 export interface StudentProfile {

@@ -6,13 +6,11 @@ import { getCambridgeCurriculumContext, type CambridgeGrade } from '@/lib/cambri
 const MAX_DIAGRAMS = 4
 
 // Fix LaTeX backslashes in the RAW JSON string before JSON.parse.
-// Converts lone \frac → \\frac so that after JSON.parse the value is \frac (valid LaTeX).
-// Excludes standard JSON escape sequences: \n \r \t \b \f \" \\ \/ \u
 function fixLatexInRawJson(raw: string): string {
   return raw.replace(/(?<!\\)\\(?!["\\/nrtbfuU])([a-zA-Z])/g, '\\\\$1')
 }
 
-// ── Gemini 2.0 Flash (free tier) for accurate SVG diagram generation ──────────
+// ── Gemini 2.0 Flash for accurate SVG diagram generation ──────────────────────
 async function generateDiagramSvg(
   question: string,
   subject: string,
@@ -26,20 +24,14 @@ QUESTION: "${question}"
 SUBJECT: ${subject}
 WHAT TO DRAW: ${diagramHint}
 
-STRICT RULES — read every rule carefully:
+STRICT RULES:
 1. Return ONLY the raw SVG code. No markdown, no backticks, no explanation.
 2. Start exactly with: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
 3. End exactly with: </svg>
-4. DO NOT SPOIL THE ANSWER — never include text labels that match any answer option. The diagram must show the figure with only a red "X" (or numbered markers 1,2,3) indicating which part the question asks about.
-5. All diagram parts should be visible and correctly shaped but UNLABELED. Only the "X" marker is needed.
-6. Marker style: draw a red arrow pointing at the part + red "X" label. Use fill="#dc2626" stroke="#dc2626" for markers/arrows. Use stroke="#1e293b" stroke-width="2" fill="none" for all other shapes.
-7. SPATIAL ACCURACY:
-   - Biology cross-sections (eye, leaf, stem): outer layers must be LARGER rings containing inner layers — never let shapes overlap incorrectly. Use concentric circles/ellipses with correct radii (outer > inner).
-   - Geometry figures: place vertices at mathematically sensible positions. For a triangle with angle A at bottom-left, B at bottom-right, C at top, use e.g. A=(60,240), B=(340,240), C=(200,40).
-   - Circuits: draw wires as straight lines forming a closed loop. Place components (battery, resistor, bulb) on the sides of the rectangle, not overlapping wires.
-   - Graphs: draw proper axes with arrow tips, grid lines if needed, and the exact curve/line the question describes.
-8. Use font-family="sans-serif" for any text elements. Non-answer text (e.g. axis labels "x", "y", scale numbers, angle arc labels) is allowed and encouraged.
-9. The diagram MUST be directly useful for answering the question — not illustrative, but functional.
+4. DO NOT SPOIL THE ANSWER — never include text labels that match any answer option.
+5. Marker style: red arrow + red "X" label (fill="#dc2626" stroke="#dc2626"). Other shapes: stroke="#1e293b" stroke-width="2" fill="none".
+6. SPATIAL ACCURACY: concentric shapes must be correctly nested; geometry vertices at mathematically sensible positions; circuits as closed loops.
+7. Use font-family="sans-serif" for any text elements.
 
 Generate the SVG now:`
 
@@ -62,8 +54,6 @@ Generate the SVG now:`
 
     const data = await res.json()
     const raw: string = data.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
-
-    // Strip markdown fences if present
     const cleaned = raw.replace(/```svg\s*/gi, '').replace(/```\s*/g, '').trim()
     const match = cleaned.match(/<svg[\s\S]*?<\/svg>/i)
     return match ? match[0] : null
@@ -71,6 +61,100 @@ Generate the SVG now:`
     console.error('Gemini diagram generation failed:', err)
     return null
   }
+}
+
+// ── Build prompt based on question type ──────────────────────────────────────
+function buildPrompt(opts: {
+  subject: string
+  topics: string[]
+  count: number
+  style: string
+  curriculumName: string
+  curriculumBlock: string
+  questionType: 'mcq' | 'longform' | 'mixed'
+  hasDiagramSupport: boolean
+}): { prompt: string; estimatedTime: number } {
+  const { subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport } = opts
+
+  const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
+  const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
+  const estimatedTime = mcqCount * 2 + lfCount * 8
+
+  const diagramNote = hasDiagramSupport
+    ? `DIAGRAMS: For up to ${MAX_DIAGRAMS} MCQ questions where a visual is essential, add "needs_diagram": true and "diagram_hint": "<precise description of what to draw and where to place the X marker>". Do NOT add for text/calculation questions.`
+    : ''
+
+  const mcqSchema = `{
+      "id": <number>,
+      "type": "mcq",
+      "question": "<question text, use $\\\\frac{1}{2}$ for math>",
+      "options": ["<A>", "<B>", "<C>", "<D>"],
+      "correct_answer": <0-3>,
+      "explanation": "<detailed explanation>"${hasDiagramSupport ? `,
+      "needs_diagram": false,
+      "diagram_hint": ""` : ''}
+    }`
+
+  const lfSchema = `{
+      "id": <number>,
+      "type": "longform",
+      "question": "<question requiring an extended written answer>",
+      "marks": <integer 2-8 based on complexity>,
+      "marking_criteria": [
+        "<criterion 1 — one mark point per entry>",
+        "<criterion 2>",
+        "..."
+      ],
+      "model_answer": "<comprehensive model answer a top student would write>",
+      "explanation": "<what this question tests>"
+    }`
+
+  let questionsBlock = ''
+  let questionInstruction = ''
+
+  if (questionType === 'mcq') {
+    questionInstruction = `Generate exactly ${count} multiple-choice questions.`
+    questionsBlock = `    ${mcqSchema}`
+  } else if (questionType === 'longform') {
+    questionInstruction = `Generate exactly ${count} long-form questions that require extended written answers. Each question must have between 2 and 8 marks. Provide one clear marking criterion per mark.`
+    questionsBlock = `    ${lfSchema}`
+  } else {
+    questionInstruction = `Generate exactly ${count} questions total: ${mcqCount} multiple-choice (type "mcq") and ${lfCount} long-form (type "longform"). Mix them in a logical order.`
+    questionsBlock = `    ${mcqSchema},
+    ${lfSchema}`
+  }
+
+  const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment.
+
+${curriculumBlock}
+
+**Subject:** ${subject}
+**Topics:** ${topics.join(', ')}
+**Total Questions:** ${count}
+**Style:** ${style}
+
+**Task:** ${questionInstruction}
+
+**Requirements:**
+1. All questions must be strictly based on the ${curriculumName} syllabus topics listed above.
+2. Vary difficulty: recall, application, analysis.
+3. LaTeX in JSON: use doubled backslashes — \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta, \\\\times, \\\\pm, \\\\angle, \\\\triangle.
+${questionType !== 'longform' ? `4. ${diagramNote}` : ''}
+
+**CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
+
+Schema:
+{
+  "assessment_id": "auto",
+  "estimated_time": ${estimatedTime},
+  "questions": [
+${questionsBlock}
+  ]
+}
+
+Generate all ${count} questions now.`
+
+  return { prompt, estimatedTime }
 }
 
 export async function POST(request: NextRequest) {
@@ -83,13 +167,10 @@ export async function POST(request: NextRequest) {
     const geminiKey = process.env.GOOGLE_GEMINI_API_KEY ?? ''
 
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq' } = body
 
     if (!subject || !topics || !count) {
-      return NextResponse.json(
-        { error: 'Subject, topics, and count are required' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
     }
 
     // Curriculum context
@@ -108,49 +189,17 @@ export async function POST(request: NextRequest) {
       : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = geminiKey.length > 0
 
-    // ── Step 1: Groq generates questions (text only) ─────────────────────────
-    const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create ${count} multiple-choice questions for a ${style} assessment.
-
-${curriculumBlock}
-
-**Subject:** ${subject}
-**Topics:** ${topics.join(', ')}
-**Question Count:** ${count}
-**Style:** ${style}
-
-**Requirements:**
-1. Generate exactly ${count} questions strictly based on the ${isCambridge ? 'Cambridge International' : 'REB'} syllabus topics
-2. Each question must have exactly 4 options (A, B, C, D)
-3. Include detailed explanations for correct answers
-4. Vary difficulty: recall, application, analysis
-5. LATEX IN JSON: For math, use LaTeX with doubled backslashes: \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta, \\\\times, \\\\pm, \\\\angle, \\\\triangle. Examples: "$\\\\frac{1}{2}$", "$90^\\\\circ$".
-${hasDiagramSupport ? `6. DIAGRAMS: For up to ${MAX_DIAGRAMS} questions where a visual diagram is ESSENTIAL to the question (the student cannot meaningfully answer without seeing a figure) — such as geometry figures, circuit diagrams, cross-section anatomy, ray diagrams, specific graphs — add these two fields:
-   - "needs_diagram": true
-   - "diagram_hint": a precise description of what to draw and WHERE to place the "X" marker, e.g. "cross-section of human eye as concentric ellipses — outermost=sclera, then cornea layer, then iris ring, innermost dark circle=pupil — place red X marker on the pupil (innermost circle)"
-   Do NOT add needs_diagram for purely text/calculation questions.` : ''}
-
-**CRITICAL: Return ONLY valid JSON. No markdown, no extra text.**
-
-Schema:
-{
-  "assessment_id": "auto",
-  "estimated_time": ${count * 2},
-  "questions": [
-    {
-      "id": 1,
-      "question": "Question text",
-      "options": ["A", "B", "C", "D"],
-      "correct_answer": 0,
-      "explanation": "Explanation text"${hasDiagramSupport ? `,
-      "needs_diagram": false,
-      "diagram_hint": ""` : ''}
-    }
-  ]
-}
-
-Rules:
-- "correct_answer" is zero-based (0=A, 1=B, 2=C, 3=D)
-- Generate all ${count} questions now`
+    // ── Step 1: Groq generates questions ─────────────────────────────────────
+    const { prompt, estimatedTime } = buildPrompt({
+      subject,
+      topics,
+      count,
+      style,
+      curriculumName,
+      curriculumBlock,
+      questionType,
+      hasDiagramSupport,
+    })
 
     let assessmentData: any
     try {
@@ -167,8 +216,6 @@ Rules:
         const m = text.match(/\{[\s\S]*\}/)
         if (m) text = m[0]
       }
-      // Fix LaTeX backslashes in the raw JSON string BEFORE parsing so that
-      // \frac → \\frac in JSON → \frac after parse → valid LaTeX for the renderer.
       text = fixLatexInRawJson(text)
       assessmentData = JSON.parse(text)
     } catch (err: any) {
@@ -179,12 +226,12 @@ Rules:
       return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
     }
 
-    // ── Step 2: Generate SVG diagrams via Gemini (parallel) ──────────────────
+    // ── Step 2: Generate SVG diagrams via Gemini (MCQ only) ───────────────────
     if (hasDiagramSupport && Array.isArray(assessmentData.questions)) {
       const diagramJobs: Array<{ idx: number; hint: string }> = []
 
       assessmentData.questions.forEach((q: any, idx: number) => {
-        if (q.needs_diagram && q.diagram_hint && diagramJobs.length < MAX_DIAGRAMS) {
+        if (q.type !== 'longform' && q.needs_diagram && q.diagram_hint && diagramJobs.length < MAX_DIAGRAMS) {
           diagramJobs.push({ idx, hint: q.diagram_hint })
         }
       })
@@ -192,12 +239,7 @@ Rules:
       if (diagramJobs.length > 0) {
         const svgResults = await Promise.all(
           diagramJobs.map(({ hint, idx }) =>
-            generateDiagramSvg(
-              assessmentData.questions[idx].question,
-              subject,
-              hint,
-              geminiKey
-            )
+            generateDiagramSvg(assessmentData.questions[idx].question, subject, hint, geminiKey)
           )
         )
 
@@ -206,13 +248,10 @@ Rules:
           if (svg) {
             assessmentData.questions[idx].diagram_svg = svg
           }
-          // Clean up internal fields before sending to client
-          delete assessmentData.questions[idx].needs_diagram
-          delete assessmentData.questions[idx].diagram_hint
         })
       }
 
-      // Clean diagram fields from questions that didn't get diagrams
+      // Clean up internal diagram hint fields
       assessmentData.questions = assessmentData.questions.map((q: any) => {
         const { needs_diagram, diagram_hint, ...rest } = q
         return rest
@@ -227,7 +266,7 @@ Rules:
         user_id: user_id || null,
         subject,
         difficulty: style,
-        duration: count * 2,
+        duration: estimatedTime,
         questions_data: assessmentData.questions,
         status: 'completed',
       }])
@@ -243,6 +282,7 @@ Rules:
       topics,
       style,
       curriculum,
+      questionType,
     })
   } catch (error: any) {
     console.error('Generate assessment error:', error)
