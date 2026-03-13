@@ -1902,6 +1902,14 @@ export const AVAILABLE_CURRICULA = [
       'Competence-Based Curriculum by the Rwanda Education Board (reb.gov.rw) — covering S1–S6 (Grades 7–12)',
     flag: '🇷🇼',
   },
+  {
+    id: 'cambridge',
+    name: 'Cambridge International (CAIE)',
+    shortName: 'Cambridge',
+    description:
+      'Cambridge Assessment International Education — Lower Secondary (Grades 7–9), IGCSE (Grades 10–11), AS Level (Grade 12)',
+    flag: '🇬🇧',
+  },
 ]
 
 /** Get subjects for a given grade */

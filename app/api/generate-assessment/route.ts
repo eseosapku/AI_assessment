@@ -1,6 +1,13 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
+import {
+  getCambridgeCurriculumContext,
+  type CambridgeGrade,
+} from '@/lib/cambridge-curriculum'
+
+// Max images the AI may request per assessment (credit management)
+const MAX_IMAGE_QUERIES = 5
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,9 +17,8 @@ export async function POST(request: NextRequest) {
     }
     const groq = new Groq({ apiKey })
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id } = body
 
-    // Validation
     if (!subject || !topics || !count) {
       return NextResponse.json(
         { error: 'Subject, topics, and count are required' },
@@ -21,15 +27,21 @@ export async function POST(request: NextRequest) {
     }
 
     // Build curriculum context block
-    const curriculumBlock =
-      curriculum === 'rwanda-reb' && grade
-        ? getCurriculumContext(grade as GradeLevel, subject, topics)
-        : className
-        ? `**Target Audience/Grade Level:** ${className}`
-        : ''
+    let curriculumBlock = ''
+    if (curriculum === 'rwanda-reb' && grade) {
+      curriculumBlock = getCurriculumContext(grade as GradeLevel, subject, topics)
+    } else if (curriculum === 'cambridge' && grade) {
+      curriculumBlock = getCambridgeCurriculumContext(grade as CambridgeGrade, subject, topics)
+    } else if (className) {
+      curriculumBlock = `**Target Audience/Grade Level:** ${className}`
+    }
 
-    // Construct the AI prompt
-    const prompt = `You are an expert educational assessment generator aligned with the Rwanda National Competence-Based Curriculum (REB). Create ${count} multiple-choice questions for a ${style} assessment.
+    const isCambridge = curriculum === 'cambridge'
+    const curriculumName = isCambridge
+      ? 'Cambridge International (CAIE)'
+      : 'Rwanda National Competence-Based Curriculum (REB)'
+
+    const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create ${count} multiple-choice questions for a ${style} assessment.
 
 ${curriculumBlock}
 
@@ -39,13 +51,13 @@ ${curriculumBlock}
 **Style:** ${style}
 
 **Requirements:**
-1. Generate exactly ${count} questions strictly based on the Rwanda Education Board (REB) syllabus topics listed above
+1. Generate exactly ${count} questions strictly based on the ${isCambridge ? 'Cambridge International syllabus' : 'Rwanda Education Board (REB) syllabus'} topics listed above
 2. Each question must have 4 options (A, B, C, D)
 3. Include detailed explanations for correct answers
-4. Questions should be appropriate for ${style.includes('Exam') ? 'high-stakes national exams (O-Level or A-Level as applicable)' : 'classroom practice tests'}
-5. Vary difficulty levels (recall, application, analysis) as per the competence-based approach
-6. Ensure vocabulary, context, and difficulty strictly match the grade level and REB curriculum standards
-7. CRITICAL LATEX IN JSON: For math equations, use LaTeX with dollar signs. IMPORTANT: Since output is JSON, ALL LaTeX backslashes must be doubled. Use \\\\frac not \\frac, \\\\sqrt not \\sqrt, \\\\circ not \\circ, \\\\pi not \\pi, \\\\theta not \\theta, \\\\times not \\times, \\\\pm not \\pm. Examples: "$x^2 + y^2 = z^2$", "$\\\\frac{1}{2}$", "$\\\\sqrt{3}$", "$90^\\\\circ$", "$$\\\\frac{-b \\\\pm \\\\sqrt{b^2-4ac}}{2a}$$".
+4. Questions should be appropriate for ${style.includes('Exam') ? 'high-stakes international exams' : 'classroom practice tests'}
+5. Vary difficulty levels (recall, application, analysis)
+6. IMAGES: For up to ${MAX_IMAGE_QUERIES} questions where a diagram, chart, photograph, or visual aid would genuinely help (e.g. circuit diagrams, cell diagrams, geometric figures, maps, graphs, biological structures), add an "image_search_query" field with a short Wikipedia search term (e.g. "mitochondria diagram", "series circuit diagram", "pythagoras theorem", "DNA double helix"). Only add this field when an image truly adds value – not for every question.
+7. CRITICAL LATEX IN JSON: For math equations, use LaTeX with dollar signs. Since output is JSON, ALL LaTeX backslashes must be doubled. Use \\\\frac not \\frac, \\\\sqrt not \\sqrt, \\\\circ not \\circ, \\\\pi not \\pi, \\\\theta not \\theta, \\\\times not \\times, \\\\pm not \\pm. Examples: "$x^2 + y^2 = z^2$", "$\\\\frac{1}{2}$", "$\\\\sqrt{3}$", "$90^\\\\circ$".
 
 **CRITICAL: Return ONLY a valid JSON object. No markdown, no explanation, no extra text — just the JSON.**
 
@@ -59,13 +71,15 @@ The JSON must follow this exact schema:
       "question": "Full question text here?",
       "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
       "correct_answer": 0,
-      "explanation": "Detailed explanation of why the correct answer is right and why others are wrong"
+      "explanation": "Detailed explanation of why the correct answer is right and why others are wrong",
+      "image_search_query": "optional wikipedia search term for a helpful image"
     }
   ]
 }
 
 Rules:
 - "correct_answer" is the zero-based index (0=A, 1=B, 2=C, 3=D)
+- "image_search_query" is OPTIONAL – only include it on questions that genuinely benefit from a visual
 - Generate all ${count} questions
 - Do NOT wrap in markdown code blocks
 
@@ -81,7 +95,6 @@ Generate the assessment now:`
 
       const text = completion.choices[0]?.message?.content || ''
 
-      // Robust JSON extraction: strip markdown fences, then find the outermost {...}
       let cleanedText = text.trim()
       cleanedText = cleanedText
         .replace(/^```json\s*/i, '')
@@ -89,10 +102,9 @@ Generate the assessment now:`
         .replace(/```\s*$/i, '')
         .trim()
 
-      // Fix LaTeX backslashes corrupted by JSON parsing (\frac → \\frac, etc.)
+      // Fix LaTeX backslashes corrupted by JSON parsing
       cleanedText = cleanedText.replace(/(?<!\\)\\([a-zA-Z])/g, '\\\\$1')
 
-      // If there's still surrounding text, extract the JSON object
       if (!cleanedText.startsWith('{')) {
         const jsonMatch = cleanedText.match(/\{[\s\S]*\}/)
         if (jsonMatch) {
@@ -100,7 +112,6 @@ Generate the assessment now:`
         }
       }
 
-      // Parse JSON
       let assessmentData: any
       try {
         assessmentData = JSON.parse(cleanedText)
@@ -108,20 +119,35 @@ Generate the assessment now:`
         console.error('JSON parse failed. Raw response:', text)
         throw new Error(`AI returned invalid JSON. Raw: ${text.substring(0, 200)}`)
       }
-      
+
+      // Enforce image query cap
+      let imageCount = 0
+      if (Array.isArray(assessmentData.questions)) {
+        assessmentData.questions = assessmentData.questions.map((q: any) => {
+          if (q.image_search_query) {
+            if (imageCount >= MAX_IMAGE_QUERIES) {
+              delete q.image_search_query
+            } else {
+              imageCount++
+            }
+          }
+          return q
+        })
+      }
+
       // Save assessment to database
       const { supabase } = require('@/lib/supabase')
       const { data: dbAssessment, error: dbError } = await supabase
         .from('assessments')
         .insert([
           {
-            user_id: body.user_id || null,
+            user_id: user_id || null,
             subject,
             difficulty: style,
             duration: count * 2,
             questions_data: assessmentData.questions,
-            status: 'completed'
-          }
+            status: 'completed',
+          },
         ])
         .select()
         .single()
@@ -129,15 +155,15 @@ Generate the assessment now:`
       if (dbError) {
         console.error('Error saving assessment to DB:', dbError)
       }
-      
+
       return NextResponse.json({
         ...assessmentData,
         assessment_id: dbAssessment?.id || assessmentData.assessment_id,
         subject,
         topics,
-        style
+        style,
+        curriculum,
       })
-      
     } catch (aiError: any) {
       console.error('Groq AI Error:', aiError)
 
@@ -153,7 +179,6 @@ Generate the assessment now:`
         { status: 500 }
       )
     }
-
   } catch (error: any) {
     console.error('Generate assessment error:', error)
     return NextResponse.json(

@@ -12,6 +12,12 @@ import {
   getTopicsForGradeAndSubject,
   type GradeLevel,
 } from '@/lib/rwanda-curriculum'
+import {
+  CAMBRIDGE_CURRICULUM,
+  getCambridgeSubjectsForGrade,
+  getCambridgeTopicsForGradeAndSubject,
+  type CambridgeGrade,
+} from '@/lib/cambridge-curriculum'
 
 interface FlowFormProps {
   onClose: () => void
@@ -37,21 +43,22 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
-  // Derived data from curriculum
-  const subjects = formData.grade ? getSubjectsForGrade(formData.grade) : []
-  const availableTopics =
-    formData.grade && formData.subject
-      ? getTopicsForGradeAndSubject(formData.grade, formData.subject)
+  const isCambridge = formData.curriculum === 'cambridge'
+
+  // Derived subjects / topics based on selected curriculum
+  const subjects =
+    formData.grade && formData.curriculum
+      ? isCambridge
+        ? getCambridgeSubjectsForGrade(formData.grade as CambridgeGrade)
+        : getSubjectsForGrade(formData.grade)
       : []
 
-  const gradeLabel = (g: GradeLevel) => {
-    const info = RWANDAN_CURRICULUM[g]
-    return `Grade ${g} (${info.rwandaLevel})`
-  }
-
-  const gradeSublabel = (g: GradeLevel) => {
-    return g <= 9 ? 'O-Level' : 'A-Level'
-  }
+  const availableTopics =
+    formData.grade && formData.subject
+      ? isCambridge
+        ? getCambridgeTopicsForGradeAndSubject(formData.grade as CambridgeGrade, formData.subject)
+        : getTopicsForGradeAndSubject(formData.grade, formData.subject)
+      : []
 
   // Step handlers
   const handleGradeSelect = (grade: GradeLevel) => {
@@ -122,9 +129,14 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     }
   }
 
-  const selectedCurriculum = AVAILABLE_CURRICULA.find(
-    (c) => c.id === formData.curriculum
-  )
+  const selectedCurriculum = AVAILABLE_CURRICULA.find((c) => c.id === formData.curriculum)
+
+  // Grade level string for summary
+  const gradeLevelStr = formData.grade
+    ? isCambridge
+      ? CAMBRIDGE_CURRICULUM[formData.grade as CambridgeGrade]?.cambridgeLevel
+      : `${RWANDAN_CURRICULUM[formData.grade]?.rwandaLevel}`
+    : ''
 
   return (
     <AnimatePresence>
@@ -181,9 +193,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               animate={{ opacity: 1, x: 0 }}
               className="mb-6"
             >
-              <h3 className="text-base sm:text-lg font-semibold mb-1">
-                Select Your Grade
-              </h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Your Grade</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
                 Choose the grade level for your assessment
               </p>
@@ -200,11 +210,9 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                         : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
                     }`}
                   >
-                    <div className="font-semibold text-sm sm:text-base">
-                      {gradeLabel(grade)}
-                    </div>
+                    <div className="font-semibold text-sm sm:text-base">Grade {grade}</div>
                     <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                      {gradeSublabel(grade)}
+                      {grade <= 9 ? 'S1–S3 / Yr 7–9' : grade <= 11 ? 'S4–S5 / IGCSE' : 'S6 / AS Level'}
                     </div>
                   </motion.button>
                 ))}
@@ -219,11 +227,9 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               animate={{ opacity: 1, x: 0 }}
               className="mb-6"
             >
-              <h3 className="text-base sm:text-lg font-semibold mb-1">
-                Select Curriculum
-              </h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Curriculum</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Choose the national curriculum your test will be based on
+                Choose the curriculum your assessment will follow
               </p>
               <div className="flex flex-col gap-3">
                 {AVAILABLE_CURRICULA.map((curriculum) => (
@@ -241,9 +247,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                     <div className="flex items-center gap-3">
                       <span className="text-2xl">{curriculum.flag}</span>
                       <div>
-                        <div className="font-semibold text-sm sm:text-base">
-                          {curriculum.name}
-                        </div>
+                        <div className="font-semibold text-sm sm:text-base">{curriculum.name}</div>
                         <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
                           {curriculum.description}
                         </div>
@@ -262,11 +266,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               animate={{ opacity: 1, x: 0 }}
               className="mb-6 smooth-appear"
             >
-              <h3 className="text-base sm:text-lg font-semibold mb-1">
-                Select Subject
-              </h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Subject</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Grade {formData.grade} subjects from the REB curriculum
+                Grade {formData.grade} subjects from the{' '}
+                {isCambridge ? 'Cambridge International' : 'REB'} curriculum
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                 {subjects.map((subject) => (
@@ -295,11 +298,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               animate={{ opacity: 1, x: 0 }}
               className="mb-6 smooth-appear"
             >
-              <h3 className="text-base sm:text-lg font-semibold mb-1">
-                Select Topics
-              </h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Topics</h3>
               <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Choose one or more topics from the REB {formData.subject} syllabus
+                Choose one or more topics from the{' '}
+                {isCambridge ? 'Cambridge' : 'REB'} {formData.subject} syllabus
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
                 {availableTopics.map((topic) => (
@@ -339,9 +341,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               animate={{ opacity: 1, x: 0 }}
               className="mb-6 smooth-appear"
             >
-              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
-                Question Count
-              </h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Question Count</h3>
               <div className="grid grid-cols-3 gap-3">
                 {[10, 20, 40].map((count) => (
                   <motion.button
@@ -369,27 +369,23 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               animate={{ opacity: 1, x: 0 }}
               className="mb-6 smooth-appear"
             >
-              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
-                Assessment Style
-              </h3>
+              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Assessment Style</h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                {['Exam Style (Past Papers)', 'Test Style (Textbooks)'].map(
-                  (style) => (
-                    <motion.button
-                      key={style}
-                      onClick={() => handleStyleSelect(style)}
-                      whileHover={{ scale: 1.02 }}
-                      whileTap={{ scale: 0.98 }}
-                      className={`p-3 sm:p-4 rounded-apple border-2 transition-all text-sm sm:text-base ${
-                        formData.style === style
-                          ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                          : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                      }`}
-                    >
-                      {style}
-                    </motion.button>
-                  )
-                )}
+                {['Exam Style (Past Papers)', 'Test Style (Textbooks)'].map((style) => (
+                  <motion.button
+                    key={style}
+                    onClick={() => handleStyleSelect(style)}
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
+                    className={`p-3 sm:p-4 rounded-apple border-2 transition-all text-sm sm:text-base ${
+                      formData.style === style
+                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
+                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
+                    }`}
+                  >
+                    {style}
+                  </motion.button>
+                ))}
               </div>
             </motion.div>
           )}
@@ -409,7 +405,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                   <p>
                     <span className="text-apple-dark-gray">Grade:</span>{' '}
                     <span className="font-medium">
-                      Grade {formData.grade} ({RWANDAN_CURRICULUM[formData.grade!]?.rwandaLevel})
+                      Grade {formData.grade} ({gradeLevelStr})
                     </span>
                   </p>
                   <p>
@@ -424,9 +420,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                   </p>
                   <p>
                     <span className="text-apple-dark-gray">Topics:</span>{' '}
-                    <span className="font-medium">
-                      {formData.topics.join(', ')}
-                    </span>
+                    <span className="font-medium">{formData.topics.join(', ')}</span>
                   </p>
                   <p>
                     <span className="text-apple-dark-gray">Questions:</span>{' '}
@@ -438,9 +432,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                   </p>
                   <p>
                     <span className="text-apple-dark-gray">Time:</span>{' '}
-                    <span className="font-medium italic text-apple-blue">
-                      {formData.time}
-                    </span>
+                    <span className="font-medium italic text-apple-blue">{formData.time}</span>
                   </p>
                 </div>
               </div>
