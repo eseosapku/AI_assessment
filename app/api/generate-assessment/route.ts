@@ -1,26 +1,84 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
-import {
-  getCambridgeCurriculumContext,
-  type CambridgeGrade,
-} from '@/lib/cambridge-curriculum'
+import { getCambridgeCurriculumContext, type CambridgeGrade } from '@/lib/cambridge-curriculum'
 
-// Max SVG diagrams per assessment (keep JSON payload manageable)
 const MAX_DIAGRAMS = 4
 
-// Apply LaTeX fix only to text fields (not SVG) to avoid corrupting SVG path data
 function fixLatex(s: string): string {
   return s.replace(/(?<!\\)\\([a-zA-Z])/g, '\\\\$1')
 }
 
+// ── Gemini 2.0 Flash (free tier) for accurate SVG diagram generation ──────────
+async function generateDiagramSvg(
+  question: string,
+  subject: string,
+  diagramHint: string,
+  geminiKey: string
+): Promise<string | null> {
+  try {
+    const prompt = `You are an expert educational diagram creator. Generate a precise, accurate SVG diagram for this exam question.
+
+QUESTION: "${question}"
+SUBJECT: ${subject}
+WHAT TO DRAW: ${diagramHint}
+
+STRICT RULES — read every rule carefully:
+1. Return ONLY the raw SVG code. No markdown, no backticks, no explanation.
+2. Start exactly with: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+3. End exactly with: </svg>
+4. DO NOT SPOIL THE ANSWER — never include text labels that match any answer option. The diagram must show the figure with only a red "X" (or numbered markers 1,2,3) indicating which part the question asks about.
+5. All diagram parts should be visible and correctly shaped but UNLABELED. Only the "X" marker is needed.
+6. Marker style: draw a red arrow pointing at the part + red "X" label. Use fill="#dc2626" stroke="#dc2626" for markers/arrows. Use stroke="#1e293b" stroke-width="2" fill="none" for all other shapes.
+7. SPATIAL ACCURACY:
+   - Biology cross-sections (eye, leaf, stem): outer layers must be LARGER rings containing inner layers — never let shapes overlap incorrectly. Use concentric circles/ellipses with correct radii (outer > inner).
+   - Geometry figures: place vertices at mathematically sensible positions. For a triangle with angle A at bottom-left, B at bottom-right, C at top, use e.g. A=(60,240), B=(340,240), C=(200,40).
+   - Circuits: draw wires as straight lines forming a closed loop. Place components (battery, resistor, bulb) on the sides of the rectangle, not overlapping wires.
+   - Graphs: draw proper axes with arrow tips, grid lines if needed, and the exact curve/line the question describes.
+8. Use font-family="sans-serif" for any text elements. Non-answer text (e.g. axis labels "x", "y", scale numbers, angle arc labels) is allowed and encouraged.
+9. The diagram MUST be directly useful for answering the question — not illustrative, but functional.
+
+Generate the SVG now:`
+
+    const res = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{ parts: [{ text: prompt }] }],
+          generationConfig: { temperature: 0.1, maxOutputTokens: 2048 },
+        }),
+      }
+    )
+
+    if (!res.ok) {
+      console.error('Gemini diagram error:', await res.text())
+      return null
+    }
+
+    const data = await res.json()
+    const raw: string = data.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
+
+    // Strip markdown fences if present
+    const cleaned = raw.replace(/```svg\s*/gi, '').replace(/```\s*/g, '').trim()
+    const match = cleaned.match(/<svg[\s\S]*?<\/svg>/i)
+    return match ? match[0] : null
+  } catch (err) {
+    console.error('Gemini diagram generation failed:', err)
+    return null
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const apiKey = process.env.GROQ_API_KEY
-    if (!apiKey) {
+    const groqKey = process.env.GROQ_API_KEY
+    if (!groqKey) {
       return NextResponse.json({ error: 'GROQ_API_KEY not set on server' }, { status: 500 })
     }
-    const groq = new Groq({ apiKey })
+    const groq = new Groq({ apiKey: groqKey })
+    const geminiKey = process.env.GOOGLE_GEMINI_API_KEY ?? ''
+
     const body = await request.json()
     const { subject, topics, count, style, className, grade, curriculum, user_id } = body
 
@@ -31,7 +89,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Build curriculum context block
+    // Curriculum context
     let curriculumBlock = ''
     if (curriculum === 'rwanda-reb' && grade) {
       curriculumBlock = getCurriculumContext(grade as GradeLevel, subject, topics)
@@ -45,7 +103,9 @@ export async function POST(request: NextRequest) {
     const curriculumName = isCambridge
       ? 'Cambridge International (CAIE)'
       : 'Rwanda National Competence-Based Curriculum (REB)'
+    const hasDiagramSupport = geminiKey.length > 0
 
+    // ── Step 1: Groq generates questions (text only) ─────────────────────────
     const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create ${count} multiple-choice questions for a ${style} assessment.
 
 ${curriculumBlock}
@@ -56,33 +116,17 @@ ${curriculumBlock}
 **Style:** ${style}
 
 **Requirements:**
-1. Generate exactly ${count} questions strictly based on the ${isCambridge ? 'Cambridge International syllabus' : 'Rwanda Education Board (REB) syllabus'} topics listed above
-2. Each question must have 4 options (A, B, C, D)
+1. Generate exactly ${count} questions strictly based on the ${isCambridge ? 'Cambridge International' : 'REB'} syllabus topics
+2. Each question must have exactly 4 options (A, B, C, D)
 3. Include detailed explanations for correct answers
-4. Vary difficulty levels (recall, application, analysis)
+4. Vary difficulty: recall, application, analysis
+5. LATEX IN JSON: For math, use LaTeX with doubled backslashes: \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta, \\\\times, \\\\pm, \\\\angle, \\\\triangle. Examples: "$\\\\frac{1}{2}$", "$90^\\\\circ$".
+${hasDiagramSupport ? `6. DIAGRAMS: For up to ${MAX_DIAGRAMS} questions where a visual diagram is ESSENTIAL to the question (the student cannot meaningfully answer without seeing a figure) — such as geometry figures, circuit diagrams, cross-section anatomy, ray diagrams, specific graphs — add these two fields:
+   - "needs_diagram": true
+   - "diagram_hint": a precise description of what to draw and WHERE to place the "X" marker, e.g. "cross-section of human eye as concentric ellipses — outermost=sclera, then cornea layer, then iris ring, innermost dark circle=pupil — place red X marker on the pupil (innermost circle)"
+   Do NOT add needs_diagram for purely text/calculation questions.` : ''}
 
-**SVG DIAGRAMS (critical requirement):**
-For up to ${MAX_DIAGRAMS} questions where the question REQUIRES a visual to be answerable or meaningful — such as:
-- Geometry: a triangle with specific labeled angles/sides the student must calculate
-- Physics circuits: a circuit diagram the student is asked about
-- Ray diagrams: reflection or refraction figures
-- Graphs: a specific graph the student must read/interpret
-- Biology: a labeled diagram the student must identify parts of
-
-You MUST generate an accurate SVG diagram in the "diagram_svg" field. Rules for the SVG:
-- Must be a complete, self-contained SVG string starting with <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
-- Draw the EXACT figure the question refers to (e.g. if asking "find angle C in triangle ABC where A=50° and B=70°", draw that exact triangle with A, B, C labeled and 50°, 70° shown, and ? at C)
-- Use stroke="#1e293b" for lines/shapes, fill="none" for outlines, fill="#1e293b" for text
-- Include clear labels using <text> elements with font-family="sans-serif"
-- For circuits: draw the actual components (battery as two parallel lines of different lengths, resistor as a rectangle, bulb as a circle with X, switch as a gap with a line)
-- Keep it clean and accurate — this diagram must directly support the question
-- Do NOT add decorative elements; every element must be part of the question's figure
-
-DO NOT add diagram_svg for questions that are purely calculation/recall/conceptual with no figure.
-
-**LATEX IN JSON:** For math in question text, options, and explanations, use LaTeX dollar signs. ALL backslashes must be doubled in JSON: \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta, \\\\times, \\\\pm, \\\\angle, \\\\triangle. Examples: "$x^2$", "$\\\\frac{1}{2}$", "$90^\\\\circ$", "$\\\\triangle ABC$".
-
-**CRITICAL: Return ONLY a valid JSON object. No markdown, no extra text.**
+**CRITICAL: Return ONLY valid JSON. No markdown, no extra text.**
 
 Schema:
 {
@@ -91,22 +135,21 @@ Schema:
   "questions": [
     {
       "id": 1,
-      "question": "In triangle ABC, angle A = 50° and angle B = 70°. Find angle C.",
-      "options": ["50°", "60°", "70°", "80°"],
-      "correct_answer": 1,
-      "explanation": "Angles in a triangle sum to 180°. C = 180 - 50 - 70 = 60°.",
-      "diagram_svg": "<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 400 280\\"><polygon points=\\"60,240 340,240 200,40\\" fill=\\"none\\" stroke=\\"#1e293b\\" stroke-width=\\"2\\"/><text x=\\"40\\" y=\\"260\\" font-size=\\"15\\" font-family=\\"sans-serif\\" fill=\\"#1e293b\\">A</text><text x=\\"345\\" y=\\"260\\" font-size=\\"15\\" font-family=\\"sans-serif\\" fill=\\"#1e293b\\">B</text><text x=\\"193\\" y=\\"28\\" font-size=\\"15\\" font-family=\\"sans-serif\\" fill=\\"#1e293b\\">C</text><text x=\\"75\\" y=\\"238\\" font-size=\\"13\\" font-family=\\"sans-serif\\" fill=\\"#475569\\">50°</text><text x=\\"300\\" y=\\"238\\" font-size=\\"13\\" font-family=\\"sans-serif\\" fill=\\"#475569\\">70°</text><text x=\\"193\\" y=\\"60\\" font-size=\\"13\\" font-family=\\"sans-serif\\" fill=\\"#475569\\">?</text></svg>"
+      "question": "Question text",
+      "options": ["A", "B", "C", "D"],
+      "correct_answer": 0,
+      "explanation": "Explanation text"${hasDiagramSupport ? `,
+      "needs_diagram": false,
+      "diagram_hint": ""` : ''}
     }
   ]
 }
 
 Rules:
-- "correct_answer" is zero-based index (0=A, 1=B, 2=C, 3=D)
-- "diagram_svg" is ONLY for questions where the figure is part of the question itself
-- Generate all ${count} questions
+- "correct_answer" is zero-based (0=A, 1=B, 2=C, 3=D)
+- Generate all ${count} questions now`
 
-Generate the assessment now:`
-
+    let assessmentData: any
     try {
       const completion = await groq.chat.completions.create({
         model: 'llama-3.3-70b-versatile',
@@ -115,92 +158,96 @@ Generate the assessment now:`
         response_format: { type: 'json_object' },
       })
 
-      const text = completion.choices[0]?.message?.content || ''
-
-      let cleanedText = text.trim()
-      cleanedText = cleanedText
-        .replace(/^```json\s*/i, '')
-        .replace(/^```\s*/i, '')
-        .replace(/```\s*$/i, '')
-        .trim()
-
-      if (!cleanedText.startsWith('{')) {
-        const jsonMatch = cleanedText.match(/\{[\s\S]*\}/)
-        if (jsonMatch) cleanedText = jsonMatch[0]
+      let text = (completion.choices[0]?.message?.content || '').trim()
+      text = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+      if (!text.startsWith('{')) {
+        const m = text.match(/\{[\s\S]*\}/)
+        if (m) text = m[0]
       }
-
-      let assessmentData: any
-      try {
-        assessmentData = JSON.parse(cleanedText)
-      } catch (parseError) {
-        console.error('JSON parse failed. Raw response:', text)
-        throw new Error(`AI returned invalid JSON. Raw: ${text.substring(0, 200)}`)
+      assessmentData = JSON.parse(text)
+    } catch (err: any) {
+      console.error('Groq/parse error:', err)
+      if (err.message?.includes('429')) {
+        return NextResponse.json({ error: 'AI rate limit exceeded. Please wait a minute.' }, { status: 429 })
       }
+      return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
+    }
 
-      // Apply LaTeX fix to text fields only (not diagram_svg), and enforce diagram cap
-      let diagramCount = 0
-      if (Array.isArray(assessmentData.questions)) {
-        assessmentData.questions = assessmentData.questions.map((q: any) => {
-          const fixed: any = {
-            ...q,
-            question: fixLatex(q.question || ''),
-            options: Array.isArray(q.options) ? q.options.map(fixLatex) : q.options,
-            explanation: fixLatex(q.explanation || ''),
+    // Apply LaTeX fix to text fields only
+    if (Array.isArray(assessmentData.questions)) {
+      assessmentData.questions = assessmentData.questions.map((q: any) => ({
+        ...q,
+        question: fixLatex(q.question || ''),
+        options: Array.isArray(q.options) ? q.options.map(fixLatex) : q.options,
+        explanation: fixLatex(q.explanation || ''),
+      }))
+    }
+
+    // ── Step 2: Generate SVG diagrams via Gemini (parallel) ──────────────────
+    if (hasDiagramSupport && Array.isArray(assessmentData.questions)) {
+      const diagramJobs: Array<{ idx: number; hint: string }> = []
+
+      assessmentData.questions.forEach((q: any, idx: number) => {
+        if (q.needs_diagram && q.diagram_hint && diagramJobs.length < MAX_DIAGRAMS) {
+          diagramJobs.push({ idx, hint: q.diagram_hint })
+        }
+      })
+
+      if (diagramJobs.length > 0) {
+        const svgResults = await Promise.all(
+          diagramJobs.map(({ hint, idx }) =>
+            generateDiagramSvg(
+              assessmentData.questions[idx].question,
+              subject,
+              hint,
+              geminiKey
+            )
+          )
+        )
+
+        svgResults.forEach((svg, jobIdx) => {
+          const { idx } = diagramJobs[jobIdx]
+          if (svg) {
+            assessmentData.questions[idx].diagram_svg = svg
           }
-          // Enforce diagram cap and validate SVG
-          if (fixed.diagram_svg) {
-            if (diagramCount >= MAX_DIAGRAMS || !fixed.diagram_svg.includes('<svg')) {
-              delete fixed.diagram_svg
-            } else {
-              diagramCount++
-            }
-          }
-          return fixed
+          // Clean up internal fields before sending to client
+          delete assessmentData.questions[idx].needs_diagram
+          delete assessmentData.questions[idx].diagram_hint
         })
       }
 
-      // Save assessment to database
-      const { supabase } = require('@/lib/supabase')
-      const { data: dbAssessment, error: dbError } = await supabase
-        .from('assessments')
-        .insert([
-          {
-            user_id: user_id || null,
-            subject,
-            difficulty: style,
-            duration: count * 2,
-            questions_data: assessmentData.questions,
-            status: 'completed',
-          },
-        ])
-        .select()
-        .single()
-
-      if (dbError) {
-        console.error('Error saving assessment to DB:', dbError)
-      }
-
-      return NextResponse.json({
-        ...assessmentData,
-        assessment_id: dbAssessment?.id || assessmentData.assessment_id,
-        subject,
-        topics,
-        style,
-        curriculum,
+      // Clean diagram fields from questions that didn't get diagrams
+      assessmentData.questions = assessmentData.questions.map((q: any) => {
+        const { needs_diagram, diagram_hint, ...rest } = q
+        return rest
       })
-    } catch (aiError: any) {
-      console.error('Groq AI Error:', aiError)
-      if (aiError.message?.includes('429') || aiError.message?.includes('Quota')) {
-        return NextResponse.json(
-          { error: 'AI rate limit exceeded. Please wait a minute and try again.' },
-          { status: 429 }
-        )
-      }
-      return NextResponse.json(
-        { error: `AI generation failed: ${aiError.message || 'Unknown error'}. Please try again.` },
-        { status: 500 }
-      )
     }
+
+    // Save to database
+    const { supabase } = require('@/lib/supabase')
+    const { data: dbAssessment, error: dbError } = await supabase
+      .from('assessments')
+      .insert([{
+        user_id: user_id || null,
+        subject,
+        difficulty: style,
+        duration: count * 2,
+        questions_data: assessmentData.questions,
+        status: 'completed',
+      }])
+      .select()
+      .single()
+
+    if (dbError) console.error('DB save error:', dbError)
+
+    return NextResponse.json({
+      ...assessmentData,
+      assessment_id: dbAssessment?.id || assessmentData.assessment_id,
+      subject,
+      topics,
+      style,
+      curriculum,
+    })
   } catch (error: any) {
     console.error('Generate assessment error:', error)
     return NextResponse.json(
