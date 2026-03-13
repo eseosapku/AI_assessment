@@ -122,36 +122,54 @@ function AnnotatedText({
 
 function PassageBox({ passage, source }: { passage: string; source?: string }) {
   const [collapsed, setCollapsed] = useState(false)
+  const wordCount = passage.split(/\s+/).filter(Boolean).length
+
   return (
-    <div className="mb-6 rounded-2xl border border-amber-200 dark:border-amber-700/50 bg-amber-50 dark:bg-amber-900/10 overflow-hidden">
-      <div className="flex items-center justify-between px-4 py-2.5 border-b border-amber-200 dark:border-amber-700/40">
-        <div className="flex items-center gap-2">
-          <span className="text-amber-700 dark:text-amber-400 text-sm font-semibold">📄 Read the extract below</span>
-          {source && (
-            <span className="text-amber-500 dark:text-amber-500 text-xs italic truncate max-w-[200px] sm:max-w-none">
-              — {source}
-            </span>
-          )}
+    <div className="mb-6 rounded-2xl border-2 border-amber-300 dark:border-amber-600/60 bg-amber-50 dark:bg-amber-900/10 overflow-hidden shadow-sm">
+      {/* Header bar */}
+      <div className="flex items-center justify-between px-4 py-3 bg-amber-100 dark:bg-amber-900/30 border-b border-amber-200 dark:border-amber-700/40">
+        <div className="flex items-center gap-2 flex-wrap">
+          <span className="text-amber-800 dark:text-amber-300 text-sm font-bold tracking-tight">
+            📄 Reading Extract — read carefully before answering
+          </span>
+          <span className="px-2 py-0.5 rounded-full bg-amber-200 dark:bg-amber-800/50 text-amber-700 dark:text-amber-300 text-xs font-medium">
+            ~{wordCount} words
+          </span>
         </div>
         <button
           onClick={() => setCollapsed(!collapsed)}
-          className="text-xs text-amber-600 dark:text-amber-400 hover:underline flex-shrink-0 ml-2"
+          className="text-xs font-medium text-amber-700 dark:text-amber-400 hover:underline flex-shrink-0 ml-3"
         >
-          {collapsed ? 'Show extract' : 'Hide'}
+          {collapsed ? '▼ Show extract' : '▲ Hide'}
         </button>
       </div>
+
+      {/* Source line */}
+      {source && !collapsed && (
+        <div className="px-5 pt-3 pb-0">
+          <p className="text-xs italic text-amber-600 dark:text-amber-400 border-l-2 border-amber-300 dark:border-amber-600 pl-2">
+            {source}
+          </p>
+        </div>
+      )}
+
       <AnimatePresence>
         {!collapsed && (
           <motion.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
-            transition={{ duration: 0.2 }}
+            transition={{ duration: 0.25 }}
           >
-            <div className="px-5 py-4 max-h-72 overflow-y-auto">
-              <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap font-serif">
+            {/* Scrollable passage body — tall enough for 500+ words */}
+            <div className="px-5 py-4 max-h-[480px] overflow-y-auto">
+              <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 leading-[1.85] whitespace-pre-wrap font-serif">
                 {passage}
               </p>
+            </div>
+            {/* Footer hint */}
+            <div className="px-5 pb-3 text-xs text-amber-600 dark:text-amber-500 italic">
+              Scroll up to re-read the extract at any time while answering.
             </div>
           </motion.div>
         )}

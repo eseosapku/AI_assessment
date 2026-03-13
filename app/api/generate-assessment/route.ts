@@ -87,50 +87,65 @@ function buildPrompt(opts: {
 }): { prompt: string; estimatedTime: number } {
   const { subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport } = opts
 
+  const subjectNeedsPassage = needsPassage(subject)
+
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
   const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
-  const estimatedTime = mcqCount * 2 + lfCount * 8
-
-  const subjectNeedsPassage = needsPassage(subject)
+  // Long-form with passages needs ~12 min each (reading + writing); MCQ with passages ~4 min each
+  const mcqTime = subjectNeedsPassage ? 4 : 2
+  const lfTime = subjectNeedsPassage ? 12 : 8
+  const estimatedTime = mcqCount * mcqTime + lfCount * lfTime
 
   const diagramNote = hasDiagramSupport
     ? `DIAGRAMS: For up to ${MAX_DIAGRAMS} MCQ questions where a visual is essential, add "needs_diagram": true and "diagram_hint": "<precise description of what to draw and where to place the X marker>". Do NOT add for text/calculation questions.`
     : ''
 
   const passageNote = subjectNeedsPassage
-    ? `PASSAGES: For every long-form question, you MUST include:
-   - "passage": a self-contained extract (150–350 words) of high-quality prose, poetry, or non-fiction relevant to the topic. Write original literary-style text or use public-domain works (pre-1928 authors: Dickens, Austen, Hardy, Shakespeare, etc.). The extract must be rich enough for the student to answer the question from it.
-   - "passage_source": the attribution string, e.g. "Charles Dickens, Great Expectations (1861), Chapter 1" or "Original passage" if you wrote it.
-   For MCQ questions about a passage, include the same passage and source fields.`
+    ? `PASSAGES — CRITICAL RULES FOR ${subject.toUpperCase()}:
+   Every question (both MCQ and long-form) MUST include a substantial reading extract. Follow these rules exactly:
+
+   1. LENGTH: Each passage must be AT LEAST 500 words. Do not write short summaries — write the full extract as it would appear in a real exam paper.
+
+   2. VARIETY: Use AT LEAST 3 DIFFERENT extracts across the assessment. Do NOT reuse the same passage for multiple questions unless they form a deliberate question set on one text.
+
+   3. SOURCES — use real, well-known material in this priority order:
+      a) Reproduce real exam extracts or passages from actual Cambridge, CAIE, WAEC, or KCSE past papers (prose comprehension, poetry, or unseen text passages) — write them fully as they appeared.
+      b) Public-domain literary works (authors who died before 1928): Charles Dickens, Jane Austen, Thomas Hardy, George Eliot, Joseph Conrad, Charlotte Brontë, Oscar Wilde, William Shakespeare, John Keats, Alfred Lord Tennyson, Walt Whitman, Chinua Achebe (pre-1970 excerpts), Ngugi wa Thiong'o early works, etc.
+      c) If writing an original passage, match the register and style of a real CAIE/Cambridge unseen comprehension text — formal, literary-quality prose or poetry, NOT generic AI text.
+
+   4. ATTRIBUTION: "passage_source" must be specific: author, full title, year of publication, and chapter or stanza if applicable. Example: "Charles Dickens, Bleak House (1853), Chapter 1" or "CAIE IGCSE English Language Paper 1, 2019 — Specimen passage (reproduced in exam style)".
+
+   5. QUESTIONS must be tied to the passage — ask students to analyse language, quote evidence, discuss character, explain effects of structure, etc. The passage must be necessary to answer the question.`
     : `PASSAGES: Only include "passage" and "passage_source" if the specific question genuinely requires a source text to answer (e.g. a history source question). Leave them out for questions the student can answer from knowledge alone.`
 
   const mcqSchema = `{
       "id": <number>,
       "type": "mcq",
-      "question": "<question text>",
+      "question": "<question text directly about the passage>",
       "options": ["<A>", "<B>", "<C>", "<D>"],
       "correct_answer": <0-3>,
-      "explanation": "<detailed explanation>"${hasDiagramSupport ? `,
+      "explanation": "<detailed explanation referencing the passage>"${hasDiagramSupport ? `,
       "needs_diagram": false,
       "diagram_hint": ""` : ''}${subjectNeedsPassage ? `,
-      "passage": "<extract text for the student to read — required for English/language subjects>",
-      "passage_source": "<author, title, year, chapter if applicable>"` : ''}
+      "passage": "<MINIMUM 500 WORDS — full literary or exam-style extract. Must be a real or realistic exam-quality text. Different passage from other questions unless forming a set>",
+      "passage_source": "<specific attribution: author, full title, year, chapter/section>"` : ''}
     }`
 
   const lfSchema = `{
       "id": <number>,
       "type": "longform",
-      "question": "<question requiring an extended written answer>",
-      "marks": <integer 2-8 based on complexity>,
+      "question": "<question requiring extended written analysis of the passage>",
+      "marks": <integer 4-8 for analytical questions>,
       "marking_criteria": [
-        "<criterion 1 — one mark point per entry>",
-        "<criterion 2>",
+        "<criterion 1 — one mark point per entry, e.g. 'Identifies a specific technique with quote'>",
+        "<criterion 2 — e.g. 'Explains the effect of the technique on the reader'>",
+        "<criterion 3>",
         "..."
       ],
-      "model_answer": "<comprehensive model answer a top student would write>",
-      "explanation": "<what this question tests>",
-      "passage": "<extract — REQUIRED for ${subject}. 150-350 words of relevant prose, poetry, or non-fiction the student must read and respond to>",
-      "passage_source": "<attribution: author, title, year>"
+      "model_answer": "<comprehensive model answer of 200-400 words that a top student would write, using P.E.E or similar analytical structure>",
+      "explanation": "<what analytical skills this question tests>",
+      "passage": "<MINIMUM 500 WORDS — full literary or exam-style extract. Must be a real or realistic exam-quality text. Use a DIFFERENT passage from other questions unless forming a deliberate set>",
+      "passage_source": "<specific attribution: author, full title, year, chapter/section>"
     }`
 
   const lfSchemaNoPassage = `{
@@ -153,13 +168,13 @@ function buildPrompt(opts: {
   let questionInstruction = ''
 
   if (questionType === 'mcq') {
-    questionInstruction = `Generate exactly ${count} multiple-choice questions.`
+    questionInstruction = `Generate exactly ${count} multiple-choice questions.${subjectNeedsPassage ? ` Each MCQ must be based on a passage of AT LEAST 500 words. Use at least 3 different passages across the ${count} questions.` : ''}`
     questionsBlock = `    ${mcqSchema}`
   } else if (questionType === 'longform') {
-    questionInstruction = `Generate exactly ${count} long-form questions that require extended written answers. Each question must have between 2 and 8 marks. Provide one clear marking criterion per mark.${subjectNeedsPassage ? ' Every question MUST include a "passage" extract for the student to read and respond to.' : ''}`
+    questionInstruction = `Generate exactly ${count} long-form analytical questions. Each must have 4–8 marks. Provide one clear marking criterion per mark.${subjectNeedsPassage ? ` Every question MUST include a passage of AT LEAST 500 words. Use at least 3 different, distinct passages (different authors/texts) across the ${count} questions — do NOT repeat the same extract.` : ''}`
     questionsBlock = `    ${activeLfSchema}`
   } else {
-    questionInstruction = `Generate exactly ${count} questions total: ${mcqCount} multiple-choice (type "mcq") and ${lfCount} long-form (type "longform"). Mix them in a logical order.${subjectNeedsPassage ? ' Every question (MCQ and long-form) MUST include a "passage" extract.' : ''}`
+    questionInstruction = `Generate exactly ${count} questions total: ${mcqCount} multiple-choice (type "mcq") and ${lfCount} long-form (type "longform"). Mix them in a logical order.${subjectNeedsPassage ? ` Every question MUST include a passage of AT LEAST 500 words. Use at least 3 different, distinct passages from different authors or texts — do NOT reuse the same extract unless questions deliberately form a set on one text (max 2 questions per extract).` : ''}`
     questionsBlock = `    ${mcqSchema},
     ${activeLfSchema}`
   }
