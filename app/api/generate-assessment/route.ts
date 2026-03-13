@@ -5,8 +5,11 @@ import { getCambridgeCurriculumContext, type CambridgeGrade } from '@/lib/cambri
 
 const MAX_DIAGRAMS = 4
 
-function fixLatex(s: string): string {
-  return s.replace(/(?<!\\)\\([a-zA-Z])/g, '\\\\$1')
+// Fix LaTeX backslashes in the RAW JSON string before JSON.parse.
+// Converts lone \frac → \\frac so that after JSON.parse the value is \frac (valid LaTeX).
+// Excludes standard JSON escape sequences: \n \r \t \b \f \" \\ \/ \u
+function fixLatexInRawJson(raw: string): string {
+  return raw.replace(/(?<!\\)\\(?!["\\/nrtbfuU])([a-zA-Z])/g, '\\\\$1')
 }
 
 // ── Gemini 2.0 Flash (free tier) for accurate SVG diagram generation ──────────
@@ -164,6 +167,9 @@ Rules:
         const m = text.match(/\{[\s\S]*\}/)
         if (m) text = m[0]
       }
+      // Fix LaTeX backslashes in the raw JSON string BEFORE parsing so that
+      // \frac → \\frac in JSON → \frac after parse → valid LaTeX for the renderer.
+      text = fixLatexInRawJson(text)
       assessmentData = JSON.parse(text)
     } catch (err: any) {
       console.error('Groq/parse error:', err)
@@ -171,16 +177,6 @@ Rules:
         return NextResponse.json({ error: 'AI rate limit exceeded. Please wait a minute.' }, { status: 429 })
       }
       return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
-    }
-
-    // Apply LaTeX fix to text fields only
-    if (Array.isArray(assessmentData.questions)) {
-      assessmentData.questions = assessmentData.questions.map((q: any) => ({
-        ...q,
-        question: fixLatex(q.question || ''),
-        options: Array.isArray(q.options) ? q.options.map(fixLatex) : q.options,
-        explanation: fixLatex(q.explanation || ''),
-      }))
     }
 
     // ── Step 2: Generate SVG diagrams via Gemini (parallel) ──────────────────
