@@ -6,8 +6,13 @@ import {
   type CambridgeGrade,
 } from '@/lib/cambridge-curriculum'
 
-// Max images the AI may request per assessment (credit management)
-const MAX_IMAGE_QUERIES = 5
+// Max SVG diagrams per assessment (keep JSON payload manageable)
+const MAX_DIAGRAMS = 4
+
+// Apply LaTeX fix only to text fields (not SVG) to avoid corrupting SVG path data
+function fixLatex(s: string): string {
+  return s.replace(/(?<!\\)\\([a-zA-Z])/g, '\\\\$1')
+}
 
 export async function POST(request: NextRequest) {
   try {
@@ -54,34 +59,51 @@ ${curriculumBlock}
 1. Generate exactly ${count} questions strictly based on the ${isCambridge ? 'Cambridge International syllabus' : 'Rwanda Education Board (REB) syllabus'} topics listed above
 2. Each question must have 4 options (A, B, C, D)
 3. Include detailed explanations for correct answers
-4. Questions should be appropriate for ${style.includes('Exam') ? 'high-stakes international exams' : 'classroom practice tests'}
-5. Vary difficulty levels (recall, application, analysis)
-6. IMAGES: For up to ${MAX_IMAGE_QUERIES} questions where a diagram, chart, photograph, or visual aid would genuinely help (e.g. circuit diagrams, cell diagrams, geometric figures, maps, graphs, biological structures), add an "image_search_query" field with a short Wikipedia search term (e.g. "mitochondria diagram", "series circuit diagram", "pythagoras theorem", "DNA double helix"). Only add this field when an image truly adds value – not for every question.
-7. CRITICAL LATEX IN JSON: For math equations, use LaTeX with dollar signs. Since output is JSON, ALL LaTeX backslashes must be doubled. Use \\\\frac not \\frac, \\\\sqrt not \\sqrt, \\\\circ not \\circ, \\\\pi not \\pi, \\\\theta not \\theta, \\\\times not \\times, \\\\pm not \\pm. Examples: "$x^2 + y^2 = z^2$", "$\\\\frac{1}{2}$", "$\\\\sqrt{3}$", "$90^\\\\circ$".
+4. Vary difficulty levels (recall, application, analysis)
 
-**CRITICAL: Return ONLY a valid JSON object. No markdown, no explanation, no extra text — just the JSON.**
+**SVG DIAGRAMS (critical requirement):**
+For up to ${MAX_DIAGRAMS} questions where the question REQUIRES a visual to be answerable or meaningful — such as:
+- Geometry: a triangle with specific labeled angles/sides the student must calculate
+- Physics circuits: a circuit diagram the student is asked about
+- Ray diagrams: reflection or refraction figures
+- Graphs: a specific graph the student must read/interpret
+- Biology: a labeled diagram the student must identify parts of
 
-The JSON must follow this exact schema:
+You MUST generate an accurate SVG diagram in the "diagram_svg" field. Rules for the SVG:
+- Must be a complete, self-contained SVG string starting with <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
+- Draw the EXACT figure the question refers to (e.g. if asking "find angle C in triangle ABC where A=50° and B=70°", draw that exact triangle with A, B, C labeled and 50°, 70° shown, and ? at C)
+- Use stroke="#1e293b" for lines/shapes, fill="none" for outlines, fill="#1e293b" for text
+- Include clear labels using <text> elements with font-family="sans-serif"
+- For circuits: draw the actual components (battery as two parallel lines of different lengths, resistor as a rectangle, bulb as a circle with X, switch as a gap with a line)
+- Keep it clean and accurate — this diagram must directly support the question
+- Do NOT add decorative elements; every element must be part of the question's figure
+
+DO NOT add diagram_svg for questions that are purely calculation/recall/conceptual with no figure.
+
+**LATEX IN JSON:** For math in question text, options, and explanations, use LaTeX dollar signs. ALL backslashes must be doubled in JSON: \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta, \\\\times, \\\\pm, \\\\angle, \\\\triangle. Examples: "$x^2$", "$\\\\frac{1}{2}$", "$90^\\\\circ$", "$\\\\triangle ABC$".
+
+**CRITICAL: Return ONLY a valid JSON object. No markdown, no extra text.**
+
+Schema:
 {
   "assessment_id": "auto",
   "estimated_time": ${count * 2},
   "questions": [
     {
       "id": 1,
-      "question": "Full question text here?",
-      "options": ["Option A text", "Option B text", "Option C text", "Option D text"],
-      "correct_answer": 0,
-      "explanation": "Detailed explanation of why the correct answer is right and why others are wrong",
-      "image_search_query": "optional wikipedia search term for a helpful image"
+      "question": "In triangle ABC, angle A = 50° and angle B = 70°. Find angle C.",
+      "options": ["50°", "60°", "70°", "80°"],
+      "correct_answer": 1,
+      "explanation": "Angles in a triangle sum to 180°. C = 180 - 50 - 70 = 60°.",
+      "diagram_svg": "<svg xmlns=\\"http://www.w3.org/2000/svg\\" viewBox=\\"0 0 400 280\\"><polygon points=\\"60,240 340,240 200,40\\" fill=\\"none\\" stroke=\\"#1e293b\\" stroke-width=\\"2\\"/><text x=\\"40\\" y=\\"260\\" font-size=\\"15\\" font-family=\\"sans-serif\\" fill=\\"#1e293b\\">A</text><text x=\\"345\\" y=\\"260\\" font-size=\\"15\\" font-family=\\"sans-serif\\" fill=\\"#1e293b\\">B</text><text x=\\"193\\" y=\\"28\\" font-size=\\"15\\" font-family=\\"sans-serif\\" fill=\\"#1e293b\\">C</text><text x=\\"75\\" y=\\"238\\" font-size=\\"13\\" font-family=\\"sans-serif\\" fill=\\"#475569\\">50°</text><text x=\\"300\\" y=\\"238\\" font-size=\\"13\\" font-family=\\"sans-serif\\" fill=\\"#475569\\">70°</text><text x=\\"193\\" y=\\"60\\" font-size=\\"13\\" font-family=\\"sans-serif\\" fill=\\"#475569\\">?</text></svg>"
     }
   ]
 }
 
 Rules:
-- "correct_answer" is the zero-based index (0=A, 1=B, 2=C, 3=D)
-- "image_search_query" is OPTIONAL – only include it on questions that genuinely benefit from a visual
+- "correct_answer" is zero-based index (0=A, 1=B, 2=C, 3=D)
+- "diagram_svg" is ONLY for questions where the figure is part of the question itself
 - Generate all ${count} questions
-- Do NOT wrap in markdown code blocks
 
 Generate the assessment now:`
 
@@ -102,14 +124,9 @@ Generate the assessment now:`
         .replace(/```\s*$/i, '')
         .trim()
 
-      // Fix LaTeX backslashes corrupted by JSON parsing
-      cleanedText = cleanedText.replace(/(?<!\\)\\([a-zA-Z])/g, '\\\\$1')
-
       if (!cleanedText.startsWith('{')) {
         const jsonMatch = cleanedText.match(/\{[\s\S]*\}/)
-        if (jsonMatch) {
-          cleanedText = jsonMatch[0]
-        }
+        if (jsonMatch) cleanedText = jsonMatch[0]
       }
 
       let assessmentData: any
@@ -120,18 +137,25 @@ Generate the assessment now:`
         throw new Error(`AI returned invalid JSON. Raw: ${text.substring(0, 200)}`)
       }
 
-      // Enforce image query cap
-      let imageCount = 0
+      // Apply LaTeX fix to text fields only (not diagram_svg), and enforce diagram cap
+      let diagramCount = 0
       if (Array.isArray(assessmentData.questions)) {
         assessmentData.questions = assessmentData.questions.map((q: any) => {
-          if (q.image_search_query) {
-            if (imageCount >= MAX_IMAGE_QUERIES) {
-              delete q.image_search_query
+          const fixed: any = {
+            ...q,
+            question: fixLatex(q.question || ''),
+            options: Array.isArray(q.options) ? q.options.map(fixLatex) : q.options,
+            explanation: fixLatex(q.explanation || ''),
+          }
+          // Enforce diagram cap and validate SVG
+          if (fixed.diagram_svg) {
+            if (diagramCount >= MAX_DIAGRAMS || !fixed.diagram_svg.includes('<svg')) {
+              delete fixed.diagram_svg
             } else {
-              imageCount++
+              diagramCount++
             }
           }
-          return q
+          return fixed
         })
       }
 
@@ -166,14 +190,12 @@ Generate the assessment now:`
       })
     } catch (aiError: any) {
       console.error('Groq AI Error:', aiError)
-
       if (aiError.message?.includes('429') || aiError.message?.includes('Quota')) {
         return NextResponse.json(
           { error: 'AI rate limit exceeded. Please wait a minute and try again.' },
           { status: 429 }
         )
       }
-
       return NextResponse.json(
         { error: `AI generation failed: ${aiError.message || 'Unknown error'}. Please try again.` },
         { status: 500 }
