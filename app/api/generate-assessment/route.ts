@@ -63,6 +63,17 @@ Generate the SVG now:`
   }
 }
 
+// Subjects that require a reading passage / extract for long-form questions
+const PASSAGE_SUBJECTS = [
+  'english', 'english language', 'english literature', 'literature', 'literature in english',
+  'french', 'kinyarwanda', 'swahili', 'history', 'general paper', 'global perspectives',
+  'language arts', 'reading', 'social studies',
+]
+
+function needsPassage(subject: string): boolean {
+  return PASSAGE_SUBJECTS.some((s) => subject.toLowerCase().includes(s))
+}
+
 // ── Build prompt based on question type ──────────────────────────────────────
 function buildPrompt(opts: {
   subject: string
@@ -80,19 +91,30 @@ function buildPrompt(opts: {
   const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
   const estimatedTime = mcqCount * 2 + lfCount * 8
 
+  const subjectNeedsPassage = needsPassage(subject)
+
   const diagramNote = hasDiagramSupport
     ? `DIAGRAMS: For up to ${MAX_DIAGRAMS} MCQ questions where a visual is essential, add "needs_diagram": true and "diagram_hint": "<precise description of what to draw and where to place the X marker>". Do NOT add for text/calculation questions.`
     : ''
 
+  const passageNote = subjectNeedsPassage
+    ? `PASSAGES: For every long-form question, you MUST include:
+   - "passage": a self-contained extract (150–350 words) of high-quality prose, poetry, or non-fiction relevant to the topic. Write original literary-style text or use public-domain works (pre-1928 authors: Dickens, Austen, Hardy, Shakespeare, etc.). The extract must be rich enough for the student to answer the question from it.
+   - "passage_source": the attribution string, e.g. "Charles Dickens, Great Expectations (1861), Chapter 1" or "Original passage" if you wrote it.
+   For MCQ questions about a passage, include the same passage and source fields.`
+    : `PASSAGES: Only include "passage" and "passage_source" if the specific question genuinely requires a source text to answer (e.g. a history source question). Leave them out for questions the student can answer from knowledge alone.`
+
   const mcqSchema = `{
       "id": <number>,
       "type": "mcq",
-      "question": "<question text, use $\\\\frac{1}{2}$ for math>",
+      "question": "<question text>",
       "options": ["<A>", "<B>", "<C>", "<D>"],
       "correct_answer": <0-3>,
       "explanation": "<detailed explanation>"${hasDiagramSupport ? `,
       "needs_diagram": false,
-      "diagram_hint": ""` : ''}
+      "diagram_hint": ""` : ''}${subjectNeedsPassage ? `,
+      "passage": "<extract text for the student to read — required for English/language subjects>",
+      "passage_source": "<author, title, year, chapter if applicable>"` : ''}
     }`
 
   const lfSchema = `{
@@ -106,8 +128,26 @@ function buildPrompt(opts: {
         "..."
       ],
       "model_answer": "<comprehensive model answer a top student would write>",
+      "explanation": "<what this question tests>",
+      "passage": "<extract — REQUIRED for ${subject}. 150-350 words of relevant prose, poetry, or non-fiction the student must read and respond to>",
+      "passage_source": "<attribution: author, title, year>"
+    }`
+
+  const lfSchemaNoPassage = `{
+      "id": <number>,
+      "type": "longform",
+      "question": "<question requiring an extended written answer>",
+      "marks": <integer 2-8 based on complexity>,
+      "marking_criteria": [
+        "<criterion 1 — one mark point per entry>",
+        "<criterion 2>",
+        "..."
+      ],
+      "model_answer": "<comprehensive model answer a top student would write>",
       "explanation": "<what this question tests>"
     }`
+
+  const activeLfSchema = subjectNeedsPassage ? lfSchema : lfSchemaNoPassage
 
   let questionsBlock = ''
   let questionInstruction = ''
@@ -116,12 +156,12 @@ function buildPrompt(opts: {
     questionInstruction = `Generate exactly ${count} multiple-choice questions.`
     questionsBlock = `    ${mcqSchema}`
   } else if (questionType === 'longform') {
-    questionInstruction = `Generate exactly ${count} long-form questions that require extended written answers. Each question must have between 2 and 8 marks. Provide one clear marking criterion per mark.`
-    questionsBlock = `    ${lfSchema}`
+    questionInstruction = `Generate exactly ${count} long-form questions that require extended written answers. Each question must have between 2 and 8 marks. Provide one clear marking criterion per mark.${subjectNeedsPassage ? ' Every question MUST include a "passage" extract for the student to read and respond to.' : ''}`
+    questionsBlock = `    ${activeLfSchema}`
   } else {
-    questionInstruction = `Generate exactly ${count} questions total: ${mcqCount} multiple-choice (type "mcq") and ${lfCount} long-form (type "longform"). Mix them in a logical order.`
+    questionInstruction = `Generate exactly ${count} questions total: ${mcqCount} multiple-choice (type "mcq") and ${lfCount} long-form (type "longform"). Mix them in a logical order.${subjectNeedsPassage ? ' Every question (MCQ and long-form) MUST include a "passage" extract.' : ''}`
     questionsBlock = `    ${mcqSchema},
-    ${lfSchema}`
+    ${activeLfSchema}`
   }
 
   const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment.
@@ -140,6 +180,7 @@ ${curriculumBlock}
 2. Vary difficulty: recall, application, analysis.
 3. LaTeX in JSON: use doubled backslashes — \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta, \\\\times, \\\\pm, \\\\angle, \\\\triangle.
 ${questionType !== 'longform' ? `4. ${diagramNote}` : ''}
+${`5. ${passageNote}`}
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 

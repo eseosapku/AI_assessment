@@ -16,6 +16,8 @@ interface MCQQuestion {
   options: string[]
   correct_answer: number
   explanation: string
+  passage?: string
+  passage_source?: string
   diagram_svg?: string
 }
 
@@ -27,6 +29,8 @@ interface LongFormQuestion {
   marking_criteria: string[]
   model_answer: string
   explanation: string
+  passage?: string
+  passage_source?: string
   diagram_svg?: string
 }
 
@@ -114,6 +118,48 @@ function AnnotatedText({
   )
 }
 
+// ── Passage / extract display ─────────────────────────────────────────────────
+
+function PassageBox({ passage, source }: { passage: string; source?: string }) {
+  const [collapsed, setCollapsed] = useState(false)
+  return (
+    <div className="mb-6 rounded-2xl border border-amber-200 dark:border-amber-700/50 bg-amber-50 dark:bg-amber-900/10 overflow-hidden">
+      <div className="flex items-center justify-between px-4 py-2.5 border-b border-amber-200 dark:border-amber-700/40">
+        <div className="flex items-center gap-2">
+          <span className="text-amber-700 dark:text-amber-400 text-sm font-semibold">📄 Read the extract below</span>
+          {source && (
+            <span className="text-amber-500 dark:text-amber-500 text-xs italic truncate max-w-[200px] sm:max-w-none">
+              — {source}
+            </span>
+          )}
+        </div>
+        <button
+          onClick={() => setCollapsed(!collapsed)}
+          className="text-xs text-amber-600 dark:text-amber-400 hover:underline flex-shrink-0 ml-2"
+        >
+          {collapsed ? 'Show extract' : 'Hide'}
+        </button>
+      </div>
+      <AnimatePresence>
+        {!collapsed && (
+          <motion.div
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: 'auto', opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <div className="px-5 py-4 max-h-72 overflow-y-auto">
+              <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 leading-relaxed whitespace-pre-wrap font-serif">
+                {passage}
+              </p>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  )
+}
+
 // ── Long-form result card ──────────────────────────────────────────────────────
 
 function LongFormResultCard({
@@ -172,6 +218,9 @@ function LongFormResultCard({
             <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
               <DiagramSvg svg={q.diagram_svg} />
             </div>
+          )}
+          {q.passage && (
+            <PassageBox passage={q.passage} source={q.passage_source} />
           )}
           <h3 className="text-lg font-medium text-gray-900 dark:text-white"><Latex>{q.question}</Latex></h3>
         </div>
@@ -619,6 +668,9 @@ export default function AssessmentPage() {
                           <DiagramSvg svg={q.diagram_svg} />
                         </div>
                       )}
+                      {q.passage && (
+                        <PassageBox passage={q.passage} source={q.passage_source} />
+                      )}
                       <h3 className="text-lg font-medium"><Latex>{q.question}</Latex></h3>
                     </div>
                   </div>
@@ -738,6 +790,10 @@ export default function AssessmentPage() {
                 <div className="bg-gray-50 dark:bg-gray-900/60 rounded-2xl p-4 mb-6 border border-gray-200 dark:border-gray-700 overflow-x-auto">
                   <DiagramSvg svg={question.diagram_svg} />
                 </div>
+              )}
+
+              {question.passage && (
+                <PassageBox passage={question.passage} source={question.passage_source} />
               )}
 
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight">

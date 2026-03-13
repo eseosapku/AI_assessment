@@ -29,6 +29,8 @@ export interface LongFormQuestion {
   marking_criteria: string[]
   model_answer: string
   explanation: string
+  passage?: string          // source text / extract for the student to read
+  passage_source?: string   // e.g. "Charles Dickens, Great Expectations (1861)"
   diagram_svg?: string
 }
 
