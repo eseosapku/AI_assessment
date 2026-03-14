@@ -376,6 +376,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'AI returned invalid question data. Please try again.' }, { status: 500 })
     }
 
+    // ── Ensure passage fields are present for passage subjects ────────────────
+    // LLMs sometimes forget to include needs_passage/passage_hint despite the prompt.
+    // Stamp them here so generateAllPassages never silently skips a question.
+    if (needsPassage(subject)) {
+      assessmentData.questions.forEach((q: any) => {
+        if (!q.passage_hint) {
+          q.needs_passage = true
+          q.passage_hint = `A rich reading extract that a student would need to answer this ${subject} question: "${q.question.slice(0, 120)}"`
+        }
+      })
+    }
+
     // ── Stage 2a: SVG diagrams via Gemini (parallel, MCQ only) ───────────────
     if (hasDiagramSupport) {
       const diagramJobs = assessmentData.questions
