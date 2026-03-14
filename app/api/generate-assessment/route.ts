@@ -59,21 +59,13 @@ Generate now:`, geminiKey, 2048)
   }
 }
 
-// ── Passage generation via Gemini (free tier: 15 RPM, generous tokens) ────────
-async function generatePassageWithGemini(
-  question: string,
-  subject: string,
-  hint: string,
-  geminiKey: string
-): Promise<{ text: string; source: string } | null> {
-  try {
-    const raw = await callGemini(`You are creating a reading extract for a ${subject} exam paper.
+const PASSAGE_PROMPT = (question: string, subject: string, hint: string) => `You are creating a reading extract for a ${subject} exam paper.
 
 QUESTION THE STUDENT WILL ANSWER: "${question}"
 WHAT THE PASSAGE SHOULD BE: ${hint}
 
 Write a high-quality reading extract. Requirements:
-- AT LEAST 500 words (aim for 550–700 words)
+- AT LEAST 450 words (aim for 500–650 words)
 - Prioritise public-domain literary authors (Dickens, Austen, Hardy, Brontë, Eliot, Conrad, Achebe, Shakespeare, etc.) OR write original literary-quality prose that matches the style of a CAIE/Cambridge unseen comprehension passage
 - Rich in language techniques, vivid description, or strong argument — something worth analysing
 - Natural paragraph breaks
@@ -84,19 +76,51 @@ PASSAGE:
 [full passage text here, with blank lines between paragraphs]
 
 SOURCE:
-[Author, Full Title (Year), Chapter — e.g. "Charles Dickens, Great Expectations (1861), Chapter 1" or "Original passage written in the style of a CAIE IGCSE unseen comprehension text"]`, geminiKey, 1800)
+[Author, Full Title (Year), Chapter — e.g. "Charles Dickens, Great Expectations (1861), Chapter 1" or "Original passage written in the style of a CAIE IGCSE unseen comprehension text"]`
 
-    // Parse the simple PASSAGE: / SOURCE: format
-    const passageMatch = raw.match(/PASSAGE:\s*([\s\S]*?)(?=\nSOURCE:|$)/i)
-    const sourceMatch = raw.match(/SOURCE:\s*([\s\S]*?)$/i)
+function parsePassageResponse(raw: string): { text: string; source: string } | null {
+  const passageMatch = raw.match(/PASSAGE:\s*([\s\S]*?)(?=\nSOURCE:|$)/i)
+  const sourceMatch = raw.match(/SOURCE:\s*([\s\S]*?)$/i)
+  const text = passageMatch?.[1]?.trim() ?? ''
+  const source = sourceMatch?.[1]?.trim() ?? 'Original passage'
+  if (text.split(/\s+/).filter(Boolean).length < 120) return null
+  return { text, source }
+}
 
-    const text = passageMatch?.[1]?.trim() ?? ''
-    const source = sourceMatch?.[1]?.trim() ?? 'Original passage'
-
-    if (text.split(/\s+/).filter(Boolean).length < 150) return null
-    return { text, source }
+// ── Passage generation via Gemini (preferred — generous token limits) ──────────
+async function generatePassageWithGemini(
+  question: string,
+  subject: string,
+  hint: string,
+  geminiKey: string
+): Promise<{ text: string; source: string } | null> {
+  try {
+    const raw = await callGemini(PASSAGE_PROMPT(question, subject, hint), geminiKey, 1800)
+    return parsePassageResponse(raw)
   } catch (err) {
     console.error('Gemini passage generation failed:', err)
+    return null
+  }
+}
+
+// ── Passage generation via Groq (fallback — uses llama-3.1-8b-instant, separate TPM bucket) ──
+async function generatePassageWithGroq(
+  question: string,
+  subject: string,
+  hint: string,
+  groq: Groq
+): Promise<{ text: string; source: string } | null> {
+  try {
+    const completion = await groq.chat.completions.create({
+      model: 'llama-3.1-8b-instant',
+      messages: [{ role: 'user', content: PASSAGE_PROMPT(question, subject, hint) }],
+      temperature: 0.75,
+      max_tokens: 1400,
+    })
+    const raw = completion.choices?.[0]?.message?.content ?? ''
+    return parsePassageResponse(raw)
+  } catch (err) {
+    console.error('Groq passage generation failed:', err)
     return null
   }
 }
@@ -112,25 +136,22 @@ function needsPassage(subject: string): boolean {
   return PASSAGE_SUBJECTS.some((s) => subject.toLowerCase().includes(s))
 }
 
-// ── Generate all passages in parallel via Gemini ──────────────────────────────
-// Gemini free tier allows 15 RPM so we can run these concurrently without worry.
+// ── Generate all passages in parallel (Gemini preferred, Groq fallback) ──────
 async function generateAllPassages(
   questions: any[],
   geminiKey: string,
-  subject: string
+  subject: string,
+  groq: Groq
 ): Promise<void> {
-  // For passage subjects, generate for every longform question regardless of whether
-  // the LLM remembered to set needs_passage. Use the question text as fallback hint.
+  // Ensure every question that needs a passage has a hint — don't rely on the LLM
   const jobs = questions
     .map((q, idx) => ({ q, idx }))
     .filter(({ q }) => {
-      if (q.needs_passage && q.passage_hint) return true
-      // Fallback: any longform question in a passage subject should get a passage
-      if (q.type === 'longform' && !q.passage) {
-        q.passage_hint = q.passage_hint || `A rich literary or non-fiction extract directly relevant to this question: "${q.question.slice(0, 120)}"`
-        return true
+      if (q.passage) return false // already has one
+      if (!q.passage_hint) {
+        q.passage_hint = `A rich literary or non-fiction extract directly relevant to this question: "${q.question.slice(0, 120)}"`
       }
-      return false
+      return true
     })
 
   if (jobs.length === 0) {
@@ -138,13 +159,16 @@ async function generateAllPassages(
     return
   }
 
-  // All passages generated in parallel — Gemini handles the concurrency fine
   const results = await Promise.all(
-    jobs.map(({ q, idx }) =>
-      generatePassageWithGemini(q.question, subject, q.passage_hint, geminiKey)
+    jobs.map(({ q, idx }) => {
+      const generate = geminiKey
+        ? generatePassageWithGemini(q.question, subject, q.passage_hint, geminiKey)
+            .then(r => r ?? generatePassageWithGroq(q.question, subject, q.passage_hint, groq))
+        : generatePassageWithGroq(q.question, subject, q.passage_hint, groq)
+      return generate
         .then((result) => ({ idx, result }))
         .catch(() => ({ idx, result: null }))
-    )
+    })
   )
 
   results.forEach(({ idx, result }) => {
@@ -412,11 +436,10 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // ── Stage 2b: Full passages via Gemini (parallel — no Groq, no rate limit) ──
-    if (needsPassage(subject) && geminiKey) {
-      await generateAllPassages(assessmentData.questions, geminiKey, subject)
+    // ── Stage 2b: Passages — Gemini preferred, Groq fallback ─────────────────
+    if (needsPassage(subject)) {
+      await generateAllPassages(assessmentData.questions, geminiKey, subject, groq)
     } else {
-      // Non-passage subjects or no Gemini key: clean up staging fields
       assessmentData.questions.forEach((q: any) => {
         delete q.needs_passage
         delete q.passage_hint
