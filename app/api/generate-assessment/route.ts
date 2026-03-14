@@ -304,34 +304,62 @@ export async function POST(request: NextRequest) {
     const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = geminiKey.length > 0
 
-    // ── Stage 1: Groq generates question skeletons (NO full passages — keeps output small) ──
+    // ── Stage 1: Groq generates question skeletons ───────────────────────────
+    // Primary model: llama-3.3-70b-versatile (6,000 TPM free tier)
+    // Fallback model: llama-3.1-8b-instant   (20,000 TPM free tier — separate bucket)
+    // If the primary is rate-limited we immediately retry with the fallback model,
+    // no wait required because the two models have independent TPM counters.
     const { prompt, estimatedTime } = buildPrompt({
       subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport,
     })
 
-    let assessmentData: any
-    try {
+    // Token budget: MCQ responses are ~800 tokens, longform ~2000, mixed ~3000
+    const maxTokens = questionType === 'mcq' ? 2048 : questionType === 'longform' ? 3072 : 4096
+
+    const MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it'] as const
+
+    async function tryGenerate(model: string): Promise<any> {
       const completion = await groq.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model,
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.7,
+        max_tokens: maxTokens,
         response_format: { type: 'json_object' },
       })
-
       let text = (completion.choices[0]?.message?.content || '').trim()
       text = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
       if (!text.startsWith('{')) {
         const m = text.match(/\{[\s\S]*\}/)
         if (m) text = m[0]
       }
-      text = fixLatexInRawJson(text)
-      assessmentData = JSON.parse(text)
-    } catch (err: any) {
-      console.error('Groq/parse error:', err)
-      if (err.status === 429 || err.message?.includes('429')) {
-        return NextResponse.json({ error: 'AI rate limit reached. Please wait 60 seconds and try again.' }, { status: 429 })
+      return JSON.parse(fixLatexInRawJson(text))
+    }
+
+    let assessmentData: any
+    let lastError: any
+    for (const model of MODELS) {
+      try {
+        assessmentData = await tryGenerate(model)
+        break // success — stop trying
+      } catch (err: any) {
+        lastError = err
+        const is429 = err.status === 429 || err.message?.includes('429') || err.error?.code === 'rate_limit_exceeded'
+        if (is429) {
+          console.warn(`Model ${model} rate-limited — trying fallback...`)
+          continue // try next model
+        }
+        // Non-rate-limit error — fail immediately
+        console.error('Groq/parse error:', err)
+        return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
       }
-      return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
+    }
+
+    if (!assessmentData) {
+      console.error('All models rate-limited:', lastError)
+      return NextResponse.json(
+        { error: 'AI is temporarily busy. Please wait 30 seconds and try again.' },
+        { status: 429 }
+      )
     }
 
     if (!Array.isArray(assessmentData.questions)) {
