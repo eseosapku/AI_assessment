@@ -19,7 +19,18 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ grades: {} })
     }
 
-    // Build zero-mark results for unanswered questions so we can skip them in the AI call
+    // ── Copy-paste detection (no AI needed) ──────────────────────────────────
+    // If >65% of the student's words appear verbatim in the passage, it's a paste.
+    function isCopied(answer: string, passage: string | undefined): boolean {
+      if (!passage || !answer) return false
+      const passageWords = new Set(passage.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(Boolean))
+      const answerWords = answer.toLowerCase().replace(/[^\w\s]/g, '').split(/\s+/).filter(Boolean)
+      if (answerWords.length < 20) return false
+      const matchCount = answerWords.filter(w => passageWords.has(w)).length
+      return matchCount / answerWords.length > 0.65
+    }
+
+    // Build zero-mark results for unanswered or copied questions
     const emptyGrades: Record<number, any> = {}
     const questionsToGrade = longFormQuestions.filter(({ q, idx }: any) => {
       const studentAnswer = (answers[idx] || '').trim()
@@ -34,6 +45,20 @@ export async function POST(request: NextRequest) {
             note: 'No answer provided.',
           })),
           general_feedback: 'No answer was written for this question.',
+        }
+        return false
+      }
+      if (isCopied(studentAnswer, q.passage)) {
+        emptyGrades[idx] = {
+          marks_awarded: 0,
+          marks_total: q.marks,
+          criteria_results: q.marking_criteria.map((c: string) => ({
+            criterion: c,
+            met: false,
+            relevant_quote: null,
+            note: 'Answer appears to be copied directly from the passage. You must write in your own words.',
+          })),
+          general_feedback: 'Your answer was copied from the passage and cannot be awarded marks. You need to select specific quotes and explain them in your own words — describe what the language does and why the author chose it.',
         }
         return false
       }
@@ -57,12 +82,17 @@ export async function POST(request: NextRequest) {
           ? `\nREADING PASSAGE (source text the student was given):\n"""\n${q.passage}\n"""`
           : ''
 
+        // Truncate very long answers to keep prompt within token budget
+        const truncatedAnswer = studentAnswer.length > 1200
+          ? studentAnswer.slice(0, 1200) + '… [truncated]'
+          : studentAnswer
+
         return `--- QUESTION ${i + 1} (index ${idx}) [${q.marks} marks] ---
 Question: ${q.question}
 Marking criteria (1 mark each):
 ${criteriaList}
 Model answer summary: ${q.model_answer ?? '(none provided)'}${passageSection}
-Student's answer: "${studentAnswer}"`
+Student's answer: "${truncatedAnswer}"`
       })
       .join('\n\n')
 
