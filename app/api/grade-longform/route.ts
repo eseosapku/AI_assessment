@@ -95,65 +95,86 @@ ${questionsToGrade
 
 Indices to grade: ${indexList}`
 
-    try {
+    const GRADE_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it'] as const
+
+    async function tryGrade(model: string): Promise<Record<number, any>> {
       const completion = await groq.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
+        model,
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.2,
         max_tokens: 2048,
         response_format: { type: 'json_object' },
       })
-
       let text = (completion.choices[0]?.message?.content || '').trim()
       text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim()
       const parsed = JSON.parse(text)
       const aiGrades: Record<string, any> = parsed.grades ?? {}
 
-      // Merge AI grades with empty grades, clamp marks to valid range
       const grades: Record<number, any> = { ...emptyGrades }
       questionsToGrade.forEach(({ q, idx }: any) => {
         const g = aiGrades[String(idx)] ?? aiGrades[idx]
-        if (g) {
-          grades[idx] = {
-            marks_awarded: Math.max(0, Math.min(q.marks, g.marks_awarded ?? 0)),
-            marks_total: q.marks,
-            criteria_results: g.criteria_results ?? [],
-            general_feedback: g.general_feedback ?? '',
-          }
-        } else {
-          // AI didn't return a grade for this question — fallback
-          grades[idx] = {
+        grades[idx] = g ? {
+          marks_awarded: Math.max(0, Math.min(q.marks, g.marks_awarded ?? 0)),
+          marks_total: q.marks,
+          criteria_results: g.criteria_results ?? [],
+          general_feedback: g.general_feedback ?? '',
+        } : {
+          marks_awarded: 0,
+          marks_total: q.marks,
+          criteria_results: q.marking_criteria.map((c: string) => ({
+            criterion: c, met: false, relevant_quote: null, note: 'Could not be automatically graded.',
+          })),
+          general_feedback: 'This answer could not be automatically graded.',
+        }
+      })
+      return grades
+    }
+
+    try {
+      let grades: Record<number, any> | null = null
+      let lastGradeErr: any
+
+      for (const model of GRADE_MODELS) {
+        try {
+          grades = await tryGrade(model)
+          break
+        } catch (err: any) {
+          lastGradeErr = err
+          const is429 = err.status === 429 || err.message?.includes('429') || err.error?.code === 'rate_limit_exceeded'
+          if (is429) { console.warn(`Grading model ${model} rate-limited — trying next…`); continue }
+          throw err // non-rate-limit error — surface immediately
+        }
+      }
+
+      if (!grades) {
+        // All models rate-limited — return zero marks with clear message
+        const fallbackGrades: Record<number, any> = { ...emptyGrades }
+        questionsToGrade.forEach(({ q, idx }: any) => {
+          fallbackGrades[idx] = {
             marks_awarded: 0,
             marks_total: q.marks,
             criteria_results: q.marking_criteria.map((c: string) => ({
-              criterion: c,
-              met: false,
-              relevant_quote: null,
-              note: 'Could not be automatically graded.',
+              criterion: c, met: false, relevant_quote: null,
+              note: 'Grading temporarily unavailable — please try again in 30 seconds.',
             })),
-            general_feedback: 'This answer could not be automatically graded. Please review manually.',
+            general_feedback: 'All grading models were busy. Please resubmit in 30 seconds.',
           }
-        }
-      })
+        })
+        return NextResponse.json({ grades: fallbackGrades })
+      }
 
       return NextResponse.json({ grades })
     } catch (err: any) {
       console.error('Grading AI error:', err)
-      // Return zero marks for all questions rather than crashing
       const fallbackGrades: Record<number, any> = { ...emptyGrades }
       questionsToGrade.forEach(({ q, idx }: any) => {
         fallbackGrades[idx] = {
           marks_awarded: 0,
           marks_total: q.marks,
           criteria_results: q.marking_criteria.map((c: string) => ({
-            criterion: c,
-            met: false,
-            relevant_quote: null,
-            note: 'Automatic grading failed. Please review this answer manually.',
+            criterion: c, met: false, relevant_quote: null, note: 'Automatic grading failed.',
           })),
-          general_feedback: err?.status === 429
-            ? 'Grading was rate-limited. Please wait a moment and resubmit.'
-            : 'Automatic grading encountered an error.',
+          general_feedback: 'Automatic grading encountered an error.',
         }
       })
       return NextResponse.json({ grades: fallbackGrades })
