@@ -119,9 +119,19 @@ async function generateAllPassages(
   geminiKey: string,
   subject: string
 ): Promise<void> {
+  // For passage subjects, generate for every longform question regardless of whether
+  // the LLM remembered to set needs_passage. Use the question text as fallback hint.
   const jobs = questions
     .map((q, idx) => ({ q, idx }))
-    .filter(({ q }) => q.needs_passage && q.passage_hint)
+    .filter(({ q }) => {
+      if (q.needs_passage && q.passage_hint) return true
+      // Fallback: any longform question in a passage subject should get a passage
+      if (q.type === 'longform' && !q.passage) {
+        q.passage_hint = q.passage_hint || `A rich literary or non-fiction extract directly relevant to this question: "${q.question.slice(0, 120)}"`
+        return true
+      }
+      return false
+    })
 
   if (jobs.length === 0) {
     questions.forEach((q) => { delete q.needs_passage; delete q.passage_hint })

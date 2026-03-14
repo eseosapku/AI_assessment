@@ -53,11 +53,15 @@ export async function POST(request: NextRequest) {
           .map((c: string, ci: number) => `  ${ci + 1}. ${c}`)
           .join('\n')
 
+        const passageSection = q.passage
+          ? `\nREADING PASSAGE (source text the student was given):\n"""\n${q.passage}\n"""`
+          : ''
+
         return `--- QUESTION ${i + 1} (index ${idx}) [${q.marks} marks] ---
 Question: ${q.question}
 Marking criteria (1 mark each):
 ${criteriaList}
-Model answer summary: ${q.model_answer ?? '(none provided)'}
+Model answer summary: ${q.model_answer ?? '(none provided)'}${passageSection}
 Student's answer: "${studentAnswer}"`
       })
       .join('\n\n')
@@ -68,7 +72,11 @@ Student's answer: "${studentAnswer}"`
 
 ${questionsBlock}
 
-For each question, evaluate whether the student has met each criterion. If they have, identify the most relevant short phrase from their answer as "relevant_quote". If not, set it to null.
+CRITICAL GRADING RULES:
+1. If a READING PASSAGE is provided, the student MUST respond in their OWN WORDS using analysis, not just copy text from the passage. If their answer is mostly or entirely copied/paraphrased directly from the passage without any personal analysis, interpretation, or structured argument, award 0 marks and mark ALL criteria as not met — copying is not answering.
+2. A valid answer requires the student to demonstrate understanding: they must select evidence AND explain/analyse it. Quoting alone does not meet any criterion.
+3. If no passage is provided, grade on content quality and whether each criterion is addressed.
+4. For each criterion that IS met, identify the most relevant short phrase from the student's OWN words (not copied passage text) as "relevant_quote". If not met, set it to null.
 
 Return ONLY valid JSON — no markdown, no extra keys:
 {
@@ -92,6 +100,7 @@ Indices to grade: ${indexList}`
         model: 'llama-3.3-70b-versatile',
         messages: [{ role: 'user', content: prompt }],
         temperature: 0.2,
+        max_tokens: 2048,
         response_format: { type: 'json_object' },
       })
 
