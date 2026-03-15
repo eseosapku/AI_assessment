@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import Image from 'next/image'
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
@@ -44,11 +43,8 @@ export default function LoginForm() {
       className="w-full max-w-sm"
     >
       {/* Brand */}
-      <div className="flex items-center justify-center gap-2.5 mb-8">
-        <div className="relative w-8 h-8 flex-shrink-0">
-          <Image src="/logo.png" alt="Brain Ink" fill className="object-contain" priority />
-        </div>
-        <span className="text-lg font-bold tracking-tight text-gray-900 dark:text-white">Brain Ink</span>
+      <div className="flex justify-center mb-8">
+        <Image src="/logo.png" alt="Brain Ink" width={180} height={102} className="h-14 w-auto object-contain" priority />
       </div>
 
       {/* Card */}

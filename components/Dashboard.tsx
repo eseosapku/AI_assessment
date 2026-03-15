@@ -110,11 +110,8 @@ export default function Dashboard() {
       {/* ── Header ─────────────────────────────────────────────────────── */}
       <header className="sticky top-0 z-30 h-14 bg-white/80 dark:bg-[#111113]/80 backdrop-blur-xl border-b border-gray-200/70 dark:border-gray-800/70">
         <div className="max-w-7xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
-          <div className="flex items-center gap-2.5">
-            <div className="relative w-7 h-7 flex-shrink-0">
-              <Image src="/logo.png" alt="Brain Ink" fill className="object-contain" priority />
-            </div>
-            <span className="text-sm font-bold tracking-tight text-gray-900 dark:text-white">Brain Ink</span>
+          <div className="flex items-center">
+            <Image src="/logo.png" alt="Brain Ink" width={120} height={68} className="h-9 w-auto object-contain" priority />
           </div>
 
           <div className="flex items-center gap-2">
