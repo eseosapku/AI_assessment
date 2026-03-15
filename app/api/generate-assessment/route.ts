@@ -290,8 +290,9 @@ ${curriculumBlock}
 1. All questions strictly based on the ${curriculumName} syllabus topics.
 2. Vary difficulty: recall, application, analysis.
 3. LaTeX: doubled backslashes — \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta.
-${questionType !== 'longform' ? `4. ${diagramNote}` : ''}
-5. ${passageNote}
+4. MCQ "explanation" field: MAXIMUM 60 words. Be concise — one clear sentence showing the key step, not a full worked solution.
+${questionType !== 'longform' ? `5. ${diagramNote}` : ''}
+6. ${passageNote}
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 
@@ -347,8 +348,8 @@ export async function POST(request: NextRequest) {
       subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport,
     })
 
-    // Token budget: MCQ responses are ~800 tokens, longform ~2000, mixed ~3000
-    const maxTokens = questionType === 'mcq' ? 2048 : questionType === 'longform' ? 3072 : 4096
+    // Token budget: math/science MCQ explanations with LaTeX can be large
+    const maxTokens = questionType === 'mcq' ? 3500 : questionType === 'longform' ? 3500 : 5120
 
     const MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it'] as const
 
@@ -378,11 +379,12 @@ export async function POST(request: NextRequest) {
       } catch (err: any) {
         lastError = err
         const is429 = err.status === 429 || err.message?.includes('429') || err.error?.code === 'rate_limit_exceeded'
-        if (is429) {
-          console.warn(`Model ${model} rate-limited — trying fallback...`)
+        const isJsonFail = err.status === 400 || err instanceof SyntaxError || err.message?.includes('json') || err.message?.includes('JSON')
+        if (is429 || isJsonFail) {
+          console.warn(`Model ${model} failed (${is429 ? 'rate-limit' : 'JSON parse'}) — trying fallback...`)
           continue // try next model
         }
-        // Non-rate-limit error — fail immediately
+        // Other unexpected error — fail immediately
         console.error('Groq/parse error:', err)
         return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
       }
