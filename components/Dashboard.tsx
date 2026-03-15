@@ -1,8 +1,8 @@
 'use client'
 
-import { motion } from 'framer-motion'
-import { User, Plus, LogOut, Brain, TrendingUp, Award, Clock, Zap } from 'lucide-react'
-import { useState, useEffect } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { User, Plus, LogOut, Brain, TrendingUp, Award, Clock, Zap, ChevronDown } from 'lucide-react'
+import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import ThemeToggle from './ThemeToggle'
 import ProfileSidebar from './ProfileSidebar'
@@ -16,6 +16,9 @@ export default function Dashboard() {
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [recentAssessments, setRecentAssessments] = useState<any[]>([])
   const [stats, setStats] = useState({ total: 0, avgScore: 0 })
+  const [subjectAverages, setSubjectAverages] = useState<{ subject: string; avg: number; count: number }[]>([])
+  const [showAvgDropdown, setShowAvgDropdown] = useState(false)
+  const avgRef = useRef<HTMLDivElement>(null)
   const [dailyUsed, setDailyUsed] = useState(0)
   const DAILY_QUIZ_LIMIT = 7200 // 14,400 Groq free requests / 2 per quiz
   const { user, logout } = useAuth()
@@ -40,13 +43,33 @@ export default function Dashboard() {
           topic: item.assessments?.difficulty || 'General',
           grade: item.percentage >= 90 ? 'A+' : item.percentage >= 80 ? 'A' : item.percentage >= 70 ? 'B+' : item.percentage >= 60 ? 'B' : item.percentage >= 50 ? 'C' : 'D',
           score: item.score,
-          feedback: item.feedback?.text || 'No feedback available.'
+          percentage: item.percentage ?? item.score,
+          feedback: item.feedback?.text || 'No feedback available.',
+          questions_data: item.questions_data ?? null,
+          answers: item.answers ?? null,
+          longform_grades: item.longform_grades ?? null,
         }))
         setRecentAssessments(formattedData)
-        
+
         if (data.length > 0) {
           const avg = data.reduce((acc, curr) => acc + curr.score, 0) / data.length
           setStats({ total: data.length, avgScore: Math.round(avg) })
+
+          // Per-subject averages
+          const subjectMap: Record<string, number[]> = {}
+          data.forEach(item => {
+            const subj = item.assessments?.subject || 'Assessment'
+            if (!subjectMap[subj]) subjectMap[subj] = []
+            subjectMap[subj].push(item.score)
+          })
+          const avgs = Object.entries(subjectMap)
+            .map(([subject, scores]) => ({
+              subject,
+              avg: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length),
+              count: scores.length,
+            }))
+            .sort((a, b) => b.avg - a.avg)
+          setSubjectAverages(avgs)
         }
       }
     }
@@ -65,6 +88,18 @@ export default function Dashboard() {
 
     fetchDailyUsage()
   }, [user])
+
+  // Close avg dropdown on outside click
+  useEffect(() => {
+    if (!showAvgDropdown) return
+    function handleClick(e: MouseEvent) {
+      if (avgRef.current && !avgRef.current.contains(e.target as Node)) {
+        setShowAvgDropdown(false)
+      }
+    }
+    document.addEventListener('mousedown', handleClick)
+    return () => document.removeEventListener('mousedown', handleClick)
+  }, [showAvgDropdown])
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] transition-colors duration-300 flex flex-col font-sans">
@@ -134,17 +169,58 @@ export default function Dashboard() {
               </div>
             </motion.div>
 
-            <motion.div 
+            <motion.div
+              ref={avgRef}
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.2 }}
-              className="card p-6 flex items-center gap-4"
+              className="card p-6 flex items-center gap-4 relative cursor-pointer select-none"
+              onClick={() => setShowAvgDropdown(v => !v)}
             >
-              <div className="w-12 h-12 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400">
+              <div className="w-12 h-12 rounded-2xl bg-green-50 dark:bg-green-900/20 flex items-center justify-center text-green-600 dark:text-green-400 flex-shrink-0">
                 <TrendingUp className="w-6 h-6" />
               </div>
-              <div>
+              <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-gray-500 dark:text-gray-400">Average Score</p>
                 <p className="text-2xl font-bold text-gray-900 dark:text-white">{stats.avgScore}%</p>
               </div>
+              <ChevronDown className={`w-4 h-4 text-gray-400 flex-shrink-0 transition-transform ${showAvgDropdown ? 'rotate-180' : ''}`} />
+
+              <AnimatePresence>
+                {showAvgDropdown && subjectAverages.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                    transition={{ duration: 0.15 }}
+                    className="absolute top-full left-0 right-0 mt-2 z-30 rounded-2xl shadow-xl border border-gray-200/60 dark:border-gray-700/60 bg-white dark:bg-gray-900 overflow-hidden"
+                    onClick={e => e.stopPropagation()}
+                  >
+                    <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800">
+                      <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider">By Subject</p>
+                    </div>
+                    <div className="divide-y divide-gray-100 dark:divide-gray-800 max-h-64 overflow-y-auto">
+                      {subjectAverages.map(({ subject, avg, count }) => (
+                        <div key={subject} className="flex items-center justify-between px-4 py-3 gap-3">
+                          <div className="min-w-0">
+                            <p className="text-sm font-medium text-gray-900 dark:text-white truncate">{subject}</p>
+                            <p className="text-xs text-gray-400">{count} assessment{count !== 1 ? 's' : ''}</p>
+                          </div>
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <div className="w-20 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+                              <div
+                                className={`h-full rounded-full ${avg >= 70 ? 'bg-green-500' : avg >= 50 ? 'bg-amber-500' : 'bg-red-500'}`}
+                                style={{ width: `${avg}%` }}
+                              />
+                            </div>
+                            <span className={`text-sm font-bold ${avg >= 70 ? 'text-green-600 dark:text-green-400' : avg >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-500'}`}>
+                              {avg}%
+                            </span>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </motion.div>
 
             <motion.div 
