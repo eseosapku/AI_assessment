@@ -3,17 +3,16 @@ import ThemeToggle from '@/components/ThemeToggle'
 
 export default function SignupPage() {
   return (
-    <main className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex items-center justify-center p-4 relative">
-      {/* Background Gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-500/5 to-blue-500/5 dark:from-purple-500/10 dark:to-blue-500/10" />
-      
-      {/* Theme Toggle */}
-      <div className="absolute top-6 right-6 z-10">
+    <main className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0B] flex items-center justify-center p-5 py-10 relative overflow-hidden">
+      {/* Subtle background orbs */}
+      <div className="absolute top-[-10%] right-[-10%] w-96 h-96 bg-indigo-500/8 dark:bg-indigo-500/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-96 h-96 bg-blue-500/8 dark:bg-blue-500/5 rounded-full blur-3xl pointer-events-none" />
+
+      <div className="absolute top-5 right-5 z-10">
         <ThemeToggle />
       </div>
 
-      {/* Signup Form */}
-      <div className="relative z-10">
+      <div className="relative z-10 w-full flex justify-center">
         <SignupForm />
       </div>
     </main>

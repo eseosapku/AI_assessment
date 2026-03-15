@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronRight } from 'lucide-react'
+import { X, ChevronRight, Check, Loader2 } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
@@ -27,25 +27,49 @@ const GRADES: GradeLevel[] = [7, 8, 9, 10, 11, 12]
 const TOTAL_STEPS = 8
 
 const QUESTION_TYPES = [
-  {
-    id: 'mcq',
-    label: 'Multiple Choice',
-    description: 'Classic 4-option questions, auto-graded instantly',
-    icon: '🔘',
-  },
-  {
-    id: 'longform',
-    label: 'Long-form Only',
-    description: 'Extended written answers, AI-marked with per-mark criteria',
-    icon: '✍️',
-  },
-  {
-    id: 'mixed',
-    label: 'Mixed (MCQ + Long-form)',
-    description: '~60% multiple choice + ~40% written questions',
-    icon: '⚡',
-  },
+  { id: 'mcq',      label: 'Multiple Choice',        description: 'Classic 4-option questions, auto-graded instantly',             icon: '⊙' },
+  { id: 'longform', label: 'Long-form Only',          description: 'Extended written answers, AI-marked with per-mark criteria',    icon: '✍' },
+  { id: 'mixed',    label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions',                 icon: '⚡' },
 ]
+
+// Shared pill button: highlighted when selected, clean when not
+function OptionButton({
+  selected,
+  onClick,
+  children,
+  className = '',
+}: {
+  selected: boolean
+  onClick: () => void
+  children: React.ReactNode
+  className?: string
+}) {
+  return (
+    <motion.button
+      type="button"
+      onClick={onClick}
+      whileTap={{ scale: 0.98 }}
+      className={`relative w-full text-left border rounded-xl px-4 py-3 text-sm transition-all duration-150 ${
+        selected
+          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-500'
+          : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/60'
+      } ${className}`}
+    >
+      {selected && (
+        <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+          <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
+        </span>
+      )}
+      {children}
+    </motion.button>
+  )
+}
+
+function StepLabel({ label }: { label: string }) {
+  return (
+    <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
+  )
+}
 
 export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
@@ -61,107 +85,68 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     questionType: '' as 'mcq' | 'longform' | 'mixed' | '',
     time: 'Calculated by AI',
   })
-
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
 
   const isCambridge = formData.curriculum === 'cambridge'
+  const subjects = formData.grade && formData.curriculum
+    ? isCambridge ? getCambridgeSubjectsForGrade(formData.grade as CambridgeGrade) : getSubjectsForGrade(formData.grade)
+    : []
+  const availableTopics = formData.grade && formData.subject
+    ? isCambridge ? getCambridgeTopicsForGradeAndSubject(formData.grade as CambridgeGrade, formData.subject) : getTopicsForGradeAndSubject(formData.grade, formData.subject)
+    : []
 
-  const subjects =
-    formData.grade && formData.curriculum
-      ? isCambridge
-        ? getCambridgeSubjectsForGrade(formData.grade as CambridgeGrade)
-        : getSubjectsForGrade(formData.grade)
-      : []
-
-  const availableTopics =
-    formData.grade && formData.subject
-      ? isCambridge
-        ? getCambridgeTopicsForGradeAndSubject(formData.grade as CambridgeGrade, formData.subject)
-        : getTopicsForGradeAndSubject(formData.grade, formData.subject)
-      : []
-
-  const handleGradeSelect = (grade: GradeLevel) => {
-    setFormData({ ...formData, grade, subject: '', topics: [] })
-    setTimeout(() => setStep(2), 300)
-  }
-
-  const handleCurriculumSelect = (curriculumId: string) => {
-    setFormData({ ...formData, curriculum: curriculumId, subject: '', topics: [] })
-    setTimeout(() => setStep(3), 300)
-  }
-
-  const handleSubjectSelect = (subject: string) => {
-    setFormData({ ...formData, subject, topics: [] })
-    setStep(4)
-  }
-
+  const handleGradeSelect = (grade: GradeLevel) => { setFormData({ ...formData, grade, subject: '', topics: [] }); setTimeout(() => setStep(2), 250) }
+  const handleCurriculumSelect = (id: string) => { setFormData({ ...formData, curriculum: id, subject: '', topics: [] }); setTimeout(() => setStep(3), 250) }
+  const handleSubjectSelect = (subject: string) => { setFormData({ ...formData, subject, topics: [] }); setStep(4) }
   const handleTopicToggle = (topic: string) => {
-    const newTopics = formData.topics.includes(topic)
-      ? formData.topics.filter((t) => t !== topic)
-      : [...formData.topics, topic]
+    const newTopics = formData.topics.includes(topic) ? formData.topics.filter(t => t !== topic) : [...formData.topics, topic]
     setFormData({ ...formData, topics: newTopics })
-    if (newTopics.length > 0 && step === 4) {
-      setTimeout(() => setStep(5), 300)
-    }
+    if (newTopics.length > 0 && step === 4) setTimeout(() => setStep(5), 250)
   }
-
-  const handleCountSelect = (count: number) => {
-    setFormData({ ...formData, count })
-    setTimeout(() => setStep(6), 300)
-  }
-
-  const handleStyleSelect = (style: string) => {
-    setFormData({ ...formData, style })
-    setTimeout(() => setStep(7), 300)
-  }
-
-  const handleQuestionTypeSelect = (questionType: 'mcq' | 'longform' | 'mixed') => {
-    setFormData({ ...formData, questionType })
-    setTimeout(() => setStep(8), 300)
-  }
+  const handleCountSelect = (count: number) => { setFormData({ ...formData, count }); setTimeout(() => setStep(6), 250) }
+  const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(7), 250) }
+  const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed') => { setFormData({ ...formData, questionType: qt }); setTimeout(() => setStep(8), 250) }
 
   const handleStartAssessment = async () => {
     setIsLoading(true)
     setError('')
-
     try {
       const response = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          ...formData,
-          className: user?.class,
-          user_id: user?.id,
-        }),
+        body: JSON.stringify({ ...formData, className: user?.class, user_id: user?.id }),
       })
-
       const text = await response.text()
       if (!text) throw new Error('Server returned an empty response. Please try again.')
       const data = JSON.parse(text)
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Failed to generate assessment')
-      }
-
+      if (!response.ok) throw new Error(data.error || 'Failed to generate assessment')
       sessionStorage.setItem('currentAssessment', JSON.stringify(data))
       router.push('/assessment')
     } catch (err: any) {
       setError(err.message)
-      console.error('Assessment generation error:', err)
     } finally {
       setIsLoading(false)
     }
   }
 
-  const selectedCurriculum = AVAILABLE_CURRICULA.find((c) => c.id === formData.curriculum)
-  const selectedQuestionType = QUESTION_TYPES.find((qt) => qt.id === formData.questionType)
-
+  const selectedCurriculum = AVAILABLE_CURRICULA.find(c => c.id === formData.curriculum)
+  const selectedQuestionType = QUESTION_TYPES.find(qt => qt.id === formData.questionType)
   const gradeLevelStr = formData.grade
     ? isCambridge
       ? CAMBRIDGE_CURRICULUM[formData.grade as CambridgeGrade]?.cambridgeLevel
       : `${RWANDAN_CURRICULUM[formData.grade]?.rwandaLevel}`
     : ''
+
+  const summaryRows = [
+    { label: 'Grade',      value: `Grade ${formData.grade} · ${gradeLevelStr}` },
+    { label: 'Curriculum', value: selectedCurriculum?.name ?? formData.curriculum },
+    { label: 'Subject',    value: formData.subject },
+    { label: 'Topics',     value: formData.topics.join(', ') },
+    { label: 'Questions',  value: String(formData.count) },
+    { label: 'Style',      value: formData.style },
+    { label: 'Type',       value: selectedQuestionType?.label ?? '' },
+  ]
 
   return (
     <AnimatePresence>
@@ -169,319 +154,226 @@ export default function FlowForm({ onClose }: FlowFormProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/40 backdrop-blur-md z-50 flex items-center justify-center p-4 sm:p-6"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6"
         onClick={onClose}
       >
         <motion.div
-          initial={{ scale: 0.95, opacity: 0, y: 20 }}
+          initial={{ scale: 0.96, opacity: 0, y: 16 }}
           animate={{ scale: 1, opacity: 1, y: 0 }}
-          exit={{ scale: 0.95, opacity: 0, y: 20 }}
-          onClick={(e) => e.stopPropagation()}
-          className="w-full max-w-2xl bg-white dark:bg-[#1c1c1e] rounded-3xl p-6 sm:p-8 max-h-[90vh] overflow-y-auto shadow-2xl border border-gray-200/50 dark:border-gray-800/50"
+          exit={{ scale: 0.96, opacity: 0, y: 16 }}
+          transition={{ duration: 0.2 }}
+          onClick={e => e.stopPropagation()}
+          className="w-full max-w-xl bg-white dark:bg-gray-950 rounded-2xl max-h-[90vh] overflow-y-auto shadow-2xl shadow-black/20 border border-gray-200/60 dark:border-gray-800/60 flex flex-col"
         >
-          {/* Header */}
-          <div className="flex justify-between items-center mb-6 sm:mb-8">
+          {/* Modal header */}
+          <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100 dark:border-gray-800/60 flex-shrink-0">
             <div>
-              <h2 className="text-2xl font-bold text-gray-900 dark:text-white tracking-tight">
-                New Assessment
-              </h2>
-              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-                Configure your AI-generated test
-              </p>
+              <h2 className="text-base font-bold text-gray-900 dark:text-white">New Assessment</h2>
+              <p className="text-xs text-gray-400 mt-0.5">Step {Math.min(step, TOTAL_STEPS)} of {TOTAL_STEPS}</p>
             </div>
-            <motion.button
+            <button
               onClick={onClose}
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="p-2 rounded-full hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
+              className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
             >
-              <X className="w-6 h-6 text-gray-500" />
-            </motion.button>
+              <X className="w-4 h-4" />
+            </button>
           </div>
 
-          {/* Progress Indicator */}
-          <div className="flex gap-1.5 mb-8">
-            {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map((s) => (
+          {/* Progress bar */}
+          <div className="flex gap-1 px-6 py-3 flex-shrink-0">
+            {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map(s => (
               <div
                 key={s}
-                className={`h-1.5 flex-1 rounded-full transition-all duration-500 ${
-                  s <= step ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'
-                }`}
+                className={`h-1 flex-1 rounded-full transition-all duration-400 ${s <= step ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'}`}
               />
             ))}
           </div>
 
-          {/* Step 1: Grade */}
-          {step >= 1 && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
-              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Your Grade</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Choose the grade level for your assessment
-              </p>
-              <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 sm:gap-3">
-                {GRADES.map((grade) => (
-                  <motion.button
-                    key={grade}
-                    onClick={() => handleGradeSelect(grade)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`p-3 sm:p-4 rounded-apple border-2 transition-all text-left ${
-                      formData.grade === grade
-                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                    }`}
-                  >
-                    <div className="font-semibold text-sm sm:text-base">Grade {grade}</div>
-                    <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                      {grade <= 9 ? 'S1–S3 / Yr 7–9' : grade <= 11 ? 'S4–S5 / IGCSE' : 'S6 / AS Level'}
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
+          {/* Scrollable content */}
+          <div className="flex-1 px-6 pb-6 space-y-6 overflow-y-auto">
 
-          {/* Step 2: Curriculum */}
-          {step >= 2 && formData.grade && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mb-6">
-              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Curriculum</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Choose the curriculum your assessment will follow
-              </p>
-              <div className="flex flex-col gap-3">
-                {AVAILABLE_CURRICULA.map((curriculum) => (
-                  <motion.button
-                    key={curriculum.id}
-                    onClick={() => handleCurriculumSelect(curriculum.id)}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className={`p-4 rounded-apple border-2 transition-all text-left ${
-                      formData.curriculum === curriculum.id
-                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                    }`}
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-2xl">{curriculum.flag}</span>
-                      <div>
-                        <div className="font-semibold text-sm sm:text-base">{curriculum.name}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">
-                          {curriculum.description}
+            {/* Step 1: Grade */}
+            {step >= 1 && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Grade level" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select your grade</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {GRADES.map(grade => (
+                    <OptionButton key={grade} selected={formData.grade === grade} onClick={() => handleGradeSelect(grade)}>
+                      <span className="font-bold text-gray-900 dark:text-white block">Grade {grade}</span>
+                      <span className="text-[11px] text-gray-400 mt-0.5 block">
+                        {grade <= 9 ? 'S1–S3 / Yr 7–9' : grade <= 11 ? 'S4–S5 / IGCSE' : 'S6 / AS Level'}
+                      </span>
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 2: Curriculum */}
+            {step >= 2 && formData.grade && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Curriculum" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
+                <div className="flex flex-col gap-2">
+                  {AVAILABLE_CURRICULA.map(c => (
+                    <OptionButton key={c.id} selected={formData.curriculum === c.id} onClick={() => handleCurriculumSelect(c.id)}>
+                      <div className="flex items-center gap-3">
+                        <span className="text-xl">{c.flag}</span>
+                        <div>
+                          <p className="font-semibold text-sm text-gray-900 dark:text-white">{c.name}</p>
+                          <p className="text-[11px] text-gray-400">{c.description}</p>
                         </div>
                       </div>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
-          {/* Step 3: Subject */}
-          {step >= 3 && formData.curriculum && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mb-6 smooth-appear">
-              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Subject</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Grade {formData.grade} subjects from the {isCambridge ? 'Cambridge International' : 'REB'} curriculum
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                {subjects.map((subject) => (
-                  <motion.button
-                    key={subject}
-                    onClick={() => handleSubjectSelect(subject)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`p-3 sm:p-4 rounded-apple border-2 transition-all text-sm sm:text-base ${
-                      formData.subject === subject
-                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                    }`}
-                  >
-                    {subject}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
+            {/* Step 3: Subject */}
+            {step >= 3 && formData.curriculum && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Subject" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                  Grade {formData.grade} · {isCambridge ? 'Cambridge' : 'REB'} subjects
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {subjects.map(subject => (
+                    <OptionButton key={subject} selected={formData.subject === subject} onClick={() => handleSubjectSelect(subject)}>
+                      <span className="font-medium text-gray-800 dark:text-gray-200">{subject}</span>
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
-          {/* Step 4: Topics */}
-          {step >= 4 && formData.subject && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mb-6 smooth-appear">
-              <h3 className="text-base sm:text-lg font-semibold mb-1">Select Topics</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Choose one or more topics from the {isCambridge ? 'Cambridge' : 'REB'} {formData.subject} syllabus
-              </p>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                {availableTopics.map((topic) => (
+            {/* Step 4: Topics */}
+            {step >= 4 && formData.subject && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Topics" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
+                <p className="text-xs text-gray-400 mb-3">You can select multiple topics</p>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {availableTopics.map(topic => (
+                    <OptionButton key={topic} selected={formData.topics.includes(topic)} onClick={() => handleTopicToggle(topic)}>
+                      <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">{topic}</span>
+                    </OptionButton>
+                  ))}
+                </div>
+                {formData.topics.length > 0 && step === 4 && (
                   <motion.button
-                    key={topic}
-                    onClick={() => handleTopicToggle(topic)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`p-3 sm:p-4 rounded-apple border-2 transition-all text-sm sm:text-base text-left ${
-                      formData.topics.includes(topic)
-                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                    }`}
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    onClick={() => setStep(5)}
+                    className="mt-3 w-full py-2.5 rounded-xl border border-blue-500 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                   >
-                    {topic}
+                    Continue with {formData.topics.length} topic{formData.topics.length > 1 ? 's' : ''} →
                   </motion.button>
-                ))}
-              </div>
-              {formData.topics.length > 0 && step === 4 && (
-                <motion.button
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  onClick={() => setStep(5)}
-                  className="mt-4 w-full py-3 rounded-apple border-2 border-apple-blue text-apple-blue font-medium text-sm hover:bg-apple-blue hover:bg-opacity-10 transition-all"
-                >
-                  Continue with {formData.topics.length} topic{formData.topics.length > 1 ? 's' : ''} selected →
-                </motion.button>
-              )}
-            </motion.div>
-          )}
+                )}
+              </motion.div>
+            )}
 
-          {/* Step 5: Question Count */}
-          {step >= 5 && formData.topics.length > 0 && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mb-6 smooth-appear">
-              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Question Count</h3>
-              <div className="grid grid-cols-3 gap-3">
-                {[10, 20, 40].map((count) => (
-                  <motion.button
-                    key={count}
-                    onClick={() => handleCountSelect(count)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`p-4 sm:p-6 rounded-apple border-2 transition-all text-xl sm:text-2xl font-bold ${
-                      formData.count === count
-                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                    }`}
-                  >
-                    {count}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
+            {/* Step 5: Count */}
+            {step >= 5 && formData.topics.length > 0 && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Question count" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How many questions?</h3>
+                <div className="grid grid-cols-3 gap-2">
+                  {[10, 20, 40].map(count => (
+                    <OptionButton key={count} selected={formData.count === count} onClick={() => handleCountSelect(count)} className="text-center">
+                      <span className="text-2xl font-bold text-gray-900 dark:text-white block">{count}</span>
+                      <span className="text-[11px] text-gray-400">
+                        {count === 10 ? '~15 min' : count === 20 ? '~30 min' : '~60 min'}
+                      </span>
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
-          {/* Step 6: Style */}
-          {step >= 6 && formData.count > 0 && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mb-6 smooth-appear">
-              <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Assessment Style</h3>
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-3">
-                {['Exam Style (Past Papers)', 'Test Style (Textbooks)'].map((style) => (
-                  <motion.button
-                    key={style}
-                    onClick={() => handleStyleSelect(style)}
-                    whileHover={{ scale: 1.02 }}
-                    whileTap={{ scale: 0.98 }}
-                    className={`p-3 sm:p-4 rounded-apple border-2 transition-all text-sm sm:text-base ${
-                      formData.style === style
-                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                    }`}
-                  >
-                    {style}
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
+            {/* Step 6: Style */}
+            {step >= 6 && formData.count > 0 && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Assessment style" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose a question style</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {[
+                    { label: 'Exam Style', sub: 'Past paper format, timed conditions', value: 'Exam Style (Past Papers)' },
+                    { label: 'Test Style', sub: 'Textbook exercises & practice questions', value: 'Test Style (Textbooks)' },
+                  ].map(s => (
+                    <OptionButton key={s.value} selected={formData.style === s.value} onClick={() => handleStyleSelect(s.value)}>
+                      <p className="font-semibold text-sm text-gray-900 dark:text-white">{s.label}</p>
+                      <p className="text-[11px] text-gray-400 mt-0.5">{s.sub}</p>
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
 
-          {/* Step 7: Question Type */}
-          {step >= 7 && formData.style && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="mb-6 smooth-appear">
-              <h3 className="text-base sm:text-lg font-semibold mb-1">Question Type</h3>
-              <p className="text-xs text-gray-500 dark:text-gray-400 mb-3 sm:mb-4">
-                Choose how questions will be presented and graded
-              </p>
-              <div className="flex flex-col gap-3">
-                {QUESTION_TYPES.map((qt) => (
-                  <motion.button
-                    key={qt.id}
-                    onClick={() => handleQuestionTypeSelect(qt.id as 'mcq' | 'longform' | 'mixed')}
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.99 }}
-                    className={`p-4 rounded-apple border-2 transition-all text-left ${
-                      formData.questionType === qt.id
-                        ? 'border-apple-blue bg-apple-blue bg-opacity-10'
-                        : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
-                    }`}
-                  >
-                    <div className="flex items-start gap-3">
-                      <span className="text-2xl mt-0.5">{qt.icon}</span>
-                      <div>
-                        <div className="font-semibold text-sm sm:text-base">{qt.label}</div>
-                        <div className="text-xs text-gray-500 dark:text-gray-400 mt-0.5">{qt.description}</div>
+            {/* Step 7: Question Type */}
+            {step >= 7 && formData.style && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Question type" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How should questions be presented?</h3>
+                <div className="flex flex-col gap-2">
+                  {QUESTION_TYPES.map(qt => (
+                    <OptionButton key={qt.id} selected={formData.questionType === qt.id} onClick={() => handleQuestionTypeSelect(qt.id as 'mcq' | 'longform' | 'mixed')}>
+                      <div className="flex items-start gap-3">
+                        <span className="text-lg mt-0.5 w-6 text-center flex-shrink-0">{qt.icon}</span>
+                        <div>
+                          <p className="font-semibold text-sm text-gray-900 dark:text-white">{qt.label}</p>
+                          <p className="text-[11px] text-gray-400 mt-0.5">{qt.description}</p>
+                        </div>
                       </div>
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 8: Summary & Generate */}
+            {step >= 8 && formData.questionType && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Summary" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Review your assessment</h3>
+
+                <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden mb-4">
+                  {summaryRows.filter(r => r.value).map((row, i) => (
+                    <div key={row.label} className={`flex items-start gap-3 px-4 py-3 ${i !== 0 ? 'border-t border-gray-100 dark:border-gray-800/60' : ''}`}>
+                      <span className="text-xs text-gray-400 w-24 flex-shrink-0 pt-0.5">{row.label}</span>
+                      <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 flex-1">{row.value}</span>
                     </div>
-                  </motion.button>
-                ))}
-              </div>
-            </motion.div>
-          )}
-
-          {/* Step 8: Summary & Start */}
-          {step >= 8 && formData.questionType && (
-            <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="smooth-appear">
-              <div className="p-4 sm:p-6 rounded-apple bg-apple-gray dark:bg-gray-800 mb-6">
-                <h3 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Assessment Summary</h3>
-                <div className="space-y-2 text-sm">
-                  <p>
-                    <span className="text-apple-dark-gray">Grade:</span>{' '}
-                    <span className="font-medium">Grade {formData.grade} ({gradeLevelStr})</span>
-                  </p>
-                  <p>
-                    <span className="text-apple-dark-gray">Curriculum:</span>{' '}
-                    <span className="font-medium">{selectedCurriculum?.name ?? formData.curriculum}</span>
-                  </p>
-                  <p>
-                    <span className="text-apple-dark-gray">Subject:</span>{' '}
-                    <span className="font-medium">{formData.subject}</span>
-                  </p>
-                  <p>
-                    <span className="text-apple-dark-gray">Topics:</span>{' '}
-                    <span className="font-medium">{formData.topics.join(', ')}</span>
-                  </p>
-                  <p>
-                    <span className="text-apple-dark-gray">Questions:</span>{' '}
-                    <span className="font-medium">{formData.count}</span>
-                  </p>
-                  <p>
-                    <span className="text-apple-dark-gray">Style:</span>{' '}
-                    <span className="font-medium">{formData.style}</span>
-                  </p>
-                  <p>
-                    <span className="text-apple-dark-gray">Type:</span>{' '}
-                    <span className="font-medium">
-                      {selectedQuestionType?.icon} {selectedQuestionType?.label}
-                    </span>
-                  </p>
-                  <p>
-                    <span className="text-apple-dark-gray">Time:</span>{' '}
-                    <span className="font-medium italic text-apple-blue">{formData.time}</span>
-                  </p>
+                  ))}
                 </div>
-              </div>
 
-              <motion.button
-                onClick={handleStartAssessment}
-                disabled={isLoading}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="w-full btn-primary flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-              >
-                <span>{isLoading ? 'Generating AI Assessment...' : 'Start Assessment'}</span>
-                {!isLoading && <ChevronRight className="w-5 h-5" />}
-              </motion.button>
+                {error && (
+                  <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}
+                    className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-4 py-3 mb-4">
+                    {error}
+                  </motion.p>
+                )}
 
-              {error && (
-                <div className="mt-4 p-3 rounded-apple bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-sm text-red-600 dark:text-red-400 text-center">
-                  {error}
-                </div>
-              )}
-            </motion.div>
-          )}
+                <button
+                  onClick={handleStartAssessment}
+                  disabled={isLoading}
+                  className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
+                >
+                  {isLoading ? (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Generating assessment…
+                    </>
+                  ) : (
+                    <>
+                      Generate Assessment
+                      <ChevronRight className="w-4 h-4" />
+                    </>
+                  )}
+                </button>
+              </motion.div>
+            )}
+          </div>
         </motion.div>
       </motion.div>
     </AnimatePresence>
