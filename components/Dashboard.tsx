@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Plus, Brain, TrendingUp, Clock, Zap, ChevronDown, BookOpen, BarChart2 } from 'lucide-react'
+import { User, Plus, Brain, Clock, Zap, ChevronDown } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import ThemeToggle from './ThemeToggle'
@@ -26,272 +26,239 @@ export default function Dashboard() {
   useEffect(() => {
     const fetchRecentAssessments = async () => {
       if (!user?.id) return
-
       const { data, error } = await supabase
         .from('results')
         .select('*, assessments(subject, difficulty)')
         .eq('user_id', user.id)
         .order('created_at', { ascending: false })
 
-      if (error) {
-        console.error('Error fetching assessments:', error)
-      } else if (data) {
-        const formattedData = data.slice(0, 6).map(item => ({
-          id: item.id,
-          date: new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-          subject: item.assessments?.subject || 'Assessment',
-          topic: item.assessments?.difficulty || 'General',
-          grade: item.percentage >= 90 ? 'A+' : item.percentage >= 80 ? 'A' : item.percentage >= 70 ? 'B+' : item.percentage >= 60 ? 'B' : item.percentage >= 50 ? 'C' : 'D',
-          score: item.score,
-          percentage: item.percentage ?? item.score,
-          feedback: item.feedback?.text || 'No feedback available.',
-          questions_data: item.questions_data ?? null,
-          answers: item.answers ?? null,
-          longform_grades: item.longform_grades ?? null,
-        }))
-        setRecentAssessments(formattedData)
+      if (error) { console.error('Error fetching assessments:', error); return }
+      if (!data) return
 
-        if (data.length > 0) {
-          const avg = data.reduce((acc, curr) => acc + curr.score, 0) / data.length
-          setStats({ total: data.length, avgScore: Math.round(avg) })
+      const formattedData = data.slice(0, 6).map(item => ({
+        id: item.id,
+        date: new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
+        subject: item.assessments?.subject || 'Assessment',
+        topic: item.assessments?.difficulty || 'General',
+        grade: item.percentage >= 90 ? 'A+' : item.percentage >= 80 ? 'A' : item.percentage >= 70 ? 'B+' : item.percentage >= 60 ? 'B' : item.percentage >= 50 ? 'C' : 'D',
+        score: item.score,
+        percentage: item.percentage ?? item.score,
+        feedback: item.feedback?.text || 'No feedback available.',
+        questions_data: item.questions_data ?? null,
+        answers: item.answers ?? null,
+        longform_grades: item.longform_grades ?? null,
+      }))
+      setRecentAssessments(formattedData)
 
-          const subjectMap: Record<string, number[]> = {}
-          data.forEach(item => {
-            const subj = item.assessments?.subject || 'Assessment'
-            if (!subjectMap[subj]) subjectMap[subj] = []
-            subjectMap[subj].push(item.score)
-          })
-          const avgs = Object.entries(subjectMap)
-            .map(([subject, scores]) => ({
-              subject,
-              avg: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length),
-              count: scores.length,
-            }))
+      if (data.length > 0) {
+        const avg = data.reduce((acc, curr) => acc + curr.score, 0) / data.length
+        setStats({ total: data.length, avgScore: Math.round(avg) })
+        const subjectMap: Record<string, number[]> = {}
+        data.forEach(item => {
+          const subj = item.assessments?.subject || 'Assessment'
+          if (!subjectMap[subj]) subjectMap[subj] = []
+          subjectMap[subj].push(item.score)
+        })
+        setSubjectAverages(
+          Object.entries(subjectMap)
+            .map(([subject, scores]) => ({ subject, avg: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length), count: scores.length }))
             .sort((a, b) => b.avg - a.avg)
-          setSubjectAverages(avgs)
-        }
+        )
       }
     }
-
     fetchRecentAssessments()
 
     const fetchDailyUsage = async () => {
-      const startOfDay = new Date()
-      startOfDay.setHours(0, 0, 0, 0)
-      const { count } = await supabase
-        .from('assessments')
-        .select('*', { count: 'exact', head: true })
-        .gte('created_at', startOfDay.toISOString())
+      const startOfDay = new Date(); startOfDay.setHours(0, 0, 0, 0)
+      const { count } = await supabase.from('assessments').select('*', { count: 'exact', head: true }).gte('created_at', startOfDay.toISOString())
       setDailyUsed(count || 0)
     }
-
     fetchDailyUsage()
   }, [user])
 
   useEffect(() => {
     if (!showAvgDropdown) return
-    function handleClick(e: MouseEvent) {
-      if (avgRef.current && !avgRef.current.contains(e.target as Node)) {
-        setShowAvgDropdown(false)
-      }
+    const handleClick = (e: MouseEvent) => {
+      if (avgRef.current && !avgRef.current.contains(e.target as Node)) setShowAvgDropdown(false)
     }
     document.addEventListener('mousedown', handleClick)
     return () => document.removeEventListener('mousedown', handleClick)
   }, [showAvgDropdown])
 
-  const pct = Math.min((dailyUsed / DAILY_QUIZ_LIMIT) * 100, 100)
+  const quotaPct = Math.min((dailyUsed / DAILY_QUIZ_LIMIT) * 100, 100)
   const remaining = Math.max(DAILY_QUIZ_LIMIT - dailyUsed, 0)
-  const quotaColor = pct < 50 ? 'bg-emerald-500' : pct < 80 ? 'bg-amber-500' : 'bg-red-500'
-  const quotaTextColor = pct < 50 ? 'text-emerald-600 dark:text-emerald-400' : pct < 80 ? 'text-amber-600 dark:text-amber-400' : 'text-red-500'
+  const quotaBarColor = quotaPct < 50 ? 'bg-emerald-400' : quotaPct < 80 ? 'bg-amber-400' : 'bg-red-400'
+  const quotaTextColor = quotaPct < 50 ? 'text-emerald-300' : quotaPct < 80 ? 'text-amber-300' : 'text-red-300'
+  const firstName = user?.name?.split(' ')[0] || 'Student'
 
   return (
-    <div className="min-h-screen bg-zinc-50 dark:bg-[#0A0A0B] transition-colors duration-300 flex flex-col">
+    <div className="min-h-screen bg-[#F3F4F6] dark:bg-[#0C0C0E] transition-colors duration-300 flex flex-col">
 
-      {/* ── Header ─────────────────────────────────────────────────────── */}
-      <header className="sticky top-0 z-30 h-14 bg-white/80 dark:bg-[#111113]/80 backdrop-blur-xl border-b border-gray-200/70 dark:border-gray-800/70">
-        <div className="max-w-7xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
-          <div className="flex items-center">
-            <Image src="/logo.png" alt="Brain Ink" width={120} height={68} className="h-9 w-auto object-contain" priority />
-          </div>
-
+      {/* ── Header ── */}
+      <header className="sticky top-0 z-30 h-14 bg-white/75 dark:bg-[#0C0C0E]/80 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]">
+        <div className="max-w-6xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
+          <Image src="/logo.png" alt="Brain Ink" width={120} height={68} className="h-8 w-auto object-contain" priority />
           <div className="flex items-center gap-2">
             <ThemeToggle />
-            <div className="h-4 w-px bg-gray-200 dark:bg-gray-700 mx-1" />
+            <div className="w-px h-4 bg-gray-200 dark:bg-gray-800 mx-1" />
             <button
               onClick={() => setIsProfileOpen(true)}
-              className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-gray-800/60 transition-colors"
+              className="flex items-center gap-2 px-2.5 py-1.5 rounded-xl hover:bg-gray-100 dark:hover:bg-white/5 transition-colors"
             >
-              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-blue-400 flex items-center justify-center shadow-sm">
+              <div className="w-7 h-7 rounded-full bg-gradient-to-br from-blue-600 to-violet-600 flex items-center justify-center">
                 <User className="w-3.5 h-3.5 text-white" />
               </div>
-              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">
-                {user?.name?.split(' ')[0] || 'Student'}
-              </span>
+              <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">{firstName}</span>
               <ChevronDown className="w-3.5 h-3.5 text-gray-400 hidden sm:block" />
             </button>
           </div>
         </div>
       </header>
 
-      {/* ── Main ───────────────────────────────────────────────────────── */}
-      <main className="flex-1 max-w-7xl mx-auto px-5 sm:px-8 py-8 w-full">
+      <main className="flex-1 max-w-6xl mx-auto px-4 sm:px-8 py-6 w-full space-y-4">
 
-        {/* Welcome + Stat Pills */}
-        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-5 mb-8">
-          <div>
-            <p className="text-[11px] font-semibold text-blue-600 dark:text-blue-400 uppercase tracking-widest mb-1.5">
-              Overview
-            </p>
-            <h1 className="text-2xl sm:text-[28px] font-bold text-gray-900 dark:text-white tracking-tight leading-none">
-              {user?.name?.split(' ')[0] || 'Student'}&apos;s Dashboard
-            </h1>
-          </div>
-
-          <div className="flex items-center gap-2 flex-wrap">
-            {/* Total pill */}
-            <div className="flex items-center gap-1.5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-full px-3 py-1.5 shadow-sm">
-              <BookOpen className="w-3.5 h-3.5 text-blue-500" />
-              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 tabular-nums">
-                {stats.total} assessment{stats.total !== 1 ? 's' : ''}
-              </span>
-            </div>
-
-            {/* Avg score pill — dropdown */}
-            <div ref={avgRef} className="relative">
-              <button
-                onClick={() => setShowAvgDropdown(v => !v)}
-                className={`flex items-center gap-1.5 bg-white dark:bg-gray-900 border rounded-full px-3 py-1.5 shadow-sm transition-colors ${
-                  showAvgDropdown
-                    ? 'border-blue-400 dark:border-blue-600'
-                    : 'border-gray-200 dark:border-gray-800 hover:border-gray-300 dark:hover:border-gray-700'
-                }`}
-              >
-                <TrendingUp className="w-3.5 h-3.5 text-emerald-500" />
-                <span className="text-xs font-semibold text-gray-700 dark:text-gray-300 tabular-nums">
-                  {stats.avgScore}% avg
-                </span>
-                <ChevronDown className={`w-3 h-3 text-gray-400 transition-transform duration-200 ${showAvgDropdown ? 'rotate-180' : ''}`} />
-              </button>
-
-              <AnimatePresence>
-                {showAvgDropdown && subjectAverages.length > 0 && (
-                  <motion.div
-                    initial={{ opacity: 0, y: -6, scale: 0.97 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: -6, scale: 0.97 }}
-                    transition={{ duration: 0.13 }}
-                    className="absolute top-full right-0 mt-2 w-72 z-40 rounded-2xl shadow-xl ring-1 ring-black/5 dark:ring-white/10 bg-white dark:bg-gray-900 overflow-hidden"
-                    onClick={e => e.stopPropagation()}
-                  >
-                    <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-800 flex items-center gap-2">
-                      <BarChart2 className="w-3.5 h-3.5 text-gray-400" />
-                      <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider">
-                        Score by Subject
-                      </p>
-                    </div>
-                    <div className="divide-y divide-gray-100 dark:divide-gray-800/60 max-h-56 overflow-y-auto">
-                      {subjectAverages.map(({ subject, avg, count }) => (
-                        <div key={subject} className="flex items-center gap-3 px-4 py-3">
-                          <div className="flex-1 min-w-0">
-                            <p className="text-sm font-semibold text-gray-900 dark:text-white truncate">{subject}</p>
-                            <p className="text-[11px] text-gray-400 mt-0.5">{count} test{count !== 1 ? 's' : ''}</p>
-                          </div>
-                          <div className="flex items-center gap-2.5 flex-shrink-0">
-                            <div className="w-20 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-                              <div
-                                className={`h-full rounded-full transition-all ${avg >= 70 ? 'bg-emerald-500' : avg >= 50 ? 'bg-amber-500' : 'bg-red-500'}`}
-                                style={{ width: `${avg}%` }}
-                              />
-                            </div>
-                            <span className={`text-xs font-bold tabular-nums w-9 text-right ${avg >= 70 ? 'text-emerald-600 dark:text-emerald-400' : avg >= 50 ? 'text-amber-600 dark:text-amber-400' : 'text-red-500'}`}>
-                              {avg}%
-                            </span>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </div>
-          </div>
-        </div>
-
-        {/* Daily AI Quota */}
+        {/* ── HERO PANEL ── */}
         <motion.div
-          initial={{ opacity: 0, y: 12 }}
+          initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.05 }}
-          className="bg-white dark:bg-gray-900 border border-gray-200/80 dark:border-gray-800/80 rounded-2xl px-5 py-4 mb-5 flex items-center gap-4"
+          className="relative overflow-hidden rounded-3xl bg-[#0F172A] dark:bg-[#080B14] p-7 sm:p-10"
         >
-          <div className="w-9 h-9 rounded-xl bg-blue-50 dark:bg-blue-900/20 flex items-center justify-center flex-shrink-0">
-            <Zap className="w-4 h-4 text-blue-500" />
-          </div>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Daily AI Quota</span>
-              <span className={`text-xs font-bold tabular-nums ${quotaTextColor}`}>
-                {remaining.toLocaleString()} remaining
-              </span>
+          {/* Grid background */}
+          <div className="absolute inset-0 pointer-events-none" style={{
+            backgroundImage: 'linear-gradient(rgba(59,130,246,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(59,130,246,0.12) 1px, transparent 1px)',
+            backgroundSize: '40px 40px',
+          }} />
+          {/* Glow orbs */}
+          <div className="absolute -top-20 -right-20 w-72 h-72 bg-blue-600/20 rounded-full blur-3xl pointer-events-none" />
+          <div className="absolute -bottom-10 left-20 w-48 h-48 bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
+
+          <div className="relative">
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-blue-400 mb-3">Dashboard</p>
+            <h1 className="text-4xl sm:text-5xl font-black text-white leading-none mb-8 tracking-tight">
+              {firstName}<span className="text-blue-500">.</span>
+            </h1>
+
+            {/* Stats row */}
+            <div className="flex flex-wrap items-end gap-x-8 gap-y-5">
+
+              {/* Total */}
+              <div>
+                <p className="text-3xl sm:text-4xl font-black text-white tabular-nums leading-none">{stats.total}</p>
+                <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 mt-1.5">Tests done</p>
+              </div>
+
+              <div className="w-px h-10 bg-white/10 hidden sm:block self-end mb-2" />
+
+              {/* Avg — clickable dropdown */}
+              <div ref={avgRef} className="relative">
+                <button
+                  onClick={() => setShowAvgDropdown(v => !v)}
+                  className="text-left group"
+                >
+                  <p className={`text-3xl sm:text-4xl font-black tabular-nums leading-none transition-colors ${showAvgDropdown ? 'text-blue-400' : 'text-white group-hover:text-blue-400'}`}>
+                    {stats.avgScore}%
+                  </p>
+                  <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 mt-1.5 flex items-center gap-1">
+                    Avg score
+                    <ChevronDown className={`w-3 h-3 text-slate-500 transition-transform duration-200 ${showAvgDropdown ? 'rotate-180 text-blue-400' : ''}`} />
+                  </p>
+                </button>
+
+                <AnimatePresence>
+                  {showAvgDropdown && subjectAverages.length > 0 && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -8, scale: 0.97 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -8, scale: 0.97 }}
+                      transition={{ duration: 0.13 }}
+                      onClick={e => e.stopPropagation()}
+                      className="absolute top-full left-0 mt-3 w-72 z-50 rounded-2xl shadow-2xl shadow-black/40 border border-white/10 bg-[#151C2C] overflow-hidden"
+                    >
+                      <div className="px-4 py-3 border-b border-white/5">
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">By Subject</p>
+                      </div>
+                      <div className="divide-y divide-white/5 max-h-52 overflow-y-auto">
+                        {subjectAverages.map(({ subject, avg, count }) => (
+                          <div key={subject} className="flex items-center gap-3 px-4 py-3">
+                            <div className="flex-1 min-w-0">
+                              <p className="text-sm font-semibold text-white truncate">{subject}</p>
+                              <p className="text-[11px] text-slate-500 mt-0.5">{count} test{count !== 1 ? 's' : ''}</p>
+                            </div>
+                            <div className="flex items-center gap-2 flex-shrink-0">
+                              <div className="w-20 h-1 bg-white/10 rounded-full overflow-hidden">
+                                <div
+                                  className={`h-full rounded-full ${avg >= 70 ? 'bg-emerald-400' : avg >= 50 ? 'bg-amber-400' : 'bg-red-400'}`}
+                                  style={{ width: `${avg}%` }}
+                                />
+                              </div>
+                              <span className={`text-xs font-black tabular-nums w-9 text-right ${avg >= 70 ? 'text-emerald-400' : avg >= 50 ? 'text-amber-400' : 'text-red-400'}`}>
+                                {avg}%
+                              </span>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </div>
+
+              <div className="w-px h-10 bg-white/10 hidden sm:block self-end mb-2" />
+
+              {/* Quota inline */}
+              <div className="flex-1 min-w-[180px]">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                    <Zap className="w-3 h-3" />Daily quota
+                  </p>
+                  <p className={`text-[11px] font-black tabular-nums ${quotaTextColor}`}>{remaining.toLocaleString()} left</p>
+                </div>
+                <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${quotaPct}%` }}
+                    transition={{ duration: 1.2, ease: 'easeOut' }}
+                    className={`h-full rounded-full ${quotaBarColor}`}
+                  />
+                </div>
+              </div>
             </div>
-            <div className="w-full h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${pct}%` }}
-                transition={{ duration: 1.2, ease: 'easeOut' }}
-                className={`h-full rounded-full ${quotaColor}`}
-              />
-            </div>
           </div>
-          <span className="text-[11px] text-gray-400 flex-shrink-0 tabular-nums hidden sm:block">
-            {dailyUsed.toLocaleString()} / {DAILY_QUIZ_LIMIT.toLocaleString()}
-          </span>
         </motion.div>
 
-        {/* CTA */}
+        {/* ── CTA ── */}
         <motion.button
           onClick={() => setIsFormOpen(true)}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
+          transition={{ delay: 0.08 }}
           whileHover={{ scale: 1.005 }}
-          whileTap={{ scale: 0.998 }}
-          className="w-full mb-10 group relative overflow-hidden rounded-2xl bg-gradient-to-r from-blue-600 via-blue-700 to-indigo-700 p-5 sm:p-6 flex items-center justify-between shadow-lg shadow-blue-900/25 text-white"
+          whileTap={{ scale: 0.997 }}
+          className="w-full group relative overflow-hidden rounded-2xl flex items-center justify-between px-7 py-6 sm:py-7 bg-gradient-to-r from-blue-600 via-blue-700 to-violet-700 shadow-xl shadow-blue-900/30 text-white"
         >
-          {/* Subtle dot grid texture */}
-          <div className="absolute inset-0 opacity-[0.07]" style={{
-            backgroundImage: 'radial-gradient(circle, white 1px, transparent 1px)',
-            backgroundSize: '20px 20px'
-          }} />
-          <div className="flex items-center gap-4 text-left relative">
-            <div className="w-11 h-11 rounded-xl bg-white/15 flex items-center justify-center group-hover:bg-white/20 transition-colors flex-shrink-0">
-              <Plus className="w-5 h-5 text-white" />
-            </div>
-            <div>
-              <h3 className="text-base sm:text-lg font-bold leading-tight">Start New Assessment</h3>
-              <p className="text-blue-200/90 text-sm mt-0.5">Generate a personalised AI test in seconds</p>
-            </div>
+          {/* Shimmer sweep on hover */}
+          <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
+          <div className="relative text-left">
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-blue-200/80 mb-1">AI-Powered</p>
+            <h3 className="text-xl sm:text-2xl font-black leading-tight">Start New Assessment</h3>
           </div>
-          <div className="hidden sm:flex items-center gap-2 relative flex-shrink-0">
-            <span className="text-sm font-medium text-blue-200">Generate</span>
-            <div className="w-8 h-8 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
-              <span className="text-white text-base">→</span>
+          <div className="relative flex items-center gap-3 flex-shrink-0">
+            <div className="hidden sm:block">
+              <p className="text-sm font-semibold text-blue-200">Generate</p>
+            </div>
+            <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
+              <Plus className="w-5 h-5 text-white" />
             </div>
           </div>
         </motion.button>
 
-        {/* Recent Assessments */}
+        {/* ── Recent Assessments ── */}
         <div>
-          <div className="flex items-end justify-between mb-5">
-            <div>
-              <h2 className="text-base font-bold text-gray-900 dark:text-white">Recent Assessments</h2>
-              {recentAssessments.length > 0 && (
-                <p className="text-xs text-gray-400 mt-0.5">
-                  Last {recentAssessments.length} completed test{recentAssessments.length !== 1 ? 's' : ''}
-                </p>
-              )}
-            </div>
-            <button className="text-xs font-semibold text-blue-600 dark:text-blue-400 hover:underline underline-offset-2">
+          <div className="flex items-center justify-between mb-4 px-1">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
+              Recent Activity
+            </p>
+            <button className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 hover:underline underline-offset-2">
               View all
             </button>
           </div>
@@ -303,33 +270,34 @@ export default function Dashboard() {
                   key={assessment.id}
                   initial={{ opacity: 0, y: 16 }}
                   animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.05 * index, duration: 0.3 }}
+                  transition={{ delay: 0.04 * index, duration: 0.3 }}
                 >
                   <AssessmentCard assessment={assessment} />
                 </motion.div>
               ))}
             </div>
           ) : (
-            <div className="flex flex-col items-center justify-center py-16 border-2 border-dashed border-gray-200 dark:border-gray-800/80 rounded-2xl bg-white/50 dark:bg-gray-900/30">
+            <div className="flex flex-col items-center justify-center py-16 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-800/60 bg-white/60 dark:bg-white/[0.02]">
               <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
                 <Clock className="w-5 h-5 text-gray-400" />
               </div>
-              <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-1">No assessments yet</p>
-              <p className="text-xs text-gray-400 text-center max-w-[220px]">
-                Hit &quot;Start New Assessment&quot; above to generate your first AI test.
+              <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">No assessments yet</p>
+              <p className="text-xs text-gray-400 text-center max-w-[200px] leading-relaxed">
+                Generate your first AI test above to get started.
               </p>
             </div>
           )}
         </div>
 
-        {/* Footer */}
-        <div className="mt-14 pt-6 border-t border-gray-200/60 dark:border-gray-800/60 flex items-center justify-between">
+        {/* ── Footer ── */}
+        <div className="flex items-center justify-between pt-6 border-t border-gray-200/60 dark:border-white/[0.04]">
           <div className="flex items-center gap-1.5 text-xs text-gray-400">
             <Brain className="w-3.5 h-3.5" />
             <span>Powered by Brain Ink AI</span>
           </div>
           <span className="text-xs text-gray-400">© {new Date().getFullYear()} Brain Ink</span>
         </div>
+
       </main>
 
       <ProfileSidebar isOpen={isProfileOpen} onClose={() => setIsProfileOpen(false)} />
