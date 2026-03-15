@@ -561,6 +561,151 @@ export default function AssessmentPage() {
     return selectedAnswers[idx] !== undefined
   }) ?? false
 
+  const downloadReport = () => {
+    if (!assessment || !results) return
+    const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+    const optionLabels = ['A', 'B', 'C', 'D']
+
+    const questionsHtml = assessment.questions.map((q, idx) => {
+      if (isLongForm(q)) {
+        const lf = q as LongFormQuestion
+        const grade = longFormGrades[idx]
+        const studentAnswer = longFormAnswers[idx] || ''
+        const marksLabel = grade ? `${grade.marks_awarded}/${grade.marks_total}` : `?/${lf.marks}`
+
+        const criteriaRows = grade
+          ? grade.criteria_results.map(cr => `
+              <tr>
+                <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;">${cr.met ? '✓' : '✗'}</td>
+                <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;color:${cr.met ? '#15803d' : '#b91c1c'};">${cr.criterion}</td>
+                <td style="padding:6px 10px;border-bottom:1px solid #e5e7eb;color:#6b7280;font-size:13px;">${cr.note}</td>
+              </tr>`).join('')
+          : ''
+
+        const passageHtml = lf.passage ? `
+          <div style="background:#fffbeb;border:1px solid #fcd34d;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+            <div style="font-size:12px;font-weight:700;color:#92400e;margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em;">Reading Passage${lf.passage_source ? ` — ${lf.passage_source}` : ''}</div>
+            <p style="font-size:14px;line-height:1.75;color:#374151;white-space:pre-wrap;font-family:Georgia,serif;">${lf.passage}</p>
+          </div>` : ''
+
+        return `
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:20px;border-left:4px solid ${grade && grade.marks_awarded >= Math.ceil(grade.marks_total/2) ? '#22c55e' : '#ef4444'};">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
+              <span style="background:#f3e8ff;color:#7c3aed;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">Q${idx + 1} · Long-form · ${lf.marks} marks</span>
+              <span style="font-weight:700;font-size:15px;color:${grade && grade.marks_awarded >= Math.ceil(grade.marks_total/2) ? '#15803d' : '#b91c1c'};">${marksLabel} marks awarded</span>
+            </div>
+            ${passageHtml}
+            <p style="font-size:16px;font-weight:600;color:#111827;margin-bottom:14px;">${lf.question}</p>
+            <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
+              <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Your Answer</div>
+              <p style="font-size:14px;line-height:1.8;color:#374151;white-space:pre-wrap;">${studentAnswer || '<em style="color:#9ca3af;">No answer written.</em>'}</p>
+            </div>
+            ${criteriaRows ? `
+            <div style="margin-bottom:14px;">
+              <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Marking Criteria</div>
+              <table style="width:100%;border-collapse:collapse;font-size:14px;">
+                <thead><tr style="background:#f3f4f6;">
+                  <th style="padding:6px 10px;text-align:left;width:30px;"></th>
+                  <th style="padding:6px 10px;text-align:left;">Criterion</th>
+                  <th style="padding:6px 10px;text-align:left;">Note</th>
+                </tr></thead>
+                <tbody>${criteriaRows}</tbody>
+              </table>
+            </div>` : ''}
+            ${grade?.general_feedback ? `
+            <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:8px;padding:12px 16px;margin-bottom:14px;">
+              <span style="font-weight:700;color:#1d4ed8;">AI Feedback: </span><span style="color:#1e40af;font-size:14px;">${grade.general_feedback}</span>
+            </div>` : ''}
+            <details style="margin-top:8px;">
+              <summary style="cursor:pointer;font-size:13px;color:#3b82f6;font-weight:600;">Show model answer</summary>
+              <div style="background:#f9fafb;border-radius:8px;padding:12px 16px;margin-top:8px;font-size:14px;color:#374151;line-height:1.7;">${lf.model_answer}</div>
+            </details>
+          </div>`
+      }
+
+      // MCQ
+      const mcq = q as any
+      const userAnswer = results.answers[idx]
+      const isCorrect = userAnswer === mcq.correct_answer
+      const optionsHtml = mcq.options.map((opt: string, oi: number) => {
+        let bg = '#f9fafb', border = '#e5e7eb', color = '#374151'
+        if (oi === mcq.correct_answer) { bg = '#f0fdf4'; border = '#86efac'; color = '#166534' }
+        else if (oi === userAnswer && !isCorrect) { bg = '#fef2f2'; border = '#fca5a5'; color = '#991b1b' }
+        return `<div style="padding:10px 14px;border:1px solid ${border};border-radius:8px;background:${bg};color:${color};margin-bottom:6px;font-size:14px;">
+          <strong>${optionLabels[oi]}.</strong> ${opt}${oi === mcq.correct_answer ? ' <span style="font-size:12px;font-weight:700;">✓ Correct</span>' : ''}${oi === userAnswer && !isCorrect ? ' <span style="font-size:12px;font-weight:700;">← Your answer</span>' : ''}
+        </div>`
+      }).join('')
+
+      return `
+        <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:16px;border-left:4px solid ${isCorrect ? '#22c55e' : '#ef4444'};">
+          <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+            <span style="background:#dbeafe;color:#1d4ed8;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">Q${idx + 1} · MCQ</span>
+            <span style="font-weight:700;color:${isCorrect ? '#15803d' : '#b91c1c'};">${isCorrect ? '✓ Correct' : '✗ Incorrect'}</span>
+          </div>
+          <p style="font-size:15px;font-weight:600;color:#111827;margin-bottom:12px;">${mcq.question}</p>
+          ${optionsHtml}
+          ${mcq.explanation ? `<div style="margin-top:10px;padding:10px 14px;background:#f0f9ff;border-radius:8px;font-size:13px;color:#0369a1;"><strong>Explanation:</strong> ${mcq.explanation}</div>` : ''}
+        </div>`
+    }).join('')
+
+    const html = `<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Assessment Report — ${assessment.subject}</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9fafb; margin: 0; padding: 0; color: #111827; }
+    .page { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
+    @media print {
+      body { background: #fff; }
+      .page { padding: 20px; }
+      details { display: block; }
+      details summary { display: none; }
+    }
+  </style>
+</head>
+<body>
+<div class="page">
+  <div style="background:linear-gradient(135deg,#1d4ed8,#7c3aed);color:#fff;border-radius:16px;padding:32px;margin-bottom:28px;">
+    <h1 style="margin:0 0 6px;font-size:26px;font-weight:800;">${assessment.subject}</h1>
+    <p style="margin:0 0 4px;opacity:.85;font-size:15px;">${assessment.topics?.join(', ')}</p>
+    <p style="margin:0;opacity:.7;font-size:13px;">${date}</p>
+    ${results.score !== null ? `
+    <div style="display:flex;gap:40px;margin-top:24px;">
+      <div><div style="font-size:48px;font-weight:900;line-height:1;">${results.score}%</div><div style="font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.05em;">Score</div></div>
+      <div style="width:1px;background:rgba(255,255,255,.3);"></div>
+      <div><div style="font-size:48px;font-weight:900;line-height:1;">${results.grade}</div><div style="font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.05em;">Grade</div></div>
+      ${results.mcqTotal > 0 ? `<div style="width:1px;background:rgba(255,255,255,.3);"></div><div><div style="font-size:24px;font-weight:700;line-height:1;">${results.mcqCorrect}/${results.mcqTotal}</div><div style="font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.05em;">MCQ</div></div>` : ''}
+      ${results.longFormTotal > 0 ? `<div style="width:1px;background:rgba(255,255,255,.3);"></div><div><div style="font-size:24px;font-weight:700;line-height:1;">${results.longFormMarksEarned}/${results.longFormTotal}</div><div style="font-size:12px;opacity:.8;text-transform:uppercase;letter-spacing:.05em;">Written</div></div>` : ''}
+    </div>` : ''}
+  </div>
+
+  ${feedback ? `
+  <div style="background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px;padding:24px;margin-bottom:28px;">
+    <h2 style="margin:0 0 12px;font-size:17px;font-weight:700;color:#1e40af;">✨ AI Feedback</h2>
+    <div style="font-size:14px;line-height:1.8;color:#1e3a8a;white-space:pre-wrap;">${feedback}</div>
+  </div>` : ''}
+
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:16px;">Detailed Review</h2>
+  ${questionsHtml}
+
+  <div style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #e5e7eb;font-size:12px;color:#9ca3af;">
+    Generated by AI Assessment Platform · ${date}
+  </div>
+</div>
+</body>
+</html>`
+
+    const blob = new Blob([html], { type: 'text/html' })
+    const url = URL.createObjectURL(blob)
+    const a = document.createElement('a')
+    a.href = url
+    a.download = `Report_${assessment.subject.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.html`
+    a.click()
+    URL.revokeObjectURL(url)
+  }
+
   const handleSubmit = async () => {
     setIsSubmitted(true)
 
@@ -786,6 +931,21 @@ export default function AssessmentPage() {
               )}
             </div>
           </motion.div>
+
+          {/* Download report button */}
+          {results.score !== null && !isGeneratingFeedback && (
+            <div className="flex justify-center">
+              <button
+                onClick={downloadReport}
+                className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold text-sm hover:opacity-80 transition-opacity shadow-md"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                </svg>
+                Download Report
+              </button>
+            </div>
+          )}
 
           {/* Detailed review */}
           <div className="space-y-6">
