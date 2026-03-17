@@ -10,6 +10,16 @@ import { useAuth } from './AuthProvider'
 const inputBase =
   'w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600'
 
+const Field = ({ id, label, icon: Icon, children }: { id: string; label: string; icon: any; children: React.ReactNode }) => (
+  <div>
+    <label htmlFor={id} className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
+    <div className="relative">
+      <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
+      {children}
+    </div>
+  </div>
+)
+
 export default function SignupForm() {
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -37,16 +47,6 @@ export default function SignupForm() {
       setIsLoading(false)
     }
   }
-
-  const Field = ({ id, label, icon: Icon, children }: { id: string; label: string; icon: any; children: React.ReactNode }) => (
-    <div>
-      <label htmlFor={id} className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">{label}</label>
-      <div className="relative">
-        <Icon className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none z-10" />
-        {children}
-      </div>
-    </div>
-  )
 
   return (
     <motion.div
@@ -100,6 +100,7 @@ export default function SignupForm() {
                   className="w-full px-4 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all appearance-none text-gray-900 dark:text-white"
                 >
                   <option value="" disabled>Select your class</option>
+                  <option value="Grade 6">Grade 6</option>
                   <option value="Grade 9">Grade 9</option>
                   <option value="Grade 10">Grade 10</option>
                   <option value="Grade 11">Grade 11</option>
