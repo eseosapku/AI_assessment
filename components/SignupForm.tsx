@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 
 const inputBase =
@@ -21,6 +21,7 @@ const Field = ({ id, label, icon: Icon, children }: { id: string; label: string;
 )
 
 export default function SignupForm() {
+  const [role, setRole] = useState<'student' | 'teacher'>('student')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -37,10 +38,10 @@ export default function SignupForm() {
     setError('')
     if (password !== confirmPassword) { setError('Passwords do not match'); return }
     if (password.length < 6) { setError('Password must be at least 6 characters'); return }
-    if (!className) { setError('Please select a class / grade'); return }
+    if (role === 'student' && !className) { setError('Please select a class / grade'); return }
     setIsLoading(true)
     try {
-      await signup(name, email, password, className)
+      await signup(name, email, password, role === 'student' ? className : 'Teacher', role)
     } catch {
       setError('Failed to create account. Please try again.')
     } finally {
@@ -74,6 +75,38 @@ export default function SignupForm() {
 
         {/* Form */}
         <div className="p-7">
+
+          {/* Role toggle */}
+          <div className="mb-5">
+            <p className="text-xs font-semibold text-gray-500 dark:text-gray-400 mb-2 uppercase tracking-wide">I am a</p>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => setRole('student')}
+                className={`flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-semibold transition-all ${
+                  role === 'student'
+                    ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                    : 'border-gray-200 dark:border-white/[0.08] text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-white/[0.15] hover:bg-gray-50 dark:hover:bg-white/[0.03]'
+                }`}
+              >
+                <GraduationCap className="w-4 h-4 flex-shrink-0" />
+                Student
+              </button>
+              <button
+                type="button"
+                onClick={() => setRole('teacher')}
+                className={`flex items-center gap-2.5 px-4 py-3 rounded-xl border text-sm font-semibold transition-all ${
+                  role === 'teacher'
+                    ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20 text-violet-700 dark:text-violet-300'
+                    : 'border-gray-200 dark:border-white/[0.08] text-gray-600 dark:text-gray-400 hover:border-gray-300 dark:hover:border-white/[0.15] hover:bg-gray-50 dark:hover:bg-white/[0.03]'
+                }`}
+              >
+                <BookOpen className="w-4 h-4 flex-shrink-0" />
+                Teacher
+              </button>
+            </div>
+          </div>
+
           <form onSubmit={handleSubmit} className="space-y-4">
             <Field id="name" label="Full name" icon={User}>
               <input id="name" type="text" value={name} onChange={e => setName(e.target.value)}
@@ -85,33 +118,42 @@ export default function SignupForm() {
                 placeholder="you@example.com" required className={inputBase} />
             </Field>
 
-            {/* Class select */}
-            <div>
-              <label htmlFor="className" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
-                Class / Grade
-              </label>
-              <div className="relative">
-                <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
-                <select
-                  id="className"
-                  value={className}
-                  onChange={e => setClassName(e.target.value)}
-                  required
-                  className="w-full px-4 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all appearance-none text-gray-900 dark:text-white"
-                >
-                  <option value="" disabled>Select your class</option>
-                  <option value="Grade 6">Grade 6</option>
-                  <option value="Grade 9">Grade 9</option>
-                  <option value="Grade 10">Grade 10</option>
-                  <option value="Grade 11">Grade 11</option>
-                  <option value="Grade 12">Grade 12</option>
-                  <option value="College Freshman">College Freshman</option>
-                  <option value="College Sophomore">College Sophomore</option>
-                  <option value="College Junior">College Junior</option>
-                  <option value="College Senior">College Senior</option>
-                </select>
-              </div>
-            </div>
+            {/* Class select — students only */}
+            {role === 'student' && (
+              <motion.div
+                initial={{ opacity: 0, height: 0 }}
+                animate={{ opacity: 1, height: 'auto' }}
+                exit={{ opacity: 0, height: 0 }}
+                transition={{ duration: 0.2 }}
+              >
+                <label htmlFor="className" className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
+                  Class / Grade
+                </label>
+                <div className="relative">
+                  <ChevronDown className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
+                  <select
+                    id="className"
+                    value={className}
+                    onChange={e => setClassName(e.target.value)}
+                    required={role === 'student'}
+                    className="w-full px-4 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all appearance-none text-gray-900 dark:text-white"
+                  >
+                    <option value="" disabled>Select your class</option>
+                    <option value="Grade 6">Grade 6</option>
+                    <option value="Grade 7">Grade 7</option>
+                    <option value="Grade 8">Grade 8</option>
+                    <option value="Grade 9">Grade 9</option>
+                    <option value="Grade 10">Grade 10</option>
+                    <option value="Grade 11">Grade 11</option>
+                    <option value="Grade 12">Grade 12</option>
+                    <option value="College Freshman">College Freshman</option>
+                    <option value="College Sophomore">College Sophomore</option>
+                    <option value="College Junior">College Junior</option>
+                    <option value="College Senior">College Senior</option>
+                  </select>
+                </div>
+              </motion.div>
+            )}
 
             <Field id="password" label="Password" icon={Lock}>
               <input id="password" type={showPassword ? 'text' : 'password'} value={password}
@@ -143,7 +185,11 @@ export default function SignupForm() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-bold py-2.5 px-4 rounded-xl transition-colors mt-1 shadow-sm shadow-blue-900/20"
+              className={`w-full flex items-center justify-center gap-2 text-white text-sm font-bold py-2.5 px-4 rounded-xl transition-colors mt-1 shadow-sm ${
+                role === 'teacher'
+                  ? 'bg-violet-600 hover:bg-violet-700 disabled:bg-violet-400 shadow-violet-900/20'
+                  : 'bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 shadow-blue-900/20'
+              }`}
             >
               {isLoading ? (
                 <span className="flex items-center gap-2">
@@ -154,7 +200,7 @@ export default function SignupForm() {
                   Creating account…
                 </span>
               ) : (
-                <>Create Account <ArrowRight className="w-4 h-4" /></>
+                <>Create {role === 'teacher' ? 'Teacher' : 'Student'} Account <ArrowRight className="w-4 h-4" /></>
               )}
             </button>
           </form>

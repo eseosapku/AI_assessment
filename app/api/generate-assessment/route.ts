@@ -184,6 +184,13 @@ async function generateAllPassages(
   questions.forEach((q) => { delete q.needs_passage; delete q.passage_hint })
 }
 
+const DIFFICULTY_INSTRUCTIONS: Record<string, string> = {
+  beginner:     'DIFFICULTY: Beginner (D-level student). Focus on basic recall, definitions, and recognition. Use simple, clear language. Avoid multi-step reasoning. Test fundamental understanding only.',
+  average:      'DIFFICULTY: Average (C-level student). Standard curriculum questions with moderate complexity. Mix of recall and straightforward application. Familiar question formats.',
+  intermediate: 'DIFFICULTY: Intermediate (B-level student). Emphasise application and analysis. Include multi-step problems and scenarios that require conceptual understanding beyond surface recall.',
+  advanced:     'DIFFICULTY: Advanced (A-level student). High-order thinking — synthesis, evaluation, extended analysis, and complex multi-step problems. Expect precise, nuanced answers.',
+}
+
 // ── Build the main question-generation prompt (Groq — ONE call only) ──────────
 function buildPrompt(opts: {
   subject: string
@@ -194,8 +201,9 @@ function buildPrompt(opts: {
   curriculumBlock: string
   questionType: 'mcq' | 'longform' | 'mixed'
   hasDiagramSupport: boolean
+  difficultyLevel?: string
 }): { prompt: string; estimatedTime: number } {
-  const { subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport } = opts
+  const { subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel } = opts
 
   const subjectNeedsPassage = needsPassage(subject)
 
@@ -275,6 +283,8 @@ function buildPrompt(opts: {
     ${activeLfSchema}`
   }
 
+  const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
+
   const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment.
 
 ${curriculumBlock}
@@ -283,12 +293,13 @@ ${curriculumBlock}
 **Topics:** ${topics.join(', ')}
 **Total Questions:** ${count}
 **Style:** ${style}
+${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 
 **Task:** ${questionInstruction}
 
 **Requirements:**
 1. All questions strictly based on the ${curriculumName} syllabus topics.
-2. Vary difficulty: recall, application, analysis.
+2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
 3. LaTeX: doubled backslashes — \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta.
 4. MCQ "explanation" field: MAXIMUM 60 words. Be concise — one clear sentence showing the key step, not a full worked solution.
 ${questionType !== 'longform' ? `5. ${diagramNote}` : ''}
@@ -320,7 +331,7 @@ export async function POST(request: NextRequest) {
     const geminiKey = process.env.GOOGLE_GEMINI_API_KEY ?? ''
 
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq' } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel } = body
 
     if (!subject || !topics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -345,7 +356,7 @@ export async function POST(request: NextRequest) {
     // If the primary is rate-limited we immediately retry with the fallback model,
     // no wait required because the two models have independent TPM counters.
     const { prompt, estimatedTime } = buildPrompt({
-      subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport,
+      subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
     })
 
     // Token budget: math/science MCQ explanations with LaTeX can be large

@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronRight, Check, Loader2 } from 'lucide-react'
+import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
@@ -21,10 +21,54 @@ import {
 
 interface FlowFormProps {
   onClose: () => void
+  onAssign?: (formData: any, assessmentId: string) => void
 }
 
 const GRADES: GradeLevel[] = [7, 8, 9, 10, 11, 12]
-const TOTAL_STEPS = 8
+const TOTAL_STEPS = 9
+
+const DIFFICULTY_LEVELS = [
+  {
+    id: 'beginner',
+    label: 'Beginner',
+    grade: 'D Level',
+    description: 'Foundational concepts, basic recall & recognition questions',
+    color: 'text-emerald-600 dark:text-emerald-400',
+    bg: 'bg-emerald-50 dark:bg-emerald-900/20',
+    border: 'border-emerald-500',
+    badge: 'bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300',
+  },
+  {
+    id: 'average',
+    label: 'Average',
+    grade: 'C Level',
+    description: 'Standard curriculum questions with moderate complexity',
+    color: 'text-blue-600 dark:text-blue-400',
+    bg: 'bg-blue-50 dark:bg-blue-900/20',
+    border: 'border-blue-500',
+    badge: 'bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300',
+  },
+  {
+    id: 'intermediate',
+    label: 'Intermediate',
+    grade: 'B Level',
+    description: 'Application & analysis, above average problem-solving depth',
+    color: 'text-amber-600 dark:text-amber-400',
+    bg: 'bg-amber-50 dark:bg-amber-900/20',
+    border: 'border-amber-500',
+    badge: 'bg-amber-100 dark:bg-amber-900/40 text-amber-700 dark:text-amber-300',
+  },
+  {
+    id: 'advanced',
+    label: 'Advanced',
+    grade: 'A Level',
+    description: 'High-order thinking — synthesis, evaluation & complex tasks',
+    color: 'text-violet-600 dark:text-violet-400',
+    bg: 'bg-violet-50 dark:bg-violet-900/20',
+    border: 'border-violet-500',
+    badge: 'bg-violet-100 dark:bg-violet-900/40 text-violet-700 dark:text-violet-300',
+  },
+]
 
 const QUESTION_TYPES = [
   { id: 'mcq',      label: 'Multiple Choice',        description: 'Classic 4-option questions, auto-graded instantly',             icon: '⊙' },
@@ -71,12 +115,14 @@ function StepLabel({ label }: { label: string }) {
   )
 }
 
-export default function FlowForm({ onClose }: FlowFormProps) {
+export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
+  const isTeacher = (user as any)?.role === 'teacher'
   const [step, setStep] = useState(1)
   const [formData, setFormData] = useState({
     grade: null as GradeLevel | null,
+    difficultyLevel: '' as string,
     curriculum: '',
     subject: '',
     topics: [] as string[],
@@ -87,6 +133,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   })
   const [isLoading, setIsLoading] = useState(false)
   const [error, setError] = useState('')
+  const [generatedData, setGeneratedData] = useState<any>(null)
 
   const isCambridge = formData.curriculum === 'cambridge'
   const subjects = formData.grade && formData.curriculum
@@ -96,17 +143,18 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     ? isCambridge ? getCambridgeTopicsForGradeAndSubject(formData.grade as CambridgeGrade, formData.subject) : getTopicsForGradeAndSubject(formData.grade, formData.subject)
     : []
 
-  const handleGradeSelect = (grade: GradeLevel) => { setFormData({ ...formData, grade, subject: '', topics: [] }); setTimeout(() => setStep(2), 250) }
-  const handleCurriculumSelect = (id: string) => { setFormData({ ...formData, curriculum: id, subject: '', topics: [] }); setTimeout(() => setStep(3), 250) }
-  const handleSubjectSelect = (subject: string) => { setFormData({ ...formData, subject, topics: [] }); setStep(4) }
+  const handleGradeSelect = (grade: GradeLevel) => { setFormData({ ...formData, grade, difficultyLevel: '', subject: '', topics: [] }); setTimeout(() => setStep(2), 250) }
+  const handleDifficultySelect = (id: string) => { setFormData({ ...formData, difficultyLevel: id }); setTimeout(() => setStep(3), 250) }
+  const handleCurriculumSelect = (id: string) => { setFormData({ ...formData, curriculum: id, subject: '', topics: [] }); setTimeout(() => setStep(4), 250) }
+  const handleSubjectSelect = (subject: string) => { setFormData({ ...formData, subject, topics: [] }); setStep(5) }
   const handleTopicToggle = (topic: string) => {
     const newTopics = formData.topics.includes(topic) ? formData.topics.filter(t => t !== topic) : [...formData.topics, topic]
     setFormData({ ...formData, topics: newTopics })
-    if (newTopics.length > 0 && step === 4) setTimeout(() => setStep(5), 250)
+    if (newTopics.length > 0 && step === 5) setTimeout(() => setStep(6), 250)
   }
-  const handleCountSelect = (count: number) => { setFormData({ ...formData, count }); setTimeout(() => setStep(6), 250) }
-  const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(7), 250) }
-  const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed') => { setFormData({ ...formData, questionType: qt }); setTimeout(() => setStep(8), 250) }
+  const handleCountSelect = (count: number) => { setFormData({ ...formData, count }); setTimeout(() => setStep(7), 250) }
+  const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(8), 250) }
+  const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed') => { setFormData({ ...formData, questionType: qt }); setTimeout(() => setStep(9), 250) }
 
   const handleStartAssessment = async () => {
     setIsLoading(true)
@@ -121,8 +169,12 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       if (!text) throw new Error('Server returned an empty response. Please try again.')
       const data = JSON.parse(text)
       if (!response.ok) throw new Error(data.error || 'Failed to generate assessment')
-      sessionStorage.setItem('currentAssessment', JSON.stringify(data))
-      router.push('/assessment')
+      if (isTeacher) {
+        setGeneratedData(data)
+      } else {
+        sessionStorage.setItem('currentAssessment', JSON.stringify(data))
+        router.push('/assessment')
+      }
     } catch (err: any) {
       setError(err.message)
     } finally {
@@ -132,6 +184,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
 
   const selectedCurriculum = AVAILABLE_CURRICULA.find(c => c.id === formData.curriculum)
   const selectedQuestionType = QUESTION_TYPES.find(qt => qt.id === formData.questionType)
+  const selectedDifficulty = DIFFICULTY_LEVELS.find(d => d.id === formData.difficultyLevel)
   const gradeLevelStr = formData.grade
     ? isCambridge
       ? CAMBRIDGE_CURRICULUM[formData.grade as CambridgeGrade]?.cambridgeLevel
@@ -140,6 +193,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
 
   const summaryRows = [
     { label: 'Grade',      value: `Grade ${formData.grade} · ${gradeLevelStr}` },
+    { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
     { label: 'Curriculum', value: selectedCurriculum?.name ?? formData.curriculum },
     { label: 'Subject',    value: formData.subject },
     { label: 'Topics',     value: formData.topics.join(', ') },
@@ -210,8 +264,32 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 2: Curriculum */}
+            {/* Step 2: Difficulty Level */}
             {step >= 2 && formData.grade && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Difficulty level" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
+                <p className="text-xs text-gray-400 mb-3">This shapes how challenging the questions will be</p>
+                <div className="flex flex-col gap-2">
+                  {DIFFICULTY_LEVELS.map(dl => (
+                    <OptionButton key={dl.id} selected={formData.difficultyLevel === dl.id} onClick={() => handleDifficultySelect(dl.id)}>
+                      <div className="flex items-center gap-3">
+                        <span className={`text-[11px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${dl.badge}`}>
+                          {dl.grade}
+                        </span>
+                        <div>
+                          <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
+                          <p className="text-[11px] text-gray-400 mt-0.5">{dl.description}</p>
+                        </div>
+                      </div>
+                    </OptionButton>
+                  ))}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 3: Curriculum */}
+            {step >= 3 && formData.difficultyLevel && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Curriculum" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
@@ -231,8 +309,8 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 3: Subject */}
-            {step >= 3 && formData.curriculum && (
+            {/* Step 4: Subject */}
+            {step >= 4 && formData.curriculum && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Subject" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -248,8 +326,8 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 4: Topics */}
-            {step >= 4 && formData.subject && (
+            {/* Step 5: Topics */}
+            {step >= 5 && formData.subject && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Topics" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
@@ -261,11 +339,11 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                     </OptionButton>
                   ))}
                 </div>
-                {formData.topics.length > 0 && step === 4 && (
+                {formData.topics.length > 0 && step === 5 && (
                   <motion.button
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    onClick={() => setStep(5)}
+                    onClick={() => setStep(6)}
                     className="mt-3 w-full py-2.5 rounded-xl border border-blue-500 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                   >
                     Continue with {formData.topics.length} topic{formData.topics.length > 1 ? 's' : ''} →
@@ -274,8 +352,8 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 5: Count */}
-            {step >= 5 && formData.topics.length > 0 && (
+            {/* Step 6: Count */}
+            {step >= 6 && formData.topics.length > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question count" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How many questions?</h3>
@@ -292,8 +370,8 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 6: Style */}
-            {step >= 6 && formData.count > 0 && (
+            {/* Step 7: Style */}
+            {step >= 7 && formData.count > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Assessment style" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose a question style</h3>
@@ -311,8 +389,8 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 7: Question Type */}
-            {step >= 7 && formData.style && (
+            {/* Step 8: Question Type */}
+            {step >= 8 && formData.style && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question type" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How should questions be presented?</h3>
@@ -332,8 +410,8 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 8: Summary & Generate */}
-            {step >= 8 && formData.questionType && (
+            {/* Step 9: Summary & Generate */}
+            {step >= 9 && formData.questionType && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Summary" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Review your assessment</h3>
@@ -354,23 +432,46 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                   </motion.p>
                 )}
 
-                <button
-                  onClick={handleStartAssessment}
-                  disabled={isLoading}
-                  className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
-                >
-                  {isLoading ? (
-                    <>
-                      <Loader2 className="w-4 h-4 animate-spin" />
-                      Generating assessment…
-                    </>
-                  ) : (
-                    <>
-                      Generate Assessment
+                {/* Teacher: generated — show assign / take options */}
+                {isTeacher && generatedData ? (
+                  <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-2">
+                    <p className="text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/60 rounded-lg px-4 py-3 font-semibold">
+                      Assessment generated successfully!
+                    </p>
+                    <button
+                      onClick={() => { onAssign?.(formData, generatedData.assessment_id); onClose() }}
+                      className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
+                    >
+                      <Send className="w-4 h-4" />
+                      Assign to Students
+                    </button>
+                    <button
+                      onClick={() => { sessionStorage.setItem('currentAssessment', JSON.stringify(generatedData)); router.push('/assessment') }}
+                      className="w-full flex items-center justify-center gap-2 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 text-sm font-semibold py-2.5 px-6 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
+                    >
+                      Preview Assessment
                       <ChevronRight className="w-4 h-4" />
-                    </>
-                  )}
-                </button>
+                    </button>
+                  </motion.div>
+                ) : (
+                  <button
+                    onClick={handleStartAssessment}
+                    disabled={isLoading}
+                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
+                  >
+                    {isLoading ? (
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" />
+                        Generating assessment…
+                      </>
+                    ) : (
+                      <>
+                        {isTeacher ? 'Generate Assessment' : 'Generate & Start'}
+                        <ChevronRight className="w-4 h-4" />
+                      </>
+                    )}
+                  </button>
+                )}
               </motion.div>
             )}
           </div>

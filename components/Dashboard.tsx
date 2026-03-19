@@ -1,17 +1,36 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Plus, Brain, Clock, Zap, ChevronDown } from 'lucide-react'
+import { User, Plus, Brain, Clock, Zap, ChevronDown, Send, Calendar, BookOpen } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
 import ProfileSidebar from './ProfileSidebar'
 import AssessmentCard from './AssessmentCard'
 import FlowForm from './FlowForm'
+import TeacherDashboard from './TeacherDashboard'
 import { useAuth } from './AuthProvider'
 import { supabase } from '@/lib/supabase'
 
+const DIFFICULTY_COLORS: Record<string, string> = {
+  beginner:     'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20',
+  average:      'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20',
+  intermediate: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20',
+  advanced:     'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20',
+}
+
 export default function Dashboard() {
+  const { user } = useAuth()
+
+  // Route teachers to their own dashboard
+  if (user?.role === 'teacher') return <TeacherDashboard />
+
+  return <StudentDashboard />
+}
+
+function StudentDashboard() {
+  const router = useRouter()
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [recentAssessments, setRecentAssessments] = useState<any[]>([])
@@ -20,6 +39,7 @@ export default function Dashboard() {
   const [showAvgDropdown, setShowAvgDropdown] = useState(false)
   const avgRef = useRef<HTMLDivElement>(null)
   const [dailyUsed, setDailyUsed] = useState(0)
+  const [assignedAssessments, setAssignedAssessments] = useState<any[]>([])
   const DAILY_QUIZ_LIMIT = 7200
   const { user } = useAuth()
 
@@ -74,6 +94,16 @@ export default function Dashboard() {
       setDailyUsed(count || 0)
     }
     fetchDailyUsage()
+
+    const fetchAssignedAssessments = async () => {
+      if (!user?.email) return
+      try {
+        const res = await fetch(`/api/assignments/student?email=${encodeURIComponent(user.email)}`)
+        const d = await res.json()
+        setAssignedAssessments(d.assignments ?? [])
+      } catch { /* non-critical */ }
+    }
+    fetchAssignedAssessments()
   }, [user])
 
   useEffect(() => {
@@ -251,6 +281,64 @@ export default function Dashboard() {
             </div>
           </div>
         </motion.button>
+
+        {/* ── Assigned Assessments ── */}
+        {assignedAssessments.length > 0 && (
+          <div>
+            <div className="flex items-center gap-2 mb-4 px-1">
+              <Send className="w-3.5 h-3.5 text-violet-500" />
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
+                Assigned by Teacher
+              </p>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {assignedAssessments.map((a, i) => {
+                const isExpired = a.deadline && new Date(a.deadline) < new Date()
+                return (
+                  <motion.div
+                    key={a.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.04 * i }}
+                    className="bg-white dark:bg-gray-900 rounded-2xl border border-violet-200/60 dark:border-violet-800/40 p-5 flex flex-col gap-3"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{a.title}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">{a.subject} · Grade {a.grade}</p>
+                      </div>
+                      <span className={`text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 ${DIFFICULTY_COLORS[a.difficulty_level] ?? 'text-gray-500 bg-gray-100 dark:bg-gray-800'}`}>
+                        {a.difficulty_level}
+                      </span>
+                    </div>
+                    <div className="flex items-center gap-3 text-xs text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <BookOpen className="w-3.5 h-3.5" />
+                        {a.question_count}q · {a.question_type}
+                      </span>
+                      {a.deadline && (
+                        <span className={`flex items-center gap-1 ${isExpired ? 'text-red-500' : 'text-gray-400'}`}>
+                          <Calendar className="w-3.5 h-3.5" />
+                          {isExpired ? 'Expired' : `Due ${new Date(a.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}
+                        </span>
+                      )}
+                    </div>
+                    <button
+                      disabled={isExpired}
+                      onClick={() => {
+                        sessionStorage.setItem('assignmentConfig', JSON.stringify(a))
+                        router.push('/assessment?assigned=1')
+                      }}
+                      className="mt-auto w-full py-2 rounded-xl text-xs font-bold transition-colors disabled:opacity-40 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 text-white"
+                    >
+                      {isExpired ? 'Deadline passed' : 'Start Assessment'}
+                    </button>
+                  </motion.div>
+                )
+              })}
+            </div>
+          </div>
+        )}
 
         {/* ── Recent Assessments ── */}
         <div>

@@ -45,7 +45,8 @@ export async function POST(request: NextRequest) {
       email: userData.email,
       studentId: userData.student_id,
       class: userData.class,
-      subjects: userData.subjects
+      subjects: userData.subjects,
+      role: userData.role ?? 'student',
     }
 
     return NextResponse.json({

@@ -10,12 +10,13 @@ interface User {
   studentId: string
   class: string
   subjects: string[]
+  role: 'student' | 'teacher'
 }
 
 interface AuthContextType {
   user: User | null
   login: (email: string, password: string) => Promise<void>
-  signup: (name: string, email: string, password: string, className: string) => Promise<void>
+  signup: (name: string, email: string, password: string, className: string, role: 'student' | 'teacher') => Promise<void>
   logout: () => void
   isLoading: boolean
 }
@@ -36,7 +37,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const router = useRouter()
 
   useEffect(() => {
-    // Check if user is logged in
     const storedUser = localStorage.getItem('user')
     if (storedUser) {
       setUser(JSON.parse(storedUser))
@@ -45,43 +45,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, [])
 
   const login = async (email: string, password: string) => {
-    try {
-      // In production, this would be an API call
-      // For now, we'll simulate authentication
-      const response = await fetch('/api/auth/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password })
-      })
-
-      if (!response.ok) throw new Error('Login failed')
-
-      const userData = await response.json()
-      setUser(userData.user)
-      localStorage.setItem('user', JSON.stringify(userData.user))
-      router.push('/')
-    } catch (error) {
-      throw error
-    }
+    const response = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email, password })
+    })
+    if (!response.ok) throw new Error('Login failed')
+    const userData = await response.json()
+    setUser(userData.user)
+    localStorage.setItem('user', JSON.stringify(userData.user))
+    router.push('/')
   }
 
-  const signup = async (name: string, email: string, password: string, className: string) => {
-    try {
-      const response = await fetch('/api/auth/signup', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email, password, className })
-      })
-
-      if (!response.ok) throw new Error('Signup failed')
-
-      const userData = await response.json()
-      setUser(userData.user)
-      localStorage.setItem('user', JSON.stringify(userData.user))
-      router.push('/')
-    } catch (error) {
-      throw error
-    }
+  const signup = async (name: string, email: string, password: string, className: string, role: 'student' | 'teacher') => {
+    const response = await fetch('/api/auth/signup', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, email, password, className, role })
+    })
+    if (!response.ok) throw new Error('Signup failed')
+    const userData = await response.json()
+    setUser(userData.user)
+    localStorage.setItem('user', JSON.stringify(userData.user))
+    router.push('/')
   }
 
   const logout = () => {
