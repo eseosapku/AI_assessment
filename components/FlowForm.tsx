@@ -32,7 +32,8 @@ const DIFFICULTY_LEVELS = [
     id: 'beginner',
     label: 'Beginner',
     grade: 'D Level',
-    description: 'Foundational concepts, basic recall & recognition questions',
+    bloom: 'Remember · Understand',
+    description: 'Recall facts, define terms, identify concepts — Bloom\'s Level 1–2',
     color: 'text-emerald-600 dark:text-emerald-400',
     bg: 'bg-emerald-50 dark:bg-emerald-900/20',
     border: 'border-emerald-500',
@@ -42,7 +43,8 @@ const DIFFICULTY_LEVELS = [
     id: 'average',
     label: 'Average',
     grade: 'C Level',
-    description: 'Standard curriculum questions with moderate complexity',
+    bloom: 'Understand · Apply',
+    description: 'Explain ideas, classify, solve routine problems — Bloom\'s Level 2–3',
     color: 'text-blue-600 dark:text-blue-400',
     bg: 'bg-blue-50 dark:bg-blue-900/20',
     border: 'border-blue-500',
@@ -52,7 +54,8 @@ const DIFFICULTY_LEVELS = [
     id: 'intermediate',
     label: 'Intermediate',
     grade: 'B Level',
-    description: 'Application & analysis, above average problem-solving depth',
+    bloom: 'Apply · Analyse',
+    description: 'Use knowledge in new contexts, break down problems — Bloom\'s Level 3–4',
     color: 'text-amber-600 dark:text-amber-400',
     bg: 'bg-amber-50 dark:bg-amber-900/20',
     border: 'border-amber-500',
@@ -62,7 +65,8 @@ const DIFFICULTY_LEVELS = [
     id: 'advanced',
     label: 'Advanced',
     grade: 'A Level',
-    description: 'High-order thinking — synthesis, evaluation & complex tasks',
+    bloom: 'Evaluate · Create',
+    description: 'Justify, critique, design & synthesise — Bloom\'s Level 5–6. No recall questions.',
     color: 'text-violet-600 dark:text-violet-400',
     bg: 'bg-violet-50 dark:bg-violet-900/20',
     border: 'border-violet-500',
@@ -277,8 +281,11 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                         <span className={`text-[11px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${dl.badge}`}>
                           {dl.grade}
                         </span>
-                        <div>
-                          <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
+                        <div className="flex-1 min-w-0">
+                          <div className="flex items-center gap-2">
+                            <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
+                            <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500">{dl.bloom}</span>
+                          </div>
                           <p className="text-[11px] text-gray-400 mt-0.5">{dl.description}</p>
                         </div>
                       </div>

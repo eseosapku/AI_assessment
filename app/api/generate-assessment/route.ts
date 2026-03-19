@@ -184,11 +184,32 @@ async function generateAllPassages(
   questions.forEach((q) => { delete q.needs_passage; delete q.passage_hint })
 }
 
+// Bloom's Taxonomy levels: Remember(1) → Understand(2) → Apply(3) → Analyse(4) → Evaluate(5) → Create(6)
 const DIFFICULTY_INSTRUCTIONS: Record<string, string> = {
-  beginner:     'DIFFICULTY: Beginner (D-level student). Focus on basic recall, definitions, and recognition. Use simple, clear language. Avoid multi-step reasoning. Test fundamental understanding only.',
-  average:      'DIFFICULTY: Average (C-level student). Standard curriculum questions with moderate complexity. Mix of recall and straightforward application. Familiar question formats.',
-  intermediate: 'DIFFICULTY: Intermediate (B-level student). Emphasise application and analysis. Include multi-step problems and scenarios that require conceptual understanding beyond surface recall.',
-  advanced:     'DIFFICULTY: Advanced (A-level student). High-order thinking — synthesis, evaluation, extended analysis, and complex multi-step problems. Expect precise, nuanced answers.',
+  beginner: `DIFFICULTY — Beginner (D-level · Bloom's Level 1–2: Remember & Understand):
+- Every question must target REMEMBER or UNDERSTAND only.
+- Question verbs: define, list, name, identify, recall, state, recognise, describe, explain, summarise, classify.
+- Use simple, unambiguous language. Single-concept focus per question.
+- No multi-step reasoning, no application to new contexts, no analysis.`,
+
+  average: `DIFFICULTY — Average (C-level · Bloom's Level 2–3: Understand & Apply):
+- Questions should target UNDERSTAND and APPLY.
+- Question verbs: explain, classify, compare, interpret, solve, demonstrate, calculate, use, show, predict.
+- Include straightforward worked examples or standard formula application.
+- Avoid pure recall (no "define X" or "state Y") but also avoid complex analysis.`,
+
+  intermediate: `DIFFICULTY — Intermediate (B-level · Bloom's Level 3–4: Apply & Analyse):
+- Questions must target APPLY and ANALYSE.
+- Question verbs: calculate, solve, differentiate, examine, break down, compare, contrast, organise, investigate, infer.
+- Include multi-step problems, scenario-based questions, and questions requiring students to connect concepts.
+- No simple recall or definition questions.`,
+
+  advanced: `DIFFICULTY — Advanced (A-level · Bloom's Level 5–6: Evaluate & Create):
+- STRICT RULE: NO remember or recall questions whatsoever. Do not ask students to define, list, name, or state facts.
+- Every question must target EVALUATE or CREATE exclusively.
+- Question verbs: justify, critique, defend, assess, judge, design, construct, formulate, propose, synthesise, hypothesise.
+- Questions should require extended reasoning, critical judgement, or the construction of original solutions/arguments.
+- Expect precise, nuanced, multi-layered responses with no single correct answer pathway.`,
 }
 
 // ── Build the main question-generation prompt (Groq — ONE call only) ──────────
