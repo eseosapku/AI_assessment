@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Plus, Brain, Clock, Zap, ChevronDown, Send, Calendar, BookOpen } from 'lucide-react'
+import { User, Plus, Brain, Clock, Zap, ChevronDown, Send, Calendar, BookOpen, FileText } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -278,6 +278,28 @@ function StudentDashboard() {
             </div>
             <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
               <Plus className="w-5 h-5 text-white" />
+            </div>
+          </div>
+        </motion.button>
+
+        {/* ── Report Card CTA ── */}
+        <motion.button
+          onClick={() => router.push('/report-card')}
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.12 }}
+          whileHover={{ scale: 1.005 }}
+          whileTap={{ scale: 0.997 }}
+          className="w-full group relative overflow-hidden rounded-2xl flex items-center justify-between px-7 py-5 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/5 shadow-sm text-gray-800 dark:text-white"
+        >
+          <div className="relative text-left">
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-violet-500 mb-1">Official Document</p>
+            <h3 className="text-lg sm:text-xl font-black leading-tight">Generate Report Card</h3>
+            <p className="text-xs text-gray-400 dark:text-gray-500 mt-0.5">Select assessments &amp; export a professional report card</p>
+          </div>
+          <div className="relative flex items-center gap-3 flex-shrink-0">
+            <div className="w-10 h-10 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center group-hover:bg-violet-200 dark:group-hover:bg-violet-800/40 transition-colors">
+              <FileText className="w-5 h-5 text-violet-600 dark:text-violet-400" />
             </div>
           </div>
         </motion.button>
