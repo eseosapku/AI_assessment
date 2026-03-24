@@ -1,12 +1,78 @@
 import { NextRequest, NextResponse } from 'next/server'
 import Groq from 'groq-sdk'
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import { jsonrepair } from 'jsonrepair'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
 import { getCambridgeCurriculumContext, type CambridgeGrade } from '@/lib/cambridge-curriculum'
+import { supabase } from '@/lib/supabase'
 
 const MAX_DIAGRAMS = 4
 
+// Detect model refusals before attempting JSON parse
+const REFUSAL_PREFIXES = ["i can't", "i cannot", "i'm sorry", "i am sorry", "as an ai", "i'm not able", "i am not able", "sorry, i"]
+function isRefusal(text: string): boolean {
+  const lower = text.trimStart().toLowerCase()
+  return REFUSAL_PREFIXES.some(p => lower.startsWith(p))
+}
+
+// Robust JSON parser: try native → jsonrepair → throw
+function parseJsonRobust(text: string): any {
+  // Strip markdown fences
+  let t = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
+  // Extract first {...} block if there's leading noise
+  if (!t.startsWith('{')) { const m = t.match(/\{[\s\S]*\}/); if (m) t = m[0] }
+
+  // 1. Try native parse first (fastest path)
+  try { return JSON.parse(t) } catch { /* fall through */ }
+
+  // 2. jsonrepair — handles unescaped quotes, bad escapes, trailing commas, etc.
+  try { return JSON.parse(jsonrepair(t)) } catch { /* fall through */ }
+
+  throw new SyntaxError(`Could not repair JSON. Preview: ${t.slice(0, 120)}`)
+}
+
 function fixLatexInRawJson(raw: string): string {
-  return raw.replace(/(?<!\\)\\(?!["\\/nrtbfuU])([a-zA-Z])/g, '\\\\$1')
+  // Strategy: parse character-by-character inside JSON string values only,
+  // replacing any backslash that doesn't form a valid JSON escape sequence.
+  // Valid JSON escapes: \" \\ \/ \b \f \n \r \t \uXXXX
+  const VALID_AFTER_SLASH = new Set(['"', '\\', '/', 'b', 'f', 'n', 'r', 't', 'u'])
+  let out = ''
+  let inString = false
+  let i = 0
+  while (i < raw.length) {
+    const ch = raw[i]
+    if (!inString) {
+      if (ch === '"') inString = true
+      out += ch
+      i++
+    } else {
+      if (ch === '\\') {
+        const next = raw[i + 1]
+        if (next === undefined) { out += '\\\\'; i++; continue }
+        if (VALID_AFTER_SLASH.has(next)) {
+          // Valid escape — keep as-is (handle \uXXXX too)
+          out += ch + next
+          i += 2
+        } else {
+          // Bad escape — double the backslash to make it literal
+          out += '\\\\' + next
+          i += 2
+        }
+      } else if (ch === '"') {
+        inString = false
+        out += ch
+        i++
+      } else if (ch === '\n' || ch === '\r') {
+        // Unescaped newline inside a JSON string — replace with \n
+        out += '\\n'
+        i++
+      } else {
+        out += ch
+        i++
+      }
+    }
+  }
+  return out
 }
 
 // ── Gemini helper (used for both diagrams AND passages) ───────────────────────
@@ -136,52 +202,90 @@ function needsPassage(subject: string): boolean {
   return PASSAGE_SUBJECTS.some((s) => subject.toLowerCase().includes(s))
 }
 
-// ── Generate all passages in parallel (Gemini preferred, Groq fallback) ──────
+// ── Shared-passage hint — describes an anchor passage for a group of questions ─
+function sharedPassageHint(groupIdx: number): string {
+  const styles = [
+    'A literary fiction extract — opening chapter of a 19th or 20th century novel (Dickens, Hardy, Achebe, Austen or similar), rich in descriptive language, atmosphere and character voice',
+    'A non-fiction or argumentative extract — speech, essay or journalistic article (Churchill, Orwell, Mandela, MLK or similar), persuasive in tone with strong rhetorical devices',
+    'A literary extract from modern or post-colonial fiction (Achebe, Adichie, Marquez, Morrison or similar) exploring identity, place or conflict through vivid imagery',
+    'A nature or travel writing extract, lyrical and descriptive, by a writer such as Gerald Durrell, Annie Dillard or Bruce Chatwin — rich in sensory detail and figurative language',
+  ]
+  return styles[groupIdx % styles.length]
+}
+
+// ── Generate all passages using the shared-passage strategy for large sets ────
+// For ≤10 questions: one passage per question (original approach).
+// For >10 questions: group into anchor passages (1 per 10 Qs) so we make at
+// most 4 passage API calls for 40 questions — well within Groq's free TPM.
 async function generateAllPassages(
   questions: any[],
   geminiKey: string,
   subject: string,
   groq: Groq
 ): Promise<void> {
-  // Ensure every question that needs a passage has a hint — don't rely on the LLM
-  const jobs = questions
-    .map((q, idx) => ({ q, idx }))
-    .filter(({ q }) => {
-      if (q.passage) return false // already has one
-      if (!q.passage_hint) {
-        q.passage_hint = `A rich literary or non-fiction extract directly relevant to this question: "${q.question.slice(0, 120)}"`
-      }
-      return true
-    })
-
-  if (jobs.length === 0) {
-    questions.forEach((q) => { delete q.needs_passage; delete q.passage_hint })
+  const needsWork = questions.filter(q => !q.passage)
+  if (needsWork.length === 0) {
+    questions.forEach(q => { delete q.needs_passage; delete q.passage_hint })
     return
   }
 
-  const results = await Promise.all(
-    jobs.map(({ q, idx }) => {
-      const generate = geminiKey
-        ? generatePassageWithGemini(q.question, subject, q.passage_hint, geminiKey)
-            .then(r => r ?? generatePassageWithGroq(q.question, subject, q.passage_hint, groq))
-        : generatePassageWithGroq(q.question, subject, q.passage_hint, groq)
-      return generate
-        .then((result) => ({ idx, result }))
-        .catch(() => ({ idx, result: null }))
+  const useShared = needsWork.length > 10
+  const QS_PER_PASSAGE = 10  // ~10 questions share one anchor passage
+
+  if (useShared) {
+    // ── Shared-passage path ───────────────────────────────────────────────────
+    // 1. Decide how many anchor passages we need
+    const numPassages = Math.ceil(needsWork.length / QS_PER_PASSAGE)
+
+    // 2. Generate all anchor passages in parallel (at most 4 calls)
+    const anchorResults = await Promise.all(
+      Array.from({ length: numPassages }, (_, gi) => {
+        const hint = sharedPassageHint(gi)
+        const pivotQ = needsWork[gi * QS_PER_PASSAGE]?.question ?? ''
+        const fullHint = `${hint}. The passage must support questions on: ${pivotQ.slice(0, 100)}`
+        const gen = geminiKey
+          ? generatePassageWithGemini(pivotQ, subject, fullHint, geminiKey)
+              .then(r => r ?? generatePassageWithGroq(pivotQ, subject, fullHint, groq))
+          : generatePassageWithGroq(pivotQ, subject, fullHint, groq)
+        return gen.catch(() => null)
+      })
+    )
+
+    // 3. Assign each question to the appropriate anchor passage
+    needsWork.forEach((q, i) => {
+      const groupIdx = Math.floor(i / QS_PER_PASSAGE)
+      const anchor = anchorResults[groupIdx]
+      if (anchor) {
+        q.passage = anchor.text
+        q.passage_source = anchor.source
+      }
+      delete q.needs_passage
+      delete q.passage_hint
     })
-  )
+  } else {
+    // ── Per-question path (small sets, ≤10 questions) ─────────────────────────
+    const jobs = needsWork.map(q => {
+      if (!q.passage_hint) {
+        q.passage_hint = `A rich literary or non-fiction extract directly relevant to: "${q.question.slice(0, 120)}"`
+      }
+      return q
+    })
 
-  results.forEach(({ idx, result }) => {
-    if (result) {
-      questions[idx].passage = result.text
-      questions[idx].passage_source = result.source
-    }
-    delete questions[idx].needs_passage
-    delete questions[idx].passage_hint
-  })
+    await Promise.all(
+      jobs.map(q => {
+        const gen = geminiKey
+          ? generatePassageWithGemini(q.question, subject, q.passage_hint, geminiKey)
+              .then(r => r ?? generatePassageWithGroq(q.question, subject, q.passage_hint, groq))
+          : generatePassageWithGroq(q.question, subject, q.passage_hint, groq)
+        return gen
+          .then(result => { if (result) { q.passage = result.text; q.passage_source = result.source } })
+          .catch(() => null)
+      })
+    )
+    jobs.forEach(q => { delete q.needs_passage; delete q.passage_hint })
+  }
 
-  // Clean any remaining staging fields
-  questions.forEach((q) => { delete q.needs_passage; delete q.passage_hint })
+  questions.forEach(q => { delete q.needs_passage; delete q.passage_hint })
 }
 
 // Bloom's Taxonomy levels: Remember(1) → Understand(2) → Apply(3) → Analyse(4) → Evaluate(5) → Create(6)
@@ -217,6 +321,7 @@ function buildPrompt(opts: {
   subject: string
   topics: string[]
   count: number
+  startId?: number
   style: string
   curriculumName: string
   curriculumBlock: string
@@ -224,7 +329,7 @@ function buildPrompt(opts: {
   hasDiagramSupport: boolean
   difficultyLevel?: string
 }): { prompt: string; estimatedTime: number } {
-  const { subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel } = opts
+  const { subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel } = opts
 
   const subjectNeedsPassage = needsPassage(subject)
 
@@ -321,10 +426,12 @@ ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 **Requirements:**
 1. All questions strictly based on the ${curriculumName} syllabus topics.
 2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
-3. LaTeX: doubled backslashes — \\\\frac, \\\\sqrt, \\\\circ, \\\\pi, \\\\theta.
-4. MCQ "explanation" field: MAXIMUM 60 words. Be concise — one clear sentence showing the key step, not a full worked solution.
-${questionType !== 'longform' ? `5. ${diagramNote}` : ''}
-6. ${passageNote}
+3. LaTeX math MUST be wrapped in dollar signs: $...$ for inline (e.g. $\\\\frac{1}{x}$, $\\\\sqrt{2}$, $x^2 + y^2$) and $$...$$ for display. This applies in ALL fields including explanations and model_answer. Never write bare LaTeX outside of dollar signs.
+4. MCQ "explanation" field: 100-150 words. Write a thorough explanation covering: (a) the concept or skill this question tests, (b) exactly why the correct answer is right with specific reasoning, evidence, or working shown, (c) why each of the three wrong options is incorrect and what misconception leads a student to pick it. Do NOT just restate the question. Write in full sentences.
+5. Longform "explanation" field: 40-60 words. State the skill being assessed (e.g. "This question tests inference skills..."), then describe what a strong answer must include. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
+6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
+${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
+8. ${passageNote}
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 
@@ -352,7 +459,7 @@ export async function POST(request: NextRequest) {
     const geminiKey = process.env.GOOGLE_GEMINI_API_KEY ?? ''
 
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'groq' } = body
 
     if (!subject || !topics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -371,64 +478,160 @@ export async function POST(request: NextRequest) {
     const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = geminiKey.length > 0
 
-    // ── Stage 1: Groq generates question skeletons ───────────────────────────
-    // Primary model: llama-3.3-70b-versatile (6,000 TPM free tier)
-    // Fallback model: llama-3.1-8b-instant   (20,000 TPM free tier — separate bucket)
-    // If the primary is rate-limited we immediately retry with the fallback model,
-    // no wait required because the two models have independent TPM counters.
-    const { prompt, estimatedTime } = buildPrompt({
-      subject, topics, count, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
-    })
+    // ── Bedrock helpers ───────────────────────────────────────────────────────
+    const bedrockClient = (aiModel !== 'groq')
+      ? new BedrockRuntimeClient({
+          region: process.env.AWS_REGION ?? 'us-east-1',
+          credentials: {
+            accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+          },
+        })
+      : null
 
-    // Token budget: math/science MCQ explanations with LaTeX can be large
-    const maxTokens = questionType === 'mcq' ? 3500 : questionType === 'longform' ? 3500 : 5120
+    const stripPrefix = (id: string) => id.replace(/^(us|eu|ap)\./, '')
 
-    const MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it'] as const
-
-    async function tryGenerate(model: string): Promise<any> {
-      const completion = await groq.chat.completions.create({
-        model,
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.7,
-        max_tokens: maxTokens,
-        response_format: { type: 'json_object' },
-      })
-      let text = (completion.choices[0]?.message?.content || '').trim()
-      text = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
-      if (!text.startsWith('{')) {
-        const m = text.match(/\{[\s\S]*\}/)
-        if (m) text = m[0]
+    function buildBedrockBody(modelId: string, prompt: string, maxTokens: number): string {
+      const m = stripPrefix(modelId)
+      if (m.startsWith('amazon.nova')) {
+        return JSON.stringify({
+          messages: [{ role: 'user', content: [{ text: prompt }] }],
+          inferenceConfig: { maxTokens, temperature: 0.7 },
+        })
       }
-      return JSON.parse(fixLatexInRawJson(text))
+      if (m.startsWith('meta.llama')) {
+        return JSON.stringify({
+          prompt: `<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n${prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>`,
+          max_gen_len: maxTokens,
+          temperature: 0.7,
+        })
+      }
+      // mistral, google, nvidia, openai on Bedrock
+      return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.7 })
     }
 
-    let assessmentData: any
-    let lastError: any
-    for (const model of MODELS) {
-      try {
-        assessmentData = await tryGenerate(model)
-        break // success — stop trying
-      } catch (err: any) {
-        lastError = err
-        const is429 = err.status === 429 || err.message?.includes('429') || err.error?.code === 'rate_limit_exceeded'
-        const isJsonFail = err.status === 400 || err instanceof SyntaxError || err.message?.includes('json') || err.message?.includes('JSON')
-        if (is429 || isJsonFail) {
-          console.warn(`Model ${model} failed (${is429 ? 'rate-limit' : 'JSON parse'}) — trying fallback...`)
-          continue // try next model
+    function extractBedrockText(modelId: string, body: any): string {
+      const m = stripPrefix(modelId)
+      if (m.startsWith('amazon.nova')) return body?.output?.message?.content?.[0]?.text ?? ''
+      if (m.startsWith('meta.llama'))  return body?.generation ?? ''
+      return body?.choices?.[0]?.message?.content ?? body?.choices?.[0]?.text ?? body?.outputs?.[0]?.text ?? ''
+    }
+
+    async function callBedrock(prompt: string, maxTokens: number): Promise<string> {
+      // Some models need the "us." cross-region prefix (Nova, Llama).
+      // Others (Gemma, GPT-OSS, some Mistral/NVIDIA) use bare IDs.
+      // Try the ID as given first, then the alternative form on "invalid" errors.
+      const alt = aiModel.startsWith('us.') ? aiModel.slice(3) : `us.${aiModel}`
+      const candidates = [aiModel, alt]
+
+      let lastErr: any
+      for (const modelId of candidates) {
+        try {
+          const cmd = new InvokeModelCommand({
+            modelId,
+            contentType: 'application/json',
+            accept: 'application/json',
+            body: buildBedrockBody(modelId, prompt, maxTokens),
+          })
+          const res = await bedrockClient!.send(cmd)
+          const parsed = JSON.parse(new TextDecoder().decode(res.body))
+          return extractBedrockText(modelId, parsed)
+        } catch (err: any) {
+          lastErr = err
+          const msg = err?.message ?? ''
+          const retryable = msg.includes('invalid') || msg.includes('Invalid') ||
+                            msg.includes('on-demand throughput') || msg.includes('ValidationException')
+          if (retryable) { console.warn(`Bedrock ${modelId} failed — trying alternate ID...`); continue }
+          throw err
         }
-        // Other unexpected error — fail immediately
-        console.error('Groq/parse error:', err)
-        return NextResponse.json({ error: `AI generation failed: ${err.message}` }, { status: 500 })
       }
+      throw lastErr
     }
 
-    if (!assessmentData) {
-      console.error('All models rate-limited:', lastError)
-      return NextResponse.json(
-        { error: 'AI is temporarily busy. Please wait 30 seconds and try again.' },
-        { status: 429 }
-      )
+    // ── Stage 1: Question skeleton generation (Bedrock or Groq) ──────────────
+    // Batched: max 20 per call to stay within token limits.
+    // Groq: llama-3.3-70b-versatile → gemma2-9b-it fallback.
+    // Bedrock: single model, no fallback needed (user selected it explicitly).
+    const GROQ_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it'] as const
+    const BATCH_SIZE = 20
+
+    async function tryGenerateBatch(batchCount: number, startId: number): Promise<any[]> {
+      const { prompt } = buildPrompt({
+        subject, topics, count: batchCount, startId, style,
+        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
+      })
+      const maxTokens = batchCount <= 10 ? 3500 : 6000
+
+      let text = ''
+
+      if (aiModel !== 'groq' && bedrockClient) {
+        // ── Bedrock path ────────────────────────────────────────────────────
+        text = await callBedrock(prompt, maxTokens)
+      } else {
+        // ── Groq path ───────────────────────────────────────────────────────
+        let lastErr: any
+        for (const model of GROQ_MODELS) {
+          try {
+            const completion = await groq.chat.completions.create({
+              model,
+              messages: [{ role: 'user', content: prompt }],
+              temperature: 0.7,
+              max_tokens: maxTokens,
+              response_format: { type: 'json_object' },
+            })
+            text = completion.choices[0]?.message?.content ?? ''
+            break
+          } catch (err: any) {
+            lastErr = err
+            const is429 = err.status === 429 || err.message?.includes('429') || err.error?.code === 'rate_limit_exceeded'
+            const isJsonFail = err.status === 400 || err instanceof SyntaxError || err.message?.includes('JSON') || err.message?.includes('json')
+            if (is429 || isJsonFail) { console.warn(`Model ${model} failed — trying next...`); continue }
+            throw err
+          }
+        }
+        if (!text) throw lastErr
+      }
+
+      if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
+      const parsed = parseJsonRobust(fixLatexInRawJson(text))
+      if (!Array.isArray(parsed.questions)) throw new SyntaxError('No questions array')
+      return parsed.questions
     }
+
+    // Split count into batches of BATCH_SIZE
+    const batches: { count: number; startId: number }[] = []
+    for (let i = 0; i < count; i += BATCH_SIZE) {
+      batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
+    }
+
+    let allQuestions: any[] = []
+    let estimatedTime = 0
+    try {
+      // Run batches sequentially to avoid saturating TPM
+      for (const batch of batches) {
+        const qs = await tryGenerateBatch(batch.count, batch.startId)
+        allQuestions.push(...qs)
+      }
+    } catch (err: any) {
+      console.error('Generation failed:', err)
+      const is429 = err?.status === 429 || err?.message?.includes('429') || err?.error?.code === 'rate_limit_exceeded'
+      const msg = is429
+        ? 'AI is rate-limited. Please wait 30 seconds and try again.'
+        : `Generation failed: ${err?.message ?? String(err)}`
+      return NextResponse.json({ error: msg }, { status: is429 ? 429 : 500 })
+    }
+
+    // Re-number questions sequentially in case the model drifted
+    allQuestions.forEach((q, i) => { q.id = i + 1 })
+
+    // Compute estimated time from the first batch's prompt helper
+    const { estimatedTime: et } = buildPrompt({
+      subject, topics, count, startId: 1, style,
+      curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
+    })
+    estimatedTime = et
+
+    const assessmentData: any = { questions: allQuestions, estimated_time: estimatedTime }
 
     if (!Array.isArray(assessmentData.questions)) {
       return NextResponse.json({ error: 'AI returned invalid question data. Please try again.' }, { status: 500 })
@@ -481,13 +684,11 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Save to database ───────────────────────────────────────────────────────
-    const { supabase } = require('@/lib/supabase')
     const { data: dbAssessment, error: dbError } = await supabase
       .from('assessments')
       .insert([{
         user_id: user_id || null,
         subject,
-        topics: Array.isArray(topics) ? topics : [topics],
         difficulty: style,
         duration: estimatedTime,
         questions_data: assessmentData.questions,

@@ -1,0 +1,7 @@
+{
+  "sql.linter.driver": "PostgreSQL",
+  "sqltools.connections": [],
+  "[sql]": {
+    "editor.defaultFormatter": "mtxr.sqltools"
+  }
+}

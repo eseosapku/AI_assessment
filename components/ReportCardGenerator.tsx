@@ -394,6 +394,10 @@ export default function ReportCardGenerator() {
       // Select all by default
       setSelectedIds(new Set(records.map(r => r.id)))
       setIsLoading(false)
+      } catch (err) {
+        console.error('Failed to load assessments:', err)
+        setIsLoading(false)
+      }
     }
     load()
   }, [user])

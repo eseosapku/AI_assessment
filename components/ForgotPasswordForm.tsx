@@ -58,7 +58,7 @@ export default function ForgotPasswordForm() {
             </motion.div>
             <h1 className="text-2xl sm:text-3xl font-bold mb-2">Check Your Email</h1>
             <p className="text-sm text-apple-dark-gray">
-              We've sent password reset instructions to <strong>{email}</strong>
+              We&apos;ve sent password reset instructions to <strong>{email}</strong>
             </p>
           </div>
 
@@ -105,7 +105,7 @@ export default function ForgotPasswordForm() {
           </motion.div>
           <h1 className="text-2xl sm:text-3xl font-bold mb-2">Forgot Password?</h1>
           <p className="text-sm text-apple-dark-gray">
-            Enter your email and we'll send you instructions to reset your password
+            Enter your email and we&apos;ll send you instructions to reset your password
           </p>
         </div>
 

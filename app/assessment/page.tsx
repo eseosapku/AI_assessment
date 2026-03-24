@@ -1,11 +1,20 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useEffect, useRef, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import NextImage from 'next/image'
 import { useRouter } from 'next/navigation'
 import { Clock, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
+
+// Wrap bare LaTeX commands in $...$ so react-latex-next renders them correctly.
+// Text already containing $ delimiters is left untouched.
+function L({ children }: { children: string }) {
+  const text = children ?? ''
+  const wrapped = text.includes('$') ? text : /\\[a-zA-Z]/.test(text) ? `$${text}$` : text
+  return <Latex>{wrapped}</Latex>
+}
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
@@ -110,7 +119,7 @@ function MathWorkingCanvas({ value, onChange }: { value: string; onChange: (data
       img.onload = () => ctx.drawImage(img, 0, 0)
       img.src = value
     }
-  }, []) // intentionally [] — restore once on mount, then canvas owns state
+  }, [value])
 
   const getPos = (e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) => {
     const rect = canvas.getBoundingClientRect()
@@ -376,7 +385,7 @@ function LongFormResultCard({
           {q.passage && (
             <PassageBox passage={q.passage} source={q.passage_source} />
           )}
-          <h3 className="text-lg font-medium text-gray-900 dark:text-white"><Latex>{q.question}</Latex></h3>
+          <h3 className="text-lg font-medium text-gray-900 dark:text-white"><L>{q.question}</L></h3>
         </div>
       </div>
 
@@ -384,7 +393,7 @@ function LongFormResultCard({
       {studentWorkings && (
         <div className="ml-12 mb-4">
           <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Workings</div>
-          <img src={studentWorkings} alt="Student workings" className="w-full rounded-xl border border-gray-200 dark:border-gray-700 bg-white" />
+          <NextImage src={studentWorkings} alt="Student workings" width={0} height={0} sizes="100vw" unoptimized className="w-full h-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white" />
         </div>
       )}
 
@@ -526,21 +535,6 @@ export default function AssessmentPage() {
       router.push('/')
     }
   }, [router])
-
-  useEffect(() => {
-    if (timeRemaining > 0 && !isSubmitted) {
-      const timer = setInterval(() => {
-        setTimeRemaining((prev) => {
-          if (prev <= 1) {
-            handleSubmit()
-            return 0
-          }
-          return prev - 1
-        })
-      }, 1000)
-      return () => clearInterval(timer)
-    }
-  }, [timeRemaining, isSubmitted])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -706,7 +700,7 @@ export default function AssessmentPage() {
     URL.revokeObjectURL(url)
   }
 
-  const handleSubmit = async () => {
+  const handleSubmit = useCallback(async () => {
     setIsSubmitted(true)
 
     const questions = assessment?.questions ?? []
@@ -827,7 +821,22 @@ export default function AssessmentPage() {
         }),
       })
     }
-  }
+  }, [assessment, selectedAnswers, longFormAnswers])
+
+  useEffect(() => {
+    if (timeRemaining > 0 && !isSubmitted) {
+      const timer = setInterval(() => {
+        setTimeRemaining((prev) => {
+          if (prev <= 1) {
+            handleSubmit()
+            return 0
+          }
+          return prev - 1
+        })
+      }, 1000)
+      return () => clearInterval(timer)
+    }
+  }, [timeRemaining, isSubmitted, handleSubmit])
 
   if (!assessment) {
     return (
@@ -995,7 +1004,7 @@ export default function AssessmentPage() {
                       {q.passage && (
                         <PassageBox passage={q.passage} source={q.passage_source} />
                       )}
-                      <h3 className="text-lg font-medium"><Latex>{q.question}</Latex></h3>
+                      <h3 className="text-lg font-medium"><L>{q.question}</L></h3>
                     </div>
                   </div>
 
@@ -1011,7 +1020,7 @@ export default function AssessmentPage() {
                       }
                       return (
                         <div key={optIdx} className={optClass}>
-                          <Latex>{opt}</Latex>
+                          <L>{opt}</L>
                           {optIdx === q.correct_answer && (
                             <span className="ml-2 text-xs uppercase tracking-wider font-bold text-green-600 dark:text-green-400">(Correct)</span>
                           )}
@@ -1025,7 +1034,7 @@ export default function AssessmentPage() {
 
                   <div className="ml-12 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 text-sm text-apple-dark-gray">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Explanation: </span>
-                    <Latex>{q.explanation ?? ''}</Latex>
+                    <L>{q.explanation ?? ''}</L>
                   </div>
                 </motion.div>
               )
@@ -1121,7 +1130,7 @@ export default function AssessmentPage() {
               )}
 
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight">
-                <Latex>{question.question}</Latex>
+                <L>{question.question}</L>
               </h2>
 
               {/* MCQ options */}
@@ -1147,7 +1156,7 @@ export default function AssessmentPage() {
                             <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                           )}
                         </div>
-                        <span className="flex-1 text-sm sm:text-base"><Latex>{option}</Latex></span>
+                        <span className="flex-1 text-sm sm:text-base"><L>{option}</L></span>
                       </div>
                     </motion.button>
                   ))}
