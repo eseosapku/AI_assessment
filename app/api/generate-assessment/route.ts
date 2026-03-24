@@ -487,6 +487,7 @@ export async function POST(request: NextRequest) {
       .insert([{
         user_id: user_id || null,
         subject,
+        topics: Array.isArray(topics) ? topics : [topics],
         difficulty: style,
         duration: estimatedTime,
         questions_data: assessmentData.questions,

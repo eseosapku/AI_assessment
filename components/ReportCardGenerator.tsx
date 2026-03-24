@@ -316,34 +316,60 @@ export default function ReportCardGenerator() {
     if (!user?.id) return
     const load = async () => {
       setIsLoading(true)
-      const { data, error } = await supabase
-        .from('results')
-        .select('*, assessments(subject, difficulty, topics)')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
+      try {
+        // Try fetching with all fields including topics
+        let { data, error } = await supabase
+          .from('results')
+          .select('*, assessments(subject, difficulty, topics)')
+          .eq('user_id', user.id)
+          .order('created_at', { ascending: false })
 
-      if (error || !data) { setIsLoading(false); return }
-
-      const records: AssessmentRecord[] = data.map(item => {
-        const pct = item.percentage ?? item.score ?? 0
-        const completedDate = new Date(item.created_at)
-        const monDate = getWeekStart(completedDate)
-        const topics: string[] = item.assessments?.topics ?? []
-        return {
-          id: item.id,
-          subject: item.assessments?.subject || 'Assessment',
-          topics: Array.isArray(topics) ? topics : [String(topics)],
-          difficulty: item.assessments?.difficulty || '',
-          score: item.score ?? 0,
-          percentage: Math.round(pct),
-          completedAt: item.created_at,
-          completedDate,
-          grade: getGrade(pct),
-          weekKey: weekKey(monDate),
-          weekLabel: weekLabel(monDate),
-          weekStart: monDate,
+        // If error or no data, try without topics (backward compatibility)
+        if ((error || !data || data.length === 0) && error?.message?.includes('topics')) {
+          const { data: data2, error: error2 } = await supabase
+            .from('results')
+            .select('*, assessments(subject, difficulty)')
+            .eq('user_id', user.id)
+            .order('created_at', { ascending: false })
+          
+          if (error2 || !data2) {
+            console.error('Failed to fetch assessments:', error || error2)
+            setIsLoading(false)
+            return
+          }
+          data = data2
+          error = null
+        } else if (error) {
+          console.error('Failed to fetch assessments:', error)
+          setIsLoading(false)
+          return
         }
-      })
+
+        if (!data) {
+          setIsLoading(false)
+          return
+        }
+
+        const records: AssessmentRecord[] = data.map(item => {
+          const pct = item.percentage ?? item.score ?? 0
+          const completedDate = new Date(item.created_at)
+          const monDate = getWeekStart(completedDate)
+          const topics: string[] = item.assessments?.topics ?? []
+          return {
+            id: item.id,
+            subject: item.assessments?.subject || 'Assessment',
+            topics: Array.isArray(topics) ? topics : [String(topics)],
+            difficulty: item.assessments?.difficulty || '',
+            score: item.score ?? 0,
+            percentage: Math.round(pct),
+            completedAt: item.created_at,
+            completedDate,
+            grade: getGrade(pct),
+            weekKey: weekKey(monDate),
+            weekLabel: weekLabel(monDate),
+            weekStart: monDate,
+          }
+        })
 
       // Group into weeks
       const weekMap = new Map<string, WeekGroup>()

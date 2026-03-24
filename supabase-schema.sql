@@ -23,6 +23,7 @@ CREATE TABLE IF NOT EXISTS assessments (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id UUID REFERENCES users(id) ON DELETE CASCADE,
   subject VARCHAR(100) NOT NULL,
+  topics TEXT[] DEFAULT '{}',
   difficulty VARCHAR(50) NOT NULL,
   duration INTEGER NOT NULL, -- in minutes
   questions_data JSONB NOT NULL,
