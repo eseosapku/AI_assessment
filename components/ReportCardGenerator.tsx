@@ -2,12 +2,11 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import {
-  ArrowLeft, FileText, Download, Printer, CheckSquare, Square,
+  ArrowLeft, FileText, Download, Printer,
   Calendar, ChevronDown, ChevronUp, User, BookOpen, Award, Clock
 } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
-import Image from 'next/image'
 import { useAuth } from './AuthProvider'
 import { supabase } from '@/lib/supabase'
 import ThemeToggle from './ThemeToggle'
@@ -184,6 +183,7 @@ function buildReportCardHtml(
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Report Card – ${user.name}</title>
   <style>
+    @page { size: A4; margin: 16mm 14mm; }
     @media print {
       body { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .no-print { display: none !important; }
@@ -432,9 +432,9 @@ export default function ReportCardGenerator() {
   const selectAll = () => setSelectedIds(new Set(allAssessments.map(a => a.id)))
   const deselectAll = () => setSelectedIds(new Set())
 
-  const generateAndDownload = useCallback(() => {
+  const openReportWindow = useCallback((autoPrint: boolean) => {
     if (selectedAssessments.length === 0 || !user) return
-    setIsGenerating(true)
+    if (autoPrint) setIsGenerating(true)
     const generatedOn = new Date().toLocaleDateString('en-US', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     })
@@ -446,34 +446,20 @@ export default function ReportCardGenerator() {
     )
     const blob = new Blob([html], { type: 'text/html' })
     const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `report-card-${user.name.replace(/\s+/g, '-').toLowerCase()}-${new Date().toISOString().split('T')[0]}.html`
-    document.body.appendChild(a)
-    a.click()
-    document.body.removeChild(a)
-    URL.revokeObjectURL(url)
-    setIsGenerating(false)
+    const win = window.open(url, '_blank')
+    if (!win) { URL.revokeObjectURL(url); if (autoPrint) setIsGenerating(false); return }
+    win.addEventListener('load', () => {
+      if (autoPrint) {
+        win.print()
+        setIsGenerating(false)
+      }
+      // Revoke after a delay to allow the page to fully load
+      setTimeout(() => URL.revokeObjectURL(url), 30000)
+    })
   }, [selectedAssessments, user, weeks])
 
-  const generateAndPrint = useCallback(() => {
-    if (selectedAssessments.length === 0 || !user) return
-    const generatedOn = new Date().toLocaleDateString('en-US', {
-      weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
-    })
-    const html = buildReportCardHtml(
-      { name: user.name, studentId: user.studentId, class: user.class },
-      selectedAssessments,
-      weeks,
-      generatedOn
-    )
-    const win = window.open('', '_blank')
-    if (!win) return
-    win.document.write(html)
-    win.document.close()
-    win.focus()
-    setTimeout(() => { win.print() }, 400)
-  }, [selectedAssessments, user, weeks])
+  const generateAndPrint = useCallback(() => openReportWindow(true), [openReportWindow])
+  const generateAndDownload = useCallback(() => openReportWindow(false), [openReportWindow])
 
   // Stats for selected
   const overallAvg = selectedAssessments.length
@@ -571,45 +557,29 @@ export default function ReportCardGenerator() {
                 {/* Week groups */}
                 <div className="divide-y divide-gray-100 dark:divide-white/5">
                   {weeks.map(wk => {
-                    const allSel = wk.assessments.every(a => selectedIds.has(a.id))
-                    const someSel = wk.assessments.some(a => selectedIds.has(a.id))
                     const isCollapsed = collapsedWeeks.has(wk.key)
                     const wkAvg = Math.round(wk.assessments.reduce((s, a) => s + a.percentage, 0) / wk.assessments.length)
                     const wkGc = GRADE_COLOR[getGrade(wkAvg)]
                     return (
                       <div key={wk.key}>
-                        {/* Week header row */}
-                        <div className="flex items-center gap-3 px-6 py-3.5 bg-gray-50/60 dark:bg-white/[0.02]">
-                          <button onClick={() => toggleWeek(wk)} className="flex-shrink-0">
-                            {allSel ? (
-                              <CheckSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                            ) : someSel ? (
-                              <div className="w-4 h-4 rounded border-2 border-blue-400 bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center">
-                                <div className="w-1.5 h-1.5 rounded-sm bg-blue-500" />
-                              </div>
-                            ) : (
-                              <Square className="w-4 h-4 text-gray-300 dark:text-gray-600" />
-                            )}
-                          </button>
-                          <button onClick={() => toggleCollapseWeek(wk.key)} className="flex-1 flex items-center gap-2 text-left">
-                            <Calendar className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
-                            <span className="text-xs font-bold text-gray-700 dark:text-gray-300 flex-1">
-                              {wk.label}
-                            </span>
-                            <span className="text-[10px] font-semibold text-gray-400">
-                              {wk.assessments.length} test{wk.assessments.length !== 1 ? 's' : ''}
-                            </span>
-                            <span className="text-xs font-bold ml-1" style={{ color: wkGc.text }}>
-                              avg {wkAvg}%
-                            </span>
-                            {isCollapsed
-                              ? <ChevronDown className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-                              : <ChevronUp className="w-3.5 h-3.5 text-gray-400 flex-shrink-0" />
-                            }
-                          </button>
-                        </div>
+                        {/* Week header — visual divider only, click to collapse */}
+                        <button
+                          onClick={() => toggleCollapseWeek(wk.key)}
+                          className="w-full flex items-center gap-2 px-6 py-3 bg-gray-50 dark:bg-white/[0.03] text-left hover:bg-gray-100 dark:hover:bg-white/[0.05] transition-colors"
+                        >
+                          <Calendar className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                          <span className="text-xs font-bold text-gray-600 dark:text-gray-400 flex-1">{wk.label}</span>
+                          <span className="text-[10px] font-semibold text-gray-400 mr-1">
+                            {wk.assessments.length} test{wk.assessments.length !== 1 ? 's' : ''}
+                          </span>
+                          <span className="text-xs font-bold" style={{ color: wkGc.text }}>avg {wkAvg}%</span>
+                          {isCollapsed
+                            ? <ChevronDown className="w-3.5 h-3.5 text-gray-400 flex-shrink-0 ml-2" />
+                            : <ChevronUp className="w-3.5 h-3.5 text-gray-400 flex-shrink-0 ml-2" />
+                          }
+                        </button>
 
-                        {/* Assessment rows */}
+                        {/* Assessment rows — individual checkboxes */}
                         <AnimatePresence initial={false}>
                           {!isCollapsed && (
                             <motion.div
@@ -629,18 +599,27 @@ export default function ReportCardGenerator() {
                                   <button
                                     key={a.id}
                                     onClick={() => toggleAssessment(a.id)}
-                                    className={`w-full flex items-center gap-3 px-6 py-3 text-left transition-colors ${isSel ? 'bg-blue-50/50 dark:bg-blue-900/10' : 'hover:bg-gray-50 dark:hover:bg-white/[0.02]'}`}
+                                    className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all border-l-[3px] ${
+                                      isSel
+                                        ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-500'
+                                        : 'bg-white dark:bg-transparent border-transparent hover:bg-gray-50 dark:hover:bg-white/[0.02]'
+                                    }`}
                                   >
                                     <div className="flex-shrink-0">
-                                      {isSel
-                                        ? <CheckSquare className="w-4 h-4 text-blue-600 dark:text-blue-400" />
-                                        : <Square className="w-4 h-4 text-gray-300 dark:text-gray-600" />
-                                      }
+                                      {isSel ? (
+                                        <div className="w-4 h-4 rounded bg-blue-600 flex items-center justify-center">
+                                          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                                        </div>
+                                      ) : (
+                                        <div className="w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600" />
+                                      )}
                                     </div>
                                     <div className="flex-1 min-w-0">
                                       <div className="flex items-center gap-2">
-                                        <span className="text-sm font-semibold text-gray-800 dark:text-gray-200 truncate">{a.subject}</span>
-                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md capitalize flex-shrink-0"
+                                        <span className={`text-sm font-semibold truncate ${isSel ? 'text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
+                                          {a.subject}
+                                        </span>
+                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0"
                                           style={{ background: gc2.bg, color: gc2.text }}>
                                           {a.grade}
                                         </span>
@@ -655,11 +634,8 @@ export default function ReportCardGenerator() {
                                       </div>
                                     </div>
                                     <div className="flex items-center gap-2 flex-shrink-0">
-                                      <div className="w-16 h-1.5 bg-gray-100 dark:bg-white/10 rounded-full overflow-hidden">
-                                        <div
-                                          className="h-full rounded-full"
-                                          style={{ width: `${a.percentage}%`, background: gc2.text }}
-                                        />
+                                      <div className="w-16 h-1.5 bg-gray-200 dark:bg-white/10 rounded-full overflow-hidden">
+                                        <div className="h-full rounded-full" style={{ width: `${a.percentage}%`, background: gc2.text }} />
                                       </div>
                                       <span className="text-xs font-bold w-9 text-right" style={{ color: gc2.text }}>
                                         {a.percentage}%
@@ -765,7 +741,7 @@ export default function ReportCardGenerator() {
                     className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-800 dark:text-gray-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   >
                     <Download className="w-4 h-4" />
-                    {isGenerating ? 'Generating…' : 'Download HTML'}
+                    {isGenerating ? 'Opening…' : 'Save as PDF'}
                   </button>
                 </div>
 

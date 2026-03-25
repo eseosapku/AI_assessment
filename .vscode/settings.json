@@ -3,5 +3,7 @@
   "sqltools.connections": [],
   "[sql]": {
     "editor.defaultFormatter": "mtxr.sqltools"
-  }
+  },
+  "Db2SqlService.enable": false,
+  "db2gse.enable": false
 }

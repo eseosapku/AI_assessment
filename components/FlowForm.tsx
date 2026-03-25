@@ -24,7 +24,7 @@ interface FlowFormProps {
   onAssign?: (formData: any, assessmentId: string) => void
 }
 
-const GRADES: GradeLevel[] = [7, 8, 9, 10, 11, 12]
+const GRADES: GradeLevel[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 const TOTAL_STEPS = 9
 
 const DIFFICULTY_LEVELS = [
@@ -80,10 +80,7 @@ const QUESTION_TYPES = [
   { id: 'mixed',    label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions',                 icon: '⚡' },
 ]
 
-const AI_MODELS = [
-  { id: 'groq',                    label: 'Groq — Llama 3.3 70B', badge: 'DEFAULT', badgeColor: 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' },
-  { id: 'us.amazon.nova-micro-v1:0', label: 'Nova Micro',         badge: 'AWS',     badgeColor: 'bg-orange-100 text-orange-700 dark:bg-orange-900/40 dark:text-orange-300' },
-]
+const AI_MODEL = { id: 'us.amazon.nova-micro-v1:0', label: 'Nova Micro', badge: 'AWS' }
 
 // Shared pill button: highlighted when selected, clean when not
 function OptionButton({
@@ -129,8 +126,9 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const { user } = useAuth()
   const isTeacher = (user as any)?.role === 'teacher'
   const [step, setStep] = useState(1)
-  const [aiModel, setAiModel] = useState('groq')
-  const [showModelPicker, setShowModelPicker] = useState(false)
+  const [aiModel] = useState(AI_MODEL.id)
+  const [customTime, setCustomTime] = useState<number | null>(null)
+  const [showTimerInput, setShowTimerInput] = useState(false)
   const [formData, setFormData] = useState({
     grade: null as GradeLevel | null,
     difficultyLevel: '' as string,
@@ -174,7 +172,7 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
       const response = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, className: user?.class, user_id: user?.id, aiModel }),
+        body: JSON.stringify({ ...formData, className: user?.class, user_id: user?.id, aiModel, customTime }),
       })
       const text = await response.text()
       if (!text) throw new Error('Server returned an empty response. Please try again.')
@@ -439,47 +437,42 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                   ))}
                 </div>
 
-                {/* AI Model selector */}
+                {/* Timer button */}
                 <div className="mb-4">
                   <button
                     type="button"
-                    onClick={() => setShowModelPicker(p => !p)}
-                    className="w-full flex items-center justify-between px-4 py-2.5 rounded-xl border border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700 transition-colors"
+                    onClick={() => setShowTimerInput(p => !p)}
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
+                      customTime !== null
+                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                        : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                    }`}
                   >
-                    <div className="flex items-center gap-2">
-                      <span className="text-xs font-semibold text-gray-500 dark:text-gray-400">AI Model</span>
-                      <span className="text-xs font-bold text-gray-800 dark:text-gray-200">
-                        {AI_MODELS.find(m => m.id === aiModel)?.label ?? aiModel}
-                      </span>
-                      <span className={`text-[10px] font-bold px-1.5 py-0.5 rounded ${AI_MODELS.find(m => m.id === aiModel)?.badgeColor}`}>
-                        {AI_MODELS.find(m => m.id === aiModel)?.badge}
-                      </span>
-                    </div>
-                    <ChevronRight className={`w-3.5 h-3.5 text-gray-400 transition-transform ${showModelPicker ? 'rotate-90' : ''}`} />
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    {customTime !== null ? `Timer: ${customTime} min` : 'Set custom timer'}
                   </button>
-                  {showModelPicker && (
-                    <motion.div
-                      initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
-                      className="mt-2 grid grid-cols-2 gap-1.5 max-h-56 overflow-y-auto pr-1"
-                    >
-                      {AI_MODELS.map(m => (
-                        <button
-                          key={m.id}
-                          type="button"
-                          onClick={() => { setAiModel(m.id); setShowModelPicker(false) }}
-                          className={`flex items-center gap-2 px-3 py-2 rounded-lg border text-left transition-colors ${
-                            aiModel === m.id
-                              ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                              : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700'
-                          }`}
-                        >
-                          <span className={`text-[9px] font-black px-1 py-0.5 rounded flex-shrink-0 ${m.badgeColor}`}>{m.badge}</span>
-                          <span className="text-xs font-medium text-gray-800 dark:text-gray-200 truncate">{m.label}</span>
-                        </button>
-                      ))}
-                    </motion.div>
-                  )}
                 </div>
+                {showTimerInput && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -4 }} animate={{ opacity: 1, y: 0 }}
+                    className="mb-4 flex items-center gap-2 px-3 py-2.5 rounded-xl border border-blue-200 dark:border-blue-800/60 bg-blue-50/50 dark:bg-blue-900/10"
+                  >
+                    <span className="text-xs text-gray-600 dark:text-gray-400 flex-shrink-0">Minutes:</span>
+                    <input
+                      type="number"
+                      min={1}
+                      max={300}
+                      value={customTime ?? ''}
+                      placeholder="e.g. 45"
+                      onChange={e => setCustomTime(e.target.value ? Math.max(1, parseInt(e.target.value)) : null)}
+                      className="flex-1 bg-transparent text-xs font-bold text-gray-900 dark:text-white outline-none"
+                    />
+                    {customTime !== null && (
+                      <button type="button" onClick={() => { setCustomTime(null); setShowTimerInput(false) }}
+                        className="text-[10px] text-gray-400 hover:text-red-500 transition-colors">clear</button>
+                    )}
+                  </motion.div>
+                )}
 
                 {error && (
                   <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }}

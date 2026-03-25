@@ -459,7 +459,7 @@ export async function POST(request: NextRequest) {
     const geminiKey = process.env.GOOGLE_GEMINI_API_KEY ?? ''
 
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'groq' } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'us.amazon.nova-micro-v1:0', customTime } = body
 
     if (!subject || !topics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -624,12 +624,16 @@ export async function POST(request: NextRequest) {
     // Re-number questions sequentially in case the model drifted
     allQuestions.forEach((q, i) => { q.id = i + 1 })
 
-    // Compute estimated time from the first batch's prompt helper
-    const { estimatedTime: et } = buildPrompt({
-      subject, topics, count, startId: 1, style,
-      curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
-    })
-    estimatedTime = et
+    // Use custom time if provided, otherwise calculate from prompt helper
+    if (customTime && customTime > 0) {
+      estimatedTime = Number(customTime)
+    } else {
+      const { estimatedTime: et } = buildPrompt({
+        subject, topics, count, startId: 1, style,
+        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
+      })
+      estimatedTime = et
+    }
 
     const assessmentData: any = { questions: allQuestions, estimated_time: estimatedTime }
 

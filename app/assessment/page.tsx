@@ -12,7 +12,7 @@ import Latex from 'react-latex-next'
 // Text already containing $ delimiters is left untouched.
 function L({ children }: { children: string }) {
   const text = children ?? ''
-  const wrapped = text.includes('$') ? text : /\\[a-zA-Z]/.test(text) ? `$${text}$` : text
+  const wrapped = text.includes('$') ? text : /\\[a-zA-Z]|[\^_]/.test(text) ? `$${text}$` : text
   return <Latex>{wrapped}</Latex>
 }
 
