@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { jsonrepair } from 'jsonrepair'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
@@ -170,23 +169,17 @@ async function generatePassageWithGemini(
 }
 
 // ── Passage generation via Groq (fallback — uses llama-3.1-8b-instant, separate TPM bucket) ──
-async function generatePassageWithGroq(
+async function generatePassageWithBedrock(
   question: string,
   subject: string,
   hint: string,
-  groq: Groq
+  callFn: (prompt: string, maxTokens: number) => Promise<string>
 ): Promise<{ text: string; source: string } | null> {
   try {
-    const completion = await groq.chat.completions.create({
-      model: 'llama-3.1-8b-instant',
-      messages: [{ role: 'user', content: PASSAGE_PROMPT(question, subject, hint) }],
-      temperature: 0.75,
-      max_tokens: 1400,
-    })
-    const raw = completion.choices?.[0]?.message?.content ?? ''
+    const raw = await callFn(PASSAGE_PROMPT(question, subject, hint), 1400)
     return parsePassageResponse(raw)
   } catch (err) {
-    console.error('Groq passage generation failed:', err)
+    console.error('Bedrock passage generation failed:', err)
     return null
   }
 }
@@ -221,7 +214,7 @@ async function generateAllPassages(
   questions: any[],
   geminiKey: string,
   subject: string,
-  groq: Groq
+  callFn: (prompt: string, maxTokens: number) => Promise<string>
 ): Promise<void> {
   const needsWork = questions.filter(q => !q.passage)
   if (needsWork.length === 0) {
@@ -230,14 +223,10 @@ async function generateAllPassages(
   }
 
   const useShared = needsWork.length > 10
-  const QS_PER_PASSAGE = 10  // ~10 questions share one anchor passage
+  const QS_PER_PASSAGE = 10
 
   if (useShared) {
-    // ── Shared-passage path ───────────────────────────────────────────────────
-    // 1. Decide how many anchor passages we need
     const numPassages = Math.ceil(needsWork.length / QS_PER_PASSAGE)
-
-    // 2. Generate all anchor passages in parallel (at most 4 calls)
     const anchorResults = await Promise.all(
       Array.from({ length: numPassages }, (_, gi) => {
         const hint = sharedPassageHint(gi)
@@ -245,40 +234,29 @@ async function generateAllPassages(
         const fullHint = `${hint}. The passage must support questions on: ${pivotQ.slice(0, 100)}`
         const gen = geminiKey
           ? generatePassageWithGemini(pivotQ, subject, fullHint, geminiKey)
-              .then(r => r ?? generatePassageWithGroq(pivotQ, subject, fullHint, groq))
-          : generatePassageWithGroq(pivotQ, subject, fullHint, groq)
+              .then(r => r ?? generatePassageWithBedrock(pivotQ, subject, fullHint, callFn))
+          : generatePassageWithBedrock(pivotQ, subject, fullHint, callFn)
         return gen.catch(() => null)
       })
     )
-
-    // 3. Assign each question to the appropriate anchor passage
     needsWork.forEach((q, i) => {
-      const groupIdx = Math.floor(i / QS_PER_PASSAGE)
-      const anchor = anchorResults[groupIdx]
-      if (anchor) {
-        q.passage = anchor.text
-        q.passage_source = anchor.source
-      }
-      delete q.needs_passage
-      delete q.passage_hint
+      const anchor = anchorResults[Math.floor(i / QS_PER_PASSAGE)]
+      if (anchor) { q.passage = anchor.text; q.passage_source = anchor.source }
+      delete q.needs_passage; delete q.passage_hint
     })
   } else {
-    // ── Per-question path (small sets, ≤10 questions) ─────────────────────────
     const jobs = needsWork.map(q => {
-      if (!q.passage_hint) {
-        q.passage_hint = `A rich literary or non-fiction extract directly relevant to: "${q.question.slice(0, 120)}"`
-      }
+      if (!q.passage_hint) q.passage_hint = `A rich literary or non-fiction extract directly relevant to: "${q.question.slice(0, 120)}"`
       return q
     })
-
     await Promise.all(
       jobs.map(q => {
         const gen = geminiKey
           ? generatePassageWithGemini(q.question, subject, q.passage_hint, geminiKey)
-              .then(r => r ?? generatePassageWithGroq(q.question, subject, q.passage_hint, groq))
-          : generatePassageWithGroq(q.question, subject, q.passage_hint, groq)
+              .then((r: { text: string; source: string } | null) => r ?? generatePassageWithBedrock(q.question, subject, q.passage_hint, callFn))
+          : generatePassageWithBedrock(q.question, subject, q.passage_hint, callFn)
         return gen
-          .then(result => { if (result) { q.passage = result.text; q.passage_source = result.source } })
+          .then((result: { text: string; source: string } | null) => { if (result) { q.passage = result.text; q.passage_source = result.source } })
           .catch(() => null)
       })
     )
@@ -452,10 +430,6 @@ Generate all ${count} questions now.`
 // ── Main route ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   try {
-    const groqKey = process.env.GROQ_API_KEY
-    if (!groqKey) return NextResponse.json({ error: 'GROQ_API_KEY not set' }, { status: 500 })
-
-    const groq = new Groq({ apiKey: groqKey })
     const geminiKey = process.env.GOOGLE_GEMINI_API_KEY ?? ''
 
     const body = await request.json()
@@ -478,16 +452,14 @@ export async function POST(request: NextRequest) {
     const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = geminiKey.length > 0
 
-    // ── Bedrock helpers ───────────────────────────────────────────────────────
-    const bedrockClient = (aiModel !== 'groq')
-      ? new BedrockRuntimeClient({
-          region: process.env.AWS_REGION ?? 'us-east-1',
-          credentials: {
-            accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-            secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-          },
-        })
-      : null
+    // ── Bedrock client ────────────────────────────────────────────────────────
+    const bedrockClient = new BedrockRuntimeClient({
+      region: process.env.AWS_REGION ?? 'us-east-1',
+      credentials: {
+        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+      },
+    })
 
     const stripPrefix = (id: string) => id.replace(/^(us|eu|ap)\./, '')
 
@@ -550,9 +522,6 @@ export async function POST(request: NextRequest) {
 
     // ── Stage 1: Question skeleton generation (Bedrock or Groq) ──────────────
     // Batched: max 20 per call to stay within token limits.
-    // Groq: llama-3.3-70b-versatile → gemma2-9b-it fallback.
-    // Bedrock: single model, no fallback needed (user selected it explicitly).
-    const GROQ_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it'] as const
     const BATCH_SIZE = 20
 
     async function tryGenerateBatch(batchCount: number, startId: number): Promise<any[]> {
@@ -561,36 +530,7 @@ export async function POST(request: NextRequest) {
         curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
       })
       const maxTokens = batchCount <= 10 ? 3500 : 6000
-
-      let text = ''
-
-      if (aiModel !== 'groq' && bedrockClient) {
-        // ── Bedrock path ────────────────────────────────────────────────────
-        text = await callBedrock(prompt, maxTokens)
-      } else {
-        // ── Groq path ───────────────────────────────────────────────────────
-        let lastErr: any
-        for (const model of GROQ_MODELS) {
-          try {
-            const completion = await groq.chat.completions.create({
-              model,
-              messages: [{ role: 'user', content: prompt }],
-              temperature: 0.7,
-              max_tokens: maxTokens,
-              response_format: { type: 'json_object' },
-            })
-            text = completion.choices[0]?.message?.content ?? ''
-            break
-          } catch (err: any) {
-            lastErr = err
-            const is429 = err.status === 429 || err.message?.includes('429') || err.error?.code === 'rate_limit_exceeded'
-            const isJsonFail = err.status === 400 || err instanceof SyntaxError || err.message?.includes('JSON') || err.message?.includes('json')
-            if (is429 || isJsonFail) { console.warn(`Model ${model} failed — trying next...`); continue }
-            throw err
-          }
-        }
-        if (!text) throw lastErr
-      }
+      const text = await callBedrock(prompt, maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
       const parsed = parseJsonRobust(fixLatexInRawJson(text))
@@ -677,9 +617,9 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // ── Stage 2b: Passages — Gemini preferred, Groq fallback ─────────────────
+    // ── Stage 2b: Passages — Gemini preferred, Bedrock fallback ─────────────
     if (needsPassage(subject)) {
-      await generateAllPassages(assessmentData.questions, geminiKey, subject, groq)
+      await generateAllPassages(assessmentData.questions, geminiKey, subject, callBedrock)
     } else {
       assessmentData.questions.forEach((q: any) => {
         delete q.needs_passage
