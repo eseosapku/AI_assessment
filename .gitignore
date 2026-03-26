@@ -32,3 +32,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# PDF textbooks (source material only – data extracted into rwanda-curriculum.ts)
+*.pdf
+senior class/
