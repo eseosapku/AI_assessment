@@ -456,7 +456,7 @@ function validateMcqAnswers(questions: any[]): void {
     }
     if (computed === null) {
       // Subtraction word: "X ... take away / give / minus Y"
-      const sw = text.match(/(\d+)\s+(?:\w+\s+){0,8}(?:take\s+away|give[s]?\s+(?:away\s+)?|subtract[s]?|minus|remove[s]?)\s+(\d+)/i)
+      const sw = text.match(/(\d+)\s+(?:\w+\s+){0,8}(?:take\s+away|give[s]?(?:\s+away)?|subtract[s]?|minus|remove[s]?)\s+(\d+)/i)
       if (sw) computed = +sw[1] - +sw[2]
     }
     if (computed === null) {
@@ -538,6 +538,31 @@ function fixExpressionMcqs(questions: any[]): void {
     if (optionSums.every(s => s === null)) continue // no expression options
 
     const qText = (q.question || '').toLowerCase()
+
+    // ── General: ALL 4 expression options sum to the SAME value ───────────────
+    // Catches any "which combination makes N?" / "adds up to N?" phrasing where
+    // the AI put four valid sums as options. Keep the marked answer; replace others.
+    // Guard: skip if the question is asking for an INCORRECT/wrong answer.
+    const definedSums = optionSums.filter((s): s is number => s !== null)
+    if (definedSums.length === 4 && definedSums.every(s => s === definedSums[0])) {
+      const target = definedSums[0]
+      const isNegativeQ = /\b(?:not|incorrect|wrong|false|does\s+not)\b/i.test(qText)
+      if (!isNegativeQ && qText.includes(String(target))) {
+        const keep = q.correct_answer
+        let seed = 0
+        for (let i = 0; i < 4; i++) {
+          if (i !== keep) {
+            const offset = [1, -1, 2, -2][seed % 4]
+            const wrongSum = Math.max(2, target + offset)
+            const a = Math.max(1, Math.floor(wrongSum / 2))
+            q.options[i] = `${a} + ${Math.max(1, wrongSum - a)}`
+            seed++
+          }
+        }
+        console.warn(`All-equal-sum fix: all 4 options summed to ${target}, kept idx ${keep}`)
+        continue
+      }
+    }
 
     // ── "Which number bond to N is correct?" ──────────────────────────────────
     const correctMatch = qText.match(/bond\s+to\s+(\d+)\s+is\s+correct/i)
@@ -793,6 +818,13 @@ export async function POST(request: NextRequest) {
     // Fix expression-option MCQs (e.g. number bond questions where options are "A+B")
     fixExpressionMcqs(allQuestions)
     fixOrderingQuestions(allQuestions)
+
+    // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)
+    if (allQuestions.length > count) {
+      allQuestions = allQuestions.slice(0, count)
+    }
+    // Final re-number after trim
+    allQuestions.forEach((q: any, i: number) => { q.id = i + 1 })
 
     // Use custom time if provided, otherwise calculate from prompt helper
     if (customTime && customTime > 0) {

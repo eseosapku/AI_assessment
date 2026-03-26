@@ -547,7 +547,7 @@ function fixMcqAnswers(questions: Question[]): void {
     if (computed === null) { const bef = t.match(/(?:comes?|right)\s+before\s+(\d+)/i); if (bef) { const v = +bef[1] - 1; if (v >= 0) computed = v } }
     if (computed === null) { const df = t.match(/difference\s+between\s+(\d+)\s+and\s+(\d+)/i); if (df) computed = Math.abs(+df[1] - +df[2]) }
     if (computed === null) {
-      const sw = t.match(/(\d+)\s+(?:\w+\s+){0,8}(?:take\s+away|give[s]?\s+(?:away\s+)?|subtract[s]?|minus|remove[s]?)\s+(\d+)/i)
+      const sw = t.match(/(\d+)\s+(?:\w+\s+){0,8}(?:take\s+away|give[s]?(?:\s+away)?|subtract[s]?|minus|remove[s]?)\s+(\d+)/i)
       if (sw) computed = +sw[1] - +sw[2]
     }
     if (computed === null) {
