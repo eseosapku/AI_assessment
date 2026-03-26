@@ -80,7 +80,7 @@ const QUESTION_TYPES = [
   { id: 'mixed',    label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions',                 icon: '⚡' },
 ]
 
-const AI_MODEL = { id: 'us.amazon.nova-micro-v1:0', label: 'Nova Micro', badge: 'AWS' }
+const AI_MODEL = { id: 'us.amazon.nova-lite-v1:0', label: 'Nova Lite', badge: 'AWS' }
 
 // Shared pill button: highlighted when selected, clean when not
 function OptionButton({
@@ -265,7 +265,7 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                     <OptionButton key={grade} selected={formData.grade === grade} onClick={() => handleGradeSelect(grade)}>
                       <span className="font-bold text-gray-900 dark:text-white block">Grade {grade}</span>
                       <span className="text-[11px] text-gray-400 mt-0.5 block">
-                        {grade <= 9 ? 'S1–S3 / Yr 7–9' : grade <= 11 ? 'S4–S5 / IGCSE' : 'S6 / AS Level'}
+                        {grade <= 6 ? `P${grade} / Primary` : grade <= 9 ? `S${grade - 6} / Yr ${grade}` : grade <= 11 ? `S${grade - 6} / IGCSE` : 'S6 / AS Level'}
                       </span>
                     </OptionButton>
                   ))}

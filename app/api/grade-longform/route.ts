@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 
 export async function POST(request: NextRequest) {
   try {
-    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
     const body = await request.json()
     const { questions, answers, subject } = body
 
@@ -69,8 +68,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ grades: emptyGrades })
     }
 
-    // ── Single Groq call grades ALL long-form questions at once ───────────────
-    // This avoids multiple rapid-fire API calls that would breach the TPM limit.
+    // ── Single Bedrock call grades ALL long-form questions at once ────────────
     const questionsBlock = questionsToGrade
       .map(({ q, idx }: any, i: number) => {
         const studentAnswer = (answers[idx] || '').trim()
@@ -125,17 +123,25 @@ ${questionsToGrade
 
 Indices to grade: ${indexList}`
 
-    const GRADE_MODELS = ['llama-3.3-70b-versatile', 'llama-3.1-8b-instant', 'gemma2-9b-it'] as const
-
-    async function tryGrade(model: string): Promise<Record<number, any>> {
-      const completion = await groq.chat.completions.create({
-        model,
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.2,
-        max_tokens: 2048,
-        response_format: { type: 'json_object' },
+    async function tryGrade(): Promise<Record<number, any>> {
+      const client = new BedrockRuntimeClient({
+        region: process.env.AWS_REGION ?? 'us-east-1',
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+        },
       })
-      let text = (completion.choices[0]?.message?.content || '').trim()
+      const cmd = new InvokeModelCommand({
+        modelId: 'us.amazon.nova-lite-v1:0',
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: [{ text: prompt }] }],
+          inferenceConfig: { maxTokens: 2048, temperature: 0.2 },
+        }),
+      })
+      const res = await client.send(cmd)
+      let text = (JSON.parse(new TextDecoder().decode(res.body))?.output?.message?.content?.[0]?.text ?? '').trim()
       text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim()
       const parsed = JSON.parse(text)
       const aiGrades: Record<string, any> = parsed.grades ?? {}
@@ -161,38 +167,7 @@ Indices to grade: ${indexList}`
     }
 
     try {
-      let grades: Record<number, any> | null = null
-      let lastGradeErr: any
-
-      for (const model of GRADE_MODELS) {
-        try {
-          grades = await tryGrade(model)
-          break
-        } catch (err: any) {
-          lastGradeErr = err
-          const is429 = err.status === 429 || err.message?.includes('429') || err.error?.code === 'rate_limit_exceeded'
-          if (is429) { console.warn(`Grading model ${model} rate-limited — trying next…`); continue }
-          throw err // non-rate-limit error — surface immediately
-        }
-      }
-
-      if (!grades) {
-        // All models rate-limited — return zero marks with clear message
-        const fallbackGrades: Record<number, any> = { ...emptyGrades }
-        questionsToGrade.forEach(({ q, idx }: any) => {
-          fallbackGrades[idx] = {
-            marks_awarded: 0,
-            marks_total: q.marks,
-            criteria_results: q.marking_criteria.map((c: string) => ({
-              criterion: c, met: false, relevant_quote: null,
-              note: 'Grading temporarily unavailable — please try again in 30 seconds.',
-            })),
-            general_feedback: 'All grading models were busy. Please resubmit in 30 seconds.',
-          }
-        })
-        return NextResponse.json({ grades: fallbackGrades })
-      }
-
+      const grades = await tryGrade()
       return NextResponse.json({ grades })
     } catch (err: any) {
       console.error('Grading AI error:', err)

@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
-import Groq from 'groq-sdk'
+import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 
 export async function POST(request: NextRequest) {
   try {
-    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY })
     const body = await request.json()
     const { assessment, answers, longFormAnswers, longFormGrades, score, grade, className } = body
 
@@ -73,45 +72,61 @@ ${hasLongForm ? '⚠️ [Written answer skill if applicable]: [Specific feedback
 ─────────────────────────────────────────────
 Use exactly the symbols shown (✅ ⚠️ 💡). Use **bold** only for the three section headers. Write in full sentences. Be specific — generic feedback is not acceptable.`
 
-    try {
-      const completion = await groq.chat.completions.create({
-        model: 'llama-3.3-70b-versatile',
-        messages: [{ role: 'user', content: prompt }],
-        temperature: 0.65,
-        max_tokens: 900,
+    // Build the static fallback first so it's available in all paths
+    const missed = assessment.questions
+      .map((q: any, idx: number) => {
+        if (q.type === 'longform') return null
+        return answers?.[idx] !== q.correct_answer ? `Q${idx + 1} (${q.question?.slice(0, 60)}…)` : null
       })
-      const feedback = completion.choices[0]?.message?.content?.trim() || ''
-      return NextResponse.json({ feedback })
+      .filter(Boolean)
+      .slice(0, 3)
+      .join(', ')
+
+    const fallback = [
+      `**What you did well**`,
+      `✅ You completed the assessment and demonstrated effort across the questions.`,
+      `✅ Your score of ${score}% shows you have a foundation in ${assessment.subject} to build on.`,
+      `✅ Attempting all questions shows good exam technique.`,
+      ``,
+      `**Areas to improve**`,
+      missed
+        ? `⚠️ Review the following questions where your answer was incorrect: ${missed}. Go back to the explanations provided for each one.`
+        : `⚠️ Review all topic areas to consolidate your knowledge.`,
+      `⚠️ Make sure you read each question carefully and check your working before selecting an answer.`,
+      ``,
+      `**How to improve**`,
+      `💡 Go through each incorrect answer in the Detailed Review below and read the explanation carefully.`,
+      `💡 Make revision notes on the topics you found difficult and practise similar questions.`,
+      `💡 Attempt this assessment again after revision to track your progress.`,
+    ].join('\n')
+
+    // If no AWS credentials, return the fallback
+    if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+      return NextResponse.json({ feedback: fallback })
+    }
+
+    try {
+      const client = new BedrockRuntimeClient({
+        region: process.env.AWS_REGION ?? 'us-east-1',
+        credentials: {
+          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+        },
+      })
+      const cmd = new InvokeModelCommand({
+        modelId: 'us.amazon.nova-lite-v1:0',
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: JSON.stringify({
+          messages: [{ role: 'user', content: [{ text: prompt }] }],
+          inferenceConfig: { maxTokens: 900, temperature: 0.65 },
+        }),
+      })
+      const res = await client.send(cmd)
+      const feedback = (JSON.parse(new TextDecoder().decode(res.body))?.output?.message?.content?.[0]?.text ?? '').trim()
+      return NextResponse.json({ feedback: feedback || fallback })
     } catch (aiError: any) {
-      console.error('Groq AI feedback error:', aiError)
-      // Fallback: generate a minimal but still useful response
-      const missed = assessment.questions
-        .map((q: any, idx: number) => {
-          if (q.type === 'longform') return null
-          return answers?.[idx] !== q.correct_answer ? `Q${idx + 1} (${q.question?.slice(0, 60)}…)` : null
-        })
-        .filter(Boolean)
-        .slice(0, 3)
-        .join(', ')
-
-      const fallback = [
-        `**What you did well**`,
-        `✅ You completed the assessment and demonstrated effort across the questions.`,
-        `✅ Your score of ${score}% shows you have a foundation in ${assessment.subject} to build on.`,
-        `✅ Attempting all questions shows good exam technique.`,
-        ``,
-        `**Areas to improve**`,
-        missed
-          ? `⚠️ Review the following questions where your answer was incorrect: ${missed}. Go back to the explanations provided for each one.`
-          : `⚠️ Review all topic areas to consolidate your knowledge.`,
-        `⚠️ Make sure you read each question carefully and check your working before selecting an answer.`,
-        ``,
-        `**How to improve**`,
-        `💡 Go through each incorrect answer in the Detailed Review below and read the explanation carefully.`,
-        `💡 Make revision notes on the topics you found difficult and practise similar questions.`,
-        `💡 Attempt this assessment again after revision to track your progress.`,
-      ].join('\n')
-
+      console.error('Bedrock feedback error:', aiError)
       return NextResponse.json({ feedback: fallback })
     }
   } catch (error) {

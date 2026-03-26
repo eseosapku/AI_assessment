@@ -5,22 +5,7 @@ import {
 } from '@aws-sdk/client-bedrock-runtime'
 
 const MODELS = [
-  { id: 'us.meta.llama3-2-1b-instruct-v1:0',    label: 'Llama 3.2 1B' },
-  { id: 'us.meta.llama3-2-3b-instruct-v1:0',    label: 'Llama 3.2 3B' },
-  { id: 'us.meta.llama3-2-11b-instruct-v1:0',   label: 'Llama 3.2 11B' },
-  { id: 'us.google.gemma-3-4b-it',              label: 'Gemma 3 4B' },
-  { id: 'us.google.gemma-3-12b-it',             label: 'Gemma 3 12B' },
-  { id: 'us.openai.gpt-oss-20b-1:0',            label: 'GPT OSS 20B' },
-  { id: 'us.openai.gpt-oss-120b-1:0',           label: 'GPT OSS 120B' },
-  { id: 'us.nvidia.nemotron-nano-12b-v2',       label: 'Nemotron Nano 12B' },
-  { id: 'us.nvidia.nemotron-nano-9b-v2',        label: 'Nemotron Nano 9B' },
-  { id: 'us.nvidia.nemotron-nano-3-30b',        label: 'Nemotron 30B' },
-  { id: 'us.mistral.ministral-3-8b-instruct',   label: 'Ministral 8B' },
-  { id: 'us.mistral.ministral-3-3b-instruct',   label: 'Ministral 3B' },
-  { id: 'us.mistral.voxtral-mini-3b-2507',      label: 'Voxtral Mini 3B' },
-  { id: 'us.mistral.voxtral-small-24b-2507',    label: 'Voxtral Small 24B' },
-  { id: 'us.amazon.nova-lite-v1:0',             label: 'Nova Lite' },
-  { id: 'us.amazon.nova-micro-v1:0',            label: 'Nova Micro' },
+  { id: 'us.amazon.nova-lite-v1:0', label: 'Nova Lite' },
 ]
 
 // Strip the optional "us." / "eu." / "ap." cross-region prefix for family detection

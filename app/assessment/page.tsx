@@ -507,6 +507,92 @@ function LongFormResultCard({
   )
 }
 
+// ── Client-side MCQ answer validator ───────────────────────────────────────────
+// Mirrors the server-side validator so old assessments loaded from sessionStorage
+// also get corrected. Explanation-first strategy is most reliable.
+function fixMcqAnswers(questions: Question[]): void {
+  for (const q of questions) {
+    if (isLongForm(q)) continue
+    const mcq = q as MCQQuestion
+    if (!Array.isArray(mcq.options) || mcq.options.length !== 4) continue
+    const ci = Number(mcq.correct_answer)
+    if (isNaN(ci) || ci < 0 || ci > 3) mcq.correct_answer = 0
+
+    // Skip when options are sequences (e.g. "3, 5, 8, 12") — stripping commas gives
+    // a bare number that wrongly matches a single-value option.
+    if (mcq.options.some(o => String(o).includes(','))) continue
+
+    // Skip when options are arithmetic expressions like "5+5" or "3+7".
+    if (mcq.options.some(o => /[+\-×÷\/]/.test(String(o)))) continue
+
+    // ── Strategy 1: deterministic arithmetic from question text ───────────────
+    const t = (mcq.question || '').replace(/\$+/g, '').trim()
+    let computed: number | null = null
+
+    const a = t.match(/(\d+)\s*\+\s*(\d+)\s*=?\s*\?/)
+    if (a) computed = +a[1] + +a[2]
+    if (computed === null) { const s = t.match(/(\d+)\s*[-−]\s*(\d+)\s*=?\s*\?/); if (s) computed = +s[1] - +s[2] }
+    if (computed === null) { const m = t.match(/(\d+)\s*[×x*]\s*(\d+)\s*=?\s*\?/); if (m) computed = +m[1] * +m[2] }
+    if (computed === null) {
+      const ma = t.match(/(\d+)\s*\+\s*\?\s*=\s*(\d+)/) || t.match(/\?\s*\+\s*(\d+)\s*=\s*(\d+)/)
+      if (ma) computed = +ma[2] - +ma[1]
+    }
+    if (computed === null) {
+      // "same sum: A+B and C+?" → (A+B) - C
+      const ss = t.match(/(\d+)\s*\+\s*(\d+)\s+and\s+(\d+)\s*\+\s*\?/i)
+      if (ss) computed = (+ss[1] + +ss[2]) - +ss[3]
+    }
+    if (computed === null) { const bf = t.match(/bond\s+to\s+(\d+)\s+for\s+(\d+)/i); if (bf) computed = +bf[1] - +bf[2] }
+    if (computed === null) { const aft = t.match(/(?:comes?|right)\s+after\s+(\d+)/i); if (aft) computed = +aft[1] + 1 }
+    if (computed === null) { const bef = t.match(/(?:comes?|right)\s+before\s+(\d+)/i); if (bef) { const v = +bef[1] - 1; if (v >= 0) computed = v } }
+    if (computed === null) { const df = t.match(/difference\s+between\s+(\d+)\s+and\s+(\d+)/i); if (df) computed = Math.abs(+df[1] - +df[2]) }
+    if (computed === null) {
+      const sw = t.match(/(\d+)\s+(?:\w+\s+){0,8}(?:take\s+away|give[s]?\s+(?:away\s+)?|subtract[s]?|minus|remove[s]?)\s+(\d+)/i)
+      if (sw) computed = +sw[1] - +sw[2]
+    }
+    if (computed === null) {
+      const aw = t.match(/(?:combining|adding)\s+(\d+)\s+and\s+(\d+)/i)
+        || t.match(/(\d+)\s+(?:\w+\s+){0,8}(?:add[s]?\s+(\d+)\s+more|get[s]?\s+(\d+)\s+more|and\s+(\d+)\s+more|plus\s+(\d+))/i)
+        || t.match(/have\s+(\d+)\s+(?:\w+\s+){0,6}add[s]?\s+(\d+)/i)
+      if (aw) { const b = Number(aw[2] || aw[3] || aw[4]); if (Number.isFinite(b)) computed = +aw[1] + b }
+    }
+
+    if (computed !== null && Number.isFinite(computed)) { applyPatch(mcq, computed); continue }
+
+    // ── Strategy 2: extract answer value from explanation text ────────────────
+    // Inline arithmetic (5+3=8) comes first — when the AI contradicts itself,
+    // the math in the explanation is right even when "correct answer is N" is wrong.
+    if (mcq.explanation) {
+      const expl = mcq.explanation.replace(/\$+/g, '').replace(/[−–]/g, '-')
+      const pats = [
+        /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,            // "5 + 3 = 8" — most reliable
+        /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
+        /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
+        /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
+        /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
+        /equals?\s+(-?\d+(?:\.\d+)?)/i,
+      ]
+      for (const p of pats) {
+        const m = expl.match(p)
+        if (m) { const v = Number(m[1]); if (Number.isFinite(v)) { applyPatch(mcq, v); break } }
+      }
+    }
+  }
+}
+
+function applyPatch(q: MCQQuestion, expected: number): void {
+  if (!Number.isFinite(expected)) return
+  const optNum = (o: string) => Number(o.replace(/[^0-9.\-]/g, ''))
+  if (optNum(String(q.options[q.correct_answer])) === expected) return
+  const idx = q.options.findIndex(o => optNum(String(o)) === expected)
+  if (idx !== -1) {
+    q.correct_answer = idx
+  } else {
+    // Correct answer is not in options at all — replace the marked slot with the right value
+    q.options[q.correct_answer] = String(expected)
+  }
+}
+
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export default function AssessmentPage() {
@@ -529,6 +615,8 @@ export default function AssessmentPage() {
     const data = sessionStorage.getItem('currentAssessment')
     if (data) {
       const assessmentData = JSON.parse(data)
+      // Fix any wrong correct_answer indices before the student sees the questions
+      if (Array.isArray(assessmentData.questions)) fixMcqAnswers(assessmentData.questions)
       setAssessment(assessmentData)
       setTimeRemaining(assessmentData.estimated_time * 60)
     } else {

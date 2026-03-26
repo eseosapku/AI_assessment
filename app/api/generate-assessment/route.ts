@@ -74,55 +74,6 @@ function fixLatexInRawJson(raw: string): string {
   return out
 }
 
-// ── Gemini helper (used for both diagrams AND passages) ───────────────────────
-async function callGemini(prompt: string, geminiKey: string, maxTokens = 2048): Promise<string> {
-  const res = await fetch(
-    `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${geminiKey}`,
-    {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        contents: [{ parts: [{ text: prompt }] }],
-        generationConfig: { temperature: 0.75, maxOutputTokens: maxTokens },
-      }),
-    }
-  )
-  if (!res.ok) throw new Error(`Gemini ${res.status}: ${await res.text()}`)
-  const data = await res.json()
-  return data.candidates?.[0]?.content?.parts?.[0]?.text ?? ''
-}
-
-// ── SVG diagram generation via Gemini ─────────────────────────────────────────
-async function generateDiagramSvg(
-  question: string,
-  subject: string,
-  hint: string,
-  geminiKey: string
-): Promise<string | null> {
-  try {
-    const raw = await callGemini(`You are an expert educational diagram creator. Generate a precise SVG diagram.
-
-QUESTION: "${question}"
-SUBJECT: ${subject}
-WHAT TO DRAW: ${hint}
-
-RULES:
-1. Return ONLY raw SVG. No markdown, no backticks.
-2. Start with: <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 280">
-3. End with: </svg>
-4. Never spoil the answer. Use a red "X" marker (fill="#dc2626") to indicate the focus area.
-5. All other shapes: stroke="#1e293b" stroke-width="2" fill="none".
-6. Use font-family="sans-serif" for text.
-
-Generate now:`, geminiKey, 2048)
-
-    const cleaned = raw.replace(/```svg\s*/gi, '').replace(/```\s*/g, '').trim()
-    const match = cleaned.match(/<svg[\s\S]*?<\/svg>/i)
-    return match ? match[0] : null
-  } catch {
-    return null
-  }
-}
 
 const PASSAGE_PROMPT = (question: string, subject: string, hint: string) => `You are creating a reading extract for a ${subject} exam paper.
 
@@ -152,23 +103,7 @@ function parsePassageResponse(raw: string): { text: string; source: string } | n
   return { text, source }
 }
 
-// ── Passage generation via Gemini (preferred — generous token limits) ──────────
-async function generatePassageWithGemini(
-  question: string,
-  subject: string,
-  hint: string,
-  geminiKey: string
-): Promise<{ text: string; source: string } | null> {
-  try {
-    const raw = await callGemini(PASSAGE_PROMPT(question, subject, hint), geminiKey, 1800)
-    return parsePassageResponse(raw)
-  } catch (err) {
-    console.error('Gemini passage generation failed:', err)
-    return null
-  }
-}
-
-// ── Passage generation via Groq (fallback — uses llama-3.1-8b-instant, separate TPM bucket) ──
+// ── Passage generation via Bedrock ───────────────────────────────────────────
 async function generatePassageWithBedrock(
   question: string,
   subject: string,
@@ -207,12 +142,10 @@ function sharedPassageHint(groupIdx: number): string {
 }
 
 // ── Generate all passages using the shared-passage strategy for large sets ────
-// For ≤10 questions: one passage per question (original approach).
-// For >10 questions: group into anchor passages (1 per 10 Qs) so we make at
-// most 4 passage API calls for 40 questions — well within Groq's free TPM.
+// For ≤10 questions: one passage per question.
+// For >10 questions: group into anchor passages (1 per 10 Qs).
 async function generateAllPassages(
   questions: any[],
-  geminiKey: string,
   subject: string,
   callFn: (prompt: string, maxTokens: number) => Promise<string>
 ): Promise<void> {
@@ -232,11 +165,7 @@ async function generateAllPassages(
         const hint = sharedPassageHint(gi)
         const pivotQ = needsWork[gi * QS_PER_PASSAGE]?.question ?? ''
         const fullHint = `${hint}. The passage must support questions on: ${pivotQ.slice(0, 100)}`
-        const gen = geminiKey
-          ? generatePassageWithGemini(pivotQ, subject, fullHint, geminiKey)
-              .then(r => r ?? generatePassageWithBedrock(pivotQ, subject, fullHint, callFn))
-          : generatePassageWithBedrock(pivotQ, subject, fullHint, callFn)
-        return gen.catch(() => null)
+        return generatePassageWithBedrock(pivotQ, subject, fullHint, callFn).catch(() => null)
       })
     )
     needsWork.forEach((q, i) => {
@@ -250,15 +179,11 @@ async function generateAllPassages(
       return q
     })
     await Promise.all(
-      jobs.map(q => {
-        const gen = geminiKey
-          ? generatePassageWithGemini(q.question, subject, q.passage_hint, geminiKey)
-              .then((r: { text: string; source: string } | null) => r ?? generatePassageWithBedrock(q.question, subject, q.passage_hint, callFn))
-          : generatePassageWithBedrock(q.question, subject, q.passage_hint, callFn)
-        return gen
+      jobs.map(q =>
+        generatePassageWithBedrock(q.question, subject, q.passage_hint, callFn)
           .then((result: { text: string; source: string } | null) => { if (result) { q.passage = result.text; q.passage_source = result.source } })
           .catch(() => null)
-      })
+      )
     )
     jobs.forEach(q => { delete q.needs_passage; delete q.passage_hint })
   }
@@ -306,6 +231,7 @@ function buildPrompt(opts: {
   questionType: 'mcq' | 'longform' | 'mixed'
   hasDiagramSupport: boolean
   difficultyLevel?: string
+  grade?: number | string
 }): { prompt: string; estimatedTime: number } {
   const { subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel } = opts
 
@@ -389,6 +315,11 @@ function buildPrompt(opts: {
 
   const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
 
+  const isPrimaryGrade = opts.grade && Number(opts.grade) >= 1 && Number(opts.grade) <= 6
+  const gradeAgeNote = isPrimaryGrade
+    ? `**GRADE CONTEXT:** This is Grade ${opts.grade} (Primary School, ages ${5 + Number(opts.grade)}–${6 + Number(opts.grade)}). ALL questions MUST be age-appropriate for young learners at this level. Use simple, clear vocabulary. Mathematics questions must use numbers appropriate for this grade. Do NOT include secondary-school level content.`
+    : ''
+
   const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment.
 
 ${curriculumBlock}
@@ -397,12 +328,13 @@ ${curriculumBlock}
 **Topics:** ${topics.join(', ')}
 **Total Questions:** ${count}
 **Style:** ${style}
+${gradeAgeNote ? `\n${gradeAgeNote}\n` : ''}
 ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 
 **Task:** ${questionInstruction}
 
 **Requirements:**
-1. All questions strictly based on the ${curriculumName} syllabus topics.
+1. All questions strictly based on the ${curriculumName} syllabus topics listed above.
 2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
 3. LaTeX math MUST be wrapped in dollar signs: $...$ for inline (e.g. $\\\\frac{1}{x}$, $\\\\sqrt{2}$, $x^2 + y^2$) and $$...$$ for display. This applies in ALL fields including explanations and model_answer. Never write bare LaTeX outside of dollar signs.
 4. MCQ "explanation" field: 100-150 words. Write a thorough explanation covering: (a) the concept or skill this question tests, (b) exactly why the correct answer is right with specific reasoning, evidence, or working shown, (c) why each of the three wrong options is incorrect and what misconception leads a student to pick it. Do NOT just restate the question. Write in full sentences.
@@ -410,6 +342,18 @@ ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
 ${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
 8. ${passageNote}
+
+**MCQ ANSWER INTEGRITY — NON-NEGOTIABLE:**
+- Every MCQ must have EXACTLY ONE correct answer among the four options.
+- The "correct_answer" field is a 0-based index (0=first option, 1=second, 2=third, 3=fourth). It MUST point to the option that is the ONLY correct answer.
+- BEFORE writing each MCQ, mentally verify: "Is options[correct_answer] the one and only correct answer?" If not, rewrite.
+- NEVER write a question where two or more options could both be correct. For example, if asking "which number bond to 10 is correct?", do NOT put multiple valid bonds (1+9, 2+8, 3+7, 5+5) as all four options — only ONE should be a correct bond and the other three must be WRONG (e.g. bonds that do NOT add to 10 like 3+8, 2+9, 4+5).
+- NEVER write a question where none of the options is correct.
+- NEVER generate the same question text twice. Every question in the assessment must test a DIFFERENT concept, fact, or calculation. Vary the numbers, operations, and contexts.
+- Do NOT generate more than ONE ordering/sorting question per assessment. Use other question types for variety.
+- For ordering/sorting questions (e.g. "correct order from smallest to largest"): ALL four options must be COMPLETE sequences of every number from the question. The correct sorted sequence MUST be one of the four options. NEVER use a bare number as an option for an ordering question — e.g. for "order 12, 5, 8, 3 from smallest to largest" the options must all be like "3, 5, 8, 12" not like "3".
+- For sequence/order questions (e.g. "what comes after X"): make the question unambiguous and ensure the answer IS in the options.
+- The explanation MUST describe the same answer as correct_answer. They must ALWAYS agree.
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 
@@ -427,13 +371,255 @@ Generate all ${count} questions now.`
   return { prompt, estimatedTime }
 }
 
+// ── Post-generation MCQ answer validator ─────────────────────────────────────
+// Two strategies in order of reliability:
+// 1. Compute correct answer from question text arithmetic
+// 2. Extract correct answer from explanation text (many patterns)
+// If the answer is found but is NOT in the options, replace the AI-marked option
+// with the correct value so the question is always answerable.
+function validateMcqAnswers(questions: any[]): void {
+  for (const q of questions) {
+    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
+    const ci = Number(q.correct_answer)
+    if (isNaN(ci) || ci < 0 || ci > 3) q.correct_answer = 0
+
+    // Skip when options are sequences (contain commas, e.g. "3, 5, 8, 12") — these are
+    // ordering questions handled by fixOrderingQuestions, not numeric extraction.
+    if (q.options.some((o: any) => String(o).includes(','))) continue
+
+    // Skip when options are arithmetic expressions (e.g. "5+5", "3+7").
+    const optionsAreExpressions = q.options.some((o: any) => /[+\-×÷\/]/.test(String(o)))
+    if (optionsAreExpressions) continue
+
+    // ── Strategy 1: Deterministic arithmetic from question text ───────────────
+    const text = (q.question || '').replace(/\$+/g, '').trim()
+    let computed: number | null = null
+
+    const a = text.match(/(\d+)\s*\+\s*(\d+)\s*=?\s*\?/)
+    if (a) computed = +a[1] + +a[2]
+    if (computed === null) {
+      const s = text.match(/(\d+)\s*[-−]\s*(\d+)\s*=?\s*\?/)
+      if (s) computed = +s[1] - +s[2]
+    }
+    if (computed === null) {
+      const m = text.match(/(\d+)\s*[×x*]\s*(\d+)\s*=?\s*\?/)
+      if (m) computed = +m[1] * +m[2]
+    }
+    if (computed === null) {
+      // "X + ? = Z" or "? + X = Z"
+      const ma = text.match(/(\d+)\s*\+\s*\?\s*=\s*(\d+)/) || text.match(/\?\s*\+\s*(\d+)\s*=\s*(\d+)/)
+      if (ma) computed = +ma[2] - +ma[1]
+    }
+    if (computed === null) {
+      // "same sum: A + B and C + ?" → answer = (A+B) - C
+      const sameSum = text.match(/(\d+)\s*\+\s*(\d+)\s+and\s+(\d+)\s*\+\s*\?/i)
+      if (sameSum) computed = (+sameSum[1] + +sameSum[2]) - +sameSum[3]
+    }
+    if (computed === null) {
+      // "number bond to Z for X" → Z - X
+      const bf = text.match(/bond\s+to\s+(\d+)\s+for\s+(\d+)/i)
+      if (bf) computed = +bf[1] - +bf[2]
+    }
+    if (computed === null) {
+      // number bond fill: "X + ? ...bond... Z"
+      const bfill = text.match(/(\d+)\s*\+\s*\?.*?(\d+)/)
+      if (bfill && /bond/i.test(text)) { const v = +bfill[2] - +bfill[1]; if (v >= 0) computed = v }
+    }
+    if (computed === null) {
+      const aft = text.match(/(?:comes?|right)\s+after\s+(\d+)/i)
+      if (aft) computed = +aft[1] + 1
+    }
+    if (computed === null) {
+      const bef = text.match(/(?:comes?|right)\s+before\s+(\d+)/i)
+      if (bef) { const v = +bef[1] - 1; if (v >= 0) computed = v }
+    }
+    if (computed === null) {
+      const diff = text.match(/difference\s+between\s+(\d+)\s+and\s+(\d+)/i)
+      if (diff) computed = Math.abs(+diff[1] - +diff[2])
+    }
+    if (computed === null) {
+      // Subtraction word: "X ... take away / give / minus Y"
+      const sw = text.match(/(\d+)\s+(?:\w+\s+){0,8}(?:take\s+away|give[s]?\s+(?:away\s+)?|subtract[s]?|minus|remove[s]?)\s+(\d+)/i)
+      if (sw) computed = +sw[1] - +sw[2]
+    }
+    if (computed === null) {
+      // Addition word: "combining/adding X and Y", "add X more", "get X more", "X and Y more"
+      const aw = text.match(/(?:combining|adding)\s+(\d+)\s+and\s+(\d+)/i)
+        || text.match(/(\d+)\s+(?:\w+\s+){0,8}(?:add[s]?\s+(\d+)\s+more|get[s]?\s+(\d+)\s+more|and\s+(\d+)\s+more|plus\s+(\d+))/i)
+        || text.match(/have\s+(\d+)\s+(?:\w+\s+){0,6}add[s]?\s+(\d+)/i)
+      if (aw) {
+        const b = Number(aw[2] || aw[3] || aw[4])
+        if (Number.isFinite(b)) computed = +aw[1] + b
+      }
+    }
+
+    if (computed !== null && Number.isFinite(computed)) {
+      patchAnswer(q, computed)
+      continue
+    }
+
+    // ── Strategy 2: Extract answer from explanation text ──────────────────────
+    if (q.explanation) {
+      const expl = (q.explanation as string).replace(/\$+/g, '').replace(/[−–]/g, '-')
+      // Ordered by reliability: inline arithmetic first (AI math is right even when its
+      // stated conclusion is wrong), then explicit statements, then looser matches.
+      const patterns = [
+        /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,            // "5 + 3 = 8" — most reliable
+        /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,               // "missing number is 1"
+        /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
+        /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
+        /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
+        /equals?\s+(-?\d+(?:\.\d+)?)/i,
+      ]
+      for (const pat of patterns) {
+        const m = expl.match(pat)
+        if (m) {
+          const val = Number(m[1])
+          if (Number.isFinite(val)) {
+            patchAnswer(q, val)
+            break
+          }
+        }
+      }
+    }
+  }
+}
+
+// Replace correct_answer index. If the computed answer isn't in the options,
+// replace the option the AI marked as correct with the right value.
+function patchAnswer(q: any, expected: number): void {
+  if (!Number.isFinite(expected)) return
+  const optNum = (o: any) => Number(String(o).replace(/[^0-9.\-]/g, ''))
+  const currentVal = optNum(q.options[q.correct_answer])
+  if (currentVal === expected) return // already correct
+
+  const existingIdx = q.options.findIndex((o: any) => optNum(o) === expected)
+  if (existingIdx !== -1) {
+    // Answer is in the list — just fix the index
+    console.warn(`MCQ idx fix: "${q.question?.slice(0, 55)}" → ${q.correct_answer}(${q.options[q.correct_answer]}) → ${existingIdx}(${q.options[existingIdx]})`)
+    q.correct_answer = existingIdx
+  } else {
+    // Answer is NOT in the options at all — replace the AI-marked option with the correct value
+    console.warn(`MCQ option fix: "${q.question?.slice(0, 55)}" — replacing option[${q.correct_answer}]="${q.options[q.correct_answer]}" with "${expected}"`)
+    q.options[q.correct_answer] = String(expected)
+    // options stay sorted as the AI intended but the marked slot now has the right value
+  }
+}
+
+// ── Expression-option MCQ fixer ────────────────────────────────────────────────
+// Handles questions where options are expressions like "3+7", "2+8".
+// Validates number-bond style questions deterministically by evaluating each option.
+function fixExpressionMcqs(questions: any[]): void {
+  for (const q of questions) {
+    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
+
+    // Only apply to questions where options look like arithmetic expressions
+    const optionSums: (number | null)[] = q.options.map((o: any) => {
+      const m = String(o).match(/(\d+)\s*\+\s*(\d+)/)
+      return m ? +m[1] + +m[2] : null
+    })
+    if (optionSums.every(s => s === null)) continue // no expression options
+
+    const qText = (q.question || '').toLowerCase()
+
+    // ── "Which number bond to N is correct?" ──────────────────────────────────
+    const correctMatch = qText.match(/bond\s+to\s+(\d+)\s+is\s+correct/i)
+      || qText.match(/correct\s+number\s+bond\s+to\s+(\d+)/i)
+    if (correctMatch) {
+      const target = Number(correctMatch[1])
+      const validIndices = optionSums.map((s, i) => s === target ? i : -1).filter(i => i !== -1)
+      if (validIndices.length === 0) {
+        // No valid bond at all — put one at the correct_answer slot
+        q.options[q.correct_answer] = `${Math.floor(target / 2)} + ${target - Math.floor(target / 2)}`
+        console.warn(`Bond fix (correct, no valid): replaced option[${q.correct_answer}] with valid bond`)
+      } else {
+        // Keep one valid bond (prefer the AI-marked index if it's valid, else take first)
+        const keep = validIndices.includes(q.correct_answer) ? q.correct_answer : validIndices[0]
+        q.correct_answer = keep
+        // Replace every OTHER option that also sums to target with an invalid bond
+        let seed = 0
+        for (let i = 0; i < 4; i++) {
+          if (i !== keep && optionSums[i] === target) {
+            const offset = [1, -1, 2, -2][seed % 4]
+            const wrongSum = target + offset
+            const a = Math.max(1, Math.floor(wrongSum / 2))
+            q.options[i] = `${a} + ${Math.max(1, wrongSum - a)}`
+            seed++
+          }
+        }
+        if (seed > 0) console.warn(`Bond fix (correct, dupes): kept idx ${keep}, replaced ${seed} duplicate valid bonds`)
+      }
+      continue
+    }
+
+    // ── "Which number bond to N is incorrect?" ────────────────────────────────
+    const incorrectMatch = qText.match(/bond\s+to\s+(\d+)\s+is\s+incorrect/i)
+      || qText.match(/incorrect\s+number\s+bond\s+to\s+(\d+)/i)
+      || qText.match(/not\s+a\s+(?:correct\s+)?number\s+bond\s+to\s+(\d+)/i)
+    if (incorrectMatch) {
+      const target = Number(incorrectMatch[1])
+      // The correct answer must be the option that does NOT sum to target
+      const incorrectIdx = optionSums.findIndex(s => s !== null && s !== target)
+      if (incorrectIdx !== -1 && incorrectIdx !== q.correct_answer) {
+        console.warn(`Bond fix (incorrect): "${q.question.slice(0,60)}" → idx ${q.correct_answer} → ${incorrectIdx}`)
+        q.correct_answer = incorrectIdx
+      } else if (incorrectIdx === -1) {
+        // All options sum to target — replace one distractor with a non-bond
+        const replaceIdx = q.correct_answer === 0 ? 1 : 0
+        q.options[replaceIdx] = `${Math.floor(target / 2)} + ${Math.floor(target / 2) + 1}` // e.g. 5+6 for target 10
+        q.correct_answer = replaceIdx
+        console.warn(`Bond fix (incorrect, replace): all options were valid bonds for target ${target}`)
+      }
+      continue
+    }
+  }
+}
+
+// ── Ordering question fixer ───────────────────────────────────────────────────
+// Handles "correct order from smallest to largest / largest to smallest" questions.
+// Deterministically computes the correct sorted sequence and ensures it is one of
+// the four options. Also fixes the correct_answer index if it points to the wrong one.
+function fixOrderingQuestions(questions: any[]): void {
+  const norm = (s: any) => String(s).replace(/\s+/g, '').toLowerCase()
+
+  for (const q of questions) {
+    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
+    // Only applies when options are sequences (comma-separated)
+    if (!q.options.some((o: any) => String(o).includes(','))) continue
+
+    const ascending = /smallest\s+to\s+largest|ascending\s+order|increasing\s+order/i.test(q.question)
+    const descending = /largest\s+to\s+smallest|descending\s+order|decreasing\s+order/i.test(q.question)
+    if (!ascending && !descending) continue
+
+    // Extract all numbers from the question text
+    const nums = (q.question.match(/\d+/g) || []).map(Number)
+    if (nums.length < 2) continue
+
+    const sorted = ascending
+      ? [...nums].sort((a, b) => a - b)
+      : [...nums].sort((a, b) => b - a)
+    const correctSeq = sorted.join(', ')
+    const correctNorm = norm(correctSeq)
+
+    const existingIdx = q.options.findIndex((o: any) => norm(o) === correctNorm)
+    if (existingIdx !== -1) {
+      if (existingIdx !== q.correct_answer) {
+        console.warn(`Ordering fix: "${q.question.slice(0, 60)}" → idx ${q.correct_answer} → ${existingIdx}`)
+        q.correct_answer = existingIdx
+      }
+    } else {
+      // Correct sequence not in options — replace the AI-marked slot with it
+      console.warn(`Ordering fix: "${correctSeq}" missing — replacing option[${q.correct_answer}]`)
+      q.options[q.correct_answer] = correctSeq
+    }
+  }
+}
+
 // ── Main route ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   try {
-    const geminiKey = process.env.GOOGLE_GEMINI_API_KEY ?? ''
-
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'us.amazon.nova-micro-v1:0', customTime } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'us.amazon.nova-lite-v1:0', customTime } = body
 
     if (!subject || !topics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -450,7 +636,7 @@ export async function POST(request: NextRequest) {
 
     const isCambridge = curriculum === 'cambridge'
     const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
-    const hasDiagramSupport = geminiKey.length > 0
+    const hasDiagramSupport = false
 
     // ── Bedrock client ────────────────────────────────────────────────────────
     const bedrockClient = new BedrockRuntimeClient({
@@ -468,18 +654,18 @@ export async function POST(request: NextRequest) {
       if (m.startsWith('amazon.nova')) {
         return JSON.stringify({
           messages: [{ role: 'user', content: [{ text: prompt }] }],
-          inferenceConfig: { maxTokens, temperature: 0.7 },
+          inferenceConfig: { maxTokens, temperature: 0.2 },
         })
       }
       if (m.startsWith('meta.llama')) {
         return JSON.stringify({
           prompt: `<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n${prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>`,
           max_gen_len: maxTokens,
-          temperature: 0.7,
+          temperature: 0.2,
         })
       }
       // mistral, google, nvidia, openai on Bedrock
-      return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.7 })
+      return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.2 })
     }
 
     function extractBedrockText(modelId: string, body: any): string {
@@ -527,7 +713,7 @@ export async function POST(request: NextRequest) {
     async function tryGenerateBatch(batchCount: number, startId: number): Promise<any[]> {
       const { prompt } = buildPrompt({
         subject, topics, count: batchCount, startId, style,
-        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
+        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
       })
       const maxTokens = batchCount <= 10 ? 3500 : 6000
       const text = await callBedrock(prompt, maxTokens)
@@ -561,8 +747,23 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: msg }, { status: is429 ? 429 : 500 })
     }
 
+    // Remove duplicate questions (same question text, case-insensitive)
+    const seenQuestions = new Set<string>()
+    allQuestions = allQuestions.filter((q: any) => {
+      const key = (q.question || '').toLowerCase().trim().slice(0, 120)
+      if (seenQuestions.has(key)) { console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`); return false }
+      seenQuestions.add(key); return true
+    })
+
     // Re-number questions sequentially in case the model drifted
     allQuestions.forEach((q, i) => { q.id = i + 1 })
+
+    // Fix any MCQ questions where the AI put the wrong correct_answer index
+    validateMcqAnswers(allQuestions)
+
+    // Fix expression-option MCQs (e.g. number bond questions where options are "A+B")
+    fixExpressionMcqs(allQuestions)
+    fixOrderingQuestions(allQuestions)
 
     // Use custom time if provided, otherwise calculate from prompt helper
     if (customTime && customTime > 0) {
@@ -593,33 +794,15 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    // ── Stage 2a: SVG diagrams via Gemini (parallel, MCQ only) ───────────────
-    if (hasDiagramSupport) {
-      const diagramJobs = assessmentData.questions
-        .map((q: any, idx: number) => ({ q, idx }))
-        .filter(({ q }: any) => q.type !== 'longform' && q.needs_diagram && q.diagram_hint)
-        .slice(0, MAX_DIAGRAMS)
+    // Strip diagram hint fields (diagram generation not supported)
+    assessmentData.questions = assessmentData.questions.map((q: any) => {
+      const { needs_diagram, diagram_hint, ...rest } = q
+      return rest
+    })
 
-      if (diagramJobs.length > 0) {
-        const svgResults = await Promise.all(
-          diagramJobs.map(({ q }: any) =>
-            generateDiagramSvg(q.question, subject, q.diagram_hint, geminiKey)
-          )
-        )
-        svgResults.forEach((svg, i) => {
-          if (svg) assessmentData.questions[diagramJobs[i].idx].diagram_svg = svg
-        })
-      }
-
-      assessmentData.questions = assessmentData.questions.map((q: any) => {
-        const { needs_diagram, diagram_hint, ...rest } = q
-        return rest
-      })
-    }
-
-    // ── Stage 2b: Passages — Gemini preferred, Bedrock fallback ─────────────
+    // ── Stage 2b: Passages via Bedrock ───────────────────────────────────────
     if (needsPassage(subject)) {
-      await generateAllPassages(assessmentData.questions, geminiKey, subject, callBedrock)
+      await generateAllPassages(assessmentData.questions, subject, callBedrock)
     } else {
       assessmentData.questions.forEach((q: any) => {
         delete q.needs_passage

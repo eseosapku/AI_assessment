@@ -14,22 +14,7 @@ interface ModelResult {
 }
 
 const ALL_MODELS = [
-  { id: 'meta.llama3-2-1b-instruct-v1:0',    label: 'Llama 3.2 1B' },
-  { id: 'meta.llama3-2-3b-instruct-v1:0',    label: 'Llama 3.2 3B' },
-  { id: 'meta.llama3-2-11b-instruct-v1:0',   label: 'Llama 3.2 11B' },
-  { id: 'google.gemma-3-4b-it',              label: 'Gemma 3 4B' },
-  { id: 'google.gemma-3-12b-it',             label: 'Gemma 3 12B' },
-  { id: 'openai.gpt-oss-20b-1:0',            label: 'GPT OSS 20B' },
-  { id: 'openai.gpt-oss-120b-1:0',           label: 'GPT OSS 120B' },
-  { id: 'nvidia.nemotron-nano-12b-v2',       label: 'Nemotron Nano 12B' },
-  { id: 'nvidia.nemotron-nano-9b-v2',        label: 'Nemotron Nano 9B' },
-  { id: 'nvidia.nemotron-nano-3-30b',        label: 'Nemotron 30B' },
-  { id: 'mistral.ministral-3-8b-instruct',   label: 'Ministral 8B' },
-  { id: 'mistral.ministral-3-3b-instruct',   label: 'Ministral 3B' },
-  { id: 'mistral.voxtral-mini-3b-2507',      label: 'Voxtral Mini 3B' },
-  { id: 'mistral.voxtral-small-24b-2507',    label: 'Voxtral Small 24B' },
-  { id: 'amazon.nova-lite-v1:0',             label: 'Nova Lite' },
-  { id: 'amazon.nova-micro-v1:0',            label: 'Nova Micro' },
+  { id: 'amazon.nova-lite-v1:0', label: 'Nova Lite' },
 ]
 
 function badge(score: number | null) {
