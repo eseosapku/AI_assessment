@@ -959,22 +959,22 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Stage 1: Question skeleton generation ────────────────────────────────
-    // Nova Lite has a hard 5120 output-token limit. Each MCQ question costs ~400 tokens
-    // (question + 4 options + 150-word explanation). Batch size of 8 + 20% buffer = 10
-    // questions = ~4000 tokens, safely under the limit.
-    const BATCH_SIZE = 8
+    // Nova Lite has a hard 5120 output-token limit. Smaller batches (5 questions) with a 40%
+    // surplus = 7 requested per batch. 7 × 300 tokens ≈ 2100 tokens — well within the limit.
+    // This ensures the model can always finish the batch without truncation.
+    const BATCH_SIZE = 5
 
     async function tryGenerateBatch(batchCount: number, startId: number): Promise<any[]> {
-      // Request a small surplus so even if the model runs short we hit the target count.
+      // Request a 40% surplus so even if the model runs short we hit the target count.
       // The surplus is stripped after deduplication.
-      const requestCount = batchCount + Math.ceil(batchCount * 0.2)
+      const requestCount = batchCount + Math.ceil(batchCount * 0.4)
       const { prompt } = buildPrompt({
         subject, topics, count: requestCount, startId, style,
         curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
-      // ~400-480 tokens per MCQ question (question + options + full explanation).
-      const maxTokens = Math.min(4800, requestCount * 480)
+      // ~300-350 tokens per MCQ question (question + options + explanation).
+      const maxTokens = Math.min(4800, Math.max(2000, requestCount * 420))
       const text = await callBedrock(prompt, maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
@@ -1028,20 +1028,22 @@ export async function POST(request: NextRequest) {
     // Deduplicate + fix first pass
     allQuestions = deduplicateAndFix(allQuestions)
 
-    // ── Retry: if we're still short after the buffer, request the missing questions ─
-    if (allQuestions.length < count) {
+    // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
+    // Each retry requests only the missing questions. Nova Lite may not always
+    // produce the exact count requested, so we retry until we hit the target.
+    for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
       const missing = count - allQuestions.length
-      console.warn(`Short by ${missing} questions after first pass — retrying...`)
+      console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
         const retryQs = await tryGenerateBatch(missing, allQuestions.length + 1)
         allQuestions.push(...deduplicateAndFix(retryQs))
       } catch (err: any) {
-        console.error('Retry generation failed:', err)
-        // Don't throw — we'll check count below and return error if still short
+        console.error(`Retry pass ${retryPass} failed:`, err)
+        break // don't retry if Bedrock itself throws
       }
     }
 
-    // If STILL short after retry → return error
+    // If STILL short after all retries → return error
     if (allQuestions.length < count) {
       return NextResponse.json(
         { error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again.` },

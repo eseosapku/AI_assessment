@@ -1,0 +1,488 @@
+
+===== P1 =====
+
+  [P1 Mathematics PB]
+    - UNIT 1: Numbers from 1 up to 5.............................................1
+    - UNIT 2: Numbers from 1 up to 9..........................................24
+    - UNIT 3: Numbers from 0 up to 10........................................42
+    - UNIT 4: Numbers from 0 up to 20........................................58
+    - UNIT 5: Multiplication and division by 2..............................82
+    - UNIT 6: Numbers from 0 up to 50........................................89
+    - UNIT 7: Numbers from 0 up to 100...................................107
+    - UNIT 8: Fractions  and  ..................................................121
+    - UNIT 9: Number patterns......................................................128
+    - UNIT 10: Measuring lengths less than or equal to 10 m.135
+    - UNIT 11: Main parts of the day and days of the week ..143
+    - UNIT 12: Rwandan currency from 1 frw up to 100 frw.149
+    - UNIT 13: Directions, location of objects and lines..........158
+    - UNIT 14: Right angle, square and rectangle....................166
+    - UNIT 1:  1.0.	Introductory activity
+
+  [P1-English-PB]
+    - UNIT 1: Welcome to the classroom........................................................
+    - UNIT 2: Classroom objects...............................................................
+    - UNIT 3: People at home..................................................................
+    - UNIT 4: Clothes and parts of my body....................................................
+    - UNIT 5: Likes and dislikes..............................................................
+    - UNIT 6: Classroom objects and personal belongings...........................52
+    - UNIT 7: Home............................................................................
+    - UNIT 8: Animals at home.................................................................
+    - UNIT 9: What we do every day............................................................
+    - UNIT 10: Story telling...................................................................
+    - Unit 1 Introductory activity
+
+  [P1-Kinyarwanda-PB]
+    - Umutwe wa mbere: Umuco n’indangagaciro............................. ..
+    - Umutwe wa kabiri: Isuku...............................................
+    - Umutwe wa gatatu: Umuryango...........................................
+    - Umutwe wa kane: Ibidukikije...........................................
+    - Umutwe wa gatanu: Uburenganzira bw’umwana....................... 95
+    - Umutwe wa gatandatu: Kwirinda no gukumira ihohoterwa........115
+    - Umutwe wa karindwi: Inyamaswa zo mu rugo..........................131
+    - Umutwe wa munani: Indyo yuzuye........................................
+    - Umutwe wa kenda: Kuzigama.............................................
+    - Umutwe wa mbere Umuco n’indangagaciro
+
+  [P1-SET-PB]
+    - UNIT 1:  MATERIALS USED AT  SCHOOL AND AT HOME.................................... 1
+    - UNIT 2: ICT TOOLS.......................................................................
+    - UNIT 3: WATER...........................................................................
+    - UNIT 4: ANIMALS ........................................................................
+    - UNIT 5: PLANTS..........................................................................
+    - UNIT 6: THE MAIN PARTS OF THE HUMAN BODY.............................................42
+    - UNIT 00 Key unit competence:
+
+  [P1-SST-PB]
+    - UNIT 1: FAMILY MEMBERS..................................................................
+    - UNIT 2: LOCAL GOVERNMENT ORGANISATION ......................................11
+    - UNIT 3: NATIONAL SYMBOLS. ..............................................................
+    - UNIT 4: SCHOOL LEADERS AND SCHOOL SYMBOLS..................................24
+    - UNIT 5: PERSONAL HYGIENE ....................................................30
+    - UNIT 6: LIVING IN HARMONY AND GOOD BEHAVIOURS..........................40
+    - UNIT 7: POLITENESS......................................................................
+    - UNIT 8: FAMILY PROPERTY.................................................................
+    - UNIT 9: ENVIRONMENT ..........................................................69
+    - UNIT 10: TRANSPORT AND COMMUNICATION........................................78
+    - UNIT 11: FAMILY HISTORICAL EVENTS.................................................86
+    - UNIT 12: GOD’S CREATION..................................................................
+    - UNIT 13: PRAYER..........................................................................
+    - UNIT 14: PROMOTING PEACE AND HONESTY........................................115
+    - Unit 1 Key unit competence:
+    - Unit 2 Key unit competence:
+
+===== P2 =====
+
+  [P2 Mathematics PB]
+    - UNIT 1: NUMBERS FROM 0 UP TO 200..............................................1
+    - UNIT 2: NUMBERS UP TO 500..........................................................45
+    - UNIT 3: NUMBERS UP TO 1000........................................................84
+    - UNIT 4: FRACTIONS  1
+    - UNIT 5: LENGTH MEASUREMENT...................................................133
+    - UNIT 6: LITRE, THE STANDARD UNIT OF CAPACITY MEASUREMENTS .150
+    - UNIT 7: KILOGRAM, THE STANDARD UNIT OF MASS ..................164
+    - UNIT 8: RWANDAN FRANCS UP TO 1000 FRW...................................181
+    - UNIT 9: HOUR, MONTHS OF THE YEAR AND DAYS OF EACH MONTH.201
+    - UNIT 10: TYPES OF LINES AND ANGLES..........................................215
+    - UNIT 11: GRID ...........................................................................
+    - UNIT 12: SQUARE, RECTANGLE AND TRIANGLE.............................232
+    - UNIT 13: MISSING NUMBERS IN ADDITION, SUBTRACTION,
+    - UNIT 14: PICTOGRAPHS...................................................................24
+    - Unit 1 1.0 Introductory activity:
+
+  [P2-English-PB]
+    - Unit 1  Greetings, introductions and talking about school
+    - Unit 2  Games and sports
+    - Unit 3  Telling the time
+    - Unit 4  Food
+    - Unit 5  Stories and descriptions
+    - Unit 6  Family members and household activities
+    - Unit 7  Weather
+    - Unit 8  The zoo
+    - Unit 9  Counting and wriiting
+    - Unit 10  Past and future tense
+    - Unit 2 Games and Sports
+
+  [P2-Kinyarwanda-PB]
+    - Umutwe wa mbere: Umuco w’amahoro..................................1
+    - umutwe wa mbere....................................................38
+    - Umutwe wa kabiri: Inshingano z’abana..............................40
+    - umutwe wa kabiri.....................................................5
+    - Umutwe wa gatatu: Uburenganzira bw’abana.....................58
+    - umutwe wa gatatu...................................................74
+    - Umutwe wa kane: Imiyoborere myiza ................................76
+    - umutwe wa kane.......................................................9
+    - Umutwe wa gatanu: Isuku...............................................
+    - umutwe wa gatanu.................................................123
+    - Umutwe wa gatandatu: Ikoranabuhanga n’itumanaho........125
+    - umutwe wa gatandatu. ...........................................157
+    - Umutwe wa karindwi: Iterambere	...................................159
+    - umutwe wa karindwi..............................................196
+    - Umutwe wa munani: Ubuzima. ........................................198
+    - umutwe wa munani................................................230
+    - Umutwe wa mbere    Umuco w’amahoro
+
+  [P2-SET-PB]
+    - UNIT 2: MAKING TOYS AND CLASSROOM LEARNING MATERIALS ....................7
+    - UNIT 3: COMPUTER MY FRIEND..............................................................
+    - UNIT 4: PLANTS..........................................................................
+    - UNIT 5: WASTE AND HYGIENE ..............................................................
+    - UNIT 6: LIGHT AND HEAT..................................................................
+    - UNIT 1 Key unit competence:
+
+  [P2-SST-PB]
+    - UNIT 1: AN EXTENDED FAMILY  . ..........................................................
+    - UNIT 2: LOCAL GOVERNMENT ORGANIZATION.......................................8
+    - UNIT 3: RELATIONSHIPS AND GOOD BEHAVIOURS............................... 14
+    - UNIT 4: ECONOMY ........................................................................
+    - UNIT 5: ENVIRONMENT.....................................................................
+    - UNIT 6: TRANSPORT AND COMMUNICATION. ...................................... 49
+    - UNIT 7: MAIN HISTORICAL EVENTS AT HOME AND AT SCHOOL.............. 59
+    - UNIT 8: THE CREATION OF HUMANS ......................................... 69
+    - UNIT 9: LIVING IN HARMONY WITH OTHERS....................................... 82
+    - UNIT 10: GOD’S MESSAGE ABOUT PEACE............................................. 94
+    - Unit 1 AN EXTENDED FAMILY
+    - Unit 2 Key unit competence:
+
+===== P3 =====
+
+  [P3 Mathematics PB]
+    - UNIT 1: NUMBER UP TO 2 000  ............................................................
+    - UNIT 2: NUMBERS FROM 0 UP TO 5 000  ..............................................47
+    - UNIT 3: NUMBERS UP TO 10 000  .........................................................7
+    - UNIT 4: FRACTIONS HAVING A DENOMINATOR LESS THAN OR EQUAL TO
+    - UNIT 5: THE RELATIONSHIP BETWEEN LENGTH MEASUREMENTS  .....135
+    - UNIT 6: MASS MEASURMENTS FROM KILOGRAM TO GRAM..............154
+    - UNIT 7: CAPACITY MEASURMENTS FROM LITER(L) TO MILILITER........171
+    - UNIT 8: RWANDA FRANCS FROM 1Frw UP 5000 Frw  ........................188
+    - UNIT 9: TIME MEASURMENTS  ............................................................20
+    - UNIT 10: TYPES OF LINES AND ANGLES  ..............................................216
+    - UNIT 11: SQUARE, RECTANGLE,TRIANGLE AND CERCLE ......................227
+    - UNIT 12: GRID ...........................................................................
+    - UNIT 13: FINDING MISSING NUMBER IN ADDITION, SUBTRACTION,
+    - UNIT 14: PICTOGRAPHS.....................................................................
+    - UNIT 1.0 Introductory activity
+
+  [P3-English-PB]
+    - UNIT 1: Places in the Community............................................ 1
+    - UNIT 2: Jobs in our Community............................................... 19
+    - UNIT 3: Time............................................................................
+    - UNIT 4: Events in the past and future...................................... 52
+    - UNIT 5: Domestic animals........................................................ 68
+    - UNIT 6:The body and health..................................................... 79
+    - UNIT 7: Clothes.........................................................................
+    - UNIT 8: Rwanda.........................................................................
+    - UNIT 9: Counting with graphs.................................................. 119
+    - UNIT 10: Shopping..................................................................... 13
+
+  [P3-Kinyarwanda-PB]
+    - Umutwe wa mbere: Imyuga gakondo ..............................1
+    - umutwe wa mbere .......................................... 41
+    - Umutwe wa kabiri: Kubungabunga ubuzima ....................44
+    - umutwe wa kabiri ........................................... 71
+    - Umutwe wa gatatu: Uburenganzira n’inshingano by’umwana ...75
+    - umutwe wa gatatu .......................................... 103
+    - Umutwe wa kane: Inyamaswa zo mu gasozi ...........................106
+    - umutwe wa kane ............................................. 159
+    - Umutwe wa gatanu: Umuco w’amahoro ..........................165
+    - umutwe wa gatanu ......................................... 200
+    - Umutwe wa gatandatu: Siporo n’imyidagaduro ......................206
+    - umutwe wa gatandatu .................................... 238
+    - Umutwe wa karindwi: Gukunda umurimo ........................245
+    - umutwe wa karindwi ....................................... 265
+    - Umutwe wa munani: Gukunda igihugu ...................................2
+    - umutwe wa munani ......................................... 307
+
+  [P3-SET-PB]
+    - UNIT 1: AGRICULTURAL TOOLS .............................................................
+    - UNIT 2: WRITING WITH A COMPUTER................................................... 14
+    - UNIT 3: DRINKING WATER..................................................................
+    - UNIT 4: ANIMALS.........................................................................
+    - UNIT 5: ELECTRICITY.....................................................................
+    - UNIT 6: MAGNETS.........................................................................
+    - UNIT 1 Key unit competence:
+
+  [P3-SST-PB]
+    - UNIT 1: AN EXTENDED FAMILY........................................................1
+    - UNIT 2: OUR SECTOR....................................................................10
+    - UNIT 3: HYGIENE.........................................................................
+    - UNIT 4: RELATIONSHIPS AND GOOD BEHAVIOURS..........................24
+    - UNIT 5: ECONOMY........................................................................3
+    - UNIT 6: ENVIRONMENT IN OUR SECTOR.........................................40
+    - UNIT 7: TRANSPORT AND COMMUNICATION. .................................47
+    - UNIT 8: MAIN HISTORICAL EVENTS OF OUR SECTOR. ......................58
+    - UNIT 9: RESPECT FOR GOD’S CREATURES........................................64
+    - UNIT 10: NOT DOING THE WRONG THINGS, ASKING FOR FORGIVENESS
+    - UNIT 11: PEACE AND JUSTICE..................................................... 102
+    - Unit 1 Key unit competence:
+    - Unit 2 Key unit competence:
+
+===== P4 =====
+
+  [P4 Mathematics PB]
+    - UNIT 1: MATHEMATICAL OPERATIONS ON WHOLE NUMBERS UP TO 100,000............. 1
+    - UNIT 2: POSITIVE AND NEGATIVE INTEGERS.......................................... 23
+    - UNIT 3: CLASSIFYING NUMBERS BY THEIR PROPERTIES........................... 33
+    - UNIT 4: FRACTIONS WITH THE SAME DENOMINATOR .............................. 45
+    - UNIT 5: DECIMAL NUMBERS................................................................
+    - UNIT 6: LENGTH MEASUREMENTS...........................................................
+    - UNIT 7: CAPACITY MEASUREMENTS ...................................................... 91
+    - UNIT 8: MASS MEASUREMENTS..............................................................
+    - UNIT 9: AREA AND LAND MEASUREMENTS..............................................108
+    - UNIT 10: TIME...........................................................................
+    - UNIT 11: NUMBER PATTERNS................................................................
+    - UNIT 12: SOLVING PROBLEMS INVOLVING MISSING NUMBER IN ADDITION AND
+    - UNIT 13: LINES AND ANGLES...............................................................
+    - UNIT 14: SHAPES IN THE PLANE............................................................
+    - UNIT 15: AREA OF SHAPES IN THE PLANE...............................................159
+    - UNIT 16: INTRODUCTION TO DATA HANDLING.......................................168
+    - UNIT 17: INTRODUCTION TO GAMES OF CHANCE..........................................181
+
+  [P4-Creative Arts-PB]
+    - Unit 1: DRAWING AND PAINTING STILL LIFE FIGURES���������������������������1
+    - unit 1 assessment������������������������������������������������������������������7
+    - Unit 2: MOTIF DESIGN�������������������������������������������������������������������
+    - Unit 3: LETTER STYLES������������������������������������������������������������������
+    - Unit 4: MODELLING AND DECORATION�����������������������������������������������25
+    - Unit 1: INTRODUCTION TO MUSIC������������������������������������������������������37
+    - Unit 2: MUSIC STAFF AND TREBLE CLEF����������������������������������������������43
+    - Unit 3: INTRODUCTION TO C SCALE����������������������������������������������������49
+    - Unit 4: PRACTICE SONGS IN C SCALE��������������������������������������������������55
+    - Unit 5: INTRODUCTION TO THE PIANO KEYBOARD�������������������������������59
+    - unit 1 assessment
+
+  [P4-ENGLISH-PB]
+    - UNIT 1: OUR SCHOOL......................................................................
+    - UNIT 2: MY FRIENDS AND I................................................................
+    - UNIT 3: OUR DISTRICT....................................................................
+    - UNIT 4: WEATHER.........................................................................
+    - UNIT 5: JOBS AND ROLES IN HOME AND COMMUNITY..............................50
+    - UNIT 6: WILD ANIMALS....................................................................
+    - UNIT 7: RIGHTS, RESPONSIBILITIES, AND NEEDS...................................74
+    - UNIT 8: TALKING ABOUT THE PAST........................................................81
+    - UNIT 9: COUNTRIES, RIVERS AND FAMOUS ARCHITECTURAL .STRUCTURES OF
+
+  [P4-Kinyarwanda-PB]
+    - UMUTWE WA MBERE: ITERAMBERE������������������������������������������
+    - umutwe wa mbere������������������������������������������������������
+    - UMUTWE WA KABIRI: KUBANA NEZA N’ABANDI�������������������������������
+    - umutwe wa kabiri�����������������������������������������������������
+    - UMUTWE WA GATATU: UMUCO NYARWANDA������������������������������������
+    - umutwe wa gatatu�����������������������������������������������������
+    - UMUTWE WA KANE: GUKUNDA IGIHUGU��������������������������������������
+    - umutwe wa kane�������������������������������������������������������
+    - UMUTWE WA GATANU: IMIKINO N’IMYIDAGADURO����������������������������1
+    - umutwe wa gatanu�����������������������������������������������������
+    - UMUTWE WA GATANDATU: GUKUNDA NO KWITABIRA UMURIMO���������120
+    - umutwe wa gatandatu��������������������������������������������������
+    - UMUTWE WA  MBERE:
+
+  [P4-SET-PB]
+    - UNIT 1: OBJECTS PRODUCTION..............................................................
+    - UNIT 2: ICT BASICS���������������������������������������������������������������������
+    - UNIT 3: GRAPHICS AND MULTIMEDIA���������������������������������������������������33
+    - UNIT 4: PROGRAMMING FOR CHILDREN������������������������������������������������45
+    - UNIT 5: AIR, WIND AND SOUND������������������������������������������������������������
+    - UNIT 6: SOIL���������������������������������������������������������������������������
+    - UNIT 7: ANIMALS CLASSIFICATION������������������������������������������������������98
+    - UNIT 8: RABBITS AND CHICKENS MANAGEMENT����������������������������������110
+    - UNIT 9: PLANTS GERMINATION����������������������������������������������������������126
+    - UNIT 10: HUMAN SENSORY ORGANS����������������������������������������������������137
+    - UNIT 11: HUMAN SKELETON���������������������������������������������������������������15
+    - UNIT 12: MUSCLES������������������������������������������������������������������������
+
+  [P4-SST-PB]
+    - UNIT 1: SOCIO-ECONOMIC ACTIVITIES IN OUR DISTRICT........................1
+    - UNIT 2: PEACE EDUCATION AND HUMAN RIGHTS................................... 13
+    - UNIT 3: ECONOMY ........................................................................
+    - UNIT 4: CIVICS AND GOVERNANCE....................................................... 41
+    - UNIT 5: WEATHER, FLORA AND FAUNA.................................................. 57
+    - UNIT 6: INFRASTRUCTURE..................................................................
+    - UNIT 7: TRADITIONAL RWANDA........................................................... 87
+    - UNIT 8: GOD’S COMMANDMENTS.......................................................... 95
+    - UNIT 9: INTRODUCTION TO CHRISTIAN AND ISLAMIC FAITH............... 107
+    - UNIT 10: VALUES IN THE BIBLE AND QUR’AN....................................... 124
+    - Unit 1 SOCIO-ECONOMIC
+
+===== P5 =====
+
+  [P5-Creative Arts-PB]
+    - UNIT 1: USING COLOUR IN ART....................................................1
+    - UNIT 2: PATTERN DESIGNS..........................................................9
+    - UNIT 3: LETTERING TYPEFACE.................................................... 16
+    - UNIT 4: COLLAGE ART................................................................ 25
+    - unit 4 assessment......................................................................
+    - UNIT 1: MUSICAL NOTES SYMBOLS AND VALUES.......................... 38
+    - UNIT 2: TEMPOS AND DYNAMICS................................................ 47
+    - UNIT 3: SOL-FA IN C SCALE........................................................ 51
+    - UNIT 4: FINGERING ON THE KEYBOARD....................................... 57
+    - unit 1 assessment
+
+  [P5-ENGLISH-PB]
+    - UNIT 1: PAST AND FUTURE EVENTS..........................................................
+    - UNIT 2: CLASSROOM LANGUAGE ............................................................1
+    - UNIT 3: READING.........................................................................
+    - UNIT 4: ENVIRONMENT. ...................................................................
+    - UNIT 5: MEASUREMENTS. ..................................................................
+    - UNIT 6: TRANSPORT.......................................................................
+    - UNIT 7: HYGIENE AND HEALTH..............................................................
+    - UNIT 8: CRAFTS IN RWANDA................................................................
+    - UNIT 9: TRADITIONAL AND MODERN AGRICULTURE IN RWANDA............ 103
+    - UNIT 10: GEOGRAPHY OF THE WORLD................................................... 119
+    - Unit 1 PAST AND
+    - Unit 2 Key unit competence:
+
+  [P5-Kinyarwanda-PB]
+    - UMUTWE WA MBERE: UMUCO NYARWANDA�������������������������������������
+    - umutwe wa mbere������������������������������������������������������
+    - UMUTWE WA KABIRI: IBIDUKIKIJE����������������������������������������
+    - umutwe wa kabiri ����������������������������������������������������
+    - UMUTWE WA GATATU: UBURENGANZIRA BWA MUNTU���������������������������5
+    - umutwe wa gatatu�����������������������������������������������������
+    - UMUTWE WA KANE: UBUZIMA����������������������������������������������
+    - umutwe wa kane�������������������������������������������������������
+    - UMUTWE WA GATANU: IMIYOBORERE MYIZA����������������������������������
+    - umutwe wa gatanu�����������������������������������������������������
+    - UMUTWE WA GATANDATU: UMUCO W’AMAHORO���������������������������������
+    - umutwe wa gatandatu��������������������������������������������������
+    - UMUTWE WA  MBERE:
+
+  [P5-Mathematics-PB]
+    - UNIT 1: READING, WRITING, COMPARING AND CALCULATING WHOLE NUMBERS UP TO
+    - UNIT 2: ADDITION AND SUBTRACTION OF     INTEGERS........................................
+    - UNIT 3: PRIME FACTORIZATION AND DIVISIBILITY TESTS......................................
+    - UNIT 4: EQUIVALENT FRACTIONS AND OPERATIONS ............................................
+    - UNIT 5: MULTIPLICATION AND DIVISION OF DECIMAL NUMBERS............................... 77
+    - UNIT 6: APPLICATION OF DIRECT  PROPORTION ..............................................
+    - UNIT 7: SOLVING PROBLEMS INVOLVING MEASUREMENTS OF LENGTH, CAPACITY AND
+    - UNIT 8:SOLVING PROBLEMS INVOLVING TIME INTERVALS ......................................
+    - UNIT 9: MONEY AND ITS FINANCIAL APPLICATIONS............................................
+    - UNIT 10: SEQUENCES THAT INCLUDE WHOLE NUMBERS, FRACTIONS AND DECIMALS.. 137
+    - UNIT 11:  CONSTRUCTING ANGLES AND DESCRIBING ANGLES FORMED BY INTERSECTING
+    - UNIT 12: INTERPRETING AND CONSTRUCTING SCALE DRAWINGS............................. 176
+    - UNIT 13: CALCULATING CIRCUMFERENCE OF A CIRCLE, SURFACE AREA AND VOLUME OF
+    - UNIT 14: DATA HANDLING      .............................................................
+    - UNIT 15: INTRODUCTION TO LIKELIHOOD OF EVENTS............................................
+    - UNIT 1   READING, WRITING, COMPARING AND
+
+  [P5-SET-PB]
+    - UNIT 1: CARPENTRY TOOLS.................................................................
+    - UNIT 2: MASONRY TOOLS...................................................................
+    - UNIT 3: LIGHT...........................................................................
+    - UNIT 4: COMPUTER MEMORIES AND STORAGES...................................... 34
+    - UNIT 5: WRITING SKILLS..................................................................
+    - UNIT 6: COMPUTER RESEARCH............................................................. 5
+    - UNIT 7: PROGRAMMING FOR CHILDREN................................................ 70
+    - UNIT 8: WATER POLLUTION.................................................................
+    - UNIT 9: SOIL AND CULTIVATION........................................................ 106
+    - UNIT 10: PLANTS AND ENVIRONMENT�������������������������������������������������118
+    - UNIT 11: HUMAN DIGESTIVE SYSTEM��������������������������������������������������134
+    - UNIT 12: HUMAN DISEASES. .............................................................. 1
+    - UNIT 13: ELECTRICITY.....................................................................
+    - UNIT 14: MATERIALS AND STATE OF MATTERS..................................... 171
+    - UNIT 1 Key unit competence
+
+  [P5-SST-PB]
+    - UNIT 1: MAP OF OUR PROVINCE AND ITS LOCATION......................................... 1
+    - UNIT 2: COMPLEMENTARITY AND SOCIAL COHESION IN THE SOCIETY................ 7
+    - UNIT 3: HYGIENE AND SANITATION..........................................................
+    - UNIT 4: ECONOMY.........................................................................
+    - UNIT 5: ENVIRONMENT AND CLIMATE IN OUR PROVINCE.................................34
+    - UNIT 6: SOCIAL SERVICES AND IMPORTANT PLACES IN OUR PROVINCE.............49
+    - UNIT 7: POPULATION......................................................................
+    - UNIT 8: COLONIAL RWANDA.................................................................
+    - UNIT 9: NOTION OF THE BIBLE AND QUR’AN..................................................
+    - UNIT 10: ACTS OF CHARITY IN THE COMMUNITY AND FAITH..........................104
+    - UNIT 11: SIN AND ITS CONSEQUENCES........................................................
+    - Unit 1 Key unit competence: Describe our province.
+    - Unit 2 Key unit competence: Explain complementarity and social cohesion in the society,
+
+===== P6 =====
+
+  [P6 Mathematics PB]
+    - UNIT 1: READING, WRITING, COMPARING AND CALCULATING WHOLE NUMBERS
+    - UNIT 2: MULTIPLICATION AND DIVISION OF INTEGERS����������������������������������������
+    - UNIT 3: POWERS, INDICES, LCM AND GCF ��������������������������������������������������
+    - UNIT 4: OPERATIONS ON FRACTIONS��������������������������������������������������������
+    - UNIT 5: ROUNDING AND CONVERSION OF DECIMAL NUMBERS��������������������������������64
+    - UNIT 6: RATIOS, PROPORTIONS AND PERCENTAGES��������������������������������������������
+    - UNIT 7: RELATIONSHIP BETWEEN VOLUME, CAPACITY AND MASS��������������������������95
+    - UNIT 8: SPEED, DISTANCE AND TIME�������������������������������������������������������
+    - UNIT 9: SIMPLE INTEREST AND PROBLEMS INVOLVING SAVING����������������������������120
+    - UNIT 10: EQUIVALENT EXPRESSIONS AND NUMBER SEQUENCES����������������������������135
+    - UNIT 11: REGULAR POLYGONS AND BEARINGS��������������������������������������������������
+    - UNIT 12: CONSTRUCTION OF POLYGONS AND NETS FOR CUBOIDS AND PRISMS����173
+    - UNIT 13: AREA BOUNDED BY A CIRCLE, SURFACE AREA AND VOLUME OF SOME SOLIDS �199
+    - UNIT 14: DATA HANDLING������������������������������������������������������������������
+    - UNIT 15: LIKELIHOOD OF EVENTS ����������������������������������������������������������
+
+  [P6-Creative Arts-PB]
+    - Unit 1: INTRODUCTION TO COMPOSITION ARRANGEMENT......................2
+    - Unit 2: DIGITAL PATTERN DESIGN......................................................12
+    - Unit 3: DIGITAL SIGNPOST DESIGN.....................................................21
+    - Unit 4: INTRODUCTION TO SEWING....................................................28
+    - Unit 1: SIMPLE TIME SIGNATURES......................................................41
+    - Unit 2: BASS STAFF AND GRAND STAFF................................................54
+    - Unit 3: PIANO PRACTICE..................................................................
+
+  [P6-ENGLISH-PB]
+    - UNIT 1: LEISURE AND SPORTS..............................................................
+    - UNIT 2: MAKING FUTURE PLANS............................................................1
+    - UNIT 3: WEATHER.........................................................................
+    - UNIT 4: BEHAVIOUR, RULES AND LAWS..................................................44
+    - UNIT 5: FAMILY RELATIONSHIPS ..........................................................6
+    - UNIT 6: READING BOOKS, WRITING COMPOSITIONS AND EXAMINATIONS......75
+    - UNIT 7: ANIMALS ........................................................................
+    - UNIT 8: ENVIRONMENT. ...................................................................
+    - UNIT 9: MAINTAINING HARMONY IN THE FAMILY................................ 115
+    - Unit 1 LEISURE AND
+
+  [P6-Kinyarwanda-PB]
+    - UMUTWE WA MBERE: UMUCO NYARWANDA�������������������������������������
+    - umutwe wa mbere������������������������������������������������������
+    - UMUTWE WA KABIRI: IBIDUKIKIJE����������������������������������������
+    - umutwe wa kabiri�����������������������������������������������������
+    - UMUTWE WA GATATU: UBUZIMA��������������������������������������������
+    - umutwe wa gatatu�����������������������������������������������������
+    - UMUTWE WA KANE: UBURINGANIRE N’UBWUZUZANYE��������������������������7
+    - umutwe wa kane�������������������������������������������������������
+    - UMUTWE WA GATANU: ITUMANAHO N’IKORANABUHANGA��������������������98
+    - umutwe wa Gatanu�����������������������������������������������������
+    - UMUTWE WA GATANDATU: GUKUNDA UMURIMO���������������������������������
+    - umutwe wa gatandatu��������������������������������������������������
+    - UMUTWE WA  MBERE:
+
+  [P6-SET-PB]
+    - UNIT 1: MECHANICS TOOLS.................................................................
+    - UNIT 2: SIMPLE MACHINES����������������������������������������������������������������
+    - UNIT 3: AIR POLLUTION...................................................................
+    - UNIT 4: COWS AND GOATS MANAGEMENT.............................................35
+    - UNIT 5: WORD PROCESSING AND SPREADSHEET....................................55
+    - UNIT 6: INTRODUCTION TO EMERGING TECHNOLOGIES��������������������������71
+    - UNIT 7: PROGRAMMING FOR CHILDREN................................................86
+    - UNIT 8: PLANTS REPRODUCTION���������������������������������������������������������102
+    - UNIT 9: SUSTAINABLE WASTE MANAGEMENT��������������������������������������117
+    - UNIT 10: HUMAN CIRCULATORY SYSTEM............................................. 130
+    - UNIT 11: HUMAN RESPIRATORY SYSTEM............................................. 149
+    - UNIT 12: HUMAN REPRODUCTIVE SYSTEM�������������������������������������������163
+    - UNIT 13: ENERGY MANAGEMENT���������������������������������������������������������185
+    - UNIT 14: MAGNETISM����������������������������������������������������������������������
+
+  [P6-SST-PB]
+    - UNIT 1: OUR COUNTRY ....................................................................
+    - UNIT 2: CIVICS AND GOVERNANCE.........................................................8
+    - Unit 3: RWANDAN VALUES AND RISKY BEHAVIOURS IN SOCIETY............ 35
+    - Unit 4: BUDGET..........................................................................
+    - Unit 5: DIRECTION AND LOCATION.......................................................56
+    - Unit 6: PHYSICAL FEATURES AND EFFECTS OF CLIMATE CHANGE............. 65
+    - Unit 7: ECONOMIC ACTIVITIES.............................................................
+    - Unit 8: NATURAL RESOURCES...............................................................
+    - Unit 9: TRANSPORT AND COMMUNICATION ....................................96
+    - Unit 10: THE PEOPLES OF EAST AFRICA................................................ 106
+    - Unit 11: POST-INDEPENDENCE RWANDA.............................................. 114
+    - Unit 12: THE 1994 GENOCIDE AGAINST THE TUTSI. .............................. 124
+    - UNIT 13: GOD’S REVELATION............................................................. 13
+    - Unit 14: ATTRIBUTES OF GOD............................................................. 1
+    - Unit 15: RELATIONSHIP AND FRIENDSHIP .......................................... 157
+    - UNIT 16: CONFLICT RESOLUTION....................................................... 168
+    - Unit 1 OUR COUNTRY
+    - Unit 2 Key unit competence: Demonstrate patriotism and good citizenship
