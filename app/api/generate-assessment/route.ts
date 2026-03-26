@@ -925,11 +925,14 @@ export async function POST(request: NextRequest) {
     }
 
     async function callBedrock(prompt: string, maxTokens: number): Promise<string> {
-      // Some models need the "us." cross-region prefix (Nova, Llama).
-      // Others (Gemma, GPT-OSS, some Mistral/NVIDIA) use bare IDs.
-      // Try the ID as given first, then the alternative form on "invalid" errors.
-      const alt = aiModel.startsWith('us.') ? aiModel.slice(3) : `us.${aiModel}`
-      const candidates = [aiModel, alt]
+      // Derive the correct regional prefix from the configured AWS region.
+      // Nova and Llama models require a cross-region inference prefix (us./eu./ap.).
+      const awsRegion = process.env.AWS_REGION ?? 'us-east-1'
+      const regionPrefix = awsRegion.startsWith('eu') ? 'eu' : awsRegion.startsWith('ap') ? 'ap' : 'us'
+      const bareId = aiModel.replace(/^(us|eu|ap)\./, '')
+      const prefixedId = `${regionPrefix}.${bareId}`
+      // Try: region-prefixed ID first, then original from request, then bare ID
+      const candidates = [...new Set([prefixedId, aiModel, bareId])]
 
       let lastErr: any
       for (const modelId of candidates) {
@@ -955,9 +958,11 @@ export async function POST(request: NextRequest) {
       throw lastErr
     }
 
-    // ── Stage 1: Question skeleton generation (Bedrock or Groq) ──────────────
-    // Batched: max 20 per call to stay within token limits.
-    const BATCH_SIZE = 20
+    // ── Stage 1: Question skeleton generation ────────────────────────────────
+    // Nova Lite has a hard 5120 output-token limit. Each MCQ question costs ~400 tokens
+    // (question + 4 options + 150-word explanation). Batch size of 8 + 20% buffer = 10
+    // questions = ~4000 tokens, safely under the limit.
+    const BATCH_SIZE = 8
 
     async function tryGenerateBatch(batchCount: number, startId: number): Promise<any[]> {
       // Request a small surplus so even if the model runs short we hit the target count.
@@ -967,8 +972,9 @@ export async function POST(request: NextRequest) {
         subject, topics, count: requestCount, startId, style,
         curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
       })
-      // Give generous token budget: ~500 tokens/question for MCQ, more for mixed/longform
-      const maxTokens = requestCount <= 12 ? 5000 : 10000
+      // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
+      // ~400-480 tokens per MCQ question (question + options + full explanation).
+      const maxTokens = Math.min(4800, requestCount * 480)
       const text = await callBedrock(prompt, maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
