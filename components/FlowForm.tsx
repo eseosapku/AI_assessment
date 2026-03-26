@@ -2,7 +2,7 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import {
@@ -141,8 +141,14 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
     time: 'Calculated by AI',
   })
   const [isLoading, setIsLoading] = useState(false)
+  const [elapsed, setElapsed] = useState(0)
+  const [totalTime, setTotalTime] = useState<number | null>(null)
+  const startTimeRef = useRef<number>(0)
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [error, setError] = useState('')
   const [generatedData, setGeneratedData] = useState<any>(null)
+
+  useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
 
   const isCambridge = formData.curriculum === 'cambridge'
   const subjects = formData.grade && formData.curriculum
@@ -168,6 +174,12 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const handleStartAssessment = async () => {
     setIsLoading(true)
     setError('')
+    setTotalTime(null)
+    setElapsed(0)
+    startTimeRef.current = Date.now()
+    timerRef.current = setInterval(() => {
+      setElapsed(Math.round((Date.now() - startTimeRef.current) / 1000))
+    }, 1000)
     try {
       const response = await fetch('/api/generate-assessment', {
         method: 'POST',
@@ -187,6 +199,8 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
     } catch (err: any) {
       setError(err.message)
     } finally {
+      if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null }
+      setTotalTime(Math.round((Date.now() - startTimeRef.current) / 1000))
       setIsLoading(false)
     }
   }
@@ -511,12 +525,22 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                     {isLoading ? (
                       <>
                         <Loader2 className="w-4 h-4 animate-spin" />
-                        Generating assessment…
+                        <span>Generating… <span className="font-mono tabular-nums">{elapsed}s</span></span>
                       </>
                     ) : (
                       <>
-                        {isTeacher ? 'Generate Assessment' : 'Generate & Start'}
-                        <ChevronRight className="w-4 h-4" />
+                        {totalTime !== null ? (
+                          <span className="flex items-center gap-2">
+                            <Check className="w-4 h-4" />
+                            {isTeacher ? 'Generate Assessment' : 'Generate & Start'}
+                            <span className="text-blue-200 font-normal text-xs">({totalTime}s)</span>
+                          </span>
+                        ) : (
+                          <>
+                            {isTeacher ? 'Generate Assessment' : 'Generate & Start'}
+                            <ChevronRight className="w-4 h-4" />
+                          </>
+                        )}
                       </>
                     )}
                   </button>

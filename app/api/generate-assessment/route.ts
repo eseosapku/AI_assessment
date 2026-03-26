@@ -1084,11 +1084,12 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      // Run batches sequentially to avoid saturating TPM
-      for (const batch of batches) {
-        const qs = await tryGenerateBatch(batch.count, batch.startId)
-        allQuestions.push(...qs)
-      }
+      // Run all batches in parallel — this is the main speed win.
+      // Sequential was 8 × ~15s = 120s. Parallel brings it to ~15s.
+      const batchResults = await Promise.all(
+        batches.map(b => tryGenerateBatch(b.count, b.startId))
+      )
+      allQuestions = batchResults.flat()
     } catch (err: any) {
       console.error('Generation failed:', err)
       const is429 = err?.status === 429 || err?.message?.includes('429') || err?.error?.code === 'rate_limit_exceeded'
