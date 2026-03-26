@@ -552,6 +552,76 @@ Generate all ${count} questions now. You MUST produce EXACTLY ${count} questions
   return { prompt, estimatedTime }
 }
 
+// ── Passage-first question generation prompt ──────────────────────────────────
+// Used when a passage has already been generated. Questions are written ABOUT
+// this specific passage, so they can never reference features that don't exist.
+function buildPassageBasedPrompt(opts: {
+  passage: string
+  passageSource: string
+  subject: string
+  count: number
+  startId: number
+  style: string
+  curriculumName: string
+  curriculumBlock: string
+  questionType: 'mcq' | 'longform' | 'mixed'
+  difficultyLevel?: string
+  grade?: number | string
+}): string {
+  const { passage, subject, count, startId, style, curriculumName, curriculumBlock, questionType, difficultyLevel, grade } = opts
+  const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
+
+  const isPrimaryGrade = grade && Number(grade) >= 1 && Number(grade) <= 6
+  const gradeNote = isPrimaryGrade
+    ? `Grade ${grade} students (ages ${5 + Number(grade)}–${6 + Number(grade)}). Use simple, age-appropriate vocabulary.`
+    : grade ? `Grade ${grade}` : 'secondary level'
+
+  const mcqSchema = `{ "id": <number>, "type": "mcq", "question": "...", "options": ["A","B","C","D"], "correct_answer": <0-3>, "explanation": "100-150 words explaining why the correct answer is right and why each wrong option is wrong" }`
+  const lfSchema = `{ "id": <number>, "type": "longform", "question": "...", "marks": <4-8>, "marking_criteria": ["one point per mark — each must be achievable from this passage"], "model_answer": "80-120 words — full P.E.E. paragraph using ACTUAL verbatim quotes from the passage", "explanation": "40-60 words: what skill this tests" }`
+
+  const schemaBlock = questionType === 'mcq' ? mcqSchema : questionType === 'longform' ? lfSchema : `${mcqSchema},\n${lfSchema}`
+  const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
+  const lfCount  = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
+  const taskLine = questionType === 'mcq'
+    ? `Generate exactly ${count} MCQ questions about the passage.`
+    : questionType === 'longform'
+    ? `Generate exactly ${count} long-form questions about the passage.`
+    : `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform").`
+
+  return `You are an expert exam writer for the ${curriculumName}. Generate questions for a ${style} ${subject} assessment for ${gradeNote}.
+
+${curriculumBlock}
+
+━━━ READING PASSAGE ━━━
+${passage}
+━━━ END OF PASSAGE ━━━
+
+TASK: ${taskLine} Every question MUST be directly and specifically about the passage above.
+
+━━━ NON-NEGOTIABLE RULES ━━━
+1. ONLY ask about features that ACTUALLY EXIST in the passage:
+   • No "analyse the dialogue" if there is no speech
+   • No "compare two characters" if only one character is developed
+   • No "identify symbols/metaphors" unless they are clearly present
+   • No "discuss the theme of X" unless X is evidenced in the passage
+2. model_answer: use ONLY quotes copied verbatim from the passage. Never invent or paraphrase quotes as if they were quotations.
+3. marking_criteria: every point must be achievable by a student who reads only this passage.
+4. Vary the question skills across the set:
+   • Retrieval (find specific stated information)
+   • Inference (what is implied / reading between the lines)
+   • Language analysis (comment on a specific word, phrase, or sentence)
+   • Character / narrator perspective
+   • Theme or message (with evidence from the passage)
+   • Author's purpose or structure
+5. Questions must be specific — not "How does the writer use language?" but "How does the phrase '...' in paragraph 2 create a sense of urgency?"
+${difficultyInstruction ? `6. ${difficultyInstruction}` : ''}
+
+Return ONLY valid JSON:
+{ "questions": [ ${schemaBlock} ] }
+
+Generate all ${count} questions now. IDs: ${startId} to ${startId + count - 1}.`
+}
+
 // ── Strip embedded "(A)/(B)/(C)/(D)" options from question text ──────────────
 // The AI sometimes puts "... (A) X, (B) Y, (C) Z, (D) W" directly in the
 // question field. This breaks deduplication, rendering, and the bond fixer.
@@ -1056,7 +1126,30 @@ export async function POST(request: NextRequest) {
       return parsed.questions
     }
 
-    // Split count into batches of BATCH_SIZE
+    // ── Passage-first batch: uses an already-generated passage as context ────────
+    // Each question in the result has q.passage and q.passage_source already set.
+    async function tryGeneratePassageBatch(
+      passage: { text: string; source: string },
+      batchCount: number,
+      startId: number
+    ): Promise<any[]> {
+      const requestCount = batchCount + Math.ceil(batchCount * 0.4)
+      const prompt = buildPassageBasedPrompt({
+        passage: passage.text, passageSource: passage.source,
+        subject, count: requestCount, startId, style,
+        curriculumName, curriculumBlock, questionType,
+        difficultyLevel, grade,
+      })
+      const maxTokens = Math.min(4800, Math.max(2000, requestCount * 500))
+      const text = await callBedrock(prompt, maxTokens)
+      if (isRefusal(text)) throw new Error(`Model refused to generate content.`)
+      const parsed = parseJsonRobust(fixLatexInRawJson(text))
+      if (!Array.isArray(parsed.questions)) throw new SyntaxError('No questions array')
+      parsed.questions.forEach((q: any) => { q.passage = passage.text; q.passage_source = passage.source })
+      return parsed.questions
+    }
+
+    // Split count into batches of BATCH_SIZE (used for non-passage subjects)
     const batches: { count: number; startId: number }[] = []
     for (let i = 0; i < count; i += BATCH_SIZE) {
       batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
@@ -1064,6 +1157,8 @@ export async function POST(request: NextRequest) {
 
     let allQuestions: any[] = []
     let estimatedTime = 0
+    // For passage subjects, we store the generated passages for use in retries
+    let generatedPassages: { text: string; source: string }[] = []
 
     // Helper: deduplicate + validate a list of raw questions in place
     function deduplicateAndFix(qs: any[]): any[] {
@@ -1084,12 +1179,48 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      // Run all batches in parallel — this is the main speed win.
-      // Sequential was 8 × ~15s = 120s. Parallel brings it to ~15s.
-      const batchResults = await Promise.all(
-        batches.map(b => tryGenerateBatch(b.count, b.startId))
-      )
-      allQuestions = batchResults.flat()
+      if (needsPassage(subject)) {
+        // ── PASSAGE-FIRST FLOW ────────────────────────────────────────────────
+        // Step 1: Generate passages in parallel (one per 10 questions).
+        // Step 2: Generate questions per passage in parallel — each question
+        //         is written about the actual passage text, so it can never
+        //         reference features that don't exist.
+        const numPassages = Math.max(1, Math.ceil(count / 10))
+        const questionsPerPassage = Math.ceil(count / numPassages)
+
+        // Build a topic-aware hint so passages are relevant to what was selected
+        const topicHint = topics.length > 0
+          ? `${topics.slice(0, 2).join(' and ')} — relevant to a ${subject} assessment`
+          : ''
+
+        const rawPassages = await Promise.all(
+          Array.from({ length: numPassages }, (_, i) => {
+            const baseHint = sharedPassageHint(i, grade)
+            const fullHint = topicHint ? `${baseHint}. Topic focus: ${topicHint}` : baseHint
+            return generatePassageWithBedrock('', subject, fullHint, callBedrock, grade)
+          })
+        )
+        generatedPassages = rawPassages.filter(Boolean) as { text: string; source: string }[]
+        if (generatedPassages.length === 0) {
+          return NextResponse.json({ error: 'Failed to generate reading passages. Please try again.' }, { status: 500 })
+        }
+
+        // Step 2: Generate questions for each passage in parallel
+        const passageQResults = await Promise.all(
+          generatedPassages.map((passage, i) => {
+            const qCount = Math.min(questionsPerPassage, count - i * questionsPerPassage)
+            if (qCount <= 0) return Promise.resolve([])
+            return tryGeneratePassageBatch(passage, qCount, i * questionsPerPassage + 1)
+          })
+        )
+        allQuestions = passageQResults.flat()
+      } else {
+        // ── STANDARD PARALLEL BATCH FLOW ─────────────────────────────────────
+        const batchResults = await Promise.all(
+          batches.map(b => tryGenerateBatch(b.count, b.startId))
+        )
+        allQuestions = batchResults.flat()
+      }
     } catch (err: any) {
       console.error('Generation failed:', err)
       const is429 = err?.status === 429 || err?.message?.includes('429') || err?.error?.code === 'rate_limit_exceeded'
@@ -1103,17 +1234,21 @@ export async function POST(request: NextRequest) {
     allQuestions = deduplicateAndFix(allQuestions)
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
-    // Each retry requests only the missing questions. Nova Lite may not always
-    // produce the exact count requested, so we retry until we hit the target.
     for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
       const missing = count - allQuestions.length
       console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
-        const retryQs = await tryGenerateBatch(missing, allQuestions.length + 1)
+        let retryQs: any[]
+        if (needsPassage(subject) && generatedPassages.length > 0) {
+          // Retry using the first available passage so questions still match the text
+          retryQs = await tryGeneratePassageBatch(generatedPassages[0], missing, allQuestions.length + 1)
+        } else {
+          retryQs = await tryGenerateBatch(missing, allQuestions.length + 1)
+        }
         allQuestions.push(...deduplicateAndFix(retryQs))
       } catch (err: any) {
         console.error(`Retry pass ${retryPass} failed:`, err)
-        break // don't retry if Bedrock itself throws
+        break
       }
     }
 
@@ -1149,33 +1284,28 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'AI returned invalid question data. Please try again.' }, { status: 500 })
     }
 
-    // ── Ensure passage fields are present for passage subjects ────────────────
-    // LLMs sometimes forget to include needs_passage/passage_hint despite the prompt.
-    // Stamp them here so generateAllPassages never silently skips a question.
-    if (needsPassage(subject)) {
-      assessmentData.questions.forEach((q: any) => {
-        if (!q.passage_hint) {
-          q.needs_passage = true
-          q.passage_hint = `A rich reading extract that a student would need to answer this ${subject} question: "${q.question.slice(0, 120)}"`
-        }
-      })
-    }
-
-    // Strip diagram hint fields (diagram generation not supported)
+    // Strip internal generation fields
     assessmentData.questions = assessmentData.questions.map((q: any) => {
-      const { needs_diagram, diagram_hint, ...rest } = q
+      const { needs_diagram, diagram_hint, needs_passage, passage_hint, ...rest } = q
       return rest
     })
 
-    // ── Stage 2b: Passages via Bedrock ───────────────────────────────────────
+    // ── Stage 2b: Passages ────────────────────────────────────────────────────
+    // For passage subjects using the passage-first flow, questions already have
+    // q.passage set. Only run generateAllPassages for any stragglers that somehow
+    // lack a passage (edge case), then skip fixupPassageQuestions entirely since
+    // questions were written about the actual passage from the start.
     if (needsPassage(subject)) {
-      await generateAllPassages(assessmentData.questions, subject, callBedrock, grade)
-      await fixupPassageQuestions(assessmentData.questions, callBedrock)
-    } else {
-      assessmentData.questions.forEach((q: any) => {
-        delete q.needs_passage
-        delete q.passage_hint
-      })
+      const missing = assessmentData.questions.filter((q: any) => !q.passage)
+      if (missing.length > 0) {
+        // Fallback: stamp the first generated passage or generate fresh ones
+        if (generatedPassages.length > 0) {
+          missing.forEach((q: any) => { q.passage = generatedPassages[0].text; q.passage_source = generatedPassages[0].source })
+        } else {
+          await generateAllPassages(missing, subject, callBedrock, grade)
+          await fixupPassageQuestions(missing, callBedrock)
+        }
+      }
     }
 
     // ── Save to database ───────────────────────────────────────────────────────
