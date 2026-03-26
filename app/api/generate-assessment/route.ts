@@ -351,7 +351,11 @@ ${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
 - NEVER write a question where none of the options is correct.
 - NEVER generate the same question text twice. Every question in the assessment must test a DIFFERENT concept, fact, or calculation. Vary the numbers, operations, and contexts.
 - Do NOT generate more than ONE ordering/sorting question per assessment. Use other question types for variety.
-- For ordering/sorting questions (e.g. "correct order from smallest to largest"): ALL four options must be COMPLETE sequences of every number from the question. The correct sorted sequence MUST be one of the four options. NEVER use a bare number as an option for an ordering question — e.g. for "order 12, 5, 8, 3 from smallest to largest" the options must all be like "3, 5, 8, 12" not like "3".
+- Do NOT generate more than ONE number-bond question per assessment (e.g. "which bond adds up to 10"). These are repetitive — one is enough.
+- Do NOT generate more than TWO "which number is larger/smaller" comparison questions. Vary the question types.
+- QUESTION TYPE VARIETY: Across the full set of ${count} questions, use at least 5 different question categories (e.g. addition, subtraction, comparison, sequencing, word problem, place value, shapes, measurement, etc.). Do NOT repeat the same category more than twice in a row.
+- For ordering/sorting questions (e.g. "correct order from smallest to largest"): ALL four options must be COMPLETE sequences of every number from the question. The correct sorted sequence MUST be one of the four options. NEVER use a bare number as an option for an ordering question.
+- CRITICAL: The "question" field must contain ONLY the question text itself. Do NOT include the answer choices "(A) ..., (B) ..., (C) ..., (D) ..." inside the question field. The options go in the "options" array only.
 - For sequence/order questions (e.g. "what comes after X"): make the question unambiguous and ensure the answer IS in the options.
 - The explanation MUST describe the same answer as correct_answer. They must ALWAYS agree.
 
@@ -366,9 +370,22 @@ ${questionsBlock}
   ]
 }
 
-Generate all ${count} questions now.`
+Generate all ${count} questions now. You MUST produce EXACTLY ${count} questions — do not stop early. Number them ${startId} to ${startId + count - 1}.`
 
   return { prompt, estimatedTime }
+}
+
+// ── Strip embedded "(A)/(B)/(C)/(D)" options from question text ──────────────
+// The AI sometimes puts "... (A) X, (B) Y, (C) Z, (D) W" directly in the
+// question field. This breaks deduplication, rendering, and the bond fixer.
+function cleanQuestionTexts(questions: any[]): void {
+  for (const q of questions) {
+    if (!q.question) continue
+    // Remove everything from "(A)" onwards if it looks like appended MCQ options
+    q.question = q.question.replace(/\s*[\(\[]\s*[Aa]\s*[\)\]]\s*[\s\S]*$/, '').trim()
+    // Replace $?$ (LaTeX-wrapped placeholder) with plain ?
+    q.question = q.question.replace(/\$\?\$/g, '?')
+  }
 }
 
 // ── Post-generation MCQ answer validator ─────────────────────────────────────
@@ -525,6 +542,8 @@ function fixExpressionMcqs(questions: any[]): void {
     // ── "Which number bond to N is correct?" ──────────────────────────────────
     const correctMatch = qText.match(/bond\s+to\s+(\d+)\s+is\s+correct/i)
       || qText.match(/correct\s+number\s+bond\s+to\s+(\d+)/i)
+      || qText.match(/bond.*(?:correctly\s+)?adds?\s+up\s+to\s+(\d+)/i)
+      || qText.match(/bond.*(?:equals?|sums?\s+to)\s+(\d+)/i)
     if (correctMatch) {
       const target = Number(correctMatch[1])
       const validIndices = optionSums.map((s, i) => s === target ? i : -1).filter(i => i !== -1)
@@ -711,11 +730,15 @@ export async function POST(request: NextRequest) {
     const BATCH_SIZE = 20
 
     async function tryGenerateBatch(batchCount: number, startId: number): Promise<any[]> {
+      // Request a small surplus so even if the model runs short we hit the target count.
+      // The surplus is stripped after deduplication.
+      const requestCount = batchCount + Math.ceil(batchCount * 0.2)
       const { prompt } = buildPrompt({
-        subject, topics, count: batchCount, startId, style,
+        subject, topics, count: requestCount, startId, style,
         curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
       })
-      const maxTokens = batchCount <= 10 ? 3500 : 6000
+      // Give generous token budget: ~500 tokens/question for MCQ, more for mixed/longform
+      const maxTokens = requestCount <= 12 ? 5000 : 10000
       const text = await callBedrock(prompt, maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
@@ -747,10 +770,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: msg }, { status: is429 ? 429 : 500 })
     }
 
-    // Remove duplicate questions (same question text, case-insensitive)
+    // Strip embedded "(A)...(D)" options from question text before any processing
+    cleanQuestionTexts(allQuestions)
+
+    // Remove duplicate questions — normalise by stripping any residual option suffix before comparing
     const seenQuestions = new Set<string>()
     allQuestions = allQuestions.filter((q: any) => {
-      const key = (q.question || '').toLowerCase().trim().slice(0, 120)
+      const raw = (q.question || '').toLowerCase().trim()
+      // Strip trailing MCQ option block "(a) ..." if present, then take first 100 chars
+      const aIdx = raw.search(/\s*[\(\[]\s*a\s*[\)\]]/)
+      const key = (aIdx > 10 ? raw.slice(0, aIdx) : raw).slice(0, 100)
       if (seenQuestions.has(key)) { console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`); return false }
       seenQuestions.add(key); return true
     })

@@ -615,8 +615,17 @@ export default function AssessmentPage() {
     const data = sessionStorage.getItem('currentAssessment')
     if (data) {
       const assessmentData = JSON.parse(data)
-      // Fix any wrong correct_answer indices before the student sees the questions
-      if (Array.isArray(assessmentData.questions)) fixMcqAnswers(assessmentData.questions)
+      if (Array.isArray(assessmentData.questions)) {
+        // Strip embedded "(A)...(D)" option text from question fields
+        assessmentData.questions.forEach((q: Question) => {
+          if (!isLongForm(q)) {
+            q.question = q.question.replace(/\s*[\(\[]\s*[Aa]\s*[\)\]]\s*[\s\S]*$/, '').trim()
+            q.question = q.question.replace(/\$\?\$/g, '?')
+          }
+        })
+        // Fix any wrong correct_answer indices
+        fixMcqAnswers(assessmentData.questions)
+      }
       setAssessment(assessmentData)
       setTimeRemaining(assessmentData.estimated_time * 60)
     } else {
