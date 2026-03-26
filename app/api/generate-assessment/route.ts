@@ -75,31 +75,68 @@ function fixLatexInRawJson(raw: string): string {
 }
 
 
-const PASSAGE_PROMPT = (question: string, subject: string, hint: string) => `You are creating a reading extract for a ${subject} exam paper.
+// ── Grade-level passage specification ────────────────────────────────────────
+function gradePassageSpec(grade: number | string | undefined) {
+  const g = Number(grade) || 99
+  if (g <= 2) return {
+    wordTarget: '80–120 words',
+    style: 'a very short, simple story or description for young children aged 6–8. Topics: animals, school, family, weather, toys. Short sentences of 5–8 words.',
+    vocab: 'ONLY use words a 6–7 year old knows. No words over 2 syllables unless very common (e.g. "happy", "animal"). No metaphors or complex language.',
+    minWords: 40,
+    maxTokens: 400,
+  }
+  if (g <= 4) return {
+    wordTarget: '150–250 words',
+    style: 'a simple passage for 8–10 year olds. Clear, engaging writing. Topics: nature, animals, short adventures, simple history.',
+    vocab: 'Simple vocabulary for ages 8–10. Short to medium sentences. No complex literary language.',
+    minWords: 70,
+    maxTokens: 700,
+  }
+  if (g <= 6) return {
+    wordTarget: '250–350 words',
+    style: 'a passage for 10–12 year olds. Some descriptive language allowed. Topics: history, nature, adventure, simplified social issues.',
+    vocab: 'Accessible vocabulary for ages 10–12. Medium-length sentences. Some descriptive language is appropriate.',
+    minWords: 100,
+    maxTokens: 900,
+  }
+  return {
+    wordTarget: '450–650 words',
+    style: 'a high-quality literary or non-fiction extract matching CAIE/Cambridge unseen comprehension standards. Prioritise public-domain authors (Dickens, Achebe, Austen, Orwell, etc.) or original literary-quality prose.',
+    vocab: 'Rich vocabulary, figurative language, complex sentence structures.',
+    minWords: 120,
+    maxTokens: 1400,
+  }
+}
+
+const PASSAGE_PROMPT = (question: string, subject: string, hint: string, grade?: number | string) => {
+  const spec = gradePassageSpec(grade)
+  const gradeLabel = grade ? `Grade ${grade}` : 'secondary school'
+  return `You are creating a reading extract for a ${subject} exam paper for ${gradeLabel} students.
 
 QUESTION THE STUDENT WILL ANSWER: "${question}"
 WHAT THE PASSAGE SHOULD BE: ${hint}
 
-Write a high-quality reading extract. Requirements:
-- AT LEAST 450 words (aim for 500–650 words)
-- Prioritise public-domain literary authors (Dickens, Austen, Hardy, Brontë, Eliot, Conrad, Achebe, Shakespeare, etc.) OR write original literary-quality prose that matches the style of a CAIE/Cambridge unseen comprehension passage
-- Rich in language techniques, vivid description, or strong argument — something worth analysing
-- Natural paragraph breaks
+Write a reading extract. Requirements:
+- EXACTLY ${spec.wordTarget} — do not write more or less
+- Style: ${spec.style}
+- Vocabulary: ${spec.vocab}
+- Natural paragraph breaks (blank line between paragraphs)
 - The student MUST be able to answer the question from this text
 
 Return your response in this EXACT format (no extra text, no markdown):
 PASSAGE:
-[full passage text here, with blank lines between paragraphs]
+[full passage text here]
 
 SOURCE:
-[Author, Full Title (Year), Chapter — e.g. "Charles Dickens, Great Expectations (1861), Chapter 1" or "Original passage written in the style of a CAIE IGCSE unseen comprehension text"]`
+[e.g. "Original passage written for ${gradeLabel} students" or author/title if using a real text]`
+}
 
-function parsePassageResponse(raw: string): { text: string; source: string } | null {
+function parsePassageResponse(raw: string, minWords = 120): { text: string; source: string } | null {
   const passageMatch = raw.match(/PASSAGE:\s*([\s\S]*?)(?=\nSOURCE:|$)/i)
   const sourceMatch = raw.match(/SOURCE:\s*([\s\S]*?)$/i)
   const text = passageMatch?.[1]?.trim() ?? ''
   const source = sourceMatch?.[1]?.trim() ?? 'Original passage'
-  if (text.split(/\s+/).filter(Boolean).length < 120) return null
+  if (text.split(/\s+/).filter(Boolean).length < minWords) return null
   return { text, source }
 }
 
@@ -108,11 +145,13 @@ async function generatePassageWithBedrock(
   question: string,
   subject: string,
   hint: string,
-  callFn: (prompt: string, maxTokens: number) => Promise<string>
+  callFn: (prompt: string, maxTokens: number) => Promise<string>,
+  grade?: number | string
 ): Promise<{ text: string; source: string } | null> {
   try {
-    const raw = await callFn(PASSAGE_PROMPT(question, subject, hint), 1400)
-    return parsePassageResponse(raw)
+    const spec = gradePassageSpec(grade)
+    const raw = await callFn(PASSAGE_PROMPT(question, subject, hint, grade), spec.maxTokens)
+    return parsePassageResponse(raw, spec.minWords)
   } catch (err) {
     console.error('Bedrock passage generation failed:', err)
     return null
