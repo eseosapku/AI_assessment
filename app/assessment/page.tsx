@@ -551,6 +551,14 @@ function fixMcqAnswers(questions: Question[]): void {
       if (sw) computed = +sw[1] - +sw[2]
     }
     if (computed === null) {
+      const sumOf = t.match(/(?:sum|total)\s+of\s+(\d+)\s+and\s+(\d+)/i)
+      if (sumOf) computed = +sumOf[1] + +sumOf[2]
+    }
+    if (computed === null) {
+      const prodOf = t.match(/product\s+of\s+(\d+)\s+and\s+(\d+)/i)
+      if (prodOf) computed = +prodOf[1] * +prodOf[2]
+    }
+    if (computed === null) {
       const aw = t.match(/(?:combining|adding)\s+(\d+)\s+and\s+(\d+)/i)
         || t.match(/(\d+)\s+(?:\w+\s+){0,8}(?:add[s]?\s+(\d+)\s+more|get[s]?\s+(\d+)\s+more|and\s+(\d+)\s+more|plus\s+(\d+))/i)
         || t.match(/have\s+(\d+)\s+(?:\w+\s+){0,6}add[s]?\s+(\d+)/i)
@@ -566,6 +574,7 @@ function fixMcqAnswers(questions: Question[]): void {
       const expl = mcq.explanation.replace(/\$+/g, '').replace(/[−–]/g, '-')
       const pats = [
         /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,            // "5 + 3 = 8" — most reliable
+        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,   // "sum of 4 and 6 is 10"
         /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,

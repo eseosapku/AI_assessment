@@ -355,6 +355,11 @@ ${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
 - Do NOT generate more than TWO "which number is larger/smaller" comparison questions. Vary the question types.
 - QUESTION TYPE VARIETY: Across the full set of ${count} questions, use at least 5 different question categories (e.g. addition, subtraction, comparison, sequencing, word problem, place value, shapes, measurement, etc.). Do NOT repeat the same category more than twice in a row.
 - For ordering/sorting questions (e.g. "correct order from smallest to largest"): ALL four options must be COMPLETE sequences of every number from the question. The correct sorted sequence MUST be one of the four options. NEVER use a bare number as an option for an ordering question.
+- SINGLE CORRECT ANSWER RULE — NON-NEGOTIABLE: Every MCQ must have EXACTLY ONE correct option and THREE definitively wrong options. This applies to ALL question types without exception:
+  • Times table / multiples: if asking "which is NOT in the 10 times table?", only ONE option must NOT be a multiple of 10 — the other three MUST all be multiples of 10. NEVER put four multiples of 10 as options for a "not in times table" question.
+  • Even/odd questions: only one option should have the opposite parity.
+  • Prime/composite: only one option should match or not match the property.
+  • Any "which does NOT belong?" or "which IS X?" question: verify each option against the property before writing — three must clearly match the property, one must clearly not (or vice versa).
 - CRITICAL: The "question" field must contain ONLY the question text itself. Do NOT include the answer choices "(A) ..., (B) ..., (C) ..., (D) ..." inside the question field. The options go in the "options" array only.
 - For sequence/order questions (e.g. "what comes after X"): make the question unambiguous and ensure the answer IS in the options.
 - The explanation MUST describe the same answer as correct_answer. They must ALWAYS agree.
@@ -460,6 +465,16 @@ function validateMcqAnswers(questions: any[]): void {
       if (sw) computed = +sw[1] - +sw[2]
     }
     if (computed === null) {
+      // "sum/total of A and B" — e.g. "What is the sum of 4 and 6?"
+      const sumOf = text.match(/(?:sum|total)\s+of\s+(\d+)\s+and\s+(\d+)/i)
+      if (sumOf) computed = +sumOf[1] + +sumOf[2]
+    }
+    if (computed === null) {
+      // "product of A and B" — multiplication word form
+      const prodOf = text.match(/product\s+of\s+(\d+)\s+and\s+(\d+)/i)
+      if (prodOf) computed = +prodOf[1] * +prodOf[2]
+    }
+    if (computed === null) {
       // Addition word: "combining/adding X and Y", "add X more", "get X more", "X and Y more"
       const aw = text.match(/(?:combining|adding)\s+(\d+)\s+and\s+(\d+)/i)
         || text.match(/(\d+)\s+(?:\w+\s+){0,8}(?:add[s]?\s+(\d+)\s+more|get[s]?\s+(\d+)\s+more|and\s+(\d+)\s+more|plus\s+(\d+))/i)
@@ -482,7 +497,8 @@ function validateMcqAnswers(questions: any[]): void {
       // stated conclusion is wrong), then explicit statements, then looser matches.
       const patterns = [
         /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,            // "5 + 3 = 8" — most reliable
-        /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,               // "missing number is 1"
+        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,   // "sum of 4 and 6 is 10"
+        /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
         /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
@@ -540,14 +556,15 @@ function fixExpressionMcqs(questions: any[]): void {
     const qText = (q.question || '').toLowerCase()
 
     // ── General: ALL 4 expression options sum to the SAME value ───────────────
-    // Catches any "which combination makes N?" / "adds up to N?" phrasing where
-    // the AI put four valid sums as options. Keep the marked answer; replace others.
-    // Guard: skip if the question is asking for an INCORRECT/wrong answer.
+    // When all 4 options are equally valid (or equally invalid) the question is broken.
+    // Positive question → keep the AI-marked answer, make the other 3 wrong sums.
+    // Negative question ("which is incorrect?") → create one wrong sum and mark it correct.
     const definedSums = optionSums.filter((s): s is number => s !== null)
     if (definedSums.length === 4 && definedSums.every(s => s === definedSums[0])) {
       const target = definedSums[0]
       const isNegativeQ = /\b(?:not|incorrect|wrong|false|does\s+not)\b/i.test(qText)
-      if (!isNegativeQ && qText.includes(String(target))) {
+      if (!isNegativeQ) {
+        // Positive: keep marked answer, replace others with invalid sums
         const keep = q.correct_answer
         let seed = 0
         for (let i = 0; i < 4; i++) {
@@ -559,9 +576,17 @@ function fixExpressionMcqs(questions: any[]): void {
             seed++
           }
         }
-        console.warn(`All-equal-sum fix: all 4 options summed to ${target}, kept idx ${keep}`)
-        continue
+        console.warn(`All-equal-sum fix (+): all 4 summed to ${target}, kept idx ${keep}`)
+      } else {
+        // Negative: all options are valid → replace one with a wrong sum and mark it as answer
+        const replaceIdx = q.correct_answer === 0 ? 1 : 0
+        const wrongSum = target + 1
+        const a = Math.max(1, Math.floor(wrongSum / 2))
+        q.options[replaceIdx] = `${a} + ${Math.max(1, wrongSum - a)}`
+        q.correct_answer = replaceIdx
+        console.warn(`All-equal-sum fix (-): all 4 summed to ${target}, created wrong option at idx ${replaceIdx}`)
       }
+      continue
     }
 
     // ── "Which number bond to N is correct?" ──────────────────────────────────
@@ -655,6 +680,87 @@ function fixOrderingQuestions(questions: any[]): void {
       // Correct sequence not in options — replace the AI-marked slot with it
       console.warn(`Ordering fix: "${correctSeq}" missing — replacing option[${q.correct_answer}]`)
       q.options[q.correct_answer] = correctSeq
+    }
+  }
+}
+
+// ── Times-table / divisibility question fixer ────────────────────────────────
+// Handles "Which is [NOT] in the N times table?" and similar divisibility questions.
+// Ensures EXACTLY ONE option has the required property.
+function fixTimesTableQuestions(questions: any[]): void {
+  for (const q of questions) {
+    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
+    const qText = (q.question || '').toLowerCase()
+
+    // Detect times-table questions: "N times table" or "multiples of N"
+    const timesMatch = qText.match(/(\d+)\s+times\s+table/i) || qText.match(/multiples?\s+of\s+(\d+)/i)
+    if (!timesMatch) continue
+    const n = Number(timesMatch[1])
+    if (!Number.isFinite(n) || n < 2) continue
+
+    // Parse all options as plain numbers
+    const optNums: (number | null)[] = q.options.map((o: any) => {
+      const v = Number(String(o).trim())
+      return Number.isFinite(v) && v > 0 ? v : null
+    })
+    if (optNums.some(v => v === null)) continue // skip non-numeric options
+
+    const isMult = (v: number) => v % n === 0
+    // A non-multiple replacement: pick base + smallest offset that isn't also a multiple
+    const nonMultiple = (base: number) => {
+      let off = Math.max(1, Math.ceil(n * 0.5))
+      while ((base + off) % n === 0) off++
+      return base + off
+    }
+    // A multiple replacement: round to nearest multiple
+    const nearestMult = (base: number) => {
+      const m = Math.round(base / n) * n
+      return m > 0 ? m : n * 3
+    }
+
+    const isNegativeQ = /\b(?:not\b|isn'?t|is\s+not)\b/i.test(qText)
+
+    if (isNegativeQ) {
+      // "NOT in N times table" → need exactly ONE non-multiple (the answer), THREE multiples
+      const nonMultIdxs = (optNums as number[]).map((v, i) => !isMult(v) ? i : -1).filter(i => i !== -1)
+
+      if (nonMultIdxs.length === 0) {
+        // All options are multiples → replace AI-marked option with a non-multiple
+        const base = optNums[q.correct_answer] as number
+        q.options[q.correct_answer] = String(nonMultiple(base))
+        console.warn(`TimesTable fix (-): all multiples of ${n}, replaced option[${q.correct_answer}]`)
+      } else {
+        // Ensure correct_answer points to the non-multiple
+        const keep = nonMultIdxs.includes(q.correct_answer) ? q.correct_answer : nonMultIdxs[0]
+        q.correct_answer = keep
+        // Replace any extra non-multiples with proper multiples
+        for (const idx of nonMultIdxs) {
+          if (idx !== keep) {
+            q.options[idx] = String(nearestMult(optNums[idx] as number))
+            console.warn(`TimesTable fix (-): replaced extra non-multiple at idx ${idx}`)
+          }
+        }
+      }
+    } else {
+      // "In N times table" → need exactly ONE multiple (the answer), THREE non-multiples
+      const multIdxs = (optNums as number[]).map((v, i) => isMult(v) ? i : -1).filter(i => i !== -1)
+
+      if (multIdxs.length === 0) {
+        // No multiples → replace AI-marked option with a multiple
+        const base = optNums[q.correct_answer] as number
+        q.options[q.correct_answer] = String(nearestMult(base))
+        console.warn(`TimesTable fix (+): no multiples of ${n}, replaced option[${q.correct_answer}]`)
+      } else {
+        const keep = multIdxs.includes(q.correct_answer) ? q.correct_answer : multIdxs[0]
+        q.correct_answer = keep
+        // Replace extra multiples with non-multiples
+        for (const idx of multIdxs) {
+          if (idx !== keep) {
+            q.options[idx] = String(nonMultiple(optNums[idx] as number))
+            console.warn(`TimesTable fix (+): replaced extra multiple at idx ${idx}`)
+          }
+        }
+      }
     }
   }
 }
@@ -818,6 +924,7 @@ export async function POST(request: NextRequest) {
     // Fix expression-option MCQs (e.g. number bond questions where options are "A+B")
     fixExpressionMcqs(allQuestions)
     fixOrderingQuestions(allQuestions)
+    fixTimesTableQuestions(allQuestions)
 
     // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)
     if (allQuestions.length > count) {
