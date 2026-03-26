@@ -268,6 +268,79 @@ async function generateAllPassages(
   questions.forEach(q => { delete q.needs_passage; delete q.passage_hint })
 }
 
+// ── After passages are generated, fix longform questions so they match the actual passage ─
+// Problem: questions and model_answers are written BEFORE the passage exists, so they
+// can hallucinate features (dialogue, "two characters", specific quotes) that aren't in the passage.
+// This step rewrites each longform question's model_answer and marking_criteria using the
+// actual passage text, and adjusts the question if it asks about a missing feature.
+async function fixupPassageQuestions(
+  questions: any[],
+  callFn: (prompt: string, maxTokens: number) => Promise<string>
+): Promise<void> {
+  const toFix = questions.filter((q: any) => q.type === 'longform' && q.passage)
+  if (toFix.length === 0) return
+
+  // Group by shared passage so questions sharing a passage are fixed in one API call
+  const groups = new Map<string, any[]>()
+  for (const q of toFix) {
+    const key = (q.passage as string || '').slice(0, 80)
+    if (!groups.has(key)) groups.set(key, [])
+    groups.get(key)!.push(q)
+  }
+
+  await Promise.all(
+    Array.from(groups.values()).map(async (group) => {
+      const passage = group[0].passage as string
+      const qList = group.map((q: any, i: number) =>
+        `Q${i}: [${q.marks} marks] ${q.question}`
+      ).join('\n')
+
+      const prompt = `You are an exam question editor. The reading passage below was created AFTER the questions, so some questions may reference features that do NOT exist in this passage (e.g. "dialogue" when there is no speech, "two characters" when only one is developed, "symbols" that are not present).
+
+Your job: fix EACH question so it is genuinely answerable from THIS specific passage.
+
+READING PASSAGE:
+"""
+${passage}
+"""
+
+QUESTIONS TO FIX:
+${qList}
+
+For EACH question:
+1. REWRITE the question if it asks about a feature missing from the passage. Preserve the cognitive skill level (analysis, inference, evaluation) but change the specific focus to match what IS actually in the passage. Suitable focuses include: descriptive language, imagery, characterisation, setting, mood/atmosphere, theme, author\'s purpose, word choice, sentence structure.
+2. Write model_answer (80–120 words, a full P.E.E. paragraph). Use ONLY quotations that exist VERBATIM in the passage above — copy exact words from the passage. Never invent or alter quotes.
+3. Write marking_criteria (one achievable point per mark) that a student can genuinely meet using only the passage above.
+
+Return ONLY valid JSON — no other text:
+{
+  "fixups": [
+    { "idx": 0, "question": "...", "model_answer": "...", "marking_criteria": ["point 1", "point 2"] },
+    { "idx": 1, "question": "...", "model_answer": "...", "marking_criteria": ["point 1", "point 2"] }
+  ]
+}`
+
+      try {
+        const raw = await callFn(prompt, 4800)
+        const parsed = parseJsonRobust(fixLatexInRawJson(raw))
+        const fixups: any[] = parsed?.fixups ?? []
+        fixups.forEach((fix: any) => {
+          const q = group[typeof fix.idx === 'number' ? fix.idx : 0]
+          if (!q) return
+          if (fix.question) q.question = fix.question
+          if (fix.model_answer) q.model_answer = fix.model_answer
+          if (Array.isArray(fix.marking_criteria) && fix.marking_criteria.length > 0) {
+            q.marking_criteria = fix.marking_criteria
+          }
+        })
+      } catch (err) {
+        console.error('Passage question fixup failed:', err)
+        // Non-fatal — original question/model_answer remain
+      }
+    })
+  )
+}
+
 // Bloom's Taxonomy levels: Remember(1) → Understand(2) → Apply(3) → Analyse(4) → Evaluate(5) → Create(6)
 const DIFFICULTY_INSTRUCTIONS: Record<string, string> = {
   beginner: `DIFFICULTY — Beginner (D-level · Bloom's Level 1–2: Remember & Understand):
@@ -1096,6 +1169,7 @@ export async function POST(request: NextRequest) {
     // ── Stage 2b: Passages via Bedrock ───────────────────────────────────────
     if (needsPassage(subject)) {
       await generateAllPassages(assessmentData.questions, subject, callBedrock, grade)
+      await fixupPassageQuestions(assessmentData.questions, callBedrock)
     } else {
       assessmentData.questions.forEach((q: any) => {
         delete q.needs_passage
