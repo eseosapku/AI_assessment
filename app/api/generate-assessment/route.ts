@@ -170,7 +170,35 @@ function needsPassage(subject: string): boolean {
 }
 
 // ── Shared-passage hint — describes an anchor passage for a group of questions ─
-function sharedPassageHint(groupIdx: number): string {
+function sharedPassageHint(groupIdx: number, grade?: number | string): string {
+  const g = Number(grade) || 99
+
+  if (g <= 2) {
+    const styles = [
+      'A very short, simple story about a child and their pet or animal friend — told in short sentences, with everyday words only',
+      'A short, simple story about going to school or playing with friends — easy vocabulary, 5–8 word sentences',
+      'A brief, simple story about the weather, seasons, or nature — words a 6–7 year old would know',
+    ]
+    return styles[groupIdx % styles.length]
+  }
+  if (g <= 4) {
+    const styles = [
+      'A short adventure story about children exploring nature — clear sentences, simple vocabulary for 8–10 year olds',
+      'A simple informational passage about animals or the natural world — accessible language for ages 8–10',
+      'A short story about friendship, family, or school life — straightforward vocabulary, short paragraphs',
+    ]
+    return styles[groupIdx % styles.length]
+  }
+  if (g <= 6) {
+    const styles = [
+      'A short passage about a historical event or famous person written for 10–12 year olds — clear, engaging, some descriptive language',
+      'A story about a young person facing a challenge or adventure — accessible vocabulary, medium-length sentences, suitable for Grade 5–6',
+      'A nature or science passage about an interesting topic (e.g. rainforests, space, wildlife) — informative, clear language for ages 10–12',
+    ]
+    return styles[groupIdx % styles.length]
+  }
+
+  // Secondary / default
   const styles = [
     'A literary fiction extract — opening chapter of a 19th or 20th century novel (Dickens, Hardy, Achebe, Austen or similar), rich in descriptive language, atmosphere and character voice',
     'A non-fiction or argumentative extract — speech, essay or journalistic article (Churchill, Orwell, Mandela, MLK or similar), persuasive in tone with strong rhetorical devices',
@@ -186,7 +214,8 @@ function sharedPassageHint(groupIdx: number): string {
 async function generateAllPassages(
   questions: any[],
   subject: string,
-  callFn: (prompt: string, maxTokens: number) => Promise<string>
+  callFn: (prompt: string, maxTokens: number) => Promise<string>,
+  grade?: number | string
 ): Promise<void> {
   const needsWork = questions.filter(q => !q.passage)
   if (needsWork.length === 0) {
@@ -194,6 +223,7 @@ async function generateAllPassages(
     return
   }
 
+  const g = Number(grade) || 99
   const useShared = needsWork.length > 10
   const QS_PER_PASSAGE = 10
 
@@ -201,10 +231,10 @@ async function generateAllPassages(
     const numPassages = Math.ceil(needsWork.length / QS_PER_PASSAGE)
     const anchorResults = await Promise.all(
       Array.from({ length: numPassages }, (_, gi) => {
-        const hint = sharedPassageHint(gi)
+        const hint = sharedPassageHint(gi, grade)
         const pivotQ = needsWork[gi * QS_PER_PASSAGE]?.question ?? ''
         const fullHint = `${hint}. The passage must support questions on: ${pivotQ.slice(0, 100)}`
-        return generatePassageWithBedrock(pivotQ, subject, fullHint, callFn).catch(() => null)
+        return generatePassageWithBedrock(pivotQ, subject, fullHint, callFn, grade).catch(() => null)
       })
     )
     needsWork.forEach((q, i) => {
@@ -213,13 +243,21 @@ async function generateAllPassages(
       delete q.needs_passage; delete q.passage_hint
     })
   } else {
+    const defaultHint = g <= 2
+      ? `A very short, simple story using easy words for young children (Grade ${grade})`
+      : g <= 4
+        ? `A short, clear passage suitable for Grade ${grade} students (ages ${7 + g}–${8 + g})`
+        : g <= 6
+          ? `An engaging passage suitable for Grade ${grade} students (ages ${9 + g}–${10 + g})`
+          : `A rich literary or non-fiction extract directly relevant to: "${(questions[0]?.question ?? '').slice(0, 80)}"`
+
     const jobs = needsWork.map(q => {
-      if (!q.passage_hint) q.passage_hint = `A rich literary or non-fiction extract directly relevant to: "${q.question.slice(0, 120)}"`
+      if (!q.passage_hint) q.passage_hint = defaultHint
       return q
     })
     await Promise.all(
       jobs.map(q =>
-        generatePassageWithBedrock(q.question, subject, q.passage_hint, callFn)
+        generatePassageWithBedrock(q.question, subject, q.passage_hint, callFn, grade)
           .then((result: { text: string; source: string } | null) => { if (result) { q.passage = result.text; q.passage_source = result.source } })
           .catch(() => null)
       )
@@ -354,10 +392,32 @@ function buildPrompt(opts: {
 
   const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
 
-  const isPrimaryGrade = opts.grade && Number(opts.grade) >= 1 && Number(opts.grade) <= 6
-  const gradeAgeNote = isPrimaryGrade
-    ? `**GRADE CONTEXT:** This is Grade ${opts.grade} (Primary School, ages ${5 + Number(opts.grade)}–${6 + Number(opts.grade)}). ALL questions MUST be age-appropriate for young learners at this level. Use simple, clear vocabulary. Mathematics questions must use numbers appropriate for this grade. Do NOT include secondary-school level content.`
-    : ''
+  const g = Number(opts.grade) || 99
+  let gradeAgeNote = ''
+  if (g >= 1 && g <= 2) {
+    gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade} (Ages ${5 + g}–${6 + g}):**
+- VOCABULARY: Use ONLY words a ${5 + g}–${6 + g} year old knows. Maximum 2 syllables per word (e.g. "big", "happy", "water", "school"). NO words like "comprehend", "demonstrate", "calculate", "evaluate", "analyse", "significant", or any word a child this age would not know.
+- SENTENCE LENGTH: Maximum 8 words per sentence in question text. Keep it short and direct.
+- NUMBERS: Use numbers 1–20 for addition/subtraction. No multiplication, fractions, or decimals unless explicitly in the topic.
+- QUESTION STYLE: Simple, direct questions. "How many...?", "What colour...?", "Which is bigger...?". No complex sentence structures.
+- Do NOT include secondary-school content of any kind.`
+  } else if (g >= 3 && g <= 4) {
+    gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade} (Ages ${5 + g}–${6 + g}):**
+- VOCABULARY: Simple, everyday words suitable for ${5 + g}–${6 + g} year olds. Avoid academic or complex vocabulary. No word should need to be looked up by a typical child this age.
+- SENTENCE LENGTH: Keep question sentences under 15 words. Clear, direct phrasing.
+- NUMBERS: Use numbers appropriate for Grade ${opts.grade} (basic operations, numbers to 1000, simple fractions if in topic).
+- QUESTION STYLE: Clear, concrete questions. Avoid abstract reasoning or overly academic phrasing.
+- Do NOT include secondary-school content.`
+  } else if (g >= 5 && g <= 6) {
+    gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade} (Ages ${5 + g}–${6 + g}):**
+- VOCABULARY: Accessible vocabulary for ${5 + g}–${6 + g} year olds. Some subject-specific terms are acceptable if they are part of the curriculum topic. Avoid unnecessarily complex or abstract language.
+- SENTENCE LENGTH: Medium-length sentences are fine, but keep questions clear and unambiguous.
+- NUMBERS: Use numbers and operations appropriate for Grade ${opts.grade} curriculum.
+- QUESTION STYLE: Clear questions appropriate for upper primary. Some inference or reasoning is fine, but no university-level analysis.
+- Do NOT include secondary-school level content beyond what is in the Grade ${opts.grade} curriculum.`
+  } else if (g >= 7) {
+    gradeAgeNote = ''  // Secondary — no restrictions needed
+  }
 
   const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment.
 
@@ -925,6 +985,25 @@ export async function POST(request: NextRequest) {
 
     let allQuestions: any[] = []
     let estimatedTime = 0
+
+    // Helper: deduplicate + validate a list of raw questions in place
+    function deduplicateAndFix(qs: any[]): any[] {
+      cleanQuestionTexts(qs)
+      const seenQuestions = new Set<string>()
+      const deduped = qs.filter((q: any) => {
+        const raw = (q.question || '').toLowerCase().trim()
+        const aIdx = raw.search(/\s*[\(\[]\s*a\s*[\)\]]/)
+        const key = (aIdx > 10 ? raw.slice(0, aIdx) : raw).slice(0, 100)
+        if (seenQuestions.has(key)) { console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`); return false }
+        seenQuestions.add(key); return true
+      })
+      validateMcqAnswers(deduped)
+      fixExpressionMcqs(deduped)
+      fixOrderingQuestions(deduped)
+      fixTimesTableQuestions(deduped)
+      return deduped
+    }
+
     try {
       // Run batches sequentially to avoid saturating TPM
       for (const batch of batches) {
@@ -940,30 +1019,29 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: msg }, { status: is429 ? 429 : 500 })
     }
 
-    // Strip embedded "(A)...(D)" options from question text before any processing
-    cleanQuestionTexts(allQuestions)
+    // Deduplicate + fix first pass
+    allQuestions = deduplicateAndFix(allQuestions)
 
-    // Remove duplicate questions — normalise by stripping any residual option suffix before comparing
-    const seenQuestions = new Set<string>()
-    allQuestions = allQuestions.filter((q: any) => {
-      const raw = (q.question || '').toLowerCase().trim()
-      // Strip trailing MCQ option block "(a) ..." if present, then take first 100 chars
-      const aIdx = raw.search(/\s*[\(\[]\s*a\s*[\)\]]/)
-      const key = (aIdx > 10 ? raw.slice(0, aIdx) : raw).slice(0, 100)
-      if (seenQuestions.has(key)) { console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`); return false }
-      seenQuestions.add(key); return true
-    })
+    // ── Retry: if we're still short after the buffer, request the missing questions ─
+    if (allQuestions.length < count) {
+      const missing = count - allQuestions.length
+      console.warn(`Short by ${missing} questions after first pass — retrying...`)
+      try {
+        const retryQs = await tryGenerateBatch(missing, allQuestions.length + 1)
+        allQuestions.push(...deduplicateAndFix(retryQs))
+      } catch (err: any) {
+        console.error('Retry generation failed:', err)
+        // Don't throw — we'll check count below and return error if still short
+      }
+    }
 
-    // Re-number questions sequentially in case the model drifted
-    allQuestions.forEach((q, i) => { q.id = i + 1 })
-
-    // Fix any MCQ questions where the AI put the wrong correct_answer index
-    validateMcqAnswers(allQuestions)
-
-    // Fix expression-option MCQs (e.g. number bond questions where options are "A+B")
-    fixExpressionMcqs(allQuestions)
-    fixOrderingQuestions(allQuestions)
-    fixTimesTableQuestions(allQuestions)
+    // If STILL short after retry → return error
+    if (allQuestions.length < count) {
+      return NextResponse.json(
+        { error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again.` },
+        { status: 500 }
+      )
+    }
 
     // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)
     if (allQuestions.length > count) {
@@ -1009,7 +1087,7 @@ export async function POST(request: NextRequest) {
 
     // ── Stage 2b: Passages via Bedrock ───────────────────────────────────────
     if (needsPassage(subject)) {
-      await generateAllPassages(assessmentData.questions, subject, callBedrock)
+      await generateAllPassages(assessmentData.questions, subject, callBedrock, grade)
     } else {
       assessmentData.questions.forEach((q: any) => {
         delete q.needs_passage
