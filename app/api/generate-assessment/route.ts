@@ -14,7 +14,7 @@ function isRefusal(text: string): boolean {
   return REFUSAL_PREFIXES.some(p => lower.startsWith(p))
 }
 
-// Robust JSON parser: try native → jsonrepair → throw
+// Robust JSON parser: try native → jsonrepair → aggressive \u fix → throw
 function parseJsonRobust(text: string): any {
   // Strip markdown fences
   let t = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
@@ -26,6 +26,13 @@ function parseJsonRobust(text: string): any {
 
   // 2. jsonrepair — handles unescaped quotes, bad escapes, trailing commas, etc.
   try { return JSON.parse(jsonrepair(t)) } catch { /* fall through */ }
+
+  // 3. Fix invalid \uXXXX sequences (e.g. LaTeX \underline, \upsilon produce \u + non-hex
+  //    which breaks both JSON.parse and sometimes jsonrepair) then retry jsonrepair.
+  try {
+    const reFixed = t.replace(/\\u(?![0-9a-fA-F]{4})/g, '\\\\u')
+    return JSON.parse(jsonrepair(reFixed))
+  } catch { /* fall through */ }
 
   throw new SyntaxError(`Could not repair JSON. Preview: ${t.slice(0, 120)}`)
 }
@@ -48,8 +55,18 @@ function fixLatexInRawJson(raw: string): string {
       if (ch === '\\') {
         const next = raw[i + 1]
         if (next === undefined) { out += '\\\\'; i++; continue }
-        if (VALID_AFTER_SLASH.has(next)) {
-          // Valid escape — keep as-is (handle \uXXXX too)
+        if (next === 'u') {
+          // \uXXXX unicode escape — only valid if followed by exactly 4 hex digits.
+          // LaTeX commands like \underline, \upsilon, \underbrace start with \u but
+          // are NOT valid JSON unicode escapes. Keep \uXXXX as-is; double others.
+          const hex = raw.slice(i + 2, i + 6)
+          if (/^[0-9a-fA-F]{4}$/.test(hex)) {
+            out += ch + next + hex; i += 6
+          } else {
+            out += '\\\\' + next; i += 2
+          }
+        } else if (VALID_AFTER_SLASH.has(next)) {
+          // Valid escape — keep as-is
           out += ch + next
           i += 2
         } else {
@@ -1278,10 +1295,19 @@ export async function POST(request: NextRequest) {
         allQuestions = passageQResults.flat()
       } else {
         // ── STANDARD PARALLEL BATCH FLOW ─────────────────────────────────────
-        const batchResults = await Promise.all(
+        // Use allSettled so one failed batch (e.g. JSON parse error) doesn't
+        // kill the whole request — successful batches still contribute questions
+        // and the retry loop below fills any shortfall.
+        const batchSettled = await Promise.allSettled(
           batches.map(b => tryGenerateBatch(b.count, b.startId))
         )
-        allQuestions = batchResults.flat()
+        const batchErrors: any[] = []
+        for (const result of batchSettled) {
+          if (result.status === 'fulfilled') allQuestions.push(...result.value)
+          else batchErrors.push(result.reason)
+        }
+        // Only hard-fail if EVERY batch failed (nothing to work with)
+        if (allQuestions.length === 0 && batchErrors.length > 0) throw batchErrors[0]
       }
     } catch (err: any) {
       console.error('Generation failed:', err)
