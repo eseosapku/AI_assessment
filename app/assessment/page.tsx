@@ -9,10 +9,11 @@ import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 
 // Wrap bare LaTeX commands in $...$ so react-latex-next renders them correctly.
-// Text already containing $ delimiters is left untouched.
+// Text already containing $, \(...\), or \[...\] delimiters is left untouched.
 function L({ children }: { children: string }) {
   const text = children ?? ''
-  const wrapped = text.includes('$') ? text : /\\[a-zA-Z]|[\^_]/.test(text) ? `$${text}$` : text
+  const hasDelimiters = text.includes('$') || text.includes('\\(') || text.includes('\\[')
+  const wrapped = hasDelimiters ? text : /\\[a-zA-Z]|[\^_]/.test(text) ? `$${text}$` : text
   return <Latex>{wrapped}</Latex>
 }
 
