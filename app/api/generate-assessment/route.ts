@@ -545,6 +545,7 @@ ${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
 - CRITICAL: The "question" field must contain ONLY the question text itself. Do NOT include the answer choices "(A) ..., (B) ..., (C) ..., (D) ..." inside the question field. The options go in the "options" array only.
 - For sequence/order questions (e.g. "what comes after X"): make the question unambiguous and ensure the answer IS in the options.
 - The explanation MUST describe the same answer as correct_answer. They must ALWAYS agree.
+- BANNED QUESTION FORMAT — "which GROUP of numbers can be divided by N / is divisible by N / are multiples of N": This format ALWAYS produces multiple correct answers (e.g. both "2,4,6" and "4,6,8" are fully divisible by 2). You MUST NEVER use it. Instead, ask about a SINGLE number: "Which of these numbers can be divided by 2 without a remainder?" with options like 3, 4, 7, 9 — where only ONE number is even.
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 
@@ -661,7 +662,7 @@ function validateMcqAnswers(questions: any[]): void {
     // Validate that ONLY ONE option has ALL numbers satisfying the divisibility property.
     if (q.options.some((o: any) => String(o).includes(','))) {
       const qText = (q.question || '').toLowerCase()
-      const divByMatch = qText.match(/divided?\s+by\s+(\d+)\s+without|multiple[s]?\s+of\s+(\d+)|divisible\s+by\s+(\d+)/i)
+      const divByMatch = qText.match(/(?:can\s+be\s+)?divided?\s+by\s+(\d+)|multiple[s]?\s+of\s+(\d+)|divisible\s+by\s+(\d+)/i)
       if (divByMatch) {
         const divisor = Number(divByMatch[1] || divByMatch[2] || divByMatch[3])
         if (divisor > 1) {
