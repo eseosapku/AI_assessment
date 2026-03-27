@@ -2,6 +2,12 @@
  * Cambridge International Curriculum
  * Cambridge Assessment International Education (CAIE)
  *
+ * Cambridge Primary: Stages 1–6 (Grades 1–6, ages 5–11)
+ *   Subjects: English (0058), Mathematics (0096), Science (0097),
+ *             Art & Design (0067), Computing (0059), Digital Literacy (0072),
+ *             Global Perspectives (0838), Humanities (0065), Music (0068),
+ *             Physical Education (0069), Wellbeing (0034),
+ *             Modern Foreign Language (0064) – Stages 4–6 only
  * Lower Secondary: Stages 7–9 (Grades 7–9, ages 11–14)
  * IGCSE:           Years 10–11 (Grades 10–11, ages 14–16)
  * AS Level:        Year 12    (Grade 12, ages 16–17)
@@ -30,6 +36,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
     subjects: [
       {
         name: 'Mathematics',
+        // Cambridge Primary Mathematics (0096) – Stage 1
         topics: [
           'Numbers – Counting to 20 Forwards and Backwards',
           'Numbers – Recognising and Writing Numerals 0–20',
@@ -47,7 +54,8 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         ],
       },
       {
-        name: 'English Language',
+        name: 'English',
+        // Cambridge Primary English (0058) – Stage 1
         topics: [
           'Phonics – Letter Sounds (Phonemes) and Blending',
           'Phonics – CVC Words and Simple Sight Words',
@@ -63,6 +71,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
       },
       {
         name: 'Science',
+        // Cambridge Primary Science (0097) – Stage 1
         topics: [
           'Living Things – Identifying Plants and Animals',
           'Living Things – Humans: Body Parts and Senses',
@@ -76,6 +85,114 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Earth and Environment – Seasonal Changes',
         ],
       },
+      {
+        name: 'Art & Design',
+        // Cambridge Primary Art & Design (0067) – Stage 1
+        topics: [
+          'Experiencing – Exploring Textures, Colours and Shapes in the Environment',
+          'Experiencing – Responding to Works of Art with Personal Observations',
+          'Making – Using Basic Materials: Pencils, Paints, Clay and Collage',
+          'Making – Developing Fine Motor Skills Through Art-Making Activities',
+          'Making – Creating Simple Artworks Inspired by Natural Subjects',
+          'Reflecting – Talking About Own Artwork and Describing What Was Made',
+          'Reflecting – Sharing Likes and Dislikes About Artworks Seen',
+          'Thinking and Working Artistically – Exploring and Experimenting with Materials',
+        ],
+      },
+      {
+        name: 'Computing',
+        // Cambridge Primary Computing (0059) – Stage 1
+        topics: [
+          'Computational Thinking – Following Algorithms for Everyday Tasks',
+          'Computational Thinking – Identifying Steps in a Simple Process',
+          'Programming – Recreating Simple Algorithms as Basic Programs',
+          'Programming – Giving Instructions to Control a Simple Programmable Device',
+          'Managing Data – Recording Information Manually Using Simple Formats',
+          'Managing Data – Sorting and Grouping Objects by a Characteristic',
+          'Networks and Digital Communication – Understanding That Devices Connect to Networks',
+          'Computer Systems – Identifying Robots and Their Purposes in Daily Life',
+        ],
+      },
+      {
+        name: 'Digital Literacy',
+        // Cambridge Primary Digital Literacy (0072) – Stage 1
+        topics: [
+          'Tools and Content Creation – Using Basic Input Devices: Mouse, Keyboard, Touchscreen',
+          'Tools and Content Creation – Opening and Closing Applications on a Device',
+          'Tools and Content Creation – Saving and Retrieving Simple Work',
+          'Safety and Wellbeing – Understanding Basic Online Safety Rules',
+          'Safety and Wellbeing – Knowing Trusted Adults to Turn to Online',
+          'Safety and Wellbeing – Recognising Appropriate and Inappropriate Online Content',
+          'The Digital World – Identifying What Technology Can Do in Daily Life',
+          'The Digital World – Recognising Common Digital Devices in School and Home',
+        ],
+      },
+      {
+        name: 'Global Perspectives',
+        // Cambridge Primary Global Perspectives (0838) – Stage 1
+        topics: [
+          'Research – Saying Something Known About a Familiar Topic',
+          'Research – Sharing Personal Knowledge and Experience',
+          'Analysis – Identifying Simple Facts About a Topic',
+          'Reflection – Talking About Personal Views on Simple Issues',
+          'Collaboration – Working Together on a Simple Shared Task',
+          'Communication – Presenting Ideas Simply Using Pictures or Words',
+          'Communication – Listening Attentively While Others Share Their Ideas',
+        ],
+      },
+      {
+        name: 'Humanities',
+        // Cambridge Primary Humanities (0065) – Stage 1: People, Past, Places
+        topics: [
+          'People – Describing What Makes a Community',
+          'People – Identifying Roles People Play in School and Local Community',
+          'People – Recognising How Families and Communities Share and Celebrate',
+          'Past – Exploring Recent History Within Living Memory',
+          'Past – Discussing Changes Over Time Using Photographs and Stories',
+          'Places – Describing Simple Features of the Local Environment',
+          'Places – Using Simple Maps and Symbols to Represent Familiar Places',
+        ],
+      },
+      {
+        name: 'Music',
+        // Cambridge Primary Music (0068) – Stage 1
+        topics: [
+          'Making Music – Recognising and Clapping Basic Pulse and Rhythm',
+          'Making Music – Performing Simple Songs and Rhymes as a Group',
+          'Making Music – Using Voices and Simple Instruments Expressively',
+          'Making Music – Exploring Dynamics: Loud and Soft Sounds',
+          'Making Sense of Music – Listening and Responding to Music Through Movement',
+          'Making Sense of Music – Identifying Different Sources of Sound',
+          'Making Sense of Music – Describing Music Using Simple Vocabulary: Fast, Slow, Loud, Quiet',
+        ],
+      },
+      {
+        name: 'Physical Education',
+        // Cambridge Primary Physical Education (0069) – Stage 1
+        topics: [
+          'Moving Well – Practising Basic Locomotor Skills: Running, Jumping, Skipping',
+          'Moving Well – Developing Body Coordination and Balance',
+          'Understanding Movement – Describing Own Movement with Simple Vocabulary',
+          'Moving Creatively – Exploring Simple Movement Patterns and Sequences',
+          'Taking Part – Playing Simple Games with Basic Rules',
+          'Taking Responsibility – Participating Safely in Physical Activities',
+          'Healthy Bodies – Understanding That Physical Activity Is Good for Health',
+        ],
+      },
+      {
+        name: 'Wellbeing',
+        // Cambridge Primary Wellbeing (0034) – Stage 1
+        topics: [
+          'Understanding Myself – Identifying and Naming a Range of Emotions',
+          'Understanding Myself – Recognising That Experiencing a Wide Range of Emotions Is Normal',
+          'Understanding Myself – Developing a Positive Sense of Identity',
+          'My Relationships – Making Friends and Being Kind',
+          'My Relationships – Discussing the Importance of Inclusion',
+          'My Relationships – Recognising Similarities and Differences Between People',
+          'Navigating My World – Belonging to a Community: School and Family',
+          'Navigating My World – Knowing Personal Safety Rules',
+        ],
+      },
     ],
   },
 
@@ -86,6 +203,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
     subjects: [
       {
         name: 'Mathematics',
+        // Cambridge Primary Mathematics (0096) – Stage 2
         topics: [
           'Numbers – Counting, Reading and Writing to 100',
           'Numbers – Place Value: Tens and Ones',
@@ -104,7 +222,8 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         ],
       },
       {
-        name: 'English Language',
+        name: 'English',
+        // Cambridge Primary English (0058) – Stage 2
         topics: [
           'Phonics – Consonant Clusters and Digraphs (ch, sh, th)',
           'Phonics – Long Vowel Sounds and Silent Letters',
@@ -122,6 +241,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
       },
       {
         name: 'Science',
+        // Cambridge Primary Science (0097) – Stage 2
         topics: [
           'Living Things – Grouping Plants and Animals',
           'Living Things – Life Cycles: Butterfly and Frog',
@@ -137,6 +257,114 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Earth and Environment – Basic Food Chains',
         ],
       },
+      {
+        name: 'Art & Design',
+        // Cambridge Primary Art & Design (0067) – Stage 2
+        topics: [
+          'Experiencing – Looking Closely at Artworks and Describing What Is Seen',
+          'Experiencing – Exploring How Artists Use Colour, Shape and Texture',
+          'Making – Creating Artwork Using a Variety of Media and Techniques',
+          'Making – Developing Skills in Drawing, Painting, Printing and Collage',
+          'Making – Making Artwork Inspired by Observation of the World',
+          'Reflecting – Talking About Own and Others\' Artwork Using Simple Art Vocabulary',
+          'Reflecting – Identifying What Worked Well and What Could Be Improved',
+          'Thinking and Working Artistically – Experimenting with Different Materials to Achieve Effects',
+        ],
+      },
+      {
+        name: 'Computing',
+        // Cambridge Primary Computing (0059) – Stage 2
+        topics: [
+          'Computational Thinking – Following and Understanding Linear Algorithms',
+          'Computational Thinking – Identifying and Correcting Simple Errors in Algorithms',
+          'Programming – Recreating Algorithms as Simple Programs',
+          'Programming – Testing and Debugging a Simple Program',
+          'Managing Data – Collecting Categorical Data Using Tally Charts',
+          'Managing Data – Entering and Interpreting Data in Simple Tables',
+          'Networks and Digital Communication – Identifying Devices Connected to a Network',
+          'Computer Systems – Comparing Robots in Fiction with Real-World Robots',
+        ],
+      },
+      {
+        name: 'Digital Literacy',
+        // Cambridge Primary Digital Literacy (0072) – Stage 2
+        topics: [
+          'Tools and Content Creation – Changing Text Appearance: Colour, Size and Font',
+          'Tools and Content Creation – Creating Simple Text Documents with Images',
+          'Tools and Content Creation – Using Drawing Tools to Create Digital Images',
+          'Safety and Wellbeing – Understanding That Users Have Multiple Accounts Online',
+          'Safety and Wellbeing – Keeping Personal Information Private',
+          'Safety and Wellbeing – Identifying Safe and Unsafe Online Behaviour',
+          'The Digital World – Understanding That Technology Communicates Locally and Globally',
+          'The Digital World – Recognising How Technology Helps People in Daily Life',
+        ],
+      },
+      {
+        name: 'Global Perspectives',
+        // Cambridge Primary Global Perspectives (0838) – Stage 2
+        topics: [
+          'Research – Recognising That Different People Know Different Things',
+          'Research – Finding Information from Simple Sources: Books and Adults',
+          'Analysis – Identifying Differences Between Two Points of View',
+          'Reflection – Listening to Others\' Ideas and Considering New Perspectives',
+          'Collaboration – Contributing to a Small Group Discussion',
+          'Communication – Presenting Findings Simply Using Spoken Words or Pictures',
+          'Communication – Asking and Answering Questions About a Topic',
+        ],
+      },
+      {
+        name: 'Humanities',
+        // Cambridge Primary Humanities (0065) – Stage 2: People, Past, Places
+        topics: [
+          'People – Exploring Families and Communities: Similarities and Differences',
+          'People – Identifying How People Help Each Other in Communities',
+          'People – Describing Simple Examples of Work People Do Locally',
+          'Past – Discussing Changes Within Living Memory',
+          'Past – Using Stories and Photographs to Explore the Recent Past',
+          'Places – Describing Features of Local Environments',
+          'Places – Recognising How Weather Affects Daily Life',
+        ],
+      },
+      {
+        name: 'Music',
+        // Cambridge Primary Music (0068) – Stage 2
+        topics: [
+          'Making Music – Performing with Mostly Accurate Timing and Awareness of Pulse',
+          'Making Music – Singing Songs with Melodic Shape Awareness',
+          'Making Music – Playing Simple Rhythmic Patterns on Percussion Instruments',
+          'Making Music – Exploring Pitch: High and Low Sounds',
+          'Making Sense of Music – Listening and Responding to Music Through Movement',
+          'Making Sense of Music – Asking and Answering Questions About Music Heard',
+          'Making Sense of Music – Using Simple Vocabulary to Describe Music: Fast, Slow, High, Low',
+        ],
+      },
+      {
+        name: 'Physical Education',
+        // Cambridge Primary Physical Education (0069) – Stage 2
+        topics: [
+          'Moving Well – Developing Ball Skills: Throwing, Catching, Kicking',
+          'Moving Well – Practising Coordination in Movement Games',
+          'Understanding Movement – Describing Movement Using Simple Vocabulary',
+          'Moving Creatively – Exploring Gymnastics Basics: Rolling, Balancing, Jumping',
+          'Taking Part – Playing Cooperative and Simple Competitive Games',
+          'Taking Responsibility – Following Safety Rules in Physical Activities',
+          'Healthy Bodies – Understanding Basic Healthy Lifestyle Habits',
+        ],
+      },
+      {
+        name: 'Wellbeing',
+        // Cambridge Primary Wellbeing (0034) – Stage 2
+        topics: [
+          'Understanding Myself – Recognising How Different Situations Affect Feelings',
+          'Understanding Myself – Developing Strategies for Managing Difficult Feelings',
+          'Understanding Myself – Building a Positive Sense of Self',
+          'My Relationships – Being Kind and Respectful to Others',
+          'My Relationships – Understanding the Importance of Inclusion',
+          'My Relationships – Recognising Similarities and Differences Between People',
+          'Navigating My World – Staying Safe at School, Home and Online',
+          'Navigating My World – Identifying Trusted Adults Who Can Help',
+        ],
+      },
     ],
   },
 
@@ -147,6 +375,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
     subjects: [
       {
         name: 'Mathematics',
+        // Cambridge Primary Mathematics (0096) – Stage 3
         topics: [
           'Numbers – Reading, Writing and Ordering Numbers to 1000',
           'Numbers – Place Value: Hundreds, Tens and Ones',
@@ -167,7 +396,8 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         ],
       },
       {
-        name: 'English Language',
+        name: 'English',
+        // Cambridge Primary English (0058) – Stage 3
         topics: [
           'Reading – Retrieving Information from Fiction and Non-Fiction',
           'Reading – Inference: What Characters Feel and Why',
@@ -186,6 +416,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
       },
       {
         name: 'Science',
+        // Cambridge Primary Science (0097) – Stage 3
         topics: [
           'Living Things – Classifying Living Things: Plants, Animals, Microbes',
           'Living Things – Adaptations to Habitats',
@@ -202,6 +433,114 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Earth and Environment – Recycling and Waste',
         ],
       },
+      {
+        name: 'Art & Design',
+        // Cambridge Primary Art & Design (0067) – Stage 3
+        topics: [
+          'Experiencing – Comparing Works of Art from Different Cultures and Times',
+          'Experiencing – Responding to Art Using Developing Vocabulary',
+          'Making – Developing Work in a Visual Journal or Sketchbook',
+          'Making – Exploring a Range of Techniques: Weaving, Printing, Sculpture',
+          'Making – Using Formal Elements (Line, Colour, Texture, Form) in Artwork',
+          'Reflecting – Discussing How and Why Artists Make Choices',
+          'Reflecting – Evaluating Own Work Against Intended Outcomes',
+          'Thinking and Working Artistically – Planning and Developing Ideas Before Making',
+        ],
+      },
+      {
+        name: 'Computing',
+        // Cambridge Primary Computing (0059) – Stage 3
+        topics: [
+          'Computational Thinking – Following, Editing and Correcting Linear Algorithms',
+          'Computational Thinking – Decomposing a Problem into Smaller Steps',
+          'Programming – Creating Programs with Multiple Algorithms',
+          'Programming – Testing Programs and Identifying Logic Errors',
+          'Managing Data – Recording Discrete and Categorical Data in Tables',
+          'Managing Data – Creating Simple Charts from Collected Data',
+          'Networks and Digital Communication – Identifying Networked Hardware in School and Home',
+          'Computer Systems – Explaining How Robots Are Used in Manufacturing',
+        ],
+      },
+      {
+        name: 'Digital Literacy',
+        // Cambridge Primary Digital Literacy (0072) – Stage 3
+        topics: [
+          'Tools and Content Creation – Creating Simple Documents Combining Text and Images',
+          'Tools and Content Creation – Using Presentation Software to Share Information',
+          'Tools and Content Creation – Formatting Documents for Clarity',
+          'Safety and Wellbeing – Understanding Privacy Settings on Digital Platforms',
+          'Safety and Wellbeing – Recognising How to Stay Safe When Using Technology for Research',
+          'Safety and Wellbeing – Understanding the Importance of Reporting Concerns',
+          'The Digital World – Using Technology Effectively for Research and Learning',
+          'The Digital World – Evaluating Simple Information Found Online',
+        ],
+      },
+      {
+        name: 'Global Perspectives',
+        // Cambridge Primary Global Perspectives (0838) – Stage 3
+        topics: [
+          'Research – Recognising That People Think and Believe Different Things',
+          'Research – Finding Information from Multiple Simple Sources',
+          'Analysis – Comparing Local and Global Perspectives on a Topic',
+          'Evaluation – Identifying Whether Information Is Fact or Opinion',
+          'Reflection – Considering How Other People\'s Experiences Differ from One\'s Own',
+          'Collaboration – Working as a Team to Investigate a Question',
+          'Communication – Presenting Research Findings to a Small Audience',
+        ],
+      },
+      {
+        name: 'Humanities',
+        // Cambridge Primary Humanities (0065) – Stage 3: People, Past, Places
+        topics: [
+          'People – Exploring Diverse Communities and What They Share',
+          'People – Giving Examples of Work People Do Locally and Why It Matters',
+          'People – Describing Significant Scientific Discoveries from the Past',
+          'Past – Identifying Significant Historical Events That Shaped Communities',
+          'Past – Using Sources to Find Out About the Past',
+          'Places – Describing Places and Environments Locally and Nationally',
+          'Places – Understanding How Physical Features Shape Where People Live',
+        ],
+      },
+      {
+        name: 'Music',
+        // Cambridge Primary Music (0068) – Stages 3–4
+        topics: [
+          'Making Music – Performing with Mostly Accurate Timing and Increasingly Accurate Tuning',
+          'Making Music – Playing Melodic Instruments with Growing Control',
+          'Making Music – Composing Simple Melodies and Rhythmic Patterns',
+          'Making Music – Rehearsing and Improving Performances',
+          'Making Sense of Music – Listening and Using Technical Language to Describe Music Features',
+          'Making Sense of Music – Identifying Instruments by Sight and Sound',
+          'Making Sense of Music – Comparing Two Pieces of Music and Describing Differences',
+        ],
+      },
+      {
+        name: 'Physical Education',
+        // Cambridge Primary Physical Education (0069) – Stages 1–3
+        topics: [
+          'Moving Well – Practising and Refining Basic Movement Skills in Different Contexts',
+          'Moving Well – Introduction to Team Games and Cooperative Activities',
+          'Understanding Movement – Describing Own and Others\' Movement with Simple Vocabulary',
+          'Moving Creatively – Exploring Dance and Rhythm in Movement',
+          'Taking Part – Understanding and Applying the Concept of Fair Play',
+          'Taking Responsibility – Taking Turns and Supporting Teammates',
+          'Healthy Bodies – Participating in Athletic Activities: Running, Jumping, Throwing',
+        ],
+      },
+      {
+        name: 'Wellbeing',
+        // Cambridge Primary Wellbeing (0034) – Stage 3
+        topics: [
+          'Understanding Myself – Building Resilience When Facing Challenges',
+          'Understanding Myself – Recognising Personal Strengths and Areas for Growth',
+          'Understanding Myself – Understanding That Emotions Can Be Managed',
+          'My Relationships – Developing Healthy and Supportive Relationships',
+          'My Relationships – Recognising Similarities and Differences Between People',
+          'My Relationships – Understanding Why Inclusion Matters',
+          'Navigating My World – Understanding How the World Around Us Affects Wellbeing',
+          'Navigating My World – Identifying Sources of Support in the Community',
+        ],
+      },
     ],
   },
 
@@ -212,6 +551,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
     subjects: [
       {
         name: 'Mathematics',
+        // Cambridge Primary Mathematics (0096) – Stage 4
         topics: [
           'Numbers – Reading, Writing and Ordering Numbers to 10 000',
           'Numbers – Place Value to Ten Thousands',
@@ -233,7 +573,8 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         ],
       },
       {
-        name: 'English Language',
+        name: 'English',
+        // Cambridge Primary English (0058) – Stage 4
         topics: [
           'Reading – Understanding Text Structure in Fiction',
           'Reading – Author\'s Purpose and Viewpoint',
@@ -252,6 +593,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
       },
       {
         name: 'Science',
+        // Cambridge Primary Science (0097) – Stage 4
         topics: [
           'Living Things – Food Webs and Energy Transfer',
           'Living Things – Teeth and Digestive System',
@@ -268,6 +610,129 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Earth and Environment – Fossils and Geological Time',
         ],
       },
+      {
+        name: 'Art & Design',
+        // Cambridge Primary Art & Design (0067) – Stage 4
+        topics: [
+          'Experiencing – Comparing Artworks from Different Cultures, Times and Places',
+          'Experiencing – Discussing How Context Influences an Artist\'s Choices',
+          'Making – Developing and Refining Work in a Visual Journal',
+          'Making – Using Formal Elements Intentionally: Composition, Tone, Pattern',
+          'Making – Creating Artwork That Communicates a Specific Idea or Feeling',
+          'Reflecting – Evaluating Own Work and Setting Targets for Improvement',
+          'Reflecting – Using Art Vocabulary to Discuss and Compare Artworks',
+          'Thinking and Working Artistically – Selecting and Combining Materials for a Purpose',
+        ],
+      },
+      {
+        name: 'Computing',
+        // Cambridge Primary Computing (0059) – Stage 4
+        topics: [
+          'Computational Thinking – Designing Algorithms with Count-Controlled Loops',
+          'Computational Thinking – Identifying Patterns to Simplify Problems',
+          'Programming – Writing Programs That Use Iteration (Loops)',
+          'Programming – Debugging Programs with Loops and Multiple Steps',
+          'Managing Data – Creating and Using Forms for Data Collection',
+          'Managing Data – Sorting, Filtering and Interpreting Data in Spreadsheets',
+          'Networks and Digital Communication – Understanding Servers and Clients in Networks',
+          'Computer Systems – Explaining How Robots Are Used in Service Industries',
+        ],
+      },
+      {
+        name: 'Digital Literacy',
+        // Cambridge Primary Digital Literacy (0072) – Stage 4
+        topics: [
+          'Tools and Content Creation – Editing and Organising Document Layout',
+          'Tools and Content Creation – Using Tables and Graphics to Present Information',
+          'Tools and Content Creation – Creating Simple Multimedia Content',
+          'Safety and Wellbeing – Understanding Benefits and Risks of Online Anonymity',
+          'Safety and Wellbeing – Recognising Cyberbullying and Knowing How to Respond',
+          'Safety and Wellbeing – Understanding How Online Communication Affects Interaction',
+          'The Digital World – Exploring How Online Communication Changes Social Interaction',
+          'The Digital World – Understanding How Digital Tools Support Collaboration',
+        ],
+      },
+      {
+        name: 'Global Perspectives',
+        // Cambridge Primary Global Perspectives (0838) – Stage 4
+        topics: [
+          'Research – Identifying Key Points from Different Perspectives on a Topic',
+          'Research – Collecting Information from a Range of Sources',
+          'Analysis – Analysing Causes and Effects of a Local or Global Issue',
+          'Evaluation – Distinguishing Between Relevant and Irrelevant Information',
+          'Reflection – Considering How Personal Values Influence Views',
+          'Collaboration – Planning and Carrying Out a Group Investigation',
+          'Communication – Presenting Findings in Written and Spoken Form',
+        ],
+      },
+      {
+        name: 'Humanities',
+        // Cambridge Primary Humanities (0065) – Stages 4–6: People, Past, Places
+        topics: [
+          'People – Analysing Characteristics That Communities Share',
+          'People – Describing Employment Structure and the Types of Work in Their Country',
+          'People – Explaining How Scientific Discoveries Caused Social Change',
+          'Past – Explaining How Historical Events Shaped the Present',
+          'Past – Using Primary and Secondary Sources to Investigate the Past',
+          'Places – Describing Human and Physical Geography of Familiar Regions',
+          'Places – Understanding How People Interact with and Change Their Environment',
+        ],
+      },
+      {
+        name: 'Music',
+        // Cambridge Primary Music (0068) – Stages 3–4
+        topics: [
+          'Making Music – Performing with Accurate Timing and Increasing Tuning Accuracy',
+          'Making Music – Playing as Part of an Ensemble with Awareness of Others',
+          'Making Music – Composing Music Using Simple Structures and Patterns',
+          'Making Music – Rehearsing and Refining Performances for an Audience',
+          'Making Sense of Music – Using Technical Language to Describe Music Features',
+          'Making Sense of Music – Identifying How Rhythm, Melody and Dynamics Work Together',
+          'Making Sense of Music – Comparing Musical Styles from Different Traditions',
+        ],
+      },
+      {
+        name: 'Physical Education',
+        // Cambridge Primary Physical Education (0069) – Stages 4–6
+        topics: [
+          'Moving Well – Practising and Consolidating a Broad Range of Movement Skills',
+          'Moving Well – Refining Sports Techniques in Games and Athletics',
+          'Understanding Movement – Describing Movement Using Activity-Specific Vocabulary',
+          'Moving Creatively – Showing Creativity in Competitive and Cooperative Contexts',
+          'Taking Part – Applying Rules and Tactics in Team Games',
+          'Taking Responsibility – Demonstrating Responsibility Towards Self and Others',
+          'Healthy Bodies – Understanding the Relationship Between Exercise and Fitness',
+        ],
+      },
+      {
+        name: 'Wellbeing',
+        // Cambridge Primary Wellbeing (0034) – Stage 4
+        topics: [
+          'Understanding Myself – Developing Emotional Regulation Strategies',
+          'Understanding Myself – Understanding How Emotions Can Change Over Time',
+          'Understanding Myself – Exploring Personal Values and Identity',
+          'My Relationships – Navigating Peer Relationships and Managing Conflict',
+          'My Relationships – Exploring the Difference Between Jokes and Bullying',
+          'My Relationships – Understanding the Importance of Diversity and Respect',
+          'Navigating My World – Online Safety and Digital Citizenship',
+          'Navigating My World – Understanding Rights and Responsibilities in the Community',
+        ],
+      },
+      {
+        name: 'Modern Foreign Language',
+        // Cambridge Primary Modern Foreign Language (0064) – Stage 4 (begins Stage 4)
+        topics: [
+          'Listening – Recognising Everyday Familiar Words and Phrases Supported by Visuals',
+          'Listening – Understanding Simple Classroom Instructions in the Target Language',
+          'Speaking – Using Isolated Rehearsed Words and Gestures to Communicate',
+          'Speaking – Responding to Simple Questions with Single Words or Short Phrases',
+          'Reading – Matching Written Words to Pictures in Familiar Contexts',
+          'Writing – Writing Isolated Words Copied or from Memory',
+          'Vocabulary – Learning Key Vocabulary for Everyday Topics: Greetings, Numbers, Colours',
+          'Grammar – Recognising Basic Word Patterns and Simple Sentence Structures',
+          'Cultural Understanding – Recognising the Benefits of Speaking Another Language',
+        ],
+      },
     ],
   },
 
@@ -278,6 +743,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
     subjects: [
       {
         name: 'Mathematics',
+        // Cambridge Primary Mathematics (0096) – Stage 5
         topics: [
           'Numbers – Reading, Writing and Ordering Numbers to 1 000 000',
           'Numbers – Prime Numbers, Factors and Multiples',
@@ -298,7 +764,8 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         ],
       },
       {
-        name: 'English Language',
+        name: 'English',
+        // Cambridge Primary English (0058) – Stage 5
         topics: [
           'Reading – Inference and Deduction in Complex Texts',
           'Reading – Analysing Language Choices by Authors',
@@ -318,6 +785,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
       },
       {
         name: 'Science',
+        // Cambridge Primary Science (0097) – Stage 5
         topics: [
           'Living Things – Classification Keys',
           'Living Things – Micro-organisms: Bacteria, Viruses and Fungi',
@@ -335,6 +803,129 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Earth and Environment – Climate Change and Human Impact',
         ],
       },
+      {
+        name: 'Art & Design',
+        // Cambridge Primary Art & Design (0067) – Stage 5
+        topics: [
+          'Experiencing – Studying and Interpreting Artworks from a Variety of Contexts',
+          'Experiencing – Comparing How Different Artists Convey Ideas and Emotions',
+          'Making – Creating Personal Interpretations of Artworks Studied',
+          'Making – Demonstrating Growing Independence in Choice of Materials and Techniques',
+          'Making – Developing a Body of Related Work with a Coherent Theme',
+          'Reflecting – Articulating How Own Work Has Developed Through a Creative Process',
+          'Reflecting – Giving and Receiving Constructive Feedback on Artwork',
+          'Thinking and Working Artistically – Making Informed Choices About How to Develop Work',
+        ],
+      },
+      {
+        name: 'Computing',
+        // Cambridge Primary Computing (0059) – Stage 5
+        topics: [
+          'Computational Thinking – Designing Algorithms with Selection (If/Else)',
+          'Computational Thinking – Abstracting Key Information to Solve Problems',
+          'Programming – Writing Programs Where Objects Interact',
+          'Programming – Using Variables and Conditions in Programs',
+          'Managing Data – Collecting and Organising Data for Related Research Questions',
+          'Managing Data – Analysing Patterns in Data Using Charts and Graphs',
+          'Networks and Digital Communication – Understanding Switches, Routers and Wi-Fi Access Points',
+          'Computer Systems – Explaining How Artificial Intelligence Simulates Human Intelligence',
+        ],
+      },
+      {
+        name: 'Digital Literacy',
+        // Cambridge Primary Digital Literacy (0072) – Stage 5
+        topics: [
+          'Tools and Content Creation – Creating Multimedia Presentations with Text, Images and Animation',
+          'Tools and Content Creation – Selecting Appropriate Digital Tools for a Task',
+          'Tools and Content Creation – Combining Different Media to Communicate Effectively',
+          'Safety and Wellbeing – Understanding Digital Footprints and Online Reputation',
+          'Safety and Wellbeing – Evaluating the Reliability and Accuracy of Online Information',
+          'Safety and Wellbeing – Understanding How to Manage Privacy and Personal Data',
+          'The Digital World – Analysing How the Internet Enables Communication and Collaboration',
+          'The Digital World – Recognising the Impact of Technology on Society',
+        ],
+      },
+      {
+        name: 'Global Perspectives',
+        // Cambridge Primary Global Perspectives (0838) – Stage 5
+        topics: [
+          'Research – Evaluating Sources for Reliability and Relevance',
+          'Research – Synthesising Information from Multiple Sources',
+          'Analysis – Analysing Different Perspectives on a Global Issue',
+          'Evaluation – Assessing the Strengths and Weaknesses of an Argument',
+          'Reflection – Suggesting Realistic Solutions to Community and Global Problems',
+          'Collaboration – Taking on Roles and Responsibilities in a Team Project',
+          'Communication – Presenting Findings Clearly to Different Audiences',
+        ],
+      },
+      {
+        name: 'Humanities',
+        // Cambridge Primary Humanities (0065) – Stage 5: People, Past, Places
+        topics: [
+          'People – Exploring World Cultures, Beliefs and Worldviews',
+          'People – Analysing How Employment and Economy Shape Communities',
+          'People – Understanding How Scientific Discoveries Changed Society Over Time',
+          'Past – Studying History and Its Different Interpretations',
+          'Past – Evaluating the Reliability of Historical Sources',
+          'Places – Describing Global Geography: Continents, Climates and Environments',
+          'Places – Exploring How Human Activity Shapes Physical Environments',
+        ],
+      },
+      {
+        name: 'Music',
+        // Cambridge Primary Music (0068) – Stages 5–6
+        topics: [
+          'Making Music – Performing with Increasing Confidence, Expression and Musicality',
+          'Making Music – Demonstrating Technical Skill on a Chosen Instrument or Voice',
+          'Making Music – Composing Music That Reflects a Theme or Emotion',
+          'Making Music – Collaborating in Ensemble Performances',
+          'Making Sense of Music – Discussing How Music Reflects the Context in Which It Was Created',
+          'Making Sense of Music – Comparing Music from Different Genres and Time Periods',
+          'Making Sense of Music – Using Detailed Vocabulary to Analyse Musical Features',
+        ],
+      },
+      {
+        name: 'Physical Education',
+        // Cambridge Primary Physical Education (0069) – Stage 5
+        topics: [
+          'Moving Well – Applying Tactics in Team Sports and Competitive Activities',
+          'Moving Well – Refining Athletic Performance in Running, Jumping and Throwing',
+          'Understanding Movement – Analysing and Improving Performance Using Feedback',
+          'Moving Creatively – Creating and Performing Expressive Dance Sequences',
+          'Taking Part – Demonstrating Sporting Behaviour in Competitive Contexts',
+          'Taking Responsibility – Supporting and Encouraging Peers During Activity',
+          'Healthy Bodies – Understanding Health-Related Fitness: Strength, Stamina, Flexibility',
+        ],
+      },
+      {
+        name: 'Wellbeing',
+        // Cambridge Primary Wellbeing (0034) – Stage 5
+        topics: [
+          'Understanding Myself – Developing Self-Identity and Confidence',
+          'Understanding Myself – Understanding How Emotions Change Over Time and in Different Contexts',
+          'Understanding Myself – Exploring Personal Goals and Aspirations',
+          'My Relationships – Navigating Peer Pressure and Making Positive Choices',
+          'My Relationships – Understanding Healthy and Unhealthy Relationship Dynamics',
+          'My Relationships – Appreciating Diversity and Its Importance in Communities',
+          'Navigating My World – Taking Responsibility in the Local Community',
+          'Navigating My World – Understanding How Global Issues Affect Individuals',
+        ],
+      },
+      {
+        name: 'Modern Foreign Language',
+        // Cambridge Primary Modern Foreign Language (0064) – Stage 5
+        topics: [
+          'Listening – Understanding Short Simple Personal Questions in the Target Language',
+          'Listening – Identifying Key Information in Short Spoken Passages',
+          'Speaking – Using Isolated Rehearsed Words and Phrases to Communicate',
+          'Speaking – Responding to Questions with Short Phrases in the Target Language',
+          'Reading – Reading Short Simple Texts with Familiar Vocabulary',
+          'Writing – Writing Words and Short Phrases Using a Dictionary for Support',
+          'Vocabulary – Expanding Topic Vocabulary: Family, School, Food, Animals',
+          'Grammar – Using Simple Noun–Adjective Agreement and Basic Verb Forms',
+          'Cultural Understanding – Recognising Cultural Differences in Target Language Countries',
+        ],
+      },
     ],
   },
 
@@ -345,6 +936,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
     subjects: [
       {
         name: 'Mathematics',
+        // Cambridge Primary Mathematics (0096) – Stage 6
         topics: [
           'Numbers – Ordering Integers, Decimals and Fractions on a Number Line',
           'Numbers – Index Notation: Squares and Cubes',
@@ -366,7 +958,8 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         ],
       },
       {
-        name: 'English Language',
+        name: 'English',
+        // Cambridge Primary English (0058) – Stage 6
         topics: [
           'Reading – Analysing Structure and Organisation of Texts',
           'Reading – Comparing Texts from Different Periods',
@@ -386,6 +979,7 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
       },
       {
         name: 'Science',
+        // Cambridge Primary Science (0097) – Stage 6
         topics: [
           'Living Things – Variation Within a Species',
           'Living Things – Adaptation to Environments',
@@ -402,6 +996,129 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Earth and Environment – The Carbon Cycle',
           'Earth and Environment – Renewable and Non-Renewable Energy Sources',
           'Earth and Environment – Pollution, Conservation and Sustainability',
+        ],
+      },
+      {
+        name: 'Art & Design',
+        // Cambridge Primary Art & Design (0067) – Stage 6
+        topics: [
+          'Experiencing – Analysing How Artworks Communicate Meaning Across Cultures',
+          'Experiencing – Researching Artists and Movements to Inform Own Practice',
+          'Making – Creating Interpretations of Artworks That Demonstrate Independence',
+          'Making – Selecting, Combining and Refining Materials with Skill and Purpose',
+          'Making – Producing a Resolved Artwork That Communicates Intent Clearly',
+          'Reflecting – Evaluating Own and Others\' Work Using Appropriate Art Vocabulary',
+          'Reflecting – Articulating Creative Decisions Made Throughout the Process',
+          'Thinking and Working Artistically – Demonstrating Independence and Originality in Creative Work',
+        ],
+      },
+      {
+        name: 'Computing',
+        // Cambridge Primary Computing (0059) – Stage 6
+        topics: [
+          'Computational Thinking – Representing Algorithms as Flowcharts',
+          'Computational Thinking – Using Decomposition and Abstraction to Design Solutions',
+          'Programming – Writing Block-Based Programs with Interrelated Algorithms',
+          'Programming – Using Variables, Loops, Conditions and Events in Programs',
+          'Managing Data – Designing Forms to Collect Continuous Data',
+          'Managing Data – Analysing and Drawing Conclusions from Collected Data',
+          'Networks and Digital Communication – Understanding How Digital Content Is Stored on Servers',
+          'Computer Systems – Explaining How Robots Work Autonomously in Real-World Contexts',
+        ],
+      },
+      {
+        name: 'Digital Literacy',
+        // Cambridge Primary Digital Literacy (0072) – Stage 6
+        topics: [
+          'Tools and Content Creation – Creating Sophisticated Digital Projects with Sound, Video and Text',
+          'Tools and Content Creation – Planning and Structuring a Complex Digital Product',
+          'Tools and Content Creation – Evaluating and Improving Own Digital Work',
+          'Safety and Wellbeing – Understanding the Digital Footprint as a Permanent Record of Online Activity',
+          'Safety and Wellbeing – Managing Online Identity and Reputation Responsibly',
+          'Safety and Wellbeing – Understanding Legal and Ethical Issues in Digital Contexts',
+          'The Digital World – Understanding How Online Streaming Changed How People Access Media',
+          'The Digital World – Evaluating the Benefits and Challenges of Living in a Digital Society',
+        ],
+      },
+      {
+        name: 'Global Perspectives',
+        // Cambridge Primary Global Perspectives (0838) – Stage 6
+        topics: [
+          'Research – Independently Researching a Global Issue Using Multiple Sources',
+          'Research – Synthesising Evidence to Support an Argument',
+          'Analysis – Analysing Multiple Perspectives and Their Underlying Assumptions',
+          'Evaluation – Critically Evaluating Arguments and Counter-Arguments',
+          'Reflection – Reflecting on How Learning Has Changed Personal Understanding',
+          'Collaboration – Leading and Contributing to Group Investigations',
+          'Communication – Creating Arguments Supported by Evidence and Presenting to Different Audiences',
+        ],
+      },
+      {
+        name: 'Humanities',
+        // Cambridge Primary Humanities (0065) – Stage 6: People, Past, Places
+        topics: [
+          'People – Analysing Society and Economy: Structure, Roles and Interdependence',
+          'People – Describing How Employment and Industry Shape National Identity',
+          'People – Exploring Diverse Historical Perspectives on Scientific and Social Progress',
+          'Past – Understanding Diverse Historical Perspectives and Contested Narratives',
+          'Past – Evaluating the Significance of Historical Events for the Modern World',
+          'Places – Exploring Sustainability, Environment and Global Responsibility',
+          'Places – Analysing the Relationship Between Human Activity and Environmental Change',
+        ],
+      },
+      {
+        name: 'Music',
+        // Cambridge Primary Music (0068) – Stages 5–6
+        topics: [
+          'Making Music – Performing with Confidence, Expression, Skill and Musicality',
+          'Making Music – Demonstrating Stylistic Awareness in Performance',
+          'Making Music – Composing Music That Demonstrates Understanding of Structure and Style',
+          'Making Music – Directing or Leading a Group Musical Activity',
+          'Making Sense of Music – Discussing How Music Reflects the Contexts in Which It Was Created',
+          'Making Sense of Music – Evaluating Performances Using Appropriate Musical Vocabulary',
+          'Making Sense of Music – Exploring the Cultural and Historical Significance of Music',
+        ],
+      },
+      {
+        name: 'Physical Education',
+        // Cambridge Primary Physical Education (0069) – Stage 6
+        topics: [
+          'Moving Well – Demonstrating Leadership Skills in Sport and Physical Activity',
+          'Moving Well – Performing Competitive Athletics with Refined Technique',
+          'Understanding Movement – Understanding Basic Training Principles and Their Effects',
+          'Moving Creatively – Choreographing and Performing a Movement Sequence',
+          'Taking Part – Officiating and Leading in Sporting Activities',
+          'Taking Responsibility – Evaluating Personal Performance and Setting Improvement Goals',
+          'Healthy Bodies – Understanding the Long-Term Benefits of Regular Physical Activity',
+        ],
+      },
+      {
+        name: 'Wellbeing',
+        // Cambridge Primary Wellbeing (0034) – Stage 6
+        topics: [
+          'Understanding Myself – Managing Change and Transitions: Moving to Secondary School',
+          'Understanding Myself – Understanding How Emotions and Identity Develop Over Time',
+          'Understanding Myself – Reflecting on Personal Values and How They Guide Decisions',
+          'My Relationships – Developing Leadership and Collaboration Skills',
+          'My Relationships – Understanding Diversity and Its Importance in a Globalised World',
+          'My Relationships – Exploring Responsible Use of Social Media and Online Relationships',
+          'Navigating My World – Understanding Global Citizenship and Personal Responsibility',
+          'Navigating My World – Exploring Career Aspirations and Pathways for the Future',
+        ],
+      },
+      {
+        name: 'Modern Foreign Language',
+        // Cambridge Primary Modern Foreign Language (0064) – Stage 6
+        topics: [
+          'Listening – Understanding Short Simple General Statements in the Target Language',
+          'Listening – Identifying Main Points and Some Details in Short Audio Passages',
+          'Speaking – Using Phrases with Pauses to Communicate in the Target Language',
+          'Speaking – Initiating and Responding in Simple Conversations on Familiar Topics',
+          'Reading – Reading Short Simple Texts on General Topics with Some Unfamiliar Vocabulary',
+          'Writing – Writing Simple Phrases and Sentences with Support from a Dictionary',
+          'Vocabulary – Consolidating and Extending Vocabulary Across Core Topic Areas',
+          'Grammar – Applying Basic Grammar Rules: Gender, Plurals, Simple Tenses',
+          'Cultural Understanding – Applying Basic Cultural Customs Appropriately in Social Exchanges',
         ],
       },
     ],
@@ -600,6 +1317,9 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
     ],
   },
 
+  // ── IGCSE (Years 10–11) ────────────────────────────────────────────────────
+  // IGCSE is a 2-year programme. Both Year 10 and Year 11 carry the full
+  // combined syllabus so students can be assessed on any topic at any point.
   10: {
     grade: 10,
     cambridgeLevel: 'IGCSE Year 10',
@@ -609,29 +1329,393 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         name: 'Mathematics',
         code: '0580',
         topics: [
+          // Number
           'Number – Number Types, HCF, LCM and Factors',
           'Number – Fractions, Decimals, Percentages and Ratios',
           'Number – Standard Form and Approximation',
           'Number – Surds and Indices',
+          'Number – Bounds and Error Intervals',
+          // Algebra
           'Algebra – Expressions: Expanding, Factorising, Simplifying',
           'Algebra – Linear Equations and Inequalities',
           'Algebra – Simultaneous Equations (Linear)',
+          'Algebra – Simultaneous Equations (One Linear, One Quadratic)',
           'Algebra – Quadratic Equations: Factorisation and Formula',
+          'Algebra – Completing the Square',
+          'Algebra – Algebraic Fractions and Complex Manipulation',
           'Algebra – Functions: Domain, Range and Inverse',
           'Algebra – Sequences: Arithmetic and Geometric nth Terms',
+          // Coordinate Geometry
           'Coordinate Geometry – Gradient, y-Intercept and Straight Lines',
           'Coordinate Geometry – Distance and Midpoint',
+          'Coordinate Geometry – Equation of a Circle',
+          // Graphs
           'Graphs – Linear, Quadratic, Cubic and Reciprocal Graphs',
+          'Graphs – Differentiation and Gradient of Curves',
+          'Graphs – Velocity–Time Graphs and Area Under Curve',
+          // Trigonometry
           'Trigonometry – SOH-CAH-TOA in Right-Angled Triangles',
+          'Trigonometry – Sine Rule and Cosine Rule',
+          'Trigonometry – Trigonometric Graphs and Identities',
+          // Geometry
           'Geometry – Angles in Polygons and Parallel Lines',
           'Geometry – Congruence and Similarity',
           'Geometry – Circle Theorems',
           'Geometry – Constructions and Loci',
+          'Geometry – Vectors: Addition, Subtraction and Scalar Multiplication',
+          'Geometry – Transformations: Translation, Reflection, Rotation, Enlargement',
+          // Matrices
+          'Matrices – Matrix Multiplication and Transformations',
+          // Mensuration
           'Mensuration – Perimeter, Area of 2D Shapes',
           'Mensuration – Volume and Surface Area of 3D Shapes',
+          'Mensuration – Arc Length and Sector Area',
+          // Statistics
           'Statistics – Statistical Diagrams: Bar, Pie, Histograms',
           'Statistics – Averages: Mean, Median, Mode, Range',
+          'Statistics – Cumulative Frequency and Quartiles',
+          'Statistics – Histograms with Unequal Class Widths',
+          // Probability
           'Probability – Single and Combined Events',
+          'Probability – Conditional Probability and Tree Diagrams',
+          'Probability – Mutually Exclusive and Independent Events',
+          // Exam skills
+          'Exam Preparation – Past Paper Techniques and Problem Solving',
+        ],
+      },
+      {
+        name: 'Physics',
+        code: '0625',
+        topics: [
+          // General Physics
+          'General Physics – Measurement and Units',
+          'General Physics – Scalars and Vectors',
+          'General Physics – Speed, Velocity and Acceleration',
+          'General Physics – Distance–Time and Velocity–Time Graphs',
+          'General Physics – Forces: Resultant, Friction, Weight',
+          'General Physics – Newton\'s Laws of Motion',
+          'General Physics – Momentum and Impulse',
+          'General Physics – Work, Energy and Power',
+          'General Physics – Efficiency and Energy Resources',
+          'General Physics – Pressure in Solids, Liquids and Gases',
+          'General Physics – Moments and Centre of Gravity',
+          'General Physics – Circular Motion',
+          // Thermal Physics
+          'Thermal Physics – States of Matter and Changes of State',
+          'Thermal Physics – Thermal Expansion',
+          'Thermal Physics – Conduction, Convection and Radiation',
+          // Waves
+          'Waves – Properties: Frequency, Wavelength, Amplitude',
+          'Waves – Reflection, Refraction and Diffraction of Light',
+          'Waves – Electromagnetic Spectrum',
+          'Waves – Sound: Speed, Echoes and Ultrasound',
+          'Waves – Total Internal Reflection and Optical Fibres',
+          'Waves – Refraction and Snell\'s Law',
+          // Electricity
+          'Electricity – Static Electricity and Electric Fields',
+          'Electricity – Current, Voltage and Resistance',
+          'Electricity – Series and Parallel Circuits',
+          'Electricity – Electrical Power and Energy',
+          'Electricity – Magnetism and Magnetic Fields',
+          'Electricity – Transformers and National Grid',
+          'Electricity – Logic Gates and Electronic Systems',
+          // Magnetism
+          'Magnetism – Electromagnetism and Solenoids',
+          'Magnetism – Electromagnetic Induction and Generators',
+          // Atomic Physics
+          'Atomic Physics – Radioactivity: Alpha, Beta, Gamma',
+          'Atomic Physics – Half-Life and Radioactive Decay',
+          'Atomic Physics – Nuclear Fission and Fusion',
+          // Space Physics
+          'Space Physics – Solar System and Satellites',
+          'Space Physics – Stars and the Universe',
+          // Exam skills
+          'Exam Preparation – Structured and Multiple Choice Techniques',
+        ],
+      },
+      {
+        name: 'Chemistry',
+        code: '0620',
+        topics: [
+          // Experimental Techniques
+          'Experimental Techniques – Filtration, Distillation, Chromatography',
+          // Matter
+          'Matter – Particle Model of Matter',
+          'Matter – Atomic Structure: Protons, Neutrons, Electrons',
+          'Matter – Isotopes and Relative Atomic Mass',
+          // Bonding
+          'Bonding – Ionic Bonding and Properties of Ionic Compounds',
+          'Bonding – Covalent Bonding and Properties',
+          'Bonding – Metallic Bonding',
+          // Stoichiometry
+          'Stoichiometry – Moles, Molar Mass and Formulae',
+          'Stoichiometry – Writing and Balancing Equations',
+          'Stoichiometry – Concentration and Titration Calculations',
+          // Periodic Table
+          'Periodic Table – Groups and Periods',
+          'Periodic Table – Properties of Group 1 and Group 7',
+          'Periodic Table – Transition Metals',
+          'Periodic Table – Group 0 Noble Gases',
+          // Reactions
+          'Reactions – Types of Chemical Reactions',
+          'Reactions – Reactivity Series of Metals',
+          'Reactions – Acids, Bases and Neutralisation',
+          'Reactions – Salts: Preparation and Properties',
+          'Reactions – Rates of Reaction',
+          'Reactions – Equilibrium and Le Chatelier\'s Principle',
+          'Reactions – Haber Process and Contact Process',
+          // Electrochemistry
+          'Electrochemistry – Electrolysis Principles',
+          'Electrochemistry – Industrial Electrolysis (Brine, Bauxite)',
+          // Energetics
+          'Energetics – Exothermic and Endothermic Reactions',
+          'Energetics – Bond Energies and Hess\'s Law',
+          // Organic Chemistry
+          'Organic Chemistry – Alkanes and Alkenes',
+          'Organic Chemistry – Alcohols, Carboxylic Acids and Esters',
+          'Organic Chemistry – Polymers: Addition and Condensation',
+          'Organic Chemistry – Combustion and Cracking of Hydrocarbons',
+          // Air and Water
+          'Air and Water – Composition of Air and Pollution',
+          'Air and Water – Water Treatment and Hardness',
+          // Exam skills
+          'Exam Preparation – Practical Chemistry and Data Analysis',
+        ],
+      },
+      {
+        name: 'Biology',
+        code: '0610',
+        topics: [
+          // Cells
+          'Cells – Cell Structure: Animal and Plant',
+          'Cells – Diffusion, Osmosis and Active Transport',
+          // Biological Molecules
+          'Biological Molecules – Carbohydrates, Proteins and Fats',
+          'Biological Molecules – Enzymes and their Actions',
+          // Plant Nutrition
+          'Plant Nutrition – Photosynthesis',
+          // Animal Nutrition
+          'Animal Nutrition – Human Digestive System',
+          'Animal Nutrition – Balanced Diet',
+          // Transport
+          'Transport in Plants – Xylem, Phloem, Transpiration',
+          'Transport in Animals – Blood and Circulatory System',
+          // Gas Exchange and Respiration
+          'Gas Exchange – Human Breathing System',
+          'Respiration – Aerobic and Anaerobic Respiration',
+          // Disease and Immunity
+          'Disease – Pathogens and Transmission',
+          'Immunity – Immune Response and Vaccines',
+          // Excretion and Coordination
+          'Excretion – The Kidney and Urea Formation',
+          'Coordination – The Nervous System',
+          'Coordination – Hormones: Insulin, ADH and Adrenaline',
+          // Reproduction
+          'Reproduction – Human Reproductive System',
+          'Reproduction – Fertilisation and Development',
+          'Reproduction – Asexual and Sexual Reproduction in Plants',
+          // Inheritance
+          'Inheritance – Chromosomes, Genes and Alleles',
+          'Inheritance – Mendelian Genetics and Monohybrid Crosses',
+          'Inheritance – Sex Determination and Sex-Linked Traits',
+          // Variation and Selection
+          'Variation and Selection – Natural Selection and Evolution',
+          'Variation and Selection – Mutations and Genetic Variation',
+          // Ecology
+          'Ecology – Populations, Competition and Food Chains',
+          'Ecology – Carbon Cycle and Nitrogen Cycle',
+          'Ecology – Human Impact on the Environment',
+          // Biotechnology
+          'Biotechnology – Genetic Engineering Basics',
+          // Exam skills
+          'Exam Preparation – Practical Investigations and Data Handling',
+        ],
+      },
+      {
+        name: 'English Language',
+        code: '0500',
+        topics: [
+          // Reading
+          'Reading – Comprehension: Explicit and Implicit Information',
+          'Reading – Writer\'s Techniques: Language and Structure',
+          'Reading – Summary Writing',
+          'Reading – Extended Inference and Evaluation',
+          'Reading – Comparing Writer\'s Viewpoints',
+          'Reading – Selecting and Re-ordering Information',
+          // Writing
+          'Writing – Narrative and Descriptive Compositions',
+          'Writing – Argumentative and Persuasive Essays',
+          'Writing – Directed Writing (Letters, Reports, Articles)',
+          'Writing – Crafting Effective Openings and Endings',
+          'Writing – Tone, Register and Audience Adaptation',
+          'Writing – Exam-Focused Essay Practice',
+          // Grammar and Vocabulary
+          'Grammar – Sentence Variety and Accuracy',
+          'Grammar – Sophisticated Sentence Structures',
+          'Vocabulary – Precise Word Choice and Register',
+          'Vocabulary – Technical and Formal Language',
+          // Exam skills
+          'Exam Skills – Time Management and Planning',
+        ],
+      },
+      {
+        name: 'Computer Science',
+        code: '0478',
+        topics: [
+          // Data Representation
+          'Data Representation – Binary, Denary and Hexadecimal',
+          'Data Representation – Data Storage: Images, Sound, Text',
+          // Problem Solving
+          'Problem Solving – Algorithms and Pseudocode',
+          'Problem Solving – Flowcharts and Trace Tables',
+          // Programming
+          'Programming – Variables, Data Types and Assignment',
+          'Programming – Selection: IF, ELSE, CASE',
+          'Programming – Iteration: WHILE, FOR, REPEAT',
+          'Programming – Procedures and Functions',
+          'Programming – Arrays',
+          'Programming – File Handling',
+          'Programming – Exception Handling',
+          'Programming – Searching Algorithms (Linear, Binary)',
+          'Programming – Sorting Algorithms (Bubble, Merge, Insertion)',
+          'Programming – Recursion',
+          // Data Structures
+          'Data Structures – Stacks, Queues and Linked Lists',
+          // Systems
+          'Systems – Hardware: CPU, Memory, Storage',
+          'Systems – Input and Output Devices',
+          'Systems – Operating Systems and Software',
+          'Systems – System Life Cycle and Software Development',
+          // Networks
+          'Networks – Network Topologies and Protocols',
+          'Networks – Internet, WWW and Security',
+          'Networks – Cybersecurity and Encryption',
+          // Ethics
+          'Ethics – Digital Citizenship and Data Privacy',
+          // Exam skills
+          'Exam Preparation – Program Traces and Algorithm Design',
+        ],
+      },
+      {
+        name: 'Economics',
+        code: '0455',
+        topics: [
+          'The Basic Economic Problem – Scarcity and Choice',
+          'The Basic Economic Problem – Opportunity Cost and Production Possibility Curves',
+          'Microeconomics – Demand: Law and Determinants',
+          'Microeconomics – Supply: Law and Determinants',
+          'Microeconomics – Price Equilibrium and Market Mechanism',
+          'Microeconomics – Elasticity of Demand and Supply',
+          'Microeconomics – Market Failure and Externalities',
+          'Business Economics – Costs, Revenue and Profit',
+          'Business Economics – Market Structures',
+          'Macroeconomics – Economic Growth and GDP',
+          'Macroeconomics – Inflation: Causes, Effects and Control',
+          'Macroeconomics – Unemployment: Causes and Policies',
+          'Macroeconomics – Balance of Payments',
+          'International Trade – Comparative Advantage and Free Trade',
+          'International Trade – Protectionism: Tariffs, Quotas, Subsidies',
+          'International Trade – Exchange Rates',
+          'Government Policies – Fiscal Policy: Taxation and Government Spending',
+          'Government Policies – Monetary Policy: Interest Rates and Money Supply',
+          'Government Policies – Supply-Side Policies',
+          'Exam Preparation – Data Response and Essay Techniques',
+        ],
+      },
+      {
+        name: 'Business Studies',
+        code: '0450',
+        topics: [
+          'Business Activity – Purpose and Types of Business',
+          'Business Activity – Stakeholders and Business Objectives',
+          'Business Activity – Business Growth and Size',
+          'People in Business – Organisational Structure and Communication',
+          'People in Business – Motivation Theories and Methods',
+          'People in Business – Leadership Styles',
+          'People in Business – Recruitment, Selection and Training',
+          'People in Business – Employment Law and Ethics',
+          'Marketing – Market Research: Methods and Analysis',
+          'Marketing – Market Segmentation and Targeting',
+          'Marketing – Marketing Mix: Product, Price, Place, Promotion',
+          'Marketing – E-Commerce and Digital Marketing',
+          'Operations – Methods of Production',
+          'Operations – Quality Assurance and Control',
+          'Operations – Capacity Utilisation and Lean Production',
+          'Operations – Supply Chain and Location',
+          'Finance – Sources of Finance: Internal and External',
+          'Finance – Cash Flow Forecasting and Management',
+          'Finance – Income Statements and Balance Sheets',
+          'Finance – Ratio Analysis',
+          'External Influences – Economic Environment and Business Cycle',
+          'External Influences – Legal, Environmental and Ethical Issues',
+          'External Influences – Globalisation and Multinational Businesses',
+          'Exam Preparation – Case Study and Data Analysis Techniques',
+        ],
+      },
+    ],
+  },
+
+  11: {
+    grade: 11,
+    cambridgeLevel: 'IGCSE Year 11',
+    description: 'Cambridge IGCSE – Year 11 / Examination Year (ages 15–16)',
+    subjects: [
+      {
+        name: 'Mathematics',
+        code: '0580',
+        topics: [
+          // Number
+          'Number – Number Types, HCF, LCM and Factors',
+          'Number – Fractions, Decimals, Percentages and Ratios',
+          'Number – Standard Form and Approximation',
+          'Number – Surds and Indices',
+          'Number – Bounds and Error Intervals',
+          // Algebra
+          'Algebra – Expressions: Expanding, Factorising, Simplifying',
+          'Algebra – Linear Equations and Inequalities',
+          'Algebra – Simultaneous Equations (Linear)',
+          'Algebra – Simultaneous Equations (One Linear, One Quadratic)',
+          'Algebra – Quadratic Equations: Factorisation and Formula',
+          'Algebra – Completing the Square',
+          'Algebra – Algebraic Fractions and Complex Manipulation',
+          'Algebra – Functions: Domain, Range and Inverse',
+          'Algebra – Sequences: Arithmetic and Geometric nth Terms',
+          // Coordinate Geometry
+          'Coordinate Geometry – Gradient, y-Intercept and Straight Lines',
+          'Coordinate Geometry – Distance and Midpoint',
+          'Coordinate Geometry – Equation of a Circle',
+          // Graphs
+          'Graphs – Linear, Quadratic, Cubic and Reciprocal Graphs',
+          'Graphs – Differentiation and Gradient of Curves',
+          'Graphs – Velocity–Time Graphs and Area Under Curve',
+          // Trigonometry
+          'Trigonometry – SOH-CAH-TOA in Right-Angled Triangles',
+          'Trigonometry – Sine Rule and Cosine Rule',
+          'Trigonometry – Trigonometric Graphs and Identities',
+          // Geometry
+          'Geometry – Angles in Polygons and Parallel Lines',
+          'Geometry – Congruence and Similarity',
+          'Geometry – Circle Theorems',
+          'Geometry – Constructions and Loci',
+          'Geometry – Vectors: Addition, Subtraction and Scalar Multiplication',
+          'Geometry – Transformations: Translation, Reflection, Rotation, Enlargement',
+          // Matrices
+          'Matrices – Matrix Multiplication and Transformations',
+          // Mensuration
+          'Mensuration – Perimeter, Area of 2D Shapes',
+          'Mensuration – Volume and Surface Area of 3D Shapes',
+          'Mensuration – Arc Length and Sector Area',
+          // Statistics
+          'Statistics – Statistical Diagrams: Bar, Pie, Histograms',
+          'Statistics – Averages: Mean, Median, Mode, Range',
+          'Statistics – Cumulative Frequency and Quartiles',
+          'Statistics – Histograms with Unequal Class Widths',
+          // Probability
+          'Probability – Single and Combined Events',
+          'Probability – Conditional Probability and Tree Diagrams',
+          'Probability – Mutually Exclusive and Independent Events',
+          // Exam skills
+          'Exam Preparation – Past Paper Techniques and Problem Solving',
         ],
       },
       {
@@ -648,6 +1732,8 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'General Physics – Work, Energy and Power',
           'General Physics – Efficiency and Energy Resources',
           'General Physics – Pressure in Solids, Liquids and Gases',
+          'General Physics – Moments and Centre of Gravity',
+          'General Physics – Circular Motion',
           'Thermal Physics – States of Matter and Changes of State',
           'Thermal Physics – Thermal Expansion',
           'Thermal Physics – Conduction, Convection and Radiation',
@@ -655,11 +1741,23 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Waves – Reflection, Refraction and Diffraction of Light',
           'Waves – Electromagnetic Spectrum',
           'Waves – Sound: Speed, Echoes and Ultrasound',
+          'Waves – Total Internal Reflection and Optical Fibres',
+          'Waves – Refraction and Snell\'s Law',
           'Electricity – Static Electricity and Electric Fields',
           'Electricity – Current, Voltage and Resistance',
           'Electricity – Series and Parallel Circuits',
           'Electricity – Electrical Power and Energy',
           'Electricity – Magnetism and Magnetic Fields',
+          'Electricity – Transformers and National Grid',
+          'Electricity – Logic Gates and Electronic Systems',
+          'Magnetism – Electromagnetism and Solenoids',
+          'Magnetism – Electromagnetic Induction and Generators',
+          'Atomic Physics – Radioactivity: Alpha, Beta, Gamma',
+          'Atomic Physics – Half-Life and Radioactive Decay',
+          'Atomic Physics – Nuclear Fission and Fusion',
+          'Space Physics – Solar System and Satellites',
+          'Space Physics – Stars and the Universe',
+          'Exam Preparation – Structured and Multiple Choice Techniques',
         ],
       },
       {
@@ -675,16 +1773,29 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Bonding – Metallic Bonding',
           'Stoichiometry – Moles, Molar Mass and Formulae',
           'Stoichiometry – Writing and Balancing Equations',
+          'Stoichiometry – Concentration and Titration Calculations',
           'Periodic Table – Groups and Periods',
           'Periodic Table – Properties of Group 1 and Group 7',
+          'Periodic Table – Transition Metals',
+          'Periodic Table – Group 0 Noble Gases',
           'Reactions – Types of Chemical Reactions',
           'Reactions – Reactivity Series of Metals',
           'Reactions – Acids, Bases and Neutralisation',
           'Reactions – Salts: Preparation and Properties',
           'Reactions – Rates of Reaction',
+          'Reactions – Equilibrium and Le Chatelier\'s Principle',
+          'Reactions – Haber Process and Contact Process',
           'Electrochemistry – Electrolysis Principles',
+          'Electrochemistry – Industrial Electrolysis (Brine, Bauxite)',
           'Energetics – Exothermic and Endothermic Reactions',
+          'Energetics – Bond Energies and Hess\'s Law',
           'Organic Chemistry – Alkanes and Alkenes',
+          'Organic Chemistry – Alcohols, Carboxylic Acids and Esters',
+          'Organic Chemistry – Polymers: Addition and Condensation',
+          'Organic Chemistry – Combustion and Cracking of Hydrocarbons',
+          'Air and Water – Composition of Air and Pollution',
+          'Air and Water – Water Treatment and Hardness',
+          'Exam Preparation – Practical Chemistry and Data Analysis',
         ],
       },
       {
@@ -704,152 +1815,6 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
           'Respiration – Aerobic and Anaerobic Respiration',
           'Disease – Pathogens and Transmission',
           'Immunity – Immune Response and Vaccines',
-        ],
-      },
-      {
-        name: 'English Language',
-        code: '0500',
-        topics: [
-          'Reading – Comprehension: Explicit and Implicit Information',
-          'Reading – Writer\'s Techniques: Language and Structure',
-          'Reading – Summary Writing',
-          'Writing – Narrative and Descriptive Compositions',
-          'Writing – Argumentative and Persuasive Essays',
-          'Writing – Directed Writing (Letters, Reports, Articles)',
-          'Grammar – Sentence Variety and Accuracy',
-          'Vocabulary – Precise Word Choice and Register',
-        ],
-      },
-      {
-        name: 'Computer Science',
-        code: '0478',
-        topics: [
-          'Data Representation – Binary, Denary and Hexadecimal',
-          'Data Representation – Data Storage: Images, Sound, Text',
-          'Problem Solving – Algorithms and Pseudocode',
-          'Problem Solving – Flowcharts and Trace Tables',
-          'Programming – Variables, Data Types and Assignment',
-          'Programming – Selection: IF, ELSE, CASE',
-          'Programming – Iteration: WHILE, FOR, REPEAT',
-          'Programming – Procedures and Functions',
-          'Programming – Arrays',
-          'Systems – Hardware: CPU, Memory, Storage',
-          'Systems – Input and Output Devices',
-          'Networks – Network Topologies and Protocols',
-          'Networks – Internet, WWW and Security',
-          'Systems – Operating Systems and Software',
-        ],
-      },
-      {
-        name: 'Economics',
-        code: '0455',
-        topics: [
-          'The Basic Economic Problem – Scarcity and Choice',
-          'The Basic Economic Problem – Opportunity Cost',
-          'Microeconomics – Demand: Law and Determinants',
-          'Microeconomics – Supply: Law and Determinants',
-          'Microeconomics – Price Equilibrium and Market Mechanism',
-          'Microeconomics – Elasticity of Demand and Supply',
-          'Business Economics – Costs, Revenue and Profit',
-          'Macroeconomics – Economic Growth and GDP',
-          'Macroeconomics – Inflation and Unemployment',
-          'International Trade – Imports, Exports and Trade Balance',
-          'Government Policies – Fiscal and Monetary Policy',
-        ],
-      },
-      {
-        name: 'Business Studies',
-        code: '0450',
-        topics: [
-          'Business Activity – Purpose and Types of Business',
-          'Business Activity – Stakeholders',
-          'People in Business – Organisational Structure',
-          'People in Business – Motivation and Leadership',
-          'People in Business – Recruitment and Training',
-          'Marketing – Market Research and Segmentation',
-          'Marketing – Marketing Mix: Product, Price, Place, Promotion',
-          'Operations – Production Methods',
-          'Operations – Quality and Costs',
-          'Finance – Sources of Finance',
-          'Finance – Cash Flow and Profit',
-          'External Influences – Economic and Legal Environment',
-        ],
-      },
-    ],
-  },
-
-  11: {
-    grade: 11,
-    cambridgeLevel: 'IGCSE Year 11',
-    description: 'Cambridge IGCSE – Year 11 / Examination Year (ages 15–16)',
-    subjects: [
-      {
-        name: 'Mathematics',
-        code: '0580',
-        topics: [
-          'Algebra – Completing the Square',
-          'Algebra – Simultaneous Equations (One Linear, One Quadratic)',
-          'Algebra – Algebraic Fractions and Complex Manipulation',
-          'Graphs – Differentiation and Gradient of Curves',
-          'Graphs – Velocity–Time Graphs and Area Under Curve',
-          'Coordinate Geometry – Equation of a Circle',
-          'Trigonometry – Sine Rule and Cosine Rule',
-          'Trigonometry – Trigonometric Graphs and Identities',
-          'Geometry – Vectors: Addition, Subtraction and Scalar Multiplication',
-          'Geometry – Transformations: Translation, Reflection, Rotation, Enlargement',
-          'Matrices – Matrix Multiplication and Transformations',
-          'Statistics – Cumulative Frequency and Quartiles',
-          'Statistics – Histograms with Unequal Class Widths',
-          'Probability – Conditional Probability and Tree Diagrams',
-          'Probability – Mutually Exclusive and Independent Events',
-          'Mensuration – Arc Length and Sector Area',
-          'Number – Bounds and Error Intervals',
-          'Exam Preparation – Past Paper Techniques',
-        ],
-      },
-      {
-        name: 'Physics',
-        code: '0625',
-        topics: [
-          'Magnetism – Electromagnetism and Solenoids',
-          'Magnetism – Electromagnetic Induction and Generators',
-          'Electricity – Transformers and National Grid',
-          'Electricity – Logic Gates and Electronic Systems',
-          'Atomic Physics – Radioactivity: Alpha, Beta, Gamma',
-          'Atomic Physics – Half-Life and Radioactive Decay',
-          'Atomic Physics – Nuclear Fission and Fusion',
-          'Waves – Total Internal Reflection and Optical Fibres',
-          'Waves – Refraction and Snell\'s Law',
-          'Space Physics – Solar System and Satellites',
-          'Space Physics – Stars and the Universe',
-          'General Physics – Moments and Centre of Gravity',
-          'General Physics – Circular Motion',
-          'Exam Preparation – Structured and Multiple Choice Techniques',
-        ],
-      },
-      {
-        name: 'Chemistry',
-        code: '0620',
-        topics: [
-          'Reactions – Equilibrium and Le Chatelier\'s Principle',
-          'Reactions – Haber Process and Contact Process',
-          'Organic Chemistry – Alcohols, Carboxylic Acids and Esters',
-          'Organic Chemistry – Polymers: Addition and Condensation',
-          'Organic Chemistry – Combustion and Cracking of Hydrocarbons',
-          'Periodic Table – Transition Metals',
-          'Periodic Table – Group 0 Noble Gases',
-          'Air and Water – Composition of Air and Pollution',
-          'Air and Water – Water Treatment and Hardness',
-          'Electrochemistry – Industrial Electrolysis (Brine, Bauxite)',
-          'Energetics – Bond Energies and Hess\'s Law',
-          'Stoichiometry – Concentration and Titration Calculations',
-          'Exam Preparation – Practical Chemistry and Data Analysis',
-        ],
-      },
-      {
-        name: 'Biology',
-        code: '0610',
-        topics: [
           'Excretion – The Kidney and Urea Formation',
           'Coordination – The Nervous System',
           'Coordination – Hormones: Insulin, ADH and Adrenaline',
@@ -872,13 +1837,21 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         name: 'English Language',
         code: '0500',
         topics: [
+          'Reading – Comprehension: Explicit and Implicit Information',
+          'Reading – Writer\'s Techniques: Language and Structure',
+          'Reading – Summary Writing',
           'Reading – Extended Inference and Evaluation',
           'Reading – Comparing Writer\'s Viewpoints',
           'Reading – Selecting and Re-ordering Information',
+          'Writing – Narrative and Descriptive Compositions',
+          'Writing – Argumentative and Persuasive Essays',
+          'Writing – Directed Writing (Letters, Reports, Articles)',
           'Writing – Crafting Effective Openings and Endings',
           'Writing – Tone, Register and Audience Adaptation',
           'Writing – Exam-Focused Essay Practice',
+          'Grammar – Sentence Variety and Accuracy',
           'Grammar – Sophisticated Sentence Structures',
+          'Vocabulary – Precise Word Choice and Register',
           'Vocabulary – Technical and Formal Language',
           'Exam Skills – Time Management and Planning',
         ],
@@ -887,16 +1860,86 @@ export const CAMBRIDGE_CURRICULUM: Record<CambridgeGrade, CambridgeGradeCurricul
         name: 'Computer Science',
         code: '0478',
         topics: [
+          'Data Representation – Binary, Denary and Hexadecimal',
+          'Data Representation – Data Storage: Images, Sound, Text',
+          'Problem Solving – Algorithms and Pseudocode',
+          'Problem Solving – Flowcharts and Trace Tables',
+          'Programming – Variables, Data Types and Assignment',
+          'Programming – Selection: IF, ELSE, CASE',
+          'Programming – Iteration: WHILE, FOR, REPEAT',
+          'Programming – Procedures and Functions',
+          'Programming – Arrays',
           'Programming – File Handling',
           'Programming – Exception Handling',
           'Programming – Searching Algorithms (Linear, Binary)',
           'Programming – Sorting Algorithms (Bubble, Merge, Insertion)',
           'Programming – Recursion',
           'Data Structures – Stacks, Queues and Linked Lists',
+          'Systems – Hardware: CPU, Memory, Storage',
+          'Systems – Input and Output Devices',
+          'Systems – Operating Systems and Software',
           'Systems – System Life Cycle and Software Development',
+          'Networks – Network Topologies and Protocols',
+          'Networks – Internet, WWW and Security',
           'Networks – Cybersecurity and Encryption',
           'Ethics – Digital Citizenship and Data Privacy',
           'Exam Preparation – Program Traces and Algorithm Design',
+        ],
+      },
+      {
+        name: 'Economics',
+        code: '0455',
+        topics: [
+          'The Basic Economic Problem – Scarcity and Choice',
+          'The Basic Economic Problem – Opportunity Cost and Production Possibility Curves',
+          'Microeconomics – Demand: Law and Determinants',
+          'Microeconomics – Supply: Law and Determinants',
+          'Microeconomics – Price Equilibrium and Market Mechanism',
+          'Microeconomics – Elasticity of Demand and Supply',
+          'Microeconomics – Market Failure and Externalities',
+          'Business Economics – Costs, Revenue and Profit',
+          'Business Economics – Market Structures',
+          'Macroeconomics – Economic Growth and GDP',
+          'Macroeconomics – Inflation: Causes, Effects and Control',
+          'Macroeconomics – Unemployment: Causes and Policies',
+          'Macroeconomics – Balance of Payments',
+          'International Trade – Comparative Advantage and Free Trade',
+          'International Trade – Protectionism: Tariffs, Quotas, Subsidies',
+          'International Trade – Exchange Rates',
+          'Government Policies – Fiscal Policy: Taxation and Government Spending',
+          'Government Policies – Monetary Policy: Interest Rates and Money Supply',
+          'Government Policies – Supply-Side Policies',
+          'Exam Preparation – Data Response and Essay Techniques',
+        ],
+      },
+      {
+        name: 'Business Studies',
+        code: '0450',
+        topics: [
+          'Business Activity – Purpose and Types of Business',
+          'Business Activity – Stakeholders and Business Objectives',
+          'Business Activity – Business Growth and Size',
+          'People in Business – Organisational Structure and Communication',
+          'People in Business – Motivation Theories and Methods',
+          'People in Business – Leadership Styles',
+          'People in Business – Recruitment, Selection and Training',
+          'People in Business – Employment Law and Ethics',
+          'Marketing – Market Research: Methods and Analysis',
+          'Marketing – Market Segmentation and Targeting',
+          'Marketing – Marketing Mix: Product, Price, Place, Promotion',
+          'Marketing – E-Commerce and Digital Marketing',
+          'Operations – Methods of Production',
+          'Operations – Quality Assurance and Control',
+          'Operations – Capacity Utilisation and Lean Production',
+          'Operations – Supply Chain and Location',
+          'Finance – Sources of Finance: Internal and External',
+          'Finance – Cash Flow Forecasting and Management',
+          'Finance – Income Statements and Balance Sheets',
+          'Finance – Ratio Analysis',
+          'External Influences – Economic Environment and Business Cycle',
+          'External Influences – Legal, Environmental and Ethical Issues',
+          'External Influences – Globalisation and Multinational Businesses',
+          'Exam Preparation – Case Study and Data Analysis Techniques',
         ],
       },
     ],
