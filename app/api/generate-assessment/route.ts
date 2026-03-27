@@ -436,11 +436,17 @@ function buildPrompt(opts: {
       "passage_hint": "<30-40 word description — different author/genre from other questions>"` : ''}
     }`
 
+  const gradeNum = Number(opts.grade) || 99
+  const isPrimaryLow = gradeNum >= 1 && gradeNum <= 2
+  const lfMarksRange = isPrimaryLow ? '2-3' : '2-8'
+  const lfQuestionDesc = isPrimaryLow
+    ? '<simple word problem — e.g. "Manzi has 8 mangoes. He gives 3 away. How many does he have left? Show your working.">'
+    : '<question requiring an extended written answer>'
   const lfSchemaNoPassage = `{
       "id": <number>,
       "type": "longform",
-      "question": "<question requiring an extended written answer>",
-      "marks": <integer 2-8>,
+      "question": "${lfQuestionDesc}",
+      "marks": <integer ${lfMarksRange}>,
       "marking_criteria": ["<criterion 1>", "<criterion 2>", "..."],
       "model_answer": "<80-120 word outline of a strong answer>",
       "explanation": "<what this question tests>"
@@ -451,11 +457,12 @@ function buildPrompt(opts: {
   let questionsBlock = ''
   let questionInstruction = ''
 
+  const lfInstructionMarks = isPrimaryLow ? '2–3 marks each' : '4–8 marks each'
   if (questionType === 'mcq') {
     questionInstruction = `Generate exactly ${count} multiple-choice questions.${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres.` : ''}`
     questionsBlock = `    ${mcqSchema}`
   } else if (questionType === 'longform') {
-    questionInstruction = `Generate exactly ${count} long-form questions (4–8 marks each, one criterion per mark).${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres across the set.` : ''}`
+    questionInstruction = `Generate exactly ${count} long-form questions (${lfInstructionMarks}, one criterion per mark).${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres across the set.` : ''}`
     questionsBlock = `    ${activeLfSchema}`
   } else {
     questionInstruction = `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform") in a logical mixed order.${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres.` : ''}`
@@ -465,7 +472,7 @@ function buildPrompt(opts: {
 
   const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
 
-  const g = Number(opts.grade) || 99
+  const g = gradeNum
   let gradeAgeNote = ''
   if (g >= 1 && g <= 2) {
     gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade} (Ages ${5 + g}–${6 + g}):**
@@ -473,7 +480,10 @@ function buildPrompt(opts: {
 - SENTENCE LENGTH: Maximum 8 words per sentence in question text. Keep it short and direct.
 - NUMBERS: Use numbers 1–20 for addition/subtraction. No multiplication, fractions, or decimals unless explicitly in the topic.
 - QUESTION STYLE: Simple, direct questions. "How many...?", "What colour...?", "Which is bigger...?". No complex sentence structures.
-- Do NOT include secondary-school content of any kind.`
+- Do NOT include secondary-school content of any kind.
+- MCQ ANSWER UNIQUENESS: For any question about "which group can be divided by N" or "which numbers are multiples of N", you MUST verify that ALL three wrong options each contain at least one number that is NOT divisible/a multiple of N. Do NOT put two or more all-valid groups as options.
+- DIVISION QUESTIONS: For division, ONLY ask direct computation questions (e.g. "What is 6 ÷ 2?") with single-number options. Do NOT ask "which group shows the correct way to divide X by Y" — this format is ambiguous and must not be used in Grade 1–2.
+- LONG-FORM QUESTIONS: For Grade 1–2, long-form questions must be simple word problems ONLY. Example: "Manzi has 8 mangoes. He gives 3 to his friend. How many does he have left? Show your working." MAXIMUM 3 marks per long-form question. Do NOT ask children to design games, invent methods, write stories, propose ideas, or do any creative/abstract task. No Bloom's levels above "Apply". No "Design", "Propose", "Create", "Suggest", "Explain why", or "Compare" prompts — only "How many?", "Solve this problem:", "Work out:".`
   } else if (g >= 3 && g <= 4) {
     gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade} (Ages ${5 + g}–${6 + g}):**
 - VOCABULARY: Simple, everyday words suitable for ${5 + g}–${6 + g} year olds. Avoid academic or complex vocabulary. No word should need to be looked up by a typical child this age.
@@ -647,9 +657,38 @@ function validateMcqAnswers(questions: any[]): void {
     const ci = Number(q.correct_answer)
     if (isNaN(ci) || ci < 0 || ci > 3) q.correct_answer = 0
 
-    // Skip when options are sequences (contain commas, e.g. "3, 5, 8, 12") — these are
-    // ordering questions handled by fixOrderingQuestions, not numeric extraction.
-    if (q.options.some((o: any) => String(o).includes(','))) continue
+    // For divisibility/grouping questions (options contain commas like "2, 4, 6"):
+    // Validate that ONLY ONE option has ALL numbers satisfying the divisibility property.
+    if (q.options.some((o: any) => String(o).includes(','))) {
+      const qText = (q.question || '').toLowerCase()
+      const divByMatch = qText.match(/divided?\s+by\s+(\d+)\s+without|multiple[s]?\s+of\s+(\d+)|divisible\s+by\s+(\d+)/i)
+      if (divByMatch) {
+        const divisor = Number(divByMatch[1] || divByMatch[2] || divByMatch[3])
+        if (divisor > 1) {
+          // For each option, check if ALL numbers in the group are divisible by divisor
+          const allDivisible = (opt: any) => {
+            const nums = String(opt).split(',').map((n: string) => Number(n.trim())).filter((n: number) => !isNaN(n))
+            return nums.length > 0 && nums.every((n: number) => n % divisor === 0)
+          }
+          const validIndices = q.options.map((_: any, i: number) => i).filter((i: number) => allDivisible(q.options[i]))
+          if (validIndices.length > 1) {
+            // Multiple valid options — keep the AI-marked one as correct, fix the others
+            // by replacing one number in each extra valid option with a non-divisible number
+            for (const idx of validIndices) {
+              if (idx === q.correct_answer) continue
+              const nums = String(q.options[idx]).split(',').map((n: string) => n.trim())
+              // Replace the last number with a nearby odd/non-divisible number
+              const lastNum = Number(nums[nums.length - 1])
+              const replacement = (lastNum % divisor === 0) ? lastNum + 1 : lastNum
+              nums[nums.length - 1] = String(replacement % divisor !== 0 ? replacement : replacement + 1)
+              q.options[idx] = nums.join(', ')
+              console.warn(`Divisibility fix: option[${idx}] made non-all-divisible → "${q.options[idx]}"`)
+            }
+          }
+        }
+      }
+      continue
+    }
 
     // Skip when options are arithmetic expressions (e.g. "5+5", "3+7").
     const optionsAreExpressions = q.options.some((o: any) => /[+\-×÷\/]/.test(String(o)))
@@ -724,6 +763,15 @@ function validateMcqAnswers(questions: any[]): void {
       if (aw) {
         const b = Number(aw[2] || aw[3] || aw[4])
         if (Number.isFinite(b)) computed = +aw[1] + b
+      }
+    }
+    if (computed === null) {
+      // Money/purchase word problem: "have X ... buy/cost Y ... left/change"
+      // e.g. "If you have 12 Frw and you buy a toy that costs 6 Frw, how much money will you have left?"
+      const moneyW = text.match(/have\s+(\d+)\s+(?:\w+\s*){0,12}(?:costs?\s+(?:\w+\s*){0,4}(\d+)|buy[s]?\s+(?:\w+\s*){0,6}(\d+))/i)
+      if (moneyW) {
+        const cost = Number(moneyW[2] || moneyW[3])
+        if (Number.isFinite(cost) && +moneyW[1] >= cost) computed = +moneyW[1] - cost
       }
     }
 
