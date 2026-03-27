@@ -766,6 +766,17 @@ function validateMcqAnswers(questions: any[]): void {
       }
     }
     if (computed === null) {
+      // "gives/gave/bring/brought you X more" addition: "you have X ... gives you Y more"
+      // e.g. "You have 5 apples. Your friend gives you 3 more. How many do you have now?"
+      const giveMore = text.match(/have\s+(\d+)\s+(?:\w+[\s.]*){0,15}(?:gives?\s+(?:you\s+)?|gave\s+(?:you\s+)?|brings?\s+(?:you\s+)?|brought\s+(?:you\s+)?)(\d+)\s+more/i)
+      if (giveMore) computed = +giveMore[1] + +giveMore[2]
+    }
+    if (computed === null) {
+      // "X ... receives/gets/finds Y more": "have X ... receives Y"
+      const receivesMore = text.match(/have\s+(\d+)\s+(?:\w+[\s.]*){0,15}(?:receives?\s+|gets?\s+|finds?\s+)(\d+)/i)
+      if (receivesMore) computed = +receivesMore[1] + +receivesMore[2]
+    }
+    if (computed === null) {
       // Money/purchase word problem: "have X ... buy/cost Y ... left/change"
       // e.g. "If you have 12 Frw and you buy a toy that costs 6 Frw, how much money will you have left?"
       const moneyW = text.match(/have\s+(\d+)\s+(?:\w+\s*){0,12}(?:costs?\s+(?:\w+\s*){0,4}(\d+)|buy[s]?\s+(?:\w+\s*){0,6}(\d+))/i)
@@ -783,16 +794,18 @@ function validateMcqAnswers(questions: any[]): void {
     // ── Strategy 2: Extract answer from explanation text ──────────────────────
     if (q.explanation) {
       const expl = (q.explanation as string).replace(/\$+/g, '').replace(/[−–]/g, '-')
-      // Ordered by reliability: inline arithmetic first (AI math is right even when its
-      // stated conclusion is wrong), then explicit statements, then looser matches.
+      // Ordered by reliability: arithmetic expressions first — the AI's math is right
+      // even when its stated conclusion contradicts it (e.g. "correct answer is 7 because 5+3=8").
+      // "answer is N" patterns come LAST because the AI often states them wrongly.
       const patterns = [
-        /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,            // "5 + 3 = 8" — most reliable
-        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,   // "sum of 4 and 6 is 10"
+        /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,                     // "5 + 3 = 8" — most reliable
+        /\d+\s*[+\-×*]\s*\d+\s+equals?\s+(-?\d+(?:\.\d+)?)/i,               // "5 + 3 equals 8"
+        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,             // "sum of 4 and 6 is 10"
         /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
-        /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
         /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
-        /equals?\s+(-?\d+(?:\.\d+)?)/i,
+        // "the result/sum/total/answer is N" — unreliable when AI contradicts itself; check last
+        /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
       ]
       for (const pat of patterns) {
         const m = expl.match(pat)
