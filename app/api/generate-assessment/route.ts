@@ -858,17 +858,19 @@ function validateMcqAnswers(questions: any[]): void {
 
     // ── Strategy 2: Extract answer from explanation text ──────────────────────
     if (q.explanation) {
-      // Strip LaTeX formatting that leaves artifacts like "extFrw", "extkg", "extam"
+      // Strip LaTeX and unit labels so arithmetic regex works on bare numbers
       const expl = (q.explanation as string)
         .replace(/\$+/g, '')
         .replace(/[−–]/g, '-')
         .replace(/\\text\{[^}]*\}/g, ' ')
         .replace(/\\[a-zA-Z]+/g, ' ')
         .replace(/\bext[A-Za-z]+\b/g, ' ')
+        // Strip common measurement units between numbers/operators
+        .replace(/\b(?:g|kg|mg|cm|mm|km|ml|l|L|Frw|RWF|frw|am|pm|hrs?|hours?|mins?|minutes?|secs?|seconds?|meters?|m)\b/gi, ' ')
         .replace(/\s+/g, ' ')
         .trim()
 
-      // Strategy 2a: "Option [A-D] (value) is the correct answer" — very reliable
+      // Strategy 2a: "Option [A-D] ... is the correct answer" — very reliable
       const optMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 }
       const optCorrectM = expl.match(/\bOption\s+([A-D])\b[^.]*?\bis\s+(?:the\s+)?correct\s+answer\b/i)
         || expl.match(/\bOption\s+([A-D])\s+is\s+correct\b(?!\s+because|\s+to|\s+for)/i)
@@ -881,8 +883,8 @@ function validateMcqAnswers(questions: any[]): void {
         continue
       }
 
-      // Strategy 2b: Use the LAST arithmetic equation in explanation (handles multi-step)
-      // For single-step: last = only result. For multi-step: last = final answer.
+      // Strategy 2b: Use the LAST arithmetic equation — handles multi-step problems.
+      // Units are stripped above so "3000 g + 500 g = 3500 g" → "3000 + 500 = 3500" matches.
       let lastArithVal: number | null = null
       const arithRe = /(-?\d+(?:\.\d+)?)\s*[+\-×*÷\/]\s*(-?\d+(?:\.\d+)?)\s*=\s*(-?\d+(?:\.\d+)?)/g
       let arithM: RegExpExecArray | null
