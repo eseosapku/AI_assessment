@@ -1111,7 +1111,7 @@ export async function POST(request: NextRequest) {
 
     // ── Bedrock client ────────────────────────────────────────────────────────
     const bedrockClient = new BedrockRuntimeClient({
-      region: process.env.AWS_REGION ?? 'us-east-1',
+      region: 'eu-west-1',
       credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
@@ -1149,8 +1149,7 @@ export async function POST(request: NextRequest) {
     async function callBedrock(prompt: string, maxTokens: number): Promise<string> {
       // Derive the correct regional prefix from the configured AWS region.
       // Nova and Llama models require a cross-region inference prefix (us./eu./ap.).
-      const awsRegion = process.env.AWS_REGION ?? 'us-east-1'
-      const regionPrefix = awsRegion.startsWith('eu') ? 'eu' : awsRegion.startsWith('ap') ? 'ap' : 'us'
+      const regionPrefix = 'eu'
       const bareId = aiModel.replace(/^(us|eu|ap)\./, '')
       const prefixedId = `${regionPrefix}.${bareId}`
       // Try: region-prefixed ID first, then original from request, then bare ID
