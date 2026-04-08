@@ -107,14 +107,14 @@ Use exactly the symbols shown (✅ ⚠️ 💡). Use **bold** only for the three
 
     try {
       const client = new BedrockRuntimeClient({
-        region: 'us-east-1',
+        region: 'eu-west-1',
         credentials: {
           accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
           secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
         },
       })
       const cmd = new InvokeModelCommand({
-        modelId: 'us.google.gemma-3-27b-it',
+        modelId: 'eu.google.gemma-3-27b-it',
         contentType: 'application/json',
         accept: 'application/json',
         body: JSON.stringify({

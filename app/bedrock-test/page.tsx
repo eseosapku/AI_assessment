@@ -14,7 +14,7 @@ interface ModelResult {
 }
 
 const ALL_MODELS = [
-  { id: 'us.google.gemma-3-27b-it', label: 'Gemma 3 27B' },
+  { id: 'eu.google.gemma-3-27b-it', label: 'Gemma 3 27B' },
 ]
 
 function badge(score: number | null) {

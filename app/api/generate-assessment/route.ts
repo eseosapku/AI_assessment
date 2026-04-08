@@ -1215,7 +1215,7 @@ function fixTimesTableQuestions(questions: any[]): void {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'us.google.gemma-3-27b-it', customTime } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'eu.google.gemma-3-27b-it', customTime } = body
 
     if (!subject || !topics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -1236,7 +1236,7 @@ export async function POST(request: NextRequest) {
 
     // ── Bedrock client ────────────────────────────────────────────────────────
     const bedrockClient = new BedrockRuntimeClient({
-      region: 'us-east-1',
+      region: 'eu-west-1',
       credentials: {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
@@ -1275,7 +1275,7 @@ export async function POST(request: NextRequest) {
     async function callBedrock(prompt: string, maxTokens: number): Promise<string> {
       // Derive the correct regional prefix from the configured AWS region.
       // Nova and Llama models require a cross-region inference prefix (us./eu./ap.).
-      const regionPrefix = 'us'
+      const regionPrefix = 'eu'
       const bareId = aiModel.replace(/^(us|eu|ap)\./, '')
       const prefixedId = `${regionPrefix}.${bareId}`
       // Try: region-prefixed ID first, then original from request, then bare ID
