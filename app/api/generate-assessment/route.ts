@@ -809,30 +809,106 @@ function validateMcqAnswers(questions: any[]): void {
       continue
     }
 
+    // ── Strategy 1b: Deterministic time arithmetic ────────────────────────────
+    // "leaves/starts at H:MM [am|pm] ... takes/lasts N minutes"
+    {
+      const leaveM = text.match(/(?:leaves?|starts?|begins?|departs?|at)\s+(\d+):(\d+)\s*(am|pm)?/i)
+      const durM = text.match(/(\d+)\s*(?:minute|min)\b/i)
+      if (leaveM && durM) {
+        let h = +leaveM[1], m = +leaveM[2]
+        const isPM = (leaveM[3] || '').toLowerCase() === 'pm'
+        if (isPM && h !== 12) h += 12
+        else if (!isPM && h === 12) h = 0
+        const totalMins = h * 60 + m + +durM[1]
+        const rh = Math.floor(totalMins / 60) % 24
+        const rm = totalMins % 60
+        const suffix = (rh >= 12 && rh < 24) ? 'pm' : 'am'
+        const displayH = rh > 12 ? rh - 12 : rh === 0 ? 12 : rh
+        const timeStr = `${displayH}:${String(rm).padStart(2, '0')} ${suffix}`
+        const normTime = (s: string) => s.replace(/\s/g, '').toLowerCase()
+        const matchIdx = q.options.findIndex((o: any) => normTime(String(o)).includes(normTime(timeStr)))
+        if (matchIdx !== -1 && matchIdx !== q.correct_answer) {
+          console.warn(`Time arithmetic fix: "${q.question?.slice(0,55)}" → ${timeStr} idx ${matchIdx}`)
+          q.correct_answer = matchIdx
+        }
+        continue
+      }
+    }
+
+    // ── Strategy 1c: Deterministic day-of-week arithmetic ────────────────────
+    // "Today is [DAY]. N days from now / in N days"
+    {
+      const DAYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday']
+      const todayM = text.match(/today\s+is\s+(\w+)/i) || text.match(/starting\s+(?:from\s+)?(\w+)/i)
+      const nDaysM = text.match(/(\d+)\s+days?\s+(?:from\s+now|later|after|from\s+today)/i)
+        || text.match(/in\s+(\d+)\s+days?/i)
+      if (todayM && nDaysM) {
+        const startIdx = DAYS.indexOf(todayM[1].toLowerCase())
+        if (startIdx !== -1) {
+          const result = DAYS[(startIdx + +nDaysM[1]) % 7]
+          const matchIdx = q.options.findIndex((o: any) => String(o).toLowerCase().trim() === result)
+          if (matchIdx !== -1 && matchIdx !== q.correct_answer) {
+            console.warn(`Day arithmetic fix: "${q.question?.slice(0,55)}" → ${result} idx ${matchIdx}`)
+            q.correct_answer = matchIdx
+          }
+          continue
+        }
+      }
+    }
+
     // ── Strategy 2: Extract answer from explanation text ──────────────────────
     if (q.explanation) {
-      const expl = (q.explanation as string).replace(/\$+/g, '').replace(/[−–]/g, '-')
-      // Ordered by reliability: arithmetic expressions first — the AI's math is right
-      // even when its stated conclusion contradicts it (e.g. "correct answer is 7 because 5+3=8").
-      // "answer is N" patterns come LAST because the AI often states them wrongly.
-      const patterns = [
-        /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,                     // "5 + 3 = 8" — most reliable
-        /\d+\s*[+\-×*]\s*\d+\s+equals?\s+(-?\d+(?:\.\d+)?)/i,               // "5 + 3 equals 8"
-        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,             // "sum of 4 and 6 is 10"
+      // Strip LaTeX formatting that leaves artifacts like "extFrw", "extkg", "extam"
+      const expl = (q.explanation as string)
+        .replace(/\$+/g, '')
+        .replace(/[−–]/g, '-')
+        .replace(/\\text\{[^}]*\}/g, ' ')
+        .replace(/\\[a-zA-Z]+/g, ' ')
+        .replace(/\bext[A-Za-z]+\b/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim()
+
+      // Strategy 2a: "Option [A-D] (value) is the correct answer" — very reliable
+      const optMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 }
+      const optCorrectM = expl.match(/\bOption\s+([A-D])\b[^.]*?\bis\s+(?:the\s+)?correct\s+answer\b/i)
+        || expl.match(/\bOption\s+([A-D])\s+is\s+correct\b(?!\s+because|\s+to|\s+for)/i)
+      if (optCorrectM) {
+        const targetIdx = optMap[optCorrectM[1].toUpperCase()]
+        if (targetIdx !== undefined && targetIdx !== q.correct_answer) {
+          console.warn(`Option-letter fix: Q${q.id} Option ${optCorrectM[1]} → idx ${targetIdx}`)
+          q.correct_answer = targetIdx
+        }
+        continue
+      }
+
+      // Strategy 2b: Use the LAST arithmetic equation in explanation (handles multi-step)
+      // For single-step: last = only result. For multi-step: last = final answer.
+      let lastArithVal: number | null = null
+      const arithRe = /(-?\d+(?:\.\d+)?)\s*[+\-×*÷\/]\s*(-?\d+(?:\.\d+)?)\s*=\s*(-?\d+(?:\.\d+)?)/g
+      let arithM: RegExpExecArray | null
+      while ((arithM = arithRe.exec(expl)) !== null) {
+        const val = Number(arithM[3])
+        if (Number.isFinite(val)) lastArithVal = val
+      }
+      if (lastArithVal !== null) {
+        patchAnswer(q, lastArithVal)
+        continue
+      }
+
+      // Strategy 2c: Phrase-based patterns (fallback)
+      const patterns: RegExp[] = [
+        /\d+\s*[+\-×*]\s*\d+\s+equals?\s+(-?\d+(?:\.\d+)?)/i,
+        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,
         /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
         /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
-        // "the result/sum/total/answer is N" — unreliable when AI contradicts itself; check last
         /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
       ]
       for (const pat of patterns) {
         const m = expl.match(pat)
         if (m) {
           const val = Number(m[1])
-          if (Number.isFinite(val)) {
-            patchAnswer(q, val)
-            break
-          }
+          if (Number.isFinite(val)) { patchAnswer(q, val); break }
         }
       }
     }
