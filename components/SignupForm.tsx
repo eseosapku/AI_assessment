@@ -42,8 +42,8 @@ export default function SignupForm() {
     setIsLoading(true)
     try {
       await signup(name, email, password, role === 'student' ? className : 'Teacher', role)
-    } catch {
-      setError('Failed to create account. Please try again.')
+    } catch (err: any) {
+      setError(err?.message || 'Failed to create account. Please try again.')
     } finally {
       setIsLoading(false)
     }

@@ -63,7 +63,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, email, password, className, role })
     })
-    if (!response.ok) throw new Error('Signup failed')
+    if (!response.ok) {
+      const body = await response.json().catch(() => ({}))
+      throw new Error(body?.error || 'Signup failed')
+    }
     const userData = await response.json()
     setUser(userData.user)
     localStorage.setItem('user', JSON.stringify(userData.user))

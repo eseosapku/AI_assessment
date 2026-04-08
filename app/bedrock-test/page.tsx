@@ -14,7 +14,7 @@ interface ModelResult {
 }
 
 const ALL_MODELS = [
-  { id: 'amazon.nova-lite-v1:0', label: 'Nova Lite' },
+  { id: 'eu.google.gemma-3-4b-it-v1:0', label: 'Gemma 3 4B' },
 ]
 
 function badge(score: number | null) {
