@@ -114,18 +114,16 @@ Use exactly the symbols shown (✅ ⚠️ 💡). Use **bold** only for the three
         },
       })
       const cmd = new InvokeModelCommand({
-        modelId: 'eu.google.gemma-3-4b-it-v1:0',
+        modelId: 'us.amazon.nova-lite-v1:0',
         contentType: 'application/json',
         accept: 'application/json',
         body: JSON.stringify({
-          messages: [{ role: 'user', content: prompt }],
-          max_tokens: 900,
-          temperature: 0.65,
+          messages: [{ role: 'user', content: [{ text: prompt }] }],
+          inferenceConfig: { maxTokens: 900, temperature: 0.65 },
         }),
       })
       const res = await client.send(cmd)
-      const parsed = JSON.parse(new TextDecoder().decode(res.body))
-      const feedback = (parsed?.choices?.[0]?.message?.content ?? parsed?.choices?.[0]?.text ?? '').trim()
+      const feedback = (JSON.parse(new TextDecoder().decode(res.body))?.output?.message?.content?.[0]?.text ?? '').trim()
       return NextResponse.json({ feedback: feedback || fallback })
     } catch (aiError: any) {
       console.error('Bedrock feedback error:', aiError)

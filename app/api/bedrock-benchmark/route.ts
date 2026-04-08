@@ -5,7 +5,7 @@ import {
 } from '@aws-sdk/client-bedrock-runtime'
 
 const MODELS = [
-  { id: 'eu.google.gemma-3-4b-it-v1:0', label: 'Gemma 3 4B' },
+  { id: 'us.amazon.nova-lite-v1:0', label: 'Nova Lite' },
 ]
 
 // Strip the optional "us." / "eu." / "ap." cross-region prefix for family detection
