@@ -80,7 +80,7 @@ const QUESTION_TYPES = [
   { id: 'mixed',    label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions',                 icon: '⚡' },
 ]
 
-const AI_MODEL = { id: 'eu.google.gemma-3-27b-it-v1:0', label: 'Gemma 3 27B', badge: 'AWS' }
+const AI_MODEL = { id: 'eu.google.gemma-3-27b-it', label: 'Gemma 3 27B', badge: 'AWS' }
 
 // Shared pill button: highlighted when selected, clean when not
 function OptionButton({

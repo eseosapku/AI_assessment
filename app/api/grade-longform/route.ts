@@ -132,7 +132,7 @@ Indices to grade: ${indexList}`
         },
       })
       const cmd = new InvokeModelCommand({
-        modelId: 'eu.google.gemma-3-27b-it-v1:0',
+        modelId: 'eu.google.gemma-3-27b-it',
         contentType: 'application/json',
         accept: 'application/json',
         body: JSON.stringify({
