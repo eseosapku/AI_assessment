@@ -728,6 +728,19 @@ function validateMcqAnswers(questions: any[]): void {
       if (m) computed = +m[1] * +m[2]
     }
     if (computed === null) {
+      // Word-form multiplication: "A multiplied by B", "A times B", "multiply A by B"
+      const wMul = text.match(/(\d+)\s+(?:multiplied\s+by|times)\s+(\d+)/i)
+        || text.match(/multiply\s+(\d+)\s+(?:by|and)\s+(\d+)/i)
+        || text.match(/(?:what\s+is|calculate|find|solve)[:\s]*(\d+)\s+(?:multiplied\s+by|times)\s+(\d+)/i)
+      if (wMul) computed = +wMul[1] * +wMul[2]
+    }
+    if (computed === null) {
+      // Word-form division: "A divided by B", "divide A by B"
+      const wDiv = text.match(/(\d+)\s+divided\s+by\s+(\d+)/i)
+        || text.match(/divide\s+(\d+)\s+(?:by|into)\s+(\d+)/i)
+      if (wDiv && +wDiv[2] !== 0) computed = +wDiv[1] / +wDiv[2]
+    }
+    if (computed === null) {
       // "X + ? = Z" or "? + X = Z"
       const ma = text.match(/(\d+)\s*\+\s*\?\s*=\s*(\d+)/) || text.match(/\?\s*\+\s*(\d+)\s*=\s*(\d+)/)
       if (ma) computed = +ma[2] - +ma[1]
@@ -849,6 +862,10 @@ function validateMcqAnswers(questions: any[]): void {
     }
 
     if (computed !== null && Number.isFinite(computed)) {
+      // Round to avoid floating-point issues (e.g. 348/4=86.999... instead of 87)
+      if (Number.isInteger(computed) || Math.abs(computed - Math.round(computed)) < 0.001) {
+        computed = Math.round(computed)
+      }
       patchAnswer(q, computed)
       continue
     }
@@ -907,11 +924,12 @@ function validateMcqAnswers(questions: any[]): void {
       const expl = (q.explanation as string)
         .replace(/\$+/g, '')
         .replace(/[−–]/g, '-')
-        // Fix LaTeX operator artifacts BEFORE stripping: "235imes3" → "235*3", "84div4" → "84/4"
-        .replace(/(\d)\s*imes\s*(\d)/g, '$1*$2')
-        .replace(/(\d)\s*\\times\s*(\d)/g, '$1*$2')
-        .replace(/(\d)\s*div\s*(\d)/g, '$1/$2')
-        .replace(/(\d)\s*\\div\s*(\d)/g, '$1/$2')
+        // Fix ALL LaTeX operator artifacts: "235imes3" → "235*3", "84div4" → "84/4"
+        // Handle: imes, \times, \\times, "multiplied by", "times" (word), "divided by"
+        .replace(/(\d)\s*(?:\\\\?times|imes)\s*(\d)/g, '$1*$2')
+        .replace(/(\d)\s*(?:multiplied\s+by|times)\s+(\d)/gi, '$1*$2')
+        .replace(/(\d)\s*(?:\\\\?div|div)\s*(\d)/g, '$1/$2')
+        .replace(/(\d)\s*(?:divided\s+by)\s+(\d)/gi, '$1/$2')
         // Remove \text{...} and \frac etc
         .replace(/\\text\{[^}]*\}/g, ' ')
         .replace(/\\frac\{(\d+)\}\{(\d+)\}/g, '$1/$2')
