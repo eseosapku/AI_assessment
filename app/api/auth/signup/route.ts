@@ -16,6 +16,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Password must be at least 6 characters' }, { status: 400 })
     }
 
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder')) {
+      return NextResponse.json({ error: 'Database not configured — add Supabase env vars to Vercel' }, { status: 500 })
+    }
+
     const { data: existingUser } = await supabase
       .from('users')
       .select('email')
