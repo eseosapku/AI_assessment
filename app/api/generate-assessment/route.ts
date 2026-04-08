@@ -549,7 +549,7 @@ ${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
 - BEFORE writing each MCQ, mentally verify: "Is options[correct_answer] the one and only correct answer?" If not, rewrite.
 - NEVER write a question where two or more options could both be correct. For example, if asking "which number bond to 10 is correct?", do NOT put multiple valid bonds (1+9, 2+8, 3+7, 5+5) as all four options — only ONE should be a correct bond and the other three must be WRONG (e.g. bonds that do NOT add to 10 like 3+8, 2+9, 4+5).
 - NEVER write a question where none of the options is correct.
-- NEVER generate the same question text twice. Every question in the assessment must test a DIFFERENT concept, fact, or calculation. Vary the numbers, operations, and contexts.
+- NEVER generate the same question text twice. Every question in the assessment must test a DIFFERENT concept, fact, or calculation. Vary the numbers, operations, and contexts. Use RANDOM numbers each time — do NOT reuse common examples like "84 stickers", "144 cookies", "348 stickers", "235 x 3". Invent fresh numbers and scenarios every time.
 - Do NOT generate more than ONE ordering/sorting question per assessment. Use other question types for variety.
 - Do NOT generate more than ONE number-bond question per assessment (e.g. "which bond adds up to 10"). These are repetitive — one is enough.
 - Do NOT generate more than TWO "which number is larger/smaller" comparison questions. Vary the question types.
@@ -733,6 +733,49 @@ function validateMcqAnswers(questions: any[]): void {
       if (ma) computed = +ma[2] - +ma[1]
     }
     if (computed === null) {
+      // "Calculate: A x B" or "A × B" or "A * B" (no ? needed)
+      const calcMul = text.match(/(?:calculate|solve|find|what\s+is)[:\s]*(\d+)\s*[×x*]\s*(\d+)/i)
+        || text.match(/(\d+)\s*[×x*]\s*(\d+)\s*=\s*\?/i)
+      if (calcMul) computed = +calcMul[1] * +calcMul[2]
+    }
+    if (computed === null) {
+      // "Calculate: A ÷ B" or "A / B"
+      const calcDiv = text.match(/(?:calculate|solve|find|what\s+is)[:\s]*(\d+)\s*[÷\/]\s*(\d+)/i)
+        || text.match(/(\d+)\s*[÷\/]\s*(\d+)\s*=\s*\?/i)
+      if (calcDiv && +calcDiv[2] !== 0) computed = +calcDiv[1] / +calcDiv[2]
+    }
+    if (computed === null) {
+      // "A x ? = C" or "? x A = C" — missing multiplier
+      const missMul = text.match(/(\d+)\s*[×x*]\s*\?\s*=\s*(\d+)/) || text.match(/\?\s*[×x*]\s*(\d+)\s*=\s*(\d+)/)
+      if (missMul && +missMul[1] !== 0) computed = +missMul[2] / +missMul[1]
+    }
+    if (computed === null) {
+      // "A ÷ ? = C" — missing divisor
+      const missDiv = text.match(/(\d+)\s*[÷\/]\s*\?\s*=\s*(\d+)/)
+      if (missDiv && +missDiv[2] !== 0) computed = +missDiv[1] / +missDiv[2]
+    }
+    if (computed === null) {
+      // Fraction of number: "A/B of N", "1/4 of 348"
+      const fracOf = text.match(/(\d+)\s*[\/]\s*(\d+)\s+of\s+(\d+)/i)
+      if (fracOf && +fracOf[2] !== 0) computed = (+fracOf[1] / +fracOf[2]) * +fracOf[3]
+    }
+    if (computed === null) {
+      // Multiplication word: "each bag has A ... B bags" or "A items ... B groups"
+      const eachM = text.match(/(?:each|every)\s+\w+\s+(?:has|contains?|holds?)\s+(\d+).*?(?:how\s+many|total).*?(\d+)/i)
+        || text.match(/(\d+)\s+\w+\s+(?:in\s+each|per).*?(\d+)\s+(?:\w+\s+){0,3}(?:total|altogether)/i)
+      if (eachM) computed = +eachM[1] * +eachM[2]
+    }
+    if (computed === null) {
+      // Division word: "A items ... share equally between/among B" or "puts B in each"
+      const shareM = text.match(/(?:has|have|had|makes?)\s+(\d+).*?(?:share[s]?\s+(?:equally\s+)?(?:between|among)|divide[s]?\s+(?:equally\s+)?(?:between|among|into))\s+(\d+)/i)
+      if (shareM && +shareM[2] !== 0) computed = +shareM[1] / +shareM[2]
+    }
+    if (computed === null) {
+      // Division word: "A items ... B in each box/group"
+      const perBox = text.match(/(?:has|have|had|makes?)\s+(\d+).*?(\d+)\s+(?:\w+\s+)?(?:in\s+each|per\s+each|per)\s+\w+.*?(?:how\s+many)/i)
+      if (perBox && +perBox[2] !== 0) computed = Math.floor(+perBox[1] / +perBox[2])
+    }
+    if (computed === null) {
       // "same sum: A + B and C + ?" → answer = (A+B) - C
       const sameSum = text.match(/(\d+)\s*\+\s*(\d+)\s+and\s+(\d+)\s*\+\s*\?/i)
       if (sameSum) computed = (+sameSum[1] + +sameSum[2]) - +sameSum[3]
@@ -859,26 +902,34 @@ function validateMcqAnswers(questions: any[]): void {
 
     // ── Strategy 2: Extract answer from explanation text ──────────────────────
     if (q.explanation) {
-      // Strip LaTeX and unit labels so arithmetic regex works on bare numbers.
-      // Key: handle digit-glued artifacts like "300extcm" where \b doesn't work.
+      // Normalize explanation: fix ALL LaTeX artifacts so arithmetic regex works.
+      // Key problems: \times→"imes", \div→"div", \text{kg}→"extkg", "300extcm"→"300"
       const expl = (q.explanation as string)
         .replace(/\$+/g, '')
         .replace(/[−–]/g, '-')
+        // Fix LaTeX operator artifacts BEFORE stripping: "235imes3" → "235*3", "84div4" → "84/4"
+        .replace(/(\d)\s*imes\s*(\d)/g, '$1*$2')
+        .replace(/(\d)\s*\\times\s*(\d)/g, '$1*$2')
+        .replace(/(\d)\s*div\s*(\d)/g, '$1/$2')
+        .replace(/(\d)\s*\\div\s*(\d)/g, '$1/$2')
+        // Remove \text{...} and \frac etc
         .replace(/\\text\{[^}]*\}/g, ' ')
+        .replace(/\\frac\{(\d+)\}\{(\d+)\}/g, '$1/$2')
         .replace(/\\[a-zA-Z]+/g, ' ')
-        // Remove ext+unit artifacts glued to digits: "300extcm" → "300", "3extm" → "3"
-        .replace(/(\d)ext[A-Za-z\/]+/g, '$1 ')
-        .replace(/ext[A-Za-z\/]+(\d)/g, ' $1')
+        // Remove ext+unit artifacts glued to digits: "300extcm" → "300"
+        .replace(/(\d)\s*ext[A-Za-z\/]+/g, '$1 ')
+        .replace(/ext[A-Za-z\/]+\s*(\d)/g, ' $1')
         .replace(/\bext[A-Za-z\/]+\b/g, ' ')
         // Strip standalone measurement units
         .replace(/\b(?:g|kg|mg|cm|mm|km|ml|l|L|Frw|RWF|frw|am|pm|hrs?|hours?|mins?|minutes?|secs?|seconds?|meters?|m)\b/gi, ' ')
         .replace(/\s+/g, ' ')
         .trim()
 
-      // Strategy 2a: "Option [A-D] ... is the correct answer" — very reliable
+      // Strategy 2a: "Option [A-D] ... is the correct answer" or "Option [A-D] (value) is correct"
       const optMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 }
       const optCorrectM = expl.match(/\bOption\s+([A-D])\b[^.]*?\bis\s+(?:the\s+)?correct\s+answer\b/i)
-        || expl.match(/\bOption\s+([A-D])\s+is\s+correct\b(?!\s+because|\s+to|\s+for)/i)
+        || expl.match(/\bOption\s+([A-D])\s+is\s+correct\b/i)
+        || expl.match(/\bOption\s+([A-D])\s*\([^)]*\)\s*is\s+(?:the\s+)?correct\b/i)
       if (optCorrectM) {
         const targetIdx = optMap[optCorrectM[1].toUpperCase()]
         if (targetIdx !== undefined && targetIdx !== q.correct_answer) {
@@ -889,7 +940,7 @@ function validateMcqAnswers(questions: any[]): void {
       }
 
       // Strategy 2b: Use the LAST arithmetic equation — handles multi-step problems.
-      // Units are stripped above so "3000 g + 500 g = 3500 g" → "3000 + 500 = 3500" matches.
+      // After normalization: "235*3=705", "84/4=21", "3000+500=3500" all match.
       let lastArithVal: number | null = null
       const arithRe = /(-?\d+(?:\.\d+)?)\s*[+\-×*÷\/]\s*(-?\d+(?:\.\d+)?)\s*=\s*(-?\d+(?:\.\d+)?)/g
       let arithM: RegExpExecArray | null
@@ -904,7 +955,7 @@ function validateMcqAnswers(questions: any[]): void {
 
       // Strategy 2c: Phrase-based patterns (fallback)
       const patterns: RegExp[] = [
-        /\d+\s*[+\-×*]\s*\d+\s+equals?\s+(-?\d+(?:\.\d+)?)/i,
+        /\d+\s*[+\-×*÷\/]\s*\d+\s+equals?\s+(-?\d+(?:\.\d+)?)/i,
         /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,
         /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
@@ -917,6 +968,16 @@ function validateMcqAnswers(questions: any[]): void {
           const val = Number(m[1])
           if (Number.isFinite(val)) { patchAnswer(q, val); break }
         }
+      }
+
+      // Strategy 2d: Option-value matching — the explanation often says
+      // "Option B (33) is correct" or "Option C (16) is the correct answer"
+      // where the VALUE in parentheses tells us the right answer regardless of letter.
+      const optValM = expl.match(/\bOption\s+[A-D]\s*\(([^)]+)\)\s*is\s+(?:the\s+)?correct/i)
+      if (optValM) {
+        const valStr = optValM[1].replace(/[^0-9.\-]/g, '')
+        const val = Number(valStr)
+        if (Number.isFinite(val)) patchAnswer(q, val)
       }
     }
   }
