@@ -1090,7 +1090,7 @@ function fixTimesTableQuestions(questions: any[]): void {
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'us.amazon.nova-lite-v1:0', customTime } = body
+    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'eu.google.gemma-3-4b-it-v1:0', customTime } = body
 
     if (!subject || !topics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
