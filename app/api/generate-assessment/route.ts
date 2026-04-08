@@ -962,6 +962,48 @@ function fixExpressionMcqs(questions: any[]): void {
       }
       continue
     }
+
+    // ── Catch-all: any expression-option question with a target number in the text ──
+    // Handles phrasings like "makes 10", "bond of 10", "equal to 10", "sum of 10", etc.
+    // where options are expressions and exactly one should sum to the target.
+    const catchAllMatch = qText.match(/\b(?:makes?|bond\s+of|equal[s]?\s+to|sum\s+of|total\s+of|gives?|result[s]?\s+in)\s+(\d+)\b/i)
+      || qText.match(/\bto\s+(\d+)\b/i) // "bond to 10", "adds to 10"
+    if (catchAllMatch && optionSums.some(s => s !== null)) {
+      const target = Number(catchAllMatch[1])
+      if (target > 0) {
+        const isNegativeQ = /\b(?:not|incorrect|wrong|false|does\s+not)\b/i.test(qText)
+        if (!isNegativeQ) {
+          // Positive question — exactly one option must equal target
+          let validIdx = optionSums.findIndex(s => s === target)
+          if (validIdx === -1) {
+            // No option equals target — replace AI-marked slot with a valid bond
+            const a = Math.max(1, Math.floor(target / 2))
+            q.options[q.correct_answer] = `${a} + ${target - a}`
+            optionSums[q.correct_answer] = target
+            validIdx = q.correct_answer
+            console.warn(`Bond catch-all fix: no option summed to ${target}, replaced option[${q.correct_answer}]`)
+          } else {
+            if (validIdx !== q.correct_answer) {
+              console.warn(`Bond catch-all idx fix: "${q.question?.slice(0,55)}" idx ${q.correct_answer} → ${validIdx}`)
+              q.correct_answer = validIdx
+            }
+          }
+          // Ensure no OTHER option also equals target
+          let seed = 0
+          for (let i = 0; i < 4; i++) {
+            if (i !== q.correct_answer && optionSums[i] === target) {
+              const offset = [1, -1, 2, -2][seed % 4]
+              const wrongSum = Math.max(2, target + offset)
+              const a = Math.max(1, Math.floor(wrongSum / 2))
+              q.options[i] = `${a} + ${Math.max(1, wrongSum - a)}`
+              seed++
+              console.warn(`Bond catch-all: replaced duplicate valid option[${i}]`)
+            }
+          }
+        }
+      }
+      continue
+    }
   }
 }
 
