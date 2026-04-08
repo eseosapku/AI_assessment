@@ -1354,6 +1354,53 @@ export async function POST(request: NextRequest) {
     // Final re-number after trim
     allQuestions.forEach((q: any, i: number) => { q.id = i + 1 })
 
+    // ── Stage 2: AI verification pass ────────────────────────────────────────
+    // Send all MCQs back to the model. Ask it to independently solve each question
+    // and return the correct answer index. Fix any mismatches before saving.
+    const mcqsToVerify = allQuestions.filter((q: any) => q.type !== 'longform' && Array.isArray(q.options) && q.options.length === 4)
+    if (mcqsToVerify.length > 0) {
+      try {
+        const verifyPayload = mcqsToVerify.map((q: any) => ({
+          id: q.id,
+          question: q.question,
+          options: q.options,
+        }))
+        const verifyPrompt = `You are a strict answer-verification engine. For each question below, independently solve it and return the 0-based index (0, 1, 2, or 3) of the ONLY correct option.
+
+Questions:
+${JSON.stringify(verifyPayload, null, 2)}
+
+Rules:
+- Do all arithmetic yourself step by step before deciding.
+- For time calculations: convert to 24-hour, subtract carefully.
+- For calendar: count days one by one.
+- Return ONLY valid JSON, no markdown, no explanation.
+
+Return exactly:
+{"verified":[{"id":<question_id>,"correct_answer":<0-3>}]}`
+
+        const verifyText = await callBedrock(verifyPrompt, 1200)
+        const verifyParsed = parseJsonRobust(verifyText)
+        if (Array.isArray(verifyParsed?.verified)) {
+          let fixCount = 0
+          for (const v of verifyParsed.verified) {
+            const idx = Number(v.correct_answer)
+            if (isNaN(idx) || idx < 0 || idx > 3) continue
+            const q = allQuestions.find((q: any) => q.id === v.id)
+            if (!q) continue
+            if (q.correct_answer !== idx) {
+              console.warn(`Verification fix Q${v.id}: "${q.question?.slice(0, 60)}" — was ${q.correct_answer}(${q.options[q.correct_answer]}), corrected to ${idx}(${q.options[idx]})`)
+              q.correct_answer = idx
+              fixCount++
+            }
+          }
+          if (fixCount > 0) console.log(`Verification pass fixed ${fixCount} question(s)`)
+        }
+      } catch (verifyErr: any) {
+        console.warn('Verification pass failed (non-fatal):', verifyErr?.message)
+      }
+    }
+
     // Use custom time if provided, otherwise calculate from prompt helper
     if (customTime && customTime > 0) {
       estimatedTime = Number(customTime)
