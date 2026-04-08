@@ -132,16 +132,18 @@ Indices to grade: ${indexList}`
         },
       })
       const cmd = new InvokeModelCommand({
-        modelId: 'us.amazon.nova-lite-v1:0',
+        modelId: 'eu.google.gemma-3-27b-it-v1:0',
         contentType: 'application/json',
         accept: 'application/json',
         body: JSON.stringify({
-          messages: [{ role: 'user', content: [{ text: prompt }] }],
-          inferenceConfig: { maxTokens: 2048, temperature: 0.2 },
+          messages: [{ role: 'user', content: prompt }],
+          max_tokens: 2048,
+          temperature: 0.2,
         }),
       })
       const res = await client.send(cmd)
-      let text = (JSON.parse(new TextDecoder().decode(res.body))?.output?.message?.content?.[0]?.text ?? '').trim()
+      const parsedBody = JSON.parse(new TextDecoder().decode(res.body))
+      let text = (parsedBody?.choices?.[0]?.message?.content ?? parsedBody?.choices?.[0]?.text ?? '').trim()
       text = text.replace(/^```json\s*/i, '').replace(/```\s*$/i, '').trim()
       const parsed = JSON.parse(text)
       const aiGrades: Record<string, any> = parsed.grades ?? {}
