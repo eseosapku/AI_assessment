@@ -519,7 +519,8 @@ function buildPrompt(opts: {
     gradeAgeNote = ''  // Secondary — no restrictions needed
   }
 
-  const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment.
+  const sessionSeed = Math.floor(Math.random() * 1000000)
+  const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment. [Session: ${sessionSeed}]
 
 ${curriculumBlock}
 
@@ -858,14 +859,18 @@ function validateMcqAnswers(questions: any[]): void {
 
     // ── Strategy 2: Extract answer from explanation text ──────────────────────
     if (q.explanation) {
-      // Strip LaTeX and unit labels so arithmetic regex works on bare numbers
+      // Strip LaTeX and unit labels so arithmetic regex works on bare numbers.
+      // Key: handle digit-glued artifacts like "300extcm" where \b doesn't work.
       const expl = (q.explanation as string)
         .replace(/\$+/g, '')
         .replace(/[−–]/g, '-')
         .replace(/\\text\{[^}]*\}/g, ' ')
         .replace(/\\[a-zA-Z]+/g, ' ')
-        .replace(/\bext[A-Za-z]+\b/g, ' ')
-        // Strip common measurement units between numbers/operators
+        // Remove ext+unit artifacts glued to digits: "300extcm" → "300", "3extm" → "3"
+        .replace(/(\d)ext[A-Za-z\/]+/g, '$1 ')
+        .replace(/ext[A-Za-z\/]+(\d)/g, ' $1')
+        .replace(/\bext[A-Za-z\/]+\b/g, ' ')
+        // Strip standalone measurement units
         .replace(/\b(?:g|kg|mg|cm|mm|km|ml|l|L|Frw|RWF|frw|am|pm|hrs?|hours?|mins?|minutes?|secs?|seconds?|meters?|m)\b/gi, ' ')
         .replace(/\s+/g, ' ')
         .trim()
@@ -1256,7 +1261,8 @@ export async function POST(request: NextRequest) {
         })
       }
       // mistral, google, nvidia, openai on Bedrock
-      return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.2 })
+      // Use higher temperature for generation (variety) — grading routes use their own clients
+      return JSON.stringify({ messages: [{ role: 'user', content: prompt }], max_tokens: maxTokens, temperature: 0.7 })
     }
 
     function extractBedrockText(modelId: string, body: any): string {
