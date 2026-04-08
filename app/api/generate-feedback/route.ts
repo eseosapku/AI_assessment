@@ -114,7 +114,7 @@ Use exactly the symbols shown (✅ ⚠️ 💡). Use **bold** only for the three
         },
       })
       const cmd = new InvokeModelCommand({
-        modelId: 'us.google.gemma-3-4b-it',
+        modelId: 'us.google.gemma-3-27b-it',
         contentType: 'application/json',
         accept: 'application/json',
         body: JSON.stringify({
