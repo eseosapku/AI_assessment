@@ -352,23 +352,21 @@ function LongFormResultCard({
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: idx * 0.05 }}
-      className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${
-        !isGraded
+      className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${!isGraded
           ? 'border-l-gray-400'
           : overallPass
-          ? 'border-l-green-500'
-          : 'border-l-red-500'
-      }`}
+            ? 'border-l-green-500'
+            : 'border-l-red-500'
+        }`}
     >
       {/* Question header */}
       <div className="flex items-start gap-4 mb-4">
-        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm font-bold ${
-          !isGraded
+        <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm font-bold ${!isGraded
             ? 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
             : overallPass
-            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-            : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
-        }`}>
+              ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+              : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+          }`}>
           {isGraded ? `${grade.marks_awarded}/${grade.marks_total}` : '?'}
         </div>
         <div className="flex-1">
@@ -417,11 +415,10 @@ function LongFormResultCard({
             key={activeCriterion}
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
-            className={`mt-2 p-3 rounded-xl text-sm border ${
-              activeCrit.met
+            className={`mt-2 p-3 rounded-xl text-sm border ${activeCrit.met
                 ? 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800/50 dark:text-green-200'
                 : 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800/50 dark:text-red-200'
-            }`}
+              }`}
           >
             <span className="font-semibold">{activeCrit.met ? '✓ Criterion met:' : '✗ Criterion missed:'}</span>{' '}
             {activeCrit.note}
@@ -445,19 +442,17 @@ function LongFormResultCard({
                 onClick={() => setActiveCriterion(activeCriterion === crIdx ? null : crIdx)}
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
-                className={`w-full text-left flex items-start gap-2 p-2.5 rounded-xl border transition-all cursor-pointer ${
-                  activeCriterion === crIdx
+                className={`w-full text-left flex items-start gap-2 p-2.5 rounded-xl border transition-all cursor-pointer ${activeCriterion === crIdx
                     ? cr.met
                       ? 'border-green-400 bg-green-50 dark:bg-green-900/20 dark:border-green-700'
                       : 'border-red-400 bg-red-50 dark:bg-red-900/20 dark:border-red-700'
                     : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800/40'
-                }`}
+                  }`}
               >
-                <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 ${
-                  cr.met
+                <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 ${cr.met
                     ? 'bg-green-500 text-white'
                     : 'bg-red-500 text-white'
-                }`}>
+                  }`}>
                   {cr.met ? '✓' : '✗'}
                 </span>
                 <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{cr.criterion}</span>
@@ -690,10 +685,10 @@ export default function AssessmentPage() {
           </div>` : ''
 
         return `
-          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:20px;border-left:4px solid ${grade && grade.marks_awarded >= Math.ceil(grade.marks_total/2) ? '#22c55e' : '#ef4444'};">
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:24px;margin-bottom:20px;border-left:4px solid ${grade && grade.marks_awarded >= Math.ceil(grade.marks_total / 2) ? '#22c55e' : '#ef4444'};">
             <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px;">
               <span style="background:#f3e8ff;color:#7c3aed;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">Q${idx + 1} · Long-form · ${lf.marks} marks</span>
-              <span style="font-weight:700;font-size:15px;color:${grade && grade.marks_awarded >= Math.ceil(grade.marks_total/2) ? '#15803d' : '#b91c1c'};">${marksLabel} marks awarded</span>
+              <span style="font-weight:700;font-size:15px;color:${grade && grade.marks_awarded >= Math.ceil(grade.marks_total / 2) ? '#15803d' : '#b91c1c'};">${marksLabel} marks awarded</span>
             </div>
             ${passageHtml}
             <p style="font-size:16px;font-weight:600;color:#111827;margin-bottom:14px;">${lf.question}</p>
@@ -855,6 +850,9 @@ export default function AssessmentPage() {
             questions,
             answers: longFormAnswers,
             subject: assessment?.subject,
+            workingsProvided: Object.fromEntries(
+              Object.entries(mathWorkings).map(([k, v]) => [Number(k), Boolean(v)])
+            ),
           }),
         })
         const data = await res.json()
@@ -877,10 +875,10 @@ export default function AssessmentPage() {
     const finalScore = totalPossible > 0 ? Math.round((totalEarned / totalPossible) * 100) : 0
     const grade =
       finalScore >= 90 ? 'A+' :
-      finalScore >= 80 ? 'A' :
-      finalScore >= 70 ? 'B+' :
-      finalScore >= 60 ? 'B' :
-      finalScore >= 50 ? 'C' : 'D'
+        finalScore >= 80 ? 'A' :
+          finalScore >= 70 ? 'B+' :
+            finalScore >= 60 ? 'B' :
+              finalScore >= 50 ? 'C' : 'D'
 
     const finalResult = { ...preliminaryResult, longFormMarksEarned: longFormEarned, score: finalScore, grade }
     setResults(finalResult)
@@ -1056,7 +1054,7 @@ export default function AssessmentPage() {
                 className="flex items-center gap-2 px-6 py-3 rounded-2xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold text-sm hover:opacity-80 transition-opacity shadow-md"
               >
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/>
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
                 Download Report
               </button>
@@ -1089,16 +1087,14 @@ export default function AssessmentPage() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${
-                    isCorrect ? 'border-l-green-500' : 'border-l-red-500'
-                  }`}
+                  className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${isCorrect ? 'border-l-green-500' : 'border-l-red-500'
+                    }`}
                 >
                   <div className="flex items-start gap-4 mb-4">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${
-                      isCorrect
+                    <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${isCorrect
                         ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
                         : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
-                    }`}>
+                      }`}>
                       {isCorrect ? <Check className="w-5 h-5" /> : <span className="font-bold text-lg">×</span>}
                     </div>
                     <div className="flex-1">
@@ -1179,9 +1175,8 @@ export default function AssessmentPage() {
             </div>
 
             <motion.div
-              className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 ${
-                timeRemaining < 120 ? 'text-orange-500' : 'text-apple-blue'
-              }`}
+              className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 ${timeRemaining < 120 ? 'text-orange-500' : 'text-apple-blue'
+                }`}
               animate={timeRemaining < 120 ? { scale: [1, 1.05, 1] } : {}}
               transition={{ repeat: Infinity, duration: 1 }}
             >
@@ -1249,16 +1244,14 @@ export default function AssessmentPage() {
                       onClick={() => handleAnswerSelect(index)}
                       whileHover={{ scale: 1.01 }}
                       whileTap={{ scale: 0.99 }}
-                      className={`mcq-option w-full text-left ${
-                        selectedAnswers[currentQuestion] === index ? 'selected' : ''
-                      }`}
+                      className={`mcq-option w-full text-left ${selectedAnswers[currentQuestion] === index ? 'selected' : ''
+                        }`}
                     >
                       <div className="flex items-center gap-3 sm:gap-4">
-                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${
-                          selectedAnswers[currentQuestion] === index
+                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${selectedAnswers[currentQuestion] === index
                             ? 'border-apple-blue bg-apple-blue'
                             : 'border-gray-300 dark:border-gray-600'
-                        }`}>
+                          }`}>
                           {selectedAnswers[currentQuestion] === index && (
                             <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
                           )}
@@ -1355,15 +1348,14 @@ export default function AssessmentPage() {
                   key={idx}
                   onClick={() => setCurrentQuestion(idx)}
                   title={isLF ? `Q${idx + 1} — Long-form (${(q as LongFormQuestion).marks} marks)` : `Q${idx + 1} — MCQ`}
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-all ${
-                    idx === currentQuestion
+                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-all ${idx === currentQuestion
                       ? 'bg-apple-blue text-white'
                       : answered
-                      ? isLF
-                        ? 'bg-purple-500 text-white'
-                        : 'bg-green-500 text-white'
-                      : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                  }`}
+                        ? isLF
+                          ? 'bg-purple-500 text-white'
+                          : 'bg-green-500 text-white'
+                        : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                    }`}
                 >
                   {idx + 1}
                 </button>

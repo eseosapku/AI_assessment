@@ -1,6 +1,139 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 
+const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
+const DEFAULT_FEEDBACK_MODEL =
+  process.env.AWS_FEEDBACK_MODEL_ID ||
+  process.env.AWS_BEDROCK_MODEL_ID ||
+  process.env.AWS_MODEL_ID ||
+  'google.gemma-3-27b-it'
+
+const PREFIXES = ['eu', 'us', 'ap'] as const
+
+function stripPrefix(modelId: string): string {
+  return modelId.replace(/^(us|eu|ap)\./, '')
+}
+
+function modelFamily(modelId: string): string {
+  return stripPrefix(modelId)
+}
+
+function buildModelCandidates(seedIds: string[]): string[] {
+  const expanded: string[] = []
+
+  const appendWithPrefixes = (id: string) => {
+    const clean = (id || '').trim()
+    if (!clean) return
+
+    const bare = stripPrefix(clean)
+    expanded.push(clean)
+    expanded.push(bare)
+    PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
+  }
+
+  seedIds.forEach(appendWithPrefixes)
+  appendWithPrefixes('google.gemma-3-27b-it')
+  appendWithPrefixes('google.gemma-3-27b-it-v1:0')
+
+  return [...new Set(expanded.filter(Boolean))]
+}
+
+function isModelIdError(err: any): boolean {
+  const text = `${err?.name || ''} ${err?.message || ''}`.toLowerCase()
+  return (
+    text.includes('provided model identifier is invalid') ||
+    text.includes('invalid model') ||
+    text.includes('validationexception') ||
+    text.includes('on-demand throughput')
+  )
+}
+
+function buildInvokeBody(modelId: string, prompt: string, maxTokens: number, temperature: number): string {
+  const family = modelFamily(modelId)
+
+  if (family.startsWith('amazon.nova')) {
+    return JSON.stringify({
+      messages: [{ role: 'user', content: [{ text: prompt }] }],
+      inferenceConfig: { maxTokens, temperature },
+    })
+  }
+
+  if (family.startsWith('meta.llama')) {
+    return JSON.stringify({
+      prompt: `<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n${prompt}<|eot_id|><|start_header_id|>assistant<|end_header_id|>`,
+      max_gen_len: maxTokens,
+      temperature,
+    })
+  }
+
+  return JSON.stringify({
+    messages: [{ role: 'user', content: prompt }],
+    max_tokens: maxTokens,
+    temperature,
+  })
+}
+
+function extractBedrockText(modelId: string, payload: any): string {
+  const family = modelFamily(modelId)
+
+  if (family.startsWith('amazon.nova')) {
+    return payload?.output?.message?.content?.[0]?.text ?? ''
+  }
+
+  if (family.startsWith('meta.llama')) {
+    return payload?.generation ?? ''
+  }
+
+  const raw =
+    payload?.choices?.[0]?.message?.content ??
+    payload?.choices?.[0]?.text ??
+    payload?.output?.message?.content?.[0]?.text ??
+    payload?.output_text ??
+    payload?.content?.[0]?.text ??
+    payload?.outputs?.[0]?.text ??
+    ''
+
+  if (Array.isArray(raw)) {
+    return raw
+      .map((item: any) => (typeof item === 'string' ? item : item?.text || ''))
+      .join('\n')
+      .trim()
+  }
+
+  return String(raw || '').trim()
+}
+
+async function callFeedbackModel(
+  client: BedrockRuntimeClient,
+  prompt: string,
+  modelCandidates: string[]
+): Promise<string> {
+  let lastErr: any = null
+
+  for (const modelId of modelCandidates) {
+    try {
+      const cmd = new InvokeModelCommand({
+        modelId,
+        contentType: 'application/json',
+        accept: 'application/json',
+        body: buildInvokeBody(modelId, prompt, 900, 0.65),
+      })
+
+      const res = await client.send(cmd)
+      const parsed = JSON.parse(new TextDecoder().decode(res.body))
+      const feedback = extractBedrockText(modelId, parsed)
+      if (feedback.trim()) return feedback.trim()
+      throw new Error(`Empty model response from ${modelId}`)
+    } catch (err: any) {
+      lastErr = err
+      if (isModelIdError(err)) continue
+      throw err
+    }
+  }
+
+  throw lastErr || new Error('No feedback model candidate succeeded.')
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -107,25 +240,19 @@ Use exactly the symbols shown (✅ ⚠️ 💡). Use **bold** only for the three
 
     try {
       const client = new BedrockRuntimeClient({
-        region: 'eu-west-1',
+        region: AWS_REGION,
         credentials: {
           accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
           secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
         },
       })
-      const cmd = new InvokeModelCommand({
-        modelId: 'eu.google.gemma-3-27b-it',
-        contentType: 'application/json',
-        accept: 'application/json',
-        body: JSON.stringify({
-          messages: [{ role: 'user', content: prompt }],
-          max_tokens: 900,
-          temperature: 0.65,
-        }),
-      })
-      const res = await client.send(cmd)
-      const parsed = JSON.parse(new TextDecoder().decode(res.body))
-      const feedback = (parsed?.choices?.[0]?.message?.content ?? parsed?.choices?.[0]?.text ?? '').trim()
+
+      const modelCandidates = buildModelCandidates([
+        String(body?.aiModel || ''),
+        DEFAULT_FEEDBACK_MODEL,
+      ])
+
+      const feedback = await callFeedbackModel(client, prompt, modelCandidates)
       return NextResponse.json({ feedback: feedback || fallback })
     } catch (aiError: any) {
       console.error('Bedrock feedback error:', aiError)
