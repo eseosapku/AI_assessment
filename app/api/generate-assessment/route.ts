@@ -610,12 +610,12 @@ function buildPassageBasedPrompt(opts: {
 
   const schemaBlock = questionType === 'mcq' ? mcqSchema : questionType === 'longform' ? lfSchema : `${mcqSchema},\n${lfSchema}`
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
-  const lfCount  = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
+  const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
   const taskLine = questionType === 'mcq'
     ? `Generate exactly ${count} MCQ questions about the passage.`
     : questionType === 'longform'
-    ? `Generate exactly ${count} long-form questions about the passage.`
-    : `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform").`
+      ? `Generate exactly ${count} long-form questions about the passage.`
+      : `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform").`
 
   return `You are an expert exam writer for the ${curriculumName}. Generate questions for a ${style} ${subject} assessment for ${gradeNote}.
 
@@ -726,6 +726,17 @@ function validateMcqAnswers(questions: any[]): void {
     if (computed === null) {
       const m = text.match(/(\d+)\s*[×x*]\s*(\d+)\s*=?\s*\?/)
       if (m) computed = +m[1] * +m[2]
+    }
+    if (computed === null) {
+      // Direct forms without a trailing question mark, e.g. "Calculate: 245 + 132"
+      const addNoQ = text.match(/(?:what\s+is|calculate|find|solve)[:\s]*(-?\d+)\s*\+\s*(-?\d+)/i)
+        || text.match(/^\s*(-?\d+)\s*\+\s*(-?\d+)\s*$/)
+      if (addNoQ) computed = +addNoQ[1] + +addNoQ[2]
+    }
+    if (computed === null) {
+      const subNoQ = text.match(/(?:what\s+is|calculate|find|solve)[:\s]*(-?\d+)\s*[-−]\s*(-?\d+)/i)
+        || text.match(/^\s*(-?\d+)\s*[-−]\s*(-?\d+)\s*$/)
+      if (subNoQ) computed = +subNoQ[1] - +subNoQ[2]
     }
     if (computed === null) {
       // Word-form multiplication: "A multiplied by B", "A times B", "multiply A by B"
@@ -889,7 +900,7 @@ function validateMcqAnswers(questions: any[]): void {
         const normTime = (s: string) => s.replace(/\s/g, '').toLowerCase()
         const matchIdx = q.options.findIndex((o: any) => normTime(String(o)).includes(normTime(timeStr)))
         if (matchIdx !== -1 && matchIdx !== q.correct_answer) {
-          console.warn(`Time arithmetic fix: "${q.question?.slice(0,55)}" → ${timeStr} idx ${matchIdx}`)
+          console.warn(`Time arithmetic fix: "${q.question?.slice(0, 55)}" → ${timeStr} idx ${matchIdx}`)
           q.correct_answer = matchIdx
         }
         continue
@@ -899,7 +910,7 @@ function validateMcqAnswers(questions: any[]): void {
     // ── Strategy 1c: Deterministic day-of-week arithmetic ────────────────────
     // "Today is [DAY]. N days from now / in N days"
     {
-      const DAYS = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday']
+      const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
       const todayM = text.match(/today\s+is\s+(\w+)/i) || text.match(/starting\s+(?:from\s+)?(\w+)/i)
       const nDaysM = text.match(/(\d+)\s+days?\s+(?:from\s+now|later|after|from\s+today)/i)
         || text.match(/in\s+(\d+)\s+days?/i)
@@ -909,7 +920,7 @@ function validateMcqAnswers(questions: any[]): void {
           const result = DAYS[(startIdx + +nDaysM[1]) % 7]
           const matchIdx = q.options.findIndex((o: any) => String(o).toLowerCase().trim() === result)
           if (matchIdx !== -1 && matchIdx !== q.correct_answer) {
-            console.warn(`Day arithmetic fix: "${q.question?.slice(0,55)}" → ${result} idx ${matchIdx}`)
+            console.warn(`Day arithmetic fix: "${q.question?.slice(0, 55)}" → ${result} idx ${matchIdx}`)
             q.correct_answer = matchIdx
           }
           continue
@@ -957,27 +968,14 @@ function validateMcqAnswers(questions: any[]): void {
         continue
       }
 
-      // Strategy 2b: Use the LAST arithmetic equation — handles multi-step problems.
-      // After normalization: "235*3=705", "84/4=21", "3000+500=3500" all match.
-      let lastArithVal: number | null = null
-      const arithRe = /(-?\d+(?:\.\d+)?)\s*[+\-×*÷\/]\s*(-?\d+(?:\.\d+)?)\s*=\s*(-?\d+(?:\.\d+)?)/g
-      let arithM: RegExpExecArray | null
-      while ((arithM = arithRe.exec(expl)) !== null) {
-        const val = Number(arithM[3])
-        if (Number.isFinite(val)) lastArithVal = val
-      }
-      if (lastArithVal !== null) {
-        patchAnswer(q, lastArithVal)
-        continue
-      }
-
-      // Strategy 2c: Phrase-based patterns (fallback)
+      // Strategy 2b: Phrase-based final-answer patterns (high confidence)
       const patterns: RegExp[] = [
         /\d+\s*[+\-×*÷\/]\s*\d+\s+equals?\s+(-?\d+(?:\.\d+)?)/i,
         /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,
         /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
         /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
         /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
+        /(?:final\s+)?answer\s*(?:is|:)\s*(-?\d+(?:\.\d+)?)/i,
         /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
       ]
       for (const pat of patterns) {
@@ -985,6 +983,46 @@ function validateMcqAnswers(questions: any[]): void {
         if (m) {
           const val = Number(m[1])
           if (Number.isFinite(val)) { patchAnswer(q, val); break }
+        }
+      }
+
+      // Strategy 2c: Arithmetic equation fallback (guarded)
+      // Avoid using intermediate column-working equations like "5+2=7" as the final answer.
+      const arithRe = /(-?\d+(?:\.\d+)?)\s*([+\-×*÷\/])\s*(-?\d+(?:\.\d+)?)\s*=\s*(-?\d+(?:\.\d+)?)/g
+      const eqs: Array<{ a: number; b: number; op: string; r: number }> = []
+      let arithM: RegExpExecArray | null
+      while ((arithM = arithRe.exec(expl)) !== null) {
+        const aNum = Number(arithM[1])
+        const bNum = Number(arithM[3])
+        const rNum = Number(arithM[4])
+        if (Number.isFinite(aNum) && Number.isFinite(bNum) && Number.isFinite(rNum)) {
+          eqs.push({ a: aNum, b: bNum, op: arithM[2], r: rNum })
+        }
+      }
+
+      if (eqs.length === 1) {
+        patchAnswer(q, eqs[0].r)
+        continue
+      }
+
+      if (eqs.length > 1) {
+        const qExpr = text.match(/(-?\d+(?:\.\d+)?)\s*([+\-−×x*÷\/])\s*(-?\d+(?:\.\d+)?)/)
+        if (qExpr) {
+          const qa = Number(qExpr[1])
+          const qb = Number(qExpr[3])
+          const qop = qExpr[2] === '−' ? '-' : qExpr[2] === '×' || qExpr[2] === 'x' ? '*' : qExpr[2] === '÷' ? '/' : qExpr[2]
+          const matched = eqs.find((e) => {
+            const eop = e.op === '−' ? '-' : e.op === '×' ? '*' : e.op === '÷' ? '/' : e.op
+            if (eop !== qop) return false
+            if (qop === '+' || qop === '*') {
+              return (e.a === qa && e.b === qb) || (e.a === qb && e.b === qa)
+            }
+            return e.a === qa && e.b === qb
+          })
+          if (matched) {
+            patchAnswer(q, matched.r)
+            continue
+          }
         }
       }
 
@@ -1113,7 +1151,7 @@ function fixExpressionMcqs(questions: any[]): void {
       // The correct answer must be the option that does NOT sum to target
       const incorrectIdx = optionSums.findIndex(s => s !== null && s !== target)
       if (incorrectIdx !== -1 && incorrectIdx !== q.correct_answer) {
-        console.warn(`Bond fix (incorrect): "${q.question.slice(0,60)}" → idx ${q.correct_answer} → ${incorrectIdx}`)
+        console.warn(`Bond fix (incorrect): "${q.question.slice(0, 60)}" → idx ${q.correct_answer} → ${incorrectIdx}`)
         q.correct_answer = incorrectIdx
       } else if (incorrectIdx === -1) {
         // All options sum to target — replace one distractor with a non-bond
@@ -1146,7 +1184,7 @@ function fixExpressionMcqs(questions: any[]): void {
             console.warn(`Bond catch-all fix: no option summed to ${target}, replaced option[${q.correct_answer}]`)
           } else {
             if (validIdx !== q.correct_answer) {
-              console.warn(`Bond catch-all idx fix: "${q.question?.slice(0,55)}" idx ${q.correct_answer} → ${validIdx}`)
+              console.warn(`Bond catch-all idx fix: "${q.question?.slice(0, 55)}" idx ${q.correct_answer} → ${validIdx}`)
               q.correct_answer = validIdx
             }
           }
@@ -1347,7 +1385,7 @@ export async function POST(request: NextRequest) {
     function extractBedrockText(modelId: string, body: any): string {
       const m = stripPrefix(modelId)
       if (m.startsWith('amazon.nova')) return body?.output?.message?.content?.[0]?.text ?? ''
-      if (m.startsWith('meta.llama'))  return body?.generation ?? ''
+      if (m.startsWith('meta.llama')) return body?.generation ?? ''
       return body?.choices?.[0]?.message?.content ?? body?.choices?.[0]?.text ?? body?.outputs?.[0]?.text ?? ''
     }
 
@@ -1376,7 +1414,7 @@ export async function POST(request: NextRequest) {
           lastErr = err
           const msg = err?.message ?? ''
           const retryable = msg.includes('invalid') || msg.includes('Invalid') ||
-                            msg.includes('on-demand throughput') || msg.includes('ValidationException')
+            msg.includes('on-demand throughput') || msg.includes('ValidationException')
           if (retryable) { console.warn(`Bedrock ${modelId} failed — trying alternate ID...`); continue }
           throw err
         }

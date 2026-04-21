@@ -353,19 +353,19 @@ function LongFormResultCard({
       animate={{ opacity: 1, y: 0 }}
       transition={{ delay: idx * 0.05 }}
       className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${!isGraded
-          ? 'border-l-gray-400'
-          : overallPass
-            ? 'border-l-green-500'
-            : 'border-l-red-500'
+        ? 'border-l-gray-400'
+        : overallPass
+          ? 'border-l-green-500'
+          : 'border-l-red-500'
         }`}
     >
       {/* Question header */}
       <div className="flex items-start gap-4 mb-4">
         <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm font-bold ${!isGraded
-            ? 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
-            : overallPass
-              ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
-              : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
+          ? 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+          : overallPass
+            ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
+            : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
           }`}>
           {isGraded ? `${grade.marks_awarded}/${grade.marks_total}` : '?'}
         </div>
@@ -416,8 +416,8 @@ function LongFormResultCard({
             initial={{ opacity: 0, y: -4 }}
             animate={{ opacity: 1, y: 0 }}
             className={`mt-2 p-3 rounded-xl text-sm border ${activeCrit.met
-                ? 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800/50 dark:text-green-200'
-                : 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800/50 dark:text-red-200'
+              ? 'bg-green-50 border-green-200 text-green-800 dark:bg-green-900/20 dark:border-green-800/50 dark:text-green-200'
+              : 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800/50 dark:text-red-200'
               }`}
           >
             <span className="font-semibold">{activeCrit.met ? '✓ Criterion met:' : '✗ Criterion missed:'}</span>{' '}
@@ -443,15 +443,15 @@ function LongFormResultCard({
                 whileHover={{ scale: 1.01 }}
                 whileTap={{ scale: 0.99 }}
                 className={`w-full text-left flex items-start gap-2 p-2.5 rounded-xl border transition-all cursor-pointer ${activeCriterion === crIdx
-                    ? cr.met
-                      ? 'border-green-400 bg-green-50 dark:bg-green-900/20 dark:border-green-700'
-                      : 'border-red-400 bg-red-50 dark:bg-red-900/20 dark:border-red-700'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800/40'
+                  ? cr.met
+                    ? 'border-green-400 bg-green-50 dark:bg-green-900/20 dark:border-green-700'
+                    : 'border-red-400 bg-red-50 dark:bg-red-900/20 dark:border-red-700'
+                  : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800/40'
                   }`}
               >
                 <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 ${cr.met
-                    ? 'bg-green-500 text-white'
-                    : 'bg-red-500 text-white'
+                  ? 'bg-green-500 text-white'
+                  : 'bg-red-500 text-white'
                   }`}>
                   {cr.met ? '✓' : '✗'}
                 </span>
@@ -530,6 +530,16 @@ function fixMcqAnswers(questions: Question[]): void {
     if (computed === null) { const s = t.match(/(\d+)\s*[-−]\s*(\d+)\s*=?\s*\?/); if (s) computed = +s[1] - +s[2] }
     if (computed === null) { const m = t.match(/(\d+)\s*[×x*]\s*(\d+)\s*=?\s*\?/); if (m) computed = +m[1] * +m[2] }
     if (computed === null) {
+      const addNoQ = t.match(/(?:what\s+is|calculate|find|solve)[:\s]*(-?\d+)\s*\+\s*(-?\d+)/i)
+        || t.match(/^\s*(-?\d+)\s*\+\s*(-?\d+)\s*$/)
+      if (addNoQ) computed = +addNoQ[1] + +addNoQ[2]
+    }
+    if (computed === null) {
+      const subNoQ = t.match(/(?:what\s+is|calculate|find|solve)[:\s]*(-?\d+)\s*[-−]\s*(-?\d+)/i)
+        || t.match(/^\s*(-?\d+)\s*[-−]\s*(-?\d+)\s*$/)
+      if (subNoQ) computed = +subNoQ[1] - +subNoQ[2]
+    }
+    if (computed === null) {
       const ma = t.match(/(\d+)\s*\+\s*\?\s*=\s*(\d+)/) || t.match(/\?\s*\+\s*(\d+)\s*=\s*(\d+)/)
       if (ma) computed = +ma[2] - +ma[1]
     }
@@ -564,22 +574,49 @@ function fixMcqAnswers(questions: Question[]): void {
     if (computed !== null && Number.isFinite(computed)) { applyPatch(mcq, computed); continue }
 
     // ── Strategy 2: extract answer value from explanation text ────────────────
-    // Inline arithmetic (5+3=8) comes first — when the AI contradicts itself,
-    // the math in the explanation is right even when "correct answer is N" is wrong.
+    // Prefer explicit final-answer phrases; only use arithmetic equations as a guarded fallback.
     if (mcq.explanation) {
       const expl = mcq.explanation.replace(/\$+/g, '').replace(/[−–]/g, '-')
-      const pats = [
-        /\d+\s*[+\-×*]\s*\d+\s*=\s*(-?\d+(?:\.\d+)?)/,            // "5 + 3 = 8" — most reliable
-        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,   // "sum of 4 and 6 is 10"
-        /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
-        /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
+      const finalPats = [
         /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
         /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
-        /equals?\s+(-?\d+(?:\.\d+)?)/i,
+        /(?:final\s+)?answer\s*(?:is|:)\s*(-?\d+(?:\.\d+)?)/i,
+        /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
+        /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
+        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,
       ]
-      for (const p of pats) {
+      for (const p of finalPats) {
         const m = expl.match(p)
         if (m) { const v = Number(m[1]); if (Number.isFinite(v)) { applyPatch(mcq, v); break } }
+      }
+
+      // Guarded arithmetic fallback: only when there's one equation, or when an
+      // equation matches the question's own direct expression operands/operator.
+      const eqRe = /(-?\d+(?:\.\d+)?)\s*([+\-×*÷\/])\s*(-?\d+(?:\.\d+)?)\s*=\s*(-?\d+(?:\.\d+)?)/g
+      const eqs: Array<{ a: number; b: number; op: string; r: number }> = []
+      let em: RegExpExecArray | null
+      while ((em = eqRe.exec(expl)) !== null) {
+        const aNum = Number(em[1]); const bNum = Number(em[3]); const rNum = Number(em[4])
+        if (Number.isFinite(aNum) && Number.isFinite(bNum) && Number.isFinite(rNum)) {
+          eqs.push({ a: aNum, b: bNum, op: em[2], r: rNum })
+        }
+      }
+
+      if (eqs.length === 1) {
+        applyPatch(mcq, eqs[0].r)
+      } else if (eqs.length > 1) {
+        const qExpr = t.match(/(-?\d+(?:\.\d+)?)\s*([+\-−×x*÷\/])\s*(-?\d+(?:\.\d+)?)/)
+        if (qExpr) {
+          const qa = Number(qExpr[1]); const qb = Number(qExpr[3])
+          const qop = qExpr[2] === '−' ? '-' : qExpr[2] === '×' || qExpr[2] === 'x' ? '*' : qExpr[2] === '÷' ? '/' : qExpr[2]
+          const matched = eqs.find((e) => {
+            const eop = e.op === '−' ? '-' : e.op === '×' ? '*' : e.op === '÷' ? '/' : e.op
+            if (eop !== qop) return false
+            if (qop === '+' || qop === '*') return (e.a === qa && e.b === qb) || (e.a === qb && e.b === qa)
+            return e.a === qa && e.b === qb
+          })
+          if (matched) applyPatch(mcq, matched.r)
+        }
       }
     }
   }
@@ -1092,8 +1129,8 @@ export default function AssessmentPage() {
                 >
                   <div className="flex items-start gap-4 mb-4">
                     <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 ${isCorrect
-                        ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
-                        : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
+                      ? 'bg-green-100 text-green-600 dark:bg-green-900/30 dark:text-green-400'
+                      : 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-400'
                       }`}>
                       {isCorrect ? <Check className="w-5 h-5" /> : <span className="font-bold text-lg">×</span>}
                     </div>
@@ -1249,8 +1286,8 @@ export default function AssessmentPage() {
                     >
                       <div className="flex items-center gap-3 sm:gap-4">
                         <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${selectedAnswers[currentQuestion] === index
-                            ? 'border-apple-blue bg-apple-blue'
-                            : 'border-gray-300 dark:border-gray-600'
+                          ? 'border-apple-blue bg-apple-blue'
+                          : 'border-gray-300 dark:border-gray-600'
                           }`}>
                           {selectedAnswers[currentQuestion] === index && (
                             <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
@@ -1349,12 +1386,12 @@ export default function AssessmentPage() {
                   onClick={() => setCurrentQuestion(idx)}
                   title={isLF ? `Q${idx + 1} — Long-form (${(q as LongFormQuestion).marks} marks)` : `Q${idx + 1} — MCQ`}
                   className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-all ${idx === currentQuestion
-                      ? 'bg-apple-blue text-white'
-                      : answered
-                        ? isLF
-                          ? 'bg-purple-500 text-white'
-                          : 'bg-green-500 text-white'
-                        : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
+                    ? 'bg-apple-blue text-white'
+                    : answered
+                      ? isLF
+                        ? 'bg-purple-500 text-white'
+                        : 'bg-green-500 text-white'
+                      : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                     }`}
                 >
                   {idx + 1}
