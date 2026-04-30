@@ -1,11 +1,16 @@
-import { NextRequest, NextResponse } from 'next/server'
+﻿import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { jsonrepair } from 'jsonrepair'
-import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
-import { getCambridgeCurriculumContext, type CambridgeGrade } from '@/lib/cambridge-curriculum'
 import { supabase } from '@/lib/supabase'
 
 const MAX_DIAGRAMS = 4
+
+function normalizeIds(value: unknown): number[] {
+  if (!Array.isArray(value)) return []
+  const ids = value.map((v) => Number(v)).filter((v) => Number.isFinite(v))
+  return Array.from(new Set(ids))
+}
 
 // Detect model refusals before attempting JSON parse
 const REFUSAL_PREFIXES = ["i can't", "i cannot", "i'm sorry", "i am sorry", "as an ai", "i'm not able", "i am not able", "sorry, i"]
@@ -386,6 +391,70 @@ const DIFFICULTY_INSTRUCTIONS: Record<string, string> = {
 - Expect precise, nuanced, multi-layered responses with no single correct answer pathway.`,
 }
 
+function allowsArithmeticForSelection(subject: string, topics: string[]): boolean {
+  const subjectText = (subject || '').toLowerCase()
+  const topicText = (topics || []).join(' ').toLowerCase()
+  const subjectAllows = /\b(math|mathematics|statistics)\b/.test(subjectText)
+  const topicAllows = /\b(number|addition|subtraction|multiplication|division|fraction|decimal|percent|percentage|ratio|proportion|equation|algebra|geometry|measure|measurement|length|area|perimeter|volume|angle|graph|chart|data|statistics|probability|time|speed|distance|temperature|money|currency|budget|discount|interest)\b/.test(topicText)
+  return subjectAllows || topicAllows
+}
+
+function buildTopicAlignmentBlock(params: {
+  topics: string[]
+  grade?: number | string
+  subject?: string
+}): string {
+  const topicText = (params.topics || []).join(' ').toLowerCase()
+  const g = Number(params.grade)
+  const rules: string[] = []
+
+  rules.push('Every question must directly target the selected topic names. Do not include unrelated skills or generic arithmetic unless the topic explicitly requires it.')
+  if (params.topics.length > 1) {
+    rules.push('Cover all selected topics; include at least one question per topic.')
+  }
+
+  if (!allowsArithmeticForSelection(String(params.subject || ''), params.topics || [])) {
+    rules.push('Do NOT include arithmetic calculation or math word problems. Numbers may appear only as facts (dates, counts, labels) when required by the topic.')
+  }
+
+  const isStatistics = /statistic|data|graph|chart|pictograph|table|frequency|tally/.test(topicText)
+  if (isStatistics) {
+    if (Number.isFinite(g) && g <= 3) {
+      rules.push('Statistics (primary): use small data lists or tallies in text and ask most, least, or compare counts. No diagrams or plotting.')
+    } else if (Number.isFinite(g) && g <= 6) {
+      rules.push('Statistics (upper primary): use small data lists or tables and ask mean, median, mode, or range. No diagrams or plotting.')
+    } else {
+      rules.push('Statistics (secondary): use data tables or lists to compute or interpret mean, median, mode, range, and variation. Avoid generic arithmetic that is not data-driven.')
+    }
+  }
+
+  const isProbability = /probab|chance|likelihood/.test(topicText)
+  if (isProbability) {
+    if (Number.isFinite(g) && g <= 3) {
+      rules.push('Probability (primary): use simple language like likely, unlikely, or certain with tiny sample spaces.')
+    } else {
+      rules.push('Probability: use explicit sample spaces or outcomes and ask for numeric probabilities. No diagrams or drawing.')
+    }
+  }
+
+  const isGeometry = /geometry|shape|angle|triangle|polygon|circle|area|perimeter|volume/.test(topicText)
+  if (isGeometry) {
+    rules.push('Geometry and shape: provide all needed measurements in text. Do not require diagrams, drawing, or measurement tools.')
+  }
+
+  const isAlgebra = /algebra|equation|expression|inequal|function|linear|quadratic/.test(topicText)
+  if (isAlgebra) {
+    rules.push('Algebra: focus on symbolic manipulation or solving appropriate to the grade. Avoid word problems that reduce to unrelated arithmetic.')
+  }
+
+  const isFractions = /fraction|decimal|percent|ratio|proportion/.test(topicText)
+  if (isFractions) {
+    rules.push('Number and ratio topics: use correct topic language (fraction, decimal, percent, ratio) in every question.')
+  }
+
+  return `**TOPIC ALIGNMENT (STRICT):**\n- ${rules.join('\n- ')}`
+}
+
 // ── Build the main question-generation prompt (Groq — ONE call only) ──────────
 function buildPrompt(opts: {
   subject: string
@@ -419,7 +488,7 @@ function buildPrompt(opts: {
   const passageNote = subjectNeedsPassage
     ? `PASSAGES: Every question MUST have a reading passage. Add these two fields to every question:
    - "needs_passage": true
-   - "passage_hint": a 30-40 word description of the passage (e.g. "Opening of a Victorian novel by Dickens set in a London slum, describing poverty and injustice in gritty detail"). Use a DIFFERENT author/genre for each question — at least 3 distinct styles across the assessment.
+   - "passage_hint": a 30-40 word description of a passage that matches the topic and grade. Use a DIFFERENT author/genre for each question — at least 3 distinct styles across the assessment.
    Do NOT write the passage text — passages are generated separately.`
     : `PASSAGES: Only add "needs_passage": true and "passage_hint" if a question genuinely requires a source text.`
 
@@ -454,10 +523,13 @@ function buildPrompt(opts: {
     }`
 
   const gradeNum = Number(opts.grade) || 99
+  const allowArithmetic = allowsArithmeticForSelection(subject, topics)
   const isPrimaryLow = gradeNum >= 1 && gradeNum <= 2
   const lfMarksRange = isPrimaryLow ? '2-3' : '2-8'
   const lfQuestionDesc = isPrimaryLow
-    ? '<simple word problem — e.g. "Manzi has 8 mangoes. He gives 3 away. How many does he have left? Show your working.">'
+    ? (allowArithmetic
+      ? '<simple, one-step word problem aligned to the selected topic. Include "Show your working.">'
+      : '<simple, one-step question aligned to the selected topic. Do NOT ask for calculations or "Show your working.">')
     : '<question requiring an extended written answer>'
   const lfSchemaNoPassage = `{
       "id": <number>,
@@ -488,19 +560,26 @@ function buildPrompt(opts: {
   }
 
   const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
+  const topicAlignment = buildTopicAlignmentBlock({ topics, grade: opts.grade, subject })
 
   const g = gradeNum
   let gradeAgeNote = ''
   if (g >= 1 && g <= 2) {
+    const numberRule = allowArithmetic
+      ? '- NUMBERS: Use numbers 1–20 for addition/subtraction. No multiplication, fractions, or decimals unless explicitly in the topic.'
+      : '- NUMBERS: Avoid arithmetic calculations. Use numbers only as labels or simple facts when required by the topic.'
+    const longformRule = allowArithmetic
+      ? '- LONG-FORM QUESTIONS: For Grade 1–2, long-form questions must be simple word problems ONLY. MAXIMUM 3 marks per long-form question. Do NOT ask children to design games, invent methods, write stories, propose ideas, or do any creative or abstract task. No Bloom\'s levels above "Apply". No "Design", "Propose", "Create", "Suggest", "Explain why", or "Compare" prompts.'
+      : '- LONG-FORM QUESTIONS: For Grade 1–2, long-form questions must be short, direct responses aligned to the topic. Do NOT ask for calculations or "Show your working." MAXIMUM 3 marks per long-form question. No abstract or creative prompts.'
     gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade} (Ages ${5 + g}–${6 + g}):**
-- VOCABULARY: Use ONLY words a ${5 + g}–${6 + g} year old knows. Maximum 2 syllables per word (e.g. "big", "happy", "water", "school"). NO words like "comprehend", "demonstrate", "calculate", "evaluate", "analyse", "significant", or any word a child this age would not know.
+- VOCABULARY: Use ONLY words a ${5 + g}–${6 + g} year old knows. Maximum 2 syllables per word. Avoid academic vocabulary.
 - SENTENCE LENGTH: Maximum 8 words per sentence in question text. Keep it short and direct.
-- NUMBERS: Use numbers 1–20 for addition/subtraction. No multiplication, fractions, or decimals unless explicitly in the topic.
-- QUESTION STYLE: Simple, direct questions. "How many...?", "What colour...?", "Which is bigger...?". No complex sentence structures.
+${numberRule}
+- QUESTION STYLE: Simple, direct questions. No complex sentence structures.
 - Do NOT include secondary-school content of any kind.
 - MCQ ANSWER UNIQUENESS: For any question about "which group can be divided by N" or "which numbers are multiples of N", you MUST verify that ALL three wrong options each contain at least one number that is NOT divisible/a multiple of N. Do NOT put two or more all-valid groups as options.
-- DIVISION QUESTIONS: For division, ONLY ask direct computation questions (e.g. "What is 6 ÷ 2?") with single-number options. Do NOT ask "which group shows the correct way to divide X by Y" — this format is ambiguous and must not be used in Grade 1–2.
-- LONG-FORM QUESTIONS: For Grade 1–2, long-form questions must be simple word problems ONLY. Example: "Manzi has 8 mangoes. He gives 3 to his friend. How many does he have left? Show your working." MAXIMUM 3 marks per long-form question. Do NOT ask children to design games, invent methods, write stories, propose ideas, or do any creative/abstract task. No Bloom's levels above "Apply". No "Design", "Propose", "Create", "Suggest", "Explain why", or "Compare" prompts — only "How many?", "Solve this problem:", "Work out:".`
+- DIVISION QUESTIONS: For division, ONLY ask direct computation questions with single-number options. Do NOT ask "which group shows the correct way to divide X by Y" — this format is ambiguous and must not be used in Grade 1–2.
+${longformRule}`
   } else if (g >= 3 && g <= 4) {
     gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade} (Ages ${5 + g}–${6 + g}):**
 - VOCABULARY: Simple, everyday words suitable for ${5 + g}–${6 + g} year olds. Avoid academic or complex vocabulary. No word should need to be looked up by a typical child this age.
@@ -516,7 +595,10 @@ function buildPrompt(opts: {
 - QUESTION STYLE: Clear questions appropriate for upper primary. Some inference or reasoning is fine, but no university-level analysis.
 - Do NOT include secondary-school level content beyond what is in the Grade ${opts.grade} curriculum.`
   } else if (g >= 7) {
-    gradeAgeNote = ''  // Secondary — no restrictions needed
+    gradeAgeNote = `**GRADE CONTEXT — Grade ${opts.grade}:**
+- Use secondary-level depth and terminology appropriate to this grade.
+- Avoid primary-style counting or one-step arithmetic questions unless the topic explicitly requires them.
+- Prefer multi-step reasoning and topic-specific vocabulary when appropriate.`
   }
 
   const sessionSeed = Math.floor(Math.random() * 1000000)
@@ -533,6 +615,16 @@ ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 
 **Task:** ${questionInstruction}
 
+${topicAlignment}
+
+**UI CONSTRAINTS (NON-NEGOTIABLE):**
+- All questions must be answerable from text alone. If a shape/object is needed, describe it fully in words with quantities.
+- Do NOT write any question that depends on a picture/diagram/graph/figure being shown.
+- Do NOT reference colors/shading/parts of "this shape" or "this picture".
+- NEVER use prompts like "imagine", "as shown above/below", "see the diagram", "look at the picture", or "look at this".
+- Do NOT ask students to draw, sketch, or plot.
+- Never ask students to measure something on-screen or to use a ruler/protractor.
+
 **Requirements:**
 1. All questions strictly based on the ${curriculumName} syllabus topics listed above.
 2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
@@ -547,13 +639,13 @@ ${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
 - Every MCQ must have EXACTLY ONE correct answer among the four options.
 - The "correct_answer" field is a 0-based index (0=first option, 1=second, 2=third, 3=fourth). It MUST point to the option that is the ONLY correct answer.
 - BEFORE writing each MCQ, mentally verify: "Is options[correct_answer] the one and only correct answer?" If not, rewrite.
-- NEVER write a question where two or more options could both be correct. For example, if asking "which number bond to 10 is correct?", do NOT put multiple valid bonds (1+9, 2+8, 3+7, 5+5) as all four options — only ONE should be a correct bond and the other three must be WRONG (e.g. bonds that do NOT add to 10 like 3+8, 2+9, 4+5).
+- NEVER write a question where two or more options could both be correct. For number-bond style questions, include exactly ONE correct bond and make the other three incorrect.
 - NEVER write a question where none of the options is correct.
-- NEVER generate the same question text twice. Every question in the assessment must test a DIFFERENT concept, fact, or calculation. Vary the numbers, operations, and contexts. Use RANDOM numbers each time — do NOT reuse common examples like "84 stickers", "144 cookies", "348 stickers", "235 x 3". Invent fresh numbers and scenarios every time.
+- NEVER generate the same question text twice. Every question in the assessment must test a DIFFERENT concept, fact, or calculation. Vary the numbers, operations, and contexts. Use fresh numbers and scenarios every time.
 - Do NOT generate more than ONE ordering/sorting question per assessment. Use other question types for variety.
-- Do NOT generate more than ONE number-bond question per assessment (e.g. "which bond adds up to 10"). These are repetitive — one is enough.
-- Do NOT generate more than TWO "which number is larger/smaller" comparison questions. Vary the question types.
-- QUESTION TYPE VARIETY: Across the full set of ${count} questions, use at least 5 different question categories (e.g. addition, subtraction, comparison, sequencing, word problem, place value, shapes, measurement, etc.). Do NOT repeat the same category more than twice in a row.
+- Do NOT generate more than ONE number-bond question per assessment. These are repetitive — one is enough.
+- Do NOT generate more than TWO basic comparison questions. Vary the question types.
+- SKILL VARIETY: Across the full set of ${count} questions, use at least 5 different subskills drawn from the selected topics. Do NOT include subskills outside the topic list. Do NOT repeat the same subskill more than twice in a row.
 - For ordering/sorting questions (e.g. "correct order from smallest to largest"): ALL four options must be COMPLETE sequences of every number from the question. The correct sorted sequence MUST be one of the four options. NEVER use a bare number as an option for an ordering question.
 - SINGLE CORRECT ANSWER RULE — NON-NEGOTIABLE: Every MCQ must have EXACTLY ONE correct option and THREE definitively wrong options. This applies to ALL question types without exception:
   • Times table / multiples: if asking "which is NOT in the 10 times table?", only ONE option must NOT be a multiple of 10 — the other three MUST all be multiples of 10. NEVER put four multiples of 10 as options for a "not in times table" question.
@@ -563,7 +655,7 @@ ${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
 - CRITICAL: The "question" field must contain ONLY the question text itself. Do NOT include the answer choices "(A) ..., (B) ..., (C) ..., (D) ..." inside the question field. The options go in the "options" array only.
 - For sequence/order questions (e.g. "what comes after X"): make the question unambiguous and ensure the answer IS in the options.
 - The explanation MUST describe the same answer as correct_answer. They must ALWAYS agree.
-- BANNED QUESTION FORMAT — "which GROUP of numbers can be divided by N / is divisible by N / are multiples of N": This format ALWAYS produces multiple correct answers (e.g. both "2,4,6" and "4,6,8" are fully divisible by 2). You MUST NEVER use it. Instead, ask about a SINGLE number: "Which of these numbers can be divided by 2 without a remainder?" with options like 3, 4, 7, 9 — where only ONE number is even.
+- BANNED QUESTION FORMAT — "which GROUP of numbers can be divided by N / is divisible by N / are multiples of N": This format ALWAYS produces multiple correct answers. You MUST NEVER use it. Instead, ask about a SINGLE number with options where only ONE matches the property.
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 
@@ -627,6 +719,13 @@ ${passage}
 
 TASK: ${taskLine} Every question MUST be directly and specifically about the passage above.
 
+UI CONSTRAINTS:
+- All questions must be answerable from text alone. Do not refer to any missing diagrams, pictures, or figures.
+- Do NOT reference any missing diagrams/pictures/figures/graphs.
+- Never say "imagine", "as shown", "see the diagram", or "look at the picture".
+- Do NOT ask students to draw, sketch, or plot.
+- Never ask the student to measure an on-screen line or shape.
+
 ━━━ NON-NEGOTIABLE RULES ━━━
 1. ONLY ask about features that ACTUALLY EXIST in the passage:
    • No "analyse the dialogue" if there is no speech
@@ -664,703 +763,271 @@ function cleanQuestionTexts(questions: any[]): void {
   }
 }
 
-// ── Post-generation MCQ answer validator ─────────────────────────────────────
-// Two strategies in order of reliability:
-// 1. Compute correct answer from question text arithmetic
-// 2. Extract correct answer from explanation text (many patterns)
-// If the answer is found but is NOT in the options, replace the AI-marked option
-// with the correct value so the question is always answerable.
-function validateMcqAnswers(questions: any[]): void {
-  for (const q of questions) {
-    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
-    const ci = Number(q.correct_answer)
-    if (isNaN(ci) || ci < 0 || ci > 3) q.correct_answer = 0
-
-    // For divisibility/grouping questions (options contain commas like "2, 4, 6"):
-    // Validate that ONLY ONE option has ALL numbers satisfying the divisibility property.
-    if (q.options.some((o: any) => String(o).includes(','))) {
-      const qText = (q.question || '').toLowerCase()
-      const divByMatch = qText.match(/(?:can\s+be\s+)?divided?\s+by\s+(\d+)|multiple[s]?\s+of\s+(\d+)|divisible\s+by\s+(\d+)/i)
-      if (divByMatch) {
-        const divisor = Number(divByMatch[1] || divByMatch[2] || divByMatch[3])
-        if (divisor > 1) {
-          // For each option, check if ALL numbers in the group are divisible by divisor
-          const allDivisible = (opt: any) => {
-            const nums = String(opt).split(',').map((n: string) => Number(n.trim())).filter((n: number) => !isNaN(n))
-            return nums.length > 0 && nums.every((n: number) => n % divisor === 0)
-          }
-          const validIndices = q.options.map((_: any, i: number) => i).filter((i: number) => allDivisible(q.options[i]))
-          if (validIndices.length > 1) {
-            // Multiple valid options — keep the AI-marked one as correct, fix the others
-            // by replacing one number in each extra valid option with a non-divisible number
-            for (const idx of validIndices) {
-              if (idx === q.correct_answer) continue
-              const nums = String(q.options[idx]).split(',').map((n: string) => n.trim())
-              // Replace the last number with a nearby odd/non-divisible number
-              const lastNum = Number(nums[nums.length - 1])
-              const replacement = (lastNum % divisor === 0) ? lastNum + 1 : lastNum
-              nums[nums.length - 1] = String(replacement % divisor !== 0 ? replacement : replacement + 1)
-              q.options[idx] = nums.join(', ')
-              console.warn(`Divisibility fix: option[${idx}] made non-all-divisible → "${q.options[idx]}"`)
-            }
-          }
-        }
-      }
-      continue
-    }
-
-    // Skip when options are arithmetic expressions (e.g. "5+5", "3+7").
-    const optionsAreExpressions = q.options.some((o: any) => /[+\-×÷\/]/.test(String(o)))
-    if (optionsAreExpressions) continue
-
-    // ── Strategy 1: Deterministic arithmetic from question text ───────────────
-    const text = (q.question || '').replace(/\$+/g, '').trim()
-    let computed: number | null = null
-
-    const a = text.match(/(\d+)\s*\+\s*(\d+)\s*=?\s*\?/)
-    if (a) computed = +a[1] + +a[2]
-    if (computed === null) {
-      const s = text.match(/(\d+)\s*[-−]\s*(\d+)\s*=?\s*\?/)
-      if (s) computed = +s[1] - +s[2]
-    }
-    if (computed === null) {
-      const m = text.match(/(\d+)\s*[×x*]\s*(\d+)\s*=?\s*\?/)
-      if (m) computed = +m[1] * +m[2]
-    }
-    if (computed === null) {
-      // Direct forms without a trailing question mark, e.g. "Calculate: 245 + 132"
-      const addNoQ = text.match(/(?:what\s+is|calculate|find|solve)[:\s]*(-?\d+)\s*\+\s*(-?\d+)/i)
-        || text.match(/^\s*(-?\d+)\s*\+\s*(-?\d+)\s*$/)
-      if (addNoQ) computed = +addNoQ[1] + +addNoQ[2]
-    }
-    if (computed === null) {
-      const subNoQ = text.match(/(?:what\s+is|calculate|find|solve)[:\s]*(-?\d+)\s*[-−]\s*(-?\d+)/i)
-        || text.match(/^\s*(-?\d+)\s*[-−]\s*(-?\d+)\s*$/)
-      if (subNoQ) computed = +subNoQ[1] - +subNoQ[2]
-    }
-    if (computed === null) {
-      // Word-form multiplication: "A multiplied by B", "A times B", "multiply A by B"
-      const wMul = text.match(/(\d+)\s+(?:multiplied\s+by|times)\s+(\d+)/i)
-        || text.match(/multiply\s+(\d+)\s+(?:by|and)\s+(\d+)/i)
-        || text.match(/(?:what\s+is|calculate|find|solve)[:\s]*(\d+)\s+(?:multiplied\s+by|times)\s+(\d+)/i)
-      if (wMul) computed = +wMul[1] * +wMul[2]
-    }
-    if (computed === null) {
-      // Word-form division: "A divided by B", "divide A by B"
-      const wDiv = text.match(/(\d+)\s+divided\s+by\s+(\d+)/i)
-        || text.match(/divide\s+(\d+)\s+(?:by|into)\s+(\d+)/i)
-      if (wDiv && +wDiv[2] !== 0) computed = +wDiv[1] / +wDiv[2]
-    }
-    if (computed === null) {
-      // "X + ? = Z" or "? + X = Z"
-      const ma = text.match(/(\d+)\s*\+\s*\?\s*=\s*(\d+)/) || text.match(/\?\s*\+\s*(\d+)\s*=\s*(\d+)/)
-      if (ma) computed = +ma[2] - +ma[1]
-    }
-    if (computed === null) {
-      // "Calculate: A x B" or "A × B" or "A * B" (no ? needed)
-      const calcMul = text.match(/(?:calculate|solve|find|what\s+is)[:\s]*(\d+)\s*[×x*]\s*(\d+)/i)
-        || text.match(/(\d+)\s*[×x*]\s*(\d+)\s*=\s*\?/i)
-      if (calcMul) computed = +calcMul[1] * +calcMul[2]
-    }
-    if (computed === null) {
-      // "Calculate: A ÷ B" or "A / B"
-      const calcDiv = text.match(/(?:calculate|solve|find|what\s+is)[:\s]*(\d+)\s*[÷\/]\s*(\d+)/i)
-        || text.match(/(\d+)\s*[÷\/]\s*(\d+)\s*=\s*\?/i)
-      if (calcDiv && +calcDiv[2] !== 0) computed = +calcDiv[1] / +calcDiv[2]
-    }
-    if (computed === null) {
-      // "A x ? = C" or "? x A = C" — missing multiplier
-      const missMul = text.match(/(\d+)\s*[×x*]\s*\?\s*=\s*(\d+)/) || text.match(/\?\s*[×x*]\s*(\d+)\s*=\s*(\d+)/)
-      if (missMul && +missMul[1] !== 0) computed = +missMul[2] / +missMul[1]
-    }
-    if (computed === null) {
-      // "A ÷ ? = C" — missing divisor
-      const missDiv = text.match(/(\d+)\s*[÷\/]\s*\?\s*=\s*(\d+)/)
-      if (missDiv && +missDiv[2] !== 0) computed = +missDiv[1] / +missDiv[2]
-    }
-    if (computed === null) {
-      // Fraction of number: "A/B of N", "1/4 of 348"
-      const fracOf = text.match(/(\d+)\s*[\/]\s*(\d+)\s+of\s+(\d+)/i)
-      if (fracOf && +fracOf[2] !== 0) computed = (+fracOf[1] / +fracOf[2]) * +fracOf[3]
-    }
-    if (computed === null) {
-      // Multiplication word: "each bag has A ... B bags" or "A items ... B groups"
-      const eachM = text.match(/(?:each|every)\s+\w+\s+(?:has|contains?|holds?)\s+(\d+).*?(?:how\s+many|total).*?(\d+)/i)
-        || text.match(/(\d+)\s+\w+\s+(?:in\s+each|per).*?(\d+)\s+(?:\w+\s+){0,3}(?:total|altogether)/i)
-      if (eachM) computed = +eachM[1] * +eachM[2]
-    }
-    if (computed === null) {
-      // Division word: "A items ... share equally between/among B" or "puts B in each"
-      const shareM = text.match(/(?:has|have|had|makes?)\s+(\d+).*?(?:share[s]?\s+(?:equally\s+)?(?:between|among)|divide[s]?\s+(?:equally\s+)?(?:between|among|into))\s+(\d+)/i)
-      if (shareM && +shareM[2] !== 0) computed = +shareM[1] / +shareM[2]
-    }
-    if (computed === null) {
-      // Division word: "A items ... B in each box/group"
-      const perBox = text.match(/(?:has|have|had|makes?)\s+(\d+).*?(\d+)\s+(?:\w+\s+)?(?:in\s+each|per\s+each|per)\s+\w+.*?(?:how\s+many)/i)
-      if (perBox && +perBox[2] !== 0) computed = Math.floor(+perBox[1] / +perBox[2])
-    }
-    if (computed === null) {
-      // "same sum: A + B and C + ?" → answer = (A+B) - C
-      const sameSum = text.match(/(\d+)\s*\+\s*(\d+)\s+and\s+(\d+)\s*\+\s*\?/i)
-      if (sameSum) computed = (+sameSum[1] + +sameSum[2]) - +sameSum[3]
-    }
-    if (computed === null) {
-      // "number bond to Z for X" → Z - X
-      const bf = text.match(/bond\s+to\s+(\d+)\s+for\s+(\d+)/i)
-      if (bf) computed = +bf[1] - +bf[2]
-    }
-    if (computed === null) {
-      // number bond fill: "X + ? ...bond... Z"
-      const bfill = text.match(/(\d+)\s*\+\s*\?.*?(\d+)/)
-      if (bfill && /bond/i.test(text)) { const v = +bfill[2] - +bfill[1]; if (v >= 0) computed = v }
-    }
-    if (computed === null) {
-      const aft = text.match(/(?:comes?|right)\s+after\s+(\d+)/i)
-      if (aft) computed = +aft[1] + 1
-    }
-    if (computed === null) {
-      const bef = text.match(/(?:comes?|right)\s+before\s+(\d+)/i)
-      if (bef) { const v = +bef[1] - 1; if (v >= 0) computed = v }
-    }
-    if (computed === null) {
-      const diff = text.match(/difference\s+between\s+(\d+)\s+and\s+(\d+)/i)
-      if (diff) computed = Math.abs(+diff[1] - +diff[2])
-    }
-    if (computed === null) {
-      // Subtraction word: "X ... take away / give / minus Y"
-      const sw = text.match(/(\d+)\s+(?:\w+\s+){0,8}(?:take\s+away|give[s]?(?:\s+away)?|subtract[s]?|minus|remove[s]?)\s+(\d+)/i)
-      if (sw) computed = +sw[1] - +sw[2]
-    }
-    if (computed === null) {
-      // "sum/total of A and B" — e.g. "What is the sum of 4 and 6?"
-      const sumOf = text.match(/(?:sum|total)\s+of\s+(\d+)\s+and\s+(\d+)/i)
-      if (sumOf) computed = +sumOf[1] + +sumOf[2]
-    }
-    if (computed === null) {
-      // "product of A and B" — multiplication word form
-      const prodOf = text.match(/product\s+of\s+(\d+)\s+and\s+(\d+)/i)
-      if (prodOf) computed = +prodOf[1] * +prodOf[2]
-    }
-    if (computed === null) {
-      // Addition word: "combining/adding X and Y", "add X more", "get X more", "X and Y more"
-      const aw = text.match(/(?:combining|adding)\s+(\d+)\s+and\s+(\d+)/i)
-        || text.match(/(\d+)\s+(?:\w+\s+){0,8}(?:add[s]?\s+(\d+)\s+more|get[s]?\s+(\d+)\s+more|and\s+(\d+)\s+more|plus\s+(\d+))/i)
-        || text.match(/have\s+(\d+)\s+(?:\w+\s+){0,6}add[s]?\s+(\d+)/i)
-      if (aw) {
-        const b = Number(aw[2] || aw[3] || aw[4])
-        if (Number.isFinite(b)) computed = +aw[1] + b
-      }
-    }
-    if (computed === null) {
-      // "gives/gave/bring/brought you X more" addition: "you have X ... gives you Y more"
-      // e.g. "You have 5 apples. Your friend gives you 3 more. How many do you have now?"
-      const giveMore = text.match(/have\s+(\d+)\s+(?:\w+[\s.]*){0,15}(?:gives?\s+(?:you\s+)?|gave\s+(?:you\s+)?|brings?\s+(?:you\s+)?|brought\s+(?:you\s+)?)(\d+)\s+more/i)
-      if (giveMore) computed = +giveMore[1] + +giveMore[2]
-    }
-    if (computed === null) {
-      // "X ... receives/gets/finds Y more": "have X ... receives Y"
-      const receivesMore = text.match(/have\s+(\d+)\s+(?:\w+[\s.]*){0,15}(?:receives?\s+|gets?\s+|finds?\s+)(\d+)/i)
-      if (receivesMore) computed = +receivesMore[1] + +receivesMore[2]
-    }
-    if (computed === null) {
-      // Money/purchase word problem: "have X ... buy/cost Y ... left/change"
-      // e.g. "If you have 12 Frw and you buy a toy that costs 6 Frw, how much money will you have left?"
-      const moneyW = text.match(/have\s+(\d+)\s+(?:\w+\s*){0,12}(?:costs?\s+(?:\w+\s*){0,4}(\d+)|buy[s]?\s+(?:\w+\s*){0,6}(\d+))/i)
-      if (moneyW) {
-        const cost = Number(moneyW[2] || moneyW[3])
-        if (Number.isFinite(cost) && +moneyW[1] >= cost) computed = +moneyW[1] - cost
-      }
-    }
-
-    if (computed !== null && Number.isFinite(computed)) {
-      // Round to avoid floating-point issues (e.g. 348/4=86.999... instead of 87)
-      if (Number.isInteger(computed) || Math.abs(computed - Math.round(computed)) < 0.001) {
-        computed = Math.round(computed)
-      }
-      patchAnswer(q, computed)
-      continue
-    }
-
-    // ── Strategy 1b: Deterministic time arithmetic ────────────────────────────
-    // "leaves/starts at H:MM [am|pm] ... takes/lasts N minutes"
-    {
-      const leaveM = text.match(/(?:leaves?|starts?|begins?|departs?|at)\s+(\d+):(\d+)\s*(am|pm)?/i)
-      const durM = text.match(/(\d+)\s*(?:minute|min)\b/i)
-      if (leaveM && durM) {
-        let h = +leaveM[1], m = +leaveM[2]
-        const isPM = (leaveM[3] || '').toLowerCase() === 'pm'
-        if (isPM && h !== 12) h += 12
-        else if (!isPM && h === 12) h = 0
-        const totalMins = h * 60 + m + +durM[1]
-        const rh = Math.floor(totalMins / 60) % 24
-        const rm = totalMins % 60
-        const suffix = (rh >= 12 && rh < 24) ? 'pm' : 'am'
-        const displayH = rh > 12 ? rh - 12 : rh === 0 ? 12 : rh
-        const timeStr = `${displayH}:${String(rm).padStart(2, '0')} ${suffix}`
-        const normTime = (s: string) => s.replace(/\s/g, '').toLowerCase()
-        const matchIdx = q.options.findIndex((o: any) => normTime(String(o)).includes(normTime(timeStr)))
-        if (matchIdx !== -1 && matchIdx !== q.correct_answer) {
-          console.warn(`Time arithmetic fix: "${q.question?.slice(0, 55)}" → ${timeStr} idx ${matchIdx}`)
-          q.correct_answer = matchIdx
-        }
-        continue
-      }
-    }
-
-    // ── Strategy 1c: Deterministic day-of-week arithmetic ────────────────────
-    // "Today is [DAY]. N days from now / in N days"
-    {
-      const DAYS = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday']
-      const todayM = text.match(/today\s+is\s+(\w+)/i) || text.match(/starting\s+(?:from\s+)?(\w+)/i)
-      const nDaysM = text.match(/(\d+)\s+days?\s+(?:from\s+now|later|after|from\s+today)/i)
-        || text.match(/in\s+(\d+)\s+days?/i)
-      if (todayM && nDaysM) {
-        const startIdx = DAYS.indexOf(todayM[1].toLowerCase())
-        if (startIdx !== -1) {
-          const result = DAYS[(startIdx + +nDaysM[1]) % 7]
-          const matchIdx = q.options.findIndex((o: any) => String(o).toLowerCase().trim() === result)
-          if (matchIdx !== -1 && matchIdx !== q.correct_answer) {
-            console.warn(`Day arithmetic fix: "${q.question?.slice(0, 55)}" → ${result} idx ${matchIdx}`)
-            q.correct_answer = matchIdx
-          }
-          continue
-        }
-      }
-    }
-
-    // ── Strategy 2: Extract answer from explanation text ──────────────────────
-    if (q.explanation) {
-      // Normalize explanation: fix ALL LaTeX artifacts so arithmetic regex works.
-      // Key problems: \times→"imes", \div→"div", \text{kg}→"extkg", "300extcm"→"300"
-      const expl = (q.explanation as string)
-        .replace(/\$+/g, '')
-        .replace(/[−–]/g, '-')
-        // Fix ALL LaTeX operator artifacts: "235imes3" → "235*3", "84div4" → "84/4"
-        // Handle: imes, \times, \\times, "multiplied by", "times" (word), "divided by"
-        .replace(/(\d)\s*(?:\\\\?times|imes)\s*(\d)/g, '$1*$2')
-        .replace(/(\d)\s*(?:multiplied\s+by|times)\s+(\d)/gi, '$1*$2')
-        .replace(/(\d)\s*(?:\\\\?div|div)\s*(\d)/g, '$1/$2')
-        .replace(/(\d)\s*(?:divided\s+by)\s+(\d)/gi, '$1/$2')
-        // Remove \text{...} and \frac etc
-        .replace(/\\text\{[^}]*\}/g, ' ')
-        .replace(/\\frac\{(\d+)\}\{(\d+)\}/g, '$1/$2')
-        .replace(/\\[a-zA-Z]+/g, ' ')
-        // Remove ext+unit artifacts glued to digits: "300extcm" → "300"
-        .replace(/(\d)\s*ext[A-Za-z\/]+/g, '$1 ')
-        .replace(/ext[A-Za-z\/]+\s*(\d)/g, ' $1')
-        .replace(/\bext[A-Za-z\/]+\b/g, ' ')
-        // Strip standalone measurement units
-        .replace(/\b(?:g|kg|mg|cm|mm|km|ml|l|L|Frw|RWF|frw|am|pm|hrs?|hours?|mins?|minutes?|secs?|seconds?|meters?|m)\b/gi, ' ')
-        .replace(/\s+/g, ' ')
-        .trim()
-
-      // Strategy 2a: "Option [A-D] ... is the correct answer" or "Option [A-D] (value) is correct"
-      const optMap: Record<string, number> = { A: 0, B: 1, C: 2, D: 3 }
-      const optCorrectM = expl.match(/\bOption\s+([A-D])\b[^.]*?\bis\s+(?:the\s+)?correct\s+answer\b/i)
-        || expl.match(/\bOption\s+([A-D])\s+is\s+correct\b/i)
-        || expl.match(/\bOption\s+([A-D])\s*\([^)]*\)\s*is\s+(?:the\s+)?correct\b/i)
-      if (optCorrectM) {
-        const targetIdx = optMap[optCorrectM[1].toUpperCase()]
-        if (targetIdx !== undefined && targetIdx !== q.correct_answer) {
-          console.warn(`Option-letter fix: Q${q.id} Option ${optCorrectM[1]} → idx ${targetIdx}`)
-          q.correct_answer = targetIdx
-        }
-        continue
-      }
-
-      // Strategy 2b: Phrase-based final-answer patterns (high confidence)
-      const patterns: RegExp[] = [
-        /\d+\s*[+\-×*÷\/]\s*\d+\s+equals?\s+(-?\d+(?:\.\d+)?)/i,
-        /(?:sum|total)\s+of\s+\d+\s+and\s+\d+\s+is\s+(-?\d+)/i,
-        /missing\s+number\s+is\s+(-?\d+(?:\.\d+)?)/i,
-        /(?:therefore|thus|so|hence)[,\s]+(?:the\s+)?(?:correct\s+)?answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
-        /(?:the\s+)?(?:only\s+)?correct\s+answer\s+is\s+(?:[A-D]:\s*)?(-?\d+(?:\.\d+)?)/i,
-        /(?:final\s+)?answer\s*(?:is|:)\s*(-?\d+(?:\.\d+)?)/i,
-        /the\s+(?:result|sum|total|difference|product|answer)\s+is\s+(-?\d+(?:\.\d+)?)/i,
-      ]
-      for (const pat of patterns) {
-        const m = expl.match(pat)
-        if (m) {
-          const val = Number(m[1])
-          if (Number.isFinite(val)) { patchAnswer(q, val); break }
-        }
-      }
-
-      // Strategy 2c: Arithmetic equation fallback (guarded)
-      // Avoid using intermediate column-working equations like "5+2=7" as the final answer.
-      const arithRe = /(-?\d+(?:\.\d+)?)\s*([+\-×*÷\/])\s*(-?\d+(?:\.\d+)?)\s*=\s*(-?\d+(?:\.\d+)?)/g
-      const eqs: Array<{ a: number; b: number; op: string; r: number }> = []
-      let arithM: RegExpExecArray | null
-      while ((arithM = arithRe.exec(expl)) !== null) {
-        const aNum = Number(arithM[1])
-        const bNum = Number(arithM[3])
-        const rNum = Number(arithM[4])
-        if (Number.isFinite(aNum) && Number.isFinite(bNum) && Number.isFinite(rNum)) {
-          eqs.push({ a: aNum, b: bNum, op: arithM[2], r: rNum })
-        }
-      }
-
-      if (eqs.length === 1) {
-        patchAnswer(q, eqs[0].r)
-        continue
-      }
-
-      if (eqs.length > 1) {
-        const qExpr = text.match(/(-?\d+(?:\.\d+)?)\s*([+\-−×x*÷\/])\s*(-?\d+(?:\.\d+)?)/)
-        if (qExpr) {
-          const qa = Number(qExpr[1])
-          const qb = Number(qExpr[3])
-          const qop = qExpr[2] === '−' ? '-' : qExpr[2] === '×' || qExpr[2] === 'x' ? '*' : qExpr[2] === '÷' ? '/' : qExpr[2]
-          const matched = eqs.find((e) => {
-            const eop = e.op === '−' ? '-' : e.op === '×' ? '*' : e.op === '÷' ? '/' : e.op
-            if (eop !== qop) return false
-            if (qop === '+' || qop === '*') {
-              return (e.a === qa && e.b === qb) || (e.a === qb && e.b === qa)
-            }
-            return e.a === qa && e.b === qb
-          })
-          if (matched) {
-            patchAnswer(q, matched.r)
-            continue
-          }
-        }
-      }
-
-      // Strategy 2d: Option-value matching — the explanation often says
-      // "Option B (33) is correct" or "Option C (16) is the correct answer"
-      // where the VALUE in parentheses tells us the right answer regardless of letter.
-      const optValM = expl.match(/\bOption\s+[A-D]\s*\(([^)]+)\)\s*is\s+(?:the\s+)?correct/i)
-      if (optValM) {
-        const valStr = optValM[1].replace(/[^0-9.\-]/g, '')
-        const val = Number(valStr)
-        if (Number.isFinite(val)) patchAnswer(q, val)
-      }
-    }
-  }
+function normalizeQuestionKey(question: string): string {
+  return question
+    .toLowerCase()
+    .replace(/\s+/g, ' ')
+    .replace(/[^a-z0-9\s]/g, '')
+    .trim()
 }
 
-// Replace correct_answer index. If the computed answer isn't in the options,
-// replace the option the AI marked as correct with the right value.
-function patchAnswer(q: any, expected: number): void {
-  if (!Number.isFinite(expected)) return
-  const optNum = (o: any) => Number(String(o).replace(/[^0-9.\-]/g, ''))
-  const currentVal = optNum(q.options[q.correct_answer])
-  if (currentVal === expected) return // already correct
+// ── UI constraints: filter out questions that require visuals ───────────────
+// The UI does not provide diagrams and drawing prompts are disallowed.
+// Therefore: remove any question that depends on an external picture/diagram.
+function isUnanswerableWithoutVisual(q: any): boolean {
+  const question = String(q?.question ?? '').trim()
+  if (!question) return true
 
-  const existingIdx = q.options.findIndex((o: any) => optNum(o) === expected)
-  if (existingIdx !== -1) {
-    // Answer is in the list — just fix the index
-    console.warn(`MCQ idx fix: "${q.question?.slice(0, 55)}" → ${q.correct_answer}(${q.options[q.correct_answer]}) → ${existingIdx}(${q.options[existingIdx]})`)
-    q.correct_answer = existingIdx
-  } else {
-    // Answer is NOT in the options at all — replace the AI-marked option with the correct value
-    console.warn(`MCQ option fix: "${q.question?.slice(0, 55)}" — replacing option[${q.correct_answer}]="${q.options[q.correct_answer]}" with "${expected}"`)
-    q.options[q.correct_answer] = String(expected)
-    // options stay sorted as the AI intended but the marked slot now has the right value
+  const lower = question.toLowerCase()
+
+  if (q?.needs_diagram === true) return true
+
+  // Disallow any draw/plot or imagine prompts entirely.
+  if (/\b(draw|sketch|plot|imagine)\b/.test(lower)) {
+    return true
   }
+
+  // References to missing figures/diagrams.
+  if (/\b(as\s+shown|shown\s+(?:above|below|here)|see\s+(?:the|this|these)\s+(?:diagram|picture|figure|graph|image|photo|illustration|map|chart|table)|look\s+at\s+(?:the|this|these)\s+(?:diagram|picture|figure|graph|image|photo|illustration|map|chart|table)|in\s+the\s+(?:diagram|picture|figure|graph|image|photo|illustration|map|chart|table)|on\s+the\s+graph)\b/i.test(question)) {
+    return true
+  }
+
+  // Phrases that imply a missing visual even without explicit nouns.
+  if (/\b(look\s+at\s+this|look\s+at\s+the|see\s+this|see\s+the)\b/.test(lower)) {
+    return true
+  }
+
+  // Shape/color prompts that rely on an unseen diagram.
+  const hasColor = /\b(shaded|shade|colored|colour|coloured|blue|green|red|yellow|orange|purple|pink|black|white|grey|gray|highlighted|filled)\b/.test(lower)
+  const hasShape = /\b(shape|circle|triangle|rectangle|square|polygon)\b/.test(lower)
+  const hasPartition = /\b(divided\s+into|split\s+into|partitioned|equal\s+parts)\b/.test(lower)
+  if (hasColor && hasShape && !hasPartition) {
+    return true
+  }
+  if (/\bwhich\s+shape\s+(?:shows|has|is)\b/.test(lower) && /\b(half|quarter|third|shaded|shade|colored|colour|coloured)\b/.test(lower)) {
+    return true
+  }
+  if (/\b(this|these)\s+(?:shape|circle|triangle|rectangle|square|polygon)\b/.test(lower) && /\b(part|fraction|shaded|shade|colored|colour|coloured|blue|green|red|yellow)\b/.test(lower)) {
+    return true
+  }
+
+  // Measuring an on-screen object without an actual provided diagram.
+  if (/\b(measure|measurement|length|how\s+long)\b/.test(lower) && /\b(this|the)\s+(line|angle)\b/.test(lower)) {
+    return true
+  }
+  if (/\b(line|angle)\s+(above|below|here)\b/.test(lower) && /\b(measure|measurement|length|how\s+long)\b/.test(lower)) {
+    return true
+  }
+
+  // Physical-tool requirements (not workable reliably on-screen).
+  if (/\b(use|using)\s+(a\s+)?(ruler|protractor)\b/.test(lower)) {
+    return true
+  }
+
+  return false
 }
 
-// ── Expression-option MCQ fixer ────────────────────────────────────────────────
-// Handles questions where options are expressions like "3+7", "2+8".
-// Validates number-bond style questions deterministically by evaluating each option.
-function fixExpressionMcqs(questions: any[]): void {
-  for (const q of questions) {
-    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
+function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: string[]): boolean {
+  if (allowsArithmeticForSelection(subject, topics)) return false
+  const question = String(q?.question ?? '').toLowerCase()
+  if (!question) return true
 
-    // Only apply to questions where options look like arithmetic expressions
-    const optionSums: (number | null)[] = q.options.map((o: any) => {
-      const m = String(o).match(/(\d+)\s*\+\s*(\d+)/)
-      return m ? +m[1] + +m[2] : null
-    })
-    if (optionSums.every(s => s === null)) continue // no expression options
+  const hasDigits = /\d/.test(question)
+  const hasSymbols = /[+\-*\/=]/.test(question)
+  const arithmeticWords = /\b(add|added|sum|total|altogether|in\s+all|difference|subtract|minus|plus|left|remain|remaining|increase|decrease|multiply|product|times|divide|quotient|share)\b/.test(question)
+  const storyPattern = /\bhas\s+\d+.*\b(give|gives|gave|get|gets|got|buy|buys|bought|take|takes|took|lose|loses|lost|more|less)\b.*\bhow\s+many\b/.test(question)
+  const howManyTotal = /\bhow\s+many\b/.test(question) && /\b(total|altogether|left|remain|remaining|now|in\s+all|sum)\b/.test(question)
 
-    const qText = (q.question || '').toLowerCase()
-
-    // ── General: ALL 4 expression options sum to the SAME value ───────────────
-    // When all 4 options are equally valid (or equally invalid) the question is broken.
-    // Positive question → keep the AI-marked answer, make the other 3 wrong sums.
-    // Negative question ("which is incorrect?") → create one wrong sum and mark it correct.
-    const definedSums = optionSums.filter((s): s is number => s !== null)
-    if (definedSums.length === 4 && definedSums.every(s => s === definedSums[0])) {
-      const target = definedSums[0]
-      const isNegativeQ = /\b(?:not|incorrect|wrong|false|does\s+not)\b/i.test(qText)
-      if (!isNegativeQ) {
-        // Positive: keep marked answer, replace others with invalid sums
-        const keep = q.correct_answer
-        let seed = 0
-        for (let i = 0; i < 4; i++) {
-          if (i !== keep) {
-            const offset = [1, -1, 2, -2][seed % 4]
-            const wrongSum = Math.max(2, target + offset)
-            const a = Math.max(1, Math.floor(wrongSum / 2))
-            q.options[i] = `${a} + ${Math.max(1, wrongSum - a)}`
-            seed++
-          }
-        }
-        console.warn(`All-equal-sum fix (+): all 4 summed to ${target}, kept idx ${keep}`)
-      } else {
-        // Negative: all options are valid → replace one with a wrong sum and mark it as answer
-        const replaceIdx = q.correct_answer === 0 ? 1 : 0
-        const wrongSum = target + 1
-        const a = Math.max(1, Math.floor(wrongSum / 2))
-        q.options[replaceIdx] = `${a} + ${Math.max(1, wrongSum - a)}`
-        q.correct_answer = replaceIdx
-        console.warn(`All-equal-sum fix (-): all 4 summed to ${target}, created wrong option at idx ${replaceIdx}`)
-      }
-      continue
-    }
-
-    // ── "Which number bond to N is correct?" ──────────────────────────────────
-    const correctMatch = qText.match(/bond\s+to\s+(\d+)\s+is\s+correct/i)
-      || qText.match(/correct\s+number\s+bond\s+to\s+(\d+)/i)
-      || qText.match(/bond.*(?:correctly\s+)?adds?\s+up\s+to\s+(\d+)/i)
-      || qText.match(/bond.*(?:equals?|sums?\s+to)\s+(\d+)/i)
-    if (correctMatch) {
-      const target = Number(correctMatch[1])
-      const validIndices = optionSums.map((s, i) => s === target ? i : -1).filter(i => i !== -1)
-      if (validIndices.length === 0) {
-        // No valid bond at all — put one at the correct_answer slot
-        q.options[q.correct_answer] = `${Math.floor(target / 2)} + ${target - Math.floor(target / 2)}`
-        console.warn(`Bond fix (correct, no valid): replaced option[${q.correct_answer}] with valid bond`)
-      } else {
-        // Keep one valid bond (prefer the AI-marked index if it's valid, else take first)
-        const keep = validIndices.includes(q.correct_answer) ? q.correct_answer : validIndices[0]
-        q.correct_answer = keep
-        // Replace every OTHER option that also sums to target with an invalid bond
-        let seed = 0
-        for (let i = 0; i < 4; i++) {
-          if (i !== keep && optionSums[i] === target) {
-            const offset = [1, -1, 2, -2][seed % 4]
-            const wrongSum = target + offset
-            const a = Math.max(1, Math.floor(wrongSum / 2))
-            q.options[i] = `${a} + ${Math.max(1, wrongSum - a)}`
-            seed++
-          }
-        }
-        if (seed > 0) console.warn(`Bond fix (correct, dupes): kept idx ${keep}, replaced ${seed} duplicate valid bonds`)
-      }
-      continue
-    }
-
-    // ── "Which number bond to N is incorrect?" ────────────────────────────────
-    const incorrectMatch = qText.match(/bond\s+to\s+(\d+)\s+is\s+incorrect/i)
-      || qText.match(/incorrect\s+number\s+bond\s+to\s+(\d+)/i)
-      || qText.match(/not\s+a\s+(?:correct\s+)?number\s+bond\s+to\s+(\d+)/i)
-    if (incorrectMatch) {
-      const target = Number(incorrectMatch[1])
-      // The correct answer must be the option that does NOT sum to target
-      const incorrectIdx = optionSums.findIndex(s => s !== null && s !== target)
-      if (incorrectIdx !== -1 && incorrectIdx !== q.correct_answer) {
-        console.warn(`Bond fix (incorrect): "${q.question.slice(0, 60)}" → idx ${q.correct_answer} → ${incorrectIdx}`)
-        q.correct_answer = incorrectIdx
-      } else if (incorrectIdx === -1) {
-        // All options sum to target — replace one distractor with a non-bond
-        const replaceIdx = q.correct_answer === 0 ? 1 : 0
-        q.options[replaceIdx] = `${Math.floor(target / 2)} + ${Math.floor(target / 2) + 1}` // e.g. 5+6 for target 10
-        q.correct_answer = replaceIdx
-        console.warn(`Bond fix (incorrect, replace): all options were valid bonds for target ${target}`)
-      }
-      continue
-    }
-
-    // ── Catch-all: any expression-option question with a target number in the text ──
-    // Handles phrasings like "makes 10", "bond of 10", "equal to 10", "sum of 10", etc.
-    // where options are expressions and exactly one should sum to the target.
-    const catchAllMatch = qText.match(/\b(?:makes?|bond\s+of|equal[s]?\s+to|sum\s+of|total\s+of|gives?|result[s]?\s+in)\s+(\d+)\b/i)
-      || qText.match(/\bto\s+(\d+)\b/i) // "bond to 10", "adds to 10"
-    if (catchAllMatch && optionSums.some(s => s !== null)) {
-      const target = Number(catchAllMatch[1])
-      if (target > 0) {
-        const isNegativeQ = /\b(?:not|incorrect|wrong|false|does\s+not)\b/i.test(qText)
-        if (!isNegativeQ) {
-          // Positive question — exactly one option must equal target
-          let validIdx = optionSums.findIndex(s => s === target)
-          if (validIdx === -1) {
-            // No option equals target — replace AI-marked slot with a valid bond
-            const a = Math.max(1, Math.floor(target / 2))
-            q.options[q.correct_answer] = `${a} + ${target - a}`
-            optionSums[q.correct_answer] = target
-            validIdx = q.correct_answer
-            console.warn(`Bond catch-all fix: no option summed to ${target}, replaced option[${q.correct_answer}]`)
-          } else {
-            if (validIdx !== q.correct_answer) {
-              console.warn(`Bond catch-all idx fix: "${q.question?.slice(0, 55)}" idx ${q.correct_answer} → ${validIdx}`)
-              q.correct_answer = validIdx
-            }
-          }
-          // Ensure no OTHER option also equals target
-          let seed = 0
-          for (let i = 0; i < 4; i++) {
-            if (i !== q.correct_answer && optionSums[i] === target) {
-              const offset = [1, -1, 2, -2][seed % 4]
-              const wrongSum = Math.max(2, target + offset)
-              const a = Math.max(1, Math.floor(wrongSum / 2))
-              q.options[i] = `${a} + ${Math.max(1, wrongSum - a)}`
-              seed++
-              console.warn(`Bond catch-all: replaced duplicate valid option[${i}]`)
-            }
-          }
-        }
-      }
-      continue
-    }
-  }
-}
-
-// ── Ordering question fixer ───────────────────────────────────────────────────
-// Handles "correct order from smallest to largest / largest to smallest" questions.
-// Deterministically computes the correct sorted sequence and ensures it is one of
-// the four options. Also fixes the correct_answer index if it points to the wrong one.
-function fixOrderingQuestions(questions: any[]): void {
-  const norm = (s: any) => String(s).replace(/\s+/g, '').toLowerCase()
-
-  for (const q of questions) {
-    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
-    // Only applies when options are sequences (comma-separated)
-    if (!q.options.some((o: any) => String(o).includes(','))) continue
-
-    const ascending = /smallest\s+to\s+largest|ascending\s+order|increasing\s+order/i.test(q.question)
-    const descending = /largest\s+to\s+smallest|descending\s+order|decreasing\s+order/i.test(q.question)
-    if (!ascending && !descending) continue
-
-    // Extract all numbers from the question text
-    const nums = (q.question.match(/\d+/g) || []).map(Number)
-    if (nums.length < 2) continue
-
-    const sorted = ascending
-      ? [...nums].sort((a, b) => a - b)
-      : [...nums].sort((a, b) => b - a)
-    const correctSeq = sorted.join(', ')
-    const correctNorm = norm(correctSeq)
-
-    const existingIdx = q.options.findIndex((o: any) => norm(o) === correctNorm)
-    if (existingIdx !== -1) {
-      if (existingIdx !== q.correct_answer) {
-        console.warn(`Ordering fix: "${q.question.slice(0, 60)}" → idx ${q.correct_answer} → ${existingIdx}`)
-        q.correct_answer = existingIdx
-      }
-    } else {
-      // Correct sequence not in options — replace the AI-marked slot with it
-      console.warn(`Ordering fix: "${correctSeq}" missing — replacing option[${q.correct_answer}]`)
-      q.options[q.correct_answer] = correctSeq
-    }
-  }
-}
-
-// ── Times-table / divisibility question fixer ────────────────────────────────
-// Handles "Which is [NOT] in the N times table?" and similar divisibility questions.
-// Ensures EXACTLY ONE option has the required property.
-function fixTimesTableQuestions(questions: any[]): void {
-  for (const q of questions) {
-    if (q.type === 'longform' || !Array.isArray(q.options) || q.options.length !== 4) continue
-    const qText = (q.question || '').toLowerCase()
-
-    // Detect times-table questions: "N times table" or "multiples of N"
-    const timesMatch = qText.match(/(\d+)\s+times\s+table/i) || qText.match(/multiples?\s+of\s+(\d+)/i)
-    if (!timesMatch) continue
-    const n = Number(timesMatch[1])
-    if (!Number.isFinite(n) || n < 2) continue
-
-    // Parse all options as plain numbers
-    const optNums: (number | null)[] = q.options.map((o: any) => {
-      const v = Number(String(o).trim())
-      return Number.isFinite(v) && v > 0 ? v : null
-    })
-    if (optNums.some(v => v === null)) continue // skip non-numeric options
-
-    const isMult = (v: number) => v % n === 0
-    // A non-multiple replacement: pick base + smallest offset that isn't also a multiple
-    const nonMultiple = (base: number) => {
-      let off = Math.max(1, Math.ceil(n * 0.5))
-      while ((base + off) % n === 0) off++
-      return base + off
-    }
-    // A multiple replacement: round to nearest multiple
-    const nearestMult = (base: number) => {
-      const m = Math.round(base / n) * n
-      return m > 0 ? m : n * 3
-    }
-
-    const isNegativeQ = /\b(?:not\b|isn'?t|is\s+not)\b/i.test(qText)
-
-    if (isNegativeQ) {
-      // "NOT in N times table" → need exactly ONE non-multiple (the answer), THREE multiples
-      const nonMultIdxs = (optNums as number[]).map((v, i) => !isMult(v) ? i : -1).filter(i => i !== -1)
-
-      if (nonMultIdxs.length === 0) {
-        // All options are multiples → replace AI-marked option with a non-multiple
-        const base = optNums[q.correct_answer] as number
-        q.options[q.correct_answer] = String(nonMultiple(base))
-        console.warn(`TimesTable fix (-): all multiples of ${n}, replaced option[${q.correct_answer}]`)
-      } else {
-        // Ensure correct_answer points to the non-multiple
-        const keep = nonMultIdxs.includes(q.correct_answer) ? q.correct_answer : nonMultIdxs[0]
-        q.correct_answer = keep
-        // Replace any extra non-multiples with proper multiples
-        for (const idx of nonMultIdxs) {
-          if (idx !== keep) {
-            q.options[idx] = String(nearestMult(optNums[idx] as number))
-            console.warn(`TimesTable fix (-): replaced extra non-multiple at idx ${idx}`)
-          }
-        }
-      }
-    } else {
-      // "In N times table" → need exactly ONE multiple (the answer), THREE non-multiples
-      const multIdxs = (optNums as number[]).map((v, i) => isMult(v) ? i : -1).filter(i => i !== -1)
-
-      if (multIdxs.length === 0) {
-        // No multiples → replace AI-marked option with a multiple
-        const base = optNums[q.correct_answer] as number
-        q.options[q.correct_answer] = String(nearestMult(base))
-        console.warn(`TimesTable fix (+): no multiples of ${n}, replaced option[${q.correct_answer}]`)
-      } else {
-        const keep = multIdxs.includes(q.correct_answer) ? q.correct_answer : multIdxs[0]
-        q.correct_answer = keep
-        // Replace extra multiples with non-multiples
-        for (const idx of multIdxs) {
-          if (idx !== keep) {
-            q.options[idx] = String(nonMultiple(optNums[idx] as number))
-            console.warn(`TimesTable fix (+): replaced extra multiple at idx ${idx}`)
-          }
-        }
-      }
-    }
-  }
+  return (hasDigits && hasSymbols) || (hasDigits && (arithmeticWords || storyPattern || howManyTotal))
 }
 
 // ── Main route ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'eu.google.gemma-3-27b-it', customTime } = body
+    const {
+      subject,
+      topics,
+      count,
+      style,
+      className,
+      grade,
+      curriculum,
+      user_id,
+      questionType: requestedQuestionType = 'mcq',
+      difficultyLevel,
+      aiModel = 'eu.google.gemma-3-27b-it',
+      customTime,
+      textbook_id,
+      topic_ids,
+      subtopic_id,
+    } = body
 
-    if (!subject || !topics || !count) {
+    const questionType =
+      requestedQuestionType === 'mcq' || requestedQuestionType === 'longform' || requestedQuestionType === 'mixed'
+        ? requestedQuestionType
+        : 'mcq'
+
+    const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
+    const accessKeyId = process.env.AWS_ACCESS_KEY_ID
+    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
+    if (!accessKeyId || !secretAccessKey) {
+      return NextResponse.json(
+        { error: 'AWS credentials not configured. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.' },
+        { status: 500 }
+      )
+    }
+
+    const textbookId = Number(textbook_id)
+    const topicIds = normalizeIds(topic_ids)
+    const subtopicId = Number(subtopic_id)
+
+    const requestedSubject = String(subject ?? '').trim()
+    const requestedTopics = Array.isArray(topics) ? topics.map((t: any) => String(t).trim()).filter(Boolean) : []
+    const hasSomeTopics = requestedTopics.length > 0 || topicIds.length > 0 || Number.isFinite(subtopicId)
+
+    if ((!requestedSubject && !Number.isFinite(textbookId)) || !hasSomeTopics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
     }
 
-    let curriculumBlock = ''
-    if (curriculum === 'rwanda-reb' && grade) {
-      curriculumBlock = getCurriculumContext(grade as GradeLevel, subject, topics)
-    } else if (curriculum === 'cambridge' && grade) {
-      curriculumBlock = getCambridgeCurriculumContext(grade as CambridgeGrade, subject, topics)
-    } else if (className) {
-      curriculumBlock = `**Target Audience:** ${className}`
+    // ── DB-driven selection: textbook → topics → optional subtopic ───────────
+    let textbookName = ''
+    let dbTopicNames: string[] = []
+    let resolvedSubtopicName: string | null = null
+    let resolvedSubtopicTopicId: number | null = null
+
+    if (Number.isFinite(textbookId)) {
+      const { data, error } = await supabase
+        .from('textbooks')
+        .select('textbook_id,textbook_name')
+        .eq('textbook_id', textbookId)
+        .maybeSingle()
+      if (error) console.error('Textbook lookup error:', error)
+      if (data?.textbook_name) textbookName = String(data.textbook_name)
     }
+
+    if (topicIds.length > 0) {
+      let q = supabase
+        .from('topics')
+        .select('topic_id,topic,textbook_id')
+        .in('topic_id', topicIds)
+      if (Number.isFinite(textbookId)) q = q.eq('textbook_id', textbookId)
+      const { data, error } = await q.order('topic')
+      if (error) {
+        console.error('Topics lookup error:', error)
+      } else {
+        const rows = Array.isArray(data) ? (data as any[]) : []
+        const nameById = new Map<number, string>()
+        for (const r of rows) {
+          if (Number.isFinite(r.topic_id) && r.topic) nameById.set(Number(r.topic_id), String(r.topic))
+        }
+        dbTopicNames = topicIds.map((id) => nameById.get(id)).filter(Boolean) as string[]
+      }
+    }
+
+    if (Number.isFinite(subtopicId)) {
+      let q = supabase
+        .from('subtopics')
+        .select('subtopic_id,subtopic,topic_id,textbook_id')
+        .eq('subtopic_id', subtopicId)
+      if (Number.isFinite(textbookId)) q = q.eq('textbook_id', textbookId)
+      const { data, error } = await q.maybeSingle()
+      if (error) {
+        console.error('Subtopic lookup error:', error)
+      } else if (data?.subtopic) {
+        resolvedSubtopicName = String(data.subtopic)
+        resolvedSubtopicTopicId = Number.isFinite(data.topic_id) ? Number(data.topic_id) : null
+      }
+    }
+
+    const promptSubject = textbookName || requestedSubject
+    const baseTopicNames = dbTopicNames.length > 0 ? dbTopicNames : requestedTopics
+
+    // If a subtopic is specified, constrain the prompt to it.
+    let promptTopics = baseTopicNames
+    if (resolvedSubtopicName) {
+      const parentTopicName =
+        (resolvedSubtopicTopicId && topicIds.length > 0 && resolvedSubtopicTopicId === topicIds[0] ? baseTopicNames[0] : null) ||
+        (baseTopicNames.length === 1 ? baseTopicNames[0] : null)
+      promptTopics = [parentTopicName ? `${parentTopicName} — ${resolvedSubtopicName}` : resolvedSubtopicName]
+    }
+
+    const displayTopics = promptTopics
+
+    const curriculumBlockLines: string[] = []
+    const audience = className || (grade ? `Grade ${grade}` : '')
+    if (audience) curriculumBlockLines.push(`**Target Audience:** ${audience}`)
+    if (textbookName) curriculumBlockLines.push(`**Textbook:** ${textbookName}`)
+    if (baseTopicNames.length > 0) curriculumBlockLines.push(`**Selected Topics:** ${baseTopicNames.join(', ')}`)
+    if (resolvedSubtopicName) {
+      curriculumBlockLines.push(`**Scope Rule:** Focus ONLY on the subtopic "${resolvedSubtopicName}". Do NOT include questions outside this subtopic.`)
+    }
+    const curriculumBlock = curriculumBlockLines.join('\n')
 
     const isCambridge = curriculum === 'cambridge'
     const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = false
 
-    // ── Bedrock client ────────────────────────────────────────────────────────
+    // ── Bedrock client (explicit timeouts + fallback model) ─────────────────
+    // IMPORTANT: The AWS SDK will retry requests by default. When the model ID is
+    // invalid for the account/region, those retries can make a single call take
+    // minutes. We cap attempts and use a 60s budget before falling back.
     const bedrockClient = new BedrockRuntimeClient({
-      region: 'eu-west-1',
-      credentials: {
-        accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-        secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-      },
+      region: AWS_REGION,
+      maxAttempts: 1,
+      requestHandler: new NodeHttpHandler({
+        connectionTimeout: 3_000,
+        requestTimeout: 70_000,
+      }),
+      credentials: { accessKeyId, secretAccessKey },
     })
 
+    const PREFIXES = ['eu', 'us', 'ap'] as const
+
     const stripPrefix = (id: string) => id.replace(/^(us|eu|ap)\./, '')
+
+    const regionPrefix: (typeof PREFIXES)[number] =
+      AWS_REGION.startsWith('eu-') ? 'eu' :
+        AWS_REGION.startsWith('ap-') ? 'ap' :
+          'us'
+
+    function isModelIdError(err: any): boolean {
+      const text = `${err?.name || ''} ${err?.message || ''}`.toLowerCase()
+      return (
+        text.includes('provided model identifier is invalid') ||
+        text.includes('invalid model') ||
+        text.includes('validationexception') ||
+        text.includes('on-demand throughput')
+      )
+    }
+
+    function buildModelCandidates(seedId: string): string[] {
+      const expanded: string[] = []
+      const clean = (seedId || '').trim()
+      if (!clean) return expanded
+
+      const bare = stripPrefix(clean)
+      expanded.push(clean)
+      expanded.push(bare)
+      // Try the inferred prefix first, then others.
+      expanded.push(`${regionPrefix}.${bare}`)
+      PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
+
+      // Extra safety for known Gemma naming variants.
+      if (bare === 'google.gemma-3-27b-it') {
+        expanded.push('google.gemma-3-27b-it-v1:0')
+        expanded.push(`${regionPrefix}.google.gemma-3-27b-it-v1:0`)
+        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-27b-it-v1:0`))
+      }
+
+      if (bare === 'google.gemma-3-12b-it') {
+        expanded.push('google.gemma-3-12b-it-v1:0')
+        expanded.push(`${regionPrefix}.google.gemma-3-12b-it-v1:0`)
+        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-12b-it-v1:0`))
+      }
+
+      return [...new Set(expanded.filter(Boolean))]
+    }
 
     function buildBedrockBody(modelId: string, prompt: string, maxTokens: number): string {
       const m = stripPrefix(modelId)
@@ -1390,36 +1057,126 @@ export async function POST(request: NextRequest) {
     }
 
     async function callBedrock(prompt: string, maxTokens: number): Promise<string> {
-      // Derive the correct regional prefix from the configured AWS region.
-      // Nova and Llama models require a cross-region inference prefix (us./eu./ap.).
-      const regionPrefix = 'eu'
-      const bareId = aiModel.replace(/^(us|eu|ap)\./, '')
-      const prefixedId = `${regionPrefix}.${bareId}`
-      // Try: region-prefixed ID first, then original from request, then bare ID
-      const candidates = [...new Set([prefixedId, aiModel, bareId])]
+      const preferredFromEnv =
+        process.env.AWS_GENERATION_MODEL_ID ||
+        process.env.AWS_BEDROCK_MODEL_ID ||
+        process.env.AWS_MODEL_ID ||
+        ''
 
-      let lastErr: any
-      for (const modelId of candidates) {
-        try {
-          const cmd = new InvokeModelCommand({
-            modelId,
-            contentType: 'application/json',
-            accept: 'application/json',
-            body: buildBedrockBody(modelId, prompt, maxTokens),
-          })
-          const res = await bedrockClient!.send(cmd)
-          const parsed = JSON.parse(new TextDecoder().decode(res.body))
-          return extractBedrockText(modelId, parsed)
-        } catch (err: any) {
-          lastErr = err
-          const msg = err?.message ?? ''
-          const retryable = msg.includes('invalid') || msg.includes('Invalid') ||
-            msg.includes('on-demand throughput') || msg.includes('ValidationException')
-          if (retryable) { console.warn(`Bedrock ${modelId} failed — trying alternate ID...`); continue }
-          throw err
+      const seed = (preferredFromEnv || aiModel) as string
+      const candidates = buildModelCandidates(seed)
+
+      const FALLBACK_MODEL_ID = 'google.gemma-3-12b-it'
+      const PRIMARY_CALL_BUDGET_MS = 60_000
+      const FALLBACK_CALL_BUDGET_MS = 60_000
+      const PER_ATTEMPT_TIMEOUT_MS = 60_000
+
+      const tryModels = async (modelIds: string[], budgetMs: number): Promise<{
+        text?: string
+        lastErr?: any
+        onlyModelIdErrors: boolean
+        lastTimeout?: { modelId: string; ms: number } | null
+      }> => {
+        const started = Date.now()
+        let lastErr: any
+        let onlyModelIdErrors = modelIds.length > 0
+        let lastTimeout: { modelId: string; ms: number } | null = null
+
+        for (const modelId of modelIds) {
+          const elapsed = Date.now() - started
+          const remaining = budgetMs - elapsed
+          if (remaining <= 0) break
+
+          const perAttemptTimeoutMs = Math.min(PER_ATTEMPT_TIMEOUT_MS, remaining)
+          const controller = new AbortController()
+          const timeout = setTimeout(() => controller.abort(), perAttemptTimeoutMs)
+
+          try {
+            const cmd = new InvokeModelCommand({
+              modelId,
+              contentType: 'application/json',
+              accept: 'application/json',
+              body: buildBedrockBody(modelId, prompt, maxTokens),
+            })
+            const res = await bedrockClient.send(cmd, { abortSignal: controller.signal })
+            const parsed = JSON.parse(new TextDecoder().decode(res.body))
+            const text = extractBedrockText(modelId, parsed)
+            if (!text?.trim()) throw new Error(`Empty model response from ${modelId}`)
+            return { text, onlyModelIdErrors: false }
+          } catch (err: any) {
+            lastErr = err
+
+            const isAbort = err?.name === 'AbortError' || String(err?.message || '').toLowerCase().includes('aborted')
+            if (isAbort) {
+              onlyModelIdErrors = false
+              lastTimeout = { modelId, ms: perAttemptTimeoutMs }
+              console.warn(`Bedrock ${modelId} timed out after ${perAttemptTimeoutMs}ms — trying next model...`)
+              continue
+            }
+
+            if (isModelIdError(err)) {
+              console.warn(`Bedrock ${modelId} failed — trying alternate ID...`)
+              continue
+            }
+
+            onlyModelIdErrors = false
+            throw err
+          } finally {
+            clearTimeout(timeout)
+          }
         }
+
+        return { lastErr, onlyModelIdErrors, lastTimeout }
       }
-      throw lastErr
+
+      const primary = await tryModels(candidates, PRIMARY_CALL_BUDGET_MS)
+      if (primary.text) return primary.text
+
+      const fallbackCandidates = buildModelCandidates(FALLBACK_MODEL_ID)
+      if (fallbackCandidates.length > 0) {
+        console.warn('Primary model attempts failed or timed out. Falling back to google.gemma-3-12b-it...')
+        const fallback = await tryModels(fallbackCandidates, FALLBACK_CALL_BUDGET_MS)
+        if (fallback.text) return fallback.text
+
+        let lastErr = fallback.lastErr || primary.lastErr
+        const timeoutMeta = fallback.lastTimeout || primary.lastTimeout
+        if (timeoutMeta && (lastErr?.name === 'AbortError' || String(lastErr?.message || '').toLowerCase().includes('aborted'))) {
+          const e: any = new Error(`Bedrock request timed out after ${timeoutMeta.ms}ms (modelId=${timeoutMeta.modelId}).`)
+          e.code = 'BEDROCK_TIMEOUT'
+          lastErr = e
+        }
+        const attemptedModels = Array.from(new Set([...candidates, ...fallbackCandidates]))
+        if (primary.onlyModelIdErrors && fallback.onlyModelIdErrors) {
+          const e: any = new Error(
+            'No valid Bedrock model identifier found for generation in this account/region. ' +
+            'Set AWS_GENERATION_MODEL_ID (or AWS_BEDROCK_MODEL_ID) to a model you have access to.'
+          )
+          e.code = 'MODEL_ID_INVALID'
+          e.attemptedModels = attemptedModels
+          throw e
+        }
+
+        throw lastErr || new Error('All Bedrock model candidates failed.')
+      }
+
+      if (primary.onlyModelIdErrors) {
+        const e: any = new Error(
+          'No valid Bedrock model identifier found for generation in this account/region. ' +
+          'Set AWS_GENERATION_MODEL_ID (or AWS_BEDROCK_MODEL_ID) to a model you have access to.'
+        )
+        e.code = 'MODEL_ID_INVALID'
+        e.attemptedModels = candidates
+        throw e
+      }
+
+      let lastErr = primary.lastErr
+      if (primary.lastTimeout && (lastErr?.name === 'AbortError' || String(lastErr?.message || '').toLowerCase().includes('aborted'))) {
+        const e: any = new Error(`Bedrock request timed out after ${primary.lastTimeout.ms}ms (modelId=${primary.lastTimeout.modelId}).`)
+        e.code = 'BEDROCK_TIMEOUT'
+        lastErr = e
+      }
+
+      throw lastErr || new Error('All Bedrock model candidates failed.')
     }
 
     // ── Stage 1: Question skeleton generation ────────────────────────────────
@@ -1433,12 +1190,13 @@ export async function POST(request: NextRequest) {
       // The surplus is stripped after deduplication.
       const requestCount = batchCount + Math.ceil(batchCount * 0.4)
       const { prompt } = buildPrompt({
-        subject, topics, count: requestCount, startId, style,
+        subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
         curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
-      const maxTokens = Math.min(4800, Math.max(2000, requestCount * 420))
+      // Keep generation snappy: cap tokens more aggressively than the hard limit.
+      const maxTokens = Math.min(3600, Math.max(1600, requestCount * 300))
       const text = await callBedrock(prompt, maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
@@ -1457,11 +1215,11 @@ export async function POST(request: NextRequest) {
       const requestCount = batchCount + Math.ceil(batchCount * 0.4)
       const prompt = buildPassageBasedPrompt({
         passage: passage.text, passageSource: passage.source,
-        subject, count: requestCount, startId, style,
+        subject: promptSubject, count: requestCount, startId, style,
         curriculumName, curriculumBlock, questionType,
         difficultyLevel, grade,
       })
-      const maxTokens = Math.min(4800, Math.max(2000, requestCount * 500))
+      const maxTokens = Math.min(3800, Math.max(1800, requestCount * 320))
       const text = await callBedrock(prompt, maxTokens)
       if (isRefusal(text)) throw new Error(`Model refused to generate content.`)
       const parsed = parseJsonRobust(fixLatexInRawJson(text))
@@ -1484,23 +1242,49 @@ export async function POST(request: NextRequest) {
     // Helper: deduplicate + validate a list of raw questions in place
     function deduplicateAndFix(qs: any[]): any[] {
       cleanQuestionTexts(qs)
-      const seenQuestions = new Set<string>()
-      const deduped = qs.filter((q: any) => {
-        const raw = (q.question || '').toLowerCase().trim()
-        const aIdx = raw.search(/\s*[\(\[]\s*a\s*[\)\]]/)
-        const key = (aIdx > 10 ? raw.slice(0, aIdx) : raw).slice(0, 100)
-        if (seenQuestions.has(key)) { console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`); return false }
-        seenQuestions.add(key); return true
+
+      // Filter out questions that are not workable in this UI.
+      const filtered = qs.filter((q: any) => {
+        const qType = String(q?.type || '').toLowerCase()
+        if (questionType === 'mcq' && qType !== 'mcq') {
+          console.warn(`Removed non-MCQ in MCQ-only request: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (questionType === 'longform' && qType !== 'longform') {
+          console.warn(`Removed non-longform in longform-only request: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (questionType === 'mixed' && qType !== 'mcq' && qType !== 'longform') {
+          console.warn(`Removed invalid question type: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (isUnanswerableWithoutVisual(q)) {
+          console.warn(`Removed unanswerable (visual-dependent) question: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (isLikelyOffTopicMathQuestion(q, promptSubject, promptTopics)) {
+          console.warn(`Removed off-topic arithmetic question: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        return true
       })
-      validateMcqAnswers(deduped)
-      fixExpressionMcqs(deduped)
-      fixOrderingQuestions(deduped)
-      fixTimesTableQuestions(deduped)
+
+      const seenQuestions = new Set<string>()
+      const deduped = filtered.filter((q: any) => {
+        const key = normalizeQuestionKey(String(q?.question || ''))
+        if (!key) return false
+        if (seenQuestions.has(key)) {
+          console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`)
+          return false
+        }
+        seenQuestions.add(key)
+        return true
+      })
       return deduped
     }
 
     try {
-      if (needsPassage(subject)) {
+      if (needsPassage(promptSubject)) {
         // ── PASSAGE-FIRST FLOW ────────────────────────────────────────────────
         // Step 1: Generate passages in parallel (one per 10 questions).
         // Step 2: Generate questions per passage in parallel — each question
@@ -1510,15 +1294,15 @@ export async function POST(request: NextRequest) {
         const questionsPerPassage = Math.ceil(count / numPassages)
 
         // Build a topic-aware hint so passages are relevant to what was selected
-        const topicHint = topics.length > 0
-          ? `${topics.slice(0, 2).join(' and ')} — relevant to a ${subject} assessment`
+        const topicHint = promptTopics.length > 0
+          ? `${promptTopics.slice(0, 2).join(' and ')} — relevant to a ${promptSubject} assessment`
           : ''
 
         const rawPassages = await Promise.all(
           Array.from({ length: numPassages }, (_, i) => {
             const baseHint = sharedPassageHint(i, grade)
             const fullHint = topicHint ? `${baseHint}. Topic focus: ${topicHint}` : baseHint
-            return generatePassageWithBedrock('', subject, fullHint, callBedrock, grade)
+            return generatePassageWithBedrock('', promptSubject, fullHint, callBedrock, grade)
           })
         )
         generatedPassages = rawPassages.filter(Boolean) as { text: string; source: string }[]
@@ -1569,7 +1353,7 @@ export async function POST(request: NextRequest) {
       console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
         let retryQs: any[]
-        if (needsPassage(subject) && generatedPassages.length > 0) {
+        if (needsPassage(promptSubject) && generatedPassages.length > 0) {
           // Retry using the first available passage so questions still match the text
           retryQs = await tryGeneratePassageBatch(generatedPassages[0], missing, allQuestions.length + 1)
         } else {
@@ -1600,18 +1384,13 @@ export async function POST(request: NextRequest) {
     // ── Final deterministic fix pass ──────────────────────────────────────────
     // Run all fixers one last time after trimming/renumbering so the explanation-based
     // fixer always has the last word — never let AI-generated indices stand unchecked.
-    validateMcqAnswers(allQuestions)
-    fixExpressionMcqs(allQuestions)
-    fixOrderingQuestions(allQuestions)
-    fixTimesTableQuestions(allQuestions)
-
     // Use custom time if provided, otherwise calculate from prompt helper
     if (customTime && customTime > 0) {
       estimatedTime = Number(customTime)
     } else {
       const { estimatedTime: et } = buildPrompt({
-        subject, topics, count, startId: 1, style,
-        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
+        subject: promptSubject, topics: promptTopics, count, startId: 1, style,
+        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
       })
       estimatedTime = et
     }
@@ -1633,14 +1412,14 @@ export async function POST(request: NextRequest) {
     // q.passage set. Only run generateAllPassages for any stragglers that somehow
     // lack a passage (edge case), then skip fixupPassageQuestions entirely since
     // questions were written about the actual passage from the start.
-    if (needsPassage(subject)) {
+    if (needsPassage(promptSubject)) {
       const missing = assessmentData.questions.filter((q: any) => !q.passage)
       if (missing.length > 0) {
         // Fallback: stamp the first generated passage or generate fresh ones
         if (generatedPassages.length > 0) {
           missing.forEach((q: any) => { q.passage = generatedPassages[0].text; q.passage_source = generatedPassages[0].source })
         } else {
-          await generateAllPassages(missing, subject, callBedrock, grade)
+          await generateAllPassages(missing, promptSubject, callBedrock, grade)
           await fixupPassageQuestions(missing, callBedrock)
         }
       }
@@ -1651,7 +1430,7 @@ export async function POST(request: NextRequest) {
       .from('assessments')
       .insert([{
         user_id: user_id || null,
-        subject,
+        subject: promptSubject,
         difficulty: style,
         duration: estimatedTime,
         questions_data: assessmentData.questions,
@@ -1665,11 +1444,14 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       ...assessmentData,
       assessment_id: dbAssessment?.id || assessmentData.assessment_id,
-      subject,
-      topics,
+      subject: promptSubject,
+      topics: displayTopics,
       style,
       curriculum,
       questionType,
+      textbook_id: Number.isFinite(textbookId) ? textbookId : null,
+      topic_ids: topicIds,
+      subtopic_id: Number.isFinite(subtopicId) ? subtopicId : null,
     })
   } catch (error: any) {
     console.error('Generate assessment error:', error)

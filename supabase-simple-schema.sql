@@ -45,6 +45,41 @@ CREATE TABLE results (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Textbooks, Topics, and Subtopics
+-- CREATE TABLE textbooks (
+--   textbook_id SERIAL PRIMARY KEY,
+--   textbook_name VARCHAR(255) NOT NULL,
+--   filename VARCHAR(255),
+--   curriculum INTEGER DEFAULT 0
+-- );
+
+-- CREATE TABLE topics (
+--   topic_id SERIAL PRIMARY KEY,
+--   textbook_id INTEGER REFERENCES textbooks(textbook_id) ON DELETE CASCADE,
+--   topic VARCHAR(255) NOT NULL
+-- );
+
+-- CREATE TABLE subtopics (
+--   subtopic_id SERIAL PRIMARY KEY,
+--   textbook_id INTEGER REFERENCES textbooks(textbook_id) ON DELETE CASCADE,
+--   topic_id INTEGER REFERENCES topics(topic_id) ON DELETE CASCADE,
+--   subtopic VARCHAR(255) NOT NULL
+-- );
+
+-- Classes and Class Textbooks mapping
+CREATE TABLE classes (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) UNIQUE NOT NULL,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE class_textbooks (
+  class_id INTEGER REFERENCES classes(id) ON DELETE CASCADE,
+  textbook_id INTEGER REFERENCES textbooks(textbook_id) ON DELETE CASCADE,
+  PRIMARY KEY (class_id, textbook_id)
+);
+
 -- Create indexes
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_student_id ON users(student_id);
