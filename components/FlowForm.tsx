@@ -7,25 +7,44 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import {
   AVAILABLE_CURRICULA,
-  RWANDAN_CURRICULUM,
-  getSubjectsForGrade,
-  getTopicsForGradeAndSubject,
   type GradeLevel,
 } from '@/lib/rwanda-curriculum'
 import {
-  CAMBRIDGE_CURRICULUM,
-  getCambridgeSubjectsForGrade,
-  getCambridgeTopicsForGradeAndSubject,
   type CambridgeGrade,
 } from '@/lib/cambridge-curriculum'
+
+type TextbookRow = { id: number; name: string; curriculum: number; filename?: string | null }
+type TopicRow = { id: number; textbook_id: number; name: string }
+type SubtopicRow = { id: number; textbook_id: number; topic_id: number; name: string }
+type ClassRow = { id: number; name: string }
 
 interface FlowFormProps {
   onClose: () => void
   onAssign?: (formData: any, assessmentId: string) => void
 }
 
-const GRADES: GradeLevel[] = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 const TOTAL_STEPS = 9
+
+function deriveGradeFromClassName(className: string): number | null {
+  const name = String(className ?? '').trim()
+  if (!name) return null
+
+  // Prefer explicit "Grade 7" style labels.
+  const gradeMatch = name.match(/\bgrade\s*(\d{1,2})\b/i)
+  if (gradeMatch) {
+    const n = Number(gradeMatch[1])
+    return Number.isFinite(n) ? n : null
+  }
+
+  // Fallback: any standalone 1–2 digit number.
+  const anyNum = name.match(/\b(\d{1,2})\b/)
+  if (anyNum) {
+    const n = Number(anyNum[1])
+    return Number.isFinite(n) ? n : null
+  }
+
+  return null
+}
 
 const DIFFICULTY_LEVELS = [
   {
@@ -130,16 +149,30 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const [customTime, setCustomTime] = useState<number | null>(null)
   const [showTimerInput, setShowTimerInput] = useState(false)
   const [formData, setFormData] = useState({
-    grade: null as GradeLevel | null,
+    class_id: null as number | null,
+    class_name: '' as string,
+    grade: null as number | null,
     difficultyLevel: '' as string,
     curriculum: '',
     subject: '',
     topics: [] as string[],
+    textbook_id: null as number | null,
+    topic_ids: [] as number[],
+    subtopic_id: null as number | null,
     count: 0,
     style: '',
     questionType: '' as 'mcq' | 'longform' | 'mixed' | '',
     time: 'Calculated by AI',
   })
+
+  const [classes, setClasses] = useState<ClassRow[]>([])
+  const [isLoadingClasses, setIsLoadingClasses] = useState(false)
+  const [textbooks, setTextbooks] = useState<TextbookRow[]>([])
+  const [topics, setTopics] = useState<TopicRow[]>([])
+  const [subtopics, setSubtopics] = useState<SubtopicRow[]>([])
+  const [isLoadingTextbooks, setIsLoadingTextbooks] = useState(false)
+  const [isLoadingTopics, setIsLoadingTopics] = useState(false)
+  const [isLoadingSubtopics, setIsLoadingSubtopics] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [totalTime, setTotalTime] = useState<number | null>(null)
@@ -150,22 +183,192 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
 
   useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
 
-  const isCambridge = formData.curriculum === 'cambridge'
-  const subjects = formData.grade && formData.curriculum
-    ? isCambridge ? getCambridgeSubjectsForGrade(formData.grade as CambridgeGrade) : getSubjectsForGrade(formData.grade)
-    : []
-  const availableTopics = formData.grade && formData.subject
-    ? isCambridge ? getCambridgeTopicsForGradeAndSubject(formData.grade as CambridgeGrade, formData.subject) : getTopicsForGradeAndSubject(formData.grade, formData.subject)
-    : []
+  // Load available classes from DB so the UI never shows non-existent grades.
+  useEffect(() => {
+    const load = async () => {
+      setIsLoadingClasses(true)
+      try {
+        const res = await fetch('/api/classes')
+        const json = await res.json()
+        if (!res.ok) throw new Error(json?.error || 'Failed to load classes')
+        const rows = Array.isArray(json?.data) ? json.data : []
+        const normalized: ClassRow[] = rows
+          .map((r: any) => ({ id: Number(r?.id), name: String(r?.name ?? '').trim() }))
+          .filter((r: any) => Number.isFinite(r.id) && r.name)
+        setClasses(normalized)
 
-  const handleGradeSelect = (grade: GradeLevel) => { setFormData({ ...formData, grade, difficultyLevel: '', subject: '', topics: [] }); setTimeout(() => setStep(2), 250) }
+        // If the signed-in user already has a class, preselect it (students).
+        if (!formData.class_name && user?.class) {
+          const match = normalized.find((c) => c.name === user.class)
+          if (match) {
+            setFormData((prev) => ({
+              ...prev,
+              class_id: match.id,
+              class_name: match.name,
+              grade: deriveGradeFromClassName(match.name),
+            }))
+            setTimeout(() => setStep(2), 250)
+          }
+        }
+      } catch (e: any) {
+        setClasses([])
+        setError(e?.message || 'Failed to load classes')
+      } finally {
+        setIsLoadingClasses(false)
+      }
+    }
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const isCambridge = formData.curriculum === 'cambridge'
+  const curriculumNumeric = isCambridge ? 1 : 0
+
+  const classNameForTextbooks = formData.class_name
+
+  // Load textbooks for the user's class (e.g. "Grade 7"), filtered by curriculum.
+  useEffect(() => {
+    const load = async () => {
+      if (!formData.curriculum) return
+      if (!classNameForTextbooks) {
+        setTextbooks([])
+        return
+      }
+      setIsLoadingTextbooks(true)
+      try {
+        const res = await fetch(`/api/class-textbooks?class_name=${encodeURIComponent(classNameForTextbooks)}&curriculum=${curriculumNumeric}`)
+        const json = await res.json()
+        if (!res.ok) throw new Error(json?.error || 'Failed to load textbooks')
+        setTextbooks(Array.isArray(json?.data) ? json.data : [])
+      } catch (e: any) {
+        setTextbooks([])
+        setError(e?.message || 'Failed to load textbooks')
+      } finally {
+        setIsLoadingTextbooks(false)
+      }
+    }
+    load()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.curriculum, formData.class_name])
+
+  // Load topics when a textbook is selected.
+  useEffect(() => {
+    const load = async () => {
+      if (!formData.textbook_id) {
+        setTopics([])
+        return
+      }
+      setIsLoadingTopics(true)
+      try {
+        const res = await fetch(`/api/topics?textbook_id=${formData.textbook_id}`)
+        const json = await res.json()
+        if (!res.ok) throw new Error(json?.error || 'Failed to load topics')
+        setTopics(Array.isArray(json?.data) ? json.data : [])
+      } catch (e: any) {
+        setTopics([])
+        setError(e?.message || 'Failed to load topics')
+      } finally {
+        setIsLoadingTopics(false)
+      }
+    }
+    load()
+  }, [formData.textbook_id])
+
+  // Load subtopics only when exactly one topic is selected.
+  useEffect(() => {
+    const load = async () => {
+      if (!formData.textbook_id) {
+        setSubtopics([])
+        return
+      }
+      if (formData.topic_ids.length !== 1) {
+        setSubtopics([])
+        return
+      }
+      const topicId = formData.topic_ids[0]
+      setIsLoadingSubtopics(true)
+      try {
+        const res = await fetch(`/api/subtopics?textbook_id=${formData.textbook_id}&topic_id=${topicId}`)
+        const json = await res.json()
+        if (!res.ok) throw new Error(json?.error || 'Failed to load subtopics')
+        setSubtopics(Array.isArray(json?.data) ? json.data : [])
+      } catch (e: any) {
+        setSubtopics([])
+        setError(e?.message || 'Failed to load subtopics')
+      } finally {
+        setIsLoadingSubtopics(false)
+      }
+    }
+    load()
+  }, [formData.textbook_id, formData.topic_ids])
+
+  const handleClassSelect = (cls: ClassRow) => {
+    setError('')
+    setFormData({
+      ...formData,
+      class_id: cls.id,
+      class_name: cls.name,
+      grade: deriveGradeFromClassName(cls.name),
+      difficultyLevel: '',
+      curriculum: '',
+      subject: '',
+      topics: [],
+      textbook_id: null,
+      topic_ids: [],
+      subtopic_id: null,
+    })
+    setTopics([])
+    setSubtopics([])
+    setTimeout(() => setStep(2), 250)
+  }
   const handleDifficultySelect = (id: string) => { setFormData({ ...formData, difficultyLevel: id }); setTimeout(() => setStep(3), 250) }
-  const handleCurriculumSelect = (id: string) => { setFormData({ ...formData, curriculum: id, subject: '', topics: [] }); setTimeout(() => setStep(4), 250) }
-  const handleSubjectSelect = (subject: string) => { setFormData({ ...formData, subject, topics: [] }); setStep(5) }
-  const handleTopicToggle = (topic: string) => {
-    const newTopics = formData.topics.includes(topic) ? formData.topics.filter(t => t !== topic) : [...formData.topics, topic]
-    setFormData({ ...formData, topics: newTopics })
+  const handleCurriculumSelect = (id: string) => {
+    setError('')
+    setFormData({
+      ...formData,
+      curriculum: id,
+      subject: '',
+      topics: [],
+      textbook_id: null,
+      topic_ids: [],
+      subtopic_id: null,
+    })
+    setTopics([])
+    setSubtopics([])
+    setTimeout(() => setStep(4), 250)
+  }
+
+  const handleSubjectSelect = (textbookName: string, textbookId: number) => {
+    setError('')
+    setFormData({
+      ...formData,
+      subject: textbookName,
+      textbook_id: textbookId,
+      topics: [],
+      topic_ids: [],
+      subtopic_id: null,
+    })
+    setSubtopics([])
+    setStep(5)
+  }
+
+  const handleTopicToggle = (topicId: number, topicName: string) => {
+    const selected = formData.topic_ids.includes(topicId)
+    const newTopicIds = selected ? formData.topic_ids.filter(id => id !== topicId) : [...formData.topic_ids, topicId]
+    const newTopics = selected ? formData.topics.filter(t => t !== topicName) : [...formData.topics, topicName]
+    const shouldClearSubtopic = newTopicIds.length !== 1
+
+    setFormData({
+      ...formData,
+      topic_ids: newTopicIds,
+      topics: newTopics,
+      subtopic_id: shouldClearSubtopic ? null : formData.subtopic_id,
+    })
     if (newTopics.length > 0 && step === 5) setTimeout(() => setStep(6), 250)
+  }
+
+  const handleSubtopicSelect = (subtopicId: number | null) => {
+    setFormData({ ...formData, subtopic_id: subtopicId })
   }
   const handleCountSelect = (count: number) => { setFormData({ ...formData, count }); setTimeout(() => setStep(7), 250) }
   const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(8), 250) }
@@ -184,7 +387,7 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
       const response = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, className: user?.class, user_id: user?.id, aiModel, customTime }),
+        body: JSON.stringify({ ...formData, className: formData.class_name || user?.class, user_id: user?.id, aiModel, customTime }),
       })
       const text = await response.text()
       if (!text) throw new Error('Server returned an empty response. Please try again.')
@@ -208,18 +411,19 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const selectedCurriculum = AVAILABLE_CURRICULA.find(c => c.id === formData.curriculum)
   const selectedQuestionType = QUESTION_TYPES.find(qt => qt.id === formData.questionType)
   const selectedDifficulty = DIFFICULTY_LEVELS.find(d => d.id === formData.difficultyLevel)
-  const gradeLevelStr = formData.grade
-    ? isCambridge
-      ? CAMBRIDGE_CURRICULUM[formData.grade as CambridgeGrade]?.cambridgeLevel
-      : `${RWANDAN_CURRICULUM[formData.grade]?.rwandaLevel}`
+
+  const selectedSubtopicName = formData.subtopic_id
+    ? subtopics.find(s => s.id === formData.subtopic_id)?.name
     : ''
 
   const summaryRows = [
-    { label: 'Grade',      value: `Grade ${formData.grade} · ${gradeLevelStr}` },
+    { label: 'Class',      value: formData.class_name },
+    { label: 'Grade',      value: formData.grade ? `Grade ${formData.grade}` : '' },
     { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
     { label: 'Curriculum', value: selectedCurriculum?.name ?? formData.curriculum },
     { label: 'Subject',    value: formData.subject },
     { label: 'Topics',     value: formData.topics.join(', ') },
+    { label: 'Subtopic',   value: selectedSubtopicName },
     { label: 'Questions',  value: String(formData.count) },
     { label: 'Style',      value: formData.style },
     { label: 'Type',       value: selectedQuestionType?.label ?? '' },
@@ -272,23 +476,35 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
             {/* Step 1: Grade */}
             {step >= 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Grade level" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select your grade</h3>
-                <div className="grid grid-cols-3 gap-2">
-                  {GRADES.map(grade => (
-                    <OptionButton key={grade} selected={formData.grade === grade} onClick={() => handleGradeSelect(grade)}>
-                      <span className="font-bold text-gray-900 dark:text-white block">Grade {grade}</span>
-                      <span className="text-[11px] text-gray-400 mt-0.5 block">
-                        {grade <= 6 ? `P${grade} / Primary` : grade <= 9 ? `S${grade - 6} / Yr ${grade}` : grade <= 11 ? `S${grade - 6} / IGCSE` : 'S6 / AS Level'}
-                      </span>
-                    </OptionButton>
-                  ))}
+                <StepLabel label="Class" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select class (from database)</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {isLoadingClasses ? (
+                    <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Loading classes...
+                    </div>
+                  ) : classes.length === 0 ? (
+                    <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
+                      No classes found in the database.
+                    </div>
+                  ) : (
+                    classes.map((cls) => (
+                      <OptionButton
+                        key={cls.id}
+                        selected={formData.class_id === cls.id}
+                        onClick={() => handleClassSelect(cls)}
+                      >
+                        <span className="font-bold text-gray-900 dark:text-white block">{cls.name}</span>
+                      </OptionButton>
+                    ))
+                  )}
                 </div>
               </motion.div>
             )}
 
             {/* Step 2: Difficulty Level */}
-            {step >= 2 && formData.grade && (
+            {step >= 2 && formData.class_name && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Difficulty level" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
@@ -340,14 +556,25 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Subject" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                  Grade {formData.grade} · {isCambridge ? 'Cambridge' : 'REB'} subjects
+                  {formData.class_name || 'Selected class'} · {isCambridge ? 'Cambridge' : 'REB'} textbooks
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {subjects.map(subject => (
-                    <OptionButton key={subject} selected={formData.subject === subject} onClick={() => handleSubjectSelect(subject)}>
-                      <span className="font-medium text-gray-800 dark:text-gray-200">{subject}</span>
-                    </OptionButton>
-                  ))}
+                  {isLoadingTextbooks ? (
+                    <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Loading textbooks...
+                    </div>
+                  ) : textbooks.length === 0 ? (
+                    <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
+                      No textbooks assigned for {classNameForTextbooks || 'this grade'}.
+                    </div>
+                  ) : (
+                    textbooks.map(tb => (
+                      <OptionButton key={tb.id} selected={formData.textbook_id === tb.id} onClick={() => handleSubjectSelect(tb.name, tb.id)}>
+                        <span className="font-medium text-gray-800 dark:text-gray-200">{tb.name}</span>
+                      </OptionButton>
+                    ))
+                  )}
                 </div>
               </motion.div>
             )}
@@ -359,12 +586,50 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
                 <p className="text-xs text-gray-400 mb-3">You can select multiple topics</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {availableTopics.map(topic => (
-                    <OptionButton key={topic} selected={formData.topics.includes(topic)} onClick={() => handleTopicToggle(topic)}>
-                      <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">{topic}</span>
-                    </OptionButton>
-                  ))}
+                  {isLoadingTopics ? (
+                    <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Loading topics...
+                    </div>
+                  ) : topics.length === 0 ? (
+                    <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
+                      No topics found for this textbook.
+                    </div>
+                  ) : (
+                    topics.map(t => (
+                      <OptionButton key={t.id} selected={formData.topic_ids.includes(t.id)} onClick={() => handleTopicToggle(t.id, t.name)}>
+                        <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">{t.name}</span>
+                      </OptionButton>
+                    ))
+                  )}
                 </div>
+
+                {/* Optional subtopic */}
+                {formData.topic_ids.length === 1 && step >= 5 && (
+                  <div className="mt-4">
+                    <StepLabel label="Subtopic (optional)" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Focus on a specific subtopic</h3>
+                    <p className="text-xs text-gray-400 mb-3">Leave blank to cover the entire topic</p>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      <OptionButton selected={formData.subtopic_id === null} onClick={() => handleSubtopicSelect(null)}>
+                        <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">Entire topic</span>
+                      </OptionButton>
+                      {isLoadingSubtopics ? (
+                        <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                          <Loader2 className="w-4 h-4 animate-spin" />
+                          Loading subtopics...
+                        </div>
+                      ) : (
+                        subtopics.map(st => (
+                          <OptionButton key={st.id} selected={formData.subtopic_id === st.id} onClick={() => handleSubtopicSelect(st.id)}>
+                            <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">{st.name}</span>
+                          </OptionButton>
+                        ))
+                      )}
+                    </div>
+                  </div>
+                )}
+
                 {formData.topics.length > 0 && step === 5 && (
                   <motion.button
                     initial={{ opacity: 0 }}
