@@ -2,28 +2,58 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
-import { useState, useRef, useEffect } from 'react'
+import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
-import {
-  AVAILABLE_CURRICULA,
-  type GradeLevel,
-} from '@/lib/rwanda-curriculum'
-import {
-  type CambridgeGrade,
-} from '@/lib/cambridge-curriculum'
 
 type TextbookRow = { id: number; name: string; curriculum: number; filename?: string | null }
 type TopicRow = { id: number; textbook_id: number; name: string }
 type SubtopicRow = { id: number; textbook_id: number; topic_id: number; name: string }
-type ClassRow = { id: number; name: string }
+type ClassRow = { id: number; name: string; curricula: number[] }
+type CurriculumOption = {
+  id: string
+  label: string
+  shortLabel: string
+  description: string
+  badge: string
+  numeric: number
+}
 
 interface FlowFormProps {
   onClose: () => void
-  onAssign?: (formData: any, assessmentId: string) => void
 }
 
 const TOTAL_STEPS = 9
+
+const CURRICULUM_BY_NUMERIC: Record<number, Omit<CurriculumOption, 'numeric'>> = {
+  0: {
+    id: 'rwanda',
+    label: 'Rwanda National Curriculum (REB)',
+    shortLabel: 'REB',
+    description: 'Rwanda National Competence-Based Curriculum (REB).',
+    badge: 'RW',
+  },
+  1: {
+    id: 'cambridge',
+    label: 'Cambridge International (CAIE)',
+    shortLabel: 'Cambridge',
+    description: 'Cambridge Assessment International Education (CAIE).',
+    badge: 'GB',
+  },
+}
+
+function buildCurriculumOption(value: number): CurriculumOption {
+  const meta = CURRICULUM_BY_NUMERIC[value]
+  if (meta) return { ...meta, numeric: value }
+  return {
+    id: `curriculum-${value}`,
+    label: `Curriculum ${value}`,
+    shortLabel: `Curriculum ${value}`,
+    description: 'Curriculum sourced from database.',
+    badge: 'DB',
+    numeric: value,
+  }
+}
 
 function deriveGradeFromClassName(className: string): number | null {
   const name = String(className ?? '').trim()
@@ -44,6 +74,13 @@ function deriveGradeFromClassName(className: string): number | null {
   }
 
   return null
+}
+
+function formatClassLabel(className: string, grade: number | null, curriculumId: string) {
+  if (curriculumId !== 'rwanda' || grade === null) return className
+  if (grade >= 1 && grade <= 6) return `Primary ${grade}`
+  if (grade >= 7 && grade <= 12) return `Senior ${grade - 6}`
+  return className
 }
 
 const DIFFICULTY_LEVELS = [
@@ -94,9 +131,9 @@ const DIFFICULTY_LEVELS = [
 ]
 
 const QUESTION_TYPES = [
-  { id: 'mcq',      label: 'Multiple Choice',        description: 'Classic 4-option questions, auto-graded instantly',             icon: '⊙' },
-  { id: 'longform', label: 'Long-form Only',          description: 'Extended written answers, AI-marked with per-mark criteria',    icon: '✍' },
-  { id: 'mixed',    label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions',                 icon: '⚡' },
+  { id: 'mcq', label: 'Multiple Choice', description: 'Classic 4-option questions, auto-graded instantly', icon: '⊙' },
+  { id: 'longform', label: 'Long-form Only', description: 'Extended written answers, AI-marked with per-mark criteria', icon: '✍' },
+  { id: 'mixed', label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions', icon: '⚡' },
 ]
 
 const AI_MODEL = { id: 'eu.google.gemma-3-27b-it', label: 'Gemma 3 27B', badge: 'AWS' }
@@ -118,11 +155,10 @@ function OptionButton({
       type="button"
       onClick={onClick}
       whileTap={{ scale: 0.98 }}
-      className={`relative w-full text-left border rounded-xl px-4 py-3 text-sm transition-all duration-150 ${
-        selected
-          ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-500'
-          : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/60'
-      } ${className}`}
+      className={`relative w-full text-left border rounded-xl px-4 py-3 text-sm transition-all duration-150 ${selected
+        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-500'
+        : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/60'
+        } ${className}`}
     >
       {selected && (
         <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
@@ -140,7 +176,7 @@ function StepLabel({ label }: { label: string }) {
   )
 }
 
-export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
+export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
   const isTeacher = (user as any)?.role === 'teacher'
@@ -160,6 +196,7 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
     topic_ids: [] as number[],
     subtopic_id: null as number | null,
     count: 0,
+    maxAttempts: 1,
     style: '',
     questionType: '' as 'mcq' | 'longform' | 'mixed' | '',
     time: 'Calculated by AI',
@@ -174,12 +211,14 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const [isLoadingTopics, setIsLoadingTopics] = useState(false)
   const [isLoadingSubtopics, setIsLoadingSubtopics] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [isSavingDraft, setIsSavingDraft] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [totalTime, setTotalTime] = useState<number | null>(null)
   const startTimeRef = useRef<number>(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [error, setError] = useState('')
   const [generatedData, setGeneratedData] = useState<any>(null)
+  const [draftId, setDraftId] = useState<string | null>(null)
 
   useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
 
@@ -193,21 +232,35 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
         if (!res.ok) throw new Error(json?.error || 'Failed to load classes')
         const rows = Array.isArray(json?.data) ? json.data : []
         const normalized: ClassRow[] = rows
-          .map((r: any) => ({ id: Number(r?.id), name: String(r?.name ?? '').trim() }))
+          .map((r: any) => {
+            const textbooks = Array.isArray(r?.textbooks) ? r.textbooks : []
+            const curricula = Array.from(new Set(
+              textbooks
+                .map((tb: any) => Number(tb?.curriculum))
+                .filter((value: number) => Number.isFinite(value)),
+            ))
+            return {
+              id: Number(r?.id),
+              name: String(r?.name ?? '').trim(),
+              curricula,
+            }
+          })
           .filter((r: any) => Number.isFinite(r.id) && r.name)
         setClasses(normalized)
 
         // If the signed-in user already has a class, preselect it (students).
         if (!formData.class_name && user?.class) {
           const match = normalized.find((c) => c.name === user.class)
-          if (match) {
+          if (match && match.curricula.length === 1) {
+            const curriculumId = buildCurriculumOption(match.curricula[0]).id
             setFormData((prev) => ({
               ...prev,
+              curriculum: curriculumId,
               class_id: match.id,
               class_name: match.name,
               grade: deriveGradeFromClassName(match.name),
             }))
-            setTimeout(() => setStep(2), 250)
+            setTimeout(() => setStep(3), 250)
           }
         }
       } catch (e: any) {
@@ -220,6 +273,47 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
     load()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  const curriculumOptions = useMemo(() => {
+    const values = new Set<number>()
+    classes.forEach((cls) => {
+      cls.curricula.forEach((value) => {
+        if (Number.isFinite(value)) values.add(value)
+      })
+    })
+    return Array.from(values)
+      .sort((a, b) => a - b)
+      .map((value) => buildCurriculumOption(value))
+  }, [classes])
+
+  const selectedCurriculum = curriculumOptions.find((c) => c.id === formData.curriculum)
+  const selectedCurriculumNumeric = selectedCurriculum?.numeric ?? (formData.curriculum ? (formData.curriculum === 'cambridge' ? 1 : 0) : null)
+
+  const classOptions = useMemo(() => {
+    const eligible = selectedCurriculumNumeric === null
+      ? classes
+      : classes.filter((cls) => cls.curricula.length === 0 || cls.curricula.includes(selectedCurriculumNumeric))
+
+    return eligible
+      .map((cls) => {
+        const grade = deriveGradeFromClassName(cls.name)
+        return {
+          ...cls,
+          grade,
+          label: formatClassLabel(cls.name, grade, formData.curriculum),
+        }
+      })
+      .sort((a, b) => {
+        const aGrade = a.grade ?? Number.POSITIVE_INFINITY
+        const bGrade = b.grade ?? Number.POSITIVE_INFINITY
+        if (aGrade !== bGrade) return aGrade - bGrade
+        return a.label.localeCompare(b.label)
+      })
+  }, [classes, formData.curriculum, selectedCurriculumNumeric])
+
+  const selectedClassDisplayName = formData.class_name
+    ? formatClassLabel(formData.class_name, deriveGradeFromClassName(formData.class_name), formData.curriculum)
+    : ''
 
   const isCambridge = formData.curriculum === 'cambridge'
   const curriculumNumeric = isCambridge ? 1 : 0
@@ -304,38 +398,52 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
 
   const handleClassSelect = (cls: ClassRow) => {
     setError('')
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       class_id: cls.id,
       class_name: cls.name,
       grade: deriveGradeFromClassName(cls.name),
       difficultyLevel: '',
-      curriculum: '',
       subject: '',
       topics: [],
       textbook_id: null,
       topic_ids: [],
       subtopic_id: null,
-    })
+      count: 0,
+      style: '',
+      questionType: '',
+    }))
     setTopics([])
     setSubtopics([])
-    setTimeout(() => setStep(2), 250)
+    setTextbooks([])
+    setTimeout(() => setStep(3), 250)
   }
-  const handleDifficultySelect = (id: string) => { setFormData({ ...formData, difficultyLevel: id }); setTimeout(() => setStep(3), 250) }
+  const handleDifficultySelect = (id: string) => {
+    setFormData((prev) => ({ ...prev, difficultyLevel: id }))
+    setTimeout(() => setStep(4), 250)
+  }
   const handleCurriculumSelect = (id: string) => {
     setError('')
-    setFormData({
-      ...formData,
+    setFormData((prev) => ({
+      ...prev,
       curriculum: id,
+      class_id: null,
+      class_name: '',
+      grade: null,
+      difficultyLevel: '',
       subject: '',
       topics: [],
       textbook_id: null,
       topic_ids: [],
       subtopic_id: null,
-    })
+      count: 0,
+      style: '',
+      questionType: '',
+    }))
     setTopics([])
     setSubtopics([])
-    setTimeout(() => setStep(4), 250)
+    setTextbooks([])
+    setTimeout(() => setStep(2), 250)
   }
 
   const handleSubjectSelect = (textbookName: string, textbookId: number) => {
@@ -374,6 +482,49 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(8), 250) }
   const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed') => { setFormData({ ...formData, questionType: qt }); setTimeout(() => setStep(9), 250) }
 
+  const buildDraftTitle = () => {
+    const subject = formData.subject || 'Assessment'
+    if (formData.class_name) return `${subject} — ${formData.class_name}`
+    if (formData.grade) return `${subject} — Grade ${formData.grade}`
+    return subject
+  }
+
+  const createDraft = async (data: any) => {
+    if (!user?.id) return
+    setIsSavingDraft(true)
+    setError('')
+    try {
+      const res = await fetch('/api/assignments/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          teacher_id: user.id,
+          teacher_name: user.name,
+          title: buildDraftTitle(),
+          subject: formData.subject,
+          topics: formData.topics,
+          grade: formData.grade ? String(formData.grade) : formData.class_name,
+          curriculum: formData.curriculum,
+          difficulty_level: formData.difficultyLevel,
+          question_count: formData.count,
+          max_attempts: formData.maxAttempts,
+          style: formData.style,
+          question_type: formData.questionType,
+          status: 'draft',
+          questions_data: data?.questions ?? [],
+          estimated_time: data?.estimated_time ?? null,
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Failed to save draft')
+      setDraftId(json.assignment_id)
+    } catch (err: any) {
+      setError(err.message)
+    } finally {
+      setIsSavingDraft(false)
+    }
+  }
+
   const handleStartAssessment = async () => {
     setIsLoading(true)
     setError('')
@@ -395,6 +546,7 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
       if (!response.ok) throw new Error(data.error || 'Failed to generate assessment')
       if (isTeacher) {
         setGeneratedData(data)
+        await createDraft(data)
       } else {
         sessionStorage.setItem('currentAssessment', JSON.stringify(data))
         router.push('/assessment')
@@ -408,7 +560,6 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
     }
   }
 
-  const selectedCurriculum = AVAILABLE_CURRICULA.find(c => c.id === formData.curriculum)
   const selectedQuestionType = QUESTION_TYPES.find(qt => qt.id === formData.questionType)
   const selectedDifficulty = DIFFICULTY_LEVELS.find(d => d.id === formData.difficultyLevel)
 
@@ -417,16 +568,17 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
     : ''
 
   const summaryRows = [
-    { label: 'Class',      value: formData.class_name },
-    { label: 'Grade',      value: formData.grade ? `Grade ${formData.grade}` : '' },
+    { label: 'Class', value: selectedClassDisplayName || formData.class_name },
+    { label: 'Grade', value: formData.grade ? `Grade ${formData.grade}` : '' },
     { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
-    { label: 'Curriculum', value: selectedCurriculum?.name ?? formData.curriculum },
-    { label: 'Subject',    value: formData.subject },
-    { label: 'Topics',     value: formData.topics.join(', ') },
-    { label: 'Subtopic',   value: selectedSubtopicName },
-    { label: 'Questions',  value: String(formData.count) },
-    { label: 'Style',      value: formData.style },
-    { label: 'Type',       value: selectedQuestionType?.label ?? '' },
+    { label: 'Curriculum', value: selectedCurriculum?.label ?? formData.curriculum },
+    { label: 'Subject', value: formData.subject },
+    { label: 'Topics', value: formData.topics.join(', ') },
+    { label: 'Subtopic', value: selectedSubtopicName },
+    { label: 'Questions', value: String(formData.count) },
+    { label: 'Max attempts', value: isTeacher ? String(formData.maxAttempts) : '' },
+    { label: 'Style', value: formData.style },
+    { label: 'Type', value: selectedQuestionType?.label ?? '' },
   ]
 
   return (
@@ -473,8 +625,42 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
           {/* Scrollable content */}
           <div className="flex-1 px-6 pb-6 space-y-6 overflow-y-auto">
 
-            {/* Step 1: Grade */}
+            {/* Step 1: Curriculum */}
             {step >= 1 && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Curriculum" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
+                <div className="flex flex-col gap-2">
+                  {isLoadingClasses ? (
+                    <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      Loading curricula...
+                    </div>
+                  ) : curriculumOptions.length === 0 ? (
+                    <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
+                      No curricula found in the database.
+                    </div>
+                  ) : (
+                    curriculumOptions.map((c) => (
+                      <OptionButton key={c.id} selected={formData.curriculum === c.id} onClick={() => handleCurriculumSelect(c.id)}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                            {c.badge}
+                          </span>
+                          <div>
+                            <p className="font-semibold text-sm text-gray-900 dark:text-white">{c.label}</p>
+                            <p className="text-[11px] text-gray-400">{c.description}</p>
+                          </div>
+                        </div>
+                      </OptionButton>
+                    ))
+                  )}
+                </div>
+              </motion.div>
+            )}
+
+            {/* Step 2: Class */}
+            {step >= 2 && formData.curriculum && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Class" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select class (from database)</h3>
@@ -484,18 +670,18 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                       <Loader2 className="w-4 h-4 animate-spin" />
                       Loading classes...
                     </div>
-                  ) : classes.length === 0 ? (
+                  ) : classOptions.length === 0 ? (
                     <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
                       No classes found in the database.
                     </div>
                   ) : (
-                    classes.map((cls) => (
+                    classOptions.map((cls) => (
                       <OptionButton
                         key={cls.id}
                         selected={formData.class_id === cls.id}
                         onClick={() => handleClassSelect(cls)}
                       >
-                        <span className="font-bold text-gray-900 dark:text-white block">{cls.name}</span>
+                        <span className="font-bold text-gray-900 dark:text-white block">{cls.label}</span>
                       </OptionButton>
                     ))
                   )}
@@ -503,8 +689,8 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 2: Difficulty Level */}
-            {step >= 2 && formData.class_name && (
+            {/* Step 3: Difficulty Level */}
+            {step >= 3 && formData.class_name && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Difficulty level" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
@@ -530,33 +716,12 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 3: Curriculum */}
-            {step >= 3 && formData.difficultyLevel && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Curriculum" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
-                <div className="flex flex-col gap-2">
-                  {AVAILABLE_CURRICULA.map(c => (
-                    <OptionButton key={c.id} selected={formData.curriculum === c.id} onClick={() => handleCurriculumSelect(c.id)}>
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl">{c.flag}</span>
-                        <div>
-                          <p className="font-semibold text-sm text-gray-900 dark:text-white">{c.name}</p>
-                          <p className="text-[11px] text-gray-400">{c.description}</p>
-                        </div>
-                      </div>
-                    </OptionButton>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
             {/* Step 4: Subject */}
-            {step >= 4 && formData.curriculum && (
+            {step >= 4 && formData.difficultyLevel && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Subject" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                  {formData.class_name || 'Selected class'} · {isCambridge ? 'Cambridge' : 'REB'} textbooks
+                  {selectedClassDisplayName || formData.class_name || 'Selected class'} · {selectedCurriculum?.shortLabel ?? (isCambridge ? 'Cambridge' : 'REB')} textbooks
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {isLoadingTextbooks ? (
@@ -566,7 +731,7 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                     </div>
                   ) : textbooks.length === 0 ? (
                     <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
-                      No textbooks assigned for {classNameForTextbooks || 'this grade'}.
+                      No textbooks assigned for {selectedClassDisplayName || classNameForTextbooks || 'this class'}.
                     </div>
                   ) : (
                     textbooks.map(tb => (
@@ -658,6 +823,30 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                     </OptionButton>
                   ))}
                 </div>
+
+                {isTeacher && formData.count > 0 && (
+                  <div className="mt-4">
+                    <StepLabel label="Attempts" />
+                    <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-center">
+                      <div>
+                        <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Max attempts per student</h4>
+                        <p className="text-xs text-gray-400">Best score is kept across retries.</p>
+                      </div>
+                      <input
+                        type="number"
+                        min={1}
+                        value={formData.maxAttempts}
+                        onChange={(e) =>
+                          setFormData((prev) => ({
+                            ...prev,
+                            maxAttempts: Math.max(1, Number(e.target.value) || 1),
+                          }))
+                        }
+                        className="w-full sm:w-28 px-3 py-2 rounded-xl text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none text-gray-900 dark:text-white"
+                      />
+                    </div>
+                  </div>
+                )}
               </motion.div>
             )}
 
@@ -721,13 +910,12 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                   <button
                     type="button"
                     onClick={() => setShowTimerInput(p => !p)}
-                    className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${
-                      customTime !== null
-                        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
-                        : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:border-gray-300'
-                    }`}
+                    className={`w-full flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border text-sm font-semibold transition-colors ${customTime !== null
+                      ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300'
+                      : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 text-gray-600 dark:text-gray-400 hover:border-gray-300'
+                      }`}
                   >
-                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><polyline points="12 6 12 12 16 14" /></svg>
                     {customTime !== null ? `Timer: ${customTime} min` : 'Set custom timer'}
                   </button>
                 </div>
@@ -764,21 +952,19 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
                 {isTeacher && generatedData ? (
                   <motion.div initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="flex flex-col gap-2">
                     <p className="text-xs text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/60 rounded-lg px-4 py-3 font-semibold">
-                      Assessment generated successfully!
+                      Draft ready. Open the preview to edit and send to a classroom.
                     </p>
                     <button
-                      onClick={() => { onAssign?.(formData, generatedData.assessment_id); onClose() }}
-                      className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
+                      onClick={() => {
+                        if (!draftId) return
+                        router.push(`/assignments/${draftId}/preview`)
+                        onClose()
+                      }}
+                      disabled={!draftId || isSavingDraft}
+                      className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
                     >
                       <Send className="w-4 h-4" />
-                      Assign to Students
-                    </button>
-                    <button
-                      onClick={() => { sessionStorage.setItem('currentAssessment', JSON.stringify(generatedData)); router.push('/assessment') }}
-                      className="w-full flex items-center justify-center gap-2 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-300 text-sm font-semibold py-2.5 px-6 rounded-xl hover:bg-gray-50 dark:hover:bg-gray-900 transition-colors"
-                    >
-                      Preview Assessment
-                      <ChevronRight className="w-4 h-4" />
+                      {isSavingDraft ? 'Saving draft…' : 'Open Preview & Edit'}
                     </button>
                   </motion.div>
                 ) : (

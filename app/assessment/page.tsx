@@ -1,12 +1,19 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useCallback, useEffect, useRef, useState } from 'react'
+import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
 import NextImage from 'next/image'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import { Clock, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
+import { useAuth } from '@/components/AuthProvider'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+function isUuid(value: string | null | undefined) {
+  return UUID_RE.test(String(value ?? ''))
+}
 
 // Wrap bare LaTeX commands in $...$ so react-latex-next renders them correctly.
 // Text already containing $, \(...\), or \[...\] delimiters is left untouched.
@@ -637,9 +644,25 @@ function applyPatch(q: MCQQuestion, expected: number): void {
 
 // ── Main component ─────────────────────────────────────────────────────────────
 
-export default function AssessmentPage() {
+function AssessmentLoading() {
+  return (
+    <div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-apple-blue mx-auto mb-4"></div>
+        <p className="text-apple-dark-gray">Loading assessment...</p>
+      </div>
+    </div>
+  )
+}
+
+function AssessmentPageClient() {
   const router = useRouter()
+  const searchParams = useSearchParams()
+  const { user: authUser } = useAuth()
+  const assignmentParam = searchParams.get('assignment') || searchParams.get('assignment_id')
   const [assessment, setAssessment] = useState<Assessment | null>(null)
+  const [assignmentId, setAssignmentId] = useState<string | null>(null)
+  const [loadError, setLoadError] = useState('')
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({})
   const [longFormAnswers, setLongFormAnswers] = useState<Record<number, string>>({})
@@ -653,27 +676,60 @@ export default function AssessmentPage() {
   const [isGradingLongForm, setIsGradingLongForm] = useState(false)
   const [mathWorkings, setMathWorkings] = useState<Record<number, string>>({})
 
-  useEffect(() => {
-    const data = sessionStorage.getItem('currentAssessment')
-    if (data) {
-      const assessmentData = JSON.parse(data)
-      if (Array.isArray(assessmentData.questions)) {
-        // Strip embedded "(A)...(D)" option text from question fields
-        assessmentData.questions.forEach((q: Question) => {
-          if (!isLongForm(q)) {
-            q.question = q.question.replace(/\s*[\(\[]\s*[Aa]\s*[\)\]]\s*[\s\S]*$/, '').trim()
-            q.question = q.question.replace(/\$\?\$/g, '?')
-          }
-        })
-        // Fix any wrong correct_answer indices
-        fixMcqAnswers(assessmentData.questions)
-      }
-      setAssessment(assessmentData)
-      setTimeRemaining(assessmentData.estimated_time * 60)
-    } else {
-      router.push('/')
+  const prepareAssessment = (assessmentData: Assessment) => {
+    if (Array.isArray(assessmentData.questions)) {
+      assessmentData.questions.forEach((q: Question) => {
+        if (!isLongForm(q)) {
+          q.question = q.question.replace(/\s*[\(\[]\s*[Aa]\s*[\)\]]\s*[\s\S]*$/, '').trim()
+          q.question = q.question.replace(/\$\?\$/g, '?')
+        }
+      })
+      fixMcqAnswers(assessmentData.questions)
     }
-  }, [router])
+    return assessmentData
+  }
+
+  useEffect(() => {
+    const load = async () => {
+      if (assignmentParam && assignmentId) return
+      setLoadError('')
+
+      if (assignmentParam) {
+        if (!authUser?.id && !authUser?.email) return
+        try {
+          const res = await fetch(`/api/assignments/${assignmentParam}/start`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              student_id: isUuid(authUser?.id) ? authUser?.id : null,
+              student_email: authUser?.email ?? null,
+            }),
+          })
+          const json = await res.json()
+          if (!res.ok) throw new Error(json.error || 'Failed to load assignment')
+          const data = prepareAssessment(json.data as Assessment)
+          setAssessment(data)
+          setAssignmentId(assignmentParam)
+          setTimeRemaining(data.estimated_time * 60)
+          return
+        } catch (err: any) {
+          setLoadError(err?.message || 'Failed to load assignment')
+          return
+        }
+      }
+
+      const stored = sessionStorage.getItem('currentAssessment')
+      if (stored) {
+        const assessmentData = prepareAssessment(JSON.parse(stored))
+        setAssessment(assessmentData)
+        setTimeRemaining(assessmentData.estimated_time * 60)
+      } else {
+        router.push('/')
+      }
+    }
+
+    load()
+  }, [assignmentParam, assignmentId, authUser, router])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -936,7 +992,7 @@ export default function AssessmentPage() {
     // Generate overall AI feedback
     setIsGeneratingFeedback(true)
     let generatedFeedback = 'Great effort! Review the criteria and explanations below to improve.'
-    const user = JSON.parse(localStorage.getItem('user') || '{}')
+    const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
 
     try {
       const feedbackRes = await fetch('/api/generate-feedback', {
@@ -949,7 +1005,7 @@ export default function AssessmentPage() {
           longFormGrades: longFormGradesResult,
           score: finalScore,
           grade,
-          className: user.class,
+          className: storedUser.class,
         }),
       })
       const feedbackData = await feedbackRes.json()
@@ -961,13 +1017,25 @@ export default function AssessmentPage() {
       setIsGeneratingFeedback(false)
     }
 
-    if (user.id) {
+    const resolvedUserId = isUuid(authUser?.id)
+      ? authUser?.id
+      : isUuid(storedUser?.id)
+        ? storedUser?.id
+        : null
+
+    if (resolvedUserId) {
+      const totalSeconds = Number.isFinite(assessment?.estimated_time)
+        ? (assessment?.estimated_time ?? 0) * 60
+        : null
+      const timeTaken = totalSeconds !== null ? Math.max(totalSeconds - timeRemaining, 0) : null
       await fetch('/api/save-result', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          user_id: user.id,
+          user_id: resolvedUserId,
           assessment_id: assessment?.assessment_id,
+          assignment_id: assignmentId ?? null,
+          student_email: authUser?.email ?? storedUser?.email ?? null,
           answers: { mcq: selectedAnswers, longform: longFormAnswers },
           total_questions: questions.length,
           score: finalScore,
@@ -975,10 +1043,11 @@ export default function AssessmentPage() {
           feedback: generatedFeedback,
           questions_data: assessment?.questions ?? [],
           longform_grades: longFormGradesResult,
+          time_taken: timeTaken,
         }),
       })
     }
-  }, [assessment, selectedAnswers, longFormAnswers])
+  }, [assessment, selectedAnswers, longFormAnswers, assignmentId, timeRemaining, authUser])
 
   useEffect(() => {
     if (timeRemaining > 0 && !isSubmitted) {
@@ -995,12 +1064,35 @@ export default function AssessmentPage() {
     }
   }, [timeRemaining, isSubmitted, handleSubmit])
 
+  useEffect(() => {
+    if (!authUser?.id || !assessment || !isUuid(authUser.id)) return
+    const intervalSeconds = 60
+    const tick = async () => {
+      if (document.visibilityState !== 'visible') return
+      try {
+        await fetch('/api/activity/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: authUser.id, seconds: intervalSeconds }),
+        })
+      } catch {
+        // Ignore activity ping errors silently.
+      }
+    }
+
+    const timer = window.setInterval(tick, intervalSeconds * 1000)
+    return () => window.clearInterval(timer)
+  }, [authUser, assessment])
+
   if (!assessment) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-apple-blue mx-auto mb-4"></div>
           <p className="text-apple-dark-gray">Loading assessment...</p>
+          {loadError && (
+            <p className="mt-2 text-xs text-red-600">{loadError}</p>
+          )}
         </div>
       </div>
     )
@@ -1449,5 +1541,13 @@ export default function AssessmentPage() {
         </motion.div>
       )}
     </div>
+  )
+}
+
+export default function AssessmentPage() {
+  return (
+    <Suspense fallback={<AssessmentLoading />}>
+      <AssessmentPageClient />
+    </Suspense>
   )
 }

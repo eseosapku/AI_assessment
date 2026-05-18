@@ -13,13 +13,14 @@
 
   body {
     @apply bg-apple-white dark:bg-apple-black text-apple-black dark:text-apple-white;
-    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'SF Pro Display', sans-serif;
+    font-family: var(--font-sans), sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 }
 
 @layer components {
+
   /* Glassmorphism Effect */
   .glass {
     background: rgba(255, 255, 255, 0.85);
@@ -82,6 +83,7 @@
       opacity: 0;
       transform: translateY(10px);
     }
+
     to {
       opacity: 1;
       transform: translateY(0);
@@ -93,13 +95,13 @@
   .text-balance {
     text-wrap: balance;
   }
-  
+
   /* Touch-friendly tap targets for mobile */
   .tap-target {
     min-height: 44px;
     min-width: 44px;
   }
-  
+
   /* Line clamping for responsive text */
   .line-clamp-1 {
     display: -webkit-box;
@@ -107,26 +109,26 @@
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   .line-clamp-3 {
     display: -webkit-box;
     -webkit-line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
   }
-  
+
   /* Safe area insets for mobile devices with notches */
   .safe-top {
     padding-top: env(safe-area-inset-top);
   }
-  
+
   .safe-bottom {
     padding-bottom: env(safe-area-inset-bottom);
   }
@@ -134,11 +136,12 @@
 
 /* Mobile-specific optimizations */
 @media (max-width: 640px) {
+
   /* Disable hover effects on touch devices */
   .card:hover {
     box-shadow: 0 2px 16px rgba(0, 0, 0, 0.08);
   }
-  
+
   /* Optimize font rendering on mobile */
   body {
     -webkit-text-size-adjust: 100%;

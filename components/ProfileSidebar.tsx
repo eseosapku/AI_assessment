@@ -69,7 +69,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
                   <h4 className="font-semibold">Enrolled Subjects</h4>
                 </div>
                 <div className="space-y-2">
-                  {user.subjects.map((subject, index) => (
+                  {(Array.isArray(user.subjects) ? user.subjects : []).map((subject, index) => (
                     <motion.div
                       key={subject}
                       initial={{ opacity: 0, x: -20 }}

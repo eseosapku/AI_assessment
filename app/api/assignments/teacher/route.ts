@@ -8,7 +8,25 @@ export async function GET(request: NextRequest) {
 
     const { data, error } = await supabase
       .from('assignments')
-      .select('*')
+      .select(`
+        id,
+        title,
+        subject,
+        topics,
+        grade,
+        curriculum,
+        difficulty_level,
+        question_count,
+        style,
+        question_type,
+        deadline,
+        created_at,
+        status,
+        max_attempts,
+        classroom_id,
+        classrooms(name),
+        assignment_results(id)
+      `)
       .eq('teacher_id', teacher_id)
       .order('created_at', { ascending: false })
 
@@ -17,7 +35,27 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: error.message }, { status: 500 })
     }
 
-    return NextResponse.json({ assignments: data ?? [] })
+    const assignments = (data ?? []).map((row: any) => ({
+      id: row.id,
+      title: row.title,
+      subject: row.subject,
+      topics: row.topics,
+      grade: row.grade,
+      curriculum: row.curriculum,
+      difficulty_level: row.difficulty_level,
+      question_count: row.question_count,
+      style: row.style,
+      question_type: row.question_type,
+      deadline: row.deadline,
+      created_at: row.created_at,
+      status: row.status,
+      max_attempts: row.max_attempts ?? 1,
+      classroom_id: row.classroom_id,
+      classroom_name: row.classrooms?.name ?? null,
+      assigned_count: Array.isArray(row.assignment_results) ? row.assignment_results.length : 0,
+    }))
+
+    return NextResponse.json({ assignments })
   } catch (err) {
     console.error('Teacher assignments fetch error:', err)
     return NextResponse.json({ error: 'Failed to fetch assignments' }, { status: 500 })
