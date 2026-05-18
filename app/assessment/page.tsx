@@ -697,6 +697,9 @@ export default function AssessmentPage() {
   const downloadReport = () => {
     if (!assessment || !results) return
     const date = new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'long', year: 'numeric' })
+    const safeSubject = assessment.subject.replace(/[^a-z0-9]+/gi, '_').replace(/^_+|_+$/g, '')
+    const dateStamp = new Date().toISOString().slice(0, 10)
+    const reportTitle = `${safeSubject || 'Assessment'}_Report_${dateStamp}`
     const optionLabels = ['A', 'B', 'C', 'D']
 
     const questionsHtml = assessment.questions.map((q, idx) => {
@@ -786,12 +789,13 @@ export default function AssessmentPage() {
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Assessment Report — ${assessment.subject}</title>
+  <title>${reportTitle}</title>
   <style>
+    @page { size: A4; margin: 14mm; }
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; background: #f9fafb; margin: 0; padding: 0; color: #111827; }
     .page { max-width: 860px; margin: 0 auto; padding: 40px 24px; }
     @media print {
-      body { background: #fff; }
+      body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
       .page { padding: 20px; }
       details { display: block; }
       details summary { display: none; }
@@ -832,11 +836,20 @@ export default function AssessmentPage() {
 
     const blob = new Blob([html], { type: 'text/html' })
     const url = URL.createObjectURL(blob)
-    const a = document.createElement('a')
-    a.href = url
-    a.download = `Report_${assessment.subject.replace(/\s+/g, '_')}_${new Date().toISOString().slice(0, 10)}.html`
-    a.click()
-    URL.revokeObjectURL(url)
+    const win = window.open(url, '_blank')
+    if (!win) {
+      URL.revokeObjectURL(url)
+      return
+    }
+    win.addEventListener('load', () => {
+      try {
+        win.document.title = reportTitle
+        win.focus()
+        win.print()
+      } finally {
+        setTimeout(() => URL.revokeObjectURL(url), 30000)
+      }
+    })
   }
 
   const handleSubmit = useCallback(async () => {
@@ -960,6 +973,8 @@ export default function AssessmentPage() {
           score: finalScore,
           grade,
           feedback: generatedFeedback,
+          questions_data: assessment?.questions ?? [],
+          longform_grades: longFormGradesResult,
         }),
       })
     }
@@ -1093,7 +1108,7 @@ export default function AssessmentPage() {
                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" /><polyline points="7 10 12 15 17 10" /><line x1="12" y1="15" x2="12" y2="3" />
                 </svg>
-                Download Report
+                Save as PDF
               </button>
             </div>
           )}
