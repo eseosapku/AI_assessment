@@ -1,8 +1,8 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Plus, Brain, Clock, Zap, ChevronDown, Send, Calendar, BookOpen, FileText } from 'lucide-react'
-import { useState, useEffect, useRef } from 'react'
+import { User, Plus, Brain, Clock, Zap, ChevronDown, Users, FileText, Check, X } from 'lucide-react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
@@ -14,10 +14,16 @@ import { useAuth } from './AuthProvider'
 import { supabase } from '@/lib/supabase'
 
 const DIFFICULTY_COLORS: Record<string, string> = {
-  beginner:     'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20',
-  average:      'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20',
+  beginner: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20',
+  average: 'text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/20',
   intermediate: 'text-amber-600 dark:text-amber-400 bg-amber-50 dark:bg-amber-900/20',
-  advanced:     'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20',
+  advanced: 'text-violet-600 dark:text-violet-400 bg-violet-50 dark:bg-violet-900/20',
+}
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+function isUuid(value: string | null | undefined) {
+  return UUID_RE.test(String(value ?? ''))
 }
 
 export default function Dashboard() {
@@ -39,13 +45,76 @@ function StudentDashboard() {
   const [showAvgDropdown, setShowAvgDropdown] = useState(false)
   const avgRef = useRef<HTMLDivElement>(null)
   const [dailyUsed, setDailyUsed] = useState(0)
-  const [assignedAssessments, setAssignedAssessments] = useState<any[]>([])
+  const [classrooms, setClassrooms] = useState<any[]>([])
+  const [invitations, setInvitations] = useState<any[]>([])
+  const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(false)
+  const [inviteError, setInviteError] = useState('')
   const DAILY_QUIZ_LIMIT = 7200
   const { user } = useAuth()
 
+  const refreshClassrooms = useCallback(async () => {
+    if (!user?.id && !user?.email) return
+    setIsLoadingClassrooms(true)
+    try {
+      const query = isUuid(user?.id)
+        ? `student_id=${user?.id}`
+        : `student_email=${encodeURIComponent(user?.email ?? '')}`
+      const res = await fetch(`/api/classrooms?${query}`)
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Failed to load classrooms')
+      setClassrooms(json.data ?? [])
+    } catch (err) {
+      console.error('Classrooms fetch error:', err)
+      setClassrooms([])
+    } finally {
+      setIsLoadingClassrooms(false)
+    }
+  }, [user])
+
+  const refreshInvitations = useCallback(async () => {
+    if (!user?.email) return
+    setInviteError('')
+    try {
+      const res = await fetch(`/api/classroom-invitations?email=${encodeURIComponent(user.email)}`)
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Failed to load invitations')
+      setInvitations(json.data ?? [])
+    } catch (err: any) {
+      setInvitations([])
+      setInviteError(err?.message || 'Failed to load invitations')
+    }
+  }, [user])
+
+  const handleInvitation = async (inviteId: string, status: 'accepted' | 'declined') => {
+    if (!user?.email) return
+    setInviteError('')
+    try {
+      const res = await fetch(`/api/classroom-invitations/${inviteId}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          status,
+          student_id: isUuid(user.id) ? user.id : null,
+          student_email: user.email,
+        }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Failed to update invitation')
+      await refreshInvitations()
+      await refreshClassrooms()
+    } catch (err: any) {
+      setInviteError(err?.message || 'Failed to update invitation')
+    }
+  }
+
   useEffect(() => {
     const fetchRecentAssessments = async () => {
-      if (!user?.id) return
+      if (!user?.id || !isUuid(user.id)) {
+        setRecentAssessments([])
+        setStats({ total: 0, avgScore: 0 })
+        setSubjectAverages([])
+        return
+      }
       const { data, error } = await supabase
         .from('results')
         .select('*, assessments(subject, difficulty)')
@@ -95,15 +164,28 @@ function StudentDashboard() {
     }
     fetchDailyUsage()
 
-    const fetchAssignedAssessments = async () => {
-      if (!user?.email) return
+    refreshClassrooms()
+    refreshInvitations()
+  }, [user])
+
+  useEffect(() => {
+    if (!user?.id || user?.role === 'teacher' || !isUuid(user.id)) return
+    const intervalSeconds = 60
+    const tick = async () => {
+      if (document.visibilityState !== 'visible') return
       try {
-        const res = await fetch(`/api/assignments/student?email=${encodeURIComponent(user.email)}`)
-        const d = await res.json()
-        setAssignedAssessments(d.assignments ?? [])
-      } catch { /* non-critical */ }
+        await fetch('/api/activity/ping', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: user.id, seconds: intervalSeconds }),
+        })
+      } catch {
+        // Ignore activity ping errors silently.
+      }
     }
-    fetchAssignedAssessments()
+
+    const timer = window.setInterval(tick, intervalSeconds * 1000)
+    return () => window.clearInterval(timer)
   }, [user])
 
   useEffect(() => {
@@ -304,63 +386,115 @@ function StudentDashboard() {
           </div>
         </motion.button>
 
-        {/* ── Assigned Assessments ── */}
-        {assignedAssessments.length > 0 && (
+        {/* ── Invitations ── */}
+        {invitations.length > 0 && (
           <div>
             <div className="flex items-center gap-2 mb-4 px-1">
-              <Send className="w-3.5 h-3.5 text-violet-500" />
+              <Users className="w-3.5 h-3.5 text-blue-500" />
               <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
-                Assigned by Teacher
+                Classroom Invitations
               </p>
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {assignedAssessments.map((a, i) => {
-                const isExpired = a.deadline && new Date(a.deadline) < new Date()
-                return (
-                  <motion.div
-                    key={a.id}
-                    initial={{ opacity: 0, y: 16 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.04 * i }}
-                    className="bg-white dark:bg-gray-900 rounded-2xl border border-violet-200/60 dark:border-violet-800/40 p-5 flex flex-col gap-3"
-                  >
-                    <div className="flex items-start justify-between gap-2">
-                      <div className="flex-1 min-w-0">
-                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{a.title}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">{a.subject} · Grade {a.grade}</p>
-                      </div>
-                      <span className={`text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 ${DIFFICULTY_COLORS[a.difficulty_level] ?? 'text-gray-500 bg-gray-100 dark:bg-gray-800'}`}>
-                        {a.difficulty_level}
-                      </span>
-                    </div>
-                    <div className="flex items-center gap-3 text-xs text-gray-400">
-                      <span className="flex items-center gap-1">
-                        <BookOpen className="w-3.5 h-3.5" />
-                        {a.question_count}q · {a.question_type}
-                      </span>
-                      {a.deadline && (
-                        <span className={`flex items-center gap-1 ${isExpired ? 'text-red-500' : 'text-gray-400'}`}>
-                          <Calendar className="w-3.5 h-3.5" />
-                          {isExpired ? 'Expired' : `Due ${new Date(a.deadline).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`}
-                        </span>
-                      )}
-                    </div>
+              {invitations.map((invite: any, i) => (
+                <motion.div
+                  key={invite.id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.04 * i }}
+                  className="bg-white dark:bg-gray-900 rounded-2xl border border-blue-200/60 dark:border-blue-800/40 p-5 flex flex-col gap-3"
+                >
+                  <div>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{invite.classroom?.name ?? 'Classroom'}</p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {invite.classroom?.teacher_name ?? 'Teacher'} · {invite.classroom?.teacher_email ?? 'No email'}
+                    </p>
+                  </div>
+                  <div className="flex items-center gap-2">
                     <button
-                      disabled={isExpired}
-                      onClick={() => {
-                        sessionStorage.setItem('assignmentConfig', JSON.stringify(a))
-                        router.push('/assessment?assigned=1')
-                      }}
-                      className="mt-auto w-full py-2 rounded-xl text-xs font-bold transition-colors disabled:opacity-40 disabled:cursor-not-allowed bg-violet-600 hover:bg-violet-700 text-white"
+                      onClick={() => handleInvitation(invite.id, 'accepted')}
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-xs font-bold py-2 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white"
                     >
-                      {isExpired ? 'Deadline passed' : 'Start Assessment'}
+                      <Check className="w-3.5 h-3.5" />
+                      Accept
                     </button>
-                  </motion.div>
-                )
-              })}
+                    <button
+                      onClick={() => handleInvitation(invite.id, 'declined')}
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-xs font-bold py-2 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-red-300 hover:text-red-500"
+                    >
+                      <X className="w-3.5 h-3.5" />
+                      Decline
+                    </button>
+                  </div>
+                </motion.div>
+              ))}
             </div>
+            {inviteError && (
+              <p className="mt-3 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-4 py-3">
+                {inviteError}
+              </p>
+            )}
           </div>
         )}
+
+        {/* ── Your Classes ── */}
+        <div>
+          <div className="flex items-center gap-2 mb-4 px-1">
+            <Users className="w-3.5 h-3.5 text-violet-500" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
+              Your Classes
+            </p>
+          </div>
+          {isLoadingClassrooms ? (
+            <div className="flex items-center justify-center py-12 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 bg-white dark:bg-gray-900">
+              <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
+            </div>
+          ) : classrooms.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {classrooms.map((room: any, i) => (
+                <motion.button
+                  key={room.classroom_id}
+                  initial={{ opacity: 0, y: 16 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.04 * i }}
+                  onClick={() => router.push(`/classrooms/${room.classroom_id}`)}
+                  className="text-left bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 flex flex-col gap-3 hover:border-blue-400/60 hover:shadow-sm transition-all"
+                >
+                  <div>
+                    <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{room.name}</p>
+                    {room.description && (
+                      <p className="text-xs text-gray-400 mt-1 line-clamp-2">{room.description}</p>
+                    )}
+                  </div>
+                  <div className="grid grid-cols-3 gap-2 text-center">
+                    <div className="rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/40 py-2">
+                      <p className="text-xs text-blue-600 dark:text-blue-300 font-bold">{room.upcoming_count ?? 0}</p>
+                      <p className="text-[10px] text-blue-500">Upcoming</p>
+                    </div>
+                    <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40 py-2">
+                      <p className="text-xs text-amber-600 dark:text-amber-300 font-bold">{room.open_count ?? 0}</p>
+                      <p className="text-[10px] text-amber-500">Open</p>
+                    </div>
+                    <div className="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/40 py-2">
+                      <p className="text-xs text-emerald-600 dark:text-emerald-300 font-bold">{room.finished_count ?? 0}</p>
+                      <p className="text-[10px] text-emerald-500">Finished</p>
+                    </div>
+                  </div>
+                </motion.button>
+              ))}
+            </div>
+          ) : (
+            <div className="flex flex-col items-center justify-center py-16 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-800/60 bg-white/60 dark:bg-white/[0.02]">
+              <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
+                <Users className="w-5 h-5 text-gray-400" />
+              </div>
+              <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">No classes yet</p>
+              <p className="text-xs text-gray-400 text-center max-w-[200px] leading-relaxed">
+                Accept a classroom invitation to see assignments here.
+              </p>
+            </div>
+          )}
+        </div>
 
         {/* ── Recent Assessments ── */}
         <div>

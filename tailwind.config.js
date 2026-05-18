@@ -18,7 +18,8 @@ module.exports = {
         'apple-dark-gray': '#86868B',
       },
       fontFamily: {
-        sans: ['Inter', '-apple-system', 'BlinkMacSystemFont', 'SF Pro Display', 'sans-serif'],
+        sans: ['var(--font-sans)', 'sans-serif'],
+        display: ['var(--font-display)', 'serif'],
       },
       borderRadius: {
         'apple': '24px',

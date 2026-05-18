@@ -1,10 +1,11 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
-import { Inter } from 'next/font/google'
+import { Fraunces, Space_Grotesk } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { AuthProvider } from '@/components/AuthProvider'
 
-const inter = Inter({ subsets: ['latin'] })
+const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-sans' })
+const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-display' })
 
 export const metadata: Metadata = {
   title: 'Brain Ink | AI Assessment Platform',
@@ -29,7 +30,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={inter.className}>
+      <body className={`${spaceGrotesk.variable} ${fraunces.variable} font-sans`}>
         <ThemeProvider>
           <AuthProvider>
             {children}

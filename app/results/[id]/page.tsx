@@ -604,23 +604,32 @@ export default function ResultDetailPage() {
 
     useEffect(() => {
         if (!user?.id || !resultId) return
+        const isTeacher = user?.role === 'teacher'
 
         const load = async () => {
             setIsLoadingResult(true)
-            let { data, error } = await supabase
+            let query = supabase
                 .from('results')
                 .select('*, assessments(subject, difficulty, questions_data)')
                 .eq('id', resultId)
-                .eq('user_id', user.id)
-                .single()
+
+            if (!isTeacher) {
+                query = query.eq('user_id', user.id)
+            }
+
+            let { data, error } = await query.single()
 
             if ((error || !data) && error?.message?.includes('questions_data')) {
-                const fallback = await supabase
+                let fallbackQuery = supabase
                     .from('results')
                     .select('*, assessments(subject, difficulty)')
                     .eq('id', resultId)
-                    .eq('user_id', user.id)
-                    .single()
+
+                if (!isTeacher) {
+                    fallbackQuery = fallbackQuery.eq('user_id', user.id)
+                }
+
+                const fallback = await fallbackQuery.single()
                 data = fallback.data
                 error = fallback.error
             }

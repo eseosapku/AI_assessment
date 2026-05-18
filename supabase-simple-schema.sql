@@ -80,6 +80,74 @@ CREATE TABLE class_textbooks (
   PRIMARY KEY (class_id, textbook_id)
 );
 
+-- Classrooms (teacher-owned) and memberships
+CREATE TABLE classrooms (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  teacher_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  name VARCHAR(255) NOT NULL,
+  description TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE (teacher_id, name)
+);
+
+CREATE TABLE classroom_members (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+  student_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  student_email VARCHAR(255) NOT NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'pending',
+  invited_by UUID REFERENCES users(id) ON DELETE SET NULL,
+  invited_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  responded_at TIMESTAMP WITH TIME ZONE,
+  UNIQUE (classroom_id, student_email)
+);
+
+-- Assignments (drafts + sent to classroom)
+CREATE TABLE assignments (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  teacher_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  teacher_name VARCHAR(255) NOT NULL,
+  title VARCHAR(255) NOT NULL,
+  subject VARCHAR(100) NOT NULL,
+  topics TEXT[] NOT NULL,
+  grade VARCHAR(50) NOT NULL,
+  curriculum VARCHAR(50) NOT NULL,
+  difficulty_level VARCHAR(50) NOT NULL,
+  question_count INTEGER NOT NULL,
+  style VARCHAR(100) NOT NULL,
+  question_type VARCHAR(50) NOT NULL,
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE SET NULL,
+  status VARCHAR(20) NOT NULL DEFAULT 'sent',
+  questions_data JSONB,
+  estimated_time INTEGER,
+  deadline TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE assignment_results (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  assignment_id UUID REFERENCES assignments(id) ON DELETE CASCADE,
+  student_id UUID REFERENCES users(id) ON DELETE SET NULL,
+  student_email VARCHAR(255) NOT NULL,
+  status VARCHAR(50) DEFAULT 'pending',
+  assessment_id UUID REFERENCES assessments(id) ON DELETE SET NULL,
+  result_id UUID REFERENCES results(id) ON DELETE SET NULL,
+  started_at TIMESTAMP WITH TIME ZONE,
+  completed_at TIMESTAMP WITH TIME ZONE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+-- Daily user activity (for analytics)
+CREATE TABLE user_activity_daily (
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  activity_date DATE NOT NULL,
+  seconds_active INTEGER NOT NULL DEFAULT 0,
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  PRIMARY KEY (user_id, activity_date)
+);
+
 -- Create indexes
 CREATE INDEX idx_users_email ON users(email);
 CREATE INDEX idx_users_student_id ON users(student_id);
