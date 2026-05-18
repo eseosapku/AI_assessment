@@ -115,6 +115,11 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: createError.message }, { status: 500 })
         }
 
+        if (!created) {
+            console.error('Topic create error: no record returned')
+            return NextResponse.json({ error: 'Failed to create topic' }, { status: 500 })
+        }
+
         return NextResponse.json({
             data: {
                 id: created.topic_id,
