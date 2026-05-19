@@ -180,6 +180,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
   const isTeacher = (user as any)?.role === 'teacher'
+  const [flowMode, setFlowMode] = useState<'ai' | 'scratch' | ''>('')
   const [step, setStep] = useState(1)
   const [aiModel] = useState(AI_MODEL.id)
   const [customTime, setCustomTime] = useState<number | null>(null)
@@ -194,7 +195,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     topics: [] as string[],
     textbook_id: null as number | null,
     topic_ids: [] as number[],
-    subtopic_id: null as number | null,
+    subtopic_ids: [] as number[],
     count: 0,
     maxAttempts: 1,
     style: '',
@@ -219,6 +220,14 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const [error, setError] = useState('')
   const [generatedData, setGeneratedData] = useState<any>(null)
   const [draftId, setDraftId] = useState<string | null>(null)
+
+  useEffect(() => {
+    if (isTeacher) {
+      setFlowMode('')
+    } else {
+      setFlowMode('ai')
+    }
+  }, [isTeacher])
 
   useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
 
@@ -408,7 +417,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       topics: [],
       textbook_id: null,
       topic_ids: [],
-      subtopic_id: null,
+      subtopic_ids: [],
       count: 0,
       style: '',
       questionType: '',
@@ -435,7 +444,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       topics: [],
       textbook_id: null,
       topic_ids: [],
-      subtopic_id: null,
+      subtopic_ids: [],
       count: 0,
       style: '',
       questionType: '',
@@ -454,7 +463,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       textbook_id: textbookId,
       topics: [],
       topic_ids: [],
-      subtopic_id: null,
+      subtopic_ids: [],
     })
     setSubtopics([])
     setStep(5)
@@ -464,19 +473,29 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     const selected = formData.topic_ids.includes(topicId)
     const newTopicIds = selected ? formData.topic_ids.filter(id => id !== topicId) : [...formData.topic_ids, topicId]
     const newTopics = selected ? formData.topics.filter(t => t !== topicName) : [...formData.topics, topicName]
-    const shouldClearSubtopic = newTopicIds.length !== 1
+    const previousSingleTopic = formData.topic_ids.length === 1 ? formData.topic_ids[0] : null
+    const nextSingleTopic = newTopicIds.length === 1 ? newTopicIds[0] : null
+    const shouldClearSubtopics = nextSingleTopic !== previousSingleTopic
 
     setFormData({
       ...formData,
       topic_ids: newTopicIds,
       topics: newTopics,
-      subtopic_id: shouldClearSubtopic ? null : formData.subtopic_id,
+      subtopic_ids: shouldClearSubtopics ? [] : formData.subtopic_ids,
     })
     if (newTopics.length > 0 && step === 5) setTimeout(() => setStep(6), 250)
   }
 
-  const handleSubtopicSelect = (subtopicId: number | null) => {
-    setFormData({ ...formData, subtopic_id: subtopicId })
+  const handleSubtopicToggle = (subtopicId: number | null) => {
+    if (subtopicId === null) {
+      setFormData({ ...formData, subtopic_ids: [] })
+      return
+    }
+    const selected = formData.subtopic_ids.includes(subtopicId)
+    const nextIds = selected
+      ? formData.subtopic_ids.filter(id => id !== subtopicId)
+      : [...formData.subtopic_ids, subtopicId]
+    setFormData({ ...formData, subtopic_ids: nextIds })
   }
   const handleCountSelect = (count: number) => { setFormData({ ...formData, count }); setTimeout(() => setStep(7), 250) }
   const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(8), 250) }
@@ -563,8 +582,12 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const selectedQuestionType = QUESTION_TYPES.find(qt => qt.id === formData.questionType)
   const selectedDifficulty = DIFFICULTY_LEVELS.find(d => d.id === formData.difficultyLevel)
 
-  const selectedSubtopicName = formData.subtopic_id
-    ? subtopics.find(s => s.id === formData.subtopic_id)?.name
+  const selectedSubtopicNames = formData.subtopic_ids
+    .map((id) => subtopics.find(s => s.id === id)?.name)
+    .filter(Boolean) as string[]
+
+  const subtopicSummary = formData.topic_ids.length === 1 && subtopics.length > 0
+    ? (selectedSubtopicNames.length > 0 ? selectedSubtopicNames.join(', ') : 'Entire topic')
     : ''
 
   const summaryRows = [
@@ -574,7 +597,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     { label: 'Curriculum', value: selectedCurriculum?.label ?? formData.curriculum },
     { label: 'Subject', value: formData.subject },
     { label: 'Topics', value: formData.topics.join(', ') },
-    { label: 'Subtopic', value: selectedSubtopicName },
+    { label: 'Subtopics', value: subtopicSummary },
     { label: 'Questions', value: String(formData.count) },
     { label: 'Max attempts', value: isTeacher ? String(formData.maxAttempts) : '' },
     { label: 'Style', value: formData.style },
@@ -602,7 +625,11 @@ export default function FlowForm({ onClose }: FlowFormProps) {
           <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100 dark:border-gray-800/60 flex-shrink-0">
             <div>
               <h2 className="text-base font-bold text-gray-900 dark:text-white">New Assessment</h2>
-              <p className="text-xs text-gray-400 mt-0.5">Step {Math.min(step, TOTAL_STEPS)} of {TOTAL_STEPS}</p>
+              <p className="text-xs text-gray-400 mt-0.5">
+                {isTeacher && !flowMode
+                  ? 'Choose how to create'
+                  : `Step ${Math.min(step, TOTAL_STEPS)} of ${TOTAL_STEPS}`}
+              </p>
             </div>
             <button
               onClick={onClose}
@@ -617,7 +644,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map(s => (
               <div
                 key={s}
-                className={`h-1 flex-1 rounded-full transition-all duration-400 ${s <= step ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'}`}
+                className={`h-1 flex-1 rounded-full transition-all duration-400 ${flowMode && s <= step ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'}`}
               />
             ))}
           </div>
@@ -625,8 +652,31 @@ export default function FlowForm({ onClose }: FlowFormProps) {
           {/* Scrollable content */}
           <div className="flex-1 px-6 pb-6 space-y-6 overflow-y-auto">
 
+            {isTeacher && !flowMode && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                <StepLabel label="Creation path" />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How do you want to build this assessment?</h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <OptionButton selected={false} onClick={() => setFlowMode('ai')}>
+                    <p className="font-semibold text-sm text-gray-900 dark:text-white">AI-generated</p>
+                    <p className="text-[11px] text-gray-400 mt-0.5">Follow the guided flow and generate questions with AI.</p>
+                  </OptionButton>
+                  <OptionButton
+                    selected={false}
+                    onClick={() => {
+                      onClose()
+                      router.push('/assignments/new')
+                    }}
+                  >
+                    <p className="font-semibold text-sm text-gray-900 dark:text-white">Create from scratch</p>
+                    <p className="text-[11px] text-gray-400 mt-0.5">Start with blank MCQ/longform templates and fill them in.</p>
+                  </OptionButton>
+                </div>
+              </motion.div>
+            )}
+
             {/* Step 1: Curriculum */}
-            {step >= 1 && (
+            {flowMode === 'ai' && step >= 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Curriculum" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
@@ -660,7 +710,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 2: Class */}
-            {step >= 2 && formData.curriculum && (
+            {flowMode === 'ai' && step >= 2 && formData.curriculum && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Class" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select class (from database)</h3>
@@ -690,7 +740,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 3: Difficulty Level */}
-            {step >= 3 && formData.class_name && (
+            {flowMode === 'ai' && step >= 3 && formData.class_name && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Difficulty level" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
@@ -717,7 +767,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 4: Subject */}
-            {step >= 4 && formData.difficultyLevel && (
+            {flowMode === 'ai' && step >= 4 && formData.difficultyLevel && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Subject" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -745,7 +795,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 5: Topics */}
-            {step >= 5 && formData.subject && (
+            {flowMode === 'ai' && step >= 5 && formData.subject && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Topics" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
@@ -773,10 +823,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                 {formData.topic_ids.length === 1 && step >= 5 && (
                   <div className="mt-4">
                     <StepLabel label="Subtopic (optional)" />
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Focus on a specific subtopic</h3>
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Focus on one or more subtopics</h3>
                     <p className="text-xs text-gray-400 mb-3">Leave blank to cover the entire topic</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                      <OptionButton selected={formData.subtopic_id === null} onClick={() => handleSubtopicSelect(null)}>
+                      <OptionButton selected={formData.subtopic_ids.length === 0} onClick={() => handleSubtopicToggle(null)}>
                         <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">Entire topic</span>
                       </OptionButton>
                       {isLoadingSubtopics ? (
@@ -786,7 +836,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                         </div>
                       ) : (
                         subtopics.map(st => (
-                          <OptionButton key={st.id} selected={formData.subtopic_id === st.id} onClick={() => handleSubtopicSelect(st.id)}>
+                          <OptionButton key={st.id} selected={formData.subtopic_ids.includes(st.id)} onClick={() => handleSubtopicToggle(st.id)}>
                             <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">{st.name}</span>
                           </OptionButton>
                         ))
@@ -809,7 +859,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 6: Count */}
-            {step >= 6 && formData.topics.length > 0 && (
+            {flowMode === 'ai' && step >= 6 && formData.topics.length > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question count" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How many questions?</h3>
@@ -851,7 +901,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 7: Style */}
-            {step >= 7 && formData.count > 0 && (
+            {flowMode === 'ai' && step >= 7 && formData.count > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Assessment style" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose a question style</h3>
@@ -870,7 +920,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 8: Question Type */}
-            {step >= 8 && formData.style && (
+            {flowMode === 'ai' && step >= 8 && formData.style && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question type" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How should questions be presented?</h3>
@@ -891,7 +941,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 9: Summary & Generate */}
-            {step >= 9 && formData.questionType && (
+            {flowMode === 'ai' && step >= 9 && formData.questionType && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Summary" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Review your assessment</h3>
