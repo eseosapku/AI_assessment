@@ -6,12 +6,41 @@ function parseId(value: string | undefined) {
     return id ? id : null
 }
 
-export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+function parseRange(value: string | null) {
+    const normalized = String(value ?? '').toLowerCase()
+    if (normalized === 'day' || normalized === 'week' || normalized === 'month') return normalized
+    return 'all'
+}
+
+function formatDateOnly(date: Date) {
+    return date.toISOString().slice(0, 10)
+}
+
+function getRangeStart(range: string) {
+    if (range === 'all') return null
+    const today = new Date()
+    today.setHours(0, 0, 0, 0)
+    const start = new Date(today)
+    if (range === 'day') {
+        return { start, end: today }
+    }
+    if (range === 'week') {
+        start.setDate(start.getDate() - 6)
+        return { start, end: today }
+    }
+    start.setDate(start.getDate() - 29)
+    return { start, end: today }
+}
+
+export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const resolved = await params
     const classroomId = parseId(resolved?.id)
     if (!classroomId) {
         return NextResponse.json({ error: 'Invalid classroom id' }, { status: 400 })
     }
+
+    const range = parseRange(request.nextUrl.searchParams.get('range'))
+    const dateRange = getRangeStart(range)
 
     try {
         const { data: members, error: membersError } = await supabase
@@ -61,10 +90,18 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
         let activityRows: any[] = []
         if (studentIds.length > 0) {
-            const { data: activity, error: activityError } = await supabase
+            let activityQuery = supabase
                 .from('user_activity_daily')
                 .select('user_id,seconds_active')
                 .in('user_id', studentIds)
+
+            if (dateRange) {
+                activityQuery = activityQuery
+                    .gte('activity_date', formatDateOnly(dateRange.start))
+                    .lte('activity_date', formatDateOnly(dateRange.end))
+            }
+
+            const { data: activity, error: activityError } = await activityQuery
 
             if (activityError) {
                 console.error('Activity fetch error:', activityError)

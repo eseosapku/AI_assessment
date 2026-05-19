@@ -860,6 +860,7 @@ export async function POST(request: NextRequest) {
       customTime,
       textbook_id,
       topic_ids,
+      subtopic_ids,
       subtopic_id,
     } = body
 
@@ -881,10 +882,14 @@ export async function POST(request: NextRequest) {
     const textbookId = Number(textbook_id)
     const topicIds = normalizeIds(topic_ids)
     const subtopicId = Number(subtopic_id)
+    const subtopicIds = normalizeIds(subtopic_ids)
+    if (subtopicIds.length === 0 && Number.isFinite(subtopicId)) {
+      subtopicIds.push(subtopicId)
+    }
 
     const requestedSubject = String(subject ?? '').trim()
     const requestedTopics = Array.isArray(topics) ? topics.map((t: any) => String(t).trim()).filter(Boolean) : []
-    const hasSomeTopics = requestedTopics.length > 0 || topicIds.length > 0 || Number.isFinite(subtopicId)
+    const hasSomeTopics = requestedTopics.length > 0 || topicIds.length > 0 || subtopicIds.length > 0
 
     if ((!requestedSubject && !Number.isFinite(textbookId)) || !hasSomeTopics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -893,8 +898,8 @@ export async function POST(request: NextRequest) {
     // ── DB-driven selection: textbook → topics → optional subtopic ───────────
     let textbookName = ''
     let dbTopicNames: string[] = []
-    let resolvedSubtopicName: string | null = null
-    let resolvedSubtopicTopicId: number | null = null
+    const topicNameById = new Map<number, string>()
+    const resolvedSubtopics: Array<{ id: number; name: string; topic_id: number | null }> = []
 
     if (Number.isFinite(textbookId)) {
       const { data, error } = await supabase
@@ -917,39 +922,49 @@ export async function POST(request: NextRequest) {
         console.error('Topics lookup error:', error)
       } else {
         const rows = Array.isArray(data) ? (data as any[]) : []
-        const nameById = new Map<number, string>()
         for (const r of rows) {
-          if (Number.isFinite(r.topic_id) && r.topic) nameById.set(Number(r.topic_id), String(r.topic))
+          if (Number.isFinite(r.topic_id) && r.topic) topicNameById.set(Number(r.topic_id), String(r.topic))
         }
-        dbTopicNames = topicIds.map((id) => nameById.get(id)).filter(Boolean) as string[]
+        dbTopicNames = topicIds.map((id) => topicNameById.get(id)).filter(Boolean) as string[]
       }
     }
 
-    if (Number.isFinite(subtopicId)) {
+    if (subtopicIds.length > 0) {
       let q = supabase
         .from('subtopics')
         .select('subtopic_id,subtopic,topic_id,textbook_id')
-        .eq('subtopic_id', subtopicId)
+        .in('subtopic_id', subtopicIds)
       if (Number.isFinite(textbookId)) q = q.eq('textbook_id', textbookId)
-      const { data, error } = await q.maybeSingle()
+      const { data, error } = await q.order('subtopic')
       if (error) {
         console.error('Subtopic lookup error:', error)
-      } else if (data?.subtopic) {
-        resolvedSubtopicName = String(data.subtopic)
-        resolvedSubtopicTopicId = Number.isFinite(data.topic_id) ? Number(data.topic_id) : null
+      } else {
+        const rows = Array.isArray(data) ? (data as any[]) : []
+        for (const row of rows) {
+          if (!Number.isFinite(row?.subtopic_id) || !row?.subtopic) continue
+          resolvedSubtopics.push({
+            id: Number(row.subtopic_id),
+            name: String(row.subtopic),
+            topic_id: Number.isFinite(row.topic_id) ? Number(row.topic_id) : null,
+          })
+        }
       }
     }
 
     const promptSubject = textbookName || requestedSubject
     const baseTopicNames = dbTopicNames.length > 0 ? dbTopicNames : requestedTopics
 
-    // If a subtopic is specified, constrain the prompt to it.
+    // If subtopics are specified, constrain the prompt to them.
     let promptTopics = baseTopicNames
-    if (resolvedSubtopicName) {
-      const parentTopicName =
-        (resolvedSubtopicTopicId && topicIds.length > 0 && resolvedSubtopicTopicId === topicIds[0] ? baseTopicNames[0] : null) ||
-        (baseTopicNames.length === 1 ? baseTopicNames[0] : null)
-      promptTopics = [parentTopicName ? `${parentTopicName} — ${resolvedSubtopicName}` : resolvedSubtopicName]
+    if (resolvedSubtopics.length > 0) {
+      const ordered = subtopicIds
+        .map((id) => resolvedSubtopics.find(s => s.id === id))
+        .filter(Boolean) as Array<{ id: number; name: string; topic_id: number | null }>
+      promptTopics = ordered.map((st) => {
+        const parent = (st.topic_id !== null ? topicNameById.get(st.topic_id) : null) ||
+          (baseTopicNames.length === 1 ? baseTopicNames[0] : null)
+        return parent ? `${parent} — ${st.name}` : st.name
+      })
     }
 
     const displayTopics = promptTopics
@@ -959,8 +974,9 @@ export async function POST(request: NextRequest) {
     if (audience) curriculumBlockLines.push(`**Target Audience:** ${audience}`)
     if (textbookName) curriculumBlockLines.push(`**Textbook:** ${textbookName}`)
     if (baseTopicNames.length > 0) curriculumBlockLines.push(`**Selected Topics:** ${baseTopicNames.join(', ')}`)
-    if (resolvedSubtopicName) {
-      curriculumBlockLines.push(`**Scope Rule:** Focus ONLY on the subtopic "${resolvedSubtopicName}". Do NOT include questions outside this subtopic.`)
+    if (resolvedSubtopics.length > 0) {
+      const names = resolvedSubtopics.map(s => `"${s.name}"`).join(', ')
+      curriculumBlockLines.push(`**Scope Rule:** Focus ONLY on these subtopics: ${names}. Do NOT include questions outside these subtopics.`)
     }
     const curriculumBlock = curriculumBlockLines.join('\n')
 
@@ -1451,7 +1467,8 @@ export async function POST(request: NextRequest) {
       questionType,
       textbook_id: Number.isFinite(textbookId) ? textbookId : null,
       topic_ids: topicIds,
-      subtopic_id: Number.isFinite(subtopicId) ? subtopicId : null,
+      subtopic_ids: subtopicIds,
+      subtopic_id: subtopicIds.length === 1 ? subtopicIds[0] : null,
     })
   } catch (error: any) {
     console.error('Generate assessment error:', error)

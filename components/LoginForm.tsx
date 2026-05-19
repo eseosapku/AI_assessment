@@ -48,7 +48,7 @@ export default function LoginForm() {
           }} />
           <div className="absolute -top-8 -right-8 w-40 h-40 bg-blue-600/20 rounded-full blur-2xl pointer-events-none" />
           <div className="relative">
-            <Image src="/logo.png" alt="Brain Ink" width={140} height={80} className="h-10 w-auto object-contain mb-5" priority />
+            <Image src="/logo2.png" alt="Brain Ink" width={160} height={90} className="h-12 w-auto object-contain mb-5" priority />
             <h1 className="text-2xl font-black text-white tracking-tight leading-none">Welcome back</h1>
             <p className="text-sm text-slate-400 mt-1.5">Sign in to continue your learning</p>
           </div>

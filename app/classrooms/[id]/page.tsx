@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Mail, Users, ArrowLeft, Download, ChevronRight } from 'lucide-react'
+import { Mail, Users, ArrowLeft, Download, ChevronRight, Search } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 
 interface ClassroomInfo {
@@ -334,6 +334,9 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
     const [isInviting, setIsInviting] = useState(false)
     const [analytics, setAnalytics] = useState<any>(null)
     const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(true)
+    const [activityRange, setActivityRange] = useState<'all' | 'month' | 'week' | 'day'>('all')
+    const [searchInput, setSearchInput] = useState('')
+    const [studentSearch, setStudentSearch] = useState('')
     const [selectedStudent, setSelectedStudent] = useState<any | null>(null)
     const [studentDetail, setStudentDetail] = useState<StudentDetail | null>(null)
     const [isDetailOpen, setIsDetailOpen] = useState(false)
@@ -358,10 +361,10 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
         }
     }
 
-    const loadAnalytics = async () => {
+    const loadAnalytics = async (range: 'all' | 'month' | 'week' | 'day') => {
         setIsLoadingAnalytics(true)
         try {
-            const res = await fetch(`/api/classrooms/${classroomId}/analytics`)
+            const res = await fetch(`/api/classrooms/${classroomId}/analytics?range=${range}`)
             const json = await res.json()
             if (!res.ok) throw new Error(json.error || 'Failed to load analytics')
             setAnalytics(json)
@@ -375,8 +378,34 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
 
     useEffect(() => {
         loadMembers()
-        loadAnalytics()
     }, [classroomId])
+
+    useEffect(() => {
+        loadAnalytics(activityRange)
+    }, [classroomId, activityRange])
+
+    const handleSearch = () => {
+        setStudentSearch(searchInput.trim())
+    }
+
+    const studentsForDisplay = useMemo(() => {
+        const rows = analytics?.students ?? []
+        const query = studentSearch.trim().toLowerCase()
+        if (!query) return rows
+        return rows.filter((row: any) => {
+            const name = String(row.student_name ?? '').toLowerCase()
+            const email = String(row.student_email ?? '').toLowerCase()
+            return name.includes(query) || email.includes(query)
+        })
+    }, [analytics?.students, studentSearch])
+
+    const activeTimeLabel = activityRange === 'all'
+        ? 'All time'
+        : activityRange === 'month'
+            ? 'Last 30 days'
+            : activityRange === 'week'
+                ? 'Last 7 days'
+                : 'Today'
 
     const openStudentDetail = async (row: any) => {
         setSelectedStudent(row)
@@ -464,7 +493,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
             setInviteInput('')
             setInviteSuccess('Invitations sent.')
             await loadMembers()
-            await loadAnalytics()
+            await loadAnalytics(activityRange)
         } catch (err: any) {
             setInviteError(err?.message || 'Failed to invite students')
         } finally {
@@ -490,7 +519,11 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <p className="text-[10px] uppercase tracking-widest text-gray-400">Avg score</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">
-                        {isLoadingAnalytics ? '—' : (analytics?.summary?.average_score ?? '—')}
+                        {isLoadingAnalytics
+                            ? '—'
+                            : Number.isFinite(analytics?.summary?.average_score)
+                                ? `${analytics?.summary?.average_score}%`
+                                : '—'}
                     </p>
                     <p className="text-xs text-gray-400 mt-1">Across completed work</p>
                 </div>
@@ -522,73 +555,111 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                     <button
                         onClick={handleInvite}
                         disabled={isInviting}
-                        className="w-full inline-flex items-center justify-center gap-2 bg-[#1F7A7A] hover:bg-[#166463] disabled:bg-[#6FA9A9] text-white text-sm font-semibold py-2.5 rounded-xl"
+                        className="w-full inline-flex items-center justify-center gap-3 bg-[#1F7A7A] hover:bg-[#166463] disabled:bg-[#6FA9A9] text-white text-base sm:text-lg font-bold py-3.5 rounded-xl"
                     >
-                        <Users className="w-4 h-4" />
+                        <Users className="w-5 h-5" />
                         {isInviting ? 'Sending...' : 'Send invitations'}
                     </button>
                 </div>
 
                 <div className="lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <div className="flex items-center justify-between mb-3">
-                        <p className="text-[10px] uppercase tracking-widest text-gray-400">Student analytics</p>
-                        <p className="text-xs text-gray-400">
-                            {isLoadingAnalytics ? 'Loading...' : `Total active time: ${formatSeconds(analytics?.summary?.seconds_active ?? 0)}`}
-                        </p>
+                    <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-3">
+                        <div>
+                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Student analytics</p>
+                            <p className="text-xs text-gray-400 mt-1">
+                                {isLoadingAnalytics
+                                    ? 'Loading...'
+                                    : `Total active time (${activeTimeLabel}): ${formatSeconds(analytics?.summary?.seconds_active ?? 0)}`}
+                            </p>
+                        </div>
+                        <div className="flex flex-col sm:flex-row sm:items-center gap-2">
+                            <div className="relative">
+                                <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+                                <input
+                                    value={searchInput}
+                                    onChange={(e) => setSearchInput(e.target.value)}
+                                    onKeyDown={(e) => {
+                                        if (e.key === 'Enter') handleSearch()
+                                    }}
+                                    placeholder="Search name or email"
+                                    className="w-full sm:w-56 pl-9 pr-3 py-2 rounded-lg text-xs bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
+                                />
+                            </div>
+                            <button
+                                onClick={handleSearch}
+                                className="px-3 py-2 rounded-lg text-xs font-bold bg-[#1F7A7A] hover:bg-[#166463] text-white"
+                            >
+                                Search
+                            </button>
+                            <select
+                                value={activityRange}
+                                onChange={(e) => setActivityRange(e.target.value as 'all' | 'month' | 'week' | 'day')}
+                                className="px-3 py-2 rounded-lg text-xs font-semibold bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 text-gray-700 dark:text-gray-200"
+                            >
+                                <option value="all">All time</option>
+                                <option value="month">Last 30 days</option>
+                                <option value="week">Last 7 days</option>
+                                <option value="day">Today</option>
+                            </select>
+                        </div>
                     </div>
                     {isLoadingAnalytics ? (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-[#1F7A7A] border-t-transparent rounded-full animate-spin" />
                         </div>
                     ) : analytics?.students?.length > 0 ? (
-                        <div className="overflow-x-auto">
-                            <table className="w-full text-sm">
-                                <thead>
-                                    <tr className="text-left text-[11px] uppercase tracking-widest text-gray-400">
-                                        <th className="py-2">Student</th>
-                                        <th className="py-2">Completed</th>
-                                        <th className="py-2">Open</th>
-                                        <th className="py-2">Avg score</th>
-                                        <th className="py-2">Active time</th>
-                                        <th className="py-2 text-right">Details</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                                    {analytics.students.map((row: any) => (
-                                        <tr key={row.student_id ?? row.student_email} className="text-gray-700 dark:text-gray-300">
-                                            <td className="py-2">
-                                                <div className="font-semibold text-gray-900 dark:text-white">
-                                                    {row.student_name ?? row.student_email}
-                                                </div>
-                                                <div className="text-xs text-gray-400">{row.student_email}</div>
-                                            </td>
-                                            <td className="py-2">{row.completed}</td>
-                                            <td className="py-2">{row.started}</td>
-                                            <td className="py-2">
-                                                <div className="flex items-center gap-2">
-                                                    <span>{row.avg_score ?? '—'}</span>
-                                                    {Number.isFinite(row.avg_score) && (
-                                                        <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
-                                                            {getGradeFromScore(row.avg_score)}
-                                                        </span>
-                                                    )}
-                                                </div>
-                                            </td>
-                                            <td className="py-2">{formatSeconds(row.seconds_active ?? 0)}</td>
-                                            <td className="py-2 text-right">
-                                                <button
-                                                    onClick={() => openStudentDetail(row)}
-                                                    className="inline-flex items-center gap-1 text-xs font-semibold text-[#1F7A7A] hover:text-[#166463]"
-                                                >
-                                                    View
-                                                    <ChevronRight className="w-3 h-3" />
-                                                </button>
-                                            </td>
+                        studentsForDisplay.length > 0 ? (
+                            <div className="overflow-x-auto">
+                                <table className="w-full text-sm">
+                                    <thead>
+                                        <tr className="text-left text-[11px] uppercase tracking-widest text-gray-400">
+                                            <th className="py-2">Student</th>
+                                            <th className="py-2">Completed</th>
+                                            <th className="py-2">Open</th>
+                                            <th className="py-2">Avg score</th>
+                                            <th className="py-2">Active time</th>
+                                            <th className="py-2 text-right">Details</th>
                                         </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
+                                    </thead>
+                                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                                        {studentsForDisplay.map((row: any) => (
+                                            <tr key={row.student_id ?? row.student_email} className="text-gray-700 dark:text-gray-300">
+                                                <td className="py-2">
+                                                    <div className="font-semibold text-gray-900 dark:text-white">
+                                                        {row.student_name ?? row.student_email}
+                                                    </div>
+                                                    <div className="text-xs text-gray-400">{row.student_email}</div>
+                                                </td>
+                                                <td className="py-2">{row.completed}</td>
+                                                <td className="py-2">{row.started}</td>
+                                                <td className="py-2">
+                                                    <div className="flex items-center gap-2">
+                                                        <span>{Number.isFinite(row.avg_score) ? `${row.avg_score}%` : '—'}</span>
+                                                        {Number.isFinite(row.avg_score) && (
+                                                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
+                                                                {getGradeFromScore(row.avg_score)}
+                                                            </span>
+                                                        )}
+                                                    </div>
+                                                </td>
+                                                <td className="py-2">{formatSeconds(row.seconds_active ?? 0)}</td>
+                                                <td className="py-2 text-right">
+                                                    <button
+                                                        onClick={() => openStudentDetail(row)}
+                                                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E7EFEA] text-[#1F7A7A] font-bold text-sm hover:bg-[#d7e7e0]"
+                                                    >
+                                                        View
+                                                        <ChevronRight className="w-4 h-4" />
+                                                    </button>
+                                                </td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </table>
+                            </div>
+                        ) : (
+                            <div className="text-sm text-gray-400">No students match your search.</div>
+                        )
                     ) : (
                         <div className="text-sm text-gray-400">No analytics data yet.</div>
                     )}
@@ -662,7 +733,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                             </div>
                             <button
                                 onClick={closeStudentDetail}
-                                className="text-xs font-semibold px-3 py-1.5 rounded-full border border-[#E8DED1] dark:border-white/10 text-[#1F2933] dark:text-gray-200 hover:bg-[#F1E6D6] dark:hover:bg-white/5"
+                                className="text-sm font-bold px-4 py-2 rounded-full border border-[#E8DED1] dark:border-white/10 text-[#1F2933] dark:text-gray-200 hover:bg-[#F1E6D6] dark:hover:bg-white/5"
                             >
                                 Close
                             </button>
@@ -681,7 +752,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                 <>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Completed</p>
+                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Quizes</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
                                                 {studentDetail.summary.completed}
                                                 <span className="text-sm text-gray-400 font-semibold">/{studentDetail.summary.assignments_total}</span>
@@ -690,7 +761,9 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
                                             <p className="text-[10px] uppercase tracking-widest text-gray-400">Average score</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
-                                                {studentDetail.summary.average_score ?? '—'}
+                                                {Number.isFinite(studentDetail.summary.average_score)
+                                                    ? `${studentDetail.summary.average_score}%`
+                                                    : '—'}
                                                 {Number.isFinite(studentDetail.summary.average_score) && (
                                                     <span className="text-sm text-[#1F7A7A] font-semibold ml-2">
                                                         {getGradeFromScore(studentDetail.summary.average_score)}
@@ -699,7 +772,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                             </p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Open</p>
+                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Not completed</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">{studentDetail.summary.started}</p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
@@ -756,7 +829,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                 {row.result_id ? (
                                                                     <button
                                                                         onClick={() => window.open(`/results/${row.result_id}`, '_blank')}
-                                                                        className="inline-flex items-center gap-2 text-xs font-semibold text-[#1F7A7A] hover:text-[#166463]"
+                                                                        className="inline-flex items-center gap-2 text-sm font-bold text-[#1F7A7A] hover:text-[#166463]"
                                                                     >
                                                                         View feedback
                                                                     </button>
@@ -765,9 +838,9 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                 )}
                                                                 <button
                                                                     onClick={() => handleDownloadFeedback(row)}
-                                                                    className="inline-flex items-center gap-2 text-xs font-semibold text-[#1F7A7A] hover:text-[#166463]"
+                                                                    className="inline-flex items-center gap-2 text-sm font-bold text-[#1F7A7A] hover:text-[#166463]"
                                                                 >
-                                                                    <Download className="w-3.5 h-3.5" />
+                                                                    <Download className="w-4 h-4" />
                                                                     Download feedback
                                                                 </button>
                                                             </div>

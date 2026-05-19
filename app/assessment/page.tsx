@@ -1,8 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { Suspense, useCallback, useEffect, useRef, useState } from 'react'
-import NextImage from 'next/image'
+import { Suspense, useCallback, useEffect, useState } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Clock, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import 'katex/dist/katex.min.css'
@@ -10,6 +9,8 @@ import Latex from 'react-latex-next'
 import { useAuth } from '@/components/AuthProvider'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+const PAUSED_ASSESSMENT_KEY = 'pausedAssessmentState'
+const RESUME_ASSESSMENT_KEY = 'resumeAssessment'
 
 function isUuid(value: string | null | undefined) {
   return UUID_RE.test(String(value ?? ''))
@@ -77,6 +78,15 @@ interface Assessment {
   questionType?: string
 }
 
+interface PausedAssessmentState {
+  assessment: Assessment
+  currentQuestion: number
+  timeRemaining: number
+  selectedAnswers: Record<number, number>
+  longFormAnswers: Record<number, string>
+  pausedAt: string
+}
+
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
 function isLongForm(q: Question): q is LongFormQuestion {
@@ -100,139 +110,6 @@ function DiagramSvg({ svg }: { svg: string }) {
   )
 }
 
-function needsMathCanvas(subject: string): boolean {
-  return ['math', 'physics', 'chemistry', 'biology', 'science', 'statistics',
-    'economics', 'accounting', 'calculus', 'further math', 'additional math',
-  ].some(s => subject.toLowerCase().includes(s))
-}
-
-function MathWorkingCanvas({ value, onChange }: { value: string; onChange: (data: string) => void }) {
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-  const [tool, setTool] = useState<'pen' | 'eraser'>('pen')
-  const [history, setHistory] = useState<string[]>([])
-  const isDrawingRef = useRef(false)
-  const lastPos = useRef<{ x: number; y: number } | null>(null)
-  const toolRef = useRef(tool)
-  useEffect(() => { toolRef.current = tool }, [tool])
-
-  useEffect(() => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')
-    if (!ctx) return
-    ctx.fillStyle = 'white'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    if (value) {
-      const img = new Image()
-      img.onload = () => ctx.drawImage(img, 0, 0)
-      img.src = value
-    }
-  }, [value])
-
-  const getPos = (e: React.MouseEvent | React.TouchEvent, canvas: HTMLCanvasElement) => {
-    const rect = canvas.getBoundingClientRect()
-    const scaleX = canvas.width / rect.width
-    const scaleY = canvas.height / rect.height
-    if ('touches' in e) {
-      const t = e.touches[0]
-      return { x: (t.clientX - rect.left) * scaleX, y: (t.clientY - rect.top) * scaleY }
-    }
-    return {
-      x: ((e as React.MouseEvent).clientX - rect.left) * scaleX,
-      y: ((e as React.MouseEvent).clientY - rect.top) * scaleY,
-    }
-  }
-
-  const startDraw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
-    const canvas = canvasRef.current
-    if (!canvas) return
-    setHistory(h => [...h.slice(-20), canvas.toDataURL()])
-    const pos = getPos(e, canvas)
-    lastPos.current = pos
-    isDrawingRef.current = true
-    const ctx = canvas.getContext('2d')!
-    ctx.beginPath()
-    ctx.arc(pos.x, pos.y, toolRef.current === 'eraser' ? 10 : 1.5, 0, Math.PI * 2)
-    ctx.fillStyle = toolRef.current === 'eraser' ? 'white' : '#1e293b'
-    ctx.fill()
-  }
-
-  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
-    e.preventDefault()
-    if (!isDrawingRef.current || !lastPos.current) return
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    const pos = getPos(e, canvas)
-    ctx.beginPath()
-    ctx.moveTo(lastPos.current.x, lastPos.current.y)
-    ctx.lineTo(pos.x, pos.y)
-    ctx.strokeStyle = toolRef.current === 'eraser' ? 'white' : '#1e293b'
-    ctx.lineWidth = toolRef.current === 'eraser' ? 20 : 2
-    ctx.lineCap = 'round'
-    ctx.lineJoin = 'round'
-    ctx.stroke()
-    lastPos.current = pos
-  }
-
-  const stopDraw = () => {
-    if (!isDrawingRef.current) return
-    isDrawingRef.current = false
-    lastPos.current = null
-    const canvas = canvasRef.current
-    if (canvas) onChange(canvas.toDataURL())
-  }
-
-  const undo = () => {
-    if (history.length === 0) return
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    const prev = history[history.length - 1]
-    setHistory(h => h.slice(0, -1))
-    const img = new Image()
-    img.onload = () => { ctx.clearRect(0, 0, canvas.width, canvas.height); ctx.drawImage(img, 0, 0); onChange(canvas.toDataURL()) }
-    img.src = prev
-  }
-
-  const clear = () => {
-    const canvas = canvasRef.current
-    if (!canvas) return
-    const ctx = canvas.getContext('2d')!
-    setHistory(h => [...h.slice(-20), canvas.toDataURL()])
-    ctx.fillStyle = 'white'
-    ctx.fillRect(0, 0, canvas.width, canvas.height)
-    onChange('')
-  }
-
-  return (
-    <div className="mb-5 rounded-2xl border-2 border-dashed border-blue-200 dark:border-blue-800/40 overflow-hidden">
-      <div className="flex items-center gap-2 px-3 py-2 bg-blue-50 dark:bg-blue-900/20 border-b border-blue-200 dark:border-blue-800/40">
-        <span className="text-xs font-bold text-blue-700 dark:text-blue-400">Working Space</span>
-        <span className="text-xs text-blue-500">— draw your steps here</span>
-        <div className="flex items-center gap-1 ml-auto">
-          {(['pen', 'eraser'] as const).map(t => (
-            <button key={t} onClick={() => setTool(t)}
-              className={`px-2 py-0.5 text-xs rounded-md font-medium capitalize transition-colors ${tool === t ? 'bg-blue-500 text-white' : 'bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600'}`}
-            >{t}</button>
-          ))}
-          <button onClick={undo} disabled={history.length === 0}
-            className="px-2 py-0.5 text-xs rounded-md bg-white dark:bg-gray-700 text-gray-600 dark:text-gray-300 border border-gray-200 dark:border-gray-600 disabled:opacity-30 font-medium">Undo</button>
-          <button onClick={clear}
-            className="px-2 py-0.5 text-xs rounded-md bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 border border-red-200 dark:border-red-800/40 font-medium">Clear</button>
-        </div>
-      </div>
-      <canvas
-        ref={canvasRef} width={800} height={240}
-        className="w-full bg-white block"
-        style={{ cursor: tool === 'eraser' ? 'cell' : 'crosshair', touchAction: 'none' }}
-        onMouseDown={startDraw} onMouseMove={draw} onMouseUp={stopDraw} onMouseLeave={stopDraw}
-        onTouchStart={startDraw} onTouchMove={draw} onTouchEnd={stopDraw}
-      />
-    </div>
-  )
-}
 
 // Highlight a quote inside the student answer text
 function AnnotatedText({
@@ -335,13 +212,11 @@ function LongFormResultCard({
   q,
   idx,
   studentAnswer,
-  studentWorkings,
   grade,
 }: {
   q: LongFormQuestion
   idx: number
   studentAnswer: string
-  studentWorkings?: string
   grade: LongFormGrade | undefined
 }) {
   const [activeCriterion, setActiveCriterion] = useState<number | null>(null)
@@ -394,14 +269,6 @@ function LongFormResultCard({
           <h3 className="text-lg font-medium text-gray-900 dark:text-white"><L>{q.question}</L></h3>
         </div>
       </div>
-
-      {/* Student workings drawing */}
-      {studentWorkings && (
-        <div className="ml-12 mb-4">
-          <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Workings</div>
-          <NextImage src={studentWorkings} alt="Student workings" width={0} height={0} sizes="100vw" unoptimized className="w-full h-auto rounded-xl border border-gray-200 dark:border-gray-700 bg-white" />
-        </div>
-      )}
 
       {/* Student answer with annotation */}
       <div className="ml-12 mb-4">
@@ -660,6 +527,7 @@ function AssessmentPageClient() {
   const searchParams = useSearchParams()
   const { user: authUser } = useAuth()
   const assignmentParam = searchParams.get('assignment') || searchParams.get('assignment_id')
+  const isClassroomAssignment = Boolean(assignmentParam)
   const [assessment, setAssessment] = useState<Assessment | null>(null)
   const [assignmentId, setAssignmentId] = useState<string | null>(null)
   const [loadError, setLoadError] = useState('')
@@ -667,6 +535,7 @@ function AssessmentPageClient() {
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({})
   const [longFormAnswers, setLongFormAnswers] = useState<Record<number, string>>({})
   const [timeRemaining, setTimeRemaining] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [showResults, setShowResults] = useState(false)
   const [results, setResults] = useState<any>(null)
@@ -674,7 +543,6 @@ function AssessmentPageClient() {
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false)
   const [longFormGrades, setLongFormGrades] = useState<Record<number, LongFormGrade>>({})
   const [isGradingLongForm, setIsGradingLongForm] = useState(false)
-  const [mathWorkings, setMathWorkings] = useState<Record<number, string>>({})
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
@@ -689,8 +557,26 @@ function AssessmentPageClient() {
     return assessmentData
   }
 
+  const readPausedState = () => {
+    try {
+      const raw = localStorage.getItem(PAUSED_ASSESSMENT_KEY)
+      if (!raw) return null
+      const parsed = JSON.parse(raw) as PausedAssessmentState
+      if (!parsed?.assessment || !Array.isArray(parsed.assessment.questions)) return null
+      return parsed
+    } catch {
+      return null
+    }
+  }
+
+  const clearPausedState = useCallback(() => {
+    localStorage.removeItem(PAUSED_ASSESSMENT_KEY)
+    sessionStorage.removeItem(RESUME_ASSESSMENT_KEY)
+  }, [])
+
   useEffect(() => {
     const load = async () => {
+      if (assessment) return
       if (assignmentParam && assignmentId) return
       setLoadError('')
 
@@ -718,18 +604,47 @@ function AssessmentPageClient() {
         }
       }
 
+      const resumeRequested = sessionStorage.getItem(RESUME_ASSESSMENT_KEY) === 'true'
+      if (resumeRequested) sessionStorage.removeItem(RESUME_ASSESSMENT_KEY)
+
       const stored = sessionStorage.getItem('currentAssessment')
+      if (!resumeRequested && stored) {
+        const assessmentData = prepareAssessment(JSON.parse(stored))
+        setAssessment(assessmentData)
+        setTimeRemaining(assessmentData.estimated_time * 60)
+        return
+      }
+
+      const paused = readPausedState()
+      if (paused) {
+        const assessmentData = prepareAssessment(paused.assessment)
+        setAssessment(assessmentData)
+        setTimeRemaining(Number.isFinite(paused.timeRemaining)
+          ? paused.timeRemaining
+          : assessmentData.estimated_time * 60)
+        setSelectedAnswers(paused.selectedAnswers ?? {})
+        setLongFormAnswers(paused.longFormAnswers ?? {})
+        const safeIndex = Math.min(
+          Math.max(Number(paused.currentQuestion) || 0, 0),
+          Math.max(assessmentData.questions.length - 1, 0)
+        )
+        setCurrentQuestion(safeIndex)
+        setIsPaused(false)
+        return
+      }
+
       if (stored) {
         const assessmentData = prepareAssessment(JSON.parse(stored))
         setAssessment(assessmentData)
         setTimeRemaining(assessmentData.estimated_time * 60)
-      } else {
-        router.push('/')
+        return
       }
+
+      router.push('/')
     }
 
     load()
-  }, [assignmentParam, assignmentId, authUser, router])
+  }, [assignmentParam, assignmentId, authUser, router, assessment])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -749,6 +664,29 @@ function AssessmentPageClient() {
     if (isLongForm(q)) return (longFormAnswers[idx] || '').trim().length > 0
     return selectedAnswers[idx] !== undefined
   }) ?? false
+
+  const handlePause = () => {
+    if (isClassroomAssignment || !assessment) return
+    const payload: PausedAssessmentState = {
+      assessment,
+      currentQuestion,
+      timeRemaining,
+      selectedAnswers,
+      longFormAnswers,
+      pausedAt: new Date().toISOString(),
+    }
+    localStorage.setItem(PAUSED_ASSESSMENT_KEY, JSON.stringify(payload))
+    sessionStorage.removeItem('currentAssessment')
+    setIsPaused(true)
+    router.push('/')
+  }
+
+  const handleQuit = () => {
+    if (isClassroomAssignment) return
+    sessionStorage.removeItem('currentAssessment')
+    clearPausedState()
+    router.push('/')
+  }
 
   const downloadReport = () => {
     if (!assessment || !results) return
@@ -911,6 +849,11 @@ function AssessmentPageClient() {
   const handleSubmit = useCallback(async () => {
     setIsSubmitted(true)
 
+    if (!isClassroomAssignment) {
+      clearPausedState()
+      sessionStorage.removeItem('currentAssessment')
+    }
+
     const questions = assessment?.questions ?? []
 
     // Calculate MCQ marks
@@ -956,9 +899,6 @@ function AssessmentPageClient() {
             questions,
             answers: longFormAnswers,
             subject: assessment?.subject,
-            workingsProvided: Object.fromEntries(
-              Object.entries(mathWorkings).map(([k, v]) => [Number(k), Boolean(v)])
-            ),
           }),
         })
         const data = await res.json()
@@ -1047,10 +987,10 @@ function AssessmentPageClient() {
         }),
       })
     }
-  }, [assessment, selectedAnswers, longFormAnswers, assignmentId, timeRemaining, authUser])
+  }, [assessment, selectedAnswers, longFormAnswers, assignmentId, timeRemaining, authUser, isClassroomAssignment, clearPausedState])
 
   useEffect(() => {
-    if (timeRemaining > 0 && !isSubmitted) {
+    if (timeRemaining > 0 && !isSubmitted && !isPaused) {
       const timer = setInterval(() => {
         setTimeRemaining((prev) => {
           if (prev <= 1) {
@@ -1062,7 +1002,7 @@ function AssessmentPageClient() {
       }, 1000)
       return () => clearInterval(timer)
     }
-  }, [timeRemaining, isSubmitted, handleSubmit])
+  }, [timeRemaining, isSubmitted, isPaused, handleSubmit])
 
   useEffect(() => {
     if (!authUser?.id || !assessment || !isUuid(authUser.id)) return
@@ -1216,7 +1156,6 @@ function AssessmentPageClient() {
                     q={q}
                     idx={idx}
                     studentAnswer={longFormAnswers[idx] || ''}
-                    studentWorkings={mathWorkings[idx]}
                     grade={longFormGrades[idx]}
                   />
                 )
@@ -1306,7 +1245,7 @@ function AssessmentPageClient() {
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex flex-col font-sans">
       {/* Header */}
-      <div className="bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-xl sticky top-0 z-30 border-b border-gray-200/50 dark:border-gray-800/50">
+      <div className="bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-xl sticky top-0 z-30 header-fade">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
           <div className="flex justify-between items-center gap-4">
             <div className="flex-1 min-w-0">
@@ -1318,17 +1257,37 @@ function AssessmentPageClient() {
               </p>
             </div>
 
-            <motion.div
-              className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 ${timeRemaining < 120 ? 'text-orange-500' : 'text-apple-blue'
-                }`}
-              animate={timeRemaining < 120 ? { scale: [1, 1.05, 1] } : {}}
-              transition={{ repeat: Infinity, duration: 1 }}
-            >
-              <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-              <span className="font-mono font-bold text-sm sm:text-base tracking-tight">
-                {formatTime(timeRemaining)}
-              </span>
-            </motion.div>
+            <div className="flex items-center gap-2 flex-wrap justify-end">
+              {!isClassroomAssignment && (
+                <>
+                  <button
+                    type="button"
+                    onClick={handlePause}
+                    className="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-blue-50 text-blue-700 border border-blue-200 hover:bg-blue-100 dark:bg-blue-900/20 dark:text-blue-300 dark:border-blue-800/50"
+                  >
+                    Pause
+                  </button>
+                  <button
+                    type="button"
+                    onClick={handleQuit}
+                    className="px-3 py-1.5 rounded-full text-xs sm:text-sm font-semibold bg-gray-50 text-gray-600 border border-gray-200 hover:bg-gray-100 dark:bg-gray-800/50 dark:text-gray-300 dark:border-gray-700"
+                  >
+                    Quit
+                  </button>
+                </>
+              )}
+              <motion.div
+                className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 ${timeRemaining < 120 ? 'text-orange-500' : 'text-apple-blue'
+                  }`}
+                animate={timeRemaining < 120 ? { scale: [1, 1.05, 1] } : {}}
+                transition={{ repeat: Infinity, duration: 1 }}
+              >
+                <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
+                <span className="font-mono font-bold text-sm sm:text-base tracking-tight">
+                  {formatTime(timeRemaining)}
+                </span>
+              </motion.div>
+            </div>
           </div>
 
           <div className="mt-5 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
@@ -1410,16 +1369,8 @@ function AssessmentPageClient() {
               {/* Long-form textarea */}
               {isCurrentLongForm && (
                 <div>
-                  {assessment && needsMathCanvas(assessment.subject) && (
-                    <MathWorkingCanvas
-                      value={mathWorkings[currentQuestion] || ''}
-                      onChange={(data) => setMathWorkings(prev => ({ ...prev, [currentQuestion]: data }))}
-                    />
-                  )}
                   <div className="text-xs text-gray-400 mb-2">
-                    {assessment && needsMathCanvas(assessment.subject)
-                      ? 'Write your final answer and explanation below — your workings are above.'
-                      : 'Write a detailed answer. Each mark has a specific criterion — cover as much as you can.'}
+                    Write a detailed answer. Each mark has a specific criterion — cover as much as you can.
                   </div>
                   <textarea
                     value={longFormAnswers[currentQuestion] || ''}

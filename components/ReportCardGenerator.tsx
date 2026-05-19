@@ -36,6 +36,43 @@ interface WeekGroup {
   assessments: AssessmentRecord[]
 }
 
+interface ClassroomRow {
+  id: string
+  name: string
+  description?: string | null
+}
+
+interface ClassroomMember {
+  id: string
+  student_id: string | null
+  student_email: string | null
+  student_name: string | null
+  status: string | null
+}
+
+interface ClassroomStudentDetail {
+  student: {
+    student_id: string | null
+    student_email: string | null
+    student_name: string | null
+  }
+  assignments: Array<{
+    assignment_id: string
+    title: string
+    subject: string
+    status: string
+    completed_at: string | null
+    last_attempt_at: string | null
+    score: number | null
+    result_id: string | null
+    result: {
+      score: number | null
+      percentage: number | null
+      created_at: string | null
+    } | null
+  }>
+}
+
 // ─── Helpers ─────────────────────────────────────────────────────────────────
 
 function getGrade(pct: number): string {
@@ -74,11 +111,11 @@ function weekLabel(monDate: Date): string {
 
 const GRADE_COLOR: Record<string, { text: string; bg: string }> = {
   'A+': { text: '#059669', bg: '#ecfdf5' },
-  'A':  { text: '#059669', bg: '#ecfdf5' },
+  'A': { text: '#059669', bg: '#ecfdf5' },
   'B+': { text: '#2563eb', bg: '#eff6ff' },
-  'B':  { text: '#2563eb', bg: '#eff6ff' },
-  'C':  { text: '#d97706', bg: '#fffbeb' },
-  'D':  { text: '#dc2626', bg: '#fef2f2' },
+  'B': { text: '#2563eb', bg: '#eff6ff' },
+  'C': { text: '#d97706', bg: '#fffbeb' },
+  'D': { text: '#dc2626', bg: '#fef2f2' },
 }
 
 // ─── Report HTML builder ──────────────────────────────────────────────────────
@@ -93,12 +130,12 @@ function buildReportCardHtml(
 
   const dateRange = selected.length
     ? (() => {
-        const dates = selected.map(a => a.completedDate.getTime())
-        const minD = new Date(Math.min(...dates))
-        const maxD = new Date(Math.max(...dates))
-        const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
-        return minD.getTime() === maxD.getTime() ? fmt(minD) : `${fmt(minD)} – ${fmt(maxD)}`
-      })()
+      const dates = selected.map(a => a.completedDate.getTime())
+      const minD = new Date(Math.min(...dates))
+      const maxD = new Date(Math.max(...dates))
+      const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })
+      return minD.getTime() === maxD.getTime() ? fmt(minD) : `${fmt(minD)} – ${fmt(maxD)}`
+    })()
     : '—'
 
   const totalSelected = selected.length
@@ -269,13 +306,13 @@ function buildReportCardHtml(
   <div style="background:#f9fafb;border-radius:10px;padding:16px 20px;margin-bottom:40px;">
     <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#9ca3af;margin-bottom:10px;">Grade Scale</div>
     <div style="display:flex;gap:24px;flex-wrap:wrap;">
-      ${[['A+','90–100%'],['A','80–89%'],['B+','70–79%'],['B','60–69%'],['C','50–59%'],['D','< 50%']].map(([g, r]) => {
-        const c = GRADE_COLOR[g as string]
-        return `<div style="display:flex;align-items:center;gap:6px;">
+      ${[['A+', '90–100%'], ['A', '80–89%'], ['B+', '70–79%'], ['B', '60–69%'], ['C', '50–59%'], ['D', '< 50%']].map(([g, r]) => {
+    const c = GRADE_COLOR[g as string]
+    return `<div style="display:flex;align-items:center;gap:6px;">
           <span style="display:inline-block;padding:2px 8px;border-radius:5px;font-size:11px;font-weight:800;background:${c.bg};color:${c.text};">${g}</span>
           <span style="font-size:11px;color:#6b7280;">${r}</span>
         </div>`
-      }).join('')}
+  }).join('')}
     </div>
   </div>
 
@@ -309,11 +346,57 @@ export default function ReportCardGenerator() {
   const [selectedIds, setSelectedIds] = useState<Set<string>>(new Set())
   const [collapsedWeeks, setCollapsedWeeks] = useState<Set<string>>(new Set())
   const [isGenerating, setIsGenerating] = useState(false)
+  const [classrooms, setClassrooms] = useState<ClassroomRow[]>([])
+  const [members, setMembers] = useState<ClassroomMember[]>([])
+  const [selectedClassroomId, setSelectedClassroomId] = useState('')
+  const [selectedStudent, setSelectedStudent] = useState<ClassroomMember | null>(null)
+  const [studentDetail, setStudentDetail] = useState<ClassroomStudentDetail | null>(null)
+  const [teacherError, setTeacherError] = useState('')
+  const [isLoadingTeacher, setIsLoadingTeacher] = useState(false)
+  const [isLoadingStudent, setIsLoadingStudent] = useState(false)
   const firstName = user?.name?.split(' ')[0] || 'Student'
+  const isTeacher = user?.role === 'teacher'
+
+  const selectedClassroom = classrooms.find(c => c.id === selectedClassroomId) || null
+  const reportUser = isTeacher
+    ? {
+      name: studentDetail?.student?.student_name
+        || selectedStudent?.student_name
+        || selectedStudent?.student_email
+        || 'Student',
+      studentId: studentDetail?.student?.student_id
+        || selectedStudent?.student_id
+        || selectedStudent?.student_email
+        || '',
+      class: selectedClassroom?.name || '',
+    }
+    : {
+      name: user?.name || 'Student',
+      studentId: user?.studentId || '',
+      class: user?.class || '',
+    }
+  const reportClassLabel = reportUser.class
+    ? (isTeacher ? reportUser.class : `Class ${reportUser.class}`)
+    : ''
+
+  const handleClassroomChange = (value: string) => {
+    setSelectedClassroomId(value)
+    setSelectedStudent(null)
+    setStudentDetail(null)
+    setMembers([])
+    setAllAssessments([])
+    setWeeks([])
+    setSelectedIds(new Set())
+  }
+
+  const handleStudentChange = (value: string) => {
+    const next = members.find(m => m.id === value) || null
+    setSelectedStudent(next)
+  }
 
   // Fetch all completed assessments for the student
   useEffect(() => {
-    if (!user?.id) return
+    if (!user?.id || isTeacher) return
     const load = async () => {
       setIsLoading(true)
       try {
@@ -331,7 +414,7 @@ export default function ReportCardGenerator() {
             .select('*, assessments(subject, difficulty)')
             .eq('user_id', user.id)
             .order('created_at', { ascending: false })
-          
+
           if (error2 || !data2) {
             console.error('Failed to fetch assessments:', error || error2)
             setIsLoading(false)
@@ -371,38 +454,172 @@ export default function ReportCardGenerator() {
           }
         })
 
-      // Group into weeks
-      const weekMap = new Map<string, WeekGroup>()
-      records.forEach(r => {
-        if (!weekMap.has(r.weekKey)) {
-          weekMap.set(r.weekKey, {
-            key: r.weekKey,
-            label: r.weekLabel,
-            weekStart: r.weekStart,
-            assessments: [],
-          })
-        }
-        weekMap.get(r.weekKey)!.assessments.push(r)
-      })
+        // Group into weeks
+        const weekMap = new Map<string, WeekGroup>()
+        records.forEach(r => {
+          if (!weekMap.has(r.weekKey)) {
+            weekMap.set(r.weekKey, {
+              key: r.weekKey,
+              label: r.weekLabel,
+              weekStart: r.weekStart,
+              assessments: [],
+            })
+          }
+          weekMap.get(r.weekKey)!.assessments.push(r)
+        })
 
-      const sortedWeeks = Array.from(weekMap.values()).sort(
-        (a, b) => b.weekStart.getTime() - a.weekStart.getTime()
-      )
+        const sortedWeeks = Array.from(weekMap.values()).sort(
+          (a, b) => b.weekStart.getTime() - a.weekStart.getTime()
+        )
 
-      setAllAssessments(records)
-      setWeeks(sortedWeeks)
-      // Select all by default
-      setSelectedIds(new Set(records.map(r => r.id)))
-      setIsLoading(false)
+        setAllAssessments(records)
+        setWeeks(sortedWeeks)
+        // Select all by default
+        setSelectedIds(new Set(records.map(r => r.id)))
+        setIsLoading(false)
       } catch (err) {
         console.error('Failed to load assessments:', err)
         setIsLoading(false)
       }
     }
     load()
-  }, [user])
+  }, [user, isTeacher])
+
+  useEffect(() => {
+    if (!user?.id || !isTeacher) return
+    const loadTeacherClassrooms = async () => {
+      setIsLoadingTeacher(true)
+      setTeacherError('')
+      try {
+        const res = await fetch(`/api/classrooms?teacher_id=${user.id}`)
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error || 'Failed to load classrooms')
+        setClassrooms(json.data ?? [])
+      } catch (err: any) {
+        setTeacherError(err?.message || 'Failed to load classrooms')
+        setClassrooms([])
+      } finally {
+        setIsLoadingTeacher(false)
+      }
+    }
+
+    loadTeacherClassrooms()
+  }, [user, isTeacher])
+
+  useEffect(() => {
+    if (!isTeacher) return
+    if (!selectedClassroomId) {
+      setMembers([])
+      setSelectedStudent(null)
+      setStudentDetail(null)
+      setAllAssessments([])
+      setWeeks([])
+      setSelectedIds(new Set())
+      return
+    }
+    const loadMembers = async () => {
+      setIsLoadingTeacher(true)
+      setTeacherError('')
+      try {
+        const res = await fetch(`/api/classrooms/${selectedClassroomId}/members?status=accepted`)
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error || 'Failed to load students')
+        setMembers(json.data ?? [])
+      } catch (err: any) {
+        setTeacherError(err?.message || 'Failed to load students')
+        setMembers([])
+      } finally {
+        setIsLoadingTeacher(false)
+      }
+    }
+
+    loadMembers()
+  }, [isTeacher, selectedClassroomId])
+
+  useEffect(() => {
+    if (!isTeacher) return
+    if (!selectedClassroomId || !selectedStudent) {
+      setStudentDetail(null)
+      setAllAssessments([])
+      setWeeks([])
+      setSelectedIds(new Set())
+      setIsLoading(false)
+      return
+    }
+
+    const loadStudentDetail = async () => {
+      setIsLoadingStudent(true)
+      setTeacherError('')
+      setIsLoading(true)
+      try {
+        const params = new URLSearchParams()
+        if (selectedStudent.student_id) params.set('student_id', selectedStudent.student_id)
+        if (selectedStudent.student_email) params.set('student_email', selectedStudent.student_email)
+        const res = await fetch(`/api/classrooms/${selectedClassroomId}/students?${params.toString()}`)
+        const json = await res.json()
+        if (!res.ok) throw new Error(json.error || 'Failed to load student assignments')
+        setStudentDetail(json)
+
+        const completedAssignments = (json.assignments ?? [])
+          .filter((row: any) => row.status === 'completed' && (row.result || row.score !== null))
+
+        const records: AssessmentRecord[] = completedAssignments.map((row: any) => {
+          const pct = Number(row.score ?? row.result?.percentage ?? row.result?.score ?? 0)
+          const completedAt = row.completed_at || row.result?.created_at || row.last_attempt_at || new Date().toISOString()
+          const completedDate = new Date(completedAt)
+          const monDate = getWeekStart(completedDate)
+          return {
+            id: String(row.assignment_id),
+            subject: row.subject || 'Assessment',
+            topics: row.title ? [String(row.title)] : [],
+            difficulty: '',
+            score: Math.round(pct),
+            percentage: Math.round(pct),
+            completedAt,
+            completedDate,
+            grade: getGrade(pct),
+            weekKey: weekKey(monDate),
+            weekLabel: weekLabel(monDate),
+            weekStart: monDate,
+          }
+        })
+
+        const weekMap = new Map<string, WeekGroup>()
+        records.forEach(r => {
+          if (!weekMap.has(r.weekKey)) {
+            weekMap.set(r.weekKey, {
+              key: r.weekKey,
+              label: r.weekLabel,
+              weekStart: r.weekStart,
+              assessments: [],
+            })
+          }
+          weekMap.get(r.weekKey)!.assessments.push(r)
+        })
+        const sortedWeeks = Array.from(weekMap.values()).sort(
+          (a, b) => b.weekStart.getTime() - a.weekStart.getTime()
+        )
+
+        setAllAssessments(records)
+        setWeeks(sortedWeeks)
+        setSelectedIds(new Set(records.map(r => r.id)))
+      } catch (err: any) {
+        setTeacherError(err?.message || 'Failed to load student assignments')
+        setStudentDetail(null)
+        setAllAssessments([])
+        setWeeks([])
+        setSelectedIds(new Set())
+      } finally {
+        setIsLoadingStudent(false)
+        setIsLoading(false)
+      }
+    }
+
+    loadStudentDetail()
+  }, [isTeacher, selectedClassroomId, selectedStudent])
 
   const selectedAssessments = allAssessments.filter(a => selectedIds.has(a.id))
+  const needsTeacherSelection = isTeacher && (!selectedClassroomId || !selectedStudent)
 
   const toggleAssessment = (id: string) => {
     setSelectedIds(prev => {
@@ -434,16 +651,12 @@ export default function ReportCardGenerator() {
 
   const openReportWindow = useCallback((autoPrint: boolean) => {
     if (selectedAssessments.length === 0 || !user) return
+    if (isTeacher && !selectedStudent) return
     if (autoPrint) setIsGenerating(true)
     const generatedOn = new Date().toLocaleDateString('en-US', {
       weekday: 'long', year: 'numeric', month: 'long', day: 'numeric'
     })
-    const html = buildReportCardHtml(
-      { name: user.name, studentId: user.studentId, class: user.class },
-      selectedAssessments,
-      weeks,
-      generatedOn
-    )
+    const html = buildReportCardHtml(reportUser, selectedAssessments, weeks, generatedOn)
     const blob = new Blob([html], { type: 'text/html' })
     const url = URL.createObjectURL(blob)
     const win = window.open(url, '_blank')
@@ -456,7 +669,7 @@ export default function ReportCardGenerator() {
       // Revoke after a delay to allow the page to fully load
       setTimeout(() => URL.revokeObjectURL(url), 30000)
     })
-  }, [selectedAssessments, user, weeks])
+  }, [selectedAssessments, user, weeks, isTeacher, selectedStudent, reportUser])
 
   const generateAndPrint = useCallback(() => openReportWindow(true), [openReportWindow])
   const generateAndDownload = useCallback(() => openReportWindow(false), [openReportWindow])
@@ -472,7 +685,7 @@ export default function ReportCardGenerator() {
     <div className="min-h-screen bg-[#F3F4F6] dark:bg-[#0C0C0E] transition-colors duration-300">
 
       {/* ── Header ── */}
-      <header className="sticky top-0 z-30 h-14 bg-white/75 dark:bg-[#0C0C0E]/80 backdrop-blur-xl border-b border-black/[0.06] dark:border-white/[0.06]">
+      <header className="sticky top-0 z-30 h-14 bg-white/75 dark:bg-[#0C0C0E]/80 backdrop-blur-xl header-fade">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
             <button
@@ -510,10 +723,69 @@ export default function ReportCardGenerator() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
           <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400 mb-1">Generator</p>
           <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Report Card</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">Select assessments below to include in your official report card.</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
+            {isTeacher
+              ? 'Select a classroom and student to generate a report card from class assignments.'
+              : 'Select assessments below to include in your official report card.'}
+          </p>
         </motion.div>
 
-        {isLoading ? (
+        {isTeacher && (
+          <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/5 p-5 space-y-4">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Classroom</label>
+                <select
+                  value={selectedClassroomId}
+                  onChange={(e) => handleClassroomChange(e.target.value)}
+                  className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white"
+                >
+                  <option value="">Select classroom</option>
+                  {classrooms.map((c) => (
+                    <option key={c.id} value={c.id}>{c.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-2">Student</label>
+                <select
+                  value={selectedStudent?.id ?? ''}
+                  onChange={(e) => handleStudentChange(e.target.value)}
+                  disabled={!selectedClassroomId || members.length === 0}
+                  className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white disabled:opacity-60"
+                >
+                  <option value="">Select student</option>
+                  {members.map((m) => (
+                    <option key={m.id} value={m.id}>
+                      {m.student_name || m.student_email || 'Student'}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            </div>
+
+            {(isLoadingTeacher || isLoadingStudent) && (
+              <div className="text-xs text-gray-400">Loading class data...</div>
+            )}
+            {teacherError && (
+              <div className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-3 py-2">
+                {teacherError}
+              </div>
+            )}
+          </div>
+        )}
+
+        {needsTeacherSelection ? (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            className="text-center py-24 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-white/5"
+          >
+            <User className="w-10 h-10 text-gray-300 dark:text-gray-700 mx-auto mb-3" />
+            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">Select a classroom and student to begin.</p>
+            <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">Report cards are generated from classroom assignments only.</p>
+          </motion.div>
+        ) : isLoading ? (
           <div className="flex items-center justify-center py-32">
             <div className="text-center">
               <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-blue-600 mx-auto mb-3" />
@@ -526,14 +798,22 @@ export default function ReportCardGenerator() {
             className="text-center py-32 bg-white dark:bg-gray-900 rounded-3xl border border-gray-100 dark:border-white/5"
           >
             <BookOpen className="w-10 h-10 text-gray-300 dark:text-gray-700 mx-auto mb-3" />
-            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">No completed assessments yet.</p>
-            <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">Complete some assessments first, then come back to generate your report card.</p>
-            <button
-              onClick={() => router.push('/')}
-              className="mt-5 px-5 py-2 text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors"
-            >
-              Go to Dashboard
-            </button>
+            <p className="text-sm font-semibold text-gray-500 dark:text-gray-400">
+              {isTeacher ? 'No completed assignments for this student yet.' : 'No completed assessments yet.'}
+            </p>
+            <p className="text-xs text-gray-400 dark:text-gray-600 mt-1">
+              {isTeacher
+                ? 'Once the student completes class assignments, you can generate a report card here.'
+                : 'Complete some assessments first, then come back to generate your report card.'}
+            </p>
+            {!isTeacher && (
+              <button
+                onClick={() => router.push('/')}
+                className="mt-5 px-5 py-2 text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors"
+              >
+                Go to Dashboard
+              </button>
+            )}
           </motion.div>
         ) : (
           <div className="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-5 items-start">
@@ -599,16 +879,15 @@ export default function ReportCardGenerator() {
                                   <button
                                     key={a.id}
                                     onClick={() => toggleAssessment(a.id)}
-                                    className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all border-l-[3px] ${
-                                      isSel
-                                        ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-500'
-                                        : 'bg-white dark:bg-transparent border-transparent hover:bg-gray-50 dark:hover:bg-white/[0.02]'
-                                    }`}
+                                    className={`w-full flex items-center gap-3 px-6 py-3.5 text-left transition-all border-l-[3px] ${isSel
+                                      ? 'bg-blue-50 dark:bg-blue-950/50 border-blue-500'
+                                      : 'bg-white dark:bg-transparent border-transparent hover:bg-gray-50 dark:hover:bg-white/[0.02]'
+                                      }`}
                                   >
                                     <div className="flex-shrink-0">
                                       {isSel ? (
                                         <div className="w-4 h-4 rounded bg-blue-600 flex items-center justify-center">
-                                          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path d="M5 13l4 4L19 7"/></svg>
+                                          <svg className="w-2.5 h-2.5 text-white" fill="none" stroke="currentColor" strokeWidth={3} viewBox="0 0 24 24"><path d="M5 13l4 4L19 7" /></svg>
                                         </div>
                                       ) : (
                                         <div className="w-4 h-4 rounded border-2 border-gray-300 dark:border-gray-600" />
@@ -672,9 +951,9 @@ export default function ReportCardGenerator() {
                       <User className="w-4 h-4 text-white" />
                     </div>
                     <div>
-                      <p className="text-sm font-bold text-gray-900 dark:text-white">{user?.name}</p>
+                      <p className="text-sm font-bold text-gray-900 dark:text-white">{reportUser.name}</p>
                       <p className="text-xs text-gray-400">
-                        {user?.class ? `Class ${user.class}` : ''}{user?.studentId ? ` · ID ${user.studentId}` : ''}
+                        {reportClassLabel}{reportUser.studentId ? ` · ID ${reportUser.studentId}` : ''}
                       </p>
                     </div>
                   </div>

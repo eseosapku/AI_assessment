@@ -1,7 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { User, Plus, Brain, Send, Calendar, BookOpen, ChevronDown, Users, Clock, ClipboardList } from 'lucide-react'
+import { User, Plus, Brain, Send, Calendar, BookOpen, ChevronDown, Users, Clock, ClipboardList, FileText } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
@@ -128,10 +128,10 @@ export default function TeacherDashboard() {
     <div className="min-h-screen bg-[#F6F1EA] dark:bg-[#0B0E12] transition-colors duration-300 flex flex-col">
 
       {/* Header */}
-      <header className="sticky top-0 z-30 h-16 bg-[#F6F1EA]/80 dark:bg-[#0B0E12]/80 backdrop-blur-xl border-b border-black/10 dark:border-white/10">
+      <header className="sticky top-0 z-30 h-16 bg-[#F6F1EA]/80 dark:bg-[#0B0E12]/80 backdrop-blur-xl header-fade">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <Image src="/logo.png" alt="Brain Ink" width={120} height={68} className="h-8 w-auto object-contain" priority />
+            <Image src="/logo2.png" alt="Brain Ink" width={140} height={80} className="h-10 w-auto object-contain" priority />
             <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C6644] bg-[#F1E6D6] dark:bg-[#2B1E16] dark:text-[#E6C7A8] px-2.5 py-1 rounded-full">Teacher</span>
           </div>
           <div className="flex items-center gap-2">
@@ -200,22 +200,38 @@ export default function TeacherDashboard() {
           transition={{ delay: 0.08 }}
           whileHover={{ scale: 1.005 }}
           whileTap={{ scale: 0.997 }}
-          className="w-full group relative overflow-hidden rounded-2xl flex items-center justify-between px-7 py-6 sm:py-7 bg-gradient-to-r from-[#E07A5F] via-[#C86B4D] to-[#3D405B] shadow-xl shadow-[#C86B4D]/30 text-white"
+          className="w-full group relative overflow-hidden rounded-2xl flex items-center justify-between px-8 py-7 sm:py-8 bg-gradient-to-r from-[#E07A5F] via-[#C86B4D] to-[#3D405B] shadow-xl shadow-[#C86B4D]/30 text-white"
         >
           <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700 ease-in-out" />
           <div className="relative text-left">
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-white/70 mb-1">AI-Powered</p>
-            <h3 className="text-xl sm:text-2xl font-black leading-tight font-display">Create & Send Assessment</h3>
+            <p className="text-xs font-bold uppercase tracking-[0.3em] text-white/70 mb-1">AI-Powered</p>
+            <h3 className="text-2xl sm:text-3xl font-black leading-tight font-display">Create & Send Assessment</h3>
           </div>
           <div className="relative flex items-center gap-3 flex-shrink-0">
             <div className="hidden sm:block">
-              <p className="text-sm font-semibold text-white/70">Generate</p>
+              <p className="text-base font-bold text-white/70">Generate</p>
             </div>
-            <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
-              <Plus className="w-5 h-5 text-white" />
+            <div className="w-12 h-12 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
+              <Plus className="w-6 h-6 text-white" />
             </div>
           </div>
         </motion.button>
+
+        <Link
+          href="/report-card"
+          className="w-full group relative overflow-hidden rounded-2xl flex items-center justify-between px-8 py-6 bg-white dark:bg-gray-900 border border-gray-200 dark:border-white/5 shadow-sm text-gray-800 dark:text-white"
+        >
+          <div className="relative text-left">
+            <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#1F7A7A] mb-1">Student Reports</p>
+            <h3 className="text-xl sm:text-2xl font-black leading-tight">Generate Report Card</h3>
+            <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Use class assignments to build student report cards</p>
+          </div>
+          <div className="relative flex items-center gap-3 flex-shrink-0">
+            <div className="w-12 h-12 rounded-full bg-[#E7EFEA] dark:bg-[#142724] flex items-center justify-center group-hover:bg-[#d7e7e0] dark:group-hover:bg-[#1a2f2c] transition-colors">
+              <FileText className="w-6 h-6 text-[#1F7A7A]" />
+            </div>
+          </div>
+        </Link>
 
         {/* Classrooms */}
         <div>
@@ -250,9 +266,9 @@ export default function TeacherDashboard() {
               <button
                 onClick={handleCreateClassroom}
                 disabled={isCreatingClassroom}
-                className="w-full flex items-center justify-center gap-2 bg-[#1F7A7A] hover:bg-[#166463] disabled:bg-[#6FA9A9] text-white text-sm font-semibold py-2.5 rounded-xl transition-colors"
+                className="w-full flex items-center justify-center gap-2 bg-[#1F7A7A] hover:bg-[#166463] disabled:bg-[#6FA9A9] text-white text-base font-bold py-3 rounded-xl transition-colors"
               >
-                <Plus className="w-4 h-4" />
+                <Plus className="w-5 h-5" />
                 {isCreatingClassroom ? 'Creating...' : 'Create classroom'}
               </button>
             </div>
@@ -289,7 +305,7 @@ export default function TeacherDashboard() {
 
                   <Link
                     href={`/classrooms/${room.id}`}
-                    className="mt-auto w-full py-2 rounded-xl text-xs font-bold transition-colors bg-[#1F7A7A] hover:bg-[#166463] text-white text-center"
+                    className="mt-auto w-full py-2.5 rounded-xl text-sm font-bold transition-colors bg-[#1F7A7A] hover:bg-[#166463] text-white text-center"
                   >
                     Manage classroom
                   </Link>
@@ -356,13 +372,13 @@ export default function TeacherDashboard() {
                   <div className="mt-auto grid grid-cols-2 gap-2">
                     <Link
                       href={`/assignments/${a.id}/preview`}
-                      className="py-2 rounded-xl text-xs font-bold transition-colors bg-[#1F7A7A] hover:bg-[#166463] text-white text-center"
+                      className="py-2.5 rounded-xl text-sm font-bold transition-colors bg-[#1F7A7A] hover:bg-[#166463] text-white text-center"
                     >
                       Edit
                     </Link>
                     <button
                       onClick={() => handleDeleteAssignment(a.id)}
-                      className="py-2 rounded-xl text-xs font-bold transition-colors border border-gray-200 dark:border-gray-800 hover:border-red-300 hover:text-red-500 text-gray-500"
+                      className="py-2.5 rounded-xl text-sm font-bold transition-colors border border-gray-200 dark:border-gray-800 hover:border-red-300 hover:text-red-500 text-gray-500"
                     >
                       Delete
                     </button>
@@ -442,13 +458,13 @@ export default function TeacherDashboard() {
                   <div className="grid grid-cols-2 gap-2">
                     <Link
                       href={`/assignments/${a.id}/preview`}
-                      className="py-2 rounded-xl text-xs font-bold transition-colors bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-[#1F7A7A] text-[#1F7A7A] text-center"
+                      className="py-2.5 rounded-xl text-sm font-bold transition-colors bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-[#1F7A7A] text-[#1F7A7A] text-center"
                     >
                       Edit
                     </Link>
                     <button
                       onClick={() => handleDeleteAssignment(a.id)}
-                      className="py-2 rounded-xl text-xs font-bold transition-colors border border-gray-200 dark:border-gray-800 hover:border-red-300 hover:text-red-500 text-gray-500"
+                      className="py-2.5 rounded-xl text-sm font-bold transition-colors border border-gray-200 dark:border-gray-800 hover:border-red-300 hover:text-red-500 text-gray-500"
                     >
                       Delete
                     </button>
