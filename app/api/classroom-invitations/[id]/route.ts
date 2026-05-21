@@ -10,6 +10,11 @@ function normalizeEmail(value: string | null) {
     return String(value ?? '').trim().toLowerCase()
 }
 
+function normalizeStudentId(value: string | null) {
+    const trimmed = String(value ?? '').trim()
+    return trimmed ? trimmed : null
+}
+
 export async function PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const resolved = await params
     const invitationId = parseId(resolved?.id)
@@ -20,7 +25,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
     try {
         const body = await request.json()
         const status = String(body?.status ?? '').trim().toLowerCase()
-        let studentId = body?.student_id ? String(body.student_id).trim() : null
+        let studentId = normalizeStudentId(body?.student_id ?? null)
         const studentEmail = normalizeEmail(body?.student_email ?? null)
 
         if (!['accepted', 'declined'].includes(status)) {
@@ -64,7 +69,11 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
             .eq('id', invitationId)
             .eq('status', 'pending')
 
-        if (studentEmail) {
+        if (studentId && studentEmail) {
+            query = query.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+        } else if (studentId) {
+            query = query.eq('student_id', studentId)
+        } else if (studentEmail) {
             query = query.eq('student_email', studentEmail)
         }
 

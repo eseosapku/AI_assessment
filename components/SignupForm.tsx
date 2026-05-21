@@ -24,6 +24,7 @@ export default function SignupForm() {
   const [role, setRole] = useState<'student' | 'teacher'>('student')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
+  const [studentId, setStudentId] = useState('')
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [className, setClassName] = useState('')
@@ -36,12 +37,23 @@ export default function SignupForm() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setError('')
+    if (!email.trim() && !studentId.trim()) {
+      setError('Provide an email or student ID.')
+      return
+    }
     if (password !== confirmPassword) { setError('Passwords do not match'); return }
     if (password.length < 6) { setError('Password must be at least 6 characters'); return }
     if (role === 'student' && !className) { setError('Please select a class / grade'); return }
     setIsLoading(true)
     try {
-      await signup(name, email, password, role === 'student' ? className : 'Teacher', role)
+      await signup(
+        name,
+        email.trim() ? email.trim() : null,
+        studentId.trim() ? studentId.trim() : null,
+        password,
+        role === 'student' ? className : 'Teacher',
+        role
+      )
     } catch (err: any) {
       setError(err?.message || 'Failed to create account. Please try again.')
     } finally {
@@ -111,10 +123,31 @@ export default function SignupForm() {
                 placeholder="Alex Johnson" required className={inputBase} />
             </Field>
 
-            <Field id="email" label="Email address" icon={Mail}>
-              <input id="email" type="email" value={email} onChange={e => setEmail(e.target.value)}
-                placeholder="you@example.com" required className={inputBase} />
+            <Field id="email" label="Email (optional)" icon={Mail}>
+              <input
+                id="email"
+                type="email"
+                value={email}
+                onChange={e => setEmail(e.target.value)}
+                placeholder="you@example.com"
+                className={inputBase}
+              />
             </Field>
+
+            <Field id="studentId" label="Student ID (optional)" icon={GraduationCap}>
+              <input
+                id="studentId"
+                type="text"
+                value={studentId}
+                onChange={e => setStudentId(e.target.value)}
+                placeholder="e.g. STD-2024-0001"
+                className={inputBase}
+              />
+            </Field>
+
+            <p className="text-[11px] text-gray-400">
+              Provide an email or student ID. Students without email can use their school ID.
+            </p>
 
             {/* Class select — students only */}
             {role === 'student' && (

@@ -1,7 +1,8 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, User, BookOpen, LogOut } from 'lucide-react'
+import Link from 'next/link'
+import { X, User, BookOpen, LogOut, Settings } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 
 interface ProfileSidebarProps {
@@ -58,7 +59,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
               {/* Student Info */}
               <div className="text-center">
                 <h3 className="text-lg sm:text-xl font-semibold mb-1">{user.name}</h3>
-                <p className="text-apple-dark-gray text-xs sm:text-sm">ID: {user.studentId}</p>
+                <p className="text-apple-dark-gray text-xs sm:text-sm">ID: {user.studentId || '—'}</p>
                 <p className="text-apple-dark-gray text-xs sm:text-sm mt-1">{user.class}</p>
               </div>
 
@@ -81,6 +82,18 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
                     </motion.div>
                   ))}
                 </div>
+              </div>
+
+              {/* Settings Button */}
+              <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
+                <Link
+                  href="/settings"
+                  onClick={onClose}
+                  className="w-full py-3 px-4 rounded-apple bg-apple-gray dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 text-apple-black dark:text-white font-medium flex items-center justify-center gap-2 transition-colors"
+                >
+                  <Settings className="w-5 h-5" />
+                  Settings
+                </Link>
               </div>
 
               {/* Logout Button */}

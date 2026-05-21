@@ -2,12 +2,31 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import bcrypt from 'bcryptjs'
 
+function normalizeEmail(value: unknown) {
+  const trimmed = String(value ?? '').trim()
+  return trimmed ? trimmed.toLowerCase() : null
+}
+
+function normalizeStudentId(value: unknown) {
+  const trimmed = String(value ?? '').trim()
+  return trimmed ? trimmed.toUpperCase() : null
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { name, email, password, className, role = 'student' } = await request.json()
+    const body = await request.json()
+    const name = String(body.name ?? '').trim()
+    const email = normalizeEmail(body.email)
+    const studentIdInput = normalizeStudentId(body.studentId ?? body.student_id)
+    const password = String(body.password ?? '')
+    const className = String(body.className ?? '').trim()
+    const role = body.role ?? 'student'
 
-    if (!name || !email || !password) {
-      return NextResponse.json({ error: 'Name, email and password are required' }, { status: 400 })
+    if (!name || !password) {
+      return NextResponse.json({ error: 'Name and password are required' }, { status: 400 })
+    }
+    if (!email && !studentIdInput) {
+      return NextResponse.json({ error: 'Email or student ID is required' }, { status: 400 })
     }
     if (role === 'student' && !className) {
       return NextResponse.json({ error: 'Class / grade is required for students' }, { status: 400 })
@@ -20,19 +39,34 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Database not configured — add Supabase env vars to Vercel' }, { status: 500 })
     }
 
-    const { data: existingUser } = await supabase
-      .from('users')
-      .select('email')
-      .eq('email', email)
-      .single()
+    if (email) {
+      const { data: existingEmail } = await supabase
+        .from('users')
+        .select('id')
+        .eq('email', email)
+        .maybeSingle()
 
-    if (existingUser) {
-      return NextResponse.json({ error: 'Email already registered' }, { status: 400 })
+      if (existingEmail) {
+        return NextResponse.json({ error: 'Email already registered' }, { status: 400 })
+      }
+    }
+
+    if (studentIdInput) {
+      const { data: existingStudentId } = await supabase
+        .from('users')
+        .select('id')
+        .eq('student_id', studentIdInput)
+        .maybeSingle()
+
+      if (existingStudentId) {
+        return NextResponse.json({ error: 'Student ID already registered' }, { status: 400 })
+      }
     }
 
     const passwordHash = await bcrypt.hash(password, 10)
     const prefix = role === 'teacher' ? 'TCH' : 'STD'
-    const userId = `${prefix}-2024-${Math.floor(Math.random() * 9999).toString().padStart(4, '0')}`
+    const generatedStudentId = `${prefix}-2024-${Math.floor(Math.random() * 9999).toString().padStart(4, '0')}`
+    const studentId = studentIdInput ?? generatedStudentId
     const userClass = role === 'teacher' ? 'Teacher' : className
 
     const { data: newUser, error: dbError } = await supabase
@@ -41,7 +75,7 @@ export async function POST(request: NextRequest) {
         email,
         password_hash: passwordHash,
         name,
-        student_id: userId,
+        student_id: studentId,
         class: userClass,
         role,
         subjects: role === 'teacher' ? [] : ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science'],

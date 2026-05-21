@@ -6,8 +6,8 @@ import { useRouter } from 'next/navigation'
 interface User {
   id: string
   name: string
-  email: string
-  studentId: string
+  email: string | null
+  studentId: string | null
   class: string
   subjects: string[]
   role: 'student' | 'teacher'
@@ -15,17 +15,28 @@ interface User {
 
 interface AuthContextType {
   user: User | null
-  login: (email: string, password: string) => Promise<void>
-  signup: (name: string, email: string, password: string, className: string, role: 'student' | 'teacher') => Promise<void>
+  login: (identifier: string, password: string) => Promise<void>
+  signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher') => Promise<void>
+  updateProfile: (payload: UpdateProfilePayload) => Promise<void>
   logout: () => void
   isLoading: boolean
 }
 
+interface UpdateProfilePayload {
+  name?: string
+  className?: string
+  subjects?: string[]
+  currentPassword?: string
+  newPassword?: string
+  confirmPassword?: string
+}
+
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  login: async () => {},
-  signup: async () => {},
-  logout: () => {},
+  login: async () => { },
+  signup: async () => { },
+  updateProfile: async () => { },
+  logout: () => { },
   isLoading: true,
 })
 
@@ -44,11 +55,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setIsLoading(false)
   }, [])
 
-  const login = async (email: string, password: string) => {
+  const login = async (identifier: string, password: string) => {
     const response = await fetch('/api/auth/login', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ email, password })
+      body: JSON.stringify({ identifier, password })
     })
     if (!response.ok) throw new Error('Login failed')
     const userData = await response.json()
@@ -57,11 +68,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/')
   }
 
-  const signup = async (name: string, email: string, password: string, className: string, role: 'student' | 'teacher') => {
+  const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher') => {
     const response = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, password, className, role })
+      body: JSON.stringify({ name, email, studentId, password, className, role })
     })
     if (!response.ok) {
       const body = await response.json().catch(() => ({}))
@@ -73,6 +84,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/')
   }
 
+  const updateProfile = async (payload: UpdateProfilePayload) => {
+    if (!user?.id) {
+      throw new Error('You must be logged in to update your profile.')
+    }
+
+    const response = await fetch('/api/auth/update-profile', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, ...payload })
+    })
+
+    const data = await response.json().catch(() => ({}))
+
+    if (!response.ok) {
+      throw new Error(data?.error || 'Failed to update profile')
+    }
+
+    if (data?.user) {
+      setUser(data.user)
+      localStorage.setItem('user', JSON.stringify(data.user))
+    }
+  }
+
   const logout = () => {
     setUser(null)
     localStorage.removeItem('user')
@@ -80,7 +114,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, signup, updateProfile, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   )

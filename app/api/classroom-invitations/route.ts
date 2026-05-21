@@ -5,15 +5,21 @@ function normalizeEmail(value: string | null) {
     return String(value ?? '').trim().toLowerCase()
 }
 
+function normalizeStudentId(value: string | null) {
+    const trimmed = String(value ?? '').trim()
+    return trimmed ? trimmed : null
+}
+
 export async function GET(request: NextRequest) {
     try {
         const { searchParams } = new URL(request.url)
-        const email = normalizeEmail(searchParams.get('email'))
-        if (!email) {
-            return NextResponse.json({ error: 'email is required' }, { status: 400 })
+        const studentId = normalizeStudentId(searchParams.get('student_id'))
+        const studentEmail = normalizeEmail(searchParams.get('student_email') ?? searchParams.get('email'))
+        if (!studentId && !studentEmail) {
+            return NextResponse.json({ error: 'student_id or student_email is required' }, { status: 400 })
         }
 
-        const { data, error } = await supabase
+        let query = supabase
             .from('classroom_members')
             .select(`
                 id,
@@ -27,9 +33,18 @@ export async function GET(request: NextRequest) {
                     teacher:users!classrooms_teacher_id_fkey(name,email)
                 )
             `)
-            .eq('student_email', email)
             .eq('status', 'pending')
             .order('invited_at', { ascending: false })
+
+        if (studentId && studentEmail) {
+            query = query.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+        } else if (studentId) {
+            query = query.eq('student_id', studentId)
+        } else {
+            query = query.eq('student_email', studentEmail)
+        }
+
+        const { data, error } = await query
 
         if (error) {
             console.error('Classroom invitations fetch error:', error)

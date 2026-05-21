@@ -2,28 +2,53 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import bcrypt from 'bcryptjs'
 
+function normalizeEmail(value: unknown) {
+  const trimmed = String(value ?? '').trim()
+  return trimmed ? trimmed.toLowerCase() : null
+}
+
+function normalizeStudentId(value: unknown) {
+  const trimmed = String(value ?? '').trim()
+  return trimmed ? trimmed.toUpperCase() : null
+}
+
 export async function POST(request: NextRequest) {
   try {
-    const { email, password } = await request.json()
+    const body = await request.json()
+    const identifier = String(body.identifier ?? body.email ?? body.studentId ?? '').trim()
+    const password = String(body.password ?? '')
 
     // Validation
-    if (!email || !password) {
+    if (!identifier || !password) {
       return NextResponse.json(
-        { error: 'Email and password are required' },
+        { error: 'Email or student ID and password are required' },
         { status: 400 }
       )
     }
 
-    // Find user by email
-    const { data: userData, error: dbError } = await supabase
-      .from('users')
-      .select('*')
-      .eq('email', email)
-      .single()
+    const email = normalizeEmail(body.email ?? (identifier.includes('@') ? identifier : null))
+    const studentId = normalizeStudentId(body.studentId ?? (!identifier.includes('@') ? identifier : null))
+
+    if (!email && !studentId) {
+      return NextResponse.json(
+        { error: 'Email or student ID is required' },
+        { status: 400 }
+      )
+    }
+
+    // Find user by email or student ID
+    let query = supabase.from('users').select('*')
+    if (email) {
+      query = query.eq('email', email)
+    } else if (studentId) {
+      query = query.eq('student_id', studentId)
+    }
+
+    const { data: userData, error: dbError } = await query.maybeSingle()
 
     if (dbError || !userData) {
       return NextResponse.json(
-        { error: 'Invalid email or password' },
+        { error: 'Invalid credentials' },
         { status: 401 }
       )
     }
@@ -33,7 +58,7 @@ export async function POST(request: NextRequest) {
 
     if (!isValidPassword) {
       return NextResponse.json(
-        { error: 'Invalid email or password' },
+        { error: 'Invalid credentials' },
         { status: 401 }
       )
     }

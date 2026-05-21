@@ -7,14 +7,16 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 -- Users Table
 CREATE TABLE users (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  email VARCHAR(255) UNIQUE NOT NULL,
+  email VARCHAR(255) UNIQUE,
   password_hash TEXT NOT NULL,
   name VARCHAR(255) NOT NULL,
-  student_id VARCHAR(50) UNIQUE NOT NULL,
+  student_id VARCHAR(50) UNIQUE,
   class VARCHAR(100) NOT NULL,
   subjects TEXT[] DEFAULT '{}',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT users_email_or_student_id_chk
+    CHECK ((email IS NOT NULL AND email <> '') OR (student_id IS NOT NULL AND student_id <> ''))
 );
 
 -- Assessments Table
