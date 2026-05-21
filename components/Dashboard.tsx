@@ -88,10 +88,15 @@ function StudentDashboard() {
   }, [user])
 
   const refreshInvitations = useCallback(async () => {
-    if (!user?.email) return
+    const studentId = isUuid(user?.id) ? user?.id : null
+    const studentEmail = user?.email ?? null
+    if (!studentId && !studentEmail) return
     setInviteError('')
     try {
-      const res = await fetch(`/api/classroom-invitations?email=${encodeURIComponent(user.email)}`)
+      const params = new URLSearchParams()
+      if (studentId) params.set('student_id', studentId)
+      if (studentEmail) params.set('student_email', studentEmail)
+      const res = await fetch(`/api/classroom-invitations?${params.toString()}`)
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed to load invitations')
       setInvitations(json.data ?? [])
@@ -102,7 +107,9 @@ function StudentDashboard() {
   }, [user])
 
   const handleInvitation = async (inviteId: string, status: 'accepted' | 'declined') => {
-    if (!user?.email) return
+    const studentId = isUuid(user?.id) ? user?.id : null
+    const studentEmail = user?.email ?? null
+    if (!studentId && !studentEmail) return
     setInviteError('')
     try {
       const res = await fetch(`/api/classroom-invitations/${inviteId}`, {
@@ -110,8 +117,8 @@ function StudentDashboard() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           status,
-          student_id: isUuid(user.id) ? user.id : null,
-          student_email: user.email,
+          student_id: studentId,
+          student_email: studentEmail,
         }),
       })
       const json = await res.json()

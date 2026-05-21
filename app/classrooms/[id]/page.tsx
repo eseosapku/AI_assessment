@@ -395,7 +395,8 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
         return rows.filter((row: any) => {
             const name = String(row.student_name ?? '').toLowerCase()
             const email = String(row.student_email ?? '').toLowerCase()
-            return name.includes(query) || email.includes(query)
+            const studentId = String(row.student_id ?? '').toLowerCase()
+            return name.includes(query) || email.includes(query) || studentId.includes(query)
         })
     }, [analytics?.students, studentSearch])
 
@@ -437,7 +438,10 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
 
     const handleDownloadFeedback = (row: StudentDetail['assignments'][number]) => {
         const studentName = studentDetail?.student?.student_name ?? selectedStudent?.student_name ?? 'Student'
-        const studentEmail = studentDetail?.student?.student_email ?? selectedStudent?.student_email ?? 'unknown'
+        const studentEmail = studentDetail?.student?.student_email
+            ?? selectedStudent?.student_email
+            ?? selectedStudent?.student_id
+            ?? 'unknown'
         const feedbackText = normalizeFeedback(row.result?.feedback)
         const scoreLabel = row.score !== null ? `Score: ${row.score}% (${getGradeFromScore(row.score)})` : 'Score: —'
         const html = buildFeedbackHtml({
@@ -463,19 +467,38 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
         URL.revokeObjectURL(url)
     }
 
-    const parseEmails = (value: string) => {
+    const parseIdentifiers = (value: string) => {
         const parts = value
             .split(/[,\n]/g)
-            .map((item) => item.trim().toLowerCase())
-            .filter((item) => item.includes('@'))
-        return Array.from(new Set(parts))
+            .map((item) => item.trim())
+            .filter(Boolean)
+
+        const emails: string[] = []
+        const studentIds: string[] = []
+
+        for (const part of parts) {
+            if (part.includes('@')) {
+                emails.push(part.toLowerCase())
+            } else {
+                studentIds.push(part.toUpperCase())
+            }
+        }
+
+        const unique = (list: string[]) => Array.from(new Set(list))
+        const identifiers = unique([...emails, ...studentIds])
+
+        return {
+            emails: unique(emails),
+            studentIds: unique(studentIds),
+            identifiers,
+        }
     }
 
     const handleInvite = async () => {
         if (!user?.id) return
-        const emails = parseEmails(inviteInput)
-        if (emails.length === 0) {
-            setInviteError('Add at least one valid email.')
+        const { identifiers } = parseIdentifiers(inviteInput)
+        if (identifiers.length === 0) {
+            setInviteError('Add at least one email or student ID.')
             return
         }
 
@@ -486,12 +509,19 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
             const res = await fetch(`/api/classrooms/${classroomId}/members`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ teacher_id: user.id, emails }),
+                body: JSON.stringify({ teacher_id: user.id, identifiers }),
             })
             const json = await res.json()
             if (!res.ok) throw new Error(json.error || 'Failed to invite students')
             setInviteInput('')
-            setInviteSuccess('Invitations sent.')
+            const missing = Array.isArray(json.missing_student_ids) ? json.missing_student_ids : []
+            if ((json.data ?? []).length === 0 && missing.length > 0) {
+                setInviteError(`No student found for ID(s): ${missing.join(', ')}`)
+            } else if (missing.length > 0) {
+                setInviteSuccess(`Invitations sent. Missing IDs: ${missing.join(', ')}`)
+            } else {
+                setInviteSuccess('Invitations sent.')
+            }
             await loadMembers()
             await loadAnalytics(activityRange)
         } catch (err: any) {
@@ -537,7 +567,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                         <textarea
                             value={inviteInput}
                             onChange={(e) => setInviteInput(e.target.value)}
-                            placeholder="Enter emails separated by comma or new line"
+                            placeholder="Enter emails or student IDs separated by comma or new line"
                             rows={4}
                             className="w-full pl-10 pr-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
                         />
@@ -581,7 +611,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                     onKeyDown={(e) => {
                                         if (e.key === 'Enter') handleSearch()
                                     }}
-                                    placeholder="Search name or email"
+                                    placeholder="Search name, email, or ID"
                                     className="w-full sm:w-56 pl-9 pr-3 py-2 rounded-lg text-xs bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
                                 />
                             </div>
@@ -626,9 +656,9 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                             <tr key={row.student_id ?? row.student_email} className="text-gray-700 dark:text-gray-300">
                                                 <td className="py-2">
                                                     <div className="font-semibold text-gray-900 dark:text-white">
-                                                        {row.student_name ?? row.student_email}
+                                                        {row.student_name ?? row.student_email ?? row.student_id}
                                                     </div>
-                                                    <div className="text-xs text-gray-400">{row.student_email}</div>
+                                                    <div className="text-xs text-gray-400">{row.student_email ?? row.student_id ?? '—'}</div>
                                                 </td>
                                                 <td className="py-2">{row.completed}</td>
                                                 <td className="py-2">{row.started}</td>
@@ -678,8 +708,8 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                             {acceptedMembers.map((row) => (
                                 <div key={row.id} className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
                                     <div>
-                                        <p className="font-semibold text-gray-900 dark:text-white">{row.student_name ?? row.student_email}</p>
-                                        <p className="text-xs text-gray-400">{row.student_email}</p>
+                                        <p className="font-semibold text-gray-900 dark:text-white">{row.student_name ?? row.student_email ?? row.student_id}</p>
+                                        <p className="text-xs text-gray-400">{row.student_email ?? row.student_id ?? '—'}</p>
                                     </div>
                                     <span className="text-xs text-emerald-500 font-bold">Accepted</span>
                                 </div>
@@ -701,7 +731,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                             {pendingMembers.map((row) => (
                                 <div key={row.id} className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
                                     <div>
-                                        <p className="font-semibold text-gray-900 dark:text-white">{row.student_email}</p>
+                                        <p className="font-semibold text-gray-900 dark:text-white">{row.student_email ?? row.student_id ?? '—'}</p>
                                         <p className="text-xs text-gray-400">Invited {new Date(row.invited_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
                                     </div>
                                     <span className="text-xs text-amber-500 font-bold">Pending</span>
@@ -725,10 +755,10 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                             <div>
                                 <p className="text-[10px] uppercase tracking-[0.2em] text-[#9C6644]">Student detail</p>
                                 <h3 className="text-xl font-black text-[#1F2933] dark:text-white font-display mt-2">
-                                    {studentDetail?.student?.student_name || selectedStudent?.student_name || selectedStudent?.student_email || 'Student'}
+                                    {studentDetail?.student?.student_name || selectedStudent?.student_name || selectedStudent?.student_email || selectedStudent?.student_id || 'Student'}
                                 </h3>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                    {studentDetail?.student?.student_email || selectedStudent?.student_email || '—'}
+                                    {studentDetail?.student?.student_email || selectedStudent?.student_email || selectedStudent?.student_id || '—'}
                                 </p>
                             </div>
                             <button
