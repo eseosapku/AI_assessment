@@ -166,7 +166,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
                 .from('classroom_members')
                 .select('student_id,status')
                 .eq('classroom_id', classroomId)
-            .in('student_id', studentUserIds)
+                .in('student_id', studentUserIds)
 
             if (existingIdsError) {
                 console.error('Classroom members lookup error:', existingIdsError)
@@ -218,10 +218,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
                 classroom_id: classroomId,
                 student_email: email,
                 student_id: emailUserMap.get(email) ?? null,
-                status: 'pending',
+                status: 'accepted',
                 invited_by: teacherId,
                 invited_at: now,
-                responded_at: null,
+                responded_at: now,
             })
         }
 
@@ -237,10 +237,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
                 classroom_id: classroomId,
                 student_email: identifier,
                 student_id: userRow.id,
-                status: 'pending',
+                status: 'accepted',
                 invited_by: teacherId,
                 invited_at: now,
-                responded_at: null,
+                responded_at: now,
             })
         }
 
@@ -249,7 +249,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         if (rowsToInvite.length > 0) {
             const { data, error } = await supabase
                 .from('classroom_members')
-            .upsert(rowsToInvite, { onConflict: 'classroom_id,student_email' })
+                .upsert(rowsToInvite, { onConflict: 'classroom_id,student_email' })
                 .select('id,student_email,student_id,status,invited_at')
 
             if (error) {

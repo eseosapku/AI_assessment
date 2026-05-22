@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Plus, Brain, Clock, Zap, ChevronDown, Users, FileText, Check, X } from 'lucide-react'
+import { User, Plus, Brain, Clock, Zap, ChevronDown, Users, FileText } from 'lucide-react'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -61,9 +61,7 @@ function StudentDashboard() {
   const avgRef = useRef<HTMLDivElement>(null)
   const [dailyUsed, setDailyUsed] = useState(0)
   const [classrooms, setClassrooms] = useState<any[]>([])
-  const [invitations, setInvitations] = useState<any[]>([])
   const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(false)
-  const [inviteError, setInviteError] = useState('')
   const [pausedAssessment, setPausedAssessment] = useState<PausedAssessmentState | null>(null)
   const DAILY_QUIZ_LIMIT = 7200
   const { user } = useAuth()
@@ -72,10 +70,10 @@ function StudentDashboard() {
     if (!user?.id && !user?.email) return
     setIsLoadingClassrooms(true)
     try {
-      const query = isUuid(user?.id)
-        ? `student_id=${user?.id}`
-        : `student_email=${encodeURIComponent(user?.email ?? '')}`
-      const res = await fetch(`/api/classrooms?${query}`)
+      const params = new URLSearchParams()
+      if (isUuid(user?.id)) params.set('student_id', user?.id ?? '')
+      if (user?.email) params.set('student_email', user.email)
+      const res = await fetch(`/api/classrooms?${params.toString()}`)
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed to load classrooms')
       setClassrooms(json.data ?? [])
@@ -86,49 +84,6 @@ function StudentDashboard() {
       setIsLoadingClassrooms(false)
     }
   }, [user])
-
-  const refreshInvitations = useCallback(async () => {
-    const studentId = isUuid(user?.id) ? user?.id : null
-    const studentEmail = user?.email ?? null
-    if (!studentId && !studentEmail) return
-    setInviteError('')
-    try {
-      const params = new URLSearchParams()
-      if (studentId) params.set('student_id', studentId)
-      if (studentEmail) params.set('student_email', studentEmail)
-      const res = await fetch(`/api/classroom-invitations?${params.toString()}`)
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error || 'Failed to load invitations')
-      setInvitations(json.data ?? [])
-    } catch (err: any) {
-      setInvitations([])
-      setInviteError(err?.message || 'Failed to load invitations')
-    }
-  }, [user])
-
-  const handleInvitation = async (inviteId: string, status: 'accepted' | 'declined') => {
-    const studentId = isUuid(user?.id) ? user?.id : null
-    const studentEmail = user?.email ?? null
-    if (!studentId && !studentEmail) return
-    setInviteError('')
-    try {
-      const res = await fetch(`/api/classroom-invitations/${inviteId}`, {
-        method: 'PATCH',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          status,
-          student_id: studentId,
-          student_email: studentEmail,
-        }),
-      })
-      const json = await res.json()
-      if (!res.ok) throw new Error(json.error || 'Failed to update invitation')
-      await refreshInvitations()
-      await refreshClassrooms()
-    } catch (err: any) {
-      setInviteError(err?.message || 'Failed to update invitation')
-    }
-  }
 
   useEffect(() => {
     const fetchRecentAssessments = async () => {
@@ -188,7 +143,6 @@ function StudentDashboard() {
     fetchDailyUsage()
 
     refreshClassrooms()
-    refreshInvitations()
   }, [user])
 
   useEffect(() => {
@@ -488,57 +442,6 @@ function StudentDashboard() {
           </div>
         </motion.button>
 
-        {/* ── Invitations ── */}
-        {invitations.length > 0 && (
-          <div>
-            <div className="flex items-center gap-2 mb-4 px-1">
-              <Users className="w-3.5 h-3.5 text-blue-500" />
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
-                Classroom Invitations
-              </p>
-            </div>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {invitations.map((invite: any, i) => (
-                <motion.div
-                  key={invite.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.04 * i }}
-                  className="bg-white dark:bg-gray-900 rounded-2xl border border-blue-200/60 dark:border-blue-800/40 p-5 flex flex-col gap-3"
-                >
-                  <div>
-                    <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{invite.classroom?.name ?? 'Classroom'}</p>
-                    <p className="text-xs text-gray-400 mt-1">
-                      {invite.classroom?.teacher_name ?? 'Teacher'} · {invite.classroom?.teacher_email ?? 'No email'}
-                    </p>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => handleInvitation(invite.id, 'accepted')}
-                      className="flex-1 inline-flex items-center justify-center gap-2 text-sm font-bold py-2.5 rounded-xl bg-emerald-500 hover:bg-emerald-600 text-white"
-                    >
-                      <Check className="w-3.5 h-3.5" />
-                      Accept
-                    </button>
-                    <button
-                      onClick={() => handleInvitation(invite.id, 'declined')}
-                      className="flex-1 inline-flex items-center justify-center gap-2 text-sm font-bold py-2.5 rounded-xl bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-600 dark:text-gray-300 hover:border-red-300 hover:text-red-500"
-                    >
-                      <X className="w-3.5 h-3.5" />
-                      Decline
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </div>
-            {inviteError && (
-              <p className="mt-3 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-4 py-3">
-                {inviteError}
-              </p>
-            )}
-          </div>
-        )}
-
         {/* ── Your Classes ── */}
         <div>
           <div className="flex items-center gap-2 mb-4 px-1">
@@ -592,7 +495,7 @@ function StudentDashboard() {
               </div>
               <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">No classes yet</p>
               <p className="text-xs text-gray-400 text-center max-w-[200px] leading-relaxed">
-                Accept a classroom invitation to see assignments here.
+                Classes appear here after your teacher adds you.
               </p>
             </div>
           )}
