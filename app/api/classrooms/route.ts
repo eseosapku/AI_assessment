@@ -49,7 +49,9 @@ export async function GET(request: NextRequest) {
                 .eq('status', 'accepted')
                 .order('invited_at', { ascending: false })
 
-            if (studentId) {
+            if (studentId && studentEmail) {
+                query = query.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+            } else if (studentId) {
                 query = query.eq('student_id', studentId)
             } else {
                 if (!studentEmail) {
@@ -96,7 +98,9 @@ export async function GET(request: NextRequest) {
                 .from('assignment_results')
                 .select('assignment_id,status')
 
-            if (studentId) {
+            if (studentId && studentEmail) {
+                resultsQuery = resultsQuery.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+            } else if (studentId) {
                 resultsQuery = resultsQuery.eq('student_id', studentId)
             } else {
                 resultsQuery = resultsQuery.eq('student_email', studentEmail)
