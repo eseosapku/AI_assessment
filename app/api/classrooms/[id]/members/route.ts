@@ -266,3 +266,67 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         return NextResponse.json({ error: 'Failed to invite members' }, { status: 500 })
     }
 }
+
+export async function DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+    const resolved = await params
+    const classroomId = parseId(resolved?.id)
+    if (!classroomId) {
+        return NextResponse.json({ error: 'Invalid classroom id' }, { status: 400 })
+    }
+
+    let body: any = {}
+    try {
+        body = await request.json()
+    } catch {
+        body = {}
+    }
+
+    const memberId = parseId(body?.member_id)
+    const teacherId = parseId(body?.teacher_id)
+
+    if (!memberId) {
+        return NextResponse.json({ error: 'member_id is required' }, { status: 400 })
+    }
+    if (!teacherId) {
+        return NextResponse.json({ error: 'teacher_id is required' }, { status: 400 })
+    }
+
+    try {
+        const { data: classroomRow, error: classroomError } = await supabase
+            .from('classrooms')
+            .select('id')
+            .eq('id', classroomId)
+            .eq('teacher_id', teacherId)
+            .maybeSingle()
+
+        if (classroomError) {
+            console.error('Classroom ownership check error:', classroomError)
+            return NextResponse.json({ error: classroomError.message }, { status: 500 })
+        }
+
+        if (!classroomRow) {
+            return NextResponse.json({ error: 'Not authorized to remove members' }, { status: 403 })
+        }
+
+        const { data, error } = await supabase
+            .from('classroom_members')
+            .delete()
+            .eq('id', memberId)
+            .eq('classroom_id', classroomId)
+            .select('id')
+
+        if (error) {
+            console.error('Classroom member removal error:', error)
+            return NextResponse.json({ error: error.message }, { status: 500 })
+        }
+
+        if (!data || data.length === 0) {
+            return NextResponse.json({ error: 'Member not found' }, { status: 404 })
+        }
+
+        return NextResponse.json({ success: true })
+    } catch (err) {
+        console.error('Classroom member removal error:', err)
+        return NextResponse.json({ error: 'Failed to remove member' }, { status: 500 })
+    }
+}
