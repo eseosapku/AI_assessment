@@ -332,6 +332,8 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
     const [inviteError, setInviteError] = useState('')
     const [inviteSuccess, setInviteSuccess] = useState('')
     const [isInviting, setIsInviting] = useState(false)
+    const [removeError, setRemoveError] = useState('')
+    const [removingMemberId, setRemovingMemberId] = useState<string | null>(null)
     const [analytics, setAnalytics] = useState<any>(null)
     const [isLoadingAnalytics, setIsLoadingAnalytics] = useState(true)
     const [activityRange, setActivityRange] = useState<'all' | 'month' | 'week' | 'day'>('all')
@@ -531,6 +533,30 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
         }
     }
 
+    const handleRemoveMember = async (memberId: string) => {
+        if (!user?.id) return
+        if (!window.confirm('Remove this student from the classroom?')) return
+
+        setRemovingMemberId(memberId)
+        setRemoveError('')
+
+        try {
+            const res = await fetch(`/api/classrooms/${classroomId}/members`, {
+                method: 'DELETE',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ member_id: memberId, teacher_id: user.id }),
+            })
+            const json = await res.json()
+            if (!res.ok) throw new Error(json.error || 'Failed to remove student')
+            await loadMembers()
+            await loadAnalytics(activityRange)
+        } catch (err: any) {
+            setRemoveError(err?.message || 'Failed to remove student')
+        } finally {
+            setRemovingMemberId(null)
+        }
+    }
+
     return (
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -711,9 +737,23 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                         <p className="font-semibold text-gray-900 dark:text-white">{row.student_name ?? row.student_email ?? row.student_id}</p>
                                         <p className="text-xs text-gray-400">{row.student_email ?? row.student_id ?? '—'}</p>
                                     </div>
-                                    <span className="text-xs text-emerald-500 font-bold">Accepted</span>
+                                    <div className="flex items-center gap-3">
+                                        <span className="text-xs text-emerald-500 font-bold">Accepted</span>
+                                        <button
+                                            onClick={() => handleRemoveMember(row.id)}
+                                            disabled={removingMemberId === row.id}
+                                            className="text-xs font-bold text-red-500 hover:text-red-600 disabled:text-red-300"
+                                        >
+                                            {removingMemberId === row.id ? 'Removing...' : 'Remove'}
+                                        </button>
+                                    </div>
                                 </div>
                             ))}
+                            {removeError && (
+                                <p className="mt-3 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-3 py-2">
+                                    {removeError}
+                                </p>
+                            )}
                         </div>
                     ) : (
                         <p className="text-sm text-gray-400">No students accepted yet.</p>
