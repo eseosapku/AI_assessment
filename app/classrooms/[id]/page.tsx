@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { Mail, Users, ArrowLeft, Download, ChevronRight, Search } from 'lucide-react'
+import { Mail, Users, ArrowLeft, Download, ChevronRight, Search, Pencil } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 
 interface ClassroomInfo {
@@ -252,6 +252,11 @@ export default function ClassroomDetailPage() {
     const [classroom, setClassroom] = useState<ClassroomInfo | null>(null)
     const [isLoading, setIsLoading] = useState(true)
     const [error, setError] = useState('')
+    const [isEditing, setIsEditing] = useState(false)
+    const [editName, setEditName] = useState('')
+    const [editDescription, setEditDescription] = useState('')
+    const [editError, setEditError] = useState('')
+    const [isUpdating, setIsUpdating] = useState(false)
 
     const isTeacher = user?.role === 'teacher'
 
@@ -273,6 +278,57 @@ export default function ClassroomDetailPage() {
         }
         load()
     }, [classroomId])
+
+    const startEdit = () => {
+        if (!classroom) return
+        setIsEditing(true)
+        setEditName(classroom.name ?? '')
+        setEditDescription(classroom.description ?? '')
+        setEditError('')
+    }
+
+    const cancelEdit = () => {
+        setIsEditing(false)
+        setEditError('')
+    }
+
+    const handleUpdate = async () => {
+        if (!classroomId) return
+        const trimmedName = editName.trim()
+        const trimmedDescription = editDescription.trim()
+        if (!trimmedName) {
+            setEditError('Classroom name is required')
+            return
+        }
+
+        setIsUpdating(true)
+        setEditError('')
+        try {
+            const res = await fetch(`/api/classrooms/${classroomId}`, {
+                method: 'PATCH',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({
+                    name: trimmedName,
+                    description: trimmedDescription,
+                }),
+            })
+            const json = await res.json()
+            if (!res.ok) throw new Error(json.error || 'Failed to update classroom')
+
+            setClassroom((prev) => prev
+                ? {
+                    ...prev,
+                    name: trimmedName,
+                    description: trimmedDescription || null,
+                }
+                : prev)
+            setIsEditing(false)
+        } catch (err: any) {
+            setEditError(err?.message || 'Failed to update classroom')
+        } finally {
+            setIsUpdating(false)
+        }
+    }
 
     if (isLoading) {
         return (
@@ -304,11 +360,70 @@ export default function ClassroomDetailPage() {
                 </div>
 
                 <div className="bg-white dark:bg-gray-900 rounded-3xl border border-gray-200/70 dark:border-gray-800/60 p-6 sm:p-8">
-                    <div className="flex flex-col gap-2">
-                        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">Classroom</p>
-                        <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{classroom.name}</h1>
-                        {classroom.description && (
-                            <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">{classroom.description}</p>
+                    <div className="flex flex-col gap-4">
+                        <div className="flex items-start justify-between gap-4">
+                            <div className="flex flex-col gap-2">
+                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">Classroom</p>
+                                <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{classroom.name}</h1>
+                                {classroom.description && (
+                                    <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">{classroom.description}</p>
+                                )}
+                            </div>
+                            {isTeacher && !isEditing && (
+                                <button
+                                    onClick={startEdit}
+                                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                                >
+                                    <Pencil className="w-3.5 h-3.5" />
+                                    Edit
+                                </button>
+                            )}
+                        </div>
+
+                        {isTeacher && isEditing && (
+                            <div className="grid gap-4 sm:grid-cols-2">
+                                <div className="sm:col-span-1">
+                                    <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
+                                        Classroom name
+                                    </label>
+                                    <input
+                                        value={editName}
+                                        onChange={(e) => setEditName(e.target.value)}
+                                        className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
+                                    />
+                                </div>
+                                <div className="sm:col-span-1">
+                                    <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">
+                                        Description
+                                    </label>
+                                    <input
+                                        value={editDescription}
+                                        onChange={(e) => setEditDescription(e.target.value)}
+                                        placeholder="Optional"
+                                        className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
+                                    />
+                                </div>
+                                {editError && (
+                                    <div className="sm:col-span-2 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-3 py-2">
+                                        {editError}
+                                    </div>
+                                )}
+                                <div className="sm:col-span-2 flex flex-col sm:flex-row gap-2">
+                                    <button
+                                        onClick={handleUpdate}
+                                        disabled={isUpdating}
+                                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#1F7A7A] hover:bg-[#166463] disabled:bg-[#6FA9A9] text-white text-sm font-semibold py-2.5"
+                                    >
+                                        {isUpdating ? 'Saving...' : 'Save changes'}
+                                    </button>
+                                    <button
+                                        onClick={cancelEdit}
+                                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl border border-gray-200 text-gray-600 hover:bg-gray-50 dark:border-white/[0.08] dark:text-gray-300 dark:hover:bg-white/[0.05] text-sm font-semibold py-2.5"
+                                    >
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
                         )}
                     </div>
                 </div>
