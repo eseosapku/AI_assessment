@@ -4,7 +4,6 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { User, Plus, Brain, Clock, Zap, ChevronDown, Send, Calendar, BookOpen, FileText } from 'lucide-react'
 import { useState, useEffect, useRef } from 'react'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
 import ThemeToggle from './ThemeToggle'
 import ProfileSidebar from './ProfileSidebar'
 import AssessmentCard from './AssessmentCard'
@@ -12,6 +11,7 @@ import FlowForm from './FlowForm'
 import TeacherDashboard from './TeacherDashboard'
 import { useAuth } from './AuthProvider'
 import { supabase } from '@/lib/supabase'
+import { useAppRouter } from './AppPathProvider'
 
 const DIFFICULTY_COLORS: Record<string, string> = {
   beginner:     'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20',
@@ -30,7 +30,7 @@ export default function Dashboard() {
 }
 
 function StudentDashboard() {
-  const router = useRouter()
+  const router = useAppRouter()
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isFormOpen, setIsFormOpen] = useState(false)
   const [recentAssessments, setRecentAssessments] = useState<any[]>([])

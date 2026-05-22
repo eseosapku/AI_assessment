@@ -3,8 +3,8 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
 import { useState, useRef, useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
+import { useAppRouter } from './AppPathProvider'
 import {
   AVAILABLE_CURRICULA,
   RWANDAN_CURRICULUM,
@@ -18,6 +18,13 @@ import {
   getCambridgeTopicsForGradeAndSubject,
   type CambridgeGrade,
 } from '@/lib/cambridge-curriculum'
+import {
+  UNIVERSITY_COURSES,
+  getUniversityCourseNames,
+  getUniversityYearsForCourse,
+  getUniversityTopicsForCourseAndYear,
+  getUniversityYearLabel,
+} from '@/lib/university-curriculum'
 
 interface FlowFormProps {
   onClose: () => void
@@ -122,7 +129,7 @@ function StepLabel({ label }: { label: string }) {
 }
 
 export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
-  const router = useRouter()
+  const router = useAppRouter()
   const { user } = useAuth()
   const isTeacher = (user as any)?.role === 'teacher'
   const [step, setStep] = useState(1)
@@ -151,17 +158,32 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
 
   const isCambridge = formData.curriculum === 'cambridge'
-  const subjects = formData.grade && formData.curriculum
-    ? isCambridge ? getCambridgeSubjectsForGrade(formData.grade as CambridgeGrade) : getSubjectsForGrade(formData.grade)
+  const isUniversity = formData.curriculum === 'university'
+  const subjects = formData.curriculum
+    ? isUniversity
+      ? getUniversityCourseNames()
+      : formData.grade
+        ? isCambridge
+          ? getCambridgeSubjectsForGrade(formData.grade as CambridgeGrade)
+          : getSubjectsForGrade(formData.grade)
+        : []
+    : []
+  const universityYears = isUniversity && formData.subject
+    ? getUniversityYearsForCourse(formData.subject)
     : []
   const availableTopics = formData.grade && formData.subject
-    ? isCambridge ? getCambridgeTopicsForGradeAndSubject(formData.grade as CambridgeGrade, formData.subject) : getTopicsForGradeAndSubject(formData.grade, formData.subject)
+    ? isCambridge
+      ? getCambridgeTopicsForGradeAndSubject(formData.grade as CambridgeGrade, formData.subject)
+      : isUniversity
+        ? getUniversityTopicsForCourseAndYear(formData.subject, Number(formData.grade))
+        : getTopicsForGradeAndSubject(formData.grade, formData.subject)
     : []
 
-  const handleGradeSelect = (grade: GradeLevel) => { setFormData({ ...formData, grade, difficultyLevel: '', subject: '', topics: [] }); setTimeout(() => setStep(2), 250) }
-  const handleDifficultySelect = (id: string) => { setFormData({ ...formData, difficultyLevel: id }); setTimeout(() => setStep(3), 250) }
-  const handleCurriculumSelect = (id: string) => { setFormData({ ...formData, curriculum: id, subject: '', topics: [] }); setTimeout(() => setStep(4), 250) }
-  const handleSubjectSelect = (subject: string) => { setFormData({ ...formData, subject, topics: [] }); setStep(5) }
+  const handleCurriculumSelect = (id: string) => { setFormData({ ...formData, curriculum: id, grade: null, subject: '', topics: [], difficultyLevel: '' }); setTimeout(() => setStep(2), 250) }
+  // University: step 2 = course, step 3 = year; Non-university: step 2 = grade, step 3 = difficulty
+  const handleSubjectSelect = (subject: string) => { setFormData({ ...formData, subject, topics: [] }); setStep(isUniversity ? 3 : 5) }
+  const handleGradeSelect = (grade: GradeLevel) => { setFormData({ ...formData, grade, difficultyLevel: '', subject: isUniversity ? formData.subject : '', topics: [] }); setTimeout(() => setStep(isUniversity ? 4 : 3), 250) }
+  const handleDifficultySelect = (id: string) => { setFormData({ ...formData, difficultyLevel: id }); setTimeout(() => setStep(isUniversity ? 5 : 4), 250) }
   const handleTopicToggle = (topic: string) => {
     const newTopics = formData.topics.includes(topic) ? formData.topics.filter(t => t !== topic) : [...formData.topics, topic]
     setFormData({ ...formData, topics: newTopics })
@@ -211,14 +233,21 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
   const gradeLevelStr = formData.grade
     ? isCambridge
       ? CAMBRIDGE_CURRICULUM[formData.grade as CambridgeGrade]?.cambridgeLevel
-      : `${RWANDAN_CURRICULUM[formData.grade]?.rwandaLevel}`
+      : isUniversity
+        ? getUniversityYearLabel(formData.subject, Number(formData.grade))
+        : `${RWANDAN_CURRICULUM[formData.grade]?.rwandaLevel}`
     : ''
 
   const summaryRows = [
-    { label: 'Grade',      value: `Grade ${formData.grade} · ${gradeLevelStr}` },
-    { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
     { label: 'Curriculum', value: selectedCurriculum?.name ?? formData.curriculum },
-    { label: 'Subject',    value: formData.subject },
+    ...(isUniversity ? [
+      { label: 'Course', value: formData.subject },
+      { label: 'Year',   value: gradeLevelStr },
+    ] : [
+      { label: 'Grade',   value: `Grade ${formData.grade} · ${gradeLevelStr}` },
+      { label: 'Subject', value: formData.subject },
+    ]),
+    { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
     { label: 'Topics',     value: formData.topics.join(', ') },
     { label: 'Questions',  value: String(formData.count) },
     { label: 'Style',      value: formData.style },
@@ -269,53 +298,8 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
           {/* Scrollable content */}
           <div className="flex-1 px-6 pb-6 space-y-6 overflow-y-auto">
 
-            {/* Step 1: Grade */}
+            {/* Step 1: Curriculum */}
             {step >= 1 && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Grade level" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select your grade</h3>
-                <div className="grid grid-cols-3 gap-2">
-                  {GRADES.map(grade => (
-                    <OptionButton key={grade} selected={formData.grade === grade} onClick={() => handleGradeSelect(grade)}>
-                      <span className="font-bold text-gray-900 dark:text-white block">Grade {grade}</span>
-                      <span className="text-[11px] text-gray-400 mt-0.5 block">
-                        {grade <= 6 ? `P${grade} / Primary` : grade <= 9 ? `S${grade - 6} / Yr ${grade}` : grade <= 11 ? `S${grade - 6} / IGCSE` : 'S6 / AS Level'}
-                      </span>
-                    </OptionButton>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Step 2: Difficulty Level */}
-            {step >= 2 && formData.grade && (
-              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Difficulty level" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
-                <p className="text-xs text-gray-400 mb-3">This shapes how challenging the questions will be</p>
-                <div className="flex flex-col gap-2">
-                  {DIFFICULTY_LEVELS.map(dl => (
-                    <OptionButton key={dl.id} selected={formData.difficultyLevel === dl.id} onClick={() => handleDifficultySelect(dl.id)}>
-                      <div className="flex items-center gap-3">
-                        <span className={`text-[11px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${dl.badge}`}>
-                          {dl.grade}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2">
-                            <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
-                            <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500">{dl.bloom}</span>
-                          </div>
-                          <p className="text-[11px] text-gray-400 mt-0.5">{dl.description}</p>
-                        </div>
-                      </div>
-                    </OptionButton>
-                  ))}
-                </div>
-              </motion.div>
-            )}
-
-            {/* Step 3: Curriculum */}
-            {step >= 3 && formData.difficultyLevel && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Curriculum" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
@@ -335,20 +319,124 @@ export default function FlowForm({ onClose, onAssign }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 4: Subject */}
-            {step >= 4 && formData.curriculum && (
+            {/* Step 2: University = Course selector / Non-university = Grade selector */}
+            {step >= 2 && formData.curriculum && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Subject" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                  Grade {formData.grade} · {isCambridge ? 'Cambridge' : 'REB'} subjects
-                </h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {subjects.map(subject => (
-                    <OptionButton key={subject} selected={formData.subject === subject} onClick={() => handleSubjectSelect(subject)}>
-                      <span className="font-medium text-gray-800 dark:text-gray-200">{subject}</span>
-                    </OptionButton>
-                  ))}
-                </div>
+                {isUniversity ? (
+                  <>
+                    <StepLabel label="University course" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select your course</h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {subjects.map(subject => (
+                        <OptionButton key={subject} selected={formData.subject === subject} onClick={() => handleSubjectSelect(subject)}>
+                          <span className="font-medium text-gray-800 dark:text-gray-200">{subject}</span>
+                        </OptionButton>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <StepLabel label="Grade level" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select your grade</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                      {GRADES.map(grade => (
+                        <OptionButton key={grade} selected={formData.grade === grade} onClick={() => handleGradeSelect(grade)}>
+                          <span className="font-bold text-gray-900 dark:text-white block">Grade {grade}</span>
+                          <span className="text-[11px] text-gray-400 mt-0.5 block">
+                            {grade <= 6 ? `P${grade} / Primary` : grade <= 9 ? `S${grade - 6} / Yr ${grade}` : grade <= 11 ? `S${grade - 6} / IGCSE` : 'S6 / AS Level'}
+                          </span>
+                        </OptionButton>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            )}
+
+            {/* Step 3: University = Year selector / Non-university = Difficulty */}
+            {step >= 3 && (isUniversity ? formData.subject : formData.grade) && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                {isUniversity ? (
+                  <>
+                    <StepLabel label="University year" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">{`${formData.subject} · Select your year`}</h3>
+                    <div className="grid grid-cols-3 gap-2">
+                      {universityYears.map(year => (
+                        <OptionButton key={year} selected={formData.grade === year} onClick={() => handleGradeSelect(year as GradeLevel)}>
+                          <span className="font-bold text-gray-900 dark:text-white block">Year {year}</span>
+                          <span className="text-[11px] text-gray-400 mt-0.5 block">
+                            {UNIVERSITY_COURSES[formData.subject]?.years[year]?.description ?? ''}
+                          </span>
+                        </OptionButton>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <StepLabel label="Difficulty level" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
+                    <p className="text-xs text-gray-400 mb-3">This shapes how challenging the questions will be</p>
+                    <div className="flex flex-col gap-2">
+                      {DIFFICULTY_LEVELS.map(dl => (
+                        <OptionButton key={dl.id} selected={formData.difficultyLevel === dl.id} onClick={() => handleDifficultySelect(dl.id)}>
+                          <div className="flex items-center gap-3">
+                            <span className={`text-[11px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${dl.badge}`}>{dl.grade}</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
+                                <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500">{dl.bloom}</span>
+                              </div>
+                              <p className="text-[11px] text-gray-400 mt-0.5">{dl.description}</p>
+                            </div>
+                          </div>
+                        </OptionButton>
+                      ))}
+                    </div>
+                  </>
+                )}
+              </motion.div>
+            )}
+
+            {/* Step 4: University = Difficulty / Non-university = Subject */}
+            {step >= 4 && (isUniversity ? formData.grade : formData.difficultyLevel) && (
+              <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+                {isUniversity ? (
+                  <>
+                    <StepLabel label="Difficulty level" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
+                    <p className="text-xs text-gray-400 mb-3">This shapes how challenging the questions will be</p>
+                    <div className="flex flex-col gap-2">
+                      {DIFFICULTY_LEVELS.map(dl => (
+                        <OptionButton key={dl.id} selected={formData.difficultyLevel === dl.id} onClick={() => handleDifficultySelect(dl.id)}>
+                          <div className="flex items-center gap-3">
+                            <span className={`text-[11px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${dl.badge}`}>{dl.grade}</span>
+                            <div className="flex-1 min-w-0">
+                              <div className="flex items-center gap-2">
+                                <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
+                                <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500">{dl.bloom}</span>
+                              </div>
+                              <p className="text-[11px] text-gray-400 mt-0.5">{dl.description}</p>
+                            </div>
+                          </div>
+                        </OptionButton>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <StepLabel label="Subject" />
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                      {`Grade ${formData.grade} · ${isCambridge ? 'Cambridge' : 'REB'} subjects`}
+                    </h3>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                      {subjects.map(subject => (
+                        <OptionButton key={subject} selected={formData.subject === subject} onClick={() => handleSubjectSelect(subject)}>
+                          <span className="font-medium text-gray-800 dark:text-gray-200">{subject}</span>
+                        </OptionButton>
+                      ))}
+                    </div>
+                  </>
+                )}
               </motion.div>
             )}
 

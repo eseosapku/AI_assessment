@@ -1,8 +1,10 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Inter } from 'next/font/google'
+import { headers } from 'next/headers'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { AuthProvider } from '@/components/AuthProvider'
+import { AppPathProvider } from '@/components/AppPathProvider'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -22,18 +24,23 @@ export const viewport: Viewport = {
   ],
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: {
   children: React.ReactNode
 }) {
+  const requestHeaders = await headers()
+  const mountPath = requestHeaders.get('x-app-mount-path') || ''
+
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider>
-          <AuthProvider>
-            {children}
-          </AuthProvider>
+          <AppPathProvider mountPath={mountPath}>
+            <AuthProvider>
+              {children}
+            </AuthProvider>
+          </AppPathProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 import Dashboard from '@/components/Dashboard'
+import { useAppRouter } from '@/components/AppPathProvider'
 
 export default function Home() {
   const { user, isLoading } = useAuth()
-  const router = useRouter()
+  const router = useAppRouter()
 
   useEffect(() => {
     if (!isLoading && !user) {

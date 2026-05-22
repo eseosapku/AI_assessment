@@ -3,10 +3,10 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useCallback, useEffect, useRef, useState } from 'react'
 import NextImage from 'next/image'
-import { useRouter } from 'next/navigation'
 import { Clock, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
+import { useAppRouter } from '@/components/AppPathProvider'
 
 // Wrap bare LaTeX commands in $...$ so react-latex-next renders them correctly.
 // Text already containing $, \(...\), or \[...\] delimiters is left untouched.
@@ -638,7 +638,7 @@ function applyPatch(q: MCQQuestion, expected: number): void {
 // ── Main component ─────────────────────────────────────────────────────────────
 
 export default function AssessmentPage() {
-  const router = useRouter()
+  const router = useAppRouter()
   const [assessment, setAssessment] = useState<Assessment | null>(null)
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({})

@@ -1,13 +1,13 @@
 'use client'
 
 import { useEffect } from 'react'
-import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
 import ReportCardGenerator from '@/components/ReportCardGenerator'
+import { useAppRouter } from '@/components/AppPathProvider'
 
 export default function ReportCardPage() {
   const { user, isLoading } = useAuth()
-  const router = useRouter()
+  const router = useAppRouter()
 
   useEffect(() => {
     if (!isLoading && !user) {

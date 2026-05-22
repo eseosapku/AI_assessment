@@ -6,11 +6,11 @@ import {
   Calendar, ChevronDown, ChevronUp, User, BookOpen, Award, Clock
 } from 'lucide-react'
 import { useState, useEffect, useCallback } from 'react'
-import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import { supabase } from '@/lib/supabase'
 import ThemeToggle from './ThemeToggle'
 import ProfileSidebar from './ProfileSidebar'
+import { useAppRouter } from './AppPathProvider'
 
 // ─── Types ───────────────────────────────────────────────────────────────────
 
@@ -300,7 +300,7 @@ function buildReportCardHtml(
 // ─── Component ────────────────────────────────────────────────────────────────
 
 export default function ReportCardGenerator() {
-  const router = useRouter()
+  const router = useAppRouter()
   const { user } = useAuth()
   const [isProfileOpen, setIsProfileOpen] = useState(false)
   const [isLoading, setIsLoading] = useState(true)

@@ -2,10 +2,10 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import Link from 'next/link'
 import Image from 'next/image'
 import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import { AppLink } from './AppPathProvider'
 
 const inputBase =
   'w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600'
@@ -207,7 +207,7 @@ export default function SignupForm() {
 
           <p className="mt-5 text-center text-sm text-gray-500 dark:text-gray-500">
             Already have an account?{' '}
-            <Link href="/login" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">Sign in</Link>
+            <AppLink href="/login" className="text-blue-600 dark:text-blue-400 font-bold hover:underline">Sign in</AppLink>
           </p>
         </div>
       </div>

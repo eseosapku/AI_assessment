@@ -2,8 +2,8 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import Link from 'next/link'
 import { Mail, ArrowLeft, CheckCircle2 } from 'lucide-react'
+import { AppLink } from './AppPathProvider'
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('')
@@ -67,21 +67,21 @@ export default function ForgotPasswordForm() {
             <p className="text-sm text-blue-600 dark:text-blue-400 mb-2">
               <strong>Development Mode:</strong> Use this link to reset your password
             </p>
-            <Link 
+            <AppLink 
               href={resetLink}
               className="text-xs text-apple-blue hover:underline break-all"
             >
               {window.location.origin + resetLink}
-            </Link>
+            </AppLink>
           </div>
 
-          <Link
+          <AppLink
             href="/login"
             className="flex items-center justify-center gap-2 text-sm text-apple-blue hover:underline"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Login
-          </Link>
+          </AppLink>
         </div>
       </motion.div>
     )
@@ -154,13 +154,13 @@ export default function ForgotPasswordForm() {
 
         {/* Back to Login */}
         <div className="mt-6 text-center">
-          <Link
+          <AppLink
             href="/login"
             className="flex items-center justify-center gap-2 text-sm text-apple-blue hover:underline"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Login
-          </Link>
+          </AppLink>
         </div>
       </div>
     </motion.div>

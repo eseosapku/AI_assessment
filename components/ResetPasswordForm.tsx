@@ -2,9 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { useState } from 'react'
-import { useRouter, useSearchParams } from 'next/navigation'
-import Link from 'next/link'
+import { useSearchParams } from 'next/navigation'
 import { Lock, Eye, EyeOff, CheckCircle2 } from 'lucide-react'
+import { AppLink, useAppRouter } from './AppPathProvider'
 
 export default function ResetPasswordForm() {
   const [password, setPassword] = useState('')
@@ -14,7 +14,7 @@ export default function ResetPasswordForm() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const router = useRouter()
+  const router = useAppRouter()
   const searchParams = useSearchParams()
   const token = searchParams.get('token')
 
@@ -84,9 +84,9 @@ export default function ResetPasswordForm() {
             <p className="text-sm text-apple-dark-gray mb-6">
               Your password has been successfully reset. Redirecting to login...
             </p>
-            <Link href="/login" className="text-apple-blue hover:underline">
+            <AppLink href="/login" className="text-apple-blue hover:underline">
               Go to Login
-            </Link>
+            </AppLink>
           </div>
         </div>
       </motion.div>
@@ -191,9 +191,9 @@ export default function ResetPasswordForm() {
 
         {/* Back to Login */}
         <div className="mt-6 text-center">
-          <Link href="/login" className="text-sm text-apple-blue hover:underline">
+          <AppLink href="/login" className="text-sm text-apple-blue hover:underline">
             Back to Login
-          </Link>
+          </AppLink>
         </div>
       </div>
     </motion.div>

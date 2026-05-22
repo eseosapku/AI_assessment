@@ -1,7 +1,7 @@
 'use client'
 
 import { createContext, useContext, useEffect, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useAppRouter } from './AppPathProvider'
 
 interface User {
   id: string
@@ -34,7 +34,7 @@ export const useAuth = () => useContext(AuthContext)
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null)
   const [isLoading, setIsLoading] = useState(true)
-  const router = useRouter()
+  const router = useAppRouter()
 
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
