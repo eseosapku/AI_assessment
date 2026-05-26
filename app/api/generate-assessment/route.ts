@@ -3,6 +3,7 @@ import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedroc
 import { jsonrepair } from 'jsonrepair'
 import { getCurriculumContext, type GradeLevel } from '@/lib/rwanda-curriculum'
 import { getCambridgeCurriculumContext, type CambridgeGrade } from '@/lib/cambridge-curriculum'
+import { getUniversityCurriculumContext } from '@/lib/university-curriculum'
 import { supabase } from '@/lib/supabase'
 
 const MAX_DIAGRAMS = 4
@@ -1333,6 +1334,7 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
     const { subject, topics, count, style, className, grade, curriculum, user_id, questionType = 'mcq', difficultyLevel, aiModel = 'eu.google.gemma-3-27b-it', customTime } = body
+    const gradeForPrompt = curriculum === 'university' ? 13 : grade
 
     if (!subject || !topics || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
@@ -1343,12 +1345,19 @@ export async function POST(request: NextRequest) {
       curriculumBlock = getCurriculumContext(grade as GradeLevel, subject, topics)
     } else if (curriculum === 'cambridge' && grade) {
       curriculumBlock = getCambridgeCurriculumContext(grade as CambridgeGrade, subject, topics)
+    } else if (curriculum === 'university' && subject && grade) {
+      curriculumBlock = getUniversityCurriculumContext(subject, Number(grade), topics)
     } else if (className) {
       curriculumBlock = `**Target Audience:** ${className}`
     }
 
     const isCambridge = curriculum === 'cambridge'
-    const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
+    const isUniversity = curriculum === 'university'
+    const curriculumName = isUniversity
+      ? 'University Curriculum (Pilot)'
+      : isCambridge
+        ? 'Cambridge International (CAIE)'
+        : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = false
 
     // ── Bedrock client ────────────────────────────────────────────────────────
@@ -1434,7 +1443,7 @@ export async function POST(request: NextRequest) {
       const requestCount = batchCount + Math.ceil(batchCount * 0.4)
       const { prompt } = buildPrompt({
         subject, topics, count: requestCount, startId, style,
-        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
+        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
@@ -1459,7 +1468,7 @@ export async function POST(request: NextRequest) {
         passage: passage.text, passageSource: passage.source,
         subject, count: requestCount, startId, style,
         curriculumName, curriculumBlock, questionType,
-        difficultyLevel, grade,
+        difficultyLevel, grade: gradeForPrompt,
       })
       const maxTokens = Math.min(4800, Math.max(2000, requestCount * 500))
       const text = await callBedrock(prompt, maxTokens)
@@ -1516,9 +1525,9 @@ export async function POST(request: NextRequest) {
 
         const rawPassages = await Promise.all(
           Array.from({ length: numPassages }, (_, i) => {
-            const baseHint = sharedPassageHint(i, grade)
+            const baseHint = sharedPassageHint(i, gradeForPrompt)
             const fullHint = topicHint ? `${baseHint}. Topic focus: ${topicHint}` : baseHint
-            return generatePassageWithBedrock('', subject, fullHint, callBedrock, grade)
+            return generatePassageWithBedrock('', subject, fullHint, callBedrock, gradeForPrompt)
           })
         )
         generatedPassages = rawPassages.filter(Boolean) as { text: string; source: string }[]
@@ -1611,7 +1620,7 @@ export async function POST(request: NextRequest) {
     } else {
       const { estimatedTime: et } = buildPrompt({
         subject, topics, count, startId: 1, style,
-        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel,
+        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
       })
       estimatedTime = et
     }
@@ -1640,7 +1649,7 @@ export async function POST(request: NextRequest) {
         if (generatedPassages.length > 0) {
           missing.forEach((q: any) => { q.passage = generatedPassages[0].text; q.passage_source = generatedPassages[0].source })
         } else {
-          await generateAllPassages(missing, subject, callBedrock, grade)
+          await generateAllPassages(missing, subject, callBedrock, gradeForPrompt)
           await fixupPassageQuestions(missing, callBedrock)
         }
       }

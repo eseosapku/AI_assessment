@@ -1,0 +1,45 @@
+[     776ms] [INFO] %cDownload the React DevTools for a better development experience: https://react.dev/link/react-devtools font-weight:bold @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     876ms] [LOG] [HMR] connected @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[     964ms] [ERROR] Failed to load resource: the server responded with a status of 404 (Not Found) @ http://localhost:3000/favicon.ico:0
+[    1108ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    1118ms] [LOG] [Fast Refresh] done in 111ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[    1334ms] [VERBOSE] [DOM] Input elements should have autocomplete attributes (suggested: "current-password"): (More info: https://goo.gl/9p2vKq) %o @ http://localhost:3000/login:0
+[   60196ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   60234ms] [LOG] [Fast Refresh] done in 142ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[   61050ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   61050ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   61050ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   61050ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   62352ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   62353ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   62353ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   62353ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   64617ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   64617ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   64617ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   64617ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   67615ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/assignments/student?email=demo%40brainink.app:0
+[   69513ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   69514ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/assessments?select=*&created_at=gte.2026-04-27T23%3A00%3A00.000Z:0
+[   69514ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   69515ms] [ERROR] Error fetching assessments: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_09yckvj._.js:8547:45), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[   69515ms] [ERROR] Failed to load resource: net::ERR_NAME_NOT_RESOLVED @ https://placeholder.supabase.co/rest/v1/results?select=*%2Cassessments%28subject%2Cdifficulty%29&user_id=eq.00000000-0000-4000-8000-000000000001&order=created_at.desc:0
+[   69515ms] [ERROR] Error fetching assessments: {message: TypeError: Failed to fetch, details: TypeError: Failed to fetch
+    at http://localhost…t:3000/_next/static/chunks/_09yckvj._.js:8547:45), hint: , code: } @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:3272
+[   74982ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/assignments/student?email=demo%40brainink.app:0
+[  181550ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  182130ms] [LOG] [Fast Refresh] done in 683ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  182919ms] [ERROR] Failed to load resource: the server responded with a status of 500 (Internal Server Error) @ http://localhost:3000/api/generate-assessment:0
+[  591918ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  592197ms] [LOG] [Fast Refresh] done in 231ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  592312ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  592323ms] [LOG] [Fast Refresh] done in 124ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  680897ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  681096ms] [LOG] [Fast Refresh] done in 225ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  735805ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  736060ms] [LOG] [Fast Refresh] done in 247ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  772616ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  772828ms] [LOG] [Fast Refresh] done in 213ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  789692ms] [LOG] [Fast Refresh] rebuilding @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431
+[  789889ms] [LOG] [Fast Refresh] done in 219ms @ http://localhost:3000/_next/static/chunks/node_modules_next_dist_115brz8._.js:2431

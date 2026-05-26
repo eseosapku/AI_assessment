@@ -2,6 +2,19 @@ import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import bcrypt from 'bcryptjs'
 
+const DEMO_EMAIL = process.env.DEMO_EMAIL || 'demo@brainink.app'
+const DEMO_PASSWORD = process.env.DEMO_PASSWORD || 'Demo123!'
+
+const DEMO_USER = {
+  id: '00000000-0000-4000-8000-000000000001',
+  name: 'Demo Student',
+  email: DEMO_EMAIL,
+  studentId: 'DEMO-2026-0001',
+  class: 'College Sophomore',
+  subjects: ['Medicine', 'Nursing', 'Pharmacy', 'Computer Science', 'Business Administration'],
+  role: 'student' as const,
+}
+
 export async function POST(request: NextRequest) {
   try {
     const { email, password } = await request.json()
@@ -12,6 +25,15 @@ export async function POST(request: NextRequest) {
         { error: 'Email and password are required' },
         { status: 400 }
       )
+    }
+
+    // Built-in demo account for local testing and live demos.
+    if (email.trim().toLowerCase() === DEMO_EMAIL.toLowerCase() && password === DEMO_PASSWORD) {
+      return NextResponse.json({
+        success: true,
+        user: DEMO_USER,
+        message: 'Demo login successful',
+      })
     }
 
     // Find user by email

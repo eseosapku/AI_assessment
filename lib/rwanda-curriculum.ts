@@ -2094,6 +2094,14 @@ export const AVAILABLE_CURRICULA = [
       'Cambridge Assessment International Education — Lower Secondary (Grades 7–9), IGCSE (Grades 10–11), AS Level (Grade 12)',
     flag: '🇬🇧',
   },
+  {
+    id: 'university',
+    name: 'University Curriculum (Pilot)',
+    shortName: 'University',
+    description:
+      'University-level track with five courses: Medicine, Nursing, Pharmacy, Computer Science, and Business Administration (Years 1–6)',
+    flag: '🎓',
+  },
 ]
 
 /** Get subjects for a given grade */
