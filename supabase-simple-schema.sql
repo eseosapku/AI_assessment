@@ -128,6 +128,15 @@ CREATE TABLE assignments (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Assignment/Classroom mapping (supports multiple classrooms per assignment)
+CREATE TABLE assignment_classrooms (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  assignment_id UUID REFERENCES assignments(id) ON DELETE CASCADE,
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE (assignment_id, classroom_id)
+);
+
 CREATE TABLE assignment_results (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
   assignment_id UUID REFERENCES assignments(id) ON DELETE CASCADE,
@@ -156,6 +165,8 @@ CREATE INDEX idx_users_student_id ON users(student_id);
 CREATE INDEX idx_assessments_user_id ON assessments(user_id);
 CREATE INDEX idx_results_user_id ON results(user_id);
 CREATE INDEX idx_results_assessment_id ON results(assessment_id);
+CREATE INDEX IF NOT EXISTS idx_assignment_classrooms_assignment_id ON assignment_classrooms(assignment_id);
+CREATE INDEX IF NOT EXISTS idx_assignment_classrooms_classroom_id ON assignment_classrooms(classroom_id);
 
 
 -- Password Reset Tokens

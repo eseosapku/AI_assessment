@@ -50,7 +50,28 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
             return NextResponse.json({ error: error.message }, { status: 500 })
         }
 
-        return NextResponse.json({ data })
+        const { data: classroomLinks, error: classroomError } = await supabase
+            .from('assignment_classrooms')
+            .select('classroom_id')
+            .eq('assignment_id', assignmentId)
+
+        if (classroomError) {
+            console.error('Assignment classrooms fetch error:', classroomError)
+            return NextResponse.json({ error: classroomError.message }, { status: 500 })
+        }
+
+        const classroomIds = (classroomLinks ?? [])
+            .map((row: any) => String(row.classroom_id ?? '').trim())
+            .filter(Boolean)
+
+        const payload = {
+            ...data,
+            classroom_ids: classroomIds.length > 0
+                ? classroomIds
+                : (data.classroom_id ? [data.classroom_id] : []),
+        }
+
+        return NextResponse.json({ data: payload })
     } catch (err) {
         console.error('Assignment fetch error:', err)
         return NextResponse.json({ error: 'Failed to load assignment' }, { status: 500 })

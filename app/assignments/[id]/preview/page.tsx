@@ -17,6 +17,7 @@ interface AssignmentData {
     style: string
     question_type: string
     classroom_id: string | null
+    classroom_ids?: string[]
     status: string
     max_attempts: number | null
     questions_data: any[]
@@ -132,7 +133,7 @@ export default function AssignmentPreviewPage() {
     const [deadline, setDeadline] = useState('')
     const [maxAttempts, setMaxAttempts] = useState(1)
     const [classrooms, setClassrooms] = useState<ClassroomOption[]>([])
-    const [selectedClassroom, setSelectedClassroom] = useState<string>('')
+    const [selectedClassroomIds, setSelectedClassroomIds] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(true)
     const [isSaving, setIsSaving] = useState(false)
     const [isSending, setIsSending] = useState(false)
@@ -163,7 +164,10 @@ export default function AssignmentPreviewPage() {
                     setQuestions(Array.isArray(data.questions_data) ? data.questions_data : [])
                     setTitle(data.title ?? '')
                     setDeadline(data.deadline ? toLocalInputValue(data.deadline) : '')
-                    setSelectedClassroom(data.classroom_id ?? '')
+                    const classroomIds = Array.isArray(data.classroom_ids)
+                        ? data.classroom_ids
+                        : (data.classroom_id ? [data.classroom_id] : [])
+                    setSelectedClassroomIds(classroomIds)
                     setMaxAttempts(Number.isFinite(data.max_attempts) ? Number(data.max_attempts) : 1)
                 }
 
@@ -205,6 +209,12 @@ export default function AssignmentPreviewPage() {
                 criteria[criterionIndex] = value
                 return { ...q, marking_criteria: criteria }
             })
+        )
+    }
+
+    const toggleClassroomSelection = (id: string) => {
+        setSelectedClassroomIds((prev) =>
+            prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
         )
     }
 
@@ -255,8 +265,8 @@ export default function AssignmentPreviewPage() {
 
     const handleSend = async () => {
         if (!assignment) return
-        if (!selectedClassroom) {
-            setError('Select a classroom before sending.')
+        if (selectedClassroomIds.length === 0) {
+            setError('Select at least one classroom before sending.')
             return
         }
 
@@ -269,7 +279,7 @@ export default function AssignmentPreviewPage() {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    classroom_id: selectedClassroom,
+                    classroom_ids: selectedClassroomIds,
                     deadline: toIsoInputValue(deadline),
                 }),
             })
@@ -421,17 +431,35 @@ export default function AssignmentPreviewPage() {
                     </div>
 
                     <div>
-                        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom</label>
-                        <select
-                            value={selectedClassroom}
-                            onChange={(e) => setSelectedClassroom(e.target.value)}
-                            className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
-                        >
-                            <option value="">Select a classroom</option>
-                            {classrooms.map((cls) => (
-                                <option key={cls.id} value={cls.id}>{cls.name}</option>
-                            ))}
-                        </select>
+                        <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom(s)</label>
+                        <div className="rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] p-3 space-y-2">
+                            {classrooms.length === 0 ? (
+                                <p className="text-xs text-gray-400">No classrooms available yet.</p>
+                            ) : (
+                                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                                    {classrooms.map((cls) => {
+                                        const checked = selectedClassroomIds.includes(cls.id)
+                                        return (
+                                            <label
+                                                key={cls.id}
+                                                className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-xs font-semibold transition-colors ${checked
+                                                    ? 'border-violet-300 bg-violet-50 dark:border-violet-700/60 dark:bg-violet-900/20'
+                                                    : 'border-gray-200 dark:border-white/[0.08] bg-white/70 dark:bg-transparent'}`}
+                                            >
+                                                <input
+                                                    type="checkbox"
+                                                    checked={checked}
+                                                    onChange={() => toggleClassroomSelection(cls.id)}
+                                                    className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                                                />
+                                                <span className="text-gray-800 dark:text-gray-200">{cls.name}</span>
+                                            </label>
+                                        )
+                                    })}
+                                </div>
+                            )}
+                        </div>
+                        <p className="text-xs text-gray-400 mt-2">Select one or more classrooms.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">

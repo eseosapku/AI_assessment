@@ -29,6 +29,15 @@ function formatDeadline(iso: string | null) {
   return `Due in ${days} days`
 }
 
+function formatClassroomLabel(assignment: any) {
+  const names = Array.isArray(assignment?.classroom_names)
+    ? assignment.classroom_names.map((name: any) => String(name ?? '').trim()).filter(Boolean)
+    : []
+  if (names.length === 0) return assignment?.classroom_name ?? ''
+  if (names.length === 1) return names[0]
+  return `${names[0]} +${names.length - 1}`
+}
+
 export default function TeacherDashboard() {
   const { user } = useAuth()
   const [isProfileOpen, setIsProfileOpen] = useState(false)
@@ -404,73 +413,76 @@ export default function TeacherDashboard() {
             </div>
           ) : sentAssignments.length > 0 ? (
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
-              {sentAssignments.map((a, i) => (
-                <motion.div
-                  key={a.id}
-                  initial={{ opacity: 0, y: 16 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ delay: 0.04 * i }}
-                  className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 flex flex-col gap-3"
-                >
-                  <div className="flex items-start justify-between gap-2">
-                    <div className="flex-1 min-w-0">
-                      <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{a.title}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">
-                        {a.subject} · Grade {a.grade}{a.classroom_name ? ` · ${a.classroom_name}` : ''}
+              {sentAssignments.map((a, i) => {
+                const classroomLabel = formatClassroomLabel(a)
+                return (
+                  <motion.div
+                    key={a.id}
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.04 * i }}
+                    className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 flex flex-col gap-3"
+                  >
+                    <div className="flex items-start justify-between gap-2">
+                      <div className="flex-1 min-w-0">
+                        <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{a.title}</p>
+                        <p className="text-xs text-gray-400 mt-0.5">
+                          {a.subject} · Grade {a.grade}{classroomLabel ? ` · ${classroomLabel}` : ''}
+                        </p>
+                      </div>
+                      <span className={`text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 ${DIFFICULTY_COLORS[a.difficulty_level] ?? 'text-gray-500 bg-gray-100 dark:bg-gray-800'}`}>
+                        {a.difficulty_level}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-4 text-xs text-gray-400">
+                      <span className="flex items-center gap-1">
+                        <Users className="w-3.5 h-3.5" />
+                        {a.assigned_count ?? 0} student{(a.assigned_count ?? 0) !== 1 ? 's' : ''}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <BookOpen className="w-3.5 h-3.5" />
+                        {a.question_count}q
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3.5 h-3.5" />
+                        {formatDeadline(a.deadline)}
+                      </span>
+                    </div>
+
+                    <div className="flex items-center gap-2 text-[11px] text-gray-400">
+                      <span className="px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500">
+                        Attempts: {a.max_attempts ?? 1}
+                      </span>
+                    </div>
+
+                    {a.topics?.length > 0 && (
+                      <p className="text-[11px] text-gray-400 truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
+                    )}
+
+                    <div className="pt-1 border-t border-gray-100 dark:border-gray-800/60">
+                      <p className="text-[10px] text-gray-400">
+                        Sent {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>
-                    <span className={`text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 ${DIFFICULTY_COLORS[a.difficulty_level] ?? 'text-gray-500 bg-gray-100 dark:bg-gray-800'}`}>
-                      {a.difficulty_level}
-                    </span>
-                  </div>
 
-                  <div className="flex items-center gap-4 text-xs text-gray-400">
-                    <span className="flex items-center gap-1">
-                      <Users className="w-3.5 h-3.5" />
-                      {a.assigned_count ?? 0} student{(a.assigned_count ?? 0) !== 1 ? 's' : ''}
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <BookOpen className="w-3.5 h-3.5" />
-                      {a.question_count}q
-                    </span>
-                    <span className="flex items-center gap-1">
-                      <Clock className="w-3.5 h-3.5" />
-                      {formatDeadline(a.deadline)}
-                    </span>
-                  </div>
-
-                  <div className="flex items-center gap-2 text-[11px] text-gray-400">
-                    <span className="px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500">
-                      Attempts: {a.max_attempts ?? 1}
-                    </span>
-                  </div>
-
-                  {a.topics?.length > 0 && (
-                    <p className="text-[11px] text-gray-400 truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
-                  )}
-
-                  <div className="pt-1 border-t border-gray-100 dark:border-gray-800/60">
-                    <p className="text-[10px] text-gray-400">
-                      Sent {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                    </p>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-2">
-                    <Link
-                      href={`/assignments/${a.id}/preview`}
-                      className="py-2.5 rounded-xl text-sm font-bold transition-colors bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-[#1F7A7A] text-[#1F7A7A] text-center"
-                    >
-                      Edit
-                    </Link>
-                    <button
-                      onClick={() => handleDeleteAssignment(a.id)}
-                      className="py-2.5 rounded-xl text-sm font-bold transition-colors border border-gray-200 dark:border-gray-800 hover:border-red-300 hover:text-red-500 text-gray-500"
-                    >
-                      Delete
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
+                    <div className="grid grid-cols-2 gap-2">
+                      <Link
+                        href={`/assignments/${a.id}/preview`}
+                        className="py-2.5 rounded-xl text-sm font-bold transition-colors bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 hover:border-[#1F7A7A] text-[#1F7A7A] text-center"
+                      >
+                        Edit
+                      </Link>
+                      <button
+                        onClick={() => handleDeleteAssignment(a.id)}
+                        className="py-2.5 rounded-xl text-sm font-bold transition-colors border border-gray-200 dark:border-gray-800 hover:border-red-300 hover:text-red-500 text-gray-500"
+                      >
+                        Delete
+                      </button>
+                    </div>
+                  </motion.div>
+                )
+              })}
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-16 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-800/60 bg-white/60 dark:bg-white/[0.02]">

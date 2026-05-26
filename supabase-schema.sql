@@ -72,6 +72,15 @@ CREATE TABLE IF NOT EXISTS assignments (
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Assignment/Classroom mapping (supports multiple classrooms per assignment)
+CREATE TABLE IF NOT EXISTS assignment_classrooms (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  assignment_id UUID REFERENCES assignments(id) ON DELETE CASCADE,
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE (assignment_id, classroom_id)
+);
+
 -- Assignment Results — tracks each student's progress on an assignment
 CREATE TABLE IF NOT EXISTS assignment_results (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -141,6 +150,8 @@ CREATE INDEX IF NOT EXISTS idx_results_assessment_id ON results(assessment_id);
 CREATE INDEX IF NOT EXISTS idx_assignments_teacher_id ON assignments(teacher_id);
 CREATE INDEX IF NOT EXISTS idx_assignments_classroom_id ON assignments(classroom_id);
 CREATE INDEX IF NOT EXISTS idx_assignments_status ON assignments(status);
+CREATE INDEX IF NOT EXISTS idx_assignment_classrooms_assignment_id ON assignment_classrooms(assignment_id);
+CREATE INDEX IF NOT EXISTS idx_assignment_classrooms_classroom_id ON assignment_classrooms(classroom_id);
 CREATE INDEX IF NOT EXISTS idx_assignment_results_assignment_id ON assignment_results(assignment_id);
 CREATE INDEX IF NOT EXISTS idx_assignment_results_student_id ON assignment_results(student_id);
 CREATE INDEX IF NOT EXISTS idx_classrooms_teacher_id ON classrooms(teacher_id);
@@ -156,6 +167,7 @@ ALTER TABLE users ENABLE ROW LEVEL SECURITY;
 ALTER TABLE assessments ENABLE ROW LEVEL SECURITY;
 ALTER TABLE results ENABLE ROW LEVEL SECURITY;
 ALTER TABLE assignments ENABLE ROW LEVEL SECURITY;
+ALTER TABLE assignment_classrooms ENABLE ROW LEVEL SECURITY;
 ALTER TABLE assignment_results ENABLE ROW LEVEL SECURITY;
 ALTER TABLE classrooms ENABLE ROW LEVEL SECURITY;
 ALTER TABLE classroom_members ENABLE ROW LEVEL SECURITY;
@@ -170,6 +182,7 @@ DROP POLICY IF EXISTS "Users can update own assessments" ON assessments;
 DROP POLICY IF EXISTS "Users can view own results" ON results;
 DROP POLICY IF EXISTS "Users can create own results" ON results;
 DROP POLICY IF EXISTS "Teachers can manage own assignments" ON assignments;
+DROP POLICY IF EXISTS "Teachers can manage assignment classrooms" ON assignment_classrooms;
 DROP POLICY IF EXISTS "Students can view own assignment results" ON assignment_results;
 DROP POLICY IF EXISTS "Students can update own assignment results" ON assignment_results;
 DROP POLICY IF EXISTS "Teachers can manage own classrooms" ON classrooms;
@@ -200,6 +213,16 @@ CREATE POLICY "Users can create own results" ON results
 -- Assignments policy (teachers manage their own)
 CREATE POLICY "Teachers can manage own assignments" ON assignments
   FOR ALL USING (auth.uid()::text = teacher_id::text);
+
+-- Assignment/classroom mapping policy (teachers manage their own assignments)
+CREATE POLICY "Teachers can manage assignment classrooms" ON assignment_classrooms
+  FOR ALL USING (
+    EXISTS (
+      SELECT 1 FROM assignments
+      WHERE assignments.id = assignment_classrooms.assignment_id
+      AND auth.uid()::text = assignments.teacher_id::text
+    )
+  );
 
 -- Assignment results policies
 CREATE POLICY "Students can view own assignment results" ON assignment_results
