@@ -133,7 +133,7 @@ export default function NewAssignmentPage() {
   const [isLoadingClasses, setIsLoadingClasses] = useState(false)
 
   const [classrooms, setClassrooms] = useState<ClassroomOption[]>([])
-  const [selectedClassroom, setSelectedClassroom] = useState('')
+  const [selectedClassroomIds, setSelectedClassroomIds] = useState<string[]>([])
   const [isLoadingClassrooms, setIsLoadingClassrooms] = useState(false)
 
   const [isSaving, setIsSaving] = useState(false)
@@ -294,6 +294,12 @@ export default function NewAssignmentPage() {
     })
   }
 
+  const toggleClassroomSelection = (id: string) => {
+    setSelectedClassroomIds((prev) =>
+      prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+    )
+  }
+
   const validatePayload = (status: 'draft' | 'sent') => {
     if (!user?.id) return 'Missing teacher account.'
     if (!templateType) return 'Choose a question template to start.'
@@ -306,7 +312,7 @@ export default function NewAssignmentPage() {
     if (!style.trim()) return 'Style is required.'
     if (questions.length === 0) return 'Add at least one question.'
     if (!questionType) return 'Question types are missing.'
-    if (status === 'sent' && !selectedClassroom) return 'Select a classroom to send this assignment.'
+    if (status === 'sent' && selectedClassroomIds.length === 0) return 'Select at least one classroom to send this assignment.'
     return ''
   }
 
@@ -333,7 +339,7 @@ export default function NewAssignmentPage() {
       style: style.trim(),
       question_type: questionType,
       max_attempts: maxAttempts,
-      classroom_id: status === 'sent' ? selectedClassroom : null,
+      classroom_ids: status === 'sent' ? selectedClassroomIds : [],
       status,
       questions_data: questions,
       estimated_time: null,
@@ -526,21 +532,37 @@ export default function NewAssignmentPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom</label>
-              <select
-                value={selectedClassroom}
-                onChange={(e) => setSelectedClassroom(e.target.value)}
-                className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
-              >
-                <option value="">Select a classroom</option>
+              <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom(s)</label>
+              <div className="rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] p-3 space-y-2">
                 {isLoadingClassrooms ? (
-                  <option value="" disabled>Loading classrooms...</option>
+                  <p className="text-sm text-gray-400">Loading classrooms...</p>
+                ) : classrooms.length === 0 ? (
+                  <p className="text-sm text-gray-400">No classrooms available yet.</p>
                 ) : (
-                  classrooms.map((cls) => (
-                    <option key={cls.id} value={cls.id}>{cls.name}</option>
-                  ))
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                    {classrooms.map((cls) => {
+                      const checked = selectedClassroomIds.includes(cls.id)
+                      return (
+                        <label
+                          key={cls.id}
+                          className={`flex items-center gap-2 rounded-lg border px-3 py-2 text-sm font-semibold transition-colors ${checked
+                            ? 'border-violet-300 bg-violet-50 dark:border-violet-700/60 dark:bg-violet-900/20'
+                            : 'border-gray-200 dark:border-white/[0.08] bg-white/70 dark:bg-transparent'}`}
+                        >
+                          <input
+                            type="checkbox"
+                            checked={checked}
+                            onChange={() => toggleClassroomSelection(cls.id)}
+                            className="h-4 w-4 rounded border-gray-300 text-violet-600 focus:ring-violet-500"
+                          />
+                          <span className="text-gray-800 dark:text-gray-200">{cls.name}</span>
+                        </label>
+                      )
+                    })}
+                  </div>
                 )}
-              </select>
+              </div>
+              <p className="text-xs text-gray-400 mt-2">Select one or more classrooms.</p>
             </div>
           </div>
 

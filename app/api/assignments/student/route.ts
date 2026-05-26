@@ -54,6 +54,7 @@ export async function GET(request: NextRequest) {
   try {
     const rawEmail = request.nextUrl.searchParams.get('email')
     const studentId = request.nextUrl.searchParams.get('student_id')
+    const classroomIdFilter = request.nextUrl.searchParams.get('classroom_id')
     const email = normalizeEmail(rawEmail)
     if (!email && !studentId) {
       return NextResponse.json({ error: 'email or student_id required' }, { status: 400 })
@@ -72,6 +73,10 @@ export async function GET(request: NextRequest) {
       membershipQuery = membershipQuery.eq('student_email', email)
     }
 
+    if (classroomIdFilter) {
+      membershipQuery = membershipQuery.eq('classroom_id', classroomIdFilter)
+    }
+
     const { data: memberships, error: membershipError } = await membershipQuery
     if (membershipError) {
       console.error('Student classrooms lookup error:', membershipError)
@@ -83,9 +88,34 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ assignments: [] })
     }
 
-    const { data: assignments, error: assignmentsError } = await supabase
-      .from('assignments')
-      .select(`
+    const { data: classroomLinks, error: classroomLinksError } = await supabase
+      .from('assignment_classrooms')
+      .select('assignment_id,classroom_id,classrooms(name)')
+      .in('classroom_id', classroomIds)
+
+    if (classroomLinksError) {
+      console.error('Assignment classrooms fetch error:', classroomLinksError)
+      return NextResponse.json({ error: classroomLinksError.message }, { status: 500 })
+    }
+
+    const assignmentClassroomMap = new Map<string, { ids: string[]; names: string[] }>()
+    const assignmentIdsFromLinks = new Set<string>()
+
+    for (const row of classroomLinks ?? []) {
+      const assignmentId = String(row.assignment_id ?? '').trim()
+      const classroomId = String(row.classroom_id ?? '').trim()
+      if (!assignmentId || !classroomId) continue
+
+      assignmentIdsFromLinks.add(assignmentId)
+      const current = assignmentClassroomMap.get(assignmentId) ?? { ids: [], names: [] }
+      if (!current.ids.includes(classroomId)) current.ids.push(classroomId)
+      const classroom = Array.isArray(row.classrooms) ? row.classrooms[0] : row.classrooms
+      const classroomName = String(classroom?.name ?? '').trim()
+      if (classroomName && !current.names.includes(classroomName)) current.names.push(classroomName)
+      assignmentClassroomMap.set(assignmentId, current)
+    }
+
+    const selectAssignments = `
         id,
         title,
         subject,
@@ -102,17 +132,48 @@ export async function GET(request: NextRequest) {
         max_attempts,
         classroom_id,
         classrooms(name)
-      `)
-      .eq('status', 'sent')
-      .in('classroom_id', classroomIds)
-      .order('created_at', { ascending: false })
+      `
 
-    if (assignmentsError) {
-      console.error('Assignments fetch error:', assignmentsError)
-      return NextResponse.json({ error: assignmentsError.message }, { status: 500 })
+    const [linkedAssignmentsRes, legacyAssignmentsRes] = await Promise.all([
+      assignmentIdsFromLinks.size > 0
+        ? supabase
+          .from('assignments')
+          .select(selectAssignments)
+          .eq('status', 'sent')
+          .in('id', Array.from(assignmentIdsFromLinks))
+        : Promise.resolve({ data: [], error: null }),
+      supabase
+        .from('assignments')
+        .select(selectAssignments)
+        .eq('status', 'sent')
+        .in('classroom_id', classroomIds),
+    ])
+
+    if (linkedAssignmentsRes.error) {
+      console.error('Assignments fetch error:', linkedAssignmentsRes.error)
+      return NextResponse.json({ error: linkedAssignmentsRes.error.message }, { status: 500 })
+    }
+    if (legacyAssignmentsRes.error) {
+      console.error('Assignments fetch error:', legacyAssignmentsRes.error)
+      return NextResponse.json({ error: legacyAssignmentsRes.error.message }, { status: 500 })
     }
 
-    const assignmentIds = (assignments ?? []).map((row: any) => row.id).filter(Boolean)
+    const assignmentMap = new Map<string, any>()
+    for (const row of linkedAssignmentsRes.data ?? []) {
+      if (!row?.id) continue
+      assignmentMap.set(row.id, row)
+    }
+    for (const row of legacyAssignmentsRes.data ?? []) {
+      if (!row?.id) continue
+      if (!assignmentMap.has(row.id)) assignmentMap.set(row.id, row)
+    }
+
+    const assignments = Array.from(assignmentMap.values()).sort((a: any, b: any) => {
+      const aTime = new Date(a.created_at ?? 0).getTime()
+      const bTime = new Date(b.created_at ?? 0).getTime()
+      return bTime - aTime
+    })
+    const assignmentIds = assignments.map((row: any) => row.id).filter(Boolean)
     if (assignmentIds.length === 0) {
       return NextResponse.json({ assignments: [] })
     }
@@ -149,6 +210,15 @@ export async function GET(request: NextRequest) {
 
     const normalized = (assignments ?? []).map((row: any) => {
       const result = resultMap.get(row.id)
+      const classroomInfo = assignmentClassroomMap.get(row.id)
+      const classroomIdsForAssignment = classroomInfo?.ids?.length
+        ? classroomInfo.ids
+        : (row.classroom_id ? [row.classroom_id] : [])
+      const classroomNamesForAssignment = classroomInfo?.names?.length
+        ? classroomInfo.names
+        : (row.classrooms?.name ? [row.classrooms.name] : [])
+      const primaryName = classroomNamesForAssignment[0] ?? row.classrooms?.name ?? null
+
       return {
         status: result?.status ?? 'pending',
         started_at: result?.started_at ?? null,
@@ -171,7 +241,9 @@ export async function GET(request: NextRequest) {
           status: row.status,
           max_attempts: row.max_attempts ?? 1,
           classroom_id: row.classroom_id,
-          classroom_name: row.classrooms?.name ?? null,
+          classroom_ids: classroomIdsForAssignment,
+          classroom_name: primaryName,
+          classroom_names: classroomNamesForAssignment,
         },
       }
     })

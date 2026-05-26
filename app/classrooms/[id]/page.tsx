@@ -33,8 +33,10 @@ interface ClassroomAssignment {
         deadline: string | null
         created_at: string
         status: string
-        classroom_id: string
+        classroom_id: string | null
+        classroom_ids?: string[]
         classroom_name: string | null
+        classroom_names?: string[]
         max_attempts?: number | null
     }
 }
@@ -257,6 +259,8 @@ export default function ClassroomDetailPage() {
     const [editDescription, setEditDescription] = useState('')
     const [editError, setEditError] = useState('')
     const [isUpdating, setIsUpdating] = useState(false)
+    const [isDeleting, setIsDeleting] = useState(false)
+    const [deleteError, setDeleteError] = useState('')
 
     const isTeacher = user?.role === 'teacher'
 
@@ -330,6 +334,24 @@ export default function ClassroomDetailPage() {
         }
     }
 
+    const handleDeleteClassroom = async () => {
+        if (!classroomId) return
+        if (!window.confirm('Delete this classroom? This will remove the classroom and its data.')) return
+
+        setIsDeleting(true)
+        setDeleteError('')
+        try {
+            const res = await fetch(`/api/classrooms/${classroomId}`, { method: 'DELETE' })
+            const json = await res.json()
+            if (!res.ok) throw new Error(json.error || 'Failed to delete classroom')
+            router.push('/')
+        } catch (err: any) {
+            setDeleteError(err?.message || 'Failed to delete classroom')
+        } finally {
+            setIsDeleting(false)
+        }
+    }
+
     if (isLoading) {
         return (
             <div className="min-h-screen flex items-center justify-center bg-[#F6F1EA] dark:bg-[#0B0E12]">
@@ -370,15 +392,30 @@ export default function ClassroomDetailPage() {
                                 )}
                             </div>
                             {isTeacher && !isEditing && (
-                                <button
-                                    onClick={startEdit}
-                                    className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
-                                >
-                                    <Pencil className="w-3.5 h-3.5" />
-                                    Edit
-                                </button>
+                                <div className="flex items-center gap-2">
+                                    <button
+                                        onClick={startEdit}
+                                        className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold bg-gray-100 text-gray-600 hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700"
+                                    >
+                                        <Pencil className="w-3.5 h-3.5" />
+                                        Edit
+                                    </button>
+                                    <button
+                                        onClick={handleDeleteClassroom}
+                                        disabled={isDeleting}
+                                        className="inline-flex items-center gap-2 px-3 py-2 rounded-xl text-xs font-semibold border border-red-200 text-red-600 hover:bg-red-50 disabled:text-red-300 disabled:border-red-100 dark:border-red-800/60 dark:text-red-300 dark:hover:bg-red-900/20"
+                                    >
+                                        {isDeleting ? 'Deleting...' : 'Delete'}
+                                    </button>
+                                </div>
                             )}
                         </div>
+
+                        {deleteError && (
+                            <div className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-3 py-2">
+                                {deleteError}
+                            </div>
+                        )}
 
                         {isTeacher && isEditing && (
                             <div className="grid gap-4 sm:grid-cols-2">
@@ -439,7 +476,6 @@ export default function ClassroomDetailPage() {
 }
 
 function TeacherClassroomView({ classroomId }: { classroomId: string }) {
-    const router = useRouter()
     const { user } = useAuth()
     const [members, setMembers] = useState<any[]>([])
     const [isLoadingMembers, setIsLoadingMembers] = useState(true)
@@ -461,7 +497,14 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
     const [detailError, setDetailError] = useState('')
 
     const acceptedMembers = members.filter((m) => m.status === 'accepted')
-    const pendingMembers = members.filter((m) => m.status === 'pending')
+    const memberLookup = useMemo(() => {
+        const map = new Map<string, string>()
+        for (const row of members) {
+            if (row.student_id) map.set(`id:${row.student_id}`, row.id)
+            if (row.student_email) map.set(`email:${String(row.student_email).toLowerCase()}`, row.id)
+        }
+        return map
+    }, [members])
 
     const loadMembers = async () => {
         setIsLoadingMembers(true)
@@ -678,7 +721,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <p className="text-[10px] uppercase tracking-widest text-gray-400">Students</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{acceptedMembers.length}</p>
-                    <p className="text-xs text-gray-400 mt-1">{pendingMembers.length} pending invites</p>
+                    <p className="text-xs text-gray-400 mt-1">Active in this classroom</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <p className="text-[10px] uppercase tracking-widest text-gray-400">Completion rate</p>
@@ -780,121 +823,84 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                         </div>
                     ) : analytics?.students?.length > 0 ? (
                         studentsForDisplay.length > 0 ? (
-                            <div className="overflow-x-auto">
-                                <table className="w-full text-sm">
-                                    <thead>
-                                        <tr className="text-left text-[11px] uppercase tracking-widest text-gray-400">
-                                            <th className="py-2">Student</th>
-                                            <th className="py-2">Completed</th>
-                                            <th className="py-2">Open</th>
-                                            <th className="py-2">Avg score</th>
-                                            <th className="py-2">Active time</th>
-                                            <th className="py-2 text-right">Details</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
-                                        {studentsForDisplay.map((row: any) => (
-                                            <tr key={row.student_id ?? row.student_email} className="text-gray-700 dark:text-gray-300">
-                                                <td className="py-2">
-                                                    <div className="font-semibold text-gray-900 dark:text-white">
-                                                        {row.student_name ?? row.student_email ?? row.student_id}
-                                                    </div>
-                                                    <div className="text-xs text-gray-400">{row.student_email ?? row.student_id ?? '—'}</div>
-                                                </td>
-                                                <td className="py-2">{row.completed}</td>
-                                                <td className="py-2">{row.started}</td>
-                                                <td className="py-2">
-                                                    <div className="flex items-center gap-2">
-                                                        <span>{Number.isFinite(row.avg_score) ? `${row.avg_score}%` : '—'}</span>
-                                                        {Number.isFinite(row.avg_score) && (
-                                                            <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
-                                                                {getGradeFromScore(row.avg_score)}
-                                                            </span>
-                                                        )}
-                                                    </div>
-                                                </td>
-                                                <td className="py-2">{formatSeconds(row.seconds_active ?? 0)}</td>
-                                                <td className="py-2 text-right">
-                                                    <button
-                                                        onClick={() => openStudentDetail(row)}
-                                                        className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E7EFEA] text-[#1F7A7A] font-bold text-sm hover:bg-[#d7e7e0]"
-                                                    >
-                                                        View
-                                                        <ChevronRight className="w-4 h-4" />
-                                                    </button>
-                                                </td>
+                            <>
+                                <div className="overflow-x-auto max-h-[360px] overflow-y-auto">
+                                    <table className="w-full text-sm">
+                                        <thead>
+                                            <tr className="text-left text-[11px] uppercase tracking-widest text-gray-400 bg-white/90 dark:bg-gray-900/90 sticky top-0">
+                                                <th className="py-2">Student</th>
+                                                <th className="py-2">Completed</th>
+                                                <th className="py-2">Open</th>
+                                                <th className="py-2">Avg score</th>
+                                                <th className="py-2">Active time</th>
+                                                <th className="py-2 text-right">Actions</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </table>
-                            </div>
+                                        </thead>
+                                        <tbody className="divide-y divide-gray-100 dark:divide-gray-800">
+                                            {studentsForDisplay.map((row: any) => {
+                                                const memberId = row.student_id
+                                                    ? memberLookup.get(`id:${row.student_id}`)
+                                                    : row.student_email
+                                                        ? memberLookup.get(`email:${String(row.student_email).toLowerCase()}`)
+                                                        : undefined
+                                                return (
+                                                    <tr key={row.student_id ?? row.student_email} className="text-gray-700 dark:text-gray-300">
+                                                        <td className="py-2">
+                                                            <div className="font-semibold text-gray-900 dark:text-white">
+                                                                {row.student_name ?? row.student_email ?? row.student_id}
+                                                            </div>
+                                                            <div className="text-xs text-gray-400">{row.student_email ?? row.student_id ?? '—'}</div>
+                                                        </td>
+                                                        <td className="py-2">{row.completed}</td>
+                                                        <td className="py-2">{row.started}</td>
+                                                        <td className="py-2">
+                                                            <div className="flex items-center gap-2">
+                                                                <span>{Number.isFinite(row.avg_score) ? `${row.avg_score}%` : '—'}</span>
+                                                                {Number.isFinite(row.avg_score) && (
+                                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
+                                                                        {getGradeFromScore(row.avg_score)}
+                                                                    </span>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                        <td className="py-2">{formatSeconds(row.seconds_active ?? 0)}</td>
+                                                        <td className="py-2 text-right">
+                                                            <div className="inline-flex items-center gap-2">
+                                                                <button
+                                                                    onClick={() => openStudentDetail(row)}
+                                                                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E7EFEA] text-[#1F7A7A] font-bold text-sm hover:bg-[#d7e7e0]"
+                                                                >
+                                                                    View
+                                                                    <ChevronRight className="w-4 h-4" />
+                                                                </button>
+                                                                {memberId && (
+                                                                    <button
+                                                                        onClick={() => handleRemoveMember(memberId)}
+                                                                        disabled={isLoadingMembers || removingMemberId === memberId}
+                                                                        className="inline-flex items-center px-3 py-1.5 rounded-lg text-sm font-bold border border-red-200 text-red-600 hover:bg-red-50 disabled:text-red-300 disabled:border-red-100 dark:border-red-800/60 dark:text-red-300 dark:hover:bg-red-900/20"
+                                                                    >
+                                                                        {removingMemberId === memberId ? 'Removing...' : 'Remove'}
+                                                                    </button>
+                                                                )}
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            })}
+                                        </tbody>
+                                    </table>
+                                </div>
+                                {removeError && (
+                                    <p className="mt-3 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-3 py-2">
+                                        {removeError}
+                                    </p>
+                                )}
+                            </>
                         ) : (
                             <div className="text-sm text-gray-400">No students match your search.</div>
                         )
                     ) : (
                         <div className="text-sm text-gray-400">No analytics data yet.</div>
-                    )}
-                </div>
-            </div>
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
-                <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-3">Accepted students</p>
-                    {isLoadingMembers ? (
-                        <div className="flex items-center justify-center py-8">
-                            <div className="w-6 h-6 border-2 border-[#1F7A7A] border-t-transparent rounded-full animate-spin" />
-                        </div>
-                    ) : acceptedMembers.length > 0 ? (
-                        <div className="space-y-2">
-                            {acceptedMembers.map((row) => (
-                                <div key={row.id} className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
-                                    <div>
-                                        <p className="font-semibold text-gray-900 dark:text-white">{row.student_name ?? row.student_email ?? row.student_id}</p>
-                                        <p className="text-xs text-gray-400">{row.student_email ?? row.student_id ?? '—'}</p>
-                                    </div>
-                                    <div className="flex items-center gap-3">
-                                        <span className="text-xs text-emerald-500 font-bold">Accepted</span>
-                                        <button
-                                            onClick={() => handleRemoveMember(row.id)}
-                                            disabled={removingMemberId === row.id}
-                                            className="text-xs font-bold text-red-500 hover:text-red-600 disabled:text-red-300"
-                                        >
-                                            {removingMemberId === row.id ? 'Removing...' : 'Remove'}
-                                        </button>
-                                    </div>
-                                </div>
-                            ))}
-                            {removeError && (
-                                <p className="mt-3 text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-3 py-2">
-                                    {removeError}
-                                </p>
-                            )}
-                        </div>
-                    ) : (
-                        <p className="text-sm text-gray-400">No students accepted yet.</p>
-                    )}
-                </div>
-
-                <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-3">Pending invitations</p>
-                    {isLoadingMembers ? (
-                        <div className="flex items-center justify-center py-8">
-                            <div className="w-6 h-6 border-2 border-violet-600 border-t-transparent rounded-full animate-spin" />
-                        </div>
-                    ) : pendingMembers.length > 0 ? (
-                        <div className="space-y-2">
-                            {pendingMembers.map((row) => (
-                                <div key={row.id} className="flex items-center justify-between text-sm text-gray-700 dark:text-gray-300">
-                                    <div>
-                                        <p className="font-semibold text-gray-900 dark:text-white">{row.student_email ?? row.student_id ?? '—'}</p>
-                                        <p className="text-xs text-gray-400">Invited {new Date(row.invited_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}</p>
-                                    </div>
-                                    <span className="text-xs text-amber-500 font-bold">Pending</span>
-                                </div>
-                            ))}
-                        </div>
-                    ) : (
-                        <p className="text-sm text-gray-400">No pending invites.</p>
                     )}
                 </div>
             </div>
@@ -1058,14 +1064,17 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
             if (!user?.id && !user?.email) return
             setIsLoadingAssignments(true)
             try {
-                const query = isUuid(user?.id)
-                    ? `student_id=${user?.id}`
-                    : `email=${encodeURIComponent(user?.email ?? '')}`
-                const res = await fetch(`/api/assignments/student?${query}`)
+                const params = new URLSearchParams()
+                if (isUuid(user?.id)) {
+                    params.set('student_id', user?.id ?? '')
+                } else {
+                    params.set('email', user?.email ?? '')
+                }
+                params.set('classroom_id', classroomId)
+                const res = await fetch(`/api/assignments/student?${params.toString()}`)
                 const json = await res.json()
                 if (!res.ok) throw new Error(json.error || 'Failed to load assignments')
-                const rows = (json.assignments ?? []).filter((row: ClassroomAssignment) => row.assignment?.classroom_id === classroomId)
-                setAssignments(rows)
+                setAssignments(json.assignments ?? [])
             } catch (err) {
                 console.error('Assignments fetch error:', err)
                 setAssignments([])

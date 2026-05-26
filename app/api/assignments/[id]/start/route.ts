@@ -99,6 +99,24 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             return NextResponse.json({ error: 'Assignment questions are missing' }, { status: 400 })
         }
 
+        const { data: classroomLinks, error: classroomError } = await supabase
+            .from('assignment_classrooms')
+            .select('classroom_id')
+            .eq('assignment_id', assignmentId)
+
+        if (classroomError) {
+            console.error('Assignment classrooms fetch error:', classroomError)
+            return NextResponse.json({ error: classroomError.message }, { status: 500 })
+        }
+
+        const classroomIds = (classroomLinks ?? [])
+            .map((row: any) => String(row.classroom_id ?? '').trim())
+            .filter(Boolean)
+
+        if (classroomIds.length === 0 && assignment.classroom_id) {
+            classroomIds.push(String(assignment.classroom_id))
+        }
+
         const maxAttempts = Number(assignment.max_attempts ?? 1)
         const hasLimit = Number.isFinite(maxAttempts) && maxAttempts > 0
 
@@ -138,10 +156,14 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         }
 
         if (!resultRow) {
+            if (classroomIds.length === 0) {
+                return NextResponse.json({ error: 'Assignment is not assigned to a classroom' }, { status: 400 })
+            }
+
             const memberQuery = supabase
                 .from('classroom_members')
                 .select('id')
-                .eq('classroom_id', assignment.classroom_id)
+                .in('classroom_id', classroomIds)
                 .eq('status', 'accepted')
 
             if (studentId) {

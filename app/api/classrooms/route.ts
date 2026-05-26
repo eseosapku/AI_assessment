@@ -83,15 +83,53 @@ export async function GET(request: NextRequest) {
                 return NextResponse.json({ data: [] })
             }
 
-            const { data: assignments, error: assignmentsError } = await supabase
+            const { data: classroomLinks, error: classroomLinksError } = await supabase
+                .from('assignment_classrooms')
+                .select('assignment_id,classroom_id')
+                .in('classroom_id', classroomIds)
+
+            if (classroomLinksError) {
+                console.error('Assignment classrooms fetch error:', classroomLinksError)
+                return NextResponse.json({ error: classroomLinksError.message }, { status: 500 })
+            }
+
+            const linkedAssignmentIds = Array.from(new Set(
+                (classroomLinks ?? [])
+                    .map((row: any) => String(row.assignment_id ?? '').trim())
+                    .filter(Boolean)
+            ))
+            const linkedAssignmentsMap = new Map<string, { status: string | null; deadline: string | null }>()
+
+            if (linkedAssignmentIds.length > 0) {
+                const { data: linkedAssignments, error: linkedAssignmentsError } = await supabase
+                    .from('assignments')
+                    .select('id,status,deadline')
+                    .in('id', linkedAssignmentIds)
+
+                if (linkedAssignmentsError) {
+                    console.error('Assignments fetch error:', linkedAssignmentsError)
+                    return NextResponse.json({ error: linkedAssignmentsError.message }, { status: 500 })
+                }
+
+                for (const row of linkedAssignments ?? []) {
+                    const assignmentId = String(row.id ?? '').trim()
+                    if (!assignmentId) continue
+                    linkedAssignmentsMap.set(assignmentId, {
+                        status: row.status ?? null,
+                        deadline: row.deadline ?? null,
+                    })
+                }
+            }
+
+            const { data: legacyAssignments, error: legacyAssignmentsError } = await supabase
                 .from('assignments')
                 .select('id,classroom_id,deadline')
                 .eq('status', 'sent')
                 .in('classroom_id', classroomIds)
 
-            if (assignmentsError) {
-                console.error('Classroom assignments fetch error:', assignmentsError)
-                return NextResponse.json({ error: assignmentsError.message }, { status: 500 })
+            if (legacyAssignmentsError) {
+                console.error('Classroom assignments fetch error:', legacyAssignmentsError)
+                return NextResponse.json({ error: legacyAssignmentsError.message }, { status: 500 })
             }
 
             let resultsQuery = supabase
@@ -115,12 +153,42 @@ export async function GET(request: NextRequest) {
             const resultMap = new Map((results ?? []).map((r: any) => [r.assignment_id, r.status]))
             const counts = new Map<string, { upcoming: number; open: number; finished: number }>()
             const now = Date.now()
+            const seen = new Set<string>()
 
-            for (const assignment of assignments ?? []) {
-                const classId = assignment.classroom_id
-                const current = counts.get(classId) ?? { upcoming: 0, open: 0, finished: 0 }
-                const status = resultMap.get(assignment.id)
-                const isExpired = assignment.deadline ? new Date(assignment.deadline).getTime() < now : false
+            const mappings: Array<{ assignment_id: string; classroom_id: string; deadline: string | null }> = []
+
+            for (const row of classroomLinks ?? []) {
+                const assignmentId = String(row.assignment_id ?? '').trim()
+                const classroomId = String(row.classroom_id ?? '').trim()
+                if (!assignmentId || !classroomId) continue
+                const assignment = linkedAssignmentsMap.get(assignmentId)
+                if (assignment?.status !== 'sent') continue
+                mappings.push({
+                    assignment_id: assignmentId,
+                    classroom_id: classroomId,
+                    deadline: assignment?.deadline ?? null,
+                })
+            }
+
+            for (const row of legacyAssignments ?? []) {
+                const assignmentId = String(row.id ?? '').trim()
+                const classroomId = String(row.classroom_id ?? '').trim()
+                if (!assignmentId || !classroomId) continue
+                mappings.push({
+                    assignment_id: assignmentId,
+                    classroom_id: classroomId,
+                    deadline: row.deadline ?? null,
+                })
+            }
+
+            for (const mapping of mappings) {
+                const key = `${mapping.classroom_id}:${mapping.assignment_id}`
+                if (seen.has(key)) continue
+                seen.add(key)
+
+                const current = counts.get(mapping.classroom_id) ?? { upcoming: 0, open: 0, finished: 0 }
+                const status = resultMap.get(mapping.assignment_id)
+                const isExpired = mapping.deadline ? new Date(mapping.deadline).getTime() < now : false
 
                 if (status === 'completed' || isExpired) {
                     current.finished += 1
@@ -130,7 +198,7 @@ export async function GET(request: NextRequest) {
                     current.upcoming += 1
                 }
 
-                counts.set(classId, current)
+                counts.set(mapping.classroom_id, current)
             }
 
             const classrooms = classroomRows.map((row: any) => ({

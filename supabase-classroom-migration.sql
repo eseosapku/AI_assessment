@@ -50,6 +50,15 @@ CREATE TABLE IF NOT EXISTS assignment_results (
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
 
+-- Assignment/Classroom mapping (supports multiple classrooms per assignment)
+CREATE TABLE IF NOT EXISTS assignment_classrooms (
+  id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+  assignment_id UUID REFERENCES assignments(id) ON DELETE CASCADE,
+  classroom_id UUID REFERENCES classrooms(id) ON DELETE CASCADE,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE (assignment_id, classroom_id)
+);
+
 -- Classroom-based assignment fields
 ALTER TABLE assignments ADD COLUMN IF NOT EXISTS classroom_id UUID REFERENCES classrooms(id) ON DELETE SET NULL;
 ALTER TABLE assignments ADD COLUMN IF NOT EXISTS status VARCHAR(20) NOT NULL DEFAULT 'sent';
@@ -70,6 +79,8 @@ CREATE INDEX IF NOT EXISTS idx_user_activity_daily_date ON user_activity_daily(a
 CREATE INDEX IF NOT EXISTS idx_assignment_results_assignment_id ON assignment_results(assignment_id);
 CREATE INDEX IF NOT EXISTS idx_assignment_results_student_id ON assignment_results(student_id);
 CREATE INDEX IF NOT EXISTS idx_assignment_results_email ON assignment_results(student_email);
+CREATE INDEX IF NOT EXISTS idx_assignment_classrooms_assignment_id ON assignment_classrooms(assignment_id);
+CREATE INDEX IF NOT EXISTS idx_assignment_classrooms_classroom_id ON assignment_classrooms(classroom_id);
 
 -- Row Level Security
 ALTER TABLE classrooms ENABLE ROW LEVEL SECURITY;
