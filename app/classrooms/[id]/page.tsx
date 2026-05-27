@@ -38,6 +38,7 @@ interface ClassroomAssignment {
         classroom_name: string | null
         classroom_names?: string[]
         max_attempts?: number | null
+        strict_mode?: boolean
     }
 }
 
@@ -1141,6 +1142,11 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                             <div>
                                 <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{row.assignment.title}</p>
                                 <p className="text-xs text-gray-400 mt-0.5">{row.assignment.subject} · Grade {row.assignment.grade}</p>
+                                {row.assignment.strict_mode && (
+                                    <p className="text-xs font-semibold text-red-600 dark:text-red-400 mt-2 flex items-center gap-1">
+                                        🔒 Strict Mode (no tab switching)
+                                    </p>
+                                )}
                             </div>
                             <div className="flex items-center gap-3 text-xs text-gray-400">
                                 <span>{row.assignment.question_count}q · {row.assignment.question_type}</span>

@@ -1001,7 +1001,9 @@ function AssessmentPageClient() {
     if (!strictMode || isSubmitted) return
 
     const handleVisibilityChange = () => {
+      console.log('Visibility changed. Hidden:', document.hidden)
       if (document.hidden && !violationTriggeredRef.current) {
+        console.log('Violation detected: tab switch')
         violationTriggeredRef.current = true
         setViolationCount(c => c + 1)
         setSubmissionReason('violation')
@@ -1011,6 +1013,7 @@ function AssessmentPageClient() {
 
     const handleBlur = () => {
       if (!violationTriggeredRef.current) {
+        console.log('Violation detected: window blur')
         violationTriggeredRef.current = true
         setViolationCount(c => c + 1)
         setSubmissionReason('violation')
@@ -1018,12 +1021,22 @@ function AssessmentPageClient() {
       }
     }
 
+    const handleFocus = () => {
+      console.log('Window refocused')
+      if (violationTriggeredRef.current && !isSubmitted) {
+        console.log('Already triggered violation, submitting now')
+        handleSubmit()
+      }
+    }
+
     document.addEventListener('visibilitychange', handleVisibilityChange)
     window.addEventListener('blur', handleBlur)
+    window.addEventListener('focus', handleFocus)
 
     return () => {
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('blur', handleBlur)
+      window.removeEventListener('focus', handleFocus)
     }
   }, [strictMode, isSubmitted, handleSubmit])
 
@@ -1287,6 +1300,18 @@ function AssessmentPageClient() {
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex flex-col font-sans">
+      {/* Strict Mode Warning Banner */}
+      {strictMode && (
+        <div className="bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800 px-4 sm:px-6 py-3">
+          <div className="max-w-4xl mx-auto flex items-center gap-3">
+            <div className="text-red-600 dark:text-red-400 text-lg">🔒</div>
+            <div className="flex-1">
+              <p className="text-sm font-semibold text-red-900 dark:text-red-200">Strict Assessment Mode Active</p>
+              <p className="text-xs text-red-800 dark:text-red-300 mt-0.5">Do not switch tabs or open other windows. Your assessment will auto-submit immediately if detected.</p>
+            </div>
+          </div>
+        </div>
+      )}
       {/* Header */}
       <div className="bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-xl sticky top-0 z-30 header-fade">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
