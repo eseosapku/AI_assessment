@@ -545,6 +545,8 @@ export default function NewAssignmentPage() {
               </label>
             </div>
           </div>
+
+          <div>
               <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom(s)</label>
               <div className="rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] p-3 space-y-2">
                 {isLoadingClassrooms ? (
@@ -577,7 +579,6 @@ export default function NewAssignmentPage() {
               </div>
               <p className="text-xs text-gray-400 mt-2">Select one or more classrooms.</p>
             </div>
-          </div>
 
           {error && (
             <div className="text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-4 py-3">
