@@ -123,6 +123,7 @@ export default function NewAssignmentPage() {
   const [style, setStyle] = useState('Teacher authored')
   const [maxAttempts, setMaxAttempts] = useState(1)
   const [deadline, setDeadline] = useState('')
+  const [strictMode, setStrictMode] = useState(false)
 
   const [templateType, setTemplateType] = useState<QuestionType | ''>('')
   const [questions, setQuestions] = useState<Question[]>([])
@@ -344,6 +345,7 @@ export default function NewAssignmentPage() {
       questions_data: questions,
       estimated_time: null,
       deadline: deadline ? toIsoInputValue(deadline) : null,
+      strict_mode: strictMode,
     }
 
     const res = await fetch('/api/assignments/create', {
@@ -531,7 +533,18 @@ export default function NewAssignmentPage() {
                 className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
               />
             </div>
-            <div>
+            <div className="flex items-end">
+              <label className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] cursor-pointer hover:border-gray-300 dark:hover:border-white/[0.12] transition-colors w-full">
+                <input
+                  type="checkbox"
+                  checked={strictMode}
+                  onChange={(e) => setStrictMode(e.target.checked)}
+                  className="w-5 h-5 rounded border-gray-300 text-violet-600 cursor-pointer"
+                />
+                <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Strict Mode (no tab switching)</span>
+              </label>
+            </div>
+          </div>
               <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom(s)</label>
               <div className="rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] p-3 space-y-2">
                 {isLoadingClassrooms ? (

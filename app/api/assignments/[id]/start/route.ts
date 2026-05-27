@@ -81,7 +81,8 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         classroom_id,
         status,
                 deadline,
-                max_attempts
+                max_attempts,
+                strict_mode
       `)
             .eq('id', assignmentId)
             .single()
@@ -229,6 +230,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
                 topics: assignment.topics ?? [],
                 curriculum: assignment.curriculum,
                 questionType: assignment.question_type,
+                strict_mode: Boolean(assignment.strict_mode ?? false),
             },
         })
     } catch (err) {

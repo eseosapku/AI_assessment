@@ -36,6 +36,7 @@ export async function POST(request: NextRequest) {
     const deadline = body?.deadline ? String(body.deadline) : null
     const rawStatus = String(body?.status ?? '').trim().toLowerCase()
     const status = rawStatus || (classroomIds.length > 0 ? 'sent' : 'draft')
+    const strictMode = Boolean(body?.strict_mode ?? false)
 
     if (!teacherId || !subject || topics.length === 0 || !grade) {
       return NextResponse.json({ error: 'Missing required fields' }, { status: 400 })
@@ -73,6 +74,7 @@ export async function POST(request: NextRequest) {
         questions_data: questionsData,
         estimated_time: Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null,
         deadline,
+        strict_mode: strictMode,
       })
       .select('id')
       .single()
