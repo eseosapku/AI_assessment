@@ -601,7 +601,7 @@ function AssessmentPageClient() {
           setAssessment(data)
           setAssignmentId(assignmentParam)
           setTimeRemaining(data.estimated_time * 60)
-          if (json.strict_mode) setStrictMode(true)
+          if (json.data?.strict_mode) setStrictMode(true)
           return
         } catch (err: any) {
           setLoadError(err?.message || 'Failed to load assignment')
