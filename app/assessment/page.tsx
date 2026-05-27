@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { Suspense, useCallback, useEffect, useState } from 'react'
+import { Suspense, useCallback, useEffect, useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Clock, ChevronLeft, ChevronRight, Check } from 'lucide-react'
 import 'katex/dist/katex.min.css'
@@ -546,6 +546,7 @@ function AssessmentPageClient() {
   const [strictMode, setStrictMode] = useState(false)
   const [violationCount, setViolationCount] = useState(0)
   const [submissionReason, setSubmissionReason] = useState<'manual' | 'timer' | 'violation'>('manual')
+  const violationTriggeredRef = useRef(false)
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
@@ -999,11 +1000,9 @@ function AssessmentPageClient() {
   useEffect(() => {
     if (!strictMode || isSubmitted) return
 
-    let violationTriggered = false
-
     const handleVisibilityChange = () => {
-      if (document.hidden && !violationTriggered) {
-        violationTriggered = true
+      if (document.hidden && !violationTriggeredRef.current) {
+        violationTriggeredRef.current = true
         setViolationCount(c => c + 1)
         setSubmissionReason('violation')
         handleSubmit()
@@ -1011,8 +1010,8 @@ function AssessmentPageClient() {
     }
 
     const handleBlur = () => {
-      if (!violationTriggered) {
-        violationTriggered = true
+      if (!violationTriggeredRef.current) {
+        violationTriggeredRef.current = true
         setViolationCount(c => c + 1)
         setSubmissionReason('violation')
         handleSubmit()
@@ -1027,6 +1026,10 @@ function AssessmentPageClient() {
       window.removeEventListener('blur', handleBlur)
     }
   }, [strictMode, isSubmitted, handleSubmit])
+
+  useEffect(() => {
+    violationTriggeredRef.current = false
+  }, [assessment])
 
   useEffect(() => {
     if (timeRemaining > 0 && !isSubmitted && !isPaused) {
