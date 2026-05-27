@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Suspense, useCallback, useEffect, useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Clock, ChevronLeft, ChevronRight, Check } from 'lucide-react'
+import { Clock, ChevronLeft, ChevronRight, Check, Lock } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { useAuth } from '@/components/AuthProvider'
@@ -1302,13 +1302,13 @@ function AssessmentPageClient() {
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex flex-col font-sans">
       {/* Strict Mode Warning Banner */}
       {strictMode && (
-        <div className="bg-red-50 dark:bg-red-900/20 border-b border-red-200 dark:border-red-800 px-4 sm:px-6 py-3">
-          <div className="max-w-4xl mx-auto flex items-center gap-3">
-            <div className="text-red-600 dark:text-red-400 text-lg">🔒</div>
-            <div className="flex-1">
-              <p className="text-sm font-semibold text-red-900 dark:text-red-200">Strict Assessment Mode Active</p>
-              <p className="text-xs text-red-800 dark:text-red-300 mt-0.5">Do not switch tabs or open other windows. Your assessment will auto-submit immediately if detected.</p>
-            </div>
+        <div className="bg-[#1c1f26] border-b border-black/20 px-4 sm:px-6 py-2">
+          <div className="max-w-4xl mx-auto flex items-center gap-2">
+            <Lock className="w-3 h-3 text-amber-400 flex-shrink-0" />
+            <p className="text-[11px] text-white/80 tracking-wide">
+              <span className="font-semibold text-amber-400">Strict Mode</span>
+              {' '}— Switching tabs or windows will immediately auto-submit your assessment.
+            </p>
           </div>
         </div>
       )}

@@ -71,6 +71,8 @@ interface StudentDetail {
         score: number | null
         result_id: string | null
         result: any | null
+        submission_reason: string | null
+        violation_count: number | null
     }>
 }
 
@@ -995,14 +997,22 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                     {row.subject} · {row.question_count} questions
                                                                 </p>
                                                             </div>
-                                                            <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${row.status === 'completed'
-                                                                ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
-                                                                : row.status === 'started'
-                                                                    ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
-                                                                    : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-300'
-                                                                }`}>
-                                                                {row.status}
-                                                            </span>
+                                                            <div className="flex items-center gap-1.5 flex-wrap">
+                                                                <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${row.status === 'completed'
+                                                                    ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
+                                                                    : row.status === 'started'
+                                                                        ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
+                                                                        : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-300'
+                                                                    }`}>
+                                                                    {row.status}
+                                                                </span>
+                                                                {row.submission_reason === 'violation' && (
+                                                                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/40">
+                                                                        <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+                                                                        Violation
+                                                                    </span>
+                                                                )}
+                                                            </div>
                                                         </div>
                                                         <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-gray-500">
                                                             <span className="font-semibold text-[#1F7A7A]">Score: {scoreLabel}</span>
@@ -1143,9 +1153,10 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                                 <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{row.assignment.title}</p>
                                 <p className="text-xs text-gray-400 mt-0.5">{row.assignment.subject} · Grade {row.assignment.grade}</p>
                                 {row.assignment.strict_mode && (
-                                    <p className="text-xs font-semibold text-red-600 dark:text-red-400 mt-2 flex items-center gap-1">
-                                        🔒 Strict Mode (no tab switching)
-                                    </p>
+                                    <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold px-2 py-0.5 rounded-full border border-red-200 dark:border-red-800/60 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400">
+                                        <svg className="w-2.5 h-2.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                                        Strict Mode
+                                    </span>
                                 )}
                             </div>
                             <div className="flex items-center gap-3 text-xs text-gray-400">

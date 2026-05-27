@@ -23,6 +23,7 @@ export async function GET(request: NextRequest) {
         created_at,
         status,
         max_attempts,
+        strict_mode,
         classroom_id,
         classrooms(name),
         assignment_results(id)
@@ -89,6 +90,7 @@ export async function GET(request: NextRequest) {
         created_at: row.created_at,
         status: row.status,
         max_attempts: row.max_attempts ?? 1,
+        strict_mode: Boolean(row.strict_mode ?? false),
         classroom_id: row.classroom_id,
         classroom_ids: classroomIds,
         classroom_name: primaryName,
