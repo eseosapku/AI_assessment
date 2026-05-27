@@ -543,6 +543,9 @@ function AssessmentPageClient() {
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false)
   const [longFormGrades, setLongFormGrades] = useState<Record<number, LongFormGrade>>({})
   const [isGradingLongForm, setIsGradingLongForm] = useState(false)
+  const [strictMode, setStrictMode] = useState(false)
+  const [violationCount, setViolationCount] = useState(0)
+  const [submissionReason, setSubmissionReason] = useState<'manual' | 'timer' | 'violation'>('manual')
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
@@ -597,6 +600,7 @@ function AssessmentPageClient() {
           setAssessment(data)
           setAssignmentId(assignmentParam)
           setTimeRemaining(data.estimated_time * 60)
+          if (json.strict_mode) setStrictMode(true)
           return
         } catch (err: any) {
           setLoadError(err?.message || 'Failed to load assignment')
@@ -984,16 +988,52 @@ function AssessmentPageClient() {
           questions_data: assessment?.questions ?? [],
           longform_grades: longFormGradesResult,
           time_taken: timeTaken,
+          submission_reason: submissionReason,
+          violation_count: violationCount,
         }),
       })
     }
   }, [assessment, selectedAnswers, longFormAnswers, assignmentId, timeRemaining, authUser, isClassroomAssignment, clearPausedState])
+
+  // Strict mode violation detection: tab switch and window focus loss
+  useEffect(() => {
+    if (!strictMode || isSubmitted) return
+
+    let violationTriggered = false
+
+    const handleVisibilityChange = () => {
+      if (document.hidden && !violationTriggered) {
+        violationTriggered = true
+        setViolationCount(c => c + 1)
+        setSubmissionReason('violation')
+        handleSubmit()
+      }
+    }
+
+    const handleBlur = () => {
+      if (!violationTriggered) {
+        violationTriggered = true
+        setViolationCount(c => c + 1)
+        setSubmissionReason('violation')
+        handleSubmit()
+      }
+    }
+
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+    window.addEventListener('blur', handleBlur)
+
+    return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
+      window.removeEventListener('blur', handleBlur)
+    }
+  }, [strictMode, isSubmitted, handleSubmit])
 
   useEffect(() => {
     if (timeRemaining > 0 && !isSubmitted && !isPaused) {
       const timer = setInterval(() => {
         setTimeRemaining((prev) => {
           if (prev <= 1) {
+            setSubmissionReason('timer')
             handleSubmit()
             return 0
           }
