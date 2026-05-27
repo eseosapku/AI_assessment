@@ -450,10 +450,16 @@ export default function TeacherDashboard() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 text-[11px] text-gray-400">
+                    <div className="flex items-center gap-2 flex-wrap text-[11px] text-gray-400">
                       <span className="px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500">
                         Attempts: {a.max_attempts ?? 1}
                       </span>
+                      {a.strict_mode && (
+                        <span className="inline-flex items-center gap-1 px-2 py-1 rounded-lg bg-red-50 dark:bg-red-900/20 border border-red-100 dark:border-red-900/40 text-red-600 dark:text-red-400 font-semibold">
+                          <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                          Strict
+                        </span>
+                      )}
                     </div>
 
                     {a.topics?.length > 0 && (

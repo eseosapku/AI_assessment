@@ -40,6 +40,8 @@ function normalizeResultRow(raw: any): ResultRow {
                 time_taken: result?.time_taken ?? null,
                 longform_grades: result?.longform_grades ?? null,
                 questions_data: result?.questions_data ?? null,
+                submission_reason: result?.submission_reason ?? null,
+                violation_count: result?.violation_count ?? null,
             }
             : null,
     }
@@ -66,6 +68,8 @@ type ResultRow = {
         time_taken: number | null
         longform_grades: unknown
         questions_data: unknown
+        submission_reason: string | null
+        violation_count: number | null
     } | null
 }
 
@@ -161,7 +165,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
         let resultsQuery = supabase
             .from('assignment_results')
-            .select('id,assignment_id,status,attempt_count,completed_at,started_at,last_attempt_at,student_id,student_email,result_id, result:results!assignment_results_result_id_fkey(id,score,percentage,feedback,answers,created_at,time_taken,longform_grades,questions_data)')
+            .select('id,assignment_id,status,attempt_count,completed_at,started_at,last_attempt_at,student_id,student_email,result_id, result:results!assignment_results_result_id_fkey(id,score,percentage,feedback,answers,created_at,time_taken,longform_grades,questions_data,submission_reason,violation_count)')
             .in('assignment_id', assignmentIds)
 
         if (studentId && studentEmail) {
@@ -209,6 +213,8 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
                 score,
                 result_id: result?.result_id ?? null,
                 result: result?.result ?? null,
+                submission_reason: result?.result?.submission_reason ?? null,
+                violation_count: result?.result?.violation_count ?? null,
             }
         })
 

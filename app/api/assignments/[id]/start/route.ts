@@ -143,6 +143,10 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         const resultRow = pickBestResult((resultRows ?? []) as ResultRow[])
         const attemptCount = Number(resultRow?.attempt_count ?? 0)
 
+        if (resultRow && resultRow.status === 'started' && Boolean(assignment.strict_mode)) {
+            return NextResponse.json({ error: 'This strict assessment cannot be re-entered once started' }, { status: 400 })
+        }
+
         if (resultRow && resultRow.status === 'completed' && hasLimit && attemptCount >= maxAttempts) {
             return NextResponse.json({ error: 'No attempts remaining for this assignment' }, { status: 400 })
         }
