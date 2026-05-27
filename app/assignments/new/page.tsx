@@ -533,17 +533,21 @@ export default function NewAssignmentPage() {
                 className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
               />
             </div>
-            <div className="flex items-end">
-              <label className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] cursor-pointer hover:border-gray-300 dark:hover:border-white/[0.12] transition-colors w-full">
-                <input
-                  type="checkbox"
-                  checked={strictMode}
-                  onChange={(e) => setStrictMode(e.target.checked)}
-                  className="w-5 h-5 rounded border-gray-300 text-violet-600 cursor-pointer"
-                />
-                <span className="text-sm font-bold text-gray-700 dark:text-gray-300">Strict Mode (no tab switching)</span>
-              </label>
-            </div>
+          </div>
+
+          <div className="rounded-2xl border-2 border-violet-200 dark:border-violet-900/40 bg-violet-50 dark:bg-violet-900/10 p-5">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={strictMode}
+                onChange={(e) => setStrictMode(e.target.checked)}
+                className="w-6 h-6 rounded border-violet-300 text-violet-600 cursor-pointer"
+              />
+              <div className="flex-1">
+                <div className="text-sm font-bold text-violet-900 dark:text-violet-200">Strict Assessment Mode</div>
+                <div className="text-xs text-violet-700 dark:text-violet-300">Students cannot switch tabs or have other windows on top. Assessment auto-submits if violated.</div>
+              </div>
+            </label>
           </div>
 
           <div>

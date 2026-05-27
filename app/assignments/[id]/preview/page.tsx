@@ -23,6 +23,7 @@ interface AssignmentData {
     questions_data: any[]
     estimated_time: number | null
     deadline: string | null
+    strict_mode?: boolean
 }
 
 interface ClassroomOption {
@@ -132,6 +133,7 @@ export default function AssignmentPreviewPage() {
     const [title, setTitle] = useState('')
     const [deadline, setDeadline] = useState('')
     const [maxAttempts, setMaxAttempts] = useState(1)
+    const [strictMode, setStrictMode] = useState(false)
     const [classrooms, setClassrooms] = useState<ClassroomOption[]>([])
     const [selectedClassroomIds, setSelectedClassroomIds] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(true)
@@ -164,6 +166,7 @@ export default function AssignmentPreviewPage() {
                     setQuestions(Array.isArray(data.questions_data) ? data.questions_data : [])
                     setTitle(data.title ?? '')
                     setDeadline(data.deadline ? toLocalInputValue(data.deadline) : '')
+                    setStrictMode(Boolean(data.strict_mode ?? false))
                     const classroomIds = Array.isArray(data.classroom_ids)
                         ? data.classroom_ids
                         : (data.classroom_id ? [data.classroom_id] : [])
@@ -231,6 +234,7 @@ export default function AssignmentPreviewPage() {
                     title,
                     deadline: toIsoInputValue(deadline),
                     max_attempts: maxAttempts,
+                    strict_mode: strictMode,
                     questions_data: questions,
                 }),
             })
@@ -426,7 +430,15 @@ export default function AssignmentPreviewPage() {
                             />
                         </div>
                         <div className="flex items-end">
-                            <p className="text-xs text-gray-400">Students can retry up to this limit. Best score is kept.</p>
+                            <label className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] cursor-pointer hover:border-gray-300 dark:hover:border-white/[0.12] transition-colors w-full">
+                                <input
+                                    type="checkbox"
+                                    checked={strictMode}
+                                    onChange={(e) => setStrictMode(e.target.checked)}
+                                    className="w-4 h-4 rounded border-gray-300 text-violet-600 cursor-pointer"
+                                />
+                                <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Strict Mode (no tab switching)</span>
+                            </label>
                         </div>
                     </div>
 
