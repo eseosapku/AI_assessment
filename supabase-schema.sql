@@ -137,6 +137,9 @@ ALTER TABLE assignments ADD COLUMN IF NOT EXISTS status VARCHAR(20) NOT NULL DEF
 ALTER TABLE assignments ADD COLUMN IF NOT EXISTS questions_data JSONB;
 ALTER TABLE assignments ADD COLUMN IF NOT EXISTS estimated_time INTEGER;
 ALTER TABLE assignments ADD COLUMN IF NOT EXISTS updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW();
+ALTER TABLE assignments ADD COLUMN IF NOT EXISTS strict_mode BOOLEAN DEFAULT false;
+ALTER TABLE results ADD COLUMN IF NOT EXISTS submission_reason VARCHAR(50) DEFAULT 'manual';
+ALTER TABLE results ADD COLUMN IF NOT EXISTS violation_count INTEGER DEFAULT 0;
 
 -- Indexes
 CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
@@ -147,6 +150,7 @@ CREATE INDEX IF NOT EXISTS idx_assessments_user_id ON assessments(user_id);
 CREATE INDEX IF NOT EXISTS idx_assessments_status ON assessments(status);
 CREATE INDEX IF NOT EXISTS idx_results_user_id ON results(user_id);
 CREATE INDEX IF NOT EXISTS idx_results_assessment_id ON results(assessment_id);
+CREATE INDEX IF NOT EXISTS idx_results_submission_reason ON results(submission_reason);
 CREATE INDEX IF NOT EXISTS idx_assignments_teacher_id ON assignments(teacher_id);
 CREATE INDEX IF NOT EXISTS idx_assignments_classroom_id ON assignments(classroom_id);
 CREATE INDEX IF NOT EXISTS idx_assignments_status ON assignments(status);

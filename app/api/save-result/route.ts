@@ -68,6 +68,8 @@ export async function POST(request: NextRequest) {
       time_taken: body.time_taken ?? null,
       questions_data: body.questions_data ?? null,
       longform_grades: body.longform_grades ?? null,
+      submission_reason: body.submission_reason ?? 'manual',
+      violation_count: body.violation_count ?? 0,
     }
 
     let resultId: string | null = null

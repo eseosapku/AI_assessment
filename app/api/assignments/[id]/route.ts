@@ -39,6 +39,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
         questions_data,
         estimated_time,
         deadline,
+        strict_mode,
         created_at,
         updated_at
       `)
@@ -100,6 +101,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
         const questionsData = body?.questions_data !== undefined ? body.questions_data : null
         const estimatedTime = body?.estimated_time !== undefined ? Number(body.estimated_time) : null
         const deadline = body?.deadline !== undefined ? String(body.deadline).trim() : null
+        const strictMode = body?.strict_mode !== undefined ? Boolean(body.strict_mode) : null
 
         const updatePayload: Record<string, any> = {
             updated_at: new Date().toISOString(),
@@ -125,6 +127,7 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
             updatePayload.estimated_time = Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null
         }
         if (deadline !== null) updatePayload.deadline = deadline || null
+        if (strictMode !== null) updatePayload.strict_mode = strictMode
 
         if (Object.keys(updatePayload).length === 1) {
             return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
