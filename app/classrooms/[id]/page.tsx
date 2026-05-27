@@ -1155,7 +1155,7 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                                 {row.assignment.strict_mode && (
                                     <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold px-2 py-0.5 rounded-full border border-red-200 dark:border-red-800/60 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400">
                                         <svg className="w-2.5 h-2.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
-                                        Strict Mode
+                                        Strict
                                     </span>
                                 )}
                             </div>
