@@ -5,6 +5,7 @@ import { jsonrepair } from 'jsonrepair'
 import { supabase } from '@/lib/supabase'
 
 const MAX_DIAGRAMS = 4
+const MAX_SOURCE_CHARS = 12000
 
 function normalizeIds(value: unknown): number[] {
   if (!Array.isArray(value)) return []
@@ -40,6 +41,14 @@ function parseJsonRobust(text: string): any {
   } catch { /* fall through */ }
 
   throw new SyntaxError(`Could not repair JSON. Preview: ${t.slice(0, 120)}`)
+}
+
+function normalizeSourceText(value: unknown): { text: string; truncated: boolean } {
+  const raw = typeof value === 'string' ? value : ''
+  const cleaned = raw.replace(/\s+/g, ' ').trim()
+  if (!cleaned) return { text: '', truncated: false }
+  if (cleaned.length <= MAX_SOURCE_CHARS) return { text: cleaned, truncated: false }
+  return { text: cleaned.slice(0, MAX_SOURCE_CHARS), truncated: true }
 }
 
 function fixLatexInRawJson(raw: string): string {
@@ -468,10 +477,12 @@ function buildPrompt(opts: {
   hasDiagramSupport: boolean
   difficultyLevel?: string
   grade?: number | string
+  sourceText?: string
+  sourceName?: string
 }): { prompt: string; estimatedTime: number } {
-  const { subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel } = opts
+  const { subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, sourceText, sourceName } = opts
 
-  const subjectNeedsPassage = needsPassage(subject)
+  const subjectNeedsPassage = !sourceText && needsPassage(subject)
 
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
   const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
@@ -562,6 +573,19 @@ function buildPrompt(opts: {
   const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
   const topicAlignment = buildTopicAlignmentBlock({ topics, grade: opts.grade, subject })
 
+  const sourceBlock = sourceText
+    ? `SOURCE MATERIAL (${sourceName || 'Uploaded PDF'}):
+<<<
+${sourceText}
+>>>
+
+SOURCE RULES:
+- Use ONLY the source material.
+- Do NOT add facts that are not present in the source.
+- If a selected topic is not covered in the source, skip it.
+- If a quote is needed, copy exact words from the source text.`
+    : ''
+
   const g = gradeNum
   let gradeAgeNote = ''
   if (g >= 1 && g <= 2) {
@@ -605,6 +629,7 @@ ${longformRule}`
   const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment. [Session: ${sessionSeed}]
 
 ${curriculumBlock}
+${sourceBlock ? `\n${sourceBlock}\n` : ''}
 
 **Subject:** ${subject}
 **Topics:** ${topics.join(', ')}
@@ -854,6 +879,8 @@ export async function POST(request: NextRequest) {
       grade,
       curriculum,
       user_id,
+      sourceText: rawSourceText,
+      sourceName,
       questionType: requestedQuestionType = 'mcq',
       difficultyLevel,
       aiModel = 'eu.google.gemma-3-27b-it',
@@ -890,8 +917,12 @@ export async function POST(request: NextRequest) {
     const requestedSubject = String(subject ?? '').trim()
     const requestedTopics = Array.isArray(topics) ? topics.map((t: any) => String(t).trim()).filter(Boolean) : []
     const hasSomeTopics = requestedTopics.length > 0 || topicIds.length > 0 || subtopicIds.length > 0
+    const normalizedSource = normalizeSourceText(rawSourceText)
+    const sourceText = normalizedSource.text
+    const sourceLabel = String(sourceName ?? '').trim()
+    const hasSourceText = Boolean(sourceText)
 
-    if ((!requestedSubject && !Number.isFinite(textbookId)) || !hasSomeTopics || !count) {
+    if ((!requestedSubject && !Number.isFinite(textbookId) && !hasSourceText) || (!hasSomeTopics && !hasSourceText) || !count) {
       return NextResponse.json({ error: 'Subject, topics, and count are required' }, { status: 400 })
     }
 
@@ -951,8 +982,11 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const promptSubject = textbookName || requestedSubject
-    const baseTopicNames = dbTopicNames.length > 0 ? dbTopicNames : requestedTopics
+    const fallbackSubject = sourceLabel ? sourceLabel.replace(/\.[^/.]+$/, '') : 'PDF material'
+    const promptSubject = textbookName || requestedSubject || fallbackSubject
+    const baseTopicNames = dbTopicNames.length > 0
+      ? dbTopicNames
+      : (requestedTopics.length > 0 ? requestedTopics : (hasSourceText ? [fallbackSubject] : []))
 
     // If subtopics are specified, constrain the prompt to them.
     let promptTopics = baseTopicNames
@@ -973,6 +1007,7 @@ export async function POST(request: NextRequest) {
     const audience = className || (grade ? `Grade ${grade}` : '')
     if (audience) curriculumBlockLines.push(`**Target Audience:** ${audience}`)
     if (textbookName) curriculumBlockLines.push(`**Textbook:** ${textbookName}`)
+    if (sourceLabel) curriculumBlockLines.push(`**Source Material:** ${sourceLabel}`)
     if (baseTopicNames.length > 0) curriculumBlockLines.push(`**Selected Topics:** ${baseTopicNames.join(', ')}`)
     if (resolvedSubtopics.length > 0) {
       const names = resolvedSubtopics.map(s => `"${s.name}"`).join(', ')
@@ -983,6 +1018,7 @@ export async function POST(request: NextRequest) {
     const isCambridge = curriculum === 'cambridge'
     const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
     const hasDiagramSupport = false
+    const usePassageFlow = !hasSourceText && needsPassage(promptSubject)
 
     // ── Bedrock client (explicit timeouts + fallback model) ─────────────────
     // IMPORTANT: The AWS SDK will retry requests by default. When the model ID is
@@ -1208,6 +1244,7 @@ export async function POST(request: NextRequest) {
       const { prompt } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
         curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
+        sourceText, sourceName: sourceLabel,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
@@ -1300,7 +1337,7 @@ export async function POST(request: NextRequest) {
     }
 
     try {
-      if (needsPassage(promptSubject)) {
+      if (usePassageFlow) {
         // ── PASSAGE-FIRST FLOW ────────────────────────────────────────────────
         // Step 1: Generate passages in parallel (one per 10 questions).
         // Step 2: Generate questions per passage in parallel — each question
@@ -1369,7 +1406,7 @@ export async function POST(request: NextRequest) {
       console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
         let retryQs: any[]
-        if (needsPassage(promptSubject) && generatedPassages.length > 0) {
+        if (usePassageFlow && generatedPassages.length > 0) {
           // Retry using the first available passage so questions still match the text
           retryQs = await tryGeneratePassageBatch(generatedPassages[0], missing, allQuestions.length + 1)
         } else {
@@ -1407,6 +1444,7 @@ export async function POST(request: NextRequest) {
       const { estimatedTime: et } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count, startId: 1, style,
         curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
+        sourceText, sourceName: sourceLabel,
       })
       estimatedTime = et
     }
@@ -1428,7 +1466,7 @@ export async function POST(request: NextRequest) {
     // q.passage set. Only run generateAllPassages for any stragglers that somehow
     // lack a passage (edge case), then skip fixupPassageQuestions entirely since
     // questions were written about the actual passage from the start.
-    if (needsPassage(promptSubject)) {
+    if (usePassageFlow) {
       const missing = assessmentData.questions.filter((q: any) => !q.passage)
       if (missing.length > 0) {
         // Fallback: stamp the first generated passage or generate fresh ones
