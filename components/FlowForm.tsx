@@ -656,10 +656,20 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Creation path" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How do you want to build this assessment?</h3>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <OptionButton selected={false} onClick={() => setFlowMode('ai')}>
                     <p className="font-semibold text-sm text-gray-900 dark:text-white">AI-generated</p>
                     <p className="text-[11px] text-gray-400 mt-0.5">Follow the guided flow and generate questions with AI.</p>
+                  </OptionButton>
+                  <OptionButton
+                    selected={false}
+                    onClick={() => {
+                      onClose()
+                      router.push('/assignments/from-pdf')
+                    }}
+                  >
+                    <p className="font-semibold text-sm text-gray-900 dark:text-white">Generate from PDF</p>
+                    <p className="text-[11px] text-gray-400 mt-0.5">Upload a PDF and generate questions from its content.</p>
                   </OptionButton>
                   <OptionButton
                     selected={false}
