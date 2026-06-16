@@ -5,6 +5,7 @@ import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
+import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 
 type TextbookRow = { id: number; name: string; curriculum: number; filename?: string | null }
 type TopicRow = { id: number; textbook_id: number; name: string }
@@ -136,7 +137,8 @@ const QUESTION_TYPES = [
   { id: 'mixed', label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions', icon: '⚡' },
 ]
 
-const AI_MODEL = { id: 'eu.google.gemma-3-27b-it', label: 'Gemma 3 27B', badge: 'AWS' }
+const AI_MODEL = { id: 'eu.google.gemma-3-27b-it-v1:0', label: 'Gemma 3 27B', badge: 'AWS' }
+const USE_ASYNC_AI_JOBS = process.env.NEXT_PUBLIC_USE_ASYNC_AI_JOBS === 'true'
 
 // Shared pill button: highlighted when selected, clean when not
 function OptionButton({
@@ -554,15 +556,25 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       setElapsed(Math.round((Date.now() - startTimeRef.current) / 1000))
     }, 1000)
     try {
-      const response = await fetch('/api/generate-assessment', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, className: formData.class_name || user?.class, user_id: user?.id, aiModel, customTime }),
-      })
-      const text = await response.text()
-      if (!text) throw new Error('Server returned an empty response. Please try again.')
-      const data = JSON.parse(text)
-      if (!response.ok) throw new Error(data.error || 'Failed to generate assessment')
+      const requestPayload = { ...formData, className: formData.class_name || user?.class, user_id: user?.id, aiModel, customTime }
+      let data: any = null
+
+      if (USE_ASYNC_AI_JOBS) {
+        const job = await createAiJob('generate_assessment', requestPayload)
+        await triggerAiJobExecution(job.id)
+        data = await waitForAiJob<any>(job.id, { timeoutMs: 210000, pollIntervalMs: 2500 })
+      } else {
+        const response = await fetch('/api/generate-assessment', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(requestPayload),
+        })
+        const text = await response.text()
+        if (!text) throw new Error('Server returned an empty response. Please try again.')
+        data = JSON.parse(text)
+        if (!response.ok) throw new Error(data.error || 'Failed to generate assessment')
+      }
+
       if (isTeacher) {
         setGeneratedData(data)
         await createDraft(data)

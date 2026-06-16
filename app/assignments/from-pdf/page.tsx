@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, Loader2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
+import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 
 interface ClassOption {
     id: number
@@ -30,6 +31,7 @@ const CURRICULUM_OPTIONS = [
     { id: 'rwanda', label: 'Rwanda National Curriculum (REB)' },
     { id: 'cambridge', label: 'Cambridge International (CAIE)' },
 ]
+const USE_ASYNC_AI_JOBS = process.env.NEXT_PUBLIC_USE_ASYNC_AI_JOBS === 'true'
 
 function parseTopics(value: string) {
     return value
@@ -212,29 +214,37 @@ export default function PdfAssignmentPage() {
             })
 
             setStage('Generating questions')
-            const genRes = await fetch('/api/generate-assessment', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                    subject: subjectValue,
-                    topics: topicsValue,
-                    count,
-                    style,
-                    className: selectedClass?.name,
-                    grade: gradeValue,
-                    curriculum,
-                    user_id: user.id,
-                    questionType,
-                    difficultyLevel: difficulty,
-                    sourceText: extractJson.text,
-                    sourceName: extractJson.filename || pdfFile.name,
-                }),
-            })
+            const generationPayload = {
+                subject: subjectValue,
+                topics: topicsValue,
+                count,
+                style,
+                className: selectedClass?.name,
+                grade: gradeValue,
+                curriculum,
+                user_id: user.id,
+                questionType,
+                difficultyLevel: difficulty,
+                sourceText: extractJson.text,
+                sourceName: extractJson.filename || pdfFile.name,
+            }
+            let data: any
+            if (USE_ASYNC_AI_JOBS) {
+                const job = await createAiJob('generate_assessment', generationPayload)
+                await triggerAiJobExecution(job.id)
+                data = await waitForAiJob<any>(job.id, { timeoutMs: 210000, pollIntervalMs: 2500 })
+            } else {
+                const genRes = await fetch('/api/generate-assessment', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(generationPayload),
+                })
 
-            const genText = await genRes.text()
-            if (!genText) throw new Error('Server returned an empty response. Please try again.')
-            const data = JSON.parse(genText)
-            if (!genRes.ok) throw new Error(data.error || 'Failed to generate assessment')
+                const genText = await genRes.text()
+                if (!genText) throw new Error('Server returned an empty response. Please try again.')
+                data = JSON.parse(genText)
+                if (!genRes.ok) throw new Error(data.error || 'Failed to generate assessment')
+            }
 
             setStage('Saving draft')
             const draftRes = await fetch('/api/assignments/create', {
