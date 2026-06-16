@@ -7,10 +7,12 @@ import { Clock, ChevronLeft, ChevronRight, Check, Lock } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { useAuth } from '@/components/AuthProvider'
+import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const PAUSED_ASSESSMENT_KEY = 'pausedAssessmentState'
 const RESUME_ASSESSMENT_KEY = 'resumeAssessment'
+const USE_ASYNC_AI_JOBS = process.env.NEXT_PUBLIC_USE_ASYNC_AI_JOBS === 'true'
 
 function isUuid(value: string | null | undefined) {
   return UUID_RE.test(String(value ?? ''))
@@ -897,16 +899,24 @@ function AssessmentPageClient() {
     if (hasLongForm) {
       setIsGradingLongForm(true)
       try {
-        const res = await fetch('/api/grade-longform', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            questions,
-            answers: longFormAnswers,
-            subject: assessment?.subject,
-          }),
-        })
-        const data = await res.json()
+        const gradingPayload = {
+          questions,
+          answers: longFormAnswers,
+          subject: assessment?.subject,
+        }
+        let data: any
+        if (USE_ASYNC_AI_JOBS) {
+          const job = await createAiJob('grade_longform', gradingPayload)
+          await triggerAiJobExecution(job.id)
+          data = await waitForAiJob<any>(job.id, { timeoutMs: 210000, pollIntervalMs: 2500 })
+        } else {
+          const res = await fetch('/api/grade-longform', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(gradingPayload),
+          })
+          data = await res.json()
+        }
         longFormGradesResult = data.grades ?? {}
         setLongFormGrades(longFormGradesResult)
       } catch (err) {
@@ -940,20 +950,28 @@ function AssessmentPageClient() {
     const storedUser = JSON.parse(localStorage.getItem('user') || '{}')
 
     try {
-      const feedbackRes = await fetch('/api/generate-feedback', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          assessment,
-          answers: selectedAnswers,
-          longFormAnswers,
-          longFormGrades: longFormGradesResult,
-          score: finalScore,
-          grade,
-          className: storedUser.class,
-        }),
-      })
-      const feedbackData = await feedbackRes.json()
+      const feedbackPayload = {
+        assessment,
+        answers: selectedAnswers,
+        longFormAnswers,
+        longFormGrades: longFormGradesResult,
+        score: finalScore,
+        grade,
+        className: storedUser.class,
+      }
+      let feedbackData: any
+      if (USE_ASYNC_AI_JOBS) {
+        const job = await createAiJob('generate_feedback', feedbackPayload)
+        await triggerAiJobExecution(job.id)
+        feedbackData = await waitForAiJob<any>(job.id, { timeoutMs: 210000, pollIntervalMs: 2500 })
+      } else {
+        const feedbackRes = await fetch('/api/generate-feedback', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(feedbackPayload),
+        })
+        feedbackData = await feedbackRes.json()
+      }
       if (feedbackData.feedback) generatedFeedback = feedbackData.feedback
     } catch {
       // keep fallback
