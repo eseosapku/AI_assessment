@@ -26,8 +26,13 @@ function createPool() {
   })
 }
 
-export const db = global.__brainInkPgPool ?? createPool()
+function getPool() {
+  if (global.__brainInkPgPool) return global.__brainInkPgPool
+  const pool = createPool()
+  global.__brainInkPgPool = pool
+  return pool
+}
 
-if (process.env.NODE_ENV !== 'production') {
-  global.__brainInkPgPool = db
+export const db = {
+  query: (...args: Parameters<Pool['query']>) => getPool().query(...args),
 }
