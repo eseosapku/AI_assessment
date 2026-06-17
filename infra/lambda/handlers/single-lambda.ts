@@ -32,7 +32,7 @@ async function toApiGatewayResponse(nextResponse: Response) {
 }
 
 function requestUrl(event: any) {
-  const rawPath = event.rawPath || event.path || '/'
+  const rawPath = normalizePath(event.rawPath || event.path || '/', event)
   const rawQuery = event.rawQueryString ? `?${event.rawQueryString}` : ''
   const host = event.headers?.host || 'lambda.local'
   return `https://${host}${rawPath}${rawQuery}`
@@ -57,8 +57,19 @@ function toNextRequest(event: any) {
   })
 }
 
+function normalizePath(path: string, event: any) {
+  const stage = event.requestContext?.stage
+  if (stage && stage !== '$default' && path.startsWith(`/${stage}/`)) {
+    return path.slice(stage.length + 1)
+  }
+  if (stage && stage !== '$default' && path === `/${stage}`) {
+    return '/'
+  }
+  return path
+}
+
 function pathAndMethod(event: any) {
-  const path = event.rawPath || event.path || '/'
+  const path = normalizePath(event.rawPath || event.path || '/', event)
   const method = event.requestContext?.http?.method || event.httpMethod || 'GET'
   return { path, method: String(method).toUpperCase() }
 }
