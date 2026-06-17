@@ -63,6 +63,8 @@ jobs:
           aws lambda update-function-code \
             --function-name studysquare_function \
             --zip-file fileb://lambda-package.zip
+          aws lambda wait function-updated \
+            --function-name studysquare_function
 
       - name: Set Lambda handler
         run: |
@@ -70,3 +72,5 @@ jobs:
             --function-name studysquare_function \
             --handler index.handler \
             --runtime nodejs20.x
+          aws lambda wait function-updated \
+            --function-name studysquare_function
