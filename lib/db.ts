@@ -1,4 +1,4 @@
-import { Pool } from 'pg'
+import { Pool, QueryResult, QueryResultRow } from 'pg'
 
 declare global {
   // eslint-disable-next-line no-var
@@ -34,5 +34,6 @@ function getPool() {
 }
 
 export const db = {
-  query: (...args: Parameters<Pool['query']>) => getPool().query(...args),
+  query: <T extends QueryResultRow = any>(text: string, values?: unknown[]): Promise<QueryResult<T>> =>
+    getPool().query<T>(text, values),
 }
