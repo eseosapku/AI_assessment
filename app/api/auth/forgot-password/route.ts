@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
 import crypto from 'crypto'
 
 export async function POST(request: NextRequest) {
@@ -13,15 +13,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Find user by email
-    const { data: user, error: dbError } = await supabase
-      .from('users')
-      .select('id, email')
-      .eq('email', email)
-      .single()
+    const normalizedEmail = String(email).trim().toLowerCase()
+    const userResult = await db.query('SELECT id, email FROM users WHERE email = $1 LIMIT 1', [normalizedEmail])
+    const user = userResult.rows[0]
 
     // Always return success to prevent email enumeration
-    if (dbError || !user) {
+    if (!user) {
       return NextResponse.json({
         success: true,
         message: 'If an account exists, reset instructions have been sent',
@@ -33,22 +30,14 @@ export async function POST(request: NextRequest) {
     const resetToken = crypto.randomBytes(32).toString('hex')
     const resetTokenExpires = new Date(Date.now() + 3600000) // 1 hour
 
-    // Save reset token to database
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({
-        reset_token: resetToken,
-        reset_token_expires: resetTokenExpires.toISOString()
-      })
-      .eq('id', user.id)
-
-    if (updateError) {
-      console.error('Failed to save reset token:', updateError)
-      return NextResponse.json(
-        { error: 'Failed to generate reset link' },
-        { status: 500 }
-      )
-    }
+    await db.query(
+      `UPDATE users
+       SET reset_token = $2,
+           reset_token_expires = $3,
+           updated_at = NOW()
+       WHERE id = $1`,
+      [user.id, resetToken, resetTokenExpires.toISOString()],
+    )
 
     // In production, send email with reset link
     // For development, return the reset link

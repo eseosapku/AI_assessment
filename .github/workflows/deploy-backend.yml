@@ -1,0 +1,72 @@
+name: Deploy Backend Lambda
+
+on:
+  push:
+    branches:
+      - aws_deploy
+      - main
+    paths:
+      - "app/api/auth/**"
+      - "app/api/jobs/**"
+      - "infra/lambda/handlers/**"
+      - "lib/db.ts"
+      - "lib/ai-jobs.ts"
+      - "lib/api-url.ts"
+      - "package.json"
+      - "package-lock.json"
+      - ".github/workflows/deploy-backend.yml"
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck/build app
+        run: npm run build
+
+      - name: Bundle single Lambda handler
+        run: |
+          rm -rf lambda-dist lambda-package.zip
+          mkdir -p lambda-dist
+          npx esbuild infra/lambda/handlers/single-lambda.ts \
+            --bundle \
+            --platform=node \
+            --target=node20 \
+            --format=cjs \
+            --outfile=lambda-dist/index.js \
+            --external:pg-native
+          cd lambda-dist
+          zip -r ../lambda-package.zip .
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Update Lambda code
+        run: |
+          aws lambda update-function-code \
+            --function-name studysquare_function \
+            --zip-file fileb://lambda-package.zip
+
+      - name: Set Lambda handler
+        run: |
+          aws lambda update-function-configuration \
+            --function-name studysquare_function \
+            --handler index.handler \
+            --runtime nodejs20.x

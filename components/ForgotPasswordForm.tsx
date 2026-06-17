@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
 import { Mail, ArrowLeft, CheckCircle2 } from 'lucide-react'
+import { apiUrl } from '@/lib/api-url'
 
 export default function ForgotPasswordForm() {
   const [email, setEmail] = useState('')
@@ -18,7 +19,7 @@ export default function ForgotPasswordForm() {
     setIsLoading(true)
 
     try {
-      const response = await fetch('/api/auth/forgot-password', {
+      const response = await fetch(apiUrl('/api/auth/forgot-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email })
