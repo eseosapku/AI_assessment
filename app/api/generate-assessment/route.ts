@@ -993,13 +993,9 @@ export async function POST(request: NextRequest) {
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
     if (!accessKeyId || !secretAccessKey) {
-      console.error('Generate assessment: AWS credentials missing on server')
       return NextResponse.json(
-        {
-          error: 'AI generation is not configured on the server. Add AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY to Vercel environment variables.',
-          code: 'AWS_NOT_CONFIGURED',
-        },
-        { status: 503 }
+        { error: 'AWS credentials not configured. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.' },
+        { status: 500 }
       )
     }
 
