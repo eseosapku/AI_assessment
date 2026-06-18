@@ -5,6 +5,8 @@ import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
+import { useSubscription } from '@/components/SubscriptionProvider'
+import { isPaymentRequiredResponse } from '@/lib/subscription'
 import { subjectFromTextbookName, filterAliasTextbooks, withDisplaySubjectNames } from '@/lib/textbook-subject'
 import { CURRICULUM_REGISTRY, curriculaForCountry } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
@@ -186,6 +188,7 @@ function StepLabel({ label }: { label: string }) {
 export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
+  const { canGenerateAssessment, handlePaymentRequired } = useSubscription()
   const userCountry = normalizeCountry(user?.country ?? 'RW')
   const allowedCurriculumNums = useMemo(
     () => new Set(curriculaForCountry(userCountry, { schoolOnly: true }).map((c) => c.numeric)),
@@ -579,6 +582,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   }
 
   const handleStartAssessment = async () => {
+    if (!canGenerateAssessment) {
+      handlePaymentRequired('assessment')
+      return
+    }
     setIsLoading(true)
     setError('')
     setTotalTime(null)
@@ -597,6 +604,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       if (!text) throw new Error('Server returned an empty response. Please try again.')
       const data = JSON.parse(text)
       if (!response.ok) {
+        if (isPaymentRequiredResponse(response.status, data)) {
+          handlePaymentRequired('assessment')
+          return
+        }
         throw new Error(data.error || 'Failed to generate assessment')
       }
       if (isTeacher) {

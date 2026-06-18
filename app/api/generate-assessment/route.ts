@@ -8,6 +8,11 @@ import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
 import { examPrepContext } from '@/lib/nigeria-exam-syllabi'
 import { getCachedExamPaperById, isCachePaperId } from '@/lib/exam-source-cache'
+import {
+  assertSubscriptionAccess,
+  incrementFreeAssessmentUsage,
+  subscriptionPaywallBody,
+} from '@/lib/subscription-server'
 
 const MAX_DIAGRAMS = 4
 const MAX_SOURCE_CHARS = 12000
@@ -977,6 +982,13 @@ export async function POST(request: NextRequest) {
 
     const userId = String(user_id ?? '').trim()
 
+    if (userId) {
+      const gate = await assertSubscriptionAccess(userId, 'assessment')
+      if (!gate.allowed) {
+        return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
+      }
+    }
+
     const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID
     const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
@@ -1679,6 +1691,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (dbError) console.error('DB save error:', dbError)
+
+    if (userId) {
+      await incrementFreeAssessmentUsage(userId)
+    }
 
     return NextResponse.json({
       ...assessmentData,

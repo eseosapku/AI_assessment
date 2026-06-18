@@ -12,6 +12,8 @@ import {
 } from '@/lib/nigeria-exam-syllabi'
 import { allExamPrepResources } from '@/lib/exam-prep-resources'
 import { useAuth } from '@/components/AuthProvider'
+import { useSubscription } from '@/components/SubscriptionProvider'
+import { isPaymentRequiredResponse } from '@/lib/subscription'
 
 type ExamType = 'waec' | 'jamb'
 type SourceMode = 'syllabus' | 'past_paper' | 'both'
@@ -35,6 +37,7 @@ const DIFFICULTY_LEVELS = [
 export default function ExamPrepForm() {
   const router = useRouter()
   const { user } = useAuth()
+  const { canGenerateAssessment, handlePaymentRequired } = useSubscription()
   const [exam, setExam] = useState<ExamType | ''>('')
   const [subject, setSubject] = useState('')
   const [jambMode, setJambMode] = useState<'subject' | 'course'>('subject')
@@ -105,6 +108,10 @@ export default function ExamPrepForm() {
 
   const handleGenerate = async () => {
     if (!exam || !subject) return
+    if (!canGenerateAssessment) {
+      handlePaymentRequired('assessment')
+      return
+    }
     if (sourceMode !== 'past_paper' && topics.length === 0) return
     if (sourceMode !== 'syllabus' && pastPapers.length > 0 && !selectedPaperId) return
     setError('')
@@ -141,6 +148,10 @@ export default function ExamPrepForm() {
       })
       const json = await res.json()
       if (!res.ok) {
+        if (isPaymentRequiredResponse(res.status, json)) {
+          handlePaymentRequired('assessment')
+          return
+        }
         throw new Error(json?.error || 'Failed to generate assessment')
       }
       sessionStorage.setItem('currentAssessment', JSON.stringify(json))
