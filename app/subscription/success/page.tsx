@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import Link from 'next/link'
-import { Loader2, CheckCircle2 } from 'lucide-react'
+import { Loader2, CheckCircle2, AlertCircle } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import { verifyPayment } from '@/lib/flutterwave-client'
 import { useSubscription } from '@/components/SubscriptionProvider'
@@ -15,12 +15,19 @@ export default function SubscriptionSuccessPage() {
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search)
-    const txRef = params.get('tx_ref') ?? params.get('reference')
+    const txRef =
+      params.get('tx_ref') ??
+      params.get('reference') ??
+      (typeof window !== 'undefined' ? sessionStorage.getItem('flw_pending_tx_ref') : null)
+    const transactionId = params.get('transaction_id')
     const flwStatus = params.get('status')
+    const storedUserId =
+      typeof window !== 'undefined' ? sessionStorage.getItem('flw_pending_user_id') : null
+    const userId = user?.id ?? storedUserId
 
-    if (!user?.id) {
+    if (!userId) {
       setStatus('error')
-      setMessage('Please log in to activate your subscription.')
+      setMessage('Please log in, then open this page again from your payment email or try Subscribe once more.')
       return
     }
 
@@ -30,22 +37,33 @@ export default function SubscriptionSuccessPage() {
       return
     }
 
-    if (!txRef) {
+    if (!txRef && !transactionId) {
       setStatus('error')
-      setMessage('Missing payment reference. If you paid, your subscription should activate shortly via webhook.')
+      setMessage('Missing payment reference. If you paid, wait a minute and refresh — webhook confirmation may still be pending.')
       return
     }
 
     ;(async () => {
       try {
-        await verifyPayment(user.id, txRef)
+        await verifyPayment(userId, txRef ?? '', transactionId ?? undefined)
         await refresh()
+        try {
+          sessionStorage.removeItem('flw_pending_user_id')
+          sessionStorage.removeItem('flw_pending_tx_ref')
+        } catch {
+          // ignore
+        }
         setStatus('success')
         setMessage('Your subscription is active. You can generate assessments again.')
-      } catch {
+      } catch (e: unknown) {
+        const errMsg = e instanceof Error ? e.message : 'Activation failed'
         await refresh()
-        setStatus('success')
-        setMessage('Payment received. If features are still locked, wait a minute and refresh — webhook confirmation may be pending.')
+        setStatus('error')
+        setMessage(
+          errMsg.includes('SUPABASE_SERVICE_ROLE_KEY') || errMsg.includes('migration')
+            ? `${errMsg} Ask the site admin to add SUPABASE_SERVICE_ROLE_KEY on Vercel and run the subscription migration SQL.`
+            : `Payment received but activation failed: ${errMsg}. Try refreshing in a minute or contact support with reference ${txRef ?? transactionId}.`,
+        )
       }
     })()
   }, [user?.id, refresh])
@@ -55,6 +73,7 @@ export default function SubscriptionSuccessPage() {
       <div className="max-w-md w-full rounded-2xl border border-gray-200/80 dark:border-white/10 bg-white dark:bg-[#161617] p-8 text-center shadow-lg">
         {status === 'loading' && <Loader2 className="w-10 h-10 text-emerald-600 animate-spin mx-auto mb-4" />}
         {status === 'success' && <CheckCircle2 className="w-10 h-10 text-emerald-600 mx-auto mb-4" />}
+        {status === 'error' && <AlertCircle className="w-10 h-10 text-amber-600 mx-auto mb-4" />}
         <h1 className="text-xl font-bold text-gray-900 dark:text-white mb-2">
           {status === 'loading' ? 'Processing payment' : status === 'success' ? 'Subscription active' : 'Payment status'}
         </h1>

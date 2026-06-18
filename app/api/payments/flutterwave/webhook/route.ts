@@ -1,14 +1,36 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { activateSubscription } from '@/lib/subscription-server'
+import { activateSubscription, resolveUserIdFromTxRef } from '@/lib/subscription-server'
 import { verifyWebhookSignature } from '@/lib/flutterwave'
+import { getSupabaseAdmin, hasSupabaseAdmin } from '@/lib/supabase-admin'
+
+function extractMetaUserId(meta: unknown): string {
+  if (!meta || typeof meta !== 'object') return ''
+  const record = meta as Record<string, unknown>
+  if (record.user_id != null) return String(record.user_id)
+  if (Array.isArray(meta)) {
+    for (const item of meta) {
+      if (item && typeof item === 'object') {
+        const row = item as Record<string, unknown>
+        if (row.meta_name === 'user_id' || row.name === 'user_id') {
+          return String(row.meta_value ?? row.value ?? '')
+        }
+      }
+    }
+  }
+  return ''
+}
 
 /**
  * Flutterwave webhook (V3 + V4):
  * URL: https://studysquare.org/api/payments/flutterwave/webhook
- * Secret hash: your chosen 36-char string (same value as FLW_WEBHOOK_SECRET on Vercel)
  */
 export async function POST(request: NextRequest) {
   try {
+    if (!hasSupabaseAdmin()) {
+      console.error('Webhook: SUPABASE_SERVICE_ROLE_KEY missing')
+      return NextResponse.json({ error: 'Server misconfigured' }, { status: 503 })
+    }
+
     const rawBody = await request.text()
     const verifHash = request.headers.get('verif-hash')
     const flutterwaveSignature = request.headers.get('flutterwave-signature')
@@ -21,13 +43,18 @@ export async function POST(request: NextRequest) {
     const eventType = payload?.type ?? payload?.event ?? payload?.['event.type']
     const data = payload?.data ?? {}
     const meta = data?.meta ?? {}
-    let userId = meta?.user_id != null ? String(meta.user_id) : ''
+    let userId = extractMetaUserId(meta)
+
+    if (!userId) {
+      const txRef = data?.tx_ref != null ? String(data.tx_ref) : ''
+      if (txRef) userId = (await resolveUserIdFromTxRef(txRef)) ?? ''
+    }
 
     if (!userId) {
       const email = data?.customer?.email
       if (email) {
-        const { supabase } = await import('@/lib/supabase')
-        const { data: user } = await supabase.from('users').select('id').eq('email', String(email).toLowerCase()).maybeSingle()
+        const db = getSupabaseAdmin()
+        const { data: user } = await db.from('users').select('id').eq('email', String(email).toLowerCase()).maybeSingle()
         if (user?.id) userId = user.id
       }
     }
@@ -39,17 +66,23 @@ export async function POST(request: NextRequest) {
     const status = String(data?.status ?? '').toLowerCase()
     const paid = status === 'successful' || status === 'succeeded'
     const isChargeEvent =
+      !eventType ||
       eventType === 'charge.completed' ||
-      eventType === 'subscription.charge.completed'
+      eventType === 'subscription.charge.completed' ||
+      String(eventType).toLowerCase().includes('charge')
 
     if (isChargeEvent && paid) {
       const cycleEnd = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
-      await activateSubscription({
+      const result = await activateSubscription({
         userId,
         ref: data?.id != null ? String(data.id) : undefined,
         expiresAt: cycleEnd,
         provider: 'flutterwave',
       })
+      if (!result.ok) {
+        console.error('Webhook activation failed:', result.error)
+        return NextResponse.json({ error: result.error ?? 'Activation failed' }, { status: 500 })
+      }
       return NextResponse.json({ updated: true, user_id: userId, expires: cycleEnd })
     }
 
