@@ -1,0 +1,151 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Brain Ink backend migration (Lambda + SQS + API Gateway)
+
+Parameters:
+  StageName:
+    Type: String
+    Default: prod
+  DatabaseUrl:
+    Type: String
+    NoEcho: true
+  PgDisableSsl:
+    Type: String
+    Default: 'false'
+  InternalJobRunnerToken:
+    Type: String
+    NoEcho: true
+  BackendInternalBaseUrl:
+    Type: String
+    Description: Private backend base URL (for execute relay), e.g. https://api.example.com
+  AwsRegion:
+    Type: String
+    Default: eu-west-1
+
+Globals:
+  Function:
+    Runtime: nodejs20.x
+    Architectures:
+      - arm64
+    MemorySize: 1024
+    Timeout: 30
+    Tracing: Active
+    Environment:
+      Variables:
+        DATABASE_URL: !Ref DatabaseUrl
+        PG_DISABLE_SSL: !Ref PgDisableSsl
+        INTERNAL_JOB_RUNNER_TOKEN: !Ref InternalJobRunnerToken
+        BACKEND_INTERNAL_BASE_URL: !Ref BackendInternalBaseUrl
+        AWS_REGION: !Ref AwsRegion
+
+Resources:
+  BackendApi:
+    Type: AWS::Serverless::HttpApi
+    Properties:
+      StageName: !Ref StageName
+      CorsConfiguration:
+        AllowMethods: [GET, POST, PATCH, DELETE, OPTIONS]
+        AllowHeaders: [Content-Type, Authorization]
+        AllowOrigins: ['*']
+
+  AiJobQueue:
+    Type: AWS::SQS::Queue
+    Properties:
+      VisibilityTimeout: 240
+      MessageRetentionPeriod: 345600
+      RedrivePolicy:
+        deadLetterTargetArn: !GetAtt AiJobDLQ.Arn
+        maxReceiveCount: 3
+
+  AiJobDLQ:
+    Type: AWS::SQS::Queue
+    Properties:
+      MessageRetentionPeriod: 1209600
+
+  SubmitAiJobFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: handlers/submit-ai-job.handler
+      Events:
+        SubmitAiJob:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref BackendApi
+            Path: /api/jobs
+            Method: POST
+      Policies:
+        - SQSSendMessagePolicy:
+            QueueName: !GetAtt AiJobQueue.QueueName
+      Environment:
+        Variables:
+          AI_JOB_QUEUE_URL: !Ref AiJobQueue
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - handlers/submit-ai-job.ts
+        Minify: true
+        Target: es2022
+        Sourcemap: false
+
+  GetAiJobFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: handlers/get-ai-job.handler
+      Events:
+        GetAiJob:
+          Type: HttpApi
+          Properties:
+            ApiId: !Ref BackendApi
+            Path: /api/jobs/{id}
+            Method: GET
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - handlers/get-ai-job.ts
+        Minify: true
+        Target: es2022
+        Sourcemap: false
+
+  ExecuteAiJobFunction:
+    Type: AWS::Serverless::Function
+    Properties:
+      CodeUri: .
+      Handler: handlers/execute-ai-job.handler
+      Timeout: 180
+      MemorySize: 2048
+      ReservedConcurrentExecutions: 20
+      Policies:
+        - AWSLambdaBasicExecutionRole
+        - Statement:
+            - Effect: Allow
+              Action:
+                - bedrock:InvokeModel
+                - bedrock:InvokeModelWithResponseStream
+              Resource: '*'
+      Events:
+        FromQueue:
+          Type: SQS
+          Properties:
+            Queue: !GetAtt AiJobQueue.Arn
+            BatchSize: 1
+            Enabled: true
+    Metadata:
+      BuildMethod: esbuild
+      BuildProperties:
+        EntryPoints:
+          - handlers/execute-ai-job.ts
+        Minify: true
+        Target: es2022
+        Sourcemap: false
+
+Outputs:
+  ApiBaseUrl:
+    Description: API base URL for frontend
+    Value: !Sub 'https://${BackendApi}.execute-api.${AWS::Region}.amazonaws.com/${StageName}'
+  AiJobQueueUrl:
+    Description: SQS queue URL
+    Value: !Ref AiJobQueue

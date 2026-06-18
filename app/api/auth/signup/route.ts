@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { normalizeCountry, type CountryCode } from '@/lib/countries'
 
@@ -45,30 +45,16 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Password must be at least 6 characters' }, { status: 400 })
     }
 
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.NEXT_PUBLIC_SUPABASE_URL.includes('placeholder')) {
-      return NextResponse.json({ error: 'Database not configured — add Supabase env vars to Vercel' }, { status: 500 })
-    }
-
     if (email) {
-      const { data: existingEmail } = await supabase
-        .from('users')
-        .select('id')
-        .eq('email', email)
-        .maybeSingle()
-
-      if (existingEmail) {
+      const existingEmail = await db.query('SELECT id FROM users WHERE email = $1 LIMIT 1', [email])
+      if (existingEmail.rows.length > 0) {
         return NextResponse.json({ error: 'Email already registered' }, { status: 400 })
       }
     }
 
     if (studentIdInput) {
-      const { data: existingStudentId } = await supabase
-        .from('users')
-        .select('id')
-        .eq('student_id', studentIdInput)
-        .maybeSingle()
-
-      if (existingStudentId) {
+      const existingStudentId = await db.query('SELECT id FROM users WHERE student_id = $1 LIMIT 1', [studentIdInput])
+      if (existingStudentId.rows.length > 0) {
         return NextResponse.json({ error: 'Student ID already registered' }, { status: 400 })
       }
     }
@@ -79,24 +65,17 @@ export async function POST(request: NextRequest) {
     const studentId = studentIdInput ?? generatedStudentId
     const userClass = role === 'teacher' ? 'Teacher' : className
 
-    const { data: newUser, error: dbError } = await supabase
-      .from('users')
-      .insert({
-        email,
-        password_hash: passwordHash,
-        name,
-        student_id: studentId,
-        class: userClass,
-        role,
-        country,
-        subjects: defaultSubjects(country, role),
-      })
-      .select('id, name, email, student_id, class, subjects, role, country')
-      .single()
+    const subjects = role === 'teacher' ? [] : ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
+    const insertResult = await db.query(
+      `INSERT INTO users (email, password_hash, name, student_id, class, role, subjects)
+       VALUES ($1, $2, $3, $4, $5, $6, $7)
+       RETURNING id, name, email, student_id, class, subjects, role`,
+      [email, passwordHash, name, studentId, userClass, role, subjects],
+    )
+    const newUser = insertResult.rows[0]
 
-    if (dbError || !newUser) {
-      console.error('Database error:', dbError)
-      return NextResponse.json({ error: dbError?.message || 'Failed to create account' }, { status: 500 })
+    if (!newUser) {
+      return NextResponse.json({ error: 'Failed to create account' }, { status: 500 })
     }
 
     const user = {

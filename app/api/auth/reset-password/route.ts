@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 
 export async function POST(request: NextRequest) {
@@ -20,14 +20,13 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Find user by reset token
-    const { data: user, error: dbError } = await supabase
-      .from('users')
-      .select('id, reset_token, reset_token_expires')
-      .eq('reset_token', token)
-      .single()
+    const userResult = await db.query(
+      'SELECT id, reset_token, reset_token_expires FROM users WHERE reset_token = $1 LIMIT 1',
+      [token],
+    )
+    const user = userResult.rows[0]
 
-    if (dbError || !user) {
+    if (!user) {
       return NextResponse.json(
         { error: 'Invalid or expired reset token' },
         { status: 400 }
@@ -45,23 +44,15 @@ export async function POST(request: NextRequest) {
     // Hash new password
     const passwordHash = await bcrypt.hash(password, 10)
 
-    // Update password and clear reset token
-    const { error: updateError } = await supabase
-      .from('users')
-      .update({
-        password_hash: passwordHash,
-        reset_token: null,
-        reset_token_expires: null
-      })
-      .eq('id', user.id)
-
-    if (updateError) {
-      console.error('Failed to update password:', updateError)
-      return NextResponse.json(
-        { error: 'Failed to reset password' },
-        { status: 500 }
-      )
-    }
+    await db.query(
+      `UPDATE users
+       SET password_hash = $2,
+           reset_token = NULL,
+           reset_token_expires = NULL,
+           updated_at = NOW()
+       WHERE id = $1`,
+      [user.id, passwordHash],
+    )
 
     return NextResponse.json({
       success: true,

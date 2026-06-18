@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { normalizeCountry } from '@/lib/countries'
 
@@ -37,17 +37,12 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    // Find user by email or student ID
-    let query = supabase.from('users').select('*')
-    if (email) {
-      query = query.eq('email', email)
-    } else if (studentId) {
-      query = query.eq('student_id', studentId)
-    }
+    const userResult = email
+      ? await db.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [email])
+      : await db.query('SELECT * FROM users WHERE student_id = $1 LIMIT 1', [studentId])
+    const userData = userResult.rows[0]
 
-    const { data: userData, error: dbError } = await query.maybeSingle()
-
-    if (dbError || !userData) {
+    if (!userData) {
       return NextResponse.json(
         { error: 'Invalid credentials' },
         { status: 401 }
