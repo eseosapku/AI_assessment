@@ -966,7 +966,7 @@ export async function POST(request: NextRequest) {
       sourceName,
       questionType: requestedQuestionType = 'mcq',
       difficultyLevel,
-      aiModel = 'eu.google.gemma-3-27b-it',
+      aiModel = 'eu.google.gemma-3-27b-it-v1:0',
       customTime,
       textbook_id,
       topic_ids,
@@ -1201,32 +1201,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    function buildModelCandidates(seedId: string): string[] {
-      const expanded: string[] = []
-      const clean = (seedId || '').trim()
-      if (!clean) return expanded
+    function buildModelCandidates(seedId: string, opts?: { fallbackOnly?: boolean }): string[] {
+      const bare = stripPrefix((seedId || 'google.gemma-3-27b-it').trim())
+      const primary = bare.includes('12b') ? bare : 'google.gemma-3-27b-it'
 
-      const bare = stripPrefix(clean)
-      expanded.push(clean)
-      expanded.push(bare)
-      // Try the inferred prefix first, then others.
-      expanded.push(`${regionPrefix}.${bare}`)
-      PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
+      const regionalPrimary = [
+        `${regionPrefix}.${primary}`,
+        `${regionPrefix}.${primary}-v1:0`,
+      ]
+      const regionalFallback = [
+        `${regionPrefix}.google.gemma-3-12b-it`,
+        `${regionPrefix}.google.gemma-3-12b-it-v1:0`,
+      ]
 
-      // Extra safety for known Gemma naming variants.
-      if (bare === 'google.gemma-3-27b-it') {
-        expanded.push('google.gemma-3-27b-it-v1:0')
-        expanded.push(`${regionPrefix}.google.gemma-3-27b-it-v1:0`)
-        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-27b-it-v1:0`))
-      }
-
-      if (bare === 'google.gemma-3-12b-it') {
-        expanded.push('google.gemma-3-12b-it-v1:0')
-        expanded.push(`${regionPrefix}.google.gemma-3-12b-it-v1:0`)
-        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-12b-it-v1:0`))
-      }
-
-      return [...new Set(expanded.filter(Boolean))]
+      const list = opts?.fallbackOnly ? regionalFallback : [...regionalPrimary, ...regionalFallback]
+      return [...new Set(list.filter(Boolean))]
     }
 
     function buildBedrockBody(modelId: string, prompt: string, maxTokens: number): string {
@@ -1267,9 +1256,9 @@ export async function POST(request: NextRequest) {
       const candidates = buildModelCandidates(seed)
 
       const FALLBACK_MODEL_ID = 'google.gemma-3-12b-it'
-      const PRIMARY_CALL_BUDGET_MS = 60_000
-      const FALLBACK_CALL_BUDGET_MS = 60_000
-      const PER_ATTEMPT_TIMEOUT_MS = 60_000
+      const PRIMARY_CALL_BUDGET_MS = 90_000
+      const FALLBACK_CALL_BUDGET_MS = 45_000
+      const PER_ATTEMPT_TIMEOUT_MS = 45_000
 
       const tryModels = async (modelIds: string[], budgetMs: number): Promise<{
         text?: string
@@ -1332,7 +1321,7 @@ export async function POST(request: NextRequest) {
       const primary = await tryModels(candidates, PRIMARY_CALL_BUDGET_MS)
       if (primary.text) return primary.text
 
-      const fallbackCandidates = buildModelCandidates(FALLBACK_MODEL_ID)
+      const fallbackCandidates = buildModelCandidates(FALLBACK_MODEL_ID, { fallbackOnly: true })
       if (fallbackCandidates.length > 0) {
         console.warn('Primary model attempts failed or timed out. Falling back to google.gemma-3-12b-it...')
         const fallback = await tryModels(fallbackCandidates, FALLBACK_CALL_BUDGET_MS)
@@ -1548,8 +1537,8 @@ export async function POST(request: NextRequest) {
     // Deduplicate + fix first pass
     allQuestions = deduplicateAndFix(allQuestions)
 
-    // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
-    for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
+    // ── Retry: up to 5 passes to fill any shortfall ──────────────────────────
+    for (let retryPass = 1; retryPass <= 5 && allQuestions.length < count; retryPass++) {
       const missing = count - allQuestions.length
       console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
@@ -1567,19 +1556,27 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // If STILL short after all retries → return error
-    if (allQuestions.length < count) {
+    const minRequired = Math.max(1, Math.ceil(count * 0.8))
+    if (allQuestions.length < minRequired) {
       return NextResponse.json(
-        { error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again.` },
+        {
+          error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again with fewer questions or a different subject.`,
+          produced: allQuestions.length,
+          requested: count,
+        },
         { status: 500 }
       )
     }
 
-    // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)
-    if (allQuestions.length > count) {
-      allQuestions = allQuestions.slice(0, count)
+    if (allQuestions.length < count) {
+      console.warn(`Returning ${allQuestions.length}/${count} questions after retries`)
     }
-    // Final re-number after trim
+
+    // Trim to requested count (may be below target if we accepted partial set above minRequired)
+    const targetCount = Math.min(count, allQuestions.length)
+    if (allQuestions.length > targetCount) {
+      allQuestions = allQuestions.slice(0, targetCount)
+    }
     allQuestions.forEach((q: any, i: number) => { q.id = i + 1 })
 
     // ── Final deterministic fix pass ──────────────────────────────────────────
