@@ -8,6 +8,21 @@ export function getClientNardoPayLinkCode(): string {
   return (process.env.NEXT_PUBLIC_NARDOPAY_LINK_CODE || NARDOPAY_DEFAULT_LINK_CODE).trim()
 }
 
+/** Subscription checkout URL (API-created links use /subscribe/, not /pay/). */
+export function nardoPaySubscribePageUrl(
+  linkCode?: string,
+  opts?: { email?: string | null; redirectUrl?: string | null },
+): string {
+  const configured = String(process.env.NEXT_PUBLIC_NARDOPAY_SUBSCRIBE_URL ?? '').trim()
+  const code = (linkCode || getClientNardoPayLinkCode()).trim()
+  const url = configured
+    ? new URL(configured)
+    : new URL(`https://nardopay.com/subscribe/${encodeURIComponent(code)}`)
+  if (opts?.email) url.searchParams.set('email', opts.email.trim().toLowerCase())
+  if (opts?.redirectUrl) url.searchParams.set('redirect_url', opts.redirectUrl)
+  return url.toString()
+}
+
 export type NardoPayWidgetSuccess = {
   transaction_id?: string
   subscription_id?: string
