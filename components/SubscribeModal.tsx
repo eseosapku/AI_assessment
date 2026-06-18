@@ -27,7 +27,14 @@ export default function SubscribeModal({
 }: Props) {
   const [starting, setStarting] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const [currency, setCurrency] = useState('USD')
+  const defaultCurrency = process.env.NEXT_PUBLIC_SUBSCRIPTION_CURRENCY ?? 'RWF'
+  const defaultAmount = Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT ?? 500)
+  const priceLabel =
+    defaultCurrency === 'USD'
+      ? `$${defaultAmount}/month`
+      : `${defaultAmount.toLocaleString()} ${defaultCurrency}/month`
+
+  const [currency, setCurrency] = useState(defaultCurrency)
 
   const startPayment = async () => {
     if (!userId) {
@@ -37,7 +44,8 @@ export default function SubscribeModal({
     setStarting(true)
     setError(null)
     try {
-      const { checkoutUrl } = await initiateMonthlySubscription(userId, userEmail, currency)
+      const amount = currency === defaultCurrency ? defaultAmount : undefined
+      const { checkoutUrl } = await initiateMonthlySubscription(userId, userEmail, currency, amount)
       window.location.href = checkoutUrl
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Failed to start payment')
@@ -69,7 +77,7 @@ export default function SubscribeModal({
                 </div>
                 <div>
                   <h2 className="text-lg font-bold text-gray-900 dark:text-white">Unlock StudySquare</h2>
-                  <p className="text-xs text-gray-500">$5/month · Flutterwave</p>
+                  <p className="text-xs text-gray-500">{priceLabel} · Flutterwave</p>
                 </div>
               </div>
               <button type="button" onClick={onClose} className="p-1.5 rounded-lg hover:bg-gray-100 dark:hover:bg-white/5">
@@ -120,7 +128,7 @@ export default function SubscribeModal({
                   className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 disabled:opacity-60 text-white font-semibold flex items-center justify-center gap-2"
                 >
                   {starting ? <Loader2 className="w-4 h-4 animate-spin" /> : null}
-                  Subscribe — $5/month
+                  Subscribe — {priceLabel}
                 </button>
                 <button type="button" onClick={onClose} className="w-full mt-3 text-sm text-gray-500 hover:text-gray-700">
                   Maybe later
