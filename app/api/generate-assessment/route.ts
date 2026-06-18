@@ -467,8 +467,8 @@ const DIFFICULTY_INSTRUCTIONS: Record<string, string> = {
 function allowsArithmeticForSelection(subject: string, topics: string[]): boolean {
   const subjectText = (subject || '').toLowerCase()
   const topicText = (topics || []).join(' ').toLowerCase()
-  const subjectAllows = /\b(math|mathematics|statistics)\b/.test(subjectText)
-  const topicAllows = /\b(number|addition|subtraction|multiplication|division|fraction|decimal|percent|percentage|ratio|proportion|equation|algebra|geometry|measure|measurement|length|area|perimeter|volume|angle|graph|chart|data|statistics|probability|time|speed|distance|temperature|money|currency|budget|discount|interest)\b/.test(topicText)
+  const subjectAllows = /\b(math|mathematics|statistics|physics|chemistry|science|integrated\s*science)\b/.test(subjectText)
+  const topicAllows = /\b(number|addition|subtraction|multiplication|division|fraction|decimal|percent|percentage|ratio|proportion|equation|algebra|geometry|measure|measurement|length|area|perimeter|volume|angle|graph|chart|data|statistics|probability|time|speed|distance|temperature|money|currency|budget|discount|interest|accelerat|velocity|kinematic|motion|force|momentum|energy|newton|friction|gravity|displacement|vector|scalar|density|pressure|wave|optics|electric|circuit|current|voltage|resistance|reaction|mole|stoichiometry)\b/.test(topicText)
   return subjectAllows || topicAllows
 }
 
@@ -940,8 +940,13 @@ function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: string[])
   const question = String(q?.question ?? '').toLowerCase()
   if (!question) return true
 
-  const hasDigits = /\d/.test(question)
-  const hasSymbols = /[+\-*\/=]/.test(question)
+  // Physics/science numeric questions (units like m/s) are not primary arithmetic word problems.
+  if (/\b(m\/s²?|km\/h|kg|newton|joule|watt|pascal|n\/m)\b/.test(question)) return false
+  if (/\b(accelerat|decelerat|velocity|initial velocity|final velocity|uniform motion|kinematic)\b/.test(question)) return false
+
+  const stripped = question.replace(/\d+(?:\.\d+)?\s*(?:m\/s²?|km\/h|kg|n|j|w|pa|s|m)\b/g, '')
+  const hasDigits = /\d/.test(stripped)
+  const hasSymbols = /[+\-*=]/.test(stripped)
   const arithmeticWords = /\b(add|added|sum|total|altogether|in\s+all|difference|subtract|minus|plus|left|remain|remaining|increase|decrease|multiply|product|times|divide|quotient|share)\b/.test(question)
   const storyPattern = /\bhas\s+\d+.*\b(give|gives|gave|get|gets|got|buy|buys|bought|take|takes|took|lose|loses|lost|more|less)\b.*\bhow\s+many\b/.test(question)
   const howManyTotal = /\bhow\s+many\b/.test(question) && /\b(total|altogether|left|remain|remaining|now|in\s+all|sum)\b/.test(question)
@@ -966,7 +971,7 @@ export async function POST(request: NextRequest) {
       sourceName,
       questionType: requestedQuestionType = 'mcq',
       difficultyLevel,
-      aiModel = 'eu.google.gemma-3-27b-it',
+      aiModel = 'eu.google.gemma-3-27b-it-v1:0',
       customTime,
       textbook_id,
       topic_ids,
@@ -1201,32 +1206,21 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    function buildModelCandidates(seedId: string): string[] {
-      const expanded: string[] = []
-      const clean = (seedId || '').trim()
-      if (!clean) return expanded
+    function buildModelCandidates(seedId: string, opts?: { fallbackOnly?: boolean }): string[] {
+      const bare = stripPrefix((seedId || 'google.gemma-3-27b-it').trim())
+      const primary = bare.includes('12b') ? bare : 'google.gemma-3-27b-it'
 
-      const bare = stripPrefix(clean)
-      expanded.push(clean)
-      expanded.push(bare)
-      // Try the inferred prefix first, then others.
-      expanded.push(`${regionPrefix}.${bare}`)
-      PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
+      const regionalPrimary = [
+        `${regionPrefix}.${primary}`,
+        `${regionPrefix}.${primary}-v1:0`,
+      ]
+      const regionalFallback = [
+        `${regionPrefix}.google.gemma-3-12b-it`,
+        `${regionPrefix}.google.gemma-3-12b-it-v1:0`,
+      ]
 
-      // Extra safety for known Gemma naming variants.
-      if (bare === 'google.gemma-3-27b-it') {
-        expanded.push('google.gemma-3-27b-it-v1:0')
-        expanded.push(`${regionPrefix}.google.gemma-3-27b-it-v1:0`)
-        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-27b-it-v1:0`))
-      }
-
-      if (bare === 'google.gemma-3-12b-it') {
-        expanded.push('google.gemma-3-12b-it-v1:0')
-        expanded.push(`${regionPrefix}.google.gemma-3-12b-it-v1:0`)
-        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-12b-it-v1:0`))
-      }
-
-      return [...new Set(expanded.filter(Boolean))]
+      const list = opts?.fallbackOnly ? regionalFallback : [...regionalPrimary, ...regionalFallback]
+      return [...new Set(list.filter(Boolean))]
     }
 
     function buildBedrockBody(modelId: string, prompt: string, maxTokens: number): string {
@@ -1332,7 +1326,7 @@ export async function POST(request: NextRequest) {
       const primary = await tryModels(candidates, PRIMARY_CALL_BUDGET_MS)
       if (primary.text) return primary.text
 
-      const fallbackCandidates = buildModelCandidates(FALLBACK_MODEL_ID)
+      const fallbackCandidates = buildModelCandidates(FALLBACK_MODEL_ID, { fallbackOnly: true })
       if (fallbackCandidates.length > 0) {
         console.warn('Primary model attempts failed or timed out. Falling back to google.gemma-3-12b-it...')
         const fallback = await tryModels(fallbackCandidates, FALLBACK_CALL_BUDGET_MS)
