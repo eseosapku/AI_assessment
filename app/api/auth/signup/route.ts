@@ -1,6 +1,15 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
+import { normalizeCountry, type CountryCode } from '@/lib/countries'
+
+function defaultSubjects(country: CountryCode, role: string) {
+  if (role === 'teacher') return []
+  if (country === 'NG') {
+    return ['English Studies', 'Mathematics', 'Basic Science', 'Social Studies', 'Digital Technologies']
+  }
+  return ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
+}
 
 function normalizeEmail(value: unknown) {
   const trimmed = String(value ?? '').trim()
@@ -21,6 +30,7 @@ export async function POST(request: NextRequest) {
     const password = String(body.password ?? '')
     const className = String(body.className ?? '').trim()
     const role = body.role ?? 'student'
+    const country = normalizeCountry(body.country)
 
     if (!name || !password) {
       return NextResponse.json({ error: 'Name and password are required' }, { status: 400 })
@@ -76,6 +86,7 @@ export async function POST(request: NextRequest) {
       class: newUser.class,
       subjects: newUser.subjects,
       role: newUser.role ?? role,
+      country: normalizeCountry(newUser.country),
     }
 
     return NextResponse.json({ success: true, user, message: 'Account created successfully' })

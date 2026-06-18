@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { CheckCircle2, ClipboardList, Eye, EyeOff, Lock, Save, ShieldCheck, User } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import { COUNTRY_LIST, classOptionsForCountry, type CountryCode } from '@/lib/countries'
 
 const inputClass =
     'w-full px-4 py-2.5 rounded-xl text-sm bg-white/70 dark:bg-white/[0.06] border border-gray-200/80 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600'
@@ -21,6 +22,7 @@ export default function SettingsForm() {
     const [name, setName] = useState('')
     const [className, setClassName] = useState('')
     const [subjectsText, setSubjectsText] = useState('')
+    const [country, setCountry] = useState<CountryCode>('RW')
     const [profileError, setProfileError] = useState('')
     const [profileSuccess, setProfileSuccess] = useState('')
     const [isSavingProfile, setIsSavingProfile] = useState(false)
@@ -39,6 +41,7 @@ export default function SettingsForm() {
         if (!user) return
         setName(user.name ?? '')
         setClassName(user.class ?? '')
+        setCountry((user.country as CountryCode) ?? 'RW')
         setSubjectsText(Array.isArray(user.subjects) ? user.subjects.join(', ') : '')
     }, [user])
 
@@ -64,7 +67,7 @@ export default function SettingsForm() {
 
         setIsSavingProfile(true)
         try {
-            await updateProfile({ name: trimmedName, className: trimmedClass, subjects })
+            await updateProfile({ name: trimmedName, className: trimmedClass, subjects, country })
             setProfileSuccess('Profile updated successfully.')
         } catch (error: any) {
             setProfileError(error.message || 'Failed to update profile.')
@@ -147,15 +150,54 @@ export default function SettingsForm() {
                         </div>
                         <div>
                             <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                                Country
+                            </label>
+                            <select
+                                value={country}
+                                onChange={(event) => {
+                                    const next = event.target.value as CountryCode
+                                    setCountry(next)
+                                    if (user?.role === 'student') {
+                                        const opts = classOptionsForCountry(next)
+                                        if (!opts.some((opt) => opt.value === className)) {
+                                            setClassName(opts[0]?.value ?? '')
+                                        }
+                                    }
+                                }}
+                                className={inputClass}
+                            >
+                                {COUNTRY_LIST.map((c) => (
+                                    <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                                ))}
+                            </select>
+                            <p className="text-[11px] text-gray-400 mt-1">
+                                Rwanda users see REB + Cambridge. Nigeria users see NERDC + Cambridge and Exam Prep.
+                            </p>
+                        </div>
+                        <div>
+                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
                                 Class / Section
                             </label>
-                            <input
-                                value={className}
-                                onChange={event => setClassName(event.target.value)}
-                                className={inputClass}
-                                placeholder="S4MS2A&B"
-                                required
-                            />
+                            {user?.role === 'student' ? (
+                                <select
+                                    value={className}
+                                    onChange={(event) => setClassName(event.target.value)}
+                                    className={inputClass}
+                                    required
+                                >
+                                    {classOptionsForCountry(country).map((opt) => (
+                                        <option key={opt.value} value={opt.value}>{opt.label}</option>
+                                    ))}
+                                </select>
+                            ) : (
+                                <input
+                                    value={className}
+                                    onChange={event => setClassName(event.target.value)}
+                                    className={inputClass}
+                                    placeholder="Teacher"
+                                    required
+                                />
+                            )}
                         </div>
                     </div>
 

@@ -4,8 +4,9 @@ import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen, Globe } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import { COUNTRY_LIST, classOptionsForCountry, type CountryCode } from '@/lib/countries'
 
 const inputBase =
   'w-full pl-10 pr-4 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600'
@@ -28,11 +29,13 @@ export default function SignupForm() {
   const [password, setPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
   const [className, setClassName] = useState('')
+  const [country, setCountry] = useState<CountryCode>('RW')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const { signup } = useAuth()
+  const classOptions = classOptionsForCountry(country)
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -52,7 +55,8 @@ export default function SignupForm() {
         studentId.trim() ? studentId.trim() : null,
         password,
         role === 'student' ? className : 'Teacher',
-        role
+        role,
+        country
       )
     } catch (err: any) {
       setError(err?.message || 'Failed to create account. Please try again.')
@@ -149,6 +153,22 @@ export default function SignupForm() {
               Provide an email or student ID. Students without email can use their school ID.
             </p>
 
+            <Field id="country" label="Country / curriculum region" icon={Globe}>
+              <select
+                id="country"
+                value={country}
+                onChange={(e) => {
+                  setCountry(e.target.value as CountryCode)
+                  setClassName('')
+                }}
+                className={`${inputBase} appearance-none pr-10`}
+              >
+                {COUNTRY_LIST.map((c) => (
+                  <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                ))}
+              </select>
+            </Field>
+
             {/* Class select — students only */}
             {role === 'student' && (
               <motion.div
@@ -170,17 +190,17 @@ export default function SignupForm() {
                     className="w-full px-4 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all appearance-none text-gray-900 dark:text-white"
                   >
                     <option value="" disabled>Select your class</option>
-                    <option value="Grade 6">Grade 6</option>
-                    <option value="Grade 7">Grade 7</option>
-                    <option value="Grade 8">Grade 8</option>
-                    <option value="Grade 9">Grade 9</option>
-                    <option value="Grade 10">Grade 10</option>
-                    <option value="Grade 11">Grade 11</option>
-                    <option value="Grade 12">Grade 12</option>
-                    <option value="College Freshman">College Freshman</option>
-                    <option value="College Sophomore">College Sophomore</option>
-                    <option value="College Junior">College Junior</option>
-                    <option value="College Senior">College Senior</option>
+                    {classOptions.map((opt) => (
+                      <option key={opt.value} value={opt.value}>{opt.label}</option>
+                    ))}
+                    {country === 'RW' && (
+                      <>
+                        <option value="College Freshman">College Freshman</option>
+                        <option value="College Sophomore">College Sophomore</option>
+                        <option value="College Junior">College Junior</option>
+                        <option value="College Senior">College Senior</option>
+                      </>
+                    )}
                   </select>
                 </div>
               </motion.div>

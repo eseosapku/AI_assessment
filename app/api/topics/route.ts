@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { sortBySyllabusOrder } from '@/lib/syllabus-order'
 
 function parseOptionalId(value: unknown, fieldName: string) {
     if (value === undefined) return { value: undefined as number | undefined }
@@ -51,14 +52,14 @@ export async function GET(request: NextRequest) {
             .from('topics')
             .select('topic_id,textbook_id,topic')
             .eq('textbook_id', textbookId)
-            .order('topic')
 
         if (error) {
             console.error('Topics fetch error:', error)
             return NextResponse.json({ error: error.message }, { status: 500 })
         }
 
-        const normalized = (data ?? []).map((row: any) => ({
+        const sorted = sortBySyllabusOrder(data ?? [], 'topic')
+        const normalized = sorted.map((row: any) => ({
             id: row.topic_id,
             textbook_id: row.textbook_id,
             name: row.topic,

@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, Loader2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
-import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+import { normalizeCountry } from '@/lib/countries'
 
 interface ClassOption {
     id: number
@@ -66,6 +66,7 @@ function stripPdfExtension(name: string) {
 export default function PdfAssignmentPage() {
     const router = useRouter()
     const { user } = useAuth()
+    const userCountry = normalizeCountry(user?.country)
 
     const [title, setTitle] = useState('')
     const [subject, setSubject] = useState('')
@@ -97,10 +98,14 @@ export default function PdfAssignmentPage() {
     }, [user, router])
 
     useEffect(() => {
+        setCurriculum(userCountry === 'NG' ? 'nigeria' : 'rwanda')
+    }, [userCountry])
+
+    useEffect(() => {
         const loadClasses = async () => {
             setIsLoadingClasses(true)
             try {
-                const res = await fetch('/api/classes')
+                const res = await fetch(`/api/classes?country=${userCountry}`)
                 const json = await res.json()
                 if (!res.ok) throw new Error(json?.error || 'Failed to load classes')
                 const rows = Array.isArray(json?.data) ? json.data : []
@@ -126,7 +131,7 @@ export default function PdfAssignmentPage() {
             }
         }
         loadClasses()
-    }, [])
+    }, [userCountry])
 
     const topics = useMemo(() => parseTopics(topicsInput), [topicsInput])
 

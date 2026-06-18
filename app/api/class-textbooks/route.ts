@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { subjectFromTextbookName } from '@/lib/textbook-subject'
 
 export async function GET(request: NextRequest) {
     try {
@@ -50,6 +51,7 @@ export async function GET(request: NextRequest) {
             .map((textbook: any) => ({
                 id: textbook.textbook_id,
                 name: textbook.textbook_name,
+                subjectName: subjectFromTextbookName(textbook.textbook_name),
                 curriculum: textbook.curriculum,
                 filename: textbook.filename,
             }))
