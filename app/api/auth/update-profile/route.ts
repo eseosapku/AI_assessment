@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { normalizeCountry } from '@/lib/countries'
 
@@ -43,16 +43,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'User ID or student ID is required' }, { status: 400 })
         }
 
-        let query = supabase.from('users').select('*')
-        if (userId) {
-            query = query.eq('id', userId)
-        } else if (studentId) {
-            query = query.eq('student_id', studentId)
-        }
+        const userResult = userId
+            ? await db.query('SELECT * FROM users WHERE id = $1 LIMIT 1', [userId])
+            : await db.query('SELECT * FROM users WHERE student_id = $1 LIMIT 1', [studentId])
+        const userData = userResult.rows[0]
 
-        const { data: userData, error: fetchError } = await query.maybeSingle()
-
-        if (fetchError || !userData) {
+        if (!userData) {
             return NextResponse.json({ error: 'User not found' }, { status: 404 })
         }
 

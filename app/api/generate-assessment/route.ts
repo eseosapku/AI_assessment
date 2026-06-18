@@ -467,8 +467,8 @@ const DIFFICULTY_INSTRUCTIONS: Record<string, string> = {
 function allowsArithmeticForSelection(subject: string, topics: string[]): boolean {
   const subjectText = (subject || '').toLowerCase()
   const topicText = (topics || []).join(' ').toLowerCase()
-  const subjectAllows = /\b(math|mathematics|statistics|physics|chemistry|science|integrated\s*science)\b/.test(subjectText)
-  const topicAllows = /\b(number|addition|subtraction|multiplication|division|fraction|decimal|percent|percentage|ratio|proportion|equation|algebra|geometry|measure|measurement|length|area|perimeter|volume|angle|graph|chart|data|statistics|probability|time|speed|distance|temperature|money|currency|budget|discount|interest|accelerat|velocity|kinematic|motion|force|momentum|energy|newton|friction|gravity|displacement|vector|scalar|density|pressure|wave|optics|electric|circuit|current|voltage|resistance|reaction|mole|stoichiometry)\b/.test(topicText)
+  const subjectAllows = /\b(math|mathematics|statistics|physics|chemistry|science|economics|accounting)\b/.test(subjectText)
+  const topicAllows = /\b(number|addition|subtraction|multiplication|division|fraction|decimal|percent|percentage|ratio|proportion|equation|algebra|geometry|measure|measurement|length|area|perimeter|volume|angle|graph|chart|data|statistics|probability|time|speed|distance|temperature|money|currency|budget|discount|interest|velocity|acceleration|deceleration|motion|kinematic|displacement|force|momentum|energy|gravity)\b/.test(topicText)
   return subjectAllows || topicAllows
 }
 
@@ -943,15 +943,14 @@ function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: string[])
   const question = String(q?.question ?? '').toLowerCase()
   if (!question) return true
 
-  // Strip SI units before symbol checks so "20 m/s" does not look like arithmetic.
-  const stripped = question.replace(/\d+(?:\.\d+)?\s*(?:m\/s²?|km\/h|kg|n|j|w|pa|s|m)\b/g, '')
-  const hasDigits = /\d/.test(stripped)
-  const hasSymbols = /[+\-*=]/.test(stripped)
+  const hasDigits = /\d/.test(question)
+  // Detect arithmetic expressions (e.g., "12 + 7", "9/3"), not unit notation like m/s.
+  const hasArithmeticExpression = /\d\s*[+\-*=/]\s*\d/.test(question)
   const arithmeticWords = /\b(add|added|sum|total|altogether|in\s+all|difference|subtract|minus|plus|left|remain|remaining|increase|decrease|multiply|product|times|divide|quotient|share)\b/.test(question)
   const storyPattern = /\bhas\s+\d+.*\b(give|gives|gave|get|gets|got|buy|buys|bought|take|takes|took|lose|loses|lost|more|less)\b.*\bhow\s+many\b/.test(question)
   const howManyTotal = /\bhow\s+many\b/.test(question) && /\b(total|altogether|left|remain|remaining|now|in\s+all|sum)\b/.test(question)
 
-  return (hasDigits && hasSymbols) || (hasDigits && (arithmeticWords || storyPattern || howManyTotal))
+  return (hasDigits && hasArithmeticExpression) || (hasDigits && (arithmeticWords || storyPattern || howManyTotal))
 }
 
 // ── Main route ────────────────────────────────────────────────────────────────
@@ -971,7 +970,7 @@ export async function POST(request: NextRequest) {
       sourceName,
       questionType: requestedQuestionType = 'mcq',
       difficultyLevel,
-      aiModel = 'eu.google.gemma-3-27b-it',
+      aiModel = 'eu.google.gemma-3-27b-it-v1:0',
       customTime,
       textbook_id,
       topic_ids,
