@@ -8,6 +8,7 @@ import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
+import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const PAUSED_ASSESSMENT_KEY = 'pausedAssessmentState'

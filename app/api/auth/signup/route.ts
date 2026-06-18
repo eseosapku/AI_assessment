@@ -65,12 +65,12 @@ export async function POST(request: NextRequest) {
     const studentId = studentIdInput ?? generatedStudentId
     const userClass = role === 'teacher' ? 'Teacher' : className
 
-    const subjects = role === 'teacher' ? [] : ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
+    const subjects = defaultSubjects(country, role)
     const insertResult = await db.query(
-      `INSERT INTO users (email, password_hash, name, student_id, class, role, subjects)
-       VALUES ($1, $2, $3, $4, $5, $6, $7)
-       RETURNING id, name, email, student_id, class, subjects, role`,
-      [email, passwordHash, name, studentId, userClass, role, subjects],
+      `INSERT INTO users (email, password_hash, name, student_id, class, role, subjects, country)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
+       RETURNING id, name, email, student_id, class, subjects, role, country`,
+      [email, passwordHash, name, studentId, userClass, role, subjects, country],
     )
     const newUser = insertResult.rows[0]
 

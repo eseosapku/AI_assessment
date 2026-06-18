@@ -6,6 +6,10 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+import { CURRICULUM_REGISTRY, curriculaForCountry } from '@/lib/curriculum-registry'
+import { normalizeCountry } from '@/lib/countries'
+import { filterAliasTextbooks, subjectFromTextbookName, withDisplaySubjectNames } from '@/lib/textbook-subject'
+import { useSubscription } from './SubscriptionProvider'
 
 type TextbookRow = { id: number; name: string; subjectName?: string; displayName?: string; curriculum: number; filename?: string | null }
 type TopicRow = { id: number; textbook_id: number; name: string }

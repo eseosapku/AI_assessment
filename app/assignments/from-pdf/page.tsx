@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { ChevronLeft, Loader2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import { normalizeCountry } from '@/lib/countries'
+import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 
 interface ClassOption {
     id: number
