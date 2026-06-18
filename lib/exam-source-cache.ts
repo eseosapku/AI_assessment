@@ -1,5 +1,6 @@
 import fs from 'fs'
 import path from 'path'
+import { examSubjectMatches } from './exam-subject-aliases'
 
 export type CachedExamPaper = {
   key: string
@@ -39,9 +40,8 @@ export function listCachedExamPapers(exam?: string, subject?: string): CachedExa
   let papers = manifest.papers
   if (exam) papers = papers.filter((p) => p.exam === exam.toLowerCase())
   if (subject) {
-    const subj = subject.toLowerCase()
     papers = papers.filter(
-      (p) => p.subject.toLowerCase().includes(subj) || p.name.toLowerCase().includes(subj),
+      (p) => examSubjectMatches(subject, p.subject) || examSubjectMatches(subject, p.name),
     )
   }
   return papers

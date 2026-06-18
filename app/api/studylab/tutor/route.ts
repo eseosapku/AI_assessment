@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from 'next/server'
 import { callGemma, parseJsonRobust, fixLatexInRawJson, hasBedrockCredentials, type ImageInput } from '@/lib/bedrock'
 import { isValidAction } from '@/lib/studylab/actions'
 import type { TutorAction, TutorResponse } from '@/lib/studylab/types'
-import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 
 function parseImage(value: unknown): ImageInput | null {
   if (typeof value !== 'string') return null
@@ -140,12 +139,6 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const userId = String(body?.user_id ?? '').trim()
-    if (userId) {
-      const gate = await assertSubscriptionAccess(userId, 'study')
-      if (!gate.allowed) {
-        return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
-      }
-    }
 
     const title = String(body?.title ?? '').trim()
     const subject = body?.subject ? String(body.subject).trim() : null

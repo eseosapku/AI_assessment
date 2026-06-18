@@ -5,8 +5,6 @@ import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
-import { useSubscription } from '@/components/SubscriptionProvider'
-import { isPaymentRequiredResponse } from '@/lib/subscription'
 import { subjectFromTextbookName, filterAliasTextbooks, withDisplaySubjectNames } from '@/lib/textbook-subject'
 import { CURRICULUM_REGISTRY, curriculaForCountry } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
@@ -188,7 +186,6 @@ function StepLabel({ label }: { label: string }) {
 export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
-  const { canGenerateAssessment, handlePaymentRequired, refresh } = useSubscription()
   const userCountry = normalizeCountry(user?.country ?? 'RW')
   const allowedCurriculumNums = useMemo(
     () => new Set(curriculaForCountry(userCountry, { schoolOnly: true }).map((c) => c.numeric)),
@@ -298,17 +295,12 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     load()
   }, [userCountry, user?.class])
 
-  const curriculumOptions = useMemo(() => {
-    const values = new Set<number>()
-    classes.forEach((cls) => {
-      cls.curricula.forEach((value) => {
-        if (Number.isFinite(value) && allowedCurriculumNums.has(value)) values.add(value)
-      })
-    })
-    return Array.from(values)
+  const curriculumOptions = useMemo(
+    () => Array.from(allowedCurriculumNums)
       .sort((a, b) => a - b)
-      .map((value) => buildCurriculumOption(value))
-  }, [classes, allowedCurriculumNums])
+      .map((value) => buildCurriculumOption(value)),
+    [allowedCurriculumNums],
+  )
 
   const selectedCurriculum = curriculumOptions.find((c) => c.id === formData.curriculum)
   const selectedCurriculumNumeric = selectedCurriculum?.numeric ?? null
@@ -587,10 +579,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   }
 
   const handleStartAssessment = async () => {
-    if (!isTeacher && !canGenerateAssessment) {
-      handlePaymentRequired('assessment')
-      return
-    }
     setIsLoading(true)
     setError('')
     setTotalTime(null)
@@ -609,10 +597,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       if (!text) throw new Error('Server returned an empty response. Please try again.')
       const data = JSON.parse(text)
       if (!response.ok) {
-        if (isPaymentRequiredResponse(response.status, data)) {
-          handlePaymentRequired('assessment')
-          return
-        }
         throw new Error(data.error || 'Failed to generate assessment')
       }
       if (isTeacher) {
@@ -622,7 +606,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
         sessionStorage.setItem('currentAssessment', JSON.stringify(data))
         router.push('/assessment')
       }
-      await refresh()
     } catch (err: any) {
       setError(err.message)
     } finally {
