@@ -48,7 +48,20 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    // Redirect return or email match on client confirm.
+    // Landed on /subscription/success after NardoPay checkout (logged-in user).
+    if (source === 'redirect' && paid) {
+      const result = await activateSubscription({
+        userId,
+        email: payerEmail,
+        ref: transactionId ?? checkoutData.subscription_id ?? 'redirect-success',
+      })
+      if (result.ok) {
+        const updated = await getSubscriptionSnapshot(userId)
+        return NextResponse.json({ data: updated, activated: true, source: 'redirect' })
+      }
+    }
+
+    // Email match when payer email is present on the receipt.
     if (paid && payerEmail) {
       const user = await fetchSubscriptionUser(userId)
       const accountEmail = String(user?.email ?? '').trim().toLowerCase()
@@ -80,7 +93,7 @@ export async function POST(request: NextRequest) {
       data: snapshot,
       pending: true,
       message:
-        'Payment not confirmed yet. Complete checkout using the Subscribe button in this app (not a separate browser tab), then tap refresh.',
+        'Payment not confirmed yet. Finish checkout, return to Study Square, then tap Refresh status — or contact support with your payment receipt.',
     })
   } catch (err) {
     console.error('Subscription confirm error:', err)

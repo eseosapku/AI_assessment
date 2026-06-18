@@ -104,13 +104,14 @@ export default function SubscribeModal({
   )
 
   const openSubscribeCheckout = useCallback(() => {
+    if (!userId) return
     const redirectUrl = `${window.location.origin}/subscription/success`
-    const url = nardoPaySubscribePageUrl(linkCode, { email: userEmail, redirectUrl })
+    const url = nardoPaySubscribePageUrl(linkCode, { email: userEmail, userId, redirectUrl })
     window.open(url, '_blank', 'noopener,noreferrer,width=480,height=720')
     setActivating(true)
     setPayError(null)
     void pollUntilActive()
-  }, [linkCode, userEmail, pollUntilActive])
+  }, [linkCode, userEmail, userId, pollUntilActive])
 
   const handleSubscribe = async () => {
     setPayError(null)

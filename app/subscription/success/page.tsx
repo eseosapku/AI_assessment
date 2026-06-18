@@ -33,6 +33,7 @@ function SubscriptionSuccessContent() {
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({
             user_id: user.id,
+            source: 'redirect',
             transaction_id: transactionId,
             payer_email: payerEmail,
             status,
