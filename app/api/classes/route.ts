@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
+import { normalizeCountry } from '@/lib/countries'
 
 function normalizeIds(value: unknown): number[] {
     if (!Array.isArray(value)) return []
@@ -9,13 +10,16 @@ function normalizeIds(value: unknown): number[] {
     return Array.from(new Set(ids))
 }
 
-export async function GET() {
+export async function GET(request: NextRequest) {
     try {
-        const { data, error } = await supabase
+        const country = normalizeCountry(request.nextUrl.searchParams.get('country') ?? 'RW')
+
+        let query = supabase
             .from('classes')
             .select(`
         id,
         name,
+        country,
         created_at,
         updated_at,
         class_textbooks (
@@ -29,6 +33,14 @@ export async function GET() {
         )
       `)
             .order('name')
+
+        if (country === 'NG') {
+            query = query.eq('country', 'NG')
+        } else {
+            query = query.or('country.eq.RW,country.is.null')
+        }
+
+        const { data, error } = await query
 
         if (error) {
             console.error('Classes fetch error:', error)
@@ -53,6 +65,7 @@ export async function GET() {
             return {
                 id: row.id,
                 name: row.name,
+                country: row.country ?? 'RW',
                 created_at: row.created_at,
                 updated_at: row.updated_at,
                 textbooks,
@@ -77,10 +90,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Class name is required' }, { status: 400 })
         }
 
+        const country = normalizeCountry(body?.country ?? 'RW')
+
         const { data: created, error: createError } = await supabase
             .from('classes')
-            .insert({ name })
-            .select('id,name,created_at,updated_at')
+            .insert({ name, country })
+            .select('id,name,country,created_at,updated_at')
             .single()
 
         if (createError) {
@@ -104,6 +119,7 @@ export async function POST(request: NextRequest) {
             data: {
                 id: created.id,
                 name: created.name,
+                country: created.country ?? country,
                 created_at: created.created_at,
                 updated_at: created.updated_at,
                 textbook_ids: textbookIds,

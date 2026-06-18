@@ -7,7 +7,7 @@ import { Clock, ChevronLeft, ChevronRight, Check, Lock } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import Latex from 'react-latex-next'
 import { useAuth } from '@/components/AuthProvider'
-import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+import FeedbackPanel from '@/components/FeedbackPanel'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const PAUSED_ASSESSMENT_KEY = 'pausedAssessmentState'
@@ -1171,37 +1171,11 @@ function AssessmentPageClient() {
               </div>
             )}
 
-            {/* AI Feedback */}
-            <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 text-left border border-blue-100 dark:border-blue-800/30">
-              <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
-                <span className="text-xl">✨</span> AI Feedback
-              </h3>
-              {isGeneratingFeedback || (isGradingLongForm && results.score === null) ? (
-                <div className="flex items-center gap-3 text-blue-600 dark:text-blue-400">
-                  <div className="animate-spin rounded-full h-4 w-4 border-t-2 border-b-2 border-current"></div>
-                  <p className="text-sm">
-                    {isGradingLongForm ? 'Grading written answers…' : 'Analysing your performance…'}
-                  </p>
-                </div>
-              ) : (
-                <div className="text-sm sm:text-base leading-relaxed space-y-1">
-                  {feedback.split('\n').map((line, i) => {
-                    if (!line.trim()) return <div key={i} className="h-2"></div>
-                    const isHeader = /^\*\*.*\*\*$/.test(line.trim())
-                    if (isHeader) {
-                      return (
-                        <div key={i} className="flex items-center gap-2 mt-4 mb-1 pb-1 border-b border-blue-300 dark:border-blue-600">
-                          <strong className="text-blue-700 dark:text-blue-300 font-bold text-base">
-                            {line.trim().slice(2, -2)}
-                          </strong>
-                        </div>
-                      )
-                    }
-                    return <div key={i} className="text-blue-900 dark:text-blue-100 pl-1">{line}</div>
-                  })}
-                </div>
-              )}
-            </div>
+            <FeedbackPanel
+              feedback={feedback}
+              loading={isGeneratingFeedback || (isGradingLongForm && results.score === null)}
+              loadingMessage={isGradingLongForm ? 'Grading written answers…' : 'Analysing your performance…'}
+            />
           </motion.div>
 
           {/* Download report button */}
@@ -1301,8 +1275,14 @@ function AssessmentPageClient() {
             })}
           </div>
 
-          <div className="flex justify-center pt-8 pb-12">
-            <button onClick={() => router.push('/')} className="btn-primary px-8 py-3">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 pt-8 pb-12">
+            <button
+              onClick={() => {
+                sessionStorage.removeItem('gapMapReturn')
+                router.push('/')
+              }}
+              className="btn-primary px-8 py-3"
+            >
               Return to Dashboard
             </button>
           </div>

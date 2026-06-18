@@ -7,7 +7,7 @@ import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 
-type TextbookRow = { id: number; name: string; curriculum: number; filename?: string | null }
+type TextbookRow = { id: number; name: string; subjectName?: string; displayName?: string; curriculum: number; filename?: string | null }
 type TopicRow = { id: number; textbook_id: number; name: string }
 type SubtopicRow = { id: number; textbook_id: number; topic_id: number; name: string }
 type ClassRow = { id: number; name: string; curricula: number[] }
@@ -26,22 +26,17 @@ interface FlowFormProps {
 
 const TOTAL_STEPS = 9
 
-const CURRICULUM_BY_NUMERIC: Record<number, Omit<CurriculumOption, 'numeric'>> = {
-  0: {
-    id: 'rwanda',
-    label: 'Rwanda National Curriculum (REB)',
-    shortLabel: 'REB',
-    description: 'Rwanda National Competence-Based Curriculum (REB).',
-    badge: 'RW',
-  },
-  1: {
-    id: 'cambridge',
-    label: 'Cambridge International (CAIE)',
-    shortLabel: 'Cambridge',
-    description: 'Cambridge Assessment International Education (CAIE).',
-    badge: 'GB',
-  },
-}
+const CURRICULUM_BY_NUMERIC: Record<number, Omit<CurriculumOption, 'numeric'>> = Object.fromEntries(
+  Object.values(CURRICULUM_REGISTRY)
+    .filter((c) => c.schoolFlow)
+    .map((c) => [c.numeric, {
+      id: c.slug,
+      label: c.label,
+      shortLabel: c.shortLabel,
+      description: c.description,
+      badge: c.badge,
+    }]),
+) as Record<number, Omit<CurriculumOption, 'numeric'>>
 
 function buildCurriculumOption(value: number): CurriculumOption {
   const meta = CURRICULUM_BY_NUMERIC[value]
@@ -60,8 +55,8 @@ function deriveGradeFromClassName(className: string): number | null {
   const name = String(className ?? '').trim()
   if (!name) return null
 
-  // Prefer explicit "Grade 7" style labels.
-  const gradeMatch = name.match(/\bgrade\s*(\d{1,2})\b/i)
+  // Prefer explicit "Grade 7" / "Grade7" style labels.
+  const gradeMatch = name.match(/\bgrade\s*(\d{1,2})\b/i) || name.match(/^grade(\d{1,2})$/i)
   if (gradeMatch) {
     const n = Number(gradeMatch[1])
     return Number.isFinite(n) ? n : null
@@ -78,6 +73,15 @@ function deriveGradeFromClassName(className: string): number | null {
 }
 
 function formatClassLabel(className: string, grade: number | null, curriculumId: string) {
+  if (curriculumId === 'nigeria') {
+    const m = className.match(/^(P\d|JSS\d|SS\d)$/i)
+    if (m) {
+      if (className.startsWith('P')) return `Primary ${className.slice(1)}`
+      if (className.startsWith('JSS')) return `Junior Secondary ${className.slice(3)}`
+      if (className.startsWith('SS')) return `Senior Secondary ${className.slice(2)}`
+    }
+    return className
+  }
   if (curriculumId !== 'rwanda' || grade === null) return className
   if (grade >= 1 && grade <= 6) return `Primary ${grade}`
   if (grade >= 7 && grade <= 12) return `Senior ${grade - 6}`
@@ -181,6 +185,12 @@ function StepLabel({ label }: { label: string }) {
 export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
+  const { canGenerateAssessment, handlePaymentRequired } = useSubscription()
+  const userCountry = normalizeCountry(user?.country ?? 'RW')
+  const allowedCurriculumNums = useMemo(
+    () => new Set(curriculaForCountry(userCountry, { schoolOnly: true }).map((c) => c.numeric)),
+    [userCountry],
+  )
   const isTeacher = (user as any)?.role === 'teacher'
   const [flowMode, setFlowMode] = useState<'ai' | 'scratch' | ''>('')
   const [step, setStep] = useState(1)
@@ -221,6 +231,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [error, setError] = useState('')
   const [generatedData, setGeneratedData] = useState<any>(null)
+  const [manualTopicInput, setManualTopicInput] = useState('')
   const [draftId, setDraftId] = useState<string | null>(null)
 
   useEffect(() => {
@@ -238,7 +249,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     const load = async () => {
       setIsLoadingClasses(true)
       try {
-        const res = await fetch('/api/classes')
+        const res = await fetch(`/api/classes?country=${userCountry}`)
         const json = await res.json()
         if (!res.ok) throw new Error(json?.error || 'Failed to load classes')
         const rows = Array.isArray(json?.data) ? json.data : []
@@ -282,23 +293,17 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       }
     }
     load()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }, [userCountry, user?.class])
 
-  const curriculumOptions = useMemo(() => {
-    const values = new Set<number>()
-    classes.forEach((cls) => {
-      cls.curricula.forEach((value) => {
-        if (Number.isFinite(value)) values.add(value)
-      })
-    })
-    return Array.from(values)
+  const curriculumOptions = useMemo(
+    () => Array.from(allowedCurriculumNums)
       .sort((a, b) => a - b)
-      .map((value) => buildCurriculumOption(value))
-  }, [classes])
+      .map((value) => buildCurriculumOption(value)),
+    [allowedCurriculumNums],
+  )
 
   const selectedCurriculum = curriculumOptions.find((c) => c.id === formData.curriculum)
-  const selectedCurriculumNumeric = selectedCurriculum?.numeric ?? (formData.curriculum ? (formData.curriculum === 'cambridge' ? 1 : 0) : null)
+  const selectedCurriculumNumeric = selectedCurriculum?.numeric ?? null
 
   const classOptions = useMemo(() => {
     const eligible = selectedCurriculumNumeric === null
@@ -327,9 +332,15 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     : ''
 
   const isCambridge = formData.curriculum === 'cambridge'
-  const curriculumNumeric = isCambridge ? 1 : 0
+  const curriculumNumeric = selectedCurriculumNumeric ?? (isCambridge ? 1 : formData.curriculum === 'nigeria' ? 2 : 0)
 
   const classNameForTextbooks = formData.class_name
+
+  const subjectTextbooks = useMemo(() => {
+    return withDisplaySubjectNames(filterAliasTextbooks(textbooks)).sort((a, b) =>
+      a.displayName.localeCompare(b.displayName)
+    )
+  }, [textbooks])
 
   // Load textbooks for the user's class (e.g. "Grade 7"), filtered by curriculum.
   useEffect(() => {
@@ -457,11 +468,13 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     setTimeout(() => setStep(2), 250)
   }
 
-  const handleSubjectSelect = (textbookName: string, textbookId: number) => {
+  const handleSubjectSelect = (textbookName: string, textbookId: number, subjectLabel?: string) => {
     setError('')
+    setManualTopicInput('')
+    const subject = subjectLabel || subjectFromTextbookName(textbookName)
     setFormData({
       ...formData,
-      subject: textbookName,
+      subject,
       textbook_id: textbookId,
       topics: [],
       topic_ids: [],
@@ -469,6 +482,25 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     })
     setSubtopics([])
     setStep(5)
+  }
+
+  const handleManualTopicsContinue = () => {
+    const names = manualTopicInput
+      .split(/[,;\n]+/)
+      .map((s) => s.trim())
+      .filter(Boolean)
+    if (names.length === 0) {
+      setError('Enter at least one topic to cover.')
+      return
+    }
+    setError('')
+    setFormData((prev) => ({
+      ...prev,
+      topics: names,
+      topic_ids: [],
+      subtopic_ids: [],
+    }))
+    setTimeout(() => setStep(6), 250)
   }
 
   const handleTopicToggle = (topicId: number, topicName: string) => {
@@ -547,6 +579,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   }
 
   const handleStartAssessment = async () => {
+    if (!canGenerateAssessment) {
+      handlePaymentRequired('assessment')
+      return
+    }
     setIsLoading(true)
     setError('')
     setTotalTime(null)
@@ -793,7 +829,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Subject" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                  {selectedClassDisplayName || formData.class_name || 'Selected class'} · {selectedCurriculum?.shortLabel ?? (isCambridge ? 'Cambridge' : 'REB')} textbooks
+                  {selectedClassDisplayName || formData.class_name || 'Selected class'} · {selectedCurriculum?.shortLabel ?? (isCambridge ? 'Cambridge' : 'REB')} subjects
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {isLoadingTextbooks ? (
@@ -801,14 +837,18 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                       <Loader2 className="w-4 h-4 animate-spin" />
                       Loading textbooks...
                     </div>
-                  ) : textbooks.length === 0 ? (
+                  ) : subjectTextbooks.length === 0 ? (
                     <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
-                      No textbooks assigned for {selectedClassDisplayName || classNameForTextbooks || 'this class'}.
+                      No subjects assigned for {selectedClassDisplayName || classNameForTextbooks || 'this class'}.
                     </div>
                   ) : (
-                    textbooks.map(tb => (
-                      <OptionButton key={tb.id} selected={formData.textbook_id === tb.id} onClick={() => handleSubjectSelect(tb.name, tb.id)}>
-                        <span className="font-medium text-gray-800 dark:text-gray-200">{tb.name}</span>
+                    subjectTextbooks.map(tb => (
+                      <OptionButton
+                        key={tb.id}
+                        selected={formData.textbook_id === tb.id}
+                        onClick={() => handleSubjectSelect(tb.name, tb.id, tb.displayName)}
+                      >
+                        <span className="font-medium text-gray-800 dark:text-gray-200">{tb.displayName}</span>
                       </OptionButton>
                     ))
                   )}
@@ -829,8 +869,24 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                       Loading topics...
                     </div>
                   ) : topics.length === 0 ? (
-                    <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
-                      No topics found for this textbook.
+                    <div className="col-span-full space-y-3">
+                      <p className="text-sm text-gray-500 dark:text-gray-400">
+                        No syllabus topics are loaded for this textbook yet. Enter topics manually to generate anyway.
+                      </p>
+                      <textarea
+                        value={manualTopicInput}
+                        onChange={(e) => setManualTopicInput(e.target.value)}
+                        placeholder="e.g. Kinematics, Forces, Energy (comma or line separated)"
+                        rows={3}
+                        className="w-full px-3 py-2.5 rounded-xl text-sm bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none text-gray-900 dark:text-white"
+                      />
+                      <button
+                        type="button"
+                        onClick={handleManualTopicsContinue}
+                        className="w-full py-2.5 rounded-xl border border-blue-500 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
+                      >
+                        Continue with manual topics →
+                      </button>
                     </div>
                   ) : (
                     topics.map(t => (

@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
+import { normalizeCountry } from '@/lib/countries'
 
 function normalizeStudentId(value: unknown) {
     const trimmed = String(value ?? '').trim()
@@ -71,6 +72,10 @@ export async function POST(request: NextRequest) {
             updatePayload.subjects = subjects
         }
 
+        if (Object.prototype.hasOwnProperty.call(body, 'country')) {
+            updatePayload.country = normalizeCountry(body.country)
+        }
+
         const wantsPasswordChange = Boolean(newPassword || currentPassword || confirmPassword)
 
         if (wantsPasswordChange) {
@@ -101,20 +106,15 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No updates provided' }, { status: 400 })
         }
 
-        const entries = Object.entries(updatePayload)
-        const setClause = entries.map(([key], idx) => `"${key}" = $${idx + 2}`).join(', ')
-        const values = [userData.id, ...entries.map(([, value]) => value)]
-        const updateResult = await db.query(
-            `UPDATE users
-             SET ${setClause}, updated_at = NOW()
-             WHERE id = $1
-             RETURNING id, name, email, student_id, class, subjects, role`,
-            values,
-        )
-        const updatedUser = updateResult.rows[0]
+        const { data: updatedUser, error: updateError } = await supabase
+            .from('users')
+            .update(updatePayload)
+            .eq('id', userData.id)
+            .select('id, name, email, student_id, class, subjects, role, country')
+            .single()
 
-        if (!updatedUser) {
-            return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 })
+        if (updateError || !updatedUser) {
+            return NextResponse.json({ error: updateError?.message || 'Failed to update profile' }, { status: 500 })
         }
 
         const user = {
@@ -125,6 +125,7 @@ export async function POST(request: NextRequest) {
             class: updatedUser.class,
             subjects: updatedUser.subjects,
             role: updatedUser.role ?? 'student',
+            country: normalizeCountry(updatedUser.country),
         }
 
         return NextResponse.json({ success: true, user, message: 'Profile updated successfully' })
