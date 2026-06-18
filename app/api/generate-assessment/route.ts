@@ -936,14 +936,14 @@ function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false
 }
 
 function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: string[]): boolean {
+  // Only skip filtering when the selected subject/topics explicitly allow calculations.
+  // The AI prompt already forbids arithmetic on other subjects; this is a narrow backup
+  // for obvious primary-style word problems — not cross-subject keyword matching.
   if (allowsArithmeticForSelection(subject, topics)) return false
   const question = String(q?.question ?? '').toLowerCase()
   if (!question) return true
 
-  // Physics/science numeric questions (units like m/s) are not primary arithmetic word problems.
-  if (/\b(m\/s²?|km\/h|kg|newton|joule|watt|pascal|n\/m)\b/.test(question)) return false
-  if (/\b(accelerat|decelerat|velocity|initial velocity|final velocity|uniform motion|kinematic)\b/.test(question)) return false
-
+  // Strip SI units before symbol checks so "20 m/s" does not look like arithmetic.
   const stripped = question.replace(/\d+(?:\.\d+)?\s*(?:m\/s²?|km\/h|kg|n|j|w|pa|s|m)\b/g, '')
   const hasDigits = /\d/.test(stripped)
   const hasSymbols = /[+\-*=]/.test(stripped)
