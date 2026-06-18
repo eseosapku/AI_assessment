@@ -52,7 +52,7 @@ export async function POST(request: NextRequest) {
     amountToCharge = roundForCurrency(amountToCharge, currency)
 
     const planId = await ensurePaymentPlan(amountToCharge, currency, interval)
-    const txRef = `sub_${userId.replace(/-/g, '').slice(0, 12)}_${randomBytes(5).toString('hex')}`
+    const txRef = `sub_${userId}_${randomBytes(4).toString('hex')}`
 
     const { link } = await createFlutterwaveCheckout({
       email,

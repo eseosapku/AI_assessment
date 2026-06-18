@@ -45,7 +45,13 @@ export default function SubscribeModal({
     setError(null)
     try {
       const amount = currency === defaultCurrency ? defaultAmount : undefined
-      const { checkoutUrl } = await initiateMonthlySubscription(userId, userEmail, currency, amount)
+      const { checkoutUrl, paymentReference } = await initiateMonthlySubscription(userId, userEmail, currency, amount)
+      try {
+        sessionStorage.setItem('flw_pending_user_id', userId)
+        sessionStorage.setItem('flw_pending_tx_ref', paymentReference)
+      } catch {
+        // ignore storage errors
+      }
       window.location.href = checkoutUrl
     } catch (e: unknown) {
       setError(e instanceof Error ? e.message : 'Failed to start payment')

@@ -162,6 +162,22 @@ export async function findTransactionByTxRef(txRef: string): Promise<{ status: s
 
 import { createHmac, timingSafeEqual } from 'crypto'
 
+export async function verifyTransactionById(transactionId: string): Promise<{ status: string; id?: string; txRef?: string } | null> {
+  const id = String(transactionId).trim()
+  if (!id) return null
+  try {
+    const data = await flwFetch(`/v3/transactions/${encodeURIComponent(id)}/verify`)
+    const txn = data?.data ?? {}
+    return {
+      status: String(txn?.status ?? ''),
+      id: txn?.id != null ? String(txn.id) : id,
+      txRef: txn?.tx_ref != null ? String(txn.tx_ref) : undefined,
+    }
+  } catch {
+    return null
+  }
+}
+
 export function verifyWebhookSignature(
   rawBody: string,
   headers: { verifHash: string | null; flutterwaveSignature: string | null },

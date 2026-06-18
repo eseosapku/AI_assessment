@@ -1,4 +1,5 @@
 import { supabase } from '@/lib/supabase'
+import { getSupabaseAdmin, hasSupabaseAdmin } from '@/lib/supabase-admin'
 import {
   buildSubscriptionSnapshot,
   FREE_ASSESSMENT_LIMIT,
@@ -9,7 +10,8 @@ import {
 } from '@/lib/subscription'
 
 export async function fetchSubscriptionUser(userId: string): Promise<SubscriptionUser | null> {
-  const { data, error } = await supabase
+  const client = hasSupabaseAdmin() ? getSupabaseAdmin() : supabase
+  const { data, error } = await client
     .from('users')
     .select('id, role, email, subscription_status, free_assessments_used, subscription_started_at, subscription_expires_at')
     .eq('id', userId)
@@ -74,10 +76,20 @@ export async function incrementFreeAssessmentUsage(userId: string): Promise<void
   const used = Math.max(0, Number(user.free_assessments_used) || 0)
   if (used >= FREE_ASSESSMENT_LIMIT) return
 
-  await supabase
+  const client = hasSupabaseAdmin() ? getSupabaseAdmin() : supabase
+  await client
     .from('users')
     .update({ free_assessments_used: used + 1 })
     .eq('id', userId)
+}
+
+export function userIdFromTxRef(txRef: string): string | null {
+  const match = /^sub_([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})_/i.exec(String(txRef).trim())
+  return match?.[1] ?? null
+}
+
+export async function resolveUserIdFromTxRef(txRef: string): Promise<string | null> {
+  return userIdFromTxRef(txRef)
 }
 
 export async function activateSubscription(params: {
@@ -87,7 +99,12 @@ export async function activateSubscription(params: {
   expiresAt?: string | null
   provider?: string
 }): Promise<{ ok: boolean; userId?: string; error?: string }> {
-  let query = supabase.from('users').select('id, email')
+  if (!hasSupabaseAdmin()) {
+    return { ok: false, error: 'Server misconfigured: SUPABASE_SERVICE_ROLE_KEY is missing on Vercel.' }
+  }
+
+  const db = getSupabaseAdmin()
+  let query = db.from('users').select('id, email')
   if (params.userId) {
     query = query.eq('id', params.userId)
   } else if (params.email) {
@@ -108,8 +125,19 @@ export async function activateSubscription(params: {
     flutterwave_ref: params.ref ?? null,
   }
 
-  const { error: updErr } = await supabase.from('users').update(payload).eq('id', user.id)
+  const { error: updErr } = await db.from('users').update(payload).eq('id', user.id).select('id').maybeSingle()
   if (updErr) return { ok: false, error: updErr.message }
+  if (!updErr && payload.subscription_status) {
+    // RLS / missing columns can fail silently without service role — confirm row updated
+    const { data: check } = await db.from('users').select('subscription_status').eq('id', user.id).maybeSingle()
+    if (check?.subscription_status !== 'active') {
+      return {
+        ok: false,
+        error:
+          'Subscription columns missing or not writable. Run supabase-subscription-migration.sql in Supabase.',
+      }
+    }
+  }
 
   return { ok: true, userId: user.id }
 }

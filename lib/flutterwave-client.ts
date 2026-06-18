@@ -46,11 +46,19 @@ export async function initiateMonthlySubscription(
   return res.json()
 }
 
-export async function verifyPayment(userId: string, reference: string): Promise<SubscriptionStatus> {
+export async function verifyPayment(
+  userId: string,
+  reference: string,
+  transactionId?: string,
+): Promise<SubscriptionStatus> {
   const res = await fetch('/api/payments/flutterwave/verify', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user_id: userId, reference }),
+    body: JSON.stringify({
+      user_id: userId,
+      reference,
+      transaction_id: transactionId,
+    }),
   })
   if (!res.ok) {
     const body = await res.text()
