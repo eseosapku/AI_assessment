@@ -1,3 +1,5 @@
+import { NIGERIA_CURRICULUM, NIGERIA_LEVELS } from './nigeria-curriculum'
+
 export type CountryCode = 'RW' | 'NG'
 
 export interface CountryMeta {
@@ -32,11 +34,10 @@ export function normalizeCountry(value: unknown): CountryCode {
 
 export function classOptionsForCountry(country: CountryCode): { value: string; label: string }[] {
   if (country === 'NG') {
-    return [
-      ...['P1', 'P2', 'P3', 'P4', 'P5', 'P6'].map((c) => ({ value: c, label: `Primary ${c.slice(1)}` })),
-      ...['JSS1', 'JSS2', 'JSS3'].map((c) => ({ value: c, label: c.replace('JSS', 'Junior Secondary ') })),
-      ...['SS1', 'SS2', 'SS3'].map((c) => ({ value: c, label: c.replace('SS', 'Senior Secondary ') })),
-    ]
+    return NIGERIA_LEVELS.map((level) => ({
+      value: level,
+      label: NIGERIA_CURRICULUM[level].label,
+    }))
   }
   return [
     { value: 'Grade1', label: 'Grade 1' },

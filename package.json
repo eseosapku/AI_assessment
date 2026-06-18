@@ -8,7 +8,6 @@
     "start": "next start",
     "lint": "next lint",
     "sync:exam-banks": "node scripts/sync-exam-question-banks.js",
-    "setup:nardopay": "node scripts/setup-nardopay-link.js",
     "capture:motion-assets": "node scripts/capture-motion-ad-screenshots.js"
   },
   "dependencies": {

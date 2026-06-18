@@ -23,7 +23,22 @@ const WAEC_GITHUB = [
   { file: 'govt.csv', subject: 'Government', url: 'https://raw.githubusercontent.com/Victor-Akinode/chatgpt-new/main/data/waec_data/govt.csv' },
 ]
 
-const ALOC_SUBJECTS = {
+const ALOC_WAEC_SUBJECTS = {
+  biology: 'Biology',
+  chemistry: 'Chemistry',
+  physics: 'Physics',
+  mathematics: 'Mathematics',
+  english: 'English Language',
+  government: 'Government',
+  economics: 'Economics',
+  geography: 'Geography',
+  commerce: 'Commerce',
+  accounting: 'Financial Accounting',
+  crk: 'Christian Religious Studies',
+  englishlit: 'Literature in English',
+}
+
+const ALOC_JAMB_SUBJECTS = {
   biology: 'Biology',
   chemistry: 'Chemistry',
   physics: 'Physics',
@@ -33,7 +48,7 @@ const ALOC_SUBJECTS = {
   economics: 'Economics',
   geography: 'Geography',
   commerce: 'Commerce',
-  accounting: 'Financial Accounting',
+  accounting: 'Principles of Accounts',
   crk: 'Christian Religious Studies',
   englishlit: 'Literature in English',
 }
@@ -276,28 +291,41 @@ async function fetchAlocBatch(token, subject, type, year, retries = 3) {
 async function syncAloc(sb, token) {
   console.log('\n=== JAMB/WAEC from Aloc API ===')
   let total = 0
-  for (const [slug, label] of Object.entries(ALOC_SUBJECTS)) {
-    for (const year of ALOC_YEARS) {
-      for (const type of ['utme', 'wassce']) {
-        const questions = await fetchAlocBatch(token, slug, type, year)
-        if (!questions.length) continue
-        const exam = type === 'utme' ? 'jamb' : 'waec'
-        const diet = type === 'utme' ? 'utme' : 'may-june'
-        const subject = exam === 'jamb' && slug === 'english' ? 'Use of English' : label
-        const sourceText = questions.map(formatAlocQuestion).join('\n\n')
-        await upsertExamBank(sb, {
-          exam,
-          subject,
-          year,
-          diet,
-          sourceText,
-          authority: exam === 'jamb' ? 'JAMB UTME (Aloc API)' : 'WAEC WASSCE (Aloc API)',
-          sourceUrl: 'https://questions.aloc.com.ng',
-        })
-        total++
-        console.log(`  ${exam.toUpperCase()} ${subject} ${year}: ${questions.length} questions`)
-        await new Promise((r) => setTimeout(r, 300))
-      }
+  for (const year of ALOC_YEARS) {
+    for (const [slug, label] of Object.entries(ALOC_JAMB_SUBJECTS)) {
+      const questions = await fetchAlocBatch(token, slug, 'utme', year)
+      if (!questions.length) continue
+      const subject = slug === 'english' ? 'Use of English' : label
+      const sourceText = questions.map(formatAlocQuestion).join('\n\n')
+      await upsertExamBank(sb, {
+        exam: 'jamb',
+        subject,
+        year,
+        diet: 'utme',
+        sourceText,
+        authority: 'JAMB UTME (Aloc API)',
+        sourceUrl: 'https://questions.aloc.com.ng',
+      })
+      total++
+      console.log(`  JAMB ${subject} ${year}: ${questions.length} questions`)
+      await new Promise((r) => setTimeout(r, 300))
+    }
+    for (const [slug, label] of Object.entries(ALOC_WAEC_SUBJECTS)) {
+      const questions = await fetchAlocBatch(token, slug, 'wassce', year)
+      if (!questions.length) continue
+      const sourceText = questions.map(formatAlocQuestion).join('\n\n')
+      await upsertExamBank(sb, {
+        exam: 'waec',
+        subject: label,
+        year,
+        diet: 'may-june',
+        sourceText,
+        authority: 'WAEC WASSCE (Aloc API)',
+        sourceUrl: 'https://questions.aloc.com.ng',
+      })
+      total++
+      console.log(`  WAEC ${label} ${year}: ${questions.length} questions`)
+      await new Promise((r) => setTimeout(r, 300))
     }
   }
   return total

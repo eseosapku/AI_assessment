@@ -3,7 +3,6 @@
 import { motion } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import Link from 'next/link'
 import { ChevronRight, Check, ExternalLink, Loader2, BookOpen, GraduationCap, FileText } from 'lucide-react'
 import {
   WAEC_SUBJECTS,
@@ -13,11 +12,10 @@ import {
 } from '@/lib/nigeria-exam-syllabi'
 import { allExamPrepResources } from '@/lib/exam-prep-resources'
 import { useAuth } from '@/components/AuthProvider'
-import { useSubscription } from '@/components/SubscriptionProvider'
-import { isPaymentRequiredResponse } from '@/lib/subscription'
 
 type ExamType = 'waec' | 'jamb'
 type SourceMode = 'syllabus' | 'past_paper' | 'both'
+type QuestionFormat = 'mcq' | 'longform' | 'mixed'
 
 type PastPaper = {
   id: number
@@ -37,14 +35,15 @@ const DIFFICULTY_LEVELS = [
 export default function ExamPrepForm() {
   const router = useRouter()
   const { user } = useAuth()
-  const { canGenerateAssessment, handlePaymentRequired, refresh } = useSubscription()
   const [exam, setExam] = useState<ExamType | ''>('')
   const [subject, setSubject] = useState('')
   const [jambMode, setJambMode] = useState<'subject' | 'course'>('subject')
   const [course, setCourse] = useState('')
+  const [comboSubject, setComboSubject] = useState('')
   const [topics, setTopics] = useState<string[]>([])
   const [difficulty, setDifficulty] = useState('average')
   const [count, setCount] = useState(10)
+  const [questionFormat, setQuestionFormat] = useState<QuestionFormat>('mcq')
   const [sourceMode, setSourceMode] = useState<SourceMode>('syllabus')
   const [pastPapers, setPastPapers] = useState<PastPaper[]>([])
   const [selectedPaperId, setSelectedPaperId] = useState<number | null>(null)
@@ -108,13 +107,10 @@ export default function ExamPrepForm() {
     if (!exam || !subject) return
     if (sourceMode !== 'past_paper' && topics.length === 0) return
     if (sourceMode !== 'syllabus' && pastPapers.length > 0 && !selectedPaperId) return
-    if (!canGenerateAssessment) {
-      handlePaymentRequired('assessment')
-      return
-    }
     setError('')
     setIsGenerating(true)
     try {
+      const qType: QuestionFormat = exam === 'jamb' ? 'mcq' : questionFormat
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -127,31 +123,28 @@ export default function ExamPrepForm() {
           className: exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
           curriculum: exam,
           difficultyLevel: difficulty,
-          questionType: 'mcq',
+          questionType: qType,
           textbook_id: selectedPaperId ?? undefined,
           examPrepContext: examPrepContext(
             exam,
             subject,
             topics.length ? topics : (selectedPaper ? [`${selectedPaper.year} past paper`] : []),
             [
-              jambCombo ? `Target course: ${jambCombo.course} (${jambCombo.faculty})` : '',
-              selectedPaper ? `Based on imported ${selectedPaper.year} ${selectedPaper.diet} past paper` : '',
+              jambCombo ? `Target course: ${jambCombo.course} (${jambCombo.faculty}). UTME subjects: ${jambCombo.subjects.join(', ')}` : '',
+              selectedPaper ? `Past paper reference: ${selectedPaper.year} ${selectedPaper.diet}` : '',
               sourceMode === 'both' ? 'Combine syllabus topics with past-paper style and content' : '',
+              exam === 'waec' && qType !== 'mcq' ? 'Include WASSCE Paper 2 style theory: structured answers, definitions, explanations, and worked problems. Describe any diagram in words when needed.' : '',
+              exam === 'jamb' && selectedPaper ? 'Where the source material references figures or diagrams, describe them clearly in the question stem so they are answerable without a separate image.' : '',
             ].filter(Boolean).join('. '),
           ),
         }),
       })
       const json = await res.json()
       if (!res.ok) {
-        if (isPaymentRequiredResponse(res.status, json)) {
-          handlePaymentRequired('assessment')
-          return
-        }
         throw new Error(json?.error || 'Failed to generate assessment')
       }
       sessionStorage.setItem('currentAssessment', JSON.stringify(json))
       router.push('/assessment')
-      await refresh()
     } catch (e: any) {
       setError(e?.message || 'Generation failed')
     } finally {
@@ -233,21 +226,44 @@ export default function ExamPrepForm() {
           )}
 
           {exam === 'jamb' && jambMode === 'course' ? (
-            <select
-              value={course}
-              onChange={(e) => {
-                const c = JAMB_COURSE_COMBOS.find((x) => x.course === e.target.value)
-                setCourse(e.target.value)
-                setSubject(c?.subjects[1] ?? '')
-                setTopics([])
-              }}
-              className="w-full px-4 py-2.5 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5"
-            >
-              <option value="">Select target course</option>
-              {JAMB_COURSE_COMBOS.map((c) => (
-                <option key={c.course} value={c.course}>{c.course} — {c.subjects.slice(1).join(', ')}</option>
-              ))}
-            </select>
+            <div className="space-y-3">
+              <select
+                value={course}
+                onChange={(e) => {
+                  const c = JAMB_COURSE_COMBOS.find((x) => x.course === e.target.value)
+                  setCourse(e.target.value)
+                  const first = c?.subjects[1] ?? ''
+                  setComboSubject(first)
+                  setSubject(first)
+                  setTopics([])
+                }}
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5"
+              >
+                <option value="">Select target course</option>
+                {JAMB_COURSE_COMBOS.map((c) => (
+                  <option key={c.course} value={c.course}>{c.course} — {c.faculty}</option>
+                ))}
+              </select>
+              {jambCombo && (
+                <div>
+                  <p className="text-xs text-gray-500 mb-2">UTME subject combination (English is compulsory for all):</p>
+                  <div className="flex flex-wrap gap-2">
+                    {jambCombo.subjects.map((s) => (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => { setComboSubject(s); setSubject(s); setTopics([]) }}
+                        className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${comboSubject === s || subject === s
+                          ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20 text-violet-800'
+                          : 'border-gray-200 dark:border-white/10'}`}
+                      >
+                        {s}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
           ) : (
             <div className="grid sm:grid-cols-2 gap-2 max-h-64 overflow-y-auto">
               {subjects.map((s) => (
@@ -274,7 +290,7 @@ export default function ExamPrepForm() {
           <div>
             <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 3</p>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white">Question source</h2>
-            <p className="text-xs text-gray-500 mt-1">Use syllabus topics, real past papers (when imported), or both.</p>
+            <p className="text-xs text-gray-500 mt-1">Use syllabus topics, synced past-question banks by year, or both.</p>
           </div>
 
           <div className="flex flex-wrap gap-2">
@@ -327,16 +343,13 @@ export default function ExamPrepForm() {
                 Past paper (by year)
               </h3>
               {loadingPapers ? (
-                <p className="text-sm text-gray-500 flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Loading imported papers…</p>
+                <p className="text-sm text-gray-500 flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Loading past papers…</p>
               ) : pastPapers.length === 0 ? (
                 <div className="rounded-xl border border-amber-200/60 dark:border-amber-800/40 bg-amber-50/50 dark:bg-amber-900/10 p-4 text-sm text-amber-900 dark:text-amber-200">
-                  <p className="font-medium mb-1">No past papers imported yet for {subject}.</p>
-                  <p className="text-xs text-amber-800/80 dark:text-amber-300/80 mb-2">
-                    Run <code className="text-[11px]">node scripts/sync-exam-question-banks.js</code> to auto-fetch WAEC questions, or add PDFs under <code className="text-[11px]">data/exam-sources/{exam}/</code>.
+                  <p className="font-medium mb-1">No past papers available yet for {subject}.</p>
+                  <p className="text-xs text-amber-800/80 dark:text-amber-300/80">
+                    Syllabus-only practice still works. Past papers sync automatically when available for this subject.
                   </p>
-                  <Link href="/exam-prep/download-guide" className="text-xs font-semibold text-emerald-700 dark:text-emerald-300 hover:underline">
-                    See download guide →
-                  </Link>
                 </div>
               ) : (
                 <div className="grid sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
@@ -350,7 +363,7 @@ export default function ExamPrepForm() {
                         : 'border-gray-200 dark:border-white/10'}`}
                     >
                       {p.year} — {p.diet?.replace(/-/g, ' ')}
-                      <span className="block text-[10px] text-gray-400">Real imported paper</span>
+                      <span className="block text-[10px] text-gray-400">Past paper</span>
                     </button>
                   ))}
                 </div>
@@ -366,6 +379,20 @@ export default function ExamPrepForm() {
           <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 4</p>
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Practice settings</h2>
           <div className="grid sm:grid-cols-2 gap-4 mb-4">
+            {exam === 'waec' && (
+              <div className="sm:col-span-2">
+                <label className="text-xs font-semibold text-gray-500 uppercase">Question format</label>
+                <select
+                  value={questionFormat}
+                  onChange={(e) => setQuestionFormat(e.target.value as QuestionFormat)}
+                  className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5"
+                >
+                  <option value="mcq">Objective (Paper 1 style)</option>
+                  <option value="longform">Theory (Paper 2 style)</option>
+                  <option value="mixed">Mixed objective + theory</option>
+                </select>
+              </div>
+            )}
             <div>
               <label className="text-xs font-semibold text-gray-500 uppercase">Difficulty</label>
               <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5">

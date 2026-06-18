@@ -8,11 +8,6 @@ import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
 import { examPrepContext } from '@/lib/nigeria-exam-syllabi'
 import { getCachedExamPaperById, isCachePaperId } from '@/lib/exam-source-cache'
-import {
-  assertSubscriptionAccess,
-  incrementFreeAssessmentUsage,
-  subscriptionPaywallBody,
-} from '@/lib/subscription-server'
 
 const MAX_DIAGRAMS = 4
 const MAX_SOURCE_CHARS = 12000
@@ -555,7 +550,7 @@ function buildPrompt(opts: {
   const estimatedTime = mcqCount * mcqTime + lfCount * lfTime
 
   const diagramNote = hasDiagramSupport
-    ? `DIAGRAMS: For up to ${MAX_DIAGRAMS} MCQ questions where a visual is ESSENTIAL (geometry, circuits, anatomy, graphs), add "needs_diagram": true and "diagram_hint": "<description>". Skip for text/calculation questions.`
+    ? `DIAGRAMS: When a visual is essential (geometry, circuits, anatomy, graphs, labelled diagrams from past papers), set "needs_diagram": true and "diagram_hint": "<clear description for image generation>". Use for up to ${MAX_DIAGRAMS} questions. Theory (longform) questions may also reference diagrams when the past-paper source includes them.`
     : ''
 
   // IMPORTANT: we only ask for a short passage_hint here — the full passage is generated
@@ -690,6 +685,20 @@ ${longformRule}`
   }
 
   const sessionSeed = Math.floor(Math.random() * 1000000)
+  const uiConstraints = hasDiagramSupport
+    ? `**UI CONSTRAINTS (EXAM PREP WITH PAST-PAPER SOURCE):**
+- Adapt questions from the past-paper reference. MCQ and theory may include diagrams when the source material requires them.
+- For diagram-dependent questions, set "needs_diagram": true and a detailed "diagram_hint".
+- Do NOT ask students to draw, sketch, or plot unless it is standard WASSCE theory style (describe in words if no diagram).
+- Never ask students to measure something on-screen or to use a ruler/protractor.`
+    : `**UI CONSTRAINTS (NON-NEGOTIABLE):**
+- All questions must be answerable from text alone. If a shape/object is needed, describe it fully in words with quantities.
+- Do NOT write any question that depends on a picture/diagram/graph/figure being shown.
+- Do NOT reference colors/shading/parts of "this shape" or "this picture".
+- NEVER use prompts like "imagine", "as shown above/below", "see the diagram", "look at the picture", or "look at this".
+- Do NOT ask students to draw, sketch, or plot.
+- Never ask students to measure something on-screen or to use a ruler/protractor.`
+
   const prompt = `You are an expert educational assessment generator aligned with the ${curriculumName}. Create a ${style} assessment. [Session: ${sessionSeed}]
 
 ${curriculumBlock}
@@ -706,13 +715,7 @@ ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 
 ${topicAlignment}
 
-**UI CONSTRAINTS (NON-NEGOTIABLE):**
-- All questions must be answerable from text alone. If a shape/object is needed, describe it fully in words with quantities.
-- Do NOT write any question that depends on a picture/diagram/graph/figure being shown.
-- Do NOT reference colors/shading/parts of "this shape" or "this picture".
-- NEVER use prompts like "imagine", "as shown above/below", "see the diagram", "look at the picture", or "look at this".
-- Do NOT ask students to draw, sketch, or plot.
-- Never ask students to measure something on-screen or to use a ruler/protractor.
+${uiConstraints}
 
 **Requirements:**
 1. All questions strictly based on the ${curriculumName} syllabus topics listed above.
@@ -721,7 +724,7 @@ ${topicAlignment}
 4. MCQ "explanation" field: 100-150 words. Write a thorough explanation covering: (a) the concept or skill this question tests, (b) exactly why the correct answer is right with specific reasoning, evidence, or working shown, (c) why each of the three wrong options is incorrect and what misconception leads a student to pick it. Do NOT just restate the question. Write in full sentences.
 5. Longform "explanation" field: 40-60 words. State the skill being assessed (e.g. "This question tests inference skills..."), then describe what a strong answer must include. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
 6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
-${questionType !== 'longform' ? `7. ${diagramNote}` : ''}
+${questionType !== 'longform' || hasDiagramSupport ? `7. ${diagramNote || 'N/A'}` : ''}
 8. ${passageNote}
 
 **MCQ ANSWER INTEGRITY — NON-NEGOTIABLE:**
@@ -867,9 +870,11 @@ function isScienceSubject(subject: string): boolean {
   return /\b(physics|chemistry|biology|science|mathematics|math|computing|computer science|ict)\b/i.test(subject || '')
 }
 
-function isUnanswerableWithoutVisual(q: any, subject = ''): boolean {
+function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false): boolean {
   const question = String(q?.question ?? '').trim()
   if (!question) return true
+
+  if (allowDiagrams && q?.needs_diagram === true) return false
 
   const lower = question.toLowerCase()
 
@@ -878,7 +883,7 @@ function isUnanswerableWithoutVisual(q: any, subject = ''): boolean {
     return false
   }
 
-  if (q?.needs_diagram === true) return true
+  if (q?.needs_diagram === true) return !allowDiagrams
 
   // Disallow any draw/plot or imagine prompts entirely.
   if (/\b(draw|sketch|plot|imagine)\b/.test(lower)) {
@@ -971,12 +976,6 @@ export async function POST(request: NextRequest) {
         : 'mcq'
 
     const userId = String(user_id ?? '').trim()
-    if (userId) {
-      const gate = await assertSubscriptionAccess(userId, 'assessment')
-      if (!gate.allowed) {
-        return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
-      }
-    }
 
     const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID
@@ -1133,7 +1132,7 @@ export async function POST(request: NextRequest) {
     if (sourceLabel) curriculumBlockLines.push(`**Source Material:** ${sourceLabel}`)
     if (baseTopicNames.length > 0) curriculumBlockLines.push(`**Selected Topics:** ${baseTopicNames.join(', ')}`)
     if (textbookSourceText && textbookExamYear) {
-      curriculumBlockLines.push(`**Past Paper Source:** ${textbookName} (authentic imported exam material)`)
+      curriculumBlockLines.push(`**Past Paper Reference:** ${textbookName} (${textbookExamYear})`)
     }
     if (resolvedSubtopics.length > 0) {
       const names = resolvedSubtopics.map(s => `"${s.name}"`).join(', ')
@@ -1153,7 +1152,8 @@ export async function POST(request: NextRequest) {
     }
 
     const isCambridge = curriculumSlug === 'cambridge'
-    const hasDiagramSupport = false
+    const isExamPrepMode = curriculumSlug === 'waec' || curriculumSlug === 'jamb'
+    const hasDiagramSupport = isExamPrepMode && Boolean(textbookSourceText)
     const usePassageFlow = !hasSourceText && needsPassage(promptSubject)
 
     // ── Bedrock client (explicit timeouts + fallback model) ─────────────────
@@ -1447,7 +1447,7 @@ export async function POST(request: NextRequest) {
           console.warn(`Removed invalid question type: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
-        if (isUnanswerableWithoutVisual(q, promptSubject)) {
+        if (isUnanswerableWithoutVisual(q, promptSubject, hasDiagramSupport)) {
           console.warn(`Removed unanswerable (visual-dependent) question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
@@ -1591,9 +1591,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'AI returned invalid question data. Please try again.' }, { status: 500 })
     }
 
-    // Strip internal generation fields
+    // Strip internal generation fields (keep diagram hints for exam prep with visuals)
     assessmentData.questions = assessmentData.questions.map((q: any) => {
-      const { needs_diagram, diagram_hint, needs_passage, passage_hint, ...rest } = q
+      const { needs_passage, passage_hint, ...rest } = q
+      if (!hasDiagramSupport) {
+        const { needs_diagram, diagram_hint, ...clean } = rest
+        return clean
+      }
       return rest
     })
 
@@ -1675,10 +1679,6 @@ export async function POST(request: NextRequest) {
     }
 
     if (dbError) console.error('DB save error:', dbError)
-
-    if (userId) {
-      await incrementFreeAssessmentUsage(userId)
-    }
 
     return NextResponse.json({
       ...assessmentData,

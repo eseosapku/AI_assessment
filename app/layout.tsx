@@ -3,7 +3,6 @@ import type { Metadata, Viewport } from 'next'
 import { Fraunces, Space_Grotesk } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { AuthProvider } from '@/components/AuthProvider'
-import { SubscriptionProvider } from '@/components/SubscriptionProvider'
 
 const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-sans' })
 const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-display' })
@@ -34,9 +33,7 @@ export default function RootLayout({
       <body className={`${spaceGrotesk.variable} ${fraunces.variable} font-sans`}>
         <ThemeProvider>
           <AuthProvider>
-            <SubscriptionProvider>
               {children}
-            </SubscriptionProvider>
           </AuthProvider>
         </ThemeProvider>
       </body>

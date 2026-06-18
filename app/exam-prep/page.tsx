@@ -3,7 +3,7 @@
 import { useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
-import { ArrowLeft, Target, Download } from 'lucide-react'
+import { ArrowLeft, Target } from 'lucide-react'
 import Link from 'next/link'
 import ExamPrepForm from '@/components/ExamPrepForm'
 import { useAuth } from '@/components/AuthProvider'
@@ -48,13 +48,9 @@ export default function ExamPrepPage() {
           <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-2">WAEC &amp; JAMB</p>
           <h2 className="text-3xl font-black text-gray-900 dark:text-white">Dedicated exam practice</h2>
           <p className="text-sm text-gray-500 mt-2 max-w-xl">
-            Separate from school assessments. Questions follow official WASSCE and JAMB UTME syllabuses.
-            Import real past papers for year-based practice aligned with actual exam content.
+            Separate from school assessments. Questions follow official WASSCE and JAMB UTME syllabuses,
+            with optional practice from synced past-question banks by year and subject.
           </p>
-          <Link href="/exam-prep/download-guide" className="inline-flex items-center gap-1.5 mt-3 text-sm font-semibold text-emerald-600 dark:text-emerald-400 hover:underline">
-            <Download className="w-4 h-4" />
-            How to download &amp; import past papers
-          </Link>
         </motion.div>
         <ExamPrepForm />
       </main>

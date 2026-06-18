@@ -108,28 +108,47 @@ function ssCore(): NigeriaSubject[] {
 
 function ssElectives(): NigeriaSubject[] {
   return [
+    // ── Science electives ──────────────────────────────────────────────────────
     { name: 'Biology', topics: ['Cell biology', 'Genetics and evolution', 'Ecology', 'Human physiology', 'Microbiology', 'Reproduction'] },
     { name: 'Chemistry', topics: ['Atomic structure', 'Chemical bonding', 'Stoichiometry', 'Organic chemistry', 'Electrochemistry', 'Equilibrium'] },
     { name: 'Physics', topics: ['Mechanics', 'Waves and optics', 'Electricity and magnetism', 'Modern physics', 'Heat energy', 'Practical physics'] },
     { name: 'Agriculture', topics: ['Crop production', 'Animal husbandry', 'Soil science', 'Agricultural economics', 'Farm management'] },
     { name: 'Further Mathematics', topics: ['Advanced algebra', 'Calculus', 'Complex numbers', 'Matrices', 'Mechanics (math)'] },
-    { name: 'Geography', topics: ['Physical geography', 'Human geography', 'Map reading', 'Environmental management', 'Regional studies'] },
-    { name: 'Government', topics: ['Political theory', 'Nigerian government', 'International relations', 'Comparative government'] },
-    { name: 'Economics', topics: ['Microeconomics', 'Macroeconomics', 'Development economics', 'International trade', 'Nigerian economy'] },
-    { name: 'Financial Accounting', topics: ['Double entry', 'Final accounts', 'Control accounts', 'Company accounts', 'Interpretation of accounts'] },
-    { name: 'Commerce', topics: ['Trade and aids to trade', 'Business organisation', 'Marketing', 'Consumer protection', 'E-commerce'] },
-    { name: 'Marketing', topics: ['Market research', 'Product and pricing', 'Promotion', 'Distribution', 'Digital marketing'] },
+    { name: 'Food and Nutrition', topics: ['Nutrition science', 'Meal planning', 'Food preparation', 'Food hygiene'] },
+    { name: 'Technical Drawing', topics: ['Geometric construction', 'Orthographic projection', 'Isometric drawing', 'CAD introduction'] },
+    { name: 'Computer Studies', optional: true, topics: ['Programming', 'Data management', 'Networking', 'Cybersecurity'] },
+    { name: 'Data Processing', topics: ['Word processing', 'Spreadsheets', 'Databases', 'Presentation software', 'Internet applications', 'Digital citizenship'] },
+
+    // ── Arts (Humanities) electives ───────────────────────────────────────────
     { name: 'Literature in English', topics: ['Prose analysis', 'Poetry analysis', 'Drama analysis', 'Literary devices', 'African literature'] },
+    { name: 'Government', topics: ['Political theory', 'Nigerian government', 'International relations', 'Comparative government'] },
+    { name: 'History', topics: ['West African history', 'Nigerian history', 'World history', 'Historiography', 'Source analysis'] },
+    { name: 'Geography', topics: ['Physical geography', 'Human geography', 'Map reading', 'Environmental management', 'Regional studies'] },
     { name: 'Christian Religious Studies', optional: true, topics: ['Biblical studies', 'Christian ethics', 'Church and society', 'Comparative religion'] },
     { name: 'Islamic Studies', optional: true, topics: ['Quranic exegesis', 'Hadith studies', 'Islamic law principles', 'Contemporary issues'] },
     { name: 'Hausa', optional: true, topics: ['Grammar', 'Composition', 'Literature', 'Oral tradition'] },
     { name: 'Igbo', optional: true, topics: ['Grammar', 'Composition', 'Literature', 'Oral tradition'] },
     { name: 'Yoruba', optional: true, topics: ['Grammar', 'Composition', 'Literature', 'Oral tradition'] },
     { name: 'French', optional: true, topics: ['Grammar', 'Composition', 'Oral', 'Francophone culture'] },
+    { name: 'Arabic Language', optional: true, topics: ['Grammar', 'Reading', 'Composition', 'Literature', 'Translation'] },
     { name: 'Visual Arts', topics: ['Drawing and painting', 'Design principles', 'Art history', 'Portfolio'] },
     { name: 'Music', topics: ['Theory of music', 'African music', 'Performance', 'Composition basics'] },
-    { name: 'Food and Nutrition', topics: ['Nutrition science', 'Meal planning', 'Food preparation', 'Food hygiene'] },
-    { name: 'Technical Drawing', topics: ['Geometric construction', 'Orthographic projection', 'Isometric drawing', 'CAD introduction'] },
+    { name: 'Theatre Arts', optional: true, topics: ['Acting', 'Directing', 'Stagecraft', 'Drama history', 'Performance'] },
+    { name: 'Sociology', optional: true, topics: ['Social institutions', 'Culture', 'Social change', 'Research methods'] },
+    { name: 'Philosophy', optional: true, topics: ['Logic', 'Ethics', 'African philosophy', 'Critical thinking'] },
+
+    // ── Commercial electives ───────────────────────────────────────────────────
+    { name: 'Economics', topics: ['Microeconomics', 'Macroeconomics', 'Development economics', 'International trade', 'Nigerian economy'] },
+    { name: 'Financial Accounting', topics: ['Double entry', 'Final accounts', 'Control accounts', 'Company accounts', 'Interpretation of accounts'] },
+    { name: 'Commerce', topics: ['Trade and aids to trade', 'Business organisation', 'Marketing', 'Consumer protection', 'E-commerce'] },
+    { name: 'Marketing', topics: ['Market research', 'Product and pricing', 'Promotion', 'Distribution', 'Digital marketing'] },
+    { name: 'Office Practice', topics: ['Office organisation', 'Office equipment', 'Correspondence', 'Records management', 'Reception duties'] },
+    { name: 'Book Keeping', topics: ['Books of original entry', 'Ledgers', 'Trial balance', 'Final accounts', 'Bank reconciliation'] },
+
+    // ── Cross-stream / optional ────────────────────────────────────────────────
+    { name: 'Civic Education', optional: true, topics: ['Citizenship', 'Human rights', 'Law and order', 'Emerging issues'] },
+    { name: 'Physical and Health Education', optional: true, topics: ['Anatomy', 'Sports science', 'Health education', 'First aid'] },
+    { name: 'Home Economics', optional: true, topics: ['Nutrition', 'Clothing and textiles', 'Home management', 'Child development'] },
   ]
 }
 

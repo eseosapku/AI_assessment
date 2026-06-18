@@ -3,6 +3,7 @@ import { execSync } from 'child_process'
 import path from 'path'
 import { supabase } from '@/lib/supabase'
 import { listCachedExamPapers } from '@/lib/exam-source-cache'
+import { examSubjectMatches } from '@/lib/exam-subject-aliases'
 
 const CURRICULUM_BY_EXAM: Record<string, number> = { waec: 3, jamb: 4 }
 let autoSyncAttempted = false
@@ -61,9 +62,10 @@ export async function GET(request: NextRequest) {
 
     let rows = data ?? []
     if (subject) {
-      const subj = subject.toLowerCase()
-      rows = rows.filter((r) => String(r.exam_subject ?? '').toLowerCase().includes(subj)
-        || String(r.textbook_name ?? '').toLowerCase().includes(subj))
+      rows = rows.filter((r) =>
+        examSubjectMatches(subject, String(r.exam_subject ?? ''))
+        || examSubjectMatches(subject, String(r.textbook_name ?? '')),
+      )
     }
 
     const dbPapers = rows.map((r) => ({

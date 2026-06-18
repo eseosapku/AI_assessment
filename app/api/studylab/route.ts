@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
-import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -54,11 +53,6 @@ export async function POST(request: NextRequest) {
     }
     if (!title) {
       return NextResponse.json({ error: 'A topic/title is required' }, { status: 400 })
-    }
-
-    const gate = await assertSubscriptionAccess(userId, 'study')
-    if (!gate.allowed) {
-      return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
     }
 
     const payload: Record<string, any> = {
