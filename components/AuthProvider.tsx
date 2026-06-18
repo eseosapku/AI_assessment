@@ -3,6 +3,9 @@
 import { createContext, useContext, useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 
+import type { CountryCode } from '@/lib/countries'
+import { normalizeCountry } from '@/lib/countries'
+
 interface User {
   id: string
   name: string
@@ -11,12 +14,13 @@ interface User {
   class: string
   subjects: string[]
   role: 'student' | 'teacher'
+  country: CountryCode
 }
 
 interface AuthContextType {
   user: User | null
   login: (identifier: string, password: string) => Promise<void>
-  signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher') => Promise<void>
+  signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode) => Promise<void>
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>
   logout: () => void
   isLoading: boolean
@@ -26,6 +30,7 @@ interface UpdateProfilePayload {
   name?: string
   className?: string
   subjects?: string[]
+  country?: CountryCode
   currentPassword?: string
   newPassword?: string
   confirmPassword?: string
@@ -50,7 +55,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const storedUser = localStorage.getItem('user')
     if (storedUser) {
-      setUser(JSON.parse(storedUser))
+      const parsed = JSON.parse(storedUser)
+      parsed.country = normalizeCountry(parsed.country)
+      setUser(parsed)
     }
     setIsLoading(false)
   }, [])
@@ -68,11 +75,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push('/')
   }
 
-  const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher') => {
+  const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country: CountryCode = 'RW') => {
     const response = await fetch('/api/auth/signup', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, studentId, password, className, role })
+      body: JSON.stringify({ name, email, studentId, password, className, role, country })
     })
     if (!response.ok) {
       const body = await response.json().catch(() => ({}))

@@ -23,9 +23,10 @@ interface Subtopic {
     name: string
 }
 
+import { curriculumShortLabel } from '@/lib/curriculum-registry'
+
 function curriculumLabel(curriculum?: number | null) {
-    if (curriculum === 1) return 'Cambridge'
-    return 'REB'
+    return curriculumShortLabel(curriculum)
 }
 
 export default function EditBooksPage() {

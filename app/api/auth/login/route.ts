@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import bcrypt from 'bcryptjs'
+import { normalizeCountry } from '@/lib/countries'
 
 function normalizeEmail(value: unknown) {
   const trimmed = String(value ?? '').trim()
@@ -72,6 +73,7 @@ export async function POST(request: NextRequest) {
       class: userData.class,
       subjects: userData.subjects,
       role: userData.role ?? 'student',
+      country: normalizeCountry(userData.country),
     }
 
     return NextResponse.json({

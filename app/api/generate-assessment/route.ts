@@ -1,16 +1,80 @@
-﻿import { NextRequest, NextResponse } from 'next/server'
+import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { jsonrepair } from 'jsonrepair'
 import { supabase } from '@/lib/supabase'
+import { authorityForCurriculum, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
+import { normalizeCountry } from '@/lib/countries'
+import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
+import { examPrepContext } from '@/lib/nigeria-exam-syllabi'
+import { getCachedExamPaperById, isCachePaperId } from '@/lib/exam-source-cache'
+import {
+  assertSubscriptionAccess,
+  incrementFreeAssessmentUsage,
+  subscriptionPaywallBody,
+} from '@/lib/subscription-server'
 
 const MAX_DIAGRAMS = 4
 const MAX_SOURCE_CHARS = 12000
+const MAX_EXAM_SOURCE_CHARS = 32000
 
 function normalizeIds(value: unknown): number[] {
   if (!Array.isArray(value)) return []
   const ids = value.map((v) => Number(v)).filter((v) => Number.isFinite(v))
   return Array.from(new Set(ids))
+}
+
+// ── Per-question subtopic tagging ─────────────────────────────────────────────
+// Map each generated question to the subtopic it best fits, so the StudyLab
+// Learning Gap Map can record real per-subtopic mastery (and cascade up into
+// topic/subject mastery). Done locally — NO extra AI call, so no extra credits.
+const TAG_STOPWORDS = new Set([
+  'the', 'and', 'for', 'are', 'was', 'with', 'that', 'this', 'from', 'what', 'which', 'when', 'how', 'why',
+  'who', 'whom', 'into', 'onto', 'over', 'under', 'between', 'about', 'their', 'there', 'these', 'those',
+  'will', 'would', 'should', 'could', 'can', 'may', 'might', 'has', 'have', 'had', 'been', 'being', 'does',
+  'did', 'not', 'all', 'any', 'each', 'its', 'his', 'her', 'they', 'them', 'you', 'your', 'one', 'two',
+  'following', 'true', 'false', 'best', 'most', 'correct', 'answer', 'option', 'options', 'question',
+  'explain', 'describe', 'state', 'define', 'list', 'name', 'give', 'show', 'work', 'out', 'use', 'using',
+])
+
+function tagTokens(value: string): string[] {
+  return (String(value || '').toLowerCase().match(/[a-z0-9]+/g) ?? []).filter(
+    (w) => w.length > 2 && !TAG_STOPWORDS.has(w)
+  )
+}
+
+interface TaggableSubtopic { id: number; name: string; topic_id: number | null; tokens: Set<string> }
+
+// Assign each question a subtopic_id + topic_id from the candidate list. Uses
+// keyword overlap with the subtopic name; falls back to round-robin so coverage
+// is always distributed rather than dumped onto one subtopic.
+function tagQuestionsWithSubtopics(
+  questions: any[],
+  subtopics: Array<{ id: number; name: string; topic_id: number | null }>
+): number[] {
+  if (!Array.isArray(questions) || questions.length === 0 || subtopics.length === 0) return []
+  const candidates: TaggableSubtopic[] = subtopics.map((s) => ({ ...s, tokens: new Set(tagTokens(s.name)) }))
+  const used = new Set<number>()
+  let rr = 0
+  for (const q of questions) {
+    const qText = `${q?.question ?? ''} ${(Array.isArray(q?.options) ? q.options.join(' ') : '')} ${q?.explanation ?? ''}`
+    const qTokens = new Set(tagTokens(qText))
+    let best: TaggableSubtopic | null = null
+    let bestScore = 0
+    for (const c of candidates) {
+      let score = 0
+      for (const tok of c.tokens) if (qTokens.has(tok)) score += 1
+      if (score > bestScore) {
+        bestScore = score
+        best = c
+      }
+    }
+    const chosen = bestScore > 0 && best ? best : candidates[rr++ % candidates.length]
+    q.subtopic_id = chosen.id
+    q.topic_id = chosen.topic_id ?? null
+    used.add(chosen.id)
+  }
+  return [...used]
 }
 
 // Detect model refusals before attempting JSON parse
@@ -43,12 +107,12 @@ function parseJsonRobust(text: string): any {
   throw new SyntaxError(`Could not repair JSON. Preview: ${t.slice(0, 120)}`)
 }
 
-function normalizeSourceText(value: unknown): { text: string; truncated: boolean } {
+function normalizeSourceText(value: unknown, maxChars = MAX_SOURCE_CHARS): { text: string; truncated: boolean } {
   const raw = typeof value === 'string' ? value : ''
   const cleaned = raw.replace(/\s+/g, ' ').trim()
   if (!cleaned) return { text: '', truncated: false }
-  if (cleaned.length <= MAX_SOURCE_CHARS) return { text: cleaned, truncated: false }
-  return { text: cleaned.slice(0, MAX_SOURCE_CHARS), truncated: true }
+  if (cleaned.length <= maxChars) return { text: cleaned, truncated: false }
+  return { text: cleaned.slice(0, maxChars), truncated: true }
 }
 
 function fixLatexInRawJson(raw: string): string {
@@ -799,11 +863,20 @@ function normalizeQuestionKey(question: string): string {
 // ── UI constraints: filter out questions that require visuals ───────────────
 // The UI does not provide diagrams and drawing prompts are disallowed.
 // Therefore: remove any question that depends on an external picture/diagram.
-function isUnanswerableWithoutVisual(q: any): boolean {
+function isScienceSubject(subject: string): boolean {
+  return /\b(physics|chemistry|biology|science|mathematics|math|computing|computer science|ict)\b/i.test(subject || '')
+}
+
+function isUnanswerableWithoutVisual(q: any, subject = ''): boolean {
   const question = String(q?.question ?? '').trim()
   if (!question) return true
 
   const lower = question.toLowerCase()
+
+  const science = isScienceSubject(subject)
+  if (science && /\b(circuit|resistor|force diagram|free-body)\b/i.test(question) && !/\b(imagine|as shown|see the|look at the|this diagram|this figure)\b/i.test(lower)) {
+    return false
+  }
 
   if (q?.needs_diagram === true) return true
 
@@ -889,12 +962,21 @@ export async function POST(request: NextRequest) {
       topic_ids,
       subtopic_ids,
       subtopic_id,
+      examPrepContext: rawExamPrepContext,
     } = body
 
     const questionType =
       requestedQuestionType === 'mcq' || requestedQuestionType === 'longform' || requestedQuestionType === 'mixed'
         ? requestedQuestionType
         : 'mcq'
+
+    const userId = String(user_id ?? '').trim()
+    if (userId) {
+      const gate = await assertSubscriptionAccess(userId, 'assessment')
+      if (!gate.allowed) {
+        return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
+      }
+    }
 
     const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
     const accessKeyId = process.env.AWS_ACCESS_KEY_ID
@@ -917,9 +999,54 @@ export async function POST(request: NextRequest) {
     const requestedSubject = String(subject ?? '').trim()
     const requestedTopics = Array.isArray(topics) ? topics.map((t: any) => String(t).trim()).filter(Boolean) : []
     const hasSomeTopics = requestedTopics.length > 0 || topicIds.length > 0 || subtopicIds.length > 0
-    const normalizedSource = normalizeSourceText(rawSourceText)
+
+    // ── Textbook lookup (incl. imported past-paper / NERDC source text) ─────
+    let textbookName = ''
+    let textbookSourceText = ''
+    let textbookExamYear: number | null = null
+
+    if (Number.isFinite(textbookId)) {
+      if (isCachePaperId(textbookId)) {
+        const cached = getCachedExamPaperById(textbookId)
+        if (cached) {
+          textbookName = cached.name
+          textbookSourceText = cached.sourceText
+          textbookExamYear = cached.year
+        }
+      } else {
+        const { data, error } = await supabase
+          .from('textbooks')
+          .select('textbook_id,textbook_name,source_text,exam_year,source_authority,filename,curriculum')
+          .eq('textbook_id', textbookId)
+          .maybeSingle()
+        if (error) console.error('Textbook lookup error:', error)
+        if (data?.textbook_name) textbookName = String(data.textbook_name)
+        if (data?.source_text) textbookSourceText = String(data.source_text)
+        if (data && Number.isFinite(data.exam_year)) textbookExamYear = Number(data.exam_year)
+        if (data && userId && isExamPrepCurriculumNumeric(data.curriculum)) {
+          const { data: profile } = await supabase.from('users').select('country').eq('id', userId).maybeSingle()
+          if (normalizeCountry(profile?.country) !== 'NG') {
+            return NextResponse.json({ error: 'Exam prep is only available for Nigeria accounts.' }, { status: 403 })
+          }
+        }
+      }
+    }
+
+    const curriculumSlugEarly = String(curriculum ?? 'rwanda').toLowerCase()
+    const isExamPrepCurriculum = curriculumSlugEarly === 'waec' || curriculumSlugEarly === 'jamb'
+    if (isExamPrepCurriculum && userId) {
+      const { data: profile } = await supabase.from('users').select('country').eq('id', userId).maybeSingle()
+      if (normalizeCountry(profile?.country) !== 'NG') {
+        return NextResponse.json({ error: 'Exam prep is only available for Nigeria accounts.' }, { status: 403 })
+      }
+    }
+    const sourceCharLimit = (isExamPrepCurriculum || curriculumSlugEarly === 'nigeria') && textbookSourceText
+      ? MAX_EXAM_SOURCE_CHARS
+      : MAX_SOURCE_CHARS
+    const effectiveRawSource = rawSourceText || textbookSourceText || ''
+    const normalizedSource = normalizeSourceText(effectiveRawSource, sourceCharLimit)
     const sourceText = normalizedSource.text
-    const sourceLabel = String(sourceName ?? '').trim()
+    const sourceLabel = String(sourceName ?? '').trim() || (textbookName && textbookSourceText ? textbookName : '')
     const hasSourceText = Boolean(sourceText)
 
     if ((!requestedSubject && !Number.isFinite(textbookId) && !hasSourceText) || (!hasSomeTopics && !hasSourceText) || !count) {
@@ -927,20 +1054,9 @@ export async function POST(request: NextRequest) {
     }
 
     // ── DB-driven selection: textbook → topics → optional subtopic ───────────
-    let textbookName = ''
     let dbTopicNames: string[] = []
     const topicNameById = new Map<number, string>()
     const resolvedSubtopics: Array<{ id: number; name: string; topic_id: number | null }> = []
-
-    if (Number.isFinite(textbookId)) {
-      const { data, error } = await supabase
-        .from('textbooks')
-        .select('textbook_id,textbook_name')
-        .eq('textbook_id', textbookId)
-        .maybeSingle()
-      if (error) console.error('Textbook lookup error:', error)
-      if (data?.textbook_name) textbookName = String(data.textbook_name)
-    }
 
     if (topicIds.length > 0) {
       let q = supabase
@@ -982,6 +1098,13 @@ export async function POST(request: NextRequest) {
       }
     }
 
+    if (topicIds.length > 0 && dbTopicNames.length === 0 && !hasSourceText) {
+      return NextResponse.json(
+        { error: 'Selected topics were not found for this textbook. Try re-selecting topics or use manual topic entry.' },
+        { status: 400 }
+      )
+    }
+
     const fallbackSubject = sourceLabel ? sourceLabel.replace(/\.[^/.]+$/, '') : 'PDF material'
     const promptSubject = textbookName || requestedSubject || fallbackSubject
     const baseTopicNames = dbTopicNames.length > 0
@@ -1009,14 +1132,27 @@ export async function POST(request: NextRequest) {
     if (textbookName) curriculumBlockLines.push(`**Textbook:** ${textbookName}`)
     if (sourceLabel) curriculumBlockLines.push(`**Source Material:** ${sourceLabel}`)
     if (baseTopicNames.length > 0) curriculumBlockLines.push(`**Selected Topics:** ${baseTopicNames.join(', ')}`)
+    if (textbookSourceText && textbookExamYear) {
+      curriculumBlockLines.push(`**Past Paper Source:** ${textbookName} (authentic imported exam material)`)
+    }
     if (resolvedSubtopics.length > 0) {
       const names = resolvedSubtopics.map(s => `"${s.name}"`).join(', ')
       curriculumBlockLines.push(`**Scope Rule:** Focus ONLY on these subtopics: ${names}. Do NOT include questions outside these subtopics.`)
     }
     const curriculumBlock = curriculumBlockLines.join('\n')
 
-    const isCambridge = curriculum === 'cambridge'
-    const curriculumName = isCambridge ? 'Cambridge International (CAIE)' : 'Rwanda National Competence-Based Curriculum (REB)'
+    const curriculumSlug = String(curriculum ?? 'rwanda').toLowerCase()
+    const curriculumName = authorityForCurriculum(curriculumSlug)
+    let enrichedCurriculumBlock = curriculumBlock
+
+    if (curriculumSlug === 'nigeria' && className) {
+      enrichedCurriculumBlock = `${getNigeriaCurriculumContext(className as NigeriaLevel, promptSubject, promptTopics)}\n${curriculumBlock}`
+    } else if (curriculumSlug === 'waec' || curriculumSlug === 'jamb') {
+      const extra = String(rawExamPrepContext ?? '').trim()
+      enrichedCurriculumBlock = extra || `${examPrepContext(curriculumSlug, promptSubject, promptTopics)}\n${curriculumBlock}`
+    }
+
+    const isCambridge = curriculumSlug === 'cambridge'
     const hasDiagramSupport = false
     const usePassageFlow = !hasSourceText && needsPassage(promptSubject)
 
@@ -1243,7 +1379,7 @@ export async function POST(request: NextRequest) {
       const requestCount = batchCount + Math.ceil(batchCount * 0.4)
       const { prompt } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
-        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
+        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
         sourceText, sourceName: sourceLabel,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
@@ -1269,7 +1405,7 @@ export async function POST(request: NextRequest) {
       const prompt = buildPassageBasedPrompt({
         passage: passage.text, passageSource: passage.source,
         subject: promptSubject, count: requestCount, startId, style,
-        curriculumName, curriculumBlock, questionType,
+        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType,
         difficultyLevel, grade,
       })
       const maxTokens = Math.min(3800, Math.max(1800, requestCount * 320))
@@ -1311,7 +1447,7 @@ export async function POST(request: NextRequest) {
           console.warn(`Removed invalid question type: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
-        if (isUnanswerableWithoutVisual(q)) {
+        if (isUnanswerableWithoutVisual(q, promptSubject)) {
           console.warn(`Removed unanswerable (visual-dependent) question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
@@ -1443,7 +1579,7 @@ export async function POST(request: NextRequest) {
     } else {
       const { estimatedTime: et } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count, startId: 1, style,
-        curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
+        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
         sourceText, sourceName: sourceLabel,
       })
       estimatedTime = et
@@ -1460,6 +1596,31 @@ export async function POST(request: NextRequest) {
       const { needs_diagram, diagram_hint, needs_passage, passage_hint, ...rest } = q
       return rest
     })
+
+    // ── Tag each question with the subtopic it covers ──────────────────────────
+    // Resolve the candidate subtopics for this assessment (the chosen subtopics,
+    // or every subtopic under the chosen topics) and tag each question locally so
+    // results can be scored per subtopic and cascade up the gap map.
+    let taggedSubtopicIds: number[] = []
+    try {
+      let candidateSubtopics: Array<{ id: number; name: string; topic_id: number | null }> = resolvedSubtopics
+      if (candidateSubtopics.length === 0 && topicIds.length > 0) {
+        let sq = supabase
+          .from('subtopics')
+          .select('subtopic_id,subtopic,topic_id')
+          .in('topic_id', topicIds)
+        if (Number.isFinite(textbookId)) sq = sq.eq('textbook_id', textbookId)
+        const { data: subRows } = await sq.order('subtopic')
+        candidateSubtopics = (subRows ?? [])
+          .filter((r: any) => Number.isFinite(r?.subtopic_id) && r?.subtopic)
+          .map((r: any) => ({ id: Number(r.subtopic_id), name: String(r.subtopic), topic_id: Number.isFinite(r.topic_id) ? Number(r.topic_id) : null }))
+      }
+      if (candidateSubtopics.length > 0) {
+        taggedSubtopicIds = tagQuestionsWithSubtopics(assessmentData.questions, candidateSubtopics)
+      }
+    } catch (tagErr) {
+      console.error('Subtopic tagging skipped:', tagErr)
+    }
 
     // ── Stage 2b: Passages ────────────────────────────────────────────────────
     // For passage subjects using the passage-first flow, questions already have
@@ -1480,20 +1641,44 @@ export async function POST(request: NextRequest) {
     }
 
     // ── Save to database ───────────────────────────────────────────────────────
-    const { data: dbAssessment, error: dbError } = await supabase
+    // Tag the assessment with the curriculum it targets (textbook/topic/subtopic)
+    // so the StudyLab Learning Gap Map can read real topic-level performance.
+    const assessmentPayload: Record<string, any> = {
+      user_id: user_id || null,
+      subject: promptSubject,
+      difficulty: style,
+      duration: estimatedTime,
+      questions_data: assessmentData.questions,
+      status: 'completed',
+      textbook_id: Number.isFinite(textbookId) ? textbookId : null,
+      topic_ids: topicIds,
+      subtopic_ids: taggedSubtopicIds.length > 0 ? taggedSubtopicIds : subtopicIds,
+    }
+
+    let { data: dbAssessment, error: dbError } = await supabase
       .from('assessments')
-      .insert([{
-        user_id: user_id || null,
-        subject: promptSubject,
-        difficulty: style,
-        duration: estimatedTime,
-        questions_data: assessmentData.questions,
-        status: 'completed',
-      }])
+      .insert([assessmentPayload])
       .select()
       .single()
 
+    // Graceful fallback if the StudyLab migration hasn't been applied yet
+    // (the textbook_id/topic_ids/subtopic_ids columns won't exist).
+    if (dbError && (dbError.code === 'PGRST204' || /column .* does not exist/i.test(String(dbError.message ?? '')) || /Could not find the .* column/i.test(String(dbError.message ?? '')))) {
+      const { textbook_id: _t, topic_ids: _ti, subtopic_ids: _si, ...legacyPayload } = assessmentPayload
+      const retry = await supabase
+        .from('assessments')
+        .insert([legacyPayload])
+        .select()
+        .single()
+      dbAssessment = retry.data
+      dbError = retry.error
+    }
+
     if (dbError) console.error('DB save error:', dbError)
+
+    if (userId) {
+      await incrementFreeAssessmentUsage(userId)
+    }
 
     return NextResponse.json({
       ...assessmentData,

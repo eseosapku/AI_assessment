@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { ChevronLeft, Loader2, Plus, Save, Send, Trash2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
+import { normalizeCountry } from '@/lib/countries'
+import { curriculaForCountry } from '@/lib/curriculum-registry'
 
 interface ClassroomOption {
   id: string
@@ -44,11 +46,6 @@ const DIFFICULTY_OPTIONS = [
   { id: 'average', label: 'Average' },
   { id: 'intermediate', label: 'Intermediate' },
   { id: 'advanced', label: 'Advanced' },
-]
-
-const CURRICULUM_OPTIONS = [
-  { id: 'rwanda', label: 'Rwanda National Curriculum (REB)' },
-  { id: 'cambridge', label: 'Cambridge International (CAIE)' },
 ]
 
 function toIsoInputValue(value: string) {
@@ -114,6 +111,12 @@ function buildQuestionTemplate(id: number, type: QuestionType, base?: Partial<Qu
 export default function NewAssignmentPage() {
   const router = useRouter()
   const { user } = useAuth()
+  const userCountry = normalizeCountry(user?.country)
+
+  const curriculumOptions = useMemo(
+    () => curriculaForCountry(userCountry, { schoolOnly: true }).map((m) => ({ id: m.slug, label: m.label })),
+    [userCountry],
+  )
 
   const [title, setTitle] = useState('')
   const [subject, setSubject] = useState('')
@@ -173,7 +176,7 @@ export default function NewAssignmentPage() {
     const loadClasses = async () => {
       setIsLoadingClasses(true)
       try {
-        const res = await fetch('/api/classes')
+        const res = await fetch(`/api/classes?country=${userCountry}`)
         const json = await res.json()
         if (!res.ok) throw new Error(json?.error || 'Failed to load classes')
         const rows = Array.isArray(json?.data) ? json.data : []
@@ -199,7 +202,7 @@ export default function NewAssignmentPage() {
       }
     }
     loadClasses()
-  }, [])
+  }, [userCountry])
 
   useEffect(() => {
     if (!templateType) return
@@ -493,7 +496,7 @@ export default function NewAssignmentPage() {
                 className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
               >
                 <option value="">Select curriculum</option>
-                {CURRICULUM_OPTIONS.map((opt) => (
+                {curriculumOptions.map((opt) => (
                   <option key={opt.id} value={opt.id}>{opt.label}</option>
                 ))}
               </select>

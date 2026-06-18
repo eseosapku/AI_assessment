@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabase } from '@/lib/supabase'
 import bcrypt from 'bcryptjs'
+import { normalizeCountry } from '@/lib/countries'
 
 function normalizeStudentId(value: unknown) {
     const trimmed = String(value ?? '').trim()
@@ -75,6 +76,10 @@ export async function POST(request: NextRequest) {
             updatePayload.subjects = subjects
         }
 
+        if (Object.prototype.hasOwnProperty.call(body, 'country')) {
+            updatePayload.country = normalizeCountry(body.country)
+        }
+
         const wantsPasswordChange = Boolean(newPassword || currentPassword || confirmPassword)
 
         if (wantsPasswordChange) {
@@ -109,7 +114,7 @@ export async function POST(request: NextRequest) {
             .from('users')
             .update(updatePayload)
             .eq('id', userData.id)
-            .select('id, name, email, student_id, class, subjects, role')
+            .select('id, name, email, student_id, class, subjects, role, country')
             .single()
 
         if (updateError || !updatedUser) {
@@ -124,6 +129,7 @@ export async function POST(request: NextRequest) {
             class: updatedUser.class,
             subjects: updatedUser.subjects,
             role: updatedUser.role ?? 'student',
+            country: normalizeCountry(updatedUser.country),
         }
 
         return NextResponse.json({ success: true, user, message: 'Profile updated successfully' })

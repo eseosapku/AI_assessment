@@ -2,6 +2,9 @@
 
 import { useEffect, useMemo, useState } from 'react'
 import { Loader2, Plus, Save, Search, Trash2, X, Pencil } from 'lucide-react'
+import { useAuth } from '@/components/AuthProvider'
+import { normalizeCountry } from '@/lib/countries'
+import { curriculumShortLabel, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 
 interface Textbook {
     id: number
@@ -15,11 +18,6 @@ interface ClassItem {
     name: string
     textbooks: Textbook[]
     textbook_ids: number[]
-}
-
-function curriculumLabel(curriculum?: number | null) {
-    if (curriculum === 1) return 'Cambridge'
-    return 'REB'
 }
 
 function TextbookSelector({
@@ -77,7 +75,7 @@ function TextbookSelector({
                                 <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${selected ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                                     }`}
                                 >
-                                    {curriculumLabel(textbook.curriculum)}
+                                    {curriculumShortLabel(textbook.curriculum)}
                                 </span>
                             </button>
                         )
@@ -93,6 +91,8 @@ function TextbookSelector({
 }
 
 export default function ManageClassesPage() {
+    const { user } = useAuth()
+    const userCountry = normalizeCountry(user?.country)
     const [textbooks, setTextbooks] = useState<Textbook[]>([])
     const [classes, setClasses] = useState<ClassItem[]>([])
     const [loading, setLoading] = useState(true)
@@ -111,13 +111,18 @@ export default function ManageClassesPage() {
 
     const textbookMap = useMemo(() => new Map(textbooks.map((t) => [t.id, t])), [textbooks])
 
+    const schoolTextbooks = useMemo(
+        () => textbooks.filter((t) => !isExamPrepCurriculumNumeric(t.curriculum)),
+        [textbooks],
+    )
+
     const loadData = async () => {
         setLoading(true)
         setError('')
         try {
             const [textbookRes, classRes] = await Promise.all([
                 fetch('/api/textbooks'),
-                fetch('/api/classes'),
+                fetch(`/api/classes?country=${userCountry}`),
             ])
 
             const textbookJson = await textbookRes.json()
@@ -137,7 +142,7 @@ export default function ManageClassesPage() {
 
     const refreshClasses = async () => {
         try {
-            const res = await fetch('/api/classes')
+            const res = await fetch(`/api/classes?country=${userCountry}`)
             const json = await res.json()
             if (!res.ok) throw new Error(json.error || 'Failed to load classes')
             setClasses(json.data ?? [])
@@ -147,8 +152,9 @@ export default function ManageClassesPage() {
     }
 
     useEffect(() => {
+        if (!user) return
         loadData()
-    }, [])
+    }, [userCountry, user?.id])
 
     const toggleCreateTextbook = (id: number) => {
         setCreateSelectedIds((prev) =>
@@ -175,7 +181,7 @@ export default function ManageClassesPage() {
             const res = await fetch('/api/classes', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ name: trimmed, textbook_ids: createSelectedIds }),
+                body: JSON.stringify({ name: trimmed, textbook_ids: createSelectedIds, country: userCountry }),
             })
             const json = await res.json()
             if (!res.ok) throw new Error(json.error || 'Failed to create class')
@@ -321,7 +327,7 @@ export default function ManageClassesPage() {
                                     Textbooks
                                 </label>
                                 <TextbookSelector
-                                    textbooks={textbooks}
+                                    textbooks={schoolTextbooks}
                                     selectedIds={createSelectedIds}
                                     onToggle={toggleCreateTextbook}
                                     search={createSearch}
@@ -424,7 +430,7 @@ export default function ManageClassesPage() {
                                                 </div>
 
                                                 <TextbookSelector
-                                                    textbooks={textbooks}
+                                                    textbooks={schoolTextbooks}
                                                     selectedIds={editSelectedIds}
                                                     onToggle={toggleEditTextbook}
                                                     search={editSearch}
