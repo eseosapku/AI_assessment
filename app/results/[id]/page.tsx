@@ -7,6 +7,7 @@ import { ArrowLeft, Check, Download } from 'lucide-react'
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
 import { useAuth } from '@/components/AuthProvider'
+import FeedbackPanel from '@/components/FeedbackPanel'
 import { supabase } from '@/lib/supabase'
 
 function L({ children }: { children: string }) {
@@ -810,27 +811,7 @@ export default function ResultDetailPage() {
                         </div>
                     )}
 
-                    <div className="bg-blue-50 dark:bg-blue-900/20 rounded-2xl p-6 text-left border border-blue-100 dark:border-blue-800/30">
-                        <h3 className="font-semibold text-blue-800 dark:text-blue-300 mb-2 flex items-center gap-2">
-                            AI Feedback
-                        </h3>
-                        <div className="text-sm sm:text-base leading-relaxed space-y-1">
-                            {feedback.split('\n').map((line, i) => {
-                                if (!line.trim()) return <div key={i} className="h-2" />
-                                const isHeader = /^\*\*.*\*\*$/.test(line.trim())
-                                if (isHeader) {
-                                    return (
-                                        <div key={i} className="flex items-center gap-2 mt-4 mb-1 pb-1 border-b border-blue-300 dark:border-blue-600">
-                                            <strong className="text-blue-700 dark:text-blue-300 font-bold text-base">
-                                                {line.trim().slice(2, -2)}
-                                            </strong>
-                                        </div>
-                                    )
-                                }
-                                return <div key={i} className="text-blue-900 dark:text-blue-100 pl-1">{line}</div>
-                            })}
-                        </div>
-                    </div>
+                    <FeedbackPanel feedback={feedback} />
                 </motion.div>
 
                 <div className="space-y-6">
