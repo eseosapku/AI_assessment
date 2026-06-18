@@ -8,6 +8,7 @@ import { subscriptionBlockedMessage } from '@/lib/subscription'
 import {
   getClientNardoPayLinkCode,
   loadNardoPayWidget,
+  nardoPaySubscribePageUrl,
   type NardoPayWidgetSuccess,
 } from '@/lib/nardopay-client'
 
@@ -71,34 +72,45 @@ export default function SubscribeModal({
     [userId, userEmail],
   )
 
+  const pollUntilActive = useCallback(async () => {
+    for (let attempt = 0; attempt < 12; attempt++) {
+      const updated = await onRefresh()
+      if (updated?.isSubscribed) {
+        setActivating(false)
+        onClose()
+        return true
+      }
+      if (attempt < 11) await new Promise((resolve) => setTimeout(resolve, 2000))
+    }
+    setActivating(false)
+    setPayError('Payment received — unlocking access, please wait a moment…')
+    const updated = await onRefresh()
+    if (updated?.isSubscribed) {
+      setPayError(null)
+      onClose()
+      return true
+    }
+    return false
+  }, [onRefresh, onClose])
+
   const activateAfterPayment = useCallback(
     async (data: NardoPayWidgetSuccess) => {
       setActivating(true)
       setPayError(null)
       await confirmPayment(data)
-
-      for (let attempt = 0; attempt < 8; attempt++) {
-        const updated = await onRefresh()
-        if (updated?.isSubscribed) {
-          setActivating(false)
-          onClose()
-          return
-        }
-        if (attempt < 7) {
-          await new Promise((resolve) => setTimeout(resolve, 1500))
-        }
-      }
-
-      setActivating(false)
-      setPayError('Payment received — unlocking access, please wait a moment…')
-      const updated = await onRefresh()
-      if (updated?.isSubscribed) {
-        setPayError(null)
-        onClose()
-      }
+      await pollUntilActive()
     },
-    [confirmPayment, onRefresh, onClose],
+    [confirmPayment, pollUntilActive],
   )
+
+  const openSubscribeCheckout = useCallback(() => {
+    const redirectUrl = `${window.location.origin}/subscription/success`
+    const url = nardoPaySubscribePageUrl(linkCode, { email: userEmail, redirectUrl })
+    window.open(url, '_blank', 'noopener,noreferrer,width=480,height=720')
+    setActivating(true)
+    setPayError(null)
+    void pollUntilActive()
+  }, [linkCode, userEmail, pollUntilActive])
 
   const handleSubscribe = async () => {
     setPayError(null)
@@ -110,9 +122,9 @@ export default function SubscribeModal({
           onSuccess: (data) => {
             void activateAfterPayment(data)
           },
-          onError: (err) => {
+          onError: () => {
             setPaying(false)
-            setPayError(err instanceof Error ? err.message : 'Payment could not be completed. Try again.')
+            openSubscribeCheckout()
           },
         })
         setPaying(false)
@@ -120,7 +132,7 @@ export default function SubscribeModal({
       }
 
       setPaying(false)
-      setPayError('Could not load the payment window. Reload the page and try again.')
+      openSubscribeCheckout()
     } catch (err: any) {
       setPaying(false)
       setPayError(err?.message || 'Could not open checkout')
@@ -198,7 +210,7 @@ export default function SubscribeModal({
               )}
 
               <p className="text-xs text-gray-400">
-                Pay inside this app — opening the NardoPay link in a separate tab won&apos;t unlock access automatically.
+                Checkout opens in a new window. After paying, this page unlocks automatically.
               </p>
 
               {payError && <p className="text-xs text-red-500">{payError}</p>}
