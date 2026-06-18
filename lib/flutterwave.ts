@@ -9,7 +9,10 @@ const FLW_PUBLIC_KEY = process.env.FLW_PUBLIC_KEY ?? ''
 let FLW_PLAN_ID = process.env.FLW_PLAN_ID ?? ''
 
 export function getFlutterwaveRedirectUrl(origin?: string | null): string {
-  const base = (process.env.FLW_REDIRECT_URL ?? process.env.NEXT_PUBLIC_APP_URL ?? origin ?? 'http://localhost:3000').replace(/\/$/, '')
+  const configured = (process.env.FLW_REDIRECT_URL ?? '').trim().replace(/\/$/, '')
+  if (configured) return configured
+
+  const base = (process.env.NEXT_PUBLIC_APP_URL ?? origin ?? 'http://localhost:3000').replace(/\/$/, '')
   return `${base}/subscription/success`
 }
 
