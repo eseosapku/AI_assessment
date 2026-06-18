@@ -6,11 +6,15 @@
     "dev": "set NEXT_DISABLE_TURBOPACK=1 & next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "sync:exam-banks": "node scripts/sync-exam-question-banks.js",
+    "setup:nardopay": "node scripts/setup-nardopay-link.js",
+    "capture:motion-assets": "node scripts/capture-motion-ad-screenshots.js"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1015.0",
     "@supabase/supabase-js": "^2.97.0",
+    "@xyflow/react": "^12.11.0",
     "bcryptjs": "^3.0.3",
     "date-fns": "^3.3.1",
     "framer-motion": "^11.0.3",
@@ -22,7 +26,8 @@
     "pdf-parse": "^1.1.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-latex-next": "^3.0.0"
+    "react-latex-next": "^3.0.0",
+    "tldraw": "^5.1.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",

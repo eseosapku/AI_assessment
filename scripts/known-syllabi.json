@@ -1,0 +1,146 @@
+{
+  "complete english language for cambridge international as a level second edition": {
+    "topics": [
+      {
+        "name": "Chapter 1: Elements of language",
+        "subtopics": ["Sentences and clauses", "Words and phrases", "Images"]
+      },
+      {
+        "name": "Chapter 2: Elements of texts",
+        "subtopics": ["Form", "Purpose", "Audience"]
+      },
+      {
+        "name": "Chapter 3: Key analytical skills",
+        "subtopics": [
+          "Approaching texts on a grammatical level",
+          "Approaching texts on a pragmatic level",
+          "Approaching texts on a lexical level",
+          "Approaching texts on a semantic level",
+          "Approaching texts on a phonological level"
+        ]
+      },
+      {
+        "name": "Chapter 4: Reading and writing skills",
+        "subtopics": [
+          "Directed response",
+          "Text analysis",
+          "Shorter writing and reflective commentary",
+          "Extended writing"
+        ]
+      },
+      {
+        "name": "Chapter 5: Language change",
+        "subtopics": [
+          "How and why language changes",
+          "Language change in the digital world",
+          "Theories of language change",
+          "Collecting and analysing data"
+        ]
+      },
+      {
+        "name": "Chapter 6: Child language acquisition",
+        "subtopics": [
+          "Stages of early language development",
+          "Language development from five to eight",
+          "Theories of language acquisition",
+          "Analysing child language data"
+        ]
+      },
+      {
+        "name": "Chapter 7: English in the world",
+        "subtopics": [
+          "English as a global language",
+          "Global variation in English",
+          "Attitudes to English",
+          "Debating English in the world"
+        ]
+      },
+      {
+        "name": "Chapter 8: Language and the self",
+        "subtopics": [
+          "Language and self-identity",
+          "Language and thought",
+          "Language and social identity",
+          "Teenage and gender group identity"
+        ]
+      },
+      {
+        "name": "Chapter 9: Applying key skills",
+        "subtopics": [
+          "Text analysis (AS Level)",
+          "Writing creatively (AS Level)",
+          "Writing for audience (AS Level)",
+          "Reflective writing (AS Level)",
+          "Analysing language change (A Level)",
+          "Analysing child language acquisition (A Level)",
+          "Writing in response to language topics (A Level)"
+        ]
+      },
+      {
+        "name": "Chapter 10: Examination practice",
+        "subtopics": [
+          "Paper 1 practice",
+          "Paper 2 practice",
+          "Paper 3 practice",
+          "Paper 4 practice"
+        ]
+      }
+    ]
+  },
+  "cambridge igcse and o level economics coursebook": {
+    "topics": [
+      { "name": "Unit 1: The basic economic problem", "subtopics": ["Scarcity and choice", "Opportunity cost", "Production possibility curves"] },
+      { "name": "Unit 2: The allocation of resources", "subtopics": ["Demand", "Supply", "Price equilibrium", "Elasticity", "Market failure"] },
+      { "name": "Unit 3: Microeconomic decision makers", "subtopics": ["Money and banking", "Households", "Workers", "Trade unions", "Firms", "Firms and production", "Firms' costs, revenue and objectives", "Market structure"] },
+      { "name": "Unit 4: Government and the macroeconomy", "subtopics": ["The role of government", "Economic indicators", "Policies to correct disequilibrium", "Fiscal policy", "Monetary policy", "Supply-side policy", "Employment and unemployment", "Inflation and deflation", "Economic growth", "Living standards"] },
+      { "name": "Unit 5: Economic development", "subtopics": ["Living standards", "Population", "Differences in economic development", "International trade", "Globalisation", "Multinational companies"] },
+      { "name": "Unit 6: International trade and globalisation", "subtopics": ["Specialisation", "Globalisation", "Free trade and protection", "Foreign exchange rates", "Current account of balance of payments"] }
+    ]
+  },
+  "cambridge international as and a level it coursebook": {
+    "topics": [
+      { "name": "Chapter 1: Data, information, knowledge and processing", "subtopics": [] },
+      { "name": "Chapter 2: Hardware and software", "subtopics": [] },
+      { "name": "Chapter 3: Monitoring and control", "subtopics": [] },
+      { "name": "Chapter 4: E-safety and health and safety", "subtopics": [] },
+      { "name": "Chapter 5: The digital divide", "subtopics": [] },
+      { "name": "Chapter 6: Using networks", "subtopics": [] },
+      { "name": "Chapter 7: Expert systems", "subtopics": [] },
+      { "name": "Chapter 8: Spreadsheets", "subtopics": [] },
+      { "name": "Chapter 9: Database and file concepts", "subtopics": [] },
+      { "name": "Chapter 10: Sound and video editing", "subtopics": [] },
+      { "name": "Chapter 11: Emerging technologies", "subtopics": [] },
+      { "name": "Chapter 12: The role and impact of ICT in society", "subtopics": [] },
+      { "name": "Chapter 13: Networks", "subtopics": [] },
+      { "name": "Chapter 14: Project management", "subtopics": [] },
+      { "name": "Chapter 15: System life cycle", "subtopics": [] },
+      { "name": "Chapter 16: Graphics creation", "subtopics": [] },
+      { "name": "Chapter 17: Animation", "subtopics": [] },
+      { "name": "Chapter 18: Mail merge", "subtopics": [] },
+      { "name": "Chapter 19: Programming for the web", "subtopics": [] }
+    ]
+  },
+  "it for cambridge international as a level coursebook": {
+    "topics": [
+      { "name": "Chapter 1: Data, information, knowledge and processing", "subtopics": [] },
+      { "name": "Chapter 2: Hardware and software", "subtopics": [] },
+      { "name": "Chapter 3: Monitoring and control", "subtopics": [] },
+      { "name": "Chapter 4: E-safety and health and safety", "subtopics": [] },
+      { "name": "Chapter 5: The digital divide", "subtopics": [] },
+      { "name": "Chapter 6: Using networks", "subtopics": [] },
+      { "name": "Chapter 7: Expert systems", "subtopics": [] },
+      { "name": "Chapter 8: Spreadsheets", "subtopics": [] },
+      { "name": "Chapter 9: Database and file concepts", "subtopics": [] },
+      { "name": "Chapter 10: Sound and video editing", "subtopics": [] },
+      { "name": "Chapter 11: Emerging technologies", "subtopics": [] },
+      { "name": "Chapter 12: The role and impact of ICT in society", "subtopics": [] },
+      { "name": "Chapter 13: Networks", "subtopics": [] },
+      { "name": "Chapter 14: Project management", "subtopics": [] },
+      { "name": "Chapter 15: System life cycle", "subtopics": [] },
+      { "name": "Chapter 16: Graphics creation", "subtopics": [] },
+      { "name": "Chapter 17: Animation", "subtopics": [] },
+      { "name": "Chapter 18: Mail merge", "subtopics": [] },
+      { "name": "Chapter 19: Programming for the web", "subtopics": [] }
+    ]
+  }
+}

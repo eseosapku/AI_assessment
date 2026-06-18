@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Plus, Brain, Clock, Zap, ChevronDown, Users, FileText } from 'lucide-react'
+import { User, Plus, Brain, Clock, Zap, ChevronDown, Users, FileText, Target } from 'lucide-react'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -395,6 +395,7 @@ function StudentDashboard() {
         )}
 
         {/* ── CTA ── */}
+        <div className={`grid gap-4 ${user?.country === 'NG' ? 'sm:grid-cols-2' : ''}`}>
         <motion.button
           onClick={() => setIsFormOpen(true)}
           initial={{ opacity: 0, y: 12 }}
@@ -419,6 +420,28 @@ function StudentDashboard() {
             </div>
           </div>
         </motion.button>
+
+        {user?.country === 'NG' && (
+          <motion.button
+            onClick={() => router.push('/exam-prep')}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.1 }}
+            whileHover={{ scale: 1.005 }}
+            whileTap={{ scale: 0.997 }}
+            className="w-full group relative overflow-hidden rounded-2xl flex items-center justify-between px-8 py-7 sm:py-8 bg-gradient-to-r from-emerald-600 via-emerald-700 to-teal-700 shadow-xl shadow-emerald-900/30 text-white"
+          >
+            <div className="relative text-left">
+              <p className="text-xs font-bold uppercase tracking-[0.25em] text-emerald-200/80 mb-1">WAEC &amp; JAMB</p>
+              <h3 className="text-2xl sm:text-3xl font-black leading-tight">Exam Prep Hub</h3>
+              <p className="text-sm text-emerald-100/80 mt-1">Separate WASSCE &amp; UTME practice</p>
+            </div>
+            <div className="relative w-12 h-12 rounded-full bg-white/15 flex items-center justify-center group-hover:bg-white/25 transition-colors">
+              <Target className="w-6 h-6 text-white" />
+            </div>
+          </motion.button>
+        )}
+        </div>
 
         {/* ── Report Card CTA ── */}
         <motion.button

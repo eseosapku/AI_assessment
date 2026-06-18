@@ -1283,8 +1283,14 @@ function AssessmentPageClient() {
             })}
           </div>
 
-          <div className="flex justify-center pt-8 pb-12">
-            <button onClick={() => router.push('/')} className="btn-primary px-8 py-3">
+          <div className="flex flex-col sm:flex-row justify-center gap-3 pt-8 pb-12">
+            <button
+              onClick={() => {
+                sessionStorage.removeItem('gapMapReturn')
+                router.push('/')
+              }}
+              className="btn-primary px-8 py-3"
+            >
               Return to Dashboard
             </button>
           </div>
