@@ -23,13 +23,21 @@ export const CURRENCY_OPTIONS = [
 export async function initiateMonthlySubscription(
   userId: string,
   userEmail?: string | null,
-  currency = 'USD',
-  amount = 5,
+  currency?: string,
+  amount?: number,
 ): Promise<InitiatePaymentResult> {
+  const payload: Record<string, unknown> = {
+    user_id: userId,
+    email: userEmail ?? undefined,
+    currency: currency ?? process.env.NEXT_PUBLIC_SUBSCRIPTION_CURRENCY ?? 'RWF',
+    interval: 'monthly',
+  }
+  if (amount != null) payload.amount = amount
+
   const res = await fetch('/api/payments/flutterwave/initiate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ user_id: userId, email: userEmail ?? undefined, amount, currency, interval: 'monthly' }),
+    body: JSON.stringify(payload),
   })
   if (!res.ok) {
     const body = await res.text()

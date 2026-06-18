@@ -33,14 +33,23 @@ export async function POST(request: NextRequest) {
     }
 
     const email = String(body.email ?? user.email ?? '').trim() || `user+${userId.slice(0, 8)}@studysquare.org`
-    const amountUsd = Number(body.amount ?? process.env.FLW_SUBSCRIPTION_AMOUNT_USD ?? 5)
-    const currency = String(body.currency ?? 'USD').toUpperCase()
+    const currency = String(body.currency ?? process.env.FLW_SUBSCRIPTION_CURRENCY ?? 'USD').toUpperCase()
     const interval = String(body.interval ?? 'monthly')
+    const fixedCurrency = (process.env.FLW_SUBSCRIPTION_CURRENCY ?? '').toUpperCase()
+    const fixedAmount = process.env.FLW_SUBSCRIPTION_AMOUNT ? Number(process.env.FLW_SUBSCRIPTION_AMOUNT) : null
+    const amountUsd = Number(process.env.FLW_SUBSCRIPTION_AMOUNT_USD ?? 5)
 
-    let amountToCharge = amountUsd
-    if (currency !== 'USD') {
+    let amountToCharge: number
+    if (body.amount != null && body.amount !== '') {
+      amountToCharge = Number(body.amount)
+    } else if (fixedAmount != null && currency === fixedCurrency) {
+      amountToCharge = fixedAmount
+    } else if (currency === 'USD') {
+      amountToCharge = amountUsd
+    } else {
       amountToCharge = roundForCurrency(await convertUsd(amountUsd, currency), currency)
     }
+    amountToCharge = roundForCurrency(amountToCharge, currency)
 
     const planId = await ensurePaymentPlan(amountToCharge, currency, interval)
     const txRef = `sub_${userId.replace(/-/g, '').slice(0, 12)}_${randomBytes(5).toString('hex')}`
