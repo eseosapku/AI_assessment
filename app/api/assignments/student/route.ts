@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function normalizeEmail(value: string | null) {
   return String(value ?? '').trim().toLowerCase()
@@ -60,48 +61,44 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'email or student_id required' }, { status: 400 })
     }
 
-    let membershipQuery = supabase
-      .from('classroom_members')
-      .select('classroom_id')
-      .eq('status', 'accepted')
+    let membershipSql = `SELECT classroom_id FROM classroom_members WHERE status = 'accepted'`
+    const membershipValues: unknown[] = []
+    let idx = 1
 
     if (studentId && email) {
-      membershipQuery = membershipQuery.or(`student_id.eq.${studentId},student_email.eq.${email}`)
+      membershipSql += ` AND (student_id = $${idx++} OR student_email = $${idx++})`
+      membershipValues.push(studentId, email)
     } else if (studentId) {
-      membershipQuery = membershipQuery.eq('student_id', studentId)
+      membershipSql += ` AND student_id = $${idx++}`
+      membershipValues.push(studentId)
     } else {
-      membershipQuery = membershipQuery.eq('student_email', email)
+      membershipSql += ` AND student_email = $${idx++}`
+      membershipValues.push(email)
     }
 
     if (classroomIdFilter) {
-      membershipQuery = membershipQuery.eq('classroom_id', classroomIdFilter)
+      membershipSql += ` AND classroom_id = $${idx++}`
+      membershipValues.push(classroomIdFilter)
     }
 
-    const { data: memberships, error: membershipError } = await membershipQuery
-    if (membershipError) {
-      console.error('Student classrooms lookup error:', membershipError)
-      return NextResponse.json({ error: membershipError.message }, { status: 500 })
-    }
-
-    const classroomIds = (memberships ?? []).map((m: any) => m.classroom_id).filter(Boolean)
+    const membershipsResult = await db.query(membershipSql, membershipValues)
+    const classroomIds = (membershipsResult.rows ?? []).map((m: any) => m.classroom_id).filter(Boolean)
     if (classroomIds.length === 0) {
       return NextResponse.json({ assignments: [] })
     }
 
-    const { data: classroomLinks, error: classroomLinksError } = await supabase
-      .from('assignment_classrooms')
-      .select('assignment_id,classroom_id,classrooms(name)')
-      .in('classroom_id', classroomIds)
-
-    if (classroomLinksError) {
-      console.error('Assignment classrooms fetch error:', classroomLinksError)
-      return NextResponse.json({ error: classroomLinksError.message }, { status: 500 })
-    }
+    const linksResult = await db.query(
+      `SELECT ac.assignment_id, ac.classroom_id, c.name AS classroom_name
+       FROM assignment_classrooms ac
+       LEFT JOIN classrooms c ON c.id = ac.classroom_id
+       WHERE ac.classroom_id = ANY($1::uuid[])`,
+      [classroomIds]
+    )
 
     const assignmentClassroomMap = new Map<string, { ids: string[]; names: string[] }>()
     const assignmentIdsFromLinks = new Set<string>()
 
-    for (const row of classroomLinks ?? []) {
+    for (const row of linksResult.rows ?? []) {
       const assignmentId = String(row.assignment_id ?? '').trim()
       const classroomId = String(row.classroom_id ?? '').trim()
       if (!assignmentId || !classroomId) continue
@@ -109,62 +106,41 @@ export async function GET(request: NextRequest) {
       assignmentIdsFromLinks.add(assignmentId)
       const current = assignmentClassroomMap.get(assignmentId) ?? { ids: [], names: [] }
       if (!current.ids.includes(classroomId)) current.ids.push(classroomId)
-      const classroom = Array.isArray(row.classrooms) ? row.classrooms[0] : row.classrooms
-      const classroomName = String(classroom?.name ?? '').trim()
+      const classroomName = String(row.classroom_name ?? '').trim()
       if (classroomName && !current.names.includes(classroomName)) current.names.push(classroomName)
       assignmentClassroomMap.set(assignmentId, current)
     }
 
-    const selectAssignments = `
-        id,
-        title,
-        subject,
-        topics,
-        grade,
-        curriculum,
-        difficulty_level,
-        question_count,
-        style,
-        question_type,
-        deadline,
-        created_at,
-        status,
-        max_attempts,
-        strict_mode,
-        classroom_id,
-        classrooms(name)
-      `
-
-    const [linkedAssignmentsRes, legacyAssignmentsRes] = await Promise.all([
-      assignmentIdsFromLinks.size > 0
-        ? supabase
-          .from('assignments')
-          .select(selectAssignments)
-          .eq('status', 'sent')
-          .in('id', Array.from(assignmentIdsFromLinks))
-        : Promise.resolve({ data: [], error: null }),
-      supabase
-        .from('assignments')
-        .select(selectAssignments)
-        .eq('status', 'sent')
-        .in('classroom_id', classroomIds),
+    const linkedIds = Array.from(assignmentIdsFromLinks)
+    const [linkedAssignmentsResult, legacyAssignmentsResult] = await Promise.all([
+      linkedIds.length > 0
+        ? db.query(
+            `SELECT a.id, a.title, a.subject, a.topics, a.grade, a.curriculum, a.difficulty_level,
+                    a.question_count, a.style, a.question_type, a.deadline, a.created_at, a.status,
+                    a.max_attempts, a.strict_mode, a.classroom_id, c.name AS classroom_name
+             FROM assignments a
+             LEFT JOIN classrooms c ON c.id = a.classroom_id
+             WHERE a.status = 'sent' AND a.id = ANY($1::uuid[])`,
+            [linkedIds]
+          )
+        : Promise.resolve({ rows: [] as any[] }),
+      db.query(
+        `SELECT a.id, a.title, a.subject, a.topics, a.grade, a.curriculum, a.difficulty_level,
+                a.question_count, a.style, a.question_type, a.deadline, a.created_at, a.status,
+                a.max_attempts, a.strict_mode, a.classroom_id, c.name AS classroom_name
+         FROM assignments a
+         LEFT JOIN classrooms c ON c.id = a.classroom_id
+         WHERE a.status = 'sent' AND a.classroom_id = ANY($1::uuid[])`,
+        [classroomIds]
+      ),
     ])
 
-    if (linkedAssignmentsRes.error) {
-      console.error('Assignments fetch error:', linkedAssignmentsRes.error)
-      return NextResponse.json({ error: linkedAssignmentsRes.error.message }, { status: 500 })
-    }
-    if (legacyAssignmentsRes.error) {
-      console.error('Assignments fetch error:', legacyAssignmentsRes.error)
-      return NextResponse.json({ error: legacyAssignmentsRes.error.message }, { status: 500 })
-    }
-
     const assignmentMap = new Map<string, any>()
-    for (const row of linkedAssignmentsRes.data ?? []) {
+    for (const row of linkedAssignmentsResult.rows ?? []) {
       if (!row?.id) continue
       assignmentMap.set(row.id, row)
     }
-    for (const row of legacyAssignmentsRes.data ?? []) {
+    for (const row of legacyAssignmentsResult.rows ?? []) {
       if (!row?.id) continue
       if (!assignmentMap.has(row.id)) assignmentMap.set(row.id, row)
     }
@@ -174,32 +150,34 @@ export async function GET(request: NextRequest) {
       const bTime = new Date(b.created_at ?? 0).getTime()
       return bTime - aTime
     })
+
     const assignmentIds = assignments.map((row: any) => row.id).filter(Boolean)
     if (assignmentIds.length === 0) {
       return NextResponse.json({ assignments: [] })
     }
 
-    let resultsQuery = supabase
-      .from('assignment_results')
-      .select('id,assignment_id,status,started_at,completed_at,attempt_count,last_attempt_at,result_id,student_id,student_email')
-      .in('assignment_id', assignmentIds)
+    let resultsSql = `
+      SELECT id, assignment_id, status, started_at, completed_at, attempt_count, last_attempt_at, result_id, student_id, student_email
+      FROM assignment_results
+      WHERE assignment_id = ANY($1::uuid[])
+    `
+    const resultsValues: unknown[] = [assignmentIds]
+    idx = 2
 
     if (studentId && email) {
-      resultsQuery = resultsQuery.or(`student_id.eq.${studentId},student_email.eq.${email}`)
+      resultsSql += ` AND (student_id = $${idx++} OR student_email = $${idx++})`
+      resultsValues.push(studentId, email)
     } else if (studentId) {
-      resultsQuery = resultsQuery.eq('student_id', studentId)
+      resultsSql += ` AND student_id = $${idx++}`
+      resultsValues.push(studentId)
     } else {
-      resultsQuery = resultsQuery.eq('student_email', email)
+      resultsSql += ` AND student_email = $${idx++}`
+      resultsValues.push(email)
     }
 
-    const { data: results, error: resultsError } = await resultsQuery
-    if (resultsError) {
-      console.error('Assignment results fetch error:', resultsError)
-      return NextResponse.json({ error: resultsError.message }, { status: 500 })
-    }
-
+    const resultsResult = await db.query(resultsSql, resultsValues)
     const resultMap = new Map<string, ResultRow>()
-    for (const row of (results ?? []) as ResultRow[]) {
+    for (const row of (resultsResult.rows ?? []) as ResultRow[]) {
       const existing = resultMap.get(row.assignment_id)
       if (!existing) {
         resultMap.set(row.assignment_id, row)
@@ -209,7 +187,7 @@ export async function GET(request: NextRequest) {
       if (best) resultMap.set(row.assignment_id, best)
     }
 
-    const normalized = (assignments ?? []).map((row: any) => {
+    const normalized = assignments.map((row: any) => {
       const result = resultMap.get(row.id)
       const classroomInfo = assignmentClassroomMap.get(row.id)
       const classroomIdsForAssignment = classroomInfo?.ids?.length
@@ -217,8 +195,8 @@ export async function GET(request: NextRequest) {
         : (row.classroom_id ? [row.classroom_id] : [])
       const classroomNamesForAssignment = classroomInfo?.names?.length
         ? classroomInfo.names
-        : (row.classrooms?.name ? [row.classrooms.name] : [])
-      const primaryName = classroomNamesForAssignment[0] ?? row.classrooms?.name ?? null
+        : (row.classroom_name ? [row.classroom_name] : [])
+      const primaryName = classroomNamesForAssignment[0] ?? row.classroom_name ?? null
 
       return {
         status: result?.status ?? 'pending',
@@ -253,6 +231,6 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ assignments: normalized })
   } catch (err) {
     console.error('Assignment fetch error:', err)
-    return NextResponse.json({ error: 'Failed to fetch assignments' }, { status: 500 })
+    return NextResponse.json({ error: pgErrorMessage(err, 'Failed to fetch assignments') }, { status: 500 })
   }
 }

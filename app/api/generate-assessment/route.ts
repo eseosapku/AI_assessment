@@ -2,7 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { jsonrepair } from 'jsonrepair'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isMissingColumn } from '@/lib/pg-errors'
+import { intArrayParam, jsonbParam } from '@/lib/pg-json'
 import { authorityForCurriculum, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
@@ -1029,17 +1031,18 @@ export async function POST(request: NextRequest) {
           textbookExamYear = cached.year
         }
       } else {
-        const { data, error } = await supabase
-          .from('textbooks')
-          .select('textbook_id,textbook_name,source_text,exam_year,source_authority,filename,curriculum')
-          .eq('textbook_id', textbookId)
-          .maybeSingle()
-        if (error) console.error('Textbook lookup error:', error)
+        const textbookResult = await db.query(
+          `SELECT textbook_id, textbook_name, source_text, exam_year, source_authority, filename, curriculum
+           FROM textbooks WHERE textbook_id = $1 LIMIT 1`,
+          [textbookId]
+        )
+        const data = textbookResult.rows[0]
         if (data?.textbook_name) textbookName = String(data.textbook_name)
         if (data?.source_text) textbookSourceText = String(data.source_text)
         if (data && Number.isFinite(data.exam_year)) textbookExamYear = Number(data.exam_year)
         if (data && userId && isExamPrepCurriculumNumeric(data.curriculum)) {
-          const { data: profile } = await supabase.from('users').select('country').eq('id', userId).maybeSingle()
+          const profileResult = await db.query('SELECT country FROM users WHERE id = $1 LIMIT 1', [userId])
+          const profile = profileResult.rows[0]
           if (normalizeCountry(profile?.country) !== 'NG') {
             return NextResponse.json({ error: 'Exam prep is only available for Nigeria accounts.' }, { status: 403 })
           }
@@ -1050,7 +1053,8 @@ export async function POST(request: NextRequest) {
     const curriculumSlugEarly = String(curriculum ?? 'rwanda').toLowerCase()
     const isExamPrepCurriculum = curriculumSlugEarly === 'waec' || curriculumSlugEarly === 'jamb'
     if (isExamPrepCurriculum && userId) {
-      const { data: profile } = await supabase.from('users').select('country').eq('id', userId).maybeSingle()
+      const profileResult = await db.query('SELECT country FROM users WHERE id = $1 LIMIT 1', [userId])
+      const profile = profileResult.rows[0]
       if (normalizeCountry(profile?.country) !== 'NG') {
         return NextResponse.json({ error: 'Exam prep is only available for Nigeria accounts.' }, { status: 403 })
       }
@@ -1074,34 +1078,36 @@ export async function POST(request: NextRequest) {
     const resolvedSubtopics: Array<{ id: number; name: string; topic_id: number | null }> = []
 
     if (topicIds.length > 0) {
-      let q = supabase
-        .from('topics')
-        .select('topic_id,topic,textbook_id')
-        .in('topic_id', topicIds)
-      if (Number.isFinite(textbookId)) q = q.eq('textbook_id', textbookId)
-      const { data, error } = await q.order('topic')
-      if (error) {
-        console.error('Topics lookup error:', error)
-      } else {
-        const rows = Array.isArray(data) ? (data as any[]) : []
+      try {
+        let sql = 'SELECT topic_id, topic, textbook_id FROM topics WHERE topic_id = ANY($1::int[])'
+        const values: unknown[] = [topicIds]
+        if (Number.isFinite(textbookId)) {
+          sql += ' AND textbook_id = $2'
+          values.push(textbookId)
+        }
+        sql += ' ORDER BY topic'
+        const topicsResult = await db.query(sql, values)
+        const rows = topicsResult.rows ?? []
         for (const r of rows) {
           if (Number.isFinite(r.topic_id) && r.topic) topicNameById.set(Number(r.topic_id), String(r.topic))
         }
         dbTopicNames = topicIds.map((id) => topicNameById.get(id)).filter(Boolean) as string[]
+      } catch (error) {
+        console.error('Topics lookup error:', error)
       }
     }
 
     if (subtopicIds.length > 0) {
-      let q = supabase
-        .from('subtopics')
-        .select('subtopic_id,subtopic,topic_id,textbook_id')
-        .in('subtopic_id', subtopicIds)
-      if (Number.isFinite(textbookId)) q = q.eq('textbook_id', textbookId)
-      const { data, error } = await q.order('subtopic')
-      if (error) {
-        console.error('Subtopic lookup error:', error)
-      } else {
-        const rows = Array.isArray(data) ? (data as any[]) : []
+      try {
+        let sql = 'SELECT subtopic_id, subtopic, topic_id, textbook_id FROM subtopics WHERE subtopic_id = ANY($1::int[])'
+        const values: unknown[] = [subtopicIds]
+        if (Number.isFinite(textbookId)) {
+          sql += ' AND textbook_id = $2'
+          values.push(textbookId)
+        }
+        sql += ' ORDER BY subtopic'
+        const subtopicsResult = await db.query(sql, values)
+        const rows = subtopicsResult.rows ?? []
         for (const row of rows) {
           if (!Number.isFinite(row?.subtopic_id) || !row?.subtopic) continue
           resolvedSubtopics.push({
@@ -1110,6 +1116,8 @@ export async function POST(request: NextRequest) {
             topic_id: Number.isFinite(row.topic_id) ? Number(row.topic_id) : null,
           })
         }
+      } catch (error) {
+        console.error('Subtopic lookup error:', error)
       }
     }
 
@@ -1625,13 +1633,15 @@ export async function POST(request: NextRequest) {
     try {
       let candidateSubtopics: Array<{ id: number; name: string; topic_id: number | null }> = resolvedSubtopics
       if (candidateSubtopics.length === 0 && topicIds.length > 0) {
-        let sq = supabase
-          .from('subtopics')
-          .select('subtopic_id,subtopic,topic_id')
-          .in('topic_id', topicIds)
-        if (Number.isFinite(textbookId)) sq = sq.eq('textbook_id', textbookId)
-        const { data: subRows } = await sq.order('subtopic')
-        candidateSubtopics = (subRows ?? [])
+        let sql = 'SELECT subtopic_id, subtopic, topic_id FROM subtopics WHERE topic_id = ANY($1::int[])'
+        const values: unknown[] = [topicIds]
+        if (Number.isFinite(textbookId)) {
+          sql += ' AND textbook_id = $2'
+          values.push(textbookId)
+        }
+        sql += ' ORDER BY subtopic'
+        const subRowsResult = await db.query(sql, values)
+        candidateSubtopics = (subRowsResult.rows ?? [])
           .filter((r: any) => Number.isFinite(r?.subtopic_id) && r?.subtopic)
           .map((r: any) => ({ id: Number(r.subtopic_id), name: String(r.subtopic), topic_id: Number.isFinite(r.topic_id) ? Number(r.topic_id) : null }))
       }
@@ -1675,23 +1685,50 @@ export async function POST(request: NextRequest) {
       subtopic_ids: taggedSubtopicIds.length > 0 ? taggedSubtopicIds : subtopicIds,
     }
 
-    let { data: dbAssessment, error: dbError } = await supabase
-      .from('assessments')
-      .insert([assessmentPayload])
-      .select()
-      .single()
+    let dbAssessment: any = null
+    let dbError: unknown = null
 
-    // Graceful fallback if the StudyLab migration hasn't been applied yet
-    // (the textbook_id/topic_ids/subtopic_ids columns won't exist).
-    if (dbError && (dbError.code === 'PGRST204' || /column .* does not exist/i.test(String(dbError.message ?? '')) || /Could not find the .* column/i.test(String(dbError.message ?? '')))) {
-      const { textbook_id: _t, topic_ids: _ti, subtopic_ids: _si, ...legacyPayload } = assessmentPayload
-      const retry = await supabase
-        .from('assessments')
-        .insert([legacyPayload])
-        .select()
-        .single()
-      dbAssessment = retry.data
-      dbError = retry.error
+    try {
+      const insertResult = await db.query(
+        `INSERT INTO assessments (user_id, subject, difficulty, duration, questions_data, status, textbook_id, topic_ids, subtopic_ids)
+         VALUES ($1,$2,$3,$4,$5::jsonb,$6,$7,$8::int[],$9::int[])
+         RETURNING *`,
+        [
+          assessmentPayload.user_id,
+          assessmentPayload.subject,
+          assessmentPayload.difficulty,
+          assessmentPayload.duration,
+          jsonbParam(assessmentPayload.questions_data),
+          assessmentPayload.status,
+          assessmentPayload.textbook_id,
+          intArrayParam(assessmentPayload.topic_ids),
+          intArrayParam(assessmentPayload.subtopic_ids),
+        ]
+      )
+      dbAssessment = insertResult.rows[0]
+    } catch (err) {
+      dbError = err
+      if (isMissingColumn(err)) {
+        try {
+          const retryResult = await db.query(
+            `INSERT INTO assessments (user_id, subject, difficulty, duration, questions_data, status)
+             VALUES ($1,$2,$3,$4,$5::jsonb,$6)
+             RETURNING *`,
+            [
+              assessmentPayload.user_id,
+              assessmentPayload.subject,
+              assessmentPayload.difficulty,
+              assessmentPayload.duration,
+              jsonbParam(assessmentPayload.questions_data),
+              assessmentPayload.status,
+            ]
+          )
+          dbAssessment = retryResult.rows[0]
+          dbError = null
+        } catch (retryErr) {
+          dbError = retryErr
+        }
+      }
     }
 
     if (dbError) console.error('DB save error:', dbError)

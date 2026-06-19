@@ -60,8 +60,8 @@ export default function SubscriptionSuccessPage() {
         await refresh()
         setStatus('error')
         setMessage(
-          errMsg.includes('SUPABASE_SERVICE_ROLE_KEY') || errMsg.includes('migration')
-            ? `${errMsg} Ask the site admin to add SUPABASE_SERVICE_ROLE_KEY on Vercel and run the subscription migration SQL.`
+          errMsg.includes('DATABASE_URL') || errMsg.includes('migration')
+            ? `${errMsg} Ensure DATABASE_URL is set and run migrations/full-platform-schema.sql on RDS.`
             : `Payment received but activation failed: ${errMsg}. Try refreshing in a minute or contact support with reference ${txRef ?? transactionId}.`,
         )
       }

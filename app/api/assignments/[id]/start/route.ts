@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -66,30 +67,16 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             return NextResponse.json({ error: 'student_id or student_email is required' }, { status: 400 })
         }
 
-        const { data: assignment, error: assignmentError } = await supabase
-            .from('assignments')
-            .select(`
-        id,
-        title,
-        subject,
-        topics,
-        curriculum,
-        question_type,
-        questions_data,
-        estimated_time,
-        question_count,
-        classroom_id,
-        status,
-                deadline,
-                max_attempts,
-                strict_mode
-      `)
-            .eq('id', assignmentId)
-            .single()
+        const assignmentResult = await db.query(
+            `SELECT id, title, subject, topics, curriculum, question_type, questions_data,
+                    estimated_time, question_count, classroom_id, status, deadline, max_attempts, strict_mode
+             FROM assignments WHERE id = $1 LIMIT 1`,
+            [assignmentId]
+        )
+        const assignment = assignmentResult.rows[0]
 
-        if (assignmentError) {
-            console.error('Assignment lookup error:', assignmentError)
-            return NextResponse.json({ error: assignmentError.message }, { status: 500 })
+        if (!assignment) {
+            return NextResponse.json({ error: 'Assignment not found' }, { status: 404 })
         }
 
         if (assignment.status !== 'sent') {
@@ -100,17 +87,12 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             return NextResponse.json({ error: 'Assignment questions are missing' }, { status: 400 })
         }
 
-        const { data: classroomLinks, error: classroomError } = await supabase
-            .from('assignment_classrooms')
-            .select('classroom_id')
-            .eq('assignment_id', assignmentId)
+        const linksResult = await db.query(
+            'SELECT classroom_id FROM assignment_classrooms WHERE assignment_id = $1',
+            [assignmentId]
+        )
 
-        if (classroomError) {
-            console.error('Assignment classrooms fetch error:', classroomError)
-            return NextResponse.json({ error: classroomError.message }, { status: 500 })
-        }
-
-        const classroomIds = (classroomLinks ?? [])
+        const classroomIds = (linksResult.rows ?? [])
             .map((row: any) => String(row.classroom_id ?? '').trim())
             .filter(Boolean)
 
@@ -121,26 +103,27 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         const maxAttempts = Number(assignment.max_attempts ?? 1)
         const hasLimit = Number.isFinite(maxAttempts) && maxAttempts > 0
 
-        let resultQuery = supabase
-            .from('assignment_results')
-            .select('id,status,attempt_count,result_id,assessment_id,started_at,completed_at,last_attempt_at,student_id,student_email')
-            .eq('assignment_id', assignmentId)
+        let resultsSql = `
+            SELECT id, status, attempt_count, result_id, assessment_id, started_at, completed_at,
+                   last_attempt_at, student_id, student_email
+            FROM assignment_results WHERE assignment_id = $1
+        `
+        const resultsValues: unknown[] = [assignmentId]
+        let idx = 2
 
         if (studentId && studentEmail) {
-            resultQuery = resultQuery.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+            resultsSql += ` AND (student_id = $${idx++} OR student_email = $${idx++})`
+            resultsValues.push(studentId, studentEmail)
         } else if (studentId) {
-            resultQuery = resultQuery.eq('student_id', studentId)
+            resultsSql += ` AND student_id = $${idx++}`
+            resultsValues.push(studentId)
         } else if (studentEmail) {
-            resultQuery = resultQuery.eq('student_email', studentEmail)
+            resultsSql += ` AND student_email = $${idx++}`
+            resultsValues.push(studentEmail)
         }
 
-        const { data: resultRows, error: resultError } = await resultQuery
-        if (resultError) {
-            console.error('Assignment result lookup error:', resultError)
-            return NextResponse.json({ error: resultError.message }, { status: 500 })
-        }
-
-        const resultRow = pickBestResult((resultRows ?? []) as ResultRow[])
+        const resultRowsResult = await db.query(resultsSql, resultsValues)
+        const resultRow = pickBestResult((resultRowsResult.rows ?? []) as ResultRow[])
         const attemptCount = Number(resultRow?.attempt_count ?? 0)
 
         if (resultRow && resultRow.status === 'started' && Boolean(assignment.strict_mode)) {
@@ -152,12 +135,11 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         }
 
         if (studentId && studentEmail) {
-            await supabase
-                .from('assignment_results')
-                .update({ student_id: studentId })
-                .eq('assignment_id', assignmentId)
-                .eq('student_email', studentEmail)
-                .is('student_id', null)
+            await db.query(
+                `UPDATE assignment_results SET student_id = $1
+                 WHERE assignment_id = $2 AND student_email = $3 AND student_id IS NULL`,
+                [studentId, assignmentId, studentEmail]
+            )
         }
 
         if (!resultRow) {
@@ -165,59 +147,41 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
                 return NextResponse.json({ error: 'Assignment is not assigned to a classroom' }, { status: 400 })
             }
 
-            const memberQuery = supabase
-                .from('classroom_members')
-                .select('id')
-                .in('classroom_id', classroomIds)
-                .eq('status', 'accepted')
+            let memberSql = `
+                SELECT id FROM classroom_members
+                WHERE classroom_id = ANY($1::uuid[]) AND status = 'accepted'
+            `
+            const memberValues: unknown[] = [classroomIds]
 
             if (studentId) {
-                memberQuery.eq('student_id', studentId)
+                memberSql += ' AND student_id = $2'
+                memberValues.push(studentId)
             } else {
-                memberQuery.eq('student_email', studentEmail)
+                memberSql += ' AND student_email = $2'
+                memberValues.push(studentEmail)
             }
 
-            const { data: membership, error: memberError } = await memberQuery.maybeSingle()
-            if (memberError) {
-                console.error('Membership lookup error:', memberError)
-                return NextResponse.json({ error: memberError.message }, { status: 500 })
-            }
+            memberSql += ' LIMIT 1'
+            const membershipResult = await db.query(memberSql, memberValues)
 
-            if (!membership) {
+            if (!membershipResult.rows[0]) {
                 return NextResponse.json({ error: 'You are not enrolled in this classroom' }, { status: 403 })
             }
 
-            const { error: insertError } = await supabase
-                .from('assignment_results')
-                .insert({
-                    assignment_id: assignmentId,
-                    student_id: studentId ?? null,
-                    student_email: studentEmail,
-                    status: 'started',
-                    started_at: new Date().toISOString(),
-                    attempt_count: 0,
-                    last_attempt_at: new Date().toISOString(),
-                })
-
-            if (insertError) {
-                console.error('Assignment result create error:', insertError)
-                return NextResponse.json({ error: insertError.message }, { status: 500 })
-            }
+            const now = new Date().toISOString()
+            await db.query(
+                `INSERT INTO assignment_results (assignment_id, student_id, student_email, status, started_at, attempt_count, last_attempt_at)
+                 VALUES ($1, $2, $3, 'started', $4, 0, $4)`,
+                [assignmentId, studentId ?? null, studentEmail, now]
+            )
         } else if (resultRow.status === 'pending' || resultRow.status === 'completed') {
-            const { error: updateError } = await supabase
-                .from('assignment_results')
-                .update({
-                    status: 'started',
-                    started_at: new Date().toISOString(),
-                    last_attempt_at: new Date().toISOString(),
-                    assessment_id: null,
-                })
-                .eq('id', resultRow.id)
-
-            if (updateError) {
-                console.error('Assignment result update error:', updateError)
-                return NextResponse.json({ error: updateError.message }, { status: 500 })
-            }
+            const now = new Date().toISOString()
+            await db.query(
+                `UPDATE assignment_results
+                 SET status = 'started', started_at = $1, last_attempt_at = $1, assessment_id = NULL
+                 WHERE id = $2`,
+                [now, resultRow.id]
+            )
         }
 
         const estimatedTime = Number.isFinite(assignment.estimated_time)
@@ -239,6 +203,6 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         })
     } catch (err) {
         console.error('Assignment start error:', err)
-        return NextResponse.json({ error: 'Failed to start assignment' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to start assignment') }, { status: 500 })
     }
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -43,45 +44,38 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const dateRange = getRangeStart(range)
 
     try {
-        const { data: members, error: membersError } = await supabase
-            .from('classroom_members')
-            .select('id,student_id,student_email,status,invited_at,responded_at, student:users!classroom_members_student_id_fkey(name,email)')
-            .eq('classroom_id', classroomId)
+        const membersResult = await db.query(
+            `SELECT cm.id, cm.student_id, cm.student_email, cm.status, cm.invited_at, cm.responded_at,
+                    u.name AS student_name
+             FROM classroom_members cm
+             LEFT JOIN users u ON u.id = cm.student_id
+             WHERE cm.classroom_id = $1`,
+            [classroomId]
+        )
 
-        if (membersError) {
-            console.error('Classroom members fetch error:', membersError)
-            return NextResponse.json({ error: membersError.message }, { status: 500 })
-        }
+        const members = membersResult.rows ?? []
+        const acceptedMembers = members.filter((row: any) => row.status === 'accepted')
+        const pendingInvites = members.filter((row: any) => row.status === 'pending')
 
-        const acceptedMembers = (members ?? []).filter((row: any) => row.status === 'accepted')
-        const pendingInvites = (members ?? []).filter((row: any) => row.status === 'pending')
+        const assignmentsResult = await db.query(
+            `SELECT id, deadline, created_at FROM assignments
+             WHERE classroom_id = $1 AND status = 'sent'`,
+            [classroomId]
+        )
 
-        const { data: assignments, error: assignmentsError } = await supabase
-            .from('assignments')
-            .select('id,deadline,created_at')
-            .eq('classroom_id', classroomId)
-            .eq('status', 'sent')
-
-        if (assignmentsError) {
-            console.error('Classroom assignments fetch error:', assignmentsError)
-            return NextResponse.json({ error: assignmentsError.message }, { status: 500 })
-        }
-
-        const assignmentIds = (assignments ?? []).map((row: any) => row.id).filter(Boolean)
+        const assignmentIds = (assignmentsResult.rows ?? []).map((row: any) => row.id).filter(Boolean)
         let resultRows: any[] = []
 
         if (assignmentIds.length > 0) {
-            const { data: results, error: resultsError } = await supabase
-                .from('assignment_results')
-                .select('assignment_id,student_id,student_email,status,completed_at, result:results!assignment_results_result_id_fkey(score,percentage,time_taken)')
-                .in('assignment_id', assignmentIds)
-
-            if (resultsError) {
-                console.error('Assignment results fetch error:', resultsError)
-                return NextResponse.json({ error: resultsError.message }, { status: 500 })
-            }
-
-            resultRows = results ?? []
+            const resultsResult = await db.query(
+                `SELECT ar.assignment_id, ar.student_id, ar.student_email, ar.status, ar.completed_at,
+                        r.score, r.percentage, r.time_taken
+                 FROM assignment_results ar
+                 LEFT JOIN results r ON r.id = ar.result_id
+                 WHERE ar.assignment_id = ANY($1::uuid[])`,
+                [assignmentIds]
+            )
+            resultRows = resultsResult.rows ?? []
         }
 
         const studentIds = acceptedMembers
@@ -90,25 +84,16 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
         let activityRows: any[] = []
         if (studentIds.length > 0) {
-            let activityQuery = supabase
-                .from('user_activity_daily')
-                .select('user_id,seconds_active')
-                .in('user_id', studentIds)
+            let activitySql = 'SELECT user_id, seconds_active FROM user_activity_daily WHERE user_id = ANY($1::uuid[])'
+            const activityValues: unknown[] = [studentIds]
 
             if (dateRange) {
-                activityQuery = activityQuery
-                    .gte('activity_date', formatDateOnly(dateRange.start))
-                    .lte('activity_date', formatDateOnly(dateRange.end))
+                activitySql += ' AND activity_date >= $2 AND activity_date <= $3'
+                activityValues.push(formatDateOnly(dateRange.start), formatDateOnly(dateRange.end))
             }
 
-            const { data: activity, error: activityError } = await activityQuery
-
-            if (activityError) {
-                console.error('Activity fetch error:', activityError)
-                return NextResponse.json({ error: activityError.message }, { status: 500 })
-            }
-
-            activityRows = activity ?? []
+            const activityResult = await db.query(activitySql, activityValues)
+            activityRows = activityResult.rows ?? []
         }
 
         const activityMap = new Map<string, number>()
@@ -119,12 +104,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
 
         const studentMetrics = new Map<string, any>()
         for (const member of acceptedMembers) {
-            const studentRecord = Array.isArray(member.student) ? member.student[0] : member.student
             const key = member.student_id ?? member.student_email
             studentMetrics.set(key, {
                 student_id: member.student_id ?? null,
                 student_email: member.student_email,
-                student_name: studentRecord?.name ?? null,
+                student_name: member.student_name ?? null,
                 completed: 0,
                 started: 0,
                 pending: 0,
@@ -148,7 +132,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
                         ? (new Date(row.completed_at) > new Date(target.last_completed_at) ? row.completed_at : target.last_completed_at)
                         : row.completed_at
                 }
-                const scoreValue = Number(row.result?.percentage ?? row.result?.score)
+                const scoreValue = Number(row.percentage ?? row.score)
                 if (Number.isFinite(scoreValue)) {
                     target._score_sum += scoreValue
                     target._score_count += 1
@@ -207,6 +191,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         })
     } catch (err) {
         console.error('Classroom analytics error:', err)
-        return NextResponse.json({ error: 'Failed to load classroom analytics' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load classroom analytics') }, { status: 500 })
     }
 }

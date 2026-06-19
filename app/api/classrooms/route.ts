@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isUniqueViolation, pgErrorMessage } from '@/lib/pg-errors'
 
 function normalizeEmail(value: string | null) {
     return String(value ?? '').trim().toLowerCase()
@@ -13,19 +14,35 @@ export async function GET(request: NextRequest) {
         const studentEmail = normalizeEmail(searchParams.get('student_email'))
 
         if (teacherId) {
-            const { data, error } = await supabase
-                .from('classrooms')
-                .select('id,name,description,created_at,updated_at, classroom_members(id,status)')
-                .eq('teacher_id', teacherId)
-                .order('created_at', { ascending: false })
+            const result = await db.query(
+                `SELECT c.id, c.name, c.description, c.created_at, c.updated_at,
+                        cm.id AS member_id, cm.status AS member_status
+                 FROM classrooms c
+                 LEFT JOIN classroom_members cm ON cm.classroom_id = c.id
+                 WHERE c.teacher_id = $1
+                 ORDER BY c.created_at DESC`,
+                [teacherId]
+            )
 
-            if (error) {
-                console.error('Classrooms fetch error:', error)
-                return NextResponse.json({ error: error.message }, { status: 500 })
+            const classroomMap = new Map<string, any>()
+            for (const row of result.rows) {
+                if (!classroomMap.has(row.id)) {
+                    classroomMap.set(row.id, {
+                        id: row.id,
+                        name: row.name,
+                        description: row.description,
+                        created_at: row.created_at,
+                        updated_at: row.updated_at,
+                        members: [] as any[],
+                    })
+                }
+                if (row.member_id) {
+                    classroomMap.get(row.id).members.push({ id: row.member_id, status: row.member_status })
+                }
             }
 
-            const classrooms = (data ?? []).map((row: any) => {
-                const members = Array.isArray(row.classroom_members) ? row.classroom_members : []
+            const classrooms = Array.from(classroomMap.values()).map((row: any) => {
+                const members = Array.isArray(row.members) ? row.members : []
                 const memberCount = members.filter((m: any) => m.status === 'accepted').length
                 const pendingCount = members.filter((m: any) => m.status === 'pending').length
                 return {
@@ -43,37 +60,41 @@ export async function GET(request: NextRequest) {
         }
 
         if (studentId || studentEmail) {
-            let query = supabase
-                .from('classroom_members')
-                .select('id,status,invited_at, responded_at, classroom:classrooms(id,name,description,teacher_id,created_at)')
-                .eq('status', 'accepted')
-                .order('invited_at', { ascending: false })
+            let memberSql = `
+                SELECT cm.id, cm.status, cm.invited_at, cm.responded_at,
+                       c.id AS classroom_id, c.name, c.description, c.teacher_id, c.created_at
+                FROM classroom_members cm
+                JOIN classrooms c ON c.id = cm.classroom_id
+                WHERE cm.status = 'accepted'
+            `
+            const memberValues: unknown[] = []
+            let idx = 1
 
             if (studentId && studentEmail) {
-                query = query.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+                memberSql += ` AND (cm.student_id = $${idx++} OR cm.student_email = $${idx++})`
+                memberValues.push(studentId, studentEmail)
             } else if (studentId) {
-                query = query.eq('student_id', studentId)
+                memberSql += ` AND cm.student_id = $${idx++}`
+                memberValues.push(studentId)
             } else {
                 if (!studentEmail) {
                     return NextResponse.json({ error: 'student_email is required' }, { status: 400 })
                 }
-                query = query.eq('student_email', studentEmail)
+                memberSql += ` AND cm.student_email = $${idx++}`
+                memberValues.push(studentEmail)
             }
 
-            const { data, error } = await query
-            if (error) {
-                console.error('Student classrooms fetch error:', error)
-                return NextResponse.json({ error: error.message }, { status: 500 })
-            }
+            memberSql += ' ORDER BY cm.invited_at DESC'
 
-            const classroomRows = (data ?? [])
+            const memberResult = await db.query(memberSql, memberValues)
+            const classroomRows = (memberResult.rows ?? [])
                 .map((row: any) => ({
                     membership_id: row.id,
-                    classroom_id: row.classroom?.id,
-                    name: row.classroom?.name,
-                    description: row.classroom?.description,
-                    teacher_id: row.classroom?.teacher_id,
-                    created_at: row.classroom?.created_at,
+                    classroom_id: row.classroom_id,
+                    name: row.name,
+                    description: row.description,
+                    teacher_id: row.teacher_id,
+                    created_at: row.created_at,
                     joined_at: row.responded_at ?? row.invited_at,
                 }))
                 .filter((row: any) => row.classroom_id)
@@ -83,35 +104,25 @@ export async function GET(request: NextRequest) {
                 return NextResponse.json({ data: [] })
             }
 
-            const { data: classroomLinks, error: classroomLinksError } = await supabase
-                .from('assignment_classrooms')
-                .select('assignment_id,classroom_id')
-                .in('classroom_id', classroomIds)
-
-            if (classroomLinksError) {
-                console.error('Assignment classrooms fetch error:', classroomLinksError)
-                return NextResponse.json({ error: classroomLinksError.message }, { status: 500 })
-            }
+            const linksResult = await db.query(
+                `SELECT assignment_id, classroom_id FROM assignment_classrooms WHERE classroom_id = ANY($1::uuid[])`,
+                [classroomIds]
+            )
 
             const linkedAssignmentIds = Array.from(new Set(
-                (classroomLinks ?? [])
+                (linksResult.rows ?? [])
                     .map((row: any) => String(row.assignment_id ?? '').trim())
                     .filter(Boolean)
             ))
             const linkedAssignmentsMap = new Map<string, { status: string | null; deadline: string | null }>()
 
             if (linkedAssignmentIds.length > 0) {
-                const { data: linkedAssignments, error: linkedAssignmentsError } = await supabase
-                    .from('assignments')
-                    .select('id,status,deadline')
-                    .in('id', linkedAssignmentIds)
+                const assignmentsResult = await db.query(
+                    `SELECT id, status, deadline FROM assignments WHERE id = ANY($1::uuid[])`,
+                    [linkedAssignmentIds]
+                )
 
-                if (linkedAssignmentsError) {
-                    console.error('Assignments fetch error:', linkedAssignmentsError)
-                    return NextResponse.json({ error: linkedAssignmentsError.message }, { status: 500 })
-                }
-
-                for (const row of linkedAssignments ?? []) {
+                for (const row of assignmentsResult.rows ?? []) {
                     const assignmentId = String(row.id ?? '').trim()
                     if (!assignmentId) continue
                     linkedAssignmentsMap.set(assignmentId, {
@@ -121,43 +132,36 @@ export async function GET(request: NextRequest) {
                 }
             }
 
-            const { data: legacyAssignments, error: legacyAssignmentsError } = await supabase
-                .from('assignments')
-                .select('id,classroom_id,deadline')
-                .eq('status', 'sent')
-                .in('classroom_id', classroomIds)
+            const legacyResult = await db.query(
+                `SELECT id, classroom_id, deadline FROM assignments
+                 WHERE status = 'sent' AND classroom_id = ANY($1::uuid[])`,
+                [classroomIds]
+            )
 
-            if (legacyAssignmentsError) {
-                console.error('Classroom assignments fetch error:', legacyAssignmentsError)
-                return NextResponse.json({ error: legacyAssignmentsError.message }, { status: 500 })
-            }
-
-            let resultsQuery = supabase
-                .from('assignment_results')
-                .select('assignment_id,status')
+            let resultsSql = 'SELECT assignment_id, status FROM assignment_results WHERE 1=1'
+            const resultsValues: unknown[] = []
+            idx = 1
 
             if (studentId && studentEmail) {
-                resultsQuery = resultsQuery.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+                resultsSql += ` AND (student_id = $${idx++} OR student_email = $${idx++})`
+                resultsValues.push(studentId, studentEmail)
             } else if (studentId) {
-                resultsQuery = resultsQuery.eq('student_id', studentId)
+                resultsSql += ` AND student_id = $${idx++}`
+                resultsValues.push(studentId)
             } else {
-                resultsQuery = resultsQuery.eq('student_email', studentEmail)
+                resultsSql += ` AND student_email = $${idx++}`
+                resultsValues.push(studentEmail)
             }
 
-            const { data: results, error: resultsError } = await resultsQuery
-            if (resultsError) {
-                console.error('Assignment results fetch error:', resultsError)
-                return NextResponse.json({ error: resultsError.message }, { status: 500 })
-            }
-
-            const resultMap = new Map((results ?? []).map((r: any) => [r.assignment_id, r.status]))
+            const resultsResult = await db.query(resultsSql, resultsValues)
+            const resultMap = new Map((resultsResult.rows ?? []).map((r: any) => [r.assignment_id, r.status]))
             const counts = new Map<string, { upcoming: number; open: number; finished: number }>()
             const now = Date.now()
             const seen = new Set<string>()
 
             const mappings: Array<{ assignment_id: string; classroom_id: string; deadline: string | null }> = []
 
-            for (const row of classroomLinks ?? []) {
+            for (const row of linksResult.rows ?? []) {
                 const assignmentId = String(row.assignment_id ?? '').trim()
                 const classroomId = String(row.classroom_id ?? '').trim()
                 if (!assignmentId || !classroomId) continue
@@ -170,7 +174,7 @@ export async function GET(request: NextRequest) {
                 })
             }
 
-            for (const row of legacyAssignments ?? []) {
+            for (const row of legacyResult.rows ?? []) {
                 const assignmentId = String(row.id ?? '').trim()
                 const classroomId = String(row.classroom_id ?? '').trim()
                 if (!assignmentId || !classroomId) continue
@@ -197,7 +201,6 @@ export async function GET(request: NextRequest) {
                 } else {
                     current.upcoming += 1
                 }
-
                 counts.set(mapping.classroom_id, current)
             }
 
@@ -214,7 +217,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ error: 'teacher_id or student_id/student_email is required' }, { status: 400 })
     } catch (err) {
         console.error('Classrooms fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load classrooms' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load classrooms') }, { status: 500 })
     }
 }
 
@@ -232,19 +235,19 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Classroom name is required' }, { status: 400 })
         }
 
-        const { data, error } = await supabase
-            .from('classrooms')
-            .insert({ teacher_id: teacherId, name, description })
-            .select('id,name,description,created_at,updated_at')
-            .single()
-
-        if (error) {
-            const status = error.code === '23505' ? 409 : 500
+        try {
+            const result = await db.query(
+                `INSERT INTO classrooms (teacher_id, name, description)
+                 VALUES ($1, $2, $3)
+                 RETURNING id, name, description, created_at, updated_at`,
+                [teacherId, name, description]
+            )
+            return NextResponse.json({ data: result.rows[0] })
+        } catch (error) {
+            const status = isUniqueViolation(error) ? 409 : 500
             console.error('Classroom create error:', error)
-            return NextResponse.json({ error: error.message }, { status })
+            return NextResponse.json({ error: pgErrorMessage(error) }, { status })
         }
-
-        return NextResponse.json({ data })
     } catch (err) {
         console.error('Classroom create error:', err)
         return NextResponse.json({ error: 'Failed to create classroom' }, { status: 500 })

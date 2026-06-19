@@ -8,7 +8,6 @@ import {
 import { useState, useEffect, useCallback } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
-import { supabase } from '@/lib/supabase'
 import ThemeToggle from './ThemeToggle'
 import ProfileSidebar from './ProfileSidebar'
 
@@ -400,38 +399,15 @@ export default function ReportCardGenerator() {
     const load = async () => {
       setIsLoading(true)
       try {
-        // Try fetching with all fields including topics
-        let { data, error } = await supabase
-          .from('results')
-          .select('*, assessments(subject, difficulty, topics)')
-          .eq('user_id', user.id)
-          .order('created_at', { ascending: false })
-
-        // If error or no data, try without topics (backward compatibility)
-        if ((error || !data || data.length === 0) && error?.message?.includes('topics')) {
-          const { data: data2, error: error2 } = await supabase
-            .from('results')
-            .select('*, assessments(subject, difficulty)')
-            .eq('user_id', user.id)
-            .order('created_at', { ascending: false })
-
-          if (error2 || !data2) {
-            console.error('Failed to fetch assessments:', error || error2)
-            setIsLoading(false)
-            return
-          }
-          data = data2
-          error = null
-        } else if (error) {
-          console.error('Failed to fetch assessments:', error)
+        const res = await fetch(`/api/results?user_id=${encodeURIComponent(user.id)}`)
+        const json = await res.json()
+        if (!res.ok || !json.data) {
+          console.error('Failed to fetch assessments:', json.error)
           setIsLoading(false)
           return
         }
 
-        if (!data) {
-          setIsLoading(false)
-          return
-        }
+        const data = json.data as any[]
 
         const records: AssessmentRecord[] = data.map(item => {
           const pct = item.percentage ?? item.score ?? 0

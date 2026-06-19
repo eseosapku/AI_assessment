@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { activateSubscription, resolveUserIdFromTxRef } from '@/lib/subscription-server'
 import { verifyWebhookSignature } from '@/lib/flutterwave'
-import { getSupabaseAdmin, hasSupabaseAdmin } from '@/lib/supabase-admin'
+import { db } from '@/lib/db'
 
 function extractMetaUserId(meta: unknown): string {
   if (!meta || typeof meta !== 'object') return ''
@@ -26,8 +26,8 @@ function extractMetaUserId(meta: unknown): string {
  */
 export async function POST(request: NextRequest) {
   try {
-    if (!hasSupabaseAdmin()) {
-      console.error('Webhook: SUPABASE_SERVICE_ROLE_KEY missing')
+    if (!process.env.DATABASE_URL) {
+      console.error('Webhook: DATABASE_URL missing')
       return NextResponse.json({ error: 'Server misconfigured' }, { status: 503 })
     }
 
@@ -53,9 +53,11 @@ export async function POST(request: NextRequest) {
     if (!userId) {
       const email = data?.customer?.email
       if (email) {
-        const db = getSupabaseAdmin()
-        const { data: user } = await db.from('users').select('id').eq('email', String(email).toLowerCase()).maybeSingle()
-        if (user?.id) userId = user.id
+        const userResult = await db.query(
+          'SELECT id FROM users WHERE email = $1 LIMIT 1',
+          [String(email).toLowerCase()]
+        )
+        if (userResult.rows[0]?.id) userId = userResult.rows[0].id
       }
     }
 

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
+import { jsonbParam } from '@/lib/pg-json'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -20,48 +22,24 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
     }
 
     try {
-        const { data, error } = await supabase
-            .from('assignments')
-            .select(`
-        id,
-        title,
-        subject,
-        topics,
-        grade,
-        curriculum,
-        difficulty_level,
-        question_count,
-        style,
-        question_type,
-        classroom_id,
-        status,
-        max_attempts,
-        questions_data,
-        estimated_time,
-        deadline,
-        strict_mode,
-        created_at,
-        updated_at
-      `)
-            .eq('id', assignmentId)
-            .single()
-
-        if (error) {
-            console.error('Assignment fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
+        const result = await db.query(
+            `SELECT id, title, subject, topics, grade, curriculum, difficulty_level, question_count,
+                    style, question_type, classroom_id, status, max_attempts, questions_data,
+                    estimated_time, deadline, strict_mode, created_at, updated_at
+             FROM assignments WHERE id = $1 LIMIT 1`,
+            [assignmentId]
+        )
+        const data = result.rows[0]
+        if (!data) {
+            return NextResponse.json({ error: 'Assignment not found' }, { status: 404 })
         }
 
-        const { data: classroomLinks, error: classroomError } = await supabase
-            .from('assignment_classrooms')
-            .select('classroom_id')
-            .eq('assignment_id', assignmentId)
+        const linksResult = await db.query(
+            'SELECT classroom_id FROM assignment_classrooms WHERE assignment_id = $1',
+            [assignmentId]
+        )
 
-        if (classroomError) {
-            console.error('Assignment classrooms fetch error:', classroomError)
-            return NextResponse.json({ error: classroomError.message }, { status: 500 })
-        }
-
-        const classroomIds = (classroomLinks ?? [])
+        const classroomIds = (linksResult.rows ?? [])
             .map((row: any) => String(row.classroom_id ?? '').trim())
             .filter(Boolean)
 
@@ -75,7 +53,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
         return NextResponse.json({ data: payload })
     } catch (err) {
         console.error('Assignment fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load assignment' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load assignment') }, { status: 500 })
     }
 }
 
@@ -103,50 +81,51 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
         const deadline = body?.deadline !== undefined ? String(body.deadline).trim() : null
         const strictMode = body?.strict_mode !== undefined ? Boolean(body.strict_mode) : null
 
-        const updatePayload: Record<string, any> = {
-            updated_at: new Date().toISOString(),
-        }
+        const sets = ['updated_at = NOW()']
+        const values: unknown[] = []
+        let idx = 1
 
-        if (title !== null) updatePayload.title = title
-        if (subject !== null) updatePayload.subject = subject
-        if (topics !== null) updatePayload.topics = topics
-        if (grade !== null) updatePayload.grade = grade
-        if (curriculum !== null) updatePayload.curriculum = curriculum
-        if (difficultyLevel !== null) updatePayload.difficulty_level = difficultyLevel
-        if (questionCount !== null) updatePayload.question_count = questionCount
-        if (style !== null) updatePayload.style = style
-        if (questionType !== null) updatePayload.question_type = questionType
+        if (title !== null) { sets.push(`title = $${idx++}`); values.push(title) }
+        if (subject !== null) { sets.push(`subject = $${idx++}`); values.push(subject) }
+        if (topics !== null) { sets.push(`topics = $${idx++}`); values.push(topics) }
+        if (grade !== null) { sets.push(`grade = $${idx++}`); values.push(grade) }
+        if (curriculum !== null) { sets.push(`curriculum = $${idx++}`); values.push(curriculum) }
+        if (difficultyLevel !== null) { sets.push(`difficulty_level = $${idx++}`); values.push(difficultyLevel) }
+        if (questionCount !== null) { sets.push(`question_count = $${idx++}`); values.push(questionCount) }
+        if (style !== null) { sets.push(`style = $${idx++}`); values.push(style) }
+        if (questionType !== null) { sets.push(`question_type = $${idx++}`); values.push(questionType) }
         if (rawMaxAttempts !== null) {
             if (!Number.isFinite(rawMaxAttempts) || rawMaxAttempts < 1) {
                 return NextResponse.json({ error: 'max_attempts must be at least 1' }, { status: 400 })
             }
-            updatePayload.max_attempts = Math.floor(rawMaxAttempts)
+            sets.push(`max_attempts = $${idx++}`)
+            values.push(Math.floor(rawMaxAttempts))
         }
-        if (questionsData !== null) updatePayload.questions_data = questionsData
+        if (questionsData !== null) {
+            sets.push(`questions_data = $${idx++}::jsonb`)
+            values.push(jsonbParam(questionsData))
+        }
         if (estimatedTime !== null) {
-            updatePayload.estimated_time = Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null
+            sets.push(`estimated_time = $${idx++}`)
+            values.push(Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null)
         }
-        if (deadline !== null) updatePayload.deadline = deadline || null
-        if (strictMode !== null) updatePayload.strict_mode = strictMode
+        if (deadline !== null) { sets.push(`deadline = $${idx++}`); values.push(deadline || null) }
+        if (strictMode !== null) { sets.push(`strict_mode = $${idx++}`); values.push(strictMode) }
 
-        if (Object.keys(updatePayload).length === 1) {
+        if (sets.length === 1) {
             return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
         }
 
-        const { error } = await supabase
-            .from('assignments')
-            .update(updatePayload)
-            .eq('id', assignmentId)
-
-        if (error) {
-            console.error('Assignment update error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
+        values.push(assignmentId)
+        await db.query(
+            `UPDATE assignments SET ${sets.join(', ')} WHERE id = $${idx}`,
+            values
+        )
 
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Assignment update error:', err)
-        return NextResponse.json({ error: 'Failed to update assignment' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to update assignment') }, { status: 500 })
     }
 }
 
@@ -158,19 +137,10 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
     }
 
     try {
-        const { error } = await supabase
-            .from('assignments')
-            .delete()
-            .eq('id', assignmentId)
-
-        if (error) {
-            console.error('Assignment delete error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
+        await db.query('DELETE FROM assignments WHERE id = $1', [assignmentId])
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Assignment delete error:', err)
-        return NextResponse.json({ error: 'Failed to delete assignment' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to delete assignment') }, { status: 500 })
     }
 }

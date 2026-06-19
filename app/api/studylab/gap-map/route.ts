@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 import { isExamPrepCurriculumNumeric, slugForTextbookCurriculum } from '@/lib/curriculum-registry'
 import type { MasteryStatus } from '@/lib/studylab/types'
 
@@ -113,16 +114,12 @@ export async function GET(request: NextRequest) {
     }
 
     // 1. The student's actual results (the assessments they've taken).
-    const { data: resultRows, error: resErr } = await supabase
-      .from('results')
-      .select('assessment_id,percentage,score,total_questions,created_at')
-      .eq('user_id', userId)
-      .not('assessment_id', 'is', null)
-
-    if (resErr) {
-      console.error('Gap map results fetch error:', resErr)
-      return NextResponse.json({ error: resErr.message }, { status: 500 })
-    }
+    const resultRowsRes = await db.query(
+      `SELECT assessment_id, percentage, score, total_questions, created_at
+       FROM results WHERE user_id = $1 AND assessment_id IS NOT NULL`,
+      [userId]
+    )
+    const resultRows = resultRowsRes.rows
 
     const results = (resultRows ?? []).filter((r: any) => r.assessment_id)
     if (results.length === 0) {
@@ -134,10 +131,12 @@ export async function GET(request: NextRequest) {
 
     // 2. The assessments behind those results.
     const assessmentIds = [...new Set(results.map((r: any) => r.assessment_id))]
-    const { data: assessmentRows } = await supabase
-      .from('assessments')
-      .select('id,subject,difficulty,textbook_id,topic_ids,subtopic_ids')
-      .in('id', assessmentIds)
+    const assessmentRowsRes = await db.query(
+      `SELECT id, subject, difficulty, textbook_id, topic_ids, subtopic_ids
+       FROM assessments WHERE id = ANY($1::uuid[])`,
+      [assessmentIds]
+    )
+    const assessmentRows = assessmentRowsRes.rows
 
     const assessmentById = new Map<string, any>()
     for (const a of assessmentRows ?? []) assessmentById.set(String((a as any).id), a)
@@ -156,10 +155,11 @@ export async function GET(request: NextRequest) {
     const textbookById = new Map<number, { id: number; name: string; curriculum: number | null }>()
     const examPrepTextbookIds = new Set<number>()
     if (textbookIdsFromAssessments.size > 0) {
-      const { data: tbRows } = await supabase
-        .from('textbooks')
-        .select('textbook_id,textbook_name,curriculum')
-        .in('textbook_id', [...textbookIdsFromAssessments])
+      const tbRowsRes = await db.query(
+        `SELECT textbook_id, textbook_name, curriculum FROM textbooks WHERE textbook_id = ANY($1::int[])`,
+        [[...textbookIdsFromAssessments]]
+      )
+      const tbRows = tbRowsRes.rows
       for (const t of tbRows ?? []) {
         const id = Number((t as any).textbook_id)
         const curriculum = Number.isFinite(Number((t as any).curriculum)) ? Number((t as any).curriculum) : null
@@ -186,10 +186,11 @@ export async function GET(request: NextRequest) {
     // Textbooks matched by subject name (legacy assessments without textbook_id).
     const textbookByName = new Map<string, { id: number; name: string }>()
     if (subjectNames.size > 0) {
-      const { data: nameRows } = await supabase
-        .from('textbooks')
-        .select('textbook_id,textbook_name')
-        .in('textbook_name', [...subjectNames])
+      const nameRowsRes = await db.query(
+        `SELECT textbook_id, textbook_name FROM textbooks WHERE textbook_name = ANY($1::varchar[])`,
+        [[...subjectNames]]
+      )
+      const nameRows = nameRowsRes.rows
       for (const t of nameRows ?? []) {
         textbookByName.set(normalizeName(String((t as any).textbook_name)), {
           id: Number((t as any).textbook_id),
@@ -201,10 +202,12 @@ export async function GET(request: NextRequest) {
     // 4. Per-subtopic / per-topic mastery overlay for this user.
     const bySubtopic = new Map<number, MasteryRow>()
     const byTopic = new Map<number, MasteryRow>()
-    const { data: masteryRows } = await supabase
-      .from('topic_mastery')
-      .select('textbook_id,topic_id,subtopic_id,attempts,correct,accuracy,last_assessed')
-      .eq('user_id', userId)
+    const masteryRowsRes = await db.query(
+      `SELECT textbook_id, topic_id, subtopic_id, attempts, correct, accuracy, last_assessed
+       FROM topic_mastery WHERE user_id = $1`,
+      [userId]
+    )
+    const masteryRows = masteryRowsRes.rows
 
     const masteryTextbookIds = new Set<number>()
     for (const m of masteryRows ?? []) {
@@ -212,10 +215,11 @@ export async function GET(request: NextRequest) {
       if (Number.isFinite(tbId) && tbId > 0 && !textbookById.has(tbId)) masteryTextbookIds.add(tbId)
     }
     if (masteryTextbookIds.size > 0) {
-      const { data: extraTb } = await supabase
-        .from('textbooks')
-        .select('textbook_id,curriculum')
-        .in('textbook_id', [...masteryTextbookIds])
+      const extraTbRes = await db.query(
+        `SELECT textbook_id, curriculum FROM textbooks WHERE textbook_id = ANY($1::int[])`,
+        [[...masteryTextbookIds]]
+      )
+      const extraTb = extraTbRes.rows
       for (const t of extraTb ?? []) {
         const id = Number((t as any).textbook_id)
         const curriculum = Number.isFinite(Number((t as any).curriculum)) ? Number((t as any).curriculum) : null
@@ -302,11 +306,12 @@ export async function GET(request: NextRequest) {
     const topicsByTextbook = new Map<number, { id: number; name: string }[]>()
     const subtopicsByTopic = new Map<number, { id: number; name: string }[]>()
     if (subjectTextbookIds.length > 0) {
-      const { data: topicRows } = await supabase
-        .from('topics')
-        .select('topic_id,topic,textbook_id')
-        .in('textbook_id', subjectTextbookIds)
-        .order('topic')
+      const topicRowsRes = await db.query(
+        `SELECT topic_id, topic, textbook_id FROM topics
+         WHERE textbook_id = ANY($1::int[]) ORDER BY topic`,
+        [subjectTextbookIds]
+      )
+      const topicRows = topicRowsRes.rows
       const allTopicIds: number[] = []
       for (const t of topicRows ?? []) {
         const tbId = Number((t as any).textbook_id)
@@ -316,11 +321,12 @@ export async function GET(request: NextRequest) {
         allTopicIds.push(Number((t as any).topic_id))
       }
       if (allTopicIds.length > 0) {
-        const { data: subRows } = await supabase
-          .from('subtopics')
-          .select('subtopic_id,subtopic,topic_id')
-          .in('topic_id', allTopicIds)
-          .order('subtopic')
+        const subRowsRes = await db.query(
+          `SELECT subtopic_id, subtopic, topic_id FROM subtopics
+           WHERE topic_id = ANY($1::int[]) ORDER BY subtopic`,
+          [allTopicIds]
+        )
+        const subRows = subRowsRes.rows
         for (const s of subRows ?? []) {
           const tId = Number((s as any).topic_id)
           const arr = subtopicsByTopic.get(tId) ?? []

@@ -4,18 +4,9 @@ import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { ArrowLeft, Check, Download } from 'lucide-react'
-import Latex from 'react-latex-next'
-import 'katex/dist/katex.min.css'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
-import { supabase } from '@/lib/supabase'
-
-function L({ children }: { children: string }) {
-    const text = children ?? ''
-    const hasDelimiters = text.includes('$') || text.includes('\\(') || text.includes('\\[')
-    const wrapped = hasDelimiters ? text : /\\[a-zA-Z]|[\^_]/.test(text) ? `$${text}$` : text
-    return <Latex>{wrapped}</Latex>
-}
+import { LatexText as L } from '@/lib/latex-text'
 
 interface MCQQuestion {
     id: number
@@ -609,37 +600,20 @@ export default function ResultDetailPage() {
 
         const load = async () => {
             setIsLoadingResult(true)
-            let query = supabase
-                .from('results')
-                .select('*, assessments(subject, difficulty, questions_data)')
-                .eq('id', resultId)
+            const params = new URLSearchParams()
+            if (!isTeacher && user.id) params.set('user_id', user.id)
+            if (isTeacher) params.set('teacher', '1')
 
-            if (!isTeacher) {
-                query = query.eq('user_id', user.id)
-            }
+            const res = await fetch(`/api/results/${resultId}?${params.toString()}`)
+            const json = await res.json()
 
-            let { data, error } = await query.single()
-
-            if ((error || !data) && error?.message?.includes('questions_data')) {
-                let fallbackQuery = supabase
-                    .from('results')
-                    .select('*, assessments(subject, difficulty)')
-                    .eq('id', resultId)
-
-                if (!isTeacher) {
-                    fallbackQuery = fallbackQuery.eq('user_id', user.id)
-                }
-
-                const fallback = await fallbackQuery.single()
-                data = fallback.data
-                error = fallback.error
-            }
-
-            if (error || !data) {
-                console.error('Failed to load result:', error)
+            if (!res.ok || !json.data) {
+                console.error('Failed to load result:', json.error)
                 setIsLoadingResult(false)
                 return
             }
+
+            const data = json.data
 
             const qData = data.questions_data ?? data.assessments?.questions_data ?? []
             setQuestions(Array.isArray(qData) ? qData : [])

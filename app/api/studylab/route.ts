@@ -1,13 +1,10 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isMissingTable, pgErrorMessage } from '@/lib/pg-errors'
+import { jsonbParam } from '@/lib/pg-json'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-
-function missingTable(error: any): boolean {
-  const msg = String(error?.message ?? '')
-  return error?.code === '42P01' || /relation .* does not exist/i.test(msg) || /Could not find the table/i.test(msg)
-}
 
 // GET /api/studylab?user_id=... → list the user's LearnSpaces
 export async function GET(request: NextRequest) {
@@ -19,21 +16,20 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ data: [] })
     }
 
-    const { data, error } = await supabase
-      .from('learnspaces')
-      .select('id,title,subject,origin,current_step,status,created_at,updated_at')
-      .eq('user_id', userId)
-      .order('updated_at', { ascending: false })
-
-    if (error) {
-      if (missingTable(error)) {
-        return NextResponse.json({ data: [], warning: 'StudyLab tables not found. Run supabase-studylab-migration.sql.' })
+    try {
+      const result = await db.query(
+        `SELECT id, title, subject, origin, current_step, status, created_at, updated_at
+         FROM learnspaces WHERE user_id = $1 ORDER BY updated_at DESC`,
+        [userId]
+      )
+      return NextResponse.json({ data: result.rows ?? [] })
+    } catch (error) {
+      if (isMissingTable(error)) {
+        return NextResponse.json({ data: [], warning: 'StudyLab tables not found. Run migrations/full-platform-schema.sql on RDS.' })
       }
       console.error('LearnSpace list error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: pgErrorMessage(error) }, { status: 500 })
     }
-
-    return NextResponse.json({ data: data ?? [] })
   } catch (err) {
     console.error('LearnSpace list error:', err)
     return NextResponse.json({ error: 'Failed to load LearnSpaces' }, { status: 500 })
@@ -61,37 +57,53 @@ export async function POST(request: NextRequest) {
       return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
     }
 
-    const payload: Record<string, any> = {
-      user_id: userId,
+    const columns = ['user_id', 'title', 'subject', 'origin', 'canvas_state', 'current_step', 'status']
+    const values: unknown[] = [
+      userId,
       title,
       subject,
       origin,
-      canvas_state: { nodes: [], edges: [], viewport: { x: 0, y: 0, zoom: 1 } },
-      current_step: 0,
-      status: 'active',
+      jsonbParam({ nodes: [], edges: [], viewport: { x: 0, y: 0, zoom: 1 } }),
+      0,
+      'active',
+    ]
+
+    if (Number.isFinite(Number(body?.textbook_id))) {
+      columns.push('textbook_id')
+      values.push(Number(body.textbook_id))
     }
-    if (Number.isFinite(Number(body?.textbook_id))) payload.textbook_id = Number(body.textbook_id)
-    if (Number.isFinite(Number(body?.topic_id))) payload.topic_id = Number(body.topic_id)
-    if (Number.isFinite(Number(body?.subtopic_id))) payload.subtopic_id = Number(body.subtopic_id)
+    if (Number.isFinite(Number(body?.topic_id))) {
+      columns.push('topic_id')
+      values.push(Number(body.topic_id))
+    }
+    if (Number.isFinite(Number(body?.subtopic_id))) {
+      columns.push('subtopic_id')
+      values.push(Number(body.subtopic_id))
+    }
 
-    const { data, error } = await supabase
-      .from('learnspaces')
-      .insert([payload])
-      .select('id,title,subject,origin,current_step,status,created_at,updated_at')
-      .single()
+    const jsonColumns = new Set(['canvas_state'])
+    const placeholders = columns
+      .map((col, i) => (jsonColumns.has(col) ? `$${i + 1}::jsonb` : `$${i + 1}`))
+      .join(', ')
 
-    if (error) {
-      if (missingTable(error)) {
+    try {
+      const result = await db.query(
+        `INSERT INTO learnspaces (${columns.join(', ')})
+         VALUES (${placeholders})
+         RETURNING id, title, subject, origin, current_step, status, created_at, updated_at`,
+        values
+      )
+      return NextResponse.json({ data: result.rows[0] })
+    } catch (error) {
+      if (isMissingTable(error)) {
         return NextResponse.json(
-          { error: 'StudyLab tables not found. Run supabase-studylab-migration.sql in Supabase.' },
+          { error: 'StudyLab tables not found. Run migrations/full-platform-schema.sql on RDS.' },
           { status: 503 }
         )
       }
       console.error('LearnSpace create error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: pgErrorMessage(error) }, { status: 500 })
     }
-
-    return NextResponse.json({ data })
   } catch (err) {
     console.error('LearnSpace create error:', err)
     return NextResponse.json({ error: 'Failed to create LearnSpace' }, { status: 500 })

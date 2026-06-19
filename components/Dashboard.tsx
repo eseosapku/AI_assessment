@@ -11,7 +11,6 @@ import AssessmentCard from './AssessmentCard'
 import FlowForm from './FlowForm'
 import TeacherDashboard from './TeacherDashboard'
 import { useAuth } from './AuthProvider'
-import { supabase } from '@/lib/supabase'
 
 const DIFFICULTY_COLORS: Record<string, string> = {
   beginner: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20',
@@ -86,64 +85,35 @@ function StudentDashboard() {
   }, [user])
 
   useEffect(() => {
-    const fetchRecentAssessments = async () => {
+    const fetchDashboardData = async () => {
       if (!user?.id || !isUuid(user.id)) {
         setRecentAssessments([])
         setStats({ total: 0, avgScore: 0 })
         setSubjectAverages([])
+        setDailyUsed(0)
         return
       }
-      const { data, error } = await supabase
-        .from('results')
-        .select('*, assessments(subject, difficulty)')
-        .eq('user_id', user.id)
-        .order('created_at', { ascending: false })
 
-      if (error) { console.error('Error fetching assessments:', error); return }
-      if (!data) return
+      try {
+        const res = await fetch(`/api/dashboard/student?user_id=${encodeURIComponent(user.id)}`)
+        const json = await res.json()
+        if (!res.ok) {
+          console.error('Error fetching dashboard data:', json.error)
+          return
+        }
 
-      const formattedData = data.slice(0, 6).map(item => ({
-        id: item.id,
-        date: new Date(item.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' }),
-        subject: item.assessments?.subject || 'Assessment',
-        topic: item.assessments?.difficulty || 'General',
-        grade: item.percentage >= 90 ? 'A+' : item.percentage >= 80 ? 'A' : item.percentage >= 70 ? 'B+' : item.percentage >= 60 ? 'B' : item.percentage >= 50 ? 'C' : 'D',
-        score: item.score,
-        percentage: item.percentage ?? item.score,
-        feedback: item.feedback?.text || 'No feedback available.',
-        questions_data: item.questions_data ?? null,
-        answers: item.answers ?? null,
-        longform_grades: item.longform_grades ?? null,
-      }))
-      setRecentAssessments(formattedData)
-
-      if (data.length > 0) {
-        const avg = data.reduce((acc, curr) => acc + curr.score, 0) / data.length
-        setStats({ total: data.length, avgScore: Math.round(avg) })
-        const subjectMap: Record<string, number[]> = {}
-        data.forEach(item => {
-          const subj = item.assessments?.subject || 'Assessment'
-          if (!subjectMap[subj]) subjectMap[subj] = []
-          subjectMap[subj].push(item.score)
-        })
-        setSubjectAverages(
-          Object.entries(subjectMap)
-            .map(([subject, scores]) => ({ subject, avg: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length), count: scores.length }))
-            .sort((a, b) => b.avg - a.avg)
-        )
+        setRecentAssessments(json.data?.recentAssessments ?? [])
+        setStats(json.data?.stats ?? { total: 0, avgScore: 0 })
+        setSubjectAverages(json.data?.subjectAverages ?? [])
+        setDailyUsed(json.data?.dailyUsed ?? 0)
+      } catch (err) {
+        console.error('Error fetching dashboard data:', err)
       }
     }
-    fetchRecentAssessments()
-
-    const fetchDailyUsage = async () => {
-      const startOfDay = new Date(); startOfDay.setHours(0, 0, 0, 0)
-      const { count } = await supabase.from('assessments').select('*', { count: 'exact', head: true }).gte('created_at', startOfDay.toISOString())
-      setDailyUsed(count || 0)
-    }
-    fetchDailyUsage()
+    fetchDashboardData()
 
     refreshClassrooms()
-  }, [user])
+  }, [user, refreshClassrooms])
 
   useEffect(() => {
     if (!user?.id || user?.role === 'teacher' || !isUuid(user.id)) return

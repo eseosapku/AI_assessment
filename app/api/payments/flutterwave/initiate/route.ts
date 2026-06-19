@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { randomBytes } from 'crypto'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
 import {
   convertUsd,
   createFlutterwaveCheckout,
@@ -22,13 +22,13 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'user_id is required' }, { status: 400 })
     }
 
-    const { data: user, error } = await supabase
-      .from('users')
-      .select('id, email, role')
-      .eq('id', userId)
-      .maybeSingle()
+    const userResult = await db.query(
+      'SELECT id, email, role FROM users WHERE id = $1 LIMIT 1',
+      [userId]
+    )
+    const user = userResult.rows[0]
 
-    if (error || !user) {
+    if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 })
     }
 

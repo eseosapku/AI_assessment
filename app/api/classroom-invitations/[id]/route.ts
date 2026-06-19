@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -37,16 +38,11 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
                 return NextResponse.json({ error: 'student_id or student_email is required to accept' }, { status: 400 })
             }
 
-            const { data: userRow, error: userError } = await supabase
-                .from('users')
-                .select('id')
-                .eq('email', studentEmail)
-                .maybeSingle()
-
-            if (userError) {
-                console.error('Invitation lookup error:', userError)
-                return NextResponse.json({ error: userError.message }, { status: 500 })
-            }
+            const userResult = await db.query(
+                'SELECT id FROM users WHERE email = $1 LIMIT 1',
+                [studentEmail]
+            )
+            const userRow = userResult.rows[0]
 
             if (!userRow?.id) {
                 return NextResponse.json({ error: 'Student account not found for this email' }, { status: 400 })
@@ -55,37 +51,33 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
             studentId = String(userRow.id)
         }
 
-        const updatePayload: Record<string, any> = {
-            status,
-            responded_at: new Date().toISOString(),
-        }
+        const sets = ['status = $1', 'responded_at = $2']
+        const values: unknown[] = [status, new Date().toISOString()]
+        let idx = 3
+
         if (status === 'accepted') {
-            updatePayload.student_id = studentId
+            sets.push(`student_id = $${idx++}`)
+            values.push(studentId)
         }
 
-        let query = supabase
-            .from('classroom_members')
-            .update(updatePayload)
-            .eq('id', invitationId)
-            .eq('status', 'pending')
+        let sql = `UPDATE classroom_members SET ${sets.join(', ')} WHERE id = $${idx++} AND status = 'pending'`
+        values.push(invitationId)
 
         if (studentId && studentEmail) {
-            query = query.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+            sql += ` AND (student_id = $${idx++} OR student_email = $${idx++})`
+            values.push(studentId, studentEmail)
         } else if (studentId) {
-            query = query.eq('student_id', studentId)
+            sql += ` AND student_id = $${idx++}`
+            values.push(studentId)
         } else if (studentEmail) {
-            query = query.eq('student_email', studentEmail)
+            sql += ` AND student_email = $${idx++}`
+            values.push(studentEmail)
         }
 
-        const { error } = await query
-        if (error) {
-            console.error('Invitation update error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
+        await db.query(sql, values)
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Invitation update error:', err)
-        return NextResponse.json({ error: 'Failed to update invitation' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to update invitation') }, { status: 500 })
     }
 }

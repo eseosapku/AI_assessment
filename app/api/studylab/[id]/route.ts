@@ -1,12 +1,9 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isMissingTable, pgErrorMessage } from '@/lib/pg-errors'
+import { jsonbParam } from '@/lib/pg-json'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-
-function missingTable(error: any): boolean {
-  const msg = String(error?.message ?? '')
-  return error?.code === '42P01' || /relation .* does not exist/i.test(msg) || /Could not find the table/i.test(msg)
-}
 
 // GET /api/studylab/[id] → LearnSpace + its message transcript
 export async function GET(_request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
@@ -16,68 +13,61 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
   }
 
   try {
-    const { data: space, error } = await supabase
-      .from('learnspaces')
-      .select('*')
-      .eq('id', id)
-      .maybeSingle()
-
-    if (error) {
-      if (missingTable(error)) {
+    let space: any
+    try {
+      const spaceResult = await db.query('SELECT * FROM learnspaces WHERE id = $1 LIMIT 1', [id])
+      space = spaceResult.rows[0]
+    } catch (error) {
+      if (isMissingTable(error)) {
         return NextResponse.json(
-          { error: 'StudyLab tables not found. Run supabase-studylab-migration.sql.' },
+          { error: 'StudyLab tables not found. Run migrations/full-platform-schema.sql on RDS.' },
           { status: 503 }
         )
       }
       console.error('LearnSpace fetch error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: pgErrorMessage(error) }, { status: 500 })
     }
+
     if (!space) {
       return NextResponse.json({ error: 'LearnSpace not found' }, { status: 404 })
     }
 
-    const { data: messages, error: msgError } = await supabase
-      .from('learnspace_messages')
-      .select('role,content,actions,created_at')
-      .eq('learnspace_id', id)
-      .order('created_at', { ascending: true })
+    let messages: any[] = []
+    try {
+      const msgResult = await db.query(
+        `SELECT role, content, actions, created_at FROM learnspace_messages
+         WHERE learnspace_id = $1 ORDER BY created_at ASC`,
+        [id]
+      )
+      messages = msgResult.rows ?? []
+    } catch (msgError) {
+      console.error('LearnSpace messages fetch error:', msgError)
+    }
 
-    if (msgError) console.error('LearnSpace messages fetch error:', msgError)
-
-    // For gap-origin spaces, resolve the focus topic/subtopic names so the
-    // tutor can run a directed remediation session.
     let focus: Record<string, any> | null = null
-    if ((space as any).origin === 'gap') {
+    if (space.origin === 'gap') {
       focus = {
-        textbook_id: (space as any).textbook_id ?? null,
-        topic_id: (space as any).topic_id ?? null,
-        subtopic_id: (space as any).subtopic_id ?? null,
+        textbook_id: space.textbook_id ?? null,
+        topic_id: space.topic_id ?? null,
+        subtopic_id: space.subtopic_id ?? null,
         topic_name: null,
         subtopic_name: null,
       }
       try {
         if (focus.topic_id) {
-          const { data: t } = await supabase
-            .from('topics')
-            .select('topic')
-            .eq('topic_id', focus.topic_id)
-            .maybeSingle()
-          focus.topic_name = (t as any)?.topic ?? null
+          const tResult = await db.query('SELECT topic FROM topics WHERE topic_id = $1 LIMIT 1', [focus.topic_id])
+          focus.topic_name = tResult.rows[0]?.topic ?? null
         }
         if (focus.subtopic_id) {
-          const { data: st } = await supabase
-            .from('subtopics')
-            .select('subtopic')
-            .eq('subtopic_id', focus.subtopic_id)
-            .maybeSingle()
-          focus.subtopic_name = (st as any)?.subtopic ?? null
+          const stResult = await db.query('SELECT subtopic FROM subtopics WHERE subtopic_id = $1 LIMIT 1', [focus.subtopic_id])
+          focus.subtopic_name = stResult.rows[0]?.subtopic ?? null
         }
       } catch (e) {
         console.error('Focus resolve error:', e)
       }
     }
 
-    return NextResponse.json({ data: space, messages: messages ?? [], focus })
+    return NextResponse.json({ data: space, messages, focus })
   } catch (err) {
     console.error('LearnSpace fetch error:', err)
     return NextResponse.json({ error: 'Failed to load LearnSpace' }, { status: 500 })
@@ -94,25 +84,42 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
 
   try {
     const body = await request.json()
-    const updates: Record<string, any> = { updated_at: new Date().toISOString() }
-    if (body.canvas_state !== undefined) updates.canvas_state = body.canvas_state
-    if (body.current_step !== undefined) updates.current_step = Number(body.current_step) || 0
-    if (body.status !== undefined) updates.status = String(body.status)
-    if (body.title !== undefined) updates.title = String(body.title)
+    const sets = ['updated_at = NOW()']
+    const values: unknown[] = []
+    let idx = 1
 
-    const { error } = await supabase.from('learnspaces').update(updates).eq('id', id)
-    if (error) {
-      if (missingTable(error)) {
+    if (body.canvas_state !== undefined) {
+      sets.push(`canvas_state = $${idx++}::jsonb`)
+      values.push(jsonbParam(body.canvas_state))
+    }
+    if (body.current_step !== undefined) {
+      sets.push(`current_step = $${idx++}`)
+      values.push(Number(body.current_step) || 0)
+    }
+    if (body.status !== undefined) {
+      sets.push(`status = $${idx++}`)
+      values.push(String(body.status))
+    }
+    if (body.title !== undefined) {
+      sets.push(`title = $${idx++}`)
+      values.push(String(body.title))
+    }
+
+    values.push(id)
+
+    try {
+      await db.query(`UPDATE learnspaces SET ${sets.join(', ')} WHERE id = $${idx}`, values)
+    } catch (error) {
+      if (isMissingTable(error)) {
         return NextResponse.json(
-          { error: 'StudyLab tables not found. Run supabase-studylab-migration.sql.' },
+          { error: 'StudyLab tables not found. Run migrations/full-platform-schema.sql on RDS.' },
           { status: 503 }
         )
       }
       console.error('LearnSpace update error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: pgErrorMessage(error) }, { status: 500 })
     }
 
-    // Append messages if provided (array of {role, content, actions?}).
     if (Array.isArray(body.messages) && body.messages.length > 0) {
       const rows = body.messages
         .filter((m: any) => m && (m.role === 'user' || m.role === 'assistant'))
@@ -122,9 +129,16 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
           content: String(m.content ?? ''),
           actions: m.actions ?? null,
         }))
-      if (rows.length > 0) {
-        const { error: msgError } = await supabase.from('learnspace_messages').insert(rows)
-        if (msgError) console.error('LearnSpace message insert error:', msgError)
+      for (const row of rows) {
+        try {
+          await db.query(
+            `INSERT INTO learnspace_messages (learnspace_id, role, content, actions)
+             VALUES ($1, $2, $3, $4::jsonb)`,
+            [row.learnspace_id, row.role, row.content, jsonbParam(row.actions)]
+          )
+        } catch (msgError) {
+          console.error('LearnSpace message insert error:', msgError)
+        }
       }
     }
 
@@ -142,14 +156,10 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
     return NextResponse.json({ error: 'Invalid LearnSpace id' }, { status: 400 })
   }
   try {
-    const { error } = await supabase.from('learnspaces').delete().eq('id', id)
-    if (error) {
-      console.error('LearnSpace delete error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
+    await db.query('DELETE FROM learnspaces WHERE id = $1', [id])
     return NextResponse.json({ success: true })
   } catch (err) {
     console.error('LearnSpace delete error:', err)
-    return NextResponse.json({ error: 'Failed to delete LearnSpace' }, { status: 500 })
+    return NextResponse.json({ error: pgErrorMessage(err, 'Failed to delete LearnSpace') }, { status: 500 })
   }
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isNotNullViolation, pgErrorMessage } from '@/lib/pg-errors'
 import { sortBySyllabusOrder } from '@/lib/syllabus-order'
 
 function parseOptionalId(value: unknown, fieldName: string) {
@@ -12,25 +13,14 @@ function parseOptionalId(value: unknown, fieldName: string) {
     return { value: parsed }
 }
 
-async function getNextId(table: 'topics', idColumn: 'topic_id') {
-    const { data, error } = await supabase
-        .from(table)
-        .select(idColumn)
-        .order(idColumn, { ascending: false })
-        .limit(1)
-        .maybeSingle()
-
-    if (error) {
-        throw error
-    }
-
-    const current = data ? Number((data as any)[idColumn]) : 0
-    const nextId = Number.isFinite(current) && current > 0 ? current + 1 : 1
-
+async function getNextTopicId() {
+    const result = await db.query<{ next_id: number }>(
+        'SELECT COALESCE(MAX(topic_id), 0) + 1 AS next_id FROM topics'
+    )
+    const nextId = Number(result.rows[0]?.next_id ?? 1)
     if (!Number.isFinite(nextId)) {
         throw new Error('Failed to generate topic id')
     }
-
     return nextId
 }
 
@@ -48,17 +38,12 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'Invalid textbook_id' }, { status: 400 })
         }
 
-        const { data, error } = await supabase
-            .from('topics')
-            .select('topic_id,textbook_id,topic')
-            .eq('textbook_id', textbookId)
+        const result = await db.query(
+            'SELECT topic_id, textbook_id, topic FROM topics WHERE textbook_id = $1',
+            [textbookId]
+        )
 
-        if (error) {
-            console.error('Topics fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
-        const sorted = sortBySyllabusOrder(data ?? [], 'topic')
+        const sorted = sortBySyllabusOrder(result.rows ?? [], 'topic')
         const normalized = sorted.map((row: any) => ({
             id: row.topic_id,
             textbook_id: row.textbook_id,
@@ -88,32 +73,36 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'textbook_id is required' }, { status: 400 })
         }
 
-        const insertPayload = { textbook_id: textbookResult.value, topic: name }
-        let { data: created, error: createError } = await supabase
-            .from('topics')
-            .insert(insertPayload)
-            .select('topic_id,textbook_id,topic')
-            .single()
+        let created: any = null
+        let createError: unknown = null
 
-        if (createError?.code === '23502' && createError.message?.includes('topic_id')) {
-            try {
-                const nextId = await getNextId('topics', 'topic_id')
-                const retry = await supabase
-                    .from('topics')
-                    .insert({ ...insertPayload, topic_id: nextId })
-                    .select('topic_id,textbook_id,topic')
-                    .single()
-                created = retry.data ?? created
-                createError = retry.error ?? null
-            } catch (err) {
-                console.error('Topic id generation error:', err)
-                return NextResponse.json({ error: 'Failed to create topic' }, { status: 500 })
+        try {
+            const result = await db.query(
+                'INSERT INTO topics (textbook_id, topic) VALUES ($1, $2) RETURNING topic_id, textbook_id, topic',
+                [textbookResult.value, name]
+            )
+            created = result.rows[0]
+        } catch (err) {
+            createError = err
+            if (isNotNullViolation(err) && pgErrorMessage(err).includes('topic_id')) {
+                try {
+                    const nextId = await getNextTopicId()
+                    const retry = await db.query(
+                        'INSERT INTO topics (topic_id, textbook_id, topic) VALUES ($1, $2, $3) RETURNING topic_id, textbook_id, topic',
+                        [nextId, textbookResult.value, name]
+                    )
+                    created = retry.rows[0]
+                    createError = null
+                } catch (retryErr) {
+                    console.error('Topic id generation error:', retryErr)
+                    return NextResponse.json({ error: 'Failed to create topic' }, { status: 500 })
+                }
             }
         }
 
         if (createError) {
             console.error('Topic create error:', createError)
-            return NextResponse.json({ error: createError.message }, { status: 500 })
+            return NextResponse.json({ error: pgErrorMessage(createError) }, { status: 500 })
         }
 
         if (!created) {

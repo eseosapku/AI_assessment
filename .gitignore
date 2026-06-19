@@ -10,6 +10,9 @@
 /.next/
 /out/
 
+/venv/
+venv/
+venv
 # production
 /build
 
@@ -36,3 +39,6 @@ next-env.d.ts
 # PDF textbooks (source material only – data extracted into rwanda-curriculum.ts)
 *.pdf
 senior class/
+
+# migration run logs / checkpoints (local only)
+scripts/migration_logs/

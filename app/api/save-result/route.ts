@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
+import { jsonbParam } from '@/lib/pg-json'
 import { isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 
 type ResultRow = {
@@ -41,9 +43,8 @@ function pickBestResult(rows: ResultRow[]) {
   }, null)
 }
 
-function isSchemaColumnMissing(error: any) {
-  const message = String(error?.message ?? '')
-  return error?.code === 'PGRST204' || /column .* does not exist/i.test(message) || /Could not find the .* column/i.test(message)
+function isSchemaColumnMissing(error: unknown) {
+  return isMissingColumn(error)
 }
 
 // Incrementally upsert one mastery bucket (a topic-level or subtopic-level row).
@@ -57,32 +58,27 @@ async function upsertMasteryBucket(
   nowIso: string
 ) {
   if (addTotal <= 0) return
-  const { data: existing } = await supabase
-    .from('topic_mastery')
-    .select('attempts,correct')
-    .eq('user_id', userId)
-    .eq('textbook_id', textbookId)
-    .eq('topic_id', topicId)
-    .eq('subtopic_id', subtopicId)
-    .maybeSingle()
+  const existingResult = await db.query(
+    `SELECT attempts, correct FROM topic_mastery
+     WHERE user_id = $1 AND textbook_id = $2 AND topic_id = $3 AND subtopic_id = $4 LIMIT 1`,
+    [userId, textbookId, topicId, subtopicId]
+  )
+  const existing = existingResult.rows[0]
 
   const attempts = Number(existing?.attempts ?? 0) + addTotal
   const correct = Number(existing?.correct ?? 0) + Math.round(addCorrect)
   const accuracy = attempts > 0 ? Math.round((correct / attempts) * 10000) / 100 : 0
 
-  await supabase.from('topic_mastery').upsert(
-    {
-      user_id: userId,
-      textbook_id: textbookId,
-      topic_id: topicId,
-      subtopic_id: subtopicId,
-      attempts,
-      correct,
-      accuracy,
-      last_assessed: nowIso,
-      updated_at: nowIso,
-    },
-    { onConflict: 'user_id,textbook_id,topic_id,subtopic_id' }
+  await db.query(
+    `INSERT INTO topic_mastery (user_id, textbook_id, topic_id, subtopic_id, attempts, correct, accuracy, last_assessed, updated_at)
+     VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9)
+     ON CONFLICT (user_id, textbook_id, topic_id, subtopic_id) DO UPDATE SET
+       attempts = EXCLUDED.attempts,
+       correct = EXCLUDED.correct,
+       accuracy = EXCLUDED.accuracy,
+       last_assessed = EXCLUDED.last_assessed,
+       updated_at = EXCLUDED.updated_at`,
+    [userId, textbookId, topicId, subtopicId, attempts, correct, accuracy, nowIso, nowIso]
   )
 }
 
@@ -105,21 +101,21 @@ async function updateTopicMastery(params: {
   if (!userId || !assessmentId) return
 
   try {
-    const { data: assessment, error: aErr } = await supabase
-      .from('assessments')
-      .select('textbook_id,topic_ids,subtopic_ids')
-      .eq('id', assessmentId)
-      .maybeSingle()
+    const assessmentResult = await db.query(
+      'SELECT textbook_id, topic_ids, subtopic_ids FROM assessments WHERE id = $1 LIMIT 1',
+      [assessmentId]
+    )
+    const assessment = assessmentResult.rows[0]
 
-    if (aErr || !assessment) return
+    if (!assessment) return
 
     const textbookId = Number((assessment as any).textbook_id) || 0
     if (textbookId > 0) {
-      const { data: tb } = await supabase
-        .from('textbooks')
-        .select('curriculum')
-        .eq('textbook_id', textbookId)
-        .maybeSingle()
+      const tbResult = await db.query(
+        'SELECT curriculum FROM textbooks WHERE textbook_id = $1 LIMIT 1',
+        [textbookId]
+      )
+      const tb = tbResult.rows[0]
       if (isExamPrepCurriculumNumeric(tb?.curriculum)) return
     }
 
@@ -218,28 +214,63 @@ export async function POST(request: NextRequest) {
     }
 
     let resultId: string | null = null
-    let { data, error } = await supabase
-      .from('results')
-      .insert([payload])
-      .select('id')
-      .single()
+    let insertError: unknown = null
 
-    resultId = data?.id ?? null
-
-    if (error && isSchemaColumnMissing(error)) {
-      const { grade: _grade, questions_data: _questions, longform_grades: _grades, time_taken: _timeTaken, ...fallback } = payload
-      const retry = await supabase
-        .from('results')
-        .insert([fallback])
-        .select('id')
-        .single()
-      error = retry.error
-      resultId = retry.data?.id ?? resultId
+    try {
+      const insertResult = await db.query(
+        `INSERT INTO results (
+           user_id, assessment_id, answers, score, total_questions, percentage, feedback, grade,
+           time_taken, questions_data, longform_grades, submission_reason, violation_count
+         ) VALUES ($1,$2,$3::jsonb,$4,$5,$6,$7::jsonb,$8,$9,$10::jsonb,$11::jsonb,$12,$13)
+         RETURNING id`,
+        [
+          payload.user_id,
+          payload.assessment_id,
+          jsonbParam(payload.answers),
+          payload.score,
+          payload.total_questions,
+          payload.percentage,
+          jsonbParam(payload.feedback),
+          payload.grade,
+          payload.time_taken,
+          jsonbParam(payload.questions_data),
+          jsonbParam(payload.longform_grades),
+          payload.submission_reason,
+          payload.violation_count,
+        ]
+      )
+      resultId = insertResult.rows[0]?.id ?? null
+    } catch (err) {
+      insertError = err
+      if (isSchemaColumnMissing(err)) {
+        try {
+          const retryResult = await db.query(
+            `INSERT INTO results (user_id, assessment_id, answers, score, total_questions, percentage, feedback, submission_reason, violation_count)
+             VALUES ($1,$2,$3::jsonb,$4,$5,$6,$7::jsonb,$8,$9)
+             RETURNING id`,
+            [
+              payload.user_id,
+              payload.assessment_id,
+              jsonbParam(payload.answers),
+              payload.score,
+              payload.total_questions,
+              payload.percentage,
+              jsonbParam(payload.feedback),
+              payload.submission_reason,
+              payload.violation_count,
+            ]
+          )
+          resultId = retryResult.rows[0]?.id ?? resultId
+          insertError = null
+        } catch (retryErr) {
+          insertError = retryErr
+        }
+      }
     }
 
-    if (error) {
-      console.error('Supabase insert error:', error)
-      throw error
+    if (insertError) {
+      console.error('Results insert error:', insertError)
+      throw insertError
     }
 
     // Update per-subtopic mastery (best-effort, non-fatal).
@@ -259,69 +290,69 @@ export async function POST(request: NextRequest) {
       let bestResultId = resultId
       let attemptCount = 1
 
-      let lookupQuery = supabase
-        .from('assignment_results')
-        .select('id,attempt_count,result_id,status,started_at,completed_at,last_attempt_at,student_id,student_email')
-        .eq('assignment_id', assignmentId)
+      let lookupSql = `
+        SELECT id, attempt_count, result_id, status, started_at, completed_at, last_attempt_at, student_id, student_email
+        FROM assignment_results WHERE assignment_id = $1
+      `
+      const lookupValues: unknown[] = [assignmentId]
+      let idx = 2
 
       if (user_id && studentEmail) {
-        lookupQuery = lookupQuery.or(`student_id.eq.${user_id},student_email.eq.${studentEmail}`)
+        lookupSql += ` AND (student_id = $${idx++} OR student_email = $${idx++})`
+        lookupValues.push(user_id, studentEmail)
       } else if (user_id) {
-        lookupQuery = lookupQuery.eq('student_id', user_id)
+        lookupSql += ` AND student_id = $${idx++}`
+        lookupValues.push(user_id)
       } else if (studentEmail) {
-        lookupQuery = lookupQuery.eq('student_email', studentEmail)
+        lookupSql += ` AND student_email = $${idx++}`
+        lookupValues.push(studentEmail)
       }
 
-      const { data: existingRows, error: existingError } = await lookupQuery
-      if (existingError) {
-        console.error('Assignment result lookup error:', existingError)
-      }
+      const existingRowsResult = await db.query(lookupSql, lookupValues)
+      const existingRows = existingRowsResult.rows
 
       const existingRow = pickBestResult((existingRows ?? []) as ResultRow[])
 
       if (user_id && studentEmail) {
-        await supabase
-          .from('assignment_results')
-          .update({ student_id: user_id })
-          .eq('assignment_id', assignmentId)
-          .eq('student_email', studentEmail)
-          .is('student_id', null)
+        await db.query(
+          `UPDATE assignment_results SET student_id = $1
+           WHERE assignment_id = $2 AND student_email = $3 AND student_id IS NULL`,
+          [user_id, assignmentId, studentEmail]
+        )
       }
 
       if (existingRow) {
         attemptCount = Number(existingRow.attempt_count ?? 0) + 1
         if (existingRow.result_id) {
-          const { data: bestRow, error: bestError } = await supabase
-            .from('results')
-            .select('percentage,score')
-            .eq('id', existingRow.result_id)
-            .maybeSingle()
-
-          if (bestError) {
-            console.error('Best result lookup error:', bestError)
-          } else {
+          try {
+            const bestResult = await db.query(
+              'SELECT percentage, score FROM results WHERE id = $1 LIMIT 1',
+              [existingRow.result_id]
+            )
+            const bestRow = bestResult.rows[0]
             const bestScore = Number(bestRow?.percentage ?? bestRow?.score)
             const currentScore = Number(score)
             if (Number.isFinite(bestScore) && Number.isFinite(currentScore) && currentScore < bestScore) {
               bestResultId = existingRow.result_id
             }
+          } catch (bestError) {
+            console.error('Best result lookup error:', bestError)
           }
         }
       }
 
-      const { data: assignmentRow, error: assignmentError } = await supabase
-        .from('assignments')
-        .select('max_attempts')
-        .eq('id', assignmentId)
-        .maybeSingle()
-
-      if (assignmentError) {
+      try {
+        const assignmentResult = await db.query(
+          'SELECT max_attempts FROM assignments WHERE id = $1 LIMIT 1',
+          [assignmentId]
+        )
+        const assignmentRow = assignmentResult.rows[0]
+        const maxAttempts = Number(assignmentRow?.max_attempts ?? 1)
+        if (Number.isFinite(maxAttempts) && maxAttempts > 0 && attemptCount > maxAttempts) {
+          attemptCount = maxAttempts
+        }
+      } catch (assignmentError) {
         console.error('Assignment lookup error:', assignmentError)
-      }
-
-      const maxAttempts = Number(assignmentRow?.max_attempts ?? 1)
-      if (Number.isFinite(maxAttempts) && maxAttempts > 0 && attemptCount > maxAttempts) {
-        attemptCount = maxAttempts
       }
 
       const updatePayload: Record<string, any> = {
@@ -336,30 +367,35 @@ export async function POST(request: NextRequest) {
       }
 
       if (existingRow?.id) {
-        const { error: updateError } = await supabase
-          .from('assignment_results')
-          .update(updatePayload)
-          .eq('id', existingRow.id)
-
-        if (updateError) {
+        try {
+          await db.query(
+            `UPDATE assignment_results
+             SET status = $1, completed_at = $2, result_id = $3, attempt_count = $4, last_attempt_at = $5, assessment_id = $6
+             WHERE id = $7`,
+            ['completed', updatePayload.completed_at, bestResultId, attemptCount, updatePayload.last_attempt_at, assessmentId, existingRow.id]
+          )
+        } catch (updateError) {
           console.error('Assignment result update error:', updateError)
         }
       } else {
-        const { error: insertError } = await supabase
-          .from('assignment_results')
-          .insert({
-            assignment_id: assignmentId,
-            student_id: user_id ?? null,
-            student_email: studentEmail,
-            status: 'completed',
-            completed_at: updatePayload.completed_at,
-            result_id: bestResultId,
-            assessment_id: assessmentId,
-            attempt_count: attemptCount,
-            last_attempt_at: updatePayload.last_attempt_at,
-          })
-
-        if (insertError) {
+        try {
+          await db.query(
+            `INSERT INTO assignment_results (
+               assignment_id, student_id, student_email, status, completed_at, result_id, assessment_id, attempt_count, last_attempt_at
+             ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9)`,
+            [
+              assignmentId,
+              user_id ?? null,
+              studentEmail,
+              'completed',
+              updatePayload.completed_at,
+              bestResultId,
+              assessmentId,
+              attemptCount,
+              updatePayload.last_attempt_at,
+            ]
+          )
+        } catch (insertError) {
           console.error('Assignment result insert error:', insertError)
         }
       }

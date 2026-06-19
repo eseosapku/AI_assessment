@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isUniqueViolation, pgErrorMessage } from '@/lib/pg-errors'
 import { normalizeCountry } from '@/lib/countries'
 
 function normalizeIds(value: unknown): number[] {
@@ -10,73 +11,79 @@ function normalizeIds(value: unknown): number[] {
     return Array.from(new Set(ids))
 }
 
+function buildClassFromRows(rows: any[]) {
+    if (rows.length === 0) return null
+    const row = rows[0]
+    const textbooks: any[] = []
+    const textbookIds: number[] = []
+    const seenTextbookIds = new Set<number>()
+
+    for (const r of rows) {
+        if (r.textbook_id != null && Number.isFinite(r.textbook_id) && !seenTextbookIds.has(r.textbook_id)) {
+            seenTextbookIds.add(r.textbook_id)
+            textbookIds.push(r.textbook_id)
+            if (r.textbook_name) {
+                textbooks.push({
+                    id: r.textbook_id,
+                    name: r.textbook_name,
+                    curriculum: r.curriculum,
+                    filename: r.filename,
+                })
+            }
+        }
+    }
+
+    return {
+        id: row.id,
+        name: row.name,
+        country: row.country ?? 'RW',
+        created_at: row.created_at,
+        updated_at: row.updated_at,
+        textbooks,
+        textbook_ids: textbookIds,
+    }
+}
+
 export async function GET(request: NextRequest) {
     try {
         const country = normalizeCountry(request.nextUrl.searchParams.get('country') ?? 'RW')
 
-        let query = supabase
-            .from('classes')
-            .select(`
-        id,
-        name,
-        country,
-        created_at,
-        updated_at,
-        class_textbooks (
-          textbook_id,
-          textbooks (
-                        textbook_id,
-                        textbook_name,
-            curriculum,
-            filename
-          )
-        )
-      `)
-            .order('name')
+        let sql = `
+            SELECT c.id, c.name, c.country, c.created_at, c.updated_at,
+                   ct.textbook_id,
+                   t.textbook_name, t.curriculum, t.filename
+            FROM classes c
+            LEFT JOIN class_textbooks ct ON ct.class_id = c.id
+            LEFT JOIN textbooks t ON t.textbook_id = ct.textbook_id
+        `
+        const values: unknown[] = []
 
         if (country === 'NG') {
-            query = query.eq('country', 'NG')
+            sql += ' WHERE c.country = $1'
+            values.push('NG')
         } else {
-            query = query.or('country.eq.RW,country.is.null')
+            sql += ' WHERE c.country = $1 OR c.country IS NULL'
+            values.push('RW')
         }
 
-        const { data, error } = await query
+        sql += ' ORDER BY c.name, ct.textbook_id'
 
-        if (error) {
-            console.error('Classes fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
+        const result = await db.query(sql, values)
+        const byClass = new Map<number, any[]>()
+        for (const row of result.rows) {
+            const list = byClass.get(row.id) ?? []
+            list.push(row)
+            byClass.set(row.id, list)
         }
 
-        const classes = (data ?? []).map((row: any) => {
-            const links = Array.isArray(row.class_textbooks) ? row.class_textbooks : []
-            const textbooks = links
-                .map((link: any) => link.textbooks)
-                .filter(Boolean)
-                .map((textbook: any) => ({
-                    id: textbook.textbook_id,
-                    name: textbook.textbook_name,
-                    curriculum: textbook.curriculum,
-                    filename: textbook.filename,
-                }))
-            const textbookIds = links
-                .map((link: any) => link.textbook_id)
-                .filter((id: any) => Number.isFinite(id))
-
-            return {
-                id: row.id,
-                name: row.name,
-                country: row.country ?? 'RW',
-                created_at: row.created_at,
-                updated_at: row.updated_at,
-                textbooks,
-                textbook_ids: textbookIds,
-            }
-        })
+        const classes = Array.from(byClass.values())
+            .map(buildClassFromRows)
+            .filter(Boolean)
 
         return NextResponse.json({ data: classes })
     } catch (err) {
         console.error('Classes fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load classes' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load classes') }, { status: 500 })
     }
 }
 
@@ -92,26 +99,25 @@ export async function POST(request: NextRequest) {
 
         const country = normalizeCountry(body?.country ?? 'RW')
 
-        const { data: created, error: createError } = await supabase
-            .from('classes')
-            .insert({ name, country })
-            .select('id,name,country,created_at,updated_at')
-            .single()
-
-        if (createError) {
-            const status = createError.code === '23505' ? 409 : 500
+        let created: any
+        try {
+            const result = await db.query(
+                'INSERT INTO classes (name, country) VALUES ($1, $2) RETURNING id, name, country, created_at, updated_at',
+                [name, country]
+            )
+            created = result.rows[0]
+        } catch (createError) {
+            const status = isUniqueViolation(createError) ? 409 : 500
             console.error('Class create error:', createError)
-            return NextResponse.json({ error: createError.message }, { status })
+            return NextResponse.json({ error: pgErrorMessage(createError) }, { status })
         }
 
         if (textbookIds.length > 0) {
-            const { error: linkError } = await supabase
-                .from('class_textbooks')
-                .insert(textbookIds.map((id) => ({ class_id: created.id, textbook_id: id })))
-
-            if (linkError) {
-                console.error('Class textbook link error:', linkError)
-                return NextResponse.json({ error: linkError.message }, { status: 500 })
+            for (const textbookId of textbookIds) {
+                await db.query(
+                    'INSERT INTO class_textbooks (class_id, textbook_id) VALUES ($1, $2) ON CONFLICT DO NOTHING',
+                    [created.id, textbookId]
+                )
             }
         }
 

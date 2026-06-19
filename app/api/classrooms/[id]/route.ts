@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isUniqueViolation, pgErrorMessage } from '@/lib/pg-errors'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -14,21 +15,19 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
     }
 
     try {
-        const { data, error } = await supabase
-            .from('classrooms')
-            .select('id,name,description,teacher_id,created_at,updated_at')
-            .eq('id', classroomId)
-            .single()
-
-        if (error) {
-            console.error('Classroom fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
+        const result = await db.query(
+            'SELECT id, name, description, teacher_id, created_at, updated_at FROM classrooms WHERE id = $1 LIMIT 1',
+            [classroomId]
+        )
+        const data = result.rows[0]
+        if (!data) {
+            return NextResponse.json({ error: 'Classroom not found' }, { status: 404 })
         }
 
         return NextResponse.json({ data })
     } catch (err) {
         console.error('Classroom fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load classroom' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load classroom') }, { status: 500 })
     }
 }
 
@@ -52,24 +51,32 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
             return NextResponse.json({ error: 'Classroom name is required' }, { status: 400 })
         }
 
-        const updatePayload: Record<string, any> = {
-            updated_at: new Date().toISOString(),
+        const sets = ['updated_at = NOW()']
+        const values: unknown[] = []
+        let idx = 1
+
+        if (name !== null) {
+            sets.push(`name = $${idx++}`)
+            values.push(name)
         }
-        if (name !== null) updatePayload.name = name
-        if (description !== null) updatePayload.description = description
+        if (description !== null) {
+            sets.push(`description = $${idx++}`)
+            values.push(description)
+        }
 
-        const { error } = await supabase
-            .from('classrooms')
-            .update(updatePayload)
-            .eq('id', classroomId)
+        values.push(classroomId)
 
-        if (error) {
-            const status = error.code === '23505' ? 409 : 500
+        try {
+            await db.query(
+                `UPDATE classrooms SET ${sets.join(', ')} WHERE id = $${idx}`,
+                values
+            )
+            return NextResponse.json({ success: true })
+        } catch (error) {
+            const status = isUniqueViolation(error) ? 409 : 500
             console.error('Classroom update error:', error)
-            return NextResponse.json({ error: error.message }, { status })
+            return NextResponse.json({ error: pgErrorMessage(error) }, { status })
         }
-
-        return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Classroom update error:', err)
         return NextResponse.json({ error: 'Failed to update classroom' }, { status: 500 })
@@ -84,19 +91,10 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
     }
 
     try {
-        const { error } = await supabase
-            .from('classrooms')
-            .delete()
-            .eq('id', classroomId)
-
-        if (error) {
-            console.error('Classroom delete error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
+        await db.query('DELETE FROM classrooms WHERE id = $1', [classroomId])
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Classroom delete error:', err)
-        return NextResponse.json({ error: 'Failed to delete classroom' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to delete classroom') }, { status: 500 })
     }
 }

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
+import { jsonbParam } from '@/lib/pg-json'
 
 function normalizeEmail(value: string | null) {
   return String(value ?? '').trim().toLowerCase()
@@ -54,66 +56,60 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'classroom_ids is required to send' }, { status: 400 })
     }
 
-    const { data, error } = await supabase
-      .from('assignments')
-      .insert({
-        teacher_id: teacherId,
-        teacher_name: teacherName || 'Teacher',
-        title: title || `${subject} — ${new Date().toLocaleDateString()}`,
+    const insertResult = await db.query(
+      `INSERT INTO assignments (
+         teacher_id, teacher_name, title, subject, topics, grade, curriculum,
+         difficulty_level, question_count, style, question_type, max_attempts,
+         classroom_id, status, questions_data, estimated_time, deadline, strict_mode
+       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16,$17,$18)
+       RETURNING id`,
+      [
+        teacherId,
+        teacherName || 'Teacher',
+        title || `${subject} — ${new Date().toLocaleDateString()}`,
         subject,
         topics,
         grade,
         curriculum,
-        difficulty_level: difficultyLevel,
-        question_count: questionCount,
+        difficultyLevel,
+        questionCount,
         style,
-        question_type: questionType,
-        max_attempts: maxAttempts,
-        classroom_id: status === 'sent' ? classroomId : null,
+        questionType,
+        maxAttempts,
+        status === 'sent' ? classroomId : null,
         status,
-        questions_data: questionsData,
-        estimated_time: Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null,
+        questionsData != null ? jsonbParam(questionsData) : null,
+        Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null,
         deadline,
-        strict_mode: strictMode,
-      })
-      .select('id')
-      .single()
+        strictMode,
+      ]
+    )
 
-    if (error) {
-      console.error('Assignment create error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
+    const assignmentId = insertResult.rows[0]?.id
+    if (!assignmentId) {
+      return NextResponse.json({ error: 'Failed to create assignment' }, { status: 500 })
     }
 
     if (status === 'sent' && classroomIds.length > 0) {
-      const classroomRows = classroomIds.map((id) => ({
-        assignment_id: data.id,
-        classroom_id: id,
-      }))
-
-      const { error: classroomError } = await supabase
-        .from('assignment_classrooms')
-        .upsert(classroomRows, { onConflict: 'assignment_id,classroom_id' })
-
-      if (classroomError) {
-        console.error('Assignment classrooms create error:', classroomError)
-        return NextResponse.json({ error: classroomError.message }, { status: 500 })
+      for (const cid of classroomIds) {
+        await db.query(
+          `INSERT INTO assignment_classrooms (assignment_id, classroom_id)
+           VALUES ($1, $2)
+           ON CONFLICT (assignment_id, classroom_id) DO NOTHING`,
+          [assignmentId, cid]
+        )
       }
 
-      const { data: members, error: memberError } = await supabase
-        .from('classroom_members')
-        .select('student_id,student_email')
-        .in('classroom_id', classroomIds)
-        .eq('status', 'accepted')
+      const membersResult = await db.query(
+        `SELECT student_id, student_email FROM classroom_members
+         WHERE classroom_id = ANY($1::uuid[]) AND status = 'accepted'`,
+        [classroomIds]
+      )
 
-      if (memberError) {
-        console.error('Assignment member lookup error:', memberError)
-        return NextResponse.json({ error: memberError.message }, { status: 500 })
-      }
-
-      if ((members ?? []).length > 0) {
+      if ((membersResult.rows ?? []).length > 0) {
         const seenIds = new Set<string>()
         const seenEmails = new Set<string>()
-        const rows = (members ?? []).flatMap((m: any) => {
+        const rows = (membersResult.rows ?? []).flatMap((m: any) => {
           const studentId = m.student_id ? String(m.student_id).trim() : ''
           const studentEmail = normalizeEmail(m.student_email)
           if (studentId && seenIds.has(studentId)) return []
@@ -121,33 +117,29 @@ export async function POST(request: NextRequest) {
 
           if (studentId) seenIds.add(studentId)
           if (studentEmail) seenEmails.add(studentEmail)
-
           if (!studentEmail) return []
 
           return [{
-            assignment_id: data.id,
+            assignment_id: assignmentId,
             student_id: studentId || null,
             student_email: studentEmail,
             status: 'pending',
           }]
         })
 
-        if (rows.length > 0) {
-          const { error: resultError } = await supabase
-            .from('assignment_results')
-            .insert(rows)
-
-          if (resultError) {
-            console.error('Assignment results create error:', resultError)
-            return NextResponse.json({ error: resultError.message }, { status: 500 })
-          }
+        for (const row of rows) {
+          await db.query(
+            `INSERT INTO assignment_results (assignment_id, student_id, student_email, status)
+             VALUES ($1, $2, $3, $4)`,
+            [row.assignment_id, row.student_id, row.student_email, row.status]
+          )
         }
       }
     }
 
-    return NextResponse.json({ success: true, assignment_id: data.id })
+    return NextResponse.json({ success: true, assignment_id: assignmentId })
   } catch (err) {
     console.error('Assignment create error:', err)
-    return NextResponse.json({ error: 'Failed to create assignment' }, { status: 500 })
+    return NextResponse.json({ error: pgErrorMessage(err, 'Failed to create assignment') }, { status: 500 })
   }
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function parseTopicId(rawId: string | undefined): number | null {
     const parsed = Number(rawId)
@@ -24,15 +25,13 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
     }
 
     try {
-        const { data, error } = await supabase
-            .from('topics')
-            .select('topic_id,textbook_id,topic')
-            .eq('topic_id', topicId)
-            .single()
-
-        if (error) {
-            console.error('Topic fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
+        const result = await db.query(
+            'SELECT topic_id, textbook_id, topic FROM topics WHERE topic_id = $1 LIMIT 1',
+            [topicId]
+        )
+        const data = result.rows[0]
+        if (!data) {
+            return NextResponse.json({ error: 'Topic not found' }, { status: 404 })
         }
 
         return NextResponse.json({
@@ -44,7 +43,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
         })
     } catch (err) {
         console.error('Topic fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load topic' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load topic') }, { status: 500 })
     }
 }
 
@@ -73,32 +72,33 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
             name = trimmed
         }
 
-        const updates: { topic?: string; textbook_id?: number } = {}
+        const sets: string[] = []
+        const values: unknown[] = []
+        let idx = 1
+
         if (name !== undefined) {
-            updates.topic = name
+            sets.push(`topic = $${idx++}`)
+            values.push(name)
         }
         if (textbookResult.value !== undefined) {
-            updates.textbook_id = textbookResult.value
+            sets.push(`textbook_id = $${idx++}`)
+            values.push(textbookResult.value)
         }
 
-        if (Object.keys(updates).length === 0) {
+        if (sets.length === 0) {
             return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
         }
 
-        const { error: updateError } = await supabase
-            .from('topics')
-            .update(updates)
-            .eq('topic_id', topicId)
-
-        if (updateError) {
-            console.error('Topic update error:', updateError)
-            return NextResponse.json({ error: updateError.message }, { status: 500 })
-        }
+        values.push(topicId)
+        await db.query(
+            `UPDATE topics SET ${sets.join(', ')} WHERE topic_id = $${idx}`,
+            values
+        )
 
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Topic update error:', err)
-        return NextResponse.json({ error: 'Failed to update topic' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to update topic') }, { status: 500 })
     }
 }
 
@@ -110,19 +110,10 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
     }
 
     try {
-        const { error } = await supabase
-            .from('topics')
-            .delete()
-            .eq('topic_id', topicId)
-
-        if (error) {
-            console.error('Topic delete error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
+        await db.query('DELETE FROM topics WHERE topic_id = $1', [topicId])
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Topic delete error:', err)
-        return NextResponse.json({ error: 'Failed to delete topic' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to delete topic') }, { status: 500 })
     }
 }

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isUniqueViolation, pgErrorMessage } from '@/lib/pg-errors'
 
 function parseTextbookId(rawId: string | undefined): number | null {
     const parsed = Number(rawId)
@@ -31,15 +32,13 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
     }
 
     try {
-        const { data, error } = await supabase
-            .from('textbooks')
-            .select('textbook_id,textbook_name,filename,curriculum')
-            .eq('textbook_id', textbookId)
-            .single()
-
-        if (error) {
-            console.error('Textbook fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
+        const result = await db.query(
+            'SELECT textbook_id, textbook_name, filename, curriculum FROM textbooks WHERE textbook_id = $1 LIMIT 1',
+            [textbookId]
+        )
+        const data = result.rows[0]
+        if (!data) {
+            return NextResponse.json({ error: 'Textbook not found' }, { status: 404 })
         }
 
         return NextResponse.json({
@@ -52,7 +51,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
         })
     } catch (err) {
         console.error('Textbook fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load textbook' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load textbook') }, { status: 500 })
     }
 }
 
@@ -82,38 +81,39 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
             name = trimmed
         }
 
-        const updates: {
-            textbook_name?: string
-            filename?: string | null
-            curriculum?: number | null
-        } = {}
+        const sets: string[] = []
+        const values: unknown[] = []
+        let idx = 1
 
         if (name !== undefined) {
-            updates.textbook_name = name
+            sets.push(`textbook_name = $${idx++}`)
+            values.push(name)
         }
         if (filenameResult.value !== undefined) {
-            updates.filename = filenameResult.value
+            sets.push(`filename = $${idx++}`)
+            values.push(filenameResult.value)
         }
         if (curriculumResult.value !== undefined) {
-            updates.curriculum = curriculumResult.value
+            sets.push(`curriculum = $${idx++}`)
+            values.push(curriculumResult.value)
         }
 
-        if (Object.keys(updates).length === 0) {
+        if (sets.length === 0) {
             return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
         }
 
-        const { error: updateError } = await supabase
-            .from('textbooks')
-            .update(updates)
-            .eq('textbook_id', textbookId)
-
-        if (updateError) {
-            const status = updateError.code === '23505' ? 409 : 500
+        values.push(textbookId)
+        try {
+            await db.query(
+                `UPDATE textbooks SET ${sets.join(', ')} WHERE textbook_id = $${idx}`,
+                values
+            )
+            return NextResponse.json({ success: true })
+        } catch (updateError) {
+            const status = isUniqueViolation(updateError) ? 409 : 500
             console.error('Textbook update error:', updateError)
-            return NextResponse.json({ error: updateError.message }, { status })
+            return NextResponse.json({ error: pgErrorMessage(updateError) }, { status })
         }
-
-        return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Textbook update error:', err)
         return NextResponse.json({ error: 'Failed to update textbook' }, { status: 500 })
@@ -128,39 +128,12 @@ export async function DELETE(_request: NextRequest, { params }: { params: Promis
     }
 
     try {
-        const { error: subtopicsError } = await supabase
-            .from('subtopics')
-            .delete()
-            .eq('textbook_id', textbookId)
-
-        if (subtopicsError) {
-            console.error('Subtopics delete error:', subtopicsError)
-            return NextResponse.json({ error: subtopicsError.message }, { status: 500 })
-        }
-
-        const { error: topicsError } = await supabase
-            .from('topics')
-            .delete()
-            .eq('textbook_id', textbookId)
-
-        if (topicsError) {
-            console.error('Topics delete error:', topicsError)
-            return NextResponse.json({ error: topicsError.message }, { status: 500 })
-        }
-
-        const { error: textbookError } = await supabase
-            .from('textbooks')
-            .delete()
-            .eq('textbook_id', textbookId)
-
-        if (textbookError) {
-            console.error('Textbook delete error:', textbookError)
-            return NextResponse.json({ error: textbookError.message }, { status: 500 })
-        }
-
+        await db.query('DELETE FROM subtopics WHERE textbook_id = $1', [textbookId])
+        await db.query('DELETE FROM topics WHERE textbook_id = $1', [textbookId])
+        await db.query('DELETE FROM textbooks WHERE textbook_id = $1', [textbookId])
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Textbook delete error:', err)
-        return NextResponse.json({ error: 'Failed to delete textbook' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to delete textbook') }, { status: 500 })
     }
 }

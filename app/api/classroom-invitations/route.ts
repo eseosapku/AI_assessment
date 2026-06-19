@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function normalizeEmail(value: string | null) {
     return String(value ?? '').trim().toLowerCase()
@@ -19,54 +20,48 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'student_id or student_email is required' }, { status: 400 })
         }
 
-        let query = supabase
-            .from('classroom_members')
-            .select(`
-                id,
-                status,
-                invited_at,
-                classroom:classrooms(
-                    id,
-                    name,
-                    description,
-                    teacher_id,
-                    teacher:users!classrooms_teacher_id_fkey(name,email)
-                )
-            `)
-            .eq('status', 'pending')
-            .order('invited_at', { ascending: false })
+        let sql = `
+            SELECT cm.id, cm.status, cm.invited_at,
+                   c.id AS classroom_id, c.name, c.description, c.teacher_id,
+                   u.name AS teacher_name, u.email AS teacher_email
+            FROM classroom_members cm
+            JOIN classrooms c ON c.id = cm.classroom_id
+            LEFT JOIN users u ON u.id = c.teacher_id
+            WHERE cm.status = 'pending'
+        `
+        const values: unknown[] = []
+        let idx = 1
 
         if (studentId && studentEmail) {
-            query = query.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+            sql += ` AND (cm.student_id = $${idx++} OR cm.student_email = $${idx++})`
+            values.push(studentId, studentEmail)
         } else if (studentId) {
-            query = query.eq('student_id', studentId)
+            sql += ` AND cm.student_id = $${idx++}`
+            values.push(studentId)
         } else {
-            query = query.eq('student_email', studentEmail)
+            sql += ` AND cm.student_email = $${idx++}`
+            values.push(studentEmail)
         }
 
-        const { data, error } = await query
+        sql += ' ORDER BY cm.invited_at DESC'
 
-        if (error) {
-            console.error('Classroom invitations fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
-        const invitations = (data ?? []).map((row: any) => ({
+        const result = await db.query(sql, values)
+        const invitations = (result.rows ?? []).map((row: any) => ({
             id: row.id,
             invited_at: row.invited_at,
             classroom: {
-                id: row.classroom?.id,
-                name: row.classroom?.name,
-                description: row.classroom?.description,
-                teacher_id: row.classroom?.teacher_id,
-                teacher_name: row.classroom?.teacher?.name ?? null,
-                teacher_email: row.classroom?.teacher?.email ?? null,
+                id: row.classroom_id,
+                name: row.name,
+                description: row.description,
+                teacher_id: row.teacher_id,
+                teacher_name: row.teacher_name ?? null,
+                teacher_email: row.teacher_email ?? null,
             },
         }))
 
         return NextResponse.json({ data: invitations })
     } catch (err) {
         console.error('Classroom invitations fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load invitations' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load invitations') }, { status: 500 })
     }
 }

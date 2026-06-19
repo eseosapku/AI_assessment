@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 import { subjectFromTextbookName } from '@/lib/textbook-subject'
 
 export async function GET(request: NextRequest) {
@@ -21,40 +22,34 @@ export async function GET(request: NextRequest) {
             curriculum = c
         }
 
-        const { data, error } = await supabase
-            .from('classes')
-            .select(`
-        id,
-        name,
-        class_textbooks (
-          textbook_id,
-          textbooks (
-            textbook_id,
-            textbook_name,
-            curriculum,
-            filename
-          )
+        const classResult = await db.query(
+            'SELECT id, name FROM classes WHERE name = $1 LIMIT 1',
+            [className]
         )
-      `)
-            .eq('name', className)
-            .maybeSingle()
-
-        if (error) {
-            console.error('Class textbooks fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
+        const classRow = classResult.rows[0]
+        if (!classRow) {
+            return NextResponse.json({
+                data: [],
+                meta: { class_name: className, curriculum },
+            })
         }
 
-        const links = Array.isArray((data as any)?.class_textbooks) ? (data as any).class_textbooks : []
-        const textbooks = links
-            .map((link: any) => link.textbooks)
-            .filter(Boolean)
-            .map((textbook: any) => ({
-                id: textbook.textbook_id,
-                name: textbook.textbook_name,
-                subjectName: subjectFromTextbookName(textbook.textbook_name),
-                curriculum: textbook.curriculum,
-                filename: textbook.filename,
-            }))
+        const linksResult = await db.query(
+            `SELECT ct.textbook_id, t.textbook_name, t.curriculum, t.filename
+             FROM class_textbooks ct
+             JOIN textbooks t ON t.textbook_id = ct.textbook_id
+             WHERE ct.class_id = $1
+             ORDER BY t.textbook_name`,
+            [classRow.id]
+        )
+
+        const textbooks = linksResult.rows.map((textbook: any) => ({
+            id: textbook.textbook_id,
+            name: textbook.textbook_name,
+            subjectName: subjectFromTextbookName(textbook.textbook_name),
+            curriculum: textbook.curriculum,
+            filename: textbook.filename,
+        }))
 
         const filtered = curriculum === null ? textbooks : textbooks.filter((t: any) => t.curriculum === curriculum)
 
@@ -64,6 +59,6 @@ export async function GET(request: NextRequest) {
         })
     } catch (err) {
         console.error('Class textbooks fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load class textbooks' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load class textbooks') }, { status: 500 })
     }
 }

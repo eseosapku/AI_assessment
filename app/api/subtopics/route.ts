@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isNotNullViolation, pgErrorMessage } from '@/lib/pg-errors'
 import { sortBySyllabusOrder } from '@/lib/syllabus-order'
 
 function parseOptionalId(value: unknown, fieldName: string) {
@@ -12,25 +13,14 @@ function parseOptionalId(value: unknown, fieldName: string) {
     return { value: parsed }
 }
 
-async function getNextId(table: 'subtopics', idColumn: 'subtopic_id') {
-    const { data, error } = await supabase
-        .from(table)
-        .select(idColumn)
-        .order(idColumn, { ascending: false })
-        .limit(1)
-        .maybeSingle()
-
-    if (error) {
-        throw error
-    }
-
-    const current = data ? Number((data as any)[idColumn]) : 0
-    const nextId = Number.isFinite(current) && current > 0 ? current + 1 : 1
-
+async function getNextSubtopicId() {
+    const result = await db.query<{ next_id: number }>(
+        'SELECT COALESCE(MAX(subtopic_id), 0) + 1 AS next_id FROM subtopics'
+    )
+    const nextId = Number(result.rows[0]?.next_id ?? 1)
     if (!Number.isFinite(nextId)) {
         throw new Error('Failed to generate subtopic id')
     }
-
     return nextId
 }
 
@@ -49,26 +39,20 @@ export async function GET(request: NextRequest) {
             return NextResponse.json({ error: 'Invalid topic_id' }, { status: 400 })
         }
 
-        let query = supabase
-            .from('subtopics')
-            .select('subtopic_id,textbook_id,topic_id,subtopic')
-            .eq('topic_id', topicId)
+        const values: unknown[] = [topicId]
+        let sql = 'SELECT subtopic_id, textbook_id, topic_id, subtopic FROM subtopics WHERE topic_id = $1'
 
         if (textbookParam) {
             const textbookId = Number(textbookParam)
             if (!Number.isFinite(textbookId)) {
                 return NextResponse.json({ error: 'Invalid textbook_id' }, { status: 400 })
             }
-            query = query.eq('textbook_id', textbookId)
+            values.push(textbookId)
+            sql += ' AND textbook_id = $2'
         }
 
-        const { data, error } = await query
-        if (error) {
-            console.error('Subtopics fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
-        const sorted = sortBySyllabusOrder(data ?? [], 'subtopic')
+        const result = await db.query(sql, values)
+        const sorted = sortBySyllabusOrder(result.rows ?? [], 'subtopic')
         const normalized = sorted.map((row: any) => ({
             id: row.subtopic_id,
             textbook_id: row.textbook_id,
@@ -79,7 +63,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ data: normalized })
     } catch (err) {
         console.error('Subtopics fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load subtopics' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load subtopics') }, { status: 500 })
     }
 }
 
@@ -106,37 +90,36 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'textbook_id is required' }, { status: 400 })
         }
 
-        const insertPayload = {
-            topic_id: topicResult.value,
-            textbook_id: textbookResult.value,
-            subtopic: name,
-        }
+        let created: any = null
+        let createError: unknown = null
 
-        let { data: created, error: createError } = await supabase
-            .from('subtopics')
-            .insert(insertPayload)
-            .select('subtopic_id,textbook_id,topic_id,subtopic')
-            .single()
-
-        if (createError?.code === '23502' && createError.message?.includes('subtopic_id')) {
-            try {
-                const nextId = await getNextId('subtopics', 'subtopic_id')
-                const retry = await supabase
-                    .from('subtopics')
-                    .insert({ ...insertPayload, subtopic_id: nextId })
-                    .select('subtopic_id,textbook_id,topic_id,subtopic')
-                    .single()
-                created = retry.data ?? created
-                createError = retry.error ?? null
-            } catch (err) {
-                console.error('Subtopic id generation error:', err)
-                return NextResponse.json({ error: 'Failed to create subtopic' }, { status: 500 })
+        try {
+            const result = await db.query(
+                'INSERT INTO subtopics (topic_id, textbook_id, subtopic) VALUES ($1, $2, $3) RETURNING subtopic_id, textbook_id, topic_id, subtopic',
+                [topicResult.value, textbookResult.value, name]
+            )
+            created = result.rows[0]
+        } catch (err) {
+            createError = err
+            if (isNotNullViolation(err) && pgErrorMessage(err).includes('subtopic_id')) {
+                try {
+                    const nextId = await getNextSubtopicId()
+                    const retry = await db.query(
+                        'INSERT INTO subtopics (subtopic_id, topic_id, textbook_id, subtopic) VALUES ($1, $2, $3, $4) RETURNING subtopic_id, textbook_id, topic_id, subtopic',
+                        [nextId, topicResult.value, textbookResult.value, name]
+                    )
+                    created = retry.rows[0]
+                    createError = null
+                } catch (retryErr) {
+                    console.error('Subtopic id generation error:', retryErr)
+                    return NextResponse.json({ error: 'Failed to create subtopic' }, { status: 500 })
+                }
             }
         }
 
         if (createError) {
             console.error('Subtopic create error:', createError)
-            return NextResponse.json({ error: createError.message }, { status: 500 })
+            return NextResponse.json({ error: pgErrorMessage(createError) }, { status: 500 })
         }
 
         if (!created) {

@@ -1,5 +1,4 @@
-import { supabase } from '@/lib/supabase'
-import { getSupabaseAdmin, hasSupabaseAdmin } from '@/lib/supabase-admin'
+import { db } from '@/lib/db'
 import {
   buildSubscriptionSnapshot,
   FREE_ASSESSMENT_LIMIT,
@@ -10,18 +9,15 @@ import {
 } from '@/lib/subscription'
 
 export async function fetchSubscriptionUser(userId: string): Promise<SubscriptionUser | null> {
-  const client = hasSupabaseAdmin() ? getSupabaseAdmin() : supabase
-  const { data, error } = await client
-    .from('users')
-    .select('id, role, email, subscription_status, free_assessments_used, subscription_started_at, subscription_expires_at')
-    .eq('id', userId)
-    .maybeSingle()
-
-  if (error) {
-    console.error('Subscription user lookup error:', error)
-    return null
-  }
-  return data as SubscriptionUser | null
+  const result = await db.query<SubscriptionUser>(
+    `SELECT id, role, email, subscription_status, free_assessments_used,
+            subscription_started_at, subscription_expires_at
+     FROM users
+     WHERE id = $1
+     LIMIT 1`,
+    [userId],
+  )
+  return result.rows[0] ?? null
 }
 
 export async function getSubscriptionSnapshot(userId: string): Promise<SubscriptionSnapshot | null> {
@@ -76,11 +72,10 @@ export async function incrementFreeAssessmentUsage(userId: string): Promise<void
   const used = Math.max(0, Number(user.free_assessments_used) || 0)
   if (used >= FREE_ASSESSMENT_LIMIT) return
 
-  const client = hasSupabaseAdmin() ? getSupabaseAdmin() : supabase
-  await client
-    .from('users')
-    .update({ free_assessments_used: used + 1 })
-    .eq('id', userId)
+  await db.query(
+    `UPDATE users SET free_assessments_used = $2, updated_at = NOW() WHERE id = $1`,
+    [userId, used + 1],
+  )
 }
 
 export function userIdFromTxRef(txRef: string): string | null {
@@ -99,45 +94,46 @@ export async function activateSubscription(params: {
   expiresAt?: string | null
   provider?: string
 }): Promise<{ ok: boolean; userId?: string; error?: string }> {
-  if (!hasSupabaseAdmin()) {
-    return { ok: false, error: 'Server misconfigured: SUPABASE_SERVICE_ROLE_KEY is missing on Vercel.' }
+  let userId = params.userId ?? null
+
+  if (!userId && params.email) {
+    const lookup = await db.query<{ id: string }>(
+      `SELECT id FROM users WHERE LOWER(email) = LOWER($1) LIMIT 1`,
+      [params.email],
+    )
+    userId = lookup.rows[0]?.id ?? null
   }
 
-  const db = getSupabaseAdmin()
-  let query = db.from('users').select('id, email')
-  if (params.userId) {
-    query = query.eq('id', params.userId)
-  } else if (params.email) {
-    query = query.eq('email', params.email.toLowerCase())
-  } else {
+  if (!userId) {
     return { ok: false, error: 'userId or email required' }
   }
 
-  const { data: user, error } = await query.maybeSingle()
-  if (error || !user) return { ok: false, error: 'User not found' }
+  const userCheck = await db.query<{ id: string }>(`SELECT id FROM users WHERE id = $1 LIMIT 1`, [userId])
+  if (!userCheck.rows[0]) {
+    return { ok: false, error: 'User not found' }
+  }
 
   const expiresAt = params.expiresAt ?? new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toISOString()
 
-  const payload: Record<string, unknown> = {
-    subscription_status: 'active',
-    subscription_started_at: new Date().toISOString(),
-    subscription_expires_at: expiresAt,
-    flutterwave_ref: params.ref ?? null,
-  }
+  const update = await db.query<{ subscription_status: string }>(
+    `UPDATE users
+     SET subscription_status = 'active',
+         subscription_started_at = NOW(),
+         subscription_expires_at = $2,
+         flutterwave_ref = $3,
+         updated_at = NOW()
+     WHERE id = $1
+     RETURNING subscription_status`,
+    [userId, expiresAt, params.ref ?? null],
+  )
 
-  const { error: updErr } = await db.from('users').update(payload).eq('id', user.id).select('id').maybeSingle()
-  if (updErr) return { ok: false, error: updErr.message }
-  if (!updErr && payload.subscription_status) {
-    // RLS / missing columns can fail silently without service role — confirm row updated
-    const { data: check } = await db.from('users').select('subscription_status').eq('id', user.id).maybeSingle()
-    if (check?.subscription_status !== 'active') {
-      return {
-        ok: false,
-        error:
-          'Subscription columns missing or not writable. Run supabase-subscription-migration.sql in Supabase.',
-      }
+  const status = update.rows[0]?.subscription_status
+  if (status !== 'active') {
+    return {
+      ok: false,
+      error: 'Subscription columns missing or not writable. Run migrations/full-platform-schema.sql on RDS.',
     }
   }
 
-  return { ok: true, userId: user.id }
+  return { ok: true, userId }
 }

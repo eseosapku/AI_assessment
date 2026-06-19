@@ -5,10 +5,10 @@ import { Suspense, useCallback, useEffect, useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { Clock, ChevronLeft, ChevronRight, Check, Lock } from 'lucide-react'
 import 'katex/dist/katex.min.css'
-import Latex from 'react-latex-next'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+import { LatexText as L } from '@/lib/latex-text'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const PAUSED_ASSESSMENT_KEY = 'pausedAssessmentState'
@@ -17,15 +17,6 @@ const USE_ASYNC_AI_JOBS = process.env.NEXT_PUBLIC_USE_ASYNC_AI_JOBS === 'true'
 
 function isUuid(value: string | null | undefined) {
   return UUID_RE.test(String(value ?? ''))
-}
-
-// Wrap bare LaTeX commands in $...$ so react-latex-next renders them correctly.
-// Text already containing $, \(...\), or \[...\] delimiters is left untouched.
-function L({ children }: { children: string }) {
-  const text = children ?? ''
-  const hasDelimiters = text.includes('$') || text.includes('\\(') || text.includes('\\[')
-  const wrapped = hasDelimiters ? text : /\\[a-zA-Z]|[\^_]/.test(text) ? `$${text}$` : text
-  return <Latex>{wrapped}</Latex>
 }
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -1267,7 +1258,7 @@ function AssessmentPageClient() {
                     })}
                   </div>
 
-                  <div className="ml-12 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 text-sm text-apple-dark-gray">
+                  <div className="ml-12 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 text-sm text-apple-dark-gray break-words">
                     <span className="font-semibold text-gray-900 dark:text-gray-100">Explanation: </span>
                     <L>{q.explanation ?? ''}</L>
                   </div>

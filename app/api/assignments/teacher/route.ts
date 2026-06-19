@@ -1,79 +1,60 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 export async function GET(request: NextRequest) {
   try {
     const teacher_id = request.nextUrl.searchParams.get('teacher_id')
     if (!teacher_id) return NextResponse.json({ error: 'teacher_id required' }, { status: 400 })
 
-    const { data, error } = await supabase
-      .from('assignments')
-      .select(`
-        id,
-        title,
-        subject,
-        topics,
-        grade,
-        curriculum,
-        difficulty_level,
-        question_count,
-        style,
-        question_type,
-        deadline,
-        created_at,
-        status,
-        max_attempts,
-        strict_mode,
-        classroom_id,
-        classrooms(name),
-        assignment_results(id)
-      `)
-      .eq('teacher_id', teacher_id)
-      .order('created_at', { ascending: false })
+    const assignmentsResult = await db.query(
+      `SELECT a.id, a.title, a.subject, a.topics, a.grade, a.curriculum, a.difficulty_level,
+              a.question_count, a.style, a.question_type, a.deadline, a.created_at, a.status,
+              a.max_attempts, a.strict_mode, a.classroom_id,
+              c.name AS classroom_name,
+              (SELECT COUNT(*)::int FROM assignment_results ar WHERE ar.assignment_id = a.id) AS assigned_count
+       FROM assignments a
+       LEFT JOIN classrooms c ON c.id = a.classroom_id
+       WHERE a.teacher_id = $1
+       ORDER BY a.created_at DESC`,
+      [teacher_id]
+    )
 
-    if (error) {
-      console.error('Teacher assignments fetch error:', error)
-      return NextResponse.json({ error: error.message }, { status: 500 })
-    }
-
-    const assignmentIds = (data ?? []).map((row: any) => row.id).filter(Boolean)
+    const data = assignmentsResult.rows ?? []
+    const assignmentIds = data.map((row: any) => row.id).filter(Boolean)
     let classroomMap = new Map<string, { ids: string[]; names: string[] }>()
 
     if (assignmentIds.length > 0) {
-      const { data: classroomLinks, error: classroomError } = await supabase
-        .from('assignment_classrooms')
-        .select('assignment_id,classroom_id,classrooms(name)')
-        .in('assignment_id', assignmentIds)
+      const linksResult = await db.query(
+        `SELECT ac.assignment_id, ac.classroom_id, c.name AS classroom_name
+         FROM assignment_classrooms ac
+         LEFT JOIN classrooms c ON c.id = ac.classroom_id
+         WHERE ac.assignment_id = ANY($1::uuid[])`,
+        [assignmentIds]
+      )
 
-      if (classroomError) {
-        console.error('Assignment classrooms fetch error:', classroomError)
-        return NextResponse.json({ error: classroomError.message }, { status: 500 })
-      }
-
-      for (const row of classroomLinks ?? []) {
+      for (const row of linksResult.rows ?? []) {
         const assignmentId = String(row.assignment_id ?? '').trim()
         const classroomId = String(row.classroom_id ?? '').trim()
         if (!assignmentId || !classroomId) continue
 
         const current = classroomMap.get(assignmentId) ?? { ids: [], names: [] }
         if (!current.ids.includes(classroomId)) current.ids.push(classroomId)
-        const classroom = Array.isArray(row.classrooms) ? row.classrooms[0] : row.classrooms
-        const classroomName = String(classroom?.name ?? '').trim()
+        const classroomName = String(row.classroom_name ?? '').trim()
         if (classroomName && !current.names.includes(classroomName)) current.names.push(classroomName)
         classroomMap.set(assignmentId, current)
       }
     }
 
-    const assignments = (data ?? []).map((row: any) => {
+    const assignments = data.map((row: any) => {
       const classroomInfo = classroomMap.get(row.id)
-      const classroom = Array.isArray(row.classrooms) ? row.classrooms[0] : row.classrooms
       const classroomIds = classroomInfo?.ids?.length
         ? classroomInfo.ids
         : (row.classroom_id ? [row.classroom_id] : [])
       const classroomNames = classroomInfo?.names?.length
         ? classroomInfo.names
-        : (classroom?.name ? [classroom.name] : [])
-      const primaryName = classroomNames[0] ?? classroom?.name ?? null
+        : (row.classroom_name ? [row.classroom_name] : [])
+      const primaryName = classroomNames[0] ?? row.classroom_name ?? null
 
       return {
         id: row.id,
@@ -95,13 +76,13 @@ export async function GET(request: NextRequest) {
         classroom_ids: classroomIds,
         classroom_name: primaryName,
         classroom_names: classroomNames,
-        assigned_count: Array.isArray(row.assignment_results) ? row.assignment_results.length : 0,
+        assigned_count: Number(row.assigned_count ?? 0),
       }
     })
 
     return NextResponse.json({ assignments })
   } catch (err) {
     console.error('Teacher assignments fetch error:', err)
-    return NextResponse.json({ error: 'Failed to fetch assignments' }, { status: 500 })
+    return NextResponse.json({ error: pgErrorMessage(err, 'Failed to fetch assignments') }, { status: 500 })
   }
 }

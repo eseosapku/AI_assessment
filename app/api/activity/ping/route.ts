@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 export async function POST(request: NextRequest) {
     try {
@@ -15,44 +16,29 @@ export async function POST(request: NextRequest) {
         }
 
         const today = new Date().toISOString().slice(0, 10)
-        const { data, error } = await supabase
-            .from('user_activity_daily')
-            .select('seconds_active')
-            .eq('user_id', userId)
-            .eq('activity_date', today)
-            .maybeSingle()
+        const existing = await db.query(
+            'SELECT seconds_active FROM user_activity_daily WHERE user_id = $1 AND activity_date = $2 LIMIT 1',
+            [userId, today]
+        )
 
-        if (error) {
-            console.error('Activity lookup error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
+        const currentSeconds = Number(existing.rows[0]?.seconds_active ?? 0)
+        const nextSeconds = currentSeconds + seconds
 
-        const nextSeconds = (data?.seconds_active ?? 0) + seconds
-        if (data) {
-            const { error: updateError } = await supabase
-                .from('user_activity_daily')
-                .update({ seconds_active: nextSeconds, updated_at: new Date().toISOString() })
-                .eq('user_id', userId)
-                .eq('activity_date', today)
-
-            if (updateError) {
-                console.error('Activity update error:', updateError)
-                return NextResponse.json({ error: updateError.message }, { status: 500 })
-            }
+        if (existing.rows[0]) {
+            await db.query(
+                'UPDATE user_activity_daily SET seconds_active = $1, updated_at = NOW() WHERE user_id = $2 AND activity_date = $3',
+                [nextSeconds, userId, today]
+            )
         } else {
-            const { error: insertError } = await supabase
-                .from('user_activity_daily')
-                .insert({ user_id: userId, activity_date: today, seconds_active: nextSeconds })
-
-            if (insertError) {
-                console.error('Activity insert error:', insertError)
-                return NextResponse.json({ error: insertError.message }, { status: 500 })
-            }
+            await db.query(
+                'INSERT INTO user_activity_daily (user_id, activity_date, seconds_active) VALUES ($1, $2, $3)',
+                [userId, today, nextSeconds]
+            )
         }
 
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Activity ping error:', err)
-        return NextResponse.json({ error: 'Failed to record activity' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to record activity') }, { status: 500 })
     }
 }

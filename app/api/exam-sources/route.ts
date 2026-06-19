@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { execSync } from 'child_process'
 import path from 'path'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
 import { listCachedExamPapers } from '@/lib/exam-source-cache'
 import { examSubjectMatches } from '@/lib/exam-subject-aliases'
 
@@ -43,24 +44,24 @@ export async function GET(request: NextRequest) {
       source: 'cache' as const,
     }))
 
-    let query = supabase
-      .from('textbooks')
-      .select('textbook_id, textbook_name, filename, exam_year, exam_subject, exam_diet, source_char_count, source_authority')
-      .eq('curriculum', curriculum)
-      .not('exam_year', 'is', null)
-      .order('exam_year', { ascending: false })
-
-    const { data, error } = await query
-
-    if (error) {
-      if (/column .* does not exist/i.test(error.message ?? '')) {
+    let rows: any[] = []
+    try {
+      const result = await db.query(
+        `SELECT textbook_id, textbook_name, filename, exam_year, exam_subject, exam_diet, source_char_count, source_authority
+         FROM textbooks
+         WHERE curriculum = $1 AND exam_year IS NOT NULL
+         ORDER BY exam_year DESC`,
+        [curriculum]
+      )
+      rows = result.rows
+    } catch (error) {
+      if (isMissingColumn(error)) {
         const years = Array.from(new Set(cached.map((p) => p.year).filter(Boolean))).sort((a, b) => (b as number) - (a as number))
         return NextResponse.json({ data: cached, years, count: cached.length, source: 'cache' })
       }
-      return NextResponse.json({ error: error.message }, { status: 500 })
+      return NextResponse.json({ error: pgErrorMessage(error) }, { status: 500 })
     }
 
-    let rows = data ?? []
     if (subject) {
       rows = rows.filter((r) =>
         examSubjectMatches(subject, String(r.exam_subject ?? ''))

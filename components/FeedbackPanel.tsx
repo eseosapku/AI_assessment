@@ -2,15 +2,7 @@
 
 import type { ReactNode } from 'react'
 import { AlertTriangle, CheckCircle2, Lightbulb, Sparkles } from 'lucide-react'
-import Latex from 'react-latex-next'
-import 'katex/dist/katex.min.css'
-
-function L({ children }: { children: string }) {
-  const text = children ?? ''
-  const hasDelimiters = text.includes('$') || text.includes('\\(') || text.includes('\\[')
-  const wrapped = hasDelimiters ? text : /\\[a-zA-Z]|[\^_=+\-*/]/.test(text) ? `$${text}$` : text
-  return <Latex>{wrapped}</Latex>
-}
+import { LatexText as L } from '@/lib/latex-text'
 
 function parseInline(text: string): ReactNode[] {
   const nodes: React.ReactNode[] = []

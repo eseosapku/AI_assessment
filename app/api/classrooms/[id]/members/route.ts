@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -51,36 +52,37 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         const { searchParams } = new URL(request.url)
         const status = searchParams.get('status')
 
-        let query = supabase
-            .from('classroom_members')
-            .select('id,student_id,student_email,status,invited_at,responded_at, student:users!classroom_members_student_id_fkey(name,email)')
-            .eq('classroom_id', classroomId)
-            .order('invited_at', { ascending: false })
+        let sql = `
+            SELECT cm.id, cm.student_id, cm.student_email, cm.status, cm.invited_at, cm.responded_at,
+                   u.name AS student_name
+            FROM classroom_members cm
+            LEFT JOIN users u ON u.id = cm.student_id
+            WHERE cm.classroom_id = $1
+        `
+        const values: unknown[] = [classroomId]
 
         if (status) {
-            query = query.eq('status', status)
+            values.push(status)
+            sql += ` AND cm.status = $${values.length}`
         }
 
-        const { data, error } = await query
-        if (error) {
-            console.error('Classroom members fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
+        sql += ' ORDER BY cm.invited_at DESC'
 
-        const members = (data ?? []).map((row: any) => ({
+        const result = await db.query(sql, values)
+        const members = (result.rows ?? []).map((row: any) => ({
             id: row.id,
             student_id: row.student_id,
             student_email: row.student_email,
             status: row.status,
             invited_at: row.invited_at,
             responded_at: row.responded_at,
-            student_name: row.student?.name ?? null,
+            student_name: row.student_name ?? null,
         }))
 
         return NextResponse.json({ data: members })
     } catch (err) {
         console.error('Classroom members fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load members' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load members') }, { status: 500 })
     }
 }
 
@@ -115,18 +117,14 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         const missingStudentIds: string[] = []
         const studentIdUserMap = new Map<string, { id: string; email: string | null }>()
         const userIdToStudentId = new Map<string, string>()
+
         if (studentIds.length > 0) {
-            const { data: studentUsers, error: studentError } = await supabase
-                .from('users')
-                .select('id,email,student_id')
-                .in('student_id', studentIds)
+            const studentUsersResult = await db.query(
+                'SELECT id, email, student_id FROM users WHERE student_id = ANY($1::varchar[])',
+                [studentIds]
+            )
 
-            if (studentError) {
-                console.error('User lookup error:', studentError)
-                return NextResponse.json({ error: studentError.message }, { status: 500 })
-            }
-
-            for (const row of studentUsers ?? []) {
+            for (const row of studentUsersResult.rows ?? []) {
                 const studentId = normalizeStudentId(String(row.student_id ?? ''))
                 if (!studentId) continue
                 const userId = String(row.id)
@@ -142,18 +140,12 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
         }
 
         if (emails.length > 0) {
-            const { data: existing, error: existingError } = await supabase
-                .from('classroom_members')
-                .select('student_email,status')
-                .eq('classroom_id', classroomId)
-                .in('student_email', emails)
+            const existingResult = await db.query(
+                'SELECT student_email, status FROM classroom_members WHERE classroom_id = $1 AND student_email = ANY($2::varchar[])',
+                [classroomId, emails]
+            )
 
-            if (existingError) {
-                console.error('Classroom members lookup error:', existingError)
-                return NextResponse.json({ error: existingError.message }, { status: 500 })
-            }
-
-            for (const row of existing ?? []) {
+            for (const row of existingResult.rows ?? []) {
                 if (row.status === 'accepted' && row.student_email) {
                     acceptedEmails.add(String(row.student_email).toLowerCase())
                 }
@@ -162,18 +154,12 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
         const studentUserIds = Array.from(studentIdUserMap.values()).map((row) => row.id)
         if (studentUserIds.length > 0) {
-            const { data: existingIds, error: existingIdsError } = await supabase
-                .from('classroom_members')
-                .select('student_id,status')
-                .eq('classroom_id', classroomId)
-                .in('student_id', studentUserIds)
+            const existingIdsResult = await db.query(
+                'SELECT student_id, status FROM classroom_members WHERE classroom_id = $1 AND student_id = ANY($2::uuid[])',
+                [classroomId, studentUserIds]
+            )
 
-            if (existingIdsError) {
-                console.error('Classroom members lookup error:', existingIdsError)
-                return NextResponse.json({ error: existingIdsError.message }, { status: 500 })
-            }
-
-            for (const row of existingIds ?? []) {
+            for (const row of existingIdsResult.rows ?? []) {
                 if (row.student_id) {
                     const userId = String(row.student_id)
                     existingStudentUserIds.add(userId)
@@ -184,6 +170,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
                 }
             }
         }
+
         const emailsToInvite = emails.filter((email) => !acceptedEmails.has(email))
         const studentIdsToInvite = studentIds.filter((studentId) => studentIdUserMap.has(studentId) && !acceptedStudentIds.has(studentId))
 
@@ -191,17 +178,11 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             return NextResponse.json({ data: [], skipped_emails: emails, skipped_student_ids: studentIds })
         }
 
-        const { data: emailUsers, error: userError } = await supabase
-            .from('users')
-            .select('id,email')
-            .in('email', emailsToInvite)
-
-        if (userError) {
-            console.error('User lookup error:', userError)
-            return NextResponse.json({ error: userError.message }, { status: 500 })
-        }
-
-        const emailUserMap = new Map((emailUsers ?? []).map((u: any) => [String(u.email).toLowerCase(), u.id]))
+        const emailUsersResult = await db.query(
+            'SELECT id, email FROM users WHERE email = ANY($1::varchar[])',
+            [emailsToInvite]
+        )
+        const emailUserMap = new Map((emailUsersResult.rows ?? []).map((u: any) => [String(u.email).toLowerCase(), u.id]))
 
         if (missingStudentIds.length > 0 && studentIdsToInvite.length === 0 && emailsToInvite.length === 0) {
             return NextResponse.json({ data: [], missing_student_ids: missingStudentIds })
@@ -246,24 +227,26 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
 
         const combined: any[] = []
 
-        if (rowsToInvite.length > 0) {
-            const { data, error } = await supabase
-                .from('classroom_members')
-                .upsert(rowsToInvite, { onConflict: 'classroom_id,student_email' })
-                .select('id,student_email,student_id,status,invited_at')
-
-            if (error) {
-                console.error('Classroom invite error:', error)
-                return NextResponse.json({ error: error.message }, { status: 500 })
-            }
-
-            combined.push(...(data ?? []))
+        for (const row of rowsToInvite) {
+            const upsertResult = await db.query(
+                `INSERT INTO classroom_members (classroom_id, student_email, student_id, status, invited_by, invited_at, responded_at)
+                 VALUES ($1, $2, $3, $4, $5, $6, $7)
+                 ON CONFLICT (classroom_id, student_email) DO UPDATE SET
+                   student_id = EXCLUDED.student_id,
+                   status = EXCLUDED.status,
+                   invited_by = EXCLUDED.invited_by,
+                   invited_at = EXCLUDED.invited_at,
+                   responded_at = EXCLUDED.responded_at
+                 RETURNING id, student_email, student_id, status, invited_at`,
+                [row.classroom_id, row.student_email, row.student_id, row.status, row.invited_by, row.invited_at, row.responded_at]
+            )
+            combined.push(...(upsertResult.rows ?? []))
         }
 
         return NextResponse.json({ data: combined, missing_student_ids: missingStudentIds })
     } catch (err) {
         console.error('Classroom invite error:', err)
-        return NextResponse.json({ error: 'Failed to invite members' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to invite members') }, { status: 500 })
     }
 }
 
@@ -292,41 +275,27 @@ export async function DELETE(request: NextRequest, { params }: { params: Promise
     }
 
     try {
-        const { data: classroomRow, error: classroomError } = await supabase
-            .from('classrooms')
-            .select('id')
-            .eq('id', classroomId)
-            .eq('teacher_id', teacherId)
-            .maybeSingle()
+        const classroomResult = await db.query(
+            'SELECT id FROM classrooms WHERE id = $1 AND teacher_id = $2 LIMIT 1',
+            [classroomId, teacherId]
+        )
 
-        if (classroomError) {
-            console.error('Classroom ownership check error:', classroomError)
-            return NextResponse.json({ error: classroomError.message }, { status: 500 })
-        }
-
-        if (!classroomRow) {
+        if (!classroomResult.rows[0]) {
             return NextResponse.json({ error: 'Not authorized to remove members' }, { status: 403 })
         }
 
-        const { data, error } = await supabase
-            .from('classroom_members')
-            .delete()
-            .eq('id', memberId)
-            .eq('classroom_id', classroomId)
-            .select('id')
+        const deleteResult = await db.query(
+            'DELETE FROM classroom_members WHERE id = $1 AND classroom_id = $2 RETURNING id',
+            [memberId, classroomId]
+        )
 
-        if (error) {
-            console.error('Classroom member removal error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
-
-        if (!data || data.length === 0) {
+        if (!deleteResult.rows || deleteResult.rows.length === 0) {
             return NextResponse.json({ error: 'Member not found' }, { status: 404 })
         }
 
         return NextResponse.json({ success: true })
     } catch (err) {
         console.error('Classroom member removal error:', err)
-        return NextResponse.json({ error: 'Failed to remove member' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to remove member') }, { status: 500 })
     }
 }

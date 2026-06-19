@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { isUniqueViolation, pgErrorMessage } from '@/lib/pg-errors'
 
 function parseOptionalNumber(value: unknown, fieldName: string) {
     if (value === undefined) return { value: undefined as number | null | undefined }
@@ -23,26 +24,22 @@ export async function GET(request: NextRequest) {
         const { searchParams } = new URL(request.url)
         const curriculumParam = searchParams.get('curriculum')
 
-        let query = supabase
-            .from('textbooks')
-            .select('textbook_id,textbook_name,filename,curriculum')
-            .order('textbook_name')
+        let sql = 'SELECT textbook_id, textbook_name, filename, curriculum FROM textbooks'
+        const values: unknown[] = []
 
         if (curriculumParam !== null && curriculumParam !== '') {
             const curriculum = Number(curriculumParam)
             if (!Number.isFinite(curriculum)) {
                 return NextResponse.json({ error: 'Invalid curriculum' }, { status: 400 })
             }
-            query = query.eq('curriculum', curriculum)
+            values.push(curriculum)
+            sql += ' WHERE curriculum = $1'
         }
 
-        const { data, error } = await query
-        if (error) {
-            console.error('Textbooks fetch error:', error)
-            return NextResponse.json({ error: error.message }, { status: 500 })
-        }
+        sql += ' ORDER BY textbook_name'
 
-        const normalized = (data ?? []).map((row: any) => ({
+        const result = await db.query(sql, values)
+        const normalized = (result.rows ?? []).map((row: any) => ({
             id: row.textbook_id,
             name: row.textbook_name,
             filename: row.filename,
@@ -52,7 +49,7 @@ export async function GET(request: NextRequest) {
         return NextResponse.json({ data: normalized })
     } catch (err) {
         console.error('Textbooks fetch error:', err)
-        return NextResponse.json({ error: 'Failed to load textbooks' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load textbooks') }, { status: 500 })
     }
 }
 
@@ -70,41 +67,41 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: curriculumResult.error }, { status: 400 })
         }
 
-        const payload: {
-            textbook_name: string
-            filename?: string | null
-            curriculum?: number | null
-        } = {
-            textbook_name: name,
-        }
+        const columns = ['textbook_name']
+        const values: unknown[] = [name]
+        const placeholders = ['$1']
 
         if (filenameResult.value !== undefined) {
-            payload.filename = filenameResult.value
+            columns.push('filename')
+            values.push(filenameResult.value)
+            placeholders.push(`$${values.length}`)
         }
         if (curriculumResult.value !== undefined) {
-            payload.curriculum = curriculumResult.value
+            columns.push('curriculum')
+            values.push(curriculumResult.value)
+            placeholders.push(`$${values.length}`)
         }
 
-        const { data: created, error: createError } = await supabase
-            .from('textbooks')
-            .insert(payload)
-            .select('textbook_id,textbook_name,filename,curriculum')
-            .single()
+        try {
+            const result = await db.query(
+                `INSERT INTO textbooks (${columns.join(', ')}) VALUES (${placeholders.join(', ')}) RETURNING textbook_id, textbook_name, filename, curriculum`,
+                values
+            )
+            const created = result.rows[0]
 
-        if (createError) {
-            const status = createError.code === '23505' ? 409 : 500
+            return NextResponse.json({
+                data: {
+                    id: created.textbook_id,
+                    name: created.textbook_name,
+                    filename: created.filename,
+                    curriculum: created.curriculum,
+                },
+            })
+        } catch (createError) {
+            const status = isUniqueViolation(createError) ? 409 : 500
             console.error('Textbook create error:', createError)
-            return NextResponse.json({ error: createError.message }, { status })
+            return NextResponse.json({ error: pgErrorMessage(createError) }, { status })
         }
-
-        return NextResponse.json({
-            data: {
-                id: created.textbook_id,
-                name: created.textbook_name,
-                filename: created.filename,
-                curriculum: created.curriculum,
-            },
-        })
     } catch (err) {
         console.error('Textbook create error:', err)
         return NextResponse.json({ error: 'Failed to create textbook' }, { status: 500 })

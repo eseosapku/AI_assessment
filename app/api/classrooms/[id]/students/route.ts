@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { supabase } from '@/lib/supabase'
+import { db } from '@/lib/db'
+import { pgErrorMessage } from '@/lib/pg-errors'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -8,43 +9,6 @@ function parseId(value: string | undefined) {
 
 function normalizeEmail(value: string | null) {
     return String(value ?? '').trim().toLowerCase()
-}
-
-function getStudentName(row: any): string | null {
-    const student = row?.student
-    if (Array.isArray(student)) return student[0]?.name ?? null
-    return student?.name ?? null
-}
-
-function normalizeResultRow(raw: any): ResultRow {
-    const result = Array.isArray(raw?.result) ? raw.result[0] ?? null : raw?.result ?? null
-    return {
-        id: String(raw?.id ?? ''),
-        assignment_id: String(raw?.assignment_id ?? ''),
-        status: raw?.status ?? null,
-        attempt_count: raw?.attempt_count ?? null,
-        completed_at: raw?.completed_at ?? null,
-        started_at: raw?.started_at ?? null,
-        last_attempt_at: raw?.last_attempt_at ?? null,
-        student_id: raw?.student_id ?? null,
-        student_email: raw?.student_email ?? null,
-        result_id: raw?.result_id ?? null,
-        result: result
-            ? {
-                id: String(result?.id ?? ''),
-                score: result?.score ?? null,
-                percentage: result?.percentage ?? null,
-                feedback: result?.feedback ?? null,
-                answers: result?.answers ?? null,
-                created_at: result?.created_at ?? null,
-                time_taken: result?.time_taken ?? null,
-                longform_grades: result?.longform_grades ?? null,
-                questions_data: result?.questions_data ?? null,
-                submission_reason: result?.submission_reason ?? null,
-                violation_count: result?.violation_count ?? null,
-            }
-            : null,
-    }
 }
 
 type ResultRow = {
@@ -100,6 +64,36 @@ function pickBestResult(rows: ResultRow[]) {
     }, null)
 }
 
+function normalizeResultRow(raw: any): ResultRow {
+    return {
+        id: String(raw?.id ?? ''),
+        assignment_id: String(raw?.assignment_id ?? ''),
+        status: raw?.status ?? null,
+        attempt_count: raw?.attempt_count ?? null,
+        completed_at: raw?.completed_at ?? null,
+        started_at: raw?.started_at ?? null,
+        last_attempt_at: raw?.last_attempt_at ?? null,
+        student_id: raw?.student_id ?? null,
+        student_email: raw?.student_email ?? null,
+        result_id: raw?.result_id ?? null,
+        result: raw?.result_id
+            ? {
+                id: String(raw?.result_row_id ?? raw?.result_id ?? ''),
+                score: raw?.score ?? null,
+                percentage: raw?.percentage ?? null,
+                feedback: raw?.feedback ?? null,
+                answers: raw?.answers ?? null,
+                created_at: raw?.result_created_at ?? null,
+                time_taken: raw?.time_taken ?? null,
+                longform_grades: raw?.longform_grades ?? null,
+                questions_data: raw?.questions_data ?? null,
+                submission_reason: raw?.submission_reason ?? null,
+                violation_count: raw?.violation_count ?? null,
+            }
+            : null,
+    }
+}
+
 export async function GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
     const resolved = await params
     const classroomId = parseId(resolved?.id)
@@ -116,40 +110,47 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             return NextResponse.json({ error: 'student_id or student_email is required' }, { status: 400 })
         }
 
-        let memberQuery = supabase
-            .from('classroom_members')
-            .select('student_id,student_email, student:users!classroom_members_student_id_fkey(name,email)')
-            .eq('classroom_id', classroomId)
+        let memberSql = `
+            SELECT cm.student_id, cm.student_email, u.name AS student_name
+            FROM classroom_members cm
+            LEFT JOIN users u ON u.id = cm.student_id
+            WHERE cm.classroom_id = $1
+        `
+        const memberValues: unknown[] = [classroomId]
+        let idx = 2
 
         if (studentId && studentEmail) {
-            memberQuery = memberQuery.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+            memberSql += ` AND (cm.student_id = $${idx++} OR cm.student_email = $${idx++})`
+            memberValues.push(studentId, studentEmail)
         } else if (studentId) {
-            memberQuery = memberQuery.eq('student_id', studentId)
+            memberSql += ` AND cm.student_id = $${idx++}`
+            memberValues.push(studentId)
         } else {
-            memberQuery = memberQuery.eq('student_email', studentEmail)
+            memberSql += ` AND cm.student_email = $${idx++}`
+            memberValues.push(studentEmail)
         }
 
-        const { data: memberRow } = await memberQuery.maybeSingle()
+        memberSql += ' LIMIT 1'
+        const memberResult = await db.query(memberSql, memberValues)
+        const memberRow = memberResult.rows[0]
 
-        const { data: assignments, error: assignmentsError } = await supabase
-            .from('assignments')
-            .select('id,title,subject,grade,deadline,max_attempts,question_count,status,created_at')
-            .eq('classroom_id', classroomId)
-            .eq('status', 'sent')
-            .order('created_at', { ascending: false })
+        const assignmentsResult = await db.query(
+            `SELECT id, title, subject, grade, deadline, max_attempts, question_count, status, created_at
+             FROM assignments
+             WHERE classroom_id = $1 AND status = 'sent'
+             ORDER BY created_at DESC`,
+            [classroomId]
+        )
 
-        if (assignmentsError) {
-            console.error('Classroom assignments fetch error:', assignmentsError)
-            return NextResponse.json({ error: assignmentsError.message }, { status: 500 })
-        }
+        const assignments = assignmentsResult.rows ?? []
+        const assignmentIds = assignments.map((row: any) => row.id).filter(Boolean)
 
-        const assignmentIds = (assignments ?? []).map((row: any) => row.id).filter(Boolean)
         if (assignmentIds.length === 0) {
             return NextResponse.json({
                 student: {
                     student_id: memberRow?.student_id ?? studentId,
                     student_email: memberRow?.student_email ?? studentEmail,
-                    student_name: getStudentName(memberRow),
+                    student_name: memberRow?.student_name ?? null,
                 },
                 summary: {
                     assignments_total: 0,
@@ -163,27 +164,33 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             })
         }
 
-        let resultsQuery = supabase
-            .from('assignment_results')
-            .select('id,assignment_id,status,attempt_count,completed_at,started_at,last_attempt_at,student_id,student_email,result_id, result:results!assignment_results_result_id_fkey(id,score,percentage,feedback,answers,created_at,time_taken,longform_grades,questions_data,submission_reason,violation_count)')
-            .in('assignment_id', assignmentIds)
+        let resultsSql = `
+            SELECT ar.id, ar.assignment_id, ar.status, ar.attempt_count, ar.completed_at, ar.started_at,
+                   ar.last_attempt_at, ar.student_id, ar.student_email, ar.result_id,
+                   r.id AS result_row_id, r.score, r.percentage, r.feedback, r.answers, r.created_at AS result_created_at,
+                   r.time_taken, r.longform_grades, r.questions_data, r.submission_reason, r.violation_count
+            FROM assignment_results ar
+            LEFT JOIN results r ON r.id = ar.result_id
+            WHERE ar.assignment_id = ANY($1::uuid[])
+        `
+        const resultsValues: unknown[] = [assignmentIds]
+        idx = 2
 
         if (studentId && studentEmail) {
-            resultsQuery = resultsQuery.or(`student_id.eq.${studentId},student_email.eq.${studentEmail}`)
+            resultsSql += ` AND (ar.student_id = $${idx++} OR ar.student_email = $${idx++})`
+            resultsValues.push(studentId, studentEmail)
         } else if (studentId) {
-            resultsQuery = resultsQuery.eq('student_id', studentId)
+            resultsSql += ` AND ar.student_id = $${idx++}`
+            resultsValues.push(studentId)
         } else {
-            resultsQuery = resultsQuery.eq('student_email', studentEmail)
+            resultsSql += ` AND ar.student_email = $${idx++}`
+            resultsValues.push(studentEmail)
         }
 
-        const { data: results, error: resultsError } = await resultsQuery
-        if (resultsError) {
-            console.error('Assignment results fetch error:', resultsError)
-            return NextResponse.json({ error: resultsError.message }, { status: 500 })
-        }
-
+        const resultsResult = await db.query(resultsSql, resultsValues)
         const resultMap = new Map<string, ResultRow>()
-        const normalizedResults = (results ?? []).map(normalizeResultRow)
+        const normalizedResults = (resultsResult.rows ?? []).map(normalizeResultRow)
+
         for (const row of normalizedResults) {
             const existing = resultMap.get(row.assignment_id)
             if (!existing) {
@@ -194,7 +201,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             if (best) resultMap.set(row.assignment_id, best)
         }
 
-        const rows = (assignments ?? []).map((assignment: any) => {
+        const rows = assignments.map((assignment: any) => {
             const result = resultMap.get(assignment.id) ?? null
             const scoreValue = Number(result?.result?.percentage ?? result?.result?.score)
             const score = Number.isFinite(scoreValue) ? Math.round(scoreValue) : null
@@ -247,7 +254,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
             student: {
                 student_id: memberRow?.student_id ?? studentId,
                 student_email: memberRow?.student_email ?? studentEmail,
-                student_name: getStudentName(memberRow),
+                student_name: memberRow?.student_name ?? null,
             },
             summary: {
                 assignments_total: rows.length,
@@ -261,6 +268,6 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
         })
     } catch (err) {
         console.error('Classroom student analytics error:', err)
-        return NextResponse.json({ error: 'Failed to load student analytics' }, { status: 500 })
+        return NextResponse.json({ error: pgErrorMessage(err, 'Failed to load student analytics') }, { status: 500 })
     }
 }

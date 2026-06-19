@@ -4,13 +4,22 @@
 -- Purpose:
 --   Single canonical schema file for fresh database setup on Amazon RDS/Aurora.
 --
+-- Consolidates:
+--   - supabase-schema.sql / supabase-simple-schema.sql (core tables)
+--   - supabase-auth-migration.sql (email OR student_id login)
+--   - supabase-classroom-migration.sql (classrooms, assignments linkage)
+--   - supabase-country-migration.sql (country on users/classes)
+--   - supabase-assignment-attempts.sql (max_attempts, attempt tracking)
+--   - migrations.sql (strict_mode, submission_reason, violation_count)
+--   - supabase-ai-jobs-migration.sql (async AI job queue)
+--   - supabase-subscription-migration.sql (Flutterwave paywall)
+--   - supabase-exam-sources-migration.sql (exam/textbook source columns)
+--   - supabase-studylab-migration.sql (LearnSpace + topic mastery)
+--
 -- Notes:
---   1) This file creates ALL current application tables in dependency-safe order.
---   2) Includes all columns introduced by later migrations
---      (max_attempts, strict_mode, submission_reason, violation_count, ai_jobs, etc).
---   3) Uses gen_random_uuid() from pgcrypto for UUID primary keys.
---   4) Does NOT include Supabase-specific RLS policies (auth.uid()) because this
---      deployment targets plain PostgreSQL on AWS RDS.
+--   1) Creates ALL application tables in dependency-safe order.
+--   2) Uses gen_random_uuid() from pgcrypto for UUID primary keys.
+--   3) Does NOT include Supabase-specific RLS policies (auth.uid()).
 --
 -- Suggested execution:
 --   Run the entire file once against an empty database.
@@ -28,18 +37,31 @@ CREATE EXTENSION IF NOT EXISTS "pgcrypto";
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS users (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  email VARCHAR(255) UNIQUE NOT NULL,
+  email VARCHAR(255) UNIQUE,
   password_hash TEXT NOT NULL,
   name VARCHAR(255) NOT NULL,
-  student_id VARCHAR(50) UNIQUE NOT NULL,
+  student_id VARCHAR(50) UNIQUE,
   class VARCHAR(100) NOT NULL,
   role VARCHAR(20) NOT NULL DEFAULT 'student', -- student | teacher
   subjects TEXT[] DEFAULT '{}',
+  country VARCHAR(2) NOT NULL DEFAULT 'RW', -- RW=Rwanda, NG=Nigeria
+  subscription_status VARCHAR(20) NOT NULL DEFAULT 'free', -- free | active | expired | cancelled
+  free_assessments_used INTEGER NOT NULL DEFAULT 0,
+  subscription_started_at TIMESTAMP WITH TIME ZONE,
+  subscription_expires_at TIMESTAMP WITH TIME ZONE,
+  flutterwave_ref VARCHAR(120),
   reset_token VARCHAR(255),
   reset_token_expires TIMESTAMP WITH TIME ZONE,
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
-  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  CONSTRAINT users_email_or_student_id_chk
+    CHECK ((email IS NOT NULL AND email <> '') OR (student_id IS NOT NULL AND student_id <> ''))
 );
+
+COMMENT ON COLUMN users.country IS 'ISO-style country code: RW=Rwanda, NG=Nigeria. Existing users remain RW.';
+COMMENT ON COLUMN users.subscription_status IS 'free | active | expired | cancelled';
+COMMENT ON COLUMN users.free_assessments_used IS 'Count of successful AI assessment generations on free tier (max 2).';
+COMMENT ON COLUMN users.flutterwave_ref IS 'Last Flutterwave transaction or subscription reference.';
 
 -- ----------------------------------------------------------------------------
 -- Curriculum / Catalog
@@ -48,8 +70,21 @@ CREATE TABLE IF NOT EXISTS textbooks (
   textbook_id SERIAL PRIMARY KEY,
   textbook_name VARCHAR(255) NOT NULL,
   filename VARCHAR(255),
-  curriculum INTEGER DEFAULT 0
+  curriculum INTEGER DEFAULT 0, -- 0=REB Rwanda, 1=Cambridge, 2=NERDC Nigeria, 3=WAEC, 4=JAMB
+  source_text TEXT,
+  source_url TEXT,
+  source_authority VARCHAR(120),
+  exam_year INTEGER,
+  exam_subject VARCHAR(120),
+  exam_diet VARCHAR(60),
+  source_char_count INTEGER
 );
+
+COMMENT ON COLUMN textbooks.curriculum IS '0=REB Rwanda, 1=Cambridge global, 2=NERDC Nigeria, 3=WAEC exam prep, 4=JAMB exam prep';
+COMMENT ON COLUMN textbooks.source_text IS 'Extracted PDF text for past papers or textbooks — used as AI source material.';
+COMMENT ON COLUMN textbooks.exam_year IS 'Exam year for WAEC/JAMB past papers (curriculum 3/4).';
+COMMENT ON COLUMN textbooks.exam_subject IS 'Normalized subject name for exam papers.';
+COMMENT ON COLUMN textbooks.exam_diet IS 'Exam sitting: may-june, nov-dec, utme, etc.';
 
 CREATE TABLE IF NOT EXISTS topics (
   topic_id SERIAL PRIMARY KEY,
@@ -67,9 +102,12 @@ CREATE TABLE IF NOT EXISTS subtopics (
 CREATE TABLE IF NOT EXISTS classes (
   id SERIAL PRIMARY KEY,
   name VARCHAR(255) UNIQUE NOT NULL,
+  country VARCHAR(2) DEFAULT 'RW',
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
 );
+
+COMMENT ON COLUMN classes.country IS 'Country this class belongs to. RW for Grade N, NG for P1-SS3.';
 
 CREATE TABLE IF NOT EXISTS class_textbooks (
   class_id INTEGER REFERENCES classes(id) ON DELETE CASCADE,
@@ -120,6 +158,9 @@ CREATE TABLE IF NOT EXISTS assessments (
   difficulty VARCHAR(50) NOT NULL,
   duration INTEGER NOT NULL, -- minutes
   questions_data JSONB NOT NULL,
+  textbook_id INTEGER,
+  topic_ids INTEGER[] DEFAULT '{}',
+  subtopic_ids INTEGER[] DEFAULT '{}',
   status VARCHAR(50) DEFAULT 'pending', -- pending | completed | expired
   created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
   completed_at TIMESTAMP WITH TIME ZONE,
@@ -134,7 +175,10 @@ CREATE TABLE IF NOT EXISTS results (
   score INTEGER NOT NULL,
   total_questions INTEGER NOT NULL,
   percentage DECIMAL(5,2) NOT NULL,
+  grade VARCHAR(10),
   feedback JSONB,
+  questions_data JSONB,
+  longform_grades JSONB,
   time_taken INTEGER, -- seconds
   submission_reason VARCHAR(50) DEFAULT 'manual', -- manual | timer | violation
   violation_count INTEGER DEFAULT 0,
@@ -192,11 +236,53 @@ CREATE TABLE IF NOT EXISTS assignment_results (
 );
 
 -- ----------------------------------------------------------------------------
+-- StudyLab (LearnSpace spatial tutor + topic mastery)
+-- ----------------------------------------------------------------------------
+CREATE TABLE IF NOT EXISTS learnspaces (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  title VARCHAR(255) NOT NULL,
+  subject VARCHAR(150),
+  origin VARCHAR(20) NOT NULL DEFAULT 'scratch', -- scratch | gap
+  textbook_id INTEGER,
+  topic_id INTEGER,
+  subtopic_id INTEGER,
+  canvas_state JSONB NOT NULL DEFAULT '{}'::jsonb,
+  current_step INTEGER NOT NULL DEFAULT 0,
+  status VARCHAR(30) NOT NULL DEFAULT 'active',
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS learnspace_messages (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  learnspace_id UUID REFERENCES learnspaces(id) ON DELETE CASCADE,
+  role VARCHAR(20) NOT NULL, -- user | assistant
+  content TEXT NOT NULL DEFAULT '',
+  actions JSONB,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT NOW()
+);
+
+CREATE TABLE IF NOT EXISTS topic_mastery (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID REFERENCES users(id) ON DELETE CASCADE,
+  textbook_id INTEGER,
+  topic_id INTEGER,
+  subtopic_id INTEGER,
+  attempts INTEGER NOT NULL DEFAULT 0,
+  correct INTEGER NOT NULL DEFAULT 0,
+  accuracy DECIMAL(5,2) NOT NULL DEFAULT 0,
+  last_assessed TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT NOW(),
+  UNIQUE (user_id, textbook_id, topic_id, subtopic_id)
+);
+
+-- ----------------------------------------------------------------------------
 -- Async AI Jobs (Lambda/SQS orchestration)
 -- ----------------------------------------------------------------------------
 CREATE TABLE IF NOT EXISTS ai_jobs (
   id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
-  job_type VARCHAR(50) NOT NULL,      -- generate_assessment | grade_longform | generate_feedback
+  job_type VARCHAR(50) NOT NULL, -- generate_assessment | grade_longform | generate_feedback
   status VARCHAR(20) NOT NULL DEFAULT 'queued', -- queued | running | succeeded | failed
   input_payload JSONB NOT NULL,
   result_payload JSONB,
@@ -214,9 +300,22 @@ CREATE INDEX IF NOT EXISTS idx_users_email ON users(email);
 CREATE INDEX IF NOT EXISTS idx_users_student_id ON users(student_id);
 CREATE INDEX IF NOT EXISTS idx_users_role ON users(role);
 CREATE INDEX IF NOT EXISTS idx_users_reset_token ON users(reset_token);
+CREATE INDEX IF NOT EXISTS idx_users_country ON users(country);
+CREATE INDEX IF NOT EXISTS idx_users_subscription_status ON users(subscription_status);
+
+CREATE INDEX IF NOT EXISTS idx_textbooks_curriculum ON textbooks(curriculum);
+CREATE INDEX IF NOT EXISTS idx_textbooks_exam_year ON textbooks(exam_year);
+CREATE INDEX IF NOT EXISTS idx_textbooks_exam_subject ON textbooks(exam_subject);
+
+CREATE INDEX IF NOT EXISTS idx_topics_textbook_id ON topics(textbook_id);
+CREATE INDEX IF NOT EXISTS idx_subtopics_textbook_id ON subtopics(textbook_id);
+CREATE INDEX IF NOT EXISTS idx_subtopics_topic_id ON subtopics(topic_id);
+
+CREATE INDEX IF NOT EXISTS idx_classes_country ON classes(country);
 
 CREATE INDEX IF NOT EXISTS idx_assessments_user_id ON assessments(user_id);
 CREATE INDEX IF NOT EXISTS idx_assessments_status ON assessments(status);
+CREATE INDEX IF NOT EXISTS idx_assessments_textbook_id ON assessments(textbook_id);
 
 CREATE INDEX IF NOT EXISTS idx_results_user_id ON results(user_id);
 CREATE INDEX IF NOT EXISTS idx_results_assessment_id ON results(assessment_id);
@@ -241,6 +340,15 @@ CREATE INDEX IF NOT EXISTS idx_assignment_classrooms_classroom_id ON assignment_
 CREATE INDEX IF NOT EXISTS idx_assignment_results_assignment_id ON assignment_results(assignment_id);
 CREATE INDEX IF NOT EXISTS idx_assignment_results_student_id ON assignment_results(student_id);
 CREATE INDEX IF NOT EXISTS idx_assignment_results_email ON assignment_results(student_email);
+
+CREATE INDEX IF NOT EXISTS idx_learnspaces_user_id ON learnspaces(user_id);
+CREATE INDEX IF NOT EXISTS idx_learnspaces_updated_at ON learnspaces(updated_at DESC);
+
+CREATE INDEX IF NOT EXISTS idx_learnspace_messages_learnspace_id
+  ON learnspace_messages(learnspace_id, created_at);
+
+CREATE INDEX IF NOT EXISTS idx_topic_mastery_user_id ON topic_mastery(user_id);
+CREATE INDEX IF NOT EXISTS idx_topic_mastery_topic ON topic_mastery(topic_id);
 
 CREATE INDEX IF NOT EXISTS idx_ai_jobs_status ON ai_jobs(status);
 CREATE INDEX IF NOT EXISTS idx_ai_jobs_created_at ON ai_jobs(created_at DESC);
@@ -281,6 +389,18 @@ CREATE TRIGGER update_assignments_updated_at
   FOR EACH ROW
   EXECUTE FUNCTION update_updated_at_column();
 
+DROP TRIGGER IF EXISTS update_learnspaces_updated_at ON learnspaces;
+CREATE TRIGGER update_learnspaces_updated_at
+  BEFORE UPDATE ON learnspaces
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
+DROP TRIGGER IF EXISTS update_topic_mastery_updated_at ON topic_mastery;
+CREATE TRIGGER update_topic_mastery_updated_at
+  BEFORE UPDATE ON topic_mastery
+  FOR EACH ROW
+  EXECUTE FUNCTION update_updated_at_column();
+
 COMMIT;
 
 -- ============================================================================
@@ -304,6 +424,9 @@ COMMIT;
 -- results (1) ----< assignment_results (many; nullable)
 --
 -- users (1) ----< user_activity_daily (many by date)
+-- users (1) ----< learnspaces (many)
+-- learnspaces (1) ----< learnspace_messages (many)
+-- users (1) ----< topic_mastery (many)
 --
 -- textbooks (1) ----< topics (many)
 -- topics (1) ----< subtopics (many)
