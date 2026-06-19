@@ -5,7 +5,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen, Globe } from 'lucide-react'
 import { useAuth } from './AuthProvider'
-import { COUNTRY_LIST, classOptionsForCountry, type CountryCode } from '@/lib/countries'
+import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, type CountryCode } from '@/lib/countries'
 
 const inputBase =
   'w-full pl-11 pr-4 py-3 rounded-xl text-sm bg-slate-50 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] focus:border-[#13a7df] dark:focus:border-[#13a7df] focus:ring-2 focus:ring-[#13a7df]/20 outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-600'
@@ -35,6 +35,8 @@ export default function SignupForm() {
   const [isLoading, setIsLoading] = useState(false)
   const { signup } = useAuth()
   const classOptions = classOptionsForCountry(country)
+  const internationalCountries = COUNTRY_LIST.filter((c) => c.group === 'international')
+  const africanCountries = COUNTRY_LIST.filter((c) => c.group === 'africa')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -149,12 +151,22 @@ export default function SignupForm() {
             }}
             className={`${inputBase} appearance-none pr-10`}
           >
-            {COUNTRY_LIST.map((c) => (
-              <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
-            ))}
+            <optgroup label={COUNTRY_GROUP_LABELS.international}>
+              {internationalCountries.map((c) => (
+                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+              ))}
+            </optgroup>
+            <optgroup label={COUNTRY_GROUP_LABELS.africa}>
+              {africanCountries.map((c) => (
+                <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+              ))}
+            </optgroup>
           </select>
           <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         </Field>
+        <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
+          {countrySignupHint(country)}
+        </p>
 
         {/* Class select — students only */}
         {role === 'student' && (

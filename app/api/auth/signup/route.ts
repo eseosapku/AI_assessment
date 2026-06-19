@@ -8,7 +8,10 @@ function defaultSubjects(country: CountryCode, role: string) {
   if (country === 'NG') {
     return ['English Studies', 'Mathematics', 'Basic Science', 'Social Studies', 'Digital Technologies']
   }
-  return ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
+  if (country === 'RW') {
+    return ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
+  }
+  return ['Mathematics', 'English', 'Biology', 'Chemistry', 'Physics']
 }
 
 function normalizeEmail(value: unknown) {

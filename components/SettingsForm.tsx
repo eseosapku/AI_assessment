@@ -4,7 +4,7 @@ import { motion } from 'framer-motion'
 import { useEffect, useState } from 'react'
 import { CheckCircle2, ClipboardList, Eye, EyeOff, Lock, Save, ShieldCheck, User } from 'lucide-react'
 import { useAuth } from './AuthProvider'
-import { COUNTRY_LIST, classOptionsForCountry, type CountryCode } from '@/lib/countries'
+import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, type CountryCode } from '@/lib/countries'
 
 const inputClass =
     'w-full px-4 py-2.5 rounded-xl text-sm bg-white/70 dark:bg-white/[0.06] border border-gray-200/80 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600'
@@ -166,12 +166,19 @@ export default function SettingsForm() {
                                 }}
                                 className={inputClass}
                             >
-                                {COUNTRY_LIST.map((c) => (
-                                    <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
-                                ))}
+                                <optgroup label={COUNTRY_GROUP_LABELS.international}>
+                                    {COUNTRY_LIST.filter((c) => c.group === 'international').map((c) => (
+                                        <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                                    ))}
+                                </optgroup>
+                                <optgroup label={COUNTRY_GROUP_LABELS.africa}>
+                                    {COUNTRY_LIST.filter((c) => c.group === 'africa').map((c) => (
+                                        <option key={c.code} value={c.code}>{c.flag} {c.name}</option>
+                                    ))}
+                                </optgroup>
                             </select>
                             <p className="text-[11px] text-gray-400 mt-1">
-                                Rwanda users see REB + Cambridge. Nigeria users see NERDC + Cambridge and Exam Prep.
+                                {countrySignupHint(country)}
                             </p>
                         </div>
                         <div>

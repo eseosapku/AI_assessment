@@ -1,7 +1,7 @@
 'use client'
 
 import { useEffect, useMemo, useState } from 'react'
-import { Check, CreditCard, Loader2, ShieldCheck, Sparkles, X } from 'lucide-react'
+import { Check, CreditCard, Loader2, ShieldCheck, X } from 'lucide-react'
 import { motion, AnimatePresence } from 'framer-motion'
 import type { SubscriptionSnapshot } from '@/lib/subscription'
 import { subscriptionBlockedMessage } from '@/lib/subscription'
@@ -124,12 +124,6 @@ export default function SubscribeModal({
 
   const displayPrice = pricing?.formatted ?? (checkoutCurrency === 'USD' ? `$${SUBSCRIPTION_USD.toFixed(2)}` : '…')
   const showUsdAlternative = localCurrency !== 'USD'
-  const billingCaption =
-    checkoutCurrency === 'USD'
-      ? `Billed in US dollars · $${SUBSCRIPTION_USD.toFixed(2)} USD`
-      : pricing?.rateSource === 'live'
-        ? `Billed in ${checkoutCurrency} · about $${SUBSCRIPTION_USD.toFixed(2)} USD · today's exchange rate`
-        : `Billed in ${checkoutCurrency} · about $${SUBSCRIPTION_USD.toFixed(2)} USD · estimated rate`
 
   return (
     <AnimatePresence>
@@ -158,14 +152,9 @@ export default function SubscribeModal({
               >
                 <X className="w-4 h-4" />
               </button>
-              <div className="flex items-center gap-3 mb-5">
-                <div className="p-2.5 rounded-2xl bg-emerald-500/20 ring-1 ring-emerald-400/30">
-                  <Sparkles className="w-5 h-5 text-emerald-300" />
-                </div>
-                <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-white/60">StudySquare Pro</p>
-                  <h2 className="text-lg font-bold leading-tight">Monthly subscription</h2>
-                </div>
+              <div className="mb-5 pr-10">
+                <p className="text-xs font-semibold uppercase tracking-widest text-white/60">StudySquare</p>
+                <h2 className="text-lg font-bold leading-tight">Monthly subscription</h2>
               </div>
               <div className="flex items-end gap-2 min-h-[3rem]">
                 {pricingLoading ? (
@@ -177,7 +166,7 @@ export default function SubscribeModal({
                   </>
                 )}
               </div>
-              <p className="mt-2 text-sm text-white/65">{billingCaption}</p>
+
             </div>
 
             <div className="px-6 py-5">

@@ -90,7 +90,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
               <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
                 {snapshot.isSubscribed ? (
                   <div className="p-4 rounded-apple bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40">
-                    <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-200">StudySquare Pro active</p>
+                    <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-200">StudySquare subscription active</p>
                     {snapshot.expiresAt && (
                       <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-1">
                         Renews / expires {snapshot.expiresAt.slice(0, 10)}

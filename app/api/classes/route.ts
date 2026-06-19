@@ -62,8 +62,9 @@ export async function GET(request: NextRequest) {
             sql += ' WHERE c.country = $1'
             values.push('NG')
         } else {
+            const classCountry = country === 'INT' ? 'RW' : country
             sql += ' WHERE c.country = $1 OR c.country IS NULL'
-            values.push('RW')
+            values.push(classCountry)
         }
 
         sql += ' ORDER BY c.name, ct.textbook_id'

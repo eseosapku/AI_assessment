@@ -66,8 +66,12 @@ export function getPaymentPlanForCurrency(currency: string): PaymentPlan {
 }
 
 export function currencyForCountry(country: CountryCode | null | undefined): SubscriptionCurrency {
-  if (country === 'NG') return 'NGN'
-  if (country === 'RW') return 'RWF'
+  const code = String(country ?? '').toUpperCase()
+  if (code === 'NG') return 'NGN'
+  if (code === 'RW') return 'RWF'
+  if (code === 'KE') return 'KES'
+  if (code === 'UG') return 'UGX'
+  if (code === 'GH') return 'GHS'
   return 'USD'
 }
 
