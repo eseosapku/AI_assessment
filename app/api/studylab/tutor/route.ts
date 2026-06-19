@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callGemma, parseJsonRobust, fixLatexInRawJson, hasBedrockCredentials, type ImageInput } from '@/lib/bedrock'
+import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 import { isValidAction } from '@/lib/studylab/actions'
 import type { TutorAction, TutorResponse } from '@/lib/studylab/types'
@@ -133,7 +134,7 @@ export async function POST(request: NextRequest) {
   try {
     if (!hasBedrockCredentials()) {
       return NextResponse.json(
-        { error: 'AI is not configured. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.' },
+        { error: BEDROCK_CREDENTIALS_ERROR },
         { status: 500 }
       )
     }

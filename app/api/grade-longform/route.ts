@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { jsonrepair } from 'jsonrepair'
+import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 
 interface CriterionResult {
     criterion: string
@@ -25,7 +26,7 @@ interface LongFormQuestion {
     passage?: string
 }
 
-const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
+const AWS_REGION = getBedrockRegion()
 const DEFAULT_GRADING_MODEL =
     process.env.AWS_GRADING_MODEL_ID ||
     process.env.AWS_BEDROCK_MODEL_ID ||
@@ -453,7 +454,8 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ grades })
         }
 
-        if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+        const credentials = getBedrockCredentials()
+        if (!credentials) {
             questionsToGrade.forEach(({ q, idx }) => {
                 grades[idx] = ungradedFallback(q, 'AWS credentials are missing for automatic grading.')
             })
@@ -468,10 +470,7 @@ export async function POST(request: NextRequest) {
 
         const client = new BedrockRuntimeClient({
             region: AWS_REGION,
-            credentials: {
-                accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-                secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-            },
+            credentials,
         })
 
         let activeModelId: string | undefined

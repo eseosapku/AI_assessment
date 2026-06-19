@@ -5,6 +5,7 @@ import { jsonrepair } from 'jsonrepair'
 import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
 import { intArrayParam, jsonbParam } from '@/lib/pg-json'
+import { BEDROCK_CREDENTIALS_ERROR, getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 import { authorityForCurriculum, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
@@ -995,15 +996,15 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
-    const accessKeyId = process.env.AWS_ACCESS_KEY_ID
-    const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
-    if (!accessKeyId || !secretAccessKey) {
+    const AWS_REGION = getBedrockRegion()
+    const credentials = getBedrockCredentials()
+    if (!credentials) {
       return NextResponse.json(
-        { error: 'AWS credentials not configured. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.' },
+        { error: BEDROCK_CREDENTIALS_ERROR },
         { status: 500 }
       )
     }
+    const { accessKeyId, secretAccessKey } = credentials
 
     const textbookId = Number(textbook_id)
     const topicIds = normalizeIds(topic_ids)

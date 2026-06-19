@@ -3,6 +3,7 @@ import {
   BedrockRuntimeClient,
   InvokeModelCommand,
 } from '@aws-sdk/client-bedrock-runtime'
+import { BEDROCK_CREDENTIALS_ERROR, getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 
 const MODELS = [
   { id: 'eu.google.gemma-3-27b-it', label: 'Gemma 3 27B' },
@@ -157,17 +158,16 @@ async function benchmarkModel(
 }
 
 export async function POST(request: NextRequest) {
-  const accessKeyId = process.env.AWS_ACCESS_KEY_ID
-  const secretAccessKey = process.env.AWS_SECRET_ACCESS_KEY
-  const region = process.env.AWS_REGION ?? 'eu-west-1'
+  const credentials = getBedrockCredentials()
+  const region = getBedrockRegion()
 
-  if (!accessKeyId || !secretAccessKey) {
-    return NextResponse.json({ error: 'AWS credentials not configured' }, { status: 500 })
+  if (!credentials) {
+    return NextResponse.json({ error: BEDROCK_CREDENTIALS_ERROR }, { status: 500 })
   }
 
   const client = new BedrockRuntimeClient({
     region,
-    credentials: { accessKeyId, secretAccessKey },
+    credentials,
   })
 
   const { modelIds } = await request.json().catch(() => ({ modelIds: null }))

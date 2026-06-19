@@ -3,6 +3,12 @@
 // assessment/feedback routes use, so new features (StudyLab tutor) can reuse it.
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { jsonrepair } from 'jsonrepair'
+import {
+  BEDROCK_CREDENTIALS_ERROR,
+  getBedrockCredentials,
+  getBedrockRegion,
+  hasBedrockCredentials as hasCredentials,
+} from '@/lib/aws-config'
 
 const PREFIXES = ['eu', 'us', 'ap'] as const
 
@@ -13,11 +19,11 @@ export const DEFAULT_GEMMA_MODEL =
   'google.gemma-3-27b-it'
 
 function awsRegion(): string {
-  return process.env.AWS_REGION || 'eu-west-1'
+  return getBedrockRegion()
 }
 
 export function hasBedrockCredentials(): boolean {
-  return Boolean(process.env.AWS_ACCESS_KEY_ID && process.env.AWS_SECRET_ACCESS_KEY)
+  return hasCredentials()
 }
 
 function stripPrefix(modelId: string): string {
@@ -137,13 +143,14 @@ function extractText(modelId: string, payload: any): string {
 let cachedClient: BedrockRuntimeClient | null = null
 function getClient(): BedrockRuntimeClient {
   if (cachedClient) return cachedClient
+  const credentials = getBedrockCredentials()
+  if (!credentials) {
+    throw new Error(BEDROCK_CREDENTIALS_ERROR)
+  }
   cachedClient = new BedrockRuntimeClient({
     region: awsRegion(),
     maxAttempts: 1,
-    credentials: {
-      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-    },
+    credentials,
   })
   return cachedClient
 }
@@ -166,7 +173,7 @@ export interface CallGemmaOptions {
  */
 export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Promise<string> {
   if (!hasBedrockCredentials()) {
-    throw new Error('AWS credentials not configured. Set AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY.')
+    throw new Error(BEDROCK_CREDENTIALS_ERROR)
   }
 
   const maxTokens = opts.maxTokens ?? 2000

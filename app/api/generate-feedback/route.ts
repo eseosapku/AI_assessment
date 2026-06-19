@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 
-const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
+const AWS_REGION = getBedrockRegion()
 const DEFAULT_FEEDBACK_MODEL =
   process.env.AWS_FEEDBACK_MODEL_ID ||
   process.env.AWS_BEDROCK_MODEL_ID ||
@@ -233,18 +234,15 @@ Use exactly the symbols shown (✅ ⚠️ 💡). Use **bold** only for the three
       `💡 Attempt this assessment again after revision to track your progress.`,
     ].join('\n')
 
-    // If no AWS credentials, return the fallback
-    if (!process.env.AWS_ACCESS_KEY_ID || !process.env.AWS_SECRET_ACCESS_KEY) {
+    const credentials = getBedrockCredentials()
+    if (!credentials) {
       return NextResponse.json({ feedback: fallback })
     }
 
     try {
       const client = new BedrockRuntimeClient({
         region: AWS_REGION,
-        credentials: {
-          accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
-          secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
-        },
+        credentials,
       })
 
       const modelCandidates = buildModelCandidates([
