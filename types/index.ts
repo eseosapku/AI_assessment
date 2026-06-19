@@ -10,6 +10,8 @@ export interface Assessment {
   feedback: string
 }
 
+import type { InteractiveQuestion } from '@/types/interactive'
+
 export interface MCQQuestion {
   id: number
   type?: 'mcq'
@@ -19,6 +21,7 @@ export interface MCQQuestion {
   feedback_text?: string
   explanation?: string
   diagram_svg?: string
+  image_url?: string
 }
 
 export interface LongFormQuestion {
@@ -32,9 +35,10 @@ export interface LongFormQuestion {
   passage?: string          // source text / extract for the student to read
   passage_source?: string   // e.g. "Charles Dickens, Great Expectations (1861)"
   diagram_svg?: string
+  image_url?: string
 }
 
-export type Question = MCQQuestion | LongFormQuestion
+export type Question = MCQQuestion | LongFormQuestion | InteractiveQuestion
 
 export interface CriterionResult {
   criterion: string
@@ -64,7 +68,7 @@ export interface FormData {
   count: number
   style: string
   time: string
-  questionType?: 'mcq' | 'longform' | 'mixed'
+  questionType?: 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed'
 }
 
 export interface StudentProfile {

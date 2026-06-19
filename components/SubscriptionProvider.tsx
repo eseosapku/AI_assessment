@@ -112,6 +112,7 @@ export function SubscriptionProvider({ children }: { children: React.ReactNode }
         snapshot={snapshot}
         userId={user?.id ?? null}
         userEmail={user?.email ?? null}
+        userCountry={user?.country ?? null}
         onClose={closePaywall}
         onRefresh={refresh}
       />

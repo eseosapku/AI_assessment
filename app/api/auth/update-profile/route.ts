@@ -106,12 +106,31 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No updates provided' }, { status: 400 })
         }
 
-        const entries = Object.entries(updatePayload)
-        const setClause = entries.map(([key], idx) => `"${key}" = $${idx + 2}`).join(', ')
-        const values = [userData.id, ...entries.map(([, value]) => value)]
+        const columnMap: Record<string, string> = {
+            name: 'name',
+            class: 'class',
+            subjects: 'subjects',
+            country: 'country',
+            password_hash: 'password_hash',
+        }
+
+        const setClauses: string[] = []
+        const values: unknown[] = [userData.id]
+        let paramIndex = 2
+
+        for (const [key, value] of Object.entries(updatePayload)) {
+            const column = columnMap[key]
+            if (!column) continue
+            setClauses.push(`${column} = $${paramIndex}`)
+            values.push(value)
+            paramIndex += 1
+        }
+
+        setClauses.push('updated_at = NOW()')
+
         const updateResult = await db.query(
             `UPDATE users
-             SET ${setClause}, updated_at = NOW()
+             SET ${setClauses.join(', ')}
              WHERE id = $1
              RETURNING id, name, email, student_id, class, subjects, role, country`,
             values,

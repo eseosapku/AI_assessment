@@ -5,7 +5,12 @@ import { useRouter } from 'next/navigation'
 import { ChevronLeft, Loader2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import { normalizeCountry } from '@/lib/countries'
+import {
+  buildClassOptionsForCurriculum,
+  type SchoolClassRow,
+} from '@/lib/school-class-options'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+
 
 interface ClassOption {
     id: number
@@ -13,7 +18,7 @@ interface ClassOption {
     grade: number | null
 }
 
-type QuestionType = 'mcq' | 'longform' | 'mixed'
+type QuestionType = 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed'
 
 const DIFFICULTY_OPTIONS = [
     { id: 'beginner', label: 'Beginner' },
@@ -26,9 +31,18 @@ const QUESTION_TYPE_OPTIONS: Array<{ id: QuestionType; label: string }> = [
     { id: 'mcq', label: 'Multiple Choice' },
     { id: 'longform', label: 'Long-form Only' },
     { id: 'mixed', label: 'Mixed (MCQ + Long-form)' },
+    { id: 'interactive', label: 'Interactive Study' },
+    { id: 'study_mixed', label: 'Study Mix (MCQ + Interactive)' },
 ]
 
-const CURRICULUM_OPTIONS = [
+const CURRICULUM_OPTIONS_NG = [
+    { id: 'nigeria', label: 'Nigerian National Curriculum (NERDC)' },
+    { id: 'cambridge', label: 'Cambridge International (CAIE)' },
+    { id: 'waec', label: 'WAEC WASSCE Exam Prep' },
+    { id: 'jamb', label: 'JAMB UTME Exam Prep' },
+]
+
+const CURRICULUM_OPTIONS_RW = [
     { id: 'rwanda', label: 'Rwanda National Curriculum (REB)' },
     { id: 'cambridge', label: 'Cambridge International (CAIE)' },
 ]
@@ -39,25 +53,6 @@ function parseTopics(value: string) {
         .split(/[\n,]/g)
         .map((item) => item.trim())
         .filter(Boolean)
-}
-
-function deriveGradeFromClassName(className: string) {
-    const name = String(className ?? '').trim()
-    if (!name) return null
-
-    const gradeMatch = name.match(/\bgrade\s*(\d{1,2})\b/i)
-    if (gradeMatch) {
-        const n = Number(gradeMatch[1])
-        return Number.isFinite(n) ? n : null
-    }
-
-    const anyNum = name.match(/\b(\d{1,2})\b/)
-    if (anyNum) {
-        const n = Number(anyNum[1])
-        return Number.isFinite(n) ? n : null
-    }
-
-    return null
 }
 
 function stripPdfExtension(name: string) {
@@ -79,7 +74,12 @@ export default function PdfAssignmentPage() {
     const [count, setCount] = useState(10)
     const [maxAttempts, setMaxAttempts] = useState(1)
 
-    const [classOptions, setClassOptions] = useState<ClassOption[]>([])
+    const curriculumOptions = useMemo(
+        () => (userCountry === 'NG' ? CURRICULUM_OPTIONS_NG : CURRICULUM_OPTIONS_RW),
+        [userCountry],
+    )
+
+    const [countryClasses, setCountryClasses] = useState<SchoolClassRow[]>([])
     const [selectedClassId, setSelectedClassId] = useState('')
     const [isLoadingClasses, setIsLoadingClasses] = useState(false)
 
@@ -110,29 +110,50 @@ export default function PdfAssignmentPage() {
                 const json = await res.json()
                 if (!res.ok) throw new Error(json?.error || 'Failed to load classes')
                 const rows = Array.isArray(json?.data) ? json.data : []
-                const normalized = rows
-                    .map((row: any) => ({
-                        id: Number(row?.id),
-                        name: String(row?.name ?? '').trim(),
-                    }))
-                    .filter((row: any) => Number.isFinite(row.id) && row.name)
-                    .map((row: any) => ({
-                        ...row,
-                        grade: deriveGradeFromClassName(row.name),
-                    }))
-                setClassOptions(normalized)
-                if (normalized.length === 1) {
-                    setSelectedClassId(String(normalized[0].id))
-                }
+                const normalized: SchoolClassRow[] = rows
+                    .map((row: any) => {
+                        const textbooks = Array.isArray(row?.textbooks) ? row.textbooks : []
+                        const curricula = Array.from(new Set(
+                            textbooks
+                                .map((tb: any) => Number(tb?.curriculum))
+                                .filter((value: number) => Number.isFinite(value)),
+                        ))
+                        return {
+                            id: Number(row?.id),
+                            name: String(row?.name ?? '').trim(),
+                            curricula,
+                        }
+                    })
+                    .filter((row: SchoolClassRow) => Number.isFinite(row.id) && row.name)
+                setCountryClasses(normalized)
             } catch (err) {
                 console.error('Classes fetch error:', err)
-                setClassOptions([])
+                setCountryClasses([])
             } finally {
                 setIsLoadingClasses(false)
             }
         }
         loadClasses()
     }, [userCountry])
+
+    const classOptions = useMemo(
+        () => buildClassOptionsForCurriculum(curriculum, countryClasses),
+        [curriculum, countryClasses],
+    )
+
+    useEffect(() => {
+        if (!curriculum) {
+            setSelectedClassId('')
+            return
+        }
+        if (classOptions.length === 1) {
+            setSelectedClassId(String(classOptions[0].id))
+            return
+        }
+        if (selectedClassId && !classOptions.some((cls) => String(cls.id) === selectedClassId)) {
+            setSelectedClassId('')
+        }
+    }, [curriculum, classOptions, selectedClassId])
 
     const topics = useMemo(() => parseTopics(topicsInput), [topicsInput])
 
@@ -358,7 +379,7 @@ export default function PdfAssignmentPage() {
                                     <option value="" disabled>Loading classes...</option>
                                 ) : (
                                     classOptions.map((cls) => (
-                                        <option key={cls.id} value={String(cls.id)}>{cls.name}</option>
+                                        <option key={cls.id} value={String(cls.id)}>{cls.label ?? cls.name}</option>
                                     ))
                                 )}
                             </select>
@@ -385,7 +406,7 @@ export default function PdfAssignmentPage() {
                                 onChange={(e) => setCurriculum(e.target.value)}
                                 className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
                             >
-                                {CURRICULUM_OPTIONS.map((opt) => (
+                                {curriculumOptions.map((opt) => (
                                     <option key={opt.id} value={opt.id}>{opt.label}</option>
                                 ))}
                             </select>

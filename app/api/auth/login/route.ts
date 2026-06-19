@@ -19,11 +19,10 @@ export async function POST(request: NextRequest) {
     const identifier = String(body.identifier ?? body.email ?? body.studentId ?? '').trim()
     const password = String(body.password ?? '')
 
-    // Validation
     if (!identifier || !password) {
       return NextResponse.json(
         { error: 'Email or student ID and password are required' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -33,7 +32,7 @@ export async function POST(request: NextRequest) {
     if (!email && !studentId) {
       return NextResponse.json(
         { error: 'Email or student ID is required' },
-        { status: 400 }
+        { status: 400 },
       )
     }
 
@@ -43,23 +42,14 @@ export async function POST(request: NextRequest) {
     const userData = userResult.rows[0]
 
     if (!userData) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    // Verify password
     const isValidPassword = await bcrypt.compare(password, userData.password_hash)
-
     if (!isValidPassword) {
-      return NextResponse.json(
-        { error: 'Invalid credentials' },
-        { status: 401 }
-      )
+      return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    // Return user data (without password)
     const user = {
       id: userData.id,
       name: userData.name,
@@ -74,14 +64,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       user,
-      message: 'Login successful'
+      message: 'Login successful',
     })
-
   } catch (error) {
     console.error('Login error:', error)
-    return NextResponse.json(
-      { error: 'Login failed' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Login failed' }, { status: 500 })
   }
 }

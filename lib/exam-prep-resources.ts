@@ -98,13 +98,6 @@ export const WAEC_RESOURCES: OfficialResource[] = [
     notes: 'Official WASSCE result checking website.',
   },
   {
-    title: 'WAEC e-Learning Portal',
-    url: 'https://waeconline.org.ng/e-learning/',
-    type: 'portal',
-    authority: 'WAEC',
-    notes: 'Official learning resources and candidate support materials.',
-  },
-  {
     title: 'WAEC Nigeria National Office',
     url: 'https://www.waecnigeria.org/national-office',
     type: 'portal',

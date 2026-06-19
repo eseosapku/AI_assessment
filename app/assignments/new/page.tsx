@@ -6,6 +6,10 @@ import { ChevronLeft, Loader2, Plus, Save, Send, Trash2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import { normalizeCountry } from '@/lib/countries'
 import { curriculaForCountry } from '@/lib/curriculum-registry'
+import {
+  buildClassOptionsForCurriculum,
+  type SchoolClassRow,
+} from '@/lib/school-class-options'
 
 interface ClassroomOption {
   id: string
@@ -16,6 +20,7 @@ interface ClassOption {
   id: number
   name: string
   grade: number | null
+  label?: string
 }
 
 type QuestionType = 'mcq' | 'longform'
@@ -60,25 +65,6 @@ function parseTopics(value: string) {
     .split(/[\n,]/g)
     .map((item) => item.trim())
     .filter(Boolean)
-}
-
-function deriveGradeFromClassName(className: string) {
-  const name = String(className ?? '').trim()
-  if (!name) return null
-
-  const gradeMatch = name.match(/\bgrade\s*(\d{1,2})\b/i)
-  if (gradeMatch) {
-    const n = Number(gradeMatch[1])
-    return Number.isFinite(n) ? n : null
-  }
-
-  const anyNum = name.match(/\b(\d{1,2})\b/)
-  if (anyNum) {
-    const n = Number(anyNum[1])
-    return Number.isFinite(n) ? n : null
-  }
-
-  return null
 }
 
 function buildQuestionTemplate(id: number, type: QuestionType, base?: Partial<Question>) {
@@ -132,7 +118,7 @@ export default function NewAssignmentPage() {
   const [questions, setQuestions] = useState<Question[]>([])
   const [nextId, setNextId] = useState(1)
 
-  const [classOptions, setClassOptions] = useState<ClassOption[]>([])
+  const [countryClasses, setCountryClasses] = useState<SchoolClassRow[]>([])
   const [selectedClassId, setSelectedClassId] = useState('')
   const [isLoadingClasses, setIsLoadingClasses] = useState(false)
 
@@ -180,29 +166,50 @@ export default function NewAssignmentPage() {
         const json = await res.json()
         if (!res.ok) throw new Error(json?.error || 'Failed to load classes')
         const rows = Array.isArray(json?.data) ? json.data : []
-        const normalized = rows
-          .map((row: any) => ({
-            id: Number(row?.id),
-            name: String(row?.name ?? '').trim(),
-          }))
-          .filter((row: any) => Number.isFinite(row.id) && row.name)
-          .map((row: any) => ({
-            ...row,
-            grade: deriveGradeFromClassName(row.name),
-          }))
-        setClassOptions(normalized)
-        if (normalized.length === 1) {
-          setSelectedClassId(String(normalized[0].id))
-        }
+        const normalized: SchoolClassRow[] = rows
+          .map((row: any) => {
+            const textbooks = Array.isArray(row?.textbooks) ? row.textbooks : []
+            const curricula = Array.from(new Set(
+              textbooks
+                .map((tb: any) => Number(tb?.curriculum))
+                .filter((value: number) => Number.isFinite(value)),
+            ))
+            return {
+              id: Number(row?.id),
+              name: String(row?.name ?? '').trim(),
+              curricula,
+            }
+          })
+          .filter((row: SchoolClassRow) => Number.isFinite(row.id) && row.name)
+        setCountryClasses(normalized)
       } catch (err) {
         console.error('Classes fetch error:', err)
-        setClassOptions([])
+        setCountryClasses([])
       } finally {
         setIsLoadingClasses(false)
       }
     }
     loadClasses()
   }, [userCountry])
+
+  const classOptions = useMemo(
+    () => buildClassOptionsForCurriculum(curriculum, countryClasses),
+    [curriculum, countryClasses],
+  )
+
+  useEffect(() => {
+    if (!curriculum) {
+      setSelectedClassId('')
+      return
+    }
+    if (classOptions.length === 1) {
+      setSelectedClassId(String(classOptions[0].id))
+      return
+    }
+    if (selectedClassId && !classOptions.some((cls) => String(cls.id) === selectedClassId)) {
+      setSelectedClassId('')
+    }
+  }, [curriculum, classOptions, selectedClassId])
 
   useEffect(() => {
     if (!templateType) return
@@ -469,7 +476,7 @@ export default function NewAssignmentPage() {
                   <option value="" disabled>Loading classes...</option>
                 ) : (
                   classOptions.map((cls) => (
-                    <option key={cls.id} value={String(cls.id)}>{cls.name}</option>
+                    <option key={cls.id} value={String(cls.id)}>{cls.label ?? cls.name}</option>
                   ))
                 )}
               </select>

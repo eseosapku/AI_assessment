@@ -11,13 +11,43 @@ import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
 import { examPrepContext } from '@/lib/nigeria-exam-syllabi'
 import { getCachedExamPaperById, isCachePaperId } from '@/lib/exam-source-cache'
+import { attachSourceImages, examFromCurriculum } from '@/lib/exam-source-images'
+import {
+  attachImagesFromCatalog,
+  buildVisualCatalogPromptBlock,
+  buildVisualFigureCatalog,
+  maxQuestionsWithImages,
+  type VisualFigureCatalogEntry,
+} from '@/lib/textbook-vision-images'
+import { isSchoolCurriculum, textbookHasImages } from '@/lib/textbook-source-images'
+import {
+  excerptFromTextbookSource,
+} from '@/lib/language-assessment-plan'
+import {
+  assessSubjectPassagePlan,
+  buildSubjectPassagePrompt,
+  buildSubjectSourceQuestionPrompt,
+  buildSubjectTopicAlignmentRules,
+  classifySubjectDomain,
+  isMisalignedQuestion,
+  passageHintForSubject,
+  type SubjectDomain,
+} from '@/lib/subject-assessment-plan'
 import {
   assertSubscriptionAccess,
   incrementFreeAssessmentUsage,
   subscriptionPaywallBody,
 } from '@/lib/subscription-server'
+import {
+  buildInteractiveGenerationRules,
+  buildInteractiveSchemaBlock,
+  countSplit,
+  interactiveProfileForSubject,
+  normalizeInteractiveQuestion,
+} from '@/lib/interactive-assessment-plan'
+import type { AssessmentQuestionType } from '@/types/interactive'
 
-const MAX_DIAGRAMS = 4
+const MAX_DIAGRAMS = 6
 const MAX_SOURCE_CHARS = 12000
 const MAX_EXAM_SOURCE_CHARS = 32000
 
@@ -244,11 +274,20 @@ async function generatePassageWithBedrock(
   subject: string,
   hint: string,
   callFn: (prompt: string, maxTokens: number) => Promise<string>,
-  grade?: number | string
+  grade?: number | string,
+  opts?: { topics?: string[]; domain?: SubjectDomain },
 ): Promise<{ text: string; source: string } | null> {
   try {
     const spec = gradePassageSpec(grade)
-    const raw = await callFn(PASSAGE_PROMPT(question, subject, hint, grade), spec.maxTokens)
+    const domain = opts?.domain ?? classifySubjectDomain(subject)
+    const subjectPrompt = buildSubjectPassagePrompt({
+      domain,
+      topics: opts?.topics ?? [],
+      hint,
+      grade,
+    })
+    const prompt = subjectPrompt ?? PASSAGE_PROMPT(question, subject, hint, grade)
+    const raw = await callFn(prompt, spec.maxTokens)
     return parsePassageResponse(raw, spec.minWords)
   } catch (err) {
     console.error('Bedrock passage generation failed:', err)
@@ -256,16 +295,7 @@ async function generatePassageWithBedrock(
   }
 }
 
-// ── Subjects that need reading passages ───────────────────────────────────────
-const PASSAGE_SUBJECTS = [
-  'english', 'english language', 'english literature', 'literature', 'literature in english',
-  'french', 'kinyarwanda', 'swahili', 'history', 'general paper', 'global perspectives',
-  'language arts', 'reading', 'social studies',
-]
-
-function needsPassage(subject: string): boolean {
-  return PASSAGE_SUBJECTS.some((s) => subject.toLowerCase().includes(s))
-}
+// Passage behaviour for language subjects is topic-aware — see lib/language-assessment-plan.ts
 
 // ── Shared-passage hint — describes an anchor passage for a group of questions ─
 function sharedPassageHint(groupIdx: number, grade?: number | string): string {
@@ -528,6 +558,8 @@ function buildTopicAlignmentBlock(params: {
     rules.push('Number and ratio topics: use correct topic language (fraction, decimal, percent, ratio) in every question.')
   }
 
+  rules.push(...buildSubjectTopicAlignmentRules(String(params.subject || ''), params.topics))
+
   return `**TOPIC ALIGNMENT (STRICT):**\n- ${rules.join('\n- ')}`
 }
 
@@ -540,35 +572,58 @@ function buildPrompt(opts: {
   style: string
   curriculumName: string
   curriculumBlock: string
-  questionType: 'mcq' | 'longform' | 'mixed'
+  questionType: AssessmentQuestionType
   hasDiagramSupport: boolean
   difficultyLevel?: string
   grade?: number | string
   sourceText?: string
   sourceName?: string
+  visualCatalog?: VisualFigureCatalogEntry[]
+  maxImageQuestions?: number
+  requirePassagesAll?: boolean
 }): { prompt: string; estimatedTime: number } {
-  const { subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType, hasDiagramSupport, difficultyLevel, sourceText, sourceName } = opts
+  const {
+    subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
+    hasDiagramSupport, difficultyLevel, grade, sourceText, sourceName, visualCatalog, maxImageQuestions,
+    requirePassagesAll = false,
+  } = opts
 
-  const subjectNeedsPassage = !sourceText && needsPassage(subject)
+  const subjectDomain = classifySubjectDomain(subject)
+  const subjectNeedsPassage = !sourceText && requirePassagesAll
 
-  const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
+  const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : questionType === 'study_mixed' ? countSplit(count, 'study_mixed').mcq : 0
   const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
+  const interactiveCount = questionType === 'interactive' ? count : questionType === 'study_mixed' ? countSplit(count, 'study_mixed').interactive : 0
   const mcqTime = subjectNeedsPassage ? 4 : 2
   const lfTime = subjectNeedsPassage ? 12 : 8
-  const estimatedTime = mcqCount * mcqTime + lfCount * lfTime
+  const interactiveTime = 4
+  const estimatedTime = mcqCount * mcqTime + lfCount * lfTime + interactiveCount * interactiveTime
 
-  const diagramNote = hasDiagramSupport
-    ? `DIAGRAMS: When a visual is essential (geometry, circuits, anatomy, graphs, labelled diagrams from past papers), set "needs_diagram": true and "diagram_hint": "<clear description for image generation>". Use for up to ${MAX_DIAGRAMS} questions. Theory (longform) questions may also reference diagrams when the past-paper source includes them.`
-    : ''
+  const hasVisionFigures = Boolean(visualCatalog?.length)
+  const imageQuestionCap = maxImageQuestions ?? maxQuestionsWithImages(count)
+
+  const diagramNote = hasVisionFigures
+    ? `FIGURES: Up to ${imageQuestionCap} question(s) may use a textbook figure. Set "image_key" to one of the keys listed below. The same image_key may appear on multiple questions. Leave image_key empty on all other questions.`
+    : hasDiagramSupport
+      ? `DIAGRAMS: When a visual is essential, set "needs_diagram": true. Real past-paper figures are attached automatically from our image library — do NOT describe images for generation. Use for up to ${MAX_DIAGRAMS} questions.`
+      : ''
+
+  const imageKeyField = hasVisionFigures ? `,
+      "image_key": ""` : ''
+
+  const diagramFields = hasDiagramSupport && !hasVisionFigures ? `,
+      "needs_diagram": false,
+      "diagram_hint": ""` : ''
 
   // IMPORTANT: we only ask for a short passage_hint here — the full passage is generated
   // separately by Gemini, not by this Groq call. This keeps the Groq output small.
   const passageNote = subjectNeedsPassage
-    ? `PASSAGES: Every question MUST have a reading passage. Add these two fields to every question:
-   - "needs_passage": true
-   - "passage_hint": a 30-40 word description of a passage that matches the topic and grade. Use a DIFFERENT author/genre for each question — at least 3 distinct styles across the assessment.
-   Do NOT write the passage text — passages are generated separately.`
-    : `PASSAGES: Only add "needs_passage": true and "passage_hint" if a question genuinely requires a source text.`
+    ? `PASSAGES: Every question MUST have a reading passage. Add needs_passage and passage_hint fields. Passage style must match ${subject} — not generic unrelated fiction.`
+    : subjectDomain === 'language'
+      ? `PASSAGES: Do NOT add needs_passage or passage_hint unless the topic is comprehension/literary analysis. Skill topics (${topics.slice(0, 3).join(', ') || 'selected topics'}) use standalone questions with short inline examples only.`
+      : ['science', 'math', 'technology'].includes(subjectDomain)
+        ? `PASSAGES: Do NOT add passages. ${subject} questions must be fully self-contained with all data in the question text.`
+        : `PASSAGES: Do NOT add needs_passage unless the question genuinely requires a source extract. Default to direct syllabus questions about ${topics.slice(0, 3).join(', ') || subject}.`
 
   // Keep model_answer SHORT here — it only needs to outline the key points (full model answers are heavy on tokens)
   const mcqSchema = `{
@@ -577,9 +632,7 @@ function buildPrompt(opts: {
       "question": "<question directly about the passage or topic>",
       "options": ["<A>", "<B>", "<C>", "<D>"],
       "correct_answer": <0-3>,
-      "explanation": "<clear explanation of the correct answer>"${hasDiagramSupport ? `,
-      "needs_diagram": false,
-      "diagram_hint": ""` : ''}${subjectNeedsPassage ? `,
+      "explanation": "<clear explanation of the correct answer>"${diagramFields}${imageKeyField}${subjectNeedsPassage ? `,
       "needs_passage": true,
       "passage_hint": "<30-40 word description of the passage>"` : ''}
     }`
@@ -595,7 +648,7 @@ function buildPrompt(opts: {
         "..."
       ],
       "model_answer": "<concise 80-120 word outline of a top answer using P.E.E structure>",
-      "explanation": "<what skill this question assesses>"${subjectNeedsPassage ? `,
+      "explanation": "<what skill this question assesses>"${imageKeyField}${subjectNeedsPassage ? `,
       "needs_passage": true,
       "passage_hint": "<30-40 word description — different author/genre from other questions>"` : ''}
     }`
@@ -625,12 +678,23 @@ function buildPrompt(opts: {
   let questionInstruction = ''
 
   const lfInstructionMarks = isPrimaryLow ? '2–3 marks each' : '4–8 marks each'
+  const interactiveProfile = interactiveProfileForSubject(subject)
+  const interactiveSchema = buildInteractiveSchemaBlock(interactiveProfile.kinds)
+  const interactiveRules = buildInteractiveGenerationRules(subject, topics)
+
   if (questionType === 'mcq') {
     questionInstruction = `Generate exactly ${count} multiple-choice questions.${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres.` : ''}`
     questionsBlock = `    ${mcqSchema}`
   } else if (questionType === 'longform') {
     questionInstruction = `Generate exactly ${count} long-form questions (${lfInstructionMarks}, one criterion per mark).${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres across the set.` : ''}`
     questionsBlock = `    ${activeLfSchema}`
+  } else if (questionType === 'interactive') {
+    questionInstruction = `Generate exactly ${count} INTERACTIVE STUDY questions (type "interactive"). Use a mix of kinds — do NOT generate MCQ or long-form.`
+    questionsBlock = `    ${interactiveSchema}`
+  } else if (questionType === 'study_mixed') {
+    questionInstruction = `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${interactiveCount} interactive (type "interactive") in a logical mixed order. Do NOT generate long-form questions.`
+    questionsBlock = `    ${mcqSchema},
+    ${interactiveSchema}`
   } else {
     questionInstruction = `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform") in a logical mixed order.${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres.` : ''}`
     questionsBlock = `    ${mcqSchema},
@@ -693,10 +757,21 @@ ${longformRule}`
   }
 
   const sessionSeed = Math.floor(Math.random() * 1000000)
-  const uiConstraints = hasDiagramSupport
+  const visualBlock = hasVisionFigures && visualCatalog
+    ? buildVisualCatalogPromptBlock(visualCatalog, imageQuestionCap)
+    : ''
+
+  const uiConstraints = hasVisionFigures
+    ? `**UI CONSTRAINTS (TEXTBOOK FIGURES — VISION-DESCRIBED):**
+- Only use image_key values from the AVAILABLE TEXTBOOK FIGURES list.
+- Questions with image_key must be answerable from that figure's description alone.
+- Do NOT invent diagrams or refer to figures not in the list.
+- Most questions should be text-only (empty image_key).`
+    : hasDiagramSupport
     ? `**UI CONSTRAINTS (EXAM PREP WITH PAST-PAPER SOURCE):**
 - Adapt questions from the past-paper reference. MCQ and theory may include diagrams when the source material requires them.
 - For diagram-dependent questions, set "needs_diagram": true and a detailed "diagram_hint".
+- ROMAN-NUMERAL LISTS: If options refer to (i), (ii), (iii), (iv) or I, II, III, IV, the question text MUST include the full numbered list defining each item (e.g. "I. Reflection\\nII. Dispersion…" or inline "I. Reproducibility II. Sensibility III. … IV. …") BEFORE the options array. Never leave orphan (i)/(ii) or I/II references.
 - Do NOT ask students to draw, sketch, or plot unless it is standard WASSCE theory style (describe in words if no diagram).
 - Never ask students to measure something on-screen or to use a ruler/protractor.`
     : `**UI CONSTRAINTS (NON-NEGOTIABLE):**
@@ -723,6 +798,8 @@ ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 
 ${topicAlignment}
 
+${visualBlock}
+
 ${uiConstraints}
 
 **Requirements:**
@@ -734,8 +811,8 @@ ${uiConstraints}
 6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
 ${questionType !== 'longform' || hasDiagramSupport ? `7. ${diagramNote || 'N/A'}` : ''}
 8. ${passageNote}
-
-**MCQ ANSWER INTEGRITY — NON-NEGOTIABLE:**
+${questionType === 'interactive' || questionType === 'study_mixed' ? `\n**INTERACTIVE STUDY (type "interactive"):**\n${interactiveRules}\n- Interactive "explanation" field: 40-80 words explaining the correct answers.\n- Do NOT add passages to interactive questions.\n` : ''}
+${questionType !== 'interactive' ? `**MCQ ANSWER INTEGRITY — NON-NEGOTIABLE:**
 - Every MCQ must have EXACTLY ONE correct answer among the four options.
 - The "correct_answer" field is a 0-based index (0=first option, 1=second, 2=third, 3=fourth). It MUST point to the option that is the ONLY correct answer.
 - BEFORE writing each MCQ, mentally verify: "Is options[correct_answer] the one and only correct answer?" If not, rewrite.
@@ -756,6 +833,7 @@ ${questionType !== 'longform' || hasDiagramSupport ? `7. ${diagramNote || 'N/A'}
 - For sequence/order questions (e.g. "what comes after X"): make the question unambiguous and ensure the answer IS in the options.
 - The explanation MUST describe the same answer as correct_answer. They must ALWAYS agree.
 - BANNED QUESTION FORMAT — "which GROUP of numbers can be divided by N / is divisible by N / are multiples of N": This format ALWAYS produces multiple correct answers. You MUST NEVER use it. Instead, ask about a SINGLE number with options where only ONE matches the property.
+` : ''}
 
 **CRITICAL: Return ONLY valid JSON. No markdown. No extra text.**
 
@@ -780,16 +858,18 @@ function buildPassageBasedPrompt(opts: {
   passage: string
   passageSource: string
   subject: string
+  topics: string[]
   count: number
   startId: number
   style: string
   curriculumName: string
   curriculumBlock: string
-  questionType: 'mcq' | 'longform' | 'mixed'
+  questionType: AssessmentQuestionType
   difficultyLevel?: string
   grade?: number | string
 }): string {
-  const { passage, subject, count, startId, style, curriculumName, curriculumBlock, questionType, difficultyLevel, grade } = opts
+  const { passage, subject, topics, count, startId, style, curriculumName, curriculumBlock, questionType, difficultyLevel, grade } = opts
+  const topicAlignment = buildSubjectTopicAlignmentRules(subject, topics)
   const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
 
   const isPrimaryGrade = grade && Number(grade) >= 1 && Number(grade) <= 6
@@ -812,6 +892,9 @@ function buildPassageBasedPrompt(opts: {
   return `You are an expert exam writer for the ${curriculumName}. Generate questions for a ${style} ${subject} assessment for ${gradeNote}.
 
 ${curriculumBlock}
+
+**Curriculum topics:** ${topics.join(', ') || subject}
+${topicAlignment.length ? `**Topic rules:**\n- ${topicAlignment.join('\n- ')}` : ''}
 
 ━━━ READING PASSAGE ━━━
 ${passage}
@@ -878,6 +961,31 @@ function isScienceSubject(subject: string): boolean {
   return /\b(physics|chemistry|biology|science|mathematics|math|computing|computer science|ict)\b/i.test(subject || '')
 }
 
+function optionsReferenceRomanNumerals(q: any): boolean {
+  const opts = Array.isArray(q?.options) ? q.options.join(' ') : ''
+  if (!opts) return false
+  if (/\(\s*(?:i{1,3}|iv|v|vi{0,3}|ix|x)\s*\)/i.test(opts)) return true
+  if (/\b(?:I{1,3}|IV|V|VI{0,3}|IX|X)\s*,\s*(?:I{1,3}|IV)/.test(opts)) return true
+  if (/\b(?:I{1,3}|IV)\s+and\s+(?:I{1,3}|IV)\b/i.test(opts) && /\bonly\b/i.test(opts)) return true
+  return false
+}
+
+function countRomanDefinitions(question: string): number {
+  const paren = question.match(/\(\s*(?:i{1,3}|iv|v|vi{0,3}|ix|x)\s*\)\s+\S+/gi) ?? []
+  const lowerDot = question.match(/(?:^|\s)(?:i{1,3}|iv)\.\s+\S+/gi) ?? []
+  const upperDot = question.match(/(?:^|\s)(?:I{1,3}|IV|V|VI{0,3}|IX|X)\.\s+\S+/gi) ?? []
+  return paren.length + lowerDot.length + upperDot.length
+}
+
+function questionDefinesRomanNumerals(question: string): boolean {
+  return countRomanDefinitions(question) >= 2
+}
+
+function hasOrphanRomanNumeralRefs(q: any): boolean {
+  if (!optionsReferenceRomanNumerals(q)) return false
+  return !questionDefinesRomanNumerals(String(q?.question ?? ''))
+}
+
 function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false): boolean {
   const question = String(q?.question ?? '').trim()
   if (!question) return true
@@ -892,6 +1000,8 @@ function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false
   }
 
   if (q?.needs_diagram === true) return !allowDiagrams
+
+  if (hasOrphanRomanNumeralRefs(q)) return true
 
   // Disallow any draw/plot or imagine prompts entirely.
   if (/\b(draw|sketch|plot|imagine)\b/.test(lower)) {
@@ -956,6 +1066,7 @@ function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: string[])
   return (hasDigits && hasArithmeticExpression) || (hasDigits && (arithmeticWords || storyPattern || howManyTotal))
 }
 
+
 // ── Main route ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
   try {
@@ -982,8 +1093,12 @@ export async function POST(request: NextRequest) {
       examPrepContext: rawExamPrepContext,
     } = body
 
-    const questionType =
-      requestedQuestionType === 'mcq' || requestedQuestionType === 'longform' || requestedQuestionType === 'mixed'
+    const questionType: AssessmentQuestionType =
+      requestedQuestionType === 'mcq' ||
+      requestedQuestionType === 'longform' ||
+      requestedQuestionType === 'mixed' ||
+      requestedQuestionType === 'interactive' ||
+      requestedQuestionType === 'study_mixed'
         ? requestedQuestionType
         : 'mcq'
 
@@ -1022,6 +1137,9 @@ export async function POST(request: NextRequest) {
     let textbookName = ''
     let textbookSourceText = ''
     let textbookExamYear: number | null = null
+    let textbookExamSubject = ''
+    let textbookExam: 'waec' | 'jamb' | null = null
+    let textbookCurriculum: number | null = null
 
     if (Number.isFinite(textbookId)) {
       if (isCachePaperId(textbookId)) {
@@ -1030,17 +1148,25 @@ export async function POST(request: NextRequest) {
           textbookName = cached.name
           textbookSourceText = cached.sourceText
           textbookExamYear = cached.year
+          textbookExamSubject = cached.subject
+          textbookExam = cached.exam
         }
       } else {
         const textbookResult = await db.query(
-          `SELECT textbook_id, textbook_name, source_text, exam_year, source_authority, filename, curriculum
+          `SELECT textbook_id, textbook_name, source_text, exam_year, exam_subject, source_authority, filename, curriculum
            FROM textbooks WHERE textbook_id = $1 LIMIT 1`,
           [textbookId]
         )
         const data = textbookResult.rows[0]
+
         if (data?.textbook_name) textbookName = String(data.textbook_name)
         if (data?.source_text) textbookSourceText = String(data.source_text)
         if (data && Number.isFinite(data.exam_year)) textbookExamYear = Number(data.exam_year)
+        if (data?.exam_subject) textbookExamSubject = String(data.exam_subject)
+        if (data) {
+          textbookExam = examFromCurriculum(Number(data.curriculum))
+          if (Number.isFinite(data.curriculum)) textbookCurriculum = Number(data.curriculum)
+        }
         if (data && userId && isExamPrepCurriculumNumeric(data.curriculum)) {
           const profileResult = await db.query('SELECT country FROM users WHERE id = $1 LIMIT 1', [userId])
           const profile = profileResult.rows[0]
@@ -1053,6 +1179,12 @@ export async function POST(request: NextRequest) {
 
     const curriculumSlugEarly = String(curriculum ?? 'rwanda').toLowerCase()
     const isExamPrepCurriculum = curriculumSlugEarly === 'waec' || curriculumSlugEarly === 'jamb'
+    if (!textbookExam && isExamPrepCurriculum) {
+      textbookExam = curriculumSlugEarly as 'waec' | 'jamb'
+    }
+    if (!textbookExamSubject && requestedSubject) {
+      textbookExamSubject = requestedSubject
+    }
     if (isExamPrepCurriculum && userId) {
       const profileResult = await db.query('SELECT country FROM users WHERE id = $1 LIMIT 1', [userId])
       const profile = profileResult.rows[0]
@@ -1178,8 +1310,54 @@ export async function POST(request: NextRequest) {
 
     const isCambridge = curriculumSlug === 'cambridge'
     const isExamPrepMode = curriculumSlug === 'waec' || curriculumSlug === 'jamb'
-    const hasDiagramSupport = isExamPrepMode && Boolean(textbookSourceText)
-    const usePassageFlow = !hasSourceText && needsPassage(promptSubject)
+    const hasTextbookImageLibrary = Number.isFinite(textbookId) && isSchoolCurriculum(textbookCurriculum) && textbookHasImages(textbookId)
+
+    const imageTopicFilter = [
+      ...promptTopics,
+      ...dbTopicNames,
+      ...resolvedSubtopics.map((s) => s.name),
+    ]
+
+    let visualCatalog: VisualFigureCatalogEntry[] = []
+    if (
+      hasTextbookImageLibrary &&
+      Number.isFinite(textbookId) &&
+      !isExamPrepMode &&
+      imageTopicFilter.length > 0
+    ) {
+      try {
+        visualCatalog = await buildVisualFigureCatalog({
+          textbookId,
+          topics: imageTopicFilter,
+          questionCount: count,
+        })
+        if (visualCatalog.length > 0) {
+          console.log(
+            `Vision catalog: ${visualCatalog.length} figure(s) scoped to [${imageTopicFilter.slice(0, 4).join(', ')}]`,
+          )
+        }
+      } catch (visionErr) {
+        console.error('Vision catalog build failed:', visionErr)
+      }
+    }
+
+    const hasVisionFigures = visualCatalog.length > 0
+    const hasDiagramSupport = (isExamPrepMode && Boolean(textbookSourceText)) || hasVisionFigures
+    const maxImageQuestions = maxQuestionsWithImages(count)
+    const subjectDomain = classifySubjectDomain(promptSubject)
+    const subjectPlan = assessSubjectPassagePlan({
+      subject: promptSubject,
+      topics: promptTopics,
+      count,
+      hasSourceText,
+    })
+    const passageQuestionTarget = subjectPlan.passageQuestionCount
+    const directQuestionTarget = subjectPlan.directQuestionCount
+    const usePassageFlow =
+      subjectPlan.usePassageFlow &&
+      questionType !== 'interactive' &&
+      questionType !== 'study_mixed'
+    const requirePassagesAll = subjectPlan.requirePassageOnAll
 
     // ── Bedrock client (explicit timeouts + fallback model) ─────────────────
     // IMPORTANT: The AWS SDK will retry requests by default. When the model ID is
@@ -1405,7 +1583,7 @@ export async function POST(request: NextRequest) {
       const { prompt } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
         curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
-        sourceText, sourceName: sourceLabel,
+        sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
@@ -1427,12 +1605,26 @@ export async function POST(request: NextRequest) {
       startId: number
     ): Promise<any[]> {
       const requestCount = batchCount + Math.ceil(batchCount * 0.4)
-      const prompt = buildPassageBasedPrompt({
-        passage: passage.text, passageSource: passage.source,
-        subject: promptSubject, count: requestCount, startId, style,
-        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType,
-        difficultyLevel, grade,
-      })
+      const sourcePromptOpts = {
+        passage: passage.text,
+        passageSource: passage.source,
+        subject: promptSubject,
+        topics: promptTopics,
+        count: requestCount,
+        startId,
+        style,
+        curriculumName,
+        curriculumBlock: enrichedCurriculumBlock,
+        questionType,
+        difficultyLevel,
+        grade,
+      }
+      const prompt =
+        buildSubjectSourceQuestionPrompt(subjectDomain, {
+          ...sourcePromptOpts,
+          questionType: questionType as 'mcq' | 'longform' | 'mixed',
+        }) ??
+        buildPassageBasedPrompt(sourcePromptOpts)
       const maxTokens = Math.min(3800, Math.max(1800, requestCount * 320))
       const text = await callBedrock(prompt, maxTokens)
       if (isRefusal(text)) throw new Error(`Model refused to generate content.`)
@@ -1454,12 +1646,23 @@ export async function POST(request: NextRequest) {
     let generatedPassages: { text: string; source: string }[] = []
 
     // Helper: deduplicate + validate a list of raw questions in place
-    function deduplicateAndFix(qs: any[]): any[] {
+    function deduplicateAndFix(qs: any[], existingSeen?: Set<string>): any[] {
       cleanQuestionTexts(qs)
 
       // Filter out questions that are not workable in this UI.
       const filtered = qs.filter((q: any) => {
         const qType = String(q?.type || '').toLowerCase()
+
+        if (qType === 'interactive') {
+          const normalized = normalizeInteractiveQuestion(q)
+          if (!normalized) {
+            console.warn(`Removed invalid interactive question: "${String(q?.question || '').slice(0, 80)}"`)
+            return false
+          }
+          Object.assign(q, normalized)
+          return true
+        }
+
         if (questionType === 'mcq' && qType !== 'mcq') {
           console.warn(`Removed non-MCQ in MCQ-only request: "${String(q?.question || '').slice(0, 80)}"`)
           return false
@@ -1468,8 +1671,20 @@ export async function POST(request: NextRequest) {
           console.warn(`Removed non-longform in longform-only request: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
+        if (questionType === 'interactive' && qType !== 'interactive') {
+          console.warn(`Removed non-interactive in interactive-only request: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (questionType === 'study_mixed' && qType !== 'mcq' && qType !== 'interactive') {
+          console.warn(`Removed invalid question type in study_mixed: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
         if (questionType === 'mixed' && qType !== 'mcq' && qType !== 'longform') {
           console.warn(`Removed invalid question type: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
+        if (hasOrphanRomanNumeralRefs(q)) {
+          console.warn(`Removed incomplete Roman-numeral question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
         if (isUnanswerableWithoutVisual(q, promptSubject, hasDiagramSupport)) {
@@ -1480,10 +1695,14 @@ export async function POST(request: NextRequest) {
           console.warn(`Removed off-topic arithmetic question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
+        if (isMisalignedQuestion(q, promptSubject)) {
+          console.warn(`Removed misaligned question for ${subjectDomain}: "${String(q?.question || '').slice(0, 80)}"`)
+          return false
+        }
         return true
       })
 
-      const seenQuestions = new Set<string>()
+      const seenQuestions = existingSeen ?? new Set<string>()
       const deduped = filtered.filter((q: any) => {
         const key = normalizeQuestionKey(String(q?.question || ''))
         if (!key) return false
@@ -1499,40 +1718,72 @@ export async function POST(request: NextRequest) {
 
     try {
       if (usePassageFlow) {
-        // ── PASSAGE-FIRST FLOW ────────────────────────────────────────────────
-        // Step 1: Generate passages in parallel (one per 10 questions).
-        // Step 2: Generate questions per passage in parallel — each question
-        //         is written about the actual passage text, so it can never
-        //         reference features that don't exist.
-        const numPassages = Math.max(1, Math.ceil(count / 10))
-        const questionsPerPassage = Math.ceil(count / numPassages)
+        // ── PASSAGE-FIRST FLOW (full set or partial when mixed with direct topic questions) ──
+        const numPassages = Math.max(1, Math.ceil(passageQuestionTarget / 10))
+        const questionsPerPassage = Math.ceil(passageQuestionTarget / numPassages)
 
-        // Build a topic-aware hint so passages are relevant to what was selected
-        const topicHint = promptTopics.length > 0
-          ? `${promptTopics.slice(0, 2).join(' and ')} — relevant to a ${promptSubject} assessment`
-          : ''
+        const curriculumExcerpt =
+          !hasSourceText && textbookSourceText
+            ? excerptFromTextbookSource(
+                textbookSourceText,
+                promptTopics,
+                sourceLabel || textbookName || 'Textbook',
+              )
+            : null
 
-        const rawPassages = await Promise.all(
-          Array.from({ length: numPassages }, (_, i) => {
-            const baseHint = sharedPassageHint(i, grade)
-            const fullHint = topicHint ? `${baseHint}. Topic focus: ${topicHint}` : baseHint
-            return generatePassageWithBedrock('', promptSubject, fullHint, callBedrock, grade)
-          })
-        )
-        generatedPassages = rawPassages.filter(Boolean) as { text: string; source: string }[]
+        if (curriculumExcerpt) {
+          generatedPassages = [curriculumExcerpt]
+        } else {
+          const rawPassages = await Promise.all(
+            Array.from({ length: numPassages }, (_, i) => {
+              const baseHint = passageHintForSubject(subjectDomain, promptSubject, promptTopics, i)
+              const topicHint = promptTopics.length > 0
+                ? `${promptTopics.slice(0, 2).join(' and ')} — relevant to ${promptSubject}`
+                : ''
+              const fullHint = topicHint ? `${baseHint}. Topic focus: ${topicHint}` : baseHint
+              return generatePassageWithBedrock('', promptSubject, fullHint, callBedrock, grade, {
+                domain: subjectDomain,
+                topics: promptTopics,
+              })
+            }),
+          )
+          generatedPassages = rawPassages.filter(Boolean) as { text: string; source: string }[]
+        }
+
         if (generatedPassages.length === 0) {
           return NextResponse.json({ error: 'Failed to generate reading passages. Please try again.' }, { status: 500 })
         }
 
-        // Step 2: Generate questions for each passage in parallel
         const passageQResults = await Promise.all(
           generatedPassages.map((passage, i) => {
-            const qCount = Math.min(questionsPerPassage, count - i * questionsPerPassage)
+            const qCount = Math.min(questionsPerPassage, passageQuestionTarget - i * questionsPerPassage)
             if (qCount <= 0) return Promise.resolve([])
             return tryGeneratePassageBatch(passage, qCount, i * questionsPerPassage + 1)
-          })
+          }),
         )
-        allQuestions = passageQResults.flat()
+        const passageQuestions = passageQResults.flat().slice(0, passageQuestionTarget)
+
+        if (directQuestionTarget > 0) {
+          const directBatches: { count: number; startId: number }[] = []
+          for (let i = 0; i < directQuestionTarget; i += BATCH_SIZE) {
+            directBatches.push({ count: Math.min(BATCH_SIZE, directQuestionTarget - i), startId: passageQuestions.length + i + 1 })
+          }
+          const directSettled = await Promise.allSettled(
+            directBatches.map((b) => tryGenerateBatch(b.count, b.startId)),
+          )
+          const directQuestions: any[] = []
+          for (const result of directSettled) {
+            if (result.status === 'fulfilled') directQuestions.push(...result.value)
+          }
+          const merged = [...directQuestions.slice(0, directQuestionTarget), ...passageQuestions]
+          for (let i = merged.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1))
+            ;[merged[i], merged[j]] = [merged[j], merged[i]]
+          }
+          allQuestions = merged
+        } else {
+          allQuestions = passageQuestions
+        }
       } else {
         // ── STANDARD PARALLEL BATCH FLOW ─────────────────────────────────────
         // Use allSettled so one failed batch (e.g. JSON parse error) doesn't
@@ -1568,12 +1819,23 @@ export async function POST(request: NextRequest) {
       try {
         let retryQs: any[]
         if (usePassageFlow && generatedPassages.length > 0) {
-          // Retry using the first available passage so questions still match the text
-          retryQs = await tryGeneratePassageBatch(generatedPassages[0], missing, allQuestions.length + 1)
+          const retryPassageCount = Math.min(missing, passageQuestionTarget)
+          const retryDirectCount = missing - retryPassageCount
+          const retryParts: any[] = []
+          if (retryDirectCount > 0) {
+            retryParts.push(...await tryGenerateBatch(retryDirectCount, allQuestions.length + 1))
+          }
+          if (retryPassageCount > 0) {
+            retryParts.push(...await tryGeneratePassageBatch(generatedPassages[0], retryPassageCount, allQuestions.length + retryParts.length + 1))
+          }
+          retryQs = retryParts
         } else {
           retryQs = await tryGenerateBatch(missing, allQuestions.length + 1)
         }
-        allQuestions.push(...deduplicateAndFix(retryQs))
+        const seenKeys = new Set(
+          allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
+        )
+        allQuestions.push(...deduplicateAndFix(retryQs, seenKeys))
       } catch (err: any) {
         console.error(`Retry pass ${retryPass} failed:`, err)
         break
@@ -1605,7 +1867,7 @@ export async function POST(request: NextRequest) {
       const { estimatedTime: et } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count, startId: 1, style,
         curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
-        sourceText, sourceName: sourceLabel,
+        sourceText, sourceName: sourceLabel, requirePassagesAll,
       })
       estimatedTime = et
     }
@@ -1616,10 +1878,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'AI returned invalid question data. Please try again.' }, { status: 500 })
     }
 
+    // Attach real figures — exam papers (Aloc) or school textbooks (PDF extract)
+    if (hasDiagramSupport && textbookExam && textbookExamYear && textbookExamSubject) {
+      const attached = attachSourceImages(assessmentData.questions, {
+        exam: textbookExam,
+        subject: textbookExamSubject,
+        year: textbookExamYear,
+      })
+      if (attached > 0) console.log(`Attached ${attached} exam image(s) for ${textbookExam} ${textbookExamSubject} ${textbookExamYear}`)
+    } else if (hasVisionFigures && visualCatalog.length > 0) {
+      const attached = attachImagesFromCatalog(assessmentData.questions, visualCatalog)
+      if (attached > 0) console.log(`Attached ${attached} vision-matched textbook image(s)`)
+    }
+
     // Strip internal generation fields (keep diagram hints for exam prep with visuals)
     assessmentData.questions = assessmentData.questions.map((q: any) => {
-      const { needs_passage, passage_hint, ...rest } = q
+      const { needs_passage, passage_hint, image_key, ...rest } = q
       if (!hasDiagramSupport) {
+        const { needs_diagram, diagram_hint, ...clean } = rest
+        return clean
+      }
+      if (hasVisionFigures) {
         const { needs_diagram, diagram_hint, ...clean } = rest
         return clean
       }
@@ -1669,6 +1948,14 @@ export async function POST(request: NextRequest) {
           await fixupPassageQuestions(missing, callBedrock)
         }
       }
+    } else if (!usePassageFlow) {
+      // Direct syllabus questions — no reading passage UI
+      assessmentData.questions.forEach((q: any) => {
+        delete q.passage
+        delete q.passage_source
+        delete q.needs_passage
+        delete q.passage_hint
+      })
     }
 
     // ── Save to database ───────────────────────────────────────────────────────

@@ -1,0 +1,38 @@
+{
+  "tb-205-p40-embedded-0": {
+    "description": "This figure shows a standard computer keyboard layout, displaying the arrangement of alphanumeric keys, function keys, and navigation keys. There are no axes or specific values labeled, but the keys themselves are clearly visible. The topic is likely computer hardware or basic computer literacy. This could be tested by asking students to identify specific keys (e.g., \"What key would you press to capitalize a letter?\") or to explain the function of key groups (e.g., \"What is the purpose of the function keys?\").",
+    "cached_at": "2026-06-18T22:21:17.208Z"
+  },
+  "tb-205-p64-embedded-0": {
+    "description": "The image shows a dot matrix printer, a type of impact printer common in the early days of personal computing. There are no axes or specific values displayed, but the printer’s control panel with indicator lights is visible. This relates to the topic of computer hardware and output devices. Students could be asked to compare and contrast dot matrix printers with other printer technologies, or to explain how a dot matrix printer creates images.",
+    "cached_at": "2026-06-18T22:21:20.251Z"
+  },
+  "tb-205-p40-embedded-1": {
+    "description": "This figure shows an ergonomic keyboard, designed to reduce strain on wrists and hands. It features a split key layout and wrist rests, but lacks specific labels or numerical values. The topic is likely human-computer interaction, ergonomics, or computer hardware. Students could be tested on the benefits of ergonomic design, identifying features of this keyboard, or comparing it to a standard keyboard.",
+    "cached_at": "2026-06-18T22:21:23.431Z"
+  },
+  "tb-190-p260-embedded-1": {
+    "description": "The image shows a pack of chewing gum with several pieces removed. There are no labels, axes, or specific values presented. This relates to the topic of states of matter, specifically solids and potentially changes of state (like chewing/dissolving). It could be tested with questions about identifying the gum as a solid, or asking students to describe how its properties change when chewed.",
+    "cached_at": "2026-06-19T00:55:09.167Z"
+  },
+  "tb-190-p269-embedded-1": {
+    "description": "The figure depicts a pH scale with a test tube showing the color change of bromothymol blue indicator. The scale ranges from 0-14, with labels indicating pH values of 6.0, 7.0, and 7.6, and notes on the color of bromothymol blue at different pH levels. This relates to the topic of pH, acids, bases, and indicators. Questions could assess understanding of pH ranges, indicator color changes, or predicting the pH of a solution based on bromothymol blue’s color.",
+    "cached_at": "2026-06-19T00:55:11.700Z"
+  },
+  "tb-190-p262-embedded-1": {
+    "description": "This figure depicts the dissociation of hydrochloric acid (HCl) in water, showing the donation of a proton (H+) from HCl to a water molecule. The molecules are represented with atoms as circles and shared electrons as 'x's; labels indicate H, O, and Cl. The topic is acid-base chemistry, specifically acid dissociation/protonation. Students could be tested on identifying the acid and conjugate base, or predicting the products of similar dissociation reactions.",
+    "cached_at": "2026-06-19T00:55:13.982Z"
+  },
+  "tb-190-p658-embedded-0": {
+    "description": "Here's a description of the figure for exam question creation:\n\nThe figure depicts the relationship between the debt-to-income ratio and mortgage delinquency rates. The x-axis shows debt-to-income ratio (ranging from 0 to 1) and the y-axis shows mortgage delinquency rate (ranging from 0 to 0.15). This relates to the topic of financial risk and credit markets. Questions could ask students to interpret the trend shown, predict delinquency rates for a given debt-to-income ratio, or explain the implications of the curve’s shape.",
+    "cached_at": "2026-06-19T00:55:19.391Z"
+  },
+  "tb-206-p53-embedded-0": {
+    "description": "This figure illustrates the three possible states of a checkbox: checked, indeterminate (tristate), and unchecked. Each state is visually represented with a checkbox and an associated symbol – a checkmark for checked, a green square for indeterminate, and an empty box for unchecked. The topic is likely user interface elements or boolean logic in computer science/programming. Students could be tested on identifying each state or explaining when an indeterminate state might be used in a program.",
+    "cached_at": "2026-06-19T02:18:06.975Z"
+  },
+  "tb-206-p67-embedded-2": {
+    "description": "This figure depicts a simplified cross-section of Earth’s layers. It shows the crust, mantle, and core, though lacks specific labels or values. The topic is Earth’s internal structure and composition. Students could be tested on identifying the layers shown, describing their relative positions, or explaining how density changes with depth.",
+    "cached_at": "2026-06-19T02:18:09.165Z"
+  }
+}

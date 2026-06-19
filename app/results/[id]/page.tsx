@@ -7,6 +7,11 @@ import { ArrowLeft, Check, Download } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
 import { LatexText as L } from '@/lib/latex-text'
+import ExamFigure from '@/components/ExamFigure'
+import { InteractiveResultCard, isInteractiveQuestionType } from '@/components/interactive/InteractiveQuestionPlayer'
+import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
+import type { InteractiveAnswer, InteractiveQuestion } from '@/types/interactive'
+
 
 interface MCQQuestion {
     id: number
@@ -18,6 +23,7 @@ interface MCQQuestion {
     passage?: string
     passage_source?: string
     diagram_svg?: string
+    image_url?: string
 }
 
 interface LongFormQuestion {
@@ -31,9 +37,14 @@ interface LongFormQuestion {
     passage?: string
     passage_source?: string
     diagram_svg?: string
+    image_url?: string
 }
 
-type Question = MCQQuestion | LongFormQuestion
+type Question = MCQQuestion | LongFormQuestion | InteractiveQuestion
+
+function isInteractive(q: Question): q is InteractiveQuestion {
+    return isInteractiveQuestionType(q)
+}
 
 interface CriterionResult {
     criterion: string
@@ -226,6 +237,7 @@ function LongFormResultCard({
                             Long form - {q.marks} marks
                         </span>
                     </div>
+                    {q.image_url && <ExamFigure src={q.image_url} />}
                     {q.diagram_svg && (
                         <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
                             <DiagramSvg svg={q.diagram_svg} />
@@ -388,6 +400,7 @@ function McqResultCard({
                 </div>
                 <div className="flex-1">
                     <div className="text-sm text-apple-dark-gray mb-1">Question {idx + 1}</div>
+                    {q.image_url && <ExamFigure src={q.image_url} />}
                     {q.diagram_svg && (
                         <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
                             <DiagramSvg svg={q.diagram_svg} />
@@ -443,6 +456,7 @@ function buildReportHtml({
     mcqAnswers,
     longFormAnswers,
     longFormGrades,
+    interactiveAnswers,
 }: {
     subject: string
     topic: string
@@ -454,6 +468,7 @@ function buildReportHtml({
     mcqAnswers: Record<string, number>
     longFormAnswers: Record<string, string>
     longFormGrades: Record<string, LongFormGrade>
+    interactiveAnswers: Record<string, InteractiveAnswer>
 }): string {
     const safe = (value: unknown) => String(value ?? '')
     const questionBlocks = questions.map((q, i) => {
@@ -508,6 +523,21 @@ function buildReportHtml({
           ${q.model_answer ? `<div style="background:#f8fafc;border-radius:8px;padding:12px 16px;margin-top:12px;font-size:13px;color:#334155;"><strong>Model answer:</strong> ${safe(q.model_answer)}</div>` : ''}
         </div>
       `
+        }
+
+        if (isInteractive(q)) {
+            const ans = interactiveAnswers[idx] ?? interactiveAnswers[String(idx)]
+            const g = gradeInteractiveQuestion(q, ans)
+            const rows = g.item_results.map((r) => `
+        <li style="color:${r.correct ? '#15803d' : '#b91c1c'};">${r.correct ? '✓' : '✗'} ${safe(r.label)}</li>`).join('')
+            return `
+      <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:16px;">
+        <span style="font-size:11px;font-weight:700;color:#0f766e;text-transform:uppercase;display:block;margin-bottom:10px;">Interactive ${safe(q.kind)} - Q${i + 1} (${g.marks_awarded}/${g.marks_total})</span>
+        <p style="font-size:14px;font-weight:600;color:#111827;margin-bottom:14px;">${safe(q.question)}</p>
+        <ul style="font-size:13px;padding-left:18px;margin-bottom:12px;">${rows}</ul>
+        ${q.explanation ? `<div style="margin-top:12px;background:#fefce8;border-radius:8px;padding:10px 14px;font-size:13px;"><strong>Explanation:</strong> ${safe(q.explanation)}</div>` : ''}
+      </div>
+    `
         }
 
         const studentAnswer = mcqAnswers[idx] ?? mcqAnswers[String(idx)]
@@ -628,6 +658,7 @@ export default function ResultDetailPage() {
     const answers = result?.answers ?? {}
     const mcqAnswers = answers?.mcq ?? answers ?? {}
     const longFormAnswers = answers?.longform ?? {}
+    const interactiveAnswers = answers?.interactive ?? {}
     const longFormGrades = result?.longform_grades ?? {}
 
     const score = Number(result?.percentage ?? result?.score ?? 0)
@@ -643,12 +674,19 @@ export default function ResultDetailPage() {
         let mcqCorrect = 0
         let longFormTotal = 0
         let longFormEarned = 0
+        let interactiveTotal = 0
+        let interactiveEarned = 0
 
         questions.forEach((q, idx) => {
             if (isLongForm(q)) {
                 longFormTotal += q.marks ?? 0
                 const g = longFormGrades[idx] ?? longFormGrades[String(idx)]
                 if (g?.marks_awarded) longFormEarned += g.marks_awarded
+            } else if (isInteractive(q)) {
+                const ans = interactiveAnswers[idx] ?? interactiveAnswers[String(idx)]
+                const g = gradeInteractiveQuestion(q, ans)
+                interactiveTotal += g.marks_total
+                interactiveEarned += g.marks_awarded
             } else {
                 mcqTotal += 1
                 const ans = mcqAnswers[idx] ?? mcqAnswers[String(idx)]
@@ -656,8 +694,8 @@ export default function ResultDetailPage() {
             }
         })
 
-        return { mcqTotal, mcqCorrect, longFormTotal, longFormEarned }
-    }, [questions, mcqAnswers, longFormGrades])
+        return { mcqTotal, mcqCorrect, longFormTotal, longFormEarned, interactiveTotal, interactiveEarned }
+    }, [questions, mcqAnswers, longFormGrades, interactiveAnswers])
 
     const handleDownload = () => {
         if (!result) return
@@ -673,6 +711,7 @@ export default function ResultDetailPage() {
             mcqAnswers,
             longFormAnswers,
             longFormGrades,
+            interactiveAnswers,
         })
 
         const blob = new Blob([html], { type: 'text/html' })
@@ -771,10 +810,13 @@ export default function ResultDetailPage() {
                         </div>
                     </div>
 
-                    {(totals.mcqTotal > 0 || totals.longFormTotal > 0) && (
-                        <div className="flex justify-center gap-6 mb-8 text-sm text-gray-500 dark:text-gray-400">
+                    {(totals.mcqTotal > 0 || totals.longFormTotal > 0 || totals.interactiveTotal > 0) && (
+                        <div className="flex justify-center gap-6 mb-8 text-sm text-gray-500 dark:text-gray-400 flex-wrap">
                             {totals.mcqTotal > 0 && (
                                 <span>MCQ: {totals.mcqCorrect}/{totals.mcqTotal}</span>
+                            )}
+                            {totals.interactiveTotal > 0 && (
+                                <span>Interactive: {totals.interactiveEarned}/{totals.interactiveTotal} marks</span>
                             )}
                             {totals.longFormTotal > 0 && (
                                 <span>Written: {totals.longFormEarned}/{totals.longFormTotal} marks</span>
@@ -806,6 +848,20 @@ export default function ResultDetailPage() {
                                         idx={idx}
                                         studentAnswer={answer}
                                         grade={grade}
+                                    />
+                                )
+                            }
+
+                            if (isInteractive(q)) {
+                                const ans = interactiveAnswers[idx] ?? interactiveAnswers[String(idx)]
+                                const grade = gradeInteractiveQuestion(q, ans)
+                                return (
+                                    <InteractiveResultCard
+                                        key={idx}
+                                        question={q}
+                                        answer={ans}
+                                        grade={grade}
+                                        idx={idx}
                                     />
                                 )
                             }

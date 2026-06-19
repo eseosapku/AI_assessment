@@ -2,6 +2,9 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
 import { jsonbParam } from '@/lib/pg-json'
+import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
+import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
+
 import { isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 
 type ResultRow = {
@@ -124,6 +127,7 @@ async function updateTopicMastery(params: {
     // ── Precise path: score each tagged question and bucket per subtopic. ──────
     const questions: any[] = Array.isArray(questionsData) ? questionsData : []
     const mcqAnswers = (answers && typeof answers === 'object' && answers.mcq) ? answers.mcq : (answers ?? {})
+    const interactiveAnswers = (answers && typeof answers === 'object' && answers.interactive) ? answers.interactive : {}
     const lfGrades = longformGrades ?? {}
     const subBuckets = new Map<number, { correct: number; total: number }>()
     const topicBuckets = new Map<number, { correct: number; total: number }>()
@@ -141,9 +145,20 @@ async function updateTopicMastery(params: {
         if (g && Number.isFinite(totalMarks) && totalMarks > 0) {
           frac = Math.max(0, Math.min(1, Number(g.marks_awarded ?? 0) / totalMarks))
         }
-      } else {
+      } else if (q?.type === 'interactive') {
+        const normalized = normalizeInteractiveQuestion(q)
+        if (normalized) {
+          const ans = interactiveAnswers?.[idx] ?? interactiveAnswers?.[String(idx)]
+          const grade = gradeInteractiveQuestion(normalized, ans)
+          if (grade.marks_total > 0) {
+            frac = Math.max(0, Math.min(1, grade.marks_awarded / grade.marks_total))
+          }
+        }
+      } else if (q?.type === 'mcq' || Array.isArray(q?.options)) {
         const ua = mcqAnswers?.[idx] ?? mcqAnswers?.[String(idx)]
         frac = ua !== undefined && ua !== null && Number(ua) === Number(q?.correct_answer) ? 1 : 0
+      } else {
+        return
       }
       if (frac === null) return // ungraded long-form — skip rather than misattribute
 

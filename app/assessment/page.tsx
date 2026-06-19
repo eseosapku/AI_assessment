@@ -7,8 +7,17 @@ import { Clock, ChevronLeft, ChevronRight, Check, Lock } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
+import ExamFigure from '@/components/ExamFigure'
+import {
+  InteractiveQuestionPlayer,
+  InteractiveResultCard,
+  isInteractiveQuestionType,
+} from '@/components/interactive/InteractiveQuestionPlayer'
+import { gradeInteractiveQuestion, isInteractiveAnswerComplete } from '@/lib/grade-interactive'
+import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@/types/interactive'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 import { LatexText as L } from '@/lib/latex-text'
+
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 const PAUSED_ASSESSMENT_KEY = 'pausedAssessmentState'
@@ -31,6 +40,7 @@ interface MCQQuestion {
   passage?: string
   passage_source?: string
   diagram_svg?: string
+  image_url?: string
 }
 
 interface LongFormQuestion {
@@ -44,9 +54,10 @@ interface LongFormQuestion {
   passage?: string
   passage_source?: string
   diagram_svg?: string
+  image_url?: string
 }
 
-type Question = MCQQuestion | LongFormQuestion
+type Question = MCQQuestion | LongFormQuestion | InteractiveQuestion
 
 interface CriterionResult {
   criterion: string
@@ -78,6 +89,7 @@ interface PausedAssessmentState {
   timeRemaining: number
   selectedAnswers: Record<number, number>
   longFormAnswers: Record<number, string>
+  interactiveAnswers: Record<number, InteractiveAnswer>
   pausedAt: string
 }
 
@@ -85,6 +97,10 @@ interface PausedAssessmentState {
 
 function isLongForm(q: Question): q is LongFormQuestion {
   return q.type === 'longform'
+}
+
+function isInteractive(q: Question): q is InteractiveQuestion {
+  return isInteractiveQuestionType(q)
 }
 
 function sanitizeSvg(svg: string): string {
@@ -252,6 +268,7 @@ function LongFormResultCard({
               Long-form · {q.marks} marks
             </span>
           </div>
+          {q.image_url && <ExamFigure src={q.image_url} />}
           {q.diagram_svg && (
             <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
               <DiagramSvg svg={q.diagram_svg} />
@@ -376,7 +393,7 @@ function LongFormResultCard({
 // also get corrected. Explanation-first strategy is most reliable.
 function fixMcqAnswers(questions: Question[]): void {
   for (const q of questions) {
-    if (isLongForm(q)) continue
+    if (isLongForm(q) || isInteractive(q)) continue
     const mcq = q as MCQQuestion
     if (!Array.isArray(mcq.options) || mcq.options.length !== 4) continue
     const ci = Number(mcq.correct_answer)
@@ -528,6 +545,8 @@ function AssessmentPageClient() {
   const [currentQuestion, setCurrentQuestion] = useState(0)
   const [selectedAnswers, setSelectedAnswers] = useState<Record<number, number>>({})
   const [longFormAnswers, setLongFormAnswers] = useState<Record<number, string>>({})
+  const [interactiveAnswers, setInteractiveAnswers] = useState<Record<number, InteractiveAnswer>>({})
+  const [interactiveGrades, setInteractiveGrades] = useState<Record<number, InteractiveGrade>>({})
   const [timeRemaining, setTimeRemaining] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -545,7 +564,7 @@ function AssessmentPageClient() {
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
       assessmentData.questions.forEach((q: Question) => {
-        if (!isLongForm(q)) {
+        if (!isLongForm(q) && !isInteractive(q)) {
           q.question = q.question.replace(/\s*[\(\[]\s*[Aa]\s*[\)\]]\s*[\s\S]*$/, '').trim()
           q.question = q.question.replace(/\$\?\$/g, '?')
         }
@@ -623,6 +642,7 @@ function AssessmentPageClient() {
           : assessmentData.estimated_time * 60)
         setSelectedAnswers(paused.selectedAnswers ?? {})
         setLongFormAnswers(paused.longFormAnswers ?? {})
+        setInteractiveAnswers(paused.interactiveAnswers ?? {})
         const safeIndex = Math.min(
           Math.max(Number(paused.currentQuestion) || 0, 0),
           Math.max(assessmentData.questions.length - 1, 0)
@@ -659,8 +679,13 @@ function AssessmentPageClient() {
     setLongFormAnswers({ ...longFormAnswers, [currentQuestion]: text })
   }
 
+  const handleInteractiveChange = (answer: InteractiveAnswer) => {
+    setInteractiveAnswers({ ...interactiveAnswers, [currentQuestion]: answer })
+  }
+
   const allAnswered = assessment?.questions.every((q, idx) => {
     if (isLongForm(q)) return (longFormAnswers[idx] || '').trim().length > 0
+    if (isInteractive(q)) return isInteractiveAnswerComplete(q, interactiveAnswers[idx])
     return selectedAnswers[idx] !== undefined
   }) ?? false
 
@@ -672,6 +697,7 @@ function AssessmentPageClient() {
       timeRemaining,
       selectedAnswers,
       longFormAnswers,
+      interactiveAnswers,
       pausedAt: new Date().toISOString(),
     }
     localStorage.setItem(PAUSED_ASSESSMENT_KEY, JSON.stringify(payload))
@@ -749,6 +775,22 @@ function AssessmentPageClient() {
               <summary style="cursor:pointer;font-size:13px;color:#3b82f6;font-weight:600;">Show model answer</summary>
               <div style="background:#f9fafb;border-radius:8px;padding:12px 16px;margin-top:8px;font-size:14px;color:#374151;line-height:1.7;">${lf.model_answer}</div>
             </details>
+          </div>`
+      }
+
+      if (isInteractive(q)) {
+        const grade = interactiveGrades[idx] ?? gradeInteractiveQuestion(q, interactiveAnswers[idx])
+        const itemRows = grade.item_results.map((r) => `
+              <li style="color:${r.correct ? '#15803d' : '#b91c1c'};">${r.correct ? '✓' : '✗'} ${r.label}</li>`).join('')
+        return `
+          <div style="background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;margin-bottom:16px;border-left:4px solid ${grade.marks_awarded >= grade.marks_total / 2 ? '#22c55e' : '#ef4444'};">
+            <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+              <span style="background:#ccfbf1;color:#0f766e;font-size:12px;font-weight:700;padding:3px 10px;border-radius:99px;">Q${idx + 1} · Interactive · ${q.kind}</span>
+              <span style="font-weight:700;">${grade.marks_awarded}/${grade.marks_total} marks</span>
+            </div>
+            <p style="font-size:15px;font-weight:600;color:#111827;margin-bottom:12px;">${q.question}</p>
+            <ul style="font-size:13px;margin-bottom:12px;padding-left:18px;">${itemRows}</ul>
+            ${q.explanation ? `<div style="margin-top:10px;padding:10px 14px;background:#f0f9ff;border-radius:8px;font-size:13px;"><strong>Explanation:</strong> ${q.explanation}</div>` : ''}
           </div>`
       }
 
@@ -855,11 +897,25 @@ function AssessmentPageClient() {
 
     const questions = assessment?.questions ?? []
 
+    // Grade interactive questions (deterministic, instant)
+    const interactiveGradesResult: Record<number, InteractiveGrade> = {}
+    let interactiveEarned = 0
+    let interactiveTotal = 0
+    questions.forEach((q, idx) => {
+      if (isInteractive(q)) {
+        const grade = gradeInteractiveQuestion(q, interactiveAnswers[idx])
+        interactiveGradesResult[idx] = grade
+        interactiveEarned += grade.marks_awarded
+        interactiveTotal += grade.marks_total
+      }
+    })
+    setInteractiveGrades(interactiveGradesResult)
+
     // Calculate MCQ marks
     let mcqCorrect = 0
     let mcqTotal = 0
     questions.forEach((q, idx) => {
-      if (!isLongForm(q)) {
+      if (!isLongForm(q) && !isInteractive(q)) {
         mcqTotal++
         if (selectedAnswers[idx] === q.correct_answer) mcqCorrect++
       }
@@ -867,18 +923,22 @@ function AssessmentPageClient() {
 
     const hasLongForm = questions.some(isLongForm)
     const longFormTotal = questions.filter(isLongForm).reduce((sum, q) => sum + (q as LongFormQuestion).marks, 0)
+    const hasInteractive = questions.some(isInteractive)
 
     // Show results immediately (long-form grades come in async)
     const preliminaryResult = {
       assessment_id: assessment?.assessment_id,
       mcqCorrect,
       mcqTotal,
+      interactiveEarned,
+      interactiveTotal,
       longFormMarksEarned: 0,
       longFormTotal,
-      score: mcqTotal > 0 && !hasLongForm ? Math.round((mcqCorrect / mcqTotal) * 100) : null,
+      score: mcqTotal > 0 && !hasLongForm && !hasInteractive ? Math.round((mcqCorrect / mcqTotal) * 100) : null,
       grade: '',
       answers: selectedAnswers,
       longFormAnswers,
+      interactiveAnswers,
       completed_at: new Date().toISOString(),
     }
 
@@ -923,8 +983,8 @@ function AssessmentPageClient() {
       (sum, g) => sum + (g.marks_awarded ?? 0),
       0
     )
-    const totalEarned = mcqCorrect + longFormEarned
-    const totalPossible = mcqTotal + longFormTotal
+    const totalEarned = mcqCorrect + interactiveEarned + longFormEarned
+    const totalPossible = mcqTotal + interactiveTotal + longFormTotal
     const finalScore = totalPossible > 0 ? Math.round((totalEarned / totalPossible) * 100) : 0
     const grade =
       finalScore >= 90 ? 'A+' :
@@ -947,6 +1007,8 @@ function AssessmentPageClient() {
         answers: selectedAnswers,
         longFormAnswers,
         longFormGrades: longFormGradesResult,
+        interactiveAnswers,
+        interactiveGrades: interactiveGradesResult,
         score: finalScore,
         grade,
         className: storedUser.class,
@@ -991,7 +1053,7 @@ function AssessmentPageClient() {
           assessment_id: assessment?.assessment_id,
           assignment_id: assignmentId ?? null,
           student_email: authUser?.email ?? storedUser?.email ?? null,
-          answers: { mcq: selectedAnswers, longform: longFormAnswers },
+          answers: { mcq: selectedAnswers, longform: longFormAnswers, interactive: interactiveAnswers },
           total_questions: questions.length,
           score: finalScore,
           grade,
@@ -1004,7 +1066,7 @@ function AssessmentPageClient() {
         }),
       })
     }
-  }, [assessment, selectedAnswers, longFormAnswers, assignmentId, timeRemaining, authUser, isClassroomAssignment, clearPausedState])
+  }, [assessment, selectedAnswers, longFormAnswers, interactiveAnswers, assignmentId, timeRemaining, authUser, isClassroomAssignment, clearPausedState])
 
   // Strict mode violation detection: tab switch and window focus loss
   useEffect(() => {
@@ -1107,6 +1169,7 @@ function AssessmentPageClient() {
   // ── Results view ────────────────────────────────────────────────────────────
   if (showResults && results) {
     const hasLongForm = assessment.questions.some(isLongForm)
+    const hasInteractive = assessment.questions.some(isInteractive)
 
     return (
       <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] py-8 px-4 sm:px-6 lg:px-8">
@@ -1152,10 +1215,13 @@ function AssessmentPageClient() {
             )}
 
             {/* Marks breakdown for mixed/longform */}
-            {hasLongForm && results.score !== null && (
-              <div className="flex justify-center gap-6 mb-8 text-sm text-gray-500 dark:text-gray-400">
+            {(hasLongForm || hasInteractive) && results.score !== null && (
+              <div className="flex justify-center gap-6 mb-8 text-sm text-gray-500 dark:text-gray-400 flex-wrap">
                 {results.mcqTotal > 0 && (
                   <span>MCQ: {results.mcqCorrect}/{results.mcqTotal}</span>
+                )}
+                {results.interactiveTotal > 0 && (
+                  <span>Interactive: {results.interactiveEarned}/{results.interactiveTotal} marks</span>
                 )}
                 {results.longFormTotal > 0 && (
                   <span>Written: {results.longFormMarksEarned}/{results.longFormTotal} marks</span>
@@ -1201,6 +1267,19 @@ function AssessmentPageClient() {
                 )
               }
 
+              if (isInteractive(q)) {
+                const grade = interactiveGrades[idx] ?? gradeInteractiveQuestion(q, interactiveAnswers[idx])
+                return (
+                  <InteractiveResultCard
+                    key={idx}
+                    question={q}
+                    answer={interactiveAnswers[idx]}
+                    grade={grade}
+                    idx={idx}
+                  />
+                )
+              }
+
               // MCQ result card
               const userAnswer = results.answers[idx]
               const isCorrect = userAnswer === q.correct_answer
@@ -1222,7 +1301,8 @@ function AssessmentPageClient() {
                     </div>
                     <div className="flex-1">
                       <div className="text-sm text-apple-dark-gray mb-1">Question {idx + 1}</div>
-                      {q.diagram_svg && (
+                      {q.image_url && <ExamFigure src={q.image_url} />}
+          {q.diagram_svg && (
                         <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
                           <DiagramSvg svg={q.diagram_svg} />
                         </div>
@@ -1286,6 +1366,7 @@ function AssessmentPageClient() {
   // ── Quiz view ───────────────────────────────────────────────────────────────
   const question = assessment.questions[currentQuestion]
   const isCurrentLongForm = isLongForm(question)
+  const isCurrentInteractive = isInteractive(question)
   const progress = ((currentQuestion + 1) / assessment.questions.length) * 100
 
   return (
@@ -1380,24 +1461,39 @@ function AssessmentPageClient() {
                     {(question as LongFormQuestion).marks} marks
                   </div>
                 )}
+                {isCurrentInteractive && (
+                  <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-900/20 text-teal-600 dark:text-teal-400 text-xs sm:text-sm font-semibold">
+                    {(question as InteractiveQuestion).marks} marks
+                  </div>
+                )}
               </div>
 
+              {question.image_url && <ExamFigure src={question.image_url} className="mb-6" />}
               {question.diagram_svg && (
                 <div className="bg-gray-50 dark:bg-gray-900/60 rounded-2xl p-4 mb-6 border border-gray-200 dark:border-gray-700 overflow-x-auto">
                   <DiagramSvg svg={question.diagram_svg} />
                 </div>
               )}
 
-              {question.passage && (
-                <PassageBox passage={question.passage} source={question.passage_source} />
+              {'passage' in question && question.passage && (
+                <PassageBox passage={question.passage} source={'passage_source' in question ? question.passage_source : undefined} />
               )}
 
               <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight">
-                <L>{question.question}</L>
+                <L>{isCurrentInteractive && question.kind === 'fill_blank' ? (question as InteractiveQuestion & { kind: 'fill_blank' }).question : question.question}</L>
               </h2>
 
+              {/* Interactive study */}
+              {isCurrentInteractive && (
+                <InteractiveQuestionPlayer
+                  question={question as InteractiveQuestion}
+                  value={interactiveAnswers[currentQuestion]}
+                  onChange={handleInteractiveChange}
+                />
+              )}
+
               {/* MCQ options */}
-              {!isCurrentLongForm && (
+              {!isCurrentLongForm && !isCurrentInteractive && (
                 <div className="space-y-3 sm:space-y-4">
                   {(question as MCQQuestion).options.map((option, index) => (
                     <motion.button
@@ -1493,20 +1589,25 @@ function AssessmentPageClient() {
             {assessment.questions.map((q, idx) => {
               const answered = isLongForm(q)
                 ? (longFormAnswers[idx] || '').trim().length > 0
-                : selectedAnswers[idx] !== undefined
+                : isInteractive(q)
+                  ? isInteractiveAnswerComplete(q, interactiveAnswers[idx])
+                  : selectedAnswers[idx] !== undefined
               const isLF = isLongForm(q)
+              const isInt = isInteractive(q)
 
               return (
                 <button
                   key={idx}
                   onClick={() => setCurrentQuestion(idx)}
-                  title={isLF ? `Q${idx + 1} — Long-form (${(q as LongFormQuestion).marks} marks)` : `Q${idx + 1} — MCQ`}
+                  title={isLF ? `Q${idx + 1} — Long-form (${(q as LongFormQuestion).marks} marks)` : isInt ? `Q${idx + 1} — Interactive` : `Q${idx + 1} — MCQ`}
                   className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-all ${idx === currentQuestion
                     ? 'bg-apple-blue text-white'
                     : answered
                       ? isLF
                         ? 'bg-purple-500 text-white'
-                        : 'bg-green-500 text-white'
+                        : isInt
+                          ? 'bg-teal-500 text-white'
+                          : 'bg-green-500 text-white'
                       : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
                     }`}
                 >
@@ -1517,14 +1618,22 @@ function AssessmentPageClient() {
           </div>
 
           {/* Legend for mixed */}
-          {assessment.questions.some(isLongForm) && assessment.questions.some((q) => !isLongForm(q)) && (
-            <div className="flex justify-center gap-4 mt-3 text-xs text-gray-400">
+          {(assessment.questions.some(isLongForm) || assessment.questions.some(isInteractive)) &&
+            assessment.questions.some((q) => !isLongForm(q) && !isInteractive(q)) && (
+            <div className="flex justify-center gap-4 mt-3 text-xs text-gray-400 flex-wrap">
               <span className="flex items-center gap-1">
                 <span className="w-3 h-3 rounded-sm bg-green-500 inline-block"></span> MCQ answered
               </span>
-              <span className="flex items-center gap-1">
-                <span className="w-3 h-3 rounded-sm bg-purple-500 inline-block"></span> Written answered
-              </span>
+              {assessment.questions.some(isInteractive) && (
+                <span className="flex items-center gap-1">
+                  <span className="w-3 h-3 rounded-sm bg-teal-500 inline-block"></span> Interactive answered
+                </span>
+              )}
+              {assessment.questions.some(isLongForm) && (
+                <span className="flex items-center gap-1">
+                  <span className="w-3 h-3 rounded-sm bg-purple-500 inline-block"></span> Written answered
+                </span>
+              )}
             </div>
           )}
         </div>
