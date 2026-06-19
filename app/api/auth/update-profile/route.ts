@@ -106,15 +106,39 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'No updates provided' }, { status: 400 })
         }
 
-        const { data: updatedUser, error: updateError } = await supabase
-            .from('users')
-            .update(updatePayload)
-            .eq('id', userData.id)
-            .select('id, name, email, student_id, class, subjects, role, country')
-            .single()
+        const columnMap: Record<string, string> = {
+            name: 'name',
+            class: 'class',
+            subjects: 'subjects',
+            country: 'country',
+            password_hash: 'password_hash',
+        }
 
-        if (updateError || !updatedUser) {
-            return NextResponse.json({ error: updateError?.message || 'Failed to update profile' }, { status: 500 })
+        const setClauses: string[] = []
+        const values: unknown[] = [userData.id]
+        let paramIndex = 2
+
+        for (const [key, value] of Object.entries(updatePayload)) {
+            const column = columnMap[key]
+            if (!column) continue
+            setClauses.push(`${column} = $${paramIndex}`)
+            values.push(value)
+            paramIndex += 1
+        }
+
+        setClauses.push('updated_at = NOW()')
+
+        const updateResult = await db.query(
+            `UPDATE users
+             SET ${setClauses.join(', ')}
+             WHERE id = $1
+             RETURNING id, name, email, student_id, class, subjects, role, country`,
+            values,
+        )
+        const updatedUser = updateResult.rows[0]
+
+        if (!updatedUser) {
+            return NextResponse.json({ error: 'Failed to update profile' }, { status: 500 })
         }
 
         const user = {

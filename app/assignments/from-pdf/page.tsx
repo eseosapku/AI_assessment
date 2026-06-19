@@ -9,6 +9,7 @@ import {
   buildClassOptionsForCurriculum,
   type SchoolClassRow,
 } from '@/lib/school-class-options'
+import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 
 interface ClassOption {
     id: number
