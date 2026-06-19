@@ -7,10 +7,9 @@ import type { SubscriptionSnapshot } from '@/lib/subscription'
 import { subscriptionBlockedMessage } from '@/lib/subscription'
 import type { CountryCode } from '@/lib/countries'
 import {
-  CURRENCY_OPTIONS,
   SUBSCRIPTION_USD,
   currencyForCountry,
-  subscriptionPriceLine,
+  getPaymentPlanForCurrency,
   type SubscriptionCurrency,
 } from '@/lib/subscription-pricing'
 import { initiateMonthlySubscription } from '@/lib/flutterwave-client'
@@ -24,6 +23,19 @@ type Props = {
   userCountry?: CountryCode | null
   onClose: () => void
   onRefresh: () => Promise<SubscriptionSnapshot | null>
+}
+
+type PricingQuote = {
+  currency: SubscriptionCurrency
+  amountUsd: number
+  amountLocal: number
+  formatted: string
+  formattedMonthly: string
+  paymentMethods: { id: string; label: string; description: string }[]
+  regionLabel: string
+  rateSource: 'live' | 'fallback'
+  ratePerUsd: number | null
+  rateUpdatedAt: string | null
 }
 
 const BENEFITS = [
@@ -44,15 +56,45 @@ export default function SubscribeModal({
 }: Props) {
   const [starting, setStarting] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [pricing, setPricing] = useState<PricingQuote | null>(null)
+  const [pricingLoading, setPricingLoading] = useState(false)
+  const [useUsdCheckout, setUseUsdCheckout] = useState(false)
 
-  const suggestedCurrency = useMemo(() => currencyForCountry(userCountry), [userCountry])
-  const [currency, setCurrency] = useState<SubscriptionCurrency>(suggestedCurrency)
+  const localCurrency = useMemo(() => currencyForCountry(userCountry), [userCountry])
+  const checkoutCurrency: SubscriptionCurrency = useUsdCheckout ? 'USD' : localCurrency
+  const plan = getPaymentPlanForCurrency(checkoutCurrency)
 
   useEffect(() => {
-    if (open) setCurrency(suggestedCurrency)
-  }, [open, suggestedCurrency])
+    if (!open) return
+    setUseUsdCheckout(false)
+    setError(null)
+  }, [open, localCurrency])
 
-  const priceLine = subscriptionPriceLine(currency)
+  useEffect(() => {
+    if (!open) return
+    let cancelled = false
+    setPricingLoading(true)
+    fetch(`/api/subscription/pricing?currency=${encodeURIComponent(checkoutCurrency)}`, {
+      cache: 'no-store',
+    })
+      .then(async (res) => {
+        const json = await res.json()
+        if (!res.ok) throw new Error(json?.error || 'Failed to load pricing')
+        return json as PricingQuote
+      })
+      .then((quote) => {
+        if (!cancelled) setPricing(quote)
+      })
+      .catch(() => {
+        if (!cancelled) setPricing(null)
+      })
+      .finally(() => {
+        if (!cancelled) setPricingLoading(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [open, checkoutCurrency])
 
   const startPayment = async () => {
     if (!userId) {
@@ -65,7 +107,7 @@ export default function SubscribeModal({
       const { checkoutUrl, paymentReference } = await initiateMonthlySubscription(
         userId,
         userEmail,
-        currency,
+        checkoutCurrency,
       )
       try {
         sessionStorage.setItem('flw_pending_user_id', userId)
@@ -79,6 +121,15 @@ export default function SubscribeModal({
       setStarting(false)
     }
   }
+
+  const displayPrice = pricing?.formatted ?? (checkoutCurrency === 'USD' ? `$${SUBSCRIPTION_USD.toFixed(2)}` : '…')
+  const showUsdAlternative = localCurrency !== 'USD'
+  const billingCaption =
+    checkoutCurrency === 'USD'
+      ? `Billed in US dollars · $${SUBSCRIPTION_USD.toFixed(2)} USD`
+      : pricing?.rateSource === 'live'
+        ? `Billed in ${checkoutCurrency} · about $${SUBSCRIPTION_USD.toFixed(2)} USD · today's exchange rate`
+        : `Billed in ${checkoutCurrency} · about $${SUBSCRIPTION_USD.toFixed(2)} USD · estimated rate`
 
   return (
     <AnimatePresence>
@@ -95,34 +146,38 @@ export default function SubscribeModal({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.96, opacity: 0, y: 12 }}
             transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-            className="w-full max-w-lg overflow-hidden rounded-3xl bg-white dark:bg-[#141416] border border-gray-200/80 dark:border-white/10 shadow-2xl"
+            className="w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-[#141416] border border-gray-200/80 dark:border-white/10 shadow-2xl"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-emerald-600 via-teal-600 to-cyan-700 text-white">
+            <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
               <button
                 type="button"
                 onClick={onClose}
-                className="absolute top-4 right-4 p-2 rounded-full bg-white/15 hover:bg-white/25 transition-colors"
+                className="absolute top-4 right-4 p-2 rounded-full bg-white/10 hover:bg-white/20 transition-colors"
                 aria-label="Close"
               >
                 <X className="w-4 h-4" />
               </button>
-              <div className="flex items-center gap-3 mb-4">
-                <div className="p-2.5 rounded-2xl bg-white/15 ring-1 ring-white/20">
-                  <Sparkles className="w-5 h-5" />
+              <div className="flex items-center gap-3 mb-5">
+                <div className="p-2.5 rounded-2xl bg-emerald-500/20 ring-1 ring-emerald-400/30">
+                  <Sparkles className="w-5 h-5 text-emerald-300" />
                 </div>
                 <div>
-                  <p className="text-xs font-semibold uppercase tracking-widest text-white/80">StudySquare Pro</p>
-                  <h2 className="text-xl font-bold leading-tight">Unlock full access</h2>
+                  <p className="text-xs font-semibold uppercase tracking-widest text-white/60">StudySquare Pro</p>
+                  <h2 className="text-lg font-bold leading-tight">Monthly subscription</h2>
                 </div>
               </div>
-              <div className="flex items-end gap-2">
-                <span className="text-4xl font-bold tracking-tight">${SUBSCRIPTION_USD}</span>
-                <span className="text-sm text-white/85 pb-1.5">/ month</span>
+              <div className="flex items-end gap-2 min-h-[3rem]">
+                {pricingLoading ? (
+                  <Loader2 className="w-8 h-8 animate-spin text-white/70" />
+                ) : (
+                  <>
+                    <span className="text-4xl font-bold tracking-tight">{displayPrice}</span>
+                    <span className="text-sm text-white/70 pb-1.5">/ month</span>
+                  </>
+                )}
               </div>
-              <p className="mt-1 text-sm text-white/80">
-                {currency === 'USD' ? 'Billed in US dollars' : `Pay in ${currency} — ${priceLine}`}
-              </p>
+              <p className="mt-2 text-sm text-white/65">{billingCaption}</p>
             </div>
 
             <div className="px-6 py-5">
@@ -151,37 +206,45 @@ export default function SubscribeModal({
                     {subscriptionBlockedMessage(reason)}
                   </p>
 
-                  <ul className="space-y-2.5 mb-5">
+                  <ul className="space-y-2 mb-5">
                     {BENEFITS.map((item) => (
                       <li key={item} className="flex items-start gap-2.5 text-sm text-gray-700 dark:text-gray-300">
-                        <span className="mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full bg-emerald-100 dark:bg-emerald-900/40">
-                          <Check className="w-3 h-3 text-emerald-700 dark:text-emerald-300" />
-                        </span>
+                        <Check className="w-4 h-4 mt-0.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
                         {item}
                       </li>
                     ))}
                   </ul>
 
-                  <div className="mb-4">
-                    <label
-                      htmlFor="subscription-currency"
-                      className="block text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-2"
-                    >
-                      Payment currency
-                    </label>
-                    <select
-                      id="subscription-currency"
-                      value={currency}
-                      onChange={(e) => setCurrency(e.target.value as SubscriptionCurrency)}
-                      className="w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1a1c] px-3 py-3 text-sm font-medium text-gray-900 dark:text-white outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500/30"
-                    >
-                      {CURRENCY_OPTIONS.map((opt) => (
-                        <option key={opt.code} value={opt.code}>
-                          {opt.label} — {opt.hint}
-                        </option>
+                  <div className="mb-5 rounded-2xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.03] p-4">
+                    <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400 mb-3">
+                      Pay with · {plan.regionLabel}
+                    </p>
+                    <ul className="space-y-2.5">
+                      {plan.methods.map((method) => (
+                        <li key={method.id} className="flex gap-3">
+                          <span className="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-white dark:bg-white/10 border border-gray-200 dark:border-white/10">
+                            <CreditCard className="w-4 h-4 text-gray-600 dark:text-gray-300" />
+                          </span>
+                          <div>
+                            <p className="text-sm font-semibold text-gray-900 dark:text-white">{method.label}</p>
+                            <p className="text-xs text-gray-500 dark:text-gray-400">{method.description}</p>
+                          </div>
+                        </li>
                       ))}
-                    </select>
+                    </ul>
                   </div>
+
+                  {showUsdAlternative && (
+                    <button
+                      type="button"
+                      onClick={() => setUseUsdCheckout((v) => !v)}
+                      className="mb-4 w-full text-left text-xs text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                    >
+                      {useUsdCheckout
+                        ? `← Pay in ${localCurrency} instead`
+                        : 'Prefer an international card? Pay in USD'}
+                    </button>
+                  )}
 
                   {error && (
                     <p className="text-sm text-red-600 dark:text-red-400 mb-3 rounded-lg bg-red-50 dark:bg-red-900/20 px-3 py-2">
@@ -192,28 +255,31 @@ export default function SubscribeModal({
                   <button
                     type="button"
                     onClick={startPayment}
-                    disabled={starting}
-                    className="w-full py-3.5 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 hover:opacity-90 disabled:opacity-60 font-semibold flex items-center justify-center gap-2 transition-opacity"
+                    disabled={starting || pricingLoading}
+                    className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-60 font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm shadow-emerald-900/20"
                   >
                     {starting ? (
                       <Loader2 className="w-4 h-4 animate-spin" />
                     ) : (
-                      <CreditCard className="w-4 h-4" />
+                      <ShieldCheck className="w-4 h-4" />
                     )}
-                    {starting ? 'Redirecting to checkout…' : `Subscribe — ${priceLine}`}
+                    {starting
+                      ? 'Opening secure checkout…'
+                      : pricingLoading
+                        ? 'Loading price…'
+                        : `Continue to checkout`}
                   </button>
 
-                  <div className="mt-4 flex items-center justify-center gap-2 text-xs text-gray-500 dark:text-gray-400">
-                    <ShieldCheck className="w-3.5 h-3.5" />
-                    Secure checkout powered by Flutterwave
-                  </div>
+                  <p className="mt-3 text-center text-xs text-gray-500 dark:text-gray-400">
+                    Secure payment via Flutterwave · cancel anytime
+                  </p>
 
                   <button
                     type="button"
                     onClick={onClose}
                     className="w-full mt-3 py-2 text-sm text-gray-500 hover:text-gray-700 dark:hover:text-gray-300 transition-colors"
                   >
-                    Maybe later
+                    Not now
                   </button>
                 </>
               )}

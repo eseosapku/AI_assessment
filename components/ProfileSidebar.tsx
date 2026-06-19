@@ -113,7 +113,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
                       className="w-full py-3 px-4 rounded-apple bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-90 text-white font-medium flex items-center justify-center gap-2 transition-opacity"
                     >
                       <Sparkles className="w-5 h-5" />
-                      Subscribe — $5/month
+                      Subscribe to continue
                     </button>
                   </div>
                 )}

@@ -1065,7 +1065,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                       onClick={() => handlePaymentRequired('assessment')}
                       className="w-full py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold hover:opacity-90 transition-opacity"
                     >
-                      Subscribe — $5/month
+                      Subscribe to continue
                     </button>
                   </motion.div>
                 )}

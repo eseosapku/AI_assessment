@@ -11,8 +11,6 @@ export interface InitiatePaymentResult {
   paymentReference: string
 }
 
-export { CURRENCY_OPTIONS } from '@/lib/subscription-pricing'
-
 function parseApiError(body: string, fallback: string): string {
   const trimmed = body.trim()
   if (!trimmed) return fallback

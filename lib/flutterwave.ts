@@ -4,6 +4,9 @@
  */
 
 import { createHmac, timingSafeEqual } from 'crypto'
+import { convertUsd, roundForCurrency } from '@/lib/fx-rates'
+
+export { convertUsd, roundForCurrency } from '@/lib/fx-rates'
 
 // Read at call time so Amplify/runtime env vars are not baked in as empty at build.
 function flwBase(): string {
@@ -70,31 +73,6 @@ async function flwFetch(path: string, init?: RequestInit) {
     throw new Error(json?.message ?? json?.error ?? `Flutterwave error ${res.status}`)
   }
   return json
-}
-
-export async function convertUsd(amountUsd: number, toCurrency: string): Promise<number> {
-  const currency = (toCurrency || 'USD').toUpperCase()
-  if (currency === 'USD') return amountUsd
-  try {
-    const url = new URL('https://api.exchangerate.host/convert')
-    url.searchParams.set('from', 'USD')
-    url.searchParams.set('to', currency)
-    url.searchParams.set('amount', String(amountUsd))
-    const res = await fetch(url.toString(), { signal: AbortSignal.timeout(10_000) })
-    const data = await res.json()
-    const result = data?.result
-    if (result == null) throw new Error('no conversion result')
-    return Number(result)
-  } catch {
-    const fallback: Record<string, number> = { NGN: 1500, UGX: 3800, RWF: 1300, KES: 130 }
-    const rate = fallback[currency]
-    return rate ? amountUsd * rate : amountUsd
-  }
-}
-
-export function roundForCurrency(amount: number, currency: string): number {
-  const zeroDecimal = new Set(['UGX', 'RWF'])
-  return zeroDecimal.has(currency.toUpperCase()) ? Math.round(amount) : Math.round(amount * 100) / 100
 }
 
 export async function ensurePaymentPlan(amount: number, currency: string, interval: string, name = 'StudySquare Monthly'): Promise<string> {
