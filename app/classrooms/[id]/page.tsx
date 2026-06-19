@@ -4,6 +4,8 @@ import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
 import { Mail, Users, ArrowLeft, Download, ChevronRight, Search, Pencil } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
+import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
+import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 
 interface ClassroomInfo {
     id: string
@@ -141,10 +143,12 @@ function buildFeedbackHtml(options: {
 
     const mcqAnswers = options.answers?.mcq ?? options.answers ?? {}
     const longFormAnswers = options.answers?.longform ?? {}
+    const interactiveAnswers = options.answers?.interactive ?? {}
 
     const questionBlocks = Array.isArray(options.questions)
         ? options.questions.map((q, idx) => {
             const isLongForm = q?.type === 'longform'
+            const isInteractive = q?.type === 'interactive'
             const questionText = safe(q?.question)
 
             if (isLongForm) {
@@ -165,6 +169,23 @@ function buildFeedbackHtml(options: {
                                     <div class="answer">${studentAnswer || '<em>No answer provided.</em>'}</div>
                                     ${criteria ? `<div class="qsub">Marking criteria</div><ul class="criteria">${criteria}</ul>` : ''}
                                     ${grade?.general_feedback ? `<div class="qsub">AI feedback</div><div class="answer">${safe(grade.general_feedback)}</div>` : ''}
+                                </div>
+                            `
+            }
+
+            if (isInteractive) {
+                const normalized = normalizeInteractiveQuestion(q)
+                const ans = interactiveAnswers?.[idx] ?? interactiveAnswers?.[String(idx)]
+                const grade = normalized ? gradeInteractiveQuestion(normalized, ans) : null
+                const rows = grade?.item_results?.map((r: { label: string; correct: boolean }) =>
+                    `<li>${r.correct ? '✓' : '✗'} ${safe(r.label)}</li>`
+                ).join('') ?? ''
+                return `
+                                <div class="qcard">
+                                    <div class="qhead">Q${idx + 1} - Interactive (${safe(q?.kind)}) <span class="marks">${grade ? `${safe(grade.marks_awarded)}/${safe(grade.marks_total)}` : '—'}</span></div>
+                                    <div class="qtext">${questionText}</div>
+                                    ${rows ? `<ul class="criteria">${rows}</ul>` : ''}
+                                    ${q?.explanation ? `<div class="qsub">Explanation</div><div class="answer">${safe(q.explanation)}</div>` : ''}
                                 </div>
                             `
             }

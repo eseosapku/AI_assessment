@@ -8,6 +8,10 @@
     "start": "next start",
     "lint": "next lint",
     "sync:exam-banks": "node scripts/sync-exam-question-banks.js",
+    "extract:exam-images": "node scripts/extract-exam-images.js",
+    "extract:textbook-images": "node scripts/extract-textbook-images.js",
+    "filter:textbook-images": "node scripts/filter-textbook-images.js",
+    "prune:textbook-images": "node scripts/prune-textbook-images.js",
     "capture:motion-assets": "node scripts/capture-motion-ad-screenshots.js"
   },
   "dependencies": {

@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
+import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 
 const AWS_REGION = process.env.AWS_REGION || 'eu-west-1'
 const DEFAULT_FEEDBACK_MODEL =
@@ -137,14 +139,21 @@ async function callFeedbackModel(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
-    const { assessment, answers, longFormAnswers, longFormGrades, score, grade, className } = body
+    const { assessment, answers, longFormAnswers, longFormGrades, interactiveAnswers, interactiveGrades, score, grade, className } = body
 
-    if (!assessment || (!answers && !longFormAnswers)) {
+    if (!assessment || (!answers && !longFormAnswers && !interactiveAnswers)) {
       return NextResponse.json({ error: 'Assessment and answers are required' }, { status: 400 })
     }
 
     const hasLongForm = assessment.questions.some((q: any) => q.type === 'longform')
-    const hasMCQ = assessment.questions.some((q: any) => q.type !== 'longform')
+    const hasInteractive = assessment.questions.some((q: any) => q.type === 'interactive')
+    const hasMCQ = assessment.questions.some((q: any) => q.type === 'mcq' || (!q.type && Array.isArray(q.options)))
+
+    const questionTypesLabel = [
+      hasMCQ && 'MCQ',
+      hasInteractive && 'Interactive study',
+      hasLongForm && 'Long-form written',
+    ].filter(Boolean).join(' + ') || 'Mixed'
 
     // Build a detailed per-question performance summary
     const performanceSummary = assessment.questions.map((q: any, idx: number) => {
@@ -158,6 +167,19 @@ export async function POST(request: NextRequest) {
           `Question: ${q.question}`,
           `Criteria MET: ${met.length ? met.join(' | ') : 'None'}`,
           `Criteria MISSED: ${missed.length ? missed.join(' | ') : 'None'}`,
+        ].join('\n')
+      }
+      if (q.type === 'interactive') {
+        const normalized = normalizeInteractiveQuestion(q)
+        const ans = interactiveAnswers?.[idx] ?? interactiveAnswers?.[String(idx)]
+        const g = interactiveGrades?.[idx] ?? interactiveGrades?.[String(idx)]
+          ?? (normalized ? gradeInteractiveQuestion(normalized, ans) : null)
+        if (!g) return `Q${idx + 1} [Interactive — ${q.kind}]: Not graded.`
+        const missed = g.item_results.filter((r: any) => !r.correct).map((r: any) => r.label)
+        return [
+          `Q${idx + 1} [Interactive ${q.kind} — scored ${g.marks_awarded}/${g.marks_total}]`,
+          `Question: ${q.question}`,
+          missed.length ? `Items missed: ${missed.join(' | ')}` : 'All items correct.',
         ].join('\n')
       }
       const isCorrect = answers?.[idx] === q.correct_answer
@@ -175,7 +197,7 @@ export async function POST(request: NextRequest) {
 STUDENT PROFILE: ${className ? `Class/Year: ${className}` : 'Secondary school student'}
 SUBJECT: ${assessment.subject} — Topics: ${assessment.topics?.join(', ')}
 FINAL SCORE: ${score}% (Grade ${grade})
-QUESTION TYPES: ${hasLongForm && hasMCQ ? 'Mixed MCQ + Long-form written' : hasLongForm ? 'Long-form written' : 'Multiple choice'}
+QUESTION TYPES: ${questionTypesLabel}
 
 DETAILED PERFORMANCE:
 ${performanceSummary}
@@ -208,7 +230,7 @@ Use exactly the symbols shown (✅ ⚠️ 💡). Use **bold** only for the three
     // Build the static fallback first so it's available in all paths
     const missed = assessment.questions
       .map((q: any, idx: number) => {
-        if (q.type === 'longform') return null
+        if (q.type === 'longform' || q.type === 'interactive') return null
         return answers?.[idx] !== q.correct_answer ? `Q${idx + 1} (${q.question?.slice(0, 60)}…)` : null
       })
       .filter(Boolean)

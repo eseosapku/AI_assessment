@@ -6,11 +6,22 @@ import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+import { useSubscription } from '@/components/SubscriptionProvider'
+import { isPaymentRequiredResponse } from '@/lib/subscription'
+import { subjectFromTextbookName, filterAliasTextbooks, withDisplaySubjectNames } from '@/lib/textbook-subject'
+import { CURRICULUM_REGISTRY, curriculaForCountry } from '@/lib/curriculum-registry'
+import { normalizeCountry } from '@/lib/countries'
+import {
+  buildClassOptionsForCurriculum,
+  deriveGradeFromClassName,
+  formatClassLabel,
+  type SchoolClassRow,
+} from '@/lib/school-class-options'
 
 type TextbookRow = { id: number; name: string; subjectName?: string; displayName?: string; curriculum: number; filename?: string | null }
 type TopicRow = { id: number; textbook_id: number; name: string }
 type SubtopicRow = { id: number; textbook_id: number; topic_id: number; name: string }
-type ClassRow = { id: number; name: string; curricula: number[] }
+type ClassRow = SchoolClassRow
 type CurriculumOption = {
   id: string
   label: string
@@ -49,43 +60,6 @@ function buildCurriculumOption(value: number): CurriculumOption {
     badge: 'DB',
     numeric: value,
   }
-}
-
-function deriveGradeFromClassName(className: string): number | null {
-  const name = String(className ?? '').trim()
-  if (!name) return null
-
-  // Prefer explicit "Grade 7" / "Grade7" style labels.
-  const gradeMatch = name.match(/\bgrade\s*(\d{1,2})\b/i) || name.match(/^grade(\d{1,2})$/i)
-  if (gradeMatch) {
-    const n = Number(gradeMatch[1])
-    return Number.isFinite(n) ? n : null
-  }
-
-  // Fallback: any standalone 1–2 digit number.
-  const anyNum = name.match(/\b(\d{1,2})\b/)
-  if (anyNum) {
-    const n = Number(anyNum[1])
-    return Number.isFinite(n) ? n : null
-  }
-
-  return null
-}
-
-function formatClassLabel(className: string, grade: number | null, curriculumId: string) {
-  if (curriculumId === 'nigeria') {
-    const m = className.match(/^(P\d|JSS\d|SS\d)$/i)
-    if (m) {
-      if (className.startsWith('P')) return `Primary ${className.slice(1)}`
-      if (className.startsWith('JSS')) return `Junior Secondary ${className.slice(3)}`
-      if (className.startsWith('SS')) return `Senior Secondary ${className.slice(2)}`
-    }
-    return className
-  }
-  if (curriculumId !== 'rwanda' || grade === null) return className
-  if (grade >= 1 && grade <= 6) return `Primary ${grade}`
-  if (grade >= 7 && grade <= 12) return `Senior ${grade - 6}`
-  return className
 }
 
 const DIFFICULTY_LEVELS = [
@@ -139,6 +113,8 @@ const QUESTION_TYPES = [
   { id: 'mcq', label: 'Multiple Choice', description: 'Classic 4-option questions, auto-graded instantly', icon: '⊙' },
   { id: 'longform', label: 'Long-form Only', description: 'Extended written answers, AI-marked with per-mark criteria', icon: '✍' },
   { id: 'mixed', label: 'Mixed (MCQ + Long-form)', description: '~60% multiple choice + ~40% written questions', icon: '⚡' },
+  { id: 'interactive', label: 'Interactive Study', description: 'Drag, match, sort & fill-in — hands-on revision', icon: '✦' },
+  { id: 'study_mixed', label: 'Study Mix (MCQ + Interactive)', description: '~50% MCQ + ~50% interactive activities', icon: '◈' },
 ]
 
 const AI_MODEL = { id: 'eu.google.gemma-3-27b-it-v1:0', label: 'Gemma 3 27B', badge: 'AWS' }
@@ -211,7 +187,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     count: 0,
     maxAttempts: 1,
     style: '',
-    questionType: '' as 'mcq' | 'longform' | 'mixed' | '',
+    questionType: '' as 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed' | '',
     time: 'Calculated by AI',
   })
 
@@ -305,27 +281,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const selectedCurriculum = curriculumOptions.find((c) => c.id === formData.curriculum)
   const selectedCurriculumNumeric = selectedCurriculum?.numeric ?? null
 
-  const classOptions = useMemo(() => {
-    const eligible = selectedCurriculumNumeric === null
-      ? classes
-      : classes.filter((cls) => cls.curricula.length === 0 || cls.curricula.includes(selectedCurriculumNumeric))
-
-    return eligible
-      .map((cls) => {
-        const grade = deriveGradeFromClassName(cls.name)
-        return {
-          ...cls,
-          grade,
-          label: formatClassLabel(cls.name, grade, formData.curriculum),
-        }
-      })
-      .sort((a, b) => {
-        const aGrade = a.grade ?? Number.POSITIVE_INFINITY
-        const bGrade = b.grade ?? Number.POSITIVE_INFINITY
-        if (aGrade !== bGrade) return aGrade - bGrade
-        return a.label.localeCompare(b.label)
-      })
-  }, [classes, formData.curriculum, selectedCurriculumNumeric])
+  const classOptions = useMemo(
+    () => buildClassOptionsForCurriculum(formData.curriculum, classes),
+    [classes, formData.curriculum],
+  )
 
   const selectedClassDisplayName = formData.class_name
     ? formatClassLabel(formData.class_name, deriveGradeFromClassName(formData.class_name), formData.curriculum)
@@ -533,7 +492,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   }
   const handleCountSelect = (count: number) => { setFormData({ ...formData, count }); setTimeout(() => setStep(7), 250) }
   const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(8), 250) }
-  const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed') => { setFormData({ ...formData, questionType: qt }); setTimeout(() => setStep(9), 250) }
+  const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed') => { setFormData({ ...formData, questionType: qt }); setTimeout(() => setStep(9), 250) }
 
   const buildDraftTitle = () => {
     const subject = formData.subject || 'Assessment'
@@ -771,7 +730,9 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             {flowMode === 'ai' && step >= 2 && formData.curriculum && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Class" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Select class (from database)</h3>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                  {isCambridge ? 'Select Cambridge grade' : 'Select class (from database)'}
+                </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {isLoadingClasses ? (
                     <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
@@ -786,7 +747,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                     classOptions.map((cls) => (
                       <OptionButton
                         key={cls.id}
-                        selected={formData.class_id === cls.id}
+                        selected={formData.class_id === cls.id || formData.class_name === cls.name}
                         onClick={() => handleClassSelect(cls)}
                       >
                         <span className="font-bold text-gray-900 dark:text-white block">{cls.label}</span>
@@ -1004,7 +965,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How should questions be presented?</h3>
                 <div className="flex flex-col gap-2">
                   {QUESTION_TYPES.map(qt => (
-                    <OptionButton key={qt.id} selected={formData.questionType === qt.id} onClick={() => handleQuestionTypeSelect(qt.id as 'mcq' | 'longform' | 'mixed')}>
+                    <OptionButton key={qt.id} selected={formData.questionType === qt.id} onClick={() => handleQuestionTypeSelect(qt.id as 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed')}>
                       <div className="flex items-start gap-3">
                         <span className="text-lg mt-0.5 w-6 text-center flex-shrink-0">{qt.icon}</span>
                         <div>

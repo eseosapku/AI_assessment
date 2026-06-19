@@ -21,7 +21,7 @@ export async function GET(request: NextRequest) {
             curriculum = c
         }
 
-        const { data, error } = await supabase
+        const { data: rows, error } = await supabase
             .from('classes')
             .select(`
         id,
@@ -37,11 +37,24 @@ export async function GET(request: NextRequest) {
         )
       `)
             .eq('name', className)
-            .maybeSingle()
 
         if (error) {
             console.error('Class textbooks fetch error:', error)
             return NextResponse.json({ error: error.message }, { status: 500 })
+        }
+
+        const classRows = Array.isArray(rows) ? rows : []
+        let data = classRows[0] ?? null
+        if (classRows.length > 1 && curriculum === 1) {
+            data = classRows.find((row: any) => {
+                const links = Array.isArray(row?.class_textbooks) ? row.class_textbooks : []
+                return links.some((link: any) => Number(link?.textbooks?.curriculum) === 1)
+            }) ?? data
+        } else if (classRows.length > 1) {
+            data = classRows.find((row: any) => {
+                const links = Array.isArray(row?.class_textbooks) ? row.class_textbooks : []
+                return links.some((link: any) => curriculum === null || Number(link?.textbooks?.curriculum) === curriculum)
+            }) ?? data
         }
 
         const links = Array.isArray((data as any)?.class_textbooks) ? (data as any).class_textbooks : []

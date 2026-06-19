@@ -48,8 +48,8 @@ export default function ExamPrepPage() {
           <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 mb-2">WAEC &amp; JAMB</p>
           <h2 className="text-3xl font-black text-gray-900 dark:text-white">Dedicated exam practice</h2>
           <p className="text-sm text-gray-500 mt-2 max-w-xl">
-            Separate from school assessments. Questions follow official WASSCE and JAMB UTME syllabuses,
-            with optional practice from synced past-question banks by year and subject.
+            Practice from synced WAEC and JAMB past papers by year. Optionally focus on syllabus topics —
+            we use the paper first and add syllabus-style questions when you need more.
           </p>
         </motion.div>
         <ExamPrepForm />

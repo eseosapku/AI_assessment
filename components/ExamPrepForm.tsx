@@ -16,7 +16,6 @@ import { useSubscription } from '@/components/SubscriptionProvider'
 import { isPaymentRequiredResponse } from '@/lib/subscription'
 
 type ExamType = 'waec' | 'jamb'
-type SourceMode = 'syllabus' | 'past_paper' | 'both'
 type QuestionFormat = 'mcq' | 'longform' | 'mixed'
 
 type PastPaper = {
@@ -47,7 +46,6 @@ export default function ExamPrepForm() {
   const [difficulty, setDifficulty] = useState('average')
   const [count, setCount] = useState(10)
   const [questionFormat, setQuestionFormat] = useState<QuestionFormat>('mcq')
-  const [sourceMode, setSourceMode] = useState<SourceMode>('syllabus')
   const [pastPapers, setPastPapers] = useState<PastPaper[]>([])
   const [selectedPaperId, setSelectedPaperId] = useState<number | null>(null)
   const [loadingPapers, setLoadingPapers] = useState(false)
@@ -64,6 +62,8 @@ export default function ExamPrepForm() {
   )
 
   const selectedPaper = pastPapers.find((p) => p.id === selectedPaperId)
+  const hasPastPapers = pastPapers.length > 0
+  const syllabusFallback = Boolean(selectedSubject && !loadingPapers && !hasPastPapers)
 
   useEffect(() => {
     if (!exam || !subject) {
@@ -78,23 +78,26 @@ export default function ExamPrepForm() {
         const json = await res.json()
         const papers = Array.isArray(json?.data) ? json.data.filter((p: PastPaper) => p.hasSourceText) : []
         setPastPapers(papers)
-        if (papers.length > 0 && sourceMode !== 'syllabus') {
-          setSelectedPaperId(papers[0].id)
-        } else {
-          setSelectedPaperId(null)
-        }
+        setSelectedPaperId(papers.length > 0 ? papers[0].id : null)
       } catch {
         setPastPapers([])
+        setSelectedPaperId(null)
       } finally {
         setLoadingPapers(false)
       }
     }
     load()
-  }, [exam, subject, sourceMode])
+  }, [exam, subject])
 
-  const step = !exam ? 1 : !subject && !(exam === 'jamb' && jambMode === 'course' && course) ? 2
-    : sourceMode !== 'past_paper' && topics.length === 0 ? 3
-    : sourceMode !== 'syllabus' && !selectedPaperId && pastPapers.length > 0 ? 3
+  const readyForSettings = Boolean(
+    selectedSubject
+    && !loadingPapers
+    && (hasPastPapers ? selectedPaperId : topics.length > 0),
+  )
+
+  const step = !exam ? 1
+    : !subject && !(exam === 'jamb' && jambMode === 'course' && course) ? 2
+    : !readyForSettings ? 3
     : 4
 
   const toggleTopic = (name: string) => {
@@ -106,43 +109,63 @@ export default function ExamPrepForm() {
     setTopics(selectedSubject.topics)
   }
 
+  const clearTopics = () => setTopics([])
+
   const handleGenerate = async () => {
     if (!exam || !subject) return
     if (!canGenerateAssessment) {
       handlePaymentRequired('assessment')
       return
     }
-    if (sourceMode !== 'past_paper' && topics.length === 0) return
-    if (sourceMode !== 'syllabus' && pastPapers.length > 0 && !selectedPaperId) return
+    if (hasPastPapers && !selectedPaperId) return
+    if (!hasPastPapers && topics.length === 0) return
+
     setError('')
     setIsGenerating(true)
     try {
       const qType: QuestionFormat = exam === 'jamb' ? 'mcq' : questionFormat
+      const paper = selectedPaper
+      const promptTopics = topics.length > 0
+        ? topics
+        : paper
+          ? [`${paper.year} ${paper.diet} past paper`]
+          : []
+
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           user_id: user?.id,
           subject,
-          topics: sourceMode === 'past_paper' ? (selectedPaper ? [`${selectedPaper.year} ${selectedPaper.diet} paper`] : []) : topics,
+          topics: promptTopics,
           count,
           style: exam === 'waec' ? 'WASSCE practice' : 'JAMB UTME practice',
           className: exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
           curriculum: exam,
           difficultyLevel: difficulty,
           questionType: qType,
-          textbook_id: selectedPaperId ?? undefined,
+          textbook_id: paper?.id ?? undefined,
           examPrepContext: examPrepContext(
             exam,
             subject,
-            topics.length ? topics : (selectedPaper ? [`${selectedPaper.year} past paper`] : []),
+            promptTopics,
             [
               jambCombo ? `Target course: ${jambCombo.course} (${jambCombo.faculty}). UTME subjects: ${jambCombo.subjects.join(', ')}` : '',
-              selectedPaper ? `Past paper reference: ${selectedPaper.year} ${selectedPaper.diet}` : '',
-              sourceMode === 'both' ? 'Combine syllabus topics with past-paper style and content' : '',
-              exam === 'waec' && qType !== 'mcq' ? 'Include WASSCE Paper 2 style theory: structured answers, definitions, explanations, and worked problems. Describe any diagram in words when needed.' : '',
-              exam === 'jamb' && selectedPaper ? 'Where the source material references figures or diagrams, describe them clearly in the question stem so they are answerable without a separate image.' : '',
-            ].filter(Boolean).join('. '),
+              paper
+                ? `Primary source: ${paper.year} ${paper.diet} synced past-question bank. Adapt real past questions; preserve official exam style and difficulty.`
+                : 'No synced past paper for this subject — generate syllabus-aligned practice questions only.',
+              topics.length > 0 && paper
+                ? `Focus on: ${topics.join('; ')}. Use the past paper first; if it does not contain enough questions for these areas, add new syllabus-aligned questions in the same ${exam.toUpperCase()} style to reach the requested count.`
+                : paper
+                  ? 'Draw from across the full past paper — vary topics and question styles.'
+                  : '',
+              exam === 'waec' && qType !== 'mcq'
+                ? 'Include WASSCE Paper 2 style theory: structured answers, definitions, explanations, and worked problems. Describe any diagram in words when needed.'
+                : '',
+              exam === 'jamb' && paper
+                ? 'Where the source references figures or diagrams, describe them clearly in the question stem so they are answerable without a separate image.'
+                : '',
+            ].filter(Boolean).join(' '),
           ),
         }),
       })
@@ -172,7 +195,7 @@ export default function ExamPrepForm() {
         <div className="grid sm:grid-cols-2 gap-3">
           {([
             { id: 'waec' as const, label: 'WAEC WASSCE', desc: 'West African Senior School Certificate', icon: BookOpen },
-            { id: 'jamb' as const, label: 'JAMB UTME', desc: 'University matriculation (IBASS syllabus)', icon: GraduationCap },
+            { id: 'jamb' as const, label: 'JAMB UTME', desc: 'University matriculation practice', icon: GraduationCap },
           ]).map((opt) => (
             <button
               key={opt.id}
@@ -189,29 +212,6 @@ export default function ExamPrepForm() {
           ))}
         </div>
       </section>
-
-      {/* Official resources */}
-      {exam && resources.length > 0 && (
-        <section className="rounded-2xl border border-gray-200/80 dark:border-white/10 bg-white/60 dark:bg-white/[0.03] p-5">
-          <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 mb-3">Official syllabus &amp; past paper sources</p>
-          <ul className="space-y-2">
-            {resources.map((r) => (
-              <li key={r.url}>
-                <a
-                  href={r.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300 hover:underline"
-                >
-                  {r.title}
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
-                {r.notes && <p className="text-[11px] text-gray-400 ml-0 mt-0.5">{r.notes}</p>}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
 
       {/* Step 2: Subject */}
       {exam && step >= 2 && (
@@ -295,100 +295,114 @@ export default function ExamPrepForm() {
         </motion.section>
       )}
 
-      {/* Step 3: Source mode + topics / past papers */}
+      {/* Step 3: Past paper (+ optional topic focus) */}
       {selectedSubject && step >= 3 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6 space-y-5">
           <div>
             <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 3</p>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">Question source</h2>
-            <p className="text-xs text-gray-500 mt-1">Use syllabus topics, synced past-question banks by year, or both.</p>
+            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+              {hasPastPapers ? 'Choose past paper year' : 'Syllabus topics'}
+            </h2>
+            <p className="text-xs text-gray-500 mt-1">
+              {hasPastPapers
+                ? 'Practice from real synced past questions. Optionally narrow to specific syllabus areas below.'
+                : 'No past paper synced for this subject yet — pick topics to generate syllabus-style practice.'}
+            </p>
           </div>
 
-          <div className="flex flex-wrap gap-2">
-            {([
-              { id: 'syllabus' as const, label: 'Syllabus only' },
-              { id: 'past_paper' as const, label: 'Past paper year' },
-              { id: 'both' as const, label: 'Syllabus + past paper' },
-            ]).map((m) => (
-              <button
-                key={m.id}
-                type="button"
-                onClick={() => { setSourceMode(m.id); if (m.id === 'syllabus') setSelectedPaperId(null) }}
-                className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${sourceMode === m.id
-                  ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 text-emerald-800 dark:text-emerald-200'
-                  : 'border-gray-200 dark:border-white/10'}`}
-              >
-                {m.label}
-              </button>
-            ))}
-          </div>
-
-          {sourceMode !== 'past_paper' && (
+          {loadingPapers ? (
+            <p className="text-sm text-gray-500 flex items-center gap-2">
+              <Loader2 className="w-4 h-4 animate-spin" /> Loading past papers…
+            </p>
+          ) : hasPastPapers ? (
             <div>
-              <div className="flex items-center justify-between mb-3">
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">Syllabus topics</h3>
-                <button type="button" onClick={selectAllTopics} className="text-xs font-semibold text-emerald-600 hover:underline">Select all</button>
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {selectedSubject.topics.map((t) => (
+              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-emerald-600" />
+                Past paper
+              </h3>
+              <div className="grid sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
+                {pastPapers.map((p) => (
                   <button
-                    key={t}
+                    key={p.id}
                     type="button"
-                    onClick={() => toggleTopic(t)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${topics.includes(t)
-                      ? 'border-emerald-500 bg-emerald-500 text-white'
-                      : 'border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300'}`}
+                    onClick={() => setSelectedPaperId(p.id)}
+                    className={`text-left px-3 py-2 rounded-lg text-sm border ${selectedPaperId === p.id
+                      ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 font-semibold'
+                      : 'border-gray-200 dark:border-white/10'}`}
                   >
-                    {topics.includes(t) && <Check className="w-3 h-3 inline mr-1" />}
-                    {t}
+                    {p.year} — {p.diet?.replace(/-/g, ' ')}
+                    <span className="block text-[10px] text-gray-400">Synced past questions</span>
                   </button>
                 ))}
               </div>
             </div>
-          )}
-
-          {sourceMode !== 'syllabus' && (
-            <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-emerald-600" />
-                Past paper (by year)
-              </h3>
-              {loadingPapers ? (
-                <p className="text-sm text-gray-500 flex items-center gap-2"><Loader2 className="w-4 h-4 animate-spin" /> Loading past papers…</p>
-              ) : pastPapers.length === 0 ? (
-                <div className="rounded-xl border border-amber-200/60 dark:border-amber-800/40 bg-amber-50/50 dark:bg-amber-900/10 p-4 text-sm text-amber-900 dark:text-amber-200">
-                  <p className="font-medium mb-1">No past papers available yet for {subject}.</p>
-                  <p className="text-xs text-amber-800/80 dark:text-amber-300/80">
-                    Syllabus-only practice still works. Past papers sync automatically when available for this subject.
-                  </p>
-                </div>
-              ) : (
-                <div className="grid sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
-                  {pastPapers.map((p) => (
-                    <button
-                      key={p.id}
-                      type="button"
-                      onClick={() => setSelectedPaperId(p.id)}
-                      className={`text-left px-3 py-2 rounded-lg text-sm border ${selectedPaperId === p.id
-                        ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 font-semibold'
-                        : 'border-gray-200 dark:border-white/10'}`}
-                    >
-                      {p.year} — {p.diet?.replace(/-/g, ' ')}
-                      <span className="block text-[10px] text-gray-400">Past paper</span>
-                    </button>
-                  ))}
-                </div>
-              )}
+          ) : (
+            <div className="rounded-xl border border-amber-200/60 dark:border-amber-800/40 bg-amber-50/50 dark:bg-amber-900/10 p-4 text-sm text-amber-900 dark:text-amber-200">
+              <p className="font-medium">No past papers available yet for {subject}.</p>
+              <p className="text-xs mt-1 text-amber-800/80 dark:text-amber-300/80">
+                Select at least one syllabus topic below. Past papers are added automatically when synced.
+              </p>
             </div>
           )}
+
+          <div>
+            <div className="flex items-center justify-between mb-3">
+              <div>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                  {hasPastPapers ? 'Focus topics (optional)' : 'Syllabus topics'}
+                </h3>
+                {hasPastPapers && (
+                  <p className="text-[11px] text-gray-400 mt-0.5">
+                    We use the past paper first; extra syllabus questions fill gaps if needed.
+                  </p>
+                )}
+              </div>
+              <div className="flex gap-2">
+                {topics.length > 0 && (
+                  <button type="button" onClick={clearTopics} className="text-xs font-semibold text-gray-500 hover:underline">
+                    Clear
+                  </button>
+                )}
+                <button type="button" onClick={selectAllTopics} className="text-xs font-semibold text-emerald-600 hover:underline">
+                  Select all
+                </button>
+              </div>
+            </div>
+            <div className="flex flex-wrap gap-2">
+              {selectedSubject.topics.map((t) => (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => toggleTopic(t)}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${topics.includes(t)
+                    ? 'border-emerald-500 bg-emerald-500 text-white'
+                    : 'border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300'}`}
+                >
+                  {topics.includes(t) && <Check className="w-3 h-3 inline mr-1" />}
+                  {t}
+                </button>
+              ))}
+            </div>
+            {syllabusFallback && topics.length === 0 && (
+              <p className="text-xs text-amber-600 dark:text-amber-400 mt-3">Select at least one topic to continue.</p>
+            )}
+          </div>
         </motion.section>
       )}
 
       {/* Step 4: Generate */}
-      {((sourceMode === 'past_paper' && selectedPaperId) || (sourceMode !== 'past_paper' && topics.length > 0) || (sourceMode === 'both' && selectedPaperId && topics.length > 0)) && (
+      {readyForSettings && step >= 4 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6">
           <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 4</p>
           <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Practice settings</h2>
+          {selectedPaper && (
+            <p className="text-xs text-gray-500 mb-4">
+              Source: <span className="font-semibold text-gray-700 dark:text-gray-300">{selectedPaper.year} {selectedPaper.diet?.replace(/-/g, ' ')}</span>
+              {topics.length > 0 && (
+                <> · Focus: <span className="font-semibold text-gray-700 dark:text-gray-300">{topics.length} topic{topics.length === 1 ? '' : 's'}</span></>
+              )}
+            </p>
+          )}
           <div className="grid sm:grid-cols-2 gap-4 mb-4">
             {exam === 'waec' && (
               <div className="sm:col-span-2">
@@ -427,6 +441,30 @@ export default function ExamPrepForm() {
             {isGenerating ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating…</> : <>Start practice <ChevronRight className="w-4 h-4" /></>}
           </button>
         </motion.section>
+      )}
+
+      {/* Official links — footer */}
+      {exam && resources.length > 0 && (
+        <details className="rounded-2xl border border-gray-200/80 dark:border-white/10 bg-white/40 dark:bg-white/[0.02] p-4">
+          <summary className="text-xs font-semibold text-gray-500 cursor-pointer select-none">
+            Official {exam.toUpperCase()} resources &amp; syllabuses
+          </summary>
+          <ul className="space-y-2 mt-3">
+            {resources.map((r) => (
+              <li key={`${r.url}-${r.title}`}>
+                <a
+                  href={r.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300 hover:underline"
+                >
+                  {r.title}
+                  <ExternalLink className="w-3.5 h-3.5" />
+                </a>
+              </li>
+            ))}
+          </ul>
+        </details>
       )}
     </div>
   )
