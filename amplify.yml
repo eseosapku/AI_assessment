@@ -1,0 +1,22 @@
+version: 1
+frontend:
+  phases:
+    preBuild:
+      commands:
+        - npm ci
+    build:
+      commands:
+        # Amplify console env vars are NOT auto-available to Next.js SSR at runtime.
+        # Write server + public vars into .env.production before build (AWS docs).
+        - env | grep -E '^(FLW_|DATABASE_URL|JWT_SECRET|BEDROCK_|PG_DISABLE_SSL|INTERNAL_JOB|AI_JOB_QUEUE|BACKEND_INTERNAL)' >> .env.production || true
+        - env | grep -e NEXT_PUBLIC_ >> .env.production || true
+        - npm run build
+        - cp .env.production .next/standalone/.env.production 2>/dev/null || true
+  artifacts:
+    baseDirectory: .next
+    files:
+      - '**/*'
+  cache:
+    paths:
+      - node_modules/**/*
+      - .next/cache/**/*
