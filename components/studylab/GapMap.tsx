@@ -19,6 +19,7 @@ import {
 import '@xyflow/react/dist/style.css'
 import { ArrowLeft, Brain, Loader2, Sparkles, Target, X, BookOpen, ChevronRight, ChevronDown, FileQuestion } from 'lucide-react'
 import type { MasteryStatus } from '@/lib/studylab/types'
+import type { CountryCode } from '@/lib/countries'
 
 // ── status styling ────────────────────────────────────────────────────────────
 const STATUS_META: Record<MasteryStatus, { label: string; dot: string; ring: string; text: string }> = {
@@ -306,7 +307,7 @@ export default function GapMap({
 }: {
   userId: string
   userClass?: string | null
-  userCountry?: 'RW' | 'NG'
+  userCountry?: CountryCode
 }) {
   const router = useRouter()
   const [tree, setTree] = useState<GapTree | null>(null)
