@@ -2,6 +2,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { activateSubscription, getSubscriptionSnapshot } from '@/lib/subscription-server'
 import { findTransactionByTxRef, verifyTransactionById } from '@/lib/flutterwave'
 
+function isPaidFlutterwaveStatus(status: string | undefined | null): boolean {
+  const s = String(status ?? '').toLowerCase()
+  return s === 'successful' || s === 'succeeded' || s === 'completed'
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
@@ -22,7 +27,7 @@ export async function POST(request: NextRequest) {
 
     if (transactionId) {
       const txn = await verifyTransactionById(transactionId)
-      if (txn?.status === 'successful') {
+      if (txn && isPaidFlutterwaveStatus(txn.status)) {
         flwVerified = true
         paymentId = txn.id
         if (txn.txRef) txRef = txn.txRef
@@ -32,13 +37,23 @@ export async function POST(request: NextRequest) {
     if (!flwVerified && txRef) {
       try {
         const txn = await findTransactionByTxRef(txRef)
-        if (txn?.status === 'successful') {
+        if (txn && isPaidFlutterwaveStatus(txn.status)) {
           flwVerified = true
           paymentId = txn.id
         }
       } catch (e) {
-        console.warn('Flutterwave verify lookup failed, optimistic activation:', e)
+        console.warn('Flutterwave verify lookup failed:', e)
       }
+    }
+
+    if (!flwVerified) {
+      return NextResponse.json(
+        {
+          error:
+            'Payment not confirmed. If you completed payment, wait a minute and refresh — webhook confirmation may still be pending.',
+        },
+        { status: 402 },
+      )
     }
 
     const result = await activateSubscription({
@@ -54,7 +69,7 @@ export async function POST(request: NextRequest) {
     const snapshot = await getSubscriptionSnapshot(userId)
     return NextResponse.json({
       active: true,
-      verified: flwVerified,
+      verified: true,
       expiresAt: snapshot?.expiresAt ?? undefined,
       lastPaymentId: paymentId ?? txRef ?? transactionId,
       subscription: snapshot,
