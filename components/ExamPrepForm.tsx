@@ -36,7 +36,7 @@ const DIFFICULTY_LEVELS = [
 export default function ExamPrepForm() {
   const router = useRouter()
   const { user } = useAuth()
-  const { canGenerateAssessment, handlePaymentRequired } = useSubscription()
+  const { canGenerateAssessment, handlePaymentRequired, refresh } = useSubscription()
   const [exam, setExam] = useState<ExamType | ''>('')
   const [subject, setSubject] = useState('')
   const [jambMode, setJambMode] = useState<'subject' | 'course'>('subject')
@@ -172,12 +172,14 @@ export default function ExamPrepForm() {
       const json = await res.json()
       if (!res.ok) {
         if (isPaymentRequiredResponse(res.status, json)) {
+          await refresh()
           handlePaymentRequired('assessment')
           return
         }
         throw new Error(json?.error || 'Failed to generate assessment')
       }
       sessionStorage.setItem('currentAssessment', JSON.stringify(json))
+      await refresh()
       router.push('/assessment')
     } catch (e: any) {
       setError(e?.message || 'Generation failed')

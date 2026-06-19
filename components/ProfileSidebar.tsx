@@ -2,8 +2,9 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { X, User, BookOpen, LogOut, Settings } from 'lucide-react'
+import { X, User, BookOpen, LogOut, Settings, Sparkles } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import { useSubscription } from './SubscriptionProvider'
 
 interface ProfileSidebarProps {
   isOpen: boolean
@@ -12,6 +13,7 @@ interface ProfileSidebarProps {
 
 export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps) {
   const { user, logout } = useAuth()
+  const { snapshot, openPaywall } = useSubscription()
 
   if (!user) return null
 
@@ -82,6 +84,39 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
                     </motion.div>
                   ))}
                 </div>
+              </div>
+
+              {/* Subscription */}
+              <div className="pt-6 border-t border-gray-200 dark:border-gray-700">
+                {snapshot.isSubscribed ? (
+                  <div className="p-4 rounded-apple bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-200 dark:border-emerald-800/40">
+                    <p className="text-sm font-semibold text-emerald-800 dark:text-emerald-200">StudySquare Pro active</p>
+                    {snapshot.expiresAt && (
+                      <p className="text-xs text-emerald-700 dark:text-emerald-300 mt-1">
+                        Renews / expires {snapshot.expiresAt.slice(0, 10)}
+                      </p>
+                    )}
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="text-sm text-gray-600 dark:text-gray-300">
+                      {snapshot.freeAssessmentsRemaining > 0
+                        ? `${snapshot.freeAssessmentsRemaining} free assessment${snapshot.freeAssessmentsRemaining === 1 ? '' : 's'} left`
+                        : 'Free assessments used — subscribe for unlimited access'}
+                    </p>
+                    <button
+                      type="button"
+                      onClick={() => {
+                        openPaywall('assessment')
+                        onClose()
+                      }}
+                      className="w-full py-3 px-4 rounded-apple bg-gradient-to-r from-emerald-600 to-teal-600 hover:opacity-90 text-white font-medium flex items-center justify-center gap-2 transition-opacity"
+                    >
+                      <Sparkles className="w-5 h-5" />
+                      Subscribe — $5/month
+                    </button>
+                  </div>
+                )}
               </div>
 
               {/* Settings Button */}

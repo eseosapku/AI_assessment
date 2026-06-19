@@ -162,7 +162,7 @@ function StepLabel({ label }: { label: string }) {
 export default function FlowForm({ onClose }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
-  const { canGenerateAssessment, handlePaymentRequired } = useSubscription()
+  const { canGenerateAssessment, handlePaymentRequired, refresh } = useSubscription()
   const userCountry = normalizeCountry(user?.country ?? 'RW')
   const allowedCurriculumNums = useMemo(
     () => new Set(curriculaForCountry(userCountry, { schoolOnly: true }).map((c) => c.numeric)),
@@ -207,6 +207,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const startTimeRef = useRef<number>(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [error, setError] = useState('')
+  const [showSubscribeCta, setShowSubscribeCta] = useState(false)
   const [generatedData, setGeneratedData] = useState<any>(null)
   const [manualTopicInput, setManualTopicInput] = useState('')
   const [draftId, setDraftId] = useState<string | null>(null)
@@ -540,11 +541,14 @@ export default function FlowForm({ onClose }: FlowFormProps) {
 
   const handleStartAssessment = async () => {
     if (!canGenerateAssessment) {
+      setError('')
+      setShowSubscribeCta(true)
       handlePaymentRequired('assessment')
       return
     }
     setIsLoading(true)
     setError('')
+    setShowSubscribeCta(false)
     setTotalTime(null)
     setElapsed(0)
     startTimeRef.current = Date.now()
@@ -568,8 +572,19 @@ export default function FlowForm({ onClose }: FlowFormProps) {
         const text = await response.text()
         if (!text) throw new Error('Server returned an empty response. Please try again.')
         data = JSON.parse(text)
-        if (!response.ok) throw new Error(data.error || 'Failed to generate assessment')
+        if (!response.ok) {
+          if (isPaymentRequiredResponse(response.status, data)) {
+            setError('')
+            setShowSubscribeCta(true)
+            await refresh()
+            handlePaymentRequired('assessment')
+            return
+          }
+          throw new Error(data.error || 'Failed to generate assessment')
+        }
       }
+
+      await refresh()
 
       if (isTeacher) {
         setGeneratedData(data)
@@ -1036,6 +1051,23 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                     className="text-xs text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800/60 rounded-lg px-4 py-3 mb-4">
                     {error}
                   </motion.p>
+                )}
+
+                {showSubscribeCta && (
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    className="text-xs text-amber-800 dark:text-amber-200 bg-amber-50 dark:bg-amber-900/20 border border-amber-200 dark:border-amber-800/60 rounded-lg px-4 py-3 mb-4 space-y-3"
+                  >
+                    <p>You have used your free assessments. Subscribe to keep generating practice tests.</p>
+                    <button
+                      type="button"
+                      onClick={() => handlePaymentRequired('assessment')}
+                      className="w-full py-2.5 rounded-lg bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold hover:opacity-90 transition-opacity"
+                    >
+                      Subscribe — $5/month
+                    </button>
+                  </motion.div>
                 )}
 
                 {/* Teacher: generated — show assign / take options */}

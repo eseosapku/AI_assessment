@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { User, Plus, Brain, Clock, Zap, ChevronDown, Users, FileText, Target } from 'lucide-react'
+import { User, Plus, Brain, Clock, Zap, ChevronDown, Users, FileText, Target, Sparkles } from 'lucide-react'
 import { useState, useEffect, useRef, useCallback } from 'react'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -11,6 +11,7 @@ import AssessmentCard from './AssessmentCard'
 import FlowForm from './FlowForm'
 import TeacherDashboard from './TeacherDashboard'
 import { useAuth } from './AuthProvider'
+import { useSubscription } from './SubscriptionProvider'
 
 const DIFFICULTY_COLORS: Record<string, string> = {
   beginner: 'text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-900/20',
@@ -64,6 +65,7 @@ function StudentDashboard() {
   const [pausedAssessment, setPausedAssessment] = useState<PausedAssessmentState | null>(null)
   const DAILY_QUIZ_LIMIT = 7200
   const { user } = useAuth()
+  const { snapshot, openPaywall } = useSubscription()
 
   const refreshClassrooms = useCallback(async () => {
     if (!user?.id && !user?.email) return
@@ -201,6 +203,16 @@ function StudentDashboard() {
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
           <Image src="/logo2.png" alt="Brain Ink" width={140} height={80} className="h-10 w-auto object-contain" priority />
           <div className="flex items-center gap-2">
+            {!snapshot.isSubscribed && (
+              <button
+                type="button"
+                onClick={() => openPaywall('assessment')}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-gradient-to-r from-emerald-600 to-teal-600 text-white text-xs font-semibold hover:opacity-90 transition-opacity"
+              >
+                <Sparkles className="w-3.5 h-3.5" />
+                Subscribe
+              </button>
+            )}
             <ThemeToggle />
             <div className="w-px h-4 bg-gray-200 dark:bg-gray-800 mx-1" />
             <button
