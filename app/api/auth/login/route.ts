@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
-import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { normalizeCountry } from '@/lib/countries'
+import { findUserByEmail, findUserByStudentId } from '@/lib/users-db'
 
 function normalizeEmail(value: unknown) {
   const trimmed = String(value ?? '').trim()
@@ -37,10 +37,9 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const userResult = email
-      ? await db.query('SELECT * FROM users WHERE email = $1 LIMIT 1', [email])
-      : await db.query('SELECT * FROM users WHERE student_id = $1 LIMIT 1', [studentId])
-    const userData = userResult.rows[0]
+    const userData = email
+      ? await findUserByEmail(email)
+      : await findUserByStudentId(studentId!)
 
     if (!userData) {
       return NextResponse.json(

@@ -46,14 +46,17 @@ async function main() {
       .from('users')
       .update({
         subscription_status: 'free',
-        free_assessments_used: 0,
+        free_assessments_used: 2,
+        subscription_started_at: null,
+        subscription_expires_at: null,
+        flutterwave_ref: null,
         password_hash: await bcrypt.hash(password, 10),
         name,
         class: className,
         country,
       })
       .eq('id', existing.id)
-    console.log('Reset existing test user (free tier, 0 assessments used)')
+    console.log('Reset existing test user (free tier, paywall ready — 2/2 free assessments used)')
     console.log(JSON.stringify({ email, password, studentId, role: 'student', country, userId: existing.id }, null, 2))
     return
   }

@@ -11,28 +11,19 @@ export interface InitiatePaymentResult {
   paymentReference: string
 }
 
-export const CURRENCY_OPTIONS = [
-  { code: 'USD', label: '$ USD (Card)' },
-  { code: 'NGN', label: '₦ NGN (Card/Bank/USSD)' },
-  { code: 'UGX', label: 'UGX (MTN/Airtel MoMo)' },
-  { code: 'KES', label: 'KES (M-Pesa)' },
-  { code: 'RWF', label: 'RWF (MTN MoMo)' },
-  { code: 'GHS', label: 'GHS (MoMo)' },
-] as const
+export { CURRENCY_OPTIONS } from '@/lib/subscription-pricing'
 
 export async function initiateMonthlySubscription(
   userId: string,
   userEmail?: string | null,
   currency?: string,
-  amount?: number,
 ): Promise<InitiatePaymentResult> {
   const payload: Record<string, unknown> = {
     user_id: userId,
     email: userEmail ?? undefined,
-    currency: currency ?? process.env.NEXT_PUBLIC_SUBSCRIPTION_CURRENCY ?? 'RWF',
+    currency: (currency ?? 'USD').toUpperCase(),
     interval: 'monthly',
   }
-  if (amount != null) payload.amount = amount
 
   const res = await fetch('/api/payments/flutterwave/initiate', {
     method: 'POST',
