@@ -13,6 +13,19 @@ export interface InitiatePaymentResult {
 
 export { CURRENCY_OPTIONS } from '@/lib/subscription-pricing'
 
+function parseApiError(body: string, fallback: string): string {
+  const trimmed = body.trim()
+  if (!trimmed) return fallback
+  try {
+    const json = JSON.parse(trimmed) as { error?: unknown; message?: unknown }
+    if (typeof json.error === 'string') return json.error
+    if (typeof json.message === 'string') return json.message
+  } catch {
+    // plain text response
+  }
+  return trimmed
+}
+
 export async function initiateMonthlySubscription(
   userId: string,
   userEmail?: string | null,
@@ -32,7 +45,7 @@ export async function initiateMonthlySubscription(
   })
   if (!res.ok) {
     const body = await res.text()
-    throw new Error(body || 'Failed to initiate subscription payment')
+    throw new Error(parseApiError(body, 'Failed to initiate subscription payment'))
   }
   return res.json()
 }
@@ -53,7 +66,7 @@ export async function verifyPayment(
   })
   if (!res.ok) {
     const body = await res.text()
-    throw new Error(body || 'Failed to verify payment')
+    throw new Error(parseApiError(body, 'Failed to verify payment'))
   }
   return res.json()
 }

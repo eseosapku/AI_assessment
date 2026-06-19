@@ -3,10 +3,26 @@
  * Docs: https://developer.flutterwave.com/docs
  */
 
-const FLW_BASE = process.env.FLW_BASE ?? 'https://api.flutterwave.com'
-const FLW_SECRET_KEY = process.env.FLW_SECRET_KEY ?? ''
-const FLW_PUBLIC_KEY = process.env.FLW_PUBLIC_KEY ?? ''
-let FLW_PLAN_ID = process.env.FLW_PLAN_ID ?? ''
+import { createHmac, timingSafeEqual } from 'crypto'
+
+// Read at call time so Amplify/runtime env vars are not baked in as empty at build.
+function flwBase(): string {
+  return process.env.FLW_BASE?.trim() || 'https://api.flutterwave.com'
+}
+
+function flwSecretKey(): string {
+  return process.env.FLW_SECRET_KEY?.trim() ?? ''
+}
+
+function flwPublicKey(): string {
+  return process.env.FLW_PUBLIC_KEY?.trim() ?? ''
+}
+
+function flwPlanId(): string {
+  return process.env.FLW_PLAN_ID?.trim() ?? ''
+}
+
+let cachedPlanId = ''
 
 export function getFlutterwaveRedirectUrl(origin?: string | null): string {
   const configured = (process.env.FLW_REDIRECT_URL ?? '').trim().replace(/\/$/, '')
@@ -22,7 +38,7 @@ export function getFlutterwaveWebhookUrl(origin?: string | null): string {
 }
 
 export function isFlutterwaveConfigured(): boolean {
-  return Boolean(FLW_SECRET_KEY)
+  return Boolean(flwSecretKey())
 }
 
 const MOMO_MAP: Record<string, string> = {
@@ -37,13 +53,14 @@ const MOMO_MAP: Record<string, string> = {
 }
 
 async function flwFetch(path: string, init?: RequestInit) {
-  if (!FLW_SECRET_KEY) {
+  const secret = flwSecretKey()
+  if (!secret) {
     throw new Error('Payment service not configured. FLW_SECRET_KEY is required.')
   }
-  const res = await fetch(`${FLW_BASE}${path}`, {
+  const res = await fetch(`${flwBase()}${path}`, {
     ...init,
     headers: {
-      Authorization: `Bearer ${FLW_SECRET_KEY}`,
+      Authorization: `Bearer ${secret}`,
       'Content-Type': 'application/json',
       ...(init?.headers ?? {}),
     },
@@ -83,17 +100,19 @@ export function roundForCurrency(amount: number, currency: string): number {
 export async function ensurePaymentPlan(amount: number, currency: string, interval: string, name = 'StudySquare Monthly'): Promise<string> {
   const cur = currency.toUpperCase()
   const iv = interval.toLowerCase()
+  const envPlanId = flwPlanId() || cachedPlanId
 
-  if (FLW_PLAN_ID) {
+  if (envPlanId) {
     try {
-      const data = await flwFetch(`/v3/payment-plans/${FLW_PLAN_ID}`)
+      const data = await flwFetch(`/v3/payment-plans/${envPlanId}`)
       const plan = data?.data ?? {}
       if (
         String(plan.currency ?? '').toUpperCase() === cur &&
         Math.abs(Number(plan.amount) - amount) < 0.0001 &&
         String(plan.interval ?? '').toLowerCase() === iv
       ) {
-        return FLW_PLAN_ID
+        cachedPlanId = envPlanId
+        return envPlanId
       }
     } catch {
       // create fresh plan below
@@ -106,7 +125,7 @@ export async function ensurePaymentPlan(amount: number, currency: string, interv
   })
   const planId = String(created?.data?.id ?? '')
   if (!planId) throw new Error('Flutterwave did not return a payment plan id')
-  FLW_PLAN_ID = planId
+  cachedPlanId = planId
   return planId
 }
 
@@ -163,8 +182,6 @@ export async function findTransactionByTxRef(txRef: string): Promise<{ status: s
   return { status: String(txn?.status ?? ''), id: txn?.id != null ? String(txn.id) : undefined }
 }
 
-import { createHmac, timingSafeEqual } from 'crypto'
-
 export async function verifyTransactionById(transactionId: string): Promise<{ status: string; id?: string; txRef?: string } | null> {
   const id = String(transactionId).trim()
   if (!id) return null
@@ -210,10 +227,10 @@ export function verifyWebhookSignature(
 
 export function flutterwaveDebugConfig() {
   return {
-    base: FLW_BASE,
-    public_key_present: Boolean(FLW_PUBLIC_KEY),
-    secret_key_present: Boolean(FLW_SECRET_KEY),
-    plan_id: FLW_PLAN_ID || null,
+    base: flwBase(),
+    public_key_present: Boolean(flwPublicKey()),
+    secret_key_present: Boolean(flwSecretKey()),
+    plan_id: flwPlanId() || cachedPlanId || null,
     redirect_url: getFlutterwaveRedirectUrl(),
     webhook_url: getFlutterwaveWebhookUrl(),
   }
