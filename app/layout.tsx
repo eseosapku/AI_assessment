@@ -9,8 +9,9 @@ const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-sans'
 const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-display' })
 
 export const metadata: Metadata = {
-  title: 'Brain Ink | AI Assessment Platform',
-  description: 'Enterprise-grade AI-powered assessment platform by Brain Ink.',
+  title: 'StudySquare — AI study & assessments | A Brain Ink product',
+  description:
+    'StudySquare turns your textbooks and topics into adaptive assessments, interactive study sets, and instant AI feedback for students and teachers. A Brain Ink product.',
 }
 
 export const viewport: Viewport = {
