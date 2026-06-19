@@ -126,14 +126,41 @@ function mimeForPath(localPath: string): string {
   return 'image/jpeg'
 }
 
-function loadImageInput(localPath: string): ImageInput | null {
-  const disk = path.join(PUBLIC_ROOT, localPath.replace(/^\//, '').replace(/\//g, path.sep))
-  if (!fs.existsSync(disk)) return null
-  const buf = fs.readFileSync(disk)
-  if (buf.length < 500) return null
-  return {
-    base64: buf.toString('base64'),
-    mimeType: mimeForPath(localPath),
+function appOrigin(): string {
+  const configured = String(process.env.NEXT_PUBLIC_APP_URL || '').trim().replace(/\/$/, '')
+  if (configured) return configured
+  const vercel = String(process.env.VERCEL_URL || '').trim()
+  if (vercel) return `https://${vercel}`
+  return ''
+}
+
+async function loadImageInput(localPath: string): Promise<ImageInput | null> {
+  const normalized = localPath.replace(/^\//, '')
+  const disk = path.join(PUBLIC_ROOT, normalized.replace(/\//g, path.sep))
+  if (fs.existsSync(disk)) {
+    const buf = fs.readFileSync(disk)
+    if (buf.length >= 500) {
+      return {
+        base64: buf.toString('base64'),
+        mimeType: mimeForPath(localPath),
+      }
+    }
+  }
+
+  const origin = appOrigin()
+  if (!origin) return null
+
+  try {
+    const response = await fetch(`${origin}/${normalized}`, { cache: 'no-store' })
+    if (!response.ok) return null
+    const buf = Buffer.from(await response.arrayBuffer())
+    if (buf.length < 500) return null
+    return {
+      base64: buf.toString('base64'),
+      mimeType: mimeForPath(localPath),
+    }
+  } catch {
+    return null
   }
 }
 
@@ -144,7 +171,7 @@ export async function describeFigureWithVision(img: TextbookSourceImage): Promis
   const cache = readVisionCache()
   if (cache[img.key]?.description) return cache[img.key].description
 
-  const image = loadImageInput(img.localPath)
+  const image = await loadImageInput(img.localPath)
   if (!image) return img.pageText?.trim() || null
 
   try {
