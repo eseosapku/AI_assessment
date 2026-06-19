@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
-import { normalizeCountry } from '@/lib/countries'
+import { normalizeCountry, countryToDb } from '@/lib/countries'
 
 function normalizeStudentId(value: unknown) {
     const trimmed = String(value ?? '').trim()
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
         }
 
         if (Object.prototype.hasOwnProperty.call(body, 'country')) {
-            updatePayload.country = normalizeCountry(body.country)
+            updatePayload.country = countryToDb(normalizeCountry(body.country))
         }
 
         const wantsPasswordChange = Boolean(newPassword || currentPassword || confirmPassword)

@@ -214,8 +214,15 @@ export function isCountryCode(value: unknown): value is CountryCode {
 export function normalizeCountry(value: unknown): CountryCode {
   const raw = String(value ?? '').trim().toUpperCase()
   if (!raw) return 'RW'
+  // users.country is VARCHAR(2) in RDS; International is stored as XX
+  if (raw === 'XX') return 'INT'
   if (raw in COUNTRIES) return raw as CountryCode
   return CODE_ALIASES[raw] ?? 'INT'
+}
+
+/** Persist country on users/classes (VARCHAR(2) — INT stored as XX). */
+export function countryToDb(code: CountryCode): string {
+  return code === 'INT' ? 'XX' : code
 }
 
 export function getCountryMeta(code: CountryCode | null | undefined): CountryMeta {

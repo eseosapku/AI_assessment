@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
-import { normalizeCountry, type CountryCode } from '@/lib/countries'
+import { normalizeCountry, countryToDb, type CountryCode } from '@/lib/countries'
 
 function defaultSubjects(country: CountryCode, role: string) {
   if (role === 'teacher') return []
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
       `INSERT INTO users (email, password_hash, name, student_id, class, role, subjects, country)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8)
        RETURNING id, name, email, student_id, class, subjects, role, country`,
-      [email, passwordHash, name, studentId, userClass, role, subjects, country],
+      [email, passwordHash, name, studentId, userClass, role, subjects, countryToDb(country)],
     )
     const newUser = insertResult.rows[0]
 

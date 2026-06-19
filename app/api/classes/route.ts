@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { isUniqueViolation, pgErrorMessage } from '@/lib/pg-errors'
-import { normalizeCountry } from '@/lib/countries'
+import { normalizeCountry, countryToDb } from '@/lib/countries'
 
 function normalizeIds(value: unknown): number[] {
     if (!Array.isArray(value)) return []
@@ -36,7 +36,7 @@ function buildClassFromRows(rows: any[]) {
     return {
         id: row.id,
         name: row.name,
-        country: row.country ?? 'RW',
+        country: normalizeCountry(row.country ?? 'RW'),
         created_at: row.created_at,
         updated_at: row.updated_at,
         textbooks,
@@ -104,7 +104,7 @@ export async function POST(request: NextRequest) {
         try {
             const result = await db.query(
                 'INSERT INTO classes (name, country) VALUES ($1, $2) RETURNING id, name, country, created_at, updated_at',
-                [name, country]
+                [name, countryToDb(country)]
             )
             created = result.rows[0]
         } catch (createError) {
@@ -126,7 +126,7 @@ export async function POST(request: NextRequest) {
             data: {
                 id: created.id,
                 name: created.name,
-                country: created.country ?? country,
+                country: normalizeCountry(created.country ?? country),
                 created_at: created.created_at,
                 updated_at: created.updated_at,
                 textbook_ids: textbookIds,
