@@ -55,6 +55,21 @@ const MOMO_MAP: Record<string, string> = {
   XOF: 'mobilemoneyfranco',
 }
 
+export type RwandaMoMoNetwork = 'MTN' | 'AIRTEL'
+
+/** Normalize Rwandan MoMo numbers to local 07xxxxxxxx format for Flutterwave. */
+export function normalizeRwandaPhone(input: string): string {
+  const digits = input.replace(/\D/g, '')
+  if (!digits) return ''
+  if (digits.startsWith('250') && digits.length >= 12) {
+    return `0${digits.slice(3)}`
+  }
+  if (digits.length === 9 && digits.startsWith('7')) {
+    return `0${digits}`
+  }
+  return digits
+}
+
 async function flwFetch(path: string, init?: RequestInit) {
   const secret = flwSecretKey()
   if (!secret) {
@@ -150,6 +165,41 @@ export async function createFlutterwaveCheckout(opts: {
   const link = res?.data?.link
   if (!link) throw new Error('Flutterwave did not return a checkout link')
   return { link, txRef: opts.txRef }
+}
+
+/**
+ * Rwanda MoMo direct charge — uses MTN/Airtel SMS OTP instead of hosted checkout WhatsApp flow.
+ * Docs: POST /v3/charges?type=mobile_money_rwanda
+ */
+export async function createRwandaMobileMoneyCharge(opts: {
+  email: string
+  amount: number
+  txRef: string
+  phoneNumber: string
+  network?: RwandaMoMoNetwork
+  meta?: Record<string, unknown>
+}): Promise<{ link: string; txRef: string }> {
+  const phone = normalizeRwandaPhone(opts.phoneNumber)
+  if (!phone || phone.length < 9) {
+    throw new Error('Enter a valid MoMo number (e.g. 0781234567)')
+  }
+
+  const res = await flwFetch('/v3/charges?type=mobile_money_rwanda', {
+    method: 'POST',
+    body: JSON.stringify({
+      tx_ref: opts.txRef,
+      amount: opts.amount,
+      currency: 'RWF',
+      email: opts.email,
+      phone_number: phone,
+      network: opts.network ?? 'MTN',
+      meta: opts.meta ?? {},
+    }),
+  })
+
+  const link = res?.meta?.authorization?.redirect
+  if (!link) throw new Error('Flutterwave did not return a payment authorization link')
+  return { link: String(link), txRef: opts.txRef }
 }
 
 export async function findTransactionByTxRef(txRef: string): Promise<{ status: string; id?: string } | null> {

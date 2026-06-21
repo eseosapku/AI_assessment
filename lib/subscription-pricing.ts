@@ -3,6 +3,17 @@ import type { CountryCode } from '@/lib/countries'
 /** Base subscription price — server charges this in USD or converts at checkout. */
 export const SUBSCRIPTION_USD = Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_USD ?? 5)
 
+/** Fixed local price for Rwanda (RWF) — not tied to USD conversion. */
+export const SUBSCRIPTION_RWF = Number(process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF ?? 1500)
+
+export function rwfSubscriptionAmount(): number {
+  return Number(
+    process.env.FLW_SUBSCRIPTION_AMOUNT_RWF ??
+      process.env.NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF ??
+      1500,
+  )
+}
+
 export type SubscriptionCurrency = 'USD' | 'NGN' | 'UGX' | 'KES' | 'RWF' | 'GHS'
 
 export type PaymentMethod = {
@@ -73,6 +84,12 @@ export function currencyForCountry(country: CountryCode | null | undefined): Sub
   if (code === 'UG') return 'UGX'
   if (code === 'GH') return 'GHS'
   return 'USD'
+}
+
+/** Country/currency pairs with a fixed local monthly price (not FX-converted). */
+export function fixedLocalAmount(currency: SubscriptionCurrency): number | null {
+  if (currency === 'RWF') return rwfSubscriptionAmount()
+  return null
 }
 
 export function formatSubscriptionPrice(

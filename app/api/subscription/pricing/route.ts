@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { convertUsdWithMeta } from '@/lib/fx-rates'
 import {
   SUBSCRIPTION_USD,
+  fixedLocalAmount,
   formatSubscriptionPrice,
   getPaymentPlanForCurrency,
   isSupportedCheckoutCurrency,
@@ -15,15 +16,23 @@ export async function GET(request: NextRequest) {
   }
 
   const plan = getPaymentPlanForCurrency(currency)
+  const fixed = fixedLocalAmount(currency)
   const fx =
-    currency === 'USD'
+    fixed != null
       ? {
-          amount: SUBSCRIPTION_USD,
-          source: 'live' as const,
-          ratePerUsd: 1,
+          amount: fixed,
+          source: 'fixed' as const,
+          ratePerUsd: null,
           rateUpdatedAt: null,
         }
-      : await convertUsdWithMeta(SUBSCRIPTION_USD, currency)
+      : currency === 'USD'
+        ? {
+            amount: SUBSCRIPTION_USD,
+            source: 'live' as const,
+            ratePerUsd: 1,
+            rateUpdatedAt: null,
+          }
+        : await convertUsdWithMeta(SUBSCRIPTION_USD, currency)
 
   return NextResponse.json({
     currency,

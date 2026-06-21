@@ -4,11 +4,14 @@ import { db } from '@/lib/db'
 import {
   convertUsd,
   createFlutterwaveCheckout,
+  createRwandaMobileMoneyCharge,
   ensurePaymentPlan,
   getFlutterwaveRedirectUrl,
   isFlutterwaveConfigured,
   roundForCurrency,
+  type RwandaMoMoNetwork,
 } from '@/lib/flutterwave'
+import { fixedLocalAmount } from '@/lib/subscription-pricing'
 
 export async function POST(request: NextRequest) {
   try {
@@ -40,8 +43,11 @@ export async function POST(request: NextRequest) {
     const amountUsd = Number(process.env.FLW_SUBSCRIPTION_AMOUNT_USD ?? 5)
 
     let amountToCharge: number
+    const fixedLocal = fixedLocalAmount(currency as 'RWF' | 'USD' | 'NGN' | 'UGX' | 'KES' | 'GHS')
     if (body.amount != null && body.amount !== '') {
       amountToCharge = Number(body.amount)
+    } else if (fixedLocal != null) {
+      amountToCharge = fixedLocal
     } else if (fixedAmount != null && currency === fixedCurrency) {
       amountToCharge = fixedAmount
     } else if (currency === 'USD') {
@@ -51,8 +57,31 @@ export async function POST(request: NextRequest) {
     }
     amountToCharge = roundForCurrency(amountToCharge, currency)
 
-    const planId = await ensurePaymentPlan(amountToCharge, currency, interval)
     const txRef = `sub_${userId}_${randomBytes(4).toString('hex')}`
+    const meta = {
+      user_id: userId,
+      country: { USD: 'US', NGN: 'NG', UGX: 'UG', RWF: 'RW', KES: 'KE', GHS: 'GH' }[currency] ?? 'US',
+    }
+
+    if (currency === 'RWF') {
+      const phoneNumber = String(body.phone_number ?? '').trim()
+      if (!phoneNumber) {
+        return NextResponse.json({ error: 'MoMo phone number is required for Rwanda payments' }, { status: 400 })
+      }
+      const networkRaw = String(body.network ?? 'MTN').toUpperCase()
+      const network: RwandaMoMoNetwork = networkRaw === 'AIRTEL' ? 'AIRTEL' : 'MTN'
+      const { link } = await createRwandaMobileMoneyCharge({
+        email,
+        amount: amountToCharge,
+        txRef,
+        phoneNumber,
+        network,
+        meta,
+      })
+      return NextResponse.json({ checkoutUrl: link, paymentReference: txRef })
+    }
+
+    const planId = await ensurePaymentPlan(amountToCharge, currency, interval)
 
     const { link } = await createFlutterwaveCheckout({
       email,
@@ -61,10 +90,7 @@ export async function POST(request: NextRequest) {
       planId,
       txRef,
       redirectUrl: getFlutterwaveRedirectUrl(request.nextUrl.origin),
-      meta: {
-        user_id: userId,
-        country: { USD: 'US', NGN: 'NG', UGX: 'UG', RWF: 'RW', KES: 'KE', GHS: 'GH' }[currency] ?? 'US',
-      },
+      meta,
     })
 
     return NextResponse.json({ checkoutUrl: link, paymentReference: txRef })

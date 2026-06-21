@@ -7,7 +7,13 @@ frontend:
     build:
       commands:
         # Amplify console env vars are NOT auto-available to Next.js SSR at runtime.
-        # Write server + public vars into .env.production before build (AWS docs).
+        # Add these in Amplify → Environment variables (aws_deploy branch), then they
+        # are written into .env.production before build:
+        #   FLW_SECRET_KEY, FLW_PUBLIC_KEY, FLW_WEBHOOK_SECRET, FLW_REDIRECT_URL
+        #   FLW_SUBSCRIPTION_AMOUNT_USD=5, FLW_SUBSCRIPTION_AMOUNT_RWF=1500
+        #   NEXT_PUBLIC_APP_URL, NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_USD=5
+        #   NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF=1500
+        #   DATABASE_URL, JWT_SECRET, BEDROCK_*, PG_DISABLE_SSL
         - env | grep -E '^(FLW_|DATABASE_URL|JWT_SECRET|BEDROCK_|PG_DISABLE_SSL|INTERNAL_JOB|AI_JOB_QUEUE|BACKEND_INTERNAL)' >> .env.production || true
         - env | grep -e NEXT_PUBLIC_ >> .env.production || true
         - npm run build
