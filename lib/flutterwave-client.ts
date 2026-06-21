@@ -28,7 +28,6 @@ export async function initiateMonthlySubscription(
   userId: string,
   userEmail?: string | null,
   currency?: string,
-  options?: { phoneNumber?: string; network?: 'MTN' | 'AIRTEL' },
 ): Promise<InitiatePaymentResult> {
   const payload: Record<string, unknown> = {
     user_id: userId,
@@ -36,8 +35,6 @@ export async function initiateMonthlySubscription(
     currency: (currency ?? 'USD').toUpperCase(),
     interval: 'monthly',
   }
-  if (options?.phoneNumber) payload.phone_number = options.phoneNumber
-  if (options?.network) payload.network = options.network
 
   const res = await fetch('/api/payments/flutterwave/initiate', {
     method: 'POST',

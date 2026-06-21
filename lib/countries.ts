@@ -86,7 +86,7 @@ export const COUNTRIES: Record<CountryCode, CountryMeta> = {
     group: 'africa',
     defaultCurricula: [...RW_CURRICULA],
     curriculumNote: 'Rwanda REB national curriculum & Cambridge',
-    paymentNote: 'MTN Mobile Money (RWF)',
+    paymentNote: 'Card or MoMo (RWF) — MoMo OTP via WhatsApp or email at checkout',
   },
   ZA: {
     code: 'ZA',

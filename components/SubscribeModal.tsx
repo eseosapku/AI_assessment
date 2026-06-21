@@ -59,19 +59,16 @@ export default function SubscribeModal({
   const [pricing, setPricing] = useState<PricingQuote | null>(null)
   const [pricingLoading, setPricingLoading] = useState(false)
   const [useUsdCheckout, setUseUsdCheckout] = useState(false)
-  const [momoPhone, setMomoPhone] = useState('')
-  const [momoNetwork, setMomoNetwork] = useState<'MTN' | 'AIRTEL'>('MTN')
 
   const localCurrency = useMemo(() => currencyForCountry(userCountry), [userCountry])
   const checkoutCurrency: SubscriptionCurrency = useUsdCheckout ? 'USD' : localCurrency
   const plan = getPaymentPlanForCurrency(checkoutCurrency)
+  const showRwandaMomoOtpNote = checkoutCurrency === 'RWF' && !useUsdCheckout
 
   useEffect(() => {
     if (!open) return
     setUseUsdCheckout(false)
     setError(null)
-    setMomoPhone('')
-    setMomoNetwork('MTN')
   }, [open, localCurrency])
 
   useEffect(() => {
@@ -100,15 +97,9 @@ export default function SubscribeModal({
     }
   }, [open, checkoutCurrency])
 
-  const needsRwandaMomo = checkoutCurrency === 'RWF' && !useUsdCheckout
-
   const startPayment = async () => {
     if (!userId) {
       setError('Please log in to subscribe.')
-      return
-    }
-    if (needsRwandaMomo && !momoPhone.trim()) {
-      setError('Enter your MoMo number to receive the payment OTP by SMS.')
       return
     }
     setStarting(true)
@@ -118,9 +109,6 @@ export default function SubscribeModal({
         userId,
         userEmail,
         checkoutCurrency,
-        needsRwandaMomo
-          ? { phoneNumber: momoPhone.trim(), network: momoNetwork }
-          : undefined,
       )
       try {
         sessionStorage.setItem('flw_pending_user_id', userId)
@@ -236,44 +224,11 @@ export default function SubscribeModal({
                     </ul>
                   </div>
 
-                  {needsRwandaMomo && (
-                    <div className="mb-5 space-y-3 rounded-2xl border border-gray-200 dark:border-white/10 bg-gray-50 dark:bg-white/[0.03] p-4">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
-                        Mobile Money details
-                      </p>
-                      <div>
-                        <label htmlFor="momo-network" className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
-                          Network
-                        </label>
-                        <select
-                          id="momo-network"
-                          value={momoNetwork}
-                          onChange={(e) => setMomoNetwork(e.target.value as 'MTN' | 'AIRTEL')}
-                          className="w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1a1c] px-3 py-2.5 text-sm"
-                        >
-                          <option value="MTN">MTN MoMo</option>
-                          <option value="AIRTEL">Airtel Money</option>
-                        </select>
-                      </div>
-                      <div>
-                        <label htmlFor="momo-phone" className="block text-xs font-medium text-gray-600 dark:text-gray-400 mb-1">
-                          Phone number
-                        </label>
-                        <input
-                          id="momo-phone"
-                          type="tel"
-                          inputMode="tel"
-                          autoComplete="tel"
-                          placeholder="0781234567"
-                          value={momoPhone}
-                          onChange={(e) => setMomoPhone(e.target.value)}
-                          className="w-full rounded-xl border border-gray-200 dark:border-white/10 bg-white dark:bg-[#1a1a1c] px-3 py-2.5 text-sm"
-                        />
-                        <p className="mt-1.5 text-xs text-gray-500 dark:text-gray-400">
-                          OTP is sent by SMS to this number (not WhatsApp).
-                        </p>
-                      </div>
-                    </div>
+                  {showRwandaMomoOtpNote && (
+                    <p className="mb-5 rounded-xl border border-amber-200/80 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-950/30 px-4 py-3 text-xs leading-relaxed text-amber-900 dark:text-amber-100">
+                      Paying with Mobile Money? During checkout, your one-time password (OTP) will be sent to the{' '}
+                      <strong>WhatsApp or email</strong> linked to the phone number you enter — not by SMS.
+                    </p>
                   )}
 
                   {showUsdAlternative && (

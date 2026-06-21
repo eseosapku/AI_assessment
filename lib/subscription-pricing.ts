@@ -41,27 +41,41 @@ const PAYMENT_PLANS: Record<SubscriptionCurrency, PaymentPlan> = {
       { id: 'card', label: 'Debit or credit card', description: 'Visa, Mastercard, Verve' },
       { id: 'bank', label: 'Bank transfer', description: 'Pay directly from your bank' },
       { id: 'ussd', label: 'USSD', description: 'Dial your bank code on your phone' },
+      { id: 'account', label: 'Bank account', description: 'Pay from a linked Nigerian bank account' },
+      { id: 'nqr', label: 'NQR', description: 'Scan to pay with Nigerian QR' },
     ],
   },
   RWF: {
     currency: 'RWF',
     regionLabel: 'Rwanda',
-    methods: [{ id: 'momo', label: 'MTN Mobile Money', description: 'Pay with your Rwandan MoMo wallet' }],
+    methods: [
+      { id: 'card', label: 'Debit or credit card', description: 'Local or international Visa, Mastercard' },
+      { id: 'momo', label: 'MTN / Airtel Mobile Money', description: 'OTP sent to WhatsApp or email on your number during checkout' },
+    ],
   },
   UGX: {
     currency: 'UGX',
     regionLabel: 'Uganda',
-    methods: [{ id: 'momo', label: 'Mobile Money', description: 'MTN or Airtel MoMo' }],
+    methods: [
+      { id: 'card', label: 'Debit or credit card', description: 'Visa, Mastercard, and more' },
+      { id: 'momo', label: 'Mobile Money', description: 'MTN or Airtel MoMo' },
+    ],
   },
   KES: {
     currency: 'KES',
     regionLabel: 'Kenya',
-    methods: [{ id: 'mpesa', label: 'M-Pesa', description: 'Pay with your M-Pesa wallet' }],
+    methods: [
+      { id: 'card', label: 'Debit or credit card', description: 'Visa, Mastercard, and more' },
+      { id: 'mpesa', label: 'M-Pesa', description: 'Pay with your M-Pesa wallet' },
+    ],
   },
   GHS: {
     currency: 'GHS',
     regionLabel: 'Ghana',
-    methods: [{ id: 'momo', label: 'Mobile Money', description: 'Pay with your mobile wallet' }],
+    methods: [
+      { id: 'card', label: 'Debit or credit card', description: 'Visa, Mastercard, and more' },
+      { id: 'momo', label: 'Mobile Money', description: 'Pay with your mobile wallet' },
+    ],
   },
 }
 

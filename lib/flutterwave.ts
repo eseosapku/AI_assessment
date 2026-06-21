@@ -44,10 +44,9 @@ export function isFlutterwaveConfigured(): boolean {
   return Boolean(flwSecretKey())
 }
 
-const MOMO_MAP: Record<string, string> = {
+const MOMO_ONLY: Record<string, string> = {
   UGX: 'mobilemoneyuganda',
   KES: 'mpesa',
-  RWF: 'mobilemoneyrwanda',
   GHS: 'mobilemoneyghana',
   ZMW: 'mobilemoneyzambia',
   TZS: 'mobilemoneytanzania',
@@ -55,19 +54,30 @@ const MOMO_MAP: Record<string, string> = {
   XOF: 'mobilemoneyfranco',
 }
 
-export type RwandaMoMoNetwork = 'MTN' | 'AIRTEL'
+/**
+ * Flutterwave payment_options per currency (comma + space separated).
+ * Lists match methods commonly enabled on merchant dashboards.
+ */
+const CURRENCY_PAYMENT_OPTIONS: Record<string, readonly string[]> = {
+  NGN: ['card', 'banktransfer', 'ussd', 'account', 'nqr', 'enaira', 'applepay'],
+  RWF: ['card', 'mobilemoneyrwanda'],
+  UGX: ['card', 'mobilemoneyuganda'],
+  KES: ['card', 'mpesa'],
+  GHS: ['card', 'mobilemoneyghana'],
+  USD: ['card', 'account', 'applepay', 'googlepay'],
+}
 
-/** Normalize Rwandan MoMo numbers to local 07xxxxxxxx format for Flutterwave. */
-export function normalizeRwandaPhone(input: string): string {
-  const digits = input.replace(/\D/g, '')
-  if (!digits) return ''
-  if (digits.startsWith('250') && digits.length >= 12) {
-    return `0${digits.slice(3)}`
-  }
-  if (digits.length === 9 && digits.startsWith('7')) {
-    return `0${digits}`
-  }
-  return digits
+export function paymentOptionsForCurrency(currency: string): string {
+  const cur = currency.toUpperCase()
+  const options = CURRENCY_PAYMENT_OPTIONS[cur]
+  if (options) return options.join(', ')
+  if (cur in MOMO_ONLY) return MOMO_ONLY[cur]
+  return 'card'
+}
+
+/** Recurring payment_plans only work with cards — we grant 30-day access manually after one-time pay. */
+export function supportsFlutterwavePaymentPlan(currency: string): boolean {
+  return currency.toUpperCase() === 'USD'
 }
 
 async function flwFetch(path: string, init?: RequestInit) {
@@ -132,12 +142,7 @@ export async function createFlutterwaveCheckout(opts: {
   redirectUrl?: string
 }): Promise<{ link: string; txRef: string }> {
   const currency = opts.currency.toUpperCase()
-  const isMomo = currency in MOMO_MAP
-  const paymentOptions = isMomo
-    ? [MOMO_MAP[currency]]
-    : currency === 'NGN'
-      ? ['card', 'banktransfer', 'ussd']
-      : ['card']
+  const paymentOptions = paymentOptionsForCurrency(currency)
 
   const payload: Record<string, unknown> = {
     tx_ref: opts.txRef,
@@ -150,10 +155,10 @@ export async function createFlutterwaveCheckout(opts: {
       description: 'Monthly access to assessments and exam prep',
     },
     meta: opts.meta ?? {},
-    payment_options: paymentOptions.join(','),
+    payment_options: paymentOptions,
   }
 
-  if (!isMomo && opts.planId) {
+  if (supportsFlutterwavePaymentPlan(currency) && opts.planId) {
     payload.payment_plan = opts.planId
   }
 
@@ -165,41 +170,6 @@ export async function createFlutterwaveCheckout(opts: {
   const link = res?.data?.link
   if (!link) throw new Error('Flutterwave did not return a checkout link')
   return { link, txRef: opts.txRef }
-}
-
-/**
- * Rwanda MoMo direct charge — uses MTN/Airtel SMS OTP instead of hosted checkout WhatsApp flow.
- * Docs: POST /v3/charges?type=mobile_money_rwanda
- */
-export async function createRwandaMobileMoneyCharge(opts: {
-  email: string
-  amount: number
-  txRef: string
-  phoneNumber: string
-  network?: RwandaMoMoNetwork
-  meta?: Record<string, unknown>
-}): Promise<{ link: string; txRef: string }> {
-  const phone = normalizeRwandaPhone(opts.phoneNumber)
-  if (!phone || phone.length < 9) {
-    throw new Error('Enter a valid MoMo number (e.g. 0781234567)')
-  }
-
-  const res = await flwFetch('/v3/charges?type=mobile_money_rwanda', {
-    method: 'POST',
-    body: JSON.stringify({
-      tx_ref: opts.txRef,
-      amount: opts.amount,
-      currency: 'RWF',
-      email: opts.email,
-      phone_number: phone,
-      network: opts.network ?? 'MTN',
-      meta: opts.meta ?? {},
-    }),
-  })
-
-  const link = res?.meta?.authorization?.redirect
-  if (!link) throw new Error('Flutterwave did not return a payment authorization link')
-  return { link: String(link), txRef: opts.txRef }
 }
 
 export async function findTransactionByTxRef(txRef: string): Promise<{ status: string; id?: string } | null> {

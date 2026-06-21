@@ -4,12 +4,11 @@ import { db } from '@/lib/db'
 import {
   convertUsd,
   createFlutterwaveCheckout,
-  createRwandaMobileMoneyCharge,
   ensurePaymentPlan,
   getFlutterwaveRedirectUrl,
   isFlutterwaveConfigured,
   roundForCurrency,
-  type RwandaMoMoNetwork,
+  supportsFlutterwavePaymentPlan,
 } from '@/lib/flutterwave'
 import { fixedLocalAmount } from '@/lib/subscription-pricing'
 
@@ -63,25 +62,9 @@ export async function POST(request: NextRequest) {
       country: { USD: 'US', NGN: 'NG', UGX: 'UG', RWF: 'RW', KES: 'KE', GHS: 'GH' }[currency] ?? 'US',
     }
 
-    if (currency === 'RWF') {
-      const phoneNumber = String(body.phone_number ?? '').trim()
-      if (!phoneNumber) {
-        return NextResponse.json({ error: 'MoMo phone number is required for Rwanda payments' }, { status: 400 })
-      }
-      const networkRaw = String(body.network ?? 'MTN').toUpperCase()
-      const network: RwandaMoMoNetwork = networkRaw === 'AIRTEL' ? 'AIRTEL' : 'MTN'
-      const { link } = await createRwandaMobileMoneyCharge({
-        email,
-        amount: amountToCharge,
-        txRef,
-        phoneNumber,
-        network,
-        meta,
-      })
-      return NextResponse.json({ checkoutUrl: link, paymentReference: txRef })
-    }
-
-    const planId = await ensurePaymentPlan(amountToCharge, currency, interval)
+    const planId = supportsFlutterwavePaymentPlan(currency)
+      ? await ensurePaymentPlan(amountToCharge, currency, interval)
+      : undefined
 
     const { link } = await createFlutterwaveCheckout({
       email,
