@@ -6,18 +6,23 @@ frontend:
         - npm ci
     build:
       commands:
-        # Amplify console env vars are NOT auto-available to Next.js SSR at runtime.
-        # Add these in Amplify → Environment variables (aws_deploy branch), then they
-        # are written into .env.production before build:
-        #   FLW_SECRET_KEY, FLW_PUBLIC_KEY, FLW_WEBHOOK_SECRET, FLW_REDIRECT_URL
-        #   FLW_SUBSCRIPTION_AMOUNT_USD=5, FLW_SUBSCRIPTION_AMOUNT_RWF=1500
-        #   NEXT_PUBLIC_APP_URL, NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_USD=5
-        #   NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF=1500
-        #   DATABASE_URL, JWT_SECRET, BEDROCK_*, PG_DISABLE_SSL
-        - env | grep -E '^(FLW_|DATABASE_URL|JWT_SECRET|BEDROCK_|PG_DISABLE_SSL|INTERNAL_JOB|AI_JOB_QUEUE|BACKEND_INTERNAL)' >> .env.production || true
-        - env | grep -e NEXT_PUBLIC_ >> .env.production || true
+        - echo "DATABASE_URL=$DATABASE_URL" >> .env.production
+        - echo "JWT_SECRET=$JWT_SECRET" >> .env.production
+        - echo "PG_DISABLE_SSL=$PG_DISABLE_SSL" >> .env.production
+        - echo "BEDROCK_ACCESS_KEY_ID=$BEDROCK_ACCESS_KEY_ID" >> .env.production
+        - echo "BEDROCK_SECRET_ACCESS_KEY=$BEDROCK_SECRET_ACCESS_KEY" >> .env.production
+        - echo "BEDROCK_REGION=$BEDROCK_REGION" >> .env.production
+        - echo "FLW_SECRET_KEY=$FLW_SECRET_KEY" >> .env.production
+        - echo "FLW_PUBLIC_KEY=$FLW_PUBLIC_KEY" >> .env.production
+        - echo "FLW_WEBHOOK_SECRET=$FLW_WEBHOOK_SECRET" >> .env.production
+        - echo "FLW_REDIRECT_URL=$FLW_REDIRECT_URL" >> .env.production
+        - echo "FLW_SUBSCRIPTION_AMOUNT_USD=$FLW_SUBSCRIPTION_AMOUNT_USD" >> .env.production
+        - echo "FLW_SUBSCRIPTION_AMOUNT_RWF=$FLW_SUBSCRIPTION_AMOUNT_RWF" >> .env.production
+        - echo "NEXT_PUBLIC_APP_URL=$NEXT_PUBLIC_APP_URL" >> .env.production
+        - echo "NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_USD=$NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_USD" >> .env.production
+        - echo "NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF=$NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF" >> .env.production
+        - echo "NEXT_PUBLIC_USE_ASYNC_AI_JOBS=$NEXT_PUBLIC_USE_ASYNC_AI_JOBS" >> .env.production
         - npm run build
-        - cp .env.production .next/standalone/.env.production 2>/dev/null || true
   artifacts:
     baseDirectory: .next
     files:
