@@ -31,8 +31,11 @@ const DEFAULT_GRADING_MODEL =
     process.env.AWS_GRADING_MODEL_ID ||
     process.env.AWS_BEDROCK_MODEL_ID ||
     process.env.AWS_MODEL_ID ||
-    // Nova Lite: reliably on-demand-available + fast. gemma-3-27b returns
-    // ValidationException in this region (see generate-assessment fix).
+    // Keep Nova Lite here ON PURPOSE. Grading runs one model call PER long-form
+    // answer SEQUENTIALLY (see the loop below), so a 4-answer submission is 4×
+    // the per-call latency. Nova Lite (~4s) × 4 ≈ 16s fits the 30s window; Gemma
+    // 27B (~16s) × 4 ≈ 64s would 504. Don't switch this to 27B without first
+    // parallelising the grading loop (and capping concurrency to avoid throttling).
     'amazon.nova-lite-v1:0'
 
 const MAX_ATTEMPTS = 3

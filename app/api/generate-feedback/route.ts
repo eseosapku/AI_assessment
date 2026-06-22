@@ -5,14 +5,19 @@ import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 
 
+// Feedback is a SINGLE model call (~16s on Gemma 27B), so it fits the 30s gateway
+// window — and Gemma 27B produces noticeably richer, more specific feedback than
+// Nova. Must be the BARE id 'google.gemma-3-27b-it' (the eu./-v1:0 variants are
+// invalid on Bedrock). Nova Lite/Micro remain as fast fallbacks below.
+export const runtime = 'nodejs'
+export const maxDuration = 30
+
 const AWS_REGION = getBedrockRegion()
 const DEFAULT_FEEDBACK_MODEL =
   process.env.AWS_FEEDBACK_MODEL_ID ||
   process.env.AWS_BEDROCK_MODEL_ID ||
   process.env.AWS_MODEL_ID ||
-  // Nova Lite: reliably on-demand-available + fast. gemma-3-27b returns
-  // ValidationException in this region (see generate-assessment fix).
-  'amazon.nova-lite-v1:0'
+  'google.gemma-3-27b-it'
 
 const PREFIXES = ['eu', 'us', 'ap'] as const
 
