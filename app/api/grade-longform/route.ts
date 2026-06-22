@@ -34,11 +34,12 @@ const DEFAULT_GRADING_MODEL =
     process.env.AWS_GRADING_MODEL_ID ||
     process.env.AWS_BEDROCK_MODEL_ID ||
     process.env.AWS_MODEL_ID ||
-    // Gemma 27B for richer, more accurate marking. Safe because the grading loop
-    // below now runs all answers CONCURRENTLY (bounded pool), so total time ≈ a
-    // single call (~16s) rather than N×16s. Must be the BARE id — eu./-v1:0 are
-    // invalid on Bedrock. Nova Lite/Micro remain as fast fallbacks.
-    'google.gemma-3-27b-it'
+    // Nova Lite for grading: at scale grading is the largest 27B cost line (~40%
+    // of full-journey inference), and Nova Lite's marking quality is close. The
+    // grading loop below still runs answers CONCURRENTLY (kept from the 27B work)
+    // so grading stays fast and well inside the window. To get richer marking back,
+    // set AWS_GRADING_MODEL_ID=google.gemma-3-27b-it (BARE id). Feedback keeps 27B.
+    'amazon.nova-lite-v1:0'
 
 const MAX_ATTEMPTS = 3
 const PREFIXES = ['eu', 'us', 'ap'] as const
