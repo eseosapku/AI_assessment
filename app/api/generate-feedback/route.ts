@@ -10,7 +10,9 @@ const DEFAULT_FEEDBACK_MODEL =
   process.env.AWS_FEEDBACK_MODEL_ID ||
   process.env.AWS_BEDROCK_MODEL_ID ||
   process.env.AWS_MODEL_ID ||
-  'google.gemma-3-27b-it'
+  // Nova Lite: reliably on-demand-available + fast. gemma-3-27b returns
+  // ValidationException in this region (see generate-assessment fix).
+  'amazon.nova-lite-v1:0'
 
 const PREFIXES = ['eu', 'us', 'ap'] as const
 
@@ -36,8 +38,9 @@ function buildModelCandidates(seedIds: string[]): string[] {
   }
 
   seedIds.forEach(appendWithPrefixes)
-  appendWithPrefixes('google.gemma-3-27b-it')
-  appendWithPrefixes('google.gemma-3-27b-it-v1:0')
+  // Resilience fallbacks: different reliable on-demand models, not gemma.
+  appendWithPrefixes('amazon.nova-lite-v1:0')
+  appendWithPrefixes('amazon.nova-micro-v1:0')
 
   return [...new Set(expanded.filter(Boolean))]
 }
