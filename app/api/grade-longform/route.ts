@@ -3,6 +3,9 @@ import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedroc
 import { jsonrepair } from 'jsonrepair'
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 
+export const runtime = 'nodejs'
+export const maxDuration = 30
+
 interface CriterionResult {
     criterion: string
     met: boolean
@@ -31,12 +34,11 @@ const DEFAULT_GRADING_MODEL =
     process.env.AWS_GRADING_MODEL_ID ||
     process.env.AWS_BEDROCK_MODEL_ID ||
     process.env.AWS_MODEL_ID ||
-    // Keep Nova Lite here ON PURPOSE. Grading runs one model call PER long-form
-    // answer SEQUENTIALLY (see the loop below), so a 4-answer submission is 4×
-    // the per-call latency. Nova Lite (~4s) × 4 ≈ 16s fits the 30s window; Gemma
-    // 27B (~16s) × 4 ≈ 64s would 504. Don't switch this to 27B without first
-    // parallelising the grading loop (and capping concurrency to avoid throttling).
-    'amazon.nova-lite-v1:0'
+    // Gemma 27B for richer, more accurate marking. Safe because the grading loop
+    // below now runs all answers CONCURRENTLY (bounded pool), so total time ≈ a
+    // single call (~16s) rather than N×16s. Must be the BARE id — eu./-v1:0 are
+    // invalid on Bedrock. Nova Lite/Micro remain as fast fallbacks.
+    'google.gemma-3-27b-it'
 
 const MAX_ATTEMPTS = 3
 const PREFIXES = ['eu', 'us', 'ap'] as const
@@ -480,14 +482,15 @@ export async function POST(request: NextRequest) {
         let activeModelId: string | undefined
         let modelUnavailable = false
 
-        for (const { q, idx, studentAnswer } of questionsToGrade) {
+        // Grade a single answer (its own retry loop). Result written into grades[idx].
+        const gradeOne = async ({ q, idx, studentAnswer }: { q: LongFormQuestion; idx: number; studentAnswer: string }) => {
             if (modelUnavailable) {
                 grades[idx] = ungradedFallback(
                     q,
                     'No valid Bedrock model identifier is configured for grading.',
                     'Automatic grading is currently unavailable because no valid Bedrock model identifier could be found. Please set AWS_GRADING_MODEL_ID to a model enabled in your Bedrock account.'
                 )
-                continue
+                return
             }
 
             const hasWorkings = Boolean((workingsProvided as Record<number, boolean> | undefined)?.[idx])
@@ -525,6 +528,21 @@ export async function POST(request: NextRequest) {
                 }
             }
         }
+
+        // Grade answers CONCURRENTLY via a bounded worker pool. One model call per
+        // answer, run in parallel, keeps total time ≈ a single call (~16s on Gemma
+        // 27B) instead of N×16s sequential — so 27B grading fits the 30s window.
+        // The cap limits burst concurrency so we don't trip Bedrock throttling
+        // (transient throttles are still absorbed by the per-answer retry loop).
+        const GRADING_CONCURRENCY = 6
+        const queue = [...questionsToGrade]
+        await Promise.all(
+            Array.from({ length: Math.min(GRADING_CONCURRENCY, queue.length) }, async () => {
+                for (let item = queue.shift(); item; item = queue.shift()) {
+                    await gradeOne(item)
+                }
+            })
+        )
 
         return NextResponse.json({ grades })
     } catch (error: any) {
