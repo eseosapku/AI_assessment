@@ -118,7 +118,7 @@ const QUESTION_TYPES = [
   { id: 'study_mixed', label: 'Study Mix (MCQ + Interactive)', description: '~50% MCQ + ~50% interactive activities', icon: '◈' },
 ]
 
-const AI_MODEL = { id: 'eu.google.gemma-3-27b-it-v1:0', label: 'Gemma 3 27B', badge: 'AWS' }
+const AI_MODEL = { id: 'amazon.nova-lite-v1:0', label: 'Nova Lite', badge: 'AWS' }
 const USE_ASYNC_AI_JOBS = process.env.NEXT_PUBLIC_USE_ASYNC_AI_JOBS === 'true'
 
 // Shared pill button: highlighted when selected, clean when not

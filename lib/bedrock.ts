@@ -16,7 +16,10 @@ export const DEFAULT_GEMMA_MODEL =
   process.env.AWS_GENERATION_MODEL_ID ||
   process.env.AWS_BEDROCK_MODEL_ID ||
   process.env.AWS_MODEL_ID ||
-  'google.gemma-3-27b-it'
+  // Amazon Nova Lite: reliably on-demand-available across commercial regions and
+  // fast. The previous default (google.gemma-3-27b-it) returns ValidationException
+  // on this account/region, forcing every call onto a slow fallback → 504 timeouts.
+  'amazon.nova-lite-v1:0'
 
 function awsRegion(): string {
   return getBedrockRegion()

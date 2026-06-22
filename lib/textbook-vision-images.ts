@@ -1,4 +1,5 @@
 import fs from 'fs'
+import os from 'os'
 import path from 'path'
 import { callGemma, type ImageInput } from '@/lib/bedrock'
 import {
@@ -14,7 +15,12 @@ export interface VisualFigureCatalogEntry {
   page: number
 }
 
-const VISION_CACHE_PATH = path.join(process.cwd(), 'data', 'textbook-images', 'vision-cache.json')
+// The bundled cache (committed at build time) is read-only on serverless hosts
+// (Lambda/Amplify) where process.cwd() is not writable — writing it throws EROFS.
+// So we READ the bundled cache as a warm seed and WRITE runtime additions to a
+// writable temp dir, merging the two on read.
+const BUNDLED_CACHE_PATH = path.join(process.cwd(), 'data', 'textbook-images', 'vision-cache.json')
+const RUNTIME_CACHE_PATH = path.join(os.tmpdir(), 'vision-cache.json')
 const PUBLIC_ROOT = path.join(process.cwd(), 'public')
 
 /** Max figures to describe with vision per assessment (cost cap). */
@@ -104,18 +110,27 @@ export function selectFiguresForAssessment(
 
 type VisionCache = Record<string, { description: string; cached_at: string }>
 
-function readVisionCache(): VisionCache {
-  if (!fs.existsSync(VISION_CACHE_PATH)) return {}
+function readCacheFile(file: string): VisionCache {
+  if (!fs.existsSync(file)) return {}
   try {
-    return JSON.parse(fs.readFileSync(VISION_CACHE_PATH, 'utf8')) as VisionCache
+    return JSON.parse(fs.readFileSync(file, 'utf8')) as VisionCache
   } catch {
     return {}
   }
 }
 
+function readVisionCache(): VisionCache {
+  // Runtime additions take precedence over the bundled seed.
+  return { ...readCacheFile(BUNDLED_CACHE_PATH), ...readCacheFile(RUNTIME_CACHE_PATH) }
+}
+
 function writeVisionCache(cache: VisionCache) {
-  fs.mkdirSync(path.dirname(VISION_CACHE_PATH), { recursive: true })
-  fs.writeFileSync(VISION_CACHE_PATH, JSON.stringify(cache, null, 2), 'utf8')
+  // Best-effort: a read-only filesystem must never break generation.
+  try {
+    fs.writeFileSync(RUNTIME_CACHE_PATH, JSON.stringify(cache, null, 2), 'utf8')
+  } catch {
+    /* non-fatal — describing again next time is cheaper than crashing */
+  }
 }
 
 function mimeForPath(localPath: string): string {

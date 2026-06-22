@@ -47,6 +47,11 @@ import {
 } from '@/lib/interactive-assessment-plan'
 import type { AssessmentQuestionType } from '@/types/interactive'
 
+// Heavy AI route: needs the Node runtime (AWS SDK + pg) and the full function
+// budget. Bedrock call budgets above are tuned to return within this window.
+export const runtime = 'nodejs'
+export const maxDuration = 30
+
 const MAX_DIAGRAMS = 6
 const MAX_SOURCE_CHARS = 12000
 const MAX_EXAM_SOURCE_CHARS = 32000
@@ -1084,7 +1089,7 @@ export async function POST(request: NextRequest) {
       sourceName,
       questionType: requestedQuestionType = 'mcq',
       difficultyLevel,
-      aiModel = 'eu.google.gemma-3-27b-it-v1:0',
+      aiModel = 'amazon.nova-lite-v1:0',
       customTime,
       textbook_id,
       topic_ids,
@@ -1368,7 +1373,9 @@ export async function POST(request: NextRequest) {
       maxAttempts: 1,
       requestHandler: new NodeHttpHandler({
         connectionTimeout: 3_000,
-        requestTimeout: 70_000,
+        // Keep below the gateway window; the AbortController above enforces the
+        // real per-attempt budget. A 70s socket would outlive the 504 by minutes.
+        requestTimeout: 25_000,
       }),
       credentials: { accessKeyId, secretAccessKey },
     })
@@ -1457,10 +1464,15 @@ export async function POST(request: NextRequest) {
       const seed = (preferredFromEnv || aiModel) as string
       const candidates = buildModelCandidates(seed)
 
-      const FALLBACK_MODEL_ID = 'google.gemma-3-12b-it'
-      const PRIMARY_CALL_BUDGET_MS = 60_000
-      const FALLBACK_CALL_BUDGET_MS = 60_000
-      const PER_ATTEMPT_TIMEOUT_MS = 60_000
+      // Fallback to a DIFFERENT reliable model (not gemma — see model-id failures
+      // in production logs). Nova Micro is the fastest on-demand Bedrock model.
+      const FALLBACK_MODEL_ID = 'amazon.nova-micro-v1:0'
+      // Budgets MUST fit inside the platform gateway window (~30s) or the client
+      // gets a 504 while the function is still patiently waiting. Batches run in
+      // parallel, so worst-case wall time ≈ one primary (18s) + one fallback (9s).
+      const PRIMARY_CALL_BUDGET_MS = 18_000
+      const FALLBACK_CALL_BUDGET_MS = 9_000
+      const PER_ATTEMPT_TIMEOUT_MS = 18_000
 
       const tryModels = async (modelIds: string[], budgetMs: number): Promise<{
         text?: string
