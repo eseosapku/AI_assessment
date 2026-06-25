@@ -31,6 +31,8 @@ export interface StudyNodeData {
   /** Code card. */
   code?: string
   language?: string
+  /** Code card: false ⇒ read-only "showcase" code with no Run button. */
+  runnable?: boolean
   /** Diagram card: raw inline SVG markup. */
   svg?: string
   /** Image card: data URL or remote URL of the student's pasted work. */
@@ -115,6 +117,7 @@ export type TutorAction =
       items?: string[]
       code?: string
       language?: string
+      runnable?: boolean
       svg?: string
       mermaid?: string
       steps?: string[]

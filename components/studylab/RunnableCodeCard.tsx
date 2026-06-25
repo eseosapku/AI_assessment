@@ -5,6 +5,7 @@ import { type NodeProps } from '@xyflow/react'
 import { Code2, Play, Square, Loader2 } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { getEngine, normalizeLanguage, isRunnable, type RunResult } from '@/lib/studylab/runner'
+import { isShowcaseOnly } from '@/lib/studylab/runner/showcase'
 import { CardFrame, CanvasContext, SafeLatex } from './canvasShared'
 
 export function RunnableCodeNode({ id, data }: NodeProps) {
@@ -15,7 +16,9 @@ export function RunnableCodeNode({ id, data }: NodeProps) {
   const [result, setResult] = useState<RunResult | null>(null)
   const abortRef = useRef<AbortController | null>(null)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  const runnable = isRunnable(d.language)
+  // Show Run only for genuinely runnable code: a runnable language, not flagged
+  // read-only by the tutor, and not browser-only JS that can't run in the worker.
+  const runnable = isRunnable(d.language) && d.runnable !== false && !isShowcaseOnly(d.language, code)
 
   // Abort a run and cancel any pending save when the card unmounts.
   useEffect(

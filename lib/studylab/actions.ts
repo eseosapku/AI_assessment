@@ -133,6 +133,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             items: action.items,
             code: action.code,
             language: action.language,
+            runnable: action.runnable,
             svg: action.svg,
             mermaid: action.mermaid,
             steps: action.steps,

@@ -74,6 +74,11 @@ function FlowInner({
   const [cardMenu, setCardMenu] = useState<{ title: string; x: number; y: number } | null>(null)
 
   const onNodeClick = useCallback((e: React.MouseEvent, node: Node) => {
+    // Don't open the context menu when the click lands on an interactive control
+    // inside the card (Run button, inputs, links) — only on the card body.
+    if ((e.target as HTMLElement)?.closest?.('button, input, textarea, select, a, .nodrag')) {
+      return
+    }
     if (!LESSON_CARD_TYPES.has(node.type as string)) {
       setCardMenu(null)
       return

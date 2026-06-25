@@ -29,9 +29,13 @@ export function MermaidNode({ id, data }: NodeProps) {
     .replace(/^\s*mermaid\s*\n/i, '')
     .trim()
 
+  // The model sometimes stuffs a markdown image "![alt](url)" into the mermaid
+  // field instead of diagram syntax — render it as an image.
+  const imageMatch = src.match(/^!\[[^\]]*\]\((https?:\/\/[^)]+)\)$/)
+
   useEffect(() => {
     let cancelled = false
-    if (!src.trim()) return
+    if (!src.trim() || imageMatch) return
     ;(async () => {
       try {
         const mermaid = await loadMermaid()
@@ -58,8 +62,11 @@ export function MermaidNode({ id, data }: NodeProps) {
         <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
       </div>
       <div className="px-4 pb-4 pt-2">
-        {error ? (
-          <pre className="text-[11px] bg-gray-50 dark:bg-white/5 rounded-lg p-2 overflow-x-auto whitespace-pre-wrap">{src}</pre>
+        {imageMatch ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={imageMatch[1]} alt={d.title || 'diagram'} className="w-full rounded-lg" />
+        ) : error ? (
+          <p className="text-[12px] text-gray-400 italic">Diagram unavailable.</p>
         ) : (
           <div ref={ref} className="w-full flex justify-center [&_svg]:max-w-full [&_svg]:h-auto" />
         )}
