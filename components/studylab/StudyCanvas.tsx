@@ -11,6 +11,7 @@ import {
   Panel,
   useReactFlow,
   useNodesState,
+  MarkerType,
   type Node,
   type Edge,
   type NodeChange,
@@ -136,16 +137,23 @@ function FlowInner({
         })
         .map((e) => {
           const isUser = e.id.startsWith('u-')
+          const stroke = isUser ? '#94a3b8' : '#007AFF'
           return {
             id: e.id,
             source: e.source,
             target: e.target,
             label: e.label,
             animated: e.animated,
-            type: 'smoothstep',
+            // Smooth curves with an arrowhead read more clearly than the
+            // right-angle routing; the head shows direction at a glance.
+            markerEnd: { type: MarkerType.ArrowClosed, color: stroke, width: 16, height: 16 },
             style: isUser
-              ? { stroke: '#94a3b8', strokeWidth: 1.5, strokeDasharray: '6 4' }
-              : { stroke: '#007AFF', strokeWidth: 1.5 },
+              ? { stroke, strokeWidth: 1.5, strokeDasharray: '6 4' }
+              : { stroke, strokeWidth: 1.5 },
+            labelStyle: { fontSize: 10, fill: '#475569' },
+            labelBgStyle: { fill: '#ffffff', fillOpacity: 0.9 },
+            labelBgPadding: [4, 2] as [number, number],
+            labelBgBorderRadius: 4,
           }
         }),
     [edges, nodes]

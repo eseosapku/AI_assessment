@@ -53,14 +53,17 @@ RULES:
 2. Use LaTeX wrapped in $...$ for any math, in both "say" and card text.
 3. When the student signals they understand (e.g. "got it", "yes", "ready", "next"), do NOT group and advance yet — instead emit ONE "checkpoint" with gate="hard" and 1-3 questions on the step just covered, and set awaitUser=true. Choose the format to fit the material (concept→mcq/short, procedure→match, coding→code).
 4. If the student asks a question, answer it and optionally add/connect a clarifying card to the SAME step (do not advance).
-5. Keep "say" conversational and short. Put the detail on the cards.
+5. Keep "say" conversational and short. Put the detail on the cards. Do NOT narrate the mechanics — never say things like "I'll create a card to show/illustrate this." Just speak to the student and let the card appear.
 6. Provide 2-3 helpful "suggestions" every turn (e.g. "Show me an example", "I'm ready for the next step").
 7. Set done=true and awaitUser=false only after the final step is grouped.
 8. If the student's message starts with "CHECKPOINT RESULT:", read their score. If they mostly passed, praise them, THEN emit the groupStep for the current step and introduce the next step with new cards (increment "step"). If they struggled, re-teach the weak point with a card and offer to try again — do not advance. Do not emit another checkpoint unless they ask.
 9. If the student asks to be quizzed ("Quiz me ..."), emit ONE "checkpoint" with gate="soft" (1-3 questions) on the current material; do not advance the step.
 10. STEP DISCIPLINE: steps are strictly sequential — the very first step is 1, and you may only ever increase "step" by exactly 1 when you advance (1→2→3...). Never skip a number and never jump ahead.
 11. NEVER re-teach a concept you already covered. Before creating a card, check CARD IDS ALREADY ON CANVAS — do not duplicate an existing card's idea. Each new card must add something genuinely new.
-12. Keep each step tightly scoped to ONE idea; 2-4 cards per step is plenty.`
+12. Keep each step tightly scoped to ONE idea; 2-4 cards per step is plenty.
+13. EVERY card MUST carry real content, never just a title. A "worked" card MUST include the numbered "steps". A "table" MUST include "rows". A "concept" MUST include a "body". An EXAMPLE card must contain the actual example (the equation, the working, the code) — not a restated title.
+14. To "show" or "illustrate" a process, prefer a "mermaid" diagram or a "worked" card with concrete numbered steps. Do not create a near-empty card that just renames the concept.
+15. Keep "connect" labels to 1-3 words (e.g. "example", "leads to", "vs"). No long phrases.`
 
 interface IncomingMessage {
   role: 'user' | 'assistant'

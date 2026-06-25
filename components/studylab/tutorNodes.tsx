@@ -18,14 +18,18 @@ export function WorkedNode({ data }: NodeProps) {
         <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
       </div>
       <div className="px-4 pb-4 pt-2 text-[13px] text-gray-600 dark:text-gray-300">
-        <ol className="space-y-1.5">
-          {steps.map((s, i) => (
-            <li key={i} className="flex gap-2">
-              <span className="shrink-0 w-5 h-5 rounded-full bg-apple-blue/10 text-apple-blue text-[11px] font-bold flex items-center justify-center">{i + 1}</span>
-              <span className="pt-0.5"><SafeLatex>{s}</SafeLatex></span>
-            </li>
-          ))}
-        </ol>
+        {steps.length > 0 ? (
+          <ol className="space-y-1.5">
+            {steps.map((s, i) => (
+              <li key={i} className="flex gap-2">
+                <span className="shrink-0 w-5 h-5 rounded-full bg-apple-blue/10 text-apple-blue text-[11px] font-bold flex items-center justify-center">{i + 1}</span>
+                <span className="pt-0.5"><SafeLatex>{s}</SafeLatex></span>
+              </li>
+            ))}
+          </ol>
+        ) : d.body ? (
+          <div className="whitespace-pre-wrap"><SafeLatex>{d.body}</SafeLatex></div>
+        ) : null}
       </div>
     </CardFrame>
   )
