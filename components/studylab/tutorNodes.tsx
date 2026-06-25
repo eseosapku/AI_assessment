@@ -8,7 +8,7 @@ import { CardFrame, SafeLatex, handleClass } from './canvasShared'
 
 export function WorkedNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
-  const steps = d.steps ?? []
+  const steps = Array.isArray(d.steps) ? d.steps : []
   return (
     <CardFrame>
       <div className="flex items-center gap-2 px-4 pt-4">
@@ -33,7 +33,7 @@ export function WorkedNode({ data }: NodeProps) {
 
 export function TableNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
-  const rows = d.rows ?? []
+  const rows = (Array.isArray(d.rows) ? d.rows : []).filter((r) => Array.isArray(r))
   const [head, ...body] = rows
   return (
     <CardFrame>

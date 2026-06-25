@@ -25,12 +25,19 @@ export const CanvasContext = createContext<CanvasCallbacks>({
   onNodeResize: () => {},
 })
 
-export function SafeLatex({ children }: { children?: string }) {
-  if (!children) return null
+export function SafeLatex({ children }: { children?: unknown }) {
+  // Model-supplied card text can occasionally be a non-string (e.g. a number or
+  // object). react-latex-next calls String.prototype.search on its child and
+  // throws "text.search is not a function" for anything else — and since that
+  // happens while <Latex> renders, a try/catch here wouldn't catch it. So coerce
+  // to a string first and render plain text if there's nothing useful.
+  if (children == null) return null
+  const text = typeof children === 'string' ? children : String(children)
+  if (!text) return null
   try {
-    return <Latex>{children}</Latex>
+    return <Latex>{text}</Latex>
   } catch {
-    return <>{children}</>
+    return <>{text}</>
   }
 }
 
