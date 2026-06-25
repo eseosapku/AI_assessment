@@ -157,6 +157,57 @@ function FlowInner({
     [onNodesChange, onNodesPositionChange]
   )
 
+  // Dragging a frame carries the nodes that sit inside it (by their centre).
+  const frameDrag = useRef<{ frameId: string; children: { id: string; dx: number; dy: number }[] } | null>(null)
+
+  const onNodeDragStart = useCallback(
+    (_: unknown, node: Node) => {
+      if (node.type !== 'frame') return
+      const fw = (node.data as { width?: number }).width ?? node.measured?.width ?? 480
+      const fh = (node.data as { height?: number }).height ?? node.measured?.height ?? 360
+      const fr = { x: node.position.x, y: node.position.y, w: fw, h: fh }
+      const children = rf
+        .getNodes()
+        .filter((n) => n.id !== node.id && n.type !== 'frame')
+        .filter((n) => {
+          const cw = n.measured?.width ?? 150
+          const ch = n.measured?.height ?? 80
+          const cx = n.position.x + cw / 2
+          const cy = n.position.y + ch / 2
+          return cx >= fr.x && cx <= fr.x + fr.w && cy >= fr.y && cy <= fr.y + fr.h
+        })
+        .map((n) => ({ id: n.id, dx: n.position.x - node.position.x, dy: n.position.y - node.position.y }))
+      frameDrag.current = { frameId: node.id, children }
+    },
+    [rf]
+  )
+
+  const onNodeDrag = useCallback(
+    (_: unknown, node: Node) => {
+      const st = frameDrag.current
+      if (!st || node.id !== st.frameId || st.children.length === 0) return
+      setRfNodes((nds) =>
+        nds.map((n) => {
+          const c = st.children.find((x) => x.id === n.id)
+          return c ? { ...n, position: { x: node.position.x + c.dx, y: node.position.y + c.dy } } : n
+        })
+      )
+    },
+    [setRfNodes]
+  )
+
+  const onNodeDragStop = useCallback(
+    (_: unknown, node: Node) => {
+      const st = frameDrag.current
+      frameDrag.current = null
+      if (!st || node.id !== st.frameId || st.children.length === 0) return
+      onNodesPositionChange(
+        st.children.map((c) => ({ id: c.id, position: { x: node.position.x + c.dx, y: node.position.y + c.dy } }))
+      )
+    },
+    [onNodesPositionChange]
+  )
+
   // Run queued view effects (zoom/fit/center) when a new batch arrives.
   useEffect(() => {
     if (effects.version === lastEffectVersion.current) return
@@ -193,6 +244,9 @@ function FlowInner({
         edges={rfEdges}
         nodeTypes={nodeTypes}
         onNodesChange={handleNodesChange}
+        onNodeDragStart={onNodeDragStart}
+        onNodeDrag={onNodeDrag}
+        onNodeDragStop={onNodeDragStop}
         onConnect={onConnect}
         onEdgeDoubleClick={(_, edge) => {
           const v = window.prompt('Edge label', (edge.label as string) ?? '')

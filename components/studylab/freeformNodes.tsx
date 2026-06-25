@@ -304,12 +304,12 @@ export function ResourceBoardNode({ id, data }: NodeProps) {
   )
 }
 
-const FRAME_COLORS: Record<string, string> = {
-  slate: 'border-slate-300 dark:border-slate-600 text-slate-500',
-  blue: 'border-sky-300 dark:border-sky-700 text-sky-500',
-  green: 'border-emerald-300 dark:border-emerald-700 text-emerald-500',
-  pink: 'border-pink-300 dark:border-pink-700 text-pink-500',
-  amber: 'border-amber-300 dark:border-amber-700 text-amber-500',
+const FRAME_COLORS: Record<string, { border: string; text: string; bg: string; head: string; swatch: string }> = {
+  slate: { border: 'border-slate-400/70 dark:border-slate-500', text: 'text-slate-600 dark:text-slate-300', bg: 'bg-slate-400/[0.12]', head: 'bg-slate-400/20', swatch: 'border-slate-400 bg-slate-300' },
+  blue: { border: 'border-sky-400/70 dark:border-sky-600', text: 'text-sky-700 dark:text-sky-300', bg: 'bg-sky-400/[0.12]', head: 'bg-sky-400/20', swatch: 'border-sky-400 bg-sky-300' },
+  green: { border: 'border-emerald-400/70 dark:border-emerald-600', text: 'text-emerald-700 dark:text-emerald-300', bg: 'bg-emerald-400/[0.12]', head: 'bg-emerald-400/20', swatch: 'border-emerald-400 bg-emerald-300' },
+  pink: { border: 'border-pink-400/70 dark:border-pink-600', text: 'text-pink-700 dark:text-pink-300', bg: 'bg-pink-400/[0.12]', head: 'bg-pink-400/20', swatch: 'border-pink-400 bg-pink-300' },
+  amber: { border: 'border-amber-400/70 dark:border-amber-600', text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-400/[0.12]', head: 'bg-amber-400/20', swatch: 'border-amber-400 bg-amber-300' },
 }
 
 export function FrameNode({ id, data, selected }: NodeProps) {
@@ -321,29 +321,30 @@ export function FrameNode({ id, data, selected }: NodeProps) {
   const w = d.width ?? 480
   const h = d.height ?? 360
   return (
-    <div style={{ width: w, height: h }} className={`sl-node-enter relative rounded-2xl border-2 border-dashed bg-gray-500/[0.03] ${c}`}>
+    <div style={{ width: w, height: h }} className={`sl-node-enter relative rounded-2xl border-2 border-dashed ${c.border} ${c.bg}`}>
       <NodeResizer
         isVisible={!!selected}
         minWidth={240}
         minHeight={180}
         onResizeEnd={(_, p) => onNodeDataChange(id, { width: Math.round(p.width), height: Math.round(p.height) })}
         lineClassName="!border-current"
-        handleClassName="!bg-white !border-current !w-2.5 !h-2.5"
+        handleClassName="!bg-white !border-gray-400 !w-2.5 !h-2.5"
       />
-      <div className="absolute top-2 left-3 flex items-center gap-2">
-        <input className="nodrag bg-transparent outline-none text-[12px] font-bold uppercase tracking-wide w-32"
+      {/* Header strip — also the drag grip for the frame */}
+      <div className={`absolute top-0 inset-x-0 flex items-center gap-2 px-3 py-1.5 rounded-t-2xl cursor-grab active:cursor-grabbing ${c.head}`}>
+        <input className={`nodrag bg-transparent outline-none text-[12px] font-bold uppercase tracking-wide w-32 ${c.text}`}
           value={label} onMouseDown={(e) => e.stopPropagation()}
           onChange={(e) => { setLabel(e.target.value); onNodeDataChange(id, { frameLabel: e.target.value }) }} />
         <div className="nodrag flex gap-1">
-          {Object.keys(FRAME_COLORS).map((k) => (
+          {Object.entries(FRAME_COLORS).map(([k, v]) => (
             <button key={k} type="button" aria-label={k} onClick={() => onNodeDataChange(id, { color: k })}
-              className={`w-3 h-3 rounded-full border-2 ${FRAME_COLORS[k].split(' ')[0]} ${color === k ? 'ring-1 ring-gray-400 ring-offset-1' : ''}`} />
+              className={`w-3 h-3 rounded-full border-2 ${v.swatch} ${color === k ? 'ring-1 ring-gray-500 ring-offset-1' : ''}`} />
           ))}
         </div>
+        <button type="button" title="Delete" onClick={() => onDeleteNode(id)} className="nodrag ml-auto p-0.5 rounded-md text-red-500 hover:bg-red-500/10">
+          <X className="w-3.5 h-3.5" />
+        </button>
       </div>
-      <button type="button" title="Delete" onClick={() => onDeleteNode(id)} className="nodrag absolute top-1.5 right-1.5 p-1 rounded-md text-red-500 hover:bg-red-500/10">
-        <X className="w-3.5 h-3.5" />
-      </button>
     </div>
   )
 }
