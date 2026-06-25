@@ -139,12 +139,13 @@ export default function Workspace({ id }: { id: string }) {
         }
 
         const actions: TutorAction[] = data.actions ?? []
-        const { nodes, edges, effects: fx } = applyActions(baseCanvas, actions)
+        const { nodes, edges, effects: fx, created } = applyActions(baseCanvas, actions)
         const nextCanvas: CanvasState = { ...baseCanvas, nodes, edges }
         setCanvas(nextCanvas)
-        if (fx.length > 0) {
+        const list = created.length > 0 ? [...fx, { kind: 'fitNodes' as const, nodeIds: created }] : fx
+        if (list.length > 0) {
           effectVersion.current += 1
-          setEffects({ version: effectVersion.current, list: fx })
+          setEffects({ version: effectVersion.current, list })
         }
 
         const nextStep = typeof data.step === 'number' ? data.step : stepRef.current

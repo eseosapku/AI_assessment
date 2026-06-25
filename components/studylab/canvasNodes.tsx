@@ -36,7 +36,7 @@ function CardFrame({ children, accent = 'blue' }: { children: React.ReactNode; a
         : 'border-gray-200 dark:border-gray-700'
   return (
     <div
-      className={`w-[300px] rounded-2xl bg-white dark:bg-[#1c1c1e] border ${ring} shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] overflow-hidden`}
+      className={`sl-node-enter w-[300px] rounded-2xl bg-white dark:bg-[#1c1c1e] border ${ring} shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] overflow-hidden`}
     >
       <Handle type="target" position={Position.Left} className={handleClass} />
       {children}

@@ -112,20 +112,19 @@ function FlowInner({
 
     const timer = setTimeout(() => {
       for (const effect of effects.list) {
-        if (effect.kind === 'zoom') {
-          if (effect.target === 'fit') {
-            rf.fitView({ duration: 700, padding: 0.25 })
-          } else if (effect.target === 'reset') {
-            rf.setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 500 })
-          } else if (effect.target === 'node' && effect.nodeId) {
-            const node = rf.getNode(effect.nodeId)
-            if (node) {
-              rf.setCenter(node.position.x + 150, node.position.y + 100, { zoom: 1.15, duration: 600 })
-            }
-          }
-        } else if (effect.kind === 'fitNodes') {
-          // fitNodes effect: fit the view to multiple nodes
+        if (effect.kind === 'fitNodes') {
+          rf.fitView({ duration: 700, padding: 0.3, nodes: effect.nodeIds.map((id) => ({ id })) })
+        } else if (effect.target === 'fit') {
           rf.fitView({ duration: 700, padding: 0.25 })
+        } else if (effect.target === 'reset') {
+          rf.setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 500 })
+        } else if (effect.target === 'node' && effect.nodeId) {
+          const node = rf.getNode(effect.nodeId)
+          if (node) {
+            const w = node.measured?.width ?? 300
+            const h = node.measured?.height ?? 200
+            rf.setCenter(node.position.x + w / 2, node.position.y + h / 2, { zoom: 1.15, duration: 600 })
+          }
         }
       }
     }, 80)
