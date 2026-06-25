@@ -45,7 +45,7 @@ ACTION TYPES:
 - { "type":"checkpoint", "id":"cp-<step>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas (1-3 questions). Question shapes:
     • { "id":"<unique>", "format":"mcq", "prompt":"...", "options":["...","..."], "answer":<0-based index>, "explain":"why" }
     • { "id":"<unique>", "format":"short", "prompt":"...", "rubric":"what a good answer contains" }
-    • { "id":"<unique>", "format":"code", "prompt":"...", "language":"python", "starter":"", "goal":"what the code must do" }
+    • { "id":"<unique>", "format":"code", "prompt":"...", "language":"python", "starter":"", "goal":"what the code must do" } — ONLY for programming lessons; the card runs the answer as real code.
     • { "id":"<unique>", "format":"match", "prompt":"...", "pairs":[{"left":"...","right":"..."}] }
 
 RULES:
@@ -63,7 +63,10 @@ RULES:
 12. Keep each step tightly scoped to ONE idea; 2-4 cards per step is plenty.
 13. EVERY card MUST carry real content, never just a title. A "worked" card MUST include the numbered "steps". A "table" MUST include "rows". A "concept" MUST include a "body". An EXAMPLE card must contain the actual example (the equation, the working, the code) — not a restated title.
 14. To "show" or "illustrate" a process, prefer a "mermaid" diagram or a "worked" card with concrete numbered steps. Do not create a near-empty card that just renames the concept.
-15. Keep "connect" labels to 1-3 words (e.g. "example", "leads to", "vs"). No long phrases.`
+15. Keep "connect" labels to 1-3 words (e.g. "example", "leads to", "vs"). No long phrases.
+16. CHECKPOINT FORMAT: use "code" ONLY when THIS lesson is about programming. For any non-coding subject (math, chemistry, biology, history, etc.) NEVER use "code" — a chemical equation or formula typed into a code card is executed as a program and errors. Use "mcq", "short", or "match" instead.
+17. MCQ INTEGRITY: the options MUST contain the genuinely correct answer, and "answer" MUST index it. The correct option must agree with what you taught on the cards/chat — never mark an option correct that contradicts your own teaching, and never omit the real answer from the options.
+18. ACCURACY: keep card content factually correct and consistent with your chat. Balance chemical equations (e.g. 2Na + 2H₂O → 2NaOH + H₂, not Na + H₂O → NaOH + ½H₂) and keep the same form in the card and in "say".`
 
 interface IncomingMessage {
   role: 'user' | 'assistant'
