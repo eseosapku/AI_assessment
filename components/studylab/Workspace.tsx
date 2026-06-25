@@ -9,7 +9,8 @@ import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock, aiCardIds } from '@/lib/studylab/freeform'
-import type { CanvasState, ChatMessage, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
+import { checkpointResultText } from '@/lib/studylab/quiz'
+import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
 import { useAuth } from '@/components/AuthProvider'
 
 // React Flow is client-only; load without SSR.
@@ -59,6 +60,7 @@ export default function Workspace({ id }: { id: string }) {
   const effectVersion = useRef(0)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const addOffset = useRef(0)
+  const submitted = useRef<Set<string>>(new Set())
 
   const suggestions = useMemo(() => {
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -308,6 +310,45 @@ export default function Workspace({ id }: { id: string }) {
     [handleSend]
   )
 
+  // ── Checkpoints ──────────────────────────────────────────────────────────────
+  const handleQuizMe = useCallback(() => {
+    handleSend('Quiz me on what we have covered so far.')
+  }, [handleSend])
+
+  // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
+  const pendingCheckpoint = useMemo(() => {
+    const byCp = new Map<string, { gate: 'hard' | 'soft'; answered: boolean }[]>()
+    for (const n of canvas.nodes) {
+      const q = n.data.quiz
+      if (!q) continue
+      byCp.set(q.checkpointId, [
+        ...(byCp.get(q.checkpointId) ?? []),
+        { gate: q.gate, answered: q.state === 'correct' || q.state === 'incorrect' },
+      ])
+    }
+    for (const cells of byCp.values()) {
+      if (cells.some((c) => c.gate === 'hard') && !cells.every((c) => c.answered)) return true
+    }
+    return false
+  }, [canvas.nodes])
+
+  // When every quiz node in a checkpoint is answered, report the result to the tutor once.
+  useEffect(() => {
+    const byCp = new Map<string, QuizCell[]>()
+    for (const n of canvas.nodes) {
+      const q = n.data.quiz
+      if (!q) continue
+      byCp.set(q.checkpointId, [...(byCp.get(q.checkpointId) ?? []), q])
+    }
+    for (const [cpId, cells] of byCp) {
+      if (submitted.current.has(cpId)) continue
+      if (cells.length > 0 && cells.every((c) => c.state === 'correct' || c.state === 'incorrect')) {
+        submitted.current.add(cpId)
+        handleSend(checkpointResultText(cells))
+      }
+    }
+  }, [canvas.nodes, handleSend])
+
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false
@@ -411,7 +452,15 @@ export default function Workspace({ id }: { id: string }) {
       </div>
 
       <div className="w-[360px] shrink-0 h-full border-l border-gray-100 dark:border-gray-800">
-        <ChatMouthpiece messages={messages} suggestions={suggestions} busy={busy} done={done} onSend={handleSend} />
+        <ChatMouthpiece
+          messages={messages}
+          suggestions={suggestions}
+          busy={busy}
+          done={done}
+          onSend={handleSend}
+          pendingCheckpoint={pendingCheckpoint}
+          onQuizMe={handleQuizMe}
+        />
       </div>
     </div>
   )

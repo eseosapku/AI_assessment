@@ -31,9 +31,11 @@ interface ChatMouthpieceProps {
   busy: boolean
   done: boolean
   onSend: (text: string, imageDataUrl?: string) => void
+  pendingCheckpoint?: boolean
+  onQuizMe?: () => void
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onQuizMe }: ChatMouthpieceProps) {
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
@@ -138,8 +140,15 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         )}
       </div>
 
-      {/* Suggestions */}
-      {!busy && suggestions.length > 0 && !done && (
+      {/* Pending checkpoint banner — finish the check before advancing */}
+      {pendingCheckpoint && !busy && (
+        <div className="mx-4 mb-2 px-3.5 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 text-[13px] font-semibold">
+          Answer the check on the canvas to continue.
+        </div>
+      )}
+
+      {/* Suggestions (hidden while a check is pending so the student finishes it first) */}
+      {!busy && !pendingCheckpoint && suggestions.length > 0 && !done && (
         <div className="px-4 pb-2 flex flex-col gap-2">
           {suggestions.map((s, i) => (
             <button
@@ -150,6 +159,18 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               {s}
             </button>
           ))}
+        </div>
+      )}
+
+      {/* Persistent "Quiz me" control */}
+      {!busy && !pendingCheckpoint && !done && onQuizMe && (
+        <div className="px-4 pb-2">
+          <button
+            onClick={onQuizMe}
+            className="w-full text-[13px] px-3.5 py-2 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold hover:bg-emerald-500/20 transition-colors"
+          >
+            Quiz me on this
+          </button>
         </div>
       )}
 
