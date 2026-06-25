@@ -27,7 +27,7 @@ export interface StudyNodeData {
 
 export interface StudyNode {
   id: string
-  type: 'concept' | 'code' | 'diagram' | 'stepGroup' | 'sketch' | 'image'
+  type: 'concept' | 'code' | 'diagram' | 'stepGroup' | 'image'
   position: { x: number; y: number }
   data: StudyNodeData
   hidden?: boolean
@@ -47,8 +47,6 @@ export interface CanvasState {
   nodes: StudyNode[]
   edges: StudyEdge[]
   viewport?: { x: number; y: number; zoom: number }
-  /** Serialised tldraw sketch document (snapshot). */
-  sketch?: any
 }
 
 export interface ChatMessage {

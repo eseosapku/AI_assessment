@@ -3,17 +3,15 @@
 import { createContext, useContext } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 import Latex from 'react-latex-next'
-import { BookOpen, Code2, GitBranch, Layers, ChevronDown, ChevronRight, Pencil, ImageIcon } from 'lucide-react'
+import { BookOpen, Code2, GitBranch, Layers, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 
 interface CanvasCallbacks {
   onToggleGroup: (groupId: string) => void
-  onOpenSketch: () => void
 }
 
 export const CanvasContext = createContext<CanvasCallbacks>({
   onToggleGroup: () => {},
-  onOpenSketch: () => {},
 })
 
 function SafeLatex({ children }: { children?: string }) {
@@ -177,25 +175,10 @@ export function ImageNode({ data }: NodeProps) {
   )
 }
 
-export function SketchNode() {
-  const { onOpenSketch } = useContext(CanvasContext)
-  return (
-    <button
-      onClick={onOpenSketch}
-      className="w-[220px] rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-700 bg-white/60 dark:bg-white/5 px-4 py-6 flex flex-col items-center gap-2 text-apple-dark-gray hover:border-apple-blue hover:text-apple-blue transition-colors"
-    >
-      <Handle type="target" position={Position.Left} className={handleClass} />
-      <Pencil className="w-5 h-5" />
-      <span className="text-xs font-medium">Open sketch layer</span>
-    </button>
-  )
-}
-
 export const studyNodeTypes = {
   concept: ConceptNode,
   code: CodeNode,
   diagram: DiagramNode,
   stepGroup: StepGroupNode,
-  sketch: SketchNode,
   image: ImageNode,
 }

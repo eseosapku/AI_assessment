@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef } from 'react'
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -17,9 +17,6 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
-import { Tldraw, getSnapshot, loadSnapshot, type Editor } from 'tldraw'
-import 'tldraw/tldraw.css'
-import { Pencil, Check } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import type { CanvasEffect } from '@/lib/studylab/actions'
 import type { StudyEdge, StudyNode } from '@/lib/studylab/types'
@@ -37,8 +34,6 @@ interface StudyCanvasProps {
   effects: CanvasEffects
   onNodesPositionChange: (updates: { id: string; position: { x: number; y: number } }[]) => void
   onToggleGroup: (groupId: string) => void
-  sketch?: any
-  onSketchSnapshot: (snapshot: any) => void
 }
 
 function FlowInner({
@@ -47,8 +42,7 @@ function FlowInner({
   effects,
   onNodesPositionChange,
   onToggleGroup,
-  onOpenSketch,
-}: Omit<StudyCanvasProps, 'sketch' | 'onSketchSnapshot'> & { onOpenSketch: () => void }) {
+}: StudyCanvasProps) {
   const rf = useReactFlow()
   const lastEffectVersion = useRef(-1)
 
@@ -146,81 +140,13 @@ function FlowInner({
       <Background variant={BackgroundVariant.Dots} gap={28} size={1.5} className="!text-gray-300 dark:!text-gray-700" />
       <Controls showInteractive={false} className="!shadow-lg !rounded-xl overflow-hidden" />
       <MiniMap pannable zoomable className="!rounded-xl !border !border-gray-200 dark:!border-gray-800" />
-      <CanvasOpenSketchButton onOpenSketch={onOpenSketch} />
     </ReactFlow>
   )
 }
 
-function CanvasOpenSketchButton({ onOpenSketch }: { onOpenSketch: () => void }) {
-  return (
-    <button
-      onClick={onOpenSketch}
-      className="absolute top-4 right-4 z-10 flex items-center gap-2 px-3.5 py-2 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-md text-sm font-medium hover:border-apple-blue hover:text-apple-blue transition-colors"
-    >
-      <Pencil className="w-4 h-4" />
-      Sketch
-    </button>
-  )
-}
-
-function SketchOverlay({
-  sketch,
-  onClose,
-  onSnapshot,
-}: {
-  sketch?: any
-  onClose: () => void
-  onSnapshot: (snap: any) => void
-}) {
-  const editorRef = useRef<Editor | null>(null)
-
-  const handleMount = useCallback(
-    (editor: Editor) => {
-      editorRef.current = editor
-      if (sketch) {
-        try {
-          loadSnapshot(editor.store, sketch)
-        } catch (err) {
-          console.error('Failed to load sketch snapshot:', err)
-        }
-      }
-    },
-    [sketch]
-  )
-
-  const finish = useCallback(() => {
-    const editor = editorRef.current
-    if (editor) {
-      try {
-        onSnapshot(getSnapshot(editor.store))
-      } catch (err) {
-        console.error('Failed to capture sketch snapshot:', err)
-      }
-    }
-    onClose()
-  }, [onClose, onSnapshot])
-
-  return (
-    <div className="absolute inset-0 z-30">
-      <div className="absolute inset-0">
-        <Tldraw onMount={handleMount} />
-      </div>
-      <button
-        onClick={finish}
-        className="absolute top-4 right-4 z-40 flex items-center gap-2 px-4 py-2.5 rounded-xl bg-apple-blue text-white shadow-lg text-sm font-medium hover:bg-blue-600 transition-colors"
-      >
-        <Check className="w-4 h-4" />
-        Done sketching
-      </button>
-    </div>
-  )
-}
-
 export default function StudyCanvas(props: StudyCanvasProps) {
-  const [sketchMode, setSketchMode] = useState(false)
-
   return (
-    <CanvasContext.Provider value={{ onToggleGroup: props.onToggleGroup, onOpenSketch: () => setSketchMode(true) }}>
+    <CanvasContext.Provider value={{ onToggleGroup: props.onToggleGroup }}>
       <div className="relative w-full h-full">
         <ReactFlowProvider>
           <FlowInner
@@ -229,16 +155,8 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             effects={props.effects}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}
-            onOpenSketch={() => setSketchMode(true)}
           />
         </ReactFlowProvider>
-        {sketchMode && (
-          <SketchOverlay
-            sketch={props.sketch}
-            onClose={() => setSketchMode(false)}
-            onSnapshot={props.onSketchSnapshot}
-          />
-        )}
       </div>
     </CanvasContext.Provider>
   )

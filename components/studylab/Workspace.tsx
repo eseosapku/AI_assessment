@@ -11,7 +11,7 @@ import { applyActions, toggleStepGroup, createImageCard } from '@/lib/studylab/a
 import type { CanvasState, ChatMessage, TutorAction, TutorResponse } from '@/lib/studylab/types'
 import { useAuth } from '@/components/AuthProvider'
 
-// React Flow + tldraw are client-only; load without SSR.
+// React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
   ssr: false,
   loading: () => (
@@ -221,14 +221,6 @@ export default function Workspace({ id }: { id: string }) {
     setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId: groupId }] })
   }, [])
 
-  const handleSketchSnapshot = useCallback(
-    (snapshot: any) => {
-      setCanvas((prev) => ({ ...prev, sketch: snapshot }))
-      scheduleCanvasSave()
-    },
-    [scheduleCanvasSave]
-  )
-
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false
@@ -322,8 +314,6 @@ export default function Workspace({ id }: { id: string }) {
           effects={effects}
           onNodesPositionChange={handleNodesPositionChange}
           onToggleGroup={handleToggleGroup}
-          sketch={canvas.sketch}
-          onSketchSnapshot={handleSketchSnapshot}
         />
       </div>
 
