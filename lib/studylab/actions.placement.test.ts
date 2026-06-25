@@ -33,3 +33,22 @@ describe('autoPosition', () => {
     expect(autoPosition([group, hidden], 1)).toEqual({ x: 0, y: 460 })
   })
 })
+
+describe('autoPosition block-size awareness', () => {
+  it('uses the real size of existing nodes when testing overlap', () => {
+    // A 480-wide frame at slot 0 should push a new card past column 1 too,
+    // because the frame overlaps both slot 0 (x=0) and slot 1 (x=356).
+    const frame: StudyNode = { id: 'f', type: 'frame' as any, position: { x: 0, y: 460 }, data: { kind: 'concept', step: 1 } }
+    const pos = autoPosition([frame], 1, 'concept')
+    expect(pos.x).toBe(712) // column 2, since the 480px frame overlaps columns 0 and 1
+    expect(pos.y).toBe(460)
+  })
+
+  it('still places a lone concept card at slot 0', () => {
+    expect(autoPosition([], 1, 'concept')).toEqual({ x: 0, y: 460 })
+  })
+
+  it('defaults type to concept when omitted (back-compat)', () => {
+    expect(autoPosition([], 2)).toEqual({ x: 0, y: 920 })
+  })
+})

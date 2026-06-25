@@ -2,7 +2,7 @@
 // Returns the next nodes/edges plus a list of view "effects" (zoom/highlight)
 // for the component to run against the React Flow instance.
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
-import { isCardKind } from './blocks'
+import { isCardKind, blockSize } from './blocks'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
@@ -23,16 +23,24 @@ function rectsOverlap(
   return !(a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y)
 }
 
-// Return the first 3-column grid slot in this step's band whose rectangle does
-// not overlap any visible, non-group node anywhere on the canvas.
-export function autoPosition(nodes: StudyNode[], step: number): { x: number; y: number } {
+// Return the first 3-column grid slot in this step's band whose rectangle (sized
+// for `type`) does not overlap any visible, non-group node's real footprint.
+export function autoPosition(
+  nodes: StudyNode[],
+  step: number,
+  type: string = 'concept'
+): { x: number; y: number } {
   const occupied = nodes
     .filter((n) => n.type !== 'stepGroup' && !n.hidden)
-    .map((n) => ({ x: n.position.x, y: n.position.y, w: CARD_W, h: CARD_H }))
+    .map((n) => {
+      const s = blockSize(n.type)
+      return { x: n.position.x, y: n.position.y, w: s.w, h: s.h }
+    })
+  const size = blockSize(type)
   const bandY = step * STEP_BAND
   for (let row = 0; row < 200; row++) {
     for (let col = 0; col < 3; col++) {
-      const cand = { x: col * SLOT_W, y: bandY + row * SLOT_H, w: CARD_W, h: CARD_H }
+      const cand = { x: col * SLOT_W, y: bandY + row * SLOT_H, w: size.w, h: size.h }
       if (!occupied.some((o) => rectsOverlap(cand, o))) {
         return { x: cand.x, y: cand.y }
       }
@@ -90,7 +98,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
         const position =
           action.position && action.position !== 'auto'
             ? action.position
-            : autoPosition(nodes, step)
+            : autoPosition(nodes, step, action.card)
         nodes.push({
           id: action.id,
           type: action.card,
@@ -179,7 +187,7 @@ export function createImageCard(
   state: CanvasState,
   opts: { id: string; imageUrl: string; title?: string; step: number }
 ): StudyNode {
-  const position = autoPosition(state.nodes, opts.step)
+  const position = autoPosition(state.nodes, opts.step, 'image')
   return {
     id: opts.id,
     type: 'image',
