@@ -112,15 +112,20 @@ function FlowInner({
 
     const timer = setTimeout(() => {
       for (const effect of effects.list) {
-        if (effect.target === 'fit') {
-          rf.fitView({ duration: 700, padding: 0.25 })
-        } else if (effect.target === 'reset') {
-          rf.setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 500 })
-        } else if (effect.target === 'node' && effect.nodeId) {
-          const node = rf.getNode(effect.nodeId)
-          if (node) {
-            rf.setCenter(node.position.x + 150, node.position.y + 100, { zoom: 1.15, duration: 600 })
+        if (effect.kind === 'zoom') {
+          if (effect.target === 'fit') {
+            rf.fitView({ duration: 700, padding: 0.25 })
+          } else if (effect.target === 'reset') {
+            rf.setViewport({ x: 0, y: 0, zoom: 1 }, { duration: 500 })
+          } else if (effect.target === 'node' && effect.nodeId) {
+            const node = rf.getNode(effect.nodeId)
+            if (node) {
+              rf.setCenter(node.position.x + 150, node.position.y + 100, { zoom: 1.15, duration: 600 })
+            }
           }
+        } else if (effect.kind === 'fitNodes') {
+          // fitNodes effect: fit the view to multiple nodes
+          rf.fitView({ duration: 700, padding: 0.25 })
         }
       }
     }, 80)

@@ -3,11 +3,9 @@
 // for the component to run against the React Flow instance.
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 
-export interface CanvasEffect {
-  kind: 'zoom'
-  target: 'fit' | 'node' | 'reset'
-  nodeId?: string
-}
+export type CanvasEffect =
+  | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
+  | { kind: 'fitNodes'; nodeIds: string[] }
 
 const CARD_W = 300
 const CARD_H = 200
@@ -72,12 +70,14 @@ export interface ApplyResult {
   nodes: StudyNode[]
   edges: StudyEdge[]
   effects: CanvasEffect[]
+  created: string[]
 }
 
 export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyResult {
   let nodes: StudyNode[] = state.nodes.map((n) => ({ ...n, data: { ...n.data } }))
   let edges: StudyEdge[] = [...state.edges]
   const effects: CanvasEffect[] = []
+  const created: string[] = []
 
   for (const action of actions) {
     if (!isValidAction(action)) continue
@@ -105,6 +105,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             step,
           },
         })
+        created.push(action.id)
         break
       }
 
@@ -169,7 +170,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
     }
   }
 
-  return { nodes, edges, effects }
+  return { nodes, edges, effects, created }
 }
 
 // Build an image card node (student's pasted work) placed in the given step band.
