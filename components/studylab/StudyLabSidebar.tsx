@@ -1,6 +1,7 @@
 'use client'
 
-import { ArrowLeft, Brain, Layers, CheckCircle2, Circle, StickyNote, Settings } from 'lucide-react'
+import { ArrowLeft, Brain, Layers, CheckCircle2, Circle, CircleDot, StickyNote, Settings } from 'lucide-react'
+import type { PlanStep } from '@/lib/studylab/types'
 
 interface StepGroupSummary {
   id: string
@@ -12,6 +13,7 @@ interface StudyLabSidebarProps {
   subject?: string | null
   currentStep: number
   groups: StepGroupSummary[]
+  plan?: PlanStep[]
   cardCount: number
   onBack: () => void
   onFocusGroup: (id: string) => void
@@ -22,12 +24,14 @@ export default function StudyLabSidebar({
   subject,
   currentStep,
   groups,
+  plan,
   cardCount,
   onBack,
   onFocusGroup,
 }: StudyLabSidebarProps) {
-  const completed = groups.length
-  const total = Math.max(currentStep, completed)
+  const hasPlan = !!plan && plan.length > 0
+  const completed = hasPlan ? Math.max(currentStep - 1, 0) : groups.length
+  const total = hasPlan ? plan!.length : Math.max(currentStep, groups.length)
 
   return (
     <aside className="w-64 shrink-0 h-full flex flex-col bg-[#0e0f12] text-gray-300 border-r border-white/5">
@@ -64,24 +68,54 @@ export default function StudyLabSidebar({
           Steps
         </div>
         <div className="space-y-1">
-          {groups.length === 0 && (
-            <p className="px-2 text-[12px] text-gray-600">Completed steps will appear here.</p>
-          )}
-          {groups.map((g, i) => (
-            <button
-              key={g.id}
-              onClick={() => onFocusGroup(g.id)}
-              className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left text-[13px] text-gray-300 hover:bg-white/5 transition-colors"
-            >
-              <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-              <span className="truncate">{g.label || `Step ${i + 1}`}</span>
-            </button>
-          ))}
-          {currentStep > completed && (
-            <div className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[13px] text-apple-blue bg-apple-blue/10">
-              <Circle className="w-4 h-4 shrink-0" />
-              <span className="truncate">Step {currentStep} · in progress</span>
-            </div>
+          {hasPlan ? (
+            plan!.map((p, i) => {
+              const stepNo = i + 1
+              const state = stepNo < currentStep ? 'done' : stepNo === currentStep ? 'current' : 'upcoming'
+              const matchGroup = groups[i]
+              const Icon = state === 'done' ? CheckCircle2 : state === 'current' ? CircleDot : Circle
+              return (
+                <button
+                  key={i}
+                  onClick={() => matchGroup && onFocusGroup(matchGroup.id)}
+                  title={p.goal}
+                  className={`w-full flex items-start gap-2 px-2 py-2 rounded-lg text-left text-[13px] transition-colors ${
+                    state === 'current'
+                      ? 'text-apple-blue bg-apple-blue/10'
+                      : state === 'done'
+                        ? 'text-gray-300 hover:bg-white/5'
+                        : 'text-gray-500'
+                  }`}
+                >
+                  <Icon
+                    className={`w-4 h-4 mt-0.5 shrink-0 ${state === 'done' ? 'text-emerald-400' : ''}`}
+                  />
+                  <span className="leading-snug">{p.title}</span>
+                </button>
+              )
+            })
+          ) : (
+            <>
+              {groups.length === 0 && (
+                <p className="px-2 text-[12px] text-gray-600">Completed steps will appear here.</p>
+              )}
+              {groups.map((g, i) => (
+                <button
+                  key={g.id}
+                  onClick={() => onFocusGroup(g.id)}
+                  className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-left text-[13px] text-gray-300 hover:bg-white/5 transition-colors"
+                >
+                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                  <span className="truncate">{g.label || `Step ${i + 1}`}</span>
+                </button>
+              ))}
+              {currentStep > groups.length && (
+                <div className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[13px] text-apple-blue bg-apple-blue/10">
+                  <Circle className="w-4 h-4 shrink-0" />
+                  <span className="truncate">Step {currentStep} · in progress</span>
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

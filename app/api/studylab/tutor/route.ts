@@ -112,13 +112,14 @@ function buildPrompt(opts: {
   subject?: string | null
   currentStep: number
   existingCards: { id: string; title: string; step: number }[]
+  plan: { title: string; goal: string }[]
   history: IncomingMessage[]
   userMessage: string
   origin?: string
   focus?: GapFocus | null
   imageState?: 'attached' | 'unreadable'
 }): string {
-  const { title, subject, currentStep, existingCards, history, userMessage, origin, focus, imageState } = opts
+  const { title, subject, currentStep, existingCards, plan, history, userMessage, origin, focus, imageState } = opts
   const historyText = history
     .slice(-10)
     .map((m) => `${m.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${m.content}`)
@@ -151,8 +152,15 @@ REMEDIATION GUIDANCE (gap mode):
 
 ────────────────────────────────────────
 TOPIC: ${title}${subject ? `\nSUBJECT: ${subject}` : ''}${focusLine}
+${
+  plan.length
+    ? `LESSON PLAN (your outline — teach toward the CURRENT step's goal, then checkpoint and move to the next):\n${plan
+        .map((p, i) => `  ${i + 1}. ${p.title} — ${p.goal}${i + 1 === currentStep ? '   ← CURRENT STEP' : ''}`)
+        .join('\n')}`
+    : 'LESSON PLAN: (none yet — on THIS first turn, draft one in the "plan" field)'
+}
 CURRENT STEP: ${currentStep}
-EXISTING CARDS ON CANVAS (do NOT recreate these — build on them and "connect" to their ids):
+EXISTING CARDS ON CANVAS (do NOT recreate these — build on them and "connect" parent→child to their ids):
 ${existingCards.length ? existingCards.map((c) => `  ${c.id} "${c.title}" (step ${c.step})`).join('\n') : '  (none yet)'}${imageLine}
 
 CONVERSATION SO FAR:
@@ -181,6 +189,12 @@ function sanitizeResponse(parsed: any, currentStep: number): TutorResponse {
     suggestions: cleanSuggestions(rawSuggestions).slice(0, 3),
     step: Number.isFinite(Number(parsed?.step)) ? Number(parsed.step) : currentStep || 1,
     done: parsed?.done === true,
+    plan: Array.isArray(parsed?.plan)
+      ? parsed.plan
+          .filter((p: any) => p && typeof p.title === 'string')
+          .map((p: any) => ({ title: String(p.title), goal: typeof p.goal === 'string' ? p.goal : '' }))
+          .slice(0, 8)
+      : undefined,
   }
 }
 
@@ -217,6 +231,11 @@ export async function POST(request: NextRequest) {
           .filter((c: any) => c && typeof c.id === 'string')
           .map((c: any) => ({ id: c.id, title: typeof c.title === 'string' ? c.title : '', step: Number(c.step) || 0 }))
       : []
+    const plan: { title: string; goal: string }[] = Array.isArray(body?.plan)
+      ? body.plan
+          .filter((p: any) => p && typeof p.title === 'string')
+          .map((p: any) => ({ title: String(p.title), goal: typeof p.goal === 'string' ? p.goal : '' }))
+      : []
     const origin = body?.origin === 'gap' ? 'gap' : 'scratch'
     const focus: GapFocus | null =
       body?.focus && typeof body.focus === 'object'
@@ -228,7 +247,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A topic title is required' }, { status: 400 })
     }
 
-    const baseOpts = { title, subject, currentStep, existingCards, history, userMessage, origin, focus }
+    const baseOpts = { title, subject, currentStep, existingCards, plan, history, userMessage, origin, focus }
 
     let raw: string
     try {

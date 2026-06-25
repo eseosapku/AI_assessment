@@ -90,10 +90,17 @@ export interface StudyEdge {
   animated?: boolean
 }
 
+export interface PlanStep {
+  title: string
+  goal: string
+}
+
 export interface CanvasState {
   nodes: StudyNode[]
   edges: StudyEdge[]
   viewport?: { x: number; y: number; zoom: number }
+  /** The tutor's lesson outline, drafted on the first turn. */
+  plan?: PlanStep[]
 }
 
 export interface ChatMessage {
@@ -141,4 +148,6 @@ export interface TutorResponse {
   step?: number
   /** True when the whole topic has been covered. */
   done?: boolean
+  /** Lesson outline — present on the first turn only. */
+  plan?: PlanStep[]
 }

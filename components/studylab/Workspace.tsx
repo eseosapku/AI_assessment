@@ -133,6 +133,7 @@ export default function Workspace({ id }: { id: string }) {
             message: userText,
             history: history.map((m) => ({ role: m.role, content: m.content })),
             cards: aiCards(baseCanvas.nodes),
+            plan: baseCanvas.plan ?? [],
             origin: space?.origin,
             focus: space?.focus,
             image: imageDataUrl ?? null,
@@ -146,6 +147,11 @@ export default function Workspace({ id }: { id: string }) {
         const actions: TutorAction[] = data.actions ?? []
         const { nodes, edges, effects: fx, created } = applyActions(baseCanvas, actions)
         let nextCanvas: CanvasState = { ...baseCanvas, nodes, edges }
+
+        // Capture the lesson plan the tutor drafts on the first turn.
+        if (data.plan && data.plan.length > 0 && !(baseCanvas.plan && baseCanvas.plan.length > 0)) {
+          nextCanvas = { ...nextCanvas, plan: data.plan }
+        }
 
         // Deterministic grouping: if the tutor advanced to a new step, collapse
         // the step we just left (even if the model forgot to emit groupStep).
@@ -464,6 +470,7 @@ export default function Workspace({ id }: { id: string }) {
         subject={space.subject}
         currentStep={currentStep}
         groups={groups}
+        plan={canvas.plan}
         cardCount={cardCount}
         onBack={() => router.push('/studylab')}
         onFocusGroup={handleFocusGroup}
