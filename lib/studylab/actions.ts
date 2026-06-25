@@ -3,6 +3,7 @@
 // for the component to run against the React Flow instance.
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 import { isCardKind, blockSize } from './blocks'
+import { isValidQuestion } from './quiz'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
@@ -70,6 +71,14 @@ export function isValidAction(a: any): a is TutorAction {
       return ['fit', 'node', 'reset'].includes(a.target)
     case 'highlight':
       return typeof a.nodeId === 'string'
+    case 'checkpoint':
+      return (
+        typeof a.id === 'string' &&
+        ['hard', 'soft'].includes(a.gate) &&
+        Array.isArray(a.questions) &&
+        a.questions.length > 0 &&
+        a.questions.every(isValidQuestion)
+      )
     default:
       return false
   }
@@ -115,6 +124,32 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
           },
         })
         created.push(action.id)
+        break
+      }
+
+      case 'checkpoint': {
+        if (nodes.some((n) => n.data.quiz?.checkpointId === action.id)) break
+        const step = action.step
+        const headerId = `${action.id}-hdr`
+        if (!nodes.some((n) => n.id === headerId)) {
+          nodes.push({
+            id: headerId,
+            type: 'checkpointHeader',
+            position: autoPosition(nodes, step, 'checkpointHeader'),
+            data: { kind: 'checkpointHeader', title: 'Check your understanding', step },
+          })
+          created.push(headerId)
+        }
+        for (const q of action.questions) {
+          if (nodes.some((n) => n.id === q.id)) continue
+          nodes.push({
+            id: q.id,
+            type: 'quiz',
+            position: autoPosition(nodes, step, 'quiz'),
+            data: { kind: 'quiz', step, quiz: { checkpointId: action.id, gate: action.gate, question: q, state: 'unanswered' } },
+          })
+          created.push(q.id)
+        }
         break
       }
 
