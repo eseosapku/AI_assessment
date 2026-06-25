@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation'
 import { motion } from 'framer-motion'
 import { AlertTriangle, ArrowRight, Loader2, Sparkles, TrendingDown } from 'lucide-react'
 import type { PersonaSnapshot, WeakArea } from '@/lib/studylab/persona'
+import { openLearnSpace } from '@/lib/studylab/openSpace'
 
 const STATUS_DOT: Record<string, string> = {
   gap: 'bg-red-500',
@@ -40,7 +41,7 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
       if (!res.ok) {
         throw new Error(json.error || 'Failed to start study')
       }
-      router.push(`/studylab/${json.data.id}`)
+      openLearnSpace(json.data.id, router)
     } catch (err) {
       console.error('Start study failed:', err)
     }
@@ -111,16 +112,6 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
           </p>
         </div>
       ) : null}
-
-      <div className="px-5 sm:px-6 py-3 bg-apple-gray/50 dark:bg-black/20 border-t border-gray-100 dark:border-gray-800">
-        <button
-          onClick={() => router.push('/studylab/gap-map')}
-          className="text-sm font-medium text-apple-blue flex items-center gap-1 hover:gap-2 transition-all"
-        >
-          Open full Learning Gap Map
-          <ArrowRight className="w-4 h-4" />
-        </button>
-      </div>
     </motion.section>
   )
 }

@@ -17,16 +17,17 @@ import {
   type NodeTypes,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
-import { ArrowLeft, Brain, Loader2, Sparkles, Target, X, BookOpen, ChevronRight, ChevronDown, FileQuestion } from 'lucide-react'
+import { ArrowLeft, Loader2, Sparkles, Target, X, BookOpen, ChevronRight, ChevronDown, FileQuestion } from 'lucide-react'
 import type { MasteryStatus } from '@/lib/studylab/types'
+import { openLearnSpace } from '@/lib/studylab/openSpace'
 import type { CountryCode } from '@/lib/countries'
 
 // ── status styling ────────────────────────────────────────────────────────────
-const STATUS_META: Record<MasteryStatus, { label: string; dot: string; ring: string; text: string }> = {
-  mastered: { label: 'Mastered', dot: 'bg-blue-500', ring: 'border-blue-300 dark:border-blue-700', text: 'text-blue-600 dark:text-blue-400' },
-  developing: { label: 'Developing', dot: 'bg-amber-500', ring: 'border-amber-300 dark:border-amber-700', text: 'text-amber-600 dark:text-amber-400' },
-  gap: { label: 'Learning Gap', dot: 'bg-red-500', ring: 'border-red-300 dark:border-red-700', text: 'text-red-600 dark:text-red-400' },
-  not_assessed: { label: 'Not Assessed', dot: 'bg-gray-400', ring: 'border-gray-200 dark:border-gray-700', text: 'text-gray-500' },
+const STATUS_META: Record<MasteryStatus, { label: string; dot: string; ring: string; text: string; fill: string; accent: string }> = {
+  mastered: { label: 'Mastered', dot: 'bg-blue-500', ring: 'border-blue-200', text: 'text-blue-700', fill: 'bg-blue-50', accent: 'border-l-[5px] border-l-blue-500' },
+  developing: { label: 'Developing', dot: 'bg-amber-500', ring: 'border-amber-200', text: 'text-amber-800', fill: 'bg-amber-50', accent: 'border-l-[5px] border-l-amber-500' },
+  gap: { label: 'Learning Gap', dot: 'bg-red-500', ring: 'border-red-200', text: 'text-red-700', fill: 'bg-red-50', accent: 'border-l-[5px] border-l-red-500' },
+  not_assessed: { label: 'Not Assessed', dot: 'bg-gray-400', ring: 'border-gray-200', text: 'text-gray-600', fill: 'bg-gray-50', accent: 'border-l-[5px] border-l-gray-300' },
 }
 
 interface MapNodeData {
@@ -66,12 +67,12 @@ function MapNode({ data }: NodeProps) {
     return (
       <button
         onClick={() => onSelect(d)}
-        className={`w-[230px] text-left px-4 py-3 rounded-2xl bg-white dark:bg-[#1c1c1e] border-2 ${meta?.ring ?? 'border-gray-200 dark:border-gray-700'} shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer transition-all`}
+        className={`w-[248px] text-left px-4 py-3.5 rounded-2xl border shadow-md hover:shadow-lg hover:-translate-y-0.5 cursor-pointer transition-all ${meta?.fill ?? 'bg-white'} ${meta?.accent ?? 'border-l-[5px] border-l-gray-300'} ${meta?.ring ?? 'border-gray-200'}`}
       >
         <Handle type="source" position={Position.Right} className="!bg-apple-blue/60 !border-0" />
         <div className="flex items-center gap-2">
-          <div className="w-8 h-8 rounded-xl bg-apple-blue/10 flex items-center justify-center shrink-0">
-            <BookOpen className="w-4 h-4 text-apple-blue" />
+          <div className="w-9 h-9 rounded-xl bg-brand-blue/15 flex items-center justify-center shrink-0">
+            <BookOpen className="w-4 h-4 text-brand-blue" />
           </div>
           <span className="text-[14px] font-semibold leading-tight line-clamp-2">{d.label}</span>
         </div>
@@ -96,7 +97,7 @@ function MapNode({ data }: NodeProps) {
     return (
       <div
         onClick={() => hasSubs && d.topic_id != null && onToggle(d.topic_id)}
-        className={`group w-[230px] px-3.5 py-2.5 rounded-xl bg-white dark:bg-[#1c1c1e] border ${meta?.ring ?? 'border-gray-200 dark:border-gray-700'} shadow-sm hover:shadow-md transition-all ${hasSubs ? 'cursor-pointer' : ''}`}
+        className={`group w-[248px] px-3.5 py-2.5 rounded-xl border shadow-sm hover:shadow-md transition-all ${meta?.fill ?? 'bg-white'} ${meta?.accent ?? 'border-l-[5px] border-l-gray-300'} ${meta?.ring ?? 'border-gray-200'} ${hasSubs ? 'cursor-pointer' : ''}`}
       >
         <Handle type="target" position={Position.Left} className="!bg-gray-300 !border-0" />
         <div className="flex items-center gap-2">
@@ -138,7 +139,7 @@ function MapNode({ data }: NodeProps) {
   return (
     <button
       onClick={() => onSelect(d)}
-      className={`w-[200px] text-left px-3.5 py-2 rounded-xl bg-white dark:bg-[#1c1c1e] border ${meta?.ring ?? 'border-gray-200 dark:border-gray-700'} shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer transition-all`}
+      className={`w-[210px] text-left px-3.5 py-2.5 rounded-xl border shadow-sm hover:shadow-md hover:-translate-y-0.5 cursor-pointer transition-all ${meta?.fill ?? 'bg-white'} ${meta?.accent ?? 'border-l-[5px] border-l-gray-300'} ${meta?.ring ?? 'border-gray-200'}`}
     >
       <Handle type="target" position={Position.Left} className="!bg-gray-300 !border-0" />
       <div className="flex items-center gap-2">
@@ -295,7 +296,12 @@ function buildGraph(s: Subject, expanded: Set<number>): { nodes: Node[]; edges: 
 
   return {
     nodes,
-    edges: edges.map((e) => ({ ...e, type: 'smoothstep', style: { stroke: '#cbd5e1', strokeWidth: 1.5 } })),
+    edges: edges.map((e) => ({
+      ...e,
+      type: 'smoothstep',
+      style: { stroke: '#4D7CFF', strokeWidth: 2, opacity: 0.35 },
+      animated: true,
+    })),
   }
 }
 
@@ -304,10 +310,12 @@ export default function GapMap({
   userId,
   userClass,
   userCountry = 'RW',
+  embedded = false,
 }: {
   userId: string
   userClass?: string | null
   userCountry?: CountryCode
+  embedded?: boolean
 }) {
   const router = useRouter()
   const [tree, setTree] = useState<GapTree | null>(null)
@@ -394,7 +402,7 @@ export default function GapMap({
       if (!res.ok) {
         throw new Error(json.error || 'Failed to start study')
       }
-      router.push(`/studylab/${json.data.id}`)
+      openLearnSpace(json.data.id, router)
     } catch (err: any) {
       setError(err.message)
       setStarting(false)
@@ -450,16 +458,20 @@ export default function GapMap({
 
   if (loading) {
     return (
-      <div className="h-screen flex items-center justify-center bg-apple-gray dark:bg-[#0a0a0a]">
-        <Loader2 className="w-8 h-8 text-apple-blue animate-spin" />
+      <div className={`flex items-center justify-center ${embedded ? 'min-h-[60vh]' : 'h-screen bg-apple-gray dark:bg-[#0a0a0a]'}`}>
+        <Loader2 className="w-8 h-8 text-brand-blue animate-spin" />
       </div>
     )
   }
 
   return (
-    <div className="h-screen flex flex-col bg-apple-gray dark:bg-[#0a0a0a]">
+    <div
+      className={`flex flex-col ${
+        embedded ? 'h-[calc(100dvh-5.5rem)] min-h-[28rem]' : 'h-screen bg-apple-gray dark:bg-[#0a0a0a]'
+      }`}
+    >
       {/* Header */}
-      <header className="flex items-center justify-between px-4 sm:px-6 py-3 bg-white dark:bg-[#161617] border-b border-gray-100 dark:border-gray-800">
+      <header className={`flex items-center justify-between border-b px-4 py-3 sm:px-6 ${embedded ? 'border-black/[0.06] bg-white' : 'border-gray-100 bg-white dark:border-gray-800 dark:bg-[#161617]'}`}>
         <div className="flex items-center gap-3">
           <button onClick={() => router.push('/studylab')} className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5">
             <ArrowLeft className="w-5 h-5" />
@@ -506,7 +518,8 @@ export default function GapMap({
       )}
 
       {/* Map */}
-      <div className="flex-1 relative">
+      <div className="relative min-h-0 flex-1 w-full bg-gradient-to-br from-brand-paper via-white to-brand-sky/30">
+        <div className="absolute inset-0">
         <CallbacksContext.Provider value={callbacks}>
           <ReactFlowProvider>
             <ReactFlow
@@ -520,13 +533,15 @@ export default function GapMap({
               maxZoom={1.5}
               nodesDraggable={false}
               proOptions={{ hideAttribution: true }}
+              style={{ width: '100%', height: '100%' }}
             >
-              <Background variant={BackgroundVariant.Dots} gap={28} size={1.5} />
+              <Background variant={BackgroundVariant.Dots} gap={24} size={1.2} color="#4D7CFF" className="opacity-30" />
               <Controls showInteractive={false} />
               <MiniMap pannable zoomable />
             </ReactFlow>
           </ReactFlowProvider>
         </CallbacksContext.Provider>
+        </div>
 
         {tree && tree.textbooks.length === 0 && (
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center pointer-events-none">
@@ -681,21 +696,42 @@ export default function GapMap({
 }
 
 function Legend({ summary }: { summary?: GapTree['summary'] }) {
+  const mastery = summary?.overall_mastery ?? 0
+  const gapCount = summary?.gap ?? 0
   return (
     <div className="flex items-center gap-4">
-      <div className="hidden md:flex items-center gap-3">
+      <div className="hidden md:flex items-center gap-2.5 rounded-full bg-brand-paper px-3 py-1.5">
         {(['mastered', 'developing', 'gap', 'not_assessed'] as MasteryStatus[]).map((s) => (
-          <span key={s} className="flex items-center gap-1.5 text-[11px] text-apple-dark-gray">
-            <span className={`w-2.5 h-2.5 rounded-full ${STATUS_META[s].dot}`} />
+          <span key={s} className="flex items-center gap-1.5 text-[10px] font-semibold text-brand-slate">
+            <span className={`w-2 h-2 rounded-full ${STATUS_META[s].dot}`} />
             {STATUS_META[s].label}
           </span>
         ))}
       </div>
       {summary && (
-        <div className="flex items-center gap-2 pl-3 border-l border-gray-200 dark:border-gray-700">
-          <Brain className="w-4 h-4 text-apple-blue" />
-          <span className="text-sm font-semibold">{summary.overall_mastery}%</span>
-          <span className="text-[11px] text-apple-dark-gray">mastery · {summary.gap} gaps</span>
+        <div className="flex items-center gap-3 pl-3 border-l border-black/[0.08]">
+          <div className="relative h-10 w-10">
+            <svg className="h-10 w-10 -rotate-90" viewBox="0 0 36 36">
+              <circle cx="18" cy="18" r="15" fill="none" stroke="#E8ECF4" strokeWidth="3" />
+              <circle
+                cx="18"
+                cy="18"
+                r="15"
+                fill="none"
+                stroke="#4D7CFF"
+                strokeWidth="3"
+                strokeLinecap="round"
+                strokeDasharray={`${mastery * 0.94} 100`}
+              />
+            </svg>
+            <span className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-brand-ink">
+              {mastery}%
+            </span>
+          </div>
+          <div className="text-right">
+            <p className="text-xs font-black text-brand-ink">{gapCount} gaps</p>
+            <p className="text-[10px] font-semibold text-brand-slate">to close</p>
+          </div>
         </div>
       )}
     </div>
