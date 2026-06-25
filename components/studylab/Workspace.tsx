@@ -280,6 +280,17 @@ export default function Workspace({ id }: { id: string }) {
     [scheduleCanvasSave]
   )
 
+  const handleEdgeLabel = useCallback(
+    (edgeId: string, label: string) => {
+      setCanvas((prev) => ({
+        ...prev,
+        edges: prev.edges.map((e) => (e.id === edgeId ? { ...e, label: label || undefined } : e)),
+      }))
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave]
+  )
+
   const handleAskTutor = useCallback(
     (nodeId: string) => {
       const n = canvasRef.current.nodes.find((x) => x.id === nodeId)
@@ -395,6 +406,7 @@ export default function Workspace({ id }: { id: string }) {
           onDeleteNode={handleDeleteNode}
           onAskTutor={handleAskTutor}
           onConnectEdge={handleConnectEdge}
+          onEdgeLabel={handleEdgeLabel}
         />
       </div>
 

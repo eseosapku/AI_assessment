@@ -41,6 +41,7 @@ interface StudyCanvasProps {
   onDeleteNode: (id: string) => void
   onAskTutor: (id: string) => void
   onConnectEdge: (from: string, to: string) => void
+  onEdgeLabel: (id: string, label: string) => void
 }
 
 function FlowInner({
@@ -50,6 +51,7 @@ function FlowInner({
   onNodesPositionChange,
   onToggleGroup,
   onConnectEdge,
+  onEdgeLabel,
 }: Omit<StudyCanvasProps, 'onNodeDataChange'>) {
   const rf = useReactFlow()
   const lastEffectVersion = useRef(-1)
@@ -87,14 +89,19 @@ function FlowInner({
           const visible = (id: string) => nodes.some((n) => n.id === id && !n.hidden)
           return visible(e.source) && visible(e.target)
         })
-        .map((e) => ({
-          id: e.id,
-          source: e.source,
-          target: e.target,
-          label: e.label,
-          animated: e.animated,
-          style: { stroke: '#007AFF', strokeWidth: 1.5 },
-        })),
+        .map((e) => {
+          const isUser = e.id.startsWith('u-')
+          return {
+            id: e.id,
+            source: e.source,
+            target: e.target,
+            label: e.label,
+            animated: e.animated,
+            style: isUser
+              ? { stroke: '#94a3b8', strokeWidth: 1.5, strokeDasharray: '6 4' }
+              : { stroke: '#007AFF', strokeWidth: 1.5 },
+          }
+        }),
     [edges, nodes]
   )
 
@@ -147,6 +154,10 @@ function FlowInner({
       nodeTypes={nodeTypes}
       onNodesChange={handleNodesChange}
       onConnect={onConnect}
+      onEdgeDoubleClick={(_, edge) => {
+        const v = window.prompt('Edge label', (edge.label as string) ?? '')
+        if (v !== null) onEdgeLabel(edge.id, v)
+      }}
       fitView
       minZoom={0.15}
       maxZoom={2}
@@ -182,6 +193,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             onDeleteNode={props.onDeleteNode}
             onAskTutor={props.onAskTutor}
             onConnectEdge={props.onConnectEdge}
+            onEdgeLabel={props.onEdgeLabel}
           />
         </ReactFlowProvider>
         <PaletteToolbar onAdd={props.onAddBlock} />
