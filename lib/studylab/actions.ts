@@ -2,6 +2,7 @@
 // Returns the next nodes/edges plus a list of view "effects" (zoom/highlight)
 // for the component to run against the React Flow instance.
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
+import { isCardKind } from './blocks'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
@@ -52,7 +53,7 @@ export function isValidAction(a: any): a is TutorAction {
   if (!a || typeof a !== 'object') return false
   switch (a.type) {
     case 'createCard':
-      return typeof a.id === 'string' && ['concept', 'code', 'diagram'].includes(a.card)
+      return typeof a.id === 'string' && isCardKind(a.card)
     case 'connect':
       return typeof a.from === 'string' && typeof a.to === 'string'
     case 'groupStep':

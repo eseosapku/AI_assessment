@@ -1,8 +1,9 @@
 // Shared StudyLab data shapes used by the canvas, tutor route and persistence.
+import type { BlockSource } from './blocks'
 
 export type MasteryStatus = 'mastered' | 'developing' | 'gap' | 'not_assessed'
 
-export type CardKind = 'concept' | 'code' | 'diagram'
+export type CardKind = 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout'
 
 export interface StudyNodeData {
   kind: CardKind | 'stepGroup' | 'image'
@@ -23,16 +24,41 @@ export interface StudyNodeData {
   label?: string
   cardIds?: string[]
   collapsed?: boolean
+  /** Block provenance; absent ⇒ treated as 'ai'. */
+  source?: BlockSource
+  /** Sticky note color key. */
+  color?: string
+  /** Mermaid diagram source. */
+  mermaid?: string
+  /** Comparison table rows (first row = header). */
+  rows?: string[][]
+  /** Worked-example numbered steps (LaTeX allowed). */
+  steps?: string[]
+  /** Callout variant. */
+  variant?: 'definition' | 'tip' | 'warning'
+  /** Flashcard faces. */
+  card?: { front: string; back: string }
+  /** Checklist items. */
+  checklist?: { text: string; done: boolean }[]
+  /** Frame label. */
+  frameLabel?: string
+  /** Resource board links. */
+  links?: { url: string; label?: string }[]
+  /** Quiz payload (shape finalised in the checkpoints phase). */
+  quiz?: Record<string, unknown>
+  /** Runnable-code editor state (shape finalised in the runner phase). */
+  runner?: Record<string, unknown>
 }
 
 export interface StudyNode {
   id: string
-  type: 'concept' | 'code' | 'diagram' | 'stepGroup' | 'image'
+  type: CardKind | 'stepGroup' | 'image'
   position: { x: number; y: number }
   data: StudyNodeData
   hidden?: boolean
   width?: number
   height?: number
+  source?: BlockSource
 }
 
 export interface StudyEdge {

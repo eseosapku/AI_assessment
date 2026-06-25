@@ -1,10 +1,12 @@
 'use client'
 
 import { createContext, useContext } from 'react'
+import type { ComponentType } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 import Latex from 'react-latex-next'
 import { BookOpen, Code2, GitBranch, Layers, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
+import type { BlockType } from '@/lib/studylab/blocks'
 
 interface CanvasCallbacks {
   onToggleGroup: (groupId: string) => void
@@ -175,7 +177,7 @@ export function ImageNode({ data }: NodeProps) {
   )
 }
 
-export const studyNodeTypes = {
+export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>> = {
   concept: ConceptNode,
   code: CodeNode,
   diagram: DiagramNode,
