@@ -14,17 +14,32 @@ const CARD_H = 200
 const COL_GAP = 56
 const ROW_GAP = 80
 const STEP_BAND = 460
+const SLOT_W = CARD_W + COL_GAP // 356
+const SLOT_H = CARD_H + ROW_GAP // 280
 
-// Place an "auto" card in a tidy row within its step band, to the right of any
-// existing cards in that step.
-function autoPosition(nodes: StudyNode[], step: number): { x: number; y: number } {
-  const inBand = nodes.filter((n) => n.type !== 'stepGroup' && (n.data.step ?? 0) === step && !n.hidden)
-  const col = inBand.length % 3
-  const row = Math.floor(inBand.length / 3)
-  return {
-    x: col * (CARD_W + COL_GAP),
-    y: step * STEP_BAND + row * (CARD_H + ROW_GAP),
+function rectsOverlap(
+  a: { x: number; y: number; w: number; h: number },
+  b: { x: number; y: number; w: number; h: number }
+): boolean {
+  return !(a.x + a.w <= b.x || b.x + b.w <= a.x || a.y + a.h <= b.y || b.y + b.h <= a.y)
+}
+
+// Return the first 3-column grid slot in this step's band whose rectangle does
+// not overlap any visible, non-group node anywhere on the canvas.
+export function autoPosition(nodes: StudyNode[], step: number): { x: number; y: number } {
+  const occupied = nodes
+    .filter((n) => n.type !== 'stepGroup' && !n.hidden)
+    .map((n) => ({ x: n.position.x, y: n.position.y, w: CARD_W, h: CARD_H }))
+  const bandY = step * STEP_BAND
+  for (let row = 0; row < 200; row++) {
+    for (let col = 0; col < 3; col++) {
+      const cand = { x: col * SLOT_W, y: bandY + row * SLOT_H, w: CARD_W, h: CARD_H }
+      if (!occupied.some((o) => rectsOverlap(cand, o))) {
+        return { x: cand.x, y: cand.y }
+      }
+    }
   }
+  return { x: 0, y: bandY }
 }
 
 function boundingTopLeft(nodes: StudyNode[], ids: string[]): { x: number; y: number } {
