@@ -10,10 +10,12 @@ import type { BlockType } from '@/lib/studylab/blocks'
 
 interface CanvasCallbacks {
   onToggleGroup: (groupId: string) => void
+  onNodeDataChange: (id: string, patch: Partial<StudyNodeData>) => void
 }
 
 export const CanvasContext = createContext<CanvasCallbacks>({
   onToggleGroup: () => {},
+  onNodeDataChange: () => {},
 })
 
 function SafeLatex({ children }: { children?: string }) {

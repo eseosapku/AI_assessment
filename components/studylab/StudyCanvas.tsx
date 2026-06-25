@@ -19,7 +19,7 @@ import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import type { CanvasEffect } from '@/lib/studylab/actions'
-import type { StudyEdge, StudyNode } from '@/lib/studylab/types'
+import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 
 const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
@@ -34,6 +34,7 @@ interface StudyCanvasProps {
   effects: CanvasEffects
   onNodesPositionChange: (updates: { id: string; position: { x: number; y: number } }[]) => void
   onToggleGroup: (groupId: string) => void
+  onNodeDataChange: (id: string, patch: Partial<StudyNodeData>) => void
 }
 
 function FlowInner({
@@ -42,7 +43,7 @@ function FlowInner({
   effects,
   onNodesPositionChange,
   onToggleGroup,
-}: StudyCanvasProps) {
+}: Omit<StudyCanvasProps, 'onNodeDataChange'>) {
   const rf = useReactFlow()
   const lastEffectVersion = useRef(-1)
 
@@ -146,7 +147,7 @@ function FlowInner({
 
 export default function StudyCanvas(props: StudyCanvasProps) {
   return (
-    <CanvasContext.Provider value={{ onToggleGroup: props.onToggleGroup }}>
+    <CanvasContext.Provider value={{ onToggleGroup: props.onToggleGroup, onNodeDataChange: props.onNodeDataChange }}>
       <div className="relative w-full h-full">
         <ReactFlowProvider>
           <FlowInner

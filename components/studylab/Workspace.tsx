@@ -8,7 +8,7 @@ import StudyLabSidebar from './StudyLabSidebar'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, createImageCard } from '@/lib/studylab/actions'
-import type { CanvasState, ChatMessage, TutorAction, TutorResponse } from '@/lib/studylab/types'
+import type { CanvasState, ChatMessage, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
 import { useAuth } from '@/components/AuthProvider'
 
 // React Flow is client-only; load without SSR.
@@ -221,6 +221,18 @@ export default function Workspace({ id }: { id: string }) {
     setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId: groupId }] })
   }, [])
 
+  // Let an interactive card update its own data (e.g. edited code) and persist it.
+  const handleNodeDataChange = useCallback(
+    (nodeId: string, patch: Partial<StudyNodeData>) => {
+      setCanvas((prev) => ({
+        ...prev,
+        nodes: prev.nodes.map((n) => (n.id === nodeId ? { ...n, data: { ...n.data, ...patch } } : n)),
+      }))
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave]
+  )
+
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false
@@ -314,6 +326,7 @@ export default function Workspace({ id }: { id: string }) {
           effects={effects}
           onNodesPositionChange={handleNodesPositionChange}
           onToggleGroup={handleToggleGroup}
+          onNodeDataChange={handleNodeDataChange}
         />
       </div>
 
