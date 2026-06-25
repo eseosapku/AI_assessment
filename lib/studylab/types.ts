@@ -57,8 +57,10 @@ export interface StudyNodeData {
   card?: { front: string; back: string }
   /** Checklist items. */
   checklist?: { text: string; done: boolean }[]
-  /** Frame label. */
+  /** Frame label + resizable dimensions. */
   frameLabel?: string
+  width?: number
+  height?: number
   /** Resource board links. */
   links?: { url: string; label?: string }[]
   /** Quiz payload for a checkpoint question node. */

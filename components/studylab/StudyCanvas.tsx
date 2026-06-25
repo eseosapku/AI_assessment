@@ -81,6 +81,24 @@ function FlowInner({
     [rf, onAddBlock]
   )
 
+  // Drag a palette item onto the canvas → drop it where the cursor is.
+  const onDrop = useCallback(
+    (e: React.DragEvent) => {
+      const type = e.dataTransfer.getData('application/studylab-block')
+      if (!type) return
+      e.preventDefault()
+      const c = rf.screenToFlowPosition({ x: e.clientX, y: e.clientY })
+      onAddBlock(type, { x: Math.round(c.x - 150), y: Math.round(c.y - 60) })
+    },
+    [rf, onAddBlock]
+  )
+  const onDragOver = useCallback((e: React.DragEvent) => {
+    if (e.dataTransfer.types.includes('application/studylab-block')) {
+      e.preventDefault()
+      e.dataTransfer.dropEffect = 'move'
+    }
+  }, [])
+
   const propNodes = useMemo<Node[]>(
     () =>
       nodes
@@ -169,7 +187,7 @@ function FlowInner({
   }, [effects, rf])
 
   return (
-    <div ref={wrapperRef} className="w-full h-full">
+    <div ref={wrapperRef} className="w-full h-full" onDrop={onDrop} onDragOver={onDragOver}>
       <ReactFlow
         nodes={rfNodes}
         edges={rfEdges}

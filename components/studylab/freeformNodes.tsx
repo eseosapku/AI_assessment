@@ -1,8 +1,11 @@
 'use client'
 
-import { useContext, useEffect, useRef, useState } from 'react'
-import { Handle, Position, type NodeProps } from '@xyflow/react'
-import { MessageCircleQuestion, X, Plus, Pencil, ImageIcon } from 'lucide-react'
+import { useContext, useEffect, useRef, useState, type ReactNode } from 'react'
+import { Handle, Position, NodeResizer, type NodeProps } from '@xyflow/react'
+import {
+  MessageCircleQuestion, X, Plus, Pencil, ImageIcon, ChevronDown, ChevronRight,
+  StickyNote as StickyIcon, FileText, Terminal, Layers, ListChecks, Link as LinkIcon, RotateCw,
+} from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { CanvasContext, handleClass } from './canvasShared'
 
@@ -17,37 +20,64 @@ function useDebouncedPersist(id: string) {
   }
 }
 
-// Hover controls shared by every freeform block: ask-tutor + delete.
-export function FreeformControls({ id }: { id: string }) {
-  const { onDeleteNode, onAskTutor } = useContext(CanvasContext)
+const ICONS = {
+  sticky: StickyIcon, note: FileText, scratchpad: Terminal, flashcard: Layers,
+  checklist: ListChecks, resources: LinkIcon, photo: ImageIcon,
+} as const
+
+// Shared chrome: a grabbable header (the drag handle) with collapse + ask-tutor +
+// delete, over a body that hides when collapsed. Inputs inside carry `nodrag`.
+function FreeformShell({
+  id, kind, label, width, headerTint, bodyClass, children,
+}: {
+  id: string
+  kind: keyof typeof ICONS
+  label: string
+  width: number
+  headerTint: string
+  bodyClass?: string
+  children: ReactNode
+}) {
+  const { onDeleteNode, onAskTutor, onNodeDataChange } = useContext(CanvasContext)
+  const Icon = ICONS[kind]
+  const [collapsed, setCollapsed] = useState(false)
+  const toggle = () => {
+    setCollapsed((c) => !c)
+  }
   return (
-    <div className="absolute -top-2 -right-2 z-10 flex gap-1">
-      <button
-        type="button"
-        title="Ask tutor about this"
-        onClick={() => onAskTutor(id)}
-        className="nodrag w-6 h-6 rounded-full bg-white dark:bg-[#2c2c2e] border border-gray-200 dark:border-gray-700 shadow flex items-center justify-center text-apple-blue hover:bg-apple-blue/10"
-      >
-        <MessageCircleQuestion className="w-3.5 h-3.5" />
-      </button>
-      <button
-        type="button"
-        title="Delete"
-        onClick={() => onDeleteNode(id)}
-        className="nodrag w-6 h-6 rounded-full bg-white dark:bg-[#2c2c2e] border border-gray-200 dark:border-gray-700 shadow flex items-center justify-center text-red-500 hover:bg-red-50"
-      >
-        <X className="w-3.5 h-3.5" />
-      </button>
+    <div
+      style={{ width }}
+      className="sl-node-enter rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.22)] overflow-hidden"
+    >
+      <Handle type="target" position={Position.Left} className={handleClass} />
+      {/* Drag handle (no `nodrag` here, so grabbing the header moves the card) */}
+      <div className={`flex items-center gap-1.5 px-2.5 py-1.5 cursor-grab active:cursor-grabbing ${headerTint}`}>
+        <Icon className="w-3.5 h-3.5 opacity-70" />
+        <span className="text-[11px] font-bold uppercase tracking-wide opacity-70 truncate">{label}</span>
+        <div className="ml-auto flex items-center gap-0.5">
+          <button type="button" title={collapsed ? 'Expand' : 'Collapse'} onClick={toggle} className="nodrag p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10">
+            {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          </button>
+          <button type="button" title="Ask tutor about this" onClick={() => onAskTutor(id)} className="nodrag p-1 rounded-md text-apple-blue hover:bg-apple-blue/10">
+            <MessageCircleQuestion className="w-3.5 h-3.5" />
+          </button>
+          <button type="button" title="Delete" onClick={() => onDeleteNode(id)} className="nodrag p-1 rounded-md text-red-500 hover:bg-red-500/10">
+            <X className="w-3.5 h-3.5" />
+          </button>
+        </div>
+      </div>
+      {!collapsed && <div className={bodyClass ?? 'p-3'}>{children}</div>}
+      <Handle type="source" position={Position.Right} className={handleClass} />
     </div>
   )
 }
 
-const STICKY_COLORS: Record<string, string> = {
-  yellow: 'bg-amber-100 border-amber-200 dark:bg-amber-200/20 dark:border-amber-200/30',
-  green: 'bg-emerald-100 border-emerald-200 dark:bg-emerald-200/20 dark:border-emerald-200/30',
-  blue: 'bg-sky-100 border-sky-200 dark:bg-sky-200/20 dark:border-sky-200/30',
-  pink: 'bg-pink-100 border-pink-200 dark:bg-pink-200/20 dark:border-pink-200/30',
-  violet: 'bg-violet-100 border-violet-200 dark:bg-violet-200/20 dark:border-violet-200/30',
+const STICKY_COLORS: Record<string, { sw: string; bg: string; head: string }> = {
+  yellow: { sw: 'bg-amber-300', bg: 'bg-amber-50 dark:bg-amber-200/10', head: 'bg-amber-100/70 dark:bg-amber-200/10' },
+  green: { sw: 'bg-emerald-300', bg: 'bg-emerald-50 dark:bg-emerald-200/10', head: 'bg-emerald-100/70 dark:bg-emerald-200/10' },
+  blue: { sw: 'bg-sky-300', bg: 'bg-sky-50 dark:bg-sky-200/10', head: 'bg-sky-100/70 dark:bg-sky-200/10' },
+  pink: { sw: 'bg-pink-300', bg: 'bg-pink-50 dark:bg-pink-200/10', head: 'bg-pink-100/70 dark:bg-pink-200/10' },
+  violet: { sw: 'bg-violet-300', bg: 'bg-violet-50 dark:bg-violet-200/10', head: 'bg-violet-100/70 dark:bg-violet-200/10' },
 }
 
 export function StickyNode({ id, data }: NodeProps) {
@@ -55,29 +85,40 @@ export function StickyNode({ id, data }: NodeProps) {
   const { onNodeDataChange } = useContext(CanvasContext)
   const persist = useDebouncedPersist(id)
   const [body, setBody] = useState(d.body ?? '')
-  const [color, setColor] = useState(d.color ?? 'yellow')
+  const color = d.color ?? 'yellow'
+  const c = STICKY_COLORS[color] ?? STICKY_COLORS.yellow
+  const { onDeleteNode, onAskTutor } = useContext(CanvasContext)
+  const [collapsed, setCollapsed] = useState(false)
   return (
-    <div className={`sl-node-enter relative w-[200px] h-[200px] rounded-xl border shadow ${STICKY_COLORS[color] ?? STICKY_COLORS.yellow}`}>
+    <div style={{ width: 220 }} className={`sl-node-enter rounded-2xl border border-black/5 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.22)] overflow-hidden ${c.bg}`}>
       <Handle type="target" position={Position.Left} className={handleClass} />
-      <FreeformControls id={id} />
-      <textarea
-        className="nodrag w-full h-[148px] bg-transparent resize-none outline-none p-3 text-[13px] text-gray-800 dark:text-gray-100"
-        value={body}
-        placeholder="Note…"
-        onMouseDown={(e) => e.stopPropagation()}
-        onChange={(e) => { setBody(e.target.value); persist({ body: e.target.value }) }}
-      />
-      <div className="absolute bottom-2 left-2 flex gap-1">
-        {Object.keys(STICKY_COLORS).map((c) => (
-          <button
-            key={c}
-            type="button"
-            aria-label={c}
-            onClick={() => { setColor(c); onNodeDataChange(id, { color: c }) }}
-            className={`nodrag w-3.5 h-3.5 rounded-full border ${STICKY_COLORS[c]}`}
-          />
-        ))}
+      <div className={`flex items-center gap-1.5 px-2.5 py-1.5 cursor-grab active:cursor-grabbing ${c.head}`}>
+        <StickyIcon className="w-3.5 h-3.5 opacity-60" />
+        <div className="ml-auto flex items-center gap-0.5">
+          <button type="button" onClick={() => setCollapsed((v) => !v)} className="nodrag p-1 rounded-md hover:bg-black/5">
+            {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+          </button>
+          <button type="button" title="Ask tutor" onClick={() => onAskTutor(id)} className="nodrag p-1 rounded-md text-apple-blue hover:bg-apple-blue/10"><MessageCircleQuestion className="w-3.5 h-3.5" /></button>
+          <button type="button" title="Delete" onClick={() => onDeleteNode(id)} className="nodrag p-1 rounded-md text-red-500 hover:bg-red-500/10"><X className="w-3.5 h-3.5" /></button>
+        </div>
       </div>
+      {!collapsed && (
+        <div className="px-3 pb-2">
+          <textarea
+            className="nodrag w-full h-28 bg-transparent resize-none outline-none text-[13px] text-gray-800 dark:text-gray-100"
+            value={body}
+            placeholder="Note…"
+            onMouseDown={(e) => e.stopPropagation()}
+            onChange={(e) => { setBody(e.target.value); persist({ body: e.target.value }) }}
+          />
+          <div className="flex gap-1.5 pt-1">
+            {Object.entries(STICKY_COLORS).map(([k, v]) => (
+              <button key={k} type="button" aria-label={k} onClick={() => onNodeDataChange(id, { color: k })}
+                className={`nodrag w-4 h-4 rounded-full ${v.sw} ${color === k ? 'ring-2 ring-offset-1 ring-gray-400' : ''}`} />
+            ))}
+          </div>
+        </div>
+      )}
       <Handle type="source" position={Position.Right} className={handleClass} />
     </div>
   )
@@ -88,9 +129,7 @@ export function NoteNode({ id, data }: NodeProps) {
   const persist = useDebouncedPersist(id)
   const [body, setBody] = useState(d.body ?? '')
   return (
-    <div className="sl-node-enter relative w-[320px] rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow p-3">
-      <Handle type="target" position={Position.Left} className={handleClass} />
-      <FreeformControls id={id} />
+    <FreeformShell id={id} kind="note" label="Note" width={320} headerTint="bg-gray-50 dark:bg-white/5">
       <textarea
         className="nodrag w-full h-32 resize-y outline-none bg-transparent text-[13px] text-gray-700 dark:text-gray-200"
         value={body}
@@ -98,8 +137,7 @@ export function NoteNode({ id, data }: NodeProps) {
         onMouseDown={(e) => e.stopPropagation()}
         onChange={(e) => { setBody(e.target.value); persist({ body: e.target.value }) }}
       />
-      <Handle type="source" position={Position.Right} className={handleClass} />
-    </div>
+    </FreeformShell>
   )
 }
 
@@ -108,48 +146,32 @@ export function ChecklistNode({ id, data }: NodeProps) {
   const { onNodeDataChange } = useContext(CanvasContext)
   const items = d.checklist ?? []
   const update = (next: { text: string; done: boolean }[]) => onNodeDataChange(id, { checklist: next })
+  const doneCount = items.filter((i) => i.done).length
   return (
-    <div className="sl-node-enter relative w-[280px] rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow p-3">
-      <Handle type="target" position={Position.Left} className={handleClass} />
-      <FreeformControls id={id} />
-      <p className="text-[11px] font-bold uppercase tracking-wide text-apple-dark-gray mb-2">Checklist</p>
+    <FreeformShell id={id} kind="checklist" label={`Checklist · ${doneCount}/${items.length}`} width={280} headerTint="bg-gray-50 dark:bg-white/5">
       <div className="space-y-1.5">
         {items.map((it, i) => (
           <div key={i} className="flex items-center gap-2">
-            <input
-              type="checkbox"
-              className="nodrag"
-              checked={it.done}
-              onChange={() => update(items.map((x, j) => (j === i ? { ...x, done: !x.done } : x)))}
-            />
-            <input
-              type="text"
-              className={`nodrag flex-1 bg-transparent outline-none text-[13px] ${it.done ? 'line-through text-gray-400' : 'text-gray-700 dark:text-gray-200'}`}
-              value={it.text}
-              placeholder="Task…"
-              onMouseDown={(e) => e.stopPropagation()}
-              onChange={(e) => update(items.map((x, j) => (j === i ? { ...x, text: e.target.value } : x)))}
-            />
+            <input type="checkbox" className="nodrag accent-apple-blue" checked={it.done}
+              onChange={() => update(items.map((x, j) => (j === i ? { ...x, done: !x.done } : x)))} />
+            <input type="text" className={`nodrag flex-1 bg-transparent outline-none text-[13px] ${it.done ? 'line-through text-gray-400' : 'text-gray-700 dark:text-gray-200'}`}
+              value={it.text} placeholder="Task…" onMouseDown={(e) => e.stopPropagation()}
+              onChange={(e) => update(items.map((x, j) => (j === i ? { ...x, text: e.target.value } : x)))} />
             <button type="button" className="nodrag text-gray-400 hover:text-red-500" onClick={() => update(items.filter((_, j) => j !== i))}>
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
         ))}
       </div>
-      <button
-        type="button"
-        className="nodrag mt-2 inline-flex items-center gap-1 text-[12px] font-semibold text-apple-blue"
-        onClick={() => update([...items, { text: '', done: false }])}
-      >
-        <Plus className="w-3.5 h-3.5" />
-        Add item
+      <button type="button" className="nodrag mt-2 inline-flex items-center gap-1 text-[12px] font-semibold text-apple-blue"
+        onClick={() => update([...items, { text: '', done: false }])}>
+        <Plus className="w-3.5 h-3.5" /> Add item
       </button>
-      <Handle type="source" position={Position.Right} className={handleClass} />
-    </div>
+    </FreeformShell>
   )
 }
 
-// ── Renderers B ───────────────────────────────────────────────────────────────
+// ── helpers for renderers B ───────────────────────────────────────────────────
 
 function readFileAsDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
@@ -159,18 +181,12 @@ function readFileAsDataUrl(file: File): Promise<string> {
     r.readAsDataURL(file)
   })
 }
-
 function youtubeId(url: string): string | null {
   const m = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/|youtube\.com\/embed\/)([\w-]{11})/)
   return m ? m[1] : null
 }
-
 function hostname(url: string): string {
-  try {
-    return new URL(url).hostname.replace(/^www\./, '')
-  } catch {
-    return url
-  }
+  try { return new URL(url).hostname.replace(/^www\./, '') } catch { return url }
 }
 
 export function FlashcardNode({ id, data }: NodeProps) {
@@ -182,51 +198,30 @@ export function FlashcardNode({ id, data }: NodeProps) {
   const [front, setFront] = useState(card.front)
   const [back, setBack] = useState(card.back)
   return (
-    <div className="sl-node-enter relative w-[240px] min-h-[160px] rounded-2xl border border-violet-200 dark:border-violet-900/40 bg-white dark:bg-[#1c1c1e] shadow p-3">
-      <Handle type="target" position={Position.Left} className={handleClass} />
-      <FreeformControls id={id} />
+    <FreeformShell id={id} kind="flashcard" label="Flashcard" width={240} headerTint="bg-violet-50 dark:bg-violet-200/10">
       {editing ? (
-        <div className="space-y-2 pt-1">
-          <input
-            className="nodrag w-full rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1.5 text-[13px] bg-transparent outline-none"
-            placeholder="Front"
-            value={front}
-            onMouseDown={(e) => e.stopPropagation()}
-            onChange={(e) => setFront(e.target.value)}
-          />
-          <input
-            className="nodrag w-full rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1.5 text-[13px] bg-transparent outline-none"
-            placeholder="Back"
-            value={back}
-            onMouseDown={(e) => e.stopPropagation()}
-            onChange={(e) => setBack(e.target.value)}
-          />
-          <button
-            type="button"
-            className="nodrag text-[12px] font-semibold text-apple-blue"
-            onClick={() => { onNodeDataChange(id, { card: { front, back } }); setEditing(false) }}
-          >
-            Done
-          </button>
+        <div className="space-y-2">
+          <input className="nodrag w-full rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1.5 text-[13px] bg-transparent outline-none"
+            placeholder="Front" value={front} onMouseDown={(e) => e.stopPropagation()} onChange={(e) => setFront(e.target.value)} />
+          <input className="nodrag w-full rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1.5 text-[13px] bg-transparent outline-none"
+            placeholder="Back" value={back} onMouseDown={(e) => e.stopPropagation()} onChange={(e) => setBack(e.target.value)} />
+          <button type="button" className="nodrag text-[12px] font-semibold text-apple-blue"
+            onClick={() => { onNodeDataChange(id, { card: { front, back } }); setEditing(false) }}>Save</button>
         </div>
       ) : (
-        <button type="button" onClick={() => setFlipped((f) => !f)} className="nodrag w-full text-center py-6">
-          <p className="text-[11px] uppercase tracking-wide text-apple-dark-gray mb-1">{flipped ? 'Back' : 'Front'}</p>
-          <p className="text-[15px] font-semibold text-gray-800 dark:text-gray-100">
-            {(flipped ? back : front) || '(tap edit to fill in)'}
-          </p>
-        </button>
+        <div className="relative">
+          <button type="button" onClick={() => setFlipped((f) => !f)} className="nodrag w-full text-center py-5 rounded-xl bg-gray-50 dark:bg-white/5">
+            <p className="text-[10px] uppercase tracking-wide text-apple-dark-gray mb-1 flex items-center justify-center gap-1">
+              <RotateCw className="w-3 h-3" /> {flipped ? 'Back' : 'Front'}
+            </p>
+            <p className="text-[15px] font-semibold text-gray-800 dark:text-gray-100 px-2">{(flipped ? back : front) || '(tap edit)'}</p>
+          </button>
+          <button type="button" title="Edit" className="nodrag absolute top-1 right-1 text-gray-400 hover:text-apple-blue" onClick={() => setEditing(true)}>
+            <Pencil className="w-3.5 h-3.5" />
+          </button>
+        </div>
       )}
-      <button
-        type="button"
-        title="Edit"
-        className="nodrag absolute bottom-2 right-2 text-gray-400 hover:text-apple-blue"
-        onClick={() => setEditing((e) => !e)}
-      >
-        <Pencil className="w-3.5 h-3.5" />
-      </button>
-      <Handle type="source" position={Position.Right} className={handleClass} />
-    </div>
+    </FreeformShell>
   )
 }
 
@@ -243,54 +238,24 @@ export function PhotoNode({ id, data }: NodeProps) {
     onNodeDataChange(id, { imageUrl: await readFileAsDataUrl(file) })
   }
   return (
-    <div
-      className="sl-node-enter relative w-[300px] rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow p-2"
-      onPaste={(e) => {
-        const it = Array.from(e.clipboardData.items).find((i) => i.type.startsWith('image/'))
-        if (it) { e.preventDefault(); ingest(it.getAsFile()) }
-      }}
-    >
-      <Handle type="target" position={Position.Left} className={handleClass} />
-      <FreeformControls id={id} />
-      {d.imageUrl ? (
-        // eslint-disable-next-line @next/next/no-img-element
-        <img src={d.imageUrl} alt="reference" className="w-full rounded-xl" />
-      ) : (
-        <button
-          type="button"
-          onClick={() => fileRef.current?.click()}
-          className="nodrag w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center gap-1 text-apple-dark-gray text-xs hover:border-apple-blue hover:text-apple-blue"
-        >
-          <ImageIcon className="w-5 h-5" />
-          Paste or click to add an image
-        </button>
-      )}
-      <input
-        ref={fileRef}
-        type="file"
-        accept="image/*"
-        className="hidden"
-        onChange={(e) => { ingest(e.target.files?.[0]); e.target.value = '' }}
-      />
-      {err && <p className="text-[11px] text-red-500 mt-1">{err}</p>}
-      <Handle type="source" position={Position.Right} className={handleClass} />
-    </div>
-  )
-}
-
-export function FrameNode({ id, data }: NodeProps) {
-  const d = data as unknown as StudyNodeData
-  const { onNodeDataChange } = useContext(CanvasContext)
-  const [label, setLabel] = useState(d.frameLabel ?? 'Group')
-  return (
-    <div className="sl-node-enter relative w-[480px] h-[360px] rounded-2xl border-2 border-dashed border-gray-300 dark:border-gray-600 bg-gray-500/[0.03]">
-      <FreeformControls id={id} />
-      <input
-        className="nodrag absolute top-2 left-3 bg-transparent outline-none text-[12px] font-bold uppercase tracking-wide text-gray-500"
-        value={label}
-        onMouseDown={(e) => e.stopPropagation()}
-        onChange={(e) => { setLabel(e.target.value); onNodeDataChange(id, { frameLabel: e.target.value }) }}
-      />
+    <div onPaste={(e) => {
+      const it = Array.from(e.clipboardData.items).find((i) => i.type.startsWith('image/'))
+      if (it) { e.preventDefault(); ingest(it.getAsFile()) }
+    }}>
+      <FreeformShell id={id} kind="photo" label="Image" width={300} headerTint="bg-gray-50 dark:bg-white/5" bodyClass="p-2">
+        {d.imageUrl ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img src={d.imageUrl} alt="reference" className="w-full rounded-xl" />
+        ) : (
+          <button type="button" onClick={() => fileRef.current?.click()}
+            className="nodrag w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center gap-1 text-apple-dark-gray text-xs hover:border-apple-blue hover:text-apple-blue">
+            <ImageIcon className="w-5 h-5" /> Paste or click to add an image
+          </button>
+        )}
+        <input ref={fileRef} type="file" accept="image/*" className="hidden"
+          onChange={(e) => { ingest(e.target.files?.[0]); e.target.value = '' }} />
+        {err && <p className="text-[11px] text-red-500 mt-1">{err}</p>}
+      </FreeformShell>
     </div>
   )
 }
@@ -308,10 +273,7 @@ export function ResourceBoardNode({ id, data }: NodeProps) {
   }
   const remove = (i: number) => onNodeDataChange(id, { links: links.filter((_, j) => j !== i) })
   return (
-    <div className="sl-node-enter relative w-[300px] rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow p-3">
-      <Handle type="target" position={Position.Left} className={handleClass} />
-      <FreeformControls id={id} />
-      <p className="text-[11px] font-bold uppercase tracking-wide text-apple-dark-gray mb-2">Resources</p>
+    <FreeformShell id={id} kind="resources" label={`Resources · ${links.length}`} width={300} headerTint="bg-gray-50 dark:bg-white/5">
       <div className="space-y-1.5 mb-2">
         {links.map((l, i) => {
           const yt = youtubeId(l.url)
@@ -327,27 +289,61 @@ export function ResourceBoardNode({ id, data }: NodeProps) {
                   {l.label ?? hostname(l.url)}
                 </a>
               )}
-              <button type="button" onClick={() => remove(i)} className="nodrag text-gray-400 hover:text-red-500">
-                <X className="w-3.5 h-3.5" />
-              </button>
+              <button type="button" onClick={() => remove(i)} className="nodrag text-gray-400 hover:text-red-500"><X className="w-3.5 h-3.5" /></button>
             </div>
           )
         })}
       </div>
       <div className="flex gap-1">
-        <input
-          className="nodrag flex-1 rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1 text-[12px] bg-transparent outline-none"
-          placeholder="Paste a link…"
-          value={url}
-          onMouseDown={(e) => e.stopPropagation()}
-          onChange={(e) => setUrl(e.target.value)}
-          onKeyDown={(e) => e.key === 'Enter' && add()}
-        />
-        <button type="button" onClick={add} className="nodrag rounded-lg bg-apple-blue px-2.5 text-[12px] font-semibold text-white">
-          Add
-        </button>
+        <input className="nodrag flex-1 rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1 text-[12px] bg-transparent outline-none"
+          placeholder="Paste a link…" value={url} onMouseDown={(e) => e.stopPropagation()}
+          onChange={(e) => setUrl(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && add()} />
+        <button type="button" onClick={add} className="nodrag rounded-lg bg-apple-blue px-2.5 text-[12px] font-semibold text-white">Add</button>
       </div>
-      <Handle type="source" position={Position.Right} className={handleClass} />
+    </FreeformShell>
+  )
+}
+
+const FRAME_COLORS: Record<string, string> = {
+  slate: 'border-slate-300 dark:border-slate-600 text-slate-500',
+  blue: 'border-sky-300 dark:border-sky-700 text-sky-500',
+  green: 'border-emerald-300 dark:border-emerald-700 text-emerald-500',
+  pink: 'border-pink-300 dark:border-pink-700 text-pink-500',
+  amber: 'border-amber-300 dark:border-amber-700 text-amber-500',
+}
+
+export function FrameNode({ id, data, selected }: NodeProps) {
+  const d = data as unknown as StudyNodeData
+  const { onNodeDataChange, onDeleteNode } = useContext(CanvasContext)
+  const [label, setLabel] = useState(d.frameLabel ?? 'Group')
+  const color = d.color ?? 'slate'
+  const c = FRAME_COLORS[color] ?? FRAME_COLORS.slate
+  const w = d.width ?? 480
+  const h = d.height ?? 360
+  return (
+    <div style={{ width: w, height: h }} className={`sl-node-enter relative rounded-2xl border-2 border-dashed bg-gray-500/[0.03] ${c}`}>
+      <NodeResizer
+        isVisible={!!selected}
+        minWidth={240}
+        minHeight={180}
+        onResizeEnd={(_, p) => onNodeDataChange(id, { width: Math.round(p.width), height: Math.round(p.height) })}
+        lineClassName="!border-current"
+        handleClassName="!bg-white !border-current !w-2.5 !h-2.5"
+      />
+      <div className="absolute top-2 left-3 flex items-center gap-2">
+        <input className="nodrag bg-transparent outline-none text-[12px] font-bold uppercase tracking-wide w-32"
+          value={label} onMouseDown={(e) => e.stopPropagation()}
+          onChange={(e) => { setLabel(e.target.value); onNodeDataChange(id, { frameLabel: e.target.value }) }} />
+        <div className="nodrag flex gap-1">
+          {Object.keys(FRAME_COLORS).map((k) => (
+            <button key={k} type="button" aria-label={k} onClick={() => onNodeDataChange(id, { color: k })}
+              className={`w-3 h-3 rounded-full border-2 ${FRAME_COLORS[k].split(' ')[0]} ${color === k ? 'ring-1 ring-gray-400 ring-offset-1' : ''}`} />
+          ))}
+        </div>
+      </div>
+      <button type="button" title="Delete" onClick={() => onDeleteNode(id)} className="nodrag absolute top-1.5 right-1.5 p-1 rounded-md text-red-500 hover:bg-red-500/10">
+        <X className="w-3.5 h-3.5" />
+      </button>
     </div>
   )
 }

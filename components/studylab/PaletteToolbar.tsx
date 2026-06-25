@@ -17,9 +17,14 @@ export default function PaletteToolbar({ onAdd }: { onAdd: (type: string) => voi
           <button
             key={b.type}
             type="button"
-            title={b.palette?.label ?? b.type}
+            title={`${b.palette?.label ?? b.type} — click to add, or drag onto the canvas`}
+            draggable
+            onDragStart={(e) => {
+              e.dataTransfer.setData('application/studylab-block', b.type)
+              e.dataTransfer.effectAllowed = 'move'
+            }}
             onClick={() => onAdd(b.type)}
-            className="flex items-center gap-2 rounded-xl px-2.5 py-1.5 text-[12px] font-medium text-gray-600 dark:text-gray-300 hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
+            className="flex items-center gap-2 rounded-xl px-2.5 py-1.5 text-[12px] font-medium text-gray-600 dark:text-gray-300 hover:bg-apple-blue/10 hover:text-apple-blue cursor-grab active:cursor-grabbing transition-colors"
           >
             <Icon className="w-4 h-4 shrink-0" />
             <span className="whitespace-nowrap">{b.palette?.label}</span>
