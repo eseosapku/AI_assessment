@@ -115,8 +115,16 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
     switch (action.type) {
       case 'createCard': {
         if (nodes.some((n) => n.id === action.id)) break
-        // Deterministic dedup: never create a card that duplicates an existing title.
-        if (action.title && titleExists(nodes, action.title)) break
+        // Deterministic dedup: never create a duplicate-titled card. Instead of a
+        // blank turn, zoom to the card that already exists so "see the card" lands.
+        if (action.title && titleExists(nodes, action.title)) {
+          const t = action.title.trim().toLowerCase()
+          const existing = nodes.find(
+            (n) => isCardKind(n.type) && !n.hidden && (n.data.title ?? '').trim().toLowerCase() === t
+          )
+          if (existing) effects.push({ kind: 'zoom', target: 'node', nodeId: existing.id })
+          break
+        }
         const step = typeof action.step === 'number' ? action.step : 0
         const position =
           action.position && action.position !== 'auto'

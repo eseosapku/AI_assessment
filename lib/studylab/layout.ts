@@ -18,7 +18,9 @@ export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<stri
   const ids = new Set(included.map((n) => n.id))
 
   const g = new dagre.graphlib.Graph()
-  g.setGraph({ rankdir: 'TB', nodesep: 60, ranksep: 110, marginx: 24, marginy: 24 })
+  // Generous rank spacing so the labelled edges have room and nodes never land
+  // on top of an edge's label.
+  g.setGraph({ rankdir: 'TB', nodesep: 80, ranksep: 170, marginx: 24, marginy: 24, edgesep: 40 })
   g.setDefaultEdgeLabel(() => ({}))
 
   for (const n of included) {
@@ -28,7 +30,13 @@ export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<stri
   for (const e of edges) {
     // Tutor edges only (skip user-drawn 'u-' connectors); both ends must be laid out.
     if (!e.id.startsWith('u-') && ids.has(e.source) && ids.has(e.target)) {
-      g.setEdge(e.source, e.target)
+      // Reserve space for the edge label so dagre routes nodes around it.
+      const label = (e.label ?? '').trim()
+      g.setEdge(
+        e.source,
+        e.target,
+        label ? { label, width: Math.max(40, label.length * 6.5), height: 18, labelpos: 'c' } : {}
+      )
     }
   }
 

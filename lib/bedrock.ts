@@ -239,7 +239,15 @@ export function fixLatexInRawJson(raw: string): string {
           if (/^[0-9a-fA-F]{4}$/.test(hex)) { out += ch + next + hex; i += 6 }
           else { out += '\\\\' + next; i += 2 }
         } else if (VALID_AFTER_SLASH.has(next)) {
-          out += ch + next; i += 2
+          // \b \f \n \r \t followed by another letter is a LaTeX command
+          // (\beta \frac \nabla \rho \times \theta), NOT a JSON escape — double
+          // the backslash so it survives JSON.parse for KaTeX.
+          const after = raw[i + 2]
+          if ('bfnrt'.includes(next) && after !== undefined && /[a-zA-Z]/.test(after)) {
+            out += '\\\\' + next; i += 2
+          } else {
+            out += ch + next; i += 2
+          }
         } else {
           out += '\\\\' + next; i += 2
         }
