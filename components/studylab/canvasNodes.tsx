@@ -8,6 +8,7 @@ import type { StudyNodeData } from '@/lib/studylab/types'
 import type { BlockType } from '@/lib/studylab/blocks'
 import { CanvasContext, CardFrame, SafeLatex, handleClass } from './canvasShared'
 import { RunnableCodeNode } from './RunnableCodeCard'
+import { StickyNode, NoteNode, ChecklistNode } from './freeformNodes'
 
 // Re-export so existing importers (StudyCanvas) keep working.
 export { CanvasContext } from './canvasShared'
@@ -129,4 +130,8 @@ export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>
   diagram: DiagramNode,
   stepGroup: StepGroupNode,
   image: ImageNode,
+  sticky: StickyNode,
+  note: NoteNode,
+  checklist: ChecklistNode,
+  scratchpad: RunnableCodeNode,
 }
