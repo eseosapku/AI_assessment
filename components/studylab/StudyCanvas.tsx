@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useMemo, useRef } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -27,6 +27,15 @@ import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 
 const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
+// Tapping one of these lesson cards opens a contextual prompt menu.
+const LESSON_CARD_TYPES = new Set(['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout'])
+const CARD_ACTIONS = [
+  { label: 'Explain this deeper', text: 'explain this deeper.' },
+  { label: 'Show an example of this', text: 'show an example of this.' },
+  { label: 'Quiz me on this', text: 'quiz me on this.' },
+  { label: 'Why does this matter?', text: 'why does this matter?' },
+]
+
 export interface CanvasEffects {
   version: number
   list: CanvasEffect[]
@@ -45,6 +54,7 @@ interface StudyCanvasProps {
   onNodeResize: (id: string, dims: { x: number; y: number; width: number; height: number }) => void
   onConnectEdge: (from: string, to: string) => void
   onEdgeLabel: (id: string, label: string) => void
+  onCardPrompt: (text: string) => void
 }
 
 function FlowInner({
@@ -56,10 +66,34 @@ function FlowInner({
   onAddBlock,
   onConnectEdge,
   onEdgeLabel,
+  onCardPrompt,
 }: Omit<StudyCanvasProps, 'onNodeDataChange' | 'onNodeResize'>) {
   const rf = useReactFlow()
   const lastEffectVersion = useRef(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
+  const [cardMenu, setCardMenu] = useState<{ title: string; x: number; y: number } | null>(null)
+
+  const onNodeClick = useCallback((e: React.MouseEvent, node: Node) => {
+    if (!LESSON_CARD_TYPES.has(node.type as string)) {
+      setCardMenu(null)
+      return
+    }
+    const title = (node.data as { title?: string })?.title ?? 'this card'
+    setCardMenu({ title, x: e.clientX, y: e.clientY })
+  }, [])
+
+  // Dismiss the card menu on any outside pointer-down or Escape.
+  useEffect(() => {
+    if (!cardMenu) return
+    const close = () => setCardMenu(null)
+    const onKey = (ev: KeyboardEvent) => ev.key === 'Escape' && setCardMenu(null)
+    window.addEventListener('pointerdown', close)
+    window.addEventListener('keydown', onKey)
+    return () => {
+      window.removeEventListener('pointerdown', close)
+      window.removeEventListener('keydown', onKey)
+    }
+  }, [cardMenu])
 
   const onConnect = useCallback(
     (c: Connection) => {
@@ -264,6 +298,7 @@ function FlowInner({
         onNodeDragStart={onNodeDragStart}
         onNodeDrag={onNodeDrag}
         onNodeDragStop={onNodeDragStop}
+        onNodeClick={onNodeClick}
         onConnect={onConnect}
         onEdgeDoubleClick={(_, edge) => {
           const v = window.prompt('Edge label', (edge.label as string) ?? '')
@@ -283,6 +318,29 @@ function FlowInner({
           <PaletteToolbar onAdd={addAtCenter} />
         </Panel>
       </ReactFlow>
+
+      {cardMenu && (
+        <div
+          onPointerDown={(e) => e.stopPropagation()}
+          style={{ position: 'fixed', left: cardMenu.x, top: cardMenu.y, zIndex: 50 }}
+          className="min-w-[200px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow-xl p-1"
+        >
+          <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-apple-dark-gray truncate">{cardMenu.title}</p>
+          {CARD_ACTIONS.map((a) => (
+            <button
+              key={a.label}
+              type="button"
+              onClick={() => {
+                onCardPrompt(`Focusing on the card "${cardMenu.title}": ${a.text}`)
+                setCardMenu(null)
+              }}
+              className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
+            >
+              {a.label}
+            </button>
+          ))}
+        </div>
+      )}
     </div>
   )
 }
@@ -311,6 +369,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             onAskTutor={props.onAskTutor}
             onConnectEdge={props.onConnectEdge}
             onEdgeLabel={props.onEdgeLabel}
+            onCardPrompt={props.onCardPrompt}
           />
         </ReactFlowProvider>
       </div>

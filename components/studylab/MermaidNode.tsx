@@ -21,7 +21,13 @@ export function MermaidNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   const ref = useRef<HTMLDivElement>(null)
   const [error, setError] = useState(false)
-  const src = d.mermaid ?? ''
+  // Strip markdown code fences / a stray leading "mermaid" line that the model
+  // sometimes wraps the diagram in, which would otherwise fail to render.
+  const src = (d.mermaid ?? '')
+    .replace(/^\s*```(?:mermaid)?\s*/i, '')
+    .replace(/\s*```\s*$/i, '')
+    .replace(/^\s*mermaid\s*\n/i, '')
+    .trim()
 
   useEffect(() => {
     let cancelled = false

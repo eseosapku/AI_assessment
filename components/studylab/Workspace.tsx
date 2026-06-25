@@ -483,6 +483,7 @@ export default function Workspace({ id }: { id: string }) {
           onAskTutor={handleAskTutor}
           onConnectEdge={handleConnectEdge}
           onEdgeLabel={handleEdgeLabel}
+          onCardPrompt={handleSend}
         />
       </div>
 
