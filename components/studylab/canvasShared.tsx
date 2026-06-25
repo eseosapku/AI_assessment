@@ -12,11 +12,15 @@ import type { StudyNodeData } from '@/lib/studylab/types'
 export interface CanvasCallbacks {
   onToggleGroup: (groupId: string) => void
   onNodeDataChange: (id: string, patch: Partial<StudyNodeData>) => void
+  onDeleteNode: (id: string) => void
+  onAskTutor: (id: string) => void
 }
 
 export const CanvasContext = createContext<CanvasCallbacks>({
   onToggleGroup: () => {},
   onNodeDataChange: () => {},
+  onDeleteNode: () => {},
+  onAskTutor: () => {},
 })
 
 export function SafeLatex({ children }: { children?: string }) {

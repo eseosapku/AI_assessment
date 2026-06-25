@@ -8,6 +8,7 @@ import StudyLabSidebar from './StudyLabSidebar'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, createImageCard } from '@/lib/studylab/actions'
+import { createFreeformBlock, aiCardIds } from '@/lib/studylab/freeform'
 import type { CanvasState, ChatMessage, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
 import { useAuth } from '@/components/AuthProvider'
 
@@ -57,6 +58,7 @@ export default function Workspace({ id }: { id: string }) {
   const startedRef = useRef(false)
   const effectVersion = useRef(0)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const addOffset = useRef(0)
 
   const suggestions = useMemo(() => {
     for (let i = messages.length - 1; i >= 0; i--) {
@@ -127,7 +129,7 @@ export default function Workspace({ id }: { id: string }) {
             current_step: stepRef.current,
             message: userText,
             history: history.map((m) => ({ role: m.role, content: m.content })),
-            card_ids: baseCanvas.nodes.filter((n) => n.type !== 'stepGroup').map((n) => n.id),
+            card_ids: aiCardIds(baseCanvas.nodes),
             origin: space?.origin,
             focus: space?.focus,
             image: imageDataUrl ?? null,
@@ -233,6 +235,64 @@ export default function Workspace({ id }: { id: string }) {
     [scheduleCanvasSave]
   )
 
+  // ── Freeform blocks (palette) ────────────────────────────────────────────────
+  const handleAddBlock = useCallback(
+    (type: string) => {
+      // Cascade new blocks so they don't stack exactly on top of each other.
+      addOffset.current = (addOffset.current + 1) % 8
+      const o = addOffset.current * 36
+      const node = createFreeformBlock(type, { x: 200 + o, y: 200 + o })
+      setCanvas((prev) => ({ ...prev, nodes: [...prev.nodes, node] }))
+      effectVersion.current += 1
+      setEffects({ version: effectVersion.current, list: [{ kind: 'fitNodes', nodeIds: [node.id] }] })
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave]
+  )
+
+  const handleDeleteNode = useCallback(
+    (nodeId: string) => {
+      setCanvas((prev) => ({
+        ...prev,
+        nodes: prev.nodes.filter((n) => n.id !== nodeId),
+        edges: prev.edges.filter((e) => e.source !== nodeId && e.target !== nodeId),
+      }))
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave]
+  )
+
+  const handleConnectEdge = useCallback(
+    (from: string, to: string) => {
+      setCanvas((prev) => {
+        if (prev.edges.some((e) => e.source === from && e.target === to)) return prev
+        return {
+          ...prev,
+          edges: [...prev.edges, { id: `u-${from}-${to}-${Date.now()}`, source: from, target: to, animated: false }],
+        }
+      })
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave]
+  )
+
+  const handleAskTutor = useCallback(
+    (nodeId: string) => {
+      const n = canvasRef.current.nodes.find((x) => x.id === nodeId)
+      if (!n) return
+      const d = n.data
+      const text = d.code
+        ? `Can you look at this code I wrote?\n\n\`\`\`${d.language ?? ''}\n${d.code}\n\`\`\``
+        : d.body
+          ? `Can you help me with this note?\n\n${d.body}`
+          : d.card
+            ? `Quiz me / check my flashcard — front: "${d.card.front}", back: "${d.card.back}"`
+            : 'Can you help me with this?'
+      handleSend(text)
+    },
+    [handleSend]
+  )
+
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false
@@ -327,6 +387,10 @@ export default function Workspace({ id }: { id: string }) {
           onNodesPositionChange={handleNodesPositionChange}
           onToggleGroup={handleToggleGroup}
           onNodeDataChange={handleNodeDataChange}
+          onAddBlock={handleAddBlock}
+          onDeleteNode={handleDeleteNode}
+          onAskTutor={handleAskTutor}
+          onConnectEdge={handleConnectEdge}
         />
       </div>
 

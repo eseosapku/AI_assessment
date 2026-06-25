@@ -14,10 +14,12 @@ import {
   type Edge,
   type NodeChange,
   type NodeTypes,
+  type Connection,
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
+import PaletteToolbar from './PaletteToolbar'
 import type { CanvasEffect } from '@/lib/studylab/actions'
 import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 
@@ -35,6 +37,10 @@ interface StudyCanvasProps {
   onNodesPositionChange: (updates: { id: string; position: { x: number; y: number } }[]) => void
   onToggleGroup: (groupId: string) => void
   onNodeDataChange: (id: string, patch: Partial<StudyNodeData>) => void
+  onAddBlock: (type: string) => void
+  onDeleteNode: (id: string) => void
+  onAskTutor: (id: string) => void
+  onConnectEdge: (from: string, to: string) => void
 }
 
 function FlowInner({
@@ -43,9 +49,17 @@ function FlowInner({
   effects,
   onNodesPositionChange,
   onToggleGroup,
+  onConnectEdge,
 }: Omit<StudyCanvasProps, 'onNodeDataChange'>) {
   const rf = useReactFlow()
   const lastEffectVersion = useRef(-1)
+
+  const onConnect = useCallback(
+    (c: Connection) => {
+      if (c.source && c.target) onConnectEdge(c.source, c.target)
+    },
+    [onConnectEdge]
+  )
 
   const propNodes = useMemo<Node[]>(
     () =>
@@ -132,6 +146,7 @@ function FlowInner({
       edges={rfEdges}
       nodeTypes={nodeTypes}
       onNodesChange={handleNodesChange}
+      onConnect={onConnect}
       fitView
       minZoom={0.15}
       maxZoom={2}
@@ -147,7 +162,14 @@ function FlowInner({
 
 export default function StudyCanvas(props: StudyCanvasProps) {
   return (
-    <CanvasContext.Provider value={{ onToggleGroup: props.onToggleGroup, onNodeDataChange: props.onNodeDataChange }}>
+    <CanvasContext.Provider
+      value={{
+        onToggleGroup: props.onToggleGroup,
+        onNodeDataChange: props.onNodeDataChange,
+        onDeleteNode: props.onDeleteNode,
+        onAskTutor: props.onAskTutor,
+      }}
+    >
       <div className="relative w-full h-full">
         <ReactFlowProvider>
           <FlowInner
@@ -156,8 +178,13 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             effects={props.effects}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}
+            onAddBlock={props.onAddBlock}
+            onDeleteNode={props.onDeleteNode}
+            onAskTutor={props.onAskTutor}
+            onConnectEdge={props.onConnectEdge}
           />
         </ReactFlowProvider>
+        <PaletteToolbar onAdd={props.onAddBlock} />
       </div>
     </CanvasContext.Provider>
   )
