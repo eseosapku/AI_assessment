@@ -1,51 +1,16 @@
 'use client'
 
-import { createContext, useContext } from 'react'
+import { useContext } from 'react'
 import type { ComponentType } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
-import Latex from 'react-latex-next'
-import { BookOpen, Code2, GitBranch, Layers, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react'
+import { BookOpen, GitBranch, Layers, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import type { BlockType } from '@/lib/studylab/blocks'
+import { CanvasContext, CardFrame, SafeLatex, handleClass } from './canvasShared'
+import { RunnableCodeNode } from './RunnableCodeCard'
 
-interface CanvasCallbacks {
-  onToggleGroup: (groupId: string) => void
-  onNodeDataChange: (id: string, patch: Partial<StudyNodeData>) => void
-}
-
-export const CanvasContext = createContext<CanvasCallbacks>({
-  onToggleGroup: () => {},
-  onNodeDataChange: () => {},
-})
-
-function SafeLatex({ children }: { children?: string }) {
-  if (!children) return null
-  try {
-    return <Latex>{children}</Latex>
-  } catch {
-    return <>{children}</>
-  }
-}
-
-const handleClass = '!w-2 !h-2 !bg-apple-blue/60 !border-0'
-
-function CardFrame({ children, accent = 'blue' }: { children: React.ReactNode; accent?: 'blue' | 'orange' | 'violet' }) {
-  const ring =
-    accent === 'orange'
-      ? 'border-orange-200 dark:border-orange-900/40'
-      : accent === 'violet'
-        ? 'border-violet-200 dark:border-violet-900/40'
-        : 'border-gray-200 dark:border-gray-700'
-  return (
-    <div
-      className={`sl-node-enter w-[300px] rounded-2xl bg-white dark:bg-[#1c1c1e] border ${ring} shadow-[0_8px_30px_-12px_rgba(0,0,0,0.18)] overflow-hidden`}
-    >
-      <Handle type="target" position={Position.Left} className={handleClass} />
-      {children}
-      <Handle type="source" position={Position.Right} className={handleClass} />
-    </div>
-  )
-}
+// Re-export so existing importers (StudyCanvas) keep working.
+export { CanvasContext } from './canvasShared'
 
 export function ConceptNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
@@ -73,27 +38,6 @@ export function ConceptNode({ data }: NodeProps) {
             ))}
           </ul>
         )}
-      </div>
-    </CardFrame>
-  )
-}
-
-export function CodeNode({ data }: NodeProps) {
-  const d = data as unknown as StudyNodeData
-  return (
-    <CardFrame accent="violet">
-      <div className="flex items-center gap-2 px-4 pt-4">
-        <div className="w-7 h-7 rounded-lg bg-violet-500/10 flex items-center justify-center shrink-0">
-          <Code2 className="w-4 h-4 text-violet-500" />
-        </div>
-        <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
-        {d.language && <span className="ml-auto text-[10px] uppercase tracking-wide text-apple-dark-gray">{d.language}</span>}
-      </div>
-      <div className="px-4 pb-4 pt-2">
-        <pre className="text-[12px] leading-relaxed bg-gray-950 text-gray-100 rounded-xl p-3 overflow-x-auto">
-          <code>{d.code}</code>
-        </pre>
-        {d.body && <p className="mt-2 text-[12px] text-gray-500"><SafeLatex>{d.body}</SafeLatex></p>}
       </div>
     </CardFrame>
   )
@@ -181,7 +125,7 @@ export function ImageNode({ data }: NodeProps) {
 
 export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>> = {
   concept: ConceptNode,
-  code: CodeNode,
+  code: RunnableCodeNode,
   diagram: DiagramNode,
   stepGroup: StepGroupNode,
   image: ImageNode,
