@@ -11,11 +11,14 @@ export type CanvasEffect =
 
 const CARD_W = 300
 const CARD_H = 200
-const COL_GAP = 56
-const ROW_GAP = 80
-const STEP_BAND = 460
-const SLOT_W = CARD_W + COL_GAP // 356
-const SLOT_H = CARD_H + ROW_GAP // 280
+const COL_GAP = 80
+const ROW_GAP = 120
+const STEP_BAND = 720
+const SLOT_W = CARD_W + COL_GAP // 380
+const SLOT_H = CARD_H + ROW_GAP // 320
+// Text-heavy cards render taller than their registry estimate; reserve extra
+// vertical space when testing for overlap so new cards don't tuck under them.
+const HEIGHT_PAD = 120
 
 function rectsOverlap(
   a: { x: number; y: number; w: number; h: number },
@@ -25,7 +28,8 @@ function rectsOverlap(
 }
 
 // Return the first 3-column grid slot in this step's band whose rectangle (sized
-// for `type`) does not overlap any visible, non-group node's real footprint.
+// for `type`, padded for tall content) does not overlap any visible node's
+// padded footprint.
 export function autoPosition(
   nodes: StudyNode[],
   step: number,
@@ -35,13 +39,13 @@ export function autoPosition(
     .filter((n) => n.type !== 'stepGroup' && !n.hidden)
     .map((n) => {
       const s = blockSize(n.type)
-      return { x: n.position.x, y: n.position.y, w: s.w, h: s.h }
+      return { x: n.position.x, y: n.position.y, w: s.w, h: s.h + HEIGHT_PAD }
     })
   const size = blockSize(type)
   const bandY = step * STEP_BAND
   for (let row = 0; row < 200; row++) {
     for (let col = 0; col < 3; col++) {
-      const cand = { x: col * SLOT_W, y: bandY + row * SLOT_H, w: size.w, h: size.h }
+      const cand = { x: col * SLOT_W, y: bandY + row * SLOT_H, w: size.w, h: size.h + HEIGHT_PAD }
       if (!occupied.some((o) => rectsOverlap(cand, o))) {
         return { x: cand.x, y: cand.y }
       }

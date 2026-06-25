@@ -239,11 +239,12 @@ export default function Workspace({ id }: { id: string }) {
 
   // ── Freeform blocks (palette) ────────────────────────────────────────────────
   const handleAddBlock = useCallback(
-    (type: string) => {
-      // Cascade new blocks so they don't stack exactly on top of each other.
+    (type: string, position?: { x: number; y: number }) => {
+      // Use the viewport-centre position from the canvas when given; otherwise
+      // cascade so blocks don't stack exactly on top of each other.
       addOffset.current = (addOffset.current + 1) % 8
       const o = addOffset.current * 36
-      const node = createFreeformBlock(type, { x: 200 + o, y: 200 + o })
+      const node = createFreeformBlock(type, position ?? { x: 200 + o, y: 200 + o })
       // Frames sit behind other cards: render them first in the node array.
       setCanvas((prev) => ({
         ...prev,
