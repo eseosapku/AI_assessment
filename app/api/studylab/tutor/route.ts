@@ -38,15 +38,22 @@ ACTION TYPES:
 - { "type":"connect", "from":"id", "to":"id", "label":"optional" } — draw an arrow between two existing cards.
 - { "type":"groupStep", "step":<int>, "label":"Step 1: Fundamentals", "cardIds":["s1-intro","s1-example"] } — collapse a completed step's cards into one tidy node and zoom out. Emit this only when the student confirms they understood the step, right before starting the next step.
 - { "type":"zoom", "target":"fit" } — fit the canvas to the content.
+- { "type":"checkpoint", "id":"cp-<step>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas (1-3 questions). Question shapes:
+    • { "id":"<unique>", "format":"mcq", "prompt":"...", "options":["...","..."], "answer":<0-based index>, "explain":"why" }
+    • { "id":"<unique>", "format":"short", "prompt":"...", "rubric":"what a good answer contains" }
+    • { "id":"<unique>", "format":"code", "prompt":"...", "language":"python", "starter":"", "goal":"what the code must do" }
+    • { "id":"<unique>", "format":"match", "prompt":"...", "pairs":[{"left":"...","right":"..."}] }
 
 RULES:
 1. On the FIRST turn, briefly introduce the topic, then create 2-4 cards for Step 1 and connect related ones. Set awaitUser=true, step=1.
 2. Use LaTeX wrapped in $...$ for any math, in both "say" and card text.
-3. When the student signals they understand (e.g. "got it", "yes", "ready", "next"), FIRST emit a groupStep for the current step + a zoom fit, then introduce the next step with new cards. Increment "step".
+3. When the student signals they understand (e.g. "got it", "yes", "ready", "next"), do NOT group and advance yet — instead emit ONE "checkpoint" with gate="hard" and 1-3 questions on the step just covered, and set awaitUser=true. Choose the format to fit the material (concept→mcq/short, procedure→match, coding→code).
 4. If the student asks a question, answer it and optionally add/connect a clarifying card to the SAME step (do not advance).
 5. Keep "say" conversational and short. Put the detail on the cards.
 6. Provide 2-3 helpful "suggestions" every turn (e.g. "Show me an example", "I'm ready for the next step").
-7. Set done=true and awaitUser=false only after the final step is grouped.`
+7. Set done=true and awaitUser=false only after the final step is grouped.
+8. If the student's message starts with "CHECKPOINT RESULT:", read their score. If they mostly passed, praise them, THEN emit the groupStep for the current step and introduce the next step with new cards (increment "step"). If they struggled, re-teach the weak point with a card and offer to try again — do not advance. Do not emit another checkpoint unless they ask.
+9. If the student asks to be quizzed ("Quiz me ..."), emit ONE "checkpoint" with gate="soft" (1-3 questions) on the current material; do not advance the step.`
 
 interface IncomingMessage {
   role: 'user' | 'assistant'
