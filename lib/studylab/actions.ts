@@ -62,6 +62,14 @@ function boundingTopLeft(nodes: StudyNode[], ids: string[]): { x: number; y: num
   return { x: minX, y: minY }
 }
 
+// True if an AI content card with this (normalized) title already exists — used
+// to drop duplicate createCard actions deterministically.
+export function titleExists(nodes: StudyNode[], title: string): boolean {
+  const t = title.trim().toLowerCase()
+  if (!t) return false
+  return nodes.some((n) => isCardKind(n.type) && !n.hidden && (n.data.title ?? '').trim().toLowerCase() === t)
+}
+
 export function isValidAction(a: any): a is TutorAction {
   if (!a || typeof a !== 'object') return false
   switch (a.type) {
@@ -107,6 +115,8 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
     switch (action.type) {
       case 'createCard': {
         if (nodes.some((n) => n.id === action.id)) break
+        // Deterministic dedup: never create a card that duplicates an existing title.
+        if (action.title && titleExists(nodes, action.title)) break
         const step = typeof action.step === 'number' ? action.step : 0
         const position =
           action.position && action.position !== 'auto'

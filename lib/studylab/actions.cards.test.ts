@@ -12,6 +12,18 @@ describe('new card kinds', () => {
     expect(isValidAction({ type: 'createCard', id: 'c', card: 'callout' })).toBe(true)
   })
 
+  it('drops a createCard whose title duplicates an existing AI card', () => {
+    const state: CanvasState = {
+      nodes: [{ id: 'a', type: 'concept', position: { x: 0, y: 0 }, data: { kind: 'concept', title: 'Properties of a BST' } }],
+      edges: [],
+    }
+    const res = applyActions(state, [
+      { type: 'createCard', id: 'b', card: 'concept', title: '  properties of a BST ', body: 'x', position: 'auto' },
+    ])
+    expect(res.created).toEqual([])
+    expect(res.nodes).toHaveLength(1)
+  })
+
   it('reducer copies mermaid/steps/rows/variant into node data', () => {
     const res = applyActions(empty, [
       { type: 'createCard', id: 'm1', card: 'mermaid', step: 1, mermaid: 'graph TD; A-->B', position: 'auto' },

@@ -8,7 +8,8 @@ import StudyLabSidebar from './StudyLabSidebar'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, createImageCard, autoGroupStep } from '@/lib/studylab/actions'
-import { createFreeformBlock, aiCardIds } from '@/lib/studylab/freeform'
+import { createFreeformBlock, aiCards } from '@/lib/studylab/freeform'
+import { layoutGraph } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
 import { useAuth } from '@/components/AuthProvider'
@@ -131,7 +132,7 @@ export default function Workspace({ id }: { id: string }) {
             current_step: stepRef.current,
             message: userText,
             history: history.map((m) => ({ role: m.role, content: m.content })),
-            card_ids: aiCardIds(baseCanvas.nodes),
+            cards: aiCards(baseCanvas.nodes),
             origin: space?.origin,
             focus: space?.focus,
             image: imageDataUrl ?? null,
@@ -152,6 +153,15 @@ export default function Workspace({ id }: { id: string }) {
         const nextStep = typeof data.step === 'number' ? data.step : oldStep
         if (nextStep > oldStep) {
           nextCanvas = autoGroupStep(nextCanvas, oldStep)
+        }
+
+        // Auto-tidy the AI lesson graph (freeform blocks keep their positions).
+        const layout = layoutGraph(nextCanvas.nodes, nextCanvas.edges)
+        if (Object.keys(layout).length > 0) {
+          nextCanvas = {
+            ...nextCanvas,
+            nodes: nextCanvas.nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)),
+          }
         }
 
         setCanvas(nextCanvas)

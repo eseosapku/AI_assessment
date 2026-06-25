@@ -1,5 +1,5 @@
 import type { StudyNode, StudyNodeData } from './types'
-import { isFreeform } from './blocks'
+import { isFreeform, isCardKind } from './blocks'
 
 let seq = 0
 
@@ -36,4 +36,12 @@ export function aiCardIds(nodes: StudyNode[]): string[] {
   return nodes
     .filter((n) => n.type !== 'stepGroup' && n.source !== 'freeform' && !isFreeform(n.type))
     .map((n) => n.id)
+}
+
+// AI content cards with their titles, so the tutor can see what's already on the
+// board (and build on it / connect to it) instead of duplicating cards.
+export function aiCards(nodes: StudyNode[]): { id: string; title: string; step: number }[] {
+  return nodes
+    .filter((n) => isCardKind(n.type) && !n.hidden)
+    .map((n) => ({ id: n.id, title: n.data.title ?? '', step: n.data.step ?? 0 }))
 }

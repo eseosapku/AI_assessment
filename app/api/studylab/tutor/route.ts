@@ -33,13 +33,13 @@ ACTION TYPES:
     • "concept": use title + body (and optional items for key terms / bullet lists).
     • "code": use title + code + language. Keep code short. Code cards are RUNNABLE — prefer python, javascript, or html so the student can Run them.
     • "diagram": prefer "mermaid" over "svg". Use "svg" only for a tiny custom visual.
-    • "mermaid": set "mermaid" to valid Mermaid syntax (e.g. "graph TD; A[Start]-->B[End]"). Best for flows, trees, sequences, state machines.
+    • "mermaid": set "mermaid" to RAW Mermaid syntax with NO markdown code fences (e.g. "graph TD; A[Start]-->B[End]" — never wrap it in triple-backtick fences). Best for flows, trees, sequences, state machines.
     • "worked": set "steps" to an array of numbered solution steps (LaTeX allowed). Best for math/physics/procedures.
     • "table": set "rows" to an array of rows, first row = header, e.g. [["Feature","A","B"],["Speed","O(1)","O(n)"]]. Best for comparisons.
     • "callout": set "variant" to "definition"|"tip"|"warning" and put the text in "body". Best for a key definition, a tip, or a common-mistake warning.
-    • ALWAYS set "position":"auto" and the correct "step".
+    • Set the correct "step". You do NOT place cards — the board auto-arranges them from your "connect" links, so always "connect" a new card to the most related existing card.
     • Use unique stable ids like "s1-intro", "s1-example".
-- { "type":"connect", "from":"id", "to":"id", "label":"optional" } — draw an arrow between two existing cards.
+- { "type":"connect", "from":"id", "to":"id", "label":"optional" } — link two cards. The board's layout uses these links to position cards near each other, so connect every new card to its most related neighbour.
 - { "type":"groupStep", "step":<int>, "label":"Step 1: Fundamentals", "cardIds":["s1-intro","s1-example"] } — collapse a completed step's cards into one tidy node and zoom out. Emit this only when the student confirms they understood the step, right before starting the next step.
 - { "type":"zoom", "target":"fit" } — fit the canvas to the content.
 - { "type":"checkpoint", "id":"cp-<step>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas (1-3 questions). Question shapes:
@@ -82,14 +82,14 @@ function buildPrompt(opts: {
   title: string
   subject?: string | null
   currentStep: number
-  existingCardIds: string[]
+  existingCards: { id: string; title: string; step: number }[]
   history: IncomingMessage[]
   userMessage: string
   origin?: string
   focus?: GapFocus | null
   imageState?: 'attached' | 'unreadable'
 }): string {
-  const { title, subject, currentStep, existingCardIds, history, userMessage, origin, focus, imageState } = opts
+  const { title, subject, currentStep, existingCards, history, userMessage, origin, focus, imageState } = opts
   const historyText = history
     .slice(-10)
     .map((m) => `${m.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${m.content}`)
@@ -123,7 +123,8 @@ REMEDIATION GUIDANCE (gap mode):
 ────────────────────────────────────────
 TOPIC: ${title}${subject ? `\nSUBJECT: ${subject}` : ''}${focusLine}
 CURRENT STEP: ${currentStep}
-CARD IDS ALREADY ON CANVAS: ${existingCardIds.length ? existingCardIds.join(', ') : '(none yet)'}${imageLine}
+EXISTING CARDS ON CANVAS (do NOT recreate these — build on them and "connect" to their ids):
+${existingCards.length ? existingCards.map((c) => `  ${c.id} "${c.title}" (step ${c.step})`).join('\n') : '  (none yet)'}${imageLine}
 
 CONVERSATION SO FAR:
 ${historyText || '(this is the very first turn)'}
@@ -178,8 +179,10 @@ export async function POST(request: NextRequest) {
           .filter((m: any) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
           .map((m: any) => ({ role: m.role, content: m.content }))
       : []
-    const existingCardIds: string[] = Array.isArray(body?.card_ids)
-      ? body.card_ids.filter((id: any) => typeof id === 'string')
+    const existingCards: { id: string; title: string; step: number }[] = Array.isArray(body?.cards)
+      ? body.cards
+          .filter((c: any) => c && typeof c.id === 'string')
+          .map((c: any) => ({ id: c.id, title: typeof c.title === 'string' ? c.title : '', step: Number(c.step) || 0 }))
       : []
     const origin = body?.origin === 'gap' ? 'gap' : 'scratch'
     const focus: GapFocus | null =
@@ -192,7 +195,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A topic title is required' }, { status: 400 })
     }
 
-    const baseOpts = { title, subject, currentStep, existingCardIds, history, userMessage, origin, focus }
+    const baseOpts = { title, subject, currentStep, existingCards, history, userMessage, origin, focus }
 
     let raw: string
     try {
