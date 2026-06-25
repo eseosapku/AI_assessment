@@ -7,7 +7,7 @@ import { Loader2, AlertCircle } from 'lucide-react'
 import StudyLabSidebar from './StudyLabSidebar'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
-import { applyActions, toggleStepGroup, createImageCard } from '@/lib/studylab/actions'
+import { applyActions, toggleStepGroup, createImageCard, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock, aiCardIds } from '@/lib/studylab/freeform'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
@@ -144,7 +144,16 @@ export default function Workspace({ id }: { id: string }) {
 
         const actions: TutorAction[] = data.actions ?? []
         const { nodes, edges, effects: fx, created } = applyActions(baseCanvas, actions)
-        const nextCanvas: CanvasState = { ...baseCanvas, nodes, edges }
+        let nextCanvas: CanvasState = { ...baseCanvas, nodes, edges }
+
+        // Deterministic grouping: if the tutor advanced to a new step, collapse
+        // the step we just left (even if the model forgot to emit groupStep).
+        const oldStep = stepRef.current
+        const nextStep = typeof data.step === 'number' ? data.step : oldStep
+        if (nextStep > oldStep) {
+          nextCanvas = autoGroupStep(nextCanvas, oldStep)
+        }
+
         setCanvas(nextCanvas)
         const list = created.length > 0 ? [...fx, { kind: 'fitNodes' as const, nodeIds: created }] : fx
         if (list.length > 0) {
@@ -152,7 +161,6 @@ export default function Workspace({ id }: { id: string }) {
           setEffects({ version: effectVersion.current, list })
         }
 
-        const nextStep = typeof data.step === 'number' ? data.step : stepRef.current
         setCurrentStep(nextStep)
         setDone(Boolean(data.done))
 

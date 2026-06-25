@@ -147,6 +147,11 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             data: { kind: 'checkpointHeader', title: 'Check your understanding', step },
           })
           created.push(headerId)
+          // Anchor the check to a card from the step it tests, so it reads as connected.
+          const anchor = nodes.find((n) => n.data.step === step && isCardKind(n.type) && !n.hidden)
+          if (anchor) {
+            edges.push({ id: `e-${anchor.id}-${headerId}`, source: anchor.id, target: headerId, animated: false })
+          }
         }
         for (const q of action.questions) {
           if (nodes.some((n) => n.id === q.id)) continue
@@ -157,6 +162,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             data: { kind: 'quiz', step, quiz: { checkpointId: action.id, gate: action.gate, question: q, state: 'unanswered' } },
           })
           created.push(q.id)
+          edges.push({ id: `e-${headerId}-${q.id}`, source: headerId, target: q.id, animated: false })
         }
         break
       }
@@ -223,6 +229,21 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
   }
 
   return { nodes, edges, effects, created }
+}
+
+// When the tutor advances past a step, collapse that step's AI cards (content +
+// its answered checkpoint) into one group node — deterministically, so grouping
+// no longer depends on the model remembering to emit groupStep. No-op if the step
+// is already grouped or has no cards.
+export function autoGroupStep(state: CanvasState, step: number): CanvasState {
+  if (step < 1) return state
+  if (state.nodes.some((n) => n.type === 'stepGroup' && n.data.step === step)) return state
+  const cardIds = state.nodes
+    .filter((n) => n.data.step === step && n.type !== 'stepGroup' && n.source !== 'freeform' && !n.hidden)
+    .map((n) => n.id)
+  if (cardIds.length === 0) return state
+  const { nodes, edges } = applyActions(state, [{ type: 'groupStep', step, label: `Step ${step}`, cardIds }])
+  return { ...state, nodes, edges }
 }
 
 // Build an image card node (student's pasted work) placed in the given step band.

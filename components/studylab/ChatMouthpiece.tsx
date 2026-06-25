@@ -162,15 +162,23 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         </div>
       )}
 
-      {/* Persistent "Quiz me" control */}
-      {!busy && !pendingCheckpoint && !done && onQuizMe && (
-        <div className="px-4 pb-2">
+      {/* Persistent forward controls — reliable lesson navigation */}
+      {!busy && !pendingCheckpoint && !done && (
+        <div className="px-4 pb-2 flex gap-2">
           <button
-            onClick={onQuizMe}
-            className="w-full text-[13px] px-3.5 py-2 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold hover:bg-emerald-500/20 transition-colors"
+            onClick={() => send("I'm ready — let's continue.")}
+            className="flex-1 text-[13px] px-3.5 py-2 rounded-xl bg-apple-blue text-white font-semibold hover:bg-blue-600 transition-colors"
           >
-            Quiz me on this
+            Continue →
           </button>
+          {onQuizMe && (
+            <button
+              onClick={onQuizMe}
+              className="text-[13px] px-3.5 py-2 rounded-xl bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 font-semibold hover:bg-emerald-500/20 transition-colors"
+            >
+              Quiz me
+            </button>
+          )}
         </div>
       )}
 
