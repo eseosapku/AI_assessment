@@ -265,6 +265,21 @@ export default function Workspace({ id }: { id: string }) {
     [scheduleCanvasSave]
   )
 
+  const handleNodeResize = useCallback(
+    (nodeId: string, dims: { x: number; y: number; width: number; height: number }) => {
+      setCanvas((prev) => ({
+        ...prev,
+        nodes: prev.nodes.map((n) =>
+          n.id === nodeId
+            ? { ...n, position: { x: dims.x, y: dims.y }, data: { ...n.data, width: dims.width, height: dims.height } }
+            : n
+        ),
+      }))
+      scheduleCanvasSave()
+    },
+    [scheduleCanvasSave]
+  )
+
   const handleDeleteNode = useCallback(
     (nodeId: string) => {
       setCanvas((prev) => ({
@@ -454,6 +469,7 @@ export default function Workspace({ id }: { id: string }) {
           onNodeDataChange={handleNodeDataChange}
           onAddBlock={handleAddBlock}
           onDeleteNode={handleDeleteNode}
+          onNodeResize={handleNodeResize}
           onAskTutor={handleAskTutor}
           onConnectEdge={handleConnectEdge}
           onEdgeLabel={handleEdgeLabel}

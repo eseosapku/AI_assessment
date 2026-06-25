@@ -41,6 +41,7 @@ interface StudyCanvasProps {
   onAddBlock: (type: string, position?: { x: number; y: number }) => void
   onDeleteNode: (id: string) => void
   onAskTutor: (id: string) => void
+  onNodeResize: (id: string, dims: { x: number; y: number; width: number; height: number }) => void
   onConnectEdge: (from: string, to: string) => void
   onEdgeLabel: (id: string, label: string) => void
 }
@@ -54,7 +55,7 @@ function FlowInner({
   onAddBlock,
   onConnectEdge,
   onEdgeLabel,
-}: Omit<StudyCanvasProps, 'onNodeDataChange'>) {
+}: Omit<StudyCanvasProps, 'onNodeDataChange' | 'onNodeResize'>) {
   const rf = useReactFlow()
   const lastEffectVersion = useRef(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
@@ -103,12 +104,20 @@ function FlowInner({
     () =>
       nodes
         .filter((n) => !n.hidden)
-        .map((n) => ({
-          id: n.id,
-          type: n.type,
-          position: n.position,
-          data: n.data as unknown as Record<string, unknown>,
-        })),
+        .map((n) => {
+          const base: Node = {
+            id: n.id,
+            type: n.type,
+            position: n.position,
+            data: n.data as unknown as Record<string, unknown>,
+          }
+          // Frames carry their size on the node wrapper so NodeResizer can drive
+          // the resize live; the renderer fills it with w-full/h-full.
+          if ((n.type as string) === 'frame') {
+            base.style = { width: n.data.width ?? 480, height: n.data.height ?? 360 }
+          }
+          return base
+        }),
     [nodes]
   )
 
@@ -278,6 +287,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
         onNodeDataChange: props.onNodeDataChange,
         onDeleteNode: props.onDeleteNode,
         onAskTutor: props.onAskTutor,
+        onNodeResize: props.onNodeResize,
       }}
     >
       <div className="relative w-full h-full">

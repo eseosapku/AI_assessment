@@ -14,6 +14,7 @@ export interface CanvasCallbacks {
   onNodeDataChange: (id: string, patch: Partial<StudyNodeData>) => void
   onDeleteNode: (id: string) => void
   onAskTutor: (id: string) => void
+  onNodeResize: (id: string, dims: { x: number; y: number; width: number; height: number }) => void
 }
 
 export const CanvasContext = createContext<CanvasCallbacks>({
@@ -21,6 +22,7 @@ export const CanvasContext = createContext<CanvasCallbacks>({
   onNodeDataChange: () => {},
   onDeleteNode: () => {},
   onAskTutor: () => {},
+  onNodeResize: () => {},
 })
 
 export function SafeLatex({ children }: { children?: string }) {

@@ -312,21 +312,20 @@ const FRAME_COLORS: Record<string, { border: string; text: string; bg: string; h
   amber: { border: 'border-amber-400/70 dark:border-amber-600', text: 'text-amber-700 dark:text-amber-300', bg: 'bg-amber-400/[0.12]', head: 'bg-amber-400/20', swatch: 'border-amber-400 bg-amber-300' },
 }
 
-export function FrameNode({ id, data, selected }: NodeProps) {
+export function FrameNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
-  const { onNodeDataChange, onDeleteNode } = useContext(CanvasContext)
+  const { onNodeDataChange, onDeleteNode, onNodeResize } = useContext(CanvasContext)
   const [label, setLabel] = useState(d.frameLabel ?? 'Group')
   const color = d.color ?? 'slate'
   const c = FRAME_COLORS[color] ?? FRAME_COLORS.slate
-  const w = d.width ?? 480
-  const h = d.height ?? 360
+  // Size lives on the React Flow node wrapper (set in StudyCanvas) so the
+  // resize is live; this element just fills it.
   return (
-    <div style={{ width: w, height: h }} className={`sl-node-enter relative rounded-2xl border-2 border-dashed ${c.border} ${c.bg}`}>
+    <div className={`sl-node-enter relative w-full h-full rounded-2xl border-2 border-dashed ${c.border} ${c.bg}`}>
       <NodeResizer
-        isVisible={!!selected}
         minWidth={240}
         minHeight={180}
-        onResizeEnd={(_, p) => onNodeDataChange(id, { width: Math.round(p.width), height: Math.round(p.height) })}
+        onResizeEnd={(_, p) => onNodeResize(id, { x: p.x, y: p.y, width: Math.round(p.width), height: Math.round(p.height) })}
         lineClassName="!border-current"
         handleClassName="!bg-white !border-gray-400 !w-2.5 !h-2.5"
       />
