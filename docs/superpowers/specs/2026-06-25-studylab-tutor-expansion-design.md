@@ -75,10 +75,13 @@ entries.
 type BlockSource = 'ai' | 'freeform'
 
 interface BlockDef {
-  type: BlockType            // 'concept' | 'code' | 'diagram' | 'mermaid' |
-                             // 'worked' | 'table' | 'callout' | 'quiz' |
-                             // 'checkpointHeader' | 'sticky' | 'note' |
-                             // 'scratchpad' | 'stepGroup' | 'image'
+  type: BlockType            // ai:       'concept' | 'code' | 'diagram' |
+                             //           'mermaid' | 'worked' | 'table' |
+                             //           'callout' | 'quiz' | 'checkpointHeader' |
+                             //           'stepGroup' | 'image'
+                             // freeform: 'sticky' | 'note' | 'scratchpad' |
+                             //           'photo' | 'flashcard' | 'frame' |
+                             //           'checklist' | 'resources'
                              // (one 'quiz' type; the format lives in data.quiz.format)
   renderer: NodeComponent
   source: BlockSource        // 'freeform' ⇒ tutor can never create or read it
@@ -190,6 +193,20 @@ item onto the canvas, or click to drop at viewport center. All items are
 - **Connectors + labels** — drag from any card handle to any other to create a
   user edge (React Flow `onConnect`); drop small floating text labels. User edges
   are tagged distinct from AI edges and never modified by the tutor.
+- **Image / reference card** (`photo`) — paste or upload any image to annotate
+  around (distinct from the AI `image` card, which is student work the tutor reads).
+- **Flashcard** (`flashcard`) — student writes front (prompt) + back (answer);
+  click to flip. Self-made recall practice.
+- **Frame / labeled region** (`frame`) — a resizable labeled box dropped *behind*
+  other blocks to group and organize them visually; rendered at a lower z-index so
+  blocks sit on top, and it does not capture drags on the blocks above it.
+- **Checklist / task card** (`checklist`) — editable to-do list of study tasks
+  with checkable items.
+- **Resource board** (`resources`) — collects links for the topic. Paste a URL
+  (+ optional label) → clickable chip with favicon/domain; YouTube/Vimeo URLs →
+  thumbnail tile that opens the video. Ships client-only (domain + label chips);
+  rich og:title/og:image previews are an **optional** enhancement behind a small
+  `POST /api/studylab/link-preview` endpoint (to avoid CORS), not required for v1.
 
 Behavior:
 - Freeform blocks **persist** in `canvas_state`, carry `source: 'freeform'`, and
@@ -273,7 +290,8 @@ node data — acceptable for a study tool). Short-answer and code call a new rou
 
 - `StudyNode.source?: 'ai' | 'freeform'` (default `'ai'`).
 - `StudyNodeData` optional fields: `color`, `quiz`, `runner`, `mermaid`, `rows`,
-  `steps`, `variant`.
+  `steps`, `variant` (ai blocks); `card` (flashcard front/back), `checklist`
+  (item list), `frameLabel`, `links` (resource board) for freeform blocks.
 - `CanvasState.sketch` removed (ignored on load).
 - New `TutorAction` member: `checkpoint`.
 - `CanvasState` otherwise unchanged; all changes back-compatible with persisted
@@ -289,8 +307,10 @@ node data — acceptable for a study tool). Short-answer and code call a new rou
   new-node tagging; registry-based validation.
 - `components/studylab/canvasNodes.tsx` — new renderers (runnable code, mermaid,
   worked, table, callout, the single `quiz` node rendering all four formats,
-  sticky, note, checkpoint header); derive node types from registry; remove
-  `SketchNode`.
+  sticky, note, checkpoint header; freeform: photo, flashcard, frame, checklist,
+  resource board); derive node types from registry; remove `SketchNode`.
+- `app/api/studylab/link-preview/route.ts` (new, **optional**) — server-side
+  og:title/og:image fetch for the resource board's rich previews.
 - `components/studylab/StudyCanvas.tsx` — remove tldraw; palette toolbar; entrance
   animation + measured-size centering; freeform `onConnect`.
 - `components/studylab/Workspace.tsx` — checkpoint state + gating; "Ask tutor about
