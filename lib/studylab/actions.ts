@@ -120,6 +120,10 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             code: action.code,
             language: action.language,
             svg: action.svg,
+            mermaid: action.mermaid,
+            steps: action.steps,
+            rows: action.rows,
+            variant: action.variant,
             step,
           },
         })

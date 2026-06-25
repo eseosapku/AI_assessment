@@ -56,7 +56,7 @@ export const BLOCKS: Record<BlockType, BlockDef> = {
 
 // Tutor createCard is only allowed for content cards that already have a renderer.
 // Later phases extend this list as new renderers (mermaid, worked, table, callout) land.
-export const CARD_KINDS: BlockType[] = ['concept', 'code', 'diagram']
+export const CARD_KINDS: BlockType[] = ['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout']
 
 export function isCardKind(type: string): boolean {
   return (CARD_KINDS as string[]).includes(type)

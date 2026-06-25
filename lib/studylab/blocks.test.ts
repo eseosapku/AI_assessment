@@ -2,10 +2,10 @@ import { describe, it, expect } from 'vitest'
 import { BLOCKS, CARD_KINDS, isCardKind, isFreeform, blockSize, paletteItems } from '@/lib/studylab/blocks'
 
 describe('block registry', () => {
-  it('marks concept/code/diagram as AI card kinds', () => {
-    expect(isCardKind('concept')).toBe(true)
-    expect(isCardKind('code')).toBe(true)
-    expect(isCardKind('diagram')).toBe(true)
+  it('marks all seven content cards as AI card kinds', () => {
+    for (const t of ['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout']) {
+      expect(isCardKind(t)).toBe(true)
+    }
   })
 
   it('does not treat freeform or non-card types as card kinds', () => {

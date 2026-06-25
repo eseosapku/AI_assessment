@@ -114,6 +114,10 @@ export type TutorAction =
       code?: string
       language?: string
       svg?: string
+      mermaid?: string
+      steps?: string[]
+      rows?: string[][]
+      variant?: 'definition' | 'tip' | 'warning'
       step?: number
       position?: 'auto' | { x: number; y: number }
     }
