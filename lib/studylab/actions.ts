@@ -254,6 +254,17 @@ export function autoGroupStep(state: CanvasState, step: number): CanvasState {
     .map((n) => n.id)
   if (cardIds.length === 0) return state
   const { nodes, edges } = applyActions(state, [{ type: 'groupStep', step, label: `Step ${step}`, cardIds }])
+  // Chain this step's pill to the previous one so completed steps form a
+  // connected backbone rather than floating disconnected.
+  const prevId = `step-${step - 1}`
+  const thisId = `step-${step}`
+  if (
+    nodes.some((n) => n.id === prevId) &&
+    nodes.some((n) => n.id === thisId) &&
+    !edges.some((e) => e.source === prevId && e.target === thisId)
+  ) {
+    edges.push({ id: `e-${prevId}-${thisId}`, source: prevId, target: thisId, animated: false })
+  }
   return { ...state, nodes, edges }
 }
 
