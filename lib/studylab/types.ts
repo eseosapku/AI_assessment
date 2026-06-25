@@ -5,8 +5,25 @@ export type MasteryStatus = 'mastered' | 'developing' | 'gap' | 'not_assessed'
 
 export type CardKind = 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout'
 
+// ── Knowledge-check checkpoints ───────────────────────────────────────────────
+
+export type CheckpointQuestion =
+  | { id: string; format: 'mcq'; prompt: string; options: string[]; answer: number; explain?: string }
+  | { id: string; format: 'short'; prompt: string; rubric?: string }
+  | { id: string; format: 'code'; prompt: string; language?: string; starter?: string; goal: string }
+  | { id: string; format: 'match'; prompt: string; pairs: { left: string; right: string }[] }
+
+export interface QuizCell {
+  checkpointId: string
+  gate: 'hard' | 'soft'
+  question: CheckpointQuestion
+  state: 'unanswered' | 'pending' | 'correct' | 'incorrect'
+  given?: number | string | string[]
+  feedback?: string
+}
+
 export interface StudyNodeData {
-  kind: CardKind | 'stepGroup' | 'image'
+  kind: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader'
   title?: string
   body?: string
   /** Bullet points for a concept card (e.g. "Key Terms"). */
@@ -44,15 +61,15 @@ export interface StudyNodeData {
   frameLabel?: string
   /** Resource board links. */
   links?: { url: string; label?: string }[]
-  /** Quiz payload (shape finalised in the checkpoints phase). */
-  quiz?: Record<string, unknown>
+  /** Quiz payload for a checkpoint question node. */
+  quiz?: QuizCell
   /** Runnable-code editor state (shape finalised in the runner phase). */
   runner?: Record<string, unknown>
 }
 
 export interface StudyNode {
   id: string
-  type: CardKind | 'stepGroup' | 'image'
+  type: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader'
   position: { x: number; y: number }
   data: StudyNodeData
   hidden?: boolean
@@ -104,6 +121,7 @@ export type TutorAction =
   | { type: 'groupStep'; step: number; label: string; cardIds: string[] }
   | { type: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
   | { type: 'highlight'; nodeId: string }
+  | { type: 'checkpoint'; id: string; step: number; gate: 'hard' | 'soft'; questions: CheckpointQuestion[] }
 
 export interface TutorResponse {
   say: string
