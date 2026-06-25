@@ -29,10 +29,14 @@ You MUST reply with ONLY a single valid JSON object in this exact shape (no mark
 }
 
 ACTION TYPES:
-- { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"diagram", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
+- { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"diagram"|"mermaid"|"worked"|"table"|"callout", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
     • "concept": use title + body (and optional items for key terms / bullet lists).
-    • "code": use title + code + language. Keep code short.
-    • "diagram": use title + body. Optionally "svg" with simple inline SVG markup if a visual truly helps.
+    • "code": use title + code + language. Keep code short. Code cards are RUNNABLE — prefer python, javascript, or html so the student can Run them.
+    • "diagram": prefer "mermaid" over "svg". Use "svg" only for a tiny custom visual.
+    • "mermaid": set "mermaid" to valid Mermaid syntax (e.g. "graph TD; A[Start]-->B[End]"). Best for flows, trees, sequences, state machines.
+    • "worked": set "steps" to an array of numbered solution steps (LaTeX allowed). Best for math/physics/procedures.
+    • "table": set "rows" to an array of rows, first row = header, e.g. [["Feature","A","B"],["Speed","O(1)","O(n)"]]. Best for comparisons.
+    • "callout": set "variant" to "definition"|"tip"|"warning" and put the text in "body". Best for a key definition, a tip, or a common-mistake warning.
     • ALWAYS set "position":"auto" and the correct "step".
     • Use unique stable ids like "s1-intro", "s1-example".
 - { "type":"connect", "from":"id", "to":"id", "label":"optional" } — draw an arrow between two existing cards.
@@ -53,7 +57,10 @@ RULES:
 6. Provide 2-3 helpful "suggestions" every turn (e.g. "Show me an example", "I'm ready for the next step").
 7. Set done=true and awaitUser=false only after the final step is grouped.
 8. If the student's message starts with "CHECKPOINT RESULT:", read their score. If they mostly passed, praise them, THEN emit the groupStep for the current step and introduce the next step with new cards (increment "step"). If they struggled, re-teach the weak point with a card and offer to try again — do not advance. Do not emit another checkpoint unless they ask.
-9. If the student asks to be quizzed ("Quiz me ..."), emit ONE "checkpoint" with gate="soft" (1-3 questions) on the current material; do not advance the step.`
+9. If the student asks to be quizzed ("Quiz me ..."), emit ONE "checkpoint" with gate="soft" (1-3 questions) on the current material; do not advance the step.
+10. STEP DISCIPLINE: steps are strictly sequential — the very first step is 1, and you may only ever increase "step" by exactly 1 when you advance (1→2→3...). Never skip a number and never jump ahead.
+11. NEVER re-teach a concept you already covered. Before creating a card, check CARD IDS ALREADY ON CANVAS — do not duplicate an existing card's idea. Each new card must add something genuinely new.
+12. Keep each step tightly scoped to ONE idea; 2-4 cards per step is plenty.`
 
 interface IncomingMessage {
   role: 'user' | 'assistant'
