@@ -9,6 +9,7 @@ import type { BlockType } from '@/lib/studylab/blocks'
 import { CanvasContext, CardFrame, SafeLatex, handleClass } from './canvasShared'
 import { RunnableCodeNode } from './RunnableCodeCard'
 import { StickyNode, NoteNode, ChecklistNode, FlashcardNode, PhotoNode, FrameNode, ResourceBoardNode } from './freeformNodes'
+import { QuizNode, CheckpointHeaderNode } from './QuizNode'
 
 // Re-export so existing importers (StudyCanvas) keep working.
 export { CanvasContext } from './canvasShared'
@@ -138,4 +139,6 @@ export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>
   photo: PhotoNode,
   frame: FrameNode,
   resources: ResourceBoardNode,
+  quiz: QuizNode,
+  checkpointHeader: CheckpointHeaderNode,
 }
