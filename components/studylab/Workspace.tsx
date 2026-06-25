@@ -242,7 +242,11 @@ export default function Workspace({ id }: { id: string }) {
       addOffset.current = (addOffset.current + 1) % 8
       const o = addOffset.current * 36
       const node = createFreeformBlock(type, { x: 200 + o, y: 200 + o })
-      setCanvas((prev) => ({ ...prev, nodes: [...prev.nodes, node] }))
+      // Frames sit behind other cards: render them first in the node array.
+      setCanvas((prev) => ({
+        ...prev,
+        nodes: type === 'frame' ? [node, ...prev.nodes] : [...prev.nodes, node],
+      }))
       effectVersion.current += 1
       setEffects({ version: effectVersion.current, list: [{ kind: 'fitNodes', nodeIds: [node.id] }] })
       scheduleCanvasSave()
