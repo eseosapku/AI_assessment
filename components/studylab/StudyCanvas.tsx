@@ -12,7 +12,6 @@ import {
   useReactFlow,
   useNodesState,
   getNodesBounds,
-  getViewportForBounds,
   MarkerType,
   type Node,
   type Edge,
@@ -25,7 +24,7 @@ import 'katex/dist/katex.min.css'
 import { Loader2, Download } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import PaletteToolbar from './PaletteToolbar'
-import { exportDimensions, exportFileName, triggerDownload } from '@/lib/studylab/exportCanvas'
+import { exportLayout, exportFileName, triggerDownload, brandExport } from '@/lib/studylab/exportCanvas'
 import type { CanvasEffect } from '@/lib/studylab/actions'
 import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 
@@ -99,26 +98,32 @@ function FlowInner({
       try {
         const { toPng } = await import('html-to-image')
         const bounds = getNodesBounds(visible)
-        const { width, height, pad } = exportDimensions(bounds)
-        const vp = getViewportForBounds(bounds, width, height, 0.2, 2, pad)
-        const dataUrl = await toPng(viewportEl, {
-          backgroundColor: '#f5f5f7',
+        const { zoom, width, height, tx, ty } = exportLayout(bounds)
+        const background = '#f5f5f7'
+        const boardUrl = await toPng(viewportEl, {
+          backgroundColor: background,
           width,
           height,
           cacheBust: true,
-          pixelRatio: 2,
+          pixelRatio: 1,
           style: {
             width: `${width}px`,
             height: `${height}px`,
-            transform: `translate(${vp.x}px, ${vp.y}px) scale(${vp.zoom})`,
+            transform: `translate(${tx}px, ${ty}px) scale(${zoom})`,
           },
         })
+        // Wrap the board in a branded header/footer (title + StudySquare + date).
+        const branded = await brandExport(boardUrl, { title, width, height, background })
         if (format === 'png') {
-          triggerDownload(dataUrl, exportFileName(title, 'png'))
+          triggerDownload(branded.url, exportFileName(title, 'png'))
         } else {
           const { jsPDF } = await import('jspdf')
-          const pdf = new jsPDF({ orientation: width >= height ? 'landscape' : 'portrait', unit: 'px', format: [width, height] })
-          pdf.addImage(dataUrl, 'PNG', 0, 0, width, height)
+          const pdf = new jsPDF({
+            orientation: branded.width >= branded.height ? 'landscape' : 'portrait',
+            unit: 'px',
+            format: [branded.width, branded.height],
+          })
+          pdf.addImage(branded.url, 'PNG', 0, 0, branded.width, branded.height)
           pdf.save(exportFileName(title, 'pdf'))
         }
       } catch (err) {
