@@ -501,6 +501,7 @@ export default function Workspace({ id }: { id: string }) {
           onConnectEdge={handleConnectEdge}
           onEdgeLabel={handleEdgeLabel}
           onCardPrompt={handleSend}
+          busy={busy}
         />
       </div>
 

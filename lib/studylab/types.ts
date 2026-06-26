@@ -133,6 +133,19 @@ export type TutorAction =
       step?: number
       position?: 'auto' | { x: number; y: number }
     }
+  | {
+      type: 'updateCard'
+      id: string
+      title?: string
+      body?: string
+      items?: string[]
+      code?: string
+      language?: string
+      svg?: string
+      mermaid?: string
+      steps?: string[]
+      rows?: string[][]
+    }
   | { type: 'connect'; from: string; to: string; label?: string }
   | { type: 'groupStep'; step: number; label: string; cardIds: string[] }
   | { type: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }

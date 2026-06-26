@@ -51,6 +51,7 @@ ACTION TYPES:
     • "callout": set "variant" to "definition"|"tip"|"warning" and put the text in "body". Best for a key definition, a tip, or a common-mistake warning.
     • Set the correct "step". You do NOT place cards — the board auto-arranges them from your "connect" links, so always "connect" a new card to the most related existing card.
     • Use unique stable ids like "s1-intro", "s1-example".
+- { "type":"updateCard", "id":"<existing card id>", "title":"...", "body":"...", "items":[...], "code":"...", "steps":[...], "rows":[...] } — REPLACE the contents of a card that already exists, in place. Only include the fields you are changing. Use this — NOT createCard — when the student asks to "simplify this", "regenerate this card", or otherwise rewrite an EXISTING card. When the student's message says (card id: X), that X is the id to target.
 - { "type":"connect", "from":"id", "to":"id", "label":"optional" } — an arrow from "from" to "to". The board grows LEFT→RIGHT along arrows, so ALWAYS go from the EXISTING/earlier card ("from") to your NEW card ("to") — parent→child — so the lesson reads as a clean left-to-right tree.
 - { "type":"groupStep", "step":<int>, "label":"Step 1: Fundamentals", "cardIds":["s1-intro","s1-example"] } — collapse a completed step's cards into one tidy node and zoom out. Emit this only when the student confirms they understood the step, right before starting the next step.
 - { "type":"zoom", "target":"fit" } — fit the canvas to the content.

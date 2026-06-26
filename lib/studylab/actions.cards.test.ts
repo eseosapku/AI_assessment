@@ -24,6 +24,24 @@ describe('new card kinds', () => {
     expect(res.nodes).toHaveLength(1)
   })
 
+  it('updateCard rewrites an existing card in place and only the sent fields', () => {
+    const state: CanvasState = {
+      nodes: [{ id: 'x', type: 'concept', position: { x: 5, y: 9 }, data: { kind: 'concept', title: 'Old', body: 'long body', step: 1 } }],
+      edges: [],
+    }
+    const res = applyActions(state, [{ type: 'updateCard', id: 'x', body: 'simpler body' }])
+    expect(res.nodes).toHaveLength(1)
+    const data = res.nodes[0].data
+    expect(data.body).toBe('simpler body')
+    expect(data.title).toBe('Old') // untouched field preserved
+    expect(res.nodes[0].position).toEqual({ x: 5, y: 9 }) // not moved
+  })
+
+  it('updateCard on a missing id is a no-op', () => {
+    const res = applyActions(empty, [{ type: 'updateCard', id: 'nope', body: 'x' }])
+    expect(res.nodes).toHaveLength(0)
+  })
+
   it('reducer copies mermaid/steps/rows/variant into node data', () => {
     const res = applyActions(empty, [
       { type: 'createCard', id: 'm1', card: 'mermaid', step: 1, mermaid: 'graph TD; A-->B', position: 'auto' },

@@ -20,6 +20,7 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
+import { Loader2 } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import PaletteToolbar from './PaletteToolbar'
 import type { CanvasEffect } from '@/lib/studylab/actions'
@@ -31,6 +32,8 @@ const nodeTypes = studyNodeTypes as unknown as NodeTypes
 const LESSON_CARD_TYPES = new Set(['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout'])
 const CARD_ACTIONS = [
   { label: 'Explain this deeper', text: 'explain this deeper.' },
+  { label: 'Simplify this', text: 'rewrite this in the simplest possible terms, as if for a beginner — shorter and plainer.' },
+  { label: 'Regenerate this card', text: 'regenerate this card from scratch with a fresh explanation, replacing the current one.' },
   { label: 'Show an example of this', text: 'show an example of this.' },
   { label: 'Quiz me on this', text: 'quiz me on this.' },
   { label: 'Why does this matter?', text: 'why does this matter?' },
@@ -55,6 +58,7 @@ interface StudyCanvasProps {
   onConnectEdge: (from: string, to: string) => void
   onEdgeLabel: (id: string, label: string) => void
   onCardPrompt: (text: string) => void
+  busy: boolean
 }
 
 function FlowInner({
@@ -67,11 +71,11 @@ function FlowInner({
   onConnectEdge,
   onEdgeLabel,
   onCardPrompt,
-}: Omit<StudyCanvasProps, 'onNodeDataChange' | 'onNodeResize'>) {
+}: Omit<StudyCanvasProps, 'onNodeDataChange' | 'onNodeResize' | 'busy'>) {
   const rf = useReactFlow()
   const lastEffectVersion = useRef(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
-  const [cardMenu, setCardMenu] = useState<{ title: string; x: number; y: number } | null>(null)
+  const [cardMenu, setCardMenu] = useState<{ id: string; title: string; x: number; y: number } | null>(null)
 
   const onNodeClick = useCallback((e: React.MouseEvent, node: Node) => {
     // Don't open the context menu when the click lands on an interactive control
@@ -84,7 +88,7 @@ function FlowInner({
       return
     }
     const title = (node.data as { title?: string })?.title ?? 'this card'
-    setCardMenu({ title, x: e.clientX, y: e.clientY })
+    setCardMenu({ id: node.id, title, x: e.clientX, y: e.clientY })
   }, [])
 
   // Dismiss the card menu on any outside pointer-down or Escape.
@@ -337,7 +341,7 @@ function FlowInner({
               key={a.label}
               type="button"
               onClick={() => {
-                onCardPrompt(`Focusing on the card "${cardMenu.title}": ${a.text}`)
+                onCardPrompt(`Focusing on the card "${cardMenu.title}" (card id: ${cardMenu.id}): ${a.text}`)
                 setCardMenu(null)
               }}
               className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
@@ -378,6 +382,19 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             onCardPrompt={props.onCardPrompt}
           />
         </ReactFlowProvider>
+        {props.busy && props.nodes.length === 0 && (
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-apple-gray/70 dark:bg-black/50 backdrop-blur-sm pointer-events-none">
+            <Loader2 className="w-8 h-8 text-apple-blue animate-spin" />
+            <p className="text-sm font-semibold text-apple-dark-gray">Drafting your lesson plan…</p>
+            <p className="text-xs text-apple-dark-gray/70">Mapping out the first few steps — one moment.</p>
+          </div>
+        )}
+        {props.busy && props.nodes.length > 0 && (
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-lg px-3.5 py-1.5 text-[12px] font-semibold text-apple-blue pointer-events-none">
+            <Loader2 className="w-3.5 h-3.5 animate-spin" />
+            Building the board…
+          </div>
+        )}
       </div>
     </CanvasContext.Provider>
   )

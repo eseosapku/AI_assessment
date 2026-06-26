@@ -75,6 +75,8 @@ export function isValidAction(a: any): a is TutorAction {
   switch (a.type) {
     case 'createCard':
       return typeof a.id === 'string' && isCardKind(a.card)
+    case 'updateCard':
+      return typeof a.id === 'string'
     case 'connect':
       return typeof a.from === 'string' && typeof a.to === 'string'
     case 'groupStep':
@@ -148,6 +150,21 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
           },
         })
         created.push(action.id)
+        break
+      }
+
+      case 'updateCard': {
+        // In-place edit of an existing card (e.g. "simplify" / "regenerate this
+        // card"). Only overwrite the fields the tutor actually sent.
+        const idx = nodes.findIndex((n) => n.id === action.id && isCardKind(n.type))
+        if (idx === -1) break
+        const prev = nodes[idx]
+        const patch: Record<string, unknown> = {}
+        for (const k of ['title', 'body', 'items', 'code', 'language', 'svg', 'mermaid', 'steps', 'rows'] as const) {
+          if (action[k] !== undefined) patch[k] = action[k]
+        }
+        nodes[idx] = { ...prev, data: { ...prev.data, ...patch } }
+        effects.push({ kind: 'zoom', target: 'node', nodeId: action.id })
         break
       }
 
