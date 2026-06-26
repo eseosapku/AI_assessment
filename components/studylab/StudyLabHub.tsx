@@ -1,14 +1,16 @@
 'use client'
 
-import { useEffect, useState, useCallback } from 'react'
+import { useEffect, useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Brain, Plus, Sparkles, Clock, Layers, X, Loader2, Target, ChevronRight } from 'lucide-react'
+import { Brain, Plus, Sparkles, Clock, Layers, X, Loader2, Target, ChevronRight, Camera } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import PersonaPanel from '@/components/studylab/PersonaPanel'
 import { Marker } from '@/components/StudioPrimitives'
 import type { PersonaSnapshot } from '@/lib/studylab/persona'
 import { openLearnSpace as openSpaceInTab } from '@/lib/studylab/openSpace'
+import { setHomeworkImage } from '@/lib/studylab/homeworkHandoff'
+import { downscaleDataUrl } from '@/lib/studylab/imageScale'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -38,6 +40,7 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
   const [loading, setLoading] = useState(true)
   const [warning, setWarning] = useState<string | null>(null)
   const [showCreate, setShowCreate] = useState(false)
+  const [showSnap, setShowSnap] = useState(false)
   const [persona, setPersona] = useState<PersonaSnapshot | null>(null)
   const [personaLoading, setPersonaLoading] = useState(true)
 
@@ -128,10 +131,16 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
                 <p className="text-xs font-semibold text-brand-slate">Spatial AI tutor</p>
               </div>
             </div>
-            <button type="button" onClick={() => setShowCreate(true)} className="btn-primary !py-2.5 !px-4 text-sm">
-              <Plus className="h-4 w-4" />
-              New LearnSpace
-            </button>
+            <div className="flex items-center gap-2">
+              <button type="button" onClick={() => setShowSnap(true)} className="btn-secondary !py-2.5 !px-4 text-sm">
+                <Camera className="h-4 w-4" />
+                Snap homework
+              </button>
+              <button type="button" onClick={() => setShowCreate(true)} className="btn-primary !py-2.5 !px-4 text-sm">
+                <Plus className="h-4 w-4" />
+                New LearnSpace
+              </button>
+            </div>
           </div>
         </header>
       )}
@@ -148,10 +157,16 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
             </p>
           </div>
           {embedded && (
-            <button type="button" onClick={() => setShowCreate(true)} className="btn-primary self-start !py-2.5">
-              <Plus className="h-4 w-4" />
-              New LearnSpace
-            </button>
+            <div className="flex items-center gap-2 self-start">
+              <button type="button" onClick={() => setShowSnap(true)} className="btn-secondary !py-2.5">
+                <Camera className="h-4 w-4" />
+                Snap homework
+              </button>
+              <button type="button" onClick={() => setShowCreate(true)} className="btn-primary !py-2.5">
+                <Plus className="h-4 w-4" />
+                New LearnSpace
+              </button>
+            </div>
           )}
         </div>
 
@@ -252,8 +267,168 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
             }}
           />
         )}
+        {showSnap && (
+          <SnapModal
+            userId={user!.id}
+            onClose={() => setShowSnap(false)}
+            onCreated={(id) => {
+              setShowSnap(false)
+              openLearnSpace(id)
+            }}
+          />
+        )}
       </AnimatePresence>
     </div>
+  )
+}
+
+function SnapModal({
+  userId,
+  onClose,
+  onCreated,
+}: {
+  userId: string
+  onClose: () => void
+  onCreated: (id: string) => void
+}) {
+  const [preview, setPreview] = useState<string | null>(null)
+  const [stage, setStage] = useState<'pick' | 'reading' | 'building'>('pick')
+  const [error, setError] = useState<string | null>(null)
+  const fileRef = useRef<HTMLInputElement>(null)
+
+  const onFile = async (file: File | undefined) => {
+    setError(null)
+    if (!file) return
+    if (!file.type.startsWith('image/')) {
+      setError('Please choose an image.')
+      return
+    }
+    try {
+      const raw = await new Promise<string>((resolve, reject) => {
+        const r = new FileReader()
+        r.onload = () => resolve(String(r.result))
+        r.onerror = reject
+        r.readAsDataURL(file)
+      })
+      setPreview(await downscaleDataUrl(raw))
+    } catch {
+      setError('Could not read that image.')
+    }
+  }
+
+  const submit = async () => {
+    if (!preview || stage !== 'pick') return
+    setError(null)
+    try {
+      // 1. Read the photo to name the space.
+      setStage('reading')
+      let title = 'Homework problem'
+      let subject = ''
+      try {
+        const res = await fetch('/api/studylab/snap', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ user_id: userId, image: preview }),
+        })
+        const json = await res.json()
+        if (res.ok) {
+          title = json.title || title
+          subject = json.subject || ''
+        } else if (res.status === 402) {
+          throw new Error(json.error || 'Your plan does not include StudyLab.')
+        }
+      } catch (e: any) {
+        if (e?.message) throw e
+      }
+      // 2. Create the homework space.
+      setStage('building')
+      const res = await fetch('/api/studylab', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ user_id: userId, title, subject, origin: 'homework' }),
+      })
+      const json = await res.json()
+      if (!res.ok) throw new Error(json.error || 'Failed to create LearnSpace')
+      // 3. Hand the photo to the new space's first tutor turn.
+      setHomeworkImage(json.data.id, preview)
+      onCreated(json.data.id)
+    } catch (err: any) {
+      setError(err.message || 'Something went wrong.')
+      setStage('pick')
+    }
+  }
+
+  const busy = stage !== 'pick'
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-sm"
+      onClick={busy ? undefined : onClose}
+    >
+      <motion.div
+        initial={{ scale: 0.95, opacity: 0, y: 10 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        exit={{ scale: 0.95, opacity: 0 }}
+        onClick={(e) => e.stopPropagation()}
+        className="w-full max-w-lg overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-studio"
+      >
+        <div className="flex items-center justify-between border-b border-black/[0.06] px-6 py-4">
+          <h3 className="font-display text-lg font-black">Snap a homework problem</h3>
+          <button type="button" onClick={onClose} disabled={busy} className="rounded-lg p-1.5 hover:bg-brand-paper disabled:opacity-40">
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+        <div className="space-y-4 p-6">
+          <p className="text-sm font-semibold text-brand-slate">
+            Take or upload a clear photo of the question. The tutor reads it, then builds a LearnSpace that walks you through solving it.
+          </p>
+          <input
+            ref={fileRef}
+            type="file"
+            accept="image/*"
+            capture="environment"
+            className="hidden"
+            onChange={(e) => onFile(e.target.files?.[0])}
+          />
+          {preview ? (
+            <div className="relative overflow-hidden rounded-xl border border-black/[0.06]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={preview} alt="Homework preview" className="max-h-64 w-full object-contain bg-brand-paper" />
+              {!busy && (
+                <button
+                  type="button"
+                  onClick={() => setPreview(null)}
+                  className="absolute right-2 top-2 rounded-lg bg-black/60 p-1.5 text-white hover:bg-black/80"
+                  aria-label="Remove photo"
+                >
+                  <X className="h-4 w-4" />
+                </button>
+              )}
+            </div>
+          ) : (
+            <button
+              type="button"
+              onClick={() => fileRef.current?.click()}
+              className="flex w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-black/[0.1] py-10 text-brand-slate hover:border-brand-blue hover:text-brand-blue"
+            >
+              <Camera className="h-7 w-7" />
+              <span className="text-sm font-bold">Take or upload a photo</span>
+            </button>
+          )}
+          {error && <p className="text-sm font-semibold text-red-600">{error}</p>}
+        </div>
+        <div className="flex justify-end gap-3 border-t border-black/[0.06] px-6 py-4">
+          <button type="button" onClick={onClose} disabled={busy} className="btn-secondary !py-2.5 disabled:opacity-40">Cancel</button>
+          <button type="button" onClick={submit} disabled={!preview || busy} className="btn-primary !py-2.5 disabled:opacity-50">
+            {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
+            {stage === 'reading' ? 'Reading…' : stage === 'building' ? 'Building…' : 'Solve this'}
+          </button>
+        </div>
+      </motion.div>
+    </motion.div>
   )
 }
 

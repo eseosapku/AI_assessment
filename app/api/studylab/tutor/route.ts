@@ -164,6 +164,16 @@ REMEDIATION GUIDANCE (gap mode):
 - Be encouraging and confidence-building. Frame mistakes as normal and fixable.`
     : ''
 
+  const isHomework = origin === 'homework'
+  const homeworkGuidance = isHomework
+    ? `
+
+HOMEWORK MODE: This session was started by snapping a photo of a homework problem (attached on the FIRST turn).
+- On the first turn: read the problem carefully, then create a "concept" or "callout" card that RESTATES the problem clearly (so it's pinned on the board), and draft the "plan" as the steps to solve it.
+- TEACH the method, don't just dump the answer. Walk the solution as worked cards step by step, and use checkpoints so the student practises the method themselves.
+- If several sub-problems are in the photo, focus on one at a time.`
+    : ''
+
   const imageLine =
     imageState === 'attached'
       ? `\nIMAGE ATTACHED: The student has attached an image of their work (it is included with this request). Read it carefully — transcribe any handwriting, follow their working, and pinpoint exactly where they go wrong. Reference what you see specifically, and you may create a card summarising the error and the correction.`
@@ -171,7 +181,7 @@ REMEDIATION GUIDANCE (gap mode):
         ? `\nIMAGE ATTACHED: The student attached an image of their work, but it could not be processed automatically. Acknowledge it warmly and ask them to type out the key line or describe where they're stuck so you can help.`
         : ''
 
-  return `${SYSTEM}${gapGuidance}
+  return `${SYSTEM}${gapGuidance}${homeworkGuidance}
 
 ────────────────────────────────────────
 TOPIC: ${title}${subject ? `\nSUBJECT: ${subject}` : ''}${focusLine}
@@ -282,7 +292,7 @@ export async function POST(request: NextRequest) {
             done: c.done === true,
           }))
       : []
-    const origin = body?.origin === 'gap' ? 'gap' : 'scratch'
+    const origin = body?.origin === 'gap' ? 'gap' : body?.origin === 'homework' ? 'homework' : 'scratch'
     const focus: GapFocus | null =
       body?.focus && typeof body.focus === 'object'
         ? { topic_name: body.focus.topic_name ?? null, subtopic_name: body.focus.subtopic_name ?? null }

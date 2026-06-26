@@ -10,6 +10,7 @@ import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, createImageCard, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock, aiCards } from '@/lib/studylab/freeform'
 import { summarizeCheckpoints } from '@/lib/studylab/checkpointState'
+import { takeHomeworkImage } from '@/lib/studylab/homeworkHandoff'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
@@ -469,9 +470,16 @@ export default function Workspace({ id }: { id: string }) {
   useEffect(() => {
     if (loaded && space && !startedRef.current && messages.length === 0 && !loadError) {
       startedRef.current = true
-      runTutor('', [])
+      // A snapped-homework space hands its photo off in memory; feed it into the
+      // opening turn so the tutor reads the problem and builds the solution.
+      const hwImage = space.origin === 'homework' ? takeHomeworkImage(id) : null
+      if (hwImage) {
+        runTutor("Here's my homework problem — read it and walk me through solving it step by step.", [], hwImage)
+      } else {
+        runTutor('', [])
+      }
     }
-  }, [loaded, space, messages.length, loadError, runTutor])
+  }, [loaded, space, messages.length, loadError, runTutor, id])
 
   if (!loaded) {
     return (
