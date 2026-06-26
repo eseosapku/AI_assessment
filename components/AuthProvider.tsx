@@ -6,6 +6,7 @@ import { apiUrl } from '@/lib/api-url'
 
 import type { CountryCode } from '@/lib/countries'
 import { normalizeCountry } from '@/lib/countries'
+import { resolvePostAuthPath } from '@/lib/onboarding'
 
 interface User {
   id: string
@@ -73,7 +74,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userData = await response.json()
     setUser(userData.user)
     localStorage.setItem('user', JSON.stringify(userData.user))
-    router.push('/')
+    const path = await resolvePostAuthPath(userData.user)
+    router.push(path)
   }
 
   const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode) => {
@@ -90,7 +92,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userData = await response.json()
     setUser(userData.user)
     localStorage.setItem('user', JSON.stringify(userData.user))
-    router.push('/')
+    const path = await resolvePostAuthPath(userData.user)
+    router.push(path)
   }
 
   const updateProfile = async (payload: UpdateProfilePayload) => {
@@ -119,7 +122,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const logout = () => {
     setUser(null)
     localStorage.removeItem('user')
-    router.push('/login')
+    router.push('/')
   }
 
   return (
