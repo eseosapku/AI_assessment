@@ -6,7 +6,7 @@ import { Target, Check, X, Play, Loader2, HelpCircle } from 'lucide-react'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
 import { gradeMcq, gradeMatch } from '@/lib/studylab/quiz'
 import { getEngine, normalizeLanguage } from '@/lib/studylab/runner'
-import { CanvasContext, handleClass } from './canvasShared'
+import { CanvasContext, handleClass, SafeLatex } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
 
 const STATE_RING: Record<string, string> = {
@@ -64,12 +64,12 @@ export function QuizNode({ id, data }: NodeProps) {
         {quiz.state === 'incorrect' && <X className="ml-auto w-4 h-4 text-red-500" />}
       </div>
       <div className="px-4 pb-4 pt-1.5">
-        <p className="text-[14px] font-semibold mb-2">{q.prompt}</p>
+        <p className="text-[14px] font-semibold mb-2"><SafeLatex>{q.prompt}</SafeLatex></p>
         {q.format === 'mcq' && <Mcq q={q} quiz={quiz} set={set} />}
         {q.format === 'short' && <Short q={q} quiz={quiz} set={set} />}
         {q.format === 'match' && <Match q={q} quiz={quiz} set={set} />}
         {q.format === 'code' && <CodeChallenge q={q} quiz={quiz} set={set} />}
-        {quiz.feedback && <p className="mt-2 text-[12px] text-gray-500">{quiz.feedback}</p>}
+        {quiz.feedback && <p className="mt-2 text-[12px] text-gray-500"><SafeLatex>{quiz.feedback}</SafeLatex></p>}
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
     </div>
@@ -98,7 +98,7 @@ function Mcq({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mcq' 
             onClick={() => set({ given: i, state: gradeMcq(q, i) ? 'correct' : 'incorrect', feedback: q.explain })}
             className={`nodrag w-full text-left rounded-lg border px-3 py-1.5 text-[13px] ${cls}`}
           >
-            {opt}
+            <SafeLatex>{opt}</SafeLatex>
           </button>
         )
       })}
@@ -154,7 +154,7 @@ function Match({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mat
     <div className="space-y-1.5">
       {q.pairs.map((p, i) => (
         <div key={i} className="flex items-center gap-2">
-          <span className="text-[13px] flex-1">{p.left}</span>
+          <span className="text-[13px] flex-1"><SafeLatex>{p.left}</SafeLatex></span>
           <select
             className="nodrag rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent text-[12px] px-1 py-1"
             disabled={answered}
