@@ -23,4 +23,14 @@ describe('fixLatexInRawJson preserves LaTeX commands', () => {
   it('still treats a real escape (\\n followed by non-letter) as a newline', () => {
     expect(parseSay('{"say":"line1\\n line2"}')).toBe('line1\n line2')
   })
+
+  it('keeps \\n / \\t as real whitespace in code, even before a letter', () => {
+    // "\ndef" is a newline + def, NOT the (non-existent) \ndef command.
+    const code = JSON.parse(fixLatexInRawJson('{"code":"import cmath\\ndef solve(a):\\n\\treturn a"}')).code
+    expect(code).toBe('import cmath\ndef solve(a):\n\treturn a')
+  })
+
+  it('still rescues \\n / \\t when they spell a real LaTeX command', () => {
+    expect(parseSay('{"say":"$\\nabla f$ and $\\tan x$"}')).toBe('$\\nabla f$ and $\\tan x$')
+  })
 })

@@ -218,6 +218,20 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
 
 // ── Robust JSON parsing (ported from generate-assessment) ─────────────────────
 
+// LaTeX commands beginning with n/t — the two escape letters that ALSO appear
+// constantly as real whitespace in code/text (\n newline, \t tab). For these we
+// only treat the backslash as LaTeX when the following word actually spells one
+// of these commands; otherwise "\ndef" / "\t  x" would be mangled into literal
+// "\n"/"\t". (b/f/r are rare as real escapes, so a trailing letter is enough.)
+const LATEX_NT_COMMANDS = new Set([
+  'nabla', 'neq', 'ne', 'neg', 'nu', 'ni', 'not', 'nleq', 'ngeq', 'nmid', 'nparallel',
+  'ncong', 'nsubseteq', 'nsupseteq', 'natural', 'nexists', 'nwarrow', 'nrightarrow',
+  'nleftarrow', 'ngtr', 'nless',
+  'theta', 'times', 'to', 'tan', 'tanh', 'tau', 'top', 'tilde', 'triangle', 'tfrac',
+  'therefore', 'text', 'textbf', 'textit', 'textrm', 'texttt', 'textsf', 'textsc',
+  'triangleleft', 'triangleright', 'twoheadrightarrow', 'tbinom',
+])
+
 /** Fix invalid backslash escapes inside JSON string values (e.g. LaTeX \frac). */
 export function fixLatexInRawJson(raw: string): string {
   const VALID_AFTER_SLASH = new Set(['"', '\\', '/', 'b', 'f', 'n', 'r', 't', 'u'])
@@ -239,15 +253,24 @@ export function fixLatexInRawJson(raw: string): string {
           if (/^[0-9a-fA-F]{4}$/.test(hex)) { out += ch + next + hex; i += 6 }
           else { out += '\\\\' + next; i += 2 }
         } else if (VALID_AFTER_SLASH.has(next)) {
-          // \b \f \n \r \t followed by another letter is a LaTeX command
-          // (\beta \frac \nabla \rho \times \theta), NOT a JSON escape — double
-          // the backslash so it survives JSON.parse for KaTeX.
+          // \b \f \r followed by another letter is almost always a LaTeX command
+          // (\beta \frac \rho \rightarrow), NOT a JSON escape — double the
+          // backslash so it survives JSON.parse for KaTeX. \n and \t are common
+          // real whitespace in code, so only treat them as LaTeX when the word
+          // actually spells a known command (\nabla, \theta), never "\ndef".
           const after = raw[i + 2]
-          if ('bfnrt'.includes(next) && after !== undefined && /[a-zA-Z]/.test(after)) {
-            out += '\\\\' + next; i += 2
-          } else {
-            out += ch + next; i += 2
+          const afterIsLetter = after !== undefined && /[a-zA-Z]/.test(after)
+          let isLatex = false
+          if ('bfr'.includes(next) && afterIsLetter) {
+            isLatex = true
+          } else if ('nt'.includes(next) && afterIsLetter) {
+            let word = next
+            let j = i + 2
+            while (j < raw.length && /[a-zA-Z]/.test(raw[j])) { word += raw[j]; j++ }
+            isLatex = LATEX_NT_COMMANDS.has(word)
           }
+          if (isLatex) { out += '\\\\' + next; i += 2 }
+          else { out += ch + next; i += 2 }
         } else {
           out += '\\\\' + next; i += 2
         }
