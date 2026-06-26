@@ -522,6 +522,7 @@ export default function Workspace({ id }: { id: string }) {
           onEdgeLabel={handleEdgeLabel}
           onCardPrompt={handleSend}
           busy={busy}
+          title={space?.title}
         />
       </div>
 

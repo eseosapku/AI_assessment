@@ -11,6 +11,8 @@ import {
   Panel,
   useReactFlow,
   useNodesState,
+  getNodesBounds,
+  getViewportForBounds,
   MarkerType,
   type Node,
   type Edge,
@@ -20,9 +22,10 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
-import { Loader2 } from 'lucide-react'
+import { Loader2, Download } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import PaletteToolbar from './PaletteToolbar'
+import { exportDimensions, exportFileName, triggerDownload } from '@/lib/studylab/exportCanvas'
 import type { CanvasEffect } from '@/lib/studylab/actions'
 import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 
@@ -59,12 +62,14 @@ interface StudyCanvasProps {
   onEdgeLabel: (id: string, label: string) => void
   onCardPrompt: (text: string) => void
   busy: boolean
+  title?: string
 }
 
 function FlowInner({
   nodes,
   edges,
   effects,
+  title,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -76,6 +81,54 @@ function FlowInner({
   const lastEffectVersion = useRef(-1)
   const wrapperRef = useRef<HTMLDivElement>(null)
   const [cardMenu, setCardMenu] = useState<{ id: string; title: string; x: number; y: number } | null>(null)
+  const [exporting, setExporting] = useState(false)
+  const [exportMenu, setExportMenu] = useState(false)
+
+  // Render the whole board (not just the visible viewport) to a PNG, then save it
+  // directly or wrap it in a one-page PDF.
+  const exportCanvas = useCallback(
+    async (format: 'png' | 'pdf') => {
+      const visible = rf.getNodes().filter((n) => !n.hidden)
+      const viewportEl = wrapperRef.current?.querySelector('.react-flow__viewport') as HTMLElement | null
+      if (visible.length === 0 || !viewportEl) {
+        setExportMenu(false)
+        return
+      }
+      setExporting(true)
+      setExportMenu(false)
+      try {
+        const { toPng } = await import('html-to-image')
+        const bounds = getNodesBounds(visible)
+        const { width, height, pad } = exportDimensions(bounds)
+        const vp = getViewportForBounds(bounds, width, height, 0.2, 2, pad)
+        const dataUrl = await toPng(viewportEl, {
+          backgroundColor: '#f5f5f7',
+          width,
+          height,
+          cacheBust: true,
+          pixelRatio: 2,
+          style: {
+            width: `${width}px`,
+            height: `${height}px`,
+            transform: `translate(${vp.x}px, ${vp.y}px) scale(${vp.zoom})`,
+          },
+        })
+        if (format === 'png') {
+          triggerDownload(dataUrl, exportFileName(title, 'png'))
+        } else {
+          const { jsPDF } = await import('jspdf')
+          const pdf = new jsPDF({ orientation: width >= height ? 'landscape' : 'portrait', unit: 'px', format: [width, height] })
+          pdf.addImage(dataUrl, 'PNG', 0, 0, width, height)
+          pdf.save(exportFileName(title, 'pdf'))
+        }
+      } catch (err) {
+        console.error('LearnSpace export failed:', err)
+      } finally {
+        setExporting(false)
+      }
+    },
+    [rf, title]
+  )
 
   const onNodeClick = useCallback((e: React.MouseEvent, node: Node) => {
     // Don't open the context menu when the click lands on an interactive control
@@ -103,6 +156,14 @@ function FlowInner({
       window.removeEventListener('keydown', onKey)
     }
   }, [cardMenu])
+
+  // Close the export dropdown on Escape (option clicks close it themselves).
+  useEffect(() => {
+    if (!exportMenu) return
+    const onKey = (ev: KeyboardEvent) => ev.key === 'Escape' && setExportMenu(false)
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [exportMenu])
 
   const onConnect = useCallback(
     (c: Connection) => {
@@ -327,6 +388,38 @@ function FlowInner({
         <Panel position="top-right">
           <PaletteToolbar onAdd={addAtCenter} />
         </Panel>
+        <Panel position="top-left">
+          <div className="relative">
+            <button
+              type="button"
+              onClick={() => setExportMenu((o) => !o)}
+              disabled={exporting}
+              title="Export this LearnSpace"
+              className="flex items-center gap-1.5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-lg px-3 py-2 text-[12px] font-semibold text-gray-700 dark:text-gray-200 hover:border-apple-blue disabled:opacity-60"
+            >
+              {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
+              {exporting ? 'Exporting…' : 'Export'}
+            </button>
+            {exportMenu && !exporting && (
+              <div className="absolute top-full left-0 mt-1 w-40 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-xl p-1 z-10">
+                <button
+                  type="button"
+                  onClick={() => exportCanvas('png')}
+                  className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
+                >
+                  PNG image
+                </button>
+                <button
+                  type="button"
+                  onClick={() => exportCanvas('pdf')}
+                  className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
+                >
+                  PDF document
+                </button>
+              </div>
+            )}
+          </div>
+        </Panel>
       </ReactFlow>
 
       {cardMenu && (
@@ -372,6 +465,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             nodes={props.nodes}
             edges={props.edges}
             effects={props.effects}
+            title={props.title}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}
             onAddBlock={props.onAddBlock}
