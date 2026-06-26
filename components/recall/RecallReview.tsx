@@ -1,0 +1,258 @@
+'use client'
+
+import { motion, AnimatePresence } from 'framer-motion'
+import Link from 'next/link'
+import { useCallback, useEffect, useState } from 'react'
+import { ArrowLeft, Eye, EyeOff, HelpCircle } from 'lucide-react'
+import { useAuth } from '@/components/AuthProvider'
+import { fetchDueCards, submitReview } from '@/lib/recall/client'
+import type { RecallCard } from '@/lib/recall/types'
+import { type RecallRating } from '@/lib/recall/sm2'
+import RecallCardFace from '@/components/recall/RecallCardFace'
+
+const RATING_META: {
+  rating: RecallRating
+  label: string
+  desc: string
+  tone: string
+  badge: string
+}[] = [
+  {
+    rating: 1,
+    label: 'I forgot',
+    desc: "Didn't remember",
+    tone: 'bg-red-50 hover:bg-red-100 border-red-200 text-red-900',
+    badge: 'bg-red-200/80 text-red-900',
+  },
+  {
+    rating: 2,
+    label: 'Almost',
+    desc: 'Took effort',
+    tone: 'bg-amber-50 hover:bg-amber-100 border-amber-200 text-amber-950',
+    badge: 'bg-amber-200/80 text-amber-950',
+  },
+  {
+    rating: 3,
+    label: 'Got it',
+    desc: 'Remembered',
+    tone: 'bg-sky-50 hover:bg-sky-100 border-sky-200 text-brand-ink',
+    badge: 'bg-brand-blue/15 text-brand-blue',
+  },
+  {
+    rating: 4,
+    label: 'Too easy',
+    desc: 'Already knew it',
+    tone: 'bg-gradient-to-br from-brand-blue to-[#3d6bef] hover:from-[#3d6bef] hover:to-brand-blue border-brand-blue text-white',
+    badge: 'bg-white/25 text-white',
+  },
+]
+
+export default function RecallReview() {
+  const { user } = useAuth()
+  const [queue, setQueue] = useState<RecallCard[]>([])
+  const [index, setIndex] = useState(0)
+  const [flipped, setFlipped] = useState(false)
+  const [loading, setLoading] = useState(true)
+  const [done, setDone] = useState(false)
+  const [reviewed, setReviewed] = useState(0)
+  const [showHelp, setShowHelp] = useState(false)
+
+  const load = useCallback(async () => {
+    if (!user?.id) return
+    setLoading(true)
+    const cards = await fetchDueCards(user.id)
+    setQueue(cards)
+    setIndex(0)
+    setFlipped(false)
+    setDone(cards.length === 0)
+    setLoading(false)
+  }, [user?.id])
+
+  useEffect(() => {
+    load()
+  }, [load])
+
+  const card = queue[index]
+
+  const rate = async (rating: RecallRating) => {
+    if (!user?.id || !card) return
+    await submitReview(user.id, card, rating)
+    setReviewed((r) => r + 1)
+    setFlipped(false)
+    if (index + 1 >= queue.length) {
+      setDone(true)
+    } else {
+      setIndex((i) => i + 1)
+    }
+  }
+
+  if (loading) {
+    return (
+      <div className="flex min-h-[60vh] items-center justify-center">
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-brand-blue border-t-transparent" />
+      </div>
+    )
+  }
+
+  if (done) {
+    return (
+      <div className="mx-auto max-w-lg px-4 py-16 text-center">
+        <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
+          <p className="font-display text-3xl font-black text-brand-ink">
+            {reviewed > 0 ? 'Session complete' : 'Nothing due'}
+          </p>
+          <p className="mt-2 text-sm font-semibold text-brand-slate">
+            {reviewed > 0
+              ? `You reviewed ${reviewed} card${reviewed !== 1 ? 's' : ''}. They will come back on schedule.`
+              : 'Check back later or add cards from a quiz result.'}
+          </p>
+          <Link
+            href="/recall"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-blue px-6 py-3 text-sm font-black text-white"
+          >
+            <ArrowLeft className="h-4 w-4" />
+            Back to Recall
+          </Link>
+        </motion.div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="mx-auto max-w-2xl px-4 py-6 sm:py-10">
+      <div className="mb-6 flex items-center justify-between">
+        <Link
+          href="/recall"
+          className="inline-flex items-center gap-1 text-sm font-bold text-brand-slate hover:text-brand-ink"
+        >
+          <ArrowLeft className="h-4 w-4" />
+          Recall
+        </Link>
+        <p className="text-xs font-black tabular-nums text-brand-slate">
+          {index + 1} / {queue.length}
+        </p>
+      </div>
+
+      <div className="mb-6 h-1.5 overflow-hidden rounded-full bg-brand-paper">
+        <motion.div
+          className="h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-sky"
+          animate={{ width: `${((index + (flipped ? 0.5 : 0)) / queue.length) * 100}%` }}
+        />
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.div
+          key={card.id}
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          exit={{ opacity: 0, y: -10 }}
+          className="mt-2"
+        >
+          <div className="perspective-[1200px]">
+            <motion.button
+              type="button"
+              onClick={() => setFlipped((f) => !f)}
+              animate={{ rotateY: flipped ? 180 : 0 }}
+              transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
+              style={{ transformStyle: 'preserve-3d' }}
+              className="relative min-h-[17rem] w-full sm:min-h-[19rem]"
+            >
+              <div
+                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-black/[0.08] bg-white p-8 text-left shadow-studio"
+                style={{ backfaceVisibility: 'hidden' }}
+              >
+                {card.subject && (
+                  <span className="mb-3 inline-block w-fit rounded-full bg-brand-paper px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-brand-blue">
+                    {card.subject}
+                  </span>
+                )}
+                <p className="text-[10px] font-bold uppercase tracking-widest text-brand-slate">Question</p>
+                <div className="mt-4 flex flex-1 items-center">
+                  <RecallCardFace card={card} side="front" />
+                </div>
+                <p className="mt-4 text-center text-[11px] font-semibold text-brand-slate/80">Tap card to reveal answer</p>
+              </div>
+
+              <div
+                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-brand-blue/20 bg-gradient-to-br from-white to-brand-sky/40 p-8 text-left shadow-studio"
+                style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
+              >
+                {card.subject && (
+                  <span className="mb-3 inline-block w-fit rounded-full bg-brand-blue/10 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-brand-blue">
+                    {card.subject}
+                  </span>
+                )}
+                <p className="text-[10px] font-bold uppercase tracking-widest text-brand-blue">Answer</p>
+                <div className="mt-4 flex flex-1 items-center">
+                  <RecallCardFace card={card} side="back" />
+                </div>
+              </div>
+            </motion.button>
+          </div>
+
+          <div className="mt-4 flex justify-center">
+            <button
+              type="button"
+              onClick={() => setFlipped((f) => !f)}
+              className="inline-flex items-center gap-2 rounded-full bg-brand-ink px-5 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-brand-blue"
+            >
+              {flipped ? (
+                <>
+                  <EyeOff className="h-3.5 w-3.5" />
+                  Show question
+                </>
+              ) : (
+                <>
+                  <Eye className="h-3.5 w-3.5" />
+                  Reveal answer
+                </>
+              )}
+            </button>
+          </div>
+        </motion.div>
+      </AnimatePresence>
+
+      {flipped && (
+        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-10">
+          <div className="mb-5 flex items-start justify-between gap-3">
+            <div>
+              <p className="font-display text-lg font-black text-brand-ink">How well did you remember?</p>
+              <p className="mt-1 text-xs font-semibold text-brand-slate">
+                Your choice sets when this card comes back.
+              </p>
+            </div>
+            <button
+              type="button"
+              onClick={() => setShowHelp((h) => !h)}
+              className="shrink-0 rounded-full p-2 text-brand-slate hover:bg-brand-paper hover:text-brand-ink"
+              aria-label="How scheduling works"
+            >
+              <HelpCircle className="h-4 w-4" />
+            </button>
+          </div>
+
+          {showHelp && (
+            <div className="mb-5 rounded-xl border border-brand-blue/20 bg-brand-sky/30 px-4 py-3 text-xs font-semibold text-brand-ink">
+              Cards you struggle with return sooner. Cards you know well are pushed further out — so you review right
+              before you forget.
+            </div>
+          )}
+
+          <div className="grid gap-3 sm:grid-cols-2">
+            {RATING_META.map((r) => (
+              <button
+                key={r.rating}
+                type="button"
+                onClick={() => rate(r.rating)}
+                className={`flex flex-col gap-1 rounded-2xl border-2 p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md ${r.tone}`}
+              >
+                <p className="text-sm font-black">{r.label}</p>
+                <p className="text-[11px] font-semibold opacity-80">{r.desc}</p>
+              </button>
+            ))}
+          </div>
+        </motion.div>
+      )}
+    </div>
+  )
+}
