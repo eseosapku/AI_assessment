@@ -18,8 +18,32 @@ describe('isValidAction checkpoint', () => {
   it('accepts a well-formed checkpoint', () => {
     expect(isValidAction(checkpoint)).toBe(true)
   })
-  it('rejects a checkpoint with a bad question', () => {
-    expect(isValidAction({ ...checkpoint, questions: [{ id: 'x', format: 'mcq' }] })).toBe(false)
+  it('accepts a checkpoint with at least one question (salvaged in the reducer)', () => {
+    expect(isValidAction({ ...checkpoint, questions: [{ id: 'x', format: 'mcq' }] })).toBe(true)
+  })
+  it('rejects a checkpoint with no questions', () => {
+    expect(isValidAction({ ...checkpoint, questions: [] })).toBe(false)
+  })
+})
+
+describe('applyActions checkpoint salvage', () => {
+  it('keeps valid questions and drops the malformed one', () => {
+    const cp = {
+      type: 'checkpoint' as const,
+      id: 'cp9',
+      step: 1,
+      gate: 'hard' as const,
+      questions: [
+        { id: 'cp9-a', format: 'mcq' as const, prompt: 'p', options: ['x', 'y'], answer: '1' }, // string answer → coerced
+        { format: 'short' as const, prompt: 'explain' }, // missing id → backfilled
+        { id: 'cp9-c', format: 'mcq' as const, prompt: 'bad' }, // no options → dropped
+      ],
+    }
+    const res = applyActions(empty, [cp as any])
+    const quizzes = res.nodes.filter((n) => n.type === 'quiz')
+    expect(quizzes).toHaveLength(2)
+    const mcq = quizzes.find((n) => n.id === 'cp9-a')!
+    expect(mcq.data.quiz?.question).toMatchObject({ format: 'mcq', answer: 1 })
   })
 })
 

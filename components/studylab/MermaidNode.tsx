@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react'
 import { type NodeProps } from '@xyflow/react'
 import { GitBranch } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
-import { CardFrame } from './canvasShared'
+import { CardFrame, SafeLatex } from './canvasShared'
 
 let mermaidReady: Promise<typeof import('mermaid').default> | null = null
 function loadMermaid() {
@@ -65,10 +65,15 @@ export function MermaidNode({ id, data }: NodeProps) {
         {imageMatch ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img src={imageMatch[1]} alt={d.title || 'diagram'} className="w-full rounded-lg" />
-        ) : error ? (
+        ) : error || !src ? (
           <p className="text-[12px] text-gray-400 italic">Diagram unavailable.</p>
         ) : (
           <div ref={ref} className="w-full flex justify-center [&_svg]:max-w-full [&_svg]:h-auto" />
+        )}
+        {d.body && (
+          <p className="mt-2 text-[12px] leading-relaxed text-gray-600 dark:text-gray-300">
+            <SafeLatex>{d.body}</SafeLatex>
+          </p>
         )}
       </div>
     </CardFrame>

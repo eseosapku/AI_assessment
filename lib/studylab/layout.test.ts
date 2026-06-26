@@ -7,17 +7,17 @@ function node(id: string, type = 'concept', extra: Partial<StudyNode> = {}): Stu
 }
 
 describe('layoutGraph', () => {
-  it('places children below their parent, siblings on the same rank', () => {
+  it('places children to the right of their parent, siblings on the same rank (LR)', () => {
     const nodes = [node('a'), node('b'), node('c')]
     const edges: StudyEdge[] = [
       { id: 'e-a-b', source: 'a', target: 'b' },
       { id: 'e-a-c', source: 'a', target: 'c' },
     ]
     const pos = layoutGraph(nodes, edges)
-    expect(pos.a.y).toBeLessThan(pos.b.y)
-    expect(pos.a.y).toBeLessThan(pos.c.y)
-    expect(pos.b.y).toBe(pos.c.y)
-    expect(pos.b.x).not.toBe(pos.c.x)
+    expect(pos.a.x).toBeLessThan(pos.b.x)
+    expect(pos.a.x).toBeLessThan(pos.c.x)
+    expect(pos.b.x).toBe(pos.c.x)
+    expect(pos.b.y).not.toBe(pos.c.y)
   })
 
   it('excludes freeform and hidden nodes', () => {

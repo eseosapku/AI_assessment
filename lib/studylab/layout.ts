@@ -20,7 +20,7 @@ export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<stri
   const g = new dagre.graphlib.Graph()
   // Generous rank spacing so the labelled edges have room and nodes never land
   // on top of an edge's label.
-  g.setGraph({ rankdir: 'TB', nodesep: 80, ranksep: 170, marginx: 24, marginy: 24, edgesep: 40 })
+  g.setGraph({ rankdir: 'LR', nodesep: 80, ranksep: 200, marginx: 24, marginy: 24, edgesep: 40 })
   g.setDefaultEdgeLabel(() => ({}))
 
   for (const n of included) {

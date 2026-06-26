@@ -25,20 +25,36 @@ export const CanvasContext = createContext<CanvasCallbacks>({
   onNodeResize: () => {},
 })
 
+// Render markdown emphasis: **bold** and *key term* (highlighted). Input is HTML-
+// escaped first, then only our own tags are added — no injection surface.
+function mdEmphasis(s: string): string {
+  const esc = s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+  return esc
+    .replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>')
+    .replace(/\*([^*\n]+)\*/g, '<strong class="text-apple-blue">$1</strong>')
+}
+
+// Renders model card text: $…$ segments as KaTeX math, the rest as markdown
+// emphasis. Coerces non-strings (the model occasionally sends a number/object).
 export function SafeLatex({ children }: { children?: unknown }) {
-  // Model-supplied card text can occasionally be a non-string (e.g. a number or
-  // object). react-latex-next calls String.prototype.search on its child and
-  // throws "text.search is not a function" for anything else — and since that
-  // happens while <Latex> renders, a try/catch here wouldn't catch it. So coerce
-  // to a string first and render plain text if there's nothing useful.
   if (children == null) return null
   const text = typeof children === 'string' ? children : String(children)
   if (!text) return null
-  try {
-    return <Latex>{text}</Latex>
-  } catch {
-    return <>{text}</>
-  }
+  const parts = text.split(/(\$[^$]+\$)/g)
+  return (
+    <>
+      {parts.map((p, i) => {
+        if (p.length > 2 && p.startsWith('$') && p.endsWith('$')) {
+          try {
+            return <Latex key={i}>{p}</Latex>
+          } catch {
+            return <span key={i}>{p}</span>
+          }
+        }
+        return p ? <span key={i} dangerouslySetInnerHTML={{ __html: mdEmphasis(p) }} /> : null
+      })}
+    </>
+  )
 }
 
 export const handleClass = '!w-2 !h-2 !bg-apple-blue/60 !border-0'

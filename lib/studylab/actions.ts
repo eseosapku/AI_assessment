@@ -3,7 +3,7 @@
 // for the component to run against the React Flow instance.
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 import { isCardKind, blockSize } from './blocks'
-import { isValidQuestion } from './quiz'
+import { isValidQuestion, coerceQuestion } from './quiz'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
@@ -84,13 +84,10 @@ export function isValidAction(a: any): a is TutorAction {
     case 'highlight':
       return typeof a.nodeId === 'string'
     case 'checkpoint':
-      return (
-        typeof a.id === 'string' &&
-        ['hard', 'soft'].includes(a.gate) &&
-        Array.isArray(a.questions) &&
-        a.questions.length > 0 &&
-        a.questions.every(isValidQuestion)
-      )
+      // Lenient: the reducer salvages valid questions, so accept any checkpoint
+      // with an id and a non-empty questions array (don't reject the whole thing
+      // because one question is malformed).
+      return typeof a.id === 'string' && Array.isArray(a.questions) && a.questions.length > 0
     default:
       return false
   }
@@ -157,6 +154,13 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
       case 'checkpoint': {
         if (nodes.some((n) => n.data.quiz?.checkpointId === action.id)) break
         const step = action.step
+        const gate = action.gate === 'soft' ? 'soft' : 'hard'
+        // Salvage: backfill missing ids, keep only valid questions, coerce them.
+        const questions = (action.questions ?? [])
+          .map((q: any, i: number) => ({ ...q, id: typeof q?.id === 'string' && q.id ? q.id : `${action.id}-q${i}` }))
+          .filter(isValidQuestion)
+          .map(coerceQuestion)
+        if (questions.length === 0) break
         const headerId = `${action.id}-hdr`
         if (!nodes.some((n) => n.id === headerId)) {
           nodes.push({
@@ -172,13 +176,13 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             edges.push({ id: `e-${anchor.id}-${headerId}`, source: anchor.id, target: headerId, animated: false })
           }
         }
-        for (const q of action.questions) {
+        for (const q of questions) {
           if (nodes.some((n) => n.id === q.id)) continue
           nodes.push({
             id: q.id,
             type: 'quiz',
             position: autoPosition(nodes, step, 'quiz'),
-            data: { kind: 'quiz', step, quiz: { checkpointId: action.id, gate: action.gate, question: q, state: 'unanswered' } },
+            data: { kind: 'quiz', step, quiz: { checkpointId: action.id, gate, question: q, state: 'unanswered' } },
           })
           created.push(q.id)
           edges.push({ id: `e-${headerId}-${q.id}`, source: headerId, target: q.id, animated: false })
