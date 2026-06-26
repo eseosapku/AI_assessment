@@ -305,6 +305,7 @@ function FlowInner({
         onNodeDragStop={onNodeDragStop}
         onNodeClick={onNodeClick}
         onConnect={onConnect}
+        deleteKeyCode={null}
         onEdgeDoubleClick={(_, edge) => {
           const v = window.prompt('Edge label', (edge.label as string) ?? '')
           if (v !== null) onEdgeLabel(edge.id, v)
