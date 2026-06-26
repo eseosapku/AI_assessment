@@ -523,6 +523,7 @@ export default function Workspace({ id }: { id: string }) {
           onCardPrompt={handleSend}
           busy={busy}
           title={space?.title}
+          plan={canvas.plan}
         />
       </div>
 

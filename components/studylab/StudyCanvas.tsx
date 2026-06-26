@@ -62,6 +62,7 @@ interface StudyCanvasProps {
   onCardPrompt: (text: string) => void
   busy: boolean
   title?: string
+  plan?: { title: string }[]
 }
 
 function FlowInner({
@@ -69,6 +70,7 @@ function FlowInner({
   edges,
   effects,
   title,
+  plan,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -82,57 +84,52 @@ function FlowInner({
   const [cardMenu, setCardMenu] = useState<{ id: string; title: string; x: number; y: number } | null>(null)
   const [exporting, setExporting] = useState(false)
   const [exportMenu, setExportMenu] = useState(false)
+  // null ⇒ "all steps selected"; a Set ⇒ the user's explicit choice.
+  const [picked, setPicked] = useState<Set<number> | null>(null)
 
-  // Render the whole board (not just the visible viewport) to a PNG, then save it
-  // directly or wrap it in a one-page PDF.
-  const exportCanvas = useCallback(
-    async (format: 'png' | 'pdf') => {
-      const visible = rf.getNodes().filter((n) => !n.hidden)
-      const viewportEl = wrapperRef.current?.querySelector('.react-flow__viewport') as HTMLElement | null
-      if (visible.length === 0 || !viewportEl) {
-        setExportMenu(false)
-        return
-      }
-      setExporting(true)
-      setExportMenu(false)
-      try {
-        const { toPng } = await import('html-to-image')
-        const bounds = getNodesBounds(visible)
-        const { zoom, width, height, tx, ty } = exportLayout(bounds)
-        const background = '#f5f5f7'
-        const boardUrl = await toPng(viewportEl, {
-          backgroundColor: background,
-          width,
-          height,
-          cacheBust: true,
-          pixelRatio: 1,
-          style: {
-            width: `${width}px`,
-            height: `${height}px`,
-            transform: `translate(${tx}px, ${ty}px) scale(${zoom})`,
-          },
-        })
-        // Wrap the board in a branded header/footer (title + StudySquare + date).
-        const branded = await brandExport(boardUrl, { title, width, height, background })
-        if (format === 'png') {
-          triggerDownload(branded.url, exportFileName(title, 'png'))
-        } else {
-          const { jsPDF } = await import('jspdf')
-          const pdf = new jsPDF({
-            orientation: branded.width >= branded.height ? 'landscape' : 'portrait',
-            unit: 'px',
-            format: [branded.width, branded.height],
-          })
-          pdf.addImage(branded.url, 'PNG', 0, 0, branded.width, branded.height)
-          pdf.save(exportFileName(title, 'pdf'))
-        }
-      } catch (err) {
-        console.error('LearnSpace export failed:', err)
-      } finally {
-        setExporting(false)
-      }
-    },
-    [rf, title]
+  // The distinct lesson steps present on the board (incl. collapsed ones), labelled
+  // from the plan, so the export panel can offer them as a checklist.
+  const stepList = useMemo(() => {
+    const counts = new Map<number, number>()
+    for (const n of nodes) {
+      if (n.type === 'stepGroup') continue
+      const s = n.data.step
+      if (typeof s === 'number' && s > 0) counts.set(s, (counts.get(s) ?? 0) + 1)
+    }
+    return [...counts.keys()]
+      .sort((a, b) => a - b)
+      .map((step) => ({ step, title: plan?.[step - 1]?.title ?? `Step ${step}`, count: counts.get(step)! }))
+  }, [nodes, plan])
+
+  const allSteps = useMemo(() => stepList.map((s) => s.step), [stepList])
+  const selectedSteps = picked ?? new Set(allSteps)
+  const toggleStep = (step: number) => {
+    const next = new Set(selectedSteps)
+    next.has(step) ? next.delete(step) : next.add(step)
+    setPicked(next)
+  }
+  const toggleAll = () => setPicked(selectedSteps.size === allSteps.length ? new Set<number>() : null)
+
+  // Build a one-off render set that REVEALS every collapsed card (and drops the
+  // step-group summary nodes), so the export can include steps that are folded up.
+  const buildRevealedNodes = useCallback(
+    (): Node[] =>
+      nodes
+        .filter((n) => n.type !== 'stepGroup')
+        .map((n) => {
+          const base: Node = {
+            id: n.id,
+            type: n.type,
+            position: n.position,
+            data: n.data as unknown as Record<string, unknown>,
+            hidden: false,
+          }
+          if ((n.type as string) === 'frame') {
+            base.style = { width: n.data.width ?? 480, height: n.data.height ?? 360 }
+          }
+          return base
+        }),
+    [nodes]
   )
 
   const onNodeClick = useCallback((e: React.MouseEvent, node: Node) => {
@@ -237,12 +234,85 @@ function FlowInner({
     setRfNodes(propNodes)
   }, [propNodes, setRfNodes])
 
+  const exportCanvas = useCallback(
+    async (format: 'png' | 'pdf') => {
+      const viewportEl = wrapperRef.current?.querySelector('.react-flow__viewport') as HTMLElement | null
+      const steps = [...selectedSteps].sort((a, b) => a - b)
+      if (!viewportEl || steps.length === 0) {
+        setExportMenu(false)
+        return
+      }
+      setExporting(true)
+      setExportMenu(false)
+      // Temporarily reveal collapsed steps, then let React Flow paint + measure.
+      setRfNodes(buildRevealedNodes())
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+      await new Promise((r) => setTimeout(r, 400))
+      try {
+        const { toPng } = await import('html-to-image')
+        const background = '#f5f5f7'
+        const lesson = title?.trim() || 'LearnSpace'
+        const all = rf.getNodes()
+        const stepOf = (n: Node) => (n.data as { step?: number })?.step
+
+        const capture = async (sel: Node[]) => {
+          const bounds = getNodesBounds(sel)
+          const { zoom, width, height, tx, ty } = exportLayout(bounds)
+          const boardUrl = await toPng(viewportEl, {
+            backgroundColor: background,
+            width,
+            height,
+            cacheBust: true,
+            pixelRatio: 1,
+            style: { width: `${width}px`, height: `${height}px`, transform: `translate(${tx}px, ${ty}px) scale(${zoom})` },
+          })
+          return { boardUrl, width, height }
+        }
+
+        if (format === 'png') {
+          // One combined image of every selected step.
+          const sel = all.filter((n) => steps.includes(stepOf(n) ?? -1))
+          const { boardUrl, width, height } = await capture(sel.length ? sel : all)
+          const branded = await brandExport(boardUrl, { title: lesson, width, height, background })
+          triggerDownload(branded.url, exportFileName(lesson, 'png'))
+        } else {
+          // One PDF page per selected step.
+          const { jsPDF } = await import('jspdf')
+          let pdf: import('jspdf').jsPDF | null = null
+          for (const step of steps) {
+            const sel = all.filter((n) => stepOf(n) === step)
+            if (sel.length === 0) continue
+            const { boardUrl, width, height } = await capture(sel)
+            const stepTitle = stepList.find((s) => s.step === step)?.title ?? `Step ${step}`
+            const branded = await brandExport(boardUrl, { title: `${lesson} — ${stepTitle}`, width, height, background })
+            const orientation = branded.width >= branded.height ? 'landscape' : 'portrait'
+            if (!pdf) pdf = new jsPDF({ orientation, unit: 'px', format: [branded.width, branded.height] })
+            else pdf.addPage([branded.width, branded.height], orientation)
+            pdf.addImage(branded.url, 'PNG', 0, 0, branded.width, branded.height)
+          }
+          if (pdf) pdf.save(exportFileName(lesson, 'pdf'))
+        }
+      } catch (err) {
+        console.error('LearnSpace export failed:', err)
+      } finally {
+        setRfNodes(propNodes) // restore the live (collapsed) view
+        setExporting(false)
+      }
+    },
+    [rf, title, selectedSteps, stepList, buildRevealedNodes, propNodes, setRfNodes]
+  )
+
   const rfEdges = useMemo<Edge[]>(
     () =>
       edges
         .filter((e) => {
-          const visible = (id: string) => nodes.some((n) => n.id === id && !n.hidden)
-          return visible(e.source) && visible(e.target)
+          // While exporting we reveal collapsed cards, so show edges for any
+          // non-group node (not just currently-visible ones) — otherwise the
+          // revealed steps would float without their connecting arrows.
+          const shown = exporting
+            ? (id: string) => nodes.some((n) => n.id === id && n.type !== 'stepGroup')
+            : (id: string) => nodes.some((n) => n.id === id && !n.hidden)
+          return shown(e.source) && shown(e.target)
         })
         .map((e) => {
           const isUser = e.id.startsWith('u-')
@@ -265,7 +335,7 @@ function FlowInner({
             labelBgBorderRadius: 4,
           }
         }),
-    [edges, nodes]
+    [edges, nodes, exporting]
   )
 
   const handleNodesChange = useCallback(
@@ -406,21 +476,54 @@ function FlowInner({
               {exporting ? 'Exporting…' : 'Export'}
             </button>
             {exportMenu && !exporting && (
-              <div className="absolute top-full left-0 mt-1 w-40 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-xl p-1 z-10">
-                <button
-                  type="button"
-                  onClick={() => exportCanvas('png')}
-                  className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
-                >
-                  PNG image
-                </button>
-                <button
-                  type="button"
-                  onClick={() => exportCanvas('pdf')}
-                  className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
-                >
-                  PDF document
-                </button>
+              <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-xl p-3 z-10 space-y-3">
+                {stepList.length > 1 && (
+                  <div>
+                    <div className="flex items-center justify-between mb-1.5">
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-apple-dark-gray">Steps to include</span>
+                      <button type="button" onClick={toggleAll} className="text-[11px] font-semibold text-apple-blue hover:underline">
+                        {selectedSteps.size === allSteps.length ? 'Clear' : 'All'}
+                      </button>
+                    </div>
+                    <div className="max-h-44 overflow-auto space-y-0.5 -mr-1 pr-1">
+                      {stepList.map((s) => (
+                        <label key={s.step} className="flex items-center gap-2 text-[12px] px-1.5 py-1 rounded-lg hover:bg-apple-blue/5 cursor-pointer">
+                          <input
+                            type="checkbox"
+                            checked={selectedSteps.has(s.step)}
+                            onChange={() => toggleStep(s.step)}
+                            className="accent-apple-blue w-3.5 h-3.5"
+                          />
+                          <span className="truncate flex-1">{s.title}</span>
+                          <span className="text-[10px] text-apple-dark-gray">{s.count}</span>
+                        </label>
+                      ))}
+                    </div>
+                  </div>
+                )}
+                <div className="flex gap-2">
+                  <button
+                    type="button"
+                    onClick={() => exportCanvas('png')}
+                    disabled={selectedSteps.size === 0}
+                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-apple-blue hover:text-apple-blue transition-colors disabled:opacity-40"
+                  >
+                    PNG image
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => exportCanvas('pdf')}
+                    disabled={selectedSteps.size === 0}
+                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg bg-apple-blue text-white hover:bg-apple-blue/90 transition-colors disabled:opacity-40"
+                  >
+                    PDF · {stepList.length > 1 ? 'pages' : '1 page'}
+                  </button>
+                </div>
+                {stepList.length > 1 && (
+                  <p className="text-[10px] text-apple-dark-gray leading-snug">
+                    PNG saves one combined image; PDF makes one page per step.
+                  </p>
+                )}
               </div>
             )}
           </div>
@@ -471,6 +574,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             edges={props.edges}
             effects={props.effects}
             title={props.title}
+            plan={props.plan}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}
             onAddBlock={props.onAddBlock}
