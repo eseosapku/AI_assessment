@@ -11,6 +11,7 @@ import { applyActions, toggleStepGroup, createImageCard, autoGroupStep } from '@
 import { createFreeformBlock, aiCards } from '@/lib/studylab/freeform'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
+import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
 import { useAuth } from '@/components/AuthProvider'
 
@@ -385,9 +386,18 @@ export default function Workspace({ id }: { id: string }) {
       if (cells.length > 0 && cells.every((c) => c.state === 'correct' || c.state === 'incorrect')) {
         submitted.current.add(cpId)
         handleSend(checkpointResultText(cells))
+        // Feed the questions they got wrong into spaced-repetition recall.
+        const missed = buildCheckpointRecallCards(cells)
+        if (missed.length > 0 && user?.id) {
+          fetch('/api/recall/import-cards', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ userId: user.id, subject: space?.subject ?? space?.title ?? 'StudyLab', sourceRef: id, cards: missed }),
+          }).catch(() => {})
+        }
       }
     }
-  }, [canvas.nodes, handleSend])
+  }, [canvas.nodes, handleSend, user?.id, space?.subject, space?.title, id])
 
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
