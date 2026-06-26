@@ -42,6 +42,28 @@ describe('new card kinds', () => {
     expect(res.nodes).toHaveLength(0)
   })
 
+  it('accepts a web card and copies html/css/js into node data', () => {
+    expect(isValidAction({ type: 'createCard', id: 'w', card: 'web' })).toBe(true)
+    const res = applyActions(empty, [
+      { type: 'createCard', id: 'w1', card: 'web', step: 1, html: '<h1>Hi</h1>', css: 'h1{color:red}', js: 'console.log(1)', position: 'auto' },
+    ])
+    const data = res.nodes.find((n) => n.id === 'w1')!.data
+    expect(data.html).toBe('<h1>Hi</h1>')
+    expect(data.css).toBe('h1{color:red}')
+    expect(data.js).toBe('console.log(1)')
+  })
+
+  it('updateCard can rewrite a web card in place', () => {
+    const state: CanvasState = {
+      nodes: [{ id: 'w', type: 'web', position: { x: 0, y: 0 }, data: { kind: 'web', html: '<p>old</p>', css: '' } }],
+      edges: [],
+    }
+    const res = applyActions(state, [{ type: 'updateCard', id: 'w', css: 'p{font-weight:bold}' }])
+    const data = res.nodes[0].data
+    expect(data.css).toBe('p{font-weight:bold}')
+    expect(data.html).toBe('<p>old</p>') // untouched
+  })
+
   it('reducer copies mermaid/steps/rows/variant into node data', () => {
     const res = applyActions(empty, [
       { type: 'createCard', id: 'm1', card: 'mermaid', step: 1, mermaid: 'graph TD; A-->B', position: 'auto' },

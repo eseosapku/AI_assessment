@@ -29,7 +29,7 @@ import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
 // Tapping one of these lesson cards opens a contextual prompt menu.
-const LESSON_CARD_TYPES = new Set(['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout'])
+const LESSON_CARD_TYPES = new Set(['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout', 'web'])
 const CARD_ACTIONS = [
   { label: 'Explain this deeper', text: 'explain this deeper.' },
   { label: 'Simplify this', text: 'rewrite this in the simplest possible terms, as if for a beginner — shorter and plainer.' },

@@ -3,7 +3,7 @@ import type { BlockSource } from './blocks'
 
 export type MasteryStatus = 'mastered' | 'developing' | 'gap' | 'not_assessed'
 
-export type CardKind = 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout'
+export type CardKind = 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout' | 'web'
 
 // ── Knowledge-check checkpoints ───────────────────────────────────────────────
 
@@ -31,6 +31,10 @@ export interface StudyNodeData {
   /** Code card. */
   code?: string
   language?: string
+  /** Web sandbox card (HTML+CSS+JS live preview). */
+  html?: string
+  css?: string
+  js?: string
   /** Code card: false ⇒ read-only "showcase" code with no Run button. */
   runnable?: boolean
   /** Diagram card: raw inline SVG markup. */
@@ -125,6 +129,9 @@ export type TutorAction =
       code?: string
       language?: string
       runnable?: boolean
+      html?: string
+      css?: string
+      js?: string
       svg?: string
       mermaid?: string
       steps?: string[]
@@ -141,6 +148,9 @@ export type TutorAction =
       items?: string[]
       code?: string
       language?: string
+      html?: string
+      css?: string
+      js?: string
       svg?: string
       mermaid?: string
       steps?: string[]

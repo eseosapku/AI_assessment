@@ -41,7 +41,7 @@ You MUST reply with ONLY a single valid JSON object (no markdown, no prose outsi
 }
 
 ACTION TYPES:
-- { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"diagram"|"mermaid"|"worked"|"table"|"callout", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
+- { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"diagram"|"mermaid"|"worked"|"table"|"callout"|"web", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
     • "concept": use title + body (and optional items for key terms / bullet lists).
     • "code": title + code + language. Set "runnable":false for read-only/illustrative snippets the student should just READ (e.g. browser/DOM code that won't run standalone) — those show no Run button. Use language "html" for anything meant to render. Only self-contained python/javascript/html should be runnable.
     • "diagram": prefer "mermaid" over "svg". Use "svg" only for a tiny custom visual.
@@ -49,6 +49,7 @@ ACTION TYPES:
     • "worked": set "steps" to an array of numbered solution steps. Wrap EVERY calculation, equation, or number in $...$ LaTeX so it renders as math (e.g. "$(7 \\times 0.5) + 0 = 3.5$", not "(7 * 0.5) + 0 = 3.5"). Best for math/physics/procedures.
     • "table": set "rows" to an array of rows, first row = header, e.g. [["Feature","A","B"],["Speed","O(1)","O(n)"]]. Best for comparisons.
     • "callout": set "variant" to "definition"|"tip"|"warning" and put the text in "body". Best for a key definition, a tip, or a common-mistake warning.
+    • "web": a live HTML+CSS+JS sandbox. Set "html", "css", and/or "js" (each a string; omit what you don't need) and the student sees a combined live preview update as they edit. Use this — NOT a "code" card — whenever you teach front-end web (HTML structure, CSS styling, DOM/JS in the browser). Keep starter content short and focused on the one idea.
     • Set the correct "step". You do NOT place cards — the board auto-arranges them from your "connect" links, so always "connect" a new card to the most related existing card.
     • Use unique stable ids like "s1-intro", "s1-example".
 - { "type":"updateCard", "id":"<existing card id>", "title":"...", "body":"...", "items":[...], "code":"...", "steps":[...], "rows":[...] } — REPLACE the contents of a card that already exists, in place. Only include the fields you are changing. Use this — NOT createCard — when the student asks to "simplify this", "regenerate this card", or otherwise rewrite an EXISTING card. When the student's message says (card id: X), that X is the id to target.
@@ -72,6 +73,7 @@ CHOOSING THE RIGHT CARD (use VARIETY — not only "concept" cards):
 - COMPARISON / structured data → "table".
 - KEY DEFINITION / TIP / COMMON MISTAKE → "callout".
 - RUNNABLE program code (programming lessons only) → "code".
+- FRONT-END WEB (HTML / CSS / browser JS) → "web" (live HTML+CSS+JS preview), never "code".
 - a plain fact or short explanation → "concept".
 Whenever the content has structure or steps, prefer a diagram or worked card over plain prose.
 

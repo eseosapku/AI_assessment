@@ -8,6 +8,7 @@ import type { StudyNodeData } from '@/lib/studylab/types'
 import type { BlockType } from '@/lib/studylab/blocks'
 import { CanvasContext, CardFrame, SafeLatex, handleClass } from './canvasShared'
 import { RunnableCodeNode } from './RunnableCodeCard'
+import { WebSandboxNode } from './WebSandboxCard'
 import { StickyNode, NoteNode, ChecklistNode, FlashcardNode, PhotoNode, FrameNode, ResourceBoardNode } from './freeformNodes'
 import { QuizNode, CheckpointHeaderNode } from './QuizNode'
 import { WorkedNode, TableNode, CalloutNode } from './tutorNodes'
@@ -147,4 +148,5 @@ export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>
   table: TableNode,
   callout: CalloutNode,
   mermaid: MermaidNode,
+  web: WebSandboxNode,
 }

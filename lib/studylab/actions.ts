@@ -141,6 +141,9 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             code: action.code,
             language: action.language,
             runnable: action.runnable,
+            html: action.html,
+            css: action.css,
+            js: action.js,
             svg: action.svg,
             mermaid: action.mermaid,
             steps: action.steps,
@@ -160,7 +163,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
         if (idx === -1) break
         const prev = nodes[idx]
         const patch: Record<string, unknown> = {}
-        for (const k of ['title', 'body', 'items', 'code', 'language', 'svg', 'mermaid', 'steps', 'rows'] as const) {
+        for (const k of ['title', 'body', 'items', 'code', 'language', 'html', 'css', 'js', 'svg', 'mermaid', 'steps', 'rows'] as const) {
           if (action[k] !== undefined) patch[k] = action[k]
         }
         nodes[idx] = { ...prev, data: { ...prev.data, ...patch } }
