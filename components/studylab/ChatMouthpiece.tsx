@@ -31,11 +31,12 @@ interface ChatMouthpieceProps {
   busy: boolean
   done: boolean
   onSend: (text: string, imageDataUrl?: string) => void
-  pendingCheckpoint?: boolean
+  pendingCheckpoint?: { total: number; remaining: number; nextId: string | null } | null
+  onGoToCheck?: (nodeId: string) => void
   onQuizMe?: () => void
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onQuizMe }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe }: ChatMouthpieceProps) {
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
@@ -142,9 +143,19 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
       {/* Pending checkpoint banner — finish the check before advancing */}
       {pendingCheckpoint && !busy && (
-        <div className="mx-4 mb-2 px-3.5 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 text-[13px] font-semibold">
-          Answer the check on the canvas to continue.
-        </div>
+        <button
+          type="button"
+          disabled={!pendingCheckpoint.nextId || !onGoToCheck}
+          onClick={() => pendingCheckpoint.nextId && onGoToCheck?.(pendingCheckpoint.nextId)}
+          className="mx-4 mb-2 w-[calc(100%-2rem)] text-left px-3.5 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 text-[13px] font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors disabled:cursor-default"
+        >
+          {pendingCheckpoint.total > 1
+            ? `Answer all ${pendingCheckpoint.total} checks on the canvas to continue — ${pendingCheckpoint.remaining} left.`
+            : 'Answer the check on the canvas to continue.'}
+          {pendingCheckpoint.nextId && onGoToCheck && (
+            <span className="block mt-0.5 text-[12px] font-medium opacity-80">Tap to jump to it →</span>
+          )}
+        </button>
       )}
 
       {/* Suggestions (hidden while a check is pending so the student finishes it first) */}

@@ -357,24 +357,40 @@ export default function Workspace({ id }: { id: string }) {
   }, [handleSend])
 
   // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
+  // Surface the count + the node ids still unanswered so the chat banner can tell
+  // the student how many remain and jump the canvas to the next one.
   const pendingCheckpoint = useMemo(() => {
-    const byCp = new Map<string, { gate: 'hard' | 'soft'; answered: boolean }[]>()
+    const byCp = new Map<string, { id: string; gate: 'hard' | 'soft'; answered: boolean }[]>()
     for (const n of canvas.nodes) {
       const q = n.data.quiz
       if (!q) continue
       byCp.set(q.checkpointId, [
         ...(byCp.get(q.checkpointId) ?? []),
-        { gate: q.gate, answered: q.state === 'correct' || q.state === 'incorrect' },
+        { id: n.id, gate: q.gate, answered: q.state === 'correct' || q.state === 'incorrect' },
       ])
     }
     for (const cells of byCp.values()) {
-      if (cells.some((c) => c.gate === 'hard') && !cells.every((c) => c.answered)) return true
+      if (cells.some((c) => c.gate === 'hard') && !cells.every((c) => c.answered)) {
+        const unanswered = cells.filter((c) => !c.answered)
+        return { total: cells.length, remaining: unanswered.length, nextId: unanswered[0]?.id ?? null }
+      }
     }
-    return false
+    return null
   }, [canvas.nodes])
+
+  // Pan/zoom the canvas to a specific node (used by the "show me the check" banner).
+  const goToNode = useCallback((nodeId: string) => {
+    effectVersion.current += 1
+    setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId }] })
+  }, [])
 
   // When every quiz node in a checkpoint is answered, report the result to the tutor once.
   useEffect(() => {
+    // handleSend is a no-op while a tutor turn is in flight. If we marked the
+    // checkpoint submitted now, its result would be silently dropped and the
+    // lesson would dead-end. Wait for the tutor to free up; `busy` is a dep so
+    // this effect re-runs and dispatches the moment the turn finishes.
+    if (busy) return
     const byCp = new Map<string, QuizCell[]>()
     for (const n of canvas.nodes) {
       const q = n.data.quiz
@@ -395,9 +411,11 @@ export default function Workspace({ id }: { id: string }) {
             body: JSON.stringify({ userId: user.id, subject: space?.subject ?? space?.title ?? 'StudyLab', sourceRef: id, cards: missed }),
           }).catch(() => {})
         }
+        // Dispatch one checkpoint per pass; the next answered one fires on re-run.
+        break
       }
     }
-  }, [canvas.nodes, handleSend, user?.id, space?.subject, space?.title, id])
+  }, [canvas.nodes, busy, handleSend, user?.id, space?.subject, space?.title, id])
 
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -513,6 +531,7 @@ export default function Workspace({ id }: { id: string }) {
           done={done}
           onSend={handleSend}
           pendingCheckpoint={pendingCheckpoint}
+          onGoToCheck={goToNode}
           onQuizMe={handleQuizMe}
         />
       </div>
