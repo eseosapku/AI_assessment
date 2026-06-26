@@ -44,7 +44,7 @@ ACTION TYPES:
 - { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"diagram"|"mermaid"|"worked"|"table"|"callout"|"web", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
     • "concept": use title + body (and optional items for key terms / bullet lists).
     • "code": title + code + language. Set "runnable":false for read-only/illustrative snippets the student should just READ (e.g. browser/DOM code that won't run standalone) — those show no Run button. Use language "html" for anything meant to render. Only self-contained python/javascript/html should be runnable.
-    • "diagram": prefer "mermaid" over "svg". Use "svg" only for a tiny custom visual.
+    • "diagram": AVOID — use a "mermaid" card for diagrams instead. Only ever use "diagram" WITH a non-empty inline "svg". NEVER create a "diagram" or "mermaid" card that has no actual diagram content (no svg / no mermaid syntax) — a card whose body says "This diagram shows…" with nothing drawn is forbidden. If you only have a verbal description, use a "concept" card and explain it in real sentences.
     • "mermaid": RAW Mermaid syntax, NO code fences. Keep it SIMPLE and valid: only "A[Short Label]" nodes and "-->" arrows (e.g. "graph TD; A[Root]-->B[Left]; A-->C[Right]"). NO parentheses/quotes/markdown inside labels, NO "style" lines, NO image URLs. ALWAYS also set "body" to a ONE-SENTENCE caption explaining what the diagram shows (a diagram with no explanation is not allowed). Best for trees, flows, sequences.
     • "worked": set "steps" to an array of numbered solution steps. Wrap EVERY calculation, equation, or number in $...$ LaTeX so it renders as math (e.g. "$(7 \\times 0.5) + 0 = 3.5$", not "(7 * 0.5) + 0 = 3.5"). Best for math/physics/procedures.
     • "table": set "rows" to an array of rows, first row = header, e.g. [["Feature","A","B"],["Speed","O(1)","O(n)"]]. Best for comparisons.
@@ -56,7 +56,7 @@ ACTION TYPES:
 - { "type":"connect", "from":"id", "to":"id", "label":"optional" } — an arrow from "from" to "to". The board grows LEFT→RIGHT along arrows, so ALWAYS go from the EXISTING/earlier card ("from") to your NEW card ("to") — parent→child — so the lesson reads as a clean left-to-right tree.
 - { "type":"groupStep", "step":<int>, "label":"Step 1: Fundamentals", "cardIds":["s1-intro","s1-example"] } — collapse a completed step's cards into one tidy node and zoom out. Emit this only when the student confirms they understood the step, right before starting the next step.
 - { "type":"zoom", "target":"fit" } — fit the canvas to the content.
-- { "type":"checkpoint", "id":"cp-<step>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas. Question shapes:
+- { "type":"checkpoint", "id":"cp-<step>-<2 random chars>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas. The id MUST be unique and MUST NOT match any checkpoint already on the canvas (listed below) — a colliding id is silently ignored. Question shapes:
     • { "id":"<unique>", "format":"mcq", "prompt":"...", "options":["...","..."], "answer":<0-based index>, "explain":"why" }
     • { "id":"<unique>", "format":"short", "prompt":"...", "rubric":"what a good answer contains" }
     • { "id":"<unique>", "format":"code", "prompt":"...", "language":"python", "starter":"", "goal":"what the code must do" } — ONLY for programming lessons; the card runs the answer as real code.
@@ -82,7 +82,8 @@ SUGGESTIONS: 2-3 short chips that NAVIGATE THE LESSON ONLY — e.g. "Go deeper",
 RULES:
 1. FIRST turn: draft the "plan" (4-6 steps), introduce the topic in ONE sentence, then create 2-4 varied cards that begin Step 1's first beat and connect them. awaitUser=true, step=1.
 2. Use LaTeX wrapped in $...$ for any math, in both "say" and card text.
-3. On "Continue"/"ready": if the CURRENT step's goal is NOT yet fully covered, teach the NEXT beat — add 1-2 new cards that advance toward the goal (connect them parent→child to existing cards), keep the same "step", awaitUser=true. ONLY when the step's goal is fully covered do you emit ONE hard "checkpoint" (1-3 questions); fit the format to the material (concept→mcq/short, procedure→match, coding→code). CRITICAL: if your "say" mentions a checkpoint/quiz/"test your understanding", you MUST include the "checkpoint" action in the SAME response — never announce one without emitting it. Give every question an "id", a "prompt", and (for mcq) "options" + an integer "answer".
+3. On "Continue"/"ready": if the CURRENT step's goal is NOT yet fully covered, teach the NEXT beat — add 1-2 new cards that advance toward the goal (connect them parent→child to existing cards), keep the same "step", awaitUser=true. ONLY when the step's goal is fully covered do you emit ONE hard "checkpoint" (1-2 questions); fit the format to the material (concept→mcq/short, procedure→match, coding→code). CRITICAL: if your "say" mentions a checkpoint/quiz/"test your understanding", you MUST include the "checkpoint" action in the SAME response — never announce one without emitting it. Give every question an "id", a "prompt", and (for mcq) "options" + an integer "answer".
+3a. NEVER repeat a checkpoint. If the CURRENT step already appears in "CHECKPOINTS ALREADY ON CANVAS", that step is done being tested — do NOT announce or emit another check for it; either advance to the next step (step + 1, with new cards) or, if waiting on the student, teach a new beat. Never say "let's test your understanding" for a step that already has a checkpoint.
 3b. CARDS MUST TEACH: a "concept" body is a real 2-4 sentence explanation with a concrete example or analogy — never a bare title or a lone bullet list. Vary your approach across cards (analogy, worked example, contrast) so it feels like a tutorial, not a glossary.
 4. If the student asks a question, answer it by adding/connecting a clarifying card to the SAME step (don't advance). The answer goes ON A CARD, not just in chat.
 5. On a "CHECKPOINT RESULT:" message: if they mostly passed, praise briefly and introduce the NEXT step with new cards (step + 1; the previous step auto-collapses). If they struggled, re-teach the weak point with a card and don't advance. Don't emit another checkpoint unless asked.
@@ -119,11 +120,21 @@ interface GapFocus {
   subtopic_name?: string | null
 }
 
+interface CheckpointInfo {
+  id: string
+  step: number
+  total: number
+  answered: number
+  correct: number
+  done: boolean
+}
+
 function buildPrompt(opts: {
   title: string
   subject?: string | null
   currentStep: number
   existingCards: { id: string; title: string; step: number }[]
+  checkpoints: CheckpointInfo[]
   plan: { title: string; goal: string }[]
   history: IncomingMessage[]
   userMessage: string
@@ -131,7 +142,7 @@ function buildPrompt(opts: {
   focus?: GapFocus | null
   imageState?: 'attached' | 'unreadable'
 }): string {
-  const { title, subject, currentStep, existingCards, plan, history, userMessage, origin, focus, imageState } = opts
+  const { title, subject, currentStep, existingCards, checkpoints, plan, history, userMessage, origin, focus, imageState } = opts
   const historyText = history
     .slice(-10)
     .map((m) => `${m.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${m.content}`)
@@ -173,7 +184,18 @@ ${
 }
 CURRENT STEP: ${currentStep}
 EXISTING CARDS ON CANVAS (do NOT recreate these — build on them and "connect" parent→child to their ids):
-${existingCards.length ? existingCards.map((c) => `  ${c.id} "${c.title}" (step ${c.step})`).join('\n') : '  (none yet)'}${imageLine}
+${existingCards.length ? existingCards.map((c) => `  ${c.id} "${c.title}" (step ${c.step})`).join('\n') : '  (none yet)'}
+CHECKPOINTS ALREADY ON CANVAS (a step listed here HAS been tested — do NOT create or announce another check for that step; move on):
+${
+  checkpoints.length
+    ? checkpoints
+        .map(
+          (c) =>
+            `  ${c.id} (step ${c.step}) — ${c.done ? `answered ${c.correct}/${c.total}` : `${c.answered}/${c.total} answered, still pending`}`
+        )
+        .join('\n')
+    : '  (none yet)'
+}${imageLine}
 
 CONVERSATION SO FAR:
 ${historyText || '(this is the very first turn)'}
@@ -248,6 +270,18 @@ export async function POST(request: NextRequest) {
           .filter((p: any) => p && typeof p.title === 'string')
           .map((p: any) => ({ title: String(p.title), goal: typeof p.goal === 'string' ? p.goal : '' }))
       : []
+    const checkpoints: CheckpointInfo[] = Array.isArray(body?.checkpoints)
+      ? body.checkpoints
+          .filter((c: any) => c && typeof c.id === 'string')
+          .map((c: any) => ({
+            id: c.id,
+            step: Number(c.step) || 0,
+            total: Number(c.total) || 0,
+            answered: Number(c.answered) || 0,
+            correct: Number(c.correct) || 0,
+            done: c.done === true,
+          }))
+      : []
     const origin = body?.origin === 'gap' ? 'gap' : 'scratch'
     const focus: GapFocus | null =
       body?.focus && typeof body.focus === 'object'
@@ -259,7 +293,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A topic title is required' }, { status: 400 })
     }
 
-    const baseOpts = { title, subject, currentStep, existingCards, plan, history, userMessage, origin, focus }
+    const baseOpts = { title, subject, currentStep, existingCards, checkpoints, plan, history, userMessage, origin, focus }
 
     let raw: string
     try {

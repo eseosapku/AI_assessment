@@ -125,16 +125,25 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
           break
         }
         const step = typeof action.step === 'number' ? action.step : 0
+        // Salvage broken visual cards: a "diagram" carrying mermaid renders as
+        // mermaid; a diagram/mermaid with NO drawable content becomes a plain
+        // "concept" so the body still teaches instead of an empty diagram box.
+        const hasSvg = !!action.svg?.trim()
+        const hasMermaid = !!action.mermaid?.trim()
+        let cardType = action.card
+        if (cardType === 'diagram' && !hasSvg && hasMermaid) cardType = 'mermaid'
+        else if (cardType === 'diagram' && !hasSvg) cardType = 'concept'
+        else if (cardType === 'mermaid' && !hasMermaid) cardType = 'concept'
         const position =
           action.position && action.position !== 'auto'
             ? action.position
-            : autoPosition(nodes, step, action.card)
+            : autoPosition(nodes, step, cardType)
         nodes.push({
           id: action.id,
-          type: action.card,
+          type: cardType,
           position,
           data: {
-            kind: action.card,
+            kind: cardType,
             title: action.title,
             body: action.body,
             items: action.items,

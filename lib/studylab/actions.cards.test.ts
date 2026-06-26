@@ -42,6 +42,31 @@ describe('new card kinds', () => {
     expect(res.nodes).toHaveLength(0)
   })
 
+  it('downgrades an empty diagram/mermaid card to a concept so the body still shows', () => {
+    const res = applyActions(empty, [
+      { type: 'createCard', id: 'd1', card: 'diagram', step: 1, body: 'This diagram shows X.', position: 'auto' },
+      { type: 'createCard', id: 'm1', card: 'mermaid', step: 1, body: 'caption only', position: 'auto' },
+    ])
+    expect(res.nodes.find((n) => n.id === 'd1')!.type).toBe('concept')
+    expect(res.nodes.find((n) => n.id === 'm1')!.type).toBe('concept')
+  })
+
+  it('renders a diagram card that carries mermaid as a mermaid card', () => {
+    const res = applyActions(empty, [
+      { type: 'createCard', id: 'd2', card: 'diagram', step: 1, mermaid: 'graph TD; A-->B', position: 'auto' },
+    ])
+    const node = res.nodes.find((n) => n.id === 'd2')!
+    expect(node.type).toBe('mermaid')
+    expect(node.data.mermaid).toBe('graph TD; A-->B')
+  })
+
+  it('keeps a diagram card that has real svg', () => {
+    const res = applyActions(empty, [
+      { type: 'createCard', id: 'd3', card: 'diagram', step: 1, svg: '<svg></svg>', position: 'auto' },
+    ])
+    expect(res.nodes.find((n) => n.id === 'd3')!.type).toBe('diagram')
+  })
+
   it('accepts a web card and copies html/css/js into node data', () => {
     expect(isValidAction({ type: 'createCard', id: 'w', card: 'web' })).toBe(true)
     const res = applyActions(empty, [

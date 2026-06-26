@@ -9,6 +9,7 @@ import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, createImageCard, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock, aiCards } from '@/lib/studylab/freeform'
+import { summarizeCheckpoints } from '@/lib/studylab/checkpointState'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
@@ -134,6 +135,7 @@ export default function Workspace({ id }: { id: string }) {
             message: userText,
             history: history.map((m) => ({ role: m.role, content: m.content })),
             cards: aiCards(baseCanvas.nodes),
+            checkpoints: summarizeCheckpoints(baseCanvas.nodes),
             plan: baseCanvas.plan ?? [],
             origin: space?.origin,
             focus: space?.focus,

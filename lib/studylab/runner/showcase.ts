@@ -7,6 +7,10 @@ import { normalizeLanguage } from './languages'
 const BROWSER_GLOBALS = /\b(document|window|alert|prompt|confirm|localStorage|sessionStorage|navigator|fetch|location)\b/
 
 export function isShowcaseOnly(language: string | undefined, code: string): boolean {
-  if (normalizeLanguage(language) !== 'javascript') return false
-  return BROWSER_GLOBALS.test(code)
+  const lang = normalizeLanguage(language)
+  if (lang === 'javascript') return BROWSER_GLOBALS.test(code)
+  // A "web" snippet (css/html) with no HTML tags is bare CSS or text: running it
+  // just echoes the source in the iframe, which is confusing. Show it read-only.
+  if (lang === 'web') return !/<[a-z!/]/i.test(code)
+  return false
 }
