@@ -660,7 +660,8 @@ export default function ReportCardGenerator() {
   return (
     <div className="min-h-screen bg-[#F3F4F6] dark:bg-[#0C0C0E] transition-colors duration-300">
 
-      {/* ── Header ── */}
+      {/* ── Header (students get the studio shell's header; teachers render bare, so keep theirs) ── */}
+      {isTeacher && (
       <header className="sticky top-0 z-30 h-14 bg-white/75 dark:bg-[#0C0C0E]/80 backdrop-blur-xl header-fade">
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
@@ -692,6 +693,7 @@ export default function ReportCardGenerator() {
           </div>
         </div>
       </header>
+      )}
 
       <main className="max-w-6xl mx-auto px-4 sm:px-8 py-6 space-y-5">
 
