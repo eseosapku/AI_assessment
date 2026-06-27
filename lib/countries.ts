@@ -234,6 +234,11 @@ export function countrySignupHint(code: CountryCode | null | undefined): string 
   return `${meta.curriculumNote} · ${meta.paymentNote}`
 }
 
+/** Whether national-exam prep (e.g. WAEC/JAMB) is live for this country yet. */
+export function examPrepAvailable(code: CountryCode | null | undefined): boolean {
+  return normalizeCountry(code) === 'NG'
+}
+
 export function classOptionsForCountry(country: CountryCode): { value: string; label: string }[] {
   if (country === 'NG') {
     return NIGERIA_LEVELS.map((level) => ({

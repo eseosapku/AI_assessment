@@ -7,9 +7,15 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 
 const inputClass =
-  'w-full pl-11 pr-4 py-3 rounded-xl text-sm bg-slate-50 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] focus:border-[#13a7df] dark:focus:border-[#13a7df] focus:ring-2 focus:ring-[#13a7df]/20 outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-600'
+  'w-full rounded-xl border-2 border-black/[0.06] bg-white py-3 pl-11 pr-4 text-sm font-medium text-brand-ink outline-none transition-all placeholder:text-brand-slate/60 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20'
 
-export default function LoginForm() {
+export default function LoginForm({
+  embedded = false,
+  onSwitchToSignup,
+}: {
+  embedded?: boolean
+  onSwitchToSignup?: () => void
+}) {
   const [identifier, setIdentifier] = useState('')
   const [password, setPassword] = useState('')
   const [showPassword, setShowPassword] = useState(false)
@@ -35,16 +41,20 @@ export default function LoginForm() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full max-w-sm"
+      className={embedded ? 'w-full' : 'w-full max-w-sm'}
     >
-      <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
-        Welcome back
-      </h1>
-      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Sign in to continue your learning journey.
-      </p>
+      {!embedded && (
+        <>
+          <h1 className="font-display text-3xl font-black tracking-tight text-brand-ink">
+            Welcome back
+          </h1>
+          <p className="mt-2 text-sm font-semibold text-brand-slate">
+            Sign in to continue your learning journey.
+          </p>
+        </>
+      )}
 
-      <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+      <form onSubmit={handleSubmit} className={embedded ? 'mt-2 space-y-4' : 'mt-8 space-y-4'}>
         <div>
           <label
             htmlFor="identifier"
@@ -112,7 +122,7 @@ export default function LoginForm() {
         <button
           type="submit"
           disabled={isLoading}
-          className="flex w-full items-center justify-center gap-2 rounded-xl bg-gradient-to-r from-[#19b5e8] to-[#0c86ce] px-4 py-3 text-sm font-bold text-white shadow-lg shadow-cyan-500/20 transition-all hover:shadow-cyan-500/35 disabled:opacity-60"
+          className="btn-primary w-full"
         >
           {isLoading ? (
             <span className="flex items-center gap-2">
@@ -130,11 +140,17 @@ export default function LoginForm() {
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm text-slate-500 dark:text-gray-500">
+      <p className="mt-6 text-center text-sm font-semibold text-brand-slate">
         No account?{' '}
-        <Link href="/signup" className="font-bold text-[#0c86ce] hover:underline dark:text-[#37b6f0]">
-          Sign up free
-        </Link>
+        {onSwitchToSignup ? (
+          <button type="button" onClick={onSwitchToSignup} className="font-black text-brand-blue hover:underline">
+            Sign up free
+          </button>
+        ) : (
+          <Link href="/signup" className="font-black text-brand-blue hover:underline">
+            Sign up free
+          </Link>
+        )}
       </p>
     </motion.div>
   )

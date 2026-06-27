@@ -1,16 +1,15 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { motion } from 'framer-motion'
 import { AlertTriangle, ArrowRight, Loader2, Sparkles, TrendingDown } from 'lucide-react'
 import type { PersonaSnapshot, WeakArea } from '@/lib/studylab/persona'
 import { openLearnSpace } from '@/lib/studylab/openSpace'
 
 const STATUS_DOT: Record<string, string> = {
-  gap: 'bg-red-500',
-  developing: 'bg-amber-500',
-  mastered: 'bg-blue-500',
-  not_assessed: 'bg-gray-400',
+  gap: 'bg-ss-bad',
+  developing: 'bg-ss-warn',
+  mastered: 'bg-ss-accent',
+  not_assessed: 'bg-ss-slate',
 }
 
 interface PersonaPanelProps {
@@ -49,8 +48,8 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
 
   if (loading) {
     return (
-      <div className="mb-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-[#161617] p-6 flex items-center justify-center">
-        <Loader2 className="w-5 h-5 text-apple-blue animate-spin" />
+      <div className="mb-6 flex items-center justify-center rounded-[20px] border border-ss-line bg-ss-panel p-6">
+        <Loader2 className="h-5 w-5 animate-spin text-ss-accent" />
       </div>
     )
   }
@@ -58,69 +57,65 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
   if (!persona) return null
 
   return (
-    <motion.section
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      className="mb-6 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-[#161617] overflow-hidden"
-    >
-      <div className="px-5 sm:px-6 py-5 border-b border-gray-100 dark:border-gray-800 flex items-start justify-between gap-4">
+    <section className="mb-6 overflow-hidden rounded-[20px] border border-ss-line bg-ss-panel">
+      <div className="flex items-start justify-between gap-4 border-b border-ss-line px-5 py-5 sm:px-6">
         <div>
-          <div className="flex items-center gap-2 mb-1">
-            <TrendingDown className="w-4 h-4 text-apple-blue" />
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-apple-dark-gray">Your week</p>
+          <div className="mb-1 flex items-center gap-2">
+            <TrendingDown className="h-4 w-4 text-ss-accent" />
+            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-ss-slate">Your week</p>
           </div>
-          <h3 className="font-semibold text-lg">{persona.headline}</h3>
-          <p className="text-sm text-apple-dark-gray mt-0.5">{persona.subline}</p>
+          <h3 className="text-lg font-extrabold text-ss-ink">{persona.headline}</h3>
+          <p className="mt-0.5 text-sm text-ss-slate">{persona.subline}</p>
         </div>
         {persona.hasHistory && (
-          <div className="hidden sm:flex items-center gap-4 text-center shrink-0">
-            <Stat label="Gaps" value={persona.summary.gaps} tone="text-red-500" />
-            <Stat label="Developing" value={persona.summary.developing} tone="text-amber-500" />
-            <Stat label="Mastered" value={persona.summary.mastered} tone="text-blue-500" />
+          <div className="hidden shrink-0 items-center gap-4 text-center sm:flex">
+            <Stat label="Gaps" value={persona.summary.gaps} tone="text-ss-bad" />
+            <Stat label="Developing" value={persona.summary.developing} tone="text-ss-warn" />
+            <Stat label="Mastered" value={persona.summary.mastered} tone="text-ss-accent" />
           </div>
         )}
       </div>
 
       {persona.weakAreas.length > 0 ? (
-        <ul className="divide-y divide-gray-100 dark:divide-gray-800">
+        <ul className="divide-y divide-ss-line">
           {persona.weakAreas.map((area) => (
-            <li key={`${area.kind}-${area.topic_id}-${area.subtopic_id ?? 't'}`} className="px-5 sm:px-6 py-3.5 flex items-center gap-3">
-              <span className={`w-2.5 h-2.5 rounded-full shrink-0 ${STATUS_DOT[area.status] ?? STATUS_DOT.not_assessed}`} />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium truncate">{area.label}</p>
-                <p className="text-xs text-apple-dark-gray truncate">
+            <li key={`${area.kind}-${area.topic_id}-${area.subtopic_id ?? 't'}`} className="flex items-center gap-3 px-5 py-3.5 sm:px-6">
+              <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${STATUS_DOT[area.status] ?? STATUS_DOT.not_assessed}`} />
+              <div className="min-w-0 flex-1">
+                <p className="truncate text-sm font-bold text-ss-ink">{area.label}</p>
+                <p className="truncate text-xs text-ss-slate">
                   {area.subjectName}
                   {typeof area.accuracy === 'number' ? ` · ${area.accuracy}%` : ''}
                 </p>
               </div>
               <button
                 onClick={() => startStudy(area)}
-                className="shrink-0 text-xs font-medium px-3 py-1.5 rounded-lg bg-apple-blue/10 text-apple-blue hover:bg-apple-blue/15 transition-colors flex items-center gap-1.5"
+                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-ss-accent-soft px-3 py-1.5 text-xs font-bold text-ss-accent transition-colors hover:brightness-95"
               >
-                <Sparkles className="w-3.5 h-3.5" />
+                <Sparkles className="h-3.5 w-3.5" />
                 Study
               </button>
             </li>
           ))}
         </ul>
       ) : persona.hasHistory ? (
-        <div className="px-5 sm:px-6 py-4 flex items-start gap-3 text-sm text-apple-dark-gray">
-          <AlertTriangle className="w-4 h-4 text-amber-500 shrink-0 mt-0.5" />
+        <div className="flex items-start gap-3 px-5 py-4 text-sm text-ss-slate sm:px-6">
+          <AlertTriangle className="mt-0.5 h-4 w-4 shrink-0 text-ss-warn" />
           <p>
             You have quiz history, but nothing is mapped to specific topics yet. Open the gap map and take a
             topic-focused quiz — your weak spots will appear here automatically.
           </p>
         </div>
       ) : null}
-    </motion.section>
+    </section>
   )
 }
 
 function Stat({ label, value, tone }: { label: string; value: number; tone: string }) {
   return (
     <div>
-      <p className={`text-xl font-bold tabular-nums ${tone}`}>{value}</p>
-      <p className="text-[10px] uppercase tracking-wide text-apple-dark-gray">{label}</p>
+      <p className={`text-xl font-extrabold tabular-nums ${tone}`}>{value}</p>
+      <p className="text-[10px] uppercase tracking-wide text-ss-slate">{label}</p>
     </div>
   )
 }

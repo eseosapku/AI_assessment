@@ -71,7 +71,7 @@ export function MermaidNode({ id, data }: NodeProps) {
           <div ref={ref} className="w-full flex justify-center [&_svg]:max-w-full [&_svg]:h-auto" />
         )}
         {d.body && (
-          <p className="mt-2 text-[12px] leading-relaxed text-gray-600 dark:text-gray-300">
+          <p className="mt-2 text-[12px] leading-relaxed text-ss-slate">
             <SafeLatex>{d.body}</SafeLatex>
           </p>
         )}

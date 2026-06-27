@@ -35,14 +35,14 @@ const RATING_META: {
     rating: 3,
     label: 'Got it',
     desc: 'Remembered',
-    tone: 'bg-sky-50 hover:bg-sky-100 border-sky-200 text-brand-ink',
-    badge: 'bg-brand-blue/15 text-brand-blue',
+    tone: 'bg-ss-accent-soft hover:brightness-95 border-[color:var(--ss-accent)]/30 text-ss-ink',
+    badge: 'bg-ss-accent-soft text-ss-accent',
   },
   {
     rating: 4,
     label: 'Too easy',
     desc: 'Already knew it',
-    tone: 'bg-gradient-to-br from-brand-blue to-[#3d6bef] hover:from-[#3d6bef] hover:to-brand-blue border-brand-blue text-white',
+    tone: 'bg-gradient-to-br from-ss-accent to-ss-accent-deep hover:brightness-95 border-ss-accent text-white',
     badge: 'bg-white/25 text-white',
   },
 ]
@@ -89,7 +89,7 @@ export default function RecallReview() {
   if (loading) {
     return (
       <div className="flex min-h-[60vh] items-center justify-center">
-        <div className="h-10 w-10 animate-spin rounded-full border-2 border-brand-blue border-t-transparent" />
+        <div className="h-10 w-10 animate-spin rounded-full border-2 border-ss-accent border-t-transparent" />
       </div>
     )
   }
@@ -98,17 +98,17 @@ export default function RecallReview() {
     return (
       <div className="mx-auto max-w-lg px-4 py-16 text-center">
         <motion.div initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}>
-          <p className="font-display text-3xl font-black text-brand-ink">
+          <p className="font-display text-3xl font-black text-ss-ink">
             {reviewed > 0 ? 'Session complete' : 'Nothing due'}
           </p>
-          <p className="mt-2 text-sm font-semibold text-brand-slate">
+          <p className="mt-2 text-sm font-semibold text-ss-slate">
             {reviewed > 0
               ? `You reviewed ${reviewed} card${reviewed !== 1 ? 's' : ''}. They will come back on schedule.`
               : 'Check back later or add cards from a quiz result.'}
           </p>
           <Link
             href="/recall"
-            className="mt-8 inline-flex items-center gap-2 rounded-full bg-brand-blue px-6 py-3 text-sm font-black text-white"
+            className="mt-8 inline-flex items-center gap-2 rounded-full bg-ss-accent px-6 py-3 text-sm font-black text-white"
           >
             <ArrowLeft className="h-4 w-4" />
             Back to Recall
@@ -123,19 +123,19 @@ export default function RecallReview() {
       <div className="mb-6 flex items-center justify-between">
         <Link
           href="/recall"
-          className="inline-flex items-center gap-1 text-sm font-bold text-brand-slate hover:text-brand-ink"
+          className="inline-flex items-center gap-1 text-sm font-bold text-ss-slate hover:text-ss-ink"
         >
           <ArrowLeft className="h-4 w-4" />
           Recall
         </Link>
-        <p className="text-xs font-black tabular-nums text-brand-slate">
+        <p className="text-xs font-black tabular-nums text-ss-slate">
           {index + 1} / {queue.length}
         </p>
       </div>
 
-      <div className="mb-6 h-1.5 overflow-hidden rounded-full bg-brand-paper">
+      <div className="mb-6 h-1.5 overflow-hidden rounded-full bg-ss-chip">
         <motion.div
-          className="h-full rounded-full bg-gradient-to-r from-brand-blue to-brand-sky"
+          className="h-full rounded-full bg-gradient-to-r from-ss-accent to-ss-accent-bright"
           animate={{ width: `${((index + (flipped ? 0.5 : 0)) / queue.length) * 100}%` }}
         />
       </div>
@@ -158,31 +158,31 @@ export default function RecallReview() {
               className="relative min-h-[17rem] w-full sm:min-h-[19rem]"
             >
               <div
-                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-black/[0.08] bg-white p-8 text-left shadow-studio"
+                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-ss-line bg-ss-panel p-8 text-left shadow-studio"
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 {card.subject && (
-                  <span className="mb-3 inline-block w-fit rounded-full bg-brand-paper px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-brand-blue">
+                  <span className="mb-3 inline-block w-fit rounded-full bg-ss-chip px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-ss-accent">
                     {card.subject}
                   </span>
                 )}
-                <p className="text-[10px] font-bold uppercase tracking-widest text-brand-slate">Question</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-ss-slate">Question</p>
                 <div className="mt-4 flex flex-1 items-center">
                   <RecallCardFace card={card} side="front" />
                 </div>
-                <p className="mt-4 text-center text-[11px] font-semibold text-brand-slate/80">Tap card to reveal answer</p>
+                <p className="mt-4 text-center text-[11px] font-semibold text-[color:var(--ss-slate)]/80">Tap card to reveal answer</p>
               </div>
 
               <div
-                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-brand-blue/20 bg-gradient-to-br from-white to-brand-sky/40 p-8 text-left shadow-studio"
+                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-ss-line bg-gradient-to-br from-ss-panel to-ss-accent-soft p-8 text-left shadow-studio"
                 style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
               >
                 {card.subject && (
-                  <span className="mb-3 inline-block w-fit rounded-full bg-brand-blue/10 px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-brand-blue">
+                  <span className="mb-3 inline-block w-fit rounded-full bg-ss-accent-soft px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-ss-accent">
                     {card.subject}
                   </span>
                 )}
-                <p className="text-[10px] font-bold uppercase tracking-widest text-brand-blue">Answer</p>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent">Answer</p>
                 <div className="mt-4 flex flex-1 items-center">
                   <RecallCardFace card={card} side="back" />
                 </div>
@@ -194,7 +194,7 @@ export default function RecallReview() {
             <button
               type="button"
               onClick={() => setFlipped((f) => !f)}
-              className="inline-flex items-center gap-2 rounded-full bg-brand-ink px-5 py-2.5 text-xs font-black text-white shadow-md transition hover:bg-brand-blue"
+              className="inline-flex items-center gap-2 rounded-full bg-ss-accent px-5 py-2.5 text-xs font-black text-white shadow-md transition hover:brightness-95"
             >
               {flipped ? (
                 <>
@@ -216,15 +216,15 @@ export default function RecallReview() {
         <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} className="mt-10">
           <div className="mb-5 flex items-start justify-between gap-3">
             <div>
-              <p className="font-display text-lg font-black text-brand-ink">How well did you remember?</p>
-              <p className="mt-1 text-xs font-semibold text-brand-slate">
+              <p className="font-display text-lg font-black text-ss-ink">How well did you remember?</p>
+              <p className="mt-1 text-xs font-semibold text-ss-slate">
                 Your choice sets when this card comes back.
               </p>
             </div>
             <button
               type="button"
               onClick={() => setShowHelp((h) => !h)}
-              className="shrink-0 rounded-full p-2 text-brand-slate hover:bg-brand-paper hover:text-brand-ink"
+              className="shrink-0 rounded-full p-2 text-ss-slate hover:bg-ss-chip hover:text-ss-ink"
               aria-label="How scheduling works"
             >
               <HelpCircle className="h-4 w-4" />
@@ -232,7 +232,7 @@ export default function RecallReview() {
           </div>
 
           {showHelp && (
-            <div className="mb-5 rounded-xl border border-brand-blue/20 bg-brand-sky/30 px-4 py-3 text-xs font-semibold text-brand-ink">
+            <div className="mb-5 rounded-xl border border-ss-accent bg-ss-accent-soft px-4 py-3 text-xs font-semibold text-ss-ink">
               Cards you struggle with return sooner. Cards you know well are pushed further out — so you review right
               before you forget.
             </div>

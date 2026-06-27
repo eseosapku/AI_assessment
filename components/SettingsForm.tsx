@@ -1,13 +1,22 @@
 'use client'
 
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-import { CheckCircle2, ClipboardList, Eye, EyeOff, Lock, Save, ShieldCheck, User } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { BookOpen, Camera, CheckCircle2, ClipboardList, Eye, EyeOff, FlaskConical, Lock, Save, ShieldCheck, Target, Trash2, User } from 'lucide-react'
 import { useAuth } from './AuthProvider'
-import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, type CountryCode } from '@/lib/countries'
+import Avatar from './studio/Avatar'
+import { clearAvatar, fileToAvatarDataUrl, getAvatar, setAvatar } from '@/lib/studio/avatar'
+import { getFocus, setFocus, type FocusId } from '@/lib/onboarding'
+
+const FOCI: { id: FocusId; label: string; icon: typeof Target }[] = [
+  { id: 'grades', label: 'Boost grades', icon: Target },
+  { id: 'exams', label: 'National exams', icon: BookOpen },
+  { id: 'explore', label: 'Explore & learn', icon: FlaskConical },
+]
+import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, examPrepAvailable, type CountryCode } from '@/lib/countries'
 
 const inputClass =
-    'w-full px-4 py-2.5 rounded-xl text-sm bg-white/70 dark:bg-white/[0.06] border border-gray-200/80 dark:border-white/[0.08] focus:border-blue-500 dark:focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 outline-none transition-all text-gray-900 dark:text-white placeholder:text-gray-400 dark:placeholder:text-gray-600'
+  'w-full rounded-xl border-2 border-black/[0.06] bg-white px-4 py-2.5 text-sm font-medium text-ss-ink outline-none transition-all placeholder:text-[color:var(--ss-slate)]/60 focus:border-ss-accent focus:ring-2 focus:ring-ss-accent-soft disabled:cursor-not-allowed disabled:opacity-70'
 
 function parseSubjects(value: string): string[] {
     return value
@@ -27,6 +36,11 @@ export default function SettingsForm() {
     const [profileSuccess, setProfileSuccess] = useState('')
     const [isSavingProfile, setIsSavingProfile] = useState(false)
 
+    const fileInputRef = useRef<HTMLInputElement>(null)
+    const [photoError, setPhotoError] = useState('')
+    const [hasCustomPhoto, setHasCustomPhoto] = useState(false)
+    const [focus, setFocusVal] = useState<FocusId | null>(null)
+
     const [currentPassword, setCurrentPassword] = useState('')
     const [newPassword, setNewPassword] = useState('')
     const [confirmPassword, setConfirmPassword] = useState('')
@@ -43,7 +57,40 @@ export default function SettingsForm() {
         setClassName(user.class ?? '')
         setCountry((user.country as CountryCode) ?? 'RW')
         setSubjectsText(Array.isArray(user.subjects) ? user.subjects.join(', ') : '')
+        setHasCustomPhoto(getAvatar(user.id) !== '/art/avatar-default.png')
+        setFocusVal(getFocus(user.id))
     }, [user])
+
+    const chooseFocus = (f: FocusId) => {
+        if (!user) return
+        setFocus(user.id, f)
+        setFocusVal(f)
+    }
+
+    const handlePhotoChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+        const file = event.target.files?.[0]
+        event.target.value = ''
+        if (!file || !user) return
+        setPhotoError('')
+        if (file.size > 8 * 1024 * 1024) {
+            setPhotoError('Image is too large — please pick one under 8MB.')
+            return
+        }
+        try {
+            const dataUrl = await fileToAvatarDataUrl(file)
+            setAvatar(user.id, dataUrl)
+            setHasCustomPhoto(true)
+        } catch (error: any) {
+            setPhotoError(error.message || 'Could not process that image.')
+        }
+    }
+
+    const handlePhotoRemove = () => {
+        if (!user) return
+        clearAvatar(user.id)
+        setHasCustomPhoto(false)
+        setPhotoError('')
+    }
 
     const handleProfileSubmit = async (event: React.FormEvent) => {
         event.preventDefault()
@@ -116,20 +163,65 @@ export default function SettingsForm() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25 }}
-                className="glass dark:glass-dark rounded-2xl p-6 sm:p-8"
+                className="studio-card p-6 sm:p-8"
+            >
+                <div className="inline-flex items-center gap-2 rounded-full bg-ss-accent-soft px-3 py-1 text-xs font-black uppercase tracking-wider text-ss-ink">
+                    <Camera className="w-4 h-4" />
+                    Profile Photo
+                </div>
+                <div className="mt-5 flex flex-col items-center gap-5 sm:flex-row sm:items-center">
+                    <Avatar userId={user?.id} name={user?.name} size={88} className="ring-4 ring-[color:var(--ss-accent)]/25" />
+                    <div className="flex-1 text-center sm:text-left">
+                        <h2 className="font-display text-xl font-black tracking-tight text-ss-ink">Your photo</h2>
+                        <p className="mt-1 text-sm font-semibold text-ss-slate">
+                            {hasCustomPhoto ? 'Upload a new image or remove it to use the default.' : 'Add a photo, or keep the friendly default.'}
+                        </p>
+                        <div className="mt-3 flex flex-wrap items-center justify-center gap-2 sm:justify-start">
+                            <input ref={fileInputRef} type="file" accept="image/*" onChange={handlePhotoChange} className="hidden" />
+                            <button
+                                type="button"
+                                onClick={() => fileInputRef.current?.click()}
+                                className="inline-flex items-center gap-2 rounded-full bg-ss-accent px-4 py-2 text-sm font-bold text-white transition-all hover:brightness-95"
+                            >
+                                <Camera className="w-4 h-4" />
+                                {hasCustomPhoto ? 'Change photo' : 'Upload photo'}
+                            </button>
+                            {hasCustomPhoto && (
+                                <button
+                                    type="button"
+                                    onClick={handlePhotoRemove}
+                                    className="inline-flex items-center gap-2 rounded-full bg-ss-chip px-4 py-2 text-sm font-bold text-ss-slate transition-colors hover:text-ss-ink"
+                                >
+                                    <Trash2 className="w-4 h-4" />
+                                    Remove
+                                </button>
+                            )}
+                        </div>
+                        {photoError && (
+                            <p className="mt-2 text-xs font-semibold text-ss-bad">{photoError}</p>
+                        )}
+                    </div>
+                </div>
+            </motion.section>
+
+            <motion.section
+                initial={{ opacity: 0, y: 12 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.25, delay: 0.04 }}
+                className="studio-card p-6 sm:p-8"
             >
                 <div className="flex items-start justify-between gap-6 mb-6">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/10 text-blue-600 dark:text-blue-300 text-xs font-semibold">
+                        <div className="inline-flex items-center gap-2 rounded-full bg-ss-accent-soft px-3 py-1 text-xs font-black uppercase tracking-wider text-ss-ink">
                             <User className="w-4 h-4" />
                             Profile Details
                         </div>
-                        <h2 className="text-xl sm:text-2xl font-semibold mt-3">Update your profile</h2>
-                        <p className="text-sm text-apple-dark-gray mt-1">
+                        <h2 className="mt-3 font-display text-2xl font-black tracking-tight text-ss-ink">Update your profile</h2>
+                        <p className="mt-1 text-sm font-semibold text-ss-slate">
                             Edit your name, class, and subjects. No email required.
                         </p>
                     </div>
-                    <div className="hidden sm:flex w-14 h-14 rounded-2xl bg-gradient-to-br from-blue-500 to-sky-500 items-center justify-center text-white">
+                    <div className="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl bg-ss-accent text-white shadow-studio-tight">
                         <ClipboardList className="w-6 h-6" />
                     </div>
                 </div>
@@ -137,7 +229,7 @@ export default function SettingsForm() {
                 <form onSubmit={handleProfileSubmit} className="space-y-5">
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 Full name
                             </label>
                             <input
@@ -149,7 +241,7 @@ export default function SettingsForm() {
                             />
                         </div>
                         <div>
-                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 Country
                             </label>
                             <select
@@ -177,12 +269,12 @@ export default function SettingsForm() {
                                     ))}
                                 </optgroup>
                             </select>
-                            <p className="text-[11px] text-gray-400 mt-1">
+                            <p className="mt-1 text-[11px] font-semibold text-ss-slate">
                                 {countrySignupHint(country)}
                             </p>
                         </div>
                         <div>
-                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 Class / Section
                             </label>
                             {user?.role === 'student' ? (
@@ -210,7 +302,7 @@ export default function SettingsForm() {
 
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 Student ID
                             </label>
                             <input
@@ -220,7 +312,7 @@ export default function SettingsForm() {
                             />
                         </div>
                         <div>
-                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 Role
                             </label>
                             <input
@@ -232,7 +324,7 @@ export default function SettingsForm() {
                     </div>
 
                     <div>
-                        <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                             Subjects (comma separated)
                         </label>
                         <input
@@ -241,6 +333,31 @@ export default function SettingsForm() {
                             className={inputClass}
                             placeholder="Mathematics, Physics, Chemistry"
                         />
+                    </div>
+
+                    <div>
+                        <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            Your focus
+                        </label>
+                        <p className="mt-0.5 text-[11px] font-semibold text-ss-slate">Sets what your dashboard leads with.</p>
+                        <div className="mt-2 grid grid-cols-3 gap-2">
+                            {FOCI.filter(({ id }) => id !== 'exams' || examPrepAvailable(country)).map(({ id, label, icon: Icon }) => {
+                                const selected = focus === id
+                                return (
+                                    <button
+                                        key={id}
+                                        type="button"
+                                        onClick={() => chooseFocus(id)}
+                                        className={`flex flex-col items-center gap-1.5 rounded-xl border-2 px-2 py-3 text-center transition-all ${
+                                            selected ? 'border-ss-accent bg-[color:var(--ss-accent)]/[0.07]' : 'border-ss-line bg-ss-panel hover:border-[color:var(--ss-accent)]/40'
+                                        }`}
+                                    >
+                                        <Icon className={`h-5 w-5 ${selected ? 'text-ss-accent' : 'text-ss-slate'}`} strokeWidth={1.9} />
+                                        <span className={`text-[12px] font-bold ${selected ? 'text-ss-ink' : 'text-ss-slate'}`}>{label}</span>
+                                    </button>
+                                )
+                            })}
+                        </div>
                     </div>
 
                     {profileError && (
@@ -267,7 +384,7 @@ export default function SettingsForm() {
                     <button
                         type="submit"
                         disabled={isSavingProfile}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-blue-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-blue-900/20 transition-colors hover:bg-blue-700 disabled:cursor-not-allowed disabled:bg-blue-400"
+                        className="btn-primary"
                     >
                         <Save className="w-4 h-4" />
                         {isSavingProfile ? 'Saving...' : 'Save changes'}
@@ -279,27 +396,27 @@ export default function SettingsForm() {
                 initial={{ opacity: 0, y: 12 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.25, delay: 0.05 }}
-                className="glass dark:glass-dark rounded-2xl p-6 sm:p-8"
+                className="studio-card p-6 sm:p-8"
             >
                 <div className="flex items-start justify-between gap-6 mb-6">
                     <div>
-                        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-amber-500/10 text-amber-600 dark:text-amber-300 text-xs font-semibold">
+                        <div className="inline-flex items-center gap-2 rounded-full bg-[color:var(--ss-warn)]/20 px-3 py-1 text-xs font-black uppercase tracking-wider text-ss-ink">
                             <ShieldCheck className="w-4 h-4" />
                             Password
                         </div>
-                        <h2 className="text-xl sm:text-2xl font-semibold mt-3">Change your password</h2>
-                        <p className="text-sm text-apple-dark-gray mt-1">
+                        <h2 className="mt-3 font-display text-2xl font-black tracking-tight text-ss-ink">Change your password</h2>
+                        <p className="mt-1 text-sm font-semibold text-ss-slate">
                             Use your current password to set a new one.
                         </p>
                     </div>
-                    <div className="hidden sm:flex w-14 h-14 rounded-2xl bg-gradient-to-br from-amber-500 to-orange-500 items-center justify-center text-white">
+                    <div className="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl bg-[#13202A] text-white shadow-studio-tight">
                         <Lock className="w-6 h-6" />
                     </div>
                 </div>
 
                 <form onSubmit={handlePasswordSubmit} className="space-y-5">
                     <div>
-                        <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                        <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                             Current password
                         </label>
                         <div className="relative">
@@ -313,7 +430,7 @@ export default function SettingsForm() {
                             <button
                                 type="button"
                                 onClick={() => setShowCurrent(value => !value)}
-                                className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                className="absolute right-3 top-1/2 -translate-y-1/2 text-ss-slate hover:text-ss-ink"
                             >
                                 {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                             </button>
@@ -322,7 +439,7 @@ export default function SettingsForm() {
 
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 New password
                             </label>
                             <div className="relative">
@@ -336,7 +453,7 @@ export default function SettingsForm() {
                                 <button
                                     type="button"
                                     onClick={() => setShowNew(value => !value)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-ss-slate hover:text-ss-ink"
                                 >
                                     {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
@@ -344,7 +461,7 @@ export default function SettingsForm() {
                         </div>
 
                         <div>
-                            <label className="text-xs font-semibold uppercase tracking-wide text-gray-500 dark:text-gray-400">
+                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 Confirm new password
                             </label>
                             <div className="relative">
@@ -358,7 +475,7 @@ export default function SettingsForm() {
                                 <button
                                     type="button"
                                     onClick={() => setShowConfirm(value => !value)}
-                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                    className="absolute right-3 top-1/2 -translate-y-1/2 text-ss-slate hover:text-ss-ink"
                                 >
                                     {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                                 </button>
@@ -390,7 +507,7 @@ export default function SettingsForm() {
                     <button
                         type="submit"
                         disabled={isSavingPassword}
-                        className="inline-flex items-center justify-center gap-2 rounded-xl bg-amber-500 px-5 py-2.5 text-sm font-semibold text-white shadow-sm shadow-amber-900/20 transition-colors hover:bg-amber-600 disabled:cursor-not-allowed disabled:bg-amber-300"
+                        className="inline-flex items-center justify-center gap-2 rounded-full bg-[#13202A] px-5 py-2.5 text-sm font-black text-white shadow-studio-tight transition-all hover:brightness-110 disabled:cursor-not-allowed disabled:opacity-60"
                     >
                         <ShieldCheck className="w-4 h-4" />
                         {isSavingPassword ? 'Updating...' : 'Change password'}

@@ -2,9 +2,10 @@
 
 import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
-import { X, User, BookOpen, LogOut, Settings, Sparkles } from 'lucide-react'
+import { X, BookOpen, LogOut, Settings, Sparkles } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 import { useSubscription } from './SubscriptionProvider'
+import Avatar from './studio/Avatar'
 
 interface ProfileSidebarProps {
   isOpen: boolean
@@ -53,9 +54,7 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
             <div className="space-y-6">
               {/* Profile Avatar */}
               <div className="flex justify-center">
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-gradient-to-br from-apple-blue to-blue-600 flex items-center justify-center">
-                  <User className="w-10 h-10 sm:w-12 sm:h-12 text-white" />
-                </div>
+                <Avatar userId={user.id} name={user.name} size={96} className="ring-4 ring-[color:var(--ss-accent)]/30" />
               </div>
 
               {/* Student Info */}

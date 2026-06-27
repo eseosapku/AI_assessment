@@ -21,7 +21,7 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
-import { Loader2, Download } from 'lucide-react'
+import { Loader2, Download, Brain } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import PaletteToolbar from './PaletteToolbar'
 import { exportLayout, exportFileName, triggerDownload, brandExport } from '@/lib/studylab/exportCanvas'
@@ -316,7 +316,7 @@ function FlowInner({
         })
         .map((e) => {
           const isUser = e.id.startsWith('u-')
-          const stroke = isUser ? '#94a3b8' : '#007AFF'
+          const stroke = isUser ? '#94a3b8' : '#0E8FD1'
           return {
             id: e.id,
             source: e.source,
@@ -455,47 +455,63 @@ function FlowInner({
         minZoom={0.15}
         maxZoom={2}
         proOptions={{ hideAttribution: true }}
-        className="bg-apple-gray dark:bg-[#0a0a0a]"
+        className="bg-ss-canvas dark:bg-[#0a0a0a]"
       >
-        <Background variant={BackgroundVariant.Dots} gap={28} size={1.5} className="!text-gray-300 dark:!text-gray-700" />
-        <Controls showInteractive={false} className="!shadow-lg !rounded-xl overflow-hidden" />
-        <MiniMap pannable zoomable className="!rounded-xl !border !border-gray-200 dark:!border-gray-800" />
+        <Background variant={BackgroundVariant.Dots} gap={28} size={1.5} className="!text-[#BFE0F2] dark:!text-[#1d3543]" />
+        <Controls showInteractive={false} className="!shadow-ss-panel !rounded-xl overflow-hidden !border !border-ss-line" />
+        <MiniMap
+          pannable
+          zoomable
+          nodeColor="#9CD4F0"
+          nodeStrokeColor="#0E8FD1"
+          maskColor="rgba(12,116,180,0.08)"
+          className="!rounded-xl !border !border-ss-line !bg-ss-panel"
+        />
         <Panel position="top-right">
           <PaletteToolbar onAdd={addAtCenter} />
         </Panel>
         <Panel position="top-left">
+          <div className="flex items-center gap-2">
+            {/* Space title + beta — a proper little header instead of a lone button */}
+            <div className="flex items-center gap-2 rounded-xl border border-ss-line bg-[color:var(--ss-panel)]/95 px-3 py-2 shadow-ss-panel backdrop-blur">
+              <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-[color:var(--ss-accent)]/15">
+                <Brain className="h-3.5 w-3.5 text-ss-accent" />
+              </span>
+              <span className="max-w-[200px] truncate text-[12.5px] font-extrabold text-ss-ink">{title || 'LearnSpace'}</span>
+              <span className="rounded-full bg-[color:var(--ss-accent)]/15 px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
+            </div>
           <div className="relative">
             <button
               type="button"
               onClick={() => setExportMenu((o) => !o)}
               disabled={exporting}
               title="Export this LearnSpace"
-              className="flex items-center gap-1.5 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-lg px-3 py-2 text-[12px] font-semibold text-gray-700 dark:text-gray-200 hover:border-apple-blue disabled:opacity-60"
+              className="flex items-center gap-1.5 rounded-xl bg-ss-panel border border-ss-line shadow-ss-panel px-3 py-2 text-[12px] font-semibold text-ss-ink hover:border-ss-accent disabled:opacity-60"
             >
               {exporting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Download className="w-4 h-4" />}
               {exporting ? 'Exporting…' : 'Export'}
             </button>
             {exportMenu && !exporting && (
-              <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-xl p-3 z-10 space-y-3">
+              <div className="absolute top-full left-0 mt-1 w-64 rounded-xl bg-ss-panel border border-ss-line shadow-xl p-3 z-10 space-y-3">
                 {stepList.length > 1 && (
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-wide text-apple-dark-gray">Steps to include</span>
-                      <button type="button" onClick={toggleAll} className="text-[11px] font-semibold text-apple-blue hover:underline">
+                      <span className="text-[10px] font-bold uppercase tracking-wide text-ss-slate">Steps to include</span>
+                      <button type="button" onClick={toggleAll} className="text-[11px] font-semibold text-ss-accent hover:underline">
                         {selectedSteps.size === allSteps.length ? 'Clear' : 'All'}
                       </button>
                     </div>
                     <div className="max-h-44 overflow-auto space-y-0.5 -mr-1 pr-1">
                       {stepList.map((s) => (
-                        <label key={s.step} className="flex items-center gap-2 text-[12px] px-1.5 py-1 rounded-lg hover:bg-apple-blue/5 cursor-pointer">
+                        <label key={s.step} className="flex items-center gap-2 text-[12px] px-1.5 py-1 rounded-lg hover:bg-[color:var(--ss-accent)]/5 cursor-pointer">
                           <input
                             type="checkbox"
                             checked={selectedSteps.has(s.step)}
                             onChange={() => toggleStep(s.step)}
-                            className="accent-apple-blue w-3.5 h-3.5"
+                            className="accent-[#0E8FD1] w-3.5 h-3.5"
                           />
                           <span className="truncate flex-1">{s.title}</span>
-                          <span className="text-[10px] text-apple-dark-gray">{s.count}</span>
+                          <span className="text-[10px] text-ss-slate">{s.count}</span>
                         </label>
                       ))}
                     </div>
@@ -506,7 +522,7 @@ function FlowInner({
                     type="button"
                     onClick={() => exportCanvas('png')}
                     disabled={selectedSteps.size === 0}
-                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-apple-blue hover:text-apple-blue transition-colors disabled:opacity-40"
+                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg border border-ss-line hover:border-ss-accent hover:text-ss-accent transition-colors disabled:opacity-40"
                   >
                     PNG image
                   </button>
@@ -514,18 +530,19 @@ function FlowInner({
                     type="button"
                     onClick={() => exportCanvas('pdf')}
                     disabled={selectedSteps.size === 0}
-                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg bg-apple-blue text-white hover:bg-apple-blue/90 transition-colors disabled:opacity-40"
+                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg bg-ss-accent text-white hover:brightness-95 transition-colors disabled:opacity-40"
                   >
                     PDF · {stepList.length > 1 ? 'pages' : '1 page'}
                   </button>
                 </div>
                 {stepList.length > 1 && (
-                  <p className="text-[10px] text-apple-dark-gray leading-snug">
+                  <p className="text-[10px] text-ss-slate leading-snug">
                     PNG saves one combined image; PDF makes one page per step.
                   </p>
                 )}
               </div>
             )}
+          </div>
           </div>
         </Panel>
       </ReactFlow>
@@ -534,9 +551,9 @@ function FlowInner({
         <div
           onPointerDown={(e) => e.stopPropagation()}
           style={{ position: 'fixed', left: cardMenu.x, top: cardMenu.y, zIndex: 50 }}
-          className="min-w-[200px] rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow-xl p-1"
+          className="min-w-[200px] rounded-xl border border-ss-line bg-ss-panel shadow-xl p-1"
         >
-          <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-apple-dark-gray truncate">{cardMenu.title}</p>
+          <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-ss-slate truncate">{cardMenu.title}</p>
           {CARD_ACTIONS.map((a) => (
             <button
               key={a.label}
@@ -545,7 +562,7 @@ function FlowInner({
                 onCardPrompt(`Focusing on the card "${cardMenu.title}" (card id: ${cardMenu.id}): ${a.text}`)
                 setCardMenu(null)
               }}
-              className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-apple-blue/10 hover:text-apple-blue transition-colors"
+              className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-[color:var(--ss-accent)]/10 hover:text-ss-accent transition-colors"
             >
               {a.label}
             </button>
@@ -586,16 +603,26 @@ export default function StudyCanvas(props: StudyCanvasProps) {
           />
         </ReactFlowProvider>
         {props.busy && props.nodes.length === 0 && (
-          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-apple-gray/70 dark:bg-black/50 backdrop-blur-sm pointer-events-none">
-            <Loader2 className="w-8 h-8 text-apple-blue animate-spin" />
-            <p className="text-sm font-semibold text-apple-dark-gray">Drafting your lesson plan…</p>
-            <p className="text-xs text-apple-dark-gray/70">Mapping out the first few steps — one moment.</p>
+          <div className="absolute inset-0 z-20 flex flex-col items-center justify-center gap-3 bg-[color:var(--ss-canvas)]/70 dark:bg-black/50 backdrop-blur-sm pointer-events-none">
+            <Loader2 className="w-8 h-8 text-ss-accent animate-spin" />
+            <p className="text-sm font-semibold text-ss-slate">Drafting your lesson plan…</p>
+            <p className="text-xs text-[color:var(--ss-slate)]/70">Mapping out the first few steps — one moment.</p>
           </div>
         )}
         {props.busy && props.nodes.length > 0 && (
-          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-gray-700 shadow-lg px-3.5 py-1.5 text-[12px] font-semibold text-apple-blue pointer-events-none">
+          <div className="absolute top-4 left-1/2 -translate-x-1/2 z-20 flex items-center gap-2 rounded-full bg-ss-panel border border-ss-line shadow-lg px-3.5 py-1.5 text-[12px] font-semibold text-ss-accent pointer-events-none">
             <Loader2 className="w-3.5 h-3.5 animate-spin" />
             Building the board…
+          </div>
+        )}
+        {!props.busy && props.nodes.length === 0 && (
+          <div className="absolute inset-0 z-10 flex flex-col items-center justify-center gap-2 px-6 text-center pointer-events-none">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src="/art/tutor-canvas.png" alt="" aria-hidden className="mb-1 h-28 w-auto opacity-95 drop-shadow" />
+            <p className="text-[15px] font-extrabold text-ss-ink">Your board is empty</p>
+            <p className="max-w-xs text-[13px] font-semibold text-ss-slate">
+              Ask the tutor below to explain a topic, or drag a block from the palette to start building.
+            </p>
           </div>
         )}
       </div>

@@ -141,10 +141,10 @@ export default function SubscribeModal({
             animate={{ scale: 1, opacity: 1, y: 0 }}
             exit={{ scale: 0.96, opacity: 0, y: 12 }}
             transition={{ type: 'spring', stiffness: 380, damping: 32 }}
-            className="w-full max-w-md overflow-hidden rounded-3xl bg-white dark:bg-[#141416] border border-gray-200/80 dark:border-white/10 shadow-2xl"
+            className="w-full max-w-md overflow-hidden rounded-3xl border border-[#0E8FD1]/20 bg-white shadow-2xl shadow-[#0E8FD1]/10 dark:bg-[#141416] dark:border-[#0E8FD1]/30"
             onClick={(e) => e.stopPropagation()}
           >
-            <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white">
+            <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-[#0C2A40] via-[#0C74B4] to-[#2ACBF2] text-white">
               <button
                 type="button"
                 onClick={onClose}
@@ -154,7 +154,7 @@ export default function SubscribeModal({
                 <X className="w-4 h-4" />
               </button>
               <div className="mb-5 pr-10">
-                <p className="text-xs font-semibold uppercase tracking-widest text-white/60">StudySquare</p>
+                <p className="text-xs font-semibold uppercase tracking-widest text-[#9BE3FB]">Subscribe to StudySquare</p>
                 <h2 className="text-lg font-bold leading-tight">Monthly subscription</h2>
               </div>
               <div className="flex items-end gap-2 min-h-[3rem]">
@@ -185,7 +185,7 @@ export default function SubscribeModal({
                   <button
                     type="button"
                     onClick={onClose}
-                    className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-semibold transition-colors"
+                    className="w-full py-3 rounded-xl bg-ss-accent hover:brightness-95 text-white font-semibold transition-all"
                   >
                     Continue
                   </button>
@@ -199,7 +199,7 @@ export default function SubscribeModal({
                   <ul className="space-y-2 mb-5">
                     {BENEFITS.map((item) => (
                       <li key={item} className="flex items-start gap-2.5 text-sm text-gray-700 dark:text-gray-300">
-                        <Check className="w-4 h-4 mt-0.5 shrink-0 text-emerald-600 dark:text-emerald-400" />
+                        <Check className="w-4 h-4 mt-0.5 shrink-0 text-ss-accent dark:text-[#7FD8F5]" />
                         {item}
                       </li>
                     ))}
@@ -235,7 +235,7 @@ export default function SubscribeModal({
                     <button
                       type="button"
                       onClick={() => setUseUsdCheckout((v) => !v)}
-                      className="mb-4 w-full text-left text-xs text-gray-500 dark:text-gray-400 hover:text-emerald-600 dark:hover:text-emerald-400 transition-colors"
+                      className="mb-4 w-full text-left text-xs text-gray-500 transition-colors hover:text-ss-accent dark:text-gray-400 dark:hover:text-[#7FD8F5]"
                     >
                       {useUsdCheckout
                         ? `← Pay in ${localCurrency} instead`
@@ -253,7 +253,7 @@ export default function SubscribeModal({
                     type="button"
                     onClick={startPayment}
                     disabled={starting || pricingLoading}
-                    className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white disabled:opacity-60 font-semibold flex items-center justify-center gap-2 transition-colors shadow-sm shadow-emerald-900/20"
+                    className="w-full py-3.5 rounded-xl bg-ss-accent hover:brightness-95 text-white disabled:opacity-60 font-semibold flex items-center justify-center gap-2 transition-all shadow-sm shadow-[#0E8FD1]/25"
                   >
                     {starting ? (
                       <Loader2 className="w-4 h-4 animate-spin" />

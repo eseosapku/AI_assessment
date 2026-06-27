@@ -10,7 +10,7 @@ import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, createImageCard, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock, aiCards } from '@/lib/studylab/freeform'
 import { summarizeCheckpoints } from '@/lib/studylab/checkpointState'
-import { takeHomeworkImage } from '@/lib/studylab/homeworkHandoff'
+import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
@@ -21,8 +21,8 @@ import { useAuth } from '@/components/AuthProvider'
 const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
   ssr: false,
   loading: () => (
-    <div className="w-full h-full flex items-center justify-center bg-apple-gray dark:bg-[#0a0a0a]">
-      <Loader2 className="w-7 h-7 text-apple-blue animate-spin" />
+    <div className="w-full h-full flex items-center justify-center bg-ss-canvas dark:bg-[#0a0a0a]">
+      <Loader2 className="w-7 h-7 text-ss-accent animate-spin" />
     </div>
   ),
 })
@@ -182,7 +182,8 @@ export default function Workspace({ id }: { id: string }) {
         }
 
         setCurrentStep(nextStep)
-        setDone(Boolean(data.done))
+        const isDone = Boolean(data.done)
+        setDone(isDone)
 
         const assistantMsg: ChatMessage = {
           role: 'assistant',
@@ -196,7 +197,7 @@ export default function Workspace({ id }: { id: string }) {
         const newMessages: ChatMessage[] = userText
           ? [{ role: 'user', content: userText }, assistantMsg]
           : [assistantMsg]
-        persist({ canvas_state: nextCanvas, current_step: nextStep, messages: newMessages })
+        persist({ canvas_state: nextCanvas, current_step: nextStep, messages: newMessages, ...(isDone ? { status: 'completed' } : {}) })
       } catch (err: any) {
         setMessages((prev) => [
           ...prev,
@@ -356,7 +357,7 @@ export default function Workspace({ id }: { id: string }) {
 
   // ── Checkpoints ──────────────────────────────────────────────────────────────
   const handleQuizMe = useCallback(() => {
-    handleSend('Quiz me on what we have covered so far.')
+    handleSend('Quiz me on what we have covered so far. Add a short checkpoint to the canvas with a few interactive quiz questions for me to answer.')
   }, [handleSend])
 
   // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
@@ -473,8 +474,11 @@ export default function Workspace({ id }: { id: string }) {
       // A snapped-homework space hands its photo off in memory; feed it into the
       // opening turn so the tutor reads the problem and builds the solution.
       const hwImage = space.origin === 'homework' ? takeHomeworkImage(id) : null
-      if (hwImage) {
-        runTutor("Here's my homework problem — read it and walk me through solving it step by step.", [], hwImage)
+      const hwText = space.origin === 'homework' ? takeHomeworkText(id) : null
+      if (hwImage || hwText) {
+        const base = "Here's my homework problem — read it and walk me through solving it step by step."
+        const msg = hwText ? `${base}\n\n${hwText}` : base
+        runTutor(msg, [], hwImage ?? undefined)
       } else {
         runTutor('', [])
       }
@@ -483,17 +487,17 @@ export default function Workspace({ id }: { id: string }) {
 
   if (!loaded) {
     return (
-      <div className="h-screen w-full flex items-center justify-center bg-apple-gray dark:bg-[#0a0a0a]">
-        <Loader2 className="w-8 h-8 text-apple-blue animate-spin" />
+      <div className="h-screen w-full flex items-center justify-center bg-ss-canvas dark:bg-[#0a0a0a]">
+        <Loader2 className="w-8 h-8 text-ss-accent animate-spin" />
       </div>
     )
   }
 
   if (loadError || !space) {
     return (
-      <div className="h-screen w-full flex flex-col items-center justify-center gap-4 bg-apple-gray dark:bg-[#0a0a0a] px-6 text-center">
+      <div className="h-screen w-full flex flex-col items-center justify-center gap-4 bg-ss-canvas dark:bg-[#0a0a0a] px-6 text-center">
         <AlertCircle className="w-10 h-10 text-red-500" />
-        <p className="text-apple-dark-gray max-w-md">{loadError || 'LearnSpace not found.'}</p>
+        <p className="text-ss-slate max-w-md">{loadError || 'LearnSpace not found.'}</p>
         <button onClick={() => router.push('/studylab')} className="btn-primary">
           Back to StudyLab
         </button>

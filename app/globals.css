@@ -9,6 +9,37 @@
     --apple-blue: #007AFF;
     --apple-gray: #F5F5F7;
     --apple-dark-gray: #86868B;
+
+    /* Redesign tokens (ss-*) — surfaced as Tailwind colors, flip in .dark */
+    --ss-ink: #16202A;
+    --ss-slate: #7E8A96;
+    --ss-line: #EAF0F3;
+    --ss-chip: #F3F7F9;
+    --ss-panel: #FFFFFF;
+    --ss-accent: #0E8FD1;
+    --ss-accent-bright: #2ACBF2;
+    --ss-accent-deep: #0C6FAE;
+    --ss-accent-soft: #E6F6FD;
+    --ss-good: #16B67A;
+    --ss-bad: #E26773;
+    --ss-warn: #F0A93E;
+    --ss-canvas: #E8EEF3;
+  }
+
+  .dark {
+    --ss-ink: #E8EEF3;
+    --ss-slate: #93A1AD;
+    --ss-line: rgba(255, 255, 255, 0.08);
+    --ss-chip: rgba(255, 255, 255, 0.05);
+    --ss-panel: #161B21;
+    --ss-accent: #2BB4EE;
+    --ss-accent-bright: #48D0FF;
+    --ss-accent-deep: #1C8FC8;
+    --ss-accent-soft: rgba(43, 180, 238, 0.16);
+    --ss-good: #3FD08F;
+    --ss-bad: #F08A93;
+    --ss-warn: #F4BC63;
+    --ss-canvas: #0C0F13;
   }
 
   body {
@@ -128,6 +159,26 @@
     opacity: 0.65;
   }
 
+  .studio-surface {
+    @apply min-h-screen bg-brand-paper text-brand-ink;
+  }
+
+  .studio-card {
+    @apply rounded-[1.5rem] border border-black/[0.06] bg-white shadow-studio;
+  }
+
+  .studio-focus {
+    @apply outline-none ring-2 ring-ss-accent ring-offset-2 ring-offset-ss-canvas;
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full bg-ss-accent px-6 py-3 text-sm font-black text-white shadow-studio-tight transition-all hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full border border-ss-line bg-ss-panel px-6 py-3 text-sm font-bold text-ss-ink shadow-sm transition-all hover:bg-ss-chip active:scale-[0.98];
+  }
+
   .line-clamp-2 {
     display: -webkit-box;
     -webkit-line-clamp: 2;
@@ -157,6 +208,19 @@
   to   { opacity: 1; transform: scale(1); }
 }
 .sl-node-enter { animation: slNodeEnter 280ms ease-out; }
+
+/* React Flow zoom/fit controls — give them dark-mode visibility (default theme
+   renders white buttons with dark icons that vanish on the dark canvas). */
+.dark .react-flow__controls-button {
+  background: #1c1c1e;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+.dark .react-flow__controls-button:hover {
+  background: #2a2a2e;
+}
+.dark .react-flow__controls-button svg {
+  fill: #cbd5e1;
+}
 
 /* Mobile-specific optimizations */
 @media (max-width: 640px) {

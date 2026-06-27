@@ -10,7 +10,18 @@ import { LatexText as L } from '@/lib/latex-text'
 import ExamFigure from '@/components/ExamFigure'
 import { InteractiveResultCard, isInteractiveQuestionType } from '@/components/interactive/InteractiveQuestionPlayer'
 import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
+import { subjectArt } from '@/lib/studio/subjectArt'
 import type { InteractiveAnswer, InteractiveQuestion } from '@/types/interactive'
+
+// Per-grade band gradient + ring color + plain-English meaning for the summary.
+const GRADE_REVIEW: Record<string, { grad: string; ring: string; meaning: string }> = {
+    'A+': { grad: 'linear-gradient(120deg,#0E7A5A,#16B67A 60%,#3FD08F)', ring: '#16B67A', meaning: 'Excellent' },
+    'A': { grad: 'linear-gradient(120deg,#0E7A5A,#16B67A 60%,#3FD08F)', ring: '#16B67A', meaning: 'Excellent' },
+    'B+': { grad: 'linear-gradient(120deg,#0C74B4,#0E94D6 55%,#2ACBF2)', ring: '#0E8FD1', meaning: 'Good work' },
+    'B': { grad: 'linear-gradient(120deg,#0C74B4,#0E94D6 55%,#2ACBF2)', ring: '#0E8FD1', meaning: 'Good work' },
+    'C': { grad: 'linear-gradient(120deg,#C77B16,#F0A93E 60%,#FFC777)', ring: '#F0A93E', meaning: 'Getting there' },
+    'D': { grad: 'linear-gradient(120deg,#C2473F,#E2645F 60%,#F0978F)', ring: '#E2645F', meaning: 'Needs work' },
+}
 
 
 interface MCQQuestion {
@@ -140,7 +151,7 @@ function PassageBox({ passage, source }: { passage: string; source?: string }) {
                         transition={{ duration: 0.25 }}
                     >
                         <div className="px-5 py-4 max-h-[480px] overflow-y-auto">
-                            <p className="text-sm sm:text-base text-gray-800 dark:text-gray-200 leading-[1.85] whitespace-pre-wrap font-serif">
+                            <p className="text-sm sm:text-base text-ss-ink dark:text-gray-200 leading-[1.85] whitespace-pre-wrap font-serif">
                                 {passage}
                             </p>
                         </div>
@@ -164,12 +175,12 @@ function AnnotatedText({
     highlightColor: 'green' | 'red' | null
 }) {
     if (!highlight || !highlightColor) {
-        return <span className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">{answer}</span>
+        return <span className="text-ss-ink dark:text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">{answer}</span>
     }
 
     const idx = answer.toLowerCase().indexOf(highlight.toLowerCase())
     if (idx === -1) {
-        return <span className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">{answer}</span>
+        return <span className="text-ss-ink dark:text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">{answer}</span>
     }
 
     const before = answer.slice(0, idx)
@@ -180,7 +191,7 @@ function AnnotatedText({
         : 'bg-red-200 dark:bg-red-800/60 text-red-900 dark:text-red-100'
 
     return (
-        <span className="text-gray-800 dark:text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
+        <span className="text-ss-ink dark:text-gray-200 text-sm leading-relaxed whitespace-pre-wrap">
             {before}
             <mark className={`px-0.5 rounded ${bg}`}>{match}</mark>
             {after}
@@ -223,7 +234,7 @@ function LongFormResultCard({
         >
             <div className="flex items-start gap-4 mb-4">
                 <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 mt-1 text-sm font-bold ${!isGraded
-                    ? 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+                    ? 'bg-gray-100 text-ss-slate dark:bg-gray-800 dark:text-ss-slate'
                     : overallPass
                         ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400'
                         : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'
@@ -232,27 +243,27 @@ function LongFormResultCard({
                 </div>
                 <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                        <span className="text-sm text-apple-dark-gray">Question {idx + 1}</span>
+                        <span className="text-sm text-ss-slate">Question {idx + 1}</span>
                         <span className="px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-semibold">
                             Long form - {q.marks} marks
                         </span>
                     </div>
                     {q.image_url && <ExamFigure src={q.image_url} />}
                     {q.diagram_svg && (
-                        <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
+                        <div className="bg-ss-panel dark:bg-gray-900 rounded-xl p-3 mb-3 border border-ss-line dark:border-ss-line overflow-x-auto">
                             <DiagramSvg svg={q.diagram_svg} />
                         </div>
                     )}
                     {q.passage && (
                         <PassageBox passage={q.passage} source={q.passage_source} />
                     )}
-                    <h3 className="text-lg font-medium text-gray-900 dark:text-white"><L>{q.question}</L></h3>
+                    <h3 className="text-lg font-medium text-ss-ink dark:text-white"><L>{q.question}</L></h3>
                 </div>
             </div>
 
             <div className="ml-12 mb-4">
-                <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Answer</div>
-                <div className="bg-gray-50 dark:bg-gray-800/60 rounded-xl p-4 border border-gray-200 dark:border-gray-700 min-h-[60px]">
+                <div className="text-xs font-semibold uppercase tracking-wider text-ss-slate mb-2">Your Answer</div>
+                <div className="bg-ss-chip dark:bg-gray-800/60 rounded-xl p-4 border border-ss-line dark:border-ss-line min-h-[60px]">
                     {studentAnswer ? (
                         <AnnotatedText
                             answer={studentAnswer}
@@ -260,7 +271,7 @@ function LongFormResultCard({
                             highlightColor={highlightColor}
                         />
                     ) : (
-                        <span className="text-gray-400 italic text-sm">No answer written</span>
+                        <span className="text-ss-slate italic text-sm">No answer written</span>
                     )}
                 </div>
                 {activeCrit && (
@@ -281,7 +292,7 @@ function LongFormResultCard({
 
             {isGraded && (
                 <div className="ml-12 mb-4">
-                    <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+                    <div className="text-xs font-semibold uppercase tracking-wider text-ss-slate mb-2">
                         Marking criteria - click any to see why
                     </div>
                     <div className="space-y-2">
@@ -295,7 +306,7 @@ function LongFormResultCard({
                                     ? cr.met
                                         ? 'border-green-400 bg-green-50 dark:bg-green-900/20 dark:border-green-700'
                                         : 'border-red-400 bg-red-50 dark:bg-red-900/20 dark:border-red-700'
-                                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 dark:hover:border-gray-600 bg-white dark:bg-gray-800/40'
+                                    : 'border-ss-line dark:border-ss-line hover:border-gray-300 dark:hover:border-gray-600 bg-ss-panel dark:bg-gray-800/40'
                                     }`}
                             >
                                 <span className={`flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 ${cr.met
@@ -304,8 +315,8 @@ function LongFormResultCard({
                                     }`}>
                                     {cr.met ? 'Y' : 'N'}
                                 </span>
-                                <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{cr.criterion}</span>
-                                <span className="text-xs text-gray-400 flex-shrink-0 mt-0.5">tap</span>
+                                <span className="text-sm text-ss-ink dark:text-gray-300 flex-1">{cr.criterion}</span>
+                                <span className="text-xs text-ss-slate flex-shrink-0 mt-0.5">tap</span>
                             </motion.button>
                         ))}
                     </div>
@@ -320,23 +331,23 @@ function LongFormResultCard({
 
             {!isGraded && (
                 <div className="ml-12 mb-4 space-y-3">
-                    <div className="flex items-center gap-2 text-sm text-gray-500">
+                    <div className="flex items-center gap-2 text-sm text-ss-slate">
                         <div className="h-3 w-3 rounded-full border-2 border-gray-400 border-t-transparent animate-spin" />
                         Grading data not available for this attempt.
                     </div>
                     {Array.isArray(q.marking_criteria) && q.marking_criteria.length > 0 && (
                         <div>
-                            <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Marking criteria</div>
+                            <div className="text-xs font-semibold uppercase tracking-wider text-ss-slate mb-2">Marking criteria</div>
                             <div className="space-y-2">
                                 {q.marking_criteria.map((criterion, cIdx) => (
                                     <div
                                         key={cIdx}
-                                        className="w-full text-left flex items-start gap-2 p-2.5 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800/40"
+                                        className="w-full text-left flex items-start gap-2 p-2.5 rounded-xl border border-ss-line dark:border-ss-line bg-ss-panel dark:bg-gray-800/40"
                                     >
-                                        <span className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 bg-gray-300 text-gray-700 dark:bg-gray-700 dark:text-gray-200">
+                                        <span className="flex-shrink-0 w-5 h-5 rounded-full flex items-center justify-center text-xs font-bold mt-0.5 bg-gray-300 text-ss-ink dark:bg-gray-700 dark:text-gray-200">
                                             ?
                                         </span>
-                                        <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{criterion}</span>
+                                        <span className="text-sm text-ss-ink dark:text-gray-300 flex-1">{criterion}</span>
                                     </div>
                                 ))}
                             </div>
@@ -349,7 +360,7 @@ function LongFormResultCard({
                 <div className="ml-12">
                     <button
                         onClick={() => setShowModelAnswer(!showModelAnswer)}
-                        className="text-xs font-medium text-blue-600 dark:text-blue-400 hover:underline"
+                        className="text-xs font-medium text-ss-accent dark:text-ss-accent hover:underline"
                     >
                         {showModelAnswer ? 'Hide model answer' : 'Show model answer'}
                     </button>
@@ -359,9 +370,9 @@ function LongFormResultCard({
                                 initial={{ opacity: 0, height: 0 }}
                                 animate={{ opacity: 1, height: 'auto' }}
                                 exit={{ opacity: 0, height: 0 }}
-                                className="mt-2 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
+                                className="mt-2 bg-ss-chip dark:bg-gray-800/50 rounded-xl p-4 text-sm text-ss-ink dark:text-gray-300 border border-ss-line dark:border-ss-line"
                             >
-                                <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Model Answer</div>
+                                <div className="font-semibold text-ss-ink dark:text-gray-100 mb-1">Model Answer</div>
                                 <p className="leading-relaxed">{q.model_answer}</p>
                             </motion.div>
                         )}
@@ -399,10 +410,10 @@ function McqResultCard({
                     {isCorrect ? <Check className="w-5 h-5" /> : <span className="font-bold text-lg">x</span>}
                 </div>
                 <div className="flex-1">
-                    <div className="text-sm text-apple-dark-gray mb-1">Question {idx + 1}</div>
+                    <div className="text-sm text-ss-slate mb-1">Question {idx + 1}</div>
                     {q.image_url && <ExamFigure src={q.image_url} />}
                     {q.diagram_svg && (
-                        <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
+                        <div className="bg-ss-panel dark:bg-gray-900 rounded-xl p-3 mb-3 border border-ss-line dark:border-ss-line overflow-x-auto">
                             <DiagramSvg svg={q.diagram_svg} />
                         </div>
                     )}
@@ -421,7 +432,7 @@ function McqResultCard({
                     } else if (userAnswer !== null && optIdx === userAnswer) {
                         optClass += 'bg-red-50 border-red-200 text-red-800 dark:bg-red-900/20 dark:border-red-800/50 dark:text-red-200'
                     } else {
-                        optClass += 'bg-gray-50 border-transparent text-gray-600 dark:bg-gray-800/50 dark:text-gray-400'
+                        optClass += 'bg-ss-chip border-transparent text-gray-600 dark:bg-gray-800/50 dark:text-ss-slate'
                     }
                     return (
                         <div key={optIdx} className={optClass}>
@@ -437,8 +448,8 @@ function McqResultCard({
                 })}
             </div>
 
-            <div className="ml-12 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 text-sm text-apple-dark-gray">
-                <span className="font-semibold text-gray-900 dark:text-gray-100">Explanation: </span>
+            <div className="ml-12 bg-ss-chip dark:bg-gray-800/50 rounded-xl p-4 text-sm text-ss-slate">
+                <span className="font-semibold text-ss-ink dark:text-gray-100">Explanation: </span>
                 <L>{q.explanation ?? ''}</L>
             </div>
         </motion.div>
@@ -734,10 +745,10 @@ export default function ResultDetailPage() {
 
     if (isLoading || isLoadingResult) {
         return (
-            <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex items-center justify-center">
+            <div className="min-h-screen bg-[#E8EEF3] dark:bg-[#0C0F13] flex items-center justify-center">
                 <div className="text-center">
-                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto mb-4" />
-                    <p className="text-gray-500 dark:text-gray-400 font-medium">Loading results...</p>
+                    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-ss-accent mx-auto mb-4" />
+                    <p className="text-ss-slate dark:text-ss-slate font-medium">Loading results...</p>
                 </div>
             </div>
         )
@@ -745,12 +756,12 @@ export default function ResultDetailPage() {
 
     if (!result) {
         return (
-            <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex items-center justify-center">
+            <div className="min-h-screen bg-[#E8EEF3] dark:bg-[#0C0F13] flex items-center justify-center">
                 <div className="text-center">
-                    <p className="text-gray-700 dark:text-gray-300 font-semibold">Result not found.</p>
+                    <p className="text-ss-ink dark:text-gray-300 font-semibold">Result not found.</p>
                     <button
                         onClick={() => router.push('/')}
-                        className="mt-4 px-5 py-2 text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-colors"
+                        className="mt-4 px-5 py-2 text-sm font-bold bg-ss-accent hover:bg-blue-700 text-white rounded-xl transition-colors"
                     >
                         Back to dashboard
                     </button>
@@ -760,80 +771,103 @@ export default function ResultDetailPage() {
     }
 
     return (
-        <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] py-8 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-4xl mx-auto space-y-8">
+        <div>
+            <div className="mx-auto max-w-4xl space-y-8">
                 <div className="flex items-center justify-between">
                     <button
                         onClick={() => router.back()}
-                        className="flex items-center gap-2 text-sm font-semibold text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-white"
+                        className="flex items-center gap-2 text-sm font-semibold text-ss-slate hover:text-ss-ink dark:text-ss-slate dark:hover:text-white"
                     >
                         <ArrowLeft className="w-4 h-4" />
                         Back
                     </button>
                     <button
                         onClick={handleDownload}
-                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 dark:bg-white text-white dark:text-gray-900 font-semibold text-xs sm:text-sm hover:opacity-80 transition-opacity"
+                        className="flex items-center gap-2 px-4 py-2 rounded-xl bg-gray-900 dark:bg-ss-panel text-white dark:text-ss-ink font-semibold text-xs sm:text-sm hover:opacity-80 transition-opacity"
                     >
                         <Download className="w-4 h-4" />
                         Save as PDF
                     </button>
                 </div>
 
-                <motion.div
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    className="bg-white dark:bg-[#1c1c1e] rounded-3xl p-8 sm:p-12 text-center shadow-xl border border-gray-200/50 dark:border-gray-800/50"
-                >
-                    <div className="w-20 h-20 mx-auto bg-green-50 dark:bg-green-900/20 rounded-full flex items-center justify-center mb-6">
-                        <Check className="w-10 h-10 text-green-500" />
-                    </div>
-                    <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-gray-900 dark:text-white tracking-tight">
-                        Assessment Review
-                    </h1>
-                    <p className="text-gray-500 dark:text-gray-400 mb-10 text-lg">
-                        {subject} {topic ? `- ${topic}` : ''}
-                    </p>
-
-                    <div className="flex justify-center items-center gap-12 mb-8">
-                        <div className="text-center">
-                            <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">
-                                {score}%
+                {(() => {
+                    const gm = GRADE_REVIEW[grade] ?? GRADE_REVIEW['D']
+                    const pct = Math.max(0, Math.min(100, Math.round(score)))
+                    return (
+                        <motion.div
+                            initial={{ opacity: 0, y: 20 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            className="overflow-hidden rounded-[24px] border border-ss-line bg-ss-panel shadow-xl"
+                        >
+                            {/* Grade-colored band */}
+                            <div className="relative flex flex-col gap-5 p-6 text-white sm:flex-row sm:items-center sm:gap-6 sm:p-7" style={{ background: gm.grad }}>
+                                <div className="flex items-center gap-4">
+                                    <span className="grid h-16 w-16 shrink-0 place-items-center rounded-2xl bg-white/20 backdrop-blur-sm">
+                                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                                        <img src={subjectArt(subject)} alt="" aria-hidden className="h-11 w-11 object-contain" />
+                                    </span>
+                                    <div className="min-w-0">
+                                        <p className="text-[10.5px] font-extrabold uppercase tracking-[0.06em] text-white/85">
+                                            Assessment review{completedOn ? ` · ${completedOn}` : ''}
+                                        </p>
+                                        <h1 className="mt-1 line-clamp-2 text-[22px] font-extrabold leading-tight">{subject}</h1>
+                                        {topic && <p className="mt-0.5 text-[13px] font-semibold text-white/85">{topic}</p>}
+                                    </div>
+                                </div>
+                                <div className="flex items-center gap-5 sm:ml-auto">
+                                    <div className="grid h-[88px] w-[88px] place-items-center rounded-full" style={{ background: `conic-gradient(#fff ${pct}%, rgba(255,255,255,.28) 0)` }}>
+                                        <div className="grid h-[72px] w-[72px] place-items-center rounded-full bg-ss-panel">
+                                            <span className="text-[21px] font-extrabold" style={{ color: gm.ring }}>{pct}%</span>
+                                        </div>
+                                    </div>
+                                    <div className="rounded-2xl bg-white/20 px-5 py-3 text-center backdrop-blur-sm">
+                                        <div className="text-[30px] font-extrabold leading-none">{grade}</div>
+                                        <div className="mt-1 text-[10px] font-bold uppercase tracking-wide text-white/90">{gm.meaning}</div>
+                                    </div>
+                                </div>
                             </div>
-                            <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Final Score</div>
-                        </div>
-                        <div className="w-px h-20 bg-gray-200 dark:bg-gray-800" />
-                        <div className="text-center">
-                            <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">
-                                {grade}
+
+                            {/* Breakdown strip */}
+                            <div className="grid grid-cols-2 divide-ss-line border-t border-ss-line sm:grid-cols-4 sm:divide-x">
+                                {totals.mcqTotal > 0 && (
+                                    <div className="px-4 py-3.5 text-center">
+                                        <div className="text-[17px] font-extrabold text-ss-ink">{totals.mcqCorrect}/{totals.mcqTotal}</div>
+                                        <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">MCQ correct</div>
+                                    </div>
+                                )}
+                                {totals.longFormTotal > 0 && (
+                                    <div className="px-4 py-3.5 text-center">
+                                        <div className="text-[17px] font-extrabold text-ss-ink">{totals.longFormEarned}/{totals.longFormTotal}</div>
+                                        <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Written marks</div>
+                                    </div>
+                                )}
+                                {totals.interactiveTotal > 0 && (
+                                    <div className="px-4 py-3.5 text-center">
+                                        <div className="text-[17px] font-extrabold text-ss-ink">{totals.interactiveEarned}/{totals.interactiveTotal}</div>
+                                        <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Interactive</div>
+                                    </div>
+                                )}
+                                <div className="px-4 py-3.5 text-center">
+                                    <div className="text-[17px] font-extrabold text-ss-ink">{pct}%</div>
+                                    <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Final score</div>
+                                </div>
+                                <div className="px-4 py-3.5 text-center">
+                                    <div className="text-[17px] font-extrabold" style={{ color: gm.ring }}>{grade}</div>
+                                    <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Grade</div>
+                                </div>
                             </div>
-                            <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Grade</div>
-                        </div>
-                    </div>
 
-                    {(totals.mcqTotal > 0 || totals.longFormTotal > 0 || totals.interactiveTotal > 0) && (
-                        <div className="flex justify-center gap-6 mb-8 text-sm text-gray-500 dark:text-gray-400 flex-wrap">
-                            {totals.mcqTotal > 0 && (
-                                <span>MCQ: {totals.mcqCorrect}/{totals.mcqTotal}</span>
-                            )}
-                            {totals.interactiveTotal > 0 && (
-                                <span>Interactive: {totals.interactiveEarned}/{totals.interactiveTotal} marks</span>
-                            )}
-                            {totals.longFormTotal > 0 && (
-                                <span>Written: {totals.longFormEarned}/{totals.longFormTotal} marks</span>
-                            )}
-                            {completedOn && (
-                                <span>Completed: {completedOn}</span>
-                            )}
-                        </div>
-                    )}
-
-                    <FeedbackPanel feedback={feedback} />
-                </motion.div>
+                            <div className="p-6 sm:p-7">
+                                <FeedbackPanel feedback={feedback} />
+                            </div>
+                        </motion.div>
+                    )
+                })()}
 
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold px-2">Detailed Review</h2>
                     {questions.length === 0 ? (
-                        <div className="bg-white dark:bg-gray-900 rounded-3xl p-8 border border-gray-200/60 dark:border-white/5 text-center text-sm text-gray-500">
+                        <div className="bg-ss-panel dark:bg-gray-900 rounded-3xl p-8 border border-ss-line/60 dark:border-white/5 text-center text-sm text-ss-slate">
                             Question review data is not available for this attempt.
                         </div>
                     ) : (

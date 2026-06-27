@@ -192,8 +192,8 @@ export default function ExamPrepForm() {
     <div className="space-y-6">
       {/* Step 1: Exam type */}
       <section className="glass dark:glass-dark rounded-2xl p-6">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 1</p>
-        <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Choose your exam</h2>
+        <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 1</p>
+        <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Choose your exam</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           {([
             { id: 'waec' as const, label: 'WAEC WASSCE', desc: 'West African Senior School Certificate', icon: BookOpen },
@@ -204,12 +204,12 @@ export default function ExamPrepForm() {
               type="button"
               onClick={() => { setExam(opt.id); setSubject(''); setCourse(''); setTopics([]) }}
               className={`text-left p-4 rounded-xl border transition-all ${exam === opt.id
-                ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20'
-                : 'border-gray-200 dark:border-white/10 hover:border-emerald-300'}`}
+                ? 'border-ss-accent bg-ss-accent-soft dark:bg-ss-accent-soft'
+                : 'border-ss-line dark:border-white/10 hover:border-ss-accent'}`}
             >
-              <opt.icon className="w-5 h-5 text-emerald-600 mb-2" />
-              <p className="font-bold text-gray-900 dark:text-white">{opt.label}</p>
-              <p className="text-xs text-gray-500 mt-1">{opt.desc}</p>
+              <opt.icon className="w-5 h-5 text-ss-accent mb-2" />
+              <p className="font-bold text-ss-ink dark:text-white">{opt.label}</p>
+              <p className="text-xs text-ss-slate mt-1">{opt.desc}</p>
             </button>
           ))}
         </div>
@@ -218,8 +218,8 @@ export default function ExamPrepForm() {
       {/* Step 2: Subject */}
       {exam && step >= 2 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 2</p>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Select subject</h2>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 2</p>
+          <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Select subject</h2>
 
           {exam === 'jamb' && (
             <div className="flex gap-2 mb-4">
@@ -230,7 +230,7 @@ export default function ExamPrepForm() {
                   onClick={() => { setJambMode(m); setSubject(''); setCourse(''); setTopics([]) }}
                   className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${jambMode === m
                     ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20 text-violet-700'
-                    : 'border-gray-200 dark:border-white/10'}`}
+                    : 'border-ss-line dark:border-white/10'}`}
                 >
                   {m === 'subject' ? 'By subject' : 'By course combo'}
                 </button>
@@ -250,7 +250,7 @@ export default function ExamPrepForm() {
                   setSubject(first)
                   setTopics([])
                 }}
-                className="w-full px-4 py-2.5 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5"
+                className="w-full px-4 py-2.5 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5"
               >
                 <option value="">Select target course</option>
                 {JAMB_COURSE_COMBOS.map((c) => (
@@ -259,7 +259,7 @@ export default function ExamPrepForm() {
               </select>
               {jambCombo && (
                 <div>
-                  <p className="text-xs text-gray-500 mb-2">UTME subject combination (English is compulsory for all):</p>
+                  <p className="text-xs text-ss-slate mb-2">UTME subject combination (English is compulsory for all):</p>
                   <div className="flex flex-wrap gap-2">
                     {jambCombo.subjects.map((s) => (
                       <button
@@ -268,7 +268,7 @@ export default function ExamPrepForm() {
                         onClick={() => { setComboSubject(s); setSubject(s); setTopics([]) }}
                         className={`px-3 py-1.5 rounded-lg text-xs font-semibold border ${comboSubject === s || subject === s
                           ? 'border-violet-500 bg-violet-50 dark:bg-violet-900/20 text-violet-800'
-                          : 'border-gray-200 dark:border-white/10'}`}
+                          : 'border-ss-line dark:border-white/10'}`}
                       >
                         {s}
                       </button>
@@ -285,11 +285,11 @@ export default function ExamPrepForm() {
                   type="button"
                   onClick={() => { setSubject(s.name); setTopics([]) }}
                   className={`text-left px-3 py-2 rounded-lg text-sm border ${subject === s.name
-                    ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 font-semibold'
-                    : 'border-gray-200 dark:border-white/10'}`}
+                    ? 'border-ss-accent bg-ss-accent-soft dark:bg-ss-accent-soft font-semibold'
+                    : 'border-ss-line dark:border-white/10'}`}
                 >
                   {s.name}
-                  <span className="block text-[10px] text-gray-400">{s.category}</span>
+                  <span className="block text-[10px] text-ss-slate">{s.category}</span>
                 </button>
               ))}
             </div>
@@ -301,11 +301,11 @@ export default function ExamPrepForm() {
       {selectedSubject && step >= 3 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6 space-y-5">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 3</p>
-            <h2 className="text-xl font-bold text-gray-900 dark:text-white">
+            <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 3</p>
+            <h2 className="text-xl font-bold text-ss-ink dark:text-white">
               {hasPastPapers ? 'Choose past paper year' : 'Syllabus topics'}
             </h2>
-            <p className="text-xs text-gray-500 mt-1">
+            <p className="text-xs text-ss-slate mt-1">
               {hasPastPapers
                 ? 'Practice from real synced past questions. Optionally narrow to specific syllabus areas below.'
                 : 'No past paper synced for this subject yet — pick topics to generate syllabus-style practice.'}
@@ -313,13 +313,13 @@ export default function ExamPrepForm() {
           </div>
 
           {loadingPapers ? (
-            <p className="text-sm text-gray-500 flex items-center gap-2">
+            <p className="text-sm text-ss-slate flex items-center gap-2">
               <Loader2 className="w-4 h-4 animate-spin" /> Loading past papers…
             </p>
           ) : hasPastPapers ? (
             <div>
-              <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-2 flex items-center gap-2">
-                <FileText className="w-4 h-4 text-emerald-600" />
+              <h3 className="text-sm font-semibold text-ss-ink dark:text-white mb-2 flex items-center gap-2">
+                <FileText className="w-4 h-4 text-ss-accent" />
                 Past paper
               </h3>
               <div className="grid sm:grid-cols-2 gap-2 max-h-48 overflow-y-auto">
@@ -329,11 +329,11 @@ export default function ExamPrepForm() {
                     type="button"
                     onClick={() => setSelectedPaperId(p.id)}
                     className={`text-left px-3 py-2 rounded-lg text-sm border ${selectedPaperId === p.id
-                      ? 'border-emerald-500 bg-emerald-50 dark:bg-emerald-900/20 font-semibold'
-                      : 'border-gray-200 dark:border-white/10'}`}
+                      ? 'border-ss-accent bg-ss-accent-soft dark:bg-ss-accent-soft font-semibold'
+                      : 'border-ss-line dark:border-white/10'}`}
                   >
                     {p.year} — {p.diet?.replace(/-/g, ' ')}
-                    <span className="block text-[10px] text-gray-400">Synced past questions</span>
+                    <span className="block text-[10px] text-ss-slate">Synced past questions</span>
                   </button>
                 ))}
               </div>
@@ -350,22 +350,22 @@ export default function ExamPrepForm() {
           <div>
             <div className="flex items-center justify-between mb-3">
               <div>
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white">
+                <h3 className="text-sm font-semibold text-ss-ink dark:text-white">
                   {hasPastPapers ? 'Focus topics (optional)' : 'Syllabus topics'}
                 </h3>
                 {hasPastPapers && (
-                  <p className="text-[11px] text-gray-400 mt-0.5">
+                  <p className="text-[11px] text-ss-slate mt-0.5">
                     We use the past paper first; extra syllabus questions fill gaps if needed.
                   </p>
                 )}
               </div>
               <div className="flex gap-2">
                 {topics.length > 0 && (
-                  <button type="button" onClick={clearTopics} className="text-xs font-semibold text-gray-500 hover:underline">
+                  <button type="button" onClick={clearTopics} className="text-xs font-semibold text-ss-slate hover:underline">
                     Clear
                   </button>
                 )}
-                <button type="button" onClick={selectAllTopics} className="text-xs font-semibold text-emerald-600 hover:underline">
+                <button type="button" onClick={selectAllTopics} className="text-xs font-semibold text-ss-accent hover:underline">
                   Select all
                 </button>
               </div>
@@ -377,8 +377,8 @@ export default function ExamPrepForm() {
                   type="button"
                   onClick={() => toggleTopic(t)}
                   className={`px-3 py-1.5 rounded-full text-xs font-medium border transition-colors ${topics.includes(t)
-                    ? 'border-emerald-500 bg-emerald-500 text-white'
-                    : 'border-gray-200 dark:border-white/10 text-gray-700 dark:text-gray-300'}`}
+                    ? 'border-ss-accent bg-ss-accent text-white'
+                    : 'border-ss-line dark:border-white/10 text-ss-ink dark:text-gray-300'}`}
                 >
                   {topics.includes(t) && <Check className="w-3 h-3 inline mr-1" />}
                   {t}
@@ -395,24 +395,24 @@ export default function ExamPrepForm() {
       {/* Step 4: Generate */}
       {readyForSettings && step >= 4 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-emerald-600 dark:text-emerald-400 mb-2">Step 4</p>
-          <h2 className="text-xl font-bold text-gray-900 dark:text-white mb-4">Practice settings</h2>
+          <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 4</p>
+          <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Practice settings</h2>
           {selectedPaper && (
-            <p className="text-xs text-gray-500 mb-4">
-              Source: <span className="font-semibold text-gray-700 dark:text-gray-300">{selectedPaper.year} {selectedPaper.diet?.replace(/-/g, ' ')}</span>
+            <p className="text-xs text-ss-slate mb-4">
+              Source: <span className="font-semibold text-ss-ink dark:text-gray-300">{selectedPaper.year} {selectedPaper.diet?.replace(/-/g, ' ')}</span>
               {topics.length > 0 && (
-                <> · Focus: <span className="font-semibold text-gray-700 dark:text-gray-300">{topics.length} topic{topics.length === 1 ? '' : 's'}</span></>
+                <> · Focus: <span className="font-semibold text-ss-ink dark:text-gray-300">{topics.length} topic{topics.length === 1 ? '' : 's'}</span></>
               )}
             </p>
           )}
           <div className="grid sm:grid-cols-2 gap-4 mb-4">
             {exam === 'waec' && (
               <div className="sm:col-span-2">
-                <label className="text-xs font-semibold text-gray-500 uppercase">Question format</label>
+                <label className="text-xs font-semibold text-ss-slate uppercase">Question format</label>
                 <select
                   value={questionFormat}
                   onChange={(e) => setQuestionFormat(e.target.value as QuestionFormat)}
-                  className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5"
+                  className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5"
                 >
                   <option value="mcq">Objective (Paper 1 style)</option>
                   <option value="longform">Theory (Paper 2 style)</option>
@@ -421,14 +421,14 @@ export default function ExamPrepForm() {
               </div>
             )}
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase">Difficulty</label>
-              <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5">
+              <label className="text-xs font-semibold text-ss-slate uppercase">Difficulty</label>
+              <select value={difficulty} onChange={(e) => setDifficulty(e.target.value)} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5">
                 {DIFFICULTY_LEVELS.map((d) => <option key={d.id} value={d.id}>{d.label}</option>)}
               </select>
             </div>
             <div>
-              <label className="text-xs font-semibold text-gray-500 uppercase">Questions</label>
-              <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-gray-200 dark:border-white/10 bg-white dark:bg-white/5">
+              <label className="text-xs font-semibold text-ss-slate uppercase">Questions</label>
+              <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5">
                 {[5, 10, 15, 20, 25, 40].map((n) => <option key={n} value={n}>{n}</option>)}
               </select>
             </div>
@@ -438,7 +438,7 @@ export default function ExamPrepForm() {
             type="button"
             disabled={isGenerating}
             onClick={handleGenerate}
-            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold disabled:opacity-60"
+            className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-ss-accent hover:brightness-95 text-white font-bold disabled:opacity-60"
           >
             {isGenerating ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating…</> : <>Start practice <ChevronRight className="w-4 h-4" /></>}
           </button>
@@ -447,8 +447,8 @@ export default function ExamPrepForm() {
 
       {/* Official links — footer */}
       {exam && resources.length > 0 && (
-        <details className="rounded-2xl border border-gray-200/80 dark:border-white/10 bg-white/40 dark:bg-white/[0.02] p-4">
-          <summary className="text-xs font-semibold text-gray-500 cursor-pointer select-none">
+        <details className="rounded-2xl border border-ss-line dark:border-white/10 bg-ss-panel/40 dark:bg-ss-panel/[0.02] p-4">
+          <summary className="text-xs font-semibold text-ss-slate cursor-pointer select-none">
             Official {exam.toUpperCase()} resources &amp; syllabuses
           </summary>
           <ul className="space-y-2 mt-3">
@@ -458,7 +458,7 @@ export default function ExamPrepForm() {
                   href={r.url}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 text-sm text-emerald-700 dark:text-emerald-300 hover:underline"
+                  className="inline-flex items-center gap-2 text-sm text-ss-accent dark:text-ss-accent hover:underline"
                 >
                   {r.title}
                   <ExternalLink className="w-3.5 h-3.5" />

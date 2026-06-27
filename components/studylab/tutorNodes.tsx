@@ -4,25 +4,20 @@ import { type NodeProps } from '@xyflow/react'
 import { Handle, Position } from '@xyflow/react'
 import { ListOrdered, Table as TableIcon, BookMarked, Lightbulb, AlertTriangle } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
-import { CardFrame, SafeLatex, handleClass } from './canvasShared'
+import { CardFrame, NodeHeader, SafeLatex, handleClass } from './canvasShared'
 
 export function WorkedNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   const steps = Array.isArray(d.steps) ? d.steps : []
   return (
     <CardFrame>
-      <div className="flex items-center gap-2 px-4 pt-4">
-        <div className="w-7 h-7 rounded-lg bg-apple-blue/10 flex items-center justify-center shrink-0">
-          <ListOrdered className="w-4 h-4 text-apple-blue" />
-        </div>
-        <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
-      </div>
-      <div className="px-4 pb-4 pt-2 text-[13px] text-gray-600 dark:text-gray-300">
+      <NodeHeader icon={ListOrdered} title={d.title} tone="green" />
+      <div className="px-4 pb-4 pt-2 text-[13px] text-ss-slate">
         {steps.length > 0 ? (
           <ol className="space-y-1.5">
             {steps.map((s, i) => (
               <li key={i} className="flex gap-2">
-                <span className="shrink-0 w-5 h-5 rounded-full bg-apple-blue/10 text-apple-blue text-[11px] font-bold flex items-center justify-center">{i + 1}</span>
+                <span className="shrink-0 w-5 h-5 rounded-full bg-[color:var(--ss-good)]/15 text-ss-good text-[11px] font-bold flex items-center justify-center">{i + 1}</span>
                 <span className="pt-0.5"><SafeLatex>{s}</SafeLatex></span>
               </li>
             ))}
@@ -41,22 +36,17 @@ export function TableNode({ data }: NodeProps) {
   const [head, ...body] = rows
   return (
     <CardFrame>
-      <div className="flex items-center gap-2 px-4 pt-4">
-        <div className="w-7 h-7 rounded-lg bg-apple-blue/10 flex items-center justify-center shrink-0">
-          <TableIcon className="w-4 h-4 text-apple-blue" />
-        </div>
-        <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
-      </div>
+      <NodeHeader icon={TableIcon} title={d.title} tone="cyan" />
       <div className="px-4 pb-4 pt-2 overflow-x-auto">
         {rows.length === 0 ? (
-          <p className="text-[12px] text-gray-400">No data.</p>
+          <p className="text-[12px] text-ss-slate">No data.</p>
         ) : (
           <table className="w-full text-[12px] border-collapse">
             {head && (
               <thead>
                 <tr>
                   {head.map((c, i) => (
-                    <th key={i} className="border border-gray-200 dark:border-gray-700 px-2 py-1 text-left font-semibold bg-gray-50 dark:bg-white/5">
+                    <th key={i} className="border border-ss-line px-2 py-1 text-left font-semibold bg-ss-chip">
                       <SafeLatex>{c}</SafeLatex>
                     </th>
                   ))}
@@ -67,7 +57,7 @@ export function TableNode({ data }: NodeProps) {
               {body.map((r, ri) => (
                 <tr key={ri}>
                   {r.map((c, ci) => (
-                    <td key={ci} className="border border-gray-200 dark:border-gray-700 px-2 py-1">
+                    <td key={ci} className="border border-ss-line px-2 py-1">
                       <SafeLatex>{c}</SafeLatex>
                     </td>
                   ))}
@@ -99,7 +89,7 @@ export function CalloutNode({ data }: NodeProps) {
         <Icon className={`w-4 h-4 ${s.color}`} />
         <span className={`text-[10px] font-bold uppercase tracking-wide ${s.color}`}>{d.title ?? s.label}</span>
       </div>
-      <div className="text-[13px] text-gray-700 dark:text-gray-200 whitespace-pre-wrap">
+      <div className="text-[13px] text-ss-ink whitespace-pre-wrap">
         <SafeLatex>{d.body}</SafeLatex>
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />

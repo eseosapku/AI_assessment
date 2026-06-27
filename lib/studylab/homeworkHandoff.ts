@@ -22,3 +22,25 @@ export function takeHomeworkImage(spaceId: string): string | null {
     return null
   }
 }
+
+// Same hand-off, but for typed/pasted homework text instead of a photo.
+const TEXT_KEY = (spaceId: string) => `studylab:hwtext:${spaceId}`
+
+export function setHomeworkText(spaceId: string, text: string): void {
+  try {
+    localStorage.setItem(TEXT_KEY(spaceId), text)
+  } catch {
+    /* quota / unavailable — the space just opens without the text */
+  }
+}
+
+/** Return and remove the pending homework text for this space, if any. */
+export function takeHomeworkText(spaceId: string): string | null {
+  try {
+    const v = localStorage.getItem(TEXT_KEY(spaceId))
+    if (v) localStorage.removeItem(TEXT_KEY(spaceId))
+    return v
+  } catch {
+    return null
+  }
+}

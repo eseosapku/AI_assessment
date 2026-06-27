@@ -6,7 +6,7 @@ import { Handle, Position, type NodeProps } from '@xyflow/react'
 import { BookOpen, GitBranch, Layers, ChevronDown, ChevronRight, ImageIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import type { BlockType } from '@/lib/studylab/blocks'
-import { CanvasContext, CardFrame, SafeLatex, handleClass } from './canvasShared'
+import { CanvasContext, CardFrame, NodeHeader, SafeLatex, handleClass } from './canvasShared'
 import { RunnableCodeNode } from './RunnableCodeCard'
 import { WebSandboxNode } from './WebSandboxCard'
 import { StickyNode, NoteNode, ChecklistNode, FlashcardNode, PhotoNode, FrameNode, ResourceBoardNode } from './freeformNodes'
@@ -21,13 +21,8 @@ export function ConceptNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   return (
     <CardFrame>
-      <div className="flex items-center gap-2 px-4 pt-4">
-        <div className="w-7 h-7 rounded-lg bg-apple-blue/10 flex items-center justify-center shrink-0">
-          <BookOpen className="w-4 h-4 text-apple-blue" />
-        </div>
-        <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
-      </div>
-      <div className="px-4 pb-4 pt-2 text-[13px] leading-relaxed text-gray-600 dark:text-gray-300 space-y-2">
+      <NodeHeader icon={BookOpen} title={d.title} tone="cyan" />
+      <div className="px-4 pb-4 pt-2 text-[13px] leading-relaxed text-ss-slate space-y-2">
         {d.body && (
           <div className="whitespace-pre-wrap">
             <SafeLatex>{d.body}</SafeLatex>
@@ -37,7 +32,7 @@ export function ConceptNode({ data }: NodeProps) {
           <ul className="space-y-1.5 mt-1">
             {d.items.map((item, i) => (
               <li key={i} className="flex gap-2">
-                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-apple-blue shrink-0" />
+                <span className="mt-1.5 w-1.5 h-1.5 rounded-full bg-ss-accent shrink-0" />
                 <span><SafeLatex>{item}</SafeLatex></span>
               </li>
             ))}
@@ -52,13 +47,8 @@ export function DiagramNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   return (
     <CardFrame accent="orange">
-      <div className="flex items-center gap-2 px-4 pt-4">
-        <div className="w-7 h-7 rounded-lg bg-orange-500/10 flex items-center justify-center shrink-0">
-          <GitBranch className="w-4 h-4 text-orange-500" />
-        </div>
-        <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
-      </div>
-      <div className="px-4 pb-4 pt-2 text-[13px] text-gray-600 dark:text-gray-300">
+      <NodeHeader icon={GitBranch} title={d.title} tone="amber" />
+      <div className="px-4 pb-4 pt-2 text-[13px] text-ss-slate">
         {d.svg ? (
           <div
             className="w-full flex justify-center [&_svg]:max-w-full [&_svg]:h-auto"
@@ -88,7 +78,7 @@ export function StepGroupNode({ id, data }: NodeProps) {
         </div>
         <div className="min-w-0 flex-1">
           <p className="font-semibold text-[14px] leading-tight truncate">{d.label}</p>
-          <p className="text-[11px] text-apple-dark-gray flex items-center gap-1">
+          <p className="text-[11px] text-ss-slate flex items-center gap-1">
             {collapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
             {d.cardIds?.length ?? 0} cards · {collapsed ? 'click to expand' : 'click to collapse'}
           </p>
@@ -103,26 +93,21 @@ export function ImageNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   return (
     <CardFrame accent="violet">
-      <div className="flex items-center gap-2 px-4 pt-4">
-        <div className="w-7 h-7 rounded-lg bg-violet-500/10 flex items-center justify-center shrink-0">
-          <ImageIcon className="w-4 h-4 text-violet-500" />
-        </div>
-        <h3 className="font-semibold text-[15px] leading-tight">{d.title || 'My work'}</h3>
-      </div>
+      <NodeHeader icon={ImageIcon} title={d.title || 'My work'} tone="violet" />
       <div className="px-4 pb-4 pt-2">
         {d.imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
           <img
             src={d.imageUrl}
             alt={d.title || 'Student work'}
-            className="w-full rounded-xl border border-gray-200 dark:border-gray-700"
+            className="w-full rounded-xl border border-ss-line"
           />
         ) : (
-          <div className="h-24 rounded-xl bg-gray-100 dark:bg-white/5 flex items-center justify-center text-apple-dark-gray text-xs">
+          <div className="h-24 rounded-xl bg-ss-chip flex items-center justify-center text-ss-slate text-xs">
             Image unavailable
           </div>
         )}
-        {d.body && <p className="mt-2 text-[12px] text-gray-500"><SafeLatex>{d.body}</SafeLatex></p>}
+        {d.body && <p className="mt-2 text-[12px] text-ss-slate"><SafeLatex>{d.body}</SafeLatex></p>}
       </div>
     </CardFrame>
   )

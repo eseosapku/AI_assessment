@@ -47,7 +47,7 @@ function FreeformShell({
   return (
     <div
       style={{ width }}
-      className="sl-node-enter rounded-2xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#1c1c1e] shadow-[0_8px_30px_-12px_rgba(0,0,0,0.22)] overflow-hidden"
+      className="sl-node-enter rounded-2xl border border-ss-line bg-ss-panel shadow-[0_8px_30px_-12px_rgba(0,0,0,0.22)] overflow-hidden"
     >
       <Handle type="target" position={Position.Left} className={handleClass} />
       {/* Drag handle (no `nodrag` here, so grabbing the header moves the card) */}
@@ -58,7 +58,7 @@ function FreeformShell({
           <button type="button" title={collapsed ? 'Expand' : 'Collapse'} onClick={toggle} className="nodrag p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10">
             {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </button>
-          <button type="button" title="Ask tutor about this" onClick={() => onAskTutor(id)} className="nodrag p-1 rounded-md text-apple-blue hover:bg-apple-blue/10">
+          <button type="button" title="Ask tutor about this" onClick={() => onAskTutor(id)} className="nodrag p-1 rounded-md text-ss-accent hover:bg-[color:var(--ss-accent)]/10">
             <MessageCircleQuestion className="w-3.5 h-3.5" />
           </button>
           <button type="button" title="Delete" onClick={() => onDeleteNode(id)} className="nodrag p-1 rounded-md text-red-500 hover:bg-red-500/10">
@@ -98,7 +98,7 @@ export function StickyNode({ id, data }: NodeProps) {
           <button type="button" onClick={() => setCollapsed((v) => !v)} className="nodrag p-1 rounded-md hover:bg-black/5">
             {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
           </button>
-          <button type="button" title="Ask tutor" onClick={() => onAskTutor(id)} className="nodrag p-1 rounded-md text-apple-blue hover:bg-apple-blue/10"><MessageCircleQuestion className="w-3.5 h-3.5" /></button>
+          <button type="button" title="Ask tutor" onClick={() => onAskTutor(id)} className="nodrag p-1 rounded-md text-ss-accent hover:bg-[color:var(--ss-accent)]/10"><MessageCircleQuestion className="w-3.5 h-3.5" /></button>
           <button type="button" title="Delete" onClick={() => onDeleteNode(id)} className="nodrag p-1 rounded-md text-red-500 hover:bg-red-500/10"><X className="w-3.5 h-3.5" /></button>
         </div>
       </div>
@@ -152,7 +152,7 @@ export function ChecklistNode({ id, data }: NodeProps) {
       <div className="space-y-1.5">
         {items.map((it, i) => (
           <div key={i} className="flex items-center gap-2">
-            <input type="checkbox" className="nodrag accent-apple-blue" checked={it.done}
+            <input type="checkbox" className="nodrag accent-ss-accent" checked={it.done}
               onChange={() => update(items.map((x, j) => (j === i ? { ...x, done: !x.done } : x)))} />
             <input type="text" className={`nodrag flex-1 bg-transparent outline-none text-[13px] ${it.done ? 'line-through text-gray-400' : 'text-gray-700 dark:text-gray-200'}`}
               value={it.text} placeholder="Task…" onMouseDown={(e) => e.stopPropagation()}
@@ -163,7 +163,7 @@ export function ChecklistNode({ id, data }: NodeProps) {
           </div>
         ))}
       </div>
-      <button type="button" className="nodrag mt-2 inline-flex items-center gap-1 text-[12px] font-semibold text-apple-blue"
+      <button type="button" className="nodrag mt-2 inline-flex items-center gap-1 text-[12px] font-semibold text-ss-accent"
         onClick={() => update([...items, { text: '', done: false }])}>
         <Plus className="w-3.5 h-3.5" /> Add item
       </button>
@@ -201,22 +201,22 @@ export function FlashcardNode({ id, data }: NodeProps) {
     <FreeformShell id={id} kind="flashcard" label="Flashcard" width={240} headerTint="bg-violet-50 dark:bg-violet-200/10">
       {editing ? (
         <div className="space-y-2">
-          <input className="nodrag w-full rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1.5 text-[13px] bg-transparent outline-none"
+          <input className="nodrag w-full rounded-lg border border-ss-line px-2 py-1.5 text-[13px] bg-transparent outline-none"
             placeholder="Front" value={front} onMouseDown={(e) => e.stopPropagation()} onChange={(e) => setFront(e.target.value)} />
-          <input className="nodrag w-full rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1.5 text-[13px] bg-transparent outline-none"
+          <input className="nodrag w-full rounded-lg border border-ss-line px-2 py-1.5 text-[13px] bg-transparent outline-none"
             placeholder="Back" value={back} onMouseDown={(e) => e.stopPropagation()} onChange={(e) => setBack(e.target.value)} />
-          <button type="button" className="nodrag text-[12px] font-semibold text-apple-blue"
+          <button type="button" className="nodrag text-[12px] font-semibold text-ss-accent"
             onClick={() => { onNodeDataChange(id, { card: { front, back } }); setEditing(false) }}>Save</button>
         </div>
       ) : (
         <div className="relative">
           <button type="button" onClick={() => setFlipped((f) => !f)} className="nodrag w-full text-center py-5 rounded-xl bg-gray-50 dark:bg-white/5">
-            <p className="text-[10px] uppercase tracking-wide text-apple-dark-gray mb-1 flex items-center justify-center gap-1">
+            <p className="text-[10px] uppercase tracking-wide text-ss-slate mb-1 flex items-center justify-center gap-1">
               <RotateCw className="w-3 h-3" /> {flipped ? 'Back' : 'Front'}
             </p>
             <p className="text-[15px] font-semibold text-gray-800 dark:text-gray-100 px-2">{(flipped ? back : front) || '(tap edit)'}</p>
           </button>
-          <button type="button" title="Edit" className="nodrag absolute top-1 right-1 text-gray-400 hover:text-apple-blue" onClick={() => setEditing(true)}>
+          <button type="button" title="Edit" className="nodrag absolute top-1 right-1 text-gray-400 hover:text-ss-accent" onClick={() => setEditing(true)}>
             <Pencil className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -248,7 +248,7 @@ export function PhotoNode({ id, data }: NodeProps) {
           <img src={d.imageUrl} alt="reference" className="w-full rounded-xl" />
         ) : (
           <button type="button" onClick={() => fileRef.current?.click()}
-            className="nodrag w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center gap-1 text-apple-dark-gray text-xs hover:border-apple-blue hover:text-apple-blue">
+            className="nodrag w-full h-32 rounded-xl border-2 border-dashed border-gray-300 dark:border-gray-600 flex flex-col items-center justify-center gap-1 text-ss-slate text-xs hover:border-ss-accent hover:text-ss-accent">
             <ImageIcon className="w-5 h-5" /> Paste or click to add an image
           </button>
         )}
@@ -285,7 +285,7 @@ export function ResourceBoardNode({ id, data }: NodeProps) {
                   <img src={`https://img.youtube.com/vi/${yt}/mqdefault.jpg`} alt="video" className="w-full rounded-lg" />
                 </a>
               ) : (
-                <a href={l.url} target="_blank" rel="noreferrer" className="nodrag flex-1 truncate text-[12px] text-apple-blue underline">
+                <a href={l.url} target="_blank" rel="noreferrer" className="nodrag flex-1 truncate text-[12px] text-ss-accent underline">
                   {l.label ?? hostname(l.url)}
                 </a>
               )}
@@ -295,10 +295,10 @@ export function ResourceBoardNode({ id, data }: NodeProps) {
         })}
       </div>
       <div className="flex gap-1">
-        <input className="nodrag flex-1 rounded-lg border border-gray-200 dark:border-gray-700 px-2 py-1 text-[12px] bg-transparent outline-none"
+        <input className="nodrag flex-1 rounded-lg border border-ss-line px-2 py-1 text-[12px] bg-transparent outline-none"
           placeholder="Paste a link…" value={url} onMouseDown={(e) => e.stopPropagation()}
           onChange={(e) => setUrl(e.target.value)} onKeyDown={(e) => e.key === 'Enter' && add()} />
-        <button type="button" onClick={add} className="nodrag rounded-lg bg-apple-blue px-2.5 text-[12px] font-semibold text-white">Add</button>
+        <button type="button" onClick={add} className="nodrag rounded-lg bg-ss-accent px-2.5 text-[12px] font-semibold text-white">Add</button>
       </div>
     </FreeformShell>
   )

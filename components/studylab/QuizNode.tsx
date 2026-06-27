@@ -10,7 +10,7 @@ import { CanvasContext, handleClass, SafeLatex } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
 
 const STATE_RING: Record<string, string> = {
-  unanswered: 'border-gray-200 dark:border-gray-700',
+  unanswered: 'border-ss-line',
   pending: 'border-amber-300',
   correct: 'border-emerald-400',
   incorrect: 'border-red-400',
@@ -26,7 +26,7 @@ export function CheckpointHeaderNode({ data }: NodeProps) {
       </div>
       <div className="min-w-0">
         <p className="font-bold text-[14px] leading-tight truncate">{d.title ?? 'Check your understanding'}</p>
-        <p className="text-[11px] text-apple-dark-gray">Answer the questions to continue</p>
+        <p className="text-[11px] text-ss-slate">Answer the questions to continue</p>
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
     </div>
@@ -55,11 +55,11 @@ export function QuizNode({ id, data }: NodeProps) {
   const set: SetCell = (patch) => onNodeDataChange(id, { quiz: { ...quiz, ...patch } })
   const q = quiz.question
   return (
-    <div className={`sl-node-enter w-[320px] rounded-2xl border-2 bg-white dark:bg-[#1c1c1e] shadow overflow-hidden ${STATE_RING[quiz.state]}`}>
+    <div className={`sl-node-enter w-[320px] rounded-2xl border-2 bg-ss-panel shadow overflow-hidden ${STATE_RING[quiz.state]}`}>
       <Handle type="target" position={Position.Left} className={handleClass} />
       <div className="flex items-center gap-2 px-4 pt-3">
         <HelpCircle className="w-4 h-4 text-emerald-600" />
-        <span className="text-[10px] font-bold uppercase tracking-wide text-apple-dark-gray">{q.format}</span>
+        <span className="text-[10px] font-bold uppercase tracking-wide text-ss-slate">{q.format}</span>
         {quiz.state === 'correct' && <Check className="ml-auto w-4 h-4 text-emerald-500" />}
         {quiz.state === 'incorrect' && <X className="ml-auto w-4 h-4 text-red-500" />}
       </div>
@@ -88,8 +88,8 @@ function Mcq({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mcq' 
             ? 'border-emerald-400 bg-emerald-50 dark:bg-emerald-900/20'
             : chosen
               ? 'border-red-400 bg-red-50 dark:bg-red-900/20'
-              : 'border-gray-200 dark:border-gray-700'
-          : 'border-gray-200 dark:border-gray-700 hover:border-apple-blue'
+              : 'border-ss-line'
+          : 'border-ss-line hover:border-ss-accent'
         return (
           <button
             key={i}
@@ -118,7 +118,7 @@ function Short({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'sho
   return (
     <div className="space-y-2">
       <textarea
-        className="nodrag w-full h-16 rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent px-2 py-1.5 text-[13px] outline-none"
+        className="nodrag w-full h-16 rounded-lg border border-ss-line bg-transparent px-2 py-1.5 text-[13px] outline-none"
         value={text}
         disabled={answered}
         placeholder="Your answer…"
@@ -156,7 +156,7 @@ function Match({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mat
         <div key={i} className="flex items-center gap-2">
           <span className="text-[13px] flex-1"><SafeLatex>{p.left}</SafeLatex></span>
           <select
-            className="nodrag rounded-lg border border-gray-200 dark:border-gray-700 bg-transparent text-[12px] px-1 py-1"
+            className="nodrag rounded-lg border border-ss-line bg-transparent text-[12px] px-1 py-1"
             disabled={answered}
             value={given[i] ?? ''}
             onMouseDown={(e) => e.stopPropagation()}

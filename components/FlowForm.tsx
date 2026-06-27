@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronRight, Check, Loader2, Send } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Check, Loader2, Send } from 'lucide-react'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
@@ -37,6 +37,18 @@ interface FlowFormProps {
 }
 
 const TOTAL_STEPS = 9
+
+const WIZARD_STEPS = [
+  { num: 1, label: 'Curriculum' },
+  { num: 2, label: 'Class' },
+  { num: 3, label: 'Difficulty' },
+  { num: 4, label: 'Subject' },
+  { num: 5, label: 'Topics' },
+  { num: 6, label: 'Questions' },
+  { num: 7, label: 'Style' },
+  { num: 8, label: 'Format' },
+  { num: 9, label: 'Review' },
+] as const
 
 const CURRICULUM_BY_NUMERIC: Record<number, Omit<CurriculumOption, 'numeric'>> = Object.fromEntries(
   Object.values(CURRICULUM_REGISTRY)
@@ -139,12 +151,12 @@ function OptionButton({
       onClick={onClick}
       whileTap={{ scale: 0.98 }}
       className={`relative w-full text-left border rounded-xl px-4 py-3 text-sm transition-all duration-150 ${selected
-        ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20 dark:border-blue-500'
+        ? 'border-ss-accent bg-ss-accent-soft dark:bg-ss-accent-soft dark:border-ss-accent'
         : 'border-gray-200 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-gray-300 dark:hover:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800/60'
         } ${className}`}
     >
       {selected && (
-        <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-blue-600 flex items-center justify-center flex-shrink-0">
+        <span className="absolute top-2.5 right-2.5 w-4 h-4 rounded-full bg-ss-accent flex items-center justify-center flex-shrink-0">
           <Check className="w-2.5 h-2.5 text-white" strokeWidth={3} />
         </span>
       )}
@@ -171,6 +183,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const isTeacher = (user as any)?.role === 'teacher'
   const [flowMode, setFlowMode] = useState<'ai' | 'scratch' | ''>('')
   const [step, setStep] = useState(1)
+  const [maxStepReached, setMaxStepReached] = useState(1)
   const [aiModel] = useState(AI_MODEL.id)
   const [customTime, setCustomTime] = useState<number | null>(null)
   const [showTimerInput, setShowTimerInput] = useState(false)
@@ -222,6 +235,14 @@ export default function FlowForm({ onClose }: FlowFormProps) {
 
   useEffect(() => () => { if (timerRef.current) clearInterval(timerRef.current) }, [])
 
+  useEffect(() => {
+    setMaxStepReached((m) => Math.max(m, step))
+  }, [step])
+
+  const jumpToStep = (target: number) => {
+    if (target <= maxStepReached) setStep(target)
+  }
+
   // Load available classes from DB so the UI never shows non-existent grades.
   useEffect(() => {
     const load = async () => {
@@ -248,7 +269,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
           .filter((r: any) => Number.isFinite(r.id) && r.name)
         setClasses(normalized)
 
-        // If the signed-in user already has a class, preselect it (students).
+        // Pre-fill class when known — stay on step 1 so the student can confirm each choice.
         if (!formData.class_name && user?.class) {
           const match = normalized.find((c) => c.name === user.class)
           if (match && match.curricula.length === 1) {
@@ -260,7 +281,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               class_name: match.name,
               grade: deriveGradeFromClassName(match.name),
             }))
-            setTimeout(() => setStep(3), 250)
           }
         }
       } catch (e: any) {
@@ -399,11 +419,9 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     setTopics([])
     setSubtopics([])
     setTextbooks([])
-    setTimeout(() => setStep(3), 250)
   }
   const handleDifficultySelect = (id: string) => {
     setFormData((prev) => ({ ...prev, difficultyLevel: id }))
-    setTimeout(() => setStep(4), 250)
   }
   const handleCurriculumSelect = (id: string) => {
     setError('')
@@ -426,7 +444,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     setTopics([])
     setSubtopics([])
     setTextbooks([])
-    setTimeout(() => setStep(2), 250)
   }
 
   const handleSubjectSelect = (textbookName: string, textbookId: number, subjectLabel?: string) => {
@@ -442,7 +459,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       subtopic_ids: [],
     })
     setSubtopics([])
-    setStep(5)
   }
 
   const handleManualTopicsContinue = () => {
@@ -461,7 +477,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       topic_ids: [],
       subtopic_ids: [],
     }))
-    setTimeout(() => setStep(6), 250)
   }
 
   const handleTopicToggle = (topicId: number, topicName: string) => {
@@ -478,7 +493,6 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       topics: newTopics,
       subtopic_ids: shouldClearSubtopics ? [] : formData.subtopic_ids,
     })
-    if (newTopics.length > 0 && step === 5) setTimeout(() => setStep(6), 250)
   }
 
   const handleSubtopicToggle = (subtopicId: number | null) => {
@@ -492,9 +506,9 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       : [...formData.subtopic_ids, subtopicId]
     setFormData({ ...formData, subtopic_ids: nextIds })
   }
-  const handleCountSelect = (count: number) => { setFormData({ ...formData, count }); setTimeout(() => setStep(7), 250) }
-  const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }); setTimeout(() => setStep(8), 250) }
-  const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed') => { setFormData({ ...formData, questionType: qt }); setTimeout(() => setStep(9), 250) }
+  const handleCountSelect = (count: number) => { setFormData({ ...formData, count }) }
+  const handleStyleSelect = (style: string) => { setFormData({ ...formData, style }) }
+  const handleQuestionTypeSelect = (qt: 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed') => { setFormData({ ...formData, questionType: qt }) }
 
   const buildDraftTitle = () => {
     const subject = formData.subject || 'Assessment'
@@ -613,6 +627,37 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     ? (selectedSubtopicNames.length > 0 ? selectedSubtopicNames.join(', ') : 'Entire topic')
     : ''
 
+  const goBack = () => {
+    if (isTeacher && !flowMode) {
+      onClose()
+      return
+    }
+    if (step === 1) {
+      if (isTeacher) {
+        setFlowMode('')
+        return
+      }
+      onClose()
+      return
+    }
+    setStep((s) => Math.max(1, s - 1))
+  }
+
+  const canStepForward =
+    (step === 1 && !!formData.curriculum) ||
+    (step === 2 && !!formData.class_name) ||
+    (step === 3 && !!formData.difficultyLevel) ||
+    (step === 4 && !!formData.subject) ||
+    (step === 5 && formData.topics.length > 0) ||
+    (step === 6 && formData.count > 0) ||
+    (step === 7 && !!formData.style) ||
+    (step === 8 && !!formData.questionType)
+
+  const goForward = () => {
+    if (!canStepForward || step >= TOTAL_STEPS) return
+    setStep((s) => Math.min(TOTAL_STEPS, s + 1))
+  }
+
   const summaryRows = [
     { label: 'Class', value: selectedClassDisplayName || formData.class_name },
     { label: 'Grade', value: formData.grade ? `Grade ${formData.grade}` : '' },
@@ -633,7 +678,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 sm:p-6"
+        className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-3 sm:p-6"
         onClick={onClose}
       >
         <motion.div
@@ -642,38 +687,88 @@ export default function FlowForm({ onClose }: FlowFormProps) {
           exit={{ scale: 0.96, opacity: 0, y: 16 }}
           transition={{ duration: 0.2 }}
           onClick={e => e.stopPropagation()}
-          className="w-full max-w-xl bg-white dark:bg-gray-950 rounded-2xl max-h-[90vh] overflow-y-auto shadow-2xl shadow-black/20 border border-gray-200/60 dark:border-gray-800/60 flex flex-col"
+          className="flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-gray-200/60 bg-white shadow-2xl shadow-black/20 dark:border-gray-800/60 dark:bg-gray-950 md:max-h-[90vh] md:flex-row"
         >
-          {/* Modal header */}
-          <div className="flex items-center justify-between px-6 pt-6 pb-4 border-b border-gray-100 dark:border-gray-800/60 flex-shrink-0">
-            <div>
-              <h2 className="text-base font-bold text-gray-900 dark:text-white">New Assessment</h2>
-              <p className="text-xs text-gray-400 mt-0.5">
-                {isTeacher && !flowMode
-                  ? 'Choose how to create'
-                  : `Step ${Math.min(step, TOTAL_STEPS)} of ${TOTAL_STEPS}`}
-              </p>
+          {/* Step rail */}
+          {flowMode === 'ai' && (
+            <aside className="hidden border-r border-gray-100 bg-[color:var(--ss-canvas)]/80 px-4 py-6 dark:border-gray-800 md:flex md:w-52 md:flex-col">
+              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate">Steps</p>
+              <ol className="space-y-1">
+                {WIZARD_STEPS.map((ws) => {
+                  const done = step > ws.num
+                  const active = step === ws.num
+                  const reachable = ws.num <= maxStepReached
+                  return (
+                    <li key={ws.num}>
+                      <button
+                        type="button"
+                        onClick={() => jumpToStep(ws.num)}
+                        disabled={!reachable}
+                        className={`flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-left text-xs font-semibold transition-colors ${
+                          active
+                            ? 'bg-ss-accent text-white'
+                            : done
+                              ? 'text-ss-ink hover:bg-white'
+                              : reachable
+                                ? 'text-ss-slate hover:bg-white'
+                                : 'cursor-not-allowed text-gray-400'
+                        }`}
+                      >
+                      <span
+                        className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+                          active
+                            ? 'bg-white/20 text-white'
+                            : done
+                              ? 'bg-ss-accent text-white'
+                              : 'bg-gray-200 text-gray-500 dark:bg-gray-800'
+                        }`}
+                      >
+                        {done ? <Check className="h-3 w-3" strokeWidth={3} /> : ws.num}
+                      </span>
+                      {ws.label}
+                      </button>
+                    </li>
+                  )
+                })}
+              </ol>
+            </aside>
+          )}
+
+          <div className="flex min-h-0 flex-1 flex-col max-h-[92vh] md:max-h-[90vh]">
+            {/* Modal header */}
+            <div className="flex flex-shrink-0 items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-800/60 sm:px-6">
+              <div>
+                <h2 className="font-display text-lg font-black text-gray-900 dark:text-white sm:text-xl">
+                  {isTeacher && !flowMode ? 'New assessment' : 'Build your quiz'}
+                </h2>
+                <p className="mt-0.5 text-xs text-gray-400">
+                  {isTeacher && !flowMode
+                    ? 'Choose how to create'
+                    : `Step ${Math.min(step, TOTAL_STEPS)} of ${TOTAL_STEPS}`}
+                </p>
+              </div>
+              <button
+                onClick={onClose}
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+              >
+                <X className="h-4 w-4" />
+              </button>
             </div>
-            <button
-              onClick={onClose}
-              className="w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors"
-            >
-              <X className="w-4 h-4" />
-            </button>
-          </div>
 
-          {/* Progress bar */}
-          <div className="flex gap-1 px-6 py-3 flex-shrink-0">
-            {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map(s => (
-              <div
-                key={s}
-                className={`h-1 flex-1 rounded-full transition-all duration-400 ${flowMode && s <= step ? 'bg-blue-600' : 'bg-gray-100 dark:bg-gray-800'}`}
-              />
-            ))}
-          </div>
+            {/* Progress bar */}
+            {flowMode === 'ai' && (
+              <div className="flex flex-shrink-0 gap-1 px-5 py-3 sm:px-6">
+                {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map(s => (
+                  <div
+                    key={s}
+                    className={`h-1 flex-1 rounded-full transition-all duration-400 ${s <= step ? 'bg-ss-accent' : 'bg-gray-100 dark:bg-gray-800'}`}
+                  />
+                ))}
+              </div>
+            )}
 
-          {/* Scrollable content */}
-          <div className="flex-1 px-6 pb-6 space-y-6 overflow-y-auto">
+            {/* Step content — one step at a time */}
+            <div className="flex-1 space-y-6 overflow-y-auto px-5 pb-4 sm:px-6">
 
             {isTeacher && !flowMode && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
@@ -709,7 +804,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 1: Curriculum */}
-            {flowMode === 'ai' && step >= 1 && (
+            {flowMode === 'ai' && step === 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Curriculum" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
@@ -743,7 +838,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 2: Class */}
-            {flowMode === 'ai' && step >= 2 && formData.curriculum && (
+            {flowMode === 'ai' && step === 2 && formData.curriculum && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Class" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -775,7 +870,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 3: Difficulty Level */}
-            {flowMode === 'ai' && step >= 3 && formData.class_name && (
+            {flowMode === 'ai' && step === 3 && formData.class_name && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Difficulty level" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
@@ -802,7 +897,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 4: Subject */}
-            {flowMode === 'ai' && step >= 4 && formData.difficultyLevel && (
+            {flowMode === 'ai' && step === 4 && formData.difficultyLevel && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Subject" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -834,7 +929,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 5: Topics */}
-            {flowMode === 'ai' && step >= 5 && formData.subject && (
+            {flowMode === 'ai' && step === 5 && formData.subject && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Topics" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
@@ -862,7 +957,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                         onClick={handleManualTopicsContinue}
                         className="w-full py-2.5 rounded-xl border border-blue-500 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
                       >
-                        Continue with manual topics →
+                        Use these topics
                       </button>
                     </div>
                   ) : (
@@ -875,7 +970,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                 </div>
 
                 {/* Optional subtopic */}
-                {formData.topic_ids.length === 1 && step >= 5 && (
+                {formData.topic_ids.length === 1 && step === 5 && (
                   <div className="mt-4">
                     <StepLabel label="Subtopic (optional)" />
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Focus on one or more subtopics</h3>
@@ -900,21 +995,11 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                   </div>
                 )}
 
-                {formData.topics.length > 0 && step === 5 && (
-                  <motion.button
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    onClick={() => setStep(6)}
-                    className="mt-3 w-full py-2.5 rounded-xl border border-blue-500 text-blue-600 dark:text-blue-400 text-sm font-semibold hover:bg-blue-50 dark:hover:bg-blue-900/20 transition-colors"
-                  >
-                    Continue with {formData.topics.length} topic{formData.topics.length > 1 ? 's' : ''} →
-                  </motion.button>
-                )}
               </motion.div>
             )}
 
             {/* Step 6: Count */}
-            {flowMode === 'ai' && step >= 6 && formData.topics.length > 0 && (
+            {flowMode === 'ai' && step === 6 && formData.topics.length > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question count" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How many questions?</h3>
@@ -956,7 +1041,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 7: Style */}
-            {flowMode === 'ai' && step >= 7 && formData.count > 0 && (
+            {flowMode === 'ai' && step === 7 && formData.count > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Assessment style" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose a question style</h3>
@@ -975,7 +1060,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 8: Question Type */}
-            {flowMode === 'ai' && step >= 8 && formData.style && (
+            {flowMode === 'ai' && step === 8 && formData.style && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question type" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How should questions be presented?</h3>
@@ -996,7 +1081,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 9: Summary & Generate */}
-            {flowMode === 'ai' && step >= 9 && formData.questionType && (
+            {flowMode === 'ai' && step === 9 && formData.questionType && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Summary" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Review your assessment</h3>
@@ -1083,7 +1168,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                         onClose()
                       }}
                       disabled={!draftId || isSavingDraft}
-                      className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
+                      className="w-full flex items-center justify-center gap-2 bg-ss-accent hover:bg-ss-accent disabled:bg-ss-accent text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-ss-accent-soft"
                     >
                       <Send className="w-4 h-4" />
                       {isSavingDraft ? 'Saving draft…' : 'Open Preview & Edit'}
@@ -1093,7 +1178,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                   <button
                     onClick={handleStartAssessment}
                     disabled={isLoading}
-                    className="w-full flex items-center justify-center gap-2 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-blue-900/20"
+                    className="w-full flex items-center justify-center gap-2 bg-ss-accent hover:bg-ss-accent disabled:bg-ss-accent text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-ss-accent-soft"
                   >
                     {isLoading ? (
                       <>
@@ -1119,6 +1204,43 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                   </button>
                 )}
               </motion.div>
+            )}
+            </div>
+
+            {/* Wizard footer */}
+            {flowMode === 'ai' && step < 9 && (
+              <div className="flex flex-shrink-0 items-center justify-between gap-3 border-t border-gray-100 px-5 py-4 dark:border-gray-800/60 sm:px-6">
+                <button
+                  type="button"
+                  onClick={goBack}
+                  className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Back
+                </button>
+                <button
+                  type="button"
+                  onClick={goForward}
+                  disabled={!canStepForward}
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-ss-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-ss-accent disabled:cursor-not-allowed disabled:opacity-40"
+                >
+                  Continue
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
+            )}
+
+            {flowMode === 'ai' && step === 9 && (
+              <div className="flex flex-shrink-0 border-t border-gray-100 px-5 py-4 dark:border-gray-800/60 sm:px-6">
+                <button
+                  type="button"
+                  onClick={goBack}
+                  className="inline-flex items-center gap-1.5 rounded-xl px-4 py-2.5 text-sm font-semibold text-gray-600 transition-colors hover:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-800"
+                >
+                  <ChevronLeft className="h-4 w-4" />
+                  Back
+                </button>
+              </div>
             )}
           </div>
         </motion.div>

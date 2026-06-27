@@ -1,20 +1,25 @@
 'use client'
 
+import { useEffect } from 'react'
+import { useRouter } from 'next/navigation'
 import { useAuth } from '@/components/AuthProvider'
-import Dashboard from '@/components/Dashboard'
 import LandingPage from '@/components/LandingPage'
+import { resolvePostAuthPath } from '@/lib/onboarding'
 
 export default function Home() {
   const { user, isLoading } = useAuth()
+  const router = useRouter()
+
+  useEffect(() => {
+    if (isLoading || !user) return
+    resolvePostAuthPath(user).then((path) => router.replace(path))
+  }, [user, isLoading, router])
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex items-center justify-center">
-        <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#13a7df] mx-auto mb-4"></div>
-          <p className="text-gray-500 dark:text-gray-400 font-medium">Loading StudySquare…</p>
-        </div>
-      </div>
+      <main className="studio-surface flex min-h-screen items-center justify-center">
+        <div className="h-12 w-12 animate-spin rounded-full border-2 border-brand-blue border-t-transparent" />
+      </main>
     )
   }
 
@@ -23,8 +28,8 @@ export default function Home() {
   }
 
   return (
-    <main className="min-h-screen">
-      <Dashboard />
+    <main className="studio-surface flex min-h-screen items-center justify-center">
+      <div className="h-12 w-12 animate-spin rounded-full border-2 border-brand-blue border-t-transparent" />
     </main>
   )
 }

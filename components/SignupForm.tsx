@@ -20,7 +20,13 @@ const Field = ({ id, label, icon: Icon, children }: { id: string; label: string;
   </div>
 )
 
-export default function SignupForm() {
+export default function SignupForm({
+  embedded = false,
+  onSwitchToLogin,
+}: {
+  embedded?: boolean
+  onSwitchToLogin?: () => void
+}) {
   const [role, setRole] = useState<'student' | 'teacher'>('student')
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
@@ -71,17 +77,21 @@ export default function SignupForm() {
       initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.4 }}
-      className="w-full max-w-sm"
+      className={embedded ? 'w-full' : 'w-full max-w-sm'}
     >
-      <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
-        Create your account
-      </h1>
-      <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
-        Start your AI-powered learning journey — free.
-      </p>
+      {!embedded && (
+        <>
+          <h1 className="font-display text-3xl font-semibold tracking-tight text-slate-900 dark:text-white">
+            Create your account
+          </h1>
+          <p className="mt-2 text-sm text-slate-500 dark:text-slate-400">
+            Start your AI-powered learning journey — free.
+          </p>
+        </>
+      )}
 
       {/* Role toggle */}
-      <div className="mt-7">
+      <div className={embedded ? 'mt-2' : 'mt-7'}>
         <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-gray-400">I am a</p>
         <div className="grid grid-cols-2 gap-2">
           <button
@@ -256,7 +266,13 @@ export default function SignupForm() {
 
       <p className="mt-6 text-center text-sm text-slate-500 dark:text-gray-500">
         Already have an account?{' '}
-        <Link href="/login" className="font-bold text-[#0c86ce] hover:underline dark:text-[#37b6f0]">Sign in</Link>
+        {onSwitchToLogin ? (
+          <button type="button" onClick={onSwitchToLogin} className="font-bold text-brand-blue hover:underline">
+            Sign in
+          </button>
+        ) : (
+          <Link href="/login" className="font-bold text-brand-blue hover:underline">Sign in</Link>
+        )}
       </p>
     </motion.div>
   )

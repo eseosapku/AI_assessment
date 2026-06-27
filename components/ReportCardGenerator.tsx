@@ -698,14 +698,23 @@ export default function ReportCardGenerator() {
       <main className="max-w-6xl mx-auto px-4 sm:px-8 py-6 space-y-5">
 
         {/* ── Page title ── */}
-        <motion.div initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }}>
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-blue-600 dark:text-blue-400 mb-1">Generator</p>
-          <h1 className="text-3xl font-black text-gray-900 dark:text-white tracking-tight">Report Card</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            {isTeacher
-              ? 'Select a classroom and student to generate a report card from class assignments.'
-              : 'Select assessments below to include in your official report card.'}
-          </p>
+        <motion.div
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="relative overflow-hidden rounded-[24px] px-7 py-7 text-white"
+          style={{ background: 'linear-gradient(115deg,#0C74B4,#0E94D6 52%,#2ACBF2)' }}
+        >
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/art/certificate.png" alt="" aria-hidden className="pointer-events-none absolute right-6 top-1/2 hidden h-[86%] -translate-y-1/2 object-contain drop-shadow-xl sm:block" />
+          <div className="relative">
+            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/85 mb-1">Generator</p>
+            <h1 className="text-3xl font-extrabold tracking-tight">Report Card</h1>
+            <p className="mt-1 max-w-md text-sm font-semibold text-white/85">
+              {isTeacher
+                ? 'Select a classroom and student to generate a report card from class assignments.'
+                : 'Select assessments below to include in your official report card.'}
+            </p>
+          </div>
         </motion.div>
 
         {isTeacher && (

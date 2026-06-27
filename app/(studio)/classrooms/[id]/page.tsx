@@ -6,6 +6,7 @@ import { Mail, Users, ArrowLeft, Download, ChevronRight, Search, Pencil } from '
 import { useAuth } from '@/components/AuthProvider'
 import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
+import { subjectArt } from '@/lib/studio/subjectArt'
 
 interface ClassroomInfo {
     id: string
@@ -378,7 +379,7 @@ export default function ClassroomDetailPage() {
 
     if (isLoading) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F6F1EA] dark:bg-[#0B0E12]">
+            <div className="min-h-screen flex items-center justify-center bg-[#E8EEF3] dark:bg-[#0C0F13]">
                 <div className="w-8 h-8 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
             </div>
         )
@@ -386,15 +387,15 @@ export default function ClassroomDetailPage() {
 
     if (!classroom || error) {
         return (
-            <div className="min-h-screen flex items-center justify-center bg-[#F6F1EA] dark:bg-[#0B0E12]">
+            <div className="min-h-screen flex items-center justify-center bg-[#E8EEF3] dark:bg-[#0C0F13]">
                 <div className="text-sm text-gray-500">{error || 'Classroom not found.'}</div>
             </div>
         )
     }
 
     return (
-        <div className="min-h-screen bg-[#F6F1EA] dark:bg-[#0B0E12] transition-colors">
-            <div className="max-w-6xl mx-auto px-4 sm:px-8 py-6 space-y-6">
+        <div>
+            <div className="mx-auto max-w-6xl space-y-6">
                 <div className="flex items-center justify-between">
                     <button
                         onClick={() => router.back()}
@@ -450,7 +451,7 @@ export default function ClassroomDetailPage() {
                                     <input
                                         value={editName}
                                         onChange={(e) => setEditName(e.target.value)}
-                                        className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
+                                        className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 outline-none transition-all text-gray-900 dark:text-white"
                                     />
                                 </div>
                                 <div className="sm:col-span-1">
@@ -461,7 +462,7 @@ export default function ClassroomDetailPage() {
                                         value={editDescription}
                                         onChange={(e) => setEditDescription(e.target.value)}
                                         placeholder="Optional"
-                                        className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
+                                        className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 outline-none transition-all text-gray-900 dark:text-white"
                                     />
                                 </div>
                                 {editError && (
@@ -473,7 +474,7 @@ export default function ClassroomDetailPage() {
                                     <button
                                         onClick={handleUpdate}
                                         disabled={isUpdating}
-                                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#1F7A7A] hover:bg-[#166463] disabled:bg-[#6FA9A9] text-white text-sm font-semibold py-2.5"
+                                        className="flex-1 inline-flex items-center justify-center gap-2 rounded-xl bg-[#0E8FD1] hover:bg-[#0C6FAE] disabled:bg-[#48D0FF] text-white text-sm font-semibold py-2.5"
                                     >
                                         {isUpdating ? 'Saving...' : 'Save changes'}
                                     </button>
@@ -777,7 +778,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                             onChange={(e) => setInviteInput(e.target.value)}
                             placeholder="Enter emails or student IDs separated by comma or new line"
                             rows={4}
-                            className="w-full pl-10 pr-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
+                            className="w-full pl-10 pr-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 outline-none transition-all text-gray-900 dark:text-white"
                         />
                     </div>
                     {inviteError && (
@@ -793,7 +794,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                     <button
                         onClick={handleInvite}
                         disabled={isInviting}
-                        className="w-full inline-flex items-center justify-center gap-3 bg-[#1F7A7A] hover:bg-[#166463] disabled:bg-[#6FA9A9] text-white text-base sm:text-lg font-bold py-3.5 rounded-xl"
+                        className="w-full inline-flex items-center justify-center gap-3 bg-[#0E8FD1] hover:bg-[#0C6FAE] disabled:bg-[#48D0FF] text-white text-base sm:text-lg font-bold py-3.5 rounded-xl"
                     >
                         <Users className="w-5 h-5" />
                         {isInviting ? 'Sending...' : 'Send invitations'}
@@ -820,12 +821,12 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                         if (e.key === 'Enter') handleSearch()
                                     }}
                                     placeholder="Search name, email, or ID"
-                                    className="w-full sm:w-56 pl-9 pr-3 py-2 rounded-lg text-xs bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#1F7A7A] focus:ring-2 focus:ring-[#1F7A7A]/20 outline-none transition-all text-gray-900 dark:text-white"
+                                    className="w-full sm:w-56 pl-9 pr-3 py-2 rounded-lg text-xs bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 outline-none transition-all text-gray-900 dark:text-white"
                                 />
                             </div>
                             <button
                                 onClick={handleSearch}
-                                className="px-3 py-2 rounded-lg text-xs font-bold bg-[#1F7A7A] hover:bg-[#166463] text-white"
+                                className="px-3 py-2 rounded-lg text-xs font-bold bg-[#0E8FD1] hover:bg-[#0C6FAE] text-white"
                             >
                                 Search
                             </button>
@@ -843,7 +844,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                     </div>
                     {isLoadingAnalytics ? (
                         <div className="flex items-center justify-center py-10">
-                            <div className="w-6 h-6 border-2 border-[#1F7A7A] border-t-transparent rounded-full animate-spin" />
+                            <div className="w-6 h-6 border-2 border-[#0E8FD1] border-t-transparent rounded-full animate-spin" />
                         </div>
                     ) : analytics?.students?.length > 0 ? (
                         studentsForDisplay.length > 0 ? (
@@ -881,7 +882,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                             <div className="flex items-center gap-2">
                                                                 <span>{Number.isFinite(row.avg_score) ? `${row.avg_score}%` : '—'}</span>
                                                                 {Number.isFinite(row.avg_score) && (
-                                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
+                                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E6F6FD] text-[#0E8FD1] dark:bg-[#161B21] dark:text-[#9AD0C3]">
                                                                         {getGradeFromScore(row.avg_score)}
                                                                     </span>
                                                                 )}
@@ -892,7 +893,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                             <div className="inline-flex items-center gap-2">
                                                                 <button
                                                                     onClick={() => openStudentDetail(row)}
-                                                                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E7EFEA] text-[#1F7A7A] font-bold text-sm hover:bg-[#d7e7e0]"
+                                                                    className="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-[#E6F6FD] text-[#0E8FD1] font-bold text-sm hover:bg-[#d7e7e0]"
                                                                 >
                                                                     View
                                                                     <ChevronRight className="w-4 h-4" />
@@ -957,7 +958,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                         <div className="p-6 space-y-6">
                             {isLoadingDetail ? (
                                 <div className="flex items-center justify-center py-10">
-                                    <div className="w-6 h-6 border-2 border-[#1F7A7A] border-t-transparent rounded-full animate-spin" />
+                                    <div className="w-6 h-6 border-2 border-[#0E8FD1] border-t-transparent rounded-full animate-spin" />
                                 </div>
                             ) : detailError ? (
                                 <div className="text-sm text-red-600 bg-red-50 border border-red-200 rounded-xl px-4 py-3">
@@ -966,31 +967,31 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                             ) : studentDetail ? (
                                 <>
                                     <div className="grid grid-cols-2 gap-3">
-                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
+                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
                                             <p className="text-[10px] uppercase tracking-widest text-gray-400">Quizes</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
                                                 {studentDetail.summary.completed}
                                                 <span className="text-sm text-gray-400 font-semibold">/{studentDetail.summary.assignments_total}</span>
                                             </p>
                                         </div>
-                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
+                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
                                             <p className="text-[10px] uppercase tracking-widest text-gray-400">Average score</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
                                                 {Number.isFinite(studentDetail.summary.average_score)
                                                     ? `${studentDetail.summary.average_score}%`
                                                     : '—'}
                                                 {Number.isFinite(studentDetail.summary.average_score) && (
-                                                    <span className="text-sm text-[#1F7A7A] font-semibold ml-2">
+                                                    <span className="text-sm text-[#0E8FD1] font-semibold ml-2">
                                                         {getGradeFromScore(studentDetail.summary.average_score)}
                                                     </span>
                                                 )}
                                             </p>
                                         </div>
-                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
+                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
                                             <p className="text-[10px] uppercase tracking-widest text-gray-400">Not completed</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">{studentDetail.summary.started}</p>
                                         </div>
-                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
+                                        <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
                                             <p className="text-[10px] uppercase tracking-widest text-gray-400">Last completed</p>
                                             <p className="text-sm font-semibold text-[#1F2933] dark:text-white mt-3">
                                                 {studentDetail.summary.last_completed_at
@@ -1010,7 +1011,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                 const grade = getGradeFromScore(row.score)
                                                 const scoreLabel = row.score !== null ? `${row.score}%` : '—'
                                                 return (
-                                                    <div key={row.assignment_id} className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#0F141B] p-4">
+                                                    <div key={row.assignment_id} className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
                                                         <div className="flex items-start justify-between gap-4">
                                                             <div>
                                                                 <p className="text-sm font-bold text-[#1F2933] dark:text-white">{row.title}</p>
@@ -1036,8 +1037,8 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                             </div>
                                                         </div>
                                                         <div className="mt-3 flex flex-wrap items-center gap-3 text-xs text-gray-500">
-                                                            <span className="font-semibold text-[#1F7A7A]">Score: {scoreLabel}</span>
-                                                            <span className="px-2 py-0.5 rounded-full bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
+                                                            <span className="font-semibold text-[#0E8FD1]">Score: {scoreLabel}</span>
+                                                            <span className="px-2 py-0.5 rounded-full bg-[#E6F6FD] text-[#0E8FD1] dark:bg-[#161B21] dark:text-[#9AD0C3]">
                                                                 {grade}
                                                             </span>
                                                             <span>Attempts: {row.attempt_count}/{row.max_attempts}</span>
@@ -1052,7 +1053,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                 {row.result_id ? (
                                                                     <button
                                                                         onClick={() => window.open(`/results/${row.result_id}`, '_blank')}
-                                                                        className="inline-flex items-center gap-2 text-sm font-bold text-[#1F7A7A] hover:text-[#166463]"
+                                                                        className="inline-flex items-center gap-2 text-sm font-bold text-[#0E8FD1] hover:text-[#0C6FAE]"
                                                                     >
                                                                         View feedback
                                                                     </button>
@@ -1061,7 +1062,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                 )}
                                                                 <button
                                                                     onClick={() => handleDownloadFeedback(row)}
-                                                                    className="inline-flex items-center gap-2 text-sm font-bold text-[#1F7A7A] hover:text-[#166463]"
+                                                                    className="inline-flex items-center gap-2 text-sm font-bold text-[#0E8FD1] hover:text-[#0C6FAE]"
                                                                 >
                                                                     <Download className="w-4 h-4" />
                                                                     Download feedback
@@ -1168,39 +1169,44 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                     const canViewFeedback = row.status === 'completed' && Boolean(resultId)
                     const canRetry = row.status === 'completed' && attemptsLeft > 0 && !isExpired
                     const canStart = (row.status !== 'completed' && !isAttemptLocked && !isExpired) || canRetry
+                    const statusColor = isExpired ? 'var(--ss-bad)' : row.status === 'completed' ? 'var(--ss-good)' : 'var(--ss-accent)'
                     return (
-                        <div key={row.assignment.id} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5 flex flex-col gap-3">
-                            <div>
-                                <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{row.assignment.title}</p>
-                                <p className="text-xs text-gray-400 mt-0.5">{row.assignment.subject} · Grade {row.assignment.grade}</p>
+                        <div key={row.assignment.id} className="relative flex flex-col overflow-hidden rounded-2xl border border-ss-line bg-ss-panel transition-all hover:shadow-ss-panel">
+                            <span className="absolute inset-x-0 top-0 h-1" style={{ background: statusColor }} />
+                            <div className="flex items-start gap-3 p-4 pt-5">
+                                {/* eslint-disable-next-line @next/next/no-img-element */}
+                                <img src={subjectArt(row.assignment.subject)} alt="" aria-hidden className="h-11 w-11 shrink-0 object-contain" />
+                                <div className="min-w-0 flex-1">
+                                    <p className="truncate text-sm font-extrabold text-ss-ink">{row.assignment.title}</p>
+                                    <p className="mt-0.5 truncate text-xs font-semibold text-ss-slate">{row.assignment.subject} · Grade {row.assignment.grade}</p>
+                                </div>
                                 {row.assignment.strict_mode && (
-                                    <span className="inline-flex items-center gap-1 mt-2 text-[10px] font-bold px-2 py-0.5 rounded-full border border-red-200 dark:border-red-800/60 bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400">
+                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[color:var(--ss-bad)]/10 px-2 py-0.5 text-[10px] font-bold text-ss-bad">
                                         <svg className="w-2.5 h-2.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                                         Strict
                                     </span>
                                 )}
                             </div>
-                            <div className="flex items-center gap-3 text-xs text-gray-400">
-                                <span>{row.assignment.question_count}q · {row.assignment.question_type}</span>
+                            <div className="flex flex-wrap items-center gap-2 px-4 pb-3 text-[11px] font-semibold text-ss-slate">
+                                <span className="rounded-md bg-ss-chip px-2 py-1">{row.assignment.question_count}q · {row.assignment.question_type}</span>
                                 {deadline && (
-                                    <span className={isExpired ? 'text-red-500' : ''}>Due {formatDate(deadline)}</span>
+                                    <span className={`rounded-md px-2 py-1 ${isExpired ? 'bg-[color:var(--ss-bad)]/10 text-ss-bad' : 'bg-ss-chip'}`}>Due {formatDate(deadline)}</span>
                                 )}
+                                <span className="ml-auto">{attemptsLeft} attempt{attemptsLeft !== 1 ? 's' : ''} left</span>
                             </div>
-                            <div className="text-[11px] text-gray-400">
-                                Attempts left: {attemptsLeft}
-                            </div>
+                            <div className="mt-auto p-4 pt-1">
                             {canViewFeedback ? (
                                 <div className={`mt-auto grid gap-2 ${canRetry ? 'grid-cols-2' : 'grid-cols-1'}`}>
                                     <button
                                         onClick={() => router.push(`/results/${resultId}`)}
-                                        className="w-full py-2 rounded-xl text-xs font-bold transition-colors bg-white dark:bg-gray-900 border border-[#1F7A7A] text-[#1F7A7A] hover:bg-[#1F7A7A] hover:text-white"
+                                        className="w-full rounded-xl bg-ss-accent py-2 text-xs font-bold text-white transition-all hover:brightness-95"
                                     >
                                         View feedback
                                     </button>
                                     {canRetry && (
                                         <button
                                             onClick={() => router.push(`/assessment?assignment=${row.assignment.id}`)}
-                                            className="w-full py-2 rounded-xl text-xs font-bold transition-colors bg-[#1F7A7A] hover:bg-[#166463] text-white"
+                                            className="w-full py-2 rounded-xl text-xs font-bold transition-colors bg-[#0E8FD1] hover:bg-[#0C6FAE] text-white"
                                         >
                                             Retry
                                         </button>
@@ -1210,11 +1216,12 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                                 <button
                                     disabled={!canStart}
                                     onClick={() => router.push(`/assessment?assignment=${row.assignment.id}`)}
-                                    className="mt-auto w-full py-2 rounded-xl text-xs font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-[#1F7A7A] hover:bg-[#166463] text-white"
+                                    className="mt-auto w-full py-2 rounded-xl text-xs font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-[#0E8FD1] hover:bg-[#0C6FAE] text-white"
                                 >
                                     {isExpired ? 'Deadline passed' : buttonLabel}
                                 </button>
                             )}
+                            </div>
                         </div>
                     )
                 })}

@@ -1,12 +1,12 @@
 import './globals.css'
 import type { Metadata, Viewport } from 'next'
-import { Fraunces, Space_Grotesk } from 'next/font/google'
+import { Plus_Jakarta_Sans, Bricolage_Grotesque } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
 import { AuthProvider } from '@/components/AuthProvider'
 import { SubscriptionProvider } from '@/components/SubscriptionProvider'
 
-const spaceGrotesk = Space_Grotesk({ subsets: ['latin'], variable: '--font-sans' })
-const fraunces = Fraunces({ subsets: ['latin'], variable: '--font-display' })
+const jakarta = Plus_Jakarta_Sans({ subsets: ['latin'], variable: '--font-sans' })
+const bricolage = Bricolage_Grotesque({ subsets: ['latin'], variable: '--font-display' })
 
 export const metadata: Metadata = {
   title: 'StudySquare — AI study & assessments | A Brain Ink product',
@@ -32,7 +32,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body suppressHydrationWarning className={`${spaceGrotesk.variable} ${fraunces.variable} font-sans`}>
+      <body suppressHydrationWarning className={`${jakarta.variable} ${bricolage.variable} font-sans`}>
         <ThemeProvider>
           <AuthProvider>
             <SubscriptionProvider>

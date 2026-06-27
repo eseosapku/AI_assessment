@@ -68,7 +68,7 @@ export function RunnableCodeNode({ id, data }: NodeProps) {
         </div>
         <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
         {d.language && (
-          <span className="ml-auto text-[10px] uppercase tracking-wide text-apple-dark-gray">{d.language}</span>
+          <span className="ml-auto text-[10px] uppercase tracking-wide text-ss-slate">{d.language}</span>
         )}
       </div>
 
@@ -111,7 +111,7 @@ export function RunnableCodeNode({ id, data }: NodeProps) {
             title="Web preview"
             sandbox="allow-scripts"
             srcDoc={result?.previewHtml ?? ''}
-            className="w-full h-48 rounded-lg border border-gray-200 dark:border-gray-700 bg-white"
+            className="w-full h-48 rounded-lg border border-ss-line bg-white"
           />
         )}
 

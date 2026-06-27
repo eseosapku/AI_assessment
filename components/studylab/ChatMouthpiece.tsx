@@ -86,33 +86,33 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
     <div className="flex flex-col h-full bg-white dark:bg-[#161617]">
       {/* Header */}
       <div className="flex items-center gap-2.5 px-4 py-3.5 border-b border-gray-100 dark:border-gray-800">
-        <div className="w-8 h-8 rounded-xl bg-apple-blue/10 flex items-center justify-center">
-          <Brain className="w-4.5 h-4.5 text-apple-blue" />
+        <div className="w-8 h-8 rounded-xl bg-[color:var(--ss-accent)]/10 flex items-center justify-center">
+          <Brain className="w-4.5 h-4.5 text-ss-accent" />
         </div>
         <div className="leading-tight">
           <p className="font-semibold text-[14px]">AI Study Assistant</p>
-          <p className="text-[11px] text-apple-dark-gray">Brain Ink AI</p>
+          <p className="text-[11px] text-ss-slate">Brain Ink AI</p>
         </div>
       </div>
 
       {/* Messages */}
       <div ref={scrollRef} className="flex-1 overflow-y-auto px-4 py-4 space-y-4">
         {messages.length === 0 && !busy && (
-          <p className="text-sm text-apple-dark-gray text-center mt-8">Starting your session…</p>
+          <p className="text-sm text-ss-slate text-center mt-8">Starting your session…</p>
         )}
         {messages.map((m, i) =>
           m.role === 'assistant' ? (
             <div key={i} className="flex gap-2.5">
-              <div className="w-7 h-7 rounded-lg bg-apple-blue/10 flex items-center justify-center shrink-0 mt-0.5">
-                <Brain className="w-4 h-4 text-apple-blue" />
+              <div className="w-7 h-7 rounded-lg bg-[color:var(--ss-accent)]/10 flex items-center justify-center shrink-0 mt-0.5">
+                <Brain className="w-4 h-4 text-ss-accent" />
               </div>
-              <div className="rounded-2xl rounded-tl-sm bg-apple-gray dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
+              <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
                 <SafeLatex>{m.content}</SafeLatex>
               </div>
             </div>
           ) : (
             <div key={i} className="flex justify-end">
-              <div className="rounded-2xl rounded-tr-sm bg-apple-blue text-white px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
+              <div className="rounded-2xl rounded-tr-sm bg-ss-accent text-white px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
                 {m.imageUrl && (
                   // eslint-disable-next-line @next/next/no-img-element
                   <img
@@ -129,13 +129,13 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
         {busy && (
           <div className="flex gap-2.5">
-            <div className="w-7 h-7 rounded-lg bg-apple-blue/10 flex items-center justify-center shrink-0">
-              <Brain className="w-4 h-4 text-apple-blue" />
+            <div className="w-7 h-7 rounded-lg bg-[color:var(--ss-accent)]/10 flex items-center justify-center shrink-0">
+              <Brain className="w-4 h-4 text-ss-accent" />
             </div>
-            <div className="rounded-2xl rounded-tl-sm bg-apple-gray dark:bg-white/5 px-4 py-3 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-apple-dark-gray animate-bounce [animation-delay:-0.3s]" />
-              <span className="w-1.5 h-1.5 rounded-full bg-apple-dark-gray animate-bounce [animation-delay:-0.15s]" />
-              <span className="w-1.5 h-1.5 rounded-full bg-apple-dark-gray animate-bounce" />
+            <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.3s]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.15s]" />
+              <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce" />
             </div>
           </div>
         )}
@@ -165,7 +165,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             <button
               key={i}
               onClick={() => send(s)}
-              className="text-left text-[13px] px-3.5 py-2 rounded-xl border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-300 hover:border-apple-blue hover:text-apple-blue transition-colors"
+              className="text-left text-[13px] px-3.5 py-2 rounded-xl border border-ss-line text-gray-700 dark:text-gray-300 hover:border-ss-accent hover:text-ss-accent transition-colors"
             >
               {s}
             </button>
@@ -178,7 +178,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         <div className="px-4 pb-2 flex gap-2">
           <button
             onClick={() => send("I'm ready — let's continue.")}
-            className="flex-1 text-[13px] px-3.5 py-2 rounded-xl bg-apple-blue text-white font-semibold hover:bg-blue-600 transition-colors"
+            className="flex-1 text-[13px] px-3.5 py-2 rounded-xl bg-ss-accent text-white font-semibold hover:brightness-95 transition-all"
           >
             Continue →
           </button>
@@ -205,7 +205,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         {attachment && (
           <div className="mb-2 relative inline-block">
             {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img src={attachment} alt="Attachment preview" className="h-20 w-auto rounded-xl border border-gray-200 dark:border-gray-700" />
+            <img src={attachment} alt="Attachment preview" className="h-20 w-auto rounded-xl border border-ss-line" />
             <button
               onClick={() => setAttachment(null)}
               className="absolute -top-1.5 -right-1.5 w-5 h-5 rounded-full bg-gray-900/80 text-white flex items-center justify-center"
@@ -216,7 +216,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           </div>
         )}
         {attachError && <p className="text-[11px] text-red-500 mb-1.5">{attachError}</p>}
-        <div className="flex items-end gap-2 rounded-2xl border border-gray-200 dark:border-gray-700 bg-apple-gray dark:bg-black/30 px-3 py-2 focus-within:ring-2 focus-within:ring-apple-blue/40">
+        <div className="flex items-end gap-2 rounded-2xl border border-ss-line bg-ss-chip dark:bg-black/30 px-3 py-2 focus-within:ring-2 focus-within:ring-[color:var(--ss-accent)]/40">
           <input
             ref={fileRef}
             type="file"
@@ -230,7 +230,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <button
             onClick={() => fileRef.current?.click()}
             disabled={busy}
-            className="w-8 h-8 rounded-xl text-apple-dark-gray hover:text-apple-blue hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center disabled:opacity-40 shrink-0 transition-colors"
+            className="w-8 h-8 rounded-xl text-ss-slate hover:text-ss-accent hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center disabled:opacity-40 shrink-0 transition-colors"
             aria-label="Attach an image of your work"
             title="Attach an image of your work"
           >
@@ -253,12 +253,12 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <button
             onClick={() => send(input)}
             disabled={(!input.trim() && !attachment) || busy}
-            className="w-8 h-8 rounded-xl bg-apple-blue text-white flex items-center justify-center disabled:opacity-40 hover:bg-blue-600 transition-colors shrink-0"
+            className="w-8 h-8 rounded-xl bg-ss-accent text-white flex items-center justify-center disabled:opacity-40 hover:brightness-95 transition-all shrink-0"
           >
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-[10px] text-apple-dark-gray text-center mt-2">AI can make mistakes. Check important info.</p>
+        <p className="text-[10px] text-ss-slate text-center mt-2">AI can make mistakes. Check important info.</p>
       </div>
     </div>
   )

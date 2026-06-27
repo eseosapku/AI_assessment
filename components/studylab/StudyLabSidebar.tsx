@@ -1,6 +1,6 @@
 'use client'
 
-import { ArrowLeft, Brain, Layers, CheckCircle2, Circle, CircleDot, StickyNote, Settings } from 'lucide-react'
+import { ArrowLeft, Brain, Layers, CheckCircle2, Circle, CircleDot, StickyNote } from 'lucide-react'
 import type { PlanStep } from '@/lib/studylab/types'
 
 interface StepGroupSummary {
@@ -37,18 +37,21 @@ export default function StudyLabSidebar({
     <aside className="w-64 shrink-0 h-full flex flex-col bg-[#0e0f12] text-gray-300 border-r border-white/5">
       {/* Brand */}
       <div className="flex items-center gap-2.5 px-4 py-4 border-b border-white/5">
-        <div className="w-8 h-8 rounded-xl bg-apple-blue/20 flex items-center justify-center">
-          <Brain className="w-4.5 h-4.5 text-apple-blue" />
+        <div className="w-8 h-8 rounded-xl bg-[color:var(--ss-accent)]/20 flex items-center justify-center">
+          <Brain className="w-4.5 h-4.5 text-ss-accent" />
         </div>
         <div className="leading-tight">
-          <p className="font-semibold text-[14px] text-white">StudyLab</p>
-          <p className="text-[11px] text-gray-500">Brain Ink</p>
+          <div className="flex items-center gap-1.5">
+            <p className="font-semibold text-[14px] text-white">StudyLab</p>
+            <span className="rounded-full bg-[color:var(--ss-accent)]/20 px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
+          </div>
+          <p className="text-[11px] text-ss-slate">Brain Ink</p>
         </div>
       </div>
 
       <button
         onClick={onBack}
-        className="flex items-center gap-2 px-4 py-3 text-[13px] text-gray-400 hover:text-white hover:bg-white/5 transition-colors"
+        className="flex items-center gap-2 px-4 py-3 text-[13px] text-ss-slate hover:text-white hover:bg-white/5 transition-colors"
       >
         <ArrowLeft className="w-4 h-4" />
         All LearnSpaces
@@ -56,14 +59,14 @@ export default function StudyLabSidebar({
 
       {/* Topic */}
       <div className="px-4 py-3 border-y border-white/5">
-        <p className="text-[10px] uppercase tracking-[0.18em] text-gray-500 mb-1">Studying</p>
+        <p className="text-[10px] uppercase tracking-[0.18em] text-ss-slate mb-1">Studying</p>
         <p className="font-semibold text-white text-[14px] leading-snug">{title}</p>
-        {subject && <p className="text-[12px] text-gray-500 mt-0.5">{subject}</p>}
+        {subject && <p className="text-[12px] text-ss-slate mt-0.5">{subject}</p>}
       </div>
 
       {/* Steps / layers */}
       <div className="flex-1 overflow-y-auto px-2 py-3">
-        <div className="flex items-center gap-2 px-2 mb-2 text-[10px] uppercase tracking-[0.18em] text-gray-500">
+        <div className="flex items-center gap-2 px-2 mb-2 text-[10px] uppercase tracking-[0.18em] text-ss-slate">
           <Layers className="w-3.5 h-3.5" />
           Steps
         </div>
@@ -81,10 +84,10 @@ export default function StudyLabSidebar({
                   title={p.goal}
                   className={`w-full flex items-start gap-2 px-2 py-2 rounded-lg text-left text-[13px] transition-colors ${
                     state === 'current'
-                      ? 'text-apple-blue bg-apple-blue/10'
+                      ? 'text-ss-accent bg-[color:var(--ss-accent)]/10'
                       : state === 'done'
                         ? 'text-gray-300 hover:bg-white/5'
-                        : 'text-gray-500'
+                        : 'text-ss-slate'
                   }`}
                 >
                   <Icon
@@ -110,7 +113,7 @@ export default function StudyLabSidebar({
                 </button>
               ))}
               {currentStep > groups.length && (
-                <div className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[13px] text-apple-blue bg-apple-blue/10">
+                <div className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[13px] text-ss-accent bg-[color:var(--ss-accent)]/10">
                   <Circle className="w-4 h-4 shrink-0" />
                   <span className="truncate">Step {currentStep} · in progress</span>
                 </div>
@@ -123,29 +126,25 @@ export default function StudyLabSidebar({
       {/* Footer stats */}
       <div className="px-4 py-4 border-t border-white/5 space-y-3">
         <div className="flex items-center justify-between text-[12px]">
-          <span className="text-gray-500 flex items-center gap-1.5">
+          <span className="text-ss-slate flex items-center gap-1.5">
             <StickyNote className="w-3.5 h-3.5" /> Cards
           </span>
           <span className="text-white font-medium">{cardCount}</span>
         </div>
         <div>
           <div className="flex items-center justify-between text-[12px] mb-1.5">
-            <span className="text-gray-500">Progress</span>
+            <span className="text-ss-slate">Progress</span>
             <span className="text-white font-medium">
               {completed}/{total || 1}
             </span>
           </div>
           <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
             <div
-              className="h-full bg-apple-blue rounded-full transition-all duration-500"
+              className="h-full bg-ss-accent rounded-full transition-all duration-500"
               style={{ width: `${total ? (completed / total) * 100 : 0}%` }}
             />
           </div>
         </div>
-        <button className="w-full flex items-center gap-2 px-2 py-2 rounded-lg text-[12px] text-gray-500 hover:text-white hover:bg-white/5 transition-colors">
-          <Settings className="w-3.5 h-3.5" />
-          Workspace settings
-        </button>
       </div>
     </aside>
   )

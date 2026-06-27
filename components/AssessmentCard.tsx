@@ -1,8 +1,8 @@
 'use client'
 
 import Link from 'next/link'
-import { motion } from 'framer-motion'
-import { Calendar } from 'lucide-react'
+import { ArrowRight, Calendar } from 'lucide-react'
+import { subjectArt } from '@/lib/studio/subjectArt'
 
 interface Assessment {
   id: string
@@ -18,67 +18,53 @@ interface Assessment {
   longform_grades?: Record<string, any> | null
 }
 
-const GRADE_CONFIG: Record<string, { bar: string; text: string; watermark: string; badge: string }> = {
-  'A+': { bar: 'bg-emerald-500', text: 'text-emerald-600 dark:text-emerald-400', watermark: 'text-emerald-500/10 dark:text-emerald-400/[0.07]', badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/25 dark:text-emerald-400' },
-  'A': { bar: 'bg-emerald-500', text: 'text-emerald-600 dark:text-emerald-400', watermark: 'text-emerald-500/10 dark:text-emerald-400/[0.07]', badge: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/25 dark:text-emerald-400' },
-  'B+': { bar: 'bg-blue-500', text: 'text-blue-600 dark:text-blue-400', watermark: 'text-blue-500/10 dark:text-blue-400/[0.07]', badge: 'bg-blue-50 text-blue-700 dark:bg-blue-900/25 dark:text-blue-400' },
-  'B': { bar: 'bg-blue-500', text: 'text-blue-600 dark:text-blue-400', watermark: 'text-blue-500/10 dark:text-blue-400/[0.07]', badge: 'bg-blue-50 text-blue-700 dark:bg-blue-900/25 dark:text-blue-400' },
-  'C': { bar: 'bg-amber-500', text: 'text-amber-600 dark:text-amber-400', watermark: 'text-amber-500/10 dark:text-amber-400/[0.07]', badge: 'bg-amber-50 text-amber-700 dark:bg-amber-900/25 dark:text-amber-400' },
-  'D': { bar: 'bg-red-500', text: 'text-red-600 dark:text-red-400', watermark: 'text-red-500/10 dark:text-red-400/[0.07]', badge: 'bg-red-50 text-red-700 dark:bg-red-900/25 dark:text-red-400' },
+// Per-grade header gradient, score-ring color, and grade-pill classes.
+const GRADE_CONFIG: Record<string, { grad: string; ring: string; pill: string }> = {
+  'A+': { grad: 'linear-gradient(120deg,#0E7A5A,#16B67A 60%,#3FD08F)', ring: '#16B67A', pill: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' },
+  'A': { grad: 'linear-gradient(120deg,#0E7A5A,#16B67A 60%,#3FD08F)', ring: '#16B67A', pill: 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300' },
+  'B+': { grad: 'linear-gradient(120deg,#0C74B4,#0E94D6 55%,#2ACBF2)', ring: '#0E8FD1', pill: 'bg-sky-50 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300' },
+  'B': { grad: 'linear-gradient(120deg,#0C74B4,#0E94D6 55%,#2ACBF2)', ring: '#0E8FD1', pill: 'bg-sky-50 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300' },
+  'C': { grad: 'linear-gradient(120deg,#C77B16,#F0A93E 60%,#FFC777)', ring: '#F0A93E', pill: 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300' },
+  'D': { grad: 'linear-gradient(120deg,#C2473F,#E2645F 60%,#F0978F)', ring: '#E2645F', pill: 'bg-red-50 text-red-700 dark:bg-red-900/30 dark:text-red-300' },
 }
 
-const SCORE_COLOR = (s: number) => s >= 70 ? 'bg-emerald-500' : s >= 50 ? 'bg-amber-500' : 'bg-red-500'
 export default function AssessmentCard({ assessment }: { assessment: Assessment }) {
   const cfg = GRADE_CONFIG[assessment.grade] ?? GRADE_CONFIG['D']
-  const pct = assessment.percentage ?? assessment.score
+  const pct = Math.max(0, Math.min(100, Math.round(assessment.percentage ?? assessment.score ?? 0)))
 
   return (
     <Link
       href={`/results/${assessment.id}`}
-      className="group relative flex flex-col bg-white dark:bg-[#111115] border border-gray-200/70 dark:border-white/[0.07] rounded-2xl overflow-hidden transition-all duration-200 hover:-translate-y-0.5 hover:shadow-xl hover:shadow-black/8 dark:hover:shadow-black/40 hover:border-gray-300 dark:hover:border-white/10"
+      className="group block overflow-hidden rounded-[22px] border border-ss-line bg-ss-panel shadow-[0_18px_40px_-30px_rgba(20,60,90,.45)] transition-all duration-200 hover:-translate-y-1 hover:shadow-ss-panel"
       aria-label={`View results for ${assessment.subject}`}
     >
-      <div className={`h-[3px] w-full ${cfg.bar}`} />
+      {/* Gradient header (colored by grade) with topic + subject art */}
+      <div className="relative flex h-[68px] items-center px-4 text-white" style={{ background: cfg.grad }}>
+        <span className="rounded-full bg-white/25 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide backdrop-blur-sm">
+          {assessment.topic || 'Assessment'}
+        </span>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img
+          src={subjectArt(assessment.subject)}
+          alt=""
+          aria-hidden
+          className="pointer-events-none absolute right-3 top-1/2 h-[58px] w-[58px] -translate-y-1/2 object-contain drop-shadow-[0_6px_10px_rgba(0,0,0,0.28)]"
+        />
+      </div>
 
-      <div className="p-5 flex-1">
-        <div className="flex items-start justify-between gap-3">
-          <div className="min-w-0">
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-gray-400 dark:text-gray-600 mb-1.5 truncate">
-              {assessment.topic}
-            </p>
-            <h3 className="text-base font-black text-gray-900 dark:text-white leading-snug">
-              {assessment.subject}
-            </h3>
+      <div className="p-4">
+        <h3 className="line-clamp-2 min-h-[2.4em] text-[14.5px] font-extrabold leading-snug text-ss-ink">{assessment.subject}</h3>
+        <div className="mt-3 flex items-center gap-3">
+          <div className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-full" style={{ background: `conic-gradient(${cfg.ring} ${pct}%, var(--ss-chip) 0)` }}>
+            <div className="grid h-[42px] w-[42px] place-items-center rounded-full bg-ss-panel text-[13px] font-extrabold text-ss-ink">{pct}%</div>
           </div>
-          <span className={`text-xs font-black px-2 py-1 rounded-lg ${cfg.badge}`}>
-            {assessment.grade}
-          </span>
-        </div>
-
-        <div className="mt-4 flex items-end gap-2">
-          <span className="text-3xl font-black tabular-nums text-gray-900 dark:text-white leading-none">{pct}</span>
-          <span className="text-sm font-bold text-gray-400 dark:text-gray-600">%</span>
-          <span className={`ml-auto text-xs font-semibold ${cfg.text} opacity-80 group-hover:opacity-100`}>
-            View details
-          </span>
-        </div>
-
-        <div className="mt-2 h-1.5 bg-gray-100 dark:bg-white/[0.06] rounded-full overflow-hidden">
-          <motion.div
-            initial={{ width: 0 }}
-            animate={{ width: `${pct}%` }}
-            transition={{ duration: 0.9, ease: 'easeOut' }}
-            className={`h-full rounded-full ${SCORE_COLOR(pct)}`}
-          />
-        </div>
-
-        <div className="mt-4 flex items-center justify-between text-[11px] text-gray-400 dark:text-gray-600">
-          <span className="flex items-center gap-1.5">
-            <Calendar className="w-3 h-3" />
+          <span className={`rounded-lg px-2.5 py-1.5 text-[15px] font-extrabold leading-none ${cfg.pill}`}>{assessment.grade}</span>
+          <span className="flex items-center gap-1 text-[11px] font-semibold text-ss-slate">
+            <Calendar className="h-3 w-3" />
             {assessment.date}
           </span>
-          <span className="text-[10px] font-semibold uppercase tracking-wide text-gray-300 dark:text-gray-600 group-hover:text-blue-500">
-            Tap to review
+          <span className="ml-auto inline-flex items-center gap-1 text-[12px] font-extrabold text-ss-accent">
+            Review <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </span>
         </div>
       </div>

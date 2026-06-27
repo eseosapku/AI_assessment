@@ -3,7 +3,7 @@
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import Image from 'next/image'
-import { useEffect, useState, type ReactNode } from 'react'
+import { useEffect, useState, createContext, useContext, useMemo, type ReactNode } from 'react'
 import {
   ArrowRight,
   Sparkles,
@@ -19,6 +19,21 @@ import {
 } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
 import { Wordmark, BrainInkBadge } from './Brand'
+import AuthModal from './AuthModal'
+
+type AuthModalMode = 'login' | 'signup'
+
+const LandingAuthContext = createContext<{
+  openLogin: () => void
+  openSignup: () => void
+}>({
+  openLogin: () => {},
+  openSignup: () => {},
+})
+
+function useLandingAuth() {
+  return useContext(LandingAuthContext)
+}
 
 /* ============================================================== shared bits */
 
@@ -89,6 +104,7 @@ function GridTexture({ opacity = 0.5 }: { opacity?: number }) {
 
 function Nav() {
   const [scrolled, setScrolled] = useState(false)
+  const { openLogin, openSignup } = useLandingAuth()
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12)
     onScroll()
@@ -129,19 +145,21 @@ function Nav() {
 
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
-          <Link
-            href="/login"
+          <button
+            type="button"
+            onClick={openLogin}
             className="hidden rounded-full px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 sm:block"
           >
             Sign in
-          </Link>
-          <Link
-            href="/signup"
+          </button>
+          <button
+            type="button"
+            onClick={openSignup}
             className="group inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
           >
             Get started
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
-          </Link>
+          </button>
         </div>
       </div>
     </header>
@@ -190,6 +208,7 @@ function HeroDeck() {
 }
 
 function Hero() {
+  const { openSignup } = useLandingAuth()
   return (
     <section className="relative overflow-hidden bg-gradient-to-b from-[#f1faff] via-white to-white pb-16 pt-28 dark:from-[#0b1322] dark:via-[#0a0f1e] dark:to-[#0a0f1e] sm:pt-32 lg:pb-24 lg:pt-36">
       <div
@@ -248,14 +267,15 @@ function Hero() {
               transition={{ duration: 0.6, delay: 0.22 }}
               className="mt-9 flex flex-wrap items-center gap-3"
             >
-              <Link
-                href="/signup"
+              <button
+                type="button"
+                onClick={openSignup}
                 className="group inline-flex items-center gap-2.5 rounded-full bg-slate-900 px-7 py-4 text-sm font-bold text-white shadow-xl shadow-slate-900/15 transition-transform hover:scale-[1.02] dark:bg-white dark:text-slate-900"
               >
                 <Sparkles className="h-4 w-4 text-[#22d3a5]" />
                 Start learning free
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
+              </button>
               <a
                 href="#how"
                 className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-4 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50 dark:border-white/15 dark:bg-transparent dark:text-slate-200 dark:hover:bg-white/5"
@@ -777,6 +797,7 @@ function TeacherMock() {
 }
 
 function ForTeachers() {
+  const { openSignup } = useLandingAuth()
   return (
     <section id="teachers" className="bg-slate-50 py-24 dark:bg-[#070b16] sm:py-28">
       <div className="mx-auto max-w-7xl px-5 sm:px-8">
@@ -795,13 +816,14 @@ function ForTeachers() {
               StudySquare hands you the busywork — generating assessments, grading every script
               and turning results into insight — so your time goes where it counts.
             </p>
-            <Link
-              href="/signup"
+            <button
+              type="button"
+              onClick={openSignup}
               className="group mt-8 inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3.5 text-sm font-bold text-white transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-900"
             >
               Create a teacher account
               <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
+            </button>
           </Reveal>
         </div>
 
@@ -828,6 +850,7 @@ function ForTeachers() {
 /* ================================================================= pricing */
 
 function Pricing() {
+  const { openSignup } = useLandingAuth()
   return (
     <section id="pricing" className="bg-white py-24 dark:bg-[#0a0f1e] sm:py-28">
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
@@ -887,13 +910,14 @@ function Pricing() {
                 ))}
               </ul>
 
-              <Link
-                href="/signup"
+              <button
+                type="button"
+                onClick={openSignup}
                 className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white py-3.5 text-sm font-bold text-slate-900 transition-transform hover:scale-[1.02]"
               >
                 Start learning free
                 <ArrowRight className="h-4 w-4" />
-              </Link>
+              </button>
               <p className="mt-3 text-center text-xs text-white/70">
                 No card required for your free assessments.
               </p>
@@ -908,6 +932,7 @@ function Pricing() {
 /* =============================================================== final cta */
 
 function FinalCTA() {
+  const { openLogin, openSignup } = useLandingAuth()
   return (
     <section className="bg-white px-5 pb-24 dark:bg-[#0a0f1e] sm:px-8">
       <Reveal>
@@ -929,20 +954,22 @@ function FinalCTA() {
               Join StudySquare and turn any topic into mastery — your first assessments are on us.
             </p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <Link
-                href="/signup"
+              <button
+                type="button"
+                onClick={openSignup}
                 className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-7 py-4 text-sm font-bold text-white shadow-xl transition-transform hover:scale-[1.02]"
               >
                 <Sparkles className="h-4 w-4 text-[#22d3a5]" />
                 Start learning free
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </Link>
-              <Link
-                href="/login"
+              </button>
+              <button
+                type="button"
+                onClick={openLogin}
                 className="inline-flex items-center rounded-full bg-white/15 px-7 py-4 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-colors hover:bg-white/25"
               >
                 I already have an account
-              </Link>
+              </button>
             </div>
             <div className="mt-10 flex items-center justify-center gap-2 text-xs font-medium text-white/80">
               <ShieldCheck className="h-4 w-4" />
@@ -958,6 +985,7 @@ function FinalCTA() {
 /* ================================================================== footer */
 
 function Footer() {
+  const { openLogin, openSignup } = useLandingAuth()
   return (
     <footer className="border-t border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-[#070b16]">
       <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
@@ -982,12 +1010,19 @@ function Footer() {
               <ul className="mt-4 space-y-2.5">
                 {(links as string[]).map((l) => (
                   <li key={l}>
-                    <a
-                      href={l === 'Sign in' ? '/login' : l === 'Create account' ? '/signup' : '#'}
-                      className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                    >
-                      {l}
-                    </a>
+                    {l === 'Sign in' ? (
+                      <button type="button" onClick={openLogin} className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                        {l}
+                      </button>
+                    ) : l === 'Create account' ? (
+                      <button type="button" onClick={openSignup} className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                        {l}
+                      </button>
+                    ) : (
+                      <a href="#" className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
+                        {l}
+                      </a>
+                    )}
                   </li>
                 ))}
               </ul>
@@ -1010,20 +1045,38 @@ function Footer() {
 /* ==================================================================== page */
 
 export default function LandingPage() {
+  const [authModal, setAuthModal] = useState<AuthModalMode | null>(null)
+  const authValue = useMemo(
+    () => ({
+      openLogin: () => setAuthModal('login'),
+      openSignup: () => setAuthModal('signup'),
+    }),
+    [],
+  )
+
   return (
-    <div className="min-h-screen bg-white font-sans dark:bg-[#0a0f1e]">
-      <Nav />
-      <main>
-        <Hero />
-        <ExamsMarquee />
-        <Features />
-        <HowItWorks />
-        <InteractiveStudy />
-        <ForTeachers />
-        <Pricing />
-        <FinalCTA />
-      </main>
-      <Footer />
-    </div>
+    <LandingAuthContext.Provider value={authValue}>
+      <div className="min-h-screen bg-white font-sans dark:bg-[#0a0f1e]">
+        <Nav />
+        <main>
+          <Hero />
+          <ExamsMarquee />
+          <Features />
+          <HowItWorks />
+          <InteractiveStudy />
+          <ForTeachers />
+          <Pricing />
+          <FinalCTA />
+        </main>
+        <Footer />
+      </div>
+      {authModal && (
+        <AuthModal
+          mode={authModal}
+          onClose={() => setAuthModal(null)}
+          onSwitch={(mode) => setAuthModal(mode)}
+        />
+      )}
+    </LandingAuthContext.Provider>
   )
 }
