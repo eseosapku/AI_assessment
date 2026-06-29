@@ -32,9 +32,9 @@ export default function AuthModal({
           exit={{ scale: 0.96, opacity: 0, y: 16 }}
           transition={{ duration: 0.2 }}
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-md overflow-hidden rounded-[1.75rem] border border-black/[0.06] bg-white shadow-2xl"
+          className="relative w-full max-w-md overflow-hidden rounded-[1.75rem] border border-black/[0.06] bg-white shadow-2xl dark:border-white/10 dark:bg-[#0e1424]"
         >
-          <div className="border-b border-black/[0.06] bg-gradient-to-br from-brand-ink via-[#1a2744] to-brand-blue px-6 py-5 text-white">
+          <div className="px-6 py-5 text-white" style={{ background: 'linear-gradient(135deg,#0C2A40,#0C74B4 60%,#2ACBF2)' }}>
             <button
               type="button"
               onClick={onClose}
@@ -46,7 +46,7 @@ export default function AuthModal({
             <div className="mb-3">
               <SquareMark className="h-10 w-10" />
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-brand-sky">
+            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#9BE3FB]">
               {mode === 'login' ? 'Welcome back' : 'Join StudySquare'}
             </p>
             <h2 className="mt-1 font-display text-2xl font-black tracking-tight">

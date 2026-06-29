@@ -2,58 +2,46 @@
 
 import { motion } from 'framer-motion'
 import Link from 'next/link'
-import Image from 'next/image'
 import { useEffect, useState, createContext, useContext, useMemo, type ReactNode } from 'react'
 import {
   ArrowRight,
-  Sparkles,
   Zap,
-  BookOpen,
-  LineChart,
-  Users,
-  Blocks,
+  Globe,
   Check,
-  Wand2,
   Target,
+  FlaskConical,
+  Layers,
+  Users,
+  GraduationCap,
+  BarChart3,
   ShieldCheck,
+  type LucideIcon,
 } from 'lucide-react'
 import ThemeToggle from './ThemeToggle'
-import { Wordmark, BrainInkBadge } from './Brand'
+import { Wordmark } from './Brand'
 import AuthModal from './AuthModal'
 
 type AuthModalMode = 'login' | 'signup'
 
-const LandingAuthContext = createContext<{
-  openLogin: () => void
-  openSignup: () => void
-}>({
+const LandingAuthContext = createContext<{ openLogin: () => void; openSignup: () => void }>({
   openLogin: () => {},
   openSignup: () => {},
 })
+const useLandingAuth = () => useContext(LandingAuthContext)
 
-function useLandingAuth() {
-  return useContext(LandingAuthContext)
-}
+const CYAN = 'linear-gradient(120deg,#0C74B4,#0E94D6 55%,#2ACBF2)'
+const GREEN = 'linear-gradient(120deg,#0E7A5A,#16B67A 60%,#3FD08F)'
+const AMBER = 'linear-gradient(120deg,#C77B16,#F0A93E 60%,#FFC777)'
 
 /* ============================================================== shared bits */
 
-function Reveal({
-  children,
-  delay = 0,
-  y = 18,
-  className = '',
-}: {
-  children: ReactNode
-  delay?: number
-  y?: number
-  className?: string
-}) {
+function Reveal({ children, delay = 0, y = 20, className = '' }: { children: ReactNode; delay?: number; y?: number; className?: string }) {
   return (
     <motion.div
       initial={{ opacity: 0, y }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: '-80px' }}
-      transition={{ duration: 0.55, delay, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
       {children}
@@ -61,28 +49,26 @@ function Reveal({
   )
 }
 
-/* The four-tile micro-mark — the StudySquare signature, reused in every eyebrow. */
 function MiniMark({ className = '' }: { className?: string }) {
   return (
     <span className={`grid grid-cols-2 gap-[2px] ${className}`}>
-      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#13a7df]" />
-      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#13a7df]/40" />
-      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#13a7df]/40" />
-      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#13a7df]" />
+      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#2ACBF2]" />
+      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#2ACBF2]/40" />
+      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#2ACBF2]/40" />
+      <span className="h-1.5 w-1.5 rounded-[1px] bg-[#2ACBF2]" />
     </span>
   )
 }
 
-function Eyebrow({ children }: { children: ReactNode }) {
+function Eyebrow({ children, light = false }: { children: ReactNode; light?: boolean }) {
   return (
-    <span className="inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] text-[#0c86ce] dark:text-cyan-300">
+    <span className={`inline-flex items-center gap-2.5 text-xs font-bold uppercase tracking-[0.2em] ${light ? 'text-white/85' : 'text-[#0c86ce] dark:text-cyan-300'}`}>
       <MiniMark />
       {children}
     </span>
   )
 }
 
-/* White-line grid texture for use on dark / gradient surfaces. */
 function GridTexture({ opacity = 0.5 }: { opacity?: number }) {
   return (
     <div
@@ -90,13 +76,47 @@ function GridTexture({ opacity = 0.5 }: { opacity?: number }) {
       className="pointer-events-none absolute inset-0"
       style={{
         opacity,
-        backgroundImage:
-          'linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)',
+        backgroundImage: 'linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px)',
         backgroundSize: '40px 40px',
         maskImage: 'radial-gradient(ellipse 80% 80% at 70% 20%, black 20%, transparent 80%)',
         WebkitMaskImage: 'radial-gradient(ellipse 80% 80% at 70% 20%, black 20%, transparent 80%)',
       }}
     />
+  )
+}
+
+/* A browser-chrome frame that shows a product screenshot, or a themed
+   placeholder until the real image is dropped into /public/landing. */
+function ShotFrame({ src, alt, label, tone = CYAN, className = '' }: { src: string; alt: string; label: string; tone?: string; className?: string }) {
+  const [ok, setOk] = useState(true)
+  return (
+    <div className={`overflow-hidden rounded-2xl border border-black/10 bg-white shadow-[0_40px_90px_-40px_rgba(8,47,73,0.55)] dark:border-white/10 dark:bg-[#0e1424] ${className}`}>
+      <div className="flex items-center gap-1.5 border-b border-black/5 px-3 py-2.5 dark:border-white/5">
+        <span className="h-2.5 w-2.5 rounded-full bg-red-400/70" />
+        <span className="h-2.5 w-2.5 rounded-full bg-amber-400/70" />
+        <span className="h-2.5 w-2.5 rounded-full bg-emerald-400/70" />
+      </div>
+      {ok ? (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={src} alt={alt} loading="lazy" onError={() => setOk(false)} className="block w-full" />
+      ) : (
+        <div className="grid aspect-[16/10] place-items-center text-white" style={{ background: tone }}>
+          <div className="text-center">
+            <p className="text-sm font-extrabold">{label}</p>
+            <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-widest opacity-80">product preview</p>
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* Hero centerpiece art with graceful fallback to existing art. */
+function HeroArt() {
+  const [src, setSrc] = useState('/art/hero-scene.png')
+  return (
+    // eslint-disable-next-line @next/next/no-img-element
+    <img src={src} alt="" aria-hidden onError={() => src !== '/art/hero-motif.png' && setSrc('/art/hero-motif.png')} className="pointer-events-none h-full w-full object-contain drop-shadow-[0_30px_60px_rgba(12,116,180,0.35)]" />
   )
 }
 
@@ -113,50 +133,24 @@ function Nav() {
   }, [])
 
   return (
-    <header
-      className={`fixed inset-x-0 top-0 z-50 transition-all duration-300 ${
-        scrolled
-          ? 'border-b border-black/5 bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#0a0f1e]/80'
-          : 'border-b border-transparent'
-      }`}
-    >
+    <header className={`fixed inset-x-0 top-0 z-50 transition-all ${scrolled ? 'border-b border-black/[0.06] bg-white/80 backdrop-blur-xl dark:border-white/10 dark:bg-[#0a0f1e]/80' : 'border-b border-transparent'}`}>
       <div className="mx-auto flex h-16 max-w-7xl items-center justify-between px-5 sm:px-8">
         <Link href="/" aria-label="StudySquare home">
           <Wordmark />
         </Link>
-
         <nav className="hidden items-center gap-8 md:flex">
-          {[
-            ['Features', '#features'],
-            ['How it works', '#how'],
-            ['Exam prep', '#exams'],
-            ['For teachers', '#teachers'],
-            ['Pricing', '#pricing'],
-          ].map(([label, href]) => (
-            <a
-              key={label}
-              href={href}
-              className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white"
-            >
+          {[['Features', '#features'], ['StudyLab', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([label, href]) => (
+            <a key={label} href={href} className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
               {label}
             </a>
           ))}
         </nav>
-
         <div className="flex items-center gap-2 sm:gap-3">
           <ThemeToggle />
-          <button
-            type="button"
-            onClick={openLogin}
-            className="hidden rounded-full px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 sm:block"
-          >
+          <button type="button" onClick={openLogin} className="hidden rounded-full px-3 py-2 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-100 dark:text-slate-200 dark:hover:bg-white/10 sm:block">
             Sign in
           </button>
-          <button
-            type="button"
-            onClick={openSignup}
-            className="group inline-flex items-center gap-1.5 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white shadow-sm transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100"
-          >
+          <button type="button" onClick={openSignup} className="group inline-flex items-center gap-1.5 rounded-full px-5 py-2.5 text-sm font-bold text-white shadow-[0_10px_30px_-12px_rgba(14,143,209,0.9)] transition-transform hover:scale-[1.03]" style={{ background: CYAN }}>
             Get started
             <ArrowRight className="h-3.5 w-3.5 transition-transform group-hover:translate-x-0.5" />
           </button>
@@ -168,543 +162,456 @@ function Nav() {
 
 /* =================================================================== hero */
 
-const HERO_LABELS = [
+const HERO_CHIPS = [
   { icon: Zap, label: 'Instant AI feedback' },
-  { icon: Blocks, label: 'Every question type' },
-  { icon: Check, label: 'No setup needed' },
+  { icon: FlaskConical, label: 'Builds you the lesson' },
+  { icon: Globe, label: 'Your curriculum' },
 ]
-
-const HERO_CARDS = [
-  { src: '/hero/q-order.png', w: 1024, h: 764, cls: 'right-[2%] top-[1%] z-10 w-[68%] rotate-[4deg]', alt: 'Put the steps in order — interactive question' },
-  { src: '/hero/q-fillgaps.png', w: 1024, h: 771, cls: 'bottom-[6%] left-[1%] z-20 w-[65%] -rotate-[5deg]', alt: 'Fill in the gaps — interactive question' },
-  { src: '/hero/q-categorize.png', w: 1024, h: 718, cls: 'left-1/2 top-[48%] z-30 w-[84%] -translate-x-1/2 -translate-y-1/2 -rotate-[1.5deg]', alt: 'Categorize into groups — interactive question' },
-]
-
-function HeroDeck() {
-  return (
-    <div className="relative mx-auto h-[360px] w-full max-w-md sm:h-[420px] sm:max-w-lg lg:h-[500px] lg:max-w-none lg:-translate-y-2">
-      <div
-        aria-hidden
-        className="absolute inset-x-2 inset-y-0 -z-10 rounded-[3rem] bg-gradient-to-br from-[#19b5e8]/30 via-[#7c5cff]/18 to-[#22d3a5]/25 blur-[80px]"
-      />
-      {HERO_CARDS.map((c, i) => (
-        <motion.div
-          key={c.src}
-          initial={{ opacity: 0, y: 26, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.7, delay: 0.2 + i * 0.12, ease: [0.22, 1, 0.36, 1] }}
-          className={`absolute overflow-hidden rounded-2xl border border-white/70 bg-white shadow-[0_30px_70px_-28px_rgba(15,23,42,0.4)] ring-1 ring-black/[0.04] ${c.cls}`}
-        >
-          <Image src={c.src} alt={c.alt} width={c.w} height={c.h} className="h-auto w-full" priority={i === 2} />
-        </motion.div>
-      ))}
-      {/* soft fade so the deck melts into the background instead of a hard cut */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -inset-x-4 bottom-[-2px] h-20 bg-gradient-to-t from-white via-white/70 to-transparent dark:from-[#0a0f1e] dark:via-[#0a0f1e]/70"
-      />
-    </div>
-  )
-}
 
 function Hero() {
   const { openSignup } = useLandingAuth()
   return (
-    <section className="relative overflow-hidden bg-gradient-to-b from-[#f1faff] via-white to-white pb-16 pt-28 dark:from-[#0b1322] dark:via-[#0a0f1e] dark:to-[#0a0f1e] sm:pt-32 lg:pb-24 lg:pt-36">
+    <section className="relative overflow-hidden pb-20 pt-28 sm:pt-36 lg:pb-28">
+      {/* cyan wash + dot grid */}
+      <div aria-hidden className="pointer-events-none absolute inset-0 -z-10 bg-gradient-to-b from-[#EAF6FD] via-white to-white dark:from-[#0b1322] dark:via-[#0a0f1e] dark:to-[#0a0f1e]" />
       <div
         aria-hidden
-        className="pointer-events-none absolute inset-0 opacity-60 dark:opacity-100"
+        className="pointer-events-none absolute inset-0 -z-10 opacity-60 dark:opacity-40"
         style={{
-          backgroundImage:
-            'linear-gradient(rgba(15,23,42,0.035) 1px, transparent 1px), linear-gradient(90deg, rgba(15,23,42,0.035) 1px, transparent 1px)',
-          backgroundSize: '42px 42px',
-          maskImage: 'radial-gradient(ellipse 75% 60% at 22% 12%, black, transparent 80%)',
-          WebkitMaskImage: 'radial-gradient(ellipse 75% 60% at 22% 12%, black, transparent 80%)',
+          backgroundImage: 'radial-gradient(circle, rgba(14,143,209,0.10) 1px, transparent 1px)',
+          backgroundSize: '26px 26px',
+          maskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 20%, transparent 75%)',
+          WebkitMaskImage: 'radial-gradient(ellipse 70% 60% at 50% 0%, black 20%, transparent 75%)',
         }}
       />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute right-[-12%] top-[-8%] h-[460px] w-[560px] rounded-full bg-[#19b5e8]/15 blur-[130px]"
-      />
-
-      <div className="relative mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid items-center gap-y-14 lg:grid-cols-[minmax(0,0.92fr)_minmax(0,1.08fr)] lg:gap-x-6">
-          {/* left — copy */}
-          <div className="relative z-10 max-w-xl">
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-            >
-              <Eyebrow>WAEC · JAMB · NECO · SAT · ACT · IGCSE</Eyebrow>
-            </motion.div>
-
-            <motion.h1
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.06 }}
-              className="mt-5 font-sans text-5xl font-bold leading-[0.96] tracking-[-0.03em] text-slate-900 dark:text-white sm:text-6xl lg:text-[4.5rem]"
-            >
-              Master the syllabus,
-              <br />
-              <span className="text-slate-300 dark:text-slate-600">walk in exam-ready</span>
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.14 }}
-              className="mt-6 max-w-md text-base leading-relaxed text-slate-500 dark:text-slate-400 sm:text-lg"
-            >
-              Adaptive quizzes, interactive study sets and instant AI feedback — built for
-              regional exams like <span className="font-semibold text-slate-700 dark:text-slate-200">WAEC, JAMB, SATs and ACT</span>,
-              plus your country&apos;s national syllabus and curriculum.
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.22 }}
-              className="mt-9 flex flex-wrap items-center gap-3"
-            >
-              <button
-                type="button"
-                onClick={openSignup}
-                className="group inline-flex items-center gap-2.5 rounded-full bg-slate-900 px-7 py-4 text-sm font-bold text-white shadow-xl shadow-slate-900/15 transition-transform hover:scale-[1.02] dark:bg-white dark:text-slate-900"
-              >
-                <Sparkles className="h-4 w-4 text-[#22d3a5]" />
-                Start learning free
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-[1fr_1.15fr]">
+        <div>
+          <Reveal>
+            <Eyebrow>AI tutor · curriculum-aligned</Eyebrow>
+          </Reveal>
+          <Reveal delay={0.05}>
+            <h1 className="mt-5 font-sans text-[40px] font-extrabold leading-[1.04] tracking-[-0.03em] text-slate-900 dark:text-white sm:text-[58px]">
+              Stuck on something?{' '}
+              <span className="bg-gradient-to-r from-[#0C74B4] to-[#2ACBF2] bg-clip-text text-transparent">We&apos;ll build you a way through it.</span>
+            </h1>
+          </Reveal>
+          <Reveal delay={0.1}>
+            <p className="mt-6 max-w-xl text-lg font-medium leading-relaxed text-slate-600 dark:text-slate-300">
+              Practice any topic, get unstuck with an AI tutor that draws you the whole lesson on a living canvas, and lock it into memory for good — all aligned to your curriculum.
+            </p>
+          </Reveal>
+          <Reveal delay={0.15}>
+            <div className="mt-8 flex flex-wrap items-center gap-3">
+              <button type="button" onClick={openSignup} className="group inline-flex items-center gap-2 rounded-full px-7 py-4 text-sm font-bold text-white shadow-[0_16px_40px_-16px_rgba(14,143,209,0.9)] transition-transform hover:scale-[1.03]" style={{ background: CYAN }}>
+                Get started free
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </button>
-              <a
-                href="#how"
-                className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-6 py-4 text-sm font-bold text-slate-700 transition-colors hover:bg-slate-50 dark:border-white/15 dark:bg-transparent dark:text-slate-200 dark:hover:bg-white/5"
-              >
+              <a href="#how" className="inline-flex items-center gap-2 rounded-full border border-slate-200 bg-white px-6 py-4 text-sm font-bold text-slate-800 transition-colors hover:border-[#0E8FD1] dark:border-white/15 dark:bg-white/5 dark:text-white">
                 See how it works
               </a>
-            </motion.div>
-
-            <motion.div
-              initial={{ opacity: 0, y: 18 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
-              className="mt-9 flex flex-wrap items-center gap-x-6 gap-y-2.5"
-            >
-              {HERO_LABELS.map(({ icon: Icon, label }) => (
-                <span
-                  key={label}
-                  className="flex items-center gap-2 text-[11px] font-bold uppercase tracking-[0.1em] text-slate-400 dark:text-slate-500"
-                >
-                  <Icon className="h-4 w-4 text-[#13a7df]" strokeWidth={2.4} />
+            </div>
+          </Reveal>
+          <Reveal delay={0.2}>
+            <div className="mt-8 flex flex-wrap gap-x-6 gap-y-2">
+              {HERO_CHIPS.map(({ icon: Icon, label }) => (
+                <span key={label} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
+                  <Icon className="h-4 w-4 text-[#0E8FD1]" />
                   {label}
                 </span>
               ))}
+            </div>
+          </Reveal>
+        </div>
+
+        {/* art + tilted product panel — dashboard is the in-flow centerpiece,
+            the brain art peeks from behind its top-right corner. */}
+        <Reveal delay={0.1} className="relative">
+          <div className="relative mx-auto w-full max-w-md px-2 sm:max-w-lg lg:max-w-none lg:pr-4">
+            <div aria-hidden className="absolute -left-6 bottom-8 -z-10 h-52 w-52 rounded-full bg-[#16B67A]/20 blur-[70px]" />
+            <div aria-hidden className="absolute right-8 -top-6 -z-10 h-44 w-44 rounded-full bg-[#F0A93E]/20 blur-[70px]" />
+            <div aria-hidden className="absolute inset-10 -z-10 rounded-[3rem] bg-gradient-to-br from-[#2ACBF2]/30 to-[#16B67A]/15 blur-[70px]" />
+
+            {/* brain art peeking from behind the panel's top-right corner */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.9, y: 16 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+              className="absolute -top-14 right-2 z-0 h-36 w-36 sm:-top-20 sm:right-6 sm:h-48 sm:w-48"
+            >
+              <HeroArt />
+            </motion.div>
+
+            {/* dashboard (entrance on the outer div, static 3D tilt on the inner) */}
+            <motion.div
+              initial={{ opacity: 0, y: 40 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+              className="relative z-10 mt-20 sm:mt-24"
+            >
+              <div style={{ transform: 'perspective(1500px) rotateY(7deg) rotateX(2deg) rotate(-4deg)' }}>
+                <ShotFrame src="/landing/shot-dashboard.png" alt="StudySquare dashboard" label="Your dashboard" />
+              </div>
+            </motion.div>
+
+            {/* floating glossy stat card */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.8, y: 10 }}
+              animate={{ opacity: 1, scale: 1, y: [0, -8, 0] }}
+              transition={{ opacity: { duration: 0.6, delay: 0.5 }, scale: { duration: 0.6, delay: 0.5 }, y: { duration: 4, repeat: Infinity, ease: 'easeInOut' } }}
+              className="absolute -bottom-5 left-0 z-20 flex items-center gap-2.5 rounded-2xl border border-black/[0.06] bg-white/95 px-3.5 py-2.5 shadow-xl backdrop-blur dark:border-white/10 dark:bg-[#0e1424]/95 sm:left-2"
+            >
+              <Ring pct={92} tone="#16B67A" size={44} />
+              <div>
+                <p className="text-[12px] font-extrabold leading-tight text-slate-800 dark:text-white">Gap closed</p>
+                <p className="text-[10px] font-semibold text-slate-400">Algebra · mastered</p>
+              </div>
             </motion.div>
           </div>
-
-          {/* right — layered product cards */}
-          <div className="relative lg:translate-x-6 xl:translate-x-12">
-            <HeroDeck />
-          </div>
-        </div>
+        </Reveal>
       </div>
     </section>
   )
 }
 
-/* ========================================================= exams marquee */
+/* ============================================================ trust strip */
 
-function ExamsMarquee() {
-  const items = ['WAEC', 'JAMB', 'NECO', 'KCSE', 'SAT', 'ACT', 'IGCSE', 'Cambridge', 'GCSE', 'AS & A Level', 'National syllabi']
-  const row = [...items, ...items]
+function TrustStrip() {
+  const items = ['REB · Rwanda', 'WAEC & JAMB · Nigeria', 'Cambridge IGCSE', 'SAT', 'Your national syllabus']
   return (
-    <section id="exams" className="overflow-hidden border-b border-slate-200 bg-white py-10 dark:border-white/10 dark:bg-[#0a0f1e]">
-      <div className="mx-auto max-w-3xl px-5 text-center">
-        <p className="text-[11px] font-bold uppercase tracking-[0.22em] text-[#0c86ce] dark:text-cyan-300">
-          Regional exam prep
-        </p>
-        <p className="mt-2 text-base font-semibold text-slate-600 dark:text-slate-300">
-          From WAEC, JAMB and NECO to SATs, ACT and IGCSE — aligned to your national
-          syllabus and curriculum, not a generic question bank.
-        </p>
-      </div>
-      <div className="relative mt-7">
-        <motion.div
-          className="flex w-max items-center gap-10"
-          animate={{ x: ['0%', '-50%'] }}
-          transition={{ duration: 26, repeat: Infinity, ease: 'linear' }}
-        >
-          {row.map((it, i) => (
-            <span key={i} className="flex shrink-0 items-center gap-3 text-xl font-bold text-slate-300 dark:text-slate-600">
-              <span className="h-2 w-2 rounded-[2px] bg-[#13a7df]/50" />
-              {it}
+    <section className="border-y border-black/[0.06] bg-white py-7 dark:border-white/10 dark:bg-[#0a0f1e]">
+      <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-5 sm:px-8">
+        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">Built for your curriculum</p>
+        <div className="flex flex-wrap items-center justify-center gap-2.5">
+          {items.map((c) => (
+            <span key={c} className="rounded-full border border-slate-200 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
+              {c}
             </span>
           ))}
-        </motion.div>
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-white to-transparent dark:from-[#0a0f1e]" />
-        <div className="pointer-events-none absolute inset-y-0 right-0 w-24 bg-gradient-to-l from-white to-transparent dark:from-[#0a0f1e]" />
-      </div>
-    </section>
-  )
-}
-
-/* ============================================================== features */
-
-const FEATURES = [
-  { n: '02', icon: Blocks, title: 'Interactive study mode', body: 'Match, order, categorize and fill-the-blank sets that make revision stick.' },
-  { n: '03', icon: Zap, title: 'Instant AI feedback', body: 'Every answer graded the moment you submit, with clear explanations.' },
-  { n: '04', icon: BookOpen, title: 'Curriculum aligned', body: 'Topics mapped to real textbooks, so practice matches what you are taught.' },
-  { n: '05', icon: LineChart, title: 'Progress that motivates', body: 'Track scores by subject and watch averages climb as mastery builds.' },
-]
-
-function Features() {
-  return (
-    <section id="features" className="bg-slate-50 py-24 dark:bg-[#070b16] sm:py-28">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid gap-6 lg:grid-cols-[1.4fr_1fr] lg:items-end">
-          <Reveal>
-            <Eyebrow>Everything in one square</Eyebrow>
-            <h2 className="mt-5 max-w-xl font-sans text-4xl font-bold leading-[1.02] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
-              A complete study companion,{' '}
-              <span className="text-slate-300 dark:text-slate-600">not just a quiz maker</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="text-slate-500 dark:text-slate-400 lg:pb-2 lg:text-right">
-              From the first question to the final grade, StudySquare handles the busywork so
-              learners can focus on understanding.
-            </p>
-          </Reveal>
-        </div>
-
-        <div className="mt-14 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {/* featured — vibrant cyan */}
-          <Reveal className="md:col-span-2 lg:col-span-2 lg:row-span-2">
-            <article className="relative flex h-full flex-col overflow-hidden rounded-3xl bg-gradient-to-br from-[#19b5e8] to-[#0a72bf] p-8 text-white sm:p-10">
-              <GridTexture opacity={0.6} />
-              <span className="pointer-events-none absolute right-7 top-5 font-sans text-7xl font-bold leading-none text-white/15">
-                01
-              </span>
-              <div className="relative flex h-full flex-col">
-                <Sparkles className="h-7 w-7" strokeWidth={2} />
-                <h3 className="mt-6 font-sans text-2xl font-bold tracking-tight sm:text-3xl">AI assessment builder</h3>
-                <p className="mt-3 max-w-md text-white/85">
-                  Pick a subject, topic and difficulty — StudySquare writes a complete,
-                  curriculum-accurate quiz in seconds.
-                </p>
-
-                <div className="mt-auto pt-8">
-                  <div className="rounded-2xl border border-white/20 bg-white/10 p-4 backdrop-blur-sm">
-                    <div className="flex flex-wrap items-center gap-2 text-[11px] font-medium text-white/90">
-                      <span className="rounded-md bg-white/15 px-2 py-1">Biology · Grade 9</span>
-                      <span className="rounded-md bg-white/15 px-2 py-1">Topic: Cells</span>
-                      <span className="rounded-md bg-white/15 px-2 py-1">10 questions</span>
-                    </div>
-                    <div className="mt-3 flex items-center gap-2 text-xs font-semibold">
-                      <Wand2 className="h-3.5 w-3.5" />
-                      Generating your assessment…
-                    </div>
-                    <div className="mt-2 h-1.5 w-full overflow-hidden rounded-full bg-white/20">
-                      <motion.div
-                        initial={{ width: '12%' }}
-                        whileInView={{ width: '80%' }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.4, ease: 'easeInOut' }}
-                        className="h-full rounded-full bg-white"
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </article>
-          </Reveal>
-
-          {FEATURES.map((f, i) => (
-            <Reveal key={f.title} delay={i * 0.06}>
-              <article className="group relative h-full overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-xl hover:shadow-cyan-500/5 dark:border-white/10 dark:bg-[#0e1424]">
-                <span className="pointer-events-none absolute right-5 top-3 font-sans text-5xl font-bold leading-none text-slate-900/[0.05] dark:text-white/[0.06]">
-                  {f.n}
-                </span>
-                <f.icon className="h-6 w-6 text-[#0c86ce] dark:text-cyan-300" strokeWidth={1.9} />
-                <h3 className="mt-5 text-lg font-bold text-slate-900 dark:text-white">{f.title}</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{f.body}</p>
-                <span className="absolute bottom-0 left-0 h-1 w-0 bg-gradient-to-r from-[#19b5e8] to-[#0c86ce] transition-all duration-300 group-hover:w-full" />
-              </article>
-            </Reveal>
-          ))}
-
-          <Reveal className="md:col-span-2 lg:col-span-3">
-            <article className="group relative flex flex-col items-start justify-between gap-5 overflow-hidden rounded-3xl border border-slate-200/80 bg-white p-7 transition-all duration-300 hover:shadow-xl hover:shadow-cyan-500/5 dark:border-white/10 dark:bg-[#0e1424] sm:flex-row sm:items-center sm:p-8">
-              <span className="pointer-events-none absolute right-6 top-2 font-sans text-6xl font-bold leading-none text-slate-900/[0.04] dark:text-white/[0.05]">
-                06
-              </span>
-              <div className="relative max-w-xl">
-                <Users className="h-6 w-6 text-[#0c86ce] dark:text-cyan-300" strokeWidth={1.9} />
-                <h3 className="mt-4 text-lg font-bold text-slate-900 dark:text-white">Tools for teachers</h3>
-                <p className="mt-2 text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-                  Generate assessments straight from a PDF, assign them to a class, and review
-                  every student&rsquo;s results from one dashboard.
-                </p>
-              </div>
-              <a
-                href="#teachers"
-                className="relative inline-flex shrink-0 items-center gap-1.5 rounded-full bg-slate-900 px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-slate-800 dark:bg-white dark:text-slate-900"
-              >
-                See teacher tools
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-              </a>
-            </article>
-          </Reveal>
         </div>
       </div>
     </section>
   )
 }
 
-/* ============================================================ how it works */
+/* ============================================================= bento grid */
 
-const STEPS = [
-  { n: '01', kicker: 'Choose', title: 'Pick your topics', body: 'Select your subject, class and the exact topics you want to focus on.' },
-  { n: '02', kicker: 'Generate', title: 'AI builds your set', body: 'A tailored assessment or interactive study set is ready in seconds, at your level.' },
-  { n: '03', kicker: 'Learn', title: 'Get instant feedback', body: 'Answer, get graded instantly, and see exactly what to revise next.' },
-]
-
-function StepSnippet({ step }: { step: number }) {
-  if (step === 0) {
-    const chips = [
-      { label: 'Photosynthesis', on: true },
-      { label: 'Cell division', on: false },
-      { label: 'Genetics', on: true },
-      { label: 'Osmosis', on: false },
-      { label: 'Ecology', on: false },
-    ]
-    return (
-      <div>
-        <div className="flex items-center justify-between">
-          <span className="inline-flex items-center gap-1.5 rounded-full bg-[#eaf7fe] px-2.5 py-1 text-[11px] font-bold text-[#0c86ce] dark:bg-[#13a7df]/15 dark:text-cyan-300">
-            <BookOpen className="h-3 w-3" strokeWidth={2.4} /> Biology · Grade 10
-          </span>
-          <span className="text-[11px] font-semibold text-slate-400">2 selected</span>
-        </div>
-        <div className="mt-3.5 flex flex-wrap gap-2">
-          {chips.map((c) =>
-            c.on ? (
-              <span
-                key={c.label}
-                className="inline-flex items-center gap-1 rounded-lg bg-gradient-to-br from-[#19b5e8] to-[#0a72bf] px-2.5 py-1.5 text-xs font-semibold text-white shadow-sm"
-              >
-                <Check className="h-3 w-3" strokeWidth={3} />
-                {c.label}
-              </span>
-            ) : (
-              <span
-                key={c.label}
-                className="rounded-lg border border-slate-200 px-2.5 py-1.5 text-xs font-medium text-slate-500 dark:border-white/10 dark:text-slate-400"
-              >
-                {c.label}
-              </span>
-            )
-          )}
-        </div>
-      </div>
-    )
-  }
-
-  if (step === 1) {
-    return (
-      <div>
-        <div className="flex items-center gap-2">
-          <span className="flex h-7 w-7 items-center justify-center rounded-lg bg-gradient-to-br from-[#7c5cff] to-[#5b8def] text-white">
-            <Wand2 className="h-3.5 w-3.5" strokeWidth={2.2} />
-          </span>
-          <span className="text-sm font-semibold text-slate-700 dark:text-slate-200">Generating set</span>
-          <span className="ml-1 flex gap-1">
-            {[0, 1, 2].map((d) => (
-              <motion.span
-                key={d}
-                className="h-1.5 w-1.5 rounded-full bg-[#7c5cff]"
-                animate={{ opacity: [0.25, 1, 0.25] }}
-                transition={{ duration: 1.1, repeat: Infinity, delay: d * 0.18 }}
-              />
-            ))}
-          </span>
-        </div>
-        <div className="mt-4 space-y-2.5">
-          {['w-full', 'w-[88%]', 'w-[72%]'].map((w, i) => (
-            <div key={i} className="flex items-center gap-2.5">
-              <span className="h-5 w-5 shrink-0 rounded-md bg-slate-100 dark:bg-white/[0.06]" />
-              <span className={`h-2.5 rounded-full bg-gradient-to-r from-slate-200 to-slate-100 dark:from-white/10 dark:to-white/[0.04] ${w} animate-pulse`} />
-            </div>
-          ))}
-        </div>
-        <div className="mt-4 flex items-center gap-1.5 text-[11px] font-semibold text-slate-400">
-          <span>12 questions</span>
-          <span className="h-1 w-1 rounded-full bg-slate-300" />
-          <span>Medium</span>
-          <span className="h-1 w-1 rounded-full bg-slate-300" />
-          <span>MCQ + short answer</span>
-        </div>
-      </div>
-    )
-  }
-
+function FeatureArt({ src, tone }: { src: string; tone: string }) {
   return (
-    <div>
-      <div className="flex items-end justify-between">
-        <div>
-          <p className="text-[11px] font-semibold uppercase tracking-[0.14em] text-slate-400">Your score</p>
-          <p className="font-sans text-3xl font-bold leading-none text-slate-900 dark:text-white">84%</p>
-        </div>
-        <span className="inline-flex items-center gap-1 rounded-full bg-emerald-50 px-2.5 py-1 text-[11px] font-bold text-emerald-600 dark:bg-emerald-500/15 dark:text-emerald-300">
-          <Check className="h-3 w-3" strokeWidth={3} /> Graded
-        </span>
-      </div>
-      <div className="mt-3.5 space-y-2">
-        <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
-          <span className="flex h-4 w-4 items-center justify-center rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-500/20 dark:text-emerald-300">
-            <Check className="h-2.5 w-2.5" strokeWidth={3} />
-          </span>
-          Cell structure
-          <span className="ml-auto text-[11px] font-semibold text-emerald-600 dark:text-emerald-300">Correct</span>
-        </div>
-        <div className="flex items-center gap-2 text-xs font-medium text-slate-600 dark:text-slate-300">
-          <span className="h-4 w-4 rounded-full border-2 border-amber-400" />
-          Osmosis
-          <span className="ml-auto text-[11px] font-semibold text-amber-500">Review</span>
-        </div>
-      </div>
-      <div className="mt-3.5 flex items-center gap-1.5 rounded-lg bg-[#eaf7fe] px-3 py-2 text-[11px] font-semibold text-[#0c86ce] dark:bg-[#13a7df]/12 dark:text-cyan-300">
-        <ArrowRight className="h-3 w-3" strokeWidth={2.6} /> Next: revise Osmosis &amp; diffusion
+    <span className="grid h-12 w-12 shrink-0 place-items-center rounded-2xl shadow-lg" style={{ background: tone }}>
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img src={src} alt="" aria-hidden className="h-9 w-9 object-contain drop-shadow" />
+    </span>
+  )
+}
+
+/* A glossy score ring used as a warm flourish across tiles. */
+function Ring({ pct, tone, size = 64 }: { pct: number; tone: string; size?: number }) {
+  const inner = size - 16
+  return (
+    <div className="grid shrink-0 place-items-center rounded-full" style={{ width: size, height: size, background: `conic-gradient(${tone} ${pct}%, rgba(148,163,184,0.18) 0)` }}>
+      <div className="grid place-items-center rounded-full bg-white text-[13px] font-extrabold text-slate-800 dark:bg-[#0e1424] dark:text-white" style={{ width: inner, height: inner }}>
+        {pct}%
       </div>
     </div>
   )
 }
 
-function HowItWorks() {
+/* ---- tile mini-visuals (CSS, on-brand) ---- */
+
+function MiniRecall() {
+  const btns: [string, string][] = [['Again', 'bg-red-100 text-red-600 dark:bg-red-900/30 dark:text-red-300'], ['Hard', 'bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'], ['Good', 'bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'], ['Easy', 'bg-sky-100 text-sky-700 dark:bg-sky-900/30 dark:text-sky-300']]
   return (
-    <section id="how" className="bg-white py-24 dark:bg-[#0a0f1e] sm:py-28">
-      <div className="mx-auto max-w-6xl px-5 sm:px-8">
-        <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
-          <Reveal>
-            <Eyebrow>How it works</Eyebrow>
-            <h2 className="mt-5 max-w-lg font-sans text-4xl font-bold leading-[1.02] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
-              From topic to top grade,{' '}
-              <span className="text-slate-300 dark:text-slate-600">in three steps</span>
-            </h2>
-          </Reveal>
-          <Reveal delay={0.1}>
-            <p className="max-w-xs text-slate-500 dark:text-slate-400 md:text-right">
-              No question bank to maintain. Just choose, generate, and learn.
-            </p>
-          </Reveal>
+    <div className="relative mt-6 h-[118px]">
+      <div className="absolute left-3 top-3 h-[86px] w-[80%] rotate-[5deg] rounded-2xl border border-black/[0.06] bg-white dark:border-white/10 dark:bg-[#10182a]" />
+      <div className="absolute left-1.5 top-1.5 h-[90px] w-[84%] rotate-[2.5deg] rounded-2xl border border-black/[0.06] bg-white dark:border-white/10 dark:bg-[#10182a]" />
+      <div className="absolute left-0 top-0 w-[88%] rounded-2xl border border-black/[0.06] bg-white p-3.5 shadow-sm dark:border-white/10 dark:bg-[#0e1424]">
+        <p className="text-[13px] font-bold text-slate-800 dark:text-white">What causes a supply curve to shift?</p>
+        <div className="mt-3 flex gap-1.5">
+          {btns.map(([b, c]) => (
+            <span key={b} className={`rounded-md px-2 py-1 text-[10px] font-bold ${c}`}>{b}</span>
+          ))}
         </div>
+      </div>
+    </div>
+  )
+}
 
-        <div className="relative mt-16">
-          <div className="grid gap-12 md:grid-cols-3 md:gap-8">
-            {STEPS.map((s, i) => (
-              <Reveal key={s.title} delay={i * 0.12} className="relative flex flex-col">
-                {/* node + connector to the next step */}
-                <div className="flex items-center">
-                  <span className="relative z-10 flex h-14 w-14 shrink-0 items-center justify-center rounded-2xl bg-gradient-to-br from-[#19b5e8] to-[#0a72bf] font-sans text-xl font-bold text-white shadow-lg shadow-[#19b5e8]/30">
-                    {s.n}
-                  </span>
-                  {i < STEPS.length - 1 && (
-                    <span
-                      aria-hidden
-                      className="ml-4 hidden h-[3px] flex-1 rounded-full bg-gradient-to-r from-[#19b5e8] to-[#7c5cff]/40 md:block md:mr-[-2rem]"
-                    />
-                  )}
-                </div>
-
-                <div className="mt-5">
-                  <p className="text-[11px] font-bold uppercase tracking-[0.18em] text-[#13a7df]">{s.kicker}</p>
-                  <h3 className="mt-1 text-lg font-bold text-slate-900 dark:text-white">{s.title}</h3>
-                </div>
-
-                <div className="mt-6 flex flex-1 flex-col justify-center rounded-2xl border border-slate-200/80 bg-white p-5 shadow-[0_24px_60px_-34px_rgba(15,23,42,0.45)] dark:border-white/10 dark:bg-[#0e1424]">
-                  <StepSnippet step={i} />
-                </div>
-
-                <p className="mt-5 max-w-xs text-[15px] leading-relaxed text-slate-500 dark:text-slate-400">{s.body}</p>
-              </Reveal>
-            ))}
+function MiniProgress() {
+  const bars: [string, number, string][] = [['Physics', 72, '#16B67A'], ['Maths', 54, '#F0A93E'], ['Chemistry', 38, '#E2645F']]
+  return (
+    <div className="mt-6 flex items-center gap-4">
+      <Ring pct={64} tone="#F0A93E" />
+      <div className="flex-1 space-y-2.5">
+        {bars.map(([s, v, c]) => (
+          <div key={s}>
+            <div className="flex justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400"><span>{s}</span><span>{v}%</span></div>
+            <div className="mt-1 h-1.5 rounded-full bg-slate-100 dark:bg-white/10"><div className="h-full rounded-full" style={{ width: `${v}%`, background: c }} /></div>
           </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Features() {
+  return (
+    <section id="features" className="relative overflow-hidden bg-slate-50 py-24 dark:bg-[#070b16] sm:py-28">
+      <div aria-hidden className="pointer-events-none absolute -left-32 top-20 h-72 w-72 rounded-full opacity-[0.12] blur-3xl" style={{ background: AMBER }} />
+      <div aria-hidden className="pointer-events-none absolute -right-32 bottom-20 h-72 w-72 rounded-full opacity-[0.12] blur-3xl" style={{ background: GREEN }} />
+      <div className="relative mx-auto max-w-6xl px-5 sm:px-8">
+        <Reveal className="max-w-2xl">
+          <Eyebrow>Everything in one place</Eyebrow>
+          <h2 className="mt-5 font-sans text-4xl font-bold leading-[1.04] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
+            One study space. <span className="bg-gradient-to-r from-[#0C74B4] to-[#2ACBF2] bg-clip-text text-transparent">Every way to learn it.</span>
+          </h2>
+        </Reveal>
+
+        <div className="mt-12 grid auto-rows-[minmax(0,1fr)] gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          {/* StudyLab — big tile */}
+          <Reveal className="sm:col-span-2 sm:row-span-2">
+            <div className="group relative flex h-full flex-col overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-8 dark:border-white/10 dark:bg-[#0e1424]">
+              <div aria-hidden className="absolute -right-10 -top-10 h-48 w-48 rounded-full opacity-25 blur-3xl" style={{ background: GREEN }} />
+              <div className="relative flex items-center gap-3">
+                <FeatureArt src="/art/studylab.png" tone={GREEN} />
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">Flagship</span>
+              </div>
+              <h3 className="relative mt-5 font-sans text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">StudyLab — your AI draws the whole lesson</h3>
+              <p className="relative mt-3 max-w-lg text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
+                Ask anything and watch it become an interactive canvas: explainer cards, diagrams, runnable examples, and checkpoints that quiz you. Stuck on homework? Type it, snap it, or drop a PDF — the tutor reads it and walks you through.
+              </p>
+              <div className="relative mt-6 flex-1">
+                <ShotFrame src="/landing/shot-studylab.png" alt="StudyLab canvas" label="StudyLab canvas" tone={GREEN} />
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Recall — with flashcard stack */}
+          <Reveal delay={0.05}>
+            <div className="relative h-full overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424]">
+              <div aria-hidden className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20 blur-2xl" style={{ background: CYAN }} />
+              <div className="relative flex items-center gap-3">
+                <FeatureArt src="/art/recall.png" tone={CYAN} />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Recall</h3>
+              </div>
+              <p className="relative mt-2 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">Forgot it already? Recall rebuilds flashcards from exactly what you got wrong — and resurfaces them right before you&apos;d forget.</p>
+              <MiniRecall />
+            </div>
+          </Reveal>
+
+          {/* Progress / gaps — with ring + bars */}
+          <Reveal delay={0.1}>
+            <div className="relative h-full overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424]">
+              <div aria-hidden className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20 blur-2xl" style={{ background: AMBER }} />
+              <div className="relative flex items-center gap-3">
+                <FeatureArt src="/art/brain.png" tone={AMBER} />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Progress &amp; gaps</h3>
+              </div>
+              <p className="relative mt-2 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">A living map of every subject — see where you&apos;re strong vs stuck, then tap a gap to study it.</p>
+              <MiniProgress />
+            </div>
+          </Reveal>
+
+          {/* AI assessments — wide, with graded card */}
+          <Reveal delay={0.05} className="sm:col-span-2">
+            <div className="relative flex h-full flex-col gap-6 overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424] sm:flex-row sm:items-center">
+              <div aria-hidden className="absolute -left-10 -bottom-10 h-40 w-40 rounded-full opacity-15 blur-3xl" style={{ background: CYAN }} />
+              <div className="relative flex-1">
+                <FeatureArt src="/art/quiz-builder.png" tone={CYAN} />
+                <h3 className="mt-4 text-xl font-bold text-slate-900 dark:text-white">AI assessments, every question type</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
+                  Build a quiz on any topic in seconds — graded instantly with feedback that actually explains.
+                </p>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {['MCQ', 'Fill gaps', 'Order', 'Categorize', 'Long-form'].map((t) => (
+                    <span key={t} className="rounded-full bg-slate-100 px-3 py-1.5 text-xs font-bold text-slate-600 dark:bg-white/5 dark:text-slate-300">{t}</span>
+                  ))}
+                </div>
+              </div>
+              <div className="relative flex items-center gap-3 rounded-2xl border border-black/[0.06] bg-slate-50 p-4 dark:border-white/10 dark:bg-white/[0.03] sm:w-52">
+                <Ring pct={78} tone="#0E8FD1" />
+                <div>
+                  <span className="rounded-lg bg-sky-50 px-2.5 py-1 text-[15px] font-extrabold text-sky-700 dark:bg-sky-900/30 dark:text-sky-300">B+</span>
+                  <p className="mt-1.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400">Algebra · graded instantly</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Classes — mini class card */}
+          <Reveal delay={0.1}>
+            <div className="relative h-full overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424]">
+              <div className="flex items-center gap-3">
+                <FeatureArt src="/art/classroom.png" tone={CYAN} />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Classes</h3>
+              </div>
+              <p className="mt-2 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">Join your teacher&apos;s classroom — assignments and deadlines, where you study.</p>
+              <div className="mt-5 overflow-hidden rounded-2xl border border-black/[0.06] dark:border-white/10">
+                <div className="relative h-12" style={{ background: CYAN }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src="/art/classroom.png" alt="" aria-hidden className="absolute right-2 top-1/2 h-[150%] -translate-y-1/2 object-contain" />
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur">3 open</span>
+                </div>
+                <div className="bg-white px-3 py-2.5 dark:bg-[#0e1424]">
+                  <p className="text-[13px] font-extrabold text-slate-800 dark:text-white">Grade 8 · Science</p>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+
+          {/* Exam prep — past-paper card */}
+          <Reveal delay={0.15}>
+            <div className="relative h-full overflow-hidden rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424]">
+              <div aria-hidden className="absolute -right-8 -top-8 h-32 w-32 rounded-full opacity-20 blur-2xl" style={{ background: AMBER }} />
+              <div className="relative flex items-center gap-3">
+                <FeatureArt src="/art/exam.png" tone={AMBER} />
+                <h3 className="text-xl font-bold text-slate-900 dark:text-white">Exam prep</h3>
+              </div>
+              <p className="relative mt-2 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">Past-paper-style practice for national exams — walk in ready.</p>
+              <div className="relative mt-5 flex gap-2">
+                {['WAEC', 'JAMB', 'SAT'].map((e) => (
+                  <span key={e} className="rounded-xl border border-amber-200 bg-amber-50 px-3 py-2 text-[13px] font-extrabold text-amber-700 dark:border-amber-800/40 dark:bg-amber-900/20 dark:text-amber-300">{e}</span>
+                ))}
+              </div>
+            </div>
+          </Reveal>
         </div>
       </div>
     </section>
   )
 }
 
-/* ========================================================= interactive study */
+/* ===================================================== question-type marquee */
 
-function InteractiveStudy() {
-  const modes = ['Multiple choice', 'Match pairs', 'Put in order', 'Categorize', 'Fill the blank', 'Short answer']
+function QuestionMarquee() {
+  const shots = ['/hero/q-order.png', '/hero/q-fillgaps.png', '/hero/q-categorize.png']
+  const row = [...shots, ...shots]
   return (
-    <section id="interactive" className="bg-gradient-to-b from-[#f4fbff] to-white py-24 dark:from-[#0b1226] dark:to-[#070b16] sm:py-28">
-      <div className="mx-auto grid max-w-7xl items-center gap-14 px-5 sm:px-8 lg:grid-cols-2">
+    <section className="overflow-hidden border-y border-black/[0.06] bg-white py-16 dark:border-white/10 dark:bg-[#0a0f1e]">
+      <div className="mx-auto mb-8 max-w-6xl px-5 text-center sm:px-8">
         <Reveal>
-          <Eyebrow>Interactive study</Eyebrow>
-          <h2 className="mt-5 font-sans text-4xl font-bold leading-[1.02] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
-            Revision that feels{' '}
-            <span className="text-slate-300 dark:text-slate-600">less like a test</span>
+          <h2 className="font-sans text-3xl font-bold tracking-[-0.02em] text-slate-900 dark:text-white sm:text-4xl">
+            Not just multiple choice. <span className="bg-gradient-to-r from-[#16B67A] to-[#3FD08F] bg-clip-text text-transparent">Every question type.</span>
           </h2>
-          <p className="mt-5 max-w-md text-slate-500 dark:text-slate-400">
-            Switch from formal assessments to hands-on study sets. Drag, match and sort your way
-            through a topic — then let the AI explain anything you missed.
-          </p>
+          <p className="mx-auto mt-3 max-w-xl text-slate-500 dark:text-slate-400">Drag-to-order, fill-the-gaps, categorize, long-form — all interactive, all graded the instant you answer.</p>
+        </Reveal>
+      </div>
+      <div className="relative">
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 left-0 z-10 w-24 bg-gradient-to-r from-white to-transparent dark:from-[#0a0f1e]" />
+        <div aria-hidden className="pointer-events-none absolute inset-y-0 right-0 z-10 w-24 bg-gradient-to-l from-white to-transparent dark:from-[#0a0f1e]" />
+        <motion.div
+          className="flex w-max gap-5 px-5"
+          animate={{ x: ['0%', '-50%'] }}
+          transition={{ duration: 28, ease: 'linear', repeat: Infinity }}
+        >
+          {row.map((src, i) => (
+            <div key={i} className="w-[320px] shrink-0 overflow-hidden rounded-2xl border border-black/[0.06] bg-white shadow-[0_24px_60px_-30px_rgba(8,47,73,0.5)] dark:border-white/10 dark:bg-[#0e1424] sm:w-[400px]">
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img src={src} alt="Interactive question type" loading="lazy" className="block w-full" />
+            </div>
+          ))}
+        </motion.div>
+      </div>
+    </section>
+  )
+}
 
-          <div className="mt-8 grid grid-cols-1 gap-x-10 sm:grid-cols-2">
-            {modes.map((m, i) => (
-              <div
-                key={m}
-                className="group flex items-center gap-3 border-b border-slate-200/80 py-3 dark:border-white/10"
-              >
-                <span className="font-sans text-sm font-bold tabular-nums text-[#13a7df]">
-                  {String(i + 1).padStart(2, '0')}
-                </span>
-                <span className="text-[15px] font-semibold text-slate-700 transition-colors group-hover:text-[#0c86ce] dark:text-slate-200 dark:group-hover:text-cyan-300">
-                  {m}
-                </span>
-              </div>
+/* ========================================================= studylab spotlight */
+
+function StudyLabSpotlight() {
+  const { openSignup } = useLandingAuth()
+  const nodes = ['Concept card', 'Diagram', 'Worked example', 'Checkpoint quiz', 'Run the code']
+  return (
+    <section id="studylab" className="relative overflow-hidden py-24 sm:py-28" style={{ background: 'linear-gradient(160deg,#0A2A40,#0C74B4 60%,#0E94D6)' }}>
+      <GridTexture opacity={0.5} />
+      <div className="relative mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-[0.85fr_1.15fr]">
+        <Reveal>
+          <Eyebrow light>The differentiator</Eyebrow>
+          <h2 className="mt-5 font-sans text-4xl font-bold leading-[1.05] tracking-[-0.02em] text-white sm:text-5xl">
+            Ask anything. Watch it become a lesson.
+          </h2>
+          <p className="mt-5 max-w-lg text-lg leading-relaxed text-white/85">
+            StudyLab isn&apos;t a chatbot in a box. It lays your topic out on a spatial canvas you can explore — and quizzes you with checkpoints so it actually sticks.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-2">
+            {nodes.map((n) => (
+              <span key={n} className="inline-flex items-center gap-1.5 rounded-full bg-white/12 px-3.5 py-1.5 text-sm font-semibold text-white ring-1 ring-white/20 backdrop-blur">
+                <Check className="h-3.5 w-3.5 text-[#9BE3FB]" /> {n}
+              </span>
             ))}
           </div>
+          <button type="button" onClick={openSignup} className="mt-8 inline-flex items-center gap-2 rounded-full bg-white px-6 py-3.5 text-sm font-bold text-[#0C5E92] transition-transform hover:scale-[1.03]">
+            Try StudyLab free <ArrowRight className="h-4 w-4" />
+          </button>
         </Reveal>
+        <Reveal delay={0.1} className="lg:scale-[1.04]">
+          <ShotFrame src="/landing/shot-canvas.png" alt="StudyLab interactive canvas" label="StudyLab canvas" tone={GREEN} />
+        </Reveal>
+      </div>
+    </section>
+  )
+}
 
-        <Reveal delay={0.1}>
-          <div className="relative">
-            <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-[#19b5e8]/15 to-[#7c5cff]/15 blur-2xl" />
-            <div className="relative grid grid-cols-2 gap-4">
-              {[
-                { label: 'Match the term', tint: 'from-[#19b5e8] to-[#0c86ce]', items: ['Mitosis', 'Osmosis', 'Diffusion', 'Enzyme'] },
-                { label: 'Put in order', tint: 'from-[#7c5cff] to-[#5b8def]', items: ['Prophase', 'Metaphase', 'Anaphase', 'Telophase'] },
-              ].map((card, idx) => (
-                <div
-                  key={card.label}
-                  className={`overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-xl dark:border-white/10 dark:bg-[#0e1424] ${
-                    idx === 1 ? 'translate-y-8' : ''
-                  }`}
-                >
-                  <div className={`bg-gradient-to-br ${card.tint} px-4 py-3 text-[11px] font-bold uppercase tracking-wide text-white`}>
-                    {card.label}
-                  </div>
-                  <div className="space-y-2 p-4">
-                    {card.items.map((it, i) => (
-                      <div
-                        key={it}
-                        className="flex items-center gap-2 rounded-lg border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-medium text-slate-700 dark:border-white/10 dark:bg-white/[0.03] dark:text-slate-300"
-                      >
-                        {idx === 1 && (
-                          <span className="flex h-4 w-4 items-center justify-center rounded bg-[#7c5cff] text-[9px] font-bold text-white">
-                            {i + 1}
-                          </span>
-                        )}
-                        {it}
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              ))}
-            </div>
+/* ========================================================== how it works */
+
+const STEPS = [
+  { icon: Target, art: '/art/quiz-builder.png', title: 'Pick a topic', body: 'Type any topic or snap your homework. We align to your curriculum automatically.' },
+  { icon: FlaskConical, art: '/art/studylab.png', title: 'Practice & get tutored', body: 'Quiz yourself, or open a LearnSpace and let the AI draw the whole lesson for you.' },
+  { icon: BarChart3, art: '/art/trophy.png', title: 'Track gaps & close them', body: 'See your weak spots on the gap map, and Recall makes sure you never forget the wins.' },
+]
+
+function HowItWorks() {
+  return (
+    <section id="how" className="bg-slate-50 py-24 dark:bg-[#070b16] sm:py-28">
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <Reveal className="max-w-xl">
+          <Eyebrow>How it works</Eyebrow>
+          <h2 className="mt-5 font-sans text-4xl font-bold leading-[1.04] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
+            From stuck to mastered, in three steps.
+          </h2>
+        </Reveal>
+        <div className="mt-12 grid gap-5 md:grid-cols-3">
+          {STEPS.map((s, i) => (
+            <Reveal key={s.title} delay={i * 0.08}>
+              <div className="relative h-full rounded-[24px] border border-black/[0.06] bg-white p-7 dark:border-white/10 dark:bg-[#0e1424]">
+                <span className="absolute right-6 top-6 text-5xl font-black text-slate-100 dark:text-white/5">{i + 1}</span>
+                <span className="grid h-14 w-14 place-items-center rounded-2xl" style={{ background: CYAN }}>
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
+                  <img src={s.art} alt="" aria-hidden className="h-10 w-10 object-contain" />
+                </span>
+                <h3 className="mt-5 text-xl font-bold text-slate-900 dark:text-white">{s.title}</h3>
+                <p className="mt-2 text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">{s.body}</p>
+              </div>
+            </Reveal>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+/* ========================================================= gap map showcase */
+
+function GapMapShowcase() {
+  return (
+    <section className="bg-white py-24 dark:bg-[#0a0f1e] sm:py-28">
+      <div className="mx-auto grid max-w-7xl items-center gap-12 px-5 sm:px-8 lg:grid-cols-2">
+        <Reveal delay={0.1} className="order-2 lg:order-1">
+          <ShotFrame src="/landing/shot-gapmap.png" alt="Learning gap map" label="Learning gap map" tone={AMBER} />
+        </Reveal>
+        <Reveal className="order-1 lg:order-2">
+          <Eyebrow>Know exactly where you stand</Eyebrow>
+          <h2 className="mt-5 font-sans text-4xl font-bold leading-[1.05] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
+            Your whole syllabus, color-coded.
+          </h2>
+          <p className="mt-5 max-w-lg text-lg leading-relaxed text-slate-600 dark:text-slate-300">
+            Every subject you&apos;ve been assessed in, mapped into a branched tree — mastered, developing, or a gap. Tap any weak branch and StudyLab starts a directed session on the spot.
+          </p>
+          <div className="mt-7 flex flex-wrap gap-4">
+            {[['Mastered', 'bg-blue-500'], ['Developing', 'bg-amber-500'], ['Learning gap', 'bg-red-500']].map(([l, c]) => (
+              <span key={l} className="inline-flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
+                <span className={`h-2.5 w-2.5 rounded-full ${c}`} /> {l}
+              </span>
+            ))}
           </div>
         </Reveal>
       </div>
@@ -714,140 +621,42 @@ function InteractiveStudy() {
 
 /* ============================================================= for teachers */
 
-const TEACHER_FEATURES = [
-  { icon: Wand2, title: 'Build from anything', body: 'Generate a quiz from a PDF, a topic, or your exam board’s syllabus in seconds.' },
-  { icon: Zap, title: 'Marking on autopilot', body: 'Every submission is graded the instant it lands, with AI feedback per student.' },
-  { icon: LineChart, title: 'See the whole class', body: 'Spot weak topics, watch averages move, and follow every learner’s progress.' },
-  { icon: Target, title: 'Assign in a click', body: 'Send an assessment to a class, set difficulty and timing, then reuse it next term.' },
-  { icon: Users, title: 'Roster without friction', body: 'Students join with a school ID or email — no accounts to chase down.' },
-  { icon: BookOpen, title: 'Aligned to your board', body: 'Prep classes for WAEC, JAMB, NECO, IGCSE, SAT, A-Level and more.' },
-]
-
-function TeacherMock() {
-  const students = [
-    { initials: 'AJ', name: 'Aisha Jallow', score: 92 },
-    { initials: 'TO', name: 'Tunde Okafor', score: 78 },
-    { initials: 'MK', name: 'Maria Kente', score: 85 },
-    { initials: 'DN', name: 'David Nkosi', score: 61 },
-  ]
-  const barColor = (s: number) => (s >= 85 ? 'bg-emerald-500' : s >= 70 ? 'bg-[#19b5e8]' : 'bg-amber-500')
-  const avg = 84
-  const R = 22
-  const C = 2 * Math.PI * R
-
-  return (
-    <div className="relative">
-      <div className="absolute -inset-4 rounded-[2rem] bg-gradient-to-br from-[#19b5e8]/15 to-[#7c5cff]/15 blur-2xl" />
-      <div className="relative overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-2xl dark:border-white/10 dark:bg-[#0e1424]">
-        <div className="flex items-center justify-between bg-gradient-to-br from-[#19b5e8] to-[#0a72bf] px-6 py-5 text-white">
-          <div className="flex items-center gap-3">
-            <span className="flex h-9 w-9 items-center justify-center rounded-xl bg-white/20 ring-1 ring-white/25">
-              <BookOpen className="h-4 w-4" />
-            </span>
-            <div>
-              <div className="text-sm font-bold">Grade 11 · Chemistry</div>
-              <div className="text-[11px] text-white/80">Acids, Bases &amp; Salts</div>
-            </div>
-          </div>
-          <span className="rounded-full bg-white/15 px-2.5 py-1 text-[11px] font-semibold">28 students</span>
-        </div>
-
-        <div className="flex items-center gap-4 px-6 py-5">
-          <div className="relative flex h-16 w-16 items-center justify-center">
-            <svg className="h-16 w-16 -rotate-90" viewBox="0 0 56 56">
-              <circle cx="28" cy="28" r={R} fill="none" stroke="currentColor" strokeWidth="5" className="text-slate-100 dark:text-white/10" />
-              <circle cx="28" cy="28" r={R} fill="none" stroke="#19b5e8" strokeWidth="5" strokeLinecap="round" strokeDasharray={C} strokeDashoffset={C * (1 - avg / 100)} />
-            </svg>
-            <span className="absolute text-sm font-bold text-slate-900 dark:text-white">{avg}%</span>
-          </div>
-          <div>
-            <div className="text-sm font-bold text-slate-900 dark:text-white">Class average</div>
-            <div className="mt-0.5 inline-flex items-center gap-1 text-xs font-semibold text-emerald-600 dark:text-emerald-400">
-              <ArrowRight className="h-3 w-3 -rotate-45" /> +6% this week
-            </div>
-          </div>
-        </div>
-
-        <div className="space-y-3 px-6 pb-5">
-          {students.map((st) => (
-            <div key={st.name} className="flex items-center gap-3">
-              <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg bg-slate-100 text-[11px] font-bold text-slate-600 dark:bg-white/5 dark:text-slate-300">
-                {st.initials}
-              </span>
-              <span className="w-28 shrink-0 truncate text-xs font-medium text-slate-700 dark:text-slate-300">{st.name}</span>
-              <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-slate-100 dark:bg-white/10">
-                <div className={`h-full rounded-full ${barColor(st.score)}`} style={{ width: `${st.score}%` }} />
-              </div>
-              <span className="w-8 shrink-0 text-right text-xs font-bold text-slate-900 dark:text-white">{st.score}</span>
-            </div>
-          ))}
-        </div>
-
-        <div className="flex items-center gap-2 border-t border-slate-100 px-6 py-4 dark:border-white/10">
-          <span className="inline-flex flex-1 items-center justify-center gap-1.5 rounded-full bg-slate-900 py-2.5 text-xs font-bold text-white dark:bg-white dark:text-slate-900">
-            <Wand2 className="h-3.5 w-3.5" /> Assign new assessment
-          </span>
-          <span className="rounded-full border border-slate-200 px-3 py-2.5 text-xs font-semibold text-slate-600 dark:border-white/15 dark:text-slate-300">
-            Export
-          </span>
-        </div>
-      </div>
-    </div>
-  )
-}
-
 function ForTeachers() {
   const { openSignup } = useLandingAuth()
   return (
     <section id="teachers" className="bg-slate-50 py-24 dark:bg-[#070b16] sm:py-28">
-      <div className="mx-auto max-w-7xl px-5 sm:px-8">
-        <div className="grid items-center gap-14 lg:grid-cols-2">
-          <Reveal delay={0.1} className="order-2 lg:order-1">
-            <TeacherMock />
-          </Reveal>
-
-          <Reveal className="order-1 lg:order-2">
-            <Eyebrow>For teachers</Eyebrow>
-            <h2 className="mt-5 max-w-md font-sans text-4xl font-bold leading-[1.02] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
-              Less marking,{' '}
-              <span className="text-slate-300 dark:text-slate-600">more teaching</span>
-            </h2>
-            <p className="mt-5 max-w-md text-slate-500 dark:text-slate-400">
-              StudySquare hands you the busywork — generating assessments, grading every script
-              and turning results into insight — so your time goes where it counts.
-            </p>
-            <button
-              type="button"
-              onClick={openSignup}
-              className="group mt-8 inline-flex items-center gap-2 rounded-full bg-slate-900 px-6 py-3.5 text-sm font-bold text-white transition-all hover:bg-slate-800 dark:bg-white dark:text-slate-900"
-            >
-              Create a teacher account
-              <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
-            </button>
-          </Reveal>
-        </div>
-
-        <div className="mt-20 grid gap-x-10 gap-y-9 sm:grid-cols-2 lg:grid-cols-3">
-          {TEACHER_FEATURES.map((f, i) => (
-            <Reveal key={f.title} delay={i * 0.05}>
-              <div className="flex gap-4">
-                <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-[#13a7df]/10 text-[#0c86ce] dark:bg-cyan-500/15 dark:text-cyan-300">
-                  <f.icon className="h-5 w-5" strokeWidth={1.9} />
-                </span>
-                <div>
-                  <h4 className="text-[15px] font-bold text-slate-900 dark:text-white">{f.title}</h4>
-                  <p className="mt-1.5 text-sm leading-relaxed text-slate-500 dark:text-slate-400">{f.body}</p>
-                </div>
+      <div className="mx-auto max-w-6xl px-5 sm:px-8">
+        <Reveal>
+          <div className="relative overflow-hidden rounded-[28px] border border-black/[0.06] bg-[#0F1B2A] p-8 text-white sm:p-12 dark:border-white/10">
+            <div aria-hidden className="absolute -right-16 -top-16 h-64 w-64 rounded-full opacity-30 blur-3xl" style={{ background: CYAN }} />
+            <div className="relative grid items-center gap-8 lg:grid-cols-[1.2fr_1fr]">
+              <div>
+                <Eyebrow light>For teachers</Eyebrow>
+                <h2 className="mt-5 font-sans text-3xl font-bold leading-[1.08] tracking-[-0.02em] sm:text-4xl">Run your class, see every student.</h2>
+                <p className="mt-4 max-w-xl text-white/80">
+                  Create a classroom, set assignments, and watch each student&apos;s progress and gaps in real time — built on the same curriculum-aligned engine your students learn with.
+                </p>
+                <button type="button" onClick={openSignup} className="mt-7 inline-flex items-center gap-2 rounded-full px-6 py-3.5 text-sm font-bold text-white transition-transform hover:scale-[1.03]" style={{ background: CYAN }}>
+                  <Users className="h-4 w-4" /> Set up a classroom
+                </button>
               </div>
-            </Reveal>
-          ))}
-        </div>
+              <div className="grid grid-cols-3 gap-3">
+                {([[Users, 'Classrooms'], [GraduationCap, 'Assignments'], [BarChart3, 'Live progress'], [Target, 'Per-student gaps'], [Layers, 'Curriculum-aligned'], [ShieldCheck, 'Secure']] as [LucideIcon, string][]).map(([Icon, label], i) => (
+                  <div key={i} className="flex flex-col items-center gap-2 rounded-2xl bg-white/[0.06] p-4 text-center ring-1 ring-white/10">
+                    <Icon className="h-5 w-5 text-[#9BE3FB]" />
+                    <span className="text-[11px] font-bold leading-tight text-white/85">{label}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </Reveal>
       </div>
     </section>
   )
 }
 
-/* ================================================================= pricing */
+/* ================================================================ pricing */
 
 function Pricing() {
   const { openSignup } = useLandingAuth()
@@ -855,72 +664,38 @@ function Pricing() {
     <section id="pricing" className="bg-white py-24 dark:bg-[#0a0f1e] sm:py-28">
       <div className="mx-auto max-w-5xl px-5 sm:px-8">
         <Reveal className="text-center">
-          <div className="flex justify-center">
-            <Eyebrow>Pricing</Eyebrow>
-          </div>
-          <h2 className="mt-5 font-sans text-4xl font-bold leading-[1.02] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
-            One price.{' '}
-            <span className="text-slate-300 dark:text-slate-600">Everything included.</span>
+          <div className="flex justify-center"><Eyebrow>Pricing</Eyebrow></div>
+          <h2 className="mt-5 font-sans text-4xl font-bold leading-[1.04] tracking-[-0.02em] text-slate-900 dark:text-white sm:text-5xl">
+            One price. <span className="bg-gradient-to-r from-[#16B67A] to-[#3FD08F] bg-clip-text text-transparent">Everything included.</span>
           </h2>
           <p className="mx-auto mt-5 max-w-md text-slate-500 dark:text-slate-400">
-            No tiers, no add-ons. Try it with 2 free assessments, then unlock everything
-            for a single monthly price.
+            Start with 2 free assessments — no card needed. Then unlock all of it for one simple monthly price, in your local currency.
           </p>
         </Reveal>
-
         <Reveal delay={0.08}>
-          <div className="relative mx-auto mt-14 max-w-xl overflow-hidden rounded-[2rem] bg-gradient-to-br from-[#19b5e8] via-[#0e9fd6] to-[#0a72bf] p-8 text-white shadow-2xl shadow-cyan-500/20 sm:p-10">
+          <div className="relative mx-auto mt-14 max-w-xl overflow-hidden rounded-[2rem] p-8 text-white shadow-2xl shadow-cyan-500/20 sm:p-10" style={{ background: CYAN }}>
             <GridTexture opacity={0.6} />
-            <div
-              aria-hidden
-              className="pointer-events-none absolute inset-0"
-              style={{
-                backgroundImage:
-                  'radial-gradient(90% 90% at 100% 0%, rgba(124,92,255,0.4), transparent 55%), radial-gradient(80% 80% at 0% 100%, rgba(34,211,165,0.35), transparent 50%)',
-              }}
-            />
             <div className="relative">
               <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] ring-1 ring-white/25">
-                <Sparkles className="h-3.5 w-3.5" /> 2 assessments free to start
+                <Check className="h-3.5 w-3.5" /> 2 assessments free to start
               </span>
-
               <div className="mt-6 flex items-end gap-2">
                 <span className="font-sans text-6xl font-bold tracking-tight">$5</span>
                 <span className="pb-2 text-base font-medium text-white/85">/ month</span>
               </div>
-              <p className="mt-2 text-sm text-white/85">
-                Billed monthly · pay in your local currency · cancel anytime.
-              </p>
-
+              <p className="mt-2 text-sm text-white/85">Billed monthly · pay in your local currency · cancel anytime.</p>
               <div className="my-7 h-px w-full bg-white/15" />
-
               <ul className="grid gap-3 text-sm sm:grid-cols-2">
-                {[
-                  'Unlimited AI assessments',
-                  'Full interactive study mode',
-                  'Every question type',
-                  'Progress analytics by subject',
-                  'Instant AI feedback',
-                  'WAEC, JAMB, SAT, IGCSE & more',
-                ].map((f) => (
+                {['Unlimited AI assessments', 'Full StudyLab tutor', 'Recall flashcards', 'Progress & gap map', 'Every question type', 'Exam prep & report cards'].map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-white/95">
-                    <Check className="h-4 w-4 shrink-0" strokeWidth={2.6} />
-                    {f}
+                    <Check className="h-4 w-4 shrink-0" strokeWidth={2.6} /> {f}
                   </li>
                 ))}
               </ul>
-
-              <button
-                type="button"
-                onClick={openSignup}
-                className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white py-3.5 text-sm font-bold text-slate-900 transition-transform hover:scale-[1.02]"
-              >
-                Start learning free
-                <ArrowRight className="h-4 w-4" />
+              <button type="button" onClick={openSignup} className="mt-8 inline-flex w-full items-center justify-center gap-2 rounded-full bg-white py-3.5 text-sm font-bold text-[#0C5E92] transition-transform hover:scale-[1.02]">
+                Start learning free <ArrowRight className="h-4 w-4" />
               </button>
-              <p className="mt-3 text-center text-xs text-white/70">
-                No card required for your free assessments.
-              </p>
+              <p className="mt-3 text-center text-xs text-white/70">No card required for your free assessments.</p>
             </div>
           </div>
         </Reveal>
@@ -936,44 +711,26 @@ function FinalCTA() {
   return (
     <section className="bg-white px-5 pb-24 dark:bg-[#0a0f1e] sm:px-8">
       <Reveal>
-        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.25rem] bg-gradient-to-br from-[#19b5e8] via-[#0e9fd6] to-[#0a72bf] px-8 py-16 text-center sm:py-20">
+        <div className="relative mx-auto max-w-6xl overflow-hidden rounded-[2.25rem] px-8 py-16 text-center sm:py-20" style={{ background: CYAN }}>
           <GridTexture opacity={0.7} />
-          <div
-            aria-hidden
-            className="pointer-events-none absolute inset-0"
-            style={{
-              backgroundImage:
-                'radial-gradient(100% 100% at 90% 0%, rgba(124,92,255,0.4), transparent 55%), radial-gradient(80% 80% at 0% 100%, rgba(34,211,165,0.4), transparent 50%)',
-            }}
-          />
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img src="/art/celebration.png" alt="" aria-hidden onError={(e) => ((e.currentTarget.style.display = 'none'))} className="pointer-events-none absolute right-6 top-6 h-24 w-24 opacity-90" />
           <div className="relative">
-            <h2 className="mx-auto max-w-2xl font-sans text-4xl font-bold leading-[1.02] tracking-[-0.02em] text-white sm:text-6xl">
-              Ready to study smarter?
+            <h2 className="mx-auto max-w-2xl font-sans text-4xl font-bold leading-[1.05] tracking-[-0.02em] text-white sm:text-6xl">
+              Your next study session could be your best one.
             </h2>
-            <p className="mx-auto mt-5 max-w-xl text-white/85">
-              Join StudySquare and turn any topic into mastery — your first assessments are on us.
-            </p>
+            <p className="mx-auto mt-5 max-w-xl text-white/85">Turn any topic into mastery — your first assessments are on us.</p>
             <div className="mt-9 flex flex-wrap items-center justify-center gap-3">
-              <button
-                type="button"
-                onClick={openSignup}
-                className="group inline-flex items-center gap-2 rounded-full bg-slate-900 px-7 py-4 text-sm font-bold text-white shadow-xl transition-transform hover:scale-[1.02]"
-              >
-                <Sparkles className="h-4 w-4 text-[#22d3a5]" />
-                Start learning free
+              <button type="button" onClick={openSignup} className="group inline-flex items-center gap-2 rounded-full bg-[#0F1B2A] px-7 py-4 text-sm font-bold text-white shadow-xl transition-transform hover:scale-[1.03]">
+                Get started free
                 <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
               </button>
-              <button
-                type="button"
-                onClick={openLogin}
-                className="inline-flex items-center rounded-full bg-white/15 px-7 py-4 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-colors hover:bg-white/25"
-              >
+              <button type="button" onClick={openLogin} className="inline-flex items-center rounded-full bg-white/15 px-7 py-4 text-sm font-bold text-white ring-1 ring-white/25 backdrop-blur transition-colors hover:bg-white/25">
                 I already have an account
               </button>
             </div>
             <div className="mt-10 flex items-center justify-center gap-2 text-xs font-medium text-white/80">
-              <ShieldCheck className="h-4 w-4" />
-              Secure checkout powered by Flutterwave
+              <ShieldCheck className="h-4 w-4" /> Secure checkout powered by Flutterwave
             </div>
           </div>
         </div>
@@ -985,74 +742,26 @@ function FinalCTA() {
 /* ================================================================== footer */
 
 function Footer() {
-  const { openLogin, openSignup } = useLandingAuth()
   return (
-    <footer className="border-t border-slate-200 bg-slate-50 dark:border-white/10 dark:bg-[#070b16]">
-      <div className="mx-auto max-w-7xl px-5 py-14 sm:px-8">
-        <div className="grid gap-10 md:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
-            <Wordmark />
-            <p className="mt-4 max-w-xs text-sm leading-relaxed text-slate-500 dark:text-slate-400">
-              Adaptive, AI-powered assessments and study tools for students and teachers.
-            </p>
-            <div className="mt-5">
-              <BrainInkBadge />
-            </div>
-          </div>
-
-          {[
-            ['Product', ['Features', 'How it works', 'Pricing', 'For teachers']],
-            ['Company', ['About', 'Brain Ink', 'Contact']],
-            ['Get started', ['Sign in', 'Create account']],
-          ].map(([title, links]) => (
-            <div key={title as string}>
-              <h4 className="text-sm font-bold text-slate-900 dark:text-white">{title as string}</h4>
-              <ul className="mt-4 space-y-2.5">
-                {(links as string[]).map((l) => (
-                  <li key={l}>
-                    {l === 'Sign in' ? (
-                      <button type="button" onClick={openLogin} className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
-                        {l}
-                      </button>
-                    ) : l === 'Create account' ? (
-                      <button type="button" onClick={openSignup} className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
-                        {l}
-                      </button>
-                    ) : (
-                      <a href="#" className="text-sm text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">
-                        {l}
-                      </a>
-                    )}
-                  </li>
-                ))}
-              </ul>
-            </div>
+    <footer className="border-t border-black/[0.06] bg-white py-12 dark:border-white/10 dark:bg-[#0a0f1e]">
+      <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 sm:flex-row sm:px-8">
+        <Wordmark />
+        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+          {[['Features', '#features'], ['StudyLab', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([l, h]) => (
+            <a key={l} href={h} className="text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">{l}</a>
           ))}
-        </div>
-
-        <div className="mt-12 flex flex-col items-center justify-between gap-3 border-t border-slate-200 pt-7 text-sm text-slate-500 dark:border-white/10 dark:text-slate-400 sm:flex-row">
-          <span>© {new Date().getFullYear()} StudySquare. All rights reserved.</span>
-          <div className="flex gap-6">
-            <a href="#" className="transition-colors hover:text-slate-900 dark:hover:text-white">Privacy</a>
-            <a href="#" className="transition-colors hover:text-slate-900 dark:hover:text-white">Terms</a>
-          </div>
-        </div>
+        </nav>
+        <p className="text-xs font-medium text-slate-400">© {new Date().getFullYear()} StudySquare · Brain Ink</p>
       </div>
     </footer>
   )
 }
 
-/* ==================================================================== page */
+/* ==================================================================== root */
 
 export default function LandingPage() {
   const [authModal, setAuthModal] = useState<AuthModalMode | null>(null)
-  const authValue = useMemo(
-    () => ({
-      openLogin: () => setAuthModal('login'),
-      openSignup: () => setAuthModal('signup'),
-    }),
-    [],
-  )
+  const authValue = useMemo(() => ({ openLogin: () => setAuthModal('login'), openSignup: () => setAuthModal('signup') }), [])
 
   return (
     <LandingAuthContext.Provider value={authValue}>
@@ -1060,23 +769,19 @@ export default function LandingPage() {
         <Nav />
         <main>
           <Hero />
-          <ExamsMarquee />
+          <TrustStrip />
           <Features />
+          <QuestionMarquee />
+          <StudyLabSpotlight />
           <HowItWorks />
-          <InteractiveStudy />
+          <GapMapShowcase />
           <ForTeachers />
           <Pricing />
           <FinalCTA />
         </main>
         <Footer />
       </div>
-      {authModal && (
-        <AuthModal
-          mode={authModal}
-          onClose={() => setAuthModal(null)}
-          onSwitch={(mode) => setAuthModal(mode)}
-        />
-      )}
+      {authModal && <AuthModal mode={authModal} onClose={() => setAuthModal(null)} onSwitch={(mode) => setAuthModal(mode)} />}
     </LandingAuthContext.Provider>
   )
 }

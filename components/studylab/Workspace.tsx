@@ -108,7 +108,7 @@ export default function Workspace({ id }: { id: string }) {
 
   // ── Tutor turn ──────────────────────────────────────────────────────────────
   const runTutor = useCallback(
-    async (userText: string, history: ChatMessage[], imageDataUrl?: string) => {
+    async (userText: string, history: ChatMessage[], imageDataUrl?: string, silent = false) => {
       setBusy(true)
       try {
         // Drop the student's pasted work onto the canvas first so they see it land.
@@ -193,10 +193,11 @@ export default function Workspace({ id }: { id: string }) {
         }
         setMessages((prev) => [...prev, assistantMsg])
 
-        // Persist canvas + step + the new turn's messages.
-        const newMessages: ChatMessage[] = userText
-          ? [{ role: 'user', content: userText }, assistantMsg]
-          : [assistantMsg]
+        // Persist canvas + step + the new turn's messages. Silent action turns
+        // (Continue, suggestions, card prompts…) don't store a user bubble.
+        const newMessages: ChatMessage[] = silent || !userText
+          ? [assistantMsg]
+          : [{ role: 'user', content: userText }, assistantMsg]
         persist({ canvas_state: nextCanvas, current_step: nextStep, messages: newMessages, ...(isDone ? { status: 'completed' } : {}) })
       } catch (err: any) {
         setMessages((prev) => [
@@ -211,12 +212,16 @@ export default function Workspace({ id }: { id: string }) {
   )
 
   const handleSend = useCallback(
-    (text: string, imageDataUrl?: string) => {
+    (text: string, opts?: { image?: string; silent?: boolean }) => {
       if (busy) return
+      const imageDataUrl = opts?.image
+      const silent = opts?.silent ?? false
       const userMsg: ChatMessage = { role: 'user', content: text, imageUrl: imageDataUrl }
       const history = [...messages, userMsg]
-      setMessages(history)
-      runTutor(text, history, imageDataUrl)
+      // Silent turns still feed the tutor the action as the current message, but
+      // never show or store a user bubble — only the assistant's reply lands.
+      if (!silent) setMessages(history)
+      runTutor(text, history, imageDataUrl, silent)
     },
     [busy, messages, runTutor]
   )
@@ -357,7 +362,7 @@ export default function Workspace({ id }: { id: string }) {
 
   // ── Checkpoints ──────────────────────────────────────────────────────────────
   const handleQuizMe = useCallback(() => {
-    handleSend('Quiz me on what we have covered so far. Add a short checkpoint to the canvas with a few interactive quiz questions for me to answer.')
+    handleSend('Quiz me on what we have covered so far. Add a short checkpoint to the canvas with a few interactive quiz questions for me to answer.', { silent: true })
   }, [handleSend])
 
   // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
@@ -532,7 +537,7 @@ export default function Workspace({ id }: { id: string }) {
           onAskTutor={handleAskTutor}
           onConnectEdge={handleConnectEdge}
           onEdgeLabel={handleEdgeLabel}
-          onCardPrompt={handleSend}
+          onCardPrompt={(text) => handleSend(text, { silent: true })}
           busy={busy}
           title={space?.title}
           plan={canvas.plan}

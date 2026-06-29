@@ -7,7 +7,7 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 
 const inputClass =
-  'w-full rounded-xl border-2 border-black/[0.06] bg-white py-3 pl-11 pr-4 text-sm font-medium text-brand-ink outline-none transition-all placeholder:text-brand-slate/60 focus:border-brand-blue focus:ring-2 focus:ring-brand-blue/20'
+  'w-full rounded-xl border-2 border-black/[0.06] bg-white py-3 pl-11 pr-4 text-sm font-medium text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-slate-500'
 
 export default function LoginForm({
   embedded = false,
@@ -45,10 +45,10 @@ export default function LoginForm({
     >
       {!embedded && (
         <>
-          <h1 className="font-display text-3xl font-black tracking-tight text-brand-ink">
+          <h1 className="font-display text-3xl font-black tracking-tight text-slate-900 dark:text-white">
             Welcome back
           </h1>
-          <p className="mt-2 text-sm font-semibold text-brand-slate">
+          <p className="mt-2 text-sm font-semibold text-slate-500 dark:text-slate-400">
             Sign in to continue your learning journey.
           </p>
         </>
@@ -140,14 +140,14 @@ export default function LoginForm({
         </button>
       </form>
 
-      <p className="mt-6 text-center text-sm font-semibold text-brand-slate">
+      <p className="mt-6 text-center text-sm font-semibold text-slate-500 dark:text-slate-400">
         No account?{' '}
         {onSwitchToSignup ? (
-          <button type="button" onClick={onSwitchToSignup} className="font-black text-brand-blue hover:underline">
+          <button type="button" onClick={onSwitchToSignup} className="font-black text-[#0c86ce] dark:text-[#37b6f0] hover:underline">
             Sign up free
           </button>
         ) : (
-          <Link href="/signup" className="font-black text-brand-blue hover:underline">
+          <Link href="/signup" className="font-black text-[#0c86ce] dark:text-[#37b6f0] hover:underline">
             Sign up free
           </Link>
         )}

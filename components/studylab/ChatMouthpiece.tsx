@@ -30,7 +30,7 @@ interface ChatMouthpieceProps {
   suggestions: string[]
   busy: boolean
   done: boolean
-  onSend: (text: string, imageDataUrl?: string) => void
+  onSend: (text: string, opts?: { image?: string; silent?: boolean }) => void
   pendingCheckpoint?: { total: number; remaining: number; nextId: string | null } | null
   onGoToCheck?: (nodeId: string) => void
   onQuizMe?: () => void
@@ -73,13 +73,21 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
     }
   }
 
+  // Typed messages stay visible in the transcript.
   const send = (text: string) => {
     const value = text.trim()
     if ((!value && !attachment) || busy) return
-    onSend(value || "Here's my work — can you take a look?", attachment ?? undefined)
+    onSend(value || "Here's my work — can you take a look?", { image: attachment ?? undefined })
     setInput('')
     setAttachment(null)
     setAttachError(null)
+  }
+
+  // Button actions (Continue, suggestions…) drive the tutor silently — they
+  // don't drop a user bubble into the chat.
+  const sendAction = (text: string) => {
+    if (busy) return
+    onSend(text, { silent: true })
   }
 
   return (
@@ -164,7 +172,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           {suggestions.map((s, i) => (
             <button
               key={i}
-              onClick={() => send(s)}
+              onClick={() => sendAction(s)}
               className="text-left text-[13px] px-3.5 py-2 rounded-xl border border-ss-line text-gray-700 dark:text-gray-300 hover:border-ss-accent hover:text-ss-accent transition-colors"
             >
               {s}
@@ -177,7 +185,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
       {!busy && !pendingCheckpoint && !done && (
         <div className="px-4 pb-2 flex gap-2">
           <button
-            onClick={() => send("I'm ready — let's continue.")}
+            onClick={() => sendAction("I'm ready — let's continue.")}
             className="flex-1 text-[13px] px-3.5 py-2 rounded-xl bg-ss-accent text-white font-semibold hover:brightness-95 transition-all"
           >
             Continue →

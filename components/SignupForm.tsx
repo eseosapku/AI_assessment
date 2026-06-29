@@ -267,11 +267,11 @@ export default function SignupForm({
       <p className="mt-6 text-center text-sm text-slate-500 dark:text-gray-500">
         Already have an account?{' '}
         {onSwitchToLogin ? (
-          <button type="button" onClick={onSwitchToLogin} className="font-bold text-brand-blue hover:underline">
+          <button type="button" onClick={onSwitchToLogin} className="font-bold text-[#0c86ce] dark:text-[#37b6f0] hover:underline">
             Sign in
           </button>
         ) : (
-          <Link href="/login" className="font-bold text-brand-blue hover:underline">Sign in</Link>
+          <Link href="/login" className="font-bold text-[#0c86ce] dark:text-[#37b6f0] hover:underline">Sign in</Link>
         )}
       </p>
     </motion.div>
