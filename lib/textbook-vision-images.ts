@@ -48,6 +48,12 @@ function significantWords(text: string): Set<string> {
   )
 }
 
+/** Prefer diagrammatic figures over tangential photos when scores tie. */
+const DIAGRAM_TYPES = new Set(['diagram', 'graph', 'chart', 'map', 'table', 'apparatus'])
+function diagramTypeBonus(visionType?: string): number {
+  return visionType && DIAGRAM_TYPES.has(visionType) ? 0.08 : 0
+}
+
 function topicOverlap(topics: string[], haystack: string): number {
   const hay = normalizeText(haystack)
   if (!hay || !topics.length) return 0
@@ -79,7 +85,14 @@ export function filterImagesByTopics(
   const scored = images
     .map((img) => ({
       img,
-      score: topicOverlap(topicList, `${img.pageText} ${img.textbookName} ${img.category || ''}`),
+      // Match on the figure's actual depicted content (vision description +
+      // keywords) first, falling back to page text for un-described images.
+      // Nudge genuine diagrams/charts/maps above tangential photos on ties.
+      score:
+        topicOverlap(
+          topicList,
+          `${img.description || ''} ${img.keywords || ''} ${img.pageText} ${img.textbookName} ${img.category || ''}`,
+        ) + diagramTypeBonus(img.visionType),
     }))
     .filter((s) => s.score >= minScore)
     .sort((a, b) => b.score - a.score || (b.img.qualityScore || 0) - (a.img.qualityScore || 0))

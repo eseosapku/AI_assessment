@@ -19,6 +19,12 @@ export interface TextbookSourceImage {
   qualityScore?: number
   qualityReasons?: string[]
   category?: string
+  /** Vision-generated: what the figure actually depicts (content-based matching). */
+  description?: string
+  /** Vision-generated: comma-separated search keywords for the figure's content. */
+  keywords?: string
+  /** Vision-classified figure type (diagram, map, apparatus, etc.). */
+  visionType?: string
 }
 
 interface TextbookImageManifest {
@@ -34,6 +40,9 @@ const CURATED_MANIFEST_PATH = path.join(process.cwd(), 'data', 'textbook-images'
 
 /** Corrupt or unusable extractions excluded at load time. */
 const BLOCKED_IMAGE_KEYS = new Set(['tb-190-p269-embedded-0'])
+
+/** Diagrammatic figure types preferred over tangential photos on ties. */
+const DIAGRAM_TYPES = new Set(['diagram', 'graph', 'chart', 'map', 'table', 'apparatus'])
 
 let cachedManifest: TextbookImageManifest | null = null
 
@@ -99,14 +108,20 @@ function scoreImageForQuestion(
   questionText: string,
   topics: string[]
 ): number {
-  let score = overlapScore(questionText, img.pageText)
+  // Prefer what the figure actually depicts (vision description + keywords)
+  // over the surrounding page text, which is noisier.
+  const content = `${img.description || ''} ${img.keywords || ''}`.trim()
+  const haystack = content || img.pageText
+  let score = overlapScore(questionText, haystack)
   for (const topic of topics) {
     const t = normalizeText(topic)
     if (!t) continue
-    if (normalizeText(img.pageText).includes(t)) score += 0.25
+    if (normalizeText(haystack).includes(t)) score += 0.25
     if (normalizeText(questionText).includes(t)) score += 0.1
   }
   if (img.kind === 'embedded') score += 0.05
+  // Prefer genuine diagrams/charts/maps over tangential photos on ties.
+  if (img.visionType && DIAGRAM_TYPES.has(img.visionType)) score += 0.08
   return score
 }
 
