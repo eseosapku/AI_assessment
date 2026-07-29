@@ -59,6 +59,9 @@ export async function POST(request: NextRequest) {
       subjects: userData.subjects,
       role: userData.role ?? 'student',
       country: normalizeCountry(userData.country),
+      educationLevel: userData.education_level ?? 'school',
+      universityCourse: userData.university_course ?? null,
+      universityYear: userData.university_year ?? null,
     }
 
     return NextResponse.json({

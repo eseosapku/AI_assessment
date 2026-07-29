@@ -3,9 +3,10 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen, Globe } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen, Globe, Building2, School } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, type CountryCode } from '@/lib/countries'
+import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityYearLabel } from '@/lib/university-curriculum'
 
 const inputBase =
   'w-full pl-11 pr-4 py-3 rounded-xl text-sm bg-slate-50 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] focus:border-[#13a7df] dark:focus:border-[#13a7df] focus:ring-2 focus:ring-[#13a7df]/20 outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-600'
@@ -35,6 +36,9 @@ export default function SignupForm({
   const [confirmPassword, setConfirmPassword] = useState('')
   const [className, setClassName] = useState('')
   const [country, setCountry] = useState<CountryCode>('RW')
+  const [educationLevel, setEducationLevel] = useState<'school' | 'university'>('school')
+  const [uniCourse, setUniCourse] = useState('')
+  const [uniYear, setUniYear] = useState<number | ''>('')
   const [showPassword, setShowPassword] = useState(false)
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
@@ -43,6 +47,9 @@ export default function SignupForm({
   const classOptions = classOptionsForCountry(country)
   const internationalCountries = COUNTRY_LIST.filter((c) => c.group === 'international')
   const africanCountries = COUNTRY_LIST.filter((c) => c.group === 'africa')
+  const isUni = role === 'student' && educationLevel === 'university'
+  const uniCourses = getUniversityCourseNames()
+  const uniYears = uniCourse ? getUniversityYearsForCourse(uniCourse) : []
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -53,7 +60,8 @@ export default function SignupForm({
     }
     if (password !== confirmPassword) { setError('Passwords do not match'); return }
     if (password.length < 6) { setError('Password must be at least 6 characters'); return }
-    if (role === 'student' && !className) { setError('Please select a class / grade'); return }
+    if (isUni && (!uniCourse || !uniYear)) { setError('Select your course and year of study'); return }
+    if (role === 'student' && !isUni && !className) { setError('Please select a class / grade'); return }
     setIsLoading(true)
     try {
       await signup(
@@ -61,9 +69,12 @@ export default function SignupForm({
         email.trim() ? email.trim() : null,
         studentId.trim() ? studentId.trim() : null,
         password,
-        role === 'student' ? className : 'Teacher',
+        role === 'teacher' ? 'Teacher' : isUni ? `${uniCourse} · Year ${uniYear}` : className,
         role,
-        country
+        country,
+        isUni
+          ? { educationLevel: 'university', universityCourse: uniCourse, universityYear: Number(uniYear) }
+          : { educationLevel: 'school' },
       )
     } catch (err: any) {
       setError(err?.message || 'Failed to create account. Please try again.')
@@ -119,6 +130,33 @@ export default function SignupForm({
         </div>
       </div>
 
+      {/* School vs University — students only */}
+      {role === 'student' && (
+        <div className="mt-4">
+          <p className="mb-2 text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-gray-400">Studying at</p>
+          <div className="grid grid-cols-2 gap-2">
+            <button
+              type="button"
+              onClick={() => setEducationLevel('school')}
+              className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-all ${educationLevel === 'school'
+                ? 'border-[#13a7df] bg-[#13a7df]/10 text-[#0c86ce] dark:text-cyan-300'
+                : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 dark:border-white/[0.08] dark:text-gray-400 dark:hover:border-white/[0.15] dark:hover:bg-white/[0.03]'}`}
+            >
+              <School className="h-4 w-4 flex-shrink-0" /> School
+            </button>
+            <button
+              type="button"
+              onClick={() => setEducationLevel('university')}
+              className={`flex items-center justify-center gap-2 rounded-xl border px-4 py-3 text-sm font-semibold transition-all ${educationLevel === 'university'
+                ? 'border-[#13a7df] bg-[#13a7df]/10 text-[#0c86ce] dark:text-cyan-300'
+                : 'border-slate-200 text-slate-600 hover:border-slate-300 hover:bg-slate-50 dark:border-white/[0.08] dark:text-gray-400 dark:hover:border-white/[0.15] dark:hover:bg-white/[0.03]'}`}
+            >
+              <Building2 className="h-4 w-4 flex-shrink-0" /> University
+            </button>
+          </div>
+        </div>
+      )}
+
       <form onSubmit={handleSubmit} className="mt-5 space-y-4">
         <Field id="name" label="Full name" icon={User}>
           <input id="name" type="text" value={name} onChange={e => setName(e.target.value)}
@@ -151,6 +189,48 @@ export default function SignupForm({
           Provide an email or student ID. Students without email can use their school ID.
         </p>
 
+        {isUni ? (
+          <>
+            {/* University course + year */}
+            <div>
+              <label htmlFor="uniCourse" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-gray-400">Course</label>
+              <div className="relative">
+                <BookOpen className="pointer-events-none absolute left-3.5 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                <select
+                  id="uniCourse"
+                  value={uniCourse}
+                  onChange={(e) => { setUniCourse(e.target.value); setUniYear('') }}
+                  className={`${inputBase} appearance-none pr-10`}
+                >
+                  <option value="" disabled>Select your course</option>
+                  {uniCourses.map((c) => (<option key={c} value={c}>{c}</option>))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+              </div>
+            </div>
+            {uniCourse && (
+              <div>
+                <label htmlFor="uniYear" className="mb-1.5 block text-xs font-semibold uppercase tracking-wide text-slate-500 dark:text-gray-400">Year of study</label>
+                <div className="relative">
+                  <GraduationCap className="pointer-events-none absolute left-3.5 top-1/2 z-10 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                  <select
+                    id="uniYear"
+                    value={uniYear}
+                    onChange={(e) => setUniYear(Number(e.target.value))}
+                    className={`${inputBase} appearance-none pr-10`}
+                  >
+                    <option value="" disabled>Select your year</option>
+                    {uniYears.map((y) => (<option key={y} value={y}>{getUniversityYearLabel(uniCourse, y)}</option>))}
+                  </select>
+                  <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+                </div>
+              </div>
+            )}
+            <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
+              University pilot — course-aligned assessments, tutor and revision.
+            </p>
+          </>
+        ) : (
         <Field id="country" label="Country / curriculum region" icon={Globe}>
           <select
             id="country"
@@ -174,12 +254,15 @@ export default function SignupForm({
           </select>
           <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
         </Field>
-        <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
-          {countrySignupHint(country)}
-        </p>
+        )}
+        {!isUni && (
+          <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
+            {countrySignupHint(country)}
+          </p>
+        )}
 
-        {/* Class select — students only */}
-        {role === 'student' && (
+        {/* Class select — school students only */}
+        {role === 'student' && !isUni && (
           <motion.div
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: 'auto' }}

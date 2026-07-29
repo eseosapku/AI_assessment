@@ -14,6 +14,7 @@ const FOCI: { id: FocusId; label: string; icon: typeof Target }[] = [
   { id: 'explore', label: 'Explore & learn', icon: FlaskConical },
 ]
 import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, examPrepAvailable, type CountryCode } from '@/lib/countries'
+import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityYearLabel } from '@/lib/university-curriculum'
 
 const inputClass =
   'w-full rounded-xl border-2 border-black/[0.06] bg-white px-4 py-2.5 text-sm font-medium text-ss-ink outline-none transition-all placeholder:text-[color:var(--ss-slate)]/60 focus:border-ss-accent focus:ring-2 focus:ring-ss-accent-soft disabled:cursor-not-allowed disabled:opacity-70'
@@ -32,6 +33,9 @@ export default function SettingsForm() {
     const [className, setClassName] = useState('')
     const [subjectsText, setSubjectsText] = useState('')
     const [country, setCountry] = useState<CountryCode>('RW')
+    const [uniCourse, setUniCourse] = useState('')
+    const [uniYear, setUniYear] = useState<number>(0)
+    const isUni = user?.educationLevel === 'university'
     const [profileError, setProfileError] = useState('')
     const [profileSuccess, setProfileSuccess] = useState('')
     const [isSavingProfile, setIsSavingProfile] = useState(false)
@@ -56,6 +60,8 @@ export default function SettingsForm() {
         setName(user.name ?? '')
         setClassName(user.class ?? '')
         setCountry((user.country as CountryCode) ?? 'RW')
+        setUniCourse(user.universityCourse ?? '')
+        setUniYear(user.universityYear ?? 0)
         setSubjectsText(Array.isArray(user.subjects) ? user.subjects.join(', ') : '')
         setHasCustomPhoto(getAvatar(user.id) !== '/art/avatar-default.png')
         setFocusVal(getFocus(user.id))
@@ -105,7 +111,12 @@ export default function SettingsForm() {
             return
         }
 
-        if (!trimmedClass) {
+        if (isUni) {
+            if (!uniCourse || !uniYear) {
+                setProfileError('Course and year of study are required.')
+                return
+            }
+        } else if (!trimmedClass) {
             setProfileError('Class or section is required.')
             return
         }
@@ -114,7 +125,11 @@ export default function SettingsForm() {
 
         setIsSavingProfile(true)
         try {
-            await updateProfile({ name: trimmedName, className: trimmedClass, subjects, country })
+            if (isUni) {
+                await updateProfile({ name: trimmedName, subjects, universityCourse: uniCourse, universityYear: uniYear })
+            } else {
+                await updateProfile({ name: trimmedName, className: trimmedClass, subjects, country })
+            }
             setProfileSuccess('Profile updated successfully.')
         } catch (error: any) {
             setProfileError(error.message || 'Failed to update profile.')
@@ -240,6 +255,38 @@ export default function SettingsForm() {
                                 required
                             />
                         </div>
+                        {isUni ? (
+                            <>
+                                <div>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">Course</label>
+                                    <select
+                                        value={uniCourse}
+                                        onChange={(event) => {
+                                            const c = event.target.value
+                                            setUniCourse(c)
+                                            const yrs = getUniversityYearsForCourse(c)
+                                            if (!yrs.includes(uniYear)) setUniYear(yrs[0] ?? 1)
+                                        }}
+                                        className={inputClass}
+                                    >
+                                        {getUniversityCourseNames().map((c) => (<option key={c} value={c}>{c}</option>))}
+                                    </select>
+                                </div>
+                                <div>
+                                    <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">Year of study</label>
+                                    <select
+                                        value={uniYear || ''}
+                                        onChange={(event) => setUniYear(Number(event.target.value))}
+                                        className={inputClass}
+                                    >
+                                        {getUniversityYearsForCourse(uniCourse).map((y) => (
+                                            <option key={y} value={y}>{getUniversityYearLabel(uniCourse, y)}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                            </>
+                        ) : (
+                        <>
                         <div>
                             <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
                                 Country
@@ -298,6 +345,8 @@ export default function SettingsForm() {
                                 />
                             )}
                         </div>
+                        </>
+                        )}
                     </div>
 
                     <div className="grid gap-5 sm:grid-cols-2">

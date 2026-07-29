@@ -17,15 +17,24 @@ interface User {
   subjects: string[]
   role: 'student' | 'teacher'
   country: CountryCode
+  educationLevel?: 'school' | 'university'
+  universityCourse?: string | null
+  universityYear?: number | null
 }
 
 interface AuthContextType {
   user: User | null
   login: (identifier: string, password: string) => Promise<void>
-  signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode) => Promise<void>
+  signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode, extra?: UniversitySignup) => Promise<void>
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>
   logout: () => void
   isLoading: boolean
+}
+
+interface UniversitySignup {
+  educationLevel?: 'school' | 'university'
+  universityCourse?: string
+  universityYear?: number
 }
 
 interface UpdateProfilePayload {
@@ -33,6 +42,8 @@ interface UpdateProfilePayload {
   className?: string
   subjects?: string[]
   country?: CountryCode
+  universityCourse?: string
+  universityYear?: number
   currentPassword?: string
   newPassword?: string
   confirmPassword?: string
@@ -78,12 +89,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push(path)
   }
 
-  const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode) => {
+  const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode, extra?: UniversitySignup) => {
 
     const response = await fetch(apiUrl('/api/auth/signup'), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, email, studentId, password, className, role, country })
+      body: JSON.stringify({ name, email, studentId, password, className, role, country, ...extra })
     })
     if (!response.ok) {
       const body = await response.json().catch(() => ({}))

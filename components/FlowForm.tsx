@@ -10,6 +10,7 @@ import { useSubscription } from '@/components/SubscriptionProvider'
 import { isPaymentRequiredResponse } from '@/lib/subscription'
 import { subjectFromTextbookName, filterAliasTextbooks, withDisplaySubjectNames } from '@/lib/textbook-subject'
 import { CURRICULUM_REGISTRY, curriculaForCountry } from '@/lib/curriculum-registry'
+import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityTopicsForCourseAndYear, getUniversityYearLabel } from '@/lib/university-curriculum'
 import { normalizeCountry } from '@/lib/countries'
 import {
   buildClassOptionsForCurriculum,
@@ -204,6 +205,70 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     questionType: '' as 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed' | '',
     time: 'Calculated by AI',
   })
+
+  // ── University mode ──────────────────────────────────────────────────────────
+  // University students go through the exact same guided wizard as school
+  // students — including the difficulty / Bloom's level, style and format steps.
+  // The only difference is that Course + Year replace Curriculum + Class +
+  // Subject, and topics come from the university curriculum module rather than
+  // the textbook database.
+  const isUniStudent = user?.educationLevel === 'university'
+  const uniCourseOptions = getUniversityCourseNames()
+  const uniYearOptions = isUniStudent && formData.subject ? getUniversityYearsForCourse(formData.subject) : []
+  const uniTopics = isUniStudent && formData.subject && formData.grade
+    ? getUniversityTopicsForCourseAndYear(formData.subject, Number(formData.grade))
+    : []
+  // Prefill the account's course/year the first time the wizard opens so the
+  // student can breeze through — they can still change either per quiz.
+  useEffect(() => {
+    if (!isUniStudent || formData.curriculum || !user?.universityCourse) return
+    const yrs = getUniversityYearsForCourse(user.universityCourse)
+    const yr = user.universityYear ?? yrs[0] ?? 1
+    setFormData((f) => ({
+      ...f,
+      curriculum: 'university',
+      subject: user.universityCourse!,
+      grade: yr,
+      class_name: `${user.universityCourse} · Year ${yr}`,
+    }))
+  }, [isUniStudent, user?.universityCourse, user?.universityYear, formData.curriculum])
+  const handleUniCourseSelect = (course: string) => {
+    setError('')
+    const yrs = getUniversityYearsForCourse(course)
+    const yr = yrs.includes(Number(formData.grade)) ? Number(formData.grade) : (yrs[0] ?? 1)
+    setFormData((prev) => ({
+      ...prev,
+      curriculum: 'university',
+      subject: course,
+      grade: yr,
+      class_name: `${course} · Year ${yr}`,
+      difficultyLevel: '',
+      topics: [],
+      topic_ids: [],
+      subtopic_ids: [],
+      textbook_id: null,
+      count: 0,
+      style: '',
+      questionType: '',
+    }))
+  }
+  const handleUniYearSelect = (yr: number) => {
+    setError('')
+    setFormData((prev) => ({
+      ...prev,
+      grade: yr,
+      class_name: `${prev.subject} · Year ${yr}`,
+      topics: [],
+    }))
+  }
+  const handleUniTopicToggle = (topic: string) => {
+    setFormData((prev) => ({
+      ...prev,
+      topics: prev.topics.includes(topic)
+        ? prev.topics.filter((t) => t !== topic)
+        : [...prev.topics, topic],
+    }))
+  }
 
   const [classes, setClasses] = useState<ClassRow[]>([])
   const [isLoadingClasses, setIsLoadingClasses] = useState(false)
@@ -640,6 +705,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       onClose()
       return
     }
+    if (isUniStudent && step === 5) { setStep(3); return }
     setStep((s) => Math.max(1, s - 1))
   }
 
@@ -655,10 +721,21 @@ export default function FlowForm({ onClose }: FlowFormProps) {
 
   const goForward = () => {
     if (!canStepForward || step >= TOTAL_STEPS) return
+    if (isUniStudent && step === 3) { setStep(5); return } // no separate Subject step for university
     setStep((s) => Math.min(TOTAL_STEPS, s + 1))
   }
 
-  const summaryRows = [
+  const summaryRows = isUniStudent ? [
+    { label: 'Course', value: formData.subject },
+    { label: 'Year', value: formData.grade ? getUniversityYearLabel(formData.subject, Number(formData.grade)) : '' },
+    { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
+    { label: 'Topics', value: formData.topics.join(', ') },
+    { label: 'Subtopics', value: '' },
+    { label: 'Questions', value: String(formData.count) },
+    { label: 'Max attempts', value: '' },
+    { label: 'Style', value: formData.style },
+    { label: 'Type', value: selectedQuestionType?.label ?? '' },
+  ] : [
     { label: 'Class', value: selectedClassDisplayName || formData.class_name },
     { label: 'Grade', value: formData.grade ? `Grade ${formData.grade}` : '' },
     { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
@@ -694,7 +771,10 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             <aside className="hidden border-r border-gray-100 bg-[color:var(--ss-canvas)]/80 px-4 py-6 dark:border-gray-800 md:flex md:w-52 md:flex-col">
               <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate">Steps</p>
               <ol className="space-y-1">
-                {WIZARD_STEPS.map((ws) => {
+                {WIZARD_STEPS.filter((ws) => !(isUniStudent && ws.num === 4)).map((ws) => {
+                  const label = isUniStudent
+                    ? (ws.num === 1 ? 'Course' : ws.num === 2 ? 'Year' : ws.label)
+                    : ws.label
                   const done = step > ws.num
                   const active = step === ws.num
                   const reachable = ws.num <= maxStepReached
@@ -725,7 +805,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                       >
                         {done ? <Check className="h-3 w-3" strokeWidth={3} /> : ws.num}
                       </span>
-                      {ws.label}
+                      {label}
                       </button>
                     </li>
                   )
@@ -806,10 +886,26 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             {/* Step 1: Curriculum */}
             {flowMode === 'ai' && step === 1 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Curriculum" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose your curriculum</h3>
+                <StepLabel label={isUniStudent ? 'Course' : 'Curriculum'} />
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+                  {isUniStudent ? 'Choose your course' : 'Choose your curriculum'}
+                </h3>
                 <div className="flex flex-col gap-2">
-                  {isLoadingClasses ? (
+                  {isUniStudent ? (
+                    uniCourseOptions.map((c) => (
+                      <OptionButton key={c} selected={formData.subject === c} onClick={() => handleUniCourseSelect(c)}>
+                        <div className="flex items-center gap-3">
+                          <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                            UNI
+                          </span>
+                          <div>
+                            <p className="font-semibold text-sm text-gray-900 dark:text-white">{c}</p>
+                            <p className="text-[11px] text-gray-400">University curriculum (pilot)</p>
+                          </div>
+                        </div>
+                      </OptionButton>
+                    ))
+                  ) : isLoadingClasses ? (
                     <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       Loading curricula...
@@ -840,12 +936,22 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             {/* Step 2: Class */}
             {flowMode === 'ai' && step === 2 && formData.curriculum && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-                <StepLabel label="Class" />
+                <StepLabel label={isUniStudent ? 'Year' : 'Class'} />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-                  {isCambridge ? 'Select Cambridge grade' : 'Select class (from database)'}
+                  {isUniStudent ? 'Select your year of study' : isCambridge ? 'Select Cambridge grade' : 'Select class (from database)'}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {isLoadingClasses ? (
+                  {isUniStudent ? (
+                    uniYearOptions.map((y) => (
+                      <OptionButton
+                        key={y}
+                        selected={Number(formData.grade) === y}
+                        onClick={() => handleUniYearSelect(y)}
+                      >
+                        <span className="font-bold text-gray-900 dark:text-white block">{getUniversityYearLabel(formData.subject, y)}</span>
+                      </OptionButton>
+                    ))
+                  ) : isLoadingClasses ? (
                     <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       Loading classes...
@@ -896,8 +1002,8 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
-            {/* Step 4: Subject */}
-            {flowMode === 'ai' && step === 4 && formData.difficultyLevel && (
+            {/* Step 4: Subject — skipped for university (course is the subject) */}
+            {flowMode === 'ai' && step === 4 && formData.difficultyLevel && !isUniStudent && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Subject" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -935,7 +1041,19 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
                 <p className="text-xs text-gray-400 mb-3">You can select multiple topics</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                  {isLoadingTopics ? (
+                  {isUniStudent ? (
+                    uniTopics.length === 0 ? (
+                      <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
+                        No topics found for this course and year.
+                      </div>
+                    ) : (
+                      uniTopics.map((t) => (
+                        <OptionButton key={t} selected={formData.topics.includes(t)} onClick={() => handleUniTopicToggle(t)}>
+                          <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">{t}</span>
+                        </OptionButton>
+                      ))
+                    )
+                  ) : isLoadingTopics ? (
                     <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       Loading topics...

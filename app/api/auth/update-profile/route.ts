@@ -76,6 +76,14 @@ export async function POST(request: NextRequest) {
             updatePayload.country = countryToDb(normalizeCountry(body.country))
         }
 
+        if (Object.prototype.hasOwnProperty.call(body, 'universityCourse') || Object.prototype.hasOwnProperty.call(body, 'universityYear')) {
+            const uc = String(body.universityCourse ?? '').trim()
+            const uy = Number(body.universityYear) || null
+            if (uc) updatePayload.university_course = uc
+            if (uy) updatePayload.university_year = uy
+            if (uc && uy) updatePayload.class = `${uc} · Year ${uy}`
+        }
+
         const wantsPasswordChange = Boolean(newPassword || currentPassword || confirmPassword)
 
         if (wantsPasswordChange) {
@@ -112,6 +120,8 @@ export async function POST(request: NextRequest) {
             subjects: 'subjects',
             country: 'country',
             password_hash: 'password_hash',
+            university_course: 'university_course',
+            university_year: 'university_year',
         }
 
         const setClauses: string[] = []
@@ -132,7 +142,7 @@ export async function POST(request: NextRequest) {
             `UPDATE users
              SET ${setClauses.join(', ')}
              WHERE id = $1
-             RETURNING id, name, email, student_id, class, subjects, role, country`,
+             RETURNING id, name, email, student_id, class, subjects, role, country, education_level, university_course, university_year`,
             values,
         )
         const updatedUser = updateResult.rows[0]
@@ -150,6 +160,9 @@ export async function POST(request: NextRequest) {
             subjects: updatedUser.subjects,
             role: updatedUser.role ?? 'student',
             country: normalizeCountry(updatedUser.country),
+            educationLevel: updatedUser.education_level ?? 'school',
+            universityCourse: updatedUser.university_course ?? null,
+            universityYear: updatedUser.university_year ?? null,
         }
 
         return NextResponse.json({ success: true, user, message: 'Profile updated successfully' })

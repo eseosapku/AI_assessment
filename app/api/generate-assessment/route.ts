@@ -20,6 +20,7 @@ import {
   type VisualFigureCatalogEntry,
 } from '@/lib/textbook-vision-images'
 import { isSchoolCurriculum, textbookHasImages } from '@/lib/textbook-source-images'
+import { getUniversityCurriculumContext } from '@/lib/university-curriculum'
 import {
   excerptFromTextbookSource,
 } from '@/lib/language-assessment-plan'
@@ -1303,10 +1304,16 @@ export async function POST(request: NextRequest) {
     const curriculumBlock = curriculumBlockLines.join('\n')
 
     const curriculumSlug = String(curriculum ?? 'rwanda').toLowerCase()
-    const curriculumName = authorityForCurriculum(curriculumSlug)
+    const isUniversity = curriculumSlug === 'university'
+    const curriculumName = isUniversity ? 'University Curriculum (Pilot)' : authorityForCurriculum(curriculumSlug)
+    // University years (1-6) must NOT be interpreted as primary-school grades by
+    // the difficulty/vocabulary logic — clamp to a high grade for prompt tuning.
+    const gradeForPrompt = isUniversity ? 13 : grade
     let enrichedCurriculumBlock = curriculumBlock
 
-    if (curriculumSlug === 'nigeria' && className) {
+    if (isUniversity) {
+      enrichedCurriculumBlock = getUniversityCurriculumContext(promptSubject, Number(grade) || 1, promptTopics)
+    } else if (curriculumSlug === 'nigeria' && className) {
       enrichedCurriculumBlock = `${getNigeriaCurriculumContext(className as NigeriaLevel, promptSubject, promptTopics)}\n${curriculumBlock}`
     } else if (curriculumSlug === 'waec' || curriculumSlug === 'jamb') {
       const extra = String(rawExamPrepContext ?? '').trim()
@@ -1594,7 +1601,7 @@ export async function POST(request: NextRequest) {
       const requestCount = batchCount + Math.ceil(batchCount * 0.4)
       const { prompt } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
-        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
+        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
         sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
@@ -1878,7 +1885,7 @@ export async function POST(request: NextRequest) {
     } else {
       const { estimatedTime: et } = buildPrompt({
         subject: promptSubject, topics: promptTopics, count, startId: 1, style,
-        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade,
+        curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
         sourceText, sourceName: sourceLabel, requirePassagesAll,
       })
       estimatedTime = et
