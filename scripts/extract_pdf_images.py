@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 """Extract raster images and figure-page screenshots from textbook PDFs."""
+import hashlib
 import json
 import os
 import re
@@ -24,11 +25,15 @@ def extract_from_pdf(
     render_figure_pages=False,
     dpi=144,
     out_dir=None,
+    max_per_page=0,
+    dedup=False,
 ):
     doc = fitz.open(pdf_path)
     images = []
     page_count = doc.page_count
     limit = min(page_count, max_pages) if max_pages else page_count
+    seen_hashes = set()  # per-document content dedup (kills repeated logos/headers)
+    dropped_dupes = 0
 
     for i in range(limit):
         page = doc[i]
@@ -39,6 +44,8 @@ def extract_from_pdf(
         embedded_on_page = 0
 
         for img_idx, img in enumerate(page.get_images(full=True)):
+            if max_per_page and embedded_on_page >= max_per_page:
+                break
             try:
                 info = doc.extract_image(img[0])
             except Exception:
@@ -47,6 +54,12 @@ def extract_from_pdf(
             data = info.get("image", b"")
             if w < min_px or h < min_px or len(data) < min_bytes:
                 continue
+            if dedup:
+                digest = hashlib.md5(data).hexdigest()
+                if digest in seen_hashes:
+                    dropped_dupes += 1
+                    continue
+                seen_hashes.add(digest)
             ext = info.get("ext") or "png"
             fname = f"page{page_num}-embedded-{img_idx}.{ext}"
             entry = {
@@ -93,7 +106,12 @@ def extract_from_pdf(
                     images.append(entry)
 
     doc.close()
-    return {"page_count": page_count, "pages_scanned": limit, "images": images}
+    return {
+        "page_count": page_count,
+        "pages_scanned": limit,
+        "images": images,
+        "dropped_dupes": dropped_dupes,
+    }
 
 
 if __name__ == "__main__":
@@ -106,8 +124,27 @@ if __name__ == "__main__":
     pdf_path = sys.argv[1]
     max_pages = int(sys.argv[2]) if len(sys.argv) > 2 and str(sys.argv[2]).isdigit() else 0
     out_dir = sys.argv[3] if len(sys.argv) > 3 and sys.argv[3] else None
+
+    def env_int(name, default):
+        try:
+            return int(os.environ.get(name, "") or default)
+        except ValueError:
+            return default
+
+    min_px = env_int("EXTRACT_MIN_PX", 72)
+    min_bytes = env_int("EXTRACT_MIN_BYTES", 2500)
+    max_per_page = env_int("EXTRACT_MAX_PER_PAGE", 0)
+    dedup = os.environ.get("EXTRACT_DEDUP", "") in ("1", "true", "yes")
     try:
-        result = extract_from_pdf(pdf_path, max_pages=max_pages or None, out_dir=out_dir)
+        result = extract_from_pdf(
+            pdf_path,
+            max_pages=max_pages or None,
+            out_dir=out_dir,
+            min_px=min_px,
+            min_bytes=min_bytes,
+            max_per_page=max_per_page,
+            dedup=dedup,
+        )
         print(json.dumps(result, ensure_ascii=False))
     except Exception as exc:
         print(
