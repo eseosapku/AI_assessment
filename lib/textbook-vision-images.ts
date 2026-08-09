@@ -23,13 +23,20 @@ const BUNDLED_CACHE_PATH = path.join(process.cwd(), 'data', 'textbook-images', '
 const RUNTIME_CACHE_PATH = path.join(os.tmpdir(), 'vision-cache.json')
 const PUBLIC_ROOT = path.join(process.cwd(), 'public')
 
-/** Max figures to describe with vision per assessment (cost cap). */
-export const MAX_VISION_FIGURES = 5
-/** Max questions that should use an image_key (figures can be reused). */
+/**
+ * Max distinct figures to describe with vision per assessment.
+ * Every figure is already vision-described and cached ahead of time (see
+ * data/textbook-images/vision-cache.json), so pulling more figures per
+ * assessment is nearly free — this is a variety cap, not a cost cap.
+ */
+export const MAX_VISION_FIGURES = 12
+/**
+ * Target number of questions that may carry an image_key (figures can be
+ * reused, but see groupQuestionsByFigure for how reused figures are kept
+ * contiguous). Roughly half the paper, with a floor for very short papers.
+ */
 export function maxQuestionsWithImages(questionCount: number): number {
-  if (questionCount <= 5) return 3
-  if (questionCount <= 10) return 5
-  return Math.min(6, Math.ceil(questionCount * 0.4))
+  return Math.max(3, Math.round(questionCount * 0.5))
 }
 
 function normalizeText(text: string): string {
@@ -74,6 +81,17 @@ function topicOverlap(topics: string[], haystack: string): number {
   return best
 }
 
+// NOTE: minScore was investigated as a possible variety bottleneck and left at
+// 0.35. Sampling real catalogs (e.g. Cambridge Physics chapters on "Electric
+// current, potential difference and resistance" and "Magnetic fields and
+// electromagnetism") showed the score distribution is bimodal: genuine
+// content matches cluster at 0.5+, while 0.2-0.34 is dominated by figures
+// that share only a single generic word with the topic name (e.g. "current"
+// matching a Tesla-coil photo, "resistance" matching a roller-coaster energy
+// diagram, "difference" matching an unrelated potential-energy graph).
+// Lowering the threshold admits that noise without meaningfully raising the
+// count of genuinely relevant figures, so it was left unchanged. The actual
+// variety bottleneck was MAX_VISION_FIGURES and the prompt language above.
 export function filterImagesByTopics(
   images: TextbookSourceImage[],
   topics: string[],
@@ -263,12 +281,13 @@ export function buildVisualCatalogPromptBlock(
 AVAILABLE TEXTBOOK FIGURES (vision-described; topic-filtered):
 ${lines.join('\n')}
 
-FIGURE RULES (STRICT):
-- Use "image_key" on at most ${maxImageQuestions} question(s) in this batch. The same image_key may be reused on multiple questions with different wording.
+FIGURE RULES:
+- Use a figure WHEREVER it genuinely carries the question — aim to get close to ${maxImageQuestions} question(s) in this batch using "image_key". Treat that number as a target to approach, not a ceiling to avoid.
+- PREFER VARIETY: spread image_key usage across the different figures listed above rather than leaning on one or two of them. Only reuse the same image_key when you've already put every relevant figure to good use.
 - Only set image_key when the question is directly answerable from that figure's description.
 - When image_key is set, write the question about THAT figure — do not invent a different diagram.
 - Do NOT use phrases like "refer to the diagram" unless image_key is set.
-- Most questions should have NO image_key (text-only).
+- Leave image_key empty only when no listed figure genuinely fits that question.
 `
 }
 

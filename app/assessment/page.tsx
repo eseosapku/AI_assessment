@@ -17,6 +17,7 @@ import { gradeInteractiveQuestion, isInteractiveAnswerComplete } from '@/lib/gra
 import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@/types/interactive'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 import { LatexText as L } from '@/lib/latex-text'
+import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -41,6 +42,7 @@ interface MCQQuestion {
   passage_source?: string
   diagram_svg?: string
   image_url?: string
+  figureGroup?: FigureGroupMeta
 }
 
 interface LongFormQuestion {
@@ -55,6 +57,7 @@ interface LongFormQuestion {
   passage_source?: string
   diagram_svg?: string
   image_url?: string
+  figureGroup?: FigureGroupMeta
 }
 
 type Question = MCQQuestion | LongFormQuestion | InteractiveQuestion
@@ -117,6 +120,19 @@ function DiagramSvg({ svg }: { svg: string }) {
       className="flex flex-col items-center my-4"
       dangerouslySetInnerHTML={{ __html: sanitizeSvg(svg) }}
     />
+  )
+}
+
+// A figure reused across several questions is shown as one contiguous set —
+// this label makes that relationship visible instead of the image just
+// silently reappearing.
+function FigureGroupLabel({ group }: { group: FigureGroupMeta }) {
+  const start = group.startIndex + 1
+  const end = group.endIndex + 1
+  return (
+    <p className="text-xs font-semibold uppercase tracking-wide text-apple-blue mb-2">
+      {start === end ? `Question ${start} refers` : `Questions ${start}–${end} refer`} to the figure below
+    </p>
   )
 }
 
@@ -268,7 +284,12 @@ function LongFormResultCard({
               Long-form · {q.marks} marks
             </span>
           </div>
-          {q.image_url && <ExamFigure src={q.image_url} />}
+          {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
+            <>
+              {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
+              <ExamFigure src={q.image_url} lazy />
+            </>
+          )}
           {q.diagram_svg && (
             <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
               <DiagramSvg svg={q.diagram_svg} />
@@ -1116,6 +1137,19 @@ function AssessmentPageClient() {
     violationTriggeredRef.current = false
   }, [assessment])
 
+  // The quiz is paged (one question per screen) but the page itself scrolls
+  // on `window` (no inner scroll container — the passage box's own
+  // overflow-y-auto is unrelated). Without this, moving from a scrolled-down
+  // question to the next can leave that question's figure above the fold.
+  useEffect(() => {
+    if (showResults) return
+    const prefersReducedMotion =
+      typeof window !== 'undefined' &&
+      typeof window.matchMedia === 'function' &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches
+    window.scrollTo({ top: 0, behavior: prefersReducedMotion ? 'auto' : 'smooth' })
+  }, [currentQuestion, showResults])
+
   useEffect(() => {
     if (timeRemaining > 0 && !isSubmitted && !isPaused) {
       const timer = setInterval(() => {
@@ -1301,7 +1335,12 @@ function AssessmentPageClient() {
                     </div>
                     <div className="flex-1">
                       <div className="text-sm text-apple-dark-gray mb-1">Question {idx + 1}</div>
-                      {q.image_url && <ExamFigure src={q.image_url} />}
+                      {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
+                        <>
+                          {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
+                          <ExamFigure src={q.image_url} lazy />
+                        </>
+                      )}
           {q.diagram_svg && (
                         <div className="bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 overflow-x-auto">
                           <DiagramSvg svg={q.diagram_svg} />
@@ -1468,7 +1507,12 @@ function AssessmentPageClient() {
                 )}
               </div>
 
-              {question.image_url && <ExamFigure src={question.image_url} className="mb-6" />}
+              {question.image_url && (
+                <>
+                  {question.figureGroup && <FigureGroupLabel group={question.figureGroup} />}
+                  <ExamFigure src={question.image_url} className="mb-6" />
+                </>
+              )}
               {question.diagram_svg && (
                 <div className="bg-gray-50 dark:bg-gray-900/60 rounded-2xl p-4 mb-6 border border-gray-200 dark:border-gray-700 overflow-x-auto">
                   <DiagramSvg svg={question.diagram_svg} />

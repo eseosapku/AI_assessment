@@ -12,6 +12,7 @@ import { InteractiveResultCard, isInteractiveQuestionType } from '@/components/i
 import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { subjectArt } from '@/lib/studio/subjectArt'
 import type { InteractiveAnswer, InteractiveQuestion } from '@/types/interactive'
+import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 
 // Per-grade band gradient + ring color + plain-English meaning for the summary.
 const GRADE_REVIEW: Record<string, { grad: string; ring: string; meaning: string }> = {
@@ -35,6 +36,7 @@ interface MCQQuestion {
     passage_source?: string
     diagram_svg?: string
     image_url?: string
+    figureGroup?: FigureGroupMeta
 }
 
 interface LongFormQuestion {
@@ -49,6 +51,7 @@ interface LongFormQuestion {
     passage_source?: string
     diagram_svg?: string
     image_url?: string
+    figureGroup?: FigureGroupMeta
 }
 
 type Question = MCQQuestion | LongFormQuestion | InteractiveQuestion
@@ -108,6 +111,19 @@ function DiagramSvg({ svg }: { svg: string }) {
             className="flex flex-col items-center my-4"
             dangerouslySetInnerHTML={{ __html: sanitizeSvg(svg) }}
         />
+    )
+}
+
+// A figure reused across several questions is shown once, above the first
+// question in its group — this label makes that grouping explicit instead
+// of the image just silently disappearing from the later questions.
+function FigureGroupLabel({ group }: { group: FigureGroupMeta }) {
+    const start = group.startIndex + 1
+    const end = group.endIndex + 1
+    return (
+        <p className="text-xs font-semibold uppercase tracking-wide text-ss-accent mb-2">
+            {start === end ? `Question ${start} refers` : `Questions ${start}–${end} refer`} to the figure below
+        </p>
     )
 }
 
@@ -248,7 +264,12 @@ function LongFormResultCard({
                             Long form - {q.marks} marks
                         </span>
                     </div>
-                    {q.image_url && <ExamFigure src={q.image_url} />}
+                    {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
+                        <>
+                            {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
+                            <ExamFigure src={q.image_url} lazy />
+                        </>
+                    )}
                     {q.diagram_svg && (
                         <div className="bg-ss-panel dark:bg-gray-900 rounded-xl p-3 mb-3 border border-ss-line dark:border-ss-line overflow-x-auto">
                             <DiagramSvg svg={q.diagram_svg} />
@@ -411,7 +432,12 @@ function McqResultCard({
                 </div>
                 <div className="flex-1">
                     <div className="text-sm text-ss-slate mb-1">Question {idx + 1}</div>
-                    {q.image_url && <ExamFigure src={q.image_url} />}
+                    {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
+                        <>
+                            {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
+                            <ExamFigure src={q.image_url} lazy />
+                        </>
+                    )}
                     {q.diagram_svg && (
                         <div className="bg-ss-panel dark:bg-gray-900 rounded-xl p-3 mb-3 border border-ss-line dark:border-ss-line overflow-x-auto">
                             <DiagramSvg svg={q.diagram_svg} />

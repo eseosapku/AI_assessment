@@ -1,5 +1,7 @@
 /** Interactive Study question types — drag, match, order, categorize, fill-in. */
 
+import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
+
 export type InteractiveKind =
   | 'match'
   | 'order'
@@ -18,6 +20,7 @@ export interface InteractiveQuestionBase {
   marks: number
   image_url?: string
   diagram_svg?: string
+  figureGroup?: FigureGroupMeta
 }
 
 /** Match terms on the left to descriptions on the right. */

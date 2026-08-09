@@ -12,6 +12,7 @@ import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-cu
 import { examPrepContext } from '@/lib/nigeria-exam-syllabi'
 import { getCachedExamPaperById, isCachePaperId } from '@/lib/exam-source-cache'
 import { attachSourceImages, examFromCurriculum } from '@/lib/exam-source-images'
+import { groupQuestionsByFigure } from '@/lib/assessment-figure-groups'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -609,7 +610,7 @@ function buildPrompt(opts: {
   const imageQuestionCap = maxImageQuestions ?? maxQuestionsWithImages(count)
 
   const diagramNote = hasVisionFigures
-    ? `FIGURES: Up to ${imageQuestionCap} question(s) may use a textbook figure. Set "image_key" to one of the keys listed below. The same image_key may appear on multiple questions. Leave image_key empty on all other questions.`
+    ? `FIGURES: Aim for around ${imageQuestionCap} question(s) in this batch using a textbook figure — that is a target, not a ceiling. Set "image_key" to one of the keys listed below, and prefer variety across the available figures. Leave image_key empty only when no figure genuinely fits.`
     : hasDiagramSupport
       ? `DIAGRAMS: When a visual is essential, set "needs_diagram": true. Real past-paper figures are attached automatically from our image library — do NOT describe images for generation. Use for up to ${MAX_DIAGRAMS} questions.`
       : ''
@@ -1908,6 +1909,15 @@ export async function POST(request: NextRequest) {
     } else if (hasVisionFigures && visualCatalog.length > 0) {
       const attached = attachImagesFromCatalog(assessmentData.questions, visualCatalog)
       if (attached > 0) console.log(`Attached ${attached} vision-matched textbook image(s)`)
+
+      // A vision figure can be reused across several questions — group those
+      // questions so they're contiguous (e.g. "Questions 4-6 refer to the
+      // figure below") instead of the same image reappearing at random
+      // positions in the paper. Renumber ids to match the new positions.
+      if (attached > 0) {
+        assessmentData.questions = groupQuestionsByFigure(assessmentData.questions)
+        assessmentData.questions.forEach((q: any, i: number) => { q.id = i + 1 })
+      }
     }
 
     // Strip internal generation fields (keep diagram hints for exam prep with visuals)
