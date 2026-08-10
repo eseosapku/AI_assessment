@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { useMemo, useState } from 'react'
 import Link from 'next/link'
 import { ArrowRight, BookOpen, ClipboardCheck, FileText, Medal, TrendingUp } from 'lucide-react'
 import AssessmentCard from '@/components/AssessmentCard'
@@ -30,6 +31,27 @@ export default function ProgressStudio() {
   const sorted = [...subjectAverages].sort((a, b) => b.avg - a.avg)
   const strong = sorted.filter((s) => s.avg >= 60).slice(0, 4)
   const focus = sorted.filter((s) => s.avg < 60).slice(0, 4)
+
+  // Subjects present in the results list, most-tested first. Counted from the
+  // results themselves rather than from subjectAverages, so a filter chip can
+  // never select a subject with nothing behind it.
+  const [subjectFilter, setSubjectFilter] = useState<string | null>(null)
+  const resultSubjects = useMemo(() => {
+    const counts = new Map<string, number>()
+    for (const a of recentAssessments) {
+      const name = String(a?.subject ?? '').trim()
+      if (!name) continue
+      counts.set(name, (counts.get(name) ?? 0) + 1)
+    }
+    return [...counts.entries()]
+      .map(([subject, count]) => ({ subject, count }))
+      .sort((x, y) => y.count - x.count || x.subject.localeCompare(y.subject))
+  }, [recentAssessments])
+
+  const visibleAssessments = useMemo(
+    () => (subjectFilter ? recentAssessments.filter((a) => a?.subject === subjectFilter) : recentAssessments),
+    [recentAssessments, subjectFilter],
+  )
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-8 sm:px-8 sm:py-12">
@@ -111,9 +133,42 @@ export default function ProgressStudio() {
           <TrendingUp className="h-4 w-4 text-ss-accent" />
           <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-ss-slate">Recent results</p>
         </div>
-        {recentAssessments.length > 0 ? (
+
+        {/* Subject filter. With every subject mixed into one list, checking how
+            you're doing in one of them meant reading every card. */}
+        {resultSubjects.length > 1 && (
+          <div className="mb-4 flex flex-wrap gap-1.5">
+            <button
+              type="button"
+              onClick={() => setSubjectFilter(null)}
+              className={`rounded-full border px-3 py-1.5 text-[12px] font-bold transition-colors ${
+                subjectFilter === null
+                  ? 'border-ss-accent bg-ss-accent text-white'
+                  : 'border-ss-line bg-ss-panel text-ss-slate hover:border-ss-accent hover:text-ss-accent'
+              }`}
+            >
+              All ({recentAssessments.length})
+            </button>
+            {resultSubjects.map(({ subject, count }) => (
+              <button
+                key={subject}
+                type="button"
+                onClick={() => setSubjectFilter(subject)}
+                className={`max-w-[220px] truncate rounded-full border px-3 py-1.5 text-[12px] font-bold transition-colors ${
+                  subjectFilter === subject
+                    ? 'border-ss-accent bg-ss-accent text-white'
+                    : 'border-ss-line bg-ss-panel text-ss-slate hover:border-ss-accent hover:text-ss-accent'
+                }`}
+              >
+                {subject} ({count})
+              </button>
+            ))}
+          </div>
+        )}
+
+        {visibleAssessments.length > 0 ? (
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {recentAssessments.map((a, i) => (
+            {visibleAssessments.map((a, i) => (
               <motion.div key={a.id} initial={{ opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.03 * i }}>
                 <AssessmentCard assessment={a} />
               </motion.div>

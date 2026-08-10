@@ -98,20 +98,47 @@ export default function RecallHub() {
           </div>
         ) : (summary?.decks?.length ?? 0) > 0 ? (
           <div className="space-y-3">
-            {summary!.decks.map((deck) => (
-              <div key={deck.id} className="flex items-center gap-3 rounded-[18px] border border-ss-line bg-ss-panel px-5 py-4">
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={subjectArt(deck.subject)} alt="" aria-hidden className="h-9 w-9 shrink-0 object-contain" />
-                <div className="min-w-0 flex-1">
-                  <p className="truncate font-extrabold text-ss-ink">{deck.title}</p>
-                  {deck.subject && <p className="text-xs font-semibold text-ss-slate">{deck.subject}</p>}
+            {summary!.decks.map((deck) => {
+              const cards = deck.card_count ?? 0
+              const dueNow = deck.due_count ?? 0
+              // What's resting vs waiting. A bare "3 due / 20 cards" gave no
+              // sense of whether a deck was in good shape or piling up.
+              const restingPct = cards > 0 ? Math.round(((cards - dueNow) / cards) * 100) : 0
+              return (
+                <div key={deck.id} className="rounded-[18px] border border-ss-line bg-ss-panel px-5 py-4">
+                  <div className="flex items-center gap-3">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={subjectArt(deck.subject)} alt="" aria-hidden className="h-9 w-9 shrink-0 object-contain" />
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate font-extrabold text-ss-ink">{deck.title}</p>
+                      {deck.subject && <p className="truncate text-xs font-semibold text-ss-slate">{deck.subject}</p>}
+                    </div>
+                    <div className="shrink-0 text-right">
+                      {dueNow > 0 ? (
+                        <span className="rounded-full bg-[color:var(--ss-accent)]/12 px-2.5 py-1 text-[11.5px] font-extrabold text-ss-accent">
+                          {dueNow} due
+                        </span>
+                      ) : (
+                        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11.5px] font-extrabold text-emerald-600 dark:bg-emerald-900/25 dark:text-emerald-400">
+                          Rested
+                        </span>
+                      )}
+                    </div>
+                  </div>
+                  <div className="mt-3 flex items-center gap-2.5">
+                    <div className="h-1.5 flex-1 overflow-hidden rounded-full bg-[color:var(--ss-ink)]/8">
+                      <div
+                        className="h-full rounded-full bg-ss-accent transition-[width] duration-500"
+                        style={{ width: `${Math.max(restingPct, 2)}%` }}
+                      />
+                    </div>
+                    <p className="shrink-0 text-[11px] font-bold text-ss-slate">
+                      {cards} card{cards !== 1 ? 's' : ''}
+                    </p>
+                  </div>
                 </div>
-                <div className="shrink-0 text-right text-xs font-bold">
-                  <p className="text-ss-accent">{deck.due_count ?? 0} due</p>
-                  <p className="text-ss-slate">{deck.card_count ?? 0} cards</p>
-                </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         ) : (
           <div className="flex flex-col items-center rounded-[20px] border border-ss-line bg-ss-panel py-12 text-center">

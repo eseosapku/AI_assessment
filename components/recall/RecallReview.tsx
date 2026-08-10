@@ -155,10 +155,14 @@ export default function RecallReview() {
               animate={{ rotateY: flipped ? 180 : 0 }}
               transition={{ duration: 0.45, ease: [0.22, 1, 0.36, 1] }}
               style={{ transformStyle: 'preserve-3d' }}
-              className="relative min-h-[17rem] w-full sm:min-h-[19rem]"
+              // Grid rather than absolute faces: both faces share one cell, so
+              // the card grows to fit the taller of the two. As absolutely
+              // positioned children of a fixed-height box, a long answer spilled
+              // straight over the controls below it.
+              className="relative grid min-h-[17rem] w-full sm:min-h-[19rem]"
             >
               <div
-                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-ss-line bg-ss-panel p-8 text-left shadow-studio"
+                className="col-start-1 row-start-1 flex flex-col rounded-[1.75rem] border border-ss-line bg-ss-panel p-6 text-left shadow-studio sm:p-8"
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 {card.subject && (
@@ -174,7 +178,7 @@ export default function RecallReview() {
               </div>
 
               <div
-                className="absolute inset-0 flex flex-col rounded-[1.75rem] border border-ss-line bg-gradient-to-br from-ss-panel to-ss-accent-soft p-8 text-left shadow-studio"
+                className="col-start-1 row-start-1 flex flex-col rounded-[1.75rem] border border-ss-line bg-gradient-to-br from-ss-panel to-ss-accent-soft p-6 text-left shadow-studio sm:p-8"
                 style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
               >
                 {card.subject && (
