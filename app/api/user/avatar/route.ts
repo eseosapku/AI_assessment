@@ -19,8 +19,16 @@ import { checkAvatarDataUrl } from '@/lib/studio/avatar-validate'
 /** Response used when the column isn't there yet: not an error, just nothing stored. */
 const NOT_MIGRATED = { avatar: null as string | null, stored: false }
 
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
+/**
+ * `users.id` is a uuid column, so a malformed id makes Postgres raise
+ * invalid_text_representation and the request 500s — a client mistake reported
+ * as a server fault. Checking the shape first keeps it a 400.
+ */
 function userIdFrom(value: unknown): string {
-  return String(value ?? '').trim()
+  const id = String(value ?? '').trim()
+  return UUID_RE.test(id) ? id : ''
 }
 
 export async function GET(request: NextRequest) {
