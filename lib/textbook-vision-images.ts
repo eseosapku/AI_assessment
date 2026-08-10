@@ -4,6 +4,7 @@ import path from 'path'
 import { callGemma, type ImageInput } from '@/lib/bedrock'
 import {
   getImagesForTextbook,
+  getDescribedImages,
   type TextbookSourceImage,
 } from '@/lib/textbook-source-images'
 
@@ -252,6 +253,55 @@ export async function buildVisualFigureCatalog(opts: {
     Math.min(MAX_VISION_FIGURES, maxQuestionsWithImages(opts.questionCount)),
   )
   if (!selected.length) return []
+
+  const catalog: VisualFigureCatalogEntry[] = []
+  for (const img of selected) {
+    const description = await describeFigureWithVision(img)
+    if (!description) continue
+    catalog.push({
+      key: img.key,
+      localPath: img.localPath,
+      category: img.category || 'diagram',
+      description,
+      page: img.page,
+    })
+  }
+  return catalog
+}
+
+/**
+ * Minimum match score for a library-wide lookup.
+ *
+ * Higher than the textbook-scoped default (0.35) because nothing else
+ * constrains the candidates: a textbook lookup has already narrowed to one
+ * book on the student's syllabus, so a loose match is still topically close.
+ * Searching all ~100 books, a loose match is just a coincidence, and a
+ * confidently-wrong diagram is worse for the student than no diagram at all.
+ */
+const CROSS_LIBRARY_MIN_SCORE = 0.5
+
+/**
+ * Find figures for a self-directed quiz, which has no textbook to scope to.
+ *
+ * Same selection and description pipeline as `buildVisualFigureCatalog`; only
+ * the candidate pool differs — every described figure in the library rather
+ * than one book's. Returns an empty catalog when nothing matches well, and the
+ * generator then simply writes a quiz without figures.
+ */
+export async function buildVisualFigureCatalogForTopics(opts: {
+  topics: string[]
+  questionCount: number
+}): Promise<VisualFigureCatalogEntry[]> {
+  const topics = opts.topics.map((t) => t.trim()).filter(Boolean)
+  if (!topics.length) return []
+
+  const filtered = filterImagesByTopics(getDescribedImages(), topics, CROSS_LIBRARY_MIN_SCORE)
+  if (!filtered.length) return []
+
+  const selected = selectFiguresForAssessment(
+    filtered,
+    Math.min(MAX_VISION_FIGURES, maxQuestionsWithImages(opts.questionCount)),
+  )
 
   const catalog: VisualFigureCatalogEntry[] = []
   for (const img of selected) {

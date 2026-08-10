@@ -17,6 +17,7 @@ import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
   buildVisualFigureCatalog,
+  buildVisualFigureCatalogForTopics,
   maxQuestionsWithImages,
   type VisualFigureCatalogEntry,
 } from '@/lib/textbook-vision-images'
@@ -1325,6 +1326,19 @@ export async function POST(request: NextRequest) {
     const isExamPrepMode = curriculumSlug === 'waec' || curriculumSlug === 'jamb'
     const hasTextbookImageLibrary = Number.isFinite(textbookId) && isSchoolCurriculum(textbookCurriculum) && textbookHasImages(textbookId)
 
+    // A self-directed quiz: a typed topic with no curriculum rows behind it, so
+    // there is no textbook whose figures we could scope to. Derived rather than
+    // taken from the request body so a client cannot opt into the wider,
+    // looser figure search for a quiz that does have a textbook. Quizzes built
+    // from pasted text are excluded: their figures should come from the text
+    // the student supplied, not from an unrelated book.
+    const isCustomTopicQuiz =
+      !Number.isFinite(textbookId) &&
+      topicIds.length === 0 &&
+      subtopicIds.length === 0 &&
+      !hasSourceText &&
+      requestedTopics.length > 0
+
     const imageTopicFilter = [
       ...promptTopics,
       ...dbTopicNames,
@@ -1351,6 +1365,22 @@ export async function POST(request: NextRequest) {
         }
       } catch (visionErr) {
         console.error('Vision catalog build failed:', visionErr)
+      }
+    } else if (isCustomTopicQuiz && !isExamPrepMode && imageTopicFilter.length > 0) {
+      // Self-directed quiz: no textbook to scope to, so search the whole
+      // vision-described library by content instead.
+      try {
+        visualCatalog = await buildVisualFigureCatalogForTopics({
+          topics: imageTopicFilter,
+          questionCount: count,
+        })
+        if (visualCatalog.length > 0) {
+          console.log(
+            `Vision catalog (library-wide): ${visualCatalog.length} figure(s) for [${imageTopicFilter.slice(0, 4).join(', ')}]`,
+          )
+        }
+      } catch (visionErr) {
+        console.error('Library-wide vision catalog build failed:', visionErr)
       }
     }
 

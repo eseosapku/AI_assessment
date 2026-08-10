@@ -103,6 +103,22 @@ export function textbookHasImages(textbookId: number): boolean {
   return getImagesForTextbook(textbookId).length > 0
 }
 
+/**
+ * Every figure in the library that carries a vision-generated description.
+ *
+ * Used by self-directed quizzes, which have no textbook to scope to and so must
+ * search the whole library by content. Un-described figures are excluded on
+ * purpose: without a description the only thing left to match on is the raw
+ * page text, which across ~100 books produces confident-looking matches from
+ * incidental word overlap. Textbook-scoped lookups keep using the full set,
+ * where surrounding context makes page text a reasonable signal.
+ */
+export function getDescribedImages(): TextbookSourceImage[] {
+  return loadTextbookImageManifest().images.filter(
+    (img) => typeof img.description === 'string' && img.description.trim().length > 0
+  )
+}
+
 function scoreImageForQuestion(
   img: TextbookSourceImage,
   questionText: string,
