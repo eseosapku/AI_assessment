@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" role="img" aria-label="StudySquare">
+  <!--
+    Tab icon: the StudySquare mark from components/Brand.tsx, retuned for the
+    sizes a favicon is actually rendered at (16-32px).
+
+    Two deliberate differences from the in-app mark:
+      - the tiles are larger with tighter gaps, because at 16px the original
+        8px-on-40 tiles collapse into an indistinct blur;
+      - the two recessed tiles sit at 0.72 opacity rather than 0.5, which keeps
+        the 2x2 pattern readable while preserving the depth of the original.
+    The hairline stroke is dropped for the same reason: sub-pixel at this size,
+    it only muddies the edge.
+  -->
+  <defs>
+    <linearGradient id="ss-icon-grad" x1="2" y1="2" x2="38" y2="38" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#2ACBF2"/>
+      <stop offset="1" stop-color="#0C86CE"/>
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="40" height="40" rx="9" fill="url(#ss-icon-grad)"/>
+  <g fill="#fff">
+    <rect x="8.5" y="8.5" width="10" height="10" rx="2.6" fill-opacity="0.97"/>
+    <rect x="21.5" y="8.5" width="10" height="10" rx="2.6" fill-opacity="0.72"/>
+    <rect x="8.5" y="21.5" width="10" height="10" rx="2.6" fill-opacity="0.72"/>
+    <rect x="21.5" y="21.5" width="10" height="10" rx="2.6" fill-opacity="0.97"/>
+  </g>
+</svg>
