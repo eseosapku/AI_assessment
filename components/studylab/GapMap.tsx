@@ -1,7 +1,7 @@
 'use client'
 
-import { createContext, useContext, useEffect, useMemo, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
 import {
   ReactFlow,
   ReactFlowProvider,
@@ -328,6 +328,11 @@ export default function GapMap({
   const [activeKey, setActiveKey] = useState<string | null>(null)
   const [expandedTopics, setExpandedTopics] = useState<Set<number>>(new Set())
 
+  // Deep link from a finished quiz's "Study these areas" button.
+  const searchParams = useSearchParams()
+  const requestedSubject = searchParams.get('subject') ?? ''
+  const requestedFocus = searchParams.get('focus') ?? ''
+
   useEffect(() => {
     let cancelled = false
     ;(async () => {
@@ -341,8 +346,21 @@ export default function GapMap({
           const data: GapTree = json.data
           setTree(data)
           setWarning(json.warning ?? null)
-          // The API already sorts weakest-first, so default to the first subject.
-          if (data.textbooks.length > 0) setActiveKey(subjectKey(data.textbooks[0]))
+          if (data.textbooks.length > 0) {
+            // Arriving from a finished quiz ("Study these areas"), open on that
+            // quiz's subject rather than the globally weakest one — the student
+            // asked about this subject, and dropping them somewhere else reads
+            // as the button having failed.
+            const requested = requestedSubject.trim().toLowerCase()
+            const match = requested
+              ? data.textbooks.find((s) => {
+                  const name = String(s.name ?? '').toLowerCase()
+                  return name === requested || name.includes(requested) || requested.includes(name)
+                })
+              : undefined
+            // The API already sorts weakest-first, so the head is the sensible default.
+            setActiveKey(subjectKey(match ?? data.textbooks[0]))
+          }
         }
       } catch {
         if (!cancelled) setError('Failed to load the gap map.')
@@ -354,6 +372,47 @@ export default function GapMap({
       cancelled = true
     }
   }, [userId])
+
+  // Second half of the deep link: having opened the right subject, expand and
+  // select the topic the student actually lost marks on, so "Study these areas"
+  // lands on the concept rather than on a subject overview they must then
+  // search through. A focus that matches nothing simply leaves the map as-is.
+  const focusApplied = useRef(false)
+  useEffect(() => {
+    if (focusApplied.current || !requestedFocus.trim() || !tree || !activeKey) return
+    const subject = tree.textbooks.find((s) => subjectKey(s) === activeKey)
+    if (!subject) return
+
+    const needle = requestedFocus.trim().toLowerCase()
+    const matches = (name: string) => {
+      const n = String(name ?? '').toLowerCase()
+      return n === needle || n.includes(needle) || needle.includes(n)
+    }
+
+    for (const topic of subject.topics) {
+      const sub = topic.subtopics?.find((s) => matches(s.name))
+      if (sub) {
+        focusApplied.current = true
+        setExpandedTopics((prev) => new Set(prev).add(topic.id))
+        setSelected({
+          kind: 'subtopic', label: sub.name, status: sub.status, accuracy: sub.accuracy,
+          textbook_id: subject.id, topic_id: topic.id, subtopic_id: sub.id,
+          subject: subject.name, curriculum_slug: subject.curriculum_slug,
+        })
+        return
+      }
+      if (matches(topic.name)) {
+        focusApplied.current = true
+        setExpandedTopics((prev) => new Set(prev).add(topic.id))
+        setSelected({
+          kind: 'topic', label: topic.name, status: topic.status, accuracy: topic.accuracy,
+          textbook_id: subject.id, topic_id: topic.id,
+          subject: subject.name, curriculum_slug: subject.curriculum_slug,
+        })
+        return
+      }
+    }
+  }, [requestedFocus, tree, activeKey])
 
   const activeSubject = useMemo(
     () => tree?.textbooks.find((s) => subjectKey(s) === activeKey) ?? null,

@@ -113,9 +113,48 @@ function tagQuestionsWithSubtopics(
     const chosen = bestScore > 0 && best ? best : candidates[rr++ % candidates.length]
     q.subtopic_id = chosen.id
     q.topic_id = chosen.topic_id ?? null
+    // Readable counterpart to subtopic_id. The review page groups a finished
+    // attempt into named weak areas, and it only has questions_data to work
+    // from — an id alone would force a lookup the results page cannot do.
+    q.topic_label = chosen.name
     used.add(chosen.id)
   }
   return [...used]
+}
+
+/**
+ * Label each question with the topic it came from, by name only.
+ *
+ * The fallback for quizzes with no curriculum rows behind them — a
+ * self-directed "quiz me on anything", or any request that arrived as bare
+ * topic strings. Without this those attempts reach the review page with no
+ * areas at all, and the student is offered a score with nothing to act on.
+ */
+function tagQuestionsWithTopicLabels(questions: any[], topics: string[]): void {
+  const names = topics.map((t) => String(t ?? '').trim()).filter(Boolean)
+  if (!Array.isArray(questions) || questions.length === 0 || names.length === 0) return
+
+  const candidates = names.map((name) => ({ name, tokens: new Set(tagTokens(name)) }))
+  let rr = 0
+  for (const q of questions) {
+    if (!q || typeof q !== 'object' || q.topic_label) continue
+    const qTokens = new Set(
+      tagTokens(`${q?.question ?? ''} ${Array.isArray(q?.options) ? q.options.join(' ') : ''} ${q?.explanation ?? ''}`),
+    )
+    let best: { name: string; tokens: Set<string> } | null = null
+    let bestScore = 0
+    for (const c of candidates) {
+      let score = 0
+      for (const tok of c.tokens) if (qTokens.has(tok)) score += 1
+      if (score > bestScore) {
+        bestScore = score
+        best = c
+      }
+    }
+    // Round-robin when nothing overlaps, so coverage stays spread across the
+    // requested topics rather than collapsing onto whichever matched first.
+    q.topic_label = bestScore > 0 && best ? best.name : candidates[rr++ % candidates.length].name
+  }
 }
 
 // Detect model refusals before attempting JSON parse
@@ -2000,6 +2039,12 @@ export async function POST(request: NextRequest) {
     } catch (tagErr) {
       console.error('Subtopic tagging skipped:', tagErr)
     }
+
+    // Backfill readable labels for anything the subtopic pass didn't cover —
+    // custom-topic quizzes, and curriculum quizzes whose subtopic lookup failed
+    // above. Runs outside that try so a DB error there still leaves the review
+    // page with usable areas.
+    tagQuestionsWithTopicLabels(assessmentData.questions, promptTopics)
 
     // ── Stage 2b: Passages ────────────────────────────────────────────────────
     // For passage subjects using the passage-first flow, questions already have

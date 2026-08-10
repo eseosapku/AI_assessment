@@ -18,6 +18,14 @@ import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 import { LatexText as L } from '@/lib/latex-text'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
+import NextStepsPanel from '@/components/assessment/NextStepsPanel'
+import {
+  summarizeWeakAreas,
+  pickProblemAreas,
+  creditFromMarks,
+  type QuestionOutcome,
+} from '@/lib/assessment-weak-areas'
+import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -559,6 +567,7 @@ function AssessmentPageClient() {
   const searchParams = useSearchParams()
   const { user: authUser } = useAuth()
   const assignmentParam = searchParams.get('assignment') || searchParams.get('assignment_id')
+  const retakeParam = searchParams.get('retake')
   const isClassroomAssignment = Boolean(assignmentParam)
   const [assessment, setAssessment] = useState<Assessment | null>(null)
   const [assignmentId, setAssignmentId] = useState<string | null>(null)
@@ -572,6 +581,7 @@ function AssessmentPageClient() {
   const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [showResults, setShowResults] = useState(false)
+  const [isRetaking, setIsRetaking] = useState(false)
   const [results, setResults] = useState<any>(null)
   const [feedback, setFeedback] = useState<string>('')
   const [isGeneratingFeedback, setIsGeneratingFeedback] = useState(false)
@@ -643,6 +653,37 @@ function AssessmentPageClient() {
         }
       }
 
+      // Retake from a result card: the card carries only a result id, so the
+      // paper is fetched here. Takes priority over any stored paper — the
+      // student explicitly asked for this one.
+      if (retakeParam) {
+        try {
+          const res = await fetch(
+            `/api/results/${encodeURIComponent(retakeParam)}${authUser?.id ? `?user_id=${encodeURIComponent(authUser.id)}` : ''}`,
+          )
+          const json = await res.json()
+          if (!res.ok) throw new Error(json?.error || 'Could not load that quiz')
+          const row = json?.data
+          const payload = buildRetakePayload({
+            assessment_id: row?.assessment_id,
+            subject: row?.assessments?.subject,
+            questions: row?.assessments?.questions_data,
+          })
+          if (!payload) throw new Error('That quiz can no longer be retaken.')
+          sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(payload))
+          // prepareAssessment does the same normalisation/validation applied to
+          // a paper restored from sessionStorage, so the stored questions are
+          // checked rather than trusted.
+          const prepared = prepareAssessment(payload as unknown as Assessment)
+          setAssessment(prepared)
+          setTimeRemaining(prepared.estimated_time * 60)
+          return
+        } catch (err: any) {
+          setLoadError(err?.message || 'Could not load that quiz')
+          return
+        }
+      }
+
       const resumeRequested = sessionStorage.getItem(RESUME_ASSESSMENT_KEY) === 'true'
       if (resumeRequested) sessionStorage.removeItem(RESUME_ASSESSMENT_KEY)
 
@@ -684,7 +725,7 @@ function AssessmentPageClient() {
     }
 
     load()
-  }, [assignmentParam, assignmentId, authUser, router, assessment])
+  }, [assignmentParam, assignmentId, retakeParam, authUser, router, assessment])
 
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60)
@@ -1205,9 +1246,73 @@ function AssessmentPageClient() {
     const hasLongForm = assessment.questions.some(isLongForm)
     const hasInteractive = assessment.questions.some(isInteractive)
 
+    // Group the attempt into named areas so the score turns into next steps.
+    // Every question type contributes on the same 0..1 scale, so a half-marked
+    // written answer weighs the same as half an MCQ rather than as a wipeout.
+    const outcomes: QuestionOutcome[] = assessment.questions.map((q, idx) => {
+      const label = String((q as { topic_label?: string }).topic_label ?? '')
+      if (isLongForm(q)) {
+        const g = longFormGrades[idx]
+        return { index: idx, label, credit: creditFromMarks(g?.marks_awarded, g?.marks_total ?? q.marks) }
+      }
+      if (isInteractive(q)) {
+        const g = interactiveGrades[idx] ?? gradeInteractiveQuestion(q, interactiveAnswers[idx])
+        return { index: idx, label, credit: creditFromMarks(g?.marks_awarded, g?.marks_total) }
+      }
+      return { index: idx, label, credit: results.answers[idx] === q.correct_answer ? 1 : 0 }
+    })
+    const problemAreas = pickProblemAreas(summarizeWeakAreas(outcomes))
+
+    const jumpToQuestion = (n: number) => {
+      const el = document.getElementById(`question-${n}`)
+      if (!el) return
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+      // Brief ring so the eye lands on the right card after the scroll settles.
+      el.classList.add('ring-2', 'ring-ss-accent')
+      window.setTimeout(() => el.classList.remove('ring-2', 'ring-ss-accent'), 1600)
+    }
+
+    const handleRetake = () => {
+      const payload = buildRetakePayload({ ...assessment, questions: assessment.questions })
+      if (!payload) return
+      setIsRetaking(true)
+      try {
+        sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(payload))
+        sessionStorage.removeItem('gapMapReturn')
+      } catch {
+        setIsRetaking(false)
+        return
+      }
+      // Full reload rather than a client push: this component is already
+      // mounted with a finished attempt in state, and a soft navigation to the
+      // same route would keep showing the results view.
+      window.location.href = '/assessment'
+    }
+
     return (
-      <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] py-8 px-4 sm:px-6 lg:px-8">
-        <div className="max-w-4xl mx-auto space-y-8">
+      <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A]">
+        {/* Always-reachable way out. The dashboard link at the foot of the page
+            sits below every question, so on a long review it may as well not
+            exist. */}
+        <div className="sticky top-0 z-30 border-b border-ss-line bg-[#FAFAFA]/90 backdrop-blur dark:bg-[#0A0A0A]/90">
+          <div className="mx-auto flex max-w-4xl items-center justify-between gap-3 px-4 py-3 sm:px-6 lg:px-8">
+            <button
+              onClick={() => {
+                sessionStorage.removeItem('gapMapReturn')
+                router.push('/')
+              }}
+              className="flex items-center gap-1.5 rounded-xl px-3 py-2 text-[13px] font-bold text-ss-slate transition-colors hover:bg-black/5 hover:text-ss-ink dark:hover:bg-white/5"
+            >
+              <ChevronLeft className="h-4 w-4" />
+              Done
+            </button>
+            <p className="min-w-0 flex-1 truncate text-right text-[12.5px] font-bold text-ss-slate">
+              {assessment.subject}
+            </p>
+          </div>
+        </div>
+
+        <div className="max-w-4xl mx-auto space-y-8 px-4 py-8 sm:px-6 lg:px-8">
           {/* Score card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
@@ -1270,6 +1375,18 @@ function AssessmentPageClient() {
             />
           </motion.div>
 
+          {/* Next steps — only once grading has settled, so the areas shown
+              aren't based on written answers that are still being marked. */}
+          {results.score !== null && !isGradingLongForm && (
+            <NextStepsPanel
+              areas={problemAreas}
+              subject={assessment.subject}
+              onJumpToQuestion={jumpToQuestion}
+              onRetake={handleRetake}
+              retaking={isRetaking}
+            />
+          )}
+
           {/* Download report button */}
           {results.score !== null && !isGeneratingFeedback && (
             <div className="flex justify-center">
@@ -1289,28 +1406,33 @@ function AssessmentPageClient() {
           <div className="space-y-6">
             <h2 className="text-2xl font-bold px-2">Detailed Review</h2>
             {assessment.questions.map((q, idx) => {
+              // Anchors live on a wrapper for these two so the jump targets are
+              // uniform across every question type without threading an id
+              // through each card component.
               if (isLongForm(q)) {
                 return (
-                  <LongFormResultCard
-                    key={idx}
-                    q={q}
-                    idx={idx}
-                    studentAnswer={longFormAnswers[idx] || ''}
-                    grade={longFormGrades[idx]}
-                  />
+                  <div key={idx} id={`question-${idx + 1}`} className="scroll-mt-24 rounded-apple transition-shadow">
+                    <LongFormResultCard
+                      q={q}
+                      idx={idx}
+                      studentAnswer={longFormAnswers[idx] || ''}
+                      grade={longFormGrades[idx]}
+                    />
+                  </div>
                 )
               }
 
               if (isInteractive(q)) {
                 const grade = interactiveGrades[idx] ?? gradeInteractiveQuestion(q, interactiveAnswers[idx])
                 return (
-                  <InteractiveResultCard
-                    key={idx}
-                    question={q}
-                    answer={interactiveAnswers[idx]}
-                    grade={grade}
-                    idx={idx}
-                  />
+                  <div key={idx} id={`question-${idx + 1}`} className="scroll-mt-24 rounded-apple transition-shadow">
+                    <InteractiveResultCard
+                      question={q}
+                      answer={interactiveAnswers[idx]}
+                      grade={grade}
+                      idx={idx}
+                    />
+                  </div>
                 )
               }
 
@@ -1320,10 +1442,13 @@ function AssessmentPageClient() {
               return (
                 <motion.div
                   key={idx}
+                  id={`question-${idx + 1}`}
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: idx * 0.05 }}
-                  className={`glass dark:glass-dark rounded-apple p-6 border-l-4 ${isCorrect ? 'border-l-green-500' : 'border-l-red-500'
+                  // scroll-mt clears the sticky header when jumped to from the
+                  // next-steps panel.
+                  className={`scroll-mt-24 rounded-apple border-l-4 p-6 transition-shadow glass dark:glass-dark ${isCorrect ? 'border-l-green-500' : 'border-l-red-500'
                     }`}
                 >
                   <div className="flex items-start gap-4 mb-4">

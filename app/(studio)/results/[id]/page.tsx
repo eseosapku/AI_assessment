@@ -13,6 +13,14 @@ import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { subjectArt } from '@/lib/studio/subjectArt'
 import type { InteractiveAnswer, InteractiveQuestion } from '@/types/interactive'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
+import NextStepsPanel from '@/components/assessment/NextStepsPanel'
+import {
+    summarizeWeakAreas,
+    pickProblemAreas,
+    creditFromMarks,
+    type QuestionOutcome,
+} from '@/lib/assessment-weak-areas'
+import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
 // Per-grade band gradient + ring color + plain-English meaning for the summary.
 const GRADE_REVIEW: Record<string, { grad: string; ring: string; meaning: string }> = {
@@ -698,6 +706,48 @@ export default function ResultDetailPage() {
     const interactiveAnswers = answers?.interactive ?? {}
     const longFormGrades = result?.longform_grades ?? {}
 
+    // Same weak-area grouping the post-submission screen uses, so a student
+    // revisiting an old result sees the identical next steps.
+    const outcomes: QuestionOutcome[] = questions.map((q, idx) => {
+        const label = String((q as { topic_label?: string }).topic_label ?? '')
+        if (isLongForm(q)) {
+            const g = longFormGrades[idx] ?? longFormGrades[String(idx)]
+            return { index: idx, label, credit: creditFromMarks(g?.marks_awarded, g?.marks_total ?? q.marks) }
+        }
+        if (isInteractive(q)) {
+            const g = gradeInteractiveQuestion(q, interactiveAnswers[idx] ?? interactiveAnswers[String(idx)])
+            return { index: idx, label, credit: creditFromMarks(g?.marks_awarded, g?.marks_total) }
+        }
+        const raw = mcqAnswers[idx] ?? mcqAnswers[String(idx)]
+        const userAnswer = Number.isFinite(Number(raw)) ? Number(raw) : null
+        return { index: idx, label, credit: userAnswer === q.correct_answer ? 1 : 0 }
+    })
+    const problemAreas = pickProblemAreas(summarizeWeakAreas(outcomes))
+
+    const jumpToQuestion = (n: number) => {
+        const el = document.getElementById(`question-${n}`)
+        if (!el) return
+        el.scrollIntoView({ behavior: 'smooth', block: 'center' })
+        el.classList.add('ring-2', 'ring-ss-accent')
+        window.setTimeout(() => el.classList.remove('ring-2', 'ring-ss-accent'), 1600)
+    }
+
+    const handleRetake = () => {
+        const payload = buildRetakePayload({
+            assessment_id: result?.assessment_id,
+            subject: result?.assessments?.subject,
+            questions,
+            duration: result?.assessments?.duration,
+        })
+        if (!payload) return
+        try {
+            sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(payload))
+        } catch {
+            return
+        }
+        router.push('/assessment')
+    }
+
     const score = Number(result?.percentage ?? result?.score ?? 0)
     const grade = result?.grade ?? getGradeFromScore(score)
     const subject = result?.assessments?.subject || 'Assessment'
@@ -890,6 +940,13 @@ export default function ResultDetailPage() {
                     )
                 })()}
 
+                <NextStepsPanel
+                    areas={problemAreas}
+                    subject={subject}
+                    onJumpToQuestion={jumpToQuestion}
+                    onRetake={result?.assessment_id ? handleRetake : undefined}
+                />
+
                 <div className="space-y-6">
                     <h2 className="text-2xl font-bold px-2">Detailed Review</h2>
                     {questions.length === 0 ? (
@@ -898,17 +955,22 @@ export default function ResultDetailPage() {
                         </div>
                     ) : (
                         questions.map((q, idx) => {
+                            // Wrapper carries the jump anchor for every question
+                            // type, so the next-steps panel can scroll to any of
+                            // them without each card knowing about it.
+                            const anchor = `question-${idx + 1}`
                             if (isLongForm(q)) {
                                 const answer = longFormAnswers[idx] ?? longFormAnswers[String(idx)] ?? ''
                                 const grade = longFormGrades[idx] ?? longFormGrades[String(idx)]
                                 return (
-                                    <LongFormResultCard
-                                        key={idx}
-                                        q={q}
-                                        idx={idx}
-                                        studentAnswer={answer}
-                                        grade={grade}
-                                    />
+                                    <div key={idx} id={anchor} className="scroll-mt-24 rounded-apple transition-shadow">
+                                        <LongFormResultCard
+                                            q={q}
+                                            idx={idx}
+                                            studentAnswer={answer}
+                                            grade={grade}
+                                        />
+                                    </div>
                                 )
                             }
 
@@ -916,25 +978,27 @@ export default function ResultDetailPage() {
                                 const ans = interactiveAnswers[idx] ?? interactiveAnswers[String(idx)]
                                 const grade = gradeInteractiveQuestion(q, ans)
                                 return (
-                                    <InteractiveResultCard
-                                        key={idx}
-                                        question={q}
-                                        answer={ans}
-                                        grade={grade}
-                                        idx={idx}
-                                    />
+                                    <div key={idx} id={anchor} className="scroll-mt-24 rounded-apple transition-shadow">
+                                        <InteractiveResultCard
+                                            question={q}
+                                            answer={ans}
+                                            grade={grade}
+                                            idx={idx}
+                                        />
+                                    </div>
                                 )
                             }
 
                             const answer = mcqAnswers[idx] ?? mcqAnswers[String(idx)]
                             const userAnswer = Number.isFinite(Number(answer)) ? Number(answer) : null
                             return (
-                                <McqResultCard
-                                    key={idx}
-                                    q={q}
-                                    idx={idx}
-                                    userAnswer={userAnswer}
-                                />
+                                <div key={idx} id={anchor} className="scroll-mt-24 rounded-apple transition-shadow">
+                                    <McqResultCard
+                                        q={q}
+                                        idx={idx}
+                                        userAnswer={userAnswer}
+                                    />
+                                </div>
                             )
                         })
                     )}
