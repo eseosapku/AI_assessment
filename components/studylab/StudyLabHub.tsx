@@ -3,7 +3,7 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Brain, Plus, Sparkles, Clock, X, Loader2, Target, ChevronRight, Upload, CheckCircle2 } from 'lucide-react'
+import { Brain, Plus, Sparkles, Clock, X, Loader2, Upload, CheckCircle2 } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import PersonaPanel from '@/components/studylab/PersonaPanel'
 import { subjectArt } from '@/lib/studio/subjectArt'
@@ -94,10 +94,6 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
     return () => { cancelled = true }
   }, [user])
 
-  const openGapMap = () => {
-    router.push('/studylab/gap-map')
-  }
-
   const openLearnSpace = (id: string) => {
     openSpaceInTab(id, router)
   }
@@ -128,8 +124,8 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
                 <Brain className="h-5 w-5 text-ss-accent" />
               </div>
               <div>
-                <h1 className="font-display text-sm font-black">StudyLab</h1>
-                <p className="text-xs font-semibold text-ss-slate">Spatial AI tutor</p>
+                <h1 className="font-display text-sm font-black">LearnSpace</h1>
+                <p className="text-xs font-semibold text-ss-slate">Your AI builds the lesson</p>
               </div>
             </div>
             <div className="flex items-center gap-2">
@@ -149,12 +145,16 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
       <main className={`mx-auto max-w-6xl px-4 sm:px-6 ${embedded ? 'py-2' : 'py-8'}`}>
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ss-accent">StudyLab</p>
+            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ss-accent">LearnSpace</p>
             <h2 className="mt-1 text-[30px] font-extrabold tracking-tight text-ss-ink sm:text-[34px]">
-              Your <span className="text-ss-good">LearnSpaces</span>
+              Learn any topic on a <span className="text-ss-good">living canvas</span>
             </h2>
-            <p className="mt-2 text-sm font-semibold text-ss-slate">
-              Your spatial AI tutor — build a canvas for any topic, or study a gap.
+            {/* The old copy ("your spatial AI tutor") named the technology, not
+                the job. Say what a LearnSpace does for the student. */}
+            <p className="mt-2 max-w-xl text-sm font-semibold text-ss-slate">
+              Ask about anything and the tutor builds you the whole lesson — explainer cards, diagrams,
+              worked examples and checkpoints that quiz you as you go. Stuck on homework? Snap it and
+              it&apos;ll walk you through.
             </p>
           </div>
           {embedded && (
@@ -171,30 +171,6 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
 
         <PersonaPanel persona={persona} loading={personaLoading} userId={user!.id} />
 
-        <button
-          type="button"
-          onClick={openGapMap}
-          className="group relative mb-8 w-full overflow-hidden rounded-[24px] p-6 text-left text-white sm:p-8"
-          style={{ background: 'linear-gradient(115deg,#0E7A5A,#16B67A 60%,#3FD08F)' }}
-        >
-          {/* eslint-disable-next-line @next/next/no-img-element */}
-          <img src="/art/studylab.png" alt="" aria-hidden className="pointer-events-none absolute right-3 top-1/2 hidden h-[112%] -translate-y-1/2 object-contain opacity-95 md:block" />
-          <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center">
-            <div className="grid h-14 w-14 shrink-0 place-items-center rounded-2xl bg-white/20">
-              <Target className="h-7 w-7 text-white" />
-            </div>
-            <div className="flex-1">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-white/85">Learning Gap Map</p>
-              <h3 className="mt-1 text-[24px] font-extrabold">See where you&apos;re strong vs stuck</h3>
-              <p className="mt-2 max-w-xl text-sm font-semibold text-white/80">
-                Interactive branched map of every subject you&apos;ve been assessed in — tap a weak branch to start directed study.
-              </p>
-            </div>
-            <span className="inline-flex items-center gap-2 self-start rounded-full bg-[#13202A] px-5 py-2.5 text-sm font-bold text-white sm:self-center">
-              Open gap map <ChevronRight className="h-4 w-4" />
-            </span>
-          </div>
-        </button>
 
         {warning && (
           <div className="mb-6 rounded-2xl border border-amber-200 bg-amber-50 p-4 text-sm font-semibold text-amber-800">

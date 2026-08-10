@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { BarChart3, FlaskConical, Home, Settings, Sparkles, Target, Users } from 'lucide-react'
+import { BarChart3, FlaskConical, Home, Map, Settings, Sparkles, Target, Users } from 'lucide-react'
 import { SquareMark } from '@/components/Brand'
 import ThemeToggle from '@/components/ThemeToggle'
 import { useSubscription } from '@/components/SubscriptionProvider'
@@ -18,7 +18,12 @@ export const studentNav: NavItem[] = [
     icon: Target,
     match: (p) => p.startsWith('/practice') || p === '/exam-prep' || p.startsWith('/recall') || p === '/report-card',
   },
-  { href: '/studylab', label: 'StudyLab', icon: FlaskConical, match: (p) => p === '/studylab' || p.startsWith('/studylab/gap-map') },
+  // "StudyLab" named a container, not a thing students do. Split into the two
+  // distinct jobs it actually held: learning a topic, and seeing where the gaps
+  // are. The gap map keeps its /studylab/gap-map route so existing links and
+  // deep links from a finished quiz still resolve.
+  { href: '/studylab', label: 'LearnSpace', icon: FlaskConical, match: (p) => p === '/studylab' || /^\/studylab\/(?!gap-map)/.test(p) },
+  { href: '/studylab/gap-map', label: 'Gap Maps', icon: Map, match: (p) => p.startsWith('/studylab/gap-map') },
   { href: '/progress', label: 'Progress', icon: BarChart3, match: (p) => p.startsWith('/progress') },
   { href: '/classrooms', label: 'Classes', icon: Users, match: (p) => p.startsWith('/classrooms') },
 ]

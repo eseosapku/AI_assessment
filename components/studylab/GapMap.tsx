@@ -203,6 +203,143 @@ function subjectKey(s: Subject): string {
   return s.id !== null ? `tb-${s.id}` : `name-${s.name}`
 }
 
+/** The number the map actually ranks a subject by. */
+function subjectScore(s: Subject): number | null {
+  if (typeof s.accuracy === 'number') return s.accuracy
+  if (typeof s.overall_quiz_avg === 'number') return s.overall_quiz_avg
+  return null
+}
+
+/**
+ * Subject switcher.
+ *
+ * Replaces a native <select> that listed twenty-odd entries as raw text like
+ * "Cambridge International AS A Level Further Mathematics Coursebook — 0.25%".
+ * At that length the name is unreadable, the number is meaningless without a
+ * scale, and there is no way to see at a glance which subject needs attention —
+ * which is the one question this control exists to answer. Rows are ranked
+ * weakest-first with a status dot and a bar, and a search box appears once the
+ * list is long enough to need one.
+ */
+function SubjectPicker({
+  subjects,
+  activeKey,
+  onSelect,
+}: {
+  subjects: Subject[]
+  activeKey: string | null
+  onSelect: (key: string) => void
+}) {
+  const [open, setOpen] = useState(false)
+  const [query, setQuery] = useState('')
+  const boxRef = useRef<HTMLDivElement>(null)
+
+  const active = subjects.find((s) => subjectKey(s) === activeKey) ?? null
+
+  useEffect(() => {
+    if (!open) return
+    const onDown = (e: MouseEvent) => {
+      // `Node` here is React Flow's node type, not the DOM one — hence the
+      // explicit DOM element cast.
+      if (boxRef.current && !boxRef.current.contains(e.target as HTMLElement)) setOpen(false)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') setOpen(false)
+    }
+    document.addEventListener('mousedown', onDown)
+    document.addEventListener('keydown', onKey)
+    return () => {
+      document.removeEventListener('mousedown', onDown)
+      document.removeEventListener('keydown', onKey)
+    }
+  }, [open])
+
+  const needle = query.trim().toLowerCase()
+  const rows = subjects.filter((s) => !needle || s.name.toLowerCase().includes(needle))
+  const activeScore = active ? subjectScore(active) : null
+
+  return (
+    <div ref={boxRef} className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((v) => !v)}
+        aria-expanded={open}
+        aria-haspopup="listbox"
+        className="flex max-w-[260px] items-center gap-2 rounded-xl border border-ss-line bg-ss-chip px-3 py-2 text-left transition-colors hover:border-ss-accent sm:max-w-[340px]"
+      >
+        {active?.status && <span className={`h-2.5 w-2.5 shrink-0 rounded-full ${STATUS_META[active.status].dot}`} />}
+        <span className="min-w-0 flex-1 truncate text-[13px] font-bold text-ss-ink">
+          {active?.name ?? 'Choose a subject'}
+        </span>
+        {activeScore !== null && (
+          <span className="shrink-0 text-[12px] font-extrabold text-ss-slate">{Math.round(activeScore)}%</span>
+        )}
+        <ChevronDown className={`h-4 w-4 shrink-0 text-ss-slate transition-transform ${open ? 'rotate-180' : ''}`} />
+      </button>
+
+      {open && (
+        <div
+          role="listbox"
+          className="absolute left-0 top-full z-50 mt-1.5 max-h-[420px] w-[340px] overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-2xl"
+        >
+          {subjects.length > 8 && (
+            <div className="border-b border-ss-line p-2">
+              <input
+                autoFocus
+                value={query}
+                onChange={(e) => setQuery(e.target.value)}
+                placeholder="Search subjects…"
+                className="w-full rounded-lg bg-ss-chip px-3 py-2 text-[13px] font-medium text-ss-ink outline-none placeholder:text-ss-slate"
+              />
+            </div>
+          )}
+          <div className="max-h-[360px] overflow-y-auto p-1.5">
+            {rows.length === 0 ? (
+              <p className="px-3 py-6 text-center text-[13px] font-semibold text-ss-slate">No subject matches that.</p>
+            ) : (
+              rows.map((s) => {
+                const key = subjectKey(s)
+                const score = subjectScore(s)
+                const meta = STATUS_META[s.status]
+                return (
+                  <button
+                    key={key}
+                    type="button"
+                    role="option"
+                    aria-selected={key === activeKey}
+                    onClick={() => {
+                      onSelect(key)
+                      setOpen(false)
+                      setQuery('')
+                    }}
+                    className={`w-full rounded-xl px-2.5 py-2 text-left transition-colors ${
+                      key === activeKey ? 'bg-[color:var(--ss-accent)]/10' : 'hover:bg-ss-chip'
+                    }`}
+                  >
+                    <div className="flex items-center gap-2">
+                      <span className={`h-2 w-2 shrink-0 rounded-full ${meta.dot}`} />
+                      <span className="min-w-0 flex-1 truncate text-[12.5px] font-bold text-ss-ink">{s.name}</span>
+                      <span className="shrink-0 text-[11.5px] font-extrabold text-ss-slate">
+                        {score !== null ? `${Math.round(score)}%` : '—'}
+                      </span>
+                    </div>
+                    <div className="mt-1.5 ml-4 h-1 overflow-hidden rounded-full bg-[color:var(--ss-ink)]/8">
+                      <div
+                        className={`h-full rounded-full ${meta.dot}`}
+                        style={{ width: `${Math.max(score ?? 0, 2)}%` }}
+                      />
+                    </div>
+                  </button>
+                )
+              })
+            )}
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 // Build the branched tree for a SINGLE subject. Topics are laid out in a tidy
 // vertical column; a topic's subtopics only render when it is expanded, so the
 // canvas stays compact instead of stretching into one enormous list.
@@ -531,35 +668,32 @@ export default function GapMap({
     >
       {/* Header */}
       <header className={`flex items-center justify-between border-b px-4 py-3 sm:px-6 ${embedded ? 'border-ss-line bg-ss-panel' : 'border-ss-line bg-ss-panel dark:bg-[#161617]'}`}>
-        <div className="flex items-center gap-3">
-          <button onClick={() => router.push('/studylab')} className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5">
-            <ArrowLeft className="w-5 h-5" />
-          </button>
-          <div>
-            <h1 className="font-semibold text-[15px] text-ss-ink">Learning Gap Map</h1>
-            <p className="text-xs text-ss-slate">Based on subjects you&apos;ve been assessed in</p>
+        <div className="flex min-w-0 items-center gap-3">
+          {/* Only a nested view needs a way back. As a top-level destination the
+              arrow would point at an unrelated page. */}
+          {!embedded && (
+            <button onClick={() => router.push('/dashboard')} className="p-2 rounded-xl hover:bg-black/5 dark:hover:bg-white/5">
+              <ArrowLeft className="w-5 h-5" />
+            </button>
+          )}
+          <div className="min-w-0">
+            <h1 className="font-semibold text-[15px] text-ss-ink">Gap Map</h1>
+            {/* Says what the map is for, not just where its data came from —
+                the old subtitle left students guessing what to do with it. */}
+            <p className="hidden text-xs text-ss-slate sm:block">
+              Every topic you&apos;ve been quizzed on, colour-coded. Tap a weak one to study it.
+            </p>
           </div>
           {tree && tree.textbooks.length > 0 && (
-            <select
-              value={activeKey ?? ''}
-              onChange={(e) => {
-                setActiveKey(e.target.value)
+            <SubjectPicker
+              subjects={tree.textbooks}
+              activeKey={activeKey}
+              onSelect={(key) => {
+                setActiveKey(key)
                 setSelected(null)
                 setExpandedTopics(new Set())
               }}
-              className="ml-2 max-w-[220px] sm:max-w-xs text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-ss-chip dark:bg-black/30 px-3 py-2 focus:outline-none focus:ring-2 focus:ring-[color:var(--ss-accent)]/40 truncate"
-            >
-              {tree.textbooks.map((s) => (
-                <option key={subjectKey(s)} value={subjectKey(s)}>
-                  {s.name}
-                  {typeof s.accuracy === 'number'
-                    ? ` — ${s.accuracy}%`
-                    : typeof s.overall_quiz_avg === 'number'
-                      ? ` — overall ${s.overall_quiz_avg}%`
-                      : ''}
-                </option>
-              ))}
-            </select>
+            />
           )}
         </div>
         <Legend summary={tree?.summary} />
