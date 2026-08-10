@@ -134,6 +134,24 @@ export function buildTopicsPayload(scope: QuizScope, selected: string[]): string
   return scope.topic ? [scope.topic] : []
 }
 
+/** How many recent topics to offer as one-tap re-quiz chips. */
+export const MAX_RECENT_TOPICS = 6
+
+/**
+ * Add a topic to the recents list, most recent first.
+ *
+ * Dedupes case-insensitively so re-quizzing "Photosynthesis" doesn't push a
+ * near-identical chip; the newly-typed casing wins, since that's what the
+ * student just chose to write.
+ */
+export function pushRecentTopic(existing: readonly string[], topic: string): string[] {
+  const next = normalizeTopic(topic)
+  if (!isUsableTopic(next)) return [...existing].slice(0, MAX_RECENT_TOPICS)
+  const key = next.toLowerCase()
+  const rest = existing.filter((t) => normalizeTopic(t).toLowerCase() !== key)
+  return [next, ...rest].slice(0, MAX_RECENT_TOPICS)
+}
+
 /** Prompt for the scoping turn. Kept here so it is covered by the same tests. */
 export function buildScopePrompt(topic: string): string {
   return `A student wants to be quizzed on: "${topic}"
@@ -154,4 +172,40 @@ Rules:
 - Set "teachable" to false ONLY if this cannot be studied or quizzed at all
   (e.g. random characters, or a request for personal advice). A niche, informal
   or non-academic subject is still teachable.`
+}
+
+/** How much pasted material the scoping turn reads. Enough to name it and find its themes. */
+export const NOTES_SCOPE_SAMPLE = 4000
+
+/**
+ * Prompt for scoping pasted material.
+ *
+ * Deliberately separate from `buildScopePrompt`: the model must summarise what
+ * IS in the text rather than expand a topic outward from general knowledge, or
+ * the student ends up picking focus areas their notes never covered and the
+ * quiz asks about material they don't have.
+ */
+export function buildNotesScopePrompt(notes: string): string {
+  return `A student pasted their own study material and wants to be quizzed on it.
+
+--- MATERIAL START ---
+${normalizeNotes(notes).slice(0, NOTES_SCOPE_SAMPLE)}
+--- MATERIAL END ---
+
+Reply with ONLY a JSON object, no prose, no code fences:
+
+{
+  "subject": "the broad school subject this material belongs to",
+  "topic": "a short title naming what this material is about",
+  "focusAreas": ["5 to 8 themes ACTUALLY covered by the material above"],
+  "teachable": true
+}
+
+Rules:
+- Every focus area must be genuinely present in the material. Do not add themes
+  from your own knowledge that the text does not cover.
+- Each focus area is a short noun phrase (2-6 words). No numbering.
+- If the material is too short or fragmentary to find themes in, return an empty
+  "focusAreas" array and still give it a sensible "topic".
+- Set "teachable" to false ONLY if this is not study material at all.`
 }

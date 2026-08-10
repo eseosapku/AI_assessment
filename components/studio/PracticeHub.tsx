@@ -1,7 +1,7 @@
 'use client'
 
 import Link from 'next/link'
-import { ArrowRight, BookOpen, GraduationCap, Repeat, Sparkles } from 'lucide-react'
+import { ArrowRight, BookOpen, GraduationCap, Repeat, Sparkles, Wand2 } from 'lucide-react'
 import { useState } from 'react'
 import FlowForm from '@/components/FlowForm'
 import { useAuth } from '@/components/AuthProvider'
@@ -93,7 +93,15 @@ function ModeCard({ mode, onModal }: { mode: Mode; onModal: () => void }) {
 export default function PracticeHub() {
   const { user } = useAuth()
   const [formOpen, setFormOpen] = useState(false)
+  // Which flow the wizard opens into, so a tile that promises a free topic
+  // doesn't drop the student on the curriculum picker first.
+  const [formSource, setFormSource] = useState<'curriculum' | 'custom'>('curriculum')
   const visibleModes = modes.filter((m) => !m.ngOnly || user?.country === 'NG')
+
+  const openForm = (source: 'curriculum' | 'custom') => {
+    setFormSource(source)
+    setFormOpen(true)
+  }
 
   return (
     <div>
@@ -108,7 +116,7 @@ export default function PracticeHub() {
       {/* Featured: build a quiz */}
       <button
         type="button"
-        onClick={() => setFormOpen(true)}
+        onClick={() => openForm('curriculum')}
         className="group relative mb-5 flex w-full items-center gap-5 overflow-hidden rounded-[24px] p-7 text-left text-white"
         style={{ background: 'linear-gradient(115deg,#0C74B4,#0E94D6 52%,#2ACBF2)' }}
       >
@@ -126,13 +134,33 @@ export default function PracticeHub() {
         </span>
       </button>
 
+      {/* Off-syllabus companion to the featured card */}
+      <button
+        type="button"
+        onClick={() => openForm('custom')}
+        className="group mb-5 flex w-full items-center gap-4 rounded-[20px] border border-dashed border-ss-line bg-[color:var(--ss-accent)]/5 p-5 text-left transition-colors hover:border-ss-accent hover:bg-[color:var(--ss-accent)]/10"
+      >
+        <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[color:var(--ss-accent)]/15 text-ss-accent">
+          <Wand2 className="h-5 w-5" />
+        </span>
+        <span className="min-w-0 flex-1">
+          <span className="block text-[16px] font-extrabold text-ss-ink">Quiz me on anything</span>
+          <span className="block text-[13px] font-semibold text-ss-slate">
+            Off the syllabus? Type any topic or paste your own notes — we&apos;ll work out what to cover.
+          </span>
+        </span>
+        <ArrowRight className="h-5 w-5 shrink-0 text-ss-slate transition-transform group-hover:translate-x-0.5" />
+      </button>
+
       <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {visibleModes.map((mode) => (
-          <ModeCard key={mode.id} mode={mode} onModal={() => setFormOpen(true)} />
+          <ModeCard key={mode.id} mode={mode} onModal={() => openForm('curriculum')} />
         ))}
       </div>
 
-      {formOpen && <FlowForm onClose={() => setFormOpen(false)} />}
+      {formOpen && (
+        <FlowForm onClose={() => setFormOpen(false)} initialSourceMode={formSource} />
+      )}
     </div>
   )
 }

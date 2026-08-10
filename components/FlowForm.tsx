@@ -1,7 +1,7 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { X, ChevronLeft, ChevronRight, Check, Loader2, Send } from 'lucide-react'
+import { X, ChevronLeft, ChevronRight, Check, Loader2, Send, Sparkles, ArrowLeft } from 'lucide-react'
 import { useState, useRef, useEffect, useMemo } from 'react'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
@@ -18,6 +18,18 @@ import {
   formatClassLabel,
   type SchoolClassRow,
 } from '@/lib/school-class-options'
+import { CustomTopicStep, type CustomSource } from '@/components/quiz/CustomTopicStep'
+import { CustomScopeStep } from '@/components/quiz/CustomScopeStep'
+import {
+  buildTopicsPayload,
+  isUsableNotes,
+  isUsableTopic,
+  normalizeNotes,
+  normalizeTopic,
+  pushRecentTopic,
+  sanitizeScope,
+  type QuizScope,
+} from '@/lib/quiz-topic'
 
 
 type TextbookRow = { id: number; name: string; subjectName?: string; displayName?: string; curriculum: number; filename?: string | null }
@@ -35,6 +47,12 @@ type CurriculumOption = {
 
 interface FlowFormProps {
   onClose: () => void
+  /**
+   * Open straight into the self-directed flow, for entry points that already
+   * promised "quiz me on anything" and shouldn't make the student pick a
+   * curriculum first only to opt back out of it.
+   */
+  initialSourceMode?: 'curriculum' | 'custom'
 }
 
 const TOTAL_STEPS = 9
@@ -172,7 +190,7 @@ function StepLabel({ label }: { label: string }) {
   )
 }
 
-export default function FlowForm({ onClose }: FlowFormProps) {
+export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: FlowFormProps) {
   const router = useRouter()
   const { user } = useAuth()
   const { canGenerateAssessment, handlePaymentRequired, refresh } = useSubscription()
@@ -205,6 +223,144 @@ export default function FlowForm({ onClose }: FlowFormProps) {
     questionType: '' as 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed' | '',
     time: 'Calculated by AI',
   })
+
+  // ── Self-directed ("quiz me on anything") mode ───────────────────────────────
+  // Same wizard, different first two steps: Topic and Scope replace Curriculum
+  // and Class, and the Subject/Topics steps are skipped because a typed topic
+  // has no textbook or curriculum rows behind it. Difficulty, count, style,
+  // format and review are shared with the guided flow, so a self-directed quiz
+  // is configured exactly like any other.
+  const [sourceMode, setSourceMode] = useState<'curriculum' | 'custom'>(initialSourceMode)
+  const [customSource, setCustomSource] = useState<CustomSource>('topic')
+  const [customTopic, setCustomTopic] = useState('')
+  const [customNotes, setCustomNotes] = useState('')
+  const [scope, setScope] = useState<QuizScope | null>(null)
+  const [scopeLoading, setScopeLoading] = useState(false)
+  const [scopeDegraded, setScopeDegraded] = useState(false)
+  const [selectedAreas, setSelectedAreas] = useState<string[]>([])
+  const [recentTopics, setRecentTopics] = useState<string[]>([])
+  const isCustom = sourceMode === 'custom'
+  const isCustomNotes = isCustom && customSource === 'notes'
+  // Which topic the loaded scope belongs to, so re-entering the step without
+  // editing doesn't re-run the model, but editing the topic does.
+  const scopedTopicRef = useRef('')
+
+  const RECENTS_KEY = 'quizTopicRecents'
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem(RECENTS_KEY)
+      const parsed = raw ? JSON.parse(raw) : []
+      if (Array.isArray(parsed)) setRecentTopics(parsed.filter((t) => typeof t === 'string'))
+    } catch {
+      // A corrupt or unavailable store must never block the wizard.
+    }
+  }, [])
+
+  const rememberTopic = (topic: string) => {
+    const next = pushRecentTopic(recentTopics, topic)
+    setRecentTopics(next)
+    try {
+      localStorage.setItem(RECENTS_KEY, JSON.stringify(next))
+    } catch {
+      // Private mode / quota: recents are a convenience, not a requirement.
+    }
+  }
+
+  /**
+   * Expand the typed topic into focus areas. The endpoint already degrades to a
+   * usable scope on failure, so this only has to handle the network itself
+   * failing — and it does so the same way, by falling back to the raw topic
+   * rather than trapping the student on the step.
+   */
+  const loadScope = async () => {
+    const fromNotes = customSource === 'notes'
+    const clean = normalizeTopic(customTopic)
+    const notes = normalizeNotes(customNotes)
+    if (fromNotes ? !isUsableNotes(notes) : !isUsableTopic(clean)) return
+
+    // Cache key covers both inputs so switching tabs, or editing either field,
+    // re-scopes — but merely stepping back and forward does not.
+    const key = fromNotes ? `notes:${notes.length}:${notes.slice(0, 200)}` : `topic:${clean}`
+    if (scopedTopicRef.current === key && scope) return
+
+    setScopeLoading(true)
+    setScopeDegraded(false)
+    try {
+      const res = await fetch('/api/quiz-topic/scope', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(fromNotes ? { notes } : { topic: clean }),
+      })
+      const data = await res.json()
+      const next = sanitizeScope(data?.scope, clean || 'My notes')
+      setScope(next)
+      setScopeDegraded(data?.degraded === true)
+      setSelectedAreas(next.focusAreas)
+    } catch {
+      setScope(sanitizeScope(null, clean || 'My notes'))
+      setScopeDegraded(true)
+      setSelectedAreas([])
+    } finally {
+      scopedTopicRef.current = key
+      setScopeLoading(false)
+    }
+  }
+
+  const toggleArea = (area: string) =>
+    setSelectedAreas((prev) => (prev.includes(area) ? prev.filter((a) => a !== area) : [...prev, area]))
+
+  const addCustomArea = (area: string) => {
+    const clean = normalizeTopic(area)
+    if (!clean) return
+    setScope((prev) => {
+      if (!prev) return prev
+      // Case-insensitive, so adding an area the model already suggested selects
+      // it rather than creating a near-duplicate chip.
+      const exists = prev.focusAreas.some((a) => a.toLowerCase() === clean.toLowerCase())
+      return exists ? prev : { ...prev, focusAreas: [...prev.focusAreas, clean] }
+    })
+    setSelectedAreas((prev) =>
+      prev.some((a) => a.toLowerCase() === clean.toLowerCase()) ? prev : [...prev, clean],
+    )
+  }
+
+  /**
+   * Mirror the custom scope into `formData` so every later step (count, style,
+   * format, review) and the submit payload keep working unchanged — they only
+   * ever read `subject` and `topics`, and now those are populated from a typed
+   * topic instead of from the curriculum tables.
+   *
+   * `subject` takes the specific title rather than the broad subject because it
+   * becomes the assessment's name in the student's history; the broad subject
+   * travels separately as `subjectDomainHint`.
+   */
+  useEffect(() => {
+    if (!isCustom || !scope) return
+    setFormData((prev) => ({
+      ...prev,
+      subject: scope.topic,
+      topics: buildTopicsPayload(scope, selectedAreas),
+    }))
+  }, [isCustom, scope, selectedAreas])
+
+  const enterCustomMode = () => {
+    setSourceMode('custom')
+    // Curriculum selections would otherwise leak into the payload and pull the
+    // quiz back towards a textbook the student didn't choose.
+    setFormData((prev) => ({
+      ...prev,
+      curriculum: '', class_id: null, class_name: '', grade: null,
+      subject: '', topics: [], textbook_id: null, topic_ids: [], subtopic_ids: [],
+    }))
+  }
+
+  const leaveCustomMode = () => {
+    setSourceMode('curriculum')
+    setScope(null)
+    setSelectedAreas([])
+    scopedTopicRef.current = ''
+  }
 
   // ── University mode ──────────────────────────────────────────────────────────
   // University students go through the exact same guided wizard as school
@@ -635,7 +791,22 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       setElapsed(Math.round((Date.now() - startTimeRef.current) / 1000))
     }, 1000)
     try {
-      const requestPayload = { ...formData, className: formData.class_name || user?.class, user_id: user?.id, aiModel, customTime }
+      if (isCustom && customSource === 'topic') rememberTopic(customTopic)
+
+      const requestPayload = {
+        ...formData,
+        className: formData.class_name || user?.class,
+        user_id: user?.id,
+        aiModel,
+        customTime,
+        // Self-directed quizzes carry no curriculum rows; the broad subject
+        // rides along so question style is still chosen correctly, and pasted
+        // material becomes the source every question is written from.
+        ...(isCustom && scope ? { subjectDomainHint: scope.subject } : {}),
+        ...(isCustom && customSource === 'notes' && isUsableNotes(customNotes)
+          ? { sourceText: normalizeNotes(customNotes), sourceName: scope?.topic || 'My notes' }
+          : {}),
+      }
       let data: any = null
 
       if (USE_ASYNC_AI_JOBS) {
@@ -698,6 +869,12 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       return
     }
     if (step === 1) {
+      // Back out of the custom path to the curriculum picker rather than
+      // closing the whole wizard — the student is one step in, not zero.
+      if (isCustom) {
+        leaveCustomMode()
+        return
+      }
       if (isTeacher) {
         setFlowMode('')
         return
@@ -706,12 +883,19 @@ export default function FlowForm({ onClose }: FlowFormProps) {
       return
     }
     if (isUniStudent && step === 5) { setStep(3); return }
+    // Mirrors goForward's skip: Subject/Topics don't exist in custom mode.
+    if (isCustom && step === 6) { setStep(3); return }
     setStep((s) => Math.max(1, s - 1))
   }
 
   const canStepForward =
-    (step === 1 && !!formData.curriculum) ||
-    (step === 2 && !!formData.class_name) ||
+    (step === 1 && isCustom && customSource === 'topic' && isUsableTopic(customTopic)) ||
+    (step === 1 && isCustomNotes && isUsableNotes(customNotes)) ||
+    // Scope is a refinement, not a gate: a topic with no areas picked is still
+    // a valid (broader) quiz, so this step never blocks.
+    (step === 2 && isCustom && !scopeLoading) ||
+    (step === 1 && !isCustom && !!formData.curriculum) ||
+    (step === 2 && !isCustom && !!formData.class_name) ||
     (step === 3 && !!formData.difficultyLevel) ||
     (step === 4 && !!formData.subject) ||
     (step === 5 && formData.topics.length > 0) ||
@@ -722,10 +906,40 @@ export default function FlowForm({ onClose }: FlowFormProps) {
   const goForward = () => {
     if (!canStepForward || step >= TOTAL_STEPS) return
     if (isUniStudent && step === 3) { setStep(5); return } // no separate Subject step for university
+    if (isCustom && step === 1) {
+      // Fire-and-forget: the scope step renders its own loading state, so the
+      // student sees the transition immediately rather than a frozen button.
+      void loadScope()
+      setStep(2)
+      return
+    }
+    if (isCustom && step === 2) { setStep(3); return } // no Subject/Topics steps to visit
+    if (isCustom && step === 3) { setStep(6); return }
     setStep((s) => Math.min(TOTAL_STEPS, s + 1))
   }
 
-  const summaryRows = isUniStudent ? [
+  /**
+   * The steps this mode actually visits. University skips Subject, and the
+   * custom flow skips Subject and Topics — so the rail, the progress bar and
+   * the "Step N of M" counter all have to count the same reduced set, or the
+   * student is told they're on step 3 of 9 in a wizard with seven steps.
+   */
+  const visibleStepNums = WIZARD_STEPS
+    .filter((ws) => !(isUniStudent && ws.num === 4) && !(isCustom && (ws.num === 4 || ws.num === 5)))
+    .map((ws) => ws.num)
+  const stepPosition = Math.max(1, visibleStepNums.filter((n) => n <= step).length)
+
+  const summaryRows = isCustom ? [
+    { label: 'Source', value: isCustomNotes ? 'Your pasted notes' : 'Your own topic' },
+    { label: 'Subject', value: scope?.subject ?? '' },
+    { label: 'Topic', value: scope?.topic ?? formData.subject },
+    { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
+    { label: 'Covering', value: formData.topics.join(', ') },
+    { label: 'Questions', value: String(formData.count) },
+    { label: 'Max attempts', value: isTeacher ? String(formData.maxAttempts) : '' },
+    { label: 'Style', value: formData.style },
+    { label: 'Type', value: selectedQuestionType?.label ?? '' },
+  ] : isUniStudent ? [
     { label: 'Course', value: formData.subject },
     { label: 'Year', value: formData.grade ? getUniversityYearLabel(formData.subject, Number(formData.grade)) : '' },
     { label: 'Difficulty', value: selectedDifficulty ? `${selectedDifficulty.label} (${selectedDifficulty.grade})` : '' },
@@ -771,10 +985,14 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             <aside className="hidden border-r border-gray-100 bg-[color:var(--ss-canvas)]/80 px-4 py-6 dark:border-gray-800 md:flex md:w-52 md:flex-col">
               <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate">Steps</p>
               <ol className="space-y-1">
-                {WIZARD_STEPS.filter((ws) => !(isUniStudent && ws.num === 4)).map((ws) => {
-                  const label = isUniStudent
-                    ? (ws.num === 1 ? 'Course' : ws.num === 2 ? 'Year' : ws.label)
-                    : ws.label
+                {/* Same reduced set as the progress bar, so the rail can't
+                    jump into a step this mode skips. */}
+                {WIZARD_STEPS.filter((ws) => visibleStepNums.includes(ws.num)).map((ws) => {
+                  const label = isCustom
+                    ? (ws.num === 1 ? 'Topic' : ws.num === 2 ? 'Scope' : ws.label)
+                    : isUniStudent
+                      ? (ws.num === 1 ? 'Course' : ws.num === 2 ? 'Year' : ws.label)
+                      : ws.label
                   const done = step > ws.num
                   const active = step === ws.num
                   const reachable = ws.num <= maxStepReached
@@ -824,7 +1042,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                 <p className="mt-0.5 text-xs text-gray-400">
                   {isTeacher && !flowMode
                     ? 'Choose how to create'
-                    : `Step ${Math.min(step, TOTAL_STEPS)} of ${TOTAL_STEPS}`}
+                    : `Step ${stepPosition} of ${visibleStepNums.length}`}
                 </p>
               </div>
               <button
@@ -838,7 +1056,7 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             {/* Progress bar */}
             {flowMode === 'ai' && (
               <div className="flex flex-shrink-0 gap-1 px-5 py-3 sm:px-6">
-                {Array.from({ length: TOTAL_STEPS }, (_, i) => i + 1).map(s => (
+                {visibleStepNums.map(s => (
                   <div
                     key={s}
                     className={`h-1 flex-1 rounded-full transition-all duration-400 ${s <= step ? 'bg-ss-accent' : 'bg-gray-100 dark:bg-gray-800'}`}
@@ -883,8 +1101,45 @@ export default function FlowForm({ onClose }: FlowFormProps) {
               </motion.div>
             )}
 
+            {/* Step 1 (custom): Topic or pasted notes */}
+            {flowMode === 'ai' && step === 1 && isCustom && (
+              <div>
+                <button
+                  type="button"
+                  onClick={leaveCustomMode}
+                  className="mb-4 inline-flex items-center gap-1.5 text-[12px] font-bold text-gray-500 transition-colors hover:text-ss-accent dark:text-gray-400"
+                >
+                  <ArrowLeft className="h-3.5 w-3.5" />
+                  Use my curriculum instead
+                </button>
+                <CustomTopicStep
+                  source={customSource}
+                  onSourceChange={setCustomSource}
+                  topic={customTopic}
+                  onTopicChange={setCustomTopic}
+                  notes={customNotes}
+                  onNotesChange={setCustomNotes}
+                  recents={recentTopics}
+                  onSubmit={goForward}
+                />
+              </div>
+            )}
+
+            {/* Step 2 (custom): Scope */}
+            {flowMode === 'ai' && step === 2 && isCustom && (
+              <CustomScopeStep
+                loading={scopeLoading}
+                scope={scope}
+                degraded={scopeDegraded}
+                selected={selectedAreas}
+                onToggle={toggleArea}
+                onSetAll={setSelectedAreas}
+                onAddCustom={addCustomArea}
+              />
+            )}
+
             {/* Step 1: Curriculum */}
-            {flowMode === 'ai' && step === 1 && (
+            {flowMode === 'ai' && step === 1 && !isCustom && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label={isUniStudent ? 'Course' : 'Curriculum'} />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
@@ -929,6 +1184,29 @@ export default function FlowForm({ onClose }: FlowFormProps) {
                       </OptionButton>
                     ))
                   )}
+                </div>
+
+                {/* Escape hatch from the curriculum entirely. */}
+                <div className="mt-4 border-t border-gray-100 pt-4 dark:border-gray-800">
+                  <motion.button
+                    type="button"
+                    whileTap={{ scale: 0.99 }}
+                    onClick={enterCustomMode}
+                    className="group flex w-full items-center gap-3 rounded-xl border border-dashed border-gray-300 px-4 py-3 text-left transition-colors hover:border-ss-accent hover:bg-ss-accent-soft dark:border-gray-700"
+                  >
+                    <span className="grid h-9 w-9 flex-shrink-0 place-items-center rounded-lg bg-ss-accent-soft text-ss-accent">
+                      <Sparkles className="h-4.5 w-4.5" />
+                    </span>
+                    <span className="min-w-0 flex-1">
+                      <span className="block text-sm font-semibold text-gray-900 dark:text-white">
+                        Quiz me on anything
+                      </span>
+                      <span className="block text-[11px] text-gray-400">
+                        Type any topic, or paste your own notes — no curriculum needed.
+                      </span>
+                    </span>
+                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-0.5" />
+                  </motion.button>
                 </div>
               </motion.div>
             )}
@@ -976,7 +1254,11 @@ export default function FlowForm({ onClose }: FlowFormProps) {
             )}
 
             {/* Step 3: Difficulty Level */}
-            {flowMode === 'ai' && step === 3 && formData.class_name && (
+            {/* `class_name` gates this step in the guided flow so difficulty is
+                never picked before a class exists to interpret it. A custom
+                quiz has no class, so it gates on being in that mode instead —
+                without this the step renders blank and the wizard dead-ends. */}
+            {flowMode === 'ai' && step === 3 && (formData.class_name || isCustom) && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Difficulty level" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>

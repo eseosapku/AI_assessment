@@ -1,0 +1,193 @@
+'use client'
+
+import { motion } from 'framer-motion'
+import { Sparkles, History, Shuffle, Type, ClipboardPaste } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import {
+  TOPIC_MAX_LENGTH,
+  NOTES_MAX_LENGTH,
+  NOTES_MIN_LENGTH,
+  isUsableNotes,
+  normalizeNotes,
+} from '@/lib/quiz-topic'
+
+export type CustomSource = 'topic' | 'notes'
+
+/**
+ * Starters shown on an empty input. They exist to answer "what can I even put
+ * here?" — so they deliberately span far outside the school curriculum, which
+ * is the whole point of the mode.
+ */
+const STARTERS = [
+  'The French Revolution',
+  'How vaccines work',
+  'Chess openings',
+  'Nigerian pidgin grammar',
+  'Photosynthesis',
+  'The Rwandan genocide',
+  'Basic music theory',
+  'How compound interest works',
+  'Plate tectonics',
+  'The rules of football',
+  'Machine learning basics',
+  'Shakespeare’s Macbeth',
+]
+
+export function CustomTopicStep({
+  source,
+  onSourceChange,
+  topic,
+  onTopicChange,
+  notes,
+  onNotesChange,
+  recents,
+  onSubmit,
+}: {
+  source: CustomSource
+  onSourceChange: (s: CustomSource) => void
+  topic: string
+  onTopicChange: (t: string) => void
+  notes: string
+  onNotesChange: (n: string) => void
+  recents: string[]
+  /** Enter in the topic field advances the wizard, as in any single-field form. */
+  onSubmit: () => void
+}) {
+  // Picked once on mount so the suggestions don't reshuffle under the cursor on
+  // every keystroke, and chosen client-side to avoid a hydration mismatch.
+  const [starters, setStarters] = useState<string[]>([])
+  useEffect(() => {
+    setStarters([...STARTERS].sort(() => Math.random() - 0.5).slice(0, 4))
+  }, [])
+
+  const shuffle = () => {
+    const pick = STARTERS[Math.floor(Math.random() * STARTERS.length)]
+    onTopicChange(pick)
+  }
+
+  const notesLength = normalizeNotes(notes).length
+
+  return (
+    <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+      <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">Your topic</p>
+      <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
+        What do you want to be quizzed on?
+      </h3>
+
+      {/* Source switch */}
+      <div
+        role="tablist"
+        aria-label="Quiz source"
+        className="mb-4 inline-flex rounded-xl border border-gray-200 bg-gray-50 p-1 dark:border-gray-800 dark:bg-gray-900"
+      >
+        {([
+          { id: 'topic' as const, label: 'Type a topic', Icon: Type },
+          { id: 'notes' as const, label: 'Paste notes', Icon: ClipboardPaste },
+        ]).map(({ id, label, Icon }) => (
+          <button
+            key={id}
+            type="button"
+            role="tab"
+            aria-selected={source === id}
+            onClick={() => onSourceChange(id)}
+            className={`flex items-center gap-1.5 rounded-lg px-3 py-1.5 text-[12.5px] font-semibold transition-colors ${
+              source === id
+                ? 'bg-white text-gray-900 shadow-sm dark:bg-gray-800 dark:text-white'
+                : 'text-gray-500 hover:text-gray-800 dark:text-gray-400 dark:hover:text-gray-200'
+            }`}
+          >
+            <Icon className="h-3.5 w-3.5" />
+            {label}
+          </button>
+        ))}
+      </div>
+
+      {source === 'topic' ? (
+        <div>
+          <div className="relative">
+            <Sparkles className="pointer-events-none absolute left-4 top-1/2 h-4.5 w-4.5 -translate-y-1/2 text-ss-accent" />
+            <input
+              type="text"
+              value={topic}
+              onChange={(e) => onTopicChange(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') {
+                  e.preventDefault()
+                  onSubmit()
+                }
+              }}
+              maxLength={TOPIC_MAX_LENGTH}
+              autoFocus
+              placeholder="Anything — a school topic, a hobby, something you read…"
+              aria-label="Topic to be quizzed on"
+              className="w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-sm font-medium text-gray-900 outline-none transition-colors placeholder:font-normal placeholder:text-gray-400 focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500"
+            />
+          </div>
+
+          {recents.length > 0 && (
+            <div className="mt-3">
+              <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-gray-400">
+                <History className="h-3 w-3" /> Recent
+              </p>
+              <div className="flex flex-wrap gap-1.5">
+                {recents.map((r) => (
+                  <button
+                    key={r}
+                    type="button"
+                    onClick={() => onTopicChange(r)}
+                    className="rounded-full border border-gray-200 bg-white px-3 py-1.5 text-[12px] font-semibold text-gray-700 transition-colors hover:border-ss-accent hover:text-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-gray-300"
+                  >
+                    {r}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {!topic.trim() && starters.length > 0 && (
+            <div className="mt-3">
+              <p className="mb-1.5 text-[11px] font-bold uppercase tracking-widest text-gray-400">Try</p>
+              <div className="flex flex-wrap gap-1.5">
+                {starters.map((s) => (
+                  <button
+                    key={s}
+                    type="button"
+                    onClick={() => onTopicChange(s)}
+                    className="rounded-full border border-dashed border-gray-300 px-3 py-1.5 text-[12px] font-medium text-gray-500 transition-colors hover:border-ss-accent hover:text-ss-accent dark:border-gray-700 dark:text-gray-400"
+                  >
+                    {s}
+                  </button>
+                ))}
+                <button
+                  type="button"
+                  onClick={shuffle}
+                  className="flex items-center gap-1 rounded-full border border-dashed border-gray-300 px-3 py-1.5 text-[12px] font-medium text-gray-500 transition-colors hover:border-ss-accent hover:text-ss-accent dark:border-gray-700 dark:text-gray-400"
+                >
+                  <Shuffle className="h-3 w-3" /> Surprise me
+                </button>
+              </div>
+            </div>
+          )}
+        </div>
+      ) : (
+        <div>
+          <textarea
+            value={notes}
+            onChange={(e) => onNotesChange(e.target.value)}
+            maxLength={NOTES_MAX_LENGTH}
+            autoFocus
+            rows={9}
+            placeholder="Paste your notes, a summary, an article or a syllabus. Every question will come from this text."
+            aria-label="Notes to be quizzed on"
+            className="w-full resize-y rounded-xl border border-gray-200 bg-white p-4 text-[13px] leading-relaxed text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500"
+          />
+          <p className="mt-1.5 text-[11.5px] font-medium text-gray-400">
+            {isUsableNotes(notes)
+              ? `${notesLength.toLocaleString()} characters — ready.`
+              : `${notesLength.toLocaleString()} / ${NOTES_MIN_LENGTH} characters minimum.`}
+          </p>
+        </div>
+      )}
+    </motion.div>
+  )
+}

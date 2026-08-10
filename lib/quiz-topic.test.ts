@@ -11,6 +11,8 @@ import {
   MAX_FOCUS_AREAS,
   FOCUS_AREA_MAX_LENGTH,
   NOTES_MIN_LENGTH,
+  pushRecentTopic,
+  MAX_RECENT_TOPICS,
 } from './quiz-topic'
 
 describe('normalizeTopic', () => {
@@ -150,6 +152,27 @@ describe('buildTopicsPayload', () => {
   it('caps the payload', () => {
     const many = Array.from({ length: 20 }, (_, i) => `Area ${i}`)
     expect(buildTopicsPayload(scope, many)).toHaveLength(MAX_FOCUS_AREAS)
+  })
+})
+
+describe('pushRecentTopic', () => {
+  it('puts the newest topic first', () => {
+    expect(pushRecentTopic(['Vectors'], 'Osmosis')).toEqual(['Osmosis', 'Vectors'])
+  })
+
+  it('dedupes case-insensitively, keeping the newly typed casing', () => {
+    expect(pushRecentTopic(['photosynthesis', 'Vectors'], 'Photosynthesis'))
+      .toEqual(['Photosynthesis', 'Vectors'])
+  })
+
+  it('caps the list', () => {
+    const many = Array.from({ length: 20 }, (_, i) => `Topic ${i}`)
+    expect(pushRecentTopic(many, 'New').length).toBe(MAX_RECENT_TOPICS)
+  })
+
+  it('ignores unusable topics but still trims the existing list', () => {
+    expect(pushRecentTopic(['Vectors'], '   ')).toEqual(['Vectors'])
+    expect(pushRecentTopic(['Vectors'], '...')).toEqual(['Vectors'])
   })
 })
 

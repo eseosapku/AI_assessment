@@ -270,15 +270,82 @@ export async function buildVisualFigureCatalog(opts: {
 }
 
 /**
- * Minimum match score for a library-wide lookup.
+ * How many of the most relevant matches stay in play before variety selection.
  *
- * Higher than the textbook-scoped default (0.35) because nothing else
- * constrains the candidates: a textbook lookup has already narrowed to one
- * book on the student's syllabus, so a loose match is still topically close.
- * Searching all ~100 books, a loose match is just a coincidence, and a
- * confidently-wrong diagram is worse for the student than no diagram at all.
+ * Wide enough that two quizzes on the same topic don't show an identical set of
+ * figures, narrow enough that the pool is still genuinely about the topic.
  */
-const CROSS_LIBRARY_MIN_SCORE = 0.5
+const RELEVANCE_SHORTLIST = 60
+
+/**
+ * Words that describe the figure rather than its subject. Nearly every
+ * vision-written description contains several, so they match everything and
+ * mean nothing — counting them as topical overlap is what lets "Pawn structure"
+ * find a diagram of a chloroplast.
+ */
+const FIGURE_BOILERPLATE = new Set([
+  'diagram', 'diagrams', 'image', 'images', 'photograph', 'photo', 'picture',
+  'shows', 'show', 'showing', 'shown', 'illustrates', 'illustrating', 'illustration',
+  'depicts', 'depicting', 'figure', 'figures', 'labeled', 'labelled', 'labels', 'label',
+  'graph', 'chart', 'table', 'diagrammatic', 'key', 'this', 'that', 'these', 'with',
+  'from', 'which', 'their', 'there', 'includes', 'including', 'various', 'different',
+  'showing', 'above', 'below', 'left', 'right', 'each', 'used', 'also', 'such',
+])
+
+/**
+ * Distinctive words in a phrase: long enough to carry meaning, and not part of
+ * the boilerplate every description shares.
+ */
+function contentWords(text: string): Set<string> {
+  const out = new Set<string>()
+  for (const w of String(text || '').toLowerCase().replace(/[^\w\s]/g, ' ').split(/\s+/)) {
+    if (w.length > 3 && !FIGURE_BOILERPLATE.has(w)) out.add(w)
+  }
+  return out
+}
+
+/**
+ * Rank library-wide candidates by how many distinctive words they share with
+ * the topic vocabulary.
+ *
+ * `filterImagesByTopics` is deliberately not reused here. It normalises overlap
+ * by the shorter word set, so a two-word topic that matches a single word in a
+ * long description scores 1.0 — which is a sensible signal inside one on-topic
+ * textbook, and useless across a hundred books, where it matched a chess quiz
+ * to a Golgi apparatus and a football quiz to a logarithm graph. Requiring two
+ * distinct shared content words is what separates "about this" from "mentions a
+ * word from this", and topics with no coverage in the library correctly return
+ * nothing rather than something confidently wrong.
+ */
+const MIN_SHARED_WORDS = 2
+
+export function rankImagesForFreeTopics(
+  images: TextbookSourceImage[],
+  topics: string[],
+): TextbookSourceImage[] {
+  const vocab = contentWords(topics.join(' '))
+  if (vocab.size === 0) return []
+
+  const scored: { img: TextbookSourceImage; shared: number }[] = []
+  for (const img of images) {
+    const text = `${img.description || ''} ${img.keywords || ''}`
+    let shared = 0
+    for (const w of contentWords(text)) if (vocab.has(w)) shared++
+    if (shared >= MIN_SHARED_WORDS) scored.push({ img, shared })
+  }
+
+  // Ties on shared-word count are common, so break them on figure type before
+  // image quality: among equally on-topic candidates a labelled diagram teaches
+  // more than an incidental photograph, and quality alone would rank a
+  // well-shot picture of silver foil above a diagram of a chloroplast.
+  scored.sort(
+    (a, b) =>
+      b.shared - a.shared ||
+      diagramTypeBonus(b.img.visionType) - diagramTypeBonus(a.img.visionType) ||
+      (b.img.qualityScore || 0) - (a.img.qualityScore || 0),
+  )
+  return scored.map((s) => s.img)
+}
 
 /**
  * Find figures for a self-directed quiz, which has no textbook to scope to.
@@ -295,11 +362,18 @@ export async function buildVisualFigureCatalogForTopics(opts: {
   const topics = opts.topics.map((t) => t.trim()).filter(Boolean)
   if (!topics.length) return []
 
-  const filtered = filterImagesByTopics(getDescribedImages(), topics, CROSS_LIBRARY_MIN_SCORE)
-  if (!filtered.length) return []
+  const ranked = rankImagesForFreeTopics(getDescribedImages(), topics)
+  if (!ranked.length) return []
+
+  // `selectFiguresForAssessment` re-sorts by image quality, which is right for a
+  // textbook lookup where every candidate already comes from the student's own
+  // on-topic book — but across the whole library it would surface the
+  // best-looking figures rather than the ones about this topic. Cut to a
+  // relevance shortlist first so quality only breaks ties among relevant ones.
+  const shortlist = ranked.slice(0, RELEVANCE_SHORTLIST)
 
   const selected = selectFiguresForAssessment(
-    filtered,
+    shortlist,
     Math.min(MAX_VISION_FIGURES, maxQuestionsWithImages(opts.questionCount)),
   )
 

@@ -1387,9 +1387,19 @@ export async function POST(request: NextRequest) {
     const hasVisionFigures = visualCatalog.length > 0
     const hasDiagramSupport = (isExamPrepMode && Boolean(textbookSourceText)) || hasVisionFigures
     const maxImageQuestions = maxQuestionsWithImages(count)
-    const subjectDomain = classifySubjectDomain(promptSubject)
+    // Self-directed quizzes name themselves after the topic ("The French
+    // Revolution") so the student recognises them in their history — but that
+    // string classifies as no domain at all, and worse, an incidental word can
+    // classify as the wrong one ("English Premier League" reading as English
+    // literature and forcing a comprehension passage). The broad subject is
+    // sent separately for classification so display and behaviour can differ.
+    const domainHint = String(body?.subjectDomainHint ?? '').trim()
+    const subjectDomain = classifySubjectDomain(domainHint || promptSubject)
     const subjectPlan = assessSubjectPassagePlan({
-      subject: promptSubject,
+      // Same hint as above: the passage plan is a domain decision, so it must
+      // read the broad subject, not the display title. Specificity still
+      // reaches it through `topics`.
+      subject: domainHint || promptSubject,
       topics: promptTopics,
       count,
       hasSourceText,

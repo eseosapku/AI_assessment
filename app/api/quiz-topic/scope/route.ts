@@ -4,8 +4,11 @@ import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
 import {
   normalizeTopic,
   isUsableTopic,
+  normalizeNotes,
+  isUsableNotes,
   sanitizeScope,
   buildScopePrompt,
+  buildNotesScopePrompt,
   type QuizScope,
 } from '@/lib/quiz-topic'
 
@@ -33,8 +36,12 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}))
     topic = normalizeTopic(body?.topic)
+    const notes = normalizeNotes(body?.notes)
+    const fromNotes = isUsableNotes(notes)
 
-    if (!isUsableTopic(topic)) {
+    // Either input is accepted; pasted material is summarised from the text
+    // itself while a typed topic is expanded from general knowledge.
+    if (!fromNotes && !isUsableTopic(topic)) {
       return NextResponse.json(
         { error: 'Type what you want to be quizzed on.' },
         { status: 400 },
@@ -45,17 +52,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: BEDROCK_CREDENTIALS_ERROR }, { status: 500 })
     }
 
-    const raw = await callGemma(buildScopePrompt(topic), {
+    const raw = await callGemma(fromNotes ? buildNotesScopePrompt(notes) : buildScopePrompt(topic), {
       maxTokens: 500,
       temperature: 0.4,
       model: SCOPE_MODEL,
     })
 
-    return NextResponse.json({ scope: sanitizeScope(parseJsonRobust(raw), topic), degraded: false })
+    const fallbackTitle = topic || 'My notes'
+    return NextResponse.json({
+      scope: sanitizeScope(parseJsonRobust(raw), fallbackTitle),
+      degraded: false,
+    })
   } catch (error) {
     // Covers model errors, throttling and unparseable output alike: the student
     // keeps moving with their own phrase as the topic.
     console.error('Quiz topic scope failed:', error)
-    return NextResponse.json({ scope: fallbackScope(topic || 'My topic'), degraded: true })
+    return NextResponse.json({ scope: fallbackScope(topic || 'My notes'), degraded: true })
   }
 }

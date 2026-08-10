@@ -3,8 +3,10 @@ import {
   MAX_VISION_FIGURES,
   buildVisualCatalogPromptBlock,
   maxQuestionsWithImages,
+  rankImagesForFreeTopics,
   type VisualFigureCatalogEntry,
 } from './textbook-vision-images'
+import type { TextbookSourceImage } from './textbook-source-images'
 
 describe('MAX_VISION_FIGURES', () => {
   it('is raised to 12 so more distinct figures are available per assessment', () => {
@@ -79,5 +81,61 @@ describe('buildVisualCatalogPromptBlock', () => {
     const block = buildVisualCatalogPromptBlock(catalog, 5)
     expect(block).toMatch(/directly answerable/i)
     expect(block).toMatch(/refer to the diagram/i)
+  })
+})
+
+describe('rankImagesForFreeTopics', () => {
+  // Self-directed quizzes search the whole library, so precision matters far
+  // more than recall: a wrong diagram is worse than none.
+  const img = (over: Partial<TextbookSourceImage>): TextbookSourceImage => ({
+    key: 'k', textbookId: 1, curriculum: 0, curriculumSlug: 'reb', textbookName: 'Book',
+    page: 1, imageIndex: 0, kind: 'embedded', width: 400, height: 300, pageText: '',
+    localPath: '/x.png', source: 's', ...over,
+  })
+
+  it('matches a figure that shares two or more content words', () => {
+    const volcano = img({ key: 'v', description: 'Diagram of a volcano showing magma rising' })
+    const out = rankImagesForFreeTopics([volcano], ['Volcano formation', 'Magma composition'])
+    expect(out.map((i) => i.key)).toEqual(['v'])
+  })
+
+  it('rejects a figure sharing only one content word', () => {
+    // "Pawn structure" must not match a chloroplast just because both say
+    // "structure" — the single-word match is what made the old scoring useless
+    // across a hundred books.
+    const cell = img({ key: 'c', description: 'The structure of a chloroplast in a plant cell' })
+    expect(rankImagesForFreeTopics([cell], ['Pawn structure'])).toEqual([])
+  })
+
+  it('ignores words that describe the figure rather than its subject', () => {
+    // Every description says "diagram" and "shows"; counting them would match
+    // every figure in the library to every topic.
+    const generic = img({ key: 'g', description: 'This diagram shows labels' })
+    expect(rankImagesForFreeTopics([generic], ['Diagram shows'])).toEqual([])
+  })
+
+  it('returns nothing for a topic the library does not cover', () => {
+    const cell = img({ key: 'c', description: 'A cross-section of a mitochondrion with cristae' })
+    expect(rankImagesForFreeTopics([cell], ['Offside rule', 'Free kicks'])).toEqual([])
+  })
+
+  it('ranks figures sharing more words first', () => {
+    const weak = img({ key: 'weak', description: 'volcano magma' })
+    const strong = img({ key: 'strong', description: 'volcano magma eruption basalt' })
+    const out = rankImagesForFreeTopics([weak, strong], ['volcano magma eruption basalt'])
+    expect(out.map((i) => i.key)).toEqual(['strong', 'weak'])
+  })
+
+  it('prefers a diagram over a photo when both are equally on-topic', () => {
+    const photo = img({ key: 'photo', visionType: 'photo', qualityScore: 100, description: 'volcano magma' })
+    const diagram = img({ key: 'diagram', visionType: 'diagram', qualityScore: 1, description: 'volcano magma' })
+    const out = rankImagesForFreeTopics([photo, diagram], ['volcano magma'])
+    expect(out[0].key).toBe('diagram')
+  })
+
+  it('returns nothing when the topics carry no usable words', () => {
+    const any = img({ key: 'a', description: 'volcano magma eruption' })
+    expect(rankImagesForFreeTopics([any], [])).toEqual([])
+    expect(rankImagesForFreeTopics([any], ['a', 'of'])).toEqual([])
   })
 })
