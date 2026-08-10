@@ -7,6 +7,7 @@ import { apiUrl } from '@/lib/api-url'
 import type { CountryCode } from '@/lib/countries'
 import { normalizeCountry } from '@/lib/countries'
 import { resolvePostAuthPath } from '@/lib/onboarding'
+import { hydrateAvatar } from '@/lib/studio/avatar'
 
 interface User {
   id: string
@@ -20,6 +21,8 @@ interface User {
   educationLevel?: 'school' | 'university'
   universityCourse?: string | null
   universityYear?: number | null
+  /** Server-stored profile photo. Undefined until the avatar migration runs. */
+  avatarUrl?: string | null
 }
 
 interface AuthContextType {
@@ -71,6 +74,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       const parsed = JSON.parse(storedUser)
       parsed.country = normalizeCountry(parsed.country)
       setUser(parsed)
+      // Restoring a session on a device that has never shown this account's
+      // photo: pull it down (and push a pre-server local photo up).
+      void hydrateAvatar(parsed.id, parsed.avatarUrl)
     }
     setIsLoading(false)
   }, [])
@@ -85,6 +91,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const userData = await response.json()
     setUser(userData.user)
     localStorage.setItem('user', JSON.stringify(userData.user))
+    void hydrateAvatar(userData.user.id, userData.user.avatarUrl)
     const path = await resolvePostAuthPath(userData.user)
     router.push(path)
   }

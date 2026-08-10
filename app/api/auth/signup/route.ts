@@ -104,6 +104,9 @@ export async function POST(request: NextRequest) {
       educationLevel: newUser.education_level ?? 'school',
       universityCourse: newUser.university_course ?? null,
       universityYear: newUser.university_year ?? null,
+      // Present only once migrations/add-user-avatar.sql has run;
+      // undefined until then, which the client treats as "no photo".
+      avatarUrl: newUser.avatar_url ?? null,
     }
 
     return NextResponse.json({ success: true, user, message: 'Account created successfully' })

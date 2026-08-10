@@ -5,7 +5,7 @@ import { useEffect, useRef, useState } from 'react'
 import { BookOpen, Camera, CheckCircle2, ClipboardList, Eye, EyeOff, FlaskConical, Lock, Save, ShieldCheck, Target, Trash2, User } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 import Avatar from './studio/Avatar'
-import { clearAvatar, fileToAvatarDataUrl, getAvatar, setAvatar } from '@/lib/studio/avatar'
+import { DEFAULT_AVATAR, fileToAvatarDataUrl, getAvatar, removeAvatar, saveAvatar } from '@/lib/studio/avatar'
 import { getFocus, setFocus, type FocusId } from '@/lib/onboarding'
 
 const FOCI: { id: FocusId; label: string; icon: typeof Target }[] = [
@@ -42,6 +42,7 @@ export default function SettingsForm() {
 
     const fileInputRef = useRef<HTMLInputElement>(null)
     const [photoError, setPhotoError] = useState('')
+    const [savingPhoto, setSavingPhoto] = useState(false)
     const [hasCustomPhoto, setHasCustomPhoto] = useState(false)
     const [focus, setFocusVal] = useState<FocusId | null>(null)
 
@@ -63,7 +64,7 @@ export default function SettingsForm() {
         setUniCourse(user.universityCourse ?? '')
         setUniYear(user.universityYear ?? 0)
         setSubjectsText(Array.isArray(user.subjects) ? user.subjects.join(', ') : '')
-        setHasCustomPhoto(getAvatar(user.id) !== '/art/avatar-default.png')
+        setHasCustomPhoto(getAvatar(user.id) !== DEFAULT_AVATAR)
         setFocusVal(getFocus(user.id))
     }, [user])
 
@@ -82,20 +83,34 @@ export default function SettingsForm() {
             setPhotoError('Image is too large — please pick one under 8MB.')
             return
         }
+        setSavingPhoto(true)
         try {
             const dataUrl = await fileToAvatarDataUrl(file)
-            setAvatar(user.id, dataUrl)
+            // Saves to the user record, so the photo follows the account to any
+            // device rather than living only in this browser.
+            await saveAvatar(user.id, dataUrl)
             setHasCustomPhoto(true)
         } catch (error: any) {
             setPhotoError(error.message || 'Could not process that image.')
+            setHasCustomPhoto(getAvatar(user.id) !== DEFAULT_AVATAR)
+        } finally {
+            setSavingPhoto(false)
         }
     }
 
-    const handlePhotoRemove = () => {
+    const handlePhotoRemove = async () => {
         if (!user) return
-        clearAvatar(user.id)
-        setHasCustomPhoto(false)
         setPhotoError('')
+        setSavingPhoto(true)
+        try {
+            await removeAvatar(user.id)
+            setHasCustomPhoto(false)
+        } catch (error: any) {
+            setPhotoError(error.message || 'Could not remove that photo.')
+            setHasCustomPhoto(getAvatar(user.id) !== DEFAULT_AVATAR)
+        } finally {
+            setSavingPhoto(false)
+        }
     }
 
     const handleProfileSubmit = async (event: React.FormEvent) => {
@@ -196,22 +211,29 @@ export default function SettingsForm() {
                             <button
                                 type="button"
                                 onClick={() => fileInputRef.current?.click()}
-                                className="inline-flex items-center gap-2 rounded-full bg-ss-accent px-4 py-2 text-sm font-bold text-white transition-all hover:brightness-95"
+                                disabled={savingPhoto}
+                                className="inline-flex items-center gap-2 rounded-full bg-ss-accent px-4 py-2 text-sm font-bold text-white transition-all hover:brightness-95 disabled:cursor-not-allowed disabled:opacity-60"
                             >
                                 <Camera className="w-4 h-4" />
-                                {hasCustomPhoto ? 'Change photo' : 'Upload photo'}
+                                {/* The photo now travels to the server, so the
+                                    button has to admit it is doing work. */}
+                                {savingPhoto ? 'Saving…' : hasCustomPhoto ? 'Change photo' : 'Upload photo'}
                             </button>
                             {hasCustomPhoto && (
                                 <button
                                     type="button"
                                     onClick={handlePhotoRemove}
-                                    className="inline-flex items-center gap-2 rounded-full bg-ss-chip px-4 py-2 text-sm font-bold text-ss-slate transition-colors hover:text-ss-ink"
+                                    disabled={savingPhoto}
+                                    className="inline-flex items-center gap-2 rounded-full bg-ss-chip px-4 py-2 text-sm font-bold text-ss-slate transition-colors hover:text-ss-ink disabled:cursor-not-allowed disabled:opacity-60"
                                 >
                                     <Trash2 className="w-4 h-4" />
                                     Remove
                                 </button>
                             )}
                         </div>
+                        <p className="mt-2 text-xs font-semibold text-ss-slate">
+                            Saved to your account — it follows you to any device you sign in on.
+                        </p>
                         {photoError && (
                             <p className="mt-2 text-xs font-semibold text-ss-bad">{photoError}</p>
                         )}
