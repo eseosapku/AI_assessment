@@ -415,18 +415,52 @@ FIGURE RULES:
 `
 }
 
+/**
+ * Does this figure have anything at all to do with this question?
+ *
+ * The model chooses each question's figure from the catalogue, and it
+ * occasionally picks one with no connection — a photo of base-ten blocks
+ * attached to "Which shape has four right angles?". A wrong figure is worse
+ * than none: the student reads it as part of the question and tries to answer
+ * from it.
+ *
+ * The bar is deliberately low — one shared content word — because it only needs
+ * to catch pairings with literally nothing in common. Question text alone is
+ * too thin (figure-dependent questions often just say "in the diagram above"),
+ * so options and explanation are included, which is where the subject matter
+ * is actually named.
+ */
+export function figureMatchesQuestion(
+  question: { question?: unknown; options?: unknown; explanation?: unknown },
+  figure: { description?: string },
+): boolean {
+  const figureWords = contentWords(figure.description || '')
+  if (figureWords.size === 0) return true // nothing to judge against; leave it alone
+
+  const questionText = [
+    String(question.question ?? ''),
+    Array.isArray(question.options) ? question.options.join(' ') : '',
+    String(question.explanation ?? ''),
+  ].join(' ')
+
+  for (const w of contentWords(questionText)) if (figureWords.has(w)) return true
+  return false
+}
+
 export function attachImagesFromCatalog(
-  questions: Array<{ image_key?: string; image_url?: string }>,
+  questions: Array<{ image_key?: string; image_url?: string; question?: unknown; options?: unknown; explanation?: unknown }>,
   catalog: VisualFigureCatalogEntry[],
 ): number {
-  const byKey = new Map(catalog.map((c) => [c.key, c.localPath]))
+  const byKey = new Map(catalog.map((c) => [c.key, c]))
   let n = 0
   for (const q of questions) {
     const key = String(q.image_key || '').trim()
     if (!key) continue
-    const url = byKey.get(key)
-    if (url) {
-      q.image_url = url
+    const entry = byKey.get(key)
+    // Drop a figure the model attached to an unrelated question rather than
+    // showing it — the question still works without one.
+    if (entry && figureMatchesQuestion(q, entry)) {
+      q.image_url = entry.localPath
       n++
     }
     delete q.image_key

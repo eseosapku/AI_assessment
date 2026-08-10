@@ -13,6 +13,7 @@ import { examPrepContext } from '@/lib/nigeria-exam-syllabi'
 import { getCachedExamPaperById, isCachePaperId } from '@/lib/exam-source-cache'
 import { attachSourceImages, examFromCurriculum } from '@/lib/exam-source-images'
 import { groupQuestionsByFigure } from '@/lib/assessment-figure-groups'
+import { cleanQuestionPaper } from '@/lib/assessment-quality'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -879,6 +880,9 @@ ${questionType !== 'interactive' ? `**MCQ ANSWER INTEGRITY — NON-NEGOTIABLE:**
 - CRITICAL: The "question" field must contain ONLY the question text itself. Do NOT include the answer choices "(A) ..., (B) ..., (C) ..., (D) ..." inside the question field. The options go in the "options" array only.
 - For sequence/order questions (e.g. "what comes after X"): make the question unambiguous and ensure the answer IS in the options.
 - The explanation MUST describe the same answer as correct_answer. They must ALWAYS agree.
+- SHARED-PROPERTY TRAP: before writing a "which shape/number/thing has X?" question, check X against EVERY option. If two options both genuinely have X (e.g. "which shape has four right angles?" — a square AND a rectangle do), the question is broken. Either narrow the property until exactly one option qualifies, or change the distractors. NEVER rescue it in the explanation by adding a condition the question never stated.
+- EXPLANATION VOICE: write the explanation TO the student, explaining why the right answer is right and why each distractor is wrong. NEVER open by describing what the question tests or assesses — phrases like "This question tests the student's understanding of..." are written for a marker, not a learner, and tell the student nothing.
+- NO REPEATED QUESTIONS: every question must ask something genuinely different. Two questions that expect the same answer and differ only in wording (e.g. "which shape has one curved side?" and "which shape has a curved edge?") count as one question and waste the paper. Re-read your set before returning it.
 - BANNED QUESTION FORMAT — "which GROUP of numbers can be divided by N / is divisible by N / are multiples of N": This format ALWAYS produces multiple correct answers. You MUST NEVER use it. Instead, ask about a SINGLE number with options where only ONE matches the property.
 ` : ''}
 
@@ -1975,6 +1979,18 @@ export async function POST(request: NextRequest) {
 
     if (!Array.isArray(assessmentData.questions)) {
       return NextResponse.json({ error: 'AI returned invalid question data. Please try again.' }, { status: 500 })
+    }
+
+    // Faults only visible once the whole paper exists, so prompting alone can't
+    // catch them: the same question asked twice in different words, and
+    // explanations addressed to a marker rather than the student. Runs before
+    // figures are attached and ids renumbered, so a dropped duplicate doesn't
+    // leave a gap in the numbering or strand an image.
+    {
+      const before = assessmentData.questions.length
+      assessmentData.questions = cleanQuestionPaper(assessmentData.questions)
+      const dropped = before - assessmentData.questions.length
+      if (dropped > 0) console.log(`Question clean-up: dropped ${dropped} duplicate question(s)`)
     }
 
     // Attach real figures — exam papers (Aloc) or school textbooks (PDF extract)

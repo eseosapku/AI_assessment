@@ -4,6 +4,7 @@ import {
   buildVisualCatalogPromptBlock,
   maxQuestionsWithImages,
   rankImagesForFreeTopics,
+  figureMatchesQuestion,
   type VisualFigureCatalogEntry,
 } from './textbook-vision-images'
 import type { TextbookSourceImage } from './textbook-source-images'
@@ -137,5 +138,48 @@ describe('rankImagesForFreeTopics', () => {
     const any = img({ key: 'a', description: 'volcano magma eruption' })
     expect(rankImagesForFreeTopics([any], [])).toEqual([])
     expect(rankImagesForFreeTopics([any], ['a', 'of'])).toEqual([])
+  })
+})
+
+describe('figureMatchesQuestion', () => {
+  // The model picks each question's figure, and occasionally picks one with
+  // nothing to do with the question — a wrong figure is worse than none,
+  // because the student tries to answer from it.
+  const blocks = { description: 'Base-ten blocks showing cubes, flats, rods and units for place value.' }
+
+  it('rejects a figure with nothing in common with the question', () => {
+    expect(
+      figureMatchesQuestion(
+        { question: 'Which shape has four right angles?', options: ['Square', 'Rectangle', 'Triangle', 'Circle'] },
+        blocks,
+      ),
+    ).toBe(false)
+  })
+
+  it('accepts a figure that shares subject matter', () => {
+    expect(
+      figureMatchesQuestion(
+        { question: 'How many units are shown?', options: ['10', '20'], explanation: 'Count the rods and units.' },
+        blocks,
+      ),
+    ).toBe(true)
+  })
+
+  it('reads options and explanation, not just the question', () => {
+    // Figure-dependent questions often only say "in the diagram above".
+    expect(
+      figureMatchesQuestion(
+        { question: 'What does the diagram show?', options: ['Place value blocks', 'A map'] },
+        blocks,
+      ),
+    ).toBe(true)
+  })
+
+  it('keeps the figure when there is no description to judge against', () => {
+    expect(figureMatchesQuestion({ question: 'Anything' }, { description: '' })).toBe(true)
+  })
+
+  it('survives malformed question fields', () => {
+    expect(figureMatchesQuestion({ question: null, options: 'not an array' }, blocks)).toBe(false)
   })
 })
