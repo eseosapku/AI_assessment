@@ -60,86 +60,137 @@ function MatchPairs({
     onChange({ kind: 'match', pairs: next })
   }
 
+  // Letters for the right column so a made pair can be read at a glance:
+  // the term shows the letter it points at, the definition shows the number
+  // pointing back. Without that, a matched pair was only discoverable by
+  // reading a truncated line of small text under the term.
+  const letter = (j: number) => String.fromCharCode(65 + j)
+
+  const matchedCount = Object.keys(pairs).length
+  const total = question.left_items.length
+  const activeTerm = selectedLeft !== null ? question.left_items[selectedLeft] : null
+
   return (
-    <div className="grid sm:grid-cols-2 gap-4">
-      <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Terms</p>
-        {question.left_items.map((item, i) => {
-          const pairedRight = pairs[i]
-          const isSelected = selectedLeft === i
-          return (
-            <div
-              key={i}
-              className={`flex items-stretch rounded-xl border-2 text-sm transition-all overflow-hidden ${
-                isSelected
-                  ? 'border-blue-500 bg-blue-50 dark:bg-blue-900/20'
-                  : pairedRight !== undefined
-                    ? 'border-green-300 bg-green-50/80 dark:border-green-700 dark:bg-green-900/10'
-                    : 'border-gray-200 dark:border-gray-700'
-              }`}
-            >
+    <div>
+      {/* Standing instruction + progress. The two-step nature of this
+          interaction was previously only hinted at, and only after the first
+          tap — so a student who tapped a definition first got no response and
+          no explanation. */}
+      <div className="mb-3 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-ss-line bg-ss-chip px-3.5 py-2.5">
+        <p className="text-[12.5px] font-semibold text-ss-ink">
+          {disabled
+            ? 'Matches'
+            : activeTerm
+              ? <>Now pick the match for <span className="text-ss-accent">“{activeTerm}”</span></>
+              : 'Tap a term, then tap its match'}
+        </p>
+        <span className="shrink-0 rounded-full bg-ss-panel px-2.5 py-1 text-[11.5px] font-extrabold text-ss-slate">
+          {matchedCount} of {total} matched
+        </span>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-2">
+        <div className="space-y-2">
+          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-gray-400">Terms</p>
+          {question.left_items.map((item, i) => {
+            const pairedRight = pairs[i]
+            const isPaired = pairedRight !== undefined
+            const isSelected = selectedLeft === i
+            return (
               <div
-                role="button"
-                tabIndex={disabled ? -1 : 0}
-                onClick={() => handleLeft(i)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault()
-                    handleLeft(i)
-                  }
-                }}
-                className={`flex-1 text-left p-3 min-w-0 ${disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer hover:bg-blue-50/50 dark:hover:bg-blue-900/10'}`}
+                key={i}
+                className={`flex items-stretch overflow-hidden rounded-xl border-2 text-sm transition-all ${
+                  isSelected
+                    ? 'border-ss-accent bg-[color:var(--ss-accent)]/8 ring-2 ring-[color:var(--ss-accent)]/25'
+                    : isPaired
+                      ? 'border-emerald-400 bg-emerald-50/70 dark:border-emerald-700 dark:bg-emerald-900/10'
+                      : 'border-gray-200 dark:border-gray-700'
+                }`}
               >
-                <LatexText>{item}</LatexText>
-                {pairedRight !== undefined && (
-                  <p className="text-xs text-green-600 dark:text-green-400 mt-1 truncate">
-                    → {question.right_items[pairedRight]}
-                  </p>
+                <div
+                  role="button"
+                  aria-pressed={isSelected}
+                  tabIndex={disabled ? -1 : 0}
+                  onClick={() => handleLeft(i)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault()
+                      handleLeft(i)
+                    }
+                  }}
+                  className={`flex min-w-0 flex-1 items-center gap-2.5 p-3 text-left ${
+                    disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
+                  }`}
+                >
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-ss-chip text-[11px] font-extrabold text-ss-slate">
+                    {i + 1}
+                  </span>
+                  <span className="min-w-0 flex-1">
+                    <LatexText>{item}</LatexText>
+                  </span>
+                  {isPaired && (
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-500 text-[11px] font-extrabold text-white">
+                      {letter(pairedRight)}
+                    </span>
+                  )}
+                </div>
+                {isPaired && !disabled && (
+                  <button
+                    type="button"
+                    onClick={() => clearPair(i)}
+                    aria-label={`Clear match for ${item}`}
+                    className="shrink-0 border-l border-emerald-200 px-3 text-gray-400 hover:bg-red-50 hover:text-red-500 dark:border-emerald-800 dark:hover:bg-red-900/20"
+                  >
+                    ✕
+                  </button>
                 )}
               </div>
-              {pairedRight !== undefined && (
-                <button
-                  type="button"
-                  disabled={disabled}
-                  onClick={() => clearPair(i)}
-                  aria-label="Clear match"
-                  className="px-3 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 border-l border-gray-200 dark:border-gray-700 shrink-0"
+            )
+          })}
+        </div>
+
+        <div className="space-y-2">
+          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-gray-400">Matches</p>
+          {question.right_items.map((item, j) => {
+            const isUsed = usedRights.has(j)
+            // The number of the term this definition is currently claimed by,
+            // so the link is visible from both columns.
+            const ownerIdx = Object.entries(pairs).find(([, r]) => r === j)?.[0]
+            const awaiting = selectedLeft !== null
+            return (
+              <button
+                key={j}
+                type="button"
+                disabled={disabled || (isUsed && selectedLeft === null)}
+                onClick={() => handleRight(j)}
+                className={`flex w-full items-center gap-2.5 rounded-xl border-2 p-3 text-left text-sm transition-all ${
+                  isUsed
+                    ? 'border-emerald-300 bg-emerald-50/60 dark:border-emerald-800 dark:bg-emerald-900/10'
+                    : awaiting
+                      ? 'border-[color:var(--ss-accent)]/40 hover:border-ss-accent hover:bg-[color:var(--ss-accent)]/8'
+                      : 'border-gray-200 dark:border-gray-700'
+                } ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
+              >
+                <span
+                  className={`grid h-6 w-6 shrink-0 place-items-center rounded-lg text-[11px] font-extrabold ${
+                    isUsed ? 'bg-emerald-500 text-white' : 'bg-ss-chip text-ss-slate'
+                  }`}
                 >
-                  ✕
-                </button>
-              )}
-            </div>
-          )
-        })}
+                  {letter(j)}
+                </span>
+                <span className="min-w-0 flex-1">
+                  <LatexText>{item}</LatexText>
+                </span>
+                {ownerIdx !== undefined && (
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-100 text-[11px] font-extrabold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                    {Number(ownerIdx) + 1}
+                  </span>
+                )}
+              </button>
+            )
+          })}
+        </div>
       </div>
-      <div className="space-y-2">
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Definitions</p>
-        {question.right_items.map((item, j) => {
-          const isUsed = usedRights.has(j)
-          return (
-            <button
-              key={j}
-              type="button"
-              disabled={disabled || (isUsed && selectedLeft === null)}
-              onClick={() => handleRight(j)}
-              className={`w-full text-left p-3 rounded-xl border-2 text-sm transition-all ${
-                isUsed
-                  ? 'border-gray-100 bg-gray-50 text-gray-400 dark:border-gray-800 dark:bg-gray-900/40'
-                  : selectedLeft !== null
-                    ? 'border-blue-200 hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20'
-                    : 'border-gray-200 dark:border-gray-700'
-              }`}
-            >
-              <LatexText>{item}</LatexText>
-            </button>
-          )
-        })}
-      </div>
-      {selectedLeft !== null && (
-        <p className="sm:col-span-2 text-sm text-blue-600 dark:text-blue-400 text-center">
-          Now tap the matching definition on the right
-        </p>
-      )}
     </div>
   )
 }

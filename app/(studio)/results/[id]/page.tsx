@@ -934,7 +934,7 @@ export default function ResultDetailPage() {
                             </div>
 
                             <div className="p-6 sm:p-7">
-                                <FeedbackPanel feedback={feedback} />
+                                <FeedbackPanel feedback={feedback} onJumpToQuestion={jumpToQuestion} questionCount={questions.length} />
                             </div>
                         </motion.div>
                     )

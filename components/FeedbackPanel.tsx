@@ -3,15 +3,58 @@
 import type { ReactNode } from 'react'
 import { AlertTriangle, CheckCircle2, Lightbulb, Sparkles } from 'lucide-react'
 import { LatexText as L } from '@/lib/latex-text'
+import { splitQuestionRefs } from '@/lib/feedback-question-refs'
 
-function parseInline(text: string): ReactNode[] {
+/**
+ * Turn "review questions 4 and 6" into buttons that scroll to those questions.
+ *
+ * Returns the plain string untouched when the review can't jump anywhere, so
+ * the panel renders identically wherever it is used without a handler.
+ */
+function linkifyQuestions(
+  text: string,
+  onJumpToQuestion: ((n: number) => void) | undefined,
+  questionCount: number | undefined,
+  keyBase: string,
+): ReactNode[] {
+  if (!onJumpToQuestion || !questionCount) return [text]
+
+  return splitQuestionRefs(text, questionCount).map((seg, i) => {
+    if (seg.type === 'text') return seg.value
+    return (
+      <button
+        key={`${keyBase}-ref-${i}`}
+        type="button"
+        // Jumps to the first question named; the phrase stays verbatim so the
+        // sentence still reads as written.
+        onClick={() => onJumpToQuestion(seg.questions[0])}
+        title={
+          seg.questions.length > 1
+            ? `Jump to question ${seg.questions[0]} (of ${seg.questions.join(', ')})`
+            : `Jump to question ${seg.questions[0]}`
+        }
+        className="mx-0.5 rounded-md bg-ss-accent/12 px-1.5 py-0.5 font-semibold text-ss-accent underline decoration-dotted underline-offset-2 transition-colors hover:bg-ss-accent/20"
+      >
+        {seg.value}
+      </button>
+    )
+  })
+}
+
+function parseInline(
+  text: string,
+  onJumpToQuestion?: (n: number) => void,
+  questionCount?: number,
+): ReactNode[] {
   const nodes: React.ReactNode[] = []
   const re = /(\*\*[^*]+\*\*|\*[^*]+\*)/g
   let last = 0
   let match: RegExpExecArray | null
 
   while ((match = re.exec(text)) !== null) {
-    if (match.index > last) nodes.push(text.slice(last, match.index))
+    if (match.index > last) {
+      nodes.push(...linkifyQuestions(text.slice(last, match.index), onJumpToQuestion, questionCount, `s${match.index}`))
+    }
     const seg = match[0]
     if (seg.startsWith('**')) {
       nodes.push(
@@ -35,7 +78,9 @@ function parseInline(text: string): ReactNode[] {
     last = match.index + seg.length
   }
 
-  if (last < text.length) nodes.push(text.slice(last))
+  if (last < text.length) {
+    nodes.push(...linkifyQuestions(text.slice(last), onJumpToQuestion, questionCount, 'tail'))
+  }
   return nodes.length ? nodes : [text]
 }
 
@@ -130,9 +175,12 @@ type Props = {
   loading?: boolean
   loadingMessage?: string
   compact?: boolean
+  /** Supply both to make question references in the feedback tappable. */
+  onJumpToQuestion?: (n: number) => void
+  questionCount?: number
 }
 
-export default function FeedbackPanel({ feedback, loading, loadingMessage, compact }: Props) {
+export default function FeedbackPanel({ feedback, loading, loadingMessage, compact, onJumpToQuestion, questionCount }: Props) {
   const sections = parseFeedback(feedback)
 
   return (
@@ -184,7 +232,7 @@ export default function FeedbackPanel({ feedback, loading, loadingMessage, compa
                         >
                           <ItemIcon className="h-3.5 w-3.5" />
                         </span>
-                        <span className="min-w-0 flex-1">{parseInline(stripBulletPrefix(item))}</span>
+                        <span className="min-w-0 flex-1">{parseInline(stripBulletPrefix(item), onJumpToQuestion, questionCount)}</span>
                       </li>
                     )
                   })}
