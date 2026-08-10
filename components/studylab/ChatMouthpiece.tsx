@@ -30,13 +30,16 @@ interface ChatMouthpieceProps {
   suggestions: string[]
   busy: boolean
   done: boolean
+  /** Optional: start a real assessment on the studied topic once done. */
+  onProveIt?: () => void
+  provingIt?: boolean
   onSend: (text: string, opts?: { image?: string; silent?: boolean }) => void
   pendingCheckpoint?: { total: number; remaining: number; nextId: string | null } | null
   onGoToCheck?: (nodeId: string) => void
   onQuizMe?: () => void
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false }: ChatMouthpieceProps) {
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
@@ -202,9 +205,28 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
       )}
 
       {done && (
-        <div className="mx-4 mb-2 px-3.5 py-2.5 rounded-xl bg-emerald-50 dark:bg-emerald-900/20 text-emerald-700 dark:text-emerald-400 text-[13px] flex items-center gap-2">
-          <Sparkles className="w-4 h-4" />
-          You&apos;ve completed this topic. Great work!
+        <div className="mx-4 mb-2 rounded-xl bg-emerald-50 px-3.5 py-3 dark:bg-emerald-900/20">
+          <p className="flex items-center gap-2 text-[13px] text-emerald-700 dark:text-emerald-400">
+            <Sparkles className="w-4 h-4 shrink-0" />
+            You&apos;ve completed this topic. Great work!
+          </p>
+          {onProveIt && (
+            <>
+              {/* The lesson is only half the loop — a saved result is what
+                  moves the gap map, so offer the test right here. */}
+              <button
+                type="button"
+                onClick={onProveIt}
+                disabled={provingIt}
+                className="mt-2.5 flex w-full items-center justify-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-2 text-[12.5px] font-extrabold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+              >
+                {provingIt ? 'Building your quiz…' : 'Prove it — take the quiz'}
+              </button>
+              <p className="mt-1.5 text-center text-[11px] text-emerald-700/80 dark:text-emerald-400/70">
+                Fresh questions on this topic. Your score updates your gap map.
+              </p>
+            </>
+          )}
         </div>
       )}
 

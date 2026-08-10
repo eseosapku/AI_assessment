@@ -16,6 +16,7 @@ import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
 import { useAuth } from '@/components/AuthProvider'
+import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
 // React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
@@ -365,6 +366,47 @@ export default function Workspace({ id }: { id: string }) {
     handleSend('Quiz me on what we have covered so far. Add a short checkpoint to the canvas with a few interactive quiz questions for me to answer.', { silent: true })
   }, [handleSend])
 
+  /**
+   * Closing half of the study loop: once the lesson is done, prove it on a real
+   * assessment so the result is saved and the gap map moves.
+   *
+   * Generates a fresh paper on the studied topic rather than re-serving the one
+   * that sent the student here. A retake of the exact paper is already offered
+   * on the result card; after a lesson the useful test is whether the concept
+   * transferred, which memorised answers wouldn't show. It goes through the
+   * free-topic path, so it works for a space with no curriculum rows behind it.
+   */
+  const [provingIt, setProvingIt] = useState(false)
+  const handleProveIt = useCallback(async () => {
+    if (provingIt) return
+    setProvingIt(true)
+    try {
+      const res = await fetch('/api/generate-assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          user_id: user?.id,
+          subject: space?.title || space?.subject || 'Study session',
+          subjectDomainHint: space?.subject || undefined,
+          topics: [space?.title || space?.subject].filter(Boolean),
+          count: 10,
+          style: 'Test Style (Textbooks)',
+          questionType: 'mcq',
+          difficultyLevel: 'intermediate',
+        }),
+      })
+      const text = await res.text()
+      if (!text) throw new Error('Server returned an empty response.')
+      const data = JSON.parse(text)
+      if (!res.ok) throw new Error(data?.error || 'Could not build a quiz.')
+      sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(data))
+      // Same tab: the quiz is the next step, not a side trip.
+      window.location.href = '/assessment'
+    } catch {
+      setProvingIt(false)
+    }
+  }, [provingIt, space?.title, space?.subject, user?.id])
+
   // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
   // Surface the count + the node ids still unanswered so the chat banner can tell
   // the student how many remain and jump the canvas to the next one.
@@ -554,6 +596,8 @@ export default function Workspace({ id }: { id: string }) {
           pendingCheckpoint={pendingCheckpoint}
           onGoToCheck={goToNode}
           onQuizMe={handleQuizMe}
+          onProveIt={handleProveIt}
+          provingIt={provingIt}
         />
       </div>
     </div>
