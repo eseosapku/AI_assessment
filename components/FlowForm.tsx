@@ -1374,8 +1374,17 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             {flowMode === 'ai' && step === 5 && formData.subject && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Topics" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">What should the quiz cover?</h3>
-                <p className="text-xs text-ss-slate mb-3">Tick as many as you like. Questions are spread evenly across whatever you pick.</p>
+                <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                  <h3 className="text-sm font-semibold text-gray-900 dark:text-white">What should the quiz cover?</h3>
+                  {/* A live count, because these rows look like single-choice
+                      and testers did not realise several could be picked. */}
+                  {formData.topics.length > 0 && (
+                    <span className="rounded-full bg-ss-chip px-2.5 py-1 text-[12px] font-extrabold text-ss-slate">
+                      {formData.topics.length} topic{formData.topics.length === 1 ? '' : 's'} chosen
+                    </span>
+                  )}
+                </div>
+                <p className="mb-3 text-[13px] text-ss-slate">Tick as many as you like. Questions are spread evenly across whatever you pick.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {isUniStudent ? (
                     uniTopics.length === 0 ? (
@@ -1423,25 +1432,55 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   )}
                 </div>
 
-                {/* Optional subtopic */}
+                {/* Subtopics. Testers missed this entirely: it sat unannounced
+                    below the topic list and vanished without explanation as
+                    soon as a second topic was picked. It now has a visible
+                    boundary, a live count, and says out loud when it is
+                    unavailable and why. */}
+                {step === 5 && formData.topic_ids.length > 1 && (
+                  <div className="mt-5 rounded-2xl border border-ss-line bg-ss-chip p-4">
+                    <p className="text-[13px] font-semibold text-ss-ink">Narrowing down isn&apos;t available here</p>
+                    <p className="mt-1 text-[13px] font-medium text-ss-slate">
+                      You&apos;ve chosen {formData.topic_ids.length} topics, so the quiz spreads across all of
+                      them. Pick a single topic if you want to choose particular subtopics.
+                    </p>
+                  </div>
+                )}
+
                 {formData.topic_ids.length === 1 && step === 5 && (
-                  <div className="mt-4">
-                    <StepLabel label="Subtopic (optional)" />
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Narrow it down further</h3>
-                    <p className="text-xs text-ss-slate mb-3">Optional. Pick none and the quiz covers the whole topic.</p>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  <div className="mt-5 rounded-2xl border-2 border-ss-line p-4">
+                    <div className="mb-1 flex flex-wrap items-center justify-between gap-2">
+                      <StepLabel label="Subtopics (optional)" />
+                      {subtopics.length > 0 && (
+                        <span className="rounded-full bg-ss-chip px-2.5 py-1 text-[12px] font-extrabold text-ss-slate">
+                          {formData.subtopic_ids.length === 0
+                            ? 'Whole topic'
+                            : `${formData.subtopic_ids.length} of ${subtopics.length} chosen`}
+                        </span>
+                      )}
+                    </div>
+                    <h3 className="mb-1 text-sm font-semibold text-gray-900 dark:text-white">Narrow it down further</h3>
+                    <p className="mb-3 text-[13px] text-ss-slate">
+                      Tick as many as you like — the quiz sticks to what you choose. Leave them all
+                      unticked and it covers the whole topic.
+                    </p>
+                    <div className="grid grid-cols-1 gap-2 sm:grid-cols-2">
                       <OptionButton selected={formData.subtopic_ids.length === 0} onClick={() => handleSubtopicToggle(null)}>
-                        <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">Entire topic</span>
+                        <span className="pr-6 text-sm font-medium text-gray-800 dark:text-gray-200">Whole topic</span>
                       </OptionButton>
                       {isLoadingSubtopics ? (
-                        <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                        <div className="col-span-full flex items-center gap-2 text-sm text-ss-slate">
                           <Loader2 className="w-4 h-4 animate-spin" />
                           Loading subtopics...
+                        </div>
+                      ) : subtopics.length === 0 ? (
+                        <div className="col-span-full text-sm text-ss-slate">
+                          This topic has no subtopics listed — the quiz will cover all of it.
                         </div>
                       ) : (
                         subtopics.map(st => (
                           <OptionButton key={st.id} selected={formData.subtopic_ids.includes(st.id)} onClick={() => handleSubtopicToggle(st.id)}>
-                            <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">{st.name}</span>
+                            <span className="pr-6 text-sm font-medium text-gray-800 dark:text-gray-200">{st.name}</span>
                           </OptionButton>
                         ))
                       )}
