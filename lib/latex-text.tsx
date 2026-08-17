@@ -1,5 +1,6 @@
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
+import { needsSpeechHint, speakSymbols } from './speech-symbols'
 
 /**
  * Wrap only math fragments in $...$, not whole prose paragraphs.
@@ -25,6 +26,28 @@ export function wrapInlineMath(text: string): string {
   )
 }
 
+/**
+ * Renders question text, with a spoken form for assistive technology.
+ *
+ * Symbols sitting in ordinary prose — ÷, ≥, √, °, ² — are announced
+ * inconsistently or skipped entirely, which is what made maths questions
+ * meaningless to the visually impaired tester. When any are present the
+ * notation is hidden from screen readers and an equivalent sentence is
+ * supplied instead, so sighted readers keep the symbols and everyone else
+ * hears "12 divided by 4".
+ *
+ * Text with no such symbols renders exactly as before.
+ */
 export function LatexText({ children }: { children: string }) {
-  return <Latex>{wrapInlineMath(children ?? '')}</Latex>
+  const text = children ?? ''
+  const rendered = <Latex>{wrapInlineMath(text)}</Latex>
+
+  if (!needsSpeechHint(text)) return rendered
+
+  return (
+    <>
+      <span aria-hidden="true">{rendered}</span>
+      <span className="sr-only">{speakSymbols(text)}</span>
+    </>
+  )
 }
