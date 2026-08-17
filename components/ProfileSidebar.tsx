@@ -6,6 +6,7 @@ import { X, BookOpen, LogOut, Settings, Sparkles } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 import { useSubscription } from './SubscriptionProvider'
 import Avatar from './studio/Avatar'
+import { useDialogBehavior } from '@/components/ui/Modal'
 
 interface ProfileSidebarProps {
   isOpen: boolean
@@ -13,6 +14,9 @@ interface ProfileSidebarProps {
 }
 
 export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps) {
+  // A side panel, but modal in behaviour: it covers the page and focus must
+  // not wander behind it.
+  const { ref, dialogProps } = useDialogBehavior({ open: isOpen, onClose, labelledBy: 'profile-sidebar-title' })
   const { user, logout } = useAuth()
   const { snapshot, openPaywall } = useSubscription()
 
@@ -37,17 +41,20 @@ export default function ProfileSidebar({ isOpen, onClose }: ProfileSidebarProps)
             animate={{ x: 0 }}
             exit={{ x: '100%' }}
             transition={{ type: 'spring', damping: 30, stiffness: 300 }}
+            ref={ref}
+            {...dialogProps}
             className="fixed right-0 top-0 bottom-0 w-full sm:w-96 glass dark:glass-dark z-50 p-6 sm:p-8 overflow-y-auto"
           >
             <div className="flex justify-between items-center mb-6 sm:mb-8">
-              <h2 className="text-xl sm:text-2xl font-semibold">Profile</h2>
+              <h2 id="profile-sidebar-title" className="text-xl sm:text-2xl font-semibold">Profile</h2>
               <motion.button
                 onClick={onClose}
                 whileHover={{ scale: 1.1 }}
                 whileTap={{ scale: 0.9 }}
+                aria-label="Close profile"
                 className="p-2 rounded-full hover:bg-gray-200 dark:hover:bg-gray-700 transition-colors"
               >
-                <X className="w-5 h-5" />
+                <X className="w-5 h-5" aria-hidden />
               </motion.button>
             </div>
 

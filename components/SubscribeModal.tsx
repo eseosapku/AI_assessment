@@ -13,6 +13,7 @@ import {
   type SubscriptionCurrency,
 } from '@/lib/subscription-pricing'
 import { initiateMonthlySubscription } from '@/lib/flutterwave-client'
+import { useDialogBehavior } from '@/components/ui/Modal'
 
 type Props = {
   open: boolean
@@ -54,6 +55,7 @@ export default function SubscribeModal({
   userCountry,
   onClose,
 }: Props) {
+  const { ref, dialogProps } = useDialogBehavior({ open, onClose, labelledBy: 'subscribe-modal-title' })
   const [starting, setStarting] = useState(false)
   const [error, setError] = useState<string | null>(null)
   const [pricing, setPricing] = useState<PricingQuote | null>(null)
@@ -143,6 +145,8 @@ export default function SubscribeModal({
             transition={{ type: 'spring', stiffness: 380, damping: 32 }}
             className="w-full max-w-md overflow-hidden rounded-3xl border border-[#0E8FD1]/20 bg-white shadow-2xl shadow-[#0E8FD1]/10 dark:bg-[#141416] dark:border-[#0E8FD1]/30"
             onClick={(e) => e.stopPropagation()}
+            ref={ref}
+            {...dialogProps}
           >
             <div className="relative px-6 pt-6 pb-5 bg-gradient-to-br from-[#0C2A40] via-[#0C74B4] to-[#2ACBF2] text-white">
               <button
@@ -155,7 +159,7 @@ export default function SubscribeModal({
               </button>
               <div className="mb-5 pr-10">
                 <p className="text-xs font-semibold uppercase tracking-widest text-[#9BE3FB]">Subscribe to StudySquare</p>
-                <h2 className="text-lg font-bold leading-tight">Monthly subscription</h2>
+                <h2 id="subscribe-modal-title" className="text-lg font-bold leading-tight">Monthly subscription</h2>
               </div>
               <div className="flex items-end gap-2 min-h-[3rem]">
                 {pricingLoading ? (

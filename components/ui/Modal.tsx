@@ -31,6 +31,78 @@ function focusables(root: HTMLElement): HTMLElement[] {
   )
 }
 
+/**
+ * The dialog behaviour on its own, for overlays that already have their own
+ * markup and layout.
+ *
+ * Several surfaces here are not shaped like a generic modal — a side panel, a
+ * notification popover, an animated two-column wizard. Rewriting each around a
+ * shared wrapper would be a large, risky change for no user-visible gain, so
+ * they adopt the behaviour and keep their markup. Point `ref` at the panel and
+ * spread the returned props onto it.
+ */
+export function useDialogBehavior({
+  open,
+  onClose,
+  labelledBy,
+}: {
+  open: boolean
+  onClose: () => void
+  labelledBy?: string
+}) {
+  const panelRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    if (!open) return
+    const openedFrom = document.activeElement as HTMLElement | null
+    const panel = panelRef.current
+    ;(panel ? focusables(panel)[0] ?? panel : null)?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        e.stopPropagation()
+        onClose()
+        return
+      }
+      if (e.key !== 'Tab' || !panel) return
+      const items = focusables(panel)
+      if (items.length === 0) {
+        e.preventDefault()
+        return
+      }
+      const first = items[0]
+      const last = items[items.length - 1]
+      const active = document.activeElement
+      if (e.shiftKey && (active === first || !panel.contains(active))) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && active === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown, true)
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKeyDown, true)
+      document.body.style.overflow = previousOverflow
+      openedFrom?.focus?.()
+    }
+  }, [open, onClose])
+
+  return {
+    ref: panelRef,
+    dialogProps: {
+      role: 'dialog' as const,
+      'aria-modal': true as const,
+      'aria-labelledby': labelledBy,
+      tabIndex: -1,
+    },
+  }
+}
+
 export function Modal({
   open,
   onClose,
