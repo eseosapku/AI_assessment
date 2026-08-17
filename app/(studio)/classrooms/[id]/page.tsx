@@ -7,6 +7,7 @@ import { useAuth } from '@/components/AuthProvider'
 import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 import { subjectArt } from '@/lib/studio/subjectArt'
+import { useDialogBehavior } from '@/components/ui/Modal'
 
 interface ClassroomInfo {
     id: string
@@ -621,6 +622,13 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
         setDetailError('')
     }
 
+    // Slide-over panel: modal in behaviour, so focus stays inside it.
+    const { ref: detailRef, dialogProps: detailDialogProps } = useDialogBehavior({
+        open: isDetailOpen,
+        onClose: closeStudentDetail,
+        labelledBy: 'student-detail-title',
+    })
+
     const handleDownloadFeedback = (row: StudentDetail['assignments'][number]) => {
         const studentName = studentDetail?.student?.student_name ?? selectedStudent?.student_name ?? 'Student'
         const studentEmail = studentDetail?.student?.student_email
@@ -933,14 +941,19 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
             {isDetailOpen && (
                 <div className="fixed inset-0 z-40">
                     <div
+                        aria-hidden
                         className="absolute inset-0 bg-black/40 backdrop-blur-sm"
                         onClick={closeStudentDetail}
                     />
-                    <div className="absolute right-0 top-0 h-full w-full sm:max-w-xl bg-[#FFFDF9] dark:bg-[#12161D] border-l border-[#E8DED1] dark:border-white/10 shadow-2xl overflow-y-auto">
+                    <div
+                        ref={detailRef}
+                        {...detailDialogProps}
+                        className="absolute right-0 top-0 h-full w-full sm:max-w-xl bg-[#FFFDF9] dark:bg-[#12161D] border-l border-white/10 border-[#E8DED1] shadow-2xl overflow-y-auto"
+                    >
                         <div className="p-6 border-b border-[#E8DED1] dark:border-white/10 flex items-start justify-between gap-4">
                             <div>
                                 <p className="text-[12px] uppercase tracking-[0.2em] text-[#9C6644]">Student detail</p>
-                                <h3 className="text-xl font-black text-[#1F2933] dark:text-white font-display mt-2">
+                                <h3 id="student-detail-title" className="text-xl font-black text-[#1F2933] dark:text-white font-display mt-2">
                                     {studentDetail?.student?.student_name || selectedStudent?.student_name || selectedStudent?.student_email || selectedStudent?.student_id || 'Student'}
                                 </h3>
                                 <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">

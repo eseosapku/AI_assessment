@@ -12,6 +12,7 @@ import { openLearnSpace as openSpaceInTab } from '@/lib/studylab/openSpace'
 import { setHomeworkImage, setHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { downscaleDataUrl } from '@/lib/studylab/imageScale'
 import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
+import { useDialogBehavior } from '@/components/ui/Modal'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -268,6 +269,7 @@ function SnapModal({
   onClose: () => void
   onCreated: (id: string) => void
 }) {
+  const { ref, dialogProps } = useDialogBehavior({ open: true, onClose, labelledBy: 'homework-help-title' })
   const [preview, setPreview] = useState<string | null>(null)
   const [text, setText] = useState('')
   const [stage, setStage] = useState<'pick' | 'reading' | 'building'>('pick')
@@ -375,10 +377,12 @@ function SnapModal({
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
+        ref={ref}
+        {...dialogProps}
         className="w-full max-w-lg overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-ss-panel"
       >
         <div className="flex items-center justify-between border-b border-ss-line px-6 py-4">
-          <h3 className="font-display text-lg font-black text-ss-ink">Get homework help</h3>
+          <h3 id="homework-help-title" className="font-display text-lg font-black text-ss-ink">Get homework help</h3>
           <button type="button" onClick={onClose} disabled={busy} className="rounded-lg p-1.5 text-ss-slate hover:bg-ss-chip disabled:opacity-60">
             <X className="h-5 w-5" />
           </button>
@@ -482,6 +486,7 @@ function CreateModal({
   onClose: () => void
   onCreated: (id: string) => void
 }) {
+  const { ref, dialogProps } = useDialogBehavior({ open: true, onClose, labelledBy: 'new-space-title' })
   const [title, setTitle] = useState('')
   const [subject, setSubject] = useState('')
   const [submitting, setSubmitting] = useState(false)
@@ -519,10 +524,12 @@ function CreateModal({
         animate={{ scale: 1, opacity: 1, y: 0 }}
         exit={{ scale: 0.95, opacity: 0 }}
         onClick={(e) => e.stopPropagation()}
+        ref={ref}
+        {...dialogProps}
         className="w-full max-w-lg overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-ss-panel"
       >
         <div className="flex items-center justify-between border-b border-ss-line px-6 py-4">
-          <h3 className="font-display text-lg font-black text-ss-ink">New LearnSpace</h3>
+          <h3 id="new-space-title" className="font-display text-lg font-black text-ss-ink">New LearnSpace</h3>
           <button type="button" onClick={onClose} className="rounded-lg p-1.5 text-ss-slate hover:bg-ss-chip">
             <X className="h-5 w-5" />
           </button>

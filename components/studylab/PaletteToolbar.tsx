@@ -3,6 +3,7 @@
 import { useEffect, useState } from 'react'
 import { StickyNote, FileText, Terminal, Image, Layers, Frame, ListChecks, Link, Plus, ChevronDown, type LucideIcon } from 'lucide-react'
 import { paletteItems } from '@/lib/studylab/blocks'
+import { usePopoverBehavior } from '@/components/ui/Modal'
 
 const ICONS: Record<string, LucideIcon> = {
   StickyNote, FileText, Terminal, Image, Layers, Frame, ListChecks, Link,
@@ -11,6 +12,7 @@ const ICONS: Record<string, LucideIcon> = {
 export default function PaletteToolbar({ onAdd }: { onAdd: (type: string) => void }) {
   const items = paletteItems()
   const [open, setOpen] = useState(false)
+  usePopoverBehavior({ open, onClose: () => setOpen(false) })
 
   useEffect(() => {
     if (!open) return
@@ -33,8 +35,8 @@ export default function PaletteToolbar({ onAdd }: { onAdd: (type: string) => voi
 
       {open && (
         <>
-          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
-          <div className="absolute top-full right-0 mt-1.5 z-20 flex w-52 flex-col gap-0.5 rounded-2xl border border-ss-line bg-[color:var(--ss-panel)]/98 p-1.5 shadow-ss-panel backdrop-blur">
+          <div aria-hidden className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+          <div role="menu" aria-label="Add to canvas" className="absolute top-full right-0 mt-1.5 z-20 flex w-52 flex-col gap-0.5 rounded-2xl border border-ss-line bg-[color:var(--ss-panel)]/98 p-1.5 shadow-ss-panel backdrop-blur">
             {items.map((b) => {
               const Icon = b.palette ? ICONS[b.palette.icon] ?? FileText : FileText
               return (

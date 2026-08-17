@@ -7,6 +7,7 @@ import { Bell, CalendarClock, Check, Flame, GraduationCap } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import { useNotifications } from '@/lib/hooks/useNotifications'
 import { relativeTime, type NotificationKind } from '@/lib/studio/notifications'
+import { usePopoverBehavior } from '@/components/ui/Modal'
 
 const KIND: Record<NotificationKind, { icon: typeof Bell; chip: string }> = {
   graded: { icon: GraduationCap, chip: 'bg-[color:var(--ss-good)]/15 text-ss-good' },
@@ -19,6 +20,7 @@ export default function NotificationBell() {
   const router = useRouter()
   const { items, readIds, unreadCount, markOne, markAllRead } = useNotifications(user)
   const [open, setOpen] = useState(false)
+  usePopoverBehavior({ open, onClose: () => setOpen(false) })
   const [pos, setPos] = useState<{ top: number; right: number } | null>(null)
   const btnRef = useRef<HTMLButtonElement>(null)
   const [mounted, setMounted] = useState(false)
@@ -74,8 +76,10 @@ export default function NotificationBell() {
       {mounted && open && pos &&
         createPortal(
           <>
-            <div className="fixed inset-0 z-[60]" onClick={() => setOpen(false)} />
+            <div aria-hidden className="fixed inset-0 z-[60]" onClick={() => setOpen(false)} />
             <div
+              role="dialog"
+              aria-label="Notifications"
               className="fixed z-[61] w-[340px] max-w-[calc(100vw-24px)] overflow-hidden rounded-[18px] border border-ss-line bg-ss-panel shadow-[0_24px_60px_-20px_rgba(20,60,90,.5)]"
               style={{ top: pos.top, right: pos.right }}
             >

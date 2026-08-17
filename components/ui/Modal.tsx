@@ -103,6 +103,36 @@ export function useDialogBehavior({
   }
 }
 
+/**
+ * Escape-to-close and focus return for a popover — a menu or panel anchored to
+ * a button, not a modal.
+ *
+ * Deliberately does NOT trap focus. A dropdown that swallows Tab is a trap in
+ * the bad sense: the page behind it is still available and a keyboard user
+ * expects to be able to move on. What these were missing was smaller and real
+ * — Escape did nothing, and closing left focus nowhere.
+ */
+export function usePopoverBehavior({ open, onClose }: { open: boolean; onClose: () => void }) {
+  const openedFrom = useRef<HTMLElement | null>(null)
+
+  useEffect(() => {
+    if (!open) {
+      openedFrom.current = null
+      return
+    }
+    openedFrom.current = document.activeElement as HTMLElement | null
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+        openedFrom.current?.focus?.()
+      }
+    }
+    document.addEventListener('keydown', onKeyDown)
+    return () => document.removeEventListener('keydown', onKeyDown)
+  }, [open, onClose])
+}
+
 export function Modal({
   open,
   onClose,
