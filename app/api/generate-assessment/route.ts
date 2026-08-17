@@ -1912,8 +1912,15 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: msg }, { status: is429 ? 429 : 500 })
     }
 
-    // Deduplicate + fix first pass
-    allQuestions = deduplicateAndFix(allQuestions)
+    // Deduplicate + fix first pass, then apply the quality filters BEFORE the
+    // top-up loop below.
+    //
+    // These filters used to run after the retry loop had finished, so every
+    // question they removed came straight off the final count — a paper of ten
+    // came back as seven or eight. Cleaning first means the loop sees the real
+    // shortfall and refills it, which is the difference between filtering and
+    // silently shrinking the paper.
+    allQuestions = cleanQuestionPaper(deduplicateAndFix(allQuestions))
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
     for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
@@ -1939,6 +1946,10 @@ export async function POST(request: NextRequest) {
           allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
         )
         allQuestions.push(...deduplicateAndFix(retryQs, seenKeys))
+        // Re-clean the combined set: a replacement can duplicate or contradict
+        // something already in the paper, and the loop condition has to judge
+        // the count that will actually ship.
+        allQuestions = cleanQuestionPaper(allQuestions)
       } catch (err: any) {
         console.error(`Retry pass ${retryPass} failed:`, err)
         break
@@ -1981,17 +1992,10 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'AI returned invalid question data. Please try again.' }, { status: 500 })
     }
 
-    // Faults only visible once the whole paper exists, so prompting alone can't
-    // catch them: the same question asked twice in different words, and
-    // explanations addressed to a marker rather than the student. Runs before
-    // figures are attached and ids renumbered, so a dropped duplicate doesn't
-    // leave a gap in the numbering or strand an image.
-    {
-      const before = assessmentData.questions.length
-      assessmentData.questions = cleanQuestionPaper(assessmentData.questions)
-      const dropped = before - assessmentData.questions.length
-      if (dropped > 0) console.log(`Question clean-up: dropped ${dropped} duplicate question(s)`)
-    }
+    // NOTE: the quality filters (duplicates, contradictions, examiner voice)
+    // deliberately run earlier, before the top-up loop — see above. Removing
+    // questions here, after the count has been settled and trimmed, is exactly
+    // what turned a requested ten into a delivered seven.
 
     // Attach real figures — exam papers (Aloc) or school textbooks (PDF extract)
     if (hasDiagramSupport && textbookExam && textbookExamYear && textbookExamSubject) {
