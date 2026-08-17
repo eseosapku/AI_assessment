@@ -542,6 +542,9 @@ function TrueFalseStatements({
                 type="button"
                 disabled={disabled}
                 onClick={() => setAnswer(i, true)}
+                // State was carried by fill colour alone, so a screen reader
+                // announced "True button" whether or not it was chosen.
+                aria-pressed={chosen === true}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-all ${
                   chosen === true
                     ? 'bg-green-500 border-green-500 text-white'
@@ -554,6 +557,7 @@ function TrueFalseStatements({
                 type="button"
                 disabled={disabled}
                 onClick={() => setAnswer(i, false)}
+                aria-pressed={chosen === false}
                 className={`px-4 py-2 rounded-lg text-sm font-semibold border-2 transition-all ${
                   chosen === false
                     ? 'bg-red-500 border-red-500 text-white'
@@ -604,6 +608,8 @@ function MultiSelectOptions({
             type="button"
             disabled={disabled}
             onClick={() => toggle(i)}
+            role="checkbox"
+            aria-checked={isOn}
             className={`px-4 py-3 rounded-xl text-sm font-medium border-2 transition-all text-left max-w-full ${
               isOn
                 ? 'bg-indigo-500 border-indigo-500 text-white shadow-md scale-[1.02]'
@@ -642,7 +648,9 @@ function OddOneOutGrid({
   const selected = value?.kind === 'odd_one_out' ? value.selected : undefined
 
   return (
-    <div className="grid grid-cols-2 gap-3">
+    // role="radio" is only meaningful inside a group; without this the options
+    // are announced as radios with no set to belong to.
+    <div role="radiogroup" aria-label="Pick the odd one out" className="grid grid-cols-2 gap-3">
       {question.items.map((item, i) => {
         const isSelected = selected === i
         return (
@@ -651,6 +659,8 @@ function OddOneOutGrid({
             type="button"
             disabled={disabled}
             onClick={() => onChange({ kind: 'odd_one_out', selected: i })}
+            role="radio"
+            aria-checked={isSelected}
             className={`p-4 rounded-2xl text-sm font-medium border-2 transition-all text-center min-h-[80px] flex items-center justify-center ${
               isSelected
                 ? 'bg-amber-400 border-amber-500 text-amber-950 shadow-lg scale-[1.03] ring-2 ring-amber-300'

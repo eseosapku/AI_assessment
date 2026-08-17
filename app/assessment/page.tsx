@@ -1911,7 +1911,10 @@ function AssessmentPageClient() {
                 <PassageBox passage={question.passage} source={'passage_source' in question ? question.passage_source : undefined} />
               )}
 
-              <h2 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight">
+              <h2
+                id={`question-text-${currentQuestion}`}
+                className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight"
+              >
                 <L>{isCurrentInteractive && question.kind === 'fill_blank' ? (question as InteractiveQuestion & { kind: 'fill_blank' }).question : question.question}</L>
               </h2>
 
@@ -1924,31 +1927,67 @@ function AssessmentPageClient() {
                 />
               )}
 
-              {/* MCQ options */}
+              {/* MCQ options.
+                  These were plain buttons whose selected state existed only as
+                  a filled circle and an unlabelled tick, so a screen-reader
+                  user could not tell which answer they had chosen — a WCAG
+                  4.1.2 failure on the most important screen in the product.
+                  They are now a real radio group: role, checked state, and
+                  arrow-key movement, with a roving tabindex so Tab enters the
+                  group once rather than stepping through every option. */}
               {!isCurrentLongForm && !isCurrentInteractive && (
-                <div className="space-y-3 sm:space-y-4">
-                  {(question as MCQQuestion).options.map((option, index) => (
-                    <motion.button
-                      key={index}
-                      onClick={() => handleAnswerSelect(index)}
-                      whileHover={{ scale: 1.01 }}
-                      whileTap={{ scale: 0.99 }}
-                      className={`mcq-option w-full text-left ${selectedAnswers[currentQuestion] === index ? 'selected' : ''
-                        }`}
-                    >
-                      <div className="flex items-center gap-3 sm:gap-4">
-                        <div className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${selectedAnswers[currentQuestion] === index
-                          ? 'border-apple-blue bg-apple-blue'
-                          : 'border-gray-300 dark:border-gray-600'
-                          }`}>
-                          {selectedAnswers[currentQuestion] === index && (
-                            <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />
-                          )}
+                <div
+                  role="radiogroup"
+                  aria-labelledby={`question-text-${currentQuestion}`}
+                  className="space-y-3 sm:space-y-4"
+                  onKeyDown={(e) => {
+                    const opts = (question as MCQQuestion).options
+                    const forward = e.key === 'ArrowDown' || e.key === 'ArrowRight'
+                    const back = e.key === 'ArrowUp' || e.key === 'ArrowLeft'
+                    if (!forward && !back) return
+                    e.preventDefault()
+                    const current = selectedAnswers[currentQuestion]
+                    const from = typeof current === 'number' ? current : forward ? -1 : 0
+                    const next = (from + (forward ? 1 : -1) + opts.length) % opts.length
+                    handleAnswerSelect(next)
+                    // Move real focus with the selection, which is what the
+                    // radio pattern expects.
+                    const group = e.currentTarget as HTMLElement
+                    const target = group.querySelectorAll<HTMLElement>('[role="radio"]')[next]
+                    target?.focus()
+                  }}
+                >
+                  {(question as MCQQuestion).options.map((option, index) => {
+                    const checked = selectedAnswers[currentQuestion] === index
+                    const isFocusable = checked || (selectedAnswers[currentQuestion] === undefined && index === 0)
+                    return (
+                      <motion.button
+                        key={index}
+                        type="button"
+                        role="radio"
+                        aria-checked={checked}
+                        tabIndex={isFocusable ? 0 : -1}
+                        onClick={() => handleAnswerSelect(index)}
+                        whileHover={{ scale: 1.01 }}
+                        whileTap={{ scale: 0.99 }}
+                        className={`mcq-option w-full text-left ${checked ? 'selected' : ''}`}
+                      >
+                        <div className="flex items-center gap-3 sm:gap-4">
+                          {/* Decorative: the state is carried by aria-checked. */}
+                          <div
+                            aria-hidden
+                            className={`w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center flex-shrink-0 ${checked
+                              ? 'border-apple-blue bg-apple-blue'
+                              : 'border-gray-300 dark:border-gray-600'
+                              }`}
+                          >
+                            {checked && <Check className="w-3 h-3 sm:w-4 sm:h-4 text-white" />}
+                          </div>
+                          <span className="flex-1 text-sm sm:text-base"><L>{option}</L></span>
                         </div>
-                        <span className="flex-1 text-sm sm:text-base"><L>{option}</L></span>
-                      </div>
-                    </motion.button>
-                  ))}
+                      </motion.button>
+                    )
+                  })}
                 </div>
               )}
 
