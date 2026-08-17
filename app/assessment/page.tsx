@@ -28,6 +28,14 @@ import {
 import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { registerViolation, BLUR_GRACE_MS } from '@/lib/assessment-proctor'
 import {
+  timerPolicy,
+  shouldWarn,
+  extendRemaining,
+  formatRemaining,
+  describeRemaining,
+  WARN_AT_SECONDS,
+} from '@/lib/assessment-timer'
+import {
   readQueue,
   writeQueue,
   upsert,
@@ -581,6 +589,8 @@ function AssessmentPageClient() {
   const assignmentParam = searchParams.get('assignment') || searchParams.get('assignment_id')
   const retakeParam = searchParams.get('retake')
   const isClassroomAssignment = Boolean(assignmentParam)
+  // A teacher-set assignment keeps its timing; a practice quiz must not.
+  const timerControls = timerPolicy(Boolean(assignmentParam))
   const [assessment, setAssessment] = useState<Assessment | null>(null)
   const [assignmentId, setAssignmentId] = useState<string | null>(null)
   const [loadError, setLoadError] = useState('')
@@ -608,6 +618,7 @@ function AssessmentPageClient() {
   const [violationNotice, setViolationNotice] = useState<string | null>(null)
   const [offline, setOffline] = useState(false)
   const [pendingSync, setPendingSync] = useState(false)
+  const [limitDisabled, setLimitDisabled] = useState(false)
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
@@ -743,12 +754,6 @@ function AssessmentPageClient() {
 
     load()
   }, [assignmentParam, assignmentId, retakeParam, authUser, router, assessment])
-
-  const formatTime = (seconds: number) => {
-    const mins = Math.floor(seconds / 60)
-    const secs = seconds % 60
-    return `${mins}:${secs.toString().padStart(2, '0')}`
-  }
 
   const handleAnswerSelect = (optionIndex: number) => {
     setSelectedAnswers({ ...selectedAnswers, [currentQuestion]: optionIndex })
@@ -1335,6 +1340,9 @@ function AssessmentPageClient() {
     if (timeRemaining > 0 && !isSubmitted && !isPaused) {
       const timer = setInterval(() => {
         setTimeRemaining((prev) => {
+          // The limit can be switched off mid-attempt (WCAG 2.2.1), so the
+          // clock must stop counting rather than silently reaching zero.
+          if (limitDisabled) return prev
           if (prev <= 1) {
             setSubmissionReason('timer')
             handleSubmit()
@@ -1345,7 +1353,7 @@ function AssessmentPageClient() {
       }, 1000)
       return () => clearInterval(timer)
     }
-  }, [timeRemaining, isSubmitted, isPaused, handleSubmit])
+  }, [timeRemaining, isSubmitted, isPaused, handleSubmit, limitDisabled])
 
   useEffect(() => {
     if (!authUser?.id || !assessment || !isUuid(authUser.id)) return
@@ -1719,17 +1727,46 @@ function AssessmentPageClient() {
                   </button>
                 </>
               )}
-              <motion.div
-                className={`flex items-center gap-2 px-4 py-2 rounded-full bg-gray-50 dark:bg-gray-800/50 border border-gray-200/50 dark:border-gray-700/50 ${timeRemaining < 120 ? 'text-orange-500' : 'text-apple-blue'
+              <div className="flex items-center gap-2">
+                <div
+                  className={`flex items-center gap-2 rounded-full border border-gray-300/70 bg-gray-50 px-4 py-2 dark:border-gray-700/50 dark:bg-gray-800/50 ${
+                    limitDisabled ? 'text-gray-600 dark:text-gray-300' : timeRemaining < WARN_AT_SECONDS ? 'text-orange-600' : 'text-apple-blue'
                   }`}
-                animate={timeRemaining < 120 ? { scale: [1, 1.05, 1] } : {}}
-                transition={{ repeat: Infinity, duration: 1 }}
-              >
-                <Clock className="w-4 h-4 sm:w-5 sm:h-5" />
-                <span className="font-mono font-bold text-sm sm:text-base tracking-tight">
-                  {formatTime(timeRemaining)}
-                </span>
-              </motion.div>
+                >
+                  <Clock className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden />
+                  {/* The digits are decorative for assistive tech; the spoken
+                      form is announced on the warning instead of ticking every
+                      second, which would make the page unusable to listen to. */}
+                  <span className="font-mono font-bold text-sm sm:text-base tracking-tight" aria-hidden>
+                    {limitDisabled ? 'No limit' : formatRemaining(timeRemaining)}
+                  </span>
+                  <span className="sr-only">
+                    {limitDisabled ? 'No time limit' : describeRemaining(timeRemaining)}
+                  </span>
+                </div>
+
+                {/* WCAG 2.2.1: a practice quiz's limit must be adjustable. A
+                    teacher-set assignment keeps its timing, so these are hidden
+                    there rather than shown and refused. */}
+                {timerControls.canExtend && !limitDisabled && (
+                  <button
+                    type="button"
+                    onClick={() => setTimeRemaining((t) => extendRemaining(t))}
+                    className="rounded-full border border-gray-300 px-3 py-2 text-[12px] font-bold text-gray-700 transition-colors hover:border-ss-accent hover:text-ss-accent dark:border-gray-600 dark:text-gray-300"
+                  >
+                    +5 min
+                  </button>
+                )}
+                {timerControls.canDisable && !limitDisabled && (
+                  <button
+                    type="button"
+                    onClick={() => setLimitDisabled(true)}
+                    className="rounded-full border border-gray-300 px-3 py-2 text-[12px] font-bold text-gray-700 transition-colors hover:border-ss-accent hover:text-ss-accent dark:border-gray-600 dark:text-gray-300"
+                  >
+                    Turn off timer
+                  </button>
+                )}
+              </div>
             </div>
           </div>
 
@@ -1743,6 +1780,44 @@ function AssessmentPageClient() {
           </div>
         </div>
       </div>
+
+      {/* Time-limit warning. WCAG 2.2.1 requires warning before a limit expires
+          and a simple way to extend — this is that, with the extension offered
+          in the same breath rather than buried in the header. */}
+      {shouldWarn(timeRemaining, limitDisabled) && !isSubmitted && (
+        <div className="px-4 pt-4 sm:px-6 lg:px-8">
+          <div
+            role="alert"
+            className="mx-auto flex max-w-3xl flex-wrap items-center gap-3 rounded-2xl border-2 border-orange-400 bg-orange-50 p-3.5 dark:border-orange-600 dark:bg-orange-900/25"
+          >
+            <span className="text-base leading-none" aria-hidden>⏳</span>
+            <p className="flex-1 text-[13px] font-semibold text-orange-900 dark:text-orange-100">
+              {describeRemaining(timeRemaining)}.
+              {timerControls.canExtend
+                ? ' You can add more time if you need it.'
+                : ' Finish up — your answers will be submitted when the time is up.'}
+            </p>
+            {timerControls.canExtend && (
+              <button
+                type="button"
+                onClick={() => setTimeRemaining((t) => extendRemaining(t))}
+                className="rounded-xl bg-orange-600 px-4 py-2 text-[12.5px] font-bold text-white hover:opacity-90"
+              >
+                Add 5 minutes
+              </button>
+            )}
+            {timerControls.canDisable && (
+              <button
+                type="button"
+                onClick={() => setLimitDisabled(true)}
+                className="rounded-xl border border-orange-500 px-4 py-2 text-[12.5px] font-bold text-orange-900 hover:bg-orange-100 dark:text-orange-100 dark:hover:bg-orange-800/40"
+              >
+                Turn off the timer
+              </button>
+            )}
+          </div>
+        </div>
+      )}
 
       {/* Connection state. Says plainly that answers are safe, because the
           honest fear here is losing the work, not the connection itself. */}
