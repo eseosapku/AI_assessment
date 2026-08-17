@@ -145,6 +145,36 @@ New contract — the question must be **unanswerable without looking at the imag
 - Prefer "read a value / identify a labelled part / compare two regions" over
   "what does this show".
 
+### B1b. A model pass for "does this question actually need its figure?"
+Raised on 2026-08-17 after B1 shipped. The heuristics now catch a stem that
+narrates its figure, misnames it, or restates the answer — measurable faults.
+They cannot catch the more common one.
+
+A live neuron paper produced *"Which part of the neuron is responsible for
+receiving signals?"* → Dendrites, carrying a diagram. It narrates nothing,
+misnames nothing, leaks nothing, and passes every check — yet a student answers
+it from memory and never looks at the picture. The figure is decoration.
+
+Judging that needs semantics, not string matching. Options:
+
+1. **A scoring pass** — one cheap call per paper asking, per illustrated
+   question, "could this be answered without seeing the figure?" Questions
+   scored answerable-without lose their image (never the question). Costs one
+   extra call per generation; reuses the existing Nova Lite path.
+2. **Generate against the figure** — write illustrated questions *from* the
+   figure's vision description in a separate step, rather than writing questions
+   and attaching pictures afterwards. Slower and a bigger change, but attacks
+   the cause: figures are currently matched to questions, not the reverse.
+3. **Accept supporting figures** — decide that a figure aiding recall is fine,
+   and say so in the copy rather than implying every image is load-bearing.
+
+Recommendation: (1) first, because it is small, measurable and reversible, with
+(2) as the real fix if the scores show most figures are decorative. (3) is the
+honest fallback if neither earns its cost.
+
+Whichever is chosen, the decision belongs in the product's own words: if figures
+are supporting rather than required, the interface should not imply otherwise.
+
 ### B2. Deliver the requested number of questions
 Add a top-up pass: after dedupe and contradiction filtering, if the paper is
 short, request replacements for the dropped slots and re-filter. Cap the retry
@@ -413,8 +443,8 @@ question count · C1 unanswered flagging · F13 review-before-submit
 
 **Wave 2 — comprehension and trust**
 A4 text sizes · A6 symbols · C2 interactive tutorials · D1/D2 subtopics · B1
-image-question contract · F5 report/appeal · F6 honest progress · F7 source
-attribution
+image-question contract · B1b figure-necessity model pass · F5 report/appeal ·
+F6 honest progress · F7 source attribution
 
 **Wave 3 — reach, cost and polish**
 C6 platform-wide copy pass ·
