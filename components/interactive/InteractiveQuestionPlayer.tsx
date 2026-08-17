@@ -237,17 +237,21 @@ function OrderItems({
             dragIdx === pos ? 'border-blue-400 shadow-md' : 'border-gray-200 dark:border-gray-700'
           }`}
         >
-          <GripVertical className="w-4 h-4 text-gray-400 shrink-0" />
-          <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-700 dark:text-blue-300 text-xs font-bold flex items-center justify-center shrink-0">
+          <GripVertical className="w-4 h-4 text-gray-500 shrink-0" aria-hidden />
+          <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs font-bold flex items-center justify-center shrink-0">
             {pos + 1}
           </span>
           <span className="flex-1 text-sm"><LatexText>{question.items[itemIdx]}</LatexText></span>
-          <div className="flex flex-col gap-0.5 shrink-0">
+          {/* Drag is a desktop-only shortcut — HTML5 drag never fires on touch,
+              so these buttons are the real control on a phone. They were 12px
+              grey glyphs with no label; now they are proper tap targets. */}
+          <div className="flex shrink-0 flex-col gap-1">
             <button
               type="button"
               disabled={disabled || pos === 0}
               onClick={() => moveItem(pos, pos - 1)}
-              className="text-xs text-gray-400 hover:text-blue-500 disabled:opacity-30 px-1"
+              aria-label={`Move "${question.items[itemIdx]}" up to position ${pos}`}
+              className="grid h-8 w-8 place-items-center rounded-lg border border-gray-300 text-gray-700 hover:border-ss-accent hover:text-ss-accent disabled:opacity-30 dark:border-gray-600 dark:text-gray-300"
             >
               ▲
             </button>
@@ -255,7 +259,8 @@ function OrderItems({
               type="button"
               disabled={disabled || pos === order.length - 1}
               onClick={() => moveItem(pos, pos + 1)}
-              className="text-xs text-gray-400 hover:text-blue-500 disabled:opacity-30 px-1"
+              aria-label={`Move "${question.items[itemIdx]}" down to position ${pos + 2}`}
+              className="grid h-8 w-8 place-items-center rounded-lg border border-gray-300 text-gray-700 hover:border-ss-accent hover:text-ss-accent disabled:opacity-30 dark:border-gray-600 dark:text-gray-300"
             >
               ▼
             </button>
@@ -300,56 +305,114 @@ function CategorizeItems({
   }
 
   const [dragItem, setDragItem] = useState<number | null>(null)
+  // Tap-to-place selection. HTML5 drag does not fire on touch devices, so drag
+  // alone made this question type impossible to answer on a phone — items in
+  // the pool could never reach a category. Selection works for touch, mouse,
+  // keyboard and screen readers alike; drag stays as a desktop shortcut.
+  const [picked, setPicked] = useState<number | null>(null)
+
+  const place = (catIdx: number) => {
+    if (disabled || picked === null) return
+    assign(picked, catIdx)
+    setPicked(null)
+  }
+
+  const sorted = question.items.length - pool.length
+  const pickedLabel = picked !== null ? question.items[picked] : null
 
   return (
     <div className="space-y-4">
+      <div className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-ss-line bg-ss-chip px-3.5 py-2.5">
+        <p className="text-[12.5px] font-semibold text-ss-ink">
+          {disabled
+            ? 'Sorted items'
+            : pickedLabel
+              ? <>Now tap a category for <span className="text-ss-accent">“{pickedLabel}”</span></>
+              : 'Tap an item, then tap the category it belongs to'}
+        </p>
+        <span className="shrink-0 rounded-full bg-ss-panel px-2.5 py-1 text-[11.5px] font-extrabold text-ss-slate">
+          {sorted} of {question.items.length} sorted
+        </span>
+      </div>
+
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Items to sort</p>
-        <div className="flex flex-wrap gap-2 min-h-[48px] p-3 rounded-xl border-2 border-dashed border-gray-200 dark:border-gray-700">
+        <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-gray-500">Items to sort</p>
+        <div className="flex min-h-[48px] flex-wrap gap-2 rounded-xl border-2 border-dashed border-gray-300 p-3 dark:border-gray-700">
           {pool.length === 0 && (
-            <span className="text-xs text-gray-400 italic">All items sorted — drag back here to undo</span>
+            <span className="text-[12.5px] italic text-gray-500">All items sorted — tap one in a category to bring it back.</span>
           )}
           {pool.map(({ item, i }) => (
-            <span
+            <button
               key={i}
+              type="button"
+              disabled={disabled}
+              aria-pressed={picked === i}
+              onClick={() => setPicked(picked === i ? null : i)}
               draggable={!disabled}
               onDragStart={() => setDragItem(i)}
               onDragEnd={() => setDragItem(null)}
-              className="px-3 py-1.5 rounded-lg bg-blue-100 dark:bg-blue-900/30 text-blue-800 dark:text-blue-200 text-sm cursor-grab border border-blue-200 dark:border-blue-800"
+              className={`rounded-lg border px-3 py-2 text-sm transition-all ${
+                picked === i
+                  ? 'border-ss-accent bg-[color:var(--ss-accent)]/15 font-semibold text-ss-ink ring-2 ring-[color:var(--ss-accent)]/30'
+                  : 'border-blue-300 bg-blue-100 text-blue-900 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-100'
+              }`}
             >
               {item}
-            </span>
+            </button>
           ))}
         </div>
       </div>
 
       <div className={`grid gap-3 ${question.categories.length >= 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'}`}>
-        {question.categories.map((cat, catIdx) => (
-          <div
-            key={catIdx}
-            onDragOver={(e) => e.preventDefault()}
-            onDrop={() => { if (dragItem !== null) assign(dragItem, catIdx); setDragItem(null) }}
-            className="rounded-xl border-2 border-gray-200 dark:border-gray-700 p-3 min-h-[100px] bg-gray-50/50 dark:bg-gray-900/20"
-          >
-            <p className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-2">{cat}</p>
-            <div className="flex flex-wrap gap-2">
-              {itemsInCategory(catIdx).map(({ item, i }) => (
+        {question.categories.map((cat, catIdx) => {
+          const awaiting = picked !== null && !disabled
+          return (
+            <div
+              key={catIdx}
+              onDragOver={(e) => e.preventDefault()}
+              onDrop={() => { if (dragItem !== null) assign(dragItem, catIdx); setDragItem(null) }}
+              className={`rounded-xl border-2 p-3 transition-colors ${
+                awaiting
+                  ? 'border-[color:var(--ss-accent)]/50 bg-[color:var(--ss-accent)]/5'
+                  : 'border-gray-300 bg-gray-50/50 dark:border-gray-700 dark:bg-gray-900/20'
+              }`}
+            >
+              <p className="mb-2 text-sm font-semibold text-gray-800 dark:text-gray-200">{cat}</p>
+
+              {/* The category itself is the drop target when an item is held,
+                  so the whole box is tappable rather than a hidden hotspot. */}
+              {awaiting && (
                 <button
-                  key={i}
                   type="button"
-                  disabled={disabled}
-                  onClick={() => assign(i, undefined)}
-                  className="px-3 py-1.5 rounded-lg bg-white dark:bg-gray-800 text-sm border border-gray-200 dark:border-gray-600 hover:border-red-300"
-                  title="Click to return to pool"
+                  onClick={() => place(catIdx)}
+                  // Names the category too: every category renders one of these
+                  // at once, so "Put X here" alone gives a screen-reader user
+                  // several identical buttons with no way to tell them apart.
+                  aria-label={`Put “${pickedLabel}” in ${cat}`}
+                  className="mb-2 w-full rounded-lg border border-dashed border-ss-accent px-3 py-2 text-[12.5px] font-bold text-ss-accent hover:bg-[color:var(--ss-accent)]/10"
                 >
-                  {item}
+                  Put “{pickedLabel}” here
                 </button>
-              ))}
+              )}
+
+              <div className="flex min-h-[40px] flex-wrap gap-2">
+                {itemsInCategory(catIdx).map(({ item, i }) => (
+                  <button
+                    key={i}
+                    type="button"
+                    disabled={disabled}
+                    onClick={() => assign(i, undefined)}
+                    className="rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm hover:border-red-400 dark:border-gray-600 dark:bg-gray-800"
+                    title="Tap to return this item to the pool"
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
             </div>
-          </div>
-        ))}
+          )
+        })}
       </div>
-      <p className="text-xs text-gray-400 text-center">Drag items into categories, or tap an item to return it</p>
     </div>
   )
 }
