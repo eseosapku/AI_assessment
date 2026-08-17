@@ -184,3 +184,31 @@ describe('dropContradictions', () => {
     expect(dropContradictions([null as never, q('Real one here?')])).toHaveLength(1)
   })
 })
+
+describe('near-identical answers', () => {
+  it('treats singular and plural phrasings of the same answer as the same', () => {
+    // Straight from a generated Biology paper: two versions of the same
+    // question survived because "impulses" and "impulse" looked different.
+    const out = dedupeQuestions([
+      {
+        question: 'How does the myelin sheath affect the speed of nerve impulses?',
+        options: ['It increases the speed of nerve impulses.', 'It slows them.', 'No effect.', 'It blocks them.'],
+        correct_answer: 0,
+      },
+      {
+        question: 'How does the myelin sheath affect the speed of nerve impulses in a neuron?',
+        options: ['It increases the speed of the nerve impulse.', 'It slows them.', 'No effect.', 'It blocks them.'],
+        correct_answer: 0,
+      },
+    ])
+    expect(out).toHaveLength(1)
+  })
+
+  it('still separates genuinely different answers', () => {
+    const out = dedupeQuestions([
+      { question: 'Which shape has four sides?', options: ['Square', 'Rectangle'], correct_answer: 1 },
+      { question: 'Which shape has four equal sides?', options: ['Square', 'Rectangle'], correct_answer: 0 },
+    ])
+    expect(out).toHaveLength(2)
+  })
+})

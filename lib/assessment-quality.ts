@@ -68,12 +68,24 @@ interface QuestionLike {
   explanation?: unknown
 }
 
-/** The text of the answer a question expects, lowercased, or null. */
+/**
+ * A comparable form of the answer a question expects, or null.
+ *
+ * Normalised rather than compared verbatim. A real paper produced "It
+ * increases the speed of nerve impulses" and "It increases the speed of the
+ * nerve impulse" as the answers to two near-identical questions; on exact
+ * text those look like different answers and both survived. Reducing to
+ * sorted content words with a crude plural trim makes them match.
+ */
 function answerText(q: QuestionLike): string | null {
   if (!Array.isArray(q.options)) return null
   const idx = Number(q.correct_answer)
   if (!Number.isInteger(idx) || idx < 0 || idx >= q.options.length) return null
-  return String(q.options[idx] ?? '').trim().toLowerCase() || null
+  const raw = String(q.options[idx] ?? '')
+  const words = [...contentTokens(raw)]
+    .map((w) => (w.length > 4 && w.endsWith('s') ? w.slice(0, -1) : w))
+    .sort()
+  return words.length > 0 ? words.join(' ') : null
 }
 
 /**

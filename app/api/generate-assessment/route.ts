@@ -14,6 +14,7 @@ import { getCachedExamPaperById, isCachePaperId } from '@/lib/exam-source-cache'
 import { attachSourceImages, examFromCurriculum } from '@/lib/exam-source-images'
 import { groupQuestionsByFigure } from '@/lib/assessment-figure-groups'
 import { cleanQuestionPaper } from '@/lib/assessment-quality'
+import { judgeImageQuestion } from '@/lib/image-question-quality'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -2008,6 +2009,39 @@ export async function POST(request: NextRequest) {
     } else if (hasVisionFigures && visualCatalog.length > 0) {
       const attached = attachImagesFromCatalog(assessmentData.questions, visualCatalog)
       if (attached > 0) console.log(`Attached ${attached} vision-matched textbook image(s)`)
+
+      // An illustrated question has to be unanswerable without the picture.
+      // The model agrees to that in the prompt and then writes "a map shows a
+      // backyard during a rainfall… what does this indicate?" anyway, so the
+      // paper is checked rather than trusted. A leaked answer takes the whole
+      // question; a merely redundant or mislabelled figure takes only the
+      // image, since the question still works as text and losing a question
+      // costs the student practice.
+      {
+        const byKey = new Map(visualCatalog.map((c) => [c.localPath, c]))
+        let droppedQ = 0
+        let droppedImg = 0
+        assessmentData.questions = assessmentData.questions.filter((q: any) => {
+          if (!q?.image_url) return true
+          const verdict = judgeImageQuestion({
+            question: q.question,
+            options: q.options,
+            correct_answer: q.correct_answer,
+            visionType: byKey.get(q.image_url)?.category,
+          })
+          if (verdict.ok) return true
+          if (verdict.action === 'drop-question') {
+            droppedQ++
+            return false
+          }
+          delete q.image_url
+          droppedImg++
+          return true
+        })
+        if (droppedQ || droppedImg) {
+          console.log(`Image-question check: dropped ${droppedQ} question(s), detached ${droppedImg} figure(s)`)
+        }
+      }
 
       // A vision figure can be reused across several questions — group those
       // questions so they're contiguous (e.g. "Questions 4-6 refer to the

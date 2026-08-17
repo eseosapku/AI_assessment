@@ -412,6 +412,11 @@ FIGURE RULES:
 - When image_key is set, write the question about THAT figure — do not invent a different diagram.
 - Do NOT use phrases like "refer to the diagram" unless image_key is set.
 - Leave image_key empty only when no listed figure genuinely fits that question.
+- THE TEST FOR AN ILLUSTRATED QUESTION: a student who cannot see the figure must be unable to answer it. If the question can be answered from its own wording, the figure is decoration — remove the figure or rewrite the question.
+- NEVER describe the figure's contents in the question. Point at it ("In the diagram…", "Using the graph…") and stop. Writing "the image shows a backyard during a rainfall" tells the student everything and makes the picture pointless.
+- NEVER state or paraphrase the answer in the question. A stem mentioning "rainfall" whose answer is "a rainy day" is a broken question.
+- Name the figure correctly. Call a photograph a photograph, a diagram a diagram. Calling a photograph "a map" is confusing to read and actively misleading to a student using a screen reader.
+- Ask the student to DO something with the figure: read a value from it, name a labelled part, compare two regions, put stages in order. Avoid "what does this show?", which is answerable by guessing.
 `
 }
 
