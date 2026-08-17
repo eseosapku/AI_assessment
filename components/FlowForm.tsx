@@ -247,6 +247,54 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
 
   const RECENTS_KEY = 'quizTopicRecents'
 
+  /**
+   * Dialog behaviour. Without this the wizard was a plain div: Tab walked
+   * straight out into the page behind, Escape did nothing, and on close focus
+   * was dumped at the top of the document rather than back on the button that
+   * opened it.
+   */
+  const dialogRef = useRef<HTMLDivElement>(null)
+  useEffect(() => {
+    const openedFrom = document.activeElement as HTMLElement | null
+    const panel = dialogRef.current
+    const focusable = () =>
+      Array.from(
+        panel?.querySelectorAll<HTMLElement>(
+          'a[href],button:not([disabled]),input:not([disabled]),select:not([disabled]),textarea:not([disabled]),[tabindex]:not([tabindex="-1"])',
+        ) ?? [],
+      ).filter((el) => el.offsetParent !== null)
+
+    focusable()[0]?.focus()
+
+    const onKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+        return
+      }
+      if (e.key !== 'Tab' || !panel) return
+      const items = focusable()
+      if (items.length === 0) return
+      const first = items[0]
+      const last = items[items.length - 1]
+      if (e.shiftKey && (document.activeElement === first || !panel.contains(document.activeElement))) {
+        e.preventDefault()
+        last.focus()
+      } else if (!e.shiftKey && document.activeElement === last) {
+        e.preventDefault()
+        first.focus()
+      }
+    }
+
+    document.addEventListener('keydown', onKeyDown, true)
+    const previousOverflow = document.body.style.overflow
+    document.body.style.overflow = 'hidden'
+    return () => {
+      document.removeEventListener('keydown', onKeyDown, true)
+      document.body.style.overflow = previousOverflow
+      openedFrom?.focus?.()
+    }
+  }, [onClose])
+
   useEffect(() => {
     try {
       const raw = localStorage.getItem(RECENTS_KEY)
@@ -978,6 +1026,11 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
           exit={{ scale: 0.96, opacity: 0, y: 16 }}
           transition={{ duration: 0.2 }}
           onClick={e => e.stopPropagation()}
+          ref={dialogRef}
+          role="dialog"
+          aria-modal="true"
+          aria-labelledby="flowform-title"
+          tabIndex={-1}
           className="flex w-full max-w-5xl flex-col overflow-hidden rounded-2xl border border-gray-200/60 bg-white shadow-2xl shadow-black/20 dark:border-gray-800/60 dark:bg-gray-950 md:max-h-[90vh] md:flex-row"
         >
           {/* Step rail */}
@@ -1036,7 +1089,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             {/* Modal header */}
             <div className="flex flex-shrink-0 items-center justify-between border-b border-gray-100 px-5 py-4 dark:border-gray-800/60 sm:px-6">
               <div>
-                <h2 className="font-display text-lg font-black text-gray-900 dark:text-white sm:text-xl">
+                <h2 id="flowform-title" className="font-display text-lg font-black text-gray-900 dark:text-white sm:text-xl">
                   {isTeacher && !flowMode ? 'New assessment' : 'Build your quiz'}
                 </h2>
                 <p className="mt-0.5 text-xs text-ss-slate">
@@ -1047,9 +1100,10 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
               </div>
               <button
                 onClick={onClose}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-ss-slate transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                aria-label="Close the quiz builder"
+                className="flex h-9 w-9 items-center justify-center rounded-lg text-ss-slate transition-colors hover:bg-gray-100 hover:text-ss-ink dark:hover:bg-gray-800 dark:hover:text-gray-200"
               >
-                <X className="h-4 w-4" />
+                <X className="h-4 w-4" aria-hidden />
               </button>
             </div>
 
