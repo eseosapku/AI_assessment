@@ -26,6 +26,7 @@ import {
   type QuestionOutcome,
 } from '@/lib/assessment-weak-areas'
 import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
+import { registerViolation, BLUR_GRACE_MS } from '@/lib/assessment-proctor'
 
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -590,7 +591,10 @@ function AssessmentPageClient() {
   const [strictMode, setStrictMode] = useState(false)
   const [violationCount, setViolationCount] = useState(0)
   const [submissionReason, setSubmissionReason] = useState<'manual' | 'timer' | 'violation'>('manual')
-  const violationTriggeredRef = useRef(false)
+  // Mirrors violationCount for the event listeners, which are registered once
+  // and would otherwise close over a stale count.
+  const violationCountRef = useRef(0)
+  const [violationNotice, setViolationNotice] = useState<string | null>(null)
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
@@ -1130,44 +1134,69 @@ function AssessmentPageClient() {
     }
   }, [assessment, selectedAnswers, longFormAnswers, interactiveAnswers, assignmentId, timeRemaining, authUser, isClassroomAssignment, clearPausedState])
 
-  // Strict mode violation detection: tab switch and window focus loss
+  /**
+   * Strict-mode violation detection.
+   *
+   * This used to submit the whole attempt on the FIRST blur, which meant a
+   * screen reader taking focus, an on-screen keyboard, a system notification
+   * or a click on the browser's address bar ended the exam outright — with
+   * assistive-technology users hit hardest, since AT takes focus routinely.
+   *
+   * Now the two signals are treated as the different evidence they are:
+   * a backgrounded tab counts at once, while a bare blur only counts if focus
+   * has not returned within a grace window. Either way the student is warned
+   * and only loses the attempt after passing the threshold.
+   */
   useEffect(() => {
     if (!strictMode || isSubmitted) return
 
-    const handleVisibilityChange = () => {
-      console.log('Visibility changed. Hidden:', document.hidden)
-      if (document.hidden && !violationTriggeredRef.current) {
-        console.log('Violation detected: tab switch')
-        violationTriggeredRef.current = true
-        setViolationCount(c => c + 1)
+    let blurTimer: number | null = null
+
+    const clearBlurTimer = () => {
+      if (blurTimer !== null) {
+        window.clearTimeout(blurTimer)
+        blurTimer = null
+      }
+    }
+
+    const record = (kind: 'hidden' | 'blur') => {
+      const decision = registerViolation(kind, violationCountRef.current)
+      violationCountRef.current = decision.count
+      setViolationCount(decision.count)
+      setViolationNotice(decision.message)
+      if (decision.action === 'submit') {
         setSubmissionReason('violation')
         handleSubmit()
+      }
+    }
+
+    const handleVisibilityChange = () => {
+      if (document.hidden) {
+        // A backgrounded tab is unambiguous, so the grace timer is redundant.
+        clearBlurTimer()
+        record('hidden')
       }
     }
 
     const handleBlur = () => {
-      if (!violationTriggeredRef.current) {
-        console.log('Violation detected: window blur')
-        violationTriggeredRef.current = true
-        setViolationCount(c => c + 1)
-        setSubmissionReason('violation')
-        handleSubmit()
-      }
+      if (document.hidden) return // visibilitychange already owns this case
+      clearBlurTimer()
+      blurTimer = window.setTimeout(() => {
+        blurTimer = null
+        if (!document.hasFocus()) record('blur')
+      }, BLUR_GRACE_MS)
     }
 
-    const handleFocus = () => {
-      console.log('Window refocused')
-      if (violationTriggeredRef.current && !isSubmitted) {
-        console.log('Already triggered violation, submitting now')
-        handleSubmit()
-      }
-    }
+    // Coming back inside the grace window means nothing happened worth
+    // recording — a notification, a keyboard, a screen reader.
+    const handleFocus = clearBlurTimer
 
     document.addEventListener('visibilitychange', handleVisibilityChange)
     window.addEventListener('blur', handleBlur)
     window.addEventListener('focus', handleFocus)
 
     return () => {
+      clearBlurTimer()
       document.removeEventListener('visibilitychange', handleVisibilityChange)
       window.removeEventListener('blur', handleBlur)
       window.removeEventListener('focus', handleFocus)
@@ -1175,7 +1204,9 @@ function AssessmentPageClient() {
   }, [strictMode, isSubmitted, handleSubmit])
 
   useEffect(() => {
-    violationTriggeredRef.current = false
+    violationCountRef.current = 0
+    setViolationCount(0)
+    setViolationNotice(null)
   }, [assessment])
 
   // The quiz is paged (one question per screen) but the page itself scrolls
@@ -1603,6 +1634,31 @@ function AssessmentPageClient() {
           </div>
         </div>
       </div>
+
+      {/* Proctoring warning. Announced politely rather than assertively so a
+          screen reader finishes the current sentence first — the student is
+          being warned, not interrupted mid-answer. */}
+      {violationNotice && (
+        <div className="px-4 pt-4 sm:px-6 lg:px-8">
+          <div
+            role="status"
+            aria-live="polite"
+            className="mx-auto flex max-w-3xl items-start gap-3 rounded-2xl border-2 border-amber-400 bg-amber-50 p-4 dark:border-amber-600 dark:bg-amber-900/25"
+          >
+            <span className="mt-0.5 text-lg leading-none" aria-hidden>⚠️</span>
+            <p className="flex-1 text-[13.5px] font-semibold text-amber-900 dark:text-amber-100">
+              {violationNotice}
+            </p>
+            <button
+              type="button"
+              onClick={() => setViolationNotice(null)}
+              className="shrink-0 rounded-lg px-2 py-1 text-[12px] font-bold text-amber-900 hover:bg-amber-100 dark:text-amber-100 dark:hover:bg-amber-800/40"
+            >
+              Dismiss
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Question content */}
       <div className="flex-1 flex items-start justify-center p-4 sm:p-6 lg:p-8">
