@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { GripVertical, Check, X } from 'lucide-react'
 import type {
   InteractiveAnswer,
@@ -13,6 +13,8 @@ import type {
   MultiSelectInteractiveQuestion,
   OddOneOutInteractiveQuestion,
 } from '@/types/interactive'
+import { helpFor, isFirstEncounter, readSeen, markSeen } from '@/lib/interactive-help'
+import { Modal } from '@/components/ui/Modal'
 
 function LatexText({ children }: { children: string }) {
   const text = String(children ?? '')
@@ -698,11 +700,73 @@ export function InteractiveQuestionPlayer({
     odd_one_out: 'Odd one out',
   }
 
+  const help = helpFor(question.kind)
+  const [seen, setSeen] = useState<string[]>([])
+  const [showSteps, setShowSteps] = useState(false)
+  useEffect(() => { setSeen(readSeen()) }, [])
+
+  // Shown once per question type, then replaced by the quieter standing hint.
+  // These are unfamiliar interactions that previously arrived with nothing at
+  // all to say how they worked.
+  const firstTime = !disabled && isFirstEncounter(question.kind, seen)
+  const dismissFirstRun = () => setSeen(markSeen(question.kind))
+
   return (
     <div>
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-900/20 text-teal-700 dark:text-teal-300 text-xs font-semibold mb-4">
-        ✦ Interactive · {kindLabel[question.kind] ?? question.kind}
+      <div className="mb-4 flex flex-wrap items-center gap-2">
+        <div className="inline-flex items-center gap-2 rounded-full bg-teal-50 px-3 py-1 text-xs font-semibold text-teal-800 dark:bg-teal-900/20 dark:text-teal-200">
+          ✦ Interactive · {kindLabel[question.kind] ?? question.kind}
+        </div>
+        {help && (
+          <button
+            type="button"
+            onClick={() => setShowSteps(true)}
+            aria-label={`How ${help.title.toLowerCase()} questions work`}
+            className="grid h-7 w-7 place-items-center rounded-full border border-ss-line text-[13px] font-extrabold text-ss-slate transition-colors hover:border-ss-accent hover:text-ss-accent"
+          >
+            ?
+          </button>
+        )}
       </div>
+
+      {help && firstTime && (
+        <div className="mb-4 rounded-2xl border-2 border-ss-accent bg-[color:var(--ss-accent)]/8 p-4">
+          <p className="text-[14px] font-extrabold text-ss-ink">First time with {help.title.toLowerCase()}?</p>
+          <ol className="mt-2 list-decimal space-y-1 pl-5 text-[13px] font-medium text-ss-ink">
+            {help.steps.map((step, i) => <li key={i}>{step}</li>)}
+          </ol>
+          <button
+            type="button"
+            onClick={dismissFirstRun}
+            className="mt-3 rounded-xl bg-ss-accent px-4 py-2 text-[13px] font-bold text-white hover:opacity-90"
+          >
+            Got it
+          </button>
+        </div>
+      )}
+
+      {help && !firstTime && (
+        <p className="mb-3 text-[13px] font-medium text-ss-slate">{help.hint}</p>
+      )}
+
+      {help && showSteps && (
+        <Modal open onClose={() => setShowSteps(false)} title={`How ${help.title} works`} className="max-w-md">
+          <div className="p-6">
+            <h3 className="text-lg font-extrabold text-ss-ink">{help.title}</h3>
+            <p className="mt-1 text-[13px] font-medium text-ss-slate">{help.hint}</p>
+            <ol className="mt-4 list-decimal space-y-2 pl-5 text-[14px] text-ss-ink">
+              {help.steps.map((step, i) => <li key={i}>{step}</li>)}
+            </ol>
+            <button
+              type="button"
+              onClick={() => setShowSteps(false)}
+              className="mt-6 w-full rounded-xl bg-ss-accent px-5 py-3 text-[14px] font-extrabold text-white hover:opacity-90"
+            >
+              Close
+            </button>
+          </div>
+        </Modal>
+      )}
       {question.kind === 'match' && (
         <MatchPairs question={question} value={value} onChange={onChange} disabled={disabled} />
       )}
