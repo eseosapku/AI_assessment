@@ -19,6 +19,7 @@ import {
   type SchoolClassRow,
 } from '@/lib/school-class-options'
 import { CustomTopicStep, type CustomSource } from '@/components/quiz/CustomTopicStep'
+import type { TopicMatch } from '@/app/api/quiz-topic/match/route'
 import { CustomScopeStep } from '@/components/quiz/CustomScopeStep'
 import {
   buildTopicsPayload,
@@ -246,6 +247,58 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
   const scopedTopicRef = useRef('')
 
   const RECENTS_KEY = 'quizTopicRecents'
+
+  /**
+   * Look the typed topic up in the curriculum as they type.
+   *
+   * Debounced, and failure-tolerant: this is an offer, never a gate. If the
+   * lookup is slow or errors, the free-topic path carries on untouched.
+   */
+  const [topicMatches, setTopicMatches] = useState<TopicMatch[]>([])
+  useEffect(() => {
+    if (!isCustom || customSource !== 'topic' || !isUsableTopic(customTopic)) {
+      setTopicMatches([])
+      return
+    }
+    let cancelled = false
+    const timer = window.setTimeout(async () => {
+      try {
+        const res = await fetch('/api/quiz-topic/match', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ topic: customTopic }),
+        })
+        const json = await res.json()
+        if (!cancelled && res.ok) setTopicMatches(json?.matches ?? [])
+      } catch {
+        if (!cancelled) setTopicMatches([])
+      }
+    }, 400)
+    return () => {
+      cancelled = true
+      window.clearTimeout(timer)
+    }
+  }, [isCustom, customSource, customTopic])
+
+  /**
+   * Switch from the free-topic path to the real syllabus topic.
+   *
+   * Carries the textbook and topic ids across, so generation uses actual
+   * curriculum content and its figure library rather than the model's general
+   * knowledge — which is the whole point of having matched.
+   */
+  const useSyllabusMatch = (m: TopicMatch) => {
+    setCustomTopic(m.name)
+    setTopicMatches([])
+    setFormData((prev) => ({
+      ...prev,
+      subject: m.textbookName || prev.subject,
+      textbook_id: m.textbookId,
+      topic_ids: m.kind === 'topic' ? [m.id] : m.parentTopicId ? [m.parentTopicId] : [],
+      subtopic_ids: m.kind === 'subtopic' ? [m.id] : [],
+      topics: [m.name],
+    }))
+  }
 
   /**
    * Dialog behaviour. Without this the wizard was a plain div: Tab walked
@@ -1174,6 +1227,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   notes={customNotes}
                   onNotesChange={setCustomNotes}
                   recents={recentTopics}
+                  matches={topicMatches}
+                  onUseMatch={useSyllabusMatch}
                   onSubmit={goForward}
                 />
               </div>

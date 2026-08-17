@@ -10,6 +10,7 @@ import {
   isUsableNotes,
   normalizeNotes,
 } from '@/lib/quiz-topic'
+import type { TopicMatch } from '@/app/api/quiz-topic/match/route'
 
 export type CustomSource = 'topic' | 'notes'
 
@@ -42,6 +43,8 @@ export function CustomTopicStep({
   onNotesChange,
   recents,
   onSubmit,
+  matches,
+  onUseMatch,
 }: {
   source: CustomSource
   onSourceChange: (s: CustomSource) => void
@@ -50,6 +53,9 @@ export function CustomTopicStep({
   notes: string
   onNotesChange: (n: string) => void
   recents: string[]
+  /** Syllabus topics that look like what was typed. */
+  matches: TopicMatch[]
+  onUseMatch: (m: TopicMatch) => void
   /** Enter in the topic field advances the wizard, as in any single-field form. */
   onSubmit: () => void
 }) {
@@ -123,6 +129,34 @@ export function CustomTopicStep({
               className="w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-sm font-medium text-gray-900 outline-none transition-colors placeholder:font-normal placeholder:text-ss-slate focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-ss-slate"
             />
           </div>
+
+          {/* The free-topic path never consulted the curriculum, so a topic
+              that genuinely exists on a syllabus got hallucinated scope
+              instead — "stories of use" drifting into poems. Offer the real
+              thing when we have it; the typed version still works. */}
+          {matches.length > 0 && (
+            <div className="mt-3 rounded-2xl border border-ss-accent bg-[color:var(--ss-accent)]/6 p-3.5">
+              <p className="text-[13px] font-bold text-ss-ink">
+                This looks like a topic from your curriculum
+              </p>
+              <p className="mt-0.5 text-[12.5px] font-medium text-ss-slate">
+                Pick one and the quiz uses the real syllabus content, including its diagrams.
+              </p>
+              <div className="mt-2.5 flex flex-wrap gap-1.5">
+                {matches.map((m) => (
+                  <button
+                    key={`${m.kind}-${m.id}`}
+                    type="button"
+                    onClick={() => onUseMatch(m)}
+                    className="rounded-full border border-ss-accent bg-ss-panel px-3 py-1.5 text-left text-[12.5px] font-semibold text-ss-ink transition-colors hover:bg-[color:var(--ss-accent)]/10"
+                  >
+                    {m.name}
+                    <span className="ml-1.5 font-medium text-ss-slate">{m.curriculumLabel}</span>
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
 
           {recents.length > 0 && (
             <div className="mt-3">
