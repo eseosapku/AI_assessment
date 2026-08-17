@@ -251,7 +251,7 @@ function OrderItems({
               disabled={disabled || pos === 0}
               onClick={() => moveItem(pos, pos - 1)}
               aria-label={`Move "${question.items[itemIdx]}" up to position ${pos}`}
-              className="grid h-8 w-8 place-items-center rounded-lg border border-gray-300 text-gray-700 hover:border-ss-accent hover:text-ss-accent disabled:opacity-30 dark:border-gray-600 dark:text-gray-300"
+              className="grid h-8 w-8 place-items-center rounded-lg border border-gray-300 text-gray-700 hover:border-ss-accent hover:text-ss-accent disabled:opacity-60 dark:border-gray-600 dark:text-gray-300"
             >
               ▲
             </button>
@@ -260,7 +260,7 @@ function OrderItems({
               disabled={disabled || pos === order.length - 1}
               onClick={() => moveItem(pos, pos + 1)}
               aria-label={`Move "${question.items[itemIdx]}" down to position ${pos + 2}`}
-              className="grid h-8 w-8 place-items-center rounded-lg border border-gray-300 text-gray-700 hover:border-ss-accent hover:text-ss-accent disabled:opacity-30 dark:border-gray-600 dark:text-gray-300"
+              className="grid h-8 w-8 place-items-center rounded-lg border border-gray-300 text-gray-700 hover:border-ss-accent hover:text-ss-accent disabled:opacity-60 dark:border-gray-600 dark:text-gray-300"
             >
               ▼
             </button>

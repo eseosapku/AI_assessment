@@ -1261,8 +1261,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             {flowMode === 'ai' && step === 3 && (formData.class_name || isCustom) && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Difficulty level" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
-                <p className="text-xs text-ss-slate mb-3">This shapes how challenging the questions will be</p>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">How hard should it be?</h3>
+                <p className="text-xs text-ss-slate mb-3">Sets the thinking level — from recalling facts up to analysing and judging.</p>
                 <div className="flex flex-col gap-2">
                   {DIFFICULTY_LEVELS.map(dl => (
                     <OptionButton key={dl.id} selected={formData.difficultyLevel === dl.id} onClick={() => handleDifficultySelect(dl.id)}>
@@ -1320,8 +1320,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             {flowMode === 'ai' && step === 5 && formData.subject && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Topics" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
-                <p className="text-xs text-ss-slate mb-3">You can select multiple topics</p>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">What should the quiz cover?</h3>
+                <p className="text-xs text-ss-slate mb-3">Tick as many as you like. Questions are spread evenly across whatever you pick.</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {isUniStudent ? (
                     uniTopics.length === 0 ? (
@@ -1373,8 +1373,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                 {formData.topic_ids.length === 1 && step === 5 && (
                   <div className="mt-4">
                     <StepLabel label="Subtopic (optional)" />
-                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Focus on one or more subtopics</h3>
-                    <p className="text-xs text-ss-slate mb-3">Leave blank to cover the entire topic</p>
+                    <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Narrow it down further</h3>
+                    <p className="text-xs text-ss-slate mb-3">Optional. Pick none and the quiz covers the whole topic.</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <OptionButton selected={formData.subtopic_ids.length === 0} onClick={() => handleSubtopicToggle(null)}>
                         <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">Entire topic</span>
@@ -1444,11 +1444,11 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             {flowMode === 'ai' && step === 7 && formData.count > 0 && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Assessment style" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Choose a question style</h3>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">What should the questions feel like?</h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {[
-                    { label: 'Exam Style', sub: 'Past paper format, timed conditions', value: 'Exam Style (Past Papers)' },
-                    { label: 'Test Style', sub: 'Textbook exercises & practice questions', value: 'Test Style (Textbooks)' },
+                    { label: 'Exam style', sub: 'Real past-paper wording and timing — closest to the day itself', value: 'Exam Style (Past Papers)' },
+                    { label: 'Practice style', sub: 'Textbook-style exercises — better for learning as you go', value: 'Test Style (Textbooks)' },
                   ].map(s => (
                     <OptionButton key={s.value} selected={formData.style === s.value} onClick={() => handleStyleSelect(s.value)}>
                       <p className="font-semibold text-sm text-gray-900 dark:text-white">{s.label}</p>
@@ -1463,7 +1463,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             {flowMode === 'ai' && step === 8 && formData.style && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Question type" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How should questions be presented?</h3>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">How do you want to answer?</h3>
                 <div className="flex flex-col gap-2">
                   {QUESTION_TYPES.map(qt => (
                     <OptionButton key={qt.id} selected={formData.questionType === qt.id} onClick={() => handleQuestionTypeSelect(qt.id as 'mcq' | 'longform' | 'mixed' | 'interactive' | 'study_mixed')}>
@@ -1484,7 +1484,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             {flowMode === 'ai' && step === 9 && formData.questionType && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Summary" />
-                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Review your assessment</h3>
+                <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">Check everything before we build it</h3>
 
                 <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden mb-4">
                   {summaryRows.filter(r => r.value).map((row, i) => (
@@ -1622,7 +1622,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   type="button"
                   onClick={goForward}
                   disabled={!canStepForward}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-ss-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-ss-accent disabled:cursor-not-allowed disabled:opacity-40"
+                  className="inline-flex items-center gap-1.5 rounded-xl bg-ss-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-ss-accent disabled:cursor-not-allowed disabled:opacity-60"
                 >
                   Continue
                   <ChevronRight className="h-4 w-4" />

@@ -379,7 +379,7 @@ function SnapModal({
       >
         <div className="flex items-center justify-between border-b border-ss-line px-6 py-4">
           <h3 className="font-display text-lg font-black text-ss-ink">Get homework help</h3>
-          <button type="button" onClick={onClose} disabled={busy} className="rounded-lg p-1.5 text-ss-slate hover:bg-ss-chip disabled:opacity-40">
+          <button type="button" onClick={onClose} disabled={busy} className="rounded-lg p-1.5 text-ss-slate hover:bg-ss-chip disabled:opacity-60">
             <X className="h-5 w-5" />
           </button>
         </div>
@@ -397,7 +397,7 @@ function SnapModal({
               disabled={busy}
               rows={3}
               placeholder="Type or paste the homework question here…"
-              className="w-full resize-none rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none disabled:opacity-50"
+              className="w-full resize-none rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none disabled:opacity-60"
             />
           </div>
 
@@ -431,7 +431,7 @@ function SnapModal({
                 type="button"
                 onClick={() => fileRef.current?.click()}
                 disabled={busy}
-                className="flex w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-ss-line py-8 text-ss-slate hover:border-ss-accent hover:text-ss-accent disabled:opacity-40"
+                className="flex w-full flex-col items-center gap-2 rounded-xl border-2 border-dashed border-ss-line py-8 text-ss-slate hover:border-ss-accent hover:text-ss-accent disabled:opacity-60"
               >
                 <Upload className="h-6 w-6" />
                 <span className="text-sm font-bold">Upload or paste an image / PDF</span>
@@ -442,8 +442,8 @@ function SnapModal({
           {error && <p className="text-sm font-semibold text-ss-bad">{error}</p>}
         </div>
         <div className="flex justify-end gap-3 border-t border-ss-line px-6 py-4">
-          <button type="button" onClick={onClose} disabled={busy} className="btn-secondary !py-2.5 disabled:opacity-40">Cancel</button>
-          <button type="button" onClick={submit} disabled={(!preview && !text.trim()) || busy} className="btn-primary !py-2.5 disabled:opacity-50">
+          <button type="button" onClick={onClose} disabled={busy} className="btn-secondary !py-2.5 disabled:opacity-60">Cancel</button>
+          <button type="button" onClick={submit} disabled={(!preview && !text.trim()) || busy} className="btn-primary !py-2.5 disabled:opacity-60">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {stage === 'reading' ? 'Reading…' : stage === 'building' ? 'Building…' : 'Solve this'}
           </button>
@@ -560,7 +560,7 @@ function CreateModal({
         </div>
         <div className="flex justify-end gap-3 border-t border-ss-line px-6 py-4">
           <button type="button" onClick={onClose} className="btn-secondary !py-2.5">Cancel</button>
-          <button type="button" onClick={submit} disabled={!title.trim() || submitting} className="btn-primary !py-2.5 disabled:opacity-50">
+          <button type="button" onClick={submit} disabled={!title.trim() || submitting} className="btn-primary !py-2.5 disabled:opacity-60">
             {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             Create
           </button>

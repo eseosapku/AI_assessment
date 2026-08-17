@@ -147,7 +147,7 @@ export default function ForgotPasswordForm() {
             disabled={isLoading}
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
-            className="w-full btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
+            className="w-full btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Sending...' : 'Send Reset Instructions'}
           </motion.button>

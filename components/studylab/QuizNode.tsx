@@ -130,7 +130,7 @@ function Short({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'sho
           type="button"
           onClick={check}
           disabled={quiz.state === 'pending'}
-          className="nodrag inline-flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-50"
+          className="nodrag inline-flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
         >
           {quiz.state === 'pending' && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
           Check
@@ -227,7 +227,7 @@ function CodeChallenge({ q, quiz, set }: { q: Extract<CheckpointQuestion, { form
             type="button"
             onClick={run}
             disabled={running}
-            className="nodrag inline-flex items-center gap-1 rounded-lg bg-violet-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-violet-600 disabled:opacity-50"
+            className="nodrag inline-flex items-center gap-1 rounded-lg bg-violet-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-violet-600 disabled:opacity-60"
           >
             {running ? <Loader2 className="w-3.5 h-3.5 animate-spin" /> : <Play className="w-3.5 h-3.5" />}
             Run
@@ -236,7 +236,7 @@ function CodeChallenge({ q, quiz, set }: { q: Extract<CheckpointQuestion, { form
             type="button"
             onClick={submit}
             disabled={quiz.state === 'pending'}
-            className="nodrag rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-50"
+            className="nodrag rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
           >
             Submit
           </button>

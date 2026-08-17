@@ -996,7 +996,7 @@ export default function ReportCardGenerator() {
                   <button
                     onClick={generateAndPrint}
                     disabled={selectedIds.size === 0}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold bg-blue-600 hover:bg-blue-700 text-white transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <Printer className="w-4 h-4" />
                     Print Report Card
@@ -1004,7 +1004,7 @@ export default function ReportCardGenerator() {
                   <button
                     onClick={generateAndDownload}
                     disabled={selectedIds.size === 0 || isGenerating}
-                    className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-800 dark:text-gray-200 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                    className="w-full flex items-center justify-center gap-2 py-3 rounded-2xl text-sm font-bold bg-gray-100 dark:bg-white/5 hover:bg-gray-200 dark:hover:bg-white/10 text-gray-800 dark:text-gray-200 transition-colors disabled:opacity-60 disabled:cursor-not-allowed"
                   >
                     <Download className="w-4 h-4" />
                     {isGenerating ? 'Opening…' : 'Save as PDF'}

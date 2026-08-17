@@ -117,7 +117,7 @@ export default function BedrockTestPage() {
         <button
           onClick={runBenchmark}
           disabled={loading || selected.size === 0}
-          className="mb-6 px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-50 disabled:cursor-not-allowed transition"
+          className="mb-6 px-6 py-2.5 bg-indigo-600 text-white rounded-lg font-medium hover:bg-indigo-700 disabled:opacity-60 disabled:cursor-not-allowed transition"
         >
           {loading ? 'Running benchmark…' : `Run Benchmark (${selected.size} models)`}
         </button>

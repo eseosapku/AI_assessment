@@ -866,7 +866,7 @@ export default function GapMap({
                 <button
                   onClick={() => takeQuiz(selected)}
                   disabled={takingQuiz || starting}
-                  className="w-full py-2.5 rounded-xl border border-[color:var(--ss-accent)]/30 bg-[color:var(--ss-accent)]/5 text-ss-accent font-medium text-sm flex items-center justify-center gap-2 hover:bg-[color:var(--ss-accent)]/10 transition-colors disabled:opacity-50"
+                  className="w-full py-2.5 rounded-xl border border-[color:var(--ss-accent)]/30 bg-[color:var(--ss-accent)]/5 text-ss-accent font-medium text-sm flex items-center justify-center gap-2 hover:bg-[color:var(--ss-accent)]/10 transition-colors disabled:opacity-60"
                 >
                   {takingQuiz ? <Loader2 className="w-4 h-4 animate-spin" /> : <FileQuestion className="w-4 h-4" />}
                   Take quiz on this
@@ -875,7 +875,7 @@ export default function GapMap({
               <button
                 onClick={() => startStudy(selected)}
                 disabled={starting || takingQuiz}
-                className="btn-primary w-full !py-2.5 flex items-center justify-center gap-2 disabled:opacity-50"
+                className="btn-primary w-full !py-2.5 flex items-center justify-center gap-2 disabled:opacity-60"
               >
                 {starting ? <Loader2 className="w-4 h-4 animate-spin" /> : <Sparkles className="w-4 h-4" />}
                 {selected.status === 'not_assessed' ? 'Start directed study' : 'Continue study session'}

@@ -120,7 +120,7 @@ export function CustomTopicStep({
               autoFocus
               placeholder="Anything — a school topic, a hobby, something you read…"
               aria-label="Topic to be quizzed on"
-              className="w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-sm font-medium text-gray-900 outline-none transition-colors placeholder:font-normal placeholder:text-gray-400 focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500"
+              className="w-full rounded-xl border border-gray-200 bg-white py-3.5 pl-11 pr-4 text-sm font-medium text-gray-900 outline-none transition-colors placeholder:font-normal placeholder:text-ss-slate focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-ss-slate"
             />
           </div>
 
@@ -179,7 +179,7 @@ export function CustomTopicStep({
             rows={9}
             placeholder="Paste your notes, a summary, an article or a syllabus. Every question will come from this text."
             aria-label="Notes to be quizzed on"
-            className="w-full resize-y rounded-xl border border-gray-200 bg-white p-4 text-[13px] leading-relaxed text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500"
+            className="w-full resize-y rounded-xl border border-gray-200 bg-white p-4 text-[13px] leading-relaxed text-gray-900 outline-none transition-colors placeholder:text-ss-slate focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-ss-slate"
           />
           <p className="mt-1.5 text-[13px] font-medium text-ss-slate">
             {isUsableNotes(notes)

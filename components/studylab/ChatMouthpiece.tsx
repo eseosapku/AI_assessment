@@ -260,7 +260,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <button
             onClick={() => fileRef.current?.click()}
             disabled={busy}
-            className="w-8 h-8 rounded-xl text-ss-slate hover:text-ss-accent hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center disabled:opacity-40 shrink-0 transition-colors"
+            className="w-8 h-8 rounded-xl text-ss-slate hover:text-ss-accent hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center disabled:opacity-60 shrink-0 transition-colors"
             aria-label="Attach an image of your work"
             title="Attach an image of your work"
           >
@@ -283,7 +283,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <button
             onClick={() => send(input)}
             disabled={(!input.trim() && !attachment) || busy}
-            className="w-8 h-8 rounded-xl bg-ss-accent text-white flex items-center justify-center disabled:opacity-40 hover:brightness-95 transition-all shrink-0"
+            className="w-8 h-8 rounded-xl bg-ss-accent text-white flex items-center justify-center disabled:opacity-60 hover:brightness-95 transition-all shrink-0"
           >
             <Send className="w-4 h-4" />
           </button>

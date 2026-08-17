@@ -136,7 +136,7 @@ export default function NextStepsPanel({
               type="button"
               onClick={onRetake}
               disabled={retaking}
-              className="flex items-center justify-center gap-2 rounded-2xl border border-ss-line bg-ss-panel px-5 py-3.5 text-[13.5px] font-extrabold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent disabled:cursor-not-allowed disabled:opacity-50"
+              className="flex items-center justify-center gap-2 rounded-2xl border border-ss-line bg-ss-panel px-5 py-3.5 text-[13.5px] font-extrabold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent disabled:cursor-not-allowed disabled:opacity-60"
             >
               {retaking ? <Loader2 className="h-4 w-4 animate-spin" /> : <RotateCcw className="h-4 w-4" />}
               {retaking ? 'Starting…' : 'Retake quiz'}

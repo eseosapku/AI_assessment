@@ -1216,7 +1216,7 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                                 <button
                                     disabled={!canStart}
                                     onClick={() => router.push(`/assessment?assignment=${row.assignment.id}`)}
-                                    className="mt-auto w-full py-2 rounded-xl text-xs font-bold transition-colors disabled:opacity-50 disabled:cursor-not-allowed bg-[#0E8FD1] hover:bg-[#0C6FAE] text-white"
+                                    className="mt-auto w-full py-2 rounded-xl text-xs font-bold transition-colors disabled:opacity-60 disabled:cursor-not-allowed bg-[#0E8FD1] hover:bg-[#0C6FAE] text-white"
                                 >
                                     {isExpired ? 'Deadline passed' : buttonLabel}
                                 </button>

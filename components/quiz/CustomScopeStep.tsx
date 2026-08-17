@@ -83,9 +83,18 @@ export function CustomScopeStep({
         </div>
       )}
 
+      {/* The step gave a subject, a title and a row of pills with no statement
+          of what any of it was for, or that everything was already on. */}
+      {areas.length > 0 && (
+        <p className="mb-3 text-[13px] font-medium text-ss-slate">
+          These are the areas your quiz will cover. They&apos;re all on — untick anything you&apos;d
+          rather skip, or add one we missed.
+        </p>
+      )}
+
       {areas.length > 0 && (
         <div className="mb-2 flex items-center justify-between">
-          <p className="text-[12.5px] font-semibold text-gray-500 dark:text-gray-400">
+          <p className="text-[12.5px] font-semibold text-ss-slate">
             {selected.length} of {areas.length} selected
           </p>
           <button
@@ -139,17 +148,20 @@ export function CustomScopeStep({
             }
           }}
           maxLength={FOCUS_AREA_MAX_LENGTH}
-          placeholder="Add your own area…"
+          placeholder="Add an area we missed…"
           aria-label="Add your own focus area"
-          className="min-w-0 flex-1 rounded-xl border border-gray-200 bg-white px-3.5 py-2.5 text-[12.5px] font-medium text-gray-900 outline-none transition-colors placeholder:font-normal placeholder:text-gray-400 focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white"
+          className="min-w-0 flex-1 rounded-xl border border-gray-300 bg-white px-3.5 py-2.5 text-[13px] font-medium text-ss-ink outline-none transition-colors placeholder:font-normal placeholder:text-ss-slate focus:border-ss-accent dark:border-gray-700 dark:bg-gray-900 dark:text-white"
         />
+        {/* Was a faded ghost at roughly 2:1 — present but unreadable, so it
+            looked broken rather than inactive. It now keeps a solid border and
+            real label weight whether or not it can be pressed. */}
         <button
           type="button"
           onClick={commitDraft}
           disabled={!draft.trim()}
-          className="flex flex-shrink-0 items-center gap-1 rounded-xl border border-gray-200 px-3.5 text-[12.5px] font-bold text-gray-700 transition-colors hover:border-ss-accent hover:text-ss-accent disabled:cursor-not-allowed disabled:opacity-40 dark:border-gray-800 dark:text-gray-300"
+          className="flex flex-shrink-0 items-center gap-1.5 rounded-xl border border-gray-300 px-4 py-2.5 text-[13px] font-bold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent disabled:cursor-not-allowed disabled:border-gray-200 disabled:text-ss-slate dark:border-gray-700 dark:text-gray-200"
         >
-          <Plus className="h-3.5 w-3.5" /> Add
+          <Plus className="h-4 w-4" /> Add
         </button>
       </div>
     </motion.div>

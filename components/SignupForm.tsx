@@ -9,7 +9,7 @@ import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySign
 import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityYearLabel } from '@/lib/university-curriculum'
 
 const inputBase =
-  'w-full pl-11 pr-4 py-3 rounded-xl text-sm bg-slate-50 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] focus:border-[#13a7df] dark:focus:border-[#13a7df] focus:ring-2 focus:ring-[#13a7df]/20 outline-none transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-gray-600'
+  'w-full pl-11 pr-4 py-3 rounded-xl text-sm bg-slate-50 dark:bg-white/[0.05] border border-slate-200 dark:border-white/[0.08] focus:border-[#13a7df] dark:focus:border-[#13a7df] focus:ring-2 focus:ring-[#13a7df]/20 outline-none transition-all text-slate-900 dark:text-white placeholder:text-ss-slate dark:placeholder:text-ss-slate'
 
 const Field = ({ id, label, icon: Icon, children }: { id: string; label: string; icon: any; children: React.ReactNode }) => (
   <div>

@@ -179,7 +179,7 @@ export default function WelcomeFlow() {
                   <ArrowLeft className="h-4 w-4" />
                   Back
                 </button>
-                <button type="button" onClick={() => setStep(2)} disabled={!goal} className="btn-primary flex-1 justify-center disabled:cursor-not-allowed disabled:opacity-50">
+                <button type="button" onClick={() => setStep(2)} disabled={!goal} className="btn-primary flex-1 justify-center disabled:cursor-not-allowed disabled:opacity-60">
                   Continue
                   <ArrowRight className="h-4 w-4" />
                 </button>

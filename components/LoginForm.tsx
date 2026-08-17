@@ -7,7 +7,7 @@ import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 
 const inputClass =
-  'w-full rounded-xl border-2 border-black/[0.06] bg-white py-3 pl-11 pr-4 text-sm font-medium text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-slate-500'
+  'w-full rounded-xl border-2 border-black/[0.06] bg-white py-3 pl-11 pr-4 text-sm font-medium text-slate-900 outline-none transition-all placeholder:text-ss-slate focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-ss-slate'
 
 export default function LoginForm({
   embedded = false,

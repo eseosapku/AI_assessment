@@ -522,7 +522,7 @@ function FlowInner({
                     type="button"
                     onClick={() => exportCanvas('png')}
                     disabled={selectedSteps.size === 0}
-                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg border border-ss-line hover:border-ss-accent hover:text-ss-accent transition-colors disabled:opacity-40"
+                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg border border-ss-line hover:border-ss-accent hover:text-ss-accent transition-colors disabled:opacity-60"
                   >
                     PNG image
                   </button>
@@ -530,7 +530,7 @@ function FlowInner({
                     type="button"
                     onClick={() => exportCanvas('pdf')}
                     disabled={selectedSteps.size === 0}
-                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg bg-ss-accent text-white hover:brightness-95 transition-colors disabled:opacity-40"
+                    className="flex-1 text-center text-[12px] font-semibold px-2 py-2 rounded-lg bg-ss-accent text-white hover:brightness-95 transition-colors disabled:opacity-60"
                   >
                     PDF · {stepList.length > 1 ? 'pages' : '1 page'}
                   </button>
