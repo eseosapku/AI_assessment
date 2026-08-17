@@ -27,6 +27,17 @@ import {
 } from '@/lib/assessment-weak-areas'
 import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { registerViolation, BLUR_GRACE_MS } from '@/lib/assessment-proctor'
+import {
+  readQueue,
+  writeQueue,
+  upsert,
+  removeById,
+  shouldRetry,
+  nextBackoffMs,
+  isRetryableStatus,
+  isOnline,
+  type PendingSubmission,
+} from '@/lib/offline-submission'
 
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -595,6 +606,8 @@ function AssessmentPageClient() {
   // and would otherwise close over a stale count.
   const violationCountRef = useRef(0)
   const [violationNotice, setViolationNotice] = useState<string | null>(null)
+  const [offline, setOffline] = useState(false)
+  const [pendingSync, setPendingSync] = useState(false)
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
@@ -1111,28 +1124,124 @@ function AssessmentPageClient() {
         ? (assessment?.estimated_time ?? 0) * 60
         : null
       const timeTaken = totalSeconds !== null ? Math.max(totalSeconds - timeRemaining, 0) : null
-      await fetch('/api/save-result', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: resolvedUserId,
-          assessment_id: assessment?.assessment_id,
-          assignment_id: assignmentId ?? null,
-          student_email: authUser?.email ?? storedUser?.email ?? null,
-          answers: { mcq: selectedAnswers, longform: longFormAnswers, interactive: interactiveAnswers },
-          total_questions: questions.length,
-          score: finalScore,
-          grade,
-          feedback: generatedFeedback,
-          questions_data: assessment?.questions ?? [],
-          longform_grades: longFormGradesResult,
-          time_taken: timeTaken,
-          submission_reason: submissionReason,
-          violation_count: violationCount,
-        }),
-      })
+      const payload = {
+        user_id: resolvedUserId,
+        assessment_id: assessment?.assessment_id,
+        assignment_id: assignmentId ?? null,
+        student_email: authUser?.email ?? storedUser?.email ?? null,
+        answers: { mcq: selectedAnswers, longform: longFormAnswers, interactive: interactiveAnswers },
+        total_questions: questions.length,
+        score: finalScore,
+        grade,
+        feedback: generatedFeedback,
+        questions_data: assessment?.questions ?? [],
+        longform_grades: longFormGradesResult,
+        time_taken: timeTaken,
+        submission_reason: submissionReason,
+        violation_count: violationCount,
+      }
+
+      // Queue before sending, not after. This used to be a bare fetch with no
+      // error handling, so a student who lost signal at the moment they
+      // finished lost the whole attempt in silence. Writing locally first means
+      // the work survives the network, and the drain loop delivers it later.
+      const pending: PendingSubmission = {
+        id: `${assessment?.assessment_id ?? 'quiz'}-${Date.now()}`,
+        payload,
+        queuedAt: Date.now(),
+        attempts: 0,
+      }
+      writeQueue(upsert(readQueue(), pending))
+      setPendingSync(true)
+
+      const delivered = await deliverPending(pending)
+      if (delivered) setPendingSync(readQueue().length > 0)
     }
   }, [assessment, selectedAnswers, longFormAnswers, interactiveAnswers, assignmentId, timeRemaining, authUser, isClassroomAssignment, clearPausedState])
+
+  /**
+   * Try to deliver one queued result. Returns true when it is safely stored
+   * server-side and can leave the queue.
+   *
+   * A refusal (4xx) is dropped rather than retried forever — the server
+   * understood and said no, so the queue would only spin. Anything transient
+   * stays queued with its attempt count bumped.
+   */
+  const deliverPending = useCallback(async (item: PendingSubmission): Promise<boolean> => {
+    if (!isOnline()) return false
+    let status: number | null = null
+    try {
+      const res = await fetch('/api/save-result', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(item.payload),
+      })
+      status = res.status
+      if (res.ok) {
+        writeQueue(removeById(readQueue(), item.id))
+        return true
+      }
+    } catch {
+      status = null // network failure
+    }
+
+    if (!isRetryableStatus(status)) {
+      writeQueue(removeById(readQueue(), item.id))
+      return true
+    }
+    writeQueue(upsert(readQueue(), { ...item, attempts: item.attempts + 1 }))
+    return false
+  }, [])
+
+  /**
+   * Drain the queue: on mount, whenever the browser reports it is back online,
+   * and on a backoff timer while anything is still waiting.
+   */
+  useEffect(() => {
+    let timer: number | null = null
+    let cancelled = false
+
+    const drain = async () => {
+      if (cancelled) return
+      const queue = readQueue()
+      setPendingSync(queue.length > 0)
+      if (queue.length === 0 || !isOnline()) return
+
+      for (const entry of queue) {
+        if (cancelled) return
+        if (!shouldRetry(entry)) continue
+        await deliverPending(entry)
+      }
+
+      const left = readQueue()
+      setPendingSync(left.length > 0)
+      if (left.length > 0 && !cancelled) {
+        const worst = Math.min(...left.map((i) => i.attempts))
+        timer = window.setTimeout(drain, nextBackoffMs(worst))
+      }
+    }
+
+    void drain()
+    window.addEventListener('online', drain)
+    return () => {
+      cancelled = true
+      if (timer !== null) window.clearTimeout(timer)
+      window.removeEventListener('online', drain)
+    }
+  }, [deliverPending])
+
+  // Honest connection state while answering, so a student on a patchy line
+  // knows before they reach the end.
+  useEffect(() => {
+    const sync = () => setOffline(!isOnline())
+    sync()
+    window.addEventListener('online', sync)
+    window.addEventListener('offline', sync)
+    return () => {
+      window.removeEventListener('online', sync)
+      window.removeEventListener('offline', sync)
+    }
+  }, [])
 
   /**
    * Strict-mode violation detection.
@@ -1634,6 +1743,29 @@ function AssessmentPageClient() {
           </div>
         </div>
       </div>
+
+      {/* Connection state. Says plainly that answers are safe, because the
+          honest fear here is losing the work, not the connection itself. */}
+      {(offline || pendingSync) && (
+        <div className="px-4 pt-4 sm:px-6 lg:px-8">
+          <div
+            role="status"
+            aria-live="polite"
+            className={`mx-auto flex max-w-3xl items-start gap-3 rounded-2xl border-2 p-3.5 ${
+              offline
+                ? 'border-amber-400 bg-amber-50 dark:border-amber-600 dark:bg-amber-900/25'
+                : 'border-blue-300 bg-blue-50 dark:border-blue-700 dark:bg-blue-900/25'
+            }`}
+          >
+            <span className="mt-0.5 text-base leading-none" aria-hidden>{offline ? '📴' : '↻'}</span>
+            <p className="flex-1 text-[13px] font-semibold text-gray-900 dark:text-gray-100">
+              {offline
+                ? 'You’re offline. Keep going — your answers are saved on this device and will be sent when you reconnect.'
+                : 'Finishing up — your results are saved on this device and are being sent now.'}
+            </p>
+          </div>
+        </div>
+      )}
 
       {/* Proctoring warning. Announced politely rather than assertively so a
           screen reader finishes the current sentence first — the student is
