@@ -19,6 +19,7 @@ import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-a
 import { LatexText as L } from '@/lib/latex-text'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 import NextStepsPanel from '@/components/assessment/NextStepsPanel'
+import { Modal } from '@/components/ui/Modal'
 import {
   summarizeWeakAreas,
   pickProblemAreas,
@@ -27,6 +28,13 @@ import {
 } from '@/lib/assessment-weak-areas'
 import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { registerViolation, BLUR_GRACE_MS } from '@/lib/assessment-proctor'
+import {
+  questionState,
+  unansweredQuestions,
+  unansweredSummary,
+  answeredCount,
+  type ProgressInput,
+} from '@/lib/assessment-progress'
 import {
   timerPolicy,
   shouldWarn,
@@ -619,6 +627,10 @@ function AssessmentPageClient() {
   const [offline, setOffline] = useState(false)
   const [pendingSync, setPendingSync] = useState(false)
   const [limitDisabled, setLimitDisabled] = useState(false)
+  // Which questions have been landed on, so "walked past and left blank" can be
+  // told apart from "not reached yet".
+  const [visited, setVisited] = useState<Set<number>>(() => new Set([0]))
+  const [showUnansweredCheck, setShowUnansweredCheck] = useState(false)
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
@@ -767,11 +779,18 @@ function AssessmentPageClient() {
     setInteractiveAnswers({ ...interactiveAnswers, [currentQuestion]: answer })
   }
 
-  const allAnswered = assessment?.questions.every((q, idx) => {
+  // One definition of "answered" for every question type, shared by the
+  // progress bar, the number strip and the pre-submit check — so the strip can
+  // never disagree with the button.
+  const isAnswered = (q: Question, idx: number): boolean => {
     if (isLongForm(q)) return (longFormAnswers[idx] || '').trim().length > 0
     if (isInteractive(q)) return isInteractiveAnswerComplete(q, interactiveAnswers[idx])
     return selectedAnswers[idx] !== undefined
-  }) ?? false
+  }
+  const answeredSet = new Set<number>(
+    (assessment?.questions ?? []).map((q, idx) => (isAnswered(q, idx) ? idx : -1)).filter((i) => i >= 0),
+  )
+  const allAnswered = (assessment?.questions.length ?? 0) > 0 && answeredSet.size === assessment!.questions.length
 
   const handlePause = () => {
     if (isClassroomAssignment || !assessment) return
@@ -1329,6 +1348,11 @@ function AssessmentPageClient() {
   // question to the next can leave that question's figure above the fold.
   useEffect(() => {
     if (showResults) return
+    setVisited((prev) => (prev.has(currentQuestion) ? prev : new Set(prev).add(currentQuestion)))
+  }, [currentQuestion, showResults])
+
+  useEffect(() => {
+    if (showResults) return
     const prefersReducedMotion =
       typeof window !== 'undefined' &&
       typeof window.matchMedia === 'function' &&
@@ -1679,7 +1703,18 @@ function AssessmentPageClient() {
   const question = assessment.questions[currentQuestion]
   const isCurrentLongForm = isLongForm(question)
   const isCurrentInteractive = isInteractive(question)
-  const progress = ((currentQuestion + 1) / assessment.questions.length) * 100
+  const progressInput: ProgressInput = {
+    total: assessment.questions.length,
+    current: currentQuestion,
+    answered: answeredSet,
+    visited,
+  }
+  const answered = answeredCount(progressInput)
+  // Was (currentQuestion + 1) / total — that measured how far the student had
+  // paged, not how much they had actually done, so skipping ahead showed a
+  // bar that had not been earned.
+  const progress = (answered / assessment.questions.length) * 100
+  const blanks = unansweredQuestions(progressInput)
 
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex flex-col font-sans">
@@ -1770,7 +1805,39 @@ function AssessmentPageClient() {
             </div>
           </div>
 
-          <div className="mt-5 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
+          {/* Question strip. U1: a student could walk past a question and only
+              discover it at the end. Grey means not reached, amber means seen
+              and left blank, and every one of them jumps. */}
+          <div className="mt-4 flex flex-wrap gap-1.5" role="group" aria-label="Jump to a question">
+            {assessment.questions.map((_, i) => {
+              const state = questionState(i, progressInput)
+              const style =
+                state === 'answered'
+                  ? 'bg-ss-accent text-white border-ss-accent'
+                  : state === 'current'
+                    ? 'bg-ss-panel text-ss-ink border-ss-accent ring-2 ring-[color:var(--ss-accent)]/30'
+                    : state === 'skipped'
+                      ? 'bg-amber-50 text-amber-900 border-amber-500 dark:bg-amber-900/25 dark:text-amber-100'
+                      : 'bg-ss-panel text-ss-slate border-ss-line'
+              return (
+                <button
+                  key={i}
+                  type="button"
+                  onClick={() => setCurrentQuestion(i)}
+                  aria-current={state === 'current' ? 'step' : undefined}
+                  aria-label={
+                    `Question ${i + 1}: ` +
+                    (state === 'answered' ? 'answered' : state === 'skipped' ? 'seen but not answered' : state === 'current' ? 'current question' : 'not reached yet')
+                  }
+                  className={`h-8 min-w-8 rounded-lg border-2 px-2 text-[12px] font-extrabold transition-colors ${style}`}
+                >
+                  {i + 1}
+                </button>
+              )
+            })}
+          </div>
+
+          <div className="mt-4 h-1.5 bg-gray-100 dark:bg-gray-800 rounded-full overflow-hidden">
             <motion.div
               className="h-full bg-blue-600"
               initial={{ width: 0 }}
@@ -1780,6 +1847,63 @@ function AssessmentPageClient() {
           </div>
         </div>
       </div>
+
+      {/* Pre-submit check. Replaces a Submit button that simply sat disabled
+          whenever anything was blank, telling the student nothing about what
+          was missing or where to find it. */}
+      <Modal
+        open={showUnansweredCheck}
+        onClose={() => setShowUnansweredCheck(false)}
+        title="Some questions are still blank"
+        className="max-w-lg"
+      >
+        <div className="p-6">
+          <h3 className="text-lg font-extrabold text-ss-ink">Before you submit</h3>
+          <p className="mt-2 text-[14px] font-medium text-ss-slate">
+            {unansweredSummary(blanks)} You can go back to any of them, or submit as you are.
+          </p>
+
+          <div className="mt-4 flex flex-wrap gap-1.5">
+            {blanks.map((n) => (
+              <button
+                key={n}
+                type="button"
+                onClick={() => {
+                  setShowUnansweredCheck(false)
+                  setCurrentQuestion(n - 1)
+                }}
+                className="h-9 min-w-9 rounded-lg border-2 border-amber-500 bg-amber-50 px-2.5 text-[13px] font-extrabold text-amber-900 hover:bg-amber-100 dark:bg-amber-900/25 dark:text-amber-100"
+                aria-label={`Go to question ${n}`}
+              >
+                {n}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-6 flex flex-col gap-2 sm:flex-row-reverse">
+            <button
+              type="button"
+              onClick={() => {
+                setShowUnansweredCheck(false)
+                setCurrentQuestion(blanks[0] - 1)
+              }}
+              className="flex-1 rounded-xl bg-ss-accent px-5 py-3 text-[14px] font-extrabold text-white hover:opacity-90"
+            >
+              Go to question {blanks[0]}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setShowUnansweredCheck(false)
+                handleSubmit()
+              }}
+              className="flex-1 rounded-xl border border-ss-line px-5 py-3 text-[14px] font-extrabold text-ss-ink hover:border-ss-accent hover:text-ss-accent"
+            >
+              Submit anyway
+            </button>
+          </div>
+        </div>
+      </Modal>
 
       {/* Time-limit warning. WCAG 2.2.1 requires warning before a limit expires
           and a simple way to extend — this is that, with the extension offered
@@ -2033,11 +2157,10 @@ function AssessmentPageClient() {
 
             {currentQuestion === assessment.questions.length - 1 ? (
               <motion.button
-                onClick={handleSubmit}
-                disabled={!allAnswered}
+                onClick={() => (blanks.length > 0 ? setShowUnansweredCheck(true) : handleSubmit())}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="btn-primary disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3"
+                className="btn-primary text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3"
               >
                 <span className="hidden sm:inline">Submit Assessment</span>
                 <span className="sm:hidden">Submit</span>
