@@ -14,6 +14,7 @@ import { subjectArt } from '@/lib/studio/subjectArt'
 import type { InteractiveAnswer, InteractiveQuestion } from '@/types/interactive'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 import NextStepsPanel from '@/components/assessment/NextStepsPanel'
+import ReportQuestionButton from '@/components/assessment/ReportQuestionButton'
 import {
     summarizeWeakAreas,
     pickProblemAreas,
@@ -748,6 +749,20 @@ export default function ResultDetailPage() {
         router.push('/assessment')
     }
 
+    // Small local wrapper: the report control needs the same three ids at every
+    // call site, and threading them through each card would be noise.
+    const ReportRow = ({ idx, q }: { idx: number; q: Question }) => (
+        <div className="mt-2 flex justify-end px-2">
+            <ReportQuestionButton
+                questionIndex={idx}
+                question={q}
+                assessmentId={result?.assessment_id}
+                resultId={resultId}
+                userId={user?.id}
+            />
+        </div>
+    )
+
     const score = Number(result?.percentage ?? result?.score ?? 0)
     const grade = result?.grade ?? getGradeFromScore(score)
     const subject = result?.assessments?.subject || 'Assessment'
@@ -970,6 +985,7 @@ export default function ResultDetailPage() {
                                             studentAnswer={answer}
                                             grade={grade}
                                         />
+                                        <ReportRow idx={idx} q={q} />
                                     </div>
                                 )
                             }
@@ -985,6 +1001,7 @@ export default function ResultDetailPage() {
                                             grade={grade}
                                             idx={idx}
                                         />
+                                        <ReportRow idx={idx} q={q} />
                                     </div>
                                 )
                             }
@@ -998,6 +1015,7 @@ export default function ResultDetailPage() {
                                         idx={idx}
                                         userAnswer={userAnswer}
                                     />
+                                    <ReportRow idx={idx} q={q} />
                                 </div>
                             )
                         })
