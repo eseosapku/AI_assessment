@@ -394,7 +394,7 @@ export default function AssignmentPreviewPage() {
 
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-6 space-y-5">
                     <div>
-                        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Draft Preview</p>
+                        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">Draft Preview</p>
                         <h1 className="text-2xl font-black text-gray-900 dark:text-white mt-2">{assignment.title}</h1>
                     </div>
 
@@ -446,7 +446,7 @@ export default function AssignmentPreviewPage() {
                         <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom(s)</label>
                         <div className="rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] p-3 space-y-2">
                             {classrooms.length === 0 ? (
-                                <p className="text-xs text-gray-400">No classrooms available yet.</p>
+                                <p className="text-xs text-ss-slate">No classrooms available yet.</p>
                             ) : (
                                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                                     {classrooms.map((cls) => {
@@ -471,13 +471,13 @@ export default function AssignmentPreviewPage() {
                                 </div>
                             )}
                         </div>
-                        <p className="text-xs text-gray-400 mt-2">Select one or more classrooms.</p>
+                        <p className="text-xs text-ss-slate mt-2">Select one or more classrooms.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                         {summary.map((row) => (
                             <div key={row.label} className="rounded-xl border border-gray-100 dark:border-gray-800/60 bg-gray-50 dark:bg-gray-950 px-3 py-2">
-                                <p className="text-[10px] uppercase tracking-widest text-gray-400">{row.label}</p>
+                                <p className="text-[10px] uppercase tracking-widest text-ss-slate">{row.label}</p>
                                 <p className="text-sm font-semibold text-gray-900 dark:text-gray-200">{row.value}</p>
                             </div>
                         ))}
@@ -502,7 +502,7 @@ export default function AssignmentPreviewPage() {
                             <div key={idx} className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-6 space-y-4">
                                 <div className="flex items-center justify-between">
                                     <p className="text-sm font-semibold text-gray-900 dark:text-white">Question {idx + 1}</p>
-                                    <span className="text-[10px] uppercase tracking-widest text-gray-400">
+                                    <span className="text-[10px] uppercase tracking-widest text-ss-slate">
                                         {isLongForm ? 'Long-form' : 'MCQ'}
                                     </span>
                                 </div>

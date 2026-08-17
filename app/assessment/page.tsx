@@ -332,7 +332,7 @@ function LongFormResultCard({
 
       {/* Student answer with annotation */}
       <div className="ml-12 mb-4">
-        <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Your Answer</div>
+        <div className="text-xs font-semibold uppercase tracking-wider text-ss-slate mb-2">Your Answer</div>
         <div className="bg-gray-50 dark:bg-gray-800/60 rounded-xl p-4 border border-gray-200 dark:border-gray-700 min-h-[60px]">
           {studentAnswer ? (
             <AnnotatedText
@@ -341,7 +341,7 @@ function LongFormResultCard({
               highlightColor={highlightColor}
             />
           ) : (
-            <span className="text-gray-400 italic text-sm">No answer written</span>
+            <span className="text-ss-slate italic text-sm">No answer written</span>
           )}
         </div>
         {activeCrit && (
@@ -366,7 +366,7 @@ function LongFormResultCard({
       {/* Criteria checklist */}
       {isGraded && (
         <div className="ml-12 mb-4">
-          <div className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">
+          <div className="text-xs font-semibold uppercase tracking-wider text-ss-slate mb-2">
             Marking Criteria — click any to see why
           </div>
           <div className="space-y-2">
@@ -390,7 +390,7 @@ function LongFormResultCard({
                   {cr.met ? '✓' : '✗'}
                 </span>
                 <span className="text-sm text-gray-700 dark:text-gray-300 flex-1">{cr.criterion}</span>
-                <span className="text-xs text-gray-400 flex-shrink-0 mt-0.5">tap</span>
+                <span className="text-xs text-ss-slate flex-shrink-0 mt-0.5">tap</span>
               </motion.button>
             ))}
           </div>
@@ -1484,14 +1484,14 @@ function AssessmentPageClient() {
                   <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">
                     {results.score}%
                   </div>
-                  <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Final Score</div>
+                  <div className="text-sm font-medium text-ss-slate uppercase tracking-widest">Final Score</div>
                 </div>
                 <div className="w-px h-20 bg-gray-200 dark:bg-gray-800"></div>
                 <div className="text-center">
                   <div className="text-6xl font-bold text-blue-600 dark:text-blue-400 mb-2 tracking-tighter">
                     {results.grade}
                   </div>
-                  <div className="text-sm font-medium text-gray-400 uppercase tracking-widest">Grade</div>
+                  <div className="text-sm font-medium text-ss-slate uppercase tracking-widest">Grade</div>
                 </div>
               </div>
             ) : (
@@ -1955,7 +1955,7 @@ function AssessmentPageClient() {
               {/* Long-form textarea */}
               {isCurrentLongForm && (
                 <div>
-                  <div className="text-xs text-gray-400 mb-2">
+                  <div className="text-xs text-ss-slate mb-2">
                     Write a detailed answer. Each mark has a specific criterion — cover as much as you can.
                   </div>
                   <textarea
@@ -1965,7 +1965,7 @@ function AssessmentPageClient() {
                     className="w-full min-h-[220px] p-4 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 text-gray-900 dark:text-white resize-y focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors text-sm sm:text-base leading-relaxed"
                     rows={9}
                   />
-                  <div className="mt-2 flex justify-between text-xs text-gray-400">
+                  <div className="mt-2 flex justify-between text-xs text-ss-slate">
                     <span>
                       {(longFormAnswers[currentQuestion] || '').split(/\s+/).filter(Boolean).length} words
                     </span>
@@ -2052,7 +2052,7 @@ function AssessmentPageClient() {
           {/* Legend for mixed */}
           {(assessment.questions.some(isLongForm) || assessment.questions.some(isInteractive)) &&
             assessment.questions.some((q) => !isLongForm(q) && !isInteractive(q)) && (
-            <div className="flex justify-center gap-4 mt-3 text-xs text-gray-400 flex-wrap">
+            <div className="flex justify-center gap-4 mt-3 text-xs text-ss-slate flex-wrap">
               <span className="flex items-center gap-1">
                 <span className="w-3 h-3 rounded-sm bg-green-500 inline-block"></span> MCQ answered
               </span>

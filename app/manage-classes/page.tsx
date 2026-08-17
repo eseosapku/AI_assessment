@@ -42,7 +42,7 @@ function TextbookSelector({
     return (
         <div className="space-y-3">
             <div className="relative">
-                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
+                <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-ss-slate" />
                 <input
                     type="text"
                     value={search}
@@ -52,7 +52,7 @@ function TextbookSelector({
                 />
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-gray-400">
+            <div className="flex items-center justify-between text-[11px] text-ss-slate">
                 <span>{filtered.length} results</span>
                 <span>{selectedIds.length} selected</span>
             </div>
@@ -82,7 +82,7 @@ function TextbookSelector({
                     })}
 
                     {filtered.length === 0 && (
-                        <div className="py-6 text-center text-xs text-gray-400">No textbooks match this search.</div>
+                        <div className="py-6 text-center text-xs text-ss-slate">No textbooks match this search.</div>
                     )}
                 </div>
             </div>
@@ -259,7 +259,7 @@ export default function ManageClassesPage() {
 
     const renderSelectedTextbooks = (ids: number[]) => {
         if (ids.length === 0) {
-            return <span className="text-xs text-gray-400">No textbooks selected yet.</span>
+            return <span className="text-xs text-ss-slate">No textbooks selected yet.</span>
         }
 
         return (
@@ -284,7 +284,7 @@ export default function ManageClassesPage() {
         <div className="min-h-screen bg-[#F3F4F6] dark:bg-[#0C0C0E] transition-colors duration-300">
             <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
                 <div className="flex flex-col gap-2">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-gray-400">Manage Classes</p>
+                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-ss-slate">Manage Classes</p>
                     <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">Create and assign textbooks</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
                         Add classes, choose which textbooks (subjects) belong to each class, and update them anytime.
@@ -349,12 +349,12 @@ export default function ManageClassesPage() {
 
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">Classes</p>
-                                <span className="text-xs text-gray-400">{classes.length} total</span>
+                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ss-slate">Classes</p>
+                                <span className="text-xs text-ss-slate">{classes.length} total</span>
                             </div>
 
                             {classes.length === 0 ? (
-                                <div className="bg-white dark:bg-gray-950 border border-dashed border-gray-200 dark:border-white/[0.08] rounded-2xl p-8 text-center text-sm text-gray-400">
+                                <div className="bg-white dark:bg-gray-950 border border-dashed border-gray-200 dark:border-white/[0.08] rounded-2xl p-8 text-center text-sm text-ss-slate">
                                     No classes yet. Create your first class on the left.
                                 </div>
                             ) : (
@@ -366,7 +366,7 @@ export default function ManageClassesPage() {
                                         <div className="flex items-start justify-between gap-3">
                                             <div>
                                                 <h3 className="text-base font-bold text-gray-900 dark:text-white">{item.name}</h3>
-                                                <p className="text-xs text-gray-400">{item.textbooks?.length ?? 0} textbooks</p>
+                                                <p className="text-xs text-ss-slate">{item.textbooks?.length ?? 0} textbooks</p>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <button
@@ -398,7 +398,7 @@ export default function ManageClassesPage() {
                                                 </span>
                                             ))}
                                             {item.textbooks?.length > 6 && (
-                                                <span className="text-[10px] text-gray-400">+{item.textbooks.length - 6} more</span>
+                                                <span className="text-[10px] text-ss-slate">+{item.textbooks.length - 6} more</span>
                                             )}
                                         </div>
 
@@ -411,7 +411,7 @@ export default function ManageClassesPage() {
                                                     <button
                                                         type="button"
                                                         onClick={cancelEdit}
-                                                        className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300"
+                                                        className="text-ss-slate hover:text-gray-600 dark:hover:text-gray-300"
                                                     >
                                                         <X className="w-4 h-4" />
                                                     </button>

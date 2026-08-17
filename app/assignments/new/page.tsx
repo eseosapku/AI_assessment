@@ -429,7 +429,7 @@ export default function NewAssignmentPage() {
 
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-6 space-y-5">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Create from scratch</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">Create from scratch</p>
             <h1 className="text-2xl font-black text-gray-900 dark:text-white mt-2">New Assignment</h1>
           </div>
 
@@ -564,9 +564,9 @@ export default function NewAssignmentPage() {
               <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom(s)</label>
               <div className="rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] p-3 space-y-2">
                 {isLoadingClassrooms ? (
-                  <p className="text-sm text-gray-400">Loading classrooms...</p>
+                  <p className="text-sm text-ss-slate">Loading classrooms...</p>
                 ) : classrooms.length === 0 ? (
-                  <p className="text-sm text-gray-400">No classrooms available yet.</p>
+                  <p className="text-sm text-ss-slate">No classrooms available yet.</p>
                 ) : (
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {classrooms.map((cls) => {
@@ -591,7 +591,7 @@ export default function NewAssignmentPage() {
                   </div>
                 )}
               </div>
-              <p className="text-xs text-gray-400 mt-2">Select one or more classrooms.</p>
+              <p className="text-xs text-ss-slate mt-2">Select one or more classrooms.</p>
             </div>
 
           {error && (
@@ -608,9 +608,9 @@ export default function NewAssignmentPage() {
 
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-6 space-y-4">
           <div>
-            <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Question templates</p>
+            <p className="text-sm font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">Question templates</p>
             <h2 className="text-xl font-bold text-gray-900 dark:text-white mt-2">Choose a starter template</h2>
-            <p className="text-sm text-gray-400 mt-1">You can change each question type later.</p>
+            <p className="text-sm text-ss-slate mt-1">You can change each question type later.</p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
@@ -623,7 +623,7 @@ export default function NewAssignmentPage() {
               `}
             >
               <p className="font-semibold text-gray-900 dark:text-white">MCQ Template</p>
-              <p className="text-sm text-gray-400 mt-0.5">4 options, correct answer, and explanation.</p>
+              <p className="text-sm text-ss-slate mt-0.5">4 options, correct answer, and explanation.</p>
             </button>
             <button
               type="button"
@@ -634,7 +634,7 @@ export default function NewAssignmentPage() {
               `}
             >
               <p className="font-semibold text-gray-900 dark:text-white">Long-form Template</p>
-              <p className="text-sm text-gray-400 mt-0.5">Marks, marking criteria, and model answer.</p>
+              <p className="text-sm text-ss-slate mt-0.5">Marks, marking criteria, and model answer.</p>
             </button>
           </div>
         </div>
@@ -643,7 +643,7 @@ export default function NewAssignmentPage() {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Questions</p>
+                <p className="text-sm font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">Questions</p>
                 <p className="text-base font-bold text-gray-900 dark:text-white mt-1">
                   Question {Math.min(activeQuestionIndex + 1, Math.max(questions.length, 1))} of {Math.max(questions.length, 1)}
                 </p>

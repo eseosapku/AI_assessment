@@ -46,7 +46,7 @@ export function CustomScopeStep({
       <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="py-10 text-center">
         <Loader2 className="mx-auto h-6 w-6 animate-spin text-ss-accent" />
         <p className="mt-3 text-sm font-semibold text-gray-900 dark:text-white">Working out what to cover…</p>
-        <p className="mt-1 text-[12.5px] text-gray-400">Breaking your topic into areas you can pick from.</p>
+        <p className="mt-1 text-[12.5px] text-ss-slate">Breaking your topic into areas you can pick from.</p>
       </motion.div>
     )
   }
@@ -58,7 +58,7 @@ export function CustomScopeStep({
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-      <p className="text-[11px] font-bold uppercase tracking-widest text-gray-400 mb-1">
+      <p className="text-[11px] font-bold uppercase tracking-widest text-ss-slate mb-1">
         {scope.subject}
       </p>
       <h3 className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">{scope.topic}</h3>
@@ -75,7 +75,7 @@ export function CustomScopeStep({
 
       {degraded && scope.teachable && (
         <div className="mb-3 flex items-start gap-2 rounded-xl border border-gray-200 bg-gray-50 p-3 dark:border-gray-800 dark:bg-gray-900">
-          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-gray-400" />
+          <AlertCircle className="mt-0.5 h-4 w-4 flex-shrink-0 text-ss-slate" />
           <p className="text-[12.5px] font-medium text-gray-600 dark:text-gray-300">
             Couldn&apos;t suggest areas just now. Add your own below, or carry on and the quiz will cover
             the topic broadly.

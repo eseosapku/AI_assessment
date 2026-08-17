@@ -233,7 +233,7 @@ export default function TeacherDashboard() {
           <div className="relative text-left">
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-[#1F7A7A] mb-1">Student Reports</p>
             <h3 className="text-xl sm:text-2xl font-black leading-tight">Generate Report Card</h3>
-            <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Use class assignments to build student report cards</p>
+            <p className="text-sm text-ss-slate dark:text-gray-500 mt-0.5">Use class assignments to build student report cards</p>
           </div>
           <div className="relative flex items-center gap-3 flex-shrink-0">
             <div className="w-12 h-12 rounded-full bg-[#E7EFEA] dark:bg-[#142724] flex items-center justify-center group-hover:bg-[#d7e7e0] dark:group-hover:bg-[#1a2f2c] transition-colors">
@@ -245,7 +245,7 @@ export default function TeacherDashboard() {
         {/* Classrooms */}
         <div>
           <div className="flex items-center justify-between mb-4 px-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 flex items-center gap-1.5">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5" />
               Classrooms
             </p>
@@ -253,7 +253,7 @@ export default function TeacherDashboard() {
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
             <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/60 dark:border-gray-800/60 p-5 flex flex-col gap-3">
-              <p className="text-xs font-bold uppercase tracking-widest text-gray-400">Create classroom</p>
+              <p className="text-xs font-bold uppercase tracking-widest text-ss-slate">Create classroom</p>
               <input
                 value={classroomName}
                 onChange={(e) => setClassroomName(e.target.value)}
@@ -293,7 +293,7 @@ export default function TeacherDashboard() {
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{room.name}</p>
                       {room.description && (
-                        <p className="text-xs text-gray-400 mt-0.5 line-clamp-2">{room.description}</p>
+                        <p className="text-xs text-ss-slate mt-0.5 line-clamp-2">{room.description}</p>
                       )}
                     </div>
                     <span className="text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
@@ -301,7 +301,7 @@ export default function TeacherDashboard() {
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-3 text-xs text-gray-400">
+                  <div className="flex items-center gap-3 text-xs text-ss-slate">
                     <span className="flex items-center gap-1">
                       <Users className="w-3.5 h-3.5" />
                       {room.member_count ?? 0} accepted
@@ -323,10 +323,10 @@ export default function TeacherDashboard() {
             ) : (
               <div className="col-span-1 lg:col-span-2 flex flex-col items-center justify-center py-16 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-800/60 bg-white/60 dark:bg-white/[0.02]">
                 <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
-                  <Users className="w-5 h-5 text-gray-400" />
+                  <Users className="w-5 h-5 text-ss-slate" />
                 </div>
                 <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">No classrooms yet</p>
-                <p className="text-xs text-gray-400 text-center max-w-[220px] leading-relaxed">
+                <p className="text-xs text-ss-slate text-center max-w-[220px] leading-relaxed">
                   Create your first classroom to invite students and assign assessments.
                 </p>
               </div>
@@ -338,7 +338,7 @@ export default function TeacherDashboard() {
         {drafts.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-4 px-1">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 flex items-center gap-1.5">
+              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
                 <ClipboardList className="w-3.5 h-3.5" />
                 Drafts
               </p>
@@ -356,14 +356,14 @@ export default function TeacherDashboard() {
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1 min-w-0">
                       <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{a.title}</p>
-                      <p className="text-xs text-gray-400 mt-0.5">{a.subject} · Grade {a.grade}</p>
+                      <p className="text-xs text-ss-slate mt-0.5">{a.subject} · Grade {a.grade}</p>
                     </div>
                     <span className="text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300">
                       Draft
                     </span>
                   </div>
 
-                  <div className="flex items-center gap-4 text-xs text-gray-400">
+                  <div className="flex items-center gap-4 text-xs text-ss-slate">
                     <span className="flex items-center gap-1">
                       <BookOpen className="w-3.5 h-3.5" />
                       {a.question_count}q · {a.question_type}
@@ -375,7 +375,7 @@ export default function TeacherDashboard() {
                   </div>
 
                   {a.topics?.length > 0 && (
-                    <p className="text-[11px] text-gray-400 truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
+                    <p className="text-[11px] text-ss-slate truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
                   )}
 
                   <div className="mt-auto grid grid-cols-2 gap-2">
@@ -401,7 +401,7 @@ export default function TeacherDashboard() {
         {/* Sent Assignments */}
         <div>
           <div className="flex items-center justify-between mb-4 px-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500 flex items-center gap-1.5">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
               <ClipboardList className="w-3.5 h-3.5" />
               Sent Assignments
             </p>
@@ -426,7 +426,7 @@ export default function TeacherDashboard() {
                     <div className="flex items-start justify-between gap-2">
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{a.title}</p>
-                        <p className="text-xs text-gray-400 mt-0.5">
+                        <p className="text-xs text-ss-slate mt-0.5">
                           {a.subject} · Grade {a.grade}{classroomLabel ? ` · ${classroomLabel}` : ''}
                         </p>
                       </div>
@@ -435,7 +435,7 @@ export default function TeacherDashboard() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-4 text-xs text-gray-400">
+                    <div className="flex items-center gap-4 text-xs text-ss-slate">
                       <span className="flex items-center gap-1">
                         <Users className="w-3.5 h-3.5" />
                         {a.assigned_count ?? 0} student{(a.assigned_count ?? 0) !== 1 ? 's' : ''}
@@ -450,7 +450,7 @@ export default function TeacherDashboard() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 flex-wrap text-[11px] text-gray-400">
+                    <div className="flex items-center gap-2 flex-wrap text-[11px] text-ss-slate">
                       <span className="px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500">
                         Attempts: {a.max_attempts ?? 1}
                       </span>
@@ -463,11 +463,11 @@ export default function TeacherDashboard() {
                     </div>
 
                     {a.topics?.length > 0 && (
-                      <p className="text-[11px] text-gray-400 truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
+                      <p className="text-[11px] text-ss-slate truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
                     )}
 
                     <div className="pt-1 border-t border-gray-100 dark:border-gray-800/60">
-                      <p className="text-[10px] text-gray-400">
+                      <p className="text-[10px] text-ss-slate">
                         Sent {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>
@@ -493,10 +493,10 @@ export default function TeacherDashboard() {
           ) : (
             <div className="flex flex-col items-center justify-center py-16 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-800/60 bg-white/60 dark:bg-white/[0.02]">
               <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
-                <Send className="w-5 h-5 text-gray-400" />
+                <Send className="w-5 h-5 text-ss-slate" />
               </div>
               <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">No assignments sent yet</p>
-              <p className="text-xs text-gray-400 text-center max-w-[200px] leading-relaxed">
+              <p className="text-xs text-ss-slate text-center max-w-[200px] leading-relaxed">
                 Create an assessment above and send it to a classroom.
               </p>
             </div>
@@ -505,11 +505,11 @@ export default function TeacherDashboard() {
 
         {/* Footer */}
         <div className="flex items-center justify-between pt-6 border-t border-gray-200/60 dark:border-white/[0.04]">
-          <div className="flex items-center gap-1.5 text-xs text-gray-400">
+          <div className="flex items-center gap-1.5 text-xs text-ss-slate">
             <Brain className="w-3.5 h-3.5" />
             <span>Powered by Brain Ink AI</span>
           </div>
-          <span className="text-xs text-gray-400">© {new Date().getFullYear()} Brain Ink</span>
+          <span className="text-xs text-ss-slate">© {new Date().getFullYear()} Brain Ink</span>
         </div>
 
       </main>

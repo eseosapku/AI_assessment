@@ -28,7 +28,7 @@ function badge(score: number | null) {
 }
 
 function latencyColor(ms: number | null) {
-  if (!ms) return 'text-gray-400'
+  if (!ms) return 'text-ss-slate'
   if (ms < 1500) return 'text-green-600 font-semibold'
   if (ms < 4000) return 'text-yellow-600 font-semibold'
   return 'text-red-600 font-semibold'
@@ -96,7 +96,7 @@ export default function BedrockTestPage() {
               <button onClick={() => setSelected(new Set(ALL_MODELS.map((m) => m.id)))}
                 className="text-xs text-indigo-600 hover:underline">All</button>
               <button onClick={() => setSelected(new Set())}
-                className="text-xs text-gray-400 hover:underline">None</button>
+                className="text-xs text-ss-slate hover:underline">None</button>
             </div>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
@@ -169,7 +169,7 @@ export default function BedrockTestPage() {
                       <tr key={r.id} className="hover:bg-gray-50 transition">
                         <td className="px-4 py-3">
                           <div className="font-medium text-gray-800">{r.label}</div>
-                          <div className="text-xs text-gray-400 font-mono">{r.id}</div>
+                          <div className="text-xs text-ss-slate font-mono">{r.id}</div>
                         </td>
                         <td className={`px-4 py-3 text-right ${r.error ? 'text-red-400' : latencyColor(r.latencyMs)}`}>
                           {r.error ? 'Error' : r.latencyMs != null ? `${r.latencyMs}ms` : '—'}

@@ -325,7 +325,7 @@ export default function PdfAssignmentPage() {
 
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-6 space-y-5">
                     <div>
-                        <p className="text-sm font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">Generate from PDF</p>
+                        <p className="text-sm font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">Generate from PDF</p>
                         <h1 className="text-2xl font-black text-gray-900 dark:text-white mt-2">New Assignment</h1>
                     </div>
 
@@ -348,7 +348,7 @@ export default function PdfAssignmentPage() {
                                 className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-700 dark:text-gray-200"
                             />
                             {pdfFile && (
-                                <p className="text-xs text-gray-400 mt-1">Selected: {pdfFile.name}</p>
+                                <p className="text-xs text-ss-slate mt-1">Selected: {pdfFile.name}</p>
                             )}
                             {pdfMeta?.truncated && (
                                 <p className="text-xs text-amber-600 dark:text-amber-400 mt-1">PDF text was truncated for processing.</p>
@@ -365,7 +365,7 @@ export default function PdfAssignmentPage() {
                                 placeholder="e.g. Biology"
                                 className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
                             />
-                            <p className="text-xs text-gray-400 mt-1">If left blank, we use the PDF filename.</p>
+                            <p className="text-xs text-ss-slate mt-1">If left blank, we use the PDF filename.</p>
                         </div>
                         <div>
                             <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Grade / Class</label>
@@ -395,7 +395,7 @@ export default function PdfAssignmentPage() {
                             placeholder="e.g. Cell structure, Photosynthesis"
                             className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white"
                         />
-                        <p className="text-xs text-gray-400 mt-1">Leave blank to use the subject as the default topic.</p>
+                        <p className="text-xs text-ss-slate mt-1">Leave blank to use the subject as the default topic.</p>
                     </div>
 
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">

@@ -12,17 +12,24 @@
 
     /* Redesign tokens (ss-*) — surfaced as Tailwind colors, flip in .dark */
     --ss-ink: #16202A;
-    --ss-slate: #7E8A96;
+    /* Light-theme text tokens are tuned to clear WCAG AA (4.5:1) against the
+       *worst* surface they land on — --ss-canvas, not white. The previous
+       values failed everywhere: slate 3.52, accent 3.58, and white-on-accent
+       3.58, which is why WAVE reported contrast errors on a near-empty page.
+       lib/design-tokens.test.ts asserts these and fails the build if they drift.
+       Decorative-only tokens (accent-bright, accent-soft) are exempt: they are
+       never text and only need 3:1 as UI. */
+    --ss-slate: #636D76;
     --ss-line: #EAF0F3;
     --ss-chip: #F3F7F9;
     --ss-panel: #FFFFFF;
-    --ss-accent: #0E8FD1;
+    --ss-accent: #0C6FAE;
     --ss-accent-bright: #2ACBF2;
-    --ss-accent-deep: #0C6FAE;
+    --ss-accent-deep: #075985;
     --ss-accent-soft: #E6F6FD;
-    --ss-good: #16B67A;
-    --ss-bad: #E26773;
-    --ss-warn: #F0A93E;
+    --ss-good: #047857;
+    --ss-bad: #B0303C;
+    --ss-warn: #9A5B0B;
     --ss-canvas: #E8EEF3;
   }
 

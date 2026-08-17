@@ -186,7 +186,7 @@ function OptionButton({
 
 function StepLabel({ label }: { label: string }) {
   return (
-    <p className="text-[11px] font-bold text-gray-400 uppercase tracking-widest mb-1">{label}</p>
+    <p className="text-[11px] font-bold text-ss-slate uppercase tracking-widest mb-1">{label}</p>
   )
 }
 
@@ -1009,7 +1009,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                               ? 'text-ss-ink hover:bg-white'
                               : reachable
                                 ? 'text-ss-slate hover:bg-white'
-                                : 'cursor-not-allowed text-gray-400'
+                                : 'cursor-not-allowed text-ss-slate'
                         }`}
                       >
                       <span
@@ -1039,7 +1039,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                 <h2 className="font-display text-lg font-black text-gray-900 dark:text-white sm:text-xl">
                   {isTeacher && !flowMode ? 'New assessment' : 'Build your quiz'}
                 </h2>
-                <p className="mt-0.5 text-xs text-gray-400">
+                <p className="mt-0.5 text-xs text-ss-slate">
                   {isTeacher && !flowMode
                     ? 'Choose how to create'
                     : `Step ${stepPosition} of ${visibleStepNums.length}`}
@@ -1047,7 +1047,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
               </div>
               <button
                 onClick={onClose}
-                className="flex h-8 w-8 items-center justify-center rounded-lg text-gray-400 transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
+                className="flex h-8 w-8 items-center justify-center rounded-lg text-ss-slate transition-colors hover:bg-gray-100 hover:text-gray-600 dark:hover:bg-gray-800 dark:hover:text-gray-300"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -1075,7 +1075,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <OptionButton selected={false} onClick={() => setFlowMode('ai')}>
                     <p className="font-semibold text-sm text-gray-900 dark:text-white">AI-generated</p>
-                    <p className="text-[11px] text-gray-400 mt-0.5">Follow the guided flow and generate questions with AI.</p>
+                    <p className="text-[11px] text-ss-slate mt-0.5">Follow the guided flow and generate questions with AI.</p>
                   </OptionButton>
                   <OptionButton
                     selected={false}
@@ -1085,7 +1085,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     }}
                   >
                     <p className="font-semibold text-sm text-gray-900 dark:text-white">Generate from PDF</p>
-                    <p className="text-[11px] text-gray-400 mt-0.5">Upload a PDF and generate questions from its content.</p>
+                    <p className="text-[11px] text-ss-slate mt-0.5">Upload a PDF and generate questions from its content.</p>
                   </OptionButton>
                   <OptionButton
                     selected={false}
@@ -1095,7 +1095,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     }}
                   >
                     <p className="font-semibold text-sm text-gray-900 dark:text-white">Create from scratch</p>
-                    <p className="text-[11px] text-gray-400 mt-0.5">Start with blank MCQ/longform templates and fill them in.</p>
+                    <p className="text-[11px] text-ss-slate mt-0.5">Start with blank MCQ/longform templates and fill them in.</p>
                   </OptionButton>
                 </div>
               </motion.div>
@@ -1155,7 +1155,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                           </span>
                           <div>
                             <p className="font-semibold text-sm text-gray-900 dark:text-white">{c}</p>
-                            <p className="text-[11px] text-gray-400">University curriculum (pilot)</p>
+                            <p className="text-[11px] text-ss-slate">University curriculum (pilot)</p>
                           </div>
                         </div>
                       </OptionButton>
@@ -1178,7 +1178,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                           </span>
                           <div>
                             <p className="font-semibold text-sm text-gray-900 dark:text-white">{c.label}</p>
-                            <p className="text-[11px] text-gray-400">{c.description}</p>
+                            <p className="text-[11px] text-ss-slate">{c.description}</p>
                           </div>
                         </div>
                       </OptionButton>
@@ -1201,11 +1201,11 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                       <span className="block text-sm font-semibold text-gray-900 dark:text-white">
                         Quiz me on anything
                       </span>
-                      <span className="block text-[11px] text-gray-400">
+                      <span className="block text-[11px] text-ss-slate">
                         Type any topic, or paste your own notes — no curriculum needed.
                       </span>
                     </span>
-                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-0.5" />
+                    <ChevronRight className="h-4 w-4 flex-shrink-0 text-ss-slate transition-transform group-hover:translate-x-0.5" />
                   </motion.button>
                 </div>
               </motion.div>
@@ -1262,7 +1262,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Difficulty level" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select student level</h3>
-                <p className="text-xs text-gray-400 mb-3">This shapes how challenging the questions will be</p>
+                <p className="text-xs text-ss-slate mb-3">This shapes how challenging the questions will be</p>
                 <div className="flex flex-col gap-2">
                   {DIFFICULTY_LEVELS.map(dl => (
                     <OptionButton key={dl.id} selected={formData.difficultyLevel === dl.id} onClick={() => handleDifficultySelect(dl.id)}>
@@ -1273,9 +1273,9 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
-                            <span className="text-[10px] font-semibold text-gray-400 dark:text-gray-500">{dl.bloom}</span>
+                            <span className="text-[10px] font-semibold text-ss-slate dark:text-gray-500">{dl.bloom}</span>
                           </div>
-                          <p className="text-[11px] text-gray-400 mt-0.5">{dl.description}</p>
+                          <p className="text-[11px] text-ss-slate mt-0.5">{dl.description}</p>
                         </div>
                       </div>
                     </OptionButton>
@@ -1321,7 +1321,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
                 <StepLabel label="Topics" />
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Select topics to cover</h3>
-                <p className="text-xs text-gray-400 mb-3">You can select multiple topics</p>
+                <p className="text-xs text-ss-slate mb-3">You can select multiple topics</p>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {isUniStudent ? (
                     uniTopics.length === 0 ? (
@@ -1374,7 +1374,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   <div className="mt-4">
                     <StepLabel label="Subtopic (optional)" />
                     <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-1">Focus on one or more subtopics</h3>
-                    <p className="text-xs text-gray-400 mb-3">Leave blank to cover the entire topic</p>
+                    <p className="text-xs text-ss-slate mb-3">Leave blank to cover the entire topic</p>
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                       <OptionButton selected={formData.subtopic_ids.length === 0} onClick={() => handleSubtopicToggle(null)}>
                         <span className="font-medium text-gray-800 dark:text-gray-200 text-sm pr-6">Entire topic</span>
@@ -1407,7 +1407,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   {[10, 20, 40].map(count => (
                     <OptionButton key={count} selected={formData.count === count} onClick={() => handleCountSelect(count)} className="text-center">
                       <span className="text-2xl font-bold text-gray-900 dark:text-white block">{count}</span>
-                      <span className="text-[11px] text-gray-400">
+                      <span className="text-[11px] text-ss-slate">
                         {count === 10 ? '~15 min' : count === 20 ? '~30 min' : '~60 min'}
                       </span>
                     </OptionButton>
@@ -1420,7 +1420,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     <div className="grid grid-cols-1 sm:grid-cols-[1fr_auto] gap-3 items-center">
                       <div>
                         <h4 className="text-sm font-semibold text-gray-900 dark:text-white">Max attempts per student</h4>
-                        <p className="text-xs text-gray-400">Best score is kept across retries.</p>
+                        <p className="text-xs text-ss-slate">Best score is kept across retries.</p>
                       </div>
                       <input
                         type="number"
@@ -1452,7 +1452,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   ].map(s => (
                     <OptionButton key={s.value} selected={formData.style === s.value} onClick={() => handleStyleSelect(s.value)}>
                       <p className="font-semibold text-sm text-gray-900 dark:text-white">{s.label}</p>
-                      <p className="text-[11px] text-gray-400 mt-0.5">{s.sub}</p>
+                      <p className="text-[11px] text-ss-slate mt-0.5">{s.sub}</p>
                     </OptionButton>
                   ))}
                 </div>
@@ -1471,7 +1471,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                         <span className="text-lg mt-0.5 w-6 text-center flex-shrink-0">{qt.icon}</span>
                         <div>
                           <p className="font-semibold text-sm text-gray-900 dark:text-white">{qt.label}</p>
-                          <p className="text-[11px] text-gray-400 mt-0.5">{qt.description}</p>
+                          <p className="text-[11px] text-ss-slate mt-0.5">{qt.description}</p>
                         </div>
                       </div>
                     </OptionButton>
@@ -1489,7 +1489,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                 <div className="bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-800 rounded-xl overflow-hidden mb-4">
                   {summaryRows.filter(r => r.value).map((row, i) => (
                     <div key={row.label} className={`flex items-start gap-3 px-4 py-3 ${i !== 0 ? 'border-t border-gray-100 dark:border-gray-800/60' : ''}`}>
-                      <span className="text-xs text-gray-400 w-24 flex-shrink-0 pt-0.5">{row.label}</span>
+                      <span className="text-xs text-ss-slate w-24 flex-shrink-0 pt-0.5">{row.label}</span>
                       <span className="text-xs font-semibold text-gray-800 dark:text-gray-200 flex-1">{row.value}</span>
                     </div>
                   ))}
@@ -1526,7 +1526,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     />
                     {customTime !== null && (
                       <button type="button" onClick={() => { setCustomTime(null); setShowTimerInput(false) }}
-                        className="text-[10px] text-gray-400 hover:text-red-500 transition-colors">clear</button>
+                        className="text-[10px] text-ss-slate hover:text-red-500 transition-colors">clear</button>
                     )}
                   </motion.div>
                 )}

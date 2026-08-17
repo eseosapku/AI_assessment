@@ -410,7 +410,7 @@ export default function ClassroomDetailPage() {
                     <div className="flex flex-col gap-4">
                         <div className="flex items-start justify-between gap-4">
                             <div className="flex flex-col gap-2">
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-gray-400">Classroom</p>
+                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ss-slate">Classroom</p>
                                 <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{classroom.name}</h1>
                                 {classroom.description && (
                                     <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">{classroom.description}</p>
@@ -744,19 +744,19 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400">Students</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Students</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{acceptedMembers.length}</p>
-                    <p className="text-xs text-gray-400 mt-1">Active in this classroom</p>
+                    <p className="text-xs text-ss-slate mt-1">Active in this classroom</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400">Completion rate</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Completion rate</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">
                         {isLoadingAnalytics ? '—' : `${analytics?.summary?.completion_rate ?? 0}%`}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">Assignments finished</p>
+                    <p className="text-xs text-ss-slate mt-1">Assignments finished</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400">Avg score</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Avg score</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">
                         {isLoadingAnalytics
                             ? '—'
@@ -764,15 +764,15 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                 ? `${analytics?.summary?.average_score}%`
                                 : '—'}
                     </p>
-                    <p className="text-xs text-gray-400 mt-1">Across completed work</p>
+                    <p className="text-xs text-ss-slate mt-1">Across completed work</p>
                 </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5 flex flex-col gap-3">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400">Invite students</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Invite students</p>
                     <div className="relative">
-                        <Mail className="absolute left-3 top-3.5 w-4 h-4 text-gray-400" />
+                        <Mail className="absolute left-3 top-3.5 w-4 h-4 text-ss-slate" />
                         <textarea
                             value={inviteInput}
                             onChange={(e) => setInviteInput(e.target.value)}
@@ -804,8 +804,8 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                 <div className="lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-3">
                         <div>
-                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Student analytics</p>
-                            <p className="text-xs text-gray-400 mt-1">
+                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Student analytics</p>
+                            <p className="text-xs text-ss-slate mt-1">
                                 {isLoadingAnalytics
                                     ? 'Loading...'
                                     : `Total active time (${activeTimeLabel}): ${formatSeconds(analytics?.summary?.seconds_active ?? 0)}`}
@@ -813,7 +813,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                         </div>
                         <div className="flex flex-col sm:flex-row sm:items-center gap-2">
                             <div className="relative">
-                                <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+                                <Search className="absolute left-3 top-2.5 w-4 h-4 text-ss-slate" />
                                 <input
                                     value={searchInput}
                                     onChange={(e) => setSearchInput(e.target.value)}
@@ -852,7 +852,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                 <div className="overflow-x-auto max-h-[360px] overflow-y-auto">
                                     <table className="w-full text-sm">
                                         <thead>
-                                            <tr className="text-left text-[11px] uppercase tracking-widest text-gray-400 bg-white/90 dark:bg-gray-900/90 sticky top-0">
+                                            <tr className="text-left text-[11px] uppercase tracking-widest text-ss-slate bg-white/90 dark:bg-gray-900/90 sticky top-0">
                                                 <th className="py-2">Student</th>
                                                 <th className="py-2">Completed</th>
                                                 <th className="py-2">Open</th>
@@ -874,7 +874,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                             <div className="font-semibold text-gray-900 dark:text-white">
                                                                 {row.student_name ?? row.student_email ?? row.student_id}
                                                             </div>
-                                                            <div className="text-xs text-gray-400">{row.student_email ?? row.student_id ?? '—'}</div>
+                                                            <div className="text-xs text-ss-slate">{row.student_email ?? row.student_id ?? '—'}</div>
                                                         </td>
                                                         <td className="py-2">{row.completed}</td>
                                                         <td className="py-2">{row.started}</td>
@@ -922,10 +922,10 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                 )}
                             </>
                         ) : (
-                            <div className="text-sm text-gray-400">No students match your search.</div>
+                            <div className="text-sm text-ss-slate">No students match your search.</div>
                         )
                     ) : (
-                        <div className="text-sm text-gray-400">No analytics data yet.</div>
+                        <div className="text-sm text-ss-slate">No analytics data yet.</div>
                     )}
                 </div>
             </div>
@@ -968,14 +968,14 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                 <>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Quizes</p>
+                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Quizes</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
                                                 {studentDetail.summary.completed}
-                                                <span className="text-sm text-gray-400 font-semibold">/{studentDetail.summary.assignments_total}</span>
+                                                <span className="text-sm text-ss-slate font-semibold">/{studentDetail.summary.assignments_total}</span>
                                             </p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Average score</p>
+                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Average score</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
                                                 {Number.isFinite(studentDetail.summary.average_score)
                                                     ? `${studentDetail.summary.average_score}%`
@@ -988,11 +988,11 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                             </p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Not completed</p>
+                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Not completed</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">{studentDetail.summary.started}</p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Last completed</p>
+                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Last completed</p>
                                             <p className="text-sm font-semibold text-[#1F2933] dark:text-white mt-3">
                                                 {studentDetail.summary.last_completed_at
                                                     ? new Date(studentDetail.summary.last_completed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
@@ -1003,8 +1003,8 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
 
                                     <div>
                                         <div className="flex items-center justify-between mb-3">
-                                            <p className="text-[10px] uppercase tracking-widest text-gray-400">Assignments</p>
-                                            <p className="text-xs text-gray-400">View or download feedback</p>
+                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Assignments</p>
+                                            <p className="text-xs text-ss-slate">View or download feedback</p>
                                         </div>
                                         <div className="space-y-3">
                                             {studentDetail.assignments.map((row) => {
@@ -1015,7 +1015,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                         <div className="flex items-start justify-between gap-4">
                                                             <div>
                                                                 <p className="text-sm font-bold text-[#1F2933] dark:text-white">{row.title}</p>
-                                                                <p className="text-xs text-gray-400 mt-1">
+                                                                <p className="text-xs text-ss-slate mt-1">
                                                                     {row.subject} · {row.question_count} questions
                                                                 </p>
                                                             </div>
@@ -1044,7 +1044,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                             <span>Attempts: {row.attempt_count}/{row.max_attempts}</span>
                                                         </div>
                                                         <div className="mt-4 flex items-center justify-between">
-                                                            <p className="text-[11px] text-gray-400">
+                                                            <p className="text-[11px] text-ss-slate">
                                                                 {row.completed_at
                                                                     ? `Completed ${new Date(row.completed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
                                                                     : 'Not completed yet'}
@@ -1058,7 +1058,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                         View feedback
                                                                     </button>
                                                                 ) : (
-                                                                    <span className="text-[11px] text-gray-400">Feedback unavailable</span>
+                                                                    <span className="text-[11px] text-ss-slate">Feedback unavailable</span>
                                                                 )}
                                                                 <button
                                                                     onClick={() => handleDownloadFeedback(row)}
@@ -1076,7 +1076,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                     </div>
                                 </>
                             ) : (
-                                <div className="text-sm text-gray-400">Select a student to view details.</div>
+                                <div className="text-sm text-ss-slate">Select a student to view details.</div>
                             )}
                         </div>
                     </div>
@@ -1141,7 +1141,7 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
 
     const renderAssignments = (rows: ClassroomAssignment[], emptyLabel: string) => {
         if (rows.length === 0) {
-            return <p className="text-sm text-gray-400">{emptyLabel}</p>
+            return <p className="text-sm text-ss-slate">{emptyLabel}</p>
         }
 
         return (
@@ -1233,22 +1233,22 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400">Upcoming</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Upcoming</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.upcoming.length}</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400">Open</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Open</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.open.length}</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400">Finished</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Finished</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.finished.length}</p>
                 </div>
             </div>
 
             <div className="space-y-4">
                 <div>
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-3">Upcoming assignments</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate mb-3">Upcoming assignments</p>
                     {isLoadingAssignments ? (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -1259,7 +1259,7 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                 </div>
 
                 <div>
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-3">Open assignments</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate mb-3">Open assignments</p>
                     {isLoadingAssignments ? (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -1270,7 +1270,7 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                 </div>
 
                 <div>
-                    <p className="text-[10px] uppercase tracking-widest text-gray-400 mb-3">Finished assignments</p>
+                    <p className="text-[10px] uppercase tracking-widest text-ss-slate mb-3">Finished assignments</p>
                     {isLoadingAssignments ? (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />

@@ -223,7 +223,7 @@ function StudentDashboard() {
                 <User className="w-3.5 h-3.5 text-white" />
               </div>
               <span className="text-sm font-medium text-gray-700 dark:text-gray-300 hidden sm:block">{firstName}</span>
-              <ChevronDown className="w-3.5 h-3.5 text-gray-400 hidden sm:block" />
+              <ChevronDown className="w-3.5 h-3.5 text-ss-slate hidden sm:block" />
             </button>
           </div>
         </div>
@@ -438,7 +438,7 @@ function StudentDashboard() {
           <div className="relative text-left">
             <p className="text-xs font-bold uppercase tracking-[0.25em] text-violet-500 mb-1">Official Document</p>
             <h3 className="text-xl sm:text-2xl font-black leading-tight">Generate Report Card</h3>
-            <p className="text-sm text-gray-400 dark:text-gray-500 mt-0.5">Select assessments &amp; export a professional report card</p>
+            <p className="text-sm text-ss-slate dark:text-gray-500 mt-0.5">Select assessments &amp; export a professional report card</p>
           </div>
           <div className="relative flex items-center gap-3 flex-shrink-0">
             <div className="w-12 h-12 rounded-full bg-violet-100 dark:bg-violet-900/30 flex items-center justify-center group-hover:bg-violet-200 dark:group-hover:bg-violet-800/40 transition-colors">
@@ -451,7 +451,7 @@ function StudentDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-4 px-1">
             <Users className="w-3.5 h-3.5 text-violet-500" />
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">
               Your Classes
             </p>
           </div>
@@ -473,7 +473,7 @@ function StudentDashboard() {
                   <div>
                     <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{room.name}</p>
                     {room.description && (
-                      <p className="text-xs text-gray-400 mt-1 line-clamp-2">{room.description}</p>
+                      <p className="text-xs text-ss-slate mt-1 line-clamp-2">{room.description}</p>
                     )}
                   </div>
                   <div className="grid grid-cols-3 gap-2 text-center">
@@ -496,10 +496,10 @@ function StudentDashboard() {
           ) : (
             <div className="flex flex-col items-center justify-center py-16 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-800/60 bg-white/60 dark:bg-white/[0.02]">
               <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
-                <Users className="w-5 h-5 text-gray-400" />
+                <Users className="w-5 h-5 text-ss-slate" />
               </div>
               <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">No classes yet</p>
-              <p className="text-xs text-gray-400 text-center max-w-[200px] leading-relaxed">
+              <p className="text-xs text-ss-slate text-center max-w-[200px] leading-relaxed">
                 Classes appear here after your teacher adds you.
               </p>
             </div>
@@ -509,7 +509,7 @@ function StudentDashboard() {
         {/* ── Recent Assessments ── */}
         <div>
           <div className="flex items-center justify-between mb-4 px-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-gray-400 dark:text-gray-500">
+            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">
               Recent Activity
             </p>
             <button className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 hover:underline underline-offset-2">
@@ -533,10 +533,10 @@ function StudentDashboard() {
           ) : (
             <div className="flex flex-col items-center justify-center py-16 rounded-2xl border-2 border-dashed border-gray-200 dark:border-gray-800/60 bg-white/60 dark:bg-white/[0.02]">
               <div className="w-12 h-12 rounded-2xl bg-gray-100 dark:bg-gray-800 flex items-center justify-center mb-3">
-                <Clock className="w-5 h-5 text-gray-400" />
+                <Clock className="w-5 h-5 text-ss-slate" />
               </div>
               <p className="text-sm font-bold text-gray-700 dark:text-gray-300 mb-1">No assessments yet</p>
-              <p className="text-xs text-gray-400 text-center max-w-[200px] leading-relaxed">
+              <p className="text-xs text-ss-slate text-center max-w-[200px] leading-relaxed">
                 Generate your first AI test above to get started.
               </p>
             </div>
@@ -545,11 +545,11 @@ function StudentDashboard() {
 
         {/* ── Footer ── */}
         <div className="flex items-center justify-between pt-6 border-t border-gray-200/60 dark:border-white/[0.04]">
-          <div className="flex items-center gap-1.5 text-xs text-gray-400">
+          <div className="flex items-center gap-1.5 text-xs text-ss-slate">
             <Brain className="w-3.5 h-3.5" />
             <span>Powered by Brain Ink AI</span>
           </div>
-          <span className="text-xs text-gray-400">© {new Date().getFullYear()} Brain Ink</span>
+          <span className="text-xs text-ss-slate">© {new Date().getFullYear()} Brain Ink</span>
         </div>
 
       </main>

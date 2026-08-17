@@ -66,7 +66,7 @@ export function MermaidNode({ id, data }: NodeProps) {
           // eslint-disable-next-line @next/next/no-img-element
           <img src={imageMatch[1]} alt={d.title || 'diagram'} className="w-full rounded-lg" />
         ) : error || !src ? (
-          <p className="text-[12px] text-gray-400 italic">Diagram unavailable.</p>
+          <p className="text-[12px] text-ss-slate italic">Diagram unavailable.</p>
         ) : (
           <div ref={ref} className="w-full flex justify-center [&_svg]:max-w-full [&_svg]:h-auto" />
         )}

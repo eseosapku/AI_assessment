@@ -91,7 +91,7 @@ function MatchPairs({
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-2">
-          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-gray-400">Terms</p>
+          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-ss-slate">Terms</p>
           {question.left_items.map((item, i) => {
             const pairedRight = pairs[i]
             const isPaired = pairedRight !== undefined
@@ -139,7 +139,7 @@ function MatchPairs({
                     type="button"
                     onClick={() => clearPair(i)}
                     aria-label={`Clear match for ${item}`}
-                    className="shrink-0 border-l border-emerald-200 px-3 text-gray-400 hover:bg-red-50 hover:text-red-500 dark:border-emerald-800 dark:hover:bg-red-900/20"
+                    className="shrink-0 border-l border-emerald-200 px-3 text-ss-slate hover:bg-red-50 hover:text-red-500 dark:border-emerald-800 dark:hover:bg-red-900/20"
                   >
                     ✕
                   </button>
@@ -150,7 +150,7 @@ function MatchPairs({
         </div>
 
         <div className="space-y-2">
-          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-gray-400">Matches</p>
+          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-ss-slate">Matches</p>
           {question.right_items.map((item, j) => {
             const isUsed = usedRights.has(j)
             // The number of the term this definition is currently claimed by,
@@ -267,7 +267,7 @@ function OrderItems({
           </div>
         </div>
       ))}
-      <p className="text-xs text-gray-400 text-center mt-2">Drag items or use arrows to reorder</p>
+      <p className="text-xs text-ss-slate text-center mt-2">Drag items or use arrows to reorder</p>
     </div>
   )
 }
@@ -467,7 +467,7 @@ function FillBlanks({
                   {filled}
                 </button>
               ) : (
-                <span className="inline-block min-w-[80px] px-3 py-1 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 text-gray-400 text-sm text-center">
+                <span className="inline-block min-w-[80px] px-3 py-1 rounded-lg border-2 border-dashed border-gray-300 dark:border-gray-600 text-ss-slate text-sm text-center">
                   ?
                 </span>
               )}
@@ -477,7 +477,7 @@ function FillBlanks({
       </div>
 
       <div>
-        <p className="text-xs font-semibold uppercase tracking-wider text-gray-400 mb-2">Word bank</p>
+        <p className="text-xs font-semibold uppercase tracking-wider text-ss-slate mb-2">Word bank</p>
         <div className="flex flex-wrap gap-2">
           {question.word_bank.map((word, i) => {
             const isUsed = usedWords.has(word)
@@ -501,7 +501,7 @@ function FillBlanks({
             )
           })}
         </div>
-        <p className="text-xs text-gray-400 mt-2">Tap a word, then it fills the next empty gap. Tap a filled gap to remove.</p>
+        <p className="text-xs text-ss-slate mt-2">Tap a word, then it fills the next empty gap. Tap a filled gap to remove.</p>
       </div>
     </div>
   )
@@ -621,7 +621,7 @@ function MultiSelectOptions({
           </button>
         )
       })}
-      <p className="w-full text-xs text-gray-400 mt-1">Tap every option that applies — you can select more than one</p>
+      <p className="w-full text-xs text-ss-slate mt-1">Tap every option that applies — you can select more than one</p>
     </div>
   )
 }
@@ -751,7 +751,7 @@ export function InteractiveResultCard({
         <span className="px-2 py-0.5 rounded-full bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-300 text-xs font-semibold">
           Interactive · {kindLabel[question.kind]}
         </span>
-        <span className="text-sm text-gray-400">Question {idx + 1}</span>
+        <span className="text-sm text-ss-slate">Question {idx + 1}</span>
       </div>
       <h3 className="text-lg font-medium mb-4">{question.question}</h3>
 

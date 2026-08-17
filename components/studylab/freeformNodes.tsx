@@ -154,10 +154,10 @@ export function ChecklistNode({ id, data }: NodeProps) {
           <div key={i} className="flex items-center gap-2">
             <input type="checkbox" className="nodrag accent-ss-accent" checked={it.done}
               onChange={() => update(items.map((x, j) => (j === i ? { ...x, done: !x.done } : x)))} />
-            <input type="text" className={`nodrag flex-1 bg-transparent outline-none text-[13px] ${it.done ? 'line-through text-gray-400' : 'text-gray-700 dark:text-gray-200'}`}
+            <input type="text" className={`nodrag flex-1 bg-transparent outline-none text-[13px] ${it.done ? 'line-through text-ss-slate' : 'text-gray-700 dark:text-gray-200'}`}
               value={it.text} placeholder="Task…" onMouseDown={(e) => e.stopPropagation()}
               onChange={(e) => update(items.map((x, j) => (j === i ? { ...x, text: e.target.value } : x)))} />
-            <button type="button" className="nodrag text-gray-400 hover:text-red-500" onClick={() => update(items.filter((_, j) => j !== i))}>
+            <button type="button" className="nodrag text-ss-slate hover:text-red-500" onClick={() => update(items.filter((_, j) => j !== i))}>
               <X className="w-3.5 h-3.5" />
             </button>
           </div>
@@ -216,7 +216,7 @@ export function FlashcardNode({ id, data }: NodeProps) {
             </p>
             <p className="text-[15px] font-semibold text-gray-800 dark:text-gray-100 px-2">{(flipped ? back : front) || '(tap edit)'}</p>
           </button>
-          <button type="button" title="Edit" className="nodrag absolute top-1 right-1 text-gray-400 hover:text-ss-accent" onClick={() => setEditing(true)}>
+          <button type="button" title="Edit" className="nodrag absolute top-1 right-1 text-ss-slate hover:text-ss-accent" onClick={() => setEditing(true)}>
             <Pencil className="w-3.5 h-3.5" />
           </button>
         </div>
@@ -289,7 +289,7 @@ export function ResourceBoardNode({ id, data }: NodeProps) {
                   {l.label ?? hostname(l.url)}
                 </a>
               )}
-              <button type="button" onClick={() => remove(i)} className="nodrag text-gray-400 hover:text-red-500"><X className="w-3.5 h-3.5" /></button>
+              <button type="button" onClick={() => remove(i)} className="nodrag text-ss-slate hover:text-red-500"><X className="w-3.5 h-3.5" /></button>
             </div>
           )
         })}
