@@ -364,6 +364,40 @@ showing every question's state, with jump links.
 
 ---
 
+## Part 7 — Copy: say what things do
+
+Raised after the palette and type-scale work landed: the interface was now
+legible and still didn't explain itself. Legibility and comprehension are
+different problems, and fixing the first exposes the second.
+
+The pattern throughout is copy that names the control instead of its
+consequence — "Select student level", "Choose a question style", "Add your own
+area" — leaving the student to infer what changes. The quiz wizard has been
+rewritten on this principle (2026-08-17); the rest of the product has not.
+
+### C6. Platform-wide copy pass
+Each surface, in order of how many students hit it: the assessment player,
+results and feedback, the dashboard, Recall, LearnSpace, Gap Maps, Settings.
+
+Rules for the pass, taken from what worked in the wizard:
+- **Name the consequence, not the control.** "How hard should it be?" beats
+  "Select difficulty", because the student is choosing an outcome.
+- **Say what happens if you skip it.** Optional steps must say what the default
+  does — "Pick none and the quiz covers the whole topic."
+- **Say what a screen is for before showing its contents.** The scope step
+  displayed eight pills with no statement that they were already all selected.
+- **Describe the experience, not the category.** "Exam style — closest to the
+  day itself" beats "Exam Style (Past Papers)".
+- **Never let a placeholder be the only label**, and never let it carry
+  meaning a screen reader would miss.
+- **Empty states name the one action that fills them** (see F9).
+
+This is editorial work, not a find-and-replace: it needs a decision about what
+each screen is for before its labels can be rewritten. Budget it as its own
+pass rather than folding it into a wave.
+
+---
+
 ## Revised sequencing
 
 **Wave 0 — ship-blockers found in audit**
@@ -383,6 +417,7 @@ image-question contract · F5 report/appeal · F6 honest progress · F7 source
 attribution
 
 **Wave 3 — reach, cost and polish**
+C6 platform-wide copy pass ·
 A7 · A8 · B3 curriculum grounding · B4 limits · D3 subject picker · D4
 validation · E1–E3 onboarding · F4 image budget · F8 rate limits · F9 first-run
 · F10 session expiry · F12 localisation groundwork
