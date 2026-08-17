@@ -117,7 +117,7 @@ export default function WelcomeFlow() {
                 <div className="relative flex items-center gap-3">
                   <Avatar userId={user?.id} name={user?.name} size={48} className="ring-2 ring-white/40" />
                   <div className="text-left">
-                    <p className="text-[11px] font-bold uppercase tracking-[0.18em] opacity-85">Signed in as</p>
+                    <p className="text-[12px] font-bold uppercase tracking-[0.18em] opacity-85">Signed in as</p>
                     <p className="text-[16px] font-extrabold">{user?.name ?? 'Student'}</p>
                   </div>
                 </div>

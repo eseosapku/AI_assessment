@@ -162,7 +162,7 @@ export default function StudioHome() {
         {pausedAssessment && (
           <div className="flex flex-col gap-4 rounded-[20px] border border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10 p-5 sm:flex-row sm:items-center sm:justify-between">
             <div className="min-w-0">
-              <p className="flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-widest text-ss-warn">
+              <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-ss-warn">
                 <Pause className="h-3.5 w-3.5" /> Paused assessment
               </p>
               <p className="mt-1 truncate text-[19px] font-extrabold text-ss-ink">{pausedAssessment.assessment.subject}</p>
@@ -196,7 +196,7 @@ export default function StudioHome() {
                   <div className="relative h-20 overflow-hidden" style={{ background: 'linear-gradient(120deg,#0C74B4,#1AA0DC 55%,#3ED3F5)' }}>
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/art/classroom.png" alt="" aria-hidden className="absolute right-3 top-1/2 h-[92%] -translate-y-1/2 object-contain drop-shadow-lg" />
-                    <span className="absolute left-3 top-3 rounded-full bg-white/25 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
+                    <span className="absolute left-3 top-3 rounded-full bg-white/25 px-2.5 py-1 text-[12px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
                       {(c.open_count ?? 0) > 0 ? `${c.open_count} open` : 'Upcoming'}
                     </span>
                   </div>
@@ -271,7 +271,7 @@ export default function StudioHome() {
           <div className="rounded-[22px] border border-ss-line bg-ss-panel p-[18px]">
             <div className="flex items-center justify-between">
               <p className="text-[13px] font-extrabold text-ss-ink">Recent scores</p>
-              <span className="text-[11px] font-semibold text-ss-slate">last {weekScores.length}</span>
+              <span className="text-[12px] font-semibold text-ss-slate">last {weekScores.length}</span>
             </div>
             <div className="mt-4 flex h-[120px] items-end gap-2.5">
               {weekScores.map((s, i) => {
@@ -281,7 +281,7 @@ export default function StudioHome() {
                 return (
                   <div key={i} className="flex flex-1 flex-col items-center justify-end gap-1.5">
                     <div className="w-full rounded-md" style={{ height: `${h}px`, background: c }} />
-                    <span className="text-[10px] font-extrabold text-ss-slate">{s}%</span>
+                    <span className="text-[12px] font-extrabold text-ss-slate">{s}%</span>
                   </div>
                 )
               })}
@@ -300,7 +300,7 @@ export default function StudioHome() {
                 <img src={subjectArt(area.subjectName)} alt="" aria-hidden className="h-9 w-9 shrink-0 object-contain" />
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[13px] font-bold text-ss-ink">{area.label}</p>
-                  <p className="truncate text-[11.5px] font-semibold text-ss-slate">
+                  <p className="truncate text-[13px] font-semibold text-ss-slate">
                     {area.subjectName}
                     {typeof area.accuracy === 'number' ? ` · ${area.accuracy}%` : ''}
                   </p>

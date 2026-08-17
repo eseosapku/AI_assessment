@@ -34,7 +34,7 @@ export function HeroBanner({
         className="pointer-events-none absolute right-0 top-0 h-full w-[55%] object-cover opacity-90 mix-blend-screen"
       />
       <div className="relative">
-        <div className="text-[11px] font-bold uppercase tracking-[0.2em] opacity-85">{kicker}</div>
+        <div className="text-[12px] font-bold uppercase tracking-[0.2em] opacity-85">{kicker}</div>
         <h1 className="mt-2.5 max-w-[430px] text-[29px] font-extrabold leading-[1.16]">{title}</h1>
         <button
           type="button"

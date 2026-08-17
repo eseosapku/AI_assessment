@@ -410,7 +410,7 @@ export default function ClassroomDetailPage() {
                     <div className="flex flex-col gap-4">
                         <div className="flex items-start justify-between gap-4">
                             <div className="flex flex-col gap-2">
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ss-slate">Classroom</p>
+                                <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate">Classroom</p>
                                 <h1 className="text-2xl sm:text-3xl font-black text-gray-900 dark:text-white">{classroom.name}</h1>
                                 {classroom.description && (
                                     <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">{classroom.description}</p>
@@ -744,19 +744,19 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Students</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate">Students</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{acceptedMembers.length}</p>
                     <p className="text-xs text-ss-slate mt-1">Active in this classroom</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Completion rate</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate">Completion rate</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">
                         {isLoadingAnalytics ? '—' : `${analytics?.summary?.completion_rate ?? 0}%`}
                     </p>
                     <p className="text-xs text-ss-slate mt-1">Assignments finished</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Avg score</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate">Avg score</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">
                         {isLoadingAnalytics
                             ? '—'
@@ -770,7 +770,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5 flex flex-col gap-3">
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Invite students</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate">Invite students</p>
                     <div className="relative">
                         <Mail className="absolute left-3 top-3.5 w-4 h-4 text-ss-slate" />
                         <textarea
@@ -804,7 +804,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                 <div className="lg:col-span-2 bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
                     <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between mb-3">
                         <div>
-                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Student analytics</p>
+                            <p className="text-[12px] uppercase tracking-widest text-ss-slate">Student analytics</p>
                             <p className="text-xs text-ss-slate mt-1">
                                 {isLoadingAnalytics
                                     ? 'Loading...'
@@ -852,7 +852,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                 <div className="overflow-x-auto max-h-[360px] overflow-y-auto">
                                     <table className="w-full text-sm">
                                         <thead>
-                                            <tr className="text-left text-[11px] uppercase tracking-widest text-ss-slate bg-white/90 dark:bg-gray-900/90 sticky top-0">
+                                            <tr className="text-left text-[12px] uppercase tracking-widest text-ss-slate bg-white/90 dark:bg-gray-900/90 sticky top-0">
                                                 <th className="py-2">Student</th>
                                                 <th className="py-2">Completed</th>
                                                 <th className="py-2">Open</th>
@@ -882,7 +882,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                             <div className="flex items-center gap-2">
                                                                 <span>{Number.isFinite(row.avg_score) ? `${row.avg_score}%` : '—'}</span>
                                                                 {Number.isFinite(row.avg_score) && (
-                                                                    <span className="text-[10px] font-bold px-2 py-0.5 rounded-full bg-[#E6F6FD] text-[#0E8FD1] dark:bg-[#161B21] dark:text-[#9AD0C3]">
+                                                                    <span className="text-[12px] font-bold px-2 py-0.5 rounded-full bg-[#E6F6FD] text-[#0E8FD1] dark:bg-[#161B21] dark:text-[#9AD0C3]">
                                                                         {getGradeFromScore(row.avg_score)}
                                                                     </span>
                                                                 )}
@@ -939,7 +939,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                     <div className="absolute right-0 top-0 h-full w-full sm:max-w-xl bg-[#FFFDF9] dark:bg-[#12161D] border-l border-[#E8DED1] dark:border-white/10 shadow-2xl overflow-y-auto">
                         <div className="p-6 border-b border-[#E8DED1] dark:border-white/10 flex items-start justify-between gap-4">
                             <div>
-                                <p className="text-[10px] uppercase tracking-[0.2em] text-[#9C6644]">Student detail</p>
+                                <p className="text-[12px] uppercase tracking-[0.2em] text-[#9C6644]">Student detail</p>
                                 <h3 className="text-xl font-black text-[#1F2933] dark:text-white font-display mt-2">
                                     {studentDetail?.student?.student_name || selectedStudent?.student_name || selectedStudent?.student_email || selectedStudent?.student_id || 'Student'}
                                 </h3>
@@ -968,14 +968,14 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                 <>
                                     <div className="grid grid-cols-2 gap-3">
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Quizes</p>
+                                            <p className="text-[12px] uppercase tracking-widest text-ss-slate">Quizes</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
                                                 {studentDetail.summary.completed}
                                                 <span className="text-sm text-ss-slate font-semibold">/{studentDetail.summary.assignments_total}</span>
                                             </p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Average score</p>
+                                            <p className="text-[12px] uppercase tracking-widest text-ss-slate">Average score</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">
                                                 {Number.isFinite(studentDetail.summary.average_score)
                                                     ? `${studentDetail.summary.average_score}%`
@@ -988,11 +988,11 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                             </p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Not completed</p>
+                                            <p className="text-[12px] uppercase tracking-widest text-ss-slate">Not completed</p>
                                             <p className="text-2xl font-black text-[#1F2933] dark:text-white mt-2">{studentDetail.summary.started}</p>
                                         </div>
                                         <div className="rounded-2xl border border-[#E8DED1] dark:border-white/10 bg-white dark:bg-[#161B21] p-4">
-                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Last completed</p>
+                                            <p className="text-[12px] uppercase tracking-widest text-ss-slate">Last completed</p>
                                             <p className="text-sm font-semibold text-[#1F2933] dark:text-white mt-3">
                                                 {studentDetail.summary.last_completed_at
                                                     ? new Date(studentDetail.summary.last_completed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })
@@ -1003,7 +1003,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
 
                                     <div>
                                         <div className="flex items-center justify-between mb-3">
-                                            <p className="text-[10px] uppercase tracking-widest text-ss-slate">Assignments</p>
+                                            <p className="text-[12px] uppercase tracking-widest text-ss-slate">Assignments</p>
                                             <p className="text-xs text-ss-slate">View or download feedback</p>
                                         </div>
                                         <div className="space-y-3">
@@ -1020,7 +1020,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                 </p>
                                                             </div>
                                                             <div className="flex items-center gap-1.5 flex-wrap">
-                                                                <span className={`text-[10px] font-bold px-2 py-1 rounded-full ${row.status === 'completed'
+                                                                <span className={`text-[12px] font-bold px-2 py-1 rounded-full ${row.status === 'completed'
                                                                     ? 'bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300'
                                                                     : row.status === 'started'
                                                                         ? 'bg-amber-50 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300'
@@ -1029,7 +1029,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                     {row.status}
                                                                 </span>
                                                                 {row.submission_reason === 'violation' && (
-                                                                    <span className="inline-flex items-center gap-1 text-[10px] font-bold px-2 py-1 rounded-full bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/40">
+                                                                    <span className="inline-flex items-center gap-1 text-[12px] font-bold px-2 py-1 rounded-full bg-red-50 dark:bg-red-900/30 text-red-700 dark:text-red-300 border border-red-200 dark:border-red-800/40">
                                                                         <svg className="w-2.5 h-2.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
                                                                         Violation
                                                                     </span>
@@ -1044,7 +1044,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                             <span>Attempts: {row.attempt_count}/{row.max_attempts}</span>
                                                         </div>
                                                         <div className="mt-4 flex items-center justify-between">
-                                                            <p className="text-[11px] text-ss-slate">
+                                                            <p className="text-[12px] text-ss-slate">
                                                                 {row.completed_at
                                                                     ? `Completed ${new Date(row.completed_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`
                                                                     : 'Not completed yet'}
@@ -1058,7 +1058,7 @@ function TeacherClassroomView({ classroomId }: { classroomId: string }) {
                                                                         View feedback
                                                                     </button>
                                                                 ) : (
-                                                                    <span className="text-[11px] text-ss-slate">Feedback unavailable</span>
+                                                                    <span className="text-[12px] text-ss-slate">Feedback unavailable</span>
                                                                 )}
                                                                 <button
                                                                     onClick={() => handleDownloadFeedback(row)}
@@ -1181,13 +1181,13 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                                     <p className="mt-0.5 truncate text-xs font-semibold text-ss-slate">{row.assignment.subject} · Grade {row.assignment.grade}</p>
                                 </div>
                                 {row.assignment.strict_mode && (
-                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[color:var(--ss-bad)]/10 px-2 py-0.5 text-[10px] font-bold text-ss-bad">
+                                    <span className="inline-flex shrink-0 items-center gap-1 rounded-full bg-[color:var(--ss-bad)]/10 px-2 py-0.5 text-[12px] font-bold text-ss-bad">
                                         <svg className="w-2.5 h-2.5 flex-shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
                                         Strict
                                     </span>
                                 )}
                             </div>
-                            <div className="flex flex-wrap items-center gap-2 px-4 pb-3 text-[11px] font-semibold text-ss-slate">
+                            <div className="flex flex-wrap items-center gap-2 px-4 pb-3 text-[12px] font-semibold text-ss-slate">
                                 <span className="rounded-md bg-ss-chip px-2 py-1">{row.assignment.question_count}q · {row.assignment.question_type}</span>
                                 {deadline && (
                                     <span className={`rounded-md px-2 py-1 ${isExpired ? 'bg-[color:var(--ss-bad)]/10 text-ss-bad' : 'bg-ss-chip'}`}>Due {formatDate(deadline)}</span>
@@ -1233,22 +1233,22 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
         <div className="space-y-6">
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Upcoming</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate">Upcoming</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.upcoming.length}</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Open</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate">Open</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.open.length}</p>
                 </div>
                 <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/70 dark:border-gray-800/60 p-5">
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate">Finished</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate">Finished</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white mt-2">{grouped.finished.length}</p>
                 </div>
             </div>
 
             <div className="space-y-4">
                 <div>
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate mb-3">Upcoming assignments</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate mb-3">Upcoming assignments</p>
                     {isLoadingAssignments ? (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -1259,7 +1259,7 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                 </div>
 
                 <div>
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate mb-3">Open assignments</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate mb-3">Open assignments</p>
                     {isLoadingAssignments ? (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />
@@ -1270,7 +1270,7 @@ function StudentClassroomView({ classroomId }: { classroomId: string }) {
                 </div>
 
                 <div>
-                    <p className="text-[10px] uppercase tracking-widest text-ss-slate mb-3">Finished assignments</p>
+                    <p className="text-[12px] uppercase tracking-widest text-ss-slate mb-3">Finished assignments</p>
                     {isLoadingAssignments ? (
                         <div className="flex items-center justify-center py-10">
                             <div className="w-6 h-6 border-2 border-blue-600 border-t-transparent rounded-full animate-spin" />

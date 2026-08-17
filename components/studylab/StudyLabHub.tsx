@@ -145,7 +145,7 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
       <main className={`mx-auto max-w-6xl px-4 sm:px-6 ${embedded ? 'py-2' : 'py-8'}`}>
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ss-accent">LearnSpace</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-ss-accent">LearnSpace</p>
             <h2 className="mt-1 text-[30px] font-extrabold tracking-tight text-ss-ink sm:text-[34px]">
               Learn any topic on a <span className="text-ss-good">living canvas</span>
             </h2>
@@ -207,7 +207,7 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
                 className="relative flex flex-col gap-3 rounded-[20px] border border-ss-line bg-ss-panel p-5 text-left transition-all hover:-translate-y-0.5 hover:shadow-ss-panel"
               >
                 {completed && (
-                  <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-[color:var(--ss-good)]/15 px-2 py-1 text-[10px] font-extrabold uppercase tracking-wide text-ss-good">
+                  <span className="absolute right-4 top-4 inline-flex items-center gap-1 rounded-full bg-[color:var(--ss-good)]/15 px-2 py-1 text-[12px] font-extrabold uppercase tracking-wide text-ss-good">
                     <CheckCircle2 className="h-3 w-3" /> Completed
                   </span>
                 )}

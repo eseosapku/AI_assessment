@@ -53,7 +53,7 @@ function FreeformShell({
       {/* Drag handle (no `nodrag` here, so grabbing the header moves the card) */}
       <div className={`flex items-center gap-1.5 px-2.5 py-1.5 cursor-grab active:cursor-grabbing ${headerTint}`}>
         <Icon className="w-3.5 h-3.5 opacity-70" />
-        <span className="text-[11px] font-bold uppercase tracking-wide opacity-70 truncate">{label}</span>
+        <span className="text-[12px] font-bold uppercase tracking-wide opacity-70 truncate">{label}</span>
         <div className="ml-auto flex items-center gap-0.5">
           <button type="button" title={collapsed ? 'Expand' : 'Collapse'} onClick={toggle} className="nodrag p-1 rounded-md hover:bg-black/5 dark:hover:bg-white/10">
             {collapsed ? <ChevronRight className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
@@ -211,7 +211,7 @@ export function FlashcardNode({ id, data }: NodeProps) {
       ) : (
         <div className="relative">
           <button type="button" onClick={() => setFlipped((f) => !f)} className="nodrag w-full text-center py-5 rounded-xl bg-gray-50 dark:bg-white/5">
-            <p className="text-[10px] uppercase tracking-wide text-ss-slate mb-1 flex items-center justify-center gap-1">
+            <p className="text-[12px] uppercase tracking-wide text-ss-slate mb-1 flex items-center justify-center gap-1">
               <RotateCw className="w-3 h-3" /> {flipped ? 'Back' : 'Front'}
             </p>
             <p className="text-[15px] font-semibold text-gray-800 dark:text-gray-100 px-2">{(flipped ? back : front) || '(tap edit)'}</p>
@@ -254,7 +254,7 @@ export function PhotoNode({ id, data }: NodeProps) {
         )}
         <input ref={fileRef} type="file" accept="image/*" className="hidden"
           onChange={(e) => { ingest(e.target.files?.[0]); e.target.value = '' }} />
-        {err && <p className="text-[11px] text-red-500 mt-1">{err}</p>}
+        {err && <p className="text-[12px] text-red-500 mt-1">{err}</p>}
       </FreeformShell>
     </div>
   )

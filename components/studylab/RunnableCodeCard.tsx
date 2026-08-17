@@ -68,7 +68,7 @@ export function RunnableCodeNode({ id, data }: NodeProps) {
         </div>
         <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
         {d.language && (
-          <span className="ml-auto text-[10px] uppercase tracking-wide text-ss-slate">{d.language}</span>
+          <span className="ml-auto text-[12px] uppercase tracking-wide text-ss-slate">{d.language}</span>
         )}
       </div>
 

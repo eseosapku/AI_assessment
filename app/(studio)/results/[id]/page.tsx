@@ -883,7 +883,7 @@ export default function ResultDetailPage() {
                                         <img src={subjectArt(subject)} alt="" aria-hidden className="h-11 w-11 object-contain" />
                                     </span>
                                     <div className="min-w-0">
-                                        <p className="text-[10.5px] font-extrabold uppercase tracking-[0.06em] text-white/85">
+                                        <p className="text-[12px] font-extrabold uppercase tracking-[0.06em] text-white/85">
                                             Assessment review{completedOn ? ` · ${completedOn}` : ''}
                                         </p>
                                         <h1 className="mt-1 line-clamp-2 text-[22px] font-extrabold leading-tight">{subject}</h1>
@@ -898,7 +898,7 @@ export default function ResultDetailPage() {
                                     </div>
                                     <div className="rounded-2xl bg-white/20 px-5 py-3 text-center backdrop-blur-sm">
                                         <div className="text-[30px] font-extrabold leading-none">{grade}</div>
-                                        <div className="mt-1 text-[10px] font-bold uppercase tracking-wide text-white/90">{gm.meaning}</div>
+                                        <div className="mt-1 text-[12px] font-bold uppercase tracking-wide text-white/90">{gm.meaning}</div>
                                     </div>
                                 </div>
                             </div>
@@ -908,28 +908,28 @@ export default function ResultDetailPage() {
                                 {totals.mcqTotal > 0 && (
                                     <div className="px-4 py-3.5 text-center">
                                         <div className="text-[17px] font-extrabold text-ss-ink">{totals.mcqCorrect}/{totals.mcqTotal}</div>
-                                        <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">MCQ correct</div>
+                                        <div className="mt-0.5 text-[12px] font-semibold text-ss-slate">MCQ correct</div>
                                     </div>
                                 )}
                                 {totals.longFormTotal > 0 && (
                                     <div className="px-4 py-3.5 text-center">
                                         <div className="text-[17px] font-extrabold text-ss-ink">{totals.longFormEarned}/{totals.longFormTotal}</div>
-                                        <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Written marks</div>
+                                        <div className="mt-0.5 text-[12px] font-semibold text-ss-slate">Written marks</div>
                                     </div>
                                 )}
                                 {totals.interactiveTotal > 0 && (
                                     <div className="px-4 py-3.5 text-center">
                                         <div className="text-[17px] font-extrabold text-ss-ink">{totals.interactiveEarned}/{totals.interactiveTotal}</div>
-                                        <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Interactive</div>
+                                        <div className="mt-0.5 text-[12px] font-semibold text-ss-slate">Interactive</div>
                                     </div>
                                 )}
                                 <div className="px-4 py-3.5 text-center">
                                     <div className="text-[17px] font-extrabold text-ss-ink">{pct}%</div>
-                                    <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Final score</div>
+                                    <div className="mt-0.5 text-[12px] font-semibold text-ss-slate">Final score</div>
                                 </div>
                                 <div className="px-4 py-3.5 text-center">
                                     <div className="text-[17px] font-extrabold" style={{ color: gm.ring }}>{grade}</div>
-                                    <div className="mt-0.5 text-[11px] font-semibold text-ss-slate">Grade</div>
+                                    <div className="mt-0.5 text-[12px] font-semibold text-ss-slate">Grade</div>
                                 </div>
                             </div>
 

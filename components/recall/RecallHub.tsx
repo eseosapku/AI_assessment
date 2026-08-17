@@ -44,7 +44,7 @@ export default function RecallHub() {
         <Link href="/practice" className="mb-4 inline-flex items-center gap-1 text-sm font-bold text-ss-slate hover:text-ss-ink">
           <ArrowLeft className="h-4 w-4" /> Practice
         </Link>
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ss-accent">Recall</p>
+        <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-ss-accent">Recall</p>
         <h1 className="mt-2 text-[32px] font-extrabold tracking-tight text-ss-ink">
           Spaced <span className="text-ss-accent">repetition</span>
         </h1>
@@ -58,7 +58,7 @@ export default function RecallHub() {
         <img src="/art/recall.png" alt="" aria-hidden className="pointer-events-none absolute right-3 top-1/2 hidden h-[112%] -translate-y-1/2 object-contain opacity-90 sm:block" />
         <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-white/80">Due today</p>
+            <p className="text-[12px] font-bold uppercase tracking-widest text-white/80">Due today</p>
             <p className="mt-1 text-6xl font-extrabold tabular-nums">{loading ? '—' : due}</p>
             <p className="mt-2 text-sm font-semibold text-white/75">{total} card{total !== 1 ? 's' : ''} in your library</p>
           </div>
@@ -91,7 +91,7 @@ export default function RecallHub() {
       </div>
 
       <section>
-        <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.25em] text-ss-slate">Your decks</p>
+        <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.25em] text-ss-slate">Your decks</p>
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-ss-accent border-t-transparent" />
@@ -115,11 +115,11 @@ export default function RecallHub() {
                     </div>
                     <div className="shrink-0 text-right">
                       {dueNow > 0 ? (
-                        <span className="rounded-full bg-[color:var(--ss-accent)]/12 px-2.5 py-1 text-[11.5px] font-extrabold text-ss-accent">
+                        <span className="rounded-full bg-[color:var(--ss-accent)]/12 px-2.5 py-1 text-[13px] font-extrabold text-ss-accent">
                           {dueNow} due
                         </span>
                       ) : (
-                        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[11.5px] font-extrabold text-emerald-600 dark:bg-emerald-900/25 dark:text-emerald-400">
+                        <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[13px] font-extrabold text-emerald-600 dark:bg-emerald-900/25 dark:text-emerald-400">
                           Rested
                         </span>
                       )}
@@ -132,7 +132,7 @@ export default function RecallHub() {
                         style={{ width: `${Math.max(restingPct, 2)}%` }}
                       />
                     </div>
-                    <p className="shrink-0 text-[11px] font-bold text-ss-slate">
+                    <p className="shrink-0 text-[12px] font-bold text-ss-slate">
                       {cards} card{cards !== 1 ? 's' : ''}
                     </p>
                   </div>

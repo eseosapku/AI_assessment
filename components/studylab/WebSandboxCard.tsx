@@ -60,7 +60,7 @@ export function WebSandboxNode({ id, data }: NodeProps) {
           <Globe className="w-4 h-4 text-violet-500" />
         </div>
         <h3 className="font-semibold text-[15px] leading-tight">{d.title || 'Web sandbox'}</h3>
-        <span className="ml-auto text-[10px] uppercase tracking-wide text-ss-slate">live</span>
+        <span className="ml-auto text-[12px] uppercase tracking-wide text-ss-slate">live</span>
       </div>
 
       <div className="px-4 pb-4 pt-2 space-y-2">
@@ -70,7 +70,7 @@ export function WebSandboxNode({ id, data }: NodeProps) {
               key={t.key}
               type="button"
               onClick={() => setTab(t.key)}
-              className={`nodrag px-2.5 py-1 rounded-lg text-[11px] font-semibold transition-colors ${
+              className={`nodrag px-2.5 py-1 rounded-lg text-[12px] font-semibold transition-colors ${
                 tab === t.key
                   ? 'bg-violet-500 text-white'
                   : 'bg-gray-100 dark:bg-white/5 text-ss-slate hover:text-violet-500'
@@ -83,7 +83,7 @@ export function WebSandboxNode({ id, data }: NodeProps) {
             type="button"
             onClick={() => setDoc(assembleWebDoc(html, css, js))}
             title="Refresh preview"
-            className="nodrag ml-auto inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-semibold text-ss-slate hover:text-violet-500"
+            className="nodrag ml-auto inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[12px] font-semibold text-ss-slate hover:text-violet-500"
           >
             <RefreshCw className="w-3.5 h-3.5" />
           </button>

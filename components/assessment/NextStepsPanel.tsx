@@ -51,13 +51,13 @@ function AreaRow({
         />
       </div>
 
-      <p className="mt-2 text-[11.5px] font-semibold text-ss-slate">
+      <p className="mt-2 text-[13px] font-semibold text-ss-slate">
         {area.correct} of {area.total} correct
       </p>
 
       {area.missedQuestions.length > 0 && (
         <div className="mt-2 flex flex-wrap items-center gap-1.5">
-          <span className="text-[11px] font-bold uppercase tracking-wider text-ss-slate">Review</span>
+          <span className="text-[12px] font-bold uppercase tracking-wider text-ss-slate">Review</span>
           {area.missedQuestions.map((n) => (
             <button
               key={n}
@@ -65,7 +65,7 @@ function AreaRow({
               onClick={() => onJumpToQuestion(n)}
               // The number IS the affordance: tapping scrolls the review to that
               // question, so the student never has to hunt for "question 7".
-              className="rounded-full border border-ss-line bg-ss-chip px-2.5 py-1 text-[11.5px] font-extrabold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent"
+              className="rounded-full border border-ss-line bg-ss-chip px-2.5 py-1 text-[13px] font-extrabold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent"
               aria-label={`Jump to question ${n}`}
             >
               Q{n}
@@ -144,7 +144,7 @@ export default function NextStepsPanel({
           )}
         </div>
 
-        <p className="pt-0.5 text-center text-[11.5px] font-medium text-ss-slate">
+        <p className="pt-0.5 text-center text-[13px] font-medium text-ss-slate">
           {hasGaps
             ? 'Studying opens your gap map, where you can pick a topic and learn it in LearnSpace.'
             : 'Retake it any time to keep the streak going.'}

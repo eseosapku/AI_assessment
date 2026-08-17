@@ -76,7 +76,7 @@ export function BrainInkBadge({
   return (
     <span className={`inline-flex items-center gap-2 ${className}`}>
       <span
-        className={`text-[11px] font-medium uppercase tracking-[0.18em] ${
+        className={`text-[12px] font-medium uppercase tracking-[0.18em] ${
           light ? 'text-white/55' : 'text-slate-400 dark:text-white/40'
         }`}
       >

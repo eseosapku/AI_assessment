@@ -52,7 +52,7 @@ function TextbookSelector({
                 />
             </div>
 
-            <div className="flex items-center justify-between text-[11px] text-ss-slate">
+            <div className="flex items-center justify-between text-[12px] text-ss-slate">
                 <span>{filtered.length} results</span>
                 <span>{selectedIds.length} selected</span>
             </div>
@@ -72,7 +72,7 @@ function TextbookSelector({
                                     }`}
                             >
                                 <span className="font-semibold truncate">{textbook.name}</span>
-                                <span className={`px-2 py-0.5 rounded-full text-[10px] font-bold ${selected ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
+                                <span className={`px-2 py-0.5 rounded-full text-[12px] font-bold ${selected ? 'bg-blue-100 text-blue-700 dark:bg-blue-900/40 dark:text-blue-300' : 'bg-gray-100 text-gray-500 dark:bg-gray-800 dark:text-gray-400'
                                     }`}
                                 >
                                     {curriculumShortLabel(textbook.curriculum)}
@@ -270,7 +270,7 @@ export default function ManageClassesPage() {
                     return (
                         <span
                             key={id}
-                            className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-400"
+                            className="px-2.5 py-1 rounded-full text-[12px] font-semibold bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-400"
                         >
                             {textbook.name}
                         </span>
@@ -284,7 +284,7 @@ export default function ManageClassesPage() {
         <div className="min-h-screen bg-[#F3F4F6] dark:bg-[#0C0C0E] transition-colors duration-300">
             <div className="max-w-6xl mx-auto px-4 sm:px-8 py-8 space-y-6">
                 <div className="flex flex-col gap-2">
-                    <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-ss-slate">Manage Classes</p>
+                    <p className="text-[12px] font-bold uppercase tracking-[0.25em] text-ss-slate">Manage Classes</p>
                     <h1 className="text-3xl sm:text-4xl font-black text-gray-900 dark:text-white">Create and assign textbooks</h1>
                     <p className="text-sm text-gray-500 dark:text-gray-400 max-w-2xl">
                         Add classes, choose which textbooks (subjects) belong to each class, and update them anytime.
@@ -349,7 +349,7 @@ export default function ManageClassesPage() {
 
                         <div className="space-y-4">
                             <div className="flex items-center justify-between">
-                                <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-ss-slate">Classes</p>
+                                <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate">Classes</p>
                                 <span className="text-xs text-ss-slate">{classes.length} total</span>
                             </div>
 
@@ -392,13 +392,13 @@ export default function ManageClassesPage() {
                                             {item.textbooks?.slice(0, 6).map((textbook) => (
                                                 <span
                                                     key={textbook.id}
-                                                    className="px-2.5 py-1 rounded-full text-[10px] font-semibold bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-400"
+                                                    className="px-2.5 py-1 rounded-full text-[12px] font-semibold bg-gray-100 text-gray-600 dark:bg-gray-900 dark:text-gray-400"
                                                 >
                                                     {textbook.name}
                                                 </span>
                                             ))}
                                             {item.textbooks?.length > 6 && (
-                                                <span className="text-[10px] text-ss-slate">+{item.textbooks.length - 6} more</span>
+                                                <span className="text-[12px] text-ss-slate">+{item.textbooks.length - 6} more</span>
                                             )}
                                         </div>
 

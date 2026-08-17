@@ -69,7 +69,7 @@ export function CustomTopicStep({
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-      <p className="text-[11px] font-bold text-ss-slate uppercase tracking-widest mb-1">Your topic</p>
+      <p className="text-[12px] font-bold text-ss-slate uppercase tracking-widest mb-1">Your topic</p>
       <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
         What do you want to be quizzed on?
       </h3>
@@ -126,7 +126,7 @@ export function CustomTopicStep({
 
           {recents.length > 0 && (
             <div className="mt-3">
-              <p className="mb-1.5 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-widest text-ss-slate">
+              <p className="mb-1.5 flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-ss-slate">
                 <History className="h-3 w-3" /> Recent
               </p>
               <div className="flex flex-wrap gap-1.5">
@@ -146,7 +146,7 @@ export function CustomTopicStep({
 
           {!topic.trim() && starters.length > 0 && (
             <div className="mt-3">
-              <p className="mb-1.5 text-[11px] font-bold uppercase tracking-widest text-ss-slate">Try</p>
+              <p className="mb-1.5 text-[12px] font-bold uppercase tracking-widest text-ss-slate">Try</p>
               <div className="flex flex-wrap gap-1.5">
                 {starters.map((s) => (
                   <button
@@ -181,7 +181,7 @@ export function CustomTopicStep({
             aria-label="Notes to be quizzed on"
             className="w-full resize-y rounded-xl border border-gray-200 bg-white p-4 text-[13px] leading-relaxed text-gray-900 outline-none transition-colors placeholder:text-gray-400 focus:border-ss-accent dark:border-gray-800 dark:bg-gray-900 dark:text-white dark:placeholder:text-gray-500"
           />
-          <p className="mt-1.5 text-[11.5px] font-medium text-ss-slate">
+          <p className="mt-1.5 text-[13px] font-medium text-ss-slate">
             {isUsableNotes(notes)
               ? `${notesLength.toLocaleString()} characters — ready.`
               : `${notesLength.toLocaleString()} / ${NOTES_MIN_LENGTH} characters minimum.`}

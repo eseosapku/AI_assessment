@@ -707,7 +707,7 @@ export default function ReportCardGenerator() {
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/art/certificate.png" alt="" aria-hidden className="pointer-events-none absolute right-6 top-1/2 hidden h-[86%] -translate-y-1/2 object-contain drop-shadow-xl sm:block" />
           <div className="relative">
-            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-white/85 mb-1">Generator</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.25em] text-white/85 mb-1">Generator</p>
             <h1 className="text-3xl font-extrabold tracking-tight">Report Card</h1>
             <p className="mt-1 max-w-md text-sm font-semibold text-white/85">
               {isTeacher
@@ -721,7 +721,7 @@ export default function ReportCardGenerator() {
           <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-white/5 p-5 space-y-4">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-widest text-ss-slate mb-2">Classroom</label>
+                <label className="block text-[12px] font-bold uppercase tracking-widest text-ss-slate mb-2">Classroom</label>
                 <select
                   value={selectedClassroomId}
                   onChange={(e) => handleClassroomChange(e.target.value)}
@@ -734,7 +734,7 @@ export default function ReportCardGenerator() {
                 </select>
               </div>
               <div>
-                <label className="block text-[10px] font-bold uppercase tracking-widest text-ss-slate mb-2">Student</label>
+                <label className="block text-[12px] font-bold uppercase tracking-widest text-ss-slate mb-2">Student</label>
                 <select
                   value={selectedStudent?.id ?? ''}
                   onChange={(e) => handleStudentChange(e.target.value)}
@@ -836,7 +836,7 @@ export default function ReportCardGenerator() {
                         >
                           <Calendar className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
                           <span className="text-xs font-bold text-gray-600 dark:text-gray-400 flex-1">{wk.label}</span>
-                          <span className="text-[10px] font-semibold text-ss-slate mr-1">
+                          <span className="text-[12px] font-semibold text-ss-slate mr-1">
                             {wk.assessments.length} test{wk.assessments.length !== 1 ? 's' : ''}
                           </span>
                           <span className="text-xs font-bold" style={{ color: wkGc.text }}>avg {wkAvg}%</span>
@@ -885,7 +885,7 @@ export default function ReportCardGenerator() {
                                         <span className={`text-sm font-semibold truncate ${isSel ? 'text-gray-900 dark:text-white' : 'text-gray-700 dark:text-gray-300'}`}>
                                           {a.subject}
                                         </span>
-                                        <span className="text-[10px] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0"
+                                        <span className="text-[12px] font-bold px-1.5 py-0.5 rounded-md flex-shrink-0"
                                           style={{ background: gc2.bg, color: gc2.text }}>
                                           {a.grade}
                                         </span>
@@ -951,14 +951,14 @@ export default function ReportCardGenerator() {
                 {/* Stats */}
                 <div className="grid grid-cols-2 gap-3">
                   <div className="bg-gray-50 dark:bg-white/[0.03] rounded-xl p-3">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-ss-slate mb-1">Selected</p>
+                    <p className="text-[12px] font-bold uppercase tracking-wider text-ss-slate mb-1">Selected</p>
                     <p className="text-2xl font-black text-gray-900 dark:text-white">{selectedIds.size}</p>
-                    <p className="text-[10px] text-ss-slate">assessments</p>
+                    <p className="text-[12px] text-ss-slate">assessments</p>
                   </div>
                   <div className="rounded-xl p-3" style={{ background: gc.bg }}>
-                    <p className="text-[10px] font-bold uppercase tracking-wider mb-1" style={{ color: gc.text, opacity: 0.7 }}>Overall</p>
+                    <p className="text-[12px] font-bold uppercase tracking-wider mb-1" style={{ color: gc.text, opacity: 0.7 }}>Overall</p>
                     <p className="text-2xl font-black" style={{ color: gc.text }}>{overallGrade}</p>
-                    <p className="text-[10px] font-semibold" style={{ color: gc.text, opacity: 0.8 }}>{overallAvg}% avg</p>
+                    <p className="text-[12px] font-semibold" style={{ color: gc.text, opacity: 0.8 }}>{overallAvg}% avg</p>
                   </div>
                 </div>
 
@@ -971,7 +971,7 @@ export default function ReportCardGenerator() {
                   })
                   return (
                     <div className="space-y-2">
-                      <p className="text-[10px] font-bold uppercase tracking-wider text-ss-slate">By Subject</p>
+                      <p className="text-[12px] font-bold uppercase tracking-wider text-ss-slate">By Subject</p>
                       {Object.entries(subMap).map(([subj, scores]) => {
                         const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
                         const gc3 = GRADE_COLOR[getGrade(avg)]
@@ -1012,7 +1012,7 @@ export default function ReportCardGenerator() {
                 </div>
 
                 {selectedIds.size === 0 && (
-                  <p className="text-[11px] text-amber-600 dark:text-amber-400 text-center">
+                  <p className="text-[12px] text-amber-600 dark:text-amber-400 text-center">
                     Select at least one assessment to generate a report card.
                   </p>
                 )}
@@ -1025,7 +1025,7 @@ export default function ReportCardGenerator() {
                   <p className="text-xs font-bold text-gray-700 dark:text-gray-300">
                     {weeks.filter(w => w.assessments.some(a => selectedIds.has(a.id))).length} week{weeks.filter(w => w.assessments.some(a => selectedIds.has(a.id))).length !== 1 ? 's' : ''} covered
                   </p>
-                  <p className="text-[11px] text-ss-slate mt-0.5">Report card includes weekly breakdown</p>
+                  <p className="text-[12px] text-ss-slate mt-0.5">Report card includes weekly breakdown</p>
                 </div>
               </div>
             </motion.div>

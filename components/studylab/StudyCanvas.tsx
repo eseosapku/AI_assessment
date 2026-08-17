@@ -478,7 +478,7 @@ function FlowInner({
                 <Brain className="h-3.5 w-3.5 text-ss-accent" />
               </span>
               <span className="max-w-[200px] truncate text-[12.5px] font-extrabold text-ss-ink">{title || 'LearnSpace'}</span>
-              <span className="rounded-full bg-[color:var(--ss-accent)]/15 px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
+              <span className="rounded-full bg-[color:var(--ss-accent)]/15 px-1.5 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
             </div>
           <div className="relative">
             <button
@@ -496,8 +496,8 @@ function FlowInner({
                 {stepList.length > 1 && (
                   <div>
                     <div className="flex items-center justify-between mb-1.5">
-                      <span className="text-[10px] font-bold uppercase tracking-wide text-ss-slate">Steps to include</span>
-                      <button type="button" onClick={toggleAll} className="text-[11px] font-semibold text-ss-accent hover:underline">
+                      <span className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">Steps to include</span>
+                      <button type="button" onClick={toggleAll} className="text-[12px] font-semibold text-ss-accent hover:underline">
                         {selectedSteps.size === allSteps.length ? 'Clear' : 'All'}
                       </button>
                     </div>
@@ -511,7 +511,7 @@ function FlowInner({
                             className="accent-[#0E8FD1] w-3.5 h-3.5"
                           />
                           <span className="truncate flex-1">{s.title}</span>
-                          <span className="text-[10px] text-ss-slate">{s.count}</span>
+                          <span className="text-[12px] text-ss-slate">{s.count}</span>
                         </label>
                       ))}
                     </div>
@@ -536,7 +536,7 @@ function FlowInner({
                   </button>
                 </div>
                 {stepList.length > 1 && (
-                  <p className="text-[10px] text-ss-slate leading-snug">
+                  <p className="text-[12px] text-ss-slate leading-snug">
                     PNG saves one combined image; PDF makes one page per step.
                   </p>
                 )}
@@ -553,7 +553,7 @@ function FlowInner({
           style={{ position: 'fixed', left: cardMenu.x, top: cardMenu.y, zIndex: 50 }}
           className="min-w-[200px] rounded-xl border border-ss-line bg-ss-panel shadow-xl p-1"
         >
-          <p className="px-2 py-1 text-[10px] font-bold uppercase tracking-wide text-ss-slate truncate">{cardMenu.title}</p>
+          <p className="px-2 py-1 text-[12px] font-bold uppercase tracking-wide text-ss-slate truncate">{cardMenu.title}</p>
           {CARD_ACTIONS.map((a) => (
             <button
               key={a.label}

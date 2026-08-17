@@ -141,7 +141,7 @@ export default function TeacherDashboard() {
         <div className="max-w-6xl mx-auto px-5 sm:px-8 h-full flex items-center justify-between">
           <div className="flex items-center gap-3">
             <Image src="/logo2.png" alt="Brain Ink" width={140} height={80} className="h-10 w-auto object-contain" priority />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#9C6644] bg-[#F1E6D6] dark:bg-[#2B1E16] dark:text-[#E6C7A8] px-2.5 py-1 rounded-full">Teacher</span>
+            <span className="text-[12px] font-bold uppercase tracking-[0.2em] text-[#9C6644] bg-[#F1E6D6] dark:bg-[#2B1E16] dark:text-[#E6C7A8] px-2.5 py-1 rounded-full">Teacher</span>
           </div>
           <div className="flex items-center gap-2">
             <ThemeToggle />
@@ -177,7 +177,7 @@ export default function TeacherDashboard() {
           <div className="absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-black/40 to-transparent" />
 
           <div className="relative">
-            <p className="text-[10px] font-bold uppercase tracking-[0.32em] text-[#F1C8A8] mb-3">Teacher Dashboard</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.32em] text-[#F1C8A8] mb-3">Teacher Dashboard</p>
             <h1 className="text-4xl sm:text-5xl font-black text-white leading-none mb-8 tracking-tight font-display">
               {firstName}<span className="text-[#E07A5F]">.</span>
             </h1>
@@ -185,17 +185,17 @@ export default function TeacherDashboard() {
             <div className="flex flex-wrap items-end gap-x-8 gap-y-5">
               <div>
                 <p className="text-3xl sm:text-4xl font-black text-white tabular-nums leading-none">{sentAssignments.length}</p>
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-[#9AA1A9] mt-1.5">Assignments sent</p>
+                <p className="text-[12px] font-semibold uppercase tracking-widest text-[#9AA1A9] mt-1.5">Assignments sent</p>
               </div>
               <div className="w-px h-10 bg-white/10 hidden sm:block self-end mb-2" />
               <div>
                 <p className="text-3xl sm:text-4xl font-black text-white tabular-nums leading-none">{activeCount}</p>
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-[#9AA1A9] mt-1.5">Active</p>
+                <p className="text-[12px] font-semibold uppercase tracking-widest text-[#9AA1A9] mt-1.5">Active</p>
               </div>
               <div className="w-px h-10 bg-white/10 hidden sm:block self-end mb-2" />
               <div>
                 <p className="text-3xl sm:text-4xl font-black text-white tabular-nums leading-none">{totalStudents}</p>
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-[#9AA1A9] mt-1.5">Students reached</p>
+                <p className="text-[12px] font-semibold uppercase tracking-widest text-[#9AA1A9] mt-1.5">Students reached</p>
               </div>
             </div>
           </div>
@@ -245,7 +245,7 @@ export default function TeacherDashboard() {
         {/* Classrooms */}
         <div>
           <div className="flex items-center justify-between mb-4 px-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
               <Users className="w-3.5 h-3.5" />
               Classrooms
             </p>
@@ -296,7 +296,7 @@ export default function TeacherDashboard() {
                         <p className="text-xs text-ss-slate mt-0.5 line-clamp-2">{room.description}</p>
                       )}
                     </div>
-                    <span className="text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
+                    <span className="text-[12px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 bg-[#E7EFEA] text-[#1F7A7A] dark:bg-[#142724] dark:text-[#9AD0C3]">
                       {room.member_count ?? 0} students
                     </span>
                   </div>
@@ -338,7 +338,7 @@ export default function TeacherDashboard() {
         {drafts.length > 0 && (
           <div>
             <div className="flex items-center justify-between mb-4 px-1">
-              <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
+              <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
                 <ClipboardList className="w-3.5 h-3.5" />
                 Drafts
               </p>
@@ -358,7 +358,7 @@ export default function TeacherDashboard() {
                       <p className="text-sm font-bold text-gray-900 dark:text-white truncate">{a.title}</p>
                       <p className="text-xs text-ss-slate mt-0.5">{a.subject} · Grade {a.grade}</p>
                     </div>
-                    <span className="text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300">
+                    <span className="text-[12px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 bg-amber-100 text-amber-700 dark:bg-amber-900/30 dark:text-amber-300">
                       Draft
                     </span>
                   </div>
@@ -375,7 +375,7 @@ export default function TeacherDashboard() {
                   </div>
 
                   {a.topics?.length > 0 && (
-                    <p className="text-[11px] text-ss-slate truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
+                    <p className="text-[12px] text-ss-slate truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
                   )}
 
                   <div className="mt-auto grid grid-cols-2 gap-2">
@@ -401,7 +401,7 @@ export default function TeacherDashboard() {
         {/* Sent Assignments */}
         <div>
           <div className="flex items-center justify-between mb-4 px-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500 flex items-center gap-1.5">
               <ClipboardList className="w-3.5 h-3.5" />
               Sent Assignments
             </p>
@@ -430,7 +430,7 @@ export default function TeacherDashboard() {
                           {a.subject} · Grade {a.grade}{classroomLabel ? ` · ${classroomLabel}` : ''}
                         </p>
                       </div>
-                      <span className={`text-[10px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 ${DIFFICULTY_COLORS[a.difficulty_level] ?? 'text-gray-500 bg-gray-100 dark:bg-gray-800'}`}>
+                      <span className={`text-[12px] font-bold px-2 py-1 rounded-lg capitalize flex-shrink-0 ${DIFFICULTY_COLORS[a.difficulty_level] ?? 'text-gray-500 bg-gray-100 dark:bg-gray-800'}`}>
                         {a.difficulty_level}
                       </span>
                     </div>
@@ -450,7 +450,7 @@ export default function TeacherDashboard() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-2 flex-wrap text-[11px] text-ss-slate">
+                    <div className="flex items-center gap-2 flex-wrap text-[12px] text-ss-slate">
                       <span className="px-2 py-1 rounded-lg bg-gray-100 dark:bg-gray-800 text-gray-500">
                         Attempts: {a.max_attempts ?? 1}
                       </span>
@@ -463,11 +463,11 @@ export default function TeacherDashboard() {
                     </div>
 
                     {a.topics?.length > 0 && (
-                      <p className="text-[11px] text-ss-slate truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
+                      <p className="text-[12px] text-ss-slate truncate">{a.topics.slice(0, 3).join(' · ')}{a.topics.length > 3 ? ` +${a.topics.length - 3}` : ''}</p>
                     )}
 
                     <div className="pt-1 border-t border-gray-100 dark:border-gray-800/60">
-                      <p className="text-[10px] text-ss-slate">
+                      <p className="text-[12px] text-ss-slate">
                         Sent {new Date(a.created_at).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
                       </p>
                     </div>

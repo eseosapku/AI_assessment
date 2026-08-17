@@ -106,7 +106,7 @@ export default function PracticeHub() {
   return (
     <div>
       <header className="mb-7 max-w-2xl">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ss-accent">Practice</p>
+        <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-ss-accent">Practice</p>
         <h1 className="mt-2 text-[32px] font-extrabold tracking-tight text-ss-ink">
           Choose your <span className="text-ss-accent">mode</span>
         </h1>

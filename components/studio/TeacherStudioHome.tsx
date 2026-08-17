@@ -42,7 +42,7 @@ export default function TeacherStudioHome() {
           animate={{ opacity: 1, y: 0 }}
           className="col-span-12 lg:col-span-7 rounded-[2rem] bg-brand-ink p-8 sm:p-10 text-white shadow-studio"
         >
-          <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-brand-lime">Teacher studio</p>
+          <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-brand-lime">Teacher studio</p>
           <h1 className="mt-3 font-display text-4xl font-black tracking-[-0.04em] sm:text-5xl">
             Hello, <Marker tone="lime">{firstName}</Marker>
           </h1>
@@ -70,11 +70,11 @@ export default function TeacherStudioHome() {
 
         <div className="col-span-12 lg:col-span-5 grid grid-cols-2 gap-4">
           <div className="rounded-[1.5rem] bg-brand-orange p-5 shadow-studio rotate-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">Classes</p>
+            <p className="text-[12px] font-bold uppercase tracking-widest opacity-70">Classes</p>
             <p className="mt-2 font-display text-4xl font-black">{loading ? '—' : classrooms.length}</p>
           </div>
           <div className="rounded-[1.5rem] bg-brand-sky p-5 shadow-studio -rotate-1">
-            <p className="text-[10px] font-bold uppercase tracking-widest opacity-70">Open assigns</p>
+            <p className="text-[12px] font-bold uppercase tracking-widest opacity-70">Open assigns</p>
             <p className="mt-2 font-display text-4xl font-black">{loading ? '—' : openCount}</p>
           </div>
           <Link
@@ -90,7 +90,7 @@ export default function TeacherStudioHome() {
         </div>
 
         <section className="col-span-12">
-          <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.25em] text-brand-slate">Recent assignments</p>
+          <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.25em] text-brand-slate">Recent assignments</p>
           {assignments.length > 0 ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {assignments.slice(0, 6).map((a: any, i) => (
@@ -105,7 +105,7 @@ export default function TeacherStudioHome() {
                 >
                   <p className="truncate font-display text-lg font-black text-brand-ink">{a.title}</p>
                   <p className="mt-1 text-xs font-semibold text-brand-slate">{a.subject ?? 'General'}</p>
-                  <span className="mt-3 inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-widest text-brand-blue">
+                  <span className="mt-3 inline-flex items-center gap-1 text-[12px] font-bold uppercase tracking-widest text-brand-blue">
                     <ClipboardList className="h-3 w-3" />
                     {a.status ?? 'draft'}
                   </span>

@@ -103,7 +103,7 @@ function ShotFrame({ src, alt, label, tone = CYAN, className = '' }: { src: stri
         <div className="grid aspect-[16/10] place-items-center text-white" style={{ background: tone }}>
           <div className="text-center">
             <p className="text-sm font-extrabold">{label}</p>
-            <p className="mt-0.5 text-[11px] font-semibold uppercase tracking-widest opacity-80">product preview</p>
+            <p className="mt-0.5 text-[12px] font-semibold uppercase tracking-widest opacity-80">product preview</p>
           </div>
         </div>
       )}
@@ -263,7 +263,7 @@ function Hero() {
               <Ring pct={92} tone="#16B67A" size={44} />
               <div>
                 <p className="text-[12px] font-extrabold leading-tight text-slate-800 dark:text-white">Gap closed</p>
-                <p className="text-[10px] font-semibold text-slate-400">Algebra · mastered</p>
+                <p className="text-[12px] font-semibold text-slate-400">Algebra · mastered</p>
               </div>
             </motion.div>
           </div>
@@ -280,7 +280,7 @@ function TrustStrip() {
   return (
     <section className="border-y border-black/[0.06] bg-white py-7 dark:border-white/10 dark:bg-[#0a0f1e]">
       <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-5 sm:px-8">
-        <p className="text-[11px] font-bold uppercase tracking-[0.2em] text-slate-400">Built for your curriculum</p>
+        <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-slate-400">Built for your curriculum</p>
         <div className="flex flex-wrap items-center justify-center gap-2.5">
           {items.map((c) => (
             <span key={c} className="rounded-full border border-slate-200 bg-slate-50 px-4 py-1.5 text-sm font-bold text-slate-600 dark:border-white/10 dark:bg-white/5 dark:text-slate-300">
@@ -328,7 +328,7 @@ function MiniRecall() {
         <p className="text-[13px] font-bold text-slate-800 dark:text-white">What causes a supply curve to shift?</p>
         <div className="mt-3 flex gap-1.5">
           {btns.map(([b, c]) => (
-            <span key={b} className={`rounded-md px-2 py-1 text-[10px] font-bold ${c}`}>{b}</span>
+            <span key={b} className={`rounded-md px-2 py-1 text-[12px] font-bold ${c}`}>{b}</span>
           ))}
         </div>
       </div>
@@ -344,7 +344,7 @@ function MiniProgress() {
       <div className="flex-1 space-y-2.5">
         {bars.map(([s, v, c]) => (
           <div key={s}>
-            <div className="flex justify-between text-[11px] font-semibold text-slate-500 dark:text-slate-400"><span>{s}</span><span>{v}%</span></div>
+            <div className="flex justify-between text-[12px] font-semibold text-slate-500 dark:text-slate-400"><span>{s}</span><span>{v}%</span></div>
             <div className="mt-1 h-1.5 rounded-full bg-slate-100 dark:bg-white/10"><div className="h-full rounded-full" style={{ width: `${v}%`, background: c }} /></div>
           </div>
         ))}
@@ -373,7 +373,7 @@ function Features() {
               <div aria-hidden className="absolute -right-10 -top-10 h-48 w-48 rounded-full opacity-25 blur-3xl" style={{ background: GREEN }} />
               <div className="relative flex items-center gap-3">
                 <FeatureArt src="/art/studylab.png" tone={GREEN} />
-                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">Flagship</span>
+                <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">Flagship</span>
               </div>
               <h3 className="relative mt-5 font-sans text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">StudyLab — your AI draws the whole lesson</h3>
               <p className="relative mt-3 max-w-lg text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
@@ -431,7 +431,7 @@ function Features() {
                 <Ring pct={78} tone="#0E8FD1" />
                 <div>
                   <span className="rounded-lg bg-sky-50 px-2.5 py-1 text-[15px] font-extrabold text-sky-700 dark:bg-sky-900/30 dark:text-sky-300">B+</span>
-                  <p className="mt-1.5 text-[11px] font-semibold text-slate-500 dark:text-slate-400">Algebra · graded instantly</p>
+                  <p className="mt-1.5 text-[12px] font-semibold text-slate-500 dark:text-slate-400">Algebra · graded instantly</p>
                 </div>
               </div>
             </div>
@@ -449,7 +449,7 @@ function Features() {
                 <div className="relative h-12" style={{ background: CYAN }}>
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src="/art/classroom.png" alt="" aria-hidden className="absolute right-2 top-1/2 h-[150%] -translate-y-1/2 object-contain" />
-                  <span className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/25 px-2 py-0.5 text-[10px] font-bold text-white backdrop-blur">3 open</span>
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 rounded-full bg-white/25 px-2 py-0.5 text-[12px] font-bold text-white backdrop-blur">3 open</span>
                 </div>
                 <div className="bg-white px-3 py-2.5 dark:bg-[#0e1424]">
                   <p className="text-[13px] font-extrabold text-slate-800 dark:text-white">Grade 8 · Science</p>
@@ -644,7 +644,7 @@ function ForTeachers() {
                 {([[Users, 'Classrooms'], [GraduationCap, 'Assignments'], [BarChart3, 'Live progress'], [Target, 'Per-student gaps'], [Layers, 'Curriculum-aligned'], [ShieldCheck, 'Secure']] as [LucideIcon, string][]).map(([Icon, label], i) => (
                   <div key={i} className="flex flex-col items-center gap-2 rounded-2xl bg-white/[0.06] p-4 text-center ring-1 ring-white/10">
                     <Icon className="h-5 w-5 text-[#9BE3FB]" />
-                    <span className="text-[11px] font-bold leading-tight text-white/85">{label}</span>
+                    <span className="text-[12px] font-bold leading-tight text-white/85">{label}</span>
                   </div>
                 ))}
               </div>
@@ -676,7 +676,7 @@ function Pricing() {
           <div className="relative mx-auto mt-14 max-w-xl overflow-hidden rounded-[2rem] p-8 text-white shadow-2xl shadow-cyan-500/20 sm:p-10" style={{ background: CYAN }}>
             <GridTexture opacity={0.6} />
             <div className="relative">
-              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-[11px] font-bold uppercase tracking-[0.12em] ring-1 ring-white/25">
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-white/15 px-3 py-1.5 text-[12px] font-bold uppercase tracking-[0.12em] ring-1 ring-white/25">
                 <Check className="h-3.5 w-3.5" /> 2 assessments free to start
               </span>
               <div className="mt-6 flex items-end gap-2">

@@ -17,7 +17,7 @@ export function WorkedNode({ data }: NodeProps) {
           <ol className="space-y-1.5">
             {steps.map((s, i) => (
               <li key={i} className="flex gap-2">
-                <span className="shrink-0 w-5 h-5 rounded-full bg-[color:var(--ss-good)]/15 text-ss-good text-[11px] font-bold flex items-center justify-center">{i + 1}</span>
+                <span className="shrink-0 w-5 h-5 rounded-full bg-[color:var(--ss-good)]/15 text-ss-good text-[12px] font-bold flex items-center justify-center">{i + 1}</span>
                 <span className="pt-0.5"><SafeLatex>{s}</SafeLatex></span>
               </li>
             ))}
@@ -87,7 +87,7 @@ export function CalloutNode({ data }: NodeProps) {
       <Handle type="target" position={Position.Left} className={handleClass} />
       <div className="flex items-center gap-2 mb-1">
         <Icon className={`w-4 h-4 ${s.color}`} />
-        <span className={`text-[10px] font-bold uppercase tracking-wide ${s.color}`}>{d.title ?? s.label}</span>
+        <span className={`text-[12px] font-bold uppercase tracking-wide ${s.color}`}>{d.title ?? s.label}</span>
       </div>
       <div className="text-[13px] text-ss-ink whitespace-pre-wrap">
         <SafeLatex>{d.body}</SafeLatex>

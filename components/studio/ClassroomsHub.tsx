@@ -13,7 +13,7 @@ export default function ClassroomsHub() {
   return (
     <div className="mx-auto max-w-5xl">
       <header className="mb-8">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ss-accent">Classes</p>
+        <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-ss-accent">Classes</p>
         <h1 className="mt-2 text-[32px] font-extrabold tracking-tight text-ss-ink">
           Your <span className="text-ss-accent">classrooms</span>
         </h1>
@@ -55,7 +55,7 @@ export default function ClassroomsHub() {
                 ].map((stat) => (
                   <div key={stat.label} className="px-4 py-4 text-center">
                     <p className={`text-2xl font-extrabold tabular-nums ${stat.tone}`}>{stat.value}</p>
-                    <p className="mt-0.5 text-[10px] font-bold uppercase tracking-widest text-ss-slate">{stat.label}</p>
+                    <p className="mt-0.5 text-[12px] font-bold uppercase tracking-widest text-ss-slate">{stat.label}</p>
                   </div>
                 ))}
               </div>

@@ -51,7 +51,7 @@ export default function SettingsPage() {
   return (
     <div className="mx-auto max-w-3xl">
       <div className="mb-8">
-        <p className="text-[10px] font-bold uppercase tracking-[0.3em] text-ss-accent">Settings</p>
+        <p className="text-[12px] font-bold uppercase tracking-[0.3em] text-ss-accent">Settings</p>
         <h1 className="mt-2 text-[32px] font-extrabold tracking-tight text-ss-ink">Profile &amp; security</h1>
         <p className="mt-2 max-w-2xl text-sm font-semibold text-ss-slate">
           Update your profile and password. Your student ID stays your primary identifier.

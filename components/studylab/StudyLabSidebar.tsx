@@ -43,9 +43,9 @@ export default function StudyLabSidebar({
         <div className="leading-tight">
           <div className="flex items-center gap-1.5">
             <p className="font-semibold text-[14px] text-white">StudyLab</p>
-            <span className="rounded-full bg-[color:var(--ss-accent)]/20 px-1.5 py-0.5 text-[8.5px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
+            <span className="rounded-full bg-[color:var(--ss-accent)]/20 px-1.5 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
           </div>
-          <p className="text-[11px] text-ss-slate">Brain Ink</p>
+          <p className="text-[12px] text-ss-slate">Brain Ink</p>
         </div>
       </div>
 
@@ -59,14 +59,14 @@ export default function StudyLabSidebar({
 
       {/* Topic */}
       <div className="px-4 py-3 border-y border-white/5">
-        <p className="text-[10px] uppercase tracking-[0.18em] text-ss-slate mb-1">Studying</p>
+        <p className="text-[12px] uppercase tracking-[0.18em] text-ss-slate mb-1">Studying</p>
         <p className="font-semibold text-white text-[14px] leading-snug">{title}</p>
         {subject && <p className="text-[12px] text-ss-slate mt-0.5">{subject}</p>}
       </div>
 
       {/* Steps / layers */}
       <div className="flex-1 overflow-y-auto px-2 py-3">
-        <div className="flex items-center gap-2 px-2 mb-2 text-[10px] uppercase tracking-[0.18em] text-ss-slate">
+        <div className="flex items-center gap-2 px-2 mb-2 text-[12px] uppercase tracking-[0.18em] text-ss-slate">
           <Layers className="w-3.5 h-3.5" />
           Steps
         </div>

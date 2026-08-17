@@ -26,7 +26,7 @@ export function CheckpointHeaderNode({ data }: NodeProps) {
       </div>
       <div className="min-w-0">
         <p className="font-bold text-[14px] leading-tight truncate">{d.title ?? 'Check your understanding'}</p>
-        <p className="text-[11px] text-ss-slate">Answer the questions to continue</p>
+        <p className="text-[12px] text-ss-slate">Answer the questions to continue</p>
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
     </div>
@@ -59,7 +59,7 @@ export function QuizNode({ id, data }: NodeProps) {
       <Handle type="target" position={Position.Left} className={handleClass} />
       <div className="flex items-center gap-2 px-4 pt-3">
         <HelpCircle className="w-4 h-4 text-emerald-600" />
-        <span className="text-[10px] font-bold uppercase tracking-wide text-ss-slate">{q.format}</span>
+        <span className="text-[12px] font-bold uppercase tracking-wide text-ss-slate">{q.format}</span>
         {quiz.state === 'correct' && <Check className="ml-auto w-4 h-4 text-emerald-500" />}
         {quiz.state === 'incorrect' && <X className="ml-auto w-4 h-4 text-red-500" />}
       </div>
@@ -220,7 +220,7 @@ function CodeChallenge({ q, quiz, set }: { q: Extract<CheckpointQuestion, { form
         onMouseDown={(e) => e.stopPropagation()}
         onChange={(e) => setCode(e.target.value)}
       />
-      {output && <pre className="text-[11px] bg-gray-950 text-gray-100 rounded-lg p-2 whitespace-pre-wrap">{output}</pre>}
+      {output && <pre className="text-[12px] bg-gray-950 text-gray-100 rounded-lg p-2 whitespace-pre-wrap">{output}</pre>}
       {!answered && (
         <div className="flex gap-2">
           <button

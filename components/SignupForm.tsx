@@ -185,7 +185,7 @@ export default function SignupForm({
           />
         </Field>
 
-        <p className="text-[11px] text-slate-400">
+        <p className="text-[12px] text-slate-400">
           Provide an email or student ID. Students without email can use their school ID.
         </p>
 
@@ -226,7 +226,7 @@ export default function SignupForm({
                 </div>
               </div>
             )}
-            <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
+            <p className="text-[12px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
               University pilot — course-aligned assessments, tutor and revision.
             </p>
           </>
@@ -256,7 +256,7 @@ export default function SignupForm({
         </Field>
         )}
         {!isUni && (
-          <p className="text-[11px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
+          <p className="text-[12px] leading-relaxed text-slate-500 dark:text-slate-400 -mt-2">
             {countrySignupHint(country)}
           </p>
         )}

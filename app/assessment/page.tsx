@@ -1688,7 +1688,7 @@ function AssessmentPageClient() {
         <div className="bg-[#1c1f26] border-b border-black/20 px-4 sm:px-6 py-2">
           <div className="max-w-4xl mx-auto flex items-center gap-2">
             <Lock className="w-3 h-3 text-amber-400 flex-shrink-0" />
-            <p className="text-[11px] text-white/80 tracking-wide">
+            <p className="text-[12px] text-white/80 tracking-wide">
               <span className="font-semibold text-amber-400">Strict</span>
               {' '}— Switching tabs or windows will immediately auto-submit your assessment.
             </p>

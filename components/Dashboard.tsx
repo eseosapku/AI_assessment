@@ -247,7 +247,7 @@ function StudentDashboard() {
           <div className="absolute -bottom-10 left-20 w-48 h-48 bg-violet-600/15 rounded-full blur-3xl pointer-events-none" />
 
           <div className="relative">
-            <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-blue-400 mb-3">Dashboard</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.25em] text-blue-400 mb-3">Dashboard</p>
             <h1 className="text-4xl sm:text-5xl font-black text-white leading-none mb-8 tracking-tight">
               {firstName}<span className="text-blue-500">.</span>
             </h1>
@@ -258,7 +258,7 @@ function StudentDashboard() {
               {/* Total */}
               <div>
                 <p className="text-3xl sm:text-4xl font-black text-white tabular-nums leading-none">{stats.total}</p>
-                <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 mt-1.5">Tests done</p>
+                <p className="text-[12px] font-semibold uppercase tracking-widest text-slate-500 mt-1.5">Tests done</p>
               </div>
 
               <div className="w-px h-10 bg-white/10 hidden sm:block self-end mb-2" />
@@ -272,7 +272,7 @@ function StudentDashboard() {
                   <p className={`text-3xl sm:text-4xl font-black tabular-nums leading-none transition-colors ${showAvgDropdown ? 'text-blue-400' : 'text-white group-hover:text-blue-400'}`}>
                     {stats.avgScore}%
                   </p>
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 mt-1.5 flex items-center gap-1">
+                  <p className="text-[12px] font-semibold uppercase tracking-widest text-slate-500 mt-1.5 flex items-center gap-1">
                     Avg score
                     <ChevronDown className={`w-3 h-3 text-slate-500 transition-transform duration-200 ${showAvgDropdown ? 'rotate-180 text-blue-400' : ''}`} />
                   </p>
@@ -289,14 +289,14 @@ function StudentDashboard() {
                       className="absolute top-full left-0 mt-3 w-72 z-50 rounded-2xl shadow-2xl shadow-black/40 border border-white/10 bg-[#151C2C] overflow-hidden"
                     >
                       <div className="px-4 py-3 border-b border-white/5">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400">By Subject</p>
+                        <p className="text-[12px] font-bold uppercase tracking-widest text-slate-400">By Subject</p>
                       </div>
                       <div className="divide-y divide-white/5 max-h-52 overflow-y-auto">
                         {subjectAverages.map(({ subject, avg, count }) => (
                           <div key={subject} className="flex items-center gap-3 px-4 py-3">
                             <div className="flex-1 min-w-0">
                               <p className="text-sm font-semibold text-white truncate">{subject}</p>
-                              <p className="text-[11px] text-slate-500 mt-0.5">{count} test{count !== 1 ? 's' : ''}</p>
+                              <p className="text-[12px] text-slate-500 mt-0.5">{count} test{count !== 1 ? 's' : ''}</p>
                             </div>
                             <div className="flex items-center gap-2 flex-shrink-0">
                               <div className="w-20 h-1 bg-white/10 rounded-full overflow-hidden">
@@ -322,10 +322,10 @@ function StudentDashboard() {
               {/* Quota inline */}
               <div className="flex-1 min-w-[180px]">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-[11px] font-semibold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
+                  <p className="text-[12px] font-semibold uppercase tracking-widest text-slate-500 flex items-center gap-1.5">
                     <Zap className="w-3 h-3" />Daily quota
                   </p>
-                  <p className={`text-[11px] font-black tabular-nums ${quotaTextColor}`}>{remaining.toLocaleString()} left</p>
+                  <p className={`text-[12px] font-black tabular-nums ${quotaTextColor}`}>{remaining.toLocaleString()} left</p>
                 </div>
                 <div className="h-1.5 bg-white/10 rounded-full overflow-hidden">
                   <motion.div
@@ -347,7 +347,7 @@ function StudentDashboard() {
             className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 rounded-2xl border border-amber-200/60 dark:border-amber-800/40 bg-amber-50/80 dark:bg-amber-900/10 p-5"
           >
             <div className="min-w-0">
-              <p className="text-[10px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Paused assessment</p>
+              <p className="text-[12px] font-bold uppercase tracking-widest text-amber-600 dark:text-amber-400">Paused assessment</p>
               <p className="text-lg font-semibold text-gray-900 dark:text-white truncate">
                 {pausedAssessment.assessment.subject}
               </p>
@@ -451,7 +451,7 @@ function StudentDashboard() {
         <div>
           <div className="flex items-center gap-2 mb-4 px-1">
             <Users className="w-3.5 h-3.5 text-violet-500" />
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">
               Your Classes
             </p>
           </div>
@@ -479,15 +479,15 @@ function StudentDashboard() {
                   <div className="grid grid-cols-3 gap-2 text-center">
                     <div className="rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800/40 py-2">
                       <p className="text-xs text-blue-600 dark:text-blue-300 font-bold">{room.upcoming_count ?? 0}</p>
-                      <p className="text-[10px] text-blue-500">Upcoming</p>
+                      <p className="text-[12px] text-blue-500">Upcoming</p>
                     </div>
                     <div className="rounded-xl bg-amber-50 dark:bg-amber-900/20 border border-amber-100 dark:border-amber-800/40 py-2">
                       <p className="text-xs text-amber-600 dark:text-amber-300 font-bold">{room.open_count ?? 0}</p>
-                      <p className="text-[10px] text-amber-500">Open</p>
+                      <p className="text-[12px] text-amber-500">Open</p>
                     </div>
                     <div className="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800/40 py-2">
                       <p className="text-xs text-emerald-600 dark:text-emerald-300 font-bold">{room.finished_count ?? 0}</p>
-                      <p className="text-[10px] text-emerald-500">Finished</p>
+                      <p className="text-[12px] text-emerald-500">Finished</p>
                     </div>
                   </div>
                 </motion.button>
@@ -509,10 +509,10 @@ function StudentDashboard() {
         {/* ── Recent Assessments ── */}
         <div>
           <div className="flex items-center justify-between mb-4 px-1">
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate dark:text-gray-500">
               Recent Activity
             </p>
-            <button className="text-[10px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 hover:underline underline-offset-2">
+            <button className="text-[12px] font-bold uppercase tracking-wider text-blue-600 dark:text-blue-400 hover:underline underline-offset-2">
               View all
             </button>
           </div>

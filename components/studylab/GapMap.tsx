@@ -77,8 +77,8 @@ function MapNode({ data }: NodeProps) {
           <span className="text-[14px] font-semibold leading-tight line-clamp-2 text-ss-ink">{d.label}</span>
         </div>
         <div className="flex items-center justify-between mt-2">
-          <span className={`text-[11px] font-medium ${meta?.text}`}>{meta?.label}</span>
-          <span className="text-[11px] text-ss-slate">
+          <span className={`text-[12px] font-medium ${meta?.text}`}>{meta?.label}</span>
+          <span className="text-[12px] text-ss-slate">
             {typeof d.accuracy === 'number'
               ? `${d.accuracy}%`
               : typeof d.overallAvg === 'number'
@@ -121,11 +121,11 @@ function MapNode({ data }: NodeProps) {
           </button>
         </div>
         <div className="flex items-center justify-between mt-1.5 pl-[22px]">
-          <span className={`text-[11px] ${meta?.text}`}>
+          <span className={`text-[12px] ${meta?.text}`}>
             {meta?.label}{typeof d.accuracy === 'number' ? ` · ${d.accuracy}%` : ''}
           </span>
           {hasSubs && (
-            <span className="text-[11px] text-ss-slate">
+            <span className="text-[12px] text-ss-slate">
               {(d.subAssessed ?? 0) > 0 ? `${d.subAssessed}/${d.subCount} assessed` : `${d.subCount} subtopics`}
             </span>
           )}
@@ -319,7 +319,7 @@ function SubjectPicker({
                     <div className="flex items-center gap-2">
                       <span className={`h-2 w-2 shrink-0 rounded-full ${meta.dot}`} />
                       <span className="min-w-0 flex-1 truncate text-[12.5px] font-bold text-ss-ink">{s.name}</span>
-                      <span className="shrink-0 text-[11.5px] font-extrabold text-ss-slate">
+                      <span className="shrink-0 text-[13px] font-extrabold text-ss-slate">
                         {score !== null ? `${Math.round(score)}%` : '—'}
                       </span>
                     </div>
@@ -808,14 +808,14 @@ export default function GapMap({
             </dl>
 
             {selected.kind !== 'subject' && selected.status === 'not_assessed' && (
-              <p className="mt-3 text-[11px] text-ss-slate leading-snug">
+              <p className="mt-3 text-[12px] text-ss-slate leading-snug">
                 Not assessed yet — there&apos;s no quiz data covering this. Start a study session or take a quiz
                 to begin tracking it.
               </p>
             )}
 
             {selected.kind === 'topic' && selected.status !== 'not_assessed' && selected.topicLevelOnly && (
-              <p className="mt-3 text-[11px] text-ss-slate leading-snug">
+              <p className="mt-3 text-[12px] text-ss-slate leading-snug">
                 Assessed at the topic level (a quiz focused on this topic), not yet broken down by subtopic. Take a
                 subtopic-tagged quiz to see exactly which parts need work.
               </p>
@@ -823,7 +823,7 @@ export default function GapMap({
 
             {selected.kind === 'topic' && selected.status !== 'not_assessed' && !selected.topicLevelOnly &&
               typeof selected.subCount === 'number' && (selected.subAssessed ?? 0) < selected.subCount && (
-                <p className="mt-3 text-[11px] text-ss-slate leading-snug">
+                <p className="mt-3 text-[12px] text-ss-slate leading-snug">
                   Mastery is weighted by coverage: only {selected.subAssessed} of {selected.subCount} subtopics
                   have been assessed, so this reflects partial progress. Assess the rest to raise it.
                 </p>
@@ -832,7 +832,7 @@ export default function GapMap({
             {/* What makes up the percentage — the actual assessments taken. */}
             {selected.kind === 'subject' && activeSubject && activeSubject.assessments.length > 0 && (
               <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800">
-                <p className="text-[11px] font-medium uppercase tracking-wide text-ss-slate mb-2">
+                <p className="text-[12px] font-medium uppercase tracking-wide text-ss-slate mb-2">
                   {activeSubject.topics_assessed === 0 ? 'Quizzes you\u2019ve taken' : 'What makes up this score'}
                 </p>
                 <ul className="space-y-1.5 max-h-48 overflow-y-auto -mr-1 pr-1">
@@ -853,7 +853,7 @@ export default function GapMap({
                   ))}
                 </ul>
                 {activeSubject.topics_assessed === 0 && (
-                  <p className="mt-2 text-[11px] text-ss-slate leading-snug">
+                  <p className="mt-2 text-[12px] text-ss-slate leading-snug">
                     These quizzes were graded overall, not per topic, so mastery here is still Not Assessed — the
                     {' '}{activeSubject.overall_quiz_avg}% above is just your average quiz score. Take a topic-focused
                     quiz and it&apos;ll start filling in and rolling up into real mastery.
@@ -895,7 +895,7 @@ function Legend({ summary }: { summary?: GapTree['summary'] }) {
     <div className="flex items-center gap-4">
       <div className="hidden md:flex items-center gap-2.5 rounded-full bg-ss-chip px-3 py-1.5">
         {(['mastered', 'developing', 'gap', 'not_assessed'] as MasteryStatus[]).map((s) => (
-          <span key={s} className="flex items-center gap-1.5 text-[10px] font-semibold text-ss-slate">
+          <span key={s} className="flex items-center gap-1.5 text-[12px] font-semibold text-ss-slate">
             <span className={`w-2 h-2 rounded-full ${STATUS_META[s].dot}`} />
             {STATUS_META[s].label}
           </span>
@@ -917,13 +917,13 @@ function Legend({ summary }: { summary?: GapTree['summary'] }) {
                 strokeDasharray={`${mastery * 0.94} 100`}
               />
             </svg>
-            <span className="absolute inset-0 flex items-center justify-center text-[9px] font-black text-ss-ink">
+            <span className="absolute inset-0 flex items-center justify-center text-[12px] font-black text-ss-ink">
               {mastery}%
             </span>
           </div>
           <div className="text-right">
             <p className="text-xs font-black text-ss-ink">{gapCount} gaps</p>
-            <p className="text-[10px] font-semibold text-ss-slate">to close</p>
+            <p className="text-[12px] font-semibold text-ss-slate">to close</p>
           </div>
         </div>
       )}

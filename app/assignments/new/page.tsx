@@ -770,7 +770,7 @@ export default function NewAssignmentPage() {
                   className="flex-shrink-0 h-full min-h-[120px] w-12 rounded-2xl border border-violet-500 text-violet-600 dark:text-violet-400 flex flex-col items-center justify-center gap-2 font-bold hover:bg-violet-50 dark:hover:bg-violet-900/20 transition-colors"
                 >
                   <Plus className="w-4 h-4" />
-                  <span className="text-[10px] uppercase tracking-widest">Add</span>
+                  <span className="text-[12px] uppercase tracking-widest">Add</span>
                 </button>
               </div>
             )}

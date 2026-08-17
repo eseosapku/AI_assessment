@@ -46,7 +46,7 @@ export default function AuthModal({
             <div className="mb-3">
               <SquareMark className="h-10 w-10" />
             </div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.28em] text-[#9BE3FB]">
+            <p className="text-[12px] font-bold uppercase tracking-[0.28em] text-[#9BE3FB]">
               {mode === 'login' ? 'Welcome back' : 'Join StudySquare'}
             </p>
             <h2 className="mt-1 font-display text-2xl font-black tracking-tight">

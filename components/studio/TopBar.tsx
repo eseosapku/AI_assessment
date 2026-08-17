@@ -21,7 +21,7 @@ export function TopBar({ firstName, onProfile }: { firstName: string; onProfile:
       {/* Theme + Pro are in the sidebar on desktop; surface them here for mobile. */}
       <div className="ml-auto flex items-center gap-2 lg:hidden">
         {!snapshot.isSubscribed && (
-          <button type="button" onClick={() => openPaywall('assessment')} className="rounded-full bg-ss-accent px-2.5 py-1 text-[10px] font-bold text-white">
+          <button type="button" onClick={() => openPaywall('assessment')} className="rounded-full bg-ss-accent px-2.5 py-1 text-[12px] font-bold text-white">
             Subscribe
           </button>
         )}

@@ -65,7 +65,7 @@ export default function NotificationBell() {
       >
         <Bell className="h-[18px] w-[18px]" strokeWidth={1.9} />
         {unreadCount > 0 && (
-          <span className="absolute -right-1 -top-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-ss-accent px-1 text-[10px] font-extrabold text-white ring-2 ring-ss-panel">
+          <span className="absolute -right-1 -top-1 grid h-[18px] min-w-[18px] place-items-center rounded-full bg-ss-accent px-1 text-[12px] font-extrabold text-white ring-2 ring-ss-panel">
             {unreadCount > 9 ? '9+' : unreadCount}
           </span>
         )}
@@ -85,7 +85,7 @@ export default function NotificationBell() {
                   <button
                     type="button"
                     onClick={markAllRead}
-                    className="inline-flex items-center gap-1 text-[11.5px] font-bold text-ss-accent hover:underline"
+                    className="inline-flex items-center gap-1 text-[13px] font-bold text-ss-accent hover:underline"
                   >
                     <Check className="h-3.5 w-3.5" />
                     Mark all read
@@ -98,7 +98,7 @@ export default function NotificationBell() {
                   <div className="px-4 py-10 text-center">
                     <Bell className="mx-auto mb-2 h-7 w-7 text-[color:var(--ss-slate)]/50" strokeWidth={1.6} />
                     <p className="text-[13px] font-bold text-ss-ink">You&apos;re all caught up</p>
-                    <p className="mt-1 text-[11.5px] font-semibold text-ss-slate">New results and assignments show up here.</p>
+                    <p className="mt-1 text-[13px] font-semibold text-ss-slate">New results and assignments show up here.</p>
                   </div>
                 ) : (
                   items.map((n) => {
@@ -118,7 +118,7 @@ export default function NotificationBell() {
                         <span className="min-w-0 flex-1">
                           <span className="block truncate text-[13px] font-extrabold text-ss-ink">{n.title}</span>
                           {n.body && <span className="block truncate text-[12px] font-semibold text-ss-slate">{n.body}</span>}
-                          <span className="mt-0.5 block text-[10.5px] font-bold uppercase tracking-wide text-[color:var(--ss-slate)]/70">{relativeTime(n.ts)}</span>
+                          <span className="mt-0.5 block text-[12px] font-bold uppercase tracking-wide text-[color:var(--ss-slate)]/70">{relativeTime(n.ts)}</span>
                         </span>
                         {unread && <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-ss-accent" />}
                       </button>

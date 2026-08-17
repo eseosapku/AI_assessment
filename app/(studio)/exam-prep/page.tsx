@@ -34,7 +34,7 @@ export default function ExamPrepPage() {
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/art/exam.png" alt="" aria-hidden className="pointer-events-none absolute right-3 top-1/2 hidden h-[112%] -translate-y-1/2 object-contain opacity-95 sm:block" />
         <div className="relative">
-          <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/85">Practice</p>
+          <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">Practice</p>
           <h1 className="mt-2 text-[30px] font-extrabold tracking-tight">WAEC &amp; JAMB prep</h1>
           <p className="mt-2 text-sm font-semibold text-white/85">Past-paper style practice for Nigerian exams {COUNTRIES.NG.flag}</p>
         </div>

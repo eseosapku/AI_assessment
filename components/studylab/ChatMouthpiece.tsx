@@ -102,7 +102,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         </div>
         <div className="leading-tight">
           <p className="font-semibold text-[14px]">AI Study Assistant</p>
-          <p className="text-[11px] text-ss-slate">Brain Ink AI</p>
+          <p className="text-[12px] text-ss-slate">Brain Ink AI</p>
         </div>
       </div>
 
@@ -222,7 +222,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               >
                 {provingIt ? 'Building your quiz…' : 'Prove it — take the quiz'}
               </button>
-              <p className="mt-1.5 text-center text-[11px] text-emerald-700/80 dark:text-emerald-400/70">
+              <p className="mt-1.5 text-center text-[12px] text-emerald-700/80 dark:text-emerald-400/70">
                 Fresh questions on this topic. Your score updates your gap map.
               </p>
             </>
@@ -245,7 +245,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             </button>
           </div>
         )}
-        {attachError && <p className="text-[11px] text-red-500 mb-1.5">{attachError}</p>}
+        {attachError && <p className="text-[12px] text-red-500 mb-1.5">{attachError}</p>}
         <div className="flex items-end gap-2 rounded-2xl border border-ss-line bg-ss-chip dark:bg-black/30 px-3 py-2 focus-within:ring-2 focus-within:ring-[color:var(--ss-accent)]/40">
           <input
             ref={fileRef}
@@ -288,7 +288,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             <Send className="w-4 h-4" />
           </button>
         </div>
-        <p className="text-[10px] text-ss-slate text-center mt-2">AI can make mistakes. Check important info.</p>
+        <p className="text-[12px] text-ss-slate text-center mt-2">AI can make mistakes. Check important info.</p>
       </div>
     </div>
   )

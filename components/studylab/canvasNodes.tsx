@@ -78,7 +78,7 @@ export function StepGroupNode({ id, data }: NodeProps) {
         </div>
         <div className="min-w-0 flex-1">
           <p className="font-semibold text-[14px] leading-tight truncate">{d.label}</p>
-          <p className="text-[11px] text-ss-slate flex items-center gap-1">
+          <p className="text-[12px] text-ss-slate flex items-center gap-1">
             {collapsed ? <ChevronRight className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
             {d.cardIds?.length ?? 0} cards · {collapsed ? 'click to expand' : 'click to collapse'}
           </p>

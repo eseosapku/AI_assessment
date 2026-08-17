@@ -62,7 +62,7 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
         <div>
           <div className="mb-1 flex items-center gap-2">
             <TrendingDown className="h-4 w-4 text-ss-accent" />
-            <p className="text-[10px] font-bold uppercase tracking-[0.18em] text-ss-slate">Your week</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.18em] text-ss-slate">Your week</p>
           </div>
           <h3 className="text-lg font-extrabold text-ss-ink">{persona.headline}</h3>
           <p className="mt-0.5 text-sm text-ss-slate">{persona.subline}</p>
@@ -115,7 +115,7 @@ function Stat({ label, value, tone }: { label: string; value: number; tone: stri
   return (
     <div>
       <p className={`text-xl font-extrabold tabular-nums ${tone}`}>{value}</p>
-      <p className="text-[10px] uppercase tracking-wide text-ss-slate">{label}</p>
+      <p className="text-[12px] uppercase tracking-wide text-ss-slate">{label}</p>
     </div>
   )
 }

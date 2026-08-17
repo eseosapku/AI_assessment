@@ -58,7 +58,7 @@ export function CustomScopeStep({
 
   return (
     <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
-      <p className="text-[11px] font-bold uppercase tracking-widest text-ss-slate mb-1">
+      <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate mb-1">
         {scope.subject}
       </p>
       <h3 className="mb-3 text-sm font-semibold text-gray-900 dark:text-white">{scope.topic}</h3>

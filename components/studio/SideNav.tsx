@@ -42,7 +42,7 @@ export function SideNav() {
       </Link>
 
       <nav className="flex flex-col gap-1">
-        <span className="px-3 pb-1 pt-2.5 text-[10px] font-bold uppercase tracking-[0.16em] text-[color:var(--ss-slate)]/70">Menu</span>
+        <span className="px-3 pb-1 pt-2.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[color:var(--ss-slate)]/70">Menu</span>
         {studentNav.map((item) => {
           const active = item.match(pathname)
           const Icon = item.icon
@@ -77,7 +77,7 @@ export function SideNav() {
             <button
               type="button"
               onClick={() => openPaywall('assessment')}
-              className="inline-flex items-center gap-1 rounded-full bg-ss-accent px-2.5 py-1 text-[10px] font-bold text-white"
+              className="inline-flex items-center gap-1 rounded-full bg-ss-accent px-2.5 py-1 text-[12px] font-bold text-white"
             >
               <Sparkles className="h-3 w-3" />
               Subscribe
@@ -97,7 +97,7 @@ export function MobileNav() {
         const active = item.match(pathname)
         const Icon = item.icon
         return (
-          <Link key={item.href} href={item.href} className={`flex flex-1 flex-col items-center gap-0.5 rounded-xl py-2 text-[10px] font-bold ${active ? 'text-ss-accent' : 'text-ss-slate'}`}>
+          <Link key={item.href} href={item.href} className={`flex flex-1 flex-col items-center gap-0.5 rounded-xl py-2 text-[12px] font-bold ${active ? 'text-ss-accent' : 'text-ss-slate'}`}>
             <span className={`grid h-9 w-9 place-items-center rounded-2xl ${active ? 'bg-ss-accent text-white' : ''}`}>
               <Icon className="h-5 w-5" strokeWidth={1.9} />
             </span>

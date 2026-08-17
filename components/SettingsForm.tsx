@@ -266,7 +266,7 @@ export default function SettingsForm() {
                 <form onSubmit={handleProfileSubmit} className="space-y-5">
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Full name
                             </label>
                             <input
@@ -280,7 +280,7 @@ export default function SettingsForm() {
                         {isUni ? (
                             <>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">Course</label>
+                                    <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">Course</label>
                                     <select
                                         value={uniCourse}
                                         onChange={(event) => {
@@ -295,7 +295,7 @@ export default function SettingsForm() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">Year of study</label>
+                                    <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">Year of study</label>
                                     <select
                                         value={uniYear || ''}
                                         onChange={(event) => setUniYear(Number(event.target.value))}
@@ -310,7 +310,7 @@ export default function SettingsForm() {
                         ) : (
                         <>
                         <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Country
                             </label>
                             <select
@@ -338,12 +338,12 @@ export default function SettingsForm() {
                                     ))}
                                 </optgroup>
                             </select>
-                            <p className="mt-1 text-[11px] font-semibold text-ss-slate">
+                            <p className="mt-1 text-[12px] font-semibold text-ss-slate">
                                 {countrySignupHint(country)}
                             </p>
                         </div>
                         <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Class / Section
                             </label>
                             {user?.role === 'student' ? (
@@ -373,7 +373,7 @@ export default function SettingsForm() {
 
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Student ID
                             </label>
                             <input
@@ -383,7 +383,7 @@ export default function SettingsForm() {
                             />
                         </div>
                         <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Role
                             </label>
                             <input
@@ -395,7 +395,7 @@ export default function SettingsForm() {
                     </div>
 
                     <div>
-                        <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                             Subjects (comma separated)
                         </label>
                         <input
@@ -407,10 +407,10 @@ export default function SettingsForm() {
                     </div>
 
                     <div>
-                        <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                             Your focus
                         </label>
-                        <p className="mt-0.5 text-[11px] font-semibold text-ss-slate">Sets what your dashboard leads with.</p>
+                        <p className="mt-0.5 text-[12px] font-semibold text-ss-slate">Sets what your dashboard leads with.</p>
                         <div className="mt-2 grid grid-cols-3 gap-2">
                             {FOCI.filter(({ id }) => id !== 'exams' || examPrepAvailable(country)).map(({ id, label, icon: Icon }) => {
                                 const selected = focus === id
@@ -487,7 +487,7 @@ export default function SettingsForm() {
 
                 <form onSubmit={handlePasswordSubmit} className="space-y-5">
                     <div>
-                        <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                             Current password
                         </label>
                         <div className="relative">
@@ -510,7 +510,7 @@ export default function SettingsForm() {
 
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 New password
                             </label>
                             <div className="relative">
@@ -532,7 +532,7 @@ export default function SettingsForm() {
                         </div>
 
                         <div>
-                            <label className="text-[10px] font-black uppercase tracking-widest text-ss-slate">
+                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Confirm new password
                             </label>
                             <div className="relative">

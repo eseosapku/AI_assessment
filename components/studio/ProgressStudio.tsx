@@ -60,7 +60,7 @@ export default function ProgressStudio() {
         <img src="/art/trophy.png" alt="" aria-hidden className="pointer-events-none absolute bottom-0 right-8 hidden h-[88%] object-contain object-bottom drop-shadow-xl sm:block" />
         <div className="relative flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/85">Progress</p>
+            <p className="text-[12px] font-bold uppercase tracking-[0.2em] text-white/85">Progress</p>
             <h1 className="mt-2 text-[32px] font-extrabold tracking-tight">Your results</h1>
             <p className="mt-1 text-sm font-semibold text-white/85">Every test, subject and grade in one place.</p>
           </div>
@@ -83,7 +83,7 @@ export default function ProgressStudio() {
             </div>
           </div>
           <div>
-            <div className="text-[11.5px] font-bold uppercase tracking-wide text-ss-slate">Average</div>
+            <div className="text-[13px] font-bold uppercase tracking-wide text-ss-slate">Average</div>
             <div className="mt-0.5 text-xs font-semibold text-ss-slate">Across all subjects</div>
           </div>
         </div>
@@ -94,7 +94,7 @@ export default function ProgressStudio() {
       {subjectAverages.length > 0 && (
         <section className="mb-10 grid gap-6 lg:grid-cols-2">
           <div className="rounded-2xl border border-ss-line bg-ss-panel p-6">
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-ss-good">Going well</p>
+            <p className="mb-4 text-[12px] font-bold uppercase tracking-widest text-ss-good">Going well</p>
             <div className="space-y-2.5">
               {(strong.length > 0 ? strong : sorted.slice(0, 3)).map((s) => (
                 <div key={s.subject} className="flex items-center gap-3 rounded-xl border border-ss-line bg-[color:var(--ss-chip)]/60 p-2.5">
@@ -102,7 +102,7 @@ export default function ProgressStudio() {
                   <img src={subjectArt(s.subject)} alt="" aria-hidden className="h-10 w-10 shrink-0 object-contain" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[13px] font-extrabold text-ss-ink">{s.subject}</p>
-                    <p className="text-[11px] font-semibold text-ss-slate">{s.count} test{s.count !== 1 ? 's' : ''}</p>
+                    <p className="text-[12px] font-semibold text-ss-slate">{s.count} test{s.count !== 1 ? 's' : ''}</p>
                   </div>
                   <span className="text-[16px] font-extrabold" style={{ color: s.avg >= 60 ? 'var(--ss-good)' : 'var(--ss-warn)' }}>{s.avg}%</span>
                 </div>
@@ -110,7 +110,7 @@ export default function ProgressStudio() {
             </div>
           </div>
           <div className="rounded-2xl border border-ss-line bg-ss-panel p-6">
-            <p className="mb-4 text-[10px] font-bold uppercase tracking-widest text-ss-bad">Needs work</p>
+            <p className="mb-4 text-[12px] font-bold uppercase tracking-widest text-ss-bad">Needs work</p>
             <div className="space-y-2.5">
               {(focus.length > 0 ? focus : sorted.slice(-3).reverse()).map((s) => (
                 <div key={s.subject} className="flex items-center gap-3 rounded-xl border border-ss-line bg-[color:var(--ss-chip)]/60 p-2.5">
@@ -118,7 +118,7 @@ export default function ProgressStudio() {
                   <img src={subjectArt(s.subject)} alt="" aria-hidden className="h-10 w-10 shrink-0 object-contain" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[13px] font-extrabold text-ss-ink">{s.subject}</p>
-                    <Link href="/practice" className="text-[11px] font-bold text-ss-accent hover:underline">Practice this subject</Link>
+                    <Link href="/practice" className="text-[12px] font-bold text-ss-accent hover:underline">Practice this subject</Link>
                   </div>
                   <span className="text-[16px] font-extrabold text-ss-bad">{s.avg}%</span>
                 </div>
@@ -131,7 +131,7 @@ export default function ProgressStudio() {
       <section>
         <div className="mb-4 flex items-center gap-2">
           <TrendingUp className="h-4 w-4 text-ss-accent" />
-          <p className="text-[10px] font-bold uppercase tracking-[0.25em] text-ss-slate">Recent results</p>
+          <p className="text-[12px] font-bold uppercase tracking-[0.25em] text-ss-slate">Recent results</p>
         </div>
 
         {/* Subject filter. With every subject mixed into one list, checking how

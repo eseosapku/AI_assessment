@@ -84,14 +84,14 @@ function MatchPairs({
               ? <>Now pick the match for <span className="text-ss-accent">“{activeTerm}”</span></>
               : 'Tap a term, then tap its match'}
         </p>
-        <span className="shrink-0 rounded-full bg-ss-panel px-2.5 py-1 text-[11.5px] font-extrabold text-ss-slate">
+        <span className="shrink-0 rounded-full bg-ss-panel px-2.5 py-1 text-[13px] font-extrabold text-ss-slate">
           {matchedCount} of {total} matched
         </span>
       </div>
 
       <div className="grid gap-3 sm:grid-cols-2">
         <div className="space-y-2">
-          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-ss-slate">Terms</p>
+          <p className="mb-1 text-[12px] font-bold uppercase tracking-wider text-ss-slate">Terms</p>
           {question.left_items.map((item, i) => {
             const pairedRight = pairs[i]
             const isPaired = pairedRight !== undefined
@@ -122,14 +122,14 @@ function MatchPairs({
                     disabled ? 'cursor-not-allowed opacity-60' : 'cursor-pointer'
                   }`}
                 >
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-ss-chip text-[11px] font-extrabold text-ss-slate">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-ss-chip text-[12px] font-extrabold text-ss-slate">
                     {i + 1}
                   </span>
                   <span className="min-w-0 flex-1">
                     <LatexText>{item}</LatexText>
                   </span>
                   {isPaired && (
-                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-500 text-[11px] font-extrabold text-white">
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-500 text-[12px] font-extrabold text-white">
                       {letter(pairedRight)}
                     </span>
                   )}
@@ -150,7 +150,7 @@ function MatchPairs({
         </div>
 
         <div className="space-y-2">
-          <p className="mb-1 text-[11px] font-bold uppercase tracking-wider text-ss-slate">Matches</p>
+          <p className="mb-1 text-[12px] font-bold uppercase tracking-wider text-ss-slate">Matches</p>
           {question.right_items.map((item, j) => {
             const isUsed = usedRights.has(j)
             // The number of the term this definition is currently claimed by,
@@ -172,7 +172,7 @@ function MatchPairs({
                 } ${disabled ? 'cursor-not-allowed opacity-60' : ''}`}
               >
                 <span
-                  className={`grid h-6 w-6 shrink-0 place-items-center rounded-lg text-[11px] font-extrabold ${
+                  className={`grid h-6 w-6 shrink-0 place-items-center rounded-lg text-[12px] font-extrabold ${
                     isUsed ? 'bg-emerald-500 text-white' : 'bg-ss-chip text-ss-slate'
                   }`}
                 >
@@ -182,7 +182,7 @@ function MatchPairs({
                   <LatexText>{item}</LatexText>
                 </span>
                 {ownerIdx !== undefined && (
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-100 text-[11px] font-extrabold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-100 text-[12px] font-extrabold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
                     {Number(ownerIdx) + 1}
                   </span>
                 )}
@@ -330,13 +330,13 @@ function CategorizeItems({
               ? <>Now tap a category for <span className="text-ss-accent">“{pickedLabel}”</span></>
               : 'Tap an item, then tap the category it belongs to'}
         </p>
-        <span className="shrink-0 rounded-full bg-ss-panel px-2.5 py-1 text-[11.5px] font-extrabold text-ss-slate">
+        <span className="shrink-0 rounded-full bg-ss-panel px-2.5 py-1 text-[13px] font-extrabold text-ss-slate">
           {sorted} of {question.items.length} sorted
         </span>
       </div>
 
       <div>
-        <p className="mb-2 text-[11px] font-bold uppercase tracking-wider text-gray-500">Items to sort</p>
+        <p className="mb-2 text-[12px] font-bold uppercase tracking-wider text-gray-500">Items to sort</p>
         <div className="flex min-h-[48px] flex-wrap gap-2 rounded-xl border-2 border-dashed border-gray-300 p-3 dark:border-gray-700">
           {pool.length === 0 && (
             <span className="text-[12.5px] italic text-gray-500">All items sorted — tap one in a category to bring it back.</span>

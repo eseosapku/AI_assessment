@@ -22,7 +22,7 @@ export function MiniBars({
         ))}
       </div>
       {labels.length > 0 && (
-        <div className="mt-[7px] flex gap-2.5 text-[10px] font-semibold text-ss-slate">
+        <div className="mt-[7px] flex gap-2.5 text-[12px] font-semibold text-ss-slate">
           {labels.map((l, i) => (
             <span key={i} className="flex-1 text-center">
               {l}

@@ -186,7 +186,7 @@ function OptionButton({
 
 function StepLabel({ label }: { label: string }) {
   return (
-    <p className="text-[11px] font-bold text-ss-slate uppercase tracking-widest mb-1">{label}</p>
+    <p className="text-[12px] font-bold text-ss-slate uppercase tracking-widest mb-1">{label}</p>
   )
 }
 
@@ -983,7 +983,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
           {/* Step rail */}
           {flowMode === 'ai' && (
             <aside className="hidden border-r border-gray-100 bg-[color:var(--ss-canvas)]/80 px-4 py-6 dark:border-gray-800 md:flex md:w-52 md:flex-col">
-              <p className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-ss-slate">Steps</p>
+              <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.2em] text-ss-slate">Steps</p>
               <ol className="space-y-1">
                 {/* Same reduced set as the progress bar, so the rail can't
                     jump into a step this mode skips. */}
@@ -1013,7 +1013,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                         }`}
                       >
                       <span
-                        className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[10px] font-black ${
+                        className={`flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full text-[12px] font-black ${
                           active
                             ? 'bg-white/20 text-white'
                             : done
@@ -1075,7 +1075,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
                   <OptionButton selected={false} onClick={() => setFlowMode('ai')}>
                     <p className="font-semibold text-sm text-gray-900 dark:text-white">AI-generated</p>
-                    <p className="text-[11px] text-ss-slate mt-0.5">Follow the guided flow and generate questions with AI.</p>
+                    <p className="text-[12px] text-ss-slate mt-0.5">Follow the guided flow and generate questions with AI.</p>
                   </OptionButton>
                   <OptionButton
                     selected={false}
@@ -1085,7 +1085,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     }}
                   >
                     <p className="font-semibold text-sm text-gray-900 dark:text-white">Generate from PDF</p>
-                    <p className="text-[11px] text-ss-slate mt-0.5">Upload a PDF and generate questions from its content.</p>
+                    <p className="text-[12px] text-ss-slate mt-0.5">Upload a PDF and generate questions from its content.</p>
                   </OptionButton>
                   <OptionButton
                     selected={false}
@@ -1095,7 +1095,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     }}
                   >
                     <p className="font-semibold text-sm text-gray-900 dark:text-white">Create from scratch</p>
-                    <p className="text-[11px] text-ss-slate mt-0.5">Start with blank MCQ/longform templates and fill them in.</p>
+                    <p className="text-[12px] text-ss-slate mt-0.5">Start with blank MCQ/longform templates and fill them in.</p>
                   </OptionButton>
                 </div>
               </motion.div>
@@ -1150,12 +1150,12 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     uniCourseOptions.map((c) => (
                       <OptionButton key={c} selected={formData.subject === c} onClick={() => handleUniCourseSelect(c)}>
                         <div className="flex items-center gap-3">
-                          <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                          <span className="text-[12px] font-black px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
                             UNI
                           </span>
                           <div>
                             <p className="font-semibold text-sm text-gray-900 dark:text-white">{c}</p>
-                            <p className="text-[11px] text-ss-slate">University curriculum (pilot)</p>
+                            <p className="text-[12px] text-ss-slate">University curriculum (pilot)</p>
                           </div>
                         </div>
                       </OptionButton>
@@ -1173,12 +1173,12 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     curriculumOptions.map((c) => (
                       <OptionButton key={c.id} selected={formData.curriculum === c.id} onClick={() => handleCurriculumSelect(c.id)}>
                         <div className="flex items-center gap-3">
-                          <span className="text-[11px] font-black px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
+                          <span className="text-[12px] font-black px-2 py-0.5 rounded-md bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-300">
                             {c.badge}
                           </span>
                           <div>
                             <p className="font-semibold text-sm text-gray-900 dark:text-white">{c.label}</p>
-                            <p className="text-[11px] text-ss-slate">{c.description}</p>
+                            <p className="text-[12px] text-ss-slate">{c.description}</p>
                           </div>
                         </div>
                       </OptionButton>
@@ -1201,7 +1201,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                       <span className="block text-sm font-semibold text-gray-900 dark:text-white">
                         Quiz me on anything
                       </span>
-                      <span className="block text-[11px] text-ss-slate">
+                      <span className="block text-[12px] text-ss-slate">
                         Type any topic, or paste your own notes — no curriculum needed.
                       </span>
                     </span>
@@ -1267,15 +1267,15 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   {DIFFICULTY_LEVELS.map(dl => (
                     <OptionButton key={dl.id} selected={formData.difficultyLevel === dl.id} onClick={() => handleDifficultySelect(dl.id)}>
                       <div className="flex items-center gap-3">
-                        <span className={`text-[11px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${dl.badge}`}>
+                        <span className={`text-[12px] font-black px-2 py-0.5 rounded-md flex-shrink-0 ${dl.badge}`}>
                           {dl.grade}
                         </span>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-2">
                             <p className={`font-bold text-sm ${dl.color}`}>{dl.label}</p>
-                            <span className="text-[10px] font-semibold text-ss-slate dark:text-gray-500">{dl.bloom}</span>
+                            <span className="text-[12px] font-semibold text-ss-slate dark:text-gray-500">{dl.bloom}</span>
                           </div>
-                          <p className="text-[11px] text-ss-slate mt-0.5">{dl.description}</p>
+                          <p className="text-[12px] text-ss-slate mt-0.5">{dl.description}</p>
                         </div>
                       </div>
                     </OptionButton>
@@ -1407,7 +1407,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   {[10, 20, 40].map(count => (
                     <OptionButton key={count} selected={formData.count === count} onClick={() => handleCountSelect(count)} className="text-center">
                       <span className="text-2xl font-bold text-gray-900 dark:text-white block">{count}</span>
-                      <span className="text-[11px] text-ss-slate">
+                      <span className="text-[12px] text-ss-slate">
                         {count === 10 ? '~15 min' : count === 20 ? '~30 min' : '~60 min'}
                       </span>
                     </OptionButton>
@@ -1452,7 +1452,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   ].map(s => (
                     <OptionButton key={s.value} selected={formData.style === s.value} onClick={() => handleStyleSelect(s.value)}>
                       <p className="font-semibold text-sm text-gray-900 dark:text-white">{s.label}</p>
-                      <p className="text-[11px] text-ss-slate mt-0.5">{s.sub}</p>
+                      <p className="text-[12px] text-ss-slate mt-0.5">{s.sub}</p>
                     </OptionButton>
                   ))}
                 </div>
@@ -1471,7 +1471,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                         <span className="text-lg mt-0.5 w-6 text-center flex-shrink-0">{qt.icon}</span>
                         <div>
                           <p className="font-semibold text-sm text-gray-900 dark:text-white">{qt.label}</p>
-                          <p className="text-[11px] text-ss-slate mt-0.5">{qt.description}</p>
+                          <p className="text-[12px] text-ss-slate mt-0.5">{qt.description}</p>
                         </div>
                       </div>
                     </OptionButton>
@@ -1526,7 +1526,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                     />
                     {customTime !== null && (
                       <button type="button" onClick={() => { setCustomTime(null); setShowTimerInput(false) }}
-                        className="text-[10px] text-ss-slate hover:text-red-500 transition-colors">clear</button>
+                        className="text-[12px] text-ss-slate hover:text-red-500 transition-colors">clear</button>
                     )}
                   </motion.div>
                 )}

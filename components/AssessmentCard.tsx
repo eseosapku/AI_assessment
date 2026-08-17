@@ -54,7 +54,7 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
       />
       {/* Gradient header (colored by grade) with topic + subject art */}
       <div className="relative flex h-[68px] items-center px-4 text-white" style={{ background: cfg.grad }}>
-        <span className="rounded-full bg-white/25 px-2.5 py-1 text-[10px] font-extrabold uppercase tracking-wide backdrop-blur-sm">
+        <span className="rounded-full bg-white/25 px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide backdrop-blur-sm">
           {assessment.topic || 'Assessment'}
         </span>
         {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -73,7 +73,7 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
             <div className="grid h-[42px] w-[42px] place-items-center rounded-full bg-ss-panel text-[13px] font-extrabold text-ss-ink">{pct}%</div>
           </div>
           <span className={`rounded-lg px-2.5 py-1.5 text-[15px] font-extrabold leading-none ${cfg.pill}`}>{assessment.grade}</span>
-          <span className="flex items-center gap-1 text-[11px] font-semibold text-ss-slate">
+          <span className="flex items-center gap-1 text-[12px] font-semibold text-ss-slate">
             <Calendar className="h-3 w-3" />
             {assessment.date}
           </span>

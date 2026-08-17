@@ -192,7 +192,7 @@ export default function ExamPrepForm() {
     <div className="space-y-6">
       {/* Step 1: Exam type */}
       <section className="glass dark:glass-dark rounded-2xl p-6">
-        <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 1</p>
+        <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 1</p>
         <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Choose your exam</h2>
         <div className="grid sm:grid-cols-2 gap-3">
           {([
@@ -218,7 +218,7 @@ export default function ExamPrepForm() {
       {/* Step 2: Subject */}
       {exam && step >= 2 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 2</p>
+          <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 2</p>
           <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Select subject</h2>
 
           {exam === 'jamb' && (
@@ -289,7 +289,7 @@ export default function ExamPrepForm() {
                     : 'border-ss-line dark:border-white/10'}`}
                 >
                   {s.name}
-                  <span className="block text-[10px] text-ss-slate">{s.category}</span>
+                  <span className="block text-[12px] text-ss-slate">{s.category}</span>
                 </button>
               ))}
             </div>
@@ -301,7 +301,7 @@ export default function ExamPrepForm() {
       {selectedSubject && step >= 3 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6 space-y-5">
           <div>
-            <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 3</p>
+            <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 3</p>
             <h2 className="text-xl font-bold text-ss-ink dark:text-white">
               {hasPastPapers ? 'Choose past paper year' : 'Syllabus topics'}
             </h2>
@@ -333,7 +333,7 @@ export default function ExamPrepForm() {
                       : 'border-ss-line dark:border-white/10'}`}
                   >
                     {p.year} — {p.diet?.replace(/-/g, ' ')}
-                    <span className="block text-[10px] text-ss-slate">Synced past questions</span>
+                    <span className="block text-[12px] text-ss-slate">Synced past questions</span>
                   </button>
                 ))}
               </div>
@@ -354,7 +354,7 @@ export default function ExamPrepForm() {
                   {hasPastPapers ? 'Focus topics (optional)' : 'Syllabus topics'}
                 </h3>
                 {hasPastPapers && (
-                  <p className="text-[11px] text-ss-slate mt-0.5">
+                  <p className="text-[12px] text-ss-slate mt-0.5">
                     We use the past paper first; extra syllabus questions fill gaps if needed.
                   </p>
                 )}
@@ -395,7 +395,7 @@ export default function ExamPrepForm() {
       {/* Step 4: Generate */}
       {readyForSettings && step >= 4 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6">
-          <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 4</p>
+          <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 4</p>
           <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Practice settings</h2>
           {selectedPaper && (
             <p className="text-xs text-ss-slate mb-4">

@@ -166,15 +166,15 @@ export default function RecallReview() {
                 style={{ backfaceVisibility: 'hidden' }}
               >
                 {card.subject && (
-                  <span className="mb-3 inline-block w-fit rounded-full bg-ss-chip px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-ss-accent">
+                  <span className="mb-3 inline-block w-fit rounded-full bg-ss-chip px-2.5 py-0.5 text-[12px] font-black uppercase tracking-widest text-ss-accent">
                     {card.subject}
                   </span>
                 )}
-                <p className="text-[10px] font-bold uppercase tracking-widest text-ss-slate">Question</p>
+                <p className="text-[12px] font-bold uppercase tracking-widest text-ss-slate">Question</p>
                 <div className="mt-4 flex flex-1 items-center">
                   <RecallCardFace card={card} side="front" />
                 </div>
-                <p className="mt-4 text-center text-[11px] font-semibold text-[color:var(--ss-slate)]/80">Tap card to reveal answer</p>
+                <p className="mt-4 text-center text-[12px] font-semibold text-[color:var(--ss-slate)]/80">Tap card to reveal answer</p>
               </div>
 
               <div
@@ -182,11 +182,11 @@ export default function RecallReview() {
                 style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
               >
                 {card.subject && (
-                  <span className="mb-3 inline-block w-fit rounded-full bg-ss-accent-soft px-2.5 py-0.5 text-[10px] font-black uppercase tracking-widest text-ss-accent">
+                  <span className="mb-3 inline-block w-fit rounded-full bg-ss-accent-soft px-2.5 py-0.5 text-[12px] font-black uppercase tracking-widest text-ss-accent">
                     {card.subject}
                   </span>
                 )}
-                <p className="text-[10px] font-bold uppercase tracking-widest text-ss-accent">Answer</p>
+                <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent">Answer</p>
                 <div className="mt-4 flex flex-1 items-center">
                   <RecallCardFace card={card} side="back" />
                 </div>
@@ -251,7 +251,7 @@ export default function RecallReview() {
                 className={`flex flex-col gap-1 rounded-2xl border-2 p-4 text-left transition-all hover:-translate-y-0.5 hover:shadow-md ${r.tone}`}
               >
                 <p className="text-sm font-black">{r.label}</p>
-                <p className="text-[11px] font-semibold opacity-80">{r.desc}</p>
+                <p className="text-[12px] font-semibold opacity-80">{r.desc}</p>
               </button>
             ))}
           </div>
