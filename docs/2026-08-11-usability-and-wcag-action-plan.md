@@ -246,6 +246,149 @@ Wave 1 is where the WAVE score moves. A1 alone should take the wizard from
 
 ---
 
+## Part 6 — Found by proactive audit (nobody reported these yet)
+
+Everything above came from testers. Everything below is what the next round of
+testing would have raised, or what would have surfaced as a support ticket after
+launch. Each is verified against the code.
+
+### F1. Strict mode submits the whole quiz on the first window blur — CRITICAL
+`app/assessment/page.tsx` auto-submits on `visibilitychange` **or** `blur`, on
+the **first** occurrence, with no warning and no grace period.
+
+Things that fire a blur without any cheating: a screen reader or magnifier
+taking focus, an on-screen keyboard opening, a system notification, an
+accidental alt-tab, a phone call, a dropped Bluetooth keyboard, clicking the
+browser's own address bar. All of them end the student's exam instantly.
+
+**This actively punishes assistive-technology users**, since AT frequently
+takes focus. It also can't distinguish blur from cheating.
+
+Fix: warn on the first violation with a visible countdown, submit only after a
+configurable threshold, never treat plain `blur` as equivalent to a tab switch,
+log violations for the teacher rather than acting unilaterally, and exempt
+sessions where an accessibility mode is active.
+
+### F2. Two interactive question types are unusable on touch — CRITICAL
+`order` and `categorize` use HTML5 `draggable` / `onDragStart`. HTML5
+drag-and-drop **does not fire on mobile browsers**. On a phone or tablet these
+questions cannot be answered at all — and the student is still marked on them.
+
+Given the audience, this likely affects a majority of real users. Fix with
+pointer events (the pattern already written for the StudyLab activity engine),
+plus a tap-to-select / tap-to-place fallback that works for keyboard, touch and
+screen readers alike.
+
+### F3. No offline or connection-loss handling anywhere
+No `navigator.onLine` check, no retry, no queued submission. A student on a
+patchy connection who loses signal mid-submit loses the entire attempt with no
+message. For the markets this targets, this is a core reliability gap, not an
+edge case.
+
+Fix: detect offline, hold answers locally, retry submission with backoff, and
+show honest state ("Saved on this device — will submit when you're back
+online"). The paused-state machinery already in the player is most of what this
+needs.
+
+### F4. Figure payloads are unbounded on metered connections
+10,001 figures, 448 MB total. Median 26 KB is fine — but **24 figures exceed
+500 KB and the largest is 7.3 MB**. An assessment can carry up to 12 figures,
+and `ExamFigure` now loads them **eagerly** (my change, to fix the "I didn't
+know there was an image" complaint). Worst case is several megabytes before the
+first question is answered.
+
+Fix: cap and re-encode oversized figures at build time, generate width variants
+with `srcset`, keep the first figure eager and lazy-load the rest, and use
+explicit dimensions to stop layout shift.
+
+### F5. A student cannot challenge an AI grade — and cannot report a bad question
+Long-form answers are marked by a model with no route to dispute the mark, and
+there is no way to flag a wrong or nonsensical question anywhere in the product.
+
+Both matter for trust, and both are the cheapest possible source of quality
+signal: a "this question looks wrong" control feeds a review queue that would
+have surfaced the duplicate-shapes and rainfall-photo problems without a
+usability study.
+
+Fix: per-question "Report a problem" with a reason, a "Request another look"
+action on written marks, and an admin queue.
+
+### F6. The AI's work is invisible while it happens
+Generation can take a minute or more behind a generic spinner: no progress, no
+stage, no cancel, no estimate. Users assume it has hung.
+
+Fix: stage the wait honestly ("Finding figures… Writing questions… Checking for
+duplicates…"), allow cancel, and state expected duration up front.
+
+### F7. Nothing tells the student where a question came from
+No source attribution on generated questions. A student who disagrees has no
+way to check, and a teacher has no way to verify alignment. The textbook, page
+and topic are already known at generation time and simply aren't surfaced.
+
+### F8. No spend or abuse ceiling on the AI endpoints
+Subscription gating exists, but there is no per-user rate limit on generation,
+tutoring or grading. One scripted loop can run up an unbounded Bedrock bill.
+Add per-user and per-IP limits with a clear 429, plus a daily cap.
+
+### F9. First-run is a wall of zeros
+A new account sees 0 tests, 0%, "—" grade, an empty gap map and an empty recall
+deck, with no guidance. The single most important moment in the product is its
+emptiest screen.
+
+Fix: purposeful empty states that each name the one action that fills them, and
+a seeded "try a sample quiz" path so the dashboard is never blank.
+
+### F10. Session expiry mid-quiz is unhandled
+Auth is a `localStorage` user object with no expiry handling. If the session
+becomes invalid during an attempt, submission fails at the end — after the work
+is done. Detect early, warn, and preserve answers through re-authentication.
+
+### F11. Timer has no accommodation *(WCAG 2.2.1, Level A)*
+The countdown auto-submits at zero. WCAG 2.2.1 requires that a time limit can be
+turned off, adjusted, or extended, unless the timing is essential. For a
+practice quiz it is not essential.
+
+Fix: let students extend or disable the timer on self-directed quizzes, let
+teachers grant extra time per student on assignments, and warn before expiry
+rather than submitting silently.
+
+### F12. Everything is English-only
+Rwanda and Nigeria are first-class markets and the UI has no localisation layer,
+while the curriculum data is multilingual. Not Wave 1 — but the longer strings
+go untranslated, the more expensive this becomes.
+
+### F13. Answers cannot be changed after moving on, and there's no review step
+There is no "review your answers" screen before submission — the student
+submits blind. Pairs naturally with C1 (unanswered flagging): one final screen
+showing every question's state, with jump links.
+
+---
+
+## Revised sequencing
+
+**Wave 0 — ship-blockers found in audit**
+F1 blur auto-submit · F2 touch drag · F3 offline submission · F11 timer
+accommodation
+
+These are not polish. Each one currently loses a student's work or excludes a
+whole class of user.
+
+**Wave 1 — accessibility and correctness** (as before)
+A1 palette · A2 MCQ semantics · A3 modal primitive · A5 empty button · B2
+question count · C1 unanswered flagging · F13 review-before-submit
+
+**Wave 2 — comprehension and trust**
+A4 text sizes · A6 symbols · C2 interactive tutorials · D1/D2 subtopics · B1
+image-question contract · F5 report/appeal · F6 honest progress · F7 source
+attribution
+
+**Wave 3 — reach, cost and polish**
+A7 · A8 · B3 curriculum grounding · B4 limits · D3 subject picker · D4
+validation · E1–E3 onboarding · F4 image budget · F8 rate limits · F9 first-run
+· F10 session expiry · F12 localisation groundwork
+
+---
+
 ## Already shipped (from the report's list)
 
 - **U4** results layout — weak-area grouping, per-area bars, jump-to-question
