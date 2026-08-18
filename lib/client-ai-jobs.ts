@@ -54,20 +54,44 @@ export async function waitForAiJob<T = any>(
   options?: {
     pollIntervalMs?: number
     timeoutMs?: number
+    /** Stops the poll. Without it a cancelled generation keeps polling to the
+        timeout and then hands back a result nobody is waiting for. */
+    signal?: AbortSignal
   },
 ): Promise<T> {
   const pollIntervalMs = options?.pollIntervalMs ?? 2000
   const timeoutMs = options?.timeoutMs ?? 210000
+  const signal = options?.signal
   const startedAt = Date.now()
 
+  const aborted = () => {
+    const err = new Error('Aborted')
+    err.name = 'AbortError'
+    return err
+  }
+
   while (true) {
+    if (signal?.aborted) throw aborted()
     const job = await getAiJob(jobId)
+    if (signal?.aborted) throw aborted()
     if (job.status === 'succeeded') return (job.result_payload ?? null) as T
     if (job.status === 'failed') throw new Error(job.error_message || 'AI job failed')
     if (Date.now() - startedAt > timeoutMs) {
       throw new Error('AI job timed out. Please retry.')
     }
-    await new Promise((resolve) => setTimeout(resolve, pollIntervalMs))
+    // The wait has to be interruptible too, or cancelling still costs a
+    // full poll interval before anything notices.
+    await new Promise<void>((resolve, reject) => {
+      const timer = setTimeout(() => {
+        signal?.removeEventListener('abort', onAbort)
+        resolve()
+      }, pollIntervalMs)
+      const onAbort = () => {
+        clearTimeout(timer)
+        reject(aborted())
+      }
+      signal?.addEventListener('abort', onAbort, { once: true })
+    })
   }
 }
 

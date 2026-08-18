@@ -3,6 +3,14 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { X, ChevronLeft, ChevronRight, Check, Loader2, Send, Sparkles, ArrowLeft } from 'lucide-react'
 import { useState, useRef, useEffect, useMemo } from 'react'
+import {
+  browserTimeStore,
+  progressFor,
+  recordGenerationTime,
+  shouldAnnounce,
+  typicalGenerationTime,
+  FALLBACK_TYPICAL_SECONDS,
+} from '@/lib/generation-progress'
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
@@ -540,7 +548,9 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
   const [isLoading, setIsLoading] = useState(false)
   const [isSavingDraft, setIsSavingDraft] = useState(false)
   const [elapsed, setElapsed] = useState(0)
-  const [totalTime, setTotalTime] = useState<number | null>(null)
+  const [typicalTime, setTypicalTime] = useState(FALLBACK_TYPICAL_SECONDS)
+  const [announced, setAnnounced] = useState('')
+  const abortRef = useRef<AbortController | null>(null)
   const startTimeRef = useRef<number>(0)
   const timerRef = useRef<ReturnType<typeof setInterval> | null>(null)
   const [error, setError] = useState('')
@@ -884,6 +894,21 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     }
   }
 
+  // Read the estimate once the browser exists, so the first paint matches.
+  useEffect(() => {
+    setTypicalTime(typicalGenerationTime(browserTimeStore()))
+  }, [])
+
+  const cancelGeneration = () => {
+    abortRef.current?.abort()
+    abortRef.current = null
+    if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null }
+    setIsLoading(false)
+    setElapsed(0)
+    setAnnounced('')
+    setError('')
+  }
+
   const handleStartAssessment = async () => {
     if (!canGenerateAssessment) {
       setError('')
@@ -894,11 +919,24 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     setIsLoading(true)
     setError('')
     setShowSubscribeCta(false)
-    setTotalTime(null)
     setElapsed(0)
+    setAnnounced('')
     startTimeRef.current = Date.now()
+    // Tracked locally, not from state: the finally block closes over the
+    // `error` value from this render, so it cannot see an error set moments
+    // ago in the catch, and every failed run would teach the estimate.
+    let succeeded = false
+    const controller = new AbortController()
+    abortRef.current = controller
     timerRef.current = setInterval(() => {
-      setElapsed(Math.round((Date.now() - startTimeRef.current) / 1000))
+      const secs = Math.round((Date.now() - startTimeRef.current) / 1000)
+      setElapsed(secs)
+      // Speak on a schedule. A live region that fires every second reads the
+      // whole line aloud every second and makes the page unusable.
+      if (shouldAnnounce(secs)) {
+        const { message } = progressFor(secs, typicalTime)
+        setAnnounced(`Still generating. ${secs} seconds so far. ${message}`)
+      }
     }, 1000)
     try {
       if (isCustom && customSource === 'topic') rememberTopic(customTopic)
@@ -922,12 +960,17 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
       if (USE_ASYNC_AI_JOBS) {
         const job = await createAiJob('generate_assessment', requestPayload)
         await triggerAiJobExecution(job.id)
-        data = await waitForAiJob<any>(job.id, { timeoutMs: 210000, pollIntervalMs: 2500 })
+        data = await waitForAiJob<any>(job.id, {
+          timeoutMs: 210000,
+          pollIntervalMs: 2500,
+          signal: controller.signal,
+        })
       } else {
         const response = await fetch('/api/generate-assessment', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(requestPayload),
+          signal: controller.signal,
         })
         const text = await response.text()
         if (!text) throw new Error('Server returned an empty response. Please try again.')
@@ -946,6 +989,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
 
       await refresh()
 
+      succeeded = true
+
       if (isTeacher) {
         setGeneratedData(data)
         await createDraft(data)
@@ -954,13 +999,22 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
         router.push('/assessment')
       }
     } catch (err: any) {
+      if (err?.name === 'AbortError') return
       setError(err.message)
     } finally {
       if (timerRef.current) { clearInterval(timerRef.current); timerRef.current = null }
-      setTotalTime(Math.round((Date.now() - startTimeRef.current) / 1000))
+      const took = Math.round((Date.now() - startTimeRef.current) / 1000)
+      // Only completed runs teach the estimate; one that errored out after
+      // two seconds is not evidence that generation is fast.
+      if (succeeded && !controller.signal.aborted) {
+        recordGenerationTime(took, browserTimeStore())
+      }
+      abortRef.current = null
       setIsLoading(false)
     }
   }
+
+  const genProgress = useMemo(() => progressFor(elapsed, typicalTime), [elapsed, typicalTime])
 
   const selectedQuestionType = QUESTION_TYPES.find(qt => qt.id === formData.questionType)
   const selectedDifficulty = DIFFICULTY_LEVELS.find(d => d.id === formData.difficultyLevel)
@@ -1778,33 +1832,54 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                       {isSavingDraft ? 'Saving draft…' : 'Open Preview & Edit'}
                     </button>
                   </motion.div>
+                ) : isLoading ? (
+                  /* A spinner and a rising second count was read as a hang.
+                     Say how long this normally takes, show where the run is
+                     against that, and admit when it has gone past normal —
+                     rather than narrating stages the client cannot see. */
+                  <div className="w-full rounded-xl border border-ss-line bg-ss-chip p-4">
+                    <div className="flex items-center gap-2 text-sm font-semibold text-ss-ink">
+                      <Loader2 className="w-4 h-4 animate-spin text-ss-accent" />
+                      <span>Writing your quiz</span>
+                      <span className="ml-auto font-mono tabular-nums text-ss-slate">{elapsed}s</span>
+                    </div>
+                    <div
+                      className="mt-3 h-2 w-full overflow-hidden rounded-full bg-ss-line"
+                      role="progressbar"
+                      aria-valuemin={0}
+                      aria-valuemax={100}
+                      aria-valuenow={genProgress.pct}
+                      aria-label="Quiz generation progress"
+                    >
+                      <div
+                        className="h-full rounded-full bg-ss-accent transition-[width] duration-1000 ease-linear"
+                        style={{ width: `${genProgress.pct}%` }}
+                      />
+                    </div>
+                    <p
+                      className={`mt-2 text-xs font-semibold ${
+                        genProgress.overdue ? 'text-ss-warn' : 'text-ss-slate'
+                      }`}
+                    >
+                      {genProgress.message}
+                    </p>
+                    <button
+                      onClick={cancelGeneration}
+                      type="button"
+                      className="mt-3 text-xs font-bold text-ss-slate underline underline-offset-2 hover:text-ss-ink"
+                    >
+                      Cancel and change my answers
+                    </button>
+                    {/* Spoken on a schedule, not every tick. */}
+                    <p aria-live="polite" className="sr-only">{announced}</p>
+                  </div>
                 ) : (
                   <button
                     onClick={handleStartAssessment}
-                    disabled={isLoading}
-                    className="w-full flex items-center justify-center gap-2 bg-ss-accent hover:bg-ss-accent disabled:bg-ss-accent text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-ss-accent-soft"
+                    className="w-full flex items-center justify-center gap-2 bg-ss-accent hover:bg-ss-accent text-white text-sm font-semibold py-3 px-6 rounded-xl transition-colors shadow-sm shadow-ss-accent-soft"
                   >
-                    {isLoading ? (
-                      <>
-                        <Loader2 className="w-4 h-4 animate-spin" />
-                        <span>Generating… <span className="font-mono tabular-nums">{elapsed}s</span></span>
-                      </>
-                    ) : (
-                      <>
-                        {totalTime !== null ? (
-                          <span className="flex items-center gap-2">
-                            <Check className="w-4 h-4" />
-                            {isTeacher ? 'Generate Assessment' : 'Generate & Start'}
-                            <span className="text-blue-200 font-normal text-xs">({totalTime}s)</span>
-                          </span>
-                        ) : (
-                          <>
-                            {isTeacher ? 'Generate Assessment' : 'Generate & Start'}
-                            <ChevronRight className="w-4 h-4" />
-                          </>
-                        )}
-                      </>
-                    )}
+                    {isTeacher ? 'Generate Assessment' : 'Generate & Start'}
+                    <ChevronRight className="w-4 h-4" />
                   </button>
                 )}
               </motion.div>

@@ -404,6 +404,32 @@ action on written marks, and an admin queue.
 Generation can take a minute or more behind a generic spinner: no progress, no
 stage, no cancel, no estimate. Users assume it has hung.
 
+**Done 2026-08-18.** The obvious build is stage narration — "Reading your
+textbook…", "Writing questions…" — timed off the clock. It was rejected. The
+request is a single POST with no stage events, so the client genuinely does not
+know which phase the model is in, and a guess dressed as a fact costs more
+trust than the spinner did the moment a slow run sits on "Almost done" for
+forty seconds.
+
+`lib/generation-progress.ts` reports only what is actually known: how long this
+user's last few runs took (median of seven, so one outlier cannot poison it),
+how far through that this run is, and whether it has gone past normal. The bar
+never reaches 100 — it must not finish before the paper does — and once a run
+is overdue it says so plainly rather than claiming it is nearly there.
+
+Cancel is an AbortController, which also required making `waitForAiJob`
+interruptible: on the async-job path, cancelling previously left the poll
+running to its 210-second timeout and then pushed the student into a quiz they
+had cancelled. That path is behind a flag that is off today, so the bug was
+latent rather than live.
+
+One bug of my own, caught before commit: the first version decided whether a
+run should teach the estimate by reading the `error` state in the `finally`
+block. That closure holds the value from the render that started the request,
+so it could not see an error set moments earlier in the `catch`, and every
+failed run would have taught the estimate that generation is fast. Tracked in
+a local now.
+
 Fix: stage the wait honestly ("Finding figures… Writing questions… Checking for
 duplicates…"), allow cancel, and state expected duration up front.
 
