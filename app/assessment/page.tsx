@@ -1557,9 +1557,28 @@ function AssessmentPageClient() {
             <h1 className="text-3xl sm:text-4xl font-bold mb-3 text-gray-900 dark:text-white tracking-tight">
               Assessment Complete!
             </h1>
-            <p className="text-gray-500 dark:text-gray-400 mb-10 text-lg">
+            <p className="text-gray-500 dark:text-gray-400 mb-6 text-lg">
               {assessment.subject} — {assessment.topics.join(', ')}
             </p>
+
+            {/* U5: a tester finished a quiz and never realised feedback
+                existed, because it sits below the whole question review. The
+                score is not the product — knowing what to do about it is. */}
+            {results.score !== null && !isGradingLongForm && (
+              <button
+                type="button"
+                onClick={() => {
+                  const el = document.getElementById('next-steps-panel')
+                  el?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+                }}
+                className="mb-10 inline-flex items-center gap-2 rounded-full bg-[color:var(--ss-accent)]/12 px-5 py-2.5 text-[13.5px] font-bold text-ss-accent transition-colors hover:bg-[color:var(--ss-accent)]/20"
+              >
+                {problemAreas.length > 0
+                  ? `We found ${problemAreas.length} thing${problemAreas.length === 1 ? '' : 's'} to work on — see what to study`
+                  : 'See what to study next'}
+                <ChevronRight className="h-4 w-4" aria-hidden />
+              </button>
+            )}
 
             {/* Score / Grade */}
             {results.score !== null ? (
@@ -1620,13 +1639,15 @@ function AssessmentPageClient() {
           {/* Next steps — only once grading has settled, so the areas shown
               aren't based on written answers that are still being marked. */}
           {results.score !== null && !isGradingLongForm && (
-            <NextStepsPanel
-              areas={problemAreas}
-              subject={assessment.subject}
-              onJumpToQuestion={jumpToQuestion}
-              onRetake={handleRetake}
-              retaking={isRetaking}
-            />
+            <div id="next-steps-panel">
+              <NextStepsPanel
+                areas={problemAreas}
+                subject={assessment.subject}
+                onJumpToQuestion={jumpToQuestion}
+                onRetake={handleRetake}
+                retaking={isRetaking}
+              />
+            </div>
           )}
 
           {/* Download report button */}

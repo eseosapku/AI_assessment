@@ -150,6 +150,33 @@ function buildReportCardHtml(
     if (!subjectMap[a.subject]) subjectMap[a.subject] = []
     subjectMap[a.subject].push(a.percentage)
   })
+  // Subject names reach this from the database and are interpolated into an
+  // HTML string that gets written to a print window, so they are escaped.
+  const safe = (v: unknown) =>
+    String(v ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+
+  // What to do about the grade. A report card that stops at a number tells a
+  // student what happened, not what to do next — and the weakest subjects are
+  // already known here.
+  const subjectAverages = Object.entries(subjectMap)
+    .map(([subj, scores]) => ({ subj, avg: Math.round(scores.reduce((x, y) => x + y, 0) / scores.length) }))
+    .sort((a, b) => a.avg - b.avg)
+  const weakest = subjectAverages.filter((x) => x.avg < 50).slice(0, 3)
+  const strongest = subjectAverages[subjectAverages.length - 1]
+  const headline =
+    weakest.length > 0
+      ? `Overall ${overallAvg}% across ${selected.length} assessment${selected.length === 1 ? '' : 's'}. ${weakest.length === 1 ? 'One subject needs' : `${weakest.length} subjects need`} attention before the next round of testing.`
+      : `Overall ${overallAvg}% across ${selected.length} assessment${selected.length === 1 ? '' : 's'}. No subject is currently below 50%.`
+  const nextSteps: string[] = [
+    ...weakest.map((w) => `${w.subj} is at ${w.avg}% — study this topic before being tested on it again, then retake to confirm it moved.`),
+    ...(strongest && strongest.avg >= 70 ? [`${strongest.subj} is holding at ${strongest.avg}% — keep it there with short spaced reviews rather than full retests.`] : []),
+    ...(weakest.length === 0 && (!strongest || strongest.avg < 70) ? ['Nothing is failing and nothing is secure yet — keep taking short quizzes to find where the gaps actually are.'] : []),
+  ]
+
   const subjectRows = Object.entries(subjectMap).map(([subj, scores]) => {
     const avg = Math.round(scores.reduce((a, b) => a + b, 0) / scores.length)
     const g = getGrade(avg)
@@ -298,6 +325,15 @@ function buildReportCardHtml(
       </tr></thead>
       <tbody>${subjectRows}</tbody>
     </table>
+  </div>
+
+  <!-- ══ FEEDBACK & NEXT STEPS ══ -->
+  <div style="margin-bottom:32px;background:#F4FAFE;border:1px solid #CFE8F7;border-radius:12px;padding:20px 24px;">
+    <div style="font-size:10px;font-weight:800;text-transform:uppercase;letter-spacing:.1em;color:#0C6FAE;margin-bottom:10px;">Feedback &amp; Next Steps</div>
+    <p style="font-size:13px;color:#16202A;margin:0 0 10px;line-height:1.5;">${safe(headline)}</p>
+    ${nextSteps.length > 0
+      ? `<ul style="margin:0;padding-left:18px;font-size:13px;color:#16202A;line-height:1.7;">${nextSteps.map((n) => `<li>${safe(n)}</li>`).join('')}</ul>`
+      : ''}
   </div>
 
   <!-- ══ WEEKLY BREAKDOWN ══ -->

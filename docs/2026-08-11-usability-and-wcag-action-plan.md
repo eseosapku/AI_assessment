@@ -766,6 +766,44 @@ due, and lessons built but never tested. Each is wrapped separately, because a
 dashboard that 500s over one missing table is worse than one offering a
 slightly weaker suggestion.
 
+## Closing out the tester document
+
+Audited item by item against the code on 2026-08-18 rather than from memory,
+because "I think that's done" is how U4 stayed undone for a month.
+
+**Closed in this pass:**
+
+- **U4 — report card.** It already had Score Summary and a subject breakdown;
+  what it lacked was the doc's third section. **Feedback & Next Steps** now
+  names the subjects under 50%, says to study each one *before* being tested on
+  it again, and says to retake afterwards to confirm it moved. Subject names
+  reach that HTML from the database, so they are escaped.
+- **U5 — feedback unmissable.** A tester finished a quiz and never realised
+  feedback existed, because the next-steps panel sits below the entire question
+  review. The score card now carries a line straight to it: *"We found 3 things
+  to work on — see what to study."*
+- **A2 — keyboard shortcuts.** Alt+N and Alt+B step the wizard, and the header
+  says so; an unadvertised shortcut helps nobody. Alt rather than bare arrows or
+  letters, because arrows belong to the radio groups inside each step and
+  letters belong to the text fields — a shortcut that eats a keystroke someone
+  was typing is worse than no shortcut.
+
+**Deliberately not done, with reasons:**
+
+- **U3's dashboard grouping** into labelled Create / Learn / Review sections.
+  The underlying complaint — a tester could not find the assessment builder —
+  is fixed by the dominant hero CTA and now by the next-step card above it. A
+  three-way grouping would fight that design by giving three destinations equal
+  weight, when the whole point of the study loop is that at any moment one of
+  them matters more than the others.
+- **N1's permanently-on hover tooltips** (E2). Tooltips that fire on hover do
+  not exist for touch or keyboard users, and the tour plus the section hints now
+  carry that explanation on the screen where everyone can read it. Worth
+  revisiting only if testers still ask "what does this do" after the tours.
+- **A3's footer accessibility link.** The toggles are in Settings and reachable
+  from the menu on every page. A footer link matters on a marketing site; inside
+  a signed-in shell with a persistent sidebar it is a second door to the same room.
+
 ## Revised sequencing
 
 **Wave 0 — ship-blockers found in audit**

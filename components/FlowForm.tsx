@@ -1017,6 +1017,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
 
   const genProgress = useMemo(() => progressFor(elapsed, typicalTime), [elapsed, typicalTime])
 
+
   // Move focus to the new step when it changes. The panel is labelled with its
   // step number, so landing there announces "Step 4 of 8" rather than leaving
   // the user to guess whether the button worked.
@@ -1120,6 +1121,28 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     if (isCustom && step === 3) { setStep(6); return }
     setStep((s) => Math.min(TOTAL_STEPS, s + 1))
   }
+
+  // A2: keyboard shortcuts through the wizard, for anyone who would rather not
+  // tab to the footer on every step. Alt is used because the arrow keys belong
+  // to the radio groups inside each step, and plain letters belong to the text
+  // fields — a shortcut that eats a keystroke someone was typing is worse than
+  // no shortcut.
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      if (!e.altKey || e.ctrlKey || e.metaKey) return
+      const key = e.key.toLowerCase()
+      if (key === 'n' && canStepForward && step < TOTAL_STEPS) {
+        e.preventDefault()
+        goForward()
+      } else if (key === 'b') {
+        e.preventDefault()
+        goBack()
+      }
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [canStepForward, step])
 
   /**
    * The steps this mode actually visits. University skips Subject, and the
@@ -1251,6 +1274,9 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   {isTeacher && !flowMode
                     ? 'Choose how to create'
                     : `Step ${stepPosition} of ${visibleStepNums.length}`}
+                  <span className="ml-2 hidden sm:inline text-ss-slate/80">
+                    Alt+N next, Alt+B back
+                  </span>
                 </p>
               </div>
               <button
