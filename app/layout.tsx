@@ -2,6 +2,7 @@ import './globals.css'
 import type { Metadata, Viewport } from 'next'
 import { Plus_Jakarta_Sans, Bricolage_Grotesque } from 'next/font/google'
 import { ThemeProvider } from '@/components/ThemeProvider'
+import A11yPreferencesProvider from '@/components/A11yPreferencesProvider'
 import { AuthProvider } from '@/components/AuthProvider'
 import { SubscriptionProvider } from '@/components/SubscriptionProvider'
 
@@ -33,6 +34,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <body suppressHydrationWarning className={`${jakarta.variable} ${bricolage.variable} font-sans`}>
+        <A11yPreferencesProvider />
         <ThemeProvider>
           <AuthProvider>
             <SubscriptionProvider>

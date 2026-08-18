@@ -205,6 +205,46 @@
   .skip-link:focus {
     @apply translate-y-0;
   }
+}
+
+/*
+ * Student-controlled accessibility preferences (see lib/a11y-preferences.ts).
+ *
+ * These sit outside @layer components so they win against utility classes
+ * without needing !important on every rule.
+ */
+@layer utilities {
+  /* Larger text. Scales the root so every rem-based size follows, rather than
+     overriding sizes one by one and missing some. */
+  :root[data-a11y-text='large'] {
+    font-size: 118%;
+  }
+
+  /* Higher contrast than the AA default, for low vision or bright sunlight —
+     both common for these students. Text goes to near-black, secondary text
+     stops being secondary, and borders become visible rather than hinted. */
+  :root[data-a11y-contrast='high'] {
+    --ss-slate: #3d464e;
+    --ss-line: #9aa4ad;
+    --ss-accent: #08506f;
+    --ss-accent-deep: #05384e;
+  }
+  :root[data-a11y-contrast='high'] .dark,
+  .dark:root[data-a11y-contrast='high'] {
+    --ss-slate: #d3dae0;
+    --ss-line: #ffffff59;
+    --ss-accent: #7fd4ff;
+  }
+
+  /* Reduced motion, for devices that never set the OS preference. */
+  :root[data-a11y-motion='reduced'] *,
+  :root[data-a11y-motion='reduced'] *::before,
+  :root[data-a11y-motion='reduced'] *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
 
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-ss-accent px-6 py-3 text-sm font-black text-white shadow-studio-tight transition-all hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;

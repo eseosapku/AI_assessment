@@ -7,6 +7,19 @@ import { useAuth } from './AuthProvider'
 import Avatar from './studio/Avatar'
 import { DEFAULT_AVATAR, fileToAvatarDataUrl, getAvatar, removeAvatar, saveAvatar } from '@/lib/studio/avatar'
 import { getFocus, setFocus, type FocusId } from '@/lib/onboarding'
+import {
+    readPreferences,
+    writePreferences,
+    applyPreferences,
+    DEFAULT_PREFERENCES,
+    type A11yPreferences,
+} from '@/lib/a11y-preferences'
+
+const A11Y_TOGGLES: { key: keyof A11yPreferences; label: string; hint: string }[] = [
+    { key: 'largeText', label: 'Larger text', hint: 'Makes everything bigger, not just this page.' },
+    { key: 'highContrast', label: 'Higher contrast', hint: 'Stronger text and borders — helps in bright sunlight.' },
+    { key: 'reducedMotion', label: 'Reduce motion', hint: 'Turns off animations and sliding transitions.' },
+]
 
 const FOCI: { id: FocusId; label: string; icon: typeof Target }[] = [
   { id: 'grades', label: 'Boost grades', icon: Target },
@@ -67,6 +80,18 @@ export default function SettingsForm() {
         setHasCustomPhoto(getAvatar(user.id) !== DEFAULT_AVATAR)
         setFocusVal(getFocus(user.id))
     }, [user])
+
+    const [a11y, setA11y] = useState<A11yPreferences>(DEFAULT_PREFERENCES)
+    useEffect(() => { setA11y(readPreferences()) }, [])
+
+    const updateA11y = (key: keyof A11yPreferences, value: boolean) => {
+        const next = { ...a11y, [key]: value }
+        setA11y(next)
+        writePreferences(next)
+        // Applied immediately: a student turning on larger text should see it
+        // happen, not have to reload to find out whether it worked.
+        applyPreferences(next)
+    }
 
     const chooseFocus = (f: FocusId) => {
         if (!user) return
@@ -425,6 +450,47 @@ export default function SettingsForm() {
                                     >
                                         <Icon className={`h-5 w-5 ${selected ? 'text-ss-accent' : 'text-ss-slate'}`} strokeWidth={1.9} />
                                         <span className={`text-[12px] font-bold ${selected ? 'text-ss-ink' : 'text-ss-slate'}`}>{label}</span>
+                                    </button>
+                                )
+                            })}
+                        </div>
+                    </div>
+
+                    {/* Accessibility. The defaults were fixed to meet AA, but a
+                        default can only suit most people — someone with low
+                        vision may want larger text than any design ships, and a
+                        device may never set the OS reduced-motion flag. */}
+                    <div>
+                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            Accessibility
+                        </label>
+                        <p className="mt-0.5 text-[12px] font-semibold text-ss-slate">
+                            Saved on this device, so you can set it differently on your phone.
+                        </p>
+                        <div className="mt-2 space-y-2">
+                            {A11Y_TOGGLES.map(({ key, label, hint }) => {
+                                const on = a11y[key]
+                                return (
+                                    <button
+                                        key={key}
+                                        type="button"
+                                        role="switch"
+                                        aria-checked={on}
+                                        onClick={() => updateA11y(key, !on)}
+                                        className={`flex w-full items-center justify-between gap-3 rounded-xl border-2 px-4 py-3 text-left transition-all ${
+                                            on ? 'border-ss-accent bg-[color:var(--ss-accent)]/[0.07]' : 'border-ss-line bg-ss-panel hover:border-[color:var(--ss-accent)]/40'
+                                        }`}
+                                    >
+                                        <span className="min-w-0">
+                                            <span className="block text-[13.5px] font-bold text-ss-ink">{label}</span>
+                                            <span className="block text-[12.5px] font-medium text-ss-slate">{hint}</span>
+                                        </span>
+                                        <span
+                                            aria-hidden
+                                            className={`relative h-6 w-11 shrink-0 rounded-full transition-colors ${on ? 'bg-ss-accent' : 'bg-ss-chip border border-ss-line'}`}
+                                        >
+                                            <span className={`absolute top-0.5 h-5 w-5 rounded-full bg-white shadow transition-all ${on ? 'left-[22px]' : 'left-0.5'}`} />
+                                        </span>
                                     </button>
                                 )
                             })}
