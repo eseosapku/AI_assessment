@@ -9,6 +9,7 @@ import { useAuth } from '@/components/AuthProvider'
 import { useStudentDashboard } from '@/lib/hooks/useStudentDashboard'
 import { StatChip } from '@/components/studio/ui'
 import { subjectArt } from '@/lib/studio/subjectArt'
+import { subjectLabelText } from '@/lib/subject-label'
 import ProductTour from '@/components/studio/ProductTour'
 
 const GRADE_RING: Record<string, string> = {
@@ -98,11 +99,11 @@ export default function ProgressStudio() {
             <p className="mb-4 text-[12px] font-bold uppercase tracking-widest text-ss-good">Going well</p>
             <div className="space-y-2.5">
               {(strong.length > 0 ? strong : sorted.slice(0, 3)).map((s) => (
-                <div key={s.subject} className="flex items-center gap-3 rounded-xl border border-ss-line bg-[color:var(--ss-chip)]/60 p-2.5">
+                <div key={subjectLabelText(s.subject)} className="flex items-center gap-3 rounded-xl border border-ss-line bg-[color:var(--ss-chip)]/60 p-2.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={subjectArt(s.subject)} alt="" aria-hidden className="h-10 w-10 shrink-0 object-contain" />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-[13px] font-extrabold text-ss-ink">{s.subject}</p>
+                    <p className="truncate text-[13px] font-extrabold text-ss-ink">{subjectLabelText(s.subject)}</p>
                     <p className="text-[12px] font-semibold text-ss-slate">{s.count} test{s.count !== 1 ? 's' : ''}</p>
                   </div>
                   <span className="text-[16px] font-extrabold" style={{ color: s.avg >= 60 ? 'var(--ss-good)' : 'var(--ss-warn)' }}>{s.avg}%</span>
@@ -121,11 +122,11 @@ export default function ProgressStudio() {
             </p>
             <div className="space-y-2.5">
               {(focus.length > 0 ? focus : sorted.slice(-3).reverse()).map((s) => (
-                <div key={s.subject} className="flex items-center gap-3 rounded-xl border border-ss-line bg-[color:var(--ss-chip)]/60 p-2.5">
+                <div key={subjectLabelText(s.subject)} className="flex items-center gap-3 rounded-xl border border-ss-line bg-[color:var(--ss-chip)]/60 p-2.5">
                   {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img src={subjectArt(s.subject)} alt="" aria-hidden className="h-10 w-10 shrink-0 object-contain" />
                   <div className="min-w-0 flex-1">
-                    <p className="truncate text-[13px] font-extrabold text-ss-ink">{s.subject}</p>
+                    <p className="truncate text-[13px] font-extrabold text-ss-ink">{subjectLabelText(s.subject)}</p>
                     <Link
                       href={`/studylab?study=${encodeURIComponent(s.subject)}`}
                       className="text-[12px] font-bold text-ss-accent hover:underline"

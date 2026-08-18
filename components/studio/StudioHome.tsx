@@ -22,6 +22,7 @@ import {
 } from '@/components/studio/ui'
 import { NextStepCard } from '@/components/studio/NextStepCard'
 import { chooseNextStep } from '@/lib/study-loop'
+import { subjectLabel, subjectLabelText } from '@/lib/subject-label'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
 const RESUME_ASSESSMENT_KEY = 'resumeAssessment'
@@ -113,6 +114,10 @@ export default function StudioHome() {
   const hero: HeroCfg = focus ? heroByFocus[focus] : { kicker: 'YOUR CURRICULUM, YOUR PACE', title: 'Build an assessment and find your gaps', cta: 'Create assessment', tone: 'accent', action: () => setFormOpen(true) }
 
   const activeClasses = (classrooms as any[]).filter((c) => (c.open_count ?? 0) > 0 || (c.upcoming_count ?? 0) > 0)
+
+  /** Columns capped at the number of cards, so a short row never leaves a hole. */
+  const gridFor = (n: number) =>
+    n <= 1 ? 'grid gap-4' : n === 2 ? 'grid gap-4 sm:grid-cols-2' : 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3'
   const weakAreas = persona?.weakAreas ?? []
 
   // What to do next, decided in one place from everything that is loaded.
@@ -308,7 +313,7 @@ export default function StudioHome() {
               <p className="flex items-center gap-1.5 text-[12px] font-bold uppercase tracking-widest text-ss-warn">
                 <Pause className="h-3.5 w-3.5" /> Paused assessment
               </p>
-              <p className="mt-1 truncate text-[19px] font-extrabold text-ss-ink">{pausedAssessment.assessment.subject}</p>
+              <p className="mt-1 truncate text-[19px] font-extrabold text-ss-ink">{subjectLabelText(pausedAssessment.assessment.subject)}</p>
               <p className="mt-1 text-xs font-semibold text-ss-slate">
                 {formatRemaining(pausedAssessment.timeRemaining)} left · Q{pausedAssessment.currentQuestion + 1}
               </p>
@@ -332,7 +337,7 @@ export default function StudioHome() {
               hint="Work your teachers have set. Open one to see what's due."
               action={{ label: 'All classes', href: '/classrooms' }}
             />
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={gridFor(Math.min(activeClasses.length, 3))}>
               {activeClasses.slice(0, 3).map((c) => (
                 <button
                   key={c.classroom_id}
@@ -369,7 +374,13 @@ export default function StudioHome() {
             />
             <div className="rounded-[20px] border border-ss-line bg-ss-panel px-5 py-1">
               {topSubjects.map((s) => (
-                <ProgressRow key={s.subject} label={s.subject} pct={s.avg} trend={s.avg >= 50 ? 'up' : 'down'} art={subjectArt(s.subject)} />
+                <ProgressRow
+                  key={s.subject}
+                  label={subjectLabelText(s.subject)}
+                  pct={s.avg}
+                  trend={s.avg >= 50 ? 'up' : 'down'}
+                  art={subjectArt(s.subject)}
+                />
               ))}
             </div>
           </section>
@@ -400,7 +411,7 @@ export default function StudioHome() {
             action={{ label: 'All progress', href: '/progress' }}
           />
           {recentAssessments.length > 0 ? (
-            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+            <div className={gridFor(Math.min(recentAssessments.length, 6))}>
               {recentAssessments.slice(0, 6).map((assessment) => (
                 <AssessmentCard key={assessment.id} assessment={assessment} />
               ))}
@@ -472,13 +483,13 @@ export default function StudioHome() {
                 <div className="min-w-0 flex-1">
                   <p className="truncate text-[13px] font-bold text-ss-ink">{area.label}</p>
                   <p className="truncate text-[13px] font-semibold text-ss-slate">
-                    {area.subjectName}
+                    {subjectLabel(area.subjectName).name}
                     {typeof area.accuracy === 'number' ? ` · ${area.accuracy}%` : ''}
                   </p>
                 </div>
                 <SparkButton
                   label="Study"
-                  ariaLabel={`Study ${area.label} in ${area.subjectName}`}
+                  ariaLabel={`Study ${area.label} in ${subjectLabel(area.subjectName).name}`}
                   onClick={() => startStudy(area)}
                 />
               </div>

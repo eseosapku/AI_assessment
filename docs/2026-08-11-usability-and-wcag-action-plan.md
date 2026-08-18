@@ -949,6 +949,50 @@ The earlier stacked-gradient version is what the previous section describes, and
 the lesson from it is worth keeping: when two elements are fighting, the fix is
 usually to give them different *jobs*, not different colours.
 
+## "Does this look professional?" — no, and mostly not for design reasons
+
+Asked directly on 2026-08-18. The honest answer was no, and the largest cause
+turned out to be the data rather than the layout.
+
+**`assessments.subject` is not a subject.** It is whatever the textbook file was
+called at ingest. The live values include `Advanced Mathematics S6 SB (1)`,
+`Biology S4  SB` (two spaces), `AGRIC S2 SB`, `Apply javscript`, and
+`Branis_Sumba_RUZIVO_Abstract` — somebody's document name, shown to students as
+a subject. Rendered into fixed-width rows those became `Cambridge Primary…`,
+`Impact of Agricultu…`, `The binomial classi…`: a column of clipped ellipses
+that reads as broken software long before anyone questions the spacing around
+it.
+
+`lib/subject-label.ts` cleans the label only — the stored value stays the key
+everything matches on, so nothing here can change which quiz belongs to which
+subject. It strips ingest noise (`SB`, `Student Book`, `(1)`, extensions),
+turns filename separators into spaces, collapses the double spaces the data is
+full of, and lifts the level out (`S4`, `Grade 6`) to show separately rather
+than as part of the name. Case is left alone unless the whole string is
+shouting, which is what keeps `ICT` and `MicroPython` intact.
+
+**Two layout faults, both self-inflicted:**
+
+- **A three-column grid holding one card** left two thirds of the row empty. A
+  page with a hole that size reads as broken whatever is in it. Columns are now
+  capped at the number of cards.
+- **The hero stretched to match its neighbour**, opening a two-hundred-pixel
+  band of empty gradient between the headline and the button. That looked like
+  a rendering fault, not a layout. The button sits under the title now and the
+  panels find their own heights.
+
+**Two data findings worth a decision, not fixed here:**
+
+- **213 results scored exactly 0.** Across 1,672 results the distribution is
+  genuinely broad (324 in the 0–20% band), so a 27% average next to five recent
+  scores of 90+ is arithmetically honest. But an abandoned attempt scoring zero
+  counts the same as a genuine failure, and that is a product question: should a
+  walk-away drag a student's average down for good?
+- **The subject list is really a textbook list.** Cleaning labels treats the
+  symptom. A student taking Biology from two different books has two "subjects",
+  and no screen can merge them until ingest records a subject separately from a
+  source.
+
 ## Revised sequencing
 
 **Wave 0 — ship-blockers found in audit**
