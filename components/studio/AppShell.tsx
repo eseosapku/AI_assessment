@@ -14,7 +14,10 @@ export default function AppShell({ children, rail }: { children: ReactNode; rail
   return (
     // Fixed-height frame: the shell never scrolls; only the main column does, so
     // the sidebar + top bar stay put.
-    <div className="h-[100dvh] overflow-hidden bg-ss-canvas p-3 sm:p-6">
+    <div className="relative h-[100dvh] overflow-hidden bg-ss-canvas p-3 sm:p-6">
+      {/* First stop for a keyboard user, so the sidebar is not re-traversed on
+          every page. */}
+      <a href="#main-content" className="skip-link">Skip to main content</a>
       <div
         className={`mx-auto grid h-full max-w-[1660px] grid-cols-1 overflow-hidden rounded-[30px] bg-ss-panel shadow-ss-panel lg:grid-cols-[248px_1fr] ${
           rail ? 'xl:grid-cols-[248px_1fr_320px]' : ''
@@ -25,9 +28,9 @@ export default function AppShell({ children, rail }: { children: ReactNode; rail
           <div className="shrink-0 px-5 pt-5 sm:px-6 sm:pt-6">
             <TopBar firstName={firstName} onProfile={() => setProfileOpen(true)} />
           </div>
-          <div className="min-h-0 flex-1 overflow-y-auto px-5 pb-24 sm:px-6 sm:pb-8 lg:pb-6">{children}</div>
+          <div id="main-content" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto px-5 pb-24 sm:px-6 sm:pb-8 lg:pb-6">{children}</div>
         </main>
-        {rail && <aside className="hidden overflow-y-auto border-l border-ss-line bg-[color:var(--ss-canvas)]/40 p-5 xl:block">{rail}</aside>}
+        {rail && <aside aria-label="Related information" className="hidden overflow-y-auto border-l border-ss-line bg-[color:var(--ss-canvas)]/40 p-5 xl:block">{rail}</aside>}
       </div>
       <MobileNav />
       <ProfileSidebar isOpen={profileOpen} onClose={() => setProfileOpen(false)} />

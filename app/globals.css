@@ -178,6 +178,34 @@
     @apply outline-none ring-2 ring-ss-accent ring-offset-2 ring-offset-ss-canvas;
   }
 
+  /*
+   * Visible keyboard focus everywhere (WCAG 2.4.7).
+   *
+   * .studio-focus already existed but was opt-in, so most controls had no
+   * visible focus indicator at all — a keyboard user could not tell where they
+   * were. :focus-visible only fires for keyboard interaction, so this adds
+   * nothing for mouse users and does not fight bespoke hover styles.
+   *
+   * The accent sits at 5.38:1 on panel and 4.60:1 on canvas, comfortably past
+   * the 3:1 that WCAG 1.4.11 requires of a focus indicator.
+   */
+  :where(a, button, input, select, textarea, summary, [tabindex]:not([tabindex="-1"]), [role="button"], [role="radio"], [role="checkbox"], [role="menuitem"], [role="tab"]):focus-visible {
+    outline: 2px solid var(--ss-accent);
+    outline-offset: 2px;
+    border-radius: 4px;
+  }
+
+  /*
+   * Skip link. Off-screen until focused, then the first thing a keyboard user
+   * reaches — without it they Tab through the whole sidebar on every page.
+   */
+  .skip-link {
+    @apply absolute left-4 top-4 z-[999] -translate-y-24 rounded-xl bg-ss-accent px-4 py-2.5 text-sm font-bold text-white transition-transform;
+  }
+  .skip-link:focus {
+    @apply translate-y-0;
+  }
+
   .btn-primary {
     @apply inline-flex items-center justify-center gap-2 rounded-full bg-ss-accent px-6 py-3 text-sm font-black text-white shadow-studio-tight transition-all hover:brightness-95 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-60;
   }

@@ -41,7 +41,7 @@ export function SideNav() {
         </span>
       </Link>
 
-      <nav className="flex flex-col gap-1">
+      <nav aria-label="Main" className="flex flex-col gap-1">
         <span className="px-3 pb-1 pt-2.5 text-[12px] font-bold uppercase tracking-[0.16em] text-[color:var(--ss-slate)]/70">Menu</span>
         {studentNav.map((item) => {
           const active = item.match(pathname)
@@ -92,7 +92,7 @@ export function SideNav() {
 export function MobileNav() {
   const pathname = usePathname()
   return (
-    <nav className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-ss-line bg-[color:var(--ss-panel)]/95 px-2 py-2 backdrop-blur-xl lg:hidden">
+    <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-ss-line bg-[color:var(--ss-panel)]/95 px-2 py-2 backdrop-blur-xl lg:hidden">
       {studentNav.map((item) => {
         const active = item.match(pathname)
         const Icon = item.icon
