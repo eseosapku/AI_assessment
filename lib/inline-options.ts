@@ -1,5 +1,7 @@
 /**
- * Rescuing questions whose options ended up inside the question.
+ * Repairing malformed model output in a generated paper.
+ *
+ * Two faults live here. The first, and the reason the file exists:
  *
  * Exam-prep papers are generated from synced past-question banks, and those
  * banks store questions the way they are printed:
@@ -128,4 +130,43 @@ export function repairPaper(questions: RepairableQuestion[]): number {
     fixed++
   }
   return fixed
+}
+
+/**
+ * Strips the figure's internal id out of anything a student reads.
+ *
+ * Figures are offered to the model as a catalogue keyed by `image_key`, and it
+ * is meant to return that key in its own field. Intermittently it writes the
+ * key into the question instead — `Explain how the structure of a mitochondrion
+ * (image_key: "tb-7-p74-embedded-2") supports respiration` — which is an
+ * internal identifier shown to a student mid-sentence.
+ *
+ * Rare rather than systematic, so this is a guard rather than a fix: it cannot
+ * stop the model doing it, but it can stop the result reaching anybody.
+ */
+const IMAGE_KEY_MENTION = /\s*[([]?\s*image_key\s*[:=]\s*"?[\w./-]*"?\s*[)\]]?/gi
+
+export function stripImageKeyMentions(value: unknown): string {
+  return String(value ?? '')
+    .replace(IMAGE_KEY_MENTION, ' ')
+    .replace(/\s{2,}/g, ' ')
+    // The removal can strand a space before punctuation mid-sentence.
+    .replace(/\s+([,.;:?!])/g, '$1')
+    .trim()
+}
+
+/** Cleans every field a student sees. Returns how many questions were touched. */
+export function stripImageKeysFromPaper(questions: RepairableQuestion[]): number {
+  let touched = 0
+  for (const q of questions as Array<Record<string, unknown>>) {
+    if (!q || typeof q !== 'object') continue
+    const before = JSON.stringify([q.question, q.options, q.explanation])
+    if (!/image_key/i.test(before)) continue
+
+    q.question = stripImageKeyMentions(q.question)
+    if (Array.isArray(q.options)) q.options = q.options.map((o) => stripImageKeyMentions(o))
+    if (typeof q.explanation === 'string') q.explanation = stripImageKeyMentions(q.explanation)
+    touched++
+  }
+  return touched
 }

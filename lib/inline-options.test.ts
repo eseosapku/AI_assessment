@@ -4,6 +4,8 @@ import {
   splitInlineOptions,
   repairInlineOptions,
   repairPaper,
+  stripImageKeyMentions,
+  stripImageKeysFromPaper,
 } from './inline-options'
 
 describe('optionsAreDegenerate', () => {
@@ -129,5 +131,52 @@ describe('repairPaper', () => {
 
   it('handles an empty paper', () => {
     expect(repairPaper([])).toBe(0)
+  })
+})
+
+describe('stripImageKeyMentions', () => {
+  it('removes a key the model wrote into the middle of a sentence', () => {
+    expect(
+      stripImageKeyMentions('Explain how the mitochondrion (image_key: "tb-7-p74-embedded-2") releases energy.'),
+    ).toBe('Explain how the mitochondrion releases energy.')
+  })
+
+  it('does not strand a space before punctuation', () => {
+    expect(stripImageKeyMentions('What is shown (image_key: "a-b-1")?')).toBe('What is shown?')
+  })
+
+  it('handles the bare form without brackets or quotes', () => {
+    expect(stripImageKeyMentions('Look at the diagram image_key: tb-1-p2-x and answer.')).toBe(
+      'Look at the diagram and answer.',
+    )
+  })
+
+  it('leaves ordinary text completely alone', () => {
+    const clean = 'Explain how the mitochondrion releases energy.'
+    expect(stripImageKeyMentions(clean)).toBe(clean)
+  })
+
+  it('handles nothing', () => {
+    expect(stripImageKeyMentions(null)).toBe('')
+    expect(stripImageKeyMentions(undefined)).toBe('')
+  })
+})
+
+describe('stripImageKeysFromPaper', () => {
+  it('cleans stem, options and explanation, and counts only what it touched', () => {
+    const paper: any[] = [
+      {
+        question: 'Which organelle (image_key: "x-1") is shown?',
+        options: ['Nucleus', 'Mitochondrion (image_key: "x-1")'],
+        explanation: 'See image_key: "x-1" above.',
+        correct_answer: 1,
+      },
+      { question: 'A clean question', options: ['a', 'b'], correct_answer: 0 },
+    ]
+    expect(stripImageKeysFromPaper(paper)).toBe(1)
+    expect(paper[0].question).toBe('Which organelle is shown?')
+    expect(paper[0].options[1]).toBe('Mitochondrion')
+    expect(paper[0].explanation).toBe('See above.')
+    expect(paper[1].question).toBe('A clean question')
   })
 })

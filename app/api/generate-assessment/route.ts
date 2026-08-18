@@ -16,7 +16,9 @@ import { groupQuestionsByFigure } from '@/lib/assessment-figure-groups'
 import { cleanQuestionPaper } from '@/lib/assessment-quality'
 import { judgeImageQuestion } from '@/lib/image-question-quality'
 import { buildSource } from '@/lib/question-source'
-import { repairPaper } from '@/lib/inline-options'
+import { buildCommandWordBlock } from '@/lib/command-words'
+import type { CurriculumSlug } from '@/lib/curriculum-registry'
+import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -1391,6 +1393,17 @@ export async function POST(request: NextRequest) {
       enrichedCurriculumBlock = extra || `${examPrepContext(curriculumSlug, promptSubject, promptTopics)}\n${curriculumBlock}`
     }
 
+    // The board's own command vocabulary. Until now the curriculum picked a
+    // textbook and a style string; the words a question is phrased with are
+    // taught to students as exam technique, and a question that says "explain"
+    // where the board would say "state" trains the wrong habit.
+    {
+      const commandBlock = buildCommandWordBlock(curriculumSlug as CurriculumSlug, questionType)
+      if (commandBlock) enrichedCurriculumBlock = `${enrichedCurriculumBlock}
+
+${commandBlock}`
+    }
+
     const isCambridge = curriculumSlug === 'cambridge'
     const isExamPrepMode = curriculumSlug === 'waec' || curriculumSlug === 'jamb'
     const hasTextbookImageLibrary = Number.isFinite(textbookId) && isSchoolCurriculum(textbookCurriculum) && textbookHasImages(textbookId)
@@ -1998,6 +2011,9 @@ export async function POST(request: NextRequest) {
     {
       const fixed = repairPaper(allQuestions)
       if (fixed > 0) console.log(`Recovered inline options on ${fixed} question(s)`)
+      // The figure catalogue's internal ids occasionally end up mid-sentence.
+      const stripped = stripImageKeysFromPaper(allQuestions)
+      if (stripped > 0) console.log(`Stripped image_key from ${stripped} question(s)`)
     }
 
     // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)
