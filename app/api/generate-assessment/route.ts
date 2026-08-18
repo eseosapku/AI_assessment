@@ -16,6 +16,7 @@ import { groupQuestionsByFigure } from '@/lib/assessment-figure-groups'
 import { cleanQuestionPaper } from '@/lib/assessment-quality'
 import { judgeImageQuestion } from '@/lib/image-question-quality'
 import { buildSource } from '@/lib/question-source'
+import { repairPaper } from '@/lib/inline-options'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -1987,6 +1988,16 @@ export async function POST(request: NextRequest) {
         { error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again.` },
         { status: 500 }
       )
+    }
+
+    // Past-paper banks store questions with their choices printed underneath,
+    // and the model copies that block into the stem then leaves the options
+    // array as ["A","B","C","D"]. Measured on WAEC Mathematics with a paper
+    // attached, seven of ten came back that way — four bare letters to choose
+    // between. Runs before the trim so a repaired question still counts.
+    {
+      const fixed = repairPaper(allQuestions)
+      if (fixed > 0) console.log(`Recovered inline options on ${fixed} question(s)`)
     }
 
     // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)

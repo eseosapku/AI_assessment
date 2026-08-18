@@ -868,6 +868,52 @@ Three fixes:
   row, so this changes nothing today, but `score` is the field that has meant
   different things over time and `percentage` is what every other screen reads.
 
+## Exam prep did not fail — it produced unusable papers
+
+Raised 2026-08-18: *"exam prep assessments fail to generate."* Reproduced, and
+the failure is narrower and stranger than a plain error. JAMB is fine. WAEC
+without a past paper is fine. **WAEC with a synced past paper attached** is
+where it breaks, in two ways:
+
+| Run | Result |
+| --- | --- |
+| 1 | 0 questions |
+| 2 | 10 questions, **7 of them malformed** |
+
+Malformed meaning: the past-question bank stores questions the way they are
+printed on the paper —
+
+```
+The shaded area in the diagram is represented by
+A) {(x,y) : y - 3x < -6}
+B) {(x,y) : y + 3x < 6}
+```
+
+— so the model copies that whole block into the stem, and then has nothing left
+to put in the options array and emits `["A","B","C","D"]`. The student is shown
+a question with four bare letters to choose between. It passes every existing
+check, because the stem is fine and there are four distinct options.
+
+`lib/inline-options.ts` repairs it. Telling the model not to do it helps and is
+worth doing, but a paper full of that shape keeps pulling it back, so the fix
+has to be on what arrives rather than on what was asked for.
+
+The parser is deliberately timid, because mangling a good question is worse
+than leaving a bad one. It requires at least two labels, consecutive from the
+first (A,B,C — not A,C,F), the block must be the tail of the stem, and there
+must be a stem left over afterwards. "If A) is chosen, what follows?" is left
+alone. The answer index is preserved, since the model chose it against the same
+letters, and clamped rather than dropped when the counts disagree.
+
+It runs before the paper is trimmed to the requested count, so a repaired
+question still counts towards it — the same ordering mistake as B1c, avoided
+this time.
+
+**Verified:** two runs on the failing path, 10/10 delivered, zero degenerate.
+
+**Still open, found while reproducing:** asking WAEC for `theory` returns
+multiple-choice questions. Not a generation failure, but not what was asked for.
+
 ## Revised sequencing
 
 **Wave 0 — ship-blockers found in audit**
