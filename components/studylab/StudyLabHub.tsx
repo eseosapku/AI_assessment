@@ -394,8 +394,11 @@ function SnapModal({
 
           {/* Question text */}
           <div>
-            <label className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">Question</label>
+            <label htmlFor="homework-question" className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">
+              Question
+            </label>
             <textarea
+              id="homework-question"
               value={text}
               onChange={(e) => setText(e.target.value)}
               disabled={busy}
@@ -408,6 +411,9 @@ function SnapModal({
           {/* Attachment */}
           <div>
             <label className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">Attachment (optional)</label>
+            <p className="mb-2 text-[13px] font-medium text-ss-slate">
+              A photo of the page works. If the question is in the picture, you can leave the box above empty.
+            </p>
             <input
               ref={fileRef}
               type="file"
@@ -443,9 +449,16 @@ function SnapModal({
             )}
           </div>
 
-          {error && <p className="text-sm font-semibold text-ss-bad">{error}</p>}
+          {error && (
+            <p role="alert" className="text-sm font-semibold text-ss-bad">
+              {error}
+            </p>
+          )}
         </div>
-        <div className="flex justify-end gap-3 border-t border-ss-line px-6 py-4">
+        <div className="flex flex-wrap items-center justify-end gap-3 border-t border-ss-line px-6 py-4">
+          {!preview && !text.trim() && (
+            <p className="mr-auto text-[13px] font-medium text-ss-slate">Type the question or add a photo to continue.</p>
+          )}
           <button type="button" onClick={onClose} disabled={busy} className="btn-secondary !py-2.5 disabled:opacity-60">Cancel</button>
           <button type="button" onClick={submit} disabled={(!preview && !text.trim()) || busy} className="btn-primary !py-2.5 disabled:opacity-60">
             {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
@@ -467,11 +480,12 @@ function EmptyState({ onCreate }: { onCreate: () => void }) {
       </div>
       <h3 className="font-display text-xl font-black text-ss-ink">Start your first LearnSpace</h3>
       <p className="mt-2 max-w-md text-sm font-semibold text-ss-slate">
-        Pick any topic and the AI builds an interactive canvas — cards, diagrams, and guided steps.
+        Name anything you&apos;re stuck on and the tutor writes the lesson for it — explainer cards,
+        diagrams, worked examples, and checkpoints that quiz you as you go.
       </p>
       <button type="button" onClick={onCreate} className="btn-primary mt-6">
         <Plus className="h-4 w-4" />
-        Create from scratch
+        Pick a topic
       </button>
     </div>
   )
@@ -529,15 +543,26 @@ function CreateModal({
         className="w-full max-w-lg overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-ss-panel"
       >
         <div className="flex items-center justify-between border-b border-ss-line px-6 py-4">
-          <h3 id="new-space-title" className="font-display text-lg font-black text-ss-ink">New LearnSpace</h3>
+          <div>
+            <h3 id="new-space-title" className="font-display text-lg font-black text-ss-ink">What do you want to learn?</h3>
+            <p className="mt-0.5 text-[13px] font-medium text-ss-slate">
+              The tutor writes you a lesson on it — cards, diagrams and checkpoints. Takes about a minute.
+            </p>
+          </div>
           <button type="button" onClick={onClose} className="rounded-lg p-1.5 text-ss-slate hover:bg-ss-chip">
             <X className="h-5 w-5" />
           </button>
         </div>
         <div className="space-y-5 p-6">
           <div>
-            <label className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">Topic</label>
+            <label htmlFor="new-space-topic" className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">
+              Topic
+            </label>
+            <p className="mb-2 text-[13px] font-medium text-ss-slate">
+              The narrower the better — &ldquo;photosynthesis&rdquo; gives you a broad tour, &ldquo;why leaves are green&rdquo; gives you an answer.
+            </p>
             <input
+              id="new-space-topic"
               autoFocus
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -545,7 +570,8 @@ function CreateModal({
               placeholder="e.g. Understanding Binary Search Trees"
               className="w-full rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none"
             />
-            <div className="mt-3 flex flex-wrap gap-2">
+            <p className="mt-3 text-[13px] font-medium text-ss-slate" id="new-space-suggestions">Or start from one of these:</p>
+            <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="new-space-suggestions">
               {SUGGESTIONS.map((s) => (
                 <button key={s} type="button" onClick={() => setTitle(s)} className="rounded-full border border-ss-line px-3 py-1.5 text-xs font-semibold text-ss-slate hover:border-ss-accent hover:text-ss-accent">
                   {s}
@@ -554,8 +580,14 @@ function CreateModal({
             </div>
           </div>
           <div>
-            <label className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">Subject (optional)</label>
+            <label htmlFor="new-space-subject" className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate">
+              Subject (optional)
+            </label>
+            <p className="mb-2 text-[13px] font-medium text-ss-slate">
+              Helps the tutor pitch it right. Leave it blank and it works the subject out from your topic.
+            </p>
             <input
+              id="new-space-subject"
               value={subject}
               onChange={(e) => setSubject(e.target.value)}
               onKeyDown={(e) => e.key === 'Enter' && submit()}
@@ -569,7 +601,7 @@ function CreateModal({
           <button type="button" onClick={onClose} className="btn-secondary !py-2.5">Cancel</button>
           <button type="button" onClick={submit} disabled={!title.trim() || submitting} className="btn-primary !py-2.5 disabled:opacity-60">
             {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
-            Create
+            {submitting ? 'Building your lesson…' : 'Build my lesson'}
           </button>
         </div>
       </motion.div>

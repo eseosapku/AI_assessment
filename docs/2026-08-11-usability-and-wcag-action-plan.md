@@ -483,6 +483,30 @@ This is editorial work, not a find-and-replace: it needs a decision about what
 each screen is for before its labels can be rewritten. Budget it as its own
 pass rather than folding it into a wave.
 
+**Done 2026-08-18.** All seven surfaces. The last two were the dashboard and
+LearnSpace, and both needed structure before they needed words: `SectionHeader`
+and `ListPanel` had nowhere to put a line saying what a section was *for*, so
+every heading was a bare category name and the student had to guess where its
+contents came from.
+
+What the pass turned up beyond the wording:
+
+- **"Quota left: 47."** No unit, no timeframe. It is quizzes, and it is today.
+- **"Good work, {name}"** greeted everyone, including a student averaging 20%.
+  Praise that arrives regardless of the score is worth nothing, and to someone
+  who is struggling it reads as mockery. That string was also passed to the
+  avatar, so the alt text read *"Good work, Stephen's profile photo."*
+- **Four buttons all named "Study."** Tabbing through the focus-areas panel gave
+  a screen-reader user the same word four times with no way to tell which topic
+  each one opened (WCAG 2.4.4). They now carry the topic in their accessible name.
+- **The score chart carried its meaning in colour alone** (WCAG 1.4.1) — no key,
+  and no statement of which end was recent.
+- **Two dialogs had labels not tied to their fields**, so the association existed
+  visually and nowhere else.
+- **The homework Solve button sits disabled until there is something to work
+  from, and never said so.** A dead control with no explanation reads as broken —
+  the same fault as the dead Submit found in the assessment player.
+
 ---
 
 ## Revised sequencing

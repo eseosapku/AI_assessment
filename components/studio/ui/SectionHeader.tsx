@@ -3,9 +3,13 @@ import { ArrowRight } from 'lucide-react'
 
 export function SectionHeader({
   title,
+  hint,
   action,
 }: {
   title: string
+  /** One line saying what the section is for. A heading names a category;
+      students still have to guess where its contents came from. */
+  hint?: string
   action?: { label: string; onClick?: () => void; href?: string }
 }) {
   const inner = action && (
@@ -14,12 +18,17 @@ export function SectionHeader({
     </span>
   )
   return (
-    <div className="mb-3 flex items-center justify-between">
-      <h2 className="text-[17px] font-extrabold text-ss-ink">{title}</h2>
+    <div className="mb-3 flex items-start justify-between gap-3">
+      <div className="min-w-0">
+        <h2 className="text-[17px] font-extrabold text-ss-ink">{title}</h2>
+        {hint && <p className="mt-0.5 text-[13px] font-medium text-ss-slate">{hint}</p>}
+      </div>
       {action?.href ? (
-        <Link href={action.href}>{inner}</Link>
+        <Link href={action.href} className="shrink-0">
+          {inner}
+        </Link>
       ) : action ? (
-        <button type="button" onClick={action.onClick}>
+        <button type="button" onClick={action.onClick} className="shrink-0">
           {inner}
         </button>
       ) : null}

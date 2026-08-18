@@ -168,13 +168,13 @@ export default function StudioHome() {
 
         {/* Stat chips */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatChip icon={ClipboardCheck} value={loading ? '—' : String(stats.total)} label="Tests done" tone="accent" />
-          <StatChip icon={TrendingUp} value={loading ? '—' : `${stats.avgScore}%`} label="Avg score" tone="good" />
+          <StatChip icon={ClipboardCheck} value={loading ? '—' : String(stats.total)} label="Quizzes taken" tone="accent" />
+          <StatChip icon={TrendingUp} value={loading ? '—' : `${stats.avgScore}%`} label="Average score" tone="good" />
           <StatChip icon={Medal} value={latestGrade} label="Latest grade" tone="warn" />
           <StatChip
             icon={Zap}
             value={loading ? '—' : `${Math.max(DAILY_QUIZ_LIMIT - dailyUsed, 0).toLocaleString()}`}
-            label="Quota left"
+            label="Quizzes left today"
             tone="neutral"
           />
         </div>
@@ -205,7 +205,11 @@ export default function StudioHome() {
         {/* From your classes */}
         {activeClasses.length > 0 && (
           <section>
-            <SectionHeader title="From your classes" action={{ label: 'All classes', href: '/classrooms' }} />
+            <SectionHeader
+              title="From your classes"
+              hint="Work your teachers have set. Open one to see what's due."
+              action={{ label: 'All classes', href: '/classrooms' }}
+            />
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {activeClasses.slice(0, 3).map((c) => (
                 <button
@@ -218,13 +222,13 @@ export default function StudioHome() {
                     {/* eslint-disable-next-line @next/next/no-img-element */}
                     <img src="/art/classroom.png" alt="" aria-hidden className="absolute right-3 top-1/2 h-[92%] -translate-y-1/2 object-contain drop-shadow-lg" />
                     <span className="absolute left-3 top-3 rounded-full bg-white/25 px-2.5 py-1 text-[12px] font-bold uppercase tracking-wide text-white backdrop-blur-sm">
-                      {(c.open_count ?? 0) > 0 ? `${c.open_count} open` : 'Upcoming'}
+                      {(c.open_count ?? 0) > 0 ? `${c.open_count} to do` : 'Nothing due'}
                     </span>
                   </div>
                   <div className="p-4">
                     <h3 className="truncate text-[14.5px] font-extrabold text-ss-ink">{c.name}</h3>
                     <p className="mt-1 text-[12px] font-semibold text-ss-slate">
-                      {c.open_count ?? 0} open · {c.upcoming_count ?? 0} upcoming · {c.finished_count ?? 0} done
+                      {c.open_count ?? 0} to do · {c.upcoming_count ?? 0} coming up · {c.finished_count ?? 0} finished
                     </p>
                   </div>
                 </button>
@@ -236,7 +240,11 @@ export default function StudioHome() {
         {/* By subject */}
         {topSubjects.length > 0 && (
           <section>
-            <SectionHeader title="By subject" action={{ label: 'Full progress', href: '/progress' }} />
+            <SectionHeader
+              title="How each subject is going"
+              hint="Your average across every quiz you've taken in it."
+              action={{ label: 'Full progress', href: '/progress' }}
+            />
             <div className="rounded-[20px] border border-ss-line bg-ss-panel px-5 py-1">
               {topSubjects.map((s) => (
                 <ProgressRow key={s.subject} label={s.subject} pct={s.avg} trend={s.avg >= 50 ? 'up' : 'down'} art={subjectArt(s.subject)} />
@@ -264,7 +272,11 @@ export default function StudioHome() {
 
         {/* Recent results */}
         <section>
-          <SectionHeader title="Recent results" action={{ label: 'All progress', href: '/progress' }} />
+          <SectionHeader
+            title="Your recent quizzes"
+            hint="Open one to see every question and why each answer was marked the way it was."
+            action={{ label: 'All progress', href: '/progress' }}
+          />
           {recentAssessments.length > 0 ? (
             <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {recentAssessments.slice(0, 6).map((assessment) => (
@@ -275,9 +287,12 @@ export default function StudioHome() {
             <div className="flex flex-col items-center justify-center rounded-[20px] border border-ss-line bg-ss-panel py-14 text-center">
               {/* eslint-disable-next-line @next/next/no-img-element */}
               <img src="/art/empty-state.png" alt="" className="mb-3 h-28 w-auto" />
-              <p className="text-sm font-extrabold text-ss-ink">No assessments yet</p>
-              <button type="button" onClick={() => setFormOpen(true)} className="mt-2 text-xs font-bold text-ss-accent underline underline-offset-2">
-                Create your first assessment
+              <p className="text-sm font-extrabold text-ss-ink">Nothing to review yet</p>
+              <p className="mt-1 max-w-xs text-[13px] font-medium text-ss-slate">
+                Finished quizzes land here, so you can go back over the questions you got wrong.
+              </p>
+              <button type="button" onClick={() => setFormOpen(true)} className="mt-3 text-[13px] font-bold text-ss-accent underline underline-offset-2">
+                Take your first quiz
               </button>
             </div>
           )}
@@ -286,13 +301,18 @@ export default function StudioHome() {
 
       {/* ── Right rail ── */}
       <div className="flex flex-col gap-5">
-        <RingStat pct={stats.avgScore} name={`Good work, ${firstName}`} sub={`${stats.avgScore}% average score`} userId={user?.id} />
+        <RingStat
+          pct={stats.avgScore}
+          name={firstName}
+          sub={stats.total === 0 ? 'No quizzes yet' : `${stats.avgScore}% average across ${stats.total} ${stats.total === 1 ? 'quiz' : 'quizzes'}`}
+          userId={user?.id}
+        />
 
         {weekScores.length > 0 && (
           <div className="rounded-[22px] border border-ss-line bg-ss-panel p-[18px]">
             <div className="flex items-center justify-between">
-              <p className="text-[13px] font-extrabold text-ss-ink">Recent scores</p>
-              <span className="text-[12px] font-semibold text-ss-slate">last {weekScores.length}</span>
+              <p className="text-[13px] font-extrabold text-ss-ink">Your last {weekScores.length} scores</p>
+              <span className="text-[12px] font-semibold text-ss-slate">oldest → newest</span>
             </div>
             <div className="mt-4 flex h-[120px] items-end gap-2.5">
               {weekScores.map((s, i) => {
@@ -303,15 +323,23 @@ export default function StudioHome() {
                   <div key={i} className="flex flex-1 flex-col items-center justify-end gap-1.5">
                     <div className="w-full rounded-md" style={{ height: `${h}px`, background: c }} />
                     <span className="text-[12px] font-extrabold text-ss-slate">{s}%</span>
+                    <span className="sr-only">{v >= 70 ? 'on track' : v >= 50 ? 'nearly there' : 'needs work'}</span>
                   </div>
                 )
               })}
             </div>
+            <p className="mt-3 text-[12px] font-medium text-ss-slate">
+              Green is 70% or above, amber 50–69%, red below 50%.
+            </p>
           </div>
         )}
 
         {weakAreas.length > 0 && (
-          <ListPanel title="Focus areas" icon={Target}>
+          <ListPanel
+            title="Worth going over"
+            hint="Topics you've been getting wrong. Tap one to get a lesson built on it."
+            icon={Target}
+          >
             {weakAreas.slice(0, 4).map((area) => (
               <div
                 key={`${area.kind}-${area.topic_id}-${area.subtopic_id ?? 't'}`}
@@ -326,7 +354,11 @@ export default function StudioHome() {
                     {typeof area.accuracy === 'number' ? ` · ${area.accuracy}%` : ''}
                   </p>
                 </div>
-                <SparkButton label="Study" onClick={() => startStudy(area)} />
+                <SparkButton
+                  label="Study"
+                  ariaLabel={`Study ${area.label} in ${area.subjectName}`}
+                  onClick={() => startStudy(area)}
+                />
               </div>
             ))}
           </ListPanel>
