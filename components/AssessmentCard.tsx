@@ -4,6 +4,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { ArrowRight, Calendar, RotateCcw } from 'lucide-react'
 import { subjectArt } from '@/lib/studio/subjectArt'
+import { subjectLabelText } from '@/lib/subject-label'
 
 interface Assessment {
   id: string
@@ -18,6 +19,8 @@ interface Assessment {
   questions_data?: any[] | null
   answers?: Record<string, string> | null
   longform_grades?: Record<string, any> | null
+  /** Set when the attempt is kept in history but left out of the average. */
+  excludedReason?: string | null
 }
 
 // Per-grade header gradient, score-ring color, and grade-pill classes.
@@ -67,7 +70,15 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
       </div>
 
       <div className="p-4">
-        <h3 className="line-clamp-2 min-h-[2.4em] text-[14.5px] font-extrabold leading-snug text-ss-ink">{assessment.subject}</h3>
+        <h3 className="line-clamp-2 min-h-[2.4em] text-[14.5px] font-extrabold leading-snug text-ss-ink">{subjectLabelText(assessment.subject)}</h3>
+        {/* An attempt ended by the proctor still shows its score, but has to
+            say why that score is not in the average — otherwise the number
+            and the average silently disagree. */}
+        {assessment.excludedReason && (
+          <p className="mt-1.5 inline-flex items-center gap-1.5 rounded-md bg-[color:var(--ss-warn)]/12 px-2 py-1 text-[12px] font-bold text-ss-warn">
+            {assessment.excludedReason}
+          </p>
+        )}
         <div className="mt-3 flex items-center gap-3">
           <div className="grid h-[52px] w-[52px] shrink-0 place-items-center rounded-full" style={{ background: `conic-gradient(${cfg.ring} ${pct}%, var(--ss-chip) 0)` }}>
             <div className="grid h-[42px] w-[42px] place-items-center rounded-full bg-ss-panel text-[13px] font-extrabold text-ss-ink">{pct}%</div>

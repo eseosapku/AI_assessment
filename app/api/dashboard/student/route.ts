@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
+import { countsTowardMastery, exclusionReason } from '@/lib/result-counts'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -27,7 +28,7 @@ export async function GET(request: NextRequest) {
     // vanished from the list. Recover it from the assignment.
     const resultsQuery = await db.query(
       `SELECT r.id, r.created_at, r.score, r.percentage, r.feedback, r.questions_data,
-              r.answers, r.longform_grades,
+              r.answers, r.longform_grades, r.submission_reason,
               COALESCE(a.subject, asg.subject) AS subject,
               COALESCE(a.difficulty, asg.difficulty_level) AS difficulty,
               (asg.id IS NOT NULL) AS from_assignment
@@ -68,6 +69,8 @@ export async function GET(request: NextRequest) {
         subject: item.subject || 'Untitled quiz',
         topic: item.difficulty || 'General',
         fromAssignment: Boolean(item.from_assignment),
+        // Shown in history either way; the label says why it is not in the average.
+        excludedReason: exclusionReason(item),
         grade: gradeFromPercentage(percentage),
         score: item.score,
         percentage,
@@ -81,15 +84,27 @@ export async function GET(request: NextRequest) {
     let stats = { total: 0, avgScore: 0 }
     let subjectAverages: { subject: string; avg: number; count: number }[] = []
 
+    // An attempt the proctor ended, or one where nothing was answered, is not
+    // evidence of what the student knows. On the live data that is 140
+    // auto-submits averaging 21%, sitting permanently in every average beside
+    // a manual average of 60%.
+    const counting = rows.filter((r: any) => countsTowardMastery(r))
+
     if (rows.length > 0) {
       // percentage is the field every other screen reads; score is only equal
       // to it for rows written by the current save path.
       const avg =
-        rows.reduce((acc: number, curr: any) => acc + Number(curr.percentage ?? curr.score ?? 0), 0) / rows.length
+        counting.length > 0
+          ? counting.reduce((acc: number, curr: any) => acc + Number(curr.percentage ?? curr.score ?? 0), 0) /
+            counting.length
+          : 0
+      // `total` stays every attempt: the student did sit them, and a count
+      // that silently disagrees with the history below it is worse than one
+      // that includes a walk-away.
       stats = { total: rows.length, avgScore: Math.round(avg) }
 
       const subjectMap: Record<string, number[]> = {}
-      for (const item of rows) {
+      for (const item of counting) {
         // A result with no recoverable subject is not evidence about any
         // subject, so it must not invent one. It still counts towards the
         // overall total above.
