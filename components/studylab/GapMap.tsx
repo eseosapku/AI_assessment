@@ -740,8 +740,8 @@ export default function GapMap({
           <div className="absolute inset-0 flex flex-col items-center justify-center gap-3 px-6 text-center pointer-events-none">
             <Target className="w-10 h-10 text-[color:var(--ss-accent)]/40" />
             <p className="text-ss-slate max-w-sm">
-              Once you complete a few assessments, this map fills in with the subjects you&apos;ve studied and
-              highlights where you need work.
+              Take a quiz and this fills in — every topic you have been tested on, coloured by how well it
+              went, so you can see what to study next rather than guess.
             </p>
           </div>
         )}

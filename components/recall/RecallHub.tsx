@@ -49,7 +49,7 @@ export default function RecallHub() {
           Spaced <span className="text-ss-accent">repetition</span>
         </h1>
         <p className="mt-2 max-w-xl text-sm font-semibold text-ss-slate">
-          Flip cards on a smart schedule so facts stick. Cards build automatically from the questions you miss in quizzes.
+          Cards come back just before you would forget them, and they build themselves from the questions you get wrong.
         </p>
       </header>
 
@@ -65,11 +65,11 @@ export default function RecallHub() {
           <div className="relative flex flex-col gap-3 sm:items-end">
             {due > 0 ? (
               <Link href="/recall/review" className="inline-flex items-center justify-center gap-2 rounded-full bg-[#13202A] px-8 py-3.5 text-sm font-bold text-white transition-transform hover:scale-[1.02]">
-                <Play className="h-4 w-4" /> Start review
+                <Play className="h-4 w-4" /> Review {due} card{due !== 1 ? 's' : ''}
               </Link>
             ) : (
               <p className="rounded-full bg-white/15 px-4 py-2 text-sm font-semibold text-white/90">
-                {total === 0 ? 'Finish a quiz to start a deck' : 'All caught up — nice work'}
+                {total === 0 ? 'Take a quiz and the ones you miss land here' : 'Nothing due — come back tomorrow'}
               </p>
             )}
           </div>
@@ -78,9 +78,9 @@ export default function RecallHub() {
 
       <div className="mb-8 grid gap-4 sm:grid-cols-3">
         {[
-          { icon: RotateCcw, title: 'Review daily', text: 'Cards come back when you are about to forget them.' },
-          { icon: Brain, title: 'From your misses', text: 'After a quiz, wrong answers become flashcards.' },
-          { icon: Layers, title: 'Separate from tests', text: 'Practice tests knowledge; Recall keeps it.' },
+          { icon: RotateCcw, title: 'Just before you forget', text: 'Cards return on a schedule built around when memory fades, not a fixed timetable.' },
+          { icon: Brain, title: 'Built from your mistakes', text: 'Every question you get wrong becomes a card here automatically.' },
+          { icon: Layers, title: 'Different job to a quiz', text: 'A quiz finds out what you know. This is what stops you losing it again.' },
         ].map((item) => (
           <div key={item.title} className="rounded-[18px] border border-ss-line bg-ss-panel p-5">
             <item.icon className="h-5 w-5 text-ss-accent" strokeWidth={1.9} />
@@ -144,7 +144,7 @@ export default function RecallHub() {
           <div className="flex flex-col items-center rounded-[20px] border border-ss-line bg-ss-panel py-12 text-center">
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img src="/art/empty-state.png" alt="" className="mb-3 h-24 w-auto" />
-            <p className="text-sm font-extrabold text-ss-ink">No decks yet</p>
+            <p className="text-sm font-extrabold text-ss-ink">Nothing to review yet</p>
             <p className="mx-auto mt-2 max-w-sm text-xs font-semibold text-ss-slate">
               Take a quiz and the questions you miss become flashcards here automatically.
             </p>
