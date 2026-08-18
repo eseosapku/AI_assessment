@@ -145,6 +145,27 @@ export default function StudioHome() {
         />
         {personaLine && <p className="-mt-3 text-[13px] font-semibold text-ss-slate">{personaLine}</p>}
 
+        {/* First run. The most important moment in the product was also its
+            emptiest screen: four zeros, an empty gap map and an empty deck,
+            with nothing saying what would fill them. Statistics about nothing
+            are worse than an invitation. */}
+        {!loading && stats.total === 0 ? (
+          <div className="rounded-[20px] border-2 border-dashed border-ss-line bg-ss-chip p-6 text-center sm:p-8">
+            <h2 className="text-[18px] font-extrabold text-ss-ink">Nothing here yet — and that&apos;s the point</h2>
+            <p className="mx-auto mt-2 max-w-md text-[14px] font-medium text-ss-slate">
+              Take one quiz and this fills in: your score, the topics you found hard, and a gap map
+              showing what to study next. It takes about five minutes.
+            </p>
+            <button
+              type="button"
+              onClick={() => setFormOpen(true)}
+              className="mt-4 inline-flex items-center gap-2 rounded-full bg-ss-accent px-6 py-3 text-[14px] font-extrabold text-white transition-opacity hover:opacity-90"
+            >
+              Take your first quiz
+            </button>
+          </div>
+        ) : null}
+
         {/* Stat chips */}
         <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
           <StatChip icon={ClipboardCheck} value={loading ? '—' : String(stats.total)} label="Tests done" tone="accent" />

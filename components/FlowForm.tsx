@@ -25,6 +25,7 @@ import {
   buildTopicsPayload,
   isUsableNotes,
   isUsableTopic,
+  NOTES_MIN_LENGTH,
   normalizeNotes,
   normalizeTopic,
   pushRecentTopic,
@@ -1004,6 +1005,30 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     (step === 7 && !!formData.style) ||
     (step === 8 && !!formData.questionType)
 
+  /**
+   * Why Continue is unavailable, in the student's terms.
+   *
+   * A disabled button with no explanation is the same fault that made students
+   * hit the end of a quiz and find Submit dead: the interface knows what is
+   * missing and says nothing. Derived from the same conditions as the gate
+   * above, so the two cannot drift apart.
+   */
+  const blockedReason = (): string => {
+    if (canStepForward) return ''
+    if (step === 1 && isCustom && customSource === 'topic') return 'Type what you want to be quizzed on.'
+    if (step === 1 && isCustomNotes) return `Paste at least ${NOTES_MIN_LENGTH} characters of notes.`
+    if (step === 2 && isCustom && scopeLoading) return 'Just working out what to cover…'
+    if (step === 1) return 'Choose a curriculum to carry on.'
+    if (step === 2) return 'Choose a class to carry on.'
+    if (step === 3) return 'Pick how hard the questions should be.'
+    if (step === 4) return 'Choose a subject to carry on.'
+    if (step === 5) return 'Pick at least one topic — tick as many as you like.'
+    if (step === 6) return 'Choose how many questions you want.'
+    if (step === 7) return 'Pick a question style.'
+    if (step === 8) return 'Pick how you want to answer.'
+    return 'Something on this step still needs choosing.'
+  }
+
   const goForward = () => {
     if (!canStepForward || step >= TOTAL_STEPS) return
     if (isUniStudent && step === 3) { setStep(5); return } // no separate Subject step for university
@@ -1766,15 +1791,25 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   <ChevronLeft className="h-4 w-4" />
                   Back
                 </button>
-                <button
-                  type="button"
-                  onClick={goForward}
-                  disabled={!canStepForward}
-                  className="inline-flex items-center gap-1.5 rounded-xl bg-ss-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-ss-accent disabled:cursor-not-allowed disabled:opacity-60"
-                >
-                  Continue
-                  <ChevronRight className="h-4 w-4" />
-                </button>
+                <div className="flex min-w-0 items-center gap-3">
+                  {/* The reason sits beside the button rather than replacing
+                      it, so the student can see what is missing without the
+                      control disappearing. */}
+                  {!canStepForward && (
+                    <p role="status" className="min-w-0 text-right text-[13px] font-semibold text-ss-slate">
+                      {blockedReason()}
+                    </p>
+                  )}
+                  <button
+                    type="button"
+                    onClick={goForward}
+                    disabled={!canStepForward}
+                    className="inline-flex shrink-0 items-center gap-1.5 rounded-xl bg-ss-accent px-5 py-2.5 text-sm font-bold text-white transition-colors hover:bg-ss-accent disabled:cursor-not-allowed disabled:opacity-60"
+                  >
+                    Continue
+                    <ChevronRight className="h-4 w-4" />
+                  </button>
+                </div>
               </div>
             )}
 
