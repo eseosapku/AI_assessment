@@ -535,12 +535,22 @@ The rest was the familiar set:
   from, differently for a teacher and a student, because the thing that fills
   it differs.
 
-**Lesson:** the plan was built from the tester report plus an audit of the
-surfaces testers reached. Nobody opened the report card, so nothing about it
-entered the plan, and every later sweep was scoped to the plan. A file with 54
-palette escapes should have been findable mechanically — a guard test over
-hardcoded colour classes would have caught it, the way `lib/design-tokens.test.ts`
-guards the palette itself.
+**Lesson, and the guard built from it:** the plan was assembled from the tester
+report plus an audit of the surfaces testers reached. Nobody opened the report
+card, so nothing about it entered the plan, and every later sweep was scoped to
+the plan.
+
+`lib/palette-escapes.test.ts` now closes that hole. It counts hardcoded
+Tailwind palette classes per file against a committed baseline
+(`lib/palette-escapes.baseline.json`, currently **53 files / 2,623 classes**)
+and fails on any increase, or on any new file arriving dirty. It is a one-way
+ratchet rather than a hard rule, deliberately: a hard rule could not be adopted
+without rewriting 53 files first, and a guard nobody can turn on guards
+nothing. Files that improve are reported so the baseline can be lowered, which
+locks each cleanup in.
+
+Verified by reintroducing a single `text-gray-400` into `SparkButton.tsx`: the
+suite fails and names the file.
 
 ### C6. Platform-wide copy pass
 Each surface, in order of how many students hit it: the assessment player,
