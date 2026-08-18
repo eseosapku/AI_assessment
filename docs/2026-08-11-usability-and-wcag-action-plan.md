@@ -375,8 +375,12 @@ teaching modes are named for what the student does ("Read and understand",
 "Learn by doing") instead of for the method; and the footer says what the
 disabled button is waiting for.
 
-**E3 was reverted** at the same time — the section navigation on the LearnSpace
-canvas — because the user has other plans for that surface.
+**E3 was half reverted.** The section navigation came out — the user has other
+plans for that surface — but the zoom control stayed, and my first pass wrongly
+removed both. React Flow's default `<Controls>` is three unlabelled icon
+buttons with no indication of how far in you are, which is the same "what does
+this do" fault as everything else in this pass. `ZoomControl` replaces it with
+named buttons, a visible percentage and a labelled fit control.
 
 ### E1. First-run coach marks *(N1)*
 3–5 steps: Create assessment → LearnSpace → Gap Maps → Progress. Runs once,

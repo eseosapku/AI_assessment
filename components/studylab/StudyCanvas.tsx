@@ -6,7 +6,6 @@ import {
   ReactFlowProvider,
   Background,
   BackgroundVariant,
-  Controls,
   MiniMap,
   Panel,
   useReactFlow,
@@ -27,6 +26,7 @@ import PaletteToolbar from './PaletteToolbar'
 import { exportLayout, exportFileName, triggerDownload, brandExport } from '@/lib/studylab/exportCanvas'
 import type { CanvasEffect } from '@/lib/studylab/actions'
 import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
+import { ZoomControl } from './ZoomControl'
 
 const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
@@ -458,7 +458,9 @@ function FlowInner({
         className="bg-ss-canvas dark:bg-[#0a0a0a]"
       >
         <Background variant={BackgroundVariant.Dots} gap={28} size={1.5} className="!text-[#BFE0F2] dark:!text-[#1d3543]" />
-        <Controls showInteractive={false} className="!shadow-ss-panel !rounded-xl overflow-hidden !border !border-ss-line" />
+        <Panel position="bottom-left">
+          <ZoomControl />
+        </Panel>
         <MiniMap
           pannable
           zoomable
