@@ -2030,29 +2030,32 @@ export async function POST(request: NextRequest) {
       // image, since the question still works as text and losing a question
       // costs the student practice.
       {
+        // Only the figure is ever removed here, never the question.
+        //
+        // This runs after the paper has been trimmed to the requested count,
+        // so dropping a question would shorten the paper with nothing left to
+        // refill it — which is exactly the shortfall U2 reported and the
+        // top-up loop exists to prevent. A question whose stem leaks its
+        // answer is a weak question; a paper of nine when ten were asked for
+        // is a broken promise. The stem-level faults are pushed back onto the
+        // prompt, which now states the rule explicitly and, since figures
+        // carry their own keying guidance, has far less reason to produce one.
         const byKey = new Map(visualCatalog.map((c) => [c.localPath, c]))
-        let droppedQ = 0
-        let droppedImg = 0
-        assessmentData.questions = assessmentData.questions.filter((q: any) => {
-          if (!q?.image_url) return true
+        let detached = 0
+        for (const q of assessmentData.questions as any[]) {
+          if (!q?.image_url) continue
           const verdict = judgeImageQuestion({
             question: q.question,
             options: q.options,
             correct_answer: q.correct_answer,
             visionType: byKey.get(q.image_url)?.category,
           })
-          if (verdict.ok) return true
-          if (verdict.action === 'drop-question') {
-            droppedQ++
-            return false
-          }
+          if (verdict.ok) continue
           delete q.image_url
-          droppedImg++
-          return true
-        })
-        if (droppedQ || droppedImg) {
-          console.log(`Image-question check: dropped ${droppedQ} question(s), detached ${droppedImg} figure(s)`)
+          detached++
+          console.log(`Detached figure from question: ${verdict.reason}`)
         }
+        if (detached) console.log(`Image-question check: detached ${detached} figure(s)`)
       }
 
       // A vision figure can be reused across several questions — group those

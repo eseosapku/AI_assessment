@@ -2,6 +2,7 @@ import fs from 'fs'
 import os from 'os'
 import path from 'path'
 import { callGemma, type ImageInput } from '@/lib/bedrock'
+import { describeForPrompt } from '@/lib/figure-keying'
 import {
   getImagesForTextbook,
   getDescribedImages,
@@ -397,10 +398,11 @@ export function buildVisualCatalogPromptBlock(
   maxImageQuestions: number,
 ): string {
   if (!catalog.length) return ''
-  const lines = catalog.map(
-    (c) =>
-      `- image_key: "${c.key}" | page ${c.page} | ${c.category} | ${c.description}`,
-  )
+  // Each figure carries its own instruction, because what can honestly be
+  // asked depends on how that figure is keyed. 46% of the library names its
+  // parts in the image, which makes "identify the axon" a reading exercise
+  // rather than a question — see lib/figure-keying.ts.
+  const lines = catalog.map((c) => describeForPrompt(c))
   return `
 AVAILABLE TEXTBOOK FIGURES (vision-described; topic-filtered):
 ${lines.join('\n')}
@@ -416,7 +418,8 @@ FIGURE RULES:
 - NEVER describe the figure's contents in the question. Point at it ("In the diagram…", "Using the graph…") and stop. Writing "the image shows a backyard during a rainfall" tells the student everything and makes the picture pointless.
 - NEVER state or paraphrase the answer in the question. A stem mentioning "rainfall" whose answer is "a rainy day" is a broken question.
 - Name the figure correctly. Call a photograph a photograph, a diagram a diagram. Calling a photograph "a map" is confusing to read and actively misleading to a student using a screen reader.
-- Ask the student to DO something with the figure: read a value from it, name a labelled part, compare two regions, put stages in order. Avoid "what does this show?", which is answerable by guessing.
+- Ask the student to DO something with the figure: read a value from it, compare two regions, put stages in order, work out a consequence. Avoid "what does this show?", which is answerable by guessing.
+- EACH FIGURE ABOVE CARRIES ITS OWN INSTRUCTION after "For this figure:". Follow it. A figure whose parts are already named in the image cannot be used for a naming question — the answer is printed on it, and the student would be reading rather than thinking.
 `
 }
 

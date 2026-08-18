@@ -206,6 +206,32 @@ honest fallback if neither earns its cost.
 Whichever is chosen, the decision belongs in the product's own words: if figures
 are supporting rather than required, the interface should not imply otherwise.
 
+**Built 2026-08-18.** `lib/figure-keying.ts` classifies each figure from its
+existing vision description, so nothing new is generated and nothing recurring
+is spent. The letter-keyed test runs before the word-label test deliberately:
+a keyed figure is usually *described* as "labelled A to D", and read the other
+way round a perfectly good identification question would be banned for no
+reason. Across the manifest: 53% unlabelled, 46% word-labelled, 1% letter-keyed.
+
+Each catalogue line in the prompt now carries its own keying and its own
+instruction, phrased as a demand rather than a ban — telling a model not to ask
+naming questions yields naming questions in different words, whereas asking for
+a consequence yields a consequence.
+
+Measured on Biology / neuron structure, the topic whose figures are the most
+heavily labelled in the corpus: the pass before this change returned mostly
+naming questions; three runs after it returned one naming question in nine, and
+zero and one in the two follow-up runs. The rest ask what a part does, what
+happens if it fails, or why the arrangement matters.
+
+One bug found in the process, and it was mine. The image-quality check from B1
+could drop a question, and it ran *after* the paper was trimmed to the requested
+count — silently reintroducing the shortfall B2 exists to prevent, which is why
+that verification run returned nine of ten. It now only ever detaches the
+figure, never the question: a stem that leaks its answer is a weak question, but
+a paper of nine when ten were asked for is a broken promise. Both follow-up runs
+returned 10/10.
+
 ### B2. Deliver the requested number of questions
 Add a top-up pass: after dedupe and contradiction filtering, if the paper is
 short, request replacements for the dropped slots and re-filter. Cap the retry
