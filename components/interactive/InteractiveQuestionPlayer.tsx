@@ -62,6 +62,10 @@ function MatchPairs({
     onChange({ kind: 'match', pairs: next })
   }
 
+  // Paired rows use the accent, not green. Green means "correct" to a student,
+  // and nothing here is marked until the paper is submitted — colouring a pair
+  // green told them they had it right before anyone had checked.
+  //
   // Letters for the right column so a made pair can be read at a glance:
   // the term shows the letter it points at, the definition shows the number
   // pointing back. Without that, a matched pair was only discoverable by
@@ -105,7 +109,7 @@ function MatchPairs({
                   isSelected
                     ? 'border-ss-accent bg-[color:var(--ss-accent)]/8 ring-2 ring-[color:var(--ss-accent)]/25'
                     : isPaired
-                      ? 'border-emerald-400 bg-emerald-50/70 dark:border-emerald-700 dark:bg-emerald-900/10'
+                      ? 'border-[color:var(--ss-accent)]/55 bg-[color:var(--ss-accent)]/6'
                       : 'border-gray-200 dark:border-gray-700'
                 }`}
               >
@@ -131,7 +135,7 @@ function MatchPairs({
                     <LatexText>{item}</LatexText>
                   </span>
                   {isPaired && (
-                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-500 text-[12px] font-extrabold text-white">
+                    <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-ss-accent text-[12px] font-extrabold text-white">
                       {letter(pairedRight)}
                     </span>
                   )}
@@ -141,7 +145,7 @@ function MatchPairs({
                     type="button"
                     onClick={() => clearPair(i)}
                     aria-label={`Clear match for ${item}`}
-                    className="shrink-0 border-l border-emerald-200 px-3 text-ss-slate hover:bg-red-50 hover:text-red-500 dark:border-emerald-800 dark:hover:bg-red-900/20"
+                    className="shrink-0 border-l border-[color:var(--ss-accent)]/30 px-3 text-ss-slate hover:bg-red-50 hover:text-red-500 dark:hover:bg-red-900/20"
                   >
                     ✕
                   </button>
@@ -167,7 +171,7 @@ function MatchPairs({
                 onClick={() => handleRight(j)}
                 className={`flex w-full items-center gap-2.5 rounded-xl border-2 p-3 text-left text-sm transition-all ${
                   isUsed
-                    ? 'border-emerald-300 bg-emerald-50/60 dark:border-emerald-800 dark:bg-emerald-900/10'
+                    ? 'border-[color:var(--ss-accent)]/45 bg-[color:var(--ss-accent)]/5'
                     : awaiting
                       ? 'border-[color:var(--ss-accent)]/40 hover:border-ss-accent hover:bg-[color:var(--ss-accent)]/8'
                       : 'border-gray-200 dark:border-gray-700'
@@ -175,7 +179,7 @@ function MatchPairs({
               >
                 <span
                   className={`grid h-6 w-6 shrink-0 place-items-center rounded-lg text-[12px] font-extrabold ${
-                    isUsed ? 'bg-emerald-500 text-white' : 'bg-ss-chip text-ss-slate'
+                    isUsed ? 'bg-ss-accent text-white' : 'bg-ss-chip text-ss-slate'
                   }`}
                 >
                   {letter(j)}
@@ -184,7 +188,7 @@ function MatchPairs({
                   <LatexText>{item}</LatexText>
                 </span>
                 {ownerIdx !== undefined && (
-                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-emerald-100 text-[12px] font-extrabold text-emerald-700 dark:bg-emerald-900/40 dark:text-emerald-300">
+                  <span className="grid h-6 w-6 shrink-0 place-items-center rounded-lg bg-[color:var(--ss-accent)]/15 text-[12px] font-extrabold text-ss-accent">
                     {Number(ownerIdx) + 1}
                   </span>
                 )}
@@ -216,6 +220,8 @@ function OrderItems({
   }, [value, question.items])
 
   const [dragIdx, setDragIdx] = useState<number | null>(null)
+  /** Row currently under the pointer, so the drop target is visible. */
+  const [overIdx, setOverIdx] = useState<number | null>(null)
 
   const moveItem = (from: number, to: number) => {
     if (disabled || from === to) return
@@ -232,15 +238,29 @@ function OrderItems({
           key={itemIdx}
           draggable={!disabled}
           onDragStart={() => setDragIdx(pos)}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={() => { if (dragIdx !== null) moveItem(dragIdx, pos); setDragIdx(null) }}
-          onDragEnd={() => setDragIdx(null)}
-          className={`flex items-center gap-3 p-3 rounded-xl border-2 bg-white dark:bg-gray-900/40 cursor-grab active:cursor-grabbing transition-shadow ${
-            dragIdx === pos ? 'border-blue-400 shadow-md' : 'border-gray-200 dark:border-gray-700'
+          onDragOver={(e) => { e.preventDefault(); if (dragIdx !== null && overIdx !== pos) setOverIdx(pos) }}
+          onDragLeave={() => setOverIdx((cur) => (cur === pos ? null : cur))}
+          onDrop={() => { if (dragIdx !== null) moveItem(dragIdx, pos); setDragIdx(null); setOverIdx(null) }}
+          onDragEnd={() => { setDragIdx(null); setOverIdx(null) }}
+          // While dragging there was nothing to say where the item would land —
+          // just a ghost floating over the list. The row being dragged fades,
+          // and the row under the cursor shows the slot it would take.
+          className={`flex items-center gap-3 p-3 rounded-xl border-2 bg-white dark:bg-gray-900/40 cursor-grab active:cursor-grabbing transition-all ${
+            dragIdx === pos
+              ? 'border-ss-accent opacity-40'
+              : overIdx === pos && dragIdx !== null
+                ? 'border-ss-accent border-dashed bg-[color:var(--ss-accent)]/8 shadow-md'
+                : 'border-gray-200 dark:border-gray-700'
           }`}
         >
           <GripVertical className="w-4 h-4 text-gray-500 shrink-0" aria-hidden />
-          <span className="w-6 h-6 rounded-full bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200 text-xs font-bold flex items-center justify-center shrink-0">
+          <span
+            className={`w-6 h-6 rounded-full text-xs font-bold flex items-center justify-center shrink-0 ${
+              overIdx === pos && dragIdx !== null
+                ? 'bg-ss-accent text-white'
+                : 'bg-blue-100 dark:bg-blue-900/40 text-blue-800 dark:text-blue-200'
+            }`}
+          >
             {pos + 1}
           </span>
           <span className="flex-1 text-sm"><LatexText>{question.items[itemIdx]}</LatexText></span>

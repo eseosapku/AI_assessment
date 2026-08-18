@@ -1862,6 +1862,11 @@ function AssessmentPageClient() {
                     `Question ${i + 1}: ` +
                     (state === 'answered' ? 'answered' : state === 'skipped' ? 'seen but not answered' : state === 'current' ? 'current question' : 'not reached yet')
                   }
+                  title={(() => {
+                    const q = assessment.questions[i]
+                    const kind = isLongForm(q) ? `Long-form, ${(q as LongFormQuestion).marks} marks` : isInteractive(q) ? 'Interactive' : 'Multiple choice'
+                    return `Question ${i + 1} — ${kind}`
+                  })()}
                   className={`h-8 min-w-8 rounded-lg border-2 px-2 text-[12px] font-extrabold transition-colors ${style}`}
                 >
                   {i + 1}
@@ -2224,39 +2229,6 @@ function AssessmentPageClient() {
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.button>
             )}
-          </div>
-
-          {/* Question navigator */}
-          <div className="flex gap-1 sm:gap-2 justify-center mt-4 sm:mt-6 flex-wrap">
-            {assessment.questions.map((q, idx) => {
-              const answered = isLongForm(q)
-                ? (longFormAnswers[idx] || '').trim().length > 0
-                : isInteractive(q)
-                  ? isInteractiveAnswerComplete(q, interactiveAnswers[idx])
-                  : selectedAnswers[idx] !== undefined
-              const isLF = isLongForm(q)
-              const isInt = isInteractive(q)
-
-              return (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentQuestion(idx)}
-                  title={isLF ? `Q${idx + 1} — Long-form (${(q as LongFormQuestion).marks} marks)` : isInt ? `Q${idx + 1} — Interactive` : `Q${idx + 1} — MCQ`}
-                  className={`w-7 h-7 sm:w-8 sm:h-8 rounded-lg text-xs sm:text-sm font-medium transition-all ${idx === currentQuestion
-                    ? 'bg-apple-blue text-white'
-                    : answered
-                      ? isLF
-                        ? 'bg-purple-500 text-white'
-                        : isInt
-                          ? 'bg-teal-500 text-white'
-                          : 'bg-green-500 text-white'
-                      : 'bg-gray-300 dark:bg-gray-700 text-gray-600 dark:text-gray-400'
-                    }`}
-                >
-                  {idx + 1}
-                </button>
-              )
-            })}
           </div>
 
           {/* Legend for mixed */}
