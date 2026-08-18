@@ -7,6 +7,8 @@ import { useAuth } from './AuthProvider'
 import Avatar from './studio/Avatar'
 import { DEFAULT_AVATAR, fileToAvatarDataUrl, getAvatar, removeAvatar, saveAvatar } from '@/lib/studio/avatar'
 import { getFocus, setFocus, type FocusId } from '@/lib/onboarding'
+import { resetTour } from '@/lib/product-tour'
+import { useRouter } from 'next/navigation'
 import {
     readPreferences,
     writePreferences,
@@ -41,6 +43,7 @@ function parseSubjects(value: string): string[] {
 
 export default function SettingsForm() {
     const { user, updateProfile } = useAuth()
+    const router = useRouter()
 
     const [name, setName] = useState('')
     const [className, setClassName] = useState('')
@@ -495,6 +498,26 @@ export default function SettingsForm() {
                                 )
                             })}
                         </div>
+                    </div>
+
+                    {/* Replaying the tour is separate from the signup
+                        questions in lib/onboarding — a student who wants a
+                        reminder of where things are should not have to redo
+                        those. */}
+                    <div>
+                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            Finding your way
+                        </label>
+                        <p className="mt-0.5 text-[12px] font-semibold text-ss-slate">
+                            Replays the short tour of the menu.
+                        </p>
+                        <button
+                            type="button"
+                            onClick={() => { resetTour(); router.push('/dashboard') }}
+                            className="mt-2 rounded-xl border-2 border-ss-line px-4 py-2.5 text-[13px] font-bold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent"
+                        >
+                            Show me around again
+                        </button>
                     </div>
 
                     {profileError && (

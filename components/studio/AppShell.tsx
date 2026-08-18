@@ -3,6 +3,7 @@
 import { useState, type ReactNode } from 'react'
 import { useAuth } from '@/components/AuthProvider'
 import ProfileSidebar from '@/components/ProfileSidebar'
+import ProductTour from './ProductTour'
 import { SideNav, MobileNav } from './SideNav'
 import { TopBar } from './TopBar'
 
@@ -34,6 +35,9 @@ export default function AppShell({ children, rail }: { children: ReactNode; rail
       </div>
       <MobileNav />
       <ProfileSidebar isOpen={profileOpen} onClose={() => setProfileOpen(false)} />
+      {/* Runs once, and only inside the signed-in shell where the sidebar it
+          points at actually exists. */}
+      <ProductTour />
     </div>
   )
 }
