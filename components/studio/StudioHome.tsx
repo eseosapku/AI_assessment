@@ -376,7 +376,7 @@ export default function StudioHome() {
               {topSubjects.map((s) => (
                 <ProgressRow
                   key={s.subject}
-                  label={subjectLabelText(s.subject)}
+                  label={s.subject}
                   pct={s.avg}
                   trend={s.avg >= 50 ? 'up' : 'down'}
                   art={subjectArt(s.subject)}

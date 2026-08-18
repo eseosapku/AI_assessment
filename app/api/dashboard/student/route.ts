@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { countsTowardMastery, exclusionReason } from '@/lib/result-counts'
+import { groupBySubject } from '@/lib/canonical-subject'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -103,22 +104,26 @@ export async function GET(request: NextRequest) {
       // that includes a walk-away.
       stats = { total: rows.length, avgScore: Math.round(avg) }
 
-      const subjectMap: Record<string, number[]> = {}
-      for (const item of counting) {
-        // A result with no recoverable subject is not evidence about any
-        // subject, so it must not invent one. It still counts towards the
-        // overall total above.
-        const subj = String(item.subject ?? '').trim()
-        if (!subj) continue
-        if (!subjectMap[subj]) subjectMap[subj] = []
-        subjectMap[subj].push(Number(item.percentage ?? item.score ?? 0))
-      }
-      subjectAverages = Object.entries(subjectMap)
-        .map(([subject, scores]) => ({
-          subject,
-          avg: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length),
-          count: scores.length,
-        }))
+      // Grouped by canonical subject, not by the stored value. A student
+      // taught Biology from four books had four "Biology" rows here, each with
+      // its own average, and no screen could tell they were one subject.
+      // A result with no recoverable subject is not evidence about any subject
+      // and is skipped — it still counts towards the overall total above.
+      const withSubject = counting.filter((r: any) => String(r.subject ?? '').trim())
+      const grouped = groupBySubject(withSubject, (r: any) => r.subject)
+
+      subjectAverages = [...grouped.entries()]
+        .map(([subject, { rows: group, rawSubjects }]) => {
+          const scores = group.map((r: any) => Number(r.percentage ?? r.score ?? 0))
+          return {
+            subject,
+            avg: Math.round(scores.reduce((a, b) => a + b, 0) / scores.length),
+            count: scores.length,
+            // The books behind the group, so a screen can say which, and so
+            // anything writing back has a real stored value to match on.
+            sources: rawSubjects,
+          }
+        })
         .sort((a, b) => b.avg - a.avg)
     }
 

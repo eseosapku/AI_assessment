@@ -32,7 +32,7 @@ function isUuid(value: string | null | undefined) {
 export function useStudentDashboard(user: DashboardUser | null) {
   const [recentAssessments, setRecentAssessments] = useState<any[]>([])
   const [stats, setStats] = useState({ total: 0, avgScore: 0 })
-  const [subjectAverages, setSubjectAverages] = useState<{ subject: string; avg: number; count: number }[]>([])
+  const [subjectAverages, setSubjectAverages] = useState<{ subject: string; avg: number; count: number; sources?: string[] }[]>([])
   const [dailyUsed, setDailyUsed] = useState(0)
   const [classrooms, setClassrooms] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
