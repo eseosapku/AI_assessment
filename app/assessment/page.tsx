@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { Suspense, useCallback, useEffect, useState, useRef } from 'react'
 import { useRouter, useSearchParams } from 'next/navigation'
-import { Clock, ChevronLeft, ChevronRight, Check, Lock } from 'lucide-react'
+import { Clock, ChevronLeft, ChevronRight, Check, Lock, TrendingUp } from 'lucide-react'
 import 'katex/dist/katex.min.css'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
@@ -26,7 +26,14 @@ import {
   creditFromMarks,
   type QuestionOutcome,
 } from '@/lib/assessment-weak-areas'
-import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
+import {
+  buildRetakePayload,
+  rememberRetakeOrigin,
+  takeRetakeOrigin,
+  CURRENT_ASSESSMENT_KEY,
+  type RetakeOrigin,
+} from '@/lib/assessment-retake'
+import { improvementBetween, describeImprovement } from '@/lib/study-loop'
 import { registerViolation, BLUR_GRACE_MS } from '@/lib/assessment-proctor'
 import {
   questionState,
@@ -611,6 +618,12 @@ function AssessmentPageClient() {
   const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
   const [showResults, setShowResults] = useState(false)
+  // Claimed once, when the paper loads — the comparison belongs to this
+  // attempt and must not survive into the next one.
+  const [retakeOrigin, setRetakeOrigin] = useState<RetakeOrigin | null>(null)
+  useEffect(() => {
+    setRetakeOrigin(takeRetakeOrigin())
+  }, [])
   const [isRetaking, setIsRetaking] = useState(false)
   const [results, setResults] = useState<any>(null)
   const [feedback, setFeedback] = useState<string>('')
@@ -1438,6 +1451,10 @@ function AssessmentPageClient() {
 
   // ── Results view ────────────────────────────────────────────────────────────
   if (showResults && results) {
+    const scoreNow = typeof results.score === 'number' ? results.score : null
+    const retakeImprovement = improvementBetween(retakeOrigin?.score, scoreNow)
+    const retakeLine = describeImprovement(retakeImprovement)
+
     const hasLongForm = assessment.questions.some(isLongForm)
     const hasInteractive = assessment.questions.some(isInteractive)
 
@@ -1508,6 +1525,26 @@ function AssessmentPageClient() {
         </div>
 
         <div className="max-w-4xl mx-auto space-y-8 px-4 py-8 sm:px-6 lg:px-8">
+          {/* The moment the loop closes. A student who studied a topic,
+              retook it and improved was previously told nothing at all —
+              which teaches that studying achieves nothing. */}
+          {retakeLine && (
+            <div
+              role="status"
+              className={`rounded-2xl border p-5 ${
+                retakeImprovement?.regressed
+                  ? 'border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10'
+                  : 'border-[color:var(--ss-good)]/40 bg-[color:var(--ss-good)]/10'
+              }`}
+            >
+              <p className="flex items-center gap-2 text-[12px] font-black uppercase tracking-widest text-ss-ink">
+                <TrendingUp className="h-4 w-4" aria-hidden />
+                {retakeImprovement?.regressed ? 'Compared with last time' : 'Your studying worked'}
+              </p>
+              <p className="mt-1.5 text-[15px] font-bold text-ss-ink">{retakeLine}</p>
+            </div>
+          )}
+
           {/* Score card */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}

@@ -21,7 +21,7 @@ import {
     creditFromMarks,
     type QuestionOutcome,
 } from '@/lib/assessment-weak-areas'
-import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
+import { buildRetakePayload, rememberRetakeOrigin, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 import { describeSource, type QuestionSource } from '@/lib/question-source'
 
 // Per-grade band gradient + ring color + plain-English meaning for the summary.
@@ -782,6 +782,12 @@ export default function ResultDetailPage() {
         if (!payload) return
         try {
             sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(payload))
+            // Carry the score being beaten, so finishing the retake can say
+            // what the studying was worth.
+            rememberRetakeOrigin({
+                subject: String(result?.assessments?.subject ?? ''),
+                score: Number(result?.percentage ?? result?.score ?? NaN),
+            })
         } catch {
             return
         }

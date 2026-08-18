@@ -46,6 +46,22 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
   const [loading, setLoading] = useState(true)
   const [warning, setWarning] = useState<string | null>(null)
   const [showCreate, setShowCreate] = useState(false)
+  // Arriving from a weak subject on Progress. The dialog opens with the
+  // subject already filled so the student only has to name the topic — the
+  // point is to remove a step between "I'm bad at this" and being taught it.
+  const [seedSubject, setSeedSubject] = useState('')
+
+  // ?study=<subject> opens the dialog straight away, so "Study this" on a weak
+  // subject lands on the thing that teaches it rather than on a hub page.
+  useEffect(() => {
+    if (typeof window === 'undefined') return
+    const subject = new URLSearchParams(window.location.search).get('study')
+    if (!subject) return
+    setSeedSubject(subject)
+    setShowCreate(true)
+    // Clear it so a refresh, or a back-navigation, does not reopen the dialog.
+    window.history.replaceState({}, '', window.location.pathname)
+  }, [])
   const [showSnap, setShowSnap] = useState(false)
   const [persona, setPersona] = useState<PersonaSnapshot | null>(null)
   const [personaLoading, setPersonaLoading] = useState(true)
@@ -242,7 +258,11 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
         {showCreate && (
           <CreateModal
             userId={user!.id}
-            onClose={() => setShowCreate(false)}
+            seedSubject={seedSubject}
+            onClose={() => {
+              setShowCreate(false)
+              setSeedSubject('')
+            }}
             onCreated={(id) => {
               setShowCreate(false)
               openLearnSpace(id)
@@ -499,16 +519,18 @@ function EmptyState({ onCreate }: { onCreate: () => void }) {
 
 function CreateModal({
   userId,
+  seedSubject = '',
   onClose,
   onCreated,
 }: {
   userId: string
+  seedSubject?: string
   onClose: () => void
   onCreated: (id: string) => void
 }) {
   const { ref, dialogProps } = useDialogBehavior({ open: true, onClose, labelledBy: 'new-space-title' })
   const [title, setTitle] = useState('')
-  const [subject, setSubject] = useState('')
+  const [subject, setSubject] = useState(seedSubject)
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 

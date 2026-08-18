@@ -720,6 +720,52 @@ one. Both now say who sets them and who can change them. The password rule
 
 ---
 
+## The study loop
+
+Raised 2026-08-18, and it is the most important thing in this document: *"the
+aim is for students to do assessments, review and study — I don't think the way
+it is is really prompting them to study right now."*
+
+Correct. The Progress screen's response to Physics at 10% was a link reading
+**"Practice this subject"** — be tested again on the thing you already know you
+are failing. Testing is diagnosis; studying is treatment. Every road out of the
+dashboard led back to diagnosis.
+
+Three faults, and they compound:
+
+1. **The weak-topic action tested instead of teaching.** Now "Study this",
+   landing on the LearnSpace dialog with the subject already filled, so the
+   distance between "I'm bad at this" and being taught it is one click.
+2. **The loop never closed visibly.** A student could study a topic, retake it,
+   improve, and be told nothing at all — which teaches that studying achieves
+   nothing. A retake now carries the score it is beating, and finishing it says
+   *"27% to 61%. That is 34 points from studying it."* Honest when it goes the
+   other way, and the advice after a drop is another lesson, not another test.
+3. **Nothing brought a student back.** Recall — the one mechanism that turns a
+   quiz into retained knowledge — was the fourth item in the menu with nothing
+   pointing at it.
+
+`lib/study-loop.ts` picks the single next action. The ordering is the design:
+
+| | When | Why it ranks there |
+| --- | --- | --- |
+| 1 | No quizzes yet | Nothing else is knowable |
+| 2 | Studied, never retested | The payoff moment — an unclosed loop teaches that studying is pointless |
+| 3 | Cards due | Short, and the only thing here that decays |
+| 4 | Weakest topic | Study it. Not another quiz on it |
+| 5 | Nothing pressing | Extend, rather than inventing an obligation |
+
+`NextStepCard` sits **above** the statistics, deliberately. A student at 43%
+opening a screen of averages and bar charts has been handed a report, not a
+plan, and the student who most needs a plan is the one least served by another
+chart. One topic, one button, and a number of minutes — because "about 4 min"
+is what decides between later and now.
+
+`/api/next-step` supplies the two signals the dashboard could not derive: cards
+due, and lessons built but never tested. Each is wrapped separately, because a
+dashboard that 500s over one missing table is worse than one offering a
+slightly weaker suggestion.
+
 ## Revised sequencing
 
 **Wave 0 — ship-blockers found in audit**

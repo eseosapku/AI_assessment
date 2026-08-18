@@ -111,7 +111,14 @@ export default function ProgressStudio() {
             </div>
           </div>
           <div className="rounded-2xl border border-ss-line bg-ss-panel p-6">
-            <p className="mb-4 text-[12px] font-bold uppercase tracking-widest text-ss-bad">Needs work</p>
+            <p className="mb-1 text-[12px] font-bold uppercase tracking-widest text-ss-bad">Needs work</p>
+            {/* This used to offer "Practice this subject" — another quiz on the
+                thing the student already knows they are failing. Testing is
+                diagnosis; the answer to a bad score is to be taught, then
+                retested. Study first, and the retake follows from the lesson. */}
+            <p className="mb-4 text-[12.5px] font-medium text-ss-slate">
+              Get taught these before you test them again.
+            </p>
             <div className="space-y-2.5">
               {(focus.length > 0 ? focus : sorted.slice(-3).reverse()).map((s) => (
                 <div key={s.subject} className="flex items-center gap-3 rounded-xl border border-ss-line bg-[color:var(--ss-chip)]/60 p-2.5">
@@ -119,7 +126,12 @@ export default function ProgressStudio() {
                   <img src={subjectArt(s.subject)} alt="" aria-hidden className="h-10 w-10 shrink-0 object-contain" />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-[13px] font-extrabold text-ss-ink">{s.subject}</p>
-                    <Link href="/practice" className="text-[12px] font-bold text-ss-accent hover:underline">Practice this subject</Link>
+                    <Link
+                      href={`/studylab?study=${encodeURIComponent(s.subject)}`}
+                      className="text-[12px] font-bold text-ss-accent hover:underline"
+                    >
+                      Study this
+                    </Link>
                   </div>
                   <span className="text-[16px] font-extrabold text-ss-bad">{s.avg}%</span>
                 </div>

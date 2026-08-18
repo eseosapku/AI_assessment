@@ -15,6 +15,45 @@
 /** Key the assessment player reads its current paper from. */
 export const CURRENT_ASSESSMENT_KEY = 'currentAssessment'
 
+/**
+ * Where a retake remembers what it is a retake of.
+ *
+ * Without this the loop never visibly closes: a student studies a topic,
+ * retakes it, scores better, and nothing anywhere tells them so. The score they
+ * are trying to beat has to travel with the attempt.
+ */
+export const RETAKE_ORIGIN_KEY = 'ss:retake-origin'
+
+export interface RetakeOrigin {
+  subject: string
+  /** The score being beaten, as a percentage. */
+  score: number
+}
+
+export function rememberRetakeOrigin(origin: RetakeOrigin): void {
+  try {
+    if (!Number.isFinite(origin.score)) return
+    sessionStorage.setItem(RETAKE_ORIGIN_KEY, JSON.stringify(origin))
+  } catch {
+    /* the retake still works, it just cannot show the delta */
+  }
+}
+
+/** Reads and clears — the comparison belongs to exactly one attempt. */
+export function takeRetakeOrigin(): RetakeOrigin | null {
+  try {
+    const raw = sessionStorage.getItem(RETAKE_ORIGIN_KEY)
+    if (!raw) return null
+    sessionStorage.removeItem(RETAKE_ORIGIN_KEY)
+    const parsed = JSON.parse(raw)
+    const score = Number(parsed?.score)
+    if (!Number.isFinite(score)) return null
+    return { subject: String(parsed?.subject ?? ''), score }
+  } catch {
+    return null
+  }
+}
+
 /** Minutes allowed when the source attempt recorded no duration. */
 const DEFAULT_MINUTES = 15
 

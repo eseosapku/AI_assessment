@@ -21,6 +21,8 @@ import {
   SparkButton,
   StatChip,
 } from '@/components/studio/ui'
+import { NextStepCard } from '@/components/studio/NextStepCard'
+import { chooseNextStep } from '@/lib/study-loop'
 
 const DAILY_QUIZ_LIMIT = 7200
 const RESUME_ASSESSMENT_KEY = 'resumeAssessment'
@@ -37,6 +39,11 @@ export default function StudioHome() {
   const router = useRouter()
   const [formOpen, setFormOpen] = useState(false)
   const [persona, setPersona] = useState<PersonaSnapshot | null>(null)
+  const [loopSignals, setLoopSignals] = useState<{ dueCards: number; studiedNotProven: any[] }>({
+    dueCards: 0,
+    studiedNotProven: [],
+  })
+  const [startingStep, setStartingStep] = useState(false)
   const { recentAssessments, stats, subjectAverages, classrooms, dailyUsed, loading, pausedAssessment, discardPaused } =
     useStudentDashboard(user)
 
@@ -54,6 +61,25 @@ export default function StudioHome() {
         if (!cancelled && res.ok) setPersona(json.data ?? null)
       } catch {
         if (!cancelled) setPersona(null)
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [user?.id])
+
+  // Due cards and unproven study — the two things the dashboard could not work
+  // out for itself, and the two the study loop turns on.
+  useEffect(() => {
+    if (!user?.id || !UUID_RE.test(user.id)) return
+    let cancelled = false
+    ;(async () => {
+      try {
+        const res = await fetch(`/api/next-step?user_id=${encodeURIComponent(user.id)}`)
+        const json = await res.json()
+        if (!cancelled && res.ok) setLoopSignals(json.data ?? { dueCards: 0, studiedNotProven: [] })
+      } catch {
+        /* the card falls back to weak areas, which are already loaded */
       }
     })()
     return () => {
@@ -87,6 +113,45 @@ export default function StudioHome() {
 
   const activeClasses = (classrooms as any[]).filter((c) => (c.open_count ?? 0) > 0 || (c.upcoming_count ?? 0) > 0)
   const weakAreas = persona?.weakAreas ?? []
+
+  // What to do next, decided in one place from everything that is loaded.
+  const nextStep = chooseNextStep({
+    totalQuizzes: stats.total,
+    dueCards: loopSignals.dueCards,
+    weakAreas,
+    studiedNotProven: loopSignals.studiedNotProven,
+  })
+
+  const actOnNextStep = async () => {
+    switch (nextStep.kind) {
+      case 'first-quiz':
+      case 'keep-going':
+        setFormOpen(true)
+        return
+      case 'review-cards':
+        router.push('/recall/review')
+        return
+      case 'prove-it': {
+        // Retake is a fresh quiz aimed at the studied subtopic. The wizard
+        // already knows how to be opened onto one, so hand it the target
+        // rather than duplicating the build here.
+        const target = loopSignals.studiedNotProven[0]
+        sessionStorage.setItem('ss:retake-target', JSON.stringify(target ?? null))
+        setFormOpen(true)
+        return
+      }
+      case 'study-gap': {
+        const area = weakAreas[0]
+        if (!area) return
+        setStartingStep(true)
+        try {
+          await startStudy(area)
+        } finally {
+          setStartingStep(false)
+        }
+      }
+    }
+  }
   const topSubjects = subjectAverages.slice(0, 5)
   const weekScores = recentAssessments
     .slice(0, 6)
@@ -144,6 +209,13 @@ export default function StudioHome() {
           onCta={hero.action}
         />
         {personaLine && <p className="-mt-3 text-[13px] font-semibold text-ss-slate">{personaLine}</p>}
+
+        {/* Above the statistics on purpose: a screen of averages is a report,
+            not a plan, and the student who most needs a plan is the one least
+            served by another chart. */}
+        {!loading && (
+          <NextStepCard step={nextStep} onAct={actOnNextStep} busy={startingStep} />
+        )}
 
         {/* First run. The most important moment in the product was also its
             emptiest screen: four zeros, an empty gap map and an empty deck,
