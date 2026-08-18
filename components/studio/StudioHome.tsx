@@ -23,6 +23,7 @@ import {
 } from '@/components/studio/ui'
 import { NextStepCard } from '@/components/studio/NextStepCard'
 import { chooseNextStep } from '@/lib/study-loop'
+import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
 const DAILY_QUIZ_LIMIT = 7200
 const RESUME_ASSESSMENT_KEY = 'resumeAssessment'
@@ -44,6 +45,9 @@ export default function StudioHome() {
     studiedNotProven: [],
   })
   const [startingStep, setStartingStep] = useState(false)
+  // Suggestions put aside this session. Deliberately not persisted: "not now"
+  // means not now, and tomorrow the weakest topic is worth offering again.
+  const [setAside, setSetAside] = useState<string[]>([])
   const { recentAssessments, stats, subjectAverages, classrooms, dailyUsed, loading, pausedAssessment, discardPaused } =
     useStudentDashboard(user)
 
@@ -115,12 +119,28 @@ export default function StudioHome() {
   const weakAreas = persona?.weakAreas ?? []
 
   // What to do next, decided in one place from everything that is loaded.
-  const nextStep = chooseNextStep({
-    totalQuizzes: stats.total,
-    dueCards: loopSignals.dueCards,
-    weakAreas,
-    studiedNotProven: loopSignals.studiedNotProven,
-  })
+  const nextStep = chooseNextStep(
+    {
+      totalQuizzes: stats.total,
+      dueCards: loopSignals.dueCards,
+      weakAreas,
+      studiedNotProven: loopSignals.studiedNotProven,
+    },
+    setAside,
+  )
+
+  // Nothing to fall through to means the link would do nothing, so it is not
+  // offered rather than offered and inert.
+  const hasAlternative =
+    chooseNextStep(
+      {
+        totalQuizzes: stats.total,
+        dueCards: loopSignals.dueCards,
+        weakAreas,
+        studiedNotProven: loopSignals.studiedNotProven,
+      },
+      [...setAside, nextStep.key],
+    ).key !== nextStep.key
 
   const actOnNextStep = async () => {
     switch (nextStep.kind) {
@@ -132,12 +152,43 @@ export default function StudioHome() {
         router.push('/recall/review')
         return
       case 'prove-it': {
-        // Retake is a fresh quiz aimed at the studied subtopic. The wizard
-        // already knows how to be opened onto one, so hand it the target
-        // rather than duplicating the build here.
+        // Generate and go straight in. Sending the student back to the builder
+        // to reconstruct a quiz the app already has every parameter for is the
+        // exact friction this card exists to remove.
         const target = loopSignals.studiedNotProven[0]
-        sessionStorage.setItem('ss:retake-target', JSON.stringify(target ?? null))
-        setFormOpen(true)
+        if (!target || !user?.id) return
+        setStartingStep(true)
+        try {
+          const res = await fetch('/api/generate-assessment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              user_id: user.id,
+              subject: target.subjectName,
+              topics: [target.topicName || target.label].filter(Boolean),
+              topic_ids: target.topic_id ? [target.topic_id] : [],
+              subtopic_ids: target.subtopic_id ? [target.subtopic_id] : [],
+              textbook_id: target.textbook_id ?? null,
+              className: user?.class ?? '',
+              count: 10,
+              difficultyLevel: 'intermediate',
+              questionType: 'mcq',
+              style: 'Test Style (Textbooks)',
+              subjectDomainHint: target.subjectName,
+            }),
+          })
+          const data = await res.json()
+          if (!res.ok) throw new Error(data?.error || 'Could not build the retake')
+          sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(data))
+          router.push('/assessment')
+        } catch (err) {
+          console.error('Retake failed:', err)
+          // Falling back to the builder is better than a dead button — the
+          // student can still get there, just with the steps they were spared.
+          setFormOpen(true)
+        } finally {
+          setStartingStep(false)
+        }
         return
       }
       case 'study-gap': {
@@ -214,7 +265,12 @@ export default function StudioHome() {
             not a plan, and the student who most needs a plan is the one least
             served by another chart. */}
         {!loading && (
-          <NextStepCard step={nextStep} onAct={actOnNextStep} busy={startingStep} />
+          <NextStepCard
+            step={nextStep}
+            onAct={actOnNextStep}
+            onSetAside={hasAlternative ? () => setSetAside((prev) => [...prev, nextStep.key]) : undefined}
+            busy={startingStep}
+          />
         )}
 
         {/* First run. The most important moment in the product was also its

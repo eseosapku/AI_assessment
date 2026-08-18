@@ -110,6 +110,51 @@ describe('chooseNextStep', () => {
   })
 })
 
+describe('setting a suggestion aside', () => {
+  const rich: StudyLoopInput = {
+    totalQuizzes: 6,
+    dueCards: 5,
+    weakAreas: [
+      { label: 'Moments', subjectName: 'Physics', accuracy: 10 },
+      { label: 'Algebra', subjectName: 'Maths', accuracy: 40 },
+    ],
+    studiedNotProven: [{ label: 'Refraction', subjectName: 'Physics' }],
+  }
+
+  it('falls through to the next suggestion in rank order', () => {
+    // Without this the card shows the same thing until it is acted on, and
+    // advice you cannot dismiss stops being advice.
+    expect(chooseNextStep(rich).kind).toBe('prove-it')
+    expect(chooseNextStep(rich, ['prove-it:Refraction']).kind).toBe('review-cards')
+    expect(chooseNextStep(rich, ['prove-it:Refraction', 'review-cards']).kind).toBe('study-gap')
+  })
+
+  it('moves to the next topic rather than skipping the whole category', () => {
+    const step = chooseNextStep(rich, ['prove-it:Refraction', 'review-cards', 'study-gap:Moments'])
+    expect(step.kind).toBe('study-gap')
+    expect(step.topic).toBe('Algebra')
+  })
+
+  it('ends at the harmless suggestion once everything is set aside', () => {
+    const step = chooseNextStep(rich, [
+      'prove-it:Refraction',
+      'review-cards',
+      'study-gap:Moments',
+      'study-gap:Algebra',
+    ])
+    expect(step.kind).toBe('keep-going')
+  })
+
+  it('will not let the first quiz be set aside, since nothing else is knowable', () => {
+    expect(chooseNextStep({ ...rich, totalQuizzes: 0 }, ['first-quiz']).kind).toBe('first-quiz')
+  })
+
+  it('gives every suggestion a key that identifies the topic, not just the kind', () => {
+    expect(chooseNextStep(rich).key).toBe('prove-it:Refraction')
+    expect(chooseNextStep(rich, ['prove-it:Refraction', 'review-cards']).key).toBe('study-gap:Moments')
+  })
+})
+
 describe('improvementBetween', () => {
   it('measures the gain', () => {
     expect(improvementBetween(27, 61)).toEqual({ before: 27, after: 61, delta: 34, regressed: false })

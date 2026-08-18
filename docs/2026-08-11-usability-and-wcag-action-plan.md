@@ -766,6 +766,28 @@ due, and lessons built but never tested. Each is wrapped separately, because a
 dashboard that 500s over one missing table is worse than one offering a
 slightly weaker suggestion.
 
+**Three corrections after seeing it on screen:**
+
+- **"Take the retake" opened the builder.** It set a target in session storage
+  and left the student to reconstruct a quiz the app already had every parameter
+  for — the exact friction the card exists to remove, reintroduced by me one
+  layer down. It generates the paper and goes straight into it now, joining the
+  lesson to its topic, subtopic and textbook in the same query that finds it.
+  The builder remains the fallback if generation fails, because a dead button is
+  worse than a longer path.
+- **It was stuck on one suggestion.** A student who never took the retake saw
+  the same card forever, and advice you cannot dismiss stops being advice and
+  becomes wallpaper. Every suggestion now carries a key identifying the *topic*
+  rather than the category, so "not now" falls through to the next one — the
+  next unproven topic, then cards, then the next weak topic. Held in state, not
+  storage: "not now" means not now, and tomorrow the weakest topic is worth
+  offering again. The first quiz cannot be set aside, because nothing else is
+  knowable until it exists.
+- **It did not look like it mattered.** A quiet bordered box among six other
+  quiet bordered boxes. It is now the loudest thing on the page, and carries a
+  **Test → Study → Prove** strip with the current leg lit — three words that say
+  what the product is *for*, on the screen students open most.
+
 ## Closing out the tester document
 
 Audited item by item against the code on 2026-08-18 rather than from memory,

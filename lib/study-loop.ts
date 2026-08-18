@@ -37,6 +37,13 @@ export interface StudyLoopInput {
 
 export interface NextStep {
   kind: NextStepKind
+  /**
+   * Stable identity for this specific suggestion, so a student can put one
+   * aside and get the next. Without it the card is stuck on whatever ranks
+   * first until they act on it, and something you cannot dismiss stops being
+   * advice and becomes wallpaper.
+   */
+  key: string
   /** The action, in the imperative. */
   title: string
   /** Why this, why now. Shown under the title. */
@@ -50,12 +57,15 @@ export interface NextStep {
   subject?: string
 }
 
-export function chooseNextStep(input: StudyLoopInput): NextStep {
+export function chooseNextStep(input: StudyLoopInput, setAside: readonly string[] = []): NextStep {
   const { totalQuizzes, dueCards, weakAreas, studiedNotProven } = input
+  const aside = new Set(setAside)
 
   if (totalQuizzes <= 0) {
+    // Not skippable: there is genuinely nothing else to suggest.
     return {
       kind: 'first-quiz',
+      key: 'first-quiz',
       title: 'Take your first quiz',
       reason: 'Everything else here is built from what you get right and wrong, so this is the only place to start.',
       cta: 'Build a quiz',
@@ -63,11 +73,12 @@ export function chooseNextStep(input: StudyLoopInput): NextStep {
     }
   }
 
-  const proven = studiedNotProven[0]
+  const proven = studiedNotProven.find((p) => !aside.has(`prove-it:${p.label}`))
   if (proven) {
     const was = typeof proven.accuracy === 'number' ? ` You were on ${proven.accuracy}%.` : ''
     return {
       kind: 'prove-it',
+      key: `prove-it:${proven.label}`,
       title: `Prove you've got ${proven.label}`,
       reason: `You studied this and haven't been tested on it since.${was} A short quiz is how you find out whether it stuck.`,
       cta: 'Take the retake',
@@ -77,9 +88,10 @@ export function chooseNextStep(input: StudyLoopInput): NextStep {
     }
   }
 
-  if (dueCards > 0) {
+  if (dueCards > 0 && !aside.has('review-cards')) {
     return {
       kind: 'review-cards',
+      key: 'review-cards',
       title: `Review ${dueCards} card${dueCards === 1 ? '' : 's'}`,
       reason: 'These are the ones you are about to forget. Doing them now is the cheapest revision available to you.',
       cta: 'Start review',
@@ -88,11 +100,12 @@ export function chooseNextStep(input: StudyLoopInput): NextStep {
     }
   }
 
-  const weakest = weakAreas[0]
+  const weakest = weakAreas.find((w) => !aside.has(`study-gap:${w.label}`))
   if (weakest) {
     const at = typeof weakest.accuracy === 'number' ? ` You're at ${weakest.accuracy}% on it.` : ''
     return {
       kind: 'study-gap',
+      key: `study-gap:${weakest.label}`,
       title: `Study ${weakest.label}`,
       reason: `This is your weakest topic right now.${at} The tutor will build you a lesson on it, then you can retake to see it move.`,
       cta: 'Build me a lesson',
@@ -104,6 +117,7 @@ export function chooseNextStep(input: StudyLoopInput): NextStep {
 
   return {
     kind: 'keep-going',
+    key: 'keep-going',
     title: 'Nothing urgent — pick a new topic',
     reason: 'No cards due and no weak topics outstanding. A quiz on something new is the fastest way to find the next gap.',
     cta: 'Build a quiz',

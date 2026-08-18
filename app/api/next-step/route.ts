@@ -21,7 +21,14 @@ export async function GET(request: NextRequest) {
   }
 
   let dueCards = 0
-  let studiedNotProven: Array<{ label: string; subjectName: string; subtopic_id: number | null; topic_id: number | null }> = []
+  let studiedNotProven: Array<{
+    label: string
+    subjectName: string
+    subtopic_id: number | null
+    topic_id: number | null
+    topicName: string
+    textbook_id: number | null
+  }> = []
 
   // Each signal is optional. A dashboard that 500s because one table is missing
   // is worse than a dashboard offering one fewer suggestion.
@@ -39,9 +46,18 @@ export async function GET(request: NextRequest) {
     // A lesson built from a gap, with no assessment covering that subtopic
     // started after it. Oldest first: the longest-unproven study is the one
     // most likely to have been forgotten.
+    // Joined to the curriculum so the retake can be generated on the spot.
+    // Without the names and the textbook, "Take the retake" could only drop the
+    // student back into the builder to reconstruct what the app already knew —
+    // which is the failure this whole card exists to remove.
     const res = await db.query(
-      `SELECT l.id, l.title, l.subject, l.topic_id, l.subtopic_id, l.created_at
+      `SELECT l.id, l.title, l.subject, l.topic_id, l.subtopic_id, l.created_at,
+              t.topic  AS topic_name,
+              st.subtopic AS subtopic_name,
+              COALESCE(t.textbook_id, st.textbook_id, l.textbook_id) AS textbook_id
          FROM learnspaces l
+         LEFT JOIN topics    t  ON t.topic_id = l.topic_id
+         LEFT JOIN subtopics st ON st.subtopic_id = l.subtopic_id
         WHERE l.user_id = $1
           AND l.origin = 'gap'
           AND l.subtopic_id IS NOT NULL
@@ -58,10 +74,15 @@ export async function GET(request: NextRequest) {
     studiedNotProven = (res.rows ?? []).map((r: any) => ({
       // Lessons from a gap are titled "Mastering <topic>"; the student thinks
       // of it as the topic, not as the lesson's name.
-      label: String(r.title ?? '').replace(/^Mastering\s+/i, '').trim() || String(r.subject ?? 'this topic'),
+      label:
+        String(r.subtopic_name ?? '').trim() ||
+        String(r.title ?? '').replace(/^Mastering\s+/i, '').trim() ||
+        String(r.subject ?? 'this topic'),
       subjectName: String(r.subject ?? ''),
       topic_id: Number.isFinite(Number(r.topic_id)) ? Number(r.topic_id) : null,
       subtopic_id: Number.isFinite(Number(r.subtopic_id)) ? Number(r.subtopic_id) : null,
+      topicName: String(r.topic_name ?? '').trim(),
+      textbook_id: Number.isFinite(Number(r.textbook_id)) ? Number(r.textbook_id) : null,
     }))
   } catch {
     studiedNotProven = []
