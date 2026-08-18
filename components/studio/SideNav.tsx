@@ -33,7 +33,11 @@ export function SideNav() {
   const { openPaywall, snapshot } = useSubscription()
 
   return (
-    <aside className="hidden flex-col gap-6 overflow-y-auto border-r border-ss-line p-[26px_16px] lg:flex">
+    // A plain div, not <aside>. The <nav> inside is the landmark that matters;
+    // wrapping it in an unlabelled complementary region added a second, vaguer
+    // landmark over the same links and diluted the rail's, which is the one
+    // place "complementary" is actually true.
+    <div className="hidden flex-col gap-6 overflow-y-auto border-r border-ss-line p-[26px_16px] lg:flex">
       <Link href="/dashboard" className="flex items-center gap-2.5 px-2 py-1 text-[18px] font-extrabold text-ss-ink">
         <SquareMark className="h-8 w-8" />
         <span>
@@ -85,14 +89,14 @@ export function SideNav() {
           )}
         </div>
       </div>
-    </aside>
+    </div>
   )
 }
 
 export function MobileNav() {
   const pathname = usePathname()
   return (
-    <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-ss-line bg-[color:var(--ss-panel)]/95 px-2 py-2 backdrop-blur-xl lg:hidden">
+    <nav aria-label="Main, compact" className="fixed inset-x-0 bottom-0 z-40 flex items-stretch justify-around border-t border-ss-line bg-[color:var(--ss-panel)]/95 px-2 py-2 backdrop-blur-xl lg:hidden">
       {studentNav.map((item) => {
         const active = item.match(pathname)
         const Icon = item.icon

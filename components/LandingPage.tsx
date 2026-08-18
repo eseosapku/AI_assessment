@@ -138,7 +138,7 @@ function Nav() {
         <Link href="/" aria-label="StudySquare home">
           <Wordmark />
         </Link>
-        <nav className="hidden items-center gap-8 md:flex">
+        <nav aria-label="Main" className="hidden items-center gap-8 md:flex">
           {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([label, href]) => (
             <a key={label} href={href} className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
               {label}
@@ -746,7 +746,7 @@ function Footer() {
     <footer className="border-t border-black/[0.06] bg-white py-12 dark:border-white/10 dark:bg-[#0a0f1e]">
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 sm:flex-row sm:px-8">
         <Wordmark />
-        <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
+        <nav aria-label="Footer" className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
           {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([l, h]) => (
             <a key={l} href={h} className="text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">{l}</a>
           ))}

@@ -25,12 +25,17 @@ export default function AppShell({ children, rail }: { children: ReactNode; rail
         }`}
       >
         <SideNav />
-        <main className="flex min-w-0 flex-col overflow-hidden">
+        {/* The column is a plain div, not <main>. A <header> nested inside
+            <main> is not a banner landmark — the implicit role is scoped away —
+            so putting the top bar inside it would have left the shell with no
+            banner at all, however the tag was written. Header and main are
+            siblings here, which is what makes both landmarks real. */}
+        <div className="flex min-w-0 flex-col overflow-hidden">
           <div className="shrink-0 px-5 pt-5 sm:px-6 sm:pt-6">
             <TopBar firstName={firstName} onProfile={() => setProfileOpen(true)} />
           </div>
-          <div id="main-content" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto px-5 pb-24 sm:px-6 sm:pb-8 lg:pb-6">{children}</div>
-        </main>
+          <main id="main-content" tabIndex={-1} className="min-h-0 flex-1 overflow-y-auto px-5 pb-24 outline-none sm:px-6 sm:pb-8 lg:pb-6">{children}</main>
+        </div>
         {rail && <aside aria-label="Related information" className="hidden overflow-y-auto border-l border-ss-line bg-[color:var(--ss-canvas)]/40 p-5 xl:block">{rail}</aside>}
       </div>
       <MobileNav />

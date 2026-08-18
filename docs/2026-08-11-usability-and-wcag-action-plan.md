@@ -120,6 +120,36 @@ unlabelled. Add a symbol→speech map (`÷` → "divided by", `√` → "square 
 Skip-to-content link, correct landmark roles, visible focus rings that meet 3:1,
 logical focus order through the wizard steps.
 
+**Done 2026-08-18.** The skip link and 3:1 focus rings shipped earlier; this
+finished the landmarks and the focus order.
+
+**Focus order (2.4.3).** Advancing a wizard step replaced the whole panel while
+focus stayed on the Continue button. A keyboard or screen-reader user pressed
+Continue and, as far as they could tell, nothing happened — the new step was
+behind them and was never announced. Focus now moves to the step panel, which
+is labelled "Step 4 of 8", so arriving there says where you are. The first
+render is deliberately skipped so the dialog's own autofocus keeps the caret in
+the first field.
+
+**Landmarks.** The first attempt at the banner was wrong and worth recording:
+changing `TopBar`'s wrapper to `<header>` achieves nothing while it sits inside
+`<main>`, because `<header>`'s implicit banner role is scoped away by any
+sectioning ancestor. The shell would have had no banner however the tag was
+written. Fixed structurally instead — the column is a plain `div`, `<header>`
+and `<main>` are siblings, and `#main-content` (the skip link's target) is now
+the real `<main>` rather than a div inside one.
+
+Two further landmark faults: `SideNav` wrapped its `<nav>` in an unlabelled
+`<aside>`, adding a second, vaguer complementary landmark over the same links
+and diluting the rail's — the one place "complementary" is actually true. And
+the desktop and mobile navs were both named "Main", so a screen reader's
+landmark list showed two identical entries.
+
+Verified in a browser on the public page, which turned out to have the same
+fault — two unnamed `<nav>`s, now "Main" and "Footer". The signed-in shell's
+landmarks are verified by source structure and the compiler only: the browser
+check redirected to the landing page for want of credentials.
+
 ### A8. Accessibility settings panel
 User-facing toggles: high contrast, larger text, reduced motion. Surfaced in
 Settings and linked from the footer.

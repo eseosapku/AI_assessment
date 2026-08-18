@@ -11,7 +11,10 @@ export function TopBar({ firstName, onProfile }: { firstName: string; onProfile:
   const { openPaywall, snapshot } = useSubscription()
   const { user } = useAuth()
   return (
-    <div className="mb-5 flex items-center gap-3">
+    // banner landmark: the shell had main, navigation and complementary but no
+    // banner, so the one region a screen-reader user jumps to for identity and
+    // account controls did not exist.
+    <header className="mb-5 flex items-center gap-3">
       <div className="text-[12.5px] font-semibold leading-tight text-ss-slate">
         Welcome back,
         <br />
@@ -41,6 +44,6 @@ export function TopBar({ firstName, onProfile }: { firstName: string; onProfile:
         <span className="hidden sm:inline">{firstName}</span>
         <ChevronDown className="h-4 w-4 text-ss-slate" />
       </button>
-    </div>
+    </header>
   )
 }

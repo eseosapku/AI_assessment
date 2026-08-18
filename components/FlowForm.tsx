@@ -549,6 +549,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
   const [isSavingDraft, setIsSavingDraft] = useState(false)
   const [elapsed, setElapsed] = useState(0)
   const [typicalTime, setTypicalTime] = useState(FALLBACK_TYPICAL_SECONDS)
+  const stepPanelRef = useRef<HTMLDivElement | null>(null)
   const [announced, setAnnounced] = useState('')
   const abortRef = useRef<AbortController | null>(null)
   const startTimeRef = useRef<number>(0)
@@ -1016,6 +1017,20 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
 
   const genProgress = useMemo(() => progressFor(elapsed, typicalTime), [elapsed, typicalTime])
 
+  // Move focus to the new step when it changes. The panel is labelled with its
+  // step number, so landing there announces "Step 4 of 8" rather than leaving
+  // the user to guess whether the button worked.
+  const isFirstStepRender = useRef(true)
+  useEffect(() => {
+    if (isFirstStepRender.current) {
+      // The dialog's own autofocus owns the first render; stealing it here
+      // would drop the caret out of the first field.
+      isFirstStepRender.current = false
+      return
+    }
+    stepPanelRef.current?.focus()
+  }, [step, flowMode])
+
   const selectedQuestionType = QUESTION_TYPES.find(qt => qt.id === formData.questionType)
   const selectedDifficulty = DIFFICULTY_LEVELS.find(d => d.id === formData.difficultyLevel)
 
@@ -1260,7 +1275,17 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
             )}
 
             {/* Step content — one step at a time */}
-            <div className="flex-1 space-y-6 overflow-y-auto px-5 pb-4 sm:px-6">
+            <div
+              ref={stepPanelRef}
+              tabIndex={-1}
+              role="group"
+              aria-label={
+                isTeacher && !flowMode
+                  ? 'Choose how to create'
+                  : `Step ${stepPosition} of ${visibleStepNums.length}`
+              }
+              className="flex-1 space-y-6 overflow-y-auto px-5 pb-4 outline-none sm:px-6"
+            >
 
             {isTeacher && !flowMode && (
               <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
