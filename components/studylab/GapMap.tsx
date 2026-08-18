@@ -21,6 +21,7 @@ import { ArrowLeft, Loader2, Sparkles, Target, X, BookOpen, ChevronRight, Chevro
 import type { MasteryStatus } from '@/lib/studylab/types'
 import { openLearnSpace } from '@/lib/studylab/openSpace'
 import type { CountryCode } from '@/lib/countries'
+import ProductTour from '@/components/studio/ProductTour'
 
 // ── status styling ────────────────────────────────────────────────────────────
 const STATUS_META: Record<MasteryStatus, { label: string; dot: string; ring: string; text: string; fill: string; accent: string }> = {
@@ -696,7 +697,9 @@ export default function GapMap({
             />
           )}
         </div>
-        <Legend summary={tree?.summary} />
+        <span data-tour="gapmap-legend">
+          <Legend summary={tree?.summary} />
+        </span>
       </header>
 
       {warning && (
@@ -711,7 +714,7 @@ export default function GapMap({
       )}
 
       {/* Map */}
-      <div className="relative min-h-0 flex-1 w-full bg-gradient-to-br from-ss-chip via-ss-canvas to-[color:var(--ss-accent)]/10 dark:bg-[#0a0a0a]">
+      <div data-tour="gapmap-canvas" className="relative min-h-0 flex-1 w-full bg-gradient-to-br from-ss-chip via-ss-canvas to-[color:var(--ss-accent)]/10 dark:bg-[#0a0a0a]">
         <div className="absolute inset-0">
         <CallbacksContext.Provider value={callbacks}>
           <ReactFlowProvider>
@@ -884,6 +887,8 @@ export default function GapMap({
           </div>
         )}
       </div>
+
+      <ProductTour id="gapmap" />
     </div>
   )
 }

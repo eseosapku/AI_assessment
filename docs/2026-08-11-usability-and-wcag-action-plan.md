@@ -382,6 +382,34 @@ buttons with no indication of how far in you are, which is the same "what does
 this do" fault as everything else in this pass. `ZoomControl` replaces it with
 named buttons, a visible percentage and a labelled fit control.
 
+### E1c. One tour per surface
+
+Raised 2026-08-18: *"there seems to be more you can give tutorials on, do the
+same everywhere else."* Right — a single tour over the sidebar is the wrong
+shape. A student standing on the Gap Map needs to know what its colours mean,
+not that Progress exists.
+
+Six tours now, each written from what is actually on that screen, each tracked
+under its own key so arriving somewhere new still explains itself:
+
+| Surface | What it explains |
+| --- | --- |
+| **Home** | The Create button is the product · LearnSpace is for being stuck · the Gap Map finds your weak topics · Progress proves it moved |
+| **Practice** | Syllabus quizzes come from your real textbook · the off-syllabus path takes pasted notes · past papers and class work are separate flows |
+| **LearnSpace** | Narrow topics beat broad ones · homework help works from a photo alone · lessons save their position |
+| **Gap Map** | Subjects branch to subtopics so a gap shows at its true level · what the colours mean, and that grey ≠ bad · tapping a weak node starts the loop |
+| **Progress** | Judge the average over weeks, not one quiz · weak subjects sort first and link into a quiz · every question is reviewable and reportable |
+| **Recall** | Cards return just before you forget · decks build from what you got wrong · rating honestly is what makes the schedule work |
+
+Where a step could either describe a control or say something a student does
+not already know, it says the second thing. "Only what you are about to forget"
+and "grey means untested, which is not the same as bad at it" are the kind of
+line that earns an interruption; "this is your deck list" is not.
+
+The test suite enforces the shape rather than the wording: 3-5 steps per tour,
+a floor on body length, no title that merely repeats its anchor, no title reused
+across surfaces, and every anchor present in the known `data-tour` set.
+
 ### E1. First-run coach marks *(N1)*
 3–5 steps: Create assessment → LearnSpace → Gap Maps → Progress. Runs once,
 replayable from Settings, keyboard navigable and screen-reader friendly.

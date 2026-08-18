@@ -2,12 +2,13 @@
 
 import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
 import {
-  TOUR_STEPS,
+  TOURS,
   hasSeenTour,
   markTourSeen,
   clampStep,
   choosePlacement,
   type Placement,
+  type TourId,
 } from '@/lib/product-tour'
 
 const PANEL_W = 348
@@ -26,7 +27,8 @@ const GAP = 18
  * Two rules follow. A step whose anchor is missing is skipped rather than shown
  * adrift, and if nothing at all can be anchored the tour does not run.
  */
-export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
+export default function ProductTour({ id = 'home', enabled = true }: { id?: TourId; enabled?: boolean }) {
+  const steps = TOURS[id].steps
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState(0)
   const [rect, setRect] = useState<DOMRect | null>(null)
@@ -34,7 +36,7 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
   const panelRef = useRef<HTMLDivElement>(null)
 
   const findAnchor = (i: number) => {
-    const s = TOUR_STEPS[i]
+    const s = steps[i]
     if (!s) return null
     const el = document.querySelector<HTMLElement>(`[data-tour="${CSS.escape(s.anchor)}"]`)
     // getClientRects is empty for display:none — the mobile/desktop nav swap.
@@ -42,15 +44,19 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
   }
 
   /** The next step in `dir` that actually has something to point at. */
-  const nextAnchored = useCallback((from: number, dir: 1 | -1): number => {
-    for (let i = from; i >= 0 && i < TOUR_STEPS.length; i += dir) {
-      if (findAnchor(i)) return i
-    }
-    return -1
-  }, [])
+  const nextAnchored = useCallback(
+    (from: number, dir: 1 | -1): number => {
+      for (let i = from; i >= 0 && i < steps.length; i += dir) {
+        if (findAnchor(i)) return i
+      }
+      return -1
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [steps],
+  )
 
   useEffect(() => {
-    if (!enabled || hasSeenTour()) return
+    if (!enabled || hasSeenTour(id)) return
     // Let the shell paint before measuring anything.
     const t = window.setTimeout(() => {
       const first = nextAnchored(0, 1)
@@ -59,9 +65,9 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
       setOpen(true)
     }, 700)
     return () => window.clearTimeout(t)
-  }, [enabled, nextAnchored])
+  }, [enabled, id, nextAnchored])
 
-  const current = TOUR_STEPS[clampStep(step)]
+  const current = steps[clampStep(step, steps.length)]
 
   // Measure after paint, and keep measuring. A coach mark on stale coordinates
   // is the failure this rewrite exists to prevent.
@@ -95,9 +101,9 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
   }, [open, step])
 
   const finish = useCallback(() => {
-    markTourSeen()
+    markTourSeen(id)
     setOpen(false)
-  }, [])
+  }, [id])
 
   const go = useCallback(
     (dir: 1 | -1) => {
@@ -127,8 +133,8 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
 
   const isLast = nextAnchored(step + 1, 1) < 0
   const isFirst = nextAnchored(step - 1, -1) < 0
-  const shownIndex = TOUR_STEPS.filter((_, i) => i <= step && findAnchor(i)).length
-  const shownTotal = TOUR_STEPS.filter((_, i) => findAnchor(i)).length
+  const shownIndex = steps.filter((_, i) => i <= step && findAnchor(i)).length
+  const shownTotal = steps.filter((_, i) => findAnchor(i)).length
 
   const panelHeight = panelRef.current?.offsetHeight ?? 240
   const style: React.CSSProperties = { position: 'fixed', width: PANEL_W, zIndex: 82 }

@@ -16,6 +16,7 @@ import { setHomeworkImage, setHomeworkText } from '@/lib/studylab/homeworkHandof
 import { downscaleDataUrl } from '@/lib/studylab/imageScale'
 import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
 import { useDialogBehavior } from '@/components/ui/Modal'
+import ProductTour from '@/components/studio/ProductTour'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -163,10 +164,10 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
           </div>
           {embedded && (
             <div className="flex items-center gap-2 self-start">
-              <button type="button" onClick={() => setShowSnap(true)} className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2.5 text-sm font-bold text-ss-ink hover:bg-ss-chip">
+              <button type="button" data-tour="learnspace-homework" onClick={() => setShowSnap(true)} className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2.5 text-sm font-bold text-ss-ink hover:bg-ss-chip">
                 <Upload className="h-4 w-4" /> Homework help
               </button>
-              <button type="button" onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 rounded-full bg-ss-accent px-4 py-2.5 text-sm font-bold text-white hover:brightness-95">
+              <button type="button" data-tour="learnspace-new" onClick={() => setShowCreate(true)} className="inline-flex items-center gap-2 rounded-full bg-ss-accent px-4 py-2.5 text-sm font-bold text-white hover:brightness-95">
                 <Plus className="h-4 w-4" /> New LearnSpace
               </button>
             </div>
@@ -189,7 +190,7 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
         ) : spaces.length === 0 ? (
           <EmptyState onCreate={() => setShowCreate(true)} />
         ) : (
-          <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+          <div data-tour="learnspace-list" className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
             <button
               type="button"
               onClick={() => setShowCreate(true)}
@@ -259,6 +260,8 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
           />
         )}
       </AnimatePresence>
+
+      <ProductTour id="learnspace" />
     </div>
   )
 }
@@ -639,12 +642,16 @@ function CreateModal({
           </div>
           {error && <p className="text-sm font-semibold text-ss-bad">{error}</p>}
         </div>
-        <div className="flex flex-wrap items-center justify-end gap-3 border-t border-ss-line bg-ss-chip px-6 py-4">
+        {/* One row, never wrapping: the hint is allowed to shrink and truncate
+            before the buttons are allowed to fall onto a second line. */}
+        <div className="flex items-center justify-end gap-3 border-t border-ss-line bg-ss-chip px-6 py-4">
           {!title.trim() && (
-            <p className="mr-auto text-[12.5px] font-semibold text-ss-slate">Type a topic above to continue.</p>
+            <p className="mr-auto min-w-0 truncate text-[12.5px] font-semibold text-ss-slate">
+              Type a topic above to continue.
+            </p>
           )}
-          <button type="button" onClick={onClose} className="btn-secondary !py-2.5">Cancel</button>
-          <button type="button" onClick={submit} disabled={!title.trim() || submitting} className="btn-primary !py-2.5 disabled:opacity-60">
+          <button type="button" onClick={onClose} className="btn-secondary shrink-0 !py-2.5">Cancel</button>
+          <button type="button" onClick={submit} disabled={!title.trim() || submitting} className="btn-primary shrink-0 whitespace-nowrap !py-2.5 disabled:opacity-60">
             {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}
             {submitting ? 'Building your lesson…' : 'Build my lesson'}
           </button>

@@ -1,26 +1,31 @@
 /**
- * The first-run tour.
+ * First-run coach marks, per surface.
  *
  * N1 in the report: every tester was lost at some point, and one abandoned the
  * search for the assessment builder and ended up somewhere else entirely.
  *
- * The first build of this was rejected on sight, and rightly. Two faults, and
- * they are worth separating because only one of them was a design failure.
+ * The first build of this was rejected on sight, and rightly. Two faults, worth
+ * separating because only one was a design failure.
  *
  * The first was mechanical: steps were anchored with a selector that walked the
  * shell's markup (`aside a[href=...]`), so an unrelated structural change —
- * making the sidebar a div for landmark reasons — silently unhooked every coach
- * mark and left four cards floating in the middle of the screen pointing at
- * nothing. Anchors are explicit `data-tour` attributes now, and a step whose
- * anchor is missing is skipped rather than shown adrift.
+ * making the sidebar a div, for landmark reasons — silently unhooked every
+ * coach mark and left four cards floating mid-screen pointing at nothing.
+ * Anchors are explicit `data-tour` attributes now, and a step whose anchor is
+ * missing is skipped rather than shown adrift.
  *
  * The second was the content. "Watch it move — scores, subjects and grades over
- * time" describes a page; it does not teach anyone anything or tell them what
- * to do. A tour that narrates the menu is a menu read aloud. Each step now names
- * the one thing that section is for, what it needs from the student, and what
- * comes back — and the first step points at the button they actually have to
- * press.
+ * time" describes a page; it teaches nothing and asks for nothing. A tour that
+ * narrates the menu is the menu read aloud.
+ *
+ * Hence one tour per surface rather than one tour over the sidebar. A student
+ * standing on the Gap Map needs to know what its colours mean, not that
+ * Progress exists. Each tour is written from what is actually on that screen,
+ * runs once, and is tracked separately so arriving somewhere new still explains
+ * itself.
  */
+
+export type TourId = 'home' | 'practice' | 'learnspace' | 'gapmap' | 'progress' | 'recall'
 
 export interface TourStep {
   /** Value of the target's data-tour attribute. */
@@ -29,54 +34,212 @@ export interface TourStep {
   eyebrow: string
   title: string
   body: string
-  /** The one action this step is asking for, when there is one. */
+  /** The one thing this step is asking for, or a caveat worth knowing. */
   action?: string
 }
 
+export interface Tour {
+  id: TourId
+  steps: readonly TourStep[]
+}
+
 /**
- * Ordered by what a student does first, not by the order of the sidebar. The
- * tester who got lost was looking for the quiz builder, so that is step one and
- * it points at the button, not at a menu item.
+ * Ordered by what a student does on that screen, not by layout position.
+ *
+ * Each step earns its interruption or it is not here: what this part is for,
+ * what it wants from the student, and what comes back. Anything they can work
+ * out by reading the label is left out.
  */
-export const TOUR_STEPS: readonly TourStep[] = [
-  {
-    anchor: 'hero-cta',
-    eyebrow: 'Make a quiz',
-    title: 'This button is the whole product',
-    body:
-      'Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from on every question.',
-    action: 'Takes about a minute to build.',
+export const TOURS: Record<TourId, Tour> = {
+  home: {
+    id: 'home',
+    steps: [
+      {
+        anchor: 'hero-cta',
+        eyebrow: 'Make a quiz',
+        title: 'This button is the whole product',
+        body:
+          'Pick your syllabus topic, or type any topic you like, and you get a real quiz written from your textbook — with the page it came from printed on every question.',
+        action: 'Takes about a minute to build.',
+      },
+      {
+        anchor: '/studylab',
+        eyebrow: 'When you get stuck',
+        title: 'Ask for a lesson, not an answer',
+        body:
+          'Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you.',
+      },
+      {
+        anchor: '/studylab/gap-map',
+        eyebrow: 'What to study next',
+        title: 'Your weak topics, found for you',
+        body:
+          'Every topic you have been quizzed on, coloured by how you did. You never have to guess what to revise — tap a red one and it builds you a lesson on that exact thing.',
+        action: 'Fills in after your first quiz.',
+      },
+      {
+        anchor: '/progress',
+        eyebrow: 'Proof it is working',
+        title: 'Retake anything, and watch it move',
+        body:
+          'Every quiz you have taken, with the questions you got wrong and why they were wrong. Retake one after studying and the same topic should come back green.',
+      },
+    ],
   },
-  {
-    anchor: '/studylab',
-    eyebrow: 'When you get stuck',
-    title: 'Ask for a lesson, not an answer',
-    body:
-      'Name what you are stuck on and LearnSpace writes the lesson for it — explanations, diagrams, worked examples, and checkpoints that quiz you as you go. You can photograph a homework question and it will work through it with you.',
-  },
-  {
-    anchor: '/studylab/gap-map',
-    eyebrow: 'What to study next',
-    title: 'Your weak topics, found for you',
-    body:
-      'Every topic you have been quizzed on, coloured by how you did. You never have to guess what to revise — tap a red one and it builds you a lesson on that exact thing.',
-    action: 'Fills in after your first quiz.',
-  },
-  {
-    anchor: '/progress',
-    eyebrow: 'Proof it is working',
-    title: 'Retake anything, and watch it move',
-    body:
-      'Every quiz you have taken, with the questions you got wrong and why. Retake one after studying and the same topic should come back green.',
-  },
-]
 
-const SEEN_KEY = 'ss-product-tour-seen'
+  practice: {
+    id: 'practice',
+    steps: [
+      {
+        anchor: 'practice-build',
+        eyebrow: 'From your syllabus',
+        title: 'Built from your actual textbook',
+        body:
+          'Walk through curriculum, subject, topic and difficulty, and the questions are written from the book your school uses — not from the internet. Pick several topics to mix them, or drill one subtopic on its own.',
+        action: 'Every question shows the page it came from.',
+      },
+      {
+        anchor: 'practice-custom',
+        eyebrow: 'Off the syllabus',
+        title: 'Anything not in the curriculum',
+        body:
+          'Type any topic, or paste your own notes and be quizzed on those. Useful for a class the syllabus does not cover, or for revising from something a teacher handed out.',
+        action: 'Be specific — a whole subject gives you a shallow quiz.',
+      },
+      {
+        anchor: 'practice-modes',
+        eyebrow: 'Other ways in',
+        title: 'Past papers and class work',
+        body:
+          'National exam prep follows real past-paper style and marking. Class work is whatever your teachers have set — it lands here and the result goes back to them.',
+      },
+    ],
+  },
 
-export function hasSeenTour(): boolean {
+  learnspace: {
+    id: 'learnspace',
+    steps: [
+      {
+        anchor: 'learnspace-new',
+        eyebrow: 'Start a lesson',
+        title: 'Name what confused you',
+        body:
+          'The narrower the better. "Photosynthesis" gets you a tour of the topic; "why leaves are green" gets you an answer. The tutor lays out explanations, diagrams and worked examples, then quizzes you at checkpoints to see if it landed.',
+        action: 'Ready in about a minute.',
+      },
+      {
+        anchor: 'learnspace-homework',
+        eyebrow: 'Stuck right now',
+        title: 'Photograph the question',
+        body:
+          'Snap or paste a homework question and the tutor builds a lesson that walks you through solving it — the method, not just the answer. Works from a photo of the page alone.',
+      },
+      {
+        anchor: 'learnspace-list',
+        eyebrow: 'Come back later',
+        title: 'Your lessons stay put',
+        body:
+          'Everything you build is saved here with how far through you got, so you can stop mid-lesson and pick it up another day. Lessons built from a weak topic say so on the card.',
+      },
+    ],
+  },
+
+  gapmap: {
+    id: 'gapmap',
+    steps: [
+      {
+        anchor: 'gapmap-canvas',
+        eyebrow: 'The whole picture',
+        title: 'Every topic you have been quizzed on',
+        body:
+          'Subjects branch into topics and topics into subtopics, so a weak area shows up at whatever level it actually lives — you might be fine at Forces and only weak on moments.',
+      },
+      {
+        anchor: 'gapmap-legend',
+        eyebrow: 'Reading it',
+        title: 'Colour is your accuracy',
+        body:
+          'Green means you are getting these right, amber means shaky, red means it needs work. Grey means you have not been tested on it yet, which is not the same as being bad at it.',
+      },
+      {
+        anchor: 'gapmap-canvas',
+        eyebrow: 'Acting on it',
+        title: 'Tap a weak topic to study it',
+        body:
+          'Opening a red node offers you a lesson built on that exact subtopic, and a quiz to retake once you have studied. That loop — find the gap, study it, prove it closed — is the point of the whole map.',
+      },
+    ],
+  },
+
+  progress: {
+    id: 'progress',
+    steps: [
+      {
+        anchor: 'progress-overall',
+        eyebrow: 'Where you stand',
+        title: 'Your average, and which way it is going',
+        body:
+          'Across every quiz you have finished. One bad quiz moves this less than you would think, so judge it over a few weeks rather than after a single result.',
+      },
+      {
+        anchor: 'progress-subjects',
+        eyebrow: 'Split by subject',
+        title: 'What is going well, and what is not',
+        body:
+          'Subjects are sorted so the ones needing work come to your attention first. Each one links straight into a quiz on that subject, so you can act without hunting for the builder.',
+      },
+      {
+        anchor: 'progress-recent',
+        eyebrow: 'Go back over it',
+        title: 'Every question, and why it was marked that way',
+        body:
+          'Open any past quiz to see what you answered, what was right, and the reasoning. If you think a question is wrong you can report it, and it goes to a real reviewer.',
+      },
+    ],
+  },
+
+  recall: {
+    id: 'recall',
+    steps: [
+      {
+        anchor: 'recall-due',
+        eyebrow: 'Today',
+        title: 'Only what you are about to forget',
+        body:
+          'Cards come back just before you would lose them, so a short daily session beats a long one at the weekend. If nothing is due, you are done — that is the system working, not a bug.',
+      },
+      {
+        anchor: 'recall-decks',
+        eyebrow: 'Where cards come from',
+        title: 'Decks build themselves from your quizzes',
+        body:
+          'Questions you got wrong become cards automatically, so the deck is always aimed at what you personally struggle with rather than at the topic in general.',
+      },
+      {
+        anchor: 'recall-decks',
+        eyebrow: 'Be honest',
+        title: 'Rating a card decides when it returns',
+        body:
+          'Say a card was hard and it comes back soon; say it was easy and it waits longer. Marking everything easy to get through faster only means forgetting it before the exam.',
+      },
+    ],
+  },
+}
+
+/** Back-compat for the original single tour. */
+export const TOUR_STEPS = TOURS.home.steps
+
+const seenKey = (id: TourId) => `ss-tour-seen-${id}`
+/** The key the first version used, before tours were per-surface. */
+const LEGACY_HOME_KEY = 'ss-product-tour-seen'
+
+export function hasSeenTour(id: TourId = 'home'): boolean {
   if (typeof window === 'undefined') return true // never auto-run on the server
   try {
-    return localStorage.getItem(SEEN_KEY) === '1'
+    if (localStorage.getItem(seenKey(id)) === '1') return true
+    // Anyone who already sat through the old sidebar tour should not be shown
+    // the home one again just because the key was renamed.
+    return id === 'home' && localStorage.getItem(LEGACY_HOME_KEY) === '1'
   } catch {
     // If storage is unavailable the tour would run on every load, which is
     // worse than never running it.
@@ -84,24 +247,26 @@ export function hasSeenTour(): boolean {
   }
 }
 
-export function markTourSeen(): void {
+export function markTourSeen(id: TourId = 'home'): void {
   try {
-    localStorage.setItem(SEEN_KEY, '1')
+    localStorage.setItem(seenKey(id), '1')
   } catch {
-    /* nothing to do — a tour that reruns is a nuisance, not a failure */
+    /* a tour that reruns is a nuisance, not a failure */
   }
 }
 
+/** Replays every tour — what the Settings control offers. */
 export function resetTour(): void {
   try {
-    localStorage.removeItem(SEEN_KEY)
+    for (const id of Object.keys(TOURS) as TourId[]) localStorage.removeItem(seenKey(id))
+    localStorage.removeItem(LEGACY_HOME_KEY)
   } catch {
     /* replay is best-effort */
   }
 }
 
-export function clampStep(step: number): number {
-  return Math.max(0, Math.min(TOUR_STEPS.length - 1, step))
+export function clampStep(step: number, total: number = TOURS.home.steps.length): number {
+  return Math.max(0, Math.min(total - 1, step))
 }
 
 /** Where a panel should sit relative to its anchor, given the room available. */

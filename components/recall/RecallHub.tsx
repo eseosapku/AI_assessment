@@ -7,6 +7,7 @@ import { useAuth } from '@/components/AuthProvider'
 import { backfillRecall, fetchRecallSummary } from '@/lib/recall/client'
 import { subjectArt } from '@/lib/studio/subjectArt'
 import type { RecallSummary } from '@/lib/recall/types'
+import ProductTour from '@/components/studio/ProductTour'
 
 export default function RecallHub() {
   const { user } = useAuth()
@@ -53,7 +54,7 @@ export default function RecallHub() {
         </p>
       </header>
 
-      <section className="relative mb-8 overflow-hidden rounded-[24px] px-9 py-8 text-white" style={{ background: 'linear-gradient(115deg,#0C74B4,#1AA0DC 52%,#3ED3F5)' }}>
+      <section data-tour="recall-due" className="relative mb-8 overflow-hidden rounded-[24px] px-9 py-8 text-white" style={{ background: 'linear-gradient(115deg,#0C74B4,#1AA0DC 52%,#3ED3F5)' }}>
         {/* eslint-disable-next-line @next/next/no-img-element */}
         <img src="/art/recall.png" alt="" aria-hidden className="pointer-events-none absolute right-3 top-1/2 hidden h-[112%] -translate-y-1/2 object-contain opacity-90 sm:block" />
         <div className="relative flex flex-col gap-6 sm:flex-row sm:items-center sm:justify-between">
@@ -91,7 +92,7 @@ export default function RecallHub() {
       </div>
 
       <section>
-        <p className="mb-4 text-[12px] font-bold uppercase tracking-[0.25em] text-ss-slate">Your decks</p>
+        <p data-tour="recall-decks" className="mb-4 text-[12px] font-bold uppercase tracking-[0.25em] text-ss-slate">Your decks</p>
         {loading ? (
           <div className="flex justify-center py-12">
             <div className="h-8 w-8 animate-spin rounded-full border-2 border-ss-accent border-t-transparent" />
@@ -151,6 +152,8 @@ export default function RecallHub() {
           </div>
         )}
       </section>
+
+      <ProductTour id="recall" />
     </div>
   )
 }

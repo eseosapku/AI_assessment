@@ -9,6 +9,7 @@ import { useAuth } from '@/components/AuthProvider'
 import { useStudentDashboard } from '@/lib/hooks/useStudentDashboard'
 import { StatChip } from '@/components/studio/ui'
 import { subjectArt } from '@/lib/studio/subjectArt'
+import ProductTour from '@/components/studio/ProductTour'
 
 const GRADE_RING: Record<string, string> = {
   'A+': 'text-emerald-600 bg-emerald-50 border-emerald-200',
@@ -71,7 +72,7 @@ export default function ProgressStudio() {
         </div>
       </header>
 
-      <div className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+      <div data-tour="progress-overall" className="mb-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatChip icon={ClipboardCheck} value={loading ? '—' : String(stats.total)} label="Total tests" tone="accent" />
         <div className="flex items-center gap-4 rounded-[18px] border border-ss-line bg-ss-panel p-4">
           <div
@@ -92,7 +93,7 @@ export default function ProgressStudio() {
       </div>
 
       {subjectAverages.length > 0 && (
-        <section className="mb-10 grid gap-6 lg:grid-cols-2">
+        <section data-tour="progress-subjects" className="mb-10 grid gap-6 lg:grid-cols-2">
           <div className="rounded-2xl border border-ss-line bg-ss-panel p-6">
             <p className="mb-4 text-[12px] font-bold uppercase tracking-widest text-ss-good">Going well</p>
             <div className="space-y-2.5">
@@ -128,7 +129,7 @@ export default function ProgressStudio() {
         </section>
       )}
 
-      <section>
+      <section data-tour="progress-recent">
         <div className="mb-4 flex items-center gap-2">
           <TrendingUp className="h-4 w-4 text-ss-accent" />
           <p className="text-[12px] font-bold uppercase tracking-[0.25em] text-ss-slate">Recent results</p>
@@ -183,6 +184,8 @@ export default function ProgressStudio() {
           </div>
         )}
       </section>
+
+      <ProductTour id="progress" />
     </div>
   )
 }

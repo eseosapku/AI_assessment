@@ -5,6 +5,7 @@ import { ArrowRight, BookOpen, GraduationCap, Repeat, Sparkles, Wand2 } from 'lu
 import { useState } from 'react'
 import FlowForm from '@/components/FlowForm'
 import { useAuth } from '@/components/AuthProvider'
+import ProductTour from '@/components/studio/ProductTour'
 
 type Mode = {
   id: string
@@ -117,6 +118,7 @@ export default function PracticeHub() {
       <button
         type="button"
         onClick={() => openForm('curriculum')}
+        data-tour="practice-build"
         className="group relative mb-5 flex w-full items-center gap-5 overflow-hidden rounded-[24px] p-7 text-left text-white"
         style={{ background: 'linear-gradient(115deg,#0C74B4,#0E94D6 52%,#2ACBF2)' }}
       >
@@ -138,6 +140,7 @@ export default function PracticeHub() {
       <button
         type="button"
         onClick={() => openForm('custom')}
+        data-tour="practice-custom"
         className="group mb-5 flex w-full items-center gap-4 rounded-[20px] border border-dashed border-ss-line bg-[color:var(--ss-accent)]/5 p-5 text-left transition-colors hover:border-ss-accent hover:bg-[color:var(--ss-accent)]/10"
       >
         <span className="grid h-11 w-11 shrink-0 place-items-center rounded-2xl bg-[color:var(--ss-accent)]/15 text-ss-accent">
@@ -152,7 +155,7 @@ export default function PracticeHub() {
         <ArrowRight className="h-5 w-5 shrink-0 text-ss-slate transition-transform group-hover:translate-x-0.5" />
       </button>
 
-      <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+      <div data-tour="practice-modes" className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {visibleModes.map((mode) => (
           <ModeCard key={mode.id} mode={mode} onModal={() => openForm('curriculum')} />
         ))}
@@ -161,6 +164,7 @@ export default function PracticeHub() {
       {formOpen && (
         <FlowForm onClose={() => setFormOpen(false)} initialSourceMode={formSource} />
       )}
+      <ProductTour id="practice" />
     </div>
   )
 }
