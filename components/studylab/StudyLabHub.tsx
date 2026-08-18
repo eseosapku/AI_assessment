@@ -3,7 +3,10 @@
 import { useEffect, useState, useCallback, useRef } from 'react'
 import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
-import { Brain, Plus, Sparkles, Clock, X, Loader2, Upload, CheckCircle2 } from 'lucide-react'
+import {
+  Brain, Plus, Sparkles, Clock, X, Loader2, Upload, CheckCircle2,
+  Leaf, Sigma, Zap, LineChart, Binary, type LucideIcon,
+} from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import PersonaPanel from '@/components/studylab/PersonaPanel'
 import { subjectArt } from '@/lib/studio/subjectArt'
@@ -27,12 +30,12 @@ interface LearnSpace {
   updated_at: string
 }
 
-const SUGGESTIONS = [
-  'Understanding Binary Search Trees',
-  'The Quadratic Formula',
-  'How Neural Networks Learn',
-  'Photosynthesis',
-  'Market equilibrium',
+const SUGGESTIONS: Array<{ topic: string; subject: string; icon: LucideIcon }> = [
+  { topic: 'Why leaves are green', subject: 'Biology', icon: Leaf },
+  { topic: 'Completing the square', subject: 'Mathematics', icon: Sigma },
+  { topic: 'How a transistor switches', subject: 'Physics', icon: Zap },
+  { topic: 'Why prices settle where they do', subject: 'Economics', icon: LineChart },
+  { topic: 'What a binary search tree is for', subject: 'Computer Science', icon: Binary },
 ]
 
 export default function StudyLabHub({ embedded = false }: { embedded?: boolean }) {
@@ -542,16 +545,37 @@ function CreateModal({
         {...dialogProps}
         className="w-full max-w-lg overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-ss-panel"
       >
-        <div className="flex items-center justify-between border-b border-ss-line px-6 py-4">
-          <div>
-            <h3 id="new-space-title" className="font-display text-lg font-black text-ss-ink">What do you want to learn?</h3>
-            <p className="mt-0.5 text-[13px] font-medium text-ss-slate">
-              The tutor writes you a lesson on it — cards, diagrams and checkpoints. Takes about a minute.
-            </p>
-          </div>
-          <button type="button" onClick={onClose} className="rounded-lg p-1.5 text-ss-slate hover:bg-ss-chip">
+        {/* A header with some weight to it. The form underneath asks a student
+            to describe what they are confused about, which takes a bit of
+            nerve; opening on a bare grey box does not help. */}
+        <div className="relative overflow-hidden px-6 py-5" style={{ background: 'linear-gradient(135deg,#0C86CE,#2ACBF2)' }}>
+          <div aria-hidden className="pointer-events-none absolute -right-8 -top-10 h-36 w-36 rounded-full bg-white/15" />
+          <div aria-hidden className="pointer-events-none absolute -bottom-14 right-16 h-28 w-28 rounded-full bg-white/10" />
+          <button
+            type="button"
+            onClick={onClose}
+            aria-label="Close"
+            className="absolute right-4 top-4 rounded-lg p-1.5 text-white/85 transition-colors hover:bg-white/20 hover:text-white"
+          >
             <X className="h-5 w-5" />
           </button>
+          <div className="relative flex items-start gap-3">
+            <span className="grid h-10 w-10 shrink-0 place-items-center rounded-xl bg-white/20 backdrop-blur">
+              <Brain className="h-5 w-5 text-white" />
+            </span>
+            <div className="min-w-0 pr-8">
+              <h3 id="new-space-title" className="font-display text-[19px] font-black leading-tight text-white">
+                What do you want to learn?
+              </h3>
+              <p className="mt-1 text-[13px] font-medium text-white/85">
+                Name it and the tutor writes you the lesson — explanations, diagrams, worked examples
+                and checkpoints that quiz you as you go.
+              </p>
+              <p className="mt-2 inline-flex items-center gap-1.5 rounded-full bg-white/20 px-2.5 py-1 text-[12px] font-bold text-white">
+                <Clock className="h-3.5 w-3.5" /> Ready in about a minute
+              </p>
+            </div>
+          </div>
         </div>
         <div className="space-y-5 p-6">
           <div>
@@ -570,11 +594,29 @@ function CreateModal({
               placeholder="e.g. Understanding Binary Search Trees"
               className="w-full rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none"
             />
-            <p className="mt-3 text-[13px] font-medium text-ss-slate" id="new-space-suggestions">Or start from one of these:</p>
-            <div className="mt-2 flex flex-wrap gap-2" role="group" aria-labelledby="new-space-suggestions">
-              {SUGGESTIONS.map((s) => (
-                <button key={s} type="button" onClick={() => setTitle(s)} className="rounded-full border border-ss-line px-3 py-1.5 text-xs font-semibold text-ss-slate hover:border-ss-accent hover:text-ss-accent">
-                  {s}
+            <p className="mt-3 text-[13px] font-medium text-ss-slate" id="new-space-suggestions">
+              Or borrow one of these — they show the kind of question that works best:
+            </p>
+            <div className="mt-2 grid gap-2 sm:grid-cols-2" role="group" aria-labelledby="new-space-suggestions">
+              {SUGGESTIONS.map(({ topic, subject: subj, icon: Icon }) => (
+                <button
+                  key={topic}
+                  type="button"
+                  onClick={() => {
+                    setTitle(topic)
+                    // Fill the subject too: the example is only honest if it
+                    // shows what a well-formed request looks like.
+                    if (!subject.trim()) setSubject(subj)
+                  }}
+                  className="group flex items-center gap-2.5 rounded-xl border border-ss-line px-3 py-2.5 text-left transition-all hover:-translate-y-px hover:border-ss-accent hover:shadow-ss-panel"
+                >
+                  <span className="grid h-7 w-7 shrink-0 place-items-center rounded-lg bg-[color:var(--ss-accent)]/10 text-ss-accent">
+                    <Icon className="h-4 w-4" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block truncate text-[12.5px] font-bold text-ss-ink">{topic}</span>
+                    <span className="block text-[12px] font-semibold text-ss-slate">{subj}</span>
+                  </span>
                 </button>
               ))}
             </div>
@@ -597,7 +639,10 @@ function CreateModal({
           </div>
           {error && <p className="text-sm font-semibold text-ss-bad">{error}</p>}
         </div>
-        <div className="flex justify-end gap-3 border-t border-ss-line px-6 py-4">
+        <div className="flex flex-wrap items-center justify-end gap-3 border-t border-ss-line bg-ss-chip px-6 py-4">
+          {!title.trim() && (
+            <p className="mr-auto text-[12.5px] font-semibold text-ss-slate">Type a topic above to continue.</p>
+          )}
           <button type="button" onClick={onClose} className="btn-secondary !py-2.5">Cancel</button>
           <button type="button" onClick={submit} disabled={!title.trim() || submitting} className="btn-primary !py-2.5 disabled:opacity-60">
             {submitting ? <Loader2 className="h-4 w-4 animate-spin" /> : <Sparkles className="h-4 w-4" />}

@@ -39,6 +39,7 @@ export function HeroBanner({
         <button
           type="button"
           onClick={onCta}
+          data-tour="hero-cta"
           className="mt-5 inline-flex items-center gap-2.5 rounded-full bg-[#13202A] py-3 pl-5 pr-3 text-[14px] font-bold text-white transition-transform active:scale-[0.98]"
         >
           {ctaLabel}

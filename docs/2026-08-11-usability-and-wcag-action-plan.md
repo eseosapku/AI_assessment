@@ -332,6 +332,52 @@ Label the action with what it does, not what it is.
 
 ## Part 5 — Navigation & onboarding
 
+### E1b. The tour was rejected, and the reason was two faults
+
+Raised 2026-08-18 on sight of the shipped tour: *"this tutorial is useless and
+does nothing, it isn't professional and doesn't point to what's needed, neither
+is it in-depth in anything."* Correct on every count, and the two causes are
+worth separating because only one was a design failure.
+
+**The mechanical fault was mine, introduced by A7.** Steps were anchored with
+`document.querySelector('aside a[href=...]')` — a selector that walks the
+shell's markup. Changing `SideNav`'s wrapper from `<aside>` to a `<div>`, for
+the landmark reasons above, silently unhooked every coach mark. The tour fell
+back to its centred-card path and became four boxes in the middle of the screen
+pointing at nothing. That is worse than no tour: on a student's first visit it
+makes the product look broken.
+
+Anchors are explicit `data-tour` attributes now, so a purely structural change
+cannot unhook them. A step whose anchor is missing is skipped rather than shown
+adrift, and if nothing can be anchored the tour does not run at all.
+
+**The design fault was the content.** *"Watch it move — scores, subjects and
+grades over time"* describes a page. It teaches nothing and asks for nothing. A
+tour that narrates the sidebar is the menu read aloud, which is exactly the
+complaint. Each step now names what that part of the product is for, what it
+needs from the student and what comes back — and step one points at the
+**Create assessment button**, not at a menu item, because a button was what the
+lost tester could not find. The test asserts a floor on body length, which is a
+crude proxy for depth but does stop the one-line page description coming back.
+
+Visually: a spotlight that leaves the target lit rather than dimming it, a
+pointer joining panel to target, placement chosen from the room available
+(right, left, below, above, centre) so the panel never lands off screen, and
+progress as dots.
+
+**Also rejected:** the LearnSpace create dialog, *"very bland and just off
+putting"*. It asks a student to describe what they are confused about, which
+takes some nerve, and it opened on a bare grey box. It now has a branded header
+that says what it makes and how long it takes; the five suggestions carry a
+subject and an icon and fill both fields, so they demonstrate what a
+well-formed request looks like rather than sitting there as grey pills; the
+teaching modes are named for what the student does ("Read and understand",
+"Learn by doing") instead of for the method; and the footer says what the
+disabled button is waiting for.
+
+**E3 was reverted** at the same time — the section navigation on the LearnSpace
+canvas — because the user has other plans for that surface.
+
 ### E1. First-run coach marks *(N1)*
 3–5 steps: Create assessment → LearnSpace → Gap Maps → Progress. Runs once,
 replayable from Settings, keyboard navigable and screen-reader friendly.

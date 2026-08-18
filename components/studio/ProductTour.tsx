@@ -1,95 +1,168 @@
 'use client'
 
-import { useEffect, useRef, useState } from 'react'
-import { TOUR_STEPS, hasSeenTour, markTourSeen, clampStep } from '@/lib/product-tour'
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from 'react'
+import {
+  TOUR_STEPS,
+  hasSeenTour,
+  markTourSeen,
+  clampStep,
+  choosePlacement,
+  type Placement,
+} from '@/lib/product-tour'
+
+const PANEL_W = 348
+const GAP = 18
 
 /**
- * First-run coach marks over the sidebar.
+ * First-run coach marks.
  *
- * N1: every tester was lost at some point, and one abandoned the search for
- * the assessment builder and ended up somewhere else entirely. The labels do
- * not say what a section is for.
+ * Anchored to real controls through explicit `data-tour` attributes. The
+ * previous version matched on the shell's markup (`aside a[href=...]`), so an
+ * unrelated structural change — making the sidebar a div, for landmark reasons
+ * — silently unhooked every step and the tour became four cards in the middle
+ * of the screen pointing at nothing. That is worse than no tour, because it
+ * makes the product look broken on a student's first visit.
  *
- * Anchored to the real nav links rather than drawn at fixed coordinates, so it
- * cannot drift out of alignment when the sidebar changes. If a step's link is
- * not on screen — narrow viewport, mobile nav — that step is skipped rather
- * than pointing at nothing.
+ * Two rules follow. A step whose anchor is missing is skipped rather than shown
+ * adrift, and if nothing at all can be anchored the tour does not run.
  */
 export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
   const [open, setOpen] = useState(false)
   const [step, setStep] = useState(0)
   const [rect, setRect] = useState<DOMRect | null>(null)
+  const [placement, setPlacement] = useState<Placement>('right')
   const panelRef = useRef<HTMLDivElement>(null)
 
+  const findAnchor = (i: number) => {
+    const s = TOUR_STEPS[i]
+    if (!s) return null
+    const el = document.querySelector<HTMLElement>(`[data-tour="${CSS.escape(s.anchor)}"]`)
+    // getClientRects is empty for display:none — the mobile/desktop nav swap.
+    return el && el.getClientRects().length > 0 ? el : null
+  }
+
+  /** The next step in `dir` that actually has something to point at. */
+  const nextAnchored = useCallback((from: number, dir: 1 | -1): number => {
+    for (let i = from; i >= 0 && i < TOUR_STEPS.length; i += dir) {
+      if (findAnchor(i)) return i
+    }
+    return -1
+  }, [])
+
   useEffect(() => {
-    if (!enabled) return
-    if (hasSeenTour()) return
+    if (!enabled || hasSeenTour()) return
     // Let the shell paint before measuring anything.
-    const t = window.setTimeout(() => setOpen(true), 600)
+    const t = window.setTimeout(() => {
+      const first = nextAnchored(0, 1)
+      if (first < 0) return // nothing to point at, so say nothing
+      setStep(first)
+      setOpen(true)
+    }, 700)
     return () => window.clearTimeout(t)
-  }, [enabled])
+  }, [enabled, nextAnchored])
 
   const current = TOUR_STEPS[clampStep(step)]
 
-  // Re-measure on step change and on resize: a coach mark pinned to stale
-  // coordinates is worse than none.
-  useEffect(() => {
+  // Measure after paint, and keep measuring. A coach mark on stale coordinates
+  // is the failure this rewrite exists to prevent.
+  useLayoutEffect(() => {
     if (!open) return
     const measure = () => {
-      const link = document.querySelector<HTMLElement>(`aside a[href="${current.href}"]`)
-      setRect(link ? link.getBoundingClientRect() : null)
+      const el = findAnchor(step)
+      if (!el) {
+        setRect(null)
+        return
+      }
+      const r = el.getBoundingClientRect()
+      setRect(r)
+      const h = panelRef.current?.offsetHeight ?? 240
+      setPlacement(
+        choosePlacement(
+          r,
+          { width: PANEL_W, height: h },
+          { width: window.innerWidth, height: window.innerHeight },
+          GAP,
+        ),
+      )
     }
     measure()
     window.addEventListener('resize', measure)
-    return () => window.removeEventListener('resize', measure)
-  }, [open, current])
+    window.addEventListener('scroll', measure, true)
+    return () => {
+      window.removeEventListener('resize', measure)
+      window.removeEventListener('scroll', measure, true)
+    }
+  }, [open, step])
+
+  const finish = useCallback(() => {
+    markTourSeen()
+    setOpen(false)
+  }, [])
+
+  const go = useCallback(
+    (dir: 1 | -1) => {
+      const target = nextAnchored(step + dir, dir)
+      if (target < 0) {
+        if (dir === 1) finish()
+        return
+      }
+      setStep(target)
+    },
+    [step, nextAnchored, finish],
+  )
 
   useEffect(() => {
     if (!open) return
     panelRef.current?.focus()
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') finish()
-      if (e.key === 'ArrowRight') next()
-      if (e.key === 'ArrowLeft') setStep((s) => clampStep(s - 1))
+      if (e.key === 'ArrowRight') go(1)
+      if (e.key === 'ArrowLeft') go(-1)
     }
     document.addEventListener('keydown', onKey)
     return () => document.removeEventListener('keydown', onKey)
-  })
+  }, [open, finish, go])
 
-  const finish = () => {
-    markTourSeen()
-    setOpen(false)
+  if (!open || !current) return null
+
+  const isLast = nextAnchored(step + 1, 1) < 0
+  const isFirst = nextAnchored(step - 1, -1) < 0
+  const shownIndex = TOUR_STEPS.filter((_, i) => i <= step && findAnchor(i)).length
+  const shownTotal = TOUR_STEPS.filter((_, i) => findAnchor(i)).length
+
+  const panelHeight = panelRef.current?.offsetHeight ?? 240
+  const style: React.CSSProperties = { position: 'fixed', width: PANEL_W, zIndex: 82 }
+  if (rect && placement !== 'center') {
+    if (placement === 'right') {
+      Object.assign(style, { left: rect.right + GAP, top: clampY(rect.top - 12, panelHeight) })
+    } else if (placement === 'left') {
+      Object.assign(style, { left: rect.left - PANEL_W - GAP, top: clampY(rect.top - 12, panelHeight) })
+    } else if (placement === 'below') {
+      Object.assign(style, { top: rect.bottom + GAP, left: clampX(rect.left) })
+    } else {
+      Object.assign(style, { top: Math.max(12, rect.top - panelHeight - GAP), left: clampX(rect.left) })
+    }
+  } else {
+    Object.assign(style, { top: '50%', left: '50%', transform: 'translate(-50%,-50%)' })
   }
-
-  const next = () => {
-    if (step >= TOUR_STEPS.length - 1) finish()
-    else setStep((s) => s + 1)
-  }
-
-  if (!open) return null
-
-  // With no anchor (mobile nav, or a hidden sidebar) the tour still runs as a
-  // centred card — the words are the point, the pointing is a bonus.
-  const anchored = rect !== null
-  const panelStyle: React.CSSProperties = anchored
-    ? { position: 'fixed', top: Math.max(12, rect.top - 8), left: rect.right + 16, maxWidth: 320 }
-    : { position: 'fixed', top: '50%', left: '50%', transform: 'translate(-50%, -50%)', maxWidth: 360 }
 
   return (
     <div className="fixed inset-0 z-[80]">
-      <div className="absolute inset-0 bg-black/45" onClick={finish} aria-hidden />
+      {/* The dim is painted by the spotlight's own outsized box-shadow, so the
+          highlighted control stays fully lit instead of dimmed and outlined. */}
+      <div className="absolute inset-0" onClick={finish} aria-hidden />
 
-      {anchored && (
-        // Cut-out ring around the real link, so the words point at something.
+      {rect && (
         <div
           aria-hidden
-          className="pointer-events-none absolute rounded-[15px] ring-4 ring-white"
+          className="pointer-events-none absolute rounded-[16px] transition-all duration-300 ease-out"
           style={{
-            top: rect.top - 4,
-            left: rect.left - 4,
-            width: rect.width + 8,
-            height: rect.height + 8,
-            boxShadow: '0 0 0 9999px rgba(0,0,0,0.45)',
+            top: rect.top - 6,
+            left: rect.left - 6,
+            width: rect.width + 12,
+            height: rect.height + 12,
+            boxShadow:
+              '0 0 0 9999px rgba(9,20,28,0.62), 0 0 0 3px var(--ss-accent), 0 0 24px 5px rgba(12,111,174,0.5)',
           }}
         />
       )}
@@ -99,15 +172,45 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="tour-title"
+        aria-describedby="tour-body"
         tabIndex={-1}
-        style={panelStyle}
-        className="rounded-2xl bg-ss-panel p-5 shadow-2xl outline-none"
+        style={style}
+        className="rounded-[20px] border border-ss-line bg-ss-panel p-5 shadow-2xl outline-none"
       >
-        <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent">
-          Step {step + 1} of {TOUR_STEPS.length}
+        {rect && placement !== 'center' && <Pointer placement={placement} />}
+
+        <div className="flex items-center gap-2">
+          <span className="rounded-full bg-[color:var(--ss-accent)]/12 px-2.5 py-1 text-[12px] font-black uppercase tracking-[0.12em] text-ss-accent">
+            {current.eyebrow}
+          </span>
+          <span className="ml-auto text-[12px] font-bold tabular-nums text-ss-slate">
+            {shownIndex} / {shownTotal}
+          </span>
+        </div>
+
+        <h2 id="tour-title" className="mt-3 text-[18px] font-extrabold leading-snug text-ss-ink">
+          {current.title}
+        </h2>
+        <p id="tour-body" className="mt-2 text-[13.5px] font-medium leading-relaxed text-ss-slate">
+          {current.body}
         </p>
-        <h2 id="tour-title" className="mt-1 text-[17px] font-extrabold text-ss-ink">{current.title}</h2>
-        <p className="mt-1.5 text-[13.5px] font-medium text-ss-slate">{current.body}</p>
+        {current.action && (
+          <p className="mt-2.5 rounded-xl bg-ss-chip px-3 py-2 text-[12.5px] font-semibold text-ss-ink">
+            {current.action}
+          </p>
+        )}
+
+        {/* Dots rather than "Step 3 of 4": the eye reads them without parsing. */}
+        <div className="mt-4 flex items-center gap-1.5" aria-hidden>
+          {Array.from({ length: shownTotal }).map((_, i) => (
+            <span
+              key={i}
+              className={`h-1.5 rounded-full transition-all ${
+                i < shownIndex ? 'w-5 bg-ss-accent' : 'w-1.5 bg-ss-line'
+              }`}
+            />
+          ))}
+        </div>
 
         <div className="mt-4 flex items-center justify-between gap-3">
           <button
@@ -115,13 +218,13 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
             onClick={finish}
             className="text-[13px] font-bold text-ss-slate hover:text-ss-ink"
           >
-            Skip
+            Skip the tour
           </button>
           <div className="flex items-center gap-2">
-            {step > 0 && (
+            {!isFirst && (
               <button
                 type="button"
-                onClick={() => setStep((s) => clampStep(s - 1))}
+                onClick={() => go(-1)}
                 className="rounded-xl border border-ss-line px-3.5 py-2 text-[13px] font-bold text-ss-ink hover:border-ss-accent"
               >
                 Back
@@ -129,14 +232,38 @@ export default function ProductTour({ enabled = true }: { enabled?: boolean }) {
             )}
             <button
               type="button"
-              onClick={next}
-              className="rounded-xl bg-ss-accent px-4 py-2 text-[13px] font-extrabold text-white hover:opacity-90"
+              onClick={() => go(1)}
+              className="rounded-xl bg-ss-accent px-4 py-2 text-[13px] font-extrabold text-white transition-opacity hover:opacity-90"
             >
-              {step >= TOUR_STEPS.length - 1 ? 'Got it' : 'Next'}
+              {isLast ? 'Got it' : 'Next'}
             </button>
           </div>
         </div>
       </div>
     </div>
   )
+}
+
+/** Small triangle joining the panel to the thing it is talking about. */
+function Pointer({ placement }: { placement: Placement }) {
+  const at: Record<string, string> = {
+    right: 'left-[-7px] top-8 border-b border-l',
+    left: 'right-[-7px] top-8 border-r border-t',
+    below: 'left-8 top-[-7px] border-l border-t',
+    above: 'bottom-[-7px] left-8 border-b border-r',
+  }
+  return (
+    <span
+      aria-hidden
+      className={`absolute h-3 w-3 rotate-45 border-ss-line bg-ss-panel ${at[placement] ?? ''}`}
+    />
+  )
+}
+
+function clampY(y: number, h: number) {
+  return Math.max(12, Math.min(y, window.innerHeight - h - 12))
+}
+
+function clampX(x: number) {
+  return Math.max(12, Math.min(x, window.innerWidth - PANEL_W - 12))
 }

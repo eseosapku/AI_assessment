@@ -54,6 +54,10 @@ export function SideNav() {
             <Link
               key={item.href}
               href={item.href}
+              // Explicit tour anchor. Matching on the wrapper element instead
+              // meant a purely structural change elsewhere silently unhooked
+              // every coach mark, which is exactly what happened.
+              data-tour={item.href}
               className={`flex items-center gap-3 rounded-[13px] px-3 py-[11px] text-[14.5px] font-semibold transition-colors ${
                 active ? 'bg-ss-accent text-white shadow-[0_12px_26px_-12px_rgba(14,143,209,.85)]' : 'text-ss-slate hover:bg-ss-chip hover:text-ss-ink'
               }`}
