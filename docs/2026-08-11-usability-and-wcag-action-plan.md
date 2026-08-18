@@ -508,6 +508,40 @@ consequence — "Select student level", "Choose a question style", "Add your own
 area" — leaving the student to infer what changes. The quiz wizard has been
 rewritten on this principle (2026-08-17); the rest of the product has not.
 
+### C5b. The report card was never in this plan
+
+Raised 2026-08-18 by the user asking whether the report-card complaint had been
+worked on. It had not — it appears nowhere in this document, so it was never
+tracked, and it only ever received the platform-wide sweeps.
+
+Worse, it had escaped those too. The component carried **54 hardcoded palette
+classes**, so the AA retune of the light palette simply never reached it:
+`text-gray-400` on white is 2.8:1 and `text-amber-600` at 12px is 3.3:1, both
+failing 1.4.3. Converting it to the `ss-*` tokens fixed every one at once —
+the same systemic lesson as the original palette pass, on a file that had been
+missed.
+
+The rest was the familiar set:
+
+- **The printed card was branded "Brain Ink · AI Assessment Platform"** with a
+  placeholder "B" tile. That is the artifact that reaches a parent or a school
+  office, and it named a product that no longer exists by that name.
+  StudySquare now, with the Brain Ink endorsement line the rest of the app uses.
+- **The page's loading state said "Loading Brain Ink…"** — the same unfinished
+  rename fixed elsewhere in `fd8d94f`.
+- **Both selects had labels tied to nothing**, and the Student select greys out
+  until a classroom is chosen without ever saying so.
+- **The empty state named no action.** It now says what a report card is built
+  from, differently for a teacher and a student, because the thing that fills
+  it differs.
+
+**Lesson:** the plan was built from the tester report plus an audit of the
+surfaces testers reached. Nobody opened the report card, so nothing about it
+entered the plan, and every later sweep was scoped to the plan. A file with 54
+palette escapes should have been findable mechanically — a guard test over
+hardcoded colour classes would have caught it, the way `lib/design-tokens.test.ts`
+guards the palette itself.
+
 ### C6. Platform-wide copy pass
 Each surface, in order of how many students hit it: the assessment player,
 results and feedback, the dashboard, Recall, LearnSpace, Gap Maps, Settings.

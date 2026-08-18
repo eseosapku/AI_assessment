@@ -17,10 +17,10 @@ export default function ReportCardPage() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex items-center justify-center">
+      <div className="studio-surface flex min-h-screen items-center justify-center">
         <div className="text-center">
-          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-blue-600 mx-auto mb-4" />
-          <p className="text-gray-500 dark:text-gray-400 font-medium">Loading Brain Ink...</p>
+          <div className="mx-auto mb-4 h-12 w-12 animate-spin rounded-full border-b-2 border-t-2 border-ss-accent" />
+          <p className="font-medium text-ss-slate">Loading your report card…</p>
         </div>
       </div>
     )
