@@ -168,8 +168,39 @@ Judging that needs semantics, not string matching. Options:
 3. **Accept supporting figures** — decide that a figure aiding recall is fine,
    and say so in the copy rather than implying every image is load-bearing.
 
-Recommendation: (1) first, because it is small, measurable and reversible, with
-(2) as the real fix if the scores show most figures are decorative. (3) is the
+### B1c. The figure often contains the answer
+
+Raised 2026-08-18, and it changes the recommendation above. Measured against
+the manifest: **5,491 of 10,001 described figures (55%) carry visible labels.**
+
+A fully labelled diagram makes identification worthless. "Which part carries
+the impulse away from the cell body?" against a neuron diagram with *Axon*
+printed on it is a find-the-word exercise, not a test of knowledge — and it
+passes every check in B1, because the stem neither narrates the figure nor
+restates the answer. The answer is in the picture.
+
+The distinction that matters is how a figure is keyed:
+
+- **Word-labelled** (parts named in the image): naming questions are reading
+  comprehension. Ask instead for what the labels do not give away — function,
+  relationship, sequence, comparison, prediction, cause and effect. *"Which
+  structure would be affected first if the myelin sheath degraded?"*
+- **Letter- or number-keyed** (A/B/C pointing at unnamed parts): identification
+  is legitimate and good, because the student must supply the name.
+- **Unlabelled**: identification and description both work.
+
+This is a property of the figure, known before any question is written, and
+the vision descriptions already record it. So it is a routing decision, not
+another checking pass: classify the figure, then ask the model for the kind of
+question that figure can honestly support.
+
+That also settles the choice above. A scoring pass (1) can only reject what has
+already been written, and cannot see this at all. Generating from the figure (2)
+is the only option that can act on how the figure is keyed, and it costs nothing
+recurring because it folds into a call that already happens.
+
+Revised recommendation: **(2), with figure classification driving the question
+type.** Fall back to (3) only if generating from figures proves unreliable. (3) is the
 honest fallback if neither earns its cost.
 
 Whichever is chosen, the decision belongs in the product's own words: if figures
