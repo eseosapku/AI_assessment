@@ -69,8 +69,22 @@ export default function ProductTour({ id = 'home', enabled = true }: { id?: Tour
 
   const current = steps[clampStep(step, steps.length)]
 
+  // Bring the target on screen before pointing at it. Without this a step
+  // whose anchor sits below the fold spotlights a rectangle nobody can see and
+  // the panel appears to be talking about nothing — which is how the Progress
+  // tour ended up describing a section still scrolled out of view.
+  useEffect(() => {
+    if (!open) return
+    const el = findAnchor(step)
+    if (!el) return
+    const reduced = window.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+    el.scrollIntoView({ block: 'center', inline: 'nearest', behavior: reduced ? 'auto' : 'smooth' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [open, step])
+
   // Measure after paint, and keep measuring. A coach mark on stale coordinates
-  // is the failure this rewrite exists to prevent.
+  // is the failure this rewrite exists to prevent, and the scroll above means
+  // the position keeps changing until it settles.
   useLayoutEffect(() => {
     if (!open) return
     const measure = () => {
@@ -92,9 +106,15 @@ export default function ProductTour({ id = 'home', enabled = true }: { id?: Tour
       )
     }
     measure()
+    // The smooth scroll above settles over a few hundred ms; poll briefly so
+    // the resting position is measured even if the last scroll event is lost.
+    const settle = window.setInterval(measure, 100)
+    const stop = window.setTimeout(() => window.clearInterval(settle), 900)
     window.addEventListener('resize', measure)
     window.addEventListener('scroll', measure, true)
     return () => {
+      window.clearInterval(settle)
+      window.clearTimeout(stop)
       window.removeEventListener('resize', measure)
       window.removeEventListener('scroll', measure, true)
     }
