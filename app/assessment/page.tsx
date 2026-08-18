@@ -627,6 +627,7 @@ function AssessmentPageClient() {
   const [offline, setOffline] = useState(false)
   const [pendingSync, setPendingSync] = useState(false)
   const [limitDisabled, setLimitDisabled] = useState(false)
+  const [unsavedReason, setUnsavedReason] = useState<'not-signed-in' | null>(null)
   // Which questions have been landed on, so "walked past and left blank" can be
   // told apart from "not reached yet".
   const [visited, setVisited] = useState<Set<number>>(() => new Set([0]))
@@ -1143,6 +1144,12 @@ function AssessmentPageClient() {
         ? storedUser?.id
         : null
 
+    // No usable identity means the result cannot be attributed to anyone. It
+    // used to be dropped here in silence: the student finished, saw a score,
+    // and nothing was ever saved. Say so instead — and keep saying it on the
+    // results screen, where they can still act on it.
+    if (!resolvedUserId) setUnsavedReason('not-signed-in')
+
     if (resolvedUserId) {
       const totalSeconds = Number.isFinite(assessment?.estimated_time)
         ? (assessment?.estimated_time ?? 0) * 60
@@ -1253,6 +1260,22 @@ function AssessmentPageClient() {
       window.removeEventListener('online', drain)
     }
   }, [deliverPending])
+
+  /**
+   * Check the session before the work is done, not after.
+   *
+   * A signed-out or expired session meant a finished attempt was silently
+   * discarded at submit. Warning up front lets a student sign in while it
+   * still costs them nothing.
+   */
+  useEffect(() => {
+    if (showResults) return
+    const stored = (() => {
+      try { return JSON.parse(localStorage.getItem('user') || 'null') } catch { return null }
+    })()
+    const hasIdentity = isUuid(authUser?.id) || isUuid(stored?.id)
+    setUnsavedReason(hasIdentity ? null : 'not-signed-in')
+  }, [authUser, showResults])
 
   // Honest connection state while answering, so a student on a patchy line
   // knows before they reach the end.
@@ -1546,6 +1569,16 @@ function AssessmentPageClient() {
               loadingMessage={isGradingLongForm ? 'Grading written answers…' : 'Analysing your performance…'}
             />
           </motion.div>
+
+          {unsavedReason && (
+            <div role="status" className="rounded-2xl border-2 border-amber-400 bg-amber-50 p-4 dark:border-amber-600 dark:bg-amber-900/25">
+              <p className="text-[14px] font-bold text-amber-900 dark:text-amber-100">This attempt wasn&apos;t saved</p>
+              <p className="mt-1 text-[13px] font-medium text-amber-900/90 dark:text-amber-100/90">
+                You weren&apos;t signed in, so it isn&apos;t part of your progress or your gap map. Your
+                answers and feedback are still on this screen — sign in and retake it to keep the score.
+              </p>
+            </div>
+          )}
 
           {/* Next steps — only once grading has settled, so the areas shown
               aren't based on written answers that are still being marked. */}
@@ -1939,6 +1972,21 @@ function AssessmentPageClient() {
                 Turn off the timer
               </button>
             )}
+          </div>
+        </div>
+      )}
+
+      {unsavedReason && !showResults && (
+        <div className="px-4 pt-4 sm:px-6 lg:px-8">
+          <div
+            role="status"
+            className="mx-auto flex max-w-3xl flex-wrap items-center gap-3 rounded-2xl border-2 border-amber-400 bg-amber-50 p-3.5 dark:border-amber-600 dark:bg-amber-900/25"
+          >
+            <span className="text-base leading-none" aria-hidden>⚠️</span>
+            <p className="flex-1 text-[13px] font-semibold text-amber-900 dark:text-amber-100">
+              You&apos;re not signed in, so this attempt won&apos;t be saved to your progress. Sign in
+              in another tab and it&apos;ll be picked up when you finish.
+            </p>
           </div>
         </div>
       )}

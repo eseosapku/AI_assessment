@@ -9,6 +9,7 @@ import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-a
 import { useSubscription } from '@/components/SubscriptionProvider'
 import { isPaymentRequiredResponse } from '@/lib/subscription'
 import { subjectFromTextbookName, filterAliasTextbooks, withDisplaySubjectNames } from '@/lib/textbook-subject'
+import { subjectArt } from '@/lib/studio/subjectArt'
 import { CURRICULUM_REGISTRY, curriculaForCountry } from '@/lib/curriculum-registry'
 import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityTopicsForCourseAndYear, getUniversityYearLabel } from '@/lib/university-curriculum'
 import { normalizeCountry } from '@/lib/countries'
@@ -640,11 +641,18 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
 
   const classNameForTextbooks = formData.class_name
 
+  const [subjectQuery, setSubjectQuery] = useState('')
   const subjectTextbooks = useMemo(() => {
     return withDisplaySubjectNames(filterAliasTextbooks(textbooks)).sort((a, b) =>
       a.displayName.localeCompare(b.displayName)
     )
   }, [textbooks])
+
+  const visibleSubjects = useMemo(() => {
+    const q = subjectQuery.trim().toLowerCase()
+    if (!q) return subjectTextbooks
+    return subjectTextbooks.filter((tb) => tb.displayName.toLowerCase().includes(q))
+  }, [subjectTextbooks, subjectQuery])
 
   // Load textbooks for the user's class (e.g. "Grade 7"), filtered by curriculum.
   useEffect(() => {
@@ -1425,24 +1433,47 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                 <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
                   {selectedClassDisplayName || formData.class_name || 'Selected class'} · {selectedCurriculum?.shortLabel ?? (isCambridge ? 'Cambridge' : 'REB')} subjects
                 </h3>
+                {/* Search once the list stops being scannable. Subject names
+                    here are full textbook titles, so a dozen of them is a wall
+                    of text rather than a menu. */}
+                {!isLoadingTextbooks && subjectTextbooks.length > 8 && (
+                  <input
+                    type="search"
+                    value={subjectQuery}
+                    onChange={(e) => setSubjectQuery(e.target.value)}
+                    placeholder="Search subjects…"
+                    aria-label="Search subjects"
+                    className="mb-3 w-full rounded-xl border border-gray-300 bg-white px-3.5 py-2.5 text-[13px] font-medium text-ss-ink outline-none transition-colors placeholder:font-normal placeholder:text-ss-slate focus:border-ss-accent dark:border-gray-700 dark:bg-gray-900 dark:text-white"
+                  />
+                )}
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {isLoadingTextbooks ? (
-                    <div className="col-span-full flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                    <div className="col-span-full flex items-center gap-2 text-sm text-ss-slate">
                       <Loader2 className="w-4 h-4 animate-spin" />
                       Loading textbooks...
                     </div>
                   ) : subjectTextbooks.length === 0 ? (
-                    <div className="col-span-full text-sm text-gray-500 dark:text-gray-400">
+                    <div className="col-span-full text-sm text-ss-slate">
                       No subjects assigned for {selectedClassDisplayName || classNameForTextbooks || 'this class'}.
                     </div>
+                  ) : visibleSubjects.length === 0 ? (
+                    <div className="col-span-full text-sm text-ss-slate">
+                      No subject matches “{subjectQuery}”.
+                    </div>
                   ) : (
-                    subjectTextbooks.map(tb => (
+                    visibleSubjects.map(tb => (
                       <OptionButton
                         key={tb.id}
                         selected={formData.textbook_id === tb.id}
                         onClick={() => handleSubjectSelect(tb.name, tb.id, tb.displayName)}
                       >
-                        <span className="font-medium text-gray-800 dark:text-gray-200">{tb.displayName}</span>
+                        <span className="flex items-center gap-2.5">
+                          {/* Artwork gives each subject something to recognise
+                              other than a long title. */}
+                          {/* eslint-disable-next-line @next/next/no-img-element */}
+                          <img src={subjectArt(tb.displayName)} alt="" aria-hidden className="h-7 w-7 shrink-0 object-contain" />
+                          <span className="min-w-0 pr-6 text-sm font-medium text-gray-800 dark:text-gray-200">{tb.displayName}</span>
+                        </span>
                       </OptionButton>
                     ))
                   )}
