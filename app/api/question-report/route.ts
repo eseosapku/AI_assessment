@@ -26,6 +26,76 @@ function isMissingTable(err: unknown): boolean {
   return (err as { code?: string })?.code === '42P01' || isMissingColumn(err)
 }
 
+/**
+ * Read the queue.
+ *
+ * Reports were landing in a table nobody could read without SQL, which meant
+ * the cheapest quality signal in the product was accumulating unseen.
+ */
+export async function GET(request: NextRequest) {
+  const status = request.nextUrl.searchParams.get('status') ?? 'open'
+  const limit = Math.min(Math.max(Number(request.nextUrl.searchParams.get('limit')) || 50, 1), 200)
+
+  try {
+    const valid = ['open', 'reviewed', 'actioned', 'dismissed']
+    const rows = valid.includes(status)
+      ? await db.query(
+          `SELECT id, user_id, assessment_id, question_index, reason, detail,
+                  question_snapshot, status, created_at
+             FROM question_reports
+            WHERE status = $1
+            ORDER BY created_at DESC
+            LIMIT $2`,
+          [status, limit],
+        )
+      : await db.query(
+          `SELECT id, user_id, assessment_id, question_index, reason, detail,
+                  question_snapshot, status, created_at
+             FROM question_reports
+            ORDER BY created_at DESC
+            LIMIT $1`,
+          [limit],
+        )
+
+    const counts = await db.query(
+      `SELECT status, COUNT(*)::int AS n FROM question_reports GROUP BY status`,
+    )
+
+    return NextResponse.json({
+      reports: rows.rows,
+      counts: Object.fromEntries(counts.rows.map((r: any) => [r.status, r.n])),
+    })
+  } catch (err) {
+    if (isMissingTable(err)) return NextResponse.json({ reports: [], counts: {} })
+    console.error('Question report list failed:', err)
+    return NextResponse.json({ error: 'Could not load reports.' }, { status: 500 })
+  }
+}
+
+/** Move a report through the queue. */
+export async function PATCH(request: NextRequest) {
+  try {
+    const body = await request.json().catch(() => ({}))
+    const id = asUuid(body?.id)
+    const status = String(body?.status ?? '')
+    if (!id) return NextResponse.json({ error: 'A report id is required' }, { status: 400 })
+    if (!['open', 'reviewed', 'actioned', 'dismissed'].includes(status)) {
+      return NextResponse.json({ error: 'Unknown status' }, { status: 400 })
+    }
+
+    const res = await db.query(
+      'UPDATE question_reports SET status = $2 WHERE id = $1 RETURNING id, status',
+      [id, status],
+    )
+    if (res.rowCount === 0) return NextResponse.json({ error: 'Report not found' }, { status: 404 })
+    return NextResponse.json({ ok: true, report: res.rows[0] })
+  } catch (err) {
+    if (isMissingTable(err)) return NextResponse.json({ ok: true, stored: false })
+    console.error('Question report update failed:', err)
+    return NextResponse.json({ error: 'Could not update that report.' }, { status: 500 })
+  }
+}
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json().catch(() => ({}))
