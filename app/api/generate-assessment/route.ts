@@ -15,6 +15,7 @@ import { attachSourceImages, examFromCurriculum } from '@/lib/exam-source-images
 import { groupQuestionsByFigure } from '@/lib/assessment-figure-groups'
 import { cleanQuestionPaper } from '@/lib/assessment-quality'
 import { judgeImageQuestion } from '@/lib/image-question-quality'
+import { buildSource } from '@/lib/question-source'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -113,9 +114,17 @@ function tagQuestionsWithSubtopics(
         best = c
       }
     }
+    // A keyword hit is a finding. So is a single candidate — if the student
+    // asked for exactly one subtopic, every question is from it and saying so
+    // is not a guess. Round-robin across several is neither.
+    const matched = (bestScore > 0 && best) || candidates.length === 1
     const chosen = bestScore > 0 && best ? best : candidates[rr++ % candidates.length]
     q.subtopic_id = chosen.id
     q.topic_id = chosen.topic_id ?? null
+    // Round-robin is a fair way to spread untagged questions across areas for
+    // scoring, but it is an assignment, not a finding. Only a real match may
+    // be shown to the student as where the question came from.
+    q.topic_label_matched = matched
     // Readable counterpart to subtopic_id. The review page groups a finished
     // attempt into named weak areas, and it only has questions_data to work
     // from — an id alone would force a lookup the results page cannot do.
@@ -157,6 +166,9 @@ function tagQuestionsWithTopicLabels(questions: any[], topics: string[]): void {
     // Round-robin when nothing overlaps, so coverage stays spread across the
     // requested topics rather than collapsing onto whichever matched first.
     q.topic_label = bestScore > 0 && best ? best.name : candidates[rr++ % candidates.length].name
+    // Citable only when it was found, or when there was only ever one topic
+    // to find. See the note in tagQuestionsWithSubtopics.
+    q.topic_label_matched = (bestScore > 0 && best) || candidates.length === 1
   }
 }
 
@@ -2114,6 +2126,26 @@ export async function POST(request: NextRequest) {
     // above. Runs outside that try so a DB error there still leaves the review
     // page with usable areas.
     tagQuestionsWithTopicLabels(assessmentData.questions, promptTopics)
+
+    // ── Where each question came from ─────────────────────────────────────────
+    // A student who disputes a question has nothing to check against, and a
+    // teacher cannot confirm a paper matches the syllabus. Both facts are known
+    // here. The page is keyed off the figure, because that is the only part of
+    // the pipeline that tracks where content sat in the book, so text questions
+    // carry a book and an area and no page rather than a plausible guess.
+    {
+      const pageByPath = new Map(visualCatalog.map((c) => [c.localPath, c.page]))
+      for (const q of assessmentData.questions as any[]) {
+        if (!q || typeof q !== 'object') continue
+        const src = buildSource({
+          textbook: textbookName,
+          page: pageByPath.get(q.image_url),
+          area: q.topic_label_matched ? q.topic_label : undefined,
+        })
+        if (src) q.source = src
+        delete q.topic_label_matched
+      }
+    }
 
     // ── Stage 2b: Passages ────────────────────────────────────────────────────
     // For passage subjects using the passage-first flow, questions already have

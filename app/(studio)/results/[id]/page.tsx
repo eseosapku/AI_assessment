@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useMemo, useState } from 'react'
 import { useParams, useRouter } from 'next/navigation'
-import { ArrowLeft, Check, Download } from 'lucide-react'
+import { ArrowLeft, BookOpen, Check, Download } from 'lucide-react'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
 import { LatexText as L } from '@/lib/latex-text'
@@ -22,6 +22,7 @@ import {
     type QuestionOutcome,
 } from '@/lib/assessment-weak-areas'
 import { buildRetakePayload, CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
+import { describeSource, type QuestionSource } from '@/lib/question-source'
 
 // Per-grade band gradient + ring color + plain-English meaning for the summary.
 const GRADE_REVIEW: Record<string, { grad: string; ring: string; meaning: string }> = {
@@ -46,6 +47,7 @@ interface MCQQuestion {
     diagram_svg?: string
     image_url?: string
     figureGroup?: FigureGroupMeta
+    source?: QuestionSource
 }
 
 interface LongFormQuestion {
@@ -61,6 +63,7 @@ interface LongFormQuestion {
     diagram_svg?: string
     image_url?: string
     figureGroup?: FigureGroupMeta
+    source?: QuestionSource
 }
 
 type Question = MCQQuestion | LongFormQuestion | InteractiveQuestion
@@ -409,6 +412,18 @@ function LongFormResultCard({
                     </AnimatePresence>
                 </div>
             )}
+
+            {/* Same citation as the MCQ card: a written answer is the one a
+                student is most likely to want to check against the book. */}
+            {describeSource(q.source) && (
+                <p className="mt-3 flex items-center gap-1.5 text-xs font-semibold text-ss-slate">
+                    <BookOpen className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                    <span>
+                        <span className="sr-only">Source: </span>
+                        {describeSource(q.source)}
+                    </span>
+                </p>
+            )}
         </motion.div>
     )
 }
@@ -423,6 +438,7 @@ function McqResultCard({
     userAnswer: number | null
 }) {
     const isCorrect = userAnswer !== null && userAnswer === q.correct_answer
+    const sourceLine = describeSource(q.source)
 
     return (
         <motion.div
@@ -487,6 +503,19 @@ function McqResultCard({
                 <span className="font-semibold text-ss-ink dark:text-gray-100">Explanation: </span>
                 <L>{q.explanation ?? ''}</L>
             </div>
+
+            {/* Where it came from. Printed only when it is actually known —
+                a student disputing a question needs somewhere to look, and a
+                made-up citation is worse than none. */}
+            {sourceLine && (
+                <p className="ml-12 mt-2 flex items-center gap-1.5 text-xs font-semibold text-ss-slate">
+                    <BookOpen className="h-3.5 w-3.5 shrink-0" aria-hidden />
+                    <span>
+                        <span className="sr-only">Source: </span>
+                        {sourceLine}
+                    </span>
+                </p>
+            )}
         </motion.div>
     )
 }
@@ -517,6 +546,13 @@ function buildReportHtml({
     interactiveAnswers: Record<string, InteractiveAnswer>
 }): string {
     const safe = (value: unknown) => String(value ?? '')
+    const sourceHtml = (q: Question) => {
+        const line = describeSource((q as { source?: QuestionSource }).source)
+        return line
+            ? `<p style="margin-top:10px;font-size:11px;color:#6b7280;font-weight:600;">Source: ${safe(line)}</p>`
+            : ''
+    }
+
     const questionBlocks = questions.map((q, i) => {
         const idx = q.id ?? i
         if (isLongForm(q)) {
@@ -567,6 +603,7 @@ function buildReportHtml({
           ${criteriaBlock}
           ${g?.general_feedback ? `<div style="background:#f0fdf4;border-radius:8px;padding:12px 16px;font-size:13px;color:#166534;"><strong>Feedback:</strong> ${safe(g.general_feedback)}</div>` : ''}
           ${q.model_answer ? `<div style="background:#f8fafc;border-radius:8px;padding:12px 16px;margin-top:12px;font-size:13px;color:#334155;"><strong>Model answer:</strong> ${safe(q.model_answer)}</div>` : ''}
+          ${sourceHtml(q)}
         </div>
       `
         }
@@ -582,6 +619,7 @@ function buildReportHtml({
         <p style="font-size:14px;font-weight:600;color:#111827;margin-bottom:14px;">${safe(q.question)}</p>
         <ul style="font-size:13px;padding-left:18px;margin-bottom:12px;">${rows}</ul>
         ${q.explanation ? `<div style="margin-top:12px;background:#fefce8;border-radius:8px;padding:10px 14px;font-size:13px;"><strong>Explanation:</strong> ${safe(q.explanation)}</div>` : ''}
+        ${sourceHtml(q)}
       </div>
     `
         }
@@ -605,6 +643,7 @@ function buildReportHtml({
         <p style="font-size:14px;font-weight:600;color:#111827;margin-bottom:14px;">${safe(q.question)}</p>
         ${optionsHtml}
         ${q.explanation ? `<div style="margin-top:12px;background:#fefce8;border-radius:8px;padding:10px 14px;font-size:13px;color:#713f12;"><strong>Explanation:</strong> ${safe(q.explanation)}</div>` : ''}
+        ${sourceHtml(q)}
       </div>
     `
     }).join('')

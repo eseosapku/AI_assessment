@@ -438,6 +438,26 @@ No source attribution on generated questions. A student who disagrees has no
 way to check, and a teacher has no way to verify alignment. The textbook, page
 and topic are already known at generation time and simply aren't surfaced.
 
+**Done 2026-08-18.** The rule is that a citation must be true or absent, and
+holding to it turned up two places where the data was less certain than it
+looked.
+
+The page is known only for questions that carry a figure — that is the one
+part of the pipeline that tracks where content sat in the book. Text questions
+therefore cite a book and an area and no page, rather than a plausible number.
+
+The subtopic tag was the harder one. `tagQuestionsWithSubtopics` matches on
+keywords and **round-robins when nothing matches**, which is a sound way to
+spread coverage for scoring but is an assignment, not a finding. Printing it as
+provenance would have invented a source, which is worse than offering none. It
+now records whether the tag was found, and only a real match is citable — with
+one exception that is not a guess at all: when the student asked for exactly
+one topic or subtopic, every question is from it, so a single candidate counts
+as known.
+
+The citation appears under each question in review and in the downloaded
+report, since the export is what a teacher actually checks a paper against.
+
 ### F8. No spend or abuse ceiling on the AI endpoints
 Subscription gating exists, but there is no per-user rate limit on generation,
 tutoring or grading. One scripted loop can run up an unbounded Bedrock bill.
