@@ -283,7 +283,8 @@ export default function SettingsForm() {
                         </div>
                         <h2 className="mt-3 font-display text-2xl font-black tracking-tight text-ss-ink">Update your profile</h2>
                         <p className="mt-1 text-sm font-semibold text-ss-slate">
-                            Edit your name, class, and subjects. No email required.
+                            Your name, class and subjects. These decide what the dashboard and quiz
+                            builder show you first.
                         </p>
                     </div>
                     <div className="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl bg-ss-accent text-white shadow-studio-tight">
@@ -294,10 +295,10 @@ export default function SettingsForm() {
                 <form onSubmit={handleProfileSubmit} className="space-y-5">
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            <label htmlFor="set-full-name" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Full name
                             </label>
-                            <input
+                            <input id="set-full-name"
                                 value={name}
                                 onChange={event => setName(event.target.value)}
                                 className={inputClass}
@@ -308,8 +309,8 @@ export default function SettingsForm() {
                         {isUni ? (
                             <>
                                 <div>
-                                    <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">Course</label>
-                                    <select
+                                    <label htmlFor="set-course" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">Course</label>
+                                    <select id="set-course"
                                         value={uniCourse}
                                         onChange={(event) => {
                                             const c = event.target.value
@@ -323,8 +324,8 @@ export default function SettingsForm() {
                                     </select>
                                 </div>
                                 <div>
-                                    <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">Year of study</label>
-                                    <select
+                                    <label htmlFor="set-year-of-study" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">Year of study</label>
+                                    <select id="set-year-of-study"
                                         value={uniYear || ''}
                                         onChange={(event) => setUniYear(Number(event.target.value))}
                                         className={inputClass}
@@ -338,10 +339,10 @@ export default function SettingsForm() {
                         ) : (
                         <>
                         <div>
-                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            <label htmlFor="set-country" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Country
                             </label>
-                            <select
+                            <select id="set-country"
                                 value={country}
                                 onChange={(event) => {
                                     const next = event.target.value as CountryCode
@@ -371,11 +372,12 @@ export default function SettingsForm() {
                             </p>
                         </div>
                         <div>
-                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            <label htmlFor="set-class-section" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Class / Section
                             </label>
                             {user?.role === 'student' ? (
                                 <select
+                                    id="set-class-section"
                                     value={className}
                                     onChange={(event) => setClassName(event.target.value)}
                                     className={inputClass}
@@ -387,6 +389,7 @@ export default function SettingsForm() {
                                 </select>
                             ) : (
                                 <input
+                                    id="set-class-section"
                                     value={className}
                                     onChange={event => setClassName(event.target.value)}
                                     className={inputClass}
@@ -401,45 +404,56 @@ export default function SettingsForm() {
 
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            <label htmlFor="set-student-id" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Student ID
                             </label>
-                            <input
+                            <input id="set-student-id"
                                 value={user?.studentId ?? ''}
                                 className={`${inputClass} opacity-70 cursor-not-allowed`}
                                 disabled
+                                aria-describedby="set-student-id-hint"
                             />
+                            <p id="set-student-id-hint" className="mt-1 text-[12px] font-semibold text-ss-slate">
+                                Your school set this. It can&apos;t be changed here.
+                            </p>
                         </div>
                         <div>
-                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            <label htmlFor="set-role" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Role
                             </label>
-                            <input
+                            <input id="set-role"
                                 value={user?.role ?? 'student'}
                                 className={`${inputClass} opacity-70 cursor-not-allowed`}
                                 disabled
+                                aria-describedby="set-role-hint"
                             />
+                            <p id="set-role-hint" className="mt-1 text-[12px] font-semibold text-ss-slate">
+                                Set when your account was made. Ask your school to change it.
+                            </p>
                         </div>
                     </div>
 
                     <div>
-                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
-                            Subjects (comma separated)
+                        <label htmlFor="set-subjects" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            Your subjects
                         </label>
-                        <input
+                        <p className="mt-0.5 text-[12px] font-semibold text-ss-slate">
+                            These come up first when you build a quiz. Separate them with commas.
+                        </p>
+                        <input id="set-subjects"
                             value={subjectsText}
                             onChange={event => setSubjectsText(event.target.value)}
-                            className={inputClass}
+                            className={`${inputClass} mt-2`}
                             placeholder="Mathematics, Physics, Chemistry"
                         />
                     </div>
 
                     <div>
-                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                        <h3 id="set-focus-label" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                             Your focus
-                        </label>
+                        </h3>
                         <p className="mt-0.5 text-[12px] font-semibold text-ss-slate">Sets what your dashboard leads with.</p>
-                        <div className="mt-2 grid grid-cols-3 gap-2">
+                        <div className="mt-2 grid grid-cols-3 gap-2" role="group" aria-labelledby="set-focus-label">
                             {FOCI.filter(({ id }) => id !== 'exams' || examPrepAvailable(country)).map(({ id, label, icon: Icon }) => {
                                 const selected = focus === id
                                 return (
@@ -464,13 +478,13 @@ export default function SettingsForm() {
                         vision may want larger text than any design ships, and a
                         device may never set the OS reduced-motion flag. */}
                     <div>
-                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                        <h3 id="set-a11y-label" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                             Accessibility
-                        </label>
+                        </h3>
                         <p className="mt-0.5 text-[12px] font-semibold text-ss-slate">
                             Saved on this device, so you can set it differently on your phone.
                         </p>
-                        <div className="mt-2 space-y-2">
+                        <div className="mt-2 space-y-2" role="group" aria-labelledby="set-a11y-label">
                             {A11Y_TOGGLES.map(({ key, label, hint }) => {
                                 const on = a11y[key]
                                 return (
@@ -505,9 +519,9 @@ export default function SettingsForm() {
                         reminder of where things are should not have to redo
                         those. */}
                     <div>
-                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                        <h3 className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                             Finding your way
-                        </label>
+                        </h3>
                         <p className="mt-0.5 text-[12px] font-semibold text-ss-slate">
                             Replays the short tour of the menu.
                         </p>
@@ -566,7 +580,7 @@ export default function SettingsForm() {
                         </div>
                         <h2 className="mt-3 font-display text-2xl font-black tracking-tight text-ss-ink">Change your password</h2>
                         <p className="mt-1 text-sm font-semibold text-ss-slate">
-                            Use your current password to set a new one.
+                            Enter your current password, then a new one of at least 6 characters.
                         </p>
                     </div>
                     <div className="hidden sm:flex h-14 w-14 items-center justify-center rounded-2xl bg-[#13202A] text-white shadow-studio-tight">
@@ -576,11 +590,11 @@ export default function SettingsForm() {
 
                 <form onSubmit={handlePasswordSubmit} className="space-y-5">
                     <div>
-                        <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                        <label htmlFor="set-current-password" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                             Current password
                         </label>
                         <div className="relative">
-                            <input
+                            <input id="set-current-password"
                                 type={showCurrent ? 'text' : 'password'}
                                 value={currentPassword}
                                 onChange={event => setCurrentPassword(event.target.value)}
@@ -590,6 +604,8 @@ export default function SettingsForm() {
                             <button
                                 type="button"
                                 onClick={() => setShowCurrent(value => !value)}
+                                aria-label={showCurrent ? 'Hide current password' : 'Show current password'}
+                                aria-pressed={showCurrent}
                                 className="absolute right-3 top-1/2 -translate-y-1/2 text-ss-slate hover:text-ss-ink"
                             >
                                 {showCurrent ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -599,11 +615,11 @@ export default function SettingsForm() {
 
                     <div className="grid gap-5 sm:grid-cols-2">
                         <div>
-                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            <label htmlFor="set-new-password" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 New password
                             </label>
                             <div className="relative">
-                                <input
+                                <input id="set-new-password"
                                     type={showNew ? 'text' : 'password'}
                                     value={newPassword}
                                     onChange={event => setNewPassword(event.target.value)}
@@ -613,6 +629,8 @@ export default function SettingsForm() {
                                 <button
                                     type="button"
                                     onClick={() => setShowNew(value => !value)}
+                                    aria-label={showNew ? 'Hide new password' : 'Show new password'}
+                                    aria-pressed={showNew}
                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-ss-slate hover:text-ss-ink"
                                 >
                                     {showNew ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
@@ -621,11 +639,11 @@ export default function SettingsForm() {
                         </div>
 
                         <div>
-                            <label className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
+                            <label htmlFor="set-confirm-new-password" className="text-[12px] font-black uppercase tracking-widest text-ss-slate">
                                 Confirm new password
                             </label>
                             <div className="relative">
-                                <input
+                                <input id="set-confirm-new-password"
                                     type={showConfirm ? 'text' : 'password'}
                                     value={confirmPassword}
                                     onChange={event => setConfirmPassword(event.target.value)}
@@ -635,6 +653,8 @@ export default function SettingsForm() {
                                 <button
                                     type="button"
                                     onClick={() => setShowConfirm(value => !value)}
+                                    aria-label={showConfirm ? 'Hide password confirmation' : 'Show password confirmation'}
+                                    aria-pressed={showConfirm}
                                     className="absolute right-3 top-1/2 -translate-y-1/2 text-ss-slate hover:text-ss-ink"
                                 >
                                     {showConfirm ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}

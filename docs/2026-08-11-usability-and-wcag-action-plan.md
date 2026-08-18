@@ -483,8 +483,8 @@ This is editorial work, not a find-and-replace: it needs a decision about what
 each screen is for before its labels can be rewritten. Budget it as its own
 pass rather than folding it into a wave.
 
-**Done 2026-08-18.** All seven surfaces. The last two were the dashboard and
-LearnSpace, and both needed structure before they needed words: `SectionHeader`
+**Done 2026-08-18.** All seven surfaces. The dashboard and LearnSpace both
+needed structure before they needed words: `SectionHeader`
 and `ListPanel` had nowhere to put a line saying what a section was *for*, so
 every heading was a bare category name and the student had to guess where its
 contents came from.
@@ -506,6 +506,19 @@ What the pass turned up beyond the wording:
 - **The homework Solve button sits disabled until there is something to work
   from, and never said so.** A dead control with no explanation reads as broken —
   the same fault as the dead Submit found in the assessment player.
+
+Settings was the last, and the worst of the three for markup rather than
+wording. **All fourteen of its labels were tied to their fields visually and
+nowhere else** — a screen reader read the form as fourteen anonymous boxes.
+Three of them were not field labels at all: `<label>` used as a heading over a
+group of buttons, which points at no control and so reaches assistive tech as
+nothing whatsoever. Those are headings with a labelled group now.
+
+The three password reveal buttons were icon-only with no accessible name
+(WCAG 4.1.2), and the two disabled fields — Role and Student ID — were greyed
+out with no explanation, which reads as a broken page rather than a deliberate
+one. Both now say who sets them and who can change them. The password rule
+(six characters) was stated only in the error after it had been broken.
 
 ---
 
