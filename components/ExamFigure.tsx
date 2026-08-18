@@ -26,6 +26,9 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
         alt={alt}
         className="max-w-full h-auto mx-auto rounded-lg"
         loading={lazy ? 'lazy' : 'eager'}
+        // Decode off the main thread so a large figure cannot jank the page
+        // while the student is already reading the question.
+        decoding="async"
       />
     </div>
   )
