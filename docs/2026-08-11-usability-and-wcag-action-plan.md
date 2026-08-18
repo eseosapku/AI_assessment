@@ -914,6 +914,41 @@ this time.
 **Still open, found while reproducing:** asking WAEC for `theory` returns
 multiple-choice questions. Not a generation failure, but not what was asked for.
 
+## The top of the dashboard, third attempt
+
+Raised 2026-08-18: *"creating assessments should still be prominent as it's
+still the main thing."* Correct, and the previous attempt had quietly demoted
+it — "Create assessment" ended up as a bordered ghost button in fourth
+position, after the primary action, the time estimate and before a dismiss
+link. That is not what the product's main action should look like.
+
+The mistake was structural, not cosmetic. One card was being asked to be two
+things: the front door, and a recommendation. They have different jobs and
+different lifespans — building a quiz is always available and always the same;
+the recommendation changes hourly and is sometimes to do something else
+entirely. Merging them meant one of the two always lost, and the first merge
+lost the wrong one.
+
+**Two surfaces, hierarchy carried by contrast rather than volume.**
+
+| | |
+| --- | --- |
+| **Build a quiz** | The only saturated panel on the page. Full brand gradient, the art, the largest type, the dark high-contrast button. It earns the colour by being the thing most students came to do. |
+| **Do this next** | A light panel beside it with an accent spine. Unmissable, obviously secondary, and no longer shouting over the thing it complements. |
+
+Both panels are the same height with their buttons on a shared baseline, so the
+row reads as one composed unit rather than two adjacent cards. On a narrow
+screen they stack — quiz first, recommendation second — which is the right
+priority order anyway.
+
+The **Test › Study › Prove** strip moved to a quiet footer inside the
+recommendation, as small accent text rather than chunky pills. It still says
+what the product is for; it no longer competes with the two buttons above it.
+
+The earlier stacked-gradient version is what the previous section describes, and
+the lesson from it is worth keeping: when two elements are fighting, the fix is
+usually to give them different *jobs*, not different colours.
+
 ## Revised sequencing
 
 **Wave 0 — ship-blockers found in audit**

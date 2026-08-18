@@ -13,6 +13,7 @@ import { subjectArt } from '@/lib/studio/subjectArt'
 import { getFocus, type FocusId } from '@/lib/onboarding'
 import type { PersonaSnapshot, WeakArea } from '@/lib/studylab/persona'
 import {
+  HeroBanner,
   ListPanel,
   ProgressRow,
   RingStat,
@@ -252,18 +253,31 @@ export default function StudioHome() {
     <div className="grid gap-6 xl:grid-cols-[1fr_312px]">
       {/* ── Main column ── */}
       <div className="flex min-w-0 flex-col gap-6">
-        {loading ? (
-          <div className="h-[220px] animate-pulse rounded-[24px] bg-ss-chip" aria-hidden />
-        ) : (
-          <NextStepCard
-            step={nextStep}
-            onAct={actOnNextStep}
-            onSetAside={hasAlternative ? () => setSetAside((prev) => [...prev, nextStep.key]) : undefined}
-            busy={startingStep}
-            secondaryLabel={nextStep.kind === 'first-quiz' || nextStep.kind === 'keep-going' ? undefined : hero.cta}
-            onSecondary={nextStep.kind === 'first-quiz' || nextStep.kind === 'keep-going' ? undefined : hero.action}
+        {/* Two jobs, two surfaces. Building a quiz is the product's main
+            action and gets the only saturated panel on the page; the
+            recommendation sits beside it in a light one. Cramming both into a
+            single card is what pushed "Create assessment" into fourth place in
+            a row of controls. On a narrow screen they stack in that same
+            order, which is the right priority anyway. */}
+        <div className="grid items-stretch gap-4 lg:grid-cols-[1.15fr_1fr]">
+          <HeroBanner
+            kicker={hero.kicker}
+            title={hero.title}
+            ctaLabel={hero.cta}
+            tone={hero.tone}
+            onCta={hero.action}
           />
-        )}
+          {loading ? (
+            <div className="min-h-[230px] animate-pulse rounded-[24px] bg-ss-chip" aria-hidden />
+          ) : (
+            <NextStepCard
+              step={nextStep}
+              onAct={actOnNextStep}
+              onSetAside={hasAlternative ? () => setSetAside((prev) => [...prev, nextStep.key]) : undefined}
+              busy={startingStep}
+            />
+          )}
+        </div>
         {personaLine && <p className="-mt-2 text-[13px] font-semibold text-ss-slate">{personaLine}</p>}
 
         {/* First run. The most important moment in the product was also its

@@ -25,22 +25,28 @@ export function HeroBanner({
   art?: string
 }) {
   return (
-    <section className="relative overflow-hidden rounded-[24px] px-9 py-[34px] text-white" style={{ background: TONE_BG[tone] }}>
+    <section
+      className="relative flex h-full flex-col overflow-hidden rounded-[24px] px-7 py-7 text-white sm:px-9"
+      style={{ background: TONE_BG[tone] }}
+    >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
         src={art}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-0 top-0 h-full w-[55%] object-cover opacity-90 mix-blend-screen"
+        className="pointer-events-none absolute right-0 top-0 h-full w-[46%] object-cover opacity-80 mix-blend-screen"
       />
-      <div className="relative">
+      <div className="relative flex h-full flex-col">
         <div className="text-[12px] font-bold uppercase tracking-[0.2em] opacity-85">{kicker}</div>
-        <h1 className="mt-2.5 max-w-[430px] text-[29px] font-extrabold leading-[1.16]">{title}</h1>
+        <h1 className="mb-6 mt-2.5 max-w-[380px] text-[27px] font-extrabold leading-[1.16] sm:text-[30px]">{title}</h1>
+        {/* mt-auto: the primary action sits on the baseline the next-step
+            panel's button shares, so the two read as one composed row rather
+            than two cards that happen to be adjacent. */}
         <button
           type="button"
           onClick={onCta}
           data-tour="hero-cta"
-          className="mt-5 inline-flex items-center gap-2.5 rounded-full bg-[#13202A] py-3 pl-5 pr-3 text-[14px] font-bold text-white transition-transform active:scale-[0.98]"
+          className="mt-auto inline-flex w-fit items-center gap-2.5 self-start rounded-full bg-[#13202A] py-3 pl-5 pr-3 text-[14.5px] font-bold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
         >
           {ctaLabel}
           <span className="grid h-[26px] w-[26px] place-items-center rounded-full bg-white text-[#13202A]">
