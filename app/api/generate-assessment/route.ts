@@ -17,8 +17,10 @@ import { cleanQuestionPaper } from '@/lib/assessment-quality'
 import { judgeImageQuestion } from '@/lib/image-question-quality'
 import { buildSource } from '@/lib/question-source'
 import { buildCommandWordBlock } from '@/lib/command-words'
+import { buildSubjectGenreBlock } from '@/lib/subject-genres'
 import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
+import { dropDanglingReferences } from '@/lib/dangling-reference'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -654,6 +656,13 @@ function buildPrompt(opts: {
   } = opts
 
   const subjectDomain = classifySubjectDomain(subject)
+
+  // What this subject is actually assessed with. Placed in the requirements
+  // block below rather than in the curriculum context at the top: the context
+  // sits far from anything governing output, and the numbered rules that
+  // follow it won the argument every time — six of six maths explanations came
+  // back with "the other options do not satisfy the equation".
+  const genreBlock = buildSubjectGenreBlock(subjectDomain)
   const subjectNeedsPassage = !sourceText && requirePassagesAll
 
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : questionType === 'study_mixed' ? countSplit(count, 'study_mixed').mcq : 0
@@ -867,7 +876,10 @@ ${visualBlock}
 
 ${uiConstraints}
 
+${genreBlock ? `${genreBlock}
+` : ''}
 **Requirements:**
+0. The subject-specific design rules above override the generic guidance in this list wherever they are more specific. In particular they govern how distractors are built and what an explanation must contain.
 1. All questions strictly based on the ${curriculumName} syllabus topics listed above.
 2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
 3. LaTeX math MUST be wrapped in dollar signs: $...$ for inline (e.g. $\\\\frac{1}{x}$, $\\\\sqrt{2}$, $x^2 + y^2$) and $$...$$ for display. This applies in ALL fields including explanations and model_answer. Never write bare LaTeX outside of dollar signs.
@@ -1477,6 +1489,7 @@ ${commandBlock}`
     // sent separately for classification so display and behaviour can differ.
     const domainHint = String(body?.subjectDomainHint ?? '').trim()
     const subjectDomain = classifySubjectDomain(domainHint || promptSubject)
+
     const subjectPlan = assessSubjectPassagePlan({
       // Same hint as above: the passage plan is a domain decision, so it must
       // read the broad subject, not the display title. Specificity still
@@ -2014,6 +2027,16 @@ ${commandBlock}`
       // The figure catalogue's internal ids occasionally end up mid-sentence.
       const stripped = stripImageKeysFromPaper(allQuestions)
       if (stripped > 0) console.log(`Stripped image_key from ${stripped} question(s)`)
+
+      // A stem that promises attached content it never includes — "consider
+      // the following code snippet" with no snippet — is unanswerable, and
+      // nothing else in the pipeline looks for it. Dropped here, before the
+      // trim, so the top-up can refill rather than the paper coming up short.
+      const { kept, dropped } = dropDanglingReferences(allQuestions)
+      if (dropped.length > 0) {
+        console.log(`Dropped ${dropped.length} question(s) referencing absent ${[...new Set(dropped)].join('/')}`)
+        allQuestions = kept as typeof allQuestions
+      }
     }
 
     // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)
