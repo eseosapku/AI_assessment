@@ -644,7 +644,7 @@ function buildReportHtml({
       <div style="font-size:14px;line-height:1.8;color:#1e3a8a;white-space:pre-wrap;">${safe(feedback)}</div>
     </div>
 
-    <h2 style="font-size:20px;font-weight:800;margin-bottom:16px;">Detailed Review</h2>
+    <h2 style="font-size:20px;font-weight:800;margin-bottom:16px;">Every question, and why</h2>
     ${questionBlocks}
 
     <div style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #e5e7eb;font-size:12px;color:#9ca3af;">
@@ -963,10 +963,10 @@ export default function ResultDetailPage() {
                 />
 
                 <div className="space-y-6">
-                    <h2 className="text-2xl font-bold px-2">Detailed Review</h2>
+                    <h2 className="text-2xl font-bold px-2">Every question, and why</h2>
                     {questions.length === 0 ? (
                         <div className="bg-ss-panel dark:bg-gray-900 rounded-3xl p-8 border border-ss-line/60 dark:border-white/5 text-center text-sm text-ss-slate">
-                            Question review data is not available for this attempt.
+                            The questions from this attempt are no longer stored, so only the score is left.
                         </div>
                     ) : (
                         questions.map((q, idx) => {

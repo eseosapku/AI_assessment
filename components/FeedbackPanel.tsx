@@ -194,8 +194,8 @@ export default function FeedbackPanel({ feedback, loading, loadingMessage, compa
           <Sparkles className="h-4 w-4" />
         </div>
         <div>
-          <h3 className="text-base font-semibold text-gray-900 dark:text-white">AI Feedback</h3>
-          <p className="text-xs text-gray-500 dark:text-gray-400">Personalised review of your attempt</p>
+          <h3 className="text-base font-semibold text-gray-900 dark:text-white">How you did</h3>
+          <p className="text-xs text-gray-500 dark:text-gray-400">Written for this attempt, not a template</p>
         </div>
       </div>
 
@@ -203,7 +203,7 @@ export default function FeedbackPanel({ feedback, loading, loadingMessage, compa
         {loading ? (
           <div className="flex items-center gap-3 text-sm text-gray-500 dark:text-gray-400">
             <div className="h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-emerald-600 dark:border-gray-600 dark:border-t-emerald-400" />
-            <p>{loadingMessage ?? 'Analysing your performance…'}</p>
+            <p>{loadingMessage ?? 'Reading through your answers…'}</p>
           </div>
         ) : sections.length === 0 ? (
           <p className="text-sm leading-relaxed text-gray-600 dark:text-gray-300">{feedback}</p>

@@ -42,7 +42,7 @@ type PricingQuote = {
 const BENEFITS = [
   'Unlimited AI-generated assessments',
   'Exam prep with past-paper style questions',
-  'StudyLab guided learning spaces',
+  'LearnSpace guided lessons',
   'Detailed feedback and progress tracking',
 ]
 

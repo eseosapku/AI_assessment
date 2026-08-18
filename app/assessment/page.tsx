@@ -349,7 +349,7 @@ function LongFormResultCard({
               highlightColor={highlightColor}
             />
           ) : (
-            <span className="text-ss-slate italic text-sm">No answer written</span>
+            <span className="text-ss-slate italic text-sm">You left this one blank</span>
           )}
         </div>
         {activeCrit && (
@@ -365,7 +365,7 @@ function LongFormResultCard({
             <span className="font-semibold">{activeCrit.met ? '✓ Criterion met:' : '✗ Criterion missed:'}</span>{' '}
             {activeCrit.note}
             {activeCrit.met && activeCrit.relevant_quote && (
-              <div className="mt-1 text-xs opacity-75">Highlighted in your answer above</div>
+              <div className="mt-1 text-xs opacity-75">Found in what you wrote</div>
             )}
           </motion.div>
         )}
@@ -584,7 +584,7 @@ function AssessmentLoading() {
     <div className="min-h-screen flex items-center justify-center">
       <div className="text-center">
         <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-apple-blue mx-auto mb-4"></div>
-        <p className="text-apple-dark-gray">Loading assessment...</p>
+        <p className="text-apple-dark-gray">Getting your quiz ready…</p>
       </div>
     </div>
   )
@@ -857,11 +857,11 @@ function AssessmentPageClient() {
             <p style="font-size:16px;font-weight:600;color:#111827;margin-bottom:14px;">${lf.question}</p>
             <div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:8px;padding:14px 18px;margin-bottom:14px;">
               <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Your Answer</div>
-              <p style="font-size:14px;line-height:1.8;color:#374151;white-space:pre-wrap;">${studentAnswer || '<em style="color:#9ca3af;">No answer written.</em>'}</p>
+              <p style="font-size:14px;line-height:1.8;color:#374151;white-space:pre-wrap;">${studentAnswer || '<em style="color:#9ca3af;">You left this one blank.</em>'}</p>
             </div>
             ${criteriaRows ? `
             <div style="margin-bottom:14px;">
-              <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">Marking Criteria</div>
+              <div style="font-size:11px;font-weight:700;color:#6b7280;text-transform:uppercase;letter-spacing:.05em;margin-bottom:8px;">What the marks were for</div>
               <table style="width:100%;border-collapse:collapse;font-size:14px;">
                 <thead><tr style="background:#f3f4f6;">
                   <th style="padding:6px 10px;text-align:left;width:30px;"></th>
@@ -876,7 +876,7 @@ function AssessmentPageClient() {
               <span style="font-weight:700;color:#1d4ed8;">AI Feedback: </span><span style="color:#1e40af;font-size:14px;">${grade.general_feedback}</span>
             </div>` : ''}
             <details style="margin-top:8px;">
-              <summary style="cursor:pointer;font-size:13px;color:#3b82f6;font-weight:600;">Show model answer</summary>
+              <summary style="cursor:pointer;font-size:13px;color:#3b82f6;font-weight:600;">Show a full-mark answer</summary>
               <div style="background:#f9fafb;border-radius:8px;padding:12px 16px;margin-top:8px;font-size:14px;color:#374151;line-height:1.7;">${lf.model_answer}</div>
             </details>
           </div>`
@@ -963,7 +963,7 @@ function AssessmentPageClient() {
     <div style="font-size:14px;line-height:1.8;color:#1e3a8a;white-space:pre-wrap;">${feedback}</div>
   </div>` : ''}
 
-  <h2 style="font-size:20px;font-weight:800;margin-bottom:16px;">Detailed Review</h2>
+  <h2 style="font-size:20px;font-weight:800;margin-bottom:16px;">Every question, and why</h2>
   ${questionsHtml}
 
   <div style="text-align:center;margin-top:40px;padding-top:20px;border-top:1px solid #e5e7eb;font-size:12px;color:#9ca3af;">
@@ -1427,7 +1427,7 @@ function AssessmentPageClient() {
       <div className="min-h-screen flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-apple-blue mx-auto mb-4"></div>
-          <p className="text-apple-dark-gray">Loading assessment...</p>
+          <p className="text-apple-dark-gray">Getting your quiz ready…</p>
           {loadError && (
             <p className="mt-2 text-xs text-red-600">{loadError}</p>
           )}
@@ -1609,7 +1609,7 @@ function AssessmentPageClient() {
 
           {/* Detailed review */}
           <div className="space-y-6">
-            <h2 className="text-2xl font-bold px-2">Detailed Review</h2>
+            <h2 className="text-2xl font-bold px-2">Every question, and why</h2>
             {assessment.questions.map((q, idx) => {
               // Anchors live on a wrapper for these two so the jump targets are
               // uniform across every question type without threading an id

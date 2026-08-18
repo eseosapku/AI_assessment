@@ -139,7 +139,7 @@ function Nav() {
           <Wordmark />
         </Link>
         <nav className="hidden items-center gap-8 md:flex">
-          {[['Features', '#features'], ['StudyLab', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([label, href]) => (
+          {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([label, href]) => (
             <a key={label} href={href} className="text-sm font-semibold text-slate-600 transition-colors hover:text-slate-900 dark:text-slate-300 dark:hover:text-white">
               {label}
             </a>
@@ -375,7 +375,7 @@ function Features() {
                 <FeatureArt src="/art/studylab.png" tone={GREEN} />
                 <span className="rounded-full bg-emerald-50 px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300">Flagship</span>
               </div>
-              <h3 className="relative mt-5 font-sans text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">StudyLab — your AI draws the whole lesson</h3>
+              <h3 className="relative mt-5 font-sans text-2xl font-bold tracking-tight text-slate-900 dark:text-white sm:text-3xl">LearnSpace — your AI draws the whole lesson</h3>
               <p className="relative mt-3 max-w-lg text-[15px] leading-relaxed text-slate-600 dark:text-slate-300">
                 Ask anything and watch it become an interactive canvas: explainer cards, diagrams, runnable examples, and checkpoints that quiz you. Stuck on homework? Type it, snap it, or drop a PDF — the tutor reads it and walks you through.
               </p>
@@ -686,7 +686,7 @@ function Pricing() {
               <p className="mt-2 text-sm text-white/85">Billed monthly · pay in your local currency · cancel anytime.</p>
               <div className="my-7 h-px w-full bg-white/15" />
               <ul className="grid gap-3 text-sm sm:grid-cols-2">
-                {['Unlimited AI assessments', 'Full StudyLab tutor', 'Recall flashcards', 'Progress & gap map', 'Every question type', 'Exam prep & report cards'].map((f) => (
+                {['Unlimited AI assessments', 'Full LearnSpace tutor', 'Recall flashcards', 'Progress & gap map', 'Every question type', 'Exam prep & report cards'].map((f) => (
                   <li key={f} className="flex items-center gap-2.5 text-white/95">
                     <Check className="h-4 w-4 shrink-0" strokeWidth={2.6} /> {f}
                   </li>
@@ -747,7 +747,7 @@ function Footer() {
       <div className="mx-auto flex max-w-7xl flex-col items-center justify-between gap-6 px-5 sm:flex-row sm:px-8">
         <Wordmark />
         <nav className="flex flex-wrap items-center justify-center gap-x-6 gap-y-2">
-          {[['Features', '#features'], ['StudyLab', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([l, h]) => (
+          {[['Features', '#features'], ['LearnSpace', '#studylab'], ['Exam prep', '#features'], ['Pricing', '#pricing']].map(([l, h]) => (
             <a key={l} href={h} className="text-sm font-semibold text-slate-500 transition-colors hover:text-slate-900 dark:text-slate-400 dark:hover:text-white">{l}</a>
           ))}
         </nav>

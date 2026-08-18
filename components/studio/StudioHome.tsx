@@ -81,7 +81,7 @@ export default function StudioHome() {
       tone: 'exam',
       action: () => router.push(isNG ? '/exam-prep' : '/practice'),
     },
-    explore: { kicker: 'EXPLORE & LEARN', title: 'Open StudyLab and learn your way', cta: 'Open StudyLab', tone: 'studylab', action: () => router.push('/studylab') },
+    explore: { kicker: 'EXPLORE & LEARN', title: 'Learn any topic on a living canvas', cta: 'Open LearnSpace', tone: 'studylab', action: () => router.push('/studylab') },
   }
   const hero: HeroCfg = focus ? heroByFocus[focus] : { kicker: 'YOUR CURRICULUM, YOUR PACE', title: 'Build an assessment and find your gaps', cta: 'Create assessment', tone: 'accent', action: () => setFormOpen(true) }
 

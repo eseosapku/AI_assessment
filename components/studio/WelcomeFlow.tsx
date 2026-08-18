@@ -46,13 +46,13 @@ const GOALS: Goal[] = [
     icon: FlaskConical,
     art: '/art/studylab.png',
     grad: 'linear-gradient(135deg,#0E7A5A,#3FD08F)',
-    echo: 'open exploration in StudyLab',
+    echo: 'open exploration in LearnSpace',
   },
 ]
 
 const QUICK_LINKS = [
   { label: 'Practice', href: '/practice', icon: Target },
-  { label: 'StudyLab', href: '/studylab', icon: FlaskConical },
+  { label: 'LearnSpace', href: '/studylab', icon: FlaskConical },
   { label: 'Recall', href: '/recall', icon: Sparkles },
 ]
 
