@@ -56,6 +56,25 @@ const DOMAIN_PROFILES: Record<SubjectDomain, InteractiveKindProfile> = {
 - "categorize" for economic/social/political factors, primary vs secondary sources.
 - Use real historical facts only — no invented events.`,
   },
+  business: {
+    kinds: ['match', 'categorize', 'order', 'true_false', 'multi_select', 'fill_blank'],
+    guidance: `BUSINESS / ENTREPRENEURSHIP INTERACTIVE RULES:
+- "match" for term ↔ definition (asset ↔ meaning, cost type ↔ example, document ↔ purpose).
+- "categorize" for fixed vs variable cost, asset vs liability, internal vs external finance.
+- "order" for the steps of starting a venture, an accounting cycle, or a sales process.
+- "true_false" for statements about a short business scenario the student has just read.
+- "multi_select" for "which of these are sources of short-term finance?".
+- Ground every item in a realistic small-business situation rather than an abstract definition.`,
+  },
+  arts: {
+    kinds: ['match', 'categorize', 'order', 'odd_one_out', 'true_false'],
+    guidance: `ART / MUSIC INTERACTIVE RULES:
+- "match" for term ↔ meaning (medium ↔ description, note value ↔ duration, instrument ↔ family).
+- "categorize" for warm/cool colours, instrument families, art movements, major/minor.
+- "order" for a process (stages of a print, a scale, the steps of a technique).
+- "odd_one_out" for the item outside a movement, family or key.
+- Name real works, artists and instruments; do not invent them.`,
+  },
   religious: {
     kinds: ['match', 'fill_blank', 'categorize'],
     guidance: `RELIGIOUS STUDIES INTERACTIVE RULES:

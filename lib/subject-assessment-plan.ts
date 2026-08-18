@@ -27,6 +27,8 @@ export type SubjectDomain =
   | 'science'
   | 'math'
   | 'technology'
+  | 'business'
+  | 'arts'
   | 'default'
 
 export interface SubjectPassagePlan {
@@ -49,24 +51,57 @@ const RELIGIOUS_PASSAGE_TOPIC =
 const RELIGIOUS_DIRECT_TOPIC =
   /\b(belief|doctrine|worship|ritual|festival|ethics|moral|ten commandments|pillars of|sacrament)\b/i
 
+/**
+ * Subject values are textbook filenames, so the patterns have to survive
+ * "Biology S4  SB" and "P1-SST-PB." as readily as "Biology". Punctuation is
+ * flattened to spaces first: without it, \bscience\b misses
+ * "Cambridge-Science-9" and the subject falls through to the default prompt.
+ */
 export function classifySubjectDomain(subject: string): SubjectDomain {
-  const s = String(subject || '').toLowerCase()
+  const s = String(subject || '')
+    .toLowerCase()
+    .replace(/[_\-.]+/g, ' ')
+    .replace(/\s+/g, ' ')
 
   if (isLanguageArtsSubject(subject) || /\bliterature in english\b/.test(s)) return 'language'
   if (isHistorySubject(subject)) return 'history'
-  if (/\b(religious studies|religious education|islamic studies|christian religious|morality|ethics and|crs|irs|scripture)\b/.test(s)) {
+  if (/\b(religio(?:n|us)|islamic|christian|morality|ethics|crs|irs|scripture|bible|qur'?an)\b/.test(s)) {
     return 'religious'
   }
-  if (/\b(math|mathematics|further math|additional math)\b/.test(s)) return 'math'
-  if (/\b(physics|chemistry|biology|integrated science|science and technology|agriculture|agricultural|environmental management|food and nutrition)\b/.test(s)) {
+  if (/\b(math|maths|mathematics|further math|additional math)\b/.test(s)) return 'math'
+
+  // Business before science and humanities: "agribusiness" would otherwise be
+  // pulled toward agriculture, and entrepreneurship — the largest unclassified
+  // group in the corpus — would land in humanities alongside geography.
+  // agribusiness is listed on its own: it is one word, so \bbusiness\b finds
+  // no boundary in it, and \bagric\b does not either — it would fall through.
+  if (/\b(entrepreneur|entrepreneurship|agribusiness|business studies|business|commerce|accounting|accounts|book ?keeping|marketing|finance|financial)\b/.test(s)) {
+    return 'business'
+  }
+
+  // The bare word "science" belongs here. Leaving it out sent every subject
+  // literally named "Science" — and every Cambridge "… Science 9" book — down
+  // the default path. "set" is the Rwandan primary code for Science and
+  // Elementary Technology.
+  if (
+    /\b(science|sciences|physics|chemistry|biology|integrated science|science and technology|agriculture|agricultural|agric|environmental|food and nutrition|human biology|set)\b/.test(
+      s,
+    )
+  ) {
     return 'science'
   }
-  if (/\b(computer|ict|information and communication|programming|hardware|software engineering)\b/.test(s)) {
+
+  if (/\b(computer|computing|ict|information and communication|programming|coding|hardware|software|micropython|python|javascript|php|technical drawing)\b/.test(s)) {
     return 'technology'
   }
-  if (/\b(geography|economics|commerce|accounting|business studies|business|government|civic|citizenship|sociology|psychology|financial|marketing|management)\b/.test(s)) {
+
+  if (/\b(art|arts|fine art|crafts|music|drama|theatre|design|creative)\b/.test(s)) return 'arts'
+
+  // "sst" is the Rwandan primary code for Social Studies.
+  if (/\b(geography|social studies|sst|economics|economic|government|civic|citizenship|sociology|psychology|management|political)\b/.test(s)) {
     return 'humanities'
   }
+
   return 'default'
 }
 
