@@ -2,7 +2,8 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, Calendar, RotateCcw } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { ArrowRight, Calendar, RotateCcw, Sparkles } from 'lucide-react'
 import { subjectArt } from '@/lib/studio/subjectArt'
 import { subjectLabelText } from '@/lib/subject-label'
 
@@ -43,6 +44,46 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
   // id, which keeps the dashboard payload small.
   const handleRetake = () => {
     router.push(`/assessment?retake=${encodeURIComponent(assessment.id)}`)
+  }
+
+  // Whether "another like this" is even possible — a typed topic with no
+  // curriculum behind it has nothing to regenerate from.
+  const [repeatParams, setRepeatParams] = useState<Record<string, unknown> | null>(null)
+  const [building, setBuilding] = useState(false)
+  useEffect(() => {
+    let cancelled = false
+    ;(async () => {
+      try {
+        const res = await fetch(`/api/quiz-again?result_id=${encodeURIComponent(assessment.id)}`)
+        const json = await res.json()
+        if (!cancelled && res.ok) setRepeatParams(json.data ?? null)
+      } catch {
+        /* the button simply does not appear */
+      }
+    })()
+    return () => {
+      cancelled = true
+    }
+  }, [assessment.id])
+  const canRepeat = repeatParams !== null
+
+  const handleQuizAgain = async () => {
+    if (!repeatParams || building) return
+    setBuilding(true)
+    try {
+      const res = await fetch('/api/generate-assessment', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...repeatParams, style: 'Test Style (Textbooks)' }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data?.error || 'Could not build the quiz')
+      sessionStorage.setItem('currentAssessment', JSON.stringify(data))
+      router.push('/assessment')
+    } catch (err) {
+      console.error('Quiz again failed:', err)
+      setBuilding(false)
+    }
   }
 
   return (
@@ -93,16 +134,34 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
           </span>
         </div>
 
-        <button
-          type="button"
-          onClick={handleRetake}
-          // z-10 lifts it above the overlay link so the click retakes the quiz
-          // instead of opening the review.
-          className="relative z-10 mt-3 flex w-full items-center justify-center gap-1.5 rounded-xl border border-ss-line bg-ss-chip py-2 text-[12px] font-extrabold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent"
-        >
-          <RotateCcw className="h-3.5 w-3.5" />
-          Retake quiz
-        </button>
+        {/* z-10 lifts these above the overlay link, so a click acts on the
+            quiz instead of opening the review. */}
+        <div className="relative z-10 mt-3 grid grid-cols-2 gap-2">
+          <button
+            type="button"
+            onClick={handleRetake}
+            title="The same questions again, to see whether studying moved the score"
+            className="flex items-center justify-center gap-1.5 rounded-xl border border-ss-line bg-ss-chip py-2 text-[12px] font-extrabold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent"
+          >
+            <RotateCcw className="h-3.5 w-3.5" />
+            Retake
+          </button>
+          {/* Nine wizard steps collapse to one: everything the builder would
+              ask for is already on the finished assessment. Hidden when the
+              quiz has no curriculum behind it to regenerate from. */}
+          {canRepeat && (
+            <button
+              type="button"
+              onClick={handleQuizAgain}
+              disabled={building}
+              title="New questions on the same topics, at the same difficulty"
+              className="flex items-center justify-center gap-1.5 rounded-xl bg-ss-accent py-2 text-[12px] font-extrabold text-white transition-opacity hover:opacity-90 disabled:opacity-60"
+            >
+              <Sparkles className="h-3.5 w-3.5" />
+              {building ? 'Building…' : 'New set'}
+            </button>
+          )}
+        </div>
       </div>
     </div>
   )
