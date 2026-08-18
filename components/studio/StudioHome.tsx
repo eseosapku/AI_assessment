@@ -99,6 +99,7 @@ export default function StudioHome() {
     setFocusState(getFocus(user?.id))
   }, [user?.id])
 
+
   type HeroCfg = { kicker: string; title: string; cta: string; tone: 'accent' | 'exam' | 'studylab'; action: () => void }
   const heroByFocus: Record<FocusId, HeroCfg> = {
     grades: { kicker: 'BOOST YOUR GRADES', title: 'Build an assessment and find your gaps', cta: 'Create assessment', tone: 'accent', action: () => setFormOpen(true) },
@@ -111,13 +112,12 @@ export default function StudioHome() {
     },
     explore: { kicker: 'EXPLORE & LEARN', title: 'Learn any topic on a living canvas', cta: 'Open LearnSpace', tone: 'studylab', action: () => router.push('/studylab') },
   }
-  const hero: HeroCfg = focus ? heroByFocus[focus] : { kicker: 'YOUR CURRICULUM, YOUR PACE', title: 'Build an assessment and find your gaps', cta: 'Create assessment', tone: 'accent', action: () => setFormOpen(true) }
+  const hero: HeroCfg = focus
+    ? heroByFocus[focus]
+    : { kicker: 'YOUR CURRICULUM, YOUR PACE', title: 'Build an assessment and find your gaps', cta: 'Create assessment', tone: 'accent', action: () => setFormOpen(true) }
 
   const activeClasses = (classrooms as any[]).filter((c) => (c.open_count ?? 0) > 0 || (c.upcoming_count ?? 0) > 0)
 
-  /** Columns capped at the number of cards, so a short row never leaves a hole. */
-  const gridFor = (n: number) =>
-    n <= 1 ? 'grid gap-4' : n === 2 ? 'grid gap-4 sm:grid-cols-2' : 'grid gap-4 sm:grid-cols-2 lg:grid-cols-3'
   const weakAreas = persona?.weakAreas ?? []
 
   // What to do next, decided in one place from everything that is loaded.
@@ -127,6 +127,8 @@ export default function StudioHome() {
       dueCards: loopSignals.dueCards,
       weakAreas,
       studiedNotProven: loopSignals.studiedNotProven,
+      focus,
+      examPrepAvailable: isNG,
     },
     setAside,
   )
@@ -140,6 +142,8 @@ export default function StudioHome() {
         dueCards: loopSignals.dueCards,
         weakAreas,
         studiedNotProven: loopSignals.studiedNotProven,
+        focus,
+        examPrepAvailable: isNG,
       },
       [...setAside, nextStep.key],
     ).key !== nextStep.key
@@ -149,6 +153,9 @@ export default function StudioHome() {
       case 'first-quiz':
       case 'keep-going':
         setFormOpen(true)
+        return
+      case 'exam-prep':
+        router.push('/exam-prep')
         return
       case 'review-cards':
         router.push('/recall/review')
@@ -258,31 +265,24 @@ export default function StudioHome() {
     <div className="grid gap-6 xl:grid-cols-[1fr_312px]">
       {/* ── Main column ── */}
       <div className="flex min-w-0 flex-col gap-6">
-        {/* Two jobs, two surfaces. Building a quiz is the product's main
-            action and gets the only saturated panel on the page; the
-            recommendation sits beside it in a light one. Cramming both into a
-            single card is what pushed "Create assessment" into fourth place in
-            a row of controls. On a narrow screen they stack in that same
-            order, which is the right priority anyway. */}
-        <div className="grid items-stretch gap-4 lg:grid-cols-[1.15fr_1fr]">
-          <HeroBanner
-            kicker={hero.kicker}
-            title={hero.title}
-            ctaLabel={hero.cta}
-            tone={hero.tone}
-            onCta={hero.action}
+        <HeroBanner
+          kicker={hero.kicker}
+          title={hero.title}
+          ctaLabel={hero.cta}
+          tone={hero.tone}
+          onCta={hero.action}
+        />
+
+        {loading ? (
+          <div className="h-[150px] animate-pulse rounded-[20px] bg-ss-chip" aria-hidden />
+        ) : (
+          <NextStepCard
+            step={nextStep}
+            onAct={actOnNextStep}
+            onSetAside={hasAlternative ? () => setSetAside((prev) => [...prev, nextStep.key]) : undefined}
+            busy={startingStep}
           />
-          {loading ? (
-            <div className="min-h-[230px] animate-pulse rounded-[24px] bg-ss-chip" aria-hidden />
-          ) : (
-            <NextStepCard
-              step={nextStep}
-              onAct={actOnNextStep}
-              onSetAside={hasAlternative ? () => setSetAside((prev) => [...prev, nextStep.key]) : undefined}
-              busy={startingStep}
-            />
-          )}
-        </div>
+        )}
         {personaLine && <p className="-mt-2 text-[13px] font-semibold text-ss-slate">{personaLine}</p>}
 
         {/* First run. The most important moment in the product was also its
@@ -337,7 +337,7 @@ export default function StudioHome() {
               hint="Work your teachers have set. Open one to see what's due."
               action={{ label: 'All classes', href: '/classrooms' }}
             />
-            <div className={gridFor(Math.min(activeClasses.length, 3))}>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {activeClasses.slice(0, 3).map((c) => (
                 <button
                   key={c.classroom_id}
@@ -411,7 +411,7 @@ export default function StudioHome() {
             action={{ label: 'All progress', href: '/progress' }}
           />
           {recentAssessments.length > 0 ? (
-            <div className={gridFor(Math.min(recentAssessments.length, 6))}>
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
               {recentAssessments.slice(0, 6).map((assessment) => (
                 <AssessmentCard key={assessment.id} assessment={assessment} />
               ))}

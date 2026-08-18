@@ -26,7 +26,7 @@ export function HeroBanner({
 }) {
   return (
     <section
-      className="relative flex h-full flex-col overflow-hidden rounded-[24px] px-7 py-7 text-white sm:px-9"
+      className="relative overflow-hidden rounded-[24px] px-9 py-[34px] text-white"
       style={{ background: TONE_BG[tone] }}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -34,20 +34,16 @@ export function HeroBanner({
         src={art}
         alt=""
         aria-hidden
-        className="pointer-events-none absolute right-0 top-0 h-full w-[46%] object-cover opacity-80 mix-blend-screen"
+        className="pointer-events-none absolute right-0 top-0 h-full w-[55%] object-cover opacity-90 mix-blend-screen"
       />
-      <div className="relative flex h-full flex-col">
+      <div className="relative">
         <div className="text-[12px] font-bold uppercase tracking-[0.2em] opacity-85">{kicker}</div>
-        <h1 className="mt-2.5 max-w-[380px] text-[27px] font-extrabold leading-[1.16] sm:text-[30px]">{title}</h1>
-        {/* Sits under the title, not pushed to the floor. Stretching to match
-            the neighbouring panel opened a two-hundred-pixel band of empty
-            gradient between the headline and the button, which looked like a
-            rendering fault rather than a layout. */}
+        <h1 className="mt-2.5 max-w-[430px] text-[29px] font-extrabold leading-[1.16]">{title}</h1>
         <button
           type="button"
           onClick={onCta}
           data-tour="hero-cta"
-          className="mt-7 inline-flex w-fit items-center gap-2.5 self-start rounded-full bg-[#13202A] py-3 pl-5 pr-3 text-[14.5px] font-bold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
+          className="mt-5 inline-flex items-center gap-2.5 rounded-full bg-[#13202A] py-3 pl-5 pr-3 text-[14px] font-bold text-white transition-transform hover:scale-[1.02] active:scale-[0.98]"
         >
           {ctaLabel}
           <span className="grid h-[26px] w-[26px] place-items-center rounded-full bg-white text-[#13202A]">

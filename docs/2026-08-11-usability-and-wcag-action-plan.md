@@ -981,6 +981,24 @@ shouting, which is what keeps `ICT` and `MicroPython` intact.
   a rendering fault, not a layout. The button sits under the title now and the
   panels find their own heights.
 
+**Where the top of the dashboard landed.** The banner is back, full width,
+above the recommendation — three attempts at rearranging the two taught only
+that the banner is wanted where it was. A fourth idea, moving "Create
+assessment" into the top bar so it appears on every page, was built and then
+reverted: it is a reasonable pattern, but it takes the product's main action
+out of the place its owner expects to see it, and that is not a trade worth
+making for tidiness.
+
+**The recommendation now reacts when it changes.** Pressing "Not now" rewrote
+the card's text in place, which reads as a glitch rather than a response —
+words silently become different words and nothing says the press landed. Every
+part that depends on the suggestion is keyed on it and animates through now,
+and each kind carries its own accent (blue to check, amber to study, green to
+review) so a swap registers peripherally instead of having to be read. Reduced
+motion still gets a crossfade, because the point is feedback rather than
+movement; the tone touches only the rail, the icon tile and the eyebrow, so
+nothing that has to pass contrast depends on it.
+
 **Two data findings worth a decision, not fixed here:**
 
 - **213 results scored exactly 0.** Across 1,672 results the distribution is

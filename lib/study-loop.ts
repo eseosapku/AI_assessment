@@ -22,7 +22,16 @@
  *  5. Nothing pressing. Extend, rather than inventing an obligation.
  */
 
-export type NextStepKind = 'first-quiz' | 'prove-it' | 'review-cards' | 'study-gap' | 'keep-going'
+export type NextStepKind =
+  | 'first-quiz'
+  | 'prove-it'
+  | 'review-cards'
+  | 'study-gap'
+  | 'exam-prep'
+  | 'keep-going'
+
+/** What the student said they were here for, at sign-up. */
+export type StudyFocus = 'grades' | 'exams' | 'explore'
 
 export interface StudyLoopInput {
   /** Quizzes finished, ever. */
@@ -33,6 +42,14 @@ export interface StudyLoopInput {
   weakAreas: readonly { label: string; subjectName: string; accuracy?: number | null }[]
   /** Topics with a lesson built but no quiz taken since. Oldest study first. */
   studiedNotProven: readonly { label: string; subjectName: string; accuracy?: number | null }[]
+  /**
+   * What they said they were here for. Only consulted when nothing is
+   * outstanding — a student sitting on a weak topic needs that topic, not a
+   * preference they expressed at sign-up.
+   */
+  focus?: StudyFocus | null
+  /** Whether national exam prep exists for their country. */
+  examPrepAvailable?: boolean
 }
 
 export interface NextStep {
@@ -112,6 +129,21 @@ export function chooseNextStep(input: StudyLoopInput, setAside: readonly string[
       minutes: 10,
       topic: weakest.label,
       subject: weakest.subjectName,
+    }
+  }
+
+  // Nothing outstanding. This is the one place the sign-up answer still
+  // matters: with no gap to close, "what would you like to be doing" is a
+  // better question than "here is a generic suggestion".
+  if (input.focus === 'exams' && input.examPrepAvailable && !aside.has('exam-prep')) {
+    return {
+      kind: 'exam-prep',
+      key: 'exam-prep',
+      title: 'Sit one under exam conditions',
+      reason:
+        'Nothing is outstanding, and you said exams are what you are working towards. Past-paper style, real timing, marked the way the examiner would.',
+      cta: 'Start exam prep',
+      minutes: 20,
     }
   }
 

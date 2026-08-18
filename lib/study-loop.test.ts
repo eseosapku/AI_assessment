@@ -110,6 +110,40 @@ describe('chooseNextStep', () => {
   })
 })
 
+describe('the sign-up focus', () => {
+  it('is ignored while anything is outstanding', () => {
+    // A student sitting on a weak topic needs that topic, not a preference
+    // they expressed once at sign-up.
+    const step = chooseNextStep({
+      ...base,
+      focus: 'exams',
+      examPrepAvailable: true,
+      weakAreas: [{ label: 'Moments', subjectName: 'Physics', accuracy: 10 }],
+    })
+    expect(step.kind).toBe('study-gap')
+  })
+
+  it('offers exam prep once nothing is outstanding', () => {
+    const step = chooseNextStep({ ...base, focus: 'exams', examPrepAvailable: true })
+    expect(step.kind).toBe('exam-prep')
+    expect(step.minutes).toBeGreaterThan(10)
+  })
+
+  it('does not offer exam prep where the country has none', () => {
+    expect(chooseNextStep({ ...base, focus: 'exams', examPrepAvailable: false }).kind).toBe('keep-going')
+  })
+
+  it('ignores the other focuses, which have no separate destination', () => {
+    expect(chooseNextStep({ ...base, focus: 'explore', examPrepAvailable: true }).kind).toBe('keep-going')
+    expect(chooseNextStep({ ...base, focus: 'grades', examPrepAvailable: true }).kind).toBe('keep-going')
+  })
+
+  it('can be set aside like anything else', () => {
+    const step = chooseNextStep({ ...base, focus: 'exams', examPrepAvailable: true }, ['exam-prep'])
+    expect(step.kind).toBe('keep-going')
+  })
+})
+
 describe('setting a suggestion aside', () => {
   const rich: StudyLoopInput = {
     totalQuizzes: 6,
