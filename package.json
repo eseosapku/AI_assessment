@@ -14,7 +14,8 @@
     "extract:textbook-images": "node scripts/extract-textbook-images.js",
     "filter:textbook-images": "node scripts/filter-textbook-images.js",
     "prune:textbook-images": "node scripts/prune-textbook-images.js",
-    "capture:motion-assets": "node scripts/capture-motion-ad-screenshots.js"
+    "capture:motion-assets": "node scripts/capture-motion-ad-screenshots.js",
+    "report:coverage": "node scripts/report-content-coverage.js"
   },
   "dependencies": {
     "@aws-sdk/client-bedrock-runtime": "^3.1015.0",
