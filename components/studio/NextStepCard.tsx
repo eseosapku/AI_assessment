@@ -40,12 +40,22 @@ export function NextStepCard({
   step,
   onAct,
   onSetAside,
+  secondaryLabel,
+  onSecondary,
   busy = false,
 }: {
   step: NextStep
   onAct: () => void
   /** Absent when there is genuinely nothing else to suggest. */
   onSetAside?: () => void
+  /**
+   * Always-available escape hatch, when the suggestion is something other than
+   * building a quiz. This card replaced a hero whose only job was "Create
+   * assessment", and quietly removing that route would have undone U3 — a
+   * tester could not find the builder in the first place.
+   */
+  secondaryLabel?: string
+  onSecondary?: () => void
   busy?: boolean
 }) {
   const Icon = ICONS[step.kind]
@@ -101,6 +111,16 @@ export function NextStepCard({
               <Clock className="h-4 w-4" aria-hidden />
               About {step.minutes} min
             </span>
+
+            {secondaryLabel && onSecondary && !busy && (
+              <button
+                type="button"
+                onClick={onSecondary}
+                className="inline-flex items-center gap-2 rounded-full border border-white/40 px-4 py-2.5 text-[13.5px] font-bold text-white transition-colors hover:bg-white/15"
+              >
+                {secondaryLabel}
+              </button>
+            )}
 
             {onSetAside && !busy && (
               <button

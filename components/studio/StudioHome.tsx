@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { ArrowRight, ClipboardCheck, Clock, GraduationCap, Medal, Pause, Play, Target, TrendingUp, Zap } from 'lucide-react'
+import { ArrowRight, Clock, GraduationCap, Pause, Play, Target, Zap } from 'lucide-react'
 import { useState, useEffect } from 'react'
 import AssessmentCard from '@/components/AssessmentCard'
 import FlowForm from '@/components/FlowForm'
@@ -13,19 +13,16 @@ import { subjectArt } from '@/lib/studio/subjectArt'
 import { getFocus, type FocusId } from '@/lib/onboarding'
 import type { PersonaSnapshot, WeakArea } from '@/lib/studylab/persona'
 import {
-  HeroBanner,
   ListPanel,
   ProgressRow,
   RingStat,
   SectionHeader,
   SparkButton,
-  StatChip,
 } from '@/components/studio/ui'
 import { NextStepCard } from '@/components/studio/NextStepCard'
 import { chooseNextStep } from '@/lib/study-loop'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
-const DAILY_QUIZ_LIMIT = 7200
 const RESUME_ASSESSMENT_KEY = 'resumeAssessment'
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -48,7 +45,7 @@ export default function StudioHome() {
   // Suggestions put aside this session. Deliberately not persisted: "not now"
   // means not now, and tomorrow the weakest topic is worth offering again.
   const [setAside, setSetAside] = useState<string[]>([])
-  const { recentAssessments, stats, subjectAverages, classrooms, dailyUsed, loading, pausedAssessment, discardPaused } =
+  const { recentAssessments, stats, subjectAverages, classrooms, loading, pausedAssessment, discardPaused } =
     useStudentDashboard(user)
 
   // Pull the persona snapshot (weak areas + weekly summary) the gap map computed.
@@ -92,7 +89,6 @@ export default function StudioHome() {
   }, [user?.id])
 
   const firstName = user?.name?.split(' ')[0] ?? 'Student'
-  const latestGrade = recentAssessments[0]?.grade ?? '—'
   const isNG = user?.country === 'NG'
 
   // Onboarding focus drives the hero's framing + primary action (read client-side).
@@ -213,7 +209,11 @@ export default function StudioHome() {
     ? [
         `${persona.weekQuizzes} ${persona.weekQuizzes === 1 ? 'quiz' : 'quizzes'} this week`,
         persona.weekAvg != null ? `${persona.weekAvg}% avg` : null,
-        persona.summary.gaps > 0 ? `${persona.summary.gaps} ${persona.summary.gaps === 1 ? 'topic' : 'topics'} to work on` : null,
+        persona.summary.gaps > 0
+          ? persona.summary.gaps > 5
+            ? 'plenty to work on — one at a time'
+            : `${persona.summary.gaps} ${persona.summary.gaps === 1 ? 'topic' : 'topics'} to work on`
+          : null,
       ]
         .filter(Boolean)
         .join(' · ')
@@ -252,26 +252,19 @@ export default function StudioHome() {
     <div className="grid gap-6 xl:grid-cols-[1fr_312px]">
       {/* ── Main column ── */}
       <div className="flex min-w-0 flex-col gap-6">
-        <HeroBanner
-          kicker={hero.kicker}
-          title={hero.title}
-          ctaLabel={hero.cta}
-          tone={hero.tone}
-          onCta={hero.action}
-        />
-        {personaLine && <p className="-mt-3 text-[13px] font-semibold text-ss-slate">{personaLine}</p>}
-
-        {/* Above the statistics on purpose: a screen of averages is a report,
-            not a plan, and the student who most needs a plan is the one least
-            served by another chart. */}
-        {!loading && (
+        {loading ? (
+          <div className="h-[220px] animate-pulse rounded-[24px] bg-ss-chip" aria-hidden />
+        ) : (
           <NextStepCard
             step={nextStep}
             onAct={actOnNextStep}
             onSetAside={hasAlternative ? () => setSetAside((prev) => [...prev, nextStep.key]) : undefined}
             busy={startingStep}
+            secondaryLabel={nextStep.kind === 'first-quiz' || nextStep.kind === 'keep-going' ? undefined : hero.cta}
+            onSecondary={nextStep.kind === 'first-quiz' || nextStep.kind === 'keep-going' ? undefined : hero.action}
           />
         )}
+        {personaLine && <p className="-mt-2 text-[13px] font-semibold text-ss-slate">{personaLine}</p>}
 
         {/* First run. The most important moment in the product was also its
             emptiest screen: four zeros, an empty gap map and an empty deck,
@@ -293,19 +286,6 @@ export default function StudioHome() {
             </button>
           </div>
         ) : null}
-
-        {/* Stat chips */}
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
-          <StatChip icon={ClipboardCheck} value={loading ? '—' : String(stats.total)} label="Quizzes taken" tone="accent" />
-          <StatChip icon={TrendingUp} value={loading ? '—' : `${stats.avgScore}%`} label="Average score" tone="good" />
-          <StatChip icon={Medal} value={latestGrade} label="Latest grade" tone="warn" />
-          <StatChip
-            icon={Zap}
-            value={loading ? '—' : `${Math.max(DAILY_QUIZ_LIMIT - dailyUsed, 0).toLocaleString()}`}
-            label="Quizzes left today"
-            tone="neutral"
-          />
-        </div>
 
         {/* Resume paused */}
         {pausedAssessment && (

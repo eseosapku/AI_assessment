@@ -826,6 +826,48 @@ because "I think that's done" is how U4 stayed undone for a month.
   from the menu on every page. A footer link matters on a marketing site; inside
   a signed-in shell with a persistent sidebar it is a second door to the same room.
 
+## The phantom subject
+
+Raised 2026-08-18: *"full progress doesn't actually show everything, some taken
+subjects and quizzes are missing from that and from recents."* Measured against
+the live database rather than reasoned about, and it is worse than "missing".
+
+Work set by a teacher is saved with `assessment_id` deliberately NULL — it
+hangs off `assignment_results` instead. The dashboard query joined only to
+`assessments`, so every one of those results came back with no subject, and the
+`|| 'Assessment'` fallback then **collected them all into a single phantom
+subject literally named "Assessment"**, which sat in Progress alongside the real
+ones with an average of its own. That is the "Assessment 27%" row in the
+screenshot: not a subject, an error.
+
+On the live data, out of **1,672 results**:
+
+| | |
+| --- | --- |
+| No subject from the assessments join | **686** (41%) |
+| …recoverable from the assignment | **445** |
+| …genuinely orphaned | 241 |
+
+The 445 were real, named subjects hidden behind that one fake row:
+Mathematics-S1-SB (137), ICT S5 Adapted SB (60), Physics S3 SB (41), Physics
+Learners book S2 (38), S1 Physics SB (36), English S6 SB (35), French S2 SB
+(30), Biology S2 SB (16).
+
+Three fixes:
+
+- **Recover the subject from the assignment**, via a `LATERAL … LIMIT 1` rather
+  than a plain join: `assignment_results` has no unique constraint on
+  `result_id`, so a second row pointing at the same result would have
+  duplicated that quiz and double-counted it in the average. No duplicates exist
+  today; the guard is there so a future one cannot corrupt the numbers silently.
+- **A result with no recoverable subject no longer invents one.** The 241
+  orphans still count towards the total — the student did take them — but they
+  contribute to no subject's average, because they are not evidence about any
+  subject.
+- **Averages read `percentage`, not `score`.** They are equal on every current
+  row, so this changes nothing today, but `score` is the field that has meant
+  different things over time and `percentage` is what every other screen reads.
+
 ## Revised sequencing
 
 **Wave 0 — ship-blockers found in audit**

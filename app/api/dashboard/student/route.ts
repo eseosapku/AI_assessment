@@ -19,12 +19,31 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'A valid user_id is required' }, { status: 400 })
     }
 
+    // Work set by a teacher is saved with assessment_id deliberately NULL — it
+    // hangs off assignment_results instead. Joining only to assessments left
+    // every one of those with no subject, and the `|| 'Assessment'` fallback
+    // below then collected them into a phantom subject called "Assessment"
+    // that sat in Progress alongside the real ones, while the actual subject
+    // vanished from the list. Recover it from the assignment.
     const resultsQuery = await db.query(
       `SELECT r.id, r.created_at, r.score, r.percentage, r.feedback, r.questions_data,
               r.answers, r.longform_grades,
-              a.subject, a.difficulty
+              COALESCE(a.subject, asg.subject) AS subject,
+              COALESCE(a.difficulty, asg.difficulty_level) AS difficulty,
+              (asg.id IS NOT NULL) AS from_assignment
        FROM results r
        LEFT JOIN assessments a ON a.id = r.assessment_id
+       -- LATERAL with LIMIT 1, not a plain join: assignment_results has no
+       -- unique constraint on result_id, so a second row pointing at the same
+       -- result would duplicate that quiz and double-count it in the average.
+       LEFT JOIN LATERAL (
+         SELECT asg.id, asg.subject, asg.difficulty_level
+           FROM assignment_results ar
+           JOIN assignments asg ON asg.id = ar.assignment_id
+          WHERE ar.result_id = r.id
+          ORDER BY ar.completed_at DESC NULLS LAST
+          LIMIT 1
+       ) asg ON TRUE
        WHERE r.user_id = $1
        ORDER BY r.created_at DESC`,
       [userId],
@@ -46,8 +65,9 @@ export async function GET(request: NextRequest) {
           day: 'numeric',
           year: 'numeric',
         }),
-        subject: item.subject || 'Assessment',
+        subject: item.subject || 'Untitled quiz',
         topic: item.difficulty || 'General',
+        fromAssignment: Boolean(item.from_assignment),
         grade: gradeFromPercentage(percentage),
         score: item.score,
         percentage,
@@ -62,14 +82,21 @@ export async function GET(request: NextRequest) {
     let subjectAverages: { subject: string; avg: number; count: number }[] = []
 
     if (rows.length > 0) {
-      const avg = rows.reduce((acc: number, curr: any) => acc + Number(curr.score ?? 0), 0) / rows.length
+      // percentage is the field every other screen reads; score is only equal
+      // to it for rows written by the current save path.
+      const avg =
+        rows.reduce((acc: number, curr: any) => acc + Number(curr.percentage ?? curr.score ?? 0), 0) / rows.length
       stats = { total: rows.length, avgScore: Math.round(avg) }
 
       const subjectMap: Record<string, number[]> = {}
       for (const item of rows) {
-        const subj = item.subject || 'Assessment'
+        // A result with no recoverable subject is not evidence about any
+        // subject, so it must not invent one. It still counts towards the
+        // overall total above.
+        const subj = String(item.subject ?? '').trim()
+        if (!subj) continue
         if (!subjectMap[subj]) subjectMap[subj] = []
-        subjectMap[subj].push(Number(item.score ?? 0))
+        subjectMap[subj].push(Number(item.percentage ?? item.score ?? 0))
       }
       subjectAverages = Object.entries(subjectMap)
         .map(([subject, scores]) => ({
