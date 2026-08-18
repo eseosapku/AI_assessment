@@ -3,6 +3,7 @@ import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedroc
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 
 // Feedback is a SINGLE model call (~16s on Gemma 27B), so it fits the 30s gateway
@@ -149,6 +150,17 @@ async function callFeedbackModel(
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    // Ceiling on a paid call. Subscription gating decides whether someone may
+    // do this at all; nothing decided how often, so one loop could run up an
+    // unbounded bill.
+    const limit = checkRateLimit('generate-feedback', identify(body?.user_id, request.headers))
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'You have made a lot of requests. Please wait a little and try again.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
     const { assessment, answers, longFormAnswers, longFormGrades, interactiveAnswers, interactiveGrades, score, grade, className } = body
 
     if (!assessment || (!answers && !longFormAnswers && !interactiveAnswers)) {

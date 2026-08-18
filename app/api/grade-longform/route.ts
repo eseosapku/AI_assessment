@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { jsonrepair } from 'jsonrepair'
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -402,6 +403,17 @@ function ungradedFallback(q: LongFormQuestion, reason: string, feedback?: string
 export async function POST(request: NextRequest) {
     try {
         const body = await request.json()
+
+    // Ceiling on a paid call. Subscription gating decides whether someone may
+    // do this at all; nothing decided how often, so one loop could run up an
+    // unbounded bill.
+    const limit = checkRateLimit('grade-longform', identify(body?.user_id, request.headers))
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'You have made a lot of requests. Please wait a little and try again.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
         const { questions, answers, subject, workingsProvided, gradingModel, aiModel } = body
 
         if (!questions || !answers) {

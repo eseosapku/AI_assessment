@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { callGemma, parseJsonRobust, hasBedrockCredentials } from '@/lib/bedrock'
 import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
 import {
   normalizeTopic,
   isUsableTopic,
@@ -35,6 +36,17 @@ export async function POST(request: NextRequest) {
   let topic = ''
   try {
     const body = await request.json().catch(() => ({}))
+
+    // Ceiling on a paid call. Subscription gating decides whether someone may
+    // do this at all; nothing decided how often, so one loop could run up an
+    // unbounded bill.
+    const limit = checkRateLimit('quiz-topic-scope', identify(null, request.headers))
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'You have made a lot of requests. Please wait a little and try again.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
     topic = normalizeTopic(body?.topic)
     const notes = normalizeNotes(body?.notes)
     const fromNotes = isUsableNotes(notes)

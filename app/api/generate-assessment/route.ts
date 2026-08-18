@@ -51,6 +51,7 @@ import {
   normalizeInteractiveQuestion,
 } from '@/lib/interactive-assessment-plan'
 import type { AssessmentQuestionType } from '@/types/interactive'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 // Heavy AI route: needs the Node runtime (AWS SDK + pg) and the full function
 // budget. Bedrock call budgets above are tuned to return within this window.
@@ -1123,6 +1124,17 @@ function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: string[])
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json()
+
+    // Ceiling on a paid call. Subscription gating decides whether someone may
+    // do this at all; nothing decided how often, so one loop could run up an
+    // unbounded bill.
+    const limit = checkRateLimit('generate-assessment', identify(body?.user_id, request.headers))
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'You have made a lot of requests. Please wait a little and try again.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
     const {
       subject,
       topics,

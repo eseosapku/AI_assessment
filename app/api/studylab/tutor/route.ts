@@ -5,6 +5,7 @@ import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscri
 import { isValidAction } from '@/lib/studylab/actions'
 import { cleanSay, cleanSuggestions } from '@/lib/studylab/tutorClean'
 import type { TutorAction, TutorResponse } from '@/lib/studylab/types'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 // The tutor turn orchestrates the whole whiteboard, so it runs on a stronger
 // model than the cheap default. Overridable per-env without a code change.
@@ -252,6 +253,17 @@ export async function POST(request: NextRequest) {
     }
 
     const body = await request.json()
+
+    // Ceiling on a paid call. Subscription gating decides whether someone may
+    // do this at all; nothing decided how often, so one loop could run up an
+    // unbounded bill.
+    const limit = checkRateLimit('studylab-tutor', identify(body?.user_id, request.headers))
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'You have made a lot of requests. Please wait a little and try again.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
     const userId = String(body?.user_id ?? '').trim()
 
     if (userId) {
