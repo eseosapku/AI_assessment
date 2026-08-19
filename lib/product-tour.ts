@@ -150,23 +150,23 @@ export const TOURS: Record<TourId, Tour> = {
       {
         anchor: 'gapmap-canvas',
         eyebrow: 'The whole picture',
-        title: 'Every topic you have been quizzed on',
+        title: 'Your knowledge as a wall',
         body:
-          'Subjects branch into topics and topics into subtopics, so a weak area shows up at whatever level it actually lives — you might be fine at Forces and only weak on moments.',
+          'Every topic you have been quizzed on is a tile here, grouped by subject. Nothing to pan or open — the gaps are the holes in the wall, and they sort themselves to the front.',
       },
       {
         anchor: 'gapmap-legend',
         eyebrow: 'Reading it',
-        title: 'Colour is your accuracy',
+        title: 'Every tile carries a mark, not just a colour',
         body:
-          'Green means you are getting these right, amber means shaky, red means it needs work. Grey means you have not been tested on it yet, which is not the same as being bad at it.',
+          'A tick means you are getting these right, a dash means shaky, a cross means it needs work, and a dashed outline means no quiz has covered it yet — which is not the same as being bad at it.',
       },
       {
         anchor: 'gapmap-canvas',
         eyebrow: 'Acting on it',
-        title: 'Tap a weak topic to study it',
+        title: 'Tap a hole to fill it',
         body:
-          'Opening a red node offers you a lesson built on that exact subtopic, and a quiz to retake once you have studied. That loop — find the gap, study it, prove it closed — is the point of the whole map.',
+          'Any tile opens a panel with what it is, how you did and how often you have been tested — and a button that builds a lesson on that exact subtopic. Find the gap, study it, prove it closed.',
       },
     ],
   },
