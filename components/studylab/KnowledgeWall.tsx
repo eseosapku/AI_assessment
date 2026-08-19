@@ -82,12 +82,19 @@ export function KnowledgeWall({
   subjects,
   onStudy,
   onQuiz,
+  canQuiz,
   busy = false,
 }: {
   /** Raw `textbooks` array from the gap-map API. */
   subjects: readonly unknown[]
   onStudy: (tile: WallTile) => void
   onQuiz?: (tile: WallTile) => void
+  /**
+   * Whether this topic can be quizzed at all. A topic with no textbook or no
+   * topic id behind it has nothing to generate from, and offering the button
+   * there would promise a quiz that cannot be built.
+   */
+  canQuiz?: (tile: WallTile) => boolean
   busy?: boolean
 }) {
   const all = useMemo(() => buildWall(subjects, canonicalSubject), [subjects])
@@ -364,7 +371,12 @@ export function KnowledgeWall({
                   .filter(Boolean)
                   .join(' · ')}
               </p>
-              <p className="mt-1.5 text-[13px] font-medium text-ss-slate">{STATUS[selected.status].hint}</p>
+              <p className="mt-1.5 text-[13px] font-medium text-ss-slate">
+                {STATUS[selected.status].hint}
+                {selected.status === 'not_assessed'
+                  ? ' — quiz yourself to find out where you stand.'
+                  : ' Study it, then retake to see the score move.'}
+              </p>
             </div>
             {/* A small grey glyph was easy to miss; this is a real target with
                 a border and a word beside it. */}
@@ -388,14 +400,14 @@ export function KnowledgeWall({
               <Sparkles className="h-4 w-4" aria-hidden />
               {busy ? 'Building…' : 'Build me a lesson'}
             </button>
-            {onQuiz && (
+            {onQuiz && (!canQuiz || canQuiz(selected)) && (
               <button
                 type="button"
                 onClick={() => onQuiz(selected)}
                 disabled={busy}
-                className="inline-flex items-center gap-2 rounded-full border border-ss-line px-5 py-2.5 text-[13.5px] font-bold text-ss-ink transition-colors hover:border-ss-accent disabled:opacity-60"
+                className="inline-flex items-center gap-2 rounded-full border-2 border-ss-line px-5 py-2.5 text-[13.5px] font-bold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent disabled:opacity-60"
               >
-                Quiz me on this
+                {selected.status === 'not_assessed' ? 'Quiz me on this' : 'Retake this topic'}
                 <ArrowRight className="h-4 w-4" aria-hidden />
               </button>
             )}

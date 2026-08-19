@@ -376,6 +376,28 @@ export default function GapMap({
     }
   }
 
+  /**
+   * A wall tile as the node shape the study and quiz actions already speak.
+   *
+   * The subject has to be the *book's* name, not the parent topic: the
+   * generator resolves a textbook from it, and handing it "Climate and Climate
+   * Change in Rwanda" would find nothing.
+   */
+  const nodeFor = (tile: WallTile): MapNodeData => {
+    const source = tree?.textbooks.find((s) => s.id === tile.textbook_id)
+    return {
+      kind: tile.subtopic_id ? 'subtopic' : 'topic',
+      label: tile.label,
+      status: tile.status,
+      accuracy: tile.accuracy,
+      subject: source?.name,
+      curriculum_slug: source?.curriculum_slug,
+      textbook_id: tile.textbook_id ?? undefined,
+      topic_id: tile.topic_id ?? undefined,
+      subtopic_id: tile.subtopic_id ?? undefined,
+    }
+  }
+
   const canTakeQuiz = (d: MapNodeData) =>
     d.kind !== 'subject' &&
     typeof d.textbook_id === 'number' &&
@@ -494,19 +516,12 @@ export default function GapMap({
         ) : (
           <KnowledgeWall
             subjects={visibleSubjects}
-            onStudy={(tile: WallTile) =>
-              startStudy({
-                kind: tile.subtopic_id ? 'subtopic' : 'topic',
-                label: tile.label,
-                status: tile.status,
-                accuracy: tile.accuracy,
-                subject: tile.parentTopic ?? null,
-                textbook_id: tile.textbook_id ?? undefined,
-                topic_id: tile.topic_id ?? undefined,
-                subtopic_id: tile.subtopic_id ?? undefined,
-              } as MapNodeData)
-            }
-            busy={starting}
+            onStudy={(tile: WallTile) => startStudy(nodeFor(tile))}
+            // Studying and being tested were always the two halves of this
+            // screen; the wall shipped with only the first wired up.
+            onQuiz={(tile: WallTile) => takeQuiz(nodeFor(tile))}
+            canQuiz={(tile: WallTile) => canTakeQuiz(nodeFor(tile))}
+            busy={starting || takingQuiz}
           />
         )}
       </div>
