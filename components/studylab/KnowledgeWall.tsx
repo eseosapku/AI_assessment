@@ -1,6 +1,6 @@
 'use client'
 
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { ArrowRight, Check, Eye, EyeOff, Minus, Search, Sparkles, X } from 'lucide-react'
 import {
   buildWall,
@@ -106,6 +106,16 @@ export function KnowledgeWall({
   // and read it as being on track.
   const [showUntested, setShowUntested] = useState(true)
   const [selected, setSelected] = useState<WallTile | null>(null)
+
+  // Switching subject used to leave the panel open on a topic from the subject
+  // you just left. Keyed on the tile still existing rather than on the subject
+  // prop, so a topic that disappears for any reason takes the panel with it.
+  useEffect(() => {
+    if (!selected) return
+    if (!all.some((section) => section.tiles.some((t) => t.key === selected.key))) {
+      setSelected(null)
+    }
+  }, [all, selected])
 
   // Searching should reach an untested topic too — otherwise looking for one
   // by name silently finds nothing.
@@ -319,13 +329,22 @@ export function KnowledgeWall({
       {/* Detail for one chip. A panel rather than a hover card: there is no
           hover on a phone, and this is a phone-first screen. */}
       {selected && (
+        /* The panel used to float with a four-unit gap beneath it, so the wall
+           scrolled visibly through the gap and it read as stuck rather than
+           deliberate. The sticky element is this band, painted in the page's
+           own surface and fading at its top edge; nothing passes under it. */
+        <div className="sticky bottom-0 z-20 -mx-1 bg-gradient-to-t from-[color:var(--ss-panel)] from-70% to-transparent px-1 pb-4 pt-6">
         <div
           role="dialog"
           aria-modal="false"
           aria-label={`${selected.label} detail`}
-          className="sticky bottom-4 rounded-[18px] border border-ss-line bg-ss-panel p-5 shadow-ss-panel"
+          className="overflow-hidden rounded-[20px] border-2 border-[color:var(--ss-ink)]/10 bg-ss-panel shadow-[0_24px_48px_-20px_rgba(22,32,42,0.45)]"
         >
-          <div className="flex items-start justify-between gap-4">
+          {/* A bar in the topic's own colour, so the panel announces itself
+              against a page of white cards instead of becoming another one. */}
+          <span aria-hidden className={`block h-1.5 w-full ${BADGE[selected.status]}`} />
+
+          <div className="flex items-start justify-between gap-4 p-5 pb-0">
             <div className="min-w-0">
               <span
                 className={`inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[12px] font-bold ${BADGE[selected.status]}`}
@@ -347,17 +366,19 @@ export function KnowledgeWall({
               </p>
               <p className="mt-1.5 text-[13px] font-medium text-ss-slate">{STATUS[selected.status].hint}</p>
             </div>
+            {/* A small grey glyph was easy to miss; this is a real target with
+                a border and a word beside it. */}
             <button
               type="button"
               onClick={() => setSelected(null)}
-              aria-label="Close"
-              className="shrink-0 rounded-lg p-1.5 text-ss-slate hover:bg-ss-chip hover:text-ss-ink"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full border border-ss-line px-3 py-1.5 text-[12.5px] font-bold text-ss-slate transition-colors hover:border-ss-bad hover:text-ss-bad"
             >
-              <X className="h-4 w-4" />
+              <X className="h-3.5 w-3.5" aria-hidden />
+              Close
             </button>
           </div>
 
-          <div className="mt-4 flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-2 p-5 pt-4">
             <button
               type="button"
               onClick={() => onStudy(selected)}
@@ -379,6 +400,7 @@ export function KnowledgeWall({
               </button>
             )}
           </div>
+        </div>
         </div>
       )}
     </div>
