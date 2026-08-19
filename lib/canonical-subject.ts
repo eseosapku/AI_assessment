@@ -33,6 +33,12 @@ const PREFIX_NOISE = /^\s*(?:general\s+edu(?:cation)?|core|adapted)\s*[-–:]?\s
 const BOOK_MARKER = /\b(?:sb|pb|tb|tg|lb|student ?book|pupils? ?book|learners? ?book|teachers? ?guide)\b/gi
 
 /**
+ * Edition markers. "Cambridge IGCSE Biology MARRY JONES 4th Ed" is a real
+ * stored value; the edition describes the book, never the subject.
+ */
+const EDITION_MARKER = /\b(?:\d+(?:st|nd|rd|th)\s*(?:ed|edn|edition)|edition|revised|updated)\b/gi
+
+/**
  * Level markers that survive `subjectLabel`, which only lifts the first one.
  * Rwandan primary books are P1–P7, secondary S1–S6.
  */
@@ -71,6 +77,7 @@ export function canonicalSubject(raw: unknown): string {
   text = text
     .replace(PREFIX_NOISE, ' ')
     .replace(BOOK_MARKER, ' ')
+    .replace(EDITION_MARKER, ' ')
     .replace(LEVEL_MARKER, ' ')
     .replace(/[-–—_]+/g, ' ')
     .replace(/\s{2,}/g, ' ')

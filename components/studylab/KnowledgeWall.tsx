@@ -94,6 +94,12 @@ export function KnowledgeWall({
   const totals = useMemo(() => wallSummary(all), [all])
   const priorities = useMemo(() => priorityTiles(all, 3), [all])
 
+  // Below this, "Fix these first" is showing the same chips that are visible a
+  // few lines down — the wall already sorts gaps to the front. Three cards
+  // above a three-chip wall is the same information twice.
+  const assessedCount = totals.gap + totals.developing + totals.mastered
+  const worthLifting = assessedCount > 8
+
   const [query, setQuery] = useState('')
   const [showUntested, setShowUntested] = useState(false)
   const [selected, setSelected] = useState<WallTile | null>(null)
@@ -162,7 +168,7 @@ export function KnowledgeWall({
       </div>
 
       {/* The work, lifted out so it is not something you have to go and find. */}
-      {priorities.length > 0 && !query.trim() && (
+      {priorities.length > 0 && worthLifting && !query.trim() && (
         <section aria-labelledby="wall-priority">
           <h3 id="wall-priority" className="mb-3 text-[12px] font-black uppercase tracking-[0.14em] text-ss-bad">
             Fix these first

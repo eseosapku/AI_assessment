@@ -449,10 +449,8 @@ export default function GapMap({
           )}
           <div className="min-w-0">
             <h1 className="font-semibold text-[15px] text-ss-ink">Gap Map</h1>
-            {/* Says what the map is for, not just where its data came from —
-                the old subtitle left students guessing what to do with it. */}
             <p className="hidden text-xs text-ss-slate sm:block">
-              Every topic you&apos;ve been quizzed on, colour-coded. Tap a weak one to study it.
+              Everything you&apos;ve been quizzed on. Red first — tap one to get a lesson on it.
             </p>
           </div>
           {tree && tree.textbooks.length > 0 && (
@@ -467,7 +465,7 @@ export default function GapMap({
           )}
         </div>
         <span data-tour="gapmap-legend">
-          <Legend summary={tree?.summary} />
+          <OverallProgress summary={tree?.summary} />
         </span>
       </header>
 
@@ -518,21 +516,25 @@ export default function GapMap({
   )
 }
 
-function Legend({ summary }: { summary?: GapTree['summary'] }) {
+/**
+ * Where the student stands across every subject.
+ *
+ * This used to be a colour key plus a ring. The key was the problem: it named
+ * the four states "Mastered / Developing / Learning Gap / Not Assessed" while
+ * the wall below it called the same four "Solid / Shaky / Gap / Not tested" —
+ * four states, eight names, on one screen. The wall counts them with their
+ * glyphs already, and a count beats a key, so only the across-all-subjects
+ * figure survives here. It says which subjects it covers, because it does not
+ * match the per-subject numbers underneath and silently disagreeing was worse
+ * than being long.
+ */
+function OverallProgress({ summary }: { summary?: GapTree['summary'] }) {
   const mastery = summary?.overall_mastery ?? 0
   const gapCount = summary?.gap ?? 0
   return (
     <div className="flex items-center gap-4">
-      <div className="hidden md:flex items-center gap-2.5 rounded-full bg-ss-chip px-3 py-1.5">
-        {(['mastered', 'developing', 'gap', 'not_assessed'] as MasteryStatus[]).map((s) => (
-          <span key={s} className="flex items-center gap-1.5 text-[12px] font-semibold text-ss-slate">
-            <span className={`w-2 h-2 rounded-full ${STATUS_META[s].dot}`} />
-            {STATUS_META[s].label}
-          </span>
-        ))}
-      </div>
       {summary && (
-        <div className="flex items-center gap-3 pl-3 border-l border-ss-line">
+        <div className="flex items-center gap-3">
           <div className="relative h-10 w-10">
             <svg className="h-10 w-10 -rotate-90" viewBox="0 0 36 36">
               <circle cx="18" cy="18" r="15" fill="none" stroke="#E8ECF4" strokeWidth="3" />
@@ -552,8 +554,10 @@ function Legend({ summary }: { summary?: GapTree['summary'] }) {
             </span>
           </div>
           <div className="text-right">
-            <p className="text-xs font-black text-ss-ink">{gapCount} gaps</p>
-            <p className="text-[12px] font-semibold text-ss-slate">to close</p>
+            <p className="text-xs font-black text-ss-ink">
+              {gapCount} {gapCount === 1 ? 'gap' : 'gaps'}
+            </p>
+            <p className="text-[12px] font-semibold text-ss-slate">across all subjects</p>
           </div>
         </div>
       )}

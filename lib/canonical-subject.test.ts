@@ -86,3 +86,17 @@ describe('groupBySubject', () => {
     expect(grouped.size).toBe(0)
   })
 })
+
+describe('edition markers', () => {
+  it('strips the edition, which describes the book and not the subject', () => {
+    // A real stored value, typo and all.
+    expect(canonicalSubject('Cambridge IGCSE Biology MARRY JONES 4th Ed')).toBe('Cambridge IGCSE Biology MARRY JONES')
+    expect(canonicalSubject('Physics 2nd Edition')).toBe('Physics')
+    expect(canonicalSubject('Chemistry S4 SB Revised')).toBe('Chemistry')
+  })
+
+  it('does not eat a number that is part of the subject', () => {
+    // Cambridge stages are levels, handled elsewhere; a bare number stays.
+    expect(canonicalSubject('Computing 9')).toBe('Computing 9')
+  })
+})
