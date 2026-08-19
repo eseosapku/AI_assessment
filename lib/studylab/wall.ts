@@ -46,6 +46,16 @@ export interface WallSection {
   counts: Record<MasteryStatus, number>
   /** Assessed tiles that are mastered, over assessed tiles. Null when none are. */
   solidRatio: { solid: number; assessed: number } | null
+  /**
+   * How much of the subject has been tested at all.
+   *
+   * The number that stops the wall lying. A student who has been quizzed on six
+   * of a subject's forty topics and got all six right sees "6 of 6 solid" and
+   * reads it as doing well; this says six of forty. The old tree showed the
+   * whole syllabus, so the scale of what was left was never in doubt — losing
+   * that was the real cost of hiding untested topics.
+   */
+  coverage: { tested: number; total: number }
 }
 
 /** Gaps first, then shaky, then untested, then solid. */
@@ -192,6 +202,7 @@ export function buildWall(subjects: readonly unknown[], canonicalise: (s: string
       groups: groupByTopic(tiles),
       counts,
       solidRatio: assessed > 0 ? { solid: counts.mastered, assessed } : null,
+      coverage: { tested: assessed, total: tiles.length },
     })
   }
 
@@ -283,6 +294,9 @@ export function filterWall(
       (t) => (includeUntested || t.status !== 'not_assessed') && tileMatches(t, query),
     )
     if (tiles.length === 0) continue
+    // Coverage is deliberately carried through unchanged: it describes the
+    // whole subject, and a bar that shrank to match a search would say the
+    // student had covered more of the syllabus than they have.
     out.push({ ...section, tiles, groups: groupByTopic(tiles) })
   }
   return out

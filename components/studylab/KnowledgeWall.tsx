@@ -44,7 +44,7 @@ const STATUS: Record<
   not_assessed: {
     label: 'Not tested',
     hint: 'No quiz has covered this yet',
-    chip: 'border-dashed border-ss-line bg-ss-chip text-ss-slate',
+    chip: 'border-dashed border-ss-line bg-transparent text-ss-slate opacity-80',
     glyph: 'none',
   },
 }
@@ -101,7 +101,10 @@ export function KnowledgeWall({
   const worthLifting = assessedCount > 8
 
   const [query, setQuery] = useState('')
-  const [showUntested, setShowUntested] = useState(false)
+  // On by default: what is left is the point. The first wall hid these and a
+  // student with six of forty topics tested, all correct, saw "6 of 6 solid"
+  // and read it as being on track.
+  const [showUntested, setShowUntested] = useState(true)
   const [selected, setSelected] = useState<WallTile | null>(null)
 
   // Searching should reach an untested topic too — otherwise looking for one
@@ -158,11 +161,11 @@ export function KnowledgeWall({
             aria-pressed={showUntested}
             className={`shrink-0 rounded-full border px-4 py-2.5 text-[13px] font-bold transition-colors ${
               showUntested
-                ? 'border-ss-accent bg-[color:var(--ss-accent)]/10 text-ss-accent'
-                : 'border-ss-line text-ss-slate hover:border-ss-accent hover:text-ss-accent'
+                ? 'border-ss-line text-ss-slate hover:border-ss-accent hover:text-ss-accent'
+                : 'border-ss-accent bg-[color:var(--ss-accent)]/10 text-ss-accent'
             }`}
           >
-            {showUntested ? 'Hide' : 'Show'} {totals.not_assessed} not tested
+            {showUntested ? `Hide the ${totals.not_assessed} not tested` : 'Show everything'}
           </button>
         )}
       </div>
@@ -212,8 +215,8 @@ export function KnowledgeWall({
               </h3>
               <p className="text-[12.5px] font-semibold text-ss-slate">
                 {section.solidRatio
-                  ? `${section.solidRatio.solid} of ${section.solidRatio.assessed} solid`
-                  : 'Not tested yet'}
+                  ? `${section.solidRatio.solid} of ${section.solidRatio.assessed} tested topics solid`
+                  : 'Nothing tested yet'}
                 {section.counts.gap > 0 && (
                   <span className="ml-2 font-bold text-ss-bad">
                     {section.counts.gap} {section.counts.gap === 1 ? 'gap' : 'gaps'}
@@ -222,11 +225,45 @@ export function KnowledgeWall({
               </p>
             </div>
 
+            {/* How much of the subject has been seen at all. Without this,
+                "6 of 6 solid" reads as finished when it means six of forty. */}
+            <div className="mb-4">
+              <div className="flex items-baseline justify-between gap-3">
+                <p className="text-[12.5px] font-bold text-ss-ink">
+                  {section.coverage.tested} of {section.coverage.total} topics quizzed so far
+                </p>
+                <p className="text-[12px] font-semibold text-ss-slate">
+                  {section.coverage.total - section.coverage.tested} still to go
+                </p>
+              </div>
+              <div
+                className="mt-1.5 h-2 w-full overflow-hidden rounded-full bg-ss-line"
+                role="progressbar"
+                aria-valuemin={0}
+                aria-valuemax={section.coverage.total}
+                aria-valuenow={section.coverage.tested}
+                aria-label={`${section.subject}: ${section.coverage.tested} of ${section.coverage.total} topics quizzed`}
+              >
+                <div
+                  className="h-full rounded-full bg-ss-accent"
+                  style={{
+                    width: `${section.coverage.total > 0 ? (section.coverage.tested / section.coverage.total) * 100 : 0}%`,
+                  }}
+                />
+              </div>
+            </div>
+
             <div className="space-y-4">
               {section.groups.map((group) => (
                 <div key={group.topic || '_'}>
                   {group.topic && (
-                    <p className="mb-1.5 text-[12.5px] font-bold text-ss-slate">{group.topic}</p>
+                    <div className="mb-1.5 flex flex-wrap items-baseline gap-x-2">
+                      <p className="text-[12.5px] font-bold text-ss-ink">{group.topic}</p>
+                      <p className="text-[12px] font-semibold text-ss-slate">
+                        {group.tiles.filter((t) => t.status !== 'not_assessed').length} of{' '}
+                        {group.tiles.length} quizzed
+                      </p>
+                    </div>
                   )}
                   <div className="flex flex-wrap gap-2">
                     {group.tiles.map((tile) => {

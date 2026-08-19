@@ -225,3 +225,37 @@ describe('filterWall', () => {
     expect(filterWall(wall, { query: 'nothing here' })).toEqual([])
   })
 })
+
+describe('coverage', () => {
+  const wall = buildWall([
+    { id: 1, name: 'Science', topics: [{ id: 1, name: 'States of matter', subtopics: [
+      { id: 1, name: 'Boiling', status: 'mastered', accuracy: 100 },
+      { id: 2, name: 'Melting', status: 'mastered', accuracy: 100 },
+      { id: 3, name: 'Sublimation', status: 'not_assessed' },
+      { id: 4, name: 'Diffusion', status: 'not_assessed' },
+    ] }] },
+  ])
+
+  it('counts tested against the whole subject, not against what was tested', () => {
+    // "2 of 2 solid" reads as finished; "2 of 4 quizzed" does not. That gap is
+    // what the old tree communicated and the first wall lost.
+    expect(wall[0].coverage).toEqual({ tested: 2, total: 4 })
+    expect(wall[0].solidRatio).toEqual({ solid: 2, assessed: 2 })
+  })
+
+  it('keeps coverage describing the whole subject when the view is filtered', () => {
+    // A bar that shrank with a search would claim more of the syllabus had
+    // been covered than actually has.
+    const hidden = filterWall(wall, { includeUntested: false })
+    expect(hidden[0].tiles).toHaveLength(2)
+    expect(hidden[0].coverage).toEqual({ tested: 2, total: 4 })
+
+    const searched = filterWall(wall, { query: 'boiling', includeUntested: true })
+    expect(searched[0].coverage).toEqual({ tested: 2, total: 4 })
+  })
+
+  it('reports zero tested for an untouched subject rather than nothing', () => {
+    const fresh = buildWall([{ id: 1, name: 'New', topics: [{ id: 1, name: 'X', status: 'not_assessed' }] }])
+    expect(fresh[0].coverage).toEqual({ tested: 0, total: 1 })
+  })
+})
