@@ -32,9 +32,17 @@ export interface WallTile {
   isTopicLevel: boolean
 }
 
+/** Tiles under the topic they belong to, so the wall keeps a readable spine. */
+export interface WallGroup {
+  topic: string
+  tiles: WallTile[]
+}
+
 export interface WallSection {
   subject: string
   tiles: WallTile[]
+  /** The same tiles, under their parent topic headings. */
+  groups: WallGroup[]
   counts: Record<MasteryStatus, number>
   /** Assessed tiles that are mastered, over assessed tiles. Null when none are. */
   solidRatio: { solid: number; assessed: number } | null
@@ -181,6 +189,7 @@ export function buildWall(subjects: readonly unknown[], canonicalise: (s: string
     sections.push({
       subject,
       tiles,
+      groups: groupByTopic(tiles),
       counts,
       solidRatio: assessed > 0 ? { solid: counts.mastered, assessed } : null,
     })
@@ -216,4 +225,65 @@ export function priorityTiles(sections: readonly WallSection[], limit = 3): Wall
     .filter((t) => t.status === 'gap')
     .sort((a, b) => (a.accuracy ?? 101) - (b.accuracy ?? 101))
     .slice(0, limit)
+}
+
+/**
+ * Tiles under their parent topic, preserving the order they arrive in.
+ *
+ * The first wall was a grid of unlabelled squares. It showed the shape of a
+ * student's knowledge and nothing else — you could not tell what any tile was
+ * without tapping it, and with ninety-six of them you could not find a
+ * particular topic at all. Names and a heading fix both, and the heading is the
+ * cheapest structure available since the data already carries it.
+ */
+export function groupByTopic(tiles: readonly WallTile[]): WallGroup[] {
+  const out: WallGroup[] = []
+  const index = new Map<string, WallGroup>()
+  for (const tile of tiles) {
+    // A topic-level tile is its own heading's content; grouping it under
+    // itself would print the name twice.
+    const topic = tile.isTopicLevel ? '' : tile.parentTopic ?? ''
+    const existing = index.get(topic)
+    if (existing) {
+      existing.tiles.push(tile)
+      continue
+    }
+    const group: WallGroup = { topic, tiles: [tile] }
+    index.set(topic, group)
+    out.push(group)
+  }
+  return out
+}
+
+/** Case-insensitive match on the tile's own name or its topic. */
+export function tileMatches(tile: WallTile, query: string): boolean {
+  const q = query.trim().toLowerCase()
+  if (!q) return true
+  return (
+    tile.label.toLowerCase().includes(q) ||
+    (tile.parentTopic ?? '').toLowerCase().includes(q)
+  )
+}
+
+/**
+ * Narrows a wall to what the student asked for.
+ *
+ * Hiding untested topics is the default elsewhere: on the live data one
+ * subject had eight assessed topics and eighty-eight untested ones, and the
+ * grey drowned everything worth looking at. They are still reachable, just not
+ * in the way by default.
+ */
+export function filterWall(
+  sections: readonly WallSection[],
+  { query = '', includeUntested = false }: { query?: string; includeUntested?: boolean } = {},
+): WallSection[] {
+  const out: WallSection[] = []
+  for (const section of sections) {
+    const tiles = section.tiles.filter(
+      (t) => (includeUntested || t.status !== 'not_assessed') && tileMatches(t, query),
+    )
+    if (tiles.length === 0) continue
+    out.push({ ...section, tiles, groups: groupByTopic(tiles) })
+  }
+  return out
 }

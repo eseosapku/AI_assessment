@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { tilesForSubject, buildWall, wallSummary, priorityTiles } from './wall'
+import { tilesForSubject, buildWall, wallSummary, priorityTiles, groupByTopic, tileMatches, filterWall } from './wall'
 
 const topic = (over: Record<string, unknown> = {}) => ({
   id: 1, name: 'Forces', status: 'developing', accuracy: 60, attempts: 2,
@@ -143,5 +143,85 @@ describe('priorityTiles', () => {
   it('returns nothing when there are no gaps', () => {
     const clean = buildWall([{ id: 1, name: 'A', topics: [{ id: 1, name: 't', subtopics: [{ id: 1, name: 'x', status: 'mastered', accuracy: 95 }] }] }])
     expect(priorityTiles(clean)).toEqual([])
+  })
+})
+
+describe('groupByTopic', () => {
+  it('gathers subtopics under their topic heading', () => {
+    const tiles = tilesForSubject({
+      id: 1, name: 'Geography',
+      topics: [
+        { id: 1, name: 'Agricultural Systems in Rwanda', subtopics: [
+          { id: 1, name: 'Livestock farming', status: 'gap', accuracy: 0 },
+          { id: 2, name: 'Impact of Agriculture', status: 'gap', accuracy: 0 },
+        ] },
+        { id: 2, name: 'Climate and Climate Change', subtopics: [
+          { id: 3, name: 'Effects of climate change', status: 'gap', accuracy: 30 },
+        ] },
+      ],
+    })
+    const groups = groupByTopic(tiles)
+    expect(groups.map((g) => g.topic)).toEqual(['Agricultural Systems in Rwanda', 'Climate and Climate Change'])
+    expect(groups[0].tiles).toHaveLength(2)
+  })
+
+  it('gives a topic-level tile no heading, so its name is not printed twice', () => {
+    const tiles = tilesForSubject({ id: 1, name: 'X', topics: [{ id: 1, name: 'Forces', status: 'gap' }] })
+    expect(groupByTopic(tiles)[0].topic).toBe('')
+  })
+})
+
+describe('tileMatches', () => {
+  const tile = tilesForSubject({
+    id: 1, name: 'Geography',
+    topics: [{ id: 1, name: 'Agricultural Systems', subtopics: [{ id: 1, name: 'Livestock farming', status: 'gap' }] }],
+  })[0]
+
+  it('matches on the tile name, case-insensitively', () => {
+    expect(tileMatches(tile, 'livestock')).toBe(true)
+    expect(tileMatches(tile, 'LIVESTOCK')).toBe(true)
+  })
+
+  it('also matches on the parent topic, so a topic search finds its subtopics', () => {
+    expect(tileMatches(tile, 'agricultural')).toBe(true)
+  })
+
+  it('matches everything on an empty query', () => {
+    expect(tileMatches(tile, '')).toBe(true)
+    expect(tileMatches(tile, '   ')).toBe(true)
+  })
+
+  it('does not match something absent', () => {
+    expect(tileMatches(tile, 'photosynthesis')).toBe(false)
+  })
+})
+
+describe('filterWall', () => {
+  const wall = buildWall([
+    { id: 1, name: 'Geography', topics: [{ id: 1, name: 'Farming', subtopics: [
+      { id: 1, name: 'Livestock farming', status: 'gap', accuracy: 0 },
+      { id: 2, name: 'Irrigation', status: 'not_assessed' },
+      { id: 3, name: 'Soil types', status: 'mastered', accuracy: 90 },
+    ] }] },
+  ])
+
+  it('hides untested topics by default, because they drown everything else', () => {
+    // Live: one subject had 8 assessed topics and 88 untested ones.
+    const filtered = filterWall(wall)
+    expect(filtered[0].tiles.map((t) => t.label)).toEqual(['Livestock farming', 'Soil types'])
+  })
+
+  it('brings them back when asked', () => {
+    expect(filterWall(wall, { includeUntested: true })[0].tiles).toHaveLength(3)
+  })
+
+  it('narrows to a search, and regroups what is left', () => {
+    const filtered = filterWall(wall, { query: 'livestock' })
+    expect(filtered[0].tiles.map((t) => t.label)).toEqual(['Livestock farming'])
+    expect(filtered[0].groups[0].tiles).toHaveLength(1)
+  })
+
+  it('drops a subject with no matches rather than showing an empty heading', () => {
+    expect(filterWall(wall, { query: 'nothing here' })).toEqual([])
   })
 })
