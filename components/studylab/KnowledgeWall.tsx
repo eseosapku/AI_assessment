@@ -1,7 +1,7 @@
 'use client'
 
 import { useMemo, useState } from 'react'
-import { ArrowRight, Check, Minus, Search, Sparkles, X } from 'lucide-react'
+import { ArrowRight, Check, Eye, EyeOff, Minus, Search, Sparkles, X } from 'lucide-react'
 import {
   buildWall,
   filterWall,
@@ -154,18 +154,37 @@ export function KnowledgeWall({
             className="w-full rounded-full border border-ss-line bg-ss-panel py-2.5 pl-9 pr-4 text-[13.5px] font-semibold text-ss-ink placeholder:font-medium placeholder:text-ss-slate focus:border-ss-accent focus:outline-none"
           />
         </div>
+        {/* A bordered pill of grey text read as a caption rather than a control.
+            It carries an icon, a filled state and a switch now, so it looks
+            like something that does something. */}
         {totals.not_assessed > 0 && (
           <button
             type="button"
             onClick={() => setShowUntested((v) => !v)}
             aria-pressed={showUntested}
-            className={`shrink-0 rounded-full border px-4 py-2.5 text-[13px] font-bold transition-colors ${
+            className={`inline-flex shrink-0 items-center gap-2 rounded-full border-2 px-4 py-2.5 text-[13px] font-extrabold transition-colors ${
               showUntested
-                ? 'border-ss-line text-ss-slate hover:border-ss-accent hover:text-ss-accent'
-                : 'border-ss-accent bg-[color:var(--ss-accent)]/10 text-ss-accent'
+                ? 'border-ss-accent bg-[color:var(--ss-accent)]/[0.10] text-ss-accent'
+                : 'border-ss-line bg-ss-chip text-ss-ink hover:border-ss-accent'
             }`}
           >
-            {showUntested ? `Hide the ${totals.not_assessed} not tested` : 'Show everything'}
+            {showUntested ? <Eye className="h-4 w-4" aria-hidden /> : <EyeOff className="h-4 w-4" aria-hidden />}
+            <span>
+              {totals.not_assessed} not tested
+              <span className="ml-1.5 font-bold opacity-70">{showUntested ? 'shown' : 'hidden'}</span>
+            </span>
+            <span
+              aria-hidden
+              className={`relative h-4 w-7 shrink-0 rounded-full transition-colors ${
+                showUntested ? 'bg-ss-accent' : 'bg-ss-line'
+              }`}
+            >
+              <span
+                className={`absolute top-0.5 h-3 w-3 rounded-full bg-white transition-all ${
+                  showUntested ? 'left-3.5' : 'left-0.5'
+                }`}
+              />
+            </span>
           </button>
         )}
       </div>
