@@ -55,6 +55,6 @@ describe('longform hints', () => {
       marking_criteria: ['Uses a quote from the extract to support the point'],
       model_answer: 'The writer uses “bitter wind” to show isolation.',
     })
-    expect(q.hints[0]).toMatch(/evidence|text|phrase/i)
+    expect(q.hints?.[0]).toMatch(/evidence|text|phrase/i)
   })
 })

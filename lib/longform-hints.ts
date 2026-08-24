@@ -104,7 +104,9 @@ export function alignLongformHints(
   return list.map((criterion, i) => sanitizeHint(incoming[i], criterion, modelAnswer))
 }
 
-export function attachLongformHints<T extends Record<string, any>>(question: T): T {
+export function attachLongformHints<T extends Record<string, any>>(
+  question: T,
+): T & { hints?: string[] } {
   if (!question || question.type !== 'longform') return question
   const hints = alignLongformHints(
     question.marking_criteria,
