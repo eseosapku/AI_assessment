@@ -5,7 +5,7 @@ import {
   Search,
   CheckCircle2,
   TrendingUp,
-  AlertTriangle,
+  Sparkles,
   RefreshCw,
   Users,
   GraduationCap,
@@ -155,7 +155,7 @@ export default function AdminDashboardPage() {
                     mode === m ? 'bg-ss-panel text-ss-ink shadow-sm' : 'text-ss-slate hover:text-ss-ink'
                   }`}
                 >
-                  {m === 'live' ? 'Measured today' : 'Modelled at scale'}
+                  {m === 'live' ? 'Today' : 'At scale'}
                 </button>
               ))}
             </div>
@@ -173,17 +173,18 @@ export default function AdminDashboardPage() {
 
       <main className="mx-auto max-w-[1180px] px-6 py-6">
         {projected && (
-          <div className="mb-6 flex items-start gap-3 rounded-2xl border border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10 p-4">
-            <AlertTriangle className="mt-0.5 h-5 w-5 shrink-0 text-ss-warn" aria-hidden />
-            <div>
-              <p className="text-[14px] font-extrabold text-ss-ink">These are modelled figures, not measurements.</p>
-              <p className="mt-1 text-[13px] font-medium leading-relaxed text-ss-slate">
-                The platform run forward on rates the live data measured, at a cohort of 6,040 active
-                students. Every factor is shown below and marked for whether it was observed or assumed.
-                Switch to <span className="font-bold text-ss-ink">Measured today</span> for what has
-                actually happened so far.
-              </p>
-            </div>
+          <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-xl border border-ss-line bg-ss-panel px-4 py-3">
+            <span className="inline-flex items-center gap-1.5 rounded-full bg-ss-accent-soft px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">
+              <Sparkles className="h-3.5 w-3.5" aria-hidden />
+              Forecast
+            </span>
+            <p className="text-[13px] font-semibold text-ss-ink">
+              A 6,040-student cohort, projected from measured rates.
+            </p>
+            <p className="text-[13px] font-medium text-ss-slate">
+              Every factor is shown below. Switch to{' '}
+              <span className="font-bold text-ss-ink">Today</span> for figures to date.
+            </p>
           </div>
         )}
 
@@ -336,8 +337,8 @@ export default function AdminDashboardPage() {
             {cov && (
               <div className="mt-4">
                 <Panel
-                  title="What limits gap detection"
-                  hint="Gap detection can only see subtopics a paper was tagged with. An untagged paper is marked, returned, and then invisible to the engine forever."
+                  title="The biggest lever we have"
+                  hint="Gap detection reads the subtopics a paper is tagged with. Tagging more of them raises every figure above it."
                   method={`${num(cov.tagged)} of ${num(cov.assessments)} papers carry subtopic tags. Those papers surfaced ${cov.gapsPerTaggedPaper} gaps each — the rate the projection is built on.`}
                 >
                   <div className="grid gap-5 md:grid-cols-[220px_1fr] md:items-start">
