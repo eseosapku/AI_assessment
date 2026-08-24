@@ -60,6 +60,26 @@ function deny(status: number, error: string): AdminAuthorization {
  * does not expire and cannot be revoked. It stays only until login issues real
  * sessions, at which point the token path above should become the only one.
  */
+/**
+ * Accounts allowed into the admin area without carrying the role.
+ *
+ * `role` is a single column and the rest of the app branches on it in twenty-five
+ * places, so promoting a working teacher to platform_admin would take away their
+ * dashboard, classrooms, reports and settings in exchange for this page. That is
+ * a bad trade for the person who owns the product.
+ *
+ * So membership can also come from the environment: set
+ * PLATFORM_ADMIN_USER_IDS to a comma-separated list of user ids. It grants this
+ * page and nothing else, it changes no data, and revoking it is an environment
+ * edit rather than a migration.
+ */
+export function allowlistedAdminIds(env: NodeJS.ProcessEnv = process.env): string[] {
+  return String(env.PLATFORM_ADMIN_USER_IDS ?? '')
+    .split(',')
+    .map((id) => id.trim().toLowerCase())
+    .filter((id) => UUID_RE.test(id))
+}
+
 async function adminByUserId(
   request: NextRequest,
   database: Database,
@@ -67,9 +87,13 @@ async function adminByUserId(
   const userId = request.nextUrl.searchParams.get('user_id')?.trim()
   if (!userId || !UUID_RE.test(userId)) return null
 
+  // The account still has to exist. The allowlist says which ids may look, not
+  // that an arbitrary id is a person.
   const { rows } = await database.query(
-    `SELECT id, email, name FROM users WHERE id = $1 AND role = 'platform_admin' LIMIT 1`,
-    [userId],
+    `SELECT id, email, name FROM users
+      WHERE id = $1 AND (role = 'platform_admin' OR id::text = ANY($2::text[]))
+      LIMIT 1`,
+    [userId, allowlistedAdminIds()],
   )
   const row = rows[0]
   if (!row) return null
