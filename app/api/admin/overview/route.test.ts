@@ -110,13 +110,19 @@ const CURVE = [
 ]
 const MASTERY = { gap: 150, developing: 51, mastered: 104, total: 305, masteredShare: 34.1 }
 const COST = {
-  basis: 'estimated' as const,
-  lines: [],
-  aiTotalUsd: 3.08, aiTeachingUsd: 3.08, aiDevelopmentUsd: 0,
-  aiMonthlyUsd: 0.44, activeStudents: 431,
-  aiPerStudentMonthUsd: 0.001, aiPerPaperUsd: 0.0016,
-  revenuePerStudentUsd: 5, inferenceShareOfRevenuePct: 0.02,
-  revenueAfterInferenceUsd: 4.999,
+  source: { exportedOn: '2026-08-24', periodFrom: '2026-02', periodTo: '2026-07', note: 'x' },
+  months: [
+    {
+      month: '2026-05', totalUsd: 34.06, servingUsd: 25.28, inferenceUsd: 5.29,
+      developmentUsd: 3.49, costToServeUsd: 30.57, activeStudents: 340,
+      costPerStudentUsd: 0.09, revenueUsd: 1700, marginPct: 98.2,
+    },
+  ],
+  services: [],
+  totalUsd: 246.88, servingUsd: 216.46, inferenceUsd: 12.17, developmentUsd: 18.24,
+  inferenceSharePct: 4.9,
+  bestMonth: null, latestMonth: null,
+  revenuePerStudentUsd: 5, breakEvenStudents: 19,
 }
 
 function overviewRequest(mode?: 'live' | 'projected') {

@@ -368,10 +368,10 @@ export async function loadCollectionPoints(database: Database = defaultDb): Prom
     point(
       'infrastructure',
       'Hosting and database spend',
-      0,
+      1,
       null,
-      'Not captured',
-      'Model calls are the only cost this platform records. Until hosting, database, storage and payment fees land somewhere countable, no true cost per student and no margin can be worked out from this dashboard.',
+      'Imported by hand',
+      'Real figures, but a snapshot: they come from a Cost Explorer export pasted into the repo, so they go stale silently and nobody is told. A billing export to S3 read on a schedule would keep the margin current instead of correct-as-of-a-date.',
     ),
     point(
       'dropout',

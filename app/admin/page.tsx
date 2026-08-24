@@ -108,13 +108,27 @@ interface Overview {
       gap: number; developing: number; mastered: number; total: number; masteredShare: number
     } | null
     cost: {
-      basis: 'measured' | 'estimated'
-      lines: { key: string; label: string; model: string; calls: number; totalUsd: number; perCallUsd: number; bucket: string }[]
-      aiTotalUsd: number; aiTeachingUsd: number; aiDevelopmentUsd: number
-      aiMonthlyUsd: number; activeStudents: number
-      aiPerStudentMonthUsd: number; aiPerPaperUsd: number
+      source: { exportedOn: string; periodFrom: string; periodTo: string; note: string }
+      months: {
+        month: string; totalUsd: number; servingUsd: number; inferenceUsd: number
+        developmentUsd: number; costToServeUsd: number; activeStudents: number
+        costPerStudentUsd: number | null; revenueUsd: number; marginPct: number | null
+      }[]
+      services: { service: string; usd: number; bucket: 'serving' | 'inference' | 'development'; sharePct: number }[]
+      totalUsd: number; servingUsd: number; inferenceUsd: number; developmentUsd: number
+      inferenceSharePct: number
+      bestMonth: {
+        month: string; totalUsd: number; servingUsd: number; inferenceUsd: number
+        developmentUsd: number; costToServeUsd: number; activeStudents: number
+        costPerStudentUsd: number | null; revenueUsd: number; marginPct: number | null
+      } | null
+      latestMonth: {
+        month: string; totalUsd: number; servingUsd: number; inferenceUsd: number
+        developmentUsd: number; costToServeUsd: number; activeStudents: number
+        costPerStudentUsd: number | null; revenueUsd: number; marginPct: number | null
+      } | null
       revenuePerStudentUsd: number
-      inferenceShareOfRevenuePct: number; revenueAfterInferenceUsd: number
+      breakEvenStudents: number
     } | null
   }
   metadata: { generatedAt: string; warnings: string[] }
@@ -570,13 +584,9 @@ export default function AdminDashboardPage() {
             {overview.data.cost && (
               <div className="mt-4">
                 <Panel
-                  title="What the models cost"
-                  hint="The one cost this database can account for, against what a student pays."
-                  method={
-                    overview.data.cost.basis === 'measured'
-                      ? 'Token counts from the usage ledger, priced at the per-model list rates in cost-metrics.ts. No other cost is included, because no other cost is recorded anywhere in this system.'
-                      : 'Nothing writes to the usage ledger yet, so this is estimated: real operation counts multiplied by per-call token profiles and per-model list rates, both in cost-metrics.ts. No other cost is included, because no other cost is recorded anywhere in this system.'
-                  }
+                  title="What it costs to run"
+                  hint="The AWS bill, against the students it served."
+                  method="Cost Explorer export joined to monthly active students. Serving is database, network and hosting; inference is Bedrock; development is CI, the registry and one-off experiments, which are excluded from cost per student because they would not disappear if every student left."
                 >
                   <CostView c={overview.data.cost} />
                 </Panel>

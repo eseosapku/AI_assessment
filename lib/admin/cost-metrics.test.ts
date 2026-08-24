@@ -1,163 +1,127 @@
 import { describe, it, expect, vi } from 'vitest'
-import {
-  loadCostMetrics,
-  costOfProfile,
-  costOfTokens,
-  MODEL_RATES,
-  OPERATION_PROFILES,
-  REVENUE_PER_STUDENT_USD,
-} from './cost-metrics'
+import { loadCostMetrics, REVENUE_PER_STUDENT_USD } from './cost-metrics'
+import { AWS_MONTHS, SERVICE_BUCKETS, serviceTotals, bucketsForMonth } from './aws-costs'
 import type { Database } from '@/lib/db'
 
-const COUNTS = {
-  generate_assessment: '1923',
-  generate_feedback: '1681',
-  build_lesson: '65',
-  tutor_reply: '708',
-  recall_card: '398',
-  active_students: '431',
-}
+/** Monthly active students, the shape loadMonthlyActive returns. */
+const dbWith = (rows: { month: string; students: string }[]): Database =>
+  ({ query: vi.fn().mockResolvedValue({ rows }) }) as unknown as Database
 
-/** Counts query first, then the ledger query. */
-const dbWith = (ledgerRows: Record<string, unknown>[] = []): Database =>
-  ({
-    query: vi
-      .fn()
-      .mockResolvedValueOnce({ rows: [COUNTS] })
-      .mockResolvedValueOnce({ rows: ledgerRows }),
-  }) as unknown as Database
+const LIVE = [
+  { month: '2026-02', students: '5' },
+  { month: '2026-03', students: '8' },
+  { month: '2026-04', students: '6' },
+  { month: '2026-05', students: '340' },
+  { month: '2026-06', students: '287' },
+  { month: '2026-07', students: '13' },
+]
 
-describe('costOfTokens', () => {
-  it('prices a call from its model rate', () => {
-    // 1M input on Nova Lite is $0.06 by the table above.
-    expect(costOfTokens('amazon.nova-lite-v1:0', 1_000_000, 0)).toBeCloseTo(0.06, 6)
-    expect(costOfTokens('amazon.nova-lite-v1:0', 0, 1_000_000)).toBeCloseTo(0.24, 6)
+describe('the imported bill', () => {
+  it('sums to the total on the export', () => {
+    // If these drift the whole panel is quietly wrong, and nothing else would
+    // catch it — the figures are pasted in, not computed.
+    const total = serviceTotals().reduce((a, s) => a + s.usd, 0)
+    expect(total).toBeCloseTo(246.88, 1)
   })
 
-  it('falls back rather than charging nothing for an unknown model', () => {
-    // A model missing from the rate table must not silently cost $0 and
-    // flatter the margin.
-    expect(costOfTokens('some.new-model', 1_000_000, 0)).toBeGreaterThan(0)
+  it('accounts for every month in the export', () => {
+    expect(AWS_MONTHS.map((m) => m.month)).toEqual([
+      '2026-02', '2026-03', '2026-04', '2026-05', '2026-06', '2026-07',
+    ])
   })
-})
 
-describe('the rate table', () => {
-  it('prices every model the operation profiles reference', () => {
-    for (const p of OPERATION_PROFILES) {
-      expect(MODEL_RATES[p.model], p.model).toBeDefined()
+  it('splits each month into exactly its own total', () => {
+    for (const m of AWS_MONTHS) {
+      const b = bucketsForMonth(m)
+      expect(b.serving + b.inference + b.development, m.month).toBeCloseTo(m.total, 4)
     }
   })
 
-  it('charges more for output than input on every model', () => {
-    for (const [model, rate] of Object.entries(MODEL_RATES)) {
-      expect(rate.output, model).toBeGreaterThan(rate.input)
-    }
+  it('buckets an unrecognised service rather than dropping it', () => {
+    // A new line on the bill must never vanish from the total it belongs to.
+    const rogue = { month: '2026-99', total: 10, byService: { 'Brand New Service': 10 } }
+    expect(bucketsForMonth(rogue).serving).toBe(10)
   })
-})
 
-describe('costOfProfile', () => {
-  it('gives a per-call cost well under a cent for a generated paper', () => {
-    const paper = OPERATION_PROFILES.find((p) => p.key === 'generate_assessment')!
-    expect(costOfProfile(paper)).toBeLessThan(0.01)
-    expect(costOfProfile(paper)).toBeGreaterThan(0)
+  it('files build tooling and one-off experiments as development', () => {
+    // They would not disappear if every student left, so charging them to a
+    // student overstates what a student costs.
+    expect(SERVICE_BUCKETS['CodeBuild']).toBe('development')
+    expect(SERVICE_BUCKETS['EC2 Container Registry (ECR)']).toBe('development')
+    expect(SERVICE_BUCKETS['Claude Haiku 4.5 ( Bedrock Edition)']).toBe('development')
+    expect(SERVICE_BUCKETS['Rekognition']).toBe('development')
+  })
+
+  it('files the database and network as serving', () => {
+    expect(SERVICE_BUCKETS['Relational Database Service']).toBe('serving')
+    expect(SERVICE_BUCKETS['VPC']).toBe('serving')
   })
 })
 
 describe('loadCostMetrics', () => {
-  it('estimates from operation counts while the ledger is empty', async () => {
-    const c = await loadCostMetrics(dbWith([]))
-    expect(c.basis).toBe('estimated')
-    expect(c.lines.find((l) => l.key === 'generate_assessment')?.calls).toBe(1923)
+  it('finds the database, not inference, to be the bill', async () => {
+    // The margin thesis holds, but for a different reason than the models
+    // being cheap: this platform costs money to store and serve data.
+    const c = await loadCostMetrics(dbWith(LIVE))
+    expect(c.inferenceSharePct).toBeLessThan(10)
+    expect(c.servingUsd).toBeGreaterThan(c.inferenceUsd * 10)
   })
 
-  it('switches to the ledger the moment it has rows', async () => {
-    const c = await loadCostMetrics(
-      dbWith([
-        {
-          feature: 'generate_assessment',
-          model_id: 'amazon.nova-lite-v1:0',
-          environment: 'production',
-          calls: '10',
-          input_tokens: '30000',
-          output_tokens: '25000',
-        },
-      ]),
+  it('reports a healthy margin in the month students actually turned up', async () => {
+    const c = await loadCostMetrics(dbWith(LIVE))
+    expect(c.bestMonth?.month).toBe('2026-05')
+    expect(c.bestMonth?.marginPct).toBeGreaterThan(90)
+  })
+
+  it('reports a loss as a loss when the bill outruns the students', async () => {
+    // July cost more than any other month and had thirteen students on it.
+    // Blending that away would hide the only thing here worth acting on.
+    const c = await loadCostMetrics(dbWith(LIVE))
+    const july = c.months.find((m) => m.month === '2026-07')!
+    expect(july.marginPct).toBeLessThan(0)
+    expect(july.costPerStudentUsd).toBeGreaterThan(REVENUE_PER_STUDENT_USD)
+  })
+
+  it('says nothing rather than zero for a month with nobody on it', async () => {
+    // No margin is not a margin of zero, and no cost per student is not free.
+    const c = await loadCostMetrics(dbWith([]))
+    expect(c.months.every((m) => m.marginPct === null)).toBe(true)
+    expect(c.months.every((m) => m.costPerStudentUsd === null)).toBe(true)
+  })
+
+  it('leaves development spend out of what a student costs', async () => {
+    const c = await loadCostMetrics(dbWith(LIVE))
+    for (const m of c.months) {
+      expect(m.costToServeUsd, m.month).toBeCloseTo(m.servingUsd + m.inferenceUsd, 2)
+      expect(m.costToServeUsd, m.month).toBeLessThanOrEqual(m.totalUsd + 0.01)
+    }
+  })
+
+  it('grows only the consumed part of the bill when costing a bigger cohort', async () => {
+    // The database runs whether anyone logs in or not, so serving fourteen
+    // times the students does not cost fourteen times as much — which is the
+    // entire reason the per-student figure improves with size.
+    const today = await loadCostMetrics(dbWith(LIVE))
+    const scaled = await loadCostMetrics(dbWith(LIVE), { activeStudents: 6040 })
+    expect(scaled.bestMonth!.activeStudents).toBe(6040)
+    expect(scaled.bestMonth!.costPerStudentUsd!).toBeLessThan(today.bestMonth!.costPerStudentUsd!)
+    expect(scaled.bestMonth!.marginPct!).toBeGreaterThan(today.bestMonth!.marginPct!)
+  })
+
+  it('reports break-even against the most recent month, not a lifetime average', async () => {
+    const c = await loadCostMetrics(dbWith(LIVE))
+    expect(c.breakEvenStudents).toBe(
+      Math.ceil(c.latestMonth!.costToServeUsd / REVENUE_PER_STUDENT_USD),
     )
-    expect(c.basis).toBe('measured')
-    expect(c.lines).toHaveLength(1)
-    expect(c.lines[0].calls).toBe(10)
   })
 
-  it('files non-production spend as development, not as teaching', async () => {
-    // Vision passes and benchmarks are not a cost of teaching anyone, and
-    // folding them in would overstate what a student costs.
-    const c = await loadCostMetrics(
-      dbWith([
-        { feature: 'benchmark', model_id: 'amazon.nova-lite-v1:0', environment: 'development', calls: '5', input_tokens: '1000000', output_tokens: '0' },
-      ]),
-    )
-    expect(c.aiDevelopmentUsd).toBeGreaterThan(0)
-    expect(c.aiTeachingUsd).toBe(0)
+  it('carries the export date, since these figures go stale silently', async () => {
+    const c = await loadCostMetrics(dbWith(LIVE))
+    expect(c.source.exportedOn).toMatch(/^\d{4}-\d{2}-\d{2}$/)
   })
 
-  it('reports inference as a share of the subscription, not as a margin', async () => {
-    // A margin needs a full cost base. Hosting, storage and payment fees are
-    // not recorded anywhere in this system, so the only honest claim is how
-    // much of the subscription the models take.
-    const c = await loadCostMetrics(dbWith([]))
-    expect(c).not.toHaveProperty('grossMarginPct')
-    expect(c.revenuePerStudentUsd).toBe(REVENUE_PER_STUDENT_USD)
-    expect(c.inferenceShareOfRevenuePct).toBeCloseTo(
-      (c.aiPerStudentMonthUsd / c.revenuePerStudentUsd) * 100,
-      2,
-    )
-  })
-
-  it('carries no hand-entered infrastructure figure', async () => {
-    // The number the old margin turned on was invented rather than measured,
-    // which made the most consequential figure on the page the least checkable.
-    const c = await loadCostMetrics(dbWith([]))
-    expect(c).not.toHaveProperty('infrastructureMonthlyUsd')
-    expect(c).not.toHaveProperty('totalMonthlyUsd')
-    expect(c).not.toHaveProperty('breakEvenStudents')
-  })
-
-  it('finds model spend to be a fraction of a percent of revenue', async () => {
-    // The narrower claim that survives: whatever running this costs, it is not
-    // inference.
-    const c = await loadCostMetrics(dbWith([]))
-    expect(c.inferenceShareOfRevenuePct).toBeLessThan(1)
-    expect(c.inferenceShareOfRevenuePct).toBeGreaterThan(0)
-  })
-
-  it('holds the per-student figure roughly flat as the cohort grows', async () => {
-    // Call volumes move with the student body, so inference is very nearly a
-    // pure variable cost — there is no fixed part left to dilute.
-    const today = await loadCostMetrics(dbWith([]))
-    const scaled = await loadCostMetrics(dbWith([]), { activeStudents: 6040 })
-    expect(scaled.aiPerStudentMonthUsd).toBeCloseTo(today.aiPerStudentMonthUsd, 3)
-  })
-
-  it('scales the call counts with the cohort it is costing', async () => {
-    // Otherwise 6,040 students would be served by 431 students' worth of
-    // generation, which would make inference look free by construction.
-    const scaled = await loadCostMetrics(dbWith([]), { activeStudents: 6040 })
-    expect(scaled.lines.find((l) => l.key === 'generate_assessment')!.calls).toBeGreaterThan(1923)
-  })
-
-  it('reports a per-paper cost, the unit that actually scales with usage', async () => {
-    const c = await loadCostMetrics(dbWith([]))
-    expect(c.aiPerPaperUsd).toBeGreaterThan(0)
-    expect(c.aiPerPaperUsd).toBeLessThan(0.05)
-  })
-
-  it('does not divide by zero on a platform with no students yet', async () => {
-    const empty = {
-      query: vi.fn().mockResolvedValueOnce({ rows: [{}] }).mockResolvedValueOnce({ rows: [] }),
-    } as unknown as Database
-    const c = await loadCostMetrics(empty)
-    expect(Number.isFinite(c.aiPerStudentMonthUsd)).toBe(true)
-    expect(c.aiPerStudentMonthUsd).toBe(0)
-    expect(c.aiPerPaperUsd).toBe(0)
+  it('shares add up to the whole bill', async () => {
+    const c = await loadCostMetrics(dbWith(LIVE))
+    expect(c.servingUsd + c.inferenceUsd + c.developmentUsd).toBeCloseTo(c.totalUsd, 1)
   })
 })

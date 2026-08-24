@@ -160,6 +160,11 @@ describe('loadCollectionPoints', () => {
 
   it('survives a database where none of these tables have rows', async () => {
     const points = await loadCollectionPoints(dbWith([{}]))
-    expect(points.every((p) => p.state === 'silent')).toBe(true)
+    // Infrastructure is the exception: its figures are imported from a Cost
+    // Explorer export rather than read from a table, so it does not fall silent
+    // when the database is empty.
+    const fromTables = points.filter((p) => p.key !== 'infrastructure')
+    expect(fromTables.every((p) => p.state === 'silent')).toBe(true)
+    expect(points.find((p) => p.key === 'infrastructure')?.state).not.toBe('silent')
   })
 })
