@@ -1215,7 +1215,7 @@ export function modelForJob(job: LessonJob, env: NodeJS.ProcessEnv = process.env
 - [ ] **Step 4: Run test to verify it passes**
 
 Run: `npx vitest run lib/studylab/lessonJobs.test.ts`
-Expected: PASS — 8 tests
+Expected: PASS — 7 tests
 
 - [ ] **Step 5: Add usage tracking to callGemma**
 
@@ -1260,7 +1260,7 @@ import if it is not already there.
 - [ ] **Step 6: Verify nothing regressed**
 
 Run: `npx tsc --noEmit 2>&1 | grep -v "^\.next/" ; npx vitest run`
-Expected: no tsc output; 887 tests passing. Existing callers pass no `usage`,
+Expected: no tsc output; 886 tests passing. Existing callers pass no `usage`,
 so their behaviour is unchanged.
 
 - [ ] **Step 7: Commit**
@@ -1370,7 +1370,7 @@ Expected: a run whose steps before `current_step` are `done`.
 - [ ] **Step 6: Typecheck and full suite**
 
 Run: `npx tsc --noEmit 2>&1 | grep -v "^\.next/" ; npx vitest run`
-Expected: no tsc output; 887 tests passing
+Expected: no tsc output; 886 tests passing
 
 - [ ] **Step 7: Commit**
 
@@ -1895,7 +1895,7 @@ import { applyAction, draftPlan } from './dispatch'
 - [ ] **Step 7: Typecheck and full suite**
 
 Run: `npx tsc --noEmit 2>&1 | grep -v "^\.next/" ; npx vitest run`
-Expected: no tsc output; 896 tests passing
+Expected: no tsc output; 895 tests passing
 
 - [ ] **Step 8: Commit**
 
@@ -2132,7 +2132,7 @@ for a CSS-variable colour and renders the hover invisible.
 - [ ] **Step 7: Typecheck and full suite**
 
 Run: `npx tsc --noEmit 2>&1 | grep -v "^\.next/" ; npx vitest run`
-Expected: no tsc output; 904 tests passing
+Expected: no tsc output; 903 tests passing
 
 - [ ] **Step 8: Commit**
 
@@ -2233,7 +2233,7 @@ are built on a brand-new space until the plan is accepted.
 - [ ] **Step 5: Typecheck and full suite**
 
 Run: `npx tsc --noEmit 2>&1 | grep -v "^\.next/" ; npx vitest run`
-Expected: no tsc output; 904 tests passing
+Expected: no tsc output; 903 tests passing
 
 - [ ] **Step 6: Commit**
 
@@ -2287,7 +2287,7 @@ Expected: `0`
 - [ ] **Step 5: Typecheck and full suite**
 
 Run: `npx tsc --noEmit 2>&1 | grep -v "^\.next/" ; npx vitest run`
-Expected: no tsc output; 904 tests passing
+Expected: no tsc output; 903 tests passing
 
 - [ ] **Step 6: Commit**
 
@@ -2309,4 +2309,4 @@ After Task 10, confirm the whole feature end to end:
 - [ ] Switching pace to `run` builds a whole step before pausing.
 - [ ] An existing LearnSpace opened for the first time since Task 6 shows a sensible run derived from its old plan.
 - [ ] `SELECT feature, COUNT(*) FROM ai_usage_events GROUP BY 1` shows `lesson_teach_beat` rows.
-- [ ] `npx vitest run` green (904 tests), `npx tsc --noEmit` clean.
+- [ ] `npx vitest run` green (903 tests), `npx tsc --noEmit` clean.
