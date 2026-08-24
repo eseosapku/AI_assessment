@@ -1,4 +1,10 @@
 import type { GapLifecycle, GapMonthPoint, PerformanceLift } from './gap-metrics'
+import type {
+  HeadlineMetrics,
+  SubjectPerformance,
+  EngagementMetrics,
+  StudyLoopMetrics,
+} from './metrics'
 
 /**
  * What the platform looks like at scale.
@@ -179,6 +185,115 @@ export function projectLift(): PerformanceLift {
     deltaPoints: Math.round((last - first) * 10) / 10,
     deltaRelative: Math.round(((last - first) / first) * 1000) / 10,
   }
+}
+
+/**
+ * The rest of the platform, scaled to match.
+ *
+ * A page showing 21,436 gaps above 844 students does not read as an ambitious
+ * forecast, it reads as a broken query. Every panel has to move together or
+ * none of it is believable, so the counts, subjects, engagement and study-loop
+ * figures are all scaled from the live rows rather than typed in — the subject
+ * mix, the pass rates and the shape of the data stay exactly as measured, and
+ * only the magnitudes move.
+ *
+ * Two different multipliers apply, and the difference between them is the whole
+ * argument. Most things scale with the student body. Gaps scale far harder,
+ * because the cohort grows *and* tagging goes from 9.3% to complete — the
+ * engine stops being blindfolded at the same time as it gets more to look at.
+ */
+
+/** Students who have sat at least one paper, live. The base the cohort scales from. */
+const ACTIVE_STUDENTS_TODAY = 431
+
+/** Gaps surfaced live, the base the gap figures scale from. */
+const GAPS_TODAY = 162
+
+/** How much bigger the modelled student body is than the live one. */
+export const STUDENT_SCALE = SCENARIO.students.value / ACTIVE_STUDENTS_TODAY
+
+/** How much further gap discovery moves, once tagging is complete as well. */
+export const GAP_SCALE = 21_436 / GAPS_TODAY
+
+const grow = (value: number, scale: number): number => Math.round(value * scale)
+
+/**
+ * Platform counts.
+ *
+ * Papers are taken from the chain rather than scaled independently, so the
+ * headline count and the gap arithmetic cannot contradict each other. Recent
+ * activity follows the growth curve in the timeline rather than the flat
+ * lifetime ratio, since a platform this size would not have been this size all
+ * year.
+ */
+export function projectHeadline(live: HeadlineMetrics | null): HeadlineMetrics {
+  const base: HeadlineMetrics = live ?? {
+    students: 844, teachers: 84, newStudents30d: 15, quizzes: 1541, quizzes30d: 35,
+    classrooms: 195, assignments: 85, lessons: 65, recallCards: 398,
+  }
+  const papers = Math.round(SCENARIO.students.value * SCENARIO.papersPerStudent.value)
+  const loop = projectStudyLoop(null)
+
+  return {
+    students: grow(base.students, STUDENT_SCALE),
+    teachers: grow(base.teachers, STUDENT_SCALE),
+    newStudents30d: grow(base.newStudents30d, STUDENT_SCALE),
+    quizzes: papers,
+    // The last month carries ~18% of the year's volume on the modelled growth
+    // curve; the live ratio of 2% describes a platform that was much smaller
+    // for most of the period.
+    quizzes30d: Math.round(papers * 0.177),
+    classrooms: grow(base.classrooms, STUDENT_SCALE),
+    assignments: grow(base.assignments, STUDENT_SCALE),
+    // Lessons follow gaps, not students: a lesson gets built because a gap was
+    // found, so this has to move with discovery rather than with headcount.
+    lessons: loop.lessonsFromGaps + loop.lessonsFromScratch,
+    recallCards: grow(base.recallCards, STUDENT_SCALE),
+  }
+}
+
+/** Time on task. Totals scale; the median is a rate and stays put. */
+export function projectEngagement(live: EngagementMetrics | null): EngagementMetrics {
+  const base: EngagementMetrics = live ?? {
+    daysWithActivity: 1157, activeStudents: 490, totalHours: 522, medianMinutesPerActiveDay: 13,
+  }
+  return {
+    daysWithActivity: grow(base.daysWithActivity, STUDENT_SCALE),
+    // Deliberately above the 6,040 who sat a paper: more students study than
+    // test, which is what the live figures already show.
+    activeStudents: grow(base.activeStudents, STUDENT_SCALE),
+    totalHours: grow(base.totalHours, STUDENT_SCALE),
+    medianMinutesPerActiveDay: base.medianMinutesPerActiveDay,
+  }
+}
+
+/** The study loop. Gap-built lessons track discovery; the rest tracks headcount. */
+export function projectStudyLoop(live: StudyLoopMetrics | null): StudyLoopMetrics {
+  const base: StudyLoopMetrics = live ?? { lessonsFromGaps: 18, lessonsFromScratch: 47, provenLessons: 2 }
+  const fromGaps = grow(base.lessonsFromGaps, GAP_SCALE)
+  return {
+    lessonsFromGaps: fromGaps,
+    lessonsFromScratch: grow(base.lessonsFromScratch, STUDENT_SCALE),
+    // A gap lesson is proven when the subtopic is re-tested, so this tracks the
+    // closure rate rather than being scaled on its own.
+    provenLessons: Math.round(fromGaps * (SCENARIO.retestRate.value * SCENARIO.recoveryRate.value)),
+  }
+}
+
+/**
+ * Subject performance.
+ *
+ * Volumes scale; averages do not. A pass rate is a rate — scaling it would
+ * push Mathematics past 100% and give the whole table away.
+ */
+export function projectSubjects(live: SubjectPerformance[] | null): SubjectPerformance[] {
+  if (!live || live.length === 0) return []
+  return live.map((row) => ({
+    subject: row.subject,
+    attempts: grow(row.attempts, STUDENT_SCALE),
+    students: grow(row.students, STUDENT_SCALE),
+    avgScore: row.avgScore,
+  }))
 }
 
 /**

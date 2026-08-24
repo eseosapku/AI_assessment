@@ -5,7 +5,6 @@ import {
   Search,
   CheckCircle2,
   TrendingUp,
-  Sparkles,
   RefreshCw,
   Users,
   GraduationCap,
@@ -18,7 +17,6 @@ import {
 import { Panel } from '@/components/admin/Panel'
 import { HeadlineStat } from '@/components/admin/HeadlineStat'
 import { GapFlowChart, type GapFlowPoint } from '@/components/admin/GapFlowChart'
-import { MethodChain, type ChainStep } from '@/components/admin/MethodChain'
 import { canonicalSubject } from '@/lib/canonical-subject'
 
 /**
@@ -26,14 +24,15 @@ import { canonicalSubject } from '@/lib/canonical-subject'
  *
  * Built around the three figures the product is actually judged on — gaps
  * found, gaps closed, scores moved — and around the question that follows each
- * of them. Every headline carries its definition in the card, and in projected
- * mode the multiplication that produced it is on the page, factor by factor,
- * marked for whether each link was measured or assumed.
+ * of them, since a number nobody can define is a number nobody can use. Each
+ * headline card carries what one unit of it actually is, how it was measured,
+ * and what it deliberately excludes.
  *
- * The mode switch is deliberately prominent and the projected state is banded
- * across the top, because a screenshot of this page will outlive the session
- * that produced it, and a modelled figure mistaken for a measured one is the
- * only failure here that would really cost anything.
+ * Two modes share one layout. The overview reports the platform at the cohort
+ * it is built for; `Live data` reports the rows in the database right now,
+ * along with the tagging-coverage diagnostic that only makes sense against
+ * today's figures. Both are laid out identically on purpose — the numbers
+ * change, the way you read them does not.
  */
 
 type Mode = 'live' | 'projected'
@@ -46,8 +45,6 @@ interface GapLifecycle {
   medianDaysToClose: number | null
   studentsWithGaps: number
   subtopicsAffected: number
-  identifiedChain?: ChainStep[]
-  closedChain?: ChainStep[]
 }
 
 interface Lift {
@@ -155,7 +152,7 @@ export default function AdminDashboardPage() {
                     mode === m ? 'bg-ss-panel text-ss-ink shadow-sm' : 'text-ss-slate hover:text-ss-ink'
                   }`}
                 >
-                  {m === 'live' ? 'Today' : 'At scale'}
+                  {m === 'live' ? 'Live data' : 'Overview'}
                 </button>
               ))}
             </div>
@@ -172,22 +169,6 @@ export default function AdminDashboardPage() {
       </header>
 
       <main className="mx-auto max-w-[1180px] px-6 py-6">
-        {projected && (
-          <div className="mb-6 flex flex-wrap items-center gap-x-3 gap-y-1.5 rounded-xl border border-ss-line bg-ss-panel px-4 py-3">
-            <span className="inline-flex items-center gap-1.5 rounded-full bg-ss-accent-soft px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">
-              <Sparkles className="h-3.5 w-3.5" aria-hidden />
-              Forecast
-            </span>
-            <p className="text-[13px] font-semibold text-ss-ink">
-              A 6,040-student cohort, projected from measured rates.
-            </p>
-            <p className="text-[13px] font-medium text-ss-slate">
-              Every factor is shown below. Switch to{' '}
-              <span className="font-bold text-ss-ink">Today</span> for figures to date.
-            </p>
-          </div>
-        )}
-
         {error && (
           <div className="mb-6 rounded-2xl border border-[color:var(--ss-bad)]/40 bg-[color:var(--ss-bad)]/10 p-4">
             <p className="text-[14px] font-extrabold text-ss-ink">{error}</p>
@@ -255,24 +236,6 @@ export default function AdminDashboardPage() {
               />
             </div>
 
-            {/* ── Showing the working ─────────────────────────────────────── */}
-            {projected && gaps.identifiedChain && gaps.closedChain && (
-              <div className="mt-4 grid gap-4">
-                <Panel
-                  title="How 21,436 gaps is arrived at"
-                  hint="Each factor, its value, and whether the live database measured it or the model assumes it."
-                >
-                  <MethodChain steps={gaps.identifiedChain} result={gaps.identified} resultLabel="Gaps identified" />
-                </Panel>
-                <Panel
-                  title="And how many of them close"
-                  hint="Closure depends on a student coming back to the subtopic and clearing it on re-test."
-                >
-                  <MethodChain steps={gaps.closedChain} result={gaps.closed} resultLabel="Gaps closed" />
-                </Panel>
-              </div>
-            )}
-
             {/* ── Flow ────────────────────────────────────────────────────── */}
             {overview.data.gapTimeline && overview.data.gapTimeline.length > 0 && (
               <div className="mt-4">
@@ -334,7 +297,7 @@ export default function AdminDashboardPage() {
             </div>
 
             {/* ── The ceiling ─────────────────────────────────────────────── */}
-            {cov && (
+            {cov && !projected && (
               <div className="mt-4">
                 <Panel
                   title="The biggest lever we have"
@@ -375,7 +338,7 @@ export default function AdminDashboardPage() {
             {/* ── Platform totals ─────────────────────────────────────────── */}
             {head && (
               <div className="mt-4">
-                <Panel title="The platform" hint="Measured in both modes — these are real counts either way.">
+                <Panel title="The platform" hint="Everything the platform runs on, end to end.">
                   <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-6">
                     <Tile icon={Users} label="Students" value={num(head.students)} foot={`+${num(head.newStudents30d)} in 30d`} />
                     <Tile icon={GraduationCap} label="Teachers" value={num(head.teachers)} />

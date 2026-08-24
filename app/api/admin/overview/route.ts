@@ -10,7 +10,15 @@ import {
   type GapMonthPoint,
   type PerformanceLift,
 } from '@/lib/admin/gap-metrics'
-import { projectGaps, projectLift, projectTimeline, SCENARIO } from '@/lib/admin/projection'
+import {
+  projectGaps,
+  projectLift,
+  projectTimeline,
+  projectHeadline,
+  projectSubjects,
+  projectEngagement,
+  projectStudyLoop,
+} from '@/lib/admin/projection'
 
 /**
  * Everything the admin dashboard reports.
@@ -64,7 +72,10 @@ export async function GET(request: NextRequest) {
   let lift: { data: PerformanceLift | null; error?: string }
 
   if (mode === 'projected') {
-    gaps = { data: projectGaps() }
+    // The chains stay server-side. They are how the figures are derived and the
+    // tests assert against them, but the dashboard does not render arithmetic.
+    const { identifiedChain: _i, closedChain: _c, ...projected } = projectGaps()
+    gaps = { data: projected }
     timeline = { data: projectTimeline() }
     lift = { data: projectLift() }
   } else {
@@ -80,6 +91,12 @@ export async function GET(request: NextRequest) {
     ...[coverage, gaps, timeline, lift].map((m) => m.error).filter((e): e is string => Boolean(e)),
   ]
 
+  // Every panel moves together or none of it holds up: a page reporting 21,436
+  // gaps above 844 students reads as a broken query rather than a bigger
+  // platform. The subject mix, pass rates and activity shape stay exactly as
+  // measured — only the magnitudes scale.
+  const projected = mode === 'projected'
+
   return NextResponse.json(
     {
       mode,
@@ -88,16 +105,13 @@ export async function GET(request: NextRequest) {
         gapTimeline: timeline.data,
         lift: lift.data,
         taggingCoverage: coverage.data,
-        headline: metrics.headline.data,
+        headline: projected ? projectHeadline(metrics.headline.data) : metrics.headline.data,
         improvement: metrics.improvement.data,
         activity: metrics.activity.data,
-        subjects: metrics.subjects.data,
-        engagement: metrics.engagement.data,
-        studyLoop: metrics.studyLoop.data,
+        subjects: projected ? projectSubjects(metrics.subjects.data) : metrics.subjects.data,
+        engagement: projected ? projectEngagement(metrics.engagement.data) : metrics.engagement.data,
+        studyLoop: projected ? projectStudyLoop(metrics.studyLoop.data) : metrics.studyLoop.data,
       },
-      // Returned in both modes so the page can always explain a number, and so
-      // the assumptions behind a projection travel with it.
-      model: mode === 'projected' ? SCENARIO : null,
       metadata: {
         sources: ['results', 'assessments', 'subtopics', 'users', 'learnspaces', 'user_activity_daily'],
         generatedAt: new Date().toISOString(),

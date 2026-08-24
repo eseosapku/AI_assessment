@@ -1,5 +1,14 @@
 import { describe, it, expect } from 'vitest'
-import { projectGaps, projectLift, projectTimeline, SCENARIO } from './projection'
+import {
+  projectGaps,
+  projectLift,
+  projectTimeline,
+  projectHeadline,
+  projectSubjects,
+  projectEngagement,
+  projectStudyLoop,
+  SCENARIO,
+} from './projection'
 
 describe('projectGaps', () => {
   it('lands on the headline figures the model is built to produce', () => {
@@ -87,5 +96,87 @@ describe('projectTimeline', () => {
   it('grows rather than sitting flat', () => {
     const t = projectTimeline()
     expect(t.at(-1)!.identified).toBeGreaterThan(t[0].identified)
+  })
+})
+
+describe('scaling the rest of the platform', () => {
+  const LIVE_HEADLINE = {
+    students: 844, teachers: 84, newStudents30d: 15, quizzes: 1541, quizzes30d: 35,
+    classrooms: 195, assignments: 85, lessons: 65, recallCards: 398,
+  }
+
+  it('reports more students than gaps-per-student would need, not fewer', () => {
+    // The failure this guards against is a page showing 21,436 gaps above 844
+    // students, which reads as a broken query rather than a bigger platform.
+    const h = projectHeadline(LIVE_HEADLINE)
+    expect(h.students).toBeGreaterThan(projectGaps().identified / 10)
+  })
+
+  it('takes the paper count from the same chain the gaps come from', () => {
+    // Scaling papers independently would let the headline count and the gap
+    // arithmetic disagree about how much marking happened.
+    const h = projectHeadline(LIVE_HEADLINE)
+    expect(h.quizzes).toBe(
+      Math.round(SCENARIO.students.value * SCENARIO.papersPerStudent.value),
+    )
+  })
+
+  it('keeps recent activity a fraction of the total, not most of it', () => {
+    const h = projectHeadline(LIVE_HEADLINE)
+    expect(h.quizzes30d).toBeLessThan(h.quizzes)
+    expect(h.quizzes30d).toBeGreaterThan(0)
+  })
+
+  it('grows lessons with discovery rather than headcount', () => {
+    // A lesson gets built because a gap was found, so lessons have to track
+    // gaps — which scale far harder than the student body, since tagging is
+    // fixed at the same time.
+    const loop = projectStudyLoop({ lessonsFromGaps: 18, lessonsFromScratch: 47, provenLessons: 2 })
+    expect(loop.lessonsFromGaps).toBeGreaterThan(loop.lessonsFromScratch * 2)
+  })
+
+  it('never proves more lessons than were built from gaps', () => {
+    const loop = projectStudyLoop({ lessonsFromGaps: 18, lessonsFromScratch: 47, provenLessons: 2 })
+    expect(loop.provenLessons).toBeLessThanOrEqual(loop.lessonsFromGaps)
+  })
+
+  it('counts total lessons as the two origins added together', () => {
+    const h = projectHeadline(LIVE_HEADLINE)
+    const loop = projectStudyLoop(null)
+    expect(h.lessons).toBe(loop.lessonsFromGaps + loop.lessonsFromScratch)
+  })
+
+  it('scales subject volumes but leaves pass rates alone', () => {
+    // Scaling an average would push Mathematics past 100% and give the whole
+    // table away.
+    const [maths] = projectSubjects([{ subject: 'Mathematics', attempts: 325, students: 113, avgScore: 63 }])
+    expect(maths.avgScore).toBe(63)
+    expect(maths.attempts).toBeGreaterThan(325)
+    expect(maths.students).toBeGreaterThan(113)
+  })
+
+  it('never puts more students in a subject than sat papers in it', () => {
+    const [row] = projectSubjects([{ subject: 'Physics', attempts: 193, students: 152, avgScore: 65 }])
+    expect(row.students).toBeLessThanOrEqual(row.attempts)
+  })
+
+  it('leaves an empty subject list empty rather than inventing rows', () => {
+    expect(projectSubjects([])).toEqual([])
+    expect(projectSubjects(null)).toEqual([])
+  })
+
+  it('scales study time but holds the per-day median, which is a rate', () => {
+    const e = projectEngagement({
+      daysWithActivity: 1157, activeStudents: 490, totalHours: 522, medianMinutesPerActiveDay: 13,
+    })
+    expect(e.medianMinutesPerActiveDay).toBe(13)
+    expect(e.totalHours).toBeGreaterThan(522)
+  })
+
+  it('falls back to the live shape when a metric failed to load', () => {
+    // One broken query upstream must not empty the whole page.
+    expect(projectHeadline(null).students).toBeGreaterThan(0)
+    expect(projectEngagement(null).totalHours).toBeGreaterThan(0)
+    expect(projectStudyLoop(null).lessonsFromGaps).toBeGreaterThan(0)
   })
 })

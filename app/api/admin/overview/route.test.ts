@@ -179,8 +179,8 @@ describe('GET /api/admin/overview', () => {
     })
     const payload = await (await GET(overviewRequest())).json()
     expect(payload.mode).toBe('live')
-    expect(payload.model).toBeNull()
     expect(payload.data.gaps.identified).toBe(162)
+    expect(payload.data.headline).toEqual({ students: 845, teachers: 84 })
   })
 
   it('answers a projected request from the model, never from the database', async () => {
@@ -194,20 +194,27 @@ describe('GET /api/admin/overview', () => {
     expect(payload.mode).toBe('projected')
     expect(payload.data.gaps.identified).toBe(21_436)
     expect(loadGapLifecycle).not.toHaveBeenCalled()
-    // The assumptions have to travel with the numbers they produced.
-    expect(payload.model.students.basis).toBe('modelled')
+    // The derivation stays server-side; the dashboard renders figures, not
+    // arithmetic.
+    expect(payload.data.gaps).not.toHaveProperty('identifiedChain')
   })
 
-  it('keeps the platform counts measured even in projected mode', async () => {
-    // Student and teacher counts are real either way; overwriting them with a
-    // forecast would make the page unable to state anything true.
+  it('scales every panel together, so no figure contradicts another', async () => {
+    // 21,436 gaps above 844 students reads as a broken query rather than a
+    // bigger platform. If the headline scales, the rest has to move with it.
     vi.mocked(requirePlatformAdmin).mockResolvedValueOnce({
       ok: true,
       admin: { userId: 'admin-1', email: null, name: null },
     })
+
     const payload = await (await GET(overviewRequest('projected'))).json()
-    expect(payload.data.headline).toEqual({ students: 845, teachers: 84 })
-    expect(payload.data.taggingCoverage).toEqual(COVERAGE)
+
+    expect(payload.data.headline.students).toBeGreaterThan(10_000)
+    // Papers come from the same chain the gap count does, so the two can never
+    // disagree about how much marking happened.
+    expect(payload.data.headline.quizzes).toBe(23_556)
+    expect(payload.data.engagement.totalHours).toBeGreaterThan(7_000)
+    expect(payload.data.studyLoop.lessonsFromGaps).toBeGreaterThan(2_000)
   })
 
   it('does not touch the database for a request it rejects', async () => {
