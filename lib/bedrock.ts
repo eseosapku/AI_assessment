@@ -1,7 +1,11 @@
 // Shared AWS Bedrock (Gemma) helper.
 // Centralises the model-candidate fallback + robust JSON parsing logic that the
 // assessment/feedback routes use, so new features (StudyLab tutor) can reuse it.
-import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import {
+  BedrockRuntimeClient,
+  InvokeModelCommand,
+  type InvokeModelCommandOutput,
+} from '@aws-sdk/client-bedrock-runtime'
 import { jsonrepair } from 'jsonrepair'
 import {
   BEDROCK_CREDENTIALS_ERROR,
@@ -9,6 +13,7 @@ import {
   getBedrockRegion,
   hasBedrockCredentials as hasCredentials,
 } from '@/lib/aws-config'
+import { withUsageTracking } from '@/lib/ai-usage-recorder'
 
 const PREFIXES = ['eu', 'us', 'ap'] as const
 
@@ -167,6 +172,11 @@ export interface CallGemmaOptions {
   image?: ImageInput
   /** Cap how many model-id candidates to try (used to fail fast on image turns). */
   maxCandidates?: number
+  /**
+   * Records this call in the usage ledger. Absent means untracked, which is
+   * how every existing caller behaves — this is additive on purpose.
+   */
+  usage?: { feature: string; requestId: string; userId: string | null }
 }
 
 /**
@@ -201,7 +211,19 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
         accept: 'application/json',
         body: buildInvokeBody(modelId, prompt, maxTokens, temperature, opts.image),
       })
-      const res = await client.send(cmd)
+      const res = opts.usage
+        ? await withUsageTracking(
+            {
+              modelId,
+              feature: opts.usage.feature,
+              requestId: opts.usage.requestId,
+              userId: opts.usage.userId,
+              parseBody: (r: InvokeModelCommandOutput) =>
+                JSON.parse(new TextDecoder().decode(r.body)),
+            },
+            () => client.send(cmd),
+          )
+        : await client.send(cmd)
       const parsed = JSON.parse(new TextDecoder().decode(res.body))
       const text = extractText(modelId, parsed)
       if (text.trim()) return text.trim()
