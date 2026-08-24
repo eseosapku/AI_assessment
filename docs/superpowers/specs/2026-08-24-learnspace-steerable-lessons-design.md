@@ -44,8 +44,10 @@ pacing. Nothing above needs to be thrown away.
 Four product decisions were settled before this design, and one technical one.
 
 1. **Skipping is earned, except where it isn't offered.** A learner may test
-   out of a step by answering 2–3 questions on it. Steps covering a subtopic
-   the learner has a *measured* gap on are locked and must be taught.
+   out of a step by answering 2–3 questions on it. In a lesson built *from a
+   measured gap*, steps covering that gap are locked and must be taught. In a
+   lesson the learner opened on a topic of their own choosing, nothing locks —
+   see "Origin decides the rules" below.
 2. **Plan first, then negotiate.** The tutor's opening turn proposes a plan and
    asks at most two targeted questions. No cards are built until the learner
    accepts or edits.
@@ -135,28 +137,29 @@ export type Transition<T = void> =
 | Transition | From | To | Refuses when |
 |---|---|---|---|
 | `proposePlan(steps)` | any | `planning` | — |
-| `editPlan(ops)` | `planning` | `planning` | an op would remove a locked step |
+| `editPlan(ops)` | `planning`, or any phase when `planEditable: 'always'` | `planning` | phase is `teaching` and `planEditable: 'planning-only'`, or an op would remove a locked step under `gaps: 'lock'` |
 | `acceptPlan()` | `planning` | `teaching` @ first non-known step | plan has no steps |
 | `nextBeat()` | `teaching` | `teaching`, `beats + 1` | a **hard** check is open |
 | `beginCheck(stepId, kind, gate)` | `teaching` | sets `openCheck` | a check is already open |
 | `passCheck()` | `openCheck` set | resolves that step | no check is open |
 | `failCheck(missed)` | `openCheck` set | that step `teaching` | no check is open |
-| `requestTestOut(stepId)` | `teaching` | `openCheck` on that step, `kind: 'testout'` | **step is locked**, or a check is open |
-| `skipStep(stepId)` | any | that step `known` | **step is locked** |
+| `requestTestOut(stepId)` | `teaching` | `openCheck` on that step, `kind: 'testout'` | **step is locked and `gaps: 'lock'`**, or a check is open |
+| `skipStep(stepId)` | any | that step `known` | **step is locked and `gaps: 'lock'`** |
 | `jumpTo(stepId)` | `teaching` | `teaching` on that step | an earlier step is locked and unfinished |
 | `setPace(pace)` | any | same phase | — |
 | `stop()` | any | `awaiting: true` | — |
-| `finish()` | `teaching` | `done` | any step is neither `done` nor `known` |
+| `finish()` | `teaching` | `done` | `completion: 'all-steps'` and any step is neither `done` nor `known`. Never refuses under `learner-says` |
 
 `passCheck()` resolves differently by kind, which is the whole reason the kind
 is recorded. A **checkpoint** marks its step `done` and advances `currentStep`
 to the next unfinished step. A **test-out** marks its step `known` and leaves
 `currentStep` exactly where it was.
 
-The two bolded refusals are the design's core guarantee. Skipping a locked step
-is not discouraged in a prompt — it is a branch that returns
+The bolded refusals are the design's core guarantee *in a gap lesson*. Skipping
+a locked step there is not discouraged in a prompt — it is a branch that returns
 `{ ok: false, reason: 'Covalent bonding — measured at 38%. This one gets
-taught.' }` and cannot be talked around.
+taught.' }` and cannot be talked around. In an open lesson the same call
+succeeds, because the same code asked a different policy.
 
 ### Invariants
 
@@ -167,9 +170,101 @@ Enforced by the module and asserted in tests:
 - While phase is `planning`, `currentStep` is -1 and no step is `teaching`.
 - At most one `openCheck` exists at a time.
 - `openCheck.stepId` always names a step that exists in `steps`.
-- A locked step never reaches `known` — it can only reach `done`, and only by
-  being taught and passing its checkpoint.
-- `finish()` is impossible while any step is `pending` or `teaching`.
+- Under `gaps: 'lock'`, a locked step never reaches `known` — it can only reach
+  `done`, and only by being taught and passing its checkpoint.
+- Under `completion: 'all-steps'`, `finish()` is impossible while any step is
+  `pending` or `teaching`.
+- Both invariants are policy-scoped and asserted against both policies, so a
+  future origin cannot quietly inherit the wrong one.
+
+## Origin decides the rules
+
+A lesson opened from the gap map and a lesson the learner started on a whim are
+not the same object, and the same rules do not fit both.
+
+The live data makes the distinction concrete. There are 47 `scratch`
+LearnSpaces and **none of them carries a `subtopic_id`** — the learner typed a
+topic and began. There are 18 `gap` LearnSpaces, 12 with a subtopic. So in an
+open lesson there is nothing to lock *against*: locking is not merely
+paternalistic there, it is undefined.
+
+A gap lesson is remediation. The learner arrived because a measurement said
+they were weak, the plan is the contract for fixing that, and letting them
+delete the step that addresses it would defeat the reason the lesson exists.
+
+An open lesson is exploration. The learner chose the topic, so the plan is a
+suggestion, not a contract. Freezing it would be the tutor overruling the
+person who asked for it.
+
+```ts
+export type LessonOrigin = 'gap' | 'scratch' | 'homework'
+
+export interface LessonPolicy {
+  /** What a measured gap does: block the step, or just point it out. */
+  gaps: 'lock' | 'advise'
+  /** When the plan may be restructured. */
+  planEditable: 'always' | 'planning-only'
+  defaultPace: Pace
+  /** What `finish()` requires. */
+  completion: 'all-steps' | 'learner-says'
+  planSize: { min: number; max: number }
+}
+
+export const POLICIES: Record<LessonOrigin, LessonPolicy> = {
+  gap: {
+    gaps: 'lock',
+    planEditable: 'planning-only',
+    defaultPace: 'step',
+    completion: 'all-steps',
+    planSize: { min: 3, max: 4 },
+  },
+  scratch: {
+    gaps: 'advise',
+    planEditable: 'always',
+    defaultPace: 'run',
+    completion: 'learner-says',
+    planSize: { min: 4, max: 6 },
+  },
+  homework: {
+    gaps: 'advise',
+    planEditable: 'always',
+    defaultPace: 'run',
+    completion: 'learner-says',
+    planSize: { min: 2, max: 4 },
+  },
+}
+```
+
+Field by field, and why:
+
+- **`gaps`.** `lock` refuses to skip a step over a measured gap. `advise` shows
+  the same badge and the same number, then lets the learner skip anyway. An
+  open lesson can still surface a relevant gap — "you were measured at 38% on
+  this" — without turning it into a gate. Information, not permission.
+- **`planEditable`.** A gap lesson freezes its plan once teaching starts,
+  because the plan is what the remediation *is*. An open lesson stays editable
+  throughout: add a step, drop one, reorder, mid-lesson. Exploration that
+  cannot change direction is not exploration.
+- **`defaultPace`.** Remediation opens at `step` — the learner is here because
+  they got something wrong, so pausing to check is the point. An open lesson
+  opens at `run`, because someone browsing a topic should not have to click
+  eight times to see it. Either is changeable at any moment; this is only the
+  starting position.
+- **`completion`.** A gap lesson is done when every step is `done` or `known`.
+  An open lesson is done when the learner says it is — `finish()` always
+  succeeds. There is no obligation to complete something you started for
+  curiosity.
+- **`planSize`.** Gap lessons are narrow by construction: one subtopic, 3–4
+  steps. Open topics are broader and get 4–6. Homework is a single problem, so
+  2–4 steps that are the shape of a solution rather than a syllabus.
+
+The policy is resolved once, from `learnspaces.origin`, and passed to the state
+machine. `lessonRun.ts` stays pure — it takes a policy, it does not look one
+up.
+
+An unknown origin falls back to the `scratch` policy. The permissive default is
+deliberate: a lesson that wrongly refuses to let a learner move on is a worse
+failure than one that wrongly lets them skip.
 
 ## Locking steps from measured gaps
 
@@ -180,8 +275,16 @@ LearnSpace's `textbook_id`/`topic_id` and asked to attribute each step.
 The server then queries `topic_mastery` for the learner and those subtopics.
 Any step whose subtopic sits below 50% accuracy (the same threshold
 `lib/admin/gap-metrics.ts` and the learner's own gap map use) gets `lockedBy`
-set. Locked steps show the reason in the rail and are offered no test-out
-control.
+set.
+
+What `lockedBy` *does* is the policy's decision. Under `gaps: 'lock'` the step
+shows its reason in the rail, is offered no test-out control, and refuses to be
+skipped. Under `gaps: 'advise'` the same badge and the same number appear, and
+every control stays available — the learner is told, not stopped.
+
+`lockedBy` is therefore always computed and never conditionally set. The record
+of what the measurement said is worth keeping either way; only its
+consequences vary.
 
 Steps with no `subtopicId`, and subtopics with no mastery row, are unlocked.
 Absence of evidence is not evidence of a gap.
@@ -304,8 +407,10 @@ locked step should cost nothing.
 - **I know this** on unlocked `pending` steps
 - Lock badge with the reason on locked steps ("measured 38%")
 - **+ Add a step** and drag-to-reorder while phase is `planning`
-- The whole rail is read-only once phase is `teaching`, except test-out and
-  jump — editing a plan mid-lesson is a re-plan, not an edit
+- Under `planEditable: 'planning-only'` the rail goes read-only once teaching
+  starts, except test-out and jump. Under `always` it stays fully editable, and
+  adding or reordering a step mid-lesson simply re-plans from where the learner
+  is — no confirmation, no ceremony
 
 **Planning phase** renders the proposed plan in the rail with **Looks good,
 start** / **Edit plan**, the tutor's two questions in chat, and an empty canvas.
@@ -341,6 +446,10 @@ effect on the next beat.
   `finish()` with an unfinished step are the two that protect the guarantee.
 - **Locking** — a step over a measured gap locks; a step with no mastery row
   does not; the threshold matches `GAP_THRESHOLD`.
+- **Policy** — the same run and the same call produce a refusal under the `gap`
+  policy and success under `scratch`. This is the pair that proves origin
+  actually changes behaviour rather than merely being recorded. An unknown
+  origin resolves to the permissive policy.
 - **Migration** — a `canvas_state.plan` with `current_step: 3` derives a run
   with the first two steps `done` and the third `teaching`.
 - **Route** — a refusal returns without calling any job; each phase dispatches
