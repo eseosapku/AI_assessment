@@ -1,0 +1,249 @@
+// lib/studylab/lessonRun.test.ts
+import { describe, it, expect } from 'vitest'
+import { policyFor } from './lessonPolicy'
+import {
+  emptyRun, proposePlan, acceptPlan, editPlan, nextBeat, beginCheck,
+  passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stop, finish,
+  type LessonRun, type LessonStep,
+} from './lessonRun'
+
+const GAP = policyFor('gap')
+const OPEN = policyFor('scratch')
+
+const step = (id: string, over?: Partial<LessonStep>): LessonStep => ({
+  id, title: `Step ${id}`, goal: `goal ${id}`, status: 'pending', cardIds: [], ...over,
+})
+
+/** A run mid-lesson: three steps, teaching the first. */
+function teaching(policy = GAP, steps?: LessonStep[]): LessonRun {
+  const planned = proposePlan(emptyRun(policy), steps ?? [step('a'), step('b'), step('c')])
+  if (!planned.ok) throw new Error(planned.reason)
+  const started = acceptPlan(planned.run)
+  if (!started.ok) throw new Error(started.reason)
+  return started.run
+}
+
+const unwrap = (t: ReturnType<typeof nextBeat>): LessonRun => {
+  if (!t.ok) throw new Error(`expected ok, got refusal: ${t.reason}`)
+  return t.run
+}
+
+describe('emptyRun', () => {
+  it('opens in planning with nothing built and no step current', () => {
+    const run = emptyRun(GAP)
+    expect(run.phase).toBe('planning')
+    expect(run.steps).toEqual([])
+    expect(run.currentStep).toBe(-1)
+  })
+
+  it('takes its starting pace from the policy', () => {
+    // Remediation opens step-by-step; browsing a topic opens running.
+    expect(emptyRun(GAP).pace).toBe('step')
+    expect(emptyRun(OPEN).pace).toBe('run')
+  })
+})
+
+describe('acceptPlan', () => {
+  it('starts teaching the first step', () => {
+    const run = teaching()
+    expect(run.phase).toBe('teaching')
+    expect(run.currentStep).toBe(0)
+    expect(run.steps[0].status).toBe('teaching')
+  })
+
+  it('skips over steps already marked known', () => {
+    const planned = unwrap(proposePlan(emptyRun(OPEN), [step('a', { status: 'known' }), step('b')]))
+    const run = unwrap(acceptPlan(planned))
+    expect(run.currentStep).toBe(1)
+  })
+
+  it('refuses an empty plan', () => {
+    const t = acceptPlan(emptyRun(GAP))
+    expect(t.ok).toBe(false)
+  })
+})
+
+describe('skipStep', () => {
+  it('refuses to skip a step over a measured gap in a gap lesson', () => {
+    // The guarantee this whole design exists for.
+    const run = teaching(GAP, [
+      step('a'), step('b', { lockedBy: { subtopicId: 7, accuracy: 38 } }),
+    ])
+    const t = skipStep(run, 'b', GAP)
+    expect(t.ok).toBe(false)
+    if (!t.ok) expect(t.reason).toContain('38')
+  })
+
+  it('allows the same skip in an open lesson', () => {
+    // Same code, same locked step, different policy. Information, not permission.
+    const run = teaching(OPEN, [
+      step('a'), step('b', { lockedBy: { subtopicId: 7, accuracy: 38 } }),
+    ])
+    const t = skipStep(run, 'b', OPEN)
+    expect(t.ok).toBe(true)
+    if (t.ok) expect(t.run.steps[1].status).toBe('known')
+  })
+
+  it('refuses a step id that is not in the plan', () => {
+    expect(skipStep(teaching(), 'nope', GAP).ok).toBe(false)
+  })
+
+  it('moves teaching along when the skipped step was the current one', () => {
+    const run = unwrap(skipStep(teaching(OPEN), 'a', OPEN))
+    expect(run.steps[0].status).toBe('known')
+    expect(run.currentStep).toBe(1)
+    expect(run.steps[1].status).toBe('teaching')
+  })
+})
+
+describe('requestTestOut', () => {
+  it('opens a check on a later step without moving teaching', () => {
+    // The reason openCheck names its own step: testing out of step 3 must not
+    // disturb the fact that step 1 is being taught.
+    const run = unwrap(requestTestOut(teaching(OPEN), 'c', 'cp-1', OPEN))
+    expect(run.openCheck).toMatchObject({ stepId: 'c', kind: 'testout' })
+    expect(run.currentStep).toBe(0)
+    expect(run.steps[0].status).toBe('teaching')
+  })
+
+  it('refuses on a locked step under a gap policy', () => {
+    const run = teaching(GAP, [step('a'), step('b', { lockedBy: { subtopicId: 7, accuracy: 38 } })])
+    expect(requestTestOut(run, 'b', 'cp-1', GAP).ok).toBe(false)
+  })
+
+  it('refuses while another check is already open', () => {
+    const run = unwrap(requestTestOut(teaching(OPEN), 'c', 'cp-1', OPEN))
+    expect(requestTestOut(run, 'b', 'cp-2', OPEN).ok).toBe(false)
+  })
+})
+
+describe('passCheck', () => {
+  it('marks a tested-out step known and leaves teaching where it was', () => {
+    const run = unwrap(passCheck(unwrap(requestTestOut(teaching(OPEN), 'c', 'cp-1', OPEN))))
+    expect(run.steps[2].status).toBe('known')
+    expect(run.currentStep).toBe(0)
+    expect(run.openCheck).toBeUndefined()
+  })
+
+  it('marks a checkpoint step done and advances', () => {
+    const run = unwrap(passCheck(unwrap(beginCheck(teaching(), 'a', 'cp-1', 'checkpoint', 'hard'))))
+    expect(run.steps[0].status).toBe('done')
+    expect(run.currentStep).toBe(1)
+    expect(run.steps[1].status).toBe('teaching')
+  })
+
+  it('refuses when no check is open', () => {
+    expect(passCheck(teaching()).ok).toBe(false)
+  })
+})
+
+describe('failCheck', () => {
+  it('turns a failed test-out into teaching that step', () => {
+    // Better than not trying: the lesson narrows to what was actually missed.
+    const run = unwrap(failCheck(unwrap(requestTestOut(teaching(OPEN), 'c', 'cp-1', OPEN)), ['q2']))
+    expect(run.steps[2].status).toBe('teaching')
+    expect(run.currentStep).toBe(2)
+    expect(run.openCheck).toBeUndefined()
+  })
+})
+
+describe('nextBeat', () => {
+  it('counts beats on the current step', () => {
+    expect(unwrap(nextBeat(teaching())).beats).toBe(1)
+    expect(unwrap(nextBeat(unwrap(nextBeat(teaching())))).beats).toBe(2)
+  })
+
+  it('refuses while a hard check is open', () => {
+    const run = unwrap(beginCheck(teaching(), 'a', 'cp-1', 'checkpoint', 'hard'))
+    expect(nextBeat(run).ok).toBe(false)
+  })
+
+  it('allows a beat while only a soft check is open', () => {
+    const run = unwrap(beginCheck(teaching(), 'a', 'cp-1', 'checkpoint', 'soft'))
+    expect(nextBeat(run).ok).toBe(true)
+  })
+})
+
+describe('editPlan', () => {
+  it('refuses to restructure a gap lesson once teaching has started', () => {
+    expect(editPlan(teaching(GAP), { add: [step('d')] }, GAP).ok).toBe(false)
+  })
+
+  it('lets an open lesson change direction mid-lesson', () => {
+    const run = unwrap(editPlan(teaching(OPEN), { add: [step('d')] }, OPEN))
+    expect(run.steps).toHaveLength(4)
+  })
+
+  it('refuses to remove a locked step under a gap policy', () => {
+    const planned = unwrap(proposePlan(emptyRun(GAP), [
+      step('a'), step('b', { lockedBy: { subtopicId: 7, accuracy: 38 } }),
+    ]))
+    expect(editPlan(planned, { remove: ['b'] }, GAP).ok).toBe(false)
+  })
+})
+
+describe('finish', () => {
+  it('refuses a gap lesson with work outstanding', () => {
+    expect(finish(teaching(GAP), GAP).ok).toBe(false)
+  })
+
+  it('lets an open lesson stop whenever the learner says', () => {
+    // No obligation to complete something started out of curiosity.
+    const t = finish(teaching(OPEN), OPEN)
+    expect(t.ok).toBe(true)
+    if (t.ok) expect(t.run.phase).toBe('done')
+  })
+
+  it('allows a gap lesson to finish once every step is settled', () => {
+    let run = teaching(GAP)
+    for (const s of run.steps) run = unwrap(skipStep(run, s.id, OPEN))
+    expect(finish(run, GAP).ok).toBe(true)
+  })
+})
+
+describe('invariants', () => {
+  it('keeps exactly one step teaching while the phase is teaching', () => {
+    const run = unwrap(nextBeat(teaching()))
+    expect(run.steps.filter((s) => s.status === 'teaching')).toHaveLength(1)
+    expect(run.steps[run.currentStep].status).toBe('teaching')
+  })
+
+  it('never lets a locked step reach known under a gap policy', () => {
+    const run = teaching(GAP, [step('a', { lockedBy: { subtopicId: 7, accuracy: 12 } })])
+    expect(skipStep(run, 'a', GAP).ok).toBe(false)
+    expect(requestTestOut(run, 'a', 'cp-1', GAP).ok).toBe(false)
+  })
+
+  it('resets the beat count when the current step changes', () => {
+    const busy = unwrap(nextBeat(unwrap(nextBeat(teaching(OPEN)))))
+    expect(unwrap(skipStep(busy, 'a', OPEN)).beats).toBe(0)
+  })
+})
+
+describe('setPace and stop', () => {
+  it('changes pace without disturbing anything else', () => {
+    const run = unwrap(setPace(teaching(GAP), 'run'))
+    expect(run.pace).toBe('run')
+    expect(run.currentStep).toBe(0)
+  })
+
+  it('marks the run as awaiting the learner', () => {
+    expect(unwrap(stop(teaching())).awaiting).toBe(true)
+  })
+})
+
+describe('jumpTo', () => {
+  it('refuses to jump past an unfinished locked step in a gap lesson', () => {
+    const run = teaching(GAP, [
+      step('a', { lockedBy: { subtopicId: 7, accuracy: 20 } }), step('b'), step('c'),
+    ])
+    expect(jumpTo(run, 'c', GAP).ok).toBe(false)
+  })
+
+  it('allows the same jump in an open lesson', () => {
+    const run = teaching(OPEN, [
+      step('a', { lockedBy: { subtopicId: 7, accuracy: 20 } }), step('b'), step('c'),
+    ])
+    expect(jumpTo(run, 'c', OPEN).ok).toBe(true)
+  })
+})
