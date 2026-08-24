@@ -110,10 +110,11 @@ interface Overview {
     cost: {
       basis: 'measured' | 'estimated'
       lines: { key: string; label: string; model: string; calls: number; totalUsd: number; perCallUsd: number; bucket: string }[]
-      aiTotalUsd: number; aiMonthlyUsd: number; infrastructureMonthlyUsd: number
-      totalMonthlyUsd: number; activeStudents: number
-      costPerStudentMonthUsd: number; aiPerStudentMonthUsd: number
-      revenuePerStudentUsd: number; grossMarginPct: number; breakEvenStudents: number
+      aiTotalUsd: number; aiTeachingUsd: number; aiDevelopmentUsd: number
+      aiMonthlyUsd: number; activeStudents: number
+      aiPerStudentMonthUsd: number; aiPerPaperUsd: number
+      revenuePerStudentUsd: number
+      inferenceShareOfRevenuePct: number; revenueAfterInferenceUsd: number
     } | null
   }
   metadata: { generatedAt: string; warnings: string[] }
@@ -569,12 +570,12 @@ export default function AdminDashboardPage() {
             {overview.data.cost && (
               <div className="mt-4">
                 <Panel
-                  title="What it costs to serve a student"
-                  hint="Inference, infrastructure, and what is left of the subscription."
+                  title="What the models cost"
+                  hint="The one cost this database can account for, against what a student pays."
                   method={
                     overview.data.cost.basis === 'measured'
-                      ? 'Token counts from the usage ledger, priced at the per-model rates in cost-metrics.ts.'
-                      : 'Nothing writes to the usage ledger yet, so inference is estimated: real operation counts multiplied by per-call token profiles and per-model list rates. Infrastructure is entered by hand — none of it lives in this database. Both are in cost-metrics.ts and should be corrected against an AWS invoice before anyone quotes the margin.'
+                      ? 'Token counts from the usage ledger, priced at the per-model list rates in cost-metrics.ts. No other cost is included, because no other cost is recorded anywhere in this system.'
+                      : 'Nothing writes to the usage ledger yet, so this is estimated: real operation counts multiplied by per-call token profiles and per-model list rates, both in cost-metrics.ts. No other cost is included, because no other cost is recorded anywhere in this system.'
                   }
                 >
                   <CostView c={overview.data.cost} />

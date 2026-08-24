@@ -100,40 +100,55 @@ describe('loadCostMetrics', () => {
     expect(c.aiTeachingUsd).toBe(0)
   })
 
-  it('reports a margin against the real subscription price', async () => {
+  it('reports inference as a share of the subscription, not as a margin', async () => {
+    // A margin needs a full cost base. Hosting, storage and payment fees are
+    // not recorded anywhere in this system, so the only honest claim is how
+    // much of the subscription the models take.
     const c = await loadCostMetrics(dbWith([]))
+    expect(c).not.toHaveProperty('grossMarginPct')
     expect(c.revenuePerStudentUsd).toBe(REVENUE_PER_STUDENT_USD)
-    expect(c.grossMarginPct).toBeCloseTo(
-      ((c.revenuePerStudentUsd - c.costPerStudentMonthUsd) / c.revenuePerStudentUsd) * 100,
-      1,
+    expect(c.inferenceShareOfRevenuePct).toBeCloseTo(
+      (c.aiPerStudentMonthUsd / c.revenuePerStudentUsd) * 100,
+      2,
     )
   })
 
-  it('finds infrastructure to be the bill, not inference', async () => {
-    // The claim the margin rests on: a usage-driven cost rises with every new
-    // student, a fixed one is diluted by them.
+  it('carries no hand-entered infrastructure figure', async () => {
+    // The number the old margin turned on was invented rather than measured,
+    // which made the most consequential figure on the page the least checkable.
     const c = await loadCostMetrics(dbWith([]))
-    expect(c.aiMonthlyUsd).toBeLessThan(c.infrastructureMonthlyUsd / 100)
+    expect(c).not.toHaveProperty('infrastructureMonthlyUsd')
+    expect(c).not.toHaveProperty('totalMonthlyUsd')
+    expect(c).not.toHaveProperty('breakEvenStudents')
   })
 
-  it('improves the margin at scale rather than degrading it', async () => {
+  it('finds model spend to be a fraction of a percent of revenue', async () => {
+    // The narrower claim that survives: whatever running this costs, it is not
+    // inference.
+    const c = await loadCostMetrics(dbWith([]))
+    expect(c.inferenceShareOfRevenuePct).toBeLessThan(1)
+    expect(c.inferenceShareOfRevenuePct).toBeGreaterThan(0)
+  })
+
+  it('holds the per-student figure roughly flat as the cohort grows', async () => {
+    // Call volumes move with the student body, so inference is very nearly a
+    // pure variable cost — there is no fixed part left to dilute.
     const today = await loadCostMetrics(dbWith([]))
-    const scaled = await loadCostMetrics(dbWith([]), { atScale: true, activeStudents: 6040 })
-    expect(scaled.costPerStudentMonthUsd).toBeLessThan(today.costPerStudentMonthUsd)
-    expect(scaled.grossMarginPct).toBeGreaterThan(today.grossMarginPct)
+    const scaled = await loadCostMetrics(dbWith([]), { activeStudents: 6040 })
+    expect(scaled.aiPerStudentMonthUsd).toBeCloseTo(today.aiPerStudentMonthUsd, 3)
   })
 
   it('scales the call counts with the cohort it is costing', async () => {
     // Otherwise 6,040 students would be served by 431 students' worth of
     // generation, which would make inference look free by construction.
-    const scaled = await loadCostMetrics(dbWith([]), { atScale: true, activeStudents: 6040 })
+    const scaled = await loadCostMetrics(dbWith([]), { activeStudents: 6040 })
     expect(scaled.lines.find((l) => l.key === 'generate_assessment')!.calls).toBeGreaterThan(1923)
   })
 
-  it('reports break-even as whole students, rounded up', async () => {
+  it('reports a per-paper cost, the unit that actually scales with usage', async () => {
     const c = await loadCostMetrics(dbWith([]))
-    expect(Number.isInteger(c.breakEvenStudents)).toBe(true)
-    expect(c.breakEvenStudents).toBe(Math.ceil(c.infrastructureMonthlyUsd / c.revenuePerStudentUsd))
+    expect(c.aiPerPaperUsd).toBeGreaterThan(0)
+    expect(c.aiPerPaperUsd).toBeLessThan(0.05)
   })
 
   it('does not divide by zero on a platform with no students yet', async () => {
@@ -141,7 +156,8 @@ describe('loadCostMetrics', () => {
       query: vi.fn().mockResolvedValueOnce({ rows: [{}] }).mockResolvedValueOnce({ rows: [] }),
     } as unknown as Database
     const c = await loadCostMetrics(empty)
-    expect(Number.isFinite(c.costPerStudentMonthUsd)).toBe(true)
+    expect(Number.isFinite(c.aiPerStudentMonthUsd)).toBe(true)
     expect(c.aiPerStudentMonthUsd).toBe(0)
+    expect(c.aiPerPaperUsd).toBe(0)
   })
 })

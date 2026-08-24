@@ -102,12 +102,10 @@ export async function GET(request: NextRequest) {
       guard('Learning curve', () => loadLearningCurve()),
       guard('Subject improvement', () => loadSubjectImprovement()),
       guard('Mastery mix', () => loadMasteryMix()),
-      // Cost is asked the same question in both modes — what does it take to
-      // serve one student — but at the cohort the mode is describing, since the
-      // fixed part of the bill is what makes that answer change with size.
-      guard('Cost', () =>
-        loadCostMetrics(undefined, isProjected ? { atScale: true, activeStudents: 6040 } : {}),
-      ),
+      // Costed against whichever cohort the mode is describing. Call volumes
+      // move with the student body, so the per-student figure barely shifts —
+      // inference is very nearly a pure variable cost.
+      guard('Cost', () => loadCostMetrics(undefined, isProjected ? { activeStudents: 6040 } : {})),
     ])
 
   let gaps: { data: GapLifecycle | null; error?: string }

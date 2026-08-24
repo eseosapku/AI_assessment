@@ -1,24 +1,29 @@
 import { db as defaultDb, type Database } from '@/lib/db'
 
 /**
- * What the platform costs to run, and what that leaves.
+ * What inference costs, and how much of the subscription it takes.
  *
- * `ai_usage_events` is the intended source and it is empty, because nothing
- * writes to it yet. So this computes an estimate instead — real operation
- * counts from the database, multiplied by per-call token profiles and per-model
- * rates — and switches to measured figures on its own as soon as events start
- * arriving. Which of the two produced the number is returned in `basis`, since
- * the difference matters to anyone acting on it.
+ * Deliberately narrow. This reports the one cost the database can actually
+ * account for — model calls — and nothing else. An earlier version carried a
+ * hand-entered infrastructure figure so it could quote a gross margin, but that
+ * number was invented rather than measured, and it was the number the margin
+ * turned on. A margin resting on a guess is worth less than a smaller claim
+ * that holds, so the guess is gone and the claim is narrower.
  *
- * The finding worth stating up front: on these models inference is not the
- * cost. Nova Lite is cheap enough that a student's entire year of generated
- * papers costs a fraction of a cent, and the real monthly bill is the database
- * and the hosting, which barely move with headcount. That is why the margin
- * widens with scale rather than narrowing — the expensive part is already paid
- * for at 431 students and does not need paying again at 6,000.
+ * What that leaves is still worth stating: model calls are a rounding error
+ * against a $5 subscription. All generation to date comes to about three
+ * dollars. Whatever the true cost of running this platform turns out to be, it
+ * is not inference — which is the useful finding, and it is one the operation
+ * counts genuinely support.
  *
- * Everything below is a stated assumption in one place, so it can be corrected
- * against a real AWS bill without hunting through the code.
+ * What this is NOT is a profit margin. Hosting, database, storage, egress,
+ * payment fees and everything else are absent because none of them are in this
+ * database. They appear instead in the collection points panel, as things
+ * nothing is currently measuring.
+ *
+ * `ai_usage_events` is the intended source and it is empty until the newly
+ * instrumented call sites have run, so figures are estimated from operation
+ * counts until then and switch to measured on their own. `basis` says which.
  */
 
 export type CostBasis = 'measured' | 'estimated'
@@ -26,10 +31,9 @@ export type CostBasis = 'measured' | 'estimated'
 /**
  * Bedrock rates, USD per million tokens.
  *
- * These are list prices and should be checked against an actual invoice before
- * anyone quotes a margin from them — regional pricing differs, and the Gemma
- * models are served through Bedrock Marketplace rather than as first-party
- * models, so their rates move independently of Amazon's own.
+ * List prices, and worth checking against an invoice: regional pricing differs,
+ * and the Gemma models are served through Bedrock Marketplace rather than as
+ * first-party models, so their rates move independently of Amazon's own.
  */
 export const MODEL_RATES: Record<string, { input: number; output: number; label: string }> = {
   'amazon.nova-micro-v1:0': { input: 0.035, output: 0.14, label: 'Nova Micro' },
@@ -57,8 +61,8 @@ export interface OperationProfile {
  *
  * Estimated from the shape of each prompt — a generation carries curriculum
  * context and returns structured questions; a tutor reply carries the whole
- * conversation and returns a paragraph. Replace these with measured averages
- * once the ledger has run for a week; that is precisely what it is for.
+ * conversation and returns a paragraph. The ledger replaces these with measured
+ * averages once it has run; that is precisely what it is for.
  */
 export const OPERATION_PROFILES: OperationProfile[] = [
   { key: 'generate_assessment', label: 'Paper generated', model: 'amazon.nova-lite-v1:0', inputTokens: 3000, outputTokens: 2500, bucket: 'teaching' },
@@ -67,23 +71,6 @@ export const OPERATION_PROFILES: OperationProfile[] = [
   { key: 'tutor_reply', label: 'Tutor reply', model: 'google.gemma-3-27b-it', inputTokens: 4000, outputTokens: 700, bucket: 'teaching' },
   { key: 'recall_card', label: 'Recall card', model: 'amazon.nova-lite-v1:0', inputTokens: 1500, outputTokens: 1200, bucket: 'teaching' },
 ]
-
-/**
- * Fixed monthly infrastructure, USD.
- *
- * The part of the bill that has nothing to do with how many papers were
- * generated: RDS, hosting, storage, egress. It is entered rather than measured
- * because none of it is in this database — correct it from the AWS console.
- *
- * It scales with headcount far more slowly than revenue does, which is the
- * whole reason the margin improves with size.
- */
-export const INFRASTRUCTURE = {
-  /** What it costs today, at roughly 431 active students. */
-  monthlyUsdToday: 300,
-  /** What it would cost serving the modelled cohort — bigger database, more hosting. */
-  monthlyUsdAtScale: 1200,
-}
 
 /** Monthly subscription per student, USD. Mirrors SUBSCRIPTION_USD. */
 export const REVENUE_PER_STUDENT_USD = 5
@@ -108,23 +95,21 @@ export interface CostMetrics {
   lines: CostLine[]
   /** Inference spend across every operation, lifetime. */
   aiTotalUsd: number
-  /** Inference spend attributable to teaching students, as opposed to development. */
+  /** Spend attributable to teaching students, as opposed to development. */
   aiTeachingUsd: number
   aiDevelopmentUsd: number
-  /** Inference, per month, averaged over the period the platform has run. */
+  /** Inference per month, averaged over the period the platform has run. */
   aiMonthlyUsd: number
-  infrastructureMonthlyUsd: number
-  totalMonthlyUsd: number
   activeStudents: number
-  /** All-in cost to serve one active student for one month. */
-  costPerStudentMonthUsd: number
-  /** Inference alone, per student per month — the part that grows with usage. */
+  /** Inference to serve one student for one month. */
   aiPerStudentMonthUsd: number
+  /** Inference per paper generated — the unit that scales with usage. */
+  aiPerPaperUsd: number
   revenuePerStudentUsd: number
-  /** Revenue minus cost, over revenue. */
-  grossMarginPct: number
-  /** Subscriptions needed each month to cover the fixed bill. */
-  breakEvenStudents: number
+  /** Inference as a percentage of the subscription. Not a cost ratio. */
+  inferenceShareOfRevenuePct: number
+  /** Subscription left after inference. Before every other cost, none of which is measured. */
+  revenueAfterInferenceUsd: number
 }
 
 function n(value: unknown): number {
@@ -162,12 +147,12 @@ interface Counts {
 async function loadOperationCounts(database: Database): Promise<Counts> {
   const { rows } = await database.query(`
     SELECT
-      (SELECT COUNT(*) FROM assessments)                                          AS generate_assessment,
-      (SELECT COUNT(*) FROM results)                                              AS generate_feedback,
-      (SELECT COUNT(*) FROM learnspaces)                                          AS build_lesson,
-      (SELECT COUNT(*) FROM learnspace_messages WHERE role = 'assistant')         AS tutor_reply,
-      (SELECT COUNT(*) FROM recall_cards)                                         AS recall_card,
-      (SELECT COUNT(DISTINCT user_id) FROM results)                               AS active_students
+      (SELECT COUNT(*) FROM assessments)                                   AS generate_assessment,
+      (SELECT COUNT(*) FROM results)                                       AS generate_feedback,
+      (SELECT COUNT(*) FROM learnspaces)                                   AS build_lesson,
+      (SELECT COUNT(*) FROM learnspace_messages WHERE role = 'assistant')  AS tutor_reply,
+      (SELECT COUNT(*) FROM recall_cards)                                  AS recall_card,
+      (SELECT COUNT(DISTINCT user_id) FROM results)                        AS active_students
   `)
   const r = rows[0] ?? {}
   return {
@@ -198,31 +183,30 @@ async function loadMeasuredLines(database: Database): Promise<CostLine[] | null>
     const calls = n(r.calls)
     const total = costOfTokens(model, n(r.input_tokens), n(r.output_tokens))
     return {
-      key: String(r.feature),
+      key: `${String(r.feature)}:${String(r.environment)}`,
       label: String(r.feature).replace(/_/g, ' '),
       model: MODEL_RATES[model]?.label ?? model,
       calls,
       totalUsd: round(total, 4),
       perCallUsd: calls > 0 ? round(total / calls, 6) : 0,
-      // Anything not running in production is development overhead: vision
-      // passes, benchmarks and local experiments are not costs of teaching.
+      // Anything outside production is development overhead: vision passes,
+      // benchmarks and local experiments are not costs of teaching anyone.
       bucket: String(r.environment) === 'production' ? 'teaching' : 'development',
     }
   })
 }
 
 /**
- * Cost and margin.
+ * Inference cost, and its share of the subscription.
  *
- * Prefers the ledger and falls back to the estimate, reporting which it used.
- * `atScale` swaps the infrastructure figure and the student count so the same
- * arithmetic can be run against the modelled cohort — the point being that the
- * fixed cost is already paid, so serving fourteen times the students does not
- * cost fourteen times as much.
+ * `activeStudents` costs the same arithmetic against a different cohort, which
+ * is how the scaled view stays consistent with the rest of the page: call
+ * volumes move with the student body, so the per-student figure barely shifts.
+ * Inference is very nearly a pure variable cost, and this reports it as one.
  */
 export async function loadCostMetrics(
   database: Database = defaultDb,
-  options: { atScale?: boolean; activeStudents?: number } = {},
+  options: { activeStudents?: number } = {},
 ): Promise<CostMetrics> {
   const counts = await loadOperationCounts(database)
   const measured = await loadMeasuredLines(database).catch(() => null)
@@ -257,37 +241,25 @@ export async function loadCostMetrics(
 
   const aiTotal = lines.reduce((a, l) => a + l.totalUsd, 0)
   const aiTeaching = lines.filter((l) => l.bucket === 'teaching').reduce((a, l) => a + l.totalUsd, 0)
-  const aiDevelopment = aiTotal - aiTeaching
-
   const activeStudents = options.activeStudents ?? counts.activeStudents
-  const infrastructure = options.atScale
-    ? INFRASTRUCTURE.monthlyUsdAtScale
-    : INFRASTRUCTURE.monthlyUsdToday
+  const papers = Math.round(counts.generate_assessment * scaleFactor)
 
   const aiMonthly = aiTotal / MONTHS_RUNNING
-  const totalMonthly = aiMonthly + infrastructure
-  const perStudentMonth = activeStudents > 0 ? totalMonthly / activeStudents : 0
-  const margin =
-    REVENUE_PER_STUDENT_USD > 0
-      ? ((REVENUE_PER_STUDENT_USD - perStudentMonth) / REVENUE_PER_STUDENT_USD) * 100
-      : 0
+  const perStudentMonth = activeStudents > 0 ? aiMonthly / activeStudents : 0
 
   return {
     basis,
     lines: lines.sort((a, b) => b.totalUsd - a.totalUsd),
     aiTotalUsd: round(aiTotal, 2),
     aiTeachingUsd: round(aiTeaching, 2),
-    aiDevelopmentUsd: round(aiDevelopment, 2),
+    aiDevelopmentUsd: round(aiTotal - aiTeaching, 2),
     aiMonthlyUsd: round(aiMonthly, 2),
-    infrastructureMonthlyUsd: infrastructure,
-    totalMonthlyUsd: round(totalMonthly, 2),
     activeStudents,
-    costPerStudentMonthUsd: round(perStudentMonth, 3),
-    aiPerStudentMonthUsd: activeStudents > 0 ? round(aiMonthly / activeStudents, 4) : 0,
+    aiPerStudentMonthUsd: round(perStudentMonth, 4),
+    aiPerPaperUsd: papers > 0 ? round(aiTotal / papers, 5) : 0,
     revenuePerStudentUsd: REVENUE_PER_STUDENT_USD,
-    // Can go negative on a small base with a fixed bill, and is reported as
-    // such — a margin that cannot be negative is not a margin.
-    grossMarginPct: round(margin, 1),
-    breakEvenStudents: Math.ceil(infrastructure / REVENUE_PER_STUDENT_USD),
+    inferenceShareOfRevenuePct:
+      REVENUE_PER_STUDENT_USD > 0 ? round((perStudentMonth / REVENUE_PER_STUDENT_USD) * 100, 3) : 0,
+    revenueAfterInferenceUsd: round(REVENUE_PER_STUDENT_USD - perStudentMonth, 3),
   }
 }

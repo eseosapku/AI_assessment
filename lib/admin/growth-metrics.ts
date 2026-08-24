@@ -366,6 +366,14 @@ export async function loadCollectionPoints(database: Database = defaultDb): Prom
       'Login does not open a session, so there is no way to see concurrent use, session length, or revoke access.',
     ),
     point(
+      'infrastructure',
+      'Hosting and database spend',
+      0,
+      null,
+      'Not captured',
+      'Model calls are the only cost this platform records. Until hosting, database, storage and payment fees land somewhere countable, no true cost per student and no margin can be worked out from this dashboard.',
+    ),
+    point(
       'dropout',
       'Abandoned papers',
       0,

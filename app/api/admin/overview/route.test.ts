@@ -112,10 +112,11 @@ const MASTERY = { gap: 150, developing: 51, mastered: 104, total: 305, masteredS
 const COST = {
   basis: 'estimated' as const,
   lines: [],
-  aiTotalUsd: 3.08, aiMonthlyUsd: 0.44, infrastructureMonthlyUsd: 300,
-  totalMonthlyUsd: 300.44, activeStudents: 431,
-  costPerStudentMonthUsd: 0.697, aiPerStudentMonthUsd: 0.001,
-  revenuePerStudentUsd: 5, grossMarginPct: 86.1, breakEvenStudents: 60,
+  aiTotalUsd: 3.08, aiTeachingUsd: 3.08, aiDevelopmentUsd: 0,
+  aiMonthlyUsd: 0.44, activeStudents: 431,
+  aiPerStudentMonthUsd: 0.001, aiPerPaperUsd: 0.0016,
+  revenuePerStudentUsd: 5, inferenceShareOfRevenuePct: 0.02,
+  revenueAfterInferenceUsd: 4.999,
 }
 
 function overviewRequest(mode?: 'live' | 'projected') {
@@ -301,7 +302,7 @@ describe('GET /api/admin/overview', () => {
 
     await GET(overviewRequest('projected'))
 
-    expect(loadCostMetrics).toHaveBeenCalledWith(undefined, { atScale: true, activeStudents: 6040 })
+    expect(loadCostMetrics).toHaveBeenCalledWith(undefined, { activeStudents: 6040 })
   })
 
   it('only reports collection gaps against measured figures', async () => {
