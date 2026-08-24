@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { pgErrorMessage } from '@/lib/pg-errors'
+import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
 import { jsonbParam } from '@/lib/pg-json'
+import { attachLongformHints } from '@/lib/longform-hints'
 
 function normalizeEmail(value: string | null) {
   return String(value ?? '').trim().toLowerCase()
@@ -33,9 +34,12 @@ export async function POST(request: NextRequest) {
     const maxAttempts = Number.isFinite(rawMaxAttempts) ? Math.max(1, Math.floor(rawMaxAttempts)) : 1
     const classroomIds = normalizeClassroomIds(body?.classroom_ids, body?.classroom_id)
     const classroomId = classroomIds.length > 0 ? classroomIds[0] : null
-    const questionsData = body?.questions_data ?? null
+    const questionsData = Array.isArray(body?.questions_data)
+      ? body.questions_data.map((q: Record<string, any>) => attachLongformHints(q))
+      : body?.questions_data ?? null
     const estimatedTime = Number(body?.estimated_time ?? 0)
     const deadline = body?.deadline ? String(body.deadline) : null
+    const hintsEnabled = body?.hints_enabled === undefined ? true : Boolean(body.hints_enabled)
     const rawStatus = String(body?.status ?? '').trim().toLowerCase()
     const status = rawStatus || (classroomIds.length > 0 ? 'sent' : 'draft')
     const strictMode = Boolean(body?.strict_mode ?? false)
@@ -56,34 +60,50 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'classroom_ids is required to send' }, { status: 400 })
     }
 
-    const insertResult = await db.query(
-      `INSERT INTO assignments (
-         teacher_id, teacher_name, title, subject, topics, grade, curriculum,
-         difficulty_level, question_count, style, question_type, max_attempts,
-         classroom_id, status, questions_data, estimated_time, deadline, strict_mode
-       ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16,$17,$18)
-       RETURNING id`,
-      [
-        teacherId,
-        teacherName || 'Teacher',
-        title || `${subject} — ${new Date().toLocaleDateString()}`,
-        subject,
-        topics,
-        grade,
-        curriculum,
-        difficultyLevel,
-        questionCount,
-        style,
-        questionType,
-        maxAttempts,
-        status === 'sent' ? classroomId : null,
-        status,
-        questionsData != null ? jsonbParam(questionsData) : null,
-        Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null,
-        deadline,
-        strictMode,
-      ]
-    )
+    const insertValues = [
+      teacherId,
+      teacherName || 'Teacher',
+      title || `${subject} — ${new Date().toLocaleDateString()}`,
+      subject,
+      topics,
+      grade,
+      curriculum,
+      difficultyLevel,
+      questionCount,
+      style,
+      questionType,
+      maxAttempts,
+      status === 'sent' ? classroomId : null,
+      status,
+      questionsData != null ? jsonbParam(questionsData) : null,
+      Number.isFinite(estimatedTime) && estimatedTime > 0 ? estimatedTime : null,
+      deadline,
+      strictMode,
+      hintsEnabled,
+    ]
+    let insertResult
+    try {
+      insertResult = await db.query(
+        `INSERT INTO assignments (
+           teacher_id, teacher_name, title, subject, topics, grade, curriculum,
+           difficulty_level, question_count, style, question_type, max_attempts,
+           classroom_id, status, questions_data, estimated_time, deadline, strict_mode, hints_enabled
+         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16,$17,$18,$19)
+         RETURNING id`,
+        insertValues,
+      )
+    } catch (err) {
+      if (!isMissingColumn(err)) throw err
+      insertResult = await db.query(
+        `INSERT INTO assignments (
+           teacher_id, teacher_name, title, subject, topics, grade, curriculum,
+           difficulty_level, question_count, style, question_type, max_attempts,
+           classroom_id, status, questions_data, estimated_time, deadline, strict_mode
+         ) VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14,$15::jsonb,$16,$17,$18)
+         RETURNING id`,
+        insertValues.slice(0, 18),
+      )
+    }
 
     const assignmentId = insertResult.rows[0]?.id
     if (!assignmentId) {

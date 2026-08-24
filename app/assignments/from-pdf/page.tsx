@@ -293,6 +293,7 @@ export default function PdfAssignmentPage() {
                     status: 'draft',
                     questions_data: data?.questions ?? [],
                     estimated_time: data?.estimated_time ?? null,
+                    hints_enabled: true,
                 }),
             })
 

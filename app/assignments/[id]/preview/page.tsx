@@ -24,6 +24,7 @@ interface AssignmentData {
     estimated_time: number | null
     deadline: string | null
     strict_mode?: boolean
+    hints_enabled?: boolean
 }
 
 interface ClassroomOption {
@@ -134,6 +135,7 @@ export default function AssignmentPreviewPage() {
     const [deadline, setDeadline] = useState('')
     const [maxAttempts, setMaxAttempts] = useState(1)
     const [strictMode, setStrictMode] = useState(false)
+    const [hintsEnabled, setHintsEnabled] = useState(true)
     const [classrooms, setClassrooms] = useState<ClassroomOption[]>([])
     const [selectedClassroomIds, setSelectedClassroomIds] = useState<string[]>([])
     const [isLoading, setIsLoading] = useState(true)
@@ -167,6 +169,7 @@ export default function AssignmentPreviewPage() {
                     setTitle(data.title ?? '')
                     setDeadline(data.deadline ? toLocalInputValue(data.deadline) : '')
                     setStrictMode(Boolean(data.strict_mode ?? false))
+                    setHintsEnabled(data.hints_enabled !== false)
                     const classroomIds = Array.isArray(data.classroom_ids)
                         ? data.classroom_ids
                         : (data.classroom_id ? [data.classroom_id] : [])
@@ -210,7 +213,22 @@ export default function AssignmentPreviewPage() {
                 if (i !== qIndex) return q
                 const criteria = Array.isArray(q.marking_criteria) ? [...q.marking_criteria] : []
                 criteria[criterionIndex] = value
-                return { ...q, marking_criteria: criteria }
+                const hints = Array.isArray(q.hints) ? [...q.hints] : []
+                while (hints.length < criteria.length) hints.push('')
+                return { ...q, marking_criteria: criteria, hints }
+            })
+        )
+    }
+
+    const updateHint = (qIndex: number, hintIndex: number, value: string) => {
+        setQuestions((prev) =>
+            prev.map((q, i) => {
+                if (i !== qIndex) return q
+                const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria : []
+                const hints = Array.isArray(q.hints) ? [...q.hints] : []
+                while (hints.length < Math.max(criteria.length, hintIndex + 1)) hints.push('')
+                hints[hintIndex] = value
+                return { ...q, hints }
             })
         )
     }
@@ -235,6 +253,7 @@ export default function AssignmentPreviewPage() {
                     deadline: toIsoInputValue(deadline),
                     max_attempts: maxAttempts,
                     strict_mode: strictMode,
+                    hints_enabled: hintsEnabled,
                     questions_data: questions,
                 }),
             })
@@ -418,7 +437,7 @@ export default function AssignmentPreviewPage() {
                         </div>
                     </div>
 
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                         <div>
                             <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Max attempts</label>
                             <input
@@ -438,6 +457,17 @@ export default function AssignmentPreviewPage() {
                                     className="w-4 h-4 rounded border-gray-300 text-violet-600 cursor-pointer"
                                 />
                                 <span className="text-xs font-semibold text-gray-700 dark:text-gray-300">Strict Mode (no tab switching)</span>
+                            </label>
+                        </div>
+                        <div className="flex items-end">
+                            <label className="flex items-center gap-3 px-3 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/15 border border-amber-200 dark:border-amber-800/60 cursor-pointer hover:border-amber-300 transition-colors w-full">
+                                <input
+                                    type="checkbox"
+                                    checked={hintsEnabled}
+                                    onChange={(e) => setHintsEnabled(e.target.checked)}
+                                    className="w-4 h-4 rounded border-amber-300 text-amber-700 cursor-pointer"
+                                />
+                                <span className="text-xs font-semibold text-amber-900 dark:text-amber-200">Allow long-form hints</span>
                             </label>
                         </div>
                     </div>
@@ -572,6 +602,19 @@ export default function AssignmentPreviewPage() {
                                                     value={crit}
                                                     onChange={(e) => updateCriterion(idx, critIdx, e.target.value)}
                                                     className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white mb-2"
+                                                />
+                                            ))}
+                                        </div>
+                                        <div>
+                                            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Student hints (one per criterion)</label>
+                                            <p className="text-[11px] text-ss-slate mb-2">Point at the kind of mark. Do not paste the criterion or the model answer.</p>
+                                            {(q.marking_criteria ?? []).map((_: string, hintIdx: number) => (
+                                                <input
+                                                    key={`hint-${hintIdx}`}
+                                                    value={q.hints?.[hintIdx] ?? ''}
+                                                    onChange={(e) => updateHint(idx, hintIdx, e.target.value)}
+                                                    placeholder={`Hint ${hintIdx + 1}`}
+                                                    className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all text-gray-900 dark:text-white mb-2"
                                                 />
                                             ))}
                                         </div>
