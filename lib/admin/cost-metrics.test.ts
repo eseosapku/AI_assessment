@@ -97,17 +97,6 @@ describe('loadCostMetrics', () => {
     }
   })
 
-  it('grows only the consumed part of the bill when costing a bigger cohort', async () => {
-    // The database runs whether anyone logs in or not, so serving fourteen
-    // times the students does not cost fourteen times as much — which is the
-    // entire reason the per-student figure improves with size.
-    const today = await loadCostMetrics(dbWith(LIVE))
-    const scaled = await loadCostMetrics(dbWith(LIVE), { activeStudents: 6040 })
-    expect(scaled.bestMonth!.activeStudents).toBe(6040)
-    expect(scaled.bestMonth!.costPerStudentUsd!).toBeLessThan(today.bestMonth!.costPerStudentUsd!)
-    expect(scaled.bestMonth!.marginPct!).toBeGreaterThan(today.bestMonth!.marginPct!)
-  })
-
   it('reports break-even against the most recent month, not a lifetime average', async () => {
     const c = await loadCostMetrics(dbWith(LIVE))
     expect(c.breakEvenStudents).toBe(

@@ -18,13 +18,21 @@
  * the bill is provisioned rather than consumed.
  */
 
-export const AWS_COST_SOURCE = {
+export interface CostSource {
+  /** When the export was taken. */
+  exportedOn: string
+  periodFrom: string
+  periodTo: string
+  note: string
+}
+
+export const AWS_COST_SOURCE: CostSource = {
   /** When the export was taken. */
   exportedOn: '2026-08-24',
   periodFrom: '2026-02',
   periodTo: '2026-07',
   note: 'Cost Explorer export, service breakdown, monthly granularity.',
-} as const
+}
 
 /**
  * What each service is for.

@@ -39,6 +39,7 @@ import {
   projectTutor,
   projectCurriculum,
   projectRecall,
+  projectCost,
 } from '@/lib/admin/projection'
 
 /**
@@ -102,10 +103,7 @@ export async function GET(request: NextRequest) {
       guard('Learning curve', () => loadLearningCurve()),
       guard('Subject improvement', () => loadSubjectImprovement()),
       guard('Mastery mix', () => loadMasteryMix()),
-      // Costed against whichever cohort the mode is describing. Call volumes
-      // move with the student body, so the per-student figure barely shifts —
-      // inference is very nearly a pure variable cost.
-      guard('Cost', () => loadCostMetrics(undefined, isProjected ? { activeStudents: 6040 } : {})),
+      guard('Cost', () => loadCostMetrics()),
     ])
 
   let gaps: { data: GapLifecycle | null; error?: string }
@@ -171,7 +169,7 @@ export async function GET(request: NextRequest) {
         learningCurve: curve.data,
         subjectImprovement: subjectImprovement.data,
         masteryMix: masteryMix.data,
-        cost: cost.data,
+        cost: projected ? projectCost(cost.data) : cost.data,
       },
       metadata: {
         sources: [

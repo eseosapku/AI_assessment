@@ -2,6 +2,7 @@ import { db as defaultDb, type Database } from '@/lib/db'
 import {
   AWS_MONTHS,
   AWS_COST_SOURCE,
+  type CostSource,
   bucketsForMonth,
   serviceTotals,
   type CostBucket,
@@ -61,7 +62,7 @@ export interface ServiceLine {
 }
 
 export interface CostMetrics {
-  source: typeof AWS_COST_SOURCE
+  source: CostSource
   months: MonthlyCost[]
   services: ServiceLine[]
   /** Lifetime totals across the exported period. */
@@ -120,10 +121,7 @@ async function loadMonthlyActive(database: Database): Promise<Map<string, number
   return out
 }
 
-export async function loadCostMetrics(
-  database: Database = defaultDb,
-  options: { activeStudents?: number } = {},
-): Promise<CostMetrics> {
+export async function loadCostMetrics(database: Database = defaultDb): Promise<CostMetrics> {
   const active = await loadMonthlyActive(database)
 
   const months: MonthlyCost[] = AWS_MONTHS.map((m) => {
@@ -163,30 +161,6 @@ export async function loadCostMetrics(
       : null
   const latestMonth = months.length > 0 ? months[months.length - 1] : null
 
-  // Scaled views ask the same question of a bigger cohort. Only the consumed
-  // part of the bill grows with it — the provisioned part is what it is, which
-  // is the entire reason the per-student figure improves with size.
-  const scaledStudents = options.activeStudents
-  const scaledMonth: MonthlyCost | null =
-    scaledStudents && latestMonth
-      ? (() => {
-          const base = bestMonth ?? latestMonth
-          const perStudentVariable =
-            base.activeStudents > 0 ? base.inferenceUsd / base.activeStudents : 0
-          const cost = latestMonth.servingUsd + perStudentVariable * scaledStudents
-          const revenue = scaledStudents * REVENUE_PER_STUDENT_USD
-          return {
-            ...latestMonth,
-            activeStudents: scaledStudents,
-            inferenceUsd: round(perStudentVariable * scaledStudents),
-            costToServeUsd: round(cost),
-            costPerStudentUsd: round(cost / scaledStudents, 3),
-            revenueUsd: round(revenue),
-            marginPct: round(((revenue - cost) / revenue) * 100, 1),
-          }
-        })()
-      : null
-
   return {
     source: AWS_COST_SOURCE,
     months,
@@ -196,7 +170,7 @@ export async function loadCostMetrics(
     inferenceUsd: round(inference),
     developmentUsd: round(development),
     inferenceSharePct: round((inference / totalUsd) * 100, 1),
-    bestMonth: scaledMonth ?? bestMonth,
+    bestMonth,
     latestMonth,
     revenuePerStudentUsd: REVENUE_PER_STUDENT_USD,
     breakEvenStudents: latestMonth

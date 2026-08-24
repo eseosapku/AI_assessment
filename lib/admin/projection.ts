@@ -5,6 +5,7 @@ import type {
   EngagementMetrics,
   StudyLoopMetrics,
 } from './metrics'
+import type { CostMetrics } from './cost-metrics'
 import type {
   FunnelStage,
   RetentionCohort,
@@ -379,6 +380,99 @@ export function projectRecall(live: RecallHealth | null): RecallHealth {
     dueNow: grow(base.dueNow, STUDENT_SCALE),
     reviewRate: base.reviewRate,
   }
+}
+
+/**
+ * The bill, at the modelled size.
+ *
+ * Each bucket is scaled by how it actually behaves, because scaling them
+ * together would get the answer badly wrong in both directions:
+ *
+ *  - **Inference is consumed**, so it tracks students one for one. Twice the
+ *    students generate twice the papers.
+ *  - **Serving is mostly provisioned.** A database serving fourteen times the
+ *    students needs a bigger instance, not fourteen of them, so it is scaled by
+ *    the three-quarter power — the usual shape for infrastructure, where
+ *    capacity comes in steps and each step buys more than the last.
+ *  - **Development does not scale at all.** CI, the container registry and the
+ *    experiments cost the same whether one student is enrolled or six thousand,
+ *    and they stay out of cost-per-student regardless.
+ *
+ * The result is the argument the fixed cost was always making: at this size the
+ * database is already paid for, so each additional student is close to free.
+ */
+const SERVING_ELASTICITY = 0.75
+
+export function projectCost(live: CostMetrics | null): CostMetrics | null {
+  if (!live) return null
+
+  const servingMultiple = STUDENT_SCALE ** SERVING_ELASTICITY
+
+  const months = live.months.map((m) => {
+    const students = grow(m.activeStudents, STUDENT_SCALE)
+    const serving = m.servingUsd * servingMultiple
+    const inference = m.inferenceUsd * STUDENT_SCALE
+    const costToServe = serving + inference
+    const revenue = students * live.revenuePerStudentUsd
+    return {
+      ...m,
+      activeStudents: students,
+      servingUsd: round2(serving),
+      inferenceUsd: round2(inference),
+      costToServeUsd: round2(costToServe),
+      totalUsd: round2(costToServe + m.developmentUsd),
+      costPerStudentUsd: students > 0 ? Math.round((costToServe / students) * 1000) / 1000 : null,
+      revenueUsd: round2(revenue),
+      marginPct: revenue > 0 ? Math.round(((revenue - costToServe) / revenue) * 1000) / 10 : null,
+    }
+  })
+
+  // Re-sorted after scaling, not before: the buckets grow at different rates,
+  // so the order that was right for the real bill is wrong for this one.
+  // Inference overtakes Lambda here, and a list still sorted by the old figures
+  // would show a larger number beneath a smaller one.
+  const services = live.services
+    .map((s) => ({
+      ...s,
+      usd: round2(
+        s.bucket === 'inference'
+          ? s.usd * STUDENT_SCALE
+          : s.bucket === 'serving'
+            ? s.usd * servingMultiple
+            : s.usd,
+      ),
+    }))
+    .sort((a, b) => b.usd - a.usd)
+  const totalUsd = services.reduce((a, s) => a + s.usd, 0)
+  const sum = (bucket: string) =>
+    services.filter((s) => s.bucket === bucket).reduce((a, s) => a + s.usd, 0)
+  const inference = sum('inference')
+
+  const withStudents = months.filter((m) => m.activeStudents > 0)
+  const latestMonth = months.length > 0 ? months[months.length - 1] : null
+
+  return {
+    ...live,
+    months,
+    services: services.map((s) => ({ ...s, sharePct: Math.round((s.usd / totalUsd) * 1000) / 10 })),
+    totalUsd: round2(totalUsd),
+    servingUsd: round2(sum('serving')),
+    inferenceUsd: round2(inference),
+    developmentUsd: round2(sum('development')),
+    inferenceSharePct: Math.round((inference / totalUsd) * 1000) / 10,
+    bestMonth:
+      withStudents.length > 0
+        ? withStudents.reduce((best, m) => (m.activeStudents > best.activeStudents ? m : best))
+        : null,
+    latestMonth,
+    breakEvenStudents: latestMonth
+      ? Math.ceil(latestMonth.costToServeUsd / live.revenuePerStudentUsd)
+      : 0,
+  }
+}
+
+function round2(value: number): number {
+  return Math.round(value * 100) / 100
 }
 
 /**

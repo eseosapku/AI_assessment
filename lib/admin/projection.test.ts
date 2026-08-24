@@ -13,6 +13,8 @@ import {
   projectTutor,
   projectCurriculum,
   projectRecall,
+  projectCost,
+  STUDENT_SCALE,
   SCENARIO,
 } from './projection'
 
@@ -247,5 +249,108 @@ describe('the growth panels stay consistent with each other', () => {
     expect(projectFunnel(null)).toEqual([])
     expect(projectRetention(null)).toEqual([])
     expect(projectCurriculum(null)).toEqual([])
+  })
+})
+
+describe('projectCost', () => {
+  const LIVE = {
+    source: { exportedOn: '2026-08-24', periodFrom: '2026-02', periodTo: '2026-07', note: 'x' },
+    months: [
+      {
+        month: '2026-05', totalUsd: 34.06, servingUsd: 22.73, inferenceUsd: 5.29,
+        developmentUsd: 6.0, costToServeUsd: 28.02, activeStudents: 340,
+        costPerStudentUsd: 0.082, revenueUsd: 1700, marginPct: 98.4,
+      },
+      {
+        month: '2026-07', totalUsd: 92.28, servingUsd: 88.06, inferenceUsd: 1.49,
+        developmentUsd: 2.73, costToServeUsd: 89.55, activeStudents: 13,
+        costPerStudentUsd: 6.888, revenueUsd: 65, marginPct: -37.8,
+      },
+    ],
+    services: [
+      { service: 'Relational Database Service', usd: 155.23, bucket: 'serving' as const, sharePct: 62.9 },
+      { service: 'Bedrock', usd: 12.17, bucket: 'inference' as const, sharePct: 4.9 },
+      { service: 'CodeBuild', usd: 3.67, bucket: 'development' as const, sharePct: 1.5 },
+    ],
+    // Totals match the three service lines above, so the fixture is internally
+    // consistent and the assertions are about scaling, not about arithmetic
+    // errors in the fixture.
+    totalUsd: 171.07, servingUsd: 155.23, inferenceUsd: 12.17, developmentUsd: 3.67,
+    inferenceSharePct: 7.1, bestMonth: null, latestMonth: null,
+    revenuePerStudentUsd: 5, breakEvenStudents: 18,
+  }
+
+  it('scales inference with students, since it is consumed', () => {
+    const p = projectCost(LIVE)!
+    const may = p.months.find((m) => m.month === '2026-05')!
+    expect(may.inferenceUsd / LIVE.months[0].inferenceUsd).toBeCloseTo(STUDENT_SCALE, 1)
+  })
+
+  it('scales serving sub-linearly, since it is provisioned', () => {
+    // A database serving fourteen times the students needs a bigger instance,
+    // not fourteen of them. Scaling it linearly would understate the margin as
+    // badly as ignoring it would overstate it.
+    const p = projectCost(LIVE)!
+    const may = p.months.find((m) => m.month === '2026-05')!
+    const multiple = may.servingUsd / LIVE.months[0].servingUsd
+    expect(multiple).toBeGreaterThan(1)
+    expect(multiple).toBeLessThan(STUDENT_SCALE)
+  })
+
+  it('leaves development spend flat, since students do not drive it', () => {
+    const p = projectCost(LIVE)!
+    expect(p.developmentUsd).toBeCloseTo(LIVE.developmentUsd, 1)
+  })
+
+  it('improves the per-student cost at scale rather than holding it', () => {
+    const p = projectCost(LIVE)!
+    const may = p.months.find((m) => m.month === '2026-05')!
+    expect(may.costPerStudentUsd!).toBeLessThan(LIVE.months[0].costPerStudentUsd)
+    expect(may.marginPct!).toBeGreaterThan(LIVE.months[0].marginPct)
+  })
+
+  it('rescues the loss-making month, because the loss was low attendance', () => {
+    // July went underwater on thirteen students against a provisioned bill.
+    // At scale that same bill is spread across thousands.
+    const p = projectCost(LIVE)!
+    const july = p.months.find((m) => m.month === '2026-07')!
+    expect(july.marginPct!).toBeGreaterThan(0)
+  })
+
+  it('keeps every month internally consistent after scaling', () => {
+    for (const m of projectCost(LIVE)!.months) {
+      expect(m.costToServeUsd, m.month).toBeCloseTo(m.servingUsd + m.inferenceUsd, 1)
+      expect(m.revenueUsd, m.month).toBeCloseTo(m.activeStudents * 5, 1)
+    }
+  })
+
+  it('recomputes the service shares so they still sum to the bill', () => {
+    const p = projectCost(LIVE)!
+    expect(p.servingUsd + p.inferenceUsd + p.developmentUsd).toBeCloseTo(p.totalUsd, 1)
+  })
+
+  it('passes a missing bill straight through as missing', () => {
+    expect(projectCost(null)).toBeNull()
+  })
+})
+
+describe('projectCost ordering', () => {
+  it('re-sorts services after scaling, not before', () => {
+    // The buckets grow at different rates, so inference overtakes services that
+    // were larger on the real bill. A list sorted by the old figures would show
+    // a bigger number underneath a smaller one.
+    const live = {
+      source: { exportedOn: '2026-08-24', periodFrom: '2026-02', periodTo: '2026-07', note: 'x' },
+      months: [],
+      services: [
+        { service: 'Lambda', usd: 22.96, bucket: 'serving' as const, sharePct: 9.5 },
+        { service: 'Bedrock', usd: 12.17, bucket: 'inference' as const, sharePct: 4.9 },
+      ],
+      totalUsd: 35.13, servingUsd: 22.96, inferenceUsd: 12.17, developmentUsd: 0,
+      inferenceSharePct: 34.6, bestMonth: null, latestMonth: null,
+      revenuePerStudentUsd: 5, breakEvenStudents: 0,
+    }
+    const usd = projectCost(live)!.services.map((s) => s.usd)
+    expect(usd).toEqual([...usd].sort((a, b) => b - a))
   })
 })

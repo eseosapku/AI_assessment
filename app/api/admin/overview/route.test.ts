@@ -299,16 +299,20 @@ describe('GET /api/admin/overview', () => {
   })
 
   it('costs the modelled cohort at its own size, not today\'s', async () => {
-    // The fixed part of the bill is already paid, so serving fourteen times the
-    // students must not cost fourteen times as much.
+    // The bill is loaded once and scaled afterwards, like every other metric on
+    // the page, so a scaled view never shows real months under a modelled
+    // headline — which is exactly what it used to do.
     vi.mocked(requirePlatformAdmin).mockResolvedValue({
       ok: true,
       admin: { userId: 'admin-1', email: null, name: null },
     })
 
-    await GET(overviewRequest('projected'))
+    const live = await (await GET(overviewRequest('live'))).json()
+    const projected = await (await GET(overviewRequest('projected'))).json()
 
-    expect(loadCostMetrics).toHaveBeenCalledWith(undefined, { activeStudents: 6040 })
+    expect(loadCostMetrics).toHaveBeenCalledWith()
+    expect(live.data.cost.months[0].activeStudents).toBe(340)
+    expect(projected.data.cost.months[0].activeStudents).toBeGreaterThan(340)
   })
 
   it('only reports collection gaps against measured figures', async () => {
