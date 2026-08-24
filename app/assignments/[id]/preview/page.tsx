@@ -607,7 +607,7 @@ export default function AssignmentPreviewPage() {
                                         </div>
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Student hints (one per criterion)</label>
-                                            <p className="text-[11px] text-ss-slate mb-2">Point at the kind of mark. Do not paste the criterion or the model answer.</p>
+                                            <p className="text-[12px] text-ss-slate mb-2">Point at the kind of mark. Do not paste the criterion or the model answer.</p>
                                             {(q.marking_criteria ?? []).map((_: string, hintIdx: number) => (
                                                 <input
                                                     key={`hint-${hintIdx}`}
