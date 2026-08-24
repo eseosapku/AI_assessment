@@ -7,6 +7,12 @@ import {
   projectSubjects,
   projectEngagement,
   projectStudyLoop,
+  projectFunnel,
+  projectRetention,
+  projectAssignments,
+  projectTutor,
+  projectCurriculum,
+  projectRecall,
   SCENARIO,
 } from './projection'
 
@@ -178,5 +184,68 @@ describe('scaling the rest of the platform', () => {
     expect(projectHeadline(null).students).toBeGreaterThan(0)
     expect(projectEngagement(null).totalHours).toBeGreaterThan(0)
     expect(projectStudyLoop(null).lessonsFromGaps).toBeGreaterThan(0)
+  })
+})
+
+describe('the growth panels stay consistent with each other', () => {
+  const LIVE_HEADLINE = {
+    students: 844, teachers: 84, newStudents30d: 15, quizzes: 1541, quizzes30d: 35,
+    classrooms: 195, assignments: 85, lessons: 65, recallCards: 398,
+  }
+  const LIVE_TUTOR = {
+    lessons: 65, lessonsWithChat: 62, messages: 1181,
+    medianMessagesPerLesson: 7, conversationRate: 95.4,
+  }
+
+  it('reports one lesson total, not two', () => {
+    // Each panel used to scale this for itself and they disagreed — 8,601
+    // against 3,041 — which is exactly the incoherence scaling is meant to
+    // prevent.
+    expect(projectTutor(LIVE_TUTOR).lessons).toBe(projectHeadline(LIVE_HEADLINE).lessons)
+  })
+
+  it('never has more lessons in conversation than exist', () => {
+    const t = projectTutor(LIVE_TUTOR)
+    expect(t.lessonsWithChat).toBeLessThanOrEqual(t.lessons)
+  })
+
+  it('holds every conversion rate, since scaling must not improve the product', () => {
+    // A funnel whose rates moved under scaling would be claiming the product
+    // got better as it got bigger — a far larger claim than this model makes.
+    const live = [
+      { key: 'a', label: 'Registered', meaning: '', count: 844, ofPrevious: 100 },
+      { key: 'b', label: 'Sat a paper', meaning: '', count: 428, ofPrevious: 50.7 },
+    ]
+    expect(projectFunnel(live).map((s) => s.ofPrevious)).toEqual([100, 50.7])
+  })
+
+  it('scales the funnel without inverting it', () => {
+    const live = [
+      { key: 'a', label: 'Registered', meaning: '', count: 844, ofPrevious: 100 },
+      { key: 'b', label: 'Sat a paper', meaning: '', count: 428, ofPrevious: 50.7 },
+    ]
+    const [top, next] = projectFunnel(live)
+    expect(next.count).toBeLessThan(top.count)
+  })
+
+  it('holds the assignment completion rate rather than flattering it', () => {
+    const a = projectAssignments({
+      set: 2123, completed: 422, started: 219, neverOpened: 1482,
+      completionRate: 19.9, teachersSetting: 12, medianHoursToComplete: 10.1,
+    })
+    expect(a.completionRate).toBe(19.9)
+    expect(a.completed).toBeLessThan(a.set)
+  })
+
+  it('holds the recall review rate and keeps reviewed within the deck', () => {
+    const r = projectRecall({ cards: 398, decks: 83, students: 4, reviewed: 19, dueNow: 397, reviewRate: 4.8 })
+    expect(r.reviewRate).toBe(4.8)
+    expect(r.reviewed).toBeLessThanOrEqual(r.cards)
+  })
+
+  it('leaves empty growth data empty', () => {
+    expect(projectFunnel(null)).toEqual([])
+    expect(projectRetention(null)).toEqual([])
+    expect(projectCurriculum(null)).toEqual([])
   })
 })

@@ -16,6 +16,16 @@ vi.mock('@/lib/admin/metrics', () => ({
 // Same reasoning: gap-metrics.test.ts already exercises this SQL against an
 // injected database, and leaving it live here would make the route's contract
 // depend on a reachable Postgres.
+vi.mock('@/lib/admin/growth-metrics', () => ({
+  loadFunnel: vi.fn(),
+  loadRetentionCohorts: vi.fn(),
+  loadAssignmentHealth: vi.fn(),
+  loadTutorEngagement: vi.fn(),
+  loadCurriculumMix: vi.fn(),
+  loadRecallHealth: vi.fn(),
+  loadCollectionPoints: vi.fn(),
+}))
+
 vi.mock('@/lib/admin/gap-metrics', () => ({
   GAP_THRESHOLD: 50,
   loadGapLifecycle: vi.fn(),
@@ -26,6 +36,15 @@ vi.mock('@/lib/admin/gap-metrics', () => ({
 
 import { requirePlatformAdmin } from '@/lib/auth/admin'
 import { loadAdminMetrics, metricWarnings } from '@/lib/admin/metrics'
+import {
+  loadFunnel,
+  loadRetentionCohorts,
+  loadAssignmentHealth,
+  loadTutorEngagement,
+  loadCurriculumMix,
+  loadRecallHealth,
+  loadCollectionPoints,
+} from '@/lib/admin/growth-metrics'
 import {
   loadGapLifecycle,
   loadGapTimeline,
@@ -51,6 +70,23 @@ const COVERAGE = { assessments: 1923, tagged: 178, coverage: 9.3, gapsPerTaggedP
 const LIFT = {
   students: 56, firstThreeAvg: 55.7, lastThreeAvg: 67.1, deltaPoints: 11.4, deltaRelative: 20.5,
 }
+
+const FUNNEL = [
+  { key: 'registered', label: 'Registered', meaning: 'Made an account', count: 844, ofPrevious: 100 },
+  { key: 'activated', label: 'Sat a paper', meaning: 'Marked once', count: 428, ofPrevious: 50.7 },
+]
+const ASSIGNMENTS = {
+  set: 2123, completed: 422, started: 219, neverOpened: 1482,
+  completionRate: 19.9, teachersSetting: 12, medianHoursToComplete: 10.1,
+}
+const TUTOR = {
+  lessons: 65, lessonsWithChat: 62, messages: 1181,
+  medianMessagesPerLesson: 7, conversationRate: 95.4,
+}
+const RECALL = { cards: 398, decks: 83, students: 4, reviewed: 19, dueNow: 397, reviewRate: 4.8 }
+const COLLECTION = [
+  { key: 'cost', label: 'AI spend', status: 'Nothing written', captured: 0, possible: null, worth: 'x', state: 'silent' },
+]
 
 function overviewRequest(mode?: 'live' | 'projected') {
   const url = new URL('https://studysquare.test/api/admin/overview')
@@ -78,6 +114,13 @@ describe('GET /api/admin/overview', () => {
     vi.mocked(loadGapTimeline).mockReset().mockResolvedValue([] as never)
     vi.mocked(loadTaggingCoverage).mockReset().mockResolvedValue(COVERAGE as never)
     vi.mocked(loadPerformanceLift).mockReset().mockResolvedValue(LIFT as never)
+    vi.mocked(loadFunnel).mockReset().mockResolvedValue(FUNNEL as never)
+    vi.mocked(loadRetentionCohorts).mockReset().mockResolvedValue([] as never)
+    vi.mocked(loadAssignmentHealth).mockReset().mockResolvedValue(ASSIGNMENTS as never)
+    vi.mocked(loadTutorEngagement).mockReset().mockResolvedValue(TUTOR as never)
+    vi.mocked(loadCurriculumMix).mockReset().mockResolvedValue([] as never)
+    vi.mocked(loadRecallHealth).mockReset().mockResolvedValue(RECALL as never)
+    vi.mocked(loadCollectionPoints).mockReset().mockResolvedValue(COLLECTION as never)
   })
 
   it('returns the unchanged 401 response when no session is authorized', async () => {
@@ -197,6 +240,21 @@ describe('GET /api/admin/overview', () => {
     // The derivation stays server-side; the dashboard renders figures, not
     // arithmetic.
     expect(payload.data.gaps).not.toHaveProperty('identifiedChain')
+  })
+
+  it('only reports collection gaps against measured figures', async () => {
+    // What is not being instrumented is a fact about today. Against a modelled
+    // cohort it would be meaningless, so it is withheld there.
+    vi.mocked(requirePlatformAdmin).mockResolvedValue({
+      ok: true,
+      admin: { userId: 'admin-1', email: null, name: null },
+    })
+
+    const live = await (await GET(overviewRequest('live'))).json()
+    const projected = await (await GET(overviewRequest('projected'))).json()
+
+    expect(live.data.collectionPoints).toHaveLength(1)
+    expect(projected.data.collectionPoints).toBeNull()
   })
 
   it('scales every panel together, so no figure contradicts another', async () => {

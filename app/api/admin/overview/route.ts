@@ -11,6 +11,15 @@ import {
   type PerformanceLift,
 } from '@/lib/admin/gap-metrics'
 import {
+  loadFunnel,
+  loadRetentionCohorts,
+  loadAssignmentHealth,
+  loadTutorEngagement,
+  loadCurriculumMix,
+  loadRecallHealth,
+  loadCollectionPoints,
+} from '@/lib/admin/growth-metrics'
+import {
   projectGaps,
   projectLift,
   projectTimeline,
@@ -18,6 +27,12 @@ import {
   projectSubjects,
   projectEngagement,
   projectStudyLoop,
+  projectFunnel,
+  projectRetention,
+  projectAssignments,
+  projectTutor,
+  projectCurriculum,
+  projectRecall,
 } from '@/lib/admin/projection'
 
 /**
@@ -62,10 +77,18 @@ export async function GET(request: NextRequest) {
   // The platform metrics are measured in both modes — student counts, subject
   // performance and time-on-task are real in a way a forecast has no business
   // overwriting.
-  const [metrics, coverage] = await Promise.all([
-    loadAdminMetrics(),
-    guard('Tagging coverage', () => loadTaggingCoverage()),
-  ])
+  const [metrics, coverage, funnel, retention, assignments, tutor, curriculum, recall, collection] =
+    await Promise.all([
+      loadAdminMetrics(),
+      guard('Tagging coverage', () => loadTaggingCoverage()),
+      guard('Funnel', () => loadFunnel()),
+      guard('Retention', () => loadRetentionCohorts()),
+      guard('Assignments', () => loadAssignmentHealth()),
+      guard('Tutor engagement', () => loadTutorEngagement()),
+      guard('Curriculum mix', () => loadCurriculumMix()),
+      guard('Recall', () => loadRecallHealth()),
+      guard('Collection points', () => loadCollectionPoints()),
+    ])
 
   let gaps: { data: GapLifecycle | null; error?: string }
   let timeline: { data: GapMonthPoint[] | null; error?: string }
@@ -88,7 +111,9 @@ export async function GET(request: NextRequest) {
 
   const warnings = [
     ...metricWarnings(metrics),
-    ...[coverage, gaps, timeline, lift].map((m) => m.error).filter((e): e is string => Boolean(e)),
+    ...[coverage, gaps, timeline, lift, funnel, retention, assignments, tutor, curriculum, recall, collection]
+      .map((m) => m.error)
+      .filter((e): e is string => Boolean(e)),
   ]
 
   // Every panel moves together or none of it holds up: a page reporting 21,436
@@ -111,9 +136,22 @@ export async function GET(request: NextRequest) {
         subjects: projected ? projectSubjects(metrics.subjects.data) : metrics.subjects.data,
         engagement: projected ? projectEngagement(metrics.engagement.data) : metrics.engagement.data,
         studyLoop: projected ? projectStudyLoop(metrics.studyLoop.data) : metrics.studyLoop.data,
+        funnel: projected ? projectFunnel(funnel.data) : funnel.data,
+        retention: projected ? projectRetention(retention.data) : retention.data,
+        assignments: projected ? projectAssignments(assignments.data) : assignments.data,
+        tutor: projected ? projectTutor(tutor.data) : tutor.data,
+        curriculum: projected ? projectCurriculum(curriculum.data) : curriculum.data,
+        recall: projected ? projectRecall(recall.data) : recall.data,
+        // What is not being captured is a fact about today's instrumentation.
+        // It has no meaning against a modelled cohort, so it is only sent live.
+        collectionPoints: projected ? null : collection.data,
       },
       metadata: {
-        sources: ['results', 'assessments', 'subtopics', 'users', 'learnspaces', 'user_activity_daily'],
+        sources: [
+          'results', 'assessments', 'subtopics', 'users', 'learnspaces',
+          'user_activity_daily', 'assignment_results', 'learnspace_messages',
+          'recall_cards', 'textbooks',
+        ],
         generatedAt: new Date().toISOString(),
         warnings,
       },

@@ -17,6 +17,7 @@ import {
 import { Panel } from '@/components/admin/Panel'
 import { HeadlineStat } from '@/components/admin/HeadlineStat'
 import { GapFlowChart, type GapFlowPoint } from '@/components/admin/GapFlowChart'
+import { FunnelBars, type FunnelStage } from '@/components/admin/FunnelBars'
 import { canonicalSubject } from '@/lib/canonical-subject'
 
 /**
@@ -77,6 +78,25 @@ interface Overview {
     subjects: { subject: string; attempts: number; avgScore: number; students: number }[] | null
     engagement: { daysWithActivity: number; activeStudents: number; totalHours: number; medianMinutesPerActiveDay: number } | null
     studyLoop: { lessonsFromGaps: number; lessonsFromScratch: number; provenLessons: number } | null
+    funnel: FunnelStage[] | null
+    retention: { cohort: string; students: number; returned: number; returnRate: number; mature: boolean }[] | null
+    assignments: {
+      set: number; completed: number; started: number; neverOpened: number
+      completionRate: number; teachersSetting: number; medianHoursToComplete: number | null
+    } | null
+    tutor: {
+      lessons: number; lessonsWithChat: number; messages: number
+      medianMessagesPerLesson: number; conversationRate: number
+    } | null
+    curriculum: { curriculum: string; assessments: number; papers: number; avgScore: number | null }[] | null
+    recall: {
+      cards: number; decks: number; students: number
+      reviewed: number; dueNow: number; reviewRate: number
+    } | null
+    collectionPoints: {
+      key: string; label: string; status: string; captured: number
+      possible: number | null; worth: string; state: 'live' | 'partial' | 'silent'
+    }[] | null
   }
   metadata: { generatedAt: string; warnings: string[] }
 }
@@ -334,6 +354,108 @@ export default function AdminDashboardPage() {
                 </Panel>
               </div>
             )}
+            {/* Who sticks around */}
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_1fr]">
+              <Panel
+                title="How far students actually get"
+                hint="Each step measured against the one above it, so the leak shows where it happens."
+                method="Students only, counted by how many papers they have been marked on. Proctor-ended papers excluded."
+              >
+                {overview.data.funnel && overview.data.funnel.length > 0 ? (
+                  <FunnelBars stages={overview.data.funnel} />
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+
+              <Panel
+                title="Do they come back?"
+                hint="Return rate by the month a student first sat a paper."
+                method="A cohort is everyone whose first marked paper fell in that month; returned means they sat a second. Cohorts under 45 days old are marked still open, since they have had less chance to return."
+              >
+                {overview.data.retention && overview.data.retention.length > 0 ? (
+                  <RetentionList rows={overview.data.retention} />
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+            </div>
+
+            {/* Teachers and the tutor */}
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_1fr]">
+              <Panel
+                title="Work set by teachers"
+                hint="A teacher whose work never comes back stops setting work."
+                method="Counted per student per assignment: one paper set to thirty students is thirty pieces of work that either arrive or do not."
+              >
+                {overview.data.assignments ? (
+                  <AssignmentHealthView a={overview.data.assignments} />
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+
+              <Panel
+                title="Is the tutor used as a tutor?"
+                hint="A lesson that is read and closed is a document. One with a conversation is the product."
+                method="Messages exchanged inside a generated lesson. The median is quoted rather than the mean, which a handful of very long sessions would otherwise dominate."
+              >
+                {overview.data.tutor ? (
+                  <dl className="grid gap-3">
+                    <LoopRow label="Lessons built" value={num(overview.data.tutor.lessons)} />
+                    <LoopRow
+                      label="Lessons with a conversation"
+                      value={`${num(overview.data.tutor.lessonsWithChat)} (${overview.data.tutor.conversationRate}%)`}
+                      tone="good"
+                    />
+                    <LoopRow label="Messages exchanged" value={num(overview.data.tutor.messages)} />
+                    <LoopRow
+                      label="Median messages per lesson"
+                      value={String(overview.data.tutor.medianMessagesPerLesson)}
+                    />
+                  </dl>
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+            </div>
+
+            {/* Curriculum and recall */}
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.2fr_1fr]">
+              <Panel
+                title="Which curricula are actually taught on"
+                hint="Loaded is not the same as used."
+                method="Papers grouped by the curriculum of the textbook their assessment was built from. Assessments with no textbook are not counted here."
+              >
+                {overview.data.curriculum && overview.data.curriculum.length > 0 ? (
+                  <CurriculumTable rows={overview.data.curriculum} />
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+
+              <Panel
+                title="Are the recall cards being used?"
+                hint="A card generated and never reviewed cost a generation and returned nothing."
+                method="Cards count as reviewed once a first review is recorded against them."
+              >
+                {overview.data.recall ? (
+                  <dl className="grid gap-3">
+                    <LoopRow label="Cards created" value={num(overview.data.recall.cards)} />
+                    <LoopRow
+                      label="Ever reviewed"
+                      value={`${num(overview.data.recall.reviewed)} (${overview.data.recall.reviewRate}%)`}
+                      tone={overview.data.recall.reviewRate >= 50 ? 'good' : undefined}
+                    />
+                    <LoopRow label="Due right now" value={num(overview.data.recall.dueNow)} />
+                    <LoopRow label="Students with a deck" value={num(overview.data.recall.students)} />
+                  </dl>
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+            </div>
+
 
             {/* ── Platform totals ─────────────────────────────────────────── */}
             {head && (
@@ -385,6 +507,45 @@ export default function AdminDashboardPage() {
                 )}
               </Panel>
             </div>
+
+            {/* What we are not measuring yet */}
+            {overview.data.collectionPoints && overview.data.collectionPoints.length > 0 && (
+              <div className="mt-4">
+                <Panel
+                  title="What we are not measuring yet"
+                  hint="Places where a number is missing because nothing writes it, not because nothing is happening."
+                  method="Each row is a decision waiting on evidence that is not currently being collected."
+                >
+                  <ul className="grid gap-2.5">
+                    {overview.data.collectionPoints.map((c) => (
+                      <li
+                        key={c.key}
+                        className="grid gap-1 rounded-xl border border-ss-line bg-ss-canvas p-3 sm:grid-cols-[minmax(200px,1fr)_auto] sm:items-start sm:gap-4"
+                      >
+                        <div>
+                          <p className="text-[13px] font-bold text-ss-ink">{c.label}</p>
+                          <p className="mt-1 text-[12px] font-medium leading-snug text-ss-slate">{c.worth}</p>
+                        </div>
+                        <div className="shrink-0 sm:text-right">
+                          <span
+                            className={`inline-flex rounded-full px-2.5 py-1 text-[12px] font-extrabold uppercase tracking-wide ${
+                              c.state === 'live'
+                                ? 'bg-[color:var(--ss-good)]/12 text-ss-good'
+                                : c.state === 'partial'
+                                  ? 'bg-[color:var(--ss-warn)]/14 text-ss-warn'
+                                  : 'bg-[color:var(--ss-bad)]/12 text-ss-bad'
+                            }`}
+                          >
+                            {c.state === 'live' ? 'Collecting' : c.state === 'partial' ? 'Partial' : 'Silent'}
+                          </span>
+                          <p className="mt-1 text-[12px] font-semibold text-ss-slate">{c.status}</p>
+                        </div>
+                      </li>
+                    ))}
+                  </ul>
+                </Panel>
+              </div>
+            )}
 
             <footer className="mt-6 flex flex-wrap items-center gap-2 text-[12px] font-medium text-ss-slate">
               <Clock className="h-3.5 w-3.5" aria-hidden />
@@ -556,5 +717,167 @@ function Unavailable() {
     <p className="rounded-xl bg-ss-chip p-3 text-[13px] font-medium text-ss-slate">
       This metric could not be loaded. The rest of the page is unaffected.
     </p>
+  )
+}
+
+/**
+ * Return rate per joining cohort.
+ *
+ * Cohorts still inside their first 45 days are drawn muted and labelled, not
+ * dropped. A student who joined three weeks ago has had far less chance to sit
+ * a second paper than one who joined in March, and reading their low rate as a
+ * decline is the standard way to misread this.
+ */
+function RetentionList({
+  rows,
+}: {
+  rows: { cohort: string; students: number; returned: number; returnRate: number; mature: boolean }[]
+}) {
+  const label = (cohort: string) => {
+    const [y, m] = cohort.split('-')
+    return `${['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][Number(m) - 1] ?? m} ${y.slice(2)}`
+  }
+  return (
+    <ol className="grid gap-2.5">
+      {rows.map((r) => (
+        <li key={r.cohort}>
+          <div className="mb-1 flex items-baseline justify-between gap-3">
+            <span className="text-[13px] font-bold text-ss-ink">
+              {label(r.cohort)}
+              {!r.mature && (
+                <span className="ml-2 rounded-full bg-ss-chip px-2 py-0.5 text-[12px] font-bold text-ss-slate">
+                  still open
+                </span>
+              )}
+            </span>
+            <span className="text-[13px] font-semibold text-ss-slate">
+              <span className="text-[15px] font-extrabold text-ss-ink">{r.returnRate}%</span>{' '}
+              of {r.students.toLocaleString()}
+            </span>
+          </div>
+          <div className="h-2.5 w-full overflow-hidden rounded-full bg-ss-chip">
+            <div
+              className="h-full rounded-full"
+              style={{
+                width: `${Math.max(1.5, r.returnRate)}%`,
+                backgroundColor: r.mature ? 'var(--ss-accent)' : 'var(--ss-slate)',
+                opacity: r.mature ? 1 : 0.45,
+              }}
+            />
+          </div>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
+/** What happens to work a teacher sets, as a single stacked bar plus the detail. */
+function AssignmentHealthView({
+  a,
+}: {
+  a: {
+    set: number
+    completed: number
+    started: number
+    neverOpened: number
+    completionRate: number
+    teachersSetting: number
+    medianHoursToComplete: number | null
+  }
+}) {
+  const share = (v: number) => (a.set > 0 ? (v / a.set) * 100 : 0)
+  const segments = [
+    { label: 'Handed in', value: a.completed, color: 'var(--ss-good)' },
+    { label: 'Opened, not finished', value: a.started, color: 'var(--ss-warn)' },
+    { label: 'Never opened', value: a.neverOpened, color: 'var(--ss-bad)' },
+  ]
+
+  return (
+    <div>
+      <p className="text-[34px] font-extrabold leading-none tracking-tight text-ss-ink">
+        {a.completionRate}%
+      </p>
+      <p className="mt-1.5 text-[13px] font-semibold text-ss-slate">
+        of set work comes back — {a.completed.toLocaleString()} of {a.set.toLocaleString()}
+      </p>
+
+      <div className="mt-4 flex h-7 w-full overflow-hidden rounded-lg bg-ss-chip">
+        {segments.map((seg) => (
+          <div
+            key={seg.label}
+            style={{ width: `${share(seg.value)}%`, backgroundColor: seg.color }}
+            title={`${seg.label}: ${seg.value.toLocaleString()}`}
+          />
+        ))}
+      </div>
+
+      <dl className="mt-3 grid gap-2.5">
+        {segments.map((seg) => (
+          <div key={seg.label} className="flex items-center justify-between gap-3">
+            <dt className="inline-flex items-center gap-2 text-[13px] font-medium text-ss-slate">
+              <span aria-hidden className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: seg.color }} />
+              {seg.label}
+            </dt>
+            <dd className="text-[14px] font-extrabold text-ss-ink">{seg.value.toLocaleString()}</dd>
+          </div>
+        ))}
+        {a.medianHoursToComplete !== null && (
+          <div className="flex items-center justify-between gap-3 border-t border-ss-line pt-2.5">
+            <dt className="text-[13px] font-medium text-ss-slate">Median time to hand in</dt>
+            <dd className="text-[14px] font-extrabold text-ss-ink">
+              {a.medianHoursToComplete < 24
+                ? `${a.medianHoursToComplete} hrs`
+                : `${Math.round(a.medianHoursToComplete / 24)} days`}
+            </dd>
+          </div>
+        )}
+      </dl>
+    </div>
+  )
+}
+
+/** Papers per curriculum — which of the loaded syllabuses anyone is actually on. */
+function CurriculumTable({
+  rows,
+}: {
+  rows: { curriculum: string; assessments: number; papers: number; avgScore: number | null }[]
+}) {
+  const max = Math.max(1, ...rows.map((r) => r.papers))
+  return (
+    <div className="overflow-x-auto">
+      <table className="w-full min-w-[380px] border-collapse text-left">
+        <thead>
+          <tr className="border-b border-ss-line">
+            <th scope="col" className="pb-2 text-[12px] font-bold uppercase tracking-wide text-ss-slate">Curriculum</th>
+            <th scope="col" className="pb-2 text-right text-[12px] font-bold uppercase tracking-wide text-ss-slate">Built</th>
+            <th scope="col" className="pb-2 text-right text-[12px] font-bold uppercase tracking-wide text-ss-slate">Sat</th>
+            <th scope="col" className="pb-2 text-right text-[12px] font-bold uppercase tracking-wide text-ss-slate">Average</th>
+          </tr>
+        </thead>
+        <tbody>
+          {rows.map((r) => (
+            <tr key={r.curriculum} className="border-b border-ss-line last:border-0">
+              <td className="py-2.5">
+                <span className="text-[13px] font-bold text-ss-ink">{r.curriculum}</span>
+                <span
+                  aria-hidden
+                  className="mt-1 block h-1.5 rounded-full bg-ss-accent-soft"
+                  style={{ width: `${(r.papers / max) * 100}%` }}
+                />
+              </td>
+              <td className="py-2.5 text-right text-[13px] font-semibold text-ss-slate">
+                {r.assessments.toLocaleString()}
+              </td>
+              <td className="py-2.5 text-right text-[13px] font-semibold text-ss-slate">
+                {r.papers.toLocaleString()}
+              </td>
+              <td className="py-2.5 text-right text-[13px] font-extrabold text-ss-ink">
+                {r.avgScore === null ? '—' : `${r.avgScore}%`}
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   )
 }

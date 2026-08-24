@@ -5,6 +5,14 @@ import type {
   EngagementMetrics,
   StudyLoopMetrics,
 } from './metrics'
+import type {
+  FunnelStage,
+  RetentionCohort,
+  AssignmentHealth,
+  TutorEngagement,
+  CurriculumUsage,
+  RecallHealth,
+} from './growth-metrics'
 
 /**
  * What the platform looks like at scale.
@@ -294,6 +302,83 @@ export function projectSubjects(live: SubjectPerformance[] | null): SubjectPerfo
     students: grow(row.students, STUDENT_SCALE),
     avgScore: row.avgScore,
   }))
+}
+
+/**
+ * The growth panels, scaled the same way.
+ *
+ * Counts move, rates do not. A funnel whose conversion rates changed under
+ * scaling would be claiming the product got better as it got bigger, which is
+ * a different and much larger claim than the one this model makes.
+ */
+export function projectFunnel(live: FunnelStage[] | null): FunnelStage[] {
+  if (!live || live.length === 0) return []
+  return live.map((stage) => ({ ...stage, count: grow(stage.count, STUDENT_SCALE) }))
+}
+
+export function projectRetention(live: RetentionCohort[] | null): RetentionCohort[] {
+  if (!live || live.length === 0) return []
+  return live.map((c) => ({ ...c, students: grow(c.students, STUDENT_SCALE), returned: grow(c.returned, STUDENT_SCALE) }))
+}
+
+export function projectAssignments(live: AssignmentHealth | null): AssignmentHealth {
+  const base: AssignmentHealth = live ?? {
+    set: 2123, completed: 422, started: 219, neverOpened: 1482,
+    completionRate: 19.9, teachersSetting: 12, medianHoursToComplete: 10.1,
+  }
+  return {
+    set: grow(base.set, STUDENT_SCALE),
+    completed: grow(base.completed, STUDENT_SCALE),
+    started: grow(base.started, STUDENT_SCALE),
+    neverOpened: grow(base.neverOpened, STUDENT_SCALE),
+    completionRate: base.completionRate,
+    teachersSetting: grow(base.teachersSetting, STUDENT_SCALE),
+    medianHoursToComplete: base.medianHoursToComplete,
+  }
+}
+
+export function projectTutor(live: TutorEngagement | null): TutorEngagement {
+  const base: TutorEngagement = live ?? {
+    lessons: 65, lessonsWithChat: 62, messages: 1181,
+    medianMessagesPerLesson: 7, conversationRate: 95.4,
+  }
+  // Taken from the study loop rather than scaled here, so this panel and the
+  // platform counts cannot report two different lesson totals — which they did,
+  // 8,601 against 3,041, when each scaled the figure for itself.
+  const loop = projectStudyLoop(null)
+  const lessons = loop.lessonsFromGaps + loop.lessonsFromScratch
+  const perLesson = base.lessons > 0 ? base.messages / base.lessons : 0
+  return {
+    lessons,
+    lessonsWithChat: Math.round(lessons * (base.conversationRate / 100)),
+    messages: Math.round(lessons * perLesson),
+    medianMessagesPerLesson: base.medianMessagesPerLesson,
+    conversationRate: base.conversationRate,
+  }
+}
+
+export function projectCurriculum(live: CurriculumUsage[] | null): CurriculumUsage[] {
+  if (!live || live.length === 0) return []
+  return live.map((c) => ({
+    ...c,
+    assessments: grow(c.assessments, STUDENT_SCALE),
+    papers: grow(c.papers, STUDENT_SCALE),
+  }))
+}
+
+export function projectRecall(live: RecallHealth | null): RecallHealth {
+  const base: RecallHealth = live ?? {
+    cards: 398, decks: 83, students: 4, reviewed: 19, dueNow: 397, reviewRate: 4.8,
+  }
+  const cards = grow(base.cards, STUDENT_SCALE)
+  return {
+    cards,
+    decks: grow(base.decks, STUDENT_SCALE),
+    students: grow(base.students, STUDENT_SCALE),
+    reviewed: Math.round(cards * (base.reviewRate / 100)),
+    dueNow: grow(base.dueNow, STUDENT_SCALE),
+    reviewRate: base.reviewRate,
+  }
 }
 
 /**
