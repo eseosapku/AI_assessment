@@ -25,6 +25,7 @@ import {
   loadMasteryMix,
 } from '@/lib/admin/improvement-metrics'
 import { loadCostMetrics } from '@/lib/admin/cost-metrics'
+import { loadModelUsage } from '@/lib/admin/model-catalogue'
 import {
   projectGaps,
   projectLift,
@@ -40,6 +41,7 @@ import {
   projectCurriculum,
   projectRecall,
   projectCost,
+  STUDENT_SCALE,
 } from '@/lib/admin/projection'
 
 /**
@@ -125,21 +127,44 @@ export async function GET(request: NextRequest) {
     ])
   }
 
-  const warnings = [
-    ...metricWarnings(metrics),
-    ...[
-      coverage, gaps, timeline, lift, funnel, retention, assignments, tutor,
-      curriculum, recall, collection, curve, subjectImprovement, masteryMix, cost,
-    ]
-      .map((m) => m.error)
-      .filter((e): e is string => Boolean(e)),
-  ]
-
   // Every panel moves together or none of it holds up: a page reporting 21,436
   // gaps above 844 students reads as a broken query rather than a bigger
   // platform. The subject mix, pass rates and activity shape stay exactly as
   // measured — only the magnitudes scale.
   const projected = isProjected
+  const projectedCost = projected ? projectCost(cost.data) : null
+  const projectedInference = projectedCost?.inferenceUsd ?? cost.data?.inferenceUsd ?? 0
+
+  // Needs the Bedrock line off the bill before it can split it, so this runs
+  // after the cost load rather than beside it.
+  const models = await guard('Model usage', () =>
+    loadModelUsage(cost.data?.inferenceUsd ?? 0),
+  )
+  const modelUsage =
+    projected && models.data
+      ? {
+          ...models.data,
+          // The bill scales with the cohort, so the split of it has to as well
+          // or the rows would sum to last quarter's Bedrock line.
+          bedrockUsd: projectedInference,
+          rows: models.data.rows.map((r) => ({
+            ...r,
+            calls: Math.round(r.calls * STUDENT_SCALE),
+            usd: Math.round(projectedInference * (r.sharePct / 100) * 100) / 100,
+            perCallUsd: r.perCallUsd,
+          })),
+        }
+      : models.data
+
+  const warnings = [
+    ...metricWarnings(metrics),
+    ...[
+      coverage, gaps, timeline, lift, funnel, retention, assignments, tutor,
+      curriculum, recall, collection, curve, subjectImprovement, masteryMix, cost, models,
+    ]
+      .map((m) => m.error)
+      .filter((e): e is string => Boolean(e)),
+  ]
 
   return NextResponse.json(
     {
@@ -169,7 +194,8 @@ export async function GET(request: NextRequest) {
         learningCurve: curve.data,
         subjectImprovement: subjectImprovement.data,
         masteryMix: masteryMix.data,
-        cost: projected ? projectCost(cost.data) : cost.data,
+        cost: projectedCost ?? cost.data,
+        models: modelUsage,
       },
       metadata: {
         sources: [

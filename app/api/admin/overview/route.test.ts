@@ -26,6 +26,10 @@ vi.mock('@/lib/admin/cost-metrics', () => ({
   loadCostMetrics: vi.fn(),
 }))
 
+vi.mock('@/lib/admin/model-catalogue', () => ({
+  loadModelUsage: vi.fn(),
+}))
+
 vi.mock('@/lib/admin/growth-metrics', () => ({
   loadFunnel: vi.fn(),
   loadRetentionCohorts: vi.fn(),
@@ -52,6 +56,7 @@ import {
   loadMasteryMix,
 } from '@/lib/admin/improvement-metrics'
 import { loadCostMetrics } from '@/lib/admin/cost-metrics'
+import { loadModelUsage } from '@/lib/admin/model-catalogue'
 import {
   loadFunnel,
   loadRetentionCohorts,
@@ -118,11 +123,30 @@ const COST = {
       costPerStudentUsd: 0.09, revenueUsd: 1700, marginPct: 98.2,
     },
   ],
-  services: [],
-  totalUsd: 246.88, servingUsd: 216.46, inferenceUsd: 12.17, developmentUsd: 18.24,
+  services: [
+    { service: 'Relational Database Service', usd: 216.46, bucket: 'serving' as const, sharePct: 87.7 },
+    { service: 'Bedrock', usd: 12.17, bucket: 'inference' as const, sharePct: 4.9 },
+    { service: 'CodeBuild', usd: 18.24, bucket: 'development' as const, sharePct: 7.4 },
+  ],
+  totalUsd: 246.87, servingUsd: 216.46, inferenceUsd: 12.17, developmentUsd: 18.24,
   inferenceSharePct: 4.9,
   bestMonth: null, latestMonth: null,
   revenuePerStudentUsd: 5, breakEvenStudents: 19,
+}
+
+const MODELS = {
+  basis: 'apportioned' as const,
+  bedrockUsd: 12.17,
+  unusedModels: [],
+  rows: [
+    {
+      key: 'generate_assessment', label: 'Paper generation', what: 'x',
+      modelId: 'amazon.nova-lite-v1:0', modelLabel: 'Nova Lite', provider: 'Amazon',
+      inputPer1M: 0.06, outputPer1M: 0.24, note: 'y',
+      calls: 1923, sharePct: 46.2, usd: 5.62, perCallUsd: 0.0029,
+      configuredBy: 'AWS_GENERATION_MODEL_ID',
+    },
+  ],
 }
 
 function overviewRequest(mode?: 'live' | 'projected') {
@@ -162,6 +186,7 @@ describe('GET /api/admin/overview', () => {
     vi.mocked(loadSubjectImprovement).mockReset().mockResolvedValue([] as never)
     vi.mocked(loadMasteryMix).mockReset().mockResolvedValue(MASTERY as never)
     vi.mocked(loadCostMetrics).mockReset().mockResolvedValue(COST as never)
+    vi.mocked(loadModelUsage).mockReset().mockResolvedValue(MODELS as never)
   })
 
   it('returns the unchanged 401 response when no session is authorized', async () => {
@@ -313,6 +338,22 @@ describe('GET /api/admin/overview', () => {
     expect(loadCostMetrics).toHaveBeenCalledWith()
     expect(live.data.cost.months[0].activeStudents).toBe(340)
     expect(projected.data.cost.months[0].activeStudents).toBeGreaterThan(340)
+  })
+
+  it('splits the model spend against whichever bill the mode is showing', async () => {
+    // The rows have to sum to the Bedrock line on the page above them. A
+    // scaled page showing the real Bedrock split would have them disagree.
+    vi.mocked(requirePlatformAdmin).mockResolvedValue({
+      ok: true,
+      admin: { userId: 'admin-1', email: null, name: null },
+    })
+
+    const live = await (await GET(overviewRequest('live'))).json()
+    const projected = await (await GET(overviewRequest('projected'))).json()
+
+    expect(live.data.models.bedrockUsd).toBe(12.17)
+    expect(projected.data.models.bedrockUsd).toBeGreaterThan(12.17)
+    expect(projected.data.models.rows[0].calls).toBeGreaterThan(1923)
   })
 
   it('only reports collection gaps against measured figures', async () => {

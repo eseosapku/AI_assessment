@@ -21,6 +21,7 @@ import { FunnelBars, type FunnelStage } from '@/components/admin/FunnelBars'
 import { LearningCurve, type CurvePoint } from '@/components/admin/LearningCurve'
 import { SubjectImprovementTable, MasteryMixView } from '@/components/admin/ImprovementViews'
 import { CostView } from '@/components/admin/CostView'
+import { ModelTable, type ModelUsage } from '@/components/admin/ModelTable'
 import { canonicalSubject } from '@/lib/canonical-subject'
 
 /**
@@ -130,6 +131,7 @@ interface Overview {
       revenuePerStudentUsd: number
       breakEvenStudents: number
     } | null
+    models: ModelUsage | null
   }
   metadata: { generatedAt: string; warnings: string[] }
 }
@@ -589,6 +591,23 @@ export default function AdminDashboardPage() {
                   method="Cost Explorer export joined to monthly active students. Serving is database, network and hosting; inference is Bedrock; development is CI, the registry and one-off experiments, which are excluded from cost per student because they would not disappear if every student left."
                 >
                   <CostView c={overview.data.cost} />
+                </Panel>
+              </div>
+            )}
+
+            {/* Which model does what */}
+            {overview.data.models && overview.data.models.rows.length > 0 && (
+              <div className="mt-4">
+                <Panel
+                  title="Models, and what each one is for"
+                  hint="Every feature that spends money, the model it runs on, and what that model charges."
+                  method={
+                    overview.data.models.basis === 'measured'
+                      ? 'Token counts from the usage ledger, priced per model.'
+                      : `The ${'$'}${overview.data.models.bedrockUsd} Bedrock line from the bill, split across features by call volume times tokens per call. The total is real; only the division between rows is modelled, and it stops being modelled once the usage ledger has run. Rates are list prices.`
+                  }
+                >
+                  <ModelTable usage={overview.data.models} />
                 </Panel>
               </div>
             )}
