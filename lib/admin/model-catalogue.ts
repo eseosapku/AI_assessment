@@ -85,6 +85,18 @@ export interface FeatureUse {
   fallbackModelId: string
   /** Typical tokens for one call, used only to apportion a known total. */
   tokensPerCall: number
+  /**
+   * Whether this model was chosen for this job, or inherited.
+   *
+   * On 22 June a Bedrock ValidationException on this account made
+   * google.gemma-3-27b-it unusable and every route was moved to Nova Lite to
+   * stop the 504s. Feedback was moved back the same day and the tutor three
+   * days later; the shared default in bedrock.ts never was. Anything still
+   * riding it is running on an incident fix rather than a decision.
+   */
+  provenance: 'chosen' | 'inherited'
+  /** One line on how it came to be this model. */
+  why: string
   /** Which count in the database stands for "one call of this". */
   countKey: 'assessments' | 'results' | 'tutorReplies' | 'lessons' | 'recallCards'
 }
@@ -104,6 +116,8 @@ export const FEATURE_USES: FeatureUse[] = [
     fallbackModelId: 'amazon.nova-lite-v1:0',
     tokensPerCall: 5500,
     countKey: 'assessments',
+    provenance: 'chosen',
+    why: 'Moved to Nova Lite on 22 June to stop generation timing out at the gateway, and kept there.',
   },
   {
     key: 'generate_feedback',
@@ -113,6 +127,8 @@ export const FEATURE_USES: FeatureUse[] = [
     fallbackModelId: 'google.gemma-3-27b-it',
     tokensPerCall: 2800,
     countKey: 'results',
+    provenance: 'chosen',
+    why: 'Deliberately moved back to Gemma on 22 June for richer prose in a single call.',
   },
   {
     key: 'grade_longform',
@@ -122,27 +138,19 @@ export const FEATURE_USES: FeatureUse[] = [
     fallbackModelId: 'amazon.nova-lite-v1:0',
     tokensPerCall: 2100,
     countKey: 'results',
+    provenance: 'chosen',
+    why: 'Tried on Gemma on 22 June and moved back the same day: grading was the largest 27B line and Nova was close enough.',
   },
   {
     key: 'tutor_reply',
-    label: 'StudyLab tutor',
-    what: 'Answers a student inside a lesson, carrying the conversation each time.',
+    label: 'StudyLab tutor — and the lessons it writes',
+    what: 'Answers a student inside a lesson and produces the whiteboard content, so this is what actually writes lessons.',
     envVar: 'AWS_TUTOR_MODEL_ID',
     fallbackModelId: 'google.gemma-3-27b-it',
     tokensPerCall: 4700,
     countKey: 'tutorReplies',
-  },
-  {
-    key: 'build_lesson',
-    label: 'Lesson building',
-    what: 'Writes a lesson against a subtopic a student is weak on.',
-    envVar: 'AWS_GENERATION_MODEL_ID',
-    // Nova Lite, not Gemma. Lessons go through callGemma(), whose
-    // DEFAULT_GEMMA_MODEL falls back to Nova Lite despite the function's name —
-    // a trap worth naming here, since the name says otherwise.
-    fallbackModelId: 'amazon.nova-lite-v1:0',
-    tokensPerCall: 6500,
-    countKey: 'lessons',
+    provenance: 'chosen',
+    why: 'Put on Gemma on 25 June — the tutor turn orchestrates the whole whiteboard, so it runs on the stronger model.',
   },
   {
     key: 'recall_card',
@@ -152,6 +160,37 @@ export const FEATURE_USES: FeatureUse[] = [
     fallbackModelId: 'amazon.nova-lite-v1:0',
     tokensPerCall: 2700,
     countKey: 'recallCards',
+    provenance: 'inherited',
+    why: 'Never chosen. Rides the shared default that the 22 June incident set to Nova Lite.',
+  },
+]
+
+/**
+ * Call sites still running on the incident default.
+ *
+ * These reach Bedrock through callGemma() with no model of their own, so they
+ * take DEFAULT_GEMMA_MODEL — which the 22 June fix pointed at Nova Lite and
+ * nobody pointed back. The function's name still says Gemma, which is how this
+ * stayed invisible.
+ *
+ * They are listed rather than costed because nothing in the database counts
+ * them, and a spend figure without a call count would be invention.
+ */
+export const INHERITED_CALL_SITES = [
+  {
+    path: 'app/api/studylab/grade/route.ts',
+    label: 'StudyLab checkpoint grading',
+    what: 'Marks a student\'s work on the whiteboard.',
+  },
+  {
+    path: 'app/api/studylab/snap/route.ts',
+    label: 'StudyLab snap',
+    what: 'Reads a photographed page. A vision call, where model choice matters most.',
+  },
+  {
+    path: 'lib/textbook-vision-images.ts',
+    label: 'Textbook figure curation',
+    what: 'Decides which textbook images are worth attaching to a question.',
   },
 ]
 
@@ -180,6 +219,8 @@ export interface ModelUsageRow {
   /** USD per call at that share. */
   perCallUsd: number
   configuredBy: string
+  provenance: 'chosen' | 'inherited'
+  why: string
 }
 
 export interface ModelUsage {
@@ -189,6 +230,8 @@ export interface ModelUsage {
   bedrockUsd: number
   /** Models in the catalogue that nothing currently routes to. */
   unusedModels: ModelSpec[]
+  /** Call sites still on the model an incident chose for them. */
+  inheritedCallSites: typeof INHERITED_CALL_SITES
 }
 
 interface Counts {
@@ -310,6 +353,8 @@ export async function loadModelUsage(
       usd: round(usd, 2),
       perCallUsd: actualCalls > 0 ? round(usd / actualCalls, 6) : 0,
       configuredBy: use.envVar,
+      provenance: use.provenance,
+      why: use.why,
     }
   }).sort((a, b) => b.usd - a.usd)
 
@@ -321,5 +366,6 @@ export async function loadModelUsage(
     // Worth showing: a model in the catalogue that nothing routes to is either
     // a fallback that never fires or a decision nobody finished making.
     unusedModels: Object.values(MODELS).filter((m) => !inUse.has(m.id)),
+    inheritedCallSites: INHERITED_CALL_SITES,
   }
 }

@@ -13,6 +13,8 @@ export interface ModelUsageRow {
   usd: number
   perCallUsd: number
   configuredBy: string
+  provenance: 'chosen' | 'inherited'
+  why: string
 }
 
 export interface ModelUsage {
@@ -20,6 +22,7 @@ export interface ModelUsage {
   rows: ModelUsageRow[]
   bedrockUsd: number
   unusedModels: { id: string; label: string; provider: string; inputPer1M: number; outputPer1M: number; note: string }[]
+  inheritedCallSites: { path: string; label: string; what: string }[]
 }
 
 const usd = (v: number, dp = 2) =>
@@ -59,6 +62,13 @@ export function ModelTable({ usage }: { usage: ModelUsage }) {
                   >
                     {r.modelLabel}
                   </span>
+                  {/* The distinction that matters: a model picked for the job,
+                      or one an incident picked and nobody revisited. */}
+                  {r.provenance === 'inherited' && (
+                    <span className="rounded-full bg-[color:var(--ss-warn)]/14 px-2 py-0.5 text-[12px] font-extrabold text-ss-warn">
+                      Inherited
+                    </span>
+                  )}
                 </div>
                 <p className="mt-1 text-[12.5px] font-medium leading-snug text-ss-slate">{r.what}</p>
               </div>
@@ -92,10 +102,33 @@ export function ModelTable({ usage }: { usage: ModelUsage }) {
                 </dd>
               </div>
             </dl>
-            <p className="mt-1.5 text-[12px] font-medium leading-snug text-ss-slate">{r.note}</p>
+            <p className="mt-1.5 text-[12px] font-medium leading-snug text-ss-slate">{r.why}</p>
           </li>
         ))}
       </ul>
+
+      {usage.inheritedCallSites.length > 0 && (
+        <div className="rounded-xl border border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10 p-3.5">
+          <p className="text-[13px] font-extrabold text-ss-ink">
+            Still on the model the June incident picked
+          </p>
+          <p className="mt-1 text-[12.5px] font-medium leading-relaxed text-ss-slate">
+            These reach Bedrock through <code className="rounded bg-ss-chip px-1 py-0.5">callGemma()</code>{' '}
+            without naming a model, so they take the shared default — which was pointed at Nova Lite
+            on 22 June to stop the timeouts and never pointed back. The function is still called
+            callGemma, which is how it stayed invisible. They are listed rather than costed because
+            nothing counts these calls.
+          </p>
+          <ul className="mt-2.5 grid gap-1.5">
+            {usage.inheritedCallSites.map((c) => (
+              <li key={c.path} className="text-[12.5px] font-medium text-ss-slate">
+                <span className="font-bold text-ss-ink">{c.label}</span> — {c.what}{' '}
+                <code className="rounded bg-ss-chip px-1 py-0.5 text-[12px]">{c.path}</code>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
 
       {usage.unusedModels.length > 0 && (
         <div>

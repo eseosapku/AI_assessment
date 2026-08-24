@@ -4,6 +4,7 @@ import {
   resolveModelId,
   MODELS,
   FEATURE_USES,
+  INHERITED_CALL_SITES,
 } from './model-catalogue'
 import type { Database } from '@/lib/db'
 
@@ -36,8 +37,31 @@ describe('the catalogue matches the running system', () => {
     expect(byKey.generate_feedback).toBe('google.gemma-3-27b-it')
     expect(byKey.grade_longform).toBe('amazon.nova-lite-v1:0')
     expect(byKey.tutor_reply).toBe('google.gemma-3-27b-it')
-    // callGemma's DEFAULT_GEMMA_MODEL falls back to Nova Lite despite the name.
-    expect(byKey.build_lesson).toBe('amazon.nova-lite-v1:0')
+    // There is no separate lesson-building call: app/api/studylab/route.ts only
+    // persists the record, and the content comes from the tutor turn. So lessons
+    // do run on Gemma, via the tutor — and a build_lesson row would have been a
+    // row for a call that does not exist.
+    expect(byKey.build_lesson).toBeUndefined()
+  })
+
+  it('marks which models were chosen and which were inherited from the incident', () => {
+    // The distinction the page exists to surface: a model picked for the job
+    // versus one a 504 fix picked and nobody revisited.
+    const byKey = Object.fromEntries(FEATURE_USES.map((u) => [u.key, u.provenance]))
+    expect(byKey.tutor_reply).toBe('chosen')
+    expect(byKey.generate_feedback).toBe('chosen')
+    expect(byKey.recall_card).toBe('inherited')
+  })
+
+  it('explains how each feature came to be on its model', () => {
+    for (const use of FEATURE_USES) expect(use.why.length, use.key).toBeGreaterThan(20)
+  })
+
+  it('names the call sites still riding the shared default', () => {
+    // These have no model of their own and nothing counts them, so they would
+    // otherwise be invisible in both the code and the bill.
+    expect(INHERITED_CALL_SITES.map((c) => c.path)).toContain('app/api/studylab/snap/route.ts')
+    expect(INHERITED_CALL_SITES.length).toBeGreaterThan(0)
   })
 
   it('charges more for output than input on every model', () => {
