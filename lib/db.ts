@@ -37,3 +37,12 @@ export const db = {
   query: <T extends QueryResultRow = any>(text: string, values?: unknown[]): Promise<QueryResult<T>> =>
     getPool().query<T>(text, values),
 }
+
+/**
+ * The narrow surface the query helpers actually use.
+ *
+ * Exported so a caller can be handed a stub in a test without reaching for a
+ * live pool — the metrics modules take one of these rather than importing the
+ * pool directly.
+ */
+export type Database = Pick<typeof db, 'query'>
