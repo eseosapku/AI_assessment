@@ -40,6 +40,7 @@ type LongformQuestion = {
   question: string
   marks: number
   marking_criteria: string[]
+  hints?: string[]
   model_answer: string
   explanation: string
 }
@@ -77,6 +78,9 @@ function buildQuestionTemplate(id: number, type: QuestionType, base?: Partial<Qu
       marking_criteria: Array.isArray((base as LongformQuestion | undefined)?.marking_criteria)
         ? (base as LongformQuestion).marking_criteria
         : ['', '', ''],
+      hints: Array.isArray((base as LongformQuestion | undefined)?.hints)
+        ? (base as LongformQuestion).hints
+        : ['', '', ''],
       model_answer: String((base as LongformQuestion | undefined)?.model_answer ?? ''),
       explanation: String(base?.explanation ?? ''),
     } satisfies LongformQuestion
@@ -113,6 +117,7 @@ export default function NewAssignmentPage() {
   const [maxAttempts, setMaxAttempts] = useState(1)
   const [deadline, setDeadline] = useState('')
   const [strictMode, setStrictMode] = useState(false)
+  const [hintsEnabled, setHintsEnabled] = useState(true)
 
   const [templateType, setTemplateType] = useState<QuestionType | ''>('')
   const [questions, setQuestions] = useState<Question[]>([])
@@ -272,7 +277,22 @@ export default function NewAssignmentPage() {
         if (i !== qIndex || q.type !== 'longform') return q
         const criteria = Array.isArray(q.marking_criteria) ? [...q.marking_criteria] : []
         criteria[criterionIndex] = value
-        return { ...q, marking_criteria: criteria }
+        const hints = Array.isArray(q.hints) ? [...q.hints] : []
+        while (hints.length < criteria.length) hints.push('')
+        return { ...q, marking_criteria: criteria, hints }
+      })
+    )
+  }
+
+  const updateHint = (qIndex: number, hintIndex: number, value: string) => {
+    setQuestions((prev) =>
+      prev.map((q, i) => {
+        if (i !== qIndex || q.type !== 'longform') return q
+        const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria : []
+        const hints = Array.isArray(q.hints) ? [...q.hints] : []
+        while (hints.length < Math.max(criteria.length, hintIndex + 1)) hints.push('')
+        hints[hintIndex] = value
+        return { ...q, hints }
       })
     )
   }
@@ -356,6 +376,7 @@ export default function NewAssignmentPage() {
       estimated_time: null,
       deadline: deadline ? toIsoInputValue(deadline) : null,
       strict_mode: strictMode,
+      hints_enabled: hintsEnabled,
     }
 
     const res = await fetch('/api/assignments/create', {
@@ -560,6 +581,21 @@ export default function NewAssignmentPage() {
             </label>
           </div>
 
+          <div className="rounded-2xl border-2 border-amber-200 dark:border-amber-900/40 bg-amber-50 dark:bg-amber-900/10 p-5">
+            <label className="flex items-center gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={hintsEnabled}
+                onChange={(e) => setHintsEnabled(e.target.checked)}
+                className="w-6 h-6 rounded border-amber-300 text-amber-700 cursor-pointer"
+              />
+              <div className="flex-1">
+                <div className="text-sm font-bold text-amber-900 dark:text-amber-200">Allow long-form hints</div>
+                <div className="text-xs text-amber-800 dark:text-amber-300">Students see a “View hint” button on written questions. Hints point at the kind of mark, not the answer. Practice quizzes always keep this on.</div>
+              </div>
+            </label>
+          </div>
+
           <div>
               <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Send to classroom(s)</label>
               <div className="rounded-xl bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] p-3 space-y-2">
@@ -740,6 +776,19 @@ export default function NewAssignmentPage() {
                             value={crit}
                             onChange={(e) => updateCriterion(activeQuestionIndex, critIdx, e.target.value)}
                             className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-violet-500 focus:ring-2 focus:ring-violet-500/20 outline-none transition-all text-gray-900 dark:text-white mb-2"
+                          />
+                        ))}
+                      </div>
+                      <div>
+                        <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Student hints (one per criterion)</label>
+                        <p className="text-xs text-ss-slate mb-2">Nudge the kind of point — a named term, a reason, evidence. Do not paste the mark scheme or model answer.</p>
+                        {(questions[activeQuestionIndex] as LongformQuestion)?.marking_criteria?.map((_, hintIdx) => (
+                          <input
+                            key={`active-hint-${hintIdx}`}
+                            value={(questions[activeQuestionIndex] as LongformQuestion)?.hints?.[hintIdx] ?? ''}
+                            onChange={(e) => updateHint(activeQuestionIndex, hintIdx, e.target.value)}
+                            placeholder={`Hint ${hintIdx + 1} (optional — a safe nudge is filled in if you leave this blank)`}
+                            className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all text-gray-900 dark:text-white mb-2"
                           />
                         ))}
                       </div>

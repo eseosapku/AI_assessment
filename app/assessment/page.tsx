@@ -19,6 +19,8 @@ import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-a
 import { LatexText as L } from '@/lib/latex-text'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 import NextStepsPanel from '@/components/assessment/NextStepsPanel'
+import LongformHintPanel from '@/components/assessment/LongformHintPanel'
+import { attachLongformHints, studentHintsOf } from '@/lib/longform-hints'
 import { Modal } from '@/components/ui/Modal'
 import {
   summarizeWeakAreas,
@@ -94,6 +96,7 @@ interface LongFormQuestion {
   question: string
   marks: number
   marking_criteria: string[]
+  hints?: string[]
   model_answer: string
   explanation: string
   passage?: string
@@ -631,6 +634,7 @@ function AssessmentPageClient() {
   const [longFormGrades, setLongFormGrades] = useState<Record<number, LongFormGrade>>({})
   const [isGradingLongForm, setIsGradingLongForm] = useState(false)
   const [strictMode, setStrictMode] = useState(false)
+  const [hintsEnabled, setHintsEnabled] = useState(true)
   const [violationCount, setViolationCount] = useState(0)
   const [submissionReason, setSubmissionReason] = useState<'manual' | 'timer' | 'violation'>('manual')
   // Mirrors violationCount for the event listeners, which are registered once
@@ -648,8 +652,16 @@ function AssessmentPageClient() {
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
-      assessmentData.questions.forEach((q: Question) => {
-        if (!isLongForm(q) && !isInteractive(q)) {
+      assessmentData.questions.forEach((q: Question, i) => {
+        if (isLongForm(q)) {
+          // Assignment start already stripped hints when the teacher turned them off.
+          // Do not rebuild them from the mark scheme.
+          if (!isClassroomAssignment || Array.isArray((q as LongFormQuestion).hints)) {
+            assessmentData.questions[i] = attachLongformHints(q) as Question
+          }
+          return
+        }
+        if (!isInteractive(q)) {
           q.question = q.question.replace(/\s*[\(\[]\s*[Aa]\s*[\)\]]\s*[\s\S]*$/, '').trim()
           q.question = q.question.replace(/\$\?\$/g, '?')
         }
@@ -700,6 +712,7 @@ function AssessmentPageClient() {
           setAssignmentId(assignmentParam)
           setTimeRemaining(data.estimated_time * 60)
           if (json.data?.strict_mode) setStrictMode(true)
+          setHintsEnabled(json.data?.hints_enabled !== false)
           return
         } catch (err: any) {
           setLoadError(err?.message || 'Failed to load assignment')
@@ -2247,6 +2260,12 @@ function AssessmentPageClient() {
                       Aim for ~{(question as LongFormQuestion).marks * 25}–{(question as LongFormQuestion).marks * 40} words
                     </span>
                   </div>
+                  {hintsEnabled && (
+                    <LongformHintPanel
+                      questionKey={currentQuestion}
+                      hints={studentHintsOf(question as LongFormQuestion)}
+                    />
+                  )}
                 </div>
               )}
             </motion.div>

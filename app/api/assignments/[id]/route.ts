@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { pgErrorMessage } from '@/lib/pg-errors'
+import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
 import { jsonbParam } from '@/lib/pg-json'
+import { attachLongformHints } from '@/lib/longform-hints'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -22,13 +23,25 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
     }
 
     try {
-        const result = await db.query(
-            `SELECT id, title, subject, topics, grade, curriculum, difficulty_level, question_count,
-                    style, question_type, classroom_id, status, max_attempts, questions_data,
-                    estimated_time, deadline, strict_mode, created_at, updated_at
-             FROM assignments WHERE id = $1 LIMIT 1`,
-            [assignmentId]
-        )
+        let result
+        try {
+            result = await db.query(
+                `SELECT id, title, subject, topics, grade, curriculum, difficulty_level, question_count,
+                        style, question_type, classroom_id, status, max_attempts, questions_data,
+                        estimated_time, deadline, strict_mode, hints_enabled, created_at, updated_at
+                 FROM assignments WHERE id = $1 LIMIT 1`,
+                [assignmentId]
+            )
+        } catch (err) {
+            if (!isMissingColumn(err)) throw err
+            result = await db.query(
+                `SELECT id, title, subject, topics, grade, curriculum, difficulty_level, question_count,
+                        style, question_type, classroom_id, status, max_attempts, questions_data,
+                        estimated_time, deadline, strict_mode, created_at, updated_at
+                 FROM assignments WHERE id = $1 LIMIT 1`,
+                [assignmentId]
+            )
+        }
         const data = result.rows[0]
         if (!data) {
             return NextResponse.json({ error: 'Assignment not found' }, { status: 404 })
@@ -45,6 +58,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
 
         const payload = {
             ...data,
+            hints_enabled: data.hints_enabled !== false,
             classroom_ids: classroomIds.length > 0
                 ? classroomIds
                 : (data.classroom_id ? [data.classroom_id] : []),
@@ -76,10 +90,15 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
         const style = body?.style !== undefined ? String(body.style).trim() : null
         const questionType = body?.question_type !== undefined ? String(body.question_type).trim() : null
         const rawMaxAttempts = body?.max_attempts !== undefined ? Number(body.max_attempts) : null
-        const questionsData = body?.questions_data !== undefined ? body.questions_data : null
+        const questionsData = body?.questions_data !== undefined
+            ? (Array.isArray(body.questions_data)
+                ? body.questions_data.map((q: Record<string, any>) => attachLongformHints(q))
+                : body.questions_data)
+            : null
         const estimatedTime = body?.estimated_time !== undefined ? Number(body.estimated_time) : null
         const deadline = body?.deadline !== undefined ? String(body.deadline).trim() : null
         const strictMode = body?.strict_mode !== undefined ? Boolean(body.strict_mode) : null
+        const hintsEnabled = body?.hints_enabled !== undefined ? Boolean(body.hints_enabled) : null
 
         const sets = ['updated_at = NOW()']
         const values: unknown[] = []
@@ -111,16 +130,35 @@ export async function PATCH(request: NextRequest, { params }: { params: Promise<
         }
         if (deadline !== null) { sets.push(`deadline = $${idx++}`); values.push(deadline || null) }
         if (strictMode !== null) { sets.push(`strict_mode = $${idx++}`); values.push(strictMode) }
+        if (hintsEnabled !== null) { sets.push(`hints_enabled = $${idx++}`); values.push(hintsEnabled) }
 
         if (sets.length === 1) {
             return NextResponse.json({ error: 'Nothing to update' }, { status: 400 })
         }
 
+        const assignmentPlaceholder = `$${idx}`
         values.push(assignmentId)
-        await db.query(
-            `UPDATE assignments SET ${sets.join(', ')} WHERE id = $${idx}`,
-            values
-        )
+        const sql = `UPDATE assignments SET ${sets.join(', ')} WHERE id = ${assignmentPlaceholder}`
+        try {
+            await db.query(sql, values)
+        } catch (err) {
+            if (!isMissingColumn(err)) throw err
+            const hintClause = sets.find((s) => s.startsWith('hints_enabled'))
+            if (!hintClause) throw err
+            const hintValueIndex = sets.indexOf(hintClause) - 1
+            const fallbackSets = sets.filter((s) => s !== hintClause)
+            const fallbackValues = values.filter((_, i) => i !== hintValueIndex)
+            const fallbackSql = fallbackSets
+                .map((clause, i) => {
+                    if (i === 0) return clause
+                    return clause.replace(/\$\d+/, `$${i}`)
+                })
+                .join(', ')
+            await db.query(
+                `UPDATE assignments SET ${fallbackSql} WHERE id = $${fallbackValues.length}`,
+                fallbackValues,
+            )
+        }
 
         return NextResponse.json({ success: true })
     } catch (err) {

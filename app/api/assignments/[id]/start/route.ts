@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import { pgErrorMessage } from '@/lib/pg-errors'
+import { isMissingColumn, pgErrorMessage } from '@/lib/pg-errors'
+import { prepareLongformQuestionsForStudent } from '@/lib/longform-hints'
 
 function parseId(value: string | undefined) {
     const id = String(value ?? '').trim()
@@ -67,12 +68,23 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             return NextResponse.json({ error: 'student_id or student_email is required' }, { status: 400 })
         }
 
-        const assignmentResult = await db.query(
-            `SELECT id, title, subject, topics, curriculum, question_type, questions_data,
-                    estimated_time, question_count, classroom_id, status, deadline, max_attempts, strict_mode
-             FROM assignments WHERE id = $1 LIMIT 1`,
-            [assignmentId]
-        )
+        let assignmentResult
+        try {
+            assignmentResult = await db.query(
+                `SELECT id, title, subject, topics, curriculum, question_type, questions_data,
+                        estimated_time, question_count, classroom_id, status, deadline, max_attempts, strict_mode, hints_enabled
+                 FROM assignments WHERE id = $1 LIMIT 1`,
+                [assignmentId]
+            )
+        } catch (err) {
+            if (!isMissingColumn(err)) throw err
+            assignmentResult = await db.query(
+                `SELECT id, title, subject, topics, curriculum, question_type, questions_data,
+                        estimated_time, question_count, classroom_id, status, deadline, max_attempts, strict_mode
+                 FROM assignments WHERE id = $1 LIMIT 1`,
+                [assignmentId]
+            )
+        }
         const assignment = assignmentResult.rows[0]
 
         if (!assignment) {
@@ -188,17 +200,24 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
             ? assignment.estimated_time
             : Math.max(10, Math.round(Number(assignment.question_count ?? 10) * 1.5))
 
+        const hintsEnabled = assignment.hints_enabled !== false
+        const questions = prepareLongformQuestionsForStudent(
+            assignment.questions_data,
+            hintsEnabled,
+        )
+
         return NextResponse.json({
             data: {
                 assessment_id: assignment.id,
                 assignment_id: assignment.id,
                 estimated_time: estimatedTime,
-                questions: assignment.questions_data,
+                questions,
                 subject: assignment.subject,
                 topics: assignment.topics ?? [],
                 curriculum: assignment.curriculum,
                 questionType: assignment.question_type,
                 strict_mode: Boolean(assignment.strict_mode ?? false),
+                hints_enabled: hintsEnabled,
             },
         })
     } catch (err) {
