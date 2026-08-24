@@ -1,6 +1,6 @@
 'use client'
 
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 import {
   Search,
   CheckCircle2,
@@ -34,10 +34,13 @@ import { canonicalSubject } from '@/lib/canonical-subject'
  * and what it deliberately excludes.
  *
  * Two modes share one layout. The overview reports the platform at the cohort
- * it is built for; `Live data` reports the rows in the database right now,
- * along with the tagging-coverage diagnostic that only makes sense against
- * today's figures. Both are laid out identically on purpose — the numbers
- * change, the way you read them does not.
+ * it is built for; the measured view reports the rows in the database right
+ * now, along with the tagging-coverage diagnostic that only makes sense
+ * against today's figures. Both are laid out identically on purpose — the
+ * numbers change, the way you read them does not.
+ *
+ * There is no visible switch between them. See LIVE_SHORTCUT below for how the
+ * measured view is reached.
  */
 
 type Mode = 'live' | 'projected'
@@ -138,11 +141,39 @@ interface Overview {
 
 const num = (v: number | null | undefined) => (v ?? 0).toLocaleString()
 
+/**
+ * How to reach the measured figures.
+ *
+ * The page opens on the overview and offers no control for switching. Either
+ * of these gets you the real rows:
+ *
+ *   /admin?live=1            — or ?mode=live
+ *   Ctrl/Cmd + Shift + L     — toggles, and rewrites the URL to match
+ *
+ * There is no button because a button is an invitation, and this page is
+ * usually being shown to someone. The URL survives a refresh and a bookmark,
+ * which is what makes it usable without being visible.
+ */
+const LIVE_SHORTCUT = { key: 'l', shift: true } as const
+
+function liveRequestedByUrl(): boolean {
+  const params = new URLSearchParams(window.location.search)
+  return params.get('live') === '1' || params.get('mode') === 'live'
+}
+
 export default function AdminDashboardPage() {
-  const [mode, setMode] = useState<Mode>('projected')
+  // Starts null so nothing loads before the URL has been read. Defaulting to a
+  // mode and correcting it would fetch the whole dashboard twice, and briefly
+  // show the wrong figures on the way.
+  const [mode, setMode] = useState<Mode | null>(null)
   const [overview, setOverview] = useState<Overview | null>(null)
   const [error, setError] = useState<string | null>(null)
   const [loading, setLoading] = useState(true)
+
+  // Lets the key handler read the current mode without re-binding the listener
+  // on every change.
+  const modeRef = useRef<Mode | null>(null)
+  modeRef.current = mode
 
   const load = useCallback(async (which: Mode) => {
     setLoading(true)
@@ -170,9 +201,42 @@ export default function AdminDashboardPage() {
     }
   }, [])
 
+  // Resolve the mode from the URL before anything is fetched.
   useEffect(() => {
-    void load(mode)
+    setMode(liveRequestedByUrl() ? 'live' : 'projected')
+  }, [])
+
+  useEffect(() => {
+    if (mode) void load(mode)
   }, [mode, load])
+
+  // The unadvertised way in and out. The URL is rewritten to match so a refresh
+  // or a bookmark keeps whichever view you were on.
+  useEffect(() => {
+    function onKey(event: KeyboardEvent) {
+      if (
+        event.key.toLowerCase() !== LIVE_SHORTCUT.key ||
+        !event.shiftKey ||
+        !(event.ctrlKey || event.metaKey)
+      ) {
+        return
+      }
+      event.preventDefault()
+
+      // Read through a ref rather than toggling inside the setState updater.
+      // Updaters have to be pure — React may run them during render, and
+      // replaceState notifies the router, which is a state update mid-render.
+      const next: Mode = modeRef.current === 'live' ? 'projected' : 'live'
+      const url = new URL(window.location.href)
+      if (next === 'live') url.searchParams.set('live', '1')
+      else url.searchParams.delete('live')
+      url.searchParams.delete('mode')
+      window.history.replaceState(null, '', url.toString())
+      setMode(next)
+    }
+    window.addEventListener('keydown', onKey)
+    return () => window.removeEventListener('keydown', onKey)
+  }, [])
 
   const gaps = overview?.data.gaps ?? null
   const lift = overview?.data.lift ?? null
@@ -192,28 +256,18 @@ export default function AdminDashboardPage() {
           </div>
 
           <div className="flex items-center gap-2">
-            <div
-              role="group"
-              aria-label="Data mode"
-              className="inline-flex rounded-xl border border-ss-line bg-ss-canvas p-1"
-            >
-              {(['live', 'projected'] as const).map((m) => (
-                <button
-                  key={m}
-                  type="button"
-                  onClick={() => setMode(m)}
-                  aria-pressed={mode === m}
-                  className={`rounded-lg px-3 py-1.5 text-[13px] font-bold transition-colors focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ss-accent)] ${
-                    mode === m ? 'bg-ss-panel text-ss-ink shadow-sm' : 'text-ss-slate hover:text-ss-ink'
-                  }`}
-                >
-                  {m === 'live' ? 'Live data' : 'Overview'}
-                </button>
-              ))}
-            </div>
+            {/* Only ever rendered on the measured view. Someone who does not
+                know the URL never sees it, and someone who deliberately went
+                there needs telling which figures they are reading. */}
+            {overview?.mode === 'live' && (
+              <span className="inline-flex items-center gap-1.5 rounded-full bg-ss-chip px-3 py-1.5 text-[13px] font-bold text-ss-slate">
+                <span aria-hidden className="h-2 w-2 rounded-full bg-[color:var(--ss-good)]" />
+                Live data
+              </span>
+            )}
             <button
               type="button"
-              onClick={() => void load(mode)}
+              onClick={() => mode && void load(mode)}
               className="grid h-9 w-9 place-items-center rounded-xl border border-ss-line bg-ss-panel text-ss-slate hover:text-ss-ink focus:outline-none focus-visible:ring-2 focus-visible:ring-[color:var(--ss-accent)]"
               aria-label="Reload the dashboard"
             >
