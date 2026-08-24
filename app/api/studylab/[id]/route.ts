@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import { isMissingTable, pgErrorMessage } from '@/lib/pg-errors'
 import { jsonbParam } from '@/lib/pg-json'
+import { policyFor } from '@/lib/studylab/lessonPolicy'
+import { runFromLegacy } from '@/lib/studylab/lessonRunMigrate'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -44,6 +46,21 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
       console.error('LearnSpace messages fetch error:', msgError)
     }
 
+    // Rows saved before runs existed derive one here rather than in a batch
+    // job: no downtime, and a lesson nobody opens again costs nothing. The
+    // derived run is written back on the next save, so each space converts once.
+    const policy = policyFor(space.origin)
+    const lessonRun =
+      space.lesson_run ??
+      runFromLegacy(
+        {
+          plan: space.canvas_state?.plan ?? null,
+          currentStep: space.current_step,
+          status: space.status,
+        },
+        policy,
+      )
+
     let focus: Record<string, any> | null = null
     if (space.origin === 'gap') {
       focus = {
@@ -67,7 +84,7 @@ export async function GET(_request: NextRequest, { params }: { params: Promise<{
       }
     }
 
-    return NextResponse.json({ data: space, messages, focus })
+    return NextResponse.json({ data: space, messages, focus, lesson_run: lessonRun })
   } catch (err) {
     console.error('LearnSpace fetch error:', err)
     return NextResponse.json({ error: 'Failed to load LearnSpace' }, { status: 500 })
@@ -91,6 +108,10 @@ export async function PUT(request: NextRequest, { params }: { params: Promise<{ 
     if (body.canvas_state !== undefined) {
       sets.push(`canvas_state = $${idx++}::jsonb`)
       values.push(jsonbParam(body.canvas_state))
+    }
+    if (body.lesson_run !== undefined) {
+      sets.push(`lesson_run = $${idx++}::jsonb`)
+      values.push(jsonbParam(body.lesson_run))
     }
     if (body.current_step !== undefined) {
       sets.push(`current_step = $${idx++}`)
