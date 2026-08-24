@@ -13,8 +13,25 @@ vi.mock('@/lib/admin/metrics', () => ({
   metricWarnings: vi.fn(),
 }))
 
+// Same reasoning: gap-metrics.test.ts already exercises this SQL against an
+// injected database, and leaving it live here would make the route's contract
+// depend on a reachable Postgres.
+vi.mock('@/lib/admin/gap-metrics', () => ({
+  GAP_THRESHOLD: 50,
+  loadGapLifecycle: vi.fn(),
+  loadGapTimeline: vi.fn(),
+  loadTaggingCoverage: vi.fn(),
+  loadPerformanceLift: vi.fn(),
+}))
+
 import { requirePlatformAdmin } from '@/lib/auth/admin'
 import { loadAdminMetrics, metricWarnings } from '@/lib/admin/metrics'
+import {
+  loadGapLifecycle,
+  loadGapTimeline,
+  loadTaggingCoverage,
+  loadPerformanceLift,
+} from '@/lib/admin/gap-metrics'
 import { GET } from './route'
 
 const METRICS = {
@@ -26,8 +43,19 @@ const METRICS = {
   studyLoop: { data: null },
 }
 
-function overviewRequest() {
-  return new NextRequest('https://studysquare.test/api/admin/overview')
+const GAPS = {
+  identified: 162, closed: 6, stillOpen: 156, closureRate: 3.7,
+  medianDaysToClose: 0.048, studentsWithGaps: 14, subtopicsAffected: 157,
+}
+const COVERAGE = { assessments: 1923, tagged: 178, coverage: 9.3, gapsPerTaggedPaper: 0.91 }
+const LIFT = {
+  students: 56, firstThreeAvg: 55.7, lastThreeAvg: 67.1, deltaPoints: 11.4, deltaRelative: 20.5,
+}
+
+function overviewRequest(mode?: 'live' | 'projected') {
+  const url = new URL('https://studysquare.test/api/admin/overview')
+  if (mode) url.searchParams.set('mode', mode)
+  return new NextRequest(url)
 }
 
 function deniedResponse(
@@ -46,6 +74,10 @@ describe('GET /api/admin/overview', () => {
     vi.mocked(requirePlatformAdmin).mockReset()
     vi.mocked(loadAdminMetrics).mockReset().mockResolvedValue(METRICS as never)
     vi.mocked(metricWarnings).mockReset().mockReturnValue(['Engagement unavailable'])
+    vi.mocked(loadGapLifecycle).mockReset().mockResolvedValue(GAPS as never)
+    vi.mocked(loadGapTimeline).mockReset().mockResolvedValue([] as never)
+    vi.mocked(loadTaggingCoverage).mockReset().mockResolvedValue(COVERAGE as never)
+    vi.mocked(loadPerformanceLift).mockReset().mockResolvedValue(LIFT as never)
   })
 
   it('returns the unchanged 401 response when no session is authorized', async () => {
@@ -96,7 +128,7 @@ describe('GET /api/admin/overview', () => {
   it('guards the request once before returning ready status to an admin', async () => {
     vi.mocked(requirePlatformAdmin).mockResolvedValueOnce({
       ok: true,
-      principal: { userId: 'admin-1', role: 'platform_admin' },
+      admin: { userId: 'admin-1', email: 'admin@studysquare.test', name: 'Admin' },
     })
     const request = overviewRequest()
 
@@ -110,7 +142,7 @@ describe('GET /api/admin/overview', () => {
   it('returns exact non-cacheable metadata for an allowed request', async () => {
     vi.mocked(requirePlatformAdmin).mockResolvedValueOnce({
       ok: true,
-      principal: { userId: 'admin-1', role: 'platform_admin' },
+      admin: { userId: 'admin-1', email: 'admin@studysquare.test', name: 'Admin' },
     })
 
     const response = await GET(overviewRequest())
@@ -130,12 +162,52 @@ describe('GET /api/admin/overview', () => {
     // returned zero", and a null with a matching warning is how it does that.
     vi.mocked(requirePlatformAdmin).mockResolvedValueOnce({
       ok: true,
-      principal: { userId: 'admin-1', role: 'platform_admin' },
+      admin: { userId: 'admin-1', email: 'admin@studysquare.test', name: 'Admin' },
     })
 
     const payload = await (await GET(overviewRequest())).json()
     expect(payload.data.engagement).toBeNull()
     expect(payload.metadata.warnings).toEqual(['Engagement unavailable'])
+  })
+
+  it('defaults to measured data rather than the projection', async () => {
+    // A dashboard that opens on modelled figures without saying so is the one
+    // way this page could actively mislead someone.
+    vi.mocked(requirePlatformAdmin).mockResolvedValueOnce({
+      ok: true,
+      admin: { userId: 'admin-1', email: null, name: null },
+    })
+    const payload = await (await GET(overviewRequest())).json()
+    expect(payload.mode).toBe('live')
+    expect(payload.model).toBeNull()
+    expect(payload.data.gaps.identified).toBe(162)
+  })
+
+  it('answers a projected request from the model, never from the database', async () => {
+    vi.mocked(requirePlatformAdmin).mockResolvedValueOnce({
+      ok: true,
+      admin: { userId: 'admin-1', email: null, name: null },
+    })
+
+    const payload = await (await GET(overviewRequest('projected'))).json()
+
+    expect(payload.mode).toBe('projected')
+    expect(payload.data.gaps.identified).toBe(21_436)
+    expect(loadGapLifecycle).not.toHaveBeenCalled()
+    // The assumptions have to travel with the numbers they produced.
+    expect(payload.model.students.basis).toBe('modelled')
+  })
+
+  it('keeps the platform counts measured even in projected mode', async () => {
+    // Student and teacher counts are real either way; overwriting them with a
+    // forecast would make the page unable to state anything true.
+    vi.mocked(requirePlatformAdmin).mockResolvedValueOnce({
+      ok: true,
+      admin: { userId: 'admin-1', email: null, name: null },
+    })
+    const payload = await (await GET(overviewRequest('projected'))).json()
+    expect(payload.data.headline).toEqual({ students: 845, teachers: 84 })
+    expect(payload.data.taggingCoverage).toEqual(COVERAGE)
   })
 
   it('does not touch the database for a request it rejects', async () => {

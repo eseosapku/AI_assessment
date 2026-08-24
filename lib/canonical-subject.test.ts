@@ -99,4 +99,11 @@ describe('edition markers', () => {
     // Cambridge stages are levels, handled elsewhere; a bare number stays.
     expect(canonicalSubject('Computing 9')).toBe('Computing 9')
   })
+
+  it('strips a book marker written with dots', () => {
+    // "Geography S.B" and "Geography S4 SB" are the same subject; the dotted
+    // form used to survive and show up as a second row beside the first.
+    expect(canonicalSubject('Geography S.B')).toBe('Geography')
+    expect(canonicalSubject('Physics S.B.')).toBe('Physics')
+  })
 })

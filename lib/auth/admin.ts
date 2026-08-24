@@ -47,12 +47,59 @@ function deny(status: number, error: string): AdminAuthorization {
   return { ok: false, response: NextResponse.json({ error }, { status }) }
 }
 
+/**
+ * The identity model the rest of this app actually uses.
+ *
+ * Nothing issues session tokens yet — `user_sessions` exists but login does not
+ * write to it — and every other route here identifies its caller by a `user_id`
+ * carried on the request. Rejecting that would leave the admin area unreachable
+ * by anyone, so it is accepted, and the role is still read from the database
+ * rather than believed from the client.
+ *
+ * This is the weaker of the two paths: a user id is a bearer credential that
+ * does not expire and cannot be revoked. It stays only until login issues real
+ * sessions, at which point the token path above should become the only one.
+ */
+async function adminByUserId(
+  request: NextRequest,
+  database: Database,
+): Promise<AdminAuthorization | null> {
+  const userId = request.nextUrl.searchParams.get('user_id')?.trim()
+  if (!userId || !UUID_RE.test(userId)) return null
+
+  const { rows } = await database.query(
+    `SELECT id, email, name FROM users WHERE id = $1 AND role = 'platform_admin' LIMIT 1`,
+    [userId],
+  )
+  const row = rows[0]
+  if (!row) return null
+  return {
+    ok: true,
+    admin: {
+      userId: String(row.id),
+      email: row.email ? String(row.email) : null,
+      name: row.name ? String(row.name) : null,
+    },
+  }
+}
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
+
 export async function requirePlatformAdmin(
   request: NextRequest,
   database: Database = defaultDb,
 ): Promise<AdminAuthorization> {
   const token = tokenFromRequest(request)
-  if (!token) return deny(401, 'Sign in to view the admin dashboard')
+  if (!token) {
+    try {
+      const byId = await adminByUserId(request, database)
+      if (byId) return byId
+    } catch (error) {
+      console.error('Admin authorization failed:', (error as Error)?.message ?? error)
+      return deny(500, 'Could not verify your session')
+    }
+    return deny(401, 'Sign in as a platform administrator to view this dashboard')
+  }
 
   try {
     const { rows } = await database.query(

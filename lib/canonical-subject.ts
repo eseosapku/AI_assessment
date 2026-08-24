@@ -30,7 +30,7 @@ const PREFIX_NOISE = /^\s*(?:general\s+edu(?:cation)?|core|adapted)\s*[-–:]?\s
  * Book-type markers. SB is Student Book, PB Pupil's Book, TG Teacher's Guide —
  * they describe the artefact, never the subject.
  */
-const BOOK_MARKER = /\b(?:sb|pb|tb|tg|lb|student ?book|pupils? ?book|learners? ?book|teachers? ?guide)\b/gi
+const BOOK_MARKER = /\b(?:s\.?\s?b|p\.?\s?b|t\.?\s?b|t\.?\s?g|l\.?\s?b|student ?book|pupils? ?book|learners? ?book|teachers? ?guide)\b/gi
 
 /**
  * Edition markers. "Cambridge IGCSE Biology MARRY JONES 4th Ed" is a real
