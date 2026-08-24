@@ -1,5 +1,7 @@
+import { randomUUID } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
-import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
+import { BedrockRuntimeClient, InvokeModelCommand, InvokeModelCommandOutput } from '@aws-sdk/client-bedrock-runtime'
+import { withUsageTracking } from '@/lib/ai-usage-recorder'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { jsonrepair } from 'jsonrepair'
 import { db } from '@/lib/db'
@@ -1195,6 +1197,12 @@ export async function POST(request: NextRequest) {
 
     const userId = String(user_id ?? '').trim()
 
+    // One id for the whole generation, so every model attempt this request
+    // makes — including the fallbacks — groups into a single billable unit in
+    // the usage ledger.
+    const usageRequestId = randomUUID()
+    const usageUserId = userId || null
+
     if (userId) {
       const gate = await assertSubscriptionAccess(userId, 'assessment')
       if (!gate.allowed) {
@@ -1644,7 +1652,21 @@ ${commandBlock}`
               accept: 'application/json',
               body: buildBedrockBody(modelId, prompt, maxTokens),
             })
-            const res = await bedrockClient.send(cmd, { abortSignal: controller.signal })
+            // Every attempt is recorded, including the ones that fail over to
+            // the next model id — a fallback that burned tokens still cost
+            // money, and a ledger that only sees successes understates the
+            // bill by exactly the amount worth knowing about.
+            const res = await withUsageTracking(
+              {
+                modelId,
+                feature: 'generate_assessment',
+                requestId: usageRequestId,
+                userId: usageUserId,
+                parseBody: (r: InvokeModelCommandOutput) =>
+                  JSON.parse(new TextDecoder().decode(r.body)),
+              },
+              () => bedrockClient.send(cmd, { abortSignal: controller.signal }),
+            )
             const parsed = JSON.parse(new TextDecoder().decode(res.body))
             const text = extractBedrockText(modelId, parsed)
             if (!text?.trim()) throw new Error(`Empty model response from ${modelId}`)

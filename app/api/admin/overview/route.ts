@@ -20,6 +20,12 @@ import {
   loadCollectionPoints,
 } from '@/lib/admin/growth-metrics'
 import {
+  loadLearningCurve,
+  loadSubjectImprovement,
+  loadMasteryMix,
+} from '@/lib/admin/improvement-metrics'
+import { loadCostMetrics } from '@/lib/admin/cost-metrics'
+import {
   projectGaps,
   projectLift,
   projectTimeline,
@@ -77,7 +83,12 @@ export async function GET(request: NextRequest) {
   // The platform metrics are measured in both modes — student counts, subject
   // performance and time-on-task are real in a way a forecast has no business
   // overwriting.
-  const [metrics, coverage, funnel, retention, assignments, tutor, curriculum, recall, collection] =
+  const isProjected = mode === 'projected'
+
+  const [
+    metrics, coverage, funnel, retention, assignments, tutor, curriculum, recall, collection,
+    curve, subjectImprovement, masteryMix, cost,
+  ] =
     await Promise.all([
       loadAdminMetrics(),
       guard('Tagging coverage', () => loadTaggingCoverage()),
@@ -88,6 +99,15 @@ export async function GET(request: NextRequest) {
       guard('Curriculum mix', () => loadCurriculumMix()),
       guard('Recall', () => loadRecallHealth()),
       guard('Collection points', () => loadCollectionPoints()),
+      guard('Learning curve', () => loadLearningCurve()),
+      guard('Subject improvement', () => loadSubjectImprovement()),
+      guard('Mastery mix', () => loadMasteryMix()),
+      // Cost is asked the same question in both modes — what does it take to
+      // serve one student — but at the cohort the mode is describing, since the
+      // fixed part of the bill is what makes that answer change with size.
+      guard('Cost', () =>
+        loadCostMetrics(undefined, isProjected ? { atScale: true, activeStudents: 6040 } : {}),
+      ),
     ])
 
   let gaps: { data: GapLifecycle | null; error?: string }
@@ -111,7 +131,10 @@ export async function GET(request: NextRequest) {
 
   const warnings = [
     ...metricWarnings(metrics),
-    ...[coverage, gaps, timeline, lift, funnel, retention, assignments, tutor, curriculum, recall, collection]
+    ...[
+      coverage, gaps, timeline, lift, funnel, retention, assignments, tutor,
+      curriculum, recall, collection, curve, subjectImprovement, masteryMix, cost,
+    ]
       .map((m) => m.error)
       .filter((e): e is string => Boolean(e)),
   ]
@@ -120,7 +143,7 @@ export async function GET(request: NextRequest) {
   // gaps above 844 students reads as a broken query rather than a bigger
   // platform. The subject mix, pass rates and activity shape stay exactly as
   // measured — only the magnitudes scale.
-  const projected = mode === 'projected'
+  const projected = isProjected
 
   return NextResponse.json(
     {
@@ -145,6 +168,12 @@ export async function GET(request: NextRequest) {
         // What is not being captured is a fact about today's instrumentation.
         // It has no meaning against a modelled cohort, so it is only sent live.
         collectionPoints: projected ? null : collection.data,
+        // Improvement evidence is measured in both modes. Modelling a learning
+        // curve would be modelling the one claim the platform exists to make.
+        learningCurve: curve.data,
+        subjectImprovement: subjectImprovement.data,
+        masteryMix: masteryMix.data,
+        cost: cost.data,
       },
       metadata: {
         sources: [

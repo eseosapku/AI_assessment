@@ -18,6 +18,9 @@ import { Panel } from '@/components/admin/Panel'
 import { HeadlineStat } from '@/components/admin/HeadlineStat'
 import { GapFlowChart, type GapFlowPoint } from '@/components/admin/GapFlowChart'
 import { FunnelBars, type FunnelStage } from '@/components/admin/FunnelBars'
+import { LearningCurve, type CurvePoint } from '@/components/admin/LearningCurve'
+import { SubjectImprovementTable, MasteryMixView } from '@/components/admin/ImprovementViews'
+import { CostView } from '@/components/admin/CostView'
 import { canonicalSubject } from '@/lib/canonical-subject'
 
 /**
@@ -97,6 +100,21 @@ interface Overview {
       key: string; label: string; status: string; captured: number
       possible: number | null; worth: string; state: 'live' | 'partial' | 'silent'
     }[] | null
+    learningCurve: CurvePoint[] | null
+    subjectImprovement: {
+      subject: string; students: number; firstPaper: number; lastPaper: number; deltaPoints: number
+    }[] | null
+    masteryMix: {
+      gap: number; developing: number; mastered: number; total: number; masteredShare: number
+    } | null
+    cost: {
+      basis: 'measured' | 'estimated'
+      lines: { key: string; label: string; model: string; calls: number; totalUsd: number; perCallUsd: number; bucket: string }[]
+      aiTotalUsd: number; aiMonthlyUsd: number; infrastructureMonthlyUsd: number
+      totalMonthlyUsd: number; activeStudents: number
+      costPerStudentMonthUsd: number; aiPerStudentMonthUsd: number
+      revenuePerStudentUsd: number; grossMarginPct: number; breakEvenStudents: number
+    } | null
   }
   metadata: { generatedAt: string; warnings: string[] }
 }
@@ -354,6 +372,45 @@ export default function AdminDashboardPage() {
                 </Panel>
               </div>
             )}
+            {/* The shape of the improvement */}
+            {overview.data.learningCurve && overview.data.learningCurve.length > 1 && (
+              <div className="mt-4">
+                <Panel
+                  title="Scores by how many papers a student has sat"
+                  hint="The shape of the improvement, rather than its two endpoints."
+                  method="Every marked paper placed by its position in that student's own history, then averaged across all students at that position. Not a single cohort followed through time, so later positions are drawn from fewer students."
+                >
+                  <LearningCurve points={overview.data.learningCurve} />
+                </Panel>
+              </div>
+            )}
+
+            <div className="mt-4 grid gap-4 lg:grid-cols-[1.3fr_1fr]">
+              <Panel
+                title="Improvement by subject"
+                hint="Whether the gain is broad or one subject carrying the average."
+                method="Each student's first paper in a subject against their most recent one, for students with at least two. A looser window than the headline figure, because almost nobody has six papers in a single subject."
+              >
+                {overview.data.subjectImprovement && overview.data.subjectImprovement.length > 0 ? (
+                  <SubjectImprovementTable rows={overview.data.subjectImprovement} />
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+
+              <Panel
+                title="Where measured knowledge sits"
+                hint="The level a lesson can actually be built against."
+                method="Every subtopic with at least one attempt, banded at the same thresholds the student's own gap map uses: under 50% a gap, under 80% developing, at or above mastered."
+              >
+                {overview.data.masteryMix && overview.data.masteryMix.total > 0 ? (
+                  <MasteryMixView m={overview.data.masteryMix} />
+                ) : (
+                  <Unavailable />
+                )}
+              </Panel>
+            </div>
+
             {/* Who sticks around */}
             <div className="mt-4 grid gap-4 lg:grid-cols-[1fr_1fr]">
               <Panel
@@ -507,6 +564,23 @@ export default function AdminDashboardPage() {
                 )}
               </Panel>
             </div>
+
+            {/* What it costs to run */}
+            {overview.data.cost && (
+              <div className="mt-4">
+                <Panel
+                  title="What it costs to serve a student"
+                  hint="Inference, infrastructure, and what is left of the subscription."
+                  method={
+                    overview.data.cost.basis === 'measured'
+                      ? 'Token counts from the usage ledger, priced at the per-model rates in cost-metrics.ts.'
+                      : 'Nothing writes to the usage ledger yet, so inference is estimated: real operation counts multiplied by per-call token profiles and per-model list rates. Infrastructure is entered by hand — none of it lives in this database. Both are in cost-metrics.ts and should be corrected against an AWS invoice before anyone quotes the margin.'
+                  }
+                >
+                  <CostView c={overview.data.cost} />
+                </Panel>
+              </div>
+            )}
 
             {/* What we are not measuring yet */}
             {overview.data.collectionPoints && overview.data.collectionPoints.length > 0 && (

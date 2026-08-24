@@ -16,6 +16,16 @@ vi.mock('@/lib/admin/metrics', () => ({
 // Same reasoning: gap-metrics.test.ts already exercises this SQL against an
 // injected database, and leaving it live here would make the route's contract
 // depend on a reachable Postgres.
+vi.mock('@/lib/admin/improvement-metrics', () => ({
+  loadLearningCurve: vi.fn(),
+  loadSubjectImprovement: vi.fn(),
+  loadMasteryMix: vi.fn(),
+}))
+
+vi.mock('@/lib/admin/cost-metrics', () => ({
+  loadCostMetrics: vi.fn(),
+}))
+
 vi.mock('@/lib/admin/growth-metrics', () => ({
   loadFunnel: vi.fn(),
   loadRetentionCohorts: vi.fn(),
@@ -36,6 +46,12 @@ vi.mock('@/lib/admin/gap-metrics', () => ({
 
 import { requirePlatformAdmin } from '@/lib/auth/admin'
 import { loadAdminMetrics, metricWarnings } from '@/lib/admin/metrics'
+import {
+  loadLearningCurve,
+  loadSubjectImprovement,
+  loadMasteryMix,
+} from '@/lib/admin/improvement-metrics'
+import { loadCostMetrics } from '@/lib/admin/cost-metrics'
 import {
   loadFunnel,
   loadRetentionCohorts,
@@ -88,6 +104,20 @@ const COLLECTION = [
   { key: 'cost', label: 'AI spend', status: 'Nothing written', captured: 0, possible: null, worth: 'x', state: 'silent' },
 ]
 
+const CURVE = [
+  { nth: 1, students: 431, avgScore: 63.6 },
+  { nth: 2, students: 254, avgScore: 58.6 },
+]
+const MASTERY = { gap: 150, developing: 51, mastered: 104, total: 305, masteredShare: 34.1 }
+const COST = {
+  basis: 'estimated' as const,
+  lines: [],
+  aiTotalUsd: 3.08, aiMonthlyUsd: 0.44, infrastructureMonthlyUsd: 300,
+  totalMonthlyUsd: 300.44, activeStudents: 431,
+  costPerStudentMonthUsd: 0.697, aiPerStudentMonthUsd: 0.001,
+  revenuePerStudentUsd: 5, grossMarginPct: 86.1, breakEvenStudents: 60,
+}
+
 function overviewRequest(mode?: 'live' | 'projected') {
   const url = new URL('https://studysquare.test/api/admin/overview')
   if (mode) url.searchParams.set('mode', mode)
@@ -121,6 +151,10 @@ describe('GET /api/admin/overview', () => {
     vi.mocked(loadCurriculumMix).mockReset().mockResolvedValue([] as never)
     vi.mocked(loadRecallHealth).mockReset().mockResolvedValue(RECALL as never)
     vi.mocked(loadCollectionPoints).mockReset().mockResolvedValue(COLLECTION as never)
+    vi.mocked(loadLearningCurve).mockReset().mockResolvedValue(CURVE as never)
+    vi.mocked(loadSubjectImprovement).mockReset().mockResolvedValue([] as never)
+    vi.mocked(loadMasteryMix).mockReset().mockResolvedValue(MASTERY as never)
+    vi.mocked(loadCostMetrics).mockReset().mockResolvedValue(COST as never)
   })
 
   it('returns the unchanged 401 response when no session is authorized', async () => {
@@ -240,6 +274,34 @@ describe('GET /api/admin/overview', () => {
     // The derivation stays server-side; the dashboard renders figures, not
     // arithmetic.
     expect(payload.data.gaps).not.toHaveProperty('identifiedChain')
+  })
+
+  it('never models the improvement evidence, in either mode', async () => {
+    // The learning curve is the one claim the platform exists to make. A
+    // modelled version of it would be modelling the conclusion.
+    vi.mocked(requirePlatformAdmin).mockResolvedValue({
+      ok: true,
+      admin: { userId: 'admin-1', email: null, name: null },
+    })
+
+    const live = await (await GET(overviewRequest('live'))).json()
+    const projected = await (await GET(overviewRequest('projected'))).json()
+
+    expect(projected.data.learningCurve).toEqual(live.data.learningCurve)
+    expect(projected.data.masteryMix).toEqual(live.data.masteryMix)
+  })
+
+  it('costs the modelled cohort at its own size, not today\'s', async () => {
+    // The fixed part of the bill is already paid, so serving fourteen times the
+    // students must not cost fourteen times as much.
+    vi.mocked(requirePlatformAdmin).mockResolvedValue({
+      ok: true,
+      admin: { userId: 'admin-1', email: null, name: null },
+    })
+
+    await GET(overviewRequest('projected'))
+
+    expect(loadCostMetrics).toHaveBeenCalledWith(undefined, { atScale: true, activeStudents: 6040 })
   })
 
   it('only reports collection gaps against measured figures', async () => {
