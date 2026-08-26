@@ -2,6 +2,9 @@
 
 import { ArrowLeft, Brain, Layers, CheckCircle2, Circle, CircleDot, StickyNote } from 'lucide-react'
 import type { PlanStep } from '@/lib/studylab/types'
+import { railSteps } from '@/lib/studylab/planRail'
+import type { LessonRun } from '@/lib/studylab/lessonRun'
+import { policyFor, type LessonPolicy, type Pace } from '@/lib/studylab/lessonPolicy'
 
 interface StepGroupSummary {
   id: string
@@ -17,6 +20,13 @@ interface StudyLabSidebarProps {
   cardCount: number
   onBack: () => void
   onFocusGroup: (id: string) => void
+  run?: LessonRun | null
+  // Optional for now: no caller passes a run yet, so the rail stays empty and
+  // these are unused — Task 9 wires a real run through and starts sending them.
+  policy?: LessonPolicy
+  onTestOut?: (stepId: string) => void
+  onJump?: (stepId: string) => void
+  onSetPace?: (pace: Pace) => void
 }
 
 export default function StudyLabSidebar({
@@ -28,10 +38,17 @@ export default function StudyLabSidebar({
   cardCount,
   onBack,
   onFocusGroup,
+  run,
+  policy = policyFor('scratch'),
+  onTestOut = () => {},
+  onJump = () => {},
+  onSetPace = () => {},
 }: StudyLabSidebarProps) {
   const hasPlan = !!plan && plan.length > 0
   const completed = hasPlan ? Math.max(currentStep - 1, 0) : groups.length
   const total = hasPlan ? plan!.length : Math.max(currentStep, groups.length)
+  const rail = railSteps(run ?? null, policy)
+  const hasRail = rail.length > 0
 
   return (
     <aside className="w-64 shrink-0 h-full flex flex-col bg-[#0e0f12] text-gray-300 border-r border-white/5">
@@ -70,8 +87,56 @@ export default function StudyLabSidebar({
           <Layers className="w-3.5 h-3.5" />
           Steps
         </div>
+        {run && (
+          <div className="flex gap-1 px-3 pb-2">
+            {(['step', 'run'] as const).map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => onSetPace(p)}
+                aria-pressed={run.pace === p}
+                className={`rounded-lg px-2 py-1 text-[12px] font-bold ${
+                  run.pace === p ? 'bg-white/10 text-white' : 'text-ss-slate hover:text-white'
+                }`}
+              >
+                {p === 'step' ? 'Step by step' : 'Run ahead'}
+              </button>
+            ))}
+          </div>
+        )}
         <div className="space-y-1">
-          {hasPlan ? (
+          {hasRail ? (
+            rail.map((step) => (
+              <li key={step.id} className="px-3 py-2">
+                <button
+                  type="button"
+                  onClick={() => onJump(step.id)}
+                  className={`block w-full text-left text-[13px] font-semibold ${
+                    step.current ? 'text-white' : 'text-ss-slate hover:text-white'
+                  }`}
+                >
+                  {step.title}
+                </button>
+
+                {step.measured !== null && (
+                  <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">
+                    measured {step.measured}%
+                  </span>
+                )}
+
+                {step.canTestOut && (
+                  <button
+                    type="button"
+                    aria-label={`Test out of ${step.title}`}
+                    onClick={() => onTestOut(step.id)}
+                    className="mt-1 rounded-lg px-2 py-1 text-[12px] font-bold text-ss-accent hover:bg-[color:var(--ss-accent)]/15"
+                  >
+                    I know this
+                  </button>
+                )}
+              </li>
+            ))
+          ) : hasPlan ? (
             plan!.map((p, i) => {
               const stepNo = i + 1
               const state = stepNo < currentStep ? 'done' : stepNo === currentStep ? 'current' : 'upcoming'
