@@ -1,24 +1,18 @@
+import { randomUUID } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
-import { callGemma, parseJsonRobust, fixLatexInRawJson, hasBedrockCredentials, type ImageInput } from '@/lib/bedrock'
-import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
+import { db } from '@/lib/db'
+import { jsonbParam } from '@/lib/pg-json'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
-import { isValidAction } from '@/lib/studylab/actions'
-import { cleanSay, cleanSuggestions } from '@/lib/studylab/tutorClean'
-import type { TutorAction, TutorResponse } from '@/lib/studylab/types'
-import { checkRateLimit, identify } from '@/lib/rate-limit'
+import { policyFor } from '@/lib/studylab/lessonPolicy'
+import { runFromLegacy } from '@/lib/studylab/lessonRunMigrate'
+import { proposePlan, type LessonRun } from '@/lib/studylab/lessonRun'
+import { applyAction, draftPlan } from './dispatch'
 
-// The tutor turn orchestrates the whole whiteboard, so it runs on a stronger
-// model than the cheap default. Overridable per-env without a code change.
-const TUTOR_MODEL = process.env.AWS_TUTOR_MODEL_ID || 'google.gemma-3-27b-it'
-
-function parseImage(value: unknown): ImageInput | null {
-  if (typeof value !== 'string') return null
-  const m = value.match(/^data:([^;]+);base64,(.+)$/)
-  if (!m) return null
-  return { mimeType: m[1], base64: m[2] }
-}
-
-const SYSTEM = `You are the AI tutor inside "StudyLab", a spatial learning workspace. The student learns on an infinite whiteboard; you speak to them in a small side chat.
+// Every card type, the LaTeX rule, the connect rule and the checkpoint
+// question shapes live here. `dispatch.ts` prepends this to the teaching
+// job's prompt so the model still knows what a card is once the route no
+// longer builds the whole prompt itself.
+export const SYSTEM = `You are the AI tutor inside "StudyLab", a spatial learning workspace. The student learns on an infinite whiteboard; you speak to them in a small side chat.
 
 ★ CORE PRINCIPLE: THE WHITEBOARD IS THE LESSON. ★
 You teach by BUILDING the board — every concept, example, diagram and step becomes a CARD. The chat is NOT where the lesson lives:
@@ -111,263 +105,84 @@ EXAMPLE of one good turn (the student just said they're ready; topic = Binary Se
   "done": false
 }`
 
-interface IncomingMessage {
-  role: 'user' | 'assistant'
-  content: string
-}
-
-interface GapFocus {
-  topic_name?: string | null
-  subtopic_name?: string | null
-}
-
-interface CheckpointInfo {
-  id: string
-  step: number
-  total: number
-  answered: number
-  correct: number
-  done: boolean
-}
-
-function buildPrompt(opts: {
-  title: string
-  subject?: string | null
-  currentStep: number
-  existingCards: { id: string; title: string; step: number }[]
-  checkpoints: CheckpointInfo[]
-  plan: { title: string; goal: string }[]
-  history: IncomingMessage[]
-  userMessage: string
-  origin?: string
-  focus?: GapFocus | null
-  imageState?: 'attached' | 'unreadable'
-}): string {
-  const { title, subject, currentStep, existingCards, checkpoints, plan, history, userMessage, origin, focus, imageState } = opts
-  const historyText = history
-    .slice(-10)
-    .map((m) => `${m.role === 'user' ? 'STUDENT' : 'TUTOR'}: ${m.content}`)
-    .join('\n')
-
-  const isGap = origin === 'gap'
-  const focusLine = isGap
-    ? `\nLEARNING-GAP MODE: This session was opened from the student's Learning Gap Map because they are STRUGGLING with this area${
-        focus?.subtopic_name ? ` (subtopic: "${focus.subtopic_name}"` : ''
-      }${focus?.topic_name ? `${focus?.subtopic_name ? ', ' : ' ('}topic: "${focus.topic_name}")` : focus?.subtopic_name ? ')' : ''}.`
-    : ''
-
-  const gapGuidance = isGap
-    ? `
-
-REMEDIATION GUIDANCE (gap mode):
-- Assume the student has seen this before but has misconceptions. Start by gently diagnosing WHERE the gap is with one focused question, then teach from the foundations up.
-- Keep each step small and concrete; lead with a worked example, then a check-for-understanding question before advancing.
-- Be encouraging and confidence-building. Frame mistakes as normal and fixable.`
-    : ''
-
-  const isHomework = origin === 'homework'
-  const homeworkGuidance = isHomework
-    ? `
-
-HOMEWORK MODE: This session was started by snapping a photo of a homework problem (attached on the FIRST turn).
-- On the first turn: read the problem carefully, then create a "concept" or "callout" card that RESTATES the problem clearly (so it's pinned on the board), and draft the "plan" as the steps to solve it.
-- TEACH the method, don't just dump the answer. Walk the solution as worked cards step by step, and use checkpoints so the student practises the method themselves.
-- If several sub-problems are in the photo, focus on one at a time.`
-    : ''
-
-  const imageLine =
-    imageState === 'attached'
-      ? `\nIMAGE ATTACHED: The student has attached an image of their work (it is included with this request). Read it carefully — transcribe any handwriting, follow their working, and pinpoint exactly where they go wrong. Reference what you see specifically, and you may create a card summarising the error and the correction.`
-      : imageState === 'unreadable'
-        ? `\nIMAGE ATTACHED: The student attached an image of their work, but it could not be processed automatically. Acknowledge it warmly and ask them to type out the key line or describe where they're stuck so you can help.`
-        : ''
-
-  return `${SYSTEM}${gapGuidance}${homeworkGuidance}
-
-────────────────────────────────────────
-TOPIC: ${title}${subject ? `\nSUBJECT: ${subject}` : ''}${focusLine}
-${
-  plan.length
-    ? `LESSON PLAN (your outline — teach toward the CURRENT step's goal, then checkpoint and move to the next):\n${plan
-        .map((p, i) => `  ${i + 1}. ${p.title} — ${p.goal}${i + 1 === currentStep ? '   ← CURRENT STEP' : ''}`)
-        .join('\n')}`
-    : 'LESSON PLAN: (none yet — on THIS first turn, draft one in the "plan" field)'
-}
-CURRENT STEP: ${currentStep}
-EXISTING CARDS ON CANVAS (do NOT recreate these — build on them and "connect" parent→child to their ids):
-${existingCards.length ? existingCards.map((c) => `  ${c.id} "${c.title}" (step ${c.step})`).join('\n') : '  (none yet)'}
-CHECKPOINTS ALREADY ON CANVAS (a step listed here HAS been tested — do NOT create or announce another check for that step; move on):
-${
-  checkpoints.length
-    ? checkpoints
-        .map(
-          (c) =>
-            `  ${c.id} (step ${c.step}) — ${c.done ? `answered ${c.correct}/${c.total}` : `${c.answered}/${c.total} answered, still pending`}`
-        )
-        .join('\n')
-    : '  (none yet)'
-}${imageLine}
-
-CONVERSATION SO FAR:
-${historyText || '(this is the very first turn)'}
-
-STUDENT'S LATEST MESSAGE: ${userMessage || '(the student just opened the LearnSpace — begin teaching Step 1)'}
-────────────────────────────────────────
-
-Respond now with ONLY the JSON object.`
-}
-
-function sanitizeResponse(parsed: any, currentStep: number): TutorResponse {
-  const actions: TutorAction[] = Array.isArray(parsed?.actions)
-    ? parsed.actions.filter((a: any) => isValidAction(a))
-    : []
-  const rawSay = typeof parsed?.say === 'string' && parsed.say.trim() ? parsed.say.trim() : "Let's keep going."
-  const rawSuggestions = Array.isArray(parsed?.suggestions)
-    ? parsed.suggestions.filter((s: any) => typeof s === 'string')
-    : []
-  return {
-    // Guards: strip card-announcement filler from the chat, and drop chat chips
-    // that are really card actions ("Run the code").
-    say: cleanSay(rawSay),
-    actions,
-    awaitUser: parsed?.awaitUser !== false,
-    suggestions: cleanSuggestions(rawSuggestions).slice(0, 3),
-    step: Number.isFinite(Number(parsed?.step)) ? Number(parsed.step) : currentStep || 1,
-    done: parsed?.done === true,
-    plan: Array.isArray(parsed?.plan)
-      ? parsed.plan
-          .filter((p: any) => p && typeof p.title === 'string')
-          .map((p: any) => ({ title: String(p.title), goal: typeof p.goal === 'string' ? p.goal : '' }))
-          .slice(0, 8)
-      : undefined,
-  }
-}
-
 export async function POST(request: NextRequest) {
   try {
-    if (!hasBedrockCredentials()) {
-      return NextResponse.json(
-        { error: BEDROCK_CREDENTIALS_ERROR },
-        { status: 500 }
-      )
-    }
-
     const body = await request.json()
-
-    // Ceiling on a paid call. Subscription gating decides whether someone may
-    // do this at all; nothing decided how often, so one loop could run up an
-    // unbounded bill.
-    const limit = checkRateLimit('studylab-tutor', identify(body?.user_id, request.headers))
-    if (!limit.allowed) {
-      return NextResponse.json(
-        { error: 'You have made a lot of requests. Please wait a little and try again.' },
-        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
-      )
+    const learnspaceId = String(body?.learnspaceId ?? '').trim()
+    const action = body?.action
+    if (!learnspaceId || !action?.type) {
+      return NextResponse.json({ error: 'A learnspace and an action are required' }, { status: 400 })
     }
-    const userId = String(body?.user_id ?? '').trim()
 
+    const { rows } = await db.query('SELECT * FROM learnspaces WHERE id = $1 LIMIT 1', [learnspaceId])
+    const space = rows[0]
+    if (!space) return NextResponse.json({ error: 'Lesson not found' }, { status: 404 })
+
+    const userId = space.user_id ? String(space.user_id) : null
     if (userId) {
       const gate = await assertSubscriptionAccess(userId, 'study')
-      if (!gate.allowed) {
-        return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
-      }
+      if (!gate.allowed) return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
     }
 
-    const title = String(body?.title ?? '').trim()
-    const subject = body?.subject ? String(body.subject).trim() : null
-    const currentStep = Number(body?.current_step) || 0
-    const userMessage = String(body?.message ?? '').trim()
-    const history: IncomingMessage[] = Array.isArray(body?.history)
-      ? body.history
-          .filter((m: any) => m && (m.role === 'user' || m.role === 'assistant') && typeof m.content === 'string')
-          .map((m: any) => ({ role: m.role, content: m.content }))
-      : []
-    const existingCards: { id: string; title: string; step: number }[] = Array.isArray(body?.cards)
-      ? body.cards
-          .filter((c: any) => c && typeof c.id === 'string')
-          .map((c: any) => ({ id: c.id, title: typeof c.title === 'string' ? c.title : '', step: Number(c.step) || 0 }))
-      : []
-    const plan: { title: string; goal: string }[] = Array.isArray(body?.plan)
-      ? body.plan
-          .filter((p: any) => p && typeof p.title === 'string')
-          .map((p: any) => ({ title: String(p.title), goal: typeof p.goal === 'string' ? p.goal : '' }))
-      : []
-    const checkpoints: CheckpointInfo[] = Array.isArray(body?.checkpoints)
-      ? body.checkpoints
-          .filter((c: any) => c && typeof c.id === 'string')
-          .map((c: any) => ({
-            id: c.id,
-            step: Number(c.step) || 0,
-            total: Number(c.total) || 0,
-            answered: Number(c.answered) || 0,
-            correct: Number(c.correct) || 0,
-            done: c.done === true,
-          }))
-      : []
-    const origin = body?.origin === 'gap' ? 'gap' : body?.origin === 'homework' ? 'homework' : 'scratch'
-    const focus: GapFocus | null =
-      body?.focus && typeof body.focus === 'object'
-        ? { topic_name: body.focus.topic_name ?? null, subtopic_name: body.focus.subtopic_name ?? null }
-        : null
-    const image = parseImage(body?.image)
-
-    if (!title) {
-      return NextResponse.json({ error: 'A topic title is required' }, { status: 400 })
-    }
-
-    const baseOpts = { title, subject, currentStep, existingCards, checkpoints, plan, history, userMessage, origin, focus }
-
-    let raw: string
-    try {
-      if (image) {
-        // Best-effort multimodal turn; if the model rejects the image, retry text-only.
-        try {
-          raw = await callGemma(buildPrompt({ ...baseOpts, imageState: 'attached' }), {
-            maxTokens: 2600,
-            temperature: 0.6,
-            image,
-            // Fail fast if the model rejects images, so the text-only fallback is snappy.
-            maxCandidates: 2,
-          })
-        } catch (imgErr: any) {
-          console.warn('StudyLab tutor image call failed, falling back to text-only:', imgErr?.message ?? imgErr)
-          raw = await callGemma(buildPrompt({ ...baseOpts, imageState: 'unreadable' }), {
-            maxTokens: 2600,
-            temperature: 0.6,
-            model: TUTOR_MODEL,
-          })
-        }
-      } else {
-        raw = await callGemma(buildPrompt(baseOpts), { maxTokens: 2600, temperature: 0.6, model: TUTOR_MODEL })
-      }
-    } catch (err: any) {
-      console.error('StudyLab tutor model error:', err)
-      const is429 = err?.status === 429 || String(err?.message ?? '').includes('429')
-      return NextResponse.json(
-        { error: is429 ? 'The AI is busy. Please wait a moment and try again.' : `Tutor failed: ${err?.message ?? String(err)}` },
-        { status: is429 ? 429 : 500 }
+    const policy = policyFor(space.origin)
+    const run: LessonRun =
+      space.lesson_run ??
+      runFromLegacy(
+        { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
+        policy,
       )
-    }
 
-    let parsed: any
-    try {
-      parsed = parseJsonRobust(fixLatexInRawJson(raw))
-    } catch (err) {
-      console.error('StudyLab tutor JSON parse error:', err, '\nRaw:', raw.slice(0, 300))
-      // Graceful fallback: still say something so the chat doesn't break.
+    const requestId = randomUUID()
+
+    // Drafting is the one action that produces its steps before the
+    // transition, since a transition has to stay pure.
+    if (action.type === 'draft_plan') {
+      const subtopics = await loadSubtopics(space)
+      const steps = await draftPlan({
+        title: String(space.title ?? ''),
+        subject: space.subject ? String(space.subject) : null,
+        policy, userId, subtopics, requestId,
+      })
+      const planned = proposePlan(run, steps)
+      const next = planned.ok ? planned.run : run
+      await saveRun(learnspaceId, next)
       return NextResponse.json({
-        say: raw.slice(0, 600) || 'Sorry, I had trouble formatting that. Could you rephrase?',
+        run: next,
+        say: steps.length ? '' : 'I could not draft that outline — try again.',
         actions: [],
-        awaitUser: true,
-        suggestions: ['Try again', 'Explain differently'],
-        step: currentStep || 1,
-        done: false,
-      } satisfies TutorResponse)
+        suggestions: [],
+        refusal: steps.length ? undefined : 'Could not draft a plan.',
+      })
     }
 
-    return NextResponse.json(sanitizeResponse(parsed, currentStep))
-  } catch (error: any) {
-    console.error('StudyLab tutor error:', error)
+    const result = await applyAction({ run, policy, userId, action, requestId,
+      context: { title: space.title, subject: space.subject } })
+    if (!result.refusal) await saveRun(learnspaceId, result.run)
+    return NextResponse.json(result)
+  } catch (error) {
+    console.error('Tutor dispatch failed:', error)
     return NextResponse.json({ error: 'Tutor request failed' }, { status: 500 })
   }
+}
+
+/** Persists just the run. Last write wins, matching how canvas_state behaves. */
+async function saveRun(learnspaceId: string, run: LessonRun): Promise<void> {
+  await db.query('UPDATE learnspaces SET lesson_run = $1::jsonb, updated_at = NOW() WHERE id = $2', [
+    jsonbParam(run),
+    learnspaceId,
+  ])
+}
+
+/** The subtopics a step can be attributed to. Empty for a scratch lesson. */
+async function loadSubtopics(space: Record<string, unknown>): Promise<{ id: number; name: string }[]> {
+  const topicId = Number(space.topic_id)
+  if (!Number.isInteger(topicId) || topicId <= 0) return []
+  const { rows } = await db.query(
+    'SELECT subtopic_id, subtopic FROM subtopics WHERE topic_id = $1 ORDER BY subtopic',
+    [topicId],
+  )
+  return rows.map((r: Record<string, unknown>) => ({
+    id: Number(r.subtopic_id),
+    name: String(r.subtopic),
+  }))
 }
