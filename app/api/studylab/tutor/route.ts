@@ -7,6 +7,7 @@ import { policyFor } from '@/lib/studylab/lessonPolicy'
 import { runFromLegacy } from '@/lib/studylab/lessonRunMigrate'
 import { proposePlan, type LessonRun } from '@/lib/studylab/lessonRun'
 import { applyAction, draftPlan } from './dispatch'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 // Every card type, the LaTeX rule, the connect rule and the checkpoint
 // question shapes live here. `dispatch.ts` prepends this to the teaching
@@ -119,6 +120,18 @@ export async function POST(request: NextRequest) {
     if (!space) return NextResponse.json({ error: 'Lesson not found' }, { status: 404 })
 
     const userId = space.user_id ? String(space.user_id) : null
+
+    // Ceiling on a paid call. Subscription gating decides whether someone may
+    // do this at all; nothing decided how often, so one loop could run up an
+    // unbounded bill.
+    const limit = checkRateLimit('studylab-tutor', identify(userId, request.headers))
+    if (!limit.allowed) {
+      return NextResponse.json(
+        { error: 'You have made a lot of requests. Please wait a little and try again.' },
+        { status: 429, headers: { 'Retry-After': String(limit.retryAfterSeconds) } },
+      )
+    }
+
     if (userId) {
       const gate = await assertSubscriptionAccess(userId, 'study')
       if (!gate.allowed) return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
@@ -143,16 +156,23 @@ export async function POST(request: NextRequest) {
         subject: space.subject ? String(space.subject) : null,
         policy, userId, subtopics, requestId,
       })
+      if (steps.length === 0) {
+        // Same principle as applyAction's failed-parse path: a broken draft
+        // must not touch state, or a retry silently wipes whatever plan and
+        // step progress the learner already had (including a legacy lesson
+        // runFromLegacy just migrated).
+        return NextResponse.json({
+          run,
+          say: 'I could not draft that outline — try again.',
+          actions: [],
+          suggestions: [],
+          refusal: 'Could not draft a plan.',
+        })
+      }
       const planned = proposePlan(run, steps)
       const next = planned.ok ? planned.run : run
       await saveRun(learnspaceId, next)
-      return NextResponse.json({
-        run: next,
-        say: steps.length ? '' : 'I could not draft that outline — try again.',
-        actions: [],
-        suggestions: [],
-        refusal: steps.length ? undefined : 'Could not draft a plan.',
-      })
+      return NextResponse.json({ run: next, say: '', actions: [], suggestions: [] })
     }
 
     const result = await applyAction({ run, policy, userId, action, requestId,
