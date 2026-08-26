@@ -7,14 +7,15 @@ import { Loader2, AlertCircle } from 'lucide-react'
 import StudyLabSidebar from './StudyLabSidebar'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
-import { applyActions, toggleStepGroup, createImageCard, autoGroupStep } from '@/lib/studylab/actions'
-import { createFreeformBlock, aiCards } from '@/lib/studylab/freeform'
-import { summarizeCheckpoints } from '@/lib/studylab/checkpointState'
+import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
+import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
-import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction, TutorResponse } from '@/lib/studylab/types'
+import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
+import { policyFor } from '@/lib/studylab/lessonPolicy'
+import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { useAuth } from '@/components/AuthProvider'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
@@ -53,7 +54,7 @@ export default function Workspace({ id }: { id: string }) {
   const [effects, setEffects] = useState<CanvasEffects>({ version: 0, list: [] })
   const [currentStep, setCurrentStep] = useState(0)
   const [busy, setBusy] = useState(false)
-  const [done, setDone] = useState(false)
+  const [run, setRun] = useState<LessonRun | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)
 
@@ -61,6 +62,14 @@ export default function Workspace({ id }: { id: string }) {
   canvasRef.current = canvas
   const stepRef = useRef(currentStep)
   stepRef.current = currentStep
+  const runRef = useRef<LessonRun | null>(run)
+  runRef.current = run
+  // Sidebar rail actions (test-out, jump, pace) have no busy-disabled state of
+  // their own — unlike ChatMouthpiece's buttons, which hide while busy — so
+  // sendAction needs a same-tick-accurate guard rather than the `busy` state
+  // closure, which can lag a render behind two rapid clicks.
+  const busyRef = useRef(false)
+  busyRef.current = busy
   const startedRef = useRef(false)
   const effectVersion = useRef(0)
   const saveTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
@@ -83,6 +92,11 @@ export default function Workspace({ id }: { id: string }) {
   )
 
   const cardCount = useMemo(() => canvas.nodes.filter((n) => n.type !== 'stepGroup').length, [canvas.nodes])
+
+  const policy = useMemo(() => policyFor(space?.origin), [space?.origin])
+  // The run is the single source of truth for completion now; nothing sets a
+  // separate "done" flag any more.
+  const done = run?.phase === 'done'
 
   // ── Persistence ─────────────────────────────────────────────────────────────
   const persist = useCallback(
@@ -107,124 +121,176 @@ export default function Workspace({ id }: { id: string }) {
     }, 1200)
   }, [persist])
 
-  // ── Tutor turn ──────────────────────────────────────────────────────────────
-  const runTutor = useCallback(
-    async (userText: string, history: ChatMessage[], imageDataUrl?: string, silent = false) => {
+  // ── Tutor actions ───────────────────────────────────────────────────────────
+  // Every turn is now a typed action against the run's state machine, not a
+  // free-text message: the route dispatches a transition, calls the one model
+  // job the new state needs (if any), and returns { run, say, actions,
+  // suggestions, refusal? }. This applies that response to the canvas exactly
+  // the way the old free-text turn did (grouping, layout, effects), but drives
+  // "did the step change" off the authoritative `run.currentStep` instead of a
+  // step number the model used to hand back itself.
+  const sendAction = useCallback(
+    async (action: Record<string, unknown>) => {
+      if (busyRef.current) return
+      busyRef.current = true
       setBusy(true)
       try {
-        // Drop the student's pasted work onto the canvas first so they see it land.
-        let baseCanvas = canvasRef.current
-        if (imageDataUrl) {
-          const imgNode = createImageCard(baseCanvas, {
-            id: `img-${Date.now()}`,
-            imageUrl: imageDataUrl,
-            step: stepRef.current || 1,
-          })
-          baseCanvas = { ...baseCanvas, nodes: [...baseCanvas.nodes, imgNode] }
-          setCanvas(baseCanvas)
-          effectVersion.current += 1
-          setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId: imgNode.id }] })
-        }
-
         const res = await fetch('/api/studylab/tutor', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({
-            user_id: user?.id,
-            title: space?.title,
-            subject: space?.subject,
-            current_step: stepRef.current,
-            message: userText,
-            history: history.map((m) => ({ role: m.role, content: m.content })),
-            cards: aiCards(baseCanvas.nodes),
-            checkpoints: summarizeCheckpoints(baseCanvas.nodes),
-            plan: baseCanvas.plan ?? [],
-            origin: space?.origin,
-            focus: space?.focus,
-            image: imageDataUrl ?? null,
-          }),
+          body: JSON.stringify({ learnspaceId: id, action }),
         })
-        const data: TutorResponse & { error?: string; code?: string } = await res.json()
-        if (!res.ok || data.error) {
-          throw new Error(data.error || 'Tutor failed')
+        const body: {
+          run?: LessonRun
+          say?: string
+          actions?: TutorAction[]
+          suggestions?: string[]
+          refusal?: string
+          error?: string
+        } = await res.json()
+
+        if (!res.ok || body.error) {
+          setMessages((prev) => [
+            ...prev,
+            { role: 'assistant', content: `⚠️ ${body.error || 'Something went wrong. Please try again.'}` },
+          ])
+          return
+        }
+        if (body.refusal) {
+          // A refusal is a sentence in the tutor's voice, not an error toast —
+          // and the run is unchanged, so there is nothing else to apply.
+          setMessages((prev) => [...prev, { role: 'assistant', content: body.refusal! }])
+          return
         }
 
-        const actions: TutorAction[] = data.actions ?? []
-        const { nodes, edges, effects: fx, created } = applyActions(baseCanvas, actions)
-        let nextCanvas: CanvasState = { ...baseCanvas, nodes, edges }
+        const nextRun = body.run ?? null
+        if (nextRun) setRun(nextRun)
 
-        // Capture the lesson plan the tutor drafts on the first turn.
-        if (data.plan && data.plan.length > 0 && !(baseCanvas.plan && baseCanvas.plan.length > 0)) {
-          nextCanvas = { ...nextCanvas, plan: data.plan }
-        }
+        const actions: TutorAction[] = body.actions ?? []
+        let nextCanvas: CanvasState = canvasRef.current
+        let nextStep = stepRef.current
 
-        // Deterministic grouping: if the tutor advanced to a new step, collapse
-        // the step we just left (even if the model forgot to emit groupStep).
-        const oldStep = stepRef.current
-        const nextStep = typeof data.step === 'number' ? data.step : oldStep
-        if (nextStep > oldStep) {
-          nextCanvas = autoGroupStep(nextCanvas, oldStep)
-        }
+        if (actions.length > 0) {
+          const { nodes, edges, effects: fx, created } = applyActions(nextCanvas, actions)
+          nextCanvas = { ...nextCanvas, nodes, edges }
 
-        // Auto-tidy the AI lesson graph (freeform blocks keep their positions).
-        const layout = layoutGraph(nextCanvas.nodes, nextCanvas.edges)
-        if (Object.keys(layout).length > 0) {
-          nextCanvas = {
-            ...nextCanvas,
-            nodes: nextCanvas.nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)),
+          // Deterministic grouping: `run.currentStep` (0-based, -1 while
+          // nothing is being taught) is the source of truth for where
+          // teaching is now — translate to the card-numbering convention
+          // (1-based) and collapse the step just left when it moved forward.
+          nextStep = nextRun && nextRun.currentStep >= 0 ? nextRun.currentStep + 1 : stepRef.current
+          if (nextStep > stepRef.current) {
+            nextCanvas = autoGroupStep(nextCanvas, stepRef.current)
           }
+
+          // Auto-tidy the AI lesson graph (freeform blocks keep their positions).
+          const layout = layoutGraph(nextCanvas.nodes, nextCanvas.edges)
+          if (Object.keys(layout).length > 0) {
+            nextCanvas = {
+              ...nextCanvas,
+              nodes: nextCanvas.nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)),
+            }
+          }
+
+          setCanvas(nextCanvas)
+          const list = created.length > 0 ? [...fx, { kind: 'fitNodes' as const, nodeIds: created }] : fx
+          if (list.length > 0) {
+            effectVersion.current += 1
+            setEffects({ version: effectVersion.current, list })
+          }
+        } else if (nextRun && nextRun.currentStep >= 0) {
+          nextStep = nextRun.currentStep + 1
         }
+        if (nextStep !== stepRef.current) setCurrentStep(nextStep)
 
-        setCanvas(nextCanvas)
-        const list = created.length > 0 ? [...fx, { kind: 'fitNodes' as const, nodeIds: created }] : fx
-        if (list.length > 0) {
-          effectVersion.current += 1
-          setEffects({ version: effectVersion.current, list })
+        const newMessages: ChatMessage[] = []
+        if (body.say || actions.length > 0) {
+          newMessages.push({ role: 'assistant', content: body.say ?? '', actions, suggestions: body.suggestions ?? [] })
+        } else if (action.type === 'draft_plan' && nextRun && nextRun.steps.length > 0) {
+          // draft_plan never returns a "say" — the plan shows up as the
+          // sidebar rail instead. Prompt the learner to look it over.
+          newMessages.push({
+            role: 'assistant',
+            content: "Here's a proposed plan — take a look at the sidebar, then hit Continue when you're ready to start.",
+          })
         }
+        if (newMessages.length > 0) setMessages((prev) => [...prev, ...newMessages])
 
-        setCurrentStep(nextStep)
-        const isDone = Boolean(data.done)
-        setDone(isDone)
-
-        const assistantMsg: ChatMessage = {
-          role: 'assistant',
-          content: data.say,
-          actions,
-          suggestions: data.suggestions ?? [],
-        }
-        setMessages((prev) => [...prev, assistantMsg])
-
-        // Persist canvas + step + the new turn's messages. Silent action turns
-        // (Continue, suggestions, card prompts…) don't store a user bubble.
-        const newMessages: ChatMessage[] = silent || !userText
-          ? [assistantMsg]
-          : [{ role: 'user', content: userText }, assistantMsg]
-        persist({ canvas_state: nextCanvas, current_step: nextStep, messages: newMessages, ...(isDone ? { status: 'completed' } : {}) })
+        persist({
+          canvas_state: nextCanvas,
+          current_step: nextStep,
+          ...(newMessages.length > 0 ? { messages: newMessages } : {}),
+          ...(nextRun?.phase === 'done' ? { status: 'completed' } : {}),
+        })
       } catch (err: any) {
         setMessages((prev) => [
           ...prev,
-          { role: 'assistant', content: `⚠️ ${err.message || 'Something went wrong. Please try again.'}`, suggestions: ['Try again'] },
+          { role: 'assistant', content: `⚠️ ${err?.message || 'Something went wrong. Please try again.'}` },
         ])
       } finally {
+        busyRef.current = false
         setBusy(false)
       }
     },
-    [space, persist, user?.id]
+    [id, persist]
   )
+
+  // Continue (and any suggestion chip — both arrive as a "silent" send from
+  // ChatMouthpiece) means "advance", not "here is a message to answer": what
+  // that means depends entirely on where the run is.
+  const handleAdvance = useCallback(() => {
+    const r = runRef.current
+    if (!r) return
+    if (r.phase === 'planning') {
+      // No steps yet means either the very first draft is still in flight
+      // (sendAction's busy guard already blocks a second call for that case)
+      // or the last draft attempt refused — Continue is the retry in that
+      // case too, since nothing else in the UI offers one.
+      void sendAction(r.steps.length === 0 ? { type: 'draft_plan' } : { type: 'accept_plan' })
+    } else if (r.phase === 'teaching') {
+      void sendAction(r.currentStep === -1 ? { type: 'finish' } : { type: 'next_beat' })
+    }
+  }, [sendAction])
+
+  // A card-scoped quick action (its menu, "ask the tutor about this") used to
+  // be just another free-text turn. The new action contract has no slot for
+  // arbitrary content — draft_plan takes title/subject/policy only, and every
+  // later action is a fixed transition — so there is no request to send.
+  // Surface that plainly rather than firing a POST the route will 400 on.
+  const explainUnsupported = useCallback(() => {
+    setMessages((prev) => [
+      ...prev,
+      {
+        role: 'assistant',
+        content:
+          "I can't take free-form questions right now — use Continue, or the sidebar to jump, test out, or change pace.",
+      },
+    ])
+  }, [])
 
   const handleSend = useCallback(
     (text: string, opts?: { image?: string; silent?: boolean }) => {
       if (busy) return
-      const imageDataUrl = opts?.image
-      const silent = opts?.silent ?? false
-      const userMsg: ChatMessage = { role: 'user', content: text, imageUrl: imageDataUrl }
-      const history = [...messages, userMsg]
-      // Silent turns still feed the tutor the action as the current message, but
-      // never show or store a user bubble — only the assistant's reply lands.
-      if (!silent) setMessages(history)
-      runTutor(text, history, imageDataUrl, silent)
+      if (opts?.silent) {
+        handleAdvance()
+        return
+      }
+      // A typed question, or a pasted/attached image: kept visible for
+      // continuity, but not sent anywhere — see explainUnsupported above.
+      setMessages((prev) => [...prev, { role: 'user', content: text, imageUrl: opts?.image }])
+      explainUnsupported()
     },
-    [busy, messages, runTutor]
+    [busy, handleAdvance, explainUnsupported]
+  )
+
+  // A card's context-menu action ("Explain this deeper", "Quiz me on this"…)
+  // is card-scoped content, not an "advance" gesture — routing it through
+  // handleSend's silent path would wrongly fire next_beat/accept_plan instead.
+  const handleCardPrompt = useCallback(
+    (_text: string) => {
+      explainUnsupported()
+    },
+    [explainUnsupported]
   )
 
   // ── Canvas interactions ───────────────────────────────────────────────────
@@ -362,9 +428,10 @@ export default function Workspace({ id }: { id: string }) {
   )
 
   // ── Checkpoints ──────────────────────────────────────────────────────────────
-  const handleQuizMe = useCallback(() => {
-    handleSend('Quiz me on what we have covered so far. Add a short checkpoint to the canvas with a few interactive quiz questions for me to answer.', { silent: true })
-  }, [handleSend])
+  // "Quiz me on demand" has no equivalent action in the new contract — a
+  // checkpoint only ever opens as part of the teaching job's own output, or
+  // via test_out on a specific step. There is nothing to send, so the button
+  // that used to trigger this is no longer passed to ChatMouthpiece below.
 
   /**
    * Closing half of the study loop: once the lesson is done, prove it on a real
@@ -435,9 +502,13 @@ export default function Workspace({ id }: { id: string }) {
     setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId }] })
   }, [])
 
-  // When every quiz node in a checkpoint is answered, report the result to the tutor once.
+  // When every quiz node in a checkpoint is answered, report the result to the
+  // run's state machine once. Passing more than half the checkpoint's
+  // questions clears it (passCheck); anything less re-teaches the step
+  // (failCheck) — there is no server-side grading job in the new contract, so
+  // this client-computed threshold is what decides pass/fail.
   useEffect(() => {
-    // handleSend is a no-op while a tutor turn is in flight. If we marked the
+    // sendAction is a no-op while a turn is in flight. If we marked the
     // checkpoint submitted now, its result would be silently dropped and the
     // lesson would dead-end. Wait for the tutor to free up; `busy` is a dep so
     // this effect re-runs and dispatches the moment the turn finishes.
@@ -452,7 +523,13 @@ export default function Workspace({ id }: { id: string }) {
       if (submitted.current.has(cpId)) continue
       if (cells.length > 0 && cells.every((c) => c.state === 'correct' || c.state === 'incorrect')) {
         submitted.current.add(cpId)
-        handleSend(checkpointResultText(cells))
+        setMessages((prev) => [...prev, { role: 'assistant', content: checkpointResultText(cells) }])
+        const correct = cells.filter((c) => c.state === 'correct').length
+        void sendAction({
+          type: 'answer_check',
+          passed: correct > cells.length / 2,
+          missed: cells.filter((c) => c.state !== 'correct').map((c) => c.question.prompt),
+        })
         // Feed the questions they got wrong into spaced-repetition recall.
         const missed = buildCheckpointRecallCards(cells)
         if (missed.length > 0 && user?.id) {
@@ -466,7 +543,7 @@ export default function Workspace({ id }: { id: string }) {
         break
       }
     }
-  }, [canvas.nodes, busy, handleSend, user?.id, space?.subject, space?.title, id])
+  }, [canvas.nodes, busy, sendAction, user?.id, space?.subject, space?.title, id])
 
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
@@ -494,6 +571,7 @@ export default function Workspace({ id }: { id: string }) {
         const cs: CanvasState =
           s.canvas_state && Array.isArray(s.canvas_state.nodes) ? s.canvas_state : EMPTY_CANVAS
         setCanvas(cs)
+        setRun(json.lesson_run ?? null)
         // Suggestion chips are session-only; the persisted transcript keeps role + content + actions.
         const loadedMessages: ChatMessage[] = (json.messages ?? []).map((m: any) => ({
           role: m.role,
@@ -514,23 +592,42 @@ export default function Workspace({ id }: { id: string }) {
     }
   }, [id])
 
-  // Auto-start the very first tutor turn once, when the space has no history.
+  // The lesson no longer starts itself. A space with a run already in progress
+  // resumes it; one that has never been planned asks for a plan and nothing
+  // else, so no cards exist until the learner has agreed to the outline.
   useEffect(() => {
-    if (loaded && space && !startedRef.current && messages.length === 0 && !loadError) {
-      startedRef.current = true
-      // A snapped-homework space hands its photo off in memory; feed it into the
-      // opening turn so the tutor reads the problem and builds the solution.
-      const hwImage = space.origin === 'homework' ? takeHomeworkImage(id) : null
-      const hwText = space.origin === 'homework' ? takeHomeworkText(id) : null
+    if (!loaded || !space || startedRef.current || loadError) return
+    startedRef.current = true
+
+    // A snapped-homework space hands its photo/text off via localStorage
+    // (see lib/studylab/homeworkHandoff.ts). NOT CARRIED OVER: the new action
+    // contract has no field for arbitrary user content on any call —
+    // draft_plan takes only title/subject/policy, and every action after it
+    // is a fixed transition with a fixed payload — so there is no request
+    // left that could hand the photo or text to the model. The plan drafted
+    // below is therefore generic (title/subject only), not tailored to this
+    // specific problem the way the old single-turn flow was. The hand-off is
+    // still taken (it's one-shot; leaving it would replay stale content on a
+    // later visit) and shown in the transcript so the learner at least sees
+    // their own submission.
+    if (space.origin === 'homework') {
+      const hwImage = takeHomeworkImage(id)
+      const hwText = takeHomeworkText(id)
       if (hwImage || hwText) {
-        const base = "Here's my homework problem — read it and walk me through solving it step by step."
-        const msg = hwText ? `${base}\n\n${hwText}` : base
-        runTutor(msg, [], hwImage ?? undefined)
-      } else {
-        runTutor('', [])
+        const msg: ChatMessage = {
+          role: 'user',
+          content: hwText ? `Here's my homework problem.\n\n${hwText}` : "Here's my homework problem.",
+          imageUrl: hwImage ?? undefined,
+        }
+        setMessages((prev) => [...prev, msg])
+        persist({ messages: [msg] })
       }
     }
-  }, [loaded, space, messages.length, loadError, runTutor, id])
+
+    if (run && run.phase === 'planning' && run.steps.length === 0) {
+      void sendAction({ type: 'draft_plan' })
+    }
+  }, [loaded, space, loadError, run, sendAction, id, persist])
 
   if (!loaded) {
     return (
@@ -561,8 +658,22 @@ export default function Workspace({ id }: { id: string }) {
         groups={groups}
         plan={canvas.plan}
         cardCount={cardCount}
+        run={run}
+        policy={policy}
         onBack={() => router.push('/studylab')}
         onFocusGroup={handleFocusGroup}
+        onTestOut={(stepId) => {
+          // The rail is clickable as soon as a plan is drafted, before it is
+          // accepted — but test_out (via the teach job on the step it opens)
+          // can produce cards, so it must wait like everything else does.
+          if (run?.phase === 'planning') return
+          void sendAction({ type: 'test_out', stepId, checkpointId: `to-${stepId}` })
+        }}
+        onJump={(stepId) => {
+          if (run?.phase === 'planning') return
+          void sendAction({ type: 'jump', stepId })
+        }}
+        onSetPace={(pace) => void sendAction({ type: 'set_pace', pace })}
       />
 
       <div className="flex-1 min-w-0 h-full">
@@ -579,7 +690,7 @@ export default function Workspace({ id }: { id: string }) {
           onAskTutor={handleAskTutor}
           onConnectEdge={handleConnectEdge}
           onEdgeLabel={handleEdgeLabel}
-          onCardPrompt={(text) => handleSend(text, { silent: true })}
+          onCardPrompt={handleCardPrompt}
           busy={busy}
           title={space?.title}
           plan={canvas.plan}
@@ -595,7 +706,6 @@ export default function Workspace({ id }: { id: string }) {
           onSend={handleSend}
           pendingCheckpoint={pendingCheckpoint}
           onGoToCheck={goToNode}
-          onQuizMe={handleQuizMe}
           onProveIt={handleProveIt}
           provingIt={provingIt}
         />
