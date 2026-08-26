@@ -106,36 +106,38 @@ export default function StudyLabSidebar({
         )}
         <div className="space-y-1">
           {hasRail ? (
-            rail.map((step) => (
-              <li key={step.id} className="px-3 py-2">
-                <button
-                  type="button"
-                  onClick={() => onJump(step.id)}
-                  className={`block w-full text-left text-[13px] font-semibold ${
-                    step.current ? 'text-white' : 'text-ss-slate hover:text-white'
-                  }`}
-                >
-                  {step.title}
-                </button>
-
-                {step.measured !== null && (
-                  <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">
-                    measured {step.measured}%
-                  </span>
-                )}
-
-                {step.canTestOut && (
+            <ul className="space-y-1 list-none">
+              {rail.map((step) => (
+                <li key={step.id} className="px-3 py-2">
                   <button
                     type="button"
-                    aria-label={`Test out of ${step.title}`}
-                    onClick={() => onTestOut(step.id)}
-                    className="mt-1 rounded-lg px-2 py-1 text-[12px] font-bold text-ss-accent hover:bg-[color:var(--ss-accent)]/15"
+                    onClick={() => onJump(step.id)}
+                    className={`block w-full text-left text-[13px] font-semibold ${
+                      step.current ? 'text-white' : 'text-ss-slate hover:text-white'
+                    }`}
                   >
-                    I know this
+                    {step.title}
                   </button>
-                )}
-              </li>
-            ))
+
+                  {step.measured !== null && (
+                    <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">
+                      measured {step.measured}%
+                    </span>
+                  )}
+
+                  {step.canTestOut && (
+                    <button
+                      type="button"
+                      aria-label={`Test out of ${step.title}`}
+                      onClick={() => onTestOut(step.id)}
+                      className="mt-1 rounded-lg px-2 py-1 text-[12px] font-bold text-ss-accent hover:bg-[color:var(--ss-accent)]/15"
+                    >
+                      I know this
+                    </button>
+                  )}
+                </li>
+              ))}
+            </ul>
           ) : hasPlan ? (
             plan!.map((p, i) => {
               const stepNo = i + 1
