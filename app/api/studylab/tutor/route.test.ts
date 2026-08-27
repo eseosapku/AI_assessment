@@ -136,3 +136,100 @@ describe('draftPlan', () => {
     expect(steps).toEqual([])
   })
 })
+
+describe('test_out', () => {
+  it('asks the check job for questions and returns them as a checkpoint', async () => {
+    // Without this, "I know this" changes state and puts nothing on screen.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        questions: [
+          { id: 'q1', format: 'mcq', prompt: 'Which bond?', options: ['Ionic', 'Covalent'], answer: 1 },
+        ],
+      }),
+    )
+    const result = await applyAction({
+      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+
+    expect(callGemma).toHaveBeenCalledOnce()
+    const checkpoint = result.actions.find(
+      (a): a is { type: string; questions: unknown[] } =>
+        typeof a === 'object' && a !== null && (a as { type?: string }).type === 'checkpoint',
+    )
+    expect(checkpoint).toBeTruthy()
+    expect(checkpoint!.questions).toHaveLength(1)
+  })
+
+  it('uses the check model, not the teaching one', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ questions: [] }))
+    await applyAction({
+      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+    expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({
+      model: 'amazon.nova-lite-v1:0',
+    })
+  })
+
+  it('refuses a locked step without spending a model call', async () => {
+    const result = await applyAction({
+      run: lockedRun(), policy: policyFor('gap'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'b', checkpointId: 'to-b' },
+    })
+    expect(result.refusal).toBeTruthy()
+    expect(callGemma).not.toHaveBeenCalled()
+  })
+
+  it('leaves the run untouched when the check will not parse', async () => {
+    // A retry must be safe, exactly as it is for a teaching beat.
+    vi.mocked(callGemma).mockResolvedValue('not json')
+    const run = lockedRun()
+    const result = await applyAction({
+      run, policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+    expect(result.run).toEqual(run)
+    expect(result.refusal).toBeTruthy()
+  })
+
+  it('refuses rather than opening an empty check when the model returns no questions', async () => {
+    // An open check with nothing to answer would strand the learner: the step
+    // can never resolve because there is nothing to pass.
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ questions: [] }))
+    const run = lockedRun()
+    const result = await applyAction({
+      run, policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+    expect(result.run).toEqual(run)
+    expect(result.refusal).toBeTruthy()
+  })
+})
+
+describe('ask', () => {
+  it('answers a question on the teaching model without advancing the lesson', async () => {
+    // Asking is not progress: the step, the beat count and the plan all stay put.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'Because electrons pair up.', actions: [], suggestions: [] }),
+    )
+    const run = lockedRun()
+    const result = await applyAction({
+      run, policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'ask', question: 'why do atoms share electrons?' },
+    })
+
+    expect(result.say).toContain('electrons')
+    expect(result.run.currentStep).toBe(run.currentStep)
+    expect(result.run.beats).toBe(run.beats)
+  })
+
+  it('refuses an empty question without spending a model call', async () => {
+    const result = await applyAction({
+      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'ask', question: '   ' },
+    })
+    expect(result.refusal).toBeTruthy()
+    expect(callGemma).not.toHaveBeenCalled()
+  })
+})

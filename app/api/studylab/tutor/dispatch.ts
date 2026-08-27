@@ -10,6 +10,7 @@ import {
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
+import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
 
@@ -25,6 +26,7 @@ export type LessonAction =
   | { type: 'set_pace'; pace: Pace }
   | { type: 'stop' }
   | { type: 'finish' }
+  | { type: 'ask'; question: string }
 
 export interface DispatchInput {
   run: LessonRun
@@ -60,6 +62,8 @@ function transitionFor(input: DispatchInput): Transition {
     case 'set_pace': return setPace(run, action.pace)
     case 'stop': return stop(run)
     case 'finish': return finish(run, policy)
+    // A question is not progress: state passes through unchanged.
+    case 'ask': return { ok: true, run }
   }
 }
 
@@ -80,6 +84,20 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   }
 
   const advanced = transition.run
+
+  // test_out deliberately bypasses NEEDS_TEACHING: that path calls the
+  // teaching job, which writes cards. A test-out needs questions, from the
+  // check job, on the cheap model — not a lesson.
+  if (input.action.type === 'test_out') {
+    return applyTestOut(input, advanced)
+  }
+
+  // Asking is answered like a teaching turn, but its transition above was a
+  // no-op, so nothing here is allowed to advance the lesson.
+  if (input.action.type === 'ask') {
+    return applyAsk(input, advanced)
+  }
+
   if (!NEEDS_TEACHING.has(input.action.type) || advanced.phase === 'done') {
     return { run: advanced, say: '', actions: [], suggestions: [] }
   }
@@ -119,6 +137,158 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],
   }
+}
+
+/**
+ * Turns an open test-out check into real questions.
+ *
+ * The transition already opened `run.openCheck` — that part is free, it just
+ * moves state. Writing the questions costs a model call, so it happens here,
+ * after the transition, on the `check` job rather than `teach_beat`.
+ *
+ * Both failure modes return the ORIGINAL run, not the transitioned one: an
+ * open check with nothing to answer would strand the learner, since the step
+ * can never resolve when there is nothing to pass.
+ */
+async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<DispatchResult> {
+  const check = advanced.openCheck
+  const stepIndex = check ? advanced.steps.findIndex((s) => s.id === check.stepId) : -1
+  const step = stepIndex === -1 ? undefined : advanced.steps[stepIndex]
+  if (!check || !step) {
+    // Defensive: requestTestOut always sets these together on success.
+    return { run: input.run, say: '', actions: [], suggestions: [], refusal: 'That step is not in the plan.' }
+  }
+
+  let questions: CheckpointQuestion[]
+  try {
+    questions = await writeCheck(step, check.checkpointId, input.userId, input.requestId)
+  } catch {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'That did not come through. Try that again.',
+    }
+  }
+
+  if (questions.length === 0) {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'Could not put together a check for that step — try again.',
+    }
+  }
+
+  return {
+    run: advanced,
+    say: '',
+    actions: [
+      { type: 'checkpoint', id: check.checkpointId, step: stepIndex + 1, gate: check.gate, questions },
+    ],
+    suggestions: [],
+  }
+}
+
+/**
+ * Answers a free-text question without moving the lesson forward.
+ *
+ * `transitionFor`'s `ask` case is a no-op, so `advanced` here is the same run
+ * the caller passed in — this can only ever hand back that run or the one
+ * unaltered copy of it, never a step or beat further along.
+ */
+async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<DispatchResult> {
+  const question = input.action.type === 'ask' ? input.action.question.trim() : ''
+  if (!question) {
+    return { run: input.run, say: '', actions: [], suggestions: [], refusal: 'Ask me something first.' }
+  }
+
+  const step = advanced.steps[advanced.currentStep]
+  if (!step) return { run: advanced, say: '', actions: [], suggestions: [] }
+
+  const prompt = [
+    buildTeachPrompt(advanced, step, input.context ?? {}),
+    '',
+    "The student has a question about the current step — answer it. You may add or update a card if that's the clearest way to explain, but do NOT advance to a new beat or step.",
+    `QUESTION: ${question}`,
+  ].join('\n')
+
+  const raw = await callGemma(prompt, {
+    maxTokens: 2600,
+    temperature: 0.6,
+    model: modelForJob('teach_beat'),
+    usage: input.requestId
+      ? { feature: 'lesson_ask', requestId: input.requestId, userId: input.userId }
+      : undefined,
+  })
+
+  let parsed: { say?: unknown; actions?: unknown; suggestions?: unknown }
+  try {
+    parsed = parseJsonRobust(raw)
+  } catch {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'That did not come through. Try that again.',
+    }
+  }
+
+  return {
+    run: advanced,
+    say: typeof parsed?.say === 'string' ? parsed.say : '',
+    actions: Array.isArray(parsed?.actions) ? parsed.actions : [],
+    suggestions: Array.isArray(parsed?.suggestions)
+      ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
+      : [],
+  }
+}
+
+/**
+ * Writes the questions a test-out is answered on.
+ *
+ * Small and bounded: two or three questions against one step's goal, in the
+ * formats the canvas already renders. This runs on the cheap model on purpose —
+ * it is a structured transform against a goal that is already decided, not a
+ * judgement about how to teach.
+ */
+async function writeCheck(
+  step: { title: string; goal: string },
+  checkpointId: string,
+  userId: string | null,
+  requestId?: string,
+): Promise<CheckpointQuestion[]> {
+  const prompt = [
+    `Write a short knowledge check for one step of a lesson.`,
+    `STEP: ${step.title}`,
+    `GOAL: ${step.goal}`,
+    '',
+    'Two or three questions, enough to tell whether someone already knows this.',
+    'Keep them on this step only — this is not an exam.',
+    'Formats: "mcq" (give "options" and an integer "answer"), "short" (give a "rubric"),',
+    'or "match" (give "pairs" of {"left","right"}). Give every question a unique "id".',
+    '',
+    'Reply with JSON only: { "questions": [ ... ] }',
+  ].join('\n')
+
+  const raw = await callGemma(prompt, {
+    maxTokens: 900,
+    temperature: 0.3,
+    model: modelForJob('check'),
+    usage: requestId
+      ? { feature: 'lesson_check', requestId, userId }
+      : undefined,
+  })
+
+  const parsed = parseJsonRobust(raw)
+  const questions = Array.isArray(parsed?.questions) ? parsed.questions : []
+  return questions.filter(
+    (q: unknown): q is CheckpointQuestion =>
+      !!q && typeof q === 'object' && typeof (q as { prompt?: unknown }).prompt === 'string',
+  )
 }
 
 /**

@@ -252,22 +252,6 @@ export default function Workspace({ id }: { id: string }) {
     }
   }, [sendAction])
 
-  // A card-scoped quick action (its menu, "ask the tutor about this") used to
-  // be just another free-text turn. The new action contract has no slot for
-  // arbitrary content — draft_plan takes title/subject/policy only, and every
-  // later action is a fixed transition — so there is no request to send.
-  // Surface that plainly rather than firing a POST the route will 400 on.
-  const explainUnsupported = useCallback(() => {
-    setMessages((prev) => [
-      ...prev,
-      {
-        role: 'assistant',
-        content:
-          "I can't take free-form questions right now — use Continue, or the sidebar to jump, test out, or change pace.",
-      },
-    ])
-  }, [])
-
   const handleSend = useCallback(
     (text: string, opts?: { image?: string; silent?: boolean }) => {
       if (busy) return
@@ -276,21 +260,27 @@ export default function Workspace({ id }: { id: string }) {
         return
       }
       // A typed question, or a pasted/attached image: kept visible for
-      // continuity, but not sent anywhere — see explainUnsupported above.
+      // continuity. The image itself isn't sent — `ask` takes a question
+      // only — but the text still goes to the tutor via the `ask` action.
       setMessages((prev) => [...prev, { role: 'user', content: text, imageUrl: opts?.image }])
-      explainUnsupported()
+      const question = text.trim()
+      if (!question) return
+      void sendAction({ type: 'ask', question })
     },
-    [busy, handleAdvance, explainUnsupported]
+    [busy, handleAdvance, sendAction]
   )
 
   // A card's context-menu action ("Explain this deeper", "Quiz me on this"…)
   // is card-scoped content, not an "advance" gesture — routing it through
   // handleSend's silent path would wrongly fire next_beat/accept_plan instead.
+  // The menu already folds the card's title and id into `text` (see
+  // StudyCanvas's CARD_ACTIONS), so it travels as the `ask` question as-is.
   const handleCardPrompt = useCallback(
-    (_text: string) => {
-      explainUnsupported()
+    (text: string) => {
+      setMessages((prev) => [...prev, { role: 'user', content: text }])
+      void sendAction({ type: 'ask', question: text })
     },
-    [explainUnsupported]
+    [sendAction]
   )
 
   // ── Canvas interactions ───────────────────────────────────────────────────
@@ -664,8 +654,8 @@ export default function Workspace({ id }: { id: string }) {
         onFocusGroup={handleFocusGroup}
         onTestOut={(stepId) => {
           // The rail is clickable as soon as a plan is drafted, before it is
-          // accepted — but test_out (via the teach job on the step it opens)
-          // can produce cards, so it must wait like everything else does.
+          // accepted — but test_out (via the check job on the step it opens)
+          // writes real questions, so it must wait like everything else does.
           if (run?.phase === 'planning') return
           void sendAction({ type: 'test_out', stepId, checkpointId: `to-${stepId}` })
         }}
