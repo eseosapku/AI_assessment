@@ -205,6 +205,23 @@ describe('test_out', () => {
     expect(result.run).toEqual(run)
     expect(result.refusal).toBeTruthy()
   })
+
+  it('refuses rather than opening a check the canvas cannot render', async () => {
+    // A question with no usable format (no options, no pairs, no goal) passes
+    // a bare "has a prompt" check but fails the canvas's own isValidQuestion —
+    // the canvas would drop it silently, leaving openCheck stuck forever with
+    // nothing on screen to resolve it.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ questions: [{ id: 'q1', prompt: 'Which bond?' }] }),
+    )
+    const run = lockedRun()
+    const result = await applyAction({
+      run, policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+    expect(result.run).toEqual(run)
+    expect(result.refusal).toBeTruthy()
+  })
 })
 
 describe('ask', () => {

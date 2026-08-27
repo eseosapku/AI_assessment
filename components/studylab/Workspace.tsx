@@ -277,10 +277,11 @@ export default function Workspace({ id }: { id: string }) {
   // StudyCanvas's CARD_ACTIONS), so it travels as the `ask` question as-is.
   const handleCardPrompt = useCallback(
     (text: string) => {
+      if (busy) return
       setMessages((prev) => [...prev, { role: 'user', content: text }])
       void sendAction({ type: 'ask', question: text })
     },
-    [sendAction]
+    [busy, sendAction]
   )
 
   // ── Canvas interactions ───────────────────────────────────────────────────

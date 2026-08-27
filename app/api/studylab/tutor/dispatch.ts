@@ -10,6 +10,7 @@ import {
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
+import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
@@ -285,10 +286,19 @@ async function writeCheck(
 
   const parsed = parseJsonRobust(raw)
   const questions = Array.isArray(parsed?.questions) ? parsed.questions : []
-  return questions.filter(
-    (q: unknown): q is CheckpointQuestion =>
-      !!q && typeof q === 'object' && typeof (q as { prompt?: unknown }).prompt === 'string',
-  )
+  // Validate with the same predicate the canvas reducer uses (isValidQuestion,
+  // already imported by lib/studylab/actions.ts) — a looser check here (e.g.
+  // just "has a prompt") would let a question missing its format-specific
+  // fields (mcq with no "options", match with no "pairs"...) through as a
+  // false success. That commits a run whose openCheck the canvas can never
+  // resolve: beginCheck refuses to open a second check while one is already
+  // open, and nothing can pass/fail a check with no valid quiz node to answer
+  // — every future test-out on that run is permanently blocked, not just this
+  // one. isValidQuestion already tolerates a stringy mcq "answer" (checks
+  // `Number.isInteger(Number(q.answer))`), so a nearly-right question survives
+  // validation; coerceQuestion then normalises it to the canonical numeric
+  // shape rather than the question being discarded over a type mismatch.
+  return questions.filter(isValidQuestion).map(coerceQuestion)
 }
 
 /**
