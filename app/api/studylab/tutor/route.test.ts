@@ -14,7 +14,7 @@ import { callGemma } from '@/lib/bedrock'
 import { applyAction, draftPlan } from './dispatch'
 import type { Database } from '@/lib/db'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
-import { emptyRun, proposePlan, acceptPlan, type LessonRun } from '@/lib/studylab/lessonRun'
+import { emptyRun, proposePlan, acceptPlan, beginCheck, type LessonRun } from '@/lib/studylab/lessonRun'
 
 const GAP = policyFor('gap')
 
@@ -26,6 +26,17 @@ function lockedRun(): LessonRun {
     { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
     { id: 'b', title: 'Bonding', goal: 'g', status: 'pending', cardIds: [],
       lockedBy: { subtopicId: 7, accuracy: 38 } },
+  ])
+  if (!planned.ok) throw new Error(planned.reason)
+  const started = acceptPlan(planned.run)
+  if (!started.ok) throw new Error(started.reason)
+  return started.run
+}
+
+/** A run mid-lesson with a single step, teaching it. */
+function openRun(): LessonRun {
+  const planned = proposePlan(emptyRun(GAP), [
+    { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
   ])
   if (!planned.ok) throw new Error(planned.reason)
   const started = acceptPlan(planned.run)
@@ -221,6 +232,91 @@ describe('test_out', () => {
     })
     expect(result.run).toEqual(run)
     expect(result.refusal).toBeTruthy()
+  })
+})
+
+describe('checkpoint emitted by a teaching turn', () => {
+  // FINDING 1: beginCheck is only ever called from requestTestOut in
+  // production. But the everyday flow is a next_beat/jump teaching call
+  // emitting its own { type: 'checkpoint' } action once a step has been
+  // taught — nothing opened a check for that, so answer_check always refused
+  // with "There is no check open" and a step could never reach 'done'.
+
+  it('opens the checkpoint a next_beat teaching turn emits, so answer_check can later resolve it', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'Try this.',
+        actions: [{ type: 'checkpoint', id: 'cp-1', step: 1, gate: 'hard', questions: [] }],
+        suggestions: [],
+      }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+    })
+    expect(result.run.openCheck).toEqual({
+      stepId: 'a', checkpointId: 'cp-1', kind: 'checkpoint', gate: 'hard',
+    })
+  })
+
+  it('resolves via answer_check: the step finishes and the lesson advances — this is the loop that was broken', async () => {
+    vi.mocked(callGemma).mockResolvedValueOnce(
+      JSON.stringify({
+        say: 'Try this.',
+        actions: [{ type: 'checkpoint', id: 'cp-1', step: 1, gate: 'hard', questions: [] }],
+        suggestions: [],
+      }),
+    )
+    const opened = await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+    })
+    expect(opened.run.openCheck).toBeTruthy()
+
+    // Single-step run: once this resolves, currentStep goes to -1 and no
+    // further teaching call is needed, so no second callGemma mock is set up.
+    const result = await applyAction({
+      run: opened.run, policy: GAP, userId: 'u1',
+      action: { type: 'answer_check', passed: true },
+    })
+
+    expect(result.run.openCheck).toBeUndefined()
+    expect(result.run.steps[0].status).toBe('done')
+    expect(result.run.currentStep).toBe(-1)
+  })
+
+  it('leaves an already-open check untouched and drops the duplicate checkpoint action', async () => {
+    const run = openRun()
+    const withCheck = beginCheck(run, 'a', 'existing-cp', 'testout', 'soft')
+    if (!withCheck.ok) throw new Error(withCheck.reason)
+
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'Try this.',
+        actions: [{ type: 'checkpoint', id: 'cp-2', step: 1, gate: 'hard', questions: [] }],
+        suggestions: [],
+      }),
+    )
+    const result = await applyAction({
+      run: withCheck.run, policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+    })
+
+    expect(result.run.openCheck).toEqual(withCheck.run.openCheck)
+    expect(result.actions).toEqual([])
+  })
+
+  it('resolves an out-of-range checkpoint step against the current step rather than dropping it', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'Try this.',
+        actions: [{ type: 'checkpoint', id: 'cp-3', step: 99, gate: 'soft', questions: [] }],
+        suggestions: [],
+      }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+    })
+    expect(result.run.openCheck).toEqual({
+      stepId: 'a', checkpointId: 'cp-3', kind: 'checkpoint', gate: 'soft',
+    })
   })
 })
 

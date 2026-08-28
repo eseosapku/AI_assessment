@@ -4,7 +4,7 @@ import { modelForJob } from '@/lib/studylab/lessonJobs'
 import type { LessonPolicy } from '@/lib/studylab/lessonPolicy'
 import {
   nextBeat, passCheck, failCheck, requestTestOut, skipStep, jumpTo,
-  setPace, stop, finish, acceptPlan, editPlan, proposePlan,
+  setPace, stop, finish, acceptPlan, editPlan, proposePlan, beginCheck,
   type LessonRun, type LessonStep, type Transition,
 } from '@/lib/studylab/lessonRun'
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
@@ -130,14 +130,73 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     }
   }
 
+  const rawActions: unknown[] = Array.isArray(parsed?.actions) ? parsed.actions : []
+  const { run: openedRun, actions } = openEmittedCheckpoint(advanced, rawActions)
+
   return {
-    run: advanced,
+    run: openedRun,
     say: typeof parsed?.say === 'string' ? parsed.say : '',
-    actions: Array.isArray(parsed?.actions) ? parsed.actions : [],
+    actions,
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],
   }
+}
+
+/**
+ * A `next_beat`/`jump`/`accept_plan`/`answer_check` teaching turn is where the
+ * SYSTEM prompt tells the model to emit a `checkpoint` action once a step has
+ * been taught — that is the ordinary "teach it, then check it" flow, not the
+ * test-out path. Nothing else opens a check for it, so without this the
+ * checkpoint action still renders a quiz on the canvas, but `openCheck` never
+ * gets set: `answer_check` then always refuses with "There is no check open",
+ * the step can never reach 'done', and a locked step — un-skippable and
+ * un-test-outable by design — becomes un-completable too.
+ *
+ * `step` on the action is 1-based (see `TutorAction` in lib/studylab/types),
+ * not a step id, so it is mapped to `advanced.steps[step - 1]` and, failing
+ * that, to the step currently being taught. If neither resolves there is
+ * nothing to open a check against, so the action is dropped rather than left
+ * for the learner to answer to no effect.
+ *
+ * `beginCheck` refusing because a check is already open is the state machine
+ * correctly enforcing what the old prompt's "rule 3a" used to just ask for —
+ * on that refusal the run is left exactly as it came in, and the duplicate
+ * checkpoint action is dropped so the canvas does not render a second quiz
+ * that cannot gate anything.
+ */
+function openEmittedCheckpoint(
+  run: LessonRun,
+  rawActions: unknown[],
+): { run: LessonRun; actions: unknown[] } {
+  const cpIndex = rawActions.findIndex(
+    (a): a is { type: 'checkpoint'; id: string; step: number; gate?: unknown } =>
+      !!a &&
+      typeof a === 'object' &&
+      (a as { type?: unknown }).type === 'checkpoint' &&
+      typeof (a as { id?: unknown }).id === 'string' &&
+      typeof (a as { step?: unknown }).step === 'number',
+  )
+  if (cpIndex === -1) return { run, actions: rawActions }
+
+  const cp = rawActions[cpIndex] as { id: string; step: number; gate?: unknown }
+  const gate: 'hard' | 'soft' = cp.gate === 'soft' ? 'soft' : 'hard'
+  const target = run.steps[cp.step - 1] ?? run.steps[run.currentStep]
+
+  if (!target) {
+    // Neither the emitted step number nor the current step resolves — there
+    // is nothing to open a check against.
+    return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
+  }
+
+  const opened = beginCheck(run, target.id, cp.id, 'checkpoint', gate)
+  if (!opened.ok) {
+    // Already open (or the step vanished from the plan): keep the run as it
+    // was and drop the duplicate rather than returning a quiz that cannot
+    // resolve anything.
+    return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
+  }
+  return { run: opened.run, actions: rawActions }
 }
 
 /**

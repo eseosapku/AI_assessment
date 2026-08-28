@@ -21,8 +21,8 @@ interface StudyLabSidebarProps {
   onBack: () => void
   onFocusGroup: (id: string) => void
   run?: LessonRun | null
-  // Optional for now: no caller passes a run yet, so the rail stays empty and
-  // these are unused — Task 9 wires a real run through and starts sending them.
+  // Workspace passes a real run, policy and handlers; the defaults below only
+  // cover callers (e.g. tests) that render the sidebar without them.
   policy?: LessonPolicy
   onTestOut?: (stepId: string) => void
   onJump?: (stepId: string) => void
