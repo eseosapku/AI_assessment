@@ -407,16 +407,66 @@ describe('the planning exchange', () => {
 })
 
 describe('jump', () => {
-  it('reveals an earlier step without regenerating it', async () => {
+  const jumpTo = (context: Record<string, unknown>) =>
+    applyAction({
+      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'jump', stepId: 'b' }, context,
+    })
+
+  it('reveals a step that already has cards, without regenerating it', async () => {
     // Going back to re-read should find what was read, not a fresh explanation
     // of the same thing — and not cost a paid call to say it.
-    const run = lockedRun()
-    const result = await applyAction({
-      run, policy: policyFor('scratch'), userId: 'u1',
-      action: { type: 'jump', stepId: 'b' },
+    const result = await jumpTo({
+      board: { cards: [{ id: 'b1', title: 'Bonding basics', step: 2 }] },
     })
     expect(callGemma).not.toHaveBeenCalled()
     expect(result.run.currentStep).toBe(1)
+  })
+
+  it('says what it revealed, so the click is not silent', async () => {
+    const result = await jumpTo({
+      board: { cards: [{ id: 'b1', title: 'Bonding basics', step: 2 }] },
+    })
+    expect(result.ack).toContain('Back on step 2, Bonding')
+    expect(result.ack).toContain('card is on the board')
+  })
+
+  it('teaches a step that has never been built, rather than waiting for Continue', async () => {
+    // The rail highlight moving is not feedback. Landing on an empty step and
+    // sitting there is indistinguishable from the click not registering.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'Here is bonding.', actions: [], suggestions: [] }),
+    )
+    const result = await jumpTo({ board: { cards: [{ id: 'a1', title: 'Atoms', step: 1 }] } })
+    expect(callGemma).toHaveBeenCalledOnce()
+    expect(result.say).toBe('Here is bonding.')
+  })
+})
+
+describe('a state-only action always says what it did', () => {
+  const act = async (action: Parameters<typeof applyAction>[0]['action']) => {
+    const result = await applyAction({
+      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1', action, context: {},
+    })
+    return result.ack ?? ''
+  }
+
+  it('names the new pace and what it changes', async () => {
+    expect(await act({ type: 'set_pace', pace: 'run' })).toContain('whole steps')
+    expect(await act({ type: 'set_pace', pace: 'step' })).toContain('one card at a time')
+  })
+
+  it('names the step a skip landed on', async () => {
+    expect(await act({ type: 'skip', stepId: 'a' })).toContain('step 2, Bonding')
+  })
+
+  it('confirms a pause', async () => {
+    expect(await act({ type: 'stop' })).toContain('Paused')
+  })
+
+  it('spends no model call to do it', async () => {
+    await act({ type: 'set_pace', pace: 'run' })
+    expect(callGemma).not.toHaveBeenCalled()
   })
 })
 

@@ -115,7 +115,17 @@ export interface CanvasState {
  * identical, which is why nothing in the conversation read as more or less
  * important than anything else.
  */
-export type ChatMessageKind = 'say' | 'plan' | 'refusal' | 'error'
+export type ChatMessageKind =
+  /** An ordinary line from the tutor, pointing at the board. */
+  | 'say'
+  /** A proposed outline, with the questions asked beside it. */
+  | 'plan'
+  /** The state machine declining, in the tutor's voice. */
+  | 'refusal'
+  /** Something went wrong. */
+  | 'error'
+  /** What an action did. Not teaching — reported quietly, out of the bubbles. */
+  | 'status'
 
 /** A plan as the chat renders it, with the questions asked beside it. */
 export interface ChatPlan {

@@ -11,7 +11,7 @@ import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
 import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
-import { parseBoardSummary } from '@/lib/studylab/boardSummary'
+import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
@@ -54,6 +54,15 @@ export interface DispatchResult {
   suggestions: string[]
   refusal?: string
   plan?: PlanCard
+  /**
+   * What just happened, when an action only moved state.
+   *
+   * Kept apart from `say` because it is not the tutor teaching — it is the
+   * system reporting — and the chat renders the two differently. Collapsing
+   * them would put "Switched to whole steps" in the same bubble as an
+   * explanation of covalent bonding.
+   */
+  ack?: string
 }
 
 /** Actions that only move state. None of these is worth a model call. */
@@ -77,18 +86,28 @@ function transitionFor(input: DispatchInput): Transition {
   }
 }
 
-/** Which actions want the model to produce something afterwards. */
+const ALWAYS_TEACHES = new Set(['accept_plan', 'next_beat', 'answer_check'])
+
 /**
- * Actions that ask the teaching job to build something.
+ * Whether this turn should call the teaching job.
  *
- * `jump` is deliberately absent. Going back to an earlier step should reveal
- * the cards already built for it, not generate a second set — a learner who
- * revisits a step to re-read it should find what they read, not a fresh
- * explanation of the same thing. The cards persist on the canvas either way,
- * so revealing costs nothing and regenerating costs a paid call and confuses
- * the board.
+ * `jump` is the conditional one. Going BACK to a step that already has cards
+ * must not regenerate them — the learner is returning to re-read what they
+ * read, and a second explanation of the same thing costs a paid call and
+ * clutters the board. But jumping to a step that has never been taught used to
+ * do nothing visible at all: the rail highlight moved and the lesson sat there
+ * until the learner pressed Continue, with no way to tell the click had even
+ * registered. Landing on an empty step teaches it.
  */
-const NEEDS_TEACHING = new Set(['accept_plan', 'next_beat', 'answer_check'])
+function needsTeaching(action: LessonAction, run: LessonRun, board: BoardSummary): boolean {
+  if (ALWAYS_TEACHES.has(action.type)) return true
+  if (action.type !== 'jump') return false
+
+  const target = run.steps[run.currentStep]
+  if (!target) return false
+  // Step numbers on cards are 1-based, matching what the prompt asks for.
+  return !board.cards.some((c) => c.step === run.currentStep + 1)
+}
 
 /**
  * Applies one action, then calls the one job the new state requires.
@@ -118,8 +137,20 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     return applyAsk(input, advanced)
   }
 
-  if (!NEEDS_TEACHING.has(input.action.type) || advanced.phase === 'done') {
-    return { run: advanced, say: '', actions: [], suggestions: [] }
+  const board = parseBoardSummary(input.context?.board)
+
+  if (!needsTeaching(input.action, advanced, board) || advanced.phase === 'done') {
+    // Never silent. A state-only action that returns nothing to show leaves the
+    // learner unable to tell whether their click did anything — which is how
+    // "I clicked a step and had to press Continue to find out if it worked"
+    // happens. This costs no model call.
+    return {
+      run: advanced,
+      say: '',
+      actions: [],
+      suggestions: [],
+      ack: acknowledge(input.action, advanced, board),
+    }
   }
 
   const step = advanced.steps[advanced.currentStep]
@@ -159,6 +190,45 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],
+  }
+}
+
+/**
+ * What the tutor says when an action only moved state.
+ *
+ * Deterministic and free: these are facts about what just happened, not
+ * judgements, so there is nothing here worth a model call. The rule is that
+ * every action a learner can take produces a visible response — a control that
+ * answers silently is indistinguishable from one that is broken.
+ */
+function acknowledge(action: LessonAction, run: LessonRun, board: BoardSummary): string {
+  const step = run.steps[run.currentStep]
+  const stepNo = run.currentStep + 1
+
+  switch (action.type) {
+    case 'jump': {
+      if (!step) return 'Moved.'
+      const built = board.cards.filter((c) => c.step === stepNo).length
+      return built > 0
+        ? `Back on step ${stepNo}, ${step.title}. Its ${built === 1 ? 'card is' : `${built} cards are`} on the board — Continue picks up where you left off.`
+        : `On step ${stepNo}, ${step.title}.`
+    }
+    case 'skip':
+      return step
+        ? `Skipped ahead. You are on step ${stepNo}, ${step.title}.`
+        : 'Skipped ahead — that was the last step.'
+    case 'set_pace':
+      return action.pace === 'run'
+        ? 'Switched to whole steps — I will build each one out and finish with a check.'
+        : 'Switched to one card at a time — I will stop after each so you can steer.'
+    case 'edit_plan':
+      return 'Plan updated.'
+    case 'stop':
+      return 'Paused. Nothing is lost — pick it back up whenever you want.'
+    case 'finish':
+      return 'That is the lesson done. Everything you built is on the board.'
+    default:
+      return ''
   }
 }
 

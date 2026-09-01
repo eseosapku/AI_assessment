@@ -12,6 +12,7 @@ import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
+import { busyLabel } from '@/lib/studylab/busyLabel'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
@@ -56,6 +57,8 @@ export default function Workspace({ id }: { id: string }) {
   const [effects, setEffects] = useState<CanvasEffects>({ version: 0, list: [] })
   const [currentStep, setCurrentStep] = useState(0)
   const [busy, setBusy] = useState(false)
+  // What the tutor is doing right now, so the wait names its own cause.
+  const [working, setWorking] = useState('Thinking…')
   const [run, setRun] = useState<LessonRun | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)
@@ -154,6 +157,7 @@ export default function Workspace({ id }: { id: string }) {
     async (action: Record<string, unknown>) => {
       if (busyRef.current) return
       busyRef.current = true
+      setWorking(busyLabel(action as { type?: string }))
       setBusy(true)
       try {
         const res = await fetch('/api/studylab/tutor', {
@@ -175,6 +179,7 @@ export default function Workspace({ id }: { id: string }) {
           refusal?: string
           error?: string
           plan?: ChatPlan
+          ack?: string
         } = await res.json()
 
         if (!res.ok || body.error) {
@@ -248,6 +253,10 @@ export default function Workspace({ id }: { id: string }) {
         if (nextStep !== stepRef.current) setCurrentStep(nextStep)
 
         const newMessages: ChatMessage[] = []
+        // An action that only moved state still has to answer for itself.
+        if (body.ack) {
+          newMessages.push({ role: 'assistant', kind: 'status', content: body.ack })
+        }
         if (body.say || actions.length > 0) {
           newMessages.push({ role: 'assistant', content: body.say ?? '', actions, suggestions: body.suggestions ?? [] })
         }
@@ -730,8 +739,10 @@ export default function Workspace({ id }: { id: string }) {
           messages={messages}
           suggestions={suggestions}
           busy={busy}
+          working={working}
           done={done}
           onSend={handleSend}
+          onFocusCard={goToNode}
           pendingCheckpoint={pendingCheckpoint}
           onGoToCheck={goToNode}
           onProveIt={handleProveIt}

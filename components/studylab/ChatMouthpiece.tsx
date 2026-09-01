@@ -3,8 +3,8 @@
 import { useEffect, useRef, useState } from 'react'
 import Latex from 'react-latex-next'
 import { PlanCard } from './PlanCard'
-import { Brain, Send, Sparkles, ImagePlus, X } from 'lucide-react'
-import type { ChatMessage } from '@/lib/studylab/types'
+import { Brain, Send, Sparkles, ImagePlus, X, ArrowRight } from 'lucide-react'
+import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5 MB
 
@@ -42,9 +42,28 @@ interface ChatMouthpieceProps {
   pendingCheckpoint?: { total: number; remaining: number; nextId: string | null } | null
   onGoToCheck?: (nodeId: string) => void
   onQuizMe?: () => void
+  /** What the tutor is doing right now, shown while busy. */
+  working?: string
+  /** Bring a card the tutor just made into view. */
+  onFocusCard?: (nodeId: string) => void
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan }: ChatMouthpieceProps) {
+/**
+ * The cards a turn actually put on the board.
+ *
+ * Listing them is what makes "see the card" checkable. A turn that narrated a
+ * card it never created used to look exactly like one that did — the chat said
+ * the same sentence either way, and the only way to find out was to go hunting
+ * on the canvas.
+ */
+function builtCards(actions: TutorAction[] | undefined) {
+  return (actions ?? [])
+    .filter((a): a is Extract<TutorAction, { type: 'createCard' }> => a.type === 'createCard')
+    .map((a) => ({ id: a.id, title: (a.title ?? '').trim() }))
+    .filter((c) => c.title.length > 0)
+}
+
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard }: ChatMouthpieceProps) {
   // A plan is awaiting a decision when the newest plan card is still live.
   const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
 
@@ -120,7 +139,16 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <p className="text-sm text-ss-slate text-center mt-8">Starting your session…</p>
         )}
         {messages.map((m, i) =>
-          m.role === 'assistant' ? (
+          // A status line is the system reporting what an action did, not the
+          // tutor speaking. It gets no avatar and no bubble, so the transcript
+          // still reads as a conversation with the run's bookkeeping beside it.
+          m.kind === 'status' ? (
+            <div key={i} className="flex items-center gap-2 py-0.5">
+              <span className="h-px flex-1 bg-ss-line" />
+              <span className="text-[12px] font-semibold text-ss-slate whitespace-nowrap">{m.content}</span>
+              <span className="h-px flex-1 bg-ss-line" />
+            </div>
+          ) : m.role === 'assistant' ? (
             <div key={i} className="flex gap-2.5">
               <div className="w-7 h-7 rounded-lg bg-[color:var(--ss-accent)]/10 flex items-center justify-center shrink-0 mt-0.5">
                 <Brain className="w-4 h-4 text-ss-accent" />
@@ -147,8 +175,38 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   <SafeLatex>{m.content}</SafeLatex>
                 </div>
               ) : (
-                <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
-                  <SafeLatex>{m.content}</SafeLatex>
+                <div className="max-w-[85%] space-y-1.5">
+                  {m.content && (
+                    <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed whitespace-pre-wrap">
+                      <SafeLatex>{m.content}</SafeLatex>
+                    </div>
+                  )}
+                  {/* What this turn put on the board, and a way to get to it.
+                      "Here's how it ionizes — see the card" is only useful if
+                      the card is findable; and a turn that built nothing now
+                      visibly lists nothing. */}
+                  {builtCards(m.actions).map((c) => (
+                    <button
+                      key={c.id}
+                      type="button"
+                      onClick={() => onFocusCard?.(c.id)}
+                      disabled={!onFocusCard}
+                      className="group flex w-full items-center gap-2 rounded-xl border border-ss-line bg-white px-3 py-2 text-left transition-colors hover:border-ss-accent disabled:cursor-default dark:bg-white/[0.03]"
+                    >
+                      <span
+                        aria-hidden
+                        className="h-6 w-1 shrink-0 rounded-full"
+                        style={{ backgroundColor: 'var(--ss-accent)' }}
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span className="block text-[12px] font-bold uppercase tracking-wide text-ss-slate">
+                          Added to the board
+                        </span>
+                        <span className="block truncate text-[13px] font-semibold text-ss-ink">{c.title}</span>
+                      </span>
+                      <ArrowRight className="h-4 w-4 shrink-0 text-ss-slate transition-colors group-hover:text-ss-accent" />
+                    </button>
+                  ))}
                 </div>
               )}
             </div>
@@ -174,10 +232,16 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             <div className="w-7 h-7 rounded-lg bg-[color:var(--ss-accent)]/10 flex items-center justify-center shrink-0">
               <Brain className="w-4 h-4 text-ss-accent" />
             </div>
-            <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.3s]" />
-              <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.15s]" />
-              <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce" />
+            <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-4 py-3 flex items-center gap-2">
+              <span className="flex items-center gap-1.5" aria-hidden>
+                <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.3s]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce [animation-delay:-0.15s]" />
+                <span className="w-1.5 h-1.5 rounded-full bg-ss-slate animate-bounce" />
+              </span>
+              {/* Three dots say only "something is happening". For a call that
+                  can run ten seconds that is not enough to tell a slow turn
+                  from a broken one — so it says which job is running. */}
+              <span className="text-[13px] font-semibold text-ss-slate">{working}</span>
             </div>
           </div>
         )}
