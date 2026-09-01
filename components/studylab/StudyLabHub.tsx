@@ -5,8 +5,9 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Brain, Plus, Sparkles, Clock, X, Loader2, Upload, CheckCircle2,
-  Leaf, Sigma, Zap, LineChart, Binary, GraduationCap, type LucideIcon,
+  Leaf, Sigma, Zap, LineChart, Binary, GraduationCap, ArrowRight, type LucideIcon,
 } from 'lucide-react'
+import { hasSeenDemo } from '@/lib/studylab/demoGate'
 import { useAuth } from '@/components/AuthProvider'
 import PersonaPanel from '@/components/studylab/PersonaPanel'
 import { subjectArt } from '@/lib/studio/subjectArt'
@@ -46,6 +47,10 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
   const [loading, setLoading] = useState(true)
   const [warning, setWarning] = useState<string | null>(null)
   const [showCreate, setShowCreate] = useState(false)
+  // Read after mount: hasSeenDemo touches localStorage, and deciding the tile's
+  // framing on the server would flash "Start here" at everyone.
+  const [demoSeen, setDemoSeen] = useState(true)
+  useEffect(() => setDemoSeen(hasSeenDemo()), [])
   // Arriving from a weak subject on Progress. The dialog opens with the
   // subject already filled so the student only has to name the topic — the
   // point is to remove a step between "I'm bad at this" and being taught it.
@@ -226,6 +231,8 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
               </div>
               <span className="text-sm font-extrabold">New LearnSpace</span>
             </button>
+
+            <DemoTile seen={demoSeen} />
 
             {spaces.map((space) => {
               const completed = space.status === 'completed'
@@ -518,11 +525,70 @@ function EmptyState({ onCreate }: { onCreate: () => void }) {
         Name anything you&apos;re stuck on and the tutor writes the lesson for it — explainer cards,
         diagrams, worked examples, and checkpoints that quiz you as you go.
       </p>
-      <button type="button" onClick={onCreate} className="btn-primary mt-6">
-        <Plus className="h-4 w-4" />
-        Pick a topic
-      </button>
+      <div className="mt-6 flex flex-wrap items-center justify-center gap-3">
+        <button type="button" onClick={onCreate} className="btn-primary">
+          <Plus className="h-4 w-4" />
+          Pick a topic
+        </button>
+        {/* The grid below never renders for an account with no lessons, so the
+            demo has to be offered here too — this is the only screen a genuinely
+            new user sees. */}
+        <a
+          href="/studylab/demo"
+          className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2.5 text-sm font-bold text-ss-ink hover:bg-ss-chip"
+        >
+          <GraduationCap className="h-4 w-4 text-ss-accent" />
+          See how it works first
+        </a>
+      </div>
     </div>
+  )
+}
+
+/**
+ * The demo, sitting in the grid beside "New LearnSpace".
+ *
+ * Kept in the grid rather than only in the header because this is where
+ * someone looks when they are deciding what to do, and "what is this thing"
+ * is a reasonable thing to be deciding.
+ *
+ * It does not disappear once taken. Hiding it would leave a returning learner
+ * with no way back to it, and it costs one tile; what changes is the framing —
+ * "Start here" while it is new, a quieter "Run it again" afterwards.
+ */
+function DemoTile({ seen }: { seen: boolean }) {
+  return (
+    <a
+      href="/studylab/demo"
+      className="group flex flex-col justify-between rounded-[20px] border border-ss-line bg-ss-panel p-5 text-left transition-colors hover:border-ss-accent"
+    >
+      <div>
+        <div
+          className="grid h-12 w-12 place-items-center rounded-2xl transition-transform group-hover:scale-110"
+          style={{ backgroundColor: 'var(--ss-accent-soft)' }}
+        >
+          <GraduationCap className="h-6 w-6 text-ss-accent" />
+        </div>
+        {!seen && (
+          <span
+            className="mt-3 inline-block rounded-full px-2 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-white"
+            style={{ backgroundColor: 'var(--ss-accent)' }}
+          >
+            Start here
+          </span>
+        )}
+        <h3 className="mt-2 text-base font-extrabold text-ss-ink">
+          {seen ? 'Run the demo again' : 'See how a LearnSpace works'}
+        </h3>
+        <p className="mt-1 text-sm font-semibold text-ss-slate">
+          A short pre-written lesson where you press every control yourself. Nothing is saved.
+        </p>
+      </div>
+      <span className="mt-4 inline-flex items-center gap-1.5 text-sm font-bold text-ss-accent">
+        Take the tour
+        <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-0.5" />
+      </span>
+    </a>
   )
 }
 
