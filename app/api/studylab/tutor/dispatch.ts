@@ -481,11 +481,16 @@ export interface DraftedPlan {
  */
 export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
   const { min, max } = input.policy.planSize
+  // Only offered when there is something real to attribute to. Asked for an
+  // id with no catalogue in front of it, the model numbers the steps 1, 2,
+  // 3 — and those collide with real subtopic ids belonging to entirely other
+  // subjects.
   const catalogue = input.subtopics.length
     ? `\nCURRICULUM SUBTOPICS (attribute each step to one by id where it fits):\n${
         input.subtopics.map((s) => `  ${s.id}: ${s.name}`).join('\n')
       }`
     : ''
+  const idField = input.subtopics.length ? ', "subtopicId": <id or omit>' : ''
 
   // A re-draft has the learner's answer and must not ask again — asking twice
   // is how a setup exchange turns into an interrogation.
@@ -508,7 +513,7 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
           'none is fine if the plan genuinely does not turn on anything.',
           '',
           'Reply with JSON only:',
-          '{ "steps": [ { "title": "...", "goal": "one line on what this step teaches", "subtopicId": <id or omit> } ],',
+          `{ "steps": [ { "title": "...", "goal": "one line on what this step teaches"${idField} } ],`,
           '  "questions": ["...", "..."] }',
         ].join('\n'),
   ]
@@ -538,6 +543,13 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     .map((q: string) => q.trim())
     .slice(0, 2)
 
+  // Only ids we actually handed over are accepted. Anything else is a number
+  // the model made up, and a made-up id matches a real `topic_mastery` row for
+  // a different subject entirely — which is how a lesson on Tarantino dialogue
+  // came to tell a learner they had scored 29% on it, borrowing a Biology
+  // classification score. A fabricated measurement is worse than none.
+  const offered = new Set(input.subtopics.map((sub) => sub.id))
+
   const steps: LessonStep[] = (Array.isArray(parsed?.steps) ? parsed.steps : [])
     .map((raw: unknown, i: number): LessonStep | null => {
       if (!raw || typeof raw !== 'object') return null
@@ -551,7 +563,7 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
         goal: typeof r.goal === 'string' ? r.goal : '',
         status: 'pending',
         cardIds: [],
-        ...(Number.isInteger(subtopicId) && subtopicId > 0 ? { subtopicId } : {}),
+        ...(Number.isInteger(subtopicId) && offered.has(subtopicId) ? { subtopicId } : {}),
       }
     })
     .filter((s): s is LessonStep => s !== null)

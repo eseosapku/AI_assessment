@@ -467,3 +467,43 @@ describe('check-question field names', () => {
     expect(result.refusal).toBeTruthy()
   })
 })
+
+describe('subtopic attribution', () => {
+  it('discards an id that was never offered', async () => {
+    // Given no catalogue, the model numbers steps 1, 2, 3 — and those collide
+    // with real subtopic ids from other subjects. That is how a lesson on
+    // Tarantino dialogue told a learner they had scored 29% on it, borrowing a
+    // Biology classification score.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ steps: [{ title: "Tarantino's style", goal: 'g', subtopicId: 1 }] }),
+    )
+    const { steps } = await draftPlan({
+      title: 'Writing dialogue', subject: null, policy: policyFor('scratch'),
+      userId: 'u1', subtopics: [], database: dbWith([{ subtopic_id: 1, accuracy: 29 }]),
+    })
+    expect(steps[0].subtopicId).toBeUndefined()
+    expect(steps[0].lockedBy).toBeUndefined()
+  })
+
+  it('keeps an id that was offered', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ steps: [{ title: 'Ionic bonding', goal: 'g', subtopicId: 7 }] }),
+    )
+    const { steps } = await draftPlan({
+      title: 'Chemistry', subject: null, policy: policyFor('gap'), userId: 'u1',
+      subtopics: [{ id: 7, name: 'Ionic bonding' }],
+      database: dbWith([{ subtopic_id: 7, accuracy: 38 }]),
+    })
+    expect(steps[0].subtopicId).toBe(7)
+    expect(steps[0].lockedBy).toEqual({ subtopicId: 7, accuracy: 38 })
+  })
+
+  it('never asks for an id when there is no catalogue to pick from', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ steps: [{ title: 'A', goal: 'g' }] }))
+    await draftPlan({
+      title: 'Writing dialogue', subject: null, policy: policyFor('scratch'),
+      userId: 'u1', subtopics: [], database: dbWith([]),
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).not.toContain('subtopicId')
+  })
+})
