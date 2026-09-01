@@ -666,7 +666,13 @@ export default function Workspace({ id }: { id: string }) {
       }
     }
 
-    if (run && run.phase === 'planning' && run.steps.length === 0) {
+    // Asked for on every arrival that is still planning, not only when there
+    // are no steps yet. The plan card is not persisted with the transcript, so
+    // a reload — or a second tab — used to land on a lesson whose plan sat in
+    // the sidebar with nothing anywhere to accept it. `draft_plan` returns an
+    // existing proposal untouched and only writes a new one when there is none,
+    // so this cannot overwrite a plan the learner is already reading.
+    if (run && run.phase === 'planning') {
       void sendAction({ type: 'draft_plan' })
     }
   }, [loaded, space, loadError, run, sendAction, id, persist])
