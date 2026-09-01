@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
 import StudyLabSidebar from './StudyLabSidebar'
+import ProductTour from '@/components/studio/ProductTour'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
@@ -713,7 +714,7 @@ export default function Workspace({ id }: { id: string }) {
         onSetPace={(pace) => void sendAction({ type: 'set_pace', pace })}
       />
 
-      <div className="flex-1 min-w-0 h-full">
+      <div data-tour="lesson-board" className="flex-1 min-w-0 h-full">
         <StudyCanvas
           nodes={canvas.nodes}
           edges={canvas.edges}
@@ -759,6 +760,13 @@ export default function Workspace({ id }: { id: string }) {
           }}
         />
       </div>
+
+      {/* Coach marks, held back until the first card is on the board. Every
+          step points at a control that only exists once teaching has started —
+          the pace toggle is hidden during planning, and Continue is replaced by
+          the plan card's own buttons — so running it on arrival would spotlight
+          things that are not there yet. */}
+      <ProductTour id="lesson" enabled={run?.phase === 'teaching' && canvas.nodes.length > 0} />
     </div>
   )
 }

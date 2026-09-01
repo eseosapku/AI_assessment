@@ -1,5 +1,18 @@
 import { describe, it, expect } from 'vitest'
+import { readFileSync, readdirSync, statSync } from 'node:fs'
+import { join } from 'node:path'
 import { TOURS, clampStep, hasSeenTour, choosePlacement, type TourId } from './product-tour'
+
+/** Every .tsx under a directory, so anchors can be checked against real markup. */
+function listFiles(dir: string): string[] {
+  const out: string[] = []
+  for (const entry of readdirSync(dir)) {
+    const path = join(dir, entry)
+    if (statSync(path).isDirectory()) out.push(...listFiles(path))
+    else if (path.endsWith('.tsx')) out.push(path)
+  }
+  return out
+}
 
 const ALL = Object.values(TOURS)
 
@@ -54,6 +67,7 @@ describe('anchors', () => {
       home: ['hero-cta', '/practice', '/studylab', '/studylab/gap-map', '/progress', '/classrooms'],
       practice: ['practice-build', 'practice-custom', 'practice-modes'],
       learnspace: ['learnspace-new', 'learnspace-homework', 'learnspace-list'],
+      lesson: ['lesson-board', 'lesson-chat', 'lesson-continue', 'lesson-plan', 'lesson-pace'],
       gapmap: ['gapmap-canvas', 'gapmap-legend'],
       progress: ['progress-overall', 'progress-subjects', 'progress-recent'],
       recall: ['recall-due', 'recall-decks'],
@@ -65,12 +79,38 @@ describe('anchors', () => {
     }
   })
 
+  it('has a real data-tour attribute in the markup for every anchor it names', () => {
+    // The list above is only a promise until something checks it. The failure
+    // this guards is precisely the one that shipped before: an anchor that no
+    // element carries leaves a coach mark floating mid-screen pointing at
+    // nothing, which looks like a broken product on a student's first visit.
+    //
+    // Href-style anchors (data-tour={item.href}) are set from data rather than
+    // written literally, so they are exempt from the scan.
+    const sources = listFiles('components').concat(listFiles('app'))
+    const markup = sources.map((f) => readFileSync(f, 'utf8')).join('\n')
+
+    for (const tour of ALL) {
+      for (const step of tour.steps) {
+        if (step.anchor.startsWith('/')) continue
+        expect(
+          markup.includes(`data-tour="${step.anchor}"`),
+          `${tour.id}: no element carries data-tour="${step.anchor}"`,
+        ).toBe(true)
+      }
+    }
+  })
+
   it('opens each tour on something the student can act on', () => {
     // Not a heading, and not a menu item. The lost tester was hunting for a
     // control, so step one is always a control.
     expect(TOURS.home.steps[0].anchor).toBe('hero-cta')
     expect(TOURS.practice.steps[0].anchor).toBe('practice-build')
     expect(TOURS.learnspace.steps[0].anchor).toBe('learnspace-new')
+    // Inside a lesson the board is the exception, and deliberately so: it is
+    // the thing the student is already looking at and the one that explains
+    // what everything else is for.
+    expect(TOURS.lesson.steps[0].anchor).toBe('lesson-board')
   })
 })
 

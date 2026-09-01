@@ -25,7 +25,7 @@
  * itself.
  */
 
-export type TourId = 'home' | 'practice' | 'learnspace' | 'gapmap' | 'progress' | 'recall'
+export type TourId = 'home' | 'practice' | 'learnspace' | 'lesson' | 'gapmap' | 'progress' | 'recall'
 
 export interface TourStep {
   /** Value of the target's data-tour attribute. */
@@ -140,6 +140,58 @@ export const TOURS: Record<TourId, Tour> = {
         title: 'Your lessons stay put',
         body:
           'Everything you build is saved here with how far through you got, so you can stop mid-lesson and pick it up another day. Lessons built from a weak topic say so on the card.',
+      },
+    ],
+  },
+
+  /**
+   * Inside a lesson, as distinct from the `learnspace` hub above.
+   *
+   * Runs once the first card is on the board — not on arrival. A first-timer
+   * staring at an empty canvas has nothing to point at, and every step here
+   * describes a control that is only there once teaching has started. It waits
+   * until something has visibly happened, then explains how to steer it.
+   */
+  lesson: {
+    id: 'lesson',
+    steps: [
+      {
+        anchor: 'lesson-board',
+        eyebrow: 'The board',
+        title: 'The board is the lesson, not the chat',
+        body:
+          'Every idea, example and diagram becomes a card here, joined left to right so the lesson reads as a path. The chat on the right is a thin guide that points at what it just built — the teaching itself is always on a card.',
+        action: 'Drag cards anywhere. Nothing you build is ever deleted.',
+      },
+      {
+        anchor: 'lesson-chat',
+        eyebrow: 'Finding what it made',
+        title: 'Every card it adds is listed here',
+        body:
+          'When the tutor says "see the card", the block underneath names it. Click that block and the board flies straight to it, so you never have to go hunting across the canvas.',
+      },
+      {
+        anchor: 'lesson-continue',
+        eyebrow: 'Moving and asking',
+        title: 'Continue is the only thing that moves forward',
+        body:
+          'The outlined buttons above it are questions about what is on screen right now — asking one gets you another card without skipping ahead. You can also type your own question, or paste a photo of your working.',
+        action: 'Right-click any card for Simplify, Explain deeper, or Quiz me on this.',
+      },
+      {
+        anchor: 'lesson-plan',
+        eyebrow: 'Your plan',
+        title: 'Click any step to go straight to it',
+        body:
+          'Each row shows its own state: waiting, being taught, or done. Clicking a step you have not reached starts teaching it; clicking one you have finished brings its cards back without re-explaining them.',
+      },
+      {
+        anchor: 'lesson-pace',
+        eyebrow: 'How fast',
+        title: 'Change the pace whenever it stops fitting',
+        body:
+          'Step by step adds one card and waits for you. Run ahead builds a whole step at once and finishes with a quick check. Switch when a step covers something you already know, and switch back when it gets hard.',
+        action: 'Takes effect on the next turn.',
       },
     ],
   },

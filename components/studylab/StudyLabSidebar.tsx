@@ -132,7 +132,7 @@ export default function StudyLabSidebar({
             for the pace there, and a toggle already showing an answer makes
             that question look decided before it was put. */}
         {run && run.phase !== 'planning' && (
-          <div className="mx-2 mb-3 rounded-xl bg-white/5 p-1.5">
+          <div data-tour="lesson-pace" className="mx-2 mb-3 rounded-xl bg-white/5 p-1.5">
             <div className="flex gap-1">
               {PACES.map(({ id, icon: Icon, title, blurb }) => (
                 <button
@@ -161,7 +161,7 @@ export default function StudyLabSidebar({
 
         <div className="space-y-1">
           {hasRail ? (
-            <ul className="space-y-0.5 list-none">
+            <ul data-tour="lesson-plan" className="space-y-0.5 list-none">
               {rail.map((step, i) => {
                 const settledStep = step.status === 'done' || step.status === 'known'
                 // One icon per state, so the rail reads without being read.
