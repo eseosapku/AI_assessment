@@ -8,7 +8,10 @@ import {
 } from './lessonRun'
 
 const GAP = policyFor('gap')
-const OPEN = policyFor('scratch')
+// Permissive about measured gaps, and still offers test-out. `scratch` is the
+// one origin that hides it: a lesson someone started by naming what they
+// wanted to learn should not offer to skip every step of it.
+const OPEN = policyFor('homework')
 
 const step = (id: string, over?: Partial<LessonStep>): LessonStep => ({
   id, title: `Step ${id}`, goal: `goal ${id}`, status: 'pending', cardIds: [], ...over,
@@ -272,7 +275,7 @@ describe('the plan cannot be navigated before it is accepted', () => {
   })
 
   it('refuses a test-out on a lesson that has not begun', () => {
-    const result = requestTestOut(planning(), 'b', 'cp-1', policyFor('scratch'))
+    const result = requestTestOut(planning(), 'b', 'cp-1', policyFor('homework'))
     expect(result.ok).toBe(false)
   })
 
@@ -281,6 +284,21 @@ describe('the plan cannot be navigated before it is accepted', () => {
     expect(started.ok).toBe(true)
     if (!started.ok) return
     expect(jumpTo(started.run, 'b', policyFor('scratch')).ok).toBe(true)
-    expect(requestTestOut(started.run, 'b', 'cp-1', policyFor('scratch')).ok).toBe(true)
+    expect(requestTestOut(started.run, 'b', 'cp-1', policyFor('homework')).ok).toBe(true)
+  })
+})
+
+describe('test-out is only offered where something claims the learner might know it', () => {
+  it('refuses on a lesson the learner started by naming a topic', () => {
+    // The UI hides the control; this is the guarantee, since a stale client
+    // can still send the action.
+    const result = requestTestOut(teaching(policyFor('scratch')), 'c', 'cp-1', policyFor('scratch'))
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.reason).toContain('yours to explore')
+  })
+
+  it('still allows it on homework and on a gap lesson', () => {
+    expect(requestTestOut(teaching(policyFor('homework')), 'c', 'cp-1', policyFor('homework')).ok).toBe(true)
+    expect(requestTestOut(teaching(GAP), 'c', 'cp-1', GAP).ok).toBe(true)
   })
 })

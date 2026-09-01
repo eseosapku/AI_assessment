@@ -16,7 +16,11 @@ const run: LessonRun = {
 }
 
 const GAP = policyFor('gap')
-const OPEN = policyFor('scratch')
+// Homework: permissive about measured gaps, but it still offers test-out —
+// it is work the learner has already attempted, so "I know this" is a claim
+// worth testing. `scratch` deliberately hides the control (see SCRATCH below).
+const OPEN = policyFor('homework')
+const SCRATCH = policyFor('scratch')
 
 describe('railSteps', () => {
   it('shows the measurement on a locked step whichever policy applies', () => {
@@ -66,7 +70,7 @@ describe('lockedReason', () => {
   })
 
   it('explains nothing in an open lesson, where the step is not withheld', () => {
-    const [, bonding] = railSteps(run, policyFor('scratch'))
+    const [, bonding] = railSteps(run, OPEN)
     expect(bonding.lockedReason).toBeNull()
     expect(bonding.canTestOut).toBe(true)
   })
@@ -95,6 +99,13 @@ describe('the rail while a plan is still being agreed', () => {
   it('still lists the steps, because the plan is the thing being decided', () => {
     expect(railSteps(planning, OPEN)).toHaveLength(4)
     expect(railSteps(planning, OPEN)[0].title).toBe('Atoms')
+  })
+
+  it('offers no test-out on a lesson the learner started themselves', () => {
+    // They typed the topic because they wanted to learn it; offering to skip
+    // every step of it reads as the tutor doubting the request.
+    expect(railSteps(run, SCRATCH).some((r) => r.canTestOut)).toBe(false)
+    expect(railSteps(run, OPEN).some((r) => r.canTestOut)).toBe(true)
   })
 
   it('reports itself as not live', () => {

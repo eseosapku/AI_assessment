@@ -185,6 +185,10 @@ export function requestTestOut(
   policy: LessonPolicy,
 ): Transition {
   if (run.phase === 'planning') return no('Start the lesson first — the plan is still up for changes.')
+  // Not offered on a lesson someone started by naming what they wanted to
+  // learn. The UI hides the control; this is the guarantee, since a stale
+  // client can still send the action.
+  if (policy.testOut === 'hide') return no('This lesson is yours to explore — skip a step from the plan instead.')
   const step = run.steps[indexOf(run, stepId)]
   if (!step) return no('That step is not in the plan.')
   if (isGated(step, policy)) {

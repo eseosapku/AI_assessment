@@ -54,7 +54,8 @@ export function railSteps(run: LessonRun | null, policy: LessonPolicy): RailStep
       // Only a step still waiting can be tested out of: the current step is
       // already being taught, and a settled one has nothing left to prove.
       // Nothing can be tested out of a plan that has not been accepted.
-      canTestOut: run.phase !== 'planning' && step.status === 'pending' && !gated,
+      canTestOut:
+        policy.testOut === 'offer' && run.phase !== 'planning' && step.status === 'pending' && !gated,
       lockedReason: gated
         ? `You were measured at ${step.lockedBy!.accuracy}% here, so this one gets taught.`
         : null,

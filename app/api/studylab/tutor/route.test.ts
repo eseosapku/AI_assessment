@@ -17,6 +17,9 @@ import { policyFor } from '@/lib/studylab/lessonPolicy'
 import { emptyRun, proposePlan, acceptPlan, beginCheck, type LessonRun } from '@/lib/studylab/lessonRun'
 
 const GAP = policyFor('gap')
+// Test-out is offered on gap and homework lessons, never on one the learner
+// started by naming a topic — these tests are about the check job, not that rule.
+const TEST_OUTABLE = policyFor('homework')
 
 const dbWith = (rows: Record<string, unknown>[]): Database =>
   ({ query: vi.fn().mockResolvedValue({ rows }) }) as unknown as Database
@@ -159,7 +162,7 @@ describe('test_out', () => {
       }),
     )
     const result = await applyAction({
-      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      run: lockedRun(), policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
 
@@ -175,7 +178,7 @@ describe('test_out', () => {
   it('uses the check model, not the teaching one', async () => {
     vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ questions: [] }))
     await applyAction({
-      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      run: lockedRun(), policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
     expect(vi.mocked(callGemma).mock.calls[0][1]).toMatchObject({
@@ -197,7 +200,7 @@ describe('test_out', () => {
     vi.mocked(callGemma).mockResolvedValue('not json')
     const run = lockedRun()
     const result = await applyAction({
-      run, policy: policyFor('scratch'), userId: 'u1',
+      run, policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
     expect(result.run).toEqual(run)
@@ -210,7 +213,7 @@ describe('test_out', () => {
     vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ questions: [] }))
     const run = lockedRun()
     const result = await applyAction({
-      run, policy: policyFor('scratch'), userId: 'u1',
+      run, policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
     expect(result.run).toEqual(run)
@@ -227,7 +230,7 @@ describe('test_out', () => {
     )
     const run = lockedRun()
     const result = await applyAction({
-      run, policy: policyFor('scratch'), userId: 'u1',
+      run, policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
     expect(result.run).toEqual(run)
@@ -482,7 +485,7 @@ describe('check-question field names', () => {
       }),
     )
     const result = await applyAction({
-      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      run: lockedRun(), policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
     const checkpoint = result.actions.find(
@@ -498,7 +501,7 @@ describe('check-question field names', () => {
       JSON.stringify({ questions: [{ format: 'short', prompt: 'Why does light bend?' }] }),
     )
     const result = await applyAction({
-      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      run: lockedRun(), policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
     expect(result.refusal).toBeUndefined()
@@ -510,7 +513,7 @@ describe('check-question field names', () => {
     )
     const run = lockedRun()
     const result = await applyAction({
-      run, policy: policyFor('scratch'), userId: 'u1',
+      run, policy: TEST_OUTABLE, userId: 'u1',
       action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
     })
     expect(result.run).toEqual(run)

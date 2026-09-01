@@ -25,6 +25,17 @@ export interface LessonPolicy {
   /** What `finish()` requires. */
   completion: 'all-steps' | 'learner-says'
   planSize: { min: number; max: number }
+  /**
+   * Whether a learner may skip a step by proving they know it.
+   *
+   * Only meaningful where something claims they might. A gap lesson exists
+   * because a measurement said they were weak, and homework is work they have
+   * already attempted — in both, "I already know this" is a claim worth
+   * testing. A lesson someone started by typing a topic they wanted to learn
+   * is not: offering to test them out of every step of it invites them to skip
+   * the thing they just asked for, and reads as the tutor doubting the request.
+   */
+  testOut: 'offer' | 'hide'
 }
 
 export const POLICIES: Record<LessonOrigin, LessonPolicy> = {
@@ -34,6 +45,7 @@ export const POLICIES: Record<LessonOrigin, LessonPolicy> = {
     defaultPace: 'step',
     completion: 'all-steps',
     planSize: { min: 3, max: 4 },
+    testOut: 'offer',
   },
   scratch: {
     gaps: 'advise',
@@ -41,6 +53,7 @@ export const POLICIES: Record<LessonOrigin, LessonPolicy> = {
     defaultPace: 'run',
     completion: 'learner-says',
     planSize: { min: 4, max: 6 },
+    testOut: 'hide',
   },
   homework: {
     gaps: 'advise',
@@ -48,6 +61,7 @@ export const POLICIES: Record<LessonOrigin, LessonPolicy> = {
     defaultPace: 'run',
     completion: 'learner-says',
     planSize: { min: 2, max: 4 },
+    testOut: 'offer',
   },
 }
 
