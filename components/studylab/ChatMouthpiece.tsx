@@ -5,6 +5,7 @@ import Latex from 'react-latex-next'
 import { PlanCard } from './PlanCard'
 import { Brain, Send, Sparkles, ImagePlus, X, ArrowRight } from 'lucide-react'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
+import type { Pace } from '@/lib/studylab/lessonPolicy'
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5 MB
 
@@ -29,8 +30,8 @@ function SafeLatex({ children }: { children?: string }) {
 interface ChatMouthpieceProps {
   messages: ChatMessage[]
   suggestions: string[]
-  /** Accept the plan proposed in the conversation. */
-  onAcceptPlan?: () => void
+  /** Accept the plan proposed in the conversation, at the chosen pace. */
+  onAcceptPlan?: (pace: Pace) => void
   /** Answer the plan's questions, or say what to change, and re-draft. */
   onAnswerPlan?: (answer: string) => void
   busy: boolean
@@ -162,7 +163,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   <PlanCard
                     plan={m.plan}
                     busy={busy}
-                    onAccept={() => onAcceptPlan?.()}
+                    onAccept={(pace) => onAcceptPlan?.(pace)}
                     onAnswer={(answer) => onAnswerPlan?.(answer)}
                   />
                 </div>

@@ -19,7 +19,12 @@ import { SYSTEM } from './route'
 export type LessonAction =
   /** `answer` is present on a re-draft, carrying what the learner said back. */
   | { type: 'draft_plan'; answer?: string }
-  | { type: 'accept_plan' }
+  /**
+   * `pace` is chosen on the plan card before the lesson starts. It used to be
+   * defaulted silently, which left the learner with a setting they had never
+   * been asked about and no reason to believe it was theirs to change.
+   */
+  | { type: 'accept_plan'; pace?: Pace }
   | { type: 'edit_plan'; edit: PlanEdit }
   | { type: 'next_beat' }
   | { type: 'test_out'; stepId: string; checkpointId: string }
@@ -70,7 +75,14 @@ function transitionFor(input: DispatchInput): Transition {
   const { run, policy, action } = input
   switch (action.type) {
     case 'draft_plan': return proposePlan(run, [])
-    case 'accept_plan': return acceptPlan(run)
+    case 'accept_plan': {
+      // The pace is applied first so the very first beat already obeys it.
+      // setPace only ever fails on a run that has finished, and acceptPlan
+      // would refuse that anyway — so a refusal here is still the honest one.
+      if (!action.pace) return acceptPlan(run)
+      const paced = setPace(run, action.pace)
+      return paced.ok ? acceptPlan(paced.run) : paced
+    }
     case 'edit_plan': return editPlan(run, action.edit, policy)
     case 'next_beat': return nextBeat(run)
     case 'test_out': return requestTestOut(run, action.stepId, action.checkpointId, policy)

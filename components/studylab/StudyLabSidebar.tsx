@@ -1,10 +1,14 @@
 'use client'
 
-import { ArrowLeft, Brain, Layers, CheckCircle2, Circle, CircleDot, StickyNote } from 'lucide-react'
+import {
+  ArrowLeft, Brain, Layers, CheckCircle2, Circle, CircleDot, StickyNote,
+  BadgeCheck, Lock, PlayCircle, ChevronRight, FastForward,
+} from 'lucide-react'
 import type { PlanStep } from '@/lib/studylab/types'
 import { railSteps } from '@/lib/studylab/planRail'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { policyFor, type LessonPolicy, type Pace } from '@/lib/studylab/lessonPolicy'
+import { PACES, paceOption } from './paceOptions'
 
 interface StepGroupSummary {
   id: string
@@ -58,13 +62,19 @@ export default function StudyLabSidebar({
     <aside className="w-64 shrink-0 h-full flex flex-col bg-[#0e0f12] text-gray-300 border-r border-white/5">
       {/* Brand */}
       <div className="flex items-center gap-2.5 px-4 py-4 border-b border-white/5">
-        <div className="w-8 h-8 rounded-xl bg-[color:var(--ss-accent)]/20 flex items-center justify-center">
+        <div
+          className="w-8 h-8 rounded-xl flex items-center justify-center"
+          style={{ backgroundColor: 'var(--ss-accent-soft)' }}
+        >
           <Brain className="w-4.5 h-4.5 text-ss-accent" />
         </div>
         <div className="leading-tight">
           <div className="flex items-center gap-1.5">
             <p className="font-semibold text-[14px] text-white">StudyLab</p>
-            <span className="rounded-full bg-[color:var(--ss-accent)]/20 px-1.5 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
+            <span
+              className="rounded-full px-1.5 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent"
+              style={{ backgroundColor: 'var(--ss-accent-soft)' }}
+            >Beta</span>
           </div>
           <p className="text-[12px] text-ss-slate">Brain Ink</p>
         </div>
@@ -86,11 +96,11 @@ export default function StudyLabSidebar({
       </div>
 
       {/* The plan: what the lesson covers, where you are in it, and what you
-          can do about it. Every row states its own status, because a list
-          where only the current item is bold tells you where you are and
-          nothing about what you have got through. */}
+          can do about it. Every row is a button and looks like one — the rail
+          used to be a list of labels describing actions in prose, which reads
+          as a status display rather than a control you can use. */}
       <div className="flex-1 overflow-y-auto px-2 py-3">
-        <div className="flex items-center justify-between gap-2 px-2 mb-2">
+        <div className="flex items-center justify-between gap-2 px-2 mb-1">
           <span className="flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-ss-slate">
             <Layers className="w-3.5 h-3.5" />
             Your plan
@@ -102,105 +112,134 @@ export default function StudyLabSidebar({
           )}
         </div>
 
+        {hasRail && (
+          <p className="px-2 mb-2 text-[12px] font-medium leading-snug text-ss-slate">
+            Click any step to go there.
+          </p>
+        )}
+
         {run && (
-          <div className="mx-2 mb-3 rounded-xl bg-white/5 p-2">
+          <div className="mx-2 mb-3 rounded-xl bg-white/5 p-1.5">
             <div className="flex gap-1">
-              {(['step', 'run'] as const).map((p) => (
+              {PACES.map(({ id, icon: Icon, title, blurb }) => (
                 <button
-                  key={p}
+                  key={id}
                   type="button"
                   disabled={busy}
-                  onClick={() => onSetPace(p)}
-                  aria-pressed={run.pace === p}
-                  className={`flex-1 rounded-lg px-2 py-1.5 text-[12px] font-bold transition-colors disabled:opacity-50 ${
-                    run.pace === p ? 'bg-white/15 text-white' : 'text-ss-slate hover:text-white'
+                  onClick={() => onSetPace(id)}
+                  aria-pressed={run.pace === id}
+                  title={blurb}
+                  className={`flex flex-1 items-center justify-center gap-1.5 rounded-lg px-2 py-1.5 text-[12px] font-bold transition-colors disabled:opacity-50 ${
+                    run.pace === id ? 'bg-white/15 text-white' : 'text-ss-slate hover:text-white'
                   }`}
                 >
-                  {p === 'step' ? 'One card at a time' : 'Whole step at once'}
+                  <Icon className="w-3.5 h-3.5 shrink-0" aria-hidden />
+                  {title}
                 </button>
               ))}
             </div>
             {/* A toggle whose two states are not explained is a toggle nobody
                 touches on purpose. */}
-            <p className="mt-1.5 px-1 text-[12px] font-medium leading-snug text-ss-slate">
-              {run.pace === 'step'
-                ? 'Adds one card, then waits for you.'
-                : 'Builds the whole step, then stops at the check.'}
+            <p className="mt-1.5 px-1.5 pb-0.5 text-[12px] font-medium leading-snug text-ss-slate">
+              {paceOption(run.pace).blurb}
             </p>
           </div>
         )}
 
         <div className="space-y-1">
           {hasRail ? (
-            <ul className="space-y-1 list-none">
-              {rail.map((step) => {
+            <ul className="space-y-0.5 list-none">
+              {rail.map((step, i) => {
                 const settledStep = step.status === 'done' || step.status === 'known'
+                // One icon per state, so the rail reads without being read.
+                const StatusIcon = step.status === 'known'
+                  ? BadgeCheck
+                  : step.status === 'done'
+                    ? CheckCircle2
+                    : step.lockedReason
+                      ? Lock
+                      : step.current
+                        ? PlayCircle
+                        : Circle
                 return (
-                  <li
-                    key={step.id}
-                    className={`rounded-lg px-3 py-2 ${
-                      step.current ? 'bg-white/[0.07] border-l-2 border-[color:var(--ss-accent)]' : 'border-l-2 border-transparent'
-                    }`}
-                  >
+                  <li key={step.id}>
                     <button
                       type="button"
                       disabled={busy}
                       onClick={() => onJump(step.id)}
-                      className="flex w-full items-start gap-2 text-left disabled:opacity-60"
+                      aria-current={step.current ? 'step' : undefined}
+                      className={`group flex w-full items-start gap-2.5 rounded-lg border-l-2 px-2.5 py-2 text-left transition-colors disabled:opacity-60 ${
+                        step.current
+                          ? 'border-[color:var(--ss-accent)] bg-white/[0.07]'
+                          : 'border-transparent hover:bg-white/5'
+                      }`}
                     >
-                      {/* One glyph per state, so the list reads at a glance. */}
-                      <span
+                      <StatusIcon
                         aria-hidden
-                        className={`mt-0.5 shrink-0 text-[12px] font-bold ${
+                        className={`mt-0.5 w-4 h-4 shrink-0 ${
                           settledStep ? 'text-ss-good' : step.current ? 'text-ss-accent' : 'text-ss-slate'
                         }`}
-                      >
-                        {settledStep ? '✓' : step.current ? '●' : '○'}
+                      />
+                      <span className="min-w-0 flex-1">
+                        <span
+                          className={`block text-[13px] font-semibold leading-snug ${
+                            step.current
+                              ? 'text-white'
+                              : settledStep
+                                ? 'text-ss-slate'
+                                : 'text-ss-slate group-hover:text-white'
+                          }`}
+                        >
+                          <span className="tabular-nums opacity-70">{i + 1}. </span>
+                          {step.title}
+                        </span>
+
+                        {step.status === 'known' && (
+                          <span className="mt-0.5 block text-[12px] font-semibold text-ss-good">
+                            Tested out
+                          </span>
+                        )}
+
+                        {step.measured !== null && !settledStep && (
+                          <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">
+                            Scored {step.measured}% before
+                          </span>
+                        )}
+
+                        {/* A locked step used to show a percentage and simply
+                            omit the button, which reads as the control being
+                            missing rather than withheld. Saying why is the
+                            difference between a rule and a bug. */}
+                        {step.lockedReason && (
+                          <span className="mt-0.5 block text-[12px] font-medium leading-snug text-ss-warn">
+                            {step.lockedReason}
+                          </span>
+                        )}
                       </span>
-                      <span
-                        className={`text-[13px] font-semibold leading-snug ${
-                          step.current ? 'text-white' : settledStep ? 'text-ss-slate line-through decoration-1' : 'text-ss-slate hover:text-white'
-                        }`}
-                      >
-                        {step.title}
-                      </span>
+
+                      <ChevronRight
+                        aria-hidden
+                        className="mt-0.5 w-3.5 h-3.5 shrink-0 text-transparent transition-colors group-hover:text-ss-slate"
+                      />
                     </button>
 
-                    <div className="pl-5">
-                      {step.status === 'known' && (
-                        <span className="mt-0.5 block text-[12px] font-semibold text-ss-good">
-                          You tested out of this
-                        </span>
-                      )}
-
-                      {step.measured !== null && !settledStep && (
-                        <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">
-                          You scored {step.measured}% on this before
-                        </span>
-                      )}
-
-                      {step.canTestOut && (
-                        <button
-                          type="button"
-                          disabled={busy}
-                          aria-label={`Test out of ${step.title}`}
-                          onClick={() => onTestOut(step.id)}
-                          className="mt-1 rounded-lg px-2 py-1 text-[12px] font-bold text-ss-accent hover:bg-[color:var(--ss-accent)]/15 disabled:opacity-50"
-                        >
-                          I know this — test me
-                        </button>
-                      )}
-
-                      {/* A locked step used to show a percentage and simply
-                          omit the button, which reads as the control being
-                          missing rather than withheld. Saying why is the
-                          difference between a rule and a bug. */}
-                      {step.lockedReason && (
-                        <p className="mt-1 text-[12px] font-medium leading-snug text-ss-warn">
-                          {step.lockedReason}
-                        </p>
-                      )}
-                    </div>
+                    {/* Offered only where it applies. The old copy — "I know
+                        this, test me" — promised a test on every row that
+                        happened to show it, which read as the whole lesson
+                        being testable when most of it is not. */}
+                    {step.canTestOut && (
+                      <button
+                        type="button"
+                        disabled={busy}
+                        aria-label={`Test out of ${step.title}`}
+                        title={`Answer a couple of questions on this step. Get them right and we skip it.`}
+                        onClick={() => onTestOut(step.id)}
+                        className="ml-9 mb-1 inline-flex items-center gap-1.5 rounded-lg px-2 py-1 text-[12px] font-bold text-ss-accent transition-colors hover:bg-white/10 disabled:opacity-50"
+                      >
+                        <FastForward className="w-3.5 h-3.5" aria-hidden />
+                        Test out
+                      </button>
+                    )}
                   </li>
                 )
               })}

@@ -747,9 +747,9 @@ export default function Workspace({ id }: { id: string }) {
           onGoToCheck={goToNode}
           onProveIt={handleProveIt}
           provingIt={provingIt}
-          onAcceptPlan={() => {
+          onAcceptPlan={(pace) => {
             markPlanSettled()
-            void sendAction({ type: 'accept_plan' })
+            void sendAction({ type: 'accept_plan', pace })
           }}
           onAnswerPlan={(answer) => {
             markPlanSettled()
