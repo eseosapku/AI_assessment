@@ -11,6 +11,7 @@ import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
 import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
+import { parseBoardSummary } from '@/lib/studylab/boardSummary'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
@@ -414,27 +415,90 @@ async function writeCheck(
 }
 
 /**
- * The teaching prompt, narrowed to one step's goal.
+ * The teaching prompt: one step's goal, against the board that already exists.
  *
  * Prepends the route's `SYSTEM` string. `SYSTEM` is where every card type, the
  * LaTeX rule, the connect rule and the checkpoint question shapes are defined —
  * without it the teaching job would produce output with no idea what a card is.
+ *
+ * `SYSTEM` also instructs the model to "read the EXISTING CARDS list below" and
+ * not to reuse a checkpoint id "already on the canvas (listed below)". Those
+ * lists are rendered here. While they were missing those rules pointed at
+ * nothing, and the model — with no way to know what it had already built —
+ * produced four near-identical cards on one idea and then narrated cards that
+ * never appeared, because `applyActions` drops a create whose title duplicates
+ * a card already on the board. Every teaching call must carry the board.
  */
 function buildTeachPrompt(
   run: LessonRun,
   step: { title: string; goal: string },
   context: Record<string, unknown>,
 ): string {
+  const board = parseBoardSummary(context.board)
+  const stepNo = run.currentStep + 1
+
+  const cardList = board.cards.length
+    ? board.cards.map((c) => `  ${c.id} "${c.title}" (step ${c.step})`).join('\n')
+    : '  (none yet — this is the first card on the board)'
+
+  // The plan in full, so a beat knows what came before it and what is still to
+  // come. Teaching one step with no sight of its neighbours is how a step-3
+  // card ends up re-explaining step 1.
+  const planList = run.steps
+    .map((s, i) => {
+      const mark =
+        s.status === 'known' ? 'tested out'
+        : s.status === 'done' ? 'done'
+        : i === run.currentStep ? 'YOU ARE HERE'
+        : 'upcoming'
+      return `  ${i + 1}. ${s.title} — ${s.goal} [${mark}]`
+    })
+    .join('\n')
+
+  const recent = board.recent.length
+    ? board.recent.map((m) => `  ${m.role === 'user' ? 'Student' : 'You'}: ${m.text}`).join('\n')
+    : '  (nothing yet)'
+
+  // A budget, not a mood. "Teach one beat" and "build the whole step" read as
+  // the same instruction to a model with no sense of how much it has already
+  // said, which is why the two paces were indistinguishable in use. A card
+  // count is something the model can actually comply with.
+  const pace =
+    run.pace === 'run'
+      ? [
+          'PACE — WHOLE STEP: build this entire step in ONE turn.',
+          'Emit 3 or 4 cards that together cover the goal, connect them parent→child,',
+          'then emit ONE checkpoint action for this step. Do not stop early.',
+        ].join('\n')
+      : [
+          'PACE — ONE BEAT: add exactly ONE new card (a second only if it is a directly',
+          'supporting example), connect it to a related existing card, then stop and wait.',
+          'Do NOT try to cover the whole step in this turn.',
+        ].join('\n')
+
   return [
     SYSTEM,
     '',
     `LESSON: ${String(context.title ?? 'this topic')}`,
     context.subject ? `SUBJECT: ${String(context.subject)}` : '',
-    `CURRENT STEP: ${step.title} — ${step.goal}`,
-    `BEATS SPENT ON THIS STEP: ${run.beats}`,
-    run.pace === 'run'
-      ? 'PACE: build the whole step now, then stop.'
-      : 'PACE: teach ONE beat — one or two cards — then stop.',
+    '',
+    'THE PLAN:',
+    planList,
+    '',
+    `CURRENT STEP (step ${stepNo}): ${step.title} — ${step.goal}`,
+    `Set "step": ${stepNo} on every card you create this turn.`,
+    `BEATS ALREADY SPENT ON THIS STEP: ${run.beats}`,
+    '',
+    'EXISTING CARDS ON CANVAS (do NOT recreate any of these and do NOT reuse their ids — build on them, and "connect" parent→child to their ids):',
+    cardList,
+    board.checkedSteps.length
+      ? `STEPS ALREADY CHECKED (do NOT emit or announce another checkpoint for these): ${board.checkedSteps.join(', ')}`
+      : 'STEPS ALREADY CHECKED: none',
+    '',
+    'RECENT CHAT (do not repeat a sentence you have already said):',
+    recent,
+    '',
+    pace,
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',
   ]

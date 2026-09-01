@@ -507,3 +507,85 @@ describe('subtopic attribution', () => {
     expect(String(vi.mocked(callGemma).mock.calls[0][0])).not.toContain('subtopicId')
   })
 })
+
+/**
+ * The board is the context the teaching job cannot do without.
+ *
+ * These assert against the prompt string because the failure they guard was
+ * invisible at every other level: the call succeeded, the JSON parsed, the run
+ * advanced — and the model, told to "read the EXISTING CARDS list below" with
+ * no list below it, rebuilt cards it had already made.
+ */
+describe('the teaching prompt carries the board', () => {
+  const teachOnce = async (context: Record<string, unknown>) => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'ok', actions: [], suggestions: [] }),
+    )
+    await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context,
+    })
+    return String(vi.mocked(callGemma).mock.calls[0][0])
+  }
+
+  const board = {
+    cards: [
+      { id: 's1-intro', title: 'What subtext is', step: 1 },
+      { id: 's1-royale', title: 'Royale with Cheese', step: 1 },
+    ],
+    checkedSteps: [1],
+    recent: [{ role: 'assistant', text: "Let's look at an example of subtext." }],
+  }
+
+  it('lists every card already on the canvas, by id and title', async () => {
+    const prompt = await teachOnce({ title: 'Tarantino dialogue', board })
+    expect(prompt).toContain('s1-intro "What subtext is" (step 1)')
+    expect(prompt).toContain('s1-royale "Royale with Cheese" (step 1)')
+    expect(prompt).toContain('do NOT recreate any of these')
+  })
+
+  it('names the steps that already carry a checkpoint', async () => {
+    const prompt = await teachOnce({ title: 'T', board })
+    expect(prompt).toContain('STEPS ALREADY CHECKED (do NOT emit or announce another checkpoint for these): 1')
+  })
+
+  it('replays what it already said, so it does not say it again', async () => {
+    const prompt = await teachOnce({ title: 'T', board })
+    expect(prompt).toContain("You: Let's look at an example of subtext.")
+  })
+
+  it('states the whole plan and marks where the learner is', async () => {
+    const prompt = await teachOnce({ title: 'T', board })
+    expect(prompt).toContain('1. Atoms — g [YOU ARE HERE]')
+  })
+
+  it('tells the model which step number to stamp on its cards', async () => {
+    const prompt = await teachOnce({ title: 'T', board })
+    expect(prompt).toContain('Set "step": 1 on every card you create this turn.')
+  })
+
+  it('says so plainly when the board is empty, rather than omitting the section', async () => {
+    const prompt = await teachOnce({ title: 'T' })
+    expect(prompt).toContain('(none yet — this is the first card on the board)')
+    expect(prompt).toContain('STEPS ALREADY CHECKED: none')
+  })
+})
+
+/** The two paces have to differ in something the model can comply with. */
+describe('pace changes the instruction, not just the wording', () => {
+  const promptFor = async (pace: 'step' | 'run') => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
+    const run = { ...openRun(), pace }
+    await applyAction({ run, policy: GAP, userId: null, action: { type: 'next_beat' }, context: {} })
+    return String(vi.mocked(callGemma).mock.calls[0][0])
+  }
+
+  it('budgets one card per beat on "step"', async () => {
+    expect(await promptFor('step')).toContain('add exactly ONE new card')
+  })
+
+  it('budgets the whole step, ending in a checkpoint, on "run"', async () => {
+    const prompt = await promptFor('run')
+    expect(prompt).toContain('Emit 3 or 4 cards')
+    expect(prompt).toContain('then emit ONE checkpoint action')
+  })
+})

@@ -186,8 +186,17 @@ export async function POST(request: NextRequest) {
       })
     }
 
-    const result = await applyAction({ run, policy, userId, action, requestId,
-      context: { title: space.title, subject: space.subject } })
+    // The board travels with the action. The client's canvas is authoritative
+    // here — `space.canvas_state` is a debounced autosave and can be a beat
+    // behind, which is exactly the window a duplicate card gets created in.
+    const result = await applyAction({
+      run, policy, userId, action, requestId,
+      context: {
+        title: space.title,
+        subject: space.subject,
+        board: body?.board ?? null,
+      },
+    })
     if (!result.refusal) await saveRun(learnspaceId, result.run)
     return NextResponse.json(result)
   } catch (error) {

@@ -11,6 +11,7 @@ import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/act
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { layoutGraph } from '@/lib/studylab/layout'
+import { boardSummary } from '@/lib/studylab/boardSummary'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
@@ -65,6 +66,10 @@ export default function Workspace({ id }: { id: string }) {
   stepRef.current = currentStep
   const runRef = useRef<LessonRun | null>(run)
   runRef.current = run
+  // Read at send time, not closed over: the transcript the tutor must not
+  // repeat itself against is whatever is on screen when the action fires.
+  const messagesRef = useRef<ChatMessage[]>(messages)
+  messagesRef.current = messages
   // Sidebar rail actions (test-out, jump, pace) have no busy-disabled state of
   // their own — unlike ChatMouthpiece's buttons, which hide while busy — so
   // sendAction needs a same-tick-accurate guard rather than the `busy` state
@@ -154,7 +159,13 @@ export default function Workspace({ id }: { id: string }) {
         const res = await fetch('/api/studylab/tutor', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ learnspaceId: id, action }),
+          // What is already on the board goes with every action. Without it
+          // the tutor cannot see its own work and rebuilds the same card.
+          body: JSON.stringify({
+            learnspaceId: id,
+            action,
+            board: boardSummary(canvasRef.current, messagesRef.current),
+          }),
         })
         const body: {
           run?: LessonRun
