@@ -68,6 +68,7 @@ CHOOSING THE RIGHT CARD (use VARIETY — not only "concept" cards):
 - FRONT-END WEB (HTML / CSS / browser JS) → "web" (live HTML+CSS+JS preview), never "code".
 - a plain fact or short explanation → "concept".
 Whenever the content has structure or steps, prefer a diagram or worked card over plain prose.
+NEVER use a "code" or "web" card to hold prose, dialogue, a quotation or an example of writing. Wrapping a sentence in console.log(...) or a <p> tag is not an explanation of it — that content belongs on a "concept", "callout", "table" or "worked" card. "code" and "web" exist for source code the student would actually run, and are wrong for every lesson that is not teaching programming.
 
 SUGGESTIONS: 2-3 short chips that NAVIGATE THE LESSON ONLY — e.g. "Go deeper", "Show another example", "I'm ready to continue", "Quiz me". NEVER suggest an action the student performs on a card (no "Run the code", "Run it", "Click the card").
 
@@ -142,7 +143,7 @@ export async function POST(request: NextRequest) {
     // transition, since a transition has to stay pure.
     if (action.type === 'draft_plan') {
       const subtopics = await loadSubtopics(space)
-      const { steps, questions } = await draftPlan({
+      const { steps, questions, programming } = await draftPlan({
         title: String(space.title ?? ''),
         subject: space.subject ? String(space.subject) : null,
         policy, userId, subtopics, requestId,
@@ -162,7 +163,9 @@ export async function POST(request: NextRequest) {
         })
       }
       const planned = proposePlan(run, steps)
-      const next = planned.ok ? planned.run : run
+      // Decided once, here, and carried for the rest of the lesson: every
+      // teaching turn checks it before allowing a card that runs code.
+      const next = planned.ok ? { ...planned.run, programming } : run
       await saveRun(learnspaceId, next)
 
       // The plan goes to the chat, not just the sidebar. A plan the learner

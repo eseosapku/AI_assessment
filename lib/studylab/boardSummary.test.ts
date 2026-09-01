@@ -11,8 +11,8 @@ describe('boardSummary', () => {
   it('lists the cards on the canvas with their step', () => {
     const s = boardSummary({ nodes: [card('a', 'Atoms', 1), card('b', 'Bonds', 2)] })
     expect(s.cards).toEqual([
-      { id: 'a', title: 'Atoms', step: 1 },
-      { id: 'b', title: 'Bonds', step: 2 },
+      { id: 'a', title: 'Atoms', step: 1, kind: 'concept' },
+      { id: 'b', title: 'Bonds', step: 2, kind: 'concept' },
     ])
   })
 
@@ -31,7 +31,7 @@ describe('boardSummary', () => {
       data: { kind: 'stepGroup', title: 'Step 1', step: 1 },
     }
     expect(boardSummary({ nodes: [group, card('a', 'Atoms', 1)] }).cards).toEqual([
-      { id: 'a', title: 'Atoms', step: 1 },
+      { id: 'a', title: 'Atoms', step: 1, kind: 'concept' },
     ])
   })
 
@@ -63,6 +63,10 @@ describe('boardSummary', () => {
 })
 
 describe('parseBoardSummary', () => {
+  it('defaults a missing kind rather than dropping the card', () => {
+    expect(parseBoardSummary({ cards: [{ id: 'a', title: 'A' }] }).cards[0].kind).toBe('concept')
+  })
+
   it('returns an empty board for anything that is not one', () => {
     const empty = { cards: [], checkedSteps: [], recent: [] }
     expect(parseBoardSummary(null)).toEqual(empty)
@@ -72,9 +76,9 @@ describe('parseBoardSummary', () => {
 
   it('drops malformed cards instead of rejecting the whole board', () => {
     const parsed = parseBoardSummary({
-      cards: [{ id: 'a', title: 'Atoms', step: 1 }, { id: 5 }, null, { title: 'no id' }],
+      cards: [{ id: 'a', title: 'Atoms', step: 1, kind: 'table' }, { id: 5 }, null, { title: 'no id' }],
     })
-    expect(parsed.cards).toEqual([{ id: 'a', title: 'Atoms', step: 1 }])
+    expect(parsed.cards).toEqual([{ id: 'a', title: 'Atoms', step: 1, kind: 'table' }])
   })
 
   it('coerces a missing step to 0 rather than NaN, which would print as "step NaN"', () => {

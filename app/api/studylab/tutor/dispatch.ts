@@ -98,6 +98,21 @@ function transitionFor(input: DispatchInput): Transition {
   }
 }
 
+/**
+ * Beats on one step before the tutor is *told* to close it with a check.
+ *
+ * Each step is one idea and the SYSTEM prompt already asks for 2-4 cards. This
+ * is the backstop that makes a step terminate rather than being taught forever:
+ * without it, "add one card, then stop" had nothing to say once the goal was
+ * met and the lesson sat on step 1 for six beats with no way to finish.
+ *
+ * `nextBeat` increments `beats` before the prompt is built, so the first
+ * teaching turn already reads as beat 1. At "run" pace the threshold is 2: turn
+ * one builds the whole step, turn two closes it — needed only because the model
+ * does not reliably emit the check it was asked for the first time.
+ */
+const BEATS_BEFORE_CHECK: Record<Pace, number> = { step: 3, run: 2 }
+
 const ALWAYS_TEACHES = new Set(['accept_plan', 'next_beat', 'answer_check'])
 
 /**
@@ -192,7 +207,10 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     }
   }
 
-  const rawActions: unknown[] = Array.isArray(parsed?.actions) ? parsed.actions : []
+  const rawActions = fitCardsToLesson(
+    Array.isArray(parsed?.actions) ? parsed.actions : [],
+    advanced,
+  )
   const { run: openedRun, actions } = openEmittedCheckpoint(advanced, rawActions)
 
   return {
@@ -242,6 +260,52 @@ function acknowledge(action: LessonAction, run: LessonRun, board: BoardSummary):
     default:
       return ''
   }
+}
+
+/** Card types that render a Run button or a live preview. */
+const RUNS_CODE = new Set(['code', 'web'])
+
+/**
+ * Strips the outer print/log call when it is the whole of a snippet.
+ *
+ * `console.log("Jules: They got the metric system there...")` is one line of
+ * prose in a costume. Unwrapped it is just the line, which is what the card
+ * should have been showing.
+ */
+function unwrapPrinted(code: string): string {
+  const m = code.trim().match(/^(?:console\.log|print|System\.out\.println)\(\s*(["'`])([\s\S]*)\1\s*\)\s*;?$/)
+  return m ? m[2] : code
+}
+
+/**
+ * Keeps runnable card types out of lessons that are not about code.
+ *
+ * The prompt says plainly that "code" and "web" are for source code the student
+ * would actually run. The model produced a JavaScript card holding a scene from
+ * Pulp Fiction anyway, with a Run button on it. A rule the model can ignore is
+ * not a rule, so the card is converted rather than requested differently: the
+ * content survives, on a card type that suits it.
+ *
+ * Dropping the action instead would be worse — the chat would still narrate a
+ * card that never appeared, which is the failure this whole pass exists to fix.
+ */
+function fitCardsToLesson(actions: unknown[], run: LessonRun): unknown[] {
+  if (run.programming !== false) return actions
+
+  return actions.map((raw) => {
+    if (!raw || typeof raw !== 'object') return raw
+    const a = raw as Record<string, unknown>
+    if (a.type !== 'createCard' || typeof a.card !== 'string' || !RUNS_CODE.has(a.card)) return raw
+
+    const source =
+      typeof a.code === 'string' ? unwrapPrinted(a.code)
+      : typeof a.html === 'string' ? a.html
+      : ''
+    const body = typeof a.body === 'string' && a.body.trim() ? a.body : source
+
+    const { code, language, runnable, html, css, js, ...rest } = a
+    return { ...rest, card: 'concept', body }
+  })
 }
 
 /**
@@ -401,7 +465,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
   return {
     run: advanced,
     say: typeof parsed?.say === 'string' ? parsed.say : '',
-    actions: Array.isArray(parsed?.actions) ? parsed.actions : [],
+    actions: fitCardsToLesson(Array.isArray(parsed?.actions) ? parsed.actions : [], advanced),
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],
@@ -520,7 +584,7 @@ function buildTeachPrompt(
   const stepNo = run.currentStep + 1
 
   const cardList = board.cards.length
-    ? board.cards.map((c) => `  ${c.id} "${c.title}" (step ${c.step})`).join('\n')
+    ? board.cards.map((c) => `  ${c.id} [${c.kind}] "${c.title}" (step ${c.step})`).join('\n')
     : '  (none yet — this is the first card on the board)'
 
   // The plan in full, so a beat knows what came before it and what is still to
@@ -545,8 +609,21 @@ function buildTeachPrompt(
   // the same instruction to a model with no sense of how much it has already
   // said, which is why the two paces were indistinguishable in use. A card
   // count is something the model can actually comply with.
+  // A step has to be able to end. "Add one card, then stop" with nothing to
+  // say when the goal is met is an instruction that never terminates — six
+  // beats in, the lesson was still on step 1 with no checkpoint in sight and
+  // no way for the learner to finish it.
+  const wrapUp = run.beats >= BEATS_BEFORE_CHECK[run.pace] && !board.checkedSteps.includes(stepNo)
+
   const pace =
-    run.pace === 'run'
+    wrapUp
+      ? [
+          `PACE — CLOSE THIS STEP: it has had ${run.beats} turn(s) already.`,
+          'Add at most ONE final card if something essential is missing, then emit ONE',
+          'checkpoint action for this step so the student can move on.',
+          'The checkpoint is required. Do not end this turn without it.',
+        ].join('\n')
+      : run.pace === 'run'
       ? [
           'PACE — WHOLE STEP: build this entire step in ONE turn.',
           'Emit 3 or 4 cards that together cover the goal, connect them parent→child,',
@@ -557,6 +634,29 @@ function buildTeachPrompt(
           'supporting example), connect it to a related existing card, then stop and wait.',
           'Do NOT try to cover the whole step in this turn.',
         ].join('\n')
+
+  // Told to "use variety" in the abstract, the model returns concept cards and
+  // nothing else. Told that it has just made four of them in a row, it varies.
+  const onThisStep = board.cards.filter((c) => c.step === stepNo)
+  const recentKinds = onThisStep.slice(-3).map((c) => c.kind)
+  const sameKindRun =
+    recentKinds.length >= 2 && new Set(recentKinds).size === 1 ? recentKinds[0] : null
+
+  const variety = sameKindRun
+    ? `VARIETY: your last ${recentKinds.length} cards were all "${sameKindRun}" cards. Do NOT make another one — pick a different type that fits the content (mermaid, worked, table, callout).`
+    : ''
+
+  // The recent chat is already listed, and the model still opened five turns
+  // running with the same words. Naming the failure works where showing it did
+  // not.
+  const openers = board.recent
+    .filter((m) => m.role === 'assistant')
+    .map((m) => m.text.split(/[.!?]/)[0].trim())
+    .filter(Boolean)
+  const freshOpener = openers.length
+    ? `Your "say" must NOT begin like any of these, which you have already used: ${openers.map((o) => `"${o}"`).join('; ')}. Say something specific to THIS card instead.`
+    : ''
+
 
   return [
     SYSTEM,
@@ -581,6 +681,8 @@ function buildTeachPrompt(
     recent,
     '',
     pace,
+    variety,
+    freshOpener,
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',
   ]
@@ -615,6 +717,8 @@ export interface DraftedPlan {
   steps: LessonStep[]
   /** At most two, asked in the chat beside the plan. Empty on a re-draft. */
   questions: string[]
+  /** Whether this lesson teaches programming. Gates the code and web cards. */
+  programming: boolean
 }
 
 /**
@@ -649,8 +753,13 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     catalogue,
     answering ? `\nTHE LEARNER SAID: ${input.answer!.trim()}\nShape the plan around that. Drop steps it makes unnecessary, add ones it calls for.` : '',
     '',
+    '',
+    'Also set "programming" to true ONLY if this lesson teaches writing or reading',
+    'source code. A lesson that merely mentions software, or that quotes dialogue,',
+    'prose or formulae, is NOT a programming lesson.',
+    '',
     answering
-      ? 'Reply with JSON only:\n{ "steps": [ { "title": "...", "goal": "one line on what this step teaches", "subtopicId": <id or omit> } ], "questions": [] }'
+      ? `Reply with JSON only:\n{ "steps": [ { "title": "...", "goal": "one line on what this step teaches"${idField} } ], "questions": [], "programming": <true|false> }`
       : [
           'Also ask AT MOST TWO short questions whose answers would change this plan.',
           'Good questions are about their goal or what they already know — "Exam prep or',
@@ -660,7 +769,7 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
           '',
           'Reply with JSON only:',
           `{ "steps": [ { "title": "...", "goal": "one line on what this step teaches"${idField} } ],`,
-          '  "questions": ["...", "..."] }',
+          '  "questions": ["...", "..."], "programming": <true|false> }',
         ].join('\n'),
   ]
     .filter(Boolean)
@@ -675,13 +784,13 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
       : undefined,
   })
 
-  let parsed: { steps?: unknown; questions?: unknown }
+  let parsed: { steps?: unknown; questions?: unknown; programming?: unknown }
   try {
     parsed = parseJsonRobust(raw)
   } catch {
     // No plan is better than a broken one: the learner is asked again rather
     // than shown an outline built from noise.
-    return { steps: [], questions: [] }
+    return { steps: [], questions: [], programming: false }
   }
 
   const questions = (Array.isArray(parsed?.questions) ? parsed.questions : [])
@@ -714,6 +823,8 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     })
     .filter((s): s is LessonStep => s !== null)
 
-  if (steps.length === 0 || !input.userId) return { steps, questions }
-  return { steps: await applyLocks(steps, input.userId, input.database), questions }
+  const programming = parsed?.programming === true
+
+  if (steps.length === 0 || !input.userId) return { steps, questions, programming }
+  return { steps: await applyLocks(steps, input.userId, input.database), questions, programming }
 }

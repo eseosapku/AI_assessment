@@ -18,7 +18,7 @@ import type { CanvasState, StudyNode } from './types'
  */
 export interface BoardSummary {
   /** Cards already on the canvas, oldest first. */
-  cards: { id: string; title: string; step: number }[]
+  cards: { id: string; title: string; step: number; kind: string }[]
   /** Step numbers that already carry a checkpoint. */
   checkedSteps: number[]
   /** The last few chat turns, so the tutor does not repeat its own sentences. */
@@ -53,6 +53,10 @@ export function boardSummary(
       id: n.id,
       title: titleOf(n),
       step: Number(n.data.step) || 0,
+      // Carried so the prompt can notice a run of one card type. Told to use
+      // variety in the abstract the model produces concept cards and nothing
+      // else; told it has just made four concept cards, it does not.
+      kind: String(n.type),
     }))
     // A card with no title cannot be recognised or referred to, so listing it
     // would only spend tokens.
@@ -92,10 +96,15 @@ export function parseBoardSummary(raw: unknown): BoardSummary {
   return {
     cards: (Array.isArray(b.cards) ? b.cards : [])
       .filter(
-        (c): c is { id: string; title: string; step: number } =>
+        (c): c is { id: string; title: string; step: number; kind: string } =>
           !!c && typeof c === 'object' && typeof c.id === 'string' && typeof c.title === 'string',
       )
-      .map((c) => ({ id: c.id, title: c.title, step: Number(c.step) || 0 }))
+      .map((c) => ({
+        id: c.id,
+        title: c.title,
+        step: Number(c.step) || 0,
+        kind: typeof c.kind === 'string' ? c.kind : 'concept',
+      }))
       .slice(0, MAX_CARDS),
     checkedSteps: (Array.isArray(b.checkedSteps) ? b.checkedSteps : [])
       .map((s) => Number(s))

@@ -54,6 +54,19 @@ export interface LessonRun {
   beats: number
   awaiting: boolean
   openCheck?: OpenCheck
+  /**
+   * Whether this lesson teaches programming, decided once when the plan is
+   * drafted.
+   *
+   * It gates the two card types that run code. Told only in prose that "code"
+   * is for programming lessons, the tutor still produced a JavaScript card
+   * wrapping film dialogue in console.log(...) — complete with a Run button —
+   * in a lesson on screenwriting.
+   *
+   * Undefined on a run drafted before this existed, and treated as permissive:
+   * an old lesson keeps behaving as it did rather than losing its code cards.
+   */
+  programming?: boolean
 }
 
 export type Transition =

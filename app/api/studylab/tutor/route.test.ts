@@ -417,7 +417,7 @@ describe('jump', () => {
     // Going back to re-read should find what was read, not a fresh explanation
     // of the same thing — and not cost a paid call to say it.
     const result = await jumpTo({
-      board: { cards: [{ id: 'b1', title: 'Bonding basics', step: 2 }] },
+      board: { cards: [{ id: 'b1', title: 'Bonding basics', step: 2, kind: 'concept' }] },
     })
     expect(callGemma).not.toHaveBeenCalled()
     expect(result.run.currentStep).toBe(1)
@@ -425,7 +425,7 @@ describe('jump', () => {
 
   it('says what it revealed, so the click is not silent', async () => {
     const result = await jumpTo({
-      board: { cards: [{ id: 'b1', title: 'Bonding basics', step: 2 }] },
+      board: { cards: [{ id: 'b1', title: 'Bonding basics', step: 2, kind: 'concept' }] },
     })
     expect(result.ack).toContain('Back on step 2, Bonding')
     expect(result.ack).toContain('card is on the board')
@@ -437,7 +437,7 @@ describe('jump', () => {
     vi.mocked(callGemma).mockResolvedValue(
       JSON.stringify({ say: 'Here is bonding.', actions: [], suggestions: [] }),
     )
-    const result = await jumpTo({ board: { cards: [{ id: 'a1', title: 'Atoms', step: 1 }] } })
+    const result = await jumpTo({ board: { cards: [{ id: 'a1', title: 'Atoms', step: 1, kind: 'concept' }] } })
     expect(callGemma).toHaveBeenCalledOnce()
     expect(result.say).toBe('Here is bonding.')
   })
@@ -579,8 +579,8 @@ describe('the teaching prompt carries the board', () => {
 
   const board = {
     cards: [
-      { id: 's1-intro', title: 'What subtext is', step: 1 },
-      { id: 's1-royale', title: 'Royale with Cheese', step: 1 },
+      { id: 's1-intro', title: 'What subtext is', step: 1, kind: 'concept' },
+      { id: 's1-royale', title: 'Royale with Cheese', step: 1, kind: 'callout' },
     ],
     checkedSteps: [1],
     recent: [{ role: 'assistant', text: "Let's look at an example of subtext." }],
@@ -588,8 +588,8 @@ describe('the teaching prompt carries the board', () => {
 
   it('lists every card already on the canvas, by id and title', async () => {
     const prompt = await teachOnce({ title: 'Tarantino dialogue', board })
-    expect(prompt).toContain('s1-intro "What subtext is" (step 1)')
-    expect(prompt).toContain('s1-royale "Royale with Cheese" (step 1)')
+    expect(prompt).toContain('s1-intro [concept] "What subtext is" (step 1)')
+    expect(prompt).toContain('s1-royale [callout] "Royale with Cheese" (step 1)')
     expect(prompt).toContain('do NOT recreate any of these')
   })
 
@@ -637,5 +637,114 @@ describe('pace changes the instruction, not just the wording', () => {
     const prompt = await promptFor('run')
     expect(prompt).toContain('Emit 3 or 4 cards')
     expect(prompt).toContain('then emit ONE checkpoint action')
+  })
+})
+
+/**
+ * A card that runs code has no business in a lesson that is not about code.
+ *
+ * The prompt says so plainly and the model produced a JavaScript card holding a
+ * scene from Pulp Fiction anyway, Run button included. A rule the model can
+ * ignore is not a rule.
+ */
+describe('runnable cards are gated on the lesson', () => {
+  const teach = async (run: LessonRun, card: Record<string, unknown>) => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'here', actions: [{ type: 'createCard', id: 'c1', step: 1, ...card }] }),
+    )
+    const result = await applyAction({
+      run, policy: GAP, userId: null, action: { type: 'next_beat' }, context: {},
+    })
+    return result.actions[0] as Record<string, unknown>
+  }
+
+  const writing = (): LessonRun => ({ ...openRun(), programming: false })
+
+  it('turns a code card into a concept card in a writing lesson', async () => {
+    const out = await teach(writing(), {
+      card: 'code', title: 'Royale with Cheese', language: 'javascript',
+      code: 'console.log("They got the metric system there.")',
+    })
+    expect(out.card).toBe('concept')
+    expect(out.title).toBe('Royale with Cheese')
+    // The print wrapper is a costume; the line underneath is the content.
+    expect(out.body).toBe('They got the metric system there.')
+    expect(out.language).toBeUndefined()
+    expect(out.code).toBeUndefined()
+  })
+
+  it('keeps the card rather than dropping it, so the chat is not left narrating nothing', async () => {
+    const out = await teach(writing(), { card: 'web', title: 'A scene', html: '<p>Say what again</p>' })
+    expect(out.card).toBe('concept')
+    expect(out.body).toBe('<p>Say what again</p>')
+  })
+
+  it('prefers an explicit body over the source when one is given', async () => {
+    const out = await teach(writing(), {
+      card: 'code', title: 'X', code: 'print("x")', body: 'The real explanation.',
+    })
+    expect(out.body).toBe('The real explanation.')
+  })
+
+  it('leaves other card types alone', async () => {
+    const out = await teach(writing(), { card: 'concept', title: 'X', body: 'y' })
+    expect(out.card).toBe('concept')
+    expect(out.body).toBe('y')
+  })
+
+  it('allows code cards in a programming lesson', async () => {
+    const out = await teach({ ...openRun(), programming: true }, {
+      card: 'code', title: 'A loop', language: 'python', code: 'for i in range(3): print(i)',
+    })
+    expect(out.card).toBe('code')
+    expect(out.code).toBe('for i in range(3): print(i)')
+  })
+
+  it('leaves a run drafted before the flag existed untouched', async () => {
+    // Undefined means "not decided", not "not programming" — an old lesson
+    // keeps behaving as it did rather than silently losing its code cards.
+    const out = await teach(openRun(), { card: 'code', title: 'A loop', code: 'x = 1' })
+    expect(out.card).toBe('code')
+  })
+})
+
+/**
+ * A step has to be able to end.
+ *
+ * "Add one card, then stop" has nothing to say once the goal is met, so the
+ * lesson sat on step 1 beat after beat with no check and no way to finish it.
+ */
+describe('every step gets closed', () => {
+  const promptAfter = async (pace: 'step' | 'run', beats: number, checkedSteps: number[] = []) => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
+    // beats is incremented by the transition, so seed one below the target.
+    const run = { ...openRun(), pace, beats: beats - 1 }
+    await applyAction({
+      run, policy: GAP, userId: null, action: { type: 'next_beat' },
+      context: { board: { checkedSteps } },
+    })
+    // The last call, not the first: a test that drives two turns would
+    // otherwise assert twice against the same prompt.
+    return String(vi.mocked(callGemma).mock.calls.at(-1)![0])
+  }
+
+  it('keeps teaching while the step is young', async () => {
+    expect(await promptAfter('step', 1)).toContain('PACE — ONE BEAT')
+    expect(await promptAfter('run', 1)).toContain('PACE — WHOLE STEP')
+  })
+
+  it('demands the check once a step has had enough turns', async () => {
+    const late = await promptAfter('step', 3)
+    expect(late).toContain('PACE — CLOSE THIS STEP')
+    expect(late).toContain('The checkpoint is required.')
+  })
+
+  it('closes a run-pace step on the turn after it was built', async () => {
+    expect(await promptAfter('run', 2)).toContain('PACE — CLOSE THIS STEP')
+  })
+
+  it('does not ask for a second check on a step that already has one', async () => {
+    // Asking again is how a learner gets tested twice on the same idea.
+    expect(await promptAfter('step', 5, [1])).toContain('PACE — ONE BEAT')
   })
 })
