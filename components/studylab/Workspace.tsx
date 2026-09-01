@@ -6,6 +6,8 @@ import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
 import StudyLabSidebar from './StudyLabSidebar'
 import ProductTour from '@/components/studio/ProductTour'
+import WalkthroughPanel from './WalkthroughPanel'
+import type { WalkthroughEvent } from '@/lib/studylab/walkthroughs'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
@@ -60,6 +62,14 @@ export default function Workspace({ id }: { id: string }) {
   const [busy, setBusy] = useState(false)
   // What the tutor is doing right now, so the wait names its own cause.
   const [working, setWorking] = useState('Thinking…')
+  // What the learner has actually done, for the guided walkthroughs. A step
+  // ticks off because the action happened, not because Next was pressed.
+  const [walkEvents, setWalkEvents] = useState<WalkthroughEvent[]>([])
+  const noteWalk = useCallback((e: WalkthroughEvent) => setWalkEvents((prev) => [...prev, e]), [])
+  // The control the current walkthrough step is asking for, ringed while it is
+  // outstanding. A step that names a button the learner cannot find is a step
+  // they skip.
+  const [walkAnchor, setWalkAnchor] = useState<string | null>(null)
   const [run, setRun] = useState<LessonRun | null>(null)
   const [loadError, setLoadError] = useState<string | null>(null)
   const [loaded, setLoaded] = useState(false)
@@ -107,6 +117,17 @@ export default function Workspace({ id }: { id: string }) {
   // The run is the single source of truth for completion now; nothing sets a
   // separate "done" flag any more.
   const done = run?.phase === 'done'
+
+  // Rings the control the current walkthrough step is asking for. Done with an
+  // attribute rather than a portal or an overlay so the control stays fully
+  // usable — the point is to help the learner press it, not to trap them.
+  useEffect(() => {
+    if (!walkAnchor) return
+    const el = document.querySelector<HTMLElement>(`[data-tour="${CSS.escape(walkAnchor)}"]`)
+    if (!el) return
+    el.setAttribute('data-walk-here', 'true')
+    return () => el.removeAttribute('data-walk-here')
+  }, [walkAnchor])
 
   // ── Persistence ─────────────────────────────────────────────────────────────
   const persist = useCallback(
@@ -216,6 +237,18 @@ export default function Workspace({ id }: { id: string }) {
           ])
         }
 
+        // Reported here rather than at each call site: this is the one place
+        // that knows an action actually succeeded rather than being refused.
+        if (body.plan) noteWalk('plan-shown')
+        if (action.type === 'draft_plan' && (action as { answer?: string }).answer) noteWalk('plan-redrafted')
+        if (action.type === 'accept_plan') noteWalk('plan-accepted')
+        if (action.type === 'next_beat') noteWalk('beat-taught')
+        if (action.type === 'set_pace') noteWalk('pace-changed')
+        if (action.type === 'jump') noteWalk('step-jumped')
+        if (action.type === 'ask') noteWalk('question-asked')
+        if (action.type === 'answer_check') noteWalk('check-answered')
+        if (action.type === 'test_out') noteWalk('tested-out')
+
         const actions: TutorAction[] = body.actions ?? []
         let nextCanvas: CanvasState = canvasRef.current
         let nextStep = stepRef.current
@@ -279,7 +312,7 @@ export default function Workspace({ id }: { id: string }) {
         setBusy(false)
       }
     },
-    [id, persist]
+    [id, persist, noteWalk]
   )
 
   // Continue (and any suggestion chip — both arrive as a "silent" send from
@@ -329,9 +362,10 @@ export default function Workspace({ id }: { id: string }) {
       // needs to target. Showing the tutor's copy is how the transcript ended
       // up quoting "(card id: s5-dialogue-prompt)" back at them.
       setMessages((prev) => [...prev, { role: 'user', content: label }])
+      noteWalk('card-menu-used')
       void sendAction({ type: 'ask', question: prompt })
     },
-    [busy, sendAction]
+    [busy, sendAction, noteWalk]
   )
 
   // ── Canvas interactions ───────────────────────────────────────────────────
@@ -395,8 +429,9 @@ export default function Workspace({ id }: { id: string }) {
       effectVersion.current += 1
       setEffects({ version: effectVersion.current, list: [{ kind: 'fitNodes', nodeIds: [node.id] }] })
       scheduleCanvasSave()
+      noteWalk('block-added')
     },
-    [scheduleCanvasSave]
+    [scheduleCanvasSave, noteWalk]
   )
 
   const handleNodeResize = useCallback(
@@ -724,7 +759,12 @@ export default function Workspace({ id }: { id: string }) {
         onSetPace={(pace) => void sendAction({ type: 'set_pace', pace })}
       />
 
-      <div data-tour="lesson-board" className="flex-1 min-w-0 h-full">
+      <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
+        {/* Docked over the canvas rather than in the rail, which is already
+            full, and clear of the zoom controls at bottom-left. */}
+        <div className="pointer-events-none absolute left-4 top-4 z-20">
+          <WalkthroughPanel events={walkEvents} onHighlight={setWalkAnchor} />
+        </div>
         <StudyCanvas
           nodes={canvas.nodes}
           edges={canvas.edges}

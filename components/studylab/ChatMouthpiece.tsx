@@ -156,9 +156,13 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           // still reads as a conversation with the run's bookkeeping beside it.
           m.kind === 'status' ? (
             <div key={i} className="flex items-center gap-2 py-0.5">
-              <span className="h-px flex-1 bg-ss-line" />
-              <span className="text-[12px] font-semibold text-ss-slate whitespace-nowrap">{m.content}</span>
-              <span className="h-px flex-1 bg-ss-line" />
+              <span className="h-px w-4 shrink-0 bg-ss-line" />
+              {/* Wraps. A nowrap rule pushed the whole transcript sideways as
+                  soon as an acknowledgement ran past the panel width. */}
+              <span className="min-w-0 text-center text-[12px] font-semibold leading-snug text-ss-slate">
+                {m.content}
+              </span>
+              <span className="h-px w-4 shrink-0 bg-ss-line" />
             </div>
           ) : m.role === 'assistant' ? (
             <div key={i} className="flex gap-2.5">
