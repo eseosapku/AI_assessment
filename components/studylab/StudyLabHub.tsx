@@ -185,15 +185,6 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
           </div>
           {embedded && (
             <div className="flex items-center gap-2 self-start">
-              {/* Offered beside the real controls rather than buried in help:
-                  the moment someone needs to know what a LearnSpace is, is the
-                  moment they are looking at this header wondering. */}
-              <a
-                href="/studylab/demo"
-                className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2.5 text-sm font-bold text-ss-ink hover:bg-ss-chip"
-              >
-                <GraduationCap className="h-4 w-4" /> See how it works
-              </a>
               <button type="button" data-tour="learnspace-homework" onClick={() => setShowSnap(true)} className="inline-flex items-center gap-2 rounded-full border border-ss-line bg-ss-panel px-4 py-2.5 text-sm font-bold text-ss-ink hover:bg-ss-chip">
                 <Upload className="h-4 w-4" /> Homework help
               </button>
