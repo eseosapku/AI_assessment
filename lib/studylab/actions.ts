@@ -225,15 +225,24 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
           }
         }
         for (const q of questions) {
-          if (nodes.some((n) => n.id === q.id)) continue
+          // Scoped to the checkpoint. The question id used to be the node id
+          // directly, and a question id only has to be unique WITHIN its check
+          // — the check-writing prompt spells out an example using "q1", "q2",
+          // "q3", so every automatically written check came back with those.
+          // The second one on a board therefore had all of its questions
+          // skipped as duplicate nodes, leaving a header with nothing under it
+          // and an open check that could never be answered: the lesson could
+          // not be continued or finished, permanently.
+          const nodeId = `${action.id}::${q.id}`
+          if (nodes.some((n) => n.id === nodeId)) continue
           nodes.push({
-            id: q.id,
+            id: nodeId,
             type: 'quiz',
             position: autoPosition(nodes, step, 'quiz'),
             data: { kind: 'quiz', step, quiz: { checkpointId: action.id, gate, question: q, state: 'unanswered' } },
           })
-          created.push(q.id)
-          edges.push({ id: `e-${headerId}-${q.id}`, source: headerId, target: q.id, animated: false })
+          created.push(nodeId)
+          edges.push({ id: `e-${headerId}-${nodeId}`, source: headerId, target: nodeId, animated: false })
         }
         break
       }

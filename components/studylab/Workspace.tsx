@@ -614,6 +614,21 @@ export default function Workspace({ id }: { id: string }) {
         const cs: CanvasState =
           s.canvas_state && Array.isArray(s.canvas_state.nodes) ? s.canvas_state : EMPTY_CANVAS
         setCanvas(cs)
+
+        // Checks answered in an earlier session are already reported. Without
+        // this the auto-submit fires again on every load — the board still
+        // shows a fully answered checkpoint, `submitted` is empty because it
+        // lives in a ref, and the run has long since closed that check. The
+        // learner reopens a lesson and is told "There is no check open."
+        for (const n of cs.nodes) {
+          const q = n.data.quiz
+          if (!q) continue
+          const cells = cs.nodes.filter((x) => x.data.quiz?.checkpointId === q.checkpointId)
+          const settled = cells.every(
+            (x) => x.data.quiz?.state === 'correct' || x.data.quiz?.state === 'incorrect',
+          )
+          if (settled) submitted.current.add(q.checkpointId)
+        }
         setRun(json.lesson_run ?? null)
         // Suggestion chips are session-only; the persisted transcript keeps role + content + actions.
         const loadedMessages: ChatMessage[] = (json.messages ?? []).map((m: any) => ({
