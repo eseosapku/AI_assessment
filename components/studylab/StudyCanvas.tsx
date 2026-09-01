@@ -59,7 +59,13 @@ interface StudyCanvasProps {
   onNodeResize: (id: string, dims: { x: number; y: number; width: number; height: number }) => void
   onConnectEdge: (from: string, to: string) => void
   onEdgeLabel: (id: string, label: string) => void
-  onCardPrompt: (text: string) => void
+  /**
+   * `prompt` goes to the tutor and names the card by id; `label` is what the
+   * learner sees themselves having said. They were the same string, so the
+   * transcript read "Focusing on the card ... (card id: s5-dialogue-prompt):
+   * show an example of this." — the plumbing, quoted back at them.
+   */
+  onCardPrompt: (prompt: string, label: string) => void
   busy: boolean
   title?: string
   plan?: { title: string }[]
@@ -561,7 +567,10 @@ function FlowInner({
               key={a.label}
               type="button"
               onClick={() => {
-                onCardPrompt(`Focusing on the card "${cardMenu.title}" (card id: ${cardMenu.id}): ${a.text}`)
+                onCardPrompt(
+                  `Focusing on the card "${cardMenu.title}" (card id: ${cardMenu.id}): ${a.text}`,
+                  `${a.label} — ${cardMenu.title}`,
+                )
                 setCardMenu(null)
               }}
               className="w-full text-left text-[13px] px-2 py-1.5 rounded-lg hover:bg-[color:var(--ss-accent)]/10 hover:text-ss-accent transition-colors"

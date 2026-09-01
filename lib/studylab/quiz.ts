@@ -8,15 +8,26 @@ export function gradeMatch(q: Extract<CheckpointQuestion, { format: 'match' }>, 
   return q.pairs.length === given.length && q.pairs.every((p, i) => given[i] === p.right)
 }
 
+/**
+ * How a check went, in the learner's language.
+ *
+ * This used to read `CHECKPOINT RESULT: 1/1 correct. All correct.` — which was
+ * correct, because it was written to be parsed by the model rather than read by
+ * a person. The tutor now receives the result as structured data on the
+ * `answer_check` action and never sees this string, so there is nothing left
+ * for the protocol wording to serve.
+ */
 export function checkpointResultText(cells: QuizCell[]): string {
   const total = cells.length
   const correct = cells.filter((c) => c.state === 'correct').length
-  const missed = cells
-    .filter((c) => c.state !== 'correct')
-    .map((c) => `"${c.question.prompt}"`)
-    .join(', ')
-  const tail = missed ? ` Missed: ${missed}.` : ' All correct.'
-  return `CHECKPOINT RESULT: ${correct}/${total} correct.${tail}`
+
+  if (correct === total) {
+    return total === 1 ? 'Correct.' : `All ${total} correct.`
+  }
+  if (correct === 0) {
+    return total === 1 ? 'Not quite — we will go back over that.' : `None right this time — we will go back over it.`
+  }
+  return `${correct} of ${total} right — we will go back over the rest.`
 }
 
 export function isValidQuestion(q: any): q is CheckpointQuestion {

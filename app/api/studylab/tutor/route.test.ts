@@ -751,3 +751,58 @@ describe('every step gets closed', () => {
     expect(await promptAfter('step', 5, [1])).toContain('PACE — ONE BEAT')
   })
 })
+
+/**
+ * The card in the screenshot: a screenwriting lesson whose "example" was four
+ * console.log calls and two // comments. Converting it to a concept card kept
+ * the content and kept the costume with it.
+ */
+describe('prose dressed as code is undressed, not just relabelled', () => {
+  const convert = async (code: string) => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'here',
+        actions: [{ type: 'createCard', id: 'c1', step: 1, card: 'code', title: 'Example', code }],
+      }),
+    )
+    const result = await applyAction({
+      run: { ...openRun(), programming: false }, policy: GAP, userId: null,
+      action: { type: 'next_beat' }, context: {},
+    })
+    return (result.actions[0] as Record<string, unknown>).body as string
+  }
+
+  it('recovers dialogue from a run of print statements', async () => {
+    const body = await convert(
+      [
+        "// This is an example of Tarantino's dialogue style.",
+        'console.log("Mr. Pink: You know what I hate?");',
+        'console.log("Mr. White: Why? What\'s wrong with Mr. Pink?");',
+      ].join('\n'),
+    )
+    expect(body).toBe(
+      [
+        "This is an example of Tarantino's dialogue style.",
+        'Mr. Pink: You know what I hate?',
+        "Mr. White: Why? What's wrong with Mr. Pink?",
+      ].join('\n'),
+    )
+    expect(body).not.toContain('console.log')
+    expect(body).not.toContain('//')
+  })
+
+  it('handles print and single quotes too', async () => {
+    expect(await convert("print('A line of prose.')")).toBe('A line of prose.')
+  })
+
+  it('leaves a snippet with real code in it exactly as it was', async () => {
+    // Better an oddly placed card than one silently mangled.
+    const real = 'for (const x of xs) {\n  console.log("x is " + x);\n}'
+    expect(await convert(real)).toBe(real)
+  })
+
+  it('leaves an unterminated string alone rather than swallowing the line', async () => {
+    const broken = 'console.log("no closing quote);'
+    expect(await convert(broken)).toBe(broken)
+  })
+})

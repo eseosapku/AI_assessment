@@ -265,16 +265,55 @@ function acknowledge(action: LessonAction, run: LessonRun, board: BoardSummary):
 /** Card types that render a Run button or a live preview. */
 const RUNS_CODE = new Set(['code', 'web'])
 
+/** A line that is nothing but a string being printed. */
+const PRINTED_LINE =
+  /^\s*(?:console\.log|print|println|System\.out\.println|echo|puts|printf)\s*\(\s*(["'`])([\s\S]*?)\1\s*\)\s*;?\s*$/
+/** A line that is nothing but a comment. */
+const COMMENT_LINE = /^\s*(?:\/\/+|#)\s?(.*)$/
+
 /**
- * Strips the outer print/log call when it is the whole of a snippet.
+ * Recovers the prose from a snippet that was only ever prose in costume.
  *
- * `console.log("Jules: They got the metric system there...")` is one line of
- * prose in a costume. Unwrapped it is just the line, which is what the card
- * should have been showing.
+ * A screenwriting lesson produced a card whose whole body was
+ * `console.log("Mr. Pink: You know what I hate?...")` repeated line after line,
+ * over two `//` comments explaining the scene. Converting that card to a
+ * concept card kept the content but kept the costume with it, so the learner
+ * read dialogue through a wrapper of function calls and semicolons.
+ *
+ * Every line has to be a printed string or a comment before anything is
+ * rewritten. A snippet with real control flow in it is left exactly as it is —
+ * better an odd-looking card than one silently mangled.
  */
 function unwrapPrinted(code: string): string {
-  const m = code.trim().match(/^(?:console\.log|print|System\.out\.println)\(\s*(["'`])([\s\S]*)\1\s*\)\s*;?$/)
-  return m ? m[2] : code
+  const lines = code.replace(/\r\n/g, '\n').split('\n')
+  const meaningful = lines.filter((l) => l.trim().length > 0)
+  if (meaningful.length === 0) return code
+
+  const out: string[] = []
+  let recovered = 0
+
+  for (const line of lines) {
+    if (!line.trim()) {
+      out.push('')
+      continue
+    }
+    const printed = line.match(PRINTED_LINE)
+    if (printed) {
+      out.push(printed[2])
+      recovered += 1
+      continue
+    }
+    const comment = line.match(COMMENT_LINE)
+    if (comment) {
+      out.push(comment[1])
+      recovered += 1
+      continue
+    }
+    out.push(line)
+  }
+
+  if (recovered < meaningful.length) return code
+  return out.join('\n').replace(/\n{3,}/g, '\n\n').trim()
 }
 
 /**

@@ -323,10 +323,13 @@ export default function Workspace({ id }: { id: string }) {
   // The menu already folds the card's title and id into `text` (see
   // StudyCanvas's CARD_ACTIONS), so it travels as the `ask` question as-is.
   const handleCardPrompt = useCallback(
-    (text: string) => {
+    (prompt: string, label: string) => {
       if (busy) return
-      setMessages((prev) => [...prev, { role: 'user', content: text }])
-      void sendAction({ type: 'ask', question: text })
+      // The learner sees what they asked for; the tutor gets the card id it
+      // needs to target. Showing the tutor's copy is how the transcript ended
+      // up quoting "(card id: s5-dialogue-prompt)" back at them.
+      setMessages((prev) => [...prev, { role: 'user', content: label }])
+      void sendAction({ type: 'ask', question: prompt })
     },
     [busy, sendAction]
   )
@@ -561,7 +564,8 @@ export default function Workspace({ id }: { id: string }) {
       if (submitted.current.has(cpId)) continue
       if (cells.length > 0 && cells.every((c) => c.state === 'correct' || c.state === 'incorrect')) {
         submitted.current.add(cpId)
-        setMessages((prev) => [...prev, { role: 'assistant', content: checkpointResultText(cells) }])
+        // A result is the run reporting, not the tutor speaking.
+        setMessages((prev) => [...prev, { role: 'assistant', kind: 'status', content: checkpointResultText(cells) }])
         const correct = cells.filter((c) => c.state === 'correct').length
         void sendAction({
           type: 'answer_check',

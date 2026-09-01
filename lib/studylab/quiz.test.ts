@@ -40,13 +40,36 @@ describe('isValidQuestion', () => {
 })
 
 describe('checkpointResultText', () => {
-  it('summarises score and lists missed prompts', () => {
-    const cells: QuizCell[] = [
-      { checkpointId: 'c', gate: 'hard', question: mcq, state: 'correct' },
-      { checkpointId: 'c', gate: 'hard', question: { ...mcq, id: 'q3', prompt: 'tricky' }, state: 'incorrect' },
-    ]
-    const text = checkpointResultText(cells)
-    expect(text).toContain('1/2')
-    expect(text).toContain('tricky')
+  const cell = (id: string, state: QuizCell['state']): QuizCell => ({
+    checkpointId: 'c', gate: 'hard', question: { ...mcq, id }, state,
+  })
+
+  // It used to read `CHECKPOINT RESULT: 1/2 correct. Missed: "tricky".` —
+  // written to be parsed by the model. The tutor now gets the result as
+  // structured data on the action and never sees this string, so there is
+  // nobody left for the protocol wording to serve.
+  it('speaks to the learner, not to the model', () => {
+    const text = checkpointResultText([cell('q1', 'correct'), cell('q2', 'incorrect')])
+    expect(text).toBe('1 of 2 right — we will go back over the rest.')
+    expect(text).not.toContain('CHECKPOINT')
+  })
+
+  it('keeps a single question singular', () => {
+    expect(checkpointResultText([cell('q1', 'correct')])).toBe('Correct.')
+    expect(checkpointResultText([cell('q1', 'incorrect')]))
+      .toBe('Not quite — we will go back over that.')
+  })
+
+  it('counts a clean sweep', () => {
+    const all = [cell('q1', 'correct'), cell('q2', 'correct'), cell('q3', 'correct')]
+    expect(checkpointResultText(all)).toBe('All 3 correct.')
+  })
+
+  it('does not quote the questions back — the marked card on the board already shows them', () => {
+    const text = checkpointResultText([
+      cell('q1', 'correct'),
+      { checkpointId: 'c', gate: 'hard', question: { ...mcq, id: 'q2', prompt: 'tricky' }, state: 'incorrect' },
+    ])
+    expect(text).not.toContain('tricky')
   })
 })
