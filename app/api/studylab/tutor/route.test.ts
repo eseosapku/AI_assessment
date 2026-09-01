@@ -419,3 +419,51 @@ describe('jump', () => {
     expect(result.run.currentStep).toBe(1)
   })
 })
+
+describe('check-question field names', () => {
+  it('accepts the field names a model actually reaches for', async () => {
+    // Nova returns "type"/"question" every time — reasonable words for those
+    // things, and the reason test-out failed twice in a row in the browser.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        questions: [
+          { id: 'q1', type: 'mcq', question: 'Faster or slower?', options: ['Faster', 'Slower'], answer: 1 },
+        ],
+      }),
+    )
+    const result = await applyAction({
+      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+    const checkpoint = result.actions.find(
+      (a): a is { type: string; questions: unknown[] } =>
+        typeof a === 'object' && a !== null && (a as { type?: string }).type === 'checkpoint',
+    )
+    expect(checkpoint?.questions).toHaveLength(1)
+  })
+
+  it('gives a question with no id one, rather than discarding it', async () => {
+    // Losing a good question over bookkeeping is the worst reason to fail.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ questions: [{ format: 'short', prompt: 'Why does light bend?' }] }),
+    )
+    const result = await applyAction({
+      run: lockedRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+    expect(result.refusal).toBeUndefined()
+  })
+
+  it('still refuses when the questions are genuinely unusable', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ questions: [{ id: 'q1', prompt: 'no format at all' }] }),
+    )
+    const run = lockedRun()
+    const result = await applyAction({
+      run, policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' },
+    })
+    expect(result.run).toEqual(run)
+    expect(result.refusal).toBeTruthy()
+  })
+})

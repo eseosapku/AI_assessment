@@ -333,12 +333,38 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
  * it is a structured transform against a goal that is already decided, not a
  * judgement about how to teach.
  */
+/**
+ * Accepts the field names a model reaches for anyway.
+ *
+ * `format` and `prompt` are what the canvas reducer reads, but "type" and
+ * "question" are the obvious words for those things and the model reliably
+ * chose them — producing questions that parsed, validated as junk, and left
+ * the learner with "could not put together a check" twice in a row.
+ *
+ * Spelling the field names out in the prompt fixes the common case; this
+ * catches the drift, because a prompt is a request and this is a guarantee.
+ */
+function normaliseQuestion(raw: unknown): unknown {
+  if (!raw || typeof raw !== 'object') return raw
+  const q = { ...(raw as Record<string, unknown>) }
+  if (q.format === undefined && typeof q.type === 'string') q.format = q.type
+  if (q.prompt === undefined && typeof q.question === 'string') q.prompt = q.question
+  // A question with no id is otherwise discarded over bookkeeping, not content.
+  if (typeof q.id !== 'string' || !q.id.trim()) {
+    q.id = `q-${Math.random().toString(36).slice(2, 8)}`
+  }
+  return q
+}
+
 async function writeCheck(
   step: { title: string; goal: string },
   checkpointId: string,
   userId: string | null,
   requestId?: string,
 ): Promise<CheckpointQuestion[]> {
+  // The field names are spelled out with a worked example of each shape.
+  // Naming only the formats got back `type` and `question` every time — a
+  // reasonable guess, and one that failed validation silently.
   const prompt = [
     `Write a short knowledge check for one step of a lesson.`,
     `STEP: ${step.title}`,
@@ -346,10 +372,19 @@ async function writeCheck(
     '',
     'Two or three questions, enough to tell whether someone already knows this.',
     'Keep them on this step only — this is not an exam.',
-    'Formats: "mcq" (give "options" and an integer "answer"), "short" (give a "rubric"),',
-    'or "match" (give "pairs" of {"left","right"}). Give every question a unique "id".',
     '',
-    'Reply with JSON only: { "questions": [ ... ] }',
+    'Each question needs "id", "format" and "prompt". Use these EXACT field names:',
+    '',
+    '{ "questions": [',
+    '  { "id": "q1", "format": "mcq", "prompt": "...?",',
+    '    "options": ["...", "...", "...", "..."], "answer": 1 },',
+    '  { "id": "q2", "format": "short", "prompt": "...?",',
+    '    "rubric": "what a good answer must mention" },',
+    '  { "id": "q3", "format": "match", "prompt": "Match each term to its description.",',
+    '    "pairs": [ { "left": "...", "right": "..." }, { "left": "...", "right": "..." } ] }',
+    '] }',
+    '',
+    '"answer" is the zero-based index into "options". Reply with that JSON and nothing else.',
   ].join('\n')
 
   const raw = await callGemma(prompt, {
@@ -362,7 +397,7 @@ async function writeCheck(
   })
 
   const parsed = parseJsonRobust(raw)
-  const questions = Array.isArray(parsed?.questions) ? parsed.questions : []
+  const questions = (Array.isArray(parsed?.questions) ? parsed.questions : []).map(normaliseQuestion)
   // Validate with the same predicate the canvas reducer uses (isValidQuestion,
   // already imported by lib/studylab/actions.ts) — a looser check here (e.g.
   // just "has a prompt") would let a question missing its format-specific

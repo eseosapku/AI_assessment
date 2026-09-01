@@ -27,6 +27,8 @@ interface StudyLabSidebarProps {
   onTestOut?: (stepId: string) => void
   onJump?: (stepId: string) => void
   onSetPace?: (pace: Pace) => void
+  /** True while a request is in flight, so the rail stops accepting clicks it would drop. */
+  busy?: boolean
 }
 
 export default function StudyLabSidebar({
@@ -43,11 +45,13 @@ export default function StudyLabSidebar({
   onTestOut = () => {},
   onJump = () => {},
   onSetPace = () => {},
+  busy = false,
 }: StudyLabSidebarProps) {
   const hasPlan = !!plan && plan.length > 0
   const completed = hasPlan ? Math.max(currentStep - 1, 0) : groups.length
   const total = hasPlan ? plan!.length : Math.max(currentStep, groups.length)
   const rail = railSteps(run ?? null, policy)
+  const settled = rail.filter((r) => r.status === 'done' || r.status === 'known').length
   const hasRail = rail.length > 0
 
   return (
@@ -81,72 +85,125 @@ export default function StudyLabSidebar({
         {subject && <p className="text-[12px] text-ss-slate mt-0.5">{subject}</p>}
       </div>
 
-      {/* The plan: what the lesson will cover, and what can be acted on */}
+      {/* The plan: what the lesson covers, where you are in it, and what you
+          can do about it. Every row states its own status, because a list
+          where only the current item is bold tells you where you are and
+          nothing about what you have got through. */}
       <div className="flex-1 overflow-y-auto px-2 py-3">
-        <div className="flex items-center gap-2 px-2 mb-2 text-[12px] uppercase tracking-[0.18em] text-ss-slate">
-          <Layers className="w-3.5 h-3.5" />
-          Your plan
+        <div className="flex items-center justify-between gap-2 px-2 mb-2">
+          <span className="flex items-center gap-2 text-[12px] uppercase tracking-[0.18em] text-ss-slate">
+            <Layers className="w-3.5 h-3.5" />
+            Your plan
+          </span>
+          {hasRail && (
+            <span className="text-[12px] font-semibold text-ss-slate">
+              {settled} of {rail.length} done
+            </span>
+          )}
         </div>
+
         {run && (
-          <div className="flex gap-1 px-3 pb-2">
-            {(['step', 'run'] as const).map((p) => (
-              <button
-                key={p}
-                type="button"
-                onClick={() => onSetPace(p)}
-                aria-pressed={run.pace === p}
-                className={`rounded-lg px-2 py-1 text-[12px] font-bold ${
-                  run.pace === p ? 'bg-white/10 text-white' : 'text-ss-slate hover:text-white'
-                }`}
-              >
-                {p === 'step' ? 'One card at a time' : 'Whole step at once'}
-              </button>
-            ))}
+          <div className="mx-2 mb-3 rounded-xl bg-white/5 p-2">
+            <div className="flex gap-1">
+              {(['step', 'run'] as const).map((p) => (
+                <button
+                  key={p}
+                  type="button"
+                  disabled={busy}
+                  onClick={() => onSetPace(p)}
+                  aria-pressed={run.pace === p}
+                  className={`flex-1 rounded-lg px-2 py-1.5 text-[12px] font-bold transition-colors disabled:opacity-50 ${
+                    run.pace === p ? 'bg-white/15 text-white' : 'text-ss-slate hover:text-white'
+                  }`}
+                >
+                  {p === 'step' ? 'One card at a time' : 'Whole step at once'}
+                </button>
+              ))}
+            </div>
+            {/* A toggle whose two states are not explained is a toggle nobody
+                touches on purpose. */}
+            <p className="mt-1.5 px-1 text-[12px] font-medium leading-snug text-ss-slate">
+              {run.pace === 'step'
+                ? 'Adds one card, then waits for you.'
+                : 'Builds the whole step, then stops at the check.'}
+            </p>
           </div>
         )}
+
         <div className="space-y-1">
           {hasRail ? (
             <ul className="space-y-1 list-none">
-              {rail.map((step) => (
-                <li key={step.id} className="px-3 py-2">
-                  <button
-                    type="button"
-                    onClick={() => onJump(step.id)}
-                    className={`block w-full text-left text-[13px] font-semibold ${
-                      step.current ? 'text-white' : 'text-ss-slate hover:text-white'
+              {rail.map((step) => {
+                const settledStep = step.status === 'done' || step.status === 'known'
+                return (
+                  <li
+                    key={step.id}
+                    className={`rounded-lg px-3 py-2 ${
+                      step.current ? 'bg-white/[0.07] border-l-2 border-[color:var(--ss-accent)]' : 'border-l-2 border-transparent'
                     }`}
                   >
-                    {step.title}
-                  </button>
-
-                  {step.measured !== null && (
-                    <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">
-                      measured {step.measured}%
-                    </span>
-                  )}
-
-                  {step.canTestOut && (
                     <button
                       type="button"
-                      aria-label={`Test out of ${step.title}`}
-                      onClick={() => onTestOut(step.id)}
-                      className="mt-1 rounded-lg px-2 py-1 text-[12px] font-bold text-ss-accent hover:bg-[color:var(--ss-accent)]/15"
+                      disabled={busy}
+                      onClick={() => onJump(step.id)}
+                      className="flex w-full items-start gap-2 text-left disabled:opacity-60"
                     >
-                      I know this
+                      {/* One glyph per state, so the list reads at a glance. */}
+                      <span
+                        aria-hidden
+                        className={`mt-0.5 shrink-0 text-[12px] font-bold ${
+                          settledStep ? 'text-ss-good' : step.current ? 'text-ss-accent' : 'text-ss-slate'
+                        }`}
+                      >
+                        {settledStep ? '✓' : step.current ? '●' : '○'}
+                      </span>
+                      <span
+                        className={`text-[13px] font-semibold leading-snug ${
+                          step.current ? 'text-white' : settledStep ? 'text-ss-slate line-through decoration-1' : 'text-ss-slate hover:text-white'
+                        }`}
+                      >
+                        {step.title}
+                      </span>
                     </button>
-                  )}
 
-                  {/* A locked step used to show a percentage and simply omit
-                      the button, which reads as the control being missing
-                      rather than withheld. Saying why is the difference
-                      between a rule and a bug. */}
-                  {step.lockedReason && (
-                    <p className="mt-1 text-[12px] font-medium leading-snug text-ss-warn">
-                      {step.lockedReason}
-                    </p>
-                  )}
-                </li>
-              ))}
+                    <div className="pl-5">
+                      {step.status === 'known' && (
+                        <span className="mt-0.5 block text-[12px] font-semibold text-ss-good">
+                          You tested out of this
+                        </span>
+                      )}
+
+                      {step.measured !== null && !settledStep && (
+                        <span className="mt-0.5 block text-[12px] font-medium text-ss-warn">
+                          You scored {step.measured}% on this before
+                        </span>
+                      )}
+
+                      {step.canTestOut && (
+                        <button
+                          type="button"
+                          disabled={busy}
+                          aria-label={`Test out of ${step.title}`}
+                          onClick={() => onTestOut(step.id)}
+                          className="mt-1 rounded-lg px-2 py-1 text-[12px] font-bold text-ss-accent hover:bg-[color:var(--ss-accent)]/15 disabled:opacity-50"
+                        >
+                          I know this — test me
+                        </button>
+                      )}
+
+                      {/* A locked step used to show a percentage and simply
+                          omit the button, which reads as the control being
+                          missing rather than withheld. Saying why is the
+                          difference between a rule and a bug. */}
+                      {step.lockedReason && (
+                        <p className="mt-1 text-[12px] font-medium leading-snug text-ss-warn">
+                          {step.lockedReason}
+                        </p>
+                      )}
+                    </div>
+                  </li>
+                )
+              })}
             </ul>
           ) : hasPlan ? (
             plan!.map((p, i) => {
