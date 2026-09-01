@@ -19,6 +19,25 @@ import { PACES } from './paceOptions'
  * lesson built from that measurement it also says it is not up for
  * negotiation, because it is the reason the lesson exists.
  */
+/**
+ * Reshapings offered on every plan, whether or not the tutor asked anything.
+ *
+ * The plan job is allowed to ask nothing when the plan genuinely does not turn
+ * on anything, and often does — so the negotiation the card exists for appeared
+ * on some lessons and not others, behind a button reading "Change something"
+ * that named nothing in particular. Forcing a question instead would only
+ * produce filler. These are the three things people actually want to change,
+ * said as instructions the redraft can act on directly.
+ */
+const ADJUSTMENTS: { label: string; instruction: string }[] = [
+  { label: 'Make it shorter', instruction: 'Make it shorter — fewer steps, just the essentials.' },
+  { label: 'Go deeper', instruction: 'Go deeper. I want the detail and the why, not an overview.' },
+  {
+    label: 'I know the basics',
+    instruction: 'Skip the introductory material, I already know it. Start from the harder parts.',
+  },
+]
+
 export function PlanCard({
   plan,
   busy,
@@ -204,6 +223,26 @@ export function PlanCard({
               </div>
             </div>
           ) : (
+            <>
+              <div className="mb-2.5">
+                <p className="text-[12px] font-extrabold uppercase tracking-wide text-ss-slate">
+                  Want it different?
+                </p>
+                <div className="mt-1.5 flex flex-wrap gap-1.5">
+                  {ADJUSTMENTS.map(({ label, instruction }) => (
+                    <button
+                      key={label}
+                      type="button"
+                      disabled={busy}
+                      onClick={() => onAnswer(instruction)}
+                      className="rounded-full border border-ss-line bg-ss-panel px-3 py-1.5 text-[12.5px] font-bold text-ss-ink transition-colors hover:border-ss-accent hover:text-ss-accent disabled:opacity-50"
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -221,9 +260,10 @@ export function PlanCard({
                 className="inline-flex items-center gap-1.5 rounded-xl border border-ss-line bg-ss-panel px-3.5 py-2 text-[13px] font-bold text-ss-ink disabled:opacity-50"
               >
                 <Pencil className="h-3.5 w-3.5" aria-hidden />
-                {plan.questions.length > 0 ? 'Answer / change it' : 'Change something'}
+                {plan.questions.length > 0 ? 'Answer in my own words' : 'Say what to change'}
               </button>
             </div>
+            </>
           )}
         </div>
       )}

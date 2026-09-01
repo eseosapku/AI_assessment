@@ -978,3 +978,57 @@ describe('a question never puts a gate in front of the learner', () => {
     expect(result.run.openCheck).toBeUndefined()
   })
 })
+
+/**
+ * Closing a step and testing out of one are different questions, and they were
+ * asking for the same thing: three questions landed on a learner who had just
+ * read three cards.
+ */
+describe('a check is sized to why it is being written', () => {
+  const promptFor = async (drive: 'close' | 'testout') => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 'taught', actions: [] }))
+      .mockResolvedValueOnce(
+        JSON.stringify({
+          questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }],
+        }),
+      )
+
+    if (drive === 'close') {
+      await applyAction({
+        run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+        context: {
+          board: {
+            cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+          },
+        },
+      })
+      // The teaching call is first; the check the tutor failed to write is second.
+      return String(vi.mocked(callGemma).mock.calls[1][0])
+    }
+
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }],
+      }),
+    )
+    await applyAction({
+      run: openRun(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' }, context: {},
+    })
+    return String(vi.mocked(callGemma).mock.calls[0][0])
+  }
+
+  it('asks for one question when it is only closing a step', async () => {
+    const prompt = await promptFor('close')
+    expect(prompt).toContain('ONE question, or two at the very most')
+    expect(prompt).not.toContain('Two or three questions')
+  })
+
+  it('asks for more when the learner claims to know the whole step', async () => {
+    const prompt = await promptFor('testout')
+    expect(prompt).toContain('Two or three questions')
+  })
+})

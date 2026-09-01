@@ -140,7 +140,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     step: 1,
     cue: {
       action: 'Read the plan, then press “Looks good, start”',
-      why: 'Every lesson opens with a plan you have to agree to — nothing is built until you do. “Answer / change it” is where you reshape it, and redoing it costs nothing.',
+      why: 'Every lesson opens with a plan you have to agree to — nothing is built until you do. The chips under it reshape it in one press, and redoing it costs nothing.',
       anchor: 'lesson-plan-card',
     },
     say: 'Start here — sunlight only looks white. See the card.',

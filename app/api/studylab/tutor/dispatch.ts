@@ -275,7 +275,7 @@ async function ensureStepCloses(
   const checkpointId = `cp-${step.id}-auto`
   let questions: CheckpointQuestion[]
   try {
-    questions = await writeCheck(step, checkpointId, input.userId, input.requestId)
+    questions = await writeCheck(step, checkpointId, input.userId, input.requestId, 'close-step')
   } catch {
     return { run, actions }
   }
@@ -645,6 +645,17 @@ async function writeCheck(
   checkpointId: string,
   userId: string | null,
   requestId?: string,
+  /**
+   * Why the check is being written, which is what decides how long it is.
+   *
+   * Closing a step is a "did that land?" — the SYSTEM prompt asks for one or
+   * two questions, answerable in under a minute from what was just taught.
+   * Testing out is a claim to have the whole step already, and deserves more
+   * than a single question before it is waved through. Both used to ask for
+   * two or three, so closing a step could land three questions on a learner
+   * who had read three cards.
+   */
+  kind: 'close-step' | 'test-out' = 'test-out',
 ): Promise<CheckpointQuestion[]> {
   // The field names are spelled out with a worked example of each shape.
   // Naming only the formats got back `type` and `question` every time — a
@@ -654,8 +665,10 @@ async function writeCheck(
     `STEP: ${step.title}`,
     `GOAL: ${step.goal}`,
     '',
-    'Two or three questions, enough to tell whether someone already knows this.',
-    'Keep them on this step only — this is not an exam.',
+    kind === 'close-step'
+      ? 'ONE question, or two at the very most. It confirms the idea just taught landed; it is not an exam, and the student has only read a few cards.'
+      : 'Two or three questions, enough to tell whether someone already knows this well enough to skip it.',
+    'Keep them on this step only.',
     '',
     'Each question needs "id", "format" and "prompt". Use these EXACT field names:',
     '',
