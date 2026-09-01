@@ -5,6 +5,7 @@ import { type NodeProps } from '@xyflow/react'
 import { GitBranch } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { CardFrame, SafeLatex } from './canvasShared'
+import { sanitiseMermaid, mermaidImageUrl } from '@/lib/studylab/mermaid'
 
 let mermaidReady: Promise<typeof import('mermaid').default> | null = null
 function loadMermaid() {
@@ -21,21 +22,18 @@ export function MermaidNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   const ref = useRef<HTMLDivElement>(null)
   const [error, setError] = useState(false)
-  // Strip markdown code fences / a stray leading "mermaid" line that the model
-  // sometimes wraps the diagram in, which would otherwise fail to render.
-  const src = (d.mermaid ?? '')
-    .replace(/^\s*```(?:mermaid)?\s*/i, '')
-    .replace(/\s*```\s*$/i, '')
-    .replace(/^\s*mermaid\s*\n/i, '')
-    .trim()
+  // Unwraps the fences the model adds, and quotes labels it should not have
+  // written — `C[Water (Roots)]` is unparseable, and an unparseable diagram
+  // renders as "Diagram unavailable" on a card the chat has just pointed at.
+  const src = sanitiseMermaid(d.mermaid ?? '')
 
   // The model sometimes stuffs a markdown image "![alt](url)" into the mermaid
   // field instead of diagram syntax — render it as an image.
-  const imageMatch = src.match(/^!\[[^\]]*\]\((https?:\/\/[^)]+)\)$/)
+  const imageUrl = mermaidImageUrl(src)
 
   useEffect(() => {
     let cancelled = false
-    if (!src.trim() || imageMatch) return
+    if (!src.trim() || imageUrl) return
     ;(async () => {
       try {
         const mermaid = await loadMermaid()
@@ -51,7 +49,7 @@ export function MermaidNode({ id, data }: NodeProps) {
     return () => {
       cancelled = true
     }
-  }, [src, id])
+  }, [src, id, imageUrl])
 
   return (
     <CardFrame accent="orange">
@@ -62,9 +60,9 @@ export function MermaidNode({ id, data }: NodeProps) {
         <h3 className="font-semibold text-[15px] leading-tight">{d.title}</h3>
       </div>
       <div className="px-4 pb-4 pt-2">
-        {imageMatch ? (
+        {imageUrl ? (
           // eslint-disable-next-line @next/next/no-img-element
-          <img src={imageMatch[1]} alt={d.title || 'diagram'} className="w-full rounded-lg" />
+          <img src={imageUrl} alt={d.title || 'diagram'} className="w-full rounded-lg" />
         ) : error || !src ? (
           <p className="text-[12px] text-ss-slate italic">Diagram unavailable.</p>
         ) : (
