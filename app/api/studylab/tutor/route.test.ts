@@ -639,7 +639,9 @@ describe('pace changes the instruction, not just the wording', () => {
   it('budgets the whole step, ending in a checkpoint, on "run"', async () => {
     const prompt = await promptFor('run')
     expect(prompt).toContain('Emit 3 or 4 cards')
-    expect(prompt).toContain('then emit ONE checkpoint action')
+    expect(prompt).toContain('Then emit ONE checkpoint action')
+    // A step teaching a method has to end with the learner doing one.
+    expect(prompt).toContain('a "practice" card')
   })
 })
 
@@ -1076,5 +1078,26 @@ describe('the retired diagram card', () => {
   it('leaves every other card type alone', async () => {
     const out = await teach(openRun(), { card: 'table', title: 'T', rows: [['a']] })
     expect(out.card).toBe('table')
+  })
+})
+
+describe('closing a step asks for practice first', () => {
+  it('requests a practice card before the checkpoint on a method step', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
+    await applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: null,
+      action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+        },
+      },
+    })
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('PACE — CLOSE THIS STEP')
+    expect(prompt).toContain('add ONE "practice"')
+    // And it must not be forced onto a step that is purely descriptive.
+    expect(prompt).toContain('purely descriptive step needs no practice card')
   })
 })

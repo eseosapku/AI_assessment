@@ -177,6 +177,8 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             steps: action.steps,
             rows: action.rows,
             variant: action.variant,
+            answer: action.answer,
+            rubric: action.rubric,
             step,
           },
         })

@@ -1,9 +1,13 @@
 // Shared StudyLab data shapes used by the canvas, tutor route and persistence.
 import type { BlockSource } from './blocks'
+import type { PracticeCell } from './practice'
 
 export type MasteryStatus = 'mastered' | 'developing' | 'gap' | 'not_assessed'
 
-export type CardKind = 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout' | 'web'
+export type CardKind =
+  | 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout' | 'web'
+  /** A problem the learner works rather than reads. */
+  | 'practice'
 
 // ── Knowledge-check checkpoints ───────────────────────────────────────────────
 
@@ -55,8 +59,14 @@ export interface StudyNodeData {
   mermaid?: string
   /** Comparison table rows (first row = header). */
   rows?: string[][]
-  /** Worked-example numbered steps (LaTeX allowed). */
+  /** Worked-example numbered steps (LaTeX allowed). Also the practice card's solution. */
   steps?: string[]
+  /** Practice card: the expected answer, used to settle a match for free. */
+  answer?: string
+  /** Practice card: what a good answer must show, for the marking call. */
+  rubric?: string
+  /** Practice card: the learner's attempt and how it was marked. */
+  practice?: PracticeCell
   /** Callout variant. */
   variant?: 'definition' | 'tip' | 'warning'
   /** Flashcard faces. */
@@ -169,6 +179,9 @@ export type TutorAction =
       steps?: string[]
       rows?: string[][]
       variant?: 'definition' | 'tip' | 'warning'
+      /** Practice card: the expected answer, and what a good one shows. */
+      answer?: string
+      rubric?: string
       step?: number
       position?: 'auto' | { x: number; y: number }
     }

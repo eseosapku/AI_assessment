@@ -793,15 +793,19 @@ function buildTeachPrompt(
     wrapUp
       ? [
           `PACE — CLOSE THIS STEP: it has had ${run.beats} turn(s) already.`,
-          'Add at most ONE final card if something essential is missing, then emit ONE',
-          'checkpoint action for this step so the student can move on.',
+          'If this step taught a method, a procedure or a calculation, add ONE "practice"',
+          'card now — the same kind of problem with different numbers, with "answer",',
+          '"rubric" and the full solution in "steps". Then emit ONE checkpoint action.',
+          'A purely descriptive step needs no practice card; go straight to the checkpoint.',
           'The checkpoint is required. Do not end this turn without it.',
         ].join('\n')
       : run.pace === 'run'
       ? [
           'PACE — WHOLE STEP: build this entire step in ONE turn.',
-          'Emit 3 or 4 cards that together cover the goal, connect them parent→child,',
-          'then emit ONE checkpoint action for this step. Do not stop early.',
+          'Emit 3 or 4 cards that together cover the goal, connect them parent→child.',
+          'If the step taught a method, a procedure or a calculation, one of them MUST be',
+          'a "practice" card — the student works a problem of the same kind themselves.',
+          'Then emit ONE checkpoint action for this step. Do not stop early.',
         ].join('\n')
       : [
           'PACE — ONE BEAT: add exactly ONE new card (a second only if it is a directly',

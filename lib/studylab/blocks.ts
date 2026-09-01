@@ -8,6 +8,7 @@ export type BlockSource = 'ai' | 'freeform'
 export type BlockType =
   // AI-creatable / tutor-managed
   | 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout' | 'web'
+  | 'practice'
   | 'quiz' | 'checkpointHeader' | 'stepGroup' | 'image'
   // Derived at render time from where the cards are; never stored on a board.
   | 'stepRegion'
@@ -45,6 +46,9 @@ export const BLOCKS: Record<BlockType, BlockDef> = {
   quiz: def('quiz', 'ai', 320, 220),
   checkpointHeader: def('checkpointHeader', 'ai', 260, 110),
   stepGroup: def('stepGroup', 'ai', 260, 90),
+  // Taller than a reading card: it holds a problem, a box to work in, the
+  // marking, and a solution that can be unfolded under all of it.
+  practice: def('practice', 'ai', 360, 400),
   image: def('image', 'ai', 300, 240),
   // Sized from the cards it wraps, so the entry here is only a placeholder;
   // it exists so the type is complete, not because anything reads it.
@@ -62,7 +66,9 @@ export const BLOCKS: Record<BlockType, BlockDef> = {
 
 // Tutor createCard is only allowed for content cards that already have a renderer.
 // Later phases extend this list as new renderers (mermaid, worked, table, callout) land.
-export const CARD_KINDS: BlockType[] = ['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout', 'web']
+export const CARD_KINDS: BlockType[] = [
+  'concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout', 'web', 'practice',
+]
 
 export function isCardKind(type: string): boolean {
   return (CARD_KINDS as string[]).includes(type)
