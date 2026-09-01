@@ -141,7 +141,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     cue: {
       action: 'Read the plan, then press “Looks good, start”',
       why: 'Every lesson opens with a plan you have to agree to — nothing is built until you do. “Answer / change it” is where you reshape it, and redoing it costs nothing.',
-      anchor: 'lesson-chat',
+      anchor: 'lesson-plan-card',
     },
     say: 'Start here — sunlight only looks white. See the card.',
     suggestions: ['Show me what a prism does', 'Go deeper'],
@@ -191,7 +191,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     cue: {
       action: 'Press the chip “Show me what a prism does”',
       why: 'The outlined buttons are questions about what is on the board right now. Asking one adds a card without skipping ahead — the lesson stays where it is.',
-      anchor: 'lesson-chat',
+      anchor: 'lesson-chips',
     },
     say: 'Here is the prism itself.',
     suggestions: ['Why is violet not the answer?'],
@@ -216,7 +216,7 @@ export const DEMO_ACTS: readonly DemoAct[] = [
     cue: {
       action: 'Send the question already in the box',
       why: 'You can ask anything in your own words. The answer arrives as a card joined to the step you are on — not as a line of chat you will scroll past.',
-      anchor: 'lesson-chat',
+      anchor: 'lesson-composer',
     },
     say: 'Good question — same physics, different glass.',
     actions: [

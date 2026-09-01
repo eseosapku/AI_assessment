@@ -194,7 +194,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   nothing in the conversation read as more important than
                   anything else. */}
               {m.kind === 'plan' && m.plan ? (
-                <div className="max-w-[92%] w-full">
+                <div data-tour="lesson-plan-card" className="max-w-[92%] w-full">
                   <PlanCard
                     plan={m.plan}
                     busy={busy}
@@ -303,7 +303,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
       {/* Suggestions (hidden while a check is pending so the student finishes it first) */}
       {!busy && !pendingCheckpoint && suggestions.length > 0 && !done && (
-        <div className="px-4 pb-2 flex flex-col gap-2">
+        <div data-tour="lesson-chips" className="px-4 pb-2 flex flex-col gap-2">
           {suggestions.map((s, i) => (
             <button
               key={i}
@@ -383,7 +383,10 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           </div>
         )}
         {attachError && <p className="text-[12px] text-red-500 mb-1.5">{attachError}</p>}
-        <div className="flex items-end gap-2 rounded-2xl border border-ss-line bg-ss-chip dark:bg-black/30 px-3 py-2 focus-within:ring-2 focus-within:ring-[color:var(--ss-accent)]/40">
+        <div
+          data-tour="lesson-composer"
+          className="flex items-end gap-2 rounded-2xl border border-ss-line bg-ss-chip dark:bg-black/30 px-3 py-2 focus-within:ring-2 focus-within:ring-[color:var(--ss-accent)]/40"
+        >
           <input
             ref={fileRef}
             type="file"

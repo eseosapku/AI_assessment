@@ -115,14 +115,37 @@ export function PlanCard({
                   aria-checked={on}
                   onClick={() => setPace(id)}
                   disabled={busy}
-                  // The selected tint is set inline: an alpha modifier on a
-                  // token colour emits no rule, so the "chosen" state would be
-                  // invisible and both options would look unselected.
-                  style={on ? { borderColor: 'var(--ss-accent)', backgroundColor: 'var(--ss-accent-soft)' } : undefined}
-                  className={`flex items-start gap-2.5 rounded-xl border p-2.5 text-left transition-colors disabled:opacity-50 ${
-                    on ? '' : 'border-ss-line bg-ss-panel hover:border-ss-accent'
+                  // Selection is carried by the filled radio and a raised white
+                  // panel, not by a tint. This card's own background is
+                  // --ss-accent-soft, so tinting the chosen option the same
+                  // colour made it disappear into the card behind it: two
+                  // options, one with a slightly bluer edge, and no way to tell
+                  // that pressing one had done anything.
+                  style={
+                    on
+                      ? {
+                          borderColor: 'var(--ss-accent)',
+                          backgroundColor: 'var(--ss-panel)',
+                          boxShadow: '0 1px 2px rgba(0,0,0,.05), 0 6px 16px -8px rgba(0,0,0,.28)',
+                        }
+                      : undefined
+                  }
+                  className={`flex items-start gap-2.5 rounded-xl border-2 p-2.5 text-left transition-all disabled:opacity-50 ${
+                    on ? '' : 'border-transparent bg-ss-chip hover:border-ss-line'
                   }`}
                 >
+                  <span
+                    aria-hidden
+                    className="mt-0.5 grid h-4 w-4 shrink-0 place-items-center rounded-full border-2"
+                    style={{ borderColor: on ? 'var(--ss-accent)' : 'var(--ss-slate)' }}
+                  >
+                    {on && (
+                      <span
+                        className="block h-2 w-2 rounded-full"
+                        style={{ backgroundColor: 'var(--ss-accent)' }}
+                      />
+                    )}
+                  </span>
                   <Icon
                     className="mt-0.5 h-4 w-4 shrink-0"
                     style={{ color: on ? 'var(--ss-accent)' : 'var(--ss-slate)' }}
