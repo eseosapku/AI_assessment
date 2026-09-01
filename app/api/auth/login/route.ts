@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
+import { mapAuthUser } from '@/lib/auth-user'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
-import { normalizeCountry } from '@/lib/countries'
 
 function normalizeEmail(value: unknown) {
   const trimmed = String(value ?? '').trim()
@@ -50,22 +50,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    const user = {
-      id: userData.id,
-      name: userData.name,
-      email: userData.email,
-      studentId: userData.student_id,
-      class: userData.class,
-      subjects: userData.subjects,
-      role: userData.role ?? 'student',
-      country: normalizeCountry(userData.country),
-      educationLevel: userData.education_level ?? 'school',
-      universityCourse: userData.university_course ?? null,
-      universityYear: userData.university_year ?? null,
-      // Present only once migrations/add-user-avatar.sql has run;
-      // undefined until then, which the client treats as "no photo".
-      avatarUrl: userData.avatar_url ?? null,
-    }
+    const user = mapAuthUser(userData)
 
     return NextResponse.json({
       success: true,

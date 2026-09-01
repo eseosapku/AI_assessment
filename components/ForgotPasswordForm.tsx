@@ -11,7 +11,6 @@ export default function ForgotPasswordForm() {
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [success, setSuccess] = useState(false)
-  const [resetLink, setResetLink] = useState('')
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -22,25 +21,26 @@ export default function ForgotPasswordForm() {
       const response = await fetch(apiUrl('/api/auth/forgot-password'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email })
+        body: JSON.stringify({ email }),
       })
 
       const data = await response.json()
 
       if (!response.ok) {
-        throw new Error(data.error || 'Failed to send reset email')
+        throw new Error(data.error || 'Unable to send verification code')
       }
 
       setSuccess(true)
-      setResetLink(data.resetLink)
-    } catch (err: any) {
-      setError(err.message)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Unable to send verification code')
     } finally {
       setIsLoading(false)
     }
   }
 
   if (success) {
+    const resetHref = `/reset-password?email=${encodeURIComponent(email.trim().toLowerCase())}`
+
     return (
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -57,24 +57,16 @@ export default function ForgotPasswordForm() {
             >
               <CheckCircle2 className="w-10 h-10 text-white" />
             </motion.div>
-            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Check Your Email</h1>
+            <h1 className="text-2xl sm:text-3xl font-bold mb-2">Check your email</h1>
             <p className="text-sm text-apple-dark-gray">
-              We&apos;ve sent password reset instructions to <strong>{email}</strong>
+              If an account exists for <strong>{email}</strong>, we sent a 6-digit code from
+              braininkedu@gmail.com. It expires in 15 minutes.
             </p>
           </div>
 
-          {/* For development: show reset link directly */}
-          <div className="mb-6 p-4 rounded-apple bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800">
-            <p className="text-sm text-blue-600 dark:text-blue-400 mb-2">
-              <strong>Development Mode:</strong> Use this link to reset your password
-            </p>
-            <Link 
-              href={resetLink}
-              className="text-xs text-apple-blue hover:underline break-all"
-            >
-              {window.location.origin + resetLink}
-            </Link>
-          </div>
+          <Link href={resetHref} className="block w-full btn-primary text-center mb-4">
+            Enter verification code
+          </Link>
 
           <Link
             href="/login"
@@ -104,17 +96,16 @@ export default function ForgotPasswordForm() {
           >
             <Mail className="w-10 h-10 text-white" />
           </motion.div>
-          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Forgot Password?</h1>
+          <h1 className="text-2xl sm:text-3xl font-bold mb-2">Forgot password?</h1>
           <p className="text-sm text-apple-dark-gray">
-            Enter your email and we&apos;ll send you instructions to reset your password
+            Enter your email and we&apos;ll send you a 6-digit verification code
           </p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5">
-          {/* Email Field */}
           <div>
             <label htmlFor="email" className="block text-sm font-medium mb-2">
-              Email Address
+              Email address
             </label>
             <div className="relative">
               <Mail className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-apple-dark-gray" />
@@ -125,12 +116,12 @@ export default function ForgotPasswordForm() {
                 onChange={(e) => setEmail(e.target.value)}
                 placeholder="student@example.com"
                 required
+                autoComplete="email"
                 className="w-full pl-12 pr-4 py-3 rounded-apple bg-apple-gray dark:bg-gray-800 border-2 border-transparent focus:border-apple-blue outline-none transition-all"
               />
             </div>
           </div>
 
-          {/* Error Message */}
           {error && (
             <motion.div
               initial={{ opacity: 0, y: -10 }}
@@ -141,7 +132,6 @@ export default function ForgotPasswordForm() {
             </motion.div>
           )}
 
-          {/* Submit Button */}
           <motion.button
             type="submit"
             disabled={isLoading}
@@ -149,11 +139,10 @@ export default function ForgotPasswordForm() {
             whileTap={{ scale: 0.98 }}
             className="w-full btn-primary disabled:opacity-60 disabled:cursor-not-allowed"
           >
-            {isLoading ? 'Sending...' : 'Send Reset Instructions'}
+            {isLoading ? 'Sending...' : 'Send verification code'}
           </motion.button>
         </form>
 
-        {/* Back to Login */}
         <div className="mt-6 text-center">
           <Link
             href="/login"

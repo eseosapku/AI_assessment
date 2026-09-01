@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Mail, Lock, Eye, EyeOff, ArrowRight } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import GoogleSignInButton from './GoogleSignInButton'
 
 const inputClass =
   'w-full rounded-xl border-2 border-black/[0.06] bg-white py-3 pl-11 pr-4 text-sm font-medium text-slate-900 outline-none transition-all placeholder:text-ss-slate focus:border-[#0E8FD1] focus:ring-2 focus:ring-[#0E8FD1]/20 dark:border-white/10 dark:bg-white/[0.04] dark:text-white dark:placeholder:text-ss-slate'
@@ -21,7 +22,19 @@ export default function LoginForm({
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { login } = useAuth()
+  const { login, loginWithGoogle } = useAuth()
+
+  const handleGoogle = async (idToken: string) => {
+    setError('')
+    setIsLoading(true)
+    try {
+      await loginWithGoogle(idToken)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Google sign-in failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -55,6 +68,7 @@ export default function LoginForm({
       )}
 
       <form onSubmit={handleSubmit} className={embedded ? 'mt-2 space-y-4' : 'mt-8 space-y-4'}>
+        <GoogleSignInButton onCredential={handleGoogle} label="signin_with" disabled={isLoading} />
         <div>
           <label
             htmlFor="identifier"

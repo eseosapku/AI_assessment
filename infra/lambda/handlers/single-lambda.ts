@@ -3,6 +3,8 @@ import { POST as signup } from '../../../app/api/auth/signup/route'
 import { POST as login } from '../../../app/api/auth/login/route'
 import { POST as updateProfile } from '../../../app/api/auth/update-profile/route'
 import { POST as forgotPassword } from '../../../app/api/auth/forgot-password/route'
+import { POST as googleAuth } from '../../../app/api/auth/google/route'
+import { POST as completeProfile } from '../../../app/api/auth/complete-profile/route'
 import { POST as resetPassword } from '../../../app/api/auth/reset-password/route'
 import { POST as createJob } from '../../../app/api/jobs/route'
 import { GET as getJob } from '../../../app/api/jobs/[id]/route'
@@ -92,6 +94,8 @@ export async function handler(event: any) {
 
   if (method === 'POST' && path === '/api/auth/signup') return toApiGatewayResponse(await signup(request))
   if (method === 'POST' && path === '/api/auth/login') return toApiGatewayResponse(await login(request))
+  if (method === 'POST' && path === '/api/auth/google') return toApiGatewayResponse(await googleAuth(request))
+  if (method === 'POST' && path === '/api/auth/complete-profile') return toApiGatewayResponse(await completeProfile(request))
   if (method === 'POST' && path === '/api/auth/update-profile') return toApiGatewayResponse(await updateProfile(request))
   if (method === 'POST' && path === '/api/auth/forgot-password') return toApiGatewayResponse(await forgotPassword(request))
   if (method === 'POST' && path === '/api/auth/reset-password') return toApiGatewayResponse(await resetPassword(request))

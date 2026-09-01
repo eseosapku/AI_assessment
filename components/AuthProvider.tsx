@@ -23,18 +23,32 @@ interface User {
   universityYear?: number | null
   /** Server-stored profile photo. Undefined until the avatar migration runs. */
   avatarUrl?: string | null
+  /** False until a first-time Google user finishes role/class. */
+  profileComplete: boolean
 }
 
 interface AuthContextType {
   user: User | null
   login: (identifier: string, password: string) => Promise<void>
+  loginWithGoogle: (idToken: string) => Promise<void>
   signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode, extra?: UniversitySignup) => Promise<void>
+  completeProfile: (payload: CompleteProfilePayload) => Promise<void>
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>
   logout: () => void
   isLoading: boolean
 }
 
 interface UniversitySignup {
+  educationLevel?: 'school' | 'university'
+  universityCourse?: string
+  universityYear?: number
+}
+
+interface CompleteProfilePayload {
+  name: string
+  role: 'student' | 'teacher'
+  country: CountryCode
+  className: string
   educationLevel?: 'school' | 'university'
   universityCourse?: string
   universityYear?: number
@@ -55,7 +69,9 @@ interface UpdateProfilePayload {
 const AuthContext = createContext<AuthContextType>({
   user: null,
   login: async () => { },
+  loginWithGoogle: async () => { },
   signup: async () => { },
+  completeProfile: async () => { },
   updateProfile: async () => { },
   logout: () => { },
   isLoading: true,
@@ -73,6 +89,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (storedUser) {
       const parsed = JSON.parse(storedUser)
       parsed.country = normalizeCountry(parsed.country)
+      parsed.profileComplete = parsed.profileComplete !== false
       setUser(parsed)
       // Restoring a session on a device that has never shown this account's
       // photo: pull it down (and push a pre-server local photo up).
@@ -92,7 +109,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(userData.user)
     localStorage.setItem('user', JSON.stringify(userData.user))
     void hydrateAvatar(userData.user.id, userData.user.avatarUrl)
+    if (userData.user.profileComplete === false) {
+      router.push('/complete-profile')
+      return
+    }
     const path = await resolvePostAuthPath(userData.user)
+    router.push(path)
+  }
+
+  const loginWithGoogle = async (idToken: string) => {
+    const response = await fetch(apiUrl('/api/auth/google'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ idToken }),
+    })
+    const body = await response.json().catch(() => ({}))
+    if (!response.ok) {
+      throw new Error(body?.error || 'Google sign-in failed')
+    }
+    setUser(body.user)
+    localStorage.setItem('user', JSON.stringify(body.user))
+    void hydrateAvatar(body.user.id, body.user.avatarUrl)
+    if (body.user.profileComplete === false) {
+      router.push('/complete-profile')
+      return
+    }
+    const path = await resolvePostAuthPath(body.user)
     router.push(path)
   }
 
@@ -111,6 +153,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     setUser(userData.user)
     localStorage.setItem('user', JSON.stringify(userData.user))
     const path = await resolvePostAuthPath(userData.user)
+    router.push(path)
+  }
+
+  const completeProfile = async (payload: CompleteProfilePayload) => {
+    if (!user?.id) {
+      throw new Error('You must be signed in to finish your profile.')
+    }
+    const response = await fetch(apiUrl('/api/auth/complete-profile'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, ...payload }),
+    })
+    const data = await response.json().catch(() => ({}))
+    if (!response.ok) {
+      throw new Error(data?.error || 'Failed to save profile')
+    }
+    setUser(data.user)
+    localStorage.setItem('user', JSON.stringify(data.user))
+    const path = await resolvePostAuthPath(data.user)
     router.push(path)
   }
 
@@ -144,7 +205,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, signup, updateProfile, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, loginWithGoogle, signup, completeProfile, updateProfile, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   )

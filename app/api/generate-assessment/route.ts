@@ -725,7 +725,7 @@ function buildPrompt(opts: {
         "..."
       ],
       "hints": [
-        "<one nudge per criterion: the KIND of point (a named term, a reason, evidence) — NEVER the mark, NEVER a key fact, quote, or the model answer>"
+        "<exactly ONE comprehensive hint for the whole question — how to structure the answer from THIS question's demands. Never one line per criterion. Never the mark, key fact, quote, or model answer>"
       ],
       "model_answer": "<concise 80-120 word outline of a top answer using P.E.E structure>",
       "explanation": "<what skill this question assesses>"${imageKeyField}${subjectNeedsPassage ? `,
@@ -748,7 +748,7 @@ function buildPrompt(opts: {
       "question": "${lfQuestionDesc}",
       "marks": <integer ${lfMarksRange}>,
       "marking_criteria": ["<criterion 1>", "<criterion 2>", "..."],
-      "hints": ["<one nudge per criterion — point at the kind of mark, never the answer>"],
+      "hints": ["<exactly ONE comprehensive hint for the whole question — structure guidance from this question, never the answer>"],
       "model_answer": "<80-120 word outline of a strong answer>",
       "explanation": "<what this question tests>"
     }`
@@ -892,7 +892,7 @@ ${genreBlock ? `${genreBlock}
 3. LaTeX math MUST be wrapped in dollar signs: $...$ for inline (e.g. $\\\\frac{1}{x}$, $\\\\sqrt{2}$, $x^2 + y^2$) and $$...$$ for display. This applies in ALL fields including explanations and model_answer. Never write bare LaTeX outside of dollar signs.
 4. MCQ "explanation" field: 100-150 words. Write a thorough explanation covering: (a) the concept or skill this question tests, (b) exactly why the correct answer is right with specific reasoning, evidence, or working shown, (c) why each of the three wrong options is incorrect and what misconception leads a student to pick it. Do NOT just restate the question. Write in full sentences.
 5. Longform "explanation" field: 40-60 words. State the skill being assessed (e.g. "This question tests inference skills..."), then describe what a strong answer must include. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
-5b. Longform "hints": exactly one hint per marking_criteria entry. A hint tells the student what KIND of point this mark needs (name a term, give a reason, use evidence, show working). It MUST NOT restate the criterion, MUST NOT include the key fact, quote, formula, or any sentence from model_answer. If a hint would give the answer, rewrite it as a process nudge.
+5b. Longform "hints": exactly ONE string in the array. Write a single comprehensive hint for the whole question: how to structure the answer based on THIS question's wording (both demands if multi-part). Do NOT write one hint per criterion. Do NOT paste or lightly rephrase the question three times. MUST NOT include the key fact, quote, formula, or any sentence from model_answer.
 6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
 ${questionType !== 'longform' || hasDiagramSupport ? `7. ${diagramNote || 'N/A'}` : ''}
 8. ${passageNote}
@@ -966,7 +966,7 @@ function buildPassageBasedPrompt(opts: {
     : grade ? `Grade ${grade}` : 'secondary level'
 
   const mcqSchema = `{ "id": <number>, "type": "mcq", "question": "...", "options": ["A","B","C","D"], "correct_answer": <0-3>, "explanation": "100-150 words explaining why the correct answer is right and why each wrong option is wrong" }`
-  const lfSchema = `{ "id": <number>, "type": "longform", "question": "...", "marks": <4-8>, "marking_criteria": ["one point per mark — each must be achievable from this passage"], "hints": ["one nudge per criterion — kind of point, never the quote or the mark"], "model_answer": "80-120 words — full P.E.E. paragraph using ACTUAL verbatim quotes from the passage", "explanation": "40-60 words: what skill this tests" }`
+  const lfSchema = `{ "id": <number>, "type": "longform", "question": "...", "marks": <4-8>, "marking_criteria": ["one point per mark — each must be achievable from this passage"], "hints": ["one comprehensive hint for the whole question — how to structure the answer, never the quote or the mark"], "model_answer": "80-120 words — full P.E.E. paragraph using ACTUAL verbatim quotes from the passage", "explanation": "40-60 words: what skill this tests" }`
 
   const schemaBlock = questionType === 'mcq' ? mcqSchema : questionType === 'longform' ? lfSchema : `${mcqSchema},\n${lfSchema}`
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
@@ -1005,7 +1005,7 @@ UI CONSTRAINTS:
    • No "discuss the theme of X" unless X is evidenced in the passage
 2. model_answer: use ONLY quotes copied verbatim from the passage. Never invent or paraphrase quotes as if they were quotations.
 3. marking_criteria: every point must be achievable by a student who reads only this passage.
-3b. hints: one per criterion. Nudge the kind of mark (evidence, reason, named device) without quoting the passage or restating the criterion.
+3b. hints: exactly one comprehensive hint for the whole question. Guide structure from the question's demands without quoting the passage or restating the criterion.
 4. Vary the question skills across the set:
    • Retrieval (find specific stated information)
    • Inference (what is implied / reading between the lines)

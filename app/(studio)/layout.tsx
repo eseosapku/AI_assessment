@@ -22,6 +22,10 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       router.replace('/login')
       return
     }
+    if (user.profileComplete === false) {
+      router.replace('/complete-profile')
+      return
+    }
     const blockedForTeacher =
       STUDENT_ONLY_EXACT.includes(pathname) ||
       STUDENT_ONLY_PREFIX.some(p => pathname === p || pathname.startsWith(`${p}/`))

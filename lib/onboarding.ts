@@ -53,7 +53,8 @@ export async function completeOnboarding(userId: string, focus?: FocusId): Promi
   }
 }
 
-export async function resolvePostAuthPath(user: { id: string; role: string }): Promise<string> {
+export async function resolvePostAuthPath(user: { id: string; role: string; profileComplete?: boolean }): Promise<string> {
+  if (user.profileComplete === false) return '/complete-profile'
   if (user.role === 'teacher') return '/dashboard'
   const done = await fetchOnboardingStatus(user.id)
   return done ? '/dashboard' : '/welcome'
