@@ -32,6 +32,14 @@ const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
 // Tapping one of these lesson cards opens a contextual prompt menu.
 const LESSON_CARD_TYPES = new Set(['concept', 'code', 'diagram', 'mermaid', 'worked', 'table', 'callout', 'web'])
+/**
+ * The zoom below which a card stops being a card and becomes a grey rectangle.
+ *
+ * Measured against the smallest text on a card (the worked-step lines at
+ * 12-13px): below roughly 0.6 they stop being legible on a normal display.
+ */
+const READABLE_ZOOM = 0.62
+
 const CARD_ACTIONS = [
   { label: 'Explain this deeper', text: 'explain this deeper.' },
   { label: 'Simplify this', text: 'rewrite this in the simplest possible terms, as if for a beginner — shorter and plainer.' },
@@ -419,9 +427,18 @@ function FlowInner({
     const timer = setTimeout(() => {
       for (const effect of effects.list) {
         if (effect.kind === 'fitNodes') {
-          // Gentle: never zoom in past the current zoom; generous padding so new
-          // cards arrive in context with their neighbours, not blown up.
-          rf.fitView({ duration: 650, padding: 0.6, maxZoom: Math.min(rf.getZoom(), 1), nodes: effect.nodeIds.map((id) => ({ id })) })
+          // Fit the new cards, but never below the point where they can be
+          // read. Fitting everything with generous padding is what drove a
+          // ten-card step down to 35%, where the lesson is four grey
+          // rectangles — and the old cap at the *current* zoom meant it could
+          // never come back up.
+          rf.fitView({
+            duration: 650,
+            padding: 0.35,
+            minZoom: READABLE_ZOOM,
+            maxZoom: 1,
+            nodes: effect.nodeIds.map((id) => ({ id })),
+          })
         } else if (effect.target === 'fit') {
           rf.fitView({ duration: 650, padding: 0.3, maxZoom: 1 })
         } else if (effect.target === 'reset') {
@@ -431,7 +448,14 @@ function FlowInner({
           if (node) {
             const w = node.measured?.width ?? 300
             const h = node.measured?.height ?? 200
-            rf.setCenter(node.position.x + w / 2, node.position.y + h / 2, { zoom: Math.min(rf.getZoom(), 0.9), duration: 600 })
+            // Clamped into a readable band rather than capped at the current
+            // zoom. "Tap to jump to it" used to pan to the check and leave it
+            // at whatever unreadable zoom the board had drifted to, which is
+            // no use at all when that check is the thing blocking you.
+            rf.setCenter(node.position.x + w / 2, node.position.y + h / 2, {
+              zoom: Math.min(Math.max(rf.getZoom(), READABLE_ZOOM), 0.9),
+              duration: 600,
+            })
           }
         }
       }

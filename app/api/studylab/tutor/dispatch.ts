@@ -99,19 +99,25 @@ function transitionFor(input: DispatchInput): Transition {
 }
 
 /**
- * Beats on one step before the tutor is *told* to close it with a check.
+ * Cards on one step before the tutor is told to close it with a check.
  *
- * Each step is one idea and the SYSTEM prompt already asks for 2-4 cards. This
- * is the backstop that makes a step terminate rather than being taught forever:
- * without it, "add one card, then stop" had nothing to say once the goal was
- * met and the lesson sat on step 1 for six beats with no way to finish.
+ * Counted on the board rather than in `beats`, because beats do not measure
+ * what they were standing in for. `accept_plan` teaches the first turn without
+ * incrementing `beats`, so at "run" pace — where one turn builds three or four
+ * cards — step one reached TEN cards before its check appeared. The board knows
+ * how much has been taught; the counter only knew how many times a button was
+ * pressed.
  *
- * `nextBeat` increments `beats` before the prompt is built, so the first
- * teaching turn already reads as beat 1. At "run" pace the threshold is 2: turn
- * one builds the whole step, turn two closes it — needed only because the model
- * does not reliably emit the check it was asked for the first time.
+ * The SYSTEM prompt already says each step is one idea and 2-4 cards is plenty.
+ * This is the number that makes that true.
  */
-const BEATS_BEFORE_CHECK: Record<Pace, number> = { step: 3, run: 2 }
+const CARDS_BEFORE_CHECK = 3
+
+/** Whether this step has been taught enough that it should now be checked. */
+function shouldCloseStep(board: BoardSummary, stepNo: number): boolean {
+  if (board.checkedSteps.includes(stepNo)) return false
+  return board.cards.filter((c) => c.step === stepNo).length >= CARDS_BEFORE_CHECK
+}
 
 const ALWAYS_TEACHES = new Set(['accept_plan', 'next_beat', 'answer_check'])
 
@@ -211,15 +217,79 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     Array.isArray(parsed?.actions) ? parsed.actions : [],
     advanced,
   )
-  const { run: openedRun, actions } = openEmittedCheckpoint(advanced, rawActions)
+  const opened = openEmittedCheckpoint(advanced, rawActions)
+
+  // Asking was never enough. Told plainly to close the step with a checkpoint,
+  // the model often returns three more cards instead — which is how one step
+  // reached ten cards and the learner could not finish it. When the step is
+  // full and nothing came back to close it, the check is written here, on the
+  // cheap model, from the step's own goal.
+  const closed = await ensureStepCloses(opened.run, opened.actions, board, input)
 
   return {
-    run: openedRun,
+    run: closed.run,
     say: typeof parsed?.say === 'string' ? parsed.say : '',
-    actions,
+    actions: closed.actions,
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],
+  }
+}
+
+/**
+ * Puts a check on a step the tutor was told to close and did not.
+ *
+ * The prompt asks for one once a step is full. Compliance is unreliable, and an
+ * unreliable close is the same as no close: the step keeps growing and the
+ * learner has no way to reach the next one. This does deterministically what
+ * the prompt requests, using the same job a test-out uses.
+ *
+ * Every failure path returns the run untouched. An open check with no questions
+ * to answer strands the learner far worse than a step that runs one card long,
+ * because `beginCheck` refuses to open a second check while one is open.
+ */
+async function ensureStepCloses(
+  run: LessonRun,
+  actions: unknown[],
+  board: BoardSummary,
+  input: DispatchInput,
+): Promise<{ run: LessonRun; actions: unknown[] }> {
+  const stepIndex = run.currentStep
+  const step = run.steps[stepIndex]
+  if (!step) return { run, actions }
+
+  const stepNo = stepIndex + 1
+  // The board summary predates this turn's cards, so count those too.
+  const madeNow = actions.filter(
+    (a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'createCard',
+  ).length
+  const onStep = board.cards.filter((c) => c.step === stepNo).length + madeNow
+
+  const alreadyClosing =
+    run.openCheck !== undefined ||
+    board.checkedSteps.includes(stepNo) ||
+    actions.some((a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'checkpoint')
+
+  if (alreadyClosing || onStep < CARDS_BEFORE_CHECK) return { run, actions }
+
+  const checkpointId = `cp-${step.id}-auto`
+  let questions: CheckpointQuestion[]
+  try {
+    questions = await writeCheck(step, checkpointId, input.userId, input.requestId)
+  } catch {
+    return { run, actions }
+  }
+  if (questions.length === 0) return { run, actions }
+
+  const begun = beginCheck(run, step.id, checkpointId, 'checkpoint', 'hard')
+  if (!begun.ok) return { run, actions }
+
+  return {
+    run: begun.run,
+    actions: [
+      ...actions,
+      { type: 'checkpoint', id: checkpointId, step: stepNo, gate: 'hard', questions },
+    ],
   }
 }
 
@@ -652,7 +722,7 @@ function buildTeachPrompt(
   // say when the goal is met is an instruction that never terminates — six
   // beats in, the lesson was still on step 1 with no checkpoint in sight and
   // no way for the learner to finish it.
-  const wrapUp = run.beats >= BEATS_BEFORE_CHECK[run.pace] && !board.checkedSteps.includes(stepNo)
+  const wrapUp = shouldCloseStep(board, stepNo)
 
   const pace =
     wrapUp

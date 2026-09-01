@@ -45,7 +45,7 @@ ACTION TYPES:
     • Set the correct "step". You do NOT place cards — the board auto-arranges them from your "connect" links, so always "connect" a new card to the most related existing card.
     • Use unique stable ids like "s1-intro", "s1-example".
 - { "type":"updateCard", "id":"<existing card id>", "title":"...", "body":"...", "items":[...], "code":"...", "steps":[...], "rows":[...] } — REPLACE the contents of a card that already exists, in place. Only include the fields you are changing. Use this — NOT createCard — when the student asks to "simplify this", "regenerate this card", or otherwise rewrite an EXISTING card. When the student's message says (card id: X), that X is the id to target.
-- { "type":"connect", "from":"id", "to":"id", "label":"optional" } — an arrow from "from" to "to". The board grows LEFT→RIGHT along arrows, so ALWAYS go from the EXISTING/earlier card ("from") to your NEW card ("to") — parent→child — so the lesson reads as a clean left-to-right tree.
+- { "type":"connect", "from":"id", "to":"id", "label":"optional" } — an arrow from "from" to "to". Always from the EXISTING card to your NEW one, parent→child. Connect each new card to the card it actually follows from, NOT simply to the one you made last: an example hangs off the idea it illustrates, and two cards covering sibling ideas both hang off the same parent. Chaining every card to the previous one turns the board into a single long row that has to be scrolled, instead of a tree that can be read.
 - { "type":"groupStep", "step":<int>, "label":"Step 1: Fundamentals", "cardIds":["s1-intro","s1-example"] } — collapse a completed step's cards into one tidy node and zoom out. Emit this only when the student confirms they understood the step, right before starting the next step.
 - { "type":"zoom", "target":"fit" } — fit the canvas to the content.
 - { "type":"checkpoint", "id":"cp-<step>-<2 random chars>", "step":<int>, "gate":"hard"|"soft", "questions":[ ... ] } — drop a knowledge check onto the canvas. The id MUST be unique and MUST NOT match any checkpoint already on the canvas (listed below) — a colliding id is silently ignored. Question shapes:
@@ -73,7 +73,7 @@ NEVER use a "code" or "web" card to hold prose, dialogue, a quotation or an exam
 SUGGESTIONS: 2-3 short chips, each a REQUEST ABOUT THE MATERIAL you just taught — e.g. "Show another example", "Why does that happen?", "Go deeper on the second stage", "Quiz me on this". Each one is sent to you as a question, so it must read as something worth asking. NEVER offer a chip that just means "carry on" ("Continue", "I'm ready", "Next step") — the student already has a Continue button, and a chip that duplicates it is a second button doing the same thing. NEVER suggest an action the student performs on a card (no "Run the code", "Run it", "Click the card").
 
 RULES:
-1. Use LaTeX wrapped in $...$ for any math, in both "say" and card text.
+1. Use LaTeX wrapped in $...$ for any math, in "say" and in card BODY text. NEVER in a "title" — titles are rendered as plain text, so a title like "Practice: Expanding $(x + 5)^2$" shows the dollar signs to the student. Write "Practice: Expanding (x + 5)squared" or just "Practice: Expanding a Binomial".
 2. On "Continue"/"ready": if the CURRENT step's goal is NOT yet fully covered, teach the NEXT beat — add 1-2 new cards that advance toward the goal (connect them parent→child to existing cards), awaitUser=true. ONLY when the step's goal is fully covered do you emit ONE hard "checkpoint" (1-2 questions); fit the format to the material (concept→mcq/short, procedure→match, coding→code). CRITICAL: if your "say" mentions a checkpoint/quiz/"test your understanding", you MUST include the "checkpoint" action in the SAME response — never announce one without emitting it. Give every question an "id", a "prompt", and (for mcq) "options" + an integer "answer".
 3. CARDS MUST TEACH: a "concept" body is a real 2-4 sentence explanation with a concrete example or analogy — never a bare title or a lone bullet list. Vary your approach across cards (analogy, worked example, contrast) so it feels like a tutorial, not a glossary.
 4. If the student asks a question, answer it by adding/connecting a clarifying card to the SAME step (don't advance). The answer goes ON A CARD, not just in chat.
@@ -142,6 +142,25 @@ export async function POST(request: NextRequest) {
     // Drafting is the one action that produces its steps before the
     // transition, since a transition has to stay pure.
     if (action.type === 'draft_plan') {
+      // A plan already proposed is not re-drafted. Two mounts of the same
+      // lesson — a second tab, a reload during the first draft, a double
+      // effect — both auto-draft, and the second overwrote the first: the
+      // learner read plan A in the chat, pressed "Looks good, start", and the
+      // lesson ran plan B, which was still sitting in the sidebar next to it.
+      //
+      // A re-draft is only ever legitimate when the learner asked for one, and
+      // that request always carries their answer.
+      const redraft = typeof action.answer === 'string' && action.answer.trim().length > 0
+      if (!redraft && run.phase === 'planning' && run.steps.length > 0) {
+        return NextResponse.json({
+          run,
+          say: '',
+          actions: [],
+          suggestions: [],
+          plan: planCardFor(run, policy, []),
+        })
+      }
+
       const subtopics = await loadSubtopics(space)
       const { steps, questions, programming } = await draftPlan({
         title: String(space.title ?? ''),
@@ -176,16 +195,7 @@ export async function POST(request: NextRequest) {
         say: '',
         actions: [],
         suggestions: [],
-        plan: {
-          steps: next.steps.map((step) => ({
-            id: step.id,
-            title: step.title,
-            goal: step.goal,
-            measured: step.lockedBy?.accuracy ?? null,
-            locked: Boolean(step.lockedBy) && policy.gaps === 'lock',
-          })),
-          questions,
-        },
+        plan: planCardFor(next, policy, questions),
       })
     }
 
@@ -205,6 +215,20 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error('Tutor dispatch failed:', error)
     return NextResponse.json({ error: 'Tutor request failed' }, { status: 500 })
+  }
+}
+
+/** The plan as the chat card renders it. Shared so a re-read matches the draft. */
+function planCardFor(run: LessonRun, policy: ReturnType<typeof policyFor>, questions: string[]) {
+  return {
+    steps: run.steps.map((step) => ({
+      id: step.id,
+      title: step.title,
+      goal: step.goal,
+      measured: step.lockedBy?.accuracy ?? null,
+      locked: Boolean(step.lockedBy) && policy.gaps === 'lock',
+    })),
+    questions,
   }
 }
 

@@ -288,7 +288,11 @@ export default function StudyLabSidebar({
           ) : (
             <>
               {groups.length === 0 && (
-                <p className="px-2 text-[12px] text-gray-600">Completed steps will appear here.</p>
+                // Before a plan exists there is nothing completed to wait for —
+                // saying so read as though the lesson had already started.
+                <p className="px-2 text-[12px] text-gray-600">
+                  Your steps will appear here once the plan is drafted.
+                </p>
               )}
               {groups.map((g, i) => (
                 <button
@@ -322,14 +326,17 @@ export default function StudyLabSidebar({
         <div>
           <div className="flex items-center justify-between text-[12px] mb-1.5">
             <span className="text-ss-slate">Progress</span>
+            {/* A total of zero is honest; the old `|| 1` invented a step so the
+                counter would not read 0/0, and showed "0/1" before any plan
+                existed. */}
             <span className="text-white font-medium">
-              {completed}/{total || 1}
+              {total > 0 ? `${completed}/${total}` : '—'}
             </span>
           </div>
           <div className="h-1.5 rounded-full bg-white/10 overflow-hidden">
             <div
               className="h-full bg-ss-accent rounded-full transition-all duration-500"
-              style={{ width: `${total ? (completed / total) * 100 : 0}%` }}
+              style={{ width: `${total > 0 ? (completed / total) * 100 : 0}%` }}
             />
           </div>
         </div>

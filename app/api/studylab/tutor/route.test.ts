@@ -718,37 +718,132 @@ describe('runnable cards are gated on the lesson', () => {
  * lesson sat on step 1 beat after beat with no check and no way to finish it.
  */
 describe('every step gets closed', () => {
-  const promptAfter = async (pace: 'step' | 'run', beats: number, checkedSteps: number[] = []) => {
+  const card = (i: number, step = 1) => ({ id: `c${i}`, title: `Card ${i}`, step, kind: 'concept' })
+
+  const promptWith = async (
+    pace: 'step' | 'run',
+    cards: number,
+    checkedSteps: number[] = [],
+  ) => {
+    // Reset here, not just per test: several of these drive two turns.
+    vi.mocked(callGemma).mockReset()
     vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
-    // beats is incremented by the transition, so seed one below the target.
-    const run = { ...openRun(), pace, beats: beats - 1 }
     await applyAction({
-      run, policy: GAP, userId: null, action: { type: 'next_beat' },
-      context: { board: { checkedSteps } },
+      run: { ...openRun(), pace }, policy: GAP, userId: null, action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: Array.from({ length: cards }, (_, i) => card(i)),
+          checkedSteps,
+        },
+      },
     })
-    // The last call, not the first: a test that drives two turns would
-    // otherwise assert twice against the same prompt.
-    return String(vi.mocked(callGemma).mock.calls.at(-1)![0])
+    // The teaching prompt is the first call. A full step now triggers a
+    // second one — the check the tutor was told to write and didn't.
+    return String(vi.mocked(callGemma).mock.calls[0][0])
   }
 
-  it('keeps teaching while the step is young', async () => {
-    expect(await promptAfter('step', 1)).toContain('PACE — ONE BEAT')
-    expect(await promptAfter('run', 1)).toContain('PACE — WHOLE STEP')
+  it('keeps teaching while the step is still thin', async () => {
+    expect(await promptWith('step', 1)).toContain('PACE — ONE BEAT')
+    expect(await promptWith('run', 0)).toContain('PACE — WHOLE STEP')
   })
 
-  it('demands the check once a step has had enough turns', async () => {
-    const late = await promptAfter('step', 3)
+  it('demands the check once the step has enough cards on it', async () => {
+    // Counted on the board, not in beats: accept_plan teaches a turn without
+    // incrementing beats, so at run pace a step reached ten cards before its
+    // check appeared.
+    const late = await promptWith('step', 3)
     expect(late).toContain('PACE — CLOSE THIS STEP')
     expect(late).toContain('The checkpoint is required.')
   })
 
-  it('closes a run-pace step on the turn after it was built', async () => {
-    expect(await promptAfter('run', 2)).toContain('PACE — CLOSE THIS STEP')
+  it('closes a run-pace step as soon as one turn has filled it', async () => {
+    expect(await promptWith('run', 4)).toContain('PACE — CLOSE THIS STEP')
+  })
+
+  it('counts only the cards on THIS step', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
+    await applyAction({
+      run: openRun(), policy: GAP, userId: null, action: { type: 'next_beat' },
+      context: { board: { cards: [card(1, 2), card(2, 2), card(3, 2), card(4, 1)] } },
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).toContain('PACE — ONE BEAT')
   })
 
   it('does not ask for a second check on a step that already has one', async () => {
     // Asking again is how a learner gets tested twice on the same idea.
-    expect(await promptAfter('step', 5, [1])).toContain('PACE — ONE BEAT')
+    expect(await promptWith('step', 5, [1])).toContain('PACE — ONE BEAT')
+  })
+})
+
+/**
+ * Asking was never enough: told plainly to close the step, the model often
+ * returns three more cards instead.
+ */
+describe('a full step gets a check whether the model writes one or not', () => {
+  const teachReturning = async (actions: unknown[], cards: number, checkQuestions?: unknown) => {
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 'more cards', actions }))
+      .mockResolvedValueOnce(
+        JSON.stringify({
+          questions: checkQuestions ?? [
+            { id: 'q1', format: 'mcq', prompt: 'Which?', options: ['a', 'b'], answer: 0 },
+          ],
+        }),
+      )
+    return applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: Array.from({ length: cards }, (_, i) => ({
+            id: `c${i}`, title: `Card ${i}`, step: 1, kind: 'concept',
+          })),
+        },
+      },
+    })
+  }
+
+  it('writes the check itself when the model ignored the instruction', async () => {
+    const result = await teachReturning([], 3)
+    const cp = result.actions.find(
+      (a) => (a as { type?: string }).type === 'checkpoint',
+    ) as { questions: unknown[]; gate: string; step: number } | undefined
+    expect(cp).toBeDefined()
+    expect(cp!.questions).toHaveLength(1)
+    expect(cp!.gate).toBe('hard')
+    expect(cp!.step).toBe(1)
+    // And the run records it, or nothing could ever answer it.
+    expect(result.run.openCheck?.stepId).toBe('a')
+  })
+
+  it("leaves the model's own checkpoint alone rather than adding a second", async () => {
+    const own = [{ type: 'checkpoint', id: 'cp-mine', step: 1, gate: 'hard', questions: [] }]
+    const result = await teachReturning(own, 4)
+    expect(result.actions.filter((a) => (a as { type?: string }).type === 'checkpoint')).toHaveLength(1)
+    expect(callGemma).toHaveBeenCalledOnce()
+  })
+
+  it('does not close a step that is still thin', async () => {
+    const result = await teachReturning([], 1)
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(false)
+    expect(callGemma).toHaveBeenCalledOnce()
+  })
+
+  it('counts the cards made this turn, not just the ones already there', async () => {
+    // Two on the board plus two created now is a full step.
+    const made = [
+      { type: 'createCard', id: 'n1', card: 'concept', title: 'New 1', step: 1 },
+      { type: 'createCard', id: 'n2', card: 'concept', title: 'New 2', step: 1 },
+    ]
+    const result = await teachReturning(made, 2)
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(true)
+  })
+
+  it('leaves the run untouched when the check will not parse', async () => {
+    // An open check with nothing to answer strands the learner far worse than
+    // a step that runs one card long.
+    const result = await teachReturning([], 3, [{ nonsense: true }])
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(false)
+    expect(result.run.openCheck).toBeUndefined()
   })
 })
 
