@@ -1032,3 +1032,49 @@ describe('a check is sized to why it is being written', () => {
     expect(prompt).toContain('Two or three questions')
   })
 })
+
+/**
+ * The diagram card is retired. Of the 42 on real boards, 26 carried no drawing
+ * at all — a titled box saying nothing. The renderer stays so those boards keep
+ * working; nothing new arrives as one.
+ */
+describe('the retired diagram card', () => {
+  const teach = async (run: LessonRun, card: Record<string, unknown>) => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'here', actions: [{ type: 'createCard', id: 'd1', step: 1, ...card }] }),
+    )
+    const result = await applyAction({
+      run, policy: GAP, userId: null, action: { type: 'next_beat' }, context: {},
+    })
+    return result.actions[0] as Record<string, unknown>
+  }
+
+  it('becomes a mermaid card when it carries diagram syntax', async () => {
+    const out = await teach(openRun(), {
+      card: 'diagram', title: 'A tree', mermaid: 'graph TD; A-->B',
+    })
+    expect(out.card).toBe('mermaid')
+    expect(out.mermaid).toBe('graph TD; A-->B')
+  })
+
+  it('becomes a concept card when it carries nothing but words', async () => {
+    const out = await teach(openRun(), {
+      card: 'diagram', title: 'Supply and demand', body: 'The curves cross at equilibrium.',
+    })
+    expect(out.card).toBe('concept')
+    expect(out.body).toBe('The curves cross at equilibrium.')
+    expect(out.svg).toBeUndefined()
+  })
+
+  it('applies in a programming lesson too, where the runnable-card rule is off', async () => {
+    const out = await teach({ ...openRun(), programming: true }, {
+      card: 'diagram', title: 'Call stack', body: 'Frames stack up.',
+    })
+    expect(out.card).toBe('concept')
+  })
+
+  it('leaves every other card type alone', async () => {
+    const out = await teach(openRun(), { card: 'table', title: 'T', rows: [['a']] })
+    expect(out.card).toBe('table')
+  })
+})

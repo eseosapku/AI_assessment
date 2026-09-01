@@ -9,6 +9,8 @@ export type BlockType =
   // AI-creatable / tutor-managed
   | 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout' | 'web'
   | 'quiz' | 'checkpointHeader' | 'stepGroup' | 'image'
+  // Derived at render time from where the cards are; never stored on a board.
+  | 'stepRegion'
   // freeform student blocks (no AI context)
   | 'sticky' | 'note' | 'scratchpad' | 'photo' | 'flashcard' | 'frame'
   | 'checklist' | 'resources'
@@ -44,6 +46,9 @@ export const BLOCKS: Record<BlockType, BlockDef> = {
   checkpointHeader: def('checkpointHeader', 'ai', 260, 110),
   stepGroup: def('stepGroup', 'ai', 260, 90),
   image: def('image', 'ai', 300, 240),
+  // Sized from the cards it wraps, so the entry here is only a placeholder;
+  // it exists so the type is complete, not because anything reads it.
+  stepRegion: def('stepRegion', 'ai', 0, 0),
   // freeform palette blocks
   sticky: def('sticky', 'freeform', 200, 200, { label: 'Sticky note', icon: 'StickyNote', group: 'notes' }),
   note: def('note', 'freeform', 320, 220, { label: 'Note', icon: 'FileText', group: 'notes' }),

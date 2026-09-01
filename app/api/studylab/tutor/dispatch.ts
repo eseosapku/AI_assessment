@@ -335,6 +335,25 @@ function acknowledge(action: LessonAction, run: LessonRun, board: BoardSummary):
 /** Card types that render a Run button or a live preview. */
 const RUNS_CODE = new Set(['code', 'web'])
 
+/**
+ * Rewrites a card type the prompt no longer offers.
+ *
+ * "diagram" is gone: of the 42 on real boards, 26 had no drawing in them at
+ * all — a titled box saying nothing. The renderer stays so those boards keep
+ * working, but nothing new should arrive as one. A stray becomes a mermaid card
+ * when it carries diagram syntax, and a concept card when it does not, so its
+ * words survive either way.
+ */
+function retireDiagramCard(a: Record<string, unknown>): Record<string, unknown> {
+  if (a.card !== 'diagram') return a
+  const mermaid = typeof a.mermaid === 'string' ? a.mermaid.trim() : ''
+  if (mermaid) return { ...a, card: 'mermaid' }
+
+  const { svg, mermaid: _m, ...rest } = a
+  const body = typeof a.body === 'string' && a.body.trim() ? a.body : ''
+  return { ...rest, card: 'concept', body }
+}
+
 /** A line that is nothing but a string being printed. */
 const PRINTED_LINE =
   /^\s*(?:console\.log|print|println|System\.out\.println|echo|puts|printf)\s*\(\s*(["'`])([\s\S]*?)\1\s*\)\s*;?\s*$/
@@ -399,12 +418,17 @@ function unwrapPrinted(code: string): string {
  * card that never appeared, which is the failure this whole pass exists to fix.
  */
 function fitCardsToLesson(actions: unknown[], run: LessonRun): unknown[] {
-  if (run.programming !== false) return actions
+  // Retiring the diagram card applies to every lesson; only the runnable-card
+  // rule below turns on whether this one teaches programming.
+  const retired = actions.map((raw) =>
+    raw && typeof raw === 'object' ? retireDiagramCard(raw as Record<string, unknown>) : raw,
+  )
+  if (run.programming !== false) return retired
 
-  return actions.map((raw) => {
+  return retired.map((raw) => {
     if (!raw || typeof raw !== 'object') return raw
     const a = raw as Record<string, unknown>
-    if (a.type !== 'createCard' || typeof a.card !== 'string' || !RUNS_CODE.has(a.card)) return raw
+    if (a.type !== 'createCard' || typeof a.card !== 'string' || !RUNS_CODE.has(a.card)) return a
 
     const source =
       typeof a.code === 'string' ? unwrapPrinted(a.code)

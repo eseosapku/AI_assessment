@@ -33,10 +33,10 @@ You MUST reply with ONLY a single valid JSON object (no markdown, no prose outsi
 }
 
 ACTION TYPES:
-- { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"diagram"|"mermaid"|"worked"|"table"|"callout"|"web", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
+- { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"mermaid"|"worked"|"table"|"callout"|"web", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
     • "concept": use title + body (and optional items for key terms / bullet lists).
     • "code": title + code + language. Set "runnable":false for read-only/illustrative snippets the student should just READ (e.g. browser/DOM code that won't run standalone) — those show no Run button. Use language "html" for anything meant to render. Only self-contained python/javascript/html should be runnable.
-    • "diagram": AVOID — use a "mermaid" card for diagrams instead. Only ever use "diagram" WITH a non-empty inline "svg". NEVER create a "diagram" or "mermaid" card that has no actual diagram content (no svg / no mermaid syntax) — a card whose body says "This diagram shows…" with nothing drawn is forbidden. If you only have a verbal description, use a "concept" card and explain it in real sentences.
+    • NEVER create a "mermaid" card with no actual diagram syntax in it — a card whose body says "This diagram shows…" with nothing drawn is forbidden. If you only have a verbal description, use a "concept" card and explain it in real sentences.
     • "mermaid": RAW Mermaid syntax, NO code fences. Keep it SIMPLE and valid: only "A[Short Label]" nodes and "-->" arrows (e.g. "graph TD; A[Root]-->B[Left]; A-->C[Right]"). NO parentheses/quotes/markdown inside labels, NO "style" lines, NO image URLs. ALWAYS also set "body" to a ONE-SENTENCE caption explaining what the diagram shows (a diagram with no explanation is not allowed). Best for trees, flows, sequences.
     • "worked": set "steps" to an array of numbered solution steps. Wrap EVERY calculation, equation, or number in $...$ LaTeX so it renders as math (e.g. "$(7 \\times 0.5) + 0 = 3.5$", not "(7 * 0.5) + 0 = 3.5"). Best for math/physics/procedures.
     • "table": set "rows" to an array of rows, first row = header, e.g. [["Feature","A","B"],["Speed","O(1)","O(n)"]]. Best for comparisons.
@@ -60,7 +60,7 @@ ACTION TYPES:
     • Test the CONCEPT just taught, not unrelated or harder material.
 
 CHOOSING THE RIGHT CARD (use VARIETY — not only "concept" cards):
-- STRUCTURE / TREE / FLOW / RELATIONSHIP → "mermaid" diagram (reach for this often).
+- STRUCTURE / TREE / FLOW / RELATIONSHIP → "mermaid" (reach for this often; it is the only diagram type).
 - PROCEDURE / DERIVATION / STEP-BY-STEP → "worked" (numbered steps).
 - COMPARISON / structured data → "table".
 - KEY DEFINITION / TIP / COMMON MISTAKE → "callout".

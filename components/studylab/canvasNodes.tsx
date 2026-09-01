@@ -7,6 +7,7 @@ import { BookOpen, GitBranch, Layers, ChevronDown, ChevronRight, ImageIcon } fro
 import type { StudyNodeData } from '@/lib/studylab/types'
 import type { BlockType } from '@/lib/studylab/blocks'
 import { CanvasContext, CardFrame, NodeHeader, SafeLatex, handleClass } from './canvasShared'
+import { StepRegionNode } from './StepRegionNode'
 import { RunnableCodeNode } from './RunnableCodeCard'
 import { WebSandboxNode } from './WebSandboxCard'
 import { StickyNode, NoteNode, ChecklistNode, FlashcardNode, PhotoNode, FrameNode, ResourceBoardNode } from './freeformNodes'
@@ -115,6 +116,8 @@ export function ImageNode({ data }: NodeProps) {
 
 export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>> = {
   concept: ConceptNode,
+  // Derived at render time, never stored — see lib/studylab/stepRegions.
+  stepRegion: StepRegionNode,
   code: RunnableCodeNode,
   diagram: DiagramNode,
   stepGroup: StepGroupNode,
