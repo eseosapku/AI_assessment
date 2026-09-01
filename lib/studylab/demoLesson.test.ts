@@ -1,91 +1,131 @@
 // lib/studylab/demoLesson.test.ts
 import { describe, it, expect } from 'vitest'
 import {
+  DEMO_ACTS,
   DEMO_STEPS,
   DEMO_PLAN_QUESTIONS,
-  demoBeat,
-  demoBeatCount,
-  demoCheck,
-  demoCheckpointId,
-  demoCue,
+  actAt,
+  isFinished,
+  cueAt,
+  suggestionsAt,
+  type DemoTrigger,
 } from './demoLesson'
-import { emptyRun, proposePlan, acceptPlan, beginCheck, type LessonRun } from './lessonRun'
-import { policyFor } from './lessonPolicy'
 import { isValidQuestion } from './quiz'
 import { applyActions } from './actions'
 import type { CanvasState } from './types'
 
-const POLICY = policyFor('scratch')
-
-function started(): LessonRun {
-  const planned = proposePlan(emptyRun(POLICY), DEMO_STEPS)
-  if (!planned.ok) throw new Error(planned.reason)
-  const run = acceptPlan(planned.run)
-  if (!run.ok) throw new Error(run.reason)
-  return run.run
-}
-
 describe('the demo script', () => {
-  it('has a beat for every step, and the same shape throughout', () => {
-    for (const step of DEMO_STEPS) {
-      expect(demoBeatCount(step.id), `${step.id} has no beats`).toBeGreaterThan(0)
-      for (let i = 0; i < demoBeatCount(step.id); i += 1) {
-        const beat = demoBeat(step.id, i)
-        expect(beat, `${step.id} beat ${i}`).not.toBeNull()
-        expect(beat!.say.length).toBeGreaterThan(0)
-        expect(beat!.actions.length).toBeGreaterThan(0)
-      }
-    }
+  it('opens on accepting the plan — the first thing a real lesson asks for', () => {
+    expect(DEMO_ACTS[0].expect).toBe('accept-plan')
   })
 
-  it('runs out of beats rather than repeating the last one', () => {
-    expect(demoBeat('d1', demoBeatCount('d1'))).toBeNull()
-    expect(demoBeat('nope', 0)).toBeNull()
-  })
-
-  it('closes every step with a check the canvas can render', () => {
-    DEMO_STEPS.forEach((step, i) => {
-      const cp = demoCheck(step.id, i + 1) as { questions: unknown[]; gate: string } | null
-      expect(cp, `${step.id} has no check`).not.toBeNull()
-      expect(cp!.gate).toBe('hard')
-      expect(cp!.questions.length).toBeGreaterThan(0)
-      // The same predicate the real reducer uses: a demo that renders a broken
-      // question teaches the learner that checks are broken.
-      expect(cp!.questions.every(isValidQuestion)).toBe(true)
+  it('gives every act a cue with an action and a reason', () => {
+    // A tutorial that shows a workspace and says nothing is the thing this
+    // exists to fix, so there is no act without an instruction.
+    DEMO_ACTS.forEach((act, i) => {
+      expect(act.cue.action.length, `act ${i} has no action`).toBeGreaterThan(0)
+      expect(act.cue.why.length, `act ${i}: "${act.cue.action}" has no reason`).toBeGreaterThan(30)
     })
   })
 
-  it('gives every check a distinct id', () => {
-    const ids = DEMO_STEPS.map((s) => demoCheckpointId(s.id))
-    expect(new Set(ids).size).toBe(ids.length)
-    expect(ids.every(Boolean)).toBe(true)
+  it('covers every way of driving a lesson', () => {
+    // The point of a scripted demo is that nothing is left to chance: if a
+    // control is not exercised here, nobody is taught it exists.
+    const used = new Set(DEMO_ACTS.map((a) => a.expect))
+    const expected: DemoTrigger[] = [
+      'accept-plan', 'continue', 'chip', 'ask', 'card-menu',
+      'answer-check', 'set-pace', 'jump', 'add-block',
+    ]
+    for (const trigger of expected) {
+      expect(used.has(trigger), `nothing in the demo exercises "${trigger}"`).toBe(true)
+    }
   })
 
-  it('produces a board the real reducer accepts, with nothing dropped', () => {
-    let canvas: CanvasState = { nodes: [], edges: [] }
-    let created = 0
-    for (const step of DEMO_STEPS) {
-      for (let i = 0; i < demoBeatCount(step.id); i += 1) {
-        const beat = demoBeat(step.id, i)!
-        created += beat.actions.filter((a) => a.type === 'createCard').length
-        const applied = applyActions(canvas, beat.actions)
-        canvas = { ...canvas, nodes: applied.nodes, edges: applied.edges }
+  it('walks all three steps, in order', () => {
+    const steps = [...new Set(DEMO_ACTS.map((a) => a.step))]
+    expect(steps).toEqual([1, 2, 3])
+    expect(DEMO_STEPS).toHaveLength(3)
+  })
+
+  it('ends every step with a check that is answered before moving on', () => {
+    for (const step of [1, 2, 3]) {
+      const acts = DEMO_ACTS.filter((a) => a.step === step)
+      const opens = acts.filter((a) => a.opensCheck)
+      const answers = acts.filter((a) => a.expect === 'answer-check')
+      expect(opens, `step ${step} opens no check`).toHaveLength(1)
+      expect(answers, `step ${step} never answers its check`).toHaveLength(1)
+      // The check has to be opened before it can be answered.
+      expect(acts.indexOf(opens[0])).toBeLessThan(acts.indexOf(answers[0]))
+      expect(answers[0].completesStep).toBe(true)
+    }
+  })
+
+  it('writes checks the canvas can actually render', () => {
+    for (const act of DEMO_ACTS) {
+      for (const action of act.actions ?? []) {
+        if (action.type !== 'checkpoint') continue
+        expect(action.questions.length).toBeGreaterThan(0)
+        // The same predicate the real reducer uses: a demo that renders a
+        // broken question teaches that checks are broken.
+        expect(action.questions.every(isValidQuestion)).toBe(true)
       }
     }
-    // Every card asked for is a card on the board: no duplicate ids, no
-    // duplicate titles silently swallowed.
-    expect(canvas.nodes.filter((n) => n.data.title)).toHaveLength(created)
-    expect(canvas.edges.length).toBeGreaterThan(0)
   })
 
-  it('stamps each card with the step it belongs to', () => {
-    DEMO_STEPS.forEach((step, i) => {
-      for (let b = 0; b < demoBeatCount(step.id); b += 1) {
-        for (const action of demoBeat(step.id, b)!.actions) {
-          if (action.type === 'createCard') expect(action.step).toBe(i + 1)
+  it('offers a chip before the act that asks for one', () => {
+    const chipAct = DEMO_ACTS.findIndex((a) => a.expect === 'chip')
+    expect(chipAct).toBeGreaterThan(0)
+    const offered = suggestionsAt(chipAct)
+    expect(offered.length).toBeGreaterThan(0)
+    // The cue names a chip, so that chip has to be on offer.
+    expect(DEMO_ACTS[chipAct].cue.action).toContain(offered[0])
+  })
+
+  it('pre-writes the question for the act that asks one to be sent', () => {
+    const ask = DEMO_ACTS.find((a) => a.expect === 'ask')
+    expect(ask?.compose, 'the ask act has no composed question').toBeTruthy()
+    expect(ask!.compose!.length).toBeGreaterThan(10)
+  })
+
+  it('only rewrites cards that exist by the time it rewrites them', () => {
+    const created = new Set<string>()
+    for (const act of DEMO_ACTS) {
+      for (const action of act.actions ?? []) {
+        if (action.type === 'createCard') created.add(action.id)
+        if (action.type === 'updateCard') {
+          expect(created.has(action.id), `updateCard "${action.id}" before it is created`).toBe(true)
+        }
+        if (action.type === 'connect') {
+          expect(created.has(action.from), `connect from unknown "${action.from}"`).toBe(true)
+          expect(created.has(action.to), `connect to unknown "${action.to}"`).toBe(true)
         }
       }
-    })
+    }
+  })
+
+  it('stamps every card with the step its act belongs to', () => {
+    for (const act of DEMO_ACTS) {
+      for (const action of act.actions ?? []) {
+        if (action.type === 'createCard') expect(action.step).toBe(act.step)
+        if (action.type === 'checkpoint') expect(action.step).toBe(act.step)
+      }
+    }
+  })
+
+  it('builds a board the real reducer accepts, with nothing silently dropped', () => {
+    let canvas: CanvasState = { nodes: [], edges: [] }
+    let created = 0
+    for (const act of DEMO_ACTS) {
+      if (!act.actions) continue
+      created += act.actions.filter((a) => a.type === 'createCard').length
+      const applied = applyActions(canvas, act.actions)
+      canvas = { ...canvas, nodes: applied.nodes, edges: applied.edges }
+    }
+    const cards = canvas.nodes.filter(
+      (n) => n.type !== 'quiz' && n.type !== 'checkpointHeader' && n.data.title,
+    )
+    expect(cards).toHaveLength(created)
+    expect(canvas.edges.length).toBeGreaterThan(0)
   })
 
   it('asks something on the plan card, so the negotiation is shown at all', () => {
@@ -93,49 +133,17 @@ describe('the demo script', () => {
   })
 })
 
-describe('demoCue', () => {
-  it('tells a learner staring at the plan what to do', () => {
-    const planned = proposePlan(emptyRun(POLICY), DEMO_STEPS)
-    if (!planned.ok) throw new Error(planned.reason)
-    const cue = demoCue(planned.run, { checkOpen: false })
-    expect(cue.action).toContain('Looks good, start')
+describe('act lookup', () => {
+  it('reports the act in hand and knows when there is none left', () => {
+    expect(actAt(0)?.expect).toBe('accept-plan')
+    expect(isFinished(0)).toBe(false)
+    expect(actAt(DEMO_ACTS.length)).toBeUndefined()
+    expect(isFinished(DEMO_ACTS.length)).toBe(true)
   })
 
-  it('points at Continue on a step that has not been taught yet', () => {
-    const cue = demoCue(started(), { checkOpen: false })
-    expect(cue.action).toContain('Continue')
-    expect(cue.anchor).toBe('lesson-continue')
-  })
-
-  it('drops everything else while a check is open', () => {
-    // A cue telling them to explore while Continue is blocked would be a cue
-    // that gets them stuck.
-    const run = started()
-    const open = beginCheck(run, 'd1', 'demo-cp-1', 'checkpoint', 'hard')
-    if (!open.ok) throw new Error(open.reason)
-    const cue = demoCue(open.run, { checkOpen: true })
-    expect(cue.action).toContain('Answer the check')
-  })
-
-  it('closes on an invitation to start something real', () => {
-    const cue = demoCue({ ...started(), phase: 'done' }, { checkOpen: false })
-    expect(cue.action).toContain('start a real one')
-  })
-
-  it('always gives one action and a reason, whatever the state', () => {
-    // The thing the demo exists to fix is a workspace that explains nothing,
-    // so there is no state in which it goes quiet.
-    const states: LessonRun[] = [
-      started(),
-      { ...started(), beats: 2 },
-      { ...started(), currentStep: 1, beats: 1 },
-      { ...started(), currentStep: 2, beats: 1 },
-      { ...started(), phase: 'done' },
-    ]
-    for (const run of states) {
-      const cue = demoCue(run, { checkOpen: false })
-      expect(cue.action.length).toBeGreaterThan(0)
-      expect(cue.why.length).toBeGreaterThan(30)
-    }
+  it('still answers "what now?" once the demo is over', () => {
+    const cue = cueAt(DEMO_ACTS.length)
+    expect(cue.action.length).toBeGreaterThan(0)
+    expect(cue.why.length).toBeGreaterThan(30)
   })
 })

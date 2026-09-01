@@ -49,6 +49,20 @@ interface ChatMouthpieceProps {
   onFocusCard?: (nodeId: string) => void
   /** The lesson policy's pace, so the plan card opens on the same one the rail would. */
   defaultPace?: Pace
+  /**
+   * A question already written into the box, ready to send.
+   *
+   * Used by the demo, which has no model to answer anything typed. An input
+   * that silently swallows what you write would teach that the tutor ignores
+   * you; showing the question written out, and letting you send it,
+   * demonstrates the same thing honestly. `null` means the box is the
+   * learner's own.
+   */
+  composed?: string | null
+  /** Locks the box and the attach button. The demo scripts what can be sent. */
+  locked?: boolean
+  /** Shown in the locked box when there is nothing composed to send. */
+  lockedHint?: string
 }
 
 /**
@@ -66,7 +80,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint }: ChatMouthpieceProps) {
   // A plan is awaiting a decision when the newest plan card is still live.
   const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
 
@@ -75,6 +89,10 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
   const [attachError, setAttachError] = useState<string | null>(null)
   const scrollRef = useRef<HTMLDivElement>(null)
   const fileRef = useRef<HTMLInputElement>(null)
+
+  // A composed question owns the box while it is on offer.
+  const value = composed ?? input
+  const canSend = composed !== null ? true : !locked && (!!input.trim() || !!attachment)
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: 'smooth' })
@@ -108,9 +126,11 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
 
   // Typed messages stay visible in the transcript.
   const send = (text: string) => {
-    const value = text.trim()
-    if ((!value && !attachment) || busy) return
-    onSend(value || "Here's my work — can you take a look?", { image: attachment ?? undefined })
+    const trimmed = text.trim()
+    if ((!trimmed && !attachment) || busy) return
+    onSend(trimmed || "Here's my work — can you take a look?", { image: attachment ?? undefined })
+    // A composed question belongs to the caller, which clears it by no longer
+    // offering one; wiping local state here would leave the box showing it.
     setInput('')
     setAttachment(null)
     setAttachError(null)
@@ -376,7 +396,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           />
           <button
             onClick={() => fileRef.current?.click()}
-            disabled={busy}
+            disabled={busy || locked}
             className="w-8 h-8 rounded-xl text-ss-slate hover:text-ss-accent hover:bg-black/5 dark:hover:bg-white/5 flex items-center justify-center disabled:opacity-60 shrink-0 transition-colors"
             aria-label="Attach an image of your work"
             title="Attach an image of your work"
@@ -384,22 +404,29 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
             <ImagePlus className="w-4.5 h-4.5" />
           </button>
           <textarea
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
+            value={value}
+            readOnly={locked}
+            onChange={(e) => !locked && setInput(e.target.value)}
             onPaste={handlePaste}
             onKeyDown={(e) => {
               if (e.key === 'Enter' && !e.shiftKey) {
                 e.preventDefault()
-                send(input)
+                if (canSend) send(value)
               }
             }}
             rows={1}
-            placeholder="Ask me anything, or paste a photo of your work…"
-            className="flex-1 bg-transparent resize-none outline-none text-[13.5px] max-h-28 py-1"
+            placeholder={
+              locked
+                ? lockedHint ?? 'Typing is off in the demo — the question is written for you.'
+                : 'Ask me anything, or paste a photo of your work…'
+            }
+            className={`flex-1 bg-transparent resize-none outline-none text-[13.5px] max-h-28 py-1 ${
+              locked && composed === null ? 'text-ss-slate' : ''
+            }`}
           />
           <button
-            onClick={() => send(input)}
-            disabled={(!input.trim() && !attachment) || busy}
+            onClick={() => send(value)}
+            disabled={!canSend || busy}
             className="w-8 h-8 rounded-xl bg-ss-accent text-white flex items-center justify-center disabled:opacity-60 hover:brightness-95 transition-all shrink-0"
           >
             <Send className="w-4 h-4" />

@@ -25,6 +25,7 @@ export default function PaletteToolbar({ onAdd }: { onAdd: (type: string) => voi
     <div className="relative">
       <button
         type="button"
+        data-tour="lesson-add-block"
         onClick={() => setOpen((o) => !o)}
         className="flex items-center gap-1.5 rounded-xl border border-ss-line bg-[color:var(--ss-panel)]/95 px-3 py-2 text-[12px] font-semibold text-ss-ink shadow-ss-panel backdrop-blur hover:border-ss-accent focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ss-accent"
       >

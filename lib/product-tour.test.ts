@@ -68,6 +68,7 @@ describe('anchors', () => {
       practice: ['practice-build', 'practice-custom', 'practice-modes'],
       learnspace: ['learnspace-new', 'learnspace-homework', 'learnspace-list'],
       lesson: ['lesson-board', 'lesson-chat', 'lesson-continue', 'lesson-plan', 'lesson-pace'],
+      // 'lesson-add-block' also exists, used by the demo's cues rather than a tour.
       gapmap: ['gapmap-canvas', 'gapmap-legend'],
       progress: ['progress-overall', 'progress-subjects', 'progress-recent'],
       recall: ['recall-due', 'recall-decks'],

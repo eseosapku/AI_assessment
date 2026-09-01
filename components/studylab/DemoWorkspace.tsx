@@ -1,23 +1,25 @@
 'use client'
 
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useRouter } from 'next/navigation'
+import { useRouter, useSearchParams } from 'next/navigation'
 import dynamic from 'next/dynamic'
 import { Loader2, Sparkles, RotateCcw, ArrowRight } from 'lucide-react'
 import StudyLabSidebar from './StudyLabSidebar'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
+import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
+import { markDemoSeen } from '@/lib/studylab/demoGate'
 import {
-  emptyRun, proposePlan, acceptPlan, nextBeat, beginCheck, passCheck, failCheck,
+  emptyRun, proposePlan, acceptPlan, nextBeat, beginCheck, passCheck,
   jumpTo, setPace, type LessonRun,
 } from '@/lib/studylab/lessonRun'
 import {
   DEMO_TITLE, DEMO_SUBJECT, DEMO_STEPS, DEMO_PLAN_QUESTIONS,
-  demoBeat, demoBeatCount, demoCheck, demoCue,
+  DEMO_ACTS, actAt, isFinished, cueAt, suggestionsAt, type DemoTrigger,
 } from '@/lib/studylab/demoLesson'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
 
@@ -32,29 +34,48 @@ const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
 
 const POLICY = policyFor('scratch')
 
+const planMessage = (): ChatMessage => ({
+  role: 'assistant',
+  kind: 'plan',
+  content: '',
+  plan: {
+    steps: DEMO_STEPS.map((s) => ({ id: s.id, title: s.title, goal: s.goal, measured: null, locked: false })),
+    questions: DEMO_PLAN_QUESTIONS,
+    live: true,
+  },
+})
+
 /**
  * The LearnSpace, with the tutor replaced by a script.
  *
- * Same sidebar, same canvas, same chat, same state machine — the only thing
- * that differs is where the cards come from. So the controls a learner works
- * out here are the controls they will use, and nothing they do costs anything
- * or can go wrong.
+ * Same sidebar, canvas, chat and state machine — only the source of the content
+ * differs, so every control a learner works out here is the control they will
+ * use. Nothing costs anything and nothing can go wrong.
  *
- * Written as its own component rather than a mode on `Workspace`, which is
- * built around fetching, autosaving and a live tutor. Threading "but not in
- * the demo" through all of that would make both harder to follow, and would put
- * the tutorial one bad conditional away from writing to a real lesson.
+ * The script is a fixed sequence of acts (`DEMO_ACTS`). Each names the one
+ * thing to do next; doing it plays a pre-written reply and moves on. That fixed
+ * order is what lets the demo cover the whole surface, rather than hoping the
+ * learner stumbles into each part of it.
+ *
+ * Its own component rather than a mode on `Workspace`, which is built around
+ * fetching, autosaving and a live tutor: threading "but not in the demo"
+ * through all of that would put the tutorial one bad conditional away from
+ * writing to a real lesson.
  */
 export default function DemoWorkspace() {
   const router = useRouter()
+  const params = useSearchParams()
+  // Where the learner was heading when they were offered this. The demo hands
+  // them back to it rather than dead-ending on a hub they did not ask for.
+  const returnTo = params?.get('next') ?? null
 
   const [run, setRun] = useState<LessonRun>(() => {
     const planned = proposePlan(emptyRun(POLICY), DEMO_STEPS)
     return planned.ok ? planned.run : emptyRun(POLICY)
   })
   const [canvas, setCanvas] = useState<CanvasState>({ nodes: [], edges: [] })
-  const [messages, setMessages] = useState<ChatMessage[]>([])
-  const [suggestions, setSuggestions] = useState<string[]>([])
+  const [messages, setMessages] = useState<ChatMessage[]>([planMessage()])
+  const [act, setAct] = useState(0)
   const [effects, setEffects] = useState<CanvasEffects>({ version: 0, list: [] })
   const [currentStep, setCurrentStep] = useState(0)
   const [busy, setBusy] = useState(false)
@@ -64,37 +85,18 @@ export default function DemoWorkspace() {
   const submitted = useRef<Set<string>>(new Set())
   const addOffset = useRef(0)
 
-  // The plan card, offered once, exactly as a real lesson offers it.
-  useEffect(() => {
-    setMessages([
-      {
-        role: 'assistant',
-        kind: 'plan',
-        content: '',
-        plan: {
-          steps: DEMO_STEPS.map((s) => ({
-            id: s.id, title: s.title, goal: s.goal, measured: null, locked: false,
-          })),
-          questions: DEMO_PLAN_QUESTIONS,
-          live: true,
-        },
-      },
-    ])
-  }, [])
+  const pending = actAt(act)
+  const finished = isFinished(act)
+  const cue = cueAt(act)
+  const suggestions = finished || busy ? [] : suggestionsAt(act)
+  const composed = pending?.expect === 'ask' ? (pending.compose ?? null) : null
 
-  const settlePlan = useCallback(() => {
-    setMessages((prev) =>
-      prev.map((m) => (m.kind === 'plan' && m.plan ? { ...m, plan: { ...m.plan, live: false } } : m)),
-    )
-  }, [])
-
-  /** Applies scripted actions to the board, exactly as a real turn would. */
-  const play = useCallback((actions: TutorAction[], nextRun: LessonRun) => {
+  /** Puts scripted actions on the board exactly as a real turn would. */
+  const play = useCallback((actions: TutorAction[], stepNo: number) => {
     setCanvas((prev) => {
       const { nodes, edges, created } = applyActions(prev, actions)
       let next: CanvasState = { ...prev, nodes, edges }
 
-      const stepNo = nextRun.currentStep >= 0 ? nextRun.currentStep + 1 : 1
       setCurrentStep((was) => {
         if (stepNo > was) next = autoGroupStep(next, was)
         return stepNo
@@ -104,7 +106,6 @@ export default function DemoWorkspace() {
       if (Object.keys(layout).length > 0) {
         next = { ...next, nodes: next.nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)) }
       }
-
       if (created.length > 0) {
         effectVersion.current += 1
         setEffects({ version: effectVersion.current, list: [{ kind: 'fitNodes', nodeIds: created }] })
@@ -114,82 +115,62 @@ export default function DemoWorkspace() {
   }, [])
 
   /**
-   * One scripted turn.
+   * Performs the act in hand, if the learner did the thing it was waiting for.
    *
-   * Kept on a short timer rather than firing instantly: a lesson where cards
-   * appear the instant you click teaches the wrong rhythm, and the learner
-   * cannot see which card is new.
+   * Returns whether it matched, so a caller that could be two things (the chat
+   * box sends both chips and the composed question) can try each in turn.
+   *
+   * Held briefly rather than firing instantly: cards that appear the moment you
+   * click teach the wrong rhythm, and the learner cannot tell which is new.
    */
-  const teach = useCallback(
-    (advanced: LessonRun) => {
-      const step = advanced.steps[advanced.currentStep]
-      if (!step) return
-      const beat = demoBeat(step.id, advanced.beats - 1)
+  const perform = useCallback(
+    (trigger: DemoTrigger, advanced?: LessonRun): boolean => {
+      const current = actAt(act)
+      if (!current || current.expect !== trigger || busy) return false
+
+      if (advanced) setRun(advanced)
+
+      if (!current.say && !current.actions) {
+        setAct(act + 1)
+        return true
+      }
 
       setBusy(true)
       window.setTimeout(() => {
-        if (beat) {
-          setRun(advanced)
-          play(beat.actions, advanced)
-          setMessages((prev) => [
-            ...prev,
-            { role: 'assistant', content: beat.say, actions: beat.actions, suggestions: beat.suggestions ?? [] },
-          ])
-          setSuggestions(beat.suggestions ?? [])
-        } else {
-          // Out of beats: close the step with its check, the way the real
-          // dispatcher does once a step is full.
-          const check = demoCheck(step.id, advanced.currentStep + 1)
-          const opened = check ? beginCheck(advanced, step.id, (check as { id: string }).id, 'checkpoint', 'hard') : null
-          const nextRun = opened?.ok ? opened.run : advanced
-          setRun(nextRun)
-          if (check) play([check], nextRun)
-          setMessages((prev) => [
-            ...prev,
-            { role: 'assistant', content: 'Quick check before we move on — it is on the board.', actions: check ? [check] : [] },
-          ])
-          setSuggestions([])
+        if (current.actions) play(current.actions, current.step)
+        if (current.opensCheck) {
+          setRun((r) => {
+            const step = DEMO_STEPS[current.step - 1]
+            const opened = beginCheck(r, step.id, current.opensCheck!, 'checkpoint', 'hard')
+            return opened.ok ? opened.run : r
+          })
         }
+        if (current.say) {
+          setMessages((prev) => [
+            ...prev,
+            {
+              role: 'assistant',
+              content: current.say!,
+              actions: current.actions ?? [],
+              suggestions: current.suggestions ?? [],
+            },
+          ])
+        }
+        setAct(act + 1)
         setBusy(false)
-      }, 520)
+      }, 480)
+      return true
     },
-    [play],
+    [act, busy, play],
   )
 
-  const advance = useCallback(() => {
-    if (busy) return
-    const moved = nextBeat(run)
-    if (!moved.ok) {
-      setMessages((prev) => [...prev, { role: 'assistant', kind: 'refusal', content: moved.reason }])
-      return
-    }
-    teach(moved.run)
-  }, [busy, run, teach])
+  const settlePlan = useCallback(() => {
+    setMessages((prev) =>
+      prev.map((m) => (m.kind === 'plan' && m.plan ? { ...m, plan: { ...m.plan, live: false } } : m)),
+    )
+  }, [])
 
-  const handleSend = useCallback(
-    (text: string, opts?: { image?: string; silent?: boolean }) => {
-      if (busy) return
-      if (opts?.silent) {
-        advance()
-        return
-      }
-      // Anything typed or asked gets the one honest answer a script can give.
-      setMessages((prev) => [
-        ...prev,
-        { role: 'user', content: text },
-        {
-          role: 'assistant',
-          kind: 'status',
-          content: 'The demo is scripted, so it cannot answer that — but a real lesson will, on a new card.',
-        },
-      ])
-    },
-    [busy, advance],
-  )
-
-  // ── Checkpoint answering ──────────────────────────────────────────────────
-  // Copied in shape from Workspace deliberately: if the demo resolved checks
-  // differently from a real lesson it would be teaching the wrong thing.
+  // ── Checks, resolved the way Workspace resolves them ──────────────────────
   const pendingCheckpoint = useMemo(() => {
     const byCp = new Map<string, { id: string; gate: 'hard' | 'soft'; answered: boolean }[]>()
     for (const n of canvas.nodes) {
@@ -217,49 +198,40 @@ export default function DemoWorkspace() {
     }
     for (const [cpId, cells] of byCp) {
       if (submitted.current.has(cpId)) continue
-      if (cells.length === 0) continue
-      if (!cells.every((c) => c.state === 'correct' || c.state === 'incorrect')) continue
+      if (cells.length === 0 || !cells.every((c) => c.state === 'correct' || c.state === 'incorrect')) continue
       submitted.current.add(cpId)
 
-      const correct = cells.filter((c) => c.state === 'correct').length
       setMessages((prev) => [...prev, { role: 'assistant', kind: 'status', content: checkpointResultText(cells) }])
 
-      const resolved = correct > cells.length / 2 ? passCheck(run) : failCheck(run, [])
-      if (!resolved.ok) continue
-      setRun(resolved.run)
-      if (resolved.run.currentStep >= 0) setCurrentStep(resolved.run.currentStep + 1)
-
-      if (resolved.run.phase === 'done') {
-        setMessages((prev) => [
-          ...prev,
-          {
-            role: 'assistant',
-            content:
-              'That is the demo finished. You have used every control a real lesson has — the plan, the pace, the board, the chips and a check.',
-          },
-        ])
-      }
+      // The demo always advances. Someone who guessed wrong should still see
+      // the rest of the tour, and the card has already shown them the answer.
+      setRun((r) => {
+        const passed = passCheck(r)
+        return passed.ok ? passed.run : r
+      })
+      setAct((a) => (actAt(a)?.expect === 'answer-check' ? a + 1 : a))
     }
-  }, [canvas.nodes, run])
+  }, [canvas.nodes])
+
+  useEffect(() => {
+    if (run.currentStep >= 0) setCurrentStep(run.currentStep + 1)
+  }, [run.currentStep])
+
+  // Rings the control the cue names. An attribute rather than an overlay: the
+  // control has to stay usable, because pressing it is the whole point.
+  useEffect(() => {
+    if (!cue.anchor || !cueOpen) return
+    const el = document.querySelector<HTMLElement>(`[data-tour="${CSS.escape(cue.anchor)}"]`)
+    if (!el) return
+    el.setAttribute('data-demo-here', 'true')
+    return () => el.removeAttribute('data-demo-here')
+  }, [cue.anchor, cueOpen, act])
 
   // ── Canvas plumbing ───────────────────────────────────────────────────────
   const goToNode = useCallback((nodeId: string) => {
     effectVersion.current += 1
     setEffects({ version: effectVersion.current, list: [{ kind: 'zoom', target: 'node', nodeId }] })
   }, [])
-
-  const handleNodesPositionChange = useCallback(
-    (updates: { id: string; position: { x: number; y: number } }[]) => {
-      setCanvas((prev) => ({
-        ...prev,
-        nodes: prev.nodes.map((n) => {
-          const u = updates.find((x) => x.id === n.id)
-          return u ? { ...n, position: u.position } : n
-        }),
-      }))
-    },
-    [],
-  )
 
   const handleNodeDataChange = useCallback((nodeId: string, patch: Partial<StudyNodeData>) => {
     setCanvas((prev) => ({
@@ -277,46 +249,30 @@ export default function DemoWorkspace() {
   )
 
   const cardCount = useMemo(
-    () => canvas.nodes.filter((n) => n.type !== 'stepGroup' && n.type !== 'quiz' && n.type !== 'checkpointHeader').length,
+    () =>
+      canvas.nodes.filter(
+        (n) => n.type !== 'stepGroup' && n.type !== 'quiz' && n.type !== 'checkpointHeader',
+      ).length,
     [canvas.nodes],
   )
 
-  const cue = demoCue(run, { checkOpen: pendingCheckpoint !== null })
-
-  // Rings the control the cue names. An attribute, not an overlay: the control
-  // has to stay usable, because pressing it is the whole point.
-  useEffect(() => {
-    if (!cue.anchor || !cueOpen) return
-    const el = document.querySelector<HTMLElement>(`[data-tour="${CSS.escape(cue.anchor)}"]`)
-    if (!el) return
-    el.setAttribute('data-demo-here', 'true')
-    return () => el.removeAttribute('data-demo-here')
-  }, [cue.anchor, cueOpen])
+  const leave = () => {
+    markDemoSeen()
+    router.push(returnTo ? `/studylab/${returnTo}` : '/studylab')
+  }
 
   const restart = () => {
     const planned = proposePlan(emptyRun(POLICY), DEMO_STEPS)
     setRun(planned.ok ? planned.run : emptyRun(POLICY))
     setCanvas({ nodes: [], edges: [] })
-    setSuggestions([])
+    setMessages([planMessage()])
+    setAct(0)
     setCurrentStep(0)
     submitted.current = new Set()
-    setMessages([
-      {
-        role: 'assistant',
-        kind: 'plan',
-        content: '',
-        plan: {
-          steps: DEMO_STEPS.map((s) => ({ id: s.id, title: s.title, goal: s.goal, measured: null, locked: false })),
-          questions: DEMO_PLAN_QUESTIONS,
-          live: true,
-        },
-      },
-    ])
   }
 
   return (
     <div className="h-screen w-full flex flex-col overflow-hidden">
-      {/* Never mistakable for a real lesson. */}
       <div
         className="flex flex-wrap items-center gap-x-3 gap-y-1 px-4 py-2 text-white"
         style={{ backgroundColor: 'var(--ss-accent)' }}
@@ -325,6 +281,9 @@ export default function DemoWorkspace() {
         <p className="text-[13px] font-extrabold">Demo lesson</p>
         <p className="text-[12.5px] font-medium opacity-90">
           Everything here is pre-written. Nothing is saved, and there is nothing you can break.
+        </p>
+        <p className="text-[12.5px] font-bold tabular-nums opacity-90">
+          {Math.min(act + 1, DEMO_ACTS.length)} / {DEMO_ACTS.length}
         </p>
         <div className="ml-auto flex items-center gap-2">
           <button
@@ -337,11 +296,11 @@ export default function DemoWorkspace() {
           </button>
           <button
             type="button"
-            onClick={() => router.push('/studylab')}
+            onClick={leave}
             className="inline-flex items-center gap-1.5 rounded-lg bg-white px-2.5 py-1 text-[12.5px] font-extrabold"
             style={{ color: 'var(--ss-accent)' }}
           >
-            Start a real lesson
+            {returnTo ? 'Skip to my lesson' : 'Start a real lesson'}
             <ArrowRight className="h-3.5 w-3.5" aria-hidden />
           </button>
         </div>
@@ -357,28 +316,12 @@ export default function DemoWorkspace() {
           run={run}
           policy={POLICY}
           busy={busy}
-          onBack={() => router.push('/studylab')}
+          onBack={leave}
           onFocusGroup={(gid) => setCanvas((prev) => toggleStepGroup(prev, gid))}
           onJump={(stepId) => {
-            if (busy || run.phase === 'planning') return
             const moved = jumpTo(run, stepId, POLICY)
-            if (!moved.ok) {
-              setMessages((prev) => [...prev, { role: 'assistant', kind: 'refusal', content: moved.reason }])
-              return
-            }
-            const already = canvas.nodes.some((n) => (n.data as StudyNodeData).step === moved.run.currentStep + 1)
-            setRun(moved.run)
-            setCurrentStep(moved.run.currentStep + 1)
-            setMessages((prev) => [
-              ...prev,
-              {
-                role: 'assistant',
-                kind: 'status',
-                content: already
-                  ? `Back on step ${moved.run.currentStep + 1}. Its cards are on the board.`
-                  : `On step ${moved.run.currentStep + 1}. Press Continue to teach it.`,
-              },
-            ])
+            if (!moved.ok) return
+            perform('jump', moved.run)
           }}
           onSetPace={(pace) => {
             const paced = setPace(run, pace)
@@ -391,30 +334,39 @@ export default function DemoWorkspace() {
                 kind: 'status',
                 content:
                   pace === 'run'
-                    ? 'Switched to whole steps. In a real lesson that builds three or four cards at once.'
+                    ? 'Switched to whole steps — the next Continue builds the entire step and its check.'
                     : 'Switched to one card at a time.',
               },
             ])
+            perform('set-pace', paced.run)
           }}
         />
 
         <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
-          {/* The one thing the demo adds that a real lesson does not: a
-              standing answer to "what do I do now?". */}
-          {cueOpen && (
+          {cueOpen ? (
             <div className="pointer-events-none absolute inset-x-0 top-3 z-20 flex justify-center px-3">
               <div className="pointer-events-auto max-w-lg rounded-2xl border border-ss-line bg-ss-panel px-4 py-3 shadow-2xl">
                 <div className="flex items-start gap-3">
                   <span
                     aria-hidden
                     className="mt-0.5 grid h-5 w-5 shrink-0 place-items-center rounded-full text-[12px] font-black text-white"
-                    style={{ backgroundColor: 'var(--ss-accent)' }}
+                    style={{ backgroundColor: finished ? 'var(--ss-good)' : 'var(--ss-accent)' }}
                   >
-                    ?
+                    {finished ? '✓' : '?'}
                   </span>
                   <div className="min-w-0">
                     <p className="text-[13.5px] font-extrabold leading-snug text-ss-ink">{cue.action}</p>
                     <p className="mt-1 text-[12.5px] font-medium leading-snug text-ss-slate">{cue.why}</p>
+                    {finished && (
+                      <button
+                        type="button"
+                        onClick={leave}
+                        className="mt-2.5 inline-flex items-center gap-1.5 rounded-xl bg-ss-accent px-3.5 py-2 text-[13px] font-extrabold text-white transition-opacity hover:opacity-90"
+                      >
+                        {returnTo ? 'Continue to your lesson' : 'Start a real lesson'}
+                        <ArrowRight className="h-3.5 w-3.5" aria-hidden />
+                      </button>
+                    )}
                   </div>
                   <button
                     type="button"
@@ -426,9 +378,7 @@ export default function DemoWorkspace() {
                 </div>
               </div>
             </div>
-          )}
-
-          {!cueOpen && (
+          ) : (
             <button
               type="button"
               onClick={() => setCueOpen(true)}
@@ -444,21 +394,28 @@ export default function DemoWorkspace() {
             effects={effects}
             busy={busy}
             title={DEMO_TITLE}
-            onNodesPositionChange={handleNodesPositionChange}
+            onNodesPositionChange={(updates) =>
+              setCanvas((prev) => ({
+                ...prev,
+                nodes: prev.nodes.map((n) => {
+                  const u = updates.find((x) => x.id === n.id)
+                  return u ? { ...n, position: u.position } : n
+                }),
+              }))
+            }
             onToggleGroup={(gid) => setCanvas((prev) => toggleStepGroup(prev, gid))}
             onNodeDataChange={handleNodeDataChange}
             onAddBlock={(type, position) => {
               addOffset.current = (addOffset.current + 1) % 8
-              void type
-              void position
-              setMessages((prev) => [
+              const o = addOffset.current * 36
+              const node = createFreeformBlock(type, position ?? { x: 240 + o, y: 240 + o })
+              setCanvas((prev) => ({
                 ...prev,
-                {
-                  role: 'assistant',
-                  kind: 'status',
-                  content: 'Your own blocks — notes, checklists, scratchpads — go on the board in a real lesson.',
-                },
-              ])
+                nodes: type === 'frame' ? [node, ...prev.nodes] : [...prev.nodes, node],
+              }))
+              effectVersion.current += 1
+              setEffects({ version: effectVersion.current, list: [{ kind: 'fitNodes', nodeIds: [node.id] }] })
+              perform('add-block')
             }}
             onDeleteNode={(nodeId) =>
               setCanvas((prev) => ({
@@ -472,15 +429,8 @@ export default function DemoWorkspace() {
             onConnectEdge={() => {}}
             onEdgeLabel={() => {}}
             onCardPrompt={(_prompt, label) => {
-              setMessages((prev) => [
-                ...prev,
-                { role: 'user', content: label },
-                {
-                  role: 'assistant',
-                  kind: 'status',
-                  content: 'In a real lesson the tutor rewrites that card in place — simpler, deeper, or with an example added.',
-                },
-              ])
+              setMessages((prev) => [...prev, { role: 'user', content: label }])
+              perform('card-menu')
             }}
           />
         </div>
@@ -491,19 +441,31 @@ export default function DemoWorkspace() {
             suggestions={suggestions}
             busy={busy}
             working="Building the next card…"
-            done={run.phase === 'done'}
+            done={finished}
             defaultPace={POLICY.defaultPace}
-            onSend={handleSend}
+            composed={composed}
+            locked
+            lockedHint="Typing is off in the demo — follow the prompt on the board."
             onFocusCard={goToNode}
             pendingCheckpoint={pendingCheckpoint}
             onGoToCheck={goToNode}
+            onSend={(text, opts) => {
+              if (opts?.silent) {
+                // Continue. The run advances first, so the rail and the cue
+                // agree with the cards that are about to land.
+                const moved = nextBeat(run)
+                perform('continue', moved.ok ? moved.run : undefined)
+                return
+              }
+              // A chip, or the composed question — both arrive as real text.
+              setMessages((prev) => [...prev, { role: 'user', content: text }])
+              if (!perform('ask')) perform('chip')
+            }}
             onAcceptPlan={(pace) => {
               settlePlan()
               const paced = setPace(run, pace)
               const started = acceptPlan(paced.ok ? paced.run : run)
-              if (!started.ok) return
-              setRun(started.run)
-              setCurrentStep(started.run.currentStep + 1)
+              perform('accept-plan', started.ok ? started.run : undefined)
             }}
             onAnswerPlan={(answer) => {
               settlePlan()
@@ -514,23 +476,15 @@ export default function DemoWorkspace() {
                   role: 'assistant',
                   kind: 'status',
                   content:
-                    'In a real lesson the plan is redrafted around what you said. The demo keeps its own plan — press Continue to begin.',
+                    'A real lesson redrafts the plan around what you said. The demo keeps its own — carrying on with it.',
                 },
               ])
               const started = acceptPlan(run)
-              if (!started.ok) return
-              setRun(started.run)
-              setCurrentStep(started.run.currentStep + 1)
+              perform('accept-plan', started.ok ? started.run : undefined)
             }}
           />
         </div>
       </div>
-
-      {run.phase === 'done' && (
-        <div className="sr-only" aria-live="polite">
-          Demo complete.
-        </div>
-      )}
     </div>
   )
 }

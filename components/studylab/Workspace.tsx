@@ -6,6 +6,7 @@ import dynamic from 'next/dynamic'
 import { Loader2, AlertCircle } from 'lucide-react'
 import StudyLabSidebar from './StudyLabSidebar'
 import ProductTour from '@/components/studio/ProductTour'
+import DemoOffer from './DemoOffer'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
@@ -770,6 +771,11 @@ export default function Workspace({ id }: { id: string }) {
           }}
         />
       </div>
+
+      {/* Offered before anything else, on whichever lesson they open first —
+          a topic they typed, a gap from the map, or a homework photo. It is
+          the only moment the offer is useful. */}
+      <DemoOffer lessonId={id} title={space.title} />
 
       {/* Coach marks, held back until the first card is on the board. Every
           step points at a control that only exists once teaching has started —
