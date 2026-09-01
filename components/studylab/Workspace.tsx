@@ -15,6 +15,7 @@ import { checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
+import type { ChatPlan } from '@/lib/studylab/types'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { useAuth } from '@/components/AuthProvider'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
@@ -129,6 +130,21 @@ export default function Workspace({ id }: { id: string }) {
   // the way the old free-text turn did (grouping, layout, effects), but drives
   // "did the step change" off the authoritative `run.currentStep` instead of a
   // step number the model used to hand back itself.
+  /**
+   * Retires the live plan card once the learner has decided about it.
+   *
+   * The card stays in the transcript — it is a record of what was proposed —
+   * but stops offering buttons, so scrolling back never presents a second,
+   * stale way to start a lesson that is already running.
+   */
+  const markPlanSettled = useCallback(() => {
+    setMessages((prev) =>
+      prev.map((m) =>
+        m.kind === 'plan' && m.plan?.live ? { ...m, plan: { ...m.plan, live: false } } : m,
+      ),
+    )
+  }, [])
+
   const sendAction = useCallback(
     async (action: Record<string, unknown>) => {
       if (busyRef.current) return
@@ -147,24 +163,41 @@ export default function Workspace({ id }: { id: string }) {
           suggestions?: string[]
           refusal?: string
           error?: string
+          plan?: ChatPlan
         } = await res.json()
 
         if (!res.ok || body.error) {
           setMessages((prev) => [
             ...prev,
-            { role: 'assistant', content: `⚠️ ${body.error || 'Something went wrong. Please try again.'}` },
+            {
+              role: 'assistant',
+              kind: 'error',
+              content: body.error || 'Something went wrong. Please try again.',
+            },
           ])
           return
         }
         if (body.refusal) {
           // A refusal is a sentence in the tutor's voice, not an error toast —
           // and the run is unchanged, so there is nothing else to apply.
-          setMessages((prev) => [...prev, { role: 'assistant', content: body.refusal! }])
+          setMessages((prev) => [...prev, { role: 'assistant', kind: 'refusal', content: body.refusal! }])
           return
         }
 
         const nextRun = body.run ?? null
         if (nextRun) setRun(nextRun)
+
+        if (body.plan) {
+          // The plan goes where the learner already is. Any earlier plan card
+          // stops offering its buttons — two live plans in one thread is two
+          // things to agree to, and only one of them is real.
+          setMessages((prev) => [
+            ...prev.map((m) =>
+              m.kind === 'plan' && m.plan ? { ...m, plan: { ...m.plan, live: false } } : m,
+            ),
+            { role: 'assistant', kind: 'plan', content: '', plan: { ...body.plan!, live: true } },
+          ])
+        }
 
         const actions: TutorAction[] = body.actions ?? []
         let nextCanvas: CanvasState = canvasRef.current
@@ -206,13 +239,6 @@ export default function Workspace({ id }: { id: string }) {
         const newMessages: ChatMessage[] = []
         if (body.say || actions.length > 0) {
           newMessages.push({ role: 'assistant', content: body.say ?? '', actions, suggestions: body.suggestions ?? [] })
-        } else if (action.type === 'draft_plan' && nextRun && nextRun.steps.length > 0) {
-          // draft_plan never returns a "say" — the plan shows up as the
-          // sidebar rail instead. Prompt the learner to look it over.
-          newMessages.push({
-            role: 'assistant',
-            content: "Here's a proposed plan — take a look at the sidebar, then hit Continue when you're ready to start.",
-          })
         }
         if (newMessages.length > 0) setMessages((prev) => [...prev, ...newMessages])
 
@@ -699,6 +725,15 @@ export default function Workspace({ id }: { id: string }) {
           onGoToCheck={goToNode}
           onProveIt={handleProveIt}
           provingIt={provingIt}
+          onAcceptPlan={() => {
+            markPlanSettled()
+            void sendAction({ type: 'accept_plan' })
+          }}
+          onAnswerPlan={(answer) => {
+            markPlanSettled()
+            setMessages((prev) => [...prev, { role: 'user', content: answer }])
+            void sendAction({ type: 'draft_plan', answer })
+          }}
         />
       </div>
     </div>

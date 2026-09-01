@@ -107,9 +107,31 @@ export interface CanvasState {
   plan?: PlanStep[]
 }
 
+/**
+ * What a chat message is for, so the panel can look like something.
+ *
+ * Every assistant message used to render as the same grey bubble — a proposed
+ * plan, a refusal, an error and an ordinary teaching line were visually
+ * identical, which is why nothing in the conversation read as more or less
+ * important than anything else.
+ */
+export type ChatMessageKind = 'say' | 'plan' | 'refusal' | 'error'
+
+/** A plan as the chat renders it, with the questions asked beside it. */
+export interface ChatPlan {
+  steps: { id: string; title: string; goal: string; measured: number | null; locked: boolean }[]
+  questions: string[]
+  /** False once the learner has accepted or re-drafted, so the card stops offering. */
+  live?: boolean
+}
+
 export interface ChatMessage {
   role: 'user' | 'assistant'
   content: string
+  /** Absent means 'say' — an ordinary line from the tutor. */
+  kind?: ChatMessageKind
+  /** Present on kind:'plan'. */
+  plan?: ChatPlan
   actions?: TutorAction[]
   suggestions?: string[]
   /** Data URL of an image the student attached to this message. */

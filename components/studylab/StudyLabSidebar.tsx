@@ -81,11 +81,11 @@ export default function StudyLabSidebar({
         {subject && <p className="text-[12px] text-ss-slate mt-0.5">{subject}</p>}
       </div>
 
-      {/* Steps / layers */}
+      {/* The plan: what the lesson will cover, and what can be acted on */}
       <div className="flex-1 overflow-y-auto px-2 py-3">
         <div className="flex items-center gap-2 px-2 mb-2 text-[12px] uppercase tracking-[0.18em] text-ss-slate">
           <Layers className="w-3.5 h-3.5" />
-          Steps
+          Your plan
         </div>
         {run && (
           <div className="flex gap-1 px-3 pb-2">
@@ -99,7 +99,7 @@ export default function StudyLabSidebar({
                   run.pace === p ? 'bg-white/10 text-white' : 'text-ss-slate hover:text-white'
                 }`}
               >
-                {p === 'step' ? 'Step by step' : 'Run ahead'}
+                {p === 'step' ? 'One card at a time' : 'Whole step at once'}
               </button>
             ))}
           </div>
@@ -134,6 +134,16 @@ export default function StudyLabSidebar({
                     >
                       I know this
                     </button>
+                  )}
+
+                  {/* A locked step used to show a percentage and simply omit
+                      the button, which reads as the control being missing
+                      rather than withheld. Saying why is the difference
+                      between a rule and a bug. */}
+                  {step.lockedReason && (
+                    <p className="mt-1 text-[12px] font-medium leading-snug text-ss-warn">
+                      {step.lockedReason}
+                    </p>
                   )}
                 </li>
               ))}

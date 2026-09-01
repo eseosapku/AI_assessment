@@ -55,3 +55,24 @@ describe('railSteps', () => {
     expect(railSteps(null, OPEN)).toEqual([])
   })
 })
+
+describe('lockedReason', () => {
+  it('says why a locked step cannot be tested out of', () => {
+    // Showing a percentage and silently omitting the button reads as the
+    // control being missing rather than withheld.
+    const [, bonding] = railSteps(run, policyFor('gap'))
+    expect(bonding.lockedReason).toContain('38%')
+    expect(bonding.canTestOut).toBe(false)
+  })
+
+  it('explains nothing in an open lesson, where the step is not withheld', () => {
+    const [, bonding] = railSteps(run, policyFor('scratch'))
+    expect(bonding.lockedReason).toBeNull()
+    expect(bonding.canTestOut).toBe(true)
+  })
+
+  it('explains nothing on a step with no measurement', () => {
+    const [, , shapes] = railSteps(run, policyFor('gap'))
+    expect(shapes.lockedReason).toBeNull()
+  })
+})

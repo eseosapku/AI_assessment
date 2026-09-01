@@ -17,6 +17,15 @@ export interface RailStep {
   measured: number | null
   /** Whether to offer "I know this". */
   canTestOut: boolean
+  /**
+   * Why this step cannot be tested out of, in the learner's words. Null when
+   * it can be, or when there is nothing to explain.
+   *
+   * A locked step used to show its percentage and simply omit the button,
+   * which reads as the control being missing rather than withheld. Saying why
+   * is the difference between a rule and a bug.
+   */
+  lockedReason: string | null
   /** Whether this is the step being taught. */
   current: boolean
 }
@@ -33,6 +42,9 @@ export function railSteps(run: LessonRun | null, policy: LessonPolicy): RailStep
       // Only a step still waiting can be tested out of: the current step is
       // already being taught, and a settled one has nothing left to prove.
       canTestOut: step.status === 'pending' && !gated,
+      lockedReason: gated
+        ? `You were measured at ${step.lockedBy!.accuracy}% here, so this one gets taught.`
+        : null,
       current: i === run.currentStep,
     }
   })

@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react'
 import Latex from 'react-latex-next'
+import { PlanCard } from './PlanCard'
 import { Brain, Send, Sparkles, ImagePlus, X } from 'lucide-react'
 import type { ChatMessage } from '@/lib/studylab/types'
 
@@ -28,6 +29,10 @@ function SafeLatex({ children }: { children?: string }) {
 interface ChatMouthpieceProps {
   messages: ChatMessage[]
   suggestions: string[]
+  /** Accept the plan proposed in the conversation. */
+  onAcceptPlan?: () => void
+  /** Answer the plan's questions, or say what to change, and re-draft. */
+  onAnswerPlan?: (answer: string) => void
   busy: boolean
   done: boolean
   /** Optional: start a real assessment on the studied topic once done. */
@@ -39,7 +44,10 @@ interface ChatMouthpieceProps {
   onQuizMe?: () => void
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan }: ChatMouthpieceProps) {
+  // A plan is awaiting a decision when the newest plan card is still live.
+  const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
+
   const [input, setInput] = useState('')
   const [attachment, setAttachment] = useState<string | null>(null)
   const [attachError, setAttachError] = useState<string | null>(null)
@@ -117,9 +125,32 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               <div className="w-7 h-7 rounded-lg bg-[color:var(--ss-accent)]/10 flex items-center justify-center shrink-0 mt-0.5">
                 <Brain className="w-4 h-4 text-ss-accent" />
               </div>
-              <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
-                <SafeLatex>{m.content}</SafeLatex>
-              </div>
+              {/* Rendered by kind. A proposed plan, a refusal, an error and an
+                  ordinary teaching line used to be the same grey bubble, so
+                  nothing in the conversation read as more important than
+                  anything else. */}
+              {m.kind === 'plan' && m.plan ? (
+                <div className="max-w-[92%] w-full">
+                  <PlanCard
+                    plan={m.plan}
+                    busy={busy}
+                    onAccept={() => onAcceptPlan?.()}
+                    onAnswer={(answer) => onAnswerPlan?.(answer)}
+                  />
+                </div>
+              ) : m.kind === 'refusal' ? (
+                <div className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
+                  <SafeLatex>{m.content}</SafeLatex>
+                </div>
+              ) : m.kind === 'error' ? (
+                <div className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-bad)]/40 bg-[color:var(--ss-bad)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
+                  <SafeLatex>{m.content}</SafeLatex>
+                </div>
+              ) : (
+                <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed max-w-[85%] whitespace-pre-wrap">
+                  <SafeLatex>{m.content}</SafeLatex>
+                </div>
+              )}
             </div>
           ) : (
             <div key={i} className="flex justify-end">
@@ -184,8 +215,12 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         </div>
       )}
 
-      {/* Persistent forward controls — reliable lesson navigation */}
-      {!busy && !pendingCheckpoint && !done && (
+      {/* Persistent forward controls — reliable lesson navigation.
+          Hidden while a plan is still awaiting a decision: the plan card
+          carries its own "Looks good, start", and offering a second, differently
+          worded way forward beside it is how a learner ends up unsure which
+          button is the real one. */}
+      {!busy && !pendingCheckpoint && !done && !awaitingPlan && (
         <div className="px-4 pb-2 flex gap-2">
           <button
             onClick={() => sendAction("I'm ready — let's continue.")}

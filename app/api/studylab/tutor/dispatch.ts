@@ -16,7 +16,8 @@ import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
 
 export type LessonAction =
-  | { type: 'draft_plan' }
+  /** `answer` is present on a re-draft, carrying what the learner said back. */
+  | { type: 'draft_plan'; answer?: string }
   | { type: 'accept_plan' }
   | { type: 'edit_plan'; edit: PlanEdit }
   | { type: 'next_beat' }
@@ -39,12 +40,19 @@ export interface DispatchInput {
   requestId?: string
 }
 
+/** The plan as the chat renders it: steps, why any is locked, and the questions. */
+export interface PlanCard {
+  steps: { id: string; title: string; goal: string; measured: number | null; locked: boolean }[]
+  questions: string[]
+}
+
 export interface DispatchResult {
   run: LessonRun
   say: string
   actions: unknown[]
   suggestions: string[]
   refusal?: string
+  plan?: PlanCard
 }
 
 /** Actions that only move state. None of these is worth a model call. */
@@ -69,7 +77,17 @@ function transitionFor(input: DispatchInput): Transition {
 }
 
 /** Which actions want the model to produce something afterwards. */
-const NEEDS_TEACHING = new Set(['accept_plan', 'next_beat', 'answer_check', 'jump'])
+/**
+ * Actions that ask the teaching job to build something.
+ *
+ * `jump` is deliberately absent. Going back to an earlier step should reveal
+ * the cards already built for it, not generate a second set — a learner who
+ * revisits a step to re-read it should find what they read, not a fresh
+ * explanation of the same thing. The cards persist on the canvas either way,
+ * so revealing costs nothing and regenerating costs a paid call and confuses
+ * the board.
+ */
+const NEEDS_TEACHING = new Set(['accept_plan', 'next_beat', 'answer_check'])
 
 /**
  * Applies one action, then calls the one job the new state requires.
@@ -398,6 +416,24 @@ export interface DraftPlanInput {
   subtopics: { id: number; name: string }[]
   database?: Database
   requestId?: string
+  /**
+   * What the learner said when asked. Present on a re-draft, absent on the
+   * first pass — the whole point of asking is that the second plan differs.
+   */
+  answer?: string
+}
+
+/**
+ * A drafted plan and the questions that came with it.
+ *
+ * The questions are the half that was missing. A plan the learner cannot
+ * respond to is not a negotiation, it is an announcement — and an announcement
+ * in a sidebar is one nobody reads.
+ */
+export interface DraftedPlan {
+  steps: LessonStep[]
+  /** At most two, asked in the chat beside the plan. Empty on a re-draft. */
+  questions: string[]
 }
 
 /**
@@ -408,7 +444,7 @@ export interface DraftPlanInput {
  * match is what turns a measurement into a lock. A step the model cannot
  * attribute simply stays unlocked.
  */
-export async function draftPlan(input: DraftPlanInput): Promise<LessonStep[]> {
+export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
   const { min, max } = input.policy.planSize
   const catalogue = input.subtopics.length
     ? `\nCURRICULUM SUBTOPICS (attribute each step to one by id where it fits):\n${
@@ -416,14 +452,30 @@ export async function draftPlan(input: DraftPlanInput): Promise<LessonStep[]> {
       }`
     : ''
 
+  // A re-draft has the learner's answer and must not ask again — asking twice
+  // is how a setup exchange turns into an interrogation.
+  const answering = Boolean(input.answer?.trim())
+
   const prompt = [
     `Draft a lesson outline for: ${input.title}`,
     input.subject ? `Subject: ${input.subject}` : '',
     `Between ${min} and ${max} steps, ordered so each builds on the last.`,
     catalogue,
+    answering ? `\nTHE LEARNER SAID: ${input.answer!.trim()}\nShape the plan around that. Drop steps it makes unnecessary, add ones it calls for.` : '',
     '',
-    'Reply with JSON only:',
-    '{ "steps": [ { "title": "...", "goal": "one line on what this step teaches", "subtopicId": <id or omit> } ] }',
+    answering
+      ? 'Reply with JSON only:\n{ "steps": [ { "title": "...", "goal": "one line on what this step teaches", "subtopicId": <id or omit> } ], "questions": [] }'
+      : [
+          'Also ask AT MOST TWO short questions whose answers would change this plan.',
+          'Good questions are about their goal or what they already know — "Exam prep or',
+          'understanding it properly?", "Have you done simultaneous equations before?".',
+          'Never ask something the plan does not depend on. One question is better than two;',
+          'none is fine if the plan genuinely does not turn on anything.',
+          '',
+          'Reply with JSON only:',
+          '{ "steps": [ { "title": "...", "goal": "one line on what this step teaches", "subtopicId": <id or omit> } ],',
+          '  "questions": ["...", "..."] }',
+        ].join('\n'),
   ]
     .filter(Boolean)
     .join('\n')
@@ -437,14 +489,19 @@ export async function draftPlan(input: DraftPlanInput): Promise<LessonStep[]> {
       : undefined,
   })
 
-  let parsed: { steps?: unknown }
+  let parsed: { steps?: unknown; questions?: unknown }
   try {
     parsed = parseJsonRobust(raw)
   } catch {
     // No plan is better than a broken one: the learner is asked again rather
     // than shown an outline built from noise.
-    return []
+    return { steps: [], questions: [] }
   }
+
+  const questions = (Array.isArray(parsed?.questions) ? parsed.questions : [])
+    .filter((q: unknown): q is string => typeof q === 'string' && q.trim().length > 0)
+    .map((q: string) => q.trim())
+    .slice(0, 2)
 
   const steps: LessonStep[] = (Array.isArray(parsed?.steps) ? parsed.steps : [])
     .map((raw: unknown, i: number): LessonStep | null => {
@@ -464,6 +521,6 @@ export async function draftPlan(input: DraftPlanInput): Promise<LessonStep[]> {
     })
     .filter((s): s is LessonStep => s !== null)
 
-  if (steps.length === 0 || !input.userId) return steps
-  return applyLocks(steps, input.userId, input.database)
+  if (steps.length === 0 || !input.userId) return { steps, questions }
+  return { steps: await applyLocks(steps, input.userId, input.database), questions }
 }

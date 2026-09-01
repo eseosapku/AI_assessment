@@ -142,10 +142,11 @@ export async function POST(request: NextRequest) {
     // transition, since a transition has to stay pure.
     if (action.type === 'draft_plan') {
       const subtopics = await loadSubtopics(space)
-      const steps = await draftPlan({
+      const { steps, questions } = await draftPlan({
         title: String(space.title ?? ''),
         subject: space.subject ? String(space.subject) : null,
         policy, userId, subtopics, requestId,
+        answer: typeof action.answer === 'string' ? action.answer : undefined,
       })
       if (steps.length === 0) {
         // Same principle as applyAction's failed-parse path: a broken draft
@@ -163,7 +164,26 @@ export async function POST(request: NextRequest) {
       const planned = proposePlan(run, steps)
       const next = planned.ok ? planned.run : run
       await saveRun(learnspaceId, next)
-      return NextResponse.json({ run: next, say: '', actions: [], suggestions: [] })
+
+      // The plan goes to the chat, not just the sidebar. A plan the learner
+      // cannot see themselves being asked about is an announcement, and an
+      // announcement in a side panel is one nobody reads.
+      return NextResponse.json({
+        run: next,
+        say: '',
+        actions: [],
+        suggestions: [],
+        plan: {
+          steps: next.steps.map((step) => ({
+            id: step.id,
+            title: step.title,
+            goal: step.goal,
+            measured: step.lockedBy?.accuracy ?? null,
+            locked: Boolean(step.lockedBy) && policy.gaps === 'lock',
+          })),
+          questions,
+        },
+      })
     }
 
     const result = await applyAction({ run, policy, userId, action, requestId,

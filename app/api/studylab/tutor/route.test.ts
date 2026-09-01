@@ -105,7 +105,7 @@ describe('draftPlan', () => {
         { title: 'Bonding', goal: 'why atoms bond' },
       ] }),
     )
-    const steps = await draftPlan({
+    const { steps } = await draftPlan({
       title: 'Chemistry', subject: 'Chemistry', policy: GAP,
       userId: 'u1', subtopics: [], database: dbWith([]),
     })
@@ -130,7 +130,7 @@ describe('draftPlan', () => {
     vi.mocked(callGemma).mockResolvedValue(
       JSON.stringify({ steps: [{ title: 'Bonding', goal: 'g', subtopicId: 7 }] }),
     )
-    const steps = await draftPlan({
+    const { steps } = await draftPlan({
       title: 'Chemistry', subject: null, policy: GAP, userId: 'u1',
       subtopics: [{ id: 7, name: 'Ionic bonding' }],
       database: dbWith([{ subtopic_id: 7, accuracy: 38 }]),
@@ -140,7 +140,7 @@ describe('draftPlan', () => {
 
   it('returns nothing rather than a broken plan when the outline will not parse', async () => {
     vi.mocked(callGemma).mockResolvedValue('sorry, what?')
-    const steps = await draftPlan({
+    const { steps } = await draftPlan({
       title: 'Chemistry', subject: null, policy: GAP,
       userId: 'u1', subtopics: [], database: dbWith([]),
     })
@@ -344,5 +344,78 @@ describe('ask', () => {
     })
     expect(result.refusal).toBeTruthy()
     expect(callGemma).not.toHaveBeenCalled()
+  })
+})
+
+describe('the planning exchange', () => {
+  it('asks at most two questions alongside the first draft', async () => {
+    // The half that was missing. A plan the learner cannot respond to is an
+    // announcement, not a negotiation.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        steps: [{ title: 'Atoms', goal: 'g' }],
+        questions: ['Exam prep or understanding?', 'Done this before?', 'A third one'],
+      }),
+    )
+    const { questions } = await draftPlan({
+      title: 'Chemistry', subject: null, policy: GAP,
+      userId: 'u1', subtopics: [], database: dbWith([]),
+    })
+    expect(questions).toEqual(['Exam prep or understanding?', 'Done this before?'])
+  })
+
+  it('asks for questions on a first draft and not on a re-draft', async () => {
+    // Asking twice turns a setup exchange into an interrogation.
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ steps: [{ title: 'A', goal: 'g' }] }))
+    await draftPlan({
+      title: 'Chemistry', subject: null, policy: GAP,
+      userId: 'u1', subtopics: [], database: dbWith([]),
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).toContain('AT MOST TWO')
+
+    vi.mocked(callGemma).mockClear()
+    await draftPlan({
+      title: 'Chemistry', subject: null, policy: GAP, userId: 'u1',
+      subtopics: [], database: dbWith([]), answer: 'exam in two weeks',
+    })
+    const redraft = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(redraft).not.toContain('AT MOST TWO')
+    expect(redraft).toContain('exam in two weeks')
+  })
+
+  it('survives a model that returns no questions at all', async () => {
+    // None is a legitimate answer when the plan genuinely turns on nothing.
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ steps: [{ title: 'A', goal: 'g' }] }))
+    const { steps, questions } = await draftPlan({
+      title: 'Chemistry', subject: null, policy: GAP,
+      userId: 'u1', subtopics: [], database: dbWith([]),
+    })
+    expect(steps).toHaveLength(1)
+    expect(questions).toEqual([])
+  })
+
+  it('discards a question that is only whitespace', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ steps: [{ title: 'A', goal: 'g' }], questions: ['  ', 'Real one?'] }),
+    )
+    const { questions } = await draftPlan({
+      title: 'Chemistry', subject: null, policy: GAP,
+      userId: 'u1', subtopics: [], database: dbWith([]),
+    })
+    expect(questions).toEqual(['Real one?'])
+  })
+})
+
+describe('jump', () => {
+  it('reveals an earlier step without regenerating it', async () => {
+    // Going back to re-read should find what was read, not a fresh explanation
+    // of the same thing — and not cost a paid call to say it.
+    const run = lockedRun()
+    const result = await applyAction({
+      run, policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'jump', stepId: 'b' },
+    })
+    expect(callGemma).not.toHaveBeenCalled()
+    expect(result.run.currentStep).toBe(1)
   })
 })
