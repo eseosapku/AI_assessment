@@ -24,15 +24,18 @@ export function PlanCard({
   busy,
   onAccept,
   onAnswer,
+  defaultPace = 'step',
 }: {
   plan: ChatPlan
   busy: boolean
   onAccept: (pace: Pace) => void
   onAnswer: (answer: string) => void
+  /** Where the toggle starts. The policy's, so the card and the rail agree. */
+  defaultPace?: Pace
 }) {
   const [answering, setAnswering] = useState(false)
   const [text, setText] = useState('')
-  const [pace, setPace] = useState<Pace>('step')
+  const [pace, setPace] = useState<Pace>(defaultPace)
 
   const live = plan.live !== false
   const send = () => {

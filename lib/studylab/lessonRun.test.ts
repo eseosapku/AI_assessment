@@ -247,3 +247,40 @@ describe('jumpTo', () => {
     expect(jumpTo(run, 'c', OPEN).ok).toBe(true)
   })
 })
+
+/**
+ * Navigating a plan nobody has agreed to.
+ *
+ * `jumpTo` set phase to 'teaching' unconditionally, so a click on the rail
+ * started the lesson behind the plan card's back — while that card was still
+ * asking which pace to use, and discarding the answer when it came.
+ */
+describe('the plan cannot be navigated before it is accepted', () => {
+  const planning = (): LessonRun => {
+    const proposed = proposePlan(emptyRun(policyFor('scratch')), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+      { id: 'b', title: 'Bonding', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!proposed.ok) throw new Error(proposed.reason)
+    return proposed.run
+  }
+
+  it('refuses a jump, rather than silently starting the lesson', () => {
+    const result = jumpTo(planning(), 'b', policyFor('scratch'))
+    expect(result.ok).toBe(false)
+    if (!result.ok) expect(result.reason).toContain('Start the lesson first')
+  })
+
+  it('refuses a test-out on a lesson that has not begun', () => {
+    const result = requestTestOut(planning(), 'b', 'cp-1', policyFor('scratch'))
+    expect(result.ok).toBe(false)
+  })
+
+  it('allows both once the plan is accepted', () => {
+    const started = acceptPlan(planning())
+    expect(started.ok).toBe(true)
+    if (!started.ok) return
+    expect(jumpTo(started.run, 'b', policyFor('scratch')).ok).toBe(true)
+    expect(requestTestOut(started.run, 'b', 'cp-1', policyFor('scratch')).ok).toBe(true)
+  })
+})

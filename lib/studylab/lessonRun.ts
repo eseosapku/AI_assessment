@@ -184,6 +184,7 @@ export function requestTestOut(
   checkpointId: string,
   policy: LessonPolicy,
 ): Transition {
+  if (run.phase === 'planning') return no('Start the lesson first — the plan is still up for changes.')
   const step = run.steps[indexOf(run, stepId)]
   if (!step) return no('That step is not in the plan.')
   if (isGated(step, policy)) {
@@ -250,6 +251,11 @@ export function skipStep(run: LessonRun, stepId: string, policy: LessonPolicy): 
 }
 
 export function jumpTo(run: LessonRun, stepId: string, policy: LessonPolicy): Transition {
+  // A plan that has not been agreed to cannot be navigated. Without this, a
+  // click on the rail set phase to 'teaching' behind the plan card's back —
+  // starting the lesson while the card was still asking which pace to use, and
+  // discarding the answer.
+  if (run.phase === 'planning') return no('Start the lesson first — the plan is still up for changes.')
   const index = indexOf(run, stepId)
   if (index === -1) return no('That step is not in the plan.')
   const blocking = run.steps

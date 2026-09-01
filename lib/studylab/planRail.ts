@@ -30,6 +30,18 @@ export interface RailStep {
   current: boolean
 }
 
+/**
+ * Whether the rail's rows can be acted on at all.
+ *
+ * A plan still being negotiated is a preview: jumping into it would start the
+ * lesson behind the plan card's back, and testing out of a step nobody has
+ * agreed to teach makes no sense. Both transitions refuse in that phase; this
+ * keeps the UI from offering controls that only exist to be refused.
+ */
+export function railIsLive(run: LessonRun | null): boolean {
+  return !!run && run.phase !== 'planning'
+}
+
 export function railSteps(run: LessonRun | null, policy: LessonPolicy): RailStep[] {
   if (!run) return []
   return run.steps.map((step, i) => {
@@ -41,7 +53,8 @@ export function railSteps(run: LessonRun | null, policy: LessonPolicy): RailStep
       measured: step.lockedBy?.accuracy ?? null,
       // Only a step still waiting can be tested out of: the current step is
       // already being taught, and a settled one has nothing left to prove.
-      canTestOut: step.status === 'pending' && !gated,
+      // Nothing can be tested out of a plan that has not been accepted.
+      canTestOut: run.phase !== 'planning' && step.status === 'pending' && !gated,
       lockedReason: gated
         ? `You were measured at ${step.lockedBy!.accuracy}% here, so this one gets taught.`
         : null,

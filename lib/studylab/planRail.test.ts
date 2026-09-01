@@ -1,6 +1,6 @@
 // lib/studylab/planRail.test.ts
 import { describe, it, expect } from 'vitest'
-import { railSteps } from './planRail'
+import { railSteps, railIsLive } from './planRail'
 import { policyFor } from './lessonPolicy'
 import type { LessonRun } from './lessonRun'
 
@@ -74,5 +74,32 @@ describe('lockedReason', () => {
   it('explains nothing on a step with no measurement', () => {
     const [, , shapes] = railSteps(run, policyFor('gap'))
     expect(shapes.lockedReason).toBeNull()
+  })
+})
+
+/**
+ * A plan still being negotiated is a preview, not a control panel.
+ *
+ * Both transitions the rail drives refuse during planning, so offering the
+ * buttons would mean offering controls that exist only to be refused.
+ */
+describe('the rail while a plan is still being agreed', () => {
+  const planning: LessonRun = { ...run, phase: 'planning', currentStep: -1 }
+
+  it('offers nothing to test out of', () => {
+    expect(railSteps(planning, OPEN).some((r) => r.canTestOut)).toBe(false)
+    // The same steps are testable once the lesson is running.
+    expect(railSteps(run, OPEN).some((r) => r.canTestOut)).toBe(true)
+  })
+
+  it('still lists the steps, because the plan is the thing being decided', () => {
+    expect(railSteps(planning, OPEN)).toHaveLength(4)
+    expect(railSteps(planning, OPEN)[0].title).toBe('Atoms')
+  })
+
+  it('reports itself as not live', () => {
+    expect(railIsLive(planning)).toBe(false)
+    expect(railIsLive(run)).toBe(true)
+    expect(railIsLive(null)).toBe(false)
   })
 })

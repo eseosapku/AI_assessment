@@ -47,6 +47,8 @@ interface ChatMouthpieceProps {
   working?: string
   /** Bring a card the tutor just made into view. */
   onFocusCard?: (nodeId: string) => void
+  /** The lesson policy's pace, so the plan card opens on the same one the rail would. */
+  defaultPace?: Pace
 }
 
 /**
@@ -64,7 +66,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace }: ChatMouthpieceProps) {
   // A plan is awaiting a decision when the newest plan card is still live.
   const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
 
@@ -114,11 +116,20 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
     setAttachError(null)
   }
 
-  // Button actions (Continue, suggestions…) drive the tutor silently — they
-  // don't drop a user bubble into the chat.
-  const sendAction = (text: string) => {
+  // Continue advances the lesson. It is deliberately the only control that
+  // does: suggestions used to travel this path too, which discarded their text
+  // and fired the same "next beat" — so "Show an example", "Go deeper" and
+  // "Continue" were three differently worded buttons doing one thing.
+  const advance = () => {
     if (busy) return
-    onSend(text, { silent: true })
+    onSend("I'm ready — let's continue.", { silent: true })
+  }
+
+  // A suggestion is a request about the material in front of the student, so it
+  // is asked, and it shows in the transcript as something they said.
+  const askSuggestion = (text: string) => {
+    if (busy) return
+    onSend(text)
   }
 
   return (
@@ -164,6 +175,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                     plan={m.plan}
                     busy={busy}
                     onAccept={(pace) => onAcceptPlan?.(pace)}
+                    defaultPace={defaultPace}
                     onAnswer={(answer) => onAnswerPlan?.(answer)}
                   />
                 </div>
@@ -271,7 +283,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           {suggestions.map((s, i) => (
             <button
               key={i}
-              onClick={() => sendAction(s)}
+              onClick={() => askSuggestion(s)}
               className="text-left text-[13px] px-3.5 py-2 rounded-xl border border-ss-line text-gray-700 dark:text-gray-300 hover:border-ss-accent hover:text-ss-accent transition-colors"
             >
               {s}
@@ -288,7 +300,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
       {!busy && !pendingCheckpoint && !done && !awaitingPlan && (
         <div className="px-4 pb-2 flex gap-2">
           <button
-            onClick={() => sendAction("I'm ready — let's continue.")}
+            onClick={advance}
             className="flex-1 text-[13px] px-3.5 py-2 rounded-xl bg-ss-accent text-white font-semibold hover:brightness-95 transition-all"
           >
             Continue →

@@ -743,6 +743,7 @@ export default function Workspace({ id }: { id: string }) {
           done={done}
           onSend={handleSend}
           onFocusCard={goToNode}
+          defaultPace={policy.defaultPace}
           pendingCheckpoint={pendingCheckpoint}
           onGoToCheck={goToNode}
           onProveIt={handleProveIt}

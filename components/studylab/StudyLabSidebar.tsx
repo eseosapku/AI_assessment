@@ -5,7 +5,7 @@ import {
   BadgeCheck, Lock, PlayCircle, ChevronRight, FastForward,
 } from 'lucide-react'
 import type { PlanStep } from '@/lib/studylab/types'
-import { railSteps } from '@/lib/studylab/planRail'
+import { railSteps, railIsLive } from '@/lib/studylab/planRail'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { policyFor, type LessonPolicy, type Pace } from '@/lib/studylab/lessonPolicy'
 import { PACES, paceOption } from './paceOptions'
@@ -52,11 +52,21 @@ export default function StudyLabSidebar({
   busy = false,
 }: StudyLabSidebarProps) {
   const hasPlan = !!plan && plan.length > 0
-  const completed = hasPlan ? Math.max(currentStep - 1, 0) : groups.length
-  const total = hasPlan ? plan!.length : Math.max(currentStep, groups.length)
   const rail = railSteps(run ?? null, policy)
   const settled = rail.filter((r) => r.status === 'done' || r.status === 'known').length
   const hasRail = rail.length > 0
+  // A proposed plan is a preview until it is accepted; nothing in it can be acted on.
+  const live = railIsLive(run ?? null)
+
+  // The run is the source of truth wherever there is one. The footer used to
+  // count the legacy canvas_state plan while the header counted the rail, so
+  // the same panel showed "0 of 6 done" above "0/2" below.
+  const completed = hasRail ? settled : hasPlan ? Math.max(currentStep - 1, 0) : groups.length
+  const total = hasRail
+    ? rail.length
+    : hasPlan
+      ? plan!.length
+      : Math.max(currentStep, groups.length)
 
   return (
     <aside className="w-64 shrink-0 h-full flex flex-col bg-[#0e0f12] text-gray-300 border-r border-white/5">
@@ -114,11 +124,14 @@ export default function StudyLabSidebar({
 
         {hasRail && (
           <p className="px-2 mb-2 text-[12px] font-medium leading-snug text-ss-slate">
-            Click any step to go there.
+            {live ? 'Click any step to go there.' : 'Proposed — agree to the plan in the chat to begin.'}
           </p>
         )}
 
-        {run && (
+        {/* Hidden while the plan is still being agreed: the plan card asks
+            for the pace there, and a toggle already showing an answer makes
+            that question look decided before it was put. */}
+        {run && run.phase !== 'planning' && (
           <div className="mx-2 mb-3 rounded-xl bg-white/5 p-1.5">
             <div className="flex gap-1">
               {PACES.map(({ id, icon: Icon, title, blurb }) => (
@@ -165,13 +178,13 @@ export default function StudyLabSidebar({
                   <li key={step.id}>
                     <button
                       type="button"
-                      disabled={busy}
+                      disabled={busy || !live}
                       onClick={() => onJump(step.id)}
                       aria-current={step.current ? 'step' : undefined}
-                      className={`group flex w-full items-start gap-2.5 rounded-lg border-l-2 px-2.5 py-2 text-left transition-colors disabled:opacity-60 ${
+                      className={`group flex w-full items-start gap-2.5 rounded-lg border-l-2 px-2.5 py-2 text-left transition-colors disabled:cursor-default ${
                         step.current
                           ? 'border-[color:var(--ss-accent)] bg-white/[0.07]'
-                          : 'border-transparent hover:bg-white/5'
+                          : `border-transparent ${live ? 'hover:bg-white/5' : ''}`
                       }`}
                     >
                       <StatusIcon
@@ -217,10 +230,12 @@ export default function StudyLabSidebar({
                         )}
                       </span>
 
-                      <ChevronRight
-                        aria-hidden
-                        className="mt-0.5 w-3.5 h-3.5 shrink-0 text-transparent transition-colors group-hover:text-ss-slate"
-                      />
+                      {live && (
+                        <ChevronRight
+                          aria-hidden
+                          className="mt-0.5 w-3.5 h-3.5 shrink-0 text-transparent transition-colors group-hover:text-ss-slate"
+                        />
+                      )}
                     </button>
 
                     {/* Offered only where it applies. The old copy — "I know
