@@ -103,3 +103,34 @@ describe('new card kinds', () => {
     expect(byId('c1').variant).toBe('tip')
   })
 })
+
+describe('duplicate titles, however they are worded', () => {
+  const make = (id: string, title: string) => ({
+    type: 'createCard' as const, id, card: 'concept' as const, title, body: 'b', step: 1,
+  })
+
+  it('drops a card whose title is an existing one with the words swapped', () => {
+    // What the model actually does: told not to recreate "Density and
+    // Expansion", it wrote "Expansion and Density" two steps later.
+    let state = applyActions({ nodes: [], edges: [] }, [make('a', 'Density and Expansion')])
+    const before = state.nodes.length
+    state = applyActions(
+      { nodes: state.nodes, edges: state.edges },
+      [make('b', 'Expansion and Density')],
+    )
+    expect(state.nodes).toHaveLength(before)
+  })
+
+  it('ignores punctuation and case', () => {
+    let state = applyActions({ nodes: [], edges: [] }, [make('a', 'Ice vs. Water')])
+    state = applyActions({ nodes: state.nodes, edges: state.edges }, [make('b', 'WATER VS ICE!')])
+    expect(state.nodes).toHaveLength(1)
+  })
+
+  it('still lets genuinely different cards through', () => {
+    let state = applyActions({ nodes: [], edges: [] }, [make('a', 'Density of Ice')])
+    state = applyActions({ nodes: state.nodes, edges: state.edges }, [make('b', 'What is Density?')])
+    state = applyActions({ nodes: state.nodes, edges: state.edges }, [make('c', 'Units of Density')])
+    expect(state.nodes).toHaveLength(3)
+  })
+})

@@ -62,12 +62,31 @@ function boundingTopLeft(nodes: StudyNode[], ids: string[]): { x: number; y: num
   return { x: minX, y: minY }
 }
 
+/**
+ * A title reduced to the words that carry its meaning, in a fixed order.
+ *
+ * Exact matching missed the way the model actually repeats itself: told not to
+ * recreate "Density and Expansion", it wrote "Expansion and Density" two steps
+ * later. Same card, same content, words swapped — and two of them on the board.
+ */
+function titleKey(title: string): string {
+  return title
+    .toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ')
+    .split(/\s+/)
+    .filter((w) => w.length > 2 && !['the', 'and', 'for', 'its', 'was', 'are'].includes(w))
+    .sort()
+    .join(' ')
+}
+
 // True if an AI content card with this (normalized) title already exists — used
 // to drop duplicate createCard actions deterministically.
 export function titleExists(nodes: StudyNode[], title: string): boolean {
-  const t = title.trim().toLowerCase()
-  if (!t) return false
-  return nodes.some((n) => isCardKind(n.type) && !n.hidden && (n.data.title ?? '').trim().toLowerCase() === t)
+  const key = titleKey(title)
+  if (!key) return false
+  return nodes.some(
+    (n) => isCardKind(n.type) && !n.hidden && titleKey(n.data.title ?? '') === key,
+  )
 }
 
 export function isValidAction(a: any): a is TutorAction {

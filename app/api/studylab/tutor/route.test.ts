@@ -901,3 +901,80 @@ describe('prose dressed as code is undressed, not just relabelled', () => {
     expect(await convert(broken)).toBe(broken)
   })
 })
+
+/**
+ * A finished lesson is exactly when a learner asks a follow-up.
+ *
+ * `ask` looked up `steps[currentStep]`, which is -1 once a run is done, and
+ * returned an empty result: no card, no reply, not even a refusal. The question
+ * simply vanished.
+ */
+describe('asking after the lesson has finished', () => {
+  const finishedRun = (): LessonRun => {
+    const run = openRun()
+    return {
+      ...run,
+      phase: 'done',
+      currentStep: -1,
+      steps: run.steps.map((s) => ({ ...s, status: 'done' as const })),
+    }
+  }
+
+  it('answers instead of going silent', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'Here you go.', actions: [], suggestions: [] }),
+    )
+    const result = await applyAction({
+      run: finishedRun(), policy: GAP, userId: null,
+      action: { type: 'ask', question: 'Can you give me another example?' },
+      context: {},
+    })
+    expect(result.say).toBe('Here you go.')
+    expect(result.refusal).toBeUndefined()
+    expect(callGemma).toHaveBeenCalledOnce()
+  })
+
+  it('tells the model the lesson is over, so it does not restart it', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'ok', actions: [] }))
+    await applyAction({
+      run: finishedRun(), policy: GAP, userId: null,
+      action: { type: 'ask', question: 'Why?' }, context: {},
+    })
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('The lesson is FINISHED')
+    expect(prompt).toContain('do not emit a checkpoint')
+  })
+
+  it('still refuses when there is no lesson at all', async () => {
+    const empty = { ...openRun(), steps: [], currentStep: -1, phase: 'done' as const }
+    const result = await applyAction({
+      run: empty, policy: GAP, userId: null,
+      action: { type: 'ask', question: 'Anything?' }, context: {},
+    })
+    expect(result.refusal).toContain('no lesson here yet')
+    expect(callGemma).not.toHaveBeenCalled()
+  })
+})
+
+describe('a question never puts a gate in front of the learner', () => {
+  it('drops a checkpoint the model attached to an answer', async () => {
+    // The check would render on the canvas with nothing in the run to resolve
+    // it, so Continue would block on a quiz that answering could not clear.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'Here is an example.',
+        actions: [
+          { type: 'createCard', id: 'x1', card: 'concept', title: 'Example', body: 'b', step: 1 },
+          { type: 'checkpoint', id: 'cp-sneaky', step: 1, gate: 'hard', questions: [] },
+        ],
+      }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: null,
+      action: { type: 'ask', question: 'Give me an example?' }, context: {},
+    })
+    expect(result.actions).toHaveLength(1)
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(false)
+    expect(result.run.openCheck).toBeUndefined()
+  })
+})

@@ -539,13 +539,32 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     return { run: input.run, say: '', actions: [], suggestions: [], refusal: 'Ask me something first.' }
   }
 
-  const step = advanced.steps[advanced.currentStep]
-  if (!step) return { run: advanced, say: '', actions: [], suggestions: [] }
+  // A finished lesson has no current step, and that is exactly when a learner
+  // asks a follow-up. Answering against the last step they were on is better
+  // than the silence this used to return: no card, no reply, no refusal, just
+  // a question that vanished.
+  const step =
+    advanced.steps[advanced.currentStep] ??
+    [...advanced.steps].reverse().find((s) => s.status === 'done' || s.status === 'known') ??
+    advanced.steps[advanced.steps.length - 1]
 
+  if (!step) {
+    return {
+      run: advanced,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'There is no lesson here yet — start one and I can answer that.',
+    }
+  }
+
+  const finished = advanced.phase === 'done'
   const prompt = [
     buildTeachPrompt(advanced, step, input.context ?? {}),
     '',
-    "The student has a question about the current step — answer it. You may add or update a card if that's the clearest way to explain, but do NOT advance to a new beat or step.",
+    finished
+      ? 'The lesson is FINISHED. The student has a follow-up question about it — answer it against the whole lesson, adding a card if that is the clearest way. Do not restart the lesson and do not emit a checkpoint.'
+      : "The student has a question about the current step — answer it. You may add or update a card if that's the clearest way to explain, but do NOT advance to a new beat or step.",
     `QUESTION: ${question}`,
   ].join('\n')
 
@@ -574,7 +593,16 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
   return {
     run: advanced,
     say: typeof parsed?.say === 'string' ? parsed.say : '',
-    actions: fitCardsToLesson(Array.isArray(parsed?.actions) ? parsed.actions : [], advanced),
+    // A checkpoint is dropped here whatever the model returns. Asking a
+    // question must never put a gate in front of the learner: the check would
+    // render on the canvas with nothing in the run to resolve it, so Continue
+    // would block on a quiz that answering could not clear.
+    actions: fitCardsToLesson(
+      (Array.isArray(parsed?.actions) ? parsed.actions : []).filter(
+        (a) => !a || typeof a !== 'object' || (a as { type?: unknown }).type !== 'checkpoint',
+      ),
+      advanced,
+    ),
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],
@@ -746,8 +774,12 @@ function buildTeachPrompt(
 
   // Told to "use variety" in the abstract, the model returns concept cards and
   // nothing else. Told that it has just made four of them in a row, it varies.
-  const onThisStep = board.cards.filter((c) => c.step === stepNo)
-  const recentKinds = onThisStep.slice(-3).map((c) => c.kind)
+  //
+  // Counted across the whole board, not just this step. Scoped to the step it
+  // never fired at "run" pace, where one turn builds the entire step and the
+  // next turn starts a fresh one with no history to notice — which is how a
+  // lesson came back with fourteen concept cards out of sixteen.
+  const recentKinds = board.cards.slice(-3).map((c) => c.kind)
   const sameKindRun =
     recentKinds.length >= 2 && new Set(recentKinds).size === 1 ? recentKinds[0] : null
 

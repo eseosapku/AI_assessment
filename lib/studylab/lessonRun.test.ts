@@ -302,3 +302,127 @@ describe('test-out is only offered where something claims the learner might know
     expect(requestTestOut(teaching(GAP), 'c', 'cp-1', GAP).ok).toBe(true)
   })
 })
+
+/**
+ * Revisiting a finished lesson is browsing it, not reopening it.
+ *
+ * `focus` marked whatever step you landed on as 'teaching', and `jumpTo` set
+ * the phase to 'teaching' outright — so going back to re-read step 1 of a
+ * completed lesson un-completed it, and the rail dropped from 5 of 5 to 4.
+ */
+describe('jumping back into a finished lesson', () => {
+  const OPEN = policyFor('homework')
+
+  const completed = (): LessonRun => {
+    const proposed = proposePlan(emptyRun(OPEN), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+      { id: 'b', title: 'Bonding', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!proposed.ok) throw new Error(proposed.reason)
+    const run = acceptPlan(proposed.run)
+    if (!run.ok) throw new Error(run.reason)
+    return {
+      ...run.run,
+      phase: 'done',
+      currentStep: -1,
+      steps: run.run.steps.map((s) => ({ ...s, status: 'done' as const })),
+    }
+  }
+
+  it('leaves the lesson finished', () => {
+    const jumped = jumpTo(completed(), 'a', OPEN)
+    expect(jumped.ok).toBe(true)
+    if (!jumped.ok) return
+    expect(jumped.run.phase).toBe('done')
+  })
+
+  it('leaves the step you land on still done', () => {
+    const jumped = jumpTo(completed(), 'a', OPEN)
+    if (!jumped.ok) return
+    expect(jumped.run.steps[0].status).toBe('done')
+    expect(jumped.run.steps.every((s) => s.status === 'done')).toBe(true)
+  })
+
+  it('still moves the cursor, so the rail follows you', () => {
+    const jumped = jumpTo(completed(), 'b', OPEN)
+    if (!jumped.ok) return
+    expect(jumped.run.currentStep).toBe(1)
+  })
+
+  it('does not settle a step that was never taught', () => {
+    // The guard is "leave a settled step settled", not "settle whatever you
+    // land on" — an untaught step still needs teaching when you arrive.
+    const proposed = proposePlan(emptyRun(OPEN), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+      { id: 'b', title: 'Bonding', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!proposed.ok) return
+    const started = acceptPlan(proposed.run)
+    if (!started.ok) return
+    const jumped = jumpTo(started.run, 'b', OPEN)
+    if (!jumped.ok) return
+    expect(jumped.run.steps[1].status).toBe('teaching')
+    expect(jumped.run.phase).toBe('teaching')
+  })
+})
+
+describe('finishing by doing the lesson', () => {
+  const OPEN = policyFor('homework')
+
+  it('reports done once the last check is passed', () => {
+    // This used to leave the phase on 'teaching' with no current step: every
+    // step ticked, Continue with nothing to advance to, and the completion
+    // panel — carrying the quiz that moves the gap map — never appeared.
+    const proposed = proposePlan(emptyRun(OPEN), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!proposed.ok) throw new Error(proposed.reason)
+    const started = acceptPlan(proposed.run)
+    if (!started.ok) throw new Error(started.reason)
+    const open = beginCheck(started.run, 'a', 'cp-1', 'checkpoint', 'hard')
+    if (!open.ok) throw new Error(open.reason)
+
+    const passed = passCheck(open.run)
+    expect(passed.ok).toBe(true)
+    if (!passed.ok) return
+    expect(passed.run.phase).toBe('done')
+    expect(passed.run.currentStep).toBe(-1)
+    expect(passed.run.steps[0].status).toBe('done')
+  })
+
+  it('keeps teaching while a step is still unsettled', () => {
+    const proposed = proposePlan(emptyRun(OPEN), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+      { id: 'b', title: 'Bonding', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!proposed.ok) return
+    const started = acceptPlan(proposed.run)
+    if (!started.ok) return
+    const open = beginCheck(started.run, 'a', 'cp-1', 'checkpoint', 'hard')
+    if (!open.ok) return
+
+    const passed = passCheck(open.run)
+    if (!passed.ok) return
+    expect(passed.run.phase).toBe('teaching')
+    expect(passed.run.currentStep).toBe(1)
+  })
+
+  it('does not finish the lesson on a test-out', () => {
+    // Testing out of the last step settles it, but the learner is still
+    // somewhere earlier in the lesson.
+    const proposed = proposePlan(emptyRun(OPEN), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+      { id: 'b', title: 'Bonding', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!proposed.ok) return
+    const started = acceptPlan(proposed.run)
+    if (!started.ok) return
+    const open = beginCheck(started.run, 'b', 'cp-b', 'testout', 'soft')
+    if (!open.ok) return
+
+    const passed = passCheck(open.run)
+    if (!passed.ok) return
+    expect(passed.run.steps[1].status).toBe('known')
+    expect(passed.run.phase).toBe('teaching')
+  })
+})

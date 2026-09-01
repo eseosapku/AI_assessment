@@ -99,7 +99,13 @@ function nextUnsettled(steps: LessonStep[], from = 0): number {
  */
 function focus(run: LessonRun, index: number): LessonRun {
   const steps = run.steps.map((s, i) => {
-    if (i === index) return { ...s, status: 'teaching' as StepStatus }
+    // A settled step stays settled when you land on it. Marking it 'teaching'
+    // again took the tick off a step the learner had finished — go back to
+    // re-read step 1 of a completed lesson and the lesson was no longer
+    // complete, and the rail counted 4 of 5.
+    if (i === index) {
+      return s.status === 'done' || s.status === 'known' ? s : { ...s, status: 'teaching' as StepStatus }
+    }
     return s.status === 'teaching' ? { ...s, status: 'pending' as StepStatus } : s
   })
   return { ...run, steps, currentStep: index, beats: 0 }
@@ -217,7 +223,15 @@ export function passCheck(run: LessonRun): Transition {
   if (check.kind === 'testout') return ok({ ...cleared, awaiting: true })
 
   const next = nextUnsettled(steps, index + 1)
-  if (next === -1) return ok({ ...cleared, currentStep: -1, awaiting: true })
+  if (next === -1) {
+    // Nothing left to teach is the end of the lesson. This used to leave the
+    // phase on 'teaching' with no current step: the rail showed every step
+    // ticked, Continue had nothing to advance to, and the completion panel —
+    // with the quiz that actually moves the gap map — never appeared. `finish`
+    // is for stopping EARLY; it is not a confirmation the learner has to give
+    // after already doing everything.
+    return ok({ ...cleared, phase: 'done', currentStep: -1, awaiting: true })
+  }
   return ok({ ...focus(cleared, next), awaiting: false })
 }
 
@@ -268,7 +282,11 @@ export function jumpTo(run: LessonRun, stepId: string, policy: LessonPolicy): Tr
   if (blocking) {
     return no(`${blocking.title} comes first — you were measured at ${blocking.lockedBy!.accuracy}%.`)
   }
-  return ok(focus({ ...run, phase: 'teaching' }, index))
+  // A finished lesson stays finished. Jumping into one is browsing it, not
+  // reopening it, and flipping the phase back to 'teaching' quietly undid the
+  // completion the learner had just earned.
+  const phase = run.phase === 'done' ? 'done' : 'teaching'
+  return ok(focus({ ...run, phase }, index))
 }
 
 export function setPace(run: LessonRun, pace: Pace): Transition {
