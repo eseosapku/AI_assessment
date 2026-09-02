@@ -315,7 +315,19 @@ export function parseJsonRobust(text: string): any {
     const m = t.match(/[\{\[][\s\S]*[\}\]]/)
     if (m) t = m[0]
   }
+  // The escapes are repaired BEFORE the first parse, not after it, because the
+  // damage a LaTeX command does depends on its first letter and the worse case
+  // is the one that parses. `\cdot` is an invalid escape, so parsing fails and
+  // jsonrepair drops the backslash — a worked solution reading "2 cdot x cdot
+  // 4 = 8x". But `\frac` IS valid JSON: it parses straight through as a
+  // formfeed, and the card says "rac{b}{2}" with nothing to signal anything
+  // went wrong. `fixLatexInRawJson` knows which backslashes are commands and
+  // which are real escapes; the unrepaired text is still tried underneath, so
+  // anything it gets wrong falls back to what would have happened anyway.
+  const fixed = fixLatexInRawJson(t)
+  try { return JSON.parse(fixed) } catch { /* fall through */ }
   try { return JSON.parse(t) } catch { /* fall through */ }
+  try { return JSON.parse(jsonrepair(fixed)) } catch { /* fall through */ }
   try { return JSON.parse(jsonrepair(t)) } catch { /* fall through */ }
   try {
     const reFixed = t.replace(/\\u(?![0-9a-fA-F]{4})/g, '\\\\u')

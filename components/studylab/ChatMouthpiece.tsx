@@ -421,10 +421,13 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               }
             }}
             rows={1}
+            // The box is one line tall until something is typed into it, so the
+            // placeholder has to fit on one line: the old one wrapped to two and
+            // the first was clipped off the top.
             placeholder={
               locked
-                ? lockedHint ?? 'Typing is off in the demo — the question is written for you.'
-                : 'Ask me anything, or paste a photo of your work…'
+                ? lockedHint ?? 'Typing is off in the demo.'
+                : 'Ask anything, or paste your work…'
             }
             className={`flex-1 bg-transparent resize-none outline-none text-[13.5px] max-h-28 py-1 ${
               locked && composed === null ? 'text-ss-slate' : ''
