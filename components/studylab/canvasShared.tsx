@@ -5,6 +5,7 @@ import { Handle, Position } from '@xyflow/react'
 import Latex from 'react-latex-next'
 import type { LucideIcon } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
+import { toDollarMath } from '@/lib/studylab/mathText'
 
 // Shared canvas primitives used by both the static node renderers (canvasNodes)
 // and the interactive RunnableCodeCard. Lives in its own module so those two
@@ -39,8 +40,9 @@ function mdEmphasis(s: string): string {
 // emphasis. Coerces non-strings (the model occasionally sends a number/object).
 export function SafeLatex({ children }: { children?: unknown }) {
   if (children == null) return null
-  const text = typeof children === 'string' ? children : String(children)
-  if (!text) return null
+  const raw = typeof children === 'string' ? children : String(children)
+  if (!raw) return null
+  const text = toDollarMath(raw)
   const parts = text.split(/(\$[^$]+\$)/g)
   return (
     <>

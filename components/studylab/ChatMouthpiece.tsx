@@ -6,6 +6,7 @@ import { PlanCard } from './PlanCard'
 import { Brain, Send, Sparkles, ImagePlus, X, ArrowRight } from 'lucide-react'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
 import { plainTitle } from '@/lib/studylab/actions'
+import { toDollarMath } from '@/lib/studylab/mathText'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5 MB
@@ -21,10 +22,11 @@ function readFileAsDataUrl(file: File): Promise<string> {
 
 function SafeLatex({ children }: { children?: string }) {
   if (!children) return null
+  const text = toDollarMath(children)
   try {
-    return <Latex>{children}</Latex>
+    return <Latex>{text}</Latex>
   } catch {
-    return <>{children}</>
+    return <>{text}</>
   }
 }
 
