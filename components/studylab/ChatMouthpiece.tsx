@@ -174,6 +174,15 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           <p className="text-sm text-ss-slate text-center mt-8">Starting your session…</p>
         )}
         {messages.map((m, i) =>
+          // A turn that said nothing and built nothing is not a turn. One left
+          // a bare avatar floating in the transcript with no bubble beside it,
+          // which reads as the tutor having failed rather than as nothing
+          // having happened. The plan card carries no text of its own, so it
+          // is exempt.
+          m.role === 'assistant' &&
+          m.kind !== 'plan' &&
+          !m.content?.trim() &&
+          builtCards(m.actions).length === 0 ? null :
           // A status line is the system reporting what an action did, not the
           // tutor speaking. It gets no avatar and no bubble, so the transcript
           // still reads as a conversation with the run's bookkeeping beside it.
