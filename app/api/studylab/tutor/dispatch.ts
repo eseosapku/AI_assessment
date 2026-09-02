@@ -113,10 +113,23 @@ function transitionFor(input: DispatchInput): Transition {
  */
 const CARDS_BEFORE_CHECK = 3
 
-/** Whether this step has been taught enough that it should now be checked. */
+/**
+ * Whether this step has been taught enough that it should now be checked.
+ *
+ * Counted since the LAST check on this step, not since the step began. Reading
+ * "this step already has a checkpoint" as "this step is finished with being
+ * checked" is what made a missed question unrecoverable: the check was failed,
+ * the tutor re-taught the point as it should, and then never asked again —
+ * fifteen more cards on one idea and no way to reach the next step.
+ *
+ * A first check comes after a step's worth of teaching. A retry comes sooner:
+ * the learner has already had the step, and one card re-teaching the thing they
+ * missed is the whole of what is new.
+ */
 function shouldCloseStep(board: BoardSummary, stepNo: number): boolean {
-  if (board.checkedSteps.includes(stepNo)) return false
-  return board.cards.filter((c) => c.step === stepNo).length >= CARDS_BEFORE_CHECK
+  const since = board.cardsSinceCheck[stepNo] ?? board.cards.filter((c) => c.step === stepNo).length
+  const retry = board.checkedSteps.includes(stepNo)
+  return since >= (retry ? 1 : CARDS_BEFORE_CHECK)
 }
 
 const ALWAYS_TEACHES = new Set(['accept_plan', 'next_beat', 'answer_check'])
@@ -259,20 +272,33 @@ async function ensureStepCloses(
   if (!step) return { run, actions }
 
   const stepNo = stepIndex + 1
-  // The board summary predates this turn's cards, so count those too.
-  const madeNow = actions.filter(
-    (a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'createCard',
-  ).length
-  const onStep = board.cards.filter((c) => c.step === stepNo).length + madeNow
 
   const alreadyClosing =
     run.openCheck !== undefined ||
-    board.checkedSteps.includes(stepNo) ||
     actions.some((a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'checkpoint')
+  if (alreadyClosing) return { run, actions }
 
-  if (alreadyClosing || onStep < CARDS_BEFORE_CHECK) return { run, actions }
+  // The board summary predates this turn, so the cards just made are added to
+  // it before asking. Without that the step is judged one turn behind and the
+  // check always arrives a turn late.
+  const madeNow = actions.filter(
+    (a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'createCard',
+  ).length
+  // Falls back to the whole step's cards when a client sends no per-step
+  // counter, so an older page keeps closing its steps.
+  const base =
+    board.cardsSinceCheck[stepNo] ?? board.cards.filter((c) => c.step === stepNo).length
+  const withThisTurn: BoardSummary = {
+    ...board,
+    cardsSinceCheck: { ...board.cardsSinceCheck, [stepNo]: base + madeNow },
+  }
+  if (!shouldCloseStep(withThisTurn, stepNo)) return { run, actions }
 
-  const checkpointId = `cp-${step.id}-auto`
+  // A fresh id every time. The reducer ignores a checkpoint whose id is already
+  // on the board, so a fixed one meant the SECOND check on a step — the retry
+  // after a miss — was silently dropped, leaving the run holding an open check
+  // with nothing to answer.
+  const checkpointId = `cp-${step.id}-${Math.random().toString(36).slice(2, 6)}`
   let questions: CheckpointQuestion[]
   try {
     questions = await writeCheck(step, checkpointId, input.userId, input.requestId, 'close-step')

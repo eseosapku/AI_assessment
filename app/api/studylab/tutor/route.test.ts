@@ -771,9 +771,29 @@ describe('every step gets closed', () => {
     expect(String(vi.mocked(callGemma).mock.calls[0][0])).toContain('PACE — ONE BEAT')
   })
 
-  it('does not ask for a second check on a step that already has one', async () => {
-    // Asking again is how a learner gets tested twice on the same idea.
-    expect(await promptWith('step', 5, [1])).toContain('PACE — ONE BEAT')
+  it('does not re-ask while nothing new has been taught since the last check', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
+    await applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: null,
+      action: { type: 'next_beat' },
+      context: { board: { cards: [card(1)], checkedSteps: [1], cardsSinceCheck: { 1: 0 } } },
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).toContain('PACE — ONE BEAT')
+  })
+
+  it('asks again as soon as the missed point has been re-taught', async () => {
+    // A failed check leaves the step open. Treating "already checked" as
+    // "finished with checking" left the tutor re-teaching one idea forever
+    // with no way to reach the next step.
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
+    await applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: null,
+      action: { type: 'next_beat' },
+      context: { board: { cards: [card(1), card(2)], checkedSteps: [1], cardsSinceCheck: { 1: 1 } } },
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).toContain('PACE — CLOSE THIS STEP')
   })
 })
 
@@ -1099,5 +1119,61 @@ describe('closing a step asks for practice first', () => {
     expect(prompt).toContain('add ONE "practice"')
     // And it must not be forced onto a step that is purely descriptive.
     expect(prompt).toContain('purely descriptive step needs no practice card')
+  })
+})
+
+/**
+ * The transcript that prompted this: a check answered "1 of 2 right", then
+ * fifteen more cards on one idea and no way to reach the next step.
+ *
+ * The step had a checkpoint on the board, so every later turn read it as
+ * "already checked" and never asked again. Failing a question made the step
+ * unfinishable.
+ */
+describe('a step whose check was failed', () => {
+  const cardsOn = (n: number) =>
+    Array.from({ length: n }, (_, i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' }))
+
+  const turnAfterFailure = async (sinceCheck: number) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 're-taught', actions: [] }))
+      .mockResolvedValueOnce(
+        JSON.stringify({
+          questions: [{ id: 'q1', format: 'mcq', prompt: 'again?', options: ['a', 'b'], answer: 0 }],
+        }),
+      )
+    return applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' },
+      context: {
+        board: { cards: cardsOn(4 + sinceCheck), checkedSteps: [1], cardsSinceCheck: { 1: sinceCheck } },
+      },
+    })
+  }
+
+  it('gets a fresh check once the missed point has been re-taught', async () => {
+    const result = await turnAfterFailure(1)
+    const cp = result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+      | { id: string }
+      | undefined
+    expect(cp, 'the step was re-taught and never re-checked').toBeDefined()
+    expect(result.run.openCheck).toBeDefined()
+  })
+
+  it('gives the retry an id of its own', async () => {
+    // The reducer drops a checkpoint whose id is already on the board, so a
+    // fixed id meant the retry rendered nothing and stranded the run.
+    const a = await turnAfterFailure(1)
+    const b = await turnAfterFailure(1)
+    const idOf = (r: typeof a) =>
+      (r.actions.find((x) => (x as { type?: string }).type === 'checkpoint') as { id: string }).id
+    expect(idOf(a)).not.toBe(idOf(b))
+    expect(idOf(a).startsWith('cp-a-')).toBe(true)
+  })
+
+  it('does not pounce before anything new has been said', async () => {
+    const result = await turnAfterFailure(0)
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(false)
   })
 })
