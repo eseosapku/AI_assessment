@@ -644,14 +644,23 @@ function openEmittedCheckpoint(
     return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
   }
 
-  const opened = beginCheck(run, target.id, cp.id, 'checkpoint', gate)
+  // The id is ours, not the model's. Re-teaching a step it had already checked,
+  // the model emitted `cp-3-a7` a second time — the id of the check the learner
+  // had just failed. The reducer drops a checkpoint whose id is already on the
+  // board, so no new questions appeared, while the run opened a check against
+  // that id and waited for an answer to cards that were already answered and
+  // gone. Nothing could resolve it and the lesson stopped dead on step three.
+  const id = `cp-${target.id}-${Math.random().toString(36).slice(2, 6)}`
+  const renamed = rawActions.map((a, i) => (i === cpIndex ? { ...(a as object), id } : a))
+
+  const opened = beginCheck(run, target.id, id, 'checkpoint', gate)
   if (!opened.ok) {
     // Already open (or the step vanished from the plan): keep the run as it
     // was and drop the duplicate rather than returning a quiz that cannot
     // resolve anything.
     return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
   }
-  return { run: opened.run, actions: rawActions }
+  return { run: opened.run, actions: renamed }
 }
 
 /**

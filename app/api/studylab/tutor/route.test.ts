@@ -256,8 +256,12 @@ describe('checkpoint emitted by a teaching turn', () => {
     const result = await applyAction({
       run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
     })
+    // The id is the board's, not the model's — see "every check gets an id of
+    // its own" below. What matters here is that the run and the action agree.
+    const emitted = (result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+      | { id: string } | undefined)?.id
     expect(result.run.openCheck).toEqual({
-      stepId: 'a', checkpointId: 'cp-1', kind: 'checkpoint', gate: 'hard',
+      stepId: 'a', checkpointId: emitted, kind: 'checkpoint', gate: 'hard',
     })
   })
 
@@ -317,8 +321,10 @@ describe('checkpoint emitted by a teaching turn', () => {
     const result = await applyAction({
       run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
     })
+    const emitted = (result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+      | { id: string } | undefined)?.id
     expect(result.run.openCheck).toEqual({
-      stepId: 'a', checkpointId: 'cp-3', kind: 'checkpoint', gate: 'soft',
+      stepId: 'a', checkpointId: emitted, kind: 'checkpoint', gate: 'soft',
     })
   })
 })
@@ -1515,5 +1521,51 @@ describe('a short question tells the marker the learner may use their own words'
       { id: 'q1', format: 'mcq', prompt: 'Which one?', options: ['a', 'b'], answer: 0 },
     ])
     expect(q).not.toHaveProperty('rubric')
+  })
+})
+
+/**
+ * The tutor re-used a checkpoint id the learner had just failed. The reducer
+ * drops a checkpoint whose id is already on the board, so no new questions
+ * appeared — while the run opened a check against that id and waited for an
+ * answer to questions that were already answered and gone. The lesson stopped
+ * dead on step three: no banner, no questions, Continue producing nothing.
+ */
+describe('every check gets an id of its own', () => {
+  const checkpointFrom = async (id: string) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'have a go',
+        actions: [
+          { type: 'checkpoint', id, step: 1, gate: 'hard', questions: [
+            { id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 },
+          ] },
+        ],
+      }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {},
+    })
+    const cp = result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+      | { id: string } | undefined
+    return { id: cp?.id, run: result.run }
+  }
+
+  it('does not use the id the model chose', async () => {
+    const { id } = await checkpointFrom('cp-3-a7')
+    expect(id).not.toBe('cp-3-a7')
+    expect(id).toMatch(/^cp-a-/)
+  })
+
+  it('opens the run against the id it actually put on the board', async () => {
+    const { id, run } = await checkpointFrom('cp-3-a7')
+    expect(run.openCheck?.checkpointId).toBe(id)
+  })
+
+  it('gives two turns emitting the same id two different checks', async () => {
+    const first = await checkpointFrom('cp-3-a7')
+    const second = await checkpointFrom('cp-3-a7')
+    expect(first.id).not.toBe(second.id)
   })
 })

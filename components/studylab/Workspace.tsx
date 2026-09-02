@@ -619,6 +619,42 @@ export default function Workspace({ id }: { id: string }) {
     }
   }, [canvas.nodes, busy, sendAction, user?.id, space?.subject, space?.title, id])
 
+  /**
+   * Lets go of a check the learner has no way to answer.
+   *
+   * The run can end up holding a check open whose questions are all settled —
+   * or that has no questions on the board at all. The loop above will not
+   * report it again (it reports each checkpoint once, by design), so the
+   * lesson stops: no banner, no questions, Continue produces nothing, and the
+   * step can never close. That happened for real when the tutor re-used a
+   * checkpoint id the learner had already failed.
+   *
+   * The cause is fixed upstream — every checkpoint now gets a fresh id — but a
+   * run that cannot move is a bad enough failure to be worth a way out
+   * regardless of what caused it. Reported once per checkpoint, so this can
+   * never loop.
+   */
+  const released = useRef<Set<string>>(new Set())
+  useEffect(() => {
+    if (busy) return
+    const cpId = run?.openCheck?.checkpointId
+    if (!cpId || released.current.has(cpId)) return
+
+    const cells = canvas.nodes
+      .filter((n) => n.data.quiz?.checkpointId === cpId && !n.hidden)
+      .map((n) => n.data.quiz!)
+    const answerable = cells.some((c) => c.state !== 'correct' && c.state !== 'incorrect')
+    if (answerable) return
+    // A check whose questions have not arrived yet is not stuck — it is a turn
+    // still in flight. Only one already reported, or one with nothing on the
+    // board at all after a reload, gets released.
+    if (cells.length === 0 && !loaded) return
+
+    released.current.add(cpId)
+    const passed = cells.length > 0 && cells.filter((c) => c.state === 'correct').length > cells.length / 2
+    void sendAction({ type: 'answer_check', passed, missed: [] })
+  }, [canvas.nodes, run?.openCheck?.checkpointId, busy, loaded, sendAction])
+
   // ── Initial load ────────────────────────────────────────────────────────────
   useEffect(() => {
     let cancelled = false
