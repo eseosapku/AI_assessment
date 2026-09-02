@@ -329,3 +329,12 @@
 @media (prefers-reduced-motion: reduce) {
   [data-demo-here] { animation: none; }
 }
+
+/* ── Step regions ─────────────────────────────────────────────────────────
+   Scenery behind the cards, and transparent to the pointer. React Flow puts a
+   node's `style` on an inner element, not the wrapper, so setting
+   pointer-events there left each region turning its whole area into dead
+   canvas: dragging inside one hit an invisible box instead of panning. */
+.react-flow__node-stepRegion {
+  pointer-events: none !important;
+}

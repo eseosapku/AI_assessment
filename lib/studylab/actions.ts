@@ -69,7 +69,7 @@ function boundingTopLeft(nodes: StudyNode[], ids: string[]): { x: number; y: num
  * recreate "Density and Expansion", it wrote "Expansion and Density" two steps
  * later. Same card, same content, words swapped — and two of them on the board.
  */
-function titleKey(title: string): string {
+export function titleKey(title: string): string {
   return title
     .toLowerCase()
     .replace(/[^a-z0-9 ]/g, ' ')

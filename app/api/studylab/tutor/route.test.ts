@@ -1177,3 +1177,104 @@ describe('a step whose check was failed', () => {
     expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(false)
   })
 })
+
+describe('a turn that produces nothing', () => {
+  it('says so rather than going silent', async () => {
+    // The client only renders a message when there is one, so an empty turn
+    // reached the learner as Continue doing absolutely nothing.
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '', actions: [] }))
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: null, action: { type: 'next_beat' }, context: {},
+    })
+    expect(result.refusal).toBe('That did not come through. Try that again.')
+  })
+
+  it('leaves the run where it was, so pressing again retries the same turn', async () => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: '   ', actions: [] }))
+    const before = openRun()
+    const result = await applyAction({
+      run: before, policy: GAP, userId: null, action: { type: 'next_beat' }, context: {},
+    })
+    expect(result.run.beats).toBe(before.beats)
+  })
+
+  it('is happy with a turn that only speaks', async () => {
+    // Answering a question without building anything is legitimate.
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'Yes — because of X.', actions: [] }))
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: null, action: { type: 'next_beat' }, context: {},
+    })
+    expect(result.refusal).toBeUndefined()
+    expect(result.say).toBe('Yes — because of X.')
+  })
+})
+
+/**
+ * The reducer drops a card the board already has — by id, and by title in any
+ * word order. A turn made entirely of those builds nothing, and the learner
+ * gets "here's the next idea" over an unchanged board.
+ */
+describe('a turn that only repeats what is already there', () => {
+  const board = {
+    cards: [
+      { id: 'c1', title: 'The Male Gaze', step: 1, kind: 'concept' },
+      { id: 'c2', title: 'Visual Spectacle vs Interiority', step: 1, kind: 'concept' },
+    ],
+  }
+
+  const turnReturning = async (actions: unknown[]) => {
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'here it is', actions }))
+    return applyAction({
+      run: openRun(), policy: GAP, userId: null, action: { type: 'next_beat' },
+      context: { board },
+    })
+  }
+
+  it('refuses rather than pretending it taught something', async () => {
+    const result = await turnReturning([
+      { type: 'createCard', id: 'x1', card: 'concept', title: 'Interiority vs Visual Spectacle', step: 1 },
+    ])
+    expect(result.refusal).toContain('repeated myself')
+    expect(result.actions).toEqual([])
+  })
+
+  it('catches a repeat by id as well as by title', async () => {
+    const result = await turnReturning([
+      { type: 'createCard', id: 'c1', card: 'concept', title: 'Something else entirely', step: 1 },
+    ])
+    expect(result.refusal).toBeTruthy()
+  })
+
+  it('leaves the run untouched, so pressing again is a real retry', async () => {
+    const before = openRun()
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'again',
+        actions: [{ type: 'createCard', id: 'c1', card: 'concept', title: 'The Male Gaze', step: 1 }],
+      }),
+    )
+    const result = await applyAction({
+      run: before, policy: GAP, userId: null, action: { type: 'next_beat' }, context: { board },
+    })
+    expect(result.run.beats).toBe(before.beats)
+  })
+
+  it('lets a turn through when even one card is new', async () => {
+    const result = await turnReturning([
+      { type: 'createCard', id: 'c1', card: 'concept', title: 'The Male Gaze', step: 1 },
+      { type: 'createCard', id: 'n1', card: 'concept', title: 'Something genuinely new', step: 1 },
+    ])
+    expect(result.refusal).toBeUndefined()
+  })
+
+  it('lets a repeat through when the turn also closes the step', async () => {
+    // Emitting the checkpoint is real work even if no card was new.
+    const result = await turnReturning([
+      { type: 'createCard', id: 'c1', card: 'concept', title: 'The Male Gaze', step: 1 },
+      { type: 'checkpoint', id: 'cp-x', step: 1, gate: 'hard', questions: [
+        { id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 },
+      ] },
+    ])
+    expect(result.refusal).toBeUndefined()
+  })
+})

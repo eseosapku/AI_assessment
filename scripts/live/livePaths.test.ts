@@ -25,11 +25,13 @@ import type { CanvasState } from '@/lib/studylab/types'
 
 const SCRATCH = policyFor('scratch')
 
-async function start(title: string, pace: 'step' | 'run') {
-  const drafted = await draftPlan({
-    title, subject: null, policy: SCRATCH, userId: null, subtopics: [],
-  })
-  const planned = proposePlan(emptyRun(SCRATCH), drafted.steps)
+async function start(
+  title: string,
+  pace: 'step' | 'run',
+  policy = SCRATCH,
+) {
+  const drafted = await draftPlan({ title, subject: null, policy, userId: null, subtopics: [] })
+  const planned = proposePlan(emptyRun(policy), drafted.steps)
   if (!planned.ok) throw new Error(planned.reason)
   const started = acceptPlan({ ...planned.run, pace, programming: drafted.programming })
   if (!started.ok) throw new Error(started.reason)
@@ -63,13 +65,16 @@ describe('run pace', () => {
 
 describe('testing out of a step', () => {
   it('produces questions the canvas can actually render', async () => {
-    const { run } = await start('The water cycle', 'step')
+    // Test-out is offered on gap lessons and homework, never on one the
+    // learner started by naming a topic they wanted to learn.
+    const OPEN = policyFor('homework')
+    const { run } = await start('The water cycle', 'step', OPEN)
     // A step that is not the one being taught: test-out is for skipping ahead.
     const target = run.steps[1]
     expect(target).toBeDefined()
 
     const result = await applyAction({
-      run, policy: SCRATCH, userId: null,
+      run, policy: OPEN, userId: null,
       action: { type: 'test_out', stepId: target.id, checkpointId: 'cp-testout-1' },
       context: { title: 'The water cycle' },
     })

@@ -12,6 +12,7 @@ import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
 import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
 import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
+import { titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
@@ -226,10 +227,40 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     }
   }
 
-  const rawActions = fitCardsToLesson(
-    Array.isArray(parsed?.actions) ? parsed.actions : [],
-    advanced,
-  )
+  const say = typeof parsed?.say === 'string' ? parsed.say.trim() : ''
+  const returned = Array.isArray(parsed?.actions) ? parsed.actions : []
+
+  // A turn that says nothing and builds nothing is a dead turn. The client only
+  // renders a message when there is one, so this reached the learner as Continue
+  // doing absolutely nothing — and with the run already advanced, pressing it
+  // again just moved further from a card. State is left untouched so the retry
+  // starts from the same place.
+  if (!say && returned.length === 0) {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'That did not come through. Try that again.',
+    }
+  }
+
+  const rawActions = fitCardsToLesson(returned, advanced)
+
+  // A turn whose every card already exists is a turn that builds nothing. The
+  // reducer drops repeats — by id and by title, in any word order — so the
+  // learner would get "here's the next idea" with an unchanged board and no
+  // way to tell the difference from a broken button. Caught here, where the
+  // board is known, rather than after the client has silently discarded it.
+  if (isAllRepeats(rawActions, board)) {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'I nearly repeated myself there — press continue again.',
+    }
+  }
   const opened = openEmittedCheckpoint(advanced, rawActions)
 
   // Asking was never enough. Told plainly to close the step with a checkpoint,
@@ -241,7 +272,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
 
   return {
     run: closed.run,
-    say: typeof parsed?.say === 'string' ? parsed.say : '',
+    say,
     actions: closed.actions,
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
@@ -356,6 +387,37 @@ function acknowledge(action: LessonAction, run: LessonRun, board: BoardSummary):
     default:
       return ''
   }
+}
+
+/**
+ * Whether a turn's cards were all things the board already has.
+ *
+ * Only cards count towards this. A turn that emits a checkpoint, updates a card
+ * in place, or draws a connection has done something real even if it created
+ * nothing new.
+ */
+function isAllRepeats(actions: unknown[], board: BoardSummary): boolean {
+  const creates = actions.filter(
+    (a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'createCard',
+  ) as { id?: unknown; title?: unknown }[]
+  if (creates.length === 0) return false
+
+  const doesSomethingElse = actions.some(
+    (a) =>
+      !!a &&
+      typeof a === 'object' &&
+      ['checkpoint', 'updateCard'].includes(String((a as { type?: unknown }).type)),
+  )
+  if (doesSomethingElse) return false
+
+  const ids = new Set(board.cards.map((c) => c.id))
+  const titles = new Set(board.cards.map((c) => titleKey(c.title)))
+
+  return creates.every((c) => {
+    const id = typeof c.id === 'string' ? c.id : ''
+    const key = typeof c.title === 'string' ? titleKey(c.title) : ''
+    return (id && ids.has(id)) || (key && titles.has(key))
+  })
 }
 
 /** Card types that render a Run button or a live preview. */

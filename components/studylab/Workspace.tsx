@@ -123,11 +123,6 @@ export default function Workspace({ id }: { id: string }) {
         selectable: false,
         deletable: false,
         zIndex: -1,
-        // The node WRAPPER swallows pointer events even when its contents do
-        // not, so a region turned its whole area into dead canvas: dragging
-        // anywhere inside one hit an invisible box instead of panning the
-        // board. Regions are scenery and must be transparent to the pointer.
-        style: { pointerEvents: 'none' as const },
       })),
       ...canvas.nodes,
     ] as typeof canvas.nodes
