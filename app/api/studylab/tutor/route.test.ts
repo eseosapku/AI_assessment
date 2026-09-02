@@ -1479,3 +1479,41 @@ describe('multiple choice does not survive on a practice card', () => {
     expect(out.body).toBe(body)
   })
 })
+
+/**
+ * A short answer is marked by a separate route, which is handed the rubric and
+ * nothing else from here. A learner who answered the question properly in their
+ * own words was marked wrong for not using the rubric's phrasing.
+ */
+describe('a short question tells the marker the learner may use their own words', () => {
+  const askWith = async (questions: unknown[]) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ questions }))
+    const result = await applyAction({
+      run: openRun(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' }, context: {},
+    })
+    return ((result.actions[0] as { questions: { rubric?: string; format: string }[] })?.questions ?? [])
+  }
+
+  it('adds it to a rubric that reads like a checklist', async () => {
+    const [q] = await askWith([
+      { id: 'q1', format: 'short', prompt: 'Why isolate first?', rubric: 'Must mention preparing for completing the square.' },
+    ])
+    expect(q.rubric).toContain('in whatever words the student used')
+  })
+
+  it('does not say it twice', async () => {
+    const [q] = await askWith([
+      { id: 'q1', format: 'short', prompt: 'Why isolate first?', rubric: 'Any answer in their own words showing the barrier drops.' },
+    ])
+    expect(q.rubric).toBe('Any answer in their own words showing the barrier drops.')
+  })
+
+  it('leaves multiple choice alone — there is nothing to paraphrase', async () => {
+    const [q] = await askWith([
+      { id: 'q1', format: 'mcq', prompt: 'Which one?', options: ['a', 'b'], answer: 0 },
+    ])
+    expect(q).not.toHaveProperty('rubric')
+  })
+})

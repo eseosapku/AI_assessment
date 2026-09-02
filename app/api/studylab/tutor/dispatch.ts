@@ -872,7 +872,7 @@ async function writeCheck(
     '  { "id": "q1", "format": "mcq", "prompt": "...?",',
     '    "options": ["...", "...", "...", "..."], "answer": 1 },',
     '  { "id": "q2", "format": "short", "prompt": "...?",',
-    '    "rubric": "what a good answer must mention" },',
+    '    "rubric": "the one idea a correct answer shows" },',
     '  { "id": "q3", "format": "match", "prompt": "Match each term to its description.",',
     '    "pairs": [ { "left": "...", "right": "..." }, { "left": "...", "right": "..." } ] }',
     '] }',
@@ -916,14 +916,40 @@ async function writeCheck(
   // answer — the same question twice, in two formats, on a step the learner
   // had already worked a practice problem for. The pace copy promises "a
   // quick check", and one question is what that is.
+  const marked = valid.map(acceptsParaphrase)
+
   // A retry is one question, and the one that makes them say the answer if the
   // model gave us one. Two goes at the same idea is not a second chance.
   if (asked.length > 0) {
-    const short = valid.find((q: CheckpointQuestion) => q.format === 'short')
-    return short ? [short] : valid.slice(0, 1)
+    const short = marked.find((q: CheckpointQuestion) => q.format === 'short')
+    return short ? [short] : marked.slice(0, 1)
   }
 
-  return valid.slice(0, kind === 'close-step' ? 1 : 3)
+  return marked.slice(0, kind === 'close-step' ? 1 : 3)
+}
+
+/**
+ * Says on the rubric that the learner's own words count.
+ *
+ * The rubric travels verbatim into the grading prompt as the expected idea,
+ * and the grader reads it as a checklist. Asked why the x² and constant terms
+ * are isolated first, a learner answered "it puts the x² and x terms on one
+ * side by themselves, so you can add (b/2)² to both sides and turn that side
+ * into a perfect square" — the whole point, in their own words — and was
+ * marked wrong for not using the rubric's phrasing.
+ *
+ * Saying it in the rubric is the lever available from this side: the grading
+ * route builds its own prompt and this is the only text it takes from here.
+ */
+function acceptsParaphrase(q: CheckpointQuestion): CheckpointQuestion {
+  if (q.format !== 'short') return q
+  const rubric = (q.rubric ?? '').trim()
+  if (!rubric) return q
+  if (/own words/i.test(rubric)) return q
+  return {
+    ...q,
+    rubric: `${rubric.replace(/[.\s]+$/, '')}. Mark this correct if the answer shows that idea, in whatever words the student used — never require particular phrasing.`,
+  }
 }
 
 /**
