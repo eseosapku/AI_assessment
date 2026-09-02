@@ -426,3 +426,49 @@ describe('finishing by doing the lesson', () => {
     expect(passed.run.phase).toBe('teaching')
   })
 })
+
+/**
+ * The lesson that could not be continued.
+ *
+ * Three checks stacked on one step, none answered, and moving to another step
+ * changed nothing: the run still held the first one open, so Continue refused
+ * for ever and the banner kept pointing back at a question belonging to a step
+ * the learner had walked away from.
+ */
+describe('walking away from a check', () => {
+  const OPEN = policyFor('homework')
+
+  const midCheck = (): LessonRun => {
+    const proposed = proposePlan(emptyRun(OPEN), [
+      { id: 'a', title: 'One', goal: 'g', status: 'pending', cardIds: [] },
+      { id: 'b', title: 'Two', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!proposed.ok) throw new Error(proposed.reason)
+    const started = acceptPlan(proposed.run)
+    if (!started.ok) throw new Error(started.reason)
+    const open = beginCheck(started.run, 'a', 'cp-a', 'checkpoint', 'hard')
+    if (!open.ok) throw new Error(open.reason)
+    return open.run
+  }
+
+  it('abandons the check when the learner moves to another step', () => {
+    const jumped = jumpTo(midCheck(), 'b', OPEN)
+    expect(jumped.ok).toBe(true)
+    if (!jumped.ok) return
+    expect(jumped.run.openCheck).toBeUndefined()
+  })
+
+  it('lets the lesson carry on afterwards', () => {
+    const jumped = jumpTo(midCheck(), 'b', OPEN)
+    if (!jumped.ok) return
+    // This refused with "Finish the check first" for ever.
+    expect(nextBeat(jumped.run).ok).toBe(true)
+  })
+
+  it('keeps the check when you land back on the step it belongs to', () => {
+    // Clicking the step you are already on is not walking away from it.
+    const jumped = jumpTo(midCheck(), 'a', OPEN)
+    if (!jumped.ok) return
+    expect(jumped.run.openCheck?.checkpointId).toBe('cp-a')
+  })
+})

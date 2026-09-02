@@ -58,7 +58,9 @@ describe('boardSummary', () => {
   })
 
   it('survives a missing canvas', () => {
-    expect(boardSummary(null)).toEqual({ cards: [], checkedSteps: [], cardsSinceCheck: {}, recent: [] })
+    expect(boardSummary(null)).toEqual({
+      cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, recent: [],
+    })
   })
 })
 
@@ -68,7 +70,7 @@ describe('parseBoardSummary', () => {
   })
 
   it('returns an empty board for anything that is not one', () => {
-    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, recent: [] }
+    const empty = { cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, recent: [] }
     expect(parseBoardSummary(null)).toEqual(empty)
     expect(parseBoardSummary('nope')).toEqual(empty)
     expect(parseBoardSummary({})).toEqual(empty)

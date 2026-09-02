@@ -555,14 +555,19 @@ export default function Workspace({ id }: { id: string }) {
         { id: n.id, gate: q.gate, answered: q.state === 'correct' || q.state === 'incorrect' },
       ])
     }
-    for (const cells of byCp.values()) {
-      if (cells.some((c) => c.gate === 'hard') && !cells.every((c) => c.answered)) {
-        const unanswered = cells.filter((c) => !c.answered)
-        return { total: cells.length, remaining: unanswered.length, nextId: unanswered[0]?.id ?? null }
-      }
-    }
-    return null
-  }, [canvas.nodes])
+    // Only the check the RUN is holding open gates anything. Scanning every
+    // quiz ever placed meant one abandoned checkpoint blocked the lesson for
+    // good — three of them stacked up, Continue refused, and moving to another
+    // step made no difference because the board still had them.
+    const openId = run?.openCheck?.checkpointId
+    if (!openId) return null
+    const cells = byCp.get(openId)
+    if (!cells || cells.length === 0) return null
+    if (!cells.some((c) => c.gate === 'hard') || cells.every((c) => c.answered)) return null
+
+    const unanswered = cells.filter((c) => !c.answered)
+    return { total: cells.length, remaining: unanswered.length, nextId: unanswered[0]?.id ?? null }
+  }, [canvas.nodes, run?.openCheck?.checkpointId])
 
   // Pan/zoom the canvas to a specific node (used by the "show me the check" banner).
   const goToNode = useCallback((nodeId: string) => {

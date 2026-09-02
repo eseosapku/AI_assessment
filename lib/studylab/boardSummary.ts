@@ -30,6 +30,15 @@ export interface BoardSummary {
    * unclosable: the tutor re-taught, and re-taught, and never asked again.
    */
   cardsSinceCheck: Record<number, number>
+  /**
+   * Questions already put to the learner, by step.
+   *
+   * A retry after a miss asked the same question again, worded a shade
+   * differently — three checks stacked on one step, all asking why someone
+   * plays the world's smallest violin, none of them a second chance at
+   * anything. The check job is told what it has already asked.
+   */
+  askedByStep: Record<number, string[]>
   /** The last few chat turns, so the tutor does not repeat its own sentences. */
   recent: { role: 'user' | 'assistant'; text: string }[]
 }
@@ -83,6 +92,16 @@ export function boardSummary(
     else if (isCardKind(n.type)) cardsSinceCheck[step] = (cardsSinceCheck[step] ?? 0) + 1
   }
 
+  const askedByStep: Record<number, string[]> = {}
+  for (const n of nodes) {
+    const q = n.data.quiz
+    if (!q || n.hidden) continue
+    const step = Number(n.data.step) || 0
+    const prompt = String(q.question?.prompt ?? '').trim()
+    if (step < 1 || !prompt) continue
+    askedByStep[step] = [...(askedByStep[step] ?? []), prompt].slice(-6)
+  }
+
   // Quiz cells carry their step on the node like any other; a step that already
   // has one has been tested, and testing it twice is the complaint the old
   // prompt's "rule 3a" existed to prevent.
@@ -104,12 +123,14 @@ export function boardSummary(
     }))
     .filter((m) => m.text.length > 0)
 
-  return { cards, checkedSteps, cardsSinceCheck, recent }
+  return { cards, checkedSteps, cardsSinceCheck, askedByStep, recent }
 }
 
 /** Narrows an unknown request body's `board` field without trusting its shape. */
 export function parseBoardSummary(raw: unknown): BoardSummary {
-  const empty: BoardSummary = { cards: [], checkedSteps: [], cardsSinceCheck: {}, recent: [] }
+  const empty: BoardSummary = {
+    cards: [], checkedSteps: [], cardsSinceCheck: {}, askedByStep: {}, recent: [],
+  }
   if (!raw || typeof raw !== 'object') return empty
   const b = raw as Partial<BoardSummary>
 
@@ -126,6 +147,14 @@ export function parseBoardSummary(raw: unknown): BoardSummary {
         kind: typeof c.kind === 'string' ? c.kind : 'concept',
       }))
       .slice(0, MAX_CARDS),
+    askedByStep:
+      b.askedByStep && typeof b.askedByStep === 'object'
+        ? Object.fromEntries(
+            Object.entries(b.askedByStep)
+              .map(([k, v]) => [Number(k), (Array.isArray(v) ? v : []).filter((x) => typeof x === 'string')])
+              .filter(([k]) => Number.isInteger(k)),
+          )
+        : {},
     cardsSinceCheck:
       b.cardsSinceCheck && typeof b.cardsSinceCheck === 'object'
         ? Object.fromEntries(

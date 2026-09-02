@@ -332,7 +332,10 @@ async function ensureStepCloses(
   const checkpointId = `cp-${step.id}-${Math.random().toString(36).slice(2, 6)}`
   let questions: CheckpointQuestion[]
   try {
-    questions = await writeCheck(step, checkpointId, input.userId, input.requestId, 'close-step')
+    questions = await writeCheck(
+      step, checkpointId, input.userId, input.requestId, 'close-step',
+      board.askedByStep[stepNo] ?? [],
+    )
   } catch {
     return { run, actions }
   }
@@ -768,6 +771,8 @@ async function writeCheck(
    * who had read three cards.
    */
   kind: 'close-step' | 'test-out' = 'test-out',
+  /** Questions already put to this learner on this step. Never ask them again. */
+  asked: string[] = [],
 ): Promise<CheckpointQuestion[]> {
   // The field names are spelled out with a worked example of each shape.
   // Naming only the formats got back `type` and `question` every time — a
@@ -781,6 +786,16 @@ async function writeCheck(
       ? 'ONE question, or two at the very most. It confirms the idea just taught landed; it is not an exam, and the student has only read a few cards.'
       : 'Two or three questions, enough to tell whether someone already knows this well enough to skip it.',
     'Keep them on this step only.',
+    asked.length
+      ? [
+          '',
+          'You have ALREADY asked this student the following, and they did not get it:',
+          ...asked.map((q) => `  - ${q}`),
+          'Ask something DIFFERENT. Not a rewording — a different angle on the same idea,',
+          'or a concrete case they have to judge. Repeating a question they just missed',
+          'gives them no second chance at anything.',
+        ].join('\n')
+      : '',
     '',
     'Each question needs "id", "format" and "prompt". Use these EXACT field names:',
     '',

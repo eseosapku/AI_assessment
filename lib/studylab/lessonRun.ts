@@ -285,8 +285,15 @@ export function jumpTo(run: LessonRun, stepId: string, policy: LessonPolicy): Tr
   // A finished lesson stays finished. Jumping into one is browsing it, not
   // reopening it, and flipping the phase back to 'teaching' quietly undid the
   // completion the learner had just earned.
-  const phase = run.phase === 'done' ? 'done' : 'teaching'
-  return ok(focus({ ...run, phase }, index))
+  const phase: LessonPhase = run.phase === 'done' ? 'done' : 'teaching'
+
+  // Moving to a different step abandons the check you were on. Leaving it open
+  // gated the whole lesson on a question belonging to a step the learner had
+  // walked away from: Continue refused, the banner pointed back at it, and
+  // going to another step changed nothing. Choosing to move on IS an answer.
+  const leaving = index !== run.currentStep
+  const cleared = leaving ? { ...run, phase, openCheck: undefined } : { ...run, phase }
+  return ok(focus(cleared, index))
 }
 
 export function setPace(run: LessonRun, pace: Pace): Transition {

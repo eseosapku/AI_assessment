@@ -1278,3 +1278,55 @@ describe('a turn that only repeats what is already there', () => {
     expect(result.refusal).toBeUndefined()
   })
 })
+
+describe('a retry does not ask the same question again', () => {
+  it('tells the check job what it has already asked', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 're-taught', actions: [] }))
+      .mockResolvedValueOnce(
+        JSON.stringify({
+          questions: [{ id: 'q1', format: 'mcq', prompt: 'a different angle?', options: ['a', 'b'], answer: 0 }],
+        }),
+      )
+    await applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: [1, 2, 3, 4].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+          checkedSteps: [1],
+          cardsSinceCheck: { 1: 2 },
+          askedByStep: { 1: ["Why might someone play the world's smallest violin?"] },
+        },
+      },
+    })
+    // The second call is the check being written.
+    const checkPrompt = String(vi.mocked(callGemma).mock.calls[1][0])
+    expect(checkPrompt).toContain('ALREADY asked')
+    expect(checkPrompt).toContain("Why might someone play the world's smallest violin?")
+    expect(checkPrompt).toContain('Not a rewording')
+  })
+
+  it("says nothing about repeats on a step's first check", async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 'taught', actions: [] }))
+      .mockResolvedValueOnce(
+        JSON.stringify({
+          questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }],
+        }),
+      )
+    await applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+          cardsSinceCheck: { 1: 3 },
+        },
+      },
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[1][0])).not.toContain('ALREADY asked')
+  })
+})
