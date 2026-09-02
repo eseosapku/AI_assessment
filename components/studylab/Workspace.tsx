@@ -9,7 +9,7 @@ import ProductTour from '@/components/studio/ProductTour'
 import DemoOffer from './DemoOffer'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
-import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
+import { applyActions, toggleStepGroup, autoGroupStep, plainTitle } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { layoutGraph } from '@/lib/studylab/layout'
@@ -660,8 +660,19 @@ export default function Workspace({ id }: { id: string }) {
           focus: json.focus ?? null,
         })
         setCurrentStep(s.current_step || 0)
-        const cs: CanvasState =
+        const saved: CanvasState =
           s.canvas_state && Array.isArray(s.canvas_state.nodes) ? s.canvas_state : EMPTY_CANVAS
+        // Boards saved before titles were cleaned still carry the model's
+        // markdown in them, and a title is rendered as text. Heal on read so an
+        // existing lesson stops showing `*In Vivo* vs. *In Vitro*`.
+        const cs: CanvasState = {
+          ...saved,
+          nodes: saved.nodes.map((n) =>
+            typeof n.data?.title === 'string' && plainTitle(n.data.title) !== n.data.title
+              ? { ...n, data: { ...n.data, title: plainTitle(n.data.title) } }
+              : n,
+          ),
+        }
         setCanvas(cs)
 
         // Checks answered in an earlier session are already reported. Without

@@ -79,6 +79,32 @@ export function titleKey(title: string): string {
     .join(' ')
 }
 
+/**
+ * A title with its markdown taken off.
+ *
+ * Card bodies are rendered as markdown; card titles are rendered as text. The
+ * model does not know that, and wrote a card called `*In Vivo* vs. *In Vitro*`,
+ * which appeared on the board with the asterisks in it — the one part of the
+ * card a learner reads first, looking unfinished.
+ *
+ * Only paired emphasis is removed, so `3 * 4` and `snake_case` survive. Doing
+ * this here rather than in the renderer means the chat chip, the board, the
+ * export and the saved title all agree on one string.
+ */
+export function plainTitle(raw: string): string {
+  return raw
+    .replace(/\[([^\]]+)\]\([^)]*\)/g, '$1')
+    .replace(/`([^`]+)`/g, '$1')
+    .replace(/\*\*\*([^*\n]+)\*\*\*/g, '$1')
+    .replace(/\*\*([^*\n]+)\*\*/g, '$1')
+    .replace(/\*([^*\n]+)\*/g, '$1')
+    .replace(/__([^_\n]+)__/g, '$1')
+    .replace(/(?<![A-Za-z0-9])_([^_\n]+)_(?![A-Za-z0-9])/g, '$1')
+    .replace(/^#{1,6}\s+/, '')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+}
+
 // True if an AI content card with this (normalized) title already exists — used
 // to drop duplicate createCard actions deterministically.
 export function titleExists(nodes: StudyNode[], title: string): boolean {
@@ -163,7 +189,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
           position,
           data: {
             kind: cardType,
-            title: action.title,
+            title: typeof action.title === 'string' ? plainTitle(action.title) : action.title,
             body: action.body,
             items: action.items,
             code: action.code,
@@ -196,6 +222,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
         for (const k of ['title', 'body', 'items', 'code', 'language', 'html', 'css', 'js', 'svg', 'mermaid', 'steps', 'rows'] as const) {
           if (action[k] !== undefined) patch[k] = action[k]
         }
+        if (typeof patch.title === 'string') patch.title = plainTitle(patch.title)
         nodes[idx] = { ...prev, data: { ...prev.data, ...patch } }
         effects.push({ kind: 'zoom', target: 'node', nodeId: action.id })
         break

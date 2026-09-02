@@ -5,6 +5,7 @@ import Latex from 'react-latex-next'
 import { PlanCard } from './PlanCard'
 import { Brain, Send, Sparkles, ImagePlus, X, ArrowRight } from 'lucide-react'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
+import { plainTitle } from '@/lib/studylab/actions'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024 // 5 MB
@@ -76,7 +77,7 @@ interface ChatMouthpieceProps {
 function builtCards(actions: TutorAction[] | undefined) {
   return (actions ?? [])
     .filter((a): a is Extract<TutorAction, { type: 'createCard' }> => a.type === 'createCard')
-    .map((a) => ({ id: a.id, title: (a.title ?? '').trim() }))
+    .map((a) => ({ id: a.id, title: plainTitle((a.title ?? '').trim()) }))
     .filter((c) => c.title.length > 0)
 }
 

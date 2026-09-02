@@ -497,6 +497,67 @@ function unwrapPrinted(code: string): string {
 }
 
 /**
+ * The lettered options the model keeps putting on a practice card.
+ *
+ * Returns the stem and the options only when it really is multiple choice:
+ * three or more letters, in order, starting at A. Anything less is a body that
+ * merely happens to contain a bracket.
+ */
+function splitMcq(body: string): { stem: string; options: Record<string, string> } | null {
+  const marks: { letter: string; at: number; after: number }[] = []
+  const re = /(?:^|\s)([A-E])[).]\s+/g
+  let m: RegExpExecArray | null
+  while ((m = re.exec(body)) !== null) {
+    const letter = m[1]
+    const expected = String.fromCharCode(65 + marks.length)
+    if (letter !== expected) continue
+    marks.push({ letter, at: m.index, after: re.lastIndex })
+  }
+  if (marks.length < 3) return null
+
+  const options: Record<string, string> = {}
+  marks.forEach((mark, i) => {
+    const end = i + 1 < marks.length ? marks[i + 1].at : body.length
+    options[mark.letter] = body.slice(mark.after, end).trim().replace(/[.;]$/, '')
+  })
+  return { stem: body.slice(0, marks[0].at).trim(), options }
+}
+
+/**
+ * Turns a multiple-choice practice card back into something to work out.
+ *
+ * A practice card is a text box the student writes in and a marker that reads
+ * what they wrote. The model put "Which of the following best describes the
+ * role of an enzyme? A) ... B) ... C) ..." in one, so the student's whole task
+ * was typing a letter — recognition dressed as practice, and awkward to mark.
+ *
+ * The options come off and the stem is repaired ("which of the following"
+ * without anything following is not a sentence). The expected answer is
+ * recovered from the option the letter pointed at, so marking still has
+ * something to compare against. A stem with nothing left in it is dropped —
+ * a step with no practice card is a state the lesson already handles, and a
+ * broken card is not.
+ */
+function unMultipleChoice(a: Record<string, unknown>): Record<string, unknown> | null {
+  if (a.type !== 'createCard' || a.card !== 'practice') return a
+  const body = typeof a.body === 'string' ? a.body : ''
+  const split = splitMcq(body)
+  if (!split) return a
+
+  const stem = split.stem
+    .replace(/\bwhich (?:of the following|of these|option|one)\b/gi, 'Which')
+    .replace(/\s{2,}/g, ' ')
+    .trim()
+  if (stem.length < 15) return null
+
+  const letter =
+    typeof a.answer === 'string' ? a.answer.trim().replace(/[).]$/, '').toUpperCase() : ''
+  const answer = letter.length === 1 && split.options[letter] ? split.options[letter] : a.answer
+
+  return { ...a, body: stem, answer }
+}
+
+/**
  * Keeps runnable card types out of lessons that are not about code.
  *
  * The prompt says plainly that "code" and "web" are for source code the student
@@ -511,9 +572,14 @@ function unwrapPrinted(code: string): string {
 function fitCardsToLesson(actions: unknown[], run: LessonRun): unknown[] {
   // Retiring the diagram card applies to every lesson; only the runnable-card
   // rule below turns on whether this one teaches programming.
-  const retired = actions.map((raw) =>
-    raw && typeof raw === 'object' ? retireDiagramCard(raw as Record<string, unknown>) : raw,
-  )
+  const retired = actions
+    .map((raw) =>
+      raw && typeof raw === 'object' ? unMultipleChoice(raw as Record<string, unknown>) : raw,
+    )
+    .filter((raw) => raw !== null)
+    .map((raw) =>
+      raw && typeof raw === 'object' ? retireDiagramCard(raw as Record<string, unknown>) : raw,
+    )
   if (run.programming !== false) return retired
 
   return retired.map((raw) => {

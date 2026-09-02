@@ -1375,3 +1375,63 @@ describe('a step check is capped, not merely requested', () => {
     expect(await askFor('testout', 5)).toBe(3)
   })
 })
+
+/**
+ * A practice card is a text box the student writes in.
+ *
+ * The model put "Which of the following best describes the role of an enzyme?
+ * A) ... B) ... C) ..." in one, so the whole task was typing a letter —
+ * recognition dressed up as practice, and awkward to mark. The prompt now
+ * forbids it and this makes the forbidding real.
+ */
+describe('multiple choice does not survive on a practice card', () => {
+  const teach = async (card: Record<string, unknown>) => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'have a go', actions: [{ type: 'createCard', id: 'p1', step: 1, ...card }] }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: null, action: { type: 'next_beat' }, context: {},
+    })
+    return result.actions as Record<string, unknown>[]
+  }
+
+  const ENZYME =
+    'Which of the following best describes the role of an enzyme in a biological reaction? ' +
+    'A) It provides energy to start the reaction. B) It is consumed during the reaction. ' +
+    'C) It lowers the activation energy. D) It changes the equilibrium of the reaction.'
+
+  it('takes the options off and leaves a question worth answering', async () => {
+    const [out] = await teach({ card: 'practice', title: 'Enzyme role', body: ENZYME, answer: 'C' })
+    expect(out.body).toBe('Which best describes the role of an enzyme in a biological reaction?')
+    // "C" is not something marking can compare an answer against.
+    expect(out.answer).toBe('It lowers the activation energy')
+  })
+
+  it('recovers the answer whichever way the letter was written', async () => {
+    const [out] = await teach({ card: 'practice', title: 'Enzyme role', body: ENZYME, answer: 'b)' })
+    expect(out.answer).toBe('It is consumed during the reaction')
+  })
+
+  it('drops a card whose stem was only there to introduce the options', async () => {
+    const out = await teach({
+      card: 'practice', title: 'Pick one', answer: 'A',
+      body: 'Choose: A) sodium B) potassium C) calcium D) iron',
+    })
+    // Better no practice card — a state the lesson already handles — than a
+    // card asking a question that is no longer there.
+    expect(out.filter((a) => a.type === 'createCard')).toHaveLength(0)
+  })
+
+  it('leaves a real problem alone, brackets and all', async () => {
+    const body = 'A car travels 120 km in 1.5 h. Work out its average speed in km/h.'
+    const [out] = await teach({ card: 'practice', title: 'Speed', body, answer: '80 km/h' })
+    expect(out.body).toBe(body)
+    expect(out.answer).toBe('80 km/h')
+  })
+
+  it('does not mistake a lettered list in a concept card for a practice question', async () => {
+    const body = 'The blood groups are A) type A, B) type B, C) type AB and D) type O.'
+    const [out] = await teach({ card: 'concept', title: 'Blood groups', body })
+    expect(out.body).toBe(body)
+  })
+})
