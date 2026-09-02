@@ -110,7 +110,12 @@ function Short({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'sho
   const grade = useGrade()
   const [text, setText] = useState(typeof quiz.given === 'string' ? quiz.given : '')
   const answered = quiz.state === 'correct' || quiz.state === 'incorrect'
+  // An empty box is not a wrong answer. Sending one graded it as one, and the
+  // question locked — a stray click on Check cost a mark and, once every other
+  // cell was settled, took the whole check down with it.
+  const empty = !text.trim()
   const check = async () => {
+    if (empty) return
     set({ given: text, state: 'pending' })
     const r = await grade({ prompt: q.prompt, format: 'short', answer: text, rubric: q.rubric })
     set({ given: text, state: r.correct ? 'correct' : 'incorrect', feedback: r.feedback })
@@ -129,7 +134,8 @@ function Short({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'sho
         <button
           type="button"
           onClick={check}
-          disabled={quiz.state === 'pending'}
+          disabled={empty || quiz.state === 'pending'}
+          title={empty ? 'Write an answer first' : undefined}
           className="nodrag inline-flex items-center gap-1 rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
         >
           {quiz.state === 'pending' && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
@@ -146,7 +152,10 @@ function Match({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mat
     Array.isArray(quiz.given) ? (quiz.given as string[]) : q.pairs.map(() => '')
   )
   const answered = quiz.state === 'correct' || quiz.state === 'incorrect'
+  // Same rule as the short answer: half-filled is not an answer.
+  const incomplete = given.some((g) => !g.trim())
   const check = () => {
+    if (incomplete) return
     const ok = gradeMatch(q, given)
     set({ given, state: ok ? 'correct' : 'incorrect', feedback: ok ? 'Matched!' : 'Not quite — review the pairs.' })
   }
@@ -179,7 +188,9 @@ function Match({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'mat
         <button
           type="button"
           onClick={check}
-          className="nodrag rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600"
+          disabled={incomplete}
+          title={incomplete ? 'Match every row first' : undefined}
+          className="nodrag rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
         >
           Check
         </button>
@@ -205,7 +216,9 @@ function CodeChallenge({ q, quiz, set }: { q: Extract<CheckpointQuestion, { form
       setRunning(false)
     }
   }
+  const blank = !code.trim()
   const submit = async () => {
+    if (blank) return
     set({ given: code, state: 'pending' })
     const r = await grade({ prompt: q.prompt, format: 'code', answer: code, goal: q.goal, output })
     set({ given: code, state: r.correct ? 'correct' : 'incorrect', feedback: r.feedback })
@@ -235,7 +248,7 @@ function CodeChallenge({ q, quiz, set }: { q: Extract<CheckpointQuestion, { form
           <button
             type="button"
             onClick={submit}
-            disabled={quiz.state === 'pending'}
+            disabled={blank || quiz.state === 'pending'}
             className="nodrag rounded-lg bg-emerald-500 px-3 py-1.5 text-[12px] font-semibold text-white hover:bg-emerald-600 disabled:opacity-60"
           >
             Submit

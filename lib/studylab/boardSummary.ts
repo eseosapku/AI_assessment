@@ -92,10 +92,15 @@ export function boardSummary(
     else if (isCardKind(n.type)) cardsSinceCheck[step] = (cardsSinceCheck[step] ?? 0) + 1
   }
 
+  // Hidden ones count. A check that was failed is hidden rather than deleted
+  // precisely so this survives it: a question the learner has already been
+  // asked and missed must not come back reworded, whether or not it is still
+  // on screen. (`checkedSteps` and `cardsSinceCheck` still skip hidden nodes —
+  // a failed check is not a step that has been checked.)
   const askedByStep: Record<number, string[]> = {}
   for (const n of nodes) {
     const q = n.data.quiz
-    if (!q || n.hidden) continue
+    if (!q) continue
     const step = Number(n.data.step) || 0
     const prompt = String(q.question?.prompt ?? '').trim()
     if (step < 1 || !prompt) continue

@@ -58,6 +58,10 @@ export function stepRegions(nodes: StudyNode[], run: LessonRun | null): StepRegi
   const regions: StepRegion[] = []
   for (const [step, members] of [...byStep.entries()].sort((a, b) => a[0] - b[0])) {
     if (members.length === 0) continue
+    // A step collapsed to its pill already says what it is and where it ends.
+    // Boxing the pill draws the step's title twice, in two sizes, around one
+    // small rounded rectangle.
+    if (members.every((n) => n.type === 'stepGroup')) continue
 
     let minX = Infinity
     let minY = Infinity

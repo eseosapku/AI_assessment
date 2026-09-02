@@ -9,13 +9,24 @@ function isLayoutNode(n: StudyNode): boolean {
   return !n.hidden && n.source !== 'freeform' && !isFreeform(n.type)
 }
 
-// Arrange the AI lesson graph top-down with dagre so connected cards sit next to
-// each other and edges stay short. Returns top-left positions for laid-out nodes
-// only; callers leave every other node's position untouched.
-export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<string, { x: number; y: number }> {
-  const included = nodes.filter(isLayoutNode)
-  if (included.length === 0) return {}
-  const ids = new Set(included.map((n) => n.id))
+/** Clear space between one step's column of cards and the next one's. */
+const STEP_GAP = 240
+
+/** The step a card belongs to; 0 for anything the tutor never stamped. */
+function stepOf(n: StudyNode): number {
+  const s = Number(n.data.step)
+  return Number.isFinite(s) && s > 0 ? s : 0
+}
+
+/**
+ * Arranges one step's cards top-down with dagre, so connected cards sit next to
+ * each other and edges stay short. Positions are relative to the band.
+ */
+function layoutBand(
+  members: StudyNode[],
+  edges: StudyEdge[],
+): Record<string, { x: number; y: number }> {
+  const ids = new Set(members.map((n) => n.id))
 
   const g = new dagre.graphlib.Graph()
   // Generous rank spacing so the labelled edges have room and nodes never land
@@ -23,7 +34,7 @@ export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<stri
   g.setGraph({ rankdir: 'LR', nodesep: 80, ranksep: 200, marginx: 24, marginy: 24, edgesep: 40 })
   g.setDefaultEdgeLabel(() => ({}))
 
-  for (const n of included) {
+  for (const n of members) {
     const s = blockSize(n.type)
     g.setNode(n.id, { width: s.w, height: s.h })
   }
@@ -43,9 +54,57 @@ export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<stri
   dagre.layout(g)
 
   const out: Record<string, { x: number; y: number }> = {}
-  for (const n of included) {
+  for (const n of members) {
     const dn = g.node(n.id)
     if (dn) out[n.id] = { x: Math.round(dn.x - dn.width / 2), y: Math.round(dn.y - dn.height / 2) }
   }
+  return out
+}
+
+/**
+ * Lays the lesson out as one column of cards per step, left to right.
+ *
+ * Dagre ranks by edge depth, which is not the same thing as lesson order. A
+ * card opening step four with no link back to step three starts in column one,
+ * beside step one — so the steps interleaved, and the step areas drawn on top
+ * of them nested inside each other instead of sitting side by side. A board
+ * that is meant to read as "step one, then step two" has to be built that way.
+ *
+ * Each step is laid out on its own, then the whole band is shifted right of the
+ * one before it and top-aligned with it. Edges that cross steps still draw; the
+ * layout simply does not let them decide where a step starts.
+ */
+export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<string, { x: number; y: number }> {
+  const included = nodes.filter(isLayoutNode)
+  if (included.length === 0) return {}
+
+  const bands = new Map<number, StudyNode[]>()
+  for (const n of included) {
+    const step = stepOf(n)
+    bands.set(step, [...(bands.get(step) ?? []), n])
+  }
+
+  const out: Record<string, { x: number; y: number }> = {}
+  let offsetX = 0
+
+  for (const [, members] of [...bands.entries()].sort((a, b) => a[0] - b[0])) {
+    const local = layoutBand(members, edges)
+    const placed = Object.entries(local)
+    if (placed.length === 0) continue
+
+    const minX = Math.min(...placed.map(([, p]) => p.x))
+    const minY = Math.min(...placed.map(([, p]) => p.y))
+    let bandRight = offsetX
+
+    for (const [id, p] of placed) {
+      const member = members.find((m) => m.id === id)
+      const x = p.x - minX + offsetX
+      out[id] = { x, y: p.y - minY }
+      bandRight = Math.max(bandRight, x + (member ? blockSize(member.type).w : 0))
+    }
+
+    offsetX = bandRight + STEP_GAP
+  }
+
   return out
 }

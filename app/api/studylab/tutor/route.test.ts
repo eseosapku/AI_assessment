@@ -1329,6 +1329,49 @@ describe('a retry does not ask the same question again', () => {
     })
     expect(String(vi.mocked(callGemma).mock.calls[1][0])).not.toContain('ALREADY asked')
   })
+
+  const retryReturning = async (questions: unknown[]) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 're-taught', actions: [] }))
+      .mockResolvedValueOnce(JSON.stringify({ questions }))
+    const result = await applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: [1, 2, 3, 4].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+          checkedSteps: [1],
+          cardsSinceCheck: { 1: 2 },
+          askedByStep: { 1: ['Which model fits like a lock and key?'] },
+        },
+      },
+    })
+    const cp = result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+      | { questions: { id: string; format: string }[] }
+      | undefined
+    return cp?.questions ?? []
+  }
+
+  it('asks the retry as one question they have to answer, not spot', async () => {
+    // A reworded multiple choice is what the learner met three times running.
+    const asked = await retryReturning([
+      { id: 'q1', format: 'mcq', prompt: 'Which model has a rigid shape?', options: ['a', 'b'], answer: 0 },
+      { id: 'q2', format: 'short', prompt: 'Explain why the fit matters.', rubric: 'specificity' },
+    ])
+    expect(asked).toHaveLength(1)
+    expect(asked[0].format).toBe('short')
+  })
+
+  it('still asks something when the retry comes back with no short question', async () => {
+    // One multiple choice beats a step with no way to close it.
+    const asked = await retryReturning([
+      { id: 'q1', format: 'mcq', prompt: 'Which model has a rigid shape?', options: ['a', 'b'], answer: 0 },
+      { id: 'q2', format: 'mcq', prompt: 'And which one flexes?', options: ['a', 'b'], answer: 1 },
+    ])
+    expect(asked).toHaveLength(1)
+    expect(asked[0].format).toBe('mcq')
+  })
 })
 
 describe('a step check is capped, not merely requested', () => {

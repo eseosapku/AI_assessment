@@ -96,3 +96,49 @@ describe('parseBoardSummary', () => {
       .toBe('assistant')
   })
 })
+
+describe('a check that was failed and taken off the board', () => {
+  const asked = (prompt: string, checkpointId: string, hidden: boolean) => ({
+    id: `${checkpointId}::q1`,
+    type: 'quiz' as const,
+    position: { x: 0, y: 0 },
+    hidden,
+    data: {
+      kind: 'quiz',
+      step: 2,
+      quiz: {
+        checkpointId,
+        gate: 'hard' as const,
+        state: 'incorrect' as const,
+        question: { id: 'q1', format: 'short' as const, prompt, rubric: 'r' },
+      },
+    },
+  })
+
+  it('is still remembered as a question this learner was asked', () => {
+    // It is hidden, not deleted, for exactly this reason: the retry must not
+    // come back as the same question in different words.
+    const board = boardSummary({ nodes: [asked('Why does a catalyst not get used up?', 'cp-a', true)] as never })
+    expect(board.askedByStep[2]).toEqual(['Why does a catalyst not get used up?'])
+  })
+
+  it('does not count as a step that has been checked', () => {
+    // Otherwise the step reads as settled and never gets its second chance.
+    const board = boardSummary({ nodes: [asked('Why does a catalyst not get used up?', 'cp-a', true)] as never })
+    expect(board.checkedSteps).toEqual([])
+  })
+
+  it('lists the live check alongside the one that was missed', () => {
+    const board = boardSummary({
+      nodes: [
+        asked('Why does a catalyst not get used up?', 'cp-a', true),
+        asked('Name one enzyme and what it acts on.', 'cp-b', false),
+      ] as never,
+    })
+    expect(board.askedByStep[2]).toEqual([
+      'Why does a catalyst not get used up?',
+      'Name one enzyme and what it acts on.',
+    ])
+    expect(board.checkedSteps).toEqual([2])
+  })
+})

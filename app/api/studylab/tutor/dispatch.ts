@@ -860,6 +860,9 @@ async function writeCheck(
           'Ask something DIFFERENT. Not a rewording — a different angle on the same idea,',
           'or a concrete case they have to judge. Repeating a question they just missed',
           'gives them no second chance at anything.',
+          'Ask EXACTLY ONE question and make its "format" "short", so they have to say',
+          'the answer rather than spot it. A reworded multiple choice is the failure',
+          'this rule exists to stop.',
         ].join('\n')
       : '',
     '',
@@ -906,6 +909,13 @@ async function writeCheck(
   // the check job returns three often enough that a learner closing a step
   // after three cards was being handed a three-question test. A cap is the
   // only version of this the model cannot talk itself out of.
+  // A retry is one question, and the one that makes them say the answer if the
+  // model gave us one. Two goes at the same idea is not a second chance.
+  if (asked.length > 0) {
+    const short = valid.find((q: CheckpointQuestion) => q.format === 'short')
+    return short ? [short] : valid.slice(0, 1)
+  }
+
   return valid.slice(0, kind === 'close-step' ? 2 : 3)
 }
 

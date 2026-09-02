@@ -107,3 +107,23 @@ describe('stepRegions', () => {
     expect(stepRegions([card('a', 1, 0, 0)], emptyRun(POLICY))).toEqual([])
   })
 })
+
+describe('a step collapsed to its pill', () => {
+  it('gets no area of its own — the pill is already the area', () => {
+    // Otherwise the step's title appears twice, in two sizes, around one small
+    // rounded rectangle.
+    const nodes: StudyNode[] = [
+      { id: 'step-1', type: 'stepGroup', position: { x: 0, y: 0 }, data: { kind: 'stepGroup', step: 1, collapsed: true } },
+      card('c1', 2, 600, 0),
+    ]
+    expect(stepRegions(nodes, runOf(2)).map((r) => r.step)).toEqual([2])
+  })
+
+  it('still boxes a step whose pill sits beside a card that is showing', () => {
+    const nodes: StudyNode[] = [
+      { id: 'step-1', type: 'stepGroup', position: { x: 0, y: 0 }, data: { kind: 'stepGroup', step: 1, collapsed: false } },
+      card('c1', 1, 200, 0),
+    ]
+    expect(stepRegions(nodes, runOf(1)).map((r) => r.step)).toEqual([1])
+  })
+})

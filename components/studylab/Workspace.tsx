@@ -605,11 +605,19 @@ export default function Workspace({ id }: { id: string }) {
         // comes off the board. Left there they stacked up — three near
         // identical questions on one step, none of them the live one, and no
         // way to tell which was being asked for.
+        //
+        // Hidden, not deleted. Deleting it took the record of what had been
+        // asked with it, so the check job — which is told what this learner has
+        // already been asked, from the board — wrote the retry with nothing to
+        // avoid and asked the same question in different words. The learner
+        // missed it again and could not get past the step.
         if (!passed) {
           setCanvas((prev) => ({
             ...prev,
-            nodes: prev.nodes.filter(
-              (n) => n.data.quiz?.checkpointId !== cpId && n.id !== `${cpId}-hdr`,
+            nodes: prev.nodes.map((n) =>
+              n.data.quiz?.checkpointId === cpId || n.id === `${cpId}-hdr`
+                ? { ...n, hidden: true }
+                : n,
             ),
             edges: prev.edges.filter(
               (e) => !e.source.startsWith(cpId) && !e.target.startsWith(cpId),
