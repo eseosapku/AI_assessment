@@ -293,8 +293,10 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           onClick={() => pendingCheckpoint.nextId && onGoToCheck?.(pendingCheckpoint.nextId)}
           className="mx-4 mb-2 w-[calc(100%-2rem)] text-left px-3.5 py-2.5 rounded-xl bg-amber-50 dark:bg-amber-900/20 text-amber-800 dark:text-amber-300 text-[13px] font-semibold hover:bg-amber-100 dark:hover:bg-amber-900/30 transition-colors disabled:cursor-default"
         >
+          {/* One check, several questions. Calling them "checks" made two
+              questions read as two separate things to get past. */}
           {pendingCheckpoint.total > 1
-            ? `Answer all ${pendingCheckpoint.total} checks on the canvas to continue — ${pendingCheckpoint.remaining} left.`
+            ? `${pendingCheckpoint.remaining} of the ${pendingCheckpoint.total} questions left to answer on the canvas.`
             : 'Answer the check on the canvas to continue.'}
           {pendingCheckpoint.nextId && onGoToCheck && (
             <span className="block mt-0.5 text-[12px] font-medium opacity-80">Tap to jump to it →</span>

@@ -472,3 +472,60 @@ describe('walking away from a check', () => {
     expect(jumped.run.openCheck?.checkpointId).toBe('cp-a')
   })
 })
+
+describe('a lesson does not end with steps nobody has done', () => {
+  const five = (): LessonRun => {
+    const proposed = proposePlan(
+      emptyRun(policyFor('scratch')),
+      [1, 2, 3, 4, 5].map((i) => ({
+        id: `s${i}`, title: `Step ${i}`, goal: 'g', status: 'pending' as const, cardIds: [],
+      })),
+    )
+    if (!proposed.ok) throw new Error(proposed.reason)
+    const started = acceptPlan(proposed.run)
+    if (!started.ok) throw new Error(started.reason)
+    return started.run
+  }
+
+  /** Teach and pass the step the run is currently on. */
+  const pass = (run: LessonRun): LessonRun => {
+    const begun = beginCheck(run, run.steps[run.currentStep].id, `cp-${run.currentStep}`, 'checkpoint', 'hard')
+    if (!begun.ok) throw new Error(begun.reason)
+    const passed = passCheck(begun.run)
+    if (!passed.ok) throw new Error(passed.reason)
+    return passed.run
+  }
+
+  it('goes back for the steps that were jumped over', () => {
+    // "3 of 5 done" beside "You've completed this topic" is two true-looking
+    // statements that cannot both be true.
+    let run = five()
+    const jumped = jumpTo(run, 's3', policyFor('scratch'))
+    if (!jumped.ok) throw new Error(jumped.reason)
+    run = jumped.run
+    run = pass(run) // 3
+    run = pass(run) // 4
+    run = pass(run) // 5
+
+    expect(run.phase).toBe('teaching')
+    expect(run.steps[run.currentStep].id).toBe('s1')
+  })
+
+  it('finishes once nothing anywhere is left', () => {
+    let run = five()
+    for (let i = 0; i < 5; i += 1) run = pass(run)
+    expect(run.phase).toBe('done')
+    expect(run.currentStep).toBe(-1)
+    expect(run.steps.every((s) => s.status === 'done' || s.status === 'known')).toBe(true)
+  })
+
+  it('does not come back to a step the learner chose to skip', () => {
+    let run = five()
+    const skipped = skipStep(run, 's1', policyFor('scratch'))
+    if (!skipped.ok) throw new Error(skipped.reason)
+    run = skipped.run
+    expect(run.steps[0].status).toBe('known')
+    for (let i = 0; i < 4; i += 1) run = pass(run)
+    expect(run.phase).toBe('done')
+  })
+})

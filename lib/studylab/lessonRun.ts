@@ -94,6 +94,21 @@ function nextUnsettled(steps: LessonStep[], from = 0): number {
 }
 
 /**
+ * The next step still to be taught: ahead first, then round to the start.
+ *
+ * Looking only forwards ended the lesson at its last step whatever had been
+ * left behind. Jump to step three, finish three, four and five, and the rail
+ * read "3 of 5 done" beside "You've completed this topic. Great work!" — two
+ * true-looking statements that cannot both be true. A step jumped over is
+ * still a step nobody has done; a step deliberately skipped is marked 'known'
+ * and this never comes back to it.
+ */
+function nextToTeach(steps: LessonStep[], from: number): number {
+  const ahead = nextUnsettled(steps, from)
+  return ahead === -1 ? nextUnsettled(steps, 0) : ahead
+}
+
+/**
  * Moves teaching to `index`, clearing any other step that was mid-teach.
  * Beats reset, because a beat count belongs to the step it was spent on.
  */
@@ -222,7 +237,7 @@ export function passCheck(run: LessonRun): Transition {
 
   if (check.kind === 'testout') return ok({ ...cleared, awaiting: true })
 
-  const next = nextUnsettled(steps, index + 1)
+  const next = nextToTeach(steps, index + 1)
   if (next === -1) {
     // Nothing left to teach is the end of the lesson. This used to leave the
     // phase on 'teaching' with no current step: the rail showed every step
@@ -263,7 +278,7 @@ export function skipStep(run: LessonRun, stepId: string, policy: LessonPolicy): 
   const cleared: LessonRun = { ...run, steps }
   if (run.currentStep !== index) return ok(cleared)
 
-  const next = nextUnsettled(steps, index + 1)
+  const next = nextToTeach(steps, index + 1)
   if (next === -1) return ok({ ...cleared, currentStep: -1, beats: 0, awaiting: true })
   return ok(focus(cleared, next))
 }
