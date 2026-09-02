@@ -849,7 +849,7 @@ async function writeCheck(
     `GOAL: ${step.goal}`,
     '',
     kind === 'close-step'
-      ? 'ONE question, or two at the very most. It confirms the idea just taught landed; it is not an exam, and the student has only read a few cards.'
+      ? 'EXACTLY ONE question. It confirms the idea just taught landed; it is not an exam, the student has only read a few cards, and they have already worked a practice problem.'
       : 'Two or three questions, enough to tell whether someone already knows this well enough to skip it.',
     'Keep them on this step only.',
     asked.length
@@ -905,10 +905,17 @@ async function writeCheck(
   // shape rather than the question being discarded over a type mismatch.
   const valid = questions.filter(isValidQuestion).map(coerceQuestion)
 
-  // Trimmed, not requested. Told plainly to ask one question or at most two,
-  // the check job returns three often enough that a learner closing a step
-  // after three cards was being handed a three-question test. A cap is the
-  // only version of this the model cannot talk itself out of.
+  // Trimmed, not requested. Told plainly to ask one question, the check job
+  // returns two or three often enough that a learner closing a step after
+  // three cards was handed a test. A cap is the only version of this the model
+  // cannot talk itself out of.
+  //
+  // One, not two: asked for a pair, the model wrote "Why is it important to
+  // isolate the x² and constant terms?" as multiple choice and "Explain why
+  // isolating the x² and constant terms is a crucial first step" as a short
+  // answer — the same question twice, in two formats, on a step the learner
+  // had already worked a practice problem for. The pace copy promises "a
+  // quick check", and one question is what that is.
   // A retry is one question, and the one that makes them say the answer if the
   // model gave us one. Two goes at the same idea is not a second chance.
   if (asked.length > 0) {
@@ -916,7 +923,7 @@ async function writeCheck(
     return short ? [short] : valid.slice(0, 1)
   }
 
-  return valid.slice(0, kind === 'close-step' ? 2 : 3)
+  return valid.slice(0, kind === 'close-step' ? 1 : 3)
 }
 
 /**

@@ -1045,7 +1045,7 @@ describe('a check is sized to why it is being written', () => {
 
   it('asks for one question when it is only closing a step', async () => {
     const prompt = await promptFor('close')
-    expect(prompt).toContain('ONE question, or two at the very most')
+    expect(prompt).toContain('EXACTLY ONE question')
     expect(prompt).not.toContain('Two or three questions')
   })
 
@@ -1405,9 +1405,10 @@ describe('a step check is capped, not merely requested', () => {
     return ((r.actions[0] as { questions: unknown[] })?.questions ?? []).length
   }
 
-  it('never hands more than two questions to close a step', async () => {
+  it('closes a step with one question, never a test', async () => {
     // Three cards taught, then a three-question test, is what the learner met.
-    expect(await askFor('close', 4)).toBe(2)
+    // Asked for two, the model wrote the same question twice in two formats.
+    expect(await askFor('close', 4)).toBe(1)
   })
 
   it('leaves a shorter check alone', async () => {
