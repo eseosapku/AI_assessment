@@ -90,12 +90,17 @@ export function PlanCard({
                   {step.goal}
                 </p>
               )}
+              {/* One text node, not three. As flex items the pieces wrapped
+                  independently and the line came out as "You scored 0% on
+                  this — / so we    'll cover / it". */}
               {step.measured !== null && (
-                <p className="mt-1 inline-flex items-center gap-1 text-[12px] font-bold text-ss-warn">
-                  {step.locked && <Lock className="h-3 w-3" aria-hidden />}
-                  You scored {step.measured}% on this
-                  {step.locked && ' — so we'}
-                  {step.locked && <span>&rsquo;ll cover it</span>}
+                <p className="mt-1 text-[12px] font-bold leading-snug text-ss-warn">
+                  {step.locked && (
+                    <Lock className="mr-1 inline h-3 w-3 -translate-y-px" aria-hidden />
+                  )}
+                  {step.locked
+                    ? `You scored ${step.measured}% on this — so we’ll cover it`
+                    : `You scored ${step.measured}% on this`}
                 </p>
               )}
             </div>
