@@ -834,7 +834,13 @@ async function writeCheck(
   // `Number.isInteger(Number(q.answer))`), so a nearly-right question survives
   // validation; coerceQuestion then normalises it to the canonical numeric
   // shape rather than the question being discarded over a type mismatch.
-  return questions.filter(isValidQuestion).map(coerceQuestion)
+  const valid = questions.filter(isValidQuestion).map(coerceQuestion)
+
+  // Trimmed, not requested. Told plainly to ask one question or at most two,
+  // the check job returns three often enough that a learner closing a step
+  // after three cards was being handed a three-question test. A cap is the
+  // only version of this the model cannot talk itself out of.
+  return valid.slice(0, kind === 'close-step' ? 2 : 3)
 }
 
 /**

@@ -89,3 +89,22 @@ describe('parseVerdict', () => {
     expect(parseVerdict(undefined)).toBe('incorrect')
   })
 })
+
+describe('a card whose answer is not text', () => {
+  it('does not crash on a number, which is what a multiple-choice card returns', () => {
+    // `answer.toLowerCase is not a function` took the whole card down.
+    expect(() => localVerdict(2, 'C')).not.toThrow()
+    expect(localVerdict(2, '2')).toBe('correct')
+  })
+
+  it('treats anything else as having no answer to match', () => {
+    expect(normaliseAnswer(null)).toBe('')
+    expect(normaliseAnswer(undefined)).toBe('')
+    expect(normaliseAnswer(['a', 'b'])).toBe('')
+    expect(localVerdict({ a: 1 }, 'anything')).toBe('unknown')
+  })
+
+  it('still marks a numeric answer written as text', () => {
+    expect(localVerdict(3.5, 'x = 3.5')).toBe('correct')
+  })
+})

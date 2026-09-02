@@ -52,8 +52,8 @@ export function PracticeNode({ id, data }: NodeProps) {
         body: JSON.stringify({
           prompt: d.body ?? d.title ?? '',
           attempt,
-          expected: d.answer ?? '',
-          rubric: d.rubric ?? '',
+          expected: typeof d.answer === 'string' ? d.answer : String(d.answer ?? ''),
+          rubric: typeof d.rubric === 'string' ? d.rubric : '',
         }),
       })
       const json = await res.json()

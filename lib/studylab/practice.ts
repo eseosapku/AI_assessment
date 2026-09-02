@@ -36,7 +36,13 @@ export interface PracticeCell {
  * between what the tutor wrote and what a learner types, and none of them
  * changes the answer.
  */
-export function normaliseAnswer(raw: string): string {
+export function normaliseAnswer(raw: unknown): string {
+  // Takes unknown, not string. `answer` comes off a card the model wrote, and
+  // it happily returns a number for a problem it framed as multiple choice —
+  // which crashed the whole card on `raw.toLowerCase`. Anything that is not
+  // text simply has no normalised form.
+  if (typeof raw === 'number') return String(raw)
+  if (typeof raw !== 'string') return ''
   return raw
     .toLowerCase()
     .replace(/\$/g, '')
@@ -79,9 +85,9 @@ function soleNumber(s: string): number | null {
  *
  * `'unknown'` means "ask the model", not "wrong".
  */
-export function localVerdict(expected: string, attempt: string): 'correct' | 'unknown' {
-  const want = normaliseAnswer(expected ?? '')
-  const got = normaliseAnswer(attempt ?? '')
+export function localVerdict(expected: unknown, attempt: unknown): 'correct' | 'unknown' {
+  const want = normaliseAnswer(expected)
+  const got = normaliseAnswer(attempt)
   if (!want || !got) return 'unknown'
 
   if (want === got) return 'correct'

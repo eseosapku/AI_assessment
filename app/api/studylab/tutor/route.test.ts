@@ -1330,3 +1330,48 @@ describe('a retry does not ask the same question again', () => {
     expect(String(vi.mocked(callGemma).mock.calls[1][0])).not.toContain('ALREADY asked')
   })
 })
+
+describe('a step check is capped, not merely requested', () => {
+  const askFor = async (kind: 'close' | 'testout', count: number) => {
+    const questions = Array.from({ length: count }, (_, i) => ({
+      id: `q${i}`, format: 'mcq', prompt: `Q${i}?`, options: ['a', 'b'], answer: 0,
+    }))
+    vi.mocked(callGemma).mockReset()
+    if (kind === 'close') {
+      vi.mocked(callGemma)
+        .mockResolvedValueOnce(JSON.stringify({ say: 'taught', actions: [] }))
+        .mockResolvedValueOnce(JSON.stringify({ questions }))
+      const r = await applyAction({
+        run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+        context: {
+          board: {
+            cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+            cardsSinceCheck: { 1: 3 },
+          },
+        },
+      })
+      const cp = r.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+        | { questions: unknown[] } | undefined
+      return cp?.questions.length ?? 0
+    }
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ questions }))
+    const r = await applyAction({
+      run: openRun(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'test_out', stepId: 'a', checkpointId: 'to-a' }, context: {},
+    })
+    return ((r.actions[0] as { questions: unknown[] })?.questions ?? []).length
+  }
+
+  it('never hands more than two questions to close a step', async () => {
+    // Three cards taught, then a three-question test, is what the learner met.
+    expect(await askFor('close', 4)).toBe(2)
+  })
+
+  it('leaves a shorter check alone', async () => {
+    expect(await askFor('close', 1)).toBe(1)
+  })
+
+  it('allows a test-out to be longer, since it skips the whole step', async () => {
+    expect(await askFor('testout', 5)).toBe(3)
+  })
+})

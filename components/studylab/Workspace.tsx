@@ -599,9 +599,27 @@ export default function Workspace({ id }: { id: string }) {
         // A result is the run reporting, not the tutor speaking.
         setMessages((prev) => [...prev, { role: 'assistant', kind: 'status', content: checkpointResultText(cells) }])
         const correct = cells.filter((c) => c.state === 'correct').length
+        const passed = correct > cells.length / 2
+
+        // A failed check is superseded by the retry that follows it, so it
+        // comes off the board. Left there they stacked up — three near
+        // identical questions on one step, none of them the live one, and no
+        // way to tell which was being asked for.
+        if (!passed) {
+          setCanvas((prev) => ({
+            ...prev,
+            nodes: prev.nodes.filter(
+              (n) => n.data.quiz?.checkpointId !== cpId && n.id !== `${cpId}-hdr`,
+            ),
+            edges: prev.edges.filter(
+              (e) => !e.source.startsWith(cpId) && !e.target.startsWith(cpId),
+            ),
+          }))
+        }
+
         void sendAction({
           type: 'answer_check',
-          passed: correct > cells.length / 2,
+          passed,
           missed: cells.filter((c) => c.state !== 'correct').map((c) => c.question.prompt),
         })
         // Feed the questions they got wrong into spaced-repetition recall.
