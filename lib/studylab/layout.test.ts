@@ -85,3 +85,39 @@ describe('layoutGraph bands the board by step', () => {
     expect(pos.b.y).toBe(pos.c.y)
   })
 })
+
+describe('steps already folded away', () => {
+  const pill = (id: string, step: number) =>
+    node(id, 'stepGroup', { data: { kind: 'stepGroup', step, collapsed: true } } as Partial<StudyNode>)
+  const stepNode = (id: string, step: number) =>
+    node(id, 'concept', { data: { kind: 'concept', step } } as Partial<StudyNode>)
+
+  it('stack in one column instead of taking a band each', () => {
+    // Six finished steps chaining out sideways pushed the step being taught
+    // three thousand pixels away, and "fit on screen" came back at 19%.
+    const nodes = [pill('step-1', 1), pill('step-2', 2), pill('step-3', 3)]
+    const pos = layoutGraph(nodes, [])
+    expect(pos['step-1'].x).toBe(0)
+    expect(pos['step-2'].x).toBe(0)
+    expect(pos['step-3'].x).toBe(0)
+    expect(pos['step-1'].y).toBeLessThan(pos['step-2'].y)
+    expect(pos['step-2'].y).toBeLessThan(pos['step-3'].y)
+  })
+
+  it('sit left of the step being taught, not among its cards', () => {
+    const nodes = [pill('step-1', 1), pill('step-2', 2), stepNode('c1', 3)]
+    const pos = layoutGraph(nodes, [])
+    expect(pos.c1.x).toBeGreaterThan(pos['step-1'].x + 260)
+  })
+
+  it('leave an expanded group with the cards it heads', () => {
+    // Only a folded step is history. An open one is part of its own band.
+    const open = node('step-2', 'stepGroup', {
+      data: { kind: 'stepGroup', step: 2, collapsed: false },
+    } as Partial<StudyNode>)
+    const pos = layoutGraph([pill('step-1', 1), open, stepNode('c2', 2)], [])
+    // Both sit in step 2's band, right of the column of folded steps.
+    expect(pos['step-2'].x).toBeGreaterThan(0)
+    expect(pos.c2.x).toBeGreaterThan(0)
+  })
+})

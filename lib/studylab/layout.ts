@@ -78,14 +78,30 @@ export function layoutGraph(nodes: StudyNode[], edges: StudyEdge[]): Record<stri
   const included = nodes.filter(isLayoutNode)
   if (included.length === 0) return {}
 
+  const out: Record<string, { x: number; y: number }> = {}
+  let offsetX = 0
+
+  // Steps already folded away stack in a column, oldest at the top, rather than
+  // taking a band each. Given one band apiece they chained out sideways: six
+  // finished steps pushed the step being taught three thousand pixels off, and
+  // "fit the whole lesson on screen" came back at nineteen per cent.
+  const pills = included
+    .filter((n) => n.type === 'stepGroup' && n.data.collapsed === true)
+    .sort((a, b) => stepOf(a) - stepOf(b))
+  if (pills.length > 0) {
+    const { w, h } = blockSize('stepGroup')
+    pills.forEach((n, i) => {
+      out[n.id] = { x: 0, y: i * (h + 24) }
+    })
+    offsetX = w + STEP_GAP
+  }
+
   const bands = new Map<number, StudyNode[]>()
   for (const n of included) {
+    if (out[n.id]) continue
     const step = stepOf(n)
     bands.set(step, [...(bands.get(step) ?? []), n])
   }
-
-  const out: Record<string, { x: number; y: number }> = {}
-  let offsetX = 0
 
   for (const [, members] of [...bands.entries()].sort((a, b) => a[0] - b[0])) {
     const local = layoutBand(members, edges)
