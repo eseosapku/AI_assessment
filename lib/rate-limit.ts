@@ -26,6 +26,9 @@ export const RATE_LIMITS: Record<string, RateLimitRule> = {
   'grade-longform': { limit: 60, windowMs: 60 * 60 * 1000 },
   'studylab-tutor': { limit: 240, windowMs: 60 * 60 * 1000 },
   'quiz-topic-scope': { limit: 120, windowMs: 60 * 60 * 1000 },
+  // Practice attempts are cheap and a learner may reasonably retry a problem
+  // several times, so this sits well above the tutor's ceiling.
+  'studylab-practice': { limit: 400, windowMs: 60 * 60 * 1000 },
 }
 
 export interface RateLimitResult {
