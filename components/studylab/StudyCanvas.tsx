@@ -304,6 +304,21 @@ function FlowInner({
       setRfNodes(buildRevealedNodes())
       await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
       await new Promise((r) => setTimeout(r, 400))
+      // A code card is an editable box a fixed number of lines tall, which is
+      // right on screen and wrong in an export: the picture came out with a
+      // scrollbar down the side of the snippet and the last lines cut off.
+      // Grown to fit for the capture, then put back exactly as it was.
+      const grown = [...(wrapperRef.current?.querySelectorAll('textarea') ?? [])].map((el) => {
+        const box = el as HTMLTextAreaElement
+        const was = box.style.height
+        box.style.height = 'auto'
+        box.style.height = `${box.scrollHeight}px`
+        return () => { box.style.height = was }
+      })
+      // Growing them changes their measured size, which the step frames are
+      // built from. Let that settle before the capture rather than during it.
+      await new Promise((r) => requestAnimationFrame(() => requestAnimationFrame(r)))
+      await new Promise((r) => setTimeout(r, 120))
       try {
         const { toPng } = await import('html-to-image')
         const background = '#f5f5f7'
@@ -351,6 +366,7 @@ function FlowInner({
       } catch (err) {
         console.error('LearnSpace export failed:', err)
       } finally {
+        grown.forEach((restore) => restore())
         setRfNodes(propNodes) // restore the live (collapsed) view
         setExporting(false)
       }
