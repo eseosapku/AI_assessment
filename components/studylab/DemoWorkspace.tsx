@@ -10,7 +10,6 @@ import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { layoutGraph } from '@/lib/studylab/layout'
-import { stepRegions } from '@/lib/studylab/stepRegions'
 import { checkpointResultText } from '@/lib/studylab/quiz'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import { markDemoSeen } from '@/lib/studylab/demoGate'
@@ -249,25 +248,6 @@ export default function DemoWorkspace() {
     [canvas.nodes],
   )
 
-  // The same regions the real board draws, so the demo teaches the real thing.
-  const displayNodes = useMemo(() => {
-    const regions = stepRegions(canvas.nodes, run)
-    if (regions.length === 0) return canvas.nodes
-    return [
-      ...regions.map((r) => ({
-        id: r.id,
-        type: 'stepRegion' as const,
-        position: { x: r.x, y: r.y },
-        data: { kind: 'stepRegion', step: r.step, title: r.title, status: r.status, width: r.width, height: r.height },
-        draggable: false,
-        selectable: false,
-        deletable: false,
-        zIndex: -1,
-      })),
-      ...canvas.nodes,
-    ] as typeof canvas.nodes
-  }, [canvas.nodes, run])
-
   const cardCount = useMemo(
     () =>
       canvas.nodes.filter(
@@ -409,9 +389,10 @@ export default function DemoWorkspace() {
           )}
 
           <StudyCanvas
-            nodes={displayNodes}
+            nodes={canvas.nodes}
             edges={canvas.edges}
             effects={effects}
+            run={run}
             busy={busy}
             title={DEMO_TITLE}
             onNodesPositionChange={(updates) =>

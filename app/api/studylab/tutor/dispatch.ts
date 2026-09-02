@@ -12,7 +12,7 @@ import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
 import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
 import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
-import { titleKey } from '@/lib/studylab/actions'
+import { plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
@@ -1133,6 +1133,10 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
           'understanding it properly?", "Have you done simultaneous equations before?".',
           'Never ask something the plan does not depend on. One question is better than two;',
           'none is fine if the plan genuinely does not turn on anything.',
+          'These are NOT comprehension questions. Never ask them to explain, define or',
+          'justify anything from the topic — the lesson has not started, and being tested',
+          'before it does is not a welcome. "Explain why adding the same value to both',
+          'sides does not change the solution" is exactly the wrong question here.',
           '',
           'Reply with JSON only:',
           `{ "steps": [ { "title": "...", "goal": "one line on what this step teaches"${idField} } ],`,
@@ -1160,9 +1164,13 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     return { steps: [], questions: [], programming: false }
   }
 
+  // The plan card renders these as text, and the model writes them in
+  // markdown: "to *do* the technique, or to understand *why* it works?" put
+  // the asterisks on screen in the first thing a learner is ever shown.
   const questions = (Array.isArray(parsed?.questions) ? parsed.questions : [])
     .filter((q: unknown): q is string => typeof q === 'string' && q.trim().length > 0)
-    .map((q: string) => q.trim())
+    .map((q: string) => plainTitle(q))
+    .filter((q: string) => q.length > 0)
     .slice(0, 2)
 
   // Only ids we actually handed over are accepted. Anything else is a number
@@ -1176,13 +1184,13 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     .map((raw: unknown, i: number): LessonStep | null => {
       if (!raw || typeof raw !== 'object') return null
       const r = raw as { title?: unknown; goal?: unknown; subtopicId?: unknown }
-      const title = typeof r.title === 'string' ? r.title.trim() : ''
+      const title = typeof r.title === 'string' ? plainTitle(r.title) : ''
       if (!title) return null
       const subtopicId = Number(r.subtopicId)
       return {
         id: `s${i + 1}`,
         title,
-        goal: typeof r.goal === 'string' ? r.goal : '',
+        goal: typeof r.goal === 'string' ? plainTitle(r.goal) : '',
         status: 'pending',
         cardIds: [],
         ...(Number.isInteger(subtopicId) && offered.has(subtopicId) ? { subtopicId } : {}),

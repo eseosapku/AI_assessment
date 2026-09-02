@@ -13,7 +13,6 @@ import { applyActions, toggleStepGroup, autoGroupStep, plainTitle } from '@/lib/
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
 import { layoutGraph } from '@/lib/studylab/layout'
-import { stepRegions } from '@/lib/studylab/stepRegions'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
 import { checkpointResultText } from '@/lib/studylab/quiz'
@@ -102,31 +101,6 @@ export default function Workspace({ id }: { id: string }) {
         .map((n) => ({ id: n.id, label: n.data.label ?? 'Step' })),
     [canvas.nodes]
   )
-
-  /**
-   * The board as it is drawn: the lesson's steps as areas, behind the cards.
-   *
-   * Derived here rather than stored, so a region can never be dragged, saved,
-   * fed to the reducer, or sent to the tutor as something it built. The canvas
-   * state stays exactly what the lesson actually contains.
-   */
-  const displayNodes = useMemo(() => {
-    const regions = stepRegions(canvas.nodes, run)
-    if (regions.length === 0) return canvas.nodes
-    return [
-      ...regions.map((r) => ({
-        id: r.id,
-        type: 'stepRegion' as const,
-        position: { x: r.x, y: r.y },
-        data: { kind: 'stepRegion', step: r.step, title: r.title, status: r.status, width: r.width, height: r.height },
-        draggable: false,
-        selectable: false,
-        deletable: false,
-        zIndex: -1,
-      })),
-      ...canvas.nodes,
-    ] as typeof canvas.nodes
-  }, [canvas.nodes, run])
 
   const cardCount = useMemo(() => canvas.nodes.filter((n) => n.type !== 'stepGroup').length, [canvas.nodes])
 
@@ -810,9 +784,10 @@ export default function Workspace({ id }: { id: string }) {
 
       <div data-tour="lesson-board" className="flex-1 min-w-0 h-full">
         <StudyCanvas
-          nodes={displayNodes}
+          nodes={canvas.nodes}
           edges={canvas.edges}
           effects={effects}
+          run={run}
           onNodesPositionChange={handleNodesPositionChange}
           onToggleGroup={handleToggleGroup}
           onNodeDataChange={handleNodeDataChange}

@@ -27,6 +27,8 @@ import { exportLayout, exportFileName, triggerDownload, brandExport } from '@/li
 import type { CanvasEffect } from '@/lib/studylab/actions'
 import type { StudyEdge, StudyNode, StudyNodeData } from '@/lib/studylab/types'
 import { ZoomControl } from './ZoomControl'
+import { stepRegions } from '@/lib/studylab/stepRegions'
+import type { LessonRun } from '@/lib/studylab/lessonRun'
 
 const nodeTypes = studyNodeTypes as unknown as NodeTypes
 
@@ -77,6 +79,14 @@ interface StudyCanvasProps {
   busy: boolean
   title?: string
   plan?: { title: string }[]
+  /**
+   * The run, so the board can draw each step's area behind its cards.
+   *
+   * Derived here rather than passed in as nodes because the height of a card is
+   * not known until React Flow has measured it: built from `blockSize` alone,
+   * a step's frame cut off the bottom of the very card it was drawn around.
+   */
+  run: LessonRun | null
 }
 
 function FlowInner({
@@ -85,6 +95,7 @@ function FlowInner({
   effects,
   title,
   plan,
+  run,
   onNodesPositionChange,
   onToggleGroup,
   onAddBlock,
@@ -248,6 +259,37 @@ function FlowInner({
     setRfNodes(propNodes)
   }, [propNodes, setRfNodes])
 
+  /**
+   * What React Flow measured each card to actually be.
+   *
+   * `blockSize` is the guess the layout places cards with; the rendered card is
+   * as tall as its content. A step's frame built on the guess ended below the
+   * card inside it, which is the one thing a frame must never do.
+   */
+  const [sizes, setSizes] = useState<Record<string, { w: number; h: number }>>({})
+
+  // Regions are read off the board, never stored: nothing here can be dragged,
+  // saved, fed to the reducer, or sent to the tutor as something it built.
+  const regionNodes = useMemo<Node[]>(
+    () =>
+      stepRegions(
+        nodes.map((n) => (sizes[n.id] ? { ...n, width: sizes[n.id].w, height: sizes[n.id].h } : n)),
+        run,
+      ).map((r) => ({
+        id: r.id,
+        type: 'stepRegion',
+        position: { x: r.x, y: r.y },
+        data: { kind: 'stepRegion', step: r.step, title: r.title, status: r.status, width: r.width, height: r.height },
+        draggable: false,
+        selectable: false,
+        deletable: false,
+        zIndex: -1,
+      })),
+    [nodes, sizes, run],
+  )
+
+  const drawnNodes = useMemo<Node[]>(() => [...regionNodes, ...rfNodes], [regionNodes, rfNodes])
+
   const exportCanvas = useCallback(
     async (format: 'png' | 'pdf') => {
       const viewportEl = wrapperRef.current?.querySelector('.react-flow__viewport') as HTMLElement | null
@@ -355,6 +397,25 @@ function FlowInner({
   const handleNodesChange = useCallback(
     (changes: NodeChange[]) => {
       onNodesChange(changes)
+
+      const measured = changes.filter(
+        (c): c is NodeChange & { type: 'dimensions'; id: string; dimensions: { width: number; height: number } } =>
+          c.type === 'dimensions' && !!(c as { dimensions?: unknown }).dimensions,
+      )
+      if (measured.length > 0) {
+        setSizes((prev) => {
+          let changed = false
+          const next = { ...prev }
+          for (const m of measured) {
+            const w = Math.round(m.dimensions.width)
+            const h = Math.round(m.dimensions.height)
+            if (prev[m.id]?.w === w && prev[m.id]?.h === h) continue
+            next[m.id] = { w, h }
+            changed = true
+          }
+          return changed ? next : prev
+        })
+      }
 
       const finished = changes.filter(
         (c): c is NodeChange & { type: 'position'; id: string; position: { x: number; y: number } } =>
@@ -466,7 +527,7 @@ function FlowInner({
   return (
     <div ref={wrapperRef} className="w-full h-full" onDrop={onDrop} onDragOver={onDragOver}>
       <ReactFlow
-        nodes={rfNodes}
+        nodes={drawnNodes}
         edges={rfEdges}
         nodeTypes={nodeTypes}
         onNodesChange={handleNodesChange}
@@ -627,6 +688,7 @@ export default function StudyCanvas(props: StudyCanvasProps) {
             effects={props.effects}
             title={props.title}
             plan={props.plan}
+            run={props.run}
             onNodesPositionChange={props.onNodesPositionChange}
             onToggleGroup={props.onToggleGroup}
             onAddBlock={props.onAddBlock}
