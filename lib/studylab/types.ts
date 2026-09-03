@@ -67,6 +67,8 @@ export interface StudyNodeData {
   rubric?: string
   /** Practice card: the learner's attempt and how it was marked. */
   practice?: PracticeCell
+  /** Made in answer to a question rather than to teach the step. */
+  aside?: boolean
   /** Callout variant. */
   variant?: 'definition' | 'tip' | 'warning'
   /** Flashcard faces. */
@@ -184,6 +186,14 @@ export type TutorAction =
       rubric?: string
       step?: number
       position?: 'auto' | { x: number; y: number }
+      /**
+       * Made in answer to a question, not as part of teaching the step.
+       *
+       * Set by the server on an `ask` turn, never by the model. It keeps a
+       * learner's own questions from bringing the step's check forward: the
+       * step gets taught in full whether or not anyone asked anything.
+       */
+      aside?: boolean
     }
   | {
       type: 'updateCard'

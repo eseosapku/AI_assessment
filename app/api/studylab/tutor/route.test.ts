@@ -238,6 +238,17 @@ describe('test_out', () => {
   })
 })
 
+/**
+ * A step that has already had its cards, so an emitted checkpoint is allowed
+ * to open. When a check may appear is decided by the board, not the model.
+ */
+const TAUGHT = {
+  board: {
+    cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+    cardsSinceCheck: { 1: 3 },
+  },
+}
+
 describe('checkpoint emitted by a teaching turn', () => {
   // FINDING 1: beginCheck is only ever called from requestTestOut in
   // production. But the everyday flow is a next_beat/jump teaching call
@@ -254,7 +265,7 @@ describe('checkpoint emitted by a teaching turn', () => {
       }),
     )
     const result = await applyAction({
-      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: TAUGHT,
     })
     // The id is the board's, not the model's — see "every check gets an id of
     // its own" below. What matters here is that the run and the action agree.
@@ -274,7 +285,7 @@ describe('checkpoint emitted by a teaching turn', () => {
       }),
     )
     const opened = await applyAction({
-      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: TAUGHT,
     })
     expect(opened.run.openCheck).toBeTruthy()
 
@@ -319,7 +330,7 @@ describe('checkpoint emitted by a teaching turn', () => {
       }),
     )
     const result = await applyAction({
-      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: TAUGHT,
     })
     const emitted = (result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
       | { id: string } | undefined)?.id
@@ -353,6 +364,44 @@ describe('ask', () => {
     })
     expect(result.refusal).toBeTruthy()
     expect(callGemma).not.toHaveBeenCalled()
+  })
+
+  it('marks the cards it builds as asides, so they do not shorten the step', async () => {
+    // The check arrives after a step's worth of teaching, counted off the
+    // board — so three questions, each answered with a card, used to bring it
+    // forward and the step got taught less than one nobody asked about.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'here',
+        actions: [
+          { type: 'createCard', id: 'a1', card: 'concept', title: 'Why b over 2', body: 'x', step: 1 },
+          { type: 'connect', from: 'c1', to: 'a1' },
+        ],
+      }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'ask', question: 'why halve b?' },
+    })
+    const [card, edge] = result.actions as Record<string, unknown>[]
+    expect(card.aside).toBe(true)
+    // Only cards carry it; nothing else is counted anyway.
+    expect(edge.aside).toBeUndefined()
+  })
+
+  it('does not let a teaching turn claim the flag for itself', async () => {
+    // It decides when a step is finished being taught, so it is not the
+    // model's to set.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'here',
+        actions: [{ type: 'createCard', id: 'c9', card: 'concept', title: 'Rates', body: 'x', step: 1, aside: true }],
+      }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {},
+    })
+    expect((result.actions[0] as Record<string, unknown>).aside).toBeUndefined()
   })
 })
 
@@ -1545,7 +1594,7 @@ describe('every check gets an id of its own', () => {
       }),
     )
     const result = await applyAction({
-      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: {},
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: TAUGHT,
     })
     const cp = result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
       | { id: string } | undefined
@@ -1567,5 +1616,132 @@ describe('every check gets an id of its own', () => {
     const first = await checkpointFrom('cp-3-a7')
     const second = await checkpointFrom('cp-3-a7')
     expect(first.id).not.toBe(second.id)
+  })
+})
+
+/**
+ * When a check may appear is the board's call, not the model's.
+ *
+ * At "step by step" pace the model returned three cards and a quiz on the very
+ * first turn of a step — a whole step at once where the learner had asked for
+ * one card at a time. And after a miss, one re-taught card brought the retry
+ * straight back, so a learner's own question could trigger it.
+ */
+describe('an emitted checkpoint waits until the step has been taught', () => {
+  const turn = async (board: Record<string, unknown>, cards = 1) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'here',
+        actions: [
+          ...Array.from({ length: cards }, (_, i) => ({
+            type: 'createCard', id: `n${i}`, card: 'concept', title: `New ${i}`, body: 'x', step: 1,
+          })),
+          { type: 'checkpoint', id: 'cp-x', step: 1, gate: 'hard', questions: [
+            { id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 },
+          ] },
+        ],
+      }),
+    )
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' }, context: { board },
+    })
+    return {
+      hasCheck: result.actions.some((a) => (a as { type?: string }).type === 'checkpoint'),
+      opened: result.run.openCheck !== undefined,
+      cards: result.actions.filter((a) => (a as { type?: string }).type === 'createCard').length,
+    }
+  }
+
+  it('is dropped on the first card of a fresh step', async () => {
+    const out = await turn({ cards: [], cardsSinceCheck: {} }, 1)
+    expect(out.hasCheck).toBe(false)
+    expect(out.opened).toBe(false)
+    // The teaching survives — only the gate is refused.
+    expect(out.cards).toBe(1)
+  })
+
+  it('opens once the step has had its cards', async () => {
+    const out = await turn({
+      cards: [1, 2].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+      cardsSinceCheck: { 1: 2 },
+    }, 1)
+    expect(out.hasCheck).toBe(true)
+    expect(out.opened).toBe(true)
+  })
+
+  it('counts the cards this same turn made', async () => {
+    // Three cards and a checkpoint in one turn is the "run ahead" shape.
+    const out = await turn({ cards: [], cardsSinceCheck: {} }, 3)
+    expect(out.hasCheck).toBe(true)
+  })
+
+  it('lets a retry come back after one re-taught card', async () => {
+    const out = await turn({
+      cards: [{ id: 'c1', title: 'C1', step: 1, kind: 'concept' }],
+      cardsSinceCheck: { 1: 0 },
+      checkedSteps: [1],
+    }, 1)
+    expect(out.hasCheck).toBe(true)
+  })
+
+  it('does not let a question the learner asked bring the retry back', async () => {
+    // The card that answered them is an aside; the step still owes a re-teach.
+    const out = await turn({
+      cards: [{ id: 'a1', title: 'Aside', step: 1, kind: 'concept', aside: true }],
+      cardsSinceCheck: { 1: 0 },
+      checkedSteps: [1],
+    }, 0)
+    expect(out.hasCheck).toBe(false)
+  })
+})
+
+describe('"step by step" never closes a step on its first turn', () => {
+  const fourCardsAndAQuiz = () =>
+    JSON.stringify({
+      say: 'here',
+      actions: [
+        ...[0, 1, 2, 3].map((i) => ({
+          type: 'createCard', id: `n${i}`, card: 'concept', title: `New ${i}`, body: 'x', step: 1,
+        })),
+        { type: 'checkpoint', id: 'cp-x', step: 1, gate: 'hard', questions: [
+          { id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 },
+        ] },
+      ],
+    })
+
+  /** The very first turn of a lesson: accepting the plan teaches step one. */
+  const startAt = async (pace: 'step' | 'run') => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(fourCardsAndAQuiz())
+    const planned = proposePlan(emptyRun(GAP), [
+      { id: 'a', title: 'Atoms', goal: 'g', status: 'pending', cardIds: [] },
+    ])
+    if (!planned.ok) throw new Error(planned.reason)
+    const result = await applyAction({
+      run: planned.run, policy: GAP, userId: 'u1',
+      action: { type: 'accept_plan', pace }, context: { board: { cards: [], cardsSinceCheck: {} } },
+    })
+    return result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')
+  }
+
+  it('refuses a check on the opening turn even when four cards arrive with it', async () => {
+    // Four cards and a quiz is the other pace wearing this one's label. The
+    // panel promises "one card at a time. I stop after each so you can ask".
+    expect(await startAt('step')).toBe(false)
+  })
+
+  it('allows one on the turn after', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(fourCardsAndAQuiz())
+    const result = await applyAction({
+      run: { ...openRun(), pace: 'step' }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' }, context: { board: { cards: [], cardsSinceCheck: {} } },
+    })
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(true)
+  })
+
+  it('leaves "run ahead" alone — a whole step in one turn is what it is for', async () => {
+    expect(await startAt('run')).toBe(true)
   })
 })

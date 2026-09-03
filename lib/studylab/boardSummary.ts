@@ -18,7 +18,7 @@ import type { CanvasState, StudyNode } from './types'
  */
 export interface BoardSummary {
   /** Cards already on the canvas, oldest first. */
-  cards: { id: string; title: string; step: number; kind: string }[]
+  cards: { id: string; title: string; step: number; kind: string; aside?: boolean }[]
   /** Step numbers that already carry a checkpoint. */
   checkedSteps: number[]
   /**
@@ -30,6 +30,12 @@ export interface BoardSummary {
    * unclosable: the tutor re-taught, and re-taught, and never asked again.
    */
   cardsSinceCheck: Record<number, number>
+  /**
+   * A card made in answer to a question does not count. The check arrives after
+   * a step's worth of teaching, counted off the board — so three questions,
+   * each answered with a card, used to bring the check forward and the step got
+   * taught less than one nobody asked anything about.
+   */
   /**
    * Questions already put to the learner, by step.
    *
@@ -75,6 +81,7 @@ export function boardSummary(
       // variety in the abstract the model produces concept cards and nothing
       // else; told it has just made four concept cards, it does not.
       kind: String(n.type),
+      ...(n.data.aside ? { aside: true as const } : {}),
     }))
     // A card with no title cannot be recognised or referred to, so listing it
     // would only spend tokens.
@@ -89,7 +96,9 @@ export function boardSummary(
     const step = Number(n.data.step) || 0
     if (step < 1) continue
     if (n.type === 'quiz' || n.type === 'checkpointHeader') cardsSinceCheck[step] = 0
-    else if (isCardKind(n.type)) cardsSinceCheck[step] = (cardsSinceCheck[step] ?? 0) + 1
+    else if (isCardKind(n.type) && !n.data.aside) {
+      cardsSinceCheck[step] = (cardsSinceCheck[step] ?? 0) + 1
+    }
   }
 
   // Hidden ones count. A check that was failed is hidden rather than deleted
@@ -142,7 +151,7 @@ export function parseBoardSummary(raw: unknown): BoardSummary {
   return {
     cards: (Array.isArray(b.cards) ? b.cards : [])
       .filter(
-        (c): c is { id: string; title: string; step: number; kind: string } =>
+        (c): c is { id: string; title: string; step: number; kind: string; aside?: boolean } =>
           !!c && typeof c === 'object' && typeof c.id === 'string' && typeof c.title === 'string',
       )
       .map((c) => ({
@@ -150,6 +159,7 @@ export function parseBoardSummary(raw: unknown): BoardSummary {
         title: c.title,
         step: Number(c.step) || 0,
         kind: typeof c.kind === 'string' ? c.kind : 'concept',
+        ...(c.aside === true ? { aside: true as const } : {}),
       }))
       .slice(0, MAX_CARDS),
     askedByStep:

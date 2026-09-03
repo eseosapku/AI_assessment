@@ -126,11 +126,44 @@ const CARDS_BEFORE_CHECK = 3
  * A first check comes after a step's worth of teaching. A retry comes sooner:
  * the learner has already had the step, and one card re-teaching the thing they
  * missed is the whole of what is new.
+ *
+ * Cards made in answer to a question are not teaching and do not count, so a
+ * step gets taught in full whether or not the learner asked anything.
+ *
+ * At "step by step" the first turn of a step can never close it, whatever it
+ * built. The pace promises "one card at a time, I stop after each so you can
+ * ask" — and the model opened a step with four cards and a quiz, which is the
+ * other pace wearing this one's label. A count of cards cannot tell those
+ * apart; a count of turns can.
  */
-function shouldCloseStep(board: BoardSummary, stepNo: number): boolean {
-  const since = board.cardsSinceCheck[stepNo] ?? board.cards.filter((c) => c.step === stepNo).length
+function shouldCloseStep(board: BoardSummary, stepNo: number, run: LessonRun): boolean {
+  if (run.pace === 'step' && run.beats < 1) return false
+  const since =
+    board.cardsSinceCheck[stepNo] ??
+    board.cards.filter((c) => c.step === stepNo && !c.aside).length
   const retry = board.checkedSteps.includes(stepNo)
   return since >= (retry ? 1 : CARDS_BEFORE_CHECK)
+}
+
+/**
+ * The board with the cards this turn just made counted in.
+ *
+ * The summary arrives from the client and predates the turn, so without this
+ * the step is judged one turn behind and its check always lands late. Cards
+ * made in answer to a question are left out, the same as everywhere else.
+ */
+function boardWithTurn(board: BoardSummary, actions: unknown[], stepNo: number): BoardSummary {
+  const madeNow = actions.filter(
+    (a) =>
+      !!a &&
+      typeof a === 'object' &&
+      (a as { type?: unknown }).type === 'createCard' &&
+      (a as { aside?: unknown }).aside !== true,
+  ).length
+  const base =
+    board.cardsSinceCheck[stepNo] ??
+    board.cards.filter((c) => c.step === stepNo && !c.aside).length
+  return { ...board, cardsSinceCheck: { ...board.cardsSinceCheck, [stepNo]: base + madeNow } }
 }
 
 const ALWAYS_TEACHES = new Set(['accept_plan', 'next_beat', 'answer_check'])
@@ -261,7 +294,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       refusal: 'I nearly repeated myself there — press continue again.',
     }
   }
-  const opened = openEmittedCheckpoint(advanced, rawActions)
+  const opened = openEmittedCheckpoint(advanced, rawActions, board)
 
   // Asking was never enough. Told plainly to close the step with a checkpoint,
   // the model often returns three more cards instead — which is how one step
@@ -309,21 +342,7 @@ async function ensureStepCloses(
     actions.some((a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'checkpoint')
   if (alreadyClosing) return { run, actions }
 
-  // The board summary predates this turn, so the cards just made are added to
-  // it before asking. Without that the step is judged one turn behind and the
-  // check always arrives a turn late.
-  const madeNow = actions.filter(
-    (a) => !!a && typeof a === 'object' && (a as { type?: unknown }).type === 'createCard',
-  ).length
-  // Falls back to the whole step's cards when a client sends no per-step
-  // counter, so an older page keeps closing its steps.
-  const base =
-    board.cardsSinceCheck[stepNo] ?? board.cards.filter((c) => c.step === stepNo).length
-  const withThisTurn: BoardSummary = {
-    ...board,
-    cardsSinceCheck: { ...board.cardsSinceCheck, [stepNo]: base + madeNow },
-  }
-  if (!shouldCloseStep(withThisTurn, stepNo)) return { run, actions }
+  if (!shouldCloseStep(boardWithTurn(board, actions, stepNo), stepNo, run)) return { run, actions }
 
   // A fresh id every time. The reducer ignores a checkpoint whose id is already
   // on the board, so a fixed one meant the SECOND check on a step — the retry
@@ -573,6 +592,14 @@ function fitCardsToLesson(actions: unknown[], run: LessonRun): unknown[] {
   // Retiring the diagram card applies to every lesson; only the runnable-card
   // rule below turns on whether this one teaches programming.
   const retired = actions
+    .map((raw) => {
+      // "aside" decides when a step is finished being taught, so it is not the
+      // model's to set. It comes off here and is put back by `markAsides` on
+      // the one turn that is entitled to it.
+      if (!raw || typeof raw !== 'object' || !('aside' in raw)) return raw
+      const { aside, ...rest } = raw as Record<string, unknown>
+      return rest
+    })
     .map((raw) =>
       raw && typeof raw === 'object' ? unMultipleChoice(raw as Record<string, unknown>) : raw,
     )
@@ -623,6 +650,7 @@ function fitCardsToLesson(actions: unknown[], run: LessonRun): unknown[] {
 function openEmittedCheckpoint(
   run: LessonRun,
   rawActions: unknown[],
+  board: BoardSummary,
 ): { run: LessonRun; actions: unknown[] } {
   const cpIndex = rawActions.findIndex(
     (a): a is { type: 'checkpoint'; id: string; step: number; gate?: unknown } =>
@@ -644,6 +672,18 @@ function openEmittedCheckpoint(
     return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
   }
 
+  // When a check may appear is not the model's call. It emitted one on the very
+  // first turn of a step at "step by step" pace — three cards and a quiz where
+  // the learner had asked for one card at a time — and, worse, a single card
+  // re-taught after a miss brought the retry straight back. `shouldCloseStep`
+  // is the one gate, so the same rule decides whether an emitted check opens as
+  // decides whether one gets written; and it is what keeps a learner's own
+  // questions from shortening the step.
+  const stepNo = run.steps.indexOf(target) + 1
+  if (!shouldCloseStep(boardWithTurn(board, rawActions, stepNo), stepNo, run)) {
+    return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
+  }
+
   // The id is ours, not the model's. Re-teaching a step it had already checked,
   // the model emitted `cp-3-a7` a second time — the id of the check the learner
   // had just failed. The reducer drops a checkpoint whose id is already on the
@@ -661,6 +701,21 @@ function openEmittedCheckpoint(
     return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
   }
   return { run: opened.run, actions: renamed }
+}
+
+/**
+ * Marks every card a turn built as an aside.
+ *
+ * Set here rather than trusted from the model: the flag decides when a step is
+ * finished being taught, so it is not something a card should be able to claim
+ * for itself.
+ */
+function markAsides(actions: unknown[]): unknown[] {
+  return actions.map((a) =>
+    a && typeof a === 'object' && (a as { type?: unknown }).type === 'createCard'
+      ? { ...(a as object), aside: true }
+      : a,
+  )
 }
 
 /**
@@ -787,11 +842,19 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     // question must never put a gate in front of the learner: the check would
     // render on the canvas with nothing in the run to resolve it, so Continue
     // would block on a quiz that answering could not clear.
-    actions: fitCardsToLesson(
-      (Array.isArray(parsed?.actions) ? parsed.actions : []).filter(
-        (a) => !a || typeof a !== 'object' || (a as { type?: unknown }).type !== 'checkpoint',
+    //
+    // What survives is marked as an aside, so the step's own teaching is not
+    // shortened by it. The check arrives after a step's worth of cards, counted
+    // off the board — which meant three questions, each answered with a card,
+    // brought the check forward and the step was taught less than a step that
+    // nobody asked anything about.
+    actions: markAsides(
+      fitCardsToLesson(
+        (Array.isArray(parsed?.actions) ? parsed.actions : []).filter(
+          (a) => !a || typeof a !== 'object' || (a as { type?: unknown }).type !== 'checkpoint',
+        ),
+        advanced,
       ),
-      advanced,
     ),
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
@@ -1014,7 +1077,7 @@ function buildTeachPrompt(
   // say when the goal is met is an instruction that never terminates — six
   // beats in, the lesson was still on step 1 with no checkpoint in sight and
   // no way for the learner to finish it.
-  const wrapUp = shouldCloseStep(board, stepNo)
+  const wrapUp = shouldCloseStep(board, stepNo, run)
 
   const pace =
     wrapUp

@@ -142,3 +142,37 @@ describe('a check that was failed and taken off the board', () => {
     expect(board.checkedSteps).toEqual([2])
   })
 })
+
+describe('a card made in answer to a question', () => {
+  const card = (id: string, aside?: boolean) => ({
+    id,
+    type: 'concept' as const,
+    position: { x: 0, y: 0 },
+    data: { kind: 'concept', title: id, step: 1, ...(aside ? { aside: true } : {}) },
+  })
+
+  it('does not bring the check on its step forward', () => {
+    // Three questions, each answered with a card, used to close the step —
+    // so a learner who asked things got taught less than one who did not.
+    const board = boardSummary({
+      nodes: [card('taught'), card('asked-1', true), card('asked-2', true), card('asked-3', true)] as never,
+    })
+    expect(board.cardsSinceCheck[1]).toBe(1)
+  })
+
+  it('is still listed, so the tutor knows it is there', () => {
+    // Left off the list it would be recreated, or connected to by an id that
+    // does not exist.
+    const board = boardSummary({ nodes: [card('asked-1', true)] as never })
+    expect(board.cards.map((c) => c.id)).toEqual(['asked-1'])
+    expect(board.cards[0].aside).toBe(true)
+  })
+
+  it('survives the trip through the request body', () => {
+    const board = boardSummary({ nodes: [card('taught'), card('asked-1', true)] as never })
+    const round = parseBoardSummary(JSON.parse(JSON.stringify(board)))
+    expect(round.cards.find((c) => c.id === 'asked-1')?.aside).toBe(true)
+    expect(round.cards.find((c) => c.id === 'taught')?.aside).toBeUndefined()
+    expect(round.cardsSinceCheck[1]).toBe(1)
+  })
+})

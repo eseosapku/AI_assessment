@@ -205,6 +205,8 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             variant: action.variant,
             answer: action.answer,
             rubric: action.rubric,
+            // Only ever set by the server, on a turn that answered a question.
+            ...(action.aside ? { aside: true as const } : {}),
             step,
           },
         })
