@@ -183,6 +183,11 @@ const CARDS_BEFORE_CHECK = 3
  */
 function shouldCloseStep(board: BoardSummary, stepNo: number, run: LessonRun): boolean {
   if (run.pace === 'step' && run.beats < 1) return false
+  // After three misses the turn is spent re-teaching the idea a different way,
+  // and a check on the end of that is a fourth attempt at the same ground with
+  // nothing new behind it. The turn after this one asks again.
+  const missed = board.askedByStep[stepNo]?.length ?? 0
+  if (missed >= 3 && (board.cardsSinceCheck[stepNo] ?? 0) < 1) return false
   const since =
     board.cardsSinceCheck[stepNo] ??
     board.cards.filter((c) => c.step === stepNo && !c.aside).length
@@ -1089,7 +1094,14 @@ async function writeCheck(
           'Ask EXACTLY ONE question and make its "format" "short", so they have to say',
           'the answer rather than spot it. A reworded multiple choice is the failure',
           'this rule exists to stop.',
-        ].join('\n')
+          // Three misses is not a signal to ask harder. Getting one thing right
+          // and moving on beats a fourth failure on the same ground.
+          asked.length >= 3
+            ? 'They have now missed this three times or more. Ask the SIMPLEST question that still shows they have the core idea, not the full version of it.'
+            : '',
+        ]
+          .filter(Boolean)
+          .join('\n')
       : '',
     '',
     'Each question needs "id", "format" and "prompt". Use these EXACT field names:',
@@ -1293,7 +1305,8 @@ function buildTeachPrompt(
   // Two misses on the same question is not a third hint away from landing. The
   // check on a homework step is always the question itself, so the count of
   // times it has been put to them is the count of times they have missed it.
-  const stuck = (board.askedByStep[stepNo]?.length ?? 0) >= 2
+  const asked = board.askedByStep[stepNo]?.length ?? 0
+  const stuck = asked >= 2
   const homework = hw
     ? [
         '',
@@ -1329,6 +1342,24 @@ function buildTeachPrompt(
         .join('\n')
     : ''
 
+  // The same idea for an ordinary lesson step, where there is no question of
+  // theirs to hand back. Three checks on one step and still not through it means
+  // the explanation is not landing, and an eighth question is not the answer —
+  // a real learner is long gone by then. Driving a lesson while answering
+  // vaguely produced exactly that: seven checks on one step, twenty-three more
+  // cards, and the rail never moved.
+  const struggling =
+    !hw && asked >= 3
+      ? [
+          '',
+          `THEY HAVE MISSED THIS STEP'S CHECK ${asked} TIMES. Stop explaining it the`,
+          'way you have been — it is not landing. Say so plainly, then teach the ONE',
+          'idea underneath it a completely different way: a worked example, a',
+          'concrete case, an analogy, whatever you have not already tried. Build',
+          'that card and stop. Do not emit a checkpoint this turn.',
+        ].join('\n')
+      : ''
+
   const given =
     hw && Array.isArray(context.given) && context.given.length > 0
       ? `\nWHAT THE SHEET GIVES THEM (the photo is not attached; this is all there is):\n${(context.given as string[]).map((g) => `  - ${g}`).join('\n')}`
@@ -1340,6 +1371,7 @@ function buildTeachPrompt(
     `LESSON: ${String(context.title ?? 'this topic')}`,
     context.subject ? `SUBJECT: ${String(context.subject)}` : '',
     homework,
+    struggling,
     given,
     '',
     'THE PLAN:',

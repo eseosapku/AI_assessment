@@ -2133,3 +2133,110 @@ describe('adding another page of the same assignment', () => {
     expect(result.run.steps).toHaveLength(2)
   })
 })
+
+/**
+ * A learner who keeps missing a step's check does not need an eighth question.
+ * Driving a real lesson while answering vaguely produced seven checks on one
+ * step, twenty-three more cards, and a rail that never moved.
+ */
+describe('a step that keeps being missed changes tack', () => {
+  const teachWith = async (asked: string[], sinceCheck = 0) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'ok', actions: [] }))
+    const result = await applyAction({
+      run: { ...openRun(), beats: 1 }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+          cardsSinceCheck: { 1: sinceCheck },
+          checkedSteps: [1],
+          askedByStep: { 1: asked },
+        },
+      },
+    })
+    return { prompt: String(vi.mocked(callGemma).mock.calls[0][0]), result }
+  }
+
+  const three = ['Why classify?', 'What is a kingdom?', 'Why is size a poor key feature?']
+
+  it('re-teaches the idea a different way instead of asking again', async () => {
+    const { prompt } = await teachWith(three)
+    expect(prompt).toContain("MISSED THIS STEP'S CHECK 3 TIMES")
+    expect(prompt).toContain('completely different way')
+  })
+
+  it('holds the check back on that turn, so the re-teach lands first', async () => {
+    // Otherwise the new explanation and a fourth question arrive together, and
+    // the fourth question is the only thing they see.
+    const { result } = await teachWith(three)
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(false)
+    expect(callGemma).toHaveBeenCalledOnce()
+  })
+
+  it('asks again once something new has been taught', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 'another way', actions: [] }))
+      .mockResolvedValueOnce(JSON.stringify({
+        questions: [{ id: 'q1', format: 'short', prompt: 'One thing a key must be?', rubric: 'r' }],
+      }))
+    const result = await applyAction({
+      run: { ...openRun(), beats: 1 }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' },
+      context: {
+        board: {
+          cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+          cardsSinceCheck: { 1: 1 },
+          checkedSteps: [1],
+          askedByStep: { 1: three },
+        },
+      },
+    })
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(true)
+  })
+
+  it('asks the simplest version of it, not a harder one', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 'another way', actions: [] }))
+      .mockResolvedValueOnce(JSON.stringify({
+        questions: [{ id: 'q1', format: 'short', prompt: 'p?', rubric: 'r' }],
+      }))
+    await applyAction({
+      run: { ...openRun(), beats: 1 }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' },
+      context: {
+        board: { cards: [], cardsSinceCheck: { 1: 1 }, checkedSteps: [1], askedByStep: { 1: three } },
+      },
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[1][0])).toContain('SIMPLEST question')
+  })
+
+  it('leaves a step going well alone', async () => {
+    const { prompt } = await teachWith(['Why classify?'])
+    expect(prompt).not.toContain('MISSED THIS')
+  })
+
+  it('does not do it on homework, which hands their own question back instead', async () => {
+    // There the escape is a parallel worked problem, not a different
+    // explanation of a topic.
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'ok', actions: [] }))
+    const planned = proposePlan(emptyRun(policyFor('homework')), [
+      { id: 'q1', title: 'Find the best pump', goal: 'Find the best pump.', status: 'pending', cardIds: [],
+        homework: { label: '1', answer: null, rubric: null, attempt: null } },
+    ])
+    if (!planned.ok) throw new Error(planned.reason)
+    const started = acceptPlan(planned.run)
+    if (!started.ok) throw new Error(started.reason)
+    await applyAction({
+      run: started.run, policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'next_beat' },
+      context: { board: { cards: [], cardsSinceCheck: {}, askedByStep: { 1: three } } },
+    })
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).not.toContain("MISSED THIS STEP'S CHECK")
+    expect(prompt).toContain('MISSED THIS QUESTION TWICE')
+  })
+})
