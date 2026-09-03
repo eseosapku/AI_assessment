@@ -18,7 +18,12 @@ export async function GET(request: NextRequest) {
 
     try {
       const result = await db.query(
-        `SELECT id, title, subject, origin, current_step, status, created_at, updated_at
+        // The thumbnail is pulled only for homework rows. It is the one column
+        // that could be large, and it is the only origin that has one — reading
+        // every space's whole canvas to find out would cost the grid its speed
+        // for nothing.
+        `SELECT id, title, subject, origin, current_step, status, created_at, updated_at,
+                CASE WHEN origin = 'homework' THEN canvas_state->>'thumb' END AS thumb
          FROM learnspaces WHERE user_id = $1 ORDER BY updated_at DESC`,
         [userId]
       )

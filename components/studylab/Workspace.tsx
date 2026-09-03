@@ -434,9 +434,16 @@ export default function Workspace({ id }: { id: string }) {
         }
 
         const page = canvasRef.current.nodes.filter((n) => n.id.startsWith('hw-photo')).length + 1
+        // The first page is what the space looks like in the grid. Small on
+        // purpose: the grid lists every space at once, and the board's copy is
+        // a few hundred kilobytes.
+        const thumb =
+          image && !canvasRef.current.thumb ? await downscaleDataUrl(image, 320, 0.6) : undefined
+
         const withPhoto: CanvasState = {
           ...canvasRef.current,
           homework: sheet,
+          ...(thumb ? { thumb } : {}),
           // The photo goes on the board as the source everything hangs off,
           // and stays there: a student checking a transcription against what
           // they actually wrote needs both in front of them. A second page gets

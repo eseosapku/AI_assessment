@@ -132,6 +132,14 @@ export interface CanvasState {
    * work on.
    */
   homework?: HomeworkSheet
+  /**
+   * A small version of the first homework photo, for the LearnSpace grid.
+   *
+   * Kept apart from the full-size one on the board because the grid lists
+   * every space at once: shipping the board's copy would put a few hundred
+   * kilobytes per card on a page that shows twenty of them.
+   */
+  thumb?: string
 }
 
 /**

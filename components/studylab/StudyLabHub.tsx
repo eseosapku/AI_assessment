@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation'
 import { motion, AnimatePresence } from 'framer-motion'
 import {
   Brain, Plus, Sparkles, Clock, X, Loader2, Upload, CheckCircle2,
-  Leaf, Sigma, Zap, LineChart, Binary, GraduationCap, ArrowRight, type LucideIcon,
+  Leaf, Sigma, Zap, LineChart, Binary, GraduationCap, ArrowRight, FileQuestion, type LucideIcon,
 } from 'lucide-react'
 import { hasSeenDemo } from '@/lib/studylab/demoGate'
 import { useAuth } from '@/components/AuthProvider'
@@ -26,6 +26,8 @@ interface LearnSpace {
   title: string
   subject: string | null
   origin: string
+  /** Homework only: a small first page, for the card. */
+  thumb?: string | null
   current_step: number
   status: string
   created_at: string
@@ -227,6 +229,7 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
 
             {spaces.map((space) => {
               const completed = space.status === 'completed'
+              const homework = space.origin === 'homework'
               return (
               <button
                 key={space.id}
@@ -239,16 +242,39 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
                     <CheckCircle2 className="h-3 w-3" /> Completed
                   </span>
                 )}
-                {/* eslint-disable-next-line @next/next/no-img-element */}
-                <img src={subjectArt(space.subject)} alt="" aria-hidden className="h-11 w-11 object-contain" />
+                {/* The page they photographed, which is what they will
+                    recognise the space by — far more than a title the model
+                    wrote for it. Anchored to the top because that is where a
+                    question is printed. */}
+                {homework && space.thumb ? (
+                  <div className="h-24 overflow-hidden rounded-xl border border-ss-line bg-white">
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img src={space.thumb} alt="" aria-hidden className="h-full w-full object-cover object-top" />
+                  </div>
+                ) : (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img src={subjectArt(space.subject)} alt="" aria-hidden className="h-11 w-11 object-contain" />
+                )}
                 <div>
+                  {homework && (
+                    <p className="mb-0.5 flex items-center gap-1 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">
+                      <FileQuestion className="h-3.5 w-3.5" aria-hidden />
+                      Homework
+                    </p>
+                  )}
                   <h3 className="line-clamp-2 font-extrabold text-ss-ink">{space.title}</h3>
                   {space.subject && <p className="mt-0.5 text-sm font-semibold text-ss-slate">{space.subject}</p>}
                 </div>
                 <div className="mt-auto flex items-center gap-3 pt-2 text-xs font-semibold text-ss-slate">
                   <span className="flex items-center gap-1">
                     {completed ? <CheckCircle2 className="h-3.5 w-3.5 text-ss-good" /> : <Sparkles className="h-3.5 w-3.5" />}
-                    {completed ? 'Completed' : `Step ${space.current_step || 0}`}
+                    {/* "Step 3" is a course's word. A homework space's steps
+                        are the questions off the sheet. */}
+                    {completed
+                      ? 'Completed'
+                      : homework
+                        ? `Question ${space.current_step || 1}`
+                        : `Step ${space.current_step || 0}`}
                   </span>
                   <span className="flex items-center gap-1">
                     <Clock className="h-3.5 w-3.5" /> {formatDate(space.updated_at)}
