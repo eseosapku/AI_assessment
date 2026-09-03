@@ -97,7 +97,22 @@ describe('stepsFromQuestions', () => {
     const sheet = parseHomeworkSheet(SHEET)
     const steps = stepsFromQuestions(sheet, ['q2', 'q1'])
     expect(steps.map((s) => s.id)).toEqual(['q1', 'q2'])
-    expect(steps[0].title.startsWith('1.')).toBe(true)
+  })
+
+  it('does not repeat a label the rail is already showing', () => {
+    // The rail numbers its own rows, so "1. 1. An engineer must…" is what a
+    // label matching its position produces.
+    const sheet = parseHomeworkSheet(SHEET)
+    const [first] = stepsFromQuestions(sheet, ['q1'])
+    expect(first.title.startsWith('1.')).toBe(false)
+    expect(first.title).toContain('engineer')
+  })
+
+  it('keeps a label that says something the position does not', () => {
+    // A sheet numbering its questions "7.4-7", or a learner who picked 3 and 5
+    // off a page of eight.
+    const sheet = parseHomeworkSheet({ questions: [{ label: '7.4-7', text: 'Derive the deflection curve for the beam.' }] })
+    expect(stepsFromQuestions(sheet, ['q1'])[0].title).toContain('7.4-7')
   })
 
   it('takes only the questions the learner picked', () => {

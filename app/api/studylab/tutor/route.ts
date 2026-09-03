@@ -211,6 +211,13 @@ export async function POST(request: NextRequest) {
         title: space.title,
         subject: space.subject,
         board: body?.board ?? null,
+        // A homework sheet's shared data — the table, the diagram in words.
+        // Read from the saved board rather than the request, because it is the
+        // one thing the client cannot be allowed to vary: it came off the photo
+        // once and the photo is never looked at again.
+        given: Array.isArray(space.canvas_state?.homework?.given)
+          ? space.canvas_state.homework.given
+          : [],
       },
     })
     if (!result.refusal) await saveRun(learnspaceId, result.run)

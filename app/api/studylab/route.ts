@@ -43,7 +43,14 @@ export async function POST(request: NextRequest) {
     const userId = String(body?.user_id ?? '').trim()
     const title = String(body?.title ?? '').trim()
     const subject = String(body?.subject ?? '').trim() || null
-    const origin = body?.origin === 'gap' ? 'gap' : 'scratch'
+    // Every origin the policy knows about. 'homework' was missing, so the
+    // homework modal's spaces were all stored as 'scratch' — which meant the
+    // homework policy had never applied to anything, and the branch that hands
+    // a photo to the lesson had never once run. A LearnSpace opened from a
+    // homework photo was, in the database, indistinguishable from one somebody
+    // typed a topic into.
+    const origin =
+      body?.origin === 'gap' ? 'gap' : body?.origin === 'homework' ? 'homework' : 'scratch'
 
     if (!userId || !UUID_RE.test(userId)) {
       return NextResponse.json({ error: 'A valid user_id is required' }, { status: 400 })

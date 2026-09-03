@@ -130,9 +130,13 @@ export function stepsFromQuestions(
   const wanted = new Set(chosenIds)
   return sheet.questions
     .filter((q) => wanted.has(q.id))
-    .map((q) => ({
+    .map((q, i) => ({
       id: q.id,
-      title: `${q.label}. ${questionSummary(q.text)}`,
+      // The rail numbers the steps itself, so a label that says the same thing
+      // reads as "1. 1. An engineer must…". It is kept when it differs — which
+      // is whenever the sheet numbers questions its own way ("7.4-7"), or the
+      // learner picked questions 3 and 5 off a page of eight.
+      title: q.label === String(i + 1) ? questionSummary(q.text) : `${q.label}. ${questionSummary(q.text)}`,
       goal: q.text,
       status: 'pending' as const,
       cardIds: [],

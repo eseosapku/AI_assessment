@@ -9,9 +9,10 @@ import ProductTour from '@/components/studio/ProductTour'
 import DemoOffer from './DemoOffer'
 import ChatMouthpiece from './ChatMouthpiece'
 import type { CanvasEffects } from './StudyCanvas'
-import { applyActions, toggleStepGroup, autoGroupStep, plainTitle } from '@/lib/studylab/actions'
+import { applyActions, toggleStepGroup, autoGroupStep, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
+import { parseHomeworkSheet, type HomeworkSheet } from '@/lib/studylab/homework'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
@@ -286,6 +287,121 @@ export default function Workspace({ id }: { id: string }) {
   // Continue (and any suggestion chip — both arrive as a "silent" send from
   // ChatMouthpiece) means "advance", not "here is a message to answer": what
   // that means depends entirely on where the run is.
+  /**
+   * Puts the question list in the chat for the learner to choose from.
+   *
+   * One question needs no choosing, so it starts. A page of eight does: taking
+   * all of them without asking commits somebody to an hour of work they never
+   * asked for, and carries eight questions into every turn afterwards.
+   */
+  const offerQuestions = useCallback(
+    (sheet: HomeworkSheet) => {
+      if (sheet.questions.length === 0) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            kind: 'error',
+            content:
+              'I could not read any questions off that. Type the question out for me and we can work on it that way.',
+          },
+        ])
+        return
+      }
+      if (sheet.questions.length === 1) {
+        void sendAction({ type: 'start_homework', sheet, questionIds: [sheet.questions[0].id] })
+        return
+      }
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          kind: 'homework',
+          content: `I can see ${sheet.questions.length} questions on that. Which do you want to work on?`,
+          sheet: {
+            questions: sheet.questions.map((q) => ({ id: q.id, label: q.label, text: q.text })),
+            live: true,
+          },
+        },
+      ])
+    },
+    [sendAction],
+  )
+
+  /**
+   * Reads the sheet, once, and makes it the lesson.
+   *
+   * The photo is looked at here and nowhere else — every turn afterwards works
+   * from what this returns — so the sheet is saved with the board immediately,
+   * before anything else can fail.
+   */
+  const readHomework = useCallback(
+    async (image: string | null, text: string | null) => {
+      setWorking('Reading your homework…')
+      // The ref is set here as well as the state, the same way `sendAction`
+      // does it: `busyRef.current` is assigned during render, so a `setBusy`
+      // is not visible to anything that runs before the next one. Offering the
+      // questions calls straight back into `sendAction` when there is only one
+      // of them, and that call was being refused as a turn already in flight.
+      busyRef.current = true
+      setBusy(true)
+      try {
+        const res = await fetch('/api/studylab/homework/read', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ userId: user?.id ?? null, image, text }),
+        })
+        const json = await res.json()
+        if (!res.ok || json.error) throw new Error(json.error || 'Could not read that page.')
+
+        const sheet = parseHomeworkSheet(json.sheet)
+        const withPhoto: CanvasState = {
+          ...canvasRef.current,
+          homework: sheet,
+          // The photo goes on the board as the source everything hangs off,
+          // and stays there: a student checking a transcription against what
+          // they actually wrote needs both in front of them.
+          nodes: image
+            ? [
+                createImageCard(canvasRef.current, {
+                  id: 'hw-photo',
+                  imageUrl: image,
+                  title: 'Your homework',
+                  step: 0,
+                }),
+                ...canvasRef.current.nodes,
+              ]
+            : canvasRef.current.nodes,
+        }
+        setCanvas(withPhoto)
+        persist({ canvas_state: withPhoto })
+        // Out from under the busy flag before offering, because a single
+        // question starts itself — and `sendAction` refuses while a turn is in
+        // flight, so calling it from in here dropped the start on the floor and
+        // left a sheet nobody could begin.
+        busyRef.current = false
+        setBusy(false)
+        offerQuestions(sheet)
+        return
+      } catch (err) {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            kind: 'error',
+            content:
+              (err as Error)?.message ||
+              'I could not read that page. Type the question out and we can work on it that way.',
+          },
+        ])
+      } finally {
+        busyRef.current = false
+        setBusy(false)
+      }
+    },
+    [user?.id, persist, offerQuestions],
+  )
+
   const handleAdvance = useCallback(() => {
     const r = runRef.current
     if (!r) return
@@ -735,29 +851,33 @@ export default function Workspace({ id }: { id: string }) {
     if (!loaded || !space || startedRef.current || loadError) return
     startedRef.current = true
 
-    // A snapped-homework space hands its photo/text off via localStorage
-    // (see lib/studylab/homeworkHandoff.ts). NOT CARRIED OVER: the new action
-    // contract has no field for arbitrary user content on any call —
-    // draft_plan takes only title/subject/policy, and every action after it
-    // is a fixed transition with a fixed payload — so there is no request
-    // left that could hand the photo or text to the model. The plan drafted
-    // below is therefore generic (title/subject only), not tailored to this
-    // specific problem the way the old single-turn flow was. The hand-off is
-    // still taken (it's one-shot; leaving it would replay stale content on a
-    // later visit) and shown in the transcript so the learner at least sees
-    // their own submission.
+    // A homework space does not get a syllabus drafted for it. Its photo and
+    // text are handed off via localStorage (see lib/studylab/homeworkHandoff),
+    // and they go to the read, whose output IS the lesson: the questions off
+    // the page become the steps. No model is asked to invent a plan here, and
+    // the photo is no longer thrown away after being shown once.
     if (space.origin === 'homework') {
       const hwImage = takeHomeworkImage(id)
       const hwText = takeHomeworkText(id)
       if (hwImage || hwText) {
         const msg: ChatMessage = {
           role: 'user',
-          content: hwText ? `Here's my homework problem.\n\n${hwText}` : "Here's my homework problem.",
+          content: hwText ? `Here's my homework.\n\n${hwText}` : "Here's my homework.",
           imageUrl: hwImage ?? undefined,
         }
         setMessages((prev) => [...prev, msg])
         persist({ messages: [msg] })
       }
+      // The sheet is saved with the board, so a reload never spends a second
+      // vision call and never re-asks which questions to work on.
+      if (!canvasRef.current.homework && (hwImage || hwText)) {
+        void readHomework(hwImage, hwText)
+      } else if (run?.phase === 'planning' && canvasRef.current.homework) {
+        // Read before but never started: put the picker back, rather than
+        // leaving a space with a sheet and no way to begin.
+        offerQuestions(canvasRef.current.homework)
+      }
+      return
     }
 
     // Asked for on every arrival that is still planning, not only when there
@@ -769,7 +889,7 @@ export default function Workspace({ id }: { id: string }) {
     if (run && run.phase === 'planning') {
       void sendAction({ type: 'draft_plan' })
     }
-  }, [loaded, space, loadError, run, sendAction, id, persist])
+  }, [loaded, space, loadError, run, sendAction, id, persist, readHomework, offerQuestions])
 
   if (!loaded) {
     return (
@@ -802,6 +922,7 @@ export default function Workspace({ id }: { id: string }) {
         cardCount={cardCount}
         run={run}
         policy={policy}
+        origin={space?.origin}
         onBack={() => router.push('/studylab')}
         onFocusGroup={handleFocusGroup}
         onTestOut={(stepId) => {
@@ -862,6 +983,17 @@ export default function Workspace({ id }: { id: string }) {
             markPlanSettled()
             setMessages((prev) => [...prev, { role: 'user', content: answer }])
             void sendAction({ type: 'draft_plan', answer })
+          }}
+          onStartHomework={(questionIds) => {
+            // The picker stops offering, the same way the plan card does: an
+            // old list further up the transcript must not present a second way
+            // to start a lesson that is already running.
+            setMessages((prev) =>
+              prev.map((m) =>
+                m.kind === 'homework' && m.sheet?.live ? { ...m, sheet: { ...m.sheet, live: false } } : m,
+              ),
+            )
+            void sendAction({ type: 'start_homework', sheet: canvasRef.current.homework, questionIds })
           }}
         />
       </div>

@@ -58,9 +58,14 @@ export const POLICIES: Record<LessonOrigin, LessonPolicy> = {
   homework: {
     gaps: 'advise',
     planEditable: 'always',
-    defaultPace: 'run',
+    // Never "run ahead" here: at that pace a step is built in one turn, and a
+    // homework step is a question the learner has to hand in. Building it in
+    // one turn is doing it for them.
+    defaultPace: 'step',
     completion: 'learner-says',
-    planSize: { min: 2, max: 4 },
+    // Not a syllabus size — the steps are the questions on the sheet, and a
+    // sheet has as many as it has.
+    planSize: { min: 1, max: 12 },
     testOut: 'offer',
   },
 }

@@ -40,9 +40,12 @@ describe('emptyRun', () => {
   })
 
   it('takes its starting pace from the policy', () => {
-    // Remediation opens step-by-step; browsing a topic opens running.
+    // Remediation and homework open step-by-step; browsing a topic opens
+    // running. Homework moved: at "run ahead" a step is built in one turn, and
+    // a homework step is a question the learner has to hand in.
     expect(emptyRun(GAP).pace).toBe('step')
-    expect(emptyRun(OPEN).pace).toBe('run')
+    expect(emptyRun(policyFor('homework')).pace).toBe('step')
+    expect(emptyRun(policyFor('scratch')).pace).toBe('run')
   })
 })
 

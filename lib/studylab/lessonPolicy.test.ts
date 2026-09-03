@@ -22,10 +22,14 @@ describe('policyFor', () => {
     expect(p.defaultPace).toBe('run')
   })
 
-  it('treats homework as a problem to solve, not a syllabus', () => {
+  it('treats homework as questions to work, not a syllabus', () => {
     const p = policyFor('homework')
     expect(p.gaps).toBe('advise')
-    expect(p.planSize.max).toBeLessThan(POLICIES.scratch.planSize.max)
+    // The steps are the questions on the sheet, so the size is the sheet's,
+    // not a syllabus length. What matters is the pace: at "run ahead" a step
+    // is built in one turn, and here a step is a question they hand in.
+    expect(p.defaultPace).toBe('step')
+    expect(p.planSize.min).toBe(1)
   })
 
   it('falls back to the permissive policy for an origin it does not know', () => {

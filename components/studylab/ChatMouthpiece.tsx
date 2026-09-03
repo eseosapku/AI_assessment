@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from 'react'
 import Latex from 'react-latex-next'
 import { PlanCard } from './PlanCard'
+import { QuestionPicker } from './QuestionPicker'
 import { Brain, Send, Sparkles, ImagePlus, X, ArrowRight } from 'lucide-react'
 import type { ChatMessage, TutorAction } from '@/lib/studylab/types'
 import { plainTitle } from '@/lib/studylab/actions'
@@ -66,6 +67,8 @@ interface ChatMouthpieceProps {
   locked?: boolean
   /** Shown in the locked box when there is nothing composed to send. */
   lockedHint?: string
+  /** Homework: begin on the questions the learner picked off their own sheet. */
+  onStartHomework?: (questionIds: string[]) => void
 }
 
 /**
@@ -83,7 +86,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework }: ChatMouthpieceProps) {
   // A plan is awaiting a decision when the newest plan card is still live.
   const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
 
@@ -205,7 +208,21 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   ordinary teaching line used to be the same grey bubble, so
                   nothing in the conversation read as more important than
                   anything else. */}
-              {m.kind === 'plan' && m.plan ? (
+              {m.kind === 'homework' && m.sheet ? (
+                <div className="max-w-[92%] w-full space-y-2">
+                  {m.content && (
+                    <div className="rounded-2xl rounded-tl-sm bg-ss-chip dark:bg-white/5 px-3.5 py-2.5 text-[13.5px] leading-relaxed">
+                      {m.content}
+                    </div>
+                  )}
+                  <QuestionPicker
+                    questions={m.sheet.questions}
+                    live={m.sheet.live === true}
+                    busy={busy}
+                    onStart={(ids) => onStartHomework?.(ids)}
+                  />
+                </div>
+              ) : m.kind === 'plan' && m.plan ? (
                 <div data-tour="lesson-plan-card" className="max-w-[92%] w-full">
                   <PlanCard
                     plan={m.plan}

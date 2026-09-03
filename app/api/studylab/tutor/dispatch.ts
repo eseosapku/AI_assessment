@@ -12,6 +12,7 @@ import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
 import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
 import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
+import { parseHomeworkSheet, stepsFromQuestions } from '@/lib/studylab/homework'
 import { isCardKind } from '@/lib/studylab/blocks'
 import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
@@ -37,6 +38,15 @@ export type LessonAction =
   | { type: 'stop' }
   | { type: 'finish' }
   | { type: 'ask'; question: string }
+  /**
+   * Homework only, and the replacement for `draft_plan` + `accept_plan` there.
+   *
+   * The questions the learner picked off their own sheet become the steps, so
+   * no model call drafts anything: a sheet is already an ordered plan somebody
+   * set them, and asking a model to invent a different one produced a five-step
+   * course in Engineering Economics for a single pump question.
+   */
+  | { type: 'start_homework'; sheet: unknown; questionIds: string[] }
 
 export interface DispatchInput {
   run: LessonRun
@@ -86,6 +96,12 @@ function transitionFor(input: DispatchInput): Transition {
       return paced.ok ? acceptPlan(paced.run) : paced
     }
     case 'edit_plan': return editPlan(run, action.edit, policy)
+    case 'start_homework': {
+      const steps = stepsFromQuestions(parseHomeworkSheet(action.sheet), action.questionIds)
+      if (steps.length === 0) return { ok: false, reason: 'Pick at least one question to work on.' }
+      const proposed = proposePlan(run, steps)
+      return proposed.ok ? acceptPlan(proposed.run) : proposed
+    }
     case 'next_beat': return nextBeat(run)
     case 'test_out': return requestTestOut(run, action.stepId, action.checkpointId, policy)
     case 'answer_check':
@@ -167,7 +183,7 @@ function boardWithTurn(board: BoardSummary, actions: unknown[], stepNo: number):
   return { ...board, cardsSinceCheck: { ...board.cardsSinceCheck, [stepNo]: base + madeNow } }
 }
 
-const ALWAYS_TEACHES = new Set(['accept_plan', 'next_beat', 'answer_check'])
+const ALWAYS_TEACHES = new Set(['accept_plan', 'next_beat', 'answer_check', 'start_homework'])
 
 /**
  * Whether this turn should call the teaching job.
@@ -1091,7 +1107,7 @@ function acceptsParaphrase(q: CheckpointQuestion): CheckpointQuestion {
  */
 function buildTeachPrompt(
   run: LessonRun,
-  step: { title: string; goal: string },
+  step: LessonStep,
   context: Record<string, unknown>,
 ): string {
   const board = parseBoardSummary(context.board)
@@ -1180,11 +1196,45 @@ function buildTeachPrompt(
     : ''
 
 
+  // A homework step is not a topic to teach; it is a question they were set and
+  // have to hand in. Everything about the turn changes: what the step is, what
+  // a card is for, and above all that the answer is theirs to reach. A homework
+  // helper that writes the answer into a card has done the homework, and has
+  // done it before anyone asked whether that was wanted.
+  const hw = step.homework
+  const homework = hw
+    ? [
+        '',
+        'THIS IS HOMEWORK, NOT A TOPIC. The step above is a question the student',
+        `was set (${hw.label}) and has to hand in. The question in full is the`,
+        'goal of the step, above. Work on THAT question, with THEIR numbers.',
+        hw.attempt
+          ? `\nTHEY HAVE ALREADY WRITTEN THIS on the page:\n${hw.attempt}\n\nStart from where they actually are. Say what is right about it before anything else, and take them to the first line that goes wrong rather than back to the beginning.`
+          : '\nThe page is blank under this question — they have not started it.',
+        hw.rubric ? `A correct answer has to show: ${hw.rubric}` : '',
+        '',
+        'NEVER WRITE THE ANSWER TO THEIR QUESTION. Not in a card, not in "say",',
+        'not as a worked example that happens to use their numbers. A practice',
+        'card here sets ONE step of their working and lets them do it — "find the',
+        'static lift", not "here is the static lift". If they are stuck, work a',
+        'PARALLEL problem with different numbers and hand theirs back to them.',
+      ]
+        .filter(Boolean)
+        .join('\n')
+    : ''
+
+  const given =
+    hw && Array.isArray(context.given) && context.given.length > 0
+      ? `\nWHAT THE SHEET GIVES THEM (the photo is not attached; this is all there is):\n${(context.given as string[]).map((g) => `  - ${g}`).join('\n')}`
+      : ''
+
   return [
     SYSTEM,
     '',
     `LESSON: ${String(context.title ?? 'this topic')}`,
     context.subject ? `SUBJECT: ${String(context.subject)}` : '',
+    homework,
+    given,
     '',
     'THE PLAN:',
     planList,

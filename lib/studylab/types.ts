@@ -1,6 +1,7 @@
 // Shared StudyLab data shapes used by the canvas, tutor route and persistence.
 import type { BlockSource } from './blocks'
 import type { PracticeCell } from './practice'
+import type { HomeworkSheet } from './homework'
 
 export type MasteryStatus = 'mastered' | 'developing' | 'gap' | 'not_assessed'
 
@@ -117,6 +118,15 @@ export interface CanvasState {
   viewport?: { x: number; y: number; zoom: number }
   /** The tutor's lesson outline, drafted on the first turn. */
   plan?: PlanStep[]
+  /**
+   * A homework space's sheet, as read from the photo.
+   *
+   * Saved with the board because the read is the one time the photo is looked
+   * at: re-reading on every load would cost a vision call for something that
+   * cannot have changed, and a reload would quietly re-ask which questions to
+   * work on.
+   */
+  homework?: HomeworkSheet
 }
 
 /**
@@ -138,6 +148,8 @@ export type ChatMessageKind =
   | 'error'
   /** What an action did. Not teaching — reported quietly, out of the bubbles. */
   | 'status'
+  /** The questions read off a homework sheet, for the learner to choose from. */
+  | 'homework'
 
 /** A plan as the chat renders it, with the questions asked beside it. */
 export interface ChatPlan {
@@ -154,6 +166,12 @@ export interface ChatMessage {
   kind?: ChatMessageKind
   /** Present on kind:'plan'. */
   plan?: ChatPlan
+  /**
+   * Present on kind:'homework'. The sheet as read, and whether the picker is
+   * still offering — the same `live` idea the plan card uses, so an old list
+   * stops taking clicks once a choice has been made.
+   */
+  sheet?: { questions: { id: string; label: string; text: string }[]; live?: boolean }
   actions?: TutorAction[]
   suggestions?: string[]
   /** Data URL of an image the student attached to this message. */

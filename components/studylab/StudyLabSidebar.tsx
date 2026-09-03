@@ -28,6 +28,8 @@ interface StudyLabSidebarProps {
   // Workspace passes a real run, policy and handlers; the defaults below only
   // cover callers (e.g. tests) that render the sidebar without them.
   policy?: LessonPolicy
+  /** Where the space came from, so the rail can name what it is listing. */
+  origin?: string
   onTestOut?: (stepId: string) => void
   onJump?: (stepId: string) => void
   onSetPace?: (pace: Pace) => void
@@ -46,6 +48,7 @@ export default function StudyLabSidebar({
   onFocusGroup,
   run,
   policy = policyFor('scratch'),
+  origin,
   onTestOut = () => {},
   onJump = () => {},
   onSetPace = () => {},
@@ -53,6 +56,8 @@ export default function StudyLabSidebar({
 }: StudyLabSidebarProps) {
   const hasPlan = !!plan && plan.length > 0
   const rail = railSteps(run ?? null, policy)
+  // A homework space is not a course: the rail lists the questions it read.
+  const homework = origin === 'homework'
   const settled = rail.filter((r) => r.status === 'done' || r.status === 'known').length
   const hasRail = rail.length > 0
   // A proposed plan is a preview until it is accepted; nothing in it can be acted on.
@@ -291,7 +296,12 @@ export default function StudyLabSidebar({
                 // Before a plan exists there is nothing completed to wait for —
                 // saying so read as though the lesson had already started.
                 <p className="px-2 text-[12px] text-gray-600">
-                  Your steps will appear here once the plan is drafted.
+                  {/* A homework space has no plan to draft — its steps are the
+                      questions off the page, and it says so while the page is
+                      being read. */}
+                  {homework
+                    ? 'The questions on your sheet will appear here.'
+                    : 'Your steps will appear here once the plan is drafted.'}
                 </p>
               )}
               {groups.map((g, i) => (

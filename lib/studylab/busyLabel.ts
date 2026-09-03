@@ -27,6 +27,8 @@ export function busyLabel(action: { type?: string; pace?: string } | null | unde
       return 'Thinking about that…'
     case 'edit_plan':
       return 'Reworking the plan…'
+    case 'start_homework':
+      return 'Setting up your question…'
     default:
       return 'Thinking…'
   }
