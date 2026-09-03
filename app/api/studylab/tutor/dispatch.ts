@@ -12,7 +12,8 @@ import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
 import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
 import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
-import { plainTitle, titleKey } from '@/lib/studylab/actions'
+import { isCardKind } from '@/lib/studylab/blocks'
+import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
@@ -279,6 +280,21 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   }
 
   const rawActions = fitCardsToLesson(returned, advanced)
+
+  // A turn that tried to build something and got all of it wrong is a turn
+  // that built nothing, and the `say` will happily describe it anyway: the
+  // chat read "Here's a practice question to help you solidify your
+  // understanding" beside a board with no question on it. Saying so and
+  // leaving state alone lets the learner press again from the same place.
+  if (returned.length > 0 && !rawActions.some(isValidAction)) {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'That did not come through. Try that again.',
+    }
+  }
 
   // A turn whose every card already exists is a turn that builds nothing. The
   // reducer drops repeats — by id and by title, in any word order — so the
@@ -577,6 +593,24 @@ function unMultipleChoice(a: Record<string, unknown>): Record<string, unknown> |
 }
 
 /**
+ * Repairs a card the model addressed by its kind instead of its type.
+ *
+ * The contract is `{ "type": "createCard", "card": "practice", ... }`, and the
+ * model wrote `{ "type": "practice", ... }` — everything else correct: id,
+ * title, body, answer, rubric, step. `isValidAction` does not recognise it, so
+ * the reducer dropped it without a word, the chat listed nothing, and the
+ * learner read "Here's a practice question to help you solidify your
+ * understanding" beside a board with no question on it. Asking again produced
+ * the same near miss, which is why practice sometimes never arrived at all.
+ *
+ * One field away from working is worth repairing rather than discarding.
+ */
+function coerceCardAction(a: Record<string, unknown>): Record<string, unknown> {
+  if (typeof a.type !== 'string' || !isCardKind(a.type)) return a
+  return { ...a, type: 'createCard', card: a.type }
+}
+
+/**
  * Keeps runnable card types out of lessons that are not about code.
  *
  * The prompt says plainly that "code" and "web" are for source code the student
@@ -592,6 +626,9 @@ function fitCardsToLesson(actions: unknown[], run: LessonRun): unknown[] {
   // Retiring the diagram card applies to every lesson; only the runnable-card
   // rule below turns on whether this one teaches programming.
   const retired = actions
+    .map((raw) =>
+      raw && typeof raw === 'object' ? coerceCardAction(raw as Record<string, unknown>) : raw,
+    )
     .map((raw) => {
       // "aside" decides when a step is finished being taught, so it is not the
       // model's to set. It comes off here and is put back by `markAsides` on
@@ -835,27 +872,40 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     }
   }
 
+  // A checkpoint is dropped whatever the model returns. Asking a question must
+  // never put a gate in front of the learner: the check would render on the
+  // canvas with nothing in the run to resolve it, so Continue would block on a
+  // quiz that answering could not clear.
+  //
+  // What survives is marked as an aside, so the step's own teaching is not
+  // shortened by it. The check arrives after a step's worth of cards, counted
+  // off the board — which meant three questions, each answered with a card,
+  // brought the check forward and the step was taught less than a step that
+  // nobody asked anything about.
+  const asideActions = markAsides(
+    fitCardsToLesson(
+      (Array.isArray(parsed?.actions) ? parsed.actions : []).filter(
+        (a) => !a || typeof a !== 'object' || (a as { type?: unknown }).type !== 'checkpoint',
+      ),
+      advanced,
+    ),
+  )
+  // Same rule as a teaching turn: an answer that describes a card it failed to
+  // build is worse than one that admits it did not come through.
+  if (asideActions.length > 0 && !asideActions.some(isValidAction)) {
+    return {
+      run: input.run,
+      say: '',
+      actions: [],
+      suggestions: [],
+      refusal: 'That did not come through. Try that again.',
+    }
+  }
+
   return {
     run: advanced,
     say: typeof parsed?.say === 'string' ? parsed.say : '',
-    // A checkpoint is dropped here whatever the model returns. Asking a
-    // question must never put a gate in front of the learner: the check would
-    // render on the canvas with nothing in the run to resolve it, so Continue
-    // would block on a quiz that answering could not clear.
-    //
-    // What survives is marked as an aside, so the step's own teaching is not
-    // shortened by it. The check arrives after a step's worth of cards, counted
-    // off the board — which meant three questions, each answered with a card,
-    // brought the check forward and the step was taught less than a step that
-    // nobody asked anything about.
-    actions: markAsides(
-      fitCardsToLesson(
-        (Array.isArray(parsed?.actions) ? parsed.actions : []).filter(
-          (a) => !a || typeof a !== 'object' || (a as { type?: unknown }).type !== 'checkpoint',
-        ),
-        advanced,
-      ),
-    ),
+    actions: asideActions,
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],

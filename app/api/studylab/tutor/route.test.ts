@@ -260,7 +260,7 @@ describe('checkpoint emitted by a teaching turn', () => {
     vi.mocked(callGemma).mockResolvedValue(
       JSON.stringify({
         say: 'Try this.',
-        actions: [{ type: 'checkpoint', id: 'cp-1', step: 1, gate: 'hard', questions: [] }],
+        actions: [{ type: 'checkpoint', id: 'cp-1', step: 1, gate: 'hard', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] }],
         suggestions: [],
       }),
     )
@@ -280,7 +280,7 @@ describe('checkpoint emitted by a teaching turn', () => {
     vi.mocked(callGemma).mockResolvedValueOnce(
       JSON.stringify({
         say: 'Try this.',
-        actions: [{ type: 'checkpoint', id: 'cp-1', step: 1, gate: 'hard', questions: [] }],
+        actions: [{ type: 'checkpoint', id: 'cp-1', step: 1, gate: 'hard', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] }],
         suggestions: [],
       }),
     )
@@ -309,7 +309,7 @@ describe('checkpoint emitted by a teaching turn', () => {
     vi.mocked(callGemma).mockResolvedValue(
       JSON.stringify({
         say: 'Try this.',
-        actions: [{ type: 'checkpoint', id: 'cp-2', step: 1, gate: 'hard', questions: [] }],
+        actions: [{ type: 'checkpoint', id: 'cp-2', step: 1, gate: 'hard', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] }],
         suggestions: [],
       }),
     )
@@ -325,7 +325,7 @@ describe('checkpoint emitted by a teaching turn', () => {
     vi.mocked(callGemma).mockResolvedValue(
       JSON.stringify({
         say: 'Try this.',
-        actions: [{ type: 'checkpoint', id: 'cp-3', step: 99, gate: 'soft', questions: [] }],
+        actions: [{ type: 'checkpoint', id: 'cp-3', step: 99, gate: 'soft', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] }],
         suggestions: [],
       }),
     )
@@ -893,7 +893,7 @@ describe('a full step gets a check whether the model writes one or not', () => {
   })
 
   it("leaves the model's own checkpoint alone rather than adding a second", async () => {
-    const own = [{ type: 'checkpoint', id: 'cp-mine', step: 1, gate: 'hard', questions: [] }]
+    const own = [{ type: 'checkpoint', id: 'cp-mine', step: 1, gate: 'hard', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] }]
     const result = await teachReturning(own, 4)
     expect(result.actions.filter((a) => (a as { type?: string }).type === 'checkpoint')).toHaveLength(1)
     expect(callGemma).toHaveBeenCalledOnce()
@@ -1042,7 +1042,7 @@ describe('a question never puts a gate in front of the learner', () => {
         say: 'Here is an example.',
         actions: [
           { type: 'createCard', id: 'x1', card: 'concept', title: 'Example', body: 'b', step: 1 },
-          { type: 'checkpoint', id: 'cp-sneaky', step: 1, gate: 'hard', questions: [] },
+          { type: 'checkpoint', id: 'cp-sneaky', step: 1, gate: 'hard', questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }] },
         ],
       }),
     )
@@ -1743,5 +1743,78 @@ describe('"step by step" never closes a step on its first turn', () => {
 
   it('leaves "run ahead" alone — a whole step in one turn is what it is for', async () => {
     expect(await startAt('run')).toBe(true)
+  })
+})
+
+/**
+ * The learner read "Here's a practice question to help you solidify your
+ * understanding" beside a board with no question on it, several times running.
+ * The model had addressed the card by its kind — `{ "type": "practice" }` —
+ * instead of `{ "type": "createCard", "card": "practice" }`, with everything
+ * else correct. Nothing recognised it, so the reducer dropped it in silence.
+ */
+describe('a card addressed by its kind instead of its type', () => {
+  const teachReturningRaw = async (actions: unknown[]) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'have a go', actions }))
+    return applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      context: { board: { cards: [], cardsSinceCheck: {} } },
+    })
+  }
+
+  it('is repaired rather than dropped', async () => {
+    // Straight off a real board, one field away from working.
+    const result = await teachReturningRaw([
+      {
+        type: 'practice', id: 's4-practice', step: 4,
+        title: 'Gyroscopic Effect Practice',
+        body: 'If you tilt the axle of a spinning wheel to the left, which way does it turn?',
+        answer: 'forward',
+        rubric: 'Identifies that it turns in the direction of the applied force.',
+      },
+    ])
+    const [card] = result.actions as Record<string, unknown>[]
+    expect(card.type).toBe('createCard')
+    expect(card.card).toBe('practice')
+    expect(card.title).toBe('Gyroscopic Effect Practice')
+    expect(card.answer).toBe('forward')
+  })
+
+  it('repairs every card kind the same way', async () => {
+    const result = await teachReturningRaw([
+      { type: 'concept', id: 'c1', step: 1, title: 'Rates', body: 'x' },
+      { type: 'callout', id: 'c2', step: 1, title: 'Watch out', body: 'y', variant: 'warning' },
+    ])
+    expect((result.actions as Record<string, unknown>[]).map((a) => [a.type, a.card])).toEqual([
+      ['createCard', 'concept'],
+      ['createCard', 'callout'],
+    ])
+  })
+
+  it('leaves a properly formed action alone', async () => {
+    const result = await teachReturningRaw([
+      { type: 'createCard', id: 'c1', card: 'concept', step: 1, title: 'Rates', body: 'x' },
+      { type: 'connect', from: 'c1', to: 'c2' },
+    ])
+    const [card, edge] = result.actions as Record<string, unknown>[]
+    expect(card.card).toBe('concept')
+    expect(edge.type).toBe('connect')
+  })
+
+  it('says so rather than narrating a card it could not build', async () => {
+    // A shape nothing can repair. Announcing it anyway is the failure this
+    // whole guard exists to stop.
+    const result = await teachReturningRaw([{ type: 'sculpture', id: 'x1', step: 1 }])
+    expect(result.refusal).toBeTruthy()
+    expect(result.actions).toEqual([])
+    expect(result.say).toBe('')
+  })
+
+  it('leaves a turn that only spoke alone', async () => {
+    // Answering without building anything is normal and must not be refused.
+    const result = await teachReturningRaw([])
+    expect(result.refusal).toBeUndefined()
+    expect(result.say).toBe('have a go')
   })
 })
