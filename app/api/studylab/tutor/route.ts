@@ -6,6 +6,7 @@ import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscri
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import { runFromLegacy } from '@/lib/studylab/lessonRunMigrate'
 import { proposePlan, type LessonRun } from '@/lib/studylab/lessonRun'
+import { keepMeasuredSteps } from '@/lib/studylab/stepLocks'
 import { applyAction, draftPlan } from './dispatch'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 
@@ -165,10 +166,16 @@ export async function POST(request: NextRequest) {
       }
 
       const subtopics = await loadSubtopics(space)
+      // The gap this lesson was opened for, by name. Only a gap lesson has one.
+      const target = Number(space.subtopic_id)
+      const mustCover =
+        policy.gaps === 'lock' && Number.isInteger(target)
+          ? (subtopics.find((s) => s.id === target)?.name ?? null)
+          : null
       const { steps, questions, programming } = await draftPlan({
         title: String(space.title ?? ''),
         subject: space.subject ? String(space.subject) : null,
-        policy, userId, subtopics, requestId,
+        policy, userId, subtopics, requestId, mustCover,
         answer: typeof action.answer === 'string' ? action.answer : undefined,
       })
       if (steps.length === 0) {
@@ -184,7 +191,13 @@ export async function POST(request: NextRequest) {
           refusal: 'Could not draft a plan.',
         })
       }
-      const planned = proposePlan(run, steps)
+      // A gap lesson may be reshaped, but not away from the gap. Asked to skip
+      // the introductory material, the model returned a plan with no step for
+      // the subtopic the learner had been measured at 29% on — and the lesson
+      // would have run under a title about that gap while covering everything
+      // except it.
+      const kept = policy.gaps === 'lock' ? keepMeasuredSteps(run.steps, steps) : steps
+      const planned = proposePlan(run, kept)
       // Decided once, here, and carried for the rest of the lesson: every
       // teaching turn checks it before allowing a card that runs code.
       const next = planned.ok ? { ...planned.run, programming } : run

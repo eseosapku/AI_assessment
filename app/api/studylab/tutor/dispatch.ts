@@ -1382,6 +1382,13 @@ export interface DraftPlanInput {
    * first pass — the whole point of asking is that the second plan differs.
    */
   answer?: string
+  /**
+   * A subtopic the plan may not drop, by name. Gap lessons only.
+   *
+   * Put to the model as well as enforced afterwards, because a plan that keeps
+   * the gap willingly reads better than one with a step bolted onto the front.
+   */
+  mustCover?: string | null
 }
 
 /**
