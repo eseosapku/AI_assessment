@@ -14,6 +14,7 @@ import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
 import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
 import { parseHomeworkSheet, stepsFromQuestions } from '@/lib/studylab/homework'
 import { isCardKind } from '@/lib/studylab/blocks'
+import { parseImageDataUrl } from '@/lib/studylab/imageMime'
 import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
@@ -37,7 +38,14 @@ export type LessonAction =
   | { type: 'set_pace'; pace: Pace }
   | { type: 'stop' }
   | { type: 'finish' }
-  | { type: 'ask'; question: string }
+  /**
+   * `image` is a photo of their own work, pasted into the chat.
+   *
+   * The attach button has always been there and the photo has always shown in
+   * the transcript; nothing ever read it, so the tutor answered as though the
+   * page were not in front of it.
+   */
+  | { type: 'ask'; question: string; image?: string }
   /**
    * Homework only, and the replacement for `draft_plan` + `accept_plan` there.
    *
@@ -897,6 +905,13 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     }
   }
 
+  // A photo of their own work, pasted into the chat. Looked at on this turn
+  // only: it is what they are asking about, not something the lesson carries
+  // forward. The attach button has always been there and the photo has always
+  // shown in the transcript — nothing ever read it, so the tutor answered as
+  // though the page were not in front of it.
+  const photo = input.action.type === 'ask' ? parseImageDataUrl(input.action.image) : null
+
   const finished = advanced.phase === 'done'
   const prompt = [
     buildTeachPrompt(advanced, step, input.context ?? {}),
@@ -904,15 +919,21 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     finished
       ? 'The lesson is FINISHED. The student has a follow-up question about it — answer it against the whole lesson, adding a card if that is the clearest way. Do not restart the lesson and do not emit a checkpoint.'
       : "The student has a question about the current step — answer it. You may add or update a card if that's the clearest way to explain, but do NOT advance to a new beat or step.",
+    photo
+      ? 'THEY HAVE ATTACHED A PHOTO OF THEIR OWN WORK. Read it and answer what is actually on it — say what is right before what is wrong, and name the first line that goes wrong rather than listing everything. Do not write out a corrected version for them to copy.'
+      : '',
     `QUESTION: ${question}`,
-  ].join('\n')
+  ]
+    .filter(Boolean)
+    .join('\n')
 
   const raw = await callGemma(prompt, {
     maxTokens: 2600,
     temperature: 0.6,
     model: modelForJob('teach_beat'),
+    ...(photo ? { image: photo } : {}),
     usage: input.requestId
-      ? { feature: 'lesson_ask', requestId: input.requestId, userId: input.userId }
+      ? { feature: photo ? 'lesson_ask_photo' : 'lesson_ask', requestId: input.requestId, userId: input.userId }
       : undefined,
   })
 
@@ -1243,6 +1264,10 @@ function buildTeachPrompt(
   // helper that writes the answer into a card has done the homework, and has
   // done it before anyone asked whether that was wanted.
   const hw = step.homework
+  // Two misses on the same question is not a third hint away from landing. The
+  // check on a homework step is always the question itself, so the count of
+  // times it has been put to them is the count of times they have missed it.
+  const stuck = (board.askedByStep[stepNo]?.length ?? 0) >= 2
   const homework = hw
     ? [
         '',
@@ -1260,8 +1285,19 @@ function buildTeachPrompt(
         'NEVER WRITE THE ANSWER TO THEIR QUESTION. Not in a card, not in "say",',
         'not as a worked example that happens to use their numbers. A practice',
         'card here sets ONE step of their working and lets them do it — "find the',
-        'static lift", not "here is the static lift". If they are stuck, work a',
-        'PARALLEL problem with different numbers and hand theirs back to them.',
+        'static lift", not "here is the static lift".',
+        stuck
+          ? [
+              '',
+              'THEY HAVE NOW MISSED THIS QUESTION TWICE. Stop setting them pieces of',
+              'it. Build ONE "worked" card that solves a PARALLEL problem end to end —',
+              'the same method, DIFFERENT numbers, never theirs — with every line shown',
+              'and said out loud. Then hand their own question back: "now do yours the',
+              'same way". Someone who has missed it twice needs to see it done, and',
+              'seeing it done on a different problem is the only way to show them',
+              'without handing in their homework for them.',
+            ].join('\n')
+          : '',
       ]
         .filter(Boolean)
         .join('\n')

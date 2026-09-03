@@ -1960,3 +1960,105 @@ describe('a homework step is checked with the question the student was set', () 
     expect(callGemma).toHaveBeenCalledTimes(2)
   })
 })
+
+/**
+ * Phase 3 of homework help: the ways out.
+ */
+describe('a photo of their own work is actually read', () => {
+  const PNG = 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUg=='
+
+  it('goes to the model, and the turn is told to answer what is on it', async () => {
+    // The attach button has always been there, and the photo has always shown
+    // in the transcript. Nothing read it, so the reply came back as though the
+    // page were not in front of it.
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'line three is where it goes', actions: [] }))
+    await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1',
+      action: { type: 'ask', question: 'is this right?', image: PNG },
+      context: {},
+    })
+    const [prompt, opts] = vi.mocked(callGemma).mock.calls[0] as [string, Record<string, unknown>]
+    expect(prompt).toContain('THEY HAVE ATTACHED A PHOTO OF THEIR OWN WORK')
+    expect(opts.image).toEqual({ mimeType: 'image/png', base64: PNG.split(',')[1] })
+  })
+
+  it('says nothing about a photo when there is not one', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'sure', actions: [] }))
+    await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1',
+      action: { type: 'ask', question: 'why?' }, context: {},
+    })
+    const [prompt, opts] = vi.mocked(callGemma).mock.calls[0] as [string, Record<string, unknown>]
+    expect(prompt).not.toContain('ATTACHED A PHOTO')
+    expect(opts.image).toBeUndefined()
+  })
+
+  it('ignores something that is not an image without failing the turn', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'sure', actions: [] }))
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1',
+      action: { type: 'ask', question: 'why?', image: 'https://example.test/x.png' }, context: {},
+    })
+    expect(result.say).toBe('sure')
+    expect((vi.mocked(callGemma).mock.calls[0][1] as Record<string, unknown>).image).toBeUndefined()
+  })
+})
+
+describe('missing the same homework question twice', () => {
+  const stuckRun = (): LessonRun => {
+    const planned = proposePlan(emptyRun(policyFor('homework')), [
+      {
+        id: 'q1',
+        title: 'Find the best pump',
+        goal: 'An engineer must choose between two pumps. Find the best pump.',
+        status: 'pending',
+        cardIds: [],
+        homework: { label: '1', answer: 'Pump B', rubric: 'Compares annual cost.', attempt: null },
+      },
+    ])
+    if (!planned.ok) throw new Error(planned.reason)
+    const started = acceptPlan(planned.run)
+    if (!started.ok) throw new Error(started.reason)
+    return started.run
+  }
+
+  const teachWith = async (asked: string[]) => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'ok', actions: [] }))
+    await applyAction({
+      run: stuckRun(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'next_beat' },
+      context: { board: { cards: [], cardsSinceCheck: {}, askedByStep: { 1: asked } } },
+    })
+    return String(vi.mocked(callGemma).mock.calls[0][0])
+  }
+
+  it('switches to working a parallel problem in full', async () => {
+    // Two misses is not a third hint away from landing. Seeing it done on a
+    // different problem is the only way to show them without handing in their
+    // homework for them.
+    const prompt = await teachWith(['Find the best pump.', 'Find the best pump.'])
+    expect(prompt).toContain('MISSED THIS QUESTION TWICE')
+    expect(prompt).toContain('PARALLEL problem')
+    expect(prompt).toContain('DIFFERENT numbers')
+  })
+
+  it('does not offer it on a first or second attempt', async () => {
+    expect(await teachWith([])).not.toContain('MISSED THIS QUESTION TWICE')
+    expect(await teachWith(['Find the best pump.'])).not.toContain('MISSED THIS QUESTION TWICE')
+  })
+
+  it('never does it on an ordinary lesson step', async () => {
+    // There is no "their question" to hand back.
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'ok', actions: [] }))
+    await applyAction({
+      run: openRun(), policy: GAP, userId: 'u1', action: { type: 'next_beat' },
+      context: { board: { cards: [], cardsSinceCheck: {}, askedByStep: { 1: ['a?', 'b?'] } } },
+    })
+    expect(String(vi.mocked(callGemma).mock.calls[0][0])).not.toContain('MISSED THIS QUESTION TWICE')
+  })
+})

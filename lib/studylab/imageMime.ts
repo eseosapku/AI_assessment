@@ -37,3 +37,17 @@ export function correctImageMime<T extends { base64: string; mimeType: string }>
   const actual = sniffImageMime(image.base64)
   return actual && actual !== image.mimeType ? { ...image, mimeType: actual } : image
 }
+
+/**
+ * A `data:` URL as something a model call can take, labelled honestly.
+ *
+ * Anything that is not a data URL comes back null rather than as a half-built
+ * image, because a malformed one fails the whole call rather than the part of
+ * it that wanted a picture.
+ */
+export function parseImageDataUrl(value: unknown): { mimeType: string; base64: string } | null {
+  if (typeof value !== 'string') return null
+  const m = value.match(/^data:([^;]+);base64,(.+)$/)
+  if (!m) return null
+  return correctImageMime({ mimeType: m[1], base64: m[2] })
+}

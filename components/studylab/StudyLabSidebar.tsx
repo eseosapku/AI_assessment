@@ -135,8 +135,13 @@ export default function StudyLabSidebar({
 
         {/* Hidden while the plan is still being agreed: the plan card asks
             for the pace there, and a toggle already showing an answer makes
-            that question look decided before it was put. */}
-        {run && run.phase !== 'planning' && (
+            that question look decided before it was put.
+
+            Hidden on homework outright. "Run ahead" builds a step in one turn,
+            and a homework step is a question the learner has to hand in —
+            building it in one turn is doing it for them, so it is not a choice
+            worth offering. */}
+        {run && run.phase !== 'planning' && !homework && (
           <div data-tour="lesson-pace" className="mx-2 mb-3 rounded-xl bg-white/5 p-1.5">
             <div className="flex gap-1">
               {PACES.map(({ id, icon: Icon, title, blurb }) => (

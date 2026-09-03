@@ -1,22 +1,13 @@
 import { randomUUID } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
-import { callGemma, parseJsonRobust, hasBedrockCredentials, type ImageInput } from '@/lib/bedrock'
+import { callGemma, parseJsonRobust, hasBedrockCredentials } from '@/lib/bedrock'
 import { BEDROCK_CREDENTIALS_ERROR } from '@/lib/aws-config'
 import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 import { parseHomeworkSheet, EMPTY_SHEET } from '@/lib/studylab/homework'
-import { correctImageMime } from '@/lib/studylab/imageMime'
+import { parseImageDataUrl } from '@/lib/studylab/imageMime'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
-
-function parseImage(value: unknown): ImageInput | null {
-  if (typeof value !== 'string') return null
-  const m = value.match(/^data:([^;]+);base64,(.+)$/)
-  if (!m) return null
-  // What the browser or the file extension claimed is not evidence. Bedrock
-  // reads the magic bytes and rejects the call outright when they disagree.
-  return correctImageMime({ mimeType: m[1], base64: m[2] })
-}
 
 /**
  * Reads a homework sheet: what is being asked, and what the student already did.
@@ -56,7 +47,7 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const image = parseImage(body?.image)
+    const image = parseImageDataUrl(body?.image)
     const text = String(body?.text ?? '').trim().slice(0, 6000)
     if (!image && !text) {
       return NextResponse.json({ error: 'Send a photo or the text of the problem.' }, { status: 400 })

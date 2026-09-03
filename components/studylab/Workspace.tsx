@@ -461,13 +461,14 @@ export default function Workspace({ id }: { id: string }) {
         handleAdvance()
         return
       }
-      // A typed question, or a pasted/attached image: kept visible for
-      // continuity. The image itself isn't sent — `ask` takes a question
-      // only — but the text still goes to the tutor via the `ask` action.
+      // A typed question, and the photo of their own work if they attached
+      // one. Both go to the tutor: the photo used to be shown in the transcript
+      // and dropped, so the answer came back as though the page were not in
+      // front of it — which for homework is the whole of what they are asking.
       setMessages((prev) => [...prev, { role: 'user', content: text, imageUrl: opts?.image }])
       const question = text.trim()
       if (!question) return
-      void sendAction({ type: 'ask', question })
+      void sendAction({ type: 'ask', question, image: opts?.image })
     },
     [busy, handleAdvance, sendAction]
   )

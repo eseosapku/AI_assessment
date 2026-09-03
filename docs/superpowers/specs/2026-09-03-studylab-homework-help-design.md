@@ -1,6 +1,6 @@
 # Homework help, as its own thing
 
-**Status:** design, awaiting approval
+**Status:** built — phases 1, 2 and 3 landed 2026-09-03
 **Date:** 2026-09-03
 
 ## The problem
@@ -114,9 +114,9 @@ plan, so the model call that produced the generic syllabus disappears entirely
 
 On open:
 
-- The photo goes on the board as an `image` node. `addImageNode` already exists
-  in `lib/studylab/actions.ts` and **nothing currently calls it**; this is what
-  it was written for.
+- The photo goes on the board as an `image` node. `createImageCard` already exists
+  in `lib/studylab/actions.ts` and **nothing called it**; this is what it was
+  written for.
 - The chat lists the questions and asks which to work on, with a chip per
   question plus "All of them".
 - Exactly one question on the sheet ⇒ no asking, straight in.
@@ -195,8 +195,10 @@ question in one go, which is the one thing this must not do.
 **New**
 
 - `app/api/studylab/homework/read/route.ts` — the vision read above.
-- `lib/studylab/homework.ts` — the parsed-sheet type, its validator, and
-  `stepsFromQuestions()`.
+- `lib/studylab/homework.ts` — the parsed-sheet type, its validator,
+  `stepsFromQuestions()` and `questionCards()`.
+- `lib/studylab/imageMime.ts` — the type an image really is, from its bytes.
+- `lib/studylab/markdownTable.ts` — pulls the data table out of a question.
 - A `question` card kind in `lib/studylab/blocks.ts` and its renderer: the
   printed label, the transcribed text, read-only, visually distinct from
   anything being taught. It is the thing being answered, not a thing being
@@ -246,3 +248,34 @@ pace switch, and adding a second photo to a space that already exists.
 - **Re-reading the photo mid-lesson.** Not in scope. If the transcription is
   wrong the student can correct it in chat, and the correction reaches the tutor
   the same way any other message does.
+
+
+## What actually happened
+
+Built in the three phases above. Everything in the design survived contact with
+the two real sheets; these are the things it did not predict.
+
+**The root cause was one line lower than this document thought.** The create
+route accepted only `'gap'` and coerced everything else to `'scratch'`, so every
+homework space ever made was stored as a scratch space. The homework policy had
+never applied to anything, and the branch that hands a photo to the lesson had
+never once run.
+
+**Both test sheets were worked solutions, not blank questions.** That is what
+someone asking for homework help has in front of them, and the design nearly
+missed it. `attempt` is read separately from the question, and the tutor now
+opens with what is right about their working rather than from the beginning.
+
+**A file's extension is hearsay.** One of the two pages is named `.gif` and is a
+PNG. Bedrock reads the magic bytes and refuses the whole call on a mismatch.
+
+**`$` is a currency symbol more often than a maths delimiter,** and a
+transcribed cost table is full of them.
+
+**The question card had to be visible to the tutor without being writable by
+it.** It is not a `CardKind` — nothing can `createCard` one — but it is listed
+in the board summary, or the first card of a step has nothing to connect to.
+
+Still to do: a second page added to a space that already exists. The chat's
+attach button now reads a photo of the learner's own work on any turn, which
+covers most of what that was for.
