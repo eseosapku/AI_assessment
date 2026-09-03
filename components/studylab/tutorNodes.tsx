@@ -5,6 +5,7 @@ import { Handle, Position } from '@xyflow/react'
 import { ListOrdered, Table as TableIcon, BookMarked, Lightbulb, AlertTriangle } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { CardFrame, NodeHeader, SafeLatex, handleClass } from './canvasShared'
+import { splitMarkdownTable } from '@/lib/studylab/markdownTable'
 
 export function WorkedNode({ data }: NodeProps) {
   const d = data as unknown as StudyNodeData
@@ -91,6 +92,92 @@ export function CalloutNode({ data }: NodeProps) {
       </div>
       <div className="text-[13px] text-ss-ink whitespace-pre-wrap">
         <SafeLatex>{d.body}</SafeLatex>
+      </div>
+      <Handle type="source" position={Position.Right} className={handleClass} />
+    </div>
+  )
+}
+
+/**
+ * The question the learner was set, on the board beside their working.
+ *
+ * Deliberately unlike every other card. The rest of the board is the tutor's
+ * writing; this is a transcription of the student's own sheet, and the whole
+ * step hangs off it — so it reads as a quotation, not as an explanation: a rule
+ * down the side, the printed number as its label, and no icon chip pretending
+ * it is another kind of teaching.
+ */
+/**
+ * A question's text, with any table in it rendered as a table.
+ *
+ * The pump question is a sentence and then four rows of costs and lifetimes,
+ * and that table IS the question — as a run of markdown pipes it was the least
+ * readable thing on the board, in the one card the learner has to read most
+ * carefully.
+ */
+function QuestionBody({ text }: { text: string }) {
+  const split = splitMarkdownTable(text)
+  if (!split) {
+    return (
+      <div className="mt-1 whitespace-pre-wrap text-[13.5px] font-medium leading-relaxed text-ss-ink">
+        <SafeLatex>{text}</SafeLatex>
+      </div>
+    )
+  }
+  const [head, ...body] = split.rows
+  return (
+    <div className="mt-1 space-y-2 text-[13.5px] font-medium leading-relaxed text-ss-ink">
+      {split.before && (
+        <div className="whitespace-pre-wrap">
+          <SafeLatex>{split.before}</SafeLatex>
+        </div>
+      )}
+      <div className="overflow-x-auto">
+        <table className="w-full border-collapse text-[12.5px]">
+          <thead>
+            <tr>
+              {head.map((c, i) => (
+                <th key={i} className="border border-ss-line bg-ss-chip px-2 py-1 text-left font-semibold">
+                  <SafeLatex>{c}</SafeLatex>
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody>
+            {body.map((r, ri) => (
+              <tr key={ri}>
+                {r.map((c, ci) => (
+                  <td key={ci} className="border border-ss-line px-2 py-1 tabular-nums">
+                    <SafeLatex>{c}</SafeLatex>
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      {split.after && (
+        <div className="whitespace-pre-wrap">
+          <SafeLatex>{split.after}</SafeLatex>
+        </div>
+      )}
+    </div>
+  )
+}
+
+export function QuestionNode({ data }: NodeProps) {
+  const d = data as unknown as StudyNodeData
+  return (
+    <div className="sl-node-enter w-[380px] rounded-2xl border border-ss-line bg-ss-panel shadow-sm">
+      <Handle type="target" position={Position.Left} className={handleClass} />
+      <div className="flex gap-3 px-4 py-3.5">
+        <span aria-hidden className="w-1 shrink-0 rounded-full bg-ss-accent" />
+        <div className="min-w-0">
+          <p className="text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">
+            {d.title ?? 'Question'}
+          </p>
+          <QuestionBody text={d.body ?? ''} />
+        </div>
       </div>
       <Handle type="source" position={Position.Right} className={handleClass} />
     </div>

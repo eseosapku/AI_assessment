@@ -4,6 +4,7 @@ import {
   parseHomeworkSheet,
   questionSummary,
   stepsFromQuestions,
+  questionCards,
   EMPTY_SHEET,
 } from './homework'
 
@@ -130,5 +131,46 @@ describe('stepsFromQuestions', () => {
     expect(step.homework?.attempt).toContain('54,621')
     expect(step.status).toBe('pending')
     expect(step.cardIds).toEqual([])
+  })
+})
+
+describe('questionCards', () => {
+  const sheet = parseHomeworkSheet(SHEET)
+
+  it('puts the question on the board, in full', () => {
+    // The rail gets a shortened title; the card is the question itself,
+    // because it is what the learner reads while they work.
+    const { nodes } = questionCards(sheet, ['q1'], 'hw-photo')
+    expect(nodes).toHaveLength(1)
+    expect(nodes[0].id).toBe('hw-q1')
+    expect(nodes[0].type).toBe('question')
+    expect(nodes[0].data.body).toBe(sheet.questions[0].text)
+    expect(nodes[0].data.title).toBe('Question 1')
+  })
+
+  it('numbers the steps the cards belong to, in the order they were picked', () => {
+    const { nodes } = questionCards(sheet, ['q1', 'q2'], 'hw-photo')
+    expect(nodes.map((n) => n.data.step)).toEqual([1, 2])
+  })
+
+  it('hangs each one off the photo, so the board reads from the page down', () => {
+    const { edges } = questionCards(sheet, ['q1', 'q2'], 'hw-photo')
+    expect(edges.map((e) => [e.source, e.target])).toEqual([
+      ['hw-photo', 'hw-q1'],
+      ['hw-photo', 'hw-q2'],
+    ])
+    // Labelled only when there is more than one to tell apart.
+    expect(edges[0].label).toBe('1')
+    expect(questionCards(sheet, ['q1'], 'hw-photo').edges[0].label).toBeUndefined()
+  })
+
+  it('works for typed homework, which has no photo to hang off', () => {
+    const { nodes, edges } = questionCards(sheet, ['q1'], null)
+    expect(nodes).toHaveLength(1)
+    expect(edges).toEqual([])
+  })
+
+  it('makes nothing for questions nobody picked', () => {
+    expect(questionCards(sheet, [], 'hw-photo').nodes).toEqual([])
   })
 })

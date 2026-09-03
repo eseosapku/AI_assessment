@@ -13,7 +13,7 @@ import { RunnableCodeNode } from './RunnableCodeCard'
 import { WebSandboxNode } from './WebSandboxCard'
 import { StickyNode, NoteNode, ChecklistNode, FlashcardNode, PhotoNode, FrameNode, ResourceBoardNode } from './freeformNodes'
 import { QuizNode, CheckpointHeaderNode } from './QuizNode'
-import { WorkedNode, TableNode, CalloutNode } from './tutorNodes'
+import { WorkedNode, TableNode, CalloutNode, QuestionNode } from './tutorNodes'
 import { MermaidNode } from './MermaidNode'
 
 // Re-export so existing importers (StudyCanvas) keep working.
@@ -139,4 +139,5 @@ export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>
   callout: CalloutNode,
   mermaid: MermaidNode,
   web: WebSandboxNode,
+  question: QuestionNode,
 }

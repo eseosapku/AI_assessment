@@ -28,7 +28,7 @@ export interface QuizCell {
 }
 
 export interface StudyNodeData {
-  kind: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader'
+  kind: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question'
   title?: string
   body?: string
   /** Bullet points for a concept card (e.g. "Key Terms"). */
@@ -90,7 +90,12 @@ export interface StudyNodeData {
 
 export interface StudyNode {
   id: string
-  type: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader'
+  /**
+   * `question` is a homework question transcribed off the learner's own sheet.
+   * It is deliberately not a `CardKind`: there is no `createCard` that makes
+   * one, because it is not something a tutor writes.
+   */
+  type: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question'
   position: { x: number; y: number }
   data: StudyNodeData
   hidden?: boolean

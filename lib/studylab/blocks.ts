@@ -8,7 +8,7 @@ export type BlockSource = 'ai' | 'freeform'
 export type BlockType =
   // AI-creatable / tutor-managed
   | 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout' | 'web'
-  | 'practice'
+  | 'practice' | 'question'
   | 'quiz' | 'checkpointHeader' | 'stepGroup' | 'image'
   // Derived at render time from where the cards are; never stored on a board.
   | 'stepRegion'
@@ -50,6 +50,13 @@ export const BLOCKS: Record<BlockType, BlockDef> = {
   // marking, and a solution that can be unfolded under all of it.
   practice: def('practice', 'ai', 360, 400),
   image: def('image', 'ai', 300, 240),
+  // The question the learner was set, on the board beside their working. Not a
+  // card the tutor writes: it is transcribed off their own sheet, and the whole
+  // step hangs off it.
+  // Tall on purpose: a question is often a paragraph and a table of data, and
+  // the layout spaces cards by this number. Sized short, the first card of the
+  // step was placed on top of the question it was about.
+  question: def('question', 'ai', 380, 420),
   // Sized from the cards it wraps, so the entry here is only a placeholder;
   // it exists so the type is complete, not because anything reads it.
   stepRegion: def('stepRegion', 'ai', 0, 0),

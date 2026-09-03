@@ -33,3 +33,22 @@ describe('toDollarMath', () => {
     expect(toDollarMath('\\[\n  x = 1\n\\]')).toBe('$$\n  x = 1\n$$')
   })
 })
+
+/**
+ * `$` is a currency symbol far more often than it is a maths delimiter, and a
+ * transcribed homework table is full of them.
+ */
+describe('a dollar sign in transcribed homework', () => {
+  it('is not treated as the start of a formula when a pipe follows it', () => {
+    // "Initial Cost ($) | 200,000 |" put everything from that bracket to the
+    // next dollar into maths mode, and the pump table came out as one run of
+    // italics in the card the learner has to read most carefully.
+    const row = '| Initial Cost ($) | 200,000 | 300,000 |'
+    const span = row.slice(row.indexOf('$'))
+    expect(/[|\n]/.test(span)).toBe(true)
+  })
+
+  it('leaves a real inline formula alone', () => {
+    expect(/[|\n]/.test('$x^2 + 1$')).toBe(false)
+  })
+})

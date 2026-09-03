@@ -71,8 +71,12 @@ export function boardSummary(
 ): BoardSummary {
   const nodes = canvas?.nodes ?? []
 
+  // The homework question counts as a card here even though it is not a
+  // `CardKind`: the tutor has to know it is on the board so it can connect its
+  // working to it. Left off the list, the first card of a homework step had
+  // nothing to hang from and was laid out on top of the question instead.
   const cards = nodes
-    .filter((n) => isCardKind(n.type) && !n.hidden)
+    .filter((n) => (isCardKind(n.type) || n.type === 'question') && !n.hidden)
     .map((n) => ({
       id: n.id,
       title: titleOf(n),

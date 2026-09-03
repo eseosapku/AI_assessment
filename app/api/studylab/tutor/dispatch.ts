@@ -346,6 +346,28 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
 }
 
 /**
+ * A homework step's check: their own question, asked back.
+ *
+ * The practice cards along the way set the parts of the working. This is the
+ * whole of it — the thing they hand in — so it is a short answer marked against
+ * what the sheet said a correct answer has to show, and there is nothing to
+ * reveal. Returns null for an ordinary lesson step, which is checked the
+ * ordinary way.
+ */
+function homeworkCheck(step: LessonStep): CheckpointQuestion | null {
+  const hw = step.homework
+  if (!hw) return null
+  return {
+    id: `${step.id}-answer`,
+    format: 'short',
+    prompt: step.goal,
+    rubric:
+      hw.rubric ??
+      'Answers the question that was set, and shows the working that gets there. Mark on the idea and the method, in whatever words the student used.',
+  }
+}
+
+/**
  * Puts a check on a step the tutor was told to close and did not.
  *
  * The prompt asks for one once a step is full. Compliance is unreliable, and an
@@ -382,13 +404,24 @@ async function ensureStepCloses(
   // with nothing to answer.
   const checkpointId = `cp-${step.id}-${Math.random().toString(36).slice(2, 6)}`
   let questions: CheckpointQuestion[]
-  try {
-    questions = await writeCheck(
-      step, checkpointId, input.userId, input.requestId, 'close-step',
-      board.askedByStep[stepNo] ?? [],
-    )
-  } catch {
-    return { run, actions }
+
+  // On homework the check is the question. Nothing is written, and no call is
+  // made: the student was set a question, they have been worked through it, and
+  // what closes the step is answering the thing they have to hand in. A quiz
+  // about the topic in general would be a third party's question in the middle
+  // of their own.
+  const own = homeworkCheck(step)
+  if (own) {
+    questions = [own]
+  } else {
+    try {
+      questions = await writeCheck(
+        step, checkpointId, input.userId, input.requestId, 'close-step',
+        board.askedByStep[stepNo] ?? [],
+      )
+    } catch {
+      return { run, actions }
+    }
   }
   if (questions.length === 0) return { run, actions }
 
@@ -732,6 +765,14 @@ function openEmittedCheckpoint(
   // is the one gate, so the same rule decides whether an emitted check opens as
   // decides whether one gets written; and it is what keeps a learner's own
   // questions from shortening the step.
+  // On homework the check is the question they were set, written by
+  // `homeworkCheck` from their own sheet. A quiz the model invented about the
+  // topic in general would be a third party's question in the middle of their
+  // own, and it would close the step without them ever answering theirs.
+  if (target.homework) {
+    return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
+  }
+
   const stepNo = run.steps.indexOf(target) + 1
   if (!shouldCloseStep(boardWithTurn(board, rawActions, stepNo), stepNo, run)) {
     return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
@@ -1212,6 +1253,9 @@ function buildTeachPrompt(
           ? `\nTHEY HAVE ALREADY WRITTEN THIS on the page:\n${hw.attempt}\n\nStart from where they actually are. Say what is right about it before anything else, and take them to the first line that goes wrong rather than back to the beginning.`
           : '\nThe page is blank under this question — they have not started it.',
         hw.rubric ? `A correct answer has to show: ${hw.rubric}` : '',
+        '',
+        `The question is already on the board as card "hw-${step.id}". Connect the`,
+        'first card you make to THAT, so the working hangs off the question.',
         '',
         'NEVER WRITE THE ANSWER TO THEIR QUESTION. Not in a card, not in "say",',
         'not as a worked example that happens to use their numbers. A practice',

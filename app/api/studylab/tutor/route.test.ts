@@ -1818,3 +1818,145 @@ describe('a card addressed by its kind instead of its type', () => {
     expect(result.say).toBe('have a go')
   })
 })
+
+/**
+ * Homework is not a topic. The step is a question the student was set and has
+ * to hand in, so what closes it is answering that — not a quiz about the
+ * subject in general, which would be a third party's question in the middle of
+ * their own.
+ */
+describe('a homework step is checked with the question the student was set', () => {
+  const homeworkRun = (): LessonRun => {
+    const planned = proposePlan(emptyRun(policyFor('homework')), [
+      {
+        id: 'q1',
+        title: 'An engineer must choose between two pumps',
+        goal: 'An engineer must choose between two pumps. The interest rate is 7%. Find the best pump.',
+        status: 'pending',
+        cardIds: [],
+        homework: {
+          label: '1',
+          answer: 'Pump B',
+          rubric: 'Compares the equivalent annual cost of both and picks the lower.',
+          attempt: 'EAC_A = 200,000(A/P, 7%, 12) + 30,000 = $54,621. B is better',
+        },
+      },
+    ])
+    if (!planned.ok) throw new Error(planned.reason)
+    const started = acceptPlan(planned.run)
+    if (!started.ok) throw new Error(started.reason)
+    return started.run
+  }
+
+  const taught = {
+    board: {
+      cards: [1, 2, 3].map((i) => ({ id: `c${i}`, title: `C${i}`, step: 1, kind: 'concept' })),
+      cardsSinceCheck: { 1: 3 },
+    },
+  }
+
+  it('asks their own question back, and spends no call writing one', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'nearly there', actions: [] }))
+    const result = await applyAction({
+      run: { ...homeworkRun(), beats: 1 }, policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'next_beat' }, context: taught,
+    })
+
+    const cp = result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+      | { questions: { format: string; prompt: string; rubric?: string }[] }
+      | undefined
+    expect(cp?.questions).toHaveLength(1)
+    expect(cp!.questions[0].format).toBe('short')
+    expect(cp!.questions[0].prompt).toContain('choose between two pumps')
+    expect(cp!.questions[0].rubric).toContain('equivalent annual cost')
+    // One call: the teaching turn. Nothing wrote a quiz.
+    expect(callGemma).toHaveBeenCalledOnce()
+  })
+
+  it('falls back to marking on the working when the sheet gave no rubric', async () => {
+    const run = homeworkRun()
+    run.steps[0].homework!.rubric = null
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'go on', actions: [] }))
+    const result = await applyAction({
+      run: { ...run, beats: 1 }, policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'next_beat' }, context: taught,
+    })
+    const cp = result.actions.find((a) => (a as { type?: string }).type === 'checkpoint') as
+      | { questions: { rubric?: string }[] } | undefined
+    expect(cp!.questions[0].rubric).toContain('whatever words')
+  })
+
+  it('drops a quiz the model made up for a homework step', async () => {
+    // It would close the step without them ever answering their own question.
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'here',
+        actions: [
+          { type: 'createCard', id: 'n1', card: 'concept', title: 'Annual cost', body: 'x', step: 1 },
+          { type: 'checkpoint', id: 'cp-mine', step: 1, gate: 'hard', questions: [
+            { id: 'q1', format: 'mcq', prompt: 'What does EAC stand for?', options: ['a', 'b'], answer: 0 },
+          ] },
+        ],
+      }),
+    )
+    const result = await applyAction({
+      run: homeworkRun(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'next_beat' }, context: { board: { cards: [], cardsSinceCheck: {} } },
+    })
+    const cps = result.actions.filter((a) => (a as { type?: string }).type === 'checkpoint')
+    expect(cps).toHaveLength(0)
+    // The teaching it did still lands.
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'createCard')).toBe(true)
+  })
+
+  it('tells the teaching turn it is homework, and not to write the answer', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'ok', actions: [] }))
+    await applyAction({
+      run: homeworkRun(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'next_beat' },
+      context: { board: { cards: [], cardsSinceCheck: {} }, given: ['Pump A: 200,000 initial cost'] },
+    })
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('THIS IS HOMEWORK, NOT A TOPIC')
+    expect(prompt).toContain('NEVER WRITE THE ANSWER TO THEIR QUESTION')
+    // Their own working reaches it, so it can start where they actually are.
+    expect(prompt).toContain('54,621')
+    expect(prompt).toContain('THEY HAVE ALREADY WRITTEN THIS')
+    // And the data off the sheet, since the photo is never sent again.
+    expect(prompt).toContain('Pump A: 200,000 initial cost')
+  })
+
+  it('says the page is blank when they had not started it', async () => {
+    const run = homeworkRun()
+    run.steps[0].homework!.attempt = null
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma).mockResolvedValue(JSON.stringify({ say: 'ok', actions: [] }))
+    await applyAction({
+      run, policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'next_beat' }, context: { board: { cards: [], cardsSinceCheck: {} } },
+    })
+    const prompt = String(vi.mocked(callGemma).mock.calls[0][0])
+    expect(prompt).toContain('they have not started it')
+    expect(prompt).not.toContain('THEY HAVE ALREADY WRITTEN THIS')
+  })
+
+  it('leaves an ordinary lesson step checked the ordinary way', async () => {
+    vi.mocked(callGemma).mockReset()
+    vi.mocked(callGemma)
+      .mockResolvedValueOnce(JSON.stringify({ say: 'taught', actions: [] }))
+      .mockResolvedValueOnce(JSON.stringify({
+        questions: [{ id: 'q1', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 0 }],
+      }))
+    const result = await applyAction({
+      run: { ...openRun(), beats: 1 }, policy: GAP, userId: 'u1',
+      action: { type: 'next_beat' }, context: taught,
+    })
+    expect(result.actions.some((a) => (a as { type?: string }).type === 'checkpoint')).toBe(true)
+    // Two calls: the teaching turn, then the check being written.
+    expect(callGemma).toHaveBeenCalledTimes(2)
+  })
+})

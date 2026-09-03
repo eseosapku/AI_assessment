@@ -12,7 +12,7 @@ import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
-import { parseHomeworkSheet, type HomeworkSheet } from '@/lib/studylab/homework'
+import { parseHomeworkSheet, questionCards, type HomeworkSheet } from '@/lib/studylab/homework'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
@@ -288,6 +288,44 @@ export default function Workspace({ id }: { id: string }) {
   // ChatMouthpiece) means "advance", not "here is a message to answer": what
   // that means depends entirely on where the run is.
   /**
+   * Begins on the questions the learner picked.
+   *
+   * The question cards go on the board BEFORE the turn is sent, not after it
+   * comes back: the tutor is told what is already on the canvas, and the first
+   * thing it builds should connect to the question rather than float beside it.
+   */
+  const startHomework = useCallback(
+    (questionIds: string[]) => {
+      const sheet = canvasRef.current.homework
+      if (sheet) {
+        const { nodes, edges } = questionCards(
+          sheet,
+          questionIds,
+          canvasRef.current.nodes.some((n) => n.id === 'hw-photo') ? 'hw-photo' : null,
+        )
+        const next: CanvasState = {
+          ...canvasRef.current,
+          nodes: [...canvasRef.current.nodes, ...nodes],
+          edges: [...canvasRef.current.edges, ...edges],
+        }
+        canvasRef.current = next
+        setCanvas(next)
+        persist({ canvas_state: next })
+      }
+      // The picker stops offering, the same way the plan card does: an old list
+      // further up the transcript must not present a second way to start a
+      // lesson that is already running.
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.kind === 'homework' && m.sheet?.live ? { ...m, sheet: { ...m.sheet, live: false } } : m,
+        ),
+      )
+      void sendAction({ type: 'start_homework', sheet, questionIds })
+    },
+    [persist, sendAction],
+  )
+
+  /**
    * Puts the question list in the chat for the learner to choose from.
    *
    * One question needs no choosing, so it starts. A page of eight does: taking
@@ -309,7 +347,7 @@ export default function Workspace({ id }: { id: string }) {
         return
       }
       if (sheet.questions.length === 1) {
-        void sendAction({ type: 'start_homework', sheet, questionIds: [sheet.questions[0].id] })
+        startHomework([sheet.questions[0].id])
         return
       }
       setMessages((prev) => [
@@ -325,7 +363,7 @@ export default function Workspace({ id }: { id: string }) {
         },
       ])
     },
-    [sendAction],
+    [startHomework],
   )
 
   /**
@@ -984,17 +1022,7 @@ export default function Workspace({ id }: { id: string }) {
             setMessages((prev) => [...prev, { role: 'user', content: answer }])
             void sendAction({ type: 'draft_plan', answer })
           }}
-          onStartHomework={(questionIds) => {
-            // The picker stops offering, the same way the plan card does: an
-            // old list further up the transcript must not present a second way
-            // to start a lesson that is already running.
-            setMessages((prev) =>
-              prev.map((m) =>
-                m.kind === 'homework' && m.sheet?.live ? { ...m, sheet: { ...m.sheet, live: false } } : m,
-              ),
-            )
-            void sendAction({ type: 'start_homework', sheet: canvasRef.current.homework, questionIds })
-          }}
+          onStartHomework={startHomework}
         />
       </div>
 

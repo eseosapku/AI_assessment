@@ -36,6 +36,9 @@ function mdEmphasis(s: string): string {
     .replace(/\*([^*\n]+)\*/g, '<strong class="text-ss-accent">$1</strong>')
 }
 
+/** A table pipe or a line break inside a $…$ span: not an inline formula. */
+const NOT_MATH = /[|\n]/
+
 // Renders model card text: $…$ segments as KaTeX math, the rest as markdown
 // emphasis. Coerces non-strings (the model occasionally sends a number/object).
 export function SafeLatex({ children }: { children?: unknown }) {
@@ -47,7 +50,12 @@ export function SafeLatex({ children }: { children?: unknown }) {
   return (
     <>
       {parts.map((p, i) => {
-        if (p.length > 2 && p.startsWith('$') && p.endsWith('$')) {
+        // A `$` is a currency symbol far more often than it is a delimiter. A
+        // transcribed homework table reading "Initial Cost ($) | 200,000" put
+        // everything from that bracket to the next dollar into maths mode, and
+        // the whole table came out as one run of italics. A span carrying a
+        // table pipe or a line break is not an inline formula.
+        if (p.length > 2 && p.startsWith('$') && p.endsWith('$') && !NOT_MATH.test(p)) {
           try {
             return <Latex key={i}>{p}</Latex>
           } catch {

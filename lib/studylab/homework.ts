@@ -1,5 +1,6 @@
 // lib/studylab/homework.ts
 import type { LessonStep } from './lessonRun'
+import type { StudyEdge, StudyNode } from './types'
 
 /**
  * One question off a homework sheet, as read rather than as solved.
@@ -147,4 +148,48 @@ export function stepsFromQuestions(
         attempt: q.attempt,
       },
     }))
+}
+
+/**
+ * The chosen questions, as cards on the board.
+ *
+ * Built here rather than asked of the model: a question card is a transcription
+ * of the learner's own sheet, not something a tutor writes, and nothing about
+ * it should be able to drift. `question` is deliberately absent from
+ * `CARD_KINDS` for the same reason — there is no `createCard` that can make one.
+ *
+ * Each hangs off the photo, so the board reads "this page, and this question
+ * off it, and the working under that".
+ */
+export function questionCards(
+  sheet: HomeworkSheet,
+  chosenIds: string[],
+  photoId: string | null,
+): { nodes: StudyNode[]; edges: StudyEdge[] } {
+  const wanted = new Set(chosenIds)
+  const chosen = sheet.questions.filter((q) => wanted.has(q.id))
+
+  const nodes: StudyNode[] = chosen.map((q, i) => ({
+    id: `hw-${q.id}`,
+    type: 'question',
+    position: { x: 0, y: 0 },
+    data: {
+      kind: 'question',
+      title: `Question ${q.label}`,
+      body: q.text,
+      // The step it opens, 1-based like every other card on the board.
+      step: i + 1,
+    },
+  }))
+
+  const edges: StudyEdge[] = photoId
+    ? chosen.map((q, i) => ({
+        id: `e-${photoId}-hw-${q.id}`,
+        source: photoId,
+        target: `hw-${q.id}`,
+        label: chosen.length > 1 ? q.label : undefined,
+      }))
+    : []
+
+  return { nodes, edges }
 }

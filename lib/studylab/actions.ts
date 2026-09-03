@@ -279,6 +279,9 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
       }
 
       case 'connect': {
+        // A card cannot follow from itself. The model produced one, and React
+        // Flow drew a little loop on the side of the card that meant nothing.
+        if (action.from === action.to) break
         const exists = edges.some((e) => e.source === action.from && e.target === action.to)
         const bothExist = nodes.some((n) => n.id === action.from) && nodes.some((n) => n.id === action.to)
         if (!exists && bothExist) {
