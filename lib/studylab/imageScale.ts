@@ -13,8 +13,12 @@ export async function downscaleDataUrl(
       i.onerror = () => reject(new Error('load'))
       i.src = dataUrl
     })
+    // Re-encoded even when it is already small enough. Passing the original
+    // through kept whatever type the file claimed to be, and one of the real
+    // homework pages is named `.gif` and is a PNG — which Bedrock detects and
+    // refuses the whole call over. Going through the canvas makes the label
+    // and the bytes agree by construction.
     const scale = Math.min(1, maxDim / Math.max(img.width, img.height))
-    if (scale >= 1) return dataUrl
     const canvas = document.createElement('canvas')
     canvas.width = Math.round(img.width * scale)
     canvas.height = Math.round(img.height * scale)

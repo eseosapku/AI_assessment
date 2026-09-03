@@ -29,6 +29,9 @@ export const RATE_LIMITS: Record<string, RateLimitRule> = {
   // Practice attempts are cheap and a learner may reasonably retry a problem
   // several times, so this sits well above the tutor's ceiling.
   'studylab-practice': { limit: 400, windowMs: 60 * 60 * 1000 },
+  // One vision call per sheet, and a sheet is read once. Anyone past this is
+  // not doing homework.
+  'studylab-homework-read': { limit: 40, windowMs: 60 * 60 * 1000 },
 }
 
 export interface RateLimitResult {

@@ -35,6 +35,20 @@ export interface LessonStep {
   lockedBy?: { subtopicId: number; accuracy: number }
   cardIds: string[]
   checkpointId?: string
+  /**
+   * Homework only: the question this step IS, rather than a topic it covers.
+   *
+   * `goal` already holds the question in full. This is what the step's check
+   * needs on top of that — what a right answer is, what it has to show, and
+   * whatever the learner had already written on the page when they
+   * photographed it.
+   */
+  homework?: {
+    label: string
+    answer: string | null
+    rubric: string | null
+    attempt: string | null
+  }
 }
 
 export interface OpenCheck {
