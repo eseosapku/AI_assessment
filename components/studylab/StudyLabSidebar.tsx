@@ -1,8 +1,9 @@
 'use client'
 
+import { useRef } from 'react'
 import {
   ArrowLeft, Brain, Layers, CheckCircle2, Circle, CircleDot, StickyNote,
-  BadgeCheck, Lock, PlayCircle, ChevronRight, FastForward,
+  BadgeCheck, Lock, PlayCircle, ChevronRight, FastForward, Plus,
 } from 'lucide-react'
 import type { PlanStep } from '@/lib/studylab/types'
 import { railSteps, railIsLive } from '@/lib/studylab/planRail'
@@ -30,6 +31,8 @@ interface StudyLabSidebarProps {
   policy?: LessonPolicy
   /** Where the space came from, so the rail can name what it is listing. */
   origin?: string
+  /** Homework: another page of the same assignment, to add to the list. */
+  onAddPage?: (file: File) => void
   onTestOut?: (stepId: string) => void
   onJump?: (stepId: string) => void
   onSetPace?: (pace: Pace) => void
@@ -49,12 +52,14 @@ export default function StudyLabSidebar({
   run,
   policy = policyFor('scratch'),
   origin,
+  onAddPage,
   onTestOut = () => {},
   onJump = () => {},
   onSetPace = () => {},
   busy = false,
 }: StudyLabSidebarProps) {
   const hasPlan = !!plan && plan.length > 0
+  const pageInputRef = useRef<HTMLInputElement>(null)
   const rail = railSteps(run ?? null, policy)
   // A homework space is not a course: the rail lists the questions it read.
   const homework = origin === 'homework'
@@ -166,6 +171,34 @@ export default function StudyLabSidebar({
             <p className="mt-1.5 px-1.5 pb-0.5 text-[12px] font-medium leading-snug text-ss-slate">
               {paceOption(run.pace).blurb}
             </p>
+          </div>
+        )}
+
+        {/* Another page of the same assignment. Sits under the questions
+            because the rail IS the list of questions, and this adds to it. */}
+        {homework && onAddPage && run && run.phase !== 'planning' && (
+          <div className="mx-2 mb-2">
+            <input
+              ref={pageInputRef}
+              type="file"
+              accept="image/*,application/pdf"
+              className="hidden"
+              onChange={(e) => {
+                const file = e.target.files?.[0]
+                // Cleared so choosing the same file twice still fires.
+                e.target.value = ''
+                if (file) onAddPage(file)
+              }}
+            />
+            <button
+              type="button"
+              disabled={busy}
+              onClick={() => pageInputRef.current?.click()}
+              className="flex w-full items-center justify-center gap-2 rounded-xl border border-dashed border-white/20 px-3 py-2.5 text-[12px] font-bold text-ss-slate transition-colors hover:border-white/40 hover:text-white disabled:opacity-50"
+            >
+              <Plus className="h-3.5 w-3.5" aria-hidden />
+              Add another page
+            </button>
           </div>
         )}
 

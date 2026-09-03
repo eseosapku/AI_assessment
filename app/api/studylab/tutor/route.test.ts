@@ -2062,3 +2062,74 @@ describe('missing the same homework question twice', () => {
     expect(String(vi.mocked(callGemma).mock.calls[0][0])).not.toContain('MISSED THIS QUESTION TWICE')
   })
 })
+
+/**
+ * A second page is added to a plan that is already running. It must not teach:
+ * the learner is part-way through question two, and a teaching turn here would
+ * put another card on that rather than acknowledge the page.
+ */
+describe('adding another page of the same assignment', () => {
+  const running = (): LessonRun => {
+    const planned = proposePlan(emptyRun(policyFor('homework')), [
+      { id: 'q1', title: 'Find the best pump', goal: 'Find the best pump.', status: 'pending', cardIds: [],
+        homework: { label: '1', answer: null, rubric: null, attempt: null } },
+      { id: 'q2', title: 'Repeat at 4%', goal: 'Repeat at 4%.', status: 'pending', cardIds: [],
+        homework: { label: '2', answer: null, rubric: null, attempt: null } },
+    ])
+    if (!planned.ok) throw new Error(planned.reason)
+    const started = acceptPlan(planned.run)
+    if (!started.ok) throw new Error(started.reason)
+    return started.run
+  }
+
+  const sheet = {
+    questions: [
+      { label: '1', text: 'Find the best pump.' },
+      { label: '2', text: 'Repeat at 4%.' },
+      { label: '1', text: 'Sketch the cash flow diagram for pump B.' },
+    ],
+  }
+
+  it('appends the question and leaves the step they are on alone', async () => {
+    vi.mocked(callGemma).mockReset()
+    const run = running()
+    const result = await applyAction({
+      run, policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'add_homework_page', sheet, questionIds: ['q3'] },
+      context: {},
+    })
+    expect(result.run.steps.map((s) => s.id)).toEqual(['q1', 'q2', 'q3'])
+    expect(result.run.currentStep).toBe(run.currentStep)
+    expect(result.run.steps[2].homework?.label).toBe('1')
+    expect(result.ack).toContain('Added that question')
+  })
+
+  it('spends no model call — it is a plan edit, not a lesson', async () => {
+    vi.mocked(callGemma).mockReset()
+    await applyAction({
+      run: running(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'add_homework_page', sheet, questionIds: ['q3'] }, context: {},
+    })
+    expect(callGemma).not.toHaveBeenCalled()
+  })
+
+  it('numbers the new step from where the plan already ends', async () => {
+    // Its printed label is "1" and it lands at position 3, so the label has to
+    // survive or the rail loses which question it is.
+    const result = await applyAction({
+      run: running(), policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'add_homework_page', sheet, questionIds: ['q3'] }, context: {},
+    })
+    expect(result.run.steps[2].title).toContain('1.')
+  })
+
+  it('refuses a page nobody picked anything from, without touching the plan', async () => {
+    const run = running()
+    const result = await applyAction({
+      run, policy: policyFor('homework'), userId: 'u1',
+      action: { type: 'add_homework_page', sheet, questionIds: [] }, context: {},
+    })
+    expect(result.refusal).toContain('Pick at least one')
+    expect(result.run.steps).toHaveLength(2)
+  })
+})

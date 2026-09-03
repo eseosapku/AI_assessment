@@ -55,6 +55,15 @@ export type LessonAction =
    * course in Engineering Economics for a single pump question.
    */
   | { type: 'start_homework'; sheet: unknown; questionIds: string[] }
+  /**
+   * A second page of the same assignment, added to a plan already running.
+   *
+   * Separate from `start_homework` because it must NOT teach: the learner is
+   * part-way through question two, and a teaching turn here would add another
+   * card to that rather than acknowledge the page. `editPlan` keeps the current
+   * step where it is, so the new questions simply wait their turn.
+   */
+  | { type: 'add_homework_page'; sheet: unknown; questionIds: string[] }
 
 export interface DispatchInput {
   run: LessonRun
@@ -109,6 +118,17 @@ function transitionFor(input: DispatchInput): Transition {
       if (steps.length === 0) return { ok: false, reason: 'Pick at least one question to work on.' }
       const proposed = proposePlan(run, steps)
       return proposed.ok ? acceptPlan(proposed.run) : proposed
+    }
+    case 'add_homework_page': {
+      // Built here, not sent: the steps decide what the lesson is, and a client
+      // that could post its own would be posting its own lesson.
+      const steps = stepsFromQuestions(
+        parseHomeworkSheet(action.sheet),
+        action.questionIds,
+        run.steps.length,
+      )
+      if (steps.length === 0) return { ok: false, reason: 'Pick at least one question from that page.' }
+      return editPlan(run, { add: steps }, policy)
     }
     case 'next_beat': return nextBeat(run)
     case 'test_out': return requestTestOut(run, action.stepId, action.checkpointId, policy)
@@ -475,6 +495,12 @@ function acknowledge(action: LessonAction, run: LessonRun, board: BoardSummary):
         : 'Switched to one card at a time — I will stop after each so you can steer.'
     case 'edit_plan':
       return 'Plan updated.'
+    case 'add_homework_page': {
+      const added = action.questionIds.length
+      return added === 1
+        ? 'Added that question to your list.'
+        : `Added those ${added} questions to your list.`
+    }
     case 'stop':
       return 'Paused. Nothing is lost — pick it back up whenever you want.'
     case 'finish':

@@ -276,6 +276,9 @@ transcribed cost table is full of them.
 it.** It is not a `CardKind` — nothing can `createCard` one — but it is listed
 in the board summary, or the first card of a step has nothing to connect to.
 
-Still to do: a second page added to a space that already exists. The chat's
-attach button now reads a photo of the learner's own work on any turn, which
-covers most of what that was for.
+A second page turned out to need almost no new machinery: `editPlan` already
+took an `add`, homework's policy is `planEditable: 'always'`, and nothing had
+ever called it from the client. What it needed was for step ids to stop
+colliding — `q1` means "the first question of this sheet" and page two starts
+its own numbering at one — and for the board to be laid out on an action that
+returns no actions.

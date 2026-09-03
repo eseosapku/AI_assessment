@@ -5,6 +5,7 @@ import {
   questionSummary,
   stepsFromQuestions,
   questionCards,
+  mergeSheets,
   EMPTY_SHEET,
 } from './homework'
 
@@ -172,5 +173,71 @@ describe('questionCards', () => {
 
   it('makes nothing for questions nobody picked', () => {
     expect(questionCards(sheet, [], 'hw-photo').nodes).toEqual([])
+  })
+})
+
+describe('a second page of the same assignment', () => {
+  const page1 = parseHomeworkSheet(SHEET)
+  const page2 = parseHomeworkSheet({
+    subject: '',
+    given: ['A cash flow diagram: 200,000 at year 0, 30,000 a year to year 12.', 'Take i = 4%.'],
+    questions: [
+      { label: '1', text: 'Sketch the cash flow diagram for pump B.' },
+      { label: '2', text: 'State one assumption behind the comparison.' },
+    ],
+  })
+
+  it('renumbers the new questions onto the end', () => {
+    // Two `q1`s in a plan is two steps the run cannot tell apart.
+    const merged = mergeSheets(page1, page2)
+    expect(merged.questions.map((q) => q.id)).toEqual(['q1', 'q2', 'q3', 'q4'])
+    expect(merged.questions[2].text).toContain('Sketch the cash flow')
+  })
+
+  it('leaves the printed labels exactly as they are', () => {
+    // "1" on page two IS question 1 on page two, and the paper in front of them
+    // says so.
+    const merged = mergeSheets(page1, page2)
+    expect(merged.questions.map((q) => q.label)).toEqual(['1', '2', '1', '2'])
+  })
+
+  it('keeps the data from both pages, without repeating it', () => {
+    const merged = mergeSheets(page1, page2)
+    expect(merged.given).toContain('Take i = 4%.')
+    // Two pages of one assignment often reprint the same table.
+    expect(merged.given.filter((g) => g.includes('cash flow diagram'))).toHaveLength(1)
+  })
+
+  it('keeps the subject the first page established', () => {
+    expect(mergeSheets(page1, page2).subject).toBe('Engineering Economics')
+    // …and takes one from the second page when the first had none.
+    expect(mergeSheets(parseHomeworkSheet({ questions: [{ text: 'a' }] }), page1).subject)
+      .toBe('Engineering Economics')
+  })
+})
+
+describe('steps and cards for a page added to a running plan', () => {
+  const merged = mergeSheets(
+    parseHomeworkSheet(SHEET),
+    parseHomeworkSheet({ questions: [{ label: '1', text: 'Sketch the cash flow diagram for pump B.' }] }),
+  )
+
+  it('numbers the new step after the ones already there', () => {
+    const [step] = stepsFromQuestions(merged, ['q3'], 2)
+    // Its printed label is "1" and it sits at position 3, so the label stays —
+    // without it the rail would say "3. Sketch…" and lose which question it is.
+    expect(step.title).toContain('1.')
+    expect(step.id).toBe('q3')
+  })
+
+  it('puts its card in the step it actually opens', () => {
+    const { nodes } = questionCards(merged, ['q3'], 'hw-photo-2', 2)
+    expect(nodes[0].data.step).toBe(3)
+    expect(nodes[0].id).toBe('hw-q3')
+  })
+
+  it('hangs it off the page it came from, not the first one', () => {
+    const { edges } = questionCards(merged, ['q3'], 'hw-photo-2', 2)
+    expect(edges[0].source).toBe('hw-photo-2')
   })
 })

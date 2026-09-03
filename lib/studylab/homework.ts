@@ -127,6 +127,8 @@ export function questionSummary(text: string): string {
 export function stepsFromQuestions(
   sheet: HomeworkSheet,
   chosenIds: string[],
+  /** Steps already in the plan, when a second page is being added to it. */
+  stepOffset = 0,
 ): LessonStep[] {
   const wanted = new Set(chosenIds)
   return sheet.questions
@@ -135,9 +137,13 @@ export function stepsFromQuestions(
       id: q.id,
       // The rail numbers the steps itself, so a label that says the same thing
       // reads as "1. 1. An engineer must…". It is kept when it differs — which
-      // is whenever the sheet numbers questions its own way ("7.4-7"), or the
-      // learner picked questions 3 and 5 off a page of eight.
-      title: q.label === String(i + 1) ? questionSummary(q.text) : `${q.label}. ${questionSummary(q.text)}`,
+      // is whenever the sheet numbers questions its own way ("7.4-7"), the
+      // learner picked questions 3 and 5 off a page of eight, or this is page
+      // two and its question 1 is the plan's step 4.
+      title:
+        q.label === String(stepOffset + i + 1)
+          ? questionSummary(q.text)
+          : `${q.label}. ${questionSummary(q.text)}`,
       goal: q.text,
       status: 'pending' as const,
       cardIds: [],
@@ -165,6 +171,8 @@ export function questionCards(
   sheet: HomeworkSheet,
   chosenIds: string[],
   photoId: string | null,
+  /** Steps already in the plan, when a second page is being added to it. */
+  stepOffset = 0,
 ): { nodes: StudyNode[]; edges: StudyEdge[] } {
   const wanted = new Set(chosenIds)
   const chosen = sheet.questions.filter((q) => wanted.has(q.id))
@@ -178,7 +186,7 @@ export function questionCards(
       title: `Question ${q.label}`,
       body: q.text,
       // The step it opens, 1-based like every other card on the board.
-      step: i + 1,
+      step: stepOffset + i + 1,
     },
   }))
 
@@ -192,4 +200,29 @@ export function questionCards(
     : []
 
   return { nodes, edges }
+}
+
+/**
+ * A second page, added to the sheet already being worked.
+ *
+ * The questions coming in are renumbered onto the end, because `q1` means
+ * "the first question of this sheet" and page two starts its own numbering at
+ * one — two `q1`s in a plan is two steps the run cannot tell apart. Their
+ * printed labels are left exactly as they are: "1" on page two is question 1 on
+ * page two, and pretending otherwise would not match the paper in front of them.
+ *
+ * `given` is concatenated because it is the data the tutor works from and the
+ * photos are never looked at again. Exact repeats are dropped — two pages of
+ * one assignment often reprint the same table.
+ */
+export function mergeSheets(existing: HomeworkSheet, incoming: HomeworkSheet): HomeworkSheet {
+  const offset = existing.questions.length
+  const added = incoming.questions.map((q, i) => ({ ...q, id: `q${offset + i + 1}` }))
+  const given = [...existing.given]
+  for (const g of incoming.given) if (!given.includes(g)) given.push(g)
+  return {
+    subject: existing.subject || incoming.subject,
+    given: given.slice(0, MAX_GIVEN),
+    questions: [...existing.questions, ...added].slice(0, MAX_QUESTIONS),
+  }
 }

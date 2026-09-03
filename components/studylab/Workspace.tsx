@@ -12,7 +12,9 @@ import type { CanvasEffects } from './StudyCanvas'
 import { applyActions, toggleStepGroup, autoGroupStep, plainTitle, createImageCard } from '@/lib/studylab/actions'
 import { createFreeformBlock } from '@/lib/studylab/freeform'
 import { takeHomeworkImage, takeHomeworkText } from '@/lib/studylab/homeworkHandoff'
-import { parseHomeworkSheet, questionCards, type HomeworkSheet } from '@/lib/studylab/homework'
+import { parseHomeworkSheet, mergeSheets, questionCards, type HomeworkSheet } from '@/lib/studylab/homework'
+import { downscaleDataUrl } from '@/lib/studylab/imageScale'
+import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
@@ -297,16 +299,35 @@ export default function Workspace({ id }: { id: string }) {
   const startHomework = useCallback(
     (questionIds: string[]) => {
       const sheet = canvasRef.current.homework
+      const run = runRef.current
+      // A plan already running gets these questions appended to it; a lesson
+      // that has not begun gets them as its plan. `editPlan` leaves the step
+      // they are on where it is, so a page added mid-question simply waits.
+      const adding = !!run && run.phase !== 'planning' && run.steps.length > 0
+      const offset = adding ? run!.steps.length : 0
+
       if (sheet) {
+        const photos = canvasRef.current.nodes.filter((n) => n.id.startsWith('hw-photo'))
         const { nodes, edges } = questionCards(
           sheet,
           questionIds,
-          canvasRef.current.nodes.some((n) => n.id === 'hw-photo') ? 'hw-photo' : null,
+          // Off the most recent page: that is the one these questions came from.
+          photos.length > 0 ? photos[0].id : null,
+          offset,
         )
-        const next: CanvasState = {
+        const merged: CanvasState = {
           ...canvasRef.current,
           nodes: [...canvasRef.current.nodes, ...nodes],
           edges: [...canvasRef.current.edges, ...edges],
+        }
+        // Laid out here rather than waiting for the next turn. A turn that
+        // returns actions tidies the board on its way through, but adding a
+        // page returns none — so the new question card stayed at the origin,
+        // on top of whatever was already there.
+        const layout = layoutGraph(merged.nodes, merged.edges)
+        const next: CanvasState = {
+          ...merged,
+          nodes: merged.nodes.map((n) => (layout[n.id] ? { ...n, position: layout[n.id] } : n)),
         }
         canvasRef.current = next
         setCanvas(next)
@@ -320,7 +341,11 @@ export default function Workspace({ id }: { id: string }) {
           m.kind === 'homework' && m.sheet?.live ? { ...m, sheet: { ...m.sheet, live: false } } : m,
         ),
       )
-      void sendAction({ type: 'start_homework', sheet, questionIds })
+      void sendAction({
+        type: adding ? 'add_homework_page' : 'start_homework',
+        sheet,
+        questionIds,
+      })
     },
     [persist, sendAction],
   )
@@ -333,8 +358,13 @@ export default function Workspace({ id }: { id: string }) {
    * asked for, and carries eight questions into every turn afterwards.
    */
   const offerQuestions = useCallback(
-    (sheet: HomeworkSheet) => {
-      if (sheet.questions.length === 0) {
+    (sheet: HomeworkSheet, freshIds?: string[]) => {
+      // On a second page only that page's questions are on offer; the ones
+      // already in the plan are not asked about again.
+      const offered = freshIds
+        ? sheet.questions.filter((q) => freshIds.includes(q.id))
+        : sheet.questions
+      if (offered.length === 0) {
         setMessages((prev) => [
           ...prev,
           {
@@ -346,8 +376,8 @@ export default function Workspace({ id }: { id: string }) {
         ])
         return
       }
-      if (sheet.questions.length === 1) {
-        startHomework([sheet.questions[0].id])
+      if (offered.length === 1) {
+        startHomework([offered[0].id])
         return
       }
       setMessages((prev) => [
@@ -355,9 +385,9 @@ export default function Workspace({ id }: { id: string }) {
         {
           role: 'assistant',
           kind: 'homework',
-          content: `I can see ${sheet.questions.length} questions on that. Which do you want to work on?`,
+          content: `I can see ${offered.length} questions on that. Which do you want to work on?`,
           sheet: {
-            questions: sheet.questions.map((q) => ({ id: q.id, label: q.label, text: q.text })),
+            questions: offered.map((q) => ({ id: q.id, label: q.label, text: q.text })),
             live: true,
           },
         },
@@ -375,7 +405,7 @@ export default function Workspace({ id }: { id: string }) {
    */
   const readHomework = useCallback(
     async (image: string | null, text: string | null) => {
-      setWorking('Reading your homework…')
+      setWorking(canvasRef.current.homework ? 'Reading that page…' : 'Reading your homework…')
       // The ref is set here as well as the state, the same way `sendAction`
       // does it: `busyRef.current` is assigned during render, so a `setBusy`
       // is not visible to anything that runs before the next one. Offering the
@@ -392,19 +422,32 @@ export default function Workspace({ id }: { id: string }) {
         const json = await res.json()
         if (!res.ok || json.error) throw new Error(json.error || 'Could not read that page.')
 
-        const sheet = parseHomeworkSheet(json.sheet)
+        const read = parseHomeworkSheet(json.sheet)
+        // A second page is added to the sheet already being worked: its
+        // questions are renumbered onto the end so the run can tell them apart,
+        // and its data joins the data the tutor works from.
+        const existing = canvasRef.current.homework
+        const sheet = existing ? mergeSheets(existing, read) : read
+        const fresh = sheet.questions.slice(existing?.questions.length ?? 0)
+        if (fresh.length === 0) {
+          throw new Error('I could not read any questions off that page.')
+        }
+
+        const page = canvasRef.current.nodes.filter((n) => n.id.startsWith('hw-photo')).length + 1
         const withPhoto: CanvasState = {
           ...canvasRef.current,
           homework: sheet,
           // The photo goes on the board as the source everything hangs off,
           // and stays there: a student checking a transcription against what
-          // they actually wrote needs both in front of them.
+          // they actually wrote needs both in front of them. A second page gets
+          // its own, so the board stays legible about which page a question
+          // came from.
           nodes: image
             ? [
                 createImageCard(canvasRef.current, {
-                  id: 'hw-photo',
+                  id: page === 1 ? 'hw-photo' : `hw-photo-${page}`,
                   imageUrl: image,
-                  title: 'Your homework',
+                  title: page === 1 ? 'Your homework' : `Your homework — page ${page}`,
                   step: 0,
                 }),
                 ...canvasRef.current.nodes,
@@ -412,6 +455,7 @@ export default function Workspace({ id }: { id: string }) {
             : canvasRef.current.nodes,
         }
         setCanvas(withPhoto)
+        canvasRef.current = withPhoto
         persist({ canvas_state: withPhoto })
         // Out from under the busy flag before offering, because a single
         // question starts itself — and `sendAction` refuses while a turn is in
@@ -419,7 +463,7 @@ export default function Workspace({ id }: { id: string }) {
         // left a sheet nobody could begin.
         busyRef.current = false
         setBusy(false)
-        offerQuestions(sheet)
+        offerQuestions(sheet, fresh.map((q) => q.id))
         return
       } catch (err) {
         setMessages((prev) => [
@@ -438,6 +482,42 @@ export default function Workspace({ id }: { id: string }) {
       }
     },
     [user?.id, persist, offerQuestions],
+  )
+
+  /**
+   * Another page of the same assignment.
+   *
+   * The same read, the same picker, the same steps — the only difference is
+   * that the plan is already running, so the questions are appended to it
+   * rather than becoming it.
+   */
+  const handleAddPage = useCallback(
+    async (file: File) => {
+      if (busyRef.current) return
+      try {
+        const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf')
+        const raw = isPdf
+          ? await pdfFirstPageToDataUrl(file)
+          : await new Promise<string>((resolve, reject) => {
+              const r = new FileReader()
+              r.onload = () => resolve(String(r.result))
+              r.onerror = reject
+              r.readAsDataURL(file)
+            })
+        const image = await downscaleDataUrl(raw)
+        setMessages((prev) => [
+          ...prev,
+          { role: 'user', content: "Here's another page.", imageUrl: image },
+        ])
+        await readHomework(image, null)
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          { role: 'assistant', kind: 'error', content: 'I could not read that file.' },
+        ])
+      }
+    },
+    [readHomework],
   )
 
   const handleAdvance = useCallback(() => {
@@ -976,6 +1056,7 @@ export default function Workspace({ id }: { id: string }) {
           void sendAction({ type: 'jump', stepId })
         }}
         onSetPace={(pace) => void sendAction({ type: 'set_pace', pace })}
+        onAddPage={handleAddPage}
       />
 
       <div data-tour="lesson-board" className="flex-1 min-w-0 h-full">
