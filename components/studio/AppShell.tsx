@@ -19,8 +19,15 @@ export default function AppShell({ children, rail }: { children: ReactNode; rail
       {/* First stop for a keyboard user, so the sidebar is not re-traversed on
           every page. */}
       <a href="#main-content" className="skip-link">Skip to main content</a>
+      {/* The cap is 1880 so that a 1920-wide laptop frames the same way a 1512
+          or 1680 one does — 24px on every side. At 1660 it did not: the panel
+          stopped growing there, `mx-auto` put the leftover 260px into the sides,
+          and the top stayed at 24 — a 130px letterbox against a 24px top edge,
+          on the commonest laptop width there is. A cap is still wanted above
+          that, so a 1440p or ultrawide monitor gets a centred card instead of
+          progress rows running three thousand pixels wide. */}
       <div
-        className={`mx-auto grid h-full max-w-[1660px] grid-cols-1 overflow-hidden rounded-[30px] bg-ss-panel shadow-ss-panel lg:grid-cols-[248px_1fr] ${
+        className={`mx-auto grid h-full max-w-[1880px] grid-cols-1 overflow-hidden rounded-[30px] bg-ss-panel shadow-ss-panel lg:grid-cols-[248px_1fr] ${
           rail ? 'xl:grid-cols-[248px_1fr_320px]' : ''
         }`}
       >
