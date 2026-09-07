@@ -21,6 +21,7 @@ import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 import NextStepsPanel from '@/components/assessment/NextStepsPanel'
 import LongformHintPanel from '@/components/assessment/LongformHintPanel'
 import { attachLongformHints, studentHintsOf } from '@/lib/longform-hints'
+import { repairBookReferences } from '@/lib/book-reference'
 import { Modal } from '@/components/ui/Modal'
 import {
   summarizeWeakAreas,
@@ -652,6 +653,14 @@ function AssessmentPageClient() {
 
   const prepareAssessment = (assessmentData: Assessment) => {
     if (Array.isArray(assessmentData.questions)) {
+      // Papers generated before the pipeline learned to strip these are still
+      // in the database and still being re-served — "Use the diagram on page
+      // 286 to support your explanation", to a student with no page 286. Only
+      // the wording is repaired here, never the count: a stored paper's answers
+      // are keyed by position, so removing a question would misalign them.
+      // Runs before the hints are built, so they are built from clean criteria.
+      repairBookReferences(assessmentData.questions as { question?: unknown }[])
+
       assessmentData.questions.forEach((q: Question, i) => {
         if (isLongForm(q)) {
           // Assignment start already stripped hints when the teacher turned them off.

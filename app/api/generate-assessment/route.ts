@@ -23,6 +23,7 @@ import { buildSubjectGenreBlock } from '@/lib/subject-genres'
 import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences } from '@/lib/dangling-reference'
+import { repairBookReferences } from '@/lib/book-reference'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -795,7 +796,11 @@ SOURCE RULES:
 - Use ONLY the source material.
 - Do NOT add facts that are not present in the source.
 - If a selected topic is not covered in the source, skip it.
-- If a quote is needed, copy exact words from the source text.`
+- If a quote is needed, copy exact words from the source text.
+- THE STUDENT CANNOT SEE THIS SOURCE. They answer on a screen that shows your question and nothing else — no book, no page numbers, no chapter headings.
+  • NEVER write "page 255", "on page 23", "Figure 28.3", "Table 4.1", "in Unit 9", "see Chapter 7", "of the textbook", or any other pointer into the source.
+  • If a question needs a value, a table row, a definition or a described picture from the source, WRITE THAT CONTENT INTO THE QUESTION ITSELF.
+  • Never ask about the book's own apparatus — its revision exercises, its summary boxes, its chapter titles. Ask about the subject.`
     : ''
 
   const g = gradeNum
@@ -847,19 +852,22 @@ ${longformRule}`
 - Only use image_key values from the AVAILABLE TEXTBOOK FIGURES list.
 - Questions with image_key must be answerable from that figure's description alone.
 - Do NOT invent diagrams or refer to figures not in the list.
-- Most questions should be text-only (empty image_key).`
+- Most questions should be text-only (empty image_key).
+- The figure appears beside the question with no caption and no page number. Refer to it as "the diagram" or "the table shown" — NEVER as "Figure 28.3" or "the diagram on page 286".`
     : hasDiagramSupport
     ? `**UI CONSTRAINTS (EXAM PREP WITH PAST-PAPER SOURCE):**
 - Adapt questions from the past-paper reference. MCQ and theory may include diagrams when the source material requires them.
 - For diagram-dependent questions, set "needs_diagram": true and a detailed "diagram_hint".
 - ROMAN-NUMERAL LISTS: If options refer to (i), (ii), (iii), (iv) or I, II, III, IV, the question text MUST include the full numbered list defining each item (e.g. "I. Reflection\\nII. Dispersion…" or inline "I. Reproducibility II. Sensibility III. … IV. …") BEFORE the options array. Never leave orphan (i)/(ii) or I/II references.
 - Do NOT ask students to draw, sketch, or plot unless it is standard WASSCE theory style (describe in words if no diagram).
-- Never ask students to measure something on-screen or to use a ruler/protractor.`
+- Never ask students to measure something on-screen or to use a ruler/protractor.
+- The student never sees the paper you adapted from. NEVER carry over its numbering — no "page 4", no "Figure 2(a)", no "in Section B". Restate whatever the question needs.`
     : `**UI CONSTRAINTS (NON-NEGOTIABLE):**
 - All questions must be answerable from text alone. If a shape/object is needed, describe it fully in words with quantities.
 - Do NOT write any question that depends on a picture/diagram/graph/figure being shown.
 - Do NOT reference colors/shading/parts of "this shape" or "this picture".
 - NEVER use prompts like "imagine", "as shown above/below", "see the diagram", "look at the picture", or "look at this".
+- NEVER cite a page, figure number, chapter or unit ("on page 12", "Figure 3.1", "in Unit 9"). The student has no book in front of them.
 - Do NOT ask students to draw, sketch, or plot.
 - Never ask students to measure something on-screen or to use a ruler/protractor.`
 
@@ -2001,7 +2009,44 @@ ${commandBlock}`
     // came back as seven or eight. Cleaning first means the loop sees the real
     // shortfall and refills it, which is the difference between filtering and
     // silently shrinking the paper.
-    allQuestions = cleanQuestionPaper(deduplicateAndFix(allQuestions))
+    /**
+     * Everything that repairs or removes a question, in the order they have to
+     * run: repair first, so a question is only dropped when nothing can save
+     * it. Called wherever the paper is cleaned, because the retry loop's
+     * condition has to see the count that will actually ship — a drop after the
+     * loop comes straight off the paper.
+     */
+    const makeShippable = (questions: any[]): any[] => {
+      // Past-paper banks store questions with their choices printed underneath,
+      // and the model copies that block into the stem then leaves the options
+      // array as ["A","B","C","D"]. Measured on WAEC Mathematics with a paper
+      // attached, seven of ten came back that way — four bare letters to choose
+      // between.
+      const fixed = repairPaper(questions)
+      if (fixed > 0) console.log(`Recovered inline options on ${fixed} question(s)`)
+
+      // The figure catalogue's internal ids occasionally end up mid-sentence.
+      const stripped = stripImageKeysFromPaper(questions)
+      if (stripped > 0) console.log(`Stripped image_key from ${stripped} question(s)`)
+
+      // Textbook-sourced questions carry the book's own furniture into the stem
+      // — "Use the diagram on page 286 to support your explanation" — and the
+      // student has no page 286.
+      const unbooked = repairBookReferences(questions)
+      if (unbooked > 0) console.log(`Removed a book cross-reference from ${unbooked} question(s)`)
+
+      // A stem that promises attached content it never includes — "consider the
+      // following code snippet" with no snippet — is unanswerable, and nothing
+      // else in the pipeline looks for it.
+      const { kept, dropped } = dropDanglingReferences(questions)
+      if (dropped.length > 0) {
+        console.log(`Dropped ${dropped.length} question(s) referencing absent ${[...new Set(dropped)].join('/')}`)
+      }
+
+      return cleanQuestionPaper(kept as any[])
+    }
+
+    allQuestions = makeShippable(deduplicateAndFix(allQuestions))
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
     for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
@@ -2030,7 +2075,7 @@ ${commandBlock}`
         // Re-clean the combined set: a replacement can duplicate or contradict
         // something already in the paper, and the loop condition has to judge
         // the count that will actually ship.
-        allQuestions = cleanQuestionPaper(allQuestions)
+        allQuestions = makeShippable(allQuestions)
       } catch (err: any) {
         console.error(`Retry pass ${retryPass} failed:`, err)
         break
@@ -2043,29 +2088,6 @@ ${commandBlock}`
         { error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again.` },
         { status: 500 }
       )
-    }
-
-    // Past-paper banks store questions with their choices printed underneath,
-    // and the model copies that block into the stem then leaves the options
-    // array as ["A","B","C","D"]. Measured on WAEC Mathematics with a paper
-    // attached, seven of ten came back that way — four bare letters to choose
-    // between. Runs before the trim so a repaired question still counts.
-    {
-      const fixed = repairPaper(allQuestions)
-      if (fixed > 0) console.log(`Recovered inline options on ${fixed} question(s)`)
-      // The figure catalogue's internal ids occasionally end up mid-sentence.
-      const stripped = stripImageKeysFromPaper(allQuestions)
-      if (stripped > 0) console.log(`Stripped image_key from ${stripped} question(s)`)
-
-      // A stem that promises attached content it never includes — "consider
-      // the following code snippet" with no snippet — is unanswerable, and
-      // nothing else in the pipeline looks for it. Dropped here, before the
-      // trim, so the top-up can refill rather than the paper coming up short.
-      const { kept, dropped } = dropDanglingReferences(allQuestions)
-      if (dropped.length > 0) {
-        console.log(`Dropped ${dropped.length} question(s) referencing absent ${[...new Set(dropped)].join('/')}`)
-        allQuestions = kept as typeof allQuestions
-      }
     }
 
     // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)

@@ -70,6 +70,29 @@ describe('danglingReference', () => {
     expect(danglingReference({})).toBeNull()
     expect(danglingReference({ question: '' })).toBeNull()
   })
+
+  it('catches a stem pointing into the book the student cannot see', () => {
+    // Live on Cambridge Computer Science, and the reason 'source' exists: none
+    // of the patterns above fire on "the Python Shell window shown on page
+    // 255" — it names no diagram and says neither "above" nor "below".
+    expect(
+      danglingReference({
+        question: "Using the Python Shell window shown on page 255, describe how a simple 'Hello World!' program is executed.",
+      }),
+    ).toBe('source')
+    expect(
+      danglingReference({ question: 'Compare the behaviors described in Unit 9 with those expected at school.' }),
+    ).toBe('source')
+  })
+
+  it('is not rescued by an attached image, unlike the other kinds', () => {
+    // The picture may well be the right one. The student still has no page 286
+    // to check it against, so the stem is wrong either way — and by the time
+    // this runs, repairBookReferences has already had its chance to rephrase.
+    expect(
+      danglingReference({ question: 'Use the diagram on page 286 to explain diffraction.', image_url: '/fig/x.png' }),
+    ).toBe('source')
+  })
 })
 
 describe('dropDanglingReferences', () => {

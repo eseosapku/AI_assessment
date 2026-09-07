@@ -12,7 +12,13 @@
  * "the table below" with no table. One rule covers all of them: if a stem
  * promises attached content, that content has to be in the stem, in the
  * passage, or in an attached image.
+ *
+ * A stem can also point outside the screen entirely — "the diagram on page
+ * 286", "described in Unit 9" — which is the same fault reached by a different
+ * road. That one is `book-reference.ts`, because it can often be repaired
+ * rather than dropped; what it could not repair arrives here as 'source'.
  */
+import { bookReference } from './book-reference'
 
 export interface ReferencingQuestion {
   question?: unknown
@@ -23,7 +29,7 @@ export interface ReferencingQuestion {
 }
 
 /** What a stem can promise. Each needs different evidence that it was kept. */
-export type ReferenceKind = 'code' | 'figure' | 'table' | 'passage'
+export type ReferenceKind = 'code' | 'figure' | 'table' | 'passage' | 'source'
 
 interface Promise_ {
   kind: ReferenceKind
@@ -94,6 +100,13 @@ export function danglingReference(q: ReferencingQuestion): ReferenceKind | null 
       return 'passage'
     }
   }
+
+  // Last, because a repair upstream is always better than a drop, and by the
+  // time this runs everything repairable has been. An attached image is no
+  // defence here: the student still has no page 286 to turn to, so a stem that
+  // names one is wrong whether or not there is a picture beside it.
+  if (bookReference(stem)) return 'source'
+
   return null
 }
 
