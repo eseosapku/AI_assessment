@@ -1,7 +1,8 @@
 'use client'
 import { motion, AnimatePresence, MotionConfig } from 'framer-motion'
+import { Handle, Position } from '@xyflow/react'
 import { Lightbulb, Check, Hand } from 'lucide-react'
-import { CardFrame } from '../canvasShared'
+import { handleClass } from '../canvasShared'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 
 interface Props {
@@ -36,6 +37,14 @@ interface Props {
  * stopPropagation inside useActivityDrag's beginDrag). A pointerdown on
  * anything ELSE — empty card background, the prompt text — bubbles all the
  * way up to React Flow's node wrapper and starts a normal node drag.
+ *
+ * Does not use the shared `CardFrame` — that component hardcodes `w-[300px]`
+ * with no way to widen it, and blocks.ts declares this card at 420px because
+ * dragging small chips onto a beam or a Venn diagram needs the room. Hand-
+ * rolling the wrapper here follows the precedent already in this codebase
+ * (`QuestionNode` in tutorNodes.tsx does the same for its own 380px card)
+ * rather than widening `CardFrame` itself, which every other card type also
+ * renders through.
  */
 export function ActivityFrame({
   prompt, solved, reveal, revealed, hint, hintAvailable, onHint, onCheck, checkLabel = 'Check', texture, children,
@@ -46,7 +55,8 @@ export function ActivityFrame({
   const textureUrl = texture ? assetUrl(texture) : null
   return (
     <MotionConfig reducedMotion="user">
-      <CardFrame>
+      <div className="sl-node-enter w-[420px] overflow-hidden rounded-2xl border border-ss-line bg-ss-panel shadow-[0_10px_34px_-14px_rgba(20,60,90,0.32)]">
+        <Handle type="target" position={Position.Left} className={handleClass} />
         <div className="nowheel flex flex-col gap-3 p-4">
           <div className="flex items-start gap-2">
             <span className="mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-lg bg-[color:var(--ss-accent)]/10">
@@ -110,7 +120,8 @@ export function ActivityFrame({
             )}
           </AnimatePresence>
         </div>
-      </CardFrame>
+        <Handle type="source" position={Position.Right} className={handleClass} />
+      </div>
     </MotionConfig>
   )
 }

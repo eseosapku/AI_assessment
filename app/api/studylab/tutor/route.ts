@@ -107,7 +107,6 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const learnspaceId = String(body?.learnspaceId ?? '').trim()
     const action = body?.action
-    const mode: 'classic' | 'montessori' = body?.mode === 'montessori' ? 'montessori' : 'classic'
     if (!learnspaceId || !action?.type) {
       return NextResponse.json({ error: 'A learnspace and an action are required' }, { status: 400 })
     }
@@ -141,6 +140,14 @@ export async function POST(request: NextRequest) {
         { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
         policy,
       )
+    // Workspace never sends `mode` on a turn after the first — only at
+    // creation, if then. Downgrading whenever the body is silent would reset
+    // a montessori run back to classic on its very next request, and the
+    // montessori teaching prompt would never fire again after the lesson
+    // that turned it on. So the body's value is taken only when it actually
+    // says something; otherwise the run keeps whatever it already had.
+    const mode: 'classic' | 'montessori' =
+      body?.mode === 'montessori' || body?.mode === 'classic' ? body.mode : run.mode ?? 'classic'
     run = { ...run, mode }
 
     const requestId = randomUUID()

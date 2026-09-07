@@ -13,17 +13,20 @@ type Item = ComparePayload['items'][number]
 type Region = 'left' | 'both' | 'right'
 const REGIONS: Region[] = ['left', 'both', 'right']
 
-// Zone widths for a 300x220 viewBox holding two r=100 circles at cx=110
-// (left) / cx=180 (right), cy=110 (see task-14 report for the geometry).
-// The zones no longer carry a fixed position/height — they grow with their
-// content in normal flow — so only `width` still constrains them. Keys are
-// the fixed 'left'|'both'|'right' literal union, not model-controlled, so a
-// plain object is safe here.
-const ZONES: Record<Region, { width: string }> = {
-  left: { width: '19.3%' },
-  both: { width: '32.7%' },
-  right: { width: '19.3%' },
+// Drop-zone rectangles for a 300x220 viewBox holding two r=100 circles at
+// cx=110 (left) / cx=180 (right), cy=110 (see task-14 report for the
+// geometry). The parent has no flex/grid, so each zone is positioned
+// absolutely (`left`/`ZONE_TOP`) to land inside its own crescent/lens rather
+// than stacking in normal block flow. No fixed `height` is set — each zone
+// is sized to its content and grows downward as chips wrap onto more rows,
+// rather than scrolling. Keys are the fixed 'left'|'both'|'right' literal
+// union, not model-controlled, so a plain object is safe here.
+const ZONES: Record<Region, { left: string; width: string }> = {
+  left: { left: '8%', width: '19.3%' },
+  both: { left: '32%', width: '32.7%' },
+  right: { left: '69.3%', width: '19.3%' },
 }
+const ZONE_TOP = '31.8%'
 
 /** Picture-first: an image stands in for the item, the label is caption/fallback. */
 function ItemArt({ item }: { item: Item }) {
@@ -103,8 +106,8 @@ export function CompareActivity({ id, spec, onOutcome, initialState }: {
             <div
               key={region}
               {...drag.dropTargetProps(region)}
-              style={{ width: ZONES[region].width }}
-              className={`flex min-h-[96px] flex-wrap content-start gap-2 rounded-lg border border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+              style={{ left: ZONES[region].left, width: ZONES[region].width, top: ZONE_TOP }}
+              className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 rounded-lg border border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
                 drag.overId === region ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
               }`}
             >

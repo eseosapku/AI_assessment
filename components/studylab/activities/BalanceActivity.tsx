@@ -145,14 +145,20 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             </motion.g>
           </svg>
 
-          {/* Interactive pans. They ride a small synced translateY so they read as
-              attached to the tilting beam, but stay level so their chips stay legible. */}
+          {/* Interactive pans. Positioned absolutely so they sit under their own
+              hanger on the beam drawn by the sibling SVG below — the parent has
+              no flex/grid, so without an explicit position these would stack in
+              normal block flow instead of sitting side by side. No `height` is
+              set, so each pan is sized to its content (shrink-to-fit) and grows
+              downward as chips wrap onto more rows, rather than scrolling.
+              They also ride a small synced translateY so they read as attached
+              to the tilting beam, but stay level so their chips stay legible. */}
           <motion.div
             {...drag.dropTargetProps('left')}
             animate={{ y: tiltDeg * 1.1 }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
-            style={{ width: '33%' }}
-            className={`flex min-h-[96px] flex-wrap content-start gap-2 rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+            style={{ left: '4%', width: '33%', top: '50%' }}
+            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'left' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >
@@ -172,8 +178,8 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             {...drag.dropTargetProps('right')}
             animate={{ y: -(tiltDeg * 1.1) }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
-            style={{ width: '33%' }}
-            className={`flex min-h-[96px] flex-wrap content-start gap-2 rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+            style={{ left: '63%', width: '33%', top: '50%' }}
+            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'right' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >

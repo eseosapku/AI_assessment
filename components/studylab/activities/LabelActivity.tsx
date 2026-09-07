@@ -103,7 +103,7 @@ export function LabelActivity({ id, spec, onOutcome, initialState }: {
                     <text
                       x={h.x} y={h.y + h.r + 13} textAnchor="middle"
                       className={wrong ? 'fill-red-600 dark:fill-red-400' : 'fill-ss-ink'}
-                      style={{ fontSize: 11, fontWeight: 700 }}
+                      style={{ fontSize: 12, fontWeight: 700 }}
                     >
                       {assign[h.id]}
                     </text>
