@@ -23,7 +23,6 @@ export interface VisualFigureCatalogEntry {
 // writable temp dir, merging the two on read.
 const BUNDLED_CACHE_PATH = path.join(process.cwd(), 'data', 'textbook-images', 'vision-cache.json')
 const RUNTIME_CACHE_PATH = path.join(os.tmpdir(), 'vision-cache.json')
-const PUBLIC_ROOT = path.join(process.cwd(), 'public')
 
 /**
  * Max distinct figures to describe with vision per assessment.
@@ -184,18 +183,10 @@ function appOrigin(): string {
 
 async function loadImageInput(localPath: string): Promise<ImageInput | null> {
   const normalized = localPath.replace(/^\//, '')
-  const disk = path.join(PUBLIC_ROOT, normalized.replace(/\//g, path.sep))
-  if (fs.existsSync(disk)) {
-    const buf = fs.readFileSync(disk)
-    if (buf.length >= 500) {
-      return {
-        base64: buf.toString('base64'),
-        mimeType: mimeForPath(localPath),
-      }
-    }
-  }
+  const origin =
+    appOrigin() ||
+    (process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : '')
 
-  const origin = appOrigin()
   if (!origin) return null
 
   try {

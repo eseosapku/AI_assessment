@@ -1,18 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
-import { normalizeCountry, countryToDb, type CountryCode } from '@/lib/countries'
-
-function defaultSubjects(country: CountryCode, role: string) {
-  if (role === 'teacher') return []
-  if (country === 'NG') {
-    return ['English Studies', 'Mathematics', 'Basic Science', 'Social Studies', 'Digital Technologies']
-  }
-  if (country === 'RW') {
-    return ['Mathematics', 'Physics', 'Chemistry', 'Biology', 'Computer Science']
-  }
-  return ['Mathematics', 'English', 'Biology', 'Chemistry', 'Physics']
-}
+import { normalizeCountry, countryToDb } from '@/lib/countries'
+import { defaultSubjectsFor, mapAuthUser } from '@/lib/auth-user'
 
 function normalizeEmail(value: unknown) {
   const trimmed = String(value ?? '').trim()
@@ -79,7 +69,7 @@ export async function POST(request: NextRequest) {
           ? `${universityCourse} · Year ${universityYear}`
           : className
 
-    const subjects = defaultSubjects(country, role)
+    const subjects = defaultSubjectsFor(country, role)
     const insertResult = await db.query(
       `INSERT INTO users (email, password_hash, name, student_id, class, role, subjects, country, education_level, university_course, university_year)
        VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
@@ -92,22 +82,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create account' }, { status: 500 })
     }
 
-    const user = {
-      id: newUser.id,
-      name: newUser.name,
-      email: newUser.email,
-      studentId: newUser.student_id,
-      class: newUser.class,
-      subjects: newUser.subjects,
-      role: newUser.role ?? role,
-      country: normalizeCountry(newUser.country),
-      educationLevel: newUser.education_level ?? 'school',
-      universityCourse: newUser.university_course ?? null,
-      universityYear: newUser.university_year ?? null,
-      // Present only once migrations/add-user-avatar.sql has run;
-      // undefined until then, which the client treats as "no photo".
-      avatarUrl: newUser.avatar_url ?? null,
-    }
+    const user = mapAuthUser(newUser)
 
     return NextResponse.json({ success: true, user, message: 'Account created successfully' })
   } catch (error) {

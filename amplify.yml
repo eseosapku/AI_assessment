@@ -14,7 +14,10 @@ frontend:
         #   NEXT_PUBLIC_APP_URL, NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_USD=5
         #   NEXT_PUBLIC_SUBSCRIPTION_AMOUNT_RWF=1500
         #   DATABASE_URL, JWT_SECRET, BEDROCK_*, PG_DISABLE_SSL
-        - env | grep -E '^(FLW_|DATABASE_URL|JWT_SECRET|BEDROCK_|PG_DISABLE_SSL|INTERNAL_JOB|AI_JOB_QUEUE|BACKEND_INTERNAL)' >> .env.production || true
+        #   SMTP_HOST, SMTP_PORT, SMTP_SECURE, SMTP_USER, SMTP_PASS
+        #   EMAIL_FROM, EMAIL_FROM_NAME
+        #   GOOGLE_CLIENT_ID, NEXT_PUBLIC_GOOGLE_CLIENT_ID
+        - env | grep -E '^(FLW_|DATABASE_URL|JWT_SECRET|BEDROCK_|PG_DISABLE_SSL|INTERNAL_JOB|AI_JOB_QUEUE|BACKEND_INTERNAL|SMTP_|EMAIL_|GOOGLE_)' >> .env.production || true
         - env | grep -e NEXT_PUBLIC_ >> .env.production || true
         - npm run build
         - cp .env.production .next/standalone/.env.production 2>/dev/null || true

@@ -5,6 +5,7 @@ import { useState } from 'react'
 import Link from 'next/link'
 import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen, Globe, Building2, School } from 'lucide-react'
 import { useAuth } from './AuthProvider'
+import GoogleSignInButton from './GoogleSignInButton'
 import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, type CountryCode } from '@/lib/countries'
 import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityYearLabel } from '@/lib/university-curriculum'
 
@@ -43,13 +44,25 @@ export default function SignupForm({
   const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const [error, setError] = useState('')
   const [isLoading, setIsLoading] = useState(false)
-  const { signup } = useAuth()
+  const { signup, loginWithGoogle } = useAuth()
   const classOptions = classOptionsForCountry(country)
   const internationalCountries = COUNTRY_LIST.filter((c) => c.group === 'international')
   const africanCountries = COUNTRY_LIST.filter((c) => c.group === 'africa')
   const isUni = role === 'student' && educationLevel === 'university'
   const uniCourses = getUniversityCourseNames()
   const uniYears = uniCourse ? getUniversityYearsForCourse(uniCourse) : []
+
+  const handleGoogle = async (idToken: string) => {
+    setError('')
+    setIsLoading(true)
+    try {
+      await loginWithGoogle(idToken)
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : 'Google sign-in failed. Please try again.')
+    } finally {
+      setIsLoading(false)
+    }
+  }
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
@@ -158,6 +171,7 @@ export default function SignupForm({
       )}
 
       <form onSubmit={handleSubmit} className="mt-5 space-y-4">
+        <GoogleSignInButton onCredential={handleGoogle} label="signup_with" disabled={isLoading} />
         <Field id="name" label="Full name" icon={User}>
           <input id="name" type="text" value={name} onChange={e => setName(e.target.value)}
             placeholder="Alex Johnson" required className={inputBase} />

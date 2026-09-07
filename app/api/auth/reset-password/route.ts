@@ -1,47 +1,51 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
+import { normalizeOtp, normalizeResetEmail, otpMatches } from '@/lib/password-reset-otp'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 export async function POST(request: NextRequest) {
   try {
-    const { token, password } = await request.json()
+    const { email, otp, password } = await request.json()
+    const normalizedEmail = normalizeResetEmail(email)
+    const normalizedOtp = normalizeOtp(otp)
 
-    if (!token || !password) {
+    if (!normalizedEmail || !normalizedOtp || !password) {
       return NextResponse.json(
-        { error: 'Token and password are required' },
-        { status: 400 }
+        { error: 'Email, verification code, and password are required' },
+        { status: 400 },
       )
     }
 
     if (password.length < 6) {
+      return NextResponse.json({ error: 'Password must be at least 6 characters' }, { status: 400 })
+    }
+
+    const rateLimit = checkRateLimit('reset-password', identify(null, request.headers))
+    if (!rateLimit.allowed) {
       return NextResponse.json(
-        { error: 'Password must be at least 6 characters' },
-        { status: 400 }
+        { error: 'Too many attempts. Please wait a few minutes and try again.' },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(rateLimit.retryAfterSeconds) },
+        },
       )
     }
 
     const userResult = await db.query(
-      'SELECT id, reset_token, reset_token_expires FROM users WHERE reset_token = $1 LIMIT 1',
-      [token],
+      'SELECT id, reset_token, reset_token_expires FROM users WHERE email = $1 LIMIT 1',
+      [normalizedEmail],
     )
     const user = userResult.rows[0]
 
-    if (!user) {
-      return NextResponse.json(
-        { error: 'Invalid or expired reset token' },
-        { status: 400 }
-      )
+    if (!user || !otpMatches(user.reset_token, normalizedOtp)) {
+      return NextResponse.json({ error: 'Invalid or expired verification code' }, { status: 400 })
     }
 
-    // Check if token is expired
     if (user.reset_token_expires && new Date(user.reset_token_expires) < new Date()) {
-      return NextResponse.json(
-        { error: 'Reset token has expired' },
-        { status: 400 }
-      )
+      return NextResponse.json({ error: 'Invalid or expired verification code' }, { status: 400 })
     }
 
-    // Hash new password
     const passwordHash = await bcrypt.hash(password, 10)
 
     await db.query(
@@ -56,14 +60,10 @@ export async function POST(request: NextRequest) {
 
     return NextResponse.json({
       success: true,
-      message: 'Password reset successfully'
+      message: 'Password reset successfully',
     })
-
   } catch (error) {
     console.error('Reset password error:', error)
-    return NextResponse.json(
-      { error: 'Failed to reset password' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
   }
 }

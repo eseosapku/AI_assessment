@@ -277,22 +277,16 @@ export default function NewAssignmentPage() {
         if (i !== qIndex || q.type !== 'longform') return q
         const criteria = Array.isArray(q.marking_criteria) ? [...q.marking_criteria] : []
         criteria[criterionIndex] = value
-        const hints = Array.isArray(q.hints) ? [...q.hints] : []
-        while (hints.length < criteria.length) hints.push('')
-        return { ...q, marking_criteria: criteria, hints }
+        return { ...q, marking_criteria: criteria }
       })
     )
   }
 
-  const updateHint = (qIndex: number, hintIndex: number, value: string) => {
+  const updateHint = (qIndex: number, value: string) => {
     setQuestions((prev) =>
       prev.map((q, i) => {
         if (i !== qIndex || q.type !== 'longform') return q
-        const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria : []
-        const hints = Array.isArray(q.hints) ? [...q.hints] : []
-        while (hints.length < Math.max(criteria.length, hintIndex + 1)) hints.push('')
-        hints[hintIndex] = value
-        return { ...q, hints }
+        return { ...q, hints: value.trim() ? [value] : [] }
       })
     )
   }
@@ -780,17 +774,15 @@ export default function NewAssignmentPage() {
                         ))}
                       </div>
                       <div>
-                        <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Student hints (one per criterion)</label>
-                        <p className="text-xs text-ss-slate mb-2">Nudge the kind of point — a named term, a reason, evidence. Do not paste the mark scheme or model answer.</p>
-                        {(questions[activeQuestionIndex] as LongformQuestion)?.marking_criteria?.map((_, hintIdx) => (
-                          <input
-                            key={`active-hint-${hintIdx}`}
-                            value={(questions[activeQuestionIndex] as LongformQuestion)?.hints?.[hintIdx] ?? ''}
-                            onChange={(e) => updateHint(activeQuestionIndex, hintIdx, e.target.value)}
-                            placeholder={`Hint ${hintIdx + 1} (optional — a safe nudge is filled in if you leave this blank)`}
-                            className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all text-gray-900 dark:text-white mb-2"
-                          />
-                        ))}
+                        <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Student hint</label>
+                        <p className="text-xs text-ss-slate mb-2">One clear tip for the whole question — how to structure the answer. Do not paste the mark scheme or model answer.</p>
+                        <textarea
+                          value={(questions[activeQuestionIndex] as LongformQuestion)?.hints?.[0] ?? ''}
+                          onChange={(e) => updateHint(activeQuestionIndex, e.target.value)}
+                          rows={3}
+                          placeholder="Optional — a safe comprehensive hint is filled in if you leave this blank"
+                          className="w-full px-3 py-2.5 rounded-xl text-base font-semibold bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all text-gray-900 dark:text-white"
+                        />
                       </div>
                       <div>
                         <label className="block text-sm font-bold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Model answer</label>

@@ -1,34 +1,57 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { db } from '@/lib/db'
-import crypto from 'crypto'
+import { sendPasswordResetOtp, isEmailConfigured } from '@/lib/email'
+import {
+  generatePasswordResetOtp,
+  normalizeResetEmail,
+  passwordResetOtpExpiresAt,
+} from '@/lib/password-reset-otp'
+import { checkRateLimit, identify } from '@/lib/rate-limit'
+
+const GENERIC_SUCCESS = {
+  success: true,
+  message: 'If an account exists with that email, we sent a 6-digit code.',
+}
 
 export async function POST(request: NextRequest) {
   try {
     const { email } = await request.json()
+    const normalizedEmail = normalizeResetEmail(email)
 
-    if (!email) {
+    if (!normalizedEmail) {
+      return NextResponse.json({ error: 'Email is required' }, { status: 400 })
+    }
+
+    if (!isEmailConfigured()) {
+      console.error('Forgot password: SMTP_PASS is not configured')
       return NextResponse.json(
-        { error: 'Email is required' },
-        { status: 400 }
+        { error: 'Password reset is temporarily unavailable. Please try again later.' },
+        { status: 503 },
       )
     }
 
-    const normalizedEmail = String(email).trim().toLowerCase()
-    const userResult = await db.query('SELECT id, email FROM users WHERE email = $1 LIMIT 1', [normalizedEmail])
-    const user = userResult.rows[0]
-
-    // Always return success to prevent email enumeration
-    if (!user) {
-      return NextResponse.json({
-        success: true,
-        message: 'If an account exists, reset instructions have been sent',
-        resetLink: '' // Don't reveal if email doesn't exist
-      })
+    const rateLimit = checkRateLimit('forgot-password', identify(null, request.headers))
+    if (!rateLimit.allowed) {
+      return NextResponse.json(
+        { error: 'Too many requests. Please wait a few minutes and try again.' },
+        {
+          status: 429,
+          headers: { 'Retry-After': String(rateLimit.retryAfterSeconds) },
+        },
+      )
     }
 
-    // Generate reset token
-    const resetToken = crypto.randomBytes(32).toString('hex')
-    const resetTokenExpires = new Date(Date.now() + 3600000) // 1 hour
+    const userResult = await db.query('SELECT id, email FROM users WHERE email = $1 LIMIT 1', [
+      normalizedEmail,
+    ])
+    const user = userResult.rows[0]
+
+    if (!user) {
+      return NextResponse.json(GENERIC_SUCCESS)
+    }
+
+    const otp = generatePasswordResetOtp()
+    const resetTokenExpires = passwordResetOtpExpiresAt()
 
     await db.query(
       `UPDATE users
@@ -36,24 +59,30 @@ export async function POST(request: NextRequest) {
            reset_token_expires = $3,
            updated_at = NOW()
        WHERE id = $1`,
-      [user.id, resetToken, resetTokenExpires.toISOString()],
+      [user.id, otp, resetTokenExpires.toISOString()],
     )
 
-    // In production, send email with reset link
-    // For development, return the reset link
-    const resetLink = `/reset-password?token=${resetToken}`
+    try {
+      await sendPasswordResetOtp(user.email, otp)
+    } catch (error) {
+      console.error('Forgot password email error:', error)
+      await db.query(
+        `UPDATE users
+         SET reset_token = NULL,
+             reset_token_expires = NULL,
+             updated_at = NOW()
+         WHERE id = $1`,
+        [user.id],
+      )
+      return NextResponse.json(
+        { error: 'We could not send the email right now. Please try again in a few minutes.' },
+        { status: 503 },
+      )
+    }
 
-    return NextResponse.json({
-      success: true,
-      message: 'Password reset instructions sent',
-      resetLink // In production, don't return this
-    })
-
+    return NextResponse.json(GENERIC_SUCCESS)
   } catch (error) {
     console.error('Forgot password error:', error)
-    return NextResponse.json(
-      { error: 'Failed to process request' },
-      { status: 500 }
-    )
+    return NextResponse.json({ error: 'Something went wrong. Please try again.' }, { status: 500 })
   }
 }

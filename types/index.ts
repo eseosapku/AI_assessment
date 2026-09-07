@@ -30,7 +30,7 @@ export interface LongFormQuestion {
   question: string
   marks: number
   marking_criteria: string[]
-  /** One student-facing nudge per marking criterion. Never the mark itself. */
+  /** One comprehensive student-facing hint for the whole question. Never the mark itself. */
   hints?: string[]
   model_answer: string
   explanation: string

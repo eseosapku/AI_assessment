@@ -1,9 +1,8 @@
 /**
  * Student-facing longform hints.
  *
- * Each hint sits next to one marking criterion: it names the *kind* of point
- * a marker wants (a reason, a named term, a piece of evidence) without
- * stating the mark itself or copying the model answer.
+ * One clear, comprehensive hint per question — never one line per mark that
+ * ends up repeating the stem. Built from what the question actually asks.
  */
 
 const STOPWORDS = new Set([
@@ -12,11 +11,12 @@ const STOPWORDS = new Set([
   'about', 'their', 'there', 'these', 'those', 'will', 'would', 'should',
   'could', 'can', 'may', 'has', 'have', 'had', 'been', 'being', 'does',
   'did', 'not', 'all', 'any', 'each', 'its', 'his', 'her', 'they', 'them',
-  'you', 'your', 'one', 'two', 'must', 'should', 'student', 'answer',
-  'include', 'mention', 'using', 'used', 'use',
+  'you', 'your', 'one', 'two', 'must', 'student', 'answer', 'include',
+  'mention', 'using', 'used', 'use', 'mark', 'marks', 'point', 'points',
+  'provide', 'consider', 'analyse', 'analyze', 'explain', 'describe',
 ])
 
-const MAX_HINT_CHARS = 180
+const MAX_HINT_CHARS = 320
 
 export function hintTokens(value: string): string[] {
   return (String(value || '').toLowerCase().match(/[a-z0-9]+/g) ?? []).filter(
@@ -33,75 +33,214 @@ export function tokenOverlapRatio(source: string, against: string): number {
   return hit / a.length
 }
 
-/** A nudge that names the *shape* of the mark without the content. */
-export function scaffoldHint(criterion: string): string {
-  const c = String(criterion || '').toLowerCase()
-  if (/quote|evidence|extract|passage|refer/.test(c)) {
-    return 'Back this part with a short piece of evidence from the text — a phrase is enough, not a long quotation.'
-  }
-  if (/calculat|working|show your|formula|substitut/.test(c)) {
-    return 'Show the method for this part, not only the final value.'
-  }
-  if (/compare|contrast|difference|similar/.test(c)) {
-    return 'Make a clear comparison: what is alike or different, and in what way.'
-  }
-  if (/evaluat|judg|to what extent|weigh/.test(c)) {
-    return 'Take a position and support it — a list of points with no judgement misses this mark.'
-  }
-  if (/explain|because|reason|why|account for/.test(c)) {
-    return 'Give a reason here, not only a label — a marker wants to see why this is true.'
-  }
-  if (/defin|name|identif|state|term/.test(c)) {
-    return 'A precise name or term is needed in this part — avoid a vague description.'
-  }
-  if (/describ|feature|characteristic/.test(c)) {
-    return 'Describe a specific feature, not a general comment that could fit any example.'
-  }
-  if (/effect|impact|consequence|result/.test(c)) {
-    return 'Say what follows from this — the effect, not only the fact itself.'
-  }
-  return 'Cover this part of the question in its own sentence so a marker can tick it separately.'
-}
-
+/** True if the hint restates a criterion or the model answer too closely. */
 export function hintLeaksAnswer(
   hint: string,
-  criterion: string,
+  criteria: string[] | string = [],
   modelAnswer: string = '',
 ): boolean {
   const text = String(hint || '').trim()
   if (!text) return true
   if (text.length > MAX_HINT_CHARS) return true
+
+  const list = Array.isArray(criteria)
+    ? criteria.map((c) => String(c ?? '').trim()).filter(Boolean)
+    : [String(criteria || '').trim()].filter(Boolean)
+
   const lower = text.toLowerCase()
-  const crit = String(criterion || '').trim()
-  if (crit && lower === crit.toLowerCase()) return true
-  if (tokenOverlapRatio(text, criterion) >= 0.55) return true
+  for (const crit of list) {
+    if (lower === crit.toLowerCase()) return true
+    if (tokenOverlapRatio(text, crit) >= 0.55) return true
+    const quoted = crit.match(/["'“”](.{8,80})["'“”]/)
+    if (quoted?.[1] && lower.includes(quoted[1].toLowerCase())) return true
+  }
   if (modelAnswer && tokenOverlapRatio(text, modelAnswer) >= 0.4) return true
-  const quoted = crit.match(/["'“”](.{8,80})["'“”]/)
-  if (quoted?.[1] && lower.includes(quoted[1].toLowerCase())) return true
   return false
 }
 
-export function sanitizeHint(
-  hint: string | undefined,
-  criterion: string,
-  modelAnswer: string = '',
+function cleanText(text: string): string {
+  return String(text || '').replace(/\s+/g, ' ').trim()
+}
+
+function finalize(text: string): string {
+  let t = cleanText(text)
+  if (!t) return ''
+  t = t.charAt(0).toUpperCase() + t.slice(1)
+  if (!/[.?!]$/.test(t)) t += '.'
+  if (t.length > MAX_HINT_CHARS) {
+    const cut = t.slice(0, MAX_HINT_CHARS - 1)
+    const at = cut.lastIndexOf(' ')
+    t = `${(at > 80 ? cut.slice(0, at) : cut).trim()}…`
+  }
+  return t
+}
+
+/** Split a multi-part stem into labelled slices, if any. */
+export function labelledParts(question: string): string[] {
+  const q = cleanText(question)
+  if (!q) return []
+
+  const labelRe = /\(([a-d]|[ivx]+)\)/gi
+  const starts: number[] = []
+  let match: RegExpExecArray | null
+  while ((match = labelRe.exec(q)) !== null) starts.push(match.index)
+
+  if (starts.length < 2) return []
+
+  return starts.map((from, i) => {
+    const to = i + 1 < starts.length ? starts[i + 1] : q.length
+    return cleanText(q.slice(from, to).replace(/^\([a-d]|[ivx]+\)\s*/i, ''))
+  }).filter(Boolean)
+}
+
+/** Break the stem into the main demands the student must cover. */
+export function questionDemands(question: string): string[] {
+  const parts = labelledParts(question)
+  if (parts.length >= 2) return parts
+
+  const q = cleanText(question)
+  if (!q) return []
+
+  // Split on sentence ends or "Provide/Consider/Include" follow-ons.
+  const chunks = q
+    .split(/(?<=[.!?])\s+|(?=\b(?:Provide|Consider|Include|Give|Discuss)\b)/i)
+    .map((c) => cleanText(c.replace(/^[(\[]?[a-zivx0-9]{1,4}[)\].:]\s*/i, '')))
+    .filter((c) => c.length > 8)
+
+  if (chunks.length >= 2) return chunks
+  return [q]
+}
+
+/**
+ * Soften rubric lines into coverage cues (answer-only words removed).
+ * Used only to remind students what *kinds* of points to hit.
+ */
+function coverageCues(
+  criteria: string[],
+  question: string,
+  modelAnswer: string,
+): string[] {
+  const qTokens = new Set(hintTokens(question))
+  const answerOnly = new Set(
+    hintTokens(modelAnswer).filter((t) => !qTokens.has(t)),
+  )
+
+  return criteria
+    .map((raw) => {
+      const words = String(raw || '').split(/\s+/).filter(Boolean)
+      const kept = words.filter((w) => {
+        const t = w.toLowerCase().replace(/[^a-z0-9]/g, '')
+        if (!t || t.length <= 3) return true
+        if (STOPWORDS.has(t)) return true
+        if (answerOnly.has(t)) return false
+        return true
+      })
+      let line = cleanText(kept.join(' '))
+        .replace(/^(states?|explains?|identifies?|describes?|uses?|gives?|names?|shows?)\s+/i, '')
+      if (line.length < 8 || line.length > 90) return ''
+      if (tokenOverlapRatio(line, modelAnswer) >= 0.45) return ''
+      return line
+    })
+    .filter(Boolean)
+    .slice(0, 3)
+}
+
+function pickBestIncomingHint(
+  incoming: string[],
+  criteria: string[],
+  modelAnswer: string,
+  question: string,
 ): string {
-  const raw = String(hint || '').replace(/\s+/g, ' ').trim()
-  if (raw && !hintLeaksAnswer(raw, criterion, modelAnswer)) return raw
-  return scaffoldHint(criterion)
+  const unique: string[] = []
+  for (const raw of incoming) {
+    const h = cleanText(raw)
+    if (!h) continue
+    if (hintLeaksAnswer(h, criteria, modelAnswer)) continue
+    // Skip near-copies of the question stem (the duplicate problem).
+    if (tokenOverlapRatio(h, question) >= 0.75) continue
+    const isDup = unique.some(
+      (u) => tokenOverlapRatio(h, u) >= 0.7 || h.toLowerCase() === u.toLowerCase(),
+    )
+    if (!isDup) unique.push(h)
+  }
+  if (unique.length === 0) return ''
+  // Prefer the longest useful unique hint.
+  return unique.sort((a, b) => b.length - a.length)[0]
+}
+
+/**
+ * One comprehensive hint for the whole question.
+ * Prefer a good AI/teacher hint; otherwise synthesise from the question's demands.
+ */
+export function buildLongformHint(
+  question: string,
+  criteria: unknown,
+  modelAnswer: string = '',
+  incomingHints: unknown = [],
+): string {
+  const q = cleanText(question)
+  const list = Array.isArray(criteria)
+    ? criteria.map((c) => String(c ?? '').trim()).filter(Boolean)
+    : []
+  const incoming = Array.isArray(incomingHints)
+    ? incomingHints.map((h) => String(h ?? '').trim()).filter(Boolean)
+    : []
+
+  const fromIncoming = pickBestIncomingHint(incoming, list, modelAnswer, q)
+  if (fromIncoming) return finalize(fromIncoming)
+
+  const demands = questionDemands(q)
+  const cues = coverageCues(list, q, modelAnswer)
+
+  let hint = ''
+  if (demands.length >= 2) {
+    const a = demands[0].replace(/[.?!]$/, '')
+    const b = demands[1].replace(/[.?!]$/, '')
+    hint = `Structure your answer around both demands: ${a}; then ${b}`
+  } else if (demands.length === 1) {
+    const demand = demands[0].replace(/[.?!]$/, '')
+    hint = `Stay focused on this: ${demand} — develop the idea fully rather than listing short points`
+  }
+
+  if (cues.length > 0) {
+    const cueText = cues.join('; ')
+    hint = hint
+      ? `${hint}. Make sure you also cover: ${cueText}`
+      : `Cover these angles in your answer: ${cueText}`
+  }
+
+  if (!hint && q) {
+    hint = `Re-read the question carefully and answer every part of it in linked sentences`
+  }
+
+  const candidate = finalize(hint)
+  if (candidate && !hintLeaksAnswer(candidate, list, modelAnswer)) return candidate
+
+  // Fallback that never copies the stem or the mark scheme.
+  return finalize(
+    demands.length >= 2
+      ? 'Answer every labelled part of the question, and link your points so a marker can follow the full argument'
+      : 'Address the full question in a clear chain of reasoning — not a single short statement',
+  )
+}
+
+/** @deprecated Prefer buildLongformHint — kept for tests that check leak logic. */
+export function hintFromQuestion(
+  question: string,
+  criterion: string,
+  opts: { modelAnswer?: string } = {},
+): string {
+  return buildLongformHint(question, [criterion], opts.modelAnswer ?? '', [])
 }
 
 export function alignLongformHints(
   criteria: unknown,
   hints: unknown,
   modelAnswer: string = '',
+  question: string = '',
 ): string[] {
-  const list = Array.isArray(criteria)
-    ? criteria.map((c) => String(c ?? '').trim()).filter(Boolean)
-    : []
-  if (list.length === 0) return []
-  const incoming = Array.isArray(hints) ? hints.map((h) => String(h ?? '').trim()) : []
-  return list.map((criterion, i) => sanitizeHint(incoming[i], criterion, modelAnswer))
+  const hint = buildLongformHint(question, criteria, modelAnswer, hints)
+  return hint ? [hint] : []
 }
 
 export function attachLongformHints<T extends Record<string, any>>(
@@ -112,6 +251,7 @@ export function attachLongformHints<T extends Record<string, any>>(
     question.marking_criteria,
     question.hints,
     String(question.model_answer ?? ''),
+    String(question.question ?? ''),
   )
   return { ...question, hints }
 }
@@ -133,8 +273,12 @@ export function prepareLongformQuestionsForStudent<T extends Record<string, any>
   })
 }
 
-export function studentHintsOf(question: { type?: string; hints?: unknown } | null | undefined): string[] {
+/** Always 0 or 1 hint for the student UI. */
+export function studentHintsOf(
+  question: { type?: string; hints?: unknown } | null | undefined,
+): string[] {
   if (!question || question.type !== 'longform') return []
   if (!Array.isArray(question.hints)) return []
-  return question.hints.map((h) => String(h ?? '').trim()).filter(Boolean)
+  const first = question.hints.map((h) => String(h ?? '').trim()).find(Boolean)
+  return first ? [first] : []
 }

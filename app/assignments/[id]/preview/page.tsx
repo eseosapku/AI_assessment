@@ -213,22 +213,16 @@ export default function AssignmentPreviewPage() {
                 if (i !== qIndex) return q
                 const criteria = Array.isArray(q.marking_criteria) ? [...q.marking_criteria] : []
                 criteria[criterionIndex] = value
-                const hints = Array.isArray(q.hints) ? [...q.hints] : []
-                while (hints.length < criteria.length) hints.push('')
-                return { ...q, marking_criteria: criteria, hints }
+                return { ...q, marking_criteria: criteria }
             })
         )
     }
 
-    const updateHint = (qIndex: number, hintIndex: number, value: string) => {
+    const updateHint = (qIndex: number, value: string) => {
         setQuestions((prev) =>
             prev.map((q, i) => {
                 if (i !== qIndex) return q
-                const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria : []
-                const hints = Array.isArray(q.hints) ? [...q.hints] : []
-                while (hints.length < Math.max(criteria.length, hintIndex + 1)) hints.push('')
-                hints[hintIndex] = value
-                return { ...q, hints }
+                return { ...q, hints: value.trim() ? [value] : [] }
             })
         )
     }
@@ -606,17 +600,15 @@ export default function AssignmentPreviewPage() {
                                             ))}
                                         </div>
                                         <div>
-                                            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Student hints (one per criterion)</label>
-                                            <p className="text-[12px] text-ss-slate mb-2">Point at the kind of mark. Do not paste the criterion or the model answer.</p>
-                                            {(q.marking_criteria ?? []).map((_: string, hintIdx: number) => (
-                                                <input
-                                                    key={`hint-${hintIdx}`}
-                                                    value={q.hints?.[hintIdx] ?? ''}
-                                                    onChange={(e) => updateHint(idx, hintIdx, e.target.value)}
-                                                    placeholder={`Hint ${hintIdx + 1}`}
-                                                    className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all text-gray-900 dark:text-white mb-2"
-                                                />
-                                            ))}
+                                            <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Student hint</label>
+                                            <p className="text-[12px] text-ss-slate mb-2">One clear tip for the whole question. Do not paste the criterion or the model answer.</p>
+                                            <textarea
+                                                value={q.hints?.[0] ?? ''}
+                                                onChange={(e) => updateHint(idx, e.target.value)}
+                                                rows={3}
+                                                placeholder="Optional comprehensive hint"
+                                                className="w-full px-3 py-2.5 rounded-xl text-sm bg-gray-50 dark:bg-white/[0.05] border border-gray-200 dark:border-white/[0.08] focus:border-amber-500 focus:ring-2 focus:ring-amber-500/20 outline-none transition-all text-gray-900 dark:text-white"
+                                            />
                                         </div>
                                         <div>
                                             <label className="block text-xs font-semibold text-gray-500 dark:text-gray-400 mb-1.5 uppercase tracking-wide">Model answer</label>
