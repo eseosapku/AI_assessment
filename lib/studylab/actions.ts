@@ -4,6 +4,7 @@
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 import { isCardKind, blockSize } from './blocks'
 import { isValidQuestion, coerceQuestion } from './quiz'
+import { validateSpec } from './activities/validate'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
@@ -115,6 +116,17 @@ export function titleExists(nodes: StudyNode[], title: string): boolean {
   )
 }
 
+// Find an existing, visible activity node whose spec prompt (trimmed,
+// case-insensitive) matches. The tutor re-emits an activity it has already
+// built when a turn is retried, and the prompt text is the only reliable
+// signal that this is "the same activity" rather than a new one.
+function findActivityByPrompt(nodes: StudyNode[], prompt: string): StudyNode | undefined {
+  const p = prompt.trim().toLowerCase()
+  return nodes.find(
+    (n) => n.type === 'activity' && !n.hidden && (n.data.spec?.prompt ?? '').trim().toLowerCase() === p,
+  )
+}
+
 export function isValidAction(a: any): a is TutorAction {
   if (!a || typeof a !== 'object') return false
   switch (a.type) {
@@ -135,6 +147,8 @@ export function isValidAction(a: any): a is TutorAction {
       // with an id and a non-empty questions array (don't reject the whole thing
       // because one question is malformed).
       return typeof a.id === 'string' && Array.isArray(a.questions) && a.questions.length > 0
+    case 'createActivity':
+      return typeof a.id === 'string' && validateSpec(a.spec)
     default:
       return false
   }
@@ -145,6 +159,10 @@ export interface ApplyResult {
   edges: StudyEdge[]
   effects: CanvasEffect[]
   created: string[]
+  // Actions that failed isValidAction and were silently NOT rendered — kept so
+  // the caller can surface the drop instead of it being invisible to everyone
+  // (the tutor's chat says it created something, the board shows nothing).
+  dropped: string[]
 }
 
 export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyResult {
@@ -152,9 +170,16 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
   let edges: StudyEdge[] = [...state.edges]
   const effects: CanvasEffect[] = []
   const created: string[] = []
+  const dropped: string[] = []
 
   for (const action of actions) {
-    if (!isValidAction(action)) continue
+    if (!isValidAction(action)) {
+      const a = action as { type?: unknown; id?: unknown } | null | undefined
+      const type = typeof a?.type === 'string' ? a.type : 'unknown'
+      const id = typeof a?.id === 'string' ? a.id : undefined
+      dropped.push(id ? `${type}:${id}` : type)
+      continue
+    }
 
     switch (action.type) {
       case 'createCard': {
@@ -208,6 +233,40 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
             // Only ever set by the server, on a turn that answered a question.
             ...(action.aside ? { aside: true as const } : {}),
             step,
+          },
+        })
+        created.push(action.id)
+        break
+      }
+
+      case 'createActivity': {
+        if (nodes.some((n) => n.id === action.id)) break
+        // A duplicate turn must not leave two identical materials on the board.
+        // Zoom to the existing one instead of producing a blank turn, so "see
+        // the activity" still lands.
+        const dupe = findActivityByPrompt(nodes, action.spec.prompt)
+        if (dupe) {
+          effects.push({ kind: 'zoom', target: 'node', nodeId: dupe.id })
+          break
+        }
+        const step = typeof action.step === 'number' ? action.step : 0
+        nodes.push({
+          id: action.id,
+          type: 'activity',
+          position: autoPosition(nodes, step, 'activity'),
+          data: {
+            kind: 'activity',
+            title: action.spec.prompt,
+            step,
+            spec: action.spec,
+            activityState: {
+              status: 'untouched',
+              attempts: 0,
+              hintsUsed: 0,
+              elapsedMs: 0,
+              rejectedMoves: [],
+              work: {},
+            },
           },
         })
         created.push(action.id)
@@ -342,7 +401,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
     }
   }
 
-  return { nodes, edges, effects, created }
+  return { nodes, edges, effects, created, dropped }
 }
 
 // When the tutor advances past a step, collapse that step's AI cards (content +

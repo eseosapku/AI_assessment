@@ -2,6 +2,7 @@
 import type { BlockSource } from './blocks'
 import type { PracticeCell } from './practice'
 import type { HomeworkSheet } from './homework'
+import type { ActivitySpec, ActivityState } from './activities/types'
 
 export type MasteryStatus = 'mastered' | 'developing' | 'gap' | 'not_assessed'
 
@@ -28,7 +29,7 @@ export interface QuizCell {
 }
 
 export interface StudyNodeData {
-  kind: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question'
+  kind: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question' | 'activity'
   title?: string
   body?: string
   /** Bullet points for a concept card (e.g. "Key Terms"). */
@@ -86,6 +87,10 @@ export interface StudyNodeData {
   quiz?: QuizCell
   /** Runnable-code editor state (shape finalised in the runner phase). */
   runner?: Record<string, unknown>
+  /** Montessori activity payload (activity nodes only). */
+  spec?: ActivitySpec
+  /** Persisted student progress within the activity. */
+  activityState?: ActivityState
 }
 
 export interface StudyNode {
@@ -95,7 +100,7 @@ export interface StudyNode {
    * It is deliberately not a `CardKind`: there is no `createCard` that makes
    * one, because it is not something a tutor writes.
    */
-  type: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question'
+  type: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question' | 'activity'
   position: { x: number; y: number }
   data: StudyNodeData
   hidden?: boolean
@@ -225,6 +230,12 @@ export type TutorAction =
        * step gets taught in full whether or not anyone asked anything.
        */
       aside?: boolean
+    }
+  | {
+      type: 'createActivity'
+      id: string
+      spec: ActivitySpec
+      step?: number
     }
   | {
       type: 'updateCard'

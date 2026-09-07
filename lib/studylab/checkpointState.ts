@@ -32,5 +32,32 @@ export function summarizeCheckpoints(nodes: StudyNode[]): CheckpointSummary[] {
     if (q.state === 'correct') row.correct += 1
     byId.set(q.checkpointId, row)
   }
+
+  // A solved activity can stand in for a checkpoint, so Montessori lessons gate
+  // on DOING rather than on answering an MCQ. Shape is identical to a quiz row,
+  // so the gap map and gating pipelines need no changes.
+  for (const n of nodes) {
+    if (n.type !== 'activity') continue
+    const cpId = n.data.spec?.satisfiesCheckpoint
+    if (!cpId || typeof cpId !== 'string') continue
+    const solved = n.data.activityState?.status === 'solved'
+    const row = byId.get(cpId) ?? {
+      id: cpId,
+      step: n.data.step ?? 0,
+      total: 0,
+      answered: 0,
+      correct: 0,
+      done: true,
+    }
+    row.total += 1
+    if (solved) {
+      row.answered += 1
+      row.correct += 1
+    } else {
+      row.done = false
+    }
+    byId.set(cpId, row)
+  }
+
   return [...byId.values()].sort((a, b) => a.step - b.step)
 }
