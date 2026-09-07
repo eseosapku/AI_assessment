@@ -81,6 +81,13 @@ export interface LessonRun {
    * an old lesson keeps behaving as it did rather than losing its code cards.
    */
   programming?: boolean
+  /**
+   * Which kind of lesson this is, fixed when the space is created.
+   *
+   * Undefined on a run stored before Montessori mode existed, and read as
+   * 'classic' everywhere, so an old lesson keeps behaving exactly as it did.
+   */
+  mode?: 'classic' | 'montessori'
 }
 
 export type Transition =

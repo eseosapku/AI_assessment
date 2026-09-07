@@ -107,6 +107,7 @@ export async function POST(request: NextRequest) {
     const body = await request.json()
     const learnspaceId = String(body?.learnspaceId ?? '').trim()
     const action = body?.action
+    const mode: 'classic' | 'montessori' = body?.mode === 'montessori' ? 'montessori' : 'classic'
     if (!learnspaceId || !action?.type) {
       return NextResponse.json({ error: 'A learnspace and an action are required' }, { status: 400 })
     }
@@ -134,12 +135,13 @@ export async function POST(request: NextRequest) {
     }
 
     const policy = policyFor(space.origin)
-    const run: LessonRun =
+    let run: LessonRun =
       space.lesson_run ??
       runFromLegacy(
         { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
         policy,
       )
+    run = { ...run, mode }
 
     const requestId = randomUUID()
 
