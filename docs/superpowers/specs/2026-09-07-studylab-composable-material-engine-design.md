@@ -282,11 +282,12 @@ astronomically large state space is a bad material — the child cannot hold it 
 so the limit is doing pedagogical work as well as computational.
 
 This closes a known live fault. Item 4 of the paused backlog: `compose` declares
-its legal bonds as `validJoins: { a, b }[]`, where `a` and `b` must match
-`parts[].id`. Nothing checks that they do, so a single mistyped id means no join
-is ever legal — nothing can ever bond, **with no feedback**. A student sits in
-front of a material that cannot be completed. That should be impossible to ship,
-not a bug to be found later.
+its legal bonds as `validJoins: { a, b }[]`, and `accepts()` matches those
+against part **labels**, not ids. Nothing checks that a label named there is a
+label any part actually carries, so a single typo means no join is ever legal —
+nothing can ever bond, **with no feedback**. A student sits in front of a
+material that cannot be completed. That should be impossible to ship, not a bug
+to be found later.
 
 ### Isolates one quality
 
