@@ -19,6 +19,11 @@ import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { SYSTEM } from './route'
+import { validateSpec } from '@/lib/studylab/activities/validate'
+import { parseIntent, checkIntent, type TeachingIntent } from '@/lib/studylab/activities/intent'
+import { unmatchedArt } from '@/lib/studylab/activities/artMatch'
+import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
+import { assetCatalogPromptBlock } from '@/lib/studylab/activities/assetCatalog'
 
 export type LessonAction =
   /** `answer` is present on a re-draft, carrying what the learner said back. */
@@ -97,6 +102,16 @@ export interface DispatchResult {
    * explanation of covalent bonding.
    */
   ack?: string
+  /**
+   * What the tutor said it was teaching, for each material it built.
+   *
+   * Surfaced rather than swallowed because the whole question this phase asks
+   * is whether the tutor reasons about the material or reaches for the same
+   * apparatus every time, and that is invisible from the board alone.
+   */
+  intents?: TeachingIntent[]
+  /** Materials refused, with the reason each was refused. */
+  materialRefusals?: string[]
 }
 
 /** Actions that only move state. None of these is worth a model call. */
@@ -368,13 +383,28 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   // cheap model, from the step's own goal.
   const closed = await ensureStepCloses(opened.run, opened.actions, board, input)
 
+  // Collected before the strip below: refuseUnjustifiedActivities drops the
+  // `intent` field off every material it keeps, since the intent is why the
+  // material exists rather than part of it — left on, it would ride into the
+  // node's data and onto the screen. The whole question this phase asks is
+  // whether the tutor reasons about a material or reaches for the same
+  // apparatus every time, and that is invisible from the board alone unless
+  // it is captured here, before the strip removes it.
+  const intents = closed.actions
+    .map((a) => (a && typeof a === 'object' ? parseIntent((a as Record<string, unknown>).intent) : null))
+    .filter((i): i is TeachingIntent => i !== null)
+  const { kept, refused: materialRefusals } = refuseUnjustifiedActivities(closed.actions)
+  for (const reason of materialRefusals) console.log(`Refused a material: ${reason}`)
+
   return {
     run: closed.run,
     say,
-    actions: closed.actions,
+    actions: kept,
     suggestions: Array.isArray(parsed?.suggestions)
       ? parsed.suggestions.filter((s): s is string => typeof s === 'string').slice(0, 3)
       : [],
+    intents: intents.length > 0 ? intents : undefined,
+    materialRefusals: materialRefusals.length > 0 ? materialRefusals : undefined,
   }
 }
 
@@ -696,6 +726,62 @@ function unMultipleChoice(a: Record<string, unknown>): Record<string, unknown> |
 function coerceCardAction(a: Record<string, unknown>): Record<string, unknown> {
   if (typeof a.type !== 'string' || !isCardKind(a.type)) return a
   return { ...a, type: 'createCard', card: a.type }
+}
+
+/**
+ * Drops any material the tutor could not justify, and says why.
+ *
+ * Every other check in this chain repairs what the model got wrong. This one
+ * cannot: a material whose stated reason does not match what it varies is not
+ * a formatting fault, it is the tutor reaching for the apparatus it always
+ * reaches for and inventing a rationale afterwards. The refusal carries the
+ * mismatch so the next turn has something to act on — telling it only that the
+ * turn failed produces the same turn again.
+ */
+export function refuseUnjustifiedActivities(actions: unknown[]): {
+  kept: unknown[]
+  refused: string[]
+} {
+  const kept: unknown[] = []
+  const refused: string[] = []
+
+  for (const raw of actions) {
+    if (!raw || typeof raw !== 'object' || (raw as Record<string, unknown>).type !== 'createActivity') {
+      kept.push(raw)
+      continue
+    }
+    const a = raw as Record<string, unknown>
+
+    if (!validateSpec(a.spec)) {
+      refused.push('The activity spec was malformed, so nothing was built.')
+      continue
+    }
+    const intent = parseIntent(a.intent)
+    if (!intent) {
+      refused.push(
+        'Every material needs an intent: goal, the single quality it isolates, the apparatus, and why.',
+      )
+      continue
+    }
+    const verdict = checkIntent(intent, a.spec)
+    if (!verdict.ok) {
+      refused.push(verdict.reason)
+      continue
+    }
+    const wordy = unmatchedArt(a.spec)
+    if (wordy.length > 0) {
+      refused.push(
+        `These are shown as words but the catalogue has pictures for them: ${wordy.join(', ')}. ` +
+          `Set imageUrl to the catalogue name — a word matched against a word is not a material.`,
+      )
+      continue
+    }
+    // The intent is why the material exists, not part of it; keeping it on the
+    // action would carry it into the node's data and onto the screen.
+    const { intent: _dropped, ...action } = a
+    kept.push(action)
+  }
+  return { kept, refused }
 }
 
 /**
