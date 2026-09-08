@@ -173,7 +173,7 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             animate={{ y: tiltDeg * 1.1 }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
             style={{ left: '4%', width: '33%', top: '50%', maxHeight: PAN_MAX_HEIGHT }}
-            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+            className={`absolute flex min-h-[96px] flex-col gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'left' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >
@@ -194,7 +194,7 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             animate={{ y: -(tiltDeg * 1.1) }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
             style={{ left: '63%', width: '33%', top: '50%', maxHeight: PAN_MAX_HEIGHT }}
-            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+            className={`absolute flex min-h-[96px] flex-col gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'right' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >

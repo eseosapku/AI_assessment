@@ -55,13 +55,14 @@ const CHIP_VERTICAL_PADDING_PX = 8
  * under its label, a compare zone has `border` (1px) and `mb-0.5`.
  *
  * - `borderPx` / `paddingPx` are per side (both are doubled below).
- * - `labelMarginPx` is the label `<p>`'s own `mb-*`, which counts toward the
- *   flex line it sits on.
- * - `labelGapPx` is the outer container's `gap-2` row gap: the label and the
- *   chip container are two items of a `flex flex-wrap` box, and at these
- *   zone widths (~119px for a pan, ~127px for the widest compare zone) the
- *   chip container's max-content size never shares the label's line, so the
- *   label always costs a full flex line plus one row gap.
+ * - `labelMarginPx` is the label `<p>`'s own `mb-*`, sitting below the label
+ *   text before the container's own gap is spent.
+ * - `labelGapPx` is the outer container's `gap-2`. The outer box is a
+ *   `flex flex-col` with exactly two children — the label `<p>` and the
+ *   chip-wrap `<div>` — so the label unconditionally occupies its own line
+ *   above the chips (this is a two-item column stack, not a wrap that
+ *   happens to land that way), and `gap-2` is the single vertical gap the
+ *   column spends between those two items.
  */
 interface ZoneChrome {
   borderPx: number
@@ -119,9 +120,9 @@ function deriveGeometry(
  * A balance pan: `absolute`, anchored at `top: 50%` inside the beam's
  * 300:190 viewBox, 33%-wide (~119px, too narrow for two 20px-icon chips per
  * row). Chrome read from BalanceActivity.tsx's pan containers —
- * `border-2 ... p-2` with a `gap-2` outer flex box, and a label `<p>` with
- * `mb-1`; chips wrap inside the pan's inner `flex flex-wrap ... gap-1` div,
- * so the row gap is 4px, not the outer 8px. See balance.ts
+ * `border-2 ... p-2` on a `flex flex-col gap-2` outer box, and a label `<p>`
+ * with `mb-1`; chips wrap inside the pan's inner `flex flex-wrap ... gap-1`
+ * div, so the row gap is 4px, not the outer 8px. See balance.ts
  * (`MAX_ITEMS_PER_GROUP`).
  *
  * 360 / (300/190) = 228px box; 228 * 0.5 = 114px headroom; chrome is
@@ -140,8 +141,9 @@ export const BALANCE_PAN = deriveGeometry(300 / 190, 0.5, 20, 4, {
  * inside the Venn diagram's 300:220 viewBox; even the widest ("both") zone
  * is only ~127px wide, too narrow for two 22px-icon chips per row. Chrome
  * read from CompareActivity.tsx's zone containers — a 1px `border ... p-2`
- * with a `gap-2` outer flex box, and a label `<p>` with `mb-0.5`; as with a
- * pan, chips wrap inside an inner `gap-1` div, so the row gap is 4px. See
+ * on a `flex flex-col gap-2` outer box, and a label `<p>` with `mb-0.5`; as
+ * with a pan, chips wrap inside an inner `gap-1` div, so the row gap is
+ * 4px. See
  * compare.ts (`MAX_ITEMS_PER_BUCKET`).
  *
  * 360 / (300/220) = 264px box; 264 * 0.682 = 180px headroom; chrome is

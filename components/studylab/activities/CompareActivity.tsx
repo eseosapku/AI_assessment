@@ -119,7 +119,7 @@ export function CompareActivity({ id, spec, onOutcome, initialState }: {
               key={region}
               {...drag.dropTargetProps(region)}
               style={{ left: ZONES[region].left, width: ZONES[region].width, top: ZONE_TOP, maxHeight: ZONE_MAX_HEIGHT }}
-              className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 overflow-y-auto rounded-lg border border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+              className={`absolute flex min-h-[96px] flex-col gap-2 overflow-y-auto rounded-lg border border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
                 drag.overId === region ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
               }`}
             >
