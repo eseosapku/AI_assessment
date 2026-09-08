@@ -4,6 +4,7 @@ import { useMemo } from 'react'
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, BalancePayload } from '@/lib/studylab/activities/types'
 import { sideTotal, type BalanceWork } from '@/lib/studylab/activities/patterns/balance'
+import { BALANCE_PAN } from '@/lib/studylab/activities/dropZoneGeometry'
 import { seededShuffle } from '@/lib/studylab/activities/shuffle'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { ActivityFrame } from './ActivityFrame'
@@ -18,15 +19,16 @@ const TARGETS: Target[] = ['left', 'right', 'pool']
 // hangers and pan glyphs live in one rotating group pivoted at BEAM.pivot.
 const BEAM = { pivotX: 150, pivotY: 60, halfSpan: 95, hangDown: 35 }
 
-// A pan is anchored at `top: 50%` of the ~246px-tall beam box (see the pan
-// containers below), leaving ~120px of headroom before it would grow past
-// the container and into the pool strip beneath it. `lib/studylab/
-// activities/patterns/balance.ts` caps each authored group to what that
-// headroom can hold without this ever engaging in normal use; this is only
-// the backstop for a payload that slips past that cap, or a student who
-// drags more onto one pan than the material was authored to hold — it
-// scrolls internally past the cap rather than drawing over the beam.
-const PAN_MAX_HEIGHT = '120px'
+// A pan is anchored at `top: 50%` of the beam box, leaving BALANCE_PAN's
+// headroom below it before a pan would grow past the container and into the
+// pool strip beneath it (see dropZoneGeometry.ts for the shared derivation
+// this and balance.ts's MAX_ITEMS_PER_GROUP both read from). Reading the
+// same number here keeps the CSS backstop and the authoring-time cap it
+// backstops from drifting apart. This only ever engages for a payload that
+// slips past that cap, or a student who drags more onto one pan than the
+// material was authored to hold — it scrolls internally past the cap
+// rather than drawing over the beam.
+const PAN_MAX_HEIGHT = `${BALANCE_PAN.headroomPx}px`
 
 /** Picture-first: an image stands in for the item, the label is caption/fallback. */
 function ItemArt({ item }: { item: Item }) {

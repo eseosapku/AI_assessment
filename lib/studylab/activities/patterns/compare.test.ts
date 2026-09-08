@@ -41,20 +41,7 @@ describe('compareModule', () => {
     expect(compareModule.isPayload(dupe)).toBe(false)
   })
 
-  it('accepts a belongs bucket right at the 4-item cap (fills a zone without scrolling)', () => {
-    const fourRight: ComparePayload = {
-      sets: payload.sets,
-      items: [
-        { id: 'a', label: 'A', belongs: 'right' },
-        { id: 'b', label: 'B', belongs: 'right' },
-        { id: 'c', label: 'C', belongs: 'right' },
-        { id: 'd', label: 'D', belongs: 'right' },
-      ],
-    }
-    expect(compareModule.isPayload(fourRight)).toBe(true)
-  })
-
-  it('rejects a belongs bucket one item over the cap (a zone the student cannot see across without scrolling)', () => {
+  it('accepts a belongs bucket right at the 5-item cap (fills a zone without scrolling)', () => {
     const fiveRight: ComparePayload = {
       sets: payload.sets,
       items: [
@@ -65,22 +52,39 @@ describe('compareModule', () => {
         { id: 'e', label: 'E', belongs: 'right' },
       ],
     }
-    expect(compareModule.isPayload(fiveRight)).toBe(false)
-    // The cap applies per bucket, not to the total - four 'left' plus four
-    // 'both' is fine even though nine items together would not fit in one zone.
-    const eightAcrossTwoBuckets: ComparePayload = {
+    expect(compareModule.isPayload(fiveRight)).toBe(true)
+  })
+
+  it('rejects a belongs bucket one item over the cap (a zone the student cannot see across without scrolling)', () => {
+    const sixRight: ComparePayload = {
+      sets: payload.sets,
+      items: [
+        { id: 'a', label: 'A', belongs: 'right' },
+        { id: 'b', label: 'B', belongs: 'right' },
+        { id: 'c', label: 'C', belongs: 'right' },
+        { id: 'd', label: 'D', belongs: 'right' },
+        { id: 'e', label: 'E', belongs: 'right' },
+        { id: 'f', label: 'F', belongs: 'right' },
+      ],
+    }
+    expect(compareModule.isPayload(sixRight)).toBe(false)
+    // The cap applies per bucket, not to the total - five 'left' plus five
+    // 'both' is fine even though ten items together would not fit in one zone.
+    const tenAcrossTwoBuckets: ComparePayload = {
       sets: payload.sets,
       items: [
         { id: 'a', label: 'A', belongs: 'left' },
         { id: 'b', label: 'B', belongs: 'left' },
         { id: 'c', label: 'C', belongs: 'left' },
         { id: 'd', label: 'D', belongs: 'left' },
-        { id: 'e', label: 'E', belongs: 'both' },
+        { id: 'e', label: 'E', belongs: 'left' },
         { id: 'f', label: 'F', belongs: 'both' },
         { id: 'g', label: 'G', belongs: 'both' },
         { id: 'h', label: 'H', belongs: 'both' },
+        { id: 'i', label: 'I', belongs: 'both' },
+        { id: 'j', label: 'J', belongs: 'both' },
       ],
     }
-    expect(compareModule.isPayload(eightAcrossTwoBuckets)).toBe(true)
+    expect(compareModule.isPayload(tenAcrossTwoBuckets)).toBe(true)
   })
 })

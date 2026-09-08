@@ -3,6 +3,7 @@
 import { motion } from 'framer-motion'
 import type { ActivitySpec, ActivityState, ComparePayload } from '@/lib/studylab/activities/types'
 import type { CompareWork } from '@/lib/studylab/activities/patterns/compare'
+import { COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
 import { seededShuffle } from '@/lib/studylab/activities/shuffle'
 import { assetUrl } from '@/lib/studylab/activities/assetCatalog'
 import { ActivityFrame } from './ActivityFrame'
@@ -29,15 +30,15 @@ const ZONES: Record<Region, { left: string; width: string }> = {
 }
 const ZONE_TOP = '31.8%'
 
-// All three zones share ZONE_TOP inside the same ~284px-tall card (a 300:220
-// aspect ratio at the card's ~388px content width), leaving ~194px of
-// headroom before a zone would grow past the bottom of its own drawn
-// crescent/lens. `lib/studylab/activities/patterns/compare.ts` caps each
-// authored `belongs` bucket to what that headroom can hold without this ever
-// engaging in normal use; this is only the backstop for a payload or a drag
-// that puts more into one zone than the material was authored to hold — it
-// scrolls internally past the cap rather than drawing over the circles.
-const ZONE_MAX_HEIGHT = '194px'
+// All three zones share ZONE_TOP and COMPARE_ZONE's headroom below it before
+// a zone would grow past the bottom of its own drawn crescent/lens (see
+// dropZoneGeometry.ts for the shared derivation this and compare.ts's
+// MAX_ITEMS_PER_BUCKET both read from). Reading the same number here keeps
+// the CSS backstop and the authoring-time cap it backstops from drifting
+// apart. This only ever engages for a payload or a drag that puts more into
+// one zone than the material was authored to hold — it scrolls internally
+// past the cap rather than drawing over the circles.
+const ZONE_MAX_HEIGHT = `${COMPARE_ZONE.headroomPx}px`
 
 /** Picture-first: an image stands in for the item, the label is caption/fallback. */
 function ItemArt({ item }: { item: Item }) {

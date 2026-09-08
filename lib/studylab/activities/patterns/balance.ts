@@ -1,6 +1,7 @@
 // lib/studylab/activities/patterns/balance.ts
 import type { BalancePayload, PatternModule, SuccessRule, ValidateResult } from '../types'
 import { evaluateSuccess } from '../success'
+import { BALANCE_PAN } from '../dropZoneGeometry'
 
 export interface BalanceWork { left: string[]; right: string[] }
 
@@ -17,27 +18,31 @@ export function sideTotal(payload: BalancePayload, ids: string[]): number {
 }
 
 /**
- * Ceiling on how many items may be authored into any one of `left`/`right`/`pool`.
+ * Ceiling on how many items may be authored onto `left` or `right` — but
+ * NOT `pool` (see `okItems`/`isPayload` below for why the two differ).
  *
- * A pan is rendered `absolute`, anchored at `top: 50%` inside the ~246px-tall
- * beam box (a 300:190 aspect ratio at the card's ~388px content width) — so it
- * has roughly 120px of headroom before it would grow past the container and
- * into the pool strip below. A chip row is about 36px tall (a 20px item icon
- * plus 8px of vertical padding, plus the 8px gap to the next row), and the
- * pan's 33%-wide column is only ~103-119px after its own padding — too narrow
- * for more than one average item label per row. 120px of headroom therefore
- * holds at most 3 rows before the pan overflows its own drawn box.
+ * A pan is rendered `absolute`, anchored at `top: 50%` inside the beam box,
+ * with roughly `BALANCE_PAN.headroomPx` of headroom below that anchor before
+ * it would grow past the container and into the pool strip below (see
+ * `dropZoneGeometry.ts` for the full derivation from the card's actual
+ * content width, the beam's aspect ratio, and one chip row's height). A pan
+ * that can't hold its own authored items without scrolling is a material
+ * the student can't see across, which is a bad Montessori material
+ * regardless of layout — so authoring too many onto one pan is rejected
+ * here, before a student ever meets it.
  *
- * Nothing here stops a student from dragging every item onto one pan at
- * runtime (there is no `accepts()` for balance — see below), so this bounds
- * the *authored* size of each group rather than guaranteeing every possible
- * arrangement fits; BalanceActivity.tsx's `max-height` is the runtime
- * backstop for whatever a student still manages to pile onto one side. A pan
- * that can't hold its own authored items without scrolling is a material the
- * student can't see across, which is a bad Montessori material regardless of
- * layout — so it is rejected here, before a student ever meets it.
+ * `pool`, by contrast, renders as an ordinary normal-flow strip at the
+ * bottom of the card (see BalanceActivity.tsx) — no `absolute`, no
+ * `max-height`, nothing for a large pool to overflow. The most ordinary
+ * balance lesson there is — "here are five weights, sort them onto the
+ * scale" — authors everything into `pool` and nothing pre-placed, so
+ * capping it here would reject the common case for a risk it doesn't carry.
+ * What a student can put ON a pan by dragging is still bounded, regardless
+ * of how large the pool is: by this same cap on `left`/`right` for the
+ * *authored* starting point, and by BalanceActivity.tsx's `max-height` for
+ * whatever a drag piles on beyond that at runtime.
  */
-const MAX_ITEMS_PER_GROUP = 3
+const MAX_ITEMS_PER_GROUP = BALANCE_PAN.maxItems
 
 export const balanceModule: PatternModule<BalancePayload, BalanceWork> = {
   pattern: 'balance',
@@ -57,9 +62,10 @@ export const balanceModule: PatternModule<BalancePayload, BalanceWork> = {
 
   isPayload(p: unknown): p is BalancePayload {
     const x = p as BalancePayload
+    // Shape only — no cap. Shared by all three groups: an item is an item
+    // regardless of which group it starts in.
     const okItems = (arr: unknown) =>
       Array.isArray(arr) &&
-      arr.length <= MAX_ITEMS_PER_GROUP &&
       (arr as BalancePayload['pool']).every(
         (i) =>
           !!i && typeof i === 'object' &&
@@ -67,9 +73,12 @@ export const balanceModule: PatternModule<BalancePayload, BalanceWork> = {
           typeof i.label === 'string' &&
           typeof i.weight === 'number' && Number.isFinite(i.weight),
       )
+    // Cap only `left`/`right` — see MAX_ITEMS_PER_GROUP above for why `pool`
+    // is exempt.
+    const okGroup = (arr: unknown) => okItems(arr) && (arr as unknown[]).length <= MAX_ITEMS_PER_GROUP
     return (
       !!x && typeof x === 'object' &&
-      okItems(x.left) && okItems(x.right) && okItems(x.pool) &&
+      okGroup(x.left) && okGroup(x.right) && okItems(x.pool) &&
       (x.mode === 'weights' || x.mode === 'equation') &&
       all(x).length > 0
     )

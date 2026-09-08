@@ -60,7 +60,7 @@ describe('balanceModule', () => {
     expect(balanceModule.isPayload({ left: threeItems, right: [], pool: [], mode: 'weights' })).toBe(true)
   })
 
-  it('rejects a group one item over the cap (a pan the student cannot see across without scrolling)', () => {
+  it('rejects a pan one item over the cap (a pan the student cannot see across without scrolling)', () => {
     const fourItems = [
       { id: 'a', label: 'One', weight: 1 },
       { id: 'b', label: 'Two', weight: 2 },
@@ -68,9 +68,24 @@ describe('balanceModule', () => {
       { id: 'd', label: 'Four', weight: 4 },
     ]
     expect(balanceModule.isPayload({ left: fourItems, right: [], pool: [], mode: 'weights' })).toBe(false)
-    // The cap applies to right and pool too, not only left - a student can drag
-    // items onto either pan, so any of the three groups could end up rendered there.
+    // The cap applies to right too, not only left - a student can drag items
+    // onto either pan, so either group could end up rendered there unchanged.
     expect(balanceModule.isPayload({ left: [], right: fourItems, pool: [], mode: 'weights' })).toBe(false)
-    expect(balanceModule.isPayload({ left: [], right: [], pool: fourItems, mode: 'weights' })).toBe(false)
+  })
+
+  it('does not cap `pool` - it renders as an ordinary unbounded strip, not a pan', () => {
+    // The most ordinary balance lesson there is: every item starts unsorted
+    // in the pool, nothing pre-placed on either pan. `pool` has no `absolute`
+    // positioning and no `max-height` to overflow (see BalanceActivity.tsx),
+    // so a large pool is not the risk this cap exists for - capping it would
+    // reject this common, well-formed lesson for a risk it doesn't carry.
+    const fiveItems = [
+      { id: 'a', label: 'One', weight: 1 },
+      { id: 'b', label: 'Two', weight: 2 },
+      { id: 'c', label: 'Three', weight: 3 },
+      { id: 'd', label: 'Four', weight: 4 },
+      { id: 'e', label: 'Five', weight: 5 },
+    ]
+    expect(balanceModule.isPayload({ left: [], right: [], pool: fiveItems, mode: 'weights' })).toBe(true)
   })
 })

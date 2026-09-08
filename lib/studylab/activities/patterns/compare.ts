@@ -1,5 +1,6 @@
 import type { ComparePayload, PatternModule, SuccessRule, ValidateResult } from '../types'
 import { evaluateSuccess } from '../success'
+import { COMPARE_ZONE } from '../dropZoneGeometry'
 
 export interface CompareWork { assign: Record<string, 'left' | 'right' | 'both'> }
 
@@ -12,19 +13,17 @@ export interface CompareWork { assign: Record<string, 'left' | 'right' | 'both'>
  * zone each bucket lands in under normal (correct) use, the same way
  * balance.ts bounds each pan's authored group.
  *
- * All three zones are drawn inside the same ~284px-tall card (a 300:220
- * aspect ratio at the card's ~388px content width), anchored at the same
- * `top: 31.8%`, leaving ~194px of headroom before a zone would grow past the
- * bottom of its own drawn crescent/lens. A chip row is about 38px tall (a
- * 22px item icon plus 8px of vertical padding, plus the 8px gap to the next
- * row) and, even in the widest ("both") zone, is only ~103-127px after
- * padding — just wide enough for one average item label per row. ~194px of
- * headroom therefore holds at most 4 rows before a zone overflows its own
- * drawn circle. As with balance, a student can still drag every item into
- * one narrow zone at runtime; CompareActivity.tsx's `max-height` is the
- * backstop for that, not this cap.
+ * All three zones share the same `top: 31.8%` anchor and the same
+ * `COMPARE_ZONE.headroomPx` of headroom below it before a zone would grow
+ * past the bottom of its own drawn crescent/lens (see `dropZoneGeometry.ts`
+ * for the full derivation from the card's actual content width, the Venn
+ * diagram's aspect ratio, and one chip row's height — even the widest
+ * "both" zone is too narrow for two average item labels per row). As with
+ * balance, a student can still drag every item into one narrow zone at
+ * runtime; CompareActivity.tsx's `max-height` is the backstop for that, not
+ * this cap.
  */
-const MAX_ITEMS_PER_BUCKET = 4
+const MAX_ITEMS_PER_BUCKET = COMPARE_ZONE.maxItems
 
 export const compareModule: PatternModule<ComparePayload, CompareWork> = {
   pattern: 'compare',
