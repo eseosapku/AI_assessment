@@ -18,12 +18,13 @@ import { parseImageDataUrl } from '@/lib/studylab/imageMime'
 import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
-import { SYSTEM } from './route'
+import { systemPrompt } from './route'
 import { validateSpec } from '@/lib/studylab/activities/validate'
 import { parseIntent, checkIntent, type TeachingIntent } from '@/lib/studylab/activities/intent'
 import { unmatchedArt } from '@/lib/studylab/activities/artMatch'
 import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
 import { assetCatalogPromptBlock } from '@/lib/studylab/activities/assetCatalog'
+import { BALANCE_PAN, COMPARE_ZONE } from '@/lib/studylab/activities/dropZoneGeometry'
 
 export type LessonAction =
   /** `answer` is present on a re-draft, carrying what the learner said back. */
@@ -757,7 +758,18 @@ export function refuseUnjustifiedActivities(actions: unknown[]): {
     const a = raw as Record<string, unknown>
 
     if (!validateSpec(a.spec)) {
-      refused.push('The activity spec was malformed, so nothing was built.')
+      const pattern = (a.spec as { pattern?: unknown } | null | undefined)?.pattern
+      const named = typeof pattern === 'string' && pattern ? `"${pattern}"` : 'activity'
+      // Server-side, the whole spec. A material dropped for its shape is the
+      // one failure invisible from the board — the turn simply teaches less —
+      // and "the spec was malformed" names neither the apparatus nor the field,
+      // so nobody reading a live transcript could tell which of nine schemas
+      // was missed. The refusal handed back to the tutor stays short.
+      console.log(`Malformed activity spec: ${JSON.stringify(a.spec)}`)
+      refused.push(
+        `The ${named} spec was malformed — its payload, prompt or success rule does not match ` +
+          `that apparatus's schema, so nothing was built. Check it field for field.`,
+      )
       continue
     }
     const intent = parseIntent(a.intent)
@@ -1290,6 +1302,301 @@ function acceptsParaphrase(q: CheckpointQuestion): CheckpointQuestion {
 }
 
 /**
+ * The whole of what a montessori turn may build, in one block.
+ *
+ * Ported from the deleted `lib/studylab/tutorPrompt.ts`, whose `MONTESSORI`
+ * block was written and debugged against this exact failure and then lost when
+ * the tutor was rewritten. Three things were carried across unchanged in
+ * substance: the material-first requirements, the mechanical goal→apparatus
+ * mapping, and a payload schema for each of the nine patterns. Two were added:
+ * Task 8's `intent` requirement, merged in here rather than left as a second
+ * block also claiming to govern `createActivity`, and the payload constraints
+ * the current validators actually enforce (a sort item's `binId` must name a
+ * declared bin, a label's hotspots need distinct labels, `compose`'s
+ * `validJoins` names part LABELS, the pan and Venn-zone item caps) — the old
+ * schemas predate all of those and would author materials that are silently
+ * dropped.
+ *
+ * The override language is the other half of the fix. `SYSTEM` is written for
+ * classic teaching and still carries a card-type table, a practice-card rule
+ * and an all-card worked example; naming each of them specifically is what
+ * stops the model reading them as the authoritative half of a contradiction.
+ *
+ * The `isolates` value is printed on every apparatus, twice — beside it in
+ * WHICH APPARATUS and again on its own block — because the first live run
+ * proved a mapping stated once, in prose, is not enough: the tutor built a
+ * balance for a balancing lesson and a slider for a causal one, then reasoned
+ * out "quantity" and "consequence" from the topic instead of reading them off
+ * the apparatus, and both materials were refused for a claim rather than for
+ * anything wrong with what they taught.
+ */
+function materialContract(): string {
+  return `★ MATERIAL CONTRACT — MONTESSORI MODE. THE STUDENT LEARNS BY DOING, NOT READING. ★
+
+This is the authoritative contract for this turn. It REPLACES the card-first
+rule at the top of the prompt, and it OVERRIDES everything above it that
+conflicts with it — specifically:
+- "CHOOSING THE RIGHT CARD" is a classic-mode table. Ignore it: you are picking
+  an APPARATUS from WHICH APPARATUS below, not a card type.
+- Where the PACE block counts cards, it is counting MATERIALS. "exactly ONE new
+  card" means one material; "3 or 4 cards that together cover the goal" means
+  one material and at most one card supporting it, never three cards.
+- The "practice" card RULE 3 and the PACE block ask for is what a material
+  already is — the student works it themselves. Do not add one beside it.
+- The EXAMPLE turn at the end of the prompt is a classic all-card turn. Do not
+  imitate its shape.
+
+**BUILDING A MATERIAL — NON-NEGOTIABLE:**
+
+- Emit AT LEAST ONE "createActivity" action this turn, WITHOUT EXCEPTION, with
+  BOTH an "intent" and a "spec". A material without an intent is discarded and
+  the turn is wasted.
+- Text cards are supporting material only: AT MOST ONE may accompany a material,
+  and it comes AFTER it — never before it, and never instead of it.
+- NEVER return a turn of cards and connects alone with no "createActivity".
+- Before reaching for a "mermaid" or "concept" card for anything with a
+  structure, a flow or a process, check WHICH APPARATUS first: a flow of stages
+  is "sequence", the parts of a structure are "label" or "compose", a trend or
+  an influence is "vary". A text card is the last resort, never the default.
+- NEVER state — in "say" or on a card — the rule the material exists to let the
+  student discover. That goes in "spec.reveal", shown only once they succeed.
+- ONE idea per material.
+
+"intent" is required on every createActivity, and it is CHECKED against the
+material you actually built:
+{
+  "goal":      "<what the student can do afterwards, one sentence>",
+  "isolates":  "<COPIED from your apparatus's block below — not chosen. The closed vocabulary is: ${DIMENSIONS.join(' | ')}>",
+  "apparatus": "<the pattern you chose>",
+  "why":       "<why this apparatus suits this goal, one sentence>"
+}
+- "isolates" IS NOT YOURS TO REASON OUT. It is fixed by the apparatus you
+  chose, and it is read off your payload rather than off your claim. COPY it
+  from the "isolates:" line printed on that apparatus's block below. Anything
+  else is refused and the material is discarded:
+    threePeriod → "identity"    sort     → "category"     sequence → "order"
+    label       → "position"    compare  → "membership"   compose  → "structure"
+    scenario    → "consequence" vary     → "magnitude"
+    balance     → "structure" when "mode" is "equation", "quantity" when it is "weights"
+  The two that are most often got wrong: a "balance" in "equation" mode
+  isolates STRUCTURE, not quantity — adding coefficients rearranges the whole,
+  and only a "weights" balance with differing numbers varies quantity. And a
+  "vary" isolates MAGNITUDE, not consequence, however causal the topic is —
+  "consequence" belongs to "scenario" alone.
+- The material must genuinely vary that quality. A sorting frame whose items all
+  land in one bin, or a deck whose items share a label, varies nothing the
+  student can decide, and is refused.
+- ONE quality at a time. A material that varies two things teaches neither —
+  this is the whole method. If the topic needs two, build two materials.
+- CONCRETE BEFORE ABSTRACT. Where the catalogue at the end of this prompt has a
+  picture for an item, you MUST set that item's "imageUrl" to that catalogue
+  name. Showing the WORD "Neuron" and asking the student to pick the WORD
+  "Neuron" is a word-matching game, and it is refused.
+- Choose the apparatus for the GOAL, not for convenience. "sort" and
+  "threePeriod" fit almost anything badly; reach for them only when category or
+  naming genuinely IS the thing being learned.
+
+WHICH APPARATUS — pick mechanically from the teaching goal. The "isolates" each
+one carries is printed beside it; that is the value your intent must state:
+- naming or identifying a set of things → threePeriod   (isolates "identity")
+- grouping or classifying things → sort                 (isolates "category")
+- ordering a process, a life cycle, a proof, a timeline → sequence (isolates "order")
+- contrasting two overlapping things → compare          (isolates "membership")
+- the parts of a diagram, an anatomy, a structure → label (isolates "position")
+- cause and effect, or one variable's influence on an outcome → vary (isolates "magnitude")
+- equality, conservation, balancing an equation, a budget → balance (isolates "structure"; "quantity" ONLY when "mode" is "weights")
+- an ethical, civic, financial or safety decision → scenario (isolates "consequence")
+- building a valid whole out of parts → compose          (isolates "structure")
+- something that looks to have no hands-on angle → still take the CLOSEST
+  fitting apparatus above (a "scenario" for why it matters, a "compare" for how
+  it differs from its neighbour) rather than falling back to a card.
+
+ActivitySpec = {
+  "pattern": "<one of the nine names above>",
+  "prompt": "<one short instruction to the student>",
+  "payload": { ...pattern-specific, exactly as below... },
+  "success": { ...machine-checkable rule... },
+  "hints": ["nudge 1","nudge 2"],
+  "reveal": "<the name or rule, revealed only after success>",
+  "satisfiesCheckpoint": "<checkpoint id>"
+}
+A malformed payload is DROPPED, not repaired, so match the shapes below field
+for field. "prompt" is a non-empty string, "hints" an ARRAY of strings (never
+one string), "reveal" a single string, and every field named in an apparatus's
+payload below is REQUIRED unless it says otherwise — a missing one, or the same
+thing under a different name, drops the whole material.
+"satisfiesCheckpoint" is optional: set it to an existing checkpoint's id when
+solving THIS material proves that checkpoint's goal, so the step gates on doing
+rather than on an MCQ.
+
+APPARATUS — "threePeriod" — isolates "identity" (name → identify → recall; for learning a set of names):
+  payload: { "items":[{"id":"cu","label":"Copper","imageUrl":"asset:<name>"}],
+             "phases":["present","identify","recall"] }
+  success: { "kind":"pairing", "pairs":[["cu","Copper"]] }    // [item id, its label]
+  TWO or more items with DIFFERENT labels, unique ids — one label names nothing.
+
+APPARATUS — "sort" — isolates "category" (drop each item into the bin it belongs to):
+  payload: { "bins":[{"id":"acid","label":"Acid"},{"id":"base","label":"Base"}],
+             "items":[{"id":"hcl","label":"HCl","binId":"acid","imageUrl":"asset:<name>"}] }
+  success: { "kind":"binAssignment", "assign":{"hcl":"acid"} }
+  Every item's "binId" MUST name a bin you declared, or that item can never be
+  placed and the material is unsolvable. At least two bins must actually be used.
+
+APPARATUS — "sequence" — isolates "order" (put scrambled steps into order):
+  payload: { "items":[{"id":"a","label":"Egg","imageUrl":"asset:<name>"},
+                      {"id":"b","label":"Tadpole"}] }   // authored in the CORRECT order
+  success: { "kind":"exactOrder", "itemIds":["a","b"] }
+  Two or more items, unique ids. The board is shuffled before the student sees it.
+
+APPARATUS — "compare" — isolates "membership" (a Venn: left / both / right):
+  payload: { "sets":[{"id":"left","label":"Mammals"},{"id":"right","label":"Birds"}],
+             "items":[{"id":"i1","label":"Lays eggs with shells","belongs":"right"},
+                      {"id":"i2","label":"Has a backbone","belongs":"both"}] }
+  success: { "kind":"binAssignment", "assign":{"i1":"right","i2":"both"} }
+  THE THREE WORDS ARE FIXED. "sets" is EXACTLY two entries whose "id"s are the
+  literal words "left" and "right" — your topic goes in "label", never in "id"
+  — and every item's "belongs" is the literal word "left", "right" or "both".
+  Igneous vs sedimentary is "sets":[{"id":"left","label":"Igneous"},
+  {"id":"right","label":"Sedimentary"}] with "belongs":"left" / "right" /
+  "both"; writing "belongs":"igneous" drops the whole material, because there
+  is no zone by that name for the student to drop it in. Also in "assign":
+  the value is the same word again. At most ${COMPARE_ZONE.maxItems} items may share one
+  "belongs" value, and at least two of the three must be used.
+
+APPARATUS — "label" — isolates "position" (drag names onto points on a picture):
+  payload: { "image":{"imageUrl":"asset:heart","width":200,"height":200},
+             "hotspots":[{"id":"h1","x":50,"y":50,"r":12,"label":"Left ventricle"}] }
+  success: { "kind":"pairing", "pairs":[["h1","Left ventricle"]] }
+  "image.imageUrl" MUST be an "asset:<name>" from the catalogue below — pick the
+  wordless diagram whose hint matches the topic; there is no other artwork, and
+  an invented name leaves a blank picture. Hotspot "x"/"y"/"r" are in the same
+  coordinate space as "image.width"/"image.height". Two or more hotspots, and
+  each needs its own id AND its own label — two hotspots sharing a label can
+  never both be filled.
+
+APPARATUS — "vary" — isolates "magnitude", never "consequence" (move ONE slider, watch a live model respond):
+  payload: { "variable":{"id":"d","label":"Density","min":0,"max":2000,"step":10,"unit":"kg/m3"},
+             "model":{"kind":"bars","bars":[{"label":"Upthrust","expr":"d * 10 / 1000","max":20}]},
+             "readouts":[{"label":"Upthrust","expr":"d * 10 / 1000","unit":"N"}] }
+  success: { "kind":"numericWithin", "target":1000, "tolerance":50 }
+  "model.kind" is one of: "bars" ("bars":[{label,expr,max}], every "max" > 0),
+  "tank" ({"fluidExpr","objectExpr"} — the object floats or sinks as its density
+  crosses the fluid's), or "plot" ({"fn","xRange":[lo,hi],"yRange":[lo,hi]},
+  where the axis variable is "x").
+  EXPRESSIONS may use ONLY the declared variable id (and "x" in a plot), numbers,
+  + - * / ^ ( ) and min max abs sqrt sin cos tan log exp round floor ceil.
+  Anything else is rejected and that readout is dropped.
+  "max" must be greater than "min", "step" greater than 0, and
+  "success.tolerance" at least half of "step" and NEVER 0 — the slider only
+  lands on step boundaries, so a target between two of them cannot be reached
+  however hard the student tries.
+
+APPARATUS — "balance" — isolates "structure" in "equation" mode, "quantity" in "weights" mode (drag items onto two pans until the sides weigh the same):
+  payload: { "left":[{"id":"l1","label":"H2","weight":2}], "right":[],
+             "pool":[{"id":"p1","label":"H2O","weight":1},{"id":"p2","label":"O2","weight":1}],
+             "mode":"equation" }
+  success: { "kind":"numericWithin", "target":0, "tolerance":0 }   // 0 = the sides are equal
+  "mode" is "weights" (the number is printed on each chip — mass, budget, energy)
+  or "equation" (the weight is hidden and used only to grade). SETTLE "mode"
+  BEFORE YOU WRITE THE INTENT, then copy the word straight out of this rule:
+      "mode":"equation"  ->  "isolates":"structure"
+      "mode":"weights"   ->  "isolates":"quantity"
+  There is no third answer and the topic has no say in it. A lesson about
+  equal NUMBERS of atoms is still "equation" mode and still "structure" —
+  what the student changes is which molecules stand on each pan. Writing
+  "quantity" against "equation" is the one mistake made most often here, and
+  the material is discarded for it. At most
+  ${BALANCE_PAN.maxItems} items may be pre-placed on "left" and ${BALANCE_PAN.maxItems} on "right" — a pan that cannot
+  show its own contents is refused — while "pool" is uncapped. In "weights" mode
+  at least two items must differ in weight.
+
+APPARATUS — "scenario" — isolates "consequence" (make a decision and live with the consequence):
+  payload: { "situation":"A customer is overcharged and has not noticed.",
+             "imageUrl":"asset:shopkeeper-change",
+             "choices":[{"id":"c1","label":"Refund and apologise","consequence":"Trust is kept.","defensible":true},
+                        {"id":"c2","label":"Say nothing","consequence":"A customer lost for good."}] }
+  success: { "kind":"exactSet", "itemIds":["c1"] }    // every defensible choice id
+  Two or more choices, unique ids, each with its OWN distinct "consequence" —
+  identical consequences mean nothing follows from the decision, and it is refused.
+
+APPARATUS — "compose" — isolates "structure" (join parts into a valid whole):
+  payload: { "parts":[{"id":"h1","label":"H","slots":1},{"id":"h2","label":"H","slots":1},
+                      {"id":"o1","label":"O","slots":2}],
+             "validJoins":[{"a":"H","b":"O"}],
+             "target":{"label":"Water","formula":"H2O"} }
+  success: { "kind":"exactSet", "itemIds":["h1-o1","h2-o1"] }
+  "validJoins" names part LABELS, not ids: {"a":"H","b":"O"} means any H may bond
+  to any O. Every label there must be the label of a part you declared, or no
+  bond is ever legal and the student cannot finish. A bond's id is its two PART
+  IDS sorted and hyphenated — ["o1","h1"].sort().join("-") -> "h1-o1" — and
+  every bond in "success.itemIds" must be written that way. "slots" is a
+  positive whole number: how many bonds that part can take. Two or more parts,
+  unique ids.
+
+WORKED EXAMPLES — the whole action, intent included:
+{"type":"createActivity","id":"s2-compose-water","step":2,
+ "intent":{"goal":"Build a water molecule with the right number of bonds on each atom.",
+           "isolates":"structure",
+           "apparatus":"compose",
+           "why":"What a student gets wrong here is which atom joins to which and how many times, so the material should vary only how the parts join."},
+ "spec":{"pattern":"compose",
+   "prompt":"Join the atoms into one water molecule.",
+   "payload":{"parts":[{"id":"h1","label":"H","slots":1},{"id":"h2","label":"H","slots":1},{"id":"o1","label":"O","slots":2}],
+              "validJoins":[{"a":"H","b":"O"}],
+              "target":{"label":"Water","formula":"H2O"}},
+   "success":{"kind":"exactSet","itemIds":["h1-o1","h2-o1"]},
+   "hints":["Oxygen has two free slots.","Hydrogen can only take one bond."],
+   "reveal":"Oxygen forms two bonds and hydrogen one, so water is H-O-H."}}
+
+{"type":"createActivity","id":"s1-balance-methane","step":1,
+ "intent":{"goal":"Make both sides of the equation hold the same atoms.",
+           "isolates":"structure",
+           "apparatus":"balance",
+           "why":"The pans make the mismatch visible, and coefficients are the only thing the student changes."},
+ "spec":{"pattern":"balance",
+   "prompt":"Add molecules until the two pans hold the same atoms.",
+   "payload":{"left":[{"id":"l1","label":"CH4","weight":5}],
+              "right":[{"id":"r1","label":"CO2","weight":3}],
+              "pool":[{"id":"p1","label":"O2","weight":2},{"id":"p2","label":"O2","weight":2},{"id":"p3","label":"H2O","weight":3},{"id":"p4","label":"H2O","weight":3}],
+              "mode":"equation"},
+   "success":{"kind":"numericWithin","target":0,"tolerance":0},
+   "hints":["Count the hydrogens on the left before you touch the oxygens.","Water carries hydrogen as well as oxygen."],
+   "reveal":"CH4 + 2 O2 -> CO2 + 2 H2O. Every atom that went in comes out."}}
+NOTE what that example claims: "mode" is "equation", so its intent says
+"structure". It would say "quantity" ONLY if the mode were "weights". The
+apparatus and the mode decide the word — the topic never does.
+
+{"type":"createActivity","id":"s3-scenario-change","step":3,
+ "intent":{"goal":"Choose the honest course when a mistake favours you.",
+           "isolates":"consequence",
+           "apparatus":"scenario",
+           "why":"There is nothing to classify or order here — the learning is in what follows from the choice, so the material should vary the consequence."},
+ "spec":{"pattern":"scenario",
+   "prompt":"You are behind the counter. What do you do?",
+   "payload":{"situation":"You realise you have given a customer too little change, and they have already walked away.",
+              "imageUrl":"asset:shopkeeper-change",
+              "choices":[{"id":"c1","label":"Call them back and hand over the rest","consequence":"They come back to your stall next week, and tell others.","defensible":true},
+                         {"id":"c2","label":"Keep it — they did not notice","consequence":"You are a few coins up today and a customer down for good."},
+                         {"id":"c3","label":"Wait to see whether they return","consequence":"They notice at home, and remember where it happened."}]},
+   "success":{"kind":"exactSet","itemIds":["c1"]},
+   "hints":["Which outcome would you still be happy with next month?"],
+   "reveal":"Honesty is worth more than the coins because trade runs on people coming back."}}
+${assetCatalogPromptBlock()}
+
+LAST THING BEFORE YOU SEND — read your own "isolates" back against the payload
+you just wrote, not against the topic. It is the single most common way a
+material is thrown away:
+- "balance" with "mode":"equation"  ->  "isolates" MUST read "structure".
+  With "mode":"weights"             ->  "isolates" MUST read "quantity".
+  If you wrote "quantity" over an "equation" mode, change ONE of the two now:
+  either the mode to "weights", or the word to "structure". Both are correct
+  materials; the pair being inconsistent is what discards it.
+- "vary" -> "magnitude". "scenario" -> "consequence". "compare" -> "membership".
+  "sort" -> "category". "sequence" -> "order". "label" -> "position".
+  "threePeriod" -> "identity". "compose" -> "structure".`
+}
+
+/**
  * The teaching prompt: one step's goal, against the board that already exists.
  *
  * Prepends the route's `SYSTEM` string. `SYSTEM` is where every card type, the
@@ -1472,43 +1779,24 @@ function buildTeachPrompt(
 
   // Montessori mode only, and never on an aside: a follow-up question does
   // not set new work, so it must not be asked to build a material any more
-  // than it may open a checkpoint. A soft preference has lost to the
-  // surrounding instructions every time in this codebase — the
-  // zero-activities bug and the words-to-words bug were both this — so this
-  // is written as a hard requirement with the vocabulary spelled out, not a
-  // suggestion in prose.
-  const montessoriBlock =
-    run.mode === 'montessori' && !aside
-      ? `**BUILDING A MATERIAL — NON-NEGOTIABLE:**
-
-Emit a "createActivity" action with BOTH an "intent" and a "spec". A material
-without an intent is discarded and the turn is wasted.
-
-"intent": {
-  "goal":      "<what the student can do afterwards, one sentence>",
-  "isolates":  "<EXACTLY ONE of: ${DIMENSIONS.join(' | ')}>",
-  "apparatus": "<the pattern you chose>",
-  "why":       "<why this apparatus suits this goal, one sentence>"
-}
-
-- "isolates" must be true of the material you built. A "sort" varies category.
-  A "sequence" varies order. A "balance" varies quantity, or structure when its
-  mode is "equation". Claiming anything else is refused and you will be told so.
-- ONE quality at a time. A material that varies two things teaches neither —
-  this is the whole method. If the topic needs two, build two materials.
-- CONCRETE BEFORE ABSTRACT. Where the catalogue below has a picture for an
-  item, you MUST set its "imageUrl" to that catalogue name. Showing the WORD
-  "Neuron" and asking the student to pick the WORD "Neuron" is a word-matching
-  game, and it is refused.
-- Choose the apparatus for the goal, not for convenience. "sort" and
-  "threePeriod" fit almost anything badly; reach for them only when category or
-  naming genuinely IS the thing being learned.
-
-${assetCatalogPromptBlock()}`
-      : ''
+  // than it may open a checkpoint.
+  //
+  // ONE flag, read twice. The mandate in the system prompt and the contract at
+  // the foot of it are two halves of the same instruction, and gating them
+  // separately is how they would come apart — an aside turn told "you MUST
+  // emit createActivity" with no schema anywhere under it is the failure this
+  // whole fix is about, in miniature.
+  const montessori = run.mode === 'montessori' && !aside
 
   return [
-    SYSTEM,
+    // Mode-aware: in montessori the card-first mandate is REPLACED rather than
+    // argued with, and `createActivity` is listed among the action types. A
+    // soft preference has lost to the surrounding instructions every time in
+    // this codebase — the zero-activities bug and the words-to-words bug were
+    // both this — and an instruction contradicting the authoritative ACTION
+    // TYPES list from lower down the same prompt is precisely the arrangement
+    // that produced zero materials on five topics out of five.
+    systemPrompt(montessori ? 'montessori' : 'classic'),
     '',
     `LESSON: ${String(context.title ?? 'this topic')}`,
     context.subject ? `SUBJECT: ${String(context.subject)}` : '',
@@ -1536,7 +1824,7 @@ ${assetCatalogPromptBlock()}`
     variety,
     freshOpener,
     '',
-    montessoriBlock,
+    montessori ? materialContract() : '',
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',
   ]

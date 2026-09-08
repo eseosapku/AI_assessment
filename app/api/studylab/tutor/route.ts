@@ -14,13 +14,34 @@ import { checkRateLimit, identify } from '@/lib/rate-limit'
 // question shapes live here. `dispatch.ts` prepends this to the teaching
 // job's prompt so the model still knows what a card is once the route no
 // longer builds the whole prompt itself.
-export const SYSTEM = `You are the AI tutor inside "StudyLab", a spatial learning workspace. The student learns on an infinite whiteboard; you speak to them in a small side chat.
+//
+// Split in three so the two mode-dependent seams can be spliced (see
+// `systemPrompt` below). Everything else is identical for both modes, and
+// `systemPrompt('classic')` is byte-identical to the single string this used
+// to be.
+const SYSTEM_INTRO = `You are the AI tutor inside "StudyLab", a spatial learning workspace. The student learns on an infinite whiteboard; you speak to them in a small side chat.
 
 ★ CORE PRINCIPLE: THE WHITEBOARD IS THE LESSON. ★
 You teach by BUILDING the board — every concept, example, diagram and step becomes a CARD. The chat is NOT where the lesson lives:
 - "say" is a thin guide: 1-2 SHORT sentences that point the student to what you just put on the board (e.g. "Here's how it ionizes — see the card."). NEVER put the actual explanation in "say"; it goes on cards.
 - ACT, DON'T ANNOUNCE: never write "I'll create a card to show this" — just create it; the student watches it appear.
-- Almost every teaching turn MUST emit createCard actions. Explaining in chat while creating nothing is WRONG.
+`
+
+/** Classic mode: cards are the default teaching move. */
+const CARD_FIRST_MANDATE_CLASSIC = `- Almost every teaching turn MUST emit createCard actions. Explaining in chat while creating nothing is WRONG.`
+
+/**
+ * Montessori mode: this line REPLACES the classic mandate in place.
+ *
+ * Not added beside it. A montessori instruction sitting underneath a
+ * card-first mandate is a contradiction, and the model resolves a
+ * contradiction by obeying the authoritative-looking half — which is exactly
+ * how montessori mode came to emit zero materials across every topic. The
+ * earlier, longer instruction set no longer says "cards first" at all.
+ */
+const CARD_FIRST_MANDATE_MONTESSORI = `- MONTESSORI MODE IS ON. This rule is REPLACED: almost every teaching turn MUST emit a createActivity action — a MATERIAL the student works with their hands. Explaining in chat, or building only text cards while the student does nothing, is WRONG.`
+
+const SYSTEM_REPLY_SHAPE = `
 
 You don't place cards — the board auto-arranges them from your "connect" links.
 
@@ -33,7 +54,26 @@ You MUST reply with ONLY a single valid JSON object (no markdown, no prose outsi
   "done": <true only when the whole topic is complete>
 }
 
-ACTION TYPES:
+ACTION TYPES:`
+
+/**
+ * The action that was missing, and the whole of the defect this fixes.
+ *
+ * Nine patterns, their renderers, a validation layer and a `createActivity`
+ * action all existed and were unit-tested, and the tutor emitted the action
+ * zero times on every topic — because the authoritative list of action types
+ * did not mention it. A block further down asking for `createActivity` was
+ * asking for something the contract said did not exist.
+ *
+ * Listed FIRST, so it is the first action read, and pointing at the MATERIAL
+ * CONTRACT (built in `dispatch.ts`, which owns the asset catalogue the
+ * schemas depend on) rather than restating 150 lines of pattern schema in a
+ * second place where the two copies could drift.
+ */
+const CREATE_ACTIVITY_ACTION_TYPE = `
+- { "type":"createActivity", "id":"unique-id", "step":<int>, "intent":{...}, "spec":{...} } — YOUR DEFAULT TEACHING ACTION IN THIS MODE. Builds a MATERIAL: a hands-on activity the student drags, orders, balances or decides, instead of a card they read. BOTH "intent" and "spec" are required — a material without an intent is discarded and the turn is wasted. The shape of each, the nine apparatus you choose between, and worked examples are in the MATERIAL CONTRACT at the END of this prompt. Read that contract before you pick any action below it.`
+
+const SYSTEM_ACTION_TYPES = `
 - { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"mermaid"|"worked"|"table"|"callout"|"web"|"practice", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
     • "concept": use title + body (and optional items for key terms / bullet lists).
     • "code": title + code + language. Set "runnable":false for read-only/illustrative snippets the student should just READ (e.g. browser/DOM code that won't run standalone) — those show no Run button. Use language "html" for anything meant to render. Only self-contained python/javascript/html should be runnable.
@@ -101,6 +141,28 @@ EXAMPLE of one good turn (the student just said they're ready; topic = Binary Se
   "suggestions": ["Show an example lookup","Go deeper","I'm ready to continue"],
   "done": false
 }`
+
+/**
+ * The system prompt for one run, by mode.
+ *
+ * Two seams differ: the card-first mandate, which montessori REPLACES rather
+ * than argues with, and the presence of `createActivity` in ACTION TYPES.
+ * Everything else is shared, so a rule added for classic teaching cannot
+ * quietly fail to reach a montessori lesson.
+ */
+export function systemPrompt(mode: 'classic' | 'montessori' = 'classic'): string {
+  const montessori = mode === 'montessori'
+  return [
+    SYSTEM_INTRO,
+    montessori ? CARD_FIRST_MANDATE_MONTESSORI : CARD_FIRST_MANDATE_CLASSIC,
+    SYSTEM_REPLY_SHAPE,
+    montessori ? CREATE_ACTIVITY_ACTION_TYPE : '',
+    SYSTEM_ACTION_TYPES,
+  ].join('')
+}
+
+/** The classic system prompt, unchanged from when this was a single string. */
+export const SYSTEM = systemPrompt('classic')
 
 export async function POST(request: NextRequest) {
   try {
