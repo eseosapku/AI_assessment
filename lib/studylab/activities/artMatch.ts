@@ -24,7 +24,11 @@ export function unmatchedArt(spec: ActivitySpec): string[] {
   const catalogue = new Set(assetNames().map(normalise))
   const gaps: string[] = []
 
-  for (const key of ['items', 'pool', 'parts']) {
+  // 'left'/'right' are BalancePayload's pre-placed pans — the same shape as
+  // 'pool' (label + optional imageUrl), a supported and capped authoring
+  // pattern (see balance.ts), so an item placed straight onto a pan is just
+  // as much a bare-word gap as one still waiting in the pool.
+  for (const key of ['items', 'pool', 'parts', 'left', 'right']) {
     const list = payload[key]
     if (!Array.isArray(list)) continue
     for (const raw of list) {

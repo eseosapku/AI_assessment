@@ -74,19 +74,47 @@ describe('dimensionsOf', () => {
     expect(dimensionsOf(spec('threePeriod', { items: [{ id: 'i1', label: 'Neuron' }] }))).toEqual([])
   })
 
+  it('says two three-period cards sharing one label name nothing', () => {
+    // The deck shows the WORD "Neuron" and asks the student to pick "Neuron"
+    // again — two ids, but one name. isPayload only dedupes on id, so this
+    // shape is allowed through; counting items instead of labels would have
+    // let it pass an `isolates: 'identity'` claim on the strength of a
+    // headcount, not on anything the card actually names.
+    expect(
+      dimensionsOf(spec('threePeriod', {
+        items: [{ id: 'i1', label: 'Neuron' }, { id: 'i2', label: 'Neuron' }],
+      })),
+    ).toEqual([])
+  })
+
+  it('says a scenario whose choices share one consequence varies nothing', () => {
+    // Two choices, one outcome: whichever the student picks, nothing changes.
+    // isPayload only requires each consequence be non-empty, never that they
+    // differ, so counting choices instead of reading consequences would have
+    // let this pass an `isolates: 'consequence'` claim with no decision in it.
+    expect(
+      dimensionsOf(spec('scenario', {
+        choices: [
+          { id: 'c1', label: 'Ignore it', consequence: 'Nothing changes.' },
+          { id: 'c2', label: 'Report it', consequence: 'Nothing changes.' },
+        ],
+      })),
+    ).toEqual([])
+  })
+
   it('covers every registered pattern when the payload is non-degenerate', () => {
     // A pattern with no dimension could never state what it isolates, so it
     // could never pass the intent check and would be silently unusable.
     const two = [{ id: 'a' }, { id: 'b' }]
     const payloads: Record<string, unknown> = {
-      threePeriod: { items: two },
+      threePeriod: { items: [{ id: 'a', label: 'Neuron' }, { id: 'b', label: 'Axon' }] },
       sort: { bins: two, items: [{ id: 'i1', binId: 'a' }, { id: 'i2', binId: 'b' }] },
       label: { hotspots: two },
       sequence: { items: two },
       vary: { variable: { min: 0, max: 10 } },
       balance: { mode: 'weights', pool: [{ weight: 1 }, { weight: 2 }], left: [], right: [] },
       compare: { items: [{ belongs: 'left' }, { belongs: 'right' }] },
-      scenario: { choices: two },
+      scenario: { choices: [{ id: 'a', consequence: 'x' }, { id: 'b', consequence: 'y' }] },
       compose: { parts: two },
     }
     for (const [pattern, payload] of Object.entries(payloads)) {

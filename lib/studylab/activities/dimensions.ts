@@ -43,15 +43,16 @@ const spread = (items: Record<string, unknown>[], field: string): number =>
  *
  * A pattern only counts as varying its dimension if the payload genuinely
  * does. A sorting frame whose items all go in one bin varies nothing, and a
- * three-period card with a single item names nothing — both are degenerate
- * materials that would otherwise sail through the intent check by virtue of
- * their pattern name alone. Returning `[]` makes them unjustifiable.
+ * three-period card with two items sharing one label names nothing — both
+ * are degenerate materials that would otherwise sail through the intent
+ * check by virtue of their pattern name (or a mere item count) alone.
+ * Returning `[]` makes them unjustifiable.
  */
 export function dimensionsOf(spec: ActivitySpec): Dimension[] {
   const p = (spec?.payload ?? {}) as unknown as Record<string, unknown>
   switch (spec?.pattern) {
     case 'threePeriod':
-      return list(p.items).length >= 2 ? ['identity'] : []
+      return spread(list(p.items), 'label') >= 2 ? ['identity'] : []
     case 'sort':
       return list(p.bins).length >= 2 && spread(list(p.items), 'binId') >= 2 ? ['category'] : []
     case 'label':
@@ -61,7 +62,7 @@ export function dimensionsOf(spec: ActivitySpec): Dimension[] {
     case 'compare':
       return spread(list(p.items), 'belongs') >= 2 ? ['membership'] : []
     case 'scenario':
-      return list(p.choices).length >= 2 ? ['consequence'] : []
+      return spread(list(p.choices), 'consequence') >= 2 ? ['consequence'] : []
     case 'compose':
       return list(p.parts).length >= 2 ? ['structure'] : []
     case 'vary': {
