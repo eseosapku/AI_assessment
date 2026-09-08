@@ -51,26 +51,28 @@ describe('balanceModule', () => {
     expect(Number.isNaN(sideTotal(payload, ['ghost']))).toBe(false)
   })
 
-  it('accepts a group right at the 3-item cap (fills a pan without scrolling)', () => {
+  it('accepts a group right at the 2-item cap (fills a pan without scrolling)', () => {
+    // Two 28px chip rows plus one 4px gap is 60px, inside the 64px a pan has
+    // left once its own border, padding and label are paid for - see
+    // dropZoneGeometry.ts.
+    const twoItems = [
+      { id: 'a', label: 'One', weight: 1 },
+      { id: 'b', label: 'Two', weight: 2 },
+    ]
+    expect(balanceModule.isPayload({ left: twoItems, right: [], pool: [], mode: 'weights' })).toBe(true)
+    expect(balanceModule.isPayload({ left: [], right: twoItems, pool: [], mode: 'weights' })).toBe(true)
+  })
+
+  it('rejects a pan one item over the cap (a pan the student cannot see across without scrolling)', () => {
     const threeItems = [
       { id: 'a', label: 'One', weight: 1 },
       { id: 'b', label: 'Two', weight: 2 },
       { id: 'c', label: 'Three', weight: 3 },
     ]
-    expect(balanceModule.isPayload({ left: threeItems, right: [], pool: [], mode: 'weights' })).toBe(true)
-  })
-
-  it('rejects a pan one item over the cap (a pan the student cannot see across without scrolling)', () => {
-    const fourItems = [
-      { id: 'a', label: 'One', weight: 1 },
-      { id: 'b', label: 'Two', weight: 2 },
-      { id: 'c', label: 'Three', weight: 3 },
-      { id: 'd', label: 'Four', weight: 4 },
-    ]
-    expect(balanceModule.isPayload({ left: fourItems, right: [], pool: [], mode: 'weights' })).toBe(false)
+    expect(balanceModule.isPayload({ left: threeItems, right: [], pool: [], mode: 'weights' })).toBe(false)
     // The cap applies to right too, not only left - a student can drag items
     // onto either pan, so either group could end up rendered there unchanged.
-    expect(balanceModule.isPayload({ left: [], right: fourItems, pool: [], mode: 'weights' })).toBe(false)
+    expect(balanceModule.isPayload({ left: [], right: threeItems, pool: [], mode: 'weights' })).toBe(false)
   })
 
   it('does not cap `pool` - it renders as an ordinary unbounded strip, not a pan', () => {
