@@ -1,5 +1,6 @@
 'use client'
 import { useCallback, useRef, useState } from 'react'
+import { findFixedContainingBlock, ghostPosition } from './fixedContainingBlock'
 
 /**
  * Pointer-event drag for activity pieces.
@@ -31,6 +32,13 @@ export function useActivityDrag(onDrop: (itemId: string, targetId: string) => vo
   // client pixels. Held so the floating drag element stays glued to the same
   // spot under the cursor for the whole gesture instead of re-centering on it.
   const originRef = useRef<{ offsetX: number; offsetY: number } | null>(null)
+  // The dragged DOM node itself, held only so itemProps can walk its ancestor
+  // chain (see fixedContainingBlock.ts) — these activities render inside a
+  // React Flow canvas, whose .react-flow__viewport carries a pan/zoom
+  // `transform`, which makes it the containing block for any `position:
+  // fixed` descendant. Without accounting for that, the ghost renders offset
+  // and scaled by whatever the canvas's current pan/zoom happens to be.
+  const originElRef = useRef<HTMLElement | null>(null)
 
   const endDrag = useCallback((commit: boolean) => {
     const item = dragIdRef.current
@@ -38,6 +46,7 @@ export function useActivityDrag(onDrop: (itemId: string, targetId: string) => vo
     dragIdRef.current = null
     overRef.current = null
     originRef.current = null
+    originElRef.current = null
     setDragId(null)
     setPos(null)
     setOverId(null)
@@ -54,6 +63,7 @@ export function useActivityDrag(onDrop: (itemId: string, targetId: string) => vo
     dragIdRef.current = itemId
     overRef.current = null
     originRef.current = { offsetX: e.clientX - rect.left, offsetY: e.clientY - rect.top }
+    originElRef.current = el
     setDragId(itemId)
     setOverId(null)
     setPos({ x: e.clientX, y: e.clientY })
@@ -109,15 +119,36 @@ export function useActivityDrag(onDrop: (itemId: string, targetId: string) => vo
   const itemProps = useCallback((itemId: string, targets: string[]) => {
     const dragging = dragId === itemId
     const style: React.CSSProperties | undefined = dragging && pos && originRef.current
-      ? {
-          position: 'fixed',
-          left: pos.x - originRef.current.offsetX,
-          top: pos.y - originRef.current.offsetY,
-          margin: 0,
-          zIndex: 999,
-          // Keeps the ghost from ever being the elementFromPoint hit itself.
-          pointerEvents: 'none',
-        }
+      ? (() => {
+          // The nearest ancestor with a transform/filter/perspective (the
+          // React Flow canvas viewport, once panned or zoomed) becomes the
+          // containing block for this `position: fixed` element — so its
+          // left/top must be computed in that ancestor's own local
+          // coordinate space, not raw client pixels. See fixedContainingBlock.ts.
+          const containingBlock = originElRef.current && findFixedContainingBlock(originElRef.current)
+          const containing = containingBlock
+            ? {
+                rect: containingBlock.getBoundingClientRect(),
+                natural: { width: containingBlock.offsetWidth, height: containingBlock.offsetHeight },
+              }
+            : null
+          const { left, top } = ghostPosition(
+            pos.x,
+            pos.y,
+            originRef.current!.offsetX,
+            originRef.current!.offsetY,
+            containing,
+          )
+          return {
+            position: 'fixed' as const,
+            left,
+            top,
+            margin: 0,
+            zIndex: 999,
+            // Keeps the ghost from ever being the elementFromPoint hit itself.
+            pointerEvents: 'none' as const,
+          }
+        })()
       : undefined
     return {
       className: 'nodrag cursor-grab active:cursor-grabbing touch-none',
