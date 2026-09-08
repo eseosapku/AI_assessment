@@ -1451,6 +1451,40 @@ function buildTeachPrompt(
       ? `\nWHAT THE SHEET GIVES THEM (the photo is not attached; this is all there is):\n${(context.given as string[]).map((g) => `  - ${g}`).join('\n')}`
       : ''
 
+  // Montessori mode only. A soft preference has lost to the surrounding
+  // instructions every time in this codebase — the zero-activities bug and
+  // the words-to-words bug were both this — so this is written as a hard
+  // requirement with the vocabulary spelled out, not a suggestion in prose.
+  const montessoriBlock =
+    run.mode === 'montessori'
+      ? `**BUILDING A MATERIAL — NON-NEGOTIABLE:**
+
+Emit a "createActivity" action with BOTH an "intent" and a "spec". A material
+without an intent is discarded and the turn is wasted.
+
+"intent": {
+  "goal":      "<what the student can do afterwards, one sentence>",
+  "isolates":  "<EXACTLY ONE of: ${DIMENSIONS.join(' | ')}>",
+  "apparatus": "<the pattern you chose>",
+  "why":       "<why this apparatus suits this goal, one sentence>"
+}
+
+- "isolates" must be true of the material you built. A "sort" varies category.
+  A "sequence" varies order. A "balance" varies quantity, or structure when its
+  mode is "equation". Claiming anything else is refused and you will be told so.
+- ONE quality at a time. A material that varies two things teaches neither —
+  this is the whole method. If the topic needs two, build two materials.
+- CONCRETE BEFORE ABSTRACT. Where the catalogue below has a picture for an
+  item, you MUST set its "imageUrl" to that catalogue name. Showing the WORD
+  "Neuron" and asking the student to pick the WORD "Neuron" is a word-matching
+  game, and it is refused.
+- Choose the apparatus for the goal, not for convenience. "sort" and
+  "threePeriod" fit almost anything badly; reach for them only when category or
+  naming genuinely IS the thing being learned.
+
+${assetCatalogPromptBlock()}`
+      : ''
+
   return [
     SYSTEM,
     '',
@@ -1479,6 +1513,8 @@ function buildTeachPrompt(
     pace,
     variety,
     freshOpener,
+    '',
+    montessoriBlock,
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',
   ]
