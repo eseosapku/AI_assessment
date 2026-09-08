@@ -127,4 +127,41 @@ describe('composeModule', () => {
     }
     expect(composeModule.isPayload(zeroSlots)).toBe(false)
   })
+
+  describe('composeModule.isPayload — joins that can never happen', () => {
+    // `validJoins` pairs are resolved against part LABELS, not ids — see
+    // `accepts` above, which matches `j.a`/`j.b` to `from.label`/`to.label`.
+    // Nothing checked that a validJoins label actually names a part, so one
+    // mistyped label meant no bond was ever legal — the student sat in front
+    // of a material that could not be completed, with no feedback at all.
+    it('refuses a validJoins entry naming a part label that does not exist', () => {
+      expect(
+        composeModule.isPayload({
+          parts: [{ id: 'h1', label: 'H', slots: 1 }, { id: 'o1', label: 'O', slots: 2 }],
+          validJoins: [{ a: 'H', b: 'Oxygen' }],
+          target: { label: 'Water' },
+        }),
+      ).toBe(false)
+    })
+
+    it('accepts joins whose labels all resolve', () => {
+      expect(
+        composeModule.isPayload({
+          parts: [{ id: 'h1', label: 'H', slots: 1 }, { id: 'o1', label: 'O', slots: 2 }],
+          validJoins: [{ a: 'H', b: 'O' }],
+          target: { label: 'Water' },
+        }),
+      ).toBe(true)
+    })
+
+    it('refuses a payload with no legal join at all', () => {
+      expect(
+        composeModule.isPayload({
+          parts: [{ id: 'h1', label: 'H', slots: 1 }, { id: 'o1', label: 'O', slots: 2 }],
+          validJoins: [],
+          target: { label: 'Water' },
+        }),
+      ).toBe(false)
+    })
+  })
 })

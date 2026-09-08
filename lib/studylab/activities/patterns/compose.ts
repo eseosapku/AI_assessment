@@ -78,6 +78,13 @@ export const composeModule: PatternModule<ComposePayload, ComposeWork> = {
     if (ids.size !== x.parts.length) return false // duplicate part ids would make join ids ambiguous
     if (!Array.isArray(x.validJoins) || x.validJoins.length === 0) return false
     if (!x.validJoins.every((j) => !!j && typeof j === 'object' && nonEmptyString(j.a) && nonEmptyString(j.b))) return false
+    // Every join must name parts that resolve. `accepts` matches a validJoins
+    // pair against part LABELS (not ids — see the comment there), so nothing
+    // checked that a validJoins label actually names a part. One mistyped
+    // label meant no bond was ever legal and nothing said so — the student
+    // cannot finish and cannot tell why.
+    const labels = new Set(x.parts.map((part) => part.label))
+    if (!x.validJoins.every((j) => labels.has(j.a) && labels.has(j.b))) return false
     if (!x.target || typeof x.target !== 'object' || !nonEmptyString(x.target.label)) return false
     return true
   },
