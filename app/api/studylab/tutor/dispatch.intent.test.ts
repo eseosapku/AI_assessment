@@ -1,6 +1,15 @@
 // app/api/studylab/tutor/dispatch.intent.test.ts
-import { describe, it, expect } from 'vitest'
-import { refuseUnjustifiedActivities } from './dispatch'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
+
+vi.mock('@/lib/bedrock', () => ({
+  callGemma: vi.fn(),
+  parseJsonRobust: (t: string) => JSON.parse(t),
+}))
+
+import { callGemma } from '@/lib/bedrock'
+import { refuseUnjustifiedActivities, applyAction } from './dispatch'
+import { policyFor } from '@/lib/studylab/lessonPolicy'
+import { emptyRun, proposePlan, acceptPlan, type LessonRun } from '@/lib/studylab/lessonRun'
 
 // Two items split across two bins: dimensionsOf refuses a sorting frame where
 // every item lands in the same place, since there is no decision to make.
@@ -82,5 +91,58 @@ describe('refuseUnjustifiedActivities', () => {
     // action would put it in the node's data and eventually on screen.
     const { kept } = refuseUnjustifiedActivities([{ type: 'createActivity', id: 'a1', intent, spec }])
     expect(kept[0]).not.toHaveProperty('intent')
+  })
+})
+
+/** A montessori-mode run mid-lesson, teaching its single step. */
+function montessoriRun(): LessonRun {
+  const policy = policyFor('scratch')
+  const planned = proposePlan(emptyRun(policy), [
+    { id: 'a', title: 'Metals', goal: 'Tell metals from non-metals.', status: 'pending', cardIds: [] },
+  ])
+  if (!planned.ok) throw new Error(planned.reason)
+  const started = acceptPlan(planned.run)
+  if (!started.ok) throw new Error(started.reason)
+  return { ...started.run, mode: 'montessori' }
+}
+
+// A follow-up question is a SECOND route to the board (`applyAsk`), separate
+// from the teaching turn `refuseUnjustifiedActivities` above is wired into.
+// `buildTeachPrompt`'s montessori block used to be gated only on `run.mode`,
+// with nothing distinguishing a teaching beat from an aside — so a student
+// asking a question mid-lesson got told, in NON-NEGOTIABLE terms, to build a
+// material, and anything the model returned skipped the refusal entirely.
+describe('applyAsk on a montessori run', () => {
+  beforeEach(() => vi.mocked(callGemma).mockReset())
+
+  it('does not ask for a material on a follow-up question', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({ say: 'Iron is a metal because it conducts and is malleable.', actions: [] }),
+    )
+    await applyAction({
+      run: montessoriRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'ask', question: 'why is iron with the metals?' }, context: {},
+    })
+    const prompt = vi.mocked(callGemma).mock.calls[0][0] as string
+    expect(prompt).not.toContain('BUILDING A MATERIAL')
+  })
+
+  it('drops a createActivity the model emits anyway, on an aside turn', async () => {
+    // The prompt guard above is not a guarantee, so this is the backstop that
+    // actually matters: an aside never reaches `refuseUnjustifiedActivities`
+    // (that runs only on the teaching path), so a material that slipped past
+    // the prompt would otherwise land on the board with no intent check, no
+    // art check, and its `intent` field still attached.
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'Iron is a metal.',
+        actions: [{ type: 'createActivity', id: 'a1', intent, spec }],
+      }),
+    )
+    const result = await applyAction({
+      run: montessoriRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'ask', question: 'why is iron with the metals?' }, context: {},
+    })
+    expect(result.actions).toEqual([])
   })
 })

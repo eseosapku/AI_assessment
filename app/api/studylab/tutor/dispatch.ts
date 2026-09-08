@@ -103,11 +103,15 @@ export interface DispatchResult {
    */
   ack?: string
   /**
-   * What the tutor said it was teaching, for each material it built.
+   * What the tutor said it was teaching, for every material it attempted —
+   * collected before `materialRefusals` is applied, so a refused attempt is
+   * in here too.
    *
-   * Surfaced rather than swallowed because the whole question this phase asks
-   * is whether the tutor reasons about the material or reaches for the same
-   * apparatus every time, and that is invisible from the board alone.
+   * That inclusion is deliberate, not a leak: the whole question this phase
+   * asks is whether the tutor reasons about a material or reaches for the
+   * same apparatus every time, and a claim it made and then had refused is as
+   * much evidence of that as one that was kept. Neither is visible from the
+   * board alone.
    */
   intents?: TeachingIntent[]
   /** Materials refused, with the reason each was refused. */
@@ -301,7 +305,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const step = advanced.steps[advanced.currentStep]
   if (!step) return { run: advanced, say: '', actions: [], suggestions: [] }
 
-  const raw = await callGemma(buildTeachPrompt(advanced, step, input.context ?? {}), {
+  const raw = await callGemma(buildTeachPrompt(advanced, step, input.context ?? {}, false), {
     maxTokens: 2600,
     temperature: 0.6,
     model: modelForJob('teach_beat'),
@@ -1031,7 +1035,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
 
   const finished = advanced.phase === 'done'
   const prompt = [
-    buildTeachPrompt(advanced, step, input.context ?? {}),
+    buildTeachPrompt(advanced, step, input.context ?? {}, true),
     '',
     finished
       ? 'The lesson is FINISHED. The student has a follow-up question about it — answer it against the whole lesson, adding a card if that is the clearest way. Do not restart the lesson and do not emit a checkpoint.'
@@ -1072,15 +1076,24 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
   // canvas with nothing in the run to resolve it, so Continue would block on a
   // quiz that answering could not clear.
   //
+  // A material is dropped for the same reason: an aside explains what already
+  // exists, it does not set new work, so it may no more build an activity than
+  // it may open a checkpoint. `buildTeachPrompt` is already told not to ask for
+  // one on this path, but a prompt is not a guarantee — this is the backstop,
+  // and it is the one place that matters, since a material that got this far
+  // would otherwise skip `refuseUnjustifiedActivities` entirely: that check
+  // only runs on the teaching path, not this one.
+  //
   // What survives is marked as an aside, so the step's own teaching is not
   // shortened by it. The check arrives after a step's worth of cards, counted
   // off the board — which meant three questions, each answered with a card,
   // brought the check forward and the step was taught less than a step that
   // nobody asked anything about.
+  const DROPPED_ON_ASIDE = new Set(['checkpoint', 'createActivity'])
   const asideActions = markAsides(
     fitCardsToLesson(
       (Array.isArray(parsed?.actions) ? parsed.actions : []).filter(
-        (a) => !a || typeof a !== 'object' || (a as { type?: unknown }).type !== 'checkpoint',
+        (a) => !a || typeof a !== 'object' || !DROPPED_ON_ASIDE.has(String((a as { type?: unknown }).type)),
       ),
       advanced,
     ),
@@ -1290,11 +1303,17 @@ function acceptsParaphrase(q: CheckpointQuestion): CheckpointQuestion {
  * produced four near-identical cards on one idea and then narrated cards that
  * never appeared, because `applyActions` drops a create whose title duplicates
  * a card already on the board. Every teaching call must carry the board.
+ *
+ * `aside` is true when this call is answering a follow-up question
+ * (`applyAsk`), not teaching a beat. An aside explains what already exists;
+ * it does not set new work — the same reason it may never open a checkpoint
+ * (see `applyAsk`) is why it must never be asked to build a material either.
  */
 function buildTeachPrompt(
   run: LessonRun,
   step: LessonStep,
   context: Record<string, unknown>,
+  aside = false,
 ): string {
   const board = parseBoardSummary(context.board)
   const stepNo = run.currentStep + 1
@@ -1451,12 +1470,15 @@ function buildTeachPrompt(
       ? `\nWHAT THE SHEET GIVES THEM (the photo is not attached; this is all there is):\n${(context.given as string[]).map((g) => `  - ${g}`).join('\n')}`
       : ''
 
-  // Montessori mode only. A soft preference has lost to the surrounding
-  // instructions every time in this codebase — the zero-activities bug and
-  // the words-to-words bug were both this — so this is written as a hard
-  // requirement with the vocabulary spelled out, not a suggestion in prose.
+  // Montessori mode only, and never on an aside: a follow-up question does
+  // not set new work, so it must not be asked to build a material any more
+  // than it may open a checkpoint. A soft preference has lost to the
+  // surrounding instructions every time in this codebase — the
+  // zero-activities bug and the words-to-words bug were both this — so this
+  // is written as a hard requirement with the vocabulary spelled out, not a
+  // suggestion in prose.
   const montessoriBlock =
-    run.mode === 'montessori'
+    run.mode === 'montessori' && !aside
       ? `**BUILDING A MATERIAL — NON-NEGOTIABLE:**
 
 Emit a "createActivity" action with BOTH an "intent" and a "spec". A material
