@@ -18,6 +18,16 @@ const TARGETS: Target[] = ['left', 'right', 'pool']
 // hangers and pan glyphs live in one rotating group pivoted at BEAM.pivot.
 const BEAM = { pivotX: 150, pivotY: 60, halfSpan: 95, hangDown: 35 }
 
+// A pan is anchored at `top: 50%` of the ~246px-tall beam box (see the pan
+// containers below), leaving ~120px of headroom before it would grow past
+// the container and into the pool strip beneath it. `lib/studylab/
+// activities/patterns/balance.ts` caps each authored group to what that
+// headroom can hold without this ever engaging in normal use; this is only
+// the backstop for a payload that slips past that cap, or a student who
+// drags more onto one pan than the material was authored to hold — it
+// scrolls internally past the cap rather than drawing over the beam.
+const PAN_MAX_HEIGHT = '120px'
+
 /** Picture-first: an image stands in for the item, the label is caption/fallback. */
 function ItemArt({ item }: { item: Item }) {
   const src = item.imageUrl ? assetUrl(item.imageUrl) : null
@@ -148,17 +158,20 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
           {/* Interactive pans. Positioned absolutely so they sit under their own
               hanger on the beam drawn by the sibling SVG below — the parent has
               no flex/grid, so without an explicit position these would stack in
-              normal block flow instead of sitting side by side. No `height` is
-              set, so each pan is sized to its content (shrink-to-fit) and grows
-              downward as chips wrap onto more rows, rather than scrolling.
-              They also ride a small synced translateY so they read as attached
-              to the tilting beam, but stay level so their chips stay legible. */}
+              normal block flow instead of sitting side by side. No fixed
+              `height` is set, so each pan is sized to its content and grows
+              downward as chips wrap onto more rows, up to PAN_MAX_HEIGHT — the
+              cap in balance.ts's isPayload keeps normal use well under that,
+              so this only ever scrolls for a payload or a drag that slips
+              past the cap (see PAN_MAX_HEIGHT above). They also ride a small
+              synced translateY so they read as attached to the tilting beam,
+              but stay level so their chips stay legible. */}
           <motion.div
             {...drag.dropTargetProps('left')}
             animate={{ y: tiltDeg * 1.1 }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
-            style={{ left: '4%', width: '33%', top: '50%' }}
-            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+            style={{ left: '4%', width: '33%', top: '50%', maxHeight: PAN_MAX_HEIGHT }}
+            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'left' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >
@@ -178,8 +191,8 @@ export function BalanceActivity({ id, spec, onOutcome, initialState }: {
             {...drag.dropTargetProps('right')}
             animate={{ y: -(tiltDeg * 1.1) }}
             transition={{ type: 'spring', stiffness: 130, damping: 16 }}
-            style={{ left: '63%', width: '33%', top: '50%' }}
-            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+            style={{ left: '63%', width: '33%', top: '50%', maxHeight: PAN_MAX_HEIGHT }}
+            className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 overflow-y-auto rounded-xl border-2 border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
               drag.overId === 'right' ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
             }`}
           >

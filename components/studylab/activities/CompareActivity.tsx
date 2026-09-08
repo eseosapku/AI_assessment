@@ -19,14 +19,25 @@ const REGIONS: Region[] = ['left', 'both', 'right']
 // absolutely (`left`/`ZONE_TOP`) to land inside its own crescent/lens rather
 // than stacking in normal block flow. No fixed `height` is set — each zone
 // is sized to its content and grows downward as chips wrap onto more rows,
-// rather than scrolling. Keys are the fixed 'left'|'both'|'right' literal
-// union, not model-controlled, so a plain object is safe here.
+// up to ZONE_MAX_HEIGHT below (see there for why that rarely engages). Keys
+// are the fixed 'left'|'both'|'right' literal union, not model-controlled,
+// so a plain object is safe here.
 const ZONES: Record<Region, { left: string; width: string }> = {
   left: { left: '8%', width: '19.3%' },
   both: { left: '32%', width: '32.7%' },
   right: { left: '69.3%', width: '19.3%' },
 }
 const ZONE_TOP = '31.8%'
+
+// All three zones share ZONE_TOP inside the same ~284px-tall card (a 300:220
+// aspect ratio at the card's ~388px content width), leaving ~194px of
+// headroom before a zone would grow past the bottom of its own drawn
+// crescent/lens. `lib/studylab/activities/patterns/compare.ts` caps each
+// authored `belongs` bucket to what that headroom can hold without this ever
+// engaging in normal use; this is only the backstop for a payload or a drag
+// that puts more into one zone than the material was authored to hold — it
+// scrolls internally past the cap rather than drawing over the circles.
+const ZONE_MAX_HEIGHT = '194px'
 
 /** Picture-first: an image stands in for the item, the label is caption/fallback. */
 function ItemArt({ item }: { item: Item }) {
@@ -106,8 +117,8 @@ export function CompareActivity({ id, spec, onOutcome, initialState }: {
             <div
               key={region}
               {...drag.dropTargetProps(region)}
-              style={{ left: ZONES[region].left, width: ZONES[region].width, top: ZONE_TOP }}
-              className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 rounded-lg border border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
+              style={{ left: ZONES[region].left, width: ZONES[region].width, top: ZONE_TOP, maxHeight: ZONE_MAX_HEIGHT }}
+              className={`absolute flex min-h-[96px] flex-wrap content-start gap-2 overflow-y-auto rounded-lg border border-dashed p-2 transition-colors hover:border-[color:var(--ss-accent)]/50 motion-reduce:transition-none ${
                 drag.overId === region ? 'border-[color:var(--ss-accent)] bg-[color:var(--ss-accent)]/10' : 'border-ss-line'
               }`}
             >

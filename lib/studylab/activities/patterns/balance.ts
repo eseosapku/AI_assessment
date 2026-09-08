@@ -16,6 +16,29 @@ export function sideTotal(payload: BalancePayload, ids: string[]): number {
   return ids.reduce((sum, id) => sum + (index.get(id) ?? 0), 0)
 }
 
+/**
+ * Ceiling on how many items may be authored into any one of `left`/`right`/`pool`.
+ *
+ * A pan is rendered `absolute`, anchored at `top: 50%` inside the ~246px-tall
+ * beam box (a 300:190 aspect ratio at the card's ~388px content width) — so it
+ * has roughly 120px of headroom before it would grow past the container and
+ * into the pool strip below. A chip row is about 36px tall (a 20px item icon
+ * plus 8px of vertical padding, plus the 8px gap to the next row), and the
+ * pan's 33%-wide column is only ~103-119px after its own padding — too narrow
+ * for more than one average item label per row. 120px of headroom therefore
+ * holds at most 3 rows before the pan overflows its own drawn box.
+ *
+ * Nothing here stops a student from dragging every item onto one pan at
+ * runtime (there is no `accepts()` for balance — see below), so this bounds
+ * the *authored* size of each group rather than guaranteeing every possible
+ * arrangement fits; BalanceActivity.tsx's `max-height` is the runtime
+ * backstop for whatever a student still manages to pile onto one side. A pan
+ * that can't hold its own authored items without scrolling is a material the
+ * student can't see across, which is a bad Montessori material regardless of
+ * layout — so it is rejected here, before a student ever meets it.
+ */
+const MAX_ITEMS_PER_GROUP = 3
+
 export const balanceModule: PatternModule<BalancePayload, BalanceWork> = {
   pattern: 'balance',
 
@@ -36,6 +59,7 @@ export const balanceModule: PatternModule<BalancePayload, BalanceWork> = {
     const x = p as BalancePayload
     const okItems = (arr: unknown) =>
       Array.isArray(arr) &&
+      arr.length <= MAX_ITEMS_PER_GROUP &&
       (arr as BalancePayload['pool']).every(
         (i) =>
           !!i && typeof i === 'object' &&

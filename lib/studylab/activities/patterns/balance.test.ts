@@ -50,4 +50,27 @@ describe('balanceModule', () => {
     expect(result.ok).toBe(true)
     expect(Number.isNaN(sideTotal(payload, ['ghost']))).toBe(false)
   })
+
+  it('accepts a group right at the 3-item cap (fills a pan without scrolling)', () => {
+    const threeItems = [
+      { id: 'a', label: 'One', weight: 1 },
+      { id: 'b', label: 'Two', weight: 2 },
+      { id: 'c', label: 'Three', weight: 3 },
+    ]
+    expect(balanceModule.isPayload({ left: threeItems, right: [], pool: [], mode: 'weights' })).toBe(true)
+  })
+
+  it('rejects a group one item over the cap (a pan the student cannot see across without scrolling)', () => {
+    const fourItems = [
+      { id: 'a', label: 'One', weight: 1 },
+      { id: 'b', label: 'Two', weight: 2 },
+      { id: 'c', label: 'Three', weight: 3 },
+      { id: 'd', label: 'Four', weight: 4 },
+    ]
+    expect(balanceModule.isPayload({ left: fourItems, right: [], pool: [], mode: 'weights' })).toBe(false)
+    // The cap applies to right and pool too, not only left - a student can drag
+    // items onto either pan, so any of the three groups could end up rendered there.
+    expect(balanceModule.isPayload({ left: [], right: fourItems, pool: [], mode: 'weights' })).toBe(false)
+    expect(balanceModule.isPayload({ left: [], right: [], pool: fourItems, mode: 'weights' })).toBe(false)
+  })
 })
