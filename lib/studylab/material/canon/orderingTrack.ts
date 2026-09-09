@@ -5,18 +5,19 @@ import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
 import { safeFromLegacy } from './safeFromLegacy'
 
-const TRACK_ID = 'sequence-track'
-
 const base: MaterialSpec = {
   prompt: 'Place the cards in order along the track.',
   pieces: [
     { id: 'first-card', label: 'First', traits: { position: 1 } },
     { id: 'second-card', label: 'Second', traits: { position: 2 } },
   ],
-  groups: [{ id: TRACK_ID, label: 'Order', ordered: true }],
+  groups: [
+    { id: '0', label: 'First', ordered: true },
+    { id: '1', label: 'Second', ordered: true },
+  ],
   slots: [
-    { id: 'step-0', groupId: TRACK_ID, x: 0, y: 0, capacity: 1, index: 0 },
-    { id: 'step-1', groupId: TRACK_ID, x: 1, y: 0, capacity: 1, index: 1 },
+    { id: 's-0', groupId: '0', x: 0, y: 0, capacity: 1, index: 0 },
+    { id: 's-1', groupId: '1', x: 1, y: 0, capacity: 1, index: 1 },
   ],
   rules: [],
   goal: { kind: 'exactOrder', itemIds: ['first-card', 'second-card'] },
@@ -30,10 +31,17 @@ function convert(payload: SequencePayload): MaterialSpec {
       label: item.label,
       traits: { position: index + 1 },
     })),
-    groups: [{ id: TRACK_ID, label: 'Order', ordered: true }],
+    // One ordered group per position keeps the shared legacy-equivalence
+    // convention (`s-${groupId}`) while unique indices still pool into one
+    // exactOrder sequence in the interpreter.
+    groups: payload.items.map((_, index) => ({
+      id: String(index),
+      label: `Position ${index + 1}`,
+      ordered: true,
+    })),
     slots: payload.items.map((_, index) => ({
-      id: `step-${index}`,
-      groupId: TRACK_ID,
+      id: `s-${index}`,
+      groupId: String(index),
       x: payload.orientation === 'vertical' ? 0 : index,
       y: payload.orientation === 'vertical' ? index : 0,
       capacity: 1,

@@ -4,6 +4,11 @@ import { sortingFrame } from './sortingFrame'
 import { orderingTrack } from './orderingTrack'
 import { threePeriodCards } from './threePeriodCards'
 import { vennSets } from './vennSets'
+import { balanceBeam } from './balanceBeam'
+import { labelledDiagram } from './labelledDiagram'
+import { variableModel } from './variableModel'
+import { decisionBranch } from './decisionBranch'
+import { bondingRing } from './bondingRing'
 
 export interface Apparatus {
   name: string
@@ -26,6 +31,11 @@ const CANON = new Map<string, Apparatus>([
   ['ordering-track', orderingTrack],
   ['three-period-cards', threePeriodCards],
   ['venn-sets', vennSets],
+  ['balance-beam', balanceBeam],
+  ['labelled-diagram', labelledDiagram],
+  ['variable-model', variableModel],
+  ['decision-branch', decisionBranch],
+  ['bonding-ring', bondingRing],
 ])
 
 export function getApparatus(name: string): Apparatus | null {
