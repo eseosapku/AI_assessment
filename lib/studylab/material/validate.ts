@@ -1,3 +1,4 @@
+import { EXPR_FUNCTION_NAMES } from '@/lib/studylab/activities/expr'
 import { fitsInBox } from './fit'
 import { hasCycle } from './interpreter'
 import { checkIsolation } from './isolation'
@@ -9,21 +10,6 @@ import type { MaterialSpec, Predicate } from './types'
 type ValidationResult =
   | { ok: true; spec: MaterialSpec }
   | { ok: false; reason: string }
-
-const EVALUATOR_FUNCTIONS: ReadonlySet<string> = new Set([
-  'min',
-  'max',
-  'abs',
-  'sqrt',
-  'sin',
-  'cos',
-  'tan',
-  'log',
-  'exp',
-  'round',
-  'floor',
-  'ceil',
-])
 
 function identifiersIn(expr: string): string[] {
   return expr.match(/[a-zA-Z_][a-zA-Z0-9_]*/g) ?? []
@@ -56,7 +42,7 @@ function unknownExpressionNames(spec: MaterialSpec): string[] {
   const legalNames = new Set([
     ...scopeNames(spec),
     ...(spec.displays ?? []).map((display) => display.id),
-    ...EVALUATOR_FUNCTIONS,
+    ...EXPR_FUNCTION_NAMES,
   ])
   const unknown = new Set<string>()
   for (const expression of expressionsIn(spec)) {

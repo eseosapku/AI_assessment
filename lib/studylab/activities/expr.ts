@@ -17,6 +17,9 @@ const FUNCS: Record<string, (...a: number[]) => number> = {
   exp: Math.exp, round: Math.round, floor: Math.floor, ceil: Math.ceil,
 }
 
+/** The function names accepted by the evaluator, derived from its registry. */
+export const EXPR_FUNCTION_NAMES: readonly string[] = Object.freeze(Object.keys(FUNCS))
+
 function tokenize(src: string): Tok[] | null {
   const out: Tok[] = []
   let i = 0
