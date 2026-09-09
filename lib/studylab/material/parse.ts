@@ -50,7 +50,7 @@ function isRecord(x: unknown): x is Record<string, unknown> {
 }
 
 function isNonEmptyString(x: unknown): x is string {
-  return typeof x === 'string' && x.length > 0
+  return typeof x === 'string' && x.trim().length > 0
 }
 
 function isPiece(x: unknown): x is Piece {
