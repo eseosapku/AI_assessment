@@ -1,6 +1,6 @@
 # A composable material engine for LearnSpace
 
-**Status:** designed, not built
+**Status:** Phase 1 built and shipped 2026-09-09; Phase 2 designed, not built
 **Date:** 2026-09-07
 **Supersedes:** the pattern-registry half of
 `2026-07-30-studylab-montessori-activity-engine-design.md`. That engine's
@@ -334,6 +334,15 @@ It is refused, with a reason, when the intent fails its check, when the spec
 fails validation, when it is unsolvable, or when it varies too much. Refusals
 are values — `{ ok: false, reason }` — consistent with `lib/studylab/lessonRun.ts`.
 
+**The action must be listed in the model's action contract, or none of this
+runs.** Phase 1 shipped a "NON-NEGOTIABLE" prompt block instructing the tutor to
+emit `createActivity` while `SYSTEM` in `app/api/studylab/tutor/route.ts`
+enumerated only `createCard`, `updateCard`, `connect` and the rest. The tutor
+obeyed the contract and built cards — zero materials across five topics, with
+every unit test passing. `build_material` goes in `systemPrompt(mode)`'s ACTION
+TYPES list, not only in a block underneath it. This is the second time this
+exact fault has shipped here; the first was backlog commit `1ce49cc`.
+
 Solving a material resolves its `satisfiesCheckpoint` and closes the step
 through `passCheck`, unchanged. The board summary lists materials so the next
 turn can see what is already on the board.
@@ -408,3 +417,76 @@ No flag day. At every step the nine keep working.
   question rather than a runtime one.
 - **The pedagogy layer is only as good as its own judgment.** Phase 1 exists to
   find out whether that judgment is any good before the engine is built for it.
+
+---
+
+## What Phase 1 proved (2026-09-09)
+
+Phase 1 shipped: 23 commits, 111 test files, 1469 tests, whole-branch review
+clean. It was built to answer one question — is the engine worth building? —
+and the answer came back yes, in the specific shape this document gated on.
+
+**The tutor's judgment is good; its expressiveness is the ceiling.** A live test
+drives real models across five topics chosen so a sorting frame is the wrong
+answer for most. Before the pedagogy layer it built zero materials. After it,
+five topics produced five different apparatus, each fitting: `sequence` for the
+order of mitosis, `balance` in equation mode for conservation of mass, `label`
+on a wordless flower diagram for naming parts, `vary` for interest rates feeding
+through to inflation, `compare` for igneous against sedimentary. That is the
+"reaches for `sort` every time" fault fixed, and it is the evidence Phase 2 was
+made conditional on.
+
+**One case already shows the recombination this document is about.** Asked why a
+balanced equation needs equal atoms, the tutor reached for the balance beam in
+`equation` mode — the apparatus a student already knows from weighing numbers,
+doing chemistry. That is *familiar parts, novel combination*, and it only
+happened because `balance` ships two modes. Everywhere else the apparatus is the
+ceiling. Phase 2 is what makes that the rule rather than an accident.
+
+### Four things Phase 1 learned that change Phase 2
+
+**1. A prompt block is inert unless the action contract lists the action.**
+Covered above under "How it reaches the board". It cost a full live run to find,
+and it is the second time it has shipped here.
+
+**2. What the prompt advertises must match what the validator enforces.** The
+item-count caps (a balance pan holds 2, a compare zone 4) were derived from the
+drawn geometry while fixing the layout; the prompt was written separately and
+never mentioned them. A material with three chips on a pan was authored in good
+faith and refused as "malformed" — a reason naming nothing the tutor could act
+on, and the balance topic was visibly the least stable across live runs. In
+Phase 2 the vocabulary's constraints and the schema shown to the model must come
+from one source, the way `dropZoneGeometry.ts` now feeds both the cap and the
+CSS that backstops it.
+
+**3. Solvable is not the same as fits.** This document's validation section
+proves a material can be *completed*. It says nothing about whether it can be
+*drawn* — and Phase 1 spent four fix rounds on exactly that: pieces growing out
+of an absolutely-positioned box whose parent could not expand. A composed scene
+makes this worse, because the tutor chooses how many slots a group has. Phase 2
+needs a **fit check** beside the solvability prover: given the drawn box and the
+piece count, does the scene render without overflow? It is the same shape of
+static check and it belongs in the same place.
+
+**4. Renderers cannot be unit-tested, so the bench is infrastructure.** vitest is
+node-only here. Two real bugs were invisible to 1469 passing tests and were
+found by driving a browser: the drag ghost used `position: fixed` inside React
+Flow's transformed viewport, so it resolved against the canvas rather than the
+screen and sat 185px from the cursor, drifting with every pan and zoom; and the
+pans were laid out as a row, so a group's label collided with its first chip.
+`app/dev/activities` — now dev-gated — is what made both findable. Phase 2 must
+extend it to the composed vocabulary, and a browser pass is a required gate, not
+a nicety.
+
+### Carried forward as known debt
+
+- **A balance pan caps at 2 items** because 44% of its height is chrome. The cap
+  is arithmetically honest; the layout is what should change. Phase 2 re-draws
+  these boxes anyway, so it is the right moment.
+- **The tutor attaches art that does not fit** (`asset:fern` on "Prophase") —
+  "concrete before abstract" is beating "omit art when a word is clearer", and
+  nothing refuses it.
+- **A `vary` model can be a formula the model invented**, passing every check,
+  with nothing asking it to be honest that the relationship is made up. In a
+  vocabulary where `bind` expressions are the whole point, this gets sharper,
+  not milder.
