@@ -1,0 +1,283 @@
+# Handover — StudyLab / LearnSpace, as of 2026-09-10
+
+Written to move this work between tools and people. Everything here was
+previously scattered across an assistant's private memory, a git-ignored
+ledger, and one long conversation — none of which travel. This file does.
+
+**Branch:** `aws_deploy`. **37 commits ahead of `origin/aws_deploy`, nothing
+pushed.** `aws_deploy` is the deploy branch: pushing it deploys to the live
+product, so it is always an explicit decision, never a default.
+
+**Verification gate, run before claiming anything works:**
+
+```bash
+npx tsc --noEmit && npx vitest run
+```
+
+Currently **117 test files / 1531 tests green, tsc clean**.
+`npm run lint` is broken project-wide (Next 16 removed `next lint`) — do not
+treat its failure as a regression.
+
+---
+
+## 1. What this work is
+
+Two efforts, one finished and one half-built.
+
+### Phase 1 — the pedagogy layer (DONE, shipped locally)
+
+LearnSpace has a "Montessori mode": instead of teaching with text cards, the
+tutor builds **materials** — drag-and-drop apparatus a student works with their
+hands, where the material itself shows them a wrong move rather than marking it
+afterwards.
+
+Nine activity patterns existed (`sort`, `threePeriod`, `label`, `sequence`,
+`vary`, `balance`, `compare`, `scenario`, `compose`) but had been **orphaned by
+a branch reset in August** — not on any branch, reachable only through the
+reflog. They were recovered, re-landed on a tutor that had been rewritten
+underneath them, and then given the thing they were missing: the tutor must now
+state *what it is teaching* before it can build anything, and a material whose
+stated reason does not match what it actually varies is refused rather than
+shown to a student.
+
+Spec: `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`
+Plan: `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md`
+
+### Phase 2 — the composable engine (6 of 9 core tasks done)
+
+The nine patterns are the wrong *kind* of unit — whole finished apparatus
+rather than parts that combine. So the tutor can only ever pick from nine, never
+invent. Phase 2 drops the unit of composition below the apparatus: a small
+vocabulary of pieces, slots, groups, controls and displays, plus four rules
+(`derive`, `bind`, `when`, `allow`), out of which a balance can be reassembled
+to weigh chemical equations instead of numbers.
+
+The guiding principle, which is easy to get wrong in the ambitious direction:
+
+> **The vocabulary is generative. The child's encounter is familiar.**
+
+A real Montessori environment is a small, deeply-known canon — the same beads
+for two years. Inventing a novel contraption every lesson is *further* from
+Montessori than nine fixed patterns, because the child spends their attention on
+the interface instead of the mathematics. The rule language exists so a
+*recognisable* apparatus can do new work.
+
+Plan: `docs/superpowers/plans/2026-09-09-composable-material-engine-core.md`
+
+---
+
+## 2. Exactly where it stands
+
+### Done and reviewed
+
+| | |
+|---|---|
+| Phase 1, all 9 tasks | `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md` |
+| Phase 2 core, Tasks 1-6 | vocabulary, scope, interpreter, isolation, fit, solvability |
+| Montessori mode reachable | commit `286a002` |
+
+Phase 2's code lives in `lib/studylab/material/`:
+
+| File | What it is |
+|---|---|
+| `types.ts` | `Piece`, `Slot`, `Group`, `Control`, `Display`, `Rule`, `MaterialSpec`, `MaterialState` |
+| `parse.ts` | `parseMaterialSpec` — narrows untrusted model output, never throws |
+| `scope.ts` | `buildScope` / `scopeNames` / `collidingNames` — the flat record expressions read |
+| `interpreter.ts` | `tick`, `allowsMove`, `applyMove`, `hasCycle` |
+| `isolation.ts` | `varyingTraits`, `checkIsolation` — one quality at a time |
+| `fit.ts` | `MATERIAL_BOX`, `fitsInBox` — can it actually be drawn |
+| `solvable.ts` | `isSolvable`, `MAX_STATES` — can it actually be finished |
+
+**None of it is reachable from the app, and that is deliberate.** The plan stops
+before the renderer and before the tutor can call any of it, so the core is
+proven while a mistake still costs nothing.
+
+### Not done
+
+**Task 7 — the composite gate.** `lib/studylab/material/validate.ts`, one
+`validateMaterial(raw, maxVarying)` running the checks cheapest-first so an
+expensive search never runs on a spec a string comparison could reject. Its
+brief is fully written in the plan. **It carries three obligations the plan text
+alone does not state:**
+
+1. **Wire `hasCycle`.** It is exported and correct but nothing calls it, so a
+   cyclic rule set handed to `tick` silently returns a partial two-pass answer
+   instead of being refused.
+2. **Land expression-reference checking here.** `parseMaterialSpec` validates
+   structure only; checking what an expression *references* needs `scopeNames`,
+   which did not exist when parse was written. Every identifier in a rule's
+   expression must appear in `scopeNames(spec)`, and the reason must name the
+   offending identifier.
+3. **Consume `collidingNames`.** It was added for this gate and its doc comment
+   says so. A derive rule named `count_left` claims a name the board already
+   generates for itself.
+
+Its tests assert refusal wording by regex (`/could not be read/i`, `/cycle/i`,
+`/cannot be completed/i`) that the prose never states — **the tests are the
+contract** for that wording.
+
+**Tasks 8 and 9 — the canon.** Nine named apparatus written *in* the vocabulary
+(no second privileged mechanism), each carrying `fromLegacy` so a table-driven
+equivalence test can assert it agrees with the pattern it replaces on what
+counts as solved, across a solved / wrong / partial / untouched board. That
+agreement is what makes the eventual switchover possible without a flag day.
+
+**Stage 3 and 4 — a separate, unwritten plan.** A renderer that draws a
+`MaterialSpec`, replacing the nine renderers one at a time; then
+`build_material` on the action union, with the vocabulary advertised to the
+model *from* `MATERIAL_BOX` and the canon rather than restated by hand.
+
+---
+
+## 3. Decisions that would be expensive to rediscover
+
+Each of these cost real time to find. They are in the ledger under `Ruling:`
+lines, reproduced here because the ledger is git-ignored.
+
+**A prompt block is inert unless the action contract lists the action.** Phase 1
+shipped a "NON-NEGOTIABLE" instruction to emit `createActivity` while the system
+prompt's ACTION TYPES enumerated only `createCard` and friends. The tutor obeyed
+the contract and built cards — **zero materials across five topics, with every
+unit test passing.** It cost a full live model run to find, and it was the
+second time that exact fault shipped here (the first was commit `1ce49cc`).
+`build_material` must go in `systemPrompt(mode)`'s list, not only in a block
+underneath it.
+
+**What the prompt advertises must match what the validator enforces.** Item caps
+(a balance pan holds 2, a compare zone 4) were derived from the drawn geometry
+while fixing a layout bug; the prompt was written separately and never mentioned
+them. Material with three chips on a pan was authored in good faith and refused
+as "malformed" — a reason naming nothing anyone could act on.
+
+**Solvable is not the same as fits.** The design proved a material could be
+*completed* and said nothing about whether it could be *drawn*. Four fix rounds
+went into pieces growing out of an absolutely-positioned box whose parent could
+not expand. `fit.ts` exists because of that.
+
+**`MATERIAL_BOX.heightPx` is an allowance, not a rendered cap.** `ActivityFrame`
+sets `w-[420px]` literally — the width is real — but no `h-*` or `max-h-*` at
+all, so the card is `height: auto` and grows with content. The 380 traces only
+to `blocks.ts`'s `defaultSize.h`, used for canvas collision spacing, which
+`actions.ts` explicitly pads because content is expected to exceed it. **Stage 3
+must make it a real CSS cap or adopt an enforced scrollable-zone backstop like
+`CompareActivity`'s `ZONE_MAX_HEIGHT`, or the height half of `fitsInBox` is
+decorative.**
+
+**`compose`'s `validJoins` names part LABELS, not ids** — `accepts()` compares
+`j.a === from.label`. Inferring from the type declaration gets this wrong; read
+`accepts()`. One mistyped label meant no bond was ever legal and nothing told
+the student why, which is the fault the solvability prover exists to make
+impossible.
+
+**The `pairing` goal deliberately supplies no `pairs`.** The two existing
+consumers (`label.ts`, `threePeriod.ts`) pair a piece id with a *content value*,
+never a slot id, and the canon's `matching-pairs` will want piece-to-piece — three
+different shapes. Whichever canon entry needs it first defines the mapping, with
+a test. A `pairing` material coming back unreachable today is expected.
+
+**A failed expression leaves its name absent, never `0`.** `evaluateExpr`'s
+fail-closed return is the sentinel `null`; turning it into a number lets a
+material teach from a silent zero.
+
+**The space owns its mode, not the request.** Read back off the `learnspaces.mode`
+column each turn, so nothing a client sends mid-lesson can switch a lesson's
+mode, and a run stored before the column existed reads as classic.
+
+---
+
+## 4. Traps in this codebase
+
+**Renderers cannot be unit-tested here.** vitest is node-environment only, no
+jsdom, and **`.test.tsx` files must never be created.** Two real bugs were
+invisible to 1531 passing tests and were only found by driving a browser:
+
+- The drag ghost used `position: fixed` inside React Flow's transformed
+  viewport. A transformed ancestor becomes the containing block for `fixed`, so
+  it resolved against the canvas rather than the screen — 185px from the cursor,
+  drifting with every pan and zoom. Now ~5px. See
+  `lib/studylab/activities/fixedContainingBlock.ts`.
+- Pans laid out as a flex row put a group's label beside its first chip, so they
+  collided.
+
+`app/dev/activities` is the bench that made both findable — dev-gated, keep it.
+**Test the mouse path**: keyboard testing once gave a false pass while mouse drag
+was entirely dead.
+
+**Tailwind alpha modifiers fail silently on the `ss-*` tokens.** They are plain
+hex on `:root` in `app/globals.css`; Tailwind cannot resolve a `var()` to a
+colour at build time, so `bg-ss-slate/40` and even
+`bg-[color:var(--ss-slate)]/75` emit **no rule at all**. The element renders
+fully transparent, which reads as a layout bug. Set token colours inline:
+`style={{ backgroundColor: 'var(--ss-slate)' }}`, or `fill="var(--ss-good)"` for
+SVG.
+
+**Registry lookups use a `Map`, never an object literal.** Names come from model
+output; indexing an object literal reaches `Object.prototype`, so `__proto__`
+and `constructor` resolve to truthy non-modules and sail past a `if (!mod)`
+guard. The same reasoning applies to `key in obj` versus
+`Object.prototype.hasOwnProperty.call`.
+
+**`lib/studylab/activities/expr.ts` is hardened and must not be extended.** It is
+a recursive-descent parser over a closed token set — no `eval`, no
+`new Function`, fails closed — written specifically to avoid the parser-escape
+RCEs in mathjs (CVE-2026-41139) and expr-eval (CVE-2025-12735). Never add a
+second evaluator.
+
+**Model-authored SVG is never rendered**, and art is referenced by catalogue
+name resolved through `assetUrl()`, never a URL — an unvalidated `src` is a
+broken-image, tracking-pixel and SSRF risk at once.
+
+**Work in the main repo, not a git worktree.** Beyond the preference: on
+2026-08-18 a `node_modules` junction inside a worktree was deleted *through* by
+`git worktree remove --force`, wiping 138 binaries from the main repo. On
+2026-08-20 a worktree branch was reset to origin and lost committed work —
+recovered only via `git reflog <branch>` and `git show <sha>:<path>`. **If work
+vanishes, check the reflog before assuming it is gone.** That is exactly how the
+nine Montessori patterns were recovered; they are anchored at branch
+`montessori-recovered` and tag `montessori-snapshot-2026-08-20` (`e594f43`) —
+**do not delete those refs.**
+
+---
+
+## 5. Carried debt, deliberately unfixed
+
+- **A balance pan caps at 2 items** because 44% of its height is chrome. The cap
+  is arithmetically honest; the *layout* is what should change (label onto the
+  beam, or a higher anchor). Stage 3 redraws these boxes anyway.
+- **The tutor attaches art that does not fit** — `asset:fern` on "Prophase".
+  "Concrete before abstract" is beating "omit art when a word is clearer", and
+  nothing refuses it.
+- **A `vary` model can be a formula the model invented**, passing every check,
+  with nothing asking it to be honest that the relationship is made up. In a
+  vocabulary where `bind` expressions are the whole point, this gets sharper.
+- `solvable.ts`'s comment cites `1/0.1 = 9.999999999999998` as the float wobble
+  it guards. That is false — `1/0.1 === 10` exactly. The real case is
+  `0.3/0.1 = 2.9999999999999996`. The fix is correct; only the cited example is
+  wrong.
+- No unit test pins `createActivity`'s presence in `systemPrompt('montessori')`
+  — the live test covers it, a unit test would be cheaper.
+
+---
+
+## 6. How to pick this up
+
+**Read first:** this file, then the Phase 2 spec, then the Phase 2 plan's Task 7.
+
+**To run it:** `npx next dev`, then http://localhost:3000/studylab → New
+LearnSpace → **"How it teaches" → Hands-on**. Try a topic where a sorting frame
+is the *wrong* answer — the order of mitosis, why a balanced equation needs
+equal atoms — because reaching for `sort` regardless was the original fault.
+
+**To test the drag without model calls:** http://localhost:3000/dev/activities.
+
+**Live model tests** (real cost, excluded from the default suite):
+
+```bash
+npx vitest run --config vitest.live.config.ts liveMontessoriIntent
+```
+
+**Working style that produced this:** each task ends with `tsc` clean and the
+full suite green, one commit per task, commit messages that name the *fault
+fixed* rather than the change made. Every non-obvious line carries a comment
+saying which real failure it prevents — that convention is why this codebase can
+be handed over at all, and it is worth keeping.
