@@ -1,8 +1,18 @@
 'use client'
-// TEMP verification harness for the drag/pill/prompt fixes (task: visual-drag-fixes).
-// Mounts sort, balance, compare, compose inside a real ReactFlow instance so drag
-// gestures and card-dragging can be exercised with genuine pointer events.
-// DELETE THIS FILE before committing.
+/**
+ * Bench for the activity renderers, kept rather than thrown away.
+ *
+ * Mounts sort, balance, compare and compose inside a real ReactFlow instance,
+ * which is the only way to exercise a drag with genuine pointer events — the
+ * suite is node-only and cannot render them at all. It earned its keep: the
+ * drag ghost resolving against React Flow's transformed viewport instead of
+ * the screen, and pan labels colliding with their first chip, were both found
+ * here and neither was visible to any test.
+ *
+ * Dev only. There is no middleware gating /dev/*, so without this the bench
+ * would answer to anyone who guessed the URL in production.
+ */
+import { notFound } from 'next/navigation'
 import { ReactFlow, ReactFlowProvider, Background, type Node, type NodeTypes } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { studyNodeTypes } from '@/components/studylab/canvasNodes'
@@ -94,6 +104,9 @@ const initialNodes: Node[] = [
 ]
 
 export default function DevActivitiesPage() {
+  // Inlined by the bundler, so the bench does not ship to a production build.
+  if (process.env.NODE_ENV === 'production') notFound()
+
   return (
     <div style={{ width: '100vw', height: '100vh' }}>
       <ReactFlowProvider>
