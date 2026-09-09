@@ -80,6 +80,15 @@ export async function POST(request: NextRequest) {
       'active',
     ]
 
+    // Which tutor teaches this space, fixed when it is created. The space owns
+    // it, not the request that happens to be running — a later turn reads it
+    // back off this row, so nothing a client sends mid-lesson can switch a
+    // lesson's mode out from under it.
+    if (body?.mode === 'montessori') {
+      columns.push('mode')
+      values.push('montessori')
+    }
+
     if (Number.isFinite(Number(body?.textbook_id))) {
       columns.push('textbook_id')
       values.push(Number(body.textbook_id))

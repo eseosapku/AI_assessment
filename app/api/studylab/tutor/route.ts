@@ -202,14 +202,12 @@ export async function POST(request: NextRequest) {
         { plan: space.canvas_state?.plan ?? null, currentStep: space.current_step, status: space.status },
         policy,
       )
-    // Workspace never sends `mode` on a turn after the first — only at
-    // creation, if then. Downgrading whenever the body is silent would reset
-    // a montessori run back to classic on its very next request, and the
-    // montessori teaching prompt would never fire again after the lesson
-    // that turned it on. So the body's value is taken only when it actually
-    // says something; otherwise the run keeps whatever it already had.
-    const mode: 'classic' | 'montessori' =
-      body?.mode === 'montessori' || body?.mode === 'classic' ? body.mode : run.mode ?? 'classic'
+    // The space owns its mode, not the request. Reading it off the row rather
+    // than the body means a lesson cannot be switched mid-way by anything a
+    // client sends, and a run stored before this column existed reads as the
+    // classic tutor it was taught by. `run.mode` is a mirror of this for the
+    // teaching prompt's convenience, refreshed every turn.
+    const mode: 'classic' | 'montessori' = space.mode === 'montessori' ? 'montessori' : 'classic'
     run = { ...run, mode }
 
     const requestId = randomUUID()

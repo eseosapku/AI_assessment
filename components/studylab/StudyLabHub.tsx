@@ -623,6 +623,7 @@ function CreateModal({
   const { ref, dialogProps } = useDialogBehavior({ open: true, onClose, labelledBy: 'new-space-title' })
   const [title, setTitle] = useState('')
   const [subject, setSubject] = useState(seedSubject)
+  const [mode, setMode] = useState<'classic' | 'montessori'>('classic')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -634,7 +635,7 @@ function CreateModal({
       const res = await fetch('/api/studylab', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, title: title.trim(), subject: subject.trim(), origin: 'scratch' }),
+        body: JSON.stringify({ user_id: userId, title: title.trim(), subject: subject.trim(), origin: 'scratch', mode }),
       })
       const json = await res.json()
       if (!res.ok) throw new Error(json.error || 'Failed to create LearnSpace')
@@ -753,6 +754,38 @@ function CreateModal({
               placeholder="e.g. Computer Science"
               className="w-full rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none"
             />
+          </div>
+          <div>
+            <span className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate" id="new-space-mode">
+              How it teaches
+            </span>
+            <p className="mb-2 text-[13px] font-medium text-ss-slate">
+              Reading and working through cards, or a material you handle — drag the pieces and the
+              material itself shows you when a move is wrong.
+            </p>
+            <div className="grid gap-2 sm:grid-cols-2" role="radiogroup" aria-labelledby="new-space-mode">
+              {([
+                { value: 'classic', label: 'Cards', hint: 'Explanations, worked examples, checkpoints' },
+                { value: 'montessori', label: 'Hands-on', hint: 'Drag-and-drop materials you work' },
+              ] as const).map((option) => (
+                <button
+                  key={option.value}
+                  type="button"
+                  role="radio"
+                  aria-checked={mode === option.value}
+                  onClick={() => setMode(option.value)}
+                  className={`rounded-xl border-2 px-3 py-2.5 text-left transition-all ${
+                    mode === option.value
+                      ? 'border-ss-accent shadow-ss-panel'
+                      : 'border-ss-line hover:-translate-y-px hover:border-ss-accent'
+                  }`}
+                  style={mode === option.value ? { background: 'var(--ss-accent-soft)' } : undefined}
+                >
+                  <span className="block text-[12.5px] font-bold text-ss-ink">{option.label}</span>
+                  <span className="block text-[12px] font-semibold text-ss-slate">{option.hint}</span>
+                </button>
+              ))}
+            </div>
           </div>
           {error && <p className="text-sm font-semibold text-ss-bad">{error}</p>}
         </div>
