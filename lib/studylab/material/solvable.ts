@@ -31,27 +31,47 @@ export const MAX_STATES = 50_000
 const MAX_CONTROL_SAMPLES = 20
 
 /**
+ * Floating-point division can undershoot an exact grid count by a hair —
+ * `1 / 0.1` computes to `9.999999999999998`, not `10` — which would flooring
+ * straight through to a grid one point short, silently dropping `max`
+ * itself off the sampled set. A small epsilon nudges only that near-integer
+ * case over the line; it is far smaller than any real `step`, so a
+ * genuinely fractional ratio (span 1, step 0.6 -> 1.667 steps fit, not 2)
+ * is never rounded up past the boundary it actually has.
+ */
+const GRID_COUNT_EPSILON = 1e-9
+
+/**
  * Discretises one control's continuous range into the values the search
  * treats as reachable settings. Below the cap this is exactly the control's
- * own step grid (min, min+step, min+2*step, ... up to max). Above the cap —
- * a control a student would have to nudge through hundreds of values to
- * find the right one is not a material either — it falls back to
- * `MAX_CONTROL_SAMPLES` points spread evenly across [min, max] instead of
- * walking the full grid, trading exactness on the grid for a search that
- * still terminates.
+ * own step grid (min, min+step, min+2*step, ... up to max) — every value on
+ * it is one a real slider can stop on. Above the cap — a control a student
+ * would have to nudge through hundreds of values to find the right one is
+ * not a material either — this must still only ever hand back values that
+ * are ON that grid. Sampling `MAX_CONTROL_SAMPLES` points evenly across the
+ * CONTINUOUS [min, max] range (the range, not the grid) would land almost
+ * every sample off-step: it can certify a material solvable at a slider
+ * position no interaction could ever reach, and can just as easily miss an
+ * on-grid target the range-based points simply step over. So instead this
+ * picks `MAX_CONTROL_SAMPLES` evenly spaced INDICES into the grid and snaps
+ * each to its exact grid value — fewer of the grid's points are reachable
+ * in one move than walking the whole grid would allow, but every sample
+ * that is offered really is a value the control could be set to.
  */
 function controlSamples(control: Control): number[] {
   const span = control.max - control.min
   if (!(span > 0) || !(control.step > 0)) return [control.min]
 
-  const gridCount = Math.floor(span / control.step) + 1
+  const gridCount = Math.floor(span / control.step + GRID_COUNT_EPSILON) + 1
   if (gridCount <= MAX_CONTROL_SAMPLES) {
     return Array.from({ length: gridCount }, (_, i) => control.min + i * control.step)
   }
-  return Array.from(
-    { length: MAX_CONTROL_SAMPLES },
-    (_, i) => control.min + (i * span) / (MAX_CONTROL_SAMPLES - 1),
-  )
+
+  const gridIndices = new Set<number>()
+  for (let i = 0; i < MAX_CONTROL_SAMPLES; i++) {
+    gridIndices.add(Math.round((i * (gridCount - 1)) / (MAX_CONTROL_SAMPLES - 1)))
+  }
+  return [...gridIndices].map((gridIndex) => control.min + gridIndex * control.step)
 }
 
 /**

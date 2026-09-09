@@ -52,4 +52,25 @@ describe('isSolvable', () => {
     isSolvable(sortInto(['a', 'b', 'c'], Array.from({ length: 6 }, (_, i) => ({ id: `p${i}`, bin: 'a' }))))
     expect(Date.now() - started).toBeLessThan(2000)
   })
+
+  it('samples the discretised step grid above the cap, not the continuous range', () => {
+    // 26 grid points (0, 1, 2, ..., 25) exceeds the 20-sample cap. A
+    // range-based fallback samples i * 25/19 for i in 0..19 — fractions
+    // that land on no integer, let alone 13 — so a target sitting squarely
+    // on the grid, between two of those range samples, would come back
+    // unreachable even though a real student could dial it in directly.
+    // Snapping to grid INDICES instead puts one sample exactly on 13
+    // (index round(10 * 25/19) = 13) — a value the control can really be
+    // set to, one move away from the untouched board.
+    const dialsIn13: MaterialSpec = {
+      prompt: 'Set the dial.',
+      pieces: [],
+      groups: [],
+      slots: [],
+      controls: [{ id: 'dial', label: 'Dial', min: 0, max: 25, step: 1 }],
+      rules: [{ op: 'bind', target: 'reading', expr: 'dial' }],
+      goal: { kind: 'numericWithin', target: 13, tolerance: 0 },
+    }
+    expect(isSolvable(dialsIn13)).toEqual({ ok: true, moves: 1 })
+  })
 })
