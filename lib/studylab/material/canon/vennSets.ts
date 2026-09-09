@@ -3,6 +3,7 @@ import type { ComparePayload } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
+import { safeFromLegacy } from './safeFromLegacy'
 
 const base: MaterialSpec = {
   prompt: 'Place each tile in the left, right, or shared set.',
@@ -65,12 +66,14 @@ export const vennSets: Apparatus = {
   legacy: {
     pattern: 'compare',
     fromLegacy(payload: unknown): MaterialSpec | null {
-      const module = getPatternModule('compare')
-      if (!module?.isPayload(payload)) return null
-      if (!payload.items.every((item: { label?: unknown }) => typeof item.label === 'string')) return null
-      const spec = convert(payload)
-      const result = validateMaterial(spec, 2)
-      return result.ok ? result.spec : null
+      return safeFromLegacy(() => {
+        const module = getPatternModule('compare')
+        if (!module?.isPayload(payload)) return null
+        if (!payload.items.every((item: { label?: unknown }) => typeof item.label === 'string')) return null
+        const spec = convert(payload)
+        const result = validateMaterial(spec, 2)
+        return result.ok ? result.spec : null
+      })
     },
   },
 }

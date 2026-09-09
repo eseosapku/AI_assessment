@@ -3,6 +3,7 @@ import type { SequencePayload } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
+import { safeFromLegacy } from './safeFromLegacy'
 
 const TRACK_ID = 'sequence-track'
 
@@ -50,11 +51,13 @@ export const orderingTrack: Apparatus = {
   legacy: {
     pattern: 'sequence',
     fromLegacy(payload: unknown): MaterialSpec | null {
-      const module = getPatternModule('sequence')
-      if (!module?.isPayload(payload)) return null
-      const spec = convert(payload)
-      const result = validateMaterial(spec, 1)
-      return result.ok ? result.spec : null
+      return safeFromLegacy(() => {
+        const module = getPatternModule('sequence')
+        if (!module?.isPayload(payload)) return null
+        const spec = convert(payload)
+        const result = validateMaterial(spec, 1)
+        return result.ok ? result.spec : null
+      })
     },
   },
 }

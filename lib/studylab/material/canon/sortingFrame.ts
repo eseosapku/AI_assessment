@@ -3,6 +3,7 @@ import type { SortPayload } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
+import { safeFromLegacy } from './safeFromLegacy'
 
 const base: MaterialSpec = {
   prompt: 'Sort each tile into its matching frame.',
@@ -66,11 +67,13 @@ export const sortingFrame: Apparatus = {
   legacy: {
     pattern: 'sort',
     fromLegacy(payload: unknown): MaterialSpec | null {
-      const module = getPatternModule('sort')
-      if (!module?.isPayload(payload)) return null
-      const spec = convert(payload)
-      const result = validateMaterial(spec, 1)
-      return result.ok ? result.spec : null
+      return safeFromLegacy(() => {
+        const module = getPatternModule('sort')
+        if (!module?.isPayload(payload)) return null
+        const spec = convert(payload)
+        const result = validateMaterial(spec, 1)
+        return result.ok ? result.spec : null
+      })
     },
   },
 }

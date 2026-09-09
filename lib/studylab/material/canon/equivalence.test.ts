@@ -15,6 +15,26 @@ describe('the canon', () => {
     expect(getApparatus('nope')).toBeNull()
   })
 
+  it('returns null instead of throwing on hostile legacy payloads', () => {
+    const cases = [
+      ['sorting-frame', 'bins'],
+      ['ordering-track', 'items'],
+      ['three-period-cards', 'items'],
+      ['venn-sets', 'sets'],
+    ] as const
+
+    for (const [name, property] of cases) {
+      const hostile = Object.defineProperty({}, property, {
+        get() {
+          throw new Error('hostile getter')
+        },
+      })
+      const convert = () => getApparatus(name)!.legacy!.fromLegacy(hostile)
+      expect(convert).not.toThrow()
+      expect(convert()).toBeNull()
+    }
+  })
+
   it('every entry is itself a valid material', () => {
     // The canon is written in the vocabulary, not above it. An entry that
     // could not pass the gate would be a second, privileged mechanism.

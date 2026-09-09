@@ -3,6 +3,7 @@ import type { ThreePeriodPayload } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
+import { safeFromLegacy } from './safeFromLegacy'
 
 const answerGroupId = (itemId: string): string => `answer-${itemId}`
 
@@ -73,13 +74,15 @@ export const threePeriodCards: Apparatus = {
   legacy: {
     pattern: 'threePeriod',
     fromLegacy(payload: unknown): MaterialSpec | null {
-      const module = getPatternModule('threePeriod')
-      if (!module?.isPayload(payload)) return null
-      if (!payload.phases.every((phase: unknown) =>
-        phase === 'present' || phase === 'identify' || phase === 'recall')) return null
-      const spec = convert(payload)
-      const result = validateMaterial(spec, 1)
-      return result.ok ? result.spec : null
+      return safeFromLegacy(() => {
+        const module = getPatternModule('threePeriod')
+        if (!module?.isPayload(payload)) return null
+        if (!payload.phases.every((phase: unknown) =>
+          phase === 'present' || phase === 'identify' || phase === 'recall')) return null
+        const spec = convert(payload)
+        const result = validateMaterial(spec, 1)
+        return result.ok ? result.spec : null
+      })
     },
   },
 }
