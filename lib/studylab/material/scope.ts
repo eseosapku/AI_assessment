@@ -10,8 +10,14 @@
 //                                currently sitting in that group.
 //   - a control's own `id`     — the student-facing value, defaulting to the
 //                                control's declared `min` until touched.
-//   - a `derive` rule's `name` — its expression evaluated against everything
-//                                above it in this list, in declaration order.
+//   - a `derive` rule's `name` — listed here so a later gate can check a
+//                                `derive` expression against the names that
+//                                actually exist, but NOT evaluated by this
+//                                file. Evaluating `derive` rules is Task 3's
+//                                job (the interpreter's tick, in declaration
+//                                order, against the board-generated scope
+//                                built here) — this module only reports the
+//                                board's own reading of itself at an instant.
 //
 // String traits (e.g. a `color` or `label` trait) are deliberately never
 // summed — they exist for `Selector` matching ({ trait, equals/between }),
@@ -20,10 +26,9 @@
 //
 // `scopeNames` and `buildScope` share one derivation of "what names exist" —
 // buildScope builds its object by walking the exact same groups/traits/
-// controls/rules scopeNames walks — so the two cannot drift apart into
+// controls `boardGeneratedNames` walks — so the two cannot drift apart into
 // disagreeing about which names are legal.
 import type { MaterialSpec, MaterialState } from './types'
-import { evaluateExpr } from '@/lib/studylab/activities/expr'
 
 /** Every numeric trait key carried by at least one piece, in first-seen order. */
 function numericTraitNames(spec: MaterialSpec): string[] {
@@ -44,8 +49,8 @@ function groupOfPiece(spec: MaterialSpec, state: MaterialState, pieceId: string)
   return slot?.groupId // placement naming a slot that no longer exists resolves to nothing
 }
 
-/** Every name an expression in this material is allowed to use. */
-export function scopeNames(spec: MaterialSpec): string[] {
+/** Aggregate and control names — what the board generates for itself, before any `derive` name is added. */
+function boardGeneratedNames(spec: MaterialSpec): string[] {
   const names: string[] = []
   const traits = numericTraitNames(spec)
   for (const group of spec.groups) {
@@ -53,11 +58,48 @@ export function scopeNames(spec: MaterialSpec): string[] {
     for (const trait of traits) names.push(`sum_${trait}_${group.id}`)
   }
   for (const control of spec.controls ?? []) names.push(control.id)
+  return names
+}
+
+/** Every name an expression in this material is allowed to use. */
+export function scopeNames(spec: MaterialSpec): string[] {
+  const names = boardGeneratedNames(spec)
   for (const rule of spec.rules) if (rule.op === 'derive') names.push(rule.name)
   return names
 }
 
-/** The scope's values for one instant of a material's state. */
+/**
+ * `derive` names that shadow a name the board already generates for itself
+ * (an aggregate or a control id). Nothing in this file stops a `derive` rule
+ * from being named e.g. `count_left` — these names come from model output —
+ * so a caller must check for the collision itself. Task 7's composite
+ * validation gate is that caller; this function exists for it to call.
+ */
+export function collidingNames(spec: MaterialSpec): string[] {
+  const board = new Set(boardGeneratedNames(spec))
+  const seen = new Set<string>()
+  const colliding: string[] = []
+  for (const rule of spec.rules) {
+    if (rule.op !== 'derive') continue
+    if (board.has(rule.name) && !seen.has(rule.name)) {
+      seen.add(rule.name)
+      colliding.push(rule.name)
+    }
+  }
+  return colliding
+}
+
+/**
+ * The board's own reading of itself at one instant: aggregates and controls
+ * only. `derive` rules are named here (via `scopeNames`) but never evaluated
+ * here — that would require running `evaluateExpr` against a scope that
+ * doesn't yet include earlier `derive` results, and folding a failed
+ * evaluation (`evaluateExpr` returns `null` for "names nothing" / "invalid")
+ * into a real number would launder that failure into a silent zero, which is
+ * the exact failure this pair of functions exists to prevent. That folding,
+ * done correctly against the full board+derive scope, belongs to Task 3's
+ * tick.
+ */
 export function buildScope(spec: MaterialSpec, state: MaterialState): Record<string, number> {
   const scope: Record<string, number> = {}
   const traits = numericTraitNames(spec)
@@ -80,13 +122,6 @@ export function buildScope(spec: MaterialSpec, state: MaterialState): Record<str
   // Controls: the student's value, or the declared minimum until touched.
   for (const control of spec.controls ?? []) {
     scope[control.id] = state.controls[control.id] ?? control.min
-  }
-
-  // Derived names, in declaration order, each seeing every name above it.
-  for (const rule of spec.rules) {
-    if (rule.op !== 'derive') continue
-    const value = evaluateExpr(rule.expr, scope)
-    scope[rule.name] = value === null ? 0 : value // fails closed, same as evaluateExpr itself
   }
 
   return scope

@@ -1,6 +1,6 @@
 // lib/studylab/material/scope.test.ts
 import { describe, it, expect } from 'vitest'
-import { buildScope, scopeNames } from './scope'
+import { buildScope, scopeNames, collidingNames } from './scope'
 import type { MaterialSpec, MaterialState } from './types'
 
 const spec = {
@@ -15,7 +15,12 @@ const spec = {
     { id: 's2', groupId: 'left', x: 1, y: 0, capacity: 1 },
     { id: 's3', groupId: 'pool', x: 0, y: 0, capacity: 4 },
   ],
-  controls: [{ id: 'drops', label: 'Drops', min: 0, max: 50, step: 1 }],
+  controls: [
+    { id: 'drops', label: 'Drops', min: 0, max: 50, step: 1 },
+    // A non-zero min so "defaults to the minimum" is distinguishable from
+    // "defaults to zero" — `drops` alone (min: 0) can't tell the two apart.
+    { id: 'temp', label: 'Temp', min: 5, max: 100, step: 1 },
+  ],
   rules: [],
   goal: { kind: 'exactSet' as const, itemIds: [] },
 } as MaterialSpec
@@ -42,12 +47,24 @@ describe('buildScope', () => {
     expect(s.sum_h_pool).toBe(2)
   })
 
+  it('excludes a piece whose placement names a slot that does not exist', () => {
+    const s = buildScope(spec, state({ a: 'no-such-slot' }))
+    expect(s.count_left).toBe(0)
+    expect(s.count_pool).toBe(0)
+    expect(s.sum_h_left).toBe(0)
+    expect(s.sum_h_pool).toBe(0)
+  })
+
   it('exposes each control by its id', () => {
     expect(buildScope(spec, state({}, { drops: 24 })).drops).toBe(24)
   })
 
   it('defaults a control the student has not touched to its minimum', () => {
     expect(buildScope(spec, state({})).drops).toBe(0)
+  })
+
+  it('defaults a control with a non-zero minimum to that minimum, not zero', () => {
+    expect(buildScope(spec, state({})).temp).toBe(5)
   })
 
   it('lists every legal name, so an expression can be checked against it', () => {
@@ -58,5 +75,27 @@ describe('buildScope', () => {
     // A trait no piece carries is not a name, so naming it is a mistake worth
     // catching at validation rather than silently reading zero.
     expect(names).not.toContain('sum_mass_left')
+  })
+})
+
+describe('collidingNames', () => {
+  it('reports nothing for a clean spec', () => {
+    expect(collidingNames(spec)).toEqual([])
+  })
+
+  it('reports a derive name that shadows an aggregate the board already generates', () => {
+    const withCollision: MaterialSpec = {
+      ...spec,
+      rules: [{ op: 'derive', name: 'count_left', expr: '1' }],
+    }
+    expect(collidingNames(withCollision)).toEqual(['count_left'])
+  })
+
+  it('reports a derive name that shadows a control id', () => {
+    const withCollision: MaterialSpec = {
+      ...spec,
+      rules: [{ op: 'derive', name: 'drops', expr: '1' }],
+    }
+    expect(collidingNames(withCollision)).toEqual(['drops'])
   })
 })
