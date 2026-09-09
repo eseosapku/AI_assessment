@@ -1453,6 +1453,9 @@ APPARATUS — "compare" — isolates "membership" (a Venn: left / both / right):
              "items":[{"id":"i1","label":"Lays eggs with shells","belongs":"right"},
                       {"id":"i2","label":"Has a backbone","belongs":"both"}] }
   success: { "kind":"binAssignment", "assign":{"i1":"right","i2":"both"} }
+  AT MOST 4 items may share one "belongs" value — the drawn zone holds four and
+  a fifth is refused, taking the whole material with it. Twelve items is fine so
+  long as no more than four land in any one of left / both / right.
   THE THREE WORDS ARE FIXED. "sets" is EXACTLY two entries whose "id"s are the
   literal words "left" and "right" — your topic goes in "label", never in "id"
   — and every item's "belongs" is the literal word "left", "right" or "both".
@@ -1496,6 +1499,9 @@ APPARATUS — "balance" — isolates "structure" in "equation" mode, "quantity" 
              "pool":[{"id":"p1","label":"H2O","weight":1},{"id":"p2","label":"O2","weight":1}],
              "mode":"equation" }
   success: { "kind":"numericWithin", "target":0, "tolerance":0 }   // 0 = the sides are equal
+  AT MOST 2 items in "left" and AT MOST 2 in "right" — the drawn pans hold two
+  chips each and a third is refused outright, taking the whole material with it.
+  "pool" has no limit, so put the rest there and let the student place them.
   "mode" is "weights" (the number is printed on each chip — mass, budget, energy)
   or "equation" (the weight is hidden and used only to grade). SETTLE "mode"
   BEFORE YOU WRITE THE INTENT, then copy the word straight out of this rule:
