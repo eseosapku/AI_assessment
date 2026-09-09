@@ -51,4 +51,19 @@ describe('fitsInBox', () => {
     const r = fitsInBox(spec)
     expect(r.ok === false && r.reason).toContain('g1')
   })
+
+  it('refuses several groups that each pass their own cap but overflow the box together', () => {
+    // The per-group cap (maxSlotsPerRow * maxRows) assumes a group has the
+    // WHOLE box to itself — that is true of no group once a second one
+    // exists. Fill every group slot this box allows side by side with just
+    // enough slots each to individually clear that per-group cap, and the
+    // sum still asks for more room than the box's total area could ever
+    // hold. Derived from the exported caps, not hardcoded, for the same
+    // reason as the fixture above.
+    const groups = MATERIAL_BOX.maxGroupsPerRow
+    const perGroup = Math.ceil(MATERIAL_BOX.maxTotalSlots / groups) + 1
+    const r = fitsInBox(withGroups(groups, perGroup))
+    expect(r.ok).toBe(false)
+    expect(r.ok === false && r.reason).toContain(String(MATERIAL_BOX.maxTotalSlots))
+  })
 })

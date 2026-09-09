@@ -21,9 +21,34 @@ import type { MaterialSpec } from './types'
  * The activity card this material renders inside, whatever renderer this
  * phase eventually builds — `lib/studylab/blocks.ts`,
  * `def('activity', 'ai', 420, 380)`.
+ *
+ * Its two dimensions are NOT the same kind of number. The width (420) is a
+ * real, verified CSS constraint: `ActivityFrame.tsx` sets `w-[420px]` on
+ * the rendered card, so `CONTENT_WIDTH_PX` below is a measurement.
+ *
+ * The height (380) is not. `ActivityFrame.tsx` sets no `h-*` or `max-h-*`
+ * anywhere — the rendered card is `height: auto`, sized entirely by its
+ * content. `380` only feeds `blocks.ts` -> `autoPosition`/`layout.ts`'s
+ * canvas node collision spacing, and `lib/studylab/actions.ts` pads that
+ * same number with its own `HEIGHT_PAD` (120px) specifically because real
+ * content is expected to exceed it. So `CARD_HEIGHT_ALLOWANCE_PX`, and
+ * everything derived from it below (`CONTENT_HEIGHT_ALLOWANCE_PX`,
+ * `maxRows`, `maxTotalSlots`), are not measurements of a ceiling that
+ * exists today — there isn't one. They are a BUDGET this check enforces
+ * ahead of a renderer that hasn't been built yet: material that fits the
+ * budget is not thereby guaranteed to render without scrolling, but
+ * material that doesn't fit it is definitely wrong.
+ *
+ * Whichever renderer Stage 3 builds owes this budget an actual backstop —
+ * either a real CSS `max-height` on the group/slot grid equal to
+ * `MATERIAL_BOX.heightPx`, or a scrollable-zone pattern like
+ * `CompareActivity.tsx`'s `ZONE_MAX_HEIGHT` (`overflow-y-auto` +
+ * `maxHeight`, which IS enforced, not just advertised). Until one of those
+ * lands, this half of `fitsInBox` is a promise the renderer hasn't been
+ * made to keep yet, not decoration to be relied on as-is.
  */
 const CARD_WIDTH_PX = 420
-const CARD_HEIGHT_PX = 380
+const CARD_HEIGHT_ALLOWANCE_PX = 380
 
 /**
  * Chrome `ActivityFrame.tsx` spends before a material gets to draw
@@ -43,9 +68,11 @@ const CONTENT_WIDTH_PX =
 
 /**
  * Height the outer flex column spends OUTSIDE the children wrapper, before
- * the wrapper's own border/padding are even considered:
+ * the wrapper's own border/padding are even considered — real, measured
+ * chrome, just applied against the height ALLOWANCE above rather than
+ * against a rendered ceiling:
  * - the prompt row — its `h-6` icon span is 24px tall, taller than one
- *   line of the `text-[13px] leading-snug` label beside it, so the icon
+ *   line of its `text-[13px] leading-snug` label beside it, so the icon
  *   sets the row;
  * - the button row — `px-4 py-1.5 text-[12px]`, a 12px line at the
  *   inherited `line-height: 1.5` (18px) plus 2*6px `py-1.5` = 30px;
@@ -62,12 +89,15 @@ const CHROME_OUTSIDE_WRAPPER_PX =
   2 * OUTER_BORDER_PX + 2 * OUTER_PADDING_PX + PROMPT_ROW_PX + BUTTON_ROW_PX + 2 * OUTER_GAP_PX
 
 /**
- * What is left inside the bordered, `p-3`-padded children wrapper once its
- * own border/padding come off the card's remaining height — the vertical
- * room a material's own group/slot grid actually has to draw in.
+ * What the height ALLOWANCE leaves inside the bordered, `p-3`-padded
+ * children wrapper once its own border/padding come off — not a
+ * measurement of available space (see `CARD_HEIGHT_ALLOWANCE_PX` above:
+ * there is no ceiling today), but the budget a material's own group/slot
+ * grid is held to.
  * 380 - (2 + 32 + 24 + 30 + 24) - (2 + 24) = 242.
  */
-const CONTENT_HEIGHT_PX = CARD_HEIGHT_PX - CHROME_OUTSIDE_WRAPPER_PX - 2 * INNER_BORDER_PX - 2 * INNER_PADDING_PX
+const CONTENT_HEIGHT_ALLOWANCE_PX =
+  CARD_HEIGHT_ALLOWANCE_PX - CHROME_OUTSIDE_WRAPPER_PX - 2 * INNER_BORDER_PX - 2 * INNER_PADDING_PX
 
 /**
  * A single slot's own footprint: room for a piece chip carrying the
@@ -81,11 +111,11 @@ const ICON_PX = 22
 const CHIP_PADDING_PX = 8
 const SLOT_PX = ICON_PX + CHIP_PADDING_PX // 30
 
-/** Spacing between slots and between group zones — Tailwind `gap-2`, the
- * same gap `SortActivity.tsx` already uses for its own bin grid. */
+/** Spacing between group zones — Tailwind `gap-2`, the same gap
+ * `SortActivity.tsx` already uses for its own bin grid. */
 const GRID_GAP_PX = 8
-/** Spacing between chips inside one zone — Tailwind `gap-1.5`, the gap
- * `SortActivity.tsx` uses inside a single bin's chip wrap. */
+/** Spacing between chips — Tailwind `gap-1.5`, the gap `SortActivity.tsx`
+ * uses inside a single bin's chip wrap. */
 const SLOT_GAP_PX = 6
 
 /**
@@ -106,10 +136,10 @@ const GROUP_CHROME_PX = 2 * GROUP_BORDER_PX + 2 * GROUP_PADDING_PX // 20
 const GROUP_LABEL_PX = Math.round(12 * 1.5) + 6 // 24
 
 /**
- * How many `SLOT_PX` cells, each trailed by one `gapPx` (the very last one
+ * How many `cellPx` cells, each trailed by one `gapPx` (the very last one
  * excepted), fit across a budget — "+gap on both sides, divide, floor", the
  * same shape `dropZoneGeometry.ts`'s `deriveGeometry` uses for chip rows,
- * so that N cells' actual footprint (`N*SLOT_PX + (N-1)*gapPx`) never
+ * so that N cells' actual footprint (`N*cellPx + (N-1)*gapPx`) never
  * exceeds the stated budget.
  */
 function fitCount(budgetPx: number, cellPx: number, gapPx: number): number {
@@ -120,38 +150,64 @@ function fitCount(budgetPx: number, cellPx: number, gapPx: number): number {
  * card's content box — what its label and slot grid actually have to
  * share. */
 const GROUP_CONTENT_WIDTH_PX = CONTENT_WIDTH_PX - GROUP_CHROME_PX
-const GROUP_CONTENT_HEIGHT_PX = CONTENT_HEIGHT_PX - GROUP_CHROME_PX - GROUP_LABEL_PX
+const GROUP_CONTENT_HEIGHT_ALLOWANCE_PX = CONTENT_HEIGHT_ALLOWANCE_PX - GROUP_CHROME_PX - GROUP_LABEL_PX
 
 /**
  * The single frozen source for the box a composed material is drawn in.
  * Every number here is derived above from the card and its chrome, never
  * hand-picked — see the constants this object is built from for what each
- * one measures.
+ * one measures, and `CARD_HEIGHT_ALLOWANCE_PX` above for why the height
+ * side of this object is a budget the renderer must honour, not a
+ * measurement of a constraint that exists yet.
  */
 export const MATERIAL_BOX = Object.freeze({
   /** Content width available to the material as a whole (all its groups
-   * side by side), once `ActivityFrame`'s chrome is subtracted. */
+   * side by side), once `ActivityFrame`'s chrome is subtracted. A real,
+   * measured constraint — see `CONTENT_WIDTH_PX` above. */
   widthPx: CONTENT_WIDTH_PX,
-  /** Content height available to the material as a whole, once
-   * `ActivityFrame`'s chrome is subtracted. */
-  heightPx: CONTENT_HEIGHT_PX,
+  /** Content height BUDGET available to the material as a whole. Not a
+   * rendered constraint today (`ActivityFrame`'s card is `height: auto`)
+   * — see `CARD_HEIGHT_ALLOWANCE_PX` above for what backstops this owes
+   * the renderer. */
+  heightPx: CONTENT_HEIGHT_ALLOWANCE_PX,
   /** How many group zones fit side by side across `widthPx`, each needing
    * at minimum its own chrome plus one slot's width. */
   maxGroupsPerRow: fitCount(CONTENT_WIDTH_PX, GROUP_CHROME_PX + SLOT_PX, GRID_GAP_PX),
   /** How many slots fit across a single group's own row, inside that
    * group's own chrome — independent of how many other groups share the
-   * card, since a composed scene lets the tutor size one group at a time. */
+   * card, since a composed scene lets the tutor size one group at a time.
+   * (`fitsInBox`'s joint `maxTotalSlots` check below is what catches
+   * several groups each individually under this cap still overflowing the
+   * whole box.) */
   maxSlotsPerRow: fitCount(GROUP_CONTENT_WIDTH_PX, SLOT_PX, SLOT_GAP_PX),
-  /** How many rows of slots fit down a single group's own zone, below its
-   * label. */
-  maxRows: fitCount(GROUP_CONTENT_HEIGHT_PX, SLOT_PX, SLOT_GAP_PX),
+  /** How many rows of slots the height BUDGET allows down a single group's
+   * own zone, below its label. See `CARD_HEIGHT_ALLOWANCE_PX` — this is a
+   * target the renderer must enforce, not a measurement of one that
+   * already exists. */
+  maxRows: fitCount(GROUP_CONTENT_HEIGHT_ALLOWANCE_PX, SLOT_PX, SLOT_GAP_PX),
+  /**
+   * An upper bound on how many slots the WHOLE box could hold, summed
+   * across every group, if every scrap of the content area were slot
+   * cells with no group chrome or labels dividing it up. Deliberately
+   * optimistic — real groups spend some of that area on their own borders
+   * and labels, so true joint capacity with N groups present is lower
+   * than this — but it is still a real ceiling, which `maxSlotsPerRow *
+   * maxRows` alone is not: that per-group cap assumes a group has the
+   * WHOLE content width to itself, so several groups can each pass their
+   * own cap while their sum asks for more room than the box has ever had.
+   * `fitsInBox` checks the sum against this number for exactly that case.
+   * Inherits the same height-budget caveat as `maxRows`.
+   */
+  maxTotalSlots: fitCount(CONTENT_WIDTH_PX, SLOT_PX, SLOT_GAP_PX) * fitCount(CONTENT_HEIGHT_ALLOWANCE_PX, SLOT_PX, SLOT_GAP_PX),
 })
 
 /**
  * Refuses a material whose groups cannot be laid out side by side within
- * the box, or whose any single group carries more slots than its own zone
- * can hold — naming the offending group so the tutor knows which one to
- * shrink, not just that the scene as a whole overflowed.
+ * the box, whose any single group carries more slots than its own zone can
+ * hold, or whose groups' slots together ask for more room than the box's
+ * total area could ever provide — naming the offending group (or total) so
+ * the tutor knows what to shrink, not just that the scene as a whole
+ * overflowed.
  */
 export function fitsInBox(spec: MaterialSpec): { ok: true } | { ok: false; reason: string } {
   if (spec.groups.length > MATERIAL_BOX.maxGroupsPerRow) {
@@ -174,6 +230,16 @@ export function fitsInBox(spec: MaterialSpec): { ok: true } | { ok: false; reaso
         ok: false,
         reason: `Group "${group.id}" has ${count} slots, but its zone holds at most ${maxSlotsPerGroup} (${MATERIAL_BOX.maxSlotsPerRow} per row × ${MATERIAL_BOX.maxRows} rows).`,
       }
+    }
+  }
+
+  // Each check above treats one group in isolation, assuming it has the
+  // whole box to itself — several groups can each pass individually and
+  // still add up to more slots than the box's total area could ever hold.
+  if (spec.slots.length > MATERIAL_BOX.maxTotalSlots) {
+    return {
+      ok: false,
+      reason: `This material has ${spec.slots.length} slots across all its groups, but the box holds at most ${MATERIAL_BOX.maxTotalSlots} in total.`,
     }
   }
 

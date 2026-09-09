@@ -35,6 +35,17 @@ describe('varyingTraits', () => {
       { id: 'b', label: 'B', traits: {} },
     ]))).toEqual(['size'])
   })
+
+  it('does not read a trait named after an Object.prototype member up the chain', () => {
+    // `'toString' in {}` is true for every plain object — a piece whose own
+    // traits omit it must still be treated as MISSING that trait, not as
+    // silently inheriting Object.prototype.toString's value. Trait names
+    // come from model output, so this must not be reachable.
+    expect(varyingTraits(of([
+      { id: 'a', label: 'A', traits: { toString: 'x' } },
+      { id: 'b', label: 'B', traits: {} },
+    ]))).toEqual(['toString'])
+  })
 })
 
 describe('checkIsolation', () => {

@@ -25,7 +25,17 @@ export function varyingTraits(spec: MaterialSpec): string[] {
   const MISSING = Symbol('missing')
   const varying: string[] = []
   for (const key of keys) {
-    const values = spec.pieces.map((p) => (key in p.traits ? p.traits[key] : MISSING))
+    // `key in p.traits` would also find an INHERITED member — every plain
+    // object has `toString`/`valueOf`/`constructor` on its prototype, so a
+    // piece missing a trait named one of those would read the inherited
+    // function instead of MISSING. Trait names come from model output, so
+    // this codebase treats that reachability as unacceptable elsewhere too
+    // (the canon registry uses a `Map` rather than an object literal for
+    // the same reason) — `hasOwnProperty` restricts the check to what the
+    // piece actually declared.
+    const values = spec.pieces.map((p) =>
+      Object.prototype.hasOwnProperty.call(p.traits, key) ? p.traits[key] : MISSING,
+    )
     const first = values[0]
     if (values.some((v) => v !== first)) varying.push(key)
   }
