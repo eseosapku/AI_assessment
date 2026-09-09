@@ -63,6 +63,19 @@ describe('tick', () => {
     const bad = { ...balance, rules: [{ op: 'derive' as const, name: 'x', expr: 'sum_mass_left' }] } as MaterialSpec
     expect(tick(bad, st({})).scope.x).toBeUndefined()
   })
+
+  it('reports a pairing goal unsolved rather than accidentally succeeding', () => {
+    // No `pairs` conversion exists yet (see buildSuccessInput) — a `pairing`
+    // goal must fail closed through evaluateSuccess's own length check, not
+    // pass open because nothing was supplied. Every piece is placed, so this
+    // exercises evaluateSuccess itself rather than the unplaced-pieces guard.
+    const paired = {
+      ...balance,
+      goal: { kind: 'pairing' as const, pairs: [['h2', 'o2'] as [string, string]] },
+    } as MaterialSpec
+    const full = st({ h2: 'l1', o2: 'l1', w: 'r1', h2b: 'r1' })
+    expect(tick(paired, full).solved).toBe(false)
+  })
 })
 
 describe('allowsMove — control of error at the moment of action', () => {

@@ -147,18 +147,12 @@ function buildSuccessInput(spec: MaterialSpec, state: MaterialState, displays: R
   const placedIds = spec.pieces.map((p) => p.id).filter((id) => isPiecePlaced(spec, state, id))
 
   const assign: Record<string, string> = {}
-  const pairs: [string, string][] = []
   const orderedEntries: { index: number; pieceId: string }[] = []
 
   for (const pieceId of placedIds) {
     const slotId = state.placement[pieceId]
     const slot = slotById.get(slotId)!
     assign[pieceId] = slot.groupId
-    // A generic two-namespace pairing (piece <-> the slot it was placed
-    // into), the same shape as the existing label pattern's hotspot-id <->
-    // label-text pairs — the vocabulary has no other notion of "pair" to draw
-    // on for a `pairing` goal.
-    pairs.push([pieceId, slotId])
     const group = groupById.get(slot.groupId)
     if (group?.ordered && typeof slot.index === 'number') {
       orderedEntries.push({ index: slot.index, pieceId })
@@ -172,11 +166,22 @@ function buildSuccessInput(spec: MaterialSpec, state: MaterialState, displays: R
   const bindRules = spec.rules.filter((r): r is Extract<Rule, { op: 'bind' }> => r.op === 'bind')
   const value = bindRules.length === 1 ? displays[bindRules[0].target] : undefined
 
+  // No `pairs` conversion: the vocabulary has no settled notion of what a
+  // `pairing` goal pairs. The two existing consumers of `pairing`
+  // (lib/studylab/activities/patterns/label.ts, threePeriod.ts) pair a piece
+  // id with a content value — a label string, an answer — never with a slot
+  // id, so `[pieceId, slotId]` would just be `binAssignment` restated. The
+  // canon's `matching-pairs` apparatus most naturally wants a piece-to-piece
+  // correspondence instead (an atom card matched to its symbol card), a third
+  // shape again. `PLACEMENT_GOAL_KINDS` still lists `pairing`, so a `pairing`
+  // goal on an unfinished board still reports unsolved; on a finished board
+  // with no `pairs` supplied, `evaluateSuccess`'s own length check fails it
+  // closed rather than passing it open. Whichever canon entry first needs
+  // `pairing` defines the mapping and lands it with a test.
   return {
     set: placedIds,
     assign,
     order: orderedEntries.map((e) => e.pieceId),
-    pairs,
     value,
   }
 }
