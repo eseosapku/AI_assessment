@@ -101,10 +101,15 @@ const composeSpec: ActivitySpec = {
   success: { kind: 'exactSet', itemIds: ['h1-o1', 'h2-o1'] },
 }
 
+// Weights must vary — isolation refuses a material whose pieces are identical.
 const legacyBalancePayload = {
-  left: [{ id: 'left-one', label: '1', weight: 1 }],
+  left: [],
   right: [],
-  pool: [{ id: 'pool-one', label: '1', weight: 1 }],
+  pool: [
+    { id: 'a', label: 'A', weight: 1 },
+    { id: 'b', label: 'B', weight: 2 },
+    { id: 'c', label: 'C', weight: 3 },
+  ],
   mode: 'weights' as const,
 }
 const legacyBalanceSuccess = { kind: 'numericWithin' as const, target: 0, tolerance: 0 }
