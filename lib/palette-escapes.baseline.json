@@ -39,6 +39,7 @@
   "components/studylab/activities/SequenceActivity.tsx": 4,
   "components/studylab/activities/SortActivity.tsx": 3,
   "components/studylab/activities/ThreePeriodActivity.tsx": 4,
+  "components/studylab/material/PieceChip.tsx": 3,
   "components/studylab/canvasNodes.tsx": 8,
   "components/studylab/canvasShared.tsx": 4,
   "components/studylab/ChatMouthpiece.tsx": 25,

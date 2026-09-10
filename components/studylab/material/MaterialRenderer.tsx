@@ -19,15 +19,51 @@ const REFUSAL_KEYFRAMES = [
   { transform: 'translateX(0)' },
 ]
 
-export function MaterialRenderer({ spec, resetKey }: { spec: MaterialSpec; resetKey: string }) {
-  const [state, setState] = useState<MaterialState>(() => createInitialMaterialState(spec))
+export type MaterialRendererProps = {
+  spec: MaterialSpec
+  /** Bench-only remount key; ignored in controlled mode. */
+  resetKey?: string
+  state?: MaterialState
+  onStateChange?: (next: MaterialState) => void
+  solved?: boolean
+  revealed?: boolean
+  reveal?: string
+  hint?: string | null
+  hintAvailable?: boolean
+  onHint?: () => void
+  onCheck?: () => void
+  wrongIds?: string[]
+  onRefusal?: (pieceId: string, slotId: string) => void
+}
+
+export function MaterialRenderer({
+  spec,
+  resetKey = '',
+  state: controlledState,
+  onStateChange,
+  solved: solvedProp,
+  revealed = false,
+  reveal,
+  hint = null,
+  hintAvailable = false,
+  onHint,
+  onCheck,
+  wrongIds = [],
+  onRefusal,
+}: MaterialRendererProps) {
+  const controlled = controlledState !== undefined && onStateChange !== undefined
+  const [internal, setInternal] = useState(() => createInitialMaterialState(spec))
   const rootRef = useRef<HTMLDivElement>(null)
 
   // A bench picker can replace either the key or the spec object. Reset after
   // that render rather than setting state while React is rendering it.
   useEffect(() => {
-    setState(createInitialMaterialState(spec))
-  }, [resetKey, spec])
+    if (controlled) return
+    setInternal(createInitialMaterialState(spec))
+  }, [controlled, resetKey, spec])
+
+  const state = controlled ? controlledState! : internal
+  const setState = controlled ? onStateChange! : setInternal
 
   const result = tick(spec, state)
   const slotIds = spec.slots.map((slot) => slot.id)
@@ -44,9 +80,10 @@ export function MaterialRenderer({ spec, resetKey }: { spec: MaterialSpec; reset
     if (refused) {
       const piece = rootRef.current?.querySelector(`[data-item="${CSS.escape(pieceId)}"]`)
       shakeElement(piece, REFUSAL_KEYFRAMES)
+      onRefusal?.(pieceId, slotId)
     }
     setState(next)
-  }, [spec, state])
+  }, [onRefusal, setState, spec, state])
 
   const drag = useActivityDrag(place)
 
@@ -56,33 +93,34 @@ export function MaterialRenderer({ spec, resetKey }: { spec: MaterialSpec; reset
       piece={piece}
       dragging={drag.dragId === piece.id}
       dragProps={drag.itemProps(piece.id, slotIds)}
+      wrong={wrongIds.includes(piece.id)}
     />
   )
 
   const unplaced = spec.pieces.filter((piece) => state.placement[piece.id] === undefined)
 
   const changeControl = (controlId: string, value: number) => {
-    setState((current) => {
-      const changed: MaterialState = {
-        ...current,
-        controls: { ...current.controls, [controlId]: value },
-      }
-      const changedResult = tick(spec, changed)
-      return {
-        ...changed,
-        status: changedResult.solved ? 'solved' : 'in_progress',
-      }
+    const changed: MaterialState = {
+      ...state,
+      controls: { ...state.controls, [controlId]: value },
+    }
+    const changedResult = tick(spec, changed)
+    setState({
+      ...changed,
+      status: changedResult.solved ? 'solved' : 'in_progress',
     })
   }
 
   return (
     <ActivityFrame
       prompt={spec.prompt}
-      solved={result.solved}
-      revealed={false}
-      hint={null}
-      hintAvailable={false}
-      onHint={() => undefined}
+      solved={solvedProp ?? result.solved}
+      revealed={revealed}
+      reveal={reveal}
+      hint={hint}
+      hintAvailable={hintAvailable}
+      onHint={onHint ?? (() => undefined)}
+      onCheck={onCheck}
     >
       <div ref={rootRef}>
         <MaterialFrame
