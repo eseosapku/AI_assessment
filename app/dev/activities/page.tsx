@@ -13,12 +13,26 @@
  * would answer to anyone who guessed the URL in production.
  */
 import { notFound } from 'next/navigation'
-import { ReactFlow, ReactFlowProvider, Background, type Node, type NodeTypes } from '@xyflow/react'
+import { useRef, useState } from 'react'
+import {
+  ReactFlow,
+  ReactFlowProvider,
+  Background,
+  useNodesState,
+  type Node,
+  type NodeTypes,
+} from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import { studyNodeTypes } from '@/components/studylab/canvasNodes'
+import {
+  MaterialBenchNode,
+  type MaterialBenchData,
+} from '@/components/studylab/material/MaterialBenchNode'
 import type { ActivitySpec } from '@/lib/studylab/activities/types'
+import { apparatusNames, getApparatus } from '@/lib/studylab/material/canon'
+import type { MaterialSpec } from '@/lib/studylab/material/types'
 
-const nodeTypes = studyNodeTypes as unknown as NodeTypes
+const nodeTypes = { ...studyNodeTypes, material: MaterialBenchNode } as unknown as NodeTypes
 
 const sortSpec: ActivitySpec = {
   pattern: 'sort',
@@ -87,6 +101,45 @@ const composeSpec: ActivitySpec = {
   success: { kind: 'exactSet', itemIds: ['h1-o1', 'h2-o1'] },
 }
 
+const legacyBalancePayload = {
+  left: [{ id: 'left-one', label: '1', weight: 1 }],
+  right: [],
+  pool: [{ id: 'pool-one', label: '1', weight: 1 }],
+  mode: 'weights' as const,
+}
+const legacyBalanceSuccess = { kind: 'numericWithin' as const, target: 0, tolerance: 0 }
+
+function requireLegacySample(
+  apparatusName: string,
+  payload: unknown,
+  success: ActivitySpec['success'],
+): MaterialSpec {
+  const spec = getApparatus(apparatusName)?.legacy?.fromLegacy(payload, success)
+  if (!spec) throw new Error(`Invalid ${apparatusName} dev-bench sample`)
+  return spec
+}
+
+const materialChoices = [
+  ...apparatusNames().map((name) => ({
+    value: `canon:${name}`,
+    label: name,
+    spec: getApparatus(name)!.base,
+    group: 'Canon',
+  })),
+  {
+    value: 'legacy:sorting-frame',
+    label: 'sorting-frame · acid/base fromLegacy',
+    spec: requireLegacySample('sorting-frame', sortSpec.payload, sortSpec.success),
+    group: 'fromLegacy samples',
+  },
+  {
+    value: 'legacy:balance-beam',
+    label: 'balance-beam · tiny weights fromLegacy',
+    spec: requireLegacySample('balance-beam', legacyBalancePayload, legacyBalanceSuccess),
+    group: 'fromLegacy samples',
+  },
+]
+
 function specNode(id: string, spec: ActivitySpec, x: number, y: number): Node {
   return {
     id,
@@ -101,19 +154,80 @@ const initialNodes: Node[] = [
   specNode('n-balance', balanceSpec, 420, 0),
   specNode('n-compare', compareSpec, 840, 0),
   specNode('n-compose', composeSpec, 1260, 0),
+  {
+    id: 'n-material',
+    type: 'material',
+    position: { x: 0, y: 420 },
+    data: {
+      spec: getApparatus('sorting-frame')!.base,
+      resetKey: 'sorting-frame-0',
+      label: 'Composed material · sorting-frame',
+    } satisfies MaterialBenchData,
+  },
 ]
 
-export default function DevActivitiesPage() {
-  // Inlined by the bundler, so the bench does not ship to a production build.
-  if (process.env.NODE_ENV === 'production') notFound()
+function ActivitiesBench() {
+  const [nodes, setNodes, onNodesChange] = useNodesState(initialNodes)
+  const [choiceValue, setChoiceValue] = useState('canon:sorting-frame')
+  const resetCount = useRef(0)
+
+  const selectMaterial = (value: string) => {
+    const choice = materialChoices.find((candidate) => candidate.value === value)
+    if (!choice) return
+
+    resetCount.current += 1
+    setChoiceValue(value)
+    setNodes((current) => current.map((node) => node.id === 'n-material'
+      ? {
+          ...node,
+          data: {
+            spec: choice.spec,
+            resetKey: `${choice.value}-${resetCount.current}`,
+            label: `Composed material · ${choice.label}`,
+          } satisfies MaterialBenchData,
+        }
+      : node))
+  }
 
   return (
-    <div style={{ width: '100vw', height: '100vh' }}>
+    <div className="relative" style={{ width: '100vw', height: '100vh' }}>
+      <div className="absolute left-3 top-3 z-10 rounded-md border border-ss-slate bg-white p-2 shadow">
+        <label className="flex items-center gap-2 text-xs font-semibold text-ss-slate">
+          Material apparatus
+          <select
+            className="nodrag nopan rounded border border-ss-slate bg-white px-2 py-1"
+            value={choiceValue}
+            onChange={(event) => selectMaterial(event.target.value)}
+          >
+            {['Canon', 'fromLegacy samples'].map((group) => (
+              <optgroup key={group} label={group}>
+                {materialChoices.filter((choice) => choice.group === group).map((choice) => (
+                  <option key={choice.value} value={choice.value}>{choice.label}</option>
+                ))}
+              </optgroup>
+            ))}
+          </select>
+        </label>
+      </div>
       <ReactFlowProvider>
-        <ReactFlow nodeTypes={nodeTypes} defaultNodes={initialNodes} fitView minZoom={0.2} maxZoom={2}>
+        <ReactFlow
+          nodeTypes={nodeTypes}
+          nodes={nodes}
+          onNodesChange={onNodesChange}
+          fitView
+          minZoom={0.2}
+          maxZoom={2}
+        >
           <Background />
         </ReactFlow>
       </ReactFlowProvider>
     </div>
   )
+}
+
+export default function DevActivitiesPage() {
+  // Inlined by the bundler, so the bench does not ship to a production build.
+  if (process.env.NODE_ENV === 'production') notFound()
+
+  return <ActivitiesBench />
 }
