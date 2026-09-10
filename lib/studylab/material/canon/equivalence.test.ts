@@ -290,6 +290,31 @@ describe('every apparatus that replaces a pattern agrees with it', () => {
   }
 })
 
+describe('sorting-frame fromLegacy preserves catalogue art', () => {
+  it('maps legal imageUrl (including asset: prefix) onto piece.art', () => {
+    const payload = {
+      bins: [{ id: 'acid', label: 'Acid' }, { id: 'base', label: 'Base' }],
+      items: [
+        { id: 'hcl', label: 'HCl', binId: 'acid', imageUrl: 'asset:balance-scale' },
+        { id: 'koh', label: 'KOH', binId: 'base', imageUrl: 'neuron' },
+        { id: 'water', label: 'Water', binId: 'base', imageUrl: 'asset:https://evil.example/x.png' },
+        { id: 'salt', label: 'Salt', binId: 'base' },
+      ],
+    }
+    const success = {
+      kind: 'binAssignment' as const,
+      assign: { hcl: 'acid', koh: 'base', water: 'base', salt: 'base' },
+    }
+    const spec = getApparatus('sorting-frame')!.legacy!.fromLegacy(payload, success)!
+    const byId = Object.fromEntries(spec.pieces.map((p) => [p.id, p]))
+
+    expect(byId.hcl.art).toBe('balance-scale')
+    expect(byId.koh.art).toBe('neuron')
+    expect(byId.water.art).toBeUndefined()
+    expect(byId.salt.art).toBeUndefined()
+  })
+})
+
 describe('fromLegacy treats success as the grading authority', () => {
   it('variable-model ignores a conflicting payload target', () => {
     const payload = {
