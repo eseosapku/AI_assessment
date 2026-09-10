@@ -26,26 +26,18 @@ import type { MaterialSpec } from './types'
  * real, verified CSS constraint: `ActivityFrame.tsx` sets `w-[420px]` on
  * the rendered card, so `CONTENT_WIDTH_PX` below is a measurement.
  *
- * The height (380) is not. `ActivityFrame.tsx` sets no `h-*` or `max-h-*`
- * anywhere — the rendered card is `height: auto`, sized entirely by its
- * content. `380` only feeds `blocks.ts` -> `autoPosition`/`layout.ts`'s
- * canvas node collision spacing, and `lib/studylab/actions.ts` pads that
- * same number with its own `HEIGHT_PAD` (120px) specifically because real
- * content is expected to exceed it. So `CARD_HEIGHT_ALLOWANCE_PX`, and
- * everything derived from it below (`CONTENT_HEIGHT_ALLOWANCE_PX`,
- * `maxRows`, `maxTotalSlots`), are not measurements of a ceiling that
- * exists today — there isn't one. They are a BUDGET this check enforces
- * ahead of a renderer that hasn't been built yet: material that fits the
- * budget is not thereby guaranteed to render without scrolling, but
- * material that doesn't fit it is definitely wrong.
+ * The height (380) is not a rendered ceiling on the card itself.
+ * `ActivityFrame.tsx` sets no `h-*` or `max-h-*` anywhere — the rendered
+ * card is `height: auto`, sized entirely by its content. `380` feeds
+ * `blocks.ts` -> `autoPosition`/`layout.ts`'s canvas node collision
+ * spacing, and `lib/studylab/actions.ts` pads that same number with its
+ * own `HEIGHT_PAD` (120px) because real content is expected to exceed it.
  *
- * Whichever renderer Stage 3 builds owes this budget an actual backstop —
- * either a real CSS `max-height` on the group/slot grid equal to
- * `MATERIAL_BOX.heightPx`, or a scrollable-zone pattern like
- * `CompareActivity.tsx`'s `ZONE_MAX_HEIGHT` (`overflow-y-auto` +
- * `maxHeight`, which IS enforced, not just advertised). Until one of those
- * lands, this half of `fitsInBox` is a promise the renderer hasn't been
- * made to keep yet, not decoration to be relied on as-is.
+ * `CARD_HEIGHT_ALLOWANCE_PX`, and everything derived from it below
+ * (`CONTENT_HEIGHT_ALLOWANCE_PX`, `maxRows`, `maxTotalSlots`), are the
+ * height budget `fitsInBox` enforces. The Stage 3 material shell **must**
+ * enforce the same budget as CSS `max-height` on the group/slot grid —
+ * `MATERIAL_BOX.heightPx` is that number, not a decorative hint.
  */
 const CARD_WIDTH_PX = 420
 const CARD_HEIGHT_ALLOWANCE_PX = 380
@@ -90,10 +82,9 @@ const CHROME_OUTSIDE_WRAPPER_PX =
 
 /**
  * What the height ALLOWANCE leaves inside the bordered, `p-3`-padded
- * children wrapper once its own border/padding come off — not a
- * measurement of available space (see `CARD_HEIGHT_ALLOWANCE_PX` above:
- * there is no ceiling today), but the budget a material's own group/slot
- * grid is held to.
+ * children wrapper once its own border/padding come off — the budget a
+ * material's own group/slot grid is held to, and the CSS `max-height` the
+ * Stage 3 material shell must set on that grid (`MATERIAL_BOX.heightPx`).
  * 380 - (2 + 32 + 24 + 30 + 24) - (2 + 24) = 242.
  */
 const CONTENT_HEIGHT_ALLOWANCE_PX =
@@ -157,18 +148,17 @@ const GROUP_CONTENT_HEIGHT_ALLOWANCE_PX = CONTENT_HEIGHT_ALLOWANCE_PX - GROUP_CH
  * Every number here is derived above from the card and its chrome, never
  * hand-picked — see the constants this object is built from for what each
  * one measures, and `CARD_HEIGHT_ALLOWANCE_PX` above for why the height
- * side of this object is a budget the renderer must honour, not a
- * measurement of a constraint that exists yet.
+ * side of this object is a budget the Stage 3 material shell enforces as
+ * CSS `max-height`.
  */
 export const MATERIAL_BOX = Object.freeze({
   /** Content width available to the material as a whole (all its groups
    * side by side), once `ActivityFrame`'s chrome is subtracted. A real,
    * measured constraint — see `CONTENT_WIDTH_PX` above. */
   widthPx: CONTENT_WIDTH_PX,
-  /** Content height BUDGET available to the material as a whole. Not a
-   * rendered constraint today (`ActivityFrame`'s card is `height: auto`)
-   * — see `CARD_HEIGHT_ALLOWANCE_PX` above for what backstops this owes
-   * the renderer. */
+  /** Content height budget for the material's group/slot grid. The Stage 3
+   * material shell **must** enforce this as CSS `max-height` — see
+   * `CONTENT_HEIGHT_ALLOWANCE_PX` above. */
   heightPx: CONTENT_HEIGHT_ALLOWANCE_PX,
   /** How many group zones fit side by side across `widthPx`, each needing
    * at minimum its own chrome plus one slot's width. */
@@ -180,10 +170,9 @@ export const MATERIAL_BOX = Object.freeze({
    * several groups each individually under this cap still overflowing the
    * whole box.) */
   maxSlotsPerRow: fitCount(GROUP_CONTENT_WIDTH_PX, SLOT_PX, SLOT_GAP_PX),
-  /** How many rows of slots the height BUDGET allows down a single group's
-   * own zone, below its label. See `CARD_HEIGHT_ALLOWANCE_PX` — this is a
-   * target the renderer must enforce, not a measurement of one that
-   * already exists. */
+  /** How many rows of slots fit down a single group's own zone, below its
+   * label, within `heightPx`. Derived from the same budget the material
+   * shell enforces as CSS `max-height`. */
   maxRows: fitCount(GROUP_CONTENT_HEIGHT_ALLOWANCE_PX, SLOT_PX, SLOT_GAP_PX),
   /**
    * An upper bound on how many slots the WHOLE box could hold, summed
@@ -196,9 +185,24 @@ export const MATERIAL_BOX = Object.freeze({
    * WHOLE content width to itself, so several groups can each pass their
    * own cap while their sum asks for more room than the box has ever had.
    * `fitsInBox` checks the sum against this number for exactly that case.
-   * Inherits the same height-budget caveat as `maxRows`.
+   * Derived from the same `heightPx` budget the material shell enforces.
    */
   maxTotalSlots: fitCount(CONTENT_WIDTH_PX, SLOT_PX, SLOT_GAP_PX) * fitCount(CONTENT_HEIGHT_ALLOWANCE_PX, SLOT_PX, SLOT_GAP_PX),
+  /** A single slot's footprint — icon plus chip padding. The renderer
+   * must size drop targets to this. See `SLOT_PX` above. */
+  slotPx: SLOT_PX,
+  /** Spacing between chips inside a group — Tailwind `gap-1.5`. See
+   * `SLOT_GAP_PX` above. */
+  slotGapPx: SLOT_GAP_PX,
+  /** Spacing between group zones — Tailwind `gap-2`. See `GRID_GAP_PX`
+   * above. */
+  gridGapPx: GRID_GAP_PX,
+  /** A group zone's border plus padding, before any slot is drawn. See
+   * `GROUP_CHROME_PX` above. */
+  groupChromePx: GROUP_CHROME_PX,
+  /** A group's label row above its slot grid. See `GROUP_LABEL_PX` above.
+   */
+  groupLabelPx: GROUP_LABEL_PX,
 })
 
 /**

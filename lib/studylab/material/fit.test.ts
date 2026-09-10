@@ -21,6 +21,14 @@ describe('MATERIAL_BOX', () => {
     expect(MATERIAL_BOX.maxSlotsPerRow).toBeGreaterThan(0)
     expect(MATERIAL_BOX.maxRows).toBeGreaterThan(0)
   })
+
+  it('exposes the chip and gap sizes the renderer must share', () => {
+    expect(MATERIAL_BOX.slotPx).toBeGreaterThan(0)
+    expect(MATERIAL_BOX.slotGapPx).toBeGreaterThan(0)
+    expect(MATERIAL_BOX.gridGapPx).toBeGreaterThan(0)
+    expect(MATERIAL_BOX.groupChromePx).toBeGreaterThan(0)
+    expect(MATERIAL_BOX.groupLabelPx).toBeGreaterThan(0)
+  })
 })
 
 describe('fitsInBox', () => {
