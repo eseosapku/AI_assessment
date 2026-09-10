@@ -4,7 +4,7 @@ Written to move this work between tools and people. Everything here was
 previously scattered across an assistant's private memory, a git-ignored
 ledger, and one long conversation — none of which travel. This file does.
 
-**Branch:** `aws_deploy`. **44 commits ahead of `origin/aws_deploy`, nothing
+**Branch:** `aws_deploy`. **64 commits ahead of `origin/aws_deploy`, nothing
 pushed.** `aws_deploy` is the deploy branch: pushing it deploys to the live
 product, so it is always an explicit decision, never a default.
 
@@ -14,7 +14,7 @@ product, so it is always an explicit decision, never a default.
 npx tsc --noEmit && npx vitest run
 ```
 
-Currently **119 test files / 1557 tests green, tsc clean**.
+Currently **121 test files / 1564 tests green, tsc clean**.
 `npm run lint` is broken project-wide (Next 16 removed `next lint`) — do not
 treat its failure as a regression.
 
@@ -43,7 +43,7 @@ shown to a student.
 Spec: `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`
 Plan: `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md`
 
-### Phase 2 — the composable engine (6 of 9 core tasks done)
+### Phase 2 — the composable engine (core done; live cutover 1 of 9)
 
 The nine patterns are the wrong *kind* of unit — whole finished apparatus
 rather than parts that combine. So the tutor can only ever pick from nine, never
@@ -91,11 +91,12 @@ Phase 2's code lives in `lib/studylab/material/`:
 | `validate.ts` | `validateMaterial` — composite gate, cheapest check first |
 | `canon/` | nine apparatus in a `Map`, each with `fromLegacy(payload, success?)` |
 
-**None of it is reachable from the app, and that is deliberate.** The plan stops
-before the renderer and before the tutor can call any of it, so the core is
-proven while a mistake still costs nothing.
+The core is now reachable through the first live renderer cutover: valid legacy
+`sort` activities mount the `sorting-frame` material through `ActivityNode`.
+The other eight patterns still use their legacy renderers, and the tutor still
+cannot author free-form composed materials.
 
-### Done in this continuation (Tasks 7–9 + Stage 3 cut 1)
+### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort)
 
 **Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
 parse → collidingNames → expression refs → hasCycle → isolation → fit →
@@ -114,13 +115,26 @@ plus conflicting payload-vs-success regressions.
 `docs/superpowers/specs/2026-09-10-material-renderer-dev-bench-design.md`):
 `MaterialRenderer` + `MaterialFrame` enforce `MATERIAL_BOX` as real CSS;
 `/dev/activities` mounts every canon base plus two `fromLegacy` samples.
-LearnSpace and the nine pattern components are untouched. Browser mouse-path
-checklist passed.
+The uncontrolled bench remains available for renderer regressions. Browser
+mouse-path checklist passed.
+
+**Stage 3b — live sort cutover:** `ActivityNode` converts valid legacy `sort`
+specs through the `sorting-frame` canon and mounts controlled
+`MaterialActivity` / `MaterialRenderer`. Browser mouse-path verification on
+`/dev/activities` confirmed material chips and slots, immediate wrong-drop
+refusal, full assignment remaining unsolved until **Check**, and **Check**
+solving the activity. The uncontrolled `MaterialBenchNode` also retained its
+match, mismatch-shake-and-spring-back, and automatic solved behavior.
+`SortActivity` remains in place as the fallback when legacy conversion returns
+`null`.
 
 ### Not done
 
-**Stage 3b** — swap `ActivityNode` to `MaterialRenderer` one apparatus at a time;
-delete each old renderer when its canon entry owns the live path.
+**Stage 3b, remaining eight cutovers** — `threePeriod`, `label`, `sequence`,
+`vary`, `balance`, `compare`, `scenario`, and `compose` still need to move to
+their canon apparatus through `ActivityNode`, one at a time. Retire a legacy
+renderer only when its canon entry owns the live path and its fallback decision
+has been made explicitly.
 
 **Stage 4** — `build_material` on the action union, vocabulary advertised from
 `MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`.
