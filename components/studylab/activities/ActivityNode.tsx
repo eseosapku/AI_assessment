@@ -2,6 +2,8 @@
 'use client'
 import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
+import { getApparatus } from '@/lib/studylab/material/canon'
+import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
 import { CardFrame } from '../canvasShared'
 import { SortActivity } from './SortActivity'
 import { ThreePeriodActivity } from './ThreePeriodActivity'
@@ -30,8 +32,31 @@ export function ActivityNode({ id, data }: NodeProps) {
     )
   }
   switch (spec.pattern) {
-    case 'sort':
-      return <SortActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
+    case 'sort': {
+      const material = getApparatus('sorting-frame')?.legacy?.fromLegacy(
+        spec.payload,
+        spec.success,
+      )
+      if (material) {
+        return (
+          <MaterialActivity
+            id={id}
+            spec={spec}
+            materialSpec={material}
+            onOutcome={emitActivityOutcome}
+            initialState={initialState}
+          />
+        )
+      }
+      return (
+        <SortActivity
+          id={id}
+          spec={spec}
+          onOutcome={emitActivityOutcome}
+          initialState={initialState}
+        />
+      )
+    }
     case 'threePeriod':
       return <ThreePeriodActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
     case 'sequence':
