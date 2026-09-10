@@ -4,7 +4,7 @@ Written to move this work between tools and people. Everything here was
 previously scattered across an assistant's private memory, a git-ignored
 ledger, and one long conversation — none of which travel. This file does.
 
-**Branch:** `aws_deploy`. **37 commits ahead of `origin/aws_deploy`, nothing
+**Branch:** `aws_deploy`. **44 commits ahead of `origin/aws_deploy`, nothing
 pushed.** `aws_deploy` is the deploy branch: pushing it deploys to the live
 product, so it is always an explicit decision, never a default.
 
@@ -14,7 +14,7 @@ product, so it is always an explicit decision, never a default.
 npx tsc --noEmit && npx vitest run
 ```
 
-Currently **117 test files / 1531 tests green, tsc clean**.
+Currently **119 test files / 1557 tests green, tsc clean**.
 `npm run lint` is broken project-wide (Next 16 removed `next lint`) — do not
 treat its failure as a regression.
 
@@ -73,8 +73,9 @@ Plan: `docs/superpowers/plans/2026-09-09-composable-material-engine-core.md`
 | | |
 |---|---|
 | Phase 1, all 9 tasks | `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md` |
-| Phase 2 core, Tasks 1-6 | vocabulary, scope, interpreter, isolation, fit, solvability |
+| Phase 2 core, Tasks 1-9 | vocabulary through canon; all nine apparatus + equivalence |
 | Montessori mode reachable | commit `286a002` |
+| Composite gate + canon | commits `f94a690..a6a8bdb` (Tasks 7–9, this continuation) |
 
 Phase 2's code lives in `lib/studylab/material/`:
 
@@ -87,45 +88,42 @@ Phase 2's code lives in `lib/studylab/material/`:
 | `isolation.ts` | `varyingTraits`, `checkIsolation` — one quality at a time |
 | `fit.ts` | `MATERIAL_BOX`, `fitsInBox` — can it actually be drawn |
 | `solvable.ts` | `isSolvable`, `MAX_STATES` — can it actually be finished |
+| `validate.ts` | `validateMaterial` — composite gate, cheapest check first |
+| `canon/` | nine apparatus in a `Map`, each with `fromLegacy(payload, success?)` |
 
 **None of it is reachable from the app, and that is deliberate.** The plan stops
 before the renderer and before the tutor can call any of it, so the core is
 proven while a mistake still costs nothing.
 
+### Done in this continuation (Tasks 7–9 + Stage 3 cut 1)
+
+**Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
+parse → collidingNames → expression refs → hasCycle → isolation → fit →
+solvability. Expression function names come from `EXPR_FUNCTION_NAMES` exported
+by `expr.ts` (one source with the evaluator).
+
+**Tasks 8–9 — the canon** under `lib/studylab/material/canon/`: nine apparatus in
+a `Map`, each `base` passes the gate, each `fromLegacy(payload, success?)`
+returns null rather than throwing. The optional `success` argument is a
+deliberate extension beyond the plan’s one-arg signature — legacy grading needs
+it for real equivalence. Equivalence suite covers solved/wrong/partial/untouched
+plus conflicting payload-vs-success regressions.
+
+**Stage 3 cut 1 — material renderer on the dev bench** (plan
+`docs/superpowers/plans/2026-09-10-material-renderer-dev-bench.md`, spec
+`docs/superpowers/specs/2026-09-10-material-renderer-dev-bench-design.md`):
+`MaterialRenderer` + `MaterialFrame` enforce `MATERIAL_BOX` as real CSS;
+`/dev/activities` mounts every canon base plus two `fromLegacy` samples.
+LearnSpace and the nine pattern components are untouched. Browser mouse-path
+checklist passed.
+
 ### Not done
 
-**Task 7 — the composite gate.** `lib/studylab/material/validate.ts`, one
-`validateMaterial(raw, maxVarying)` running the checks cheapest-first so an
-expensive search never runs on a spec a string comparison could reject. Its
-brief is fully written in the plan. **It carries three obligations the plan text
-alone does not state:**
+**Stage 3b** — swap `ActivityNode` to `MaterialRenderer` one apparatus at a time;
+delete each old renderer when its canon entry owns the live path.
 
-1. **Wire `hasCycle`.** It is exported and correct but nothing calls it, so a
-   cyclic rule set handed to `tick` silently returns a partial two-pass answer
-   instead of being refused.
-2. **Land expression-reference checking here.** `parseMaterialSpec` validates
-   structure only; checking what an expression *references* needs `scopeNames`,
-   which did not exist when parse was written. Every identifier in a rule's
-   expression must appear in `scopeNames(spec)`, and the reason must name the
-   offending identifier.
-3. **Consume `collidingNames`.** It was added for this gate and its doc comment
-   says so. A derive rule named `count_left` claims a name the board already
-   generates for itself.
-
-Its tests assert refusal wording by regex (`/could not be read/i`, `/cycle/i`,
-`/cannot be completed/i`) that the prose never states — **the tests are the
-contract** for that wording.
-
-**Tasks 8 and 9 — the canon.** Nine named apparatus written *in* the vocabulary
-(no second privileged mechanism), each carrying `fromLegacy` so a table-driven
-equivalence test can assert it agrees with the pattern it replaces on what
-counts as solved, across a solved / wrong / partial / untouched board. That
-agreement is what makes the eventual switchover possible without a flag day.
-
-**Stage 3 and 4 — a separate, unwritten plan.** A renderer that draws a
-`MaterialSpec`, replacing the nine renderers one at a time; then
-`build_material` on the action union, with the vocabulary advertised to the
-model *from* `MATERIAL_BOX` and the canon rather than restated by hand.
+**Stage 4** — `build_material` on the action union, vocabulary advertised from
+`MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`.
 
 ---
 
@@ -174,6 +172,15 @@ consumers (`label.ts`, `threePeriod.ts`) pair a piece id with a *content value*,
 never a slot id, and the canon's `matching-pairs` will want piece-to-piece — three
 different shapes. Whichever canon entry needs it first defines the mapping, with
 a test. A `pairing` material coming back unreachable today is expected.
+Labelled-diagram and three-period-cards therefore use `binAssignment` placement
+in the canon, not `pairing`.
+
+**`fromLegacy` needs the success rule.** The plan typed
+`fromLegacy(payload: unknown)` only, but legacy `validate(payload, work, success)`
+grades against a separate success rule. Converters that infer goals from payload
+metadata alone (defensible flags, `target`, all label-valid bonds) can agree with
+aligned fixtures and still mis-grade real lessons. The landed signature is
+`fromLegacy(payload, success?)` — when `success` is present it wins.
 
 **A failed expression leaves its name absent, never `0`.** `evaluateExpr`'s
 fail-closed return is the sentinel `null`; turning it into a number lets a
