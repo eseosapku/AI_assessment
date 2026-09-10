@@ -1,5 +1,5 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { BalancePayload } from '@/lib/studylab/activities/types'
+import type { BalancePayload, SuccessRule } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -26,7 +26,8 @@ const base: MaterialSpec = {
   goal: { kind: 'numericWithin', target: 0, tolerance: 0 },
 }
 
-function convert(payload: BalancePayload): MaterialSpec {
+function convert(payload: BalancePayload, success?: SuccessRule): MaterialSpec | null {
+  if (success && success.kind !== 'numericWithin') return null
   const items = [...payload.left, ...payload.right, ...payload.pool]
   const extent = items.reduce((sum, item) => sum + Math.abs(item.weight), 0)
   return {
@@ -48,7 +49,7 @@ function convert(payload: BalancePayload): MaterialSpec {
     ],
     displays: [{ id: 'beam', kind: 'beam', min: -extent, max: extent }],
     rules: [{ op: 'bind', target: 'beam', expr: 'sum_weight_left - sum_weight_right' }],
-    goal: { kind: 'numericWithin', target: 0, tolerance: 0 },
+    goal: success ?? { kind: 'numericWithin', target: 0, tolerance: 0 },
   }
 }
 
@@ -58,11 +59,13 @@ export const balanceBeam: Apparatus = {
   base,
   legacy: {
     pattern: 'balance',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('balance')
         if (!module?.isPayload(payload)) return null
-        const result = validateMaterial(convert(payload), 1)
+        const spec = convert(payload, success)
+        if (!spec) return null
+        const result = validateMaterial(spec, 1)
         return result.ok ? result.spec : null
       })
     },

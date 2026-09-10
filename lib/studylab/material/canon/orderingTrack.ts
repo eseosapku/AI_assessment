@@ -1,5 +1,5 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { SequencePayload } from '@/lib/studylab/activities/types'
+import type { SequencePayload, SuccessRule } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -23,7 +23,8 @@ const base: MaterialSpec = {
   goal: { kind: 'exactOrder', itemIds: ['first-card', 'second-card'] },
 }
 
-function convert(payload: SequencePayload): MaterialSpec {
+function convert(payload: SequencePayload, success?: SuccessRule): MaterialSpec | null {
+  if (success && success.kind !== 'exactOrder') return null
   return {
     prompt: 'Place the cards in order along the track.',
     pieces: payload.items.map((item, index) => ({
@@ -48,7 +49,7 @@ function convert(payload: SequencePayload): MaterialSpec {
       index,
     })),
     rules: [],
-    goal: { kind: 'exactOrder', itemIds: payload.items.map((item) => item.id) },
+    goal: success ?? { kind: 'exactOrder', itemIds: payload.items.map((item) => item.id) },
   }
 }
 
@@ -58,11 +59,12 @@ export const orderingTrack: Apparatus = {
   base,
   legacy: {
     pattern: 'sequence',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('sequence')
         if (!module?.isPayload(payload)) return null
-        const spec = convert(payload)
+        const spec = convert(payload, success)
+        if (!spec) return null
         const result = validateMaterial(spec, 1)
         return result.ok ? result.spec : null
       })

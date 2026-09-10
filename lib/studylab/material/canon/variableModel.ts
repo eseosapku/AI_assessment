@@ -1,5 +1,5 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { VaryPayload } from '@/lib/studylab/activities/types'
+import type { SuccessRule, VaryPayload } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { Display, MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -37,8 +37,14 @@ function displayFor(payload: VaryPayload): Display {
   }
 }
 
-function convert(payload: VaryPayload): MaterialSpec | null {
-  if (!payload.target) return null
+function convert(payload: VaryPayload, success?: SuccessRule): MaterialSpec | null {
+  if (success && success.kind !== 'numericWithin') return null
+  const goal = success ?? (
+    payload.target
+      ? { kind: 'numericWithin' as const, target: payload.target.value, tolerance: payload.target.tolerance }
+      : null
+  )
+  if (!goal) return null
   return {
     prompt: 'Move the control until the model reaches its target.',
     pieces: [
@@ -61,8 +67,8 @@ function convert(payload: VaryPayload): MaterialSpec | null {
     rules: [{ op: 'bind', target: 'model', expr: payload.variable.id }],
     goal: {
       kind: 'numericWithin',
-      target: payload.target.value,
-      tolerance: Math.max(payload.target.tolerance, payload.variable.step / 2),
+      target: goal.target,
+      tolerance: Math.max(goal.tolerance, payload.variable.step / 2),
     },
   }
 }
@@ -73,11 +79,11 @@ export const variableModel: Apparatus = {
   base,
   legacy: {
     pattern: 'vary',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('vary')
         if (!module?.isPayload(payload)) return null
-        const spec = convert(payload)
+        const spec = convert(payload, success)
         if (!spec) return null
         const result = validateMaterial(spec, 1)
         return result.ok ? result.spec : null

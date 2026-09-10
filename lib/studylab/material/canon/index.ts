@@ -1,4 +1,4 @@
-import type { ActivityPattern } from '@/lib/studylab/activities/types'
+import type { ActivityPattern, SuccessRule } from '@/lib/studylab/activities/types'
 import type { MaterialSpec } from '../types'
 import { sortingFrame } from './sortingFrame'
 import { orderingTrack } from './orderingTrack'
@@ -19,7 +19,7 @@ export interface Apparatus {
   /** The legacy pattern this replaces, and how to convert its payload. */
   legacy?: {
     pattern: ActivityPattern
-    fromLegacy(payload: unknown): MaterialSpec | null
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null
   }
 }
 

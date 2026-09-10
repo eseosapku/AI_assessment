@@ -4,6 +4,7 @@ import { validateMaterial } from '../validate'
 import { tick } from '../interpreter'
 import { getPatternModule } from '@/lib/studylab/activities/registry'
 import type { MaterialState } from '../types'
+import type { SuccessRule } from '@/lib/studylab/activities/types'
 
 const placed = (
   placement: Record<string, string>,
@@ -270,7 +271,7 @@ describe('every apparatus that replaces a pattern agrees with it', () => {
 
   for (const c of CASES) {
     it(`${c.apparatus} calls the same boards solved as ${c.pattern}`, () => {
-      const spec = getApparatus(c.apparatus)!.legacy!.fromLegacy(c.payload)!
+      const spec = getApparatus(c.apparatus)!.legacy!.fromLegacy(c.payload, c.success as SuccessRule)!
       const legacy = getPatternModule(c.pattern as never)!
       for (const [index, placement] of c.placements.entries()) {
         const controls = c.controls?.[index] ?? {}
@@ -287,4 +288,67 @@ describe('every apparatus that replaces a pattern agrees with it', () => {
       }
     })
   }
+})
+
+describe('fromLegacy treats success as the grading authority', () => {
+  it('variable-model ignores a conflicting payload target', () => {
+    const payload = {
+      variable: { id: 'value', label: 'Value', min: 0, max: 10, step: 1 },
+      model: { kind: 'bars' as const, bars: [{ label: 'Value', expr: 'value', max: 10 }] },
+      readouts: [],
+      target: { expr: 'value', value: 2, tolerance: 0 },
+    }
+    const success = { kind: 'numericWithin' as const, target: 8, tolerance: 0 }
+    const spec = getApparatus('variable-model')!.legacy!.fromLegacy(payload, success)!
+
+    expect(tick(spec, placed({}, { value: 8 })).solved).toBe(true)
+    expect(tick(spec, placed({}, { value: 2 })).solved).toBe(false)
+  })
+
+  it('decision-branch follows success even when defensible metadata disagrees', () => {
+    const payload = {
+      situation: 'Choose one.',
+      choices: [
+        { id: 'marked', label: 'Marked defensible', consequence: 'No.', defensible: true },
+        { id: 'answer', label: 'Actual answer', consequence: 'Yes.', defensible: false },
+      ],
+    }
+    const success = { kind: 'exactSet' as const, itemIds: ['answer'] }
+    const spec = getApparatus('decision-branch')!.legacy!.fromLegacy(payload, success)!
+
+    expect(tick(spec, placed({ answer: 's-chosen' })).solved).toBe(true)
+    expect(tick(spec, placed({ marked: 's-chosen' })).solved).toBe(false)
+  })
+
+  it('bonding-ring requires only the success subset of label-valid bonds', () => {
+    const payload = {
+      parts: [
+        { id: 'o', label: 'O', slots: 2 },
+        { id: 'h1', label: 'H', slots: 1 },
+        { id: 'h2', label: 'H', slots: 1 },
+      ],
+      validJoins: [{ a: 'H', b: 'O' }],
+      target: { label: 'Hydroxyl' },
+    }
+    const success = { kind: 'exactSet' as const, itemIds: ['h1-o'] }
+    const spec = getApparatus('bonding-ring')!.legacy!.fromLegacy(payload, success)!
+
+    expect(tick(spec, placed({ 'bond-h1-o': 's-joined' })).solved).toBe(true)
+    expect(tick(spec, placed({ 'bond-h2-o': 's-joined' })).solved).toBe(false)
+  })
+
+  it('bonding-ring rejects required degrees above a part slot count', () => {
+    const payload = {
+      parts: [
+        { id: 'o', label: 'O', slots: 1 },
+        { id: 'h1', label: 'H', slots: 1 },
+        { id: 'h2', label: 'H', slots: 1 },
+      ],
+      validJoins: [{ a: 'H', b: 'O' }],
+      target: { label: 'Impossible' },
+    }
+    const success = { kind: 'exactSet' as const, itemIds: ['h1-o', 'h2-o'] }
+
+    expect(getApparatus('bonding-ring')!.legacy!.fromLegacy(payload, success)).toBeNull()
+  })
 })

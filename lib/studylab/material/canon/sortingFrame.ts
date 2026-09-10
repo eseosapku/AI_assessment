@@ -1,5 +1,5 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { SortPayload } from '@/lib/studylab/activities/types'
+import type { SortPayload, SuccessRule } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -26,7 +26,8 @@ const base: MaterialSpec = {
   goal: { kind: 'binAssignment', assign: { 'warm-tile': 'warm', 'cool-tile': 'cool' } },
 }
 
-function convert(payload: SortPayload): MaterialSpec {
+function convert(payload: SortPayload, success?: SuccessRule): MaterialSpec | null {
+  if (success && success.kind !== 'binAssignment') return null
   const counts = new Map<string, number>()
   for (const item of payload.items) {
     counts.set(item.binId, (counts.get(item.binId) ?? 0) + 1)
@@ -53,7 +54,7 @@ function convert(payload: SortPayload): MaterialSpec {
       selector: { trait: 'category' as const, equals: bin.id },
       groupId: bin.id,
     })),
-    goal: {
+    goal: success ?? {
       kind: 'binAssignment',
       assign: Object.fromEntries(payload.items.map((item) => [item.id, item.binId])),
     },
@@ -66,11 +67,12 @@ export const sortingFrame: Apparatus = {
   base,
   legacy: {
     pattern: 'sort',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('sort')
         if (!module?.isPayload(payload)) return null
-        const spec = convert(payload)
+        const spec = convert(payload, success)
+        if (!spec) return null
         const result = validateMaterial(spec, 1)
         return result.ok ? result.spec : null
       })

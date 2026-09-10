@@ -1,5 +1,5 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { ComparePayload } from '@/lib/studylab/activities/types'
+import type { ComparePayload, SuccessRule } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -29,7 +29,8 @@ const base: MaterialSpec = {
   },
 }
 
-function convert(payload: ComparePayload): MaterialSpec {
+function convert(payload: ComparePayload, success?: SuccessRule): MaterialSpec | null {
+  if (success && success.kind !== 'binAssignment') return null
   return {
     prompt: 'Place each item in the left, right, or shared set.',
     pieces: payload.items.map((item) => ({
@@ -52,7 +53,7 @@ function convert(payload: ComparePayload): MaterialSpec {
     ],
     // Compare permits wrong placements to stand until the learner checks.
     rules: [],
-    goal: {
+    goal: success ?? {
       kind: 'binAssignment',
       assign: Object.fromEntries(payload.items.map((item) => [item.id, item.belongs])),
     },
@@ -65,12 +66,13 @@ export const vennSets: Apparatus = {
   base,
   legacy: {
     pattern: 'compare',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('compare')
         if (!module?.isPayload(payload)) return null
         if (!payload.items.every((item: { label?: unknown }) => typeof item.label === 'string')) return null
-        const spec = convert(payload)
+        const spec = convert(payload, success)
+        if (!spec) return null
         const result = validateMaterial(spec, 2)
         return result.ok ? result.spec : null
       })

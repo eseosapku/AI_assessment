@@ -1,6 +1,6 @@
 import { joinId } from '@/lib/studylab/activities/patterns/compose'
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { ComposePayload } from '@/lib/studylab/activities/types'
+import type { ComposePayload, SuccessRule } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -53,28 +53,67 @@ const base: MaterialSpec = {
   },
 }
 
-function convert(payload: ComposePayload): MaterialSpec | null {
-  const bonds = possibleBonds(payload)
-  if (bonds.length === 0 || new Set(bonds.map((bond) => bond.id)).size !== bonds.length) return null
+function convert(payload: ComposePayload, success?: SuccessRule): MaterialSpec | null {
+  const candidates = possibleBonds(payload)
+  if (
+    candidates.length === 0 ||
+    new Set(candidates.map((bond) => bond.id)).size !== candidates.length ||
+    (success && success.kind !== 'exactSet')
+  ) return null
+
+  const wanted = success
+    ? [...new Set(success.itemIds)]
+    : candidates.map((bond) => joinId(bond.from, bond.to))
+  if (wanted.length === 0) return null
+
+  const bonds: Bond[] = []
+  for (const wantedId of wanted) {
+    const bond = candidates.find((candidate) => joinId(candidate.from, candidate.to) === wantedId)
+    if (!bond) return null
+    bonds.push(bond)
+  }
+
+  // compose.accepts() refuses a join after either endpoint has exhausted its
+  // slots. A success rule asking for a higher degree is therefore unreachable
+  // in legacy and must not become a supposedly-solvable canon material.
+  const degree = new Map<string, number>()
+  for (const bond of bonds) {
+    degree.set(bond.from, (degree.get(bond.from) ?? 0) + 1)
+    degree.set(bond.to, (degree.get(bond.to) ?? 0) + 1)
+  }
+  if (payload.parts.some((part) => (degree.get(part.id) ?? 0) > part.slots)) return null
+
+  const requiredIds = new Set(bonds.map((bond) => bond.id))
+  const bondValues = new Map(candidates.map((bond, index) => [bond.id, 2 ** index]))
+  const target = candidates.reduce(
+    (sum, bond) => sum + (requiredIds.has(bond.id) ? bondValues.get(bond.id)! : 0),
+    0,
+  )
+  const max = [...bondValues.values()].reduce((sum, value) => sum + value, 0)
+
   return {
-    prompt: `Build ${payload.target.label} by moving every valid bond into the ring.`,
-    pieces: bonds.map((bond, index) => ({
+    prompt: `Build ${payload.target.label} by moving every required bond into the ring.`,
+    pieces: candidates.map((bond) => ({
       id: bond.id,
       label: `${payload.parts.find((part) => part.id === bond.from)!.label}—${payload.parts.find((part) => part.id === bond.to)!.label}`,
-      traits: { bond: index },
+      // Powers of two give every subset a unique sum, so both a missing
+      // required bond and an extra valid-but-unrequired bond remain wrong.
+      traits: { bondValue: bondValues.get(bond.id)! },
     })),
     groups: [
       { id: 'joined', label: 'Bonding ring', ordered: false },
       { id: 'pool', label: 'Available bonds', ordered: false },
     ],
     slots: [
-      { id: 's-joined', groupId: 'joined', x: 0, y: 0, capacity: bonds.length },
-      { id: 's-pool', groupId: 'pool', x: 0, y: 1, capacity: bonds.length },
+      { id: 's-joined', groupId: 'joined', x: 0, y: 0, capacity: candidates.length },
+      { id: 's-pool', groupId: 'pool', x: 0, y: 1, capacity: candidates.length },
     ],
-    rules: [],
+    displays: [{ id: 'bond-count', kind: 'gauge', min: 0, max }],
+    rules: [{ op: 'bind', target: 'bond-count', expr: 'sum_bondValue_joined' }],
     goal: {
-      kind: 'binAssignment',
-      assign: Object.fromEntries(bonds.map((bond) => [bond.id, 'joined'])),
+      kind: 'numericWithin',
+      target,
+      tolerance: 0,
     },
   }
 }
@@ -85,11 +124,11 @@ export const bondingRing: Apparatus = {
   base,
   legacy: {
     pattern: 'compose',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('compose')
         if (!module?.isPayload(payload)) return null
-        const spec = convert(payload)
+        const spec = convert(payload, success)
         if (!spec) return null
         const result = validateMaterial(spec, 1)
         return result.ok ? result.spec : null

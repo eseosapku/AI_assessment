@@ -1,5 +1,5 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { LabelPayload } from '@/lib/studylab/activities/types'
+import type { LabelPayload, SuccessRule } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -26,7 +26,25 @@ const base: MaterialSpec = {
   goal: { kind: 'binAssignment', assign: { Nucleus: 'nucleus', Membrane: 'membrane' } },
 }
 
-function convert(payload: LabelPayload): MaterialSpec {
+function convert(payload: LabelPayload, success?: SuccessRule): MaterialSpec | null {
+  let assign: Record<string, string>
+  if (success) {
+    if (success.kind !== 'pairing' || success.pairs.length !== payload.hotspots.length) return null
+    assign = {}
+    const usedHotspots = new Set<string>()
+    for (const [hotspotId, label] of success.pairs) {
+      if (
+        usedHotspots.has(hotspotId) ||
+        assign[label] !== undefined ||
+        !payload.hotspots.some((hotspot) => hotspot.id === hotspotId) ||
+        !payload.hotspots.some((hotspot) => hotspot.label === label)
+      ) return null
+      usedHotspots.add(hotspotId)
+      assign[label] = hotspotId
+    }
+  } else {
+    assign = Object.fromEntries(payload.hotspots.map((hotspot) => [hotspot.label, hotspot.id]))
+  }
   return {
     prompt: 'Place each label on its matching hotspot.',
     // Label accepts() compares the hotspot label with move.itemId, so the
@@ -55,7 +73,7 @@ function convert(payload: LabelPayload): MaterialSpec {
     })),
     goal: {
       kind: 'binAssignment',
-      assign: Object.fromEntries(payload.hotspots.map((hotspot) => [hotspot.label, hotspot.id])),
+      assign,
     },
   }
 }
@@ -66,11 +84,13 @@ export const labelledDiagram: Apparatus = {
   base,
   legacy: {
     pattern: 'label',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('label')
         if (!module?.isPayload(payload)) return null
-        const result = validateMaterial(convert(payload), 1)
+        const spec = convert(payload, success)
+        if (!spec) return null
+        const result = validateMaterial(spec, 1)
         return result.ok ? result.spec : null
       })
     },

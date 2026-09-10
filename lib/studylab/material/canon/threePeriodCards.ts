@@ -1,5 +1,5 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
-import type { ThreePeriodPayload } from '@/lib/studylab/activities/types'
+import type { SuccessRule, ThreePeriodPayload } from '@/lib/studylab/activities/types'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -33,7 +33,22 @@ const base: MaterialSpec = {
   },
 }
 
-function convert(payload: ThreePeriodPayload): MaterialSpec {
+function convert(payload: ThreePeriodPayload, success?: SuccessRule): MaterialSpec | null {
+  if (new Set(payload.items.map((item) => item.label)).size !== payload.items.length) return null
+  let assign: Record<string, string>
+  if (success) {
+    if (success.kind !== 'pairing' || success.pairs.length !== payload.items.length) return null
+    assign = {}
+    for (const [pieceId, answerLabel] of success.pairs) {
+      if (assign[pieceId] !== undefined || !payload.items.some((item) => item.id === pieceId)) return null
+      const answer = payload.items.find((item) => item.label === answerLabel)
+      if (!answer) return null
+      assign[pieceId] = answerGroupId(answer.id)
+    }
+    if (Object.keys(assign).length !== payload.items.length) return null
+  } else {
+    assign = Object.fromEntries(payload.items.map((item) => [item.id, answerGroupId(item.id)]))
+  }
   return {
     prompt: 'Place each recall card with the name it answers.',
     pieces: payload.items.map((item) => ({
@@ -53,16 +68,14 @@ function convert(payload: ThreePeriodPayload): MaterialSpec {
       y: 0,
       capacity: 1,
     })),
-    rules: payload.items.map((item) => ({
-      op: 'allow' as const,
-      selector: { trait: 'answer' as const, equals: item.id },
-      groupId: answerGroupId(item.id),
-    })),
+    // Legacy threePeriod has no accepts(): an incorrect recall answer must be
+    // placeable so the supplied pairing rule, not payload order, grades it.
+    rules: [],
     // Do not use pairing: the interpreter intentionally has no settled
     // conversion for its three incompatible legacy/canon meanings.
     goal: {
       kind: 'binAssignment',
-      assign: Object.fromEntries(payload.items.map((item) => [item.id, answerGroupId(item.id)])),
+      assign,
     },
   }
 }
@@ -73,13 +86,14 @@ export const threePeriodCards: Apparatus = {
   base,
   legacy: {
     pattern: 'threePeriod',
-    fromLegacy(payload: unknown): MaterialSpec | null {
+    fromLegacy(payload: unknown, success?: SuccessRule): MaterialSpec | null {
       return safeFromLegacy(() => {
         const module = getPatternModule('threePeriod')
         if (!module?.isPayload(payload)) return null
         if (!payload.phases.every((phase: unknown) =>
           phase === 'present' || phase === 'identify' || phase === 'recall')) return null
-        const spec = convert(payload)
+        const spec = convert(payload, success)
+        if (!spec) return null
         const result = validateMaterial(spec, 1)
         return result.ok ? result.spec : null
       })
