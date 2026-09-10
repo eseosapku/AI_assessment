@@ -61,6 +61,8 @@ export function MaterialActivity({
       work: { assign: {} },
     }
   })
+  const activityRef = useRef(activity)
+  activityRef.current = activity
   const [materialState, setMaterialState] = useState<MaterialState>(() =>
     seedMaterialState(materialSpec, activity),
   )
@@ -68,6 +70,8 @@ export function MaterialActivity({
   const [revealed, setRevealed] = useState(activity.status === 'solved')
 
   const persistActivity = useCallback((next: ActivityState) => {
+    // Refusal and placement callbacks can fire before React renders between them.
+    activityRef.current = next
     setActivity(next)
     onNodeDataChange?.(id, { activityState: next })
   }, [id, onNodeDataChange])
@@ -75,30 +79,33 @@ export function MaterialActivity({
   const handleStateChange = useCallback((next: MaterialState) => {
     setMaterialState(next)
     const assign = placementToAssign(next.placement)
+    const latest = activityRef.current
     persistActivity({
-      ...activity,
+      ...latest,
       work: { assign },
-      status: activity.status === 'solved' ? 'solved' : 'in_progress',
+      status: latest.status === 'solved' ? 'solved' : 'in_progress',
     })
-  }, [activity, persistActivity])
+  }, [persistActivity])
 
   const handleRefusal = useCallback((pieceId: string, slotId: string) => {
     const targetId = binIdFromSlot(slotId) ?? slotId
+    const latest = activityRef.current
     persistActivity({
-      ...activity,
-      status: activity.status === 'solved' ? 'solved' : 'in_progress',
-      rejectedMoves: [...(activity.rejectedMoves ?? []), { itemId: pieceId, targetId }],
+      ...latest,
+      status: latest.status === 'solved' ? 'solved' : 'in_progress',
+      rejectedMoves: [...(latest.rejectedMoves ?? []), { itemId: pieceId, targetId }],
     })
-  }, [activity, persistActivity])
+  }, [persistActivity])
 
   const check = useCallback(() => {
     const tickResult = tick(materialSpec, materialState)
     const assign = placementToAssign(materialState.placement)
     const work: SortWork = { assign }
     const attempts = activity.attempts + 1
-    const validate = tickResult.solved
-      ? { ok: true as const, wrongIds: [] as string[] }
-      : sortModule.validate(spec.payload as never, work, spec.success)
+    const failedWrongIds = tickResult.solved
+      ? []
+      : sortModule.validate(spec.payload as never, work, spec.success).wrongIds
+    const validate = { ok: tickResult.solved, wrongIds: failedWrongIds }
     const next: ActivityState = {
       ...activity,
       attempts,
