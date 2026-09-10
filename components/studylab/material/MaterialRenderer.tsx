@@ -33,19 +33,20 @@ export function MaterialRenderer({ spec, resetKey }: { spec: MaterialSpec; reset
   const slotIds = spec.slots.map((slot) => slot.id)
 
   const place = useCallback((pieceId: string, slotId: string) => {
-    setState((current) => {
-      const moved = applyMove(spec, current, { pieceId, slotId })
-      if (moved.placement[pieceId] === current.placement[pieceId]) {
-        const piece = rootRef.current?.querySelector(`[data-item="${CSS.escape(pieceId)}"]`)
-        shakeElement(piece, REFUSAL_KEYFRAMES)
-      }
-      const movedResult = tick(spec, moved)
-      return {
-        ...moved,
-        status: movedResult.solved ? 'solved' : 'in_progress',
-      }
-    })
-  }, [spec])
+    const moved = applyMove(spec, state, { pieceId, slotId })
+    const refused = moved.rejectedMoves.length > state.rejectedMoves.length
+    const movedResult = tick(spec, moved)
+    const next: MaterialState = {
+      ...moved,
+      status: movedResult.solved ? 'solved' : 'in_progress',
+    }
+
+    if (refused) {
+      const piece = rootRef.current?.querySelector(`[data-item="${CSS.escape(pieceId)}"]`)
+      shakeElement(piece, REFUSAL_KEYFRAMES)
+    }
+    setState(next)
+  }, [spec, state])
 
   const drag = useActivityDrag(place)
 
