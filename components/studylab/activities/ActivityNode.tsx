@@ -4,7 +4,7 @@ import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
-import { sortAdapter } from '@/components/studylab/material/adapters'
+import { sortAdapter, sequenceAdapter } from '@/components/studylab/material/adapters'
 import { CardFrame } from '../canvasShared'
 import { SortActivity } from './SortActivity'
 import { ThreePeriodActivity } from './ThreePeriodActivity'
@@ -61,8 +61,32 @@ export function ActivityNode({ id, data }: NodeProps) {
     }
     case 'threePeriod':
       return <ThreePeriodActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
-    case 'sequence':
-      return <SequenceActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
+    case 'sequence': {
+      const material = getApparatus('ordering-track')?.legacy?.fromLegacy(
+        spec.payload,
+        spec.success,
+      )
+      if (material) {
+        return (
+          <MaterialActivity
+            id={id}
+            spec={spec}
+            materialSpec={material}
+            adapter={sequenceAdapter}
+            onOutcome={emitActivityOutcome}
+            initialState={initialState}
+          />
+        )
+      }
+      return (
+        <SequenceActivity
+          id={id}
+          spec={spec}
+          onOutcome={emitActivityOutcome}
+          initialState={initialState}
+        />
+      )
+    }
     case 'compare':
       return <CompareActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
     case 'label':

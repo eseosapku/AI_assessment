@@ -101,6 +101,22 @@ const composeSpec: ActivitySpec = {
   success: { kind: 'exactSet', itemIds: ['h1-o1', 'h2-o1'] },
 }
 
+const sequenceSpec: ActivitySpec = {
+  pattern: 'sequence',
+  prompt: 'Put the steps in order.',
+  payload: {
+    items: [
+      { id: 'one', label: 'First' },
+      { id: 'two', label: 'Second' },
+      { id: 'three', label: 'Third' },
+    ],
+    orientation: 'horizontal',
+  },
+  success: { kind: 'exactOrder', itemIds: ['one', 'two', 'three'] },
+  hints: ['Start with what happens first.'],
+  reveal: 'The order is First → Second → Third.',
+}
+
 // Weights must vary — isolation refuses a material whose pieces are identical.
 const legacyBalancePayload = {
   left: [],
@@ -159,6 +175,7 @@ const initialNodes: Node[] = [
   specNode('n-balance', balanceSpec, 420, 0),
   specNode('n-compare', compareSpec, 840, 0),
   specNode('n-compose', composeSpec, 1260, 0),
+  specNode('n-sequence', sequenceSpec, 1680, 0),
   {
     id: 'n-material',
     type: 'material',
