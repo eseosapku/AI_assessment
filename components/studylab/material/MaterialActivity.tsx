@@ -1,31 +1,31 @@
 'use client'
 import { useCallback, useContext, useRef, useState } from 'react'
 import type { ActivitySpec, ActivityState } from '@/lib/studylab/activities/types'
-import { sortModule, type SortWork } from '@/lib/studylab/activities/patterns/sort'
 import { buildOutcome } from '@/lib/studylab/activities/telemetry'
 import { createInitialMaterialState } from '@/lib/studylab/material/initialState'
 import { tick } from '@/lib/studylab/material/interpreter'
 import type { MaterialSpec, MaterialState } from '@/lib/studylab/material/types'
-import {
-  assignToPlacement,
-  binIdFromSlot,
-  placementToAssign,
-} from '@/lib/studylab/material/sortPlacement'
 import { CanvasContext } from '@/components/studylab/canvasShared'
+import type { MaterialWorkAdapter } from './adapters'
 import { MaterialRenderer } from './MaterialRenderer'
 
 const HINT_AFTER_ATTEMPTS = 2
 
-function seedMaterialState(materialSpec: MaterialSpec, initial?: ActivityState): MaterialState {
+function seedMaterialState(
+  materialSpec: MaterialSpec,
+  adapter: MaterialWorkAdapter,
+  initial?: ActivityState,
+): MaterialState {
   const base = createInitialMaterialState(materialSpec)
-  const assign = (initial?.work as SortWork | undefined)?.assign ?? {}
-  const hasAssign = Object.keys(assign).length > 0
+  const work = (initial?.work as Record<string, unknown> | undefined) ?? {}
+  const placement = adapter.placementFromWork(work, materialSpec)
+  const hasWork = Object.keys(placement).length > 0
   return {
     ...base,
-    placement: hasAssign ? assignToPlacement(assign) : base.placement,
+    placement: hasWork ? placement : base.placement,
     status: initial?.status === 'solved'
       ? 'solved'
-      : hasAssign
+      : hasWork
         ? 'in_progress'
         : base.status,
     rejectedMoves: [], // material-shaped; activity rejects live in ActivityState
@@ -36,12 +36,14 @@ export function MaterialActivity({
   id,
   spec,
   materialSpec,
+  adapter,
   onOutcome,
   initialState,
 }: {
   id: string
   spec: ActivitySpec
   materialSpec: MaterialSpec
+  adapter: MaterialWorkAdapter
   onOutcome: (o: unknown) => void
   initialState?: ActivityState
 }) {
@@ -58,13 +60,13 @@ export function MaterialActivity({
       hintsUsed: initialState?.hintsUsed ?? 0,
       elapsedMs: initialState?.elapsedMs ?? 0,
       rejectedMoves: initialState?.rejectedMoves ?? [],
-      work: { assign: {} },
+      work: adapter.freshWork(spec.payload, spec.seed),
     }
   })
   const activityRef = useRef(activity)
   activityRef.current = activity
   const [materialState, setMaterialState] = useState<MaterialState>(() =>
-    seedMaterialState(materialSpec, activity),
+    seedMaterialState(materialSpec, adapter, activity),
   )
   const [wrongIds, setWrongIds] = useState<string[]>([])
   const [revealed, setRevealed] = useState(activity.status === 'solved')
@@ -78,38 +80,41 @@ export function MaterialActivity({
 
   const handleStateChange = useCallback((next: MaterialState) => {
     setMaterialState(next)
-    const assign = placementToAssign(next.placement)
+    const work = adapter.workFromPlacement(next.placement, materialSpec, spec.payload)
     const latest = activityRef.current
     persistActivity({
       ...latest,
-      work: { assign },
+      work,
       status: latest.status === 'solved' ? 'solved' : 'in_progress',
     })
-  }, [persistActivity])
+  }, [adapter, materialSpec, persistActivity, spec.payload])
 
   const handleRefusal = useCallback((pieceId: string, slotId: string) => {
-    const targetId = binIdFromSlot(slotId) ?? slotId
+    const targetId = adapter.refusalTarget(slotId)
     const latest = activityRef.current
     persistActivity({
       ...latest,
       status: latest.status === 'solved' ? 'solved' : 'in_progress',
       rejectedMoves: [...(latest.rejectedMoves ?? []), { itemId: pieceId, targetId }],
     })
-  }, [persistActivity])
+  }, [adapter, persistActivity])
 
   const check = useCallback(() => {
     const tickResult = tick(materialSpec, materialState)
-    const assign = placementToAssign(materialState.placement)
-    const work: SortWork = { assign }
+    const work = adapter.workFromPlacement(
+      materialState.placement,
+      materialSpec,
+      spec.payload,
+    )
     const attempts = activity.attempts + 1
     const failedWrongIds = tickResult.solved
       ? []
-      : sortModule.validate(spec.payload as never, work, spec.success).wrongIds
+      : adapter.wrongIdsWhenUnsolved(spec.payload, work, spec.success)
     const validate = { ok: tickResult.solved, wrongIds: failedWrongIds }
     const next: ActivityState = {
       ...activity,
       attempts,
-      work: { assign },
+      work,
       status: validate.ok ? 'solved' : 'in_progress',
       elapsedMs: Date.now() - startedAt.current,
     }
@@ -120,7 +125,7 @@ export function MaterialActivity({
       setMaterialState({ ...materialState, status: 'solved' })
     }
     onOutcome(buildOutcome(id, spec.pattern, next, validate))
-  }, [activity, id, materialSpec, materialState, onOutcome, persistActivity, spec])
+  }, [activity, adapter, id, materialSpec, materialState, onOutcome, persistActivity, spec])
 
   const hintAvailable =
     (spec.hints?.length ?? 0) > 0 && activity.attempts >= HINT_AFTER_ATTEMPTS
