@@ -134,21 +134,16 @@ match, mismatch-shake-and-spring-back, and automatic solved behavior.
 `MaterialActivity` with `sequenceAdapter`. Browser verification on
 `/dev/activities` (`n-sequence`) confirmed: material prompt and Position
 slots; pieces appear already on the track in a shuffled full order (not an
-empty pool); wrong-order **Check** stays unsolved and paints `wrongIds`;
-occupied-slot drops refuse with the shake path. **Not browser-verified:**
-reordering a fully occupied track to the correct order, and therefore
-correct-order **Check** solving — capacity-1 slots block moves onto occupied
-targets, and there is no clear-to-pool gesture, so the student cannot finish a
-shuffled start via the material renderer yet. Uncontrolled bench
-`ordering-track` still works (pool → empty slots → auto-Solved). `n-sort`
-smoke still shows material chips/slots + **Check**. `SequenceActivity` remains
-the fallback when `fromLegacy` returns `null`.
+empty pool); wrong-order **Check** stays unsolved and paints `wrongIds`.
+**Capacity-1 swap** is implemented in `allowsMove`/`applyMove`: dropping onto
+a full capacity-1 slot exchanges with the sole occupant (or returns them to
+the pool if the mover was unplaced), so a shuffled full order can be
+reordered without clear-to-pool. Capacity > 1 still refuses when full.
+Uncontrolled bench `ordering-track` still works (pool → empty slots →
+auto-Solved). `n-sort` smoke still shows material chips/slots + **Check**.
+`SequenceActivity` remains the fallback when `fromLegacy` returns `null`.
 
 ### Not done
-
-**Stage 3b sequence follow-up** — swap or clear-to-pool so a shuffled full
-order can be corrected on `ordering-track` (blocks correct-order Check in the
-live path).
 
 **Stage 3b, remaining seven cutovers** — `threePeriod`, `label`, `vary`,
 `balance`, `compare`, `scenario`, and `compose` still need to move to their

@@ -219,15 +219,30 @@ export function tick(spec: MaterialSpec, state: MaterialState): TickResult {
   return { scope, displays, says, solved }
 }
 
+/** Other pieces currently sitting in `slotId` (excludes the mover). */
+function otherOccupants(state: MaterialState, slotId: string, moverId: string): string[] {
+  return Object.entries(state.placement)
+    .filter(([pieceId, placedSlot]) => placedSlot === slotId && pieceId !== moverId)
+    .map(([pieceId]) => pieceId)
+}
+
+/**
+ * Capacity-1 swap: a full single-seat slot can accept a drop by exchanging
+ * with its sole occupant. Capacity > 1 stays a hard refuse when full.
+ */
+function isCapacity1Swap(slot: { capacity: number }, occupants: string[]): boolean {
+  return slot.capacity === 1 && occupants.length === 1
+}
+
 export function allowsMove(spec: MaterialSpec, state: MaterialState, move: { pieceId: string; slotId: string }): boolean {
   const slot = spec.slots.find((s) => s.id === move.slotId)
   const piece = spec.pieces.find((p) => p.id === move.pieceId)
   if (!slot || !piece) return false
 
-  // Capacity — a slot already full refuses anything else, regardless of `allow`.
-  const occupants = Object.entries(state.placement)
-    .filter(([pieceId, slotId]) => slotId === slot.id && pieceId !== move.pieceId).length
-  if (occupants >= slot.capacity) return false
+  // Capacity — a slot already full refuses anything else, regardless of `allow`,
+  // except a capacity-1 swap with the single occupant.
+  const occupants = otherOccupants(state, slot.id, move.pieceId)
+  if (occupants.length >= slot.capacity && !isCapacity1Swap(slot, occupants)) return false
 
   // `allow` — control of error at the moment of action. A group nobody
   // constrained is open: silence is not a prohibition. Multiple `allow`
@@ -244,9 +259,25 @@ export function applyMove(spec: MaterialSpec, state: MaterialState, move: { piec
     // reported as the misconception signal it is.
     return { ...state, rejectedMoves: [...state.rejectedMoves, { pieceId: move.pieceId, slotId: move.slotId }] }
   }
+
+  const slot = spec.slots.find((s) => s.id === move.slotId)!
+  const placement = { ...state.placement }
+  const previousSlot = placement[move.pieceId]
+  const occupants = otherOccupants(state, move.slotId, move.pieceId)
+
+  if (isCapacity1Swap(slot, occupants)) {
+    const displacedId = occupants[0]!
+    if (previousSlot !== undefined) {
+      placement[displacedId] = previousSlot
+    } else {
+      delete placement[displacedId]
+    }
+  }
+
+  placement[move.pieceId] = move.slotId
   return {
     ...state,
-    placement: { ...state.placement, [move.pieceId]: move.slotId },
+    placement,
     attempts: state.attempts + 1,
   }
 }

@@ -117,6 +117,65 @@ describe('applyMove', () => {
   })
 })
 
+/** Capacity-1 ordering track — swap is how students reorder a full shuffle. */
+const track = {
+  prompt: 'Place in order.',
+  pieces: [
+    { id: 'a', label: 'A', traits: {} },
+    { id: 'b', label: 'B', traits: {} },
+    { id: 'c', label: 'C', traits: {} },
+  ],
+  groups: [
+    { id: '0', label: '1', ordered: true },
+    { id: '1', label: '2', ordered: true },
+    { id: '2', label: '3', ordered: true },
+  ],
+  slots: [
+    { id: 's-0', groupId: '0', x: 0, y: 0, capacity: 1, index: 0 },
+    { id: 's-1', groupId: '1', x: 1, y: 0, capacity: 1, index: 1 },
+    { id: 's-2', groupId: '2', x: 2, y: 0, capacity: 1, index: 2 },
+  ],
+  displays: [],
+  rules: [],
+  goal: { kind: 'exactOrder' as const, itemIds: ['a', 'b', 'c'] },
+} as MaterialSpec
+
+describe('capacity-1 swap', () => {
+  it('still places onto an empty capacity-1 slot', () => {
+    expect(allowsMove(track, st({}), { pieceId: 'a', slotId: 's-0' })).toBe(true)
+    const next = applyMove(track, st({}), { pieceId: 'a', slotId: 's-0' })
+    expect(next.placement).toEqual({ a: 's-0' })
+    expect(next.rejectedMoves).toEqual([])
+  })
+
+  it('swaps when dropping A (on s-1) onto s-0 occupied by B', () => {
+    const placed = st({ a: 's-1', b: 's-0' })
+    expect(allowsMove(track, placed, { pieceId: 'a', slotId: 's-0' })).toBe(true)
+    const next = applyMove(track, placed, { pieceId: 'a', slotId: 's-0' })
+    expect(next.placement).toEqual({ a: 's-0', b: 's-1' })
+    expect(next.rejectedMoves).toEqual([])
+    expect(next.attempts).toBe(1)
+  })
+
+  it('returns the occupant to the pool when an unplaced piece takes a full capacity-1 slot', () => {
+    const occupied = st({ b: 's-0' })
+    expect(allowsMove(track, occupied, { pieceId: 'a', slotId: 's-0' })).toBe(true)
+    const next = applyMove(track, occupied, { pieceId: 'a', slotId: 's-0' })
+    expect(next.placement.a).toBe('s-0')
+    expect(next.placement.b).toBeUndefined()
+    expect(next.rejectedMoves).toEqual([])
+  })
+
+  it('still refuses a full capacity-2 slot (no multi-swap)', () => {
+    const full = st({ h2: 'l1', o2: 'l1' })
+    expect(allowsMove(balance, full, { pieceId: 'h2b', slotId: 'l1' })).toBe(false)
+    const next = applyMove(balance, full, { pieceId: 'h2b', slotId: 'l1' })
+    expect(next.placement.h2b).toBeUndefined()
+    expect(next.placement).toEqual({ h2: 'l1', o2: 'l1' })
+    expect(next.rejectedMoves).toEqual([{ pieceId: 'h2b', slotId: 'l1' }])
+  })
+})
+
 describe('hasCycle', () => {
   it('accepts rules that settle in one pass', () => {
     expect(hasCycle(balance)).toBe(false)
