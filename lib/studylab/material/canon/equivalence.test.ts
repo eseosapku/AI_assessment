@@ -315,6 +315,31 @@ describe('sorting-frame fromLegacy preserves catalogue art', () => {
   })
 })
 
+describe('ordering-track fromLegacy preserves catalogue art', () => {
+  it('maps legal imageUrl (including asset: prefix) onto piece.art', () => {
+    const payload = {
+      orientation: 'horizontal' as const,
+      items: [
+        { id: 'first', label: 'First', imageUrl: 'asset:balance-scale' },
+        { id: 'second', label: 'Second', imageUrl: 'neuron' },
+        { id: 'third', label: 'Third', imageUrl: 'asset:https://evil.example/x.png' },
+        { id: 'fourth', label: 'Fourth' },
+      ],
+    }
+    const success = {
+      kind: 'exactOrder' as const,
+      itemIds: ['first', 'second', 'third', 'fourth'],
+    }
+    const spec = getApparatus('ordering-track')!.legacy!.fromLegacy(payload, success)!
+    const byId = Object.fromEntries(spec.pieces.map((p) => [p.id, p]))
+
+    expect(byId.first.art).toBe('balance-scale')
+    expect(byId.second.art).toBe('neuron')
+    expect(byId.third.art).toBeUndefined()
+    expect(byId.fourth.art).toBeUndefined()
+  })
+})
+
 describe('fromLegacy treats success as the grading authority', () => {
   it('variable-model ignores a conflicting payload target', () => {
     const payload = {

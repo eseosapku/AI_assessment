@@ -1,5 +1,6 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
 import type { SequencePayload, SuccessRule } from '@/lib/studylab/activities/types'
+import { catalogueArt } from '../catalogueArt'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -27,11 +28,15 @@ function convert(payload: SequencePayload, success?: SuccessRule): MaterialSpec 
   if (success && success.kind !== 'exactOrder') return null
   return {
     prompt: 'Place the cards in order along the track.',
-    pieces: payload.items.map((item, index) => ({
-      id: item.id,
-      label: item.label,
-      traits: { position: index + 1 },
-    })),
+    pieces: payload.items.map((item, index) => {
+      const art = catalogueArt(item.imageUrl)
+      return {
+        id: item.id,
+        label: item.label,
+        ...(art ? { art } : {}),
+        traits: { position: index + 1 },
+      }
+    }),
     // One ordered group per position keeps the shared legacy-equivalence
     // convention (`s-${groupId}`) while unique indices still pool into one
     // exactOrder sequence in the interpreter.

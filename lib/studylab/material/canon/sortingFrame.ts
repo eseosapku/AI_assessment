@@ -1,12 +1,10 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
 import type { SortPayload, SuccessRule } from '@/lib/studylab/activities/types'
+import { catalogueArt } from '../catalogueArt'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
 import { safeFromLegacy } from './safeFromLegacy'
-
-/** Same catalogue rule as MaterialSpec piece parse (`parse.ts` ART_NAME_RE). */
-const ART_NAME_RE = /^[a-z0-9-]+$/
 
 const base: MaterialSpec = {
   prompt: 'Sort each tile into its matching frame.',
@@ -27,13 +25,6 @@ const base: MaterialSpec = {
     { op: 'allow', selector: { trait: 'category', equals: 'cool' }, groupId: 'cool' },
   ],
   goal: { kind: 'binAssignment', assign: { 'warm-tile': 'warm', 'cool-tile': 'cool' } },
-}
-
-/** Map legacy SortPayload imageUrl onto piece.art; never pass through `asset:…`. */
-function catalogueArt(imageUrl: string | undefined): string | undefined {
-  if (typeof imageUrl !== 'string') return undefined
-  const name = imageUrl.trim().replace(/^asset:/, '')
-  return ART_NAME_RE.test(name) ? name : undefined
 }
 
 function convert(payload: SortPayload, success?: SuccessRule): MaterialSpec | null {
