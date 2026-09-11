@@ -4,7 +4,7 @@ Written to move this work between tools and people. Everything here was
 previously scattered across an assistant's private memory, a git-ignored
 ledger, and one long conversation — none of which travel. This file does.
 
-**Branch:** `aws_deploy`. **64 commits ahead of `origin/aws_deploy`, nothing
+**Branch:** `aws_deploy`. **72 commits ahead of `origin/aws_deploy`, nothing
 pushed.** `aws_deploy` is the deploy branch: pushing it deploys to the live
 product, so it is always an explicit decision, never a default.
 
@@ -14,7 +14,7 @@ product, so it is always an explicit decision, never a default.
 npx tsc --noEmit && npx vitest run
 ```
 
-Currently **121 test files / 1564 tests green, tsc clean**.
+Currently **122 test files / 1570 tests green, tsc clean**.
 `npm run lint` is broken project-wide (Next 16 removed `next lint`) — do not
 treat its failure as a regression.
 
@@ -43,7 +43,7 @@ shown to a student.
 Spec: `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`
 Plan: `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md`
 
-### Phase 2 — the composable engine (core done; live cutover 1 of 9)
+### Phase 2 — the composable engine (core done; live cutover 2 of 9)
 
 The nine patterns are the wrong *kind* of unit — whole finished apparatus
 rather than parts that combine. So the tutor can only ever pick from nine, never
@@ -91,12 +91,13 @@ Phase 2's code lives in `lib/studylab/material/`:
 | `validate.ts` | `validateMaterial` — composite gate, cheapest check first |
 | `canon/` | nine apparatus in a `Map`, each with `fromLegacy(payload, success?)` |
 
-The core is now reachable through the first live renderer cutover: valid legacy
-`sort` activities mount the `sorting-frame` material through `ActivityNode`.
-The other eight patterns still use their legacy renderers, and the tutor still
-cannot author free-form composed materials.
+The core is now reachable through two live renderer cutovers: valid legacy
+`sort` activities mount `sorting-frame`, and valid legacy `sequence` activities
+mount `ordering-track`, both through `ActivityNode`. The other seven patterns
+still use their legacy renderers, and the tutor still cannot author free-form
+composed materials.
 
-### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort)
+### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort + sequence)
 
 **Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
 parse → collidingNames → expression refs → hasCycle → isolation → fit →
@@ -128,11 +129,30 @@ match, mismatch-shake-and-spring-back, and automatic solved behavior.
 `SortActivity` remains in place as the fallback when legacy conversion returns
 `null`.
 
+**Stage 3b — live sequence cutover:** `ActivityNode` converts valid legacy
+`sequence` specs through the `ordering-track` canon and mounts controlled
+`MaterialActivity` with `sequenceAdapter`. Browser verification on
+`/dev/activities` (`n-sequence`) confirmed: material prompt and Position
+slots; pieces appear already on the track in a shuffled full order (not an
+empty pool); wrong-order **Check** stays unsolved and paints `wrongIds`;
+occupied-slot drops refuse with the shake path. **Not browser-verified:**
+reordering a fully occupied track to the correct order, and therefore
+correct-order **Check** solving — capacity-1 slots block moves onto occupied
+targets, and there is no clear-to-pool gesture, so the student cannot finish a
+shuffled start via the material renderer yet. Uncontrolled bench
+`ordering-track` still works (pool → empty slots → auto-Solved). `n-sort`
+smoke still shows material chips/slots + **Check**. `SequenceActivity` remains
+the fallback when `fromLegacy` returns `null`.
+
 ### Not done
 
-**Stage 3b, remaining eight cutovers** — `threePeriod`, `label`, `sequence`,
-`vary`, `balance`, `compare`, `scenario`, and `compose` still need to move to
-their canon apparatus through `ActivityNode`, one at a time. Retire a legacy
+**Stage 3b sequence follow-up** — swap or clear-to-pool so a shuffled full
+order can be corrected on `ordering-track` (blocks correct-order Check in the
+live path).
+
+**Stage 3b, remaining seven cutovers** — `threePeriod`, `label`, `vary`,
+`balance`, `compare`, `scenario`, and `compose` still need to move to their
+canon apparatus through `ActivityNode`, one at a time. Retire a legacy
 renderer only when its canon entry owns the live path and its fallback decision
 has been made explicitly.
 
