@@ -24,6 +24,7 @@ import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences } from '@/lib/dangling-reference'
 import { repairBookReferences } from '@/lib/book-reference'
+import { tagTokens } from '@/lib/tag-tokens'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -82,20 +83,6 @@ function normalizeIds(value: unknown): number[] {
 // Map each generated question to the subtopic it best fits, so the StudyLab
 // Learning Gap Map can record real per-subtopic mastery (and cascade up into
 // topic/subject mastery). Done locally — NO extra AI call, so no extra credits.
-const TAG_STOPWORDS = new Set([
-  'the', 'and', 'for', 'are', 'was', 'with', 'that', 'this', 'from', 'what', 'which', 'when', 'how', 'why',
-  'who', 'whom', 'into', 'onto', 'over', 'under', 'between', 'about', 'their', 'there', 'these', 'those',
-  'will', 'would', 'should', 'could', 'can', 'may', 'might', 'has', 'have', 'had', 'been', 'being', 'does',
-  'did', 'not', 'all', 'any', 'each', 'its', 'his', 'her', 'they', 'them', 'you', 'your', 'one', 'two',
-  'following', 'true', 'false', 'best', 'most', 'correct', 'answer', 'option', 'options', 'question',
-  'explain', 'describe', 'state', 'define', 'list', 'name', 'give', 'show', 'work', 'out', 'use', 'using',
-])
-
-function tagTokens(value: string): string[] {
-  return (String(value || '').toLowerCase().match(/[a-z0-9]+/g) ?? []).filter(
-    (w) => w.length > 2 && !TAG_STOPWORDS.has(w)
-  )
-}
 
 interface TaggableSubtopic { id: number; name: string; topic_id: number | null; tokens: Set<string> }
 
