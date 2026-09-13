@@ -14,8 +14,14 @@ import { allExamPrepResources } from '@/lib/exam-prep-resources'
 import { useAuth } from '@/components/AuthProvider'
 import { useSubscription } from '@/components/SubscriptionProvider'
 import { isPaymentRequiredResponse } from '@/lib/subscription'
+import {
+  buildableSubjects,
+  checkpointSubject,
+  stageOf,
+  type CheckpointProgramme,
+} from '@/lib/cambridge-checkpoint'
 
-type ExamType = 'waec' | 'jamb'
+type ExamType = 'waec' | 'jamb' | 'checkpoint'
 type QuestionFormat = 'mcq' | 'longform' | 'mixed'
 
 type PastPaper = {
@@ -39,6 +45,11 @@ export default function ExamPrepForm() {
   const { canGenerateAssessment, handlePaymentRequired, refresh } = useSubscription()
   const [exam, setExam] = useState<ExamType | ''>('')
   const [subject, setSubject] = useState('')
+  // Checkpoint asks a different question from WAEC and JAMB: which programme,
+  // then which subject, then which component. The duration is never asked —
+  // it comes from the syllabus, because Cambridge sets it.
+  const [programme, setProgramme] = useState<CheckpointProgramme>('lower-secondary')
+  const [component, setComponent] = useState('')
   const [jambMode, setJambMode] = useState<'subject' | 'course'>('subject')
   const [course, setCourse] = useState('')
   const [comboSubject, setComboSubject] = useState('')
@@ -54,7 +65,16 @@ export default function ExamPrepForm() {
 
   const subjects = exam === 'waec' ? WAEC_SUBJECTS : exam === 'jamb' ? JAMB_UTME_SUBJECTS : []
   const selectedSubject = subjects.find((s) => s.name === subject)
-  const resources = exam ? allExamPrepResources(exam) : []
+  // The Nigeria resource catalogue has nothing to say about Cambridge.
+  const resources = exam === 'waec' || exam === 'jamb' ? allExamPrepResources(exam) : []
+
+  // Checkpoint: only the subjects this phase built, and within one, only the
+  // components that can be mocked. A component that cannot is still rendered —
+  // with its reason — so a learner looking for ESL Listening learns why it is
+  // absent rather than concluding the product forgot it.
+  const cpSubjects = exam === 'checkpoint' ? buildableSubjects(programme) : []
+  const cpSubject = exam === 'checkpoint' ? checkpointSubject(programme, subject) : undefined
+  const cpComponent = cpSubject?.components.find((c) => c.number === component)
 
   const jambCombo = useMemo(
     () => JAMB_COURSE_COMBOS.find((c) => c.course === course),
@@ -89,11 +109,15 @@ export default function ExamPrepForm() {
     load()
   }, [exam, subject])
 
-  const readyForSettings = Boolean(
-    selectedSubject
-    && !loadingPapers
-    && (hasPastPapers ? selectedPaperId : topics.length > 0),
-  )
+  const readyForSettings = exam === 'checkpoint'
+    // A Checkpoint component is ready once the subject and component are
+    // chosen: the strands come from the syllabus, so there is no topic step.
+    ? Boolean(cpSubject && cpComponent?.mockable)
+    : Boolean(
+      selectedSubject
+      && !loadingPapers
+      && (hasPastPapers ? selectedPaperId : topics.length > 0),
+    )
 
   const step = !exam ? 1
     : !subject && !(exam === 'jamb' && jambMode === 'course' && course) ? 2
@@ -125,11 +149,16 @@ export default function ExamPrepForm() {
     try {
       const qType: QuestionFormat = exam === 'jamb' ? 'mcq' : questionFormat
       const paper = selectedPaper
-      const promptTopics = topics.length > 0
-        ? topics
-        : paper
-          ? [`${paper.year} ${paper.diet} past paper`]
-          : []
+      // Checkpoint's "topics" are its strands, and they come from the syllabus
+      // rather than from anything the learner picked — the real paper spreads
+      // across all of them, and the report is read strand by strand.
+      const promptTopics = exam === 'checkpoint'
+        ? (cpSubject ? [...cpSubject.strands, cpSubject.crossCuttingStrand].filter(Boolean) as string[] : [])
+        : topics.length > 0
+          ? topics
+          : paper
+            ? [`${paper.year} ${paper.diet} past paper`]
+            : []
 
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
@@ -139,13 +168,25 @@ export default function ExamPrepForm() {
           subject,
           topics: promptTopics,
           count,
-          style: exam === 'waec' ? 'WASSCE practice' : 'JAMB UTME practice',
-          className: exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
+          style: exam === 'checkpoint'
+            ? `Cambridge ${programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ${cpSubject?.code}/${component} practice`
+            : exam === 'waec' ? 'WASSCE practice' : 'JAMB UTME practice',
+          className: exam === 'checkpoint'
+            ? `Stage ${stageOf(programme)}`
+            : exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
+          grade: exam === 'checkpoint' ? stageOf(programme) : undefined,
+          estimatedTime: exam === 'checkpoint' ? cpComponent?.minutes : undefined,
           curriculum: exam,
           difficultyLevel: difficulty,
           questionType: qType,
           textbook_id: paper?.id ?? undefined,
-          examPrepContext: examPrepContext(
+          examPrepContext: exam === 'checkpoint'
+            ? [
+                `Cambridge ${cpSubject?.name} ${cpSubject?.code}, component ${component}, ${cpComponent?.minutes} minutes, taken at the end of Stage ${stageOf(programme)}.`,
+                `Spread the questions across these strands, which is how Cambridge reports the result: ${promptTopics.join(', ')}.`,
+                'Write ORIGINAL questions against the published Cambridge curriculum. Never reproduce a real Checkpoint question or copy a Cambridge diagram — both are copyrighted.',
+              ].join(' ')
+            : examPrepContext(
             exam,
             subject,
             promptTopics,
@@ -198,11 +239,12 @@ export default function ExamPrepForm() {
           {([
             { id: 'waec' as const, label: 'WAEC WASSCE', desc: 'West African Senior School Certificate', icon: BookOpen },
             { id: 'jamb' as const, label: 'JAMB UTME', desc: 'University matriculation practice', icon: GraduationCap },
+            { id: 'checkpoint' as const, label: 'Cambridge Checkpoint', desc: 'Primary and Lower Secondary practice papers', icon: BookOpen },
           ]).map((opt) => (
             <button
               key={opt.id}
               type="button"
-              onClick={() => { setExam(opt.id); setSubject(''); setCourse(''); setTopics([]) }}
+              onClick={() => { setExam(opt.id); setSubject(''); setCourse(''); setTopics([]); setComponent('') }}
               className={`text-left p-4 rounded-xl border transition-all ${exam === opt.id
                 ? 'border-ss-accent bg-ss-accent-soft dark:bg-ss-accent-soft'
                 : 'border-ss-line dark:border-white/10 hover:border-ss-accent'}`}
@@ -221,6 +263,95 @@ export default function ExamPrepForm() {
           <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 2</p>
           <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Select subject</h2>
 
+          {exam === 'checkpoint' && (
+            <div className="space-y-4">
+              <div>
+                <span id="cp-programme" className="block text-xs font-black uppercase tracking-widest text-ss-slate mb-2">
+                  Programme
+                </span>
+                <div className="flex gap-2" role="radiogroup" aria-labelledby="cp-programme">
+                  {([
+                    { id: 'primary' as const, label: 'Primary', hint: 'End of Stage 6' },
+                    { id: 'lower-secondary' as const, label: 'Lower Secondary', hint: 'End of Stage 9' },
+                  ]).map((p) => (
+                    <button
+                      key={p.id}
+                      type="button"
+                      role="radio"
+                      aria-checked={programme === p.id}
+                      onClick={() => { setProgramme(p.id); setSubject(''); setComponent('') }}
+                      className={`px-3 py-2 rounded-lg text-left border ${programme === p.id
+                        ? 'border-ss-accent bg-[color:var(--ss-accent)]/10'
+                        : 'border-ss-line dark:border-white/10'}`}
+                    >
+                      <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">{p.label}</span>
+                      <span className="block text-[12px] font-semibold text-ss-slate">{p.hint}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <span id="cp-subject" className="block text-xs font-black uppercase tracking-widest text-ss-slate mb-2">
+                  Subject
+                </span>
+                <div className="grid sm:grid-cols-2 gap-2" role="radiogroup" aria-labelledby="cp-subject">
+                  {cpSubjects.map((s) => (
+                    <button
+                      key={s.code}
+                      type="button"
+                      role="radio"
+                      aria-checked={subject === s.name}
+                      onClick={() => { setSubject(s.name); setComponent('') }}
+                      className={`px-3 py-2 rounded-lg text-left border ${subject === s.name
+                        ? 'border-ss-accent bg-[color:var(--ss-accent)]/10'
+                        : 'border-ss-line dark:border-white/10'}`}
+                    >
+                      <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">{s.name}</span>
+                      <span className="block text-[12px] font-semibold text-ss-slate">Syllabus {s.code}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {cpSubject && (
+                <div>
+                  <span id="cp-component" className="block text-xs font-black uppercase tracking-widest text-ss-slate mb-2">
+                    Component
+                  </span>
+                  <div className="grid sm:grid-cols-2 gap-2" role="radiogroup" aria-labelledby="cp-component">
+                    {/* Components that cannot be mocked are shown, disabled, with
+                        the reason. A learner looking for ESL Listening should
+                        learn why it is absent, not conclude we forgot it. */}
+                    {cpSubject.components.map((c) => (
+                      <button
+                        key={c.number}
+                        type="button"
+                        role="radio"
+                        aria-checked={component === c.number}
+                        disabled={!c.mockable}
+                        title={c.notMockableReason}
+                        onClick={() => setComponent(c.number)}
+                        className={`px-3 py-2 rounded-lg text-left border ${!c.mockable
+                          ? 'border-ss-line dark:border-white/10 opacity-60 cursor-not-allowed'
+                          : component === c.number
+                            ? 'border-ss-accent bg-[color:var(--ss-accent)]/10'
+                            : 'border-ss-line dark:border-white/10'}`}
+                      >
+                        <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">
+                          Paper {c.number}{c.name ? ` — ${c.name}` : ''}
+                        </span>
+                        <span className="block text-[12px] font-semibold text-ss-slate">
+                          {c.mockable ? `${c.minutes} minutes` : c.notMockableReason}
+                        </span>
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
+          )}
+
           {exam === 'jamb' && (
             <div className="flex gap-2 mb-4">
               {(['subject', 'course'] as const).map((m) => (
@@ -238,7 +369,7 @@ export default function ExamPrepForm() {
             </div>
           )}
 
-          {exam === 'jamb' && jambMode === 'course' ? (
+          {exam === 'checkpoint' ? null : exam === 'jamb' && jambMode === 'course' ? (
             <div className="space-y-3">
               <select
                 value={course}
