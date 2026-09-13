@@ -1,5 +1,6 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
 import type { ComparePayload, SuccessRule } from '@/lib/studylab/activities/types'
+import { catalogueArt } from '../catalogueArt'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -33,14 +34,18 @@ function convert(payload: ComparePayload, success?: SuccessRule): MaterialSpec |
   if (success && success.kind !== 'binAssignment') return null
   return {
     prompt: 'Place each item in the left, right, or shared set.',
-    pieces: payload.items.map((item) => ({
-      id: item.id,
-      label: item.label,
-      traits: {
-        side: item.belongs,
-        overlap: item.belongs === 'both' ? 1 : 0,
-      },
-    })),
+    pieces: payload.items.map((item) => {
+      const art = catalogueArt(item.imageUrl)
+      return {
+        id: item.id,
+        label: item.label,
+        ...(art ? { art } : {}),
+        traits: {
+          side: item.belongs,
+          overlap: item.belongs === 'both' ? 1 : 0,
+        },
+      }
+    }),
     groups: [
       { id: 'left', label: payload.sets[0].label, ordered: false },
       { id: 'both', label: 'Both', ordered: false },

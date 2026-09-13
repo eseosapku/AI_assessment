@@ -315,6 +315,30 @@ describe('sorting-frame fromLegacy preserves catalogue art', () => {
   })
 })
 
+describe('venn-sets fromLegacy preserves catalogue art', () => {
+  it('maps legal imageUrl onto piece.art', () => {
+    const payload = {
+      sets: [{ id: 'plants', label: 'Plants' }, { id: 'animals', label: 'Animals' }],
+      items: [
+        { id: 'a', label: 'A only', belongs: 'left' as const, imageUrl: 'asset:balance-scale' },
+        { id: 'b', label: 'Both', belongs: 'both' as const, imageUrl: 'neuron' },
+        { id: 'c', label: 'Bad', belongs: 'right' as const, imageUrl: 'asset:https://evil.example/x.png' },
+        { id: 'd', label: 'Plain', belongs: 'right' as const },
+      ],
+    }
+    const success = {
+      kind: 'binAssignment' as const,
+      assign: { a: 'left', b: 'both', c: 'right', d: 'right' },
+    }
+    const spec = getApparatus('venn-sets')!.legacy!.fromLegacy(payload, success)!
+    const byId = Object.fromEntries(spec.pieces.map((p) => [p.id, p]))
+    expect(byId.a.art).toBe('balance-scale')
+    expect(byId.b.art).toBe('neuron')
+    expect(byId.c.art).toBeUndefined()
+    expect(byId.d.art).toBeUndefined()
+  })
+})
+
 describe('ordering-track fromLegacy preserves catalogue art', () => {
   it('maps legal imageUrl (including asset: prefix) onto piece.art', () => {
     const payload = {
