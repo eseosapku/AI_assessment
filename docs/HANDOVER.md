@@ -14,7 +14,7 @@ product, so it is always an explicit decision, never a default.
 npx tsc --noEmit && npx vitest run
 ```
 
-Currently **122 test files / 1575 tests green, tsc clean**.
+Currently **123 test files / 1579 tests green, tsc clean**.
 `npm run lint` is broken project-wide (Next 16 removed `next lint`) — do not
 treat its failure as a regression.
 
@@ -43,7 +43,7 @@ shown to a student.
 Spec: `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`
 Plan: `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md`
 
-### Phase 2 — the composable engine (core done; live cutover 3 of 9)
+### Phase 2 — the composable engine (core done; live cutover 4 of 9)
 
 The nine patterns are the wrong *kind* of unit — whole finished apparatus
 rather than parts that combine. So the tutor can only ever pick from nine, never
@@ -91,14 +91,14 @@ Phase 2's code lives in `lib/studylab/material/`:
 | `validate.ts` | `validateMaterial` — composite gate, cheapest check first |
 | `canon/` | nine apparatus in a `Map`, each with `fromLegacy(payload, success?)` |
 
-The core is now reachable through three live renderer cutovers: valid legacy
+The core is now reachable through four live renderer cutovers: valid legacy
 `sort` activities mount `sorting-frame`, valid legacy `sequence` activities
-mount `ordering-track`, and valid legacy `compare` activities mount
-`venn-sets`, all through `ActivityNode`. The other six patterns still use their
-legacy renderers, and the tutor still cannot author free-form composed
-materials.
+mount `ordering-track`, valid legacy `compare` activities mount `venn-sets`,
+and valid legacy `balance` activities mount `balance-beam`, all through
+`ActivityNode`. The other five patterns still use their legacy renderers, and
+the tutor still cannot author free-form composed materials.
 
-### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort + sequence)
+### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort/sequence/compare/balance)
 
 **Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
 parse → collidingNames → expression refs → hasCycle → isolation → fit →
@@ -156,13 +156,24 @@ left/both/right; wrong full assign stays unsolved on **Check** and paints
 `venn-sets` (canon base). `CompareActivity` remains the fallback when
 `fromLegacy` returns `null`.
 
+**Stage 3b — live balance cutover:** `ActivityNode` converts valid legacy
+`balance` specs through the `balance-beam` canon and mounts controlled
+`MaterialActivity` with `balanceAdapter`. Browser verification on
+`/dev/activities` (`n-balance`) confirmed: material Left/Right/Weights slots
+plus numeric beam display (slots+beam is intentional — not a drawn SVG
+balance); pool chips; drag to pans updates the beam (H2/w=2 left alone →
+beam `2`; N2/w=2 on right → beam `0`); **Check** solves the balanced board.
+Smoke on `n-sort`, `n-sequence`, and `n-compare` still material path. Bench
+material picker still mounts `balance-beam` (canon base and fromLegacy
+sample). `BalanceActivity` remains the fallback when `fromLegacy` returns
+`null`.
+
 ### Not done
 
-**Stage 3b, remaining six cutovers** — `threePeriod`, `label`, `vary`,
-`balance`, `scenario`, and `compose` still need to move to their canon
-apparatus through `ActivityNode`, one at a time. Retire a legacy renderer only
-when its canon entry owns the live path and its fallback decision has been
-made explicitly.
+**Stage 3b, remaining five cutovers** — `threePeriod`, `label`, `vary`,
+`scenario`, and `compose` still need to move to their canon apparatus through
+`ActivityNode`, one at a time. Retire a legacy renderer only when its canon
+entry owns the live path and its fallback decision has been made explicitly.
 
 **Stage 4** — `build_material` on the action union, vocabulary advertised from
 `MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`.
