@@ -339,6 +339,33 @@ describe('venn-sets fromLegacy preserves catalogue art', () => {
   })
 })
 
+describe('balance-beam fromLegacy preserves catalogue art', () => {
+  it('maps legal imageUrl onto piece.art', () => {
+    const payload = {
+      left: [],
+      right: [],
+      pool: [
+        { id: 'a', label: 'A', weight: 1, imageUrl: 'asset:balance-scale' },
+        { id: 'b', label: 'B', weight: 2, imageUrl: 'neuron' },
+        { id: 'c', label: 'C', weight: 3, imageUrl: 'asset:https://evil.example/x.png' },
+        { id: 'd', label: 'D', weight: 4 },
+      ],
+      mode: 'weights' as const,
+    }
+    const success = {
+      kind: 'numericWithin' as const,
+      target: 0,
+      tolerance: 0,
+    }
+    const spec = getApparatus('balance-beam')!.legacy!.fromLegacy(payload, success)!
+    const byId = Object.fromEntries(spec.pieces.map((p) => [p.id, p]))
+    expect(byId.a.art).toBe('balance-scale')
+    expect(byId.b.art).toBe('neuron')
+    expect(byId.c.art).toBeUndefined()
+    expect(byId.d.art).toBeUndefined()
+  })
+})
+
 describe('ordering-track fromLegacy preserves catalogue art', () => {
   it('maps legal imageUrl (including asset: prefix) onto piece.art', () => {
     const payload = {

@@ -1,5 +1,6 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
 import type { BalancePayload, SuccessRule } from '@/lib/studylab/activities/types'
+import { catalogueArt } from '../catalogueArt'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -32,11 +33,15 @@ function convert(payload: BalancePayload, success?: SuccessRule): MaterialSpec |
   const extent = items.reduce((sum, item) => sum + Math.abs(item.weight), 0)
   return {
     prompt: 'Balance the two sides of the beam.',
-    pieces: items.map((item) => ({
-      id: item.id,
-      label: item.label,
-      traits: { weight: item.weight },
-    })),
+    pieces: items.map((item) => {
+      const art = catalogueArt(item.imageUrl)
+      return {
+        id: item.id,
+        label: item.label,
+        ...(art ? { art } : {}),
+        traits: { weight: item.weight },
+      }
+    }),
     groups: [
       { id: 'left', label: 'Left', ordered: false },
       { id: 'right', label: 'Right', ordered: false },
