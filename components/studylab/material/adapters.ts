@@ -2,6 +2,7 @@ import type { Placement, MaterialSpec } from '@/lib/studylab/material/types'
 import type { SuccessRule } from '@/lib/studylab/activities/types'
 import { sortModule } from '@/lib/studylab/activities/patterns/sort'
 import { sequenceModule } from '@/lib/studylab/activities/patterns/sequence'
+import { compareModule } from '@/lib/studylab/activities/patterns/compare'
 import {
   assignToPlacement,
   binIdFromSlot,
@@ -41,6 +42,24 @@ export const sortAdapter: MaterialWorkAdapter = {
   },
   wrongIdsWhenUnsolved(payload, work, success) {
     return sortModule.validate(payload as never, work as never, success).wrongIds
+  },
+  refusalTarget(slotId) {
+    return binIdFromSlot(slotId) ?? slotId
+  },
+}
+
+export const compareAdapter: MaterialWorkAdapter = {
+  freshWork() {
+    return { assign: {} }
+  },
+  placementFromWork(work) {
+    return assignToPlacement((work.assign as Record<string, string>) ?? {})
+  },
+  workFromPlacement(placement) {
+    return { assign: placementToAssign(placement) }
+  },
+  wrongIdsWhenUnsolved(payload, work, success) {
+    return compareModule.validate(payload as never, work as never, success).wrongIds
   },
   refusalTarget(slotId) {
     return binIdFromSlot(slotId) ?? slotId

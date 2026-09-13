@@ -4,7 +4,7 @@ import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
-import { sortAdapter, sequenceAdapter } from '@/components/studylab/material/adapters'
+import { sortAdapter, sequenceAdapter, compareAdapter } from '@/components/studylab/material/adapters'
 import { CardFrame } from '../canvasShared'
 import { SortActivity } from './SortActivity'
 import { ThreePeriodActivity } from './ThreePeriodActivity'
@@ -87,8 +87,32 @@ export function ActivityNode({ id, data }: NodeProps) {
         />
       )
     }
-    case 'compare':
-      return <CompareActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
+    case 'compare': {
+      const material = getApparatus('venn-sets')?.legacy?.fromLegacy(
+        spec.payload,
+        spec.success,
+      )
+      if (material) {
+        return (
+          <MaterialActivity
+            id={id}
+            spec={spec}
+            materialSpec={material}
+            adapter={compareAdapter}
+            onOutcome={emitActivityOutcome}
+            initialState={initialState}
+          />
+        )
+      }
+      return (
+        <CompareActivity
+          id={id}
+          spec={spec}
+          onOutcome={emitActivityOutcome}
+          initialState={initialState}
+        />
+      )
+    }
     case 'label':
       return <LabelActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
     case 'vary':
