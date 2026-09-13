@@ -3,6 +3,8 @@ import type { SuccessRule } from '@/lib/studylab/activities/types'
 import { sortModule } from '@/lib/studylab/activities/patterns/sort'
 import { sequenceModule } from '@/lib/studylab/activities/patterns/sequence'
 import { compareModule } from '@/lib/studylab/activities/patterns/compare'
+import { balanceModule } from '@/lib/studylab/activities/patterns/balance'
+import { placementToSides, sidesToPlacement } from '@/lib/studylab/material/balancePlacement'
 import {
   assignToPlacement,
   binIdFromSlot,
@@ -60,6 +62,29 @@ export const compareAdapter: MaterialWorkAdapter = {
   },
   wrongIdsWhenUnsolved(payload, work, success) {
     return compareModule.validate(payload as never, work as never, success).wrongIds
+  },
+  refusalTarget(slotId) {
+    return binIdFromSlot(slotId) ?? slotId
+  },
+}
+
+export const balanceAdapter: MaterialWorkAdapter = {
+  freshWork(payload) {
+    if (balanceModule.isPayload(payload)) {
+      return balanceModule.initialWork(payload) as unknown as Record<string, unknown>
+    }
+    return { left: [], right: [] }
+  },
+  placementFromWork(work) {
+    const left = Array.isArray(work.left) ? (work.left as string[]) : []
+    const right = Array.isArray(work.right) ? (work.right as string[]) : []
+    return sidesToPlacement({ left, right })
+  },
+  workFromPlacement(placement) {
+    return placementToSides(placement)
+  },
+  wrongIdsWhenUnsolved(payload, work, success) {
+    return balanceModule.validate(payload as never, work as never, success).wrongIds
   },
   refusalTarget(slotId) {
     return binIdFromSlot(slotId) ?? slotId
