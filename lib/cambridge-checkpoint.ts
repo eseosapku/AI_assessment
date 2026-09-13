@@ -177,6 +177,77 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
 export const BETA_SUBJECTS: readonly string[] = ['Mathematics', 'Science']
 
 /**
+ * The words that actually signal a strand, because its name does not.
+ *
+ * Strand names are abstract — "Chemistry", "Number" — and a question about
+ * chemistry says *reaction*, *compound*, *acid*; it almost never says
+ * "chemistry". Matching question text against the name alone returns nothing,
+ * and a strand report where every strand reads "not assessed" is worse than no
+ * report: it looks like a finding about the paper rather than a failure of the
+ * tagger.
+ *
+ * So each strand carries the vocabulary a question in it would actually use.
+ * Deliberately concrete nouns, not verbs a question stem would use regardless
+ * ("explain", "describe") — those are stopwords anyway, and they would match
+ * every strand equally.
+ */
+export const STRAND_KEYWORDS: Record<string, string[]> = {
+  // Science
+  Biology: ['cell', 'cells', 'plant', 'animal', 'organism', 'photosynthesis', 'respiration',
+    'digestion', 'blood', 'skeleton', 'muscle', 'habitat', 'species', 'reproduction', 'gene',
+    'enzyme', 'leaf', 'root', 'bacteria', 'virus', 'ecosystem', 'food', 'chain'],
+  Chemistry: ['chemical', 'reaction', 'compound', 'element', 'atom', 'molecule', 'substance',
+    'acid', 'alkali', 'salt', 'metal', 'solution', 'mixture', 'dissolve', 'particle', 'gas',
+    'liquid', 'solid', 'melting', 'boiling', 'periodic', 'oxide'],
+  Physics: ['force', 'forces', 'energy', 'motion', 'speed', 'light', 'sound', 'heat', 'electric',
+    'electricity', 'circuit', 'current', 'magnet', 'magnetic', 'gravity', 'pressure', 'wave',
+    'reflection', 'friction', 'mass', 'weight', 'voltage'],
+  'Earth and Space': ['earth', 'space', 'planet', 'solar', 'moon', 'star', 'sun', 'orbit',
+    'rock', 'soil', 'volcano', 'earthquake', 'atmosphere', 'climate', 'weather', 'season',
+    'fossil', 'erosion', 'galaxy'],
+  'Thinking and Working Scientifically': ['experiment', 'investigation', 'hypothesis', 'variable',
+    'variables', 'fair', 'test', 'measure', 'measurement', 'observation', 'evidence', 'conclusion',
+    'prediction', 'method', 'apparatus', 'result', 'results', 'data', 'record', 'repeat'],
+  'Science in Context': ['society', 'environment', 'environmental', 'pollution', 'recycling',
+    'sustainable', 'technology', 'medicine', 'industry', 'impact', 'everyday', 'global',
+    'resource', 'resources', 'conservation'],
+
+  // Mathematics
+  Number: ['number', 'numbers', 'fraction', 'fractions', 'decimal', 'decimals', 'percentage',
+    'ratio', 'proportion', 'integer', 'integers', 'multiple', 'factor', 'prime', 'square',
+    'root', 'rounding', 'estimate', 'add', 'subtract', 'multiply', 'divide', 'calculate'],
+  'Algebra, Geometry and Measure': ['algebra', 'algebraic', 'equation', 'equations', 'expression',
+    'formula', 'variable', 'geometry', 'angle', 'angles', 'triangle', 'rectangle', 'circle',
+    'polygon', 'shape', 'shapes', 'area', 'perimeter', 'volume', 'length', 'coordinate',
+    'coordinates', 'symmetry', 'transformation', 'measure', 'measurement'],
+  'Statistics and Probability': ['statistics', 'probability', 'chance', 'likely', 'data',
+    'graph', 'chart', 'bar', 'pie', 'mean', 'median', 'mode', 'range', 'average', 'frequency',
+    'survey', 'sample', 'outcome', 'outcomes', 'event'],
+  'Thinking and Working Mathematically': ['conjecture', 'generalise', 'generalisation', 'pattern',
+    'patterns', 'justify', 'reasoning', 'prove', 'convince', 'specialise', 'classify',
+    'characterise', 'critique', 'improve'],
+
+  // English and ESL — recorded for the later cut, unused this phase.
+  Reading: ['text', 'passage', 'author', 'writer', 'paragraph', 'inference', 'infer', 'summary',
+    'theme', 'character', 'plot', 'meaning', 'comprehension'],
+  Writing: ['write', 'writing', 'sentence', 'sentences', 'paragraph', 'punctuation', 'grammar',
+    'spelling', 'vocabulary', 'structure', 'draft', 'compose', 'audience', 'purpose'],
+  Speaking: ['speak', 'speaking', 'discussion', 'presentation', 'conversation', 'oral'],
+  Listening: ['listen', 'listening', 'audio', 'heard', 'spoken', 'recording'],
+  'Reading and Usage': ['text', 'passage', 'grammar', 'vocabulary', 'usage', 'comprehension',
+    'sentence', 'word', 'meaning'],
+}
+
+/**
+ * Every token that signals a strand: the words of its own name, plus the
+ * vocabulary above. The name still counts — a question that does say
+ * "probability" should match Statistics and Probability.
+ */
+export function strandSignals(strand: string): string[] {
+  return [strand, ...(STRAND_KEYWORDS[strand] ?? [])].join(' ').split(/\s+/)
+}
+
+/**
  * The stage a programme is assessed at, derived rather than stored.
  *
  * Primary Checkpoint is end-of-Stage-6 and Lower Secondary is end-of-Stage-9 by
