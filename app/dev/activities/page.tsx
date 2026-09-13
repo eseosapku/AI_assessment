@@ -117,6 +117,27 @@ const sequenceSpec: ActivitySpec = {
   reveal: 'The order is First → Second → Third.',
 }
 
+const labelSpec: ActivitySpec = {
+  pattern: 'label',
+  prompt: 'Label each part of the cell.',
+  payload: {
+    image: { imageUrl: 'asset:cell', width: 100, height: 100 },
+    hotspots: [
+      { id: 'nucleus', x: 30, y: 30, r: 8, label: 'Nucleus' },
+      { id: 'membrane', x: 70, y: 70, r: 8, label: 'Membrane' },
+    ],
+  },
+  success: {
+    kind: 'pairing',
+    pairs: [
+      ['nucleus', 'Nucleus'],
+      ['membrane', 'Membrane'],
+    ],
+  },
+  hints: ['Start with the centre.'],
+  reveal: 'Nucleus is the centre; membrane is the outer boundary.',
+}
+
 // Weights must vary — isolation refuses a material whose pieces are identical.
 const legacyBalancePayload = {
   left: [],
@@ -176,6 +197,7 @@ const initialNodes: Node[] = [
   specNode('n-compare', compareSpec, 840, 0),
   specNode('n-compose', composeSpec, 1260, 0),
   specNode('n-sequence', sequenceSpec, 1680, 0),
+  specNode('n-label', labelSpec, 2100, 0),
   {
     id: 'n-material',
     type: 'material',

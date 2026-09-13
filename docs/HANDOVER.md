@@ -43,7 +43,7 @@ shown to a student.
 Spec: `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`
 Plan: `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md`
 
-### Phase 2 — the composable engine (core done; live cutover 4 of 9)
+### Phase 2 — the composable engine (core done; live cutover 5 of 9)
 
 The nine patterns are the wrong *kind* of unit — whole finished apparatus
 rather than parts that combine. So the tutor can only ever pick from nine, never
@@ -91,14 +91,15 @@ Phase 2's code lives in `lib/studylab/material/`:
 | `validate.ts` | `validateMaterial` — composite gate, cheapest check first |
 | `canon/` | nine apparatus in a `Map`, each with `fromLegacy(payload, success?)` |
 
-The core is now reachable through four live renderer cutovers: valid legacy
+The core is now reachable through five live renderer cutovers: valid legacy
 `sort` activities mount `sorting-frame`, valid legacy `sequence` activities
 mount `ordering-track`, valid legacy `compare` activities mount `venn-sets`,
-and valid legacy `balance` activities mount `balance-beam`, all through
-`ActivityNode`. The other five patterns still use their legacy renderers, and
-the tutor still cannot author free-form composed materials.
+valid legacy `balance` activities mount `balance-beam`, and valid legacy
+`label` activities mount `labelled-diagram`, all through `ActivityNode`. The
+other four patterns still use their legacy renderers, and the tutor still
+cannot author free-form composed materials.
 
-### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort/sequence/compare/balance)
+### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort/sequence/compare/balance/label)
 
 **Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
 parse → collidingNames → expression refs → hasCycle → isolation → fit →
@@ -168,12 +169,25 @@ material picker still mounts `balance-beam` (canon base and fromLegacy
 sample). `BalanceActivity` remains the fallback when `fromLegacy` returns
 `null`.
 
+**Stage 3b — live label cutover:** `ActivityNode` converts valid legacy
+`label` specs through the `labelled-diagram` canon and mounts controlled
+`MaterialActivity` with `labelAdapter`. Legacy `work.assign` stays
+**hotspotId → label**; placement flips to **label → `s-${hotspot}`** via
+`labelPlacement` helpers (do not reuse sort’s piece→bin helpers on raw label
+work). Browser verification on `/dev/activities` (`n-label`, new bench
+fixture) confirmed: material Nucleus/Membrane slots (slots-not-diagram is
+intentional — no background SVG); pool chips; wrong hotspot refuses
+(Nucleus→membrane stayed in pool); correct drops stick; **Check** solves and
+shows reveal. Smoke on `n-sort`, `n-sequence`, `n-compare`, and `n-balance`
+still material path. `LabelActivity` remains the fallback when `fromLegacy`
+returns `null`.
+
 ### Not done
 
-**Stage 3b, remaining five cutovers** — `threePeriod`, `label`, `vary`,
-`scenario`, and `compose` still need to move to their canon apparatus through
-`ActivityNode`, one at a time. Retire a legacy renderer only when its canon
-entry owns the live path and its fallback decision has been made explicitly.
+**Stage 3b, remaining four cutovers** — `threePeriod`, `vary`, `scenario`, and
+`compose` still need to move to their canon apparatus through `ActivityNode`,
+one at a time. Retire a legacy renderer only when its canon entry owns the live
+path and its fallback decision has been made explicitly.
 
 **Stage 4** — `build_material` on the action union, vocabulary advertised from
 `MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`.
