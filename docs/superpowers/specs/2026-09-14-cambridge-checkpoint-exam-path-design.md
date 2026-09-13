@@ -228,7 +228,15 @@ vitest is node-environment only here — no jsdom, and no `.test.tsx`.
 - **The path is only as good as the figure catalogue's Stage 6 and Stage 9
   coverage.** Checkpoint Maths and Science lean on diagrams heavily and
   Cambridge's cannot be used. Worth measuring before promising the feature.
-- **Strand tagging is a model judgement.** The existing subtopic tagger
-  round-robins when nothing matches, which would put a question in an arbitrary
-  strand. For Checkpoint that is worse than elsewhere, because the strand
-  breakdown is the product. The tagger must refuse rather than round-robin here.
+- **Strand tagging is a model judgement, and the existing tagger already knows
+  it.** `tagQuestionsWithSubtopics` round-robins when keyword overlap finds
+  nothing — but it records which it did, on `q.topic_label_matched`, with the
+  comment "Round-robin is a fair way to spread untagged questions across areas
+  for scoring, but it is an assignment, not a finding. Only a real match may be
+  shown to the student as where the question came from."
+
+  So Checkpoint does not need the tagger to refuse; it needs the **report** to
+  trust only a real match. A strand counts a question when it was matched, and
+  a strand with no matched questions reads "not assessed in this paper" rather
+  than scoring an assignment as a finding. That reuses a distinction the
+  codebase already drew deliberately instead of fighting it.
