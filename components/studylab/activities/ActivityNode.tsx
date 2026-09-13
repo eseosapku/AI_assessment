@@ -4,7 +4,7 @@ import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
-import { sortAdapter, sequenceAdapter, compareAdapter, balanceAdapter } from '@/components/studylab/material/adapters'
+import { sortAdapter, sequenceAdapter, compareAdapter, balanceAdapter, labelAdapter } from '@/components/studylab/material/adapters'
 import { CardFrame } from '../canvasShared'
 import { SortActivity } from './SortActivity'
 import { ThreePeriodActivity } from './ThreePeriodActivity'
@@ -113,8 +113,32 @@ export function ActivityNode({ id, data }: NodeProps) {
         />
       )
     }
-    case 'label':
-      return <LabelActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
+    case 'label': {
+      const material = getApparatus('labelled-diagram')?.legacy?.fromLegacy(
+        spec.payload,
+        spec.success,
+      )
+      if (material) {
+        return (
+          <MaterialActivity
+            id={id}
+            spec={spec}
+            materialSpec={material}
+            adapter={labelAdapter}
+            onOutcome={emitActivityOutcome}
+            initialState={initialState}
+          />
+        )
+      }
+      return (
+        <LabelActivity
+          id={id}
+          spec={spec}
+          onOutcome={emitActivityOutcome}
+          initialState={initialState}
+        />
+      )
+    }
     case 'vary':
       return <VaryActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
     case 'balance': {

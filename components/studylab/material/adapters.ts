@@ -4,7 +4,12 @@ import { sortModule } from '@/lib/studylab/activities/patterns/sort'
 import { sequenceModule } from '@/lib/studylab/activities/patterns/sequence'
 import { compareModule } from '@/lib/studylab/activities/patterns/compare'
 import { balanceModule } from '@/lib/studylab/activities/patterns/balance'
+import { labelModule } from '@/lib/studylab/activities/patterns/label'
 import { placementToSides, sidesToPlacement } from '@/lib/studylab/material/balancePlacement'
+import {
+  labelAssignToPlacement,
+  placementToLabelAssign,
+} from '@/lib/studylab/material/labelPlacement'
 import {
   assignToPlacement,
   binIdFromSlot,
@@ -44,6 +49,24 @@ export const sortAdapter: MaterialWorkAdapter = {
   },
   wrongIdsWhenUnsolved(payload, work, success) {
     return sortModule.validate(payload as never, work as never, success).wrongIds
+  },
+  refusalTarget(slotId) {
+    return binIdFromSlot(slotId) ?? slotId
+  },
+}
+
+export const labelAdapter: MaterialWorkAdapter = {
+  freshWork() {
+    return { assign: {} }
+  },
+  placementFromWork(work) {
+    return labelAssignToPlacement((work.assign as Record<string, string>) ?? {})
+  },
+  workFromPlacement(placement) {
+    return { assign: placementToLabelAssign(placement) }
+  },
+  wrongIdsWhenUnsolved(payload, work, success) {
+    return labelModule.validate(payload as never, work as never, success).wrongIds
   },
   refusalTarget(slotId) {
     return binIdFromSlot(slotId) ?? slotId
