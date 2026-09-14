@@ -105,10 +105,13 @@ export default function StudioHome() {
     grades: { kicker: 'BOOST YOUR GRADES', title: 'Build an assessment and find your gaps', cta: 'Create assessment', tone: 'accent', action: () => setFormOpen(true) },
     exams: {
       kicker: 'EXAM READY',
-      title: isNG ? 'Sharpen up for WAEC & JAMB' : 'Practice in real exam conditions',
-      cta: isNG ? 'Start exam prep' : 'Start practice',
+      // Exam prep is everyone's now: Cambridge Checkpoint is sat in every
+      // country, and the national exams inside it are filtered by country
+      // rather than the whole surface being hidden from non-Nigerian students.
+      title: isNG ? 'Sharpen up for WAEC & JAMB' : 'Sit a real exam paper',
+      cta: 'Start exam prep',
       tone: 'exam',
-      action: () => router.push(isNG ? '/exam-prep' : '/practice'),
+      action: () => router.push('/exam-prep'),
     },
     explore: { kicker: 'EXPLORE & LEARN', title: 'Learn any topic on a living canvas', cta: 'Open LearnSpace', tone: 'studylab', action: () => router.push('/studylab') },
   }
