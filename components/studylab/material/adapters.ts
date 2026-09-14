@@ -7,6 +7,7 @@ import { balanceModule } from '@/lib/studylab/activities/patterns/balance'
 import { labelModule } from '@/lib/studylab/activities/patterns/label'
 import { scenarioModule } from '@/lib/studylab/activities/patterns/scenario'
 import { varyModule } from '@/lib/studylab/activities/patterns/vary'
+import { composeModule } from '@/lib/studylab/activities/patterns/compose'
 import { controlsToValue, valueToControls } from '@/lib/studylab/material/varyControls'
 import { placementToSides, sidesToPlacement } from '@/lib/studylab/material/balancePlacement'
 import {
@@ -27,6 +28,10 @@ import {
   chosenToPlacement,
   placementToChosen,
 } from '@/lib/studylab/material/scenarioPlacement'
+import {
+  joinsToPlacement,
+  placementToJoins,
+} from '@/lib/studylab/material/composePlacement'
 
 export type MaterialWorkAdapter = {
   freshWork(payload: unknown, seed: number | undefined): Record<string, unknown>
@@ -177,6 +182,25 @@ export const scenarioAdapter: MaterialWorkAdapter = {
   },
   wrongIdsWhenUnsolved(payload, work, success) {
     return scenarioModule.validate(payload as never, work as never, success).wrongIds
+  },
+  refusalTarget(slotId) {
+    return binIdFromSlot(slotId) ?? slotId
+  },
+}
+
+export const composeAdapter: MaterialWorkAdapter = {
+  freshWork() {
+    return { joins: [] }
+  },
+  placementFromWork(work) {
+    const joins = Array.isArray(work.joins) ? (work.joins as [string, string][]) : []
+    return joinsToPlacement(joins)
+  },
+  workFromPlacement(placement) {
+    return { joins: placementToJoins(placement) }
+  },
+  wrongIdsWhenUnsolved(payload, work, success) {
+    return composeModule.validate(payload as never, work as never, success).wrongIds
   },
   refusalTarget(slotId) {
     return binIdFromSlot(slotId) ?? slotId
