@@ -30,9 +30,12 @@ export function MaterialBoardNode({ id, data }: NodeProps) {
 
   const handleStateChange = useCallback(
     (next: MaterialState) => {
-      persist(next)
+      persist({
+        ...next,
+        status: materialState.status === 'solved' ? 'solved' : 'in_progress',
+      })
     },
-    [persist],
+    [persist, materialState.status],
   )
 
   const check = useCallback(() => {
