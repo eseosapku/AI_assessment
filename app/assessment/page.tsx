@@ -29,6 +29,9 @@ import {
   creditFromMarks,
   type QuestionOutcome,
 } from '@/lib/assessment-weak-areas'
+import { checkpointReport } from '@/lib/checkpoint-report'
+import { checkpointSubject } from '@/lib/cambridge-checkpoint'
+import CheckpointStrandReport, { type CheckpointPaperMeta } from '@/components/CheckpointStrandReport'
 import {
   buildRetakePayload,
   rememberRetakeOrigin,
@@ -131,6 +134,13 @@ interface Assessment {
   topics: string[]
   curriculum?: string
   questionType?: string
+  /**
+   * Present only on a Cambridge Checkpoint component, set by ExamPrepForm.
+   * It is what lets the result screen report by strand rather than showing a
+   * bare score — which is the difference between Checkpoint practice and a
+   * quiz wearing a syllabus code.
+   */
+  checkpoint?: CheckpointPaperMeta
 }
 
 interface PausedAssessmentState {
@@ -1497,6 +1507,24 @@ function AssessmentPageClient() {
     })
     const problemAreas = pickProblemAreas(summarizeWeakAreas(outcomes))
 
+    // Checkpoint reads back by strand. `outcomes` already carries per-question
+    // credit on a 0..1 scale, so a half-marked written answer counts as half
+    // rather than as a wipeout — the same basis the weak-area grouping uses.
+    const checkpointMeta = assessment.checkpoint
+    // The stored paper carries which subject it was, not the subject's strands
+    // — those live in the syllabus module, which is the single place they are
+    // allowed to live.
+    const checkpointSubjectDef = checkpointMeta
+      ? checkpointSubject(checkpointMeta.programme, checkpointMeta.subject)
+      : undefined
+    const strandReport = checkpointMeta && checkpointSubjectDef
+      ? checkpointReport(
+          assessment.questions,
+          outcomes.map((o) => o.credit >= 0.5),
+          checkpointSubjectDef,
+        )
+      : null
+
     const jumpToQuestion = (n: number) => {
       const el = document.getElementById(`question-${n}`)
       if (!el) return
@@ -1600,6 +1628,15 @@ function AssessmentPageClient() {
                   : 'See what to study next'}
                 <ChevronRight className="h-4 w-4" aria-hidden />
               </button>
+            )}
+
+            {/* The strand breakdown, above the question review: on a Checkpoint
+                paper this IS the result. A bare score tells a student nothing
+                they can act on; "weakest strand: Earth and Space" does. */}
+            {checkpointMeta && strandReport && (
+              <div className="mb-10 text-left">
+                <CheckpointStrandReport meta={checkpointMeta} report={strandReport} />
+              </div>
             )}
 
             {/* Score / Grade */}

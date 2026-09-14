@@ -17,9 +17,11 @@ import { isPaymentRequiredResponse } from '@/lib/subscription'
 import {
   buildableSubjects,
   checkpointSubject,
+  questionCountFor,
   stageOf,
   type CheckpointProgramme,
 } from '@/lib/cambridge-checkpoint'
+import { tagQuestionsWithStrands } from '@/lib/checkpoint-strands'
 
 type ExamType = 'waec' | 'jamb' | 'checkpoint'
 type QuestionFormat = 'mcq' | 'longform' | 'mixed'
@@ -174,7 +176,9 @@ export default function ExamPrepForm() {
           user_id: user?.id,
           subject,
           topics: promptTopics,
-          count,
+          // A Checkpoint component's length is the component's, not the
+          // learner's. Choosing it is what made this a quiz.
+          count: exam === 'checkpoint' && cpComponent ? questionCountFor(cpComponent) : count,
           style: exam === 'checkpoint'
             ? `Cambridge ${programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ${cpSubject?.code}/${component} practice`
             : exam === 'waec' ? 'WASSCE practice' : 'JAMB UTME practice',
@@ -225,6 +229,19 @@ export default function ExamPrepForm() {
           return
         }
         throw new Error(json?.error || 'Failed to generate assessment')
+      }
+      // Tag before storing, and carry which paper this was. Both have to survive
+      // into the result screen: without the strand tags there is nothing to
+      // report, and without the paper's identity the report cannot say which
+      // component it is reporting on.
+      if (exam === 'checkpoint' && cpSubject && Array.isArray(json?.questions)) {
+        tagQuestionsWithStrands(json.questions, cpSubject)
+        json.checkpoint = {
+          programme,
+          subject: cpSubject.name,
+          code: cpSubject.code,
+          component,
+        }
       }
       sessionStorage.setItem('currentAssessment', JSON.stringify(json))
       await refresh()
@@ -571,11 +588,47 @@ export default function ExamPrepForm() {
             </div>
             <div>
               <label className="text-xs font-semibold text-ss-slate uppercase">Questions</label>
-              <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5">
-                {[5, 10, 15, 20, 25, 40].map((n) => <option key={n} value={n}>{n}</option>)}
-              </select>
+              {exam === 'checkpoint' && cpComponent ? (
+                // Fixed by the component. Nobody sitting 0893/01 decides how
+                // many questions it has, and offering the choice is what made
+                // this read as a quiz rather than a paper.
+                <p className="mt-1 rounded-xl border border-ss-line px-3 py-2 text-sm font-semibold text-ss-slate dark:border-white/10">
+                  {questionCountFor(cpComponent)} — set by the paper
+                </p>
+              ) : (
+                <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5">
+                  {[5, 10, 15, 20, 25, 40].map((n) => <option key={n} value={n}>{n}</option>)}
+                </select>
+              )}
             </div>
           </div>
+          {/* What you are about to sit, before you sit it. Without this you
+              click Start practice and land on question 1 with no idea what the
+              paper covers, how it is scored, or that the result is read strand
+              by strand — which is the part worth staying for. */}
+          {exam === 'checkpoint' && cpSubject && cpComponent && (
+            <div className="mb-4 rounded-xl border border-ss-line p-4 dark:border-white/10">
+              <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent">Before you start</p>
+              <p className="mt-2 text-[14px] font-bold text-ss-ink dark:text-white">
+                Cambridge {programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ·{' '}
+                {cpSubject.name} {cpSubject.code}/{cpComponent.number}
+              </p>
+              <ul className="mt-2 space-y-1 text-[13px] font-semibold text-ss-slate">
+                <li>{cpComponent.minutes} minutes · {questionCountFor(cpComponent)} questions · sat at the end of Stage {stageOf(programme)}</li>
+                <li>
+                  Drawn across every strand:{' '}
+                  {[...cpSubject.strands, cpSubject.crossCuttingStrand].filter(Boolean).join(', ')}
+                </li>
+                <li>
+                  Scored out of 50 on Cambridge&apos;s reporting scale, and broken down by strand — so you
+                  finish knowing which one to work on.
+                </li>
+              </ul>
+              <p className="mt-2 text-[12px] font-medium text-ss-slate">
+                Original practice written against the published Cambridge curriculum. Not a past paper.
+              </p>
+            </div>
+          )}
           {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
           <button
             type="button"
