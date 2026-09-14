@@ -38,12 +38,17 @@ export const MAX_RULES = 48
  */
 const ART_NAME_RE = /^[a-z0-9-]+$/
 
-const RULE_OPS = new Set(['derive', 'bind', 'when', 'allow'])
+/** Rule ops accepted by `parseMaterialSpec` — single source for the tutor advertise block. */
+export const MATERIAL_RULE_OPS = ['derive', 'bind', 'when', 'allow'] as const
+/** Goal kinds accepted by `parseMaterialSpec` — single source for the tutor advertise block. */
+export const MATERIAL_GOAL_KINDS = [
+  'exactSet', 'exactOrder', 'binAssignment', 'numericWithin', 'pairing', 'allSubgoals',
+] as const
+
+const RULE_OPS = new Set<string>(MATERIAL_RULE_OPS)
 const CMP_OPS = new Set(['<', '<=', '>', '>=', '==', '!='])
 const DISPLAY_KINDS = new Set(['beam', 'bar', 'gauge', 'tank', 'plot'])
-const SUCCESS_KINDS = new Set([
-  'exactSet', 'exactOrder', 'binAssignment', 'numericWithin', 'pairing', 'allSubgoals',
-])
+const SUCCESS_KINDS = new Set<string>(MATERIAL_GOAL_KINDS)
 
 function isRecord(x: unknown): x is Record<string, unknown> {
   return typeof x === 'object' && x !== null && !Array.isArray(x)

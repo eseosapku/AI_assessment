@@ -24,4 +24,14 @@ describe('advertiseVocabulary', () => {
   it('is not empty', () => {
     expect(advertiseVocabulary().trim().length).toBeGreaterThan(0)
   })
+
+  it('outlines MaterialSpec nouns the ACTION TYPES line promises', () => {
+    const text = advertiseVocabulary()
+    for (const noun of ['pieces', 'groups', 'slots', 'rules', 'goal', 'MaterialSpec']) {
+      expect(text).toContain(noun)
+    }
+    expect(text).toContain('exactSet')
+    expect(text).toContain('derive')
+    expect(text).toContain('NOT ActivitySpec')
+  })
 })
