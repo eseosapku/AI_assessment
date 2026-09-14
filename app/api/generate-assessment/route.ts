@@ -2053,7 +2053,24 @@ ${commandBlock}`
           }
           retryQs = retryParts
         } else {
-          retryQs = await tryGenerateBatch(missing, allQuestions.length + 1)
+          // Ask for meaningfully more than the shortfall, not just the
+          // shortfall.
+          //
+          // The cleaners above had already removed a slice of the first pass —
+          // duplicates, questions referencing a figure that does not exist —
+          // and a retry asking for exactly what is missing walks into the same
+          // rate of loss. Short by one meant two requested (the 40% surplus
+          // rounds up), both near-duplicates of what was already there, both
+          // deduplicated away; three passes gained nothing and the request
+          // failed. Over-asking costs a few tokens; the surplus is trimmed to
+          // the exact count below either way.
+          //
+          // Only padded while the ask still fits one batch: past that the
+          // 40% surplus is already several questions, and a bigger request
+          // buys truncation against Nova Lite's output limit rather than
+          // more questions.
+          const ask = missing <= BATCH_SIZE ? Math.min(BATCH_SIZE, missing + 2) : missing
+          retryQs = await tryGenerateBatch(ask, allQuestions.length + 1)
         }
         const seenKeys = new Set(
           allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),

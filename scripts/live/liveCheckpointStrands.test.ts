@@ -52,7 +52,7 @@ describe('a generated Lower Secondary Science component', () => {
 
     console.log(`\n${questions.length} questions, ${SCIENCE.code}/01`)
     report.strands.forEach((s) =>
-      console.log(`  ${s.assessed ? `${String(s.total).padStart(2)} q` : 'not assessed'}  ${s.strand}`),
+      console.log(`  ${s.assessed ? `${String(s.questions).padStart(2)} q` : 'not assessed'}  ${s.strand}`),
     )
     const matched = questions.filter((q: { strand_matched?: boolean }) => q.strand_matched).length
     console.log(`  matched to a strand: ${matched}/${questions.length}`)

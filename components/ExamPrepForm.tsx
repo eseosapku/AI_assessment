@@ -17,11 +17,16 @@ import { isPaymentRequiredResponse } from '@/lib/subscription'
 import {
   buildableSubjects,
   checkpointSubject,
-  questionCountFor,
   stageOf,
   type CheckpointProgramme,
 } from '@/lib/cambridge-checkpoint'
-import { tagQuestionsWithStrands } from '@/lib/checkpoint-strands'
+import {
+  buildPaper,
+  applyBlueprint,
+  paperTopics,
+  paperBrief,
+  type PaperMode,
+} from '@/lib/checkpoint-paper'
 
 type ExamType = 'waec' | 'jamb' | 'checkpoint'
 type QuestionFormat = 'mcq' | 'longform' | 'mixed'
@@ -52,6 +57,11 @@ export default function ExamPrepForm() {
   // it comes from the syllabus, because Cambridge sets it.
   const [programme, setProgramme] = useState<CheckpointProgramme>('lower-secondary')
   const [component, setComponent] = useState('')
+  // Sit the whole component, or drill one strand. This is the only choice about
+  // the paper's shape a learner gets, and it is a real one: the first is the
+  // exam, the second is revision.
+  const [cpMode, setCpMode] = useState<PaperMode>('paper')
+  const [cpStrand, setCpStrand] = useState('')
   const [jambMode, setJambMode] = useState<'subject' | 'course'>('subject')
   const [course, setCourse] = useState('')
   const [comboSubject, setComboSubject] = useState('')
@@ -77,6 +87,24 @@ export default function ExamPrepForm() {
   const cpSubjects = exam === 'checkpoint' ? buildableSubjects(programme) : []
   const cpSubject = exam === 'checkpoint' ? checkpointSubject(programme, subject) : undefined
   const cpComponent = cpSubject?.components.find((c) => c.number === component)
+
+  // The paper the learner is about to sit, laid out before they commit to it.
+  // Built here rather than at submit time so the briefing below can show the
+  // real thing — how many questions, how many written, how the marks fall —
+  // instead of a promise about it.
+  const cpPaper = useMemo(() => {
+    if (!cpSubject || !cpComponent?.mockable) return null
+    return buildPaper(cpSubject, cpComponent, {
+      mode: cpMode,
+      strand: cpStrand || undefined,
+      // A new paper each time the learner lands on this screen. Two attempts at
+      // the same component should not be the same paper twice.
+      seed: Math.floor(Math.random() * 1e9),
+    })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cpSubject?.code, cpComponent?.number, cpMode, cpStrand])
+
+  const cpWritten = cpPaper?.slots.filter((s) => s.format === 'written').length ?? 0
 
   const jambCombo = useMemo(
     () => JAMB_COURSE_COMBOS.find((c) => c.course === course),
@@ -147,7 +175,7 @@ export default function ExamPrepForm() {
       // Checkpoint has no past papers and no topic picker — its strands come
       // from the syllabus. Guarding it on either would refuse every Checkpoint
       // paper silently, which is what a dead "Start practice" button is.
-      if (!cpSubject || !cpComponent?.mockable) return
+      if (!cpSubject || !cpComponent?.mockable || !cpPaper) return
     } else {
       if (hasPastPapers && !selectedPaperId) return
       if (!hasPastPapers && topics.length === 0) return
@@ -156,18 +184,43 @@ export default function ExamPrepForm() {
     setError('')
     setIsGenerating(true)
     try {
-      const qType: QuestionFormat = exam === 'jamb' ? 'mcq' : questionFormat
+      // A Checkpoint paper mixes multiple choice with written answers that
+      // carry marks, so the format is the paper's, not the learner's.
+      const qType: QuestionFormat = exam === 'checkpoint'
+        ? 'mixed'
+        : exam === 'jamb' ? 'mcq' : questionFormat
       const paper = selectedPaper
-      // Checkpoint's "topics" are its strands, and they come from the syllabus
-      // rather than from anything the learner picked — the real paper spreads
-      // across all of them, and the report is read strand by strand.
+      // Checkpoint's topics are the blueprint's foci — "photosynthesis",
+      // "angles in parallel lines" — one per question.
+      //
+      // They used to be the strand names, which are the names of whole
+      // disciplines rather than topics. Asked for fifteen questions against
+      // "Biology, Chemistry, Physics, Earth and Space", the model wrote the
+      // same handful of ideas repeatedly, the deduplicator removed the repeats,
+      // and the paper came back short of the exact count the route demands —
+      // which is a failed request, not a shorter paper.
       const promptTopics = exam === 'checkpoint'
-        ? (cpSubject ? [...cpSubject.strands, cpSubject.crossCuttingStrand].filter(Boolean) as string[] : [])
+        ? (cpPaper ? paperTopics(cpPaper) : [])
         : topics.length > 0
           ? topics
           : paper
             ? [`${paper.year} ${paper.diet} past paper`]
             : []
+
+      // The blueprint, written out for the generator. Naming every question's
+      // strand, focus and mark value is what stops it circling the same few
+      // ideas — and it is also just what a paper plan is.
+      const checkpointBrief = cpPaper
+        ? [
+            `Cambridge ${cpSubject?.name} ${cpSubject?.code}/${component}, sat at the end of Stage ${stageOf(programme)}. The paper is worth ${cpPaper.totalMarks} marks.`,
+            'Below is the paper plan. Write EXACTLY these questions, in this order, one per line of the plan. Each line names the strand, what the question is about, what it is worth, and whether it is multiple choice or written.',
+            'A written answer states its marks in the question itself, like "(2 marks)", and asks the learner to show working or give one point per mark. A multiple-choice question is worth one mark and has exactly four options.',
+            'Write ORIGINAL questions against the published Cambridge curriculum. Never reproduce a real Checkpoint question or copy a Cambridge diagram — both are copyrighted.',
+            '',
+            'PAPER PLAN:',
+            paperBrief(cpPaper),
+          ].join('\n')
+        : ''
 
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
@@ -176,9 +229,11 @@ export default function ExamPrepForm() {
           user_id: user?.id,
           subject,
           topics: promptTopics,
-          // A Checkpoint component's length is the component's, not the
-          // learner's. Choosing it is what made this a quiz.
-          count: exam === 'checkpoint' && cpComponent ? questionCountFor(cpComponent) : count,
+          // A Checkpoint paper's length is a consequence of its marks, not a
+          // number anybody picked. Fifty marks spent on one-mark multiple
+          // choice and two- and three-mark written answers comes to this many
+          // questions, and that is the only reason it is this many.
+          count: exam === 'checkpoint' && cpPaper ? cpPaper.slots.length : count,
           style: exam === 'checkpoint'
             ? `Cambridge ${programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ${cpSubject?.code}/${component} practice`
             : exam === 'waec' ? 'WASSCE practice' : 'JAMB UTME practice',
@@ -186,17 +241,13 @@ export default function ExamPrepForm() {
             ? `Stage ${stageOf(programme)}`
             : exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
           grade: exam === 'checkpoint' ? stageOf(programme) : undefined,
-          estimatedTime: exam === 'checkpoint' ? cpComponent?.minutes : undefined,
+          estimatedTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
           curriculum: exam,
           difficultyLevel: difficulty,
           questionType: qType,
           textbook_id: paper?.id ?? undefined,
           examPrepContext: exam === 'checkpoint'
-            ? [
-                `Cambridge ${cpSubject?.name} ${cpSubject?.code}, component ${component}, ${cpComponent?.minutes} minutes, taken at the end of Stage ${stageOf(programme)}.`,
-                `Spread the questions across these strands, which is how Cambridge reports the result: ${promptTopics.join(', ')}.`,
-                'Write ORIGINAL questions against the published Cambridge curriculum. Never reproduce a real Checkpoint question or copy a Cambridge diagram — both are copyrighted.',
-              ].join(' ')
+            ? checkpointBrief
             : examPrepContext(
             exam,
             subject,
@@ -234,13 +285,21 @@ export default function ExamPrepForm() {
       // into the result screen: without the strand tags there is nothing to
       // report, and without the paper's identity the report cannot say which
       // component it is reporting on.
-      if (exam === 'checkpoint' && cpSubject && Array.isArray(json?.questions)) {
-        tagQuestionsWithStrands(json.questions, cpSubject)
+      if (exam === 'checkpoint' && cpSubject && cpPaper && Array.isArray(json?.questions)) {
+        // The blueprint assigns the marks and the strand, not the model. Asked
+        // for a 2-mark question it returns `"marks": 6` often enough that
+        // trusting it would make the totals meaningless, and it tags strands by
+        // wording. Neither is a guess here: the question was commissioned
+        // against that strand for that many marks.
+        json.questions = applyBlueprint(json.questions, cpPaper)
         json.checkpoint = {
           programme,
           subject: cpSubject.name,
           code: cpSubject.code,
           component,
+          mode: cpPaper.mode,
+          strand: cpPaper.strand,
+          totalMarks: cpPaper.totalMarks,
         }
       }
       sessionStorage.setItem('currentAssessment', JSON.stringify(json))
@@ -556,7 +615,9 @@ export default function ExamPrepForm() {
       {readyForSettings && step >= 4 && (
         <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6">
           <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 4</p>
-          <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Practice settings</h2>
+          <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">
+            {exam === 'checkpoint' ? 'What you’re about to sit' : 'Practice settings'}
+          </h2>
           {selectedPaper && (
             <p className="text-xs text-ss-slate mb-4">
               Source: <span className="font-semibold text-ss-ink dark:text-gray-300">{selectedPaper.year} {selectedPaper.diet?.replace(/-/g, ' ')}</span>
@@ -565,7 +626,7 @@ export default function ExamPrepForm() {
               )}
             </p>
           )}
-          <div className="grid sm:grid-cols-2 gap-4 mb-4">
+          <div className={`grid sm:grid-cols-2 gap-4 mb-4 ${exam === 'checkpoint' ? 'hidden' : ''}`}>
             {exam === 'waec' && (
               <div className="sm:col-span-2">
                 <label className="text-xs font-semibold text-ss-slate uppercase">Question format</label>
@@ -588,45 +649,108 @@ export default function ExamPrepForm() {
             </div>
             <div>
               <label className="text-xs font-semibold text-ss-slate uppercase">Questions</label>
-              {exam === 'checkpoint' && cpComponent ? (
-                // Fixed by the component. Nobody sitting 0893/01 decides how
-                // many questions it has, and offering the choice is what made
-                // this read as a quiz rather than a paper.
-                <p className="mt-1 rounded-xl border border-ss-line px-3 py-2 text-sm font-semibold text-ss-slate dark:border-white/10">
-                  {questionCountFor(cpComponent)} — set by the paper
-                </p>
-              ) : (
-                <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5">
-                  {[5, 10, 15, 20, 25, 40].map((n) => <option key={n} value={n}>{n}</option>)}
-                </select>
-              )}
+              <select value={count} onChange={(e) => setCount(Number(e.target.value))} className="w-full mt-1 px-3 py-2 rounded-xl text-sm border border-ss-line dark:border-white/10 bg-ss-panel dark:bg-ss-panel/5">
+                {[5, 10, 15, 20, 25, 40].map((n) => <option key={n} value={n}>{n}</option>)}
+              </select>
             </div>
           </div>
           {/* What you are about to sit, before you sit it. Without this you
-              click Start practice and land on question 1 with no idea what the
-              paper covers, how it is scored, or that the result is read strand
-              by strand — which is the part worth staying for. */}
-          {exam === 'checkpoint' && cpSubject && cpComponent && (
+              click Start and land on question 1 with no idea what the paper
+              covers, how it is scored, or that the result is read strand by
+              strand — which is the part worth staying for. Every number here is
+              read off the paper that was actually built, so none of it can
+              drift from what arrives. */}
+          {exam === 'checkpoint' && cpSubject && cpComponent && cpPaper && (
             <div className="mb-4 rounded-xl border border-ss-line p-4 dark:border-white/10">
-              <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent">Before you start</p>
-              <p className="mt-2 text-[14px] font-bold text-ss-ink dark:text-white">
-                Cambridge {programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ·{' '}
-                {cpSubject.name} {cpSubject.code}/{cpComponent.number}
+              <p className="text-[14px] font-bold text-ss-ink dark:text-white">
+                {cpSubject.name} {cpSubject.code}/{cpComponent.number} · Cambridge{' '}
+                {programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint
               </p>
-              <ul className="mt-2 space-y-1 text-[13px] font-semibold text-ss-slate">
-                <li>{cpComponent.minutes} minutes · {questionCountFor(cpComponent)} questions · sat at the end of Stage {stageOf(programme)}</li>
+              <p className="mt-1 text-[13px] font-medium text-ss-slate">
+                Sat at the end of Stage {stageOf(programme)}. Marks are Cambridge&apos;s; the questions are ours,
+                written against the published curriculum.
+              </p>
+
+              {/* Sit it, or drill one strand. The only choice on offer, and a
+                  real one — a count dropdown was neither. */}
+              <div className="mt-4 flex flex-wrap gap-2">
+                {([
+                  { id: 'paper' as const, label: 'Sit the paper', note: `${cpComponent.minutes} min · 50 marks` },
+                  { id: 'practice' as const, label: 'Drill one strand', note: 'Untimed · 12 marks' },
+                ]).map((opt) => (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() => {
+                      setCpMode(opt.id)
+                      if (opt.id === 'practice' && !cpStrand) setCpStrand(cpSubject.strands[0])
+                    }}
+                    className={`flex-1 min-w-[150px] rounded-xl border px-3 py-2.5 text-left transition ${
+                      cpMode === opt.id
+                        ? 'border-ss-accent bg-ss-accent/5'
+                        : 'border-ss-line hover:border-ss-accent/40 dark:border-white/10'
+                    }`}
+                  >
+                    <span className="block text-[13.5px] font-bold text-ss-ink dark:text-white">{opt.label}</span>
+                    <span className="block text-[12px] font-semibold text-ss-slate">{opt.note}</span>
+                  </button>
+                ))}
+              </div>
+
+              {cpMode === 'practice' && (
+                <div className="mt-3 flex flex-wrap gap-1.5">
+                  {cpSubject.strands.map((s) => (
+                    <button
+                      key={s}
+                      type="button"
+                      onClick={() => setCpStrand(s)}
+                      className={`rounded-lg border px-2.5 py-1.5 text-[12.5px] font-semibold transition ${
+                        cpStrand === s
+                          ? 'border-ss-accent bg-ss-accent/10 text-ss-ink dark:text-white'
+                          : 'border-ss-line text-ss-slate hover:border-ss-accent/40 dark:border-white/10'
+                      }`}
+                    >
+                      {s}
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-ss-line pt-3 dark:border-white/10">
+                <div>
+                  <dt className="text-[12px] font-bold uppercase tracking-wider text-ss-slate">Marks</dt>
+                  <dd className="text-[18px] font-extrabold text-ss-ink dark:text-white">{cpPaper.totalMarks}</dd>
+                </div>
+                <div>
+                  <dt className="text-[12px] font-bold uppercase tracking-wider text-ss-slate">Questions</dt>
+                  <dd className="text-[18px] font-extrabold text-ss-ink dark:text-white">{cpPaper.slots.length}</dd>
+                </div>
+                <div>
+                  <dt className="text-[12px] font-bold uppercase tracking-wider text-ss-slate">Time</dt>
+                  <dd className="text-[18px] font-extrabold text-ss-ink dark:text-white">
+                    {cpPaper.minutes ? `${cpPaper.minutes}m` : 'Untimed'}
+                  </dd>
+                </div>
+              </dl>
+
+              <ul className="mt-3 space-y-1.5 text-[13px] font-medium text-ss-slate">
                 <li>
-                  Drawn across every strand:{' '}
-                  {[...cpSubject.strands, cpSubject.crossCuttingStrand].filter(Boolean).join(', ')}
+                  <span className="font-bold text-ss-ink dark:text-white">
+                    {cpPaper.slots.length - cpWritten} multiple choice, {cpWritten} written.
+                  </span>{' '}
+                  Written answers are worth 2 or 3 marks and say so in the question, the way the real paper does.
+                  You show working; part marks count.
                 </li>
                 <li>
-                  Scored out of 50 on Cambridge&apos;s reporting scale, and broken down by strand — so you
-                  finish knowing which one to work on.
+                  {cpPaper.mode === 'practice'
+                    ? `Every question is ${cpPaper.strand}. Good for fixing one weak strand — it is not the paper.`
+                    : `Spread across all ${cpSubject.strands.length} strands: ${cpSubject.strands.join(', ')}.`}
+                </li>
+                <li>
+                  You get a mark out of {cpPaper.totalMarks} and a strand-by-strand breakdown, which is how
+                  Cambridge reports Checkpoint{cpPaper.mode === 'paper' ? ' — 50 marks is the reporting scale' : ''}.
                 </li>
               </ul>
-              <p className="mt-2 text-[12px] font-medium text-ss-slate">
-                Original practice written against the published Cambridge curriculum. Not a past paper.
-              </p>
             </div>
           )}
           {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
@@ -636,7 +760,13 @@ export default function ExamPrepForm() {
             onClick={handleGenerate}
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-ss-accent hover:brightness-95 text-white font-bold disabled:opacity-60"
           >
-            {isGenerating ? <><Loader2 className="w-4 h-4 animate-spin" /> Generating…</> : <>Start practice <ChevronRight className="w-4 h-4" /></>}
+            {isGenerating ? (
+              <><Loader2 className="w-4 h-4 animate-spin" /> Writing your paper…</>
+            ) : exam === 'checkpoint' && cpPaper ? (
+              <>{cpPaper.mode === 'practice' ? 'Start the drill' : 'Start the paper'} <ChevronRight className="w-4 h-4" /></>
+            ) : (
+              <>Start practice <ChevronRight className="w-4 h-4" /></>
+            )}
           </button>
         </motion.section>
       )}
