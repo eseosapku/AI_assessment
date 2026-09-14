@@ -16,6 +16,7 @@ import { QuizNode, CheckpointHeaderNode } from './QuizNode'
 import { WorkedNode, TableNode, CalloutNode, QuestionNode } from './tutorNodes'
 import { MermaidNode } from './MermaidNode'
 import { ActivityNode } from './activities/ActivityNode'
+import { MaterialBoardNode } from './material/MaterialBoardNode'
 
 // Re-export so existing importers (StudyCanvas) keep working.
 export { CanvasContext } from './canvasShared'
@@ -135,6 +136,7 @@ export const studyNodeTypes: Partial<Record<BlockType, ComponentType<NodeProps>>
   resources: ResourceBoardNode,
   quiz: QuizNode,
   activity: ActivityNode,
+  material: MaterialBoardNode,
   checkpointHeader: CheckpointHeaderNode,
   worked: WorkedNode,
   table: TableNode,

@@ -59,5 +59,28 @@ export function summarizeCheckpoints(nodes: StudyNode[]): CheckpointSummary[] {
     byId.set(cpId, row)
   }
 
+  for (const n of nodes) {
+    if (n.type !== 'material') continue
+    const cpId = n.data.materialSpec?.satisfiesCheckpoint
+    if (!cpId || typeof cpId !== 'string') continue
+    const solved = n.data.materialState?.status === 'solved'
+    const row = byId.get(cpId) ?? {
+      id: cpId,
+      step: n.data.step ?? 0,
+      total: 0,
+      answered: 0,
+      correct: 0,
+      done: true,
+    }
+    row.total += 1
+    if (solved) {
+      row.answered += 1
+      row.correct += 1
+    } else {
+      row.done = false
+    }
+    byId.set(cpId, row)
+  }
+
   return [...byId.values()].sort((a, b) => a.step - b.step)
 }
