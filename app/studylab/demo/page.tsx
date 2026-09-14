@@ -1,4 +1,5 @@
 import type { Metadata } from 'next'
+import { Suspense } from 'react'
 import DemoWorkspace from '@/components/studylab/DemoWorkspace'
 
 export const metadata: Metadata = {
@@ -14,5 +15,14 @@ export const metadata: Metadata = {
  * page to be two things at once.
  */
 export default function StudyLabDemoPage() {
-  return <DemoWorkspace />
+  // `DemoWorkspace` reads the query string, and a client component that calls
+  // `useSearchParams()` has to sit behind a Suspense boundary or the whole
+  // production build fails on this page — which is exactly what it was doing.
+  // The page cannot become a client component instead: it exports `metadata`,
+  // and only a server component may.
+  return (
+    <Suspense fallback={null}>
+      <DemoWorkspace />
+    </Suspense>
+  )
 }
