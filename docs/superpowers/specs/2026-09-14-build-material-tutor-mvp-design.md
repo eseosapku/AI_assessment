@@ -1,6 +1,6 @@
 # Stage 4 — Tutor `build_material` (MVP)
 
-**Status:** Designed 2026-09-14; not built  
+**Status:** Built 2026-09-14 (MVP on `aws_deploy`, local only)  
 **Date:** 2026-09-14  
 **Parent:** `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`  
 **Depends on:** Stage 3b complete (all nine live cutovers); Phase 2 core (`validateMaterial`, canon, `MaterialRenderer`).

@@ -1,4 +1,4 @@
-# Handover — StudyLab / LearnSpace, as of 2026-09-10
+# Handover — StudyLab / LearnSpace, as of 2026-09-14
 
 Written to move this work between tools and people. Everything here was
 previously scattered across an assistant's private memory, a git-ignored
@@ -14,7 +14,7 @@ product, so it is always an explicit decision, never a default.
 npx tsc --noEmit && npx vitest run
 ```
 
-Currently **123 test files / 1579 tests green, tsc clean**.
+Currently **~139 test files / ~1720 tests green, tsc clean**.
 `npm run lint` is broken project-wide (Next 16 removed `next lint`) — do not
 treat its failure as a regression.
 
@@ -96,10 +96,11 @@ legacy `sort` / `sequence` / `compare` / `balance` / `label` / `vary` /
 `scenario` / `compose` / `threePeriod` activities mount their canon apparatus
 (`sorting-frame`, `ordering-track`, `venn-sets`, `balance-beam`,
 `labelled-diagram`, `variable-model`, `decision-branch`, `bonding-ring`,
-`three-period-cards`) through `ActivityNode`. The tutor still cannot author
-free-form composed materials (Stage 4).
+`three-period-cards`) through `ActivityNode`. Montessori can also author
+free-form materials via Stage 4 `build_material` (see below); `createActivity`
+and the nine patterns remain the default path.
 
-### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b all nine cutovers)
+### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b all nine cutovers + Stage 4 MVP)
 
 **Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
 parse → collidingNames → expression refs → hasCycle → isolation → fit →
@@ -227,12 +228,24 @@ walkthrough); place Sun/Moon correctly; **Check** solves. Smoke on prior
 cutovers still material path. `ThreePeriodActivity` remains the fallback
 when `fromLegacy` returns `null`.
 
+**Stage 4 MVP — tutor `build_material`:** Spec
+`docs/superpowers/specs/2026-09-14-build-material-tutor-mvp-design.md`, plan
+`docs/superpowers/plans/2026-09-14-build-material-tutor-mvp.md`. Montessori
+ACTION TYPES lists `build_material`; `refuseUnjustifiedMaterials` gates
+parseIntent → canon apparatus → `validateMaterial` → `checkMaterialIntent`
+(isolates from `apparatusDimension`); apply creates `type: 'material'` nodes
+with `MaterialBoardNode` + controlled `MaterialRenderer` (Check = `tick().solved`);
+`advertiseVocabulary()` is generated from `MATERIAL_BOX` + `apparatusNames()`;
+`boardSummary` lists activity/material prompts; checkpoints settle solved
+materials with `satisfiesCheckpoint`. Classic mode does not advertise the
+action. `createActivity` and nine live cutovers unchanged.
+
 ### Not done
 
-**Stage 4** — `build_material` on the action union, vocabulary advertised from
-`MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`. Legacy
-activity components remain as fallbacks until an explicit retirement decision
-per pattern.
+**Stage 4 follow-ups** — live tutor lesson drive of `build_material` in the
+browser; balance-beam equation Dimension (still `createActivity` +
+`mode: 'equation'`); retiring `createActivity` / nine activity components
+(explicit decision per pattern, not this MVP).
 
 ---
 
