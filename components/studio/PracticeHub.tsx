@@ -34,13 +34,12 @@ const modes: Mode[] = [
   {
     id: 'exam',
     title: 'Exam prep',
-    blurb: 'WAEC & JAMB style drills for national exams.',
+    blurb: 'Cambridge Checkpoint papers, plus the national exams where they are sat.',
     icon: GraduationCap,
     href: '/exam-prep',
     cta: 'Open exam prep',
     gradient: 'linear-gradient(120deg,#C77B16,#F0A93E 60%,#FFC777)',
     art: '/art/exam.png',
-    ngOnly: true,
   },
   {
     id: 'assign',
