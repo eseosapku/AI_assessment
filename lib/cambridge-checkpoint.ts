@@ -248,6 +248,32 @@ export function strandSignals(strand: string): string[] {
 }
 
 /**
+ * How many questions a practice component carries.
+ *
+ * Fixed, not chosen. Nobody sitting 0893/01 decides how many questions it has,
+ * and a dropdown offering the choice is the tell that a paper is really a quiz
+ * wearing a syllabus code.
+ *
+ * **Ten, for every component, and that is a generator limit rather than a fact
+ * about Cambridge.** `/api/generate-assessment` requires the exact count it was
+ * asked for and errors otherwise, while the model reliably returns a question
+ * or two short of a larger ask — 15 came back as 14, 12 as 11, and each of
+ * those is a paper that fails to generate rather than a slightly shorter one.
+ * Ten is the length that has actually worked.
+ *
+ * So this deliberately ignores `component.minutes`: deriving a length from the
+ * duration produced honest-looking numbers that failed half the time, and a
+ * paper nobody can sit teaches less than a short one. The briefing states the
+ * real duration alongside it, because the duration IS Cambridge's.
+ *
+ * Cambridge publishes a 0-50 reporting scale but not raw paper totals, so there
+ * is no published length to use instead. Real papers will replace this.
+ */
+export function questionCountFor(_component: CheckpointComponent): number {
+  return 10
+}
+
+/**
  * The stage a programme is assessed at, derived rather than stored.
  *
  * Primary Checkpoint is end-of-Stage-6 and Lower Secondary is end-of-Stage-9 by
