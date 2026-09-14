@@ -5,6 +5,8 @@ import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 import { isCardKind, blockSize } from './blocks'
 import { isValidQuestion, coerceQuestion } from './quiz'
 import { validateSpec } from './activities/validate'
+import { parseMaterialSpec } from './material/parse'
+import { createInitialMaterialState } from './material/initialState'
 
 export type CanvasEffect =
   | { kind: 'zoom'; target: 'fit' | 'node' | 'reset'; nodeId?: string }
@@ -127,6 +129,24 @@ function findActivityByPrompt(nodes: StudyNode[], prompt: string): StudyNode | u
   )
 }
 
+// Find an existing, visible material or activity node whose prompt (trimmed,
+// case-insensitive) matches. The tutor re-emits a material it has already
+// built when a turn is retried, and the prompt text is the only reliable
+// signal that this is "the same material" rather than a new one.
+function findMaterialByPrompt(nodes: StudyNode[], prompt: string): StudyNode | undefined {
+  const p = prompt.trim().toLowerCase()
+  return nodes.find((n) => {
+    if (n.hidden) return false
+    if (n.type === 'material') {
+      return (n.data.materialSpec?.prompt ?? '').trim().toLowerCase() === p
+    }
+    if (n.type === 'activity') {
+      return (n.data.spec?.prompt ?? '').trim().toLowerCase() === p
+    }
+    return false
+  })
+}
+
 export function isValidAction(a: any): a is TutorAction {
   if (!a || typeof a !== 'object') return false
   switch (a.type) {
@@ -149,6 +169,8 @@ export function isValidAction(a: any): a is TutorAction {
       return typeof a.id === 'string' && Array.isArray(a.questions) && a.questions.length > 0
     case 'createActivity':
       return typeof a.id === 'string' && validateSpec(a.spec)
+    case 'build_material':
+      return typeof a.id === 'string' && parseMaterialSpec(a.spec) !== null
     default:
       return false
   }
@@ -267,6 +289,32 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
               rejectedMoves: [],
               work: {},
             },
+          },
+        })
+        created.push(action.id)
+        break
+      }
+
+      case 'build_material': {
+        if (nodes.some((n) => n.id === action.id)) break
+        const parsed = parseMaterialSpec(action.spec)
+        if (!parsed) break
+        const dupe = findMaterialByPrompt(nodes, parsed.prompt)
+        if (dupe) {
+          effects.push({ kind: 'zoom', target: 'node', nodeId: dupe.id })
+          break
+        }
+        const step = typeof action.step === 'number' ? action.step : 0
+        nodes.push({
+          id: action.id,
+          type: 'material',
+          position: autoPosition(nodes, step, 'material'),
+          data: {
+            kind: 'material',
+            title: parsed.prompt,
+            step,
+            materialSpec: parsed,
+            materialState: createInitialMaterialState(parsed),
           },
         })
         created.push(action.id)

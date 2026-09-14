@@ -3,6 +3,8 @@ import type { BlockSource } from './blocks'
 import type { PracticeCell } from './practice'
 import type { HomeworkSheet } from './homework'
 import type { ActivitySpec, ActivityState } from './activities/types'
+import type { TeachingIntent } from './activities/intent'
+import type { MaterialSpec, MaterialState } from './material/types'
 
 export type MasteryStatus = 'mastered' | 'developing' | 'gap' | 'not_assessed'
 
@@ -29,7 +31,7 @@ export interface QuizCell {
 }
 
 export interface StudyNodeData {
-  kind: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question' | 'activity'
+  kind: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question' | 'activity' | 'material'
   title?: string
   body?: string
   /** Bullet points for a concept card (e.g. "Key Terms"). */
@@ -91,6 +93,10 @@ export interface StudyNodeData {
   spec?: ActivitySpec
   /** Persisted student progress within the activity. */
   activityState?: ActivityState
+  /** Composable material payload (material nodes only). */
+  materialSpec?: MaterialSpec
+  /** Persisted student progress within the material. */
+  materialState?: MaterialState
 }
 
 export interface StudyNode {
@@ -100,7 +106,7 @@ export interface StudyNode {
    * It is deliberately not a `CardKind`: there is no `createCard` that makes
    * one, because it is not something a tutor writes.
    */
-  type: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question' | 'activity'
+  type: CardKind | 'stepGroup' | 'image' | 'quiz' | 'checkpointHeader' | 'question' | 'activity' | 'material'
   position: { x: number; y: number }
   data: StudyNodeData
   hidden?: boolean
@@ -236,6 +242,14 @@ export type TutorAction =
       id: string
       spec: ActivitySpec
       step?: number
+    }
+  | {
+      type: 'build_material'
+      id: string
+      spec: MaterialSpec
+      step?: number
+      /** Stated before build; stripped by dispatch filter, ignored by apply. */
+      intent?: TeachingIntent
     }
   | {
       type: 'updateCard'

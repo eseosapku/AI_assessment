@@ -9,7 +9,7 @@ export type BlockType =
   // AI-creatable / tutor-managed
   | 'concept' | 'code' | 'diagram' | 'mermaid' | 'worked' | 'table' | 'callout' | 'web'
   | 'practice' | 'question'
-  | 'quiz' | 'checkpointHeader' | 'stepGroup' | 'image' | 'activity'
+  | 'quiz' | 'checkpointHeader' | 'stepGroup' | 'image' | 'activity' | 'material'
   // Derived at render time from where the cards are; never stored on a board.
   | 'stepRegion'
   // freeform student blocks (no AI context)
@@ -62,6 +62,7 @@ export const BLOCKS: Record<BlockType, BlockDef> = {
   // `question`, there is no createCard that can make one, because a material
   // is validated before it is built, not written freehand.
   activity: def('activity', 'ai', 420, 380),
+  material: def('material', 'ai', 420, 380),
   // Sized from the cards it wraps, so the entry here is only a placeholder;
   // it exists so the type is complete, not because anything reads it.
   stepRegion: def('stepRegion', 'ai', 0, 0),
