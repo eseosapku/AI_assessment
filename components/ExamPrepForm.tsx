@@ -141,8 +141,15 @@ export default function ExamPrepForm() {
       handlePaymentRequired('assessment')
       return
     }
-    if (hasPastPapers && !selectedPaperId) return
-    if (!hasPastPapers && topics.length === 0) return
+    if (exam === 'checkpoint') {
+      // Checkpoint has no past papers and no topic picker — its strands come
+      // from the syllabus. Guarding it on either would refuse every Checkpoint
+      // paper silently, which is what a dead "Start practice" button is.
+      if (!cpSubject || !cpComponent?.mockable) return
+    } else {
+      if (hasPastPapers && !selectedPaperId) return
+      if (!hasPastPapers && topics.length === 0) return
+    }
 
     setError('')
     setIsGenerating(true)
@@ -236,11 +243,16 @@ export default function ExamPrepForm() {
         <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 1</p>
         <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-4">Choose your exam</h2>
         <div className="grid sm:grid-cols-2 gap-3">
+          {/* Cambridge Checkpoint is sat in every country, so it is offered in
+              every country and leads. The national exams are shown to the
+              countries that sit them — WAEC and JAMB to Nigeria, and the same
+              rule will hold for whatever is added next. A Rwandan student
+              being offered JAMB is noise, not choice. */}
           {([
-            { id: 'waec' as const, label: 'WAEC WASSCE', desc: 'West African Senior School Certificate', icon: BookOpen },
-            { id: 'jamb' as const, label: 'JAMB UTME', desc: 'University matriculation practice', icon: GraduationCap },
-            { id: 'checkpoint' as const, label: 'Cambridge Checkpoint', desc: 'Primary and Lower Secondary practice papers', icon: BookOpen },
-          ]).map((opt) => (
+            { id: 'checkpoint' as const, label: 'Cambridge Checkpoint', desc: 'Primary and Lower Secondary practice papers', icon: BookOpen, countries: null },
+            { id: 'waec' as const, label: 'WAEC WASSCE', desc: 'West African Senior School Certificate', icon: BookOpen, countries: ['NG'] },
+            { id: 'jamb' as const, label: 'JAMB UTME', desc: 'University matriculation practice', icon: GraduationCap, countries: ['NG'] },
+          ]).filter((opt) => !opt.countries || opt.countries.includes(user?.country ?? '')).map((opt) => (
             <button
               key={opt.id}
               type="button"
