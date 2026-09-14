@@ -1,5 +1,8 @@
 // lib/studylab/activities/intent.ts
 import type { ActivitySpec } from './types'
+import { apparatusDimension } from '@/lib/studylab/material/apparatusDimension'
+import { getApparatus } from '@/lib/studylab/material/canon'
+import type { MaterialSpec } from '@/lib/studylab/material/types'
 import { DIMENSIONS, dimensionsOf, type Dimension } from './dimensions'
 
 /**
@@ -69,5 +72,47 @@ export function checkIntent(
         `or say what this one actually teaches.`,
     }
   }
+  return { ok: true }
+}
+
+/**
+ * Whether the stated intent matches the apparatus the tutor chose to build from.
+ *
+ * For build_material the isolates are not inferred from the spec — they are
+ * fixed by the apparatus. The tutor must copy them, not invent a dimension.
+ */
+export function checkMaterialIntent(
+  intent: TeachingIntent,
+  _spec: MaterialSpec,
+): { ok: true } | { ok: false; reason: string } {
+  const apparatus = getApparatus(intent.apparatus)
+  if (!apparatus) {
+    return {
+      ok: false,
+      reason:
+        `Unknown apparatus "${intent.apparatus}". Choose one from the canon list — ` +
+        `each apparatus is built to teach one quality.`,
+    }
+  }
+
+  const dim = apparatusDimension(intent.apparatus)
+  if (!dim) {
+    return {
+      ok: false,
+      reason:
+        `Apparatus "${intent.apparatus}" has no teaching dimension yet — ` +
+        `it cannot be used for build_material.`,
+    }
+  }
+
+  if (intent.isolates !== dim) {
+    return {
+      ok: false,
+      reason:
+        `You said this isolates ${intent.isolates}, but "${intent.apparatus}" teaches ${dim}. ` +
+        `Copy the isolates from the apparatus you chose, do not invent one.`,
+    }
+  }
+
   return { ok: true }
 }

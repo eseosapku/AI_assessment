@@ -1,7 +1,8 @@
 // lib/studylab/activities/intent.test.ts
 import { describe, it, expect } from 'vitest'
-import { parseIntent, checkIntent } from './intent'
+import { parseIntent, checkIntent, checkMaterialIntent } from './intent'
 import type { ActivitySpec } from './types'
+import type { MaterialSpec } from '@/lib/studylab/material/types'
 
 const sortSpec = {
   pattern: 'sort',
@@ -83,5 +84,35 @@ describe('checkIntent', () => {
     const result = checkIntent(parseIntent(intent)!, degenerate)
     expect(result.ok).toBe(false)
     expect(result.ok === false && result.reason).toMatch(/varies nothing/)
+  })
+})
+
+const materialSpec = {
+  prompt: 'Sort each tile into its matching frame.',
+  pieces: [],
+  groups: [],
+  slots: [],
+  rules: [],
+  goal: { kind: 'binAssignment', assign: {} },
+} as MaterialSpec
+
+describe('checkMaterialIntent', () => {
+  it('passes when isolates match the apparatus dimension', () => {
+    expect(checkMaterialIntent(parseIntent(intent)!, materialSpec)).toEqual({ ok: true })
+  })
+
+  it('refuses when isolates do not match the apparatus', () => {
+    const wrong = parseIntent({ ...intent, isolates: 'quantity' })!
+    const result = checkMaterialIntent(wrong, materialSpec)
+    expect(result.ok).toBe(false)
+    expect(result.ok === false && result.reason).toContain('category')
+    expect(result.ok === false && result.reason).toContain('sorting-frame')
+  })
+
+  it('refuses an unknown apparatus', () => {
+    const unknown = parseIntent({ ...intent, apparatus: 'mystery-box' })!
+    const result = checkMaterialIntent(unknown, materialSpec)
+    expect(result.ok).toBe(false)
+    expect(result.ok === false && result.reason).toContain('mystery-box')
   })
 })
