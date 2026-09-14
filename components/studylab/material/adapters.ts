@@ -35,7 +35,11 @@ import {
 
 export type MaterialWorkAdapter = {
   freshWork(payload: unknown, seed: number | undefined): Record<string, unknown>
-  placementFromWork(work: Record<string, unknown>, materialSpec: MaterialSpec): Placement
+  placementFromWork(
+    work: Record<string, unknown>,
+    materialSpec: MaterialSpec,
+    payload?: unknown,
+  ): Placement
   controlsFromWork?(
     work: Record<string, unknown>,
     materialSpec: MaterialSpec,

@@ -19,7 +19,7 @@ function seedMaterialState(
 ): MaterialState {
   const base = createInitialMaterialState(materialSpec)
   const work = (initial?.work as Record<string, unknown> | undefined) ?? {}
-  const placement = adapter.placementFromWork(work, materialSpec)
+  const placement = adapter.placementFromWork(work, materialSpec, payload)
   const hasWork =
     Object.keys(placement).length > 0 || typeof work.value === 'number'
   const controls = adapter.controlsFromWork
