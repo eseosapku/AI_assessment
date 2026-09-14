@@ -329,7 +329,15 @@ export function buildPaper(
     code: subject.code,
     strands: subject.strands,
     component: component.number,
-    minutes: mode === 'practice' ? null : component.minutes,
+    // A drill gets the component's own minute-per-mark rate rather than no
+    // clock at all. It used to report null, on the reasoning that a strand
+    // drill is not a sitting — but the assessment screen times every paper it
+    // is given, so "untimed" was a promise the product did not keep. The rate
+    // is Cambridge's; only the length is ours.
+    minutes:
+      mode === 'practice'
+        ? Math.max(1, Math.round((component.minutes * PRACTICE_MARKS) / PAPER_MARKS))
+        : component.minutes,
     totalMarks: budget,
     slots,
     ...(drilling ? { strand: drilling } : {}),
@@ -407,17 +415,32 @@ function isLongform(question: unknown): boolean {
 export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): unknown[] {
   if (!Array.isArray(questions)) return []
   const usable = questions.filter((q) => typeof q === 'object' && q !== null)
-  const written = usable.filter(isLongform)
-  const choice = usable.filter((q) => !isLongform(q))
+
+  // The SLOTS move to meet the questions, never the other way round.
+  //
+  // This used to pull questions out of the generator's order to sit them under
+  // slots of a matching format, and that quietly broke the figures. The route
+  // groups questions sharing a figure so they are contiguous and labels them
+  // "Questions 4-6 refer to the figure below"; reordering afterwards scattered
+  // those runs — one live paper put the same image at questions 1, 2 and 4, and
+  // another at 10, 12 and 13 — and left eight questions carrying group labels
+  // whose start and end no longer pointed at them. To a learner that reads as
+  // the same picture spamming the paper.
+  const written = paper.slots.filter((s) => s.format === 'written')
+  const choice = paper.slots.filter((s) => s.format !== 'written')
 
   const kept: Record<string, unknown>[] = []
-  for (const slot of paper.slots) {
-    const preferred = slot.format === 'written' ? written : choice
-    const fallback = slot.format === 'written' ? choice : written
-    const picked = (preferred.shift() ?? fallback.shift()) as Record<string, unknown> | undefined
-    if (!picked) break
+  for (const question of usable) {
+    const longform = isLongform(question)
+    const preferred = longform ? written : choice
+    const fallback = longform ? choice : written
+    // A slot of the wrong kind is better than no slot: the question exists and
+    // has to be worth something. The mark clamp below keeps that honest.
+    const slot = preferred.shift() ?? fallback.shift()
+    if (!slot) break
 
-    picked.marks = isLongform(picked) ? slot.marks : 1
+    const picked = question as Record<string, unknown>
+    picked.marks = longform ? slot.marks : 1
     if (typeof picked.question === 'string') {
       picked.question = syncMarksInStem(picked.question, picked.marks as number)
     }

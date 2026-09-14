@@ -13,7 +13,17 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { checkpointSubject, type CheckpointProgramme } from '@/lib/cambridge-checkpoint'
 import { buildPaper, STRAND_FOCI, type PaperMode } from '@/lib/checkpoint-paper'
-import { fociWithFigures } from '@/lib/checkpoint-figures'
+import { fociWithFigures, warmCoverage } from '@/lib/checkpoint-figures'
+import { buildableSubjects } from '@/lib/cambridge-checkpoint'
+
+// Scanning a subject's foci against ten thousand figures takes seconds the
+// first time. Do it on boot rather than making the first learner after a
+// deploy wait for it behind a disabled button.
+warmCoverage(
+  (['primary', 'lower-secondary'] as const).flatMap((p) =>
+    buildableSubjects(p).map((s) => s.strands.flatMap((strand) => [...(STRAND_FOCI[strand] ?? [])])),
+  ),
+)
 
 export async function POST(req: NextRequest) {
   try {

@@ -24,7 +24,11 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
       <img
         src={src}
         alt={alt}
-        className="max-w-full h-auto mx-auto rounded-lg"
+        // Capped in viewport height, not just width. A tall portrait figure —
+        // a digestive system, a river profile — otherwise fills the screen and
+        // pushes the question it belongs to below the fold, so the student
+        // scrolls past a picture to find out what they are being asked.
+        className="max-w-full h-auto max-h-[45vh] w-auto object-contain mx-auto rounded-lg"
         loading={lazy ? 'lazy' : 'eager'}
         // Decode off the main thread so a large figure cannot jank the page
         // while the student is already reading the question.

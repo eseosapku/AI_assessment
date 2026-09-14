@@ -270,7 +270,11 @@ export default function ExamPrepForm() {
             ? `Stage ${stageOf(programme)}`
             : exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
           grade: exam === 'checkpoint' ? stageOf(programme) : undefined,
-          estimatedTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
+          // customTime, not estimatedTime: the route reads only the former,
+          // so Cambridge's published duration was being dropped and the paper
+          // timed at whatever the question count implied — 2h25 on a
+          // 45-minute component.
+          customTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
           curriculum: exam,
           difficultyLevel: difficulty,
           questionType: qType,
@@ -714,7 +718,7 @@ export default function ExamPrepForm() {
               <div className="mt-4 flex flex-wrap gap-2">
                 {([
                   { id: 'paper' as const, label: 'Sit the paper', note: `${cpComponent.minutes} min · 50 marks` },
-                  { id: 'practice' as const, label: 'Drill one strand', note: 'Untimed · 12 marks' },
+                  { id: 'practice' as const, label: 'Drill one strand', note: 'Short · 12 marks' },
                 ]).map((opt) => (
                   <button
                     key={opt.id}

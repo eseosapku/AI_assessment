@@ -164,11 +164,16 @@ describe('a practice run', () => {
     )
   })
 
-  it('is untimed, because a strand drill is not a sitting', () => {
+  it('is timed at the component’s own rate, scaled to its length', () => {
+    // It used to report null minutes on the reasoning that a drill is not a
+    // sitting. The assessment screen times whatever it is handed, so that was
+    // a promise the product did not keep: 12 marks of a 50-mark, 45-minute
+    // paper is about 11 minutes.
     const paper = buildPaper(science, science.components[0], {
       mode: 'practice', strand: 'Physics', seed: 1,
     })
-    expect(paper.minutes).toBeNull()
+    expect(paper.minutes).toBe(Math.round((45 * PRACTICE_MARKS) / PAPER_MARKS))
+    expect(paper.minutes).toBeGreaterThan(0)
   })
 
   it('falls back to the full paper when asked to drill a strand that is not there', () => {
@@ -201,6 +206,21 @@ describe('the blueprint is what counts, not what the model claimed', () => {
     // slot — filed, and honest that it is a fallback.
     expect(kept.map((q: any) => q.strand)).toEqual(paper.slots.map((s) => s.strand))
     expect(kept.every((q: any) => q.strand_matched === false)).toBe(true)
+  })
+
+  it('never reorders the paper, because the figures depend on the order', () => {
+    // The route groups questions sharing a figure so they sit together and
+    // labels them "Questions 4-6 refer to the figure below". Reordering here
+    // scattered those runs — a live paper put one image at questions 1, 2 and
+    // 4 — and left the labels pointing at the wrong questions.
+    const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
+    const generated = asGenerated(paper).map((q, i) => ({ ...q, tag: `orig-${i}` }))
+    const shuffledIn = [
+      ...generated.filter((q) => q.type === 'longform'),
+      ...generated.filter((q) => q.type === 'mcq'),
+    ]
+    const kept = applyBlueprint(shuffledIn, paper) as any[]
+    expect(kept.map((q) => q.tag)).toEqual(shuffledIn.map((q) => q.tag))
   })
 
   it('matches by what a question is, not where it sits', () => {
