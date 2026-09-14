@@ -152,6 +152,21 @@ const varySpec: ActivitySpec = {
   reveal: 'The target temperature is 5.',
 }
 
+const scenarioSpec: ActivitySpec = {
+  pattern: 'scenario',
+  prompt: 'Choose the safer route.',
+  payload: {
+    situation: 'Which route is safe?',
+    choices: [
+      { id: 'safe', label: 'Use the bridge', consequence: 'You cross safely.', defensible: true },
+      { id: 'unsafe', label: 'Enter the flood', consequence: 'The current is dangerous.' },
+    ],
+  },
+  success: { kind: 'exactSet', itemIds: ['safe'] },
+  hints: ['Think about the current.'],
+  reveal: 'The bridge is the defensible choice.',
+}
+
 // Weights must vary — isolation refuses a material whose pieces are identical.
 const legacyBalancePayload = {
   left: [],
@@ -213,6 +228,7 @@ const initialNodes: Node[] = [
   specNode('n-sequence', sequenceSpec, 1680, 0),
   specNode('n-label', labelSpec, 2100, 0),
   specNode('n-vary', varySpec, 2520, 0),
+  specNode('n-scenario', scenarioSpec, 2940, 0),
   {
     id: 'n-material',
     type: 'material',

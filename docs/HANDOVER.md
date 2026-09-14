@@ -43,7 +43,7 @@ shown to a student.
 Spec: `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`
 Plan: `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md`
 
-### Phase 2 — the composable engine (core done; live cutover 6 of 9)
+### Phase 2 — the composable engine (core done; live cutover 7 of 9)
 
 The nine patterns are the wrong *kind* of unit — whole finished apparatus
 rather than parts that combine. So the tutor can only ever pick from nine, never
@@ -91,16 +91,17 @@ Phase 2's code lives in `lib/studylab/material/`:
 | `validate.ts` | `validateMaterial` — composite gate, cheapest check first |
 | `canon/` | nine apparatus in a `Map`, each with `fromLegacy(payload, success?)` |
 
-The core is now reachable through six live renderer cutovers: valid legacy
+The core is now reachable through seven live renderer cutovers: valid legacy
 `sort` activities mount `sorting-frame`, valid legacy `sequence` activities
 mount `ordering-track`, valid legacy `compare` activities mount `venn-sets`,
 valid legacy `balance` activities mount `balance-beam`, valid legacy `label`
-activities mount `labelled-diagram`, and valid legacy `vary` activities mount
-`variable-model`, all through `ActivityNode`. The other three patterns still
+activities mount `labelled-diagram`, valid legacy `vary` activities mount
+`variable-model`, and valid legacy `scenario` activities mount
+`decision-branch`, all through `ActivityNode`. The other two patterns still
 use their legacy renderers, and the tutor still cannot author free-form
 composed materials.
 
-### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort/sequence/compare/balance/label/vary)
+### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort/sequence/compare/balance/label/vary/scenario)
 
 **Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
 parse → collidingNames → expression refs → hasCycle → isolation → fit →
@@ -194,12 +195,23 @@ intentional); slider starts at min; move to target 5; **Check** solves.
 Smoke on prior cutovers still material path. `VaryActivity` remains the
 fallback when `fromLegacy` returns `null`.
 
+**Stage 3b — live scenario cutover:** `ActivityNode` converts valid legacy
+`scenario` specs through the `decision-branch` canon and mounts controlled
+`MaterialActivity` with `scenarioAdapter`. Persistence stays
+`{ chosen: string | null }` mapped to piece on `s-chosen` via
+`scenarioPlacement` helpers. Browser verification on `/dev/activities`
+(`n-scenario`, new bench fixture) confirmed: material My choice / Choices
+slots + gauge (drag+Check-not-auto-grade is intentional — not the legacy
+click-list); drag safe → `s-chosen`; **Check** solves. Smoke on prior
+cutovers still material path. `ScenarioActivity` remains the fallback when
+`fromLegacy` returns `null`.
+
 ### Not done
 
-**Stage 3b, remaining three cutovers** — `threePeriod`, `scenario`, and
-`compose` still need to move to their canon apparatus through `ActivityNode`,
-one at a time. Retire a legacy renderer only when its canon entry owns the live
-path and its fallback decision has been made explicitly.
+**Stage 3b, remaining two cutovers** — `threePeriod` and `compose` still need
+to move to their canon apparatus through `ActivityNode`, one at a time. Retire
+a legacy renderer only when its canon entry owns the live path and its
+fallback decision has been made explicitly.
 
 **Stage 4** — `build_material` on the action union, vocabulary advertised from
 `MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`.
