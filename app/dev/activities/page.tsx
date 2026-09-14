@@ -167,6 +167,27 @@ const scenarioSpec: ActivitySpec = {
   reveal: 'The bridge is the defensible choice.',
 }
 
+const threePeriodSpec: ActivitySpec = {
+  pattern: 'threePeriod',
+  prompt: 'Learn the names, then recall them.',
+  payload: {
+    items: [
+      { id: 'sun', label: 'Sun' },
+      { id: 'moon', label: 'Moon' },
+    ],
+    phases: ['present', 'identify', 'recall'],
+  },
+  success: {
+    kind: 'pairing',
+    pairs: [
+      ['sun', 'Sun'],
+      ['moon', 'Moon'],
+    ],
+  },
+  hints: ['Match each card to its name.'],
+  reveal: 'Sun and Moon are the two names.',
+}
+
 // Weights must vary — isolation refuses a material whose pieces are identical.
 const legacyBalancePayload = {
   left: [],
@@ -229,6 +250,7 @@ const initialNodes: Node[] = [
   specNode('n-label', labelSpec, 2100, 0),
   specNode('n-vary', varySpec, 2520, 0),
   specNode('n-scenario', scenarioSpec, 2940, 0),
+  specNode('n-threePeriod', threePeriodSpec, 3360, 0),
   {
     id: 'n-material',
     type: 'material',

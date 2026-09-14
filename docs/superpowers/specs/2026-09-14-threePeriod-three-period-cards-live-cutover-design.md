@@ -1,6 +1,6 @@
 # Stage 3b — Live cutover: `threePeriod` → `three-period-cards`
 
-**Status:** Designed 2026-09-14; not built  
+**Status:** Built 2026-09-14 (live path verified on `/dev/activities` `n-threePeriod`; Stage 3b complete)  
 **Date:** 2026-09-14  
 **Parent:** `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`  
 **Depends on:** Stage 3b prior eight live cutovers.  

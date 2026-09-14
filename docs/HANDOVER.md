@@ -43,7 +43,7 @@ shown to a student.
 Spec: `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`
 Plan: `docs/superpowers/plans/2026-09-07-learnspace-pedagogy-layer.md`
 
-### Phase 2 — the composable engine (core done; live cutover 8 of 9)
+### Phase 2 — the composable engine (core done; live cutover 9 of 9)
 
 The nine patterns are the wrong *kind* of unit — whole finished apparatus
 rather than parts that combine. So the tutor can only ever pick from nine, never
@@ -91,17 +91,15 @@ Phase 2's code lives in `lib/studylab/material/`:
 | `validate.ts` | `validateMaterial` — composite gate, cheapest check first |
 | `canon/` | nine apparatus in a `Map`, each with `fromLegacy(payload, success?)` |
 
-The core is now reachable through eight live renderer cutovers: valid legacy
-`sort` activities mount `sorting-frame`, valid legacy `sequence` activities
-mount `ordering-track`, valid legacy `compare` activities mount `venn-sets`,
-valid legacy `balance` activities mount `balance-beam`, valid legacy `label`
-activities mount `labelled-diagram`, valid legacy `vary` activities mount
-`variable-model`, valid legacy `scenario` activities mount `decision-branch`,
-and valid legacy `compose` activities mount `bonding-ring`, all through
-`ActivityNode`. The remaining pattern (`threePeriod`) still uses its legacy
-renderer, and the tutor still cannot author free-form composed materials.
+The core is now reachable through all nine live renderer cutovers: valid
+legacy `sort` / `sequence` / `compare` / `balance` / `label` / `vary` /
+`scenario` / `compose` / `threePeriod` activities mount their canon apparatus
+(`sorting-frame`, `ordering-track`, `venn-sets`, `balance-beam`,
+`labelled-diagram`, `variable-model`, `decision-branch`, `bonding-ring`,
+`three-period-cards`) through `ActivityNode`. The tutor still cannot author
+free-form composed materials (Stage 4).
 
-### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b sort/sequence/compare/balance/label/vary/scenario/compose)
+### Done in this continuation (Tasks 7–9 + Stage 3 + Stage 3b all nine cutovers)
 
 **Task 7 — composite gate** at `lib/studylab/material/validate.ts`: cheapest-first
 parse → collidingNames → expression refs → hasCycle → isolation → fit →
@@ -217,15 +215,24 @@ drag both H—O chips onto the ring (gauge 0→3); **Check** solves. Smoke on
 prior cutovers still material path. `ComposeActivity` remains the fallback
 when `fromLegacy` returns `null`.
 
+**Stage 3b — live threePeriod cutover:** `ActivityNode` converts valid legacy
+`threePeriod` specs through the `three-period-cards` canon and mounts
+controlled `MaterialActivity` with `threePeriodAdapter`. Persistence keeps
+`answers` (itemId→label) at **`phase: 2`** (recall-only — present/identify
+walkthrough is intentional non-goal); placement uses `s-answer-*` via
+`threePeriodPlacement` helpers. Catalogue art preserved from `imageUrl`.
+Browser verification on `/dev/activities` (`n-threePeriod`, new bench
+fixture) confirmed: material answer-name slots + cards (not three-period
+walkthrough); place Sun/Moon correctly; **Check** solves. Smoke on prior
+cutovers still material path. `ThreePeriodActivity` remains the fallback
+when `fromLegacy` returns `null`.
+
 ### Not done
 
-**Stage 3b, remaining one cutover** — `threePeriod` still needs to move to
-`three-period-cards` through `ActivityNode`. Retire a legacy renderer only when
-its canon entry owns the live path and its fallback decision has been made
-explicitly.
-
 **Stage 4** — `build_material` on the action union, vocabulary advertised from
-`MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`.
+`MATERIAL_BOX` and the canon, action listed in `systemPrompt(mode)`. Legacy
+activity components remain as fallbacks until an explicit retirement decision
+per pattern.
 
 ---
 
