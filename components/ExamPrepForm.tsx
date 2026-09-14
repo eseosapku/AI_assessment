@@ -116,7 +116,10 @@ export default function ExamPrepForm() {
   const syllabusFallback = Boolean(selectedSubject && !loadingPapers && !hasPastPapers)
 
   useEffect(() => {
-    if (!exam || !subject) {
+    // Checkpoint has no past-paper bank, and asking for one returns a 400 that
+    // the catch below swallows — leaving a red error in the console on every
+    // subject click and nothing to explain it.
+    if (!exam || !subject || exam === 'checkpoint') {
       setPastPapers([])
       setSelectedPaperId(null)
       return
@@ -747,8 +750,9 @@ export default function ExamPrepForm() {
                     : `Spread across all ${cpSubject.strands.length} strands: ${cpSubject.strands.join(', ')}.`}
                 </li>
                 <li>
-                  You get a mark out of {cpPaper.totalMarks} and a strand-by-strand breakdown, which is how
-                  Cambridge reports Checkpoint{cpPaper.mode === 'paper' ? ' — 50 marks is the reporting scale' : ''}.
+                  {cpPaper.mode === 'practice'
+                    ? `You get a mark out of ${cpPaper.totalMarks} for ${cpPaper.strand}. Sit the full paper for a result across the subject.`
+                    : `You get a mark out of ${cpPaper.totalMarks} and a breakdown by strand, which is how Cambridge reports Checkpoint — 50 marks is the reporting scale.`}
                 </li>
               </ul>
             </div>
