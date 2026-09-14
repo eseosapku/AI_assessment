@@ -8,6 +8,7 @@ import { labelModule } from '@/lib/studylab/activities/patterns/label'
 import { scenarioModule } from '@/lib/studylab/activities/patterns/scenario'
 import { varyModule } from '@/lib/studylab/activities/patterns/vary'
 import { composeModule } from '@/lib/studylab/activities/patterns/compose'
+import { threePeriodModule } from '@/lib/studylab/activities/patterns/threePeriod'
 import { controlsToValue, valueToControls } from '@/lib/studylab/material/varyControls'
 import { placementToSides, sidesToPlacement } from '@/lib/studylab/material/balancePlacement'
 import {
@@ -32,6 +33,10 @@ import {
   joinsToPlacement,
   placementToJoins,
 } from '@/lib/studylab/material/composePlacement'
+import {
+  answersToPlacement,
+  placementToAnswers,
+} from '@/lib/studylab/material/threePeriodPlacement'
 
 export type MaterialWorkAdapter = {
   freshWork(payload: unknown, seed: number | undefined): Record<string, unknown>
@@ -186,6 +191,35 @@ export const scenarioAdapter: MaterialWorkAdapter = {
   },
   wrongIdsWhenUnsolved(payload, work, success) {
     return scenarioModule.validate(payload as never, work as never, success).wrongIds
+  },
+  refusalTarget(slotId) {
+    return binIdFromSlot(slotId) ?? slotId
+  },
+}
+
+function itemsFrom(payload: unknown): { id: string; label: string }[] {
+  if (threePeriodModule.isPayload(payload)) return payload.items
+  return []
+}
+
+export const threePeriodAdapter: MaterialWorkAdapter = {
+  freshWork() {
+    return { phase: 2, answers: {}, presentIdx: 0, identifyIdx: 0 }
+  },
+  placementFromWork(work, _spec, payload) {
+    const answers = (work.answers as Record<string, string>) ?? {}
+    return answersToPlacement(answers, itemsFrom(payload))
+  },
+  workFromPlacement(placement, _spec, payload) {
+    return {
+      phase: 2,
+      answers: placementToAnswers(placement, itemsFrom(payload)),
+      presentIdx: 0,
+      identifyIdx: 0,
+    }
+  },
+  wrongIdsWhenUnsolved(payload, work, success) {
+    return threePeriodModule.validate(payload as never, work as never, success).wrongIds
   },
   refusalTarget(slotId) {
     return binIdFromSlot(slotId) ?? slotId
