@@ -5,6 +5,7 @@ import { sequenceModule } from '@/lib/studylab/activities/patterns/sequence'
 import { compareModule } from '@/lib/studylab/activities/patterns/compare'
 import { balanceModule } from '@/lib/studylab/activities/patterns/balance'
 import { labelModule } from '@/lib/studylab/activities/patterns/label'
+import { scenarioModule } from '@/lib/studylab/activities/patterns/scenario'
 import { varyModule } from '@/lib/studylab/activities/patterns/vary'
 import { controlsToValue, valueToControls } from '@/lib/studylab/material/varyControls'
 import { placementToSides, sidesToPlacement } from '@/lib/studylab/material/balancePlacement'
@@ -22,6 +23,10 @@ import {
   orderToPlacement,
   placementToOrder,
 } from '@/lib/studylab/material/sequencePlacement'
+import {
+  chosenToPlacement,
+  placementToChosen,
+} from '@/lib/studylab/material/scenarioPlacement'
 
 export type MaterialWorkAdapter = {
   freshWork(payload: unknown, seed: number | undefined): Record<string, unknown>
@@ -156,6 +161,25 @@ export const varyAdapter: MaterialWorkAdapter = {
   },
   refusalTarget(slotId) {
     return slotId
+  },
+}
+
+export const scenarioAdapter: MaterialWorkAdapter = {
+  freshWork() {
+    return { chosen: null }
+  },
+  placementFromWork(work) {
+    const chosen = typeof work.chosen === 'string' ? work.chosen : null
+    return chosenToPlacement(chosen)
+  },
+  workFromPlacement(placement) {
+    return { chosen: placementToChosen(placement) }
+  },
+  wrongIdsWhenUnsolved(payload, work, success) {
+    return scenarioModule.validate(payload as never, work as never, success).wrongIds
+  },
+  refusalTarget(slotId) {
+    return binIdFromSlot(slotId) ?? slotId
   },
 }
 

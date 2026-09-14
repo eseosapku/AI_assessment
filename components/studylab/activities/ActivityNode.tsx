@@ -4,7 +4,7 @@ import type { NodeProps } from '@xyflow/react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import { MaterialActivity } from '@/components/studylab/material/MaterialActivity'
-import { sortAdapter, sequenceAdapter, compareAdapter, balanceAdapter, labelAdapter, varyAdapter } from '@/components/studylab/material/adapters'
+import { sortAdapter, sequenceAdapter, compareAdapter, balanceAdapter, labelAdapter, varyAdapter, scenarioAdapter } from '@/components/studylab/material/adapters'
 import { CardFrame } from '../canvasShared'
 import { SortActivity } from './SortActivity'
 import { ThreePeriodActivity } from './ThreePeriodActivity'
@@ -191,8 +191,32 @@ export function ActivityNode({ id, data }: NodeProps) {
         />
       )
     }
-    case 'scenario':
-      return <ScenarioActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
+    case 'scenario': {
+      const material = getApparatus('decision-branch')?.legacy?.fromLegacy(
+        spec.payload,
+        spec.success,
+      )
+      if (material) {
+        return (
+          <MaterialActivity
+            id={id}
+            spec={spec}
+            materialSpec={material}
+            adapter={scenarioAdapter}
+            onOutcome={emitActivityOutcome}
+            initialState={initialState}
+          />
+        )
+      }
+      return (
+        <ScenarioActivity
+          id={id}
+          spec={spec}
+          onOutcome={emitActivityOutcome}
+          initialState={initialState}
+        />
+      )
+    }
     case 'compose':
       return <ComposeActivity id={id} spec={spec} onOutcome={emitActivityOutcome} initialState={initialState} />
     default:
