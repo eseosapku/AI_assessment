@@ -248,30 +248,17 @@ export function strandSignals(strand: string): string[] {
 }
 
 /**
- * How many questions a practice component carries.
+ * There is deliberately no `questionCountFor` here.
  *
- * Fixed, not chosen. Nobody sitting 0893/01 decides how many questions it has,
- * and a dropdown offering the choice is the tell that a paper is really a quiz
- * wearing a syllabus code.
+ * There was: it returned ten for every component, which was never a fact about
+ * Cambridge — it was the largest ask that survived the generator, dressed up as
+ * a standard. A learner reading "10 questions · 45 minutes" was being shown one
+ * real number and one artifact side by side with nothing to tell them apart.
  *
- * **Ten, for every component, and that is a generator limit rather than a fact
- * about Cambridge.** `/api/generate-assessment` requires the exact count it was
- * asked for and errors otherwise, while the model reliably returns a question
- * or two short of a larger ask — 15 came back as 14, 12 as 11, and each of
- * those is a paper that fails to generate rather than a slightly shorter one.
- * Ten is the length that has actually worked.
- *
- * So this deliberately ignores `component.minutes`: deriving a length from the
- * duration produced honest-looking numbers that failed half the time, and a
- * paper nobody can sit teaches less than a short one. The briefing states the
- * real duration alongside it, because the duration IS Cambridge's.
- *
- * Cambridge publishes a 0-50 reporting scale but not raw paper totals, so there
- * is no published length to use instead. Real papers will replace this.
+ * A paper's length now falls out of its marks. See `lib/checkpoint-paper.ts`:
+ * the component is worth fifty marks, the blueprint spends them, and however
+ * many questions that takes is how many questions it takes.
  */
-export function questionCountFor(_component: CheckpointComponent): number {
-  return 10
-}
 
 /**
  * The stage a programme is assessed at, derived rather than stored.

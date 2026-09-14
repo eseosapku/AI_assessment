@@ -1520,7 +1520,14 @@ function AssessmentPageClient() {
     const strandReport = checkpointMeta && checkpointSubjectDef
       ? checkpointReport(
           assessment.questions,
-          outcomes.map((o) => o.credit >= 0.5),
+          // Marks, not right-or-wrong. A Checkpoint paper is fifty marks of
+          // one-mark multiple choice and two- and three-mark written answers,
+          // so rounding each question to a boolean would throw away every part
+          // mark a written answer earned — which is most of what it is for.
+          outcomes.map((o, idx) => {
+            const marks = Number((assessment.questions[idx] as { marks?: number }).marks ?? 1)
+            return o.credit * (Number.isFinite(marks) && marks > 0 ? marks : 1)
+          }),
           checkpointSubjectDef,
         )
       : null

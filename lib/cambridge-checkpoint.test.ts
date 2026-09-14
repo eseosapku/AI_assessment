@@ -1,7 +1,7 @@
 // lib/cambridge-checkpoint.test.ts
 import { describe, it, expect } from 'vitest'
 import {
-  CHECKPOINT_SUBJECTS, checkpointSubject, buildableSubjects, stageOf, questionCountFor,
+  CHECKPOINT_SUBJECTS, checkpointSubject, buildableSubjects, stageOf,
 } from './cambridge-checkpoint'
 
 describe('the published syllabus', () => {
@@ -68,24 +68,6 @@ describe('the published syllabus', () => {
   it('offers only the subjects this phase built', () => {
     for (const programme of ['primary', 'lower-secondary'] as const) {
       expect(buildableSubjects(programme).map((s) => s.name).sort()).toEqual(['Mathematics', 'Science'])
-    }
-  })
-
-  it('fixes the question count, so nobody chooses it', () => {
-    // A dropdown offering the count is the tell that a paper is really a quiz.
-    const science = checkpointSubject('lower-secondary', 'Science')!
-    expect(questionCountFor(science.components[0])).toBe(10)
-  })
-
-  it('never asks for a count the generator cannot deliver', () => {
-    // Measured, not guessed: asking for 15 returned 14 and asking for 12
-    // returned 11, and the route errors on a short paper rather than
-    // shipping it. Ten is the length that has actually worked, so the count
-    // does NOT scale with duration however tempting that looks.
-    for (const s of CHECKPOINT_SUBJECTS) {
-      for (const c of s.components) {
-        expect(questionCountFor(c), `${s.name} ${c.number}`).toBe(10)
-      }
     }
   })
 

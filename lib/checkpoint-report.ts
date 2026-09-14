@@ -7,8 +7,21 @@
  * every biology-targeting question across both. A practice path whose output is
  * a single percentage is not Checkpoint, it is a quiz with a Cambridge label.
  *
- * Two rules do most of the work here, and both are about not claiming more than
- * is known:
+ * ## Marks, not questions
+ *
+ * Everything here counts marks. A paper built by `lib/checkpoint-paper.ts` is
+ * fifty marks made of one-mark multiple-choice items and two- and three-mark
+ * written answers, so "you got 28 of 34 questions" and "you scored 38" are
+ * different numbers and only the second is the one Cambridge reports. Counting
+ * questions would also throw away every part mark a written answer earned,
+ * which is the main thing a written answer is for.
+ *
+ * A written answer is graded out of its own marks, so `answers` takes a number
+ * — the marks awarded — as readily as a boolean. A boolean still works and
+ * means all of that question's marks or none of them, which is exactly what a
+ * multiple-choice item is.
+ *
+ * ## Two rules, both about not claiming more than is known
  *
  *  - **A strand nobody was asked about reads "not assessed", never zero.** Zero
  *    is a finding about the learner; silence is a fact about the paper, and
@@ -24,24 +37,41 @@ import type { CheckpointSubject } from './cambridge-checkpoint'
 
 export interface StrandResult {
   strand: string
-  /** False when no matched question targeted it. Then `correct`/`total` are 0. */
+  /** False when no matched question targeted it. Then the marks are 0. */
   assessed: boolean
-  correct: number
-  total: number
+  /** Marks the learner earned in this strand. */
+  earned: number
+  /** Marks this paper put in this strand. */
+  available: number
+  /** How many questions targeted it — context for the marks, not the score. */
+  questions: number
 }
 
 export interface CheckpointResult {
-  /** On Cambridge's published 0-50 reporting scale. */
+  /** Marks earned. On a full paper this is Cambridge's 0-50 scale directly. */
   score: number
-  outOf: 50
+  /** Marks the paper carried. 50 for a full component, less for a drill. */
+  outOf: number
   /** Every strand of the subject, in syllabus order, assessed or not. */
   strands: StrandResult[]
-  /** The assessed strand with the lowest proportion right, or null if none were. */
+  /** The assessed strand with the lowest share of its marks, or null. */
   weakest: string | null
 }
 
-/** The 0-50 scale Cambridge publishes. Not a paper's raw mark total. */
-const REPORT_SCALE = 50
+/** A question is worth one mark unless it says otherwise. */
+function marksOf(question: unknown): number {
+  if (!question || typeof question !== 'object') return 1
+  const marks = (question as Record<string, unknown>).marks
+  return typeof marks === 'number' && Number.isFinite(marks) && marks > 0 ? marks : 1
+}
+
+/** Marks earned: a number is taken as awarded, a boolean as all or nothing. */
+function earnedOn(answer: unknown, available: number): number {
+  if (typeof answer === 'number' && Number.isFinite(answer)) {
+    return Math.max(0, Math.min(available, answer))
+  }
+  return answer === true ? available : 0
+}
 
 function strandOf(question: unknown): { strand: string; matched: boolean } | null {
   if (!question || typeof question !== 'object') return null
@@ -52,24 +82,30 @@ function strandOf(question: unknown): { strand: string; matched: boolean } | nul
 
 export function checkpointReport(
   questions: unknown[],
-  answers: boolean[],
+  answers: Array<boolean | number>,
   subject: CheckpointSubject,
 ): CheckpointResult {
   const asked = Array.isArray(questions) ? questions : []
   const given = Array.isArray(answers) ? answers : []
 
-  // An answers array shorter than the paper means those questions went
-  // unanswered, which is a wrong answer rather than a reason to throw.
-  let correct = 0
-  for (let i = 0; i < asked.length; i++) if (given[i] === true) correct += 1
+  let score = 0
+  let outOf = 0
+  const tally = new Map<string, { earned: number; available: number; questions: number }>()
 
-  const tally = new Map<string, { correct: number; total: number }>()
   for (let i = 0; i < asked.length; i++) {
+    const available = marksOf(asked[i])
+    // An answers array shorter than the paper means those questions went
+    // unanswered, which is zero marks rather than a reason to throw.
+    const earned = earnedOn(given[i], available)
+    outOf += available
+    score += earned
+
     const tag = strandOf(asked[i])
     if (!tag || !tag.matched) continue
-    const row = tally.get(tag.strand) ?? { correct: 0, total: 0 }
-    row.total += 1
-    if (given[i] === true) row.correct += 1
+    const row = tally.get(tag.strand) ?? { earned: 0, available: 0, questions: 0 }
+    row.earned += earned
+    row.available += available
+    row.questions += 1
     tally.set(tag.strand, row)
   }
 
@@ -77,27 +113,23 @@ export function checkpointReport(
     const row = tally.get(strand)
     return {
       strand,
-      assessed: (row?.total ?? 0) > 0,
-      correct: row?.correct ?? 0,
-      total: row?.total ?? 0,
+      assessed: (row?.questions ?? 0) > 0,
+      earned: row?.earned ?? 0,
+      available: row?.available ?? 0,
+      questions: row?.questions ?? 0,
     }
   })
 
   let weakest: string | null = null
   let worst = Infinity
   for (const s of strands) {
-    if (!s.assessed) continue
-    const share = s.correct / s.total
+    if (!s.assessed || s.available === 0) continue
+    const share = s.earned / s.available
     if (share < worst) {
       worst = share
       weakest = s.strand
     }
   }
 
-  return {
-    score: asked.length === 0 ? 0 : Math.round((correct / asked.length) * REPORT_SCALE),
-    outOf: REPORT_SCALE,
-    strands,
-    weakest,
-  }
+  return { score, outOf, strands, weakest }
 }
