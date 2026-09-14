@@ -104,7 +104,7 @@ const CYCLE: ReadonlyArray<{ marks: number; format: SlotFormat }> = [
  * Each list must hold enough foci that a whole paper never repeats one: a
  * three-strand subject puts about a third of thirty-four questions in each.
  */
-const STRAND_FOCI: Record<string, readonly string[]> = {
+export const STRAND_FOCI: Record<string, readonly string[]> = {
   // ── Mathematics ───────────────────────────────────────────────────────────
   Number: [
     'place value and rounding', 'fractions of a quantity', 'equivalent fractions',
@@ -230,6 +230,31 @@ export interface BuildPaperOptions {
   strand?: string
   /** Fix it for a reproducible paper; vary it for a different sitting. */
   seed?: number
+  /**
+   * Foci the figure library can illustrate, from `lib/checkpoint-figures.ts`.
+   *
+   * A real Checkpoint paper is full of diagrams, and a paper that commissions
+   * questions on topics nothing depicts cannot have them: the model either
+   * writes text-only or invents a reference to a figure nobody will see, which
+   * `dropDanglingReferences` then deletes. Preferring the illustrable foci is
+   * what lets the figures actually arrive.
+   *
+   * A preference, never a restriction. A syllabus is not a list of things we
+   * own pictures of, and excluding the rest would distort the paper and make
+   * every sitting identical. Omit it and the paper is built as before.
+   */
+  covered?: ReadonlySet<string>
+}
+
+/**
+ * Shuffle, then float the illustrable foci to the front.
+ *
+ * Both groups stay shuffled, so the preference changes which foci are likely
+ * to appear without making two sittings the same paper.
+ */
+function preferCovered(foci: string[], covered: ReadonlySet<string> | undefined): string[] {
+  if (!covered || covered.size === 0) return foci
+  return [...foci.filter((f) => covered.has(f)), ...foci.filter((f) => !covered.has(f))]
 }
 
 /**
@@ -257,7 +282,9 @@ export function buildPaper(
   // Each strand draws from its own shuffled list, so no focus repeats inside a
   // paper however the strands interleave.
   const pool = new Map<string, string[]>()
-  for (const strand of strands) pool.set(strand, shuffled(STRAND_FOCI[strand] ?? [strand], next))
+  for (const strand of strands) {
+    pool.set(strand, preferCovered(shuffled(STRAND_FOCI[strand] ?? [strand], next), options.covered))
+  }
 
   const slots: PaperSlot[] = []
   let spent = 0
@@ -280,7 +307,9 @@ export function buildPaper(
     const foci = pool.get(strand)!
     // A strand with fewer foci than slots reshuffles rather than repeating the
     // one at the top of the list.
-    if (foci.length === 0) pool.set(strand, shuffled(STRAND_FOCI[strand] ?? [strand], next))
+    if (foci.length === 0) {
+      pool.set(strand, preferCovered(shuffled(STRAND_FOCI[strand] ?? [strand], next), options.covered))
+    }
     const focus = pool.get(strand)!.shift() ?? strand
 
     slots.push({

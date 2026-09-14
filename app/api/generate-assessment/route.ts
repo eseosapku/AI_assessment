@@ -23,6 +23,7 @@ import { buildSubjectGenreBlock } from '@/lib/subject-genres'
 import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences } from '@/lib/dangling-reference'
+import { splitForCatalogue } from '@/lib/checkpoint-figures'
 import { repairBookReferences } from '@/lib/book-reference'
 import { tagTokens } from '@/lib/tag-tokens'
 import {
@@ -639,11 +640,20 @@ function buildPrompt(opts: {
   visualCatalog?: VisualFigureCatalogEntry[]
   maxImageQuestions?: number
   requirePassagesAll?: boolean
+  /**
+   * How readily this paper should reach for a figure.
+   *
+   * 'default' keeps most questions text-only, which is right for a revision
+   * quiz. 'exam-paper' is for a mock of a paper that really is full of
+   * diagrams, tables and graphs — a Checkpoint component — where the sparse
+   * default was the main thing holding the figure count down.
+   */
+  figureAppetite?: 'default' | 'exam-paper'
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
     hasDiagramSupport, difficultyLevel, grade, sourceText, sourceName, visualCatalog, maxImageQuestions,
-    requirePassagesAll = false,
+    requirePassagesAll = false, figureAppetite = 'default',
   } = opts
 
   const subjectDomain = classifySubjectDomain(subject)
@@ -839,7 +849,9 @@ ${longformRule}`
 - Only use image_key values from the AVAILABLE TEXTBOOK FIGURES list.
 - Questions with image_key must be answerable from that figure's description alone.
 - Do NOT invent diagrams or refer to figures not in the list.
-- Most questions should be text-only (empty image_key).
+- ${figureAppetite === 'exam-paper'
+      ? `USE THE FIGURES. A real exam paper is full of diagrams, tables and graphs, and this one should be too: give a figure to EVERY question whose topic suits one, up to the ${imageQuestionCap} available. Leave image_key empty only where no figure in the list fits the question.`
+      : 'Most questions should be text-only (empty image_key).'}
 - The figure appears beside the question with no caption and no page number. Refer to it as "the diagram" or "the table shown" — NEVER as "Figure 28.3" or "the diagram on page 286".`
     : hasDiagramSupport
     ? `**UI CONSTRAINTS (EXAM PREP WITH PAST-PAPER SOURCE):**
@@ -1427,6 +1439,9 @@ ${commandBlock}`
     }
 
     const isCambridge = curriculumSlug === 'cambridge'
+    // Cambridge Checkpoint practice. Its papers want figures the way the real
+    // ones do, which is a different appetite from a revision quiz.
+    const isCheckpoint = curriculumSlug === 'checkpoint'
     const isExamPrepMode = curriculumSlug === 'waec' || curriculumSlug === 'jamb'
     const hasTextbookImageLibrary = Number.isFinite(textbookId) && isSchoolCurriculum(textbookCurriculum) && textbookHasImages(textbookId)
 
@@ -1473,14 +1488,36 @@ ${commandBlock}`
     } else if (isCustomTopicQuiz && !isExamPrepMode && imageTopicFilter.length > 0) {
       // Self-directed quiz: no textbook to scope to, so search the whole
       // vision-described library by content instead.
+      //
+      // A Checkpoint paper asks in slices. One call is capped at
+      // MAX_VISION_FIGURES (12), which across a thirty-four question paper is
+      // about one question in three — and a real Checkpoint paper is full of
+      // diagrams, tables and graphs. Each slice is a different set of topics
+      // and so returns a different set of figures. The cap itself is left
+      // alone: it protects every other quiz in the product, and a Checkpoint
+      // paper's appetite is not a reason to raise it for a ten-question
+      // revision quiz.
+      const slices = isCheckpoint
+        ? splitForCatalogue(imageTopicFilter, maxQuestionsWithImages(count))
+        : [imageTopicFilter]
       try {
-        visualCatalog = await buildVisualFigureCatalogForTopics({
-          topics: imageTopicFilter,
-          questionCount: count,
-        })
+        const seen = new Set<string>()
+        for (const slice of slices) {
+          const part = await buildVisualFigureCatalogForTopics({
+            topics: slice,
+            questionCount: count,
+          })
+          // Slices overlap in what they match, and the same figure offered
+          // twice would let the model attach it to two questions.
+          for (const entry of part) {
+            if (seen.has(entry.key)) continue
+            seen.add(entry.key)
+            visualCatalog.push(entry)
+          }
+        }
         if (visualCatalog.length > 0) {
           console.log(
-            `Vision catalog (library-wide): ${visualCatalog.length} figure(s) for [${imageTopicFilter.slice(0, 4).join(', ')}]`,
+            `Vision catalog (library-wide): ${visualCatalog.length} figure(s) from ${slices.length} slice(s) for [${imageTopicFilter.slice(0, 4).join(', ')}]`,
           )
         }
       } catch (visionErr) {
@@ -1763,6 +1800,7 @@ ${commandBlock}`
         subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
         curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
         sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
+        figureAppetite: isCheckpoint ? 'exam-paper' : 'default',
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).

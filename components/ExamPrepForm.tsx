@@ -21,10 +21,10 @@ import {
   type CheckpointProgramme,
 } from '@/lib/cambridge-checkpoint'
 import {
-  buildPaper,
   applyBlueprint,
   paperTopics,
   paperBrief,
+  type CheckpointPaper,
   type PaperMode,
 } from '@/lib/checkpoint-paper'
 
@@ -88,21 +88,47 @@ export default function ExamPrepForm() {
   const cpSubject = exam === 'checkpoint' ? checkpointSubject(programme, subject) : undefined
   const cpComponent = cpSubject?.components.find((c) => c.number === component)
 
-  // The paper the learner is about to sit, laid out before they commit to it.
-  // Built here rather than at submit time so the briefing below can show the
-  // real thing — how many questions, how many written, how the marks fall —
-  // instead of a promise about it.
-  const cpPaper = useMemo(() => {
-    if (!cpSubject || !cpComponent?.mockable) return null
-    return buildPaper(cpSubject, cpComponent, {
-      mode: cpMode,
-      strand: cpStrand || undefined,
-      // A new paper each time the learner lands on this screen. Two attempts at
-      // the same component should not be the same paper twice.
-      seed: Math.floor(Math.random() * 1e9),
-    })
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [cpSubject?.code, cpComponent?.number, cpMode, cpStrand])
+  // The paper the learner is about to sit, laid out before they commit to it,
+  // so the briefing below shows the real thing — how many questions, how many
+  // written, how the marks fall — instead of a promise about it.
+  //
+  // Laid out on the server: choosing foci the figure library can illustrate
+  // means reading a 13MB manifest, which is not something to ship to a browser.
+  const [cpPaper, setCpPaper] = useState<CheckpointPaper | null>(null)
+  const [cpLayingOut, setCpLayingOut] = useState(false)
+
+  useEffect(() => {
+    if (exam !== 'checkpoint' || !cpSubject || !cpComponent?.mockable) {
+      setCpPaper(null)
+      return
+    }
+    let current = true
+    setCpLayingOut(true)
+    ;(async () => {
+      try {
+        const res = await fetch('/api/checkpoint-paper', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            programme,
+            subject: cpSubject.name,
+            component: cpComponent.number,
+            mode: cpMode,
+            strand: cpStrand || undefined,
+          }),
+        })
+        const json = await res.json()
+        // Ignore a reply that arrives after the learner has moved on, or it
+        // would overwrite the paper for the component they are now looking at.
+        if (current) setCpPaper(res.ok && json?.paper ? json.paper : null)
+      } catch {
+        if (current) setCpPaper(null)
+      } finally {
+        if (current) setCpLayingOut(false)
+      }
+    })()
+    return () => { current = false }
+  }, [exam, programme, cpSubject?.name, cpComponent?.number, cpComponent?.mockable, cpMode, cpStrand])
 
   const cpWritten = cpPaper?.slots.filter((s) => s.format === 'written').length ?? 0
 
@@ -663,6 +689,15 @@ export default function ExamPrepForm() {
               strand — which is the part worth staying for. Every number here is
               read off the paper that was actually built, so none of it can
               drift from what arrives. */}
+          {exam === 'checkpoint' && cpSubject && cpComponent && !cpPaper && (
+            <div className="mb-4 flex items-center gap-2 rounded-xl border border-ss-line p-4 text-[13px] font-semibold text-ss-slate dark:border-white/10">
+              {cpLayingOut ? (
+                <><Loader2 className="h-4 w-4 animate-spin" /> Laying out the paper…</>
+              ) : (
+                'The paper could not be laid out. Try picking the component again.'
+              )}
+            </div>
+          )}
           {exam === 'checkpoint' && cpSubject && cpComponent && cpPaper && (
             <div className="mb-4 rounded-xl border border-ss-line p-4 dark:border-white/10">
               <p className="text-[14px] font-bold text-ss-ink dark:text-white">
@@ -760,7 +795,7 @@ export default function ExamPrepForm() {
           {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
           <button
             type="button"
-            disabled={isGenerating}
+            disabled={isGenerating || (exam === 'checkpoint' && !cpPaper)}
             onClick={handleGenerate}
             className="w-full flex items-center justify-center gap-2 py-3 rounded-xl bg-ss-accent hover:brightness-95 text-white font-bold disabled:opacity-60"
           >

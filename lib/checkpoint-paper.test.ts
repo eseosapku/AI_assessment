@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest'
 import { checkpointSubject } from './cambridge-checkpoint'
 import {
-  buildPaper, applyBlueprint, awardedTotal, paperTopics, paperBrief,
+  buildPaper, applyBlueprint, awardedTotal, paperTopics, paperBrief, STRAND_FOCI,
   PAPER_MARKS, PRACTICE_MARKS,
 } from './checkpoint-paper'
 
@@ -95,6 +95,53 @@ describe('a full paper', () => {
     const a = buildPaper(science, science.components[0], { mode: 'paper', seed: 42 })
     const b = buildPaper(science, science.components[0], { mode: 'paper', seed: 42 })
     expect(a.slots).toEqual(b.slots)
+  })
+})
+
+describe('preferring foci the figure library can illustrate', () => {
+  // A real Checkpoint paper is full of diagrams. A paper that commissions
+  // questions on topics nothing depicts cannot have them, however the prompt
+  // is worded.
+  const fociOf = (s: typeof science, covered?: Set<string>) =>
+    buildPaper(s, s.components[0], { mode: 'paper', seed: 3, covered }).slots.map((x) => x.focus)
+
+  it('pulls in illustrable foci the paper would otherwise have skipped', () => {
+    // Each strand holds more foci than one paper can use, so the honest test is
+    // whether marking the *unused* ones as illustrable brings them in. Marking
+    // the ones it already picked would prove nothing.
+    const baseline = fociOf(science)
+    const skipped = new Set(
+      science.strands.flatMap((s) => [...STRAND_FOCI[s]]).filter((f) => !baseline.includes(f)),
+    )
+    expect(skipped.size, 'fixture assumes unused foci exist').toBeGreaterThan(5)
+
+    const withPref = fociOf(science, skipped)
+    const brought = withPref.filter((f) => skipped.has(f)).length
+    expect(brought).toBeGreaterThan(baseline.filter((f) => skipped.has(f)).length)
+  })
+
+  it('still reaches every strand, because coverage is not the syllabus', () => {
+    const paper = buildPaper(science, science.components[0], {
+      mode: 'paper', seed: 3, covered: new Set(['photosynthesis']),
+    })
+    for (const strand of science.strands) {
+      expect(paper.slots.map((s) => s.strand)).toContain(strand)
+    }
+  })
+
+  it('uses uncovered foci rather than repeating a covered one', () => {
+    // Preference, not restriction. One illustrable focus must not become
+    // thirty-four questions about that focus.
+    const paper = buildPaper(science, science.components[0], {
+      mode: 'paper', seed: 3, covered: new Set(['photosynthesis']),
+    })
+    const foci = paper.slots.map((s) => `${s.strand}::${s.focus}`)
+    expect(new Set(foci).size).toBe(foci.length)
+  })
+
+  it('is unchanged when nothing is known about coverage', () => {
+    expect(fociOf(science, new Set())).toEqual(fociOf(science))
+    expect(fociOf(science, undefined)).toEqual(fociOf(science))
   })
 })
 
