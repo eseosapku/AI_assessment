@@ -1,6 +1,6 @@
 # Stage 3b — Live cutover: `vary` → `variable-model`
 
-**Status:** Designed 2026-09-14; not built  
+**Status:** Built 2026-09-14 (live path verified on `/dev/activities` `n-vary`)  
 **Date:** 2026-09-14  
 **Parent:** `docs/superpowers/specs/2026-09-07-studylab-composable-material-engine-design.md`  
 **Depends on:** Stage 3b sort / sequence / compare / balance / label cutovers (`MaterialActivity`

@@ -138,6 +138,20 @@ const labelSpec: ActivitySpec = {
   reveal: 'Nucleus is the centre; membrane is the outer boundary.',
 }
 
+const varySpec: ActivitySpec = {
+  pattern: 'vary',
+  prompt: 'Set the temperature to the target.',
+  payload: {
+    variable: { id: 'temperature', label: 'Temperature', min: 0, max: 10, step: 1 },
+    model: { kind: 'bars', bars: [{ label: 'Height', expr: 'temperature', max: 10 }] },
+    readouts: [{ label: 'Temperature', expr: 'temperature' }],
+    target: { expr: 'temperature', value: 5, tolerance: 0.5 },
+  },
+  success: { kind: 'numericWithin', target: 5, tolerance: 0.5 },
+  hints: ['Aim for the middle of the range.'],
+  reveal: 'The target temperature is 5.',
+}
+
 // Weights must vary — isolation refuses a material whose pieces are identical.
 const legacyBalancePayload = {
   left: [],
@@ -198,6 +212,7 @@ const initialNodes: Node[] = [
   specNode('n-compose', composeSpec, 1260, 0),
   specNode('n-sequence', sequenceSpec, 1680, 0),
   specNode('n-label', labelSpec, 2100, 0),
+  specNode('n-vary', varySpec, 2520, 0),
   {
     id: 'n-material',
     type: 'material',
