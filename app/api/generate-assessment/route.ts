@@ -23,7 +23,7 @@ import { buildSubjectGenreBlock } from '@/lib/subject-genres'
 import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences } from '@/lib/dangling-reference'
-import { splitForCatalogue } from '@/lib/checkpoint-figures'
+import { figuresForFoci } from '@/lib/checkpoint-figures'
 import { repairBookReferences } from '@/lib/book-reference'
 import { tagTokens } from '@/lib/tag-tokens'
 import {
@@ -850,7 +850,9 @@ ${longformRule}`
 - Questions with image_key must be answerable from that figure's description alone.
 - Do NOT invent diagrams or refer to figures not in the list.
 - ${figureAppetite === 'exam-paper'
-      ? `USE THE FIGURES. A real exam paper is full of diagrams, tables and graphs, and this one should be too: give a figure to EVERY question whose topic suits one, up to the ${imageQuestionCap} available. Leave image_key empty only where no figure in the list fits the question.`
+      ? `USE THE FIGURES. A real exam paper is full of diagrams, tables and graphs, and this one should be too: give a figure to EVERY question whose topic suits one, up to the ${imageQuestionCap} available. Leave image_key empty only where no figure in the list fits the question.
+- Each figure belongs to ONE question. Never give the same image_key to two questions, and never write a second question about a figure you have already used — write about the topic you were asked for instead.
+- The question must be about the topic in the plan, not about the picture. The figure is there to support that topic; if it shows something else interesting, ignore it.`
       : 'Most questions should be text-only (empty image_key).'}
 - The figure appears beside the question with no caption and no page number. Refer to it as "the diagram" or "the table shown" — NEVER as "Figure 28.3" or "the diagram on page 286".`
     : hasDiagramSupport
@@ -1489,35 +1491,26 @@ ${commandBlock}`
       // Self-directed quiz: no textbook to scope to, so search the whole
       // vision-described library by content instead.
       //
-      // A Checkpoint paper asks in slices. One call is capped at
-      // MAX_VISION_FIGURES (12), which across a thirty-four question paper is
-      // about one question in three — and a real Checkpoint paper is full of
-      // diagrams, tables and graphs. Each slice is a different set of topics
-      // and so returns a different set of figures. The cap itself is left
-      // alone: it protects every other quiz in the product, and a Checkpoint
-      // paper's appetite is not a reason to raise it for a ten-question
-      // revision quiz.
-      const slices = isCheckpoint
-        ? splitForCatalogue(imageTopicFilter, maxQuestionsWithImages(count))
-        : [imageTopicFilter]
       try {
-        const seen = new Set<string>()
-        for (const slice of slices) {
-          const part = await buildVisualFigureCatalogForTopics({
-            topics: slice,
-            questionCount: count,
-          })
-          // Slices overlap in what they match, and the same figure offered
-          // twice would let the model attach it to two questions.
-          for (const entry of part) {
-            if (seen.has(entry.key)) continue
-            seen.add(entry.key)
-            visualCatalog.push(entry)
-          }
-        }
+        // A Checkpoint paper picks a figure PER TOPIC rather than taking the
+        // best dozen for the paper as a whole.
+        //
+        // The pooled search returns figures chosen for the paper, which let the
+        // model write several questions about one picture and then write to the
+        // picture instead of the syllabus — six illustrated questions drawn
+        // from three figures, and "the role of the ampulla in the vestibular
+        // system" in a Stage 9 paper. Per topic, every figure belongs to a
+        // topic the paper is already committed to asking about, and no two
+        // questions can share one.
+        visualCatalog = isCheckpoint
+          ? await figuresForFoci(imageTopicFilter, maxQuestionsWithImages(count))
+          : await buildVisualFigureCatalogForTopics({
+              topics: imageTopicFilter,
+              questionCount: count,
+            })
         if (visualCatalog.length > 0) {
           console.log(
-            `Vision catalog (library-wide): ${visualCatalog.length} figure(s) from ${slices.length} slice(s) for [${imageTopicFilter.slice(0, 4).join(', ')}]`,
+            `Vision catalog (${isCheckpoint ? 'per-topic' : 'library-wide'}): ${visualCatalog.length} figure(s) for [${imageTopicFilter.slice(0, 4).join(', ')}]`,
           )
         }
       } catch (visionErr) {

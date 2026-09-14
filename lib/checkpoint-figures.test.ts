@@ -1,7 +1,7 @@
 // lib/checkpoint-figures.test.ts
 import { describe, it, expect } from 'vitest'
 import type { TextbookSourceImage } from './textbook-source-images'
-import { fociWithFigures, splitForCatalogue } from './checkpoint-figures'
+import { fociWithFigures, figuresForFoci } from './checkpoint-figures'
 
 /** Only the fields the ranker reads; the rest of the record is irrelevant here. */
 const fig = (key: string, description: string, keywords = ''): TextbookSourceImage =>
@@ -43,29 +43,47 @@ describe('which foci the library can illustrate', () => {
   })
 })
 
-describe('splitting the foci so one catalogue call is not the ceiling', () => {
-  it('asks in as many slices as the target needs', () => {
-    // buildVisualFigureCatalogForTopics caps a single call at MAX_VISION_FIGURES
-    // (12), so a paper wanting seventeen figures cannot get them in one ask.
-    const foci = Array.from({ length: 34 }, (_, i) => `focus ${i}`)
-    const slices = splitForCatalogue(foci, 17)
-    expect(slices.length).toBe(2)
-    expect(slices.flat().sort()).toEqual([...foci].sort())
+describe('one figure per focus', () => {
+  /** Stands in for the vision describer, which resolves an origin and calls out. */
+  const describeStub = async (img: TextbookSourceImage) => `described ${img.key}`
+
+  const LIB = [
+    fig('cell', 'A labelled diagram of a plant cell showing the chloroplast and cell wall'),
+    fig('cell2', 'A second diagram of a plant cell with the cell wall labelled'),
+    fig('circuit', 'A circuit diagram with two lamps wired in series and a cell'),
+    fig('market', 'A photograph of a market stall selling fruit'),
+  ]
+  const FOCI = ['plant cell structure', 'series circuit with lamps']
+
+  it('picks a figure chosen for each focus', async () => {
+    const catalog = await figuresForFoci(FOCI, 4, LIB, describeStub)
+    expect(catalog.map((c) => c.key)).toContain('circuit')
+    expect(catalog.length).toBe(2)
   })
 
-  it('uses a single slice when one call already covers the target', () => {
-    const foci = Array.from({ length: 8 }, (_, i) => `focus ${i}`)
-    expect(splitForCatalogue(foci, 6)).toEqual([foci])
+  it('never gives the same figure to two foci', async () => {
+    // Clustering is what produced the near-duplicate questions: several
+    // questions written about one picture, differing by a word.
+    const catalog = await figuresForFoci(['plant cell structure', 'plant cell wall'], 4, LIB, describeStub)
+    expect(new Set(catalog.map((c) => c.key)).size).toBe(catalog.length)
+    expect(catalog.length).toBe(2)
   })
 
-  it('never returns an empty slice, which would be a wasted model call', () => {
-    for (const n of [1, 2, 3, 13, 34]) {
-      const foci = Array.from({ length: n }, (_, i) => `f${i}`)
-      for (const slice of splitForCatalogue(foci, 20)) expect(slice.length).toBeGreaterThan(0)
-    }
+  it('stops at the target rather than illustrating everything', async () => {
+    const catalog = await figuresForFoci(['plant cell structure', 'plant cell wall'], 1, LIB, describeStub)
+    expect(catalog).toHaveLength(1)
   })
 
-  it('returns nothing to ask when there are no foci', () => {
-    expect(splitForCatalogue([], 12)).toEqual([])
+  it('skips a focus nothing depicts instead of reaching for a stray figure', async () => {
+    // A photograph of a market stall is not an answer to "the probability
+    // scale"; offering it is how a paper ends up asking about the picture.
+    const catalog = await figuresForFoci(['the probability scale'], 4, LIB, describeStub)
+    expect(catalog).toEqual([])
+  })
+
+  it('asks for nothing when there is nothing to ask for', async () => {
+    expect(await figuresForFoci([], 12, LIB, describeStub)).toEqual([])
+    expect(await figuresForFoci(FOCI, 0, LIB, describeStub)).toEqual([])
+    expect(await figuresForFoci(FOCI, 12, [], describeStub)).toEqual([])
   })
 })

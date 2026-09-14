@@ -33,7 +33,11 @@
  * blueprint is built behind an API route rather than in the browser.
  */
 import { getDescribedImages, type TextbookSourceImage } from './textbook-source-images'
-import { rankImagesForFreeTopics, MAX_VISION_FIGURES } from './textbook-vision-images'
+import {
+  rankImagesForFreeTopics,
+  describeFigureWithVision,
+  type VisualFigureCatalogEntry,
+} from './textbook-vision-images'
 
 /**
  * The subset of `foci` that at least one library figure depicts.
@@ -60,30 +64,75 @@ export function fociWithFigures(
 }
 
 /**
- * Split the foci into the slices needed to reach `target` figures.
+ * One figure per focus, chosen for that focus.
  *
- * `buildVisualFigureCatalogForTopics` caps any single call at
- * `MAX_VISION_FIGURES` (12), so a thirty-four question paper wanting half its
- * questions illustrated cannot get there in one ask. Asking in slices — each a
- * different set of topics — returns a different set of figures, and the caller
- * merges them.
+ * The library-wide search pools every focus into one vocabulary and returns the
+ * best-matching figures overall, capped at `MAX_VISION_FIGURES`. For a revision
+ * quiz that is right. For a paper it produced two faults that a live run made
+ * plain:
  *
- * Done here, at the call site, rather than by raising the cap inside
- * `lib/textbook-vision-images.ts`: that ceiling protects every other quiz in
- * the product, and a Checkpoint paper's appetite is not a reason to raise it
- * for a ten-question revision quiz.
+ *  - **Clustering.** Six illustrated questions drew on three figures, because
+ *    nothing stopped the model writing several questions about one picture.
+ *    That is where the near-duplicates came from — "What is the primary reason
+ *    for the greenhouse effect?" beside "What is the main reason for the
+ *    greenhouse effect?", which differ by one word and so slip past the
+ *    deduplicator.
+ *  - **Drift off the syllabus.** Handed a diagram of the ear, the model wrote
+ *    "the role of the ampulla in the vestibular system" — a question about the
+ *    figure rather than about Stage 9 science. The figure had been chosen to
+ *    match the paper as a whole, not any question in it.
+ *
+ * Selecting per focus fixes both at once: every figure is picked because it
+ * depicts a topic the paper is already committed to asking about, and each one
+ * belongs to a different question, so there is nothing to cluster on.
+ *
+ * The cap inside `lib/textbook-vision-images.ts` is left alone. It protects
+ * every other quiz in the product, and a Checkpoint paper's appetite is not a
+ * reason to raise it for a ten-question revision quiz.
+ *
+ * Describing a figure is nearly free — the whole library is vision-described
+ * ahead of time and cached — so the cost here is in the ranking, not the model.
  */
-export function splitForCatalogue(foci: string[], target: number): string[][] {
+export async function figuresForFoci(
+  foci: string[],
+  target: number,
+  images: TextbookSourceImage[] = getDescribedImages(),
+  // Injectable so the selection can be tested without reaching the network:
+  // describing a figure resolves an app origin and calls out, which a unit
+  // test has no business doing.
+  describe: (img: TextbookSourceImage) => Promise<string | null> = describeFigureWithVision,
+): Promise<VisualFigureCatalogEntry[]> {
   const usable = Array.isArray(foci) ? foci.filter((f) => typeof f === 'string' && f.trim()) : []
-  if (usable.length === 0) return []
+  if (usable.length === 0 || target <= 0 || images.length === 0) return []
 
-  const calls = Math.max(1, Math.ceil(target / MAX_VISION_FIGURES))
-  // Never more slices than foci, or a slice would be empty and its model call
-  // wasted.
-  const slices = Math.min(calls, usable.length)
-  const per = Math.ceil(usable.length / slices)
+  const taken = new Set<string>()
+  const picked: { focus: string; img: TextbookSourceImage }[] = []
 
-  const out: string[][] = []
-  for (let i = 0; i < usable.length; i += per) out.push(usable.slice(i, i + per))
-  return out
+  for (const focus of usable) {
+    if (picked.length >= target) break
+    const ranked = rankImagesForFreeTopics(images, [focus])
+    // A focus whose best figure is already spoken for takes its next best
+    // rather than sharing: two questions on one picture is the clustering this
+    // exists to prevent.
+    const next = ranked.find((img) => !taken.has(img.key))
+    if (!next) continue
+    taken.add(next.key)
+    picked.push({ focus, img: next })
+  }
+
+  const catalog: VisualFigureCatalogEntry[] = []
+  for (const { img } of picked) {
+    const description = await describe(img)
+    // A figure nobody can describe cannot be reasoned about from its
+    // description alone, which is the one thing the prompt promises.
+    if (!description) continue
+    catalog.push({
+      key: img.key,
+      localPath: img.localPath,
+      category: img.category || 'diagram',
+      description,
+      page: img.page,
+    })
+  }
+  return catalog
 }
