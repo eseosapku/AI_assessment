@@ -24,10 +24,16 @@ import {
 export type MaterialWorkAdapter = {
   freshWork(payload: unknown, seed: number | undefined): Record<string, unknown>
   placementFromWork(work: Record<string, unknown>, materialSpec: MaterialSpec): Placement
+  controlsFromWork?(
+    work: Record<string, unknown>,
+    materialSpec: MaterialSpec,
+    payload: unknown,
+  ): Record<string, number>
   workFromPlacement(
     placement: Placement,
     materialSpec: MaterialSpec,
     payload: unknown,
+    controls?: Record<string, number>,
   ): Record<string, unknown>
   wrongIdsWhenUnsolved(
     payload: unknown,

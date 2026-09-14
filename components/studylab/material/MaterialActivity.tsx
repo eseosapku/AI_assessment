@@ -14,15 +14,21 @@ const HINT_AFTER_ATTEMPTS = 2
 function seedMaterialState(
   materialSpec: MaterialSpec,
   adapter: MaterialWorkAdapter,
-  initial?: ActivityState,
+  initial: ActivityState | undefined,
+  payload: unknown,
 ): MaterialState {
   const base = createInitialMaterialState(materialSpec)
   const work = (initial?.work as Record<string, unknown> | undefined) ?? {}
   const placement = adapter.placementFromWork(work, materialSpec)
-  const hasWork = Object.keys(placement).length > 0
+  const hasWork =
+    Object.keys(placement).length > 0 || typeof work.value === 'number'
+  const controls = adapter.controlsFromWork
+    ? { ...base.controls, ...adapter.controlsFromWork(work, materialSpec, payload) }
+    : base.controls
   return {
     ...base,
     placement: hasWork ? placement : base.placement,
+    controls: hasWork ? controls : base.controls,
     status: initial?.status === 'solved'
       ? 'solved'
       : hasWork
@@ -66,7 +72,7 @@ export function MaterialActivity({
   const activityRef = useRef(activity)
   activityRef.current = activity
   const [materialState, setMaterialState] = useState<MaterialState>(() =>
-    seedMaterialState(materialSpec, adapter, activity),
+    seedMaterialState(materialSpec, adapter, activity, spec.payload),
   )
   const [wrongIds, setWrongIds] = useState<string[]>([])
   const [revealed, setRevealed] = useState(activity.status === 'solved')
@@ -80,7 +86,12 @@ export function MaterialActivity({
 
   const handleStateChange = useCallback((next: MaterialState) => {
     setMaterialState(next)
-    const work = adapter.workFromPlacement(next.placement, materialSpec, spec.payload)
+    const work = adapter.workFromPlacement(
+      next.placement,
+      materialSpec,
+      spec.payload,
+      next.controls,
+    )
     const latest = activityRef.current
     persistActivity({
       ...latest,
@@ -105,6 +116,7 @@ export function MaterialActivity({
       materialState.placement,
       materialSpec,
       spec.payload,
+      materialState.controls,
     )
     const attempts = activity.attempts + 1
     const failedWrongIds = tickResult.solved
