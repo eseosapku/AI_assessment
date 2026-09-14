@@ -366,6 +366,30 @@ describe('balance-beam fromLegacy preserves catalogue art', () => {
   })
 })
 
+describe('three-period-cards fromLegacy preserves catalogue art', () => {
+  it('maps legal imageUrl onto piece.art', () => {
+    const payload = {
+      items: [
+        { id: 'sun', label: 'Sun', imageUrl: 'asset:balance-scale' },
+        { id: 'moon', label: 'Moon', imageUrl: 'neuron' },
+        { id: 'star', label: 'Star', imageUrl: 'asset:https://evil.example/x.png' },
+        { id: 'cloud', label: 'Cloud' },
+      ],
+      phases: ['present', 'identify', 'recall'] as const,
+    }
+    const success = {
+      kind: 'pairing' as const,
+      pairs: [['sun', 'Sun'], ['moon', 'Moon'], ['star', 'Star'], ['cloud', 'Cloud']] as [string, string][],
+    }
+    const spec = getApparatus('three-period-cards')!.legacy!.fromLegacy(payload, success)!
+    const byId = Object.fromEntries(spec.pieces.map((p) => [p.id, p]))
+    expect(byId.sun.art).toBe('balance-scale')
+    expect(byId.moon.art).toBe('neuron')
+    expect(byId.star.art).toBeUndefined()
+    expect(byId.cloud.art).toBeUndefined()
+  })
+})
+
 describe('ordering-track fromLegacy preserves catalogue art', () => {
   it('maps legal imageUrl (including asset: prefix) onto piece.art', () => {
     const payload = {

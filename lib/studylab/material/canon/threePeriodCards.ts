@@ -1,5 +1,6 @@
 import { getPatternModule } from '@/lib/studylab/activities/registry'
 import type { SuccessRule, ThreePeriodPayload } from '@/lib/studylab/activities/types'
+import { catalogueArt } from '../catalogueArt'
 import { validateMaterial } from '../validate'
 import type { MaterialSpec } from '../types'
 import type { Apparatus } from './index'
@@ -51,11 +52,15 @@ function convert(payload: ThreePeriodPayload, success?: SuccessRule): MaterialSp
   }
   return {
     prompt: 'Place each recall card with the name it answers.',
-    pieces: payload.items.map((item) => ({
-      id: item.id,
-      label: item.label,
-      traits: { answer: item.id },
-    })),
+    pieces: payload.items.map((item) => {
+      const art = catalogueArt(item.imageUrl)
+      return {
+        id: item.id,
+        label: item.label,
+        ...(art ? { art } : {}),
+        traits: { answer: item.id },
+      }
+    }),
     groups: payload.items.map((item) => ({
       id: answerGroupId(item.id),
       label: item.label,
