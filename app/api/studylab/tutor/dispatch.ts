@@ -20,7 +20,10 @@ import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
 import { systemPrompt } from './route'
 import { validateSpec } from '@/lib/studylab/activities/validate'
-import { parseIntent, checkIntent, type TeachingIntent } from '@/lib/studylab/activities/intent'
+import { parseIntent, checkIntent, checkMaterialIntent, type TeachingIntent } from '@/lib/studylab/activities/intent'
+import { getApparatus } from '@/lib/studylab/material/canon'
+import { validateMaterial } from '@/lib/studylab/material/validate'
+import { advertiseVocabulary } from '@/lib/studylab/material/advertiseVocabulary'
 import { unmatchedArt } from '@/lib/studylab/activities/artMatch'
 import { DIMENSIONS } from '@/lib/studylab/activities/dimensions'
 import { assetCatalogPromptBlock } from '@/lib/studylab/activities/assetCatalog'
@@ -398,7 +401,9 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
   const intents = closed.actions
     .map((a) => (a && typeof a === 'object' ? parseIntent((a as Record<string, unknown>).intent) : null))
     .filter((i): i is TeachingIntent => i !== null)
-  const { kept, refused: materialRefusals } = refuseUnjustifiedActivities(closed.actions)
+  const { kept: afterActivities, refused: activityRefusals } = refuseUnjustifiedActivities(closed.actions)
+  const { kept, refused: buildMaterialRefusals } = refuseUnjustifiedMaterials(afterActivities)
+  const materialRefusals = [...activityRefusals, ...buildMaterialRefusals]
   for (const reason of materialRefusals) console.log(`Refused a material: ${reason}`)
 
   return {
@@ -801,6 +806,63 @@ export function refuseUnjustifiedActivities(actions: unknown[]): {
 }
 
 /**
+ * Drops any free-form material the tutor could not justify, and says why.
+ *
+ * Mirrors `refuseUnjustifiedActivities` for `build_material`: intent must be
+ * present, the apparatus must be canon, the spec must validate, and the stated
+ * isolates must match the apparatus — not be invented from the topic.
+ */
+export function refuseUnjustifiedMaterials(actions: unknown[]): {
+  kept: unknown[]
+  refused: string[]
+} {
+  const kept: unknown[] = []
+  const refused: string[] = []
+
+  for (const raw of actions) {
+    if (!raw || typeof raw !== 'object' || (raw as Record<string, unknown>).type !== 'build_material') {
+      kept.push(raw)
+      continue
+    }
+    const a = raw as Record<string, unknown>
+
+    const intent = parseIntent(a.intent)
+    if (!intent) {
+      refused.push(
+        'Every material needs an intent: goal, the single quality it isolates, the apparatus, and why.',
+      )
+      continue
+    }
+
+    const apparatus = getApparatus(intent.apparatus)
+    if (!apparatus) {
+      refused.push(
+        `Unknown apparatus "${intent.apparatus}". Choose one from the canon list — ` +
+          `each apparatus is built to teach one quality.`,
+      )
+      continue
+    }
+
+    const validation = validateMaterial(a.spec, apparatus.maxVaryingTraits)
+    if (!validation.ok) {
+      console.log(`Malformed build_material spec: ${JSON.stringify(a.spec)}`)
+      refused.push(validation.reason)
+      continue
+    }
+
+    const verdict = checkMaterialIntent(intent, validation.spec)
+    if (!verdict.ok) {
+      refused.push(verdict.reason)
+      continue
+    }
+
+    const { intent: _dropped, ...action } = a
+    kept.push(action)
+  }
+  return { kept, refused }
+}
+
+/**
  * Keeps runnable card types out of lessons that are not about code.
  *
  * The prompt says plainly that "code" and "web" are for source code the student
@@ -1101,7 +1163,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
   // off the board — which meant three questions, each answered with a card,
   // brought the check forward and the step was taught less than a step that
   // nobody asked anything about.
-  const DROPPED_ON_ASIDE = new Set(['checkpoint', 'createActivity'])
+  const DROPPED_ON_ASIDE = new Set(['checkpoint', 'createActivity', 'build_material'])
   const asideActions = markAsides(
     fitCardsToLesson(
       (Array.isArray(parsed?.actions) ? parsed.actions : []).filter(
@@ -1831,6 +1893,7 @@ function buildTeachPrompt(
     freshOpener,
     '',
     montessori ? materialContract() : '',
+    montessori ? advertiseVocabulary() : '',
     '',
     'Reply with JSON: { "say": "...", "actions": [...], "suggestions": ["...","..."] }',
   ]

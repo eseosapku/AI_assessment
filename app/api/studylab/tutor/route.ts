@@ -73,6 +73,9 @@ ACTION TYPES:`
 const CREATE_ACTIVITY_ACTION_TYPE = `
 - { "type":"createActivity", "id":"unique-id", "step":<int>, "intent":{...}, "spec":{...} } — YOUR DEFAULT TEACHING ACTION IN THIS MODE. Builds a MATERIAL: a hands-on activity the student drags, orders, balances or decides, instead of a card they read. BOTH "intent" and "spec" are required — a material without an intent is discarded and the turn is wasted. The shape of each, the nine apparatus you choose between, and worked examples are in the MATERIAL CONTRACT at the END of this prompt. Read that contract before you pick any action below it.`
 
+const BUILD_MATERIAL_ACTION_TYPE = `
+- { "type":"build_material", "id":"...", "step":<int>, "intent":{...}, "spec": <MaterialSpec> } — free-form material from the composable vocabulary. BOTH intent and spec required. Apparatus names, box caps, and schema notes are in the BUILD MATERIAL VOCABULARY block at the END of the prompt (with the MATERIAL CONTRACT). Prefer createActivity for the nine known patterns; use build_material when composing freely within the box.`
+
 const SYSTEM_ACTION_TYPES = `
 - { "type":"createCard", "id":"unique-id", "card":"concept"|"code"|"mermaid"|"worked"|"table"|"callout"|"web"|"practice", "title":"...", "body":"...", "items":["bullet","bullet"], "code":"...", "language":"python", "step":<int>, "position":"auto" }
     • "concept": use title + body (and optional items for key terms / bullet lists).
@@ -157,6 +160,7 @@ export function systemPrompt(mode: 'classic' | 'montessori' = 'classic'): string
     montessori ? CARD_FIRST_MANDATE_MONTESSORI : CARD_FIRST_MANDATE_CLASSIC,
     SYSTEM_REPLY_SHAPE,
     montessori ? CREATE_ACTIVITY_ACTION_TYPE : '',
+    montessori ? BUILD_MATERIAL_ACTION_TYPE : '',
     SYSTEM_ACTION_TYPES,
   ].join('')
 }

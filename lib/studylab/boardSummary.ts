@@ -76,7 +76,11 @@ export function boardSummary(
   // working to it. Left off the list, the first card of a homework step had
   // nothing to hang from and was laid out on top of the question instead.
   const cards = nodes
-    .filter((n) => (isCardKind(n.type) || n.type === 'question') && !n.hidden)
+    .filter(
+      (n) =>
+        (isCardKind(n.type) || n.type === 'question' || n.type === 'activity' || n.type === 'material') &&
+        !n.hidden,
+    )
     .map((n) => ({
       id: n.id,
       title: titleOf(n),
@@ -100,7 +104,7 @@ export function boardSummary(
     const step = Number(n.data.step) || 0
     if (step < 1) continue
     if (n.type === 'quiz' || n.type === 'checkpointHeader') cardsSinceCheck[step] = 0
-    else if (isCardKind(n.type) && !n.data.aside) {
+    else if ((isCardKind(n.type) || n.type === 'activity' || n.type === 'material') && !n.data.aside) {
       cardsSinceCheck[step] = (cardsSinceCheck[step] ?? 0) + 1
     }
   }

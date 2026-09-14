@@ -25,6 +25,34 @@ describe('boardSummary', () => {
     expect(boardSummary({ nodes: [card('a', '  ', 1)] }).cards).toEqual([])
   })
 
+  it('lists activity and material nodes so the tutor does not recreate them', () => {
+    const activity: StudyNode = {
+      id: 'act1', type: 'activity', position: { x: 0, y: 0 },
+      data: { kind: 'activity', title: 'Sort the metals', step: 1 },
+    }
+    const material: StudyNode = {
+      id: 'mat1', type: 'material', position: { x: 0, y: 0 },
+      data: { kind: 'material', title: 'Balance both sides.', step: 1 },
+    }
+    const s = boardSummary({ nodes: [activity, material] })
+    expect(s.cards).toEqual([
+      { id: 'act1', title: 'Sort the metals', step: 1, kind: 'activity' },
+      { id: 'mat1', title: 'Balance both sides.', step: 1, kind: 'material' },
+    ])
+  })
+
+  it('counts activity and material toward cardsSinceCheck like teaching content', () => {
+    const activity: StudyNode = {
+      id: 'act1', type: 'activity', position: { x: 0, y: 0 },
+      data: { kind: 'activity', title: 'Sort the metals', step: 1 },
+    }
+    const material: StudyNode = {
+      id: 'mat1', type: 'material', position: { x: 0, y: 0 },
+      data: { kind: 'material', title: 'Balance both sides.', step: 1 },
+    }
+    expect(boardSummary({ nodes: [activity, material] }).cardsSinceCheck[1]).toBe(2)
+  })
+
   it('ignores non-card nodes such as step groups and sticky notes', () => {
     const group: StudyNode = {
       id: 'g1', type: 'stepGroup', position: { x: 0, y: 0 },
