@@ -115,4 +115,21 @@ describe('checkMaterialIntent', () => {
     expect(result.ok).toBe(false)
     expect(result.ok === false && result.reason).toContain('mystery-box')
   })
+
+  it('accepts structure as well as quantity for balance-beam', () => {
+    const quantity = parseIntent({
+      ...intent,
+      apparatus: 'balance-beam',
+      isolates: 'quantity',
+      why: 'Weighing makes the amount the only decision.',
+    })!
+    const structure = parseIntent({
+      ...intent,
+      apparatus: 'balance-beam',
+      isolates: 'structure',
+      why: 'Balancing equations makes the arrangement the only decision.',
+    })!
+    expect(checkMaterialIntent(quantity, materialSpec)).toEqual({ ok: true })
+    expect(checkMaterialIntent(structure, materialSpec)).toEqual({ ok: true })
+  })
 })

@@ -145,4 +145,30 @@ describe('applyAsk on a montessori run', () => {
     })
     expect(result.actions).toEqual([])
   })
+
+  it('drops a build_material the model emits anyway, on an aside turn', async () => {
+    vi.mocked(callGemma).mockResolvedValue(
+      JSON.stringify({
+        say: 'Iron is a metal.',
+        actions: [{
+          type: 'build_material',
+          id: 'm1',
+          intent,
+          spec: {
+            prompt: 'Sort.',
+            pieces: [{ id: 'p1', label: 'Iron', traits: { metal: 1 } }],
+            groups: [{ id: 'g1', label: 'Metals', ordered: false }],
+            slots: [{ id: 's1', groupId: 'g1', x: 0, y: 0, capacity: 1 }],
+            rules: [],
+            goal: { kind: 'exactSet', itemIds: ['p1'] },
+          },
+        }],
+      }),
+    )
+    const result = await applyAction({
+      run: montessoriRun(), policy: policyFor('scratch'), userId: 'u1',
+      action: { type: 'ask', question: 'why is iron with the metals?' }, context: {},
+    })
+    expect(result.actions).toEqual([])
+  })
 })

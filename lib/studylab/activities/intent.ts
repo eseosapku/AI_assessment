@@ -1,6 +1,6 @@
 // lib/studylab/activities/intent.ts
 import type { ActivitySpec } from './types'
-import { apparatusDimension } from '@/lib/studylab/material/apparatusDimension'
+import { apparatusDimensions } from '@/lib/studylab/material/apparatusDimension'
 import { getApparatus } from '@/lib/studylab/material/canon'
 import type { MaterialSpec } from '@/lib/studylab/material/types'
 import { DIMENSIONS, dimensionsOf, type Dimension } from './dimensions'
@@ -95,8 +95,8 @@ export function checkMaterialIntent(
     }
   }
 
-  const dim = apparatusDimension(intent.apparatus)
-  if (!dim) {
+  const dims = apparatusDimensions(intent.apparatus)
+  if (!dims || dims.length === 0) {
     return {
       ok: false,
       reason:
@@ -105,11 +105,12 @@ export function checkMaterialIntent(
     }
   }
 
-  if (intent.isolates !== dim) {
+  if (!dims.includes(intent.isolates)) {
+    const taught = dims.length === 1 ? dims[0] : dims.join(' or ')
     return {
       ok: false,
       reason:
-        `You said this isolates ${intent.isolates}, but "${intent.apparatus}" teaches ${dim}. ` +
+        `You said this isolates ${intent.isolates}, but "${intent.apparatus}" teaches ${taught}. ` +
         `Copy the isolates from the apparatus you chose, do not invent one.`,
     }
   }

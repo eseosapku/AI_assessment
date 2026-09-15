@@ -118,22 +118,11 @@ export function titleExists(nodes: StudyNode[], title: string): boolean {
   )
 }
 
-// Find an existing, visible activity node whose spec prompt (trimmed,
-// case-insensitive) matches. The tutor re-emits an activity it has already
-// built when a turn is retried, and the prompt text is the only reliable
-// signal that this is "the same activity" rather than a new one.
-function findActivityByPrompt(nodes: StudyNode[], prompt: string): StudyNode | undefined {
-  const p = prompt.trim().toLowerCase()
-  return nodes.find(
-    (n) => n.type === 'activity' && !n.hidden && (n.data.spec?.prompt ?? '').trim().toLowerCase() === p,
-  )
-}
-
-// Find an existing, visible material or activity node whose prompt (trimmed,
-// case-insensitive) matches. The tutor re-emits a material it has already
-// built when a turn is retried, and the prompt text is the only reliable
-// signal that this is "the same material" rather than a new one.
-function findMaterialByPrompt(nodes: StudyNode[], prompt: string): StudyNode | undefined {
+// Find an existing, visible activity or material node whose prompt (trimmed,
+// case-insensitive) matches. Retries re-emit the same prompt under either
+// createActivity or build_material; matching only one type left a second node
+// on the board.
+function findByMaterialPrompt(nodes: StudyNode[], prompt: string): StudyNode | undefined {
   const p = prompt.trim().toLowerCase()
   return nodes.find((n) => {
     if (n.hidden) return false
@@ -266,7 +255,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
         // A duplicate turn must not leave two identical materials on the board.
         // Zoom to the existing one instead of producing a blank turn, so "see
         // the activity" still lands.
-        const dupe = findActivityByPrompt(nodes, action.spec.prompt)
+        const dupe = findByMaterialPrompt(nodes, action.spec.prompt)
         if (dupe) {
           effects.push({ kind: 'zoom', target: 'node', nodeId: dupe.id })
           break
@@ -299,7 +288,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
         if (nodes.some((n) => n.id === action.id)) break
         const parsed = parseMaterialSpec(action.spec)
         if (!parsed) break
-        const dupe = findMaterialByPrompt(nodes, parsed.prompt)
+        const dupe = findByMaterialPrompt(nodes, parsed.prompt)
         if (dupe) {
           effects.push({ kind: 'zoom', target: 'node', nodeId: dupe.id })
           break

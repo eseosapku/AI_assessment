@@ -1,12 +1,12 @@
 import { apparatusNames } from './canon'
-import { apparatusDimension } from './apparatusDimension'
+import { apparatusDimensions } from './apparatusDimension'
 import { MATERIAL_BOX } from './fit'
 import { MATERIAL_GOAL_KINDS, MATERIAL_RULE_OPS } from './parse'
 
 /**
  * Prompt fragment listing the composable material vocabulary from live sources.
  * Read by the montessori tutor prompt — numbers come from `MATERIAL_BOX`, names
- * from the canon, dimensions from `apparatusDimension`, schema nouns from parse.
+ * from the canon, dimensions from `apparatusDimensions`, schema nouns from parse.
  */
 export function advertiseVocabulary(): string {
   const box = [
@@ -20,8 +20,10 @@ export function advertiseVocabulary(): string {
 
   const apparatus = apparatusNames()
     .map((name) => {
-      const dim = apparatusDimension(name)
-      return dim ? `- ${name} — isolates: ${dim}` : `- ${name}`
+      const dims = apparatusDimensions(name)
+      return dims?.length
+        ? `- ${name} — isolates: ${dims.join(' | ')}`
+        : `- ${name}`
     })
     .join('\n')
 
@@ -45,7 +47,7 @@ export function advertiseVocabulary(): string {
     'Canon apparatus (intent.apparatus must be one of these exact names):',
     apparatus,
     '',
-    'intent.isolates must match the apparatus you chose — copy the isolates value',
+    'intent.isolates must match the apparatus you chose — copy an isolates value',
     'listed beside that apparatus, do not invent a dimension.',
   ].join('\n')
 }

@@ -62,4 +62,39 @@ describe('refuseUnjustifiedMaterials', () => {
     const { kept } = refuseUnjustifiedMaterials([{ type: 'build_material', id: 'm1', intent, spec }])
     expect(kept[0]).not.toHaveProperty('intent')
   })
+
+  it('refuses a spec that fails validateMaterial isolation', () => {
+    // Two varying traits with maxVaryingTraits 1 on sorting-frame.
+    const hostile = {
+      ...spec,
+      pieces: [
+        { id: 'a', label: 'A', traits: { metal: 1, hot: 1 } },
+        { id: 'b', label: 'B', traits: { metal: 0, hot: 0 } },
+      ],
+    }
+    const { kept, refused } = refuseUnjustifiedMaterials([
+      { type: 'build_material', id: 'm1', intent, spec: hostile },
+    ])
+    expect(kept).toEqual([])
+    expect(refused[0]?.length).toBeGreaterThan(0)
+  })
+
+  it('accepts balance-beam with isolates structure (equation-style)', () => {
+    const balance = getApparatus('balance-beam')!.base
+    const { kept, refused } = refuseUnjustifiedMaterials([
+      {
+        type: 'build_material',
+        id: 'm1',
+        intent: {
+          goal: 'Balance atom counts on both sides of an equation.',
+          isolates: 'structure',
+          apparatus: 'balance-beam',
+          why: 'The work is arranging parts so both sides match.',
+        },
+        spec: balance,
+      },
+    ])
+    expect(refused).toEqual([])
+    expect(kept).toHaveLength(1)
+  })
 })

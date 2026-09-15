@@ -34,4 +34,8 @@ describe('advertiseVocabulary', () => {
     expect(text).toContain('derive')
     expect(text).toContain('NOT ActivitySpec')
   })
+
+  it('advertises both balance-beam isolates', () => {
+    expect(advertiseVocabulary()).toContain('balance-beam — isolates: quantity | structure')
+  })
 })

@@ -28,11 +28,18 @@ import {
   MaterialBenchNode,
   type MaterialBenchData,
 } from '@/components/studylab/material/MaterialBenchNode'
+import { MaterialBoardNode } from '@/components/studylab/material/MaterialBoardNode'
 import type { ActivitySpec } from '@/lib/studylab/activities/types'
 import { apparatusNames, getApparatus } from '@/lib/studylab/material/canon'
 import type { MaterialSpec } from '@/lib/studylab/material/types'
+import { createInitialMaterialState } from '@/lib/studylab/material/initialState'
 
-const nodeTypes = { ...studyNodeTypes, material: MaterialBenchNode } as unknown as NodeTypes
+const nodeTypes = {
+  ...studyNodeTypes,
+  material: MaterialBenchNode,
+  // Stage 4 board path — Check-gated, same node the tutor's build_material uses.
+  materialBoard: MaterialBoardNode,
+} as unknown as NodeTypes
 
 const sortSpec: ActivitySpec = {
   pattern: 'sort',
@@ -260,6 +267,17 @@ const initialNodes: Node[] = [
       resetKey: 'sorting-frame-0',
       label: 'Composed material · sorting-frame',
     } satisfies MaterialBenchData,
+  },
+  {
+    id: 'n-material-board',
+    type: 'materialBoard',
+    position: { x: 480, y: 420 },
+    data: {
+      kind: 'material',
+      title: 'Board node · sorting-frame (Check-gated)',
+      materialSpec: getApparatus('sorting-frame')!.base,
+      materialState: createInitialMaterialState(getApparatus('sorting-frame')!.base),
+    },
   },
 ]
 

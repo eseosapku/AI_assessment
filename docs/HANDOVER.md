@@ -14,7 +14,7 @@ product, so it is always an explicit decision, never a default.
 npx tsc --noEmit && npx vitest run
 ```
 
-Currently **~139 test files / ~1720 tests green, tsc clean**.
+Currently **140 test files / 1730 tests green, tsc clean**.
 `npm run lint` is broken project-wide (Next 16 removed `next lint`) — do not
 treat its failure as a regression.
 
@@ -242,10 +242,17 @@ action. `createActivity` and nine live cutovers unchanged.
 
 ### Not done
 
-**Stage 4 follow-ups** — live tutor lesson drive of `build_material` in the
-browser; balance-beam equation Dimension (still `createActivity` +
-`mode: 'equation'`); retiring `createActivity` / nine activity components
-(explicit decision per pattern, not this MVP).
+**Later explicit decisions** — retiring `createActivity` / nine activity
+components (per pattern, after free-form materials prove out in real lessons).
+
+**Stage 4 follow-ups done locally (this cut):** balance-beam accepts
+`quantity | structure` isolates for free-form materials; activity↔material
+prompt dedupe is two-way; classic prompt negative test + aside
+`build_material` drop + isolation filter coverage; `/dev/activities` mounts a
+Check-gated `MaterialBoardNode` fixture (`n-material-board`) verified in
+browser (place Warm/Cool → Check hides). Full live-model tutor turn that
+emits `build_material` still needs a paid montessori lesson drive when you
+want one.
 
 ---
 

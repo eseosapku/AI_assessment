@@ -72,4 +72,26 @@ describe('build_material action', () => {
     ])
     expect(out.dropped).toEqual(['build_material:bad1'])
   })
+
+  it('zooms to an existing material when createActivity reuses the same prompt', () => {
+    const material = applyActions(empty, [
+      { type: 'build_material', id: 'mat1', spec: materialSpec } as TutorAction,
+    ])
+    const activitySpec = {
+      pattern: 'sort' as const,
+      prompt: 'Balance both sides.',
+      payload: {
+        bins: [{ id: 'a', label: 'A' }, { id: 'b', label: 'B' }],
+        items: [{ id: 'i1', label: 'One', binId: 'a' }],
+      },
+      success: { kind: 'binAssignment' as const, assign: { i1: 'a' } },
+    }
+    const again = applyActions(
+      { nodes: material.nodes, edges: material.edges },
+      [{ type: 'createActivity', id: 'act1', spec: activitySpec } as TutorAction],
+    )
+    expect(again.nodes).toHaveLength(1)
+    expect(again.nodes[0].type).toBe('material')
+    expect(again.effects).toContainEqual({ kind: 'zoom', target: 'node', nodeId: 'mat1' })
+  })
 })
