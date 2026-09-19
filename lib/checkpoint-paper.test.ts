@@ -29,19 +29,20 @@ describe('a full paper', () => {
     expect(paper.slots.reduce((n, s) => n + s.marks, 0)).toBe(40)
   })
 
-  it('mixes multiple choice with written answers, as the real paper does', () => {
+  it('mixes short answers with extended ones, as the real paper does', () => {
+    // Checkpoint has essentially no multiple choice. Counted across the real
+    // papers, the A/B/C/D that appear are labels ON DIAGRAMS -- "name the
+    // root cell labelled A" -- not answer options.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
-    const formats = new Set(paper.slots.map((s) => s.format))
-    expect(formats).toEqual(new Set(['mcq', 'written']))
+    expect(new Set(paper.slots.map((s) => s.format))).toEqual(new Set(['short', 'written']))
   })
 
-  it('carries marks above one only on written answers', () => {
-    // A 3-mark multiple-choice question is a contradiction: there is nothing to
-    // award part marks for. Marks in brackets mean working, and working means
-    // the learner writes.
+  it('gives a short answer one mark and an extended answer more', () => {
+    // A 3-mark short answer is a contradiction: part marks are for working,
+    // and a word matched against a list has no working to award them for.
     const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 3 })
     for (const slot of paper.slots) {
-      if (slot.format === 'mcq') expect(slot.marks, slot.demand).toBe(1)
+      if (slot.format === 'short') expect(slot.marks, slot.demand).toBe(1)
       else expect(slot.marks, slot.demand).toBeGreaterThan(1)
     }
   })
@@ -199,8 +200,10 @@ function asGenerated(paper: ReturnType<typeof buildPaper>) {
   return paper.slots.map((slot, i) => ({
     id: 500 + i,
     question: `Q${i}`,
-    type: slot.format === 'written' ? 'longform' : 'mcq',
+    type: 'longform',
     marks: 99,
+    // A short answer is recognised by carrying a key it can be marked against.
+    ...(slot.format === 'short' ? { short_answer: { accepted: [`a${i}`] } } : {}),
   }))
 }
 
@@ -233,29 +236,31 @@ describe('the blueprint is what counts, not what the model claimed', () => {
   })
 
   it('matches by what a question is, not where it sits', () => {
-    // A generator that returns every written answer last would otherwise have
-    // them all stamped with a multiple-choice slot's single mark.
+    // A generator that returns every extended answer last would otherwise
+    // have them all stamped with a one-mark slot.
     const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 4 })
     const generated = asGenerated(paper)
     const reordered = [
-      ...generated.filter((q) => q.type === 'mcq'),
-      ...generated.filter((q) => q.type === 'longform'),
+      ...generated.filter((q) => (q as any).short_answer),
+      ...generated.filter((q) => !(q as any).short_answer),
     ]
     const kept = applyBlueprint(reordered, paper)
     for (const q of kept as any[]) {
-      if (q.type === 'longform') expect(q.marks).toBeGreaterThan(1)
-      else expect(q.marks).toBe(1)
+      if (q.short_answer) expect(q.marks).toBe(1)
+      else expect(q.marks).toBeGreaterThan(1)
     }
     expect(awardedTotal(kept)).toBe(PAPER_MARKS)
   })
 
-  it('never awards more than one mark for a single click', () => {
-    // If the written answers never arrive, the multiple-choice questions fill
-    // in — but a 3-mark slot taken by an MCQ is worth 1. Three marks for one
-    // click is not a paper, it is a scoring bug that flatters the learner.
+  it('never awards more than one mark for a matched word', () => {
+    // If the extended answers never arrive, the keyed ones fill in — but a
+    // 3-mark slot taken by a one-word answer is worth 1. Three marks for a
+    // word matched against a list is a scoring bug that flatters the learner.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
-    const onlyMcq = paper.slots.map((_, i) => ({ id: i, question: `Q${i}`, type: 'mcq' }))
-    const kept = applyBlueprint(onlyMcq, paper)
+    const allKeyed = paper.slots.map((_, i) => ({
+      id: i, question: `Q${i}`, type: 'longform', short_answer: { accepted: [`a${i}`] },
+    }))
+    const kept = applyBlueprint(allKeyed, paper)
     expect(kept.every((q: any) => q.marks === 1)).toBe(true)
     expect(awardedTotal(kept)).toBeLessThan(PAPER_MARKS)
   })
@@ -267,9 +272,9 @@ describe('the blueprint is what counts, not what the model claimed', () => {
     // batches in parallel and does not hold to the plan's order, so position
     // is weak evidence and the question's own words are direct evidence.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
-    const physicsSlot = paper.slots.find((s) => s.strand === 'Physics' && s.format === 'mcq')!
+    const physicsSlot = paper.slots.find((s) => s.strand === 'Physics' && s.format === 'short')!
     const kept = applyBlueprint(
-      [{ question: 'Which acid reacts with a metal carbonate to make a salt?', type: 'mcq' }],
+      [{ question: 'Name the acid that reacts with a metal carbonate.', type: 'longform', short_answer: { accepted: ['hydrochloric acid'] } }],
       { ...paper, slots: [physicsSlot] },
     ) as any[]
     expect(kept[0].strand).toBe('Chemistry')
@@ -283,7 +288,7 @@ describe('the blueprint is what counts, not what the model claimed', () => {
     // failure the whole module is built against.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
     const kept = applyBlueprint(
-      [{ question: 'Choose the best option.', type: 'mcq' }],
+      [{ question: 'Give the answer.', type: 'longform', short_answer: { accepted: ['x'] } }],
       { ...paper, slots: [paper.slots[0]] },
     ) as any[]
     expect(kept[0].strand).toBe(paper.slots[0].strand)
@@ -357,16 +362,16 @@ describe('the blueprint is what counts, not what the model claimed', () => {
     expect(kept[0].question).toBe(`Describe one way soil forms. [${written.marks}]`)
   })
 
-  it('leaves a one-mark multiple-choice stem unadorned', () => {
-    // Every MCQ is worth one mark, so "(1 mark)" on all twenty of them is
+  it('leaves a one-mark stem unadorned', () => {
+    // Every short answer is worth one mark, so "[1]" on all twenty of them is
     // noise that tells the learner nothing.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
-    const mcq = paper.slots.find((s) => s.format === 'mcq')!
+    const brief = paper.slots.find((s) => s.format === 'short')!
     const kept = applyBlueprint(
-      [{ question: 'Which gas do plants take in?', type: 'mcq' }],
-      { ...paper, slots: [mcq] },
+      [{ question: 'Name the gas plants take in.', type: 'longform', short_answer: { accepted: ['carbon dioxide'] } }],
+      { ...paper, slots: [brief] },
     ) as any[]
-    expect(kept[0].question).toBe('Which gas do plants take in?')
+    expect(kept[0].question).toBe('Name the gas plants take in.')
   })
 
   it('survives junk instead of an array', () => {
@@ -391,14 +396,17 @@ describe('what the generator is handed', () => {
 
   it('briefs it one numbered line per slot, marks included', () => {
     const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 1 })
-    const lines = paperBrief(paper).split('\n')
+    const brief = paperBrief(paper)
+    const lines = brief.split('\n').filter((l) => /^[0-9]+\. /.test(l))
     expect(lines).toHaveLength(paper.slots.length)
     // Numbered from one and in order; the mark values are NOT in a fixed
     // order, because the written questions are spread through the paper
     // rather than bunched at the end.
     expect(lines[0]).toMatch(/^1\. \[\d marks?\]/)
     expect(lines[lines.length - 1]).toMatch(new RegExp(`^${lines.length}\. `))
-    expect(paperBrief(paper)).toContain('[2 marks]')
+    expect(brief).toContain('[2 marks]')
+    // and it demands the answer keys, without which nothing can be matched
+    expect(brief).toContain('short_answer')
   })
 })
 

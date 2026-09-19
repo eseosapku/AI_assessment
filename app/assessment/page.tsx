@@ -30,6 +30,7 @@ import {
   type QuestionOutcome,
 } from '@/lib/assessment-weak-areas'
 import { checkpointReport } from '@/lib/checkpoint-report'
+import { gradeShortAnswer, type ShortAnswerKey } from '@/lib/short-answer'
 import { checkpointSubject } from '@/lib/cambridge-checkpoint'
 import CheckpointStrandReport, { type CheckpointPaperMeta } from '@/components/CheckpointStrandReport'
 import {
@@ -99,6 +100,13 @@ interface LongFormQuestion {
   type: 'longform'
   question: string
   marks: number
+  /**
+   * Present on a one-mark Checkpoint-style answer: a word or a number, marked
+   * here against this key instead of by a model. Most of a real Checkpoint
+   * paper is these, and sending thirty of them to be graded would be slow and
+   * pointless when the answer is "condensation".
+   */
+  short_answer?: ShortAnswerKey
   marking_criteria: string[]
   hints?: string[]
   model_answer: string
@@ -157,6 +165,11 @@ interface PausedAssessmentState {
 
 function isLongForm(q: Question): q is LongFormQuestion {
   return q.type === 'longform'
+}
+
+/** A written answer short enough to mark by matching rather than by model. */
+function isShortAnswer(q: Question): q is LongFormQuestion {
+  return q.type === 'longform' && Array.isArray((q as LongFormQuestion).short_answer?.accepted)
 }
 
 function isInteractive(q: Question): q is InteractiveQuestion {
@@ -1095,14 +1108,37 @@ function AssessmentPageClient() {
     setShowResults(true)
     setIsSubmitted(false)
 
-    // Grade long-form questions
-    let longFormGradesResult: Record<number, LongFormGrade> = {}
-    if (hasLongForm) {
+    // Mark the short answers here, before anything is sent anywhere. A word
+    // or a number is checked against the question's own key in microseconds;
+    // only the questions that really need reading go to the model below.
+    const longFormGradesResult: Record<number, LongFormGrade> = {}
+    questions.forEach((q, idx) => {
+      if (!isShortAnswer(q)) return
+      const verdict = gradeShortAnswer(longFormAnswers[idx], q.short_answer!)
+      longFormGradesResult[idx] = {
+        marks_awarded: verdict.correct ? q.marks : 0,
+        marks_total: q.marks,
+        criteria_results: [],
+        general_feedback: verdict.correct
+          ? 'Correct.'
+          : verdict.reason === 'blank'
+            ? 'No answer given.'
+            : `The expected answer was: ${q.short_answer!.accepted[0]}`,
+      }
+    })
+    if (Object.keys(longFormGradesResult).length > 0) setLongFormGrades({ ...longFormGradesResult })
+
+    const needsModel = questions.some((q, idx) => isLongForm(q) && !isShortAnswer(q) && longFormAnswers[idx] !== undefined)
+    if (hasLongForm && needsModel) {
       setIsGradingLongForm(true)
       try {
+        // Only the questions a model has to read. Short answers are already
+        // marked, and including them would pay for a judgement already made.
         const gradingPayload = {
-          questions,
-          answers: longFormAnswers,
+          questions: questions.map((q, idx) => (isShortAnswer(q) ? { ...q, __skip: idx } : q)),
+          answers: Object.fromEntries(
+            Object.entries(longFormAnswers).filter(([k]) => !isShortAnswer(questions[Number(k)])),
+          ),
           subject: assessment?.subject,
         }
         let data: any
@@ -1118,8 +1154,8 @@ function AssessmentPageClient() {
           })
           data = await res.json()
         }
-        longFormGradesResult = data.grades ?? {}
-        setLongFormGrades(longFormGradesResult)
+        Object.assign(longFormGradesResult, data.grades ?? {})
+        setLongFormGrades({ ...longFormGradesResult })
       } catch (err) {
         console.error('Long-form grading failed:', err)
       } finally {
@@ -2293,7 +2329,35 @@ function AssessmentPageClient() {
               )}
 
               {/* Long-form textarea */}
-              {isCurrentLongForm && (
+              {/* A one-mark answer is a word or a number. Giving it a
+                  nine-row essay box and telling the learner to aim for
+                  twenty-five words misdescribes the question -- the real
+                  paper prints a single ruled line, sometimes with the unit
+                  already beside it. */}
+              {isCurrentLongForm && isShortAnswer(question) && (
+                <div>
+                  <div className="text-xs text-ss-slate mb-2">
+                    One answer — a word, a phrase or a number.
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <input
+                      type="text"
+                      value={longFormAnswers[currentQuestion] || ''}
+                      onChange={(e) => handleLongFormChange(e.target.value)}
+                      placeholder="Your answer"
+                      autoComplete="off"
+                      className="w-full max-w-md rounded-2xl border-2 border-gray-200 bg-gray-50 p-4 text-gray-900 transition-colors focus:border-blue-500 focus:outline-none dark:border-gray-700 dark:bg-gray-800/60 dark:text-white dark:focus:border-blue-400 text-sm sm:text-base"
+                    />
+                    {question.short_answer?.unit && (
+                      <span className="shrink-0 text-sm font-semibold text-ss-slate">
+                        {question.short_answer.unit}
+                      </span>
+                    )}
+                  </div>
+                </div>
+              )}
+
+              {isCurrentLongForm && !isShortAnswer(question) && (
                 <div>
                   <div className="text-xs text-ss-slate mb-2">
                     Write a detailed answer. Each mark has a specific criterion — cover as much as you can.

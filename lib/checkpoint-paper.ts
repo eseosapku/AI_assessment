@@ -37,7 +37,12 @@ import type { CheckpointComponent, CheckpointSubject } from './cambridge-checkpo
 import { tagQuestionToStrand } from './checkpoint-strands'
 
 export type PaperMode = 'paper' | 'practice'
-export type SlotFormat = 'mcq' | 'written'
+/**
+ * `short` is a one-mark written answer -- a word, a name or a number -- marked
+ * by matching rather than by a model (see `lib/short-answer.ts`). It is what
+ * most of a real Checkpoint paper is made of.
+ */
+export type SlotFormat = 'short' | 'written'
 
 /**
  * The fallback total, for a component whose paper nobody has read.
@@ -99,39 +104,31 @@ export interface CheckpointPaper {
  * almost nothing above two marks. Each profile sums exactly to that
  * component's printed total.
  *
- * ## The one deliberate divergence
- *
- * In the real papers the one-mark items are mostly SHORT WRITTEN answers --
- * "write down the name of the process", "complete the sentence using a word
- * from the box" -- with only a couple of "draw a ring around" per paper. Here
- * they are rendered as multiple choice, which is the closest thing the
- * assessment screen currently has to ringing an option, and which grades
- * instantly instead of sending thirty answers to a model.
- *
- * That is a substitution made for this product, not a claim about Cambridge.
- * Closing it needs a short-answer question type that grades a word or a number
- * by matching rather than by asking a model, at which point these become
- * `short` and only the 2+ mark items stay written.
+ * The one-mark items are short written answers -- "write down the name of the
+ * process", "complete the sentence using a word from the box" -- which is what
+ * the real papers are mostly made of. They are marked by matching against the
+ * question's own answer key rather than by a model, so a paper of thirty still
+ * grades instantly. Only the 2+ mark items are read by a model.
  */
 interface MarkProfile { marks: number; count: number; format: SlotFormat }
 
 const PROFILES: Record<string, readonly MarkProfile[]> = {
   // Lower Secondary Mathematics 0862 -- 50 marks
   '0862': [
-    { marks: 1, count: 14, format: 'mcq' },
+    { marks: 1, count: 14, format: 'short' },
     { marks: 2, count: 10, format: 'written' },
     { marks: 3, count: 4, format: 'written' },
     { marks: 4, count: 1, format: 'written' },
   ],
   // Lower Secondary Science 0893 -- 50 marks
   '0893': [
-    { marks: 1, count: 21, format: 'mcq' },
+    { marks: 1, count: 21, format: 'short' },
     { marks: 2, count: 10, format: 'written' },
     { marks: 3, count: 3, format: 'written' },
   ],
   // Primary Science 0097 -- 40 marks. Nothing above two marks in twelve papers.
   '0097': [
-    { marks: 1, count: 22, format: 'mcq' },
+    { marks: 1, count: 22, format: 'short' },
     { marks: 2, count: 9, format: 'written' },
   ],
 }
@@ -143,7 +140,7 @@ const PROFILES: Record<string, readonly MarkProfile[]> = {
  * is unknown too. Modelled on 0893, the middle of the three.
  */
 const FALLBACK_SHAPE: ReadonlyArray<{ marks: number; share: number; format: SlotFormat }> = [
-  { marks: 1, share: 0.42, format: 'mcq' },
+  { marks: 1, share: 0.42, format: 'short' },
   { marks: 2, share: 0.40, format: 'written' },
   { marks: 3, share: 0.18, format: 'written' },
 ]
@@ -186,7 +183,7 @@ function shapeFor(code: string, budget: number): { marks: number; format: SlotFo
   // Top up to the exact budget with one-mark items, and drop from the back if
   // rounding overshot. Either way the total lands on the nose.
   let spent = out.reduce((n, s) => n + s.marks, 0)
-  while (spent < budget) { out.push({ marks: 1, format: 'mcq' }); spent += 1 }
+  while (spent < budget) { out.push({ marks: 1, format: 'short' }); spent += 1 }
   while (spent > budget && out.length > 0) { spent -= out.pop()!.marks }
   return out
 }
@@ -353,8 +350,8 @@ function demandFor(
   // papers say "The number of marks for each question or part question is
   // shown in brackets [ ]", and a learner who has sat one recognises it.
   const tag = `[${marks}]`
-  if (format === 'mcq') {
-    return `${strand} - ${focus}. One mark ${tag}: a single correct option with three that a learner holding a common misconception would pick. Use "${verbs.short[0]}" or a direct question.`
+  if (format === 'short') {
+    return `${strand} - ${focus}. One mark ${tag}: a SHORT ANSWER of a word, a short phrase or a number. Open with "${verbs.short[0]}" or "${verbs.short[1]}". There must be exactly one right answer, and it must be short enough to mark by matching -- never an answer that needs a sentence.`
   }
   const verb = marks >= 3 ? verbs.extended[0] : verbs.extended[Math.min(1, verbs.extended.length - 1)]
   return `${strand} - ${focus}. Written answer, ${marks} marks ${tag}: open with "${verb}". ${
@@ -485,7 +482,23 @@ export function paperTopics(paper: CheckpointPaper): string[] {
 
 /** The blueprint as the generator reads it: one numbered line per slot. */
 export function paperBrief(paper: CheckpointPaper): string {
-  return paper.slots.map((s) => `${s.number}. [${s.marks} mark${s.marks === 1 ? '' : 's'}] ${s.demand}`).join('\n')
+  const lines = paper.slots.map(
+    (s) => `${s.number}. [${s.marks} mark${s.marks === 1 ? '' : 's'}] ${s.demand}`,
+  )
+  const shortCount = paper.slots.filter((s) => s.format === 'short').length
+  return [
+    ...lines,
+    '',
+    'ANSWER KEYS — REQUIRED.',
+    `${shortCount} of these questions are one-mark short answers. Each one MUST come back as`,
+    'type "longform" with marks 1 and a "short_answer" object:',
+    '  "short_answer": { "accepted": ["condensation"], "numeric": false }',
+    'List every form a marker would accept — spellings, synonyms, "mm" beside "millimetre".',
+    'For a number use { "accepted": ["75"], "numeric": true, "unit": "cm2" } and omit "unit"',
+    'when the answer has none. A short answer with no key cannot be marked, so it is',
+    'graded by a model instead and the question loses the point of being short.',
+    'The 2-mark and 3-mark questions take NO short_answer — they are read and marked.',
+  ].join('\n')
 }
 
 /**
@@ -509,6 +522,13 @@ function syncMarksInStem(text: string, marks: number): string {
   const printed = /\(\s*\d+\s*marks?\s*\)|\[\s*\d+\s*\]/i
   if (printed.test(text)) return text.replace(new RegExp(printed, 'gi'), label)
   return marks > 1 ? `${text.trimEnd()} ${label}` : text
+}
+
+/** Does this question carry a key a word or number can be marked against? */
+function hasAnswerKey(question: unknown): boolean {
+  if (typeof question !== 'object' || question === null) return false
+  const k = (question as Record<string, unknown>).short_answer as { accepted?: unknown } | undefined
+  return Array.isArray(k?.accepted) && k!.accepted.some((a) => typeof a === 'string' && a.trim())
 }
 
 function isLongform(question: unknown): boolean {
@@ -566,21 +586,29 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
   // another at 10, 12 and 13 — and left eight questions carrying group labels
   // whose start and end no longer pointed at them. To a learner that reads as
   // the same picture spamming the paper.
-  const written = paper.slots.filter((s) => s.format === 'written')
-  const choice = paper.slots.filter((s) => s.format !== 'written')
+  // Both kinds are written answers, so they are matched by whether the
+  // question carries an answer key: one that does can be marked by matching
+  // and belongs in a one-mark `short` slot; one that does not has to be read.
+  const extended = paper.slots.filter((s) => s.format === 'written')
+  const brief = paper.slots.filter((s) => s.format === 'short')
 
   const kept: Record<string, unknown>[] = []
   for (const question of usable) {
-    const longform = isLongform(question)
-    const preferred = longform ? written : choice
-    const fallback = longform ? choice : written
+    const keyed = hasAnswerKey(question)
+    const preferred = keyed ? brief : extended
+    const fallback = keyed ? extended : brief
     // A slot of the wrong kind is better than no slot: the question exists and
-    // has to be worth something. The mark clamp below keeps that honest.
+    // has to be worth something. The mark rule below keeps that honest.
     const slot = preferred.shift() ?? fallback.shift()
     if (!slot) break
 
     const picked = question as Record<string, unknown>
-    picked.marks = longform ? slot.marks : 1
+    // A keyed answer is worth one mark wherever it lands: a word matched
+    // against a list cannot earn part marks for working it does not have.
+    picked.marks = keyed ? 1 : slot.marks
+    // Every Checkpoint question is written, so anything the generator labelled
+    // otherwise is relabelled rather than dropped.
+    picked.type = 'longform'
     if (typeof picked.question === 'string') {
       picked.question = syncMarksInStem(picked.question, picked.marks as number)
     }
