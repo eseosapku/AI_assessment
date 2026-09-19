@@ -5,6 +5,7 @@ import { useRouter } from 'next/navigation'
 import { apiUrl } from '@/lib/api-url'
 
 import type { CountryCode } from '@/lib/countries'
+import type { Gender } from '@/lib/gender'
 import { normalizeCountry } from '@/lib/countries'
 import { resolvePostAuthPath } from '@/lib/onboarding'
 import { hydrateAvatar } from '@/lib/studio/avatar'
@@ -25,23 +26,30 @@ interface User {
   avatarUrl?: string | null
   /** False until a first-time Google user finishes role/class. */
   profileComplete: boolean
+  /** null means never asked -- what GenderPrompt reads. */
+  gender?: Gender | null
 }
 
 interface AuthContextType {
   user: User | null
   login: (identifier: string, password: string) => Promise<void>
   loginWithGoogle: (idToken: string) => Promise<void>
-  signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode, extra?: UniversitySignup) => Promise<void>
+  signup: (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode, extra?: SignupExtras) => Promise<void>
   completeProfile: (payload: CompleteProfilePayload) => Promise<void>
   updateProfile: (payload: UpdateProfilePayload) => Promise<void>
+  /** Answer the one-time gender question. Declining counts as answering. */
+  recordGender: (gender: Gender) => Promise<void>
   logout: () => void
   isLoading: boolean
 }
 
-interface UniversitySignup {
+/** Everything sign-up sends beyond the positional arguments. */
+interface SignupExtras {
   educationLevel?: 'school' | 'university'
   universityCourse?: string
   universityYear?: number
+  /** Optional at sign-up; the one-time prompt asks anyone who skips it. */
+  gender?: Gender | null
 }
 
 interface CompleteProfilePayload {
@@ -73,6 +81,7 @@ const AuthContext = createContext<AuthContextType>({
   signup: async () => { },
   completeProfile: async () => { },
   updateProfile: async () => { },
+  recordGender: async () => { },
   logout: () => { },
   isLoading: true,
 })
@@ -138,7 +147,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     router.push(path)
   }
 
-  const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode, extra?: UniversitySignup) => {
+  const signup = async (name: string, email: string | null, studentId: string | null, password: string, className: string, role: 'student' | 'teacher', country?: CountryCode, extra?: SignupExtras) => {
 
     const response = await fetch(apiUrl('/api/auth/signup'), {
       method: 'POST',
@@ -198,6 +207,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     }
   }
 
+  const recordGender = async (gender: Gender) => {
+    if (!user?.id) throw new Error('You must be logged in.')
+
+    const response = await fetch(apiUrl('/api/auth/gender'), {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: user.id, gender }),
+    })
+    const data = await response.json().catch(() => ({}))
+    if (!response.ok) throw new Error(data?.error || 'Could not save that')
+
+    if (data?.user) {
+      setUser(data.user)
+      localStorage.setItem('user', JSON.stringify(data.user))
+    }
+  }
+
   const logout = () => {
     setUser(null)
     localStorage.removeItem('user')
@@ -205,7 +231,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }
 
   return (
-    <AuthContext.Provider value={{ user, login, loginWithGoogle, signup, completeProfile, updateProfile, logout, isLoading }}>
+    <AuthContext.Provider value={{ user, login, loginWithGoogle, signup, completeProfile, updateProfile, recordGender, logout, isLoading }}>
       {children}
     </AuthContext.Provider>
   )

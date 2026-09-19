@@ -3,10 +3,11 @@
 import { motion } from 'framer-motion'
 import { useState } from 'react'
 import Link from 'next/link'
-import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen, Globe, Building2, School } from 'lucide-react'
+import { Mail, Lock, Eye, EyeOff, User, ChevronDown, ArrowRight, GraduationCap, BookOpen, Globe, Building2, School, Users } from 'lucide-react'
 import { useAuth } from './AuthProvider'
 import GoogleSignInButton from './GoogleSignInButton'
 import { COUNTRY_LIST, COUNTRY_GROUP_LABELS, classOptionsForCountry, countrySignupHint, type CountryCode } from '@/lib/countries'
+import { GENDER_OPTIONS, type Gender } from '@/lib/gender'
 import { getUniversityCourseNames, getUniversityYearsForCourse, getUniversityYearLabel } from '@/lib/university-curriculum'
 
 const inputBase =
@@ -37,6 +38,9 @@ export default function SignupForm({
   const [confirmPassword, setConfirmPassword] = useState('')
   const [className, setClassName] = useState('')
   const [country, setCountry] = useState<CountryCode>('RW')
+  // Optional. Nobody is blocked from creating an account over it; left blank,
+  // the one-time prompt asks after sign-in instead.
+  const [gender, setGender] = useState<Gender | ''>('')
   const [educationLevel, setEducationLevel] = useState<'school' | 'university'>('school')
   const [uniCourse, setUniCourse] = useState('')
   const [uniYear, setUniYear] = useState<number | ''>('')
@@ -85,9 +89,13 @@ export default function SignupForm({
         role === 'teacher' ? 'Teacher' : isUni ? `${uniCourse} · Year ${uniYear}` : className,
         role,
         country,
-        isUni
-          ? { educationLevel: 'university', universityCourse: uniCourse, universityYear: Number(uniYear) }
-          : { educationLevel: 'school' },
+        {
+          ...(isUni
+            ? { educationLevel: 'university' as const, universityCourse: uniCourse, universityYear: Number(uniYear) }
+            : { educationLevel: 'school' as const }),
+          // Blank stays blank: the prompt asks later rather than guessing.
+          ...(gender ? { gender } : {}),
+        },
       )
     } catch (err: any) {
       setError(err?.message || 'Failed to create account. Please try again.')
@@ -274,6 +282,24 @@ export default function SignupForm({
             {countrySignupHint(country)}
           </p>
         )}
+
+        {/* Asked of teachers as well as students: the boards schools report
+            to count staff too, and a question only students see is a question
+            the teacher side cannot answer. */}
+        <Field id="gender" label="Gender (optional)" icon={Users}>
+          <select
+            id="gender"
+            value={gender}
+            onChange={(e) => setGender(e.target.value as Gender | '')}
+            className={`${inputBase} appearance-none pr-10`}
+          >
+            <option value="">Select…</option>
+            {GENDER_OPTIONS.map((o) => (
+              <option key={o.value} value={o.value}>{o.label}</option>
+            ))}
+          </select>
+          <ChevronDown className="pointer-events-none absolute right-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
+        </Field>
 
         {/* Class select — school students only */}
         {role === 'student' && !isUni && (

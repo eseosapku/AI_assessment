@@ -142,7 +142,7 @@ export async function POST(request: NextRequest) {
             `UPDATE users
              SET ${setClauses.join(', ')}
              WHERE id = $1
-             RETURNING id, name, email, student_id, class, subjects, role, country, education_level, university_course, university_year`,
+             RETURNING id, name, email, student_id, class, subjects, role, country, education_level, university_course, university_year, gender`,
             // avatar_url is deliberately not returned here: it is written and
             // read through /api/user/avatar, and naming it in this RETURNING
             // list would make every profile save fail before the migration runs.

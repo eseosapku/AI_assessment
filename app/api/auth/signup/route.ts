@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import bcrypt from 'bcryptjs'
 import { normalizeCountry, countryToDb } from '@/lib/countries'
 import { defaultSubjectsFor, mapAuthUser } from '@/lib/auth-user'
+import { normalizeGender } from '@/lib/gender'
 
 function normalizeEmail(value: unknown) {
   const trimmed = String(value ?? '').trim()
@@ -25,6 +26,9 @@ export async function POST(request: NextRequest) {
     const role = body.role ?? 'student'
     const country = normalizeCountry(body.country)
     const educationLevel = body.educationLevel === 'university' ? 'university' : 'school'
+    // Optional at sign-up. Left null, the one-time prompt asks after sign-in
+    // rather than blocking someone from creating an account over it.
+    const gender = normalizeGender(body.gender)
     const universityCourse = educationLevel === 'university' ? String(body.universityCourse ?? '').trim() : null
     const universityYear = educationLevel === 'university' ? Number(body.universityYear) || null : null
 
@@ -71,10 +75,10 @@ export async function POST(request: NextRequest) {
 
     const subjects = defaultSubjectsFor(country, role)
     const insertResult = await db.query(
-      `INSERT INTO users (email, password_hash, name, student_id, class, role, subjects, country, education_level, university_course, university_year)
-       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11)
-       RETURNING id, name, email, student_id, class, subjects, role, country, education_level, university_course, university_year`,
-      [email, passwordHash, name, studentId, userClass, role, subjects, countryToDb(country), educationLevel, universityCourse, universityYear],
+      `INSERT INTO users (email, password_hash, name, student_id, class, role, subjects, country, education_level, university_course, university_year, gender)
+       VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+       RETURNING id, name, email, student_id, class, subjects, role, country, education_level, university_course, university_year, gender`,
+      [email, passwordHash, name, studentId, userClass, role, subjects, countryToDb(country), educationLevel, universityCourse, universityYear, gender],
     )
     const newUser = insertResult.rows[0]
 

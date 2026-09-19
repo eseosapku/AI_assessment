@@ -1,4 +1,5 @@
 import { normalizeCountry, type CountryCode } from '@/lib/countries'
+import { normalizeGender, type Gender } from '@/lib/gender'
 
 export function defaultSubjectsFor(country: CountryCode, role: string): string[] {
   if (role === 'teacher') return []
@@ -25,6 +26,8 @@ export type AuthUser = {
   universityCourse?: string | null
   universityYear?: number | null
   avatarUrl?: string | null
+  /** null means never asked -- that is what triggers the one-time prompt. */
+  gender: Gender | null
   profileComplete: boolean
   authProvider?: string
 }
@@ -44,6 +47,8 @@ export function mapAuthUser(row: Record<string, unknown>): AuthUser {
     universityCourse: (row.university_course as string | null | undefined) ?? null,
     universityYear: (row.university_year as number | null | undefined) ?? null,
     avatarUrl: (row.avatar_url as string | null | undefined) ?? null,
+    // Missing column (pre-migration) reads as null, i.e. not asked yet.
+    gender: normalizeGender(row.gender),
     // Missing column (pre-migration) ⇒ treat as complete so existing users keep working.
     profileComplete: row.profile_complete !== false && row.profile_complete !== 'f',
     authProvider: row.auth_provider == null ? undefined : String(row.auth_provider),

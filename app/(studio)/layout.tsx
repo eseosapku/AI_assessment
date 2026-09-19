@@ -5,6 +5,7 @@ import { useRouter, usePathname } from 'next/navigation'
 import ProductShell from '@/components/studio/ProductShell'
 import { useAuth } from '@/components/AuthProvider'
 import { completeOnboarding } from '@/lib/onboarding'
+import GenderPrompt from '@/components/GenderPrompt'
 
 // Pages teachers should never land on. The classroom DETAIL (/classrooms/<id>)
 // is shared (teachers manage, students view), so only the list is student-only.
@@ -48,8 +49,13 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
   if (!user) return null
 
   if (user.role === 'teacher') {
-    return <>{children}</>
+    return <><GenderPrompt />{children}</>
   }
 
-  return <ProductShell>{children}</ProductShell>
+  return (
+    <>
+      <GenderPrompt />
+      <ProductShell>{children}</ProductShell>
+    </>
+  )
 }

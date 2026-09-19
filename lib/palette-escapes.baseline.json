@@ -32,7 +32,7 @@
   "components/ReportCardGenerator.tsx": 6,
   "components/ResetPasswordForm.tsx": 13,
   "components/SettingsForm.tsx": 24,
-  "components/SignupForm.tsx": 80,
+  "components/SignupForm.tsx": 81,
   "components/studio/ProgressStudio.tsx": 22,
   "components/studylab/activities/ActivityFrame.tsx": 9,
   "components/studylab/activities/CompareActivity.tsx": 3,
