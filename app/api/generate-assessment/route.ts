@@ -735,16 +735,28 @@ function buildPrompt(opts: {
   const allowArithmetic = allowsArithmeticForSelection(subject, topics)
   const isPrimaryLow = gradeNum >= 1 && gradeNum <= 2
   const lfMarksRange = isPrimaryLow ? '2-3' : '2-8'
+  // An exam paper's written answers are short: measured across the real
+  // Checkpoint papers, nothing above 4 marks and most at 2. The 2-8 default
+  // is a WASSCE theory range and produces essays where the paper wants a
+  // sentence.
+  const lfMarksForPaper = figureAppetite === 'exam-paper' ? '1-3' : lfMarksRange
   const lfQuestionDesc = isPrimaryLow
     ? (allowArithmetic
       ? '<simple, one-step word problem aligned to the selected topic. Include "Show your working.">'
       : '<simple, one-step question aligned to the selected topic. Do NOT ask for calculations or "Show your working.">')
     : '<question requiring an extended written answer>'
+  // A one-mark answer carries the key it is marked against. Without this in
+  // the SCHEMA the model never emits one, whatever the instructions say --
+  // the schema is the contract, and a field absent from it does not exist.
+  const shortAnswerField = figureAppetite === 'exam-paper'
+    ? `
+      "short_answer": <OMIT unless marks is 1. When marks is 1: { "accepted": ["<every form a marker would accept>"], "numeric": <true for a number>, "unit": "<only if the answer has one>" }>,`
+    : ''
   const lfSchemaNoPassage = `{
       "id": <number>,
       "type": "longform",
       "question": "${lfQuestionDesc}",
-      "marks": <integer ${lfMarksRange}>,
+      "marks": <integer ${lfMarksForPaper}>,${shortAnswerField}
       "marking_criteria": ["<criterion 1>", "<criterion 2>", "..."],
       "hints": ["<exactly ONE comprehensive hint for the whole question — structure guidance from this question, never the answer>"],
       "model_answer": "<80-120 word outline of a strong answer>",
@@ -774,6 +786,18 @@ function buildPrompt(opts: {
     questionInstruction = `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${interactiveCount} interactive (type "interactive") in a logical mixed order. Do NOT generate long-form questions.`
     questionsBlock = `    ${mcqSchema},
     ${interactiveSchema}`
+  } else if (figureAppetite === 'exam-paper') {
+    // An exam paper is written answers end to end. Counted across the real
+    // Checkpoint papers, the A/B/C/D that appear are labels on diagrams --
+    // "name the root cell labelled A" -- and not answer options, so asking
+    // for 60% multiple choice produced a quiz wearing a syllabus code.
+    questionInstruction = [
+      `Generate exactly ${count} questions. EVERY question is type "longform" — this is an exam paper and it has NO multiple choice.`,
+      'Follow the PAPER PLAN for what each question is about and what it is worth.',
+      'A 1-mark question is a SHORT ANSWER: a word, a short phrase or a number, and it MUST carry "short_answer" listing every form a marker would accept. It gets no marking_criteria and no model_answer.',
+      'A 2- or 3-mark question is answered in a sentence or two, carries marking_criteria with one criterion per mark, and carries NO short_answer.',
+    ].join(' ')
+    questionsBlock = `    ${activeLfSchema}`
   } else {
     questionInstruction = `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform") in a logical mixed order.${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres.` : ''}`
     questionsBlock = `    ${mcqSchema},

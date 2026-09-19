@@ -23,7 +23,6 @@ import {
 import {
   applyBlueprint,
   paperTopics,
-  paperBrief,
   type CheckpointPaper,
   type PaperMode,
 } from '@/lib/checkpoint-paper'
@@ -95,6 +94,9 @@ export default function ExamPrepForm() {
   // Laid out on the server: choosing foci the figure library can illustrate
   // means reading a 13MB manifest, which is not something to ship to a browser.
   const [cpPaper, setCpPaper] = useState<CheckpointPaper | null>(null)
+  // The generator's instructions, built server-side beside the paper so the
+  // brief and the paper the learner sees cannot drift apart.
+  const [cpBrief, setCpBrief] = useState<string>('')
   const [cpLayingOut, setCpLayingOut] = useState(false)
 
   useEffect(() => {
@@ -120,9 +122,12 @@ export default function ExamPrepForm() {
         const json = await res.json()
         // Ignore a reply that arrives after the learner has moved on, or it
         // would overwrite the paper for the component they are now looking at.
-        if (current) setCpPaper(res.ok && json?.paper ? json.paper : null)
+        if (current) {
+          setCpPaper(res.ok && json?.paper ? json.paper : null)
+          setCpBrief(res.ok && typeof json?.examPrepContext === 'string' ? json.examPrepContext : '')
+        }
       } catch {
-        if (current) setCpPaper(null)
+        if (current) { setCpPaper(null); setCpBrief('') }
       } finally {
         if (current) setCpLayingOut(false)
       }
@@ -239,17 +244,7 @@ export default function ExamPrepForm() {
       // The blueprint, written out for the generator. Naming every question's
       // strand, focus and mark value is what stops it circling the same few
       // ideas — and it is also just what a paper plan is.
-      const checkpointBrief = cpPaper
-        ? [
-            `Cambridge ${cpSubject?.name} ${cpSubject?.code}/${component}, sat at the end of Stage ${stageOf(programme)}. The paper is worth ${cpPaper.totalMarks} marks.`,
-            'Below is the paper plan. Write EXACTLY these questions, in this order, one per line of the plan. Each line names the strand, what the question is about, what it is worth, and whether it is multiple choice or written.',
-            'A written answer states its marks in the question itself, like "(2 marks)", and asks the learner to show working or give one point per mark. A multiple-choice question is worth one mark and has exactly four options.',
-            'Write ORIGINAL questions against the published Cambridge curriculum. Never reproduce a real Checkpoint question or copy a Cambridge diagram — both are copyrighted.',
-            '',
-            'PAPER PLAN:',
-            paperBrief(cpPaper),
-          ].join('\n')
-        : ''
+      const checkpointBrief = cpBrief
 
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',

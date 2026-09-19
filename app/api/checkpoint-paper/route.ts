@@ -12,7 +12,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server'
 import { checkpointSubject, type CheckpointProgramme } from '@/lib/cambridge-checkpoint'
-import { buildPaper, STRAND_FOCI, type PaperMode } from '@/lib/checkpoint-paper'
+import { buildPaper, paperBrief, paperTopics, STRAND_FOCI, type PaperMode } from '@/lib/checkpoint-paper'
 import { fociWithFigures, warmCoverage } from '@/lib/checkpoint-figures'
 import { buildableSubjects } from '@/lib/cambridge-checkpoint'
 
@@ -77,6 +77,17 @@ export async function POST(req: NextRequest) {
 
     return NextResponse.json({
       paper,
+      // Built here rather than in the browser so the instructions the
+      // generator receives and the paper the learner sees cannot drift apart.
+      topics: paperTopics(paper),
+      examPrepContext: [
+        `Cambridge ${subject.name} ${subject.code}/${component.number}, sat at the end of Stage ${programme === 'primary' ? 6 : 9}. The paper is worth ${paper.totalMarks} marks.`,
+        'Below is the paper plan. Write EXACTLY these questions, in this order, one per line of the plan.',
+        'Write ORIGINAL questions against the published Cambridge curriculum. Never reproduce a real Checkpoint question or copy a Cambridge diagram - both are copyrighted.',
+        '',
+        'PAPER PLAN:',
+        paperBrief(paper),
+      ].join('\n'),
       // Useful to the form and honest about what it is: how much of this paper
       // the library can illustrate, not a promise that it will.
       illustrable: paper.slots.filter((s) => covered?.has(s.focus)).length,
