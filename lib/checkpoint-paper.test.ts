@@ -341,8 +341,9 @@ describe('the blueprint is what counts, not what the model claimed', () => {
       [{ question: 'Explain how a food chain transfers energy. (6 marks)', type: 'longform' }],
       { ...paper, slots: [written] },
     ) as any[]
-    expect(kept[0].question).toContain(`(${written.marks} marks)`)
+    expect(kept[0].question).toContain(`[${written.marks}]`)
     expect(kept[0].question).not.toContain('(6 marks)')
+    expect(kept[0].question).not.toContain('[6]')
     expect(kept[0].marks).toBe(written.marks)
   })
 
@@ -353,7 +354,7 @@ describe('the blueprint is what counts, not what the model claimed', () => {
       [{ question: 'Describe one way soil forms.', type: 'longform' }],
       { ...paper, slots: [written] },
     ) as any[]
-    expect(kept[0].question).toBe(`Describe one way soil forms. (${written.marks} marks)`)
+    expect(kept[0].question).toBe(`Describe one way soil forms. [${written.marks}]`)
   })
 
   it('leaves a one-mark multiple-choice stem unadorned', () => {
@@ -392,7 +393,81 @@ describe('what the generator is handed', () => {
     const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 1 })
     const lines = paperBrief(paper).split('\n')
     expect(lines).toHaveLength(paper.slots.length)
-    expect(lines[0]).toMatch(/^1\. \[1 mark\]/)
+    // Numbered from one and in order; the mark values are NOT in a fixed
+    // order, because the written questions are spread through the paper
+    // rather than bunched at the end.
+    expect(lines[0]).toMatch(/^1\. \[\d marks?\]/)
+    expect(lines[lines.length - 1]).toMatch(new RegExp(`^${lines.length}\. `))
     expect(paperBrief(paper)).toContain('[2 marks]')
+  })
+})
+
+describe('the paper is shaped like the real one', () => {
+  // Counted off sixteen 0862, thirteen 0893 and twelve 0097 question papers.
+  const count = (s: any, marks: number) =>
+    buildPaper(s, s.components[0], { mode: 'paper', seed: 5 }).slots.filter((x) => x.marks === marks).length
+
+  it('gives Maths its heavier tail of extended questions', () => {
+    // 0862 averages 14x1, 10x2, 4x3, 1x4 -- a quarter of its marks come from
+    // 3-mark working questions, which Primary Science has none of.
+    expect(count(maths, 1)).toBe(14)
+    expect(count(maths, 2)).toBe(10)
+    expect(count(maths, 3)).toBe(4)
+    expect(count(maths, 4)).toBe(1)
+  })
+
+  it('gives Lower Secondary Science its own, lighter shape', () => {
+    expect(count(science, 1)).toBe(21)
+    expect(count(science, 2)).toBe(10)
+    expect(count(science, 3)).toBe(3)
+  })
+
+  it('gives Primary Science nothing above two marks, because its papers have none', () => {
+    expect(count(primaryScience, 1)).toBe(22)
+    expect(count(primaryScience, 2)).toBe(9)
+    expect(count(primaryScience, 3)).toBe(0)
+    expect(count(primaryScience, 4)).toBe(0)
+  })
+
+  it('lands on the printed total for every buildable component', () => {
+    for (const s of [maths, science, primaryScience, primaryMaths]) {
+      for (const c of s.components) {
+        const paper = buildPaper(s, c, { mode: 'paper', seed: 2 })
+        const summed = paper.slots.reduce((n, x) => n + x.marks, 0)
+        expect(summed, `${s.name} ${c.number}`).toBe(paper.totalMarks)
+      }
+    }
+  })
+
+  it('keeps the character when scaled down to a drill', () => {
+    // A 12-mark Maths drill still carries a 3-mark working question; a
+    // 12-mark Primary Science drill still carries none. Scaling the profile
+    // rather than switching to a generic rhythm is what preserves that.
+    const m = buildPaper(maths, maths.components[0], { mode: 'practice', strand: 'Number', seed: 5 })
+    const ps = buildPaper(primaryScience, primaryScience.components[0], {
+      mode: 'practice', strand: 'Biology', seed: 5,
+    })
+    expect(m.slots.reduce((n, x) => n + x.marks, 0)).toBe(PRACTICE_MARKS)
+    expect(ps.slots.reduce((n, x) => n + x.marks, 0)).toBe(PRACTICE_MARKS)
+    expect(m.slots.some((x) => x.marks >= 3)).toBe(true)
+    expect(ps.slots.every((x) => x.marks <= 2)).toBe(true)
+  })
+
+  it('asks Maths to calculate and Science to explain', () => {
+    // Measured: Maths runs on calculate/work out (5.9 per paper) and barely
+    // explains (0.3); Science is the mirror image. A generic prompt produces a
+    // Science-shaped question in a Maths paper.
+    const mb = paperBrief(buildPaper(maths, maths.components[0], { mode: 'paper', seed: 5 }))
+    const sb = paperBrief(buildPaper(science, science.components[0], { mode: 'paper', seed: 5 }))
+    expect(mb).toMatch(/Calculate|Work out/)
+    expect(mb).not.toMatch(/"Explain"/)
+    expect(sb).toMatch(/Explain|Describe|Suggest/)
+  })
+
+  it('prints marks the way Cambridge does, in square brackets', () => {
+    const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 5 })
+    const written = paper.slots.find((s) => s.marks === 2)!
+    expect(written.demand).toContain('[2]')
+    expect(written.demand).not.toContain('(2 marks)')
   })
 })

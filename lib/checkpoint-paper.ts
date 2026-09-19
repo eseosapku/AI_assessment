@@ -86,23 +86,111 @@ export interface CheckpointPaper {
 }
 
 /**
- * The mark-and-format rhythm of a paper, repeated until the total is reached.
+ * How a real paper spends its marks, counted off the papers themselves.
  *
- * Roughly sixty per cent of the marks come from one-mark items and the rest
- * from written answers, which is the balance the read mark schemes show. Note
- * that **every multiple-choice item is worth exactly one mark**: part marks are
- * for working, and a click has no working to award them for.
+ * Averaged over sixteen 0862, thirteen 0893 and twelve 0097 question papers,
+ * and the three differ enough that one shared rhythm cannot serve them:
+ *
+ *   0862 Maths (50)    14x1  10x2  4x3  1x4   ~29 items
+ *   0893 Science (50)  21x1  10x2  3x3        ~34 items
+ *   0097 Science (40)  22x1   9x2             ~31 items
+ *
+ * Maths spends more of its marks on extended working; Primary Science has
+ * almost nothing above two marks. Each profile sums exactly to that
+ * component's printed total.
+ *
+ * ## The one deliberate divergence
+ *
+ * In the real papers the one-mark items are mostly SHORT WRITTEN answers --
+ * "write down the name of the process", "complete the sentence using a word
+ * from the box" -- with only a couple of "draw a ring around" per paper. Here
+ * they are rendered as multiple choice, which is the closest thing the
+ * assessment screen currently has to ringing an option, and which grades
+ * instantly instead of sending thirty answers to a model.
+ *
+ * That is a substitution made for this product, not a claim about Cambridge.
+ * Closing it needs a short-answer question type that grades a word or a number
+ * by matching rather than by asking a model, at which point these become
+ * `short` and only the 2+ mark items stay written.
  */
-const CYCLE: ReadonlyArray<{ marks: number; format: SlotFormat }> = [
-  { marks: 1, format: 'mcq' },
-  { marks: 1, format: 'mcq' },
-  { marks: 2, format: 'written' },
-  { marks: 1, format: 'mcq' },
-  { marks: 1, format: 'mcq' },
-  { marks: 3, format: 'written' },
-  { marks: 1, format: 'mcq' },
-  { marks: 2, format: 'written' },
+interface MarkProfile { marks: number; count: number; format: SlotFormat }
+
+const PROFILES: Record<string, readonly MarkProfile[]> = {
+  // Lower Secondary Mathematics 0862 -- 50 marks
+  '0862': [
+    { marks: 1, count: 14, format: 'mcq' },
+    { marks: 2, count: 10, format: 'written' },
+    { marks: 3, count: 4, format: 'written' },
+    { marks: 4, count: 1, format: 'written' },
+  ],
+  // Lower Secondary Science 0893 -- 50 marks
+  '0893': [
+    { marks: 1, count: 21, format: 'mcq' },
+    { marks: 2, count: 10, format: 'written' },
+    { marks: 3, count: 3, format: 'written' },
+  ],
+  // Primary Science 0097 -- 40 marks. Nothing above two marks in twelve papers.
+  '0097': [
+    { marks: 1, count: 22, format: 'mcq' },
+    { marks: 2, count: 9, format: 'written' },
+  ],
+}
+
+/**
+ * The fallback shape, for a component with no measured profile (0096, 0058).
+ *
+ * Expressed as proportions of the budget rather than counts, since the budget
+ * is unknown too. Modelled on 0893, the middle of the three.
+ */
+const FALLBACK_SHAPE: ReadonlyArray<{ marks: number; share: number; format: SlotFormat }> = [
+  { marks: 1, share: 0.42, format: 'mcq' },
+  { marks: 2, share: 0.40, format: 'written' },
+  { marks: 3, share: 0.18, format: 'written' },
 ]
+
+/**
+ * The slot shapes this paper is made of.
+ *
+ * Scaled to the budget rather than emitted whole, because a strand drill asks
+ * for twelve marks of the same paper's shape, not a whole component. Scaling
+ * keeps the character -- a 12-mark Maths drill still carries a 3-mark working
+ * question; a 12-mark Primary Science drill still carries none.
+ *
+ * Whatever the rounding does, the shapes returned sum to exactly the budget:
+ * a paper worth other than its printed total is the bug this guards.
+ */
+function shapeFor(code: string, budget: number): { marks: number; format: SlotFormat }[] {
+  const profile = PROFILES[code]
+  const shape: ReadonlyArray<{ marks: number; format: SlotFormat; count: number }> = profile
+    ? profile.map((p) => ({ marks: p.marks, format: p.format, count: p.count }))
+    : FALLBACK_SHAPE.map((f) => ({
+        marks: f.marks,
+        format: f.format,
+        count: Math.max(0, Math.round((budget * f.share) / f.marks)),
+      }))
+
+  const profileTotal = shape.reduce((n, s) => n + s.marks * s.count, 0) || budget
+  const scale = budget / profileTotal
+
+  const out: { marks: number; format: SlotFormat }[] = []
+  // Heaviest first, so the scarce extended questions survive the scaling and
+  // the one-mark items absorb the rounding.
+  for (const s of [...shape].sort((a, b) => b.marks - a.marks)) {
+    const want = Math.round(s.count * scale)
+    for (let i = 0; i < want; i++) {
+      if (out.reduce((n, x) => n + x.marks, 0) + s.marks > budget) break
+      out.push({ marks: s.marks, format: s.format })
+    }
+  }
+
+  // Top up to the exact budget with one-mark items, and drop from the back if
+  // rounding overshot. Either way the total lands on the nose.
+  let spent = out.reduce((n, s) => n + s.marks, 0)
+  while (spent < budget) { out.push({ marks: 1, format: 'mcq' }); spent += 1 }
+  while (spent > budget && out.length > 0) { spent -= out.pop()!.marks }
+  return out
+}
+
 
 /**
  * What a question in each strand is actually about.
@@ -227,14 +315,53 @@ function shuffled<T>(items: readonly T[], next: () => number): T[] {
   return out
 }
 
-function demandFor(strand: string, focus: string, marks: number, format: SlotFormat): string {
+/**
+ * The command words each subject actually uses, counted off the papers.
+ *
+ * Per paper, averaged: Maths runs on *calculate / work out* (5.9) and
+ * *draw / plot* (4.2) and barely explains anything (0.3). Science is the
+ * mirror image -- *explain* (5.2), *describe* (5.2), *write down / state*
+ * (4.4), *suggest* (2.8) -- and calculates rarely (2.1).
+ *
+ * A generic "explain your answer" prompt produces a Science-shaped question in
+ * a Maths paper, which is how a mock stops feeling like the real thing.
+ */
+const COMMANDS: Record<string, { short: string[]; extended: string[] }> = {
+  Mathematics: {
+    short: ['Work out', 'Calculate', 'Write down', 'Complete'],
+    extended: ['Calculate, showing your working', 'Work out, showing each step', 'Find'],
+  },
+  Science: {
+    short: ['Write down', 'State', 'Name', 'Complete the sentence'],
+    extended: ['Explain', 'Describe', 'Suggest', 'Explain, giving a reason'],
+  },
+}
+
+function commandsFor(subjectName: string) {
+  return COMMANDS[subjectName] ?? COMMANDS.Science
+}
+
+function demandFor(
+  strand: string,
+  focus: string,
+  marks: number,
+  format: SlotFormat,
+  subjectName: string,
+): string {
+  const verbs = commandsFor(subjectName)
+  // Marks print as [2] in the brackets Cambridge uses, not "(2 marks)": the
+  // papers say "The number of marks for each question or part question is
+  // shown in brackets [ ]", and a learner who has sat one recognises it.
+  const tag = `[${marks}]`
   if (format === 'mcq') {
-    return `${strand} — ${focus}. Multiple choice, 1 mark: one correct option and three that a learner holding a common misconception would pick.`
+    return `${strand} - ${focus}. One mark ${tag}: a single correct option with three that a learner holding a common misconception would pick. Use "${verbs.short[0]}" or a direct question.`
   }
-  if (marks <= 2) {
-    return `${strand} — ${focus}. Written answer, ${marks} marks: a short response where each valid point earns one mark.`
-  }
-  return `${strand} — ${focus}. Written answer, ${marks} marks: the learner must show working or reasoning, with a mark for each step.`
+  const verb = marks >= 3 ? verbs.extended[0] : verbs.extended[Math.min(1, verbs.extended.length - 1)]
+  return `${strand} - ${focus}. Written answer, ${marks} marks ${tag}: open with "${verb}". ${
+    marks >= 3
+      ? 'The learner shows working or reasoning and a mark is available for each step.'
+      : 'One mark for each valid point.'
+  }`
 }
 
 export interface BuildPaperOptions {
@@ -299,21 +426,16 @@ export function buildPaper(
     pool.set(strand, preferCovered(shuffled(STRAND_FOCI[strand] ?? [strand], next), options.covered))
   }
 
+  // The shapes this component's paper is made of, then interleaved so the
+  // heavy written answers are spread through the paper rather than bunched at
+  // the end. A real paper ramps but does not save every 3-mark question for
+  // the last page.
+  const shapes = shuffled(shapeFor(subject.code, budget), next)
+
   const slots: PaperSlot[] = []
-  let spent = 0
-  let cycleAt = 0
   let strandAt = 0
 
-  while (spent < budget) {
-    const remaining = budget - spent
-    const shape = CYCLE[cycleAt % CYCLE.length]
-    cycleAt += 1
-
-    // The last few marks rarely land on a cycle boundary. Trim the slot to what
-    // is left rather than overshooting the paper's total.
-    const marks = Math.min(shape.marks, remaining)
-    const format: SlotFormat = marks === 1 ? 'mcq' : shape.format
-
+  for (const shape of shapes) {
     const strand = strands[strandAt % strands.length]
     strandAt += 1
 
@@ -329,11 +451,10 @@ export function buildPaper(
       number: slots.length + 1,
       strand,
       focus,
-      marks,
-      format,
-      demand: demandFor(strand, focus, marks, format),
+      marks: shape.marks,
+      format: shape.format,
+      demand: demandFor(strand, focus, shape.marks, shape.format, subject.name),
     })
-    spent += marks
   }
 
   return {
@@ -378,9 +499,15 @@ export function paperBrief(paper: CheckpointPaper): string {
  * holds, because the conflicting instruction is in the shared prompt.
  */
 function syncMarksInStem(text: string, marks: number): string {
-  const label = `(${marks} mark${marks === 1 ? '' : 's'})`
-  const printed = /\(\s*\d+\s*marks?\s*\)/gi
-  if (printed.test(text)) return text.replace(printed, label)
+  // Cambridge prints the marks in square brackets at the end of the question:
+  // "[2]". The papers say so in their own instructions -- "The number of marks
+  // for each question or part question is shown in brackets [ ]" -- and a
+  // learner who has sat one reads that notation without thinking.
+  const label = `[${marks}]`
+  // Two regexes, not one reused: `test` on a /g pattern advances lastIndex, so
+  // the same object used for both would make the check stateful.
+  const printed = /\(\s*\d+\s*marks?\s*\)|\[\s*\d+\s*\]/i
+  if (printed.test(text)) return text.replace(new RegExp(printed, 'gi'), label)
   return marks > 1 ? `${text.trimEnd()} ${label}` : text
 }
 
