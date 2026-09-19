@@ -125,3 +125,45 @@ describe('the syllabus holds together', () => {
     }
   })
 })
+
+describe('the totals Cambridge prints on page one', () => {
+  // Read off the question papers themselves: "The total mark for this paper
+  // is N." Sixteen 0862 papers, thirteen 0893, twelve 0097, four 0861.
+  it('records 50 for the Lower Secondary papers that say 50', () => {
+    for (const name of ['Mathematics', 'Science', 'English'] as const) {
+      const s = checkpointSubject('lower-secondary', name)!
+      for (const c of s.components) expect(c.marks, `${name} ${c.number}`).toBe(50)
+    }
+  })
+
+  it('records 40 for Primary Science, which is not 50', () => {
+    // The whole point. This file used to assume 50 everywhere, inferred from
+    // the 0-50 reporting scale. Twelve 0097 papers say 40, and a practice
+    // paper marked out of the wrong total misreports every learner who sits it.
+    const s = checkpointSubject('primary', 'Science')!
+    for (const c of s.components) expect(c.marks, c.number).toBe(40)
+  })
+
+  it('records the three different ESL totals rather than one for the subject', () => {
+    const esl = checkpointSubject('lower-secondary', 'English as a Second Language')!
+    expect(esl.components.map((c) => c.marks)).toEqual([42, 25, 35])
+  })
+
+  it('leaves the total unrecorded where no paper was read', () => {
+    // 0058 and 0096 have no paper in the set. Borrowing a total from a
+    // subject that happens to share a duration is the inference that produced
+    // the wrong 50 in the first place.
+    expect(checkpointSubject('primary', 'English')!.components.every((c) => c.marks === undefined)).toBe(true)
+    expect(checkpointSubject('primary', 'Mathematics')!.components.every((c) => c.marks === undefined)).toBe(true)
+  })
+
+  it('never records a total that is not a positive whole number', () => {
+    for (const s of CHECKPOINT_SUBJECTS) {
+      for (const c of s.components) {
+        if (c.marks === undefined) continue
+        expect(Number.isInteger(c.marks), `${s.name} ${c.number}`).toBe(true)
+        expect(c.marks, `${s.name} ${c.number}`).toBeGreaterThan(0)
+      }
+    }
+  })
+})

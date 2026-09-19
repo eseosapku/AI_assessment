@@ -31,6 +31,15 @@ export interface CheckpointComponent {
   name?: string
   minutes: number
   /**
+   * The paper's total, as Cambridge prints it on page 1: "The total mark for
+   * this paper is N."
+   *
+   * Read off the question papers themselves, per component, because it varies
+   * by component and not just by subject: ESL 0876 runs 25, 35 and 42 across
+   * its three. Undefined means no paper for it was available to read.
+   */
+  marks?: number
+  /**
    * Whether this component can ever be mocked in text and figures.
    *
    * NOT the same as "is it built yet" — see `BETA_SUBJECTS`. A component that
@@ -77,6 +86,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'English',
     code: '0058',
     components: [
+      // No 0058 paper was available to read, so the total stays unrecorded
+      // rather than borrowed from a subject that happens to share a duration.
       { number: '01', minutes: 60, mockable: true },
       { number: '02', minutes: 60, mockable: true },
     ],
@@ -103,6 +114,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     code: '0096',
     components: [
       { number: '01', minutes: 45, mockable: true },
+      // No 0096 paper was available to read. Primary Science is 40 rather
+      // than 50, so Primary totals cannot be assumed from Lower Secondary.
       { number: '02', minutes: 45, mockable: true },
     ],
     strands: MATHS_STRANDS,
@@ -113,8 +126,12 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'Science',
     code: '0097',
     components: [
-      { number: '01', minutes: 35, mockable: true },
-      { number: '02', minutes: 35, mockable: true },
+      // Forty, not fifty. Twelve 0097 papers print "The total mark for this
+      // paper is 40". The earlier fifty here was inferred from the 0-50
+      // reporting scale and was simply wrong -- which is what that inference
+      // was flagged as capable of being.
+      { number: '01', minutes: 35, marks: 40, mockable: true },
+      { number: '02', minutes: 35, marks: 40, mockable: true },
     ],
     strands: SCIENCE_STRANDS,
   },
@@ -125,8 +142,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'English',
     code: '0861',
     components: [
-      { number: '01', minutes: 70, mockable: true },
-      { number: '02', minutes: 70, mockable: true },
+      { number: '01', minutes: 70, marks: 50, mockable: true },
+      { number: '02', minutes: 70, marks: 50, mockable: true },
     ],
     strands: ENGLISH_STRANDS,
   },
@@ -137,9 +154,9 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     // Cambridge's own mark schemes name 0876/01 "Reading and Usage" and
     // 0876/03 "Writing", which leaves 02 as Listening.
     components: [
-      { number: '01', name: 'Reading and Usage', minutes: 45, mockable: true },
-      { number: '02', name: 'Listening', minutes: 35, mockable: false, notMockableReason: NEEDS_AUDIO },
-      { number: '03', name: 'Writing', minutes: 40, mockable: true },
+      { number: '01', name: 'Reading and Usage', minutes: 45, marks: 42, mockable: true },
+      { number: '02', name: 'Listening', minutes: 35, marks: 25, mockable: false, notMockableReason: NEEDS_AUDIO },
+      { number: '03', name: 'Writing', minutes: 40, marks: 35, mockable: true },
     ],
     strands: ESL_STRANDS,
   },
@@ -148,8 +165,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'Mathematics',
     code: '0862',
     components: [
-      { number: '01', minutes: 60, mockable: true },
-      { number: '02', minutes: 60, mockable: true },
+      { number: '01', minutes: 60, marks: 50, mockable: true },
+      { number: '02', minutes: 60, marks: 50, mockable: true },
     ],
     strands: MATHS_STRANDS,
     crossCuttingStrand: 'Thinking and Working Mathematically',
@@ -159,8 +176,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'Science',
     code: '0893',
     components: [
-      { number: '01', minutes: 45, mockable: true },
-      { number: '02', minutes: 45, mockable: true },
+      { number: '01', minutes: 45, marks: 50, mockable: true },
+      { number: '02', minutes: 45, marks: 50, mockable: true },
     ],
     strands: SCIENCE_STRANDS,
   },

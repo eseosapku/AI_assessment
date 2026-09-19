@@ -1,17 +1,16 @@
 /**
  * The shape of a Checkpoint paper, as a blueprint the generator has to fill.
  *
- * A Checkpoint component is not "some questions about Science". It is fifty
- * marks, spread across the strands the result is reported against, mixing
- * multiple-choice items with written answers that carry their marks in brackets
- * and expect working. Sourced from Cambridge's published mark schemes for
- * Mathematics 0862 and Science 0893.
+ * A Checkpoint component is not "some questions about Science". It is a fixed
+ * number of marks, spread across the strands the result is reported against,
+ * with the marks for each question printed in square brackets and working
+ * expected.
  *
- * **The fifty is applied to the Primary components as an inference, not a
- * source.** Cambridge reports every Checkpoint subject on a 0-50 scale, and the
- * two papers whose mark schemes were read are fifty-mark papers, so a one-to-one
- * mapping is the obvious reading. It is still a reading. Real Primary papers
- * replace it.
+ * **The total is per component and is read off the papers themselves.** Lower
+ * Secondary Maths 0862 and Science 0893 are 50; Primary Science 0097 is 40.
+ * That forty matters: this file previously assumed fifty everywhere, inferred
+ * from the 0-50 reporting scale, and twelve 0097 papers say otherwise. See
+ * `marksFor` and the `marks` field in `lib/cambridge-checkpoint.ts`.
  *
  * ## Why a blueprint at all
  *
@@ -40,8 +39,22 @@ import { tagQuestionToStrand } from './checkpoint-strands'
 export type PaperMode = 'paper' | 'practice'
 export type SlotFormat = 'mcq' | 'written'
 
-/** Cambridge's paper total, which is also its reporting scale. */
+/**
+ * The fallback total, for a component whose paper nobody has read.
+ *
+ * Not "the" paper total — there is no such thing. Cambridge prints one on page
+ * one of each paper and it varies: Lower Secondary Maths and Science are 50,
+ * **Primary Science is 40**, ESL runs 25, 35 and 42 across its three. The real
+ * number lives on the component in `lib/cambridge-checkpoint.ts`; this is only
+ * what to do when it is absent.
+ */
 export const PAPER_MARKS = 50
+
+/** What this component is actually worth, per Cambridge, or the fallback. */
+export function marksFor(component: CheckpointComponent): number {
+  return typeof component.marks === 'number' && component.marks > 0 ? component.marks : PAPER_MARKS
+}
+
 /** A strand drill. Long enough to find a weakness, short enough to repeat. */
 export const PRACTICE_MARKS = 12
 
@@ -276,7 +289,7 @@ export function buildPaper(
       ? options.strand
       : null
   const mode: PaperMode = drilling ? 'practice' : 'paper'
-  const budget = mode === 'practice' ? PRACTICE_MARKS : PAPER_MARKS
+  const budget = mode === 'practice' ? PRACTICE_MARKS : marksFor(component)
   const strands = drilling ? [drilling] : subject.strands
 
   // Each strand draws from its own shuffled list, so no focus repeats inside a
@@ -336,7 +349,7 @@ export function buildPaper(
     // is Cambridge's; only the length is ours.
     minutes:
       mode === 'practice'
-        ? Math.max(1, Math.round((component.minutes * PRACTICE_MARKS) / PAPER_MARKS))
+        ? Math.max(1, Math.round((component.minutes * PRACTICE_MARKS) / marksFor(component)))
         : component.minutes,
     totalMarks: budget,
     slots,

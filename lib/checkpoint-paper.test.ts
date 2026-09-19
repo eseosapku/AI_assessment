@@ -9,15 +9,24 @@ import {
 const science = checkpointSubject('lower-secondary', 'Science')!
 const maths = checkpointSubject('lower-secondary', 'Mathematics')!
 const primaryMaths = checkpointSubject('primary', 'Mathematics')!
+const primaryScience = checkpointSubject('primary', 'Science')!
 
 describe('a full paper', () => {
-  it('is worth exactly 50 marks, because that is what the paper is worth', () => {
+  it('is worth what the component is worth, which is not always 50', () => {
     for (const s of [science, maths, primaryMaths]) {
       const paper = buildPaper(s, s.components[0], { mode: 'paper', seed: 1 })
       const total = paper.slots.reduce((n, slot) => n + slot.marks, 0)
       expect(total, s.name).toBe(PAPER_MARKS)
       expect(paper.totalMarks, s.name).toBe(PAPER_MARKS)
     }
+  })
+
+  it('builds Primary Science out of 40, the total its papers print', () => {
+    // A 50-mark practice paper for a 40-mark component misreports every
+    // learner who sits it, and looks right while doing so.
+    const paper = buildPaper(primaryScience, primaryScience.components[0], { mode: 'paper', seed: 1 })
+    expect(paper.totalMarks).toBe(40)
+    expect(paper.slots.reduce((n, s) => n + s.marks, 0)).toBe(40)
   })
 
   it('mixes multiple choice with written answers, as the real paper does', () => {
