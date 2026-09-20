@@ -67,16 +67,35 @@ describe('a full paper', () => {
     }
   })
 
-  it('gives every slot a different focus', () => {
+  it('gives every numbered question a different focus', () => {
     // This is the whole point of the blueprint. Six strand names as the entire
     // topic list let the model circle the same handful of ideas until the
-    // deduplicator ate the surplus and the paper came back short. Thirty-odd
-    // named foci leave it nothing to circle.
+    // deduplicator ate the surplus and the paper came back short.
+    //
+    // Parts of ONE question share a focus on purpose — that shared scenario is
+    // what makes them parts — so uniqueness is per numbered question.
     for (const s of [science, maths, primaryMaths]) {
       const paper = buildPaper(s, s.components[0], { mode: 'paper', seed: 11 })
-      const foci = paper.slots.map((slot) => `${slot.strand}::${slot.focus}`)
-      expect(new Set(foci).size, s.name).toBe(foci.length)
+      const perQuestion = new Map<number, string>()
+      for (const slot of paper.slots) perQuestion.set(slot.questionNumber, `${slot.strand}::${slot.focus}`)
+      expect(new Set(perQuestion.values()).size, s.name).toBe(perQuestion.size)
     }
+  })
+
+  it('keeps the parts of one question on one scenario', () => {
+    const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 11 })
+    const groups = new Map<number, typeof paper.slots>()
+    for (const slot of paper.slots) {
+      groups.set(slot.questionNumber, [...(groups.get(slot.questionNumber) ?? []), slot])
+    }
+    for (const [n, parts] of groups) {
+      expect(new Set(parts.map((p) => p.focus)).size, `Q${n}`).toBe(1)
+      expect(new Set(parts.map((p) => p.strand)).size, `Q${n}`).toBe(1)
+      // Lettered only when there is more than one part.
+      if (parts.length === 1) expect(parts[0].part).toBeNull()
+      else expect(parts.map((p) => p.part)).toEqual(parts.map((_, i) => String.fromCharCode(97 + i)))
+    }
+    expect(groups.size).toBeGreaterThan(5)
   })
 
   it('numbers the slots from one, in order', () => {
@@ -145,8 +164,9 @@ describe('preferring foci the figure library can illustrate', () => {
     const paper = buildPaper(science, science.components[0], {
       mode: 'paper', seed: 3, covered: new Set(['photosynthesis']),
     })
-    const foci = paper.slots.map((s) => `${s.strand}::${s.focus}`)
-    expect(new Set(foci).size).toBe(foci.length)
+    const perQuestion = new Map<number, string>()
+    for (const slot of paper.slots) perQuestion.set(slot.questionNumber, `${slot.strand}::${slot.focus}`)
+    expect(new Set(perQuestion.values()).size).toBe(perQuestion.size)
   })
 
   it('is unchanged when nothing is known about coverage', () => {
@@ -390,20 +410,19 @@ describe('what the generator is handed', () => {
     // questions against it writes the same ten twice.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
     const topics = paperTopics(paper)
-    expect(topics.length).toBeGreaterThan(science.strands.length * 3)
+    // One focus per numbered question now, not per slot.
+    expect(topics.length).toBeGreaterThan(science.strands.length)
     for (const strand of science.strands) expect(topics).not.toContain(strand)
   })
 
-  it('briefs it one numbered line per slot, marks included', () => {
+  it('briefs it question by question, with the parts under each', () => {
     const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 1 })
     const brief = paperBrief(paper)
-    const lines = brief.split('\n').filter((l) => /^[0-9]+\. /.test(l))
-    expect(lines).toHaveLength(paper.slots.length)
-    // Numbered from one and in order; the mark values are NOT in a fixed
-    // order, because the written questions are spread through the paper
-    // rather than bunched at the end.
-    expect(lines[0]).toMatch(/^1\. \[\d marks?\]/)
-    expect(lines[lines.length - 1]).toMatch(new RegExp(`^${lines.length}\. `))
+    const itemLines = brief.split('\n').filter((l) => /^ {2}(\([a-z]\) )?\[\d mark/.test(l))
+    expect(itemLines).toHaveLength(paper.slots.length)
+    // One header per numbered question, parts indented beneath it.
+    const headers = brief.split('\n').filter((l) => /^Question \d+/.test(l))
+    expect(headers).toHaveLength(new Set(paper.slots.map((s) => s.questionNumber)).size)
     expect(brief).toContain('[2 marks]')
     // and it demands the answer keys, without which nothing can be matched
     expect(brief).toContain('short_answer')

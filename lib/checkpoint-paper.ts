@@ -66,6 +66,18 @@ export const PRACTICE_MARKS = 12
 export interface PaperSlot {
   /** Position in the paper, from 1. */
   number: number
+  /**
+   * The numbered question this slot belongs to.
+   *
+   * A real Checkpoint question is a scenario -- often with a figure -- and two
+   * or three lettered parts under it, each with its own marks and its own
+   * command word. Measured: Primary Science averages 1.9 parts per numbered
+   * question and about 15 numbered questions per paper; Maths is flatter, with
+   * more standalone questions.
+   */
+  questionNumber: number
+  /** 'a', 'b', 'c' -- or null when this question has only one part. */
+  part: string | null
   strand: string
   /** The named thing this question is about — the blueprint's whole job. */
   focus: string
@@ -110,6 +122,21 @@ export interface CheckpointPaper {
  * question's own answer key rather than by a model, so a paper of thirty still
  * grades instantly. Only the 2+ mark items are read by a model.
  */
+/**
+ * How many lettered parts a numbered question carries, by subject.
+ *
+ * Counted off the papers: Primary Science 0097 runs 28 part-markers across
+ * about 15 numbered questions, so nearly two apiece. Maths 0862 has only 6,
+ * because a calculation usually stands on its own -- "Work out 4 x 2n when
+ * n = 2" needs no scenario.
+ */
+const PARTS_PER_QUESTION: Record<string, number> = {
+  '0862': 1,  // mostly standalone
+  '0096': 1,
+  '0893': 2,
+  '0097': 2,
+}
+
 interface MarkProfile { marks: number; count: number; format: SlotFormat }
 
 const PROFILES: Record<string, readonly MarkProfile[]> = {
@@ -429,10 +456,24 @@ export function buildPaper(
   // the last page.
   const shapes = shuffled(shapeFor(subject.code, budget), next)
 
+  // Group the shapes into numbered questions. Parts of one question share a
+  // focus, because that is what a real paper does: one scenario -- "the
+  // diagram shows the pathway of water through a plant" -- and then (a), (b),
+  // (c) all asking about it. A shared scenario is the whole point of a part.
+  const partsPer = PARTS_PER_QUESTION[subject.code] ?? 2
+  const groups: { marks: number; format: SlotFormat }[][] = []
+  for (let i = 0; i < shapes.length;) {
+    // Vary the size a little so a paper is not fifteen identical triplets, and
+    // never split a group across the end of the list.
+    const size = Math.max(1, Math.min(shapes.length - i, partsPer + (next() < 0.35 ? 1 : 0) - (next() < 0.25 ? 1 : 0)))
+    groups.push(shapes.slice(i, i + size))
+    i += size
+  }
+
   const slots: PaperSlot[] = []
   let strandAt = 0
 
-  for (const shape of shapes) {
+  groups.forEach((group, gi) => {
     const strand = strands[strandAt % strands.length]
     strandAt += 1
 
@@ -444,15 +485,19 @@ export function buildPaper(
     }
     const focus = pool.get(strand)!.shift() ?? strand
 
-    slots.push({
-      number: slots.length + 1,
-      strand,
-      focus,
-      marks: shape.marks,
-      format: shape.format,
-      demand: demandFor(strand, focus, shape.marks, shape.format, subject.name),
+    group.forEach((shape, pi) => {
+      slots.push({
+        number: slots.length + 1,
+        questionNumber: gi + 1,
+        part: group.length > 1 ? String.fromCharCode(97 + pi) : null,
+        strand,
+        focus,
+        marks: shape.marks,
+        format: shape.format,
+        demand: demandFor(strand, focus, shape.marks, shape.format, subject.name),
+      })
     })
-  }
+  })
 
   return {
     mode,
@@ -482,23 +527,39 @@ export function paperTopics(paper: CheckpointPaper): string[] {
 
 /** The blueprint as the generator reads it: one numbered line per slot. */
 export function paperBrief(paper: CheckpointPaper): string {
-  const lines = paper.slots.map(
-    (s) => `${s.number}. [${s.marks} mark${s.marks === 1 ? '' : 's'}] ${s.demand}`,
-  )
+  const NL = String.fromCharCode(10)
+  const lines: string[] = []
+  let current = -1
+  for (const slot of paper.slots) {
+    if (slot.questionNumber !== current) {
+      current = slot.questionNumber
+      const parts = paper.slots.filter((s) => s.questionNumber === current)
+      const total = parts.reduce((n, s) => n + s.marks, 0)
+      lines.push('')
+      lines.push(
+        parts.length > 1
+          ? `Question ${current} [${total} marks total] — ${slot.strand}, about ${slot.focus}. Open with ONE short scenario sentence that all ${parts.length} parts refer to, then the parts.`
+          : `Question ${current} — ${slot.strand}, about ${slot.focus}. No scenario, no parts: one question, asked directly.`,
+      )
+    }
+    const label = slot.part ? `(${slot.part}) ` : ''
+    lines.push(`  ${label}[${slot.marks} mark${slot.marks === 1 ? '' : 's'}] ${slot.demand}`)
+  }
+
   const shortCount = paper.slots.filter((s) => s.format === 'short').length
   return [
     ...lines,
     '',
     'ANSWER KEYS — REQUIRED.',
-    `${shortCount} of these questions are one-mark short answers. Each one MUST come back as`,
-    'type "longform" with marks 1 and a "short_answer" object:',
-    '  "short_answer": { "accepted": ["condensation"], "numeric": false }',
+    `${shortCount} of these are one-mark short answers. Each MUST come back as type "longform",`,
+    'marks 1, with a "short_answer" object: { "accepted": ["condensation"], "numeric": false }.',
     'List every form a marker would accept — spellings, synonyms, "mm" beside "millimetre".',
-    'For a number use { "accepted": ["75"], "numeric": true, "unit": "cm2" } and omit "unit"',
-    'when the answer has none. A short answer with no key cannot be marked, so it is',
-    'graded by a model instead and the question loses the point of being short.',
-    'The 2-mark and 3-mark questions take NO short_answer — they are read and marked.',
-  ].join('\n')
+    'For a number use { "accepted": ["75"], "numeric": true, "unit": "cm2" }, omitting "unit" when there is none.',
+    'The 2- and 3-mark questions take NO short_answer — they are read and marked.',
+    '',
+    'PARTS. Where a question has parts, repeat its scenario sentence at the start of each part,',
+    'then ask that part. Each part is its own entry in the questions array.',
+  ].join(NL)
 }
 
 /**
