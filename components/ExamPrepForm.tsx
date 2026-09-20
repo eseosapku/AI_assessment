@@ -97,6 +97,7 @@ export default function ExamPrepForm() {
   // The generator's instructions, built server-side beside the paper so the
   // brief and the paper the learner sees cannot drift apart.
   const [cpBrief, setCpBrief] = useState<string>('')
+  const [cpShortCount, setCpShortCount] = useState(0)
   const [cpLayingOut, setCpLayingOut] = useState(false)
 
   useEffect(() => {
@@ -125,9 +126,10 @@ export default function ExamPrepForm() {
         if (current) {
           setCpPaper(res.ok && json?.paper ? json.paper : null)
           setCpBrief(res.ok && typeof json?.examPrepContext === 'string' ? json.examPrepContext : '')
+          setCpShortCount(res.ok ? Number(json?.shortCount) || 0 : 0)
         }
       } catch {
-        if (current) { setCpPaper(null); setCpBrief('') }
+        if (current) { setCpPaper(null); setCpBrief(''); setCpShortCount(0) }
       } finally {
         if (current) setCpLayingOut(false)
       }
@@ -270,6 +272,8 @@ export default function ExamPrepForm() {
           // timed at whatever the question count implied — 2h25 on a
           // 45-minute component.
           customTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
+          // Splits generation by kind, so no batch decides which are short.
+          shortCount: exam === 'checkpoint' ? cpShortCount : undefined,
           curriculum: exam,
           difficultyLevel: difficulty,
           questionType: qType,

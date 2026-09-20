@@ -649,11 +649,20 @@ function buildPrompt(opts: {
    * default was the main thing holding the figure count down.
    */
   figureAppetite?: 'default' | 'exam-paper'
+  /**
+   * Which half of an exam paper this batch is for.
+   *
+   * Asking one request to decide per question which items are one-mark short
+   * answers does not work: measured, the model returns only 2s and 3s and
+   * emits `short_answer: {}` without ever filling it. A condition the model
+   * can silently skip is not a contract. Each batch now asks for ONE kind.
+   */
+  paperPass?: 'short' | 'extended'
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
     hasDiagramSupport, difficultyLevel, grade, sourceText, sourceName, visualCatalog, maxImageQuestions,
-    requirePassagesAll = false, figureAppetite = 'default',
+    requirePassagesAll = false, figureAppetite = 'default', paperPass,
   } = opts
 
   const subjectDomain = classifySubjectDomain(subject)
@@ -748,15 +757,17 @@ function buildPrompt(opts: {
   // A one-mark answer carries the key it is marked against. Without this in
   // the SCHEMA the model never emits one, whatever the instructions say --
   // the schema is the contract, and a field absent from it does not exist.
-  const shortAnswerField = figureAppetite === 'exam-paper'
+  // Required on a short pass, absent on an extended one. Never optional:
+  // offered as optional it came back as `short_answer: {}` on every question.
+  const shortAnswerField = paperPass === 'short'
     ? `
-      "short_answer": <OMIT unless marks is 1. When marks is 1: { "accepted": ["<every form a marker would accept>"], "numeric": <true for a number>, "unit": "<only if the answer has one>" }>,`
+      "short_answer": { "accepted": ["<the answer, plus every other form a marker would accept>"], "numeric": <true only for a number>, "unit": "<only when the answer has a unit, else omit>" },`
     : ''
   const lfSchemaNoPassage = `{
       "id": <number>,
       "type": "longform",
       "question": "${lfQuestionDesc}",
-      "marks": <integer ${lfMarksForPaper}>,${shortAnswerField}
+      "marks": <${paperPass === 'short' ? 'always exactly 1' : `integer ${lfMarksForPaper}`}>,${shortAnswerField}
       "marking_criteria": ["<criterion 1>", "<criterion 2>", "..."],
       "hints": ["<exactly ONE comprehensive hint for the whole question — structure guidance from this question, never the answer>"],
       "model_answer": "<80-120 word outline of a strong answer>",
@@ -791,12 +802,22 @@ function buildPrompt(opts: {
     // Checkpoint papers, the A/B/C/D that appear are labels on diagrams --
     // "name the root cell labelled A" -- and not answer options, so asking
     // for 60% multiple choice produced a quiz wearing a syllabus code.
-    questionInstruction = [
-      `Generate exactly ${count} questions. EVERY question is type "longform" — this is an exam paper and it has NO multiple choice.`,
-      'Follow the PAPER PLAN for what each question is about and what it is worth.',
-      'A 1-mark question is a SHORT ANSWER: a word, a short phrase or a number, and it MUST carry "short_answer" listing every form a marker would accept. It gets no marking_criteria and no model_answer.',
-      'A 2- or 3-mark question is answered in a sentence or two, carries marking_criteria with one criterion per mark, and carries NO short_answer.',
-    ].join(' ')
+    questionInstruction = paperPass === 'short'
+      ? [
+          `Generate exactly ${count} questions, ALL type "longform" and ALL worth exactly 1 mark.`,
+          'Every one is a SHORT ANSWER: the answer is a single word, a short phrase, a name or a number — never a sentence.',
+          'Open with "Write down", "State", "Name", "Give" or "Complete the sentence". NEVER "Explain", "Describe", "Discuss" or "Compare" — those need a sentence and this is not that question.',
+          'Keep the question itself under 15 words. Real exam papers ask "Name the gas produced when magnesium reacts with acid." — one demand, nothing else bolted on.',
+          '"short_answer".accepted MUST list the answer and every other form a marker would accept. A question without it cannot be marked.',
+          'No marking_criteria, no model_answer, no hints.',
+        ].join(' ')
+      : [
+          `Generate exactly ${count} questions, ALL type "longform", each worth 2 or 3 marks.`,
+          'Each is answered in a sentence or two and carries marking_criteria with one criterion per mark.',
+          'ONE demand per question. "Compare X. Explain Y." is two questions — ask only the first.',
+          'Keep the question under 25 words.',
+          'No short_answer on these: they are read and marked, not matched.',
+        ].join(' ')
     questionsBlock = `    ${activeLfSchema}`
   } else {
     questionInstruction = `Generate exactly ${count} questions: ${mcqCount} MCQ (type "mcq") and ${lfCount} long-form (type "longform") in a logical mixed order.${subjectNeedsPassage ? ` Add passage_hint to every question. Use at least 3 different authors/genres.` : ''}`
@@ -1809,7 +1830,7 @@ ${commandBlock}`
     // This ensures the model can always finish the batch without truncation.
     const BATCH_SIZE = 5
 
-    async function tryGenerateBatch(batchCount: number, startId: number): Promise<any[]> {
+    async function tryGenerateBatch(batchCount: number, startId: number, paperPass?: 'short' | 'extended'): Promise<any[]> {
       // Request a 40% surplus so even if the model runs short we hit the target count.
       // The surplus is stripped after deduplication.
       const requestCount = batchCount + Math.ceil(batchCount * 0.4)
@@ -1817,7 +1838,7 @@ ${commandBlock}`
         subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
         curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
         sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
-        figureAppetite: isCheckpoint ? 'exam-paper' : 'default',
+        figureAppetite: isCheckpoint ? 'exam-paper' : 'default', paperPass,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
@@ -1869,9 +1890,24 @@ ${commandBlock}`
     }
 
     // Split count into batches of BATCH_SIZE (used for non-passage subjects)
-    const batches: { count: number; startId: number }[] = []
-    for (let i = 0; i < count; i += BATCH_SIZE) {
-      batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
+    //
+    // An exam paper is split by KIND first. `shortCount` comes from the
+    // blueprint, which already knows how many one-mark items this component
+    // has, so no batch ever has to decide -- every question in it is the same
+    // kind and the schema for that kind is unconditional.
+    const batches: { count: number; startId: number; paperPass?: 'short' | 'extended' }[] = []
+    const shortWanted = isCheckpoint ? Math.max(0, Math.min(count, Number(body.shortCount) || 0)) : 0
+    if (shortWanted > 0) {
+      for (let i = 0; i < shortWanted; i += BATCH_SIZE) {
+        batches.push({ count: Math.min(BATCH_SIZE, shortWanted - i), startId: i + 1, paperPass: 'short' })
+      }
+      for (let i = shortWanted; i < count; i += BATCH_SIZE) {
+        batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1, paperPass: 'extended' })
+      }
+    } else {
+      for (let i = 0; i < count; i += BATCH_SIZE) {
+        batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
+      }
     }
 
     let allQuestions: any[] = []
@@ -2024,7 +2060,7 @@ ${commandBlock}`
         // kill the whole request — successful batches still contribute questions
         // and the retry loop below fills any shortfall.
         const batchSettled = await Promise.allSettled(
-          batches.map(b => tryGenerateBatch(b.count, b.startId))
+          batches.map(b => tryGenerateBatch(b.count, b.startId, b.paperPass))
         )
         const batchErrors: any[] = []
         for (const result of batchSettled) {
@@ -2150,7 +2186,27 @@ ${commandBlock}`
     }
 
     // Trim to EXACTLY the requested count (the 20% surplus buffer may have pushed us over)
-    if (allQuestions.length > count) {
+    //
+    // An exam paper trims BY KIND. Both passes over-generate, so a blind slice
+    // returned 24 keyed short answers where the blueprint had 21 slots for
+    // them -- and the three that spilled into 2- and 3-mark slots were worth
+    // one mark each, leaving the paper worth 46 out of a promised 50.
+    if (shortWanted > 0 && allQuestions.length > count) {
+      const isKeyed = (q: any) =>
+        Array.isArray(q?.short_answer?.accepted) &&
+        q.short_answer.accepted.some((a: unknown) => typeof a === 'string' && a.trim())
+      const keyed = allQuestions.filter(isKeyed)
+      const rest = allQuestions.filter((q) => !isKeyed(q))
+      const takeShort = keyed.slice(0, shortWanted)
+      const takeRest = rest.slice(0, count - takeShort.length)
+      // Only use the kind-aware trim when it can actually fill the paper; a
+      // pass that came back thin must not shorten it further.
+      if (takeShort.length + takeRest.length === count) {
+        allQuestions = [...takeShort, ...takeRest]
+      } else {
+        allQuestions = allQuestions.slice(0, count)
+      }
+    } else if (allQuestions.length > count) {
       allQuestions = allQuestions.slice(0, count)
     }
     // Final re-number after trim
