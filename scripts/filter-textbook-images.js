@@ -130,6 +130,31 @@ function scoreImage(img, isReb = false) {
     }
   }
 
+  // Figures rendered out of a vector-drawn exam paper.
+  //
+  // Everything below scores `kind === 'embedded'`, which is right for a
+  // textbook: its figures are bitmaps dropped onto the page. Cambridge
+  // question papers contain no bitmaps at all -- their diagrams are paths --
+  // so these arrive as kind 'vector' and would every one of them score zero
+  // and be thrown away as low_score.
+  //
+  // They need no keyword cue to earn their place. A textbook bitmap might be a
+  // logo or a border; a region of an exam paper dense enough in drawing paths
+  // to be detected as a figure already IS an exam figure, which is the whole
+  // reason they are worth having.
+  // Sized to clear KEEP_THRESHOLD on its own, because a detected exam figure
+  // needs no keyword cue to earn its place -- but only once it is big enough
+  // to be a diagram rather than a stray cluster of rules or a label box.
+  // Rendered at 200dpi, 240x170 is about 30mm across on the page.
+  if (img.kind === 'vector' && w >= 240 && h >= 170 && w * h >= 60_000) {
+    score += 38
+    reasons.push('exam_figure')
+    if (w * h >= 200_000) {
+      score += 8
+      reasons.push('large_exam_figure')
+    }
+  }
+
   if (img.kind === 'embedded' && w >= 200 && h >= 150) {
     score += 10
     reasons.push('embedded_size')
