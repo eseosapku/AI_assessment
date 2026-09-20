@@ -23,7 +23,8 @@ export interface ExamPartSpec {
   /** 'a', 'b', 'c' — or null when the question has a single part. */
   part: string | null
   marks: number
-  format: 'short' | 'written'
+  /** 'select' is "draw a ring around" — four printed options on paper. */
+  format: 'short' | 'select' | 'written'
 }
 
 export interface ExamPaperPromptOptions {
@@ -52,6 +53,11 @@ function figureNoun(category: string): string {
 
 function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOptions['commands']): string {
   const label = spec.part ? `(${spec.part})` : `${index + 1}.`
+  if (spec.format === 'select') {
+    // "Draw a ring around the correct answer" on paper; four options on
+    // screen. Real Checkpoint Maths uses it about twice a paper.
+    return `${label} "marks": 1, "type": "mcq". Phrase it "Draw a ring around ..." as the paper does, then give "options": exactly four short answers and "correct_answer": the 0-based index of the right one. Exactly ONE is correct; the other three are what a learner with a common misconception would ring. No short_answer, no marking_criteria.`
+  }
   if (spec.format === 'short') {
     const second = commands.short[1] ?? commands.short[0]
     return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". MUST carry "short_answer". No marking_criteria.`
@@ -95,13 +101,24 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
   }
 
   lines.push(
-    `Return ONLY JSON: {"questions":[ ... ]} with exactly ${parts.length} object${parts.length === 1 ? '' : 's'}, in this order, every one "type":"longform".`,
+    `Return ONLY JSON: {"questions":[ ... ]} with exactly ${parts.length} object${parts.length === 1 ? '' : 's'}, in this order. Every one is "type":"longform" unless the part below says "type": "mcq".`,
     'The "marks" value of each is FIXED below. Copy it exactly; do not choose your own.',
     ...parts.map((p, i) => partLine(p, i, commands)),
     '',
-    'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"explanation":"<what this question tests, one sentence>"}',
-    'plus "short_answer":{"accepted":["<the answer>","<any other form a marker would accept>"],"numeric":<true only for a number>,"unit":"<only if the answer has one>"}',
-    'or "marking_criteria":["<one point per mark>", ...] — whichever the part above calls for, never both.',
+    // The object template is the contract, and it beats every line of prose
+    // above it. Left reading "type":"longform" it produced a long-form answer
+    // for a ring-around part every time, however plainly the part said "mcq":
+    // the model copies the shape it is shown.
+    ...(parts.every((p) => p.format === 'select')
+      ? [
+          'Each object: {"id":<number>,"type":"mcq","question":"Draw a ring around ...","options":["...","...","...","..."],"correct_answer":<0-3>,"explanation":"<what this tests, one sentence>","marks":1}',
+          'No short_answer and no marking_criteria on a ringed question.',
+        ]
+      : [
+          'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"explanation":"<what this question tests, one sentence>"}',
+          'plus "short_answer":{"accepted":["<the answer>","<any other form a marker would accept>"],"numeric":<true only for a number>,"unit":"<only if the answer has one>"}',
+          'or "marking_criteria":["<one point per mark>", ...] — whichever the part above calls for, never both.',
+        ]),
     '',
     `Pitch it at ${opts.level}. Use the words a marker would accept, not a textbook paragraph.`,
   )

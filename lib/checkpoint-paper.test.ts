@@ -42,8 +42,12 @@ describe('a full paper', () => {
     // and a word matched against a list has no working to award them for.
     const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 3 })
     for (const slot of paper.slots) {
-      if (slot.format === 'short') expect(slot.marks, slot.demand).toBe(1)
-      else expect(slot.marks, slot.demand).toBeGreaterThan(1)
+      // A ringed option is one mark too: there is no working to part-mark.
+      if (slot.format === 'short' || slot.format === 'select') {
+        expect(slot.marks, slot.demand).toBe(1)
+      } else {
+        expect(slot.marks, slot.demand).toBeGreaterThan(1)
+      }
     }
   })
 
@@ -224,6 +228,9 @@ function asGenerated(paper: ReturnType<typeof buildPaper>) {
     marks: 99,
     // A short answer is recognised by carrying a key it can be marked against.
     ...(slot.format === 'short' ? { short_answer: { accepted: [`a${i}`] } } : {}),
+    ...(slot.format === 'select'
+      ? { type: 'mcq', options: ['w', 'x', 'y', 'z'], correct_answer: 0 }
+      : {}),
   }))
 }
 
@@ -266,7 +273,9 @@ describe('the blueprint is what counts, not what the model claimed', () => {
     ]
     const kept = applyBlueprint(reordered, paper)
     for (const q of kept as any[]) {
-      if (q.short_answer) expect(q.marks).toBe(1)
+      // Keyed short answers and ringed options are both worth one mark;
+      // only a written answer can carry more.
+      if (q.short_answer || q.type === 'mcq') expect(q.marks).toBe(1)
       else expect(q.marks).toBeGreaterThan(1)
     }
     expect(awardedTotal(kept)).toBe(PAPER_MARKS)

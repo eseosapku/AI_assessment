@@ -38,6 +38,29 @@ describe('the prompt stays small enough to be followed', () => {
   })
 })
 
+describe('the object template matches the part', () => {
+  it('shows an mcq shape for a ring-around question', () => {
+    // The template is the contract and beats every line of prose above it.
+    // Left reading "type":"longform" the model returned a long-form answer
+    // for a ring part every time, however plainly the part said mcq.
+    const p = buildExamPaperPrompt({ ...base, parts: [{ part: null, marks: 1, format: 'select' }] })
+    expect(p).toContain('"type":"mcq"')
+    expect(p).toContain('"options"')
+    expect(p).toContain('"correct_answer"')
+    // The OBJECT TEMPLATE is what the model copies, so that line must not
+    // offer a long-form shape. The prose above may still mention the word.
+    const template = p.split('\n').find((l) => l.startsWith('Each object:'))!
+    expect(template).toContain('"type":"mcq"')
+    expect(template).not.toContain('longform')
+  })
+
+  it('keeps the written shape when no part is a ring', () => {
+    const p = buildExamPaperPrompt(base)
+    expect(p).toContain('"type":"longform"')
+    expect(p).not.toContain('"correct_answer"')
+  })
+})
+
 describe('what it tells the model', () => {
   it('fixes the marks rather than leaving them open', () => {
     const p = buildExamPaperPrompt(base)

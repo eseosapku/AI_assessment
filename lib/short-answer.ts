@@ -183,6 +183,16 @@ export function isPlaceholderKey(key: ShortAnswerKey | null | undefined): boolea
     .map((a) => String(a ?? '').trim())
     .filter(Boolean)
   if (accepted.length === 0) return true
+
+  // A key nobody could type is not a key.
+  //
+  // Asked for a 2-mark written answer, the model sometimes attaches one
+  // anyway: "Using the same type of plant ensures that any differences in
+  // growth are due to the light conditions, not the type of plant." Matched
+  // against that, every learner is wrong -- and worse, the question gets
+  // demoted to one mark because carrying a key is what marks it short.
+  // A real short answer is a word, a name, a number or a brief phrase.
+  if (accepted.every((a) => a.split(/\s+/).length > 6)) return true
   // Every listed form being a placeholder is the tell. One real answer beside
   // a vague alternative is fine.
   return accepted.every((a) => PLACEHOLDER.test(a) || /name.*here|<.*>|\.\.\./.test(a))

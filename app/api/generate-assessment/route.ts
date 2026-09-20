@@ -666,7 +666,7 @@ function buildPrompt(opts: {
    * across thirty-four questions it returned only 2s and 3s, but handed a list
    * of two or three items with their marks named it complies.
    */
-  questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[]
+  questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'written' }[]
   /**
    * The ONE figure this question is built around, chosen server-side.
    *
@@ -1900,7 +1900,7 @@ ${commandBlock}`
       batchCount: number,
       startId: number,
       paperPass?: 'short' | 'extended',
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[],
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'written' }[],
       batchTopics?: string[],
       assignedFigure?: { description: string; category: string; localPath: string },
       strandHint?: string,
@@ -2030,7 +2030,7 @@ ${commandBlock}`
       count: number
       startId: number
       paperPass?: 'short' | 'extended'
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[]
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'written' }[]
       batchTopics?: string[]
       strandHint?: string
       assignedFigure?: { description: string; category: string; localPath: string }
@@ -2054,14 +2054,34 @@ ${commandBlock}`
         byQuestion.set(q, [...(byQuestion.get(q) ?? []), slot])
       }
       let startId = 1
-      for (const [, parts] of [...byQuestion.entries()].sort((a, b) => a[0] - b[0])) {
+      for (const [, allParts] of [...byQuestion.entries()].sort((a, b) => a[0] - b[0])) {
+        // A ring-around part gets its OWN call.
+        //
+        // Asked for one among several parts, the model wrote every part as a
+        // written answer and the ringed options never appeared -- the same
+        // failure as asking one request to decide which questions were short.
+        // A call whose whole job is "write one ring-around question" produces
+        // one.
+        const ringParts = allParts.filter((p: any) => p?.format === 'select')
+        const parts = allParts.filter((p: any) => p?.format !== 'select')
+        for (const ringPart of ringParts) {
+          batches.push({
+            count: 1,
+            startId,
+            questionParts: [{ part: null, marks: 1, format: 'select' }],
+            batchTopics: [String(ringPart?.focus || '')].filter(Boolean),
+            strandHint: String(ringPart?.strand || ''),
+          })
+          startId += 1
+        }
+        if (parts.length === 0) continue
         batches.push({
           count: parts.length,
           startId,
           questionParts: parts.map((p: any) => ({
             part: typeof p?.part === 'string' ? p.part : null,
             marks: Number(p?.marks) || 1,
-            format: p?.format === 'written' ? 'written' : 'short',
+            format: p?.format === 'written' ? 'written' : p?.format === 'select' ? 'select' : 'short',
           })),
           // Its own focus, never the whole list. Handed all of them, parallel
           // calls converged -- six questions about the Arctic hare in one paper.

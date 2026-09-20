@@ -43,7 +43,13 @@ export type PaperMode = 'paper' | 'practice'
  * by matching rather than by a model (see `lib/short-answer.ts`). It is what
  * most of a real Checkpoint paper is made of.
  */
-export type SlotFormat = 'short' | 'written'
+/**
+ * `select` is "draw a ring around the correct answer" -- a real Checkpoint
+ * format, 2.4 times per Mathematics paper and essentially absent from Science.
+ * On paper the learner rings one of four printed options; on screen that is a
+ * multiple-choice question, and the existing renderer already does it.
+ */
+export type SlotFormat = 'short' | 'select' | 'written'
 
 /**
  * The fallback total, for a component whose paper nobody has read.
@@ -143,7 +149,8 @@ interface MarkProfile { marks: number; count: number; format: SlotFormat }
 const PROFILES: Record<string, readonly MarkProfile[]> = {
   // Lower Secondary Mathematics 0862 -- 50 marks
   '0862': [
-    { marks: 1, count: 14, format: 'short' },
+    { marks: 1, count: 12, format: 'short' },
+    { marks: 1, count: 2, format: 'select' },
     { marks: 2, count: 10, format: 'written' },
     { marks: 3, count: 4, format: 'written' },
     { marks: 4, count: 1, format: 'written' },
@@ -378,6 +385,9 @@ function demandFor(
   // papers say "The number of marks for each question or part question is
   // shown in brackets [ ]", and a learner who has sat one recognises it.
   const tag = `[${marks}]`
+  if (format === 'select') {
+    return `${strand} - ${focus}. One mark ${tag}: "Draw a ring around" one of four short options. Exactly one correct; the other three are common misconceptions.`
+  }
   if (format === 'short') {
     return `${strand} - ${focus}. One mark ${tag}: a SHORT ANSWER of a word, a short phrase or a number. Open with "${verbs.short[0]}" or "${verbs.short[1]}". There must be exactly one right answer, and it must be short enough to mark by matching -- never an answer that needs a sentence.`
   }
@@ -597,6 +607,18 @@ function hasAnswerKey(question: unknown): boolean {
   return !isPlaceholderKey(k)
 }
 
+/** Did the generator return a ringed-option question? */
+function isMultipleChoice(question: unknown): boolean {
+  if (typeof question !== 'object' || question === null) return false
+  const q = question as Record<string, unknown>
+  return (
+    String(q.type ?? '').toLowerCase() === 'mcq' &&
+    Array.isArray(q.options) &&
+    q.options.length >= 2 &&
+    typeof q.correct_answer === 'number'
+  )
+}
+
 function isLongform(question: unknown): boolean {
   return (
     typeof question === 'object' &&
@@ -657,12 +679,15 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
   // and belongs in a one-mark `short` slot; one that does not has to be read.
   const extended = paper.slots.filter((s) => s.format === 'written')
   const brief = paper.slots.filter((s) => s.format === 'short')
+  const ring = paper.slots.filter((s) => s.format === 'select')
 
   const kept: Record<string, unknown>[] = []
   for (const question of usable) {
     const keyed = hasAnswerKey(question)
-    const preferred = keyed ? brief : extended
-    const fallback = keyed ? extended : brief
+    // A question that came back as multiple choice belongs in a ring slot.
+    const choice = isMultipleChoice(question)
+    const preferred = choice ? ring : keyed ? brief : extended
+    const fallback = choice ? brief : keyed ? extended : brief
     // A slot of the wrong kind is better than no slot: the question exists and
     // has to be worth something. The mark rule below keeps that honest.
     const slot = preferred.shift() ?? fallback.shift()
@@ -671,12 +696,12 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     const picked = question as Record<string, unknown>
     // A keyed answer is worth one mark wherever it lands: a word matched
     // against a list cannot earn part marks for working it does not have.
-    picked.marks = keyed ? 1 : slot.marks
+    picked.marks = choice || keyed ? 1 : slot.marks
     // A placeholder key would mark every learner wrong with total confidence.
     if (!keyed && picked.short_answer) delete picked.short_answer
-    // Every Checkpoint question is written, so anything the generator labelled
-    // otherwise is relabelled rather than dropped.
-    picked.type = 'longform'
+    // A ringed option keeps its multiple-choice type; everything else is a
+    // written answer whatever the generator labelled it.
+    picked.type = choice ? 'mcq' : 'longform'
     if (typeof picked.question === 'string') {
       picked.question = syncMarksInStem(picked.question, picked.marks as number)
     }

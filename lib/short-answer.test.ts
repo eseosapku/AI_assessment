@@ -145,6 +145,20 @@ describe('a key that is the shape of an answer, not an answer', () => {
     expect(isPlaceholderKey({ accepted: ['  '] })).toBe(true)
   })
 
+  it('rejects a key nobody could type', () => {
+    // Real, from a paper: a 2-mark written answer came back carrying a whole
+    // sentence as its "key". Matched against that every learner is wrong, and
+    // carrying a key is what demotes a question to one mark.
+    expect(isPlaceholderKey({ accepted: [
+      'Using the same type of plant ensures that any differences in growth are due to the light conditions',
+    ] })).toBe(true)
+  })
+
+  it('keeps a brief phrase, which is a real short answer', () => {
+    expect(isPlaceholderKey({ accepted: ['elastic potential energy'] })).toBe(false)
+    expect(isPlaceholderKey({ accepted: ['the same type of plant'] })).toBe(false)
+  })
+
   it('leaves a real answer alone', () => {
     for (const real of ['condensation', 'nitrogen', '75', 'igneous', 'elastic potential energy', 'copper']) {
       expect(isPlaceholderKey({ accepted: [real] }), real).toBe(false)
