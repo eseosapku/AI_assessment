@@ -40,12 +40,17 @@ const COUNT = Number(process.env.QA_COUNT || 8) || 8
 const TYPES = String(process.env.QA_TYPES || 'mcq,longform,interactive').split(',').map((s) => s.trim()).filter(Boolean)
 const ONLY = String(process.env.QA_ONLY || '')
 
+// Each curriculum names its classes its own way, and sending another's is
+// how the whole NERDC set came back 500: "S3" is Rwandan, and the Nigerian
+// level lookup went undefined. The route no longer falls over on it, but a
+// sweep that sends the wrong class is testing the fallback rather than the
+// curriculum.
 const CURRICULA = [
-  { id: 0, slug: 'rwanda', label: 'REB Rwanda' },
-  { id: 1, slug: 'cambridge', label: 'Cambridge' },
-  { id: 2, slug: 'nigeria', label: 'NERDC Nigeria' },
-  { id: 3, slug: 'waec', label: 'WAEC' },
-  { id: 4, slug: 'jamb', label: 'JAMB' },
+  { id: 0, slug: 'rwanda', label: 'REB Rwanda', className: 'S3', grade: 9 },
+  { id: 1, slug: 'cambridge', label: 'Cambridge', className: 'Year 10', grade: 10 },
+  { id: 2, slug: 'nigeria', label: 'NERDC Nigeria', className: 'JSS3', grade: 9 },
+  { id: 3, slug: 'waec', label: 'WAEC', className: 'SS3 WASSCE', grade: 12 },
+  { id: 4, slug: 'jamb', label: 'JAMB', className: 'UTME Candidate', grade: 12 },
 ]
 
 interface Row {
@@ -136,7 +141,7 @@ describe('the whole curriculum surface', () => {
             const { json, ms } = await generate({
               subject: String(t.textbook_name || 'Science').split(/[_\-\s]/)[0],
               topics: [t.topic], count: COUNT, questionType: type,
-              style: 'quiz', className: 'S3', grade: 9,
+              style: 'quiz', className: c.className, grade: c.grade,
               curriculum: c.slug, difficultyLevel: 'average',
             })
             const row: Row = {

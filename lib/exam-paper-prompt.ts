@@ -124,12 +124,12 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // the model copies the shape it is shown.
     ...(parts.every((p) => p.format === 'table')
       ? [
-          'Each object: {"id":<number>,"type":"interactive","kind":"categorize","question":"Complete the table to show whether each ... is ... or not","categories":["<column 1>","<column 2>"],"items":["<row 1>","<row 2>","<row 3>","<row 4>"],"correct_category":[0,1,0,1],"marks":<number>,"explanation":"<what this tests, one sentence>"}',
+          'Each object: {"id":<number>,"type":"interactive","kind":"categorize","question":"Complete the table to show whether each ... is ... or not","categories":["<column 1>","<column 2>"],"items":["<row 1>","<row 2>","<row 3>","<row 4>"],"correct_category":[0,1,0,1],"marks":<number>,"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
           'No short_answer and no marking_criteria on a table question.',
         ]
       : parts.every((p) => p.format === 'tick')
       ? [
-          'Each object: {"id":<number>,"type":"interactive","kind":"multi_select","question":"Tick (✓) all the correct statements about ...","options":["...","...","...","...","..."],"correct_indices":[<0-based>,<0-based>],"marks":<number>,"explanation":"<what this tests, one sentence>"}',
+          'Each object: {"id":<number>,"type":"interactive","kind":"multi_select","question":"Tick (✓) all the correct statements about ...","options":["...","...","...","...","..."],"correct_indices":[<0-based>,<0-based>],"marks":<number>,"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
           'No short_answer and no marking_criteria on a tick question.',
         ]
       : parts.every((p) => p.format === 'select')
@@ -138,12 +138,17 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
           'No short_answer and no marking_criteria on a ringed question.',
         ]
       : [
-          'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"explanation":"<what this question tests, one sentence>"}',
+          'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
           'plus "short_answer":{"accepted":["<the answer>","<any other form a marker would accept>"],"numeric":<true only for a number>,"unit":"<only if the answer has one>"}',
           'or "marking_criteria":["<one point per mark>", ...] — whichever the part above calls for, never both.',
         ]),
     '',
     `Pitch it at ${opts.level}. Use the words a marker would accept, not a textbook paragraph.`,
+    // The explanation is shown to the LEARNER after they answer. "This
+    // question tests the ability to determine coordinates" tells them nothing
+    // about why they were wrong, and it was by far the commonest fault in a
+    // sweep of the whole platform -- 311 of them.
+    'The "explanation" speaks to the learner and says why the answer is what it is. Never write "This question tests..." or "The student should...": they are reading it to find out where they went wrong.',
   )
 
   return lines.join('\n')

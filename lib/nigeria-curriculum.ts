@@ -185,14 +185,30 @@ export function getNigeriaTopicsForLevelAndSubject(level: NigeriaLevel, subjectN
 }
 
 export function getNigeriaCurriculumContext(level: NigeriaLevel, subjectName: string, selectedTopics: string[]): string {
-  const info = NIGERIA_CURRICULUM[level]
-  const subject = info.subjects.find((s) => s.name.toLowerCase() === subjectName.toLowerCase())
+  // An unknown level must not take the whole request down.
+  //
+  // `level` arrives as the className on the request body, so it is whatever a
+  // client sent. A Rwandan class on a Nigerian curriculum -- "S3" -- made this
+  // lookup undefined and the route answered 500 for EVERY NERDC generation,
+  // all 231 textbooks of it. A sweep found it in one pass; nothing else had,
+  // because the paths that set className correctly never hit it.
+  //
+  // Degrading to the curriculum block without a level still names the
+  // authority and the topics, which is the part that shapes the questions.
+  const info = Object.prototype.hasOwnProperty.call(NIGERIA_CURRICULUM, level)
+    ? NIGERIA_CURRICULUM[level]
+    : null
+  const subject = info?.subjects.find((s) => s.name.toLowerCase() === subjectName.toLowerCase())
   const topicList = selectedTopics.length ? selectedTopics : subject?.topics ?? []
-  return `**Curriculum Authority:** Nigerian Educational Research and Development Council (NERDC)
-**Level:** ${info.label} (${info.stage})
-**Subject:** ${subjectName}
-**Syllabus Topics:** ${topicList.join('; ')}
-**Subject load:** ${info.minSubjects}–${info.maxSubjects} subjects at this level (revised 2025/26 curriculum)`
+  return [
+    '**Curriculum Authority:** Nigerian Educational Research and Development Council (NERDC)',
+    info ? `**Level:** ${info.label} (${info.stage})` : null,
+    `**Subject:** ${subjectName}`,
+    `**Syllabus Topics:** ${topicList.join('; ')}`,
+    info
+      ? `**Subject load:** ${info.minSubjects}–${info.maxSubjects} subjects at this level (revised 2025/26 curriculum)`
+      : null,
+  ].filter(Boolean).join('\n')
 }
 
 export { TRADE_SUBJECTS }
