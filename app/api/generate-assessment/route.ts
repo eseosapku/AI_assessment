@@ -666,7 +666,7 @@ function buildPrompt(opts: {
    * across thirty-four questions it returned only 2s and 3s, but handed a list
    * of two or three items with their marks named it complies.
    */
-  questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'written' }[]
+  questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' }[]
   /**
    * The ONE figure this question is built around, chosen server-side.
    *
@@ -1900,7 +1900,7 @@ ${commandBlock}`
       batchCount: number,
       startId: number,
       paperPass?: 'short' | 'extended',
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'written' }[],
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' }[],
       batchTopics?: string[],
       assignedFigure?: { description: string; category: string; localPath: string },
       strandHint?: string,
@@ -2030,7 +2030,7 @@ ${commandBlock}`
       count: number
       startId: number
       paperPass?: 'short' | 'extended'
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'written' }[]
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' }[]
       batchTopics?: string[]
       strandHint?: string
       assignedFigure?: { description: string; category: string; localPath: string }
@@ -2062,8 +2062,12 @@ ${commandBlock}`
         // failure as asking one request to decide which questions were short.
         // A call whose whole job is "write one ring-around question" produces
         // one.
-        const specialParts = allParts.filter((p: any) => p?.format === 'select' || p?.format === 'tick')
-        const parts = allParts.filter((p: any) => p?.format !== 'select' && p?.format !== 'tick')
+        // Every special format gets its OWN call. Asked for among other parts
+        // each of them came back as a plain written answer; asked alone, with
+        // an object template of its own shape, each comes back right.
+        const SPECIAL = new Set(['select', 'tick', 'table'])
+        const specialParts = allParts.filter((p: any) => SPECIAL.has(String(p?.format)))
+        const parts = allParts.filter((p: any) => !SPECIAL.has(String(p?.format)))
         for (const special of specialParts) {
           batches.push({
             count: 1,
@@ -2071,7 +2075,7 @@ ${commandBlock}`
             questionParts: [{
               part: null,
               marks: Number(special?.marks) || 1,
-              format: special?.format === 'tick' ? 'tick' : 'select',
+              format: special?.format as 'select' | 'tick' | 'table',
             }],
             batchTopics: [String(special?.focus || '')].filter(Boolean),
             strandHint: String(special?.strand || ''),
@@ -2088,6 +2092,7 @@ ${commandBlock}`
             format: p?.format === 'written' ? 'written'
               : p?.format === 'select' ? 'select'
               : p?.format === 'tick' ? 'tick'
+              : p?.format === 'table' ? 'table'
               : 'short',
           })),
           // Its own focus, never the whole list. Handed all of them, parallel

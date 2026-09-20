@@ -56,7 +56,17 @@ export type PaperMode = 'paper' | 'practice'
  * Lower Secondary Science, 2.1 in Primary Science. On screen it is a
  * multi-select, which the interactive renderer and grader already handle.
  */
-export type SlotFormat = 'short' | 'select' | 'tick' | 'written'
+/**
+ * `table` is "Complete the table to show whether each ... is ... or not".
+ *
+ * Reading the real ones settled the design: the common shape is not a grid of
+ * free cells but a row per item and a column per category -- "complete the
+ * table to show if each diagram shows a pair of corresponding angles or not",
+ * "tick to show if each of these polygons is regular or not regular". That is
+ * a `categorize`, which the interactive renderer and grader already handle.
+ * About one a paper.
+ */
+export type SlotFormat = 'short' | 'select' | 'tick' | 'table' | 'written'
 
 /**
  * The fallback total, for a component whose paper nobody has read.
@@ -159,7 +169,8 @@ const PROFILES: Record<string, readonly MarkProfile[]> = {
     { marks: 1, count: 12, format: 'short' },
     { marks: 1, count: 2, format: 'select' },
     { marks: 2, count: 2, format: 'tick' },
-    { marks: 2, count: 8, format: 'written' },
+    { marks: 2, count: 1, format: 'table' },
+    { marks: 2, count: 7, format: 'written' },
     { marks: 3, count: 4, format: 'written' },
     { marks: 4, count: 1, format: 'written' },
   ],
@@ -167,14 +178,16 @@ const PROFILES: Record<string, readonly MarkProfile[]> = {
   '0893': [
     { marks: 1, count: 21, format: 'short' },
     { marks: 2, count: 2, format: 'tick' },
-    { marks: 2, count: 8, format: 'written' },
+    { marks: 2, count: 1, format: 'table' },
+    { marks: 2, count: 7, format: 'written' },
     { marks: 3, count: 3, format: 'written' },
   ],
   // Primary Science 0097 -- 40 marks. Nothing above two marks in twelve papers.
   '0097': [
     { marks: 1, count: 22, format: 'short' },
     { marks: 2, count: 2, format: 'tick' },
-    { marks: 2, count: 7, format: 'written' },
+    { marks: 2, count: 1, format: 'table' },
+    { marks: 2, count: 6, format: 'written' },
   ],
 }
 
@@ -395,6 +408,9 @@ function demandFor(
   // papers say "The number of marks for each question or part question is
   // shown in brackets [ ]", and a learner who has sat one recognises it.
   const tag = `[${marks}]`
+  if (format === 'table') {
+    return `${strand} - ${focus}. ${marks} marks ${tag}: "Complete the table to show whether each ... is ... or not" — two columns and four or five rows, each row belonging to one column.`
+  }
   if (format === 'tick') {
     return `${strand} - ${focus}. ${marks} marks ${tag}: "Tick all the correct statements about ${focus}" — five short statements, two or three of them true.`
   }
@@ -620,6 +636,22 @@ function hasAnswerKey(question: unknown): boolean {
   return !isPlaceholderKey(k)
 }
 
+/** Did the generator return a complete-the-table question? */
+function isCategorise(question: unknown): boolean {
+  if (typeof question !== 'object' || question === null) return false
+  const q = question as Record<string, unknown>
+  return (
+    String(q.type ?? '').toLowerCase() === 'interactive' &&
+    String(q.kind ?? '') === 'categorize' &&
+    Array.isArray(q.categories) &&
+    q.categories.length >= 2 &&
+    Array.isArray(q.items) &&
+    q.items.length >= 2 &&
+    Array.isArray(q.correct_category) &&
+    q.correct_category.length === q.items.length
+  )
+}
+
 /** Did the generator return a tick-all-that-apply list? */
 function isTickList(question: unknown): boolean {
   if (typeof question !== 'object' || question === null) return false
@@ -708,6 +740,7 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
   const brief = paper.slots.filter((s) => s.format === 'short')
   const ring = paper.slots.filter((s) => s.format === 'select')
   const tick = paper.slots.filter((s) => s.format === 'tick')
+  const table = paper.slots.filter((s) => s.format === 'table')
 
   const kept: Record<string, unknown>[] = []
   for (const question of usable) {
@@ -715,8 +748,9 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     // A question that came back as multiple choice belongs in a ring slot.
     const choice = isMultipleChoice(question)
     const ticks = isTickList(question)
-    const preferred = ticks ? tick : choice ? ring : keyed ? brief : extended
-    const fallback = ticks ? extended : choice ? brief : keyed ? extended : brief
+    const grid = isCategorise(question)
+    const preferred = grid ? table : ticks ? tick : choice ? ring : keyed ? brief : extended
+    const fallback = grid ? extended : ticks ? extended : choice ? brief : keyed ? extended : brief
     // A slot of the wrong kind is better than no slot: the question exists and
     // has to be worth something. The mark rule below keeps that honest.
     const slot = preferred.shift() ?? fallback.shift()
@@ -725,12 +759,12 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     const picked = question as Record<string, unknown>
     // A keyed answer is worth one mark wherever it lands: a word matched
     // against a list cannot earn part marks for working it does not have.
-    picked.marks = ticks ? slot.marks : choice || keyed ? 1 : slot.marks
+    picked.marks = ticks || grid ? slot.marks : choice || keyed ? 1 : slot.marks
     // A placeholder key would mark every learner wrong with total confidence.
     if (!keyed && picked.short_answer) delete picked.short_answer
     // A ringed option keeps its multiple-choice type; everything else is a
     // written answer whatever the generator labelled it.
-    picked.type = ticks ? 'interactive' : choice ? 'mcq' : 'longform'
+    picked.type = ticks || grid ? 'interactive' : choice ? 'mcq' : 'longform'
     if (typeof picked.question === 'string') {
       picked.question = syncMarksInStem(picked.question, picked.marks as number)
     }

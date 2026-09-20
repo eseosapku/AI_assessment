@@ -35,7 +35,7 @@ describe('a full paper', () => {
     // root cell labelled A" -- not answer options.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
     // Plus the tick lists the real papers carry about twice a paper.
-    expect(new Set(paper.slots.map((s) => s.format))).toEqual(new Set(['short', 'tick', 'written']))
+    expect(new Set(paper.slots.map((s) => s.format))).toEqual(new Set(['short', 'tick', 'table', 'written']))
   })
 
   it('gives a short answer one mark and an extended answer more', () => {
@@ -238,6 +238,15 @@ function asGenerated(paper: ReturnType<typeof buildPaper>) {
           kind: 'multi_select',
           options: ['s1', 's2', 's3', 's4', 's5'],
           correct_indices: [0, 2],
+        }
+      : {}),
+    ...(slot.format === 'table'
+      ? {
+          type: 'interactive',
+          kind: 'categorize',
+          categories: ['yes', 'no'],
+          items: ['r1', 'r2', 'r3', 'r4'],
+          correct_category: [0, 1, 0, 1],
         }
       : {}),
   }))

@@ -27,10 +27,13 @@ describe('checkpointReport', () => {
       paper.slots.map((slot, i) => ({
         id: i,
         question: `Q${i}`,
-        type: slot.format === 'tick' ? 'interactive' : 'longform',
+        type: slot.format === 'tick' || slot.format === 'table' ? 'interactive' : 'longform',
         ...(slot.format === 'short' ? { short_answer: { accepted: [`a${i}`] } } : {}),
         ...(slot.format === 'tick'
           ? { kind: 'multi_select', options: ['a', 'b', 'c', 'd'], correct_indices: [0, 1] }
+          : {}),
+        ...(slot.format === 'table'
+          ? { kind: 'categorize', categories: ['x', 'y'], items: ['a', 'b'], correct_category: [0, 1] }
           : {}),
       })),
       paper,

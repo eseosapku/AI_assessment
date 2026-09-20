@@ -27,7 +27,7 @@ export interface ExamPartSpec {
    * 'select' is "draw a ring around" — four printed options, one right.
    * 'tick' is "tick all the correct statements" — several right.
    */
-  format: 'short' | 'select' | 'tick' | 'written'
+  format: 'short' | 'select' | 'tick' | 'table' | 'written'
 }
 
 export interface ExamPaperPromptOptions {
@@ -56,6 +56,11 @@ function figureNoun(category: string): string {
 
 function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOptions['commands']): string {
   const label = spec.part ? `(${spec.part})` : `${index + 1}.`
+  if (spec.format === 'table') {
+    // "Complete the table to show whether each ... is ... or not" — a row per
+    // item, a column per category. A categorize on screen.
+    return `${label} "marks": ${spec.marks}, "type": "interactive", "kind": "categorize". Phrase it "Complete the table to show whether each ... is ... or not" as the paper does. Give "categories": exactly two column headings, "items": four or five short row labels, and "correct_category": the 0-based column each row belongs in. No short_answer, no marking_criteria.`
+  }
   if (spec.format === 'tick') {
     // "Tick all the correct statements" — the commonest special format in the
     // real papers, and a multi-select on screen.
@@ -117,7 +122,12 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // above it. Left reading "type":"longform" it produced a long-form answer
     // for a ring-around part every time, however plainly the part said "mcq":
     // the model copies the shape it is shown.
-    ...(parts.every((p) => p.format === 'tick')
+    ...(parts.every((p) => p.format === 'table')
+      ? [
+          'Each object: {"id":<number>,"type":"interactive","kind":"categorize","question":"Complete the table to show whether each ... is ... or not","categories":["<column 1>","<column 2>"],"items":["<row 1>","<row 2>","<row 3>","<row 4>"],"correct_category":[0,1,0,1],"marks":<number>,"explanation":"<what this tests, one sentence>"}',
+          'No short_answer and no marking_criteria on a table question.',
+        ]
+      : parts.every((p) => p.format === 'tick')
       ? [
           'Each object: {"id":<number>,"type":"interactive","kind":"multi_select","question":"Tick (✓) all the correct statements about ...","options":["...","...","...","...","..."],"correct_indices":[<0-based>,<0-based>],"marks":<number>,"explanation":"<what this tests, one sentence>"}',
           'No short_answer and no marking_criteria on a tick question.',
