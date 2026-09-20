@@ -666,11 +666,22 @@ function buildPrompt(opts: {
    * of two or three items with their marks named it complies.
    */
   questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[]
+  /**
+   * The ONE figure this question is built around, chosen server-side.
+   *
+   * Asking the model to copy an image_key out of a catalogue does not work:
+   * it writes "the diagram shows..." and then omits or invents the key, the
+   * figure never attaches, and dropDanglingReferences deletes the question for
+   * referring to something absent. Three and four questions per paper were
+   * going that way. Handing one figure to the batch removes the model from
+   * the identifier business entirely.
+   */
+  assignedFigure?: { description: string; category: string }
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
     hasDiagramSupport, difficultyLevel, grade, sourceText, sourceName, visualCatalog, maxImageQuestions,
-    requirePassagesAll = false, figureAppetite = 'default', paperPass, questionParts,
+    requirePassagesAll = false, figureAppetite = 'default', paperPass, questionParts, assignedFigure,
   } = opts
 
   const subjectDomain = classifySubjectDomain(subject)
@@ -817,7 +828,16 @@ function buildPrompt(opts: {
           questionParts.length > 1
             ? 'Write ONE short scenario sentence — a situation, a measurement, something a named student did — and BEGIN EVERY part with that same sentence, so each part can be read on its own. Under 20 words.'
             : 'Ask it directly; it has no scenario and no parts.',
-          'The scenario must NEVER mention a diagram, picture, graph or table. There is no figure. "The diagram shows a pile of rusted chains" describes something the learner cannot see, and the question is then unanswerable and gets deleted. Describe the situation in words instead: "Iron chains are left outside in the rain."',
+          // Whether a figure may be mentioned depends entirely on whether one
+          // is on offer. Said flatly, "there is no figure" stopped the phantom
+          // diagrams and then went on to forbid the real ones too, and a paper
+          // came back with a catalogue of figures available and none used.
+          assignedFigure
+            ? `THIS QUESTION HAS A ${assignedFigure.category === 'graph' || assignedFigure.category === 'chart' ? 'GRAPH' : assignedFigure.category === 'table' ? 'TABLE' : 'DIAGRAM'} printed beside it, which the learner can see. For your information only, it shows: ${assignedFigure.description}
+- Refer to it as "the ${assignedFigure.category === 'graph' || assignedFigure.category === 'chart' ? 'graph' : assignedFigure.category === 'table' ? 'table' : 'diagram'}" and ask a question ABOUT it.
+- Do NOT restate what it shows. "The diagram shows a circuit with a battery and two lamps. Name the component..." tells the learner what they are looking at and wastes the figure. Write "Look at the diagram. Name the component labelled A." instead.
+- Do NOT write an image_key. It is already attached.`
+            : 'The scenario must NEVER mention a diagram, picture, graph or table. There is no figure. "The diagram shows a pile of rusted chains" describes something the learner cannot see, and the question is then unanswerable and gets deleted. Describe the situation in words instead: "Iron chains are left outside in the rain."',
           `Return exactly ${questionParts.length} questions, in this order, all type "longform". The "marks" value of each is FIXED below — copy it exactly, do not choose your own:`,
           ...questionParts.map((p, i) => {
             const label = p.part ? `(${p.part})` : `${i + 1}.`
@@ -1785,7 +1805,7 @@ ${commandBlock}`
             }
 
             if (isModelIdError(err)) {
-              console.warn(`Bedrock ${modelId} failed — trying alternate ID...`)
+              console.warn(`Bedrock ${modelId} failed — trying alternate ID... [${String(err?.name || '')}: ${String(err?.message || '').slice(0, 160)}]`)
               continue
             }
 
@@ -1861,6 +1881,7 @@ ${commandBlock}`
       paperPass?: 'short' | 'extended',
       questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[],
       batchTopics?: string[],
+      assignedFigure?: { description: string; category: string; localPath: string },
     ): Promise<any[]> {
       // Request a 40% surplus so even if the model runs short we hit the target count.
       // The surplus is stripped after deduplication.
@@ -1877,16 +1898,29 @@ ${commandBlock}`
         curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
         sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
         figureAppetite: isCheckpoint ? 'exam-paper' : 'default', paperPass, questionParts,
+        assignedFigure: assignedFigure ? { description: assignedFigure.description, category: assignedFigure.category } : undefined,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
       // Keep generation snappy: cap tokens more aggressively than the hard limit.
-      const maxTokens = Math.min(3600, Math.max(1600, requestCount * 300))
+      // A per-question batch writes a scenario, repeats it on every part, and
+      // carries marking criteria for the extended ones. At 300 tokens a
+      // question that truncates mid-JSON, the batch fails to parse, and its
+      // questions are simply missing -- sixteen of thirty-four in one run.
+      const perQuestion = questionParts?.length ? 900 : 300
+      const maxTokens = Math.min(4200, Math.max(1800, requestCount * perQuestion))
+      if (isCheckpoint) console.log(`[prompt-size] ${prompt.length} chars (~${Math.round(prompt.length / 4)} tokens) for ${batchCount} question(s)`)
       const text = await callBedrock(prompt, maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
       const parsed = parseJsonRobust(fixLatexInRawJson(text))
       if (!Array.isArray(parsed.questions)) throw new SyntaxError('No questions array')
+      // Attach here, not by asking the model for a key. The first part carries
+      // the diagram; its siblings repeat the scenario in words and read fine
+      // beside it once the paper groups them.
+      if (assignedFigure && parsed.questions[0] && typeof parsed.questions[0] === 'object') {
+        parsed.questions[0].image_url = assignedFigure.localPath
+      }
       return parsed.questions
     }
 
@@ -1939,56 +1973,84 @@ ${commandBlock}`
       paperPass?: 'short' | 'extended'
       questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[]
       batchTopics?: string[]
+      assignedFigure?: { description: string; category: string; localPath: string }
     }
     const batches: Batch[] = []
 
-    // An exam paper is generated ONE NUMBERED QUESTION AT A TIME.
+    // An exam paper is generated in TWO PASSES -- short answers, then extended
+    // ones -- not one call per numbered question.
     //
-    // Splitting by kind made the answer keys work but produced duplicates: the
-    // parts of one question share a focus -- that shared scenario is what makes
-    // them parts -- and generated in separate requests they came back as two
-    // unrelated questions about the same thing. "Name the gas most abundant in
-    // the atmosphere" beside "Give the main gas in the Earth's atmosphere".
+    // Per-question generation was tried and measured. It delivered what it
+    // promised: scenarios, lettered parts, no duplicates. It also failed the
+    // whole paper in two runs out of three -- 34 questions asked for, 5, 8 and
+    // 10 produced -- because a question-batch holds ONE numbered question and
+    // losing it loses that question outright, where a kind-batch holds five
+    // interchangeable ones the top-up loop can refill. A per-batch retry did
+    // not move it. A paper that will not generate teaches nobody anything, so
+    // reliability wins and the parts wait for a fix that holds.
     //
-    // One call per question fixes both. The parts arrive together, share a
-    // scenario, and the call is handed the exact list of parts and their marks
-    // rather than a rule to apply.
+    // What survives from that work: each batch still gets its OWN slice of the
+    // foci rather than the whole list. Handed all of them, parallel calls
+    // converged -- six questions about the Arctic hare in one paper.
     const slotPlan = Array.isArray(body.paperSlots) ? body.paperSlots : []
-    if (isCheckpoint && slotPlan.length > 0) {
-      const byQuestion = new Map<number, any[]>()
-      for (const slot of slotPlan) {
-        const q = Number(slot?.q)
-        if (!Number.isFinite(q)) continue
-        byQuestion.set(q, [...(byQuestion.get(q) ?? []), slot])
-      }
-      let startId = 1
-      for (const [, parts] of [...byQuestion.entries()].sort((a, b) => a[0] - b[0])) {
-        batches.push({
-          count: parts.length,
-          startId,
-          questionParts: parts.map((p: any) => ({
-            part: typeof p?.part === 'string' ? p.part : null,
-            marks: Number(p?.marks) || 1,
-            format: p?.format === 'written' ? 'written' : 'short',
-          })),
-          batchTopics: [...new Set(parts.map((p: any) => String(p?.focus || '')).filter(Boolean))],
-        })
-        startId += parts.length
-      }
+    const fociInOrder: string[] = [...new Set<string>(
+      slotPlan.map((s: any) => String(s?.focus || '')).filter(Boolean) as string[],
+    )]
+    const sliceFor = (index: number, size: number) => {
+      if (fociInOrder.length === 0) return undefined
+      const per = Math.max(1, Math.ceil(fociInOrder.length / Math.max(1, Math.ceil(count / size))))
+      const at = Math.floor(index / size) * per
+      return fociInOrder.slice(at, at + per)
     }
 
     const shortWanted = isCheckpoint ? Math.max(0, Math.min(count, Number(body.shortCount) || 0)) : 0
-    if (batches.length === 0 && shortWanted > 0) {
+    if (shortWanted > 0) {
       for (let i = 0; i < shortWanted; i += BATCH_SIZE) {
-        batches.push({ count: Math.min(BATCH_SIZE, shortWanted - i), startId: i + 1, paperPass: 'short' })
+        batches.push({
+          count: Math.min(BATCH_SIZE, shortWanted - i),
+          startId: i + 1,
+          paperPass: 'short',
+          batchTopics: sliceFor(i, BATCH_SIZE),
+        })
       }
       for (let i = shortWanted; i < count; i += BATCH_SIZE) {
-        batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1, paperPass: 'extended' })
+        batches.push({
+          count: Math.min(BATCH_SIZE, count - i),
+          startId: i + 1,
+          paperPass: 'extended',
+          batchTopics: sliceFor(i, BATCH_SIZE),
+        })
       }
-    } else if (batches.length === 0) {
+    } else {
       for (let i = 0; i < count; i += BATCH_SIZE) {
         batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
       }
+    }
+
+    if (isCheckpoint && visualCatalog.length > 0 && batches.some((b) => b.batchTopics?.length)) {
+      const spare = [...visualCatalog]
+      const cap = maxQuestionsWithImages(count)
+      let given = 0
+      for (const batch of batches) {
+        if (given >= cap || spare.length === 0 || !batch.batchTopics?.length) continue
+        const focus = batch.batchTopics[0].toLowerCase()
+        const words = focus.split(/\s+/).filter((w) => w.length > 3)
+        let best = -1
+        let bestScore = 0
+        spare.forEach((fig, i) => {
+          const text = `${fig.description} ${fig.category}`.toLowerCase()
+          const score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
+          if (score > bestScore) { bestScore = score; best = i }
+        })
+        // No shared word means the figure is about something else, and a
+        // diagram of a workplace beside a question on the water cycle is
+        // worse than no diagram at all.
+        if (best < 0 || bestScore === 0) continue
+        const [fig] = spare.splice(best, 1)
+        batch.assignedFigure = { description: fig.description, category: fig.category, localPath: fig.localPath }
+        given++
+      }
+      if (given > 0) console.log(`Assigned ${given} figure(s) to questions by focus`)
     }
 
     let allQuestions: any[] = []
@@ -2140,9 +2202,33 @@ ${commandBlock}`
         // Use allSettled so one failed batch (e.g. JSON parse error) doesn't
         // kill the whole request — successful batches still contribute questions
         // and the retry loop below fills any shortfall.
-        const batchSettled = await Promise.allSettled(
-          batches.map(b => tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics))
-        )
+        // Run in waves, not all at once.
+        //
+        // A whole paper used to be seven batches; generating one numbered
+        // question at a time makes it seventeen, and seventeen simultaneous
+        // Bedrock calls get throttled -- a run came back with 7 questions of
+        // 34 because most batches were rejected rather than wrong.
+        const WAVE = 5
+        const batchSettled: PromiseSettledResult<any[]>[] = []
+        for (let i = 0; i < batches.length; i += WAVE) {
+          const wave = batches.slice(i, i + WAVE)
+          batchSettled.push(...await Promise.allSettled(
+            wave.map(async (b) => {
+              // One retry per batch, and it matters far more here than it
+              // used to. A kind-batch held five interchangeable questions and
+              // the top-up loop could refill them; a question-batch holds ONE
+              // numbered question with its parts, and losing it loses that
+              // question outright. Two runs in three failed the whole paper
+              // this way.
+              try {
+                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure)
+              } catch (first) {
+                if (!b.questionParts) throw first
+                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure)
+              }
+            }),
+          ))
+        }
         const batchErrors: any[] = []
         for (const result of batchSettled) {
           if (result.status === 'fulfilled') allQuestions.push(...result.value)
