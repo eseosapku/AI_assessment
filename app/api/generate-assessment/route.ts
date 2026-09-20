@@ -687,6 +687,17 @@ function buildPrompt(opts: {
 
   const subjectDomain = classifySubjectDomain(subject)
 
+  // Which kinds of question this request ACTUALLY asks for.
+  //
+  // Every rule below used to be sent whatever was asked for: a long-form-only
+  // request carried 4,239 characters of MCQ answer-integrity rules, and an
+  // MCQ-only request carried the long-form model-answer and hint rules. The
+  // rules are right; sending them for a question type that is not being
+  // generated is what made the prompt 17,000 characters. Measured on the
+  // Checkpoint path, that size is what breaks generation.
+  const wantsMcq = questionType === 'mcq' || questionType === 'mixed' || questionType === 'study_mixed'
+  const wantsLongform = questionType === 'longform' || questionType === 'mixed'
+
   // What this subject is actually assessed with. Placed in the requirements
   // block below rather than in the curriculum context at the top: the context
   // sits far from anything governing output, and the numbered rules that
@@ -990,14 +1001,14 @@ ${genreBlock ? `${genreBlock}
 1. All questions strictly based on the ${curriculumName} syllabus topics listed above.
 2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
 3. LaTeX math MUST be wrapped in dollar signs: $...$ for inline (e.g. $\\\\frac{1}{x}$, $\\\\sqrt{2}$, $x^2 + y^2$) and $$...$$ for display. This applies in ALL fields including explanations and model_answer. Never write bare LaTeX outside of dollar signs.
-4. MCQ "explanation" field: 100-150 words. Write a thorough explanation covering: (a) the concept or skill this question tests, (b) exactly why the correct answer is right with specific reasoning, evidence, or working shown, (c) why each of the three wrong options is incorrect and what misconception leads a student to pick it. Do NOT just restate the question. Write in full sentences.
-5. Longform "explanation" field: 40-60 words. State the skill being assessed (e.g. "This question tests inference skills..."), then describe what a strong answer must include. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
-5b. Longform "hints": exactly ONE string in the array. Write a single comprehensive hint for the whole question: how to structure the answer based on THIS question's wording (both demands if multi-part). Do NOT write one hint per criterion. Do NOT paste or lightly rephrase the question three times. MUST NOT include the key fact, quote, formula, or any sentence from model_answer.
+${wantsMcq ? `4. MCQ "explanation" field: 100-150 words. Write a thorough explanation covering: (a) the concept or skill this question tests, (b) exactly why the correct answer is right with specific reasoning, evidence, or working shown, (c) why each of the three wrong options is incorrect and what misconception leads a student to pick it. Do NOT just restate the question. Write in full sentences.` : ''}
+${wantsLongform ? `5. Longform "explanation" field: 40-60 words. State the skill being assessed (e.g. "This question tests inference skills..."), then describe what a strong answer must include. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
+5b. Longform "hints": exactly ONE string in the array. Write a single comprehensive hint for the whole question: how to structure the answer based on THIS question's wording (both demands if multi-part). Do NOT write one hint per criterion. Do NOT paste or lightly rephrase the question three times. MUST NOT include the key fact, quote, formula, or any sentence from model_answer.` : ''}
 6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
 ${questionType !== 'longform' || hasDiagramSupport ? `7. ${diagramNote || 'N/A'}` : ''}
 8. ${passageNote}
 ${questionType === 'interactive' || questionType === 'study_mixed' ? `\n**INTERACTIVE STUDY (type "interactive"):**\n${interactiveRules}\n- Interactive "explanation" field: 40-80 words explaining the correct answers.\n- Do NOT add passages to interactive questions.\n` : ''}
-${questionType !== 'interactive' ? `**MCQ ANSWER INTEGRITY — NON-NEGOTIABLE:**
+${wantsMcq ? `**MCQ ANSWER INTEGRITY — NON-NEGOTIABLE:**
 - Every MCQ must have EXACTLY ONE correct answer among the four options.
 - The "correct_answer" field is a 0-based index (0=first option, 1=second, 2=third, 3=fourth). It MUST point to the option that is the ONLY correct answer.
 - BEFORE writing each MCQ, mentally verify: "Is options[correct_answer] the one and only correct answer?" If not, rewrite.
