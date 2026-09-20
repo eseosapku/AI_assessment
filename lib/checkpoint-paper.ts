@@ -35,6 +35,7 @@
  */
 import type { CheckpointComponent, CheckpointSubject } from './cambridge-checkpoint'
 import { tagQuestionToStrand } from './checkpoint-strands'
+import { isPlaceholderKey, type ShortAnswerKey } from './short-answer'
 
 export type PaperMode = 'paper' | 'practice'
 /**
@@ -588,8 +589,12 @@ function syncMarksInStem(text: string, marks: number): string {
 /** Does this question carry a key a word or number can be marked against? */
 function hasAnswerKey(question: unknown): boolean {
   if (typeof question !== 'object' || question === null) return false
-  const k = (question as Record<string, unknown>).short_answer as { accepted?: unknown } | undefined
-  return Array.isArray(k?.accepted) && k!.accepted.some((a) => typeof a === 'string' && a.trim())
+  const k = (question as Record<string, unknown>).short_answer as ShortAnswerKey | undefined
+  if (!Array.isArray(k?.accepted) || !k!.accepted.some((a) => typeof a === 'string' && a.trim())) return false
+  // A key that is the SHAPE of an answer rather than an answer -- "Plant
+  // name" for "name one plant species" -- marks every learner wrong. Drop it
+  // and let the question be read instead.
+  return !isPlaceholderKey(k)
 }
 
 function isLongform(question: unknown): boolean {
@@ -667,6 +672,8 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     // A keyed answer is worth one mark wherever it lands: a word matched
     // against a list cannot earn part marks for working it does not have.
     picked.marks = keyed ? 1 : slot.marks
+    // A placeholder key would mark every learner wrong with total confidence.
+    if (!keyed && picked.short_answer) delete picked.short_answer
     // Every Checkpoint question is written, so anything the generator labelled
     // otherwise is relabelled rather than dropped.
     picked.type = 'longform'

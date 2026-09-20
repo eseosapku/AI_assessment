@@ -1,6 +1,6 @@
 // lib/short-answer.test.ts
 import { describe, it, expect } from 'vitest'
-import { gradeShortAnswer, normalizeAnswer } from './short-answer'
+import { gradeShortAnswer, normalizeAnswer, isPlaceholderKey } from './short-answer'
 
 const key = (accepted: string[], extra: Record<string, unknown> = {}) => ({ accepted, ...extra })
 
@@ -125,5 +125,34 @@ describe('normalizeAnswer', () => {
     expect(normalizeAnswer(null)).toBe('')
     expect(normalizeAnswer(undefined)).toBe('')
     expect(normalizeAnswer(12 as unknown)).toBe('12')
+  })
+})
+
+describe('a key that is the shape of an answer, not an answer', () => {
+  it('spots the placeholders a model returns when it cannot answer its own question', () => {
+    // Real, from a paper: "name one plant species in the diagram" came back
+    // with {"accepted":["Plant name"]}. Marked against that, every learner is
+    // wrong and the paper says so confidently.
+    for (const junk of ['Plant name', 'answer', 'The value', 'name', 'species', 'unit', '<the answer>', '...']) {
+      expect(isPlaceholderKey({ accepted: [junk] }), junk).toBe(true)
+    }
+  })
+
+  it('treats an empty or missing key as a placeholder too', () => {
+    expect(isPlaceholderKey({ accepted: [] })).toBe(true)
+    expect(isPlaceholderKey(null)).toBe(true)
+    expect(isPlaceholderKey(undefined)).toBe(true)
+    expect(isPlaceholderKey({ accepted: ['  '] })).toBe(true)
+  })
+
+  it('leaves a real answer alone', () => {
+    for (const real of ['condensation', 'nitrogen', '75', 'igneous', 'elastic potential energy', 'copper']) {
+      expect(isPlaceholderKey({ accepted: [real] }), real).toBe(false)
+    }
+  })
+
+  it('keeps a key where one listed form is real', () => {
+    // A vague alternative beside a real answer is not a placeholder.
+    expect(isPlaceholderKey({ accepted: ['photosynthesis', 'name'] })).toBe(false)
   })
 })

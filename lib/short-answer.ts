@@ -163,3 +163,27 @@ export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnsw
 
   return { correct: false, reason: 'no-match' }
 }
+
+/**
+ * Is this key a placeholder rather than an answer?
+ *
+ * A model asked to write a question about a diagram it can only read a
+ * description of sometimes cannot answer its own question, and returns the
+ * SHAPE of an answer instead: {"accepted":["Plant name"]} for "name one plant
+ * species in the diagram". Marked against that, every learner is wrong and
+ * the paper says so confidently.
+ *
+ * Better to lose the instant marking and let the question be read: a key that
+ * cannot be right is worse than no key.
+ */
+const PLACEHOLDER = /^(the )?(answer|value|name|number|correct answer|plant name|[a-z] ?name|word|term|result|quantity|unit|label|species|colour|color)$/i
+
+export function isPlaceholderKey(key: ShortAnswerKey | null | undefined): boolean {
+  const accepted = (Array.isArray(key?.accepted) ? key!.accepted : [])
+    .map((a) => String(a ?? '').trim())
+    .filter(Boolean)
+  if (accepted.length === 0) return true
+  // Every listed form being a placeholder is the tell. One real answer beside
+  // a vague alternative is fine.
+  return accepted.every((a) => PLACEHOLDER.test(a) || /name.*here|<.*>|\.\.\./.test(a))
+}

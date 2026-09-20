@@ -24,6 +24,7 @@ import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences } from '@/lib/dangling-reference'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
+import { buildExamPaperPrompt, examCommandsFor, type ExamPartSpec } from '@/lib/exam-paper-prompt'
 import { repairBookReferences } from '@/lib/book-reference'
 import { tagTokens } from '@/lib/tag-tokens'
 import {
@@ -1178,6 +1179,15 @@ function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false
   const question = String(q?.question ?? '').trim()
   if (!question) return true
 
+  // A question with a figure ALREADY ATTACHED is answerable by definition.
+  //
+  // This check exists to catch a stem promising a picture that does not
+  // exist. Once image_url is set the picture does exist, and deleting the
+  // question for saying "look at the diagram" throws away exactly the
+  // illustrated questions the paper wanted — sixteen of thirty-four in one
+  // run, every one of them a question that had its diagram.
+  if (typeof q?.image_url === 'string' && q.image_url.trim()) return false
+
   if (allowDiagrams && q?.needs_diagram === true) return false
 
   const lower = question.toLowerCase()
@@ -1882,12 +1892,51 @@ ${commandBlock}`
       questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[],
       batchTopics?: string[],
       assignedFigure?: { description: string; category: string; localPath: string },
+      strandHint?: string,
     ): Promise<any[]> {
       // Request a 40% surplus so even if the model runs short we hit the target count.
       // The surplus is stripped after deduplication.
       // No surplus when the parts are named: asking for extra parts of a
       // question that has two is asking for a different question.
       const requestCount = questionParts?.length ? batchCount : batchCount + Math.ceil(batchCount * 0.4)
+
+      // One exam question gets its OWN prompt, not the general one with an
+      // exam-shaped instruction bolted on. The general prompt is 26,600
+      // characters here and that is what was breaking generation: the same
+      // model is perfect on this task at about 1,200.
+      if (questionParts?.length && isCheckpoint) {
+        const focused = buildExamPaperPrompt({
+          subject: promptSubject,
+          level: `Stage ${gradeForPrompt}`,
+          paperName: String(style || 'exam'),
+          focus: batchTopics?.[0] || promptTopics[0] || promptSubject,
+          strand: strandHint || promptSubject,
+          parts: questionParts as ExamPartSpec[],
+          commands: examCommandsFor(promptSubject),
+          figure: assignedFigure
+            ? { description: assignedFigure.description, category: assignedFigure.category }
+            : undefined,
+        })
+        const text = await callBedrock(focused, Math.min(2600, 700 + questionParts.length * 550))
+        if (isRefusal(text)) throw new Error('Model refused to generate content.')
+        const parsed = parseJsonRobust(fixLatexInRawJson(text))
+        if (!Array.isArray(parsed.questions)) throw new SyntaxError('No questions array')
+        // EVERY part carries the figure, not just the first.
+        //
+        // A real paper prints the diagram once above the whole question and
+        // all its parts refer to it; the screen shows one question at a time,
+        // so each part needs it. Stamping only the first part meant (b) and
+        // (c) repeated a scenario mentioning "the diagram" while having none,
+        // and isUnanswerableWithoutVisual deleted them -- sixteen of
+        // thirty-four questions in one run.
+        if (assignedFigure) {
+          for (const q of parsed.questions) {
+            if (q && typeof q === 'object') q.image_url = assignedFigure.localPath
+          }
+        }
+        return parsed.questions
+      }
+
       const { prompt } = buildPrompt({
         subject: promptSubject,
         // A per-question batch gets ONLY its own focus. Handed the whole list,
@@ -1909,7 +1958,6 @@ ${commandBlock}`
       // questions are simply missing -- sixteen of thirty-four in one run.
       const perQuestion = questionParts?.length ? 900 : 300
       const maxTokens = Math.min(4200, Math.max(1800, requestCount * perQuestion))
-      if (isCheckpoint) console.log(`[prompt-size] ${prompt.length} chars (~${Math.round(prompt.length / 4)} tokens) for ${batchCount} question(s)`)
       const text = await callBedrock(prompt, maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
@@ -1973,61 +2021,61 @@ ${commandBlock}`
       paperPass?: 'short' | 'extended'
       questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[]
       batchTopics?: string[]
+      strandHint?: string
       assignedFigure?: { description: string; category: string; localPath: string }
     }
     const batches: Batch[] = []
 
-    // An exam paper is generated in TWO PASSES -- short answers, then extended
-    // ones -- not one call per numbered question.
+    // An exam paper is generated ONE NUMBERED QUESTION AT A TIME, each with
+    // its own focused prompt (lib/exam-paper-prompt.ts).
     //
-    // Per-question generation was tried and measured. It delivered what it
-    // promised: scenarios, lettered parts, no duplicates. It also failed the
-    // whole paper in two runs out of three -- 34 questions asked for, 5, 8 and
-    // 10 produced -- because a question-batch holds ONE numbered question and
-    // losing it loses that question outright, where a kind-batch holds five
-    // interchangeable ones the top-up loop can refill. A per-batch retry did
-    // not move it. A paper that will not generate teaches nobody anything, so
-    // reliability wins and the parts wait for a fix that holds.
-    //
-    // What survives from that work: each batch still gets its OWN slice of the
-    // foci rather than the whole list. Handed all of them, parallel calls
-    // converged -- six questions about the Arctic hare in one paper.
+    // This was tried once against the 26,600-character general prompt and
+    // failed the whole paper in two runs of three -- 5, 8 and 10 questions of
+    // 34. The cause was measured and it was not the model: Nova Lite is
+    // perfect on this exact task at about 1,200 characters, as are Nova Pro,
+    // Gemma 3 27B and both Claude models. It was the prompt.
     const slotPlan = Array.isArray(body.paperSlots) ? body.paperSlots : []
-    const fociInOrder: string[] = [...new Set<string>(
-      slotPlan.map((s: any) => String(s?.focus || '')).filter(Boolean) as string[],
-    )]
-    const sliceFor = (index: number, size: number) => {
-      if (fociInOrder.length === 0) return undefined
-      const per = Math.max(1, Math.ceil(fociInOrder.length / Math.max(1, Math.ceil(count / size))))
-      const at = Math.floor(index / size) * per
-      return fociInOrder.slice(at, at + per)
+    if (isCheckpoint && slotPlan.length > 0) {
+      const byQuestion = new Map<number, any[]>()
+      for (const slot of slotPlan) {
+        const q = Number(slot?.q)
+        if (!Number.isFinite(q)) continue
+        byQuestion.set(q, [...(byQuestion.get(q) ?? []), slot])
+      }
+      let startId = 1
+      for (const [, parts] of [...byQuestion.entries()].sort((a, b) => a[0] - b[0])) {
+        batches.push({
+          count: parts.length,
+          startId,
+          questionParts: parts.map((p: any) => ({
+            part: typeof p?.part === 'string' ? p.part : null,
+            marks: Number(p?.marks) || 1,
+            format: p?.format === 'written' ? 'written' : 'short',
+          })),
+          // Its own focus, never the whole list. Handed all of them, parallel
+          // calls converged -- six questions about the Arctic hare in one paper.
+          batchTopics: [...new Set<string>(parts.map((p: any) => String(p?.focus || '')).filter(Boolean) as string[])],
+          strandHint: String(parts[0]?.strand || ''),
+        })
+        startId += parts.length
+      }
     }
 
     const shortWanted = isCheckpoint ? Math.max(0, Math.min(count, Number(body.shortCount) || 0)) : 0
-    if (shortWanted > 0) {
+    if (batches.length === 0 && shortWanted > 0) {
       for (let i = 0; i < shortWanted; i += BATCH_SIZE) {
-        batches.push({
-          count: Math.min(BATCH_SIZE, shortWanted - i),
-          startId: i + 1,
-          paperPass: 'short',
-          batchTopics: sliceFor(i, BATCH_SIZE),
-        })
+        batches.push({ count: Math.min(BATCH_SIZE, shortWanted - i), startId: i + 1, paperPass: 'short' })
       }
       for (let i = shortWanted; i < count; i += BATCH_SIZE) {
-        batches.push({
-          count: Math.min(BATCH_SIZE, count - i),
-          startId: i + 1,
-          paperPass: 'extended',
-          batchTopics: sliceFor(i, BATCH_SIZE),
-        })
+        batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1, paperPass: 'extended' })
       }
-    } else {
+    } else if (batches.length === 0) {
       for (let i = 0; i < count; i += BATCH_SIZE) {
         batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
       }
     }
 
-    if (isCheckpoint && visualCatalog.length > 0 && batches.some((b) => b.batchTopics?.length)) {
+    if (isCheckpoint && visualCatalog.length > 0 && batches.some((b) => b.questionParts)) {
       const spare = [...visualCatalog]
       const cap = maxQuestionsWithImages(count)
       let given = 0
@@ -2042,10 +2090,15 @@ ${commandBlock}`
           const score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
           if (score > bestScore) { bestScore = score; best = i }
         })
-        // No shared word means the figure is about something else, and a
-        // diagram of a workplace beside a question on the water cycle is
-        // worse than no diagram at all.
-        if (best < 0 || bestScore === 0) continue
+        // TWO shared words, not one.
+        //
+        // One was far too loose. The library now holds IGCSE and O Level
+        // figures, and a single shared word like "energy" matched a
+        // carbocation energy-profile diagram to a Stage 9 question about
+        // energy stores -- which the model then wrote to, producing
+        // "name the transition state" in a paper for fourteen-year-olds.
+        // A figure that does not clearly depict the topic is worse than none.
+        if (best < 0 || bestScore < 2) continue
         const [fig] = spare.splice(best, 1)
         batch.assignedFigure = { description: fig.description, category: fig.category, localPath: fig.localPath }
         given++
@@ -2221,10 +2274,10 @@ ${commandBlock}`
               // question outright. Two runs in three failed the whole paper
               // this way.
               try {
-                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure)
+                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint)
               } catch (first) {
                 if (!b.questionParts) throw first
-                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure)
+                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint)
               }
             }),
           ))
