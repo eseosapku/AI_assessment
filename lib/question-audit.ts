@@ -1,0 +1,259 @@
+/**
+ * Read-only inspection of a generated paper.
+ *
+ * `lib/assessment-quality.ts` is the cleaner: it removes duplicates and fixes
+ * explanations on the way out. This is the opposite — it changes nothing and
+ * reports what is wrong, so a sweep across every curriculum and question type
+ * can say WHICH faults appear WHERE rather than leaving a person to read a
+ * thousand questions.
+ *
+ * Two severities, and the distinction matters more than the list of checks:
+ *
+ *  - **broken** — the question cannot be answered or cannot be marked. An MCQ
+ *    whose `correct_answer` points past the end of its options marks every
+ *    learner wrong. These are launch blockers.
+ *  - **poor** — the question works but a teacher would wince. "All of the
+ *    above", an explanation that addresses the marker rather than the learner,
+ *    a stem three times longer than the paper it imitates. These are polish.
+ *
+ * Nothing here calls a model. A check that needs judgement about whether an
+ * answer is factually right is out of scope on purpose: it would need the same
+ * machinery it is meant to be auditing.
+ */
+import { isPlaceholderKey, type ShortAnswerKey } from './short-answer'
+import { bookReference } from './book-reference'
+
+export type AuditSeverity = 'broken' | 'poor'
+
+export interface AuditFinding {
+  code: string
+  severity: AuditSeverity
+  /** 0-based position in the paper. -1 for a fault about the paper itself. */
+  index: number
+  detail: string
+}
+
+export interface AuditOptions {
+  /** How many questions were asked for, when the paper should be exact. */
+  expectedCount?: number
+  /** Set when the paper is allowed to carry figures. */
+  figuresAvailable?: boolean
+}
+
+const VISUAL_PROMISE =
+  /\b(look at|as shown|shown (?:above|below|here)|in the (?:diagram|figure|graph|table|picture|image|map)|the (?:diagram|figure|graph|picture|image) (?:above|below|shows)|refer(?:ring)? to the (?:diagram|figure|graph|map|table))\b/i
+
+const EXAMINER_VOICE = /\b(this question tests|the student should|candidates should|the learner should|tests the student)/i
+
+const CATCH_ALL_OPTION = /^(all|none) of the (above|these)$/i
+
+function text(v: unknown): string {
+  return typeof v === 'string' ? v.trim() : ''
+}
+
+function words(v: unknown): number {
+  const t = text(v)
+  return t ? t.split(/\s+/).length : 0
+}
+
+/** Loose key for spotting the same question twice. Mirrors the cleaner's intent. */
+function stemKey(q: Record<string, unknown>): string {
+  return text(q.question)
+    .toLowerCase()
+    .replace(/\[\d+\]/g, '')
+    .replace(/[^a-z0-9 ]/g, '')
+    .split(/\s+/)
+    .filter((w) => w.length > 3)
+    .sort()
+    .join(' ')
+}
+
+function auditMcq(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
+  const options = Array.isArray(q.options) ? q.options : []
+  if (options.length !== 4) {
+    out.push({ code: 'mcq-option-count', severity: 'broken', index: i, detail: `${options.length} options, expected 4` })
+  }
+  const answer = q.correct_answer
+  if (typeof answer !== 'number' || !Number.isInteger(answer) || answer < 0 || answer >= options.length) {
+    // Marks every learner wrong, silently, and looks fine in a list.
+    out.push({ code: 'mcq-answer-out-of-range', severity: 'broken', index: i, detail: `correct_answer=${String(answer)} against ${options.length} options` })
+  }
+  const seen = new Set<string>()
+  for (const o of options) {
+    const k = text(o).toLowerCase()
+    if (!k) {
+      out.push({ code: 'mcq-empty-option', severity: 'broken', index: i, detail: 'an option is empty' })
+      continue
+    }
+    if (seen.has(k)) {
+      out.push({ code: 'mcq-duplicate-option', severity: 'broken', index: i, detail: `option repeated: "${text(o).slice(0, 40)}"` })
+    }
+    seen.add(k)
+    if (CATCH_ALL_OPTION.test(k)) {
+      out.push({ code: 'mcq-catch-all-option', severity: 'poor', index: i, detail: `"${text(o)}" is guessable and untestable` })
+    }
+    if (/^[A-D][).:]\s/.test(text(o))) {
+      out.push({ code: 'mcq-lettered-option', severity: 'poor', index: i, detail: 'option carries its own letter; the UI adds one' })
+    }
+  }
+}
+
+function auditLongform(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
+  const marks = typeof q.marks === 'number' ? q.marks : 0
+  if (!Number.isInteger(marks) || marks < 1) {
+    out.push({ code: 'longform-marks-missing', severity: 'broken', index: i, detail: `marks=${String(q.marks)}` })
+  }
+
+  const key = q.short_answer as ShortAnswerKey | undefined
+  if (key) {
+    if (isPlaceholderKey(key)) {
+      // Marks every learner wrong while looking like a marked question.
+      out.push({ code: 'answer-key-unusable', severity: 'broken', index: i, detail: `key is not an answer: ${JSON.stringify(key.accepted?.[0] ?? null)}` })
+    }
+    if (marks > 1) {
+      out.push({ code: 'answer-key-on-extended', severity: 'broken', index: i, detail: `${marks}-mark question matched against a single key` })
+    }
+    return
+  }
+
+  const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria.filter((c) => text(c)) : []
+  if (criteria.length === 0) {
+    out.push({ code: 'longform-no-criteria', severity: 'broken', index: i, detail: 'nothing to mark against' })
+  } else if (marks > 0 && criteria.length !== marks) {
+    out.push({ code: 'longform-criteria-mismatch', severity: 'poor', index: i, detail: `${criteria.length} criteria for ${marks} marks` })
+  }
+}
+
+function auditInteractive(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
+  const kind = text(q.kind)
+  if (kind === 'multi_select') {
+    const options = Array.isArray(q.options) ? q.options : []
+    const correct = Array.isArray(q.correct_indices) ? q.correct_indices : []
+    if (options.length < 3) out.push({ code: 'tick-too-few-options', severity: 'broken', index: i, detail: `${options.length} options` })
+    if (correct.length === 0) out.push({ code: 'tick-no-correct', severity: 'broken', index: i, detail: 'nothing is correct' })
+    if (correct.length === options.length && options.length > 0) {
+      out.push({ code: 'tick-all-correct', severity: 'poor', index: i, detail: 'every option is correct, so nothing is tested' })
+    }
+    for (const c of correct) {
+      if (typeof c !== 'number' || c < 0 || c >= options.length) {
+        out.push({ code: 'tick-index-out-of-range', severity: 'broken', index: i, detail: `index ${String(c)} against ${options.length} options` })
+      }
+    }
+    return
+  }
+  if (kind === 'categorize') {
+    const cats = Array.isArray(q.categories) ? q.categories : []
+    const items = Array.isArray(q.items) ? q.items : []
+    const assign = Array.isArray(q.correct_category) ? q.correct_category : []
+    if (cats.length < 2) out.push({ code: 'table-too-few-columns', severity: 'broken', index: i, detail: `${cats.length} categories` })
+    if (items.length < 2) out.push({ code: 'table-too-few-rows', severity: 'broken', index: i, detail: `${items.length} items` })
+    if (assign.length !== items.length) {
+      out.push({ code: 'table-assignment-mismatch', severity: 'broken', index: i, detail: `${assign.length} assignments for ${items.length} rows` })
+    }
+    for (const a of assign) {
+      if (typeof a !== 'number' || a < 0 || a >= cats.length) {
+        out.push({ code: 'table-column-out-of-range', severity: 'broken', index: i, detail: `column ${String(a)} against ${cats.length}` })
+      }
+    }
+    return
+  }
+  if (!kind) out.push({ code: 'interactive-no-kind', severity: 'broken', index: i, detail: 'interactive question with no kind' })
+}
+
+/** Every fault worth knowing about, in the order the questions appear. */
+export function auditPaper(questions: unknown, options: AuditOptions = {}): AuditFinding[] {
+  const out: AuditFinding[] = []
+  const list = Array.isArray(questions) ? questions : []
+
+  if (list.length === 0) {
+    out.push({ code: 'paper-empty', severity: 'broken', index: -1, detail: 'no questions at all' })
+    return out
+  }
+  if (typeof options.expectedCount === 'number' && list.length !== options.expectedCount) {
+    out.push({ code: 'paper-wrong-length', severity: 'broken', index: -1, detail: `${list.length} questions, asked for ${options.expectedCount}` })
+  }
+
+  const seenStems = new Map<string, number>()
+
+  list.forEach((raw, i) => {
+    if (typeof raw !== 'object' || raw === null) {
+      out.push({ code: 'question-not-an-object', severity: 'broken', index: i, detail: String(raw) })
+      return
+    }
+    const q = raw as Record<string, unknown>
+    const stem = text(q.question)
+
+    if (!stem) {
+      out.push({ code: 'stem-empty', severity: 'broken', index: i, detail: 'no question text' })
+      return
+    }
+    if (words(stem) < 4) {
+      out.push({ code: 'stem-too-short', severity: 'poor', index: i, detail: `${words(stem)} words: "${stem}"` })
+    }
+    if (words(stem) > 45) {
+      out.push({ code: 'stem-too-long', severity: 'poor', index: i, detail: `${words(stem)} words` })
+    }
+
+    // A stem promising a picture that is not there cannot be answered. This is
+    // the single most common way a generated paper breaks.
+    const hasImage = Boolean(text(q.image_url))
+    if (!hasImage && VISUAL_PROMISE.test(stem)) {
+      out.push({ code: 'visual-promised-not-attached', severity: 'broken', index: i, detail: `"${stem.slice(0, 70)}"` })
+    }
+
+    // The book the question was written from is not in front of the learner.
+    const ref = bookReference(stem)
+    if (ref) {
+      out.push({ code: 'cites-the-source-book', severity: 'broken', index: i, detail: `${ref}: "${stem.slice(0, 60)}"` })
+    }
+
+    if (/\*\*|^#{1,6}\s/m.test(stem)) {
+      out.push({ code: 'markdown-in-stem', severity: 'poor', index: i, detail: 'markdown leaked into the question text' })
+    }
+
+    const explanation = text(q.explanation)
+    if (!explanation) {
+      out.push({ code: 'explanation-missing', severity: 'poor', index: i, detail: 'nothing shown after answering' })
+    } else if (EXAMINER_VOICE.test(explanation)) {
+      out.push({ code: 'explanation-addresses-the-marker', severity: 'poor', index: i, detail: explanation.slice(0, 60) })
+    }
+
+    const key = stemKey(q)
+    if (key) {
+      const first = seenStems.get(key)
+      if (first !== undefined) {
+        out.push({ code: 'duplicate-question', severity: 'poor', index: i, detail: `same as question ${first + 1}` })
+      } else {
+        seenStems.set(key, i)
+      }
+    }
+
+    const type = text(q.type).toLowerCase() || 'mcq'
+    if (type === 'longform') auditLongform(q, i, out)
+    else if (type === 'interactive') auditInteractive(q, i, out)
+    else auditMcq(q, i, out)
+  })
+
+  return out
+}
+
+/** Counts by code, worst first — what a sweep prints. */
+export function summariseFindings(findings: readonly AuditFinding[]): {
+  broken: number
+  poor: number
+  byCode: { code: string; severity: AuditSeverity; count: number }[]
+} {
+  const tally = new Map<string, { severity: AuditSeverity; count: number }>()
+  for (const f of findings) {
+    const row = tally.get(f.code) ?? { severity: f.severity, count: 0 }
+    row.count += 1
+    tally.set(f.code, row)
+  }
+  return {
+    broken: findings.filter((f) => f.severity === 'broken').length,
+    poor: findings.filter((f) => f.severity === 'poor').length,
+    byCode: [...tally.entries()]
+      .map(([code, v]) => ({ code, severity: v.severity, count: v.count }))
+      .sort((a, b) => (a.severity === b.severity ? b.count - a.count : a.severity === 'broken' ? -1 : 1)),
+  }
+}
