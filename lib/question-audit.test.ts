@@ -137,6 +137,45 @@ describe('interactive questions', () => {
   })
 })
 
+describe('the subjects that break differently', () => {
+  it('catches a Literature question leaning on a text the learner never saw', () => {
+    // The failure mode of Literature above all others. The learner is reading
+    // a quiz, not the novel.
+    for (const stem of [
+      'In Chapter 3, why does Okonkwo beat his wife?',
+      'According to the passage, what is the narrator afraid of?',
+      'What does the poet suggest in line 12?',
+      'In the extract, how does the writer create tension?',
+    ]) {
+      expect(codes([mcq({ question: stem })]), stem).toContain('assumes-unseen-text')
+    }
+  })
+
+  it('is satisfied once the extract travels with the question', () => {
+    expect(codes([mcq({
+      question: 'According to the passage, what is the narrator afraid of?',
+      passage: 'The night was long and he did not sleep...',
+    })])).not.toContain('assumes-unseen-text')
+  })
+
+  it('catches a question that needs something played', () => {
+    expect(codes([mcq({ question: 'Listen to the recording and name the instrument.' })]))
+      .toContain('needs-audio')
+  })
+
+  it('does not mistake ordinary wording for a missing text', () => {
+    // "the passage of time", "acts as a barrier" — near misses that must not
+    // fire, or the check becomes noise nobody reads.
+    for (const stem of [
+      'Which process describes the passage of water through a membrane?',
+      'Name the gas that acts as a greenhouse gas in the atmosphere.',
+      'What is the chapter of history known as the Industrial Revolution?',
+    ]) {
+      expect(codes([mcq({ question: stem })]), stem).not.toContain('assumes-unseen-text')
+    }
+  })
+})
+
 describe('polish, not breakage', () => {
   it('flags a guessable catch-all option', () => {
     expect(codes([mcq({ options: ['Carbon dioxide', 'Oxygen', 'Nitrogen', 'All of the above'] })]))

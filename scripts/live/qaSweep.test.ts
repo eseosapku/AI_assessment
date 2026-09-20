@@ -59,11 +59,34 @@ interface Row {
   findings: AuditFinding[]
 }
 
+let sweepCall = 0
+
 async function generate(body: Record<string, unknown>) {
   const started = Date.now()
+  // The route allows 30 generations an hour per identity, which is a cost
+  // ceiling on a real account and exactly right. A sweep asks for a hundred,
+  // so it identifies each call separately -- otherwise 89 of 98 papers come
+  // back "You have made a lot of requests" and the report measures the rate
+  // limiter rather than the questions.
+  //
+  // Sound only because this runs against a local dev server for QA. Never
+  // point it at production.
+  //
+  // Done with a header, NOT a synthetic user_id. Two earlier attempts show
+  // why that matters: a readable id like "qa-sweep-1" fails every generation
+  // on a Postgres uuid cast, and a well-formed random uuid is an unknown user
+  // who has "used their free assessments". Both look exactly like generation
+  // bugs in the report. identify() falls back to x-forwarded-for when there
+  // is no user_id, which is the honest way to say "a different caller".
   const res = await fetch(`${BASE}/api/generate-assessment`, {
-    method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body),
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'x-forwarded-for': `10.0.${Math.floor(sweepCall / 256) % 256}.${sweepCall % 256}`,
+    },
+    body: JSON.stringify(body),
   })
+  sweepCall++
   const json: any = await res.json().catch(() => ({ error: 'unparseable response' }))
   return { json, ms: Date.now() - started }
 }
@@ -83,14 +106,30 @@ describe('the whole curriculum surface', () => {
     if (ONLY !== 'checkpoint') {
       const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
       for (const c of CURRICULA) {
-        const { rows } = await pool.query(
+        // Deliberately weighted toward the subjects that break differently.
+        //
+        // Literature leans on a text the learner has not been given, Art and
+        // Music on something to look at or hear. Sampling at random would
+        // mostly return Biology and Maths and report a health the risky
+        // subjects do not share.
+        const RISKY = "(literature|art|music|drama|poet|religio|history|civic|french|kiswahili|kinyarwanda|english)"
+        const { rows: risky } = await pool.query(
           `SELECT DISTINCT ON (t.textbook_id) t.topic, b.textbook_name
              FROM topics t JOIN textbooks b ON b.textbook_id = t.textbook_id
             WHERE b.curriculum = $1 AND t.topic IS NOT NULL AND length(t.topic) > 3
+              AND b.textbook_name ~* $3
             ORDER BY t.textbook_id, random() LIMIT $2`,
-          [c.id, PER * 4],
+          [c.id, Math.ceil(PER / 2), RISKY],
         )
-        const picked = rows.sort(() => Math.random() - 0.5).slice(0, PER)
+        const { rows: rest } = await pool.query(
+          `SELECT DISTINCT ON (t.textbook_id) t.topic, b.textbook_name
+             FROM topics t JOIN textbooks b ON b.textbook_id = t.textbook_id
+            WHERE b.curriculum = $1 AND t.topic IS NOT NULL AND length(t.topic) > 3
+              AND b.textbook_name !~* $3
+            ORDER BY t.textbook_id, random() LIMIT $2`,
+          [c.id, PER, RISKY],
+        )
+        const picked = [...risky, ...rest].slice(0, PER)
         console.log(`\n${c.label} — ${picked.length} topic(s) x ${TYPES.length} type(s)`)
         for (const t of picked) {
           for (const type of TYPES) {
@@ -101,7 +140,8 @@ describe('the whole curriculum surface', () => {
               curriculum: c.slug, difficultyLevel: 'average',
             })
             const row: Row = {
-              area: c.label, label: `${type}: ${t.topic}`,
+              area: c.label,
+              label: `${type}: ${String(t.textbook_name).slice(0, 18)} / ${t.topic}`,
               error: json?.error ?? null, ms,
               count: json?.questions?.length ?? 0, expected: COUNT,
               figures: (json?.questions ?? []).filter((q: any) => q.image_url).length,

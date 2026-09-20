@@ -47,6 +47,32 @@ const EXAMINER_VOICE = /\b(this question tests|the student should|candidates sho
 
 const CATCH_ALL_OPTION = /^(all|none) of the (above|these)$/i
 
+/**
+ * A question leaning on a text the learner has not been given.
+ *
+ * The failure mode of Literature above all others: "In Chapter 3, why does
+ * Okonkwo…". The learner is reading a quiz, not the novel. A comprehension
+ * question is fine when the extract travels with it — that is what `passage`
+ * is for — and unanswerable when it does not.
+ *
+ * Deliberately anchored on "the passage/extract/poem" as a thing being
+ * referred to, not on the bare words: "the passage of water through a
+ * membrane" is osmosis, and a check that fires on it is noise nobody reads.
+ */
+const UNSEEN_TEXT = new RegExp(
+  [
+    'in (?:the )?(?:chapter|act|scene|stanza|extract) \\d*',
+    'according to the (?:passage|extract|author|poet|writer|text)',
+    'the (?:passage|extract|poem|author|poet|playwright|narrator) (?:above|below|describes|states|says|suggests|uses)',
+    '(?:in|from) the (?:extract|poem|novel|play)\\b',
+    '\\bline \\d+',
+  ].join('|'),
+  'i',
+)
+
+/** Something the learner would have to hear, which nothing here can play. */
+const NEEDS_AUDIO = /\b(listen to|the recording|the audio|as you hear|played aloud|the clip)\b/i
+
 function text(v: unknown): string {
   return typeof v === 'string' ? v.trim() : ''
 }
@@ -209,6 +235,15 @@ export function auditPaper(questions: unknown, options: AuditOptions = {}): Audi
 
     if (/\*\*|^#{1,6}\s/m.test(stem)) {
       out.push({ code: 'markdown-in-stem', severity: 'poor', index: i, detail: 'markdown leaked into the question text' })
+    }
+
+    // A text-dependent question with no text attached.
+    const hasPassage = Boolean(text(q.passage))
+    if (!hasPassage && UNSEEN_TEXT.test(stem)) {
+      out.push({ code: 'assumes-unseen-text', severity: 'broken', index: i, detail: `"${stem.slice(0, 70)}"` })
+    }
+    if (NEEDS_AUDIO.test(stem)) {
+      out.push({ code: 'needs-audio', severity: 'broken', index: i, detail: `"${stem.slice(0, 70)}"` })
     }
 
     const explanation = text(q.explanation)
