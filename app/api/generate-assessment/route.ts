@@ -666,7 +666,7 @@ function buildPrompt(opts: {
    * across thirty-four questions it returned only 2s and 3s, but handed a list
    * of two or three items with their marks named it complies.
    */
-  questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'written' }[]
+  questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'written' }[]
   /**
    * The ONE figure this question is built around, chosen server-side.
    *
@@ -1900,7 +1900,7 @@ ${commandBlock}`
       batchCount: number,
       startId: number,
       paperPass?: 'short' | 'extended',
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'written' }[],
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'written' }[],
       batchTopics?: string[],
       assignedFigure?: { description: string; category: string; localPath: string },
       strandHint?: string,
@@ -2030,7 +2030,7 @@ ${commandBlock}`
       count: number
       startId: number
       paperPass?: 'short' | 'extended'
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'written' }[]
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'written' }[]
       batchTopics?: string[]
       strandHint?: string
       assignedFigure?: { description: string; category: string; localPath: string }
@@ -2062,15 +2062,19 @@ ${commandBlock}`
         // failure as asking one request to decide which questions were short.
         // A call whose whole job is "write one ring-around question" produces
         // one.
-        const ringParts = allParts.filter((p: any) => p?.format === 'select')
-        const parts = allParts.filter((p: any) => p?.format !== 'select')
-        for (const ringPart of ringParts) {
+        const specialParts = allParts.filter((p: any) => p?.format === 'select' || p?.format === 'tick')
+        const parts = allParts.filter((p: any) => p?.format !== 'select' && p?.format !== 'tick')
+        for (const special of specialParts) {
           batches.push({
             count: 1,
             startId,
-            questionParts: [{ part: null, marks: 1, format: 'select' }],
-            batchTopics: [String(ringPart?.focus || '')].filter(Boolean),
-            strandHint: String(ringPart?.strand || ''),
+            questionParts: [{
+              part: null,
+              marks: Number(special?.marks) || 1,
+              format: special?.format === 'tick' ? 'tick' : 'select',
+            }],
+            batchTopics: [String(special?.focus || '')].filter(Boolean),
+            strandHint: String(special?.strand || ''),
           })
           startId += 1
         }
@@ -2081,7 +2085,10 @@ ${commandBlock}`
           questionParts: parts.map((p: any) => ({
             part: typeof p?.part === 'string' ? p.part : null,
             marks: Number(p?.marks) || 1,
-            format: p?.format === 'written' ? 'written' : p?.format === 'select' ? 'select' : 'short',
+            format: p?.format === 'written' ? 'written'
+              : p?.format === 'select' ? 'select'
+              : p?.format === 'tick' ? 'tick'
+              : 'short',
           })),
           // Its own focus, never the whole list. Handed all of them, parallel
           // calls converged -- six questions about the Arctic hare in one paper.

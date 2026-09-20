@@ -34,7 +34,8 @@ describe('a full paper', () => {
     // papers, the A/B/C/D that appear are labels ON DIAGRAMS -- "name the
     // root cell labelled A" -- not answer options.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
-    expect(new Set(paper.slots.map((s) => s.format))).toEqual(new Set(['short', 'written']))
+    // Plus the tick lists the real papers carry about twice a paper.
+    expect(new Set(paper.slots.map((s) => s.format))).toEqual(new Set(['short', 'tick', 'written']))
   })
 
   it('gives a short answer one mark and an extended answer more', () => {
@@ -231,6 +232,14 @@ function asGenerated(paper: ReturnType<typeof buildPaper>) {
     ...(slot.format === 'select'
       ? { type: 'mcq', options: ['w', 'x', 'y', 'z'], correct_answer: 0 }
       : {}),
+    ...(slot.format === 'tick'
+      ? {
+          type: 'interactive',
+          kind: 'multi_select',
+          options: ['s1', 's2', 's3', 's4', 's5'],
+          correct_indices: [0, 2],
+        }
+      : {}),
   }))
 }
 
@@ -274,7 +283,7 @@ describe('the blueprint is what counts, not what the model claimed', () => {
     const kept = applyBlueprint(reordered, paper)
     for (const q of kept as any[]) {
       // Keyed short answers and ringed options are both worth one mark;
-      // only a written answer can carry more.
+      // a tick list and a written answer carry more.
       if (q.short_answer || q.type === 'mcq') expect(q.marks).toBe(1)
       else expect(q.marks).toBeGreaterThan(1)
     }

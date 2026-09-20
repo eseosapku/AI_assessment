@@ -23,8 +23,11 @@ export interface ExamPartSpec {
   /** 'a', 'b', 'c' — or null when the question has a single part. */
   part: string | null
   marks: number
-  /** 'select' is "draw a ring around" — four printed options on paper. */
-  format: 'short' | 'select' | 'written'
+  /**
+   * 'select' is "draw a ring around" — four printed options, one right.
+   * 'tick' is "tick all the correct statements" — several right.
+   */
+  format: 'short' | 'select' | 'tick' | 'written'
 }
 
 export interface ExamPaperPromptOptions {
@@ -53,6 +56,11 @@ function figureNoun(category: string): string {
 
 function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOptions['commands']): string {
   const label = spec.part ? `(${spec.part})` : `${index + 1}.`
+  if (spec.format === 'tick') {
+    // "Tick all the correct statements" — the commonest special format in the
+    // real papers, and a multi-select on screen.
+    return `${label} "marks": ${spec.marks}, "type": "interactive", "kind": "multi_select". Phrase it "Tick (✓) all the correct statements about ..." as the paper does. Give "options": five short statements and "correct_indices": the 0-based positions of the ${spec.marks === 1 ? 'two' : 'two or three'} true ones. The false ones must be plausible, not silly. No short_answer, no marking_criteria.`
+  }
   if (spec.format === 'select') {
     // "Draw a ring around the correct answer" on paper; four options on
     // screen. Real Checkpoint Maths uses it about twice a paper.
@@ -109,7 +117,12 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // above it. Left reading "type":"longform" it produced a long-form answer
     // for a ring-around part every time, however plainly the part said "mcq":
     // the model copies the shape it is shown.
-    ...(parts.every((p) => p.format === 'select')
+    ...(parts.every((p) => p.format === 'tick')
+      ? [
+          'Each object: {"id":<number>,"type":"interactive","kind":"multi_select","question":"Tick (✓) all the correct statements about ...","options":["...","...","...","...","..."],"correct_indices":[<0-based>,<0-based>],"marks":<number>,"explanation":"<what this tests, one sentence>"}',
+          'No short_answer and no marking_criteria on a tick question.',
+        ]
+      : parts.every((p) => p.format === 'select')
       ? [
           'Each object: {"id":<number>,"type":"mcq","question":"Draw a ring around ...","options":["...","...","...","..."],"correct_answer":<0-3>,"explanation":"<what this tests, one sentence>","marks":1}',
           'No short_answer and no marking_criteria on a ringed question.',

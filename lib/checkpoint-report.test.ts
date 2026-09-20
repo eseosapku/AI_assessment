@@ -21,9 +21,17 @@ describe('checkpointReport', () => {
     // raw mark IS the 0-50 reporting scale rather than a percentage rescaled
     // into it.
     const paper = buildPaper(SCIENCE, SCIENCE.components[0], { mode: 'paper', seed: 9 })
+    // Shaped like what the generator returns for each slot kind, so the
+    // blueprint can match them and the marks land where they should.
     const questions = applyBlueprint(
       paper.slots.map((slot, i) => ({
-        id: i, question: `Q${i}`, type: slot.format === 'written' ? 'longform' : 'mcq',
+        id: i,
+        question: `Q${i}`,
+        type: slot.format === 'tick' ? 'interactive' : 'longform',
+        ...(slot.format === 'short' ? { short_answer: { accepted: [`a${i}`] } } : {}),
+        ...(slot.format === 'tick'
+          ? { kind: 'multi_select', options: ['a', 'b', 'c', 'd'], correct_indices: [0, 1] }
+          : {}),
       })),
       paper,
     )
