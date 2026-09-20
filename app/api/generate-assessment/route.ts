@@ -658,11 +658,19 @@ function buildPrompt(opts: {
    * can silently skip is not a contract. Each batch now asks for ONE kind.
    */
   paperPass?: 'short' | 'extended'
+  /**
+   * The exact parts this batch must return, when a batch IS one numbered
+   * question. Spelling them out per call is what finally made the model
+   * honour per-question marks: asked to apply "one mark means a short answer"
+   * across thirty-four questions it returned only 2s and 3s, but handed a list
+   * of two or three items with their marks named it complies.
+   */
+  questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[]
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
     hasDiagramSupport, difficultyLevel, grade, sourceText, sourceName, visualCatalog, maxImageQuestions,
-    requirePassagesAll = false, figureAppetite = 'default', paperPass,
+    requirePassagesAll = false, figureAppetite = 'default', paperPass, questionParts,
   } = opts
 
   const subjectDomain = classifySubjectDomain(subject)
@@ -759,7 +767,8 @@ function buildPrompt(opts: {
   // the schema is the contract, and a field absent from it does not exist.
   // Required on a short pass, absent on an extended one. Never optional:
   // offered as optional it came back as `short_answer: {}` on every question.
-  const shortAnswerField = paperPass === 'short'
+  const wantsKeys = paperPass === 'short' || (questionParts?.some((p) => p.format === 'short') ?? false)
+  const shortAnswerField = wantsKeys
     ? `
       "short_answer": { "accepted": ["<the answer, plus every other form a marker would accept>"], "numeric": <true only for a number>, "unit": "<only when the answer has a unit, else omit>" },`
     : ''
@@ -802,7 +811,23 @@ function buildPrompt(opts: {
     // Checkpoint papers, the A/B/C/D that appear are labels on diagrams --
     // "name the root cell labelled A" -- and not answer options, so asking
     // for 60% multiple choice produced a quiz wearing a syllabus code.
-    questionInstruction = paperPass === 'short'
+    questionInstruction = questionParts && questionParts.length > 0
+      ? [
+          `This is ONE numbered exam question with ${questionParts.length} part${questionParts.length === 1 ? '' : 's'}.`,
+          questionParts.length > 1
+            ? 'Write ONE short scenario sentence — a situation, a measurement, something a named student did — and BEGIN EVERY part with that same sentence, so each part can be read on its own. Under 20 words.'
+            : 'Ask it directly; it has no scenario and no parts.',
+          'The scenario must NEVER mention a diagram, picture, graph or table. There is no figure. "The diagram shows a pile of rusted chains" describes something the learner cannot see, and the question is then unanswerable and gets deleted. Describe the situation in words instead: "Iron chains are left outside in the rain."',
+          `Return exactly ${questionParts.length} questions, in this order, all type "longform". The "marks" value of each is FIXED below — copy it exactly, do not choose your own:`,
+          ...questionParts.map((p, i) => {
+            const label = p.part ? `(${p.part})` : `${i + 1}.`
+            return p.format === 'short'
+              ? `${label} "marks": 1 exactly. A SHORT ANSWER — the answer is one word, a short phrase or a number. MUST carry "short_answer" with every acceptable form. No marking_criteria, no model_answer. Open with "Write down", "State", "Name" or "Give". Under 15 words after the scenario.`
+              : `${label} "marks": ${p.marks} exactly. Answered in a sentence or two, with marking_criteria holding exactly ${p.marks} criteria. NO short_answer. Open with "Explain", "Describe" or "Suggest".`
+          }),
+          'The parts must ask DIFFERENT things about the scenario. Two parts that could take the same answer are one question, not two.',
+        ].join(' ')
+      : paperPass === 'short'
       ? [
           `Generate exactly ${count} questions, ALL type "longform" and ALL worth exactly 1 mark.`,
           'Every one is a SHORT ANSWER: the answer is a single word, a short phrase, a name or a number — never a sentence.',
@@ -1830,15 +1855,28 @@ ${commandBlock}`
     // This ensures the model can always finish the batch without truncation.
     const BATCH_SIZE = 5
 
-    async function tryGenerateBatch(batchCount: number, startId: number, paperPass?: 'short' | 'extended'): Promise<any[]> {
+    async function tryGenerateBatch(
+      batchCount: number,
+      startId: number,
+      paperPass?: 'short' | 'extended',
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[],
+      batchTopics?: string[],
+    ): Promise<any[]> {
       // Request a 40% surplus so even if the model runs short we hit the target count.
       // The surplus is stripped after deduplication.
-      const requestCount = batchCount + Math.ceil(batchCount * 0.4)
+      // No surplus when the parts are named: asking for extra parts of a
+      // question that has two is asking for a different question.
+      const requestCount = questionParts?.length ? batchCount : batchCount + Math.ceil(batchCount * 0.4)
       const { prompt } = buildPrompt({
-        subject: promptSubject, topics: promptTopics, count: requestCount, startId, style,
+        subject: promptSubject,
+        // A per-question batch gets ONLY its own focus. Handed the whole list,
+        // sixteen parallel calls converged on whatever was most answerable and
+        // six of them wrote about the Arctic hare.
+        topics: batchTopics?.length ? batchTopics : promptTopics,
+        count: requestCount, startId, style,
         curriculumName, curriculumBlock: enrichedCurriculumBlock, questionType, hasDiagramSupport, difficultyLevel, grade: gradeForPrompt,
         sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
-        figureAppetite: isCheckpoint ? 'exam-paper' : 'default', paperPass,
+        figureAppetite: isCheckpoint ? 'exam-paper' : 'default', paperPass, questionParts,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
@@ -1895,16 +1933,59 @@ ${commandBlock}`
     // blueprint, which already knows how many one-mark items this component
     // has, so no batch ever has to decide -- every question in it is the same
     // kind and the schema for that kind is unconditional.
-    const batches: { count: number; startId: number; paperPass?: 'short' | 'extended' }[] = []
+    type Batch = {
+      count: number
+      startId: number
+      paperPass?: 'short' | 'extended'
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'written' }[]
+      batchTopics?: string[]
+    }
+    const batches: Batch[] = []
+
+    // An exam paper is generated ONE NUMBERED QUESTION AT A TIME.
+    //
+    // Splitting by kind made the answer keys work but produced duplicates: the
+    // parts of one question share a focus -- that shared scenario is what makes
+    // them parts -- and generated in separate requests they came back as two
+    // unrelated questions about the same thing. "Name the gas most abundant in
+    // the atmosphere" beside "Give the main gas in the Earth's atmosphere".
+    //
+    // One call per question fixes both. The parts arrive together, share a
+    // scenario, and the call is handed the exact list of parts and their marks
+    // rather than a rule to apply.
+    const slotPlan = Array.isArray(body.paperSlots) ? body.paperSlots : []
+    if (isCheckpoint && slotPlan.length > 0) {
+      const byQuestion = new Map<number, any[]>()
+      for (const slot of slotPlan) {
+        const q = Number(slot?.q)
+        if (!Number.isFinite(q)) continue
+        byQuestion.set(q, [...(byQuestion.get(q) ?? []), slot])
+      }
+      let startId = 1
+      for (const [, parts] of [...byQuestion.entries()].sort((a, b) => a[0] - b[0])) {
+        batches.push({
+          count: parts.length,
+          startId,
+          questionParts: parts.map((p: any) => ({
+            part: typeof p?.part === 'string' ? p.part : null,
+            marks: Number(p?.marks) || 1,
+            format: p?.format === 'written' ? 'written' : 'short',
+          })),
+          batchTopics: [...new Set(parts.map((p: any) => String(p?.focus || '')).filter(Boolean))],
+        })
+        startId += parts.length
+      }
+    }
+
     const shortWanted = isCheckpoint ? Math.max(0, Math.min(count, Number(body.shortCount) || 0)) : 0
-    if (shortWanted > 0) {
+    if (batches.length === 0 && shortWanted > 0) {
       for (let i = 0; i < shortWanted; i += BATCH_SIZE) {
         batches.push({ count: Math.min(BATCH_SIZE, shortWanted - i), startId: i + 1, paperPass: 'short' })
       }
       for (let i = shortWanted; i < count; i += BATCH_SIZE) {
         batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1, paperPass: 'extended' })
       }
-    } else {
+    } else if (batches.length === 0) {
       for (let i = 0; i < count; i += BATCH_SIZE) {
         batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
       }
@@ -2060,7 +2141,7 @@ ${commandBlock}`
         // kill the whole request — successful batches still contribute questions
         // and the retry loop below fills any shortfall.
         const batchSettled = await Promise.allSettled(
-          batches.map(b => tryGenerateBatch(b.count, b.startId, b.paperPass))
+          batches.map(b => tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics))
         )
         const batchErrors: any[] = []
         for (const result of batchSettled) {

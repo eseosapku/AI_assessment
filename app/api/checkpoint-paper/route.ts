@@ -83,6 +83,12 @@ export async function POST(req: NextRequest) {
       // How many of the questions are one-mark short answers. The generator
       // splits its batches on this so no request has to decide per question.
       shortCount: paper.slots.filter((s) => s.format === 'short').length,
+      // The generator batches one numbered question at a time and is handed
+      // that question's exact parts, so nothing has to be inferred per call.
+      paperSlots: paper.slots.map((s) => ({
+        q: s.questionNumber, part: s.part, marks: s.marks, format: s.format,
+        strand: s.strand, focus: s.focus,
+      })),
       examPrepContext: [
         `Cambridge ${subject.name} ${subject.code}/${component.number}, sat at the end of Stage ${programme === 'primary' ? 6 : 9}. The paper is worth ${paper.totalMarks} marks.`,
         'Below is the paper plan. Write EXACTLY these questions, in this order, one per line of the plan.',

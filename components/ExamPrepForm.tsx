@@ -274,6 +274,10 @@ export default function ExamPrepForm() {
           customTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
           // Splits generation by kind, so no batch decides which are short.
           shortCount: exam === 'checkpoint' ? cpShortCount : undefined,
+          // One request per numbered question, each told its own parts.
+          paperSlots: exam === 'checkpoint' && cpPaper
+            ? cpPaper.slots.map((s) => ({ q: s.questionNumber, part: s.part, marks: s.marks, format: s.format, strand: s.strand, focus: s.focus }))
+            : undefined,
           curriculum: exam,
           difficultyLevel: difficulty,
           questionType: qType,

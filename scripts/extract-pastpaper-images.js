@@ -48,6 +48,33 @@ process.env.EXTRACT_MIN_BYTES = process.env.EXTRACT_MIN_BYTES || '12000'
 process.env.EXTRACT_MAX_PER_PAGE = process.env.EXTRACT_MAX_PER_PAGE || '4'
 process.env.EXTRACT_DEDUP = process.env.EXTRACT_DEDUP || '1'
 
+/**
+ * Refuse to run while another extraction is writing the same manifest.
+ *
+ * Every paper triggers a read-modify-write of an 18MB file. Two extractors
+ * running at once clobber each other -- one run's figures vanished exactly
+ * this way -- and anything reading mid-write gets a torn file that fails to
+ * parse.
+ */
+const LOCK = path.join(MANIFEST_DIR, '.extract.lock')
+
+function takeLock() {
+  if (fs.existsSync(LOCK)) {
+    const age = Date.now() - fs.statSync(LOCK).mtimeMs
+    if (age < 60 * 60 * 1000) {
+      console.error(`Another extraction holds ${LOCK} (started ${Math.round(age / 1000)}s ago).`)
+      console.error('Wait for it, or delete the lock if you know it died.')
+      process.exit(1)
+    }
+    console.warn('Stale lock (over an hour old) — taking it.')
+  }
+  fs.mkdirSync(MANIFEST_DIR, { recursive: true })
+  fs.writeFileSync(LOCK, String(process.pid), 'utf8')
+  const release = () => { try { fs.unlinkSync(LOCK) } catch {} }
+  process.on('exit', release)
+  process.on('SIGINT', () => { release(); process.exit(130) })
+}
+
 function readManifest() {
   if (!fs.existsSync(MANIFEST_PATH)) return { version: 1, images: [] }
   try {
@@ -94,6 +121,7 @@ function main() {
   }
 
   if (!ROOT) { console.error('--root is required'); process.exit(1) }
+  if (!DRY_RUN) takeLock()
   const pdfs = walkPdfs(ROOT)
   console.log(`=== Past-paper figures: ${LABEL} (${BOARD}) ===`)
   console.log(`root: ${ROOT}`)
