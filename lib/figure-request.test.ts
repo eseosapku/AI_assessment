@@ -1,6 +1,6 @@
 // lib/figure-request.test.ts
 import { describe, it, expect } from 'vitest'
-import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn } from './figure-request'
+import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, worthDrawing } from './figure-request'
 
 describe('the ask', () => {
   it('stays small, because size is what breaks adherence', () => {
@@ -60,5 +60,35 @@ describe('holding the question to the figure', () => {
   it('leaves an ordinary question alone', () => {
     expect(questionNamesUndrawn('Work out the probability that both spinners land on 4.', spinners))
       .toEqual([])
+  })
+})
+
+describe('asking only when it is worth asking', () => {
+  it('asks for the foci it can draw', () => {
+    for (const f of [
+      'area of a compound shape', 'angles in triangles and quadrilaterals',
+      'reading a frequency table', 'probability of two events together',
+      'negative numbers in context', 'describing a pattern in a set of results',
+      'interpreting a bar chart described in words',
+    ]) {
+      expect(worthDrawing(f), f).toBe(true)
+    }
+  })
+
+  it('does not spend a call on what it cannot draw', () => {
+    // A Science paper has about fifteen figure slots and perhaps three are
+    // drawable; asking for the rest buys a "none" at the price of a call.
+    for (const f of [
+      'the structure of a plant cell', 'series and parallel circuits',
+      'the water cycle', 'photosynthesis', 'the phases of the Moon',
+      'rock types and the rock cycle', 'why scientists check each other’s work',
+    ]) {
+      expect(worthDrawing(f), f).toBe(false)
+    }
+  })
+
+  it('says no to nothing at all', () => {
+    expect(worthDrawing('')).toBe(false)
+    expect(worthDrawing(undefined)).toBe(false)
   })
 })

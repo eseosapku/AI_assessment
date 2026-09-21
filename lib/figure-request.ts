@@ -25,6 +25,39 @@ export interface DrawnFigure {
   noun: string
 }
 
+/**
+ * Is it worth asking for a spec at all?
+ *
+ * The ask is a model call, one per figure slot, and most of them are wasted:
+ * nothing here draws a cell, a circuit, a map or a food chain, so the reply is
+ * "none" and the paper falls back to the library anyway. A Science paper has
+ * about fifteen figure slots and perhaps three are drawable.
+ *
+ * So the focus is read first. Cheap, and wrong only in the safe direction —
+ * a focus this does not recognise simply keeps the library figure it already
+ * had, which is the behaviour that existed before any of this.
+ */
+const DRAWABLE_FOCUS = new RegExp(
+  [
+    // polygons and dimensioned shapes
+    String.raw`\b(?:polygon|triangle|quadrilateral|rectangle|trapezium|perimeter|area of|compound shape|angles? in|right angle|scale drawing)\b`,
+    // plotted and charted data
+    String.raw`\b(?:graph|chart|plot|axes|bar chart|frequency|results table|line of best fit|relationship between)\b`,
+    // probability apparatus
+    String.raw`\b(?:spinner|probability|outcome|chance|fair (?:dice|die|coin))\b`,
+    // the number line
+    String.raw`\b(?:number line|negative numbers|place value|ordering numbers|rounding)\b`,
+    // the scientific-method foci that end in a plotted result
+    String.raw`\b(?:pattern in a set of results|drawing a conclusion|anomalous result|present a set of results)\b`,
+  ].join('|'),
+  'i',
+)
+
+export function worthDrawing(focus: unknown): boolean {
+  const f = String(focus ?? '')
+  return f.trim().length > 0 && DRAWABLE_FOCUS.test(f)
+}
+
 /** What a question refers to a figure of this kind AS. */
 function nounFor(spec: FigureSpec): string {
   switch (spec.kind) {

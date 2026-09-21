@@ -28,7 +28,7 @@ import { dropUnmarkable } from '@/lib/unmarkable'
 import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
-import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, type DrawnFigure } from '@/lib/figure-request'
+import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, worthDrawing, type DrawnFigure } from '@/lib/figure-request'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -1945,7 +1945,11 @@ ${commandBlock}`
         // which is unchanged.
         let drawn: DrawnFigure | null = null
         const drawFocus = batchTopics?.[0]
-        if (assignedFigure && drawFocus) {
+        // Only where the focus is something this can actually draw. Asking
+        // for every figure slot spends a model call per question to be told
+        // "none" -- a Science paper has about fifteen slots and perhaps three
+        // are drawable.
+        if (assignedFigure && drawFocus && worthDrawing(drawFocus)) {
           try {
             const spec = await callBedrock(
               buildFigureSpecPrompt(promptSubject, `Stage ${gradeForPrompt}`, drawFocus),
