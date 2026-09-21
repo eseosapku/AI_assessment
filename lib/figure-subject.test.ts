@@ -85,3 +85,33 @@ describe('whether a figure may illustrate a paper', () => {
     expect(figureFitsSubject('Cambridge IGCSE and O Level Business Studies 5th edition', 'Fine Art')).toBe(true)
   })
 })
+
+describe('an unidentified book is not good enough for English', () => {
+  // The books these came from are all 'other', and 'other' used to be a
+  // blanket pass. They were printed beside a Cambridge English comprehension.
+  const shipped = [
+    'SOCIAL STUDIES AND RELIGIOUS EDUCATION',
+    'Creative Arts P2 TG',
+    'P5-SET-PB',
+    'Physical Education and Sports',
+    'Music S1 SB',
+  ]
+
+  it('refuses them on an English paper', () => {
+    for (const book of shipped) {
+      expect(subjectOfBook(book), book).toBe('other')
+      expect(figureFitsSubject(book, 'English'), book).toBe(false)
+    }
+  })
+
+  it('still admits them elsewhere, where an unnamed figure can still be on topic', () => {
+    for (const book of shipped) {
+      expect(figureFitsSubject(book, 'Science'), book).toBe(true)
+      expect(figureFitsSubject(book, 'Mathematics'), book).toBe(true)
+    }
+  })
+
+  it('admits a book that names itself English', () => {
+    expect(figureFitsSubject('Checkpoint: 0876-English-as-Second-Language-May-2025-Checkpoint-Question-Paper-1', 'English')).toBe(true)
+  })
+})

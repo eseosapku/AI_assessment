@@ -130,6 +130,44 @@ export function drawFromReply(raw: unknown): DrawnFigure | null {
  * a drawn figure knows its own labels, so this is a list check rather than a
  * guess about what a description implies.
  */
+/**
+ * Has the prompt's own wording been copied into the question?
+ *
+ * Shipped, verbatim, to a learner:
+ *
+ *   "Work out the perimeter of the diagram. Refer to it as 'the diagram'.
+ *    Do NOT restate what it shows."
+ *   "Work out the area of the diagram. ... 10 cm | 15 cm | 10 cm | 15 cm"
+ *   "Calculate the relative frequency ... walk | bus | number of learners
+ *    walk | 30 bus | 70 [4]"
+ *
+ * The second and third are the LABEL LIST being pasted in — which is why the
+ * list is no longer pipe-separated, since a pipe-separated run is exactly what
+ * a model repeats when it is unsure whether a line is instruction or content.
+ *
+ * Rewording alone is trust rather than a fix, so this checks. A question
+ * carrying the instructions is unusable whatever else is right about it.
+ */
+const INSTRUCTION_LEAK = new RegExp(
+  [
+    String.raw`\brefer to it as\b`,
+    String.raw`\bdo not restate\b`,
+    String.raw`\bit carries these\b`,
+    String.raw`\byou may refer only\b`,
+    String.raw`\bexactly as written\b`,
+    String.raw`\bthe question should send\b`,
+    // A run of pipe-separated fragments is the label list, not a sentence.
+    // Two separators minimum, each spaced — one bare pair is "|-8| + |3|",
+    // which is a modulus and a perfectly good question.
+    String.raw`(?:\s\|\s[^|]{1,40}){2,}`,
+  ].join('|'),
+  'i',
+)
+
+export function questionLeaksInstructions(stem: unknown): boolean {
+  return INSTRUCTION_LEAK.test(String(stem ?? ''))
+}
+
 export function questionNamesUndrawn(stem: unknown, figure: DrawnFigure): string[] {
   const text = String(stem ?? '')
   if (!text.trim()) return []

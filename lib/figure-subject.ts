@@ -123,15 +123,38 @@ const ACCEPTS: Record<string, readonly FigureSubject[]> = {
  * library, and refusing everything unlabelled would cost far more good figures
  * than it saves bad ones. The gate is for the cases we can actually name.
  */
+/**
+ * Subjects where an unidentified book is NOT good enough.
+ *
+ * 'other' is a third of the library and letting it through is right for most
+ * papers: a lever, a beaker or a bar chart from a book we cannot name is still
+ * plausibly about the question. English is the subject where that reasoning
+ * collapses. Its figures have to belong to the PASSAGE, and a passage this
+ * platform generated has no illustrations anywhere in any library. So the
+ * blanket pass shipped, on a Cambridge English paper:
+ *
+ *   a wedding party   from "SOCIAL STUDIES AND RELIGIOUS EDUCATION"
+ *   a clown           from "Creative Arts P2 TG"
+ *   a school hall     from "P5-SET-PB"
+ *
+ * all of them 'other', all of them admitted, none of them Cambridge and none
+ * of them related to the story the learner had just read. The reader's
+ * question was the right one: what is this doing here?
+ *
+ * History is in for the same reason — a photograph has to be OF the period.
+ */
+const STRICT: ReadonlySet<string> = new Set(['english', 'history'])
+
 export function figureFitsSubject(bookName: unknown, paperSubject: unknown): boolean {
   const figure = subjectOfBook(bookName)
-  if (figure === 'other') return true
 
   const paper = String(paperSubject ?? '').toLowerCase().trim()
   if (!paper) return true
 
   const key = Object.keys(ACCEPTS).find((k) => paper.includes(k))
   if (!key) return true
+
+  if (figure === 'other') return !STRICT.has(key)
 
   return ACCEPTS[key].includes(figure)
 }

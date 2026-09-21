@@ -28,7 +28,7 @@ import { dropUnmarkable } from '@/lib/unmarkable'
 import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
-import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, worthDrawing, type DrawnFigure } from '@/lib/figure-request'
+import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, type DrawnFigure } from '@/lib/figure-request'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -1995,6 +1995,15 @@ ${commandBlock}`
         // (c) repeated a scenario mentioning "the diagram" while having none,
         // and isUnanswerableWithoutVisual deleted them -- sixteen of
         // thirty-four questions in one run.
+        // A question that printed the instructions instead of following them.
+        // Unusable whatever else is right about it, and the retry loop will
+        // write a replacement.
+        const leaked = parsed.questions.filter((q: any) => q && typeof q === 'object' && questionLeaksInstructions(q.question))
+        if (leaked.length) {
+          console.log(`Rejected ${leaked.length} question(s) that copied the prompt into the stem`)
+          parsed.questions = parsed.questions.filter((q: any) => !leaked.includes(q))
+        }
+
         if (drawn) {
           // A drawn figure is held to its own label list exactly -- it knows
           // what is on it, so this is a check rather than a guess. A question

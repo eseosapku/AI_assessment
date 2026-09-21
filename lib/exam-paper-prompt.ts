@@ -132,11 +132,20 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // be held to it exactly: these labels exist and nothing else does. That is
     // the whole point of drawing rather than searching — "name the part
     // labelled A" cannot happen when A is not on the list.
+    // Worded so no line of it can be mistaken for the question itself.
+    //
+    // The first draft read "Refer to it as 'the diagram'. Do NOT restate what
+    // it shows." and "You may refer ONLY to these: 18 cm | 20 cm | 18 cm | 20
+    // cm" — and both were copied straight into the stem, so a learner was
+    // asked to "Work out the perimeter of the diagram. Refer to it as 'the
+    // diagram'. Do NOT restate what it shows." An instruction addressed to
+    // the writer in the second person reads exactly like part of the task
+    // when the task is also in the second person, so these describe the
+    // figure instead of ordering the writer around.
     lines.push(
-      `A ${opts.drawnFigure.noun.toUpperCase()} is printed beside this question. ${opts.drawnFigure.description}`,
-      `You may refer ONLY to these, exactly as written: ${opts.drawnFigure.labels.join(' | ')}.`,
-      'Naming anything else — a point, an angle, a part, a value — means naming something that is not on the figure.',
-      `Refer to it as "the ${opts.drawnFigure.noun}". Do NOT restate what it shows.`,
+      `Printed beside this question is a ${opts.drawnFigure.noun}: ${opts.drawnFigure.description}`,
+      `It carries these and nothing else: ${opts.drawnFigure.labels.join(', ')}.`,
+      `The question should send the learner to it — "Look at the ${opts.drawnFigure.noun}." — and ask about something it shows.`,
       '',
     )
   } else if (figure) {
