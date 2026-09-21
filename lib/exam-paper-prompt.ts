@@ -137,10 +137,25 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
           'Each object: {"id":<number>,"type":"mcq","question":"Draw a ring around ...","options":["...","...","...","..."],"correct_answer":<0-3>,"explanation":"<one sentence telling the LEARNER why the answer is right, never what the question tests>","marks":1}',
           'No short_answer and no marking_criteria on a ringed question.',
         ]
+      : parts.every((p) => p.format === 'written')
+      ? [
+          // marking_criteria lives INSIDE the object, not in a line underneath
+          // it. Named only in an addendum it was simply left out, and a
+          // written answer with no mark scheme cannot be marked at all: 16 of
+          // them survived a Checkpoint sweep as the last broken fault standing.
+          'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"marking_criteria":["<one point per mark>","<one point per mark>"],"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
+          'marking_criteria is REQUIRED and must have exactly as many entries as the marks. No short_answer on a written question.',
+        ]
+      : parts.every((p) => p.format === 'short')
+      ? [
+          'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"short_answer":{"accepted":["<the answer>","<any other form a marker would accept>"],"numeric":<true only for a number>,"unit":"<only if the answer has one>"},"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
+          'short_answer is REQUIRED. No marking_criteria on a short question.',
+        ]
       : [
           'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
-          'plus "short_answer":{"accepted":["<the answer>","<any other form a marker would accept>"],"numeric":<true only for a number>,"unit":"<only if the answer has one>"}',
-          'or "marking_criteria":["<one point per mark>", ...] — whichever the part above calls for, never both.',
+          'A part marked SHORT also carries "short_answer":{"accepted":["<the answer>","<any other form a marker would accept>"],"numeric":<true only for a number>,"unit":"<only if the answer has one>"}',
+          'A part marked WRITTEN also carries "marking_criteria":["<one point per mark>","..."] with exactly as many entries as its marks.',
+          'Every object MUST carry one of the two. Never both, and never neither.',
         ]),
     '',
     `Pitch it at ${opts.level}. Use the words a marker would accept, not a textbook paragraph.`,

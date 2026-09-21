@@ -113,3 +113,36 @@ describe('what it tells the model', () => {
     expect(single).toContain('exactly 1 object')
   })
 })
+
+describe('the mark scheme lives in the template', () => {
+  it('puts marking_criteria inside the object for a written part', () => {
+    // Named only in a line underneath the template, it was simply left out,
+    // and a written answer with no mark scheme cannot be marked at all — the
+    // last broken fault standing in a Checkpoint sweep, 16 of them.
+    const p = buildExamPaperPrompt({
+      ...base,
+      parts: [{ part: null, marks: 3, format: 'written' }],
+    })
+    const template = p.split('\n').find((l) => l.startsWith('Each object:'))!
+    expect(template).toContain('"marking_criteria"')
+    expect(template).not.toContain('"short_answer"')
+  })
+
+  it('puts short_answer inside the object for a short part', () => {
+    const p = buildExamPaperPrompt({
+      ...base,
+      parts: [{ part: null, marks: 1, format: 'short' }],
+    })
+    const template = p.split('\n').find((l) => l.startsWith('Each object:'))!
+    expect(template).toContain('"short_answer"')
+    expect(template).not.toContain('"marking_criteria"')
+  })
+
+  it('demands one or the other when the parts are mixed', () => {
+    // Both cannot go in one template, so the rule has to be stated — but it
+    // is stated as a requirement on every object, not as an optional extra.
+    const p = buildExamPaperPrompt(base)
+    expect(p).toMatch(/MUST carry one of the two/)
+    expect(p).toMatch(/Never both, and never neither/)
+  })
+})
