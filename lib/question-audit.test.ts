@@ -440,3 +440,30 @@ describe('a command does not have to open the sentence', () => {
       .toContain('no-question-asked')
   })
 })
+
+describe('the arithmetic imperatives a Maths paper is made of', () => {
+  const lf = (question: string) => ({ type: 'longform', question, marks: 2, marking_criteria: ['a', 'b'], explanation: 'x' })
+
+  it('accepts them', () => {
+    // "Add 2/5 and 3/7. Show your working." was reported as asking nothing —
+    // a good question called broken by the check meant to protect it.
+    for (const stem of [
+      'Add $\frac{2}{5}$ and $\frac{3}{7}$. Show your working.',
+      'Subtract 18 from 45.',
+      'Round 3.267 to two decimal places.',
+      'Express 0.75 as a fraction in its simplest form.',
+      'Shade three quarters of the shape.',
+    ]) {
+      expect(codes([lf(stem)]), stem).not.toContain('no-question-asked')
+    }
+  })
+
+  it('still catches the scenarios that really ask nothing', () => {
+    for (const stem of [
+      'A teacher writes a number on the board.',
+      'During a field study, a student observed that the population of rabbits was decreasing.',
+    ]) {
+      expect(codes([lf(stem)]), stem).toContain('no-question-asked')
+    }
+  })
+})

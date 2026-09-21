@@ -37,7 +37,7 @@ for (const line of fs.readFileSync('.env', 'utf8').split(/\r?\n/)) {
 
 import { auditPaper, summariseFindings, type AuditFinding } from '@/lib/question-audit'
 
-const BASE = process.env.GQ_BASE || 'http://localhost:3100'
+const BASE = process.env.GQ_BASE || 'http://localhost:3000'
 const COUNT = Number(process.env.GQ_COUNT || 6) || 6
 
 interface Case {

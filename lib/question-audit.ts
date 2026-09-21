@@ -398,7 +398,13 @@ function auditInteractive(q: Record<string, unknown>, i: number, out: AuditFindi
  * neither is a scenario that lost its question.
  */
 const COMMANDS =
-  '(?:write down|write|state|name|give|identify|list|calculate|work out|find|determine|explain|describe|compare|suggest|show that|draw a ring|tick|complete|convert|estimate|measure|label|choose|select|match|order|sort|solve|simplify|expand|factorise|plot|sketch|predict|evaluate|justify|discuss|outline|define|classify)'
+  '(?:write down|write|state|name|give|identify|list|calculate|work out|find|determine|explain|describe|compare|suggest|show|draw|tick|complete|convert|estimate|measure|label|choose|select|match|order|sort|solve|simplify|expand|factorise|plot|sketch|predict|evaluate|justify|discuss|outline|define|classify' +
+  // The arithmetic imperatives a Mathematics paper is mostly made of. Without
+  // them "Add 2/5 and 3/7. Show your working." was reported as asking nothing
+  // -- a perfectly good question, called broken by the check meant to protect
+  // it. A false alarm here costs more than the fault: it sends someone to
+  // read a question that was fine.
+  '|add|subtract|multiply|divide|round|express|shade|circle|underline|fill in|rearrange|substitute|prove|construct|count|arrange)'
 
 /** A command opening a sentence: "Write the number in expanded form." */
 const COMMAND_AT_START = new RegExp(String.raw`^${COMMANDS}\b`, 'i')
