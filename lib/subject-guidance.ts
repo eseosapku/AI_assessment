@@ -74,10 +74,12 @@ const LITERATURE_RULES = [
 ]
 
 const PHONICS_RULES = [
-  'EARLY PHONICS AND SOUNDS — exactly one option may fit the pattern you ask about.',
-  '  • Before writing a rhyme or sound question, test EVERY option against the pattern. "Which word has the same sound as \'cat\'?" over bat, hat, mat and sat has four right answers and is broken.',
-  '  • The three distractors must fail the pattern clearly: for "rhymes with cat", use hat plus dog, sun and pen — never three more -at words.',
-  '  • The same applies to first sounds, last sounds and middle sounds. Say each option aloud in your head and count how many fit. If the count is not exactly one, rewrite the distractors.',
+  'EARLY PHONICS AND SOUNDS — exactly one option may fit, and WHICH sound you ask about changes the whole option set.',
+  '  • Decide first which sound the question is about: the FIRST sound, the LAST sound (rhyme), or the MIDDLE sound. The right answer and all three distractors follow from that choice, and an option set built for one of them is wrong for the other two.',
+  '  • FIRST sound, e.g. "which word starts with the same sound as \'cat\'": the answer must begin with /k/ — cup, kite, car. Words that merely rhyme (hat, mat) are WRONG answers here.',
+  '  • LAST sound / rhyme, e.g. "which word rhymes with \'cat\'": exactly ONE option may end in -at. Use hat as the answer and dog, sun, pen as distractors — never three more -at words.',
+  '  • MIDDLE sound, e.g. "which word has the same middle sound as \'cat\'": exactly ONE option may carry the /a/. Use hat as the answer and dog, sun, pen as distractors — bat, fat and rat all have it too and make four right answers.',
+  '  • Then check: read the stem again, say each option aloud in your head, and count how many fit THAT sound. Not one — rewrite the distractors. Zero, because the options came from a different pattern, is just as broken as four.',
 ]
 
 /**

@@ -525,3 +525,25 @@ describe('the paper is shaped like the real one', () => {
     expect(written.demand).not.toContain('(2 marks)')
   })
 })
+
+describe('a paper that would otherwise come back short', () => {
+  it('seats every question while any slot remains', () => {
+    // The fault: one written answer arriving after the written slots were
+    // full used to end the loop, discarding the questions after it as well,
+    // while ring and tick slots sat empty. Papers came back one or two
+    // questions short with no explanation.
+    const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
+
+    // Every question is a written answer: the wrong shape for most slots.
+    const questions = paper.slots.map((_, i) => ({
+      id: i + 1,
+      type: 'longform',
+      question: `Explain the process in step ${i + 1}.`,
+      marks: 2,
+      marking_criteria: ['a', 'b'],
+      explanation: 'x',
+    }))
+
+    expect(applyBlueprint(questions, paper)).toHaveLength(paper.slots.length)
+  })
+})

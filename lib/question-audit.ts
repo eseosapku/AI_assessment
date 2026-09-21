@@ -169,17 +169,46 @@ const SOUND_STEM = new RegExp(
   'i',
 )
 
+/**
+ * The part of the target the question is actually asking about.
+ *
+ * A stem quotes a whole word — "the same middle sound as 'cat'" — but asks
+ * about one piece of it. Comparing against the whole word finds nothing, which
+ * is how a paper asking for the middle sound of 'cat' shipped with fat, hat,
+ * bat and rat as its four options and every one of them correct.
+ *
+ * Only the target is reduced; the option is matched on the same footing below.
+ */
+function targetSound(stem: string, t: string): { part: string; where: 'start' | 'end' | 'middle' } {
+  // A stem may quote the sound itself ("ends with the sound 'at'") rather than
+  // a word. One or two letters is a sound; more is a word to take apart.
+  const isWord = t.length > 2
+
+  // "begins with the sound", and also "the same STARTING sound as", which is
+  // how the stem is actually worded more often than not.
+  if (/\b(?:starts?|starting|begins?|beginning|first|initial)\s+(?:sound|letter|with)\b/i.test(stem)) {
+    return { part: isWord ? (/^[^aeiou]+/.exec(t)?.[0] ?? t[0]) : t, where: 'start' }
+  }
+  if (/middle\s+sound/i.test(stem)) {
+    return { part: isWord ? (/[aeiou]+/.exec(t)?.[0] ?? t.slice(1, -1)) : t, where: 'middle' }
+  }
+  // "ends with", and rhyme, both compare the rime: the target from its first
+  // vowel onward. "cat" -> "at", so bat, hat, mat and sat all fit.
+  return { part: isWord ? (/[aeiou].*$/.exec(t)?.[0] ?? t) : t, where: 'end' }
+}
+
 function fitsSoundPattern(stem: string, target: string, option: string): boolean {
   const o = option.toLowerCase().replace(/[^a-z]/g, '')
   const t = target.toLowerCase().replace(/[^a-z]/g, '')
   if (!o || !t) return false
-  if (/(?:begins?|starts?)\s+with/i.test(stem)) return o.startsWith(t)
-  if (/(?:ends?|finish(?:es)?)\s+with/i.test(stem)) return o.endsWith(t)
-  if (/middle\s+sound/i.test(stem)) return o.slice(1, -1).includes(t)
-  // Rhyme, or "the same sound as": compare the rime -- the target from its
-  // first vowel onward. "cat" -> "at", so bat/hat/mat/sat all fit.
-  const rime = /[aeiou].*$/.exec(t)?.[0] ?? t
-  return o !== t && o.endsWith(rime)
+
+  const { part, where } = targetSound(stem, t)
+  if (!part) return false
+
+  if (where === 'start') return o.startsWith(part)
+  if (where === 'middle') return (/[aeiou]+/.exec(o)?.[0] ?? '') === part
+  // A word never rhymes with itself in a question that asks which word rhymes.
+  return o !== t && o.endsWith(part)
 }
 
 function auditSoundPattern(q: Record<string, unknown>, i: number, options: unknown[], out: AuditFinding[]): void {
@@ -197,6 +226,19 @@ function auditSoundPattern(q: Record<string, unknown>, i: number, options: unkno
       severity: 'broken',
       index: i,
       detail: `${fitting.length} options fit "${target}": ${fitting.join(', ')}`,
+    })
+  }
+  if (fitting.length === 0) {
+    // The mirror fault, and it arrives the same way. A paper asked "Which word
+    // has the same STARTING sound as 'cat'?" over hat, dog, sun and pen —
+    // distractors built for a rhyme question — and marked 'hat' correct, with
+    // an explanation asserting that hat and cat begin alike. They do not, and
+    // the right answer is not on the page at all.
+    out.push({
+      code: 'no-option-fits',
+      severity: 'broken',
+      index: i,
+      detail: `no option fits "${target}": ${single.join(', ')}`,
     })
   }
 }

@@ -261,6 +261,37 @@ describe('the faults only a reader used to catch', () => {
     })])).toContain('several-options-fit')
   })
 
+  it('catches a phonics question with no correct answer at all', () => {
+    // Live: distractors built for a rhyme question, attached to a starting-
+    // sound stem, with 'hat' marked correct. Hat and cat do not begin alike,
+    // and the right answer is not on the page.
+    expect(codes([mcq({
+      question: "Which word has the same starting sound as 'cat'?",
+      options: ['hat', 'dog', 'sun', 'pen'],
+      correct_answer: 0,
+      explanation: 'Hat starts with the same sound as cat.',
+    })])).toContain('no-option-fits')
+  })
+
+  it('compares the sound the stem asks about, not the whole word', () => {
+    // "the middle sound as 'cat'" is asking about /a/, not about "cat". Against
+    // the whole word nothing matched and a paper shipped with fat, hat, bat and
+    // rat as its four options — every one of them correct.
+    expect(codes([mcq({
+      question: "Which word has the same middle sound as 'cat'?",
+      options: ['fat', 'hat', 'bat', 'rat'],
+      correct_answer: 2,
+      explanation: 'Bat has the middle sound a.',
+    })])).toContain('several-options-fit')
+
+    expect(codes([mcq({
+      question: "Which word ends with the same sound as 'bat'?",
+      options: ['dog', 'mat', 'sun', 'pen'],
+      correct_answer: 1,
+      explanation: 'Mat ends with the same sound as bat.',
+    })])).toEqual([])
+  })
+
   it('passes a phonics question with exactly one answer', () => {
     expect(codes([mcq({
       question: "Which word rhymes with 'cat'?",

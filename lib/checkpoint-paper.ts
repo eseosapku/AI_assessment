@@ -753,7 +753,18 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     const fallback = grid ? extended : ticks ? extended : choice ? brief : keyed ? extended : brief
     // A slot of the wrong kind is better than no slot: the question exists and
     // has to be worth something. The mark rule below keeps that honest.
-    const slot = preferred.shift() ?? fallback.shift()
+    //
+    // The last resort matters more than it looks. This used to stop at the
+    // fallback and `break`, which threw away every REMAINING question too —
+    // so one written answer arriving after the written slots were full ended
+    // the paper early while ring and tick slots sat empty. Measured on a real
+    // 0893/01 blueprint: 31 questions seated of 34. That is where the papers
+    // coming back one or two questions short were going.
+    const slot =
+      preferred.shift() ??
+      fallback.shift() ??
+      [extended, brief, ring, tick, table].find((pool) => pool.length > 0)?.shift()
+    // Only now is the paper genuinely full, and the surplus is dropped.
     if (!slot) break
 
     const picked = question as Record<string, unknown>
