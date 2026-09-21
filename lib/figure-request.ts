@@ -144,7 +144,10 @@ const DRAWABLES: readonly Drawable[] = [
   {
     kind: 'angles',
     menu: '{"kind":"angles","arrangement":"straight-line|around-point|parallel-lines|triangle","marks":[{"at":<degrees>,"label":<the number, or a letter to find>}, ...]} - 2-4 marks, totalling 180, or 360 around a point',
-    serves: ['angle', 'parallel', 'polygon', 'degree'],
+    // Not bare 'parallel': it matches "series and parallel circuits", and
+    // an angle diagram there is nonsense. "Angles in parallel lines"
+    // still matches, on 'angle'.
+    serves: ['angle', 'parallel line', 'polygon', 'degree'],
   },
   {
     kind: 'grid',

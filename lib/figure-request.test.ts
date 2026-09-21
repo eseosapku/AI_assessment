@@ -241,3 +241,14 @@ describe('a single good match is not diluted', () => {
     expect(p).toContain('"kind":"')
   })
 })
+
+describe('shapes that must not be offered', () => {
+  it('does not offer an angle diagram for a circuit question', () => {
+    expect(drawableKindsFor('series and parallel circuits', 'Science')).not.toContain('angles')
+    expect(drawableKindsFor('series and parallel circuits', 'Science')).toContain('circuit')
+  })
+
+  it('still offers one for angles in parallel lines', () => {
+    expect(drawableKindsFor('angles in parallel lines', 'Mathematics')).toContain('angles')
+  })
+})
