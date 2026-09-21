@@ -78,7 +78,22 @@ export function subjectForFigure(localPath: unknown): FigureSubject {
  */
 export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, stage?: number): boolean {
   const book = bookNameForFigure(localPath)
-  return figureFitsSubject(book, paperSubject) && figureFitsLevel(book, stage)
+  if (!figureFitsSubject(book, paperSubject) || !figureFitsLevel(book, stage)) return false
+
+  // On an English paper, a textbook illustration is never the right picture.
+  //
+  // Elsewhere a figure only has to be ABOUT the topic, and a coursebook
+  // drawing of a lever is about levers. English has no such licence: its
+  // figures belong to the PASSAGE, and the passage was written for this paper
+  // minutes ago, so no illustration in any library can belong to it. What
+  // survives that rule is the one thing that works — the notices, signs and
+  // adverts printed in the Cambridge ESL reading papers, which carry a
+  // question on their own ("Look at the notice. Where must you not park?").
+  //
+  // 150 pieces of course-book clipart are refused here. That is the intent.
+  if (/\benglish\b/i.test(String(paperSubject ?? '')) && !isExamFigure(localPath)) return false
+
+  return true
 }
 
 /** Test seam: forget the index so a fixture can be indexed instead. */
