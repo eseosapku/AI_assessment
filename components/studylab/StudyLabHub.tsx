@@ -624,6 +624,15 @@ function CreateModal({
   const [title, setTitle] = useState('')
   const [subject, setSubject] = useState(seedSubject)
   const [mode, setMode] = useState<'classic' | 'montessori'>('classic')
+  // Montessori ("Hands-on") is built but unfinished, so the product does not
+  // offer it: with this false the picker is not rendered and every new space
+  // is created classic, which is where the mode stood before it was first
+  // exposed. The code behind it ships dormant rather than being unpicked —
+  // it reaches into actions, types, blocks, boardSummary and checkpointState,
+  // and tearing it out would take StudyLab with it.
+  //
+  // Phase 2 turns this back on. Nothing else needs changing.
+  const OFFER_MONTESSORI = false
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | null>(null)
 
@@ -755,7 +764,7 @@ function CreateModal({
               className="w-full rounded-xl border-2 border-ss-line bg-transparent px-4 py-3 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none"
             />
           </div>
-          <div>
+          <div hidden={!OFFER_MONTESSORI}>
             <span className="mb-1.5 block text-xs font-black uppercase tracking-widest text-ss-slate" id="new-space-mode">
               How it teaches
             </span>

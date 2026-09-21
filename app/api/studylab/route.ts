@@ -84,7 +84,16 @@ export async function POST(request: NextRequest) {
     // it, not the request that happens to be running — a later turn reads it
     // back off this row, so nothing a client sends mid-lesson can switch a
     // lesson's mode out from under it.
-    if (body?.mode === 'montessori') {
+    //
+    // Montessori is built but unfinished, so the product does not create
+    // spaces in it. The hub stops offering the choice; this stops a request
+    // that asks for it anyway, because a hidden control is a product decision
+    // and not a guard. Existing montessori spaces are untouched — they read
+    // their mode back off their own row.
+    //
+    // Phase 2 lifts both together. See OFFER_MONTESSORI in StudyLabHub.tsx.
+    const OFFER_MONTESSORI = false
+    if (OFFER_MONTESSORI && body?.mode === 'montessori') {
       columns.push('mode')
       values.push('montessori')
     }
