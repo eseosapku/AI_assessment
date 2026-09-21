@@ -13,7 +13,7 @@
  * Server-only — it reads the image manifest from disk.
  */
 import { getDescribedImages } from './textbook-source-images'
-import { subjectOfBook, figureFitsSubject, type FigureSubject } from './figure-subject'
+import { subjectOfBook, figureFitsSubject, figureFitsLevel, type FigureSubject } from './figure-subject'
 
 let byPath: Map<string, string> | null = null
 
@@ -51,8 +51,9 @@ export function subjectForFigure(localPath: unknown): FigureSubject {
  * Unknown provenance is allowed through, so this can only ever remove figures
  * we can positively identify as belonging to another subject.
  */
-export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown): boolean {
-  return figureFitsSubject(bookNameForFigure(localPath), paperSubject)
+export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, stage?: number): boolean {
+  const book = bookNameForFigure(localPath)
+  return figureFitsSubject(book, paperSubject) && figureFitsLevel(book, stage)
 }
 
 /** Test seam: forget the index so a fixture can be indexed instead. */

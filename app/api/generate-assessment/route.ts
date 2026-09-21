@@ -25,8 +25,11 @@ import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences, danglingReference } from '@/lib/dangling-reference'
 import { subjectGuidance } from '@/lib/subject-guidance'
 import { dropUnmarkable } from '@/lib/unmarkable'
+import { dropUnanswerable } from '@/lib/answerable'
+import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper } from '@/lib/figure-provenance'
 import { figureNoun } from '@/lib/figure-noun'
+import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
 import { buildExamPaperPrompt, examCommandsFor, type ExamPartSpec } from '@/lib/exam-paper-prompt'
 import { repairBookReferences } from '@/lib/book-reference'
@@ -2152,7 +2155,7 @@ ${commandBlock}`
           // needs -- and was printed beside a Stage 9 Science question asking
           // the learner to name "the part labelled A". The description said
           // plainly that it was a psychological theory; nothing read it.
-          if (!figureAllowedOnPaper(fig.localPath, promptSubject)) return
+          if (!figureAllowedOnPaper(fig.localPath, promptSubject, Number(grade) || undefined)) return
           const text = `${fig.description} ${fig.category}`.toLowerCase()
           const score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
           if (score > bestScore) { bestScore = score; best = i }
@@ -2408,11 +2411,41 @@ ${commandBlock}`
         console.log(`Dropped ${dropped.length} question(s) referencing absent ${[...new Set(dropped)].join('/')}`)
       }
 
+      // A question naming something its figure does not contain.
+      //
+      // The generator never sees the image -- it is handed a written
+      // description -- so when it needs a detail the description does not
+      // give, it invents one. A stock illustration of a road was asked for
+      // "the size of angle C if angle D is 120 degrees"; a mitochondrion
+      // labelled Outer membrane and Cristae was asked to "name the part
+      // labelled A"; fifteen painted flowers were asked about "the number of
+      // cubes".
+      //
+      // The QUESTION goes, not the figure. Taking the figure away leaves
+      // "Look at the diagram" with no diagram, which is exactly as
+      // unanswerable -- swapping one broken question for another. Dropping
+      // here, before the paper is trimmed, lets the top-up write a new one.
+      const byPath = new Map(visualCatalog.map((c) => [c.localPath, c.description]))
+      const matched = (questions as any[]).filter((q) => {
+        const reasons = figureMismatchReasons(q, byPath.get(String(q?.image_url ?? '')))
+        if (!reasons.length) return true
+        console.log(`Dropped question: it ${reasons.join('; ')}`)
+        return false
+      })
+
       // A written answer with no mark scheme and no usable key is worth marks
       // nobody can award. Same class of fault as the stems above — a promise
       // the paper cannot keep — and dropped in the same place, while the
       // top-up loop can still refill the gap.
-      const markable = dropUnmarkable(kept as any[])
+      // A scenario with no question, or two demands in a one-word box. Both
+      // survived three rounds of prompt work and kept reaching real papers,
+      // so they are removed rather than described.
+      const answerable = dropUnanswerable(matched as any[])
+      if (answerable.dropped.length > 0) {
+        console.log(`Dropped ${answerable.dropped.length} unanswerable question(s): ${[...new Set(answerable.dropped)].join('; ')}`)
+      }
+
+      const markable = dropUnmarkable(answerable.kept as any[])
       if (markable.dropped > 0) {
         console.log(`Dropped ${markable.dropped} question(s) with nothing to mark against`)
       }
@@ -2555,7 +2588,7 @@ ${commandBlock}`
         let crossed = 0
         for (const q of assessmentData.questions as any[]) {
           if (!q?.image_url) continue
-          if (figureAllowedOnPaper(q.image_url, promptSubject)) continue
+          if (figureAllowedOnPaper(q.image_url, promptSubject, Number(grade) || undefined)) continue
           delete q.image_url
           crossed++
         }
@@ -2581,6 +2614,7 @@ ${commandBlock}`
         // prompt, which now states the rule explicitly and, since figures
         // carry their own keying guidance, has far less reason to produce one.
         const byKey = new Map(visualCatalog.map((c) => [c.localPath, c]))
+
         let detached = 0
         for (const q of assessmentData.questions as any[]) {
           if (!q?.image_url) continue
@@ -2630,6 +2664,12 @@ ${commandBlock}`
         assessmentData.questions = groupQuestionsByFigure(assessmentData.questions)
         assessmentData.questions.forEach((q: any, i: number) => { q.id = i + 1 })
       }
+    }
+
+    {
+      const tidied = tidyPaper(assessmentData.questions as any[])
+      assessmentData.questions = tidied.questions
+      if (tidied.removed > 0) console.log(`Removed ${tidied.removed} repeated figure(s)`)
     }
 
     // Strip internal generation fields (keep diagram hints for exam prep with visuals)

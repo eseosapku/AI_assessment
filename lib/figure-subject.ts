@@ -22,11 +22,13 @@
  * The book title is the signal that was there all along. A Business Studies
  * coursebook cannot illustrate a Science question, whatever words it shares.
  *
- * Level is deliberately NOT a hard gate. Most of the library is IGCSE and A
- * Level, and refusing it would empty the Checkpoint papers of figures — which
- * measurably made them worse. Subject is where the observed faults live; level
- * is a preference, and the prompt already tells the writer that the topic
- * governs and never to use vocabulary above the stage.
+ * Level started as a preference rather than a gate, on the grounds that most
+ * of the library is IGCSE and A Level and refusing it would empty the papers
+ * of figures. Half of that held: IGCSE at Stage 9 is a stretch a good question
+ * can carry. A Level was not — a first-ionisation-energy graph from an A Level
+ * Chemistry coursebook reached a fourteen-year-old's paper, and the prompt's
+ * instruction that "the topic governs, not the diagram" did not save it. See
+ * `figureFitsLevel`.
  */
 
 export type FigureSubject =
@@ -132,4 +134,22 @@ export function figureFitsSubject(bookName: unknown, paperSubject: unknown): boo
   if (!key) return true
 
   return ACCEPTS[key].includes(figure)
+}
+
+/**
+ * May a figure from this book appear on a paper at this stage?
+ *
+ * Subject was the gate that mattered first, and level was deliberately left
+ * open: most of the library is IGCSE and A Level, and refusing it would have
+ * emptied the papers of figures. That judgement was half right. An IGCSE
+ * figure at Stage 9 is a stretch a good question can carry; an AS/A Level one
+ * is not, and a first-ionisation-energy graph from an A Level Chemistry
+ * coursebook reached a fourteen-year-old's Checkpoint paper.
+ *
+ * So A Level is refused for Checkpoint and everything else is allowed. It
+ * costs the smallest slice of the library that removes the observed fault.
+ */
+export function figureFitsLevel(bookName: unknown, stage: number | undefined): boolean {
+  if (typeof stage !== 'number' || stage > 9) return true
+  return levelOfBook(bookName) !== 'a-level'
 }

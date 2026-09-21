@@ -298,26 +298,49 @@ function auditMcq(q: Record<string, unknown>, i: number, out: AuditFinding[]): v
 const SECOND_DEMAND =
   /\b(?:and\s+)?(?:explain|describe|justify|discuss|comment on|give\s+(?:a\s+)?reason|say\s+why|suggest\s+why)\b/i
 
-function auditShortAnswerScope(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
-  const key = q.short_answer as ShortAnswerKey | undefined
-  if (!key || !Array.isArray(key.accepted)) return
-  const marks = typeof q.marks === 'number' ? q.marks : 1
-  if (marks > 1) return
+/**
+ * Does this one-mark question ask for two answers?
+ *
+ * Two shapes, and the second was missed for a long time because it never uses
+ * the word "explain":
+ *
+ *   "State the medium where the speed of sound is highest. Explain why."
+ *   "Write down the blood vessel that carries blood from the heart. Write
+ *    down the name of the blood cell that carries oxygen."
+ *
+ * The second is two flat imperatives, so counting sentences that OPEN with a
+ * command catches it where a vocabulary list never could.
+ */
+export function asksTwoThings(q: Record<string, unknown> | unknown): boolean {
+  const rec = (q ?? {}) as Record<string, unknown>
+  const key = rec.short_answer as ShortAnswerKey | undefined
+  if (!key || !Array.isArray(key.accepted)) return false
+  const marks = typeof rec.marks === 'number' ? rec.marks : 1
+  if (marks > 1) return false
 
-  const stem = text(q.question)
-  if (!stem) return
+  const stem = text(rec.question)
+  if (!stem) return false
 
-  // The FIRST sentence may legitimately open with a command; a second demand
-  // is the fault, so look past the opening sentence.
-  const after = stem.split(/(?<=[.!?])\s+/).slice(1).join(' ')
+  const sentences = stem.split(/(?<=[.!?])\s+/).map((x) => x.trim()).filter(Boolean)
+  // Two imperatives is two questions, however politely they are worded.
+  if (sentences.filter((x) => COMMAND_AT_START.test(x)).length >= 2) return true
+
+  // The first sentence may legitimately open with a command; a second demand
+  // after it is the fault.
+  const after = sentences.slice(1).join(' ')
   const target = after || stem.replace(/^[^.!?]*[.!?]\s*/, '')
-  if (!target.trim() || !SECOND_DEMAND.test(target)) return
+  return Boolean(target.trim()) && SECOND_DEMAND.test(target)
+}
+
+function auditShortAnswerScope(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
+  if (!asksTwoThings(q)) return
+  const stem = text(q.question)
 
   out.push({
     code: 'short-answer-asks-two-things',
     severity: 'broken',
     index: i,
-    detail: `one-mark short answer also asks to explain: "${stem.slice(0, 70)}"`,
+    detail: `one-mark short answer asks for two answers: "${stem.slice(0, 70)}"`,
   })
 }
 
@@ -420,7 +443,7 @@ const COMMAND_AT_START = new RegExp(String.raw`^${COMMANDS}\b`, 'i')
  */
 const COMMAND_AFTER_CLAUSE = new RegExp(String.raw`[,;]\s+${COMMANDS}\b`, 'i')
 
-function asksNothing(stem: string): boolean {
+export function asksNothing(stem: string): boolean {
   if (/\?/.test(stem)) return false
   // The command word has to START a sentence, or "the students were discussing
   // human reproduction" would read as a command to discuss.
