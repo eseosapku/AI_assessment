@@ -481,6 +481,11 @@ function auditRepeatedScenario(list: unknown[], out: AuditFinding[]): void {
     // The first sentence, which is where a shared scenario sits.
     const first = /^[^.!?]{12,120}[.!?]/.exec(stem)?.[0]?.trim()
     if (!first) return
+    // "Look at the diagram." is a pointer, not a scenario. Five questions in
+    // one paper opened with it and were reported as sharing a scenario, which
+    // is exactly the kind of false alarm that sends someone to read five
+    // perfectly good questions.
+    if (/^(?:look at|study|examine|refer to|consider)\s+(?:the|this)\s+\w+\.?$/i.test(first)) return
     const key = first.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ')
     if (!openings.has(key)) openings.set(key, [])
     openings.get(key)!.push(i)

@@ -52,7 +52,12 @@ const PROMISES: readonly Promise_[] = [
   // "Look at the diagram." was the single commonest unattached promise in a
   // Checkpoint sweep — 35 of them — and it matched nothing here, because the
   // patterns above all want a position word or a verb after the noun.
-  { kind: 'figure', pattern: /\b(?:look\s+at|study|examine|consider)\s+(?:the|this|these)\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map)\b/i },
+  // "table" belongs here as well as in the table promise below. "Look at the
+  // table. Calculate the number of tomatoes that weigh more than 100 g." was
+  // the commonest unattached promise left after the last pass, and it matched
+  // nothing: this pattern had every figure noun except table, and the table
+  // promise wants a position word ("the table above") that this shape lacks.
+  { kind: 'figure', pattern: /\b(?:look\s+at|study|examine|consider)\s+(?:the|this|these)\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map|table)\b/i },
   { kind: 'table', pattern: /\b(?:the )?table\s+(?:above|below|shown|shows?)\b/i },
   { kind: 'passage', pattern: /\b(?:the )?(?:passage|extract|text|article)\s+(?:above|below|shown)\b/i },
 ]

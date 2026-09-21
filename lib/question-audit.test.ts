@@ -467,3 +467,20 @@ describe('the arithmetic imperatives a Maths paper is made of', () => {
     }
   })
 })
+
+describe('a pointer is not a scenario', () => {
+  it('does not report five questions sharing "Look at the diagram."', () => {
+    // Reported as a repeated scenario across a real paper. It is the generic
+    // opener for any illustrated question, and flagging it sends someone to
+    // read five perfectly good questions.
+    const paper = ['Name the organelle.', 'State its function.', 'Calculate the area.', 'Work out the mean.', 'Explain the trend.']
+      .map((tail) => ({ type: 'longform', marks: 1, marking_criteria: ['x'], explanation: 'y', image_url: '/f.png', question: `Look at the diagram. ${tail}` }))
+    expect(codes(paper)).not.toContain('scenario-repeated-across-paper')
+  })
+
+  it('still reports a real scenario bolted across the paper', () => {
+    const paper = ['Work out the coordinates.', 'Find the 5th term.', 'Calculate the LCM.', 'Work out the area.']
+      .map((tail) => ({ type: 'longform', marks: 1, marking_criteria: ['x'], explanation: 'y', question: `Iron chains are left outside in the rain. ${tail}` }))
+    expect(codes(paper)).toContain('scenario-repeated-across-paper')
+  })
+})

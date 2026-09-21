@@ -171,3 +171,16 @@ describe('a maths function is not a missing code snippet', () => {
     }
   })
 })
+
+describe('the table nobody attached', () => {
+  it('catches "Look at the table" with no table', () => {
+    // The commonest unattached promise left after the figure work: this
+    // pattern had every figure noun except table.
+    expect(danglingReference({ question: 'Look at the table. Calculate the number of tomatoes that weigh more than 100 g.' }))
+      .toBe('figure')
+  })
+
+  it('is satisfied when the table is attached as an image', () => {
+    expect(danglingReference({ question: 'Look at the table. Calculate the total.', image_url: '/t.png' })).toBeNull()
+  })
+})
