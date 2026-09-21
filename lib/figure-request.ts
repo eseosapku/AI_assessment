@@ -26,66 +26,43 @@ export interface DrawnFigure {
 }
 
 /**
- * Is it worth asking for a spec at all?
+ * Whether anything on the menu fits this focus.
  *
- * The ask is a model call, one per figure slot, and most of them are wasted:
- * nothing here draws a cell, a circuit, a map or a food chain, so the reply is
- * "none" and the paper falls back to the library anyway. A Science paper has
- * about fifteen figure slots and perhaps three are drawable.
- *
- * So the focus is read first. Cheap, and wrong only in the safe direction —
- * a focus this does not recognise simply keeps the library figure it already
- * had, which is the behaviour that existed before any of this.
+ * This used to be its own list of keywords, maintained beside the menu and
+ * drifting from it: the menu grew circuits, force diagrams, food chains and
+ * apparatus, and this still said a Physics focus was undrawable, so every one
+ * of them was skipped before the menu was ever consulted. Two lists that must
+ * agree are one list, so it reads the menu.
  */
-const DRAWABLE_FOCUS = new RegExp(
-  [
-    // polygons and dimensioned shapes
-    String.raw`\b(?:polygon|triangle|quadrilateral|rectangle|trapezium|perimeter|area of|compound shape|angles? in|right angle|scale drawing|pythagoras|properties of 3d|properties of shapes)\b`,
-    // plotted and charted data
-    String.raw`\b(?:graph|chart|plot|axes|bar chart|frequency|results table|line of best fit|relationship between)\b`,
-    // probability apparatus
-    String.raw`\b(?:spinner|probability|outcome|chance|fair (?:dice|die|coin))\b`,
-    // the number line
-    String.raw`\b(?:number line|negative numbers|place value|ordering numbers|rounding)\b`,
-    // the scientific-method foci that end in a plotted result
-    String.raw`\b(?:pattern in a set of results|drawing a conclusion|anomalous result|present a set of results)\b`,
-  ].join('|'),
-  'i',
-)
-
-export function worthDrawing(focus: unknown): boolean {
-  const f = String(focus ?? '')
-  return f.trim().length > 0 && DRAWABLE_FOCUS.test(f)
+export function worthDrawing(focus: unknown, subject = ''): boolean {
+  return drawableKindsFor(focus, subject).length > 0
 }
 
-/** What a question refers to a figure of this kind AS. */
+/**
+ * What a question refers to a figure of this kind AS.
+ *
+ * Keyed on the kind string rather than the spec, because the approved library
+ * stores the kind and not the spec that drew it -- the spec was how the
+ * picture was made and nothing downstream reads it.
+ */
 export function nounForKind(kind: string): string {
   switch (kind) {
     case 'graph': return 'graph'
     case 'barchart': return 'bar chart'
+    case 'piechart': return 'pie chart'
     case 'numberline': return 'number line'
+    case 'datatable': return 'table'
+    case 'circuit': return 'circuit diagram'
+    case 'foodchain': return 'food chain'
+    case 'grid': return 'grid'
     default: return 'diagram'
   }
 }
 
 function nounFor(spec: FigureSpec): string {
-  switch (spec.kind) {
-    case 'graph': return 'graph'
-    case 'barchart': return 'bar chart'
-    case 'numberline': return 'number line'
-    case 'spinners': return 'diagram'
-    case 'polygon': return 'diagram'
-    case 'choice': return 'diagram'
-  }
+  return nounForKind(spec.kind)
 }
 
-/**
- * The prompt that asks for a spec.
- *
- * Says what can be drawn and refuses to pretend otherwise: a model asked for
- * "a diagram of a plant cell" will happily describe one, and nothing here can
- * draw it. Better an honest "none" and a figure from the library.
- */
 /**
  * Settings to hang a figure's data on.
  *
@@ -109,31 +86,174 @@ export const FIGURE_SETTINGS: readonly string[] = [
   'time spent on homework', 'masses of parcels at a post office',
 ]
 
+/**
+ * Every drawable shape, and what each one is FOR.
+ *
+ * The menu is chosen per question rather than printed whole, for two reasons
+ * that turn out to be one reason. The prompt has a hard size budget --
+ * adherence measurably falls apart as it grows -- and fourteen shapes will not
+ * fit. And a Physics focus offered a spinner sometimes takes it: "the particle
+ * model of solids, liquids and gases" came back as a six-sided spinner, which
+ * is on the menu, drawable, and nonsense.
+ *
+ * So each entry carries the topics it serves, and a question is shown only the
+ * few shapes that could plausibly answer it.
+ */
+interface Drawable {
+  kind: string
+  /** The JSON shape, written as slots. Never filled in -- see the commit log. */
+  menu: string
+  /**
+   * Word STEMS this shape serves, compiled by `servesRe` below.
+   *
+   * A list rather than a regex because the hand-written regexes were wrong in
+   * two ways at once and neither was visible. `\bfood chain\b` does not match
+   * "food chains" -- the plural kills the trailing boundary -- and `\bmeasur\b`
+   * cannot match anything at all, since there is no word boundary in the
+   * middle of "measuring". Half the entries below were dead on arrival, which
+   * is exactly the fault this codebase keeps hitting: a rule that cannot fire
+   * looks identical to a rule that is never needed.
+   */
+  serves: readonly string[]
+}
+
+/**
+ * A stem matches its own word and anything built on it: "force" matches
+ * "forces", "measur" matches "measures" and "measuring", and the trailing
+ * boundary that broke both is gone.
+ */
+const RE_CACHE = new Map<readonly string[], RegExp>()
+function servesRe(stems: readonly string[]): RegExp {
+  // Memoised on the list itself. Compiled fresh, fourteen regexes per focus,
+  // a coverage sweep over 189 foci took two minutes — and this runs once per
+  // question on the request path.
+  let re = RE_CACHE.get(stems)
+  if (!re) {
+    re = new RegExp(`\\b(?:${stems.join('|')})[a-z]*\\b`, 'i')
+    RE_CACHE.set(stems, re)
+  }
+  return re
+}
+
+const DRAWABLES: readonly Drawable[] = [
+  {
+    kind: 'polygon',
+    menu: '{"kind":"polygon","sides":3 or 4,"shape":"trapezium|rectangle|right|scalene","edges":[<length with unit>, one per side clockwise from the top],"rightAngle":"bottom-left|bottom-right|none"}',
+    serves: ['polygon', 'triangle', 'quadrilateral', 'rectangle', 'trapezium', 'perimeter', 'area', 'compound shape', 'right angle', 'pythagoras'],
+  },
+  {
+    kind: 'angles',
+    menu: '{"kind":"angles","arrangement":"straight-line|around-point|parallel-lines|triangle","marks":[{"at":<degrees>,"label":<the number, or a letter to find>}, ...]} - 2-4 marks, totalling 180, or 360 around a point',
+    serves: ['angle', 'parallel', 'polygon', 'degree'],
+  },
+  {
+    kind: 'grid',
+    menu: '{"kind":"grid","max":<2-20>,"quadrants":1 or 4,"points":[{"x":<n>,"y":<n>,"label":<letter>}, ...],"joined":true to join them into a shape}',
+    serves: ['coordinate', 'quadrant', 'straight line', 'equation of', 'reflection', 'rotation', 'translation', 'transformation', 'plot'],
+  },
+  {
+    kind: 'spinners',
+    menu: '{"kind":"spinners","count":1 or 2,"sides":<3-10>,"fills":[<"white" or "grey">, one per spinner]}',
+    serves: ['spinner', 'probability', 'outcome', 'chance', 'fair dice', 'fair die', 'fair coin', 'relative frequency'],
+  },
+  {
+    kind: 'graph',
+    menu: '{"kind":"graph","x":{"label":<what is measured, with unit>,"min":<n>,"max":<n>,"step":<n>},"y":{same},"points":[[<x>,<y>], ...]}',
+    serves: ['graph', 'plot', 'axes', 'line of best fit', 'relationship between', 'pattern in a set of results', 'anomalous', 'conclusion'],
+  },
+  {
+    kind: 'barchart',
+    menu: '{"kind":"barchart","y":{"label":<what is counted>,"min":<n>,"max":<n>,"step":<n>},"bars":[{"label":<category>,"value":<n>}, ...],"xLabel":<what the categories are>}',
+    serves: ['bar chart', 'chart', 'frequency', 'data', 'average', 'mean', 'median', 'mode', 'range', 'compar'],
+  },
+  {
+    kind: 'piechart',
+    menu: '{"kind":"piechart","slices":[{"label":<category>,"value":<n>}, ...],"title":<what it shows>} - 2-6 slices',
+    serves: ['pie chart', 'proportion', 'percentage', 'fraction of', 'share', 'data'],
+  },
+  {
+    kind: 'datatable',
+    menu: '{"kind":"datatable","columns":[<2-4 headings>],"rows":[[<cell>, one per column], ...],"title":<what it shows>} - 2-6 rows',
+    serves: ['table', 'result', 'record', 'data', 'frequency', 'survey', 'measur', 'compar'],
+  },
+  {
+    kind: 'numberline',
+    menu: '{"kind":"numberline","min":<n>,"max":<n>,"step":<n>,"marks":[{"at":<n>,"label":<letter or number>}, ...]} - one to three marks, not one per division',
+    serves: ['number line', 'negative number', 'place value', 'ordering', 'rounding', 'decimal', 'integer', 'scale'],
+  },
+  {
+    kind: 'choice',
+    menu: '{"kind":"choice","options":[{"angles":[<a>,<b>,<c>]}, ...]} - 2-4 triangles side by side, lettered A on, for a "which one" question. Each set totals 180.',
+    serves: ['triangle', 'which one', 'identify', 'classify', 'properties of shape'],
+  },
+  {
+    kind: 'circuit',
+    menu: '{"kind":"circuit","arrangement":"series|parallel","components":[{"type":"lamp|resistor|switch|ammeter|voltmeter|motor","label":<e.g. A1>}, ...],"supply":<e.g. 6 V>} - 1-3 components',
+    serves: ['circuit', 'current', 'voltage', 'resistance', 'electric', 'lamp', 'battery', 'series', 'parallel', 'conductor'],
+  },
+  {
+    kind: 'forces',
+    menu: '{"kind":"forces","object":<what the arrows act on>,"arrows":[{"direction":"up|down|left|right","label":<e.g. weight 12 N>}, ...],"surface":<what it rests on, if that matters>} - 2-4 arrows, one per direction',
+    serves: ['force', 'friction', 'weight', 'gravity', 'balanced', 'unbalanced', 'air resistance', 'push', 'pull', 'motion', 'moving', 'float', 'sink', 'pressure'],
+  },
+  {
+    kind: 'foodchain',
+    menu: '{"kind":"foodchain","organisms":[<3-5 organisms, in the order energy flows>]}',
+    serves: ['food chain', 'food web', 'predator', 'prey', 'producer', 'consumer', 'energy flow', 'ecosystem', 'interdependence', 'habitat'],
+  },
+  {
+    kind: 'apparatus',
+    menu: '{"kind":"apparatus","vessel":"beaker|tray|cylinder|tube","contents":<what is in it>,"ruler":true for a scale beside it,"dropped":<something held above>,"labels":[<1-4 parts, lettered A, B, C>]}',
+    serves: ['apparatus', 'experiment', 'investigat', 'equipment', 'method', 'fair test', 'volume', 'mass', 'temperature', 'dissolv', 'evaporat', 'filter', 'separat', 'crater', 'measur'],
+  },
+]
+
+/** Which shapes are worth offering for this focus. */
+function menuFor(focus: string, subject: string): Drawable[] {
+  const hay = `${focus} ${subject}`
+  const fits = DRAWABLES.filter((d) => servesRe(d.serves).test(hay))
+  // Five is the most the size budget takes. Fewer than two and the model has
+  // no real choice, so the general-purpose shapes make up the difference.
+  if (fits.length >= 2) return fits.slice(0, 5)
+  const general = DRAWABLES.filter((d) => ['barchart', 'datatable', 'graph'].includes(d.kind))
+  return [...fits, ...general.filter((d) => !fits.includes(d))].slice(0, 4)
+}
+
+/**
+ * The shapes that fit this focus, for callers deciding whether to ask at all.
+ *
+ * English draws nothing, whatever the words say. Three Reading foci matched
+ * on "table" and "compar", and a bar chart printed beside a comprehension is
+ * the Amelia fault from the other direction: an English figure has to belong
+ * to the PASSAGE, and a drawn one never can.
+ */
+export function drawableKindsFor(focus: unknown, subject = ''): string[] {
+  const f = String(focus ?? '')
+  if (!f.trim()) return []
+  if (/\benglish\b|\besl\b|\bliterature\b/i.test(subject)) return []
+  const hay = `${f} ${subject}`
+  return DRAWABLES.filter((d) => servesRe(d.serves).test(hay)).map((d) => d.kind)
+}
+
 export function buildFigureSpecPrompt(
   subject: string,
   level: string,
   focus: string,
   setting?: string,
 ): string {
+  const menu = menuFor(focus, subject)
   return [
     `A ${subject} question at ${level} about: ${focus}.`,
-    'If a printed figure would help, describe ONE as a single JSON object. If it would not, or if the figure needed is not in the list below, return {"kind":"none"}.',
+    'If a printed figure would help, describe ONE as a single JSON object. If it would not, or if the figure needed is not below, return {"kind":"none"}.',
     '',
-    'The only figures that can be drawn. Every <...> is a slot to fill:',
-    '{"kind":"polygon","sides":3 or 4,"shape":"trapezium|rectangle|right|scalene","edges":[<length with unit>, ... one per side, clockwise from the top],"rightAngle":"bottom-left|bottom-right|none"}',
-    '{"kind":"spinners","count":1 or 2,"sides":<3-10>,"fills":[<"white" or "grey">, ... one per side]}',
-    '{"kind":"graph","x":{"label":<what is measured, with unit>,"min":<n>,"max":<n>,"step":<n>},"y":{same},"points":[[<x>,<y>], ...]}',
-    '{"kind":"barchart","y":{"label":<what is counted>,"min":<n>,"max":<n>,"step":<n>},"bars":[{"label":<category>,"value":<n>}, ...],"xLabel":<what the categories are>}',
-    '{"kind":"numberline","min":<n>,"max":<n>,"step":<n>,"marks":[{"at":<n>,"label":<letter or number>}, ...]}',
-    '{"kind":"choice","options":[{"angles":[<a>,<b>,<c>]}, ...]} — 2-4 triangles side by side, lettered A on, for a "which one" question. Each set totals 180.',
-    '',
+    'What can be drawn. Every <...> is a slot to fill:',
+    ...menu.map((d) => d.menu),
     '',
     `The figure must be ABOUT ${focus}; one that is not is worse than none.`,
-    'Cells, circuits, maps, apparatus, food chains, particles and the water',
-    'cycle cannot be drawn here: for those, {"kind":"none"}.',
-    'Every point sits inside its own axes. Labels name real things — the four',
-    'metals, the four sports — never "Category A", "Item 1" or "Trial number".',
-    'A number line carries one to three marks, not one per division.',
+    'Cells, maps, the water cycle and the particle model cannot be drawn here:',
+    'for those, {"kind":"none"}.',
+    'Labels name real things - the four metals, the four sports - never',
+    '"Category A", "Item 1" or "Trial number". Every point sits inside its axes.',
     ...(setting ? [`Where the figure carries data, make it about: ${setting}.`] : []),
     'Return ONLY the JSON object.',
   ].join('\n')

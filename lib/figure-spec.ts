@@ -95,10 +95,135 @@ export interface ChoiceSpec {
   options: { angles: [number, number, number]; sideLabels?: string[] }[]
 }
 
+/**
+ * The shapes added after seven hundred drafts turned out to be six pictures.
+ *
+ * The first six kinds served 25 of the 189 Checkpoint foci and 20 of those 25
+ * were Mathematics, so the library came back 65% bar charts and the verdict on
+ * it was "these are basically all the same kind of thing". A bar chart of pets
+ * and a bar chart of sports are one figure with different words; variety of
+ * LABELS is not variety of FIGURES.
+ *
+ * These seven are chosen for what they unlock rather than for what is easy:
+ * Physics gets circuits and force diagrams, Biology gets food chains,
+ * Statistics gets something that is not a bar chart, Geometry gets a grid and
+ * an angle diagram, and the scientific-method strand gets the apparatus
+ * drawing that started all of this -- the marble, the sand and the ruler.
+ */
+
+/** A slice chart. The one Statistics figure that is not a bar chart. */
+export interface PieChartSpec {
+  kind: 'piechart'
+  /** Slices, in order clockwise from twelve o'clock. 2-6 of them. */
+  slices: { label: string; value: number }[]
+  title?: string
+}
+
+/**
+ * A table of results, which is what most of a real paper's data arrives in.
+ *
+ * Drawn rather than written as markdown because the question is printed
+ * beside it: a table the learner reads off is a figure, and one that arrives
+ * as text in the stem is the thing the stem was supposed to stop doing.
+ */
+export interface DataTableSpec {
+  kind: 'datatable'
+  /** Column headings, 2-4 of them. */
+  columns: string[]
+  /** Rows, each as many cells as there are columns. 2-6 rows. */
+  rows: string[][]
+  title?: string
+}
+
+/** A circuit: a battery and components in one loop, or in two branches. */
+export interface CircuitSpec {
+  kind: 'circuit'
+  arrangement: 'series' | 'parallel'
+  /**
+   * What sits in the loop, in order. 1-3 of them; a parallel circuit puts
+   * them on separate branches.
+   */
+  components: { type: 'lamp' | 'resistor' | 'switch' | 'ammeter' | 'voltmeter' | 'motor'; label?: string }[]
+  /** Printed beside the cell, e.g. "6 V". */
+  supply?: string
+}
+
+/** A block with force arrows on it. The Physics figure, and unmistakable. */
+export interface ForcesSpec {
+  kind: 'forces'
+  /** What the arrows act on. */
+  object: string
+  /** One arrow per direction named. 2-4 of them. */
+  arrows: { direction: 'up' | 'down' | 'left' | 'right'; label: string }[]
+  /** Drawn under the block when the surface matters (friction, sliding). */
+  surface?: string
+}
+
+/** Boxes and arrows: producer to consumer to consumer. */
+export interface FoodChainSpec {
+  kind: 'foodchain'
+  /** 3-5 organisms, in the order energy flows. */
+  organisms: string[]
+}
+
+/**
+ * A coordinate grid with points, and optionally a shape joining them.
+ *
+ * Covers coordinates, straight lines, and the transformations -- which
+ * between them are a good slice of what Geometry actually examines and none
+ * of which any of the first six shapes could draw.
+ */
+export interface GridSpec {
+  kind: 'grid'
+  /** Axis range. Symmetric about zero when `quadrants` is 4. */
+  max: number
+  quadrants: 1 | 4
+  /** Plotted points, each optionally lettered. 1-6 of them. */
+  points: { x: number; y: number; label?: string }[]
+  /** Join the points into a closed shape, for the transformation questions. */
+  joined?: boolean
+}
+
+/** Two lines meeting, or a transversal across parallels. */
+export interface AnglesSpec {
+  kind: 'angles'
+  arrangement: 'straight-line' | 'around-point' | 'parallel-lines' | 'triangle'
+  /**
+   * The angles marked, each a number of degrees or a letter to find.
+   * 2-4 of them.
+   */
+  marks: { at: number; label: string }[]
+}
+
+/**
+ * Laboratory apparatus, drawn side-on and labelled.
+ *
+ * This is the figure that was asked for by name -- "the marble/crater
+ * apparatus" -- and the one the first six shapes could not produce at all.
+ */
+export interface ApparatusSpec {
+  kind: 'apparatus'
+  /** The vessel the experiment happens in. */
+  vessel: 'beaker' | 'tray' | 'cylinder' | 'tube'
+  /** What is in it, e.g. "sand", "water". */
+  contents?: string
+  /** A ruler standing beside it, for a height or depth reading. */
+  ruler?: boolean
+  /** Something held above, e.g. "marble". */
+  dropped?: string
+  /** Leader-line labels, 1-4, each naming a part. */
+  labels: string[]
+}
+
 export type FigureSpec =
   | PolygonSpec | SpinnerSpec | GraphSpec | BarChartSpec | NumberLineSpec | ChoiceSpec
+  | PieChartSpec | DataTableSpec | CircuitSpec | ForcesSpec | FoodChainSpec | GridSpec
+  | AnglesSpec | ApparatusSpec
 
-export const DRAWABLE_KINDS = ['polygon', 'spinners', 'graph', 'barchart', 'numberline', 'choice'] as const
+export const DRAWABLE_KINDS = [
+  'polygon', 'spinners', 'graph', 'barchart', 'numberline', 'choice',
+  'piechart', 'datatable', 'circuit', 'forces', 'foodchain', 'grid', 'angles', 'apparatus',
+] as const
 
 function num(v: unknown): number | null {
   const n = typeof v === 'number' ? v : Number(v)
@@ -238,6 +363,147 @@ export function parseFigureSpec(raw: unknown): FigureSpec | null {
     return { kind: 'choice', options }
   }
 
+  if (kind === 'piechart') {
+    const raws = Array.isArray(o.slices) ? o.slices : []
+    const slices: { label: string; value: number }[] = []
+    for (const r of raws) {
+      if (!r || typeof r !== 'object') continue
+      const label = str((r as Record<string, unknown>).label)
+      const value = num((r as Record<string, unknown>).value)
+      if (!label || value === null || value <= 0) continue
+      slices.push({ label, value })
+    }
+    // Two slices is a chart; one is a circle, and seven is unreadable at the
+    // size a paper prints it.
+    if (slices.length < 2 || slices.length > 6) return null
+    return { kind: 'piechart', slices, title: str(o.title) || undefined }
+  }
+
+  if (kind === 'datatable') {
+    const columns = (Array.isArray(o.columns) ? o.columns : []).map(str).filter(Boolean)
+    if (columns.length < 2 || columns.length > 4) return null
+    const raws = Array.isArray(o.rows) ? o.rows : []
+    const rows: string[][] = []
+    for (const r of raws) {
+      if (!Array.isArray(r)) continue
+      const cells = r.map(str)
+      // A ragged row draws a broken table. Pad a short one, refuse a long
+      // one: the first is an omission, the second means the model was
+      // describing a different table than its own headings.
+      if (cells.length > columns.length) return null
+      while (cells.length < columns.length) cells.push('')
+      rows.push(cells)
+    }
+    if (rows.length < 2 || rows.length > 6) return null
+    return { kind: 'datatable', columns, rows, title: str(o.title) || undefined }
+  }
+
+  if (kind === 'circuit') {
+    const arrangement = str(o.arrangement) === 'parallel' ? 'parallel' : 'series'
+    const TYPES = ['lamp', 'resistor', 'switch', 'ammeter', 'voltmeter', 'motor'] as const
+    const raws = Array.isArray(o.components) ? o.components : []
+    const components: CircuitSpec['components'] = []
+    for (const r of raws) {
+      if (!r || typeof r !== 'object') continue
+      const t = str((r as Record<string, unknown>).type).toLowerCase()
+      const type = TYPES.find((x) => x === t)
+      if (!type) continue
+      components.push({ type, label: str((r as Record<string, unknown>).label) || undefined })
+    }
+    if (components.length < 1 || components.length > 3) return null
+    if (arrangement === 'parallel' && components.length < 2) return null
+    return { kind: 'circuit', arrangement, components, supply: str(o.supply) || undefined }
+  }
+
+  if (kind === 'forces') {
+    const object = str(o.object)
+    if (!object) return null
+    const DIRS = ['up', 'down', 'left', 'right'] as const
+    const raws = Array.isArray(o.arrows) ? o.arrows : []
+    const arrows: ForcesSpec['arrows'] = []
+    const used = new Set<string>()
+    for (const r of raws) {
+      if (!r || typeof r !== 'object') continue
+      const d = str((r as Record<string, unknown>).direction).toLowerCase()
+      const direction = DIRS.find((x) => x === d)
+      const label = str((r as Record<string, unknown>).label)
+      // Two arrows the same way sit on top of each other.
+      if (!direction || !label || used.has(direction)) continue
+      used.add(direction)
+      arrows.push({ direction, label })
+    }
+    if (arrows.length < 2 || arrows.length > 4) return null
+    return { kind: 'forces', object, arrows, surface: str(o.surface) || undefined }
+  }
+
+  if (kind === 'foodchain') {
+    const organisms = (Array.isArray(o.organisms) ? o.organisms : []).map(str).filter(Boolean)
+    if (organisms.length < 3 || organisms.length > 5) return null
+    return { kind: 'foodchain', organisms }
+  }
+
+  if (kind === 'grid') {
+    const max = num(o.max)
+    if (max === null || max < 2 || max > 20) return null
+    const quadrants = num(o.quadrants) === 4 ? 4 : 1
+    const raws = Array.isArray(o.points) ? o.points : []
+    const points: GridSpec['points'] = []
+    const lo = quadrants === 4 ? -max : 0
+    for (const r of raws) {
+      if (!r || typeof r !== 'object') continue
+      const x = num((r as Record<string, unknown>).x)
+      const y = num((r as Record<string, unknown>).y)
+      if (x === null || y === null) continue
+      // A point off the grid is the graph fault again: the question is
+      // written to a coordinate the learner cannot see.
+      if (x < lo || x > max || y < lo || y > max) return null
+      points.push({ x, y, label: str((r as Record<string, unknown>).label) || undefined })
+    }
+    if (points.length < 1 || points.length > 6) return null
+    const joined = o.joined === true
+    if (joined && points.length < 3) return null
+    return { kind: 'grid', max, quadrants, points, joined: joined || undefined }
+  }
+
+  if (kind === 'angles') {
+    const ARR = ['straight-line', 'around-point', 'parallel-lines', 'triangle'] as const
+    const arrangement = ARR.find((x) => x === str(o.arrangement))
+    if (!arrangement) return null
+    const raws = Array.isArray(o.marks) ? o.marks : []
+    const marks: AnglesSpec['marks'] = []
+    for (const r of raws) {
+      if (!r || typeof r !== 'object') continue
+      const at = num((r as Record<string, unknown>).at)
+      const label = str((r as Record<string, unknown>).label)
+      if (at === null || !label) continue
+      if (at <= 0 || at >= 360) return null
+      marks.push({ at, label })
+    }
+    if (marks.length < 2 || marks.length > 4) return null
+    const total = marks.reduce((t, m) => t + m.at, 0)
+    // The geometry has to hold, or the question has no answer. Angles on a
+    // line make 180 and a triangle's do too; around a point they make 360.
+    const want = arrangement === 'around-point' ? 360 : arrangement === 'parallel-lines' ? null : 180
+    if (want !== null && Math.abs(total - want) > 0.6) return null
+    return { kind: 'angles', arrangement, marks }
+  }
+
+  if (kind === 'apparatus') {
+    const VESSELS = ['beaker', 'tray', 'cylinder', 'tube'] as const
+    const vessel = VESSELS.find((x) => x === str(o.vessel).toLowerCase())
+    if (!vessel) return null
+    const labels = (Array.isArray(o.labels) ? o.labels : []).map(str).filter(Boolean)
+    if (labels.length < 1 || labels.length > 4) return null
+    return {
+      kind: 'apparatus',
+      vessel,
+      contents: str(o.contents) || undefined,
+      ruler: o.ruler === true,
+      dropped: str(o.dropped) || undefined,
+      labels,
+    }
+  }
+
   return null
 }
 
@@ -324,6 +590,27 @@ export function declaredLabels(spec: FigureSpec): string[] {
       return (spec.marks ?? []).map((m) => m.label)
     case 'choice':
       return spec.options.map((_, i) => String.fromCharCode(65 + i))
+    case 'piechart':
+      return spec.slices.map((x) => x.label).filter(Boolean)
+    case 'datatable':
+      return [...spec.columns, ...spec.rows.map((r) => r[0] ?? '')].filter(Boolean)
+    case 'circuit':
+      return spec.components.map((c, i) => c.label || `the ${c.type}`).concat(spec.supply ? [spec.supply] : [])
+    case 'forces':
+      return [spec.object, ...spec.arrows.map((a) => a.label)].filter(Boolean)
+    case 'foodchain':
+      return [...spec.organisms]
+    case 'grid': {
+      const lettered = spec.points.map((pt) => pt.label ?? '').filter(Boolean)
+      // An unlettered point is still nameable — by where it is. Returning
+      // nothing here left a plotted shape with no handle at all, and a
+      // question cannot be written about a figure it may not refer to.
+      return lettered.length ? lettered : spec.points.map((pt) => `(${pt.x}, ${pt.y})`)
+    }
+    case 'angles':
+      return spec.marks.map((m) => m.label).filter(Boolean)
+    case 'apparatus':
+      return [...spec.labels, ...(spec.dropped ? [spec.dropped] : []), ...(spec.contents ? [spec.contents] : [])].filter(Boolean)
   }
 }
 
@@ -353,5 +640,36 @@ export function describeFigure(spec: FigureSpec): string {
     case 'choice':
       return `${spec.options.length} triangles side by side, lettered ` +
         `${spec.options.map((_, i) => String.fromCharCode(65 + i)).join(', ')}, each with its angles marked.`
+    case 'piechart':
+      return `A pie chart divided into ${spec.slices.length} slices, labelled ` +
+        `${spec.slices.map((x) => x.label).join(', ')}.`
+    case 'datatable':
+      return `A table with columns ${spec.columns.join(', ')} and ${spec.rows.length} rows of results.`
+    case 'circuit': {
+      const parts = spec.components.map((c) => c.label || c.type).join(', ')
+      return `A ${spec.arrangement} circuit with a cell${spec.supply ? ` marked ${spec.supply}` : ''} and ${parts}.`
+    }
+    case 'forces':
+      return `A ${spec.object} with force arrows on it, labelled ` +
+        `${spec.arrows.map((a) => a.label).join(', ')}${spec.surface ? `, resting on ${spec.surface}` : ''}.`
+    case 'foodchain':
+      return `A food chain: ${spec.organisms.join(' to ')}, drawn as boxes joined by arrows.`
+    case 'grid': {
+      const named = spec.points.filter((pt) => pt.label)
+      return `A coordinate grid from ${spec.quadrants === 4 ? -spec.max : 0} to ${spec.max} on both axes` +
+        (named.length ? `, with points ${named.map((pt) => pt.label).join(', ')} plotted.` : `, with ${spec.points.length} points plotted.`)
+    }
+    case 'angles': {
+      const where = spec.arrangement === 'parallel-lines' ? 'a line crossing two parallel lines'
+        : spec.arrangement === 'around-point' ? 'lines meeting at a point'
+        : spec.arrangement === 'triangle' ? 'a triangle'
+        : 'angles on a straight line'
+      return `A diagram of ${where}, with angles marked ${spec.marks.map((m) => m.label).join(', ')}.`
+    }
+    case 'apparatus': {
+      const bits = [spec.contents ? `containing ${spec.contents}` : '', spec.ruler ? 'with a ruler beside it' : '',
+        spec.dropped ? `and a ${spec.dropped} held above` : ''].filter(Boolean)
+      return `A ${spec.vessel} ${bits.join(', ')}, labelled ${spec.labels.join(', ')}.`.replace(/\s+/g, ' ')
+    }
   }
 }

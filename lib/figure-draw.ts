@@ -16,35 +16,11 @@
 import type {
   FigureSpec, PolygonSpec, SpinnerSpec, GraphSpec, BarChartSpec, NumberLineSpec, ChoiceSpec,
 } from './figure-spec'
-
-const INK = '#16181c'
-const GREY = '#c9c9c9'
-const GRID = '#b9bcc2'
-const FONT = 'font-family="Helvetica,Arial,sans-serif" font-size="12"'
-
-/** Text is the one place a spec's strings reach the output. */
-function esc(s: string): string {
-  return s.replace(/[&<>"']/g, (c) =>
-    ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c] ?? c))
-}
-
-function text(x: number, y: number, s: string, anchor = 'middle', extra = ''): string {
-  if (!s) return ''
-  return `<text x="${x}" y="${y}" text-anchor="${anchor}" fill="${INK}" ${FONT} ${extra}>${esc(s)}</text>`
-}
-
-/** Trim a float so the markup does not carry sixteen decimal places. */
-function n(v: number): string {
-  return String(Math.round(v * 100) / 100)
-}
-
-function wrap(w: number, h: number, body: string, alt: string): string {
-  return (
-    `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 ${w} ${h}" width="${w}" height="${h}" ` +
-    `role="img" aria-label="${esc(alt)}">` +
-    `<rect width="${w}" height="${h}" fill="#ffffff"/>${body}</svg>`
-  )
-}
+import { INK, GREY, GRID, esc, text, n, wrap } from './figure-ink'
+import {
+  drawPieChart, drawDataTable, drawCircuit, drawForces, drawFoodChain,
+  drawGrid, drawAngles, drawApparatus,
+} from './figure-draw-more'
 
 // ── polygon ────────────────────────────────────────────────────────────────
 function drawPolygon(s: PolygonSpec): string {
@@ -290,6 +266,14 @@ export function drawFigure(spec: FigureSpec | null | undefined): string | null {
       case 'barchart': return drawBarChart(spec)
       case 'numberline': return drawNumberLine(spec)
       case 'choice': return drawChoice(spec)
+      case 'piechart': return drawPieChart(spec)
+      case 'datatable': return drawDataTable(spec)
+      case 'circuit': return drawCircuit(spec)
+      case 'forces': return drawForces(spec)
+      case 'foodchain': return drawFoodChain(spec)
+      case 'grid': return drawGrid(spec)
+      case 'angles': return drawAngles(spec)
+      case 'apparatus': return drawApparatus(spec)
       default: return null
     }
   } catch {

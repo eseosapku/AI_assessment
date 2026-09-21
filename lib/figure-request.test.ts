@@ -1,6 +1,6 @@
 // lib/figure-request.test.ts
 import { describe, it, expect } from 'vitest'
-import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, worthDrawing } from './figure-request'
+import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, worthDrawing, drawableKindsFor } from './figure-request'
 
 describe('the ask', () => {
   it('stays small, because size is what breaks adherence', () => {
@@ -75,13 +75,30 @@ describe('asking only when it is worth asking', () => {
     }
   })
 
-  it('does not spend a call on what it cannot draw', () => {
-    // A Science paper has about fifteen figure slots and perhaps three are
-    // drawable; asking for the rest buys a "none" at the price of a call.
+  it('now reaches the science foci the first six shapes could not', () => {
+    // Every one of these was skipped before the menu grew. They are why the
+    // library came back 65% bar charts.
+    for (const [focus, kind] of [
+      ['series and parallel circuits', 'circuit'],
+      ['current, voltage and resistance', 'circuit'],
+      ['balanced and unbalanced forces', 'forces'],
+      ['friction and air resistance', 'forces'],
+      ['food chains and food webs', 'foodchain'],
+      ['interdependence in an ecosystem', 'foodchain'],
+      ['coordinates in four quadrants', 'grid'],
+      ['reflection, rotation and translation', 'grid'],
+      ['angles in parallel lines', 'angles'],
+    ] as const) {
+      expect(worthDrawing(focus), focus).toBe(true)
+      expect(drawableKindsFor(focus), focus).toContain(kind)
+    }
+  })
+
+  it('does not spend a call on what it still cannot draw', () => {
     for (const f of [
-      'the structure of a plant cell', 'series and parallel circuits',
-      'the water cycle', 'photosynthesis', 'the phases of the Moon',
-      'rock types and the rock cycle', 'why scientists check each other’s work',
+      'the structure of a plant cell', 'the water cycle', 'photosynthesis',
+      'the phases of the Moon', 'human reproduction',
+      'why scientists check each other’s work',
     ]) {
       expect(worthDrawing(f), f).toBe(false)
     }
@@ -141,5 +158,72 @@ describe('placeholders that are not placeholders', () => {
   it('keeps a numbered category that names a real group', () => {
     expect(drawFromReply(chart('Year 5', 'Year 6'))).not.toBeNull()
     expect(drawFromReply(chart('Item 1', 'Item 2'))).toBeNull()
+  })
+})
+
+describe('the menu is chosen per question', () => {
+  it('stays inside the size budget for every focus, however many shapes exist', () => {
+    // Fourteen shapes printed whole would be roughly four thousand characters,
+    // and adherence measurably falls apart well before that.
+    for (const [subject, focus] of [
+      ['Mathematics', 'area of a compound shape'],
+      ['Science', 'series and parallel circuits'],
+      ['Science', 'balanced and unbalanced forces'],
+      ['Science', 'food chains and food webs'],
+      ['Mathematics', 'reading a frequency table'],
+      ['Science', 'measuring volume accurately'],
+    ] as const) {
+      const p = buildFigureSpecPrompt(subject, 'Stage 9', focus)
+      expect(p.length, `${focus}: ${p.length}`).toBeLessThan(1900)
+    }
+  })
+
+  it('offers a Physics focus a circuit and not a spinner', () => {
+    const p = buildFigureSpecPrompt('Science', 'Stage 9', 'series and parallel circuits')
+    expect(p).toContain('"kind":"circuit"')
+    expect(p).not.toContain('"kind":"spinners"')
+  })
+
+  it('offers a probability focus a spinner and not a circuit', () => {
+    const p = buildFigureSpecPrompt('Mathematics', 'Stage 9', 'probability of two events together')
+    expect(p).toContain('"kind":"spinners"')
+    expect(p).not.toContain('"kind":"circuit"')
+  })
+
+  it('matches a stem in the middle of a word, and a plural', () => {
+    // Both of these were dead: `\bmeasur\b` can never match, because there is
+    // no word boundary inside "measuring"; `\bfood chain\b` misses the plural.
+    expect(drawableKindsFor('measuring volume accurately')).toContain('apparatus')
+    expect(drawableKindsFor('investigating how fast sugar dissolves')).toContain('apparatus')
+    expect(drawableKindsFor('food chains and food webs')).toContain('foodchain')
+    expect(drawableKindsFor('comparing two sets of data')).toContain('datatable')
+    expect(drawableKindsFor('forces and their effects')).toContain('forces')
+  })
+
+  it('always offers something to a focus it half-recognises', () => {
+    // Fewer than two matches used to mean an empty menu and a wasted call.
+    const p = buildFigureSpecPrompt('Science', 'Stage 9', 'the reactivity of metals')
+    expect(p).toContain('"kind":"')
+  })
+})
+
+describe('English draws nothing', () => {
+  it('refuses even a focus whose words match a shape', () => {
+    // "finding information stated directly in the text" matched the table
+    // shape on the word "table". A bar chart beside a comprehension is the
+    // same fault as a clown beside one.
+    for (const f of [
+      'finding information stated directly in the text',
+      'comparing two characters in the passage',
+      'reading a table of contents',
+    ]) {
+      expect(worthDrawing(f, 'English'), f).toBe(false)
+      expect(worthDrawing(f, 'English as a Second Language'), f).toBe(false)
+      expect(drawableKindsFor(f, 'English'), f).toEqual([])
+    }
+  })
+
+  it('still draws the same words for Mathematics', () => {
+    expect(worthDrawing('reading a table of results', 'Mathematics')).toBe(true)
   })
 })
