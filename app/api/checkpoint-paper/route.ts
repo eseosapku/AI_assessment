@@ -78,7 +78,11 @@ export async function POST(req: NextRequest) {
       // A different paper each time it is asked for.
       seed: Math.floor(Math.random() * 1e9),
       covered,
-      sittingFoci: sitting ? sitting.foci : undefined,
+      // Topics the learner picked beat the sitting, which beats the full
+      // syllabus. Picking nothing means the whole subject, as before.
+      sittingFoci: Array.isArray(body?.topics) && body.topics.length
+        ? body.topics.filter((t: unknown) => typeof t === 'string')
+        : sitting ? sitting.foci : undefined,
     })
 
     return NextResponse.json({

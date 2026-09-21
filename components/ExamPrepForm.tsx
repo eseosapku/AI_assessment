@@ -87,6 +87,27 @@ export default function ExamPrepForm() {
   const cpSubject = exam === 'checkpoint' ? checkpointSubject(programme, subject) : undefined
   const cpComponent = cpSubject?.components.find((c) => c.number === component)
 
+  // Are the papers of this subject actually different?
+  //
+  // For Mathematics, Science and English the two components are the same
+  // syllabus, the same length and the same total -- Cambridge simply adds
+  // them together -- so asking which one is a choice with no consequence.
+  // ESL is the exception: Reading and Usage, Listening and Writing are three
+  // different papers, and there the question is worth asking.
+  const cpBuildable = (cpSubject?.components ?? []).filter((c) => c.mockable)
+  const cpComponentsAreAlike =
+    cpBuildable.length > 1 &&
+    cpBuildable.every((c) => !c.name) &&
+    new Set(cpBuildable.map((c) => `${c.minutes}|${c.marks ?? ''}`)).size === 1
+
+  // When they are alike, one is chosen silently rather than asked about.
+  useEffect(() => {
+    if (exam !== 'checkpoint' || !cpSubject) return
+    if (cpComponentsAreAlike && component !== cpBuildable[0].number) {
+      setComponent(cpBuildable[0].number)
+    }
+  }, [exam, cpSubject?.name, cpComponentsAreAlike])
+
   // The paper the learner is about to sit, laid out before they commit to it,
   // so the briefing below shows the real thing — how many questions, how many
   // written, how the marks fall — instead of a promise about it.
@@ -103,7 +124,11 @@ export default function ExamPrepForm() {
   // Which real sitting to imitate, and which ones this component has.
   // '' means the full syllabus spread, which is what it always did.
   const [cpSitting, setCpSitting] = useState('')
-  const [cpSittings, setCpSittings] = useState<{ id: string; label: string; year: number; foci: number }[]>([])
+  const [cpSittings, setCpSittings] = useState<{ id: string; label: string; year: number; topics: string[] }[]>([])
+  // Every topic this subject can be examined on, and the ones the learner
+  // narrowed to. Empty means the whole subject.
+  const [cpSyllabus, setCpSyllabus] = useState<string[]>([])
+  const [cpTopics, setCpTopics] = useState<string[]>([])
 
   useEffect(() => {
     if (exam !== 'checkpoint' || !cpSubject || !cpComponent?.mockable) {
@@ -124,6 +149,7 @@ export default function ExamPrepForm() {
             mode: cpMode,
             strand: cpStrand || undefined,
             sitting: cpSitting || undefined,
+            topics: cpTopics.length ? cpTopics : undefined,
           }),
         })
         const json = await res.json()
@@ -142,7 +168,7 @@ export default function ExamPrepForm() {
       }
     })()
     return () => { current = false }
-  }, [exam, programme, cpSubject?.name, cpComponent?.number, cpComponent?.mockable, cpMode, cpStrand, cpSitting])
+  }, [exam, programme, cpSubject?.name, cpComponent?.number, cpComponent?.mockable, cpMode, cpStrand, cpSitting, cpTopics])
 
   // Step 3 loads on its own, the moment a component is picked.
   //
@@ -156,9 +182,12 @@ export default function ExamPrepForm() {
       try {
         const res = await fetch(`/api/checkpoint-sittings?code=${cpSubject.code}&component=${cpComponent.number}`)
         const json = await res.json()
-        if (current) setCpSittings(res.ok && Array.isArray(json?.sittings) ? json.sittings : [])
+        if (current) {
+          setCpSittings(res.ok && Array.isArray(json?.sittings) ? json.sittings : [])
+          setCpSyllabus(res.ok && Array.isArray(json?.syllabus) ? json.syllabus : [])
+        }
       } catch {
-        if (current) setCpSittings([])
+        if (current) { setCpSittings([]); setCpSyllabus([]) }
       }
     })()
     return () => { current = false }
@@ -169,6 +198,7 @@ export default function ExamPrepForm() {
   // exist and quietly fall back, so it is cleared when the choice above moves.
   useEffect(() => {
     setCpSitting('')
+    setCpTopics([])
   }, [programme, cpSubject?.name, cpComponent?.number])
 
   // Counted by what the paper actually contains. This used to be written
@@ -493,18 +523,20 @@ export default function ExamPrepForm() {
                 </div>
               </div>
 
-              {cpSubject && (
+              {cpSubject && !cpComponentsAreAlike && (
                 <div>
                   <span id="cp-component" className="block text-xs font-black uppercase tracking-widest text-ss-slate mb-2">
-                    Component
+                    Which paper
                   </span>
-                  {/* Nothing on this screen said what Paper 01 and 02 ARE, and
-                      they are not what most people assume: Checkpoint does not
-                      split into a multiple-choice paper and a written one. */}
+                  {/* Only shown when the papers actually differ. For Maths,
+                      Science and English the two are the same syllabus, the
+                      same length and the same total, so asking which one is a
+                      choice with no consequence — and the screen never even
+                      said what it meant. ESL is different: Reading, Listening
+                      and Writing are three genuinely different papers, and
+                      there the picker earns its place. */}
                   <p className="mb-2 text-[13px] font-medium text-ss-slate">
-                    Checkpoint is sat as two papers on the same syllabus — neither is harder and
-                    neither is the “theory” one. Cambridge adds both marks together for your result.
-                    Pick either; sit both to cover the ground a real candidate does.
+                    These are separate papers testing different skills. Pick the one you want to practise.
                   </p>
                   <div className="grid sm:grid-cols-2 gap-2" role="radiogroup" aria-labelledby="cp-component">
                     {/* Components that cannot be mocked are shown, disabled, with
@@ -736,8 +768,8 @@ export default function ExamPrepForm() {
                 }`}
                 style={cpSitting === '' ? { background: 'var(--ss-accent-soft)' } : undefined}
               >
-                <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">Full syllabus</span>
-                <span className="block text-[12px] font-semibold text-ss-slate">Across every strand</span>
+                <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">Whole subject</span>
+                <span className="block text-[12px] font-semibold text-ss-slate">{cpSyllabus.length} topics</span>
               </button>
               {cpSittings.map((x) => (
                 <button
@@ -751,11 +783,70 @@ export default function ExamPrepForm() {
                   style={cpSitting === x.id ? { background: 'var(--ss-accent-soft)' } : undefined}
                 >
                   <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">{x.label}</span>
-                  <span className="block text-[12px] font-semibold text-ss-slate">{x.foci} topics examined</span>
+                  <span className="block text-[12px] font-semibold text-ss-slate">{x.topics.length} topics</span>
                 </button>
               ))}
             </div>
           )}
+
+          {/* The topics themselves, listed and selectable. "24 topics
+              examined" named a number and let the learner choose nothing,
+              which is a worse answer than not mentioning it at all. */}
+          {(() => {
+            const pool = cpSitting
+              ? (cpSittings.find((x) => x.id === cpSitting)?.topics ?? [])
+              : cpSyllabus
+            if (pool.length === 0) return null
+            return (
+              <div className="mt-5 border-t border-ss-line pt-4 dark:border-white/10">
+                <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                  <span className="text-xs font-black uppercase tracking-widest text-ss-slate">
+                    What it will ask about
+                  </span>
+                  <span className="text-[12.5px] font-semibold text-ss-slate">
+                    {cpTopics.length === 0 ? `all ${pool.length}` : `${cpTopics.length} of ${pool.length} chosen`}
+                    {cpTopics.length > 0 && (
+                      <button
+                        type="button"
+                        onClick={() => setCpTopics([])}
+                        className="ml-2 font-bold text-ss-accent underline underline-offset-2"
+                      >
+                        use all
+                      </button>
+                    )}
+                  </span>
+                </div>
+                <p className="mb-3 text-[13px] font-medium text-ss-slate">
+                  Tap any to narrow the paper to just those. Leave them alone and you get the lot.
+                </p>
+                <div className="flex flex-wrap gap-1.5">
+                  {pool.map((t) => {
+                    const on = cpTopics.length === 0 || cpTopics.includes(t)
+                    return (
+                      <button
+                        key={t}
+                        type="button"
+                        aria-pressed={cpTopics.includes(t)}
+                        onClick={() =>
+                          setCpTopics((prev) =>
+                            prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t],
+                          )
+                        }
+                        className={`rounded-lg border px-2.5 py-1.5 text-[12.5px] font-semibold transition ${
+                          on
+                            ? 'border-ss-accent bg-ss-accent/10 text-ss-ink dark:text-white'
+                            : 'border-ss-line text-ss-slate hover:border-ss-accent/40 dark:border-white/10'
+                        }`}
+                      >
+                        {cpTopics.includes(t) && <Check className="mr-1 inline h-3 w-3" />}
+                        {t}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )
+          })()}
         </motion.section>
       )}
 
@@ -828,51 +919,6 @@ export default function ExamPrepForm() {
                 written against the published curriculum.
               </p>
 
-              {/* Sit it, or drill one strand. The only choice on offer, and a
-                  real one — a count dropdown was neither. */}
-              <div className="mt-4 flex flex-wrap gap-2">
-                {([
-                  { id: 'paper' as const, label: 'Sit the paper', note: `${cpComponent.minutes} min · 50 marks` },
-                  { id: 'practice' as const, label: 'Drill one strand', note: 'Short · 12 marks' },
-                ]).map((opt) => (
-                  <button
-                    key={opt.id}
-                    type="button"
-                    onClick={() => {
-                      setCpMode(opt.id)
-                      if (opt.id === 'practice' && !cpStrand) setCpStrand(cpSubject.strands[0])
-                    }}
-                    className={`flex-1 min-w-[150px] rounded-xl border px-3 py-2.5 text-left transition ${
-                      cpMode === opt.id
-                        ? 'border-ss-accent bg-ss-accent/5'
-                        : 'border-ss-line hover:border-ss-accent/40 dark:border-white/10'
-                    }`}
-                  >
-                    <span className="block text-[13.5px] font-bold text-ss-ink dark:text-white">{opt.label}</span>
-                    <span className="block text-[12px] font-semibold text-ss-slate">{opt.note}</span>
-                  </button>
-                ))}
-              </div>
-
-              {cpMode === 'practice' && (
-                <div className="mt-3 flex flex-wrap gap-1.5">
-                  {cpSubject.strands.map((s) => (
-                    <button
-                      key={s}
-                      type="button"
-                      onClick={() => setCpStrand(s)}
-                      className={`rounded-lg border px-2.5 py-1.5 text-[12.5px] font-semibold transition ${
-                        cpStrand === s
-                          ? 'border-ss-accent bg-ss-accent/10 text-ss-ink dark:text-white'
-                          : 'border-ss-line text-ss-slate hover:border-ss-accent/40 dark:border-white/10'
-                      }`}
-                    >
-                      {s}
-                    </button>
-                  ))}
-                </div>
-              )}
-
               <dl className="mt-4 grid grid-cols-3 gap-3 border-t border-ss-line pt-3 dark:border-white/10">
                 <div>
                   <dt className="text-[12px] font-bold uppercase tracking-wider text-ss-slate">Marks</dt>
@@ -898,14 +944,10 @@ export default function ExamPrepForm() {
                   You show working; part marks count.
                 </li>
                 <li>
-                  {cpPaper.mode === 'practice'
-                    ? `Every question is ${cpPaper.strand}. Good for fixing one weak strand — it is not the paper.`
-                    : `Spread across all ${cpSubject.strands.length} strands: ${cpSubject.strands.join(', ')}.`}
+                  {`Covers the whole subject, the way the real paper does.`}
                 </li>
                 <li>
-                  {cpPaper.mode === 'practice'
-                    ? `You get a mark out of ${cpPaper.totalMarks} for ${cpPaper.strand}. Sit the full paper for a result across the subject.`
-                    : `You get a mark out of ${cpPaper.totalMarks} and a breakdown by strand, which is how Cambridge reports Checkpoint — 50 marks is the reporting scale.`}
+                  {`You get a mark out of ${cpPaper.totalMarks}, plus a breakdown showing which topics you did well on and which you did not.`}
                 </li>
               </ul>
             </div>

@@ -42,9 +42,28 @@ DEFAULT_ROOTS = [
 ]
 OUT = os.path.join(REPO, "data", "checkpoint-past-papers.json")
 
-# Only the subjects the product can actually build.
-CODES = {"0862": "Mathematics", "0893": "Science", "0096": "Mathematics", "0097": "Science"}
-PROGRAMME = {"0862": "lower-secondary", "0893": "lower-secondary", "0096": "primary", "0097": "primary"}
+# Every Checkpoint syllabus, not just the two that shipped first. English and
+# ESL papers were supplied from the start and this list is the only reason the
+# form said "no past papers on file" for them.
+CODES = {
+    "0862": "Mathematics", "0893": "Science", "0861": "English",
+    "0876": "English as a Second Language",
+    "0096": "Mathematics", "0097": "Science", "0058": "English",
+    "0057": "English as a Second Language",
+}
+PROGRAMME = {
+    "0862": "lower-secondary", "0893": "lower-secondary",
+    "0861": "lower-secondary", "0876": "lower-secondary",
+    "0096": "primary", "0097": "primary", "0058": "primary", "0057": "primary",
+}
+
+#: Which strands each subject draws on, so a paper is matched against its own
+#: skills rather than every focus in the file.
+SUBJECT_STRANDS = {
+    "Mathematics": ["Number", "Algebra, Geometry and Measure", "Statistics and Probability"],
+    "English": ["Reading", "Writing"],
+    "English as a Second Language": ["Reading and Usage", "Writing"],
+}
 
 # A mark scheme names the answers; a question paper asks the questions. Only
 # the question papers say what was examined in the learner's words.
@@ -71,7 +90,7 @@ def foci_from_ts() -> dict[str, list[str]]:
 #: when the filename does not. "Science/2023/October 2023 paper 1.pdf" is a
 #: real 0893 paper and was being dropped silently -- which is why Science
 #: appeared to start at 2025 when four years were supplied.
-FOLDER_SUBJECT = {"mathematics": ("0862", "0096"), "science": ("0893", "0097"), "english": ("0861",)}
+FOLDER_SUBJECT = {"mathematics": ("0862",), "science": ("0893",), "english": ("0861",)}
 
 
 def paper_meta(path: str) -> dict | None:
@@ -152,8 +171,12 @@ def main() -> int:
     roots = args.root or DEFAULT_ROOTS
 
     foci = foci_from_ts()
-    maths_strands = ["Number", "Algebra, Geometry and Measure", "Statistics and Probability"]
-    sci_strands = [s for s in foci if s not in maths_strands]
+    maths_strands = SUBJECT_STRANDS["Mathematics"]
+    # Everything that is nobody else's. Left as "not Mathematics" it swept in
+    # the English reading and writing skills too, so a Science paper would
+    # have matched "the meaning of a word in its context".
+    language_strands = SUBJECT_STRANDS["English"] + SUBJECT_STRANDS["English as a Second Language"]
+    sci_strands = [s for s in foci if s not in maths_strands and s not in language_strands]
     print(f"STRAND_FOCI: {sum(len(v) for v in foci.values())} foci across {len(foci)} strands")
 
     pdfs: list[str] = []
@@ -173,7 +196,7 @@ def main() -> int:
         text = text_of(path)
         if len(text) < 500:
             continue
-        strands = maths_strands if meta["subject"] == "Mathematics" else sci_strands
+        strands = SUBJECT_STRANDS.get(meta["subject"], sci_strands)
         meta["foci"] = focus_hits(text, foci, strands)
         meta["questionCount"] = len(re.findall(r"(?m)^\s*\d{1,2}\s", text))
         papers.append(meta)

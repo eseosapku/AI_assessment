@@ -12,6 +12,8 @@
  */
 import { NextRequest, NextResponse } from 'next/server'
 import { sittingsFor, sittingLabel, sittingId } from '@/lib/checkpoint-past-papers'
+import { STRAND_FOCI } from '@/lib/checkpoint-paper'
+import { CHECKPOINT_SUBJECTS } from '@/lib/cambridge-checkpoint'
 
 export async function GET(request: NextRequest) {
   const params = request.nextUrl.searchParams
@@ -23,12 +25,21 @@ export async function GET(request: NextRequest) {
   }
 
   const all = sittingsFor(code, component)
+
+  // Every topic this subject can be examined on, so the learner can SEE them
+  // and narrow the paper. "24 topics examined" told them a number and let them
+  // pick nothing — which is a worse answer than not mentioning it.
+  const subject = CHECKPOINT_SUBJECTS.find((s) => s.code === code)
+  const syllabus = [...new Set((subject?.strands ?? []).flatMap((st) => STRAND_FOCI[st] ?? []))].sort()
+
   return NextResponse.json({
+    syllabus,
     sittings: all.map((s) => ({
       id: sittingId(s),
       label: sittingLabel(s, all),
       year: s.year,
-      foci: s.foci.length,
+      // The topics themselves, not a count of them.
+      topics: s.foci,
     })),
   })
 }

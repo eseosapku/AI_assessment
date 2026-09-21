@@ -1,7 +1,57 @@
 {
- "generatedAt": "2026-09-21T10:24:34",
+ "generatedAt": "2026-09-21T11:00:34",
  "note": "Topic coverage only. No Cambridge question text is stored.",
  "papers": [
+  {
+   "code": "0057",
+   "subject": "English as a Second Language",
+   "programme": "primary",
+   "year": 2026,
+   "component": "01",
+   "session": null,
+   "foci": [
+    "choosing the right word to complete a sentence",
+    "connectives that join two ideas",
+    "describing a place so a reader can picture it",
+    "finding information stated directly in the text",
+    "opening and closing a piece well",
+    "pronouns and what they refer back to",
+    "putting events from the text in order",
+    "question forms and word order",
+    "working out a meaning the text implies",
+    "writing a description from a picture prompt",
+    "writing a letter for a stated purpose",
+    "writing a story with a clear beginning and ending",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 41,
+   "sources": [
+    "0057-English-as-Second-Language-March-2026-Checkpoint-Question-Paper-1.pdf",
+    "0057-English-as-Second-Language-May-2026-Checkpoint-Question-Paper-1.pdf"
+   ]
+  },
+  {
+   "code": "0057",
+   "subject": "English as a Second Language",
+   "programme": "primary",
+   "year": 2026,
+   "component": "02",
+   "session": null,
+   "foci": [
+    "describing a place so a reader can picture it",
+    "finding information stated directly in the text",
+    "pronouns and what they refer back to",
+    "putting events from the text in order",
+    "question forms and word order",
+    "writing a story with a clear beginning and ending",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 23,
+   "sources": [
+    "0057-English-as-Second-Language-March-2026-Checkpoint-Question-Paper-2.pdf",
+    "0057-English-as-Second-Language-May-2026-Checkpoint-Question-Paper-2.pdf"
+   ]
+  },
   {
    "code": "0097",
    "subject": "Science",
@@ -178,6 +228,69 @@
    "sources": [
     "0097-Science-May-2024-Past-Checkpoint-Test-Question-Paper-2.pdf",
     "0097-Science-October-2024-Past-Checkpoint-Test-Question-Paper-2.pdf"
+   ]
+  },
+  {
+   "code": "0861",
+   "subject": "English",
+   "programme": "lower-secondary",
+   "year": 2026,
+   "component": "01",
+   "session": null,
+   "foci": [
+    "a comparison the writer makes",
+    "describing a place so a reader can picture it",
+    "evidence from the text that supports a statement",
+    "finding information stated directly in the text",
+    "how the opening draws the reader in",
+    "organising writing into paragraphs",
+    "summarising a paragraph in one sentence",
+    "the difference between a fact and an opinion in the text",
+    "the writer\u2019s purpose",
+    "tracing how an idea develops across the text",
+    "what a character\u2019s actions reveal about them",
+    "why the writer chose a particular word",
+    "working out a meaning the text implies",
+    "writing a letter for a stated purpose",
+    "writing a report of an event",
+    "writing a story with a clear beginning and ending",
+    "writing an article for a named audience",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 24,
+   "sources": [
+    "0861-English-March-2026-Checkpoint-Question-Paper-1.pdf",
+    "0861-English-May-2026-Checkpoint-Question-Paper-1.pdf"
+   ]
+  },
+  {
+   "code": "0861",
+   "subject": "English",
+   "programme": "lower-secondary",
+   "year": 2026,
+   "component": "02",
+   "session": null,
+   "foci": [
+    "a comparison the writer makes",
+    "evidence from the text that supports a statement",
+    "finding information stated directly in the text",
+    "organising writing into paragraphs",
+    "summarising a paragraph in one sentence",
+    "the effect of a description on the reader",
+    "the meaning of a word in its context",
+    "tracing how an idea develops across the text",
+    "varying sentence length for effect",
+    "what a character\u2019s actions reveal about them",
+    "why the writer chose a particular word",
+    "working out a meaning the text implies",
+    "writing a report of an event",
+    "writing a story with a clear beginning and ending",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 23,
+   "sources": [
+    "0861-English-March-2026-Checkpoint-Question-Paper-2.pdf",
+    "0861-English-May-2026-Checkpoint-Question-Paper-2.pdf"
    ]
   },
   {
@@ -470,6 +583,162 @@
    "sources": [
     "0862-mathematics-paper-2-april-2023.pdf",
     "0862-mathematics-paper-2-october-2023.pdf"
+   ]
+  },
+  {
+   "code": "0876",
+   "subject": "English as a Second Language",
+   "programme": "lower-secondary",
+   "year": 2026,
+   "component": "01",
+   "session": null,
+   "foci": [
+    "articles: a, an and the",
+    "choosing the right word to complete a sentence",
+    "finding information stated directly in the text",
+    "giving an opinion and supporting it",
+    "pronouns and what they refer back to",
+    "putting events from the text in order",
+    "question forms and word order",
+    "working out a meaning the text implies",
+    "writing a story with a clear beginning and ending",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 47,
+   "sources": [
+    "0876-English-as-Second-Language-March-2026-Checkpoint-Question-Paper-1.pdf"
+   ]
+  },
+  {
+   "code": "0876",
+   "subject": "English as a Second Language",
+   "programme": "lower-secondary",
+   "year": 2026,
+   "component": "02",
+   "session": null,
+   "foci": [
+    "giving an opinion and supporting it",
+    "pronouns and what they refer back to",
+    "writing a story with a clear beginning and ending",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 27,
+   "sources": [
+    "0876-English-as-Second-Language-March-2026-Checkpoint-Question-Paper-2.pdf"
+   ]
+  },
+  {
+   "code": "0876",
+   "subject": "English as a Second Language",
+   "programme": "lower-secondary",
+   "year": 2025,
+   "component": "01",
+   "session": "May",
+   "foci": [
+    "choosing the right word to complete a sentence",
+    "describing a place so a reader can picture it",
+    "finding information stated directly in the text",
+    "giving an opinion and supporting it",
+    "pronouns and what they refer back to",
+    "putting events from the text in order",
+    "question forms and word order",
+    "the meaning of a word in its context",
+    "varying sentence length for effect",
+    "working out a meaning the text implies",
+    "writing a diary entry in a convincing voice",
+    "writing a letter for a stated purpose",
+    "writing a report of an event",
+    "writing a story with a clear beginning and ending",
+    "writing an article for a named audience",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 48,
+   "sources": [
+    "0876-English-as-Second-Language-May-2025-Checkpoint-Question-Paper-1 (1).pdf",
+    "0876-English-as-Second-Language-May-2025-Checkpoint-Question-Paper-1.pdf",
+    "0876-English-as-Second-Language-October-2025-Checkpoint-Question-Paper-1.pdf"
+   ]
+  },
+  {
+   "code": "0876",
+   "subject": "English as a Second Language",
+   "programme": "lower-secondary",
+   "year": 2025,
+   "component": "02",
+   "session": "May",
+   "foci": [
+    "articles: a, an and the",
+    "describing a place so a reader can picture it",
+    "finding information stated directly in the text",
+    "opening and closing a piece well",
+    "pronouns and what they refer back to",
+    "writing a description from a picture prompt",
+    "writing a letter for a stated purpose",
+    "writing a report of an event",
+    "writing a story with a clear beginning and ending",
+    "writing an article for a named audience",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 27,
+   "sources": [
+    "0876-English-as-Second-Language-May-2025-Checkpoint-Question-Paper-2.pdf",
+    "0876-English-as-Second-Language-October-2025-Checkpoint-Question-Paper-2.pdf"
+   ]
+  },
+  {
+   "code": "0876",
+   "subject": "English as a Second Language",
+   "programme": "lower-secondary",
+   "year": 2024,
+   "component": "01",
+   "session": "May",
+   "foci": [
+    "choosing the right word to complete a sentence",
+    "describing a place so a reader can picture it",
+    "finding information stated directly in the text",
+    "giving an opinion and supporting it",
+    "pronouns and what they refer back to",
+    "question forms and word order",
+    "using direct speech correctly",
+    "writing a description from a picture prompt",
+    "writing a diary entry in a convincing voice",
+    "writing a letter for a stated purpose",
+    "writing a report of an event",
+    "writing a story with a clear beginning and ending",
+    "writing an article for a named audience",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 48,
+   "sources": [
+    "0876-English-as-Second-Language-May-2024-Checkpoint-Question-Paper-1.pdf",
+    "0876-English-as-Second-Language-October-2024-Checkpoint-Question-Paper-1.pdf"
+   ]
+  },
+  {
+   "code": "0876",
+   "subject": "English as a Second Language",
+   "programme": "lower-secondary",
+   "year": 2024,
+   "component": "02",
+   "session": "May",
+   "foci": [
+    "articles: a, an and the",
+    "choosing the right word to complete a sentence",
+    "describing a place so a reader can picture it",
+    "giving an opinion and supporting it",
+    "pronouns and what they refer back to",
+    "question forms and word order",
+    "writing a description from a picture prompt",
+    "writing a letter for a stated purpose",
+    "writing a report of an event",
+    "writing a story with a clear beginning and ending",
+    "writing an article for a named audience",
+    "writing instructions someone could follow"
+   ],
+   "questionCount": 27,
+   "sources": [
+    "0876-English-as-Second-Language-May-2024-Checkpoint-Question-Paper-2.pdf",
+    "0876-English-as-Second-Language-October-2024-Checkpoint-Question-Paper-2.pdf"
    ]
   },
   {
