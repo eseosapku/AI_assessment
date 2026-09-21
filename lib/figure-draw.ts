@@ -14,7 +14,7 @@
  * runner, the results page, a recall card.
  */
 import type {
-  FigureSpec, PolygonSpec, SpinnerSpec, GraphSpec, BarChartSpec, NumberLineSpec,
+  FigureSpec, PolygonSpec, SpinnerSpec, GraphSpec, BarChartSpec, NumberLineSpec, ChoiceSpec,
 } from './figure-spec'
 
 const INK = '#16181c'
@@ -208,6 +208,73 @@ function drawNumberLine(s: NumberLineSpec): string {
 }
 
 /**
+ * A row of small triangles, each lettered, for "which one is..." questions.
+ *
+ * Built from the angles rather than drawn to a template, because that is the
+ * whole question: a learner asked which triangle has a right angle must be
+ * able to SEE which one does. The angles are placed by the law of sines from a
+ * fixed longest side, so a 90-degree corner looks like one.
+ */
+function drawChoice(s: ChoiceSpec): string {
+  const cell = 148, H = 200
+  const W = cell * s.options.length
+
+  let body = ''
+  s.options.forEach((opt, i) => {
+    const ox = cell * i
+    const [A, B, C] = opt.angles
+    // Side a is opposite angle A. Scale so the longest side is 92pt.
+    const rad = (d: number) => (d * Math.PI) / 180
+    const sines = [Math.sin(rad(A)), Math.sin(rad(B)), Math.sin(rad(C))]
+    const k = 92 / Math.max(...sines)
+    const cAB = sines[2] * k   // the side between vertices A and B
+
+    // A at the origin, B along the x axis, C found from angle A.
+    const ax = 0, ay = 0
+    const bx = cAB, by = 0
+    const bAC = sines[1] * k   // side from A to C
+    const cx = bAC * Math.cos(rad(A))
+    const cy = -bAC * Math.sin(rad(A))
+
+    const xs = [ax, bx, cx], ys = [ay, by, cy]
+    const minX = Math.min(...xs), maxX = Math.max(...xs)
+    const minY = Math.min(...ys), maxY = Math.max(...ys)
+    const dx = ox + (cell - (maxX - minX)) / 2 - minX
+    const dy = 34 + (108 - (maxY - minY)) / 2 - minY
+
+    const P = [[ax + dx, ay + dy], [bx + dx, by + dy], [cx + dx, cy + dy]]
+    body += `<polygon points="${P.map(([x, y]) => `${n(x)},${n(y)}`).join(' ')}" fill="none" stroke="${INK}" stroke-width="1.3"/>`
+
+    // The angle at each vertex, set a little inside the corner.
+    P.forEach(([x, y], v) => {
+      const other = P.filter((_, j) => j !== v)
+      const tx = (other[0][0] + other[1][0]) / 2
+      const ty = (other[0][1] + other[1][1]) / 2
+      const len = Math.hypot(tx - x, ty - y) || 1
+      body += text(x + ((tx - x) / len) * 26, y + ((ty - y) / len) * 26 + 4, `${opt.angles[v]}°`)
+    })
+
+    // Side letters, where the paper puts them.
+    const labels = opt.sideLabels ?? ['c', 'a', 'b']
+    for (let e = 0; e < 3; e++) {
+      const [x1, y1] = P[e], [x2, y2] = P[(e + 1) % 3]
+      const mx = (x1 + x2) / 2, my = (y1 + y2) / 2
+      const gx = (P[0][0] + P[1][0] + P[2][0]) / 3
+      const gy = (P[0][1] + P[1][1] + P[2][1]) / 3
+      const len = Math.hypot(mx - gx, my - gy) || 1
+      body += text(mx + ((mx - gx) / len) * 15, my + ((my - gy) / len) * 15 + 4, labels[e] ?? '', 'middle', 'font-style="italic"')
+    }
+
+    // The letter the question refers to, under a tick box as the paper prints.
+    const bx0 = ox + cell / 2 - 9
+    body += `<rect x="${n(bx0)}" y="156" width="18" height="18" fill="none" stroke="${INK}" stroke-width="1.1"/>`
+    body += text(ox + cell / 2, 190, String.fromCharCode(65 + i), 'middle', 'font-weight="700"')
+  })
+
+  return wrap(W, H, body, `${s.options.length} triangles with their angles marked, lettered A onwards.`)
+}
+
+/**
  * The SVG for this spec, or null when nothing here can draw it.
  *
  * Never throws. A figure that cannot be drawn falls back to the library, and
@@ -222,6 +289,7 @@ export function drawFigure(spec: FigureSpec | null | undefined): string | null {
       case 'graph': return drawGraph(spec)
       case 'barchart': return drawBarChart(spec)
       case 'numberline': return drawNumberLine(spec)
+      case 'choice': return drawChoice(spec)
       default: return null
     }
   } catch {

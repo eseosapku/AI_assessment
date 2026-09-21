@@ -78,10 +78,27 @@ export interface NumberLineSpec {
   marks?: { at: number; label: string }[]
 }
 
-export type FigureSpec =
-  | PolygonSpec | SpinnerSpec | GraphSpec | BarChartSpec | NumberLineSpec
+/**
+ * Several small figures side by side, each lettered, for a question that asks
+ * which one.
+ *
+ * "Tick to show the triangle where a squared plus b squared equals c squared"
+ * over four labelled triangles is a Checkpoint format the platform could not
+ * produce at all: the options ARE the figures, so there was nothing to put in
+ * an options array and nothing in the library to find. Drawing makes it
+ * ordinary -- four triangles from four sets of angles, lettered A to D, and
+ * the question becomes a normal multiple choice over those letters.
+ */
+export interface ChoiceSpec {
+  kind: 'choice'
+  /** Two to four options. Each is a triangle given by its three angles. */
+  options: { angles: [number, number, number]; sideLabels?: string[] }[]
+}
 
-export const DRAWABLE_KINDS = ['polygon', 'spinners', 'graph', 'barchart', 'numberline'] as const
+export type FigureSpec =
+  | PolygonSpec | SpinnerSpec | GraphSpec | BarChartSpec | NumberLineSpec | ChoiceSpec
+
+export const DRAWABLE_KINDS = ['polygon', 'spinners', 'graph', 'barchart', 'numberline', 'choice'] as const
 
 function num(v: unknown): number | null {
   const n = typeof v === 'number' ? v : Number(v)
@@ -193,6 +210,28 @@ export function parseFigureSpec(raw: unknown): FigureSpec | null {
     return { kind: 'numberline', min, max, step, marks: marks.slice(0, 6) }
   }
 
+  if (kind === 'choice') {
+    const raws = Array.isArray(o.options) ? o.options : []
+    const options: ChoiceSpec['options'] = []
+    for (const r of raws) {
+      if (!r || typeof r !== 'object') continue
+      const a = (r as Record<string, unknown>).angles
+      if (!Array.isArray(a) || a.length !== 3) continue
+      const nums = a.map(num)
+      if (nums.some((x) => x === null || (x as number) < 15 || (x as number) > 150)) continue
+      // A triangle whose angles do not sum to 180 cannot be drawn, and a
+      // question asking which one is right-angled needs them exact.
+      const total = (nums as number[]).reduce((t, x) => t + x, 0)
+      if (Math.abs(total - 180) > 0.6) continue
+      const labels = Array.isArray((r as Record<string, unknown>).sideLabels)
+        ? ((r as Record<string, unknown>).sideLabels as unknown[]).map(str).slice(0, 3)
+        : undefined
+      options.push({ angles: nums as [number, number, number], sideLabels: labels })
+    }
+    if (options.length < 2 || options.length > 4) return null
+    return { kind: 'choice', options }
+  }
+
   return null
 }
 
@@ -219,6 +258,8 @@ export function declaredLabels(spec: FigureSpec): string[] {
       return [...spec.bars.map((b) => b.label), spec.y.label].filter(Boolean)
     case 'numberline':
       return (spec.marks ?? []).map((m) => m.label)
+    case 'choice':
+      return spec.options.map((_, i) => String.fromCharCode(65 + i))
   }
 }
 
@@ -245,5 +286,8 @@ export function describeFigure(spec: FigureSpec): string {
       return `A number line from ${spec.min} to ${spec.max}` +
         (marks.length ? `, with arrows labelled ${marks.map((m) => m.label).join(', ')}.` : '.')
     }
+    case 'choice':
+      return `${spec.options.length} triangles side by side, lettered ` +
+        `${spec.options.map((_, i) => String.fromCharCode(65 + i)).join(', ')}, each with its angles marked.`
   }
 }

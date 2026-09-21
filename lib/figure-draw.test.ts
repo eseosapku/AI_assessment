@@ -103,3 +103,47 @@ describe('the drawing itself', () => {
     expect(draw(raw)).toBe(draw(raw))
   })
 })
+
+describe('several figures as the options', () => {
+  const four = {
+    kind: 'choice',
+    options: [
+      { angles: [24, 76, 80] },
+      { angles: [56, 34, 90] },
+      { angles: [24, 66, 90] },
+      { angles: [36, 64, 80] },
+    ],
+  }
+
+  it('draws one triangle per option, lettered', () => {
+    // "Tick to show the triangle where a² + b² = c²" — the options ARE the
+    // figures, so there was nothing to put in an options array and nothing in
+    // the library to find.
+    const svg = draw(four)!
+    expect(svg).toBeTruthy()
+    for (const letter of ['A', 'B', 'C', 'D']) expect(svg).toContain(`>${letter}<`)
+    expect(svg).not.toContain('>E<')
+  })
+
+  it('lets the question name the letters and nothing else', () => {
+    expect(declaredLabels(parseFigureSpec(four)!)).toEqual(['A', 'B', 'C', 'D'])
+  })
+
+  it('draws the angles it was given', () => {
+    const svg = draw(four)!
+    expect(svg).toContain('24°')
+    expect(svg).toContain('90°')
+  })
+
+  it('refuses a triangle whose angles do not make one', () => {
+    // A learner asked which triangle has a right angle must be able to see
+    // which one does, so the angles have to be real.
+    expect(parseFigureSpec({ kind: 'choice', options: [{ angles: [90, 90, 90] }, { angles: [60, 60, 60] }] }))
+      .toBeNull()
+  })
+
+  it('refuses too few or too many options', () => {
+    expect(parseFigureSpec({ kind: 'choice', options: [{ angles: [60, 60, 60] }] })).toBeNull()
+    expect(parseFigureSpec({ kind: 'choice', options: Array(5).fill({ angles: [60, 60, 60] }) })).toBeNull()
+  })
+})

@@ -40,7 +40,7 @@ export interface DrawnFigure {
 const DRAWABLE_FOCUS = new RegExp(
   [
     // polygons and dimensioned shapes
-    String.raw`\b(?:polygon|triangle|quadrilateral|rectangle|trapezium|perimeter|area of|compound shape|angles? in|right angle|scale drawing)\b`,
+    String.raw`\b(?:polygon|triangle|quadrilateral|rectangle|trapezium|perimeter|area of|compound shape|angles? in|right angle|scale drawing|pythagoras|properties of 3d|properties of shapes)\b`,
     // plotted and charted data
     String.raw`\b(?:graph|chart|plot|axes|bar chart|frequency|results table|line of best fit|relationship between)\b`,
     // probability apparatus
@@ -66,6 +66,7 @@ function nounFor(spec: FigureSpec): string {
     case 'numberline': return 'number line'
     case 'spinners': return 'diagram'
     case 'polygon': return 'diagram'
+    case 'choice': return 'diagram'
   }
 }
 
@@ -87,6 +88,7 @@ export function buildFigureSpecPrompt(subject: string, level: string, focus: str
     '{"kind":"graph","x":{"label":"mass of marble (g)","min":0,"max":50,"step":10},"y":{"label":"diameter of crater (cm)","min":0,"max":8,"step":2},"points":[[5,1],[15,1.5],[25,2.7]]}',
     '{"kind":"barchart","y":{"label":"number of learners","min":0,"max":20,"step":5},"bars":[{"label":"walk","value":12},{"label":"bus","value":7}],"xLabel":"how they travel"}',
     '{"kind":"numberline","min":0,"max":10,"step":1,"marks":[{"at":3,"label":"A"}]}',
+    '{"kind":"choice","options":[{"angles":[24,76,80]},{"angles":[56,34,90]},{"angles":[24,66,90]},{"angles":[36,64,80]}]} — several triangles side by side, lettered A onwards, for a "which one" question. Each set of angles must total 180, and the question then asks about A, B, C or D.',
     '',
     'Every point must sit inside its own axes. Every label must be one the learner can read off the drawing.',
     'Return ONLY the JSON object.',
