@@ -67,12 +67,29 @@ def foci_from_ts() -> dict[str, list[str]]:
     return out
 
 
+#: The supplied papers are filed by subject, so the folder carries the code
+#: when the filename does not. "Science/2023/October 2023 paper 1.pdf" is a
+#: real 0893 paper and was being dropped silently -- which is why Science
+#: appeared to start at 2025 when four years were supplied.
+FOLDER_SUBJECT = {"mathematics": ("0862", "0096"), "science": ("0893", "0097"), "english": ("0861",)}
+
+
 def paper_meta(path: str) -> dict | None:
     base = os.path.basename(path)
     if SKIP.search(base):
         return None
+
     code = next((c for c in CODES if c in base), None)
     if not code:
+        # Fall back to the subject folder. Lower Secondary is the default of
+        # the pair because that is what these folders hold; a Primary paper
+        # names its code in the filename.
+        folder = path.lower().replace("\\", "/")
+        for word, codes in FOLDER_SUBJECT.items():
+            if f"/{word}/" in folder:
+                code = codes[0]
+                break
+    if not code or code not in CODES:
         return None
 
     year = None
@@ -80,7 +97,9 @@ def paper_meta(path: str) -> dict | None:
     if ym:
         year = int(ym.group(1))
 
-    cm = re.search(r"paper[-_ ]?0?([12])", base, re.I) or re.search(r"_0?([12])_", base)
+    cm = (re.search(r"paper[-_ ]?0?([12])\b", base, re.I)
+          or re.search(r"_0?([12])_", base)
+          or re.search(r"\bp([12])\b", base, re.I))
     component = f"0{cm.group(1)}" if cm else None
 
     sm = re.search(r"\b(april|may|june|october|november)\b", base, re.I)

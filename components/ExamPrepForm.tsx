@@ -132,16 +132,35 @@ export default function ExamPrepForm() {
           setCpPaper(res.ok && json?.paper ? json.paper : null)
           setCpBrief(res.ok && typeof json?.examPrepContext === 'string' ? json.examPrepContext : '')
           setCpShortCount(res.ok ? Number(json?.shortCount) || 0 : 0)
-          setCpSittings(res.ok && Array.isArray(json?.sittings) ? json.sittings : [])
         }
       } catch {
-        if (current) { setCpPaper(null); setCpBrief(''); setCpShortCount(0); setCpSittings([]) }
+        if (current) { setCpPaper(null); setCpBrief(''); setCpShortCount(0) }
       } finally {
         if (current) setCpLayingOut(false)
       }
     })()
     return () => { current = false }
   }, [exam, programme, cpSubject?.name, cpComponent?.number, cpComponent?.mockable, cpMode, cpStrand, cpSitting])
+
+  // Step 3 loads on its own, the moment a component is picked.
+  //
+  // It used to read the year list off the layout response, so it could not
+  // appear until Step 4 had finished assembling a paper the learner had not
+  // asked for yet. This reads a static file and answers in a millisecond.
+  useEffect(() => {
+    if (exam !== 'checkpoint' || !cpSubject || !cpComponent) { setCpSittings([]); return }
+    let current = true
+    ;(async () => {
+      try {
+        const res = await fetch(`/api/checkpoint-sittings?code=${cpSubject.code}&component=${cpComponent.number}`)
+        const json = await res.json()
+        if (current) setCpSittings(res.ok && Array.isArray(json?.sittings) ? json.sittings : [])
+      } catch {
+        if (current) setCpSittings([])
+      }
+    })()
+    return () => { current = false }
+  }, [exam, cpSubject?.code, cpComponent?.number])
 
   // A sitting belongs to one component: "0862-01-2025-april" means nothing on
   // 0893/02. Carrying it across would silently ask for a sitting that does not
@@ -473,6 +492,14 @@ export default function ExamPrepForm() {
                   <span id="cp-component" className="block text-xs font-black uppercase tracking-widest text-ss-slate mb-2">
                     Component
                   </span>
+                  {/* Nothing on this screen said what Paper 01 and 02 ARE, and
+                      they are not what most people assume: Checkpoint does not
+                      split into a multiple-choice paper and a written one. */}
+                  <p className="mb-2 text-[13px] font-medium text-ss-slate">
+                    Checkpoint is sat as two papers on the same syllabus — neither is harder and
+                    neither is the “theory” one. Cambridge adds both marks together for your result.
+                    Pick either; sit both to cover the ground a real candidate does.
+                  </p>
                   <div className="grid sm:grid-cols-2 gap-2" role="radiogroup" aria-labelledby="cp-component">
                     {/* Components that cannot be mocked are shown, disabled, with
                         the reason. A learner looking for ESL Listening should

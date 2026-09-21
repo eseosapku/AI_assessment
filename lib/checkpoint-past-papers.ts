@@ -47,9 +47,20 @@ export function sittingsFor(code: string, component: string): PastSitting[] {
     .sort((a, b) => b.year - a.year || (a.session ?? '').localeCompare(b.session ?? ''))
 }
 
-/** How a sitting is named in the UI: "May 2025", or "2025" when unknown. */
-export function sittingLabel(s: PastSitting): string {
-  return s.session ? `${s.session} ${s.year}` : String(s.year)
+/**
+ * How a sitting is named in the UI.
+ *
+ * The year, and only the year. "May 2025" beside "2026" beside "May 2024"
+ * reads as three different KINDS of thing, and the month answers a question
+ * nobody revising is asking. The session is still carried in the data, and
+ * only surfaces when two sittings of the same component share a year — which,
+ * across everything supplied, none do.
+ */
+export function sittingLabel(s: PastSitting, among: readonly PastSitting[] = SITTINGS): string {
+  const clash = among.some(
+    (o) => o !== s && o.code === s.code && o.component === s.component && o.year === s.year,
+  )
+  return clash && s.session ? `${s.session} ${s.year}` : String(s.year)
 }
 
 /** A stable id for one sitting, safe in a URL or a form value. */

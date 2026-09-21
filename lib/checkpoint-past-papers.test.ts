@@ -41,13 +41,22 @@ describe('what was actually supplied', () => {
 })
 
 describe('naming a sitting', () => {
-  it('reads as a month and year when the paper said', () => {
-    const s = sittingsFor('0862', '01').find((x) => x.session)
-    expect(s && sittingLabel(s)).toMatch(/^(April|May|June|October|November) \d{4}$/)
+  it('is the year, and only the year', () => {
+    // "May 2025" beside "2026" beside "May 2024" reads as three different
+    // kinds of thing, and the month answers a question nobody revising asks.
+    for (const s of sittingsFor('0862', '01')) {
+      expect(sittingLabel(s), String(s.year)).toMatch(/^\d{4}$/)
+    }
+    expect(sittingLabel({ year: 2026, session: null } as never, [])).toBe('2026')
   })
 
-  it('falls back to the year alone rather than inventing a month', () => {
-    expect(sittingLabel({ year: 2026, session: null } as never)).toBe('2026')
+  it('adds the month only when two sittings of one component share a year', () => {
+    // The session is kept in the data for exactly this case; across
+    // everything supplied, no component has two sittings in one year.
+    const may = { code: '0893', component: '01', year: 2025, session: 'May' } as never
+    const october = { code: '0893', component: '01', year: 2025, session: 'October' } as never
+    expect(sittingLabel(may, [may, october])).toBe('May 2025')
+    expect(sittingLabel(may, [may])).toBe('2025')
   })
 
   it('round-trips through its id', () => {
