@@ -547,3 +547,38 @@ describe('a paper that would otherwise come back short', () => {
     expect(applyBlueprint(questions, paper)).toHaveLength(paper.slots.length)
   })
 })
+
+describe('the long written formats English needs', () => {
+  const english = checkpointSubject('lower-secondary', 'English')!
+
+  it('gives a composition and a justify slot to every English paper', () => {
+    for (const c of english.components.filter((x) => x.mockable)) {
+      const paper = buildPaper(english, c, { mode: 'paper', seed: 3 })
+      const formats = paper.slots.map((s) => s.format)
+      expect(formats, c.number).toContain('composition')
+      expect(formats, c.number).toContain('justify')
+      expect(paper.totalMarks, c.number).toBe(50)
+    }
+  })
+
+  it('seats them, rather than dropping the paper short', () => {
+    // They belong to no pool until one exists for them, and a 25-mark
+    // composition falling through takes half the paper's marks with it.
+    const paper = buildPaper(english, english.components[0], { mode: 'paper', seed: 3 })
+    const questions = paper.slots.map((_, i) => ({
+      id: i + 1, type: 'longform', question: `Explain point ${i + 1}.`,
+      marks: 2, marking_criteria: ['a', 'b'], explanation: 'x',
+    }))
+    expect(applyBlueprint(questions, paper)).toHaveLength(paper.slots.length)
+  })
+
+  it('keeps a composition worth its own marks, not the criteria count', () => {
+    const paper = buildPaper(english, english.components[0], { mode: 'paper', seed: 3 })
+    const questions = paper.slots.map((_, i) => ({
+      id: i + 1, type: 'longform', question: `Write a story ${i + 1}.`,
+      marks: 2, marking_criteria: ['content', 'structure', 'sentences', 'vocabulary'], explanation: 'x',
+    }))
+    const shown = applyBlueprint(questions, paper) as { marks: number }[]
+    expect(Math.max(...shown.map((q) => q.marks))).toBe(25)
+  })
+})

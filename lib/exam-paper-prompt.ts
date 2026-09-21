@@ -30,7 +30,7 @@ export interface ExamPartSpec {
    * 'tick' is "tick all the correct statements" — several right.
    */
   /** 'composition' is an extended piece of writing, banded rather than itemised. */
-  format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'composition'
+  format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'composition' | 'justify'
 }
 
 export interface ExamPaperPromptOptions {
@@ -84,6 +84,12 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
     // "Draw a ring around the correct answer" on paper; four options on
     // screen. Real Checkpoint Maths uses it about twice a paper.
     return `${label} "marks": 1, "type": "mcq". Phrase it "Draw a ring around ..." as the paper does, then give "options": exactly four short answers and "correct_answer": the 0-based index of the right one. Exactly ONE is correct; the other three are what a learner with a common misconception would ring. No short_answer, no marking_criteria.`
+  }
+  if (spec.format === 'justify') {
+    // Choose, then prove it from the text. The choice earns nothing on its
+    // own -- the marks are in the evidence -- so the criteria are written
+    // that way and the learner is told the shape of the answer up front.
+    return `${label} "marks": ${spec.marks}, "type": "longform". Ask the learner to make a CHOICE about the text and then justify it: state the choice, then give TWO short quotations from the text and explain how each supports it. Phrase it as the paper does — a question, then "Give two quotations." then "Explain how each quotation supports your choice." MUST carry "marking_criteria" with exactly ${spec.marks} entries: one for each quotation being apt, and one for each explanation being sound. The choice itself earns no mark. No short_answer.`
   }
   if (spec.format === 'composition') {
     // Banded, not itemised. Cambridge marks a composition on content,

@@ -146,3 +146,29 @@ describe('the mark scheme lives in the template', () => {
     expect(p).toMatch(/Never both, and never neither/)
   })
 })
+
+describe('choose, then prove it from the text', () => {
+  it('asks for the compound comprehension item', () => {
+    // A real one: "Do you think Jacob respects Munir? Tick one box. Give two
+    // quotations. Explain how each supports your choice. [4]"
+    const p = buildExamPaperPrompt({
+      ...base,
+      subject: 'English',
+      parts: [{ part: null, marks: 4, format: 'justify' }],
+    })
+    expect(p).toMatch(/two quotations/i)
+    expect(p).toMatch(/supports your choice/i)
+    // The choice is not where the marks are.
+    expect(p).toMatch(/choice itself earns no mark/i)
+    expect(p).toMatch(/exactly 4 entries/)
+  })
+
+  it('does not turn it into a multiple choice', () => {
+    const p = buildExamPaperPrompt({
+      ...base, subject: 'English', parts: [{ part: null, marks: 4, format: 'justify' }],
+    })
+    const template = p.split('\n').find((l) => l.startsWith('Each object:'))!
+    expect(template).toContain('"type":"longform"')
+    expect(template).not.toContain('"correct_answer"')
+  })
+})

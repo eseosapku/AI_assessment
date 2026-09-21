@@ -77,7 +77,19 @@ export type PaperMode = 'paper' | 'practice'
  * carries a handful of band descriptors rather than one criterion per mark,
  * and `reconcileMarksWithCriteria` must leave it alone.
  */
-export type SlotFormat = 'short' | 'select' | 'tick' | 'table' | 'written' | 'composition'
+/**
+ * `justify` is the compound comprehension item: choose, then prove it from the
+ * text. A real one reads
+ *
+ *   "Do you think Jacob respects Munir? Tick one box. yes / no
+ *    Give two quotations. Explain how each quotation supports your choice. [4]"
+ *
+ * One question, three demands and four marks, and none of the other formats
+ * can hold it: it is not multiple choice, because the choice earns nothing on
+ * its own, and it is not a plain written answer, because the shape of the
+ * answer is fixed.
+ */
+export type SlotFormat = 'short' | 'select' | 'tick' | 'table' | 'written' | 'composition' | 'justify'
 
 /**
  * The fallback total, for a component whose paper nobody has read.
@@ -213,9 +225,10 @@ const PROFILES: Record<string, readonly MarkProfile[]> = {
   //   02  11x1  5x2   1x4        1x25
   '0861': [
     { marks: 1, count: 10, format: 'short' },
-    { marks: 2, count: 5, format: 'written' },
+    { marks: 2, count: 4, format: 'written' },
     { marks: 3, count: 1, format: 'written' },
-    { marks: 2, count: 1, format: 'written' },
+    // The 4-mark item in both papers read is the choose-and-prove-it one.
+    { marks: 4, count: 1, format: 'justify' },
     { marks: 25, count: 1, format: 'composition' },
   ],
 
@@ -862,11 +875,20 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
   // Both kinds are written answers, so they are matched by whether the
   // question carries an answer key: one that does can be marked by matching
   // and belongs in a one-mark `short` slot; one that does not has to be read.
+  // Every format needs a pool, or its slots are never seated and the paper
+  // quietly comes up short. `composition` and `justify` were added for English
+  // and would have fallen through every one of these -- worth 25 and 4 marks
+  // apiece, so a paper missing them is missing more than half its total.
   const extended = paper.slots.filter((s) => s.format === 'written')
   const brief = paper.slots.filter((s) => s.format === 'short')
   const ring = paper.slots.filter((s) => s.format === 'select')
   const tick = paper.slots.filter((s) => s.format === 'tick')
   const table = paper.slots.filter((s) => s.format === 'table')
+  // The long written ones, heaviest first: a 25-mark composition must not be
+  // filled by a question written for a 4-mark justify.
+  const essay = paper.slots
+    .filter((s) => s.format === 'composition' || s.format === 'justify')
+    .sort((a, b) => b.marks - a.marks)
 
   const kept: Record<string, unknown>[] = []
   for (const question of usable) {
@@ -876,7 +898,10 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     const ticks = isTickList(question)
     const grid = isCategorise(question)
     const preferred = grid ? table : ticks ? tick : choice ? ring : keyed ? brief : extended
-    const fallback = grid ? extended : ticks ? extended : choice ? brief : keyed ? extended : brief
+    // A written answer with several marking criteria is what a composition or
+    // a justify looks like coming back, so those fall to the essay pool before
+    // the short one.
+    const fallback = grid ? extended : ticks ? extended : choice ? brief : keyed ? extended : essay
     // A slot of the wrong kind is better than no slot: the question exists and
     // has to be worth something. The mark rule below keeps that honest.
     //
@@ -889,7 +914,7 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     const slot =
       preferred.shift() ??
       fallback.shift() ??
-      [extended, brief, ring, tick, table].find((pool) => pool.length > 0)?.shift()
+      [extended, essay, brief, ring, tick, table].find((pool) => pool.length > 0)?.shift()
     // Only now is the paper genuinely full, and the surplus is dropped.
     if (!slot) break
 
