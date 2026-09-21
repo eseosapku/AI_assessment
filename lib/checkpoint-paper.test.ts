@@ -582,3 +582,43 @@ describe('the long written formats English needs', () => {
     expect(Math.max(...shown.map((q) => q.marks))).toBe(25)
   })
 })
+
+describe('a topic the learner ticked', () => {
+  const MATHS = checkpointSubject('lower-secondary', 'Mathematics')!
+
+  it('is obeyed even when it is the only one ticked in its strand', () => {
+    // The reported fault: tick one or two topics, get a paper about
+    // everything. forSitting discarded a selection of fewer than three.
+    const paper = buildPaper(MATHS, MATHS.components[0], {
+      mode: 'paper', seed: 7,
+      chosenFoci: ['place value and rounding'],
+    })
+    const number = paper.slots.filter((s) => s.strand === 'Number')
+    expect(number.length).toBeGreaterThan(0)
+    for (const slot of number) {
+      expect(slot.focus, `slot ${slot.number}`).toBe('place value and rounding')
+    }
+  })
+
+  it('leaves a strand it says nothing about to its own syllabus', () => {
+    // A Mathematics paper still owes its Statistics marks.
+    const paper = buildPaper(MATHS, MATHS.components[0], {
+      mode: 'paper', seed: 7,
+      chosenFoci: ['place value and rounding'],
+    })
+    const stats = paper.slots.filter((s) => s.strand === 'Statistics and Probability')
+    expect(stats.length).toBeGreaterThan(0)
+    expect(stats.every((s) => s.focus === 'place value and rounding')).toBe(false)
+  })
+
+  it('still lets a sitting stay a hint rather than a constraint', () => {
+    // One topic borrowed from a sitting must not become the whole strand's
+    // every question -- the rule chosenFoci deliberately does not share.
+    const paper = buildPaper(MATHS, MATHS.components[0], {
+      mode: 'paper', seed: 7,
+      sittingFoci: ['place value and rounding'],
+    })
+    const number = paper.slots.filter((s) => s.strand === 'Number')
+    expect(new Set(number.map((s) => s.focus)).size).toBeGreaterThan(1)
+  })
+})

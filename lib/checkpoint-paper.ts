@@ -269,11 +269,21 @@ const COMPONENT_PROFILES: Record<string, readonly MarkProfile[]> = {
  *
  * Expressed as proportions of the budget rather than counts, since the budget
  * is unknown too. Modelled on 0893, the middle of the three.
+ *
+ * It carried only `short` and `written`, which meant Primary Mathematics --
+ * the one component that falls through to here and is a MATHS paper -- was
+ * laid out with no ring-around, no tick-all and no table question at all, and
+ * the reported "hardly saw any of the new formats" was literally true for it.
+ * Every 0096 paper has them, at much the same rate as 0862. So the fallback
+ * carries them too, in 0862's proportions.
  */
 const FALLBACK_SHAPE: ReadonlyArray<{ marks: number; share: number; format: SlotFormat }> = [
-  { marks: 1, share: 0.42, format: 'short' },
-  { marks: 2, share: 0.40, format: 'written' },
-  { marks: 3, share: 0.18, format: 'written' },
+  { marks: 1, share: 0.34, format: 'short' },
+  { marks: 2, share: 0.34, format: 'written' },
+  { marks: 3, share: 0.14, format: 'written' },
+  { marks: 1, share: 0.08, format: 'select' },
+  { marks: 1, share: 0.07, format: 'tick' },
+  { marks: 2, share: 0.03, format: 'table' },
 ]
 
 /**
@@ -573,6 +583,21 @@ export interface BuildPaperOptions {
    * produce a paper that asks that same topic six times.
    */
   sittingFoci?: readonly string[]
+  /**
+   * Topics the learner ticked, which are a constraint and not a hint.
+   *
+   * These used to travel as `sittingFoci`, and inherited its rule: fewer than
+   * three matches in a strand and the whole strand came back instead. For a
+   * sitting that is right — one Statistics question in May 2025 must not
+   * become six. For a person who ticked two topics it is the reported fault
+   * "the questions don't match the topics I selected", and they were not
+   * imagining it: their choice was discarded, silently, for being small.
+   *
+   * So a choice is obeyed wherever it says anything. A strand the learner
+   * ticked nothing in still draws on its whole syllabus, because a Mathematics
+   * paper owes its Number marks whatever was ticked elsewhere.
+   */
+  chosenFoci?: readonly string[]
 }
 
 /**
@@ -582,7 +607,19 @@ export interface BuildPaperOptions {
  * all. A paper built from three topics would repeat them, which is a worse
  * imitation of that sitting than a fair spread of the syllabus.
  */
-function forSitting(all: readonly string[], sitting: readonly string[] | undefined): string[] {
+function forSitting(
+  all: readonly string[],
+  sitting: readonly string[] | undefined,
+  chosen?: readonly string[],
+): string[] {
+  // A ticked topic is obeyed even if it is the only one in its strand: a
+  // paper that repeats it is what was asked for. Only silence falls through.
+  if (chosen?.length) {
+    const want = new Set(chosen)
+    const hit = all.filter((f) => want.has(f))
+    if (hit.length) return hit
+  }
+
   if (!sitting?.length) return [...all]
   const want = new Set(sitting)
   const hit = all.filter((f) => want.has(f))
@@ -626,7 +663,7 @@ export function buildPaper(
   // paper however the strands interleave.
   const pool = new Map<string, string[]>()
   for (const strand of strands) {
-    pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci), next), options.covered))
+    pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci, options.chosenFoci), next), options.covered))
   }
 
   // The shapes this component's paper is made of, then interleaved so the
@@ -660,7 +697,7 @@ export function buildPaper(
     // A strand with fewer foci than slots reshuffles rather than repeating the
     // one at the top of the list.
     if (foci.length === 0) {
-      pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci), next), options.covered))
+      pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci, options.chosenFoci), next), options.covered))
     }
     const focus = pool.get(strand)!.shift() ?? strand
 

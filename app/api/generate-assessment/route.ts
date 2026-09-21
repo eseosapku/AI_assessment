@@ -674,7 +674,7 @@ function buildPrompt(opts: {
    * across thirty-four questions it returned only 2s and 3s, but handed a list
    * of two or three items with their marks named it complies.
    */
-  questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' }[]
+  questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition' }[]
   /**
    * The ONE figure this question is built around, chosen server-side.
    *
@@ -1920,7 +1920,7 @@ ${commandBlock}`
       batchCount: number,
       startId: number,
       paperPass?: 'short' | 'extended',
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' }[],
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition' }[],
       batchTopics?: string[],
       assignedFigure?: { description: string; category: string; localPath: string },
       strandHint?: string,
@@ -2108,7 +2108,7 @@ ${commandBlock}`
       count: number
       startId: number
       paperPass?: 'short' | 'extended'
-      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' }[]
+      questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition' }[]
       batchTopics?: string[]
       strandHint?: string
       assignedFigure?: { description: string; category: string; localPath: string }
@@ -2174,7 +2174,13 @@ ${commandBlock}`
         // Every special format gets its OWN call. Asked for among other parts
         // each of them came back as a plain written answer; asked alone, with
         // an object template of its own shape, each comes back right.
-        const SPECIAL = new Set(['select', 'tick', 'table'])
+        // 'justify' and 'composition' belong here for the same reason and
+        // were missing: asked among other parts they came back as plain
+        // written answers, and worse, the mapping below had no case for
+        // either, so both fell through to 'short'. An English paper's 20-mark
+        // composition was being asked for as a one-word answer -- which is
+        // why the new formats were nowhere to be seen on the page.
+        const SPECIAL = new Set(['select', 'tick', 'table', 'justify', 'composition'])
         const specialParts = allParts.filter((p: any) => SPECIAL.has(String(p?.format)))
         const parts = allParts.filter((p: any) => !SPECIAL.has(String(p?.format)))
         for (const special of specialParts) {
@@ -2184,7 +2190,7 @@ ${commandBlock}`
             questionParts: [{
               part: null,
               marks: Number(special?.marks) || 1,
-              format: special?.format as 'select' | 'tick' | 'table',
+              format: special?.format as 'select' | 'tick' | 'table' | 'justify' | 'composition',
             }],
             batchTopics: [String(special?.focus || '')].filter(Boolean),
             strandHint: String(special?.strand || ''),
@@ -2202,6 +2208,8 @@ ${commandBlock}`
               : p?.format === 'select' ? 'select'
               : p?.format === 'tick' ? 'tick'
               : p?.format === 'table' ? 'table'
+              : p?.format === 'justify' ? 'justify'
+              : p?.format === 'composition' ? 'composition'
               : 'short',
           })),
           // Its own focus, never the whole list. Handed all of them, parallel

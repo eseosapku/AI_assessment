@@ -78,11 +78,17 @@ export async function POST(req: NextRequest) {
       // A different paper each time it is asked for.
       seed: Math.floor(Math.random() * 1e9),
       covered,
-      // Topics the learner picked beat the sitting, which beats the full
-      // syllabus. Picking nothing means the whole subject, as before.
-      sittingFoci: Array.isArray(body?.topics) && body.topics.length
+      // A sitting is a hint: borrow roughly what May 2025 covered, but do not
+      // ask one Statistics topic six times because that paper happened to ask
+      // it once.
+      sittingFoci: sitting ? sitting.foci : undefined,
+      // Ticked topics are a constraint. These used to travel as `sittingFoci`
+      // and inherited its "fewer than three and take the whole strand"
+      // fallback, which threw away small selections without saying so -- the
+      // reported "questions don't match the topics I selected".
+      chosenFoci: Array.isArray(body?.topics) && body.topics.length
         ? body.topics.filter((t: unknown) => typeof t === 'string')
-        : sitting ? sitting.foci : undefined,
+        : undefined,
     })
 
     return NextResponse.json({
