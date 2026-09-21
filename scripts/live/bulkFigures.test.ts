@@ -138,7 +138,10 @@ describe('bulk figure drafts', () => {
           // never asked about in the first place.
           if (!worthDrawing(focus)) return
           for (const stage of STAGES) {
-            if (done.has(`${strand}|${focus}|${stage}`)) continue
+            // FIGURE_REDRAW=1 goes round again on foci already drawn, to
+            // deepen the library rather than skip it. The sameness check
+            // still holds, so a second round only ever adds new pictures.
+            if (!process.env.FIGURE_REDRAW && done.has(`${strand}|${focus}|${stage}`)) continue
             jobs.push({ strand, focus, stage, rank: i })
           }
         })
@@ -167,7 +170,10 @@ describe('bulk figure drafts', () => {
           // A different setting each time, walked rather than sampled, so the
           // library ends up spread across all twenty rather than clustered on
           // whichever one the model likes.
-          const setting = FIGURE_SETTINGS[(job.rank * VARIANTS + v) % FIGURE_SETTINGS.length]
+          // The offset moves a second round onto settings the first did not
+          // reach, which is where the new pictures come from.
+          const offset = Number(process.env.FIGURE_SETTING_OFFSET ?? 0)
+          const setting = FIGURE_SETTINGS[(job.rank * VARIANTS + v + offset) % FIGURE_SETTINGS.length]
           const prompt = buildFigureSpecPrompt(subject, job.stage, job.focus, setting)
           // Capped: 0.4 + v * 0.25 reached 3.15 at twelve variants, which
           // Bedrock rejects outright -- and the rejection surfaced as "the

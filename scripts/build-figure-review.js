@@ -56,7 +56,6 @@ const html = `<title>Figure Approvals</title>
   --drop-wash: #f5e4e3;
   --shadow: 0 1px 2px rgba(22,24,29,.07), 0 6px 16px -10px rgba(22,24,29,.22);
 }
-:root:not([data-theme="light"]) { }
 @media (prefers-color-scheme: dark) {
   :root:not([data-theme="light"]) {
     --ink: #e8e9ec;
@@ -384,13 +383,28 @@ $('f-undecided').addEventListener('click', () => {
     $('status').textContent = 'decisions are not being saved in this view';
     return;
   }
+  let firstSnapshot = true;
   db.collection('decisions').onSnapshot((snap) => {
-    verdicts.clear();
+    const next = new Map();
     snap.forEach((doc) => {
       const v = doc.data()?.verdict;
-      if (v === 'keep' || v === 'drop') verdicts.set(doc.id, v);
+      if (v === 'keep' || v === 'drop') next.set(doc.id, v);
     });
-    renderGrid();
+
+    // Repaint only what changed. Every click writes a document, which comes
+    // straight back as a snapshot, and rebuilding seven hundred cards and
+    // their SVGs on each one is a visible stutter on the way to a decision.
+    const touched = new Set([...verdicts.keys(), ...next.keys()]);
+    verdicts.clear();
+    for (const [k, v] of next) verdicts.set(k, v);
+
+    if (firstSnapshot || undecidedOnly) {
+      firstSnapshot = false;
+      renderGrid();
+      return;
+    }
+    for (const id of touched) paintCard(id);
+    renderTally();
   }, () => { $('status').textContent = 'lost the connection to saved decisions'; });
 })();
 </script>

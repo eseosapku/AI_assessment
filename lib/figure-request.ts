@@ -59,6 +59,15 @@ export function worthDrawing(focus: unknown): boolean {
 }
 
 /** What a question refers to a figure of this kind AS. */
+export function nounForKind(kind: string): string {
+  switch (kind) {
+    case 'graph': return 'graph'
+    case 'barchart': return 'bar chart'
+    case 'numberline': return 'number line'
+    default: return 'diagram'
+  }
+}
+
 function nounFor(spec: FigureSpec): string {
   switch (spec.kind) {
     case 'graph': return 'graph'

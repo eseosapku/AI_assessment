@@ -28,7 +28,8 @@ import { dropUnmarkable } from '@/lib/unmarkable'
 import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
-import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, type DrawnFigure } from '@/lib/figure-request'
+import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
+import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -1644,6 +1645,9 @@ ${commandBlock}`
             `Vision catalog (${isCheckpoint ? 'per-topic' : 'library-wide'}): ${visualCatalog.length} figure(s) for [${imageTopicFilter.slice(0, 4).join(', ')}]`,
           )
         }
+        // Worth saying out loud: "no figures" and "no APPROVED figures" look
+        // identical on the page and have different fixes.
+        if (isCheckpoint) console.log(`Approved drawn figures available: ${drawnFigureCount()}`)
       } catch (visionErr) {
         console.error('Library-wide vision catalog build failed:', visionErr)
       }
@@ -1954,7 +1958,24 @@ ${commandBlock}`
         // library match — which is most of them — never reached the drawing
         // at all. Drawing is the better source, so it is tried on its own
         // merits and the library is what catches what it cannot do.
-        if (drawFocus && worthDrawing(drawFocus)) {
+        // An approved figure first, and no model call at all when there is
+        // one. These were drawn in bulk and kept by a person, so they are
+        // both cheaper and safer than asking again here -- asking here is how
+        // a 10 cm by 10 cm rectangle became the figure for "cell structure
+        // and function" without anyone seeing it first.
+        const approved = drawFocus
+          ? drawnFigureForFocus(drawFocus, { stage: Number(grade) || undefined, seed: startId })
+          : null
+        if (approved) {
+          drawn = {
+            svg: approved.svg,
+            spec: { kind: approved.kind } as DrawnFigure['spec'],
+            labels: approved.labels,
+            description: approved.description,
+            noun: nounForKind(approved.kind),
+          }
+          console.log(`Approved ${approved.kind} for "${drawFocus}"`)
+        } else if (drawFocus && worthDrawing(drawFocus)) {
           try {
             const spec = await callBedrock(
               buildFigureSpecPrompt(promptSubject, `Stage ${gradeForPrompt}`, drawFocus),
