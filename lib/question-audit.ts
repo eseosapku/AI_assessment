@@ -366,6 +366,10 @@ function auditLongform(q: Record<string, unknown>, i: number, out: AuditFinding[
   const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria.filter((c) => text(c)) : []
   if (criteria.length === 0) {
     out.push({ code: 'longform-no-criteria', severity: 'broken', index: i, detail: 'nothing to mark against' })
+  } else if (marks >= 10 && criteria.length <= 6) {
+    // A composition is banded, not itemised: four descriptors against a
+    // 25-mark essay is the shape Cambridge actually uses, and reporting it as
+    // a mismatch would flag every English paper on its best question.
   } else if (marks > 0 && criteria.length !== marks) {
     out.push({ code: 'longform-criteria-mismatch', severity: 'poor', index: i, detail: `${criteria.length} criteria for ${marks} marks` })
   }

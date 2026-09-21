@@ -1946,6 +1946,7 @@ ${commandBlock}`
           figure: assignedFigure
             ? { description: assignedFigure.description, category: assignedFigure.category }
             : undefined,
+          passage: checkpointPassage || undefined,
         })
         const text = await callBedrock(focused, Math.min(2600, 700 + questionParts.length * 550))
         if (isRefusal(text)) throw new Error('Model refused to generate content.')
@@ -2065,6 +2066,37 @@ ${commandBlock}`
     // perfect on this exact task at about 1,200 characters, as are Nova Pro,
     // Gemma 3 27B and both Claude models. It was the prompt.
     const slotPlan = Array.isArray(body.paperSlots) ? body.paperSlots : []
+    // A reading paper needs its text before it can have questions.
+    //
+    // English and ESL comprehension is nothing without one, and questions
+    // written first and given a passage afterwards are questions about
+    // nothing. So the text is generated once, up front, and every question in
+    // the paper is written against it -- which is also how a real paper works:
+    // one passage, twenty questions on it.
+    let checkpointPassage = ''
+    if (isCheckpoint && body?.needsPassage === true) {
+      const made = await generatePassageWithBedrock(
+        `A reading text for a ${promptSubject} paper at Stage ${gradeForPrompt}.`,
+        promptSubject,
+        'A complete short text a learner can answer comprehension questions about.',
+        callBedrock,
+        gradeForPrompt,
+        { topics: promptTopics },
+      )
+      if (made?.text) {
+        checkpointPassage = made.text
+        console.log(`Checkpoint reading text: ${made.text.split(/\s+/).length} words`)
+      } else {
+        // Without the text every question would be about something the
+        // learner cannot see, which is the one fault this paper must not
+        // have. Better to fail the request than to ship that.
+        return NextResponse.json(
+          { error: 'Could not write the reading text for this paper. Please try again.' },
+          { status: 502 },
+        )
+      }
+    }
+
     if (isCheckpoint && slotPlan.length > 0) {
       const byQuestion = new Map<number, any[]>()
       for (const slot of slotPlan) {
@@ -2667,6 +2699,11 @@ ${commandBlock}`
     }
 
     {
+      if (checkpointPassage) {
+        for (const q of assessmentData.questions as any[]) {
+          if (q && typeof q === 'object' && !q.passage) q.passage = checkpointPassage
+        }
+      }
       const tidied = tidyPaper(assessmentData.questions as any[])
       assessmentData.questions = tidied.questions
       if (tidied.removed > 0) console.log(`Removed ${tidied.removed} repeated figure(s)`)

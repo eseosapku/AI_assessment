@@ -74,10 +74,7 @@ const SCIENCE_STRANDS = [
 const ENGLISH_STRANDS = ['Reading', 'Writing', 'Speaking', 'Listening']
 const ESL_STRANDS = ['Reading and Usage', 'Listening', 'Writing']
 
-const LATER_CUT = 'English is a later cut; Mathematics and Science ship first.'
 const NEEDS_AUDIO = 'Listening needs audio, which this path cannot produce.'
-const UNSOURCED =
-  'Component names for Primary English as a Second Language are not sourced yet; deferred with ESL.'
 
 export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
   // ── Cambridge Primary Checkpoint — end of Stage 6 ──────────────────────────
@@ -97,14 +94,15 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     programme: 'primary',
     name: 'English as a Second Language',
     code: '0057',
-    // Only the durations were sourced for Primary ESL. Which component is
-    // reading, which is listening and which is writing was NOT — and assuming
-    // it mirrors Lower Secondary is exactly the inference this file exists to
-    // prevent. Deferred as unsourced rather than guessed.
+    // Sourced now, off the papers themselves. The component names were
+    // previously deferred rather than guessed — the guess would have been
+    // right, and deferring was still correct: the cover pages say "Reading and
+    // Usage", "Listening" and "Writing", and the totals printed on page one
+    // are 34, 20 and 35, none of which could have been inferred.
     components: [
-      { number: '01', minutes: 35, mockable: false, notMockableReason: UNSOURCED },
-      { number: '02', minutes: 25, mockable: false, notMockableReason: UNSOURCED },
-      { number: '03', minutes: 35, mockable: false, notMockableReason: UNSOURCED },
+      { number: '01', name: 'Reading and Usage', minutes: 35, marks: 34, mockable: true },
+      { number: '02', name: 'Listening', minutes: 25, marks: 20, mockable: false, notMockableReason: NEEDS_AUDIO },
+      { number: '03', name: 'Writing', minutes: 35, marks: 35, mockable: true },
     ],
     strands: ESL_STRANDS,
   },
@@ -188,10 +186,23 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
  *
  * Deliberately not derived from `mockable`: a component that can never be
  * mocked (ESL Listening needs audio) and one that simply is not written yet
- * (English) are different facts. Collapsing them would tell a learner looking
- * for English that it is impossible, when it is merely not done.
+ * are different facts. Collapsing them would tell a learner looking for a
+ * subject that it is impossible, when it is merely not done.
+ *
+ * English and ESL joined once their papers were read. Both are reading
+ * comprehension built on a text, which is why they waited: a Checkpoint paper
+ * had no way to carry a passage, and asking comprehension questions about a
+ * text nobody is shown is the Literature fault in a different coat.
+ *
+ * Every Listening component stays out through `mockable`, not through here —
+ * no audio can be produced, and that is permanent rather than pending.
  */
-export const BETA_SUBJECTS: readonly string[] = ['Mathematics', 'Science']
+export const BETA_SUBJECTS: readonly string[] = [
+  'Mathematics',
+  'Science',
+  'English',
+  'English as a Second Language',
+]
 
 /**
  * The words that actually signal a strand, because its name does not.

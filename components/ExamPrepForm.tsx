@@ -98,6 +98,7 @@ export default function ExamPrepForm() {
   // brief and the paper the learner sees cannot drift apart.
   const [cpBrief, setCpBrief] = useState<string>('')
   const [cpShortCount, setCpShortCount] = useState(0)
+  const [cpNeedsPassage, setCpNeedsPassage] = useState(false)
   const [cpLayingOut, setCpLayingOut] = useState(false)
   // Which real sitting to imitate, and which ones this component has.
   // '' means the full syllabus spread, which is what it always did.
@@ -132,6 +133,7 @@ export default function ExamPrepForm() {
           setCpPaper(res.ok && json?.paper ? json.paper : null)
           setCpBrief(res.ok && typeof json?.examPrepContext === 'string' ? json.examPrepContext : '')
           setCpShortCount(res.ok ? Number(json?.shortCount) || 0 : 0)
+          setCpNeedsPassage(res.ok && json?.needsPassage === true)
         }
       } catch {
         if (current) { setCpPaper(null); setCpBrief(''); setCpShortCount(0) }
@@ -323,6 +325,10 @@ export default function ExamPrepForm() {
           customTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
           // Splits generation by kind, so no batch decides which are short.
           shortCount: exam === 'checkpoint' ? cpShortCount : undefined,
+          // A reading paper is written against a text generated before any of
+          // its questions. Without this flag the generator writes comprehension
+          // questions about a passage nobody ever wrote.
+          needsPassage: exam === 'checkpoint' ? cpNeedsPassage : undefined,
           // One request per numbered question, each told its own parts.
           paperSlots: exam === 'checkpoint' && cpPaper
             ? cpPaper.slots.map((s) => ({ q: s.questionNumber, part: s.part, marks: s.marks, format: s.format, strand: s.strand, focus: s.focus }))

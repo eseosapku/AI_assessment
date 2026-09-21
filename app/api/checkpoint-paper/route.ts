@@ -96,6 +96,13 @@ export async function POST(req: NextRequest) {
       // How many of the questions are one-mark short answers. The generator
       // splits its batches on this so no request has to decide per question.
       shortCount: paper.slots.filter((s) => s.format === 'short').length,
+      // A reading paper needs a text before it can have questions. English and
+      // ESL comprehension is nothing without one, and a question about a
+      // passage nobody is shown is unanswerable however well it is written.
+      // Decided here, where the component is known, rather than by the
+      // generator guessing from the subject name.
+      needsPassage: /Reading/i.test(component.name ?? '') ||
+        (subject.name === 'English' && paper.slots.some((s) => s.strand === 'Reading')),
       // The generator batches one numbered question at a time and is handed
       // that question's exact parts, so nothing has to be inferred per call.
       paperSlots: paper.slots.map((s) => ({

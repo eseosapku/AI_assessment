@@ -47,27 +47,35 @@ describe('the published syllabus', () => {
     expect(esl.components.find((c) => c.number === '03')!.mockable).toBe(true)
   })
 
-  it('does not assume Primary ESL mirrors Lower Secondary', () => {
-    // Only the durations were sourced for Primary ESL, never which component
-    // is which skill. Guessing that 02 is Listening because it is at Lower
-    // Secondary is the inference this module exists to prevent.
+  it('names Primary ESL components from the papers, not from Lower Secondary', () => {
+    // These were deferred rather than guessed, and the guess would have been
+    // right -- which is not the point. The cover pages now say "Reading and
+    // Usage", "Listening" and "Writing", and the totals printed on page one
+    // are 34, 20 and 35: none of that could have been inferred.
     const esl = checkpointSubject('primary', 'English as a Second Language')!
-    expect(esl.components.every((c) => !c.mockable)).toBe(true)
-    expect(esl.components[1].notMockableReason).toMatch(/not sourced/i)
+    expect(esl.components.map((c) => c.name)).toEqual(['Reading and Usage', 'Listening', 'Writing'])
+    expect(esl.components.map((c) => c.marks)).toEqual([34, 20, 35])
   })
 
   it('keeps "cannot be mocked" apart from "not built yet"', () => {
-    // English Reading and Writing genuinely can be mocked; they are simply
-    // not this phase's work. Burying that among real limitations would tell a
-    // learner the wrong reason.
-    const english = checkpointSubject('lower-secondary', 'English')!
-    expect(english.components.every((c) => c.mockable)).toBe(true)
-    expect(buildableSubjects('lower-secondary').map((s) => s.name)).not.toContain('English')
+    // Listening needs audio and always will. That is a different fact from a
+    // component nobody has written yet, and a learner deserves the real
+    // reason for each.
+    for (const programme of ['primary', 'lower-secondary'] as const) {
+      const esl = checkpointSubject(programme, 'English as a Second Language')!
+      const listening = esl.components.find((c) => c.name === 'Listening')!
+      expect(listening.mockable, programme).toBe(false)
+      expect(listening.notMockableReason, programme).toMatch(/audio/i)
+      // The reading and writing papers of the same subject are buildable.
+      expect(esl.components.filter((c) => c.mockable).length, programme).toBe(2)
+    }
   })
 
-  it('offers only the subjects this phase built', () => {
+  it('offers every subject whose papers have been read', () => {
     for (const programme of ['primary', 'lower-secondary'] as const) {
-      expect(buildableSubjects(programme).map((s) => s.name).sort()).toEqual(['Mathematics', 'Science'])
+      expect(buildableSubjects(programme).map((s) => s.name).sort()).toEqual([
+        'English', 'English as a Second Language', 'Mathematics', 'Science',
+      ])
     }
   })
 

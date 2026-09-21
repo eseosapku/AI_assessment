@@ -66,7 +66,18 @@ export type PaperMode = 'paper' | 'practice'
  * a `categorize`, which the interactive renderer and grader already handle.
  * About one a paper.
  */
-export type SlotFormat = 'short' | 'select' | 'tick' | 'table' | 'written'
+/**
+ * `composition` is an extended piece of writing worth 15, 20 or 25 marks — a
+ * story, an article, a letter. English and ESL end on one; nothing else has
+ * them.
+ *
+ * It is NOT a bigger `written`. A written answer is marked one point per mark,
+ * and a 25-mark composition marked against 25 separate points would be
+ * nonsense: Cambridge bands it on content, structure and language. So it
+ * carries a handful of band descriptors rather than one criterion per mark,
+ * and `reconcileMarksWithCriteria` must leave it alone.
+ */
+export type SlotFormat = 'short' | 'select' | 'tick' | 'table' | 'written' | 'composition'
 
 /**
  * The fallback total, for a component whose paper nobody has read.
@@ -189,6 +200,55 @@ const PROFILES: Record<string, readonly MarkProfile[]> = {
     { marks: 2, count: 1, format: 'table' },
     { marks: 2, count: 6, format: 'written' },
   ],
+
+  // ── English and ESL ───────────────────────────────────────────────────────
+  //
+  // Read off the papers the same way, and they are a different animal. Both
+  // English components spend half their marks on comprehension of a printed
+  // text and the other half on ONE composition worth 25 -- which is why these
+  // waited for a Checkpoint paper that could carry a passage.
+  //
+  // Lower Secondary English 0861 -- 50 marks, both components.
+  //   01  9x1  4-5x2  1x3  1x4  1x25
+  //   02  11x1  5x2   1x4        1x25
+  '0861': [
+    { marks: 1, count: 10, format: 'short' },
+    { marks: 2, count: 5, format: 'written' },
+    { marks: 3, count: 1, format: 'written' },
+    { marks: 2, count: 1, format: 'written' },
+    { marks: 25, count: 1, format: 'composition' },
+  ],
+
+  // Lower Secondary ESL 0876/01 Reading and Usage -- 42 marks, every item one
+  // mark. The cleanest fit in the whole set: short written answers against a
+  // text, which is exactly what `lib/short-answer.ts` marks.
+  '0876': [
+    { marks: 1, count: 42, format: 'short' },
+  ],
+
+  // Primary ESL 0057/01 Reading and Usage -- 34 marks, every item one mark.
+  '0057': [
+    { marks: 1, count: 34, format: 'short' },
+  ],
+}
+
+/**
+ * Components whose shape is not the subject's default.
+ *
+ * ESL splits into Reading, Listening and Writing, and only the reading paper
+ * looks like the profile above. Writing is two extended tasks worth 15 and 20,
+ * and listening cannot be built at all.
+ */
+const COMPONENT_PROFILES: Record<string, readonly MarkProfile[]> = {
+  // 0876/03 and 0057/03 Writing -- 35 marks as two tasks, 15 then 20.
+  '0876/03': [
+    { marks: 15, count: 1, format: 'composition' },
+    { marks: 20, count: 1, format: 'composition' },
+  ],
+  '0057/03': [
+    { marks: 15, count: 1, format: 'composition' },
+    { marks: 20, count: 1, format: 'composition' },
+  ],
 }
 
 /**
@@ -214,8 +274,10 @@ const FALLBACK_SHAPE: ReadonlyArray<{ marks: number; share: number; format: Slot
  * Whatever the rounding does, the shapes returned sum to exactly the budget:
  * a paper worth other than its printed total is the bug this guards.
  */
-function shapeFor(code: string, budget: number): { marks: number; format: SlotFormat }[] {
-  const profile = PROFILES[code]
+function shapeFor(code: string, budget: number, component?: string): { marks: number; format: SlotFormat }[] {
+  // A component profile beats the subject's, because ESL Writing looks
+  // nothing like ESL Reading and averaging the two would describe neither.
+  const profile = (component && COMPONENT_PROFILES[`${code}/${component}`]) || PROFILES[code]
   const shape: ReadonlyArray<{ marks: number; format: SlotFormat; count: number }> = profile
     ? profile.map((p) => ({ marks: p.marks, format: p.format, count: p.count }))
     : FALLBACK_SHAPE.map((f) => ({
@@ -344,6 +406,44 @@ export const STRAND_FOCI: Record<string, readonly string[]> = {
     'weighing the benefits and risks of a new material',
     'why scientists check each other’s work', 'local action on an environmental problem',
     'the impact of transport', 'water supply and scarcity',
+  ],
+
+  // ── English and ESL ───────────────────────────────────────────────────────
+  //
+  // These are skills applied to a text rather than topics carrying their own
+  // content: every one of them is a question you can only ask once the learner
+  // has the passage in front of them, which is why the paper now carries one.
+  Reading: [
+    'finding information stated directly in the text',
+    'working out a meaning the text implies', 'the meaning of a word in its context',
+    'why the writer chose a particular word', 'the effect of a description on the reader',
+    'the writer’s purpose', 'the writer’s attitude to the subject',
+    'how the opening draws the reader in', 'how the text is organised',
+    'the difference between a fact and an opinion in the text',
+    'what a character’s actions reveal about them', 'summarising a paragraph in one sentence',
+    'tracing how an idea develops across the text', 'a comparison the writer makes',
+    'evidence from the text that supports a statement',
+  ],
+  'Reading and Usage': [
+    'finding information stated directly in the text',
+    'working out a meaning the text implies', 'the meaning of a word in its context',
+    'choosing the right word to complete a sentence', 'the correct verb tense in context',
+    'subject and verb agreement', 'singular and plural forms',
+    'the right preposition in a phrase', 'articles: a, an and the',
+    'pronouns and what they refer back to', 'comparative and superlative forms',
+    'question forms and word order', 'connectives that join two ideas',
+    'the writer’s purpose', 'matching a heading to a paragraph',
+    'putting events from the text in order',
+  ],
+  Writing: [
+    'writing a story with a clear beginning and ending',
+    'describing a place so a reader can picture it', 'writing a letter for a stated purpose',
+    'writing an article for a named audience', 'writing a report of an event',
+    'giving an opinion and supporting it', 'writing instructions someone could follow',
+    'organising writing into paragraphs', 'varying sentence length for effect',
+    'choosing vocabulary that suits the audience', 'writing a persuasive appeal',
+    'writing a diary entry in a convincing voice', 'opening and closing a piece well',
+    'using direct speech correctly', 'writing a description from a picture prompt',
   ],
 }
 
@@ -520,7 +620,7 @@ export function buildPaper(
   // heavy written answers are spread through the paper rather than bunched at
   // the end. A real paper ramps but does not save every 3-mark question for
   // the last page.
-  const shapes = shuffled(shapeFor(subject.code, budget), next)
+  const shapes = shuffled(shapeFor(subject.code, budget, component.number), next)
 
   // Group the shapes into numbered questions. Parts of one question share a
   // focus, because that is what a real paper does: one scenario -- "the

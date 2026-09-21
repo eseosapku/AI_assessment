@@ -210,6 +210,14 @@ export function reconcileMarksWithCriteria<T extends QuestionLike & { marks?: un
 
     const marks = Number(q.marks)
     if (!Number.isInteger(marks) || marks === criteria.length) return q
+
+    // A composition is banded, not itemised. English and ESL end on one worth
+    // 15, 20 or 25, marked on content, structure and language — four band
+    // descriptors against twenty-five marks is the correct shape, and setting
+    // the marks to the number of bands would quietly turn a 25-mark essay
+    // into a 4-mark one and unbalance the whole paper.
+    if (marks >= 10 && criteria.length <= 6) return q
+
     return { ...q, marks: criteria.length }
   })
 }

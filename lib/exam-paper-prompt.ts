@@ -29,7 +29,8 @@ export interface ExamPartSpec {
    * 'select' is "draw a ring around" — four printed options, one right.
    * 'tick' is "tick all the correct statements" — several right.
    */
-  format: 'short' | 'select' | 'tick' | 'table' | 'written'
+  /** 'composition' is an extended piece of writing, banded rather than itemised. */
+  format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'composition'
 }
 
 export interface ExamPaperPromptOptions {
@@ -47,6 +48,15 @@ export interface ExamPaperPromptOptions {
   commands: { short: string[]; extended: string[] }
   /** A figure printed beside the question, chosen and attached server-side. */
   figure?: { description: string; category: string }
+  /**
+   * The reading text this question is set on, printed above it.
+   *
+   * English and ESL comprehension papers are nothing without one, and asking
+   * about a text nobody is shown is the Literature fault in a different coat.
+   * Generated once for the whole paper and handed to every question, so they
+   * all examine the same passage the way a real paper does.
+   */
+  passage?: string
 }
 
 
@@ -67,6 +77,12 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
     // screen. Real Checkpoint Maths uses it about twice a paper.
     return `${label} "marks": 1, "type": "mcq". Phrase it "Draw a ring around ..." as the paper does, then give "options": exactly four short answers and "correct_answer": the 0-based index of the right one. Exactly ONE is correct; the other three are what a learner with a common misconception would ring. No short_answer, no marking_criteria.`
   }
+  if (spec.format === 'composition') {
+    // Banded, not itemised. Cambridge marks a composition on content,
+    // structure and language, and a 25-mark task split into 25 separate
+    // criteria would be a mark scheme no examiner has ever used.
+    return `${label} "marks": ${spec.marks}, "type": "longform". An EXTENDED PIECE OF WRITING — a story, a letter, an article or a description. Name the audience and the purpose, and say roughly how long it should be. Do NOT set a comprehension question here. MUST carry "marking_criteria" with exactly 4 entries, each a band descriptor covering content and ideas, structure and paragraphing, sentence variety, and vocabulary and accuracy. No short_answer.`
+  }
   if (spec.format === 'short') {
     const second = commands.short[1] ?? commands.short[0]
     return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". ASK ONE THING: no "and explain", no second demand — the box takes one word. MUST carry "short_answer". No marking_criteria.`
@@ -85,6 +101,17 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     `Topic: ${opts.focus} (${opts.strand}). Ask about THIS and nothing else.`,
     '',
   ]
+
+  if (opts.passage) {
+    lines.push(
+      'The learner is reading THIS TEXT, printed above the question:',
+      '"""',
+      opts.passage.trim(),
+      '"""',
+      'Ask about THIS text. The answer must be findable in it — do not ask about anything it does not say, and do not quote more of it back than the question needs.',
+      '',
+    )
+  }
 
   if (figure) {
     lines.push(
