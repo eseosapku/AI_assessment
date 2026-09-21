@@ -125,6 +125,10 @@ describe('bulk figure drafts', () => {
       // asked for. Variation across six asks is the point; duplication is the
       // cost, and this is where it is paid.
       const seen = new Set(drafts.map((d) => sameness(d.spec as Record<string, unknown>)))
+      // Carry on from the highest id ever issued, not from the array length.
+      // Thinning the library shortens the array, and numbering from its length
+      // would hand a new figure an id an old decision already points at.
+      let nextId = drafts.reduce((m, d) => Math.max(m, Number(String(d.id).split('-')[0]) || 0), -1) + 1
       const done = new Set(drafts.map((d) => `${d.strand}|${d.focus}|${d.stage}`))
 
       type Job = { strand: string; focus: string; stage: string; rank: number }
@@ -136,7 +140,7 @@ describe('bulk figure drafts', () => {
           // whatever was on the menu. Nothing downstream could tell that
           // from a real answer. So a focus the six shapes cannot serve is
           // never asked about in the first place.
-          if (!worthDrawing(focus)) return
+          if (!worthDrawing(focus, SUBJECT_OF_STRAND[strand] ?? '')) return
           for (const stage of STAGES) {
             // FIGURE_REDRAW=1 goes round again on foci already drawn, to
             // deepen the library rather than skip it. The sameness check
@@ -214,7 +218,7 @@ describe('bulk figure drafts', () => {
           drawn++
 
           drafts.push({
-            id: `${drafts.length}-${figure.spec.kind}`,
+            id: `${nextId++}-${figure.spec.kind}`,
             subject,
             strand: job.strand,
             focus: job.focus,

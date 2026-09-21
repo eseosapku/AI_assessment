@@ -22,7 +22,34 @@ const esc = (s) => String(s ?? '')
   .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
   .replace(/"/g, '&quot;')
 
-const payload = drafts.map((d) => ({
+/**
+ * Round-robin the kinds, so the first screen shows the range.
+ *
+ * Drawn in syllabus order, 487 of the 752 are bar charts — Statistics has
+ * the most drawable foci and every setting is data about something. Left in
+ * that order the reviewer meets three hundred bar charts before their first
+ * triangle, which is a good way to have a library approved without being
+ * looked at.
+ */
+function interleave(rows) {
+  const buckets = new Map()
+  for (const r of rows) {
+    const b = buckets.get(r.kind)
+    if (b) b.push(r)
+    else buckets.set(r.kind, [r])
+  }
+  const queues = [...buckets.values()]
+  const out = []
+  while (out.length < rows.length) {
+    for (const q of queues) {
+      const next = q.shift()
+      if (next) out.push(next)
+    }
+  }
+  return out
+}
+
+const payload = interleave(drafts).map((d) => ({
   id: d.id,
   subject: d.subject,
   strand: d.strand,
@@ -223,7 +250,7 @@ button.chip:focus-visible, .act:focus-visible { outline: 2px solid var(--accent)
       <div class="chips" id="f-kind"></div>
       <div class="sep"></div>
       <div class="chips"><button class="chip" id="f-undecided" aria-pressed="false">Undecided only</button></div>
-      <div class="note" id="status">decisions are saved as you click</div>
+      <div class="note" id="status">saved as you click · <b>K</b> keep · <b>D</b> drop · ← → move</div>
     </div>
   </div>
 </div>
@@ -231,7 +258,7 @@ button.chip:focus-visible, .act:focus-visible { outline: 2px solid var(--accent)
 <div class="wrap">
   <div class="grid" id="grid"></div>
   <div class="empty" id="empty" hidden>Nothing matches those filters.</div>
-  <p class="gap"><b>What is not here.</b> These six shapes — polygon, spinner, graph, bar chart, number line, and a row of triangles to choose between — serve 25 of the 189 topics on the Checkpoint syllabuses, and 20 of those 25 are Mathematics. Biology, Chemistry, Physics, Earth and Space and all three English strands draw nothing, because a cell, a circuit, an apparatus and a food chain are not any of these shapes. Closing that gap means new shapes, not more calls.</p>
+  <p class="gap"><b>What is here now.</b> Fourteen shapes rather than six: circuits and force diagrams for Physics, food chains for Biology, a pie chart and a real results table for Statistics, a coordinate grid and an angle diagram for Geometry, and the apparatus drawing — the marble, the tray of sand, the crater, the ruler. That takes the reach from 25 of the 189 Checkpoint topics to 70. Still out of reach: cells, the rock cycle, the water cycle, and anything in English, where a figure has to belong to the passage and a drawn one never can.</p>
 </div>
 
 <script>
@@ -268,7 +295,12 @@ function renderFilters() {
   const k = $('f-kind'); k.textContent = '';
   k.append(chip('All kinds', filterKind === null, () => { filterKind = null; renderFilters(); renderGrid(); }));
   for (const kind of KINDS) {
-    k.append(chip(KIND_NAME[kind] || kind, filterKind === kind, () => { filterKind = kind; renderFilters(); renderGrid(); }));
+    // The count on the chip is the point: "these are all the same thing" is
+    // answered by showing how many of each thing there are.
+    const total = DRAFTS.filter((d) => d.kind === kind).length;
+    const done = DRAFTS.filter((d) => d.kind === kind && verdicts.has(d.id)).length;
+    const label = `${KIND_NAME[kind] || kind} ${done}/${total}`;
+    k.append(chip(label, filterKind === kind, () => { filterKind = kind; renderFilters(); renderGrid(); }));
   }
   $('f-undecided').setAttribute('aria-pressed', String(undecidedOnly));
 }
@@ -358,6 +390,7 @@ async function decide(id, verdict) {
   if (next) verdicts.set(id, next); else verdicts.delete(id);
   paintCard(id);
   renderTally();
+  renderFilters();
   if (undecidedOnly) renderGrid();
 
   if (!db) return;
@@ -375,6 +408,40 @@ renderGrid();
 
 $('f-undecided').addEventListener('click', () => {
   undecidedOnly = !undecidedOnly; renderFilters(); renderGrid();
+});
+
+// Keyboard, because seven hundred decisions is a lot of mousing. K and D act
+// on the card under the pointer or the one holding focus; the arrows walk.
+let hovered = null;
+$('grid').addEventListener('mouseover', (e) => {
+  const card = e.target.closest('.card');
+  if (card) hovered = card;
+});
+document.addEventListener('keydown', (e) => {
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const tag = document.activeElement?.tagName;
+  if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
+  const focused = document.activeElement?.closest?.('.card');
+  const card = focused || hovered;
+  const key = e.key.toLowerCase();
+
+  if ((key === 'k' || key === 'd') && card) {
+    e.preventDefault();
+    decide(card.id.slice(2), key === 'k' ? 'keep' : 'drop');
+    return;
+  }
+  if (key === 'arrowright' || key === 'arrowleft') {
+    const cards = [...$('grid').children];
+    if (!cards.length) return;
+    const i = card ? cards.indexOf(card) : -1;
+    const next = cards[Math.max(0, Math.min(cards.length - 1, i + (key === 'arrowright' ? 1 : -1)))];
+    if (next) {
+      e.preventDefault();
+      hovered = next;
+      next.querySelector('.act.keep')?.focus();
+    }
+  }
 });
 
 (async () => {

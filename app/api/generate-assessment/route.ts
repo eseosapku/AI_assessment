@@ -1975,7 +1975,7 @@ ${commandBlock}`
             noun: nounForKind(approved.kind),
           }
           console.log(`Approved ${approved.kind} for "${drawFocus}"`)
-        } else if (drawFocus && worthDrawing(drawFocus)) {
+        } else if (drawFocus && worthDrawing(drawFocus, promptSubject)) {
           try {
             const spec = await callBedrock(
               buildFigureSpecPrompt(promptSubject, `Stage ${gradeForPrompt}`, drawFocus),
