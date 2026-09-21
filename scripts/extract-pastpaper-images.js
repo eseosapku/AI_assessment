@@ -26,6 +26,7 @@ const path = require('path')
 const { createHash } = require('crypto')
 const { execFileSync } = require('child_process')
 
+const { cambridgeBookName } = require('./cambridge-syllabus-codes')
 const arg = (name) => (process.argv.find((a) => a.startsWith(`--${name}=`)) || '').split('=').slice(1).join('=').replace(/^"|"$/g, '')
 const DRY_RUN = process.argv.includes('--dry-run')
 const PURGE = process.argv.includes('--purge')
@@ -165,7 +166,10 @@ function main() {
           textbookId: id,
           curriculum: 1,
           curriculumSlug: SLUG,
-          textbookName: `${LABEL}: ${name}`,
+          // A code-named paper gets a readable subject and level, so the
+          // figure gates downstream can actually read it. Unknown codes keep
+          // the bare name: an unlabelled figure beats a mislabelled one.
+          textbookName: cambridgeBookName(name) || `${LABEL}: ${name}`,
           page: img.page,
           imageIndex: img.imageIndex,
           kind: img.kind,

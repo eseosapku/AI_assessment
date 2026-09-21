@@ -1,0 +1,249 @@
+/**
+ * A figure described, so it can be drawn instead of found.
+ *
+ * Every figure fault in this codebase comes from the same place: a question is
+ * written, then a picture is hunted for in a library of 22,000, and the two are
+ * married on a couple of shared words. That produced Maslow's Hierarchy beside
+ * a question on human reproduction, a Doppler diagram in a Mathematics paper,
+ * "name the part labelled A" on a diagram with no A, and a pie chart printing
+ * 90 degrees under a stem that said 108.
+ *
+ * None of those are matching bugs to be tuned away. They are what matching IS
+ * when the thing being matched was drawn for something else.
+ *
+ * So: the generator writes a SPEC, the spec is drawn, and the question is
+ * written against the spec. The figure cannot be from the wrong subject
+ * because it was made for this question. It cannot carry a label the question
+ * invents, because `declaredLabels` is what the prompt is allowed to name. Its
+ * numbers cannot disagree with the stem, because the stem is written from the
+ * same numbers.
+ *
+ * The library does not go away — it covers the kinds nothing here can draw
+ * (cells, circuits, photographs, maps). This is tried first.
+ */
+
+export interface PolygonSpec {
+  kind: 'polygon'
+  /** 3 or 4 sides. Anything else is a shape this cannot place honestly. */
+  sides: 3 | 4
+  /** Edge labels, clockwise from the top edge. '' leaves an edge unlabelled. */
+  edges: string[]
+  /** Mark a right angle here, as the papers do with a small square. */
+  rightAngle?: 'bottom-left' | 'bottom-right' | 'none'
+  /** 'trapezium' and 'rectangle' for four sides; 'right' or 'scalene' for three. */
+  shape?: 'trapezium' | 'rectangle' | 'right' | 'scalene'
+}
+
+export interface SpinnerSpec {
+  kind: 'spinners'
+  /** One or two spinners side by side. */
+  count: 1 | 2
+  /** 3 to 10 sides; beyond that the numbers stop fitting. */
+  sides: number
+  /** Shading, so a question can say "the grey spinner". */
+  fills?: ('white' | 'grey')[]
+}
+
+export interface AxisSpec {
+  label: string
+  min: number
+  max: number
+  step: number
+}
+
+export interface GraphSpec {
+  kind: 'graph'
+  x: AxisSpec
+  y: AxisSpec
+  points: [number, number][]
+  /** Crosses joined by straight lines is the Checkpoint convention. */
+  join?: 'straight' | 'none'
+}
+
+export interface BarChartSpec {
+  kind: 'barchart'
+  /** The axis the bars are measured against. */
+  y: AxisSpec
+  /** One label and one value per bar. Four to eight bars reads well. */
+  bars: { label: string; value: number }[]
+  xLabel?: string
+}
+
+export interface NumberLineSpec {
+  kind: 'numberline'
+  min: number
+  max: number
+  step: number
+  /** Values to mark with an arrow, each with its own letter. */
+  marks?: { at: number; label: string }[]
+}
+
+export type FigureSpec =
+  | PolygonSpec | SpinnerSpec | GraphSpec | BarChartSpec | NumberLineSpec
+
+export const DRAWABLE_KINDS = ['polygon', 'spinners', 'graph', 'barchart', 'numberline'] as const
+
+function num(v: unknown): number | null {
+  const n = typeof v === 'number' ? v : Number(v)
+  return Number.isFinite(n) ? n : null
+}
+
+function str(v: unknown): string {
+  return typeof v === 'string' ? v.trim() : ''
+}
+
+function axis(v: unknown): AxisSpec | null {
+  if (!v || typeof v !== 'object') return null
+  const o = v as Record<string, unknown>
+  const min = num(o.min), max = num(o.max), step = num(o.step)
+  if (min === null || max === null || step === null) return null
+  if (!(max > min) || step <= 0) return null
+  // A hundred gridlines is not a Checkpoint graph, it is a wall.
+  if ((max - min) / step > 40) return null
+  return { label: str(o.label), min, max, step }
+}
+
+/**
+ * Read a spec the model wrote, or return null.
+ *
+ * Deliberately strict. A half-understood spec draws a wrong picture, and a
+ * wrong picture is worse than none: the question is written against it either
+ * way. Returning null falls back to the figure library, which is a known
+ * quantity.
+ */
+export function parseFigureSpec(raw: unknown): FigureSpec | null {
+  if (!raw || typeof raw !== 'object') return null
+  const o = raw as Record<string, unknown>
+  const kind = str(o.kind)
+
+  if (kind === 'polygon') {
+    const sides = num(o.sides)
+    if (sides !== 3 && sides !== 4) return null
+    const edges = Array.isArray(o.edges) ? o.edges.map(str) : []
+    if (edges.length !== sides) return null
+    const ra = str(o.rightAngle)
+    const shape = str(o.shape)
+    return {
+      kind: 'polygon',
+      sides,
+      edges,
+      rightAngle: ra === 'bottom-left' || ra === 'bottom-right' ? ra : 'none',
+      shape: (['trapezium', 'rectangle', 'right', 'scalene'] as const).find((x) => x === shape),
+    }
+  }
+
+  if (kind === 'spinners') {
+    const count = num(o.count) === 2 ? 2 : 1
+    const sides = num(o.sides)
+    if (sides === null || sides < 3 || sides > 10) return null
+    const fills = Array.isArray(o.fills)
+      ? o.fills.map((f) => (str(f) === 'grey' ? 'grey' : 'white') as 'grey' | 'white')
+      : undefined
+    return { kind: 'spinners', count, sides: Math.round(sides), fills }
+  }
+
+  if (kind === 'graph') {
+    const x = axis(o.x), y = axis(o.y)
+    if (!x || !y) return null
+    const pts = Array.isArray(o.points) ? o.points : []
+    const points: [number, number][] = []
+    for (const p of pts) {
+      if (!Array.isArray(p) || p.length < 2) continue
+      const px = num(p[0]), py = num(p[1])
+      if (px === null || py === null) continue
+      // A point off the axes cannot be read off them.
+      if (px < x.min || px > x.max || py < y.min || py > y.max) return null
+      points.push([px, py])
+    }
+    if (points.length < 2 || points.length > 12) return null
+    return { kind: 'graph', x, y, points, join: str(o.join) === 'none' ? 'none' : 'straight' }
+  }
+
+  if (kind === 'barchart') {
+    const y = axis(o.y)
+    if (!y) return null
+    const raws = Array.isArray(o.bars) ? o.bars : []
+    const bars: { label: string; value: number }[] = []
+    for (const b of raws) {
+      if (!b || typeof b !== 'object') continue
+      const label = str((b as Record<string, unknown>).label)
+      const value = num((b as Record<string, unknown>).value)
+      if (!label || value === null) continue
+      if (value < y.min || value > y.max) return null
+      bars.push({ label, value })
+    }
+    if (bars.length < 2 || bars.length > 8) return null
+    return { kind: 'barchart', y, bars, xLabel: str(o.xLabel) || undefined }
+  }
+
+  if (kind === 'numberline') {
+    const min = num(o.min), max = num(o.max), step = num(o.step)
+    if (min === null || max === null || step === null) return null
+    if (!(max > min) || step <= 0 || (max - min) / step > 30) return null
+    const raws = Array.isArray(o.marks) ? o.marks : []
+    const marks: { at: number; label: string }[] = []
+    for (const m of raws) {
+      if (!m || typeof m !== 'object') continue
+      const at = num((m as Record<string, unknown>).at)
+      const label = str((m as Record<string, unknown>).label)
+      if (at === null || !label) continue
+      if (at < min || at > max) return null
+      marks.push({ at, label })
+    }
+    return { kind: 'numberline', min, max, step, marks: marks.slice(0, 6) }
+  }
+
+  return null
+}
+
+/**
+ * Exactly what a question may refer to in this figure.
+ *
+ * This is the list the prompt is given and the list the checker enforces. A
+ * question naming anything else is naming something that is not there, which
+ * is the fault that produced "name the part labelled A" on a diagram whose
+ * labels were all words.
+ */
+export function declaredLabels(spec: FigureSpec): string[] {
+  switch (spec.kind) {
+    case 'polygon':
+      return spec.edges.filter(Boolean)
+    case 'spinners':
+      return [
+        ...(spec.count === 2 ? ['the white spinner', 'the grey spinner'] : ['the spinner']),
+        ...Array.from({ length: spec.sides }, (_, i) => String(i + 1)),
+      ]
+    case 'graph':
+      return [spec.x.label, spec.y.label].filter(Boolean)
+    case 'barchart':
+      return [...spec.bars.map((b) => b.label), spec.y.label].filter(Boolean)
+    case 'numberline':
+      return (spec.marks ?? []).map((m) => m.label)
+  }
+}
+
+/** A sentence for the prompt describing what the learner is looking at. */
+export function describeFigure(spec: FigureSpec): string {
+  switch (spec.kind) {
+    case 'polygon': {
+      const named = spec.edges.filter(Boolean)
+      const shape = spec.sides === 3 ? 'triangle' : 'quadrilateral'
+      return `A ${shape}${spec.rightAngle !== 'none' ? ' with a right angle marked' : ''}` +
+        (named.length ? `, its sides labelled ${named.join(', ')}.` : '.')
+    }
+    case 'spinners':
+      return spec.count === 2
+        ? `Two fair ${spec.sides}-sided spinners numbered 1 to ${spec.sides}, one white and one grey.`
+        : `A fair ${spec.sides}-sided spinner numbered 1 to ${spec.sides}.`
+    case 'graph':
+      return `A graph of ${spec.y.label || 'the y values'} against ${spec.x.label || 'the x values'}, ` +
+        `with ${spec.points.length} points plotted as crosses.`
+    case 'barchart':
+      return `A bar chart of ${spec.y.label || 'values'} for ${spec.bars.map((b) => b.label).join(', ')}.`
+    case 'numberline': {
+      const marks = spec.marks ?? []
+      return `A number line from ${spec.min} to ${spec.max}` +
+        (marks.length ? `, with arrows labelled ${marks.map((m) => m.label).join(', ')}.` : '.')
+    }
+  }
+}

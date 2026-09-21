@@ -16,14 +16,19 @@ import { getDescribedImages } from './textbook-source-images'
 import { subjectOfBook, figureFitsSubject, figureFitsLevel, type FigureSubject } from './figure-subject'
 
 let byPath: Map<string, string> | null = null
+/** Paths that came out of a real exam paper rather than a textbook. */
+let fromExam: Set<string> | null = null
 
 /** Built once. The manifest is 17,008 entries and does not change at runtime. */
 function index(): Map<string, string> {
   if (byPath) return byPath
   const map = new Map<string, string>()
+  const exam = new Set<string>()
   try {
     for (const img of getDescribedImages()) {
-      if (img?.localPath && img.textbookName) map.set(img.localPath, img.textbookName)
+      if (!img?.localPath) continue
+      if (img.textbookName) map.set(img.localPath, img.textbookName)
+      if (img.source === 'pastpaper') exam.add(img.localPath)
     }
   } catch {
     // A missing or unreadable manifest must not take generation down with it.
@@ -31,7 +36,27 @@ function index(): Map<string, string> {
     // the behaviour that existed before this gate.
   }
   byPath = map
+  fromExam = exam
   return map
+}
+
+/**
+ * Was this figure drawn for an exam paper?
+ *
+ * The difference is visible at a glance and it matters. A past-paper figure is
+ * purpose-drawn line art with every part labelled -- a ruler, a marble, a
+ * container of sand, "before" and "after" -- built so a question can be asked
+ * about it. A textbook figure is a photograph, a stock illustration or a
+ * decorative diagram that happens to sit near the right words.
+ *
+ * Both are in the library and only one looks like an exam. So where a question
+ * could take either, it takes the exam one.
+ */
+export function isExamFigure(localPath: unknown): boolean {
+  const path = String(localPath ?? '')
+  if (!path) return false
+  index()
+  return fromExam!.has(path)
 }
 
 /** The book a figure at this path came from, or '' when unknown. */
@@ -59,4 +84,5 @@ export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, 
 /** Test seam: forget the index so a fixture can be indexed instead. */
 export function resetFigureProvenance(): void {
   byPath = null
+  fromExam = null
 }

@@ -49,6 +49,14 @@ export interface ExamPaperPromptOptions {
   /** A figure printed beside the question, chosen and attached server-side. */
   figure?: { description: string; category: string }
   /**
+   * A figure DRAWN for this question rather than found for it.
+   *
+   * Carries the exact list of things on it, which is the difference that
+   * matters: a found figure can only be described, so the writer invents the
+   * detail it needs and the learner is asked to name a part that is not there.
+   */
+  drawnFigure?: { description: string; labels: string[]; noun: string }
+  /**
    * The reading text this question is set on, printed above it.
    *
    * English and ESL comprehension papers are nothing without one, and asking
@@ -113,7 +121,19 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     )
   }
 
-  if (figure) {
+  if (opts.drawnFigure) {
+    // The figure was DRAWN for this question, from a spec, so the question can
+    // be held to it exactly: these labels exist and nothing else does. That is
+    // the whole point of drawing rather than searching — "name the part
+    // labelled A" cannot happen when A is not on the list.
+    lines.push(
+      `A ${opts.drawnFigure.noun.toUpperCase()} is printed beside this question. ${opts.drawnFigure.description}`,
+      `You may refer ONLY to these, exactly as written: ${opts.drawnFigure.labels.join(' | ')}.`,
+      'Naming anything else — a point, an angle, a part, a value — means naming something that is not on the figure.',
+      `Refer to it as "the ${opts.drawnFigure.noun}". Do NOT restate what it shows.`,
+      '',
+    )
+  } else if (figure) {
     lines.push(
       `A ${noun.toUpperCase()} is printed beside this question and the learner can see it. For your information only, it shows: ${figure.description}`,
       `Refer to it as "the ${noun}". Do NOT restate its contents — "Look at the ${noun}. Name the part labelled A." not "The ${noun} shows a cell with a nucleus and a wall. Name...".`,

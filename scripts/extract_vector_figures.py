@@ -19,9 +19,26 @@ import fitz
 
 fitz.TOOLS.mupdf_display_errors(False)
 
-MIN_PATHS = int(os.environ.get("VEC_MIN_PATHS", "10"))
-MIN_W = float(os.environ.get("VEC_MIN_W", "90"))
-MIN_H = float(os.environ.get("VEC_MIN_H", "70"))
+# Three paths, not ten.
+#
+# Ten was chosen for complex apparatus diagrams and it silently discarded most
+# of a Mathematics paper: a triangle is three lines, a trapezium is four, and
+# "Tick the triangle where a^2 + b^2 = c^2" is four separate four-line figures.
+# Measured across the Checkpoint papers, 62-75% of every clustered figure had
+# fewer than ten paths.
+MIN_PATHS = int(os.environ.get("VEC_MIN_PATHS", "3"))
+MIN_W = float(os.environ.get("VEC_MIN_W", "60"))
+MIN_H = float(os.environ.get("VEC_MIN_H", "45"))
+#: A rect covering most of the page is the frame round it, and letting it into
+#: the clusterer is why Mathematics yielded NOTHING.
+#:
+#: The merge grows a box to swallow anything within `GAP` of it, so one
+#: page-sized rectangle chains every diagram on the page into a single cluster
+#: the size of the paper -- which the "not the page border" rule below then
+#: threw away whole. Every page of every 0862 paper collapsed to zero figures
+#: this way, and the failure was invisible: the script reported success and
+#: wrote nothing.
+FRAME_SHARE = float(os.environ.get("VEC_FRAME_SHARE", "0.55"))
 GAP = float(os.environ.get("VEC_GAP", "14"))
 DPI = int(os.environ.get("VEC_DPI", "200"))
 PAD = 6.0
@@ -53,6 +70,7 @@ def merge(rects, gap):
 
 
 def figures_on(page):
+    page_area = abs(page.rect.width * page.rect.height)
     rects = []
     for d in page.get_drawings():
         r = d.get("rect")
@@ -63,11 +81,14 @@ def figures_on(page):
             continue
         if r.width < 3 and r.height > 60:
             continue
+        # The frame round the page, dropped BEFORE the merge rather than after
+        # it. Left in, it touches everything and the clusterer returns one box
+        # the size of the paper.
+        if abs(r.width * r.height) > page_area * FRAME_SHARE:
+            continue
         rects.append(r)
     if not rects:
         return []
-
-    page_area = abs(page.rect.width * page.rect.height)
     out = []
     for x0, y0, x1, y1, n in merge(rects, GAP):
         w, h = x1 - x0, y1 - y0

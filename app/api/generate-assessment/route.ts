@@ -27,7 +27,8 @@ import { subjectGuidance } from '@/lib/subject-guidance'
 import { dropUnmarkable } from '@/lib/unmarkable'
 import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
-import { figureAllowedOnPaper } from '@/lib/figure-provenance'
+import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
+import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, type DrawnFigure } from '@/lib/figure-request'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -1935,6 +1936,28 @@ ${commandBlock}`
       // characters here and that is what was breaking generation: the same
       // model is perfect on this task at about 1,200.
       if (questionParts?.length && isCheckpoint) {
+        // Draw the figure BEFORE writing the question, so the question can be
+        // written against it. The other order -- question first, picture hunted
+        // for afterwards -- is where every figure fault in this file came from.
+        //
+        // Only where the slot wanted a figure anyway, and only for the kinds
+        // that can be drawn. Anything else falls through to the library below,
+        // which is unchanged.
+        let drawn: DrawnFigure | null = null
+        const drawFocus = batchTopics?.[0]
+        if (assignedFigure && drawFocus) {
+          try {
+            const spec = await callBedrock(
+              buildFigureSpecPrompt(promptSubject, `Stage ${gradeForPrompt}`, drawFocus),
+              420,
+            )
+            drawn = drawFromReply(spec)
+            if (drawn) console.log(`Drew a ${drawn.spec.kind} for "${drawFocus}"`)
+          } catch {
+            // A picture must never fail the paper. The library still has one.
+          }
+        }
+
         const focused = buildExamPaperPrompt({
           subject: promptSubject,
           level: `Stage ${gradeForPrompt}`,
@@ -1943,8 +1966,11 @@ ${commandBlock}`
           strand: strandHint || promptSubject,
           parts: questionParts as ExamPartSpec[],
           commands: examCommandsFor(promptSubject),
-          figure: assignedFigure
-            ? { description: assignedFigure.description, category: assignedFigure.category }
+          figure: drawn || !assignedFigure
+            ? undefined
+            : { description: assignedFigure.description, category: assignedFigure.category },
+          drawnFigure: drawn
+            ? { description: drawn.description, labels: drawn.labels, noun: drawn.noun }
             : undefined,
           passage: checkpointPassage || undefined,
         })
@@ -1960,10 +1986,24 @@ ${commandBlock}`
         // (c) repeated a scenario mentioning "the diagram" while having none,
         // and isUnanswerableWithoutVisual deleted them -- sixteen of
         // thirty-four questions in one run.
-        if (assignedFigure) {
-          for (const q of parsed.questions) {
-            if (q && typeof q === 'object') q.image_url = assignedFigure.localPath
+        if (drawn) {
+          // A drawn figure is held to its own label list exactly -- it knows
+          // what is on it, so this is a check rather than a guess. A question
+          // naming something undrawn loses the figure and falls back to the
+          // library, which is better than shipping "the part labelled A" over
+          // a drawing with no A.
+          const offenders = parsed.questions
+            .flatMap((q: any) => (q && typeof q === 'object' ? questionNamesUndrawn(q.question, drawn!) : []))
+          if (offenders.length) {
+            console.log(`Discarded the drawn figure: the question named ${[...new Set(offenders)].join(', ')}, which it does not carry`)
+            drawn = null
           }
+        }
+
+        for (const q of parsed.questions) {
+          if (!q || typeof q !== 'object') continue
+          if (drawn) q.diagram_svg = drawn.svg
+          else if (assignedFigure) q.image_url = assignedFigure.localPath
         }
         return parsed.questions
       }
@@ -2189,7 +2229,17 @@ ${commandBlock}`
           // plainly that it was a psychological theory; nothing read it.
           if (!figureAllowedOnPaper(fig.localPath, promptSubject, Number(grade) || undefined)) return
           const text = `${fig.description} ${fig.category}`.toLowerCase()
-          const score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
+          let score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
+          // A figure drawn FOR an exam beats one that merely sits near the
+          // right words in a textbook. The first is purpose-drawn line art
+          // with every part labelled -- a ruler, a marble, a container of
+          // sand, "before" and "after". The second is a photograph or a stock
+          // illustration. Both can score two shared words; only one looks
+          // like the paper the learner is sitting.
+          //
+          // Weighted rather than absolute, so a genuinely better textbook
+          // match still wins over a barely-relevant exam figure.
+          if (score > 0 && isExamFigure(fig.localPath)) score += 2
           if (score > bestScore) { bestScore = score; best = i }
         })
         // TWO shared words, not one.
