@@ -120,3 +120,17 @@ describe('labels a real model would actually send', () => {
     assertInside('{"kind":"grid","max":12,"quadrants":4,"points":[{"x":-11,"y":11,"label":"P"},{"x":12,"y":-12,"label":"Q"}]}', 'grid')
   })
 })
+
+describe('what a question may name', () => {
+  it('lets a question name the letter an apparatus figure actually prints', () => {
+    const drawn = drawFromReply('{"kind":"apparatus","vessel":"tray","contents":"sand","dropped":"marble","labels":["marble","tray of sand","crater"]}')!
+    expect(drawn.labels).toContain('A')
+    expect(drawn.labels).toContain('C')
+    expect(drawn.labels).toContain('crater')
+    // The drawing prints exactly these letters, so the check and the picture
+    // agree.
+    expect(drawn.svg).toContain('>A<')
+    expect(drawn.svg).toContain('>C<')
+    expect(drawn.labels).not.toContain('D')
+  })
+})

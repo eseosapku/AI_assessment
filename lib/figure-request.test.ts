@@ -227,3 +227,17 @@ describe('English draws nothing', () => {
     expect(worthDrawing('reading a table of results', 'Mathematics')).toBe(true)
   })
 })
+
+describe('a single good match is not diluted', () => {
+  it('offers a food chain focus the food chain and nothing else', () => {
+    const p = buildFigureSpecPrompt('Science', 'Stage 9', 'food chains and food webs')
+    expect(p).toContain('"kind":"foodchain"')
+    expect(p).not.toContain('"kind":"barchart"')
+    expect(p).not.toContain('"kind":"graph"')
+  })
+
+  it('still offers the general shapes where nothing specific fits', () => {
+    const p = buildFigureSpecPrompt('Science', 'Stage 9', 'the reactivity of metals')
+    expect(p).toContain('"kind":"')
+  })
+})

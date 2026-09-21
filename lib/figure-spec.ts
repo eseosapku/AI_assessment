@@ -610,7 +610,17 @@ export function declaredLabels(spec: FigureSpec): string[] {
     case 'angles':
       return spec.marks.map((m) => m.label).filter(Boolean)
     case 'apparatus':
-      return [...spec.labels, ...(spec.dropped ? [spec.dropped] : []), ...(spec.contents ? [spec.contents] : [])].filter(Boolean)
+      return [
+        // The drawing letters each part A, B, C beside its name, so both are
+        // on the page and both must be nameable. Declaring only the words
+        // would have `questionNamesUndrawn` reject "name the part labelled A"
+        // on a figure that plainly carries an A -- which is the same check
+        // that exists to catch the opposite mistake.
+        ...spec.labels.map((_, i) => String.fromCharCode(65 + i)),
+        ...spec.labels,
+        ...(spec.dropped ? [spec.dropped] : []),
+        ...(spec.contents ? [spec.contents] : []),
+      ].filter(Boolean)
   }
 }
 

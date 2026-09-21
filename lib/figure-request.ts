@@ -212,9 +212,12 @@ const DRAWABLES: readonly Drawable[] = [
 function menuFor(focus: string, subject: string): Drawable[] {
   const hay = `${focus} ${subject}`
   const fits = DRAWABLES.filter((d) => servesRe(d.serves).test(hay))
-  // Five is the most the size budget takes. Fewer than two and the model has
-  // no real choice, so the general-purpose shapes make up the difference.
-  if (fits.length >= 2) return fits.slice(0, 5)
+  // Five is the most the size budget takes. One good match is enough, and
+  // padding it was actively harmful: "food chains and food webs" matches only
+  // the food chain, and offering it three chart shapes alongside got back
+  // charts. A real choice between the right shape and three wrong ones is
+  // worse than no choice at all.
+  if (fits.length >= 1) return fits.slice(0, 5)
   const general = DRAWABLES.filter((d) => ['barchart', 'datatable', 'graph'].includes(d.kind))
   return [...fits, ...general.filter((d) => !fits.includes(d))].slice(0, 4)
 }
