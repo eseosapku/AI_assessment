@@ -2254,6 +2254,19 @@ ${commandBlock}`
           // the learner to name "the part labelled A". The description said
           // plainly that it was a psychological theory; nothing read it.
           if (!figureAllowedOnPaper(fig.localPath, promptSubject, Number(grade) || undefined)) return
+          // On a Checkpoint paper the exam figure is not merely preferred.
+          //
+          // Weighting it was the first attempt, and a weighting is a tie
+          // break: a textbook illustration that shared four words still beat
+          // a purpose-drawn one that shared two, so the crescent Moon
+          // cartoon, the cartoon solar system and the stock recycling image
+          // kept arriving on papers meant to look like Cambridge's.
+          //
+          // It is affordable to insist. Of what a Stage 9 paper may reach,
+          // 4,940 Science figures and 4,810 Mathematics ones were drawn for
+          // an exam; the remainder are photographs and clip art. A slot with
+          // no exam figure for its topic is better left with none.
+          if (isCheckpoint && !isExamFigure(fig.localPath)) return
           const text = `${fig.description} ${fig.category}`.toLowerCase()
           let score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
           // A figure drawn FOR an exam beats one that merely sits near the
