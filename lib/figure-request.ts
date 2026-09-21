@@ -12,7 +12,7 @@
  * what breaks adherence: the same model that returns clean JSON at 1,200
  * characters returned five questions of thirty-four at 26,600.
  */
-import { parseFigureSpec, declaredLabels, describeFigure, type FigureSpec } from './figure-spec'
+import { parseFigureSpec, declaredLabels, describeFigure, hasPlaceholderLabels, type FigureSpec } from './figure-spec'
 import { drawFigure } from './figure-draw'
 
 export interface DrawnFigure {
@@ -77,20 +77,55 @@ function nounFor(spec: FigureSpec): string {
  * "a diagram of a plant cell" will happily describe one, and nothing here can
  * draw it. Better an honest "none" and a figure from the library.
  */
-export function buildFigureSpecPrompt(subject: string, level: string, focus: string): string {
+/**
+ * Settings to hang a figure's data on.
+ *
+ * Asked the same focus six times at rising temperature, the model returned
+ * eleven bar charts in twenty and every one of them was about juice. Apple,
+ * orange, pineapple, mango, grape. Temperature moves the wording; it does not
+ * move the idea. A library of seven hundred near-identical juice charts is
+ * the same failure as no library.
+ *
+ * So the setting is named in the ask and rotated by the caller. Copying the
+ * setting is the intended behaviour here -- it is the data that must vary,
+ * and a list the caller walks is how it does.
+ */
+export const FIGURE_SETTINGS: readonly string[] = [
+  'how learners travel to school', 'sports played at break', 'pets kept at home',
+  'favourite school subjects', 'books borrowed from the library', 'weather over a week',
+  'crops grown on a farm', 'instruments in a school band', 'fruit sold at a market',
+  'languages spoken at home', 'recycling collected by class', 'birds seen in a garden',
+  'heights of plants in a tray', 'water used each day', 'goals scored in a season',
+  'temperature through the day', 'distance walked each day', 'shoes sold in a shop',
+  'time spent on homework', 'masses of parcels at a post office',
+]
+
+export function buildFigureSpecPrompt(
+  subject: string,
+  level: string,
+  focus: string,
+  setting?: string,
+): string {
   return [
     `A ${subject} question at ${level} about: ${focus}.`,
     'If a printed figure would help, describe ONE as a single JSON object. If it would not, or if the figure needed is not in the list below, return {"kind":"none"}.',
     '',
-    'The only figures that can be drawn:',
-    '{"kind":"polygon","sides":3|4,"shape":"trapezium|rectangle|right|scalene","edges":["18 cm","20 cm","30 cm","16 cm"],"rightAngle":"bottom-left|bottom-right|none"}  — edges clockwise from the top, one per side',
-    '{"kind":"spinners","count":1|2,"sides":3-10,"fills":["white","grey"]}',
-    '{"kind":"graph","x":{"label":"mass of marble (g)","min":0,"max":50,"step":10},"y":{"label":"diameter of crater (cm)","min":0,"max":8,"step":2},"points":[[5,1],[15,1.5],[25,2.7]]}',
-    '{"kind":"barchart","y":{"label":"number of learners","min":0,"max":20,"step":5},"bars":[{"label":"walk","value":12},{"label":"bus","value":7}],"xLabel":"how they travel"}',
-    '{"kind":"numberline","min":0,"max":10,"step":1,"marks":[{"at":3,"label":"A"}]}',
-    '{"kind":"choice","options":[{"angles":[24,76,80]},{"angles":[56,34,90]},{"angles":[24,66,90]},{"angles":[36,64,80]}]} — several triangles side by side, lettered A onwards, for a "which one" question. Each set of angles must total 180, and the question then asks about A, B, C or D.',
+    'The only figures that can be drawn. Every <...> is a slot to fill:',
+    '{"kind":"polygon","sides":3 or 4,"shape":"trapezium|rectangle|right|scalene","edges":[<length with unit>, ... one per side, clockwise from the top],"rightAngle":"bottom-left|bottom-right|none"}',
+    '{"kind":"spinners","count":1 or 2,"sides":<3-10>,"fills":[<"white" or "grey">, ... one per side]}',
+    '{"kind":"graph","x":{"label":<what is measured, with unit>,"min":<n>,"max":<n>,"step":<n>},"y":{same},"points":[[<x>,<y>], ...]}',
+    '{"kind":"barchart","y":{"label":<what is counted>,"min":<n>,"max":<n>,"step":<n>},"bars":[{"label":<category>,"value":<n>}, ...],"xLabel":<what the categories are>}',
+    '{"kind":"numberline","min":<n>,"max":<n>,"step":<n>,"marks":[{"at":<n>,"label":<letter or number>}, ...]}',
+    '{"kind":"choice","options":[{"angles":[<a>,<b>,<c>]}, ...]} — 2-4 triangles side by side, lettered A on, for a "which one" question. Each set totals 180.',
     '',
-    'Every point must sit inside its own axes. Every label must be one the learner can read off the drawing.',
+    '',
+    `The figure must be ABOUT ${focus}; one that is not is worse than none.`,
+    'Cells, circuits, maps, apparatus, food chains, particles and the water',
+    'cycle cannot be drawn here: for those, {"kind":"none"}.',
+    'Every point sits inside its own axes. Labels name real things — the four',
+    'metals, the four sports — never "Category A", "Item 1" or "Trial number".',
+    'A number line carries one to three marks, not one per division.',
+    ...(setting ? [`Where the figure carries data, make it about: ${setting}.`] : []),
     'Return ONLY the JSON object.',
   ].join('\n')
 }
@@ -115,6 +150,7 @@ export function drawFromReply(raw: unknown): DrawnFigure | null {
 
   const spec = parseFigureSpec(parsed)
   if (!spec) return null
+  if (hasPlaceholderLabels(spec)) return null
 
   const svg = drawFigure(spec)
   if (!svg) return null

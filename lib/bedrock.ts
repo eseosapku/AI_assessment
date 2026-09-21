@@ -69,14 +69,30 @@ export function buildModelCandidates(seedId: string): string[] {
   return [...new Set(expanded.filter(Boolean))]
 }
 
+/**
+ * Is this error about the MODEL ID, so another candidate is worth trying?
+ *
+ * `validationexception` on its own used to qualify, and that is the whole
+ * class of request errors, not the model-id one. A run of 600 calls sent
+ * temperature 3.15 — invalid, and identically invalid for every candidate —
+ * and each call walked the entire fallback chain and then reported the LAST
+ * candidate's complaint: "the provided model identifier is invalid". The
+ * model ids were all fine. Every call failed, nothing in the log named the
+ * real cause, and the fallback chain turned one clear error into a wrong one.
+ *
+ * So a ValidationException now has to actually be about the model to qualify.
+ * Anything else is raised where it happened.
+ */
 function isModelIdError(err: any): boolean {
   const text = `${err?.name || ''} ${err?.message || ''}`.toLowerCase()
-  return (
+  if (
     text.includes('provided model identifier is invalid') ||
     text.includes('invalid model') ||
-    text.includes('validationexception') ||
     text.includes('on-demand throughput')
-  )
+  ) {
+    return true
+  }
+  return text.includes('validationexception') && /\bmodel\b/.test(text)
 }
 
 export interface ImageInput {

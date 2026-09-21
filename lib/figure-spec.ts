@@ -207,7 +207,13 @@ export function parseFigureSpec(raw: unknown): FigureSpec | null {
       if (at < min || at > max) return null
       marks.push({ at, label })
     }
-    return { kind: 'numberline', min, max, step, marks: marks.slice(0, 6) }
+    // A mark on every division is a ruler. Asked for one to three marks, the
+    // model returned "0, 100, 200, 300, 400, 500" on a line from 0 to 1000 --
+    // drawable, on topic, and nothing a question can be asked about, because
+    // there is nothing left for the learner to read off. Refused rather than
+    // trimmed: trimming to the first three invents a figure nobody described.
+    if (marks.length === 0 || marks.length > 3) return null
+    return { kind: 'numberline', min, max, step, marks }
   }
 
   if (kind === 'choice') {
@@ -233,6 +239,64 @@ export function parseFigureSpec(raw: unknown): FigureSpec | null {
   }
 
   return null
+}
+
+/**
+ * Is this figure labelled with placeholders rather than with things?
+ *
+ * Taking the worked examples out of the spec prompt fixed one fault and
+ * created another: with no instance to copy, the labels went abstract —
+ * "Category A, Category B, Category C, Category D", "Measurement (cm) against
+ * Trial Number". Every one of those is on topic and none of them is a figure.
+ * A Cambridge bar chart names the four drinks.
+ *
+ * Asked for in the prompt and checked here, because asking has not once been
+ * enough on its own in this codebase.
+ */
+/**
+ * A bar's category. "A" here is the fourth unnamed thing; on an axis, "d"
+ * is distance, so the two lists are kept apart.
+ */
+const PLACEHOLDER_CATEGORY = new RegExp(
+  [
+    // Any noun followed by a lone A-D: "Category A", "Drink B", "Option C".
+    // Naming the nouns was the first attempt and "Drink A" walked straight
+    // through it -- the trailing letter is the tell, not the noun. This does
+    // cost the occasional real label ("Vitamin A"), which is the cheaper
+    // mistake: one draft fewer out of several hundred, and a human sees the
+    // rest anyway.
+    // The space is load-bearing: without it "tea" is a noun plus a trailing
+    // "a", and so are soda, pasta and banana.
+    String.raw`^[a-z]+\s+[a-d]$`,
+    String.raw`^[a-d]$`,
+    // With a digit the noun has to be one of the empty ones, or "Year 6" and
+    // "Grade 5" -- which are real categories -- would go too.
+    String.raw`^(?:category|item|option|group|type|class|sample|trial|test|object|thing|value)\s*[0-9]$`,
+  ].join('|'),
+  'i',
+)
+
+/** An axis that names no quantity. "Trial number" measures nothing. */
+const PLACEHOLDER_AXIS = new RegExp(
+  [
+    String.raw`^(?:trial|item|sample|test)\s*(?:number|no\.?)?$`,
+    String.raw`^(?:measurement|result|reading|amount|quantity|data)(?:\s*\(.*\))?$`,
+  ].join('|'),
+  'i',
+)
+
+export function hasPlaceholderLabels(spec: FigureSpec): boolean {
+  const bad = (re: RegExp, w: unknown) => re.test(String(w ?? '').trim())
+  switch (spec.kind) {
+    case 'barchart':
+      return spec.bars.some((b) => bad(PLACEHOLDER_CATEGORY, b.label))
+        || bad(PLACEHOLDER_AXIS, spec.y.label)
+        || bad(PLACEHOLDER_AXIS, spec.xLabel)
+    case 'graph':
+      return bad(PLACEHOLDER_AXIS, spec.x.label) || bad(PLACEHOLDER_AXIS, spec.y.label)
+    default:
+      return false
+  }
 }
 
 /**

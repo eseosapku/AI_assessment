@@ -29,8 +29,8 @@ describe('drawing what came back', () => {
 
   it('names a graph a graph and a number line a number line', () => {
     expect(drawFromReply('{"kind":"graph","x":{"label":"t","min":0,"max":10,"step":5},"y":{"label":"d","min":0,"max":10,"step":5},"points":[[0,0],[10,10]]}')!.noun).toBe('graph')
-    expect(drawFromReply('{"kind":"numberline","min":0,"max":5,"step":1}')!.noun).toBe('number line')
-    expect(drawFromReply('{"kind":"barchart","y":{"label":"n","min":0,"max":10,"step":5},"bars":[{"label":"a","value":3},{"label":"b","value":6}]}')!.noun).toBe('bar chart')
+    expect(drawFromReply('{"kind":"numberline","min":0,"max":5,"step":1,"marks":[{"at":2,"label":"A"}]}')!.noun).toBe('number line')
+    expect(drawFromReply('{"kind":"barchart","y":{"label":"n","min":0,"max":10,"step":5},"bars":[{"label":"tea","value":3},{"label":"juice","value":6}]}')!.noun).toBe('bar chart')
   })
 
   it('returns null for "none", for junk, and for what it cannot draw', () => {
@@ -90,5 +90,56 @@ describe('asking only when it is worth asking', () => {
   it('says no to nothing at all', () => {
     expect(worthDrawing('')).toBe(false)
     expect(worthDrawing(undefined)).toBe(false)
+  })
+})
+
+describe('what the drawable menu must refuse', () => {
+  it('refuses a bar chart labelled with placeholders, and keeps one labelled with things', () => {
+    const y = '"y":{"label":"number of learners","min":0,"max":20,"step":5}'
+    const placeholder = `{"kind":"barchart",${y},"bars":[{"label":"Category A","value":3},{"label":"Category B","value":6}]}`
+    const real = `{"kind":"barchart",${y},"bars":[{"label":"walk","value":12},{"label":"bus","value":7}]}`
+    expect(drawFromReply(placeholder)).toBeNull()
+    expect(drawFromReply(real)).not.toBeNull()
+  })
+
+  it('refuses an axis that measures nothing', () => {
+    const bad = '{"kind":"graph","x":{"label":"Trial Number","min":0,"max":5,"step":1},"y":{"label":"Measurement (cm)","min":0,"max":10,"step":2},"points":[[1,3],[2,5]]}'
+    const good = '{"kind":"graph","x":{"label":"mass of marble (g)","min":0,"max":50,"step":10},"y":{"label":"depth of crater (cm)","min":0,"max":8,"step":2},"points":[[5,1],[25,2.7]]}'
+    expect(drawFromReply(bad)).toBeNull()
+    expect(drawFromReply(good)).not.toBeNull()
+  })
+
+  it('keeps a single-letter axis, which is a quantity and not a placeholder', () => {
+    expect(drawFromReply('{"kind":"graph","x":{"label":"t","min":0,"max":10,"step":5},"y":{"label":"d","min":0,"max":10,"step":5},"points":[[0,0],[10,10]]}')).not.toBeNull()
+  })
+
+  it('refuses a number line marked on every division, which is a ruler', () => {
+    const ruler = '{"kind":"numberline","min":0,"max":1000,"step":100,"marks":[{"at":0,"label":"0"},{"at":100,"label":"100"},{"at":200,"label":"200"},{"at":300,"label":"300"},{"at":400,"label":"400"},{"at":500,"label":"500"}]}'
+    const asked = '{"kind":"numberline","min":0,"max":1000,"step":100,"marks":[{"at":370,"label":"A"}]}'
+    expect(drawFromReply(ruler)).toBeNull()
+    expect(drawFromReply(asked)).not.toBeNull()
+  })
+})
+
+describe('placeholders that are not placeholders', () => {
+  const chart = (a: string, b: string) =>
+    `{"kind":"barchart","y":{"label":"number sold","min":0,"max":20,"step":5},"bars":[{"label":"${a}","value":12},{"label":"${b}","value":7}]}`
+
+  it('refuses a noun with a letter stuck on the end', () => {
+    for (const [a, b] of [['Drink A', 'Drink B'], ['Category A', 'Category B'], ['Group C', 'Group D']]) {
+      expect(drawFromReply(chart(a, b)), a).toBeNull()
+    }
+  })
+
+  it('keeps words that merely END in a, b, c or d', () => {
+    // "tea" is a noun plus a trailing "a" to a regex without a space in it.
+    for (const [a, b] of [['tea', 'coffee'], ['soda', 'water'], ['pasta', 'rice'], ['banana', 'mango']]) {
+      expect(drawFromReply(chart(a, b)), a).not.toBeNull()
+    }
+  })
+
+  it('keeps a numbered category that names a real group', () => {
+    expect(drawFromReply(chart('Year 5', 'Year 6'))).not.toBeNull()
+    expect(drawFromReply(chart('Item 1', 'Item 2'))).toBeNull()
   })
 })
