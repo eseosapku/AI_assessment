@@ -178,6 +178,18 @@ export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnsw
  */
 const PLACEHOLDER = /^(the )?(answer|value|name|number|correct answer|plant name|[a-z] ?name|word|term|result|quantity|unit|label|species|colour|color)$/i
 
+/** "name here", "<the answer>", "..." -- a slot rather than an answer. */
+const FILL_IN_THE_BLANK = new RegExp(
+  [
+    String.raw`\bname\b.*\bhere\b`,
+    String.raw`<.*>`,
+    String.raw`\.\.\.`,
+    String.raw`\byour answer\b`,
+    String.raw`\banswer here\b`,
+  ].join('|'),
+  'i',
+)
+
 export function isPlaceholderKey(key: ShortAnswerKey | null | undefined): boolean {
   const accepted = (Array.isArray(key?.accepted) ? key!.accepted : [])
     .map((a) => String(a ?? '').trim())
@@ -195,5 +207,11 @@ export function isPlaceholderKey(key: ShortAnswerKey | null | undefined): boolea
   if (accepted.every((a) => a.split(/\s+/).length > 6)) return true
   // Every listed form being a placeholder is the tell. One real answer beside
   // a vague alternative is fine.
-  return accepted.every((a) => PLACEHOLDER.test(a) || /name.*here|<.*>|\.\.\./.test(a))
+  //
+  // Built with String.raw rather than written inline: the inline version had
+  // lost its word boundaries to a stray escape and read as literal backspace
+  // characters, so it silently matched nothing and this rule had never once
+  // fired. A regex that cannot match looks exactly like a rule that is never
+  // needed.
+  return accepted.every((a) => PLACEHOLDER.test(a) || FILL_IN_THE_BLANK.test(a))
 }

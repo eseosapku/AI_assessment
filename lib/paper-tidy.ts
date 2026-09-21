@@ -23,6 +23,22 @@
  *     adjacent counts as a fault.
  */
 
+/**
+ * A stem that points at a picture.
+ *
+ * Mirrors `dangling-reference.ts` rather than importing it, because this asks
+ * a narrower question: not "is the promise kept" but "would removing the
+ * figure break this question".
+ */
+const PROMISES_A_FIGURE =
+  new RegExp(
+    [
+      String.raw`\b(?:look at|study|examine|refer(?:ring|s)? to|in|from|using|shown (?:in|on))\s+(?:the|this)\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map|table)\b`,
+      String.raw`\b(?:diagram|figure|graph|chart|map|table)\s+(?:above|below|shown|shows?|opposite)\b`,
+    ].join('|'),
+    'i',
+  )
+
 export interface TidyQuestion {
   question?: unknown
   image_url?: unknown
@@ -110,6 +126,13 @@ export function dropRepeatedFigures<T extends TidyQuestion>(questions: readonly 
     if (!path) return q
     const previous = lastSeenAt.get(path)
     if (previous !== undefined && i - previous > 1) {
+      // Unless the question needs it. "Look at the diagram" with the diagram
+      // taken away is unanswerable, and a figure shown twice is merely
+      // repetitive -- the third time I have removed a picture out from under
+      // a stem that pointed at it, so the rule is written down here:
+      //
+      //   a repeated figure is a blemish; a missing one is a broken question.
+      if (PROMISES_A_FIGURE.test(String(q?.question ?? ''))) return q
       removed++
       const { image_url, ...rest } = q
       return rest as T

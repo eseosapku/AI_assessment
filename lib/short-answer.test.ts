@@ -170,3 +170,18 @@ describe('a key that is the shape of an answer, not an answer', () => {
     expect(isPlaceholderKey({ accepted: ['photosynthesis', 'name'] })).toBe(false)
   })
 })
+
+describe('the fill-in-the-blank keys that were never caught', () => {
+  it('rejects a slot where an answer should be', () => {
+    // This rule had never fired: its word boundaries had been written as
+    // literal backspace characters, so the regex could not match anything.
+    for (const a of ['name here', 'plant name here', '<the answer>', '...', 'your answer', 'answer here']) {
+      expect(isPlaceholderKey({ accepted: [a] }), a).toBe(true)
+    }
+  })
+
+  it('still accepts a real answer that happens to contain those words', () => {
+    expect(isPlaceholderKey({ accepted: ['photosynthesis'] })).toBe(false)
+    expect(isPlaceholderKey({ accepted: ['here'] })).toBe(false)
+  })
+})

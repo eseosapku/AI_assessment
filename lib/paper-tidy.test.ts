@@ -79,3 +79,26 @@ describe('together', () => {
     }
   })
 })
+
+describe('never take a picture out from under a stem that points at it', () => {
+  it('keeps a repeated figure when the question needs it', () => {
+    // A repeated figure is a blemish; a missing one is a broken question.
+    const { questions, removed } = dropRepeatedFigures([
+      { question: 'Look at the diagram. Name the organelle.', image_url: '/m.png' },
+      { question: 'Something else.' },
+      { question: 'Look at the diagram. Explain the role of the cristae.', image_url: '/m.png' },
+    ])
+    expect(removed).toBe(0)
+    expect(questions[2].image_url).toBe('/m.png')
+  })
+
+  it('still removes one the question never mentions', () => {
+    const { questions, removed } = dropRepeatedFigures([
+      { question: 'Look at the diagram. Name the organelle.', image_url: '/m.png' },
+      { question: 'Something else.' },
+      { question: 'Work out the mean of 4, 6 and 8.', image_url: '/m.png' },
+    ])
+    expect(removed).toBe(1)
+    expect(questions[2].image_url).toBeUndefined()
+  })
+})
