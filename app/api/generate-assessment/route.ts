@@ -24,6 +24,7 @@ import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences, danglingReference } from '@/lib/dangling-reference'
 import { subjectGuidance } from '@/lib/subject-guidance'
+import { dropUnmarkable } from '@/lib/unmarkable'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
 import { buildExamPaperPrompt, examCommandsFor, type ExamPartSpec } from '@/lib/exam-paper-prompt'
 import { repairBookReferences } from '@/lib/book-reference'
@@ -2396,7 +2397,16 @@ ${commandBlock}`
         console.log(`Dropped ${dropped.length} question(s) referencing absent ${[...new Set(dropped)].join('/')}`)
       }
 
-      return cleanQuestionPaper(kept as any[])
+      // A written answer with no mark scheme and no usable key is worth marks
+      // nobody can award. Same class of fault as the stems above — a promise
+      // the paper cannot keep — and dropped in the same place, while the
+      // top-up loop can still refill the gap.
+      const markable = dropUnmarkable(kept as any[])
+      if (markable.dropped > 0) {
+        console.log(`Dropped ${markable.dropped} question(s) with nothing to mark against`)
+      }
+
+      return cleanQuestionPaper(markable.kept as any[])
     }
 
     allQuestions = makeShippable(deduplicateAndFix(allQuestions))
