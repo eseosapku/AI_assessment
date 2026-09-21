@@ -2575,8 +2575,16 @@ ${commandBlock}`
           // question costs the student practice — so a redundant or
           // mislabelled figure stays when the alternative is an unanswerable
           // stem. The paper keeps its length either way.
-          if (danglingReference({ ...q, image_url: undefined }) === 'figure') {
-            console.log(`Kept figure despite "${verdict.reason}": the stem depends on it`)
+          // ANY dangling kind, not just 'figure'. Asking only about figures
+          // let a picture go from "Look at the diagram. Simplify the
+          // expression given by the function f(x)...", because the bare word
+          // "function" made that stem read as a dangling CODE reference and
+          // the check compared against the wrong string. What matters is
+          // whether the question still stands without its picture, and any
+          // unkept promise means it does not.
+          const without = danglingReference({ ...q, image_url: undefined })
+          if (without) {
+            console.log(`Kept figure despite "${verdict.reason}": the stem depends on it (${without})`)
             continue
           }
 

@@ -138,3 +138,36 @@ describe('the promise that matched nothing', () => {
       .toBe('figure')
   })
 })
+
+describe('a maths function is not a missing code snippet', () => {
+  it('does not call an inline function definition a dangling reference', () => {
+    // "the function" matched the CODE promise — the first pattern in the list
+    // — so it short-circuited before any figure pattern was tried, and good
+    // Maths questions were dropped as if a snippet were missing.
+    for (const stem of [
+      'Simplify the expression given by the function f(x) = 2x + 3.',
+      'Work out the value of g(2) for the function g(x) = x squared.',
+    ]) {
+      expect(danglingReference({ question: stem }), stem).toBeNull()
+    }
+  })
+
+  it('still reports the figure the same stem promises', () => {
+    // The real fault behind five unattached diagrams: this was reported as
+    // 'code', so the guard that asks "does the stem need its picture?" was
+    // told the wrong thing and let the picture go.
+    expect(danglingReference({
+      question: 'Look at the diagram. Simplify the expression given by the function f(x) = 2x + 3.',
+    })).toBe('figure')
+  })
+
+  it('still catches a genuinely missing snippet', () => {
+    for (const stem of [
+      'Consider the following code snippet. What is printed?',
+      'In the following program, what is the value of total?',
+      'Study the algorithm below and state its output.',
+    ]) {
+      expect(danglingReference({ question: stem }), stem).toBe('code')
+    }
+  })
+})

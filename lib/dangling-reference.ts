@@ -57,6 +57,26 @@ const PROMISES: readonly Promise_[] = [
   { kind: 'passage', pattern: /\b(?:the )?(?:passage|extract|text|article)\s+(?:above|below|shown)\b/i },
 ]
 
+/**
+ * A mathematical function, not a programming one.
+ *
+ * "Simplify the expression given by the function f(x)" matched the code
+ * promise above on the bare word "function" — the FIRST pattern in the list,
+ * so it short-circuited before any figure pattern was tried, and the stem
+ * "Look at the diagram. Simplify the expression given by the function f(x)..."
+ * was reported as a dangling CODE reference.
+ *
+ * That did two kinds of damage. Maths questions defining a function inline
+ * were dropped as if a code snippet were missing, which silently shortens a
+ * paper; and the figure guard downstream, which asks whether a stem dangles
+ * for a FIGURE before detaching its picture, was told 'code' and let the
+ * picture go.
+ *
+ * f(x), g(t), h(n): notation no programming question writes in prose, and the
+ * definition travels with it, so nothing is missing.
+ */
+const MATHS_FUNCTION = /\b[a-z]\s*\(\s*[a-z]\s*\)|\bf\s*:\s*[a-z]\s*(?:→|->)/i
+
 /** Something that looks like real code rather than a sentence about code. */
 const LOOKS_LIKE_CODE =
   /(?:^|\n)\s*(?:for|while|if|def|function|int|var|let|const|print|return|class|import|#include)\b|[{};]\s*$|=\s*\w+\s*[+\-*/]|\bprint\s*\(|\breturn\b.*[;)]/m
@@ -97,6 +117,10 @@ export function danglingReference(q: ReferencingQuestion): ReferenceKind | null 
     if (kind === 'code') {
       // An attached image can legitimately be a screenshot of code.
       if (hasCode(body) || hasImage) continue
+      // A Maths function is not a missing snippet, and calling it one costs a
+      // good question and a figure. Keep looking: the stem may still be
+      // promising something else it has not delivered.
+      if (MATHS_FUNCTION.test(stem)) continue
       return 'code'
     }
     if (kind === 'figure') {
