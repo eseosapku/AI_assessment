@@ -865,7 +865,8 @@ function buildPrompt(opts: {
 - Do NOT restate what it shows. "The diagram shows a circuit with a battery and two lamps. Name the component..." tells the learner what they are looking at and wastes the figure. Write "Look at the diagram. Name the component labelled A." instead.
 - Do NOT write an image_key. It is already attached.`
             : 'The scenario must NEVER mention a diagram, picture, graph or table. There is no figure: a question about something the learner cannot see is unanswerable and gets deleted. Describe the situation in words instead, in a sentence you write yourself about the topic and subject of THIS question. Do not reuse a situation from anywhere else in this paper.',
-          `Return exactly ${questionParts.length} questions, in this order, all type "longform". The "marks" value of each is FIXED below — copy it exactly, do not choose your own:`,
+          `EVERY question must ASK something. A sentence that only sets a scene -- "A train travels 150 km in 3 hours." -- is not a question: the learner gets an answer box, a mark allocation and nothing to answer. Scenario first, then the demand.
+Return exactly ${questionParts.length} questions, in this order, all type "longform". The "marks" value of each is FIXED below — copy it exactly, do not choose your own:`,
           ...questionParts.map((p, i) => {
             const label = p.part ? `(${p.part})` : `${i + 1}.`
             return p.format === 'short'

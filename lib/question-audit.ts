@@ -397,8 +397,22 @@ function auditInteractive(q: Record<string, unknown>, i: number, out: AuditFindi
  * closed list of command words for precisely this reason. Anything with
  * neither is a scenario that lost its question.
  */
-const COMMAND_WORD =
-  /\b(write down|state|name|give|identify|list|calculate|work out|find|determine|explain|describe|compare|suggest|show that|draw a ring|tick|complete|convert|estimate|measure|label|choose|select|match|order|sort|solve|simplify|expand|factorise|plot|sketch|predict|evaluate|justify|discuss|outline|define|classify)\b/i
+const COMMANDS =
+  '(?:write down|write|state|name|give|identify|list|calculate|work out|find|determine|explain|describe|compare|suggest|show that|draw a ring|tick|complete|convert|estimate|measure|label|choose|select|match|order|sort|solve|simplify|expand|factorise|plot|sketch|predict|evaluate|justify|discuss|outline|define|classify)'
+
+/** A command opening a sentence: "Write the number in expanded form." */
+const COMMAND_AT_START = new RegExp(String.raw`^${COMMANDS}\b`, 'i')
+
+/**
+ * A command following the clause that sets it up: "If you use 15 cups of
+ * orange juice, calculate how many cups of pineapple juice you need."
+ *
+ * Requiring the command to OPEN the sentence was too strict and called both
+ * of those unanswerable. It still excludes a command word buried in narration
+ * -- "the students were discussing human reproduction" is not an instruction
+ * to discuss -- because nothing there opens a sentence or follows a comma.
+ */
+const COMMAND_AFTER_CLAUSE = new RegExp(String.raw`[,;]\s+${COMMANDS}\b`, 'i')
 
 function asksNothing(stem: string): boolean {
   if (/\?/.test(stem)) return false
@@ -406,7 +420,10 @@ function asksNothing(stem: string): boolean {
   // human reproduction" would read as a command to discuss.
   return !stem
     .split(/(?<=[.!])\s+/)
-    .some((sentence) => COMMAND_WORD.test(sentence.trim().slice(0, 40)))
+    .some((sentence) => {
+      const t = sentence.trim()
+      return COMMAND_AT_START.test(t) || COMMAND_AFTER_CLAUSE.test(t)
+    })
 }
 
 /**

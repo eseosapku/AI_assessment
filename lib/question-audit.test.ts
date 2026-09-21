@@ -407,3 +407,36 @@ describe('a one-word box under a two-part question', () => {
     }])).not.toContain('short-answer-asks-two-things')
   })
 })
+
+describe('a command does not have to open the sentence', () => {
+  const lf = (question: string) => ({ type: 'longform', question, marks: 2, marking_criteria: ['a', 'b'], explanation: 'x' })
+
+  it('accepts a command after the clause that sets it up', () => {
+    // Both were called unanswerable by the first version of this check, which
+    // wanted the command word in the first forty characters of a sentence.
+    for (const stem of [
+      'If you use 15 cups of orange juice, calculate how many cups of pineapple juice you need.',
+      'A recipe uses 3 parts orange to 2 parts pineapple, work out the amount needed.',
+      'Write the number 32 in expanded form.',
+    ]) {
+      expect(codes([lf(stem)]), stem).not.toContain('no-question-asked')
+    }
+  })
+
+  it('still catches a scenario with no demand anywhere', () => {
+    // All four generated live in one Primary Mathematics paper.
+    for (const stem of [
+      'A bicycle originally cost $200.',
+      'A train travels 150 km in 3 hours.',
+      'A submarine is 150 meters below sea level.',
+      'A rectangular garden has a length of 12 meters and a width of 8 meters.',
+    ]) {
+      expect(codes([lf(stem)]), stem).toContain('no-question-asked')
+    }
+  })
+
+  it('still ignores a command word buried in narration', () => {
+    expect(codes([lf('During a biology lesson the students were discussing human reproduction.')]))
+      .toContain('no-question-asked')
+  })
+})

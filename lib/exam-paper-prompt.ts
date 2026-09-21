@@ -69,7 +69,7 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
   }
   if (spec.format === 'short') {
     const second = commands.short[1] ?? commands.short[0]
-    return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". ASK ONE THING. Never add a second demand: "State the medium where the speed of sound is highest. Explain why." cannot be answered in one word and the box only takes one. No "and explain", no "and describe", no "give a reason". MUST carry "short_answer". No marking_criteria.`
+    return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". ASK ONE THING: no "and explain", no second demand — the box takes one word. MUST carry "short_answer". No marking_criteria.`
   }
   const second = commands.extended[1] ?? commands.extended[0]
   return `${label} "marks": ${spec.marks}. Answered in a sentence or two. Open with "${commands.extended[0]}" or "${second}". MUST carry "marking_criteria" with exactly ${spec.marks} entries, one per mark. No short_answer.`
@@ -105,6 +105,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     lines.push(
       `This question has ${parts.length} parts. Write ONE scenario sentence under 20 words — a situation, a measurement, something a named student did — and BEGIN EVERY part with that same sentence so each reads on its own.`,
       'The parts must ask DIFFERENT things. Two parts that could take the same answer are one question, not two.',
+      'EVERY part must ASK something after it. A sentence that only sets the scene is not a question.',
       '',
     )
   }
