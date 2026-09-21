@@ -128,6 +128,8 @@ export default function ExamPrepForm() {
   // Every topic this subject can be examined on, and the ones the learner
   // narrowed to. Empty means the whole subject.
   const [cpSyllabus, setCpSyllabus] = useState<string[]>([])
+  const [cpGroups, setCpGroups] = useState<{ area: string; topics: string[] }[]>([])
+  const [cpFind, setCpFind] = useState('')
   const [cpTopics, setCpTopics] = useState<string[]>([])
 
   useEffect(() => {
@@ -185,9 +187,10 @@ export default function ExamPrepForm() {
         if (current) {
           setCpSittings(res.ok && Array.isArray(json?.sittings) ? json.sittings : [])
           setCpSyllabus(res.ok && Array.isArray(json?.syllabus) ? json.syllabus : [])
+          setCpGroups(res.ok && Array.isArray(json?.groups) ? json.groups : [])
         }
       } catch {
-        if (current) { setCpSittings([]); setCpSyllabus([]) }
+        if (current) { setCpSittings([]); setCpSyllabus([]); setCpGroups([]) }
       }
     })()
     return () => { current = false }
@@ -793,57 +796,115 @@ export default function ExamPrepForm() {
               examined" named a number and let the learner choose nothing,
               which is a worse answer than not mentioning it at all. */}
           {(() => {
-            const pool = cpSitting
-              ? (cpSittings.find((x) => x.id === cpSitting)?.topics ?? [])
-              : cpSyllabus
+            const chosenSitting = cpSitting
+              ? cpSittings.find((x) => x.id === cpSitting)?.topics ?? []
+              : null
+            // Grouped by area, and narrowed to the sitting when one is picked.
+            const areas = cpGroups
+              .map((g) => ({
+                area: g.area,
+                topics: chosenSitting ? g.topics.filter((t) => chosenSitting.includes(t)) : g.topics,
+              }))
+              .filter((g) => g.topics.length > 0)
+            const pool = areas.flatMap((g) => g.topics)
             if (pool.length === 0) return null
+
+            const find = cpFind.trim().toLowerCase()
+            const shown = find
+              ? areas
+                  .map((g) => ({ area: g.area, topics: g.topics.filter((t) => t.toLowerCase().includes(find)) }))
+                  .filter((g) => g.topics.length > 0)
+              : areas
+
+            const toggle = (t: string) =>
+              setCpTopics((prev) => (prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t]))
+            const toggleArea = (topics: string[]) =>
+              setCpTopics((prev) => {
+                const allOn = topics.every((t) => prev.includes(t))
+                return allOn ? prev.filter((t) => !topics.includes(t)) : [...new Set([...prev, ...topics])]
+              })
+
             return (
               <div className="mt-5 border-t border-ss-line pt-4 dark:border-white/10">
-                <div className="mb-2 flex flex-wrap items-baseline justify-between gap-2">
+                <div className="mb-1 flex flex-wrap items-baseline justify-between gap-2">
                   <span className="text-xs font-black uppercase tracking-widest text-ss-slate">
                     What it will ask about
                   </span>
                   <span className="text-[12.5px] font-semibold text-ss-slate">
-                    {cpTopics.length === 0 ? `all ${pool.length}` : `${cpTopics.length} of ${pool.length} chosen`}
+                    {cpTopics.length === 0
+                      ? `the whole subject · ${pool.length} topics`
+                      : `${cpTopics.length} chosen`}
                     {cpTopics.length > 0 && (
                       <button
                         type="button"
                         onClick={() => setCpTopics([])}
                         className="ml-2 font-bold text-ss-accent underline underline-offset-2"
                       >
-                        use all
+                        clear
                       </button>
                     )}
                   </span>
                 </div>
                 <p className="mb-3 text-[13px] font-medium text-ss-slate">
-                  Tap any to narrow the paper to just those. Leave them alone and you get the lot.
+                  Leave this alone for a paper across everything, or pick the topics you want to work on.
                 </p>
-                <div className="flex flex-wrap gap-1.5">
-                  {pool.map((t) => {
-                    const on = cpTopics.length === 0 || cpTopics.includes(t)
-                    return (
-                      <button
-                        key={t}
-                        type="button"
-                        aria-pressed={cpTopics.includes(t)}
-                        onClick={() =>
-                          setCpTopics((prev) =>
-                            prev.includes(t) ? prev.filter((x) => x !== t) : [...prev, t],
-                          )
-                        }
-                        className={`rounded-lg border px-2.5 py-1.5 text-[12.5px] font-semibold transition ${
-                          on
-                            ? 'border-ss-accent bg-ss-accent/10 text-ss-ink dark:text-white'
-                            : 'border-ss-line text-ss-slate hover:border-ss-accent/40 dark:border-white/10'
-                        }`}
-                      >
-                        {cpTopics.includes(t) && <Check className="mr-1 inline h-3 w-3" />}
-                        {t}
-                      </button>
-                    )
-                  })}
-                </div>
+
+                <label className="sr-only" htmlFor="cp-find">Search topics</label>
+                <input
+                  id="cp-find"
+                  type="search"
+                  value={cpFind}
+                  onChange={(e) => setCpFind(e.target.value)}
+                  placeholder={`Search ${pool.length} topics…`}
+                  className="mb-3 w-full rounded-xl border-2 border-ss-line bg-transparent px-3.5 py-2.5 text-sm text-ss-ink placeholder:text-ss-slate focus:border-ss-accent focus:outline-none dark:border-white/10 dark:text-white"
+                />
+
+                {shown.length === 0 ? (
+                  <p className="text-[13px] font-medium text-ss-slate">
+                    Nothing matches “{cpFind}”.
+                  </p>
+                ) : (
+                  <div className="flex flex-col gap-4">
+                    {shown.map((g) => {
+                      const allOn = g.topics.every((t) => cpTopics.includes(t))
+                      return (
+                        <div key={g.area}>
+                          <div className="mb-1.5 flex items-baseline justify-between gap-3">
+                            <span className="text-[12.5px] font-bold text-ss-ink dark:text-white">{g.area}</span>
+                            <button
+                              type="button"
+                              onClick={() => toggleArea(g.topics)}
+                              className="text-[12px] font-semibold text-ss-accent underline underline-offset-2"
+                            >
+                              {allOn ? 'none' : 'all'}
+                            </button>
+                          </div>
+                          <div className="flex flex-wrap gap-1.5">
+                            {g.topics.map((t) => {
+                              const picked = cpTopics.includes(t)
+                              return (
+                                <button
+                                  key={t}
+                                  type="button"
+                                  aria-pressed={picked}
+                                  onClick={() => toggle(t)}
+                                  className={`rounded-lg border px-2.5 py-1.5 text-[12.5px] font-semibold transition ${
+                                    picked
+                                      ? 'border-ss-accent bg-ss-accent/10 text-ss-ink dark:text-white'
+                                      : 'border-ss-line text-ss-slate hover:border-ss-accent/40 dark:border-white/10'
+                                  }`}
+                                >
+                                  {picked && <Check className="mr-1 inline h-3 w-3" />}
+                                  {t}
+                                </button>
+                              )
+                            })}
+                          </div>
+                        </div>
+                      )
+                    })}
+                  </div>
+                )}
               </div>
             )
           })()}

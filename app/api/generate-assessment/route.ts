@@ -1945,11 +1945,16 @@ ${commandBlock}`
         // which is unchanged.
         let drawn: DrawnFigure | null = null
         const drawFocus = batchTopics?.[0]
-        // Only where the focus is something this can actually draw. Asking
-        // for every figure slot spends a model call per question to be told
-        // "none" -- a Science paper has about fifteen slots and perhaps three
-        // are drawable.
-        if (assignedFigure && drawFocus && worthDrawing(drawFocus)) {
+        // On the focus alone, NOT on whether the library happened to find
+        // something first.
+        //
+        // Gated behind `assignedFigure` this drew almost nothing: figures are
+        // assigned to a handful of slots, and only where a library image
+        // shares two words with the topic. A perfectly drawable focus with no
+        // library match — which is most of them — never reached the drawing
+        // at all. Drawing is the better source, so it is tried on its own
+        // merits and the library is what catches what it cannot do.
+        if (drawFocus && worthDrawing(drawFocus)) {
           try {
             const spec = await callBedrock(
               buildFigureSpecPrompt(promptSubject, `Stage ${gradeForPrompt}`, drawFocus),

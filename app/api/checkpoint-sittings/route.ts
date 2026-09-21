@@ -29,11 +29,21 @@ export async function GET(request: NextRequest) {
   // Every topic this subject can be examined on, so the learner can SEE them
   // and narrow the paper. "24 topics examined" told them a number and let them
   // pick nothing — which is a worse answer than not mentioning it.
+  // Grouped by the area they belong to, not flattened into one wall.
+  //
+  // Ninety topics in a single run of chips is a list nobody reads: there is no
+  // way in, no way to find one, and no way to tell a Biology topic from a
+  // Physics one. The areas are Cambridge's own; the UI names them plainly
+  // rather than calling them strands.
   const subject = CHECKPOINT_SUBJECTS.find((s) => s.code === code)
-  const syllabus = [...new Set((subject?.strands ?? []).flatMap((st) => STRAND_FOCI[st] ?? []))].sort()
+  const groups = (subject?.strands ?? [])
+    .map((st) => ({ area: st, topics: [...(STRAND_FOCI[st] ?? [])].sort() }))
+    .filter((g) => g.topics.length > 0)
+  const syllabus = [...new Set(groups.flatMap((g) => g.topics))]
 
   return NextResponse.json({
     syllabus,
+    groups,
     sittings: all.map((s) => ({
       id: sittingId(s),
       label: sittingLabel(s, all),
