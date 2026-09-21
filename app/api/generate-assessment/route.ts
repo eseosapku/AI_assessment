@@ -25,6 +25,8 @@ import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences, danglingReference } from '@/lib/dangling-reference'
 import { subjectGuidance } from '@/lib/subject-guidance'
 import { dropUnmarkable } from '@/lib/unmarkable'
+import { figureAllowedOnPaper } from '@/lib/figure-provenance'
+import { figureNoun } from '@/lib/figure-noun'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
 import { buildExamPaperPrompt, examCommandsFor, type ExamPartSpec } from '@/lib/exam-paper-prompt'
 import { repairBookReferences } from '@/lib/book-reference'
@@ -858,16 +860,16 @@ function buildPrompt(opts: {
           // diagrams and then went on to forbid the real ones too, and a paper
           // came back with a catalogue of figures available and none used.
           assignedFigure
-            ? `THIS QUESTION HAS A ${assignedFigure.category === 'graph' || assignedFigure.category === 'chart' ? 'GRAPH' : assignedFigure.category === 'table' ? 'TABLE' : 'DIAGRAM'} printed beside it, which the learner can see. For your information only, it shows: ${assignedFigure.description}
-- Refer to it as "the ${assignedFigure.category === 'graph' || assignedFigure.category === 'chart' ? 'graph' : assignedFigure.category === 'table' ? 'table' : 'diagram'}" and ask a question ABOUT it.
+            ? `THIS QUESTION HAS A ${figureNoun(assignedFigure.category, assignedFigure.description).toUpperCase()} printed beside it, which the learner can see. For your information only, it shows: ${assignedFigure.description}
+- Refer to it as "the ${figureNoun(assignedFigure.category, assignedFigure.description)}" and ask a question ABOUT it.
 - Do NOT restate what it shows. "The diagram shows a circuit with a battery and two lamps. Name the component..." tells the learner what they are looking at and wastes the figure. Write "Look at the diagram. Name the component labelled A." instead.
 - Do NOT write an image_key. It is already attached.`
-            : 'The scenario must NEVER mention a diagram, picture, graph or table. There is no figure. "The diagram shows a pile of rusted chains" describes something the learner cannot see, and the question is then unanswerable and gets deleted. Describe the situation in words instead: "Iron chains are left outside in the rain."',
+            : 'The scenario must NEVER mention a diagram, picture, graph or table. There is no figure: a question about something the learner cannot see is unanswerable and gets deleted. Describe the situation in words instead, in a sentence you write yourself about the topic and subject of THIS question. Do not reuse a situation from anywhere else in this paper.',
           `Return exactly ${questionParts.length} questions, in this order, all type "longform". The "marks" value of each is FIXED below — copy it exactly, do not choose your own:`,
           ...questionParts.map((p, i) => {
             const label = p.part ? `(${p.part})` : `${i + 1}.`
             return p.format === 'short'
-              ? `${label} "marks": 1 exactly. A SHORT ANSWER — the answer is one word, a short phrase or a number. MUST carry "short_answer" with every acceptable form. No marking_criteria, no model_answer. Open with "Write down", "State", "Name" or "Give". Under 15 words after the scenario.`
+              ? `${label} "marks": 1 exactly. A SHORT ANSWER — the answer is one word, a short phrase or a number. MUST carry "short_answer" with every acceptable form. No marking_criteria, no model_answer. Open with "Write down", "State", "Name" or "Give". ASK ONE THING — never add "and explain", "and describe" or "give a reason": the answer box takes one word. Under 15 words after the scenario.`
               : `${label} "marks": ${p.marks} exactly. Answered in a sentence or two, with marking_criteria holding exactly ${p.marks} criteria. NO short_answer. Open with "Explain", "Describe" or "Suggest".`
           }),
           'The parts must ask DIFFERENT things about the scenario. Two parts that could take the same answer are one question, not two.',
@@ -2142,6 +2144,14 @@ ${commandBlock}`
         let best = -1
         let bestScore = 0
         spare.forEach((fig, i) => {
+          // A figure from another subject is never a match, however many words
+          // it shares. Maslow's Hierarchy of Needs, from a Business Studies
+          // coursebook, scored two against "human reproduction" -- the
+          // pyramid's own caption lists reproduction under physiological
+          // needs -- and was printed beside a Stage 9 Science question asking
+          // the learner to name "the part labelled A". The description said
+          // plainly that it was a psychological theory; nothing read it.
+          if (!figureAllowedOnPaper(fig.localPath, promptSubject)) return
           const text = `${fig.description} ${fig.category}`.toLowerCase()
           const score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
           if (score > bestScore) { bestScore = score; best = i }
@@ -2534,6 +2544,22 @@ ${commandBlock}`
     } else if (hasVisionFigures && visualCatalog.length > 0) {
       const attached = attachImagesFromCatalog(assessmentData.questions, visualCatalog)
       if (attached > 0) console.log(`Attached ${attached} vision-matched textbook image(s)`)
+
+      // The same subject gate as the Checkpoint matcher, applied after the
+      // fact because the general matcher lives in a module shared with
+      // StudyLab. A figure from another subject is wrong here for the same
+      // reason it is wrong there, and this is the only place it can be caught
+      // without reshaping that module.
+      {
+        let crossed = 0
+        for (const q of assessmentData.questions as any[]) {
+          if (!q?.image_url) continue
+          if (figureAllowedOnPaper(q.image_url, promptSubject)) continue
+          delete q.image_url
+          crossed++
+        }
+        if (crossed > 0) console.log(`Removed ${crossed} figure(s) belonging to another subject`)
+      }
 
       // An illustrated question has to be unanswerable without the picture.
       // The model agrees to that in the prompt and then writes "a map shows a

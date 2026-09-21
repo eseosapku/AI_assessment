@@ -280,6 +280,47 @@ function auditMcq(q: Record<string, unknown>, i: number, out: AuditFinding[]): v
   }
 }
 
+/**
+ * A one-word answer box under a question that asks for two things.
+ *
+ * Live, on a Checkpoint Science paper, beside a table of the speed of sound:
+ * "State the medium where the speed of sound is the highest. Explain why this
+ * is the case in terms of pressure in solids, liquids, and gases." — under a
+ * box labelled "One answer — a word, a phrase or a number", worth one mark.
+ *
+ * Either demand alone is a fair question. Together they cannot be answered in
+ * the space given, cannot be marked against a single key, and tell the learner
+ * the paper was not read before it was set.
+ *
+ * Scoped to questions that actually carry a one-mark key, so a genuine
+ * two-part written answer is untouched.
+ */
+const SECOND_DEMAND =
+  /\b(?:and\s+)?(?:explain|describe|justify|discuss|comment on|give\s+(?:a\s+)?reason|say\s+why|suggest\s+why)\b/i
+
+function auditShortAnswerScope(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
+  const key = q.short_answer as ShortAnswerKey | undefined
+  if (!key || !Array.isArray(key.accepted)) return
+  const marks = typeof q.marks === 'number' ? q.marks : 1
+  if (marks > 1) return
+
+  const stem = text(q.question)
+  if (!stem) return
+
+  // The FIRST sentence may legitimately open with a command; a second demand
+  // is the fault, so look past the opening sentence.
+  const after = stem.split(/(?<=[.!?])\s+/).slice(1).join(' ')
+  const target = after || stem.replace(/^[^.!?]*[.!?]\s*/, '')
+  if (!target.trim() || !SECOND_DEMAND.test(target)) return
+
+  out.push({
+    code: 'short-answer-asks-two-things',
+    severity: 'broken',
+    index: i,
+    detail: `one-mark short answer also asks to explain: "${stem.slice(0, 70)}"`,
+  })
+}
+
 function auditLongform(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
   const marks = typeof q.marks === 'number' ? q.marks : 0
   if (!Number.isInteger(marks) || marks < 1) {
@@ -288,6 +329,7 @@ function auditLongform(q: Record<string, unknown>, i: number, out: AuditFinding[
 
   const key = q.short_answer as ShortAnswerKey | undefined
   if (key) {
+    auditShortAnswerScope(q, i, out)
     if (isPlaceholderKey(key)) {
       // Marks every learner wrong while looking like a marked question.
       out.push({ code: 'answer-key-unusable', severity: 'broken', index: i, detail: `key is not an answer: ${JSON.stringify(key.accepted?.[0] ?? null)}` })
@@ -343,6 +385,74 @@ function auditInteractive(q: Record<string, unknown>, i: number, out: AuditFindi
 }
 
 /** Every fault worth knowing about, in the order the questions appear. */
+/**
+ * A stem that sets a scene and then asks nothing.
+ *
+ * Live, in a Checkpoint Science paper: question 8 of 34 read, in full, "Iron
+ * chains are left outside in the rain." There is no question. The learner is
+ * shown an answer box and a mark allocation and has nothing to answer.
+ *
+ * A real question either ends in a question mark or opens with a command word
+ * — the papers are written in exactly those two shapes, and Cambridge prints a
+ * closed list of command words for precisely this reason. Anything with
+ * neither is a scenario that lost its question.
+ */
+const COMMAND_WORD =
+  /\b(write down|state|name|give|identify|list|calculate|work out|find|determine|explain|describe|compare|suggest|show that|draw a ring|tick|complete|convert|estimate|measure|label|choose|select|match|order|sort|solve|simplify|expand|factorise|plot|sketch|predict|evaluate|justify|discuss|outline|define|classify)\b/i
+
+function asksNothing(stem: string): boolean {
+  if (/\?/.test(stem)) return false
+  // The command word has to START a sentence, or "the students were discussing
+  // human reproduction" would read as a command to discuss.
+  return !stem
+    .split(/(?<=[.!])\s+/)
+    .some((sentence) => COMMAND_WORD.test(sentence.trim().slice(0, 40)))
+}
+
+/**
+ * One scenario sentence spread across the whole paper.
+ *
+ * A real numbered question may share a scenario between its parts -- that is
+ * how Checkpoint is written, and at most three parts share one. What is not
+ * legitimate is the same sentence opening questions scattered through the
+ * paper, bolted onto unrelated topics.
+ *
+ * Live, and the reason this check exists: "Iron chains are left outside in the
+ * rain." opened eight questions across a Mathematics paper -- on coordinates,
+ * on sequences, on lowest common multiple, on the area of a compound shape,
+ * even appended AFTER the question. It turned out to be an example sentence in
+ * the prompt, which the model copied instead of reading as an illustration.
+ *
+ * Checking the symptom rather than the cause is deliberate: the next leak will
+ * be a different sentence from a different prompt, and this still catches it.
+ */
+function auditRepeatedScenario(list: unknown[], out: AuditFinding[]): void {
+  const openings = new Map<string, number[]>()
+
+  list.forEach((raw, i) => {
+    if (typeof raw !== 'object' || raw === null) return
+    const stem = text((raw as Record<string, unknown>).question)
+    // The first sentence, which is where a shared scenario sits.
+    const first = /^[^.!?]{12,120}[.!?]/.exec(stem)?.[0]?.trim()
+    if (!first) return
+    const key = first.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ')
+    if (!openings.has(key)) openings.set(key, [])
+    openings.get(key)!.push(i)
+  })
+
+  for (const [, where] of openings) {
+    // Four is past what any numbered question's parts could explain.
+    if (where.length < 4) continue
+    const stem = text((list[where[0]] as Record<string, unknown>).question)
+    out.push({
+      code: 'scenario-repeated-across-paper',
+      severity: 'broken',
+      index: where[0],
+      detail: `${where.length} questions open with the same sentence (${where.map((n) => n + 1).join(', ')}): "${stem.slice(0, 50)}"`,
+    })
+  }
+}
+
 export function auditPaper(questions: unknown, options: AuditOptions = {}): AuditFinding[] {
   const out: AuditFinding[] = []
   const list = Array.isArray(questions) ? questions : []
@@ -354,6 +464,8 @@ export function auditPaper(questions: unknown, options: AuditOptions = {}): Audi
   if (typeof options.expectedCount === 'number' && list.length !== options.expectedCount) {
     out.push({ code: 'paper-wrong-length', severity: 'broken', index: -1, detail: `${list.length} questions, asked for ${options.expectedCount}` })
   }
+
+  auditRepeatedScenario(list, out)
 
   const seenStems = new Map<string, number>()
 
@@ -371,6 +483,10 @@ export function auditPaper(questions: unknown, options: AuditOptions = {}): Audi
     }
     if (words(stem) < 4) {
       out.push({ code: 'stem-too-short', severity: 'poor', index: i, detail: `${words(stem)} words: "${stem}"` })
+    }
+    if (asksNothing(stem)) {
+      // Worth more than a wince: the learner cannot answer at all.
+      out.push({ code: 'no-question-asked', severity: 'broken', index: i, detail: `no question mark and no command word: "${stem.slice(0, 60)}"` })
     }
     if (words(stem) > 45) {
       out.push({ code: 'stem-too-long', severity: 'poor', index: i, detail: `${words(stem)} words` })

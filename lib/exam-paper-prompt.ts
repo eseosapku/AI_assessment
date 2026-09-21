@@ -19,6 +19,8 @@
  * So: say the job once, say it plainly, and stop.
  */
 
+import { figureNoun } from './figure-noun'
+
 export interface ExamPartSpec {
   /** 'a', 'b', 'c' — or null when the question has a single part. */
   part: string | null
@@ -47,12 +49,6 @@ export interface ExamPaperPromptOptions {
   figure?: { description: string; category: string }
 }
 
-function figureNoun(category: string): string {
-  if (category === 'graph' || category === 'chart' || category === 'chart_diagram') return 'graph'
-  if (category === 'table') return 'table'
-  if (category === 'map_geo') return 'map'
-  return 'diagram'
-}
 
 function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOptions['commands']): string {
   const label = spec.part ? `(${spec.part})` : `${index + 1}.`
@@ -73,7 +69,7 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
   }
   if (spec.format === 'short') {
     const second = commands.short[1] ?? commands.short[0]
-    return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". MUST carry "short_answer". No marking_criteria.`
+    return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". ASK ONE THING. Never add a second demand: "State the medium where the speed of sound is highest. Explain why." cannot be answered in one word and the box only takes one. No "and explain", no "and describe", no "give a reason". MUST carry "short_answer". No marking_criteria.`
   }
   const second = commands.extended[1] ?? commands.extended[0]
   return `${label} "marks": ${spec.marks}. Answered in a sentence or two. Open with "${commands.extended[0]}" or "${second}". MUST carry "marking_criteria" with exactly ${spec.marks} entries, one per mark. No short_answer.`
@@ -82,7 +78,7 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
 export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
   const { parts, commands, figure } = opts
   const multi = parts.length > 1
-  const noun = figure ? figureNoun(figure.category) : 'diagram'
+  const noun = figure ? figureNoun(figure.category, figure.description) : 'diagram'
 
   const lines: string[] = [
     `Write ONE numbered question for a ${opts.paperName} ${opts.subject} paper, sat at ${opts.level}.`,
@@ -100,7 +96,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     )
   } else {
     lines.push(
-      'There is NO diagram, picture, graph or table. Never mention one — a question about something the learner cannot see is unanswerable and gets deleted. Put the situation in words instead: "Iron chains are left outside in the rain."',
+      'There is NO diagram, picture, graph or table. Never mention one — a question about something the learner cannot see is unanswerable and gets deleted. Put the situation in words instead, in a sentence you write yourself about the topic of THIS question. Do not reuse a situation from anywhere else in this paper.',
       '',
     )
   }

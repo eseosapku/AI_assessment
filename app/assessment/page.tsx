@@ -351,7 +351,7 @@ function LongFormResultCard({
           <div className="flex items-center gap-2 mb-1">
             <span className="text-sm text-apple-dark-gray">Question {idx + 1}</span>
             <span className="px-2 py-0.5 rounded-full bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-300 text-xs font-semibold">
-              Long-form · {q.marks} marks
+              Long-form · {q.marks} {q.marks === 1 ? 'mark' : 'marks'}
             </span>
           </div>
           {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
@@ -2222,12 +2222,12 @@ function AssessmentPageClient() {
                 </div>
                 {isCurrentLongForm && (
                   <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-purple-50 dark:bg-purple-900/20 text-purple-600 dark:text-purple-400 text-xs sm:text-sm font-semibold">
-                    {(question as LongFormQuestion).marks} marks
+                    {(question as LongFormQuestion).marks} {(question as LongFormQuestion).marks === 1 ? 'mark' : 'marks'}
                   </div>
                 )}
                 {isCurrentInteractive && (
                   <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-teal-50 dark:bg-teal-900/20 text-teal-600 dark:text-teal-400 text-xs sm:text-sm font-semibold">
-                    {(question as InteractiveQuestion).marks} marks
+                    {(question as InteractiveQuestion).marks} {(question as InteractiveQuestion).marks === 1 ? 'mark' : 'marks'}
                   </div>
                 )}
               </div>

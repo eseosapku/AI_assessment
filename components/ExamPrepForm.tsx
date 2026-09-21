@@ -137,7 +137,24 @@ export default function ExamPrepForm() {
     return () => { current = false }
   }, [exam, programme, cpSubject?.name, cpComponent?.number, cpComponent?.mockable, cpMode, cpStrand])
 
-  const cpWritten = cpPaper?.slots.filter((s) => s.format === 'written').length ?? 0
+  // Counted by what the paper actually contains. This used to be written
+  // answers against "everything else, called multiple choice", which told the
+  // learner a 34-question Science paper held 17 multiple choice when it held
+  // none at all: a real Checkpoint paper is mostly one-mark SHORT answers,
+  // and ring-around appears about twice a Mathematics paper and almost never
+  // in Science. Describing the paper wrongly is its own fault, separate from
+  // building it wrongly.
+  const cpCount = (f: string) => cpPaper?.slots.filter((s) => s.format === f).length ?? 0
+  const cpWritten = cpCount('written')
+  const cpShort = cpCount('short')
+  const cpRing = cpCount('select')
+  const cpInteractive = cpCount('tick') + cpCount('table')
+  const cpMix = [
+    cpShort ? `${cpShort} short answer${cpShort === 1 ? '' : 's'}` : '',
+    cpWritten ? `${cpWritten} written` : '',
+    cpRing ? `${cpRing} ring-around` : '',
+    cpInteractive ? `${cpInteractive} tick or table` : '',
+  ].filter(Boolean).join(', ')
 
   const jambCombo = useMemo(
     () => JAMB_COURSE_COMBOS.find((c) => c.course === course),
@@ -780,9 +797,8 @@ export default function ExamPrepForm() {
 
               <ul className="mt-3 space-y-1.5 text-[13px] font-medium text-ss-slate">
                 <li>
-                  <span className="font-bold text-ss-ink dark:text-white">
-                    {cpPaper.slots.length - cpWritten} multiple choice, {cpWritten} written.
-                  </span>{' '}
+                  <span className="font-bold text-ss-ink dark:text-white">{cpMix}.</span>{' '}
+                  Most of a real Checkpoint paper is one-mark short answers — a word, a name or a number.
                   Written answers are worth 2 or 3 marks and say so in the question, the way the real paper does.
                   You show working; part marks count.
                 </li>

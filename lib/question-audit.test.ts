@@ -320,3 +320,90 @@ describe('it never throws on junk', () => {
     expect(codes([null])).toContain('question-not-an-object')
   })
 })
+
+describe('the faults the screenshots caught', () => {
+  it('catches a question that sets a scene and asks nothing', () => {
+    // Live, question 8 of 34: "Iron chains are left outside in the rain." was
+    // the entire question. The learner gets an answer box and a mark
+    // allocation, and nothing to answer.
+    expect(codes([mcq({ question: 'Iron chains are left outside in the rain.', options: undefined, correct_answer: undefined, type: 'longform', marks: 1, marking_criteria: ['x'] })]))
+      .toContain('no-question-asked')
+  })
+
+  it('accepts a real question, asked either way', () => {
+    for (const stem of [
+      'Iron chains are left outside in the rain. What happens to their mass?',
+      'State the name of the process that causes the chains to rust.',
+      'Calculate, showing your working, the area of the compound shape.',
+      'Tick (✓) all the correct statements about friction.',
+    ]) {
+      expect(codes([{ type: 'longform', question: stem, marks: 1, marking_criteria: ['x'], explanation: 'y' }]), stem)
+        .not.toContain('no-question-asked')
+    }
+  })
+
+  it('does not mistake a mid-stem verb for a command', () => {
+    // "the students were discussing" must not read as a command to discuss.
+    expect(codes([{ type: 'longform', question: 'During a biology lesson the students were discussing human reproduction.', marks: 1, marking_criteria: ['x'], explanation: 'y' }]))
+      .toContain('no-question-asked')
+  })
+
+  it('catches one scenario bolted across the whole paper', () => {
+    // Eight questions in a Mathematics paper opened with the same sentence —
+    // on coordinates, sequences, LCM and compound area — because it was an
+    // example in the prompt that the model copied.
+    const paper = ['coordinates of the link', 'the 5th term of the sequence', 'the LCM of 18 and 24', 'the area of the shape']
+      .map((tail, i) => ({
+        type: 'longform', marks: 1, marking_criteria: ['x'], explanation: 'y',
+        question: `Iron chains are left outside in the rain. Work out ${tail}.`,
+        id: i + 1,
+      }))
+    expect(codes(paper)).toContain('scenario-repeated-across-paper')
+  })
+
+  it('leaves a genuine multi-part question alone', () => {
+    // Three parts sharing a scenario is how Checkpoint is actually written.
+    const parts = ['State the name of the gas.', 'Explain why the mass increases.', 'Calculate the difference.']
+      .map((tail) => ({
+        type: 'longform', marks: 1, marking_criteria: ['x'], explanation: 'y',
+        question: `A student leaves an iron nail in water for a week. ${tail}`,
+      }))
+    expect(codes(parts)).not.toContain('scenario-repeated-across-paper')
+  })
+})
+
+describe('a one-word box under a two-part question', () => {
+  const short = (question: string) => ({
+    type: 'longform', marks: 1, question,
+    short_answer: { accepted: ['solids'] }, explanation: 'Sound travels fastest in solids.',
+  })
+
+  it('catches State ... Explain on a one-mark key', () => {
+    // Live, beside a table of the speed of sound, under a box labelled
+    // "One answer — a word, a phrase or a number".
+    expect(codes([short('State the medium where the speed of sound is the highest. Explain why this is the case in terms of pressure.')]))
+      .toContain('short-answer-asks-two-things')
+  })
+
+  it('leaves a single demand alone', () => {
+    for (const stem of [
+      'State the medium where the speed of sound is the highest.',
+      'Name the process that causes iron to rust.',
+      'Write down the value of x.',
+    ]) {
+      expect(codes([short(stem)]), stem).not.toContain('short-answer-asks-two-things')
+    }
+  })
+
+  it('does not fire on a scenario that merely mentions explaining', () => {
+    expect(codes([short('A student was asked to explain rusting in class. Name the gas involved.')]))
+      .not.toContain('short-answer-asks-two-things')
+  })
+
+  it('leaves a real written answer alone', () => {
+    expect(codes([{
+      type: 'longform', marks: 3, question: 'State the medium. Explain why, in terms of particle spacing.',
+      marking_criteria: ['a', 'b', 'c'], explanation: 'x',
+    }])).not.toContain('short-answer-asks-two-things')
+  })
+})
