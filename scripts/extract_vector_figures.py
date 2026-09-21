@@ -101,6 +101,49 @@ def figures_on(page):
     return out
 
 
+def with_labels(page, rect):
+    """Grow a figure's crop to take in the text that belongs to it.
+
+    The cluster is built from DRAWING rectangles, so it knows about the axes
+    and nothing about the numbers printed beside them. Cropped to the drawing
+    alone, a graph loses its scale, a bar chart loses "J F M A M J J A S O N D"
+    off the bottom, and a pair of labelled diagrams loses the A and B that the
+    question refers to -- all of which shipped.
+
+    Only text that touches or nearly touches the drawing is taken, and the
+    result is capped: a figure that grew to swallow the question stem would be
+    a different fault with the same cause.
+    """
+    grown = fitz.Rect(rect)
+    near = fitz.Rect(rect.x0 - 34, rect.y0 - 22, rect.x1 + 34, rect.y1 + 26)
+
+    try:
+        blocks = page.get_text("blocks")
+    except Exception:
+        blocks = []
+
+    for b in blocks:
+        if len(b) < 5:
+            continue
+        tb = fitz.Rect(b[0], b[1], b[2], b[3])
+        if tb.is_empty or tb.is_infinite:
+            continue
+        # A whole paragraph is the question, not a label on the figure.
+        if tb.height > 60 or len(str(b[4]).strip()) > 120:
+            continue
+        if not tb.intersects(near):
+            continue
+        grown |= tb
+
+    # Never more than half as wide again, or the stem comes with it.
+    limit = fitz.Rect(
+        rect.x0 - rect.width * 0.5 - PAD, rect.y0 - rect.height * 0.5 - PAD,
+        rect.x1 + rect.width * 0.5 + PAD, rect.y1 + rect.height * 0.5 + PAD,
+    )
+    grown &= limit
+    return fitz.Rect(grown.x0 - PAD, grown.y0 - PAD, grown.x1 + PAD, grown.y1 + PAD)
+
+
 def main():
     pdf_path = sys.argv[1]
     out_dir = sys.argv[2]
@@ -113,7 +156,7 @@ def main():
         if pno == 1:
             continue
         for idx, (rect, paths) in enumerate(figures_on(page)):
-            clip = fitz.Rect(rect.x0 - PAD, rect.y0 - PAD, rect.x1 + PAD, rect.y1 + PAD) & page.rect
+            clip = with_labels(page, rect) & page.rect
             try:
                 pix = page.get_pixmap(clip=clip, dpi=DPI)
             except Exception:

@@ -27,6 +27,7 @@ const { createHash } = require('crypto')
 const { execFileSync } = require('child_process')
 
 const { cambridgeBookName } = require('./cambridge-syllabus-codes')
+const { isWatermarked } = require('./purge-watermarked-figures')
 const arg = (name) => (process.argv.find((a) => a.startsWith(`--${name}=`)) || '').split('=').slice(1).join('=').replace(/^"|"$/g, '')
 const DRY_RUN = process.argv.includes('--dry-run')
 const PURGE = process.argv.includes('--purge')
@@ -133,6 +134,11 @@ function main() {
     if (LIMIT && stats.papers >= LIMIT) break
     const id = paperId(pdf)
     const name = path.basename(pdf).replace(/\.pdf$/i, '')
+
+    // A paper branded by whoever redistributed it. Extracted, the brand lands
+    // across the middle of a figure and a learner sits an exam with another
+    // company's name over the diagram.
+    if (isWatermarked(pdf)) { stats.watermarked = (stats.watermarked || 0) + 1; continue }
 
     if (manifest.images.some((i) => i.textbookId === id)) { stats.cached++; continue }
     stats.papers++
