@@ -22,7 +22,8 @@ import { buildCommandWordBlock } from '@/lib/command-words'
 import { buildSubjectGenreBlock } from '@/lib/subject-genres'
 import type { CurriculumSlug } from '@/lib/curriculum-registry'
 import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
-import { dropDanglingReferences } from '@/lib/dangling-reference'
+import { dropDanglingReferences, danglingReference } from '@/lib/dangling-reference'
+import { subjectGuidance } from '@/lib/subject-guidance'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
 import { buildExamPaperPrompt, examCommandsFor, type ExamPartSpec } from '@/lib/exam-paper-prompt'
 import { repairBookReferences } from '@/lib/book-reference'
@@ -706,6 +707,17 @@ function buildPrompt(opts: {
   const genreBlock = buildSubjectGenreBlock(subjectDomain)
   const subjectNeedsPassage = !sourceText && requirePassagesAll
 
+  // Rules for the subjects that fail in ways the general list cannot reach:
+  // Music has nothing to play, Art nothing to look at, Literature no novel in
+  // front of the learner, and an early phonics question needs exactly one
+  // option to rhyme. Empty for every other subject, so the prompt does not
+  // grow where it was already working.
+  const subjectRules = subjectGuidance({
+    subject,
+    grade: typeof grade === 'number' ? grade : Number(grade) || undefined,
+    hasPassage: subjectNeedsPassage,
+  })
+
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : questionType === 'study_mixed' ? countSplit(count, 'study_mixed').mcq : 0
   const lfCount = questionType === 'mixed' ? Math.floor(count * 0.4) : questionType === 'longform' ? count : 0
   const interactiveCount = questionType === 'interactive' ? count : questionType === 'study_mixed' ? countSplit(count, 'study_mixed').interactive : 0
@@ -766,7 +778,7 @@ function buildPrompt(opts: {
         "<exactly ONE comprehensive hint for the whole question — how to structure the answer from THIS question's demands. Never one line per criterion. Never the mark, key fact, quote, or model answer>"
       ],
       "model_answer": "<concise 80-120 word outline of a top answer using P.E.E structure>",
-      "explanation": "<what skill this question assesses>"${imageKeyField}${subjectNeedsPassage ? `,
+      "explanation": "<why the answer is right, written TO the student>"${imageKeyField}${subjectNeedsPassage ? `,
       "needs_passage": true,
       "passage_hint": "<30-40 word description — different author/genre from other questions>"` : ''}
     }`
@@ -803,7 +815,7 @@ function buildPrompt(opts: {
       "marking_criteria": ["<criterion 1>", "<criterion 2>", "..."],
       "hints": ["<exactly ONE comprehensive hint for the whole question — structure guidance from this question, never the answer>"],
       "model_answer": "<80-120 word outline of a strong answer>",
-      "explanation": "<what this question tests>"
+      "explanation": "<why a strong answer earns the marks, written TO the student>"
     }`
 
   const activeLfSchema = subjectNeedsPassage ? lfSchema : lfSchemaNoPassage
@@ -995,14 +1007,14 @@ ${visualBlock}
 ${uiConstraints}
 
 ${genreBlock ? `${genreBlock}
-` : ''}
+` : ''}${subjectRules}
 **Requirements:**
 0. The subject-specific design rules above override the generic guidance in this list wherever they are more specific. In particular they govern how distractors are built and what an explanation must contain.
 1. All questions strictly based on the ${curriculumName} syllabus topics listed above.
 2. ${difficultyInstruction || 'Vary difficulty: recall, application, analysis.'}
 3. LaTeX math MUST be wrapped in dollar signs: $...$ for inline (e.g. $\\\\frac{1}{x}$, $\\\\sqrt{2}$, $x^2 + y^2$) and $$...$$ for display. This applies in ALL fields including explanations and model_answer. Never write bare LaTeX outside of dollar signs.
-${wantsMcq ? `4. MCQ "explanation" field: 100-150 words. Write a thorough explanation covering: (a) the concept or skill this question tests, (b) exactly why the correct answer is right with specific reasoning, evidence, or working shown, (c) why each of the three wrong options is incorrect and what misconception leads a student to pick it. Do NOT just restate the question. Write in full sentences.` : ''}
-${wantsLongform ? `5. Longform "explanation" field: 40-60 words. State the skill being assessed (e.g. "This question tests inference skills..."), then describe what a strong answer must include. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
+${wantsMcq ? `4. MCQ "explanation" field: 100-150 words, addressed TO the student and never to a marker. Cover: (a) why the correct answer is right, with the specific reasoning, evidence or working, (b) why each wrong option is wrong and what misconception leads to it. Open with the reasoning itself — NOT with "This question tests...". Name the answer by its VALUE, never by its letter ("7 is correct because 3 + 4 = 7", never "Option B is correct"): the options get reordered before the student sees them, so a letter written here becomes wrong. Do NOT just restate the question. Write in full sentences.` : ''}
+${wantsLongform ? `5. Longform "explanation" field: 40-60 words, addressed TO the student. Describe what a strong answer must include and why those points earn the marks. Do NOT open by naming the skill being assessed — "This question tests inference skills" is written for a marker and tells the student nothing. Longform "model_answer" field: MINIMUM 80 words, MAXIMUM 120 words. Write a full P.E.E. paragraph — Point, Evidence (quote or example), Explanation of effect — that a student could use as a model answer. Do NOT use bullet points.
 5b. Longform "hints": exactly ONE string in the array. Write a single comprehensive hint for the whole question: how to structure the answer based on THIS question's wording (both demands if multi-part). Do NOT write one hint per criterion. Do NOT paste or lightly rephrase the question three times. MUST NOT include the key fact, quote, formula, or any sentence from model_answer.` : ''}
 6. Question "id" fields: number from ${startId} to ${startId + count - 1}.
 ${questionType !== 'longform' || hasDiagramSupport ? `7. ${diagramNote || 'N/A'}` : ''}
@@ -1077,7 +1089,7 @@ function buildPassageBasedPrompt(opts: {
     : grade ? `Grade ${grade}` : 'secondary level'
 
   const mcqSchema = `{ "id": <number>, "type": "mcq", "question": "...", "options": ["A","B","C","D"], "correct_answer": <0-3>, "explanation": "100-150 words explaining why the correct answer is right and why each wrong option is wrong" }`
-  const lfSchema = `{ "id": <number>, "type": "longform", "question": "...", "marks": <4-8>, "marking_criteria": ["one point per mark — each must be achievable from this passage"], "hints": ["one comprehensive hint for the whole question — how to structure the answer, never the quote or the mark"], "model_answer": "80-120 words — full P.E.E. paragraph using ACTUAL verbatim quotes from the passage", "explanation": "40-60 words: what skill this tests" }`
+  const lfSchema = `{ "id": <number>, "type": "longform", "question": "...", "marks": <4-8>, "marking_criteria": ["one point per mark — each must be achievable from this passage"], "hints": ["one comprehensive hint for the whole question — how to structure the answer, never the quote or the mark"], "model_answer": "80-120 words — full P.E.E. paragraph using ACTUAL verbatim quotes from the passage", "explanation": "40-60 words, written TO the student: what a strong answer must include and why those points earn the marks" }`
 
   const schemaBlock = questionType === 'mcq' ? mcqSchema : questionType === 'longform' ? lfSchema : `${mcqSchema},\n${lfSchema}`
   const mcqCount = questionType === 'mixed' ? Math.ceil(count * 0.6) : questionType === 'mcq' ? count : 0
@@ -2542,6 +2554,22 @@ ${commandBlock}`
             visionType: byKey.get(q.image_url)?.category,
           })
           if (verdict.ok) continue
+
+          // Detaching is only safe when the question still reads without the
+          // picture. "The diagram shows a plant cell. Name the part labelled
+          // A." does not: strip the figure and the stem promises something
+          // the learner cannot see, which is the worse of the two faults and
+          // the one that showed up 53 times in a sweep.
+          //
+          // The order of preference is the same one stated above — losing a
+          // question costs the student practice — so a redundant or
+          // mislabelled figure stays when the alternative is an unanswerable
+          // stem. The paper keeps its length either way.
+          if (danglingReference({ ...q, image_url: undefined }) === 'figure') {
+            console.log(`Kept figure despite "${verdict.reason}": the stem depends on it`)
+            continue
+          }
+
           delete q.image_url
           detached++
           console.log(`Detached figure from question: ${verdict.reason}`)

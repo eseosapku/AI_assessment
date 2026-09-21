@@ -134,7 +134,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
         ]
       : parts.every((p) => p.format === 'select')
       ? [
-          'Each object: {"id":<number>,"type":"mcq","question":"Draw a ring around ...","options":["...","...","...","..."],"correct_answer":<0-3>,"explanation":"<what this tests, one sentence>","marks":1}',
+          'Each object: {"id":<number>,"type":"mcq","question":"Draw a ring around ...","options":["...","...","...","..."],"correct_answer":<0-3>,"explanation":"<one sentence telling the LEARNER why the answer is right, never what the question tests>","marks":1}',
           'No short_answer and no marking_criteria on a ringed question.',
         ]
       : [

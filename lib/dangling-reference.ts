@@ -41,7 +41,15 @@ const PROMISES: readonly Promise_[] = [
   { kind: 'code', pattern: /\bcode\s+(?:snippet|segment|fragment|below|above)\b/i },
   { kind: 'figure', pattern: /\b(?:the )?(?:diagram|figure|image|graph|chart|photograph|illustration|map)\s+(?:above|below|shown|opposite)\b/i },
   { kind: 'figure', pattern: /\b(?:in|from|using)\s+the\s+(?:diagram|figure|image|graph|chart|map)\b/i },
-  { kind: 'table', pattern: /\b(?:the )?table\s+(?:above|below|shown)\b/i },
+  // "The diagram shows a plant cell. Name the part labelled A."
+  //
+  // The commonest opening in a real Checkpoint paper, and it slipped past
+  // every guard: the pattern above wants "shown", this one says "shows". It
+  // was the single largest source of stems promising a picture that was never
+  // attached — 53 in one sweep, almost all of this shape.
+  { kind: 'figure', pattern: /\b(?:the )?(?:diagram|figure|image|graph|chart|photograph|illustration|map)\s+(?:shows?|illustrates?|represents?|displays?)\b/i },
+  { kind: 'figure', pattern: /\brefer(?:ring|s)?\s+to\s+the\s+(?:diagram|figure|image|graph|chart|map|table)\b/i },
+  { kind: 'table', pattern: /\b(?:the )?table\s+(?:above|below|shown|shows?)\b/i },
   { kind: 'passage', pattern: /\b(?:the )?(?:passage|extract|text|article)\s+(?:above|below|shown)\b/i },
 ]
 

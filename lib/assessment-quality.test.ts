@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { dedupeQuestions, dropContradictions, stripExaminerVoice, cleanQuestionPaper } from './assessment-quality'
+import { dedupeQuestions, dropContradictions, stripExaminerVoice, cleanQuestionPaper, reconcileMarksWithCriteria } from './assessment-quality'
 
 const q = (question: string, correct = 3, options = ['Square', 'Rectangle', 'Triangle', 'Circle']) => ({
   question,
@@ -210,5 +210,51 @@ describe('near-identical answers', () => {
       { question: 'Which shape has four equal sides?', options: ['Square', 'Rectangle'], correct_answer: 0 },
     ])
     expect(out).toHaveLength(2)
+  })
+})
+
+describe('marks that match the mark scheme', () => {
+  it('brings the marks down to what a marker can actually award', () => {
+    // Measured: 15 of 18 long-form questions were worth more marks than they
+    // gave anyone anything to award — "3 criteria for 8 marks", three times.
+    const [q] = reconcileMarksWithCriteria([
+      { question: 'Explain the causes of the war.', marks: 8, marking_criteria: ['a', 'b', 'c'] },
+    ])
+    expect(q.marks).toBe(3)
+  })
+
+  it('raises them too, when there are more points than marks', () => {
+    const [q] = reconcileMarksWithCriteria([
+      { question: 'x', marks: 2, marking_criteria: ['a', 'b', 'c', 'd'] },
+    ])
+    expect(q.marks).toBe(4)
+  })
+
+  it('leaves a question that already agrees alone', () => {
+    const paper = [{ question: 'x', marks: 2, marking_criteria: ['a', 'b'] }]
+    expect(reconcileMarksWithCriteria(paper)).toEqual(paper)
+  })
+
+  it('ignores blank criteria rather than counting them as marks', () => {
+    const [q] = reconcileMarksWithCriteria([
+      { question: 'x', marks: 4, marking_criteria: ['a', '', '   ', 'b'] },
+    ])
+    expect(q.marks).toBe(2)
+  })
+
+  it('does nothing without a mark scheme to count', () => {
+    for (const paper of [
+      [{ question: 'x', marks: 5 }],
+      [{ question: 'x', marks: 5, marking_criteria: [] }],
+      [{ question: 'x', options: ['a', 'b', 'c', 'd'], correct_answer: 0 }],
+    ]) {
+      expect(reconcileMarksWithCriteria(paper as never)).toEqual(paper)
+    }
+  })
+
+  it('survives junk', () => {
+    for (const junk of [null, undefined, 'x', 42, [null]]) {
+      expect(() => reconcileMarksWithCriteria(junk as never)).not.toThrow()
+    }
   })
 })

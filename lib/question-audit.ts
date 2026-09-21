@@ -82,16 +82,123 @@ function words(v: unknown): number {
   return t ? t.split(/\s+/).length : 0
 }
 
-/** Loose key for spotting the same question twice. Mirrors the cleaner's intent. */
+/**
+ * Loose key for spotting the same question twice. Mirrors the cleaner's intent.
+ *
+ * Numbers are kept however short they are. Dropping them made every question
+ * in a Primary 1 Maths paper identical — "What is 3 plus 4?" and "What is 5
+ * plus 2?" both reduce to "plus what" — and the sweep reported six duplicates
+ * in a paper that had none. A fault in the report reads exactly like a fault
+ * in the product, which is the more expensive kind of wrong.
+ */
 function stemKey(q: Record<string, unknown>): string {
   return text(q.question)
     .toLowerCase()
     .replace(/\[\d+\]/g, '')
     .replace(/[^a-z0-9 ]/g, '')
     .split(/\s+/)
-    .filter((w) => w.length > 3)
+    .filter((w) => w.length > 3 || /\d/.test(w))
     .sort()
     .join(' ')
+}
+
+/**
+ * Does the explanation name a different option from the one marked correct?
+ *
+ * Found in a real Primary 1 paper: "What is the total of 3 and 4?" with the
+ * answer marked A (6), and its own explanation reading "The total of 3 and 4
+ * is 7. Option B (7) is correct." A six-year-old answers 7, is told they are
+ * wrong, and then reads a paragraph explaining that 7 is right.
+ *
+ * Nothing else catches this. The index is in range, the options are four and
+ * distinct, and the paper looks perfect in every structural check. It is only
+ * visible by reading the explanation against the key -- which is exactly the
+ * sort of thing a person stops doing at question thirty.
+ */
+const CLAIMS_ANOTHER = new RegExp(
+  [
+    // "Option B (7) is correct", "answer C is the correct one"
+    String.raw`\b(?:option|answer)\s*\(?([A-D])\)?\s*(?:\([^)]*\)\s*)?(?:is|was)?\s*(?:the\s+)?correct\b`,
+    // "the correct answer is B"
+    String.raw`\bcorrect\s+(?:answer|option|choice)\s+is\s*\(?([A-D])\)?\b`,
+  ].join('|'),
+  'i',
+)
+
+function explanationNamesAnotherOption(
+  q: Record<string, unknown>,
+  options: unknown[],
+  answer: number,
+): string | null {
+  const explanation = text(q.explanation)
+  if (!explanation || !Number.isInteger(answer) || answer < 0 || answer >= options.length) return null
+
+  // Deliberately does not fire on "option B is incorrect" or "option B is not
+  // correct": an explanation ruling an option OUT is the normal, healthy shape,
+  // and a check that fires on it is noise nobody reads.
+  const claim = CLAIMS_ANOTHER.exec(explanation)
+  const letter = (claim?.[1] ?? claim?.[2] ?? '').toUpperCase()
+  if (!letter) return null
+
+  const claimed = letter.charCodeAt(0) - 65
+  if (claimed === answer || claimed >= options.length) return null
+  return `explanation says ${letter} is correct; the key says ${String.fromCharCode(65 + answer)}`
+}
+
+/**
+ * A sound-pattern question where more than one option fits.
+ *
+ * From a real Primary 1 English paper: "Which word has the same sound as
+ * 'cat'?" -- bat, hat, mat, sat. All four rhyme. One is marked right and three
+ * children who answered correctly are told they were wrong. The same paper
+ * asked which word "ends with the sound 'at'" over cat/bat/dog/pen, with two
+ * right answers, and which has the middle sound 'a' over four words that all do.
+ *
+ * Only fires on single-word options, and only when the target is quoted -- the
+ * shape early-phonics items actually take. Anything looser starts flagging
+ * ordinary vocabulary questions, which is how a check becomes noise.
+ */
+const SOUND_STEM = new RegExp(
+  [
+    String.raw`(?:same|matching)\s+(?:\w+\s+)?sound\s+as`,
+    String.raw`rhymes?\s+with`,
+    String.raw`(?:ends?|finish(?:es)?)\s+with\s+the\s+sound`,
+    String.raw`(?:begins?|starts?)\s+with\s+the\s+sound`,
+    String.raw`middle\s+sound`,
+  ].join('|'),
+  'i',
+)
+
+function fitsSoundPattern(stem: string, target: string, option: string): boolean {
+  const o = option.toLowerCase().replace(/[^a-z]/g, '')
+  const t = target.toLowerCase().replace(/[^a-z]/g, '')
+  if (!o || !t) return false
+  if (/(?:begins?|starts?)\s+with/i.test(stem)) return o.startsWith(t)
+  if (/(?:ends?|finish(?:es)?)\s+with/i.test(stem)) return o.endsWith(t)
+  if (/middle\s+sound/i.test(stem)) return o.slice(1, -1).includes(t)
+  // Rhyme, or "the same sound as": compare the rime -- the target from its
+  // first vowel onward. "cat" -> "at", so bat/hat/mat/sat all fit.
+  const rime = /[aeiou].*$/.exec(t)?.[0] ?? t
+  return o !== t && o.endsWith(rime)
+}
+
+function auditSoundPattern(q: Record<string, unknown>, i: number, options: unknown[], out: AuditFinding[]): void {
+  const stem = text(q.question)
+  if (!SOUND_STEM.test(stem)) return
+  const target = /['\u2018\u2019"\u201c\u201d]([a-z]{1,12})['\u2018\u2019"\u201c\u201d]/i.exec(stem)?.[1]
+  if (!target) return
+  const single = options.map(text).filter((o) => o && !/\s/.test(o))
+  if (single.length !== options.length) return
+
+  const fitting = single.filter((o) => fitsSoundPattern(stem, target, o))
+  if (fitting.length > 1) {
+    out.push({
+      code: 'several-options-fit',
+      severity: 'broken',
+      index: i,
+      detail: `${fitting.length} options fit "${target}": ${fitting.join(', ')}`,
+    })
+  }
 }
 
 function auditMcq(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
@@ -104,6 +211,13 @@ function auditMcq(q: Record<string, unknown>, i: number, out: AuditFinding[]): v
     // Marks every learner wrong, silently, and looks fine in a list.
     out.push({ code: 'mcq-answer-out-of-range', severity: 'broken', index: i, detail: `correct_answer=${String(answer)} against ${options.length} options` })
   }
+  const contradiction = explanationNamesAnotherOption(q, options, answer as number)
+  if (contradiction) {
+    out.push({ code: 'explanation-contradicts-key', severity: 'broken', index: i, detail: contradiction })
+  }
+
+  auditSoundPattern(q, i, options, out)
+
   const seen = new Set<string>()
   for (const o of options) {
     const k = text(o).toLowerCase()

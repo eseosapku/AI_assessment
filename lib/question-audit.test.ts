@@ -203,6 +203,84 @@ describe('polish, not breakage', () => {
   })
 })
 
+describe('the faults only a reader used to catch', () => {
+  it('catches an explanation that names a different option from the key', () => {
+    // Straight from a Primary 1 paper: "What is the total of 3 and 4?" marked
+    // A (6), explained "The total of 3 and 4 is 7. Option B (7) is correct."
+    // Every structural check passes it. A six-year-old answers 7, is marked
+    // wrong, and then reads why 7 is right.
+    expect(codes([mcq({
+      question: 'What is the total of 3 and 4?',
+      options: ['6', '7', '5', '8'],
+      correct_answer: 0,
+      explanation: 'The total of 3 and 4 is 7. Option B (7) is correct.',
+    })])).toContain('explanation-contradicts-key')
+
+    expect(codes([mcq({ correct_answer: 0, explanation: 'The correct answer is C, nitrogen.' })]))
+      .toContain('explanation-contradicts-key')
+  })
+
+  it('stays quiet when the explanation agrees with the key', () => {
+    expect(codes([mcq({ correct_answer: 0, explanation: 'Option A is correct: plants take in carbon dioxide.' })]))
+      .not.toContain('explanation-contradicts-key')
+  })
+
+  it('does not fire on an explanation ruling another option out', () => {
+    // The healthy shape, and the one that would make this check unusable if
+    // it fired: naming an option in order to reject it.
+    for (const e of [
+      'Option B is incorrect because oxygen is released, not taken in.',
+      'Option C is not correct: nitrogen is not used in photosynthesis.',
+    ]) {
+      expect(codes([mcq({ correct_answer: 0, explanation: e })]), e)
+        .not.toContain('explanation-contradicts-key')
+    }
+  })
+
+  it('catches a phonics question where every option rhymes', () => {
+    // Primary 1 English, verbatim: four options, four correct answers.
+    expect(codes([mcq({
+      question: "Which word has the same sound as 'cat'?",
+      options: ['bat', 'hat', 'mat', 'sat'],
+      correct_answer: 0,
+      explanation: 'Bat rhymes with cat.',
+    })])).toContain('several-options-fit')
+
+    expect(codes([mcq({
+      question: "Which word ends with the sound 'at'?",
+      options: ['cat', 'bat', 'dog', 'pen'],
+      correct_answer: 0,
+      explanation: 'Cat ends with at.',
+    })])).toContain('several-options-fit')
+
+    expect(codes([mcq({
+      question: "Which word has the middle sound 'a'?",
+      options: ['cat', 'bat', 'hat', 'mat'],
+      correct_answer: 0,
+      explanation: 'Cat has a in the middle.',
+    })])).toContain('several-options-fit')
+  })
+
+  it('passes a phonics question with exactly one answer', () => {
+    expect(codes([mcq({
+      question: "Which word rhymes with 'cat'?",
+      options: ['hat', 'dog', 'sun', 'pen'],
+      correct_answer: 0,
+      explanation: 'Hat rhymes with cat.',
+    })])).not.toContain('several-options-fit')
+  })
+
+  it('leaves ordinary questions alone', () => {
+    // No quoted target, or options that are phrases rather than words: the
+    // shape of every non-phonics question on the platform.
+    expect(codes([mcq()])).not.toContain('several-options-fit')
+    expect(codes([mcq({
+      question: 'Which sound does a guitar string make when it vibrates faster?',
+      options: ['A higher pitch', 'A lower pitch', 'No sound', 'A quieter sound'],
+    })])).not.toContain('several-options-fit')
+  })
+})
+
 describe('it never throws on junk', () => {
   it('survives anything', () => {
     for (const junk of [null, undefined, 'x', 42, {}, [null], [42], [{ question: '' }]]) {

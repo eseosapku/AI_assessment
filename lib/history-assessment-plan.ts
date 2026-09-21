@@ -127,7 +127,7 @@ export function buildHistorySourceQuestionPrompt(opts: {
   const difficultyInstruction = difficultyLevel ? `**${difficultyLevel}**` : ''
 
   const mcqSchema = `{ "id": <number>, "type": "mcq", "question": "...", "options": ["A","B","C","D"], "correct_answer": <0-3>, "explanation": "100-150 words with historical reasoning" }`
-  const lfSchema = `{ "id": <number>, "type": "longform", "question": "...", "marks": <4-8>, "marking_criteria": ["one mark per point — each grounded in the source or historical context"], "model_answer": "80-120 words using verbatim quotes from the source where needed", "explanation": "40-60 words: historical skill tested" }`
+  const lfSchema = `{ "id": <number>, "type": "longform", "question": "...", "marks": <4-8>, "marking_criteria": ["one mark per point — each grounded in the source or historical context"], "model_answer": "80-120 words using verbatim quotes from the source where needed", "explanation": "40-60 words, written TO the student: what a strong answer must include and why those points earn the marks" }`
 
   const schemaBlock =
     questionType === 'mcq' ? mcqSchema : questionType === 'longform' ? lfSchema : `${mcqSchema},\n${lfSchema}`

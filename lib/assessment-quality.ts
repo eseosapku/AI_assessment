@@ -15,6 +15,14 @@
  * `correct_answer` and `explanation`, so it works on MCQ papers without
  * knowing anything about the other question types.
  */
+import {
+  balanceAnswerPositions,
+  delexicaliseExplanation,
+  reconcileKeyWithExplanation,
+  stripOptionLabels,
+  type PositionedQuestion,
+} from './answer-position'
+
 
 /** Words carrying no topical signal when comparing two questions. */
 const STOPWORDS = new Set([
@@ -154,6 +162,41 @@ export function stripExaminerVoice(explanation: unknown): string {
   return out.charAt(0).toUpperCase() + out.slice(1)
 }
 
+/**
+ * Make a long-form question's marks match the mark scheme it actually carries.
+ *
+ * Measured: 15 of 18 long-form questions in a sample were worth more marks
+ * than they gave a marker anything to award — "3 criteria for 8 marks" three
+ * times over. The prompt says one point per mark and has said so for a while;
+ * the model picks the marks first and then writes however many criteria the
+ * question naturally has.
+ *
+ * The criteria ARE the mark scheme, so they win. A question offering three
+ * markable points is a 3-mark question, and calling it 8 marks does not create
+ * five more things to say — it just guarantees no student can score full marks.
+ *
+ * Deliberately narrow: only acts when there is a real list to count, and
+ * leaves the marks alone otherwise. Papers with a fixed mark budget — a
+ * Checkpoint component — have their marks reset from the blueprint afterwards,
+ * so this cannot fight them.
+ */
+export function reconcileMarksWithCriteria<T extends QuestionLike & { marks?: unknown; marking_criteria?: unknown }>(
+  questions: readonly T[],
+): T[] {
+  if (!Array.isArray(questions)) return []
+  return questions.map((q) => {
+    if (!q || typeof q !== 'object') return q
+    const criteria = Array.isArray(q.marking_criteria)
+      ? q.marking_criteria.filter((c: unknown) => String(c ?? '').trim().length > 0)
+      : null
+    if (!criteria || criteria.length === 0) return q
+
+    const marks = Number(q.marks)
+    if (!Number.isInteger(marks) || marks === criteria.length) return q
+    return { ...q, marks: criteria.length }
+  })
+}
+
 /** Are two questions worded identically once stems and filler are removed? */
 function sameQuestion(a: Set<string>, b: Set<string>): boolean {
   if (a.size === 0 || a.size !== b.size) return false
@@ -199,10 +242,34 @@ export function dropContradictions<T extends QuestionLike>(questions: readonly T
   return kept
 }
 
-/** Apply every clean-up to a paper, in order. */
+/**
+ * Apply every clean-up to a paper, in order.
+ *
+ * The order carries the argument:
+ *
+ *  1. **Repair the key first.** `dedupeQuestions` and `dropContradictions`
+ *     both reason about which option is correct, so they need the true answer
+ *     rather than the one a miscounted index points at.
+ *  2. **Then dedupe and drop contradictions**, on questions whose keys mean
+ *     what they say.
+ *  3. **Balance the positions last**, over the questions that actually ship —
+ *     balancing before the drops would leave the survivors lopsided again.
+ */
 export function cleanQuestionPaper<T extends QuestionLike>(questions: readonly T[]): T[] {
-  return dropContradictions(dedupeQuestions(questions)).map((q) => {
-    const cleaned = stripExaminerVoice(q.explanation)
-    return cleaned && cleaned !== q.explanation ? { ...q, explanation: cleaned } : q
+  const keyed = (Array.isArray(questions) ? questions : []).map((q) =>
+    q && typeof q === 'object'
+      ? (stripOptionLabels(
+          delexicaliseExplanation(reconcileKeyWithExplanation(q as PositionedQuestion)),
+        ) as unknown as T)
+      : q,
+  )
+
+  const cleaned = dropContradictions(dedupeQuestions(keyed)).map((q) => {
+    const fixed = stripExaminerVoice(q.explanation)
+    return fixed && fixed !== q.explanation ? { ...q, explanation: fixed } : q
   })
+
+  return reconcileMarksWithCriteria(
+    balanceAnswerPositions(cleaned as unknown as PositionedQuestion[]) as unknown as T[],
+  )
 }
