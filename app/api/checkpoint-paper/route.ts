@@ -13,6 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { checkpointSubject, type CheckpointProgramme } from '@/lib/cambridge-checkpoint'
 import { buildPaper, paperBrief, paperTopics, STRAND_FOCI, type PaperMode } from '@/lib/checkpoint-paper'
+import { sittingById, sittingsFor, sittingLabel, sittingId, fociForSitting } from '@/lib/checkpoint-past-papers'
 import { fociWithFigures, warmCoverage } from '@/lib/checkpoint-figures'
 import { buildableSubjects } from '@/lib/cambridge-checkpoint'
 
@@ -51,6 +52,10 @@ export async function POST(req: NextRequest) {
     const mode: PaperMode = body?.mode === 'practice' ? 'practice' : 'paper'
     const strand = typeof body?.strand === 'string' ? body.strand : undefined
 
+    // "Build me a paper like the one sat in May 2025." The questions are still
+    // original -- only the topic coverage is borrowed from that sitting.
+    const sitting = typeof body?.sitting === 'string' ? sittingById(body.sitting) : undefined
+
     // Only the foci this paper could draw on, not the whole table: ranking a
     // focus means scanning ten thousand figures, and the other subject's
     // strands can never appear here.
@@ -73,10 +78,18 @@ export async function POST(req: NextRequest) {
       // A different paper each time it is asked for.
       seed: Math.floor(Math.random() * 1e9),
       covered,
+      sittingFoci: sitting ? sitting.foci : undefined,
     })
 
     return NextResponse.json({
       paper,
+      // Which real sittings this component can be built from. Empty is a real
+      // answer -- no Primary Mathematics papers were supplied -- and the form
+      // says so rather than showing a picker it cannot fill.
+      sittings: sittingsFor(subject.code, component.number).map((x) => ({
+        id: sittingId(x), label: sittingLabel(x), year: x.year, foci: x.foci.length,
+      })),
+      builtFrom: sitting ? { id: sittingId(sitting), label: sittingLabel(sitting) } : null,
       // Built here rather than in the browser so the instructions the
       // generator receives and the paper the learner sees cannot drift apart.
       topics: paperTopics(paper),

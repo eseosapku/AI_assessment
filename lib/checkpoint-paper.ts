@@ -448,6 +448,32 @@ export interface BuildPaperOptions {
    * every sitting identical. Omit it and the paper is built as before.
    */
   covered?: ReadonlySet<string>
+  /**
+   * Foci a real sitting examined, from `lib/checkpoint-past-papers.ts`.
+   *
+   * Set when the learner asked for "a paper like May 2025". The questions are
+   * still original — only the topic coverage is borrowed, which is the same
+   * observation a revision guide makes.
+   *
+   * Applied per strand, and only where the sitting gave that strand enough to
+   * work with: a sitting that happened to ask one Statistics question must not
+   * produce a paper that asks that same topic six times.
+   */
+  sittingFoci?: readonly string[]
+}
+
+/**
+ * Narrow a strand's foci to what a real sitting examined.
+ *
+ * Falls back to the whole strand when the sitting touched it barely or not at
+ * all. A paper built from three topics would repeat them, which is a worse
+ * imitation of that sitting than a fair spread of the syllabus.
+ */
+function forSitting(all: readonly string[], sitting: readonly string[] | undefined): string[] {
+  if (!sitting?.length) return [...all]
+  const want = new Set(sitting)
+  const hit = all.filter((f) => want.has(f))
+  return hit.length >= 3 ? hit : [...all]
 }
 
 /**
@@ -487,7 +513,7 @@ export function buildPaper(
   // paper however the strands interleave.
   const pool = new Map<string, string[]>()
   for (const strand of strands) {
-    pool.set(strand, preferCovered(shuffled(STRAND_FOCI[strand] ?? [strand], next), options.covered))
+    pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci), next), options.covered))
   }
 
   // The shapes this component's paper is made of, then interleaved so the
@@ -521,7 +547,7 @@ export function buildPaper(
     // A strand with fewer foci than slots reshuffles rather than repeating the
     // one at the top of the list.
     if (foci.length === 0) {
-      pool.set(strand, preferCovered(shuffled(STRAND_FOCI[strand] ?? [strand], next), options.covered))
+      pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci), next), options.covered))
     }
     const focus = pool.get(strand)!.shift() ?? strand
 

@@ -99,6 +99,10 @@ export default function ExamPrepForm() {
   const [cpBrief, setCpBrief] = useState<string>('')
   const [cpShortCount, setCpShortCount] = useState(0)
   const [cpLayingOut, setCpLayingOut] = useState(false)
+  // Which real sitting to imitate, and which ones this component has.
+  // '' means the full syllabus spread, which is what it always did.
+  const [cpSitting, setCpSitting] = useState('')
+  const [cpSittings, setCpSittings] = useState<{ id: string; label: string; year: number; foci: number }[]>([])
 
   useEffect(() => {
     if (exam !== 'checkpoint' || !cpSubject || !cpComponent?.mockable) {
@@ -118,6 +122,7 @@ export default function ExamPrepForm() {
             component: cpComponent.number,
             mode: cpMode,
             strand: cpStrand || undefined,
+            sitting: cpSitting || undefined,
           }),
         })
         const json = await res.json()
@@ -127,15 +132,23 @@ export default function ExamPrepForm() {
           setCpPaper(res.ok && json?.paper ? json.paper : null)
           setCpBrief(res.ok && typeof json?.examPrepContext === 'string' ? json.examPrepContext : '')
           setCpShortCount(res.ok ? Number(json?.shortCount) || 0 : 0)
+          setCpSittings(res.ok && Array.isArray(json?.sittings) ? json.sittings : [])
         }
       } catch {
-        if (current) { setCpPaper(null); setCpBrief(''); setCpShortCount(0) }
+        if (current) { setCpPaper(null); setCpBrief(''); setCpShortCount(0); setCpSittings([]) }
       } finally {
         if (current) setCpLayingOut(false)
       }
     })()
     return () => { current = false }
-  }, [exam, programme, cpSubject?.name, cpComponent?.number, cpComponent?.mockable, cpMode, cpStrand])
+  }, [exam, programme, cpSubject?.name, cpComponent?.number, cpComponent?.mockable, cpMode, cpStrand, cpSitting])
+
+  // A sitting belongs to one component: "0862-01-2025-april" means nothing on
+  // 0893/02. Carrying it across would silently ask for a sitting that does not
+  // exist and quietly fall back, so it is cleared when the choice above moves.
+  useEffect(() => {
+    setCpSitting('')
+  }, [programme, cpSubject?.name, cpComponent?.number])
 
   // Counted by what the paper actually contains. This used to be written
   // answers against "everything else, called multiple choice", which told the
@@ -661,6 +674,55 @@ export default function ExamPrepForm() {
               <p className="text-xs text-amber-600 dark:text-amber-400 mt-3">Select at least one topic to continue.</p>
             )}
           </div>
+        </motion.section>
+      )}
+
+      {/* Step 3 (Checkpoint): build from a real sitting */}
+      {exam === 'checkpoint' && cpSubject && cpComponent?.mockable && cpMode === 'paper' && (
+        <motion.section initial={{ opacity: 0, y: 8 }} animate={{ opacity: 1, y: 0 }} className="glass dark:glass-dark rounded-2xl p-6">
+          <p className="text-[12px] font-bold uppercase tracking-widest text-ss-accent dark:text-ss-accent mb-2">Step 3</p>
+          <h2 className="text-xl font-bold text-ss-ink dark:text-white mb-1">Build it like a real sitting</h2>
+          <p className="text-[13px] font-medium text-ss-slate mb-4">
+            Pick a past paper and you get its topics, in its proportions. The questions are ours —
+            original, written against the published curriculum — so you can sit it more than once.
+          </p>
+
+          {cpSittings.length === 0 ? (
+            <p className="text-[13px] font-medium text-ss-slate">
+              No past papers on file for {cpSubject.name} {cpSubject.code}/{cpComponent.number} yet,
+              so this one is built across the full syllabus.
+            </p>
+          ) : (
+            <div className="grid gap-2 sm:grid-cols-3">
+              <button
+                type="button"
+                onClick={() => setCpSitting('')}
+                aria-pressed={cpSitting === ''}
+                className={`rounded-xl border-2 px-3 py-2.5 text-left transition-all ${
+                  cpSitting === '' ? 'border-ss-accent shadow-ss-panel' : 'border-ss-line hover:-translate-y-px hover:border-ss-accent'
+                }`}
+                style={cpSitting === '' ? { background: 'var(--ss-accent-soft)' } : undefined}
+              >
+                <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">Full syllabus</span>
+                <span className="block text-[12px] font-semibold text-ss-slate">Across every strand</span>
+              </button>
+              {cpSittings.map((x) => (
+                <button
+                  key={x.id}
+                  type="button"
+                  onClick={() => setCpSitting(x.id)}
+                  aria-pressed={cpSitting === x.id}
+                  className={`rounded-xl border-2 px-3 py-2.5 text-left transition-all ${
+                    cpSitting === x.id ? 'border-ss-accent shadow-ss-panel' : 'border-ss-line hover:-translate-y-px hover:border-ss-accent'
+                  }`}
+                  style={cpSitting === x.id ? { background: 'var(--ss-accent-soft)' } : undefined}
+                >
+                  <span className="block text-[12.5px] font-bold text-ss-ink dark:text-white">{x.label}</span>
+                  <span className="block text-[12px] font-semibold text-ss-slate">{x.foci} topics examined</span>
+                </button>
+              ))}
+            </div>
+          )}
         </motion.section>
       )}
 
