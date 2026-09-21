@@ -67,7 +67,15 @@ const SUBJECT_PATTERNS: readonly [RegExp, FigureSubject][] = [
 ]
 
 const LEVEL_PATTERNS: readonly [RegExp, FigureLevel][] = [
-  [/\bAS\b|\bA Level\b|\bA-Level\b|\bAS & A\b|\bAS _ A\b|\bAdvanced\b/i, 'a-level'],
+  // "AS" is case-SENSITIVE and everything else on this line is not, because
+  // the whole pattern used to carry /i and `\bAS\b` then matched the ordinary
+  // word "as". Every book with "as" in its title was filed as A Level and
+  // refused at Checkpoint — which is every English one we hold:
+  // "English-as-Second-Language", "English as First Language". The English
+  // papers were left with no legitimate figure to reach for at all, and what
+  // filled the gap was whatever the subject gate could not name.
+  [/\bAS\b/, 'a-level'],
+  [/\ba[ -]level\b|\badvanced\b/i, 'a-level'],
   [/\bIGCSE\b|\bO Level\b|\bGCSE\b/i, 'igcse'],
   [/\b(?:S[1-6]|senior|secondary|lower secondary|stage [7-9])\b/i, 'lower-secondary'],
   [/\b(?:P[1-6]|primary|stage [1-6])\b/i, 'primary'],

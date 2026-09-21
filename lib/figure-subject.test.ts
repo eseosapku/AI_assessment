@@ -1,6 +1,6 @@
 // lib/figure-subject.test.ts
 import { describe, it, expect } from 'vitest'
-import { subjectOfBook, levelOfBook, figureFitsSubject } from './figure-subject'
+import { subjectOfBook, levelOfBook, figureFitsSubject, figureFitsLevel } from './figure-subject'
 
 describe('reading the subject off the book title', () => {
   it('names the real titles in the library', () => {
@@ -113,5 +113,29 @@ describe('an unidentified book is not good enough for English', () => {
 
   it('admits a book that names itself English', () => {
     expect(figureFitsSubject('Checkpoint: 0876-English-as-Second-Language-May-2025-Checkpoint-Question-Paper-1', 'English')).toBe(true)
+  })
+})
+
+describe('"as" is a word, "AS" is a qualification', () => {
+  it('does not file an English book as A Level for containing the word "as"', () => {
+    for (const book of [
+      'Checkpoint: 0876-English-as-Second-Language-May-2025-Checkpoint-Question-Paper-1',
+      'Cambridge IGCSE English as a Second Language 0444 past paper',
+      'Cambridge IGCSE English as First Language Course Book (2)',
+    ]) {
+      expect(levelOfBook(book), book).not.toBe('a-level')
+      expect(figureFitsLevel(book, 9), book).toBe(true)
+    }
+  })
+
+  it('still refuses the real thing at Checkpoint', () => {
+    for (const book of [
+      'Cambridge International AS & A Level Physics Coursebook',
+      'Cambridge International AS and A Level Chemistry',
+      'Advanced Biology for You',
+    ]) {
+      expect(levelOfBook(book), book).toBe('a-level')
+      expect(figureFitsLevel(book, 9), book).toBe(false)
+    }
   })
 })
