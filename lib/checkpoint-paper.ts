@@ -773,6 +773,17 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     picked.marks = ticks || grid ? slot.marks : choice || keyed ? 1 : slot.marks
     // A placeholder key would mark every learner wrong with total confidence.
     if (!keyed && picked.short_answer) delete picked.short_answer
+
+    // The marks come from the blueprint, so the mark scheme has to follow
+    // them. The general cleaner does the opposite — it trusts the criteria and
+    // moves the marks — but here the paper's total is the contract and cannot
+    // move, which left 32 questions in a sweep carrying "3 criteria for 2
+    // marks". Extra criteria are trimmed; too few is left alone and reported,
+    // because inventing a marking point is worse than a visible shortfall.
+    if (Array.isArray(picked.marking_criteria) && typeof picked.marks === 'number') {
+      const real = picked.marking_criteria.filter((c) => String(c ?? '').trim().length > 0)
+      picked.marking_criteria = real.length > picked.marks ? real.slice(0, picked.marks) : real
+    }
     // A ringed option keeps its multiple-choice type; everything else is a
     // written answer whatever the generator labelled it.
     picked.type = ticks || grid ? 'interactive' : choice ? 'mcq' : 'longform'

@@ -139,6 +139,18 @@ const EXAMINER_OPENER =
   /^\s*(?:this\s+)?(?:question|item|task)\s+(?:tests?|assesses|evaluates|checks?|examines|measures|is\s+designed\s+to\s+test|aims\s+to\s+test)\b[^.!?]*[.!?]\s*/i
 
 /**
+ * The other examiner voice: instructions about the candidate rather than to
+ * them. "The student should measure the volume of gas produced over time."
+ *
+ * Turned up 21 times in a Checkpoint sweep and survived every pass, because
+ * the opener above only looks for "this question tests". Rewritten rather
+ * than removed: what follows it is the actual answer, and the student needs
+ * it — they just need it addressed to them.
+ */
+const CANDIDATE_VOICE =
+  /^\s*(?:the\s+)?(?:student|learner|candidate|pupil)s?\s+(?:should|must|needs?\s+to|is\s+expected\s+to|are\s+expected\s+to|has\s+to|have\s+to)\s+/i
+
+/**
  * Strip an examiner-facing preamble from an explanation.
  *
  * Only ever removes a leading sentence of that exact shape, and never returns
@@ -156,6 +168,11 @@ export function stripExaminerVoice(explanation: unknown): string {
     if (next === out) break
     out = next
   }
+
+  // "The student should measure the volume" becomes "Measure the volume":
+  // the same instruction, turned to face the person reading it.
+  const turned = out.replace(CANDIDATE_VOICE, '')
+  if (turned !== out && turned.trim()) out = turned
 
   if (!out) return text
   // Re-capitalise if the cut left the sentence starting mid-flow.

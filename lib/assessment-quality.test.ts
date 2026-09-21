@@ -258,3 +258,30 @@ describe('marks that match the mark scheme', () => {
     }
   })
 })
+
+describe('the other examiner voice', () => {
+  it('turns an instruction about the candidate into one addressed to them', () => {
+    // 21 of these survived a Checkpoint sweep: the opener check only looks
+    // for "this question tests", and this is the other shape.
+    expect(stripExaminerVoice('The student should measure the volume of gas produced over time.'))
+      .toBe('Measure the volume of gas produced over time.')
+    expect(stripExaminerVoice('Candidates must name the two products of the reaction.'))
+      .toBe('Name the two products of the reaction.')
+  })
+
+  it('keeps the substance rather than deleting the sentence', () => {
+    // What follows the preamble IS the answer; the student needs it.
+    expect(stripExaminerVoice('The learner needs to explain why the rate falls.'))
+      .toBe('Explain why the rate falls.')
+  })
+
+  it('leaves an explanation already addressed to the student alone', () => {
+    const e = 'Measure the volume of gas every ten seconds and plot it against time.'
+    expect(stripExaminerVoice(e)).toBe(e)
+  })
+
+  it('does not fire on a sentence merely mentioning students', () => {
+    const e = 'Students often confuse mass with weight, which is why this distractor appears.'
+    expect(stripExaminerVoice(e)).toBe(e)
+  })
+})

@@ -114,3 +114,27 @@ describe('dropDanglingReferences', () => {
     expect(dropDanglingReferences(paper).dropped).toEqual([])
   })
 })
+
+describe('the promise that matched nothing', () => {
+  it('catches "look at the diagram" with no diagram', () => {
+    // 35 of these in one Checkpoint sweep — the commonest unattached promise
+    // there is, and every pattern wanted a position word after the noun.
+    for (const stem of [
+      'Look at the diagram. After pollination, the pollen tube grows down to the ovule.',
+      'Study the graph and describe the trend.',
+      'Examine the map. Name the region shaded darkest.',
+    ]) {
+      expect(danglingReference({ question: stem }), stem).toBe('figure')
+    }
+  })
+
+  it('is satisfied once the figure is attached', () => {
+    expect(danglingReference({ question: 'Look at the diagram. Name part A.', image_url: '/fig.png' }))
+      .toBeNull()
+  })
+
+  it('catches "the diagram shows", which wants shows rather than shown', () => {
+    expect(danglingReference({ question: 'The diagram shows a plant cell. Name the part labelled A.' }))
+      .toBe('figure')
+  })
+})

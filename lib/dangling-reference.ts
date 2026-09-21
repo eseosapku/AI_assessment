@@ -49,6 +49,10 @@ const PROMISES: readonly Promise_[] = [
   // attached — 53 in one sweep, almost all of this shape.
   { kind: 'figure', pattern: /\b(?:the )?(?:diagram|figure|image|graph|chart|photograph|illustration|map)\s+(?:shows?|illustrates?|represents?|displays?)\b/i },
   { kind: 'figure', pattern: /\brefer(?:ring|s)?\s+to\s+the\s+(?:diagram|figure|image|graph|chart|map|table)\b/i },
+  // "Look at the diagram." was the single commonest unattached promise in a
+  // Checkpoint sweep — 35 of them — and it matched nothing here, because the
+  // patterns above all want a position word or a verb after the noun.
+  { kind: 'figure', pattern: /\b(?:look\s+at|study|examine|consider)\s+(?:the|this|these)\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map)\b/i },
   { kind: 'table', pattern: /\b(?:the )?table\s+(?:above|below|shown|shows?)\b/i },
   { kind: 'passage', pattern: /\b(?:the )?(?:passage|extract|text|article)\s+(?:above|below|shown)\b/i },
 ]
