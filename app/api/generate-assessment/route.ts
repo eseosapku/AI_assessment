@@ -1226,6 +1226,18 @@ function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false
   // run, every one of them a question that had its diagram.
   if (typeof q?.image_url === 'string' && q.image_url.trim()) return false
 
+  // Neither is a question that DRAWS its own visual.
+  //
+  // A drawn figure travels as SVG rather than a URL. And a "complete the
+  // table to show whether each ... is ... or not" is a categorize: the table
+  // it tells the learner to look at is the question itself, rendered by the
+  // runner. Same for the options of a ring-around or a tick-all. Widening the
+  // phrase list to catch "using the diagram" would otherwise have started
+  // deleting exactly the new formats that were so hard to get arriving.
+  if (typeof q?.diagram_svg === 'string' && q.diagram_svg.trim()) return false
+  if (q?.type === 'interactive' && (q?.kind === 'categorize' || q?.kind === 'multi_select')) return false
+  if (q?.type === 'mcq' && Array.isArray(q?.options) && q.options.length > 0) return false
+
   if (allowDiagrams && q?.needs_diagram === true) return false
 
   const lower = question.toLowerCase()

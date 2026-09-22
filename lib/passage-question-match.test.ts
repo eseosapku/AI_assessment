@@ -157,3 +157,19 @@ describe('a grammar item carries its own example', () => {
     expect(namesAbsentFromPassage('Who said "go"? Was it Ngozi?', passage)).toContain('Ngozi')
   })
 })
+
+describe('command words found by reading a live paper', () => {
+  const passage = 'The river rose after three days of rain. Musa watched from the bank.'
+
+  it('does not read a command or a structural noun as a character', () => {
+    for (const stem of [
+      'Determine the meaning of the word as it is used here.',
+      'Infer why the river rose so quickly.',
+      'Match the heading to the correct paragraph from the text.',
+      'Arrange the events in the order they happened.',
+      'Outline what Musa did next.',
+    ]) {
+      expect(namesAbsentFromPassage(stem, passage), stem).toEqual([])
+    }
+  })
+})

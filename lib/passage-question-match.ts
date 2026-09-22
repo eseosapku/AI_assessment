@@ -49,6 +49,14 @@ const NOT_A_NAME = new Set([
   'identify', 'provide', 'select', 'match', 'list', 'suggest', 'compare',
   'calculate', 'work', 'copy', 'underline', 'fill', 'rewrite', 'summarise',
   'summarize', 'quote', 'refer', 'consider', 'think', 'imagine', 'discuss',
+  // Another round of the same, found by reading a live paper: every one
+  // of these opened a question and was reported as a missing character.
+  'determine', 'infer', 'deduce', 'outline', 'define', 'label', 'order',
+  'arrange', 'sort', 'group', 'count', 'measure', 'record', 'predict',
+  'show', 'prove', 'justify', 'evaluate', 'assess', 'review', 'check',
+  // Headings and acronyms a question quotes as part of its own item.
+  'heading', 'paragraph', 'sentence', 'title', 'line', 'word', 'phrase',
+  'html', 'pdf', 'url', 'ict',
 ])
 
 /** Titles that attach to a name and should travel with it. */
