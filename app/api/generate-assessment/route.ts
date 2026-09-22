@@ -2387,6 +2387,26 @@ ${commandBlock}`
           // needs -- and was printed beside a Stage 9 Science question asking
           // the learner to name "the part labelled A". The description said
           // plainly that it was a psychological theory; nothing read it.
+          // A figure nobody can describe must never be attached.
+          //
+          // This is the fault behind every bad diagram in the last round, and
+          // I caused it. All 8,663 past-paper figures carry NO description --
+          // only the text of the page they were cut from -- and the rule
+          // below this one used to insist Checkpoint take past-paper figures
+          // ONLY, on the grounds that they look like exam line art. They do.
+          // But the writer never sees an image; it writes from the
+          // description. Given none, it invents what the picture shows:
+          //
+          //   three plainly different triangles, captioned "Triangles A, B
+          //   and C are identical ... each has angles marked x, y and z"
+          //   a line of negative gradient, asked about y = 2x + 1
+          //   a part-drawn shape with one 4 cm edge, asked for "the angle
+          //   marked in the triangle"
+          //
+          // Looking like an exam is worth nothing if the question beside it
+          // is about a different picture. Until the vision pass has described
+          // them, they cannot be used.
+          if (!String(fig.description ?? '').trim()) return
           if (!figureAllowedOnPaper(fig.localPath, promptSubject, Number(grade) || undefined)) return
           // On a Checkpoint paper the exam figure is not merely preferred.
           //
@@ -2396,11 +2416,12 @@ ${commandBlock}`
           // cartoon, the cartoon solar system and the stock recycling image
           // kept arriving on papers meant to look like Cambridge's.
           //
-          // It is affordable to insist. Of what a Stage 9 paper may reach,
-          // 4,940 Science figures and 4,810 Mathematics ones were drawn for
-          // an exam; the remainder are photographs and clip art. A slot with
-          // no exam figure for its topic is better left with none.
-          if (isCheckpoint && !isExamFigure(fig.localPath)) return
+          // It was NOT affordable to insist, and insisting is what broke the
+          // diagrams. Every one of those 4,940 "purpose-drawn" Science
+          // figures is a past-paper crop with NO description, so the rule
+          // above now refuses all of them and requiring them here would
+          // leave the paper with nothing at all. The weighted preference
+          // further down does the job, as it did before I tightened it.
           const text = `${fig.description} ${fig.category}`.toLowerCase()
           let score = words.reduce((n, w) => n + (text.includes(w) ? 1 : 0), 0)
           // A figure drawn FOR an exam beats one that merely sits near the

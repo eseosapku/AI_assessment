@@ -27,6 +27,21 @@ const CONCURRENCY = Number(arg('concurrency', 5)) || 5
 const ROOT = path.join(__dirname, '..')
 const DATA = path.join(ROOT, 'data', 'textbook-images')
 const CURATED = path.join(DATA, 'manifest.curated.json')
+/**
+ * Which manifest to read, and which slice of it.
+ *
+ * The curated manifest is a snapshot and the past-paper figures were
+ * re-cropped after it was taken, so `--manifest=main --only=pastpaper`
+ * points this at the live one. It matters: all 8,663 past-paper figures
+ * carry NO description, and a figure with no description cannot have a
+ * question written against it -- the writer never sees the image. Until
+ * they are described they are unusable, which is why three of the diagrams
+ * in the last round were captioned with questions about a different picture.
+ */
+const MANIFEST_PATH = arg('manifest', '') === 'main'
+  ? path.join(DATA, 'manifest.json')
+  : CURATED
+const ONLY_SOURCE = arg('only', '')
 const DESC_PATH = path.join(DATA, 'vision-descriptions.json')
 const CACHE_PATH = path.join(DATA, 'vision-cache.json')
 
@@ -89,9 +104,10 @@ async function describeOne(img) {
 }
 
 async function main() {
-  const manifest = loadJson(CURATED, { images: [] })
-  let images = manifest.images
+  const manifest = loadJson(MANIFEST_PATH, { images: [] })
+  let images = manifest.images || manifest
   if (CURR !== '') images = images.filter((i) => String(i.curriculum) === CURR)
+  if (ONLY_SOURCE) images = images.filter((i) => String(i.source ?? '') === ONLY_SOURCE)
   const desc = loadJson(DESC_PATH, {})
   const cache = loadJson(CACHE_PATH, {})
 

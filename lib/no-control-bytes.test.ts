@@ -22,8 +22,14 @@
  * A regex that cannot match looks exactly like a rule that is never needed.
  * Nothing else catches that, so this does.
  *
- * `\x00` is allowed where it is plainly a separator — `join('\0')` in a cache
- * key is deliberate and safe.
+ * A literal NUL is refused too, even where it is deliberate. Joining cache
+ * keys on a NUL is perfectly safe at runtime -- but written as a raw byte
+ * it makes git treat the whole file as BINARY, and lib/checkpoint-figures.ts
+ * sat unreviewable and undiffable for that one character. Write it as a
+ * unicode escape instead: same value, and the file stays text.
+ *
+ * This very comment spelled that escape out, and the editor turned it into
+ * a real NUL. The fault is not hypothetical.
  */
 import { describe, it, expect } from 'vitest'
 import fs from 'fs'
@@ -34,7 +40,11 @@ const DIRS = ['lib', 'app', 'components', 'scripts']
 const EXTENSIONS = new Set(['.ts', '.tsx', '.py', '.js', '.mjs'])
 
 /** Backspace, vertical tab, form feed, escape, and bare carriage control. */
-const FORBIDDEN = [0x08, 0x0b, 0x0c, 0x1b]
+// 0x00 included: a NUL written as a literal byte (a join separator, in
+// one case) makes git treat the whole file as binary and stop diffing it,
+// which is how lib/checkpoint-figures.ts went unreviewable. The escape
+// sequence has the same runtime value and keeps the file text.
+const FORBIDDEN = [0x00, 0x08, 0x0b, 0x0c, 0x1b]
 
 function sourceFiles(dir: string, out: string[] = []): string[] {
   let entries: fs.Dirent[]
