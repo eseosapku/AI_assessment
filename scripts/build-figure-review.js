@@ -299,7 +299,10 @@ function renderFilters() {
     // answered by showing how many of each thing there are.
     const total = DRAFTS.filter((d) => d.kind === kind).length;
     const done = DRAFTS.filter((d) => d.kind === kind && verdicts.has(d.id)).length;
-    const label = `${KIND_NAME[kind] || kind} ${done}/${total}`;
+    // Concatenation, not a template literal: this file is itself a template
+    // literal, so a \${...} here is interpolated at BUILD time against the
+    // builder's scope, where KIND_NAME does not exist.
+    const label = (KIND_NAME[kind] || kind) + ' ' + done + '/' + total;
     k.append(chip(label, filterKind === kind, () => { filterKind = kind; renderFilters(); renderGrid(); }));
   }
   $('f-undecided').setAttribute('aria-pressed', String(undecidedOnly));
