@@ -32,6 +32,7 @@ import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLea
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork } from '@/lib/passage-question-match'
 import { enforceSlotShape } from '@/lib/slot-shape'
+import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -2069,6 +2070,27 @@ ${commandBlock}`
         if (leaked.length) {
           console.log(`Rejected ${leaked.length} question(s) that copied the prompt into the stem`)
           parsed.questions = parsed.questions.filter((q: any) => !leaked.includes(q))
+        }
+
+        // A question written past the stage being sat.
+        //
+        // "Name the structure where ATP is produced" and "the component that
+        // contains mitochondrial DNA" both reached a Stage 9 Science paper.
+        // Cambridge teaches the mitochondrion at Stage 9 as the place
+        // respiration happens; cristae, ATP and mitochondrial DNA are A
+        // Level. They arrived with an IGCSE coursebook diagram whose labels
+        // the question then used -- figureFitsLevel refuses A Level books and
+        // allows IGCSE, which is usually a stretch a good question can carry.
+        // Usually is not always, and the figure is only one of the doors.
+        {
+          const stage = Number(grade)
+          const advanced = parsed.questions.filter((q: any) =>
+            q && typeof q === 'object' && questionIsAboveStage(q.question, stage))
+          if (advanced.length) {
+            const terms = [...new Set(advanced.flatMap((q: any) => beyondStage(q.question, stage)))]
+            console.log(`Rejected ${advanced.length} question(s) using ${terms.slice(0, 5).join(', ')} at Stage ${stage}`)
+            parsed.questions = parsed.questions.filter((q: any) => !advanced.includes(q))
+          }
         }
 
         // A question about a story nobody wrote.

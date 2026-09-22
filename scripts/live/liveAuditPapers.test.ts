@@ -24,6 +24,7 @@ for (const line of fs.readFileSync('.env', 'utf8').split(/\r?\n/)) {
 import { checkpointSubject, type CheckpointProgramme } from '@/lib/cambridge-checkpoint'
 import { buildPaper, paperBrief } from '@/lib/checkpoint-paper'
 import { questionInventsItsOwnText, namesAbsentFromPassage } from '@/lib/passage-question-match'
+import { beyondStage } from '@/lib/grade-vocabulary'
 
 const OUT_DIR = path.resolve(process.cwd(), 'data/audit')
 
@@ -188,6 +189,12 @@ async function auditOne(
     // 34 findings on a paper that was fine. A HIGH RATE still means
     // something, so the rate is what is reported.
     if (!isLanguage && offTopic(stem, body.topics)) offTopicCount++
+
+    // Terminology past the stage being sat.
+    const advanced = beyondStage(stem, programme === 'primary' ? 6 : 9)
+    if (advanced.length) {
+      findings.push({ paper: label, kind: 'above-stage', detail: `${advanced.join(', ')} :: ${stem.slice(0, 90)}` })
+    }
 
     // The prompt printed as the question.
     if (/\brefer to it as\b|\bdo not restate\b|\bthe question should send\b/i.test(stem)) {
