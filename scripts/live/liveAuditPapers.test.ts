@@ -25,6 +25,7 @@ import { checkpointSubject, type CheckpointProgramme } from '@/lib/cambridge-che
 import { buildPaper, paperBrief } from '@/lib/checkpoint-paper'
 import { questionInventsItsOwnText, namesAbsentFromPassage } from '@/lib/passage-question-match'
 import { beyondStage } from '@/lib/grade-vocabulary'
+import { demandOf } from '@/lib/demand-variety'
 
 const OUT_DIR = path.resolve(process.cwd(), 'data/audit')
 
@@ -232,8 +233,14 @@ questions sharing no word with the chosen topics: ${offTopicCount}/${questions.l
   // by "Look at the diagram. Write down the friction force on the car." is
   // two questions and one idea. Counted on the first four words, which is
   // what a demand's shape lives in.
-  const openers = questions.map((q) => String(q?.question ?? '').toLowerCase()
-    .replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean).slice(0, 4).join(' '))
+  // Measured on the DEMAND, not the opening words.
+  //
+  // Counting raw openings punished the paper for being authentic: a
+  // blueprint with fourteen ring-around slots produces fourteen questions
+  // opening "Draw a ring around", which is the correct Cambridge wording and
+  // not a fault. What matters is whether they ASK different things.
+  const openers = questions.map((q) =>
+    demandOf(q?.question).split(' ').filter((w) => w.length > 3).slice(0, 5).join(' '))
   const distinct = new Set(openers.filter(Boolean)).size
   const variety = questions.length ? distinct / questions.length : 1
   lines.push(`

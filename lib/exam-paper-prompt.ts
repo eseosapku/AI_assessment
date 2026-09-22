@@ -125,7 +125,12 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
     return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". ASK ONE THING: no "and explain", no second demand — the box takes one word. MUST carry "short_answer". No marking_criteria.`
   }
   const second = commands.extended[1] ?? commands.extended[0]
-  return `${label} "marks": ${spec.marks}. Answered in a sentence or two. Open with "${commands.extended[0]}" or "${second}". Keep the DEMAND itself under 20 words. MUST carry "marking_criteria" with exactly ${spec.marks} entries, one per mark. No short_answer.`
+  // The command is a WORD, not a sentence to copy.
+  //
+  // This offered "Calculate, showing each step" and got it back verbatim as
+  // the opening of seven questions on one paper. A command list is meant to
+  // set the register, not to be pasted.
+  return `${label} "marks": ${spec.marks}. Answered in a sentence or two. Open with "${commands.extended[0]}" or "${second}". Under 20 words. MUST carry "marking_criteria" with exactly ${spec.marks} entries, one per mark. No short_answer.`
 }
 
 export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
@@ -143,6 +148,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // is 180 degrees, calculate ..." is forty-one words and reads nothing
     // like the paper it claims to be.
     'Cambridge demands are SHORT: eight to ten words is typical, seventeen is long.',
+    'A command word sets the register; never paste one of these lines as the opening.',
     ...(opts.styleExamples?.length
       ? [
           'Real demands from this paper, for SHAPE only -- their content has',
@@ -307,11 +313,11 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
 const COMMANDS_BY_SUBJECT: Record<string, { short: string[]; extended: string[] }> = {
   mathematics: {
     short: ['Find', 'Write down', 'Calculate'],
-    extended: ['Work out, showing your working', 'Calculate, showing each step'],
+    extended: ['Work out', 'Calculate', 'Show how'],
   },
   maths: {
     short: ['Find', 'Write down', 'Calculate'],
-    extended: ['Work out, showing your working', 'Calculate, showing each step'],
+    extended: ['Work out', 'Calculate', 'Show how'],
   },
   science: {
     short: ['Write down', 'Name', 'Complete'],

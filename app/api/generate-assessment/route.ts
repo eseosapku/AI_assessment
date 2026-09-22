@@ -36,6 +36,7 @@ import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { liftSharedScenarios } from '@/lib/shared-scenario'
+import { dropRepeatedDemands, stripDeadPointer } from '@/lib/demand-variety'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -3038,6 +3039,25 @@ ${commandBlock}`
           if (q && typeof q === 'object' && !q.passage) q.passage = checkpointPassage
         }
       }
+      // A pointer at a figure printed right beside the question, written the
+      // same way nine times on one paper. Told not to and did anyway.
+      for (const q of assessmentData.questions as any[]) {
+        if (q && typeof q === 'object' && typeof q.question === 'string') {
+          q.question = stripDeadPointer(q.question)
+        }
+      }
+
+      // The same question asked twice -- a tense apart, or a paragraph letter
+      // apart. The stem deduplicator sees three differences and passes both;
+      // what makes them duplicates is the demand underneath.
+      {
+        const deduped = dropRepeatedDemands(assessmentData.questions as any[])
+        if (deduped.removed > 0) {
+          console.log(`Removed ${deduped.removed} question(s) repeating a demand already on the paper`)
+          assessmentData.questions = deduped.questions
+        }
+      }
+
       // The scenario belongs to the question, not to each of its parts.
       // Five parts of one numbered question each restated it in full, so a
       // learner paging through met the same twenty words five times.
