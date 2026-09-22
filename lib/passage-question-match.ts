@@ -57,6 +57,10 @@ const NOT_A_NAME = new Set([
   // Headings and acronyms a question quotes as part of its own item.
   'heading', 'paragraph', 'sentence', 'title', 'line', 'word', 'phrase',
   'html', 'pdf', 'url', 'ict',
+  // And again, from the next live paper. Every one of these opened a
+  // question and was reported as a character absent from the text.
+  'correct', 'trace', 'rearrange', 'insert', 'replace', 'change', 'form',
+  'punctuate', 'spell', 'join', 'separate', 'expand', 'shorten', 'begin',
 ])
 
 /** Titles that attach to a name and should travel with it. */

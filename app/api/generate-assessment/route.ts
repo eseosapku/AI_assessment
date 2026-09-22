@@ -2887,6 +2887,35 @@ ${commandBlock}`
       }
     }
 
+    // One last, simplest possible ask.
+    //
+    // 0097 is the smallest paper here -- 40 marks over 31 slots -- and it
+    // failed outright at 29 of 31 while every other paper came back whole.
+    // The passes above ask for questions shaped like the slots they are
+    // filling: a figure, a format, a focus. By this point that shape is what
+    // keeps failing, so the last attempt drops all of it and asks for plain
+    // short answers, which is what most of a Checkpoint paper is anyway.
+    //
+    // Refusing a paper the learner asked for, over two questions, after four
+    // passes have produced twenty-nine good ones, is the worst of the
+    // available answers.
+    if (isCheckpoint && allQuestions.length < count) {
+      const missing = count - allQuestions.length
+      console.warn(`Still short by ${missing} — one last pass, short answers only`)
+      try {
+        const plain = await tryGenerateBatch(
+          Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short',
+        )
+        const seenKeys = new Set(
+          allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
+        )
+        allQuestions.push(...deduplicateAndFix(plain, seenKeys))
+        allQuestions = makeShippable(allQuestions)
+      } catch (err) {
+        console.error('Last-resort pass failed:', err)
+      }
+    }
+
     // If STILL short after all retries → return error
     if (allQuestions.length < count) {
       return NextResponse.json(

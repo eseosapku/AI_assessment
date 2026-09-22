@@ -190,3 +190,18 @@ describe('punctuation stuck to a word', () => {
     expect(namesAbsentFromPassage('Who is "Ngozi"?', passage)).toContain('Ngozi')
   })
 })
+
+describe('grammar commands are not characters either', () => {
+  const passage = 'The river rose after three days of rain. Musa watched from the bank.'
+
+  it('does not read a usage command as a name', () => {
+    for (const stem of [
+      "Correct the question form in the sentence: 'What time does the movie start?'",
+      'Trace how the main idea develops in the text.',
+      'Rearrange the words to make a question.',
+      'Insert the missing comma.',
+    ]) {
+      expect(namesAbsentFromPassage(stem, passage), stem).toEqual([])
+    }
+  })
+})
