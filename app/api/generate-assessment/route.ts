@@ -30,7 +30,7 @@ import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
-import { questionInventsItsOwnText, namesAbsentFromPassage } from '@/lib/passage-question-match'
+import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork } from '@/lib/passage-question-match'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -320,13 +320,17 @@ Write a reading extract. Requirements:
 - Vocabulary: ${spec.vocab}
 - Natural paragraph breaks (blank line between paragraphs)
 - The student MUST be able to answer the question from this text
+- ORIGINAL. Invent the people, places and events. Do NOT use characters,
+  settings or plots from published books, films or games — no Bilbo, no
+  Gandalf, no Hogwarts, no Narnia — and do not reproduce or adapt any existing
+  text. An exam board cannot print someone else's story, and neither can this.
 
 Return your response in this EXACT format (no extra text, no markdown):
 PASSAGE:
 [full passage text here]
 
 SOURCE:
-[e.g. "Original passage written for ${gradeLabel} students" or author/title if using a real text]`
+Original passage written for ${gradeLabel} students`
 }
 
 function parsePassageResponse(raw: string, minWords = 120): { text: string; source: string } | null {
@@ -2200,15 +2204,32 @@ ${commandBlock}`
       /reading|comprehension/i.test(String(s?.strand ?? '')))
     const languagePaper = /\benglish\b|\besl\b|second language|\bliterature\b/i.test(promptSubject)
     const needsPassage = isCheckpoint && (body?.needsPassage === true || languagePaper || readingStrandInPlan)
-    if (needsPassage) {
-      const made = await generatePassageWithBedrock(
-        `A reading text for a ${promptSubject} paper at Stage ${gradeForPrompt}.`,
-        promptSubject,
-        'A complete short text a learner can answer comprehension questions about.',
-        callBedrock,
-        gradeForPrompt,
-        { topics: promptTopics },
+    if (isCheckpoint) {
+      console.log(
+        `Passage decision: subject="${promptSubject}" language=${languagePaper} ` +
+        `readingStrand=${readingStrandInPlan} clientFlag=${body?.needsPassage} -> ${needsPassage}`,
       )
+    }
+    if (needsPassage) {
+      // Asked three times at most, because the first answer came back as
+      // Bilbo Baggins, Gandalf and Smaug in the Shire. An exam board cannot
+      // print someone else's story, and a comprehension text half the class
+      // has already read tests nothing anyway.
+      let made: { text: string; source: string } | null = null
+      for (let attempt = 0; attempt < 3; attempt++) {
+        made = await generatePassageWithBedrock(
+          `A reading text for a ${promptSubject} paper at Stage ${gradeForPrompt}.`,
+          promptSubject,
+          'A complete short text a learner can answer comprehension questions about.',
+          callBedrock,
+          gradeForPrompt,
+          { topics: promptTopics },
+        )
+        const borrowed = passageBorrowsAKnownWork(made?.text)
+        if (!borrowed) break
+        console.log(`Reading text used "${borrowed}" — somebody else's story. Asking again.`)
+        made = null
+      }
       if (made?.text) {
         checkpointPassage = made.text
         console.log(`Checkpoint reading text: ${made.text.split(/\s+/).length} words`)
@@ -2947,8 +2968,16 @@ ${commandBlock}`
           await fixupPassageQuestions(missing, callBedrock)
         }
       }
-    } else if (!usePassageFlow) {
-      // Direct syllabus questions — no reading passage UI
+    } else if (!usePassageFlow && !checkpointPassage) {
+      // Direct syllabus questions — no reading passage UI.
+      //
+      // `&& !checkpointPassage` is the whole fix for the Clara questions.
+      // `usePassageFlow` is decided six hundred lines earlier, from the
+      // subject plan, and is false for Checkpoint. So a Checkpoint English
+      // paper generated its 520-word reading text, stamped it onto all forty
+      // questions -- and then deleted it here, four lines before the
+      // response. The text existed, the questions were written against it,
+      // and the learner was shown none of it.
       assessmentData.questions.forEach((q: any) => {
         delete q.passage
         delete q.passage_source

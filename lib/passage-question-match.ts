@@ -37,11 +37,18 @@ const NOT_A_NAME = new Set([
   'english', 'mathematics', 'maths', 'science', 'biology', 'chemistry', 'physics',
   'history', 'geography', 'art', 'music', 'write', 'give', 'name', 'state',
   'explain', 'describe', 'complete', 'tick', 'circle', 'choose', 'look', 'read',
-  'which', 'what', 'who', 'where', 'when', 'why', 'how', 'the', 'a', 'an',
+  'which', 'what', 'who', 'whose', 'whom', 'where', 'when', 'why', 'how',
+  'the', 'a', 'an',
   'in', 'on', 'at', 'to', 'from', 'for', 'this', 'that', 'these', 'those',
   'one', 'two', 'three', 'four', 'five', 'both', 'each', 'use', 'using',
   'find', 'work', 'put', 'add', 'draw', 'answer', 'question', 'text', 'passage',
   'yes', 'no', 'true', 'false',
+  // Command words that open a sentence and are not anybody's name. Missing
+  // these reported "Identify" and "Provide" as characters absent from the
+  // passage, and deleted two perfectly good questions.
+  'identify', 'provide', 'select', 'match', 'list', 'suggest', 'compare',
+  'calculate', 'work', 'copy', 'underline', 'fill', 'rewrite', 'summarise',
+  'summarize', 'quote', 'refer', 'consider', 'think', 'imagine', 'discuss',
 ])
 
 /** Titles that attach to a name and should travel with it. */
@@ -109,8 +116,12 @@ export function namesAbsentFromPassage(stem: unknown, passage: unknown): string[
   const text = String(passage ?? '')
   if (!text.trim()) return names
 
-  const haystack = text.toLowerCase()
-  return names.filter((n) => !haystack.includes(n.toLowerCase()))
+  // Possessives are the same name. "Gandalf's" was reported absent from a
+  // passage that says "Gandalf" on every other line, and the question was
+  // deleted for it.
+  const bare = (s: string) => s.toLowerCase().replace(/['’]s$/, '')
+  const haystack = bare(text)
+  return names.filter((n) => !haystack.includes(bare(n)))
 }
 
 /**
@@ -121,4 +132,48 @@ export function namesAbsentFromPassage(stem: unknown, passage: unknown): string[
  */
 export function questionInventsItsOwnText(stem: unknown, passage: unknown): boolean {
   return namesAbsentFromPassage(stem, passage).length > 0
+}
+
+/**
+ * Characters and places that belong to somebody else.
+ *
+ * The passage prompt used to end "...or author/title if using a real text",
+ * which is an invitation, and it was taken: a Cambridge ESL reading paper came
+ * back as Bilbo Baggins, Gandalf and Smaug in the Shire. An exam board cannot
+ * print someone else's story and neither can this — quite apart from a
+ * comprehension text that half the class has already read.
+ *
+ * Deliberately distinctive names only. "Matilda" and "Charlie" are Dahl
+ * characters and also two of the commonest names in a classroom, and refusing
+ * a passage for using them would cost more than it saves.
+ */
+const BORROWED = [
+  'bilbo', 'frodo', 'gandalf', 'smaug', 'sauron', 'hobbiton', 'middle-earth',
+  'rivendell', 'mordor', 'gollum', 'aragorn', 'legolas',
+  'hogwarts', 'hermione', 'dumbledore', 'voldemort', 'gryffindor', 'slytherin',
+  'hufflepuff', 'ravenclaw', 'quidditch', 'muggle', 'harry potter',
+  'narnia', 'aslan', 'katniss', 'panem', 'hunger games',
+  'percy jackson', 'sherlock holmes', 'willy wonka', 'oompa loompa',
+  'darth vader', 'skywalker', 'jedi', 'pokemon', 'pikachu', 'minecraft',
+  'spider-man', 'spiderman', 'batman', 'superman', 'wakanda', 'hogsmeade',
+  'winterfell', 'westeros', 'dothraki', 'gotham', 'asgard',
+]
+
+/** The borrowed name this passage uses, or '' when it is original. */
+export function passageBorrowsAKnownWork(passage: unknown): string {
+  const text = String(passage ?? '').toLowerCase()
+  if (!text.trim()) return ''
+  for (const name of BORROWED) {
+    // Word-boundary matched, so "asgard" does not fire on "Asgardian Road"
+    // being a street somebody invented, and "jedi" not on a surname.
+    //
+    // String.raw, not a plain template literal: `\b` inside one is the
+    // BACKSPACE escape, U+0008, not a word boundary — so the pattern became
+    // <BS>bilbo<BS> and matched nothing, silently. The file itself is clean,
+    // which is why the control-byte guard could not see it; the corruption
+    // only exists at runtime.
+    const pattern = String.raw`\b` + name.replace(/-/g, '[- ]') + String.raw`\b`
+    if (new RegExp(pattern, 'i').test(text)) return name
+  }
+  return ''
 }

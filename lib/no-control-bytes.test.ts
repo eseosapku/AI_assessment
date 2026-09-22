@@ -72,3 +72,37 @@ describe('no source file carries a stray control character', () => {
     expect(offenders).toEqual([])
   })
 })
+
+describe('a word boundary that is really a backspace', () => {
+  it('never builds a regex from a template literal containing a bare escape', () => {
+    // `\b` inside a TEMPLATE literal is U+0008, not a word boundary, so
+    // new RegExp(`\b${name}\b`) matches nothing — silently, and the file
+    // itself is clean, so the byte scan above cannot see it. Found the hard
+    // way in passage-question-match: every borrowed-work check passed
+    // because none of them could ever fire.
+    //
+    // String.raw`\b`, '\b' in a normal string, or a literal /.../ are all
+    // fine; a backtick string with a bare \b, \d, \w, \s or \t is not.
+    const offenders: string[] = []
+    const files = DIRS.flatMap((d) => sourceFiles(path.join(ROOT, d)))
+      .filter((f) => f.endsWith('.ts') || f.endsWith('.tsx'))
+      // Tests are excluded: this file's own doc comment spells the mistake
+      // out, and a guard that fails on its own explanation is no guard.
+      .filter((f) => !f.includes('.test.'))
+
+    for (const file of files) {
+      const src = fs.readFileSync(file, 'utf8')
+      // A backtick string handed to RegExp, or concatenated into a pattern,
+      // that carries a bare regex escape.
+      const re = /new RegExp\(\s*`([^`]*)`/g
+      for (const m of src.matchAll(re)) {
+        const body = m[1]
+        if (new RegExp(String.raw`(?<!\\)\\[bdwsSDWtnr]`).test(body)) {
+          offenders.push(`${file}: new RegExp(\`...${body.slice(0, 50)}...\`)`)
+        }
+      }
+    }
+
+    expect(offenders, offenders.join('\n')).toEqual([])
+  })
+})

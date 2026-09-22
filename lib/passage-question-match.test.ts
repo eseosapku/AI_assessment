@@ -1,6 +1,6 @@
 // lib/passage-question-match.test.ts
 import { describe, it, expect } from 'vitest'
-import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText } from './passage-question-match'
+import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText, passageBorrowsAKnownWork } from './passage-question-match'
 
 /** The exact stems that shipped with no passage on the page. */
 const SHIPPED = [
@@ -73,5 +73,60 @@ describe('a name at the start of a sentence still counts', () => {
     const passage = 'Water boils at one hundred degrees. Iron rusts in damp air.'
     expect(namesAbsentFromPassage('Water boils at what temperature?', passage)).toEqual([])
     expect(namesAbsentFromPassage('Iron rusts in which conditions?', passage)).toEqual([])
+  })
+})
+
+describe('what the guard must not delete', () => {
+  const passage = 'Gandalf arrived at dusk. Bilbo opened the door and stared at the wizard.'
+
+  it('treats a possessive as the same name', () => {
+    // "Gandalf's" was reported absent from a passage saying Gandalf twice,
+    // and a good question was deleted for it.
+    expect(namesAbsentFromPassage("What was in Gandalf's hand?", passage)).toEqual([])
+    expect(namesAbsentFromPassage('Whose door did Bilbo open?', passage)).toEqual([])
+  })
+
+  it('does not read a command word as a character', () => {
+    for (const stem of [
+      'Identify the reason the wizard came.',
+      'Provide two words that describe the door.',
+      'Suggest why Bilbo was surprised.',
+      'Compare the two characters.',
+    ]) {
+      expect(namesAbsentFromPassage(stem, passage), stem).toEqual([])
+    }
+  })
+
+  it('still catches a character who is genuinely not there', () => {
+    expect(namesAbsentFromPassage('What did Smaug guard?', passage)).toEqual(['Smaug'])
+  })
+})
+
+describe('a passage that belongs to somebody else', () => {
+  it('catches the text that actually came back', () => {
+    const tolkien = 'The sun had long since set behind the rolling hills of the Shire. Bilbo Baggins sat by his fireplace. In walked Gandalf, the grey wizard. A dragon guards a mountain of gold, and it is this dragon, Smaug, who has been troubling the lands.'
+    expect(passageBorrowsAKnownWork(tolkien)).toBeTruthy()
+  })
+
+  it('catches the other usual suspects', () => {
+    for (const t of [
+      'Hermione opened the door to the Gryffindor common room.',
+      'The children stepped through the wardrobe into Narnia.',
+      'Katniss drew her bow.',
+      'They travelled to Hogwarts by train.',
+    ]) {
+      expect(passageBorrowsAKnownWork(t), t).toBeTruthy()
+    }
+  })
+
+  it('leaves an original story alone', () => {
+    for (const t of [
+      'Amara walked to the market before dawn. The stalls were already busy with traders.',
+      'The old mill on the river had not turned for thirty years. Musa decided to find out why.',
+      'Every Thursday, Grandmother told the same story about the drought of her childhood.',
+      'Charlie and Matilda shared a desk by the window.',
+    ]) {
+      expect(passageBorrowsAKnownWork(t), t).toBe('')
+    }
   })
 })
