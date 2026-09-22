@@ -106,7 +106,15 @@ async function auditOne(
   }
 
   const withFigure = questions.filter((q) => q?.image_url).length
-  lines.push(`figures attached: ${withFigure}`)
+  const withDrawn = questions.filter((q) => q?.diagram_svg).length
+  lines.push(`figures attached: ${withFigure} from the library, ${withDrawn} drawn`)
+
+  // The figure's own description pasted into the stem.
+  for (const q of questions) {
+    if (/\[\s*(?:diagram|figure|image|table|graph)\s*:/i.test(String(q?.question ?? ''))) {
+      findings.push({ paper: label, kind: 'figure-description-in-stem', detail: String(q.question).slice(0, 120) })
+    }
+  }
 
   const formats = questions.reduce((a: any, q) => {
     const k = q?.type === 'interactive' ? `interactive:${q?.kind ?? '?'}` : String(q?.type ?? '?')
@@ -126,7 +134,12 @@ async function auditOne(
 
     // A question pointing at a figure that is not there.
     const pointsAtFigure = /\b(?:see|look\s+at|in|on|from|using|use|according\s+to|based\s+on)\s+(?:the|this|these|your)\s+(?:diagram|picture|figure|graph|image|photo|illustration|map|chart|table|circuit|apparatus)\b/i.test(stem)
-    if (pointsAtFigure && !q?.image_url) {
+    // A drawn figure travels as SVG, and an interactive question renders its
+    // own table or options -- neither has an image_url and both are present.
+    const hasVisual = Boolean(q?.image_url) || Boolean(q?.diagram_svg)
+      || (q?.type === 'interactive' && (q?.kind === 'categorize' || q?.kind === 'multi_select'))
+      || (q?.type === 'mcq' && Array.isArray(q?.options) && q.options.length > 0)
+    if (pointsAtFigure && !hasVisual) {
       findings.push({ paper: label, kind: 'figure-referenced-but-absent', detail: stem.slice(0, 120) })
     }
 

@@ -331,6 +331,18 @@ const INSTRUCTION_LEAK = new RegExp(
     // Two separators minimum, each spaced — one bare pair is "|-8| + |3|",
     // which is a modulus and a perfectly good question.
     String.raw`(?:\s\|\s[^|]{1,40}){2,}`,
+    // The figure's own DESCRIPTION, bracketed and pasted into the stem:
+    //
+    //   "Look at the diagram. State the importance of using a graduated
+    //    scale. [Diagram: A cylinder containing a graduated scale and a
+    //    measuring liquid ... labelled Measurement Scale, Liquid Column,
+    //    Base.]"
+    //
+    // The description is given to the writer so the question can be written
+    // AGAINST the picture, never so it can be printed beside it. The learner
+    // can see the cylinder; being told about it in brackets is the same
+    // wasted figure as restating it in prose, only uglier.
+    String.raw`\[\s*(?:diagram|figure|image|graph|chart|table|picture)\s*:`,
   ].join('|'),
   'i',
 )

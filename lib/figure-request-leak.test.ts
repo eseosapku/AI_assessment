@@ -36,3 +36,31 @@ describe('questionLeaksInstructions', () => {
     expect(questionLeaksInstructions('Work out |-8| + |3|.')).toBe(false)
   })
 })
+
+describe('the figure description pasted into the stem', () => {
+  it('catches the bracketed description that shipped', () => {
+    expect(questionLeaksInstructions(
+      'Look at the diagram. State the importance of using a graduated scale for measuring the liquid column accurately. [Diagram: A cylinder containing a graduated scale and a measuring liquid, with a ruler beside it, labelled Measurement Scale, Liquid Column, Base.]',
+    )).toBe(true)
+  })
+
+  it('catches the other bracket labels', () => {
+    for (const stem of [
+      'Work out the mean. [Table: day, water used]',
+      'Describe the trend. [Graph: temperature against time]',
+      'Name part A. [Figure: a cross-section of a leaf]',
+    ]) {
+      expect(questionLeaksInstructions(stem), stem).toBe(true)
+    }
+  })
+
+  it('leaves ordinary brackets alone', () => {
+    for (const stem of [
+      'Work out the value of x. [3 marks]',
+      'Give the formula for speed. [distance and time are both given]',
+      'The mass of the marble (in grams) is shown. Write it down.',
+    ]) {
+      expect(questionLeaksInstructions(stem), stem).toBe(false)
+    }
+  })
+})
