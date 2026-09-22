@@ -34,6 +34,7 @@ import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnown
 import { enforceSlotShape } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
+import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -2066,6 +2067,17 @@ ${commandBlock}`
             ? { description: drawn.description, labels: drawn.labels, noun: drawn.noun }
             : undefined,
           passage: checkpointPassage || undefined,
+          // Spread the questions across the text.
+          //
+          // Sixteen parallel calls, one passage, the same focus: they
+          // converge on whatever it says most loudly. Naming a paragraph per
+          // question is how the real papers avoid it, and the reader letters
+          // them so the learner can follow.
+          passageParagraph: checkpointPassage
+            ? (splitIntoParagraphs(checkpointPassage)[
+                (startId - 1) % Math.max(1, splitIntoParagraphs(checkpointPassage).length)
+              ]?.label || undefined)
+            : undefined,
         })
         const text = await callBedrock(focused, Math.min(2600, 700 + questionParts.length * 550))
         if (isRefusal(text)) throw new Error('Model refused to generate content.')

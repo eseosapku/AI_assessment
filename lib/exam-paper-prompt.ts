@@ -75,6 +75,19 @@ export interface ExamPaperPromptOptions {
    * why these are safe to show when three earlier examples were not.
    */
   styleExamples?: readonly string[]
+  /**
+   * Which lettered paragraph of the passage this question must ask about.
+   *
+   * Sixteen parallel calls given the same 500-word text and the same focus
+   * converge on whatever it says most loudly. One ESL paper asked what Elara
+   * inherited from her father twice, what she found in the hidden compartment
+   * twice more, and where the compartment was -- five questions, one fact.
+   *
+   * Real Reading and Usage papers spread their exercises across the text and
+   * letter the paragraphs so they can say which. The reader now letters them
+   * too, so this can name one.
+   */
+  passageParagraph?: string
 }
 
 
@@ -147,6 +160,9 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
       opts.passage.trim(),
       '"""',
       'Ask about THIS text. The answer must be findable in it — do not ask about anything it does not say, and do not quote more of it back than the question needs.',
+      ...(opts.passageParagraph
+        ? [`Ask about PARAGRAPH ${opts.passageParagraph} specifically. Other questions on this paper cover the other paragraphs, and two questions about the same sentence is one question printed twice.`]
+        : []),
       '',
     )
   }
