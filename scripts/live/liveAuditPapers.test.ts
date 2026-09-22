@@ -115,6 +115,12 @@ async function auditOne(
 
   const questions: any[] = json?.questions ?? []
   lines.push(`returned ${questions.length} question(s)`)
+  // Keep the raw paper so scripts/ui-walk.js can put it in front of a real
+  // browser. Every UI fault in this work was invisible from the code.
+  fs.writeFileSync(
+    path.join(OUT_DIR, `paper-${subject.code}-${component.number}.json`),
+    JSON.stringify(json), 'utf8',
+  )
   // The route echoes back the subject string it actually used, which is
   // what the passage decision is made from.
   lines.push(`route saw subject: "${json?.subject}"  curriculum: "${json?.curriculum}"`)

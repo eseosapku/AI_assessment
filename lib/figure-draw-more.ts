@@ -48,33 +48,106 @@ export function drawPieChart(s: PieChartSpec): string {
 }
 
 // ── data table ─────────────────────────────────────────────────────────────
+/** Helvetica at 12px averages about this per character across mixed case. */
+const CHAR_W = 6.25
+const LINE_H = 15
+
+/** Greedy word wrap to a pixel width. Never drops a word, however long. */
+function wrapCell(textValue: string, widthPx: number): string[] {
+  const words = String(textValue ?? '').split(/\s+/).filter(Boolean)
+  if (words.length === 0) return ['']
+  const max = Math.max(4, Math.floor(widthPx / CHAR_W))
+  const lines: string[] = []
+  let line = ''
+  for (const w of words) {
+    const next = line ? `${line} ${w}` : w
+    if (next.length <= max) { line = next; continue }
+    if (line) lines.push(line)
+    line = w
+  }
+  if (line) lines.push(line)
+  return lines
+}
+
 export function drawDataTable(s: DataTableSpec): string {
+  // Columns were a fixed 96-150px with no measurement and no wrapping, so
+  // "Closely packed in a fixed position" -- 34 characters, about 211px --
+  // ran straight out of its cell and collided with the column beside it.
+  // Three rows of a particle-model table were unreadable on top of each
+  // other. A table the learner cannot read is not a figure.
   const cols = s.columns.length
-  const colW = Math.max(96, Math.min(150, Math.round(440 / cols)))
-  const rowH = 30
-  const W = colW * cols + 40
+  const PAD = 12
+  const CELL_MAX = 190
+
+  // Wide enough for the longest word in the column, then for its longest
+  // cell, then capped -- anything past the cap wraps instead.
+  const widths = s.columns.map((heading, c) => {
+    const cells = [heading, ...s.rows.map((r) => r[c] ?? '')]
+    const longestWord = Math.max(
+      ...cells.flatMap((t) => String(t).split(/\s+/).map((w) => w.length)),
+      3,
+    )
+    const longestCell = Math.max(...cells.map((t) => String(t).length), 3)
+    return Math.round(Math.min(CELL_MAX, Math.max(longestWord * CHAR_W + PAD * 2, Math.min(longestCell * CHAR_W + PAD * 2, CELL_MAX))))
+  })
+
+  const headingLines = s.columns.map((h, c) => wrapCell(h, widths[c] - PAD * 2))
+  const rowLines = s.rows.map((row) => row.map((cell, c) => wrapCell(cell, widths[c] - PAD * 2)))
+
+  const headH = Math.max(30, headingLines.reduce((m, l) => Math.max(m, l.length), 1) * LINE_H + 14)
+  const rowH = rowLines.map((row) => Math.max(28, row.reduce((m, l) => Math.max(m, l.length), 1) * LINE_H + 12))
+
+  const tableW = widths.reduce((t, w) => t + w, 0)
+  const W = tableW + 40
   const top = s.title ? 44 : 20
-  const H = top + rowH * (s.rows.length + 1) + 20
+  const H = top + headH + rowH.reduce((t, h) => t + h, 0) + 20
 
   let body = s.title ? text(W / 2, 26, s.title) : ''
 
   // Heading row shaded, as the papers print it.
-  body += `<rect x="20" y="${n(top)}" width="${n(colW * cols)}" height="${rowH}" fill="#efefef"/>`
+  body += `<rect x="20" y="${n(top)}" width="${n(tableW)}" height="${n(headH)}" fill="#efefef"/>`
 
-  for (let c = 0; c <= cols; c++) {
-    body += line(20 + c * colW, top, 20 + c * colW, top + rowH * (s.rows.length + 1), 1)
+  // Verticals.
+  let x = 20
+  body += line(x, top, x, top + headH + rowH.reduce((t, h) => t + h, 0), 1)
+  for (const w of widths) {
+    x += w
+    body += line(x, top, x, top + headH + rowH.reduce((t, h) => t + h, 0), 1)
   }
-  for (let r = 0; r <= s.rows.length + 1; r++) {
-    body += line(20, top + r * rowH, 20 + colW * cols, top + r * rowH, 1)
+  // Horizontals.
+  let y = top
+  body += line(20, y, 20 + tableW, y, 1)
+  y += headH
+  body += line(20, y, 20 + tableW, y, 1)
+  for (const h of rowH) {
+    y += h
+    body += line(20, y, 20 + tableW, y, 1)
   }
 
-  s.columns.forEach((heading, c) => {
-    body += text(20 + c * colW + colW / 2, top + 20, heading, 'middle', 'font-weight="600"')
-  })
-  s.rows.forEach((row, r) => {
-    row.forEach((cell, c) => {
-      body += text(20 + c * colW + colW / 2, top + rowH * (r + 2) - 10, cell)
+  // Headings, centred and vertically middled over however many lines.
+  x = 20
+  headingLines.forEach((lines, c) => {
+    const cx = x + widths[c] / 2
+    const startY = top + (headH - lines.length * LINE_H) / 2 + LINE_H - 4
+    lines.forEach((l, i) => {
+      body += text(cx, startY + i * LINE_H, l, 'middle', 'font-weight="600"')
     })
+    x += widths[c]
+  })
+
+  // Cells.
+  y = top + headH
+  rowLines.forEach((row, r) => {
+    let cx = 20
+    row.forEach((lines, c) => {
+      const mid = cx + widths[c] / 2
+      const startY = y + (rowH[r] - lines.length * LINE_H) / 2 + LINE_H - 4
+      lines.forEach((l, i) => {
+        body += text(mid, startY + i * LINE_H, l)
+      })
+      cx += widths[c]
+    })
+    y += rowH[r]
   })
 
   return wrap(W, H, body, `A table of ${s.columns.join(', ')}.`)

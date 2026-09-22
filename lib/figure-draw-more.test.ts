@@ -134,3 +134,58 @@ describe('what a question may name', () => {
     expect(drawn.labels).not.toContain('D')
   })
 })
+
+describe('a table the learner can actually read', () => {
+  /** The particle-model table that shipped with its columns overlapping. */
+  const PARTICLE = JSON.stringify({
+    kind: 'datatable',
+    title: 'Particle Model of Solids, Liquids, and Gases',
+    columns: ['State of Matter', 'Particle Arrangement', 'Particle Movement'],
+    rows: [
+      ['Solid', 'Closely packed in a fixed position', 'Vibrate in place'],
+      ['Liquid', 'Closely packed but able to slide past each other', 'Move around each other'],
+      ['Gas', 'Far apart and spread out', 'Move freely in all directions'],
+    ],
+  })
+
+  it('keeps every cell inside its own column', () => {
+    const drawn = drawFromReply(PARTICLE)
+    expect(drawn).not.toBeNull()
+    const svg = drawn!.svg
+
+    // Column edges, read off the verticals the table draws.
+    const verticals = [...svg.matchAll(/<line x1="([\d.]+)" y1="[\d.]+" x2="\1" /g)]
+      .map((m) => Number(m[1]))
+    const edges = [...new Set(verticals)].sort((a, b) => a - b)
+    expect(edges.length).toBeGreaterThanOrEqual(4)
+
+    for (const m of svg.matchAll(/<text x="([\d.]+)" y="[\d.]+" text-anchor="(\w+)"[^>]*font-size="([\d.]+)"[^>]*>([^<]*)</g)) {
+      const [x, anchor, size, label] = [Number(m[1]), m[2], Number(m[3]), m[4]]
+      if (!label.trim()) continue
+      // The title spans the whole table by design and belongs to no column.
+      if (label.includes('Particle Model of Solids')) continue
+      const width = label.length * size * 0.52
+      const left = anchor === 'middle' ? x - width / 2 : x
+      const right = left + width
+      // Which column does this text sit in?
+      const col = edges.findIndex((e, i) => i < edges.length - 1 && x > e && x < edges[i + 1])
+      if (col < 0) continue  // the title, which sits over the whole table
+      expect(left, `"${label}" runs out of its column on the left`).toBeGreaterThanOrEqual(edges[col] - 2)
+      expect(right, `"${label}" runs out of its column on the right`).toBeLessThanOrEqual(edges[col + 1] + 2)
+    }
+  })
+
+  it('wraps a long cell rather than letting it run', () => {
+    const drawn = drawFromReply(PARTICLE)!
+    // "Closely packed but able to slide past each other" cannot fit one line
+    // in a readable column, so it has to have been split.
+    expect(drawn.svg).not.toContain('Closely packed but able to slide past each other')
+    expect(drawn.svg).toContain('Closely')
+  })
+
+  it('still draws a short table on one line per cell', () => {
+    const drawn = drawFromReply('{"kind":"datatable","columns":["day","mm"],"rows":[["Mon","4"],["Tue","9"]]}')!
+    expect(drawn.svg).toContain('>Mon<')
+    expect(drawn.svg).toContain('>day<')
+  })
+})
