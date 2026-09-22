@@ -53,3 +53,6 @@ data/figure-drafts/
 # Browser-walk screenshots and generated papers
 data/audit/ui/
 data/audit/paper-*.json
+data/audit/findings.txt
+data/audit/transcript.txt
+data/audit/redraw.txt
