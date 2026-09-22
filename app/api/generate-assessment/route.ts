@@ -2736,6 +2736,15 @@ ${commandBlock}`
       // array as ["A","B","C","D"]. Measured on WAEC Mathematics with a paper
       // attached, seven of ten came back that way — four bare letters to choose
       // between.
+      // A pointer at a figure printed beside the question, written the same
+      // way nine times on one paper. Told not to in the prompt and did it
+      // anyway, so it comes off here.
+      for (const q of questions) {
+        if (q && typeof q === 'object' && typeof q.question === 'string') {
+          q.question = stripDeadPointer(q.question)
+        }
+      }
+
       const fixed = repairPaper(questions)
       if (fixed > 0) console.log(`Recovered inline options on ${fixed} question(s)`)
 
@@ -2799,6 +2808,21 @@ ${commandBlock}`
       return cleanQuestionPaper(markable.kept as any[])
     }
 
+    // The same question asked twice -- a tense apart, or a paragraph letter
+    // apart. The stem deduplicator sees three differences and passes both;
+    // what makes them duplicates is the demand underneath.
+    //
+    // Placed HERE, before the shortfall check, so the retry loop refills what
+    // it takes out. Run after the trim it made papers 32 questions of 40 and
+    // 34 marks of 42: variety bought with completeness is not a trade worth
+    // making.
+    {
+      const deduped = dropRepeatedDemands(allQuestions)
+      if (deduped.removed > 0) {
+        console.log(`Removed ${deduped.removed} question(s) repeating a demand already on the paper`)
+        allQuestions = deduped.questions
+      }
+    }
     allQuestions = makeShippable(deduplicateAndFix(allQuestions))
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
@@ -3039,25 +3063,6 @@ ${commandBlock}`
           if (q && typeof q === 'object' && !q.passage) q.passage = checkpointPassage
         }
       }
-      // A pointer at a figure printed right beside the question, written the
-      // same way nine times on one paper. Told not to and did anyway.
-      for (const q of assessmentData.questions as any[]) {
-        if (q && typeof q === 'object' && typeof q.question === 'string') {
-          q.question = stripDeadPointer(q.question)
-        }
-      }
-
-      // The same question asked twice -- a tense apart, or a paragraph letter
-      // apart. The stem deduplicator sees three differences and passes both;
-      // what makes them duplicates is the demand underneath.
-      {
-        const deduped = dropRepeatedDemands(assessmentData.questions as any[])
-        if (deduped.removed > 0) {
-          console.log(`Removed ${deduped.removed} question(s) repeating a demand already on the paper`)
-          assessmentData.questions = deduped.questions
-        }
-      }
-
       // The scenario belongs to the question, not to each of its parts.
       // Five parts of one numbered question each restated it in full, so a
       // learner paging through met the same twenty words five times.
