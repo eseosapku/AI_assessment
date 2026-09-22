@@ -102,7 +102,7 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
     return `${label} "marks": 1. A SHORT ANSWER — one word, a short phrase, or a number. Under 15 words. Open with "${commands.short[0]}", "${second}" or "Name". ASK ONE THING: no "and explain", no second demand — the box takes one word. MUST carry "short_answer". No marking_criteria.`
   }
   const second = commands.extended[1] ?? commands.extended[0]
-  return `${label} "marks": ${spec.marks}. Answered in a sentence or two. Open with "${commands.extended[0]}" or "${second}". MUST carry "marking_criteria" with exactly ${spec.marks} entries, one per mark. No short_answer.`
+  return `${label} "marks": ${spec.marks}. Answered in a sentence or two. Open with "${commands.extended[0]}" or "${second}". Keep the DEMAND itself under 20 words. MUST carry "marking_criteria" with exactly ${spec.marks} entries, one per mark. No short_answer.`
 }
 
 export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
@@ -113,6 +113,13 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
   const lines: string[] = [
     `Write ONE numbered question for a ${opts.paperName} ${opts.subject} paper, sat at ${opts.level}.`,
     `Topic: ${opts.focus} (${opts.strand}). Ask about THIS and nothing else.`,
+    // Counted across 46 real papers: the median demand is 8-10 words and
+    // nine in ten are under 17. A question that opens "Triangles A, B and
+    // C are identical and are placed side by side. Each triangle has
+    // angles marked as x, y and z. If the sum of the angles in triangle A
+    // is 180 degrees, calculate ..." is forty-one words and reads nothing
+    // like the paper it claims to be.
+    'Cambridge demands are SHORT: eight to ten words is typical, seventeen is long.',
     '',
   ]
 
@@ -236,18 +243,47 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
  * mirror image — explain 5.2, describe 5.2, state 4.4, suggest 2.8. A generic
  * prompt produces a Science-shaped question inside a Maths paper.
  */
+/**
+ * How the real papers open a demand, COUNTED rather than assumed.
+ *
+ * From 46 Cambridge question papers, via `scripts/study_past_papers.py`.
+ * The order here is the measured order, most frequent first, because the
+ * prompt offers the first two and a paper that opens every question with
+ * "Work out" does not read like Cambridge:
+ *
+ *   0862 Maths     find 53, write 42, calculate 31, complete 23,
+ *                  draw a ring around 22, tick 18, give 16, draw 15
+ *   0893 Science   look at 41, explain 39, describe 35, complete 27,
+ *                  write down 24, name 20, suggest 16, calculate 12
+ *   0097 Science   complete 59, look at 52, write down 46, use 28,
+ *                  describe 24, explain 21, circle 19
+ *   0861 English   look at 43, give 17, tick 16, write 12, explain 10
+ *   0876 ESL       write 45, use 20, complete 14, explain 8, suggest 7
+ *
+ * "Work out" appears ten times in eight Maths papers and led the list here;
+ * "Find" appears fifty-three and was absent. Note also that Primary Science
+ * says "Circle" where Lower Secondary says "Draw a ring around".
+ */
 const COMMANDS_BY_SUBJECT: Record<string, { short: string[]; extended: string[] }> = {
   mathematics: {
-    short: ['Work out', 'Calculate', 'Write down'],
-    extended: ['Calculate, showing your working', 'Work out, showing each step'],
+    short: ['Find', 'Write down', 'Calculate'],
+    extended: ['Work out, showing your working', 'Calculate, showing each step'],
   },
   maths: {
-    short: ['Work out', 'Calculate', 'Write down'],
-    extended: ['Calculate, showing your working', 'Work out, showing each step'],
+    short: ['Find', 'Write down', 'Calculate'],
+    extended: ['Work out, showing your working', 'Calculate, showing each step'],
   },
   science: {
-    short: ['Write down', 'State', 'Name'],
+    short: ['Write down', 'Name', 'Complete'],
     extended: ['Explain', 'Describe', 'Suggest'],
+  },
+  english: {
+    short: ['Give', 'Write down', 'Name'],
+    extended: ['Explain', 'Describe'],
+  },
+  'english as a second language': {
+    short: ['Write', 'Complete', 'Choose'],
+    extended: ['Explain', 'Suggest'],
   },
 }
 

@@ -177,11 +177,37 @@ export interface CheckpointPaper {
  * because a calculation usually stands on its own -- "Work out 4 x 2n when
  * n = 2" needs no scenario.
  */
+/**
+ * Lettered parts per numbered question, COUNTED off the papers.
+ *
+ * These were guessed -- 1 for Maths, 2 for Science -- and the guess was badly
+ * wrong for Science. Counted across 46 Cambridge question papers with
+ * `scripts/study_past_papers.py`:
+ *
+ *   0893 Science   5.1 numbered questions a paper, 28.4 lettered parts
+ *   0097 Science   6.2 numbered questions a paper, 28.5 lettered parts
+ *   0861 English   2.2 numbered questions a paper, 10.5 lettered parts
+ *   0862 Maths    16.5 numbered questions a paper,  6.1 lettered parts
+ *   0876 / 0057    6.8 numbered questions a paper,  ZERO lettered parts
+ *
+ * So a real Science paper is five or six scenarios with four or five parts
+ * hanging off each -- one apparatus, one set of results, several demands --
+ * and this was producing fifteen standalone questions instead. That is the
+ * difference between a paper and a worksheet, and it is why the figures never
+ * earned their keep: a diagram is worth printing when four questions use it.
+ *
+ * ESL is flat by design and must stay flat: its exercises are numbered runs
+ * of single items.
+ */
 const PARTS_PER_QUESTION: Record<string, number> = {
-  '0862': 1,  // mostly standalone
+  '0862': 1,  // 6.1 parts over 16.5 questions -- mostly standalone
   '0096': 1,
-  '0893': 2,
-  '0097': 2,
+  '0893': 5,  // 28.4 parts over 5.1 questions
+  '0097': 5,  // 28.5 parts over 6.2 questions
+  '0861': 5,  // 10.5 parts over 2.2 questions
+  '0058': 5,
+  '0876': 1,  // no lettered parts at all
+  '0057': 1,
 }
 
 interface MarkProfile { marks: number; count: number; format: SlotFormat }
@@ -744,7 +770,13 @@ export function buildPaper(
   for (let i = 0; i < shapes.length;) {
     // Vary the size a little so a paper is not fifteen identical triplets, and
     // never split a group across the end of the list.
-    const size = Math.max(1, Math.min(shapes.length - i, partsPer + (next() < 0.35 ? 1 : 0) - (next() < 0.25 ? 1 : 0)))
+    // A paper whose measured parts-per-question is 1 is STRICTLY standalone,
+    // not "usually one". ESL Reading and Usage has no lettered parts at all
+    // across fourteen papers, and the jitter below was inventing twelve of
+    // them: its exercises are numbered runs of single items.
+    const size = partsPer === 1
+      ? 1
+      : Math.max(1, Math.min(shapes.length - i, partsPer + (next() < 0.35 ? 1 : 0) - (next() < 0.25 ? 1 : 0)))
     groups.push(shapes.slice(i, i + size))
     i += size
   }

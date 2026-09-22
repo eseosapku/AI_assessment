@@ -1,0 +1,653 @@
+{
+  "0057": {
+    "papers": 5,
+    "numbered_questions_per_paper": 5.8,
+    "lettered_parts_per_paper": 0.0,
+    "roman_subparts_per_paper": 0.0,
+    "parts_per_question": {
+      "0": 29
+    },
+    "marks_seen": {
+      "1": 84,
+      "15": 1,
+      "20": 1
+    },
+    "top_commands": [
+      [
+        "write",
+        15
+      ],
+      [
+        "use",
+        5
+      ],
+      [
+        "complete",
+        5
+      ],
+      [
+        "circle",
+        4
+      ],
+      [
+        "choose",
+        2
+      ],
+      [
+        "explain",
+        1
+      ],
+      [
+        "find",
+        1
+      ]
+    ],
+    "figure_phrases": [
+      [
+        "look at the night",
+        1
+      ]
+    ],
+    "stem_words_median": 8,
+    "stem_words_p90": 17
+  },
+  "0097": {
+    "papers": 8,
+    "numbered_questions_per_paper": 6.2,
+    "lettered_parts_per_paper": 28.5,
+    "roman_subparts_per_paper": 0.0,
+    "parts_per_question": {
+      "0": 26,
+      "1": 1,
+      "2": 13,
+      "3": 6,
+      "4": 1,
+      "8": 1,
+      "9": 1,
+      "25": 1
+    },
+    "marks_seen": {
+      "1": 180,
+      "2": 69,
+      "3": 1
+    },
+    "top_commands": [
+      [
+        "complete",
+        59
+      ],
+      [
+        "look at",
+        52
+      ],
+      [
+        "write down",
+        46
+      ],
+      [
+        "use",
+        28
+      ],
+      [
+        "describe",
+        24
+      ],
+      [
+        "explain",
+        21
+      ],
+      [
+        "circle",
+        19
+      ],
+      [
+        "write",
+        17
+      ],
+      [
+        "tick",
+        16
+      ],
+      [
+        "draw",
+        14
+      ],
+      [
+        "name",
+        10
+      ],
+      [
+        "suggest",
+        9
+      ],
+      [
+        "predict",
+        5
+      ],
+      [
+        "choose",
+        5
+      ]
+    ],
+    "figure_phrases": [
+      [
+        "look at the diagram",
+        19
+      ],
+      [
+        "the diagram shows",
+        16
+      ],
+      [
+        "in the diagram",
+        5
+      ],
+      [
+        "look at the table",
+        4
+      ],
+      [
+        "look at the diagrams",
+        4
+      ],
+      [
+        "the table shows",
+        4
+      ],
+      [
+        "the graph shows",
+        4
+      ],
+      [
+        "look at the model",
+        3
+      ]
+    ],
+    "stem_words_median": 8,
+    "stem_words_p90": 14
+  },
+  "0861": {
+    "papers": 4,
+    "numbered_questions_per_paper": 2.2,
+    "lettered_parts_per_paper": 10.5,
+    "roman_subparts_per_paper": 0.0,
+    "parts_per_question": {
+      "0": 8,
+      "1": 1
+    },
+    "marks_seen": {
+      "1": 40,
+      "2": 19,
+      "3": 2,
+      "4": 4,
+      "25": 4
+    },
+    "top_commands": [
+      [
+        "look at",
+        43
+      ],
+      [
+        "give",
+        17
+      ],
+      [
+        "tick",
+        16
+      ],
+      [
+        "write",
+        12
+      ],
+      [
+        "explain",
+        10
+      ],
+      [
+        "use",
+        8
+      ],
+      [
+        "complete",
+        1
+      ],
+      [
+        "name",
+        1
+      ],
+      [
+        "describe",
+        1
+      ]
+    ],
+    "figure_phrases": [
+      [
+        "look at the second",
+        4
+      ],
+      [
+        "look at the whole",
+        4
+      ],
+      [
+        "look at the first",
+        3
+      ],
+      [
+        "look at the third",
+        2
+      ],
+      [
+        "look at the fourth",
+        2
+      ],
+      [
+        "look at the fifth",
+        2
+      ],
+      [
+        "look at the sixth",
+        2
+      ],
+      [
+        "look at the seventh",
+        1
+      ]
+    ],
+    "stem_words_median": 7,
+    "stem_words_p90": 13
+  },
+  "0862": {
+    "papers": 8,
+    "numbered_questions_per_paper": 16.5,
+    "lettered_parts_per_paper": 6.1,
+    "roman_subparts_per_paper": 0.0,
+    "parts_per_question": {
+      "0": 102,
+      "1": 13,
+      "2": 17
+    },
+    "marks_seen": {
+      "1": 123,
+      "2": 76,
+      "3": 31,
+      "4": 8
+    },
+    "top_commands": [
+      [
+        "find",
+        53
+      ],
+      [
+        "write",
+        42
+      ],
+      [
+        "calculate",
+        31
+      ],
+      [
+        "complete",
+        23
+      ],
+      [
+        "draw a ring around",
+        22
+      ],
+      [
+        "tick",
+        18
+      ],
+      [
+        "give",
+        16
+      ],
+      [
+        "draw",
+        15
+      ],
+      [
+        "use",
+        13
+      ],
+      [
+        "work out",
+        10
+      ],
+      [
+        "show",
+        6
+      ],
+      [
+        "write down",
+        4
+      ],
+      [
+        "explain",
+        3
+      ],
+      [
+        "describe",
+        2
+      ]
+    ],
+    "figure_phrases": [
+      [
+        "the diagram shows",
+        20
+      ],
+      [
+        "the table shows",
+        10
+      ],
+      [
+        "here is",
+        7
+      ],
+      [
+        "on the grid",
+        7
+      ],
+      [
+        "the graph shows",
+        2
+      ]
+    ],
+    "stem_words_median": 10,
+    "stem_words_p90": 16
+  },
+  "0876": {
+    "papers": 14,
+    "numbered_questions_per_paper": 6.8,
+    "lettered_parts_per_paper": 0.0,
+    "roman_subparts_per_paper": 0.0,
+    "parts_per_question": {
+      "0": 95
+    },
+    "marks_seen": {
+      "1": 219,
+      "15": 3,
+      "20": 3
+    },
+    "top_commands": [
+      [
+        "write",
+        45
+      ],
+      [
+        "use",
+        20
+      ],
+      [
+        "complete",
+        14
+      ],
+      [
+        "explain",
+        8
+      ],
+      [
+        "suggest",
+        7
+      ],
+      [
+        "give",
+        6
+      ],
+      [
+        "choose",
+        5
+      ],
+      [
+        "show",
+        4
+      ],
+      [
+        "name",
+        2
+      ],
+      [
+        "describe",
+        1
+      ],
+      [
+        "add",
+        1
+      ],
+      [
+        "find",
+        1
+      ]
+    ],
+    "figure_phrases": [],
+    "stem_words_median": 9,
+    "stem_words_p90": 17
+  },
+  "0893": {
+    "papers": 7,
+    "numbered_questions_per_paper": 5.1,
+    "lettered_parts_per_paper": 28.4,
+    "roman_subparts_per_paper": 5.1,
+    "parts_per_question": {
+      "0": 13,
+      "2": 10,
+      "3": 9,
+      "4": 2,
+      "14": 1,
+      "22": 1
+    },
+    "marks_seen": {
+      "1": 138,
+      "2": 71,
+      "3": 22,
+      "4": 1
+    },
+    "top_commands": [
+      [
+        "look at",
+        41
+      ],
+      [
+        "explain",
+        39
+      ],
+      [
+        "describe",
+        35
+      ],
+      [
+        "complete",
+        27
+      ],
+      [
+        "write down",
+        24
+      ],
+      [
+        "use",
+        22
+      ],
+      [
+        "write",
+        20
+      ],
+      [
+        "name",
+        20
+      ],
+      [
+        "suggest",
+        16
+      ],
+      [
+        "calculate",
+        12
+      ],
+      [
+        "draw",
+        11
+      ],
+      [
+        "tick",
+        10
+      ],
+      [
+        "circle",
+        9
+      ],
+      [
+        "predict",
+        5
+      ]
+    ],
+    "figure_phrases": [
+      [
+        "the diagram shows",
+        19
+      ],
+      [
+        "look at the diagram",
+        8
+      ],
+      [
+        "in the diagram",
+        4
+      ],
+      [
+        "the table shows",
+        4
+      ],
+      [
+        "look at the table",
+        3
+      ],
+      [
+        "the graph shows",
+        3
+      ],
+      [
+        "look at the graph",
+        3
+      ],
+      [
+        "look at the picture",
+        3
+      ]
+    ],
+    "stem_words_median": 8,
+    "stem_words_p90": 15
+  },
+  "?": {
+    "papers": 18,
+    "numbered_questions_per_paper": 10.6,
+    "lettered_parts_per_paper": 19.2,
+    "roman_subparts_per_paper": 1.2,
+    "parts_per_question": {
+      "0": 121,
+      "1": 8,
+      "2": 44,
+      "3": 15,
+      "4": 2
+    },
+    "marks_seen": {
+      "1": 328,
+      "2": 172,
+      "3": 48,
+      "4": 11
+    },
+    "top_commands": [
+      [
+        "complete",
+        85
+      ],
+      [
+        "look at",
+        63
+      ],
+      [
+        "write",
+        60
+      ],
+      [
+        "write down",
+        58
+      ],
+      [
+        "calculate",
+        44
+      ],
+      [
+        "use",
+        43
+      ],
+      [
+        "tick",
+        43
+      ],
+      [
+        "find",
+        38
+      ],
+      [
+        "explain",
+        38
+      ],
+      [
+        "describe",
+        35
+      ],
+      [
+        "suggest",
+        25
+      ],
+      [
+        "name",
+        24
+      ],
+      [
+        "draw",
+        20
+      ],
+      [
+        "give",
+        17
+      ]
+    ],
+    "figure_phrases": [
+      [
+        "the diagram shows",
+        42
+      ],
+      [
+        "look at the diagram",
+        19
+      ],
+      [
+        "here is",
+        18
+      ],
+      [
+        "on the grid",
+        10
+      ],
+      [
+        "in the diagram",
+        10
+      ],
+      [
+        "the graph shows",
+        9
+      ],
+      [
+        "the table shows",
+        9
+      ],
+      [
+        "look at the table",
+        5
+      ]
+    ],
+    "stem_words_median": 9,
+    "stem_words_p90": 15
+  }
+}

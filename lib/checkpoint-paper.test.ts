@@ -704,3 +704,46 @@ describe('what a written paper can and cannot ask', () => {
     }
   })
 })
+
+describe('the shape of a real paper, counted off 46 of them', () => {
+  const shapeOf = (code: string, component = '01') => {
+    for (const prog of ['primary', 'lower-secondary'] as const) {
+      const subject = buildableSubjects(prog).find((s) => s.code === code)
+      const c = subject?.components.find((x) => x.number === component)
+      if (!subject || !c) continue
+      const paper = buildPaper(subject, c, { mode: 'paper', seed: 21 })
+      return {
+        numbered: new Set(paper.slots.map((s) => s.questionNumber)).size,
+        parts: paper.slots.filter((s) => s.part).length,
+      }
+    }
+    throw new Error(`no ${code}/${component}`)
+  }
+
+  it('builds Science as a few scenarios with several parts each, not a worksheet', () => {
+    // Measured: 0893 is 5.1 numbered questions and 28.4 lettered parts a
+    // paper; 0097 is 6.2 and 28.5. This used to produce fifteen standalone
+    // questions, which is the difference between a paper and a worksheet --
+    // and why figures never earned their keep, since a diagram is worth
+    // printing when four questions use it.
+    for (const code of ['0893', '0097']) {
+      const s = shapeOf(code)
+      expect(s.numbered, code).toBeLessThanOrEqual(10)
+      expect(s.parts, code).toBeGreaterThan(20)
+    }
+  })
+
+  it('builds ESL Reading and Usage with no lettered parts at all', () => {
+    // Zero across fourteen papers. Its exercises are numbered runs of
+    // single items, and the jitter in the grouping was inventing twelve.
+    for (const code of ['0876', '0057']) {
+      expect(shapeOf(code).parts, code).toBe(0)
+    }
+  })
+
+  it('keeps Maths mostly standalone', () => {
+    // 16.5 numbered against 6.1 parts.
+    const s = shapeOf('0862')
+    expect(s.numbered).toBeGreaterThan(15)
+  })
+})

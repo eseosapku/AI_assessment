@@ -1923,6 +1923,13 @@ function AssessmentPageClient() {
     'passage_source' in question && typeof question.passage_source === 'string'
       ? question.passage_source
       : undefined
+  // A figure gets the same treatment as a passage: its own pinned column on a
+  // wide screen. Stacked above the stem it pushes the question down, so a
+  // learner reads "Look at the diagram", scrolls up to look, and scrolls back
+  // to find out what was being asked -- reported as "I don't like that I have
+  // to scroll down or up to view the image".
+  const currentFigure = question.image_url || question.diagram_svg ? question : null
+  const splitColumn = Boolean(currentPassage) || Boolean(currentFigure)
   const progressInput: ProgressInput = {
     total: assessment.questions.length,
     current: currentQuestion,
@@ -2300,7 +2307,7 @@ function AssessmentPageClient() {
       <div className="flex-1 flex items-start justify-center p-4 sm:p-6 lg:p-8">
         <div
           className={
-            currentPassage
+            splitColumn
               ? 'grid w-full max-w-7xl items-start gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]'
               : 'w-full max-w-3xl'
           }
@@ -2311,6 +2318,20 @@ function AssessmentPageClient() {
               source={currentPassageSource}
               variant="aside"
             />
+          )}
+          {!currentPassage && currentFigure && (
+            <aside
+              aria-label="Figure for this question"
+              className="hidden rounded-3xl border border-ss-line bg-ss-panel p-4 shadow-ss-panel lg:sticky lg:top-6 lg:block"
+            >
+              {currentFigure.figureGroup && <FigureGroupLabel group={currentFigure.figureGroup} />}
+              {currentFigure.image_url && <ExamFigure src={currentFigure.image_url} />}
+              {currentFigure.diagram_svg && (
+                <div className="overflow-x-auto rounded-2xl border border-ss-line bg-ss-panel p-3">
+                  <DiagramSvg svg={currentFigure.diagram_svg} />
+                </div>
+              )}
+            </aside>
           )}
           <AnimatePresence mode="wait">
             <motion.div
@@ -2358,17 +2379,21 @@ function AssessmentPageClient() {
                 </button>
               </div>
 
-              {question.image_url && (
-                <>
-                  {question.figureGroup && <FigureGroupLabel group={question.figureGroup} />}
-                  <ExamFigure src={question.image_url} className="mb-6" />
-                </>
-              )}
-              {question.diagram_svg && (
-                <div className="bg-gray-50 dark:bg-gray-900/60 rounded-2xl p-4 mb-6 border border-gray-200 dark:border-gray-700 overflow-x-auto">
-                  <DiagramSvg svg={question.diagram_svg} />
-                </div>
-              )}
+              {/* Stacked only where there is no room for the pinned column:
+                  below lg, or beside a passage that already has it. */}
+              <div className={currentPassage ? '' : 'lg:hidden'}>
+                {question.image_url && (
+                  <>
+                    {question.figureGroup && <FigureGroupLabel group={question.figureGroup} />}
+                    <ExamFigure src={question.image_url} className="mb-6" />
+                  </>
+                )}
+                {question.diagram_svg && (
+                  <div className="mb-6 overflow-x-auto rounded-2xl border border-ss-line bg-ss-panel p-4">
+                    <DiagramSvg svg={question.diagram_svg} />
+                  </div>
+                )}
+              </div>
 
               {currentPassage && (
                 <PassageReader
