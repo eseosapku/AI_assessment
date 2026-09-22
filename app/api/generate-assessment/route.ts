@@ -33,6 +33,7 @@ import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork } from '@/lib/passage-question-match'
 import { enforceSlotShape } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
+import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -1606,6 +1607,12 @@ ${commandBlock}`
     // Cambridge Checkpoint practice. Its papers want figures the way the real
     // ones do, which is a different appetite from a revision quiz.
     const isCheckpoint = curriculumSlug === 'checkpoint'
+    // The syllabus code, for the style corpus. The brief opens
+    // "Cambridge Science 0893/01, sat at the end of Stage 9", which is the
+    // one place the route is already told which paper this is.
+    const checkpointCode = isCheckpoint
+      ? (String(rawExamPrepContext ?? '').match(new RegExp(String.raw`\b(0\d{3})\s*/\s*\d{2}\b`))?.[1] ?? '')
+      : ''
     const isExamPrepMode = curriculumSlug === 'waec' || curriculumSlug === 'jamb'
     const hasTextbookImageLibrary = Number.isFinite(textbookId) && isSchoolCurriculum(textbookCurriculum) && textbookHasImages(textbookId)
 
@@ -2043,6 +2050,15 @@ ${commandBlock}`
           strand: strandHint || promptSubject,
           parts: questionParts as ExamPartSpec[],
           commands: examCommandsFor(promptSubject),
+          // Three real demand shapes from this very paper, content stripped.
+          // Seeded on the slot so one paper does not see the same three
+          // fifteen times. See lib/paper-styles.ts for why showing examples
+          // is safe here when it has burned this codebase three times.
+          styleExamples: styleExamplesFor(
+            checkpointCode,
+            String(questionParts[0]?.format ?? 'short'),
+            { count: 3, seed: startId },
+          ),
           figure: drawn || !assignedFigure
             ? undefined
             : { description: assignedFigure.description, category: assignedFigure.category },
@@ -2070,6 +2086,21 @@ ${commandBlock}`
         if (leaked.length) {
           console.log(`Rejected ${leaked.length} question(s) that copied the prompt into the stem`)
           parsed.questions = parsed.questions.filter((q: any) => !leaked.includes(q))
+        }
+
+        // A demand shape handed straight back.
+        //
+        // The style examples are short by design, which is what makes them
+        // safe to show and also what makes lifting one the thing to watch.
+        // An example in a prompt has come back as content three times in
+        // this codebase; this is the fourth door closed rather than trusted.
+        {
+          const copied = parsed.questions.filter((q: any) =>
+            q && typeof q === 'object' && questionCopiesAStyle(q.question))
+          if (copied.length) {
+            console.log(`Rejected ${copied.length} question(s) that handed back a style example`)
+            parsed.questions = parsed.questions.filter((q: any) => !copied.includes(q))
+          }
         }
 
         // A question written past the stage being sat.

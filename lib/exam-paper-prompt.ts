@@ -65,6 +65,16 @@ export interface ExamPaperPromptOptions {
    * all examine the same passage the way a real paper does.
    */
   passage?: string
+  /**
+   * A few real Cambridge demand shapes, content stripped.
+   *
+   * Shown rather than described: the generator was being told what a
+   * Checkpoint demand sounds like and producing "Look at the diagram. Write
+   * down the normal force on the car." followed by "Look at the diagram.
+   * Write down the friction force on the car." See `lib/paper-styles.ts` for
+   * why these are safe to show when three earlier examples were not.
+   */
+  styleExamples?: readonly string[]
 }
 
 
@@ -120,6 +130,13 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // is 180 degrees, calculate ..." is forty-one words and reads nothing
     // like the paper it claims to be.
     'Cambridge demands are SHORT: eight to ten words is typical, seventeen is long.',
+    ...(opts.styleExamples?.length
+      ? [
+          'Real demands from this paper, for SHAPE only -- their content has',
+          'been removed and none of it belongs in your question:',
+          ...opts.styleExamples.map((x) => `  ${x}`),
+        ]
+      : []),
     '',
   ]
 

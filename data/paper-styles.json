@@ -1,0 +1,435 @@
+{
+  "0876": {
+    "write": [
+      "Write <n>-<n> words.",
+      "Write the email below.",
+      "Write your story below.",
+      "Write one word for each space.",
+      "Write your answer to each question in the space provided.",
+      "Write your story in <n>-<n> words in an appropriate style below."
+    ],
+    "complete": [
+      "Complete the blog below.",
+      "Complete the text below.",
+      "Complete the email below.",
+      "Complete the article below.",
+      "Complete the conversation between two friends."
+    ],
+    "give": [
+      "give his views on the film's soundtrack?",
+      "give her and her twin the same opportunities.",
+      "give several details about the first painting he did?"
+    ],
+    "explain": [
+      "explain why you like the band.",
+      "explain how to get to your home.",
+      "explain how the events are ordered in the film?",
+      "explain how he feels when he creates a painting?",
+      "explain why he enjoyed the main actor's performance?",
+      "explain that he took some time to complete a painting?"
+    ],
+    "describe": [
+      "describe a painting he is especially fond of?"
+    ],
+    "name": [
+      "name and adding a tiny bird next to my signature."
+    ],
+    "choose": [
+      "Choose the correct picture and circle the letter A, B or C below it."
+    ],
+    "show": [
+      "show others how to turn old clothes and items like sheets and blankets into stylish things to wear."
+    ],
+    "suggest": [
+      "suggest what you can do together after the film.",
+      "suggest the film will encourage interest in the original series?"
+    ]
+  },
+  "0057": {
+    "write": [
+      "Write <n>-<n> words.",
+      "Write the email below.",
+      "Write your story below.",
+      "Write your answer to each question in the space provided.",
+      "Write your name, centre number and candidate number in the boxes at the top of the page."
+    ],
+    "circle": [
+      "Circle the correct letter: A, B or C.",
+      "Circle the correct word for each space."
+    ],
+    "complete": [
+      "Complete the email below.",
+      "Complete the message below.",
+      "Complete the conversation between two friends."
+    ],
+    "choose": [
+      "Choose the correct picture and circle the letter A, B or C below it."
+    ],
+    "explain": [
+      "explain what you will see on the bicycle ride."
+    ]
+  },
+  "0861": {
+    "write": [
+      "Write no more than <n> words.",
+      "Write your answer to each question in the space provided.",
+      "Write an article for your partner school about the following topic.",
+      "Write your name, centre number and candidate number in the boxes at the top of the page.",
+      "Write a story called <name> <name> <name> about someone visiting an event held at night time."
+    ],
+    "look at": [
+      "Look at lines <n>-<n>.",
+      "Look at the whole text.",
+      "Look at the second sentence.",
+      "Look at the last two sentences.",
+      "Look at the first paragraph (lines <n>-<n>).",
+      "Look at the third paragraph (lines <n>-<n>)."
+    ],
+    "give": [
+      "Give two ideas.",
+      "Give two quotations.",
+      "Give one word that means 'edge'.",
+      "Give two quotations that show this.",
+      "Give one word which means 'reached across'.",
+      "Give two quotations to support your answer."
+    ],
+    "tick": [
+      "Tick one box.",
+      "Tick two boxes."
+    ],
+    "explain": [
+      "Explain the two contrasting ideas.",
+      "Explain the two different meanings.",
+      "Explain how each quotation supports your choice.",
+      "Explain what made it possible for tinkers to do this.",
+      "Explain why the quotation is a good way to end the article.",
+      "Explain in your own words how this quotation shows the concern."
+    ],
+    "complete": [
+      "Complete the fact file about <name> described in this extract."
+    ],
+    "describe": [
+      "Describe a favourite object in your home which is designed beautifully and is also very useful."
+    ]
+  },
+  "0862": {
+    "write": [
+      "Write a possible value of f.",
+      "Write the correct probability.",
+      "Write <n> <n> in standard form.",
+      "Write the modal class interval.",
+      "Write <n> <n> <n> in standard form.",
+      "Write the correct power in the box."
+    ],
+    "tick": [
+      "Tick to show if each statement is true or false.",
+      "Tick the correct column in the table for the volume of each prism."
+    ],
+    "draw": [
+      "Draw shape R on the grid.",
+      "Draw the position of triangle U on the grid.",
+      "Draw the graph of 2x − 5y = <n> on the grid.",
+      "Draw lines to match the equivalent inequalities.",
+      "Draw a line to match each calculation to its answer.",
+      "Draw a possible position for triangle R on the grid."
+    ],
+    "calculate": [
+      "Calculate DE.",
+      "Calculate the value of h.",
+      "Calculate the length of AB.",
+      "Calculate the area of the circle.",
+      "Calculate the volume of the prism.",
+      "Calculate the distance <name> drives."
+    ],
+    "draw a ring around": [
+      "Draw a ring around the statement that is true."
+    ],
+    "give": [
+      "Give your answer in km/h.",
+      "Give your answer as a decimal.",
+      "Give your answer correct to one decimal place.",
+      "Give one reason why the graph could be misleading.",
+      "Give a reason why <name>'s sampling method may be biased."
+    ],
+    "explain": [
+      "Explain why <name> is not correct.",
+      "Explain why <name>'s method is not correct."
+    ],
+    "find": [
+      "Find the value of p.",
+      "Find a possible value of p.",
+      "Find the area of the shape.",
+      "Find the volume of the prism.",
+      "Find the equation of the line.",
+      "Find the coordinates of point C."
+    ],
+    "complete": [
+      "Complete the table.",
+      "Complete these sentences.",
+      "Complete the mapping diagram.",
+      "Complete the following statements.",
+      "Complete the table for this function.",
+      "Complete each statement to make it true."
+    ],
+    "work out": [
+      "Work out the cost of <n> kg of lemons.",
+      "Work out the sum of the first two terms.",
+      "Work out the time it would take <n> electricians to do this work.",
+      "Work out the number of times this spinner is expected to land on a red section."
+    ],
+    "show": [
+      "Show that <name> drives less than <n> metres.",
+      "Show that <n>% of people in the audience did not like the film.",
+      "Show that P(total score is even) = P(total score is more than <n>)."
+    ],
+    "write down": [
+      "Write down the upper limit for the time.",
+      "Write down a formula for y in terms of x."
+    ],
+    "describe": [
+      "Describe fully the single transformation that maps triangle P onto triangle Q."
+    ],
+    "measure": [
+      "Measure the heights of the five tallest plants in this <n> m2 part of the garden."
+    ]
+  },
+  "0097": {
+    "write": [
+      "Write your answer in the table.",
+      "Write your answer to each question in the space provided.",
+      "Write your name, centre number and candidate number in the boxes at the top of the page."
+    ],
+    "look at": [
+      "Look at the table.",
+      "Look at her results.",
+      "Look at the diagram.",
+      "Look at his results.",
+      "Look at the picture.",
+      "Look at the diagrams."
+    ],
+    "write down": [
+      "Write down the name of organ X.",
+      "Write down the size of angle B.",
+      "Write down the height of <name>.",
+      "Write down a reason for your answer.",
+      "Write down two other things found in soil.",
+      "Write down the reactants in this reaction."
+    ],
+    "complete": [
+      "Complete the table.",
+      "Complete the sentence.",
+      "Complete the sentences.",
+      "Complete the bar chart.",
+      "Complete the conclusion.",
+      "Complete these sentences."
+    ],
+    "describe": [
+      "Describe this circuit.",
+      "Describe what happens.",
+      "Describe how shale is formed.",
+      "Describe how granite is formed.",
+      "Describe two things that happen to the ball.",
+      "Describe how water moves in soil A and in soil B."
+    ],
+    "tick": [
+      "Tick the correct box.",
+      "Tick two correct boxes.",
+      "Tick to show if <name> is correct.",
+      "Tick the reactant in this reaction.",
+      "Tick the boxes that show a physical change.",
+      "Tick the picture that shows a physical change."
+    ],
+    "put": [
+      "Put the statements in order from stage <n> to stage <n>."
+    ],
+    "plot": [
+      "Plot a graph of the results on the grid.",
+      "Plot a line graph of the results on the grid."
+    ],
+    "draw": [
+      "Draw the symbol for a closed switch.",
+      "Draw a straight line through the points.",
+      "Draw the electrical symbol for a buzzer.",
+      "Draw the ray of light inside the glass block.",
+      "Draw circuit A, using conventional electrical symbols.",
+      "Draw the same components in a single continuous circuit."
+    ],
+    "predict": [
+      "Predict the boiling point of the salt solution.",
+      "Predict when comet X will next be visible from <name>.",
+      "Predict a value for the electrical conductivity of plastic at <n> °C.",
+      "Predict the percentage of the <name> visible on <n> <name> using the table."
+    ],
+    "circle": [
+      "Circle the best distance.",
+      "Circle the correct answer.",
+      "Circle two correct answers.",
+      "Circle the name of phase B.",
+      "Circle the correct diagram.",
+      "Circle the best conclusion using these results."
+    ],
+    "explain": [
+      "Explain why.",
+      "Explain your answer.",
+      "Explain what her results show.",
+      "Explain why this object floats.",
+      "Explain why the lungs contain mucus.",
+      "Explain why the buzzer makes a sound."
+    ],
+    "suggest": [
+      "Suggest why.",
+      "Suggest why plants grow better in soil A.",
+      "Suggest how the toxic substance gets into the bird.",
+      "Suggest one control variable in this investigation.",
+      "Suggest one way humans reduce pollution in the ocean.",
+      "Suggest two other properties of both nitrogen and oxygen."
+    ],
+    "compare": [
+      "Compare the brightness of the lamps in the two circuits."
+    ],
+    "name": [
+      "Name this organ system.",
+      "Name planet A and planet B.",
+      "Name two substances the blood transports.",
+      "Name the type of blood vessel labelled Y.",
+      "Name the equipment used to measure temperature.",
+      "Name the process that only happens at exactly <n> °C."
+    ],
+    "choose": [
+      "Choose from the list.",
+      "Choose words from the list."
+    ],
+    "calculate": [
+      "Calculate the mean heart rate for the five horses.",
+      "Calculate the mean for the thermal conductivity of the four solids.",
+      "Calculate the range for the thermal conductivity of the four solids."
+    ],
+    "show": [
+      "Show your working."
+    ],
+    "give": [
+      "Give two reasons for your answer."
+    ]
+  },
+  "0893": {
+    "write": [
+      "Write your answer in the table.",
+      "Write the word equation for this reaction.",
+      "Write this data in a suitable results table.",
+      "Write the symbol equation to show this reaction.",
+      "Write your answer to each question in the space provided.",
+      "Write your name, centre number and candidate number in the boxes at the top of the page."
+    ],
+    "describe": [
+      "Describe what he hears.",
+      "Describe how water enters the plant.",
+      "Describe two functions of the kidney.",
+      "Describe why the tectonic plates move.",
+      "Describe what is meant by a covalent bond.",
+      "Describe the effect on the hake population."
+    ],
+    "write down": [
+      "Write down the final volume of gas.",
+      "Write down the function of the organ X.",
+      "Write down what is meant by a molecule.",
+      "Write down two impacts of climate change.",
+      "Write down the amplitude of this waveform.",
+      "Write down the name of these strands of DNA."
+    ],
+    "complete": [
+      "Complete her diagram.",
+      "Complete the sentence.",
+      "Complete the sentences.",
+      "Complete this word equation.",
+      "Complete the sentences about nebulae.",
+      "Complete the readings on the ammeters."
+    ],
+    "name": [
+      "Name cell X.",
+      "Name equipment A.",
+      "Name the acid he uses.",
+      "Name the process shown in the diagram.",
+      "Name the liquid excreted by the renal system.",
+      "Name the process by which these substances enter cell X."
+    ],
+    "explain": [
+      "Explain why.",
+      "Explain your answer.",
+      "Explain how you can tell.",
+      "Explain why there is no reaction.",
+      "Explain which container is the best to use.",
+      "Explain why this improves her investigation."
+    ],
+    "look at": [
+      "Look at the table.",
+      "Look at the chart.",
+      "Look at her results.",
+      "Look at the diagram.",
+      "Look at his results.",
+      "Look at the waveforms."
+    ],
+    "draw": [
+      "Draw waveform H on the blank grid.",
+      "Draw waveform K on the blank grid.",
+      "Draw a line of best fit for the data on the graph.",
+      "Draw a labelled diagram to help you answer the question.",
+      "Draw the graph of rate of oxygen produced against the light intensity.",
+      "Draw a bar chart of the time taken for each pin (tack) to fall in seconds."
+    ],
+    "suggest": [
+      "Suggest one reason why.",
+      "Suggest one safety risk.",
+      "Suggest what <name> predicts.",
+      "Suggest how <name> controls this risk.",
+      "Suggest one improvement to this experiment.",
+      "Suggest how <name> improves her investigation."
+    ],
+    "circle": [
+      "Circle the correct answer.",
+      "Circle the anomalous result.",
+      "Circle the two correct answers.",
+      "Circle this anomalous volume in the table.",
+      "Circle the name of the organ system shown in the diagram.",
+      "Circle the letter that shows the cell structure where photosynthesis takes place."
+    ],
+    "calculate": [
+      "Calculate the density of zinc.",
+      "Calculate the volume of block A.",
+      "Calculate the resistance of her lamp.",
+      "Calculate the resistance for series circuit Y.",
+      "Calculate the electrical resistance of the kettle.",
+      "Calculate the rate of oxygen produced at light intensity <n>."
+    ],
+    "measure": [
+      "measure the voltage across the lamp."
+    ],
+    "predict": [
+      "Predict the melting point of sodium.",
+      "Predict the boiling point of rubidium.",
+      "Predict the order of density of the objects from least dense to most dense.",
+      "Predict the effect of changing the light intensity on the rate of photosynthesis.",
+      "Predict what happens to the mass of the flask and its contents during the reaction."
+    ],
+    "tick": [
+      "Tick the correct box.",
+      "Tick to show if <name> is correct.",
+      "Tick two boxes that show the reactants <name> uses to make magnesium chloride."
+    ],
+    "state": [
+      "State the reading on ammeter A2.",
+      "State one variable <name> controls in her investigation.",
+      "State one other physical property of <name> <n> elements."
+    ],
+    "plot": [
+      "Plot this result on the graph."
+    ],
+    "choose": [
+      "Choose from the list.",
+      "Choose words from the list.",
+      "Choose from, A, B, C, D or E."
+    ],
+    "identify": [
+      "Identify the material used to make block C."
+    ]
+  }
+}

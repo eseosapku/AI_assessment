@@ -226,6 +226,25 @@ questions sharing no word with the chosen topics: ${offTopicCount}/${questions.l
     }
   }
 
+  // How varied are the demands?
+  //
+  // "Look at the diagram. Write down the normal force on the car." followed
+  // by "Look at the diagram. Write down the friction force on the car." is
+  // two questions and one idea. Counted on the first four words, which is
+  // what a demand's shape lives in.
+  const openers = questions.map((q) => String(q?.question ?? '').toLowerCase()
+    .replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter(Boolean).slice(0, 4).join(' '))
+  const distinct = new Set(openers.filter(Boolean)).size
+  const variety = questions.length ? distinct / questions.length : 1
+  lines.push(`
+distinct demand openings: ${distinct}/${questions.length}`)
+  if (variety < 0.6 && questions.length >= 8) {
+    findings.push({
+      paper: label, kind: 'samey',
+      detail: `only ${distinct} distinct openings across ${questions.length} questions`,
+    })
+  }
+
   const marks = questions.reduce((t, q) => t + (Number(q?.marks) || 0), 0)
   lines.push(`\nmarks awarded: ${marks} of ${paper.totalMarks}`)
   if (marks !== paper.totalMarks) {
