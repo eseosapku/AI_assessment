@@ -806,7 +806,7 @@ interface SubjectRow {
  * count, because averaging two averages would let a subject with four papers
  * pull as hard as one with four hundred.
  */
-export function mergeSubjects(rows: SubjectRow[]): SubjectRow[] {
+function mergeSubjects(rows: SubjectRow[]): SubjectRow[] {
   const byName = new Map<string, { attempts: number; weighted: number; students: number }>()
   for (const row of rows) {
     const name = canonicalSubject(row.subject)

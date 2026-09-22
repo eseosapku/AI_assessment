@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { systemPrompt } from './route'
+import { systemPrompt } from './system-prompt'
 
 describe('systemPrompt build_material listing', () => {
   it('lists build_material only in montessori mode', () => {

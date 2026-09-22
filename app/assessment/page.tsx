@@ -18,6 +18,7 @@ import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 import { LatexText as L } from '@/lib/latex-text'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
+import PassageReader from '@/components/exam/PassageReader'
 import NextStepsPanel from '@/components/assessment/NextStepsPanel'
 import LongformHintPanel from '@/components/assessment/LongformHintPanel'
 import { attachLongformHints, studentHintsOf } from '@/lib/longform-hints'
@@ -641,6 +642,14 @@ function AssessmentPageClient() {
   const [longFormAnswers, setLongFormAnswers] = useState<Record<number, string>>({})
   const [interactiveAnswers, setInteractiveAnswers] = useState<Record<number, InteractiveAnswer>>({})
   const [interactiveGrades, setInteractiveGrades] = useState<Record<number, InteractiveGrade>>({})
+  /**
+   * Questions the learner has marked to come back to.
+   *
+   * Every real exam has this and the runner did not. Without it the only
+   * way to leave a hard question and find it again on a forty-question
+   * paper is to remember its number.
+   */
+  const [flagged, setFlagged] = useState<Record<number, boolean>>({})
   const [timeRemaining, setTimeRemaining] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -1896,6 +1905,14 @@ function AssessmentPageClient() {
   const question = assessment.questions[currentQuestion]
   const isCurrentLongForm = isLongForm(question)
   const isCurrentInteractive = isInteractive(question)
+  // Every question on a reading paper carries the same text, so this is
+  // "does this paper have a passage" as much as "does this question".
+  const currentPassage =
+    'passage' in question && typeof question.passage === 'string' ? question.passage.trim() : ''
+  const currentPassageSource =
+    'passage_source' in question && typeof question.passage_source === 'string'
+      ? question.passage_source
+      : undefined
   const progressInput: ProgressInput = {
     total: assessment.questions.length,
     current: currentQuestion,
@@ -2017,19 +2034,31 @@ function AssessmentPageClient() {
                   key={i}
                   type="button"
                   onClick={() => setCurrentQuestion(i)}
+                  data-flagged={flagged[i] ? 'true' : undefined}
                   aria-current={state === 'current' ? 'step' : undefined}
                   aria-label={
                     `Question ${i + 1}: ` +
-                    (state === 'answered' ? 'answered' : state === 'skipped' ? 'seen but not answered' : state === 'current' ? 'current question' : 'not reached yet')
+                    (state === 'answered' ? 'answered' : state === 'skipped' ? 'seen but not answered' : state === 'current' ? 'current question' : 'not reached yet') +
+                    (flagged[i] ? ', flagged for review' : '')
                   }
                   title={(() => {
                     const q = assessment.questions[i]
                     const kind = isLongForm(q) ? `Long-form, ${(q as LongFormQuestion).marks} marks` : isInteractive(q) ? 'Interactive' : 'Multiple choice'
                     return `Question ${i + 1} — ${kind}`
                   })()}
-                  className={`h-8 min-w-8 rounded-lg border-2 px-2 text-[12px] font-extrabold transition-colors ${style}`}
+                  className={`relative h-8 min-w-8 rounded-lg border-2 px-2 text-[12px] font-extrabold transition-colors ${style}`}
                 >
                   {i + 1}
+                  {flagged[i] && (
+                    // A corner wedge rather than a colour: flagged is
+                    // orthogonal to answered, and a learner can flag a
+                    // question they HAVE answered.
+                    <span
+                      aria-hidden
+                      className="pointer-events-none absolute -right-[2px] -top-[2px] h-0 w-0 rounded-tr-[4px] border-l-[9px] border-t-[9px] border-l-transparent"
+                      style={{ borderTopColor: 'var(--ss-warn)' }}
+                    />
+                  )}
                 </button>
               )
             })}
@@ -2204,9 +2233,28 @@ function AssessmentPageClient() {
         </div>
       )}
 
-      {/* Question content */}
+      {/* Question content.
+          A question with a reading text gets two columns on a wide screen:
+          the text pinned in its own scroller on the left, the question on the
+          right. Stacked, it was a 480px box on top of every question and a
+          footer telling the learner to scroll up to re-read it -- forty times
+          on an ESL paper. Below lg there is no room for two, so the stacked
+          box stays and is collapsible. */}
       <div className="flex-1 flex items-start justify-center p-4 sm:p-6 lg:p-8">
-        <div className="w-full max-w-3xl">
+        <div
+          className={
+            currentPassage
+              ? 'grid w-full max-w-7xl items-start gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]'
+              : 'w-full max-w-3xl'
+          }
+        >
+          {currentPassage && (
+            <PassageReader
+              passage={currentPassage}
+              source={currentPassageSource}
+              variant="aside"
+            />
+          )}
           <AnimatePresence mode="wait">
             <motion.div
               key={currentQuestion}
@@ -2230,6 +2278,27 @@ function AssessmentPageClient() {
                     {(question as InteractiveQuestion).marks} {(question as InteractiveQuestion).marks === 1 ? 'mark' : 'marks'}
                   </div>
                 )}
+
+                {/* Leave it and come back. Every real exam lets you; this one
+                    did not, so the only way to find a hard question again on
+                    a forty-question paper was to remember its number. */}
+                <button
+                  type="button"
+                  onClick={() => setFlagged((f) => ({ ...f, [currentQuestion]: !f[currentQuestion] }))}
+                  aria-pressed={Boolean(flagged[currentQuestion])}
+                  className={`ml-auto inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-xs font-semibold transition-colors ${
+                    flagged[currentQuestion] ? 'text-ss-warn' : 'border-ss-line text-ss-slate hover:text-ss-warn'
+                  }`}
+                  // ss-* are CSS variables, so Tailwind's alpha modifiers do
+                  // nothing on them; the flagged tint is set inline.
+                  style={flagged[currentQuestion] ? {
+                    borderColor: 'color-mix(in srgb, var(--ss-warn) 55%, var(--ss-line))',
+                    background: 'color-mix(in srgb, var(--ss-warn) 12%, transparent)',
+                  } : undefined}
+                >
+                  <span aria-hidden>{flagged[currentQuestion] ? '⚑' : '⚐'}</span>
+                  {flagged[currentQuestion] ? 'Flagged' : 'Flag for review'}
+                </button>
               </div>
 
               {question.image_url && (
@@ -2244,8 +2313,12 @@ function AssessmentPageClient() {
                 </div>
               )}
 
-              {'passage' in question && question.passage && (
-                <PassageBox passage={question.passage} source={'passage_source' in question ? question.passage_source : undefined} />
+              {currentPassage && (
+                <PassageReader
+                  passage={currentPassage}
+                  source={currentPassageSource}
+                  variant="stacked"
+                />
               )}
 
               <h2
