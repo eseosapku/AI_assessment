@@ -60,6 +60,26 @@ function bodyFor(programme: CheckpointProgramme, subjectName: string, componentN
   }
 }
 
+/**
+ * Does the paper stay on the topics that were asked for?
+ *
+ * "The questions don't match the topics I selected" was reported twice. The
+ * blueprint names a focus per slot; this checks the questions came back about
+ * those foci and not about the rest of the syllabus.
+ */
+function offTopic(stem: string, foci: readonly string[]): boolean {
+  const words = new Set(
+    foci.join(' ').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter((w) => w.length > 3),
+  )
+  if (words.size === 0) return false
+  const text = stem.toLowerCase()
+  // One content word from the chosen topics is a low bar and deliberately so:
+  // this is looking for questions about a different part of the syllabus, not
+  // grading how well the topic was covered.
+  for (const w of words) if (text.includes(w)) return false
+  return true
+}
+
 interface Finding { paper: string; kind: string; detail: string }
 
 async function auditOne(
@@ -125,6 +145,7 @@ async function auditOne(
 
   // ── the checks ──────────────────────────────────────────────────────────
   const seenStems = new Map<string, number>()
+  let offTopicCount = 0
   for (const [i, q] of questions.entries()) {
     const stem = String(q?.question ?? '')
     lines.push(`\n[${i + 1}] (${q?.marks ?? '?'} mark) ${q?.type ?? '?'}${q?.image_url ? '  [FIGURE]' : ''}`)
@@ -159,6 +180,15 @@ async function auditOne(
       if (n === 3) findings.push({ paper: label, kind: 'scenario-repeated', detail: opener.slice(0, 110) })
     }
 
+    // A question about a different part of the syllabus.
+    //
+    // Counted, not flagged per question. Keyword overlap is a weak signal:
+    // "Name the gas produced when the candle burns" is squarely about
+    // combustion and shares no word with it, and flagging each one produced
+    // 34 findings on a paper that was fine. A HIGH RATE still means
+    // something, so the rate is what is reported.
+    if (!isLanguage && offTopic(stem, body.topics)) offTopicCount++
+
     // The prompt printed as the question.
     if (/\brefer to it as\b|\bdo not restate\b|\bthe question should send\b/i.test(stem)) {
       findings.push({ paper: label, kind: 'prompt-leak', detail: stem.slice(0, 120) })
@@ -167,6 +197,19 @@ async function auditOne(
     // A one-word answer slot with no key cannot be marked.
     if (q?.type === 'short_answer' && !q?.short_answer) {
       findings.push({ paper: label, kind: 'short-answer-no-key', detail: stem.slice(0, 100) })
+    }
+  }
+
+  if (!isLanguage && questions.length > 0) {
+    const rate = offTopicCount / questions.length
+    lines.push(`
+questions sharing no word with the chosen topics: ${offTopicCount}/${questions.length}`)
+    // Half a paper with no lexical tie to any chosen topic is not wording.
+    if (rate > 0.5) {
+      findings.push({
+        paper: label, kind: 'off-topic-paper',
+        detail: `${offTopicCount} of ${questions.length} questions share no word with the chosen topics`,
+      })
     }
   }
 
