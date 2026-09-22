@@ -19,6 +19,7 @@ import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-a
 import { LatexText as L } from '@/lib/latex-text'
 import type { FigureGroupMeta } from '@/lib/assessment-figure-groups'
 import PassageReader from '@/components/exam/PassageReader'
+import { pace, marksAttempted } from '@/lib/exam-pacing'
 import NextStepsPanel from '@/components/assessment/NextStepsPanel'
 import LongformHintPanel from '@/components/assessment/LongformHintPanel'
 import { attachLongformHints, studentHintsOf } from '@/lib/longform-hints'
@@ -244,6 +245,15 @@ function AnnotatedText({
 }
 
 // ── Passage / extract display ─────────────────────────────────────────────────
+
+/** Which token each pace state speaks in. Good, neutral, warn, bad. */
+const PACE_TOKEN: Record<string, string> = {
+  ahead: '--ss-good',
+  'on-track': '--ss-slate',
+  behind: '--ss-warn',
+  'well-behind': '--ss-bad',
+  unknown: '--ss-slate',
+}
 
 function PassageBox({ passage, source }: { passage: string; source?: string }) {
   const [collapsed, setCollapsed] = useState(false)
@@ -1926,6 +1936,23 @@ function AssessmentPageClient() {
   const progress = (answered / assessment.questions.length) * 100
   const blanks = unansweredQuestions(progressInput)
 
+  // Pace, in minutes rather than percent.
+  //
+  // A Checkpoint paper runs about a mark a minute, and running out of time is
+  // one of the two ways a learner who knows the material still loses marks.
+  // The countdown says how long is left and nothing about whether it is
+  // enough; the progress bar counts QUESTIONS, which on a paper where they
+  // are worth 1 to 25 marks is not the quantity that matters.
+  const paperSeconds = Number.isFinite(assessment?.estimated_time)
+    ? Number(assessment.estimated_time) * 60
+    : 0
+  const currentPace = pace({
+    totalMarks: assessment.questions.reduce((t, q: any) => t + (Number(q?.marks) || 0), 0),
+    marksAttempted: marksAttempted(assessment.questions as any[], (i) => answeredSet.has(i)),
+    totalSeconds: paperSeconds,
+    secondsRemaining: timeRemaining,
+  })
+
   return (
     <div className="min-h-screen bg-[#FAFAFA] dark:bg-[#0A0A0A] flex flex-col font-sans">
       {/* Strict Mode Warning Banner */}
@@ -2014,6 +2041,36 @@ function AssessmentPageClient() {
               </div>
             </div>
           </div>
+
+          {/* Pace. Says it in minutes, because "four minutes behind" is
+              advice and "62%" is not. Silent for the first two minutes of a
+              paper and whenever it has nothing honest to say. */}
+          {currentPace.state !== 'unknown' && !isSubmitted && (
+            <div
+              role="status"
+              aria-live="polite"
+              className="mt-3 inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-[12px] font-semibold"
+              // ss-* are CSS variables, so the alpha modifiers do nothing on
+              // them and every tint is mixed here.
+              style={{
+                borderColor: `color-mix(in srgb, var(${PACE_TOKEN[currentPace.state]}) 45%, var(--ss-line))`,
+                background: `color-mix(in srgb, var(${PACE_TOKEN[currentPace.state]}) 10%, transparent)`,
+                color: `var(${PACE_TOKEN[currentPace.state]})`,
+              }}
+            >
+              <span aria-hidden>
+                {currentPace.state === 'ahead' ? '▲' : currentPace.state === 'on-track' ? '●' : '▼'}
+              </span>
+              {currentPace.message}
+              <span className="font-normal opacity-80">
+                {currentPace.state === 'well-behind'
+                  ? '— leave a hard one and come back'
+                  : currentPace.state === 'behind'
+                    ? '— keep moving'
+                    : ''}
+              </span>
+            </div>
+          )}
 
           {/* Question strip. U1: a student could walk past a question and only
               discover it at the end. Grey means not reached, amber means seen
