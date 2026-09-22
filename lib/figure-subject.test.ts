@@ -30,7 +30,10 @@ describe('reading the subject off the book title', () => {
   })
 
   it('says other rather than guessing', () => {
-    expect(subjectOfBook('Cambridge past paper: 5090_s26_qp_12')).toBe('other')
+    // 5090 IS O Level Biology and now resolves to it. This line used to
+    // assert that the code could not be read, which was a limitation rather
+    // than a wish.
+    expect(subjectOfBook('Cambridge past paper: 5090_s26_qp_12')).toBe('biology')
     expect(subjectOfBook('')).toBe('other')
     expect(subjectOfBook(undefined)).toBe('other')
   })
@@ -137,5 +140,39 @@ describe('"as" is a word, "AS" is a qualification', () => {
       expect(levelOfBook(book), book).toBe('a-level')
       expect(figureFitsLevel(book, 9), book).toBe(false)
     }
+  })
+})
+
+describe('the syllabus code names the subject when nothing else does', () => {
+  it('reads Cambridge own-filenames, which is most of the past-paper library', () => {
+    // 6,295 of 8,663 past-paper figures are named like this. Every one
+    // resolved to 'other', and 'other' passes every subject gate — so the
+    // same 8,163 figures were offered to Science and Mathematics alike.
+    expect(subjectOfBook('Past paper: 10_0862_01_7RP_AFP_tcm143-725669')).toBe('mathematics')
+    expect(subjectOfBook('Past paper: 04_0893_02_4RP_AFP_tcm143-736390')).toBe('science')
+    expect(subjectOfBook('Past paper: 0097_s24_qp_1')).toBe('science')
+    expect(subjectOfBook('Cambridge past paper: 0610_m16_qp_12')).toBe('biology')
+    expect(subjectOfBook('5090_s17_qp_21')).toBe('biology')
+  })
+
+  it('keeps a Mathematics figure off a Science paper, which was the fault', () => {
+    const maths = 'Past paper: 10_0862_01_7RP_AFP_tcm143-725669'
+    expect(figureFitsSubject(maths, 'Science')).toBe(false)
+    expect(figureFitsSubject(maths, 'Mathematics')).toBe(true)
+  })
+
+  it('does not read a document id as a code', () => {
+    // "tcm143-725669" carries four-digit runs that are not syllabus codes.
+    expect(subjectOfBook('Past paper: tcm143-725669')).toBe('other')
+  })
+
+  it('still prefers a code over words that disagree', () => {
+    // A Checkpoint Science paper whose filename also says "Question Paper".
+    expect(subjectOfBook('Past paper: 0893-Science-May-2024-Checkpoint-Question-Paper-1')).toBe('science')
+  })
+
+  it('leaves a named book to its words', () => {
+    expect(subjectOfBook('Cambridge IGCSE and O Level Business Studies 5th edition')).toBe('business')
+    expect(subjectOfBook('Physics_Students Book_Senior Five')).toBe('physics')
   })
 })

@@ -80,6 +80,21 @@ export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, 
   const book = bookNameForFigure(localPath)
   if (!figureFitsSubject(book, paperSubject) || !figureFitsLevel(book, stage)) return false
 
+  // On a Checkpoint paper, a figure with no nameable subject is refused.
+  //
+  // `subjectOfBook` returning 'other' used to be a blanket pass, and three
+  // quarters of the library resolved to 'other' -- so the SAME 8,163 figures
+  // were on offer to Science and to Mathematics, and the matcher picked
+  // between them on two shared words. Reading the syllabus code out of the
+  // filename took that pool from 8,163 to 3,644, which is the point at which
+  // refusing the remainder costs a slice rather than the library: Science
+  // keeps about 6,800 and Mathematics about 1,270, on top of 1,278 drawn
+  // figures that cannot be wrong at all.
+  //
+  // Only at Checkpoint. Elsewhere an unlabelled figure is still better than
+  // none, and no one has reported it going wrong there.
+  if (typeof stage === 'number' && stage <= 9 && subjectOfBook(book) === 'other') return false
+
   // On an English paper, a textbook illustration is never the right picture.
   //
   // Elsewhere a figure only has to be ABOUT the topic, and a coursebook

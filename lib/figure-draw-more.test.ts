@@ -189,3 +189,46 @@ describe('a table the learner can actually read', () => {
     expect(drawn.svg).toContain('>day<')
   })
 })
+
+describe('a shape that cannot exist', () => {
+  it('refuses a rectangle whose opposite sides differ', () => {
+    // Shown to a learner: a rectangle labelled 5 cm, 5 cm, 3 cm, 4 cm.
+    expect(drawFromReply('{"kind":"polygon","sides":4,"shape":"rectangle","edges":["5 cm","5 cm","3 cm","4 cm"]}')).toBeNull()
+    expect(drawFromReply('{"kind":"polygon","sides":4,"shape":"rectangle","edges":["5 cm","3 cm","5 cm","3 cm"]}')).not.toBeNull()
+  })
+
+  it('refuses a triangle that breaks the triangle inequality', () => {
+    expect(drawFromReply('{"kind":"polygon","sides":3,"shape":"scalene","edges":["2 cm","3 cm","9 cm"]}')).toBeNull()
+    expect(drawFromReply('{"kind":"polygon","sides":3,"shape":"scalene","edges":["6 cm","7 cm","9 cm"]}')).not.toBeNull()
+  })
+
+  it('refuses a right angle the sides do not support', () => {
+    // 5, 5, 9 has its largest angle at 128 degrees; 3, 4, 5 is right. A
+    // 5, 5, 7 is 88.9 and passes deliberately -- nobody can see the
+    // difference and refusing it would cost more figures than it saves.
+    expect(drawFromReply('{"kind":"polygon","sides":3,"shape":"right","rightAngle":"bottom-left","edges":["5 cm","5 cm","9 cm"]}')).toBeNull()
+    expect(drawFromReply('{"kind":"polygon","sides":3,"shape":"right","rightAngle":"bottom-left","edges":["3 cm","4 cm","5 cm"]}')).not.toBeNull()
+  })
+
+  it('says nothing about labels that are not measurements', () => {
+    // "x cm" and "a" are perfectly good edge labels.
+    expect(drawFromReply('{"kind":"polygon","sides":4,"shape":"rectangle","edges":["x cm","y cm","x cm","y cm"]}')).not.toBeNull()
+    expect(drawFromReply('{"kind":"polygon","sides":3,"edges":["a","b","c"]}')).not.toBeNull()
+  })
+
+  it('leaves a trapezium free, since its sides are meant to differ', () => {
+    expect(drawFromReply('{"kind":"polygon","sides":4,"shape":"trapezium","edges":["18 cm","20 cm","30 cm","16 cm"]}')).not.toBeNull()
+  })
+})
+
+describe('a table with nothing in it', () => {
+  it('refuses a table whose value cells are all empty', () => {
+    // "Recycling Collected by Class" shipped with Class 1-4 and no numbers,
+    // under "Which average best represents the recycling collected?"
+    expect(drawFromReply('{"kind":"datatable","title":"Recycling Collected by Class","columns":["Class","Recycling Collected (kg)"],"rows":[["Class 1",""],["Class 2",""],["Class 3",""],["Class 4",""]]}')).toBeNull()
+  })
+
+  it('keeps a table that carries its data', () => {
+    expect(drawFromReply('{"kind":"datatable","columns":["Class","kg"],"rows":[["Class 1","12"],["Class 2","9"],["Class 3","15"]]}')).not.toBeNull()
+  })
+})

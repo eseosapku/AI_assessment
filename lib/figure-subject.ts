@@ -81,10 +81,76 @@ const LEVEL_PATTERNS: readonly [RegExp, FigureLevel][] = [
   [/\b(?:P[1-6]|primary|stage [1-6])\b/i, 'primary'],
 ]
 
+/**
+ * Syllabus code -> subject, because the code is often all there is.
+ *
+ * Measured: of 8,663 past-paper figures, 6,295 come from files Cambridge
+ * named itself -- `10_0862_01_7RP_AFP_tcm143-725669` -- where the subject is
+ * the four digits and appears nowhere in words. Every one of them resolved to
+ * 'other', and 'other' is a blanket pass, so the SAME 8,163 figures were on
+ * offer to a Science paper and a Mathematics paper alike. Three quarters of
+ * what a Science paper could reach had no subject at all.
+ *
+ * That is the mechanism behind an "Average earnings for writers" bar chart
+ * printed on a Science paper, a fractions cartoon beside a Science question,
+ * and a matrix of arrows offered for "subtracting a quarter from three
+ * quarters". Not a matching bug to be tuned: the matcher was choosing from a
+ * pool it had no way to narrow.
+ *
+ * Reading the code fixes it at the source and keeps working for any archive
+ * named the same way.
+ */
+const CODE_SUBJECTS: Record<string, FigureSubject> = {
+  // Checkpoint
+  '0057': 'english', '0058': 'english', '0861': 'english', '0876': 'english',
+  '0096': 'mathematics', '0862': 'mathematics',
+  '0097': 'science', '0893': 'science',
+  // IGCSE
+  '0444': 'english', '0500': 'english', '0510': 'english', '0522': 'english',
+  '0475': 'english', '0486': 'english', '0990': 'english',
+  '0580': 'mathematics', '0606': 'mathematics', '0607': 'mathematics',
+  '0610': 'biology', '0620': 'chemistry', '0625': 'physics',
+  '0653': 'science', '0654': 'science',
+  '0450': 'business', '0452': 'accounting', '0455': 'economics',
+  '0460': 'geography', '0680': 'geography', '0470': 'history',
+  '0478': 'computing', '0417': 'computing',
+  // O Level
+  '4024': 'mathematics', '4037': 'mathematics',
+  '5054': 'physics', '5070': 'chemistry', '5090': 'biology', '5129': 'science',
+  '2210': 'computing', '2217': 'geography', '2281': 'economics',
+  '2147': 'history', '7010': 'computing', '7110': 'accounting',
+  '7115': 'business', '7100': 'business', '7096': 'business',
+  // AS & A Level
+  '9700': 'biology', '9701': 'chemistry', '9702': 'physics',
+  '9708': 'economics', '9709': 'mathematics',
+}
+
+/** The four-digit syllabus code in a book name, if it carries one. */
+function codeIn(name: string): string {
+  // Bounded, so "tcm143-725669" does not read as a code, and anchored on the
+  // separators Cambridge actually uses.
+  const m = name.match(/(?:^|[^0-9])(\d{4})(?:[^0-9]|$)/g)
+  if (!m) return ''
+  for (const raw of m) {
+    const code = raw.replace(/[^0-9]/g, '')
+    if (CODE_SUBJECTS[code]) return code
+  }
+  return ''
+}
+
 /** The subject a book teaches, from its title. 'other' when nothing matches. */
 export function subjectOfBook(bookName: unknown): FigureSubject {
-  const name = String(bookName ?? '')
+  // Underscores are separators, not letters.
+  //
+  // A regex word boundary does not see one, so `\bphysics\b` never matched
+  // "Physics_Students Book_Senior Five" and a shelf of REB textbooks resolved
+  // to no subject at all -- straight into the blanket pass.
+  const name = String(bookName ?? '').replace(/_/g, ' ')
   if (!name.trim()) return 'other'
+  // The code first: it is exact where the words are a guess, and for most of
+  // the past-paper library it is the only thing there is.
+  const code = codeIn(name)
+  if (code) return CODE_SUBJECTS[code]
   for (const [pattern, subject] of SUBJECT_PATTERNS) {
     if (pattern.test(name)) return subject
   }

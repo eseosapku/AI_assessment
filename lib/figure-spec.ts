@@ -253,6 +253,49 @@ function axis(v: unknown): AxisSpec | null {
  * way. Returning null falls back to the figure library, which is a known
  * quantity.
  */
+/** The number in "12.5 cm", or null when the label is not a measurement. */
+function lengthOf(label: string): number | null {
+  const m = String(label ?? '').match(/-?\d+(?:\.\d+)?/)
+  if (!m) return null
+  const n = Number(m[0])
+  return Number.isFinite(n) && n > 0 ? n : null
+}
+
+/**
+ * Could this shape exist?
+ *
+ * Only checks labels that are actually measurements -- "x cm" and "a" are
+ * perfectly good edge labels and say nothing about the geometry. Where every
+ * side is a number, the numbers have to agree with the shape being drawn.
+ */
+export function polygonIsPossible(spec: PolygonSpec): boolean {
+  const lengths = spec.edges.map(lengthOf)
+  if (lengths.some((x) => x === null)) return true
+  const n = lengths as number[]
+
+  if (spec.sides === 4) {
+    // Drawn as a rectangle, so opposite sides must match. A trapezium is
+    // drawn with two unequal parallel sides and is free.
+    if (spec.shape === 'rectangle') {
+      return Math.abs(n[0] - n[2]) < 0.01 && Math.abs(n[1] - n[3]) < 0.01
+    }
+    return true
+  }
+
+  // A triangle: the two shorter sides must be longer than the longest.
+  const sorted = [...n].sort((a, b) => a - b)
+  if (sorted[0] + sorted[1] <= sorted[2] + 0.001) return false
+
+  // And one marked with a right angle has to satisfy Pythagoras, near enough
+  // that a reader measuring it would not object.
+  const marked = spec.rightAngle && spec.rightAngle !== 'none'
+  if (marked || spec.shape === 'right') {
+    const [a, b, c] = sorted
+    return Math.abs(a * a + b * b - c * c) <= c * c * 0.06
+  }
+  return true
+}
+
 export function parseFigureSpec(raw: unknown): FigureSpec | null {
   if (!raw || typeof raw !== 'object') return null
   const o = raw as Record<string, unknown>
@@ -265,13 +308,23 @@ export function parseFigureSpec(raw: unknown): FigureSpec | null {
     if (edges.length !== sides) return null
     const ra = str(o.rightAngle)
     const shape = str(o.shape)
-    return {
+    const spec: PolygonSpec = {
       kind: 'polygon',
       sides,
       edges,
       rightAngle: ra === 'bottom-left' || ra === 'bottom-right' ? ra : 'none',
       shape: (['trapezium', 'rectangle', 'right', 'scalene'] as const).find((x) => x === shape),
     }
+    // The shape has to be possible.
+    //
+    // This accepted any four labels and the drawer pinned them on a real
+    // rectangle, so a learner was shown a rectangle with sides 5 cm, 5 cm,
+    // 3 cm and 4 cm and asked to work with it. A rectangle's opposite sides
+    // are equal; a triangle's two shorter sides exceed its longest. A figure
+    // that cannot exist is worse than no figure, because the question is
+    // written against it either way.
+    if (!polygonIsPossible(spec)) return null
+    return spec
   }
 
   if (kind === 'spinners') {
@@ -395,6 +448,15 @@ export function parseFigureSpec(raw: unknown): FigureSpec | null {
       rows.push(cells)
     }
     if (rows.length < 2 || rows.length > 6) return null
+    // A table with no data in it.
+    //
+    // "Recycling Collected by Class" shipped with Class 1 to Class 4 down the
+    // side and every value cell blank, under the question "Which average best
+    // represents the recycling collected by the classes?" -- which cannot be
+    // answered from an empty table. Ragged rows are padded a few lines above,
+    // and that padding is what let an empty one through.
+    const valueCells = rows.flatMap((r) => r.slice(1))
+    if (valueCells.length > 0 && valueCells.every((c) => !c.trim())) return null
     return { kind: 'datatable', columns, rows, title: str(o.title) || undefined }
   }
 

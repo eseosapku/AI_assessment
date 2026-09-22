@@ -22,6 +22,25 @@
 
 /** code -> [subject, level] */
 const CAMBRIDGE_SYLLABI = {
+  // Checkpoint -- Primary (Stage 6) and Lower Secondary (Stage 9).
+  //
+  // These were missing, and 6,295 of the 8,663 past-paper figures come from
+  // papers named the way Cambridge names its own files -- 10_0862_01_7RP_AFP
+  // -- with the subject in the CODE and nowhere in words. With no entry here
+  // every one of them resolved to no subject at all, and a figure with no
+  // subject passes the subject gate for every paper. That is how an
+  // "Average earnings for writers" bar chart out of a Mathematics paper was
+  // printed on a Science paper, and how a Maths fraction cartoon reached a
+  // Science question.
+  '0057': ['English as a Second Language', 'Checkpoint'],
+  '0058': ['English', 'Checkpoint'],
+  '0096': ['Mathematics', 'Checkpoint'],
+  '0097': ['Science', 'Checkpoint'],
+  '0861': ['English', 'Checkpoint'],
+  '0862': ['Mathematics', 'Checkpoint'],
+  '0876': ['English as a Second Language', 'Checkpoint'],
+  '0893': ['Science', 'Checkpoint'],
+
   // IGCSE
   '0450': ['Business Studies', 'IGCSE'],
   '0452': ['Accounting', 'IGCSE'],
