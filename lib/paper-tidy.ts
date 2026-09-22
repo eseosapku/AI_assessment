@@ -144,6 +144,58 @@ export function dropRepeatedFigures<T extends TidyQuestion>(questions: readonly 
 }
 
 /** Every tidy-up, in the order they have to run. */
+/**
+ * Remove a scenario the PAPER has already set, not just the stem.
+ *
+ * `dropRepeatedSentences` works inside one question. This is the other axis,
+ * and the papers needed it: with a reading text in front of them, the model
+ * restated its opening at the top of question after question --
+ *
+ *   "Theo found himself drawn to the house of whispers. Write down ..."
+ *   "Theo found himself drawn to the house of whispers. Explain why ..."
+ *   "Elara ventured to the river, armed with a lantern. Give two ..."
+ *
+ * The learner already has the passage; the restatement is noise, and three
+ * questions opening on the same sentence reads as a bug because it is one.
+ *
+ * Kept on the FIRST question that used it, and never removed when it is the
+ * only sentence there -- that would leave a question with no question in it.
+ */
+export function dropRepeatedScenarios<T extends TidyQuestion>(questions: readonly T[]): T[] {
+  if (!Array.isArray(questions) || questions.length < 3) return [...(questions ?? [])]
+
+  const opener = (q: T): string => {
+    const text = String(q?.question ?? '').trim()
+    const first = text.split(/(?<=[.!?])\s+/)[0] ?? ''
+    return first.toLowerCase().replace(/[^a-z0-9 ]/g, '').replace(/\s+/g, ' ').trim()
+  }
+
+  const seen = new Map<string, number>()
+  for (const q of questions) {
+    const key = opener(q)
+    // A short opener is a command ("Look at the diagram."), not a scenario.
+    if (key.split(' ').length < 5) continue
+    seen.set(key, (seen.get(key) ?? 0) + 1)
+  }
+
+  const overused = new Set([...seen].filter(([, n]) => n >= 3).map(([k]) => k))
+  if (overused.size === 0) return [...questions]
+
+  const used = new Set<string>()
+  return questions.map((q) => {
+    const key = opener(q)
+    if (!overused.has(key)) return q
+    if (!used.has(key)) {
+      used.add(key)
+      return q
+    }
+    const text = String(q?.question ?? '').trim()
+    const sentences = text.split(/(?<=[.!?])\s+/).map((x) => x.trim()).filter(Boolean)
+    if (sentences.length < 2) return q
+    return { ...q, question: sentences.slice(1).join(' ') }
+  })
+}
+
 export function tidyPaper<T extends TidyQuestion>(questions: readonly T[]): { questions: T[]; removed: number } {
   if (!Array.isArray(questions)) return { questions: [], removed: 0 }
   const cleaned = questions.map((q) => {
@@ -153,5 +205,5 @@ export function tidyPaper<T extends TidyQuestion>(questions: readonly T[]): { qu
     const next = stripPartLabels(dropRepeatedSentences(stem))
     return next && next !== stem ? { ...q, question: next } : q
   })
-  return dropRepeatedFigures(cleaned)
+  return dropRepeatedFigures(dropRepeatedScenarios(cleaned))
 }

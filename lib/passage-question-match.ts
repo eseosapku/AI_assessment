@@ -62,8 +62,17 @@ const TITLE = /^(?:mr|mrs|ms|miss|dr|prof|sir|lady|lord|aunt|uncle|captain|docto
  * whole, so a passage naming "Hawthorne" alone still satisfies it.
  */
 export function properNounsIn(stem: unknown): string[] {
-  const text = String(stem ?? '')
-  if (!text.trim()) return []
+  const raw = String(stem ?? '')
+  if (!raw.trim()) return []
+
+  // A QUOTED span is the item, not a reference to the passage.
+  //
+  // ESL usage questions carry their own example: "Match each pronoun to what
+  // it refers back to in the sentence: 'Sarah went to the library because she
+  // was late.'" Sarah is not in the reading text and is not supposed to be —
+  // she is the exercise. Counting her deleted four good grammar questions off
+  // a Reading and Usage paper, which is the one paper that is half grammar.
+  const text = raw.replace(/["'‘’“”][^"'‘’“”]{8,}["'‘’“”]/g, ' ')
 
   const found: string[] = []
   // Split into sentences — but NOT on the full stop in "Mr.", which split

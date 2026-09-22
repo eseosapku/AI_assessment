@@ -130,3 +130,30 @@ describe('a passage that belongs to somebody else', () => {
     }
   })
 })
+
+describe('a grammar item carries its own example', () => {
+  const passage = 'The river rose after three days of rain. Musa watched from the bank.'
+
+  it('ignores names inside a quoted example sentence', () => {
+    // These four came off a real Reading and Usage paper and were all
+    // deleted: the quoted sentence IS the exercise, not a reference to the
+    // reading text.
+    for (const stem of [
+      "Match each pronoun to what it refers back to in the sentence: 'Sarah went to the library because she was late.'",
+      "Find the information stated directly in the text: 'The capital of France is Paris.'",
+      "Match the heading 'The Importance of Recycling' to the correct paragraph.",
+    ]) {
+      expect(namesAbsentFromPassage(stem, passage), stem.slice(0, 40)).toEqual([])
+    }
+  })
+
+  it('still catches an unquoted character who is not in the text', () => {
+    expect(namesAbsentFromPassage('Write down the name of the woman who guided Clara.', passage)).toEqual(['Clara'])
+  })
+
+  it('does not swallow a short quoted word', () => {
+    // Only a quoted SENTENCE is an exercise; a quoted word is a reference
+    // into the passage and its name still counts.
+    expect(namesAbsentFromPassage('Who said "go"? Was it Ngozi?', passage)).toContain('Ngozi')
+  })
+})

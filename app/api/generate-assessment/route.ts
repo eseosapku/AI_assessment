@@ -31,6 +31,7 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork } from '@/lib/passage-question-match'
+import { enforceSlotShape } from '@/lib/slot-shape'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -1804,9 +1805,17 @@ ${commandBlock}`
       // Budgets MUST fit inside the platform gateway window (~30s) or the client
       // gets a 504 while the function is still patiently waiting. Batches run in
       // parallel, so worst-case wall time ≈ one primary (18s) + one fallback (9s).
-      const PRIMARY_CALL_BUDGET_MS = 18_000
-      const FALLBACK_CALL_BUDGET_MS = 9_000
-      const PER_ATTEMPT_TIMEOUT_MS = 18_000
+      //
+      // Checkpoint gets a bigger budget, because the 30-second reasoning does
+      // not apply to it. A Checkpoint paper is twenty-odd batches, one per
+      // numbered question, and the request already runs for minutes -- there
+      // is no gateway window left to protect. On the old budget the Maths
+      // paper lost batch after batch to "timed out after 8758ms" under its own
+      // throughput contention and came back 10 questions of 29, which the
+      // route then refused outright. A slow paper beats no paper.
+      const PRIMARY_CALL_BUDGET_MS = isCheckpoint ? 45_000 : 18_000
+      const FALLBACK_CALL_BUDGET_MS = isCheckpoint ? 25_000 : 9_000
+      const PER_ATTEMPT_TIMEOUT_MS = isCheckpoint ? 45_000 : 18_000
 
       const tryModels = async (modelIds: string[], budgetMs: number): Promise<{
         text?: string
@@ -1944,6 +1953,15 @@ ${commandBlock}`
       batchTopics?: string[],
       assignedFigure?: { description: string; category: string; localPath: string },
       strandHint?: string,
+      /**
+       * Refuse a question whose shape is not what the slot asked for.
+       *
+       * True on the first attempt, false on the retry. Throwing on every
+       * attempt made two papers of five fail outright -- a paper that is
+       * complete with one question in the wrong shape beats no paper, and
+       * the marks are stamped either way.
+       */
+      strictShape = true,
     ): Promise<any[]> {
       // Request a 40% surplus so even if the model runs short we hit the target count.
       // The surplus is stripped after deduplication.
@@ -2077,7 +2095,22 @@ ${commandBlock}`
           if (drawn) q.diagram_svg = drawn.svg
           else if (assignedFigure) q.image_url = assignedFigure.localPath
         }
-        return parsed.questions
+
+        // The blueprint outranks the model, which until now it did not.
+        //
+        // An ESL paper printed as 42 marks awarded 86 -- a one-mark "tick all
+        // the correct statements" came back worth five -- and every "draw a
+        // ring around" slot came back as a written answer, because nothing
+        // compared what arrived with what was asked for. Marks are stamped;
+        // a wrong SHAPE throws, so the batch is asked again rather than
+        // shipped as the wrong kind of question.
+        const checked = enforceSlotShape(parsed.questions, questionParts)
+        if (checked.wrong.length) {
+          const summary = checked.wrong.map((w) => `${w.wanted}->${w.got}`).join(', ')
+          if (strictShape) throw new SyntaxError(`Wrong question shape for ${checked.wrong.length} slot(s): ${summary}`)
+          console.log(`Kept ${checked.wrong.length} question(s) in the wrong shape after a retry: ${summary}`)
+        }
+        return checked.questions
       }
 
       const { prompt } = buildPrompt({
@@ -2554,10 +2587,13 @@ ${commandBlock}`
               // question outright. Two runs in three failed the whole paper
               // this way.
               try {
-                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint)
+                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint, true)
               } catch (first) {
                 if (!b.questionParts) throw first
-                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint)
+                // Lenient: take the question even if its shape is wrong. The
+                // marks are still stamped from the slot, so the paper totals
+                // correctly; only the format is second best.
+                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint, false)
               }
             }),
           ))
@@ -2750,6 +2786,27 @@ ${commandBlock}`
     }
     // Final re-number after trim
     allQuestions.forEach((q: any, i: number) => { q.id = i + 1 })
+
+    // A Checkpoint paper is worth exactly what its cover says.
+    //
+    // Marks are stamped per batch, but the top-up passes above call
+    // tryGenerateBatch with NO slot plan -- so anything they add carries the
+    // model's own number, and a paper printed as 42 marks awarded 84. The
+    // slot plan is the authority and it is right here, so the last word on
+    // marks is taken from it, in order, once everything else is settled.
+    if (isCheckpoint && slotPlan.length > 0) {
+      let stamped = 0
+      allQuestions.forEach((q: any, i: number) => {
+        const slot = slotPlan[i]
+        if (!slot || !q || typeof q !== 'object') return
+        const want = Number(slot.marks) || 1
+        if (Number(q.marks) !== want) stamped++
+        q.marks = want
+      })
+      const total = allQuestions.reduce((t: number, q: any) => t + (Number(q.marks) || 0), 0)
+      const printed = slotPlan.reduce((t: number, s: any) => t + (Number(s?.marks) || 0), 0)
+      if (stamped > 0) console.log(`Re-stamped marks on ${stamped} question(s); paper is ${total} of ${printed}`)
+    }
 
     // ── Final deterministic fix pass ──────────────────────────────────────────
     // Run all fixers one last time after trimming/renumbering so the explanation-based

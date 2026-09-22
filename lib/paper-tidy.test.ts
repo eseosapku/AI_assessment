@@ -1,6 +1,6 @@
 // lib/paper-tidy.test.ts
 import { describe, it, expect } from 'vitest'
-import { dropRepeatedSentences, stripPartLabels, dropRepeatedFigures, tidyPaper } from './paper-tidy'
+import { dropRepeatedSentences, stripPartLabels, dropRepeatedFigures, tidyPaper, dropRepeatedScenarios } from './paper-tidy'
 
 describe('a sentence the stem already said', () => {
   it('removes the pasted-in repeat', () => {
@@ -100,5 +100,49 @@ describe('never take a picture out from under a stem that points at it', () => {
     ])
     expect(removed).toBe(1)
     expect(questions[2].image_url).toBeUndefined()
+  })
+})
+
+describe('a scenario the paper has already set', () => {
+  const q = (question: string) => ({ question })
+
+  it('keeps the first and strips the repeats', () => {
+    // Straight off a live English paper: the model restated the passage's
+    // opening at the top of question after question.
+    const out = dropRepeatedScenarios([
+      q('Theo found himself drawn to the house of whispers. Write down the name of the house.'),
+      q('Theo found himself drawn to the house of whispers. Explain why he went inside.'),
+      q('Theo found himself drawn to the house of whispers. Give two words that describe the door.'),
+    ])
+    expect(out[0].question).toContain('Theo found himself')
+    expect(out[1].question).toBe('Explain why he went inside.')
+    expect(out[2].question).toBe('Give two words that describe the door.')
+  })
+
+  it('leaves a scenario used twice alone', () => {
+    // Two parts of one numbered question legitimately share a scenario.
+    const rows = [
+      q('Sam heated the copper sulfate solution slowly. Describe what he saw.'),
+      q('Sam heated the copper sulfate solution slowly. Explain why it changed.'),
+    ]
+    expect(dropRepeatedScenarios(rows).map((r) => r.question)).toEqual(rows.map((r) => r.question))
+  })
+
+  it('never strips the only sentence a question has', () => {
+    const rows = [
+      q('Theo found himself drawn to the house of whispers.'),
+      q('Theo found himself drawn to the house of whispers.'),
+      q('Theo found himself drawn to the house of whispers.'),
+    ]
+    for (const r of dropRepeatedScenarios(rows)) expect(r.question).toBeTruthy()
+  })
+
+  it('does not treat a short command as a scenario', () => {
+    const rows = [
+      q('Look at the diagram. Name part A.'),
+      q('Look at the diagram. Name part B.'),
+      q('Look at the diagram. Name part C.'),
+    ]
+    expect(dropRepeatedScenarios(rows).map((r) => r.question)).toEqual(rows.map((r) => r.question))
   })
 })
