@@ -2731,11 +2731,6 @@ ${commandBlock}`
      * loop comes straight off the paper.
      */
     const makeShippable = (questions: any[]): any[] => {
-      // Past-paper banks store questions with their choices printed underneath,
-      // and the model copies that block into the stem then leaves the options
-      // array as ["A","B","C","D"]. Measured on WAEC Mathematics with a paper
-      // attached, seven of ten came back that way — four bare letters to choose
-      // between.
       // A pointer at a figure printed beside the question, written the same
       // way nine times on one paper. Told not to in the prompt and did it
       // anyway, so it comes off here.
@@ -2745,6 +2740,37 @@ ${commandBlock}`
         }
       }
 
+      // Both of these have to live HERE rather than in one pass over the
+      // finished paper, because the top-up passes that fill a shortfall do
+      // not go through the batch path at all -- so a guard placed anywhere
+      // else is simply not looking when they arrive. "Explain the process of
+      // electromagnetic induction." reached a Stage 9 paper exactly that way.
+      let working = questions
+
+      if (isCheckpoint) {
+        const stage = Number(grade)
+        const advanced = working.filter((q: any) => questionIsAboveStage(q?.question, stage))
+        if (advanced.length) {
+          const terms = [...new Set(advanced.flatMap((q: any) => beyondStage(q.question, stage)))]
+          console.log(`Removed ${advanced.length} question(s) using ${terms.slice(0, 4).join(', ')} at Stage ${stage}`)
+          working = working.filter((q: any) => !advanced.includes(q))
+        }
+      }
+
+      // The same question asked twice -- a tense apart, or a paragraph letter
+      // apart. The stem deduplicator sees those differences and passes both;
+      // what makes them duplicates is the demand underneath.
+      const deduped = dropRepeatedDemands(working)
+      if (deduped.removed > 0) {
+        console.log(`Removed ${deduped.removed} question(s) repeating a demand already on the paper`)
+      }
+      questions = deduped.questions
+
+      // Past-paper banks store questions with their choices printed
+      // underneath, and the model copies that block into the stem then leaves
+      // the options array as ["A","B","C","D"]. Measured on WAEC Mathematics
+      // with a paper attached, seven of ten came back that way — four bare
+      // letters to choose between.
       const fixed = repairPaper(questions)
       if (fixed > 0) console.log(`Recovered inline options on ${fixed} question(s)`)
 
@@ -2808,21 +2834,6 @@ ${commandBlock}`
       return cleanQuestionPaper(markable.kept as any[])
     }
 
-    // The same question asked twice -- a tense apart, or a paragraph letter
-    // apart. The stem deduplicator sees three differences and passes both;
-    // what makes them duplicates is the demand underneath.
-    //
-    // Placed HERE, before the shortfall check, so the retry loop refills what
-    // it takes out. Run after the trim it made papers 32 questions of 40 and
-    // 34 marks of 42: variety bought with completeness is not a trade worth
-    // making.
-    {
-      const deduped = dropRepeatedDemands(allQuestions)
-      if (deduped.removed > 0) {
-        console.log(`Removed ${deduped.removed} question(s) repeating a demand already on the paper`)
-        allQuestions = deduped.questions
-      }
-    }
     allQuestions = makeShippable(deduplicateAndFix(allQuestions))
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
