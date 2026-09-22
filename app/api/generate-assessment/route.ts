@@ -30,6 +30,7 @@ import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
+import { questionInventsItsOwnText, namesAbsentFromPassage } from '@/lib/passage-question-match'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -975,7 +976,7 @@ ${longformRule}`
 - ${figureAppetite === 'exam-paper'
       ? `USE THE FIGURES. A real exam paper is full of diagrams, tables and graphs, and this one should be too: give a figure to EVERY question whose topic suits one, up to the ${imageQuestionCap} available. Leave image_key empty only where no figure in the list fits the question.
 - Each figure belongs to ONE question. Never give the same image_key to two questions, and never write a second question about a figure you have already used — write about the topic you were asked for instead.
-- The question must be about the topic in the plan, not about the picture. The figure is there to support that topic; if it shows something else interesting, ignore it.`
+- The question must be answerable FROM the figure you attach. A figure the question does not use is worse than no figure: a learner shown a nitrogen cycle and asked about reaction rates has two questions on the page and an answer to neither. If nothing in the list is about your topic, leave image_key empty and write the question in words.`
       : 'Most questions should be text-only (empty image_key).'}
 - The figure appears beside the question with no caption and no page number. Refer to it as "the diagram" or "the table shown" — NEVER as "Figure 28.3" or "the diagram on page 286".`
     : hasDiagramSupport
@@ -1239,7 +1240,18 @@ function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false
   }
 
   // References to missing figures/diagrams.
-  if (/\b(as\s+shown|shown\s+(?:above|below|here)|see\s+(?:the|this|these)\s+(?:diagram|picture|figure|graph|image|photo|illustration|map|chart|table)|look\s+at\s+(?:the|this|these)\s+(?:diagram|picture|figure|graph|image|photo|illustration|map|chart|table)|in\s+the\s+(?:diagram|picture|figure|graph|image|photo|illustration|map|chart|table)|on\s+the\s+graph)\b/i.test(question)) {
+  //
+  // The verb list matters as much as the noun list. "Using the diagram,
+  // compare the current in two different parts of the circuit" shipped with
+  // no diagram at all, because every phrasing here was "shown", "see", "look
+  // at" or "in the" -- and "using", "from", "according to" and "based on" are
+  // how a real paper points at a figure just as often.
+  const VISUAL_NOUN = 'diagram|picture|figure|graph|image|photo|illustration|map|chart|table|circuit|apparatus'
+  if (new RegExp(
+    `\\b(?:as\\s+shown|shown\\s+(?:above|below|here)` +
+    `|(?:see|look\\s+at|in|on|from|using|use|read(?:ing)?\\s+off|according\\s+to|based\\s+on)` +
+    `\\s+(?:the|this|these|your)\\s+(?:${VISUAL_NOUN})` +
+    `|on\\s+the\\s+graph)\\b`, 'i').test(question)) {
     return true
   }
 
@@ -2025,6 +2037,23 @@ ${commandBlock}`
           parsed.questions = parsed.questions.filter((q: any) => !leaked.includes(q))
         }
 
+        // A question about a story nobody wrote.
+        //
+        // "Clara stumbled upon an ancient oak tree. Write down the name of the
+        // woman who guided Clara in the garden." -- asked three times in one
+        // paper, about a story the learner was never shown. The prompt already
+        // says to ask about THIS text; this checks, because the prompt saying
+        // so has not once been enough here.
+        if (checkpointPassage) {
+          const invented = parsed.questions.filter((q: any) =>
+            q && typeof q === 'object' && questionInventsItsOwnText(q.question, checkpointPassage))
+          if (invented.length) {
+            const names = [...new Set(invented.flatMap((q: any) => namesAbsentFromPassage(q.question, checkpointPassage)))]
+            console.log(`Rejected ${invented.length} question(s) naming ${names.slice(0, 5).join(', ')}, who are not in the passage`)
+            parsed.questions = parsed.questions.filter((q: any) => !invented.includes(q))
+          }
+        }
+
         if (drawn) {
           // A drawn figure is held to its own label list exactly -- it knows
           // what is on it, so this is a check rather than a guess. A question
@@ -2153,7 +2182,25 @@ ${commandBlock}`
     // the paper is written against it -- which is also how a real paper works:
     // one passage, twenty questions on it.
     let checkpointPassage = ''
-    if (isCheckpoint && body?.needsPassage === true) {
+    // The SERVER decides this, not the client.
+    //
+    // It used to be `body?.needsPassage === true` alone — a boolean computed
+    // in the browser from a component name, which for half the components was
+    // `undefined`. When it came back false the paper was generated anyway, and
+    // the model, handed comprehension foci and no text, invented a story per
+    // question: "Clara stumbled upon an ancient oak tree. Write down the name
+    // of the woman who guided Clara in the garden." Three questions of
+    // forty-two opened on that same sentence, and the learner was never shown
+    // a word of the story any of them asked about.
+    //
+    // Whether a question can be answered is not a thing to take on trust from
+    // a form. Every English and ESL paper gets a text, and so does any paper
+    // whose own slots name a reading strand.
+    const readingStrandInPlan = slotPlan.some((s: any) =>
+      /reading|comprehension/i.test(String(s?.strand ?? '')))
+    const languagePaper = /\benglish\b|\besl\b|second language|\bliterature\b/i.test(promptSubject)
+    const needsPassage = isCheckpoint && (body?.needsPassage === true || languagePaper || readingStrandInPlan)
+    if (needsPassage) {
       const made = await generatePassageWithBedrock(
         `A reading text for a ${promptSubject} paper at Stage ${gradeForPrompt}.`,
         promptSubject,

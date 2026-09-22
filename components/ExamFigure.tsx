@@ -18,7 +18,7 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
   if (!src) return null
   return (
     <div
-      className={`bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 min-h-[120px] flex items-center justify-center ${className}`}
+      className={`bg-white dark:bg-gray-900 rounded-xl p-3 mb-3 border border-gray-200 dark:border-gray-700 min-h-[120px] flex items-center justify-center overflow-hidden ${className}`}
     >
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
@@ -28,7 +28,13 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
         // a digestive system, a river profile — otherwise fills the screen and
         // pushes the question it belongs to below the fold, so the student
         // scrolls past a picture to find out what they are being asked.
-        className="max-w-full h-auto max-h-[45vh] w-auto object-contain mx-auto rounded-lg"
+        //
+        // `min-w-0` is load-bearing and was missing. A flex item defaults to
+        // `min-width: auto`, which refuses to shrink below the image's own
+        // intrinsic width — so a 1420px past-paper crop inside a ~900px card
+        // did not scale down, it hung over the edge and was clipped. Learners
+        // saw diagrams with their right-hand labels sliced off.
+        className="min-w-0 max-w-full h-auto max-h-[45vh] w-auto object-contain mx-auto rounded-lg"
         loading={lazy ? 'lazy' : 'eager'}
         // Decode off the main thread so a large figure cannot jank the page
         // while the student is already reading the question.

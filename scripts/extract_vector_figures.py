@@ -101,6 +101,55 @@ def figures_on(page):
     return out
 
 
+#: Words that begin a demand rather than name a part of a drawing.
+#:
+#: A figure label is a noun phrase or a number: "nitrogen gas in atmosphere",
+#: "50 cm", "A". A question stem is a sentence. Telling them apart by LENGTH
+#: was the mistake -- "Which process occurs at X?" is twenty-six characters
+#: and passed the 120-character guard as though it were a label, so it was
+#: cropped into the picture. Learners were shown a nitrogen-cycle diagram
+#: carrying Cambridge's own question, underneath a different question of ours.
+#: That is two questions on one page, and it reproduces the paper besides.
+COMMAND_WORDS = (
+    "look at", "which", "what", "write down", "explain", "calculate", "complete",
+    "give ", "state ", "name the", "describe", "tick ", "circle ", "draw ",
+    "the diagram shows", "the table shows", "the graph shows", "the chart shows",
+    "use the", "using the", "work out", "find the", "how many", "how much",
+    "suggest", "identify", "compare", "predict", "measure", "record",
+)
+
+
+def looks_like_question(text):
+    """Is this text block part of the QUESTION rather than part of the figure?"""
+    t = " ".join(str(text or "").split())
+    if not t:
+        return False
+    low = t.lower()
+
+    # A question mark settles it.
+    if t.endswith("?") or "?" in t:
+        return True
+    # "30 The diagram shows part of the nitrogen cycle." -- a numbered stem.
+    if len(t) > 12 and t[0].isdigit():
+        head = t.lstrip("0123456789").lstrip(" .)(")
+        if head[:1].isupper() and " " in head:
+            return True
+    # A command word anywhere near the front is a demand, not a label.
+    if any(low.startswith(w) or (" " + w) in low[:60] for w in COMMAND_WORDS):
+        return True
+    # A long sentence is prose. Labels do not run to twelve WORDS -- but a
+    # month axis does run to twelve tokens, "J F M A M J J A S O N D", and
+    # losing it off the bottom of a bar chart is a fault this file already
+    # fixed once. So single letters do not count towards the length.
+    words = [w for w in t.split() if len(w) > 2]
+    if len(words) >= 12:
+        return True
+    # Marks printed in brackets belong to the question.
+    if t.endswith("]") and "[" in t:
+        return True
+    return False
+
+
 def with_labels(page, rect):
     """Grow a figure's crop to take in the text that belongs to it.
 
@@ -130,6 +179,10 @@ def with_labels(page, rect):
             continue
         # A whole paragraph is the question, not a label on the figure.
         if tb.height > 60 or len(str(b[4]).strip()) > 120:
+            continue
+        # And so is a short sentence that asks something. Length alone let
+        # "Which process occurs at X?" into the crop.
+        if looks_like_question(b[4]):
             continue
         if not tb.intersects(near):
             continue

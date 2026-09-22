@@ -30,6 +30,8 @@ const { cambridgeBookName } = require('./cambridge-syllabus-codes')
 const { isWatermarked } = require('./purge-watermarked-figures')
 const arg = (name) => (process.argv.find((a) => a.startsWith(`--${name}=`)) || '').split('=').slice(1).join('=').replace(/^"|"$/g, '')
 const DRY_RUN = process.argv.includes('--dry-run')
+/** Re-render papers already in the manifest, replacing their figures. */
+const FORCE = process.argv.includes('--force')
 const PURGE = process.argv.includes('--purge')
 const ROOT = arg('root')
 const BOARD = (arg('board') || 'cambridge').toLowerCase()
@@ -140,7 +142,13 @@ function main() {
     // company's name over the diagram.
     if (isWatermarked(pdf)) { stats.watermarked = (stats.watermarked || 0) + 1; continue }
 
-    if (manifest.images.some((i) => i.textbookId === id)) { stats.cached++; continue }
+    // --force re-renders a paper already in the manifest, replacing its
+    // figures in place. Needed whenever the CROP rule changes: the 8,705
+    // figures extracted before `looks_like_question` existed each carry
+    // Cambridge's own question inside the picture, and no amount of better
+    // matching downstream can fix an image that already asks something.
+    if (!FORCE && manifest.images.some((i) => i.textbookId === id)) { stats.cached++; continue }
+    if (FORCE) manifest.images = manifest.images.filter((i) => i.textbookId !== id)
     stats.papers++
     if (DRY_RUN) { console.log(`  would scan [${id}] ${name.slice(0, 70)}`); continue }
 
