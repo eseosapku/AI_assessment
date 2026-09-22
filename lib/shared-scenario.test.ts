@@ -69,3 +69,30 @@ describe('lifting the scenario off the parts', () => {
     expect(liftSharedScenarios([q('')])).toHaveLength(1)
   })
 })
+
+describe('a scenario joined with a comma', () => {
+  it('lifts a lead-in the model ran into the demand', () => {
+    // Six questions on one English paper opened exactly like this. It is one
+    // sentence to a splitter looking for a full stop, so the scenario could
+    // never come off — and comma-then-capital is ungrammatical besides.
+    const out = liftSharedScenarios([
+      q('Theo wandered into The Whispering Pages, Explain how Elara is described.'),
+      q('Theo wandered into The Whispering Pages, Give the name of the book.'),
+      q('Theo wandered into The Whispering Pages, Name the emotion Elara feels.'),
+    ])
+    expect(out[0].scenario).toContain('Theo wandered')
+    expect(out[0].question).toBe('Explain how Elara is described.')
+    expect(out[1].question).toBe('Give the name of the book.')
+    expect(out[2].question).toBe('Name the emotion Elara feels.')
+  })
+
+  it('leaves an ordinary comma alone', () => {
+    const rows = [
+      q('After the rain stopped, water ran down the hill and into the river.'),
+      q('After the rain stopped, the sun came out and dried the path.'),
+    ]
+    const out = liftSharedScenarios(rows)
+    // One sentence each: nothing to lift, and no false split on "stopped,".
+    for (const x of out) expect(x.scenario).toBeUndefined()
+  })
+})

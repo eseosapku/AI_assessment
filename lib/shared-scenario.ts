@@ -71,8 +71,28 @@ function sameLeadIn(a: string, b: string): boolean {
   return shared / Math.min(wa.length, wb.length) >= 0.5
 }
 
+/**
+ * Command words that begin a demand. A comma in front of one of these is a
+ * full stop the model got wrong.
+ */
+const DEMAND_START = [
+  'write', 'explain', 'describe', 'give', 'name', 'state', 'calculate',
+  'work out', 'find', 'complete', 'tick', 'circle', 'draw', 'suggest',
+  'identify', 'match', 'choose', 'show', 'compare', 'list', 'order',
+  'define', 'outline', 'predict', 'measure', 'use',
+].join('|')
+
 function sentencesOf(stem: string): string[] {
-  return stem.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean)
+  // "Theo wandered into The Whispering Pages, Explain how Elara's demeanour
+  // is described." -- six questions on one paper opened exactly that way. It
+  // is one sentence to a splitter looking for a full stop, so the scenario
+  // could never be lifted off it, and the comma-then-capital is ungrammatical
+  // anyway. A comma before a capitalised command word is a sentence break.
+  const normalised = stem.replace(
+    new RegExp(String.raw`,\s+(?=(?:${DEMAND_START})\b)`, 'gi'),
+    '. ',
+  )
+  return normalised.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean)
 }
 
 /**
