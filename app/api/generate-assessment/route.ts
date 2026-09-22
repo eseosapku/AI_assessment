@@ -2900,19 +2900,30 @@ ${commandBlock}`
     // passes have produced twenty-nine good ones, is the worst of the
     // available answers.
     if (isCheckpoint && allQuestions.length < count) {
-      const missing = count - allQuestions.length
-      console.warn(`Still short by ${missing} — one last pass, short answers only`)
-      try {
-        const plain = await tryGenerateBatch(
-          Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short',
-        )
-        const seenKeys = new Set(
-          allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
-        )
-        allQuestions.push(...deduplicateAndFix(plain, seenKeys))
-        allQuestions = makeShippable(allQuestions)
-      } catch (err) {
-        console.error('Last-resort pass failed:', err)
+      // In BATCHES, until it is full or stops gaining.
+      //
+      // One batch was not enough: ESL is forty questions and came back ten
+      // short, while a single ask is capped at BATCH_SIZE. Stops the moment a
+      // pass adds nothing, so a model that cannot fill the paper is not asked
+      // six more times to prove it.
+      for (let pass = 0; pass < 4 && allQuestions.length < count; pass++) {
+        const missing = count - allQuestions.length
+        console.warn(`Still short by ${missing} — plain pass ${pass + 1}, short answers only`)
+        const before = allQuestions.length
+        try {
+          const plain = await tryGenerateBatch(
+            Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short',
+          )
+          const seenKeys = new Set(
+            allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
+          )
+          allQuestions.push(...deduplicateAndFix(plain, seenKeys))
+          allQuestions = makeShippable(allQuestions)
+        } catch (err) {
+          console.error(`Plain pass ${pass + 1} failed:`, err)
+          break
+        }
+        if (allQuestions.length <= before) break
       }
     }
 
