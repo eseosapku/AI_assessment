@@ -303,12 +303,24 @@ function gradePassageSpec(grade: number | string | undefined) {
     minWords: 100,
     maxTokens: 900,
   }
+  // 320-420, not 450-650.
+  //
+  // A Cambridge Checkpoint reading text is shorter than this was asking for,
+  // and the difference is not academic: the learner sees the whole thing at
+  // once beside the questions, and six hundred and fifty words of invented
+  // fantasy is a wall. Reported as "why is there so much content at once for
+  // the reading? like everything is just there".
+  //
+  // The style line used to read "Prioritise public-domain authors (Dickens,
+  // Achebe, Austen, Orwell, etc.)". That is an instruction to reproduce
+  // somebody's book, and it was followed -- a paper came back as Bilbo,
+  // Gandalf and Smaug in the Shire. An exam board writes its own texts.
   return {
-    wordTarget: '450–650 words',
-    style: 'a high-quality literary or non-fiction extract matching CAIE/Cambridge unseen comprehension standards. Prioritise public-domain authors (Dickens, Achebe, Austen, Orwell, etc.) or original literary-quality prose.',
+    wordTarget: '320–420 words',
+    style: 'an ORIGINAL extract at the standard of a Cambridge unseen comprehension: literary or non-fiction, written for this paper. Invent the people and places. Do not reproduce, adapt or imitate a published work.',
     vocab: 'Rich vocabulary, figurative language, complex sentence structures.',
     minWords: 120,
-    maxTokens: 1400,
+    maxTokens: 1000,
   }
 }
 

@@ -664,6 +664,8 @@ function AssessmentPageClient() {
    * paper is to remember its number.
    */
   const [flagged, setFlagged] = useState<Record<number, boolean>>({})
+  /** The paper's topic list, shown on request rather than truncated. */
+  const [topicsOpen, setTopicsOpen] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -1986,9 +1988,41 @@ function AssessmentPageClient() {
               <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight truncate">
                 {assessment.subject}
               </h1>
-              <p className="text-sm text-gray-500 dark:text-gray-400 truncate mt-0.5">
-                {assessment.topics.join(', ')}
-              </p>
+              {/* What this PAPER is, not a truncated list of its topics.
+                  The subtitle used to read "the human digestive system,
+                  atomic structure, conservation of ..." — twenty foci cut off
+                  after three, which is neither readable nor ignorable.
+                  Reported as "I'm confused by the stuff at the top, if it's
+                  important it's really hard to notice." A real paper's cover
+                  says its marks and its length; the topics go behind a
+                  control for anyone who wants them. */}
+              <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-ss-slate">
+                <span className="font-semibold">
+                  {assessment.questions.length} questions
+                </span>
+                <span aria-hidden>·</span>
+                <span className="font-semibold">
+                  {assessment.questions.reduce((t: number, q: any) => t + (Number(q?.marks) || 0), 0)} marks
+                </span>
+                {assessment.topics.length > 0 && (
+                  <>
+                    <span aria-hidden>·</span>
+                    <button
+                      type="button"
+                      onClick={() => setTopicsOpen((v) => !v)}
+                      aria-expanded={topicsOpen}
+                      className="font-semibold underline decoration-dotted underline-offset-2 hover:text-ss-accent"
+                    >
+                      {assessment.topics.length} topics
+                    </button>
+                  </>
+                )}
+              </div>
+              {topicsOpen && assessment.topics.length > 0 && (
+                <p className="mt-2 max-w-2xl text-[12.5px] leading-relaxed text-ss-slate">
+                  {assessment.topics.join(' · ')}
+                </p>
+              )}
             </div>
 
             <div className="flex items-center gap-2 flex-wrap justify-end">
