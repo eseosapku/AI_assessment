@@ -85,8 +85,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     components: [
       // No 0058 paper was available to read, so the total stays unrecorded
       // rather than borrowed from a subject that happens to share a duration.
-      { number: '01', minutes: 60, mockable: true },
-      { number: '02', minutes: 60, mockable: true },
+      { number: '01', name: 'Non-fiction', minutes: 60, mockable: true },
+      { number: '02', name: 'Fiction', minutes: 60, mockable: true },
     ],
     strands: ENGLISH_STRANDS,
   },
@@ -111,10 +111,10 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'Mathematics',
     code: '0096',
     components: [
-      { number: '01', minutes: 45, mockable: true },
+      { number: '01', name: 'Paper 1', minutes: 45, mockable: true },
       // No 0096 paper was available to read. Primary Science is 40 rather
       // than 50, so Primary totals cannot be assumed from Lower Secondary.
-      { number: '02', minutes: 45, mockable: true },
+      { number: '02', name: 'Paper 2', minutes: 45, mockable: true },
     ],
     strands: MATHS_STRANDS,
     crossCuttingStrand: 'Thinking and Working Mathematically',
@@ -128,8 +128,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
       // paper is 40". The earlier fifty here was inferred from the 0-50
       // reporting scale and was simply wrong -- which is what that inference
       // was flagged as capable of being.
-      { number: '01', minutes: 35, marks: 40, mockable: true },
-      { number: '02', minutes: 35, marks: 40, mockable: true },
+      { number: '01', name: 'Paper 1', minutes: 35, marks: 40, mockable: true },
+      { number: '02', name: 'Paper 2', minutes: 35, marks: 40, mockable: true },
     ],
     strands: SCIENCE_STRANDS,
   },
@@ -140,8 +140,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'English',
     code: '0861',
     components: [
-      { number: '01', minutes: 70, marks: 50, mockable: true },
-      { number: '02', minutes: 70, marks: 50, mockable: true },
+      { number: '01', name: 'Non-fiction', minutes: 70, marks: 50, mockable: true },
+      { number: '02', name: 'Fiction', minutes: 70, marks: 50, mockable: true },
     ],
     strands: ENGLISH_STRANDS,
   },
@@ -163,8 +163,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'Mathematics',
     code: '0862',
     components: [
-      { number: '01', minutes: 60, marks: 50, mockable: true },
-      { number: '02', minutes: 60, marks: 50, mockable: true },
+      { number: '01', name: 'Paper 1', minutes: 60, marks: 50, mockable: true },
+      { number: '02', name: 'Paper 2', minutes: 60, marks: 50, mockable: true },
     ],
     strands: MATHS_STRANDS,
     crossCuttingStrand: 'Thinking and Working Mathematically',
@@ -174,8 +174,8 @@ export const CHECKPOINT_SUBJECTS: CheckpointSubject[] = [
     name: 'Science',
     code: '0893',
     components: [
-      { number: '01', minutes: 45, marks: 50, mockable: true },
-      { number: '02', minutes: 45, marks: 50, mockable: true },
+      { number: '01', name: 'Paper 1', minutes: 45, marks: 50, mockable: true },
+      { number: '02', name: 'Paper 2', minutes: 45, marks: 50, mockable: true },
     ],
     strands: SCIENCE_STRANDS,
   },

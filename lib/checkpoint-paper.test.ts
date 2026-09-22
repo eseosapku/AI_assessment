@@ -1,6 +1,6 @@
 // lib/checkpoint-paper.test.ts
 import { describe, it, expect } from 'vitest'
-import { checkpointSubject } from './cambridge-checkpoint'
+import { checkpointSubject, buildableSubjects } from './cambridge-checkpoint'
 import {
   buildPaper, applyBlueprint, awardedTotal, paperTopics, paperBrief, STRAND_FOCI,
   PAPER_MARKS, PRACTICE_MARKS,
@@ -620,5 +620,87 @@ describe('a topic the learner ticked', () => {
     })
     const number = paper.slots.filter((s) => s.strand === 'Number')
     expect(new Set(number.map((s) => s.focus)).size).toBeGreaterThan(1)
+  })
+})
+
+describe('what a written paper can and cannot ask', () => {
+  it('never seats a strand the medium cannot assess', () => {
+    // A Stage 9 English paper carried slots whose entire topic was the word
+    // "Speaking", and the generator wrote questions about speaking aloud to a
+    // learner with no microphone. Listening needs audio; Speaking needs a
+    // person. Both are gaps in the medium, not the content.
+    for (const prog of ['primary', 'lower-secondary'] as const) {
+      for (const subject of buildableSubjects(prog)) {
+        for (const c of subject.components) {
+          if (!c.mockable) continue
+          const paper = buildPaper(subject, c, { mode: 'paper', seed: 11 })
+          for (const slot of paper.slots) {
+            expect(slot.strand, `${subject.code}/${c.number}`).not.toBe('Speaking')
+            expect(slot.strand, `${subject.code}/${c.number}`).not.toBe('Listening')
+          }
+        }
+      }
+    }
+  })
+
+  it('never makes a focus out of the strand name', () => {
+    // `STRAND_FOCI[strand] ?? [strand]` is how "Speaking" became a topic.
+    for (const prog of ['primary', 'lower-secondary'] as const) {
+      for (const subject of buildableSubjects(prog)) {
+        for (const c of subject.components) {
+          if (!c.mockable) continue
+          for (const slot of buildPaper(subject, c, { mode: 'paper', seed: 12 }).slots) {
+            expect(slot.focus, `${subject.code}/${c.number}`).not.toBe(slot.strand)
+          }
+        }
+      }
+    }
+  })
+
+  it('gives a Writing component the Writing strand', () => {
+    // ESL Writing seated "Reading and Usage" and asked its compositions about
+    // comparative and superlative forms.
+    for (const [prog, code] of [['primary', '0057'], ['lower-secondary', '0876']] as const) {
+      const subject = buildableSubjects(prog).find((s) => s.code === code)!
+      const writing = subject.components.find((c) => c.name === 'Writing')!
+      const paper = buildPaper(subject, writing, { mode: 'paper', seed: 13 })
+      expect([...new Set(paper.slots.map((s) => s.strand))]).toEqual(['Writing'])
+    }
+  })
+
+  it('does not ask forty-two identical one-word questions', () => {
+    // The reported "I should be getting more than just passage shit": 0876/01
+    // was one line of profile, count 42, format short.
+    const subject = buildableSubjects('lower-secondary').find((s) => s.code === '0876')!
+    const reading = subject.components.find((c) => c.number === '01')!
+    const paper = buildPaper(subject, reading, { mode: 'paper', seed: 14 })
+    const formats = new Set(paper.slots.map((s) => s.format))
+    expect(formats.size).toBeGreaterThan(2)
+    expect(formats.has('select')).toBe(true)
+    expect(paper.slots.reduce((t, s) => t + s.marks, 0)).toBe(42)
+  })
+
+  it('gives every buildable component a name a person can read', () => {
+    for (const prog of ['primary', 'lower-secondary'] as const) {
+      for (const subject of buildableSubjects(prog)) {
+        for (const c of subject.components) {
+          expect(typeof c.name, `${subject.code}/${c.number}`).toBe('string')
+          expect(String(c.name).trim().length, `${subject.code}/${c.number}`).toBeGreaterThan(0)
+        }
+      }
+    }
+  })
+
+  it('still awards exactly the marks printed on the cover', () => {
+    for (const prog of ['primary', 'lower-secondary'] as const) {
+      for (const subject of buildableSubjects(prog)) {
+        for (const c of subject.components) {
+          if (!c.mockable) continue
+          const paper = buildPaper(subject, c, { mode: 'paper', seed: 15 })
+          const sum = paper.slots.reduce((t, s) => t + s.marks, 0)
+          expect(sum, `${subject.code}/${c.number}`).toBe(paper.totalMarks)
+        }
+      }
+    }
   })
 })

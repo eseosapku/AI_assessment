@@ -235,13 +235,29 @@ const PROFILES: Record<string, readonly MarkProfile[]> = {
   // Lower Secondary ESL 0876/01 Reading and Usage -- 42 marks, every item one
   // mark. The cleanest fit in the whole set: short written answers against a
   // text, which is exactly what `lib/short-answer.ts` marks.
+  // ESL Reading and Usage is NOT forty-two one-word answers.
+  //
+  // It was, here: one line, `{ marks: 1, count: 42, format: 'short' }`, so a
+  // learner who picked several topics got forty-two identical "write down
+  // the ..." questions and said so. A real 0876/01 runs as five exercises --
+  // skim-reading matched to statements, multiple choice on detail, a
+  // gap-fill, a note-completion, and a grammar-and-usage section that is
+  // largely multiple choice. This is that shape, and still sums to the 42
+  // printed on the cover.
   '0876': [
-    { marks: 1, count: 42, format: 'short' },
+    { marks: 1, count: 14, format: 'select' },
+    { marks: 1, count: 18, format: 'short' },
+    { marks: 1, count: 6, format: 'tick' },
+    { marks: 2, count: 2, format: 'table' },
   ],
 
   // Primary ESL 0057/01 Reading and Usage -- 34 marks, every item one mark.
+  // The same shape at Primary, summing to the 34 on its cover.
   '0057': [
-    { marks: 1, count: 34, format: 'short' },
+    { marks: 1, count: 12, format: 'select' },
+    { marks: 1, count: 14, format: 'short' },
+    { marks: 1, count: 5, format: 'tick' },
+    { marks: 3, count: 1, format: 'table' },
   ],
 }
 
@@ -638,6 +654,48 @@ function preferCovered(foci: string[], covered: ReadonlySet<string> | undefined)
 }
 
 /**
+ * Strands that cannot be examined by a written paper on a screen.
+ *
+ * Cambridge reports English on Reading, Writing, Speaking and Listening, and
+ * that strand list is correct syllabus data. The paper builder was seating
+ * every one of them as questions, and `STRAND_FOCI[strand] ?? [strand]` then
+ * turned a strand with no foci into a focus named after itself -- so a Stage 9
+ * English paper carried slots whose entire topic was the word "Speaking", and
+ * the generator wrote one-mark written questions about speaking aloud to a
+ * learner who cannot speak to it.
+ *
+ * Listening needs audio and Speaking needs a person. Neither is a gap in the
+ * content; both are gaps in the medium, and the report card already knows how
+ * to say "not assessed in this paper".
+ */
+const UNEXAMINABLE_STRANDS: ReadonlySet<string> = new Set(['Speaking', 'Listening'])
+
+/**
+ * Strands a named component confines itself to.
+ *
+ * ESL Writing came out seating "Reading and Usage" and asking its two
+ * compositions about comparative and superlative forms, because the strand
+ * rotation simply starts at index 0 and the component's own name was never
+ * consulted. A paper called Writing examines writing.
+ */
+const COMPONENT_STRANDS: Record<string, readonly string[]> = {
+  '0876/03': ['Writing'],
+  '0057/03': ['Writing'],
+  '0876/01': ['Reading and Usage'],
+  '0057/01': ['Reading and Usage'],
+}
+
+/** The strands of this subject a written paper can actually assess. */
+export function examinableStrands(subject: CheckpointSubject): string[] {
+  const usable = subject.strands.filter(
+    (s) => !UNEXAMINABLE_STRANDS.has(s) && (STRAND_FOCI[s]?.length ?? 0) > 0,
+  )
+  // Never return nothing: a paper with no strands is worse than one with a
+  // strand we have no foci for.
+  return usable.length ? usable : [...subject.strands]
+}
+
+/**
  * Lay out a paper.
  *
  * A practice run asked for a strand the subject does not have falls back to the
@@ -657,7 +715,12 @@ export function buildPaper(
       : null
   const mode: PaperMode = drilling ? 'practice' : 'paper'
   const budget = mode === 'practice' ? PRACTICE_MARKS : marksFor(component)
-  const strands = drilling ? [drilling] : subject.strands
+  const confined = COMPONENT_STRANDS[`${subject.code}/${component.number}`]
+  const strands = drilling
+    ? [drilling]
+    : confined
+      ? confined.filter((x) => (STRAND_FOCI[x]?.length ?? 0) > 0)
+      : examinableStrands(subject)
 
   // Each strand draws from its own shuffled list, so no focus repeats inside a
   // paper however the strands interleave.
