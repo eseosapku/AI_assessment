@@ -112,8 +112,14 @@ export function properNounsIn(stem: unknown): string[] {
           continue
         }
       }
-      const clean = bare.replace(/\.$/, '')
+      // Strip punctuation off BOTH ends before deciding.
+      //
+      // "...a question starting with 'Who'." left the token as `Who'`, which
+      // is not in NOT_A_NAME however plainly it is not a person, so a good
+      // grammar question was deleted for naming a character called Who.
+      const clean = bare.replace(/[^A-Za-z]+$/, '').replace(/^[^A-Za-z]+/, '')
       if (clean.length < 2) continue
+      if (NOT_A_NAME.has(clean.toLowerCase())) continue
       if (!found.includes(clean)) found.push(clean)
     }
   }

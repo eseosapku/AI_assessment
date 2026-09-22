@@ -173,3 +173,20 @@ describe('command words found by reading a live paper', () => {
     }
   })
 })
+
+describe('punctuation stuck to a word', () => {
+  const passage = 'The river rose after three days of rain. Musa watched from the bank.'
+
+  it('does not invent a character called Who', () => {
+    // The token was `Who'` — not in the stop list however plainly it is not
+    // a person — so a good grammar question was deleted.
+    expect(namesAbsentFromPassage(
+      "Explain the correct word order in a question starting with 'Who'. Provide an example sentence.",
+      passage,
+    )).toEqual([])
+  })
+
+  it('still reads a quoted character name as a name', () => {
+    expect(namesAbsentFromPassage('Who is "Ngozi"?', passage)).toContain('Ngozi')
+  })
+})
