@@ -92,6 +92,8 @@ interface MCQQuestion {
   explanation: string
   passage?: string
   passage_source?: string
+  /** The setup this question shares with its siblings, lifted off the stem. */
+  scenario?: string
   diagram_svg?: string
   image_url?: string
   figureGroup?: FigureGroupMeta
@@ -115,6 +117,8 @@ interface LongFormQuestion {
   explanation: string
   passage?: string
   passage_source?: string
+  /** The setup this question shares with its siblings, lifted off the stem. */
+  scenario?: string
   diagram_svg?: string
   image_url?: string
   figureGroup?: FigureGroupMeta
@@ -2401,6 +2405,16 @@ function AssessmentPageClient() {
                   source={currentPassageSource}
                   variant="stacked"
                 />
+              )}
+
+              {/* The situation this question and its siblings share.
+                  Printed once above the demand rather than inside every one
+                  of them: five parts each restating it read as five copies
+                  of the same question. */}
+              {'scenario' in question && question.scenario && (
+                <p className="mb-4 rounded-2xl border-l-4 border-ss-accent bg-ss-chip px-4 py-3 text-[15px] leading-relaxed text-ss-ink">
+                  {question.scenario}
+                </p>
               )}
 
               <h2

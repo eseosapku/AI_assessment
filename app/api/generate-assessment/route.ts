@@ -35,6 +35,7 @@ import { enforceSlotShape } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
+import { liftSharedScenarios } from '@/lib/shared-scenario'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -3037,6 +3038,10 @@ ${commandBlock}`
           if (q && typeof q === 'object' && !q.passage) q.passage = checkpointPassage
         }
       }
+      // The scenario belongs to the question, not to each of its parts.
+      // Five parts of one numbered question each restated it in full, so a
+      // learner paging through met the same twenty words five times.
+      assessmentData.questions = liftSharedScenarios(assessmentData.questions as any[])
       const tidied = tidyPaper(assessmentData.questions as any[])
       assessmentData.questions = tidied.questions
       if (tidied.removed > 0) console.log(`Removed ${tidied.removed} repeated figure(s)`)

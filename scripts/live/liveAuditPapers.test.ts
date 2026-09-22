@@ -238,6 +238,12 @@ questions sharing no word with the chosen topics: ${offTopicCount}/${questions.l
   const variety = questions.length ? distinct / questions.length : 1
   lines.push(`
 distinct demand openings: ${distinct}/${questions.length}`)
+  // Which ones repeat, and how often. "All the questions are the same" is
+  // only actionable once you can see WHICH.
+  const tally = new Map<string, number>()
+  for (const o of openers) if (o) tally.set(o, (tally.get(o) ?? 0) + 1)
+  const repeats = [...tally].filter(([, n]) => n > 1).sort((a, b) => b[1] - a[1])
+  for (const [opening, n] of repeats.slice(0, 8)) lines.push(`   x${n}  ${opening}`)
   if (variety < 0.6 && questions.length >= 8) {
     findings.push({
       paper: label, kind: 'samey',

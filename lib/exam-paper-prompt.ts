@@ -185,13 +185,20 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     lines.push(
       `Printed beside this question is a ${opts.drawnFigure.noun}: ${opts.drawnFigure.description}`,
       `It carries these and nothing else: ${opts.drawnFigure.labels.join(', ')}.`,
-      `The question should send the learner to it — "Look at the ${opts.drawnFigure.noun}." — and ask about something it shows.`,
+      // Not the same four words every time.
+      //
+      // Five parts of one question all opened "Referring to the diagram",
+      // which is how a paper reads when nobody varied the pointer. The real
+      // ones say "Look at the diagram.", "The diagram shows ...", "Use the
+      // graph to ..." -- and most often say nothing at all, because the
+      // figure is printed right there and the learner can see it.
+      `The question may send the learner to it — "Look at the ${opts.drawnFigure.noun}." — or simply ask, since the ${opts.drawnFigure.noun} is printed beside the question. Do not open every part the same way, and never with "Referring to the ${opts.drawnFigure.noun}".`,
       '',
     )
   } else if (figure) {
     lines.push(
       `A ${noun.toUpperCase()} is printed beside this question and the learner can see it. For your information only, it shows: ${figure.description}`,
-      `Refer to it as "the ${noun}". Do NOT restate its contents — "Look at the ${noun}. Name the part labelled A." not "The ${noun} shows a cell with a nucleus and a wall. Name...".`,
+      `Refer to it as "the ${noun}". Do NOT restate its contents — "Look at the ${noun}. Name the part labelled A." not "The ${noun} shows a cell with a nucleus and a wall. Name...". Vary how you point at it, and never write "Referring to the ${noun}".`,
       `THE TOPIC GOVERNS, NOT THE ${noun.toUpperCase()}. The question must be about ${opts.focus} at ${opts.level}. If the ${noun} shows something beyond that level, ask only about the part of it that belongs to ${opts.focus}, and never use vocabulary above ${opts.level}.`,
       'Do NOT write an image_key. It is already attached.',
       '',
