@@ -31,7 +31,7 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
-import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork } from '@/lib/passage-question-match'
+import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage } from '@/lib/passage-question-match'
 import { enforceSlotShape } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
@@ -39,6 +39,7 @@ import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { liftSharedScenarios, stripPassageEcho } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
+import { correctParagraphLetter, citesAMissingParagraph } from '@/lib/paragraph-reference'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -2790,6 +2791,11 @@ ${commandBlock}`
           //   Question 14 of 34   [2 marks]
           //   Calculate the average speed of a marble ... [2]
           q.question = stripPrintedMarks(q.question)
+          // "In paragraph C" where the answer is in D. The model writes good
+          // comprehension questions and guesses the letter; the answer key
+          // and the passage between them say which letter is right, so this
+          // corrects rather than deletes.
+          q.question = correctParagraphLetter(q as any)
         }
       }
 
@@ -2911,7 +2917,31 @@ ${commandBlock}`
       // A scenario with no question, or two demands in a one-word box. Both
       // survived three rounds of prompt work and kept reaching real papers,
       // so they are removed rather than described.
-      const answerable = dropUnanswerable(matched as any[])
+      // A question about a text the learner was never given.
+      //
+      // On an English paper whose passage is about a girl in Eldoria, three
+      // questions asked about a laser-radiation warning sign, a boy writing a
+      // letter, and a label reading "Room temperature Tw = 20 C". All three
+      // were written for a FIGURE that was then correctly refused -- an
+      // English paper takes no textbook illustrations -- and none of them say
+      // "the diagram", so the dangling-reference guard could not see them.
+      //
+      // A cited paragraph the passage does not have goes the same way: unlike
+      // a wrong letter there is nothing to correct it to.
+      const onTopic = (matched as any[]).filter((q) => {
+        if (!q?.passage) return true
+        if (questionIsOffPassage(q.question, q.passage)) {
+          console.log(`Dropped question: it is about no part of this passage — "${String(q.question).slice(0, 70)}"`)
+          return false
+        }
+        if (citesAMissingParagraph(q)) {
+          console.log(`Dropped question: it cites a paragraph this passage does not have`)
+          return false
+        }
+        return true
+      })
+
+      const answerable = dropUnanswerable(onTopic as any[])
       if (answerable.dropped.length > 0) {
         console.log(`Dropped ${answerable.dropped.length} unanswerable question(s): ${[...new Set(answerable.dropped)].join('; ')}`)
       }

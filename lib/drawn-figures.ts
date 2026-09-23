@@ -35,6 +35,53 @@ export interface DrawnLibraryFigure {
 
 const FILE = path.resolve(process.cwd(), 'data/drawn-figures.json')
 
+/**
+ * A table in this library with a column that has nothing in it.
+ *
+ * The approved figures bypass `parseFigureSpec` on purpose -- they were drawn
+ * in bulk and kept by a person, so they are cheaper and safer than asking the
+ * model again. But the spec's own empty-table rejection never ran over them,
+ * and 53 of the 195 tables in here have a value column that is entirely
+ * blank while their description says "and 4 rows of results":
+ *
+ *   Masses of Parcels at a Post Office
+ *   Parcel Number | Mass (kg)
+ *   Parcel 1      |
+ *   Parcel 2      |            "Calculate the mean mass of the parcels
+ *   ...                         from the table. [3]"
+ *
+ * There is no mean. A person reviewing seven hundred figures reads that as a
+ * table waiting to be filled in, which is exactly what it looks like, so
+ * review was never going to catch it -- the check has to be here.
+ *
+ * Read off the drawn SVG rather than a spec, because the library stores no
+ * spec: the header row gives the column positions, and a column with no text
+ * beneath it in any data row is an empty column.
+ */
+function figureHasItsData(f: DrawnLibraryFigure): boolean {
+  if (f.kind !== 'datatable') return true
+  const cells = [...String(f.svg).matchAll(/<text[^>]*x="([\d.]+)"[^>]*y="([\d.]+)"[^>]*>([^<]*)</g)]
+    .map((m) => ({ x: Number(m[1]), y: Number(m[2]), text: m[3].trim() }))
+    .filter((c) => c.text)
+  if (cells.length === 0) return true
+
+  // The header is the row with the most distinct columns among the first few
+  // -- the title sits above it and is a single centred string.
+  const rowYs = [...new Set(cells.map((c) => c.y))].sort((a, b) => a - b)
+  let headerXs: number[] = []
+  for (const y of rowYs.slice(0, 3)) {
+    const xs = [...new Set(cells.filter((c) => Math.abs(c.y - y) < 2).map((c) => c.x))]
+    if (xs.length > headerXs.length) headerXs = xs.sort((a, b) => a - b)
+  }
+  if (headerXs.length < 2) return true
+
+  const headerY = cells.find((c) => c.x === headerXs[0])!.y
+  const body = cells.filter((c) => c.y > headerY + 5)
+  if (body.length === 0) return false
+  // 8px of slack: a wrapped cell is drawn at its column's x, not offset.
+  return headerXs.every((hx) => body.some((c) => Math.abs(c.x - hx) < 8))
+}
+
 let byFocus: Map<string, DrawnLibraryFigure[]> | null = null
 
 function index(): Map<string, DrawnLibraryFigure[]> {
@@ -45,6 +92,7 @@ function index(): Map<string, DrawnLibraryFigure[]> {
     if (Array.isArray(raw)) {
       for (const f of raw as DrawnLibraryFigure[]) {
         if (!f?.focus || !f?.svg) continue
+        if (!figureHasItsData(f)) continue
         const key = f.focus.toLowerCase().trim()
         const bucket = map.get(key)
         if (bucket) bucket.push(f)

@@ -144,8 +144,39 @@ function drawGraph(s: GraphSpec): string {
   return wrap(W, H, body, `A graph of ${s.y.label} against ${s.x.label}.`)
 }
 
+/**
+ * A bar label wrapped to the width of its own slot.
+ *
+ * Each label was drawn as one centred line at a fixed y. Four bars share
+ * about 324px of plot, so a slot is ~81px, and a live paper printed
+ *
+ *   Temperature belowTemperatuFe 10T20°Cerature 2e-30°Cature above 30°C
+ *
+ * -- four twenty-character labels written straight over one another. The
+ * category names ARE the question ("how many days above 20 °C"), so this is
+ * not decoration that can be dropped.
+ */
+function wrapLabel(label: string, widthPx: number): string[] {
+  const words = String(label ?? '').split(/\s+/).filter(Boolean)
+  if (!words.length) return ['']
+  // Helvetica at 12px averages about 6.25px a character.
+  const max = Math.max(5, Math.floor(widthPx / 6.25))
+  const lines: string[] = []
+  let line = ''
+  for (const w of words) {
+    const next = line ? `${line} ${w}` : w
+    if (next.length <= max) { line = next; continue }
+    if (line) lines.push(line)
+    line = w
+  }
+  if (line) lines.push(line)
+  // Three lines is as deep as the axis area can go before the chart itself
+  // starts to look like an afterthought.
+  return lines.slice(0, 3)
+}
+
 function drawBarChart(s: BarChartSpec): string {
-  const { L, R, T, B, W, H } = FRAME
+  const { L, R, T, B, W } = FRAME
   let body = ''
   for (const v of ticks(s.y.min, s.y.max, s.y.step)) {
     const py = B - ((v - s.y.min) / (s.y.max - s.y.min)) * (B - T)
@@ -154,16 +185,27 @@ function drawBarChart(s: BarChartSpec): string {
   }
   const slot = (R - L) / s.bars.length
   const bw = Math.min(46, slot * 0.58)
+  // Wrapped to the slot, with 6px of gutter so neighbours cannot touch.
+  const labelLines = s.bars.map((bar) => wrapLabel(bar.label, slot - 6))
+  const deepest = labelLines.reduce((m, l) => Math.max(m, l.length), 1)
+  const LINE_H = 13
+
   s.bars.forEach((bar, i) => {
     const cx = L + slot * (i + 0.5)
     const top = B - ((bar.value - s.y.min) / (s.y.max - s.y.min)) * (B - T)
     body += `<rect x="${n(cx - bw / 2)}" y="${n(top)}" width="${n(bw)}" height="${n(B - top)}" fill="${GREY}" stroke="${INK}" stroke-width="1.3"/>`
-    body += text(cx, B + 18, bar.label)
+    labelLines[i].forEach((l, k) => {
+      body += text(cx, B + 18 + k * LINE_H, l)
+    })
   })
   body += `<line x1="${L}" y1="${B}" x2="${R}" y2="${B}" stroke="${INK}" stroke-width="1.3"/>`
   body += `<line x1="${L}" y1="${B}" x2="${L}" y2="${T}" stroke="${INK}" stroke-width="1.3"/>`
-  body += text((L + R) / 2, B + 44, s.xLabel ?? '')
+  // The axis title sits below whatever depth the categories reached, and the
+  // canvas grows to match rather than clipping them.
+  const xLabelY = B + 18 + deepest * LINE_H + 14
+  body += text((L + R) / 2, xLabelY, s.xLabel ?? '')
   body += text(24, (T + B) / 2, s.y.label, 'middle', `transform="rotate(-90 24 ${n((T + B) / 2)})"`)
+  const H = Math.max(FRAME.H, Math.ceil(xLabelY + 18))
   return wrap(W, H, body, `A bar chart of ${s.y.label}.`)
 }
 

@@ -15,6 +15,7 @@ import {
 } from '@/components/interactive/InteractiveQuestionPlayer'
 import { gradeInteractiveQuestion, isInteractiveAnswerComplete } from '@/lib/grade-interactive'
 import { isCalculationDemand } from '@/lib/calculation-demand'
+import { stripPrintedMarks } from '@/lib/demand-variety'
 import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@/types/interactive'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 import { LatexText as L } from '@/lib/latex-text'
@@ -2508,7 +2509,13 @@ function AssessmentPageClient() {
                 id={`question-text-${currentQuestion}`}
                 className="text-xl sm:text-2xl lg:text-3xl font-bold text-gray-900 dark:text-white mb-8 sm:mb-10 leading-relaxed tracking-tight"
               >
-                <L>{isCurrentInteractive && question.kind === 'fill_blank' ? (question as InteractiveQuestion & { kind: 'fill_blank' }).question : question.question}</L>
+                {/* Stripped again here, not only at generation.
+                    The marks chip above already says "2 marks", so a stem
+                    ending "[2]" prints the allocation twice. Generation now
+                    removes it, but a paper already sitting in a learner's
+                    sessionStorage was made before that and still carries it,
+                    and this costs nothing. */}
+                <L>{stripPrintedMarks(isCurrentInteractive && question.kind === 'fill_blank' ? (question as InteractiveQuestion & { kind: 'fill_blank' }).question : question.question)}</L>
               </h2>
 
               {/* Interactive study */}

@@ -162,6 +162,91 @@ export function questionInventsItsOwnText(stem: unknown, passage: unknown): bool
 }
 
 /**
+ * Words that say nothing about WHICH text a question is about.
+ *
+ * A comprehension question is half meta-language -- "in paragraph B", "give a
+ * word from the text", "explain what the writer implies" -- and none of that
+ * tells you whether the question belongs to this passage or another one. Only
+ * the subject-matter words can do that, so these are removed before counting.
+ */
+const META = new Set([
+  'text', 'passage', 'paragraph', 'extract', 'article', 'story', 'line',
+  'word', 'words', 'phrase', 'sentence', 'sentences', 'quotation', 'quote',
+  'author', 'writer', 'narrator', 'reader', 'evidence', 'meaning', 'means',
+  'answer', 'answers', 'question', 'example', 'reason', 'reasons', 'idea',
+  'give', 'write', 'down', 'name', 'state', 'explain', 'describe', 'identify',
+  'suggest', 'choose', 'select', 'find', 'using', 'used', 'show', 'tick',
+  'complete', 'match', 'think', 'from', 'about', 'that', 'this', 'these',
+  'those', 'what', 'which', 'where', 'when', 'does', 'said', 'says', 'with',
+  'your', 'their', 'there', 'here', 'would', 'could', 'should', 'will',
+  'implies', 'implied', 'imply', 'support', 'supports', 'refer', 'refers',
+  'best', 'most', 'more', 'than', 'also', 'into', 'onto', 'over', 'under',
+  'first', 'second', 'third', 'last', 'next', 'other', 'another', 'each',
+  'both', 'some', 'many', 'much', 'very', 'like', 'make', 'makes', 'made',
+])
+
+/** Subject-matter words a question is actually about. */
+function subjectWords(text: string): string[] {
+  return [
+    ...new Set(
+      text
+        .toLowerCase()
+        .replace(/[^a-z0-9\s]/g, ' ')
+        .split(/\s+/)
+        .filter((w) => w.length > 3 && !META.has(w)),
+    ),
+  ]
+}
+
+/**
+ * Tasks that are not ABOUT the passage and are not supposed to be.
+ *
+ * A Cambridge English paper ends on a composition -- "Write a letter to a
+ * friend explaining why you enjoyed a recent stage performance" -- which
+ * shares nothing with the reading text by design. Counting those would delete
+ * the highest-mark question on the paper.
+ */
+const WRITING_TASK =
+  /^\s*write\s+(?:a|an|your|the)\s+(?:letter|story|article|report|description|account|review|speech|email|diary|poem|leaflet|essay|paragraph|newspaper)/i
+
+/**
+ * Is this question about some other text entirely?
+ *
+ * Shipped, on a Cambridge English paper whose passage is about a girl named
+ * Mira in the city of Eldoria:
+ *
+ *   "Explain the meaning implied by the warning sign for laser radiation."
+ *   "Using evidence from the text, explain why the boy is writing a letter."
+ *   "What does the label 'Room temperature Tw = 20 C' imply about the
+ *    environment?"
+ *
+ * There is no warning sign, no boy and no thermometer anywhere in the passage
+ * or on the page. These are questions written for a FIGURE -- a safety sign,
+ * a physics diagram -- which was then correctly refused, because an English
+ * paper takes no textbook illustrations. The figure went and the question
+ * stayed, and none of them say "the diagram", so the dangling-reference guard
+ * could not see them either.
+ *
+ * Measured on subject-matter words: a question about this passage shares at
+ * least one with it. Sharing NONE is the signal, which is deliberately the
+ * strongest possible form of the test -- one word in common is enough to pass.
+ */
+export function questionIsOffPassage(stem: unknown, passage: unknown): boolean {
+  const text = String(stem ?? '').trim()
+  const source = String(passage ?? '')
+  if (!text || !source.trim()) return false
+  if (WRITING_TASK.test(text)) return false
+
+  const asked = subjectWords(text)
+  // Too little to judge on. A three-word stem with no subject words is
+  // somebody else's problem, not this one's.
+  if (asked.length < 2) return false
+
+  const inPassage = new Set(subjectWords(source))
+  return !asked.some((w) => inPassage.has(w))
+}
+
+/**
  * Characters and places that belong to somebody else.
  *
  * The passage prompt used to end "...or author/title if using a real text",

@@ -1,6 +1,6 @@
 // lib/passage-question-match.test.ts
 import { describe, it, expect } from 'vitest'
-import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText, passageBorrowsAKnownWork } from './passage-question-match'
+import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText, passageBorrowsAKnownWork, questionIsOffPassage } from './passage-question-match'
 
 /** The exact stems that shipped with no passage on the page. */
 const SHIPPED = [
@@ -203,5 +203,49 @@ describe('grammar commands are not characters either', () => {
     ]) {
       expect(namesAbsentFromPassage(stem, passage), stem).toEqual([])
     }
+  })
+})
+
+describe('questionIsOffPassage', () => {
+  const PASSAGE =
+    'In the heart of the ancient city of Eldoria lived a young girl named Mira. ' +
+    'One crisp autumn morning she stumbled upon an old, weathered book of prophecies ' +
+    'lying in the marketplace. The rivers of the hidden realm flowed with liquid silver.'
+
+  it('catches the questions that shipped on an English paper', () => {
+    for (const stem of [
+      'Explain the meaning implied by the warning sign for laser radiation.',
+      "What does the label 'Room temperature Tw = 20 C' imply about the environment?",
+      'Using evidence from the text, explain why the boy is writing a letter.',
+    ]) {
+      expect(questionIsOffPassage(stem, PASSAGE), stem).toBe(true)
+    }
+  })
+
+  it('leaves questions that are genuinely about the passage', () => {
+    for (const stem of [
+      'In paragraph B, name the type of book Mira discovered in the marketplace.',
+      'Give the colour of the rivers in the hidden realm.',
+      'Explain how the writer makes Eldoria sound ancient.',
+      'Give a word from the text that describes the morning.',
+    ]) {
+      expect(questionIsOffPassage(stem, PASSAGE), stem).toBe(false)
+    }
+  })
+
+  it('leaves a composition, which is not about the passage by design', () => {
+    for (const stem of [
+      'Write a letter to a friend explaining why you enjoyed a recent stage performance.',
+      'Write a story about a journey that goes wrong.',
+      'Write an article for your school magazine about keeping fit.',
+    ]) {
+      expect(questionIsOffPassage(stem, PASSAGE), stem).toBe(false)
+    }
+  })
+
+  it('says nothing without a passage, or on a stem with nothing to judge', () => {
+    expect(questionIsOffPassage('Explain the warning sign for laser radiation.', '')).toBe(false)
+    expect(questionIsOffPassage('', PASSAGE)).toBe(false)
+    expect(questionIsOffPassage('Give a word.', PASSAGE)).toBe(false)
   })
 })

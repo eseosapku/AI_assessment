@@ -35,8 +35,22 @@ import { INK, GREY, GRID, esc, text, n, wrap, line, rect, arrow, FONT_SMALL } fr
 const TONES: readonly string[] = ['#ffffff', '#d4d4d4', '#a8a8a8', '#7c7c7c', '#545454', '#2e2e2e']
 
 export function drawPieChart(s: PieChartSpec): string {
-  const W = 420, H = 260
   const cx = 150, cy = 130, r = 96
+  // The canvas is as wide as the longest key entry needs.
+  //
+  // It was a fixed 420, with the key text starting at x=298, so anything past
+  // about twenty characters ran off the edge and was clipped by the viewBox.
+  // A live paper printed a water-usage chart whose key read
+  //
+  //   [] Water used for drinking      <- cut off mid-word
+  //   [] Water used for cleanin
+  //   [] Water used for other pu
+  //
+  // which is the one part of a pie chart a question actually names.
+  const KEY_X = 276, LABEL_X = 298
+  const widest = s.slices.reduce((w, x) => Math.max(w, String(x.label ?? '').length), 0)
+  const W = Math.max(420, Math.ceil(LABEL_X + widest * CHAR_W + 16))
+  const H = Math.max(260, 46 + s.slices.length * 26 + 20)
   const total = s.slices.reduce((t, x) => t + x.value, 0) || 1
 
   let body = ''
@@ -55,8 +69,8 @@ export function drawPieChart(s: PieChartSpec): string {
   // The key, not labels on the slices: a thin slice has no room for a word.
   s.slices.forEach((slice, i) => {
     const ky = 46 + i * 26
-    body += rect(276, ky - 10, 14, 14, TONES[i % TONES.length], 1)
-    body += text(298, ky + 1, slice.label, 'start')
+    body += rect(KEY_X, ky - 10, 14, 14, TONES[i % TONES.length], 1)
+    body += text(LABEL_X, ky + 1, slice.label, 'start')
   })
 
   if (s.title) body += text(cx, 24, s.title)
