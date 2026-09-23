@@ -2845,7 +2845,15 @@ ${commandBlock}`
       // unanswerable -- swapping one broken question for another. Dropping
       // here, before the paper is trimmed, lets the top-up write a new one.
       const byPath = new Map(visualCatalog.map((c) => [c.localPath, c.description]))
-      const matched = (questions as any[]).filter((q) => {
+      // `kept`, not `questions`.
+      //
+      // This read `questions` -- the array BEFORE the drop -- so every
+      // question `dropDanglingReferences` had just identified was put straight
+      // back, and the line above logged a drop that never happened. It is why
+      // "Interpret the bar chart shown. Explain the trend in the data."
+      // shipped on a live Mathematics paper with no bar chart: the guard
+      // found it, said so, and was overruled by the next line.
+      const matched = (kept as any[]).filter((q) => {
         const reasons = figureMismatchReasons(q, byPath.get(String(q?.image_url ?? '')))
         if (!reasons.length) return true
         console.log(`Dropped question: it ${reasons.join('; ')}`)
