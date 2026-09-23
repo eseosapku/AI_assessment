@@ -117,14 +117,41 @@ const DEMAND_START = [
   'define', 'outline', 'predict', 'measure', 'use',
 ].join('|')
 
+/**
+ * A comma before a direct question is also a full stop the model got wrong.
+ *
+ * `DEMAND_START` covers "…, Explain how…" but a comprehension paper asks in
+ * the interrogative, and twelve of seventeen questions on a live English paper
+ * were built this way:
+ *
+ *   "Elara stepped into the Whispering Woods, what did she carry with her?"
+ *   "Elara approached the tree in the clearing, what did she notice about its
+ *    trunk?"
+ *
+ * Five shared the first opening and seven the second, and the lifter could not
+ * see any of it: one sentence to a splitter looking for a full stop.
+ *
+ * Tightly guarded, because a comma before "which" is usually a relative clause
+ * — "The box, which was heavy, fell over." The interrogative must be followed
+ * by an auxiliary, and the clause must run to a QUESTION MARK at the end of
+ * the stem with no further comma. A relative clause closes with a comma and
+ * the sentence ends in a full stop, so neither condition holds.
+ */
+const ASK_START = 'what|why|how|who|whose|whom|where|when|which'
+const AUX_AFTER = 'did|do|does|was|were|is|are|has|have|had|will|would|can|could|should|many|much|kind|type'
+
 function sentencesOf(stem: string): string[] {
   // "Theo wandered into The Whispering Pages, Explain how Elara's demeanour
   // is described." -- six questions on one paper opened exactly that way. It
   // is one sentence to a splitter looking for a full stop, so the scenario
   // could never be lifted off it, and the comma-then-capital is ungrammatical
   // anyway. A comma before a capitalised command word is a sentence break.
-  const normalised = stem.replace(
+  let normalised = stem.replace(
     new RegExp(String.raw`,\s+(?=(?:${DEMAND_START})\b)`, 'gi'),
+    '. ',
+  )
+  normalised = normalised.replace(
+    new RegExp(String.raw`,\s+(?=(?:${ASK_START})\s+(?:${AUX_AFTER})\b[^,]*\?\s*$)`, 'i'),
     '. ',
   )
   return normalised.split(/(?<=[.!?])\s+/).map((s) => s.trim()).filter(Boolean)
@@ -207,7 +234,10 @@ export function liftSharedScenarios<T extends ScenarioQuestion>(questions: reado
         // Off the stem either way; shown only where it says something the
         // learner cannot already read. See `alreadyInPassage`.
         if (!alreadyInPassage(scenario, out[k].passage)) out[k].scenario = scenario
-        out[k].question = rest
+        // Recapitalised: a demand lifted off a comma starts lowercase
+        // ("...Woods, what did she carry?" leaves "what did she carry?").
+        // Already-capitalised command words are unaffected.
+        out[k].question = rest.charAt(0).toUpperCase() + rest.slice(1)
       }
       i = j
       continue

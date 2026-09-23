@@ -135,3 +135,33 @@ describe('stripPassageEcho', () => {
     expect(stripPassageEcho(stem, undefined)).toBe(stem)
   })
 })
+
+describe('a scenario joined to a direct question', () => {
+  const q = (question: string): ScenarioQuestion => ({ question })
+
+  it('lifts a lead-in shared by questions asked in the interrogative', () => {
+    // Live English paper: five questions opened on these seven words.
+    const out = liftSharedScenarios([
+      q('Elara stepped into the Whispering Woods, what did she carry with her?'),
+      q('Elara stepped into the Whispering Woods, what was her motivation for the journey?'),
+      q('Elara stepped into the Whispering Woods, what did the Sylph give her?'),
+    ])
+    expect(out[0].scenario).toBe('Elara stepped into the Whispering Woods.')
+    expect(out[0].question).toBe('What did she carry with her?')
+    expect(out[1].question).toBe('What was her motivation for the journey?')
+    expect(out[2].question).toBe('What did the Sylph give her?')
+  })
+
+  it('does not split a relative clause', () => {
+    // "which was heavy" is not a demand, and the stem does not end in a
+    // question mark, so neither guard lets it through.
+    const stem = 'The box, which was heavy, was pushed across the floor. Explain why it moved.'
+    const out = liftSharedScenarios([q(stem), q(stem)])
+    expect(out[0].scenario).toBe('The box, which was heavy, was pushed across the floor.')
+  })
+
+  it('leaves a single question alone', () => {
+    const stem = 'Elara stepped into the Whispering Woods, what did she carry with her?'
+    expect(liftSharedScenarios([q(stem)])[0].question).toBe(stem)
+  })
+})
