@@ -183,7 +183,33 @@ const META = new Set([
   'best', 'most', 'more', 'than', 'also', 'into', 'onto', 'over', 'under',
   'first', 'second', 'third', 'last', 'next', 'other', 'another', 'each',
   'both', 'some', 'many', 'much', 'very', 'like', 'make', 'makes', 'made',
+  // Structure and grammar vocabulary, which is the other half of an ESL
+  // Reading and Usage paper. Without these, "Write the heading that best
+  // matches paragraph B", "What is the main purpose of paragraph F" and
+  // "Identify the comparative form of the adjective" all read as questions
+  // about some other text -- seventeen of forty on a live ESL paper.
+  'heading', 'headings', 'purpose', 'main', 'title', 'form', 'forms',
+  'verb', 'verbs', 'noun', 'nouns', 'adjective', 'adjectives', 'adverb',
+  'adverbs', 'pronoun', 'pronouns', 'plural', 'singular', 'comparative',
+  'superlative', 'tense', 'connective', 'connectives', 'conjunction',
+  'preposition', 'synonym', 'antonym', 'prefix', 'suffix', 'punctuation',
+  'apostrophe', 'comma', 'capital', 'spelling', 'grammar', 'context',
+  'statement', 'statements', 'correct', 'right', 'wrong', 'true', 'false',
+  'ring', 'around', 'draw', 'circle', 'underline', 'blank', 'gap', 'box',
+  'list', 'order', 'opinion', 'fact', 'summary',
 ])
+
+/**
+ * A fill-in-the-blank exercise carries its own sentence.
+ *
+ * "Identify the correct verb form: 'She ___ to the store yesterday.'" is a
+ * grammar item, not a comprehension one, and the store and the yesterday
+ * belong to the exercise rather than to the reading text. The blank is what
+ * distinguishes it from a question that merely QUOTES the passage -- "What
+ * does the label 'Room temperature Tw = 20 C' imply?" has a quotation and no
+ * blank, and is exactly the off-topic case this module exists to catch.
+ */
+const HAS_A_BLANK = /_{2,}|\.{4,}|\[\s*\]|\(\s*\)/
 
 /** Subject-matter words a question is actually about. */
 function subjectWords(text: string): string[] {
@@ -208,6 +234,47 @@ function subjectWords(text: string): string[] {
  */
 const WRITING_TASK =
   /^\s*write\s+(?:a|an|your|the)\s+(?:letter|story|article|report|description|account|review|speech|email|diary|poem|leaflet|essay|paragraph|newspaper)/i
+
+/** A stem that says the quotation it carries comes from the reading text. */
+const CLAIMS_THE_TEXT =
+  /\b(?:the\s+(?:text|passage|extract|article|story)|in\s+paragraph\s+[A-Z]|the\s+writer|the\s+author)\b/i
+
+/**
+ * A question that quotes the passage, and quotes something that is not in it.
+ *
+ * This is the precise half of the test, and it is worth having on its own
+ * because the word-overlap half below is weak in both directions: an ESL
+ * grammar item shares nothing with the passage and is fine, while
+ *
+ *   "What does the label 'Room temperature Tw = 20 C' imply about the
+ *    environment?"
+ *
+ * shares the word "room" with a passage about a library and so passes. Live
+ * ESL papers carried:
+ *
+ *   "Find the information stated directly in the text: 'The capital of
+ *    France is Paris.'"
+ *   "Work out the meaning the text implies: 'He was not happy with the
+ *    outcome, but he said nothing.'"
+ *
+ * Both say "the text" and then quote a sentence the text does not contain.
+ * A learner told to find it directly in the text will not find it.
+ *
+ * Fifteen characters minimum, so a one-word quotation -- "what does
+ * 'gnarled' mean" -- is not treated as a claim about a sentence.
+ */
+function quotesAbsentText(stem: string, passage: string): boolean {
+  if (!CLAIMS_THE_TEXT.test(stem)) return false
+  const haystack = passage.toLowerCase().replace(/\s+/g, ' ')
+  const quotes = [...stem.matchAll(/["'“”‘’]([^"'“”‘’]{15,})["'“”‘’]/g)].map((m) => m[1])
+  if (quotes.length === 0) return false
+  return quotes.some((q) => {
+    const needle = q.toLowerCase().replace(/\s+/g, ' ').replace(/[_.]{2,}/g, '').trim()
+    // A blank in the quotation means it is an exercise, not a citation.
+    if (!needle || /_{2,}/.test(q)) return false
+    return !haystack.includes(needle)
+  })
+}
 
 /**
  * Is this question about some other text entirely?
@@ -236,6 +303,8 @@ export function questionIsOffPassage(stem: unknown, passage: unknown): boolean {
   const source = String(passage ?? '')
   if (!text || !source.trim()) return false
   if (WRITING_TASK.test(text)) return false
+  if (quotesAbsentText(text, source)) return true
+  if (HAS_A_BLANK.test(text)) return false
 
   const asked = subjectWords(text)
   // Too little to judge on. A three-word stem with no subject words is

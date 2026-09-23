@@ -2795,7 +2795,7 @@ ${commandBlock}`
           // comprehension questions and guesses the letter; the answer key
           // and the passage between them say which letter is right, so this
           // corrects rather than deletes.
-          q.question = correctParagraphLetter(q as any)
+          q.question = correctParagraphLetter({ ...q, passage: q.passage ?? checkpointPassage })
         }
       }
 
@@ -2929,12 +2929,17 @@ ${commandBlock}`
       // A cited paragraph the passage does not have goes the same way: unlike
       // a wrong letter there is nothing to correct it to.
       const onTopic = (matched as any[]).filter((q) => {
-        if (!q?.passage) return true
-        if (questionIsOffPassage(q.question, q.passage)) {
+        // The passage is attached to the question later than this, so reading
+        // only `q.passage` here meant neither of these checks ever ran on a
+        // Checkpoint paper -- the reading text lives in `checkpointPassage`
+        // at this point, and this closure can see it.
+        const passage = q?.passage ?? checkpointPassage
+        if (!passage) return true
+        if (questionIsOffPassage(q.question, passage)) {
           console.log(`Dropped question: it is about no part of this passage — "${String(q.question).slice(0, 70)}"`)
           return false
         }
-        if (citesAMissingParagraph(q)) {
+        if (citesAMissingParagraph({ ...q, passage })) {
           console.log(`Dropped question: it cites a paragraph this passage does not have`)
           return false
         }
