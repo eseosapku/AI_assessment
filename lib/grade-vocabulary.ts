@@ -37,6 +37,12 @@ const BEYOND_CHECKPOINT: readonly string[] = [
   'atp', 'adenosine triphosphate', 'mitochondrial dna', 'cristae', 'ribosome',
   'golgi', 'endoplasmic reticulum', 'lysosome', 'enzyme kinetics',
   'active site', 'denaturation', 'substrate concentration',
+  // Added after a live Stage 9 paper asked "Name the structure that separates
+  // the intermembrane space from the matrix." The list had 'cristae' and
+  // 'mitochondrial dna' and let this through, because the question used the
+  // two labels on the same diagram that were not on it. Whole phrases, not
+  // the bare word 'matrix', which is a rock, a soil and a table of numbers.
+  'intermembrane space', 'mitochondrial matrix', 'ultrastructure', 'organelle',
   // Genetics past inheritance basics
   'allele frequency', 'genotype', 'phenotype', 'homozygous', 'heterozygous',
   'meiosis', 'mitosis', 'codominance', 'monohybrid',
@@ -54,10 +60,24 @@ const BEYOND_CHECKPOINT: readonly string[] = [
   'quadratic formula', 'simultaneous equations', 'trigonometric ratio',
   'sine rule', 'cosine rule', 'standard deviation', 'logarithm',
   'differentiate', 'integrate', 'surd', 'vector notation',
+  'trigonometry', 'trigonometric function', 'derivative',
 ]
 
+/**
+ * One term, matched as a whole word and tolerating a plural.
+ *
+ * `\borganelle\b` cannot match "organelles": `s` is a word character, so there
+ * is no boundary after the `e`. Every singular noun on the list had that hole,
+ * `ribosome` included — and "ribosomes" is the word the live mitochondrion
+ * figure's own description uses, so the term that was on the list specifically
+ * to catch this figure did not catch it.
+ */
+function termPattern(term: string): string {
+  return '\\b' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 's?\\b'
+}
+
 const PATTERN = new RegExp(
-  '\\b(?:' + BEYOND_CHECKPOINT.map((t) => t.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|') + ')\\b',
+  '(?:' + BEYOND_CHECKPOINT.map(termPattern).join('|') + ')',
   'i',
 )
 
@@ -74,8 +94,7 @@ export function beyondStage(text: unknown, stage: number | undefined): string[] 
 
   const found: string[] = []
   for (const term of BEYOND_CHECKPOINT) {
-    const re = new RegExp('\\b' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + '\\b', 'i')
-    if (re.test(body) && !found.includes(term)) found.push(term)
+    if (new RegExp(termPattern(term), 'i').test(body) && !found.includes(term)) found.push(term)
   }
   return found
 }

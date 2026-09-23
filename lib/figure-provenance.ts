@@ -14,21 +14,26 @@
  */
 import { getDescribedImages } from './textbook-source-images'
 import { subjectOfBook, figureFitsSubject, figureFitsLevel, type FigureSubject } from './figure-subject'
+import { beyondStage } from './grade-vocabulary'
 
 let byPath: Map<string, string> | null = null
 /** Paths that came out of a real exam paper rather than a textbook. */
 let fromExam: Set<string> | null = null
+/** What each figure shows, so a figure can be judged on its own content. */
+let describedAs: Map<string, string> | null = null
 
 /** Built once. The manifest is 17,008 entries and does not change at runtime. */
 function index(): Map<string, string> {
   if (byPath) return byPath
   const map = new Map<string, string>()
   const exam = new Set<string>()
+  const shows = new Map<string, string>()
   try {
     for (const img of getDescribedImages()) {
       if (!img?.localPath) continue
       if (img.textbookName) map.set(img.localPath, img.textbookName)
       if (img.source === 'pastpaper') exam.add(img.localPath)
+      if (img.description) shows.set(img.localPath, String(img.description))
     }
   } catch {
     // A missing or unreadable manifest must not take generation down with it.
@@ -37,7 +42,33 @@ function index(): Map<string, string> {
   }
   byPath = map
   fromExam = exam
+  describedAs = shows
   return map
+}
+
+/**
+ * Is what this figure SHOWS past the stage the learner is sitting?
+ *
+ * The level gate asks which book a figure came from, and a book's level is not
+ * a figure's level. A mitochondrion drawn with its cristae, its ribosomes and
+ * its intermembrane space labelled is an A Level diagram whether it is printed
+ * in an A Level text or a senior-secondary one — and "Biology S4 SB" reads as
+ * lower-secondary, so the gate passed it onto a Stage 9 paper.
+ *
+ * The question is then written to the figure's labels. That is the mechanism,
+ * and it runs the wrong way round from how it was being patched: a vocabulary
+ * check on the finished question deletes a question that was the only sensible
+ * thing to ask about the picture it was given. Refusing the picture is upstream
+ * of the fault.
+ *
+ * Costs 977 of 20,596 described figures — 4.7%. The whole list is terms that
+ * are unambiguously past Checkpoint, so that slice is the intent.
+ */
+export function figureIsAboveStage(localPath: unknown, stage: number | undefined): boolean {
+  if (typeof stage !== 'number' || stage > 9) return false
+  index()
+  const shows = describedAs!.get(String(localPath ?? ''))
+  return shows ? beyondStage(shows, stage).length > 0 : false
 }
 
 /**
@@ -95,6 +126,10 @@ export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, 
   // none, and no one has reported it going wrong there.
   if (typeof stage === 'number' && stage <= 9 && subjectOfBook(book) === 'other') return false
 
+  // A figure whose own description is written past the stage. See
+  // `figureIsAboveStage` — the book's level is not the figure's level.
+  if (figureIsAboveStage(localPath, stage)) return false
+
   // On an English paper, a textbook illustration is never the right picture.
   //
   // Elsewhere a figure only has to be ABOUT the topic, and a coursebook
@@ -115,4 +150,5 @@ export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, 
 export function resetFigureProvenance(): void {
   byPath = null
   fromExam = null
+  describedAs = null
 }
