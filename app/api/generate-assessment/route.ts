@@ -29,6 +29,7 @@ import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
+import { answerContradictsFigure } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork } from '@/lib/passage-question-match'
 import { enforceSlotShape } from '@/lib/slot-shape'
@@ -2177,6 +2178,27 @@ ${commandBlock}`
             .flatMap((q: any) => (q && typeof q === 'object' ? questionNamesUndrawn(q.question, drawn!) : []))
           if (offenders.length) {
             console.log(`Discarded the drawn figure: the question named ${[...new Set(offenders)].join(', ')}, which it does not carry`)
+            drawn = null
+          }
+        }
+
+        if (drawn) {
+          // The mark scheme has to agree with the picture.
+          //
+          // A pie chart drawn 35/45/10/10 shipped beside "Calculate the
+          // percentage of the total that Arts represents", marked 25%. A
+          // learner reading the chart correctly answers 10 and is marked
+          // wrong. Both numbers came from the same reply and nothing compared
+          // them, though the figure is a set of numbers this code drew itself.
+          //
+          // The figure goes, not the question: which of the two is wrong is
+          // not knowable here, and silently rewriting the answer to match the
+          // drawing would invent a mark scheme.
+          const clashes = parsed.questions
+            .map((q: any) => (q && typeof q === 'object' ? answerContradictsFigure(q, drawn!.spec) : null))
+            .filter((x: string | null): x is string => Boolean(x))
+          if (clashes.length) {
+            console.log(`Discarded the drawn figure: ${clashes[0]}`)
             drawn = null
           }
         }

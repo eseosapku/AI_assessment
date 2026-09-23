@@ -16,6 +16,24 @@ import type {
 import { INK, GREY, GRID, esc, text, n, wrap, line, rect, arrow, FONT_SMALL } from './figure-ink'
 
 // ── pie chart ──────────────────────────────────────────────────────────────
+/**
+ * One tone per slice, and the key uses the same one.
+ *
+ * The fill alternated white, grey, white, grey. On a four-slice chart that is
+ * two tones for four categories, so the key read:
+ *
+ *   □ Non-fiction    □ Science
+ *   ■ Fiction        ■ Arts
+ *
+ * and "Calculate the percentage of the total that Arts represents" could not
+ * be answered at all — there is no way to tell which grey sector is Arts.
+ *
+ * Monochrome on purpose: the papers are printed black and white. Six steps,
+ * spaced far enough apart to survive a photocopier, which is as many slices as
+ * a Checkpoint pie chart is ever asked to carry.
+ */
+const TONES: readonly string[] = ['#ffffff', '#d4d4d4', '#a8a8a8', '#7c7c7c', '#545454', '#2e2e2e']
+
 export function drawPieChart(s: PieChartSpec): string {
   const W = 420, H = 260
   const cx = 150, cy = 130, r = 96
@@ -28,9 +46,7 @@ export function drawPieChart(s: PieChartSpec): string {
     const to = from + sweep
     const x1 = cx + r * Math.cos(from), y1 = cy + r * Math.sin(from)
     const x2 = cx + r * Math.cos(to), y2 = cy + r * Math.sin(to)
-    // Alternating fills rather than colour: the papers are black and white,
-    // and a key beside the chart is how they tell the slices apart.
-    const fill = i % 2 === 0 ? '#ffffff' : GREY
+    const fill = TONES[i % TONES.length]
     body += `<path d="M${n(cx)} ${n(cy)} L${n(x1)} ${n(y1)} A${r} ${r} 0 ${sweep > Math.PI ? 1 : 0} 1 ${n(x2)} ${n(y2)} Z" ` +
       `fill="${fill}" stroke="${INK}" stroke-width="1.3"/>`
     from = to
@@ -39,7 +55,7 @@ export function drawPieChart(s: PieChartSpec): string {
   // The key, not labels on the slices: a thin slice has no room for a word.
   s.slices.forEach((slice, i) => {
     const ky = 46 + i * 26
-    body += rect(276, ky - 10, 14, 14, i % 2 === 0 ? '#ffffff' : GREY, 1)
+    body += rect(276, ky - 10, 14, 14, TONES[i % TONES.length], 1)
     body += text(298, ky + 1, slice.label, 'start')
   })
 
