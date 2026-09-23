@@ -58,6 +58,23 @@ const PROMISES: readonly Promise_[] = [
   // nothing: this pattern had every figure noun except table, and the table
   // promise wants a position word ("the table above") that this shape lacks.
   { kind: 'figure', pattern: /\b(?:look\s+at|study|examine|consider)\s+(?:the|this|these)\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map|table)\b/i },
+  // A figure referred to without one of those four verbs.
+  //
+  // "Tick all the correct statements about the diagram." shipped on a live
+  // Mathematics paper with no diagram anywhere on the page — its five options
+  // were about cubes, rods and squares that the learner never saw. The
+  // pattern above wanted a verb and this stem has none.
+  //
+  // Anchored on the PREPOSITION rather than the bare noun, so it stays as
+  // narrow as the comment below promises: "about the graph", "in the
+  // diagram", "using the table" all point at something that must be present,
+  // while "draw a diagram", "sketch the graph of y = 2x" and "complete a
+  // table of values" ask the learner to produce one and are untouched.
+  {
+    kind: 'figure',
+    pattern:
+      /\b(?:about|in|on|from|using|use|within|according\s+to|shown\s+in|labelled\s+(?:in|on))\s+the\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map)\b/i,
+  },
   { kind: 'table', pattern: /\b(?:the )?table\s+(?:above|below|shown|shows?)\b/i },
   { kind: 'passage', pattern: /\b(?:the )?(?:passage|extract|text|article)\s+(?:above|below|shown)\b/i },
 ]

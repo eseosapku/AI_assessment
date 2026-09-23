@@ -184,3 +184,41 @@ describe('the table nobody attached', () => {
     expect(danglingReference({ question: 'Look at the table. Calculate the total.', image_url: '/t.png' })).toBeNull()
   })
 })
+
+describe('a figure referred to without a verb', () => {
+  it('catches the stem that shipped', () => {
+    // Live Mathematics paper: five options about cubes, rods and squares,
+    // and no diagram anywhere on the page.
+    expect(
+      danglingReference({ question: 'Tick all the correct statements about the diagram.' }),
+    ).toBe('figure')
+  })
+
+  it('is satisfied once the figure is actually there', () => {
+    expect(
+      danglingReference({
+        question: 'Tick all the correct statements about the diagram.',
+        diagram_svg: '<svg/>',
+      }),
+    ).toBeNull()
+  })
+
+  it('catches the other ways a stem points at a figure', () => {
+    expect(danglingReference({ question: 'In the diagram, name the angle at B.' })).toBe('figure')
+    expect(danglingReference({ question: 'Using the graph, find the value of y when x = 4.' })).toBe('figure')
+    expect(danglingReference({ question: 'According to the chart, which month was wettest?' })).toBe('figure')
+  })
+
+  it('leaves alone a question asking the learner to DRAW one', () => {
+    // These promise nothing -- the learner produces the figure.
+    expect(danglingReference({ question: 'Draw a diagram to show the forces on the box.' })).toBeNull()
+    expect(danglingReference({ question: 'Sketch the graph of y = 2x + 1.' })).toBeNull()
+    expect(danglingReference({ question: 'Draw a bar chart to show these results.' })).toBeNull()
+    expect(danglingReference({ question: 'Complete a table of values for y = 3x.' })).toBeNull()
+  })
+
+  it('leaves alone a stem that merely mentions the word', () => {
+    expect(danglingReference({ question: 'What is a scatter diagram used for?' })).toBeNull()
+    expect(danglingReference({ question: 'Explain why a graph is clearer than a list.' })).toBeNull()
+  })
+})

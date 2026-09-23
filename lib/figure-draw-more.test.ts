@@ -1,6 +1,7 @@
 // lib/figure-draw-more.test.ts
 import { describe, it, expect } from 'vitest'
 import { drawFromReply } from './figure-request'
+import { drawPieChart } from './figure-draw-more'
 
 /** Every new kind, drawn from the JSON a model would actually send. */
 const CASES: [string, string][] = [
@@ -230,5 +231,29 @@ describe('a table with nothing in it', () => {
 
   it('keeps a table that carries its data', () => {
     expect(drawFromReply('{"kind":"datatable","columns":["Class","kg"],"rows":[["Class 1","12"],["Class 2","9"],["Class 3","15"]]}')).not.toBeNull()
+  })
+})
+
+describe('pie chart slice tones', () => {
+  it('gives every slice its own tone, and the key the same one', () => {
+    // Four categories used to get two tones -- white, grey, white, grey --
+    // so "what percentage is Arts?" had no way to identify the Arts sector.
+    const svg = drawPieChart({
+      kind: 'piechart',
+      slices: [
+        { label: 'Non-fiction', value: 35 },
+        { label: 'Fiction', value: 45 },
+        { label: 'Science', value: 10 },
+        { label: 'Arts', value: 10 },
+      ],
+    })
+    const sliceFills = [...svg.matchAll(/<path[^>]*fill="(#[0-9a-f]{6})"/gi)].map((m) => m[1])
+    expect(sliceFills).toHaveLength(4)
+    expect(new Set(sliceFills).size).toBe(4)
+
+    // The key swatches are drawn in the same order, so slice i and swatch i
+    // must agree -- a distinct-but-mismatched key is no better than no key.
+    const swatchFills = [...svg.matchAll(/<rect[^>]*x="276"[^>]*fill="(#[0-9a-f]{6})"/gi)].map((m) => m[1])
+    expect(swatchFills).toEqual(sliceFills)
   })
 })
