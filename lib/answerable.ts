@@ -24,6 +24,7 @@
  * what shipped.
  */
 import { asksNothing, asksTwoThings } from './question-audit'
+import { namesAQuantity, opensWithComputation } from './calculation-demand'
 
 export interface AnswerableQuestion {
   question?: unknown
@@ -56,7 +57,39 @@ export function unanswerableReason(q: AnswerableQuestion): string | null {
 
   if (asksNothing(stem)) return 'sets a scene and asks nothing'
   if (asksTwoThings(q)) return 'asks two things in a one-word answer box'
+  if (calculatesFromNothing(q, stem)) return 'asks for a calculation with no quantity to work from'
   return null
+}
+
+/**
+ * A calculation with nothing to calculate from.
+ *
+ * Shipped, on live papers:
+ *
+ *   "Calculate the average speed of a marble rolling down an inclined plane."
+ *   "Calculate the distance travelled by a marble rolling down an inclined
+ *    plane."
+ *   "Calculate the probability of selecting a red ball from a biased bag."
+ *
+ * No numbers in the stem, none in the scenario, and no figure. The learner is
+ * asked to compute something from nothing. Two of those three sat on a paper
+ * where a LATER question carried the apparatus diagram with the measurements
+ * on it -- so the data existed, on a different screen, which a learner working
+ * through one question at a time never sees.
+ *
+ * A figure, a passage, a digit or a number written as a word all excuse it:
+ * "Calculate the area of the rectangle" beside a drawing with its sides
+ * labelled is a perfectly good question.
+ */
+function calculatesFromNothing(q: AnswerableQuestion, stem: string): boolean {
+  if (!opensWithComputation(stem) || !namesAQuantity(stem)) return false
+  if (q.image_url || q.diagram_svg) return false
+  const context = `${stem} ${String(q.scenario ?? '')} ${String(q.passage ?? '')}`
+  // A digit anywhere, or a number written as a word.
+  if (/\d/.test(context)) return false
+  return !/\b(?:one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|twenty|thirty|fifty|hundred|thousand|half|quarter|third)\b/i.test(
+    context,
+  )
 }
 
 /** Remove them, reporting how many went and why. */

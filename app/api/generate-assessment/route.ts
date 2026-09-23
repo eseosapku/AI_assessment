@@ -37,7 +37,8 @@ import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { liftSharedScenarios, stripPassageEcho } from '@/lib/shared-scenario'
-import { dropRepeatedDemands, stripDeadPointer } from '@/lib/demand-variety'
+import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks } from '@/lib/demand-variety'
+import { toBritish } from '@/lib/british-spelling'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -2779,6 +2780,45 @@ ${commandBlock}`
           // seventeen questions on a live English paper opened on the same
           // eleven words of the text the learner was already reading.
           q.question = stripPassageEcho(q.question, (q as any).passage)
+          // "[2]" printed at the end of the stem.
+          //
+          // The style examples are lifted from real papers and carry the mark
+          // allocation the way a printed paper does, so the model copies it
+          // into the stem -- and the screen already shows "2 marks" in its own
+          // chip beside the question number, so it arrives twice:
+          //
+          //   Question 14 of 34   [2 marks]
+          //   Calculate the average speed of a marble ... [2]
+          q.question = stripPrintedMarks(q.question)
+        }
+      }
+
+      // British English, because Cambridge is a British board.
+      //
+      // Live Science papers carried "Analyzing the grid" four times,
+      // "behavior of gases" and "fertilization"; a Maths paper had "the
+      // distance traveled". Applied to everything the learner reads, not just
+      // the stem -- an option or a mark scheme in American English is the same
+      // error somewhere less obvious.
+      for (const q of questions) {
+        if (!q || typeof q !== 'object') continue
+        for (const field of ['question', 'scenario', 'passage', 'explanation'] as const) {
+          if (typeof (q as any)[field] === 'string') (q as any)[field] = toBritish((q as any)[field])
+        }
+        for (const field of ['options', 'marking_criteria', 'hints', 'items', 'categories'] as const) {
+          const list = (q as any)[field]
+          if (Array.isArray(list)) {
+            ;(q as any)[field] = list.map((x: unknown) => (typeof x === 'string' ? toBritish(x) : x))
+          }
+        }
+        const accepted = (q as any)?.short_answer?.accepted
+        if (Array.isArray(accepted)) {
+          // Both spellings are accepted: a learner who writes "color" has the
+          // science right, and this is a Science paper, not a spelling test.
+          const british = accepted
+            .map((a: unknown) => (typeof a === 'string' ? toBritish(a) : a))
+            .filter((a: unknown) => typeof a === 'string' && !accepted.includes(a))
+          ;(q as any).short_answer.accepted = [...accepted, ...british]
         }
       }
 

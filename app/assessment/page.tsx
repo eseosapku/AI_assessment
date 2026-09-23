@@ -14,6 +14,7 @@ import {
   isInteractiveQuestionType,
 } from '@/components/interactive/InteractiveQuestionPlayer'
 import { gradeInteractiveQuestion, isInteractiveAnswerComplete } from '@/lib/grade-interactive'
+import { isCalculationDemand } from '@/lib/calculation-demand'
 import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@/types/interactive'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
 import { LatexText as L } from '@/lib/latex-text'
@@ -2614,6 +2615,38 @@ function AssessmentPageClient() {
 
               {isCurrentLongForm && !isShortAnswer(question) && (
                 <div>
+                  {/* A calculation is not measured in words.
+                      A multi-mark Maths question is a `written` slot, which is
+                      right for marking -- part marks are for working, and
+                      working is marked against criteria rather than matched
+                      against a word list. But it was also drawing the prose
+                      box, so a live paper showed "Calculate 3 + 4 × 2 − 6 ÷ 3
+                      using the correct order of operations" above a nine-row
+                      textarea reading "Aim for ~25–40 words". The answer is 5.
+                      Nine of twenty-nine questions on that paper looked like
+                      that. Cambridge gives a calculation a working space and
+                      an answer line, so that is what this draws. */}
+                  {isCalculationDemand((question as LongFormQuestion).question) ? (
+                    <>
+                      <div className="text-xs text-ss-slate mb-2">
+                        Show your working, then write your final answer.
+                        {(question as LongFormQuestion).marks > 1 &&
+                          ' Marks are given for the method as well as the answer.'}
+                      </div>
+                      <textarea
+                        value={longFormAnswers[currentQuestion] || ''}
+                        onChange={(e) => handleLongFormChange(e.target.value)}
+                        placeholder="Working…"
+                        className="w-full min-h-[120px] p-4 rounded-2xl border-2 border-ss-line bg-ss-panel text-ss-ink resize-y focus:outline-none focus:border-ss-accent transition-colors font-mono text-sm leading-relaxed"
+                        rows={4}
+                      />
+                      <div className="mt-2 text-xs text-ss-slate">
+                        {(question as LongFormQuestion).marks}{' '}
+                        {(question as LongFormQuestion).marks === 1 ? 'mark' : 'marks'} available
+                      </div>
+                    </>
+                  ) : (
+                    <>
                   <div className="text-xs text-ss-slate mb-2">
                     Write a detailed answer. Each mark has a specific criterion — cover as much as you can.
                   </div>
@@ -2632,6 +2665,8 @@ function AssessmentPageClient() {
                       Aim for ~{(question as LongFormQuestion).marks * 25}–{(question as LongFormQuestion).marks * 40} words
                     </span>
                   </div>
+                    </>
+                  )}
                   {hintsEnabled && (
                     <LongformHintPanel
                       questionKey={currentQuestion}

@@ -109,6 +109,32 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
  * "Look at the diagram." is left alone: it is how the real papers open, and
  * it is only a problem when it is the ONLY way they open.
  */
+/**
+ * The mark allocation a printed paper puts at the end of a question.
+ *
+ * A real Cambridge paper prints "[2]" in the right margin, and the style
+ * examples this generator learns from are lifted from real papers, so the
+ * model writes it into the stem. The screen already shows the marks in their
+ * own chip beside the question number, so the learner reads:
+ *
+ *   Question 14 of 34    [2 marks]
+ *   Calculate the average speed of a marble rolling down an inclined
+ *   plane. [2]
+ *
+ * Only a trailing allocation is removed, and only when the stem has something
+ * left. A bracketed number INSIDE a question is content -- "the value at [3]
+ * on the number line", "element [2] of the array" -- and is left alone.
+ */
+export function stripPrintedMarks(stem: unknown): string {
+  const text = String(stem ?? '').trim()
+  if (!text) return text
+  const stripped = text
+    .replace(/\s*[[(]\s*\d{1,2}\s*(?:marks?)?\s*[\])]\s*$/i, '')
+    .replace(/\s*[-–—]\s*\d{1,2}\s*marks?\s*$/i, '')
+    .trim()
+  return stripped.split(/\s+/).filter(Boolean).length >= 3 ? stripped : text
+}
+
 export function stripDeadPointer(stem: unknown): string {
   const text = String(stem ?? '').trim()
   const stripped = text.replace(

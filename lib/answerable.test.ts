@@ -66,3 +66,50 @@ describe('dropping them', () => {
     }
   })
 })
+
+describe('a calculation with nothing to calculate from', () => {
+  it('catches the stems that shipped', () => {
+    expect(unanswerableReason({ question: 'Calculate the average speed of a marble rolling down an inclined plane.' }))
+      .toBe('asks for a calculation with no quantity to work from')
+    expect(unanswerableReason({ question: 'Calculate the probability of selecting a red ball from a biased bag.' }))
+      .toBe('asks for a calculation with no quantity to work from')
+  })
+
+  it('is satisfied by numbers anywhere the learner can see them', () => {
+    expect(unanswerableReason({ question: 'Calculate the average speed of a marble that travels 90 cm in 3 s.' })).toBeNull()
+    expect(unanswerableReason({
+      question: 'Calculate the average speed of the marble.',
+      scenario: 'The marble rolls 90 cm down the ramp in 3 seconds.',
+    })).toBeNull()
+    expect(unanswerableReason({
+      question: 'Calculate the area of the rectangle.',
+      diagram_svg: '<svg/>',
+    })).toBeNull()
+    // Numbers written as words count too.
+    expect(unanswerableReason({
+      question: 'Calculate the total mass.',
+      scenario: 'Each box has a mass of three kilograms and there are four boxes.',
+    })).toBeNull()
+  })
+
+  it('does not fire on an English comprehension demand', () => {
+    // "Find" is not a computational verb here, and this has no quantity noun.
+    // Counting it deleted a good question off a live Reading paper.
+    expect(unanswerableReason({
+      question: 'Find the information directly stated in the text about the main character.',
+    })).toBeNull()
+  })
+
+  it('needs both a computing verb and a quantity', () => {
+    expect(unanswerableReason({ question: 'Calculate your answer carefully and neatly.' })).toBeNull()
+    expect(unanswerableReason({ question: 'Describe the speed of the marble as it rolls.' })).toBeNull()
+  })
+
+  it('says nothing about questions answered by selecting', () => {
+    expect(unanswerableReason({
+      question: 'Calculate the total and draw a ring around your answer.',
+      type: 'mcq',
+      options: ['4', '5', '6'],
+    })).toBeNull()
+  })
+})

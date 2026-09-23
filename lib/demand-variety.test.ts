@@ -1,6 +1,6 @@
 // lib/demand-variety.test.ts
 import { describe, it, expect } from 'vitest'
-import { demandOf, sameDemand, dropRepeatedDemands, stripDeadPointer } from './demand-variety'
+import { demandOf, sameDemand, dropRepeatedDemands, stripDeadPointer, stripPrintedMarks } from './demand-variety'
 
 describe('what a question actually asks', () => {
   it('takes the pointer and the paragraph reference off', () => {
@@ -72,5 +72,40 @@ describe('the dead pointer', () => {
   it('never empties a question', () => {
     expect(stripDeadPointer('Referring to the diagram.')).toBe('Referring to the diagram.')
     expect(stripDeadPointer('')).toBe('')
+  })
+})
+
+describe('stripPrintedMarks', () => {
+  it('removes the allocation a printed paper puts in the margin', () => {
+    expect(stripPrintedMarks('Calculate the average speed of a marble. [2]')).toBe(
+      'Calculate the average speed of a marble.',
+    )
+    expect(stripPrintedMarks('Explain why the temperature stops rising. (3)')).toBe(
+      'Explain why the temperature stops rising.',
+    )
+    expect(stripPrintedMarks('Describe the water cycle. [4 marks]')).toBe('Describe the water cycle.')
+    expect(stripPrintedMarks('Give one reason for your answer — 2 marks')).toBe(
+      'Give one reason for your answer',
+    )
+  })
+
+  it('leaves a bracketed number that is part of the question', () => {
+    // Content, not an allocation: removing these changes what is being asked.
+    expect(stripPrintedMarks('Write down the value at [3] on the number line.')).toBe(
+      'Write down the value at [3] on the number line.',
+    )
+    expect(stripPrintedMarks('State the charge on ion (2) in the diagram.')).toBe(
+      'State the charge on ion (2) in the diagram.',
+    )
+  })
+
+  it('never strips a stem down to nothing', () => {
+    expect(stripPrintedMarks('[2]')).toBe('[2]')
+    expect(stripPrintedMarks('Find x. [2]')).toBe('Find x. [2]')
+  })
+
+  it('handles empty input', () => {
+    expect(stripPrintedMarks('')).toBe('')
+    expect(stripPrintedMarks(null)).toBe('')
   })
 })
