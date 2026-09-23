@@ -41,6 +41,49 @@ const CURATED_MANIFEST_PATH = path.join(process.cwd(), 'data', 'textbook-images'
 /** Corrupt or unusable extractions excluded at load time. */
 const BLOCKED_IMAGE_KEYS = new Set(['tb-190-p269-embedded-0'])
 
+/**
+ * A catalogued figure whose file is not on disk.
+ *
+ * `manifest.curated.json` lists 653 images that were never written out —
+ * 425 of the 1,567 `cambridge-papers` directories are empty. Nothing checked,
+ * so they were offered to the picker like any other figure, and a live Stage 6
+ * Science paper shipped five questions under the heading
+ *
+ *   QUESTIONS 5-9 REFER TO THE FIGURE BELOW
+ *
+ * above an empty box: /textbook-images/cambridge-papers/966315/p2-fig-9.png,
+ * 404. Five questions with nothing to answer them from.
+ *
+ * `BLOCKED_IMAGE_KEYS` above is the hand-maintained version of this idea and
+ * holds exactly one key. The disk already knows the answer for all of them.
+ *
+ * One `existsSync` per entry, once per process — the manifest is cached right
+ * after this and never re-read. Directories are cached because the extractions
+ * cluster into them, so most entries cost a map lookup rather than a syscall.
+ */
+const dirCache = new Map<string, Set<string> | null>()
+
+function fileIsThere(localPath: unknown): boolean {
+  const rel = String(localPath ?? '')
+  // An entry with no path at all is not ours to judge here; the callers that
+  // need one already check for it.
+  if (!rel) return true
+
+  const full = path.join(process.cwd(), 'public', rel)
+  const dir = path.dirname(full)
+
+  let entries = dirCache.get(dir)
+  if (entries === undefined) {
+    try {
+      entries = new Set(fs.readdirSync(dir))
+    } catch {
+      entries = null
+    }
+    dirCache.set(dir, entries)
+  }
+  return entries === null ? false : entries.has(path.basename(full))
+}
+
 /** Diagrammatic figure types preferred over tangential photos on ties. */
 const DIAGRAM_TYPES = new Set(['diagram', 'graph', 'chart', 'map', 'table', 'apparatus'])
 
@@ -87,7 +130,7 @@ export function loadTextbookImageManifest(): TextbookImageManifest {
     const images = Array.isArray(raw?.images) ? raw.images : []
     cachedManifest = {
       version: 1,
-      images: images.filter((img) => !BLOCKED_IMAGE_KEYS.has(img.key)),
+      images: images.filter((img) => !BLOCKED_IMAGE_KEYS.has(img.key) && fileIsThere(img.localPath)),
     }
   } catch {
     cachedManifest = { version: 1, images: [] }

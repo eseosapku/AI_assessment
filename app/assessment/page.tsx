@@ -206,7 +206,10 @@ function FigureGroupLabel({ group }: { group: FigureGroupMeta }) {
   const start = group.startIndex + 1
   const end = group.endIndex + 1
   return (
-    <p className="text-xs font-semibold uppercase tracking-wide text-apple-blue mb-2">
+    // ss-accent, not apple-blue: #007AFF measures 4.0:1 here, under the
+    // 4.5:1 floor, and this line is the only thing telling a learner that the
+    // next five questions all hang off one figure.
+    <p className="text-xs font-semibold uppercase tracking-wide text-ss-accent mb-2">
       {start === end ? `Question ${start} refers` : `Questions ${start}–${end} refer`} to the figure below
     </p>
   )
