@@ -1,6 +1,6 @@
 // lib/shared-scenario.test.ts
 import { describe, it, expect } from 'vitest'
-import { liftSharedScenarios, type ScenarioQuestion } from './shared-scenario'
+import { liftSharedScenarios, stripPassageEcho, type ScenarioQuestion } from './shared-scenario'
 
 const q = (question: string): ScenarioQuestion => ({ question })
 
@@ -94,5 +94,44 @@ describe('a scenario joined with a comma', () => {
     const out = liftSharedScenarios(rows)
     // One sentence each: nothing to lift, and no false split on "stopped,".
     for (const x of out) expect(x.scenario).toBeUndefined()
+  })
+})
+
+describe('stripPassageEcho', () => {
+  const PASSAGE =
+    'In the heart of the ancient city of Eldoria, nestled between the towering ' +
+    'peaks of the Silver Mountains, there lay a hidden gem known as the ' +
+    'Whispering Woods. Among the villagers was a young girl named Elara.'
+
+  it('removes an opening the passage already says', () => {
+    expect(
+      stripPassageEcho(
+        'In the heart of the ancient city of Eldoria, what did Elara discover in the library?',
+        PASSAGE,
+      ),
+    ).toBe('What did Elara discover in the library?')
+  })
+
+  it('leaves a Cambridge locator alone', () => {
+    // "In paragraph C" is not in the passage -- it is a reference TO it, and
+    // it is how a real paper points a learner at the right place.
+    const stem = 'In paragraph C, give the name of the ancient tome Elara found.'
+    expect(stripPassageEcho(stem, PASSAGE)).toBe(stem)
+  })
+
+  it('leaves a short opening alone', () => {
+    const stem = 'In Eldoria, who guarded the woods?'
+    expect(stripPassageEcho(stem, PASSAGE)).toBe(stem)
+  })
+
+  it('never strips a stem down to nothing', () => {
+    const stem = 'In the heart of the ancient city of Eldoria, why?'
+    expect(stripPassageEcho(stem, PASSAGE)).toBe(stem)
+  })
+
+  it('does nothing without a passage', () => {
+    const stem = 'In the heart of the ancient city of Eldoria, what happened?'
+    expect(stripPassageEcho(stem, '')).toBe(stem)
+    expect(stripPassageEcho(stem, undefined)).toBe(stem)
   })
 })

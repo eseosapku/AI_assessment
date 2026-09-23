@@ -36,7 +36,7 @@ import { enforceSlotShape } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
-import { liftSharedScenarios } from '@/lib/shared-scenario'
+import { liftSharedScenarios, stripPassageEcho } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer } from '@/lib/demand-variety'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
@@ -2775,6 +2775,10 @@ ${commandBlock}`
       for (const q of questions) {
         if (q && typeof q === 'object' && typeof q.question === 'string') {
           q.question = stripDeadPointer(q.question)
+          // And an opening that quotes the passage printed beside it. Six of
+          // seventeen questions on a live English paper opened on the same
+          // eleven words of the text the learner was already reading.
+          q.question = stripPassageEcho(q.question, (q as any).passage)
         }
       }
 

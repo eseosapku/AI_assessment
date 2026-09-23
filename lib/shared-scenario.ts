@@ -131,6 +131,47 @@ function sentencesOf(stem: string): string[] {
 }
 
 /**
+ * A stem that opens by quoting the passage printed beside it.
+ *
+ * `liftSharedScenarios` handles the case where the echo is its own SENTENCE.
+ * On a live English paper it was not — it was a clause ending in a comma, so
+ * the lifter saw one sentence and skipped every one of them:
+ *
+ *   Q1  "In the heart of the ancient city of Eldoria, give the name of the
+ *        young girl who lived there."
+ *   Q2  "In the heart of the ancient city of Eldoria, what was the young
+ *        girl's true calling?"
+ *   Q3  "In the heart of the ancient city of Eldoria, what did Elara
+ *        discover in the library?"
+ *
+ * Six of seventeen questions opened on those eleven words, with the passage
+ * pinned in the next column saying the same thing. That is the reported "all
+ * the questions are basically the same", and on a paper with a passage the
+ * echo carries nothing: the learner is already looking at the text.
+ *
+ * Only strips what is VERBATIM in the passage, so a genuine Cambridge locator
+ * — "In paragraph C, give the name of the ancient tome" — is left alone.
+ */
+export function stripPassageEcho(stem: unknown, passage: unknown): string {
+  const text = String(stem ?? '').trim()
+  const source = String(passage ?? '').toLowerCase().replace(/\s+/g, ' ')
+  if (!text || !source.trim()) return text
+
+  // The opening clause: up to the first comma, or the first sentence end.
+  const cut = text.search(/[,;]|(?<=[.!?])\s/)
+  if (cut < 0) return text
+  const opening = text.slice(0, cut).trim()
+  // Short enough to be a coincidence is not evidence of anything.
+  if (opening.length < 25) return text
+  if (!source.includes(opening.toLowerCase().replace(/\s+/g, ' '))) return text
+
+  const rest = text.slice(cut + 1).trim()
+  // Never leave a stem that is not still a question.
+  if (rest.split(/\s+/).filter(Boolean).length < 3) return text
+  return rest.charAt(0).toUpperCase() + rest.slice(1)
+}
+
+/**
  * Lift a shared opening off a run of questions.
  *
  * Only a RUN: parts of one numbered question are adjacent, and two questions
