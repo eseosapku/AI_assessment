@@ -29,7 +29,7 @@ import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
-import { answerContradictsFigure } from '@/lib/figure-answer-match'
+import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork } from '@/lib/passage-question-match'
 import { enforceSlotShape } from '@/lib/slot-shape'
@@ -2195,7 +2195,11 @@ ${commandBlock}`
           // not knowable here, and silently rewriting the answer to match the
           // drawing would invent a mark scheme.
           const clashes = parsed.questions
-            .map((q: any) => (q && typeof q === 'object' ? answerContradictsFigure(q, drawn!.spec) : null))
+            .flatMap((q: any) =>
+              q && typeof q === 'object'
+                ? [answerContradictsFigure(q, drawn!.spec), figureCannotAnswer(q, drawn!.spec)]
+                : [],
+            )
             .filter((x: string | null): x is string => Boolean(x))
           if (clashes.length) {
             console.log(`Discarded the drawn figure: ${clashes[0]}`)

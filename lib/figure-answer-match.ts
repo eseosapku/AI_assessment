@@ -150,3 +150,100 @@ export function answerContradictsFigure(
 
   return null
 }
+
+/**
+ * "The highest", where the figure has no highest.
+ *
+ * Shipped on the same Mathematics paper, beside a drawn table:
+ *
+ *   Outcomes of Two Spinners
+ *   Spinner 1: White, Spinner 2: White    1/4
+ *   Spinner 1: White, Spinner 2: Grey     1/4
+ *   Spinner 1: Grey,  Spinner 2: White    1/4
+ *   Spinner 1: Grey,  Spinner 2: Grey     1/4
+ *
+ *   "Draw a ring around the outcome with the highest probability."
+ *
+ * All four are a quarter. There is no highest, and whichever option the
+ * learner rings is as right as the mark scheme's. The figure is correct and
+ * the demand is correct; only together are they impossible, which is why
+ * checking either alone found nothing.
+ *
+ * A tie anywhere in the middle is fine — "which is smallest" is answerable
+ * with two equal values at the top. Only a tie AT the extreme being asked for
+ * makes the question unanswerable.
+ */
+const SUPERLATIVE =
+  /\b(?:highest|greatest|largest|biggest|most|maximum|lowest|smallest|least|fewest|minimum)\b/i
+
+/** Numbers in a table column, including the fractions a probability uses. */
+function columnValues(rows: readonly string[][], col: number): number[] {
+  const out: number[] = []
+  for (const row of rows) {
+    const cell = String(row?.[col] ?? '').trim()
+    if (!cell) continue
+    const frac = cell.match(/^(-?\d+(?:\.\d+)?)\s*\/\s*(\d+(?:\.\d+)?)$/)
+    if (frac) {
+      const d = Number(frac[2])
+      if (d) out.push(Number(frac[1]) / d)
+      continue
+    }
+    const m = cell.match(/-?\d+(?:\.\d+)?/)
+    if (m) out.push(Number(m[0]))
+  }
+  return out
+}
+
+/** Is the extreme of these values shared by more than one of them? */
+function extremeIsTied(values: readonly number[], wantsHighest: boolean): boolean {
+  if (values.length < 2) return false
+  const extreme = wantsHighest ? Math.max(...values) : Math.min(...values)
+  return values.filter((v) => Math.abs(v - extreme) < 1e-9).length > 1
+}
+
+/**
+ * Why this question cannot be answered from its figure, or null.
+ *
+ * Separate from `answerContradictsFigure` because the fault is different: the
+ * answer is not wrong, there is no answer at all.
+ */
+export function figureCannotAnswer(
+  q: AnswerableQuestion,
+  spec: FigureSpec | null | undefined,
+): string | null {
+  if (!spec) return null
+  const stem = String(q?.question ?? '')
+  if (!SUPERLATIVE.test(stem)) return null
+  const wantsHighest = /\b(?:highest|greatest|largest|biggest|most|maximum)\b/i.test(stem)
+
+  let values: number[] = []
+  let what = ''
+  if (spec.kind === 'piechart') {
+    values = spec.slices.map((s) => Number(s.value) || 0)
+    what = 'pie chart'
+  } else if (spec.kind === 'barchart') {
+    values = spec.bars.map((b) => Number(b.value) || 0)
+    what = 'bar chart'
+  } else if (spec.kind === 'datatable') {
+    // The column the question is about is not named, so every numeric column
+    // is considered and a tie in ANY of them is reported. A table whose only
+    // numeric column is tied at the extreme cannot answer a superlative.
+    for (let c = 0; c < spec.columns.length; c++) {
+      const col = columnValues(spec.rows, c)
+      if (col.length >= 2 && col.length === spec.rows.length) {
+        if (!extremeIsTied(col, wantsHighest)) return null
+        values = col
+        what = 'table'
+      }
+    }
+    if (!values.length) return null
+  } else {
+    return null
+  }
+
+  if (!extremeIsTied(values, wantsHighest)) return null
+  const extreme = wantsHighest ? Math.max(...values) : Math.min(...values)
+  return `asks for the ${wantsHighest ? 'highest' : 'lowest'} but ${
+    values.filter((v) => Math.abs(v - extreme) < 1e-9).length
+  } values on the ${what} are equal at ${extreme}`
+}

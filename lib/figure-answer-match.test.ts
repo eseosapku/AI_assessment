@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { answerContradictsFigure } from './figure-answer-match'
+import { answerContradictsFigure, figureCannotAnswer } from './figure-answer-match'
 import type { FigureSpec } from './figure-spec'
 
 const PIE: FigureSpec = {
@@ -128,5 +128,78 @@ describe('answerContradictsFigure', () => {
         { kind: 'forces', object: 'box', arrows: [{ direction: 'down', label: 'weight' }] },
       ),
     ).toBeNull()
+  })
+})
+
+describe('figureCannotAnswer', () => {
+  const SPINNERS: FigureSpec = {
+    kind: 'datatable',
+    title: 'Outcomes of Two Spinners',
+    columns: ['Outcome', 'Probability'],
+    rows: [
+      ['Spinner 1: White, Spinner 2: White', '1/4'],
+      ['Spinner 1: White, Spinner 2: Grey', '1/4'],
+      ['Spinner 1: Grey, Spinner 2: White', '1/4'],
+      ['Spinner 1: Grey, Spinner 2: Grey', '1/4'],
+    ],
+  }
+
+  it('catches the paper that shipped', () => {
+    const found = figureCannotAnswer(
+      { question: 'Draw a ring around the outcome with the highest probability.' },
+      SPINNERS,
+    )
+    expect(found).toContain('4 values')
+    expect(found).toContain('table')
+  })
+
+  it('passes the same table when one outcome really is likeliest', () => {
+    const spec: FigureSpec = {
+      ...SPINNERS,
+      rows: [
+        ['Spinner 1: White, Spinner 2: White', '1/2'],
+        ['Spinner 1: White, Spinner 2: Grey', '1/4'],
+        ['Spinner 1: Grey, Spinner 2: White', '1/8'],
+        ['Spinner 1: Grey, Spinner 2: Grey', '1/8'],
+      ],
+    }
+    expect(
+      figureCannotAnswer({ question: 'Draw a ring around the outcome with the highest probability.' }, spec),
+    ).toBeNull()
+    // Tied at the BOTTOM, and the question asks for the top. Answerable.
+    expect(
+      figureCannotAnswer({ question: 'Which outcome has the greatest probability?' }, spec),
+    ).toBeNull()
+    // The same table cannot answer a question about the lowest.
+    expect(figureCannotAnswer({ question: 'Which outcome is least likely?' }, spec)).toContain('lowest')
+  })
+
+  it('catches a tied bar chart and a tied pie chart', () => {
+    expect(
+      figureCannotAnswer({ question: 'Which method of travel is most common?' }, {
+        kind: 'barchart',
+        y: { label: 'Learners', min: 0, max: 10, step: 2 },
+        bars: [{ label: 'Walk', value: 6 }, { label: 'Bus', value: 6 }, { label: 'Cycle', value: 2 }],
+      }),
+    ).toContain('bar chart')
+    expect(
+      figureCannotAnswer({ question: 'Name the genre with the largest share.' }, {
+        kind: 'piechart',
+        slices: [{ label: 'Fiction', value: 50 }, { label: 'Arts', value: 50 }],
+      }),
+    ).toContain('pie chart')
+  })
+
+  it('says nothing about a question with no superlative in it', () => {
+    expect(figureCannotAnswer({ question: 'Write down the probability of two greys.' }, SPINNERS)).toBeNull()
+  })
+
+  it('says nothing about figures with no values to compare', () => {
+    expect(
+      figureCannotAnswer({ question: 'Name the largest force.' }, {
+        kind: 'forces', object: 'box', arrows: [{ direction: 'down', label: 'weight' }],
+      }),
+    ).toBeNull()
+    expect(figureCannotAnswer({ question: 'Which is highest?' }, null)).toBeNull()
   })
 })
