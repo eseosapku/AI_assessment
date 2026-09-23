@@ -666,6 +666,19 @@ function AssessmentPageClient() {
   const [flagged, setFlagged] = useState<Record<number, boolean>>({})
   /** The paper's topic list, shown on request rather than truncated. */
   const [topicsOpen, setTopicsOpen] = useState(false)
+  /**
+   * The question strip, on a phone only.
+   *
+   * Forty buttons in a wrapping row is one line on a laptop and five on a
+   * phone — about 190px of jump targets stacked above a sign-in banner and a
+   * timer that wraps to two rows of its own. Walked at 400px, the first screen
+   * of a forty-question paper was entirely chrome: no question text, not even
+   * the question number, without scrolling.
+   *
+   * So on a small screen it starts closed behind a one-line summary, and on
+   * `sm` and up it is always open and this state is not consulted at all.
+   */
+  const [navOpen, setNavOpen] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -1983,8 +1996,14 @@ function AssessmentPageClient() {
       {/* Header */}
       <div className="bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-xl sticky top-0 z-30 header-fade">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-4 sm:py-5">
-          <div className="flex justify-between items-center gap-4">
-            <div className="flex-1 min-w-0">
+          {/* Stacked on a phone, side by side from `sm`.
+              Side by side at 400px left the title column about 140px wide, so
+              "40 questions · 42 marks · 16 topics" broke over three lines and
+              the paper's own name wrapped to two. The controls beside it are
+              five pills that wrap to two rows regardless; giving each its own
+              full-width row costs nothing and buys the meta line back. */}
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-3 sm:gap-4">
+            <div className="min-w-0 sm:flex-1">
               <h1 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white tracking-tight truncate">
                 {assessment.subject}
               </h1>
@@ -1996,17 +2015,22 @@ function AssessmentPageClient() {
                   important it's really hard to notice." A real paper's cover
                   says its marks and its length; the topics go behind a
                   control for anyone who wants them. */}
-              <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-ss-slate">
+              {/* The separator is drawn BEFORE each item after the first,
+                  not as a sibling of its own. As siblings in a wrapping flex
+                  row they are wrap opportunities, and at phone width the row
+                  broke as "40 questions / · / 42 marks / · / 16 topics" —
+                  five lines, two of them a lone middle dot. Attached with
+                  ::before it can only ever wrap together with the item it
+                  belongs to. */}
+              <div className="mt-0.5 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[13px] text-ss-slate [&>*+*]:before:content-['·'] [&>*+*]:before:mr-2.5">
                 <span className="font-semibold">
                   {assessment.questions.length} questions
                 </span>
-                <span aria-hidden>·</span>
                 <span className="font-semibold">
                   {assessment.questions.reduce((t: number, q: any) => t + (Number(q?.marks) || 0), 0)} marks
                 </span>
                 {assessment.topics.length > 0 && (
                   <>
-                    <span aria-hidden>·</span>
                     <button
                       type="button"
                       onClick={() => setTopicsOpen((v) => !v)}
@@ -2047,7 +2071,12 @@ function AssessmentPageClient() {
               <div className="flex items-center gap-2">
                 <div
                   className={`flex items-center gap-2 rounded-full border border-gray-300/70 bg-gray-50 px-4 py-2 dark:border-gray-700/50 dark:bg-gray-800/50 ${
-                    limitDisabled ? 'text-gray-600 dark:text-gray-300' : timeRemaining < WARN_AT_SECONDS ? 'text-orange-600' : 'text-apple-blue'
+                    // ss-accent, not apple-blue. #007AFF on the near-white
+                    // header is 3.8:1, under the 4.5:1 AA floor for 16px
+                    // text, and the clock is the one thing on this screen a
+                    // learner glances at rather than reads. #0C6FAE is the
+                    // app's own accent token and measures 5.1:1.
+                    limitDisabled ? 'text-gray-600 dark:text-gray-300' : timeRemaining < WARN_AT_SECONDS ? 'text-orange-600' : 'text-ss-accent'
                   }`}
                 >
                   <Clock className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden />
@@ -2120,7 +2149,27 @@ function AssessmentPageClient() {
           {/* Question strip. U1: a student could walk past a question and only
               discover it at the end. Grey means not reached, amber means seen
               and left blank, and every one of them jumps. */}
-          <div className="mt-4 flex flex-wrap gap-1.5" role="group" aria-label="Jump to a question">
+          <button
+            type="button"
+            onClick={() => setNavOpen((v) => !v)}
+            aria-expanded={navOpen}
+            aria-controls="question-strip"
+            className="mt-4 flex w-full items-center justify-between gap-2 rounded-xl border border-ss-line bg-ss-panel px-3 py-2 text-[13px] font-semibold text-ss-ink sm:hidden"
+          >
+            <span>
+              Question {currentQuestion + 1} of {assessment.questions.length}
+            </span>
+            <span className="font-medium text-ss-slate">
+              {navOpen ? 'Hide list' : 'All questions'}
+            </span>
+          </button>
+
+          <div
+            id="question-strip"
+            className={`mt-4 ${navOpen ? 'flex' : 'hidden'} flex-wrap gap-1.5 sm:flex`}
+            role="group"
+            aria-label="Jump to a question"
+          >
             {assessment.questions.map((_, i) => {
               const state = questionState(i, progressInput)
               const style =

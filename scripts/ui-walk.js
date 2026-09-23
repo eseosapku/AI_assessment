@@ -30,7 +30,8 @@ const WIDTH = Number(arg('width', 1440))
 const HEIGHT = Number(arg('height', 900))
 const CHROME = arg('chrome', 'C:/Program Files/Google/Chrome/Application/chrome.exe')
 
-const OUT = path.join(__dirname, '..', 'data', 'audit', 'ui')
+const TAG = arg('tag', 'run')
+const OUT = path.join(__dirname, '..', 'data', 'audit', 'ui', TAG)
 
 /**
  * Faults that can only be seen in a rendered page.
@@ -107,6 +108,77 @@ function probe() {
     const pr = parent.getBoundingClientRect()
     if (ir.width > pr.width + 2 || ir.right > pr.right + 2) {
       note('image-wider-than-card', (img.getAttribute('src') || '').slice(-50))
+    }
+  }
+
+  // 5. A figure too small to read the labels on.
+  //
+  // A past-paper crop is line art with its labels set in about 10px at
+  // original size; scaled below roughly a third it stops being legible, and
+  // the labels are the part the question asks about.
+  for (const img of document.querySelectorAll('img')) {
+    if (!visible(img)) continue
+    const r = img.getBoundingClientRect()
+    const natural = img.naturalWidth || 0
+    if (natural > 0 && r.width > 0 && r.width / natural < 0.34 && natural > 500) {
+      note('figure-shrunk', Math.round((r.width / natural) * 100) + '% of ' + natural + 'px')
+    }
+  }
+
+  // 6. Something you can click but cannot reach with a keyboard.
+  for (const el of document.querySelectorAll('[onclick], div[role="button"], span[role="button"]')) {
+    if (!visible(el)) continue
+    if (el.tabIndex < 0) note('not-keyboard-reachable', label(el))
+  }
+
+  // 7. Text too small, or too pale against what is behind it.
+  // `color(srgb 0.97 0.95 0.93)` carries channels in 0-1, `rgb(248, 244, 238)`
+  // in 0-255, and reading the first as the second makes cream come back as
+  // black. That is not hypothetical: `color-mix` is how every ss-* tint in
+  // this app is set, so getComputedStyle returns the srgb form for most
+  // surfaces here, and this probe duly reported near-black-on-cream text as
+  // 1.3:1 and sent me looking for a contrast bug that did not exist.
+  const parse = (c) => {
+    const n = (c.match(/[\d.]+(?:e[+-]?\d+)?/gi) || []).map(Number)
+    if (!n.length) return []
+    if (/^color\(/i.test(c)) {
+      const [r, g, b, a] = n
+      return a === undefined ? [r * 255, g * 255, b * 255] : [r * 255, g * 255, b * 255, a]
+    }
+    return n
+  }
+  const lum = (rgb) => {
+    const [r, g, b] = rgb.slice(0, 3).map((v) => {
+      const x = v / 255
+      return x <= 0.03928 ? x / 12.92 : Math.pow((x + 0.055) / 1.055, 2.4)
+    })
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b
+  }
+  const groundOf = (el) => {
+    let node = el
+    while (node && node !== document.documentElement) {
+      const bg = getComputedStyle(node).backgroundColor
+      const p = parse(bg)
+      if (p.length >= 3 && (p.length < 4 || p[3] > 0.5)) return p
+      node = node.parentElement
+    }
+    return [255, 255, 255]
+  }
+  for (const el of document.querySelectorAll('p, span, h1, h2, h3, button, label, li, td, th')) {
+    if (!visible(el) || el.children.length > 0) continue
+    const text = (el.innerText || '').trim()
+    if (text.length < 2) continue
+    const cs = getComputedStyle(el)
+    const size = parseFloat(cs.fontSize)
+    if (size && size < 12) note('text-under-12px', Math.round(size) + 'px: ' + text.slice(0, 40))
+    const fg = parse(cs.color)
+    if (fg.length < 3) continue
+    const a = lum(fg) + 0.05
+    const b = lum(groundOf(el)) + 0.05
+    const ratio = a > b ? a / b : b / a
+    const large = size >= 24 || (size >= 18.66 && Number(cs.fontWeight) >= 700)
+    if (ratio < (large ? 3 : 4.5)) {
+      note('low-contrast', ratio.toFixed(1) + ':1  ' + text.slice(0, 40))
     }
   }
 

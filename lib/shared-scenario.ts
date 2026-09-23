@@ -37,7 +37,42 @@ export interface ScenarioQuestion {
   question?: unknown
   /** Lifted here, off the stem. */
   scenario?: string
+  /** The reading text this question is set on, where it has one. */
+  passage?: unknown
   [key: string]: unknown
+}
+
+/**
+ * Is this scenario just a line of the passage, read twice?
+ *
+ * On a Science paper the lifted lead-in is the only place the situation is
+ * stated, so it has to be shown. On an English paper it is not: the passage is
+ * already pinned beside the question, and the model opens each comprehension
+ * question by quoting the line it is asking about. The lifter promotes that
+ * quote to a scenario block, and the learner gets, four inches apart:
+ *
+ *   passage, paragraph A   "In the heart of the ancient city of Eldoria,
+ *                           nestled between the towering peaks of the Silver
+ *                           Mountains, there lay a hidden gem..."
+ *   scenario block         "In the heart of the ancient city of Eldoria,
+ *                           nestled between the towering peaks of the Silver
+ *                           Mountains, there lay a hidden gem..."
+ *
+ * Four of nine scenarios on a live English paper were that. Stripping it from
+ * the STEM is still right — the repeated opening is what made every question
+ * look the same — but re-printing it as reference material beside the text it
+ * was copied from is noise. So it is lifted off the stem and then dropped.
+ *
+ * Compared on normalised whitespace, not fuzzily: this only fires when the
+ * passage genuinely contains the sentence.
+ */
+function alreadyInPassage(scenario: string, passage: unknown): boolean {
+  const text = String(passage ?? '').toLowerCase().replace(/\s+/g, ' ')
+  if (!text.trim()) return false
+  const line = scenario.toLowerCase().replace(/\s+/g, ' ').trim()
+  // Short enough to be a coincidence is not evidence of anything.
+  if (line.length < 25) return false
+  return text.includes(line)
 }
 
 /** The content words of a sentence, for comparing two lead-ins. */
@@ -128,7 +163,9 @@ export function liftSharedScenarios<T extends ScenarioQuestion>(questions: reado
       for (let k = i; k < j; k++) {
         const rest = sentencesOf(String(out[k].question ?? '')).slice(1).join(' ').trim()
         if (!rest) continue
-        out[k].scenario = scenario
+        // Off the stem either way; shown only where it says something the
+        // learner cannot already read. See `alreadyInPassage`.
+        if (!alreadyInPassage(scenario, out[k].passage)) out[k].scenario = scenario
         out[k].question = rest
       }
       i = j
