@@ -76,6 +76,32 @@ function termPattern(term: string): string {
   return '\\b' + term.replace(/[.*+?^${}()|[\]\\]/g, '\\$&') + 's?\\b'
 }
 
+/**
+ * Beyond PRIMARY (Stage 6), but perfectly fine at Lower Secondary (Stage 9).
+ *
+ * A live Primary Science paper — ten- and eleven-year-olds — opened on a
+ * periodic table and spent seven of its thirty-one questions on it:
+ *
+ *   "Using the table, state the atomic number of beryllium."
+ *   "Using the table, determine the group number of hydrogen."
+ *   "Using the table, explain why lithium and beryllium are in the same
+ *    group."
+ *
+ * Cambridge Primary Science describes materials by their properties. Atomic
+ * number, groups and the periodic table arrive at Lower Secondary, which is
+ * why these cannot go on the list above: they would then be refused at Stage
+ * 9 as well, where they are exactly right.
+ *
+ * Same fault as the mitochondrion, one stage down, and the same lesson — the
+ * figure came first and the questions were written to its labels.
+ */
+const BEYOND_PRIMARY: readonly string[] = [
+  'periodic table', 'atomic number', 'atomic mass', 'mass number',
+  'group number', 'proton', 'neutron', 'electron', 'subatomic',
+  'molecule', 'chemical formula', 'chemical equation', 'compound',
+  'independent variable', 'dependent variable',
+]
+
 const PATTERN = new RegExp(
   '(?:' + BEYOND_CHECKPOINT.map(termPattern).join('|') + ')',
   'i',
@@ -93,7 +119,10 @@ export function beyondStage(text: unknown, stage: number | undefined): string[] 
   if (!body.trim()) return []
 
   const found: string[] = []
-  for (const term of BEYOND_CHECKPOINT) {
+  // Primary carries the Stage 9 list as well, since anything past Stage 9 is
+  // necessarily past Stage 6 too.
+  const terms = stage <= 6 ? [...BEYOND_CHECKPOINT, ...BEYOND_PRIMARY] : BEYOND_CHECKPOINT
+  for (const term of terms) {
     if (new RegExp(termPattern(term), 'i').test(body) && !found.includes(term)) found.push(term)
   }
   return found
@@ -102,5 +131,7 @@ export function beyondStage(text: unknown, stage: number | undefined): string[] 
 /** Is this question written past the stage it is being sat at? */
 export function questionIsAboveStage(text: unknown, stage: number | undefined): boolean {
   if (typeof stage !== 'number' || stage > 9) return false
-  return PATTERN.test(String(text ?? ''))
+  // Shares the stage-aware list rather than testing PATTERN directly, so the
+  // Primary tier applies here too. The two used to disagree about Stage 6.
+  return beyondStage(text, stage).length > 0
 }

@@ -58,7 +58,73 @@ export function unanswerableReason(q: AnswerableQuestion): string | null {
   if (asksNothing(stem)) return 'sets a scene and asks nothing'
   if (asksTwoThings(q)) return 'asks two things in a one-word answer box'
   if (calculatesFromNothing(q, stem)) return 'asks for a calculation with no quantity to work from'
+  if (referstoNothing(q, stem)) return 'refers to something no part of this question introduces'
   return null
+}
+
+/**
+ * A continuation question, shown on its own screen.
+ *
+ * Live Primary Science paper, one question per screen:
+ *
+ *   Q6  "A car travels 120 km in 2 hours. How long does it take to travel
+ *        180 km?"
+ *   Q7  "What distance does it cover in 1 hour?"
+ *   Q8  "What is the total time taken to travel 240 km?"
+ *   ...
+ *   Q19 "What is the average speed of the car?"
+ *   Q20 "How far will it travel in 3 hours at the same speed?"
+ *
+ * Q6 carries its own data. Q7, Q19 and Q20 are parts of it written as if the
+ * car were still on the page, and it is not — the learner sees "What distance
+ * does it cover in 1 hour?" and nothing else.
+ *
+ * `liftSharedScenarios` cannot help: it lifts an opening that is REPEATED
+ * across a run, and here the setup is stated once and then assumed. So these
+ * are dropped and the top-up loop writes replacements.
+ *
+ * Three signals, each needing no scenario, no passage and no figure:
+ *
+ *  - a third-person pronoun with nothing in the stem for it to refer to;
+ *  - "the same ...", which is a comparison to something not shown;
+ *  - a definite subject ("the car") that the stem never introduces.
+ *
+ * A proper noun or an indefinite introduction ("an insect", "a container of
+ * sand") makes a stem self-contained, so "How many legs does an insect have?"
+ * and "What is the capital of France?" are untouched. Both were false
+ * positives of the first version of this.
+ */
+const PRONOUN = /\b(?:it|its|she|he|her|hers|his|they|them|their)\b/i
+/** Nouns a question makes definite once a setup has introduced them. */
+const DEFINITE_SUBJECT =
+  /\bthe\s+(?:car|bus|train|object|ball|marble|block|box|container|liquid|solution|mixture|sample|experiment|investigation|reaction|plant|animal|child|student|learner|class|journey|trip)\b/i
+
+function referstoNothing(q: AnswerableQuestion, stem: string): boolean {
+  if (q.scenario || q.passage || q.image_url || q.diagram_svg) return false
+
+  // A capitalised word that is not the first is a name, and a name is its own
+  // antecedent: "Emma drove her car" introduces Emma and the car together.
+  const words = stem.split(/\s+/)
+  const hasProperNoun = words.slice(1).some((w) => /^[A-Z][a-z]{2,}/.test(w.replace(/[^A-Za-z]/g, '')))
+  if (hasProperNoun) return false
+
+  // "A car travels 120 km" introduces the car; a question that does this for
+  // itself is answerable however many pronouns follow.
+  if (/\b(?:a|an)\s+[a-z]+/i.test(stem)) return false
+
+  if (/\bthe\s+same\b/i.test(stem)) return true
+  if (DEFINITE_SUBJECT.test(stem)) return true
+
+  // The pronoun has to come BEFORE anything it could refer to.
+  //
+  // "Explain the process of weathering and its impact on the environment" is
+  // a perfectly good question -- "its" points at the process, named four
+  // words earlier -- and the first version of this deleted it, along with
+  // "Describe the process of erosion and its effects on landscapes". In the
+  // broken ones the pronoun is the subject and arrives immediately:
+  // "What distance does IT cover", "How far will IT travel".
+  const opening = words.slice(0, 5).join(' ')
+  return PRONOUN.test(opening)
 }
 
 /**

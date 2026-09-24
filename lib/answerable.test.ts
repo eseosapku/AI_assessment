@@ -102,7 +102,10 @@ describe('a calculation with nothing to calculate from', () => {
 
   it('needs both a computing verb and a quantity', () => {
     expect(unanswerableReason({ question: 'Calculate your answer carefully and neatly.' })).toBeNull()
-    expect(unanswerableReason({ question: 'Describe the speed of the marble as it rolls.' })).toBeNull()
+    // Indefinite "a marble", so the stem introduces its own subject -- this is
+    // testing that a non-computing verb is not read as a calculation, not that
+    // a subject-less stem is answerable.
+    expect(unanswerableReason({ question: 'Describe the speed of a marble as it rolls down a ramp.' })).toBeNull()
   })
 
   it('says nothing about questions answered by selecting', () => {
@@ -111,5 +114,50 @@ describe('a calculation with nothing to calculate from', () => {
       type: 'mcq',
       options: ['4', '5', '6'],
     })).toBeNull()
+  })
+})
+
+describe('a continuation question shown on its own screen', () => {
+  it('catches the orphans that shipped on a Primary Science paper', () => {
+    // Q6 carried the data: "A car travels 120 km in 2 hours." These are its
+    // parts, written as if the car were still on the page.
+    for (const stem of [
+      'What distance does it cover in 1 hour?',
+      'What is the average speed of the car?',
+      'How far will it travel in 3 hours at the same speed?',
+    ]) {
+      expect(unanswerableReason({ question: stem }), stem).toBe(
+        'refers to something no part of this question introduces',
+      )
+    }
+  })
+
+  it('leaves a question that introduces its own subject', () => {
+    for (const stem of [
+      'A car travels 120 km in 2 hours. How long does it take to travel 180 km?',
+      'How many legs does an insect have?',
+      'What is the capital of France?',
+      'A marble rolls down a ramp. How far does it travel?',
+    ]) {
+      expect(unanswerableReason({ question: stem }), stem).toBeNull()
+    }
+  })
+
+  it('leaves a pronoun that has an antecedent in its own stem', () => {
+    // "its" points at the process, named four words earlier. The first
+    // version of this rule deleted both of these off a live Science paper.
+    for (const stem of [
+      'Explain the process of weathering and its impact on the environment.',
+      'Describe the process of erosion and its effects on landscapes.',
+    ]) {
+      expect(unanswerableReason({ question: stem }), stem).toBeNull()
+    }
+  })
+
+  it('is satisfied by a scenario, a passage or a figure', () => {
+    const stem = 'What is the average speed of the car?'
+    expect(unanswerableReason({ question: stem, scenario: 'A car travels 120 km in 2 hours.' })).toBeNull()
+    expect(unanswerableReason({ question: stem, diagram_svg: '<svg/>' })).toBeNull()
+    expect(unanswerableReason({ question: stem, image_url: '/x.png' })).toBeNull()
   })
 })

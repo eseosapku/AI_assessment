@@ -73,7 +73,12 @@ const PROMISES: readonly Promise_[] = [
   {
     kind: 'figure',
     pattern:
-      /\b(?:about|in|on|from|using|use|within|according\s+to|shown\s+in|labelled\s+(?:in|on))\s+the\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map)\b/i,
+      // `(?:\w+\s+){0,2}` because the figure is usually named: "the Venn
+      // diagram", "the bar chart", "the food web diagram". Without it, a live
+      // Primary Science paper shipped "Compare the energy sources shown in
+      // the Venn diagram" with no diagram — the pattern wanted "diagram"
+      // immediately after "the" and found "Venn".
+      /\b(?:about|in|on|from|using|use|within|according\s+to|shown\s+in|labelled\s+(?:in|on))\s+the\s+(?:\w+\s+){0,2}(?:diagram|figure|image|graph|chart|photograph|illustration|map)\b/i,
   },
   { kind: 'table', pattern: /\b(?:the )?table\s+(?:above|below|shown|shows?)\b/i },
   { kind: 'passage', pattern: /\b(?:the )?(?:passage|extract|text|article)\s+(?:above|below|shown)\b/i },
