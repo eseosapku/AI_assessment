@@ -1,6 +1,6 @@
 // lib/demand-variety.test.ts
 import { describe, it, expect } from 'vitest'
-import { demandOf, sameDemand, dropRepeatedDemands, stripDeadPointer, stripPrintedMarks } from './demand-variety'
+import { demandOf, sameDemand, dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from './demand-variety'
 
 describe('what a question actually asks', () => {
   it('takes the pointer and the paragraph reference off', () => {
@@ -107,5 +107,33 @@ describe('stripPrintedMarks', () => {
   it('handles empty input', () => {
     expect(stripPrintedMarks('')).toBe('')
     expect(stripPrintedMarks(null)).toBe('')
+  })
+})
+
+describe('stripEmptyAnswerInstruction', () => {
+  it('removes a bare instruction that says nothing', () => {
+    expect(stripEmptyAnswerInstruction('Calculate the mean number of borrows from the table. Write your answer.'))
+      .toBe('Calculate the mean number of borrows from the table.')
+    expect(stripEmptyAnswerInstruction('Find the perimeter of the rectangle. Give your answer'))
+      .toBe('Find the perimeter of the rectangle.')
+  })
+
+  it('keeps one that carries a qualifier, which is the real instruction', () => {
+    for (const stem of [
+      'Calculate the mean. Write your answer to one decimal place.',
+      'Find the ratio. Give your answer in its simplest form.',
+      'Work out the cost. State the answer in dollars.',
+    ]) {
+      expect(stripEmptyAnswerInstruction(stem), stem).toBe(stem)
+    }
+  })
+
+  it('never strips a stem down to nothing', () => {
+    expect(stripEmptyAnswerInstruction('Write your answer.')).toBe('Write your answer.')
+  })
+
+  it('handles empty input', () => {
+    expect(stripEmptyAnswerInstruction('')).toBe('')
+    expect(stripEmptyAnswerInstruction(null)).toBe('')
   })
 })

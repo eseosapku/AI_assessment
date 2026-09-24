@@ -37,7 +37,7 @@ import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { liftSharedScenarios, stripPassageEcho } from '@/lib/shared-scenario'
-import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks } from '@/lib/demand-variety'
+import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
 import { correctParagraphLetter, citesAMissingParagraph } from '@/lib/paragraph-reference'
 import { figureNoun } from '@/lib/figure-noun'
@@ -2813,6 +2813,7 @@ ${commandBlock}`
           //   Question 14 of 34   [2 marks]
           //   Calculate the average speed of a marble ... [2]
           q.question = stripPrintedMarks(q.question)
+          q.question = stripEmptyAnswerInstruction(q.question)
           // "In paragraph C" where the answer is in D. The model writes good
           // comprehension questions and guesses the letter; the answer key
           // and the passage between them say which letter is right, so this

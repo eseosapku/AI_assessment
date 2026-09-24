@@ -135,6 +135,29 @@ export function stripPrintedMarks(stem: unknown): string {
   return stripped.split(/\s+/).filter(Boolean).length >= 3 ? stripped : text
 }
 
+/**
+ * "Write your answer." — a sentence that says nothing.
+ *
+ * A real paper writes "Write your answer to one decimal place" or "Give your
+ * answer in its simplest form": the instruction is the qualifier. Without one
+ * it is an imperative with no object, sitting after a question that already
+ * has an answer box:
+ *
+ *   "Calculate the mean number of borrows from the table. Write your answer."
+ *
+ * Only the bare form is removed, and only from the end. Anything carrying a
+ * qualifier is left exactly as it is.
+ */
+export function stripEmptyAnswerInstruction(stem: unknown): string {
+  const text = String(stem ?? '').trim()
+  if (!text) return text
+  const stripped = text
+    .replace(/\s*(?:write|give|state)\s+(?:your|the)\s+answer\s*[.!]?\s*$/i, '')
+    .trim()
+  // Never leave a stem that is not still a question.
+  return stripped.split(/\s+/).filter(Boolean).length >= 3 ? stripped : text
+}
+
 export function stripDeadPointer(stem: unknown): string {
   const text = String(stem ?? '').trim()
   const stripped = text.replace(

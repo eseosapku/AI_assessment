@@ -299,6 +299,22 @@ const SECOND_DEMAND =
   /\b(?:and\s+)?(?:explain|describe|justify|discuss|comment on|give\s+(?:a\s+)?reason|say\s+why|suggest\s+why)\b/i
 
 /**
+ * Imperatives that are not demands.
+ *
+ * "Show your working", "Write your answer to one decimal place" and "Use the
+ * diagram below" are how a real paper tells a learner HOW to answer, not what
+ * else to answer. Counting them as demands flagged
+ *
+ *   "Calculate the mean number of borrows from the table. Write your answer."
+ *
+ * as two questions in one box. It is one question (2.6) followed by a
+ * sentence that says nothing -- badly written, but answerable, and deleting
+ * it would cost a good question to remove a stray full stop.
+ */
+const HOUSEKEEPING =
+  /^(?:show\s+(?:your|all)\b|write\s+your\s+answer\b|give\s+your\s+answer\b|round\s+your\s+answer\b|use\s+(?:the|your)\b|look\s+at\b|refer\s+to\b|read\s+the\b)/i
+
+/**
  * Does this one-mark question ask for two answers?
  *
  * Two shapes, and the second was missed for a long time because it never uses
@@ -315,13 +331,28 @@ export function asksTwoThings(q: Record<string, unknown> | unknown): boolean {
   const rec = (q ?? {}) as Record<string, unknown>
   const key = rec.short_answer as ShortAnswerKey | undefined
   if (!key || !Array.isArray(key.accepted)) return false
-  const marks = typeof rec.marks === 'number' ? rec.marks : 1
-  if (marks > 1) return false
+  // No marks gate.
+  //
+  // There used to be one -- anything above a mark was waved through, on the
+  // reasoning that two marks can pay for two answers. That reasoning does not
+  // apply HERE: this function only ever runs on a question with a
+  // `short_answer` key, which is a SINGLE input box. Two demands into one box
+  // is broken at any mark value, and the gate let one through on a live
+  // paper: "Calculate the mean number of borrows from the table. Write your
+  // answer to one decimal place." arrived claiming more than a mark, was
+  // waved past, and was stamped back down to the slot's one on the way out.
+  //
+  // Marks are provisional until the very end of the route, so a guard that
+  // depends on them is a guard that fires or does not fire by accident.
 
   const stem = text(rec.question)
   if (!stem) return false
 
-  const sentences = stem.split(/(?<=[.!?])\s+/).map((x) => x.trim()).filter(Boolean)
+  const sentences = stem
+    .split(/(?<=[.!?])\s+/)
+    .map((x) => x.trim())
+    .filter(Boolean)
+    .filter((x) => !HOUSEKEEPING.test(x))
   // Two imperatives is two questions, however politely they are worded.
   if (sentences.filter((x) => COMMAND_AT_START.test(x)).length >= 2) return true
 
