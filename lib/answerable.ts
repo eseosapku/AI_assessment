@@ -23,7 +23,7 @@
  * copies of a rule drift, and then the sweep and the product disagree about
  * what shipped.
  */
-import { asksNothing, asksTwoThings } from './question-audit'
+import { asksNothing, asksTwoThings, asksTwoQuantities } from './question-audit'
 import { namesAQuantity, opensWithComputation } from './calculation-demand'
 
 export interface AnswerableQuestion {
@@ -57,9 +57,43 @@ export function unanswerableReason(q: AnswerableQuestion): string | null {
 
   if (asksNothing(stem)) return 'sets a scene and asks nothing'
   if (asksTwoThings(q)) return 'asks two things in a one-word answer box'
+  // The same fault in a one-mark WRITTEN slot, which carries marking criteria
+  // instead of a key and so never reached the check above.
+  if (asksTwoQuantities(q)) return 'asks for two separate quantities in a one-mark answer'
   if (calculatesFromNothing(q, stem)) return 'asks for a calculation with no quantity to work from'
   if (referstoNothing(q, stem)) return 'refers to something no part of this question introduces'
+  if (areaIsNotDetermined(stem)) return 'asks for an area that the lengths given do not determine'
   return null
+}
+
+/**
+ * An area that the given lengths do not fix.
+ *
+ * Live Mathematics paper:
+ *
+ *   "Calculate the area of the quadrilateral with sides 8 cm, 6 cm, 8 cm,
+ *    6 cm."
+ *
+ * That is not a rectangle. Four side lengths do not determine a quadrilateral
+ * — 8, 6, 8, 6 is any parallelogram from nearly flat to a full 48 cm², and the
+ * mark scheme picks one of them. A learner who notices is right and is marked
+ * wrong; a learner who does not learns something false.
+ *
+ * Only fires on the genuinely undetermined shapes. A rectangle, a square or a
+ * triangle IS determined by its sides, and a parallelogram with a height or a
+ * right angle given is determined too — all of those are left alone.
+ */
+const LOOSE_SHAPE = /\b(?:quadrilateral|parallelogram|rhombus|trapezium|trapezoid|kite)\b/i
+const PINS_IT_DOWN =
+  /\b(?:height|perpendicular|right[- ]angle|rectangle|rectangular|square|altitude|base\s+and|diagonal)\b/i
+
+function areaIsNotDetermined(stem: string): boolean {
+  if (!/\barea\b/i.test(stem)) return false
+  if (!LOOSE_SHAPE.test(stem)) return false
+  if (PINS_IT_DOWN.test(stem)) return false
+  // At least three lengths quoted is what makes it look answerable.
+  const lengths = stem.match(/\d+(?:\.\d+)?\s*(?:cm|mm|m|km|units?)\b/gi) ?? []
+  return lengths.length >= 3
 }
 
 /**

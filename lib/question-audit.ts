@@ -332,6 +332,67 @@ export function asksTwoThings(q: Record<string, unknown> | unknown): boolean {
   return Boolean(target.trim()) && SECOND_DEMAND.test(target)
 }
 
+/** Things with a numeric value, for spotting a stem that wants two of them. */
+const QUANTITY_NOUN =
+  'value|amount|number|total|sum|difference|product|area|perimeter|circumference|' +
+  'volume|capacity|mass|weight|length|width|height|distance|speed|time|angle|' +
+  'probability|percentage|fraction|ratio|mean|median|mode|range|average|root|' +
+  'cube|square|term|gradient|coordinate'
+
+const TWO_QUANTITIES = new RegExp(
+  String.raw`\b(${QUANTITY_NOUN})\b[^.?]{0,40}\band\b[^.?]{0,40}\b(${QUANTITY_NOUN})\b`,
+  'i',
+)
+
+/** One computation over two operands is ONE demand: "the difference between x and y". */
+const OPERANDS_OF_ONE = /\b(?:between|difference|sum of|total of|ratio of|product of|compare|combined|altogether)\b/i
+
+/** A chain producing ONE answer: "...and square the result". */
+const CHAINED = /\b(?:the result|this answer|your answer|the answer|then)\b/i
+
+/**
+ * A one-mark question wanting two separate numbers.
+ *
+ * `asksTwoThings` above covers the short-answer case and stops at its first
+ * line for anything else, because it requires a `short_answer` key. A live
+ * Mathematics paper put these in one-mark WRITTEN slots, which have marking
+ * criteria and no key, so none of them were seen:
+ *
+ *   "Calculate the circumference and area of a circle with a radius of 7 cm."
+ *   "Find the square root of 81 and the cube of 3."
+ *   "Find the median and range of the list of values: 3, 5, 7, 9, 11."
+ *
+ * One mark, one box, two numbers wanted. The learner can only lose.
+ *
+ * Two exclusions, both from real stems on the same paper: "the difference
+ * between the mean and the median" is one computation over two operands, and
+ * "Calculate the cube root of 64 and square the result" is a chain with a
+ * single answer.
+ */
+export function asksTwoQuantities(q: Record<string, unknown> | unknown): boolean {
+  const rec = (q ?? {}) as Record<string, unknown>
+  const marks = typeof rec.marks === 'number' ? rec.marks : 1
+  if (marks > 1) return false
+
+  const stem = text(rec.question)
+  if (!stem) return false
+  if (OPERANDS_OF_ONE.test(stem) || CHAINED.test(stem)) return false
+
+  const m = TWO_QUANTITIES.exec(stem)
+  // The same noun twice ("the total number") is one thing named twice.
+  if (!m || m[1].toLowerCase() === m[2].toLowerCase()) return false
+
+  // An "and" inside a clause of GIVENS joins data, not demands.
+  //
+  // "Calculate the area of the parallelogram with base 8 cm and height 6 cm"
+  // asks for one thing and is told two. What separates it from "Calculate the
+  // circumference and area of a circle with a radius of 7 cm" is position:
+  // there, the "with" comes after the "and".
+  const andAt = stem.toLowerCase().indexOf(' and ', m.index)
+  const givensAt = stem.toLowerCase().search(/\b(?:with|given|where|measuring)\b/)
+  return !(givensAt >= 0 && andAt >= 0 && givensAt < andAt)
+}
+
 function auditShortAnswerScope(q: Record<string, unknown>, i: number, out: AuditFinding[]): void {
   if (!asksTwoThings(q)) return
   const stem = text(q.question)

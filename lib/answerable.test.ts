@@ -161,3 +161,46 @@ describe('a continuation question shown on its own screen', () => {
     expect(unanswerableReason({ question: stem, image_url: '/x.png' })).toBeNull()
   })
 })
+
+describe('two quantities in a one-mark answer, and an undetermined area', () => {
+  it('catches the one-mark written questions that wanted two numbers', () => {
+    for (const stem of [
+      'Calculate the circumference and area of a circle with a radius of 7 cm. Explain your steps.',
+      'Find the square root of 81 and the cube of 3. Explain your steps.',
+      'Find the median and range of the list of values: 3, 5, 7, 9, 11. Explain your steps.',
+    ]) {
+      expect(unanswerableReason({ question: stem, marks: 1 }), stem).toBe(
+        'asks for two separate quantities in a one-mark answer',
+      )
+    }
+  })
+
+  it('leaves one computation over two operands, and a chain', () => {
+    // Both are a single answer, and both are real stems from the same paper.
+    expect(unanswerableReason({ question: 'Find the difference between the mean and the median.', marks: 1 })).toBeNull()
+    expect(unanswerableReason({ question: 'Calculate the cube root of 64 and square the result.', marks: 1 })).toBeNull()
+  })
+
+  it('leaves two quantities when the marks allow for two', () => {
+    expect(unanswerableReason({
+      question: 'Find the median and range of the list of values: 3, 5, 7, 9, 11.',
+      marks: 2,
+    })).toBeNull()
+  })
+
+  it('catches an area four side lengths do not determine', () => {
+    expect(unanswerableReason({ question: 'Calculate the area of the quadrilateral with sides 8 cm, 6 cm, 8 cm, 6 cm.' }))
+      .toBe('asks for an area that the lengths given do not determine')
+  })
+
+  it('leaves areas that ARE determined', () => {
+    for (const stem of [
+      'Calculate the area of the rectangle with sides 8 cm and 6 cm.',
+      'Calculate the area of the parallelogram with base 8 cm and height 6 cm.',
+      'Calculate the area of the square with sides 5 cm.',
+      'Calculate the perimeter of the quadrilateral with sides 8 cm, 6 cm, 8 cm, 6 cm.',
+    ]) {
+      expect(unanswerableReason({ question: stem }), stem).toBeNull()
+    }
+  })
+})
