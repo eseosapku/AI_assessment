@@ -2771,6 +2771,28 @@ ${commandBlock}`
      * loop comes straight off the paper.
      */
     const makeShippable = (questions: any[]): any[] => {
+      // Provisional marks, before any guard reads them.
+      //
+      // The authoritative stamping happens at the very end, once trimming has
+      // settled the order. Until then a TOP-UP question carries whatever the
+      // model claimed it was worth, and two guards here gate on marks --
+      // `asksTwoThings` and `asksTwoQuantities` both let anything above one
+      // mark through. So "Find the median and range of the following data
+      // set: 4, 7, 3, 9, 5." arrived claiming 3 marks, was waved past, and
+      // was then stamped down to the slot's 1 on the way out: one mark, one
+      // box, two numbers wanted.
+      //
+      // This is provisional on purpose -- drops and top-ups below shift the
+      // indices, and the stamp at the end is what the paper is actually
+      // printed with. It only has to be realistic enough for the guards.
+      if (isCheckpoint && slotPlan.length > 0) {
+        questions.forEach((q, i) => {
+          const slot = slotPlan[i]
+          const marks = Number(slot?.marks)
+          if (q && typeof q === 'object' && marks > 0) q.marks = marks
+        })
+      }
+
       // A pointer at a figure printed beside the question, written the same
       // way nine times on one paper. Told not to in the prompt and did it
       // anyway, so it comes off here.
