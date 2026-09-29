@@ -37,6 +37,7 @@ import type { CheckpointComponent, CheckpointSubject } from './cambridge-checkpo
 import { tagQuestionToStrand } from './checkpoint-strands'
 import { isPlaceholderKey, type ShortAnswerKey } from './short-answer'
 import { fociExaminedFor, sittingCountFor } from './checkpoint-past-papers'
+import { isCompositionQuestion } from './slot-shape'
 
 export type PaperMode = 'paper' | 'practice'
 /**
@@ -1065,6 +1066,14 @@ export function demandWeight(question: unknown): number | null {
 }
 
 /**
+ * The choose-and-prove question: "Is Elara brave or reckless? Give two
+ * quotations. Explain how each supports your choice." What the justify slot
+ * asks for, so it goes there rather than into the next written slot.
+ */
+const PROVES_A_CHOICE =
+  /\b(?:give|find|use)\s+(?:two|2)\s+quotations?\b|\bjustify your (?:choice|answer|opinion)\b|\bquotations? (?:from the text )?to support\b/i
+
+/**
  * Take the slot whose marks are nearest this weight, leaving the rest.
  *
  * Greedy, in question order, which is the order the paper has to keep: the
@@ -1202,11 +1211,15 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
   const ring = paper.slots.filter((s) => s.format === 'select')
   const tick = paper.slots.filter((s) => s.format === 'tick')
   const table = paper.slots.filter((s) => s.format === 'table')
-  // The long written ones, heaviest first: a 25-mark composition must not be
-  // filled by a question written for a 4-mark justify.
-  const essay = paper.slots
-    .filter((s) => s.format === 'composition' || s.format === 'justify')
-    .sort((a, b) => b.marks - a.marks)
+  // The composition and the choose-and-prove question, each in its own pool.
+  //
+  // They shared one, heaviest first, that any written answer could fall into,
+  // and a composition gives `demandWeight` no signal -- so it took the next
+  // 2-mark written slot, and the written answer that later found the written
+  // slots full took the 25. A live English paper printed "Explain how Elara's
+  // discovery affected the town", two marking points, as its 25-mark task.
+  const compose = paper.slots.filter((s) => s.format === 'composition').sort((a, b) => b.marks - a.marks)
+  const justify = paper.slots.filter((s) => s.format === 'justify').sort((a, b) => b.marks - a.marks)
 
   const kept: Record<string, unknown>[] = []
   for (const question of usable) {
@@ -1215,11 +1228,15 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     const choice = isMultipleChoice(question)
     const ticks = isTickList(question)
     const grid = isCategorise(question)
-    const preferred = grid ? table : ticks ? tick : choice ? ring : keyed ? brief : extended
-    // A written answer with several marking criteria is what a composition or
-    // a justify looks like coming back, so those fall to the essay pool before
-    // the short one.
-    const fallback = grid ? extended : ticks ? extended : choice ? brief : keyed ? extended : essay
+    const stem = String((question as Record<string, unknown>).question ?? '')
+    const writing = isCompositionQuestion(question)
+    const proves = !writing && PROVES_A_CHOICE.test(stem)
+    // A composition slot takes a composition and nothing else. Left empty, the
+    // paper is short by marks the screen reports; filled with a one-liner, it
+    // is 25 marks against a scheme that cannot award them.
+    if (writing && compose.length === 0) continue
+    const preferred = grid ? table : ticks ? tick : choice ? ring : writing ? compose : proves ? justify : keyed ? brief : extended
+    const fallback = grid ? extended : ticks ? extended : choice ? brief : writing ? compose : proves ? extended : keyed ? extended : justify
     // A slot of the wrong kind is better than no slot: the question exists and
     // has to be worth something. The mark rule below keeps that honest.
     //
@@ -1238,7 +1255,8 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
       draw(preferred) ??
       draw(fallback) ??
       (() => {
-        const pool = [extended, essay, brief, ring, tick, table].find((p) => p.length > 0)
+        // Never `compose`: see above.
+        const pool = [extended, justify, brief, ring, tick, table].find((p) => p.length > 0)
         return pool ? draw(pool) : undefined
       })()
     // Only now is the paper genuinely full, and the surplus is dropped.

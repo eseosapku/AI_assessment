@@ -221,3 +221,20 @@ describe('a scenario that restates its own figure', () => {
       .toBe('A book rests on a table. Name the force acting upwards.')
   })
 })
+
+// A composition's first sentence IS the task. Two compositions on one English
+// paper shared it, and the lift left "Address your peers, aiming to enhance
+// their understanding of these concepts." as the 25-mark question.
+describe('a composition keeps its task', () => {
+  it('is never split into a scenario and a remainder', () => {
+    const task = 'Write an article for a school magazine explaining the difference between a fact and an opinion.'
+    const out = liftSharedScenarios([
+      { question: `${task} Address your peers. Your article should be about 300 words long.`, slot_format: 'composition' } as ScenarioQuestion,
+      { question: `${task} Aim for your audience to be fellow students, about 300 words.`, slot_format: 'composition' } as ScenarioQuestion,
+    ])
+    for (const q of out) {
+      expect(String(q.question).startsWith(task)).toBe(true)
+      expect((q as any).scenario).toBeUndefined()
+    }
+  })
+})

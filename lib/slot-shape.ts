@@ -21,6 +21,7 @@
  * by renaming its type, and a question that is silently the wrong kind is how
  * a paper ends up all one thing.
  */
+import { isWritingTask } from './passage-question-match'
 
 export type SlotFormat = 'short' | 'select' | 'tick' | 'table' | 'written' | 'composition' | 'justify'
 
@@ -50,10 +51,34 @@ function shapeIsRight(q: any, format: SlotFormat): boolean {
       // Marked by matching, so a key is not optional.
       return Boolean(q.short_answer)
     case 'composition':
+      // A mark scheme is not enough. "Explain what is a fact in this
+      // sentence." carried two marking points and shipped in a 25-mark
+      // composition slot, because that was all this asked.
+      return Array.isArray(q.marking_criteria) && q.marking_criteria.length > 0
+        && isWritingTask(q.question)
     case 'justify':
     case 'written':
       return Array.isArray(q.marking_criteria) && q.marking_criteria.length > 0
   }
+}
+
+/**
+ * Was this written for a composition slot?
+ *
+ * A composition is a writing task, not a question about a text, a figure or a
+ * sum, and the guards written for those deleted it on word-level coincidences:
+ * "Aim for about 400 words" read as a character named Aim who is not in the
+ * passage; "the difference between a fact and an opinion ... 400 words" read
+ * as arithmetic; "so a reader can picture it" read as a missing picture. The
+ * stamp is the evidence -- the route wrote it for that slot. The wording is
+ * the fallback for a question that arrived without one.
+ */
+export function isCompositionQuestion(q: unknown): boolean {
+  if (!q || typeof q !== 'object') return false
+  const o = q as Record<string, unknown>
+  if (o.slot_format === 'composition') return true
+  if (typeof o.slot_format === 'string') return false
+  return isWritingTask(o.question)
 }
 
 export interface SlotCheck {
@@ -82,8 +107,13 @@ export function enforceSlotShape(questions: unknown, slots: readonly SlotSpec[] 
 
     // The slot is right by definition. The model's number is noise.
     q.marks = slot.marks
-
-    if (!shapeIsRight(q, slot.format)) {
+    if (shapeIsRight(q, slot.format)) {
+      // And what it was written FOR, so the guards downstream can tell a
+      // composition from a question about the text. Only when it IS that
+      // shape: a one-liner kept in a composition slot after a retry must not
+      // be waved past every guard as a composition.
+      q.slot_format = slot.format
+    } else {
       const got = q.type === 'interactive' ? `interactive:${q.kind ?? '?'}` : String(q.type ?? '?')
       wrong.push({ index: i, wanted: slot.format, got })
     }

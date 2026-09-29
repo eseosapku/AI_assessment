@@ -22,8 +22,8 @@ for (const line of fs.readFileSync('.env', 'utf8').split(/\r?\n/)) {
 }
 
 import { checkpointSubject, type CheckpointProgramme } from '@/lib/cambridge-checkpoint'
-import { buildPaper, paperBrief } from '@/lib/checkpoint-paper'
-import { questionInventsItsOwnText, namesAbsentFromPassage } from '@/lib/passage-question-match'
+import { buildPaper, paperBrief, applyBlueprint } from '@/lib/checkpoint-paper'
+import { questionInventsItsOwnText, namesAbsentFromPassage, isWritingTask } from '@/lib/passage-question-match'
 import { beyondStage } from '@/lib/grade-vocabulary'
 import { demandOf } from '@/lib/demand-variety'
 
@@ -258,8 +258,41 @@ distinct demand openings: ${distinct}/${questions.length}`)
     })
   }
 
-  const marks = questions.reduce((t, q) => t + (Number(q?.marks) || 0), 0)
-  lines.push(`\nmarks awarded: ${marks} of ${paper.totalMarks}`)
+  // Everything below is checked on the paper THE LEARNER SEES: the route's
+  // output seated by `applyBlueprint`, exactly as ExamPrepForm does it.
+  //
+  // Checked on the route's output, marks always read "50 of 50", because the
+  // route stamps slot marks by POSITION -- so a one-word answer sat at
+  // position 9 was "worth 25" there, while the real composition had been
+  // deleted and the client seated a two-point "Explain ..." in the 25-mark
+  // slot. The number that was being checked was not the number on screen.
+  const seated = applyBlueprint(JSON.parse(JSON.stringify(questions)), paper) as any[]
+
+  // The composition slot holds a composition.
+  //
+  // "Explain what is a fact in this sentence." shipped as an English paper's
+  // 25-mark writing task, and before that "In paragraph F, how does the
+  // writer describe the forest?" -- run after run, with no finding, because
+  // nothing here looked at what filled the big slot.
+  const compositionSlots = paper.slots.filter((s) => s.format === 'composition')
+  if (compositionSlots.length) {
+    const minMarks = Math.min(...compositionSlots.map((s) => s.marks))
+    const inBigSlot = seated.filter((q) => (Number(q?.marks) || 0) >= minMarks)
+    for (const q of inBigSlot) {
+      // What the learner reads: any scenario printed above it, then the stem.
+      if (!isWritingTask([q?.scenario, q?.question].filter(Boolean).join(' '))) {
+        findings.push({ paper: label, kind: 'composition-not-a-writing-task', detail: `[${q.marks}] ${String(q.question).slice(0, 110)}` })
+        lines.push(`COMPOSITION SLOT HOLDS: [${q.marks}] ${String(q.question).slice(0, 160)}`)
+      }
+    }
+    if (inBigSlot.length < compositionSlots.length) {
+      findings.push({ paper: label, kind: 'composition-missing', detail: `${inBigSlot.length} of ${compositionSlots.length}` })
+      lines.push(`COMPOSITION SLOT HOLDS: nothing -- no writing task survived`)
+    }
+  }
+
+  const marks = seated.reduce((t, q) => t + (Number(q?.marks) || 0), 0)
+  lines.push(`\nmarks awarded: ${marks} of ${paper.totalMarks} (as seated on screen)`)
   if (marks !== paper.totalMarks) {
     findings.push({ paper: label, kind: 'marks-mismatch', detail: `${marks} vs ${paper.totalMarks}` })
   }
@@ -282,7 +315,11 @@ describe('a real paper, read', () => {
       ['lower-secondary', 'Mathematics', '01'],
       ['primary', 'Science', '01'],
     ]
-    const plan = only ? all.filter((p) => p[1].toLowerCase().includes(only.toLowerCase())) : all
+    // An exact subject name first: "English" also appears inside "English as
+    // a Second Language", and a substring match ran both.
+    const want = only?.toLowerCase()
+    const exact = want ? all.filter((p) => p[1].toLowerCase() === want) : []
+    const plan = !want ? all : exact.length ? exact : all.filter((p) => p[1].toLowerCase().includes(want))
 
     for (const [prog, subj, comp] of plan) {
       try {
@@ -312,7 +349,7 @@ describe('a real paper, read', () => {
     // used to report "1 passed" over five failed requests -- every paper file
     // on disk was from the run before, and they were checked as if they were
     // new. The learner would have seen "Failed to generate 40 questions".
-    const failed = lines.filter((l) => /REQUEST FAILED|BLEW UP/.test(l))
+    const failed = lines.filter((l) => /REQUEST FAILED|BLEW UP|COMPOSITION SLOT HOLDS/.test(l))
     expect(failed, failed.join('\n')).toEqual([])
   }, 45 * 60 * 1000)
 })

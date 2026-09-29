@@ -158,6 +158,10 @@ export function namesAbsentFromPassage(stem: unknown, passage: unknown): string[
  * The caller deletes it and the retry loop writes a replacement.
  */
 export function questionInventsItsOwnText(stem: unknown, passage: unknown): boolean {
+  // A composition brings its own people and is meant to. "Write an article
+  // ... Aim for about 400 words." was deleted for "naming Aim", and the
+  // paper's 25-mark slot went to a one-word question instead.
+  if (isWritingTask(stem)) return false
   return namesAbsentFromPassage(stem, passage).length > 0
 }
 
@@ -245,9 +249,21 @@ function subjectWords(text: string): string[] {
  * friend explaining why you enjoyed a recent stage performance" -- which
  * shares nothing with the reading text by design. Counting those would delete
  * the highest-mark question on the paper.
+ *
+ * At the start of ANY sentence, not just the first: real tasks often set the
+ * scene -- "Your school is holding a competition. Write an article ..." --
+ * and "Write a short story" is as much a task as "Write a story". Still a
+ * sentence start, so "why does the writer write a letter to her aunt?" is a
+ * comprehension question and stays one. The one mid-sentence form is the
+ * task handed to the learner: "You have been asked to write an article".
  */
 const WRITING_TASK =
-  /^\s*write\s+(?:a|an|your|the)\s+(?:letter|story|article|report|description|account|review|speech|email|diary|poem|leaflet|essay|paragraph|newspaper)/i
+  /(?:^|[.!?]["'”’]?\s+|\b(?:asked|invited|chosen)\s+to\s+)write\s+(?:a|an|your|the)\s+(?:set\s+of\s+|(?:(?!(?:of|from|in|about|for|on|with|to)\b)[\w'-]+\s+){0,2})(?:letter|story|article|report|description|account|review|speech|talk|email|diary|blog|poem|leaflet|essay|narrative|newspaper|instructions|guide|script|recount|profile|biography|advertisement|advert|brochure|invitation|postcard|proposal|paragraph(?!\s+(?:letter|number)))\b/i
+
+/** Is this a composition task rather than a question about the text? */
+export function isWritingTask(stem: unknown): boolean {
+  return WRITING_TASK.test(String(stem ?? '').trim())
+}
 
 /** A stem that says the quotation it carries comes from the reading text. */
 const CLAIMS_THE_TEXT =
@@ -351,13 +367,34 @@ export function questionIsOffPassage(stem: unknown, passage: unknown): boolean {
  * to generate 17 questions", which is worse than any single question. So the
  * caller drops a 'certain' one and only sets a 'likely' one aside.
  */
-export function offPassageStrength(stem: unknown, passage: unknown): 'certain' | 'likely' | null {
+export function offPassageStrength(
+  stem: unknown,
+  passage: unknown,
+  /**
+   * A table's rows, a tick list's statements, an MCQ's options. Counted for
+   * shared words only: "Complete the table to show whether each statement is
+   * true or not" says nothing about any passage, and its rows say everything.
+   * Never searched for a quotation -- a false statement on a tick list is
+   * SUPPOSED to be something the text does not say.
+   */
+  answers?: readonly unknown[],
+): 'certain' | 'likely' | null {
   const text = String(stem ?? '').trim()
   const source = String(passage ?? '')
   if (!text || !source.trim()) return null
-  if (WRITING_TASK.test(text)) return null
+  if (isWritingTask(text)) return null
   if (quotesAbsentText(text, source)) return 'certain'
-  return sharesNothingWithPassage(text, source) ? 'likely' : null
+  const rows = (answers ?? []).filter((a): a is string => typeof a === 'string')
+  return sharesNothingWithPassage([text, ...rows].join(' '), source) ? 'likely' : null
+}
+
+/**
+ * "artifacts" in the text and "artifact" in the question are one word. The
+ * same crude cut on both sides, so it can only ever find MORE in common --
+ * which is the safe direction for a check that sets questions aside.
+ */
+function singular(w: string): string {
+  return w.replace(/(?:es|s)$/, '')
 }
 
 function sharesNothingWithPassage(text: string, source: string): boolean {
@@ -382,8 +419,8 @@ function sharesNothingWithPassage(text: string, source: string): boolean {
   // somebody else's problem, not this one's.
   if (asked.length < 2) return false
 
-  const inPassage = new Set(subjectWords(source))
-  return !asked.some((w) => inPassage.has(w))
+  const inPassage = new Set(subjectWords(source).map(singular))
+  return !asked.some((w) => inPassage.has(singular(w)))
 }
 
 /**

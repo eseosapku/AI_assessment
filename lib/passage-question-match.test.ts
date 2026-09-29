@@ -1,6 +1,6 @@
 // lib/passage-question-match.test.ts
 import { describe, it, expect } from 'vitest'
-import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from './passage-question-match'
+import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength, isWritingTask } from './passage-question-match'
 
 /** The exact stems that shipped with no passage on the page. */
 const SHIPPED = [
@@ -302,6 +302,23 @@ describe('offPassageStrength', () => {
       expect(offPassageStrength(stem, P), stem).toBeNull()
     }
   })
+
+  // Set aside three times on one ESL paper whose text says "artifacts".
+  it('counts a plural and its singular as the same word', () => {
+    const text = 'The museum kept the artifacts behind glass, and the keeper polished them daily.'
+    expect(offPassageStrength("Write the plural form of the word 'artifact' as it appears in paragraph C.", text)).toBeNull()
+  })
+
+  // A table or tick question keeps its content in its rows and statements.
+  // "Complete the table to show whether each statement is true or not" shares
+  // nothing with any passage -- set aside five times on one ESL paper.
+  it('reads the rows and statements of a table or tick question, not just its stem', () => {
+    const stem = 'Complete the table to show whether each statement is true or not, based on paragraph A.'
+    expect(offPassageStrength(stem, P)).toBe('likely')
+    expect(offPassageStrength(stem, P, ['Mira lived in Eldoria.', 'The book was found at school.'])).toBeNull()
+    // Rows about some other story are still some other story.
+    expect(offPassageStrength(stem, P, ['The priest married the couple.', 'The wedding was in spring.'])).toBe('likely')
+  })
 })
 
 describe('a quotation that differs only in punctuation or one word', () => {
@@ -325,5 +342,64 @@ describe('a quotation that differs only in punctuation or one word', () => {
   it('is still absent when the text says nothing like it', () => {
     expect(offPassageStrength("Find the information stated directly in the text: 'The capital of France is Paris.'", P))
       .toBe('certain')
+  })
+})
+
+// A composition is not about the passage, and the passage checks deleted it:
+// "Write an article for your school magazine ... Aim for about 400 words."
+// was rejected for "naming Aim, who is not in the passage", and an English
+// paper then filled its 25-mark slot with a one-word question.
+describe('a writing task is not held to the passage', () => {
+  const P = 'Elara found the crystals in the cavern. Orion helped her read the old map.'
+
+  it('knows a writing task, including one that sets the scene first', () => {
+    for (const stem of [
+      'Write an article for your school magazine about arts education. Aim for about 400 words.',
+      'Your school is holding a competition. Write a story called "The Night Market" for it.',
+      'Write a letter to your head teacher suggesting one change to the school day.',
+    ]) {
+      expect(isWritingTask(stem), stem).toBe(true)
+    }
+  })
+
+  it('does not mistake a comprehension question about writing for one', () => {
+    for (const stem of [
+      'In paragraph C, why does the writer write a letter to her aunt?',
+      'What did Elara write in her diary?',
+    ]) {
+      expect(isWritingTask(stem), stem).toBe(false)
+    }
+  })
+
+  it('does not reject a composition for a name the passage lacks', () => {
+    expect(questionInventsItsOwnText('Write an article for your school magazine about arts education. Aim for about 400 words.', P)).toBe(false)
+    expect(questionInventsItsOwnText('Write a story about Kwame, who finds a lost dog. Write about 400 words.', P)).toBe(false)
+  })
+
+  it('still rejects an invented character in a comprehension question', () => {
+    expect(questionInventsItsOwnText('What did Clara find under the oak tree?', P)).toBe(true)
+  })
+
+  it('never calls a composition off-passage', () => {
+    expect(offPassageStrength('Your school is holding a competition. Write an article about a hobby you love.', P)).toBeNull()
+  })
+})
+
+describe('the writing forms a Cambridge English paper sets', () => {
+  it('knows the non-fiction forms as well as the story and the letter', () => {
+    for (const stem of [
+      'Write a set of instructions for a friend on how to bake a chocolate cake.',
+      'Write a guide for new students explaining how to find their way around the school.',
+      'Write a talk to give to your class about a hobby you enjoy.',
+      'Write a recount of a school trip for the school website.',
+      'Write an advertisement for a new after-school club.',
+    ]) {
+      expect(isWritingTask(stem), stem).toBe(true)
+    }
+  })
+
+  it('still does not count a summary or a single sentence', () => {
+    expect(isWritingTask('Write a summary of paragraph B in your own words.')).toBe(false)
+    expect(isWritingTask('Write a sentence using the word "reluctant".')).toBe(false)
   })
 })

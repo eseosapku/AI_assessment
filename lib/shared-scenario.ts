@@ -32,6 +32,7 @@
  * Galileo observed the moons of Jupiter" are the same lead-in and an exact
  * comparison sees two different sentences.
  */
+import { isCompositionQuestion } from './slot-shape'
 
 export interface ScenarioQuestion {
   question?: unknown
@@ -289,6 +290,10 @@ export function liftSharedScenarios<T extends ScenarioQuestion>(questions: reado
   const out = questions.map((q) => ({ ...q }))
   let i = 0
   while (i < out.length) {
+    // A composition's first sentence is not a lead-in, it is the task. Two
+    // compositions sharing one were split, and "Address your peers ..." was
+    // left as the 25-mark question.
+    if (isCompositionQuestion(out[i])) { i++; continue }
     const first = sentencesOf(String(out[i].question ?? ''))
     // A lead-in is a sentence of setup followed by a demand. One sentence is
     // the demand itself.
@@ -296,6 +301,7 @@ export function liftSharedScenarios<T extends ScenarioQuestion>(questions: reado
 
     let j = i + 1
     while (j < out.length) {
+      if (isCompositionQuestion(out[j])) break
       const next = sentencesOf(String(out[j].question ?? ''))
       if (next.length < 2 || !sameLeadIn(first[0], next[0])) break
       j++

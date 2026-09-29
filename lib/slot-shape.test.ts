@@ -1,6 +1,6 @@
 // lib/slot-shape.test.ts
 import { describe, it, expect } from 'vitest'
-import { enforceSlotShape, type SlotSpec } from './slot-shape'
+import { enforceSlotShape, isCompositionQuestion, type SlotSpec } from './slot-shape'
 
 const mcq = () => ({ type: 'mcq', question: 'Draw a ring around the prime number.', options: ['4', '7', '9', '12'], correct_answer: 1 })
 const tick = () => ({ type: 'interactive', kind: 'multi_select', question: 'Tick all the correct statements.', options: ['a', 'b', 'c', 'd', 'e'], correct_indices: [0, 2] })
@@ -51,5 +51,68 @@ describe('the blueprint outranks the model', () => {
     const out = enforceSlotShape([q], undefined)
     expect(out.questions[0].marks).toBe(9)
     expect(out.wrong).toEqual([])
+  })
+})
+
+// "Explain what is a fact in this sentence." shipped in an English paper's
+// 25-mark composition slot. It carried two marking points, which was all the
+// check asked of a composition.
+describe('a composition slot holds a writing task', () => {
+  const bands = ['content', 'structure', 'sentences', 'vocabulary']
+
+  it('reports a comprehension question in a composition slot', () => {
+    for (const question of [
+      'Explain what is a fact in this sentence.',
+      'In paragraph F, how does the writer describe the forest before Theo enters it?',
+      "Describe Elara's feelings as she reached the Emerald Grove.",
+    ]) {
+      const out = enforceSlotShape([{ type: 'longform', question, marking_criteria: bands }], [{ marks: 25, format: 'composition' }])
+      expect(out.wrong, question).toEqual([{ index: 0, wanted: 'composition', got: 'longform' }])
+    }
+  })
+
+  it('accepts a writing task, including one that sets the scene first', () => {
+    for (const question of [
+      "Write a story called 'The Midnight Concert' for your school magazine. Write about 500 words.",
+      'Your school is holding a competition. Write an article for the school website about a place you love.',
+      'Write a letter to your head teacher suggesting one change to the school day.',
+      'Write a description of a busy market for readers who have never visited one.',
+    ]) {
+      const out = enforceSlotShape([{ type: 'longform', question, marking_criteria: bands }], [{ marks: 25, format: 'composition' }])
+      expect(out.wrong, question).toEqual([])
+    }
+  })
+})
+
+// The guards a composition was deleted by -- "Aim" read as a character, "400
+// words" plus "difference" read as a sum, "picture it" read as a missing
+// picture -- were all written for questions about a text, a figure or a
+// number. The route knows which questions it wrote for a composition slot, so
+// it says so on the question and the guards can ask.
+describe('a question remembers the slot it was written for', () => {
+  it('is stamped with its slot format', () => {
+    const q: any = { type: 'longform', question: 'Write a story about a storm.', marking_criteria: ['a', 'b', 'c', 'd'] }
+    enforceSlotShape([q], [{ marks: 25, format: 'composition' }])
+    expect(q.slot_format).toBe('composition')
+    expect(isCompositionQuestion(q)).toBe(true)
+  })
+
+  it('knows a composition by its wording when it has no stamp', () => {
+    expect(isCompositionQuestion({ question: 'Your school is holding a competition. Write an article about a hobby you love.' })).toBe(true)
+    expect(isCompositionQuestion({ question: 'In paragraph B, what did Elara find?' })).toBe(false)
+    expect(isCompositionQuestion({ question: 'Explain what is a fact in this sentence.', slot_format: 'written' })).toBe(false)
+  })
+})
+
+describe('the stamp is earned', () => {
+  it('is not given to a one-liner kept in a composition slot', () => {
+    const q: any = { type: 'longform', question: 'In paragraph E, where did Elara find Orion?', marking_criteria: ['a'] }
+    enforceSlotShape([q], [{ marks: 25, format: 'composition' }])
+    expect(q.slot_format).toBeUndefined()
+    expect(isCompositionQuestion(q)).toBe(false)
+  })
+
+  it('knows the framing Cambridge often uses', () => {
+    expect(isCompositionQuestion({ question: 'You have been asked to write an article for the school website about a place you love.' })).toBe(true)
   })
 })

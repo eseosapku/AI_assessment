@@ -574,15 +574,60 @@ describe('the long written formats English needs', () => {
     }
   })
 
-  it('seats them, rather than dropping the paper short', () => {
-    // They belong to no pool until one exists for them, and a 25-mark
-    // composition falling through takes half the paper's marks with it.
+  it('seats the justify slot from written answers, rather than dropping the paper short', () => {
+    // They belong to no pool until one exists for them.
     const paper = buildPaper(english, english.components[0], { mode: 'paper', seed: 3 })
     const questions = paper.slots.map((_, i) => ({
       id: i + 1, type: 'longform', question: `Explain point ${i + 1}.`,
       marks: 2, marking_criteria: ['a', 'b'], explanation: 'x',
     }))
-    expect(applyBlueprint(questions, paper)).toHaveLength(paper.slots.length)
+    const shown = applyBlueprint(questions, paper) as { marks: number }[]
+    const compositions = paper.slots.filter((s) => s.format === 'composition').length
+    expect(shown).toHaveLength(paper.slots.length - compositions)
+  })
+
+  // The rule above used to cover the composition too, so a 25-mark slot took
+  // whatever written answer reached it: "Explain how Elara's discovery
+  // affected the town" with two marking points, printed as worth 25. A slot
+  // left empty costs marks the screen reports honestly; a one-liner worth 25
+  // is marked against a scheme that cannot award them.
+  it('never gives the composition slot to something that is not a writing task', () => {
+    const paper = buildPaper(english, english.components[0], { mode: 'paper', seed: 3 })
+    const questions = paper.slots.map((_, i) => ({
+      id: i + 1, type: 'longform', question: `Explain point ${i + 1}.`,
+      marks: 2, marking_criteria: ['a', 'b'], explanation: 'x',
+    }))
+    const shown = applyBlueprint(questions, paper) as { marks: number }[]
+    expect(Math.max(...shown.map((q) => q.marks))).toBeLessThan(25)
+  })
+
+  it('gives a composition the composition slot wherever it arrives', () => {
+    // No demand signal, so it used to take the next written slot: a
+    // composition worth 2, and a later written answer worth 25.
+    const paper = buildPaper(english, english.components[0], { mode: 'paper', seed: 3 })
+    const composition = {
+      type: 'longform', question: 'Write a story called "The Night Market" for your school magazine. Write about 500 words.',
+      marking_criteria: ['content', 'structure', 'sentences', 'vocabulary'], explanation: 'x',
+    }
+    const rest = paper.slots.filter((s) => s.format !== 'composition').map((s, i) => ({
+      type: 'longform', question: `Explain point ${i + 1}.`, marking_criteria: ['a', 'b'], explanation: 'x',
+      ...(s.format === 'short' ? { question: `Name thing ${i + 1}.`, short_answer: { accepted: [`t${i}`] } } : {}),
+    }))
+    for (const order of [[composition, ...rest], [...rest, composition]]) {
+      const shown = applyBlueprint(order.map((q) => ({ ...q })), paper) as any[]
+      const seated = shown.find((q) => /Night Market/.test(q.question))
+      expect(seated?.marks).toBe(25)
+      expect(shown.filter((q) => q.marks === 25)).toHaveLength(1)
+    }
+  })
+
+  it('gives a choose-and-prove question the justify slot', () => {
+    const paper = buildPaper(english, english.components[0], { mode: 'paper', seed: 3 })
+    const justifyMarks = paper.slots.find((s) => s.format === 'justify')!.marks
+    const shown = applyBlueprint([
+      { type: 'longform', question: 'Is Elara brave or reckless? Give two quotations. Explain how each quotation supports your choice.', marking_criteria: ['q1', 'e1', 'q2', 'e2'] },
+    ], paper) as any[]
+    expect(shown[0].marks).toBe(justifyMarks)
   })
 
   it('keeps a composition worth its own marks, not the criteria count', () => {

@@ -32,13 +32,15 @@ import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLea
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from '@/lib/passage-question-match'
-import { enforceSlotShape } from '@/lib/slot-shape'
+import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { liftSharedScenarios, stripPassageEcho, stripFigureEcho } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
+import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
+import { normaliseWrittenType } from '@/lib/written-type'
 import { prettyMaths } from '@/lib/maths-notation'
 import { correctParagraphLetter, citesAMissingParagraph } from '@/lib/paragraph-reference'
 import { figureNoun } from '@/lib/figure-noun'
@@ -522,14 +524,6 @@ const DIFFICULTY_INSTRUCTIONS: Record<string, string> = {
 - Question verbs: justify, critique, defend, assess, judge, design, construct, formulate, propose, synthesise, hypothesise.
 - Questions should require extended reasoning, critical judgement, or the construction of original solutions/arguments.
 - Expect precise, nuanced, multi-layered responses with no single correct answer pathway.`,
-}
-
-function allowsArithmeticForSelection(subject: string, topics: string[]): boolean {
-  const subjectText = (subject || '').toLowerCase()
-  const topicText = (topics || []).join(' ').toLowerCase()
-  const subjectAllows = /\b(math|mathematics|statistics|physics|chemistry|science|economics|accounting)\b/.test(subjectText)
-  const topicAllows = /\b(number|addition|subtraction|multiplication|division|fraction|decimal|percent|percentage|ratio|proportion|equation|algebra|geometry|measure|measurement|length|area|perimeter|volume|angle|graph|chart|data|statistics|probability|time|speed|distance|temperature|money|currency|budget|discount|interest|velocity|acceleration|deceleration|motion|kinematic|displacement|force|momentum|energy|gravity)\b/.test(topicText)
-  return subjectAllows || topicAllows
 }
 
 function buildTopicAlignmentBlock(params: {
@@ -1258,25 +1252,6 @@ function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false
 
   return false
 }
-
-function isLikelyOffTopicMathQuestion(q: any, subject: string, topics: string[]): boolean {
-  // Only skip filtering when the selected subject/topics explicitly allow calculations.
-  // The AI prompt already forbids arithmetic on other subjects; this is a narrow backup
-  // for obvious primary-style word problems — not cross-subject keyword matching.
-  if (allowsArithmeticForSelection(subject, topics)) return false
-  const question = String(q?.question ?? '').toLowerCase()
-  if (!question) return true
-
-  const hasDigits = /\d/.test(question)
-  // Detect arithmetic expressions (e.g., "12 + 7", "9/3"), not unit notation like m/s.
-  const hasArithmeticExpression = /\d\s*[+\-*=/]\s*\d/.test(question)
-  const arithmeticWords = /\b(add|added|sum|total|altogether|in\s+all|difference|subtract|minus|plus|left|remain|remaining|increase|decrease|multiply|product|times|divide|quotient|share)\b/.test(question)
-  const storyPattern = /\bhas\s+\d+.*\b(give|gives|gave|get|gets|got|buy|buys|bought|take|takes|took|lose|loses|lost|more|less)\b.*\bhow\s+many\b/.test(question)
-  const howManyTotal = /\bhow\s+many\b/.test(question) && /\b(total|altogether|left|remain|remaining|now|in\s+all|sum)\b/.test(question)
-
-  return (hasDigits && hasArithmeticExpression) || (hasDigits && (arithmeticWords || storyPattern || howManyTotal))
-}
-
 
 // ── Main route ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
@@ -2029,7 +2004,7 @@ ${commandBlock}`
           styleExamples: styleExamplesFor(
             checkpointCode,
             String(questionParts[0]?.format ?? 'short'),
-            { count: 3, seed: startId },
+            { count: 3, seed: startId, figure: Boolean(drawn || assignedFigure) },
           ),
           figure: drawn || !assignedFigure
             ? undefined
@@ -2054,6 +2029,21 @@ ${commandBlock}`
         if (isRefusal(text)) throw new Error('Model refused to generate content.')
         const parsed = parseJsonRobust(fixLatexInRawJson(text))
         if (!Array.isArray(parsed.questions)) throw new SyntaxError('No questions array')
+        // A reply whose questions have no question in them.
+        //
+        // Nineteen arrived on one Maths paper -- bare strings or empty
+        // objects in the array -- went through as blanks, were removed
+        // downstream as "invalid question type", and the paper shipped two
+        // short. A malformed reply is re-asked like any other; the lenient
+        // retry keeps whatever real questions it has.
+        {
+          const blank = parsed.questions.filter((q: any) =>
+            !q || typeof q !== 'object' || !String(q.question ?? '').trim())
+          if (blank.length) {
+            if (strictShape) throw new SyntaxError(`${blank.length} of ${parsed.questions.length} question(s) came back empty`)
+            parsed.questions = parsed.questions.filter((q: any) => !blank.includes(q))
+          }
+        }
         // EVERY part carries the figure, not just the first.
         //
         // A real paper prints the diagram once above the whole question and
@@ -2114,7 +2104,10 @@ ${commandBlock}`
         // paper, about a story the learner was never shown. The prompt already
         // says to ask about THIS text; this checks, because the prompt saying
         // so has not once been enough here.
-        if (checkpointPassage) {
+        // Not a composition batch: a writing task brings its own people and
+        // places, and "Aim for about 400 words" was rejected as a character
+        // named Aim.
+        if (checkpointPassage && !questionParts.every((p: any) => p.format === 'composition')) {
           const invented = parsed.questions.filter((q: any) =>
             q && typeof q === 'object' && questionInventsItsOwnText(q.question, checkpointPassage))
           if (invented.length) {
@@ -2529,6 +2522,9 @@ ${commandBlock}`
 
       // Filter out questions that are not workable in this UI.
       const filtered = qs.filter((q: any) => {
+        // "type": "short" on a keyed answer is a longform by another name,
+        // not an invalid question. See lib/written-type.ts.
+        normaliseWrittenType(q)
         const qType = String(q?.type || '').toLowerCase()
 
         if (qType === 'interactive') {
@@ -2565,6 +2561,12 @@ ${commandBlock}`
           console.warn(`Removed incomplete Roman-numeral question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
         }
+        // The three below are about figures, sums and subject drift, and a
+        // composition is none of those. "So that a reader can picture it"
+        // and "Imagine you are describing it" read as a missing picture;
+        // "the difference between a fact and an opinion ... 400 words" as a
+        // sum. See `isCompositionQuestion`.
+        if (isCompositionQuestion(q)) return true
         if (isUnanswerableWithoutVisual(q, promptSubject, hasDiagramSupport)) {
           console.warn(`Removed unanswerable (visual-dependent) question: "${String(q?.question || '').slice(0, 80)}"`)
           return false
@@ -2854,6 +2856,18 @@ ${commandBlock}`
         }
       }
 
+      // Compositions skip the guards from here to the mark-scheme check.
+      //
+      // Every one of them was written for a question about a text, a figure
+      // or a sum, and a writing task is none of those. English papers lost
+      // their 25-mark composition on four separate word-level coincidences,
+      // run after run, and a one-word answer was seated in its place. They
+      // rejoin before `dropUnmarkable` -- a composition with no mark scheme
+      // still goes -- and sit at the end, where a real paper's writing
+      // section is.
+      const compositions = working.filter((q: any) => isCompositionQuestion(q))
+      working = working.filter((q: any) => !isCompositionQuestion(q))
+
       // The same question asked twice -- a tense apart, or a paragraph letter
       // apart. The stem deduplicator sees those differences and passes both;
       // what makes them duplicates is the demand underneath.
@@ -2954,7 +2968,10 @@ ${commandBlock}`
         // answered from that figure, not from the reading text, and sharing
         // no words with the passage is what it is supposed to do.
         if (q?.image_url || q?.diagram_svg) return true
-        const offPassage = offPassageStrength(q.question, passage)
+        const offPassage = offPassageStrength(q.question, passage, [
+          ...(Array.isArray(q.items) ? q.items : []),
+          ...(Array.isArray(q.options) ? q.options : []),
+        ])
         if (offPassage === 'certain') {
           console.log(`Dropped question: it quotes the text and the text does not say that — "${String(q.question).slice(0, 70)}"`)
           return false
@@ -2980,7 +2997,7 @@ ${commandBlock}`
         console.log(`Dropped ${answerable.dropped.length} unanswerable question(s): ${[...new Set(answerable.dropped)].join('; ')}`)
       }
 
-      const markable = dropUnmarkable(answerable.kept as any[])
+      const markable = dropUnmarkable([...(answerable.kept as any[]), ...compositions])
       if (markable.dropped > 0) {
         console.log(`Dropped ${markable.dropped} question(s) with nothing to mark against`)
       }
@@ -3017,12 +3034,20 @@ ${commandBlock}`
      * least-covered foci first, run in parallel as the main batches are.
      */
     const checkpointFill = async (missing: number, have: any[], simple = false): Promise<any[]> => {
+      // A composition is its own kind here. Counted as "written", a paper
+      // short of written answers asked for the composition slot again, and
+      // an English paper came back with two compositions and one question
+      // missing -- the second composition has nowhere to sit.
       const shapeOf = (q: any): string =>
         q?.type === 'mcq' ? 'select'
           : q?.kind === 'multi_select' ? 'tick'
           : q?.kind === 'categorize' ? 'table'
+          : isCompositionQuestion(q) ? 'composition'
           : Array.isArray(q?.short_answer?.accepted) && q.short_answer.accepted.length ? 'short'
           : 'written'
+      const kindOf = (slot: any): string =>
+        ['short', 'select', 'tick', 'table', 'composition'].includes(String(slot?.format)) ? String(slot.format) : 'written'
+      const compositionsNeeded = slotPlan.filter((s: any) => kindOf(s) === 'composition').length
       const haveByShape = new Map<string, number>()
       for (const q of have) haveByShape.set(shapeOf(q), (haveByShape.get(shapeOf(q)) ?? 0) + 1)
 
@@ -3072,8 +3097,8 @@ ${commandBlock}`
       const want: any[] = []
       const used = new Map<string, number>()
       for (const slot of slots) {
-        const f = ['short', 'select', 'tick', 'table'].includes(String(slot?.format)) ? String(slot.format) : 'written'
-        const need = slotPlan.filter((s: any) => (['short', 'select', 'tick', 'table'].includes(String(s?.format)) ? String(s.format) : 'written') === f).length
+        const f = kindOf(slot)
+        const need = slotPlan.filter((s: any) => kindOf(s) === f).length
         const got = (haveByShape.get(f) ?? 0) + (used.get(f) ?? 0)
         if (got < need) {
           want.push(slot)
@@ -3083,8 +3108,12 @@ ${commandBlock}`
       }
       // Whatever the arithmetic says, ask for a little more than is missing:
       // some of every pass is lost to the guards, and the surplus is trimmed.
+      // Never a spare composition: a surplus one-liner is trimmed, a surplus
+      // composition takes a 25-mark call and then has no slot to sit in.
+      const compositionsHave = haveByShape.get('composition') ?? 0
       for (const slot of slots) {
         if (want.length >= missing + 2) break
+        if (kindOf(slot) === 'composition' && compositionsHave >= compositionsNeeded) continue
         if (!want.includes(slot)) want.push(slot)
       }
 
@@ -3288,6 +3317,17 @@ ${commandBlock}`
     // returned 24 keyed short answers where the blueprint had 21 slots for
     // them -- and the three that spilled into 2- and 3-mark slots were worth
     // one mark each, leaving the paper worth 46 out of a promised 50.
+    // The composition is never the surplus. It sits at the end of the list
+    // (see makeShippable), which is exactly where a slice cuts, and it is the
+    // one question on an English paper worth half the marks. As many as the
+    // blueprint has composition slots are kept; any beyond that are spare.
+    const compositionSlots = slotPlan.filter((s: any) => s?.format === 'composition').length
+    const protectComposition = (list: any[], n: number): any[] => {
+      const comps = list.filter((q) => isCompositionQuestion(q)).slice(0, compositionSlots)
+      if (comps.length === 0) return list.slice(0, n)
+      const others = list.filter((q) => !comps.includes(q))
+      return [...others.slice(0, Math.max(0, n - comps.length)), ...comps]
+    }
     if (shortWanted > 0 && allQuestions.length > count) {
       const isKeyed = (q: any) =>
         Array.isArray(q?.short_answer?.accepted) &&
@@ -3295,16 +3335,16 @@ ${commandBlock}`
       const keyed = allQuestions.filter(isKeyed)
       const rest = allQuestions.filter((q) => !isKeyed(q))
       const takeShort = keyed.slice(0, shortWanted)
-      const takeRest = rest.slice(0, count - takeShort.length)
+      const takeRest = protectComposition(rest, count - takeShort.length)
       // Only use the kind-aware trim when it can actually fill the paper; a
       // pass that came back thin must not shorten it further.
       if (takeShort.length + takeRest.length === count) {
         allQuestions = [...takeShort, ...takeRest]
       } else {
-        allQuestions = allQuestions.slice(0, count)
+        allQuestions = protectComposition(allQuestions, count)
       }
     } else if (allQuestions.length > count) {
-      allQuestions = allQuestions.slice(0, count)
+      allQuestions = protectComposition(allQuestions, count)
     }
     // Final re-number after trim
     allQuestions.forEach((q: any, i: number) => { q.id = i + 1 })
