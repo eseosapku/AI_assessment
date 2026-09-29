@@ -221,3 +221,16 @@ describe('parts of one question before the scenario is lifted', () => {
     expect(out.questions).toHaveLength(1)
   })
 })
+
+describe('the instruction frame is not the question', () => {
+  it('keeps ESL items that share only the "draw a ring around" frame', () => {
+    const out = dropRepeatedDemands([
+      { question: "Draw a ring around the correct plural form of 'leaf'." },
+      { question: "Draw a ring around the correct form of the verb 'go' in the past." },
+      { question: 'Draw a ring around the correct preposition: the book is on the shelf.' },
+      { question: 'Tick all the correct statements about paragraph E.' },
+      { question: 'Tick all the correct statements about the items Elara took.' },
+    ])
+    expect(out.questions).toHaveLength(5)
+  })
+})

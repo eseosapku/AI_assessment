@@ -57,6 +57,16 @@ export function demandOf(stem: unknown): string {
     .trim()
 }
 
+/** Words of the instruction frame, which every item of a format shares. */
+const FRAME_WORDS: ReadonlySet<string> = new Set([
+  'draw', 'ring', 'around', 'tick', 'correct', 'statement', 'statements', 'choose',
+  'choice', 'complete', 'write', 'down', 'following', 'sentence', 'sentences',
+  'paragraph', 'text', 'passage', 'word', 'words', 'answer', 'below', 'above',
+  'best', 'right', 'which', 'what', 'that', 'this', 'from', 'with', 'using',
+  'give', 'name', 'state', 'find', 'identify', 'explain', 'describe', 'look',
+  'underline', 'circle', 'match', 'option', 'options', 'phrase', 'form', 'used',
+])
+
 /**
  * Do these two ask the same thing?
  *
@@ -65,7 +75,13 @@ export function demandOf(stem: unknown): string {
  */
 export function sameDemand(a: unknown, b: unknown, bySubject = true): boolean {
   const stem = (s: unknown) => {
-    const words = demandOf(s).split(' ').filter((w) => w.length > 3)
+    // The instruction frame is not the question. Every ESL item opens "Draw a
+    // ring around the correct ...", so "Draw a ring around the correct plural
+    // form of 'leaf'" and "Draw a ring around the correct form of the verb
+    // 'go'" shared five of six content words on the frame alone and were
+    // counted as one question asked twice. On a live ESL paper this removed
+    // about forty items across the passes, and the paper failed at 34 of 40.
+    const words = demandOf(s).split(' ').filter((w) => w.length > 3 && !FRAME_WORDS.has(w))
     // Crude stemming: the tense is exactly the difference to ignore.
     return new Set(words.map((w) => w.replace(/(?:ed|ing|s)$/, '')))
   }
