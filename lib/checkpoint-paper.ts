@@ -36,7 +36,7 @@
 import type { CheckpointComponent, CheckpointSubject } from './cambridge-checkpoint'
 import { tagQuestionToStrand } from './checkpoint-strands'
 import { isPlaceholderKey, type ShortAnswerKey } from './short-answer'
-import { fociExaminedFor } from './checkpoint-past-papers'
+import { fociExaminedFor, sittingCountFor } from './checkpoint-past-papers'
 
 export type PaperMode = 'paper' | 'practice'
 /**
@@ -438,9 +438,20 @@ export function fociFor(
 ): readonly string[] {
   const all = STRAND_FOCI[strand] ?? []
   if (subject.programme !== 'primary') return all
-  const examined = fociExaminedFor(subject.code)
-  if (examined.size > 0) return all.filter((f) => examined.has(f))
-  return [...all.filter((f) => !LOWER_SECONDARY_ONLY_MATHS.has(f)), ...(PRIMARY_ONLY_MATHS[strand] ?? [])]
+  const general = [...all.filter((f) => !LOWER_SECONDARY_ONLY_MATHS.has(f)), ...(PRIMARY_ONLY_MATHS[strand] ?? [])]
+
+  // Held to the evidence only where there IS evidence: three sittings or
+  // more, and enough topics in this strand to build a paper from. Primary
+  // ESL has two sittings, both 2026, covering seven Reading topics, and
+  // treating those seven as its whole syllabus put each topic on a Primary
+  // ESL paper five times -- the same starvation that made the Lower
+  // Secondary ESL paper fail. Two sittings is a sample, not a syllabus.
+  if (sittingCountFor(subject.code) >= 3) {
+    const examined = fociExaminedFor(subject.code)
+    const held = all.filter((f) => examined.has(f))
+    if (held.length >= 4) return held
+  }
+  return general
 }
 
 /**
@@ -568,6 +579,21 @@ export const STRAND_FOCI: Record<string, readonly string[]> = {
     'question forms and word order', 'connectives that join two ideas',
     'the writer’s purpose', 'matching a heading to a paragraph',
     'putting events from the text in order',
+    // Sixteen was not enough for a forty-question paper. ESL items stand
+    // alone, one per question, so each focus came up two or three times and
+    // the model wrote the same item each time -- "Choose the right
+    // preposition to complete the sentence" three times, two removed as
+    // duplicates, and the paper failed at 36 of 40. These are the other
+    // usage points a Reading and Usage paper tests, each distinct enough to
+    // produce a different item.
+    'past simple of irregular verbs', 'present perfect and past simple',
+    'future forms: will and going to', 'modal verbs: can, must, should, might',
+    'countable and uncountable nouns: much, many, a few, a little',
+    'possessive forms and possessive pronouns', 'relative pronouns: who, which, that',
+    'adverbs of frequency and their position', 'word families: noun, verb and adjective',
+    'a synonym for a word in the text', 'an expression and what it means in context',
+    'how a character feels and how the text shows it', 'the main idea of a paragraph',
+    'a fact and an opinion in the text', 'reported speech', 'phrasal verbs in context',
   ],
   Writing: [
     'writing a story with a clear beginning and ending',

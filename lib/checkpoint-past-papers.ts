@@ -55,6 +55,11 @@ export function fociExaminedFor(code: string): Set<string> {
   return out
 }
 
+/** How many sittings of this syllabus are on record, across components. */
+export function sittingCountFor(code: string): number {
+  return SITTINGS.filter((s) => s.code === code).length
+}
+
 /** Every sitting on record for this component, newest first. */
 export function sittingsFor(code: string, component: string): PastSitting[] {
   return SITTINGS.filter((s) => s.code === code && s.component === component)
