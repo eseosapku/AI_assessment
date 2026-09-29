@@ -3107,7 +3107,7 @@ ${commandBlock}`
      * client then cannot seat without the total falling short), on the
      * least-covered foci first, run in parallel as the main batches are.
      */
-    const checkpointFill = async (missing: number, have: any[]): Promise<any[]> => {
+    const checkpointFill = async (missing: number, have: any[], simple = false): Promise<any[]> => {
       const shapeOf = (q: any): string =>
         q?.type === 'mcq' ? 'select'
           : q?.kind === 'multi_select' ? 'tick'
@@ -3128,6 +3128,36 @@ ${commandBlock}`
           (covered.get(String(a?.focus ?? '').toLowerCase()) ?? 0) -
           (covered.get(String(b?.focus ?? '').toLowerCase()) ?? 0),
       )
+
+      // The last resort: plain short answers, one per focus, spread as widely
+      // as the blueprint allows. The format-matched fill kept failing the
+      // same way on a Maths paper -- the missing ring-around and table
+      // questions came back as written answers with no key and were dropped
+      // as unmarkable, three passes running, 3 short each time -- and the
+      // plain pass that used to be the safety net had been turned into the
+      // same format-matched fill. A short answer is what the model does
+      // reliably, and what most of a Checkpoint paper is anyway.
+      if (simple) {
+        const seenFocus = new Set<string>()
+        const spread = slots.filter((sl: any) => {
+          const f = String(sl?.focus ?? '')
+          if (!f || seenFocus.has(f)) return false
+          seenFocus.add(f)
+          return true
+        })
+        const pick = spread.slice(0, missing + 2)
+        const done = await Promise.allSettled(
+          pick.map((sl: any, i: number) =>
+            tryGenerateBatch(
+              1, have.length + i + 1, 'short',
+              [{ part: null, marks: 1, format: 'short' }],
+              [String(sl?.focus || '')].filter(Boolean),
+              undefined, String(sl?.strand || ''), false,
+            ),
+          ),
+        )
+        return done.flatMap((r) => (r.status === 'fulfilled' ? r.value : []))
+      }
 
       // The formats the blueprint wants that the paper does not yet have.
       const want: any[] = []
@@ -3284,7 +3314,7 @@ ${commandBlock}`
           // The same focused fill as the retry passes when there is a
           // blueprint to fill from; the old plain ask only without one.
           const plain = slotPlan.length > 0
-            ? await checkpointFill(missing, allQuestions)
+            ? await checkpointFill(missing, allQuestions, true)
             : await tryGenerateBatch(
                 Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short', undefined,
                 leastCoveredTopics(allQuestions).slice(0, 4),
