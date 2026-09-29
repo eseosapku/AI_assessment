@@ -276,6 +276,47 @@ export function stripPassageEcho(stem: unknown, passage: unknown): string {
 }
 
 /**
+ * Give every part of ONE question the setup its first part carries.
+ *
+ * The prompt tells the model to begin every part with the same scenario
+ * sentence, so each reads on its own. When it does, `liftSharedScenarios`
+ * lifts it. When it puts the setup on part (a) only --
+ *
+ *   (a) "A car travels 180 km in 3 hours. Write down the total distance."
+ *   (d) "Write down the average speed of the car in m/s."
+ *
+ * -- the lifter sees nothing to share, and the screen, which shows one part
+ * at a time, asks about "the car" with no car. Called per batch, where the
+ * parts are known to be one question.
+ *
+ * Only a genuine lead-in moves: a first sentence of setup (not a demand, not
+ * a question) with a demand after it. A part that already has a scenario is
+ * the model's own arrangement and is left alone.
+ */
+export function carryLeadInToParts<T extends ScenarioQuestion>(parts: readonly T[]): T[] {
+  if (!Array.isArray(parts) || parts.length < 2) return [...(parts ?? [])]
+  const out = parts.map((q) => ({ ...q }))
+  if (out.some((q) => typeof q.scenario === 'string' && q.scenario.trim())) return out
+
+  const first = sentencesOf(String(out[0].question ?? ''))
+  if (first.length < 2) return out
+  const lead = first[0]
+  const isDemand = new RegExp(String.raw`^(?:${DEMAND_START}|${ASK_START})\b`, 'i').test(lead)
+  // Words, not `contentWords`: "A car travels 180 km in 3 hours." has only
+  // two content words by that measure and is all the setup there is.
+  if (isDemand || lead.endsWith('?') || lead.split(/\s+/).filter(Boolean).length < 4) return out
+
+  for (const q of out) {
+    const own = sentencesOf(String(q.question ?? ''))
+    // Drop it from any part that already opens with it, so it is not printed
+    // twice -- once as the scenario and again as the stem's first sentence.
+    if (own.length >= 2 && (own[0] === lead || sameLeadIn(lead, own[0]))) q.question = own.slice(1).join(' ')
+    q.scenario = lead
+  }
+  return out
+}
+
+/**
  * Lift a shared opening off a run of questions.
  *
  * Only a RUN: parts of one numbered question are adjacent, and two questions

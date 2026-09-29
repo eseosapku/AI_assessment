@@ -1,6 +1,6 @@
 // lib/shared-scenario.test.ts
 import { describe, it, expect } from 'vitest'
-import { liftSharedScenarios, stripPassageEcho, stripFigureEcho, type ScenarioQuestion } from './shared-scenario'
+import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripFigureEcho, type ScenarioQuestion } from './shared-scenario'
 
 const q = (question: string): ScenarioQuestion => ({ question })
 
@@ -236,5 +236,48 @@ describe('a composition keeps its task', () => {
       expect(String(q.question).startsWith(task)).toBe(true)
       expect((q as any).scenario).toBeUndefined()
     }
+  })
+})
+
+// One numbered question, four parts, the setup only on (a):
+//   (a) A car travels 180 km in 3 hours. Write down the total distance travelled.
+//   (d) Write down the average speed of the car in m/s.
+// The screen shows one part at a time, so (d) asked about "the car" with no
+// car. The prompt says to begin every part with the setup; this time the model
+// did not, and the lifter only acts when every part repeats it.
+describe('the setup of part (a) reaches every part', () => {
+  const parts = (): ScenarioQuestion[] => [
+    { question: 'A car travels 180 km in 3 hours. Work out its average speed in km/h.' },
+    { question: 'Write down the average speed of the car in m/s.' },
+    { question: 'Explain why the car may not travel at this speed all the time.' },
+  ]
+
+  it('gives each part the lead-in as its scenario', () => {
+    const out = carryLeadInToParts(parts())
+    for (const q of out) expect(q.scenario).toBe('A car travels 180 km in 3 hours.')
+    expect(out[0].question).toBe('Work out its average speed in km/h.')
+    expect(out[1].question).toBe('Write down the average speed of the car in m/s.')
+  })
+
+  it('leaves a single question alone', () => {
+    const one: ScenarioQuestion[] = [{ question: 'A car travels 180 km in 3 hours. Work out its average speed.' }]
+    expect(carryLeadInToParts(one)[0].scenario).toBeUndefined()
+  })
+
+  it('leaves parts that open with a demand alone', () => {
+    const out = carryLeadInToParts<ScenarioQuestion>([
+      { question: 'Write down the value of 3 squared. Show your working.' },
+      { question: 'Work out 12 divided by 4.' },
+    ])
+    for (const q of out) expect(q.scenario).toBeUndefined()
+  })
+
+  it('leaves a question that already has its scenario alone', () => {
+    const out = carryLeadInToParts<ScenarioQuestion>([
+      { question: 'A car travels 180 km in 3 hours. Work out its speed.', scenario: 'On a motorway.' },
+      { question: 'Explain why.' },
+    ])
+    expect(out[0].scenario).toBe('On a motorway.')
+    expect(out[1].scenario).toBeUndefined()
   })
 })

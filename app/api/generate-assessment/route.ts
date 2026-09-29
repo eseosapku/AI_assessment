@@ -36,7 +36,7 @@ import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
-import { liftSharedScenarios, stripPassageEcho, stripFigureEcho } from '@/lib/shared-scenario'
+import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripFigureEcho } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
@@ -2044,6 +2044,9 @@ ${commandBlock}`
             parsed.questions = parsed.questions.filter((q: any) => !blank.includes(q))
           }
         }
+        // The setup on part (a) only, and "the car" in part (d) with no car.
+        // These parts are one question, so the lead-in belongs to all of them.
+        if (questionParts.length > 1) parsed.questions = carryLeadInToParts(parsed.questions)
         // EVERY part carries the figure, not just the first.
         //
         // A real paper prints the diagram once above the whole question and
