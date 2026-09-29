@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { checkpointSubject, buildableSubjects } from './cambridge-checkpoint'
 import {
   buildPaper, applyBlueprint, awardedTotal, paperTopics, paperBrief, STRAND_FOCI,
-  PAPER_MARKS, PRACTICE_MARKS,
+  PAPER_MARKS, PRACTICE_MARKS, demandWeight,
 } from './checkpoint-paper'
 
 const science = checkpointSubject('lower-secondary', 'Science')!
@@ -758,5 +758,42 @@ describe('the shape of a real paper, counted off 46 of them', () => {
     // 16.5 numbered against 6.1 parts.
     const s = shapeOf('0862')
     expect(s.numbered).toBeGreaterThan(15)
+  })
+})
+
+describe('written slots go to the questions that fit them', () => {
+  it('gives a look-up the lightest written slot and a multi-step question the heaviest', () => {
+    // Live 0862 paper: "Find the coordinates of point B" took the 4-mark slot
+    // because it happened to arrive first.
+    const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 2 })
+    const written = paper.slots.filter((s) => s.format === 'written')
+    const heaviest = Math.max(...written.map((s) => s.marks))
+    const lightest = Math.min(...written.map((s) => s.marks))
+    const kept = applyBlueprint(
+      [
+        { question: 'Look at the grid. Find the coordinates of point B.', type: 'longform' },
+        { question: 'Solve 3x + 4 = 19. Then explain how you could check your answer.', type: 'longform' },
+      ],
+      { ...paper, slots: written },
+    ) as any[]
+    expect(kept[0].marks).toBe(lightest)
+    expect(kept[1].marks).toBe(heaviest)
+  })
+
+  it('spends every written slot, so the paper still totals its printed marks', () => {
+    const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 2 })
+    const written = paper.slots.filter((s) => s.format === 'written')
+    const qs = written.map((_, i) =>
+      i % 2
+        ? { question: 'Look at the table. Write down the largest value.', type: 'longform' }
+        : { question: 'Calculate the mean. Explain why it is a fair average here.', type: 'longform' },
+    )
+    const kept = applyBlueprint(qs, { ...paper, slots: written }) as any[]
+    expect(kept.reduce((t, q) => t + q.marks, 0)).toBe(written.reduce((t, s) => t + s.marks, 0))
+  })
+
+  it('leaves a question with no clear signal in the slot it would have had', () => {
+    expect(demandWeight({ question: 'Calculate the mean mass of the parcels.' })).toBeNull()
+    expect(demandWeight({ question: 'Q7' })).toBeNull()
   })
 })

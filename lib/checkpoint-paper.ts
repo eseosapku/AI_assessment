@@ -586,11 +586,16 @@ function demandFor(
     return `${strand} - ${focus}. One mark ${tag}: a SHORT ANSWER of a word, a short phrase or a number. Open with "${verbs.short[0]}" or "${verbs.short[1]}". There must be exactly one right answer, and it must be short enough to mark by matching -- never an answer that needs a sentence.`
   }
   const verb = marks >= 3 ? verbs.extended[0] : verbs.extended[Math.min(1, verbs.extended.length - 1)]
+  // The weight has to be in the QUESTION, not just the mark scheme. A live
+  // paper put "Look at the grid. Find the coordinates of point B." in a
+  // 4-mark slot and padded its mark scheme to four criteria to match -- one
+  // value read off a grid, dressed as four marks. So the demand line says
+  // what a question worth this much has to ask for, and what it must not be.
   return `${strand} - ${focus}. Written answer, ${marks} marks ${tag}: open with "${verb}". ${
     marks >= 3
-      ? 'The learner shows working or reasoning and a mark is available for each step.'
-      : 'One mark for each valid point.'
-  }`
+      ? `It must need ${marks} separate steps or points -- working, then a result, then a reason or a check. Never a single value read off a figure or recalled, however many criteria you give it.`
+      : 'It must need two separate points or steps. Never one fact, one name or one value read off a figure.'
+  } Do not print the marks in the question.`
 }
 
 export interface BuildPaperOptions {
@@ -911,6 +916,75 @@ function syncMarksInStem(text: string, _marks: number): string {
   return stripped.trim() ? stripped : text
 }
 
+/**
+ * Roughly how many marks' worth of work a written question asks for.
+ *
+ * The written slots on a Maths paper run 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 4,
+ * and they used to be handed out in that order to whatever written question
+ * arrived next. So a live paper gave
+ *
+ *   "Look at the grid. Find the coordinates of point B."          4 marks
+ *   "Work out the value of the number shown in the diagram."      4 marks
+ *   "Reflect point B across the y-axis. What are the coordinates
+ *    of the reflected point?"                                     3 marks
+ *
+ * while a two-part calculation with an explanation sat on 2. The total was
+ * right and every mark was in the wrong place.
+ *
+ * Read off the stem, because the mark scheme cannot be trusted for this: the
+ * model writes as many criteria as it was ASKED for, so a one-step question
+ * put in a 4-mark slot comes back with four criteria padding it out. What the
+ * stem asks the learner to DO is the honest signal.
+ *
+ * Deliberately coarse. It only has to rank the written questions against each
+ * other, so the lightest take the 2s and the heaviest take the 4.
+ */
+export function demandWeight(question: unknown): number | null {
+  const q = (question ?? {}) as Record<string, unknown>
+  const stem = String(q.question ?? '')
+  if (!stem.trim()) return null
+
+  const sentences = stem.split(/(?<=[.!?])\s+/).filter((s) => s.trim())
+  const reasons = /\b(?:explain|justify|give a reason|show (?:that|your working|how)|hence|prove)\b/i.test(stem)
+
+  // A look-up: one value read off a figure or recalled, and nothing more.
+  const lookup =
+    /^\s*(?:look at [^.]*\.\s*)?(?:write down|name|state|give|find the coordinates|what (?:is|are) the coordinates|read)\b/i.test(stem) ||
+    /\bwhat (?:is|are) the coordinates\b|\bfind the coordinates\b/i.test(stem)
+  if (lookup && !reasons) return 1
+
+  // Each extra demand, and each thing that asks for working or reasoning.
+  let extra = Math.max(
+    0,
+    sentences.filter((s) => /^\s*(?:calculate|work out|explain|describe|show|find|solve|simplify|expand|suggest|compare|justify|use)\b/i.test(s)).length - 1,
+  )
+  if (reasons) extra += 1
+  if (/\b(?:and then|then|and hence)\b/i.test(stem)) extra += 1
+  if (/\b(?:solve|simplify|expand|factorise|rearrange)\b/i.test(stem)) extra += 1
+
+  // No signal either way: say so, and the question keeps the slot it would
+  // have had. Only the clear cases are moved.
+  return extra > 0 ? 2 + extra : null
+}
+
+/**
+ * Take the slot whose marks are nearest this weight, leaving the rest.
+ *
+ * Greedy, in question order, which is the order the paper has to keep: the
+ * route groups questions sharing a figure so that "Questions 4-6 refer to
+ * the figure below" stays true, and moving QUESTIONS broke that once already.
+ * Moving which SLOT each one takes breaks nothing, and the pool's marks are
+ * all still spent, so the paper still totals exactly what its cover says.
+ */
+function takeBestFit(pool: PaperSlot[], weight: number): PaperSlot | undefined {
+  if (pool.length === 0) return undefined
+  let best = 0
+  for (let i = 1; i < pool.length; i++) {
+    if (Math.abs(pool[i].marks - weight) < Math.abs(pool[best].marks - weight)) best = i
+  }
+  return pool.splice(best, 1)[0]
+}
+
 /** Does this question carry a key a word or number can be marked against? */
 function hasAnswerKey(question: unknown): boolean {
   if (typeof question !== 'object' || question === null) return false
@@ -1058,10 +1132,18 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     // the paper early while ring and tick slots sat empty. Measured on a real
     // 0893/01 blueprint: 31 questions seated of 34. That is where the papers
     // coming back one or two questions short were going.
+    // From the written pool, the slot that FITS rather than the next one.
+    // See `takeBestFit`.
+    const weight = demandWeight(question)
+    const draw = (pool: PaperSlot[]) =>
+      pool === extended && weight !== null ? takeBestFit(pool, weight) : pool.shift()
     const slot =
-      preferred.shift() ??
-      fallback.shift() ??
-      [extended, essay, brief, ring, tick, table].find((pool) => pool.length > 0)?.shift()
+      draw(preferred) ??
+      draw(fallback) ??
+      (() => {
+        const pool = [extended, essay, brief, ring, tick, table].find((p) => p.length > 0)
+        return pool ? draw(pool) : undefined
+      })()
     // Only now is the paper genuinely full, and the surplus is dropped.
     if (!slot) break
 

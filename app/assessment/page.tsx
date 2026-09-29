@@ -684,6 +684,8 @@ function AssessmentPageClient() {
    * `sm` and up it is always open and this state is not consulted at all.
    */
   const [navOpen, setNavOpen] = useState(false)
+  /** The not-signed-in note, hidden for this sitting once acknowledged. */
+  const [unsavedHidden, setUnsavedHidden] = useState(false)
   const [timeRemaining, setTimeRemaining] = useState(0)
   const [isPaused, setIsPaused] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false)
@@ -2326,17 +2328,31 @@ function AssessmentPageClient() {
         </div>
       )}
 
-      {unsavedReason && !showResults && (
-        <div className="px-4 pt-4 sm:px-6 lg:px-8">
-          <div
-            role="status"
-            className="mx-auto flex max-w-3xl flex-wrap items-center gap-3 rounded-2xl border-2 border-amber-400 bg-amber-50 p-3.5 dark:border-amber-600 dark:bg-amber-900/25"
-          >
-            <span className="text-base leading-none" aria-hidden>⚠️</span>
-            <p className="flex-1 text-[13px] font-semibold text-amber-900 dark:text-amber-100">
-              You&apos;re not signed in, so this attempt won&apos;t be saved to your progress. Sign in
-              in another tab and it&apos;ll be picked up when you finish.
+      {/* A note, not a banner.
+          It was a thick amber box with a warning emoji, full-width above the
+          question, and on every screen it was the loudest thing there -- more
+          prominent than the question the learner was meant to be answering.
+          It is worth saying once and plainly; it is not worth shouting on
+          every question. One quiet line, dismissible for the sitting. */}
+      {unsavedReason && !showResults && !unsavedHidden && (
+        <div className="px-4 pt-3 sm:px-6 lg:px-8">
+          <div role="status" className="mx-auto flex max-w-3xl items-center gap-2.5 text-[12.5px] text-ss-slate">
+            <span
+              aria-hidden
+              className="h-1.5 w-1.5 shrink-0 rounded-full"
+              style={{ background: 'color-mix(in srgb, var(--ss-accent) 30%, #d97706)' }}
+            />
+            <p className="flex-1">
+              Not signed in — this attempt won&apos;t be saved. Sign in in another tab and it&apos;ll be
+              picked up when you finish.
             </p>
+            <button
+              type="button"
+              onClick={() => setUnsavedHidden(true)}
+              className="shrink-0 rounded-md px-2 py-1 font-semibold text-ss-slate hover:text-ss-ink"
+            >
+              Hide
+            </button>
           </div>
         </div>
       )}
@@ -2668,9 +2684,16 @@ function AssessmentPageClient() {
                     <span>
                       {(longFormAnswers[currentQuestion] || '').split(/\s+/).filter(Boolean).length} words
                     </span>
-                    <span>
-                      Aim for ~{(question as LongFormQuestion).marks * 25}–{(question as LongFormQuestion).marks * 40} words
-                    </span>
+                    {/* A per-mark target is right for a 2- or 4-mark answer and
+                        nonsense for a composition: a 25-mark piece of writing
+                        read "Aim for ~625–1000 words", which no Stage 9 learner
+                        writes in the time. Above six marks the length is
+                        whatever the task asks for, so no number is invented. */}
+                    {(question as LongFormQuestion).marks <= 6 && (
+                      <span>
+                        Aim for ~{(question as LongFormQuestion).marks * 25}–{(question as LongFormQuestion).marks * 40} words
+                      </span>
+                    )}
                   </div>
                     </>
                   )}
