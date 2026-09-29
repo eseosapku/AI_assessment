@@ -59,7 +59,8 @@ export interface DrawnLibraryFigure {
   svg: string
 }
 
-const FILE = path.resolve(process.cwd(), 'data/drawn-figures.json')
+const LIBRARY_FILE = path.resolve(process.cwd(), 'data/drawn-figures.json')
+let FILE = LIBRARY_FILE
 
 /**
  * A table in this library with a column that has nothing in it.
@@ -174,5 +175,19 @@ export function drawnFigureForFocus(
 
 /** Test seam: forget the file so a fixture can be indexed instead. */
 export function resetDrawnFigures(): void {
+  byFocus = null
+}
+
+/**
+ * Test seam: read the library from another file, or back from the real one.
+ *
+ * The fixture tests used to OVERWRITE data/drawn-figures.json and put it back
+ * afterwards. Test files run in parallel, so any other test reading the
+ * library in that window saw the fixture instead -- and a run killed between
+ * the write and the restore would have replaced the approved library with a
+ * three-row fixture.
+ */
+export function useDrawnFiguresFile(file?: string): void {
+  FILE = file ?? LIBRARY_FILE
   byFocus = null
 }

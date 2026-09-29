@@ -1,23 +1,24 @@
 // lib/drawn-figures.test.ts
 import { describe, it, expect, afterEach } from 'vitest'
 import fs from 'node:fs'
+import os from 'node:os'
 import path from 'node:path'
-import { drawnFigureForFocus, drawnFigureCount, resetDrawnFigures } from './drawn-figures'
+import { drawnFigureForFocus, drawnFigureCount, resetDrawnFigures, useDrawnFiguresFile } from './drawn-figures'
 
-const FILE = path.resolve(process.cwd(), 'data/drawn-figures.json')
-
+// A fixture file of its own. This used to overwrite data/drawn-figures.json
+// and restore it afterwards, which let parallel tests read the fixture as the
+// library, and would have replaced the approved library outright had a run
+// died between the write and the restore.
 function withLibrary(rows: unknown[], run: () => void) {
-  const had = fs.existsSync(FILE)
-  const before = had ? fs.readFileSync(FILE, 'utf8') : null
-  fs.mkdirSync(path.dirname(FILE), { recursive: true })
-  fs.writeFileSync(FILE, JSON.stringify(rows), 'utf8')
-  resetDrawnFigures()
+  const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'drawn-figures-'))
+  const file = path.join(dir, 'drawn-figures.json')
+  fs.writeFileSync(file, JSON.stringify(rows), 'utf8')
+  useDrawnFiguresFile(file)
   try {
     run()
   } finally {
-    if (before === null) fs.rmSync(FILE, { force: true })
-    else fs.writeFileSync(FILE, before, 'utf8')
-    resetDrawnFigures()
+    useDrawnFiguresFile()
+    fs.rmSync(dir, { recursive: true, force: true })
   }
 }
 
