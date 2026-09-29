@@ -2337,7 +2337,12 @@ ${commandBlock}`
         made = null
       }
       if (made?.text) {
-        checkpointPassage = made.text
+        // British here, where the text is made, not in the per-question pass
+        // below: this passage is attached to the questions at the very end,
+        // after that pass has run, so an ESL paper printed "her favorite
+        // retreat" and "vibrant colors" above questions already converted to
+        // "favourite" -- the question quoting a spelling the text lacks.
+        checkpointPassage = toBritish(made.text)
         console.log(`Checkpoint reading text: ${made.text.split(/\s+/).length} words`)
       } else {
         // Without the text every question would be about something the
