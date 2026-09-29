@@ -245,10 +245,12 @@ describe('the same demand under a different scenario', () => {
     expect(out.questions).toHaveLength(1)
   })
 
-  it('keeps a short demand under two different scenarios', () => {
+  it('keeps two different questions that end in the same short demand', () => {
+    // Carbon dioxide and hydrogen: the demand is the same four words, the
+    // questions are not, and the frame-stripped demand is too short to count.
     const out = dropRepeatedDemands([
-      { question: 'A car travels 120 km in 2 hours. Calculate its average speed.' },
-      { question: 'A cyclist rides 30 km in 3 hours. Calculate its average speed.' },
+      { question: 'A student heated copper carbonate in a test tube. Name the gas produced.' },
+      { question: 'A student added zinc to dilute acid. Name the gas produced.' },
     ])
     expect(out.questions).toHaveLength(2)
   })

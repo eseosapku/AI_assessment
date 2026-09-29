@@ -144,6 +144,13 @@ function sameDemandSentence(a: unknown, b: unknown, words: (s: unknown) => Set<s
   const db = lastSentence(b)
   const nums = (s: string) => (s.match(/-?\d+(?:\.\d+)?/g) ?? []).join(',')
   if (nums(da) !== nums(db)) return false
+  // Different data in the scenarios is a different question, whatever the
+  // demand says: "A car travels 120 km in 2 hours" and "A cyclist rides
+  // 30 km in 3 hours" both ending "Calculate its average speed" are two
+  // questions with two answers.
+  const fa = nums(String(a ?? ''))
+  const fb = nums(String(b ?? ''))
+  if (fa && fb && fa !== fb) return false
   const wa = words(da)
   const wb = words(db)
   if (wa.size < 3 || wb.size < 3) return false
