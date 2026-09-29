@@ -36,6 +36,7 @@
 import type { CheckpointComponent, CheckpointSubject } from './cambridge-checkpoint'
 import { tagQuestionToStrand } from './checkpoint-strands'
 import { isPlaceholderKey, type ShortAnswerKey } from './short-answer'
+import { fociExaminedFor } from './checkpoint-past-papers'
 
 export type PaperMode = 'paper' | 'practice'
 /**
@@ -373,6 +374,74 @@ function shapeFor(code: string, budget: number, component?: string): { marks: nu
   return out
 }
 
+
+/**
+ * The foci a paper in THIS programme may draw on for a strand.
+ *
+ * `STRAND_FOCI` below is keyed by strand name alone, and Primary and Lower
+ * Secondary share strand names -- so every Stage 6 paper was drawing on the
+ * Stage 7-9 list. A live Primary Science blueprint for ten- and eleven-year-
+ * olds commissioned "cell structure and function" and "atomic structure", and
+ * the papers that came back asked about mitochondria, a large central vacuole,
+ * atomic numbers and the wavelength of yellow light in nanometres.
+ *
+ * That is the root of the mitochondrion and the periodic table on Primary
+ * papers. The figure-level and vocabulary gates were catching its symptoms;
+ * the blueprint was asking for them.
+ *
+ * Primary Science is now held to what real 0097 papers examined -- five
+ * sittings, 2024 to 2026, read by `scripts/extract-checkpoint-coverage.py`.
+ * None of them asked about cells, atoms, the periodic table, inheritance,
+ * human reproduction or resistance. Derived from the data rather than written
+ * out, so adding a sitting widens it without touching this file.
+ *
+ * Primary Mathematics has no papers on record at all, so there is no evidence
+ * to hold it to. For 0096 the topics that are plainly Lower Secondary are
+ * removed and the rest kept. That is a judgement, not a measurement, and it
+ * should be replaced by the data the day 0096 papers are supplied.
+ */
+const LOWER_SECONDARY_ONLY_MATHS: ReadonlySet<string> = new Set([
+  'rounding to significant figures', 'indices and powers of ten',
+  'simplifying an algebraic expression', 'substituting into a formula',
+  'solving a linear equation', 'forming an equation from a description',
+  'the nth term of a linear sequence', 'the equation of a straight line',
+  'angles in parallel lines', 'circumference and area of a circle',
+  'volume and surface area of a cuboid', 'scale and scale drawing',
+  'direct proportion', 'percentage increase and decrease',
+  'probability of two events together', 'relative frequency from a trial',
+  'fair sampling and bias', 'grouped data and class intervals',
+  'choosing the right average for a data set', 'a misleading statistic',
+])
+
+/**
+ * Primary Mathematics topics that are not in the shared list at all.
+ *
+ * Taking the Lower Secondary topics out left Primary Mathematics with 33 foci
+ * for a 36-question paper, so topics repeated. These are the staples of a
+ * Primary Stage 5-6 paper that the shared list, written for Stage 9, never
+ * needed: timetables, reading scales, nets, symmetry, Carroll and Venn
+ * sorting. Primary only -- a Stage 9 paper does not ask for a timetable.
+ */
+const PRIMARY_ONLY_MATHS: Record<string, readonly string[]> = {
+  Number: ['multiplying and dividing by 10, 100 and 1000', 'written multiplication and division'],
+  'Algebra, Geometry and Measure': [
+    'time, timetables and durations', 'measuring and classifying angles',
+    'area and perimeter of rectangles', 'nets of 3D shapes', 'lines of symmetry',
+    'reading scales on measuring instruments',
+  ],
+  'Statistics and Probability': ['line graphs', 'Carroll and Venn diagrams'],
+}
+
+export function fociFor(
+  subject: Pick<CheckpointSubject, 'programme' | 'code'>,
+  strand: string,
+): readonly string[] {
+  const all = STRAND_FOCI[strand] ?? []
+  if (subject.programme !== 'primary') return all
+  const examined = fociExaminedFor(subject.code)
+  if (examined.size > 0) return all.filter((f) => examined.has(f))
+  return [...all.filter((f) => !LOWER_SECONDARY_ONLY_MATHS.has(f)), ...(PRIMARY_ONLY_MATHS[strand] ?? [])]
+}
 
 /**
  * What a question in each strand is actually about.
@@ -719,7 +788,7 @@ const COMPONENT_STRANDS: Record<string, readonly string[]> = {
 /** The strands of this subject a written paper can actually assess. */
 export function examinableStrands(subject: CheckpointSubject): string[] {
   const usable = subject.strands.filter(
-    (s) => !UNEXAMINABLE_STRANDS.has(s) && (STRAND_FOCI[s]?.length ?? 0) > 0,
+    (s) => !UNEXAMINABLE_STRANDS.has(s) && fociFor(subject, s).length > 0,
   )
   // Never return nothing: a paper with no strands is worse than one with a
   // strand we have no foci for.
@@ -750,14 +819,15 @@ export function buildPaper(
   const strands = drilling
     ? [drilling]
     : confined
-      ? confined.filter((x) => (STRAND_FOCI[x]?.length ?? 0) > 0)
+      ? confined.filter((x) => fociFor(subject, x).length > 0)
       : examinableStrands(subject)
 
   // Each strand draws from its own shuffled list, so no focus repeats inside a
   // paper however the strands interleave.
   const pool = new Map<string, string[]>()
   for (const strand of strands) {
-    pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci, options.chosenFoci), next), options.covered))
+    const own = fociFor(subject, strand)
+    pool.set(strand, preferCovered(shuffled(forSitting(own.length ? own : [strand], options.sittingFoci, options.chosenFoci), next), options.covered))
   }
 
   // The shapes this component's paper is made of, then interleaved so the
@@ -797,7 +867,8 @@ export function buildPaper(
     // A strand with fewer foci than slots reshuffles rather than repeating the
     // one at the top of the list.
     if (foci.length === 0) {
-      pool.set(strand, preferCovered(shuffled(forSitting(STRAND_FOCI[strand] ?? [strand], options.sittingFoci, options.chosenFoci), next), options.covered))
+      const own = fociFor(subject, strand)
+      pool.set(strand, preferCovered(shuffled(forSitting(own.length ? own : [strand], options.sittingFoci, options.chosenFoci), next), options.covered))
     }
     const focus = pool.get(strand)!.shift() ?? strand
 

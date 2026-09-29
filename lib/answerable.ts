@@ -60,10 +60,31 @@ export function unanswerableReason(q: AnswerableQuestion): string | null {
   // The same fault in a one-mark WRITTEN slot, which carries marking criteria
   // instead of a key and so never reached the check above.
   if (asksTwoQuantities(q)) return 'asks for two separate quantities in a one-mark answer'
+  if (shapeHasWrongCorners(stem)) return 'names a shape with the wrong number of corners'
   if (calculatesFromNothing(q, stem)) return 'asks for a calculation with no quantity to work from'
   if (referstoNothing(q, stem)) return 'refers to something no part of this question introduces'
   if (areaIsNotDetermined(stem)) return 'asks for an area that the lengths given do not determine'
   return null
+}
+
+/**
+ * "Calculate the sum of angles in triangle A, B, C, D."
+ *
+ * Shipped on a live Maths paper: a triangle with four vertices. There is no
+ * such shape and no right answer -- 180 is right for a triangle, 360 for the
+ * four points named. Checked against the corner count each shape name fixes.
+ */
+const CORNERS: Record<string, number> = {
+  triangle: 3, quadrilateral: 4, rectangle: 4, square: 4, parallelogram: 4,
+  rhombus: 4, trapezium: 4, kite: 4, pentagon: 5, hexagon: 6, octagon: 8,
+}
+function shapeHasWrongCorners(stem: string): boolean {
+  const m = stem.match(
+    /\b(triangle|quadrilateral|rectangle|square|parallelogram|rhombus|trapezium|kite|pentagon|hexagon|octagon)\s+((?:[A-Z](?:\s*,\s*|\s+and\s+|\s*)){2,})/,
+  )
+  if (!m) return false
+  const letters = m[2].match(/[A-Z]/g) ?? []
+  return letters.length >= 2 && letters.length !== CORNERS[m[1].toLowerCase()]
 }
 
 /**
@@ -183,6 +204,10 @@ function referstoNothing(q: AnswerableQuestion, stem: string): boolean {
  */
 function calculatesFromNothing(q: AnswerableQuestion, stem: string): boolean {
   if (!opensWithComputation(stem) || !namesAQuantity(stem)) return false
+  // A constant is not data the question forgot to give. "Calculate the sum of
+  // the angles in triangle ABC" is 180 degrees for every triangle there is,
+  // and the first version of this rule would have deleted it.
+  if (/\bsum of (?:the )?(?:interior |exterior )?angles\b|\bangles? (?:on a straight line|around a point|at a point)\b/i.test(stem)) return false
   if (q.image_url || q.diagram_svg) return false
   const context = `${stem} ${String(q.scenario ?? '')} ${String(q.passage ?? '')}`
   // A digit anywhere, or a number written as a word.

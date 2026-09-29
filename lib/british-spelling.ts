@@ -163,6 +163,33 @@ const UNIT_RULES = [
   { pattern: /(\d\s*|\b(?:square|cubic|per)\s+)meter\b/gi, uk: 'metre' },
 ]
 
+/**
+ * Every other -ize word, by rule rather than by list.
+ *
+ * The explicit stems above were a list, and a list only covers what somebody
+ * thought of: a live Maths paper printed "contextualized", which was not on
+ * it. Cambridge uses -ise for all of these, so the rule is general and the
+ * EXCEPTIONS are listed instead -- the words where "-ize" is not a suffix at
+ * all, or is British too.
+ *
+ * Three letters of stem are required before "iz", which on its own keeps
+ * size, prize, seize and maize safe; the set below catches the longer ones.
+ */
+const GENERIC_IZE = /\b([A-Za-z]{3,})iz(e|ed|es|ing|ation|ations|er|ers)\b/g
+const IZE_EXCEPTIONS: ReadonlySet<string> = new Set([
+  'capsize', 'capsized', 'capsizes', 'capsizing',
+  'downsize', 'downsized', 'downsizes', 'downsizing',
+  'oversize', 'oversized', 'undersize', 'undersized',
+  'resize', 'resized', 'resizes', 'resizing', 'bitesize',
+  'belize', 'assize', 'assizes',
+])
+
+function britishIze(text: string): string {
+  return text.replace(GENERIC_IZE, (whole: string, head: string, ending: string) =>
+    IZE_EXCEPTIONS.has(whole.toLowerCase()) ? whole : `${head}is${ending}`,
+  )
+}
+
 /** The same text, spelled the way a Cambridge paper spells it. */
 export function toBritish(text: unknown): string {
   let out = String(text ?? '')
@@ -180,7 +207,7 @@ export function toBritish(text: unknown): string {
   for (const { pattern, uk } of UNIT_RULES) {
     out = out.replace(pattern, (_whole: string, lead: string) => lead + uk)
   }
-  return out
+  return britishIze(out)
 }
 
 /** The American spellings this text uses, for a check that reports rather than edits. */
@@ -192,6 +219,9 @@ export function americanSpellings(text: unknown): string[] {
     for (const m of body.matchAll(new RegExp(pattern.source, 'gi'))) {
       if (!found.includes(m[0])) found.push(m[0])
     }
+  }
+  for (const m of body.matchAll(new RegExp(GENERIC_IZE.source, 'g'))) {
+    if (!IZE_EXCEPTIONS.has(m[0].toLowerCase()) && !found.includes(m[0])) found.push(m[0])
   }
   return found
 }

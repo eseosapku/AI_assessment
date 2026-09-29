@@ -40,6 +40,21 @@ export interface PastSitting {
 
 const SITTINGS: PastSitting[] = ((data as { papers?: unknown }).papers as PastSitting[]) ?? []
 
+/**
+ * Every focus any real sitting of this syllabus examined, across all of them.
+ *
+ * Empty when no papers were supplied for the code (0096, today), which the
+ * caller must treat as "no evidence", not as "examines nothing".
+ */
+export function fociExaminedFor(code: string): Set<string> {
+  const out = new Set<string>()
+  for (const s of SITTINGS) {
+    if (s.code !== code) continue
+    for (const f of s.foci) out.add(f)
+  }
+  return out
+}
+
 /** Every sitting on record for this component, newest first. */
 export function sittingsFor(code: string, component: string): PastSitting[] {
   return SITTINGS.filter((s) => s.code === code && s.component === component)

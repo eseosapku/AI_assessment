@@ -12,7 +12,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server'
 import { checkpointSubject, type CheckpointProgramme } from '@/lib/cambridge-checkpoint'
-import { buildPaper, paperBrief, paperTopics, STRAND_FOCI, type PaperMode } from '@/lib/checkpoint-paper'
+import { buildPaper, paperBrief, paperTopics, fociFor, type PaperMode } from '@/lib/checkpoint-paper'
 import { sittingById, sittingsFor, sittingLabel, sittingId, fociForSitting } from '@/lib/checkpoint-past-papers'
 import { fociWithFigures, warmCoverage } from '@/lib/checkpoint-figures'
 import { buildableSubjects } from '@/lib/cambridge-checkpoint'
@@ -22,7 +22,7 @@ import { buildableSubjects } from '@/lib/cambridge-checkpoint'
 // deploy wait for it behind a disabled button.
 warmCoverage(
   (['primary', 'lower-secondary'] as const).flatMap((p) =>
-    buildableSubjects(p).map((s) => s.strands.flatMap((strand) => [...(STRAND_FOCI[strand] ?? [])])),
+    buildableSubjects(p).map((s) => s.strands.flatMap((strand) => [...fociFor(s, strand)])),
   ),
 )
 
@@ -60,7 +60,7 @@ export async function POST(req: NextRequest) {
     // focus means scanning ten thousand figures, and the other subject's
     // strands can never appear here.
     const reachable = (mode === 'practice' && strand ? [strand] : subject.strands)
-      .flatMap((s) => [...(STRAND_FOCI[s] ?? [])])
+      .flatMap((s) => [...fociFor(subject, s)])
 
     let covered: Set<string> | undefined
     try {

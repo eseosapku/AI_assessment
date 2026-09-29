@@ -12,7 +12,7 @@
  */
 import { NextRequest, NextResponse } from 'next/server'
 import { sittingsFor, sittingLabel, sittingId } from '@/lib/checkpoint-past-papers'
-import { STRAND_FOCI } from '@/lib/checkpoint-paper'
+import { fociFor } from '@/lib/checkpoint-paper'
 import { CHECKPOINT_SUBJECTS } from '@/lib/cambridge-checkpoint'
 
 export async function GET(request: NextRequest) {
@@ -36,8 +36,11 @@ export async function GET(request: NextRequest) {
   // Physics one. The areas are Cambridge's own; the UI names them plainly
   // rather than calling them strands.
   const subject = CHECKPOINT_SUBJECTS.find((s) => s.code === code)
+  // The topics THIS programme examines. The picker used to offer the Lower
+  // Secondary list to Primary learners, so a ten-year-old could tick
+  // "atomic structure" and get a paper about it.
   const groups = (subject?.strands ?? [])
-    .map((st) => ({ area: st, topics: [...(STRAND_FOCI[st] ?? [])].sort() }))
+    .map((st) => ({ area: st, topics: subject ? [...fociFor(subject, st)].sort() : [] }))
     .filter((g) => g.topics.length > 0)
   const syllabus = [...new Set(groups.flatMap((g) => g.topics))]
 

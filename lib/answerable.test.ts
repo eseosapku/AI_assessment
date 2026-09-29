@@ -204,3 +204,23 @@ describe('two quantities in a one-mark answer, and an undetermined area', () => 
     }
   })
 })
+
+describe('a shape with the wrong number of corners', () => {
+  it('catches the triangle with four vertices that shipped', () => {
+    expect(unanswerableReason({ question: 'Calculate the sum of angles in triangle A, B, C, D.' }))
+      .toBe('names a shape with the wrong number of corners')
+    expect(unanswerableReason({ question: 'Find the perimeter of quadrilateral PQR.' }))
+      .toBe('names a shape with the wrong number of corners')
+  })
+
+  it('leaves shapes named correctly', () => {
+    for (const stem of [
+      'Calculate the sum of angles in triangle ABC.',
+      'Find angle x in triangle A, B and C.',
+      'Find the perimeter of quadrilateral PQRS.',
+      'Triangle A is bigger than triangle B. Explain why.',
+    ]) {
+      expect(unanswerableReason({ question: stem }), stem).toBeNull()
+    }
+  })
+})

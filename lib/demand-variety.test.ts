@@ -137,3 +137,33 @@ describe('stripEmptyAnswerInstruction', () => {
     expect(stripEmptyAnswerInstruction(null)).toBe('')
   })
 })
+
+describe('the same subject asked in different words', () => {
+  it('catches the three Arctic hare questions that shipped on one paper', () => {
+    const out = dropRepeatedDemands([
+      { question: "Explain how the Arctic hare's fur colour helps it survive." },
+      { question: "Explain how the Arctic hare's fur colour aids in its survival." },
+      { question: "Explain how the Arctic hare's fur colour is an adaptation to its habitat." },
+    ])
+    expect(out.questions).toHaveLength(1)
+    expect(out.removed).toBe(2)
+  })
+
+  it('keeps two questions on one template that ask different things', () => {
+    // Radiation and convection: the two words each has alone are the point.
+    const out = dropRepeatedDemands([
+      { question: 'Name the heat transfer method occurring between the sun and the ground.' },
+      { question: 'Name the heat transfer method occurring as warm air rises.' },
+    ])
+    expect(out.questions).toHaveLength(2)
+  })
+
+  it('keeps the parts of one question, which share a subject on purpose', () => {
+    const scenario = 'An Arctic hare lives in the snow.'
+    const out = dropRepeatedDemands([
+      { question: "Explain how the Arctic hare's fur colour helps it survive.", scenario },
+      { question: "Explain how the Arctic hare's fur colour aids in its survival.", scenario },
+    ])
+    expect(out.questions).toHaveLength(2)
+  })
+})

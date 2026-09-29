@@ -74,7 +74,67 @@ export function sameDemand(a: unknown, b: unknown): boolean {
   if (wa.size < 3 || wb.size < 3) return false
   let shared = 0
   for (const w of wa) if (wb.has(w)) shared++
-  return shared / Math.min(wa.size, wb.size) >= 0.8
+  if (shared / Math.min(wa.size, wb.size) >= 0.8) return true
+  return sameSubjectAsked(a, b)
+}
+
+/**
+ * The same thing asked about, in different words.
+ *
+ * One live Science paper asked, as three separate questions:
+ *
+ *   "Explain how the Arctic hare's fur colour helps it survive."
+ *   "Explain how the Arctic hare's fur colour aids in its survival."
+ *   "Explain how the Arctic hare's fur colour is an adaptation to its habitat."
+ *
+ * 67% of content words in common against an 80% bar, because the words that
+ * differ -- survive, survival, aids, adaptation -- are exactly the ones that do
+ * not matter. What matters is the command and the SUBJECT, and those match.
+ *
+ * So: same opening command, and at least three subject words in common
+ * making up most of the smaller stem, once the command and the generic
+ * predicate words are set aside. The caller exempts parts of one question,
+ * which share a scenario and a subject on purpose.
+ */
+const COMMAND_WORDS = new Set([
+  'explain', 'describe', 'state', 'name', 'give', 'write', 'down', 'suggest',
+  'identify', 'compare', 'discuss', 'calculate', 'work', 'find', 'show', 'tick',
+  'draw', 'complete', 'choose', 'using', 'look', 'what', 'which', 'does', 'this',
+  'that', 'with', 'from', 'into', 'their', 'there', 'about',
+  // "Draw a ring around" is the ESL multiple-choice frame, not a subject.
+  'ring', 'around', 'through',
+])
+const PREDICATE_WORDS = new Set([
+  'help', 'helps', 'aid', 'aids', 'assist', 'surviv', 'survive', 'survival',
+  'adapt', 'adaptation', 'adapted', 'role', 'import', 'importance', 'important',
+  'affect', 'affects', 'effect', 'effects', 'impact', 'impacts', 'contribut',
+  'relat', 'relationship', 'used', 'use', 'work', 'works', 'function',
+  'environment', 'habitat', 'each', 'other', 'main', 'purpose',
+])
+
+function subjectWordsOf(stem: unknown): Set<string> {
+  return new Set(
+    demandOf(stem)
+      .split(' ')
+      .filter((w) => w.length > 3 && !COMMAND_WORDS.has(w))
+      .map((w) => w.replace(/(?:ation|ing|ed|al|s)$/, ''))
+      .filter((w) => w.length > 2 && !PREDICATE_WORDS.has(w)),
+  )
+}
+
+export function sameSubjectAsked(a: unknown, b: unknown): boolean {
+  const verb = (s: unknown) => demandOf(s).split(' ')[0] ?? ''
+  if (!verb(a) || verb(a) !== verb(b)) return false
+  const sa = subjectWordsOf(a)
+  const sb = subjectWordsOf(b)
+  let shared = 0
+  for (const w of sa) if (sb.has(w)) shared++
+  // Against the LARGER set, so what differs has to be small as well as what
+  // matches being large. "Name the heat transfer method occurring between the
+  // sun and the ground" and "... occurring as warm air rises" share four
+  // subject words and are two different questions -- radiation and
+  // convection -- and it is the two words each has alone that say so.
+  return shared >= 3 && shared / Math.max(sa.size, sb.size) >= 0.75
 }
 
 /**
@@ -89,7 +149,11 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
   const kept: T[] = []
   let removed = 0
   for (const q of questions) {
-    if (kept.some((k) => sameDemand(k.question, q.question))) {
+    // Parts of one question share a scenario and a subject by design --
+    // "(a) name the force, (b) explain its effect" -- and are not repeats.
+    const scenario = String((q as { scenario?: unknown }).scenario ?? '').trim()
+    const partOf = (k: T) => scenario !== '' && String((k as { scenario?: unknown }).scenario ?? '').trim() === scenario
+    if (kept.some((k) => !partOf(k) && sameDemand(k.question, q.question))) {
       removed++
       continue
     }

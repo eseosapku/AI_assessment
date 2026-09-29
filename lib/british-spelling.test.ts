@@ -78,3 +78,21 @@ describe('americanSpellings', () => {
     expect(americanSpellings('a humorous laboratory program')).toEqual([])
   })
 })
+
+describe('the general -ize rule', () => {
+  it('catches the words no list thought of', () => {
+    expect(toBritish('if not properly contextualized')).toBe('if not properly contextualised')
+    expect(toBritish('the prioritization of tasks')).toBe('the prioritisation of tasks')
+    expect(toBritish('Scientists hypothesized a cause.')).toBe('Scientists hypothesised a cause.')
+  })
+
+  it('leaves the words where -ize is not the suffix, or is British too', () => {
+    for (const ok of [
+      'the size of the prize', 'seize the day', 'a field of maize',
+      'the boat may capsize', 'resize the image', 'an oversized box',
+      'Belize is in Central America', 'a citizen of the town', 'look at the horizon',
+    ]) {
+      expect(toBritish(ok), ok).toBe(ok)
+    }
+  })
+})

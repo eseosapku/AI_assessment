@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { checkpointSubject, buildableSubjects } from './cambridge-checkpoint'
 import {
   buildPaper, applyBlueprint, awardedTotal, paperTopics, paperBrief, STRAND_FOCI,
-  PAPER_MARKS, PRACTICE_MARKS, demandWeight,
+  PAPER_MARKS, PRACTICE_MARKS, demandWeight, fociFor,
 } from './checkpoint-paper'
 
 const science = checkpointSubject('lower-secondary', 'Science')!
@@ -795,5 +795,38 @@ describe('written slots go to the questions that fit them', () => {
   it('leaves a question with no clear signal in the slot it would have had', () => {
     expect(demandWeight({ question: 'Calculate the mean mass of the parcels.' })).toBeNull()
     expect(demandWeight({ question: 'Q7' })).toBeNull()
+  })
+})
+
+describe('each programme draws on its own syllabus', () => {
+  it('never asks Primary Science for a Lower Secondary topic', () => {
+    // The root of the mitochondrion and the periodic table on Stage 6 papers:
+    // the blueprint was asking for "cell structure and function".
+    const lowerSecondaryOnly = [
+      'cell structure and function', 'atomic structure', 'the periodic table',
+      'human reproduction', 'variation and inheritance', 'current, voltage and resistance',
+    ]
+    for (let seed = 1; seed <= 25; seed++) {
+      const paper = buildPaper(primaryScience, primaryScience.components[0], { mode: 'paper', seed })
+      for (const slot of paper.slots) expect(lowerSecondaryOnly, `seed ${seed}`).not.toContain(slot.focus)
+    }
+  })
+
+  it('never asks Primary Mathematics for a Lower Secondary topic', () => {
+    const lowerSecondaryOnly = [
+      'the nth term of a linear sequence', 'the equation of a straight line',
+      'rounding to significant figures', 'circumference and area of a circle',
+      'solving a linear equation',
+    ]
+    for (let seed = 1; seed <= 25; seed++) {
+      const paper = buildPaper(primaryMaths, primaryMaths.components[0], { mode: 'paper', seed })
+      for (const slot of paper.slots) expect(lowerSecondaryOnly, `seed ${seed}`).not.toContain(slot.focus)
+    }
+  })
+
+  it('leaves Lower Secondary with its whole list', () => {
+    for (const strand of science.strands) {
+      expect(fociFor(science, strand)).toEqual(STRAND_FOCI[strand] ?? [])
+    }
   })
 })
