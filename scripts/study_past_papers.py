@@ -30,6 +30,7 @@ fitz.TOOLS.mupdf_display_errors(False)
 
 # "1", "12", "1(a)", "(a)", "(b)(i)" at the start of a line.
 NUMBERED = re.compile(r"^\s*(\d{1,2})\s{1,4}(?=[A-Z(])")
+BARE_NUMBER = re.compile(r"^\s*(\d{1,2})\s*$")
 PART = re.compile(r"^\s*\(([a-z])\)\s*")
 SUBPART = re.compile(r"^\s*\((i|ii|iii|iv|v)\)\s*")
 MARKS = re.compile(r"\[(\d{1,2})\]\s*$")
@@ -78,6 +79,7 @@ def study(pdf, stats):
     lines = lines_of(pdf)
     parts_in_question = 0
     saw_question = False
+    want = 1
 
     for i, line in enumerate(lines):
         stripped = line.strip()
@@ -87,7 +89,18 @@ def study(pdf, stats):
         if m:
             stats["marks"][code][int(m.group(1))] += 1
 
-        if NUMBERED.match(line):
+        # A question number is the NEXT number in sequence, printed either
+        # before its text ("1   Look at ...") or -- far more often in these
+        # PDFs -- on a line of its own. Only the first form was counted, so
+        # Science read as 5.1 numbered questions a paper when a real 0893
+        # paper has sixteen or more and 0097 fourteen, and the blueprint built
+        # six topics with five parts each instead. A bare number followed by
+        # the copyright line is a page number, not a question.
+        nm = NUMBERED.match(line) or BARE_NUMBER.match(line)
+        next_line = lines[i + 1].strip() if i + 1 < len(lines) else ""
+        is_page_number = BARE_NUMBER.match(line) and next_line.startswith("©")
+        if nm and int(nm.group(1)) == want and not is_page_number:
+            want += 1
             if saw_question:
                 stats["parts_per_question"][code][parts_in_question] += 1
             saw_question = True

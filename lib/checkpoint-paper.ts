@@ -182,21 +182,28 @@ export interface CheckpointPaper {
 /**
  * Lettered parts per numbered question, COUNTED off the papers.
  *
- * These were guessed -- 1 for Maths, 2 for Science -- and the guess was badly
- * wrong for Science. Counted across 46 Cambridge question papers with
+ * Counted across the Cambridge question papers with
  * `scripts/study_past_papers.py`:
  *
- *   0893 Science   5.1 numbered questions a paper, 28.4 lettered parts
- *   0097 Science   6.2 numbered questions a paper, 28.5 lettered parts
- *   0861 English   2.2 numbered questions a paper, 10.5 lettered parts
- *   0862 Maths    16.5 numbered questions a paper,  6.1 lettered parts
- *   0876 / 0057    6.8 numbered questions a paper,  ZERO lettered parts
+ *   0893 Science  ~20 numbered questions a paper, 28.4 lettered parts
+ *   0097 Science  ~14 numbered questions a paper, 28 lettered parts
+ *   0862 Maths    ~23 numbered questions a paper,  6.1 lettered parts
+ *   0876 / 0057   no lettered parts
  *
- * So a real Science paper is five or six scenarios with four or five parts
- * hanging off each -- one apparatus, one set of results, several demands --
- * and this was producing fifteen standalone questions instead. That is the
- * difference between a paper and a worksheet, and it is why the figures never
- * earned their keep: a diagram is worth printing when four questions use it.
+ * Science was set to FIVE parts a question, from a count that read 5.1
+ * numbered questions a paper. That count only saw a question number printed
+ * on the same line as its text; most of these PDFs print it on a line of its
+ * own. The real papers are a new situation every question -- a 2024 Stage 6
+ * paper runs food web, changes of state, mass and weight, fossils, boiling
+ * points, circulation, forces, the rock cycle, conductivity, infection,
+ * circuit symbols, soil, puberty, refraction -- about half standalone and the
+ * rest with two to four parts. Built as six topics of five parts, a Stage 6
+ * paper put one topic on eight questions and water pollution on eleven, and
+ * the model padded each run with parts like "Write down the total time
+ * taken" to reach five.
+ *
+ * English is left at five: its papers are a reading text with a run of
+ * questions on it, then the writing tasks.
  *
  * ESL is flat by design and must stay flat: its exercises are numbered runs
  * of single items.
@@ -204,8 +211,8 @@ export interface CheckpointPaper {
 const PARTS_PER_QUESTION: Record<string, number> = {
   '0862': 1,  // 6.1 parts over 16.5 questions -- mostly standalone
   '0096': 1,
-  '0893': 5,  // 28.4 parts over 5.1 questions
-  '0097': 5,  // 28.5 parts over 6.2 questions
+  '0893': 2,  // ~20 questions, half standalone, the rest 2-4 parts
+  '0097': 2,  // ~14 questions, about two parts each
   '0861': 5,  // 10.5 parts over 2.2 questions
   '0058': 5,
   '0876': 1,  // no lettered parts at all
@@ -433,12 +440,63 @@ const PRIMARY_ONLY_MATHS: Record<string, readonly string[]> = {
   'Statistics and Probability': ['line graphs', 'Carroll and Venn diagrams'],
 }
 
+/**
+ * Primary Science (0097) at Stage 6, read off the papers themselves.
+ *
+ * It was held to `fociExaminedFor`, and that evidence was too loose to hold
+ * anything: a topic counted as examined when two of its words appeared
+ * anywhere in a paper, as substrings. "What changes the rate of a reaction"
+ * matched every 0097 paper on "what" and "changes"; "speed, distance and
+ * time" on "distance" and "time". So Stage 6 papers asked for speed in m/s,
+ * the effect of a catalyst and "more collisions".
+ *
+ * Counted instead with each topic's own distinctive words, whole words only,
+ * across twelve 0097 question papers (2024-2026), and each hit read in
+ * context (`scripts/primary-science-evidence.py`). Never once at Stage 6,
+ * though all over the 0893 papers: speed, catalysts and reaction rates, word
+ * equations, photosynthesis, the periodic table, atoms, density, the Earth's
+ * layers, climate, earthquakes. Hits that turned out to be something else
+ * were not counted: "heat and pressure" is the rock cycle, "cell" was a
+ * battery, "star" was star grass, every "conduct" was electrical or thermal
+ * conductivity rather than convection and radiation.
+ *
+ * Five topics are Primary's own, because the shared list -- written for
+ * Stage 9 -- has nowhere to put what Stage 6 actually asks: "Tick the boxes
+ * that show a physical change", "write down one reactant and one product",
+ * "one physical change during puberty", mass and weight on other planets,
+ * and which materials conduct heat and electricity.
+ *
+ * Replace from the papers, not from memory, when more sittings arrive.
+ */
+const PRIMARY_SCIENCE_FOCI: Record<string, readonly string[]> = {
+  Biology: [
+    'the human digestive system', 'the circulatory system', 'breathing and gas exchange',
+    'food chains and food webs', 'microorganisms and disease', 'the changes of puberty',
+  ],
+  Chemistry: [
+    'the particle model of solids, liquids and gases', 'changes of state', 'dissolving and solubility',
+    'reversible and irreversible changes', 'reactants, products and the signs of a chemical reaction',
+  ],
+  Physics: [
+    'forces and their effects', 'friction and air resistance', 'mass and weight',
+    'series and parallel circuits', 'thermal and electrical conductors and insulators',
+    'reflection and refraction of light',
+  ],
+  'Earth and Space': [
+    'rock types and the rock cycle', 'weathering and erosion', 'how soil forms', 'the solar system',
+    'the phases of the Moon', 'gravity and orbits', 'fossils and the age of rocks',
+  ],
+}
+
 export function fociFor(
   subject: Pick<CheckpointSubject, 'programme' | 'code'>,
   strand: string,
 ): readonly string[] {
   const all = STRAND_FOCI[strand] ?? []
   if (subject.programme !== 'primary') return all
+  // The skills strands (Thinking and Working Scientifically, Science in
+  // Context) are not content and are left to the shared list.
+  if (subject.code === '0097' && PRIMARY_SCIENCE_FOCI[strand]) return PRIMARY_SCIENCE_FOCI[strand]
   const general = [...all.filter((f) => !LOWER_SECONDARY_ONLY_MATHS.has(f)), ...(PRIMARY_ONLY_MATHS[strand] ?? [])]
 
   // Held to the evidence only where there IS evidence: three sittings or

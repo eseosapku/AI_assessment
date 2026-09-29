@@ -778,16 +778,29 @@ describe('the shape of a real paper, counted off 46 of them', () => {
     throw new Error(`no ${code}/${component}`)
   }
 
-  it('builds Science as a few scenarios with several parts each, not a worksheet', () => {
-    // Measured: 0893 is 5.1 numbered questions and 28.4 lettered parts a
-    // paper; 0097 is 6.2 and 28.5. This used to produce fifteen standalone
-    // questions, which is the difference between a paper and a worksheet --
-    // and why figures never earned their keep, since a diagram is worth
-    // printing when four questions use it.
+  it('builds Science as many short situations, as the papers are', () => {
+    // Counted properly: 0893 is about twenty numbered questions a paper and
+    // 0097 about fourteen, each a new situation with up to a few parts. It was
+    // built as six topics of five parts from a count that missed every
+    // question number printed on a line of its own, and a Stage 6 paper put
+    // one topic on eight questions.
     for (const code of ['0893', '0097']) {
       const s = shapeOf(code)
-      expect(s.numbered, code).toBeLessThanOrEqual(10)
-      expect(s.parts, code).toBeGreaterThan(20)
+      expect(s.numbered, code).toBeGreaterThanOrEqual(12)
+      expect(s.parts, code).toBeGreaterThan(10)
+    }
+  })
+
+  it('never puts one Science topic on more than a handful of questions', () => {
+    for (const code of ['0893', '0097']) {
+      for (let seed = 1; seed <= 10; seed++) {
+        const prog = code === '0097' ? 'primary' : 'lower-secondary'
+        const subject = buildableSubjects(prog).find((s) => s.code === code)!
+        const paper = buildPaper(subject, subject.components[0], { mode: 'paper', seed })
+        const perFocus = new Map<string, number>()
+        for (const s of paper.slots) perFocus.set(s.focus, (perFocus.get(s.focus) ?? 0) + 1)
+        expect(Math.max(...perFocus.values()), `${code} seed ${seed}`).toBeLessThanOrEqual(4)
+      }
     }
   })
 
@@ -854,6 +867,33 @@ describe('each programme draws on its own syllabus', () => {
     for (let seed = 1; seed <= 25; seed++) {
       const paper = buildPaper(primaryScience, primaryScience.components[0], { mode: 'paper', seed })
       for (const slot of paper.slots) expect(lowerSecondaryOnly, `seed ${seed}`).not.toContain(slot.focus)
+    }
+  })
+
+  // Twelve real 0097 question papers (2024-2026) never say "speed",
+  // "catalyst", "word equation", "density" or "photosynthesis", and their only
+  // "rate" is a heart rate -- yet Stage 6 papers asked for speed in m/s and
+  // the effect of a catalyst, because the past-paper evidence counted a
+  // topic as examined when two of its words appeared ANYWHERE in the paper.
+  it('never asks Primary Science for a topic the Stage 6 papers never set', () => {
+    const neverAtStage6 = [
+      'speed, distance and time', 'what changes the rate of a reaction',
+      'writing a word equation for a reaction', 'pressure in solids, liquids and gases',
+      'photosynthesis', 'density', 'the periodic table', 'conduction, convection and radiation',
+      'energy stores and transfers', 'earthquakes and volcanoes',
+    ]
+    for (const strand of primaryScience.strands) {
+      for (const f of fociFor(primaryScience, strand)) expect(neverAtStage6, strand).not.toContain(f)
+    }
+  })
+
+  it('asks Primary Science for what the Stage 6 papers do set', () => {
+    const all = primaryScience.strands.flatMap((s) => [...fociFor(primaryScience, s)])
+    for (const f of [
+      'reversible and irreversible changes', 'the changes of puberty', 'mass and weight',
+      'thermal and electrical conductors and insulators', 'the phases of the Moon', 'food chains and food webs',
+    ]) {
+      expect(all).toContain(f)
     }
   })
 
