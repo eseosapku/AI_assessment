@@ -99,12 +99,45 @@ function sameLeadIn(a: string, b: string): boolean {
   // score 0.57. The model never restates a scenario twice the same way, so a
   // two-thirds bar sees two different questions and leaves the repetition in.
   //
-  // Safe at this level because it only ever compares ADJACENT questions:
-  // two unrelated stems that happen to share half their content words AND sit
-  // next to each other is not a thing a blueprint with a focus per slot
-  // produces.
-  return shared / Math.min(wa.length, wb.length) >= 0.5
+  // It is NOT safe at this level on its own, whatever this comment used to
+  // say. Two adjacent questions on a live Primary Science paper were
+  //
+  //   "During a science experiment, a student heated a sample of ice until
+  //    it melted."
+  //   "During a science experiment, a student shone a light ray at a
+  //    mirror."
+  //
+  // and scored 4 of 7 -- during, science, experiment, student -- which is the
+  // frame every scenario is written in and says nothing about WHICH one. They
+  // were merged, and "Write down the angle of incidence" was printed under
+  // the ice. The mirror was deleted.
+  //
+  // So the ratio has to be carried by the words that distinguish one
+  // situation from another. Two of those in common, at least.
+  if (shared / Math.min(wa.length, wb.length) < 0.5) return false
+  const da = wa.filter((w) => !FRAME.has(w))
+  const db = new Set(wb.filter((w) => !FRAME.has(w)))
+  return da.filter((w) => db.has(w)).length >= 2
 }
+
+/**
+ * Words every scenario is written in, whatever it is about.
+ *
+ * Deliberately generous. A false negative here leaves a repeated lead-in on
+ * the stem, which reads a little clumsily; a false positive prints one
+ * experiment's question under another experiment's setup, which is wrong.
+ */
+const FRAME: ReadonlySet<string> = new Set([
+  'during', 'science', 'scientific', 'experiment', 'experiments', 'investigation',
+  'investigating', 'investigate', 'lesson', 'class', 'classroom', 'student',
+  'students', 'pupil', 'pupils', 'learner', 'learners', 'teacher', 'school',
+  'observed', 'observes', 'noticed', 'notices', 'conducted', 'carried',
+  'performed', 'studied', 'study', 'studying', 'laboratory', 'project', 'field',
+  'when', 'while', 'some', 'their', 'they', 'with', 'that', 'this', 'from',
+  'into', 'then', 'were', 'have', 'which', 'there', 'about', 'what', 'used',
+  'uses', 'using', 'group', 'test', 'tested', 'testing', 'results', 'result',
+  'recorded', 'measured', 'looked', 'looking', 'wanted', 'decided',
+])
 
 /**
  * Command words that begin a demand. A comma in front of one of these is a
@@ -226,8 +259,19 @@ export function liftSharedScenarios<T extends ScenarioQuestion>(questions: reado
     }
 
     // Two or more in a row sharing a lead-in is a question with parts.
-    if (j - i >= 2) {
-      const scenario = first[0]
+    //
+    // Every member's own lead-in is discarded in favour of ONE scenario, so
+    // that one must not be poorer than any of them. The longest is taken, and
+    // if any member's lead-in carries a number the chosen scenario does not
+    // -- "at 40 degrees to the mirror" against "at a mirror" -- the run is left
+    // alone. A repeated opening is clumsy; a question stripped of its data is
+    // unanswerable.
+    const leads = out.slice(i, j).map((q) => sentencesOf(String(q.question ?? ''))[0] ?? '')
+    const scenario = leads.reduce((a, b) => (b.length > a.length ? b : a), first[0])
+    const numbersIn = (s: string) => s.match(/\d+(?:\.\d+)?/g) ?? []
+    const keeps = new Set(numbersIn(scenario))
+    const losesData = leads.some((l) => numbersIn(l).some((n) => !keeps.has(n)))
+    if (j - i >= 2 && !losesData) {
       for (let k = i; k < j; k++) {
         const rest = sentencesOf(String(out[k].question ?? '')).slice(1).join(' ').trim()
         if (!rest) continue

@@ -883,17 +883,32 @@ export function paperBrief(paper: CheckpointPaper): string {
  * neither number explains the other. Overwriting the text is the only fix that
  * holds, because the conflicting instruction is in the shared prompt.
  */
-function syncMarksInStem(text: string, marks: number): string {
-  // Cambridge prints the marks in square brackets at the end of the question:
-  // "[2]". The papers say so in their own instructions -- "The number of marks
-  // for each question or part question is shown in brackets [ ]" -- and a
-  // learner who has sat one reads that notation without thinking.
-  const label = `[${marks}]`
-  // Two regexes, not one reused: `test` on a /g pattern advances lastIndex, so
-  // the same object used for both would make the check stateful.
-  const printed = /\(\s*\d+\s*marks?\s*\)|\[\s*\d+\s*\]/i
-  if (printed.test(text)) return text.replace(new RegExp(printed, 'gi'), label)
-  return marks > 1 ? `${text.trimEnd()} ${label}` : text
+function syncMarksInStem(text: string, _marks: number): string {
+  // The marks come OFF the stem now, rather than being written onto it.
+  //
+  // This used to append "[2]" to every multi-mark question, on the reasoning
+  // that Cambridge prints marks in square brackets and a learner who has sat
+  // a paper reads that notation without thinking. On paper that is right. On
+  // this screen the marks already have their own chip beside the question
+  // number, so the learner saw both:
+  //
+  //   Question 14 of 34   [2 marks]
+  //   Calculate the average speed of a marble ... [2]
+  //
+  // and reported it, twice. It also undid the server: generation strips the
+  // bracket the model copies from its own prompt, and then this, running in
+  // the browser afterwards, put it straight back. The conflict this function
+  // was written for -- "(6 marks)" in the text against "2 marks" in the
+  // interface -- is solved just as well by removing the number as by
+  // overwriting it, and removing it leaves one source of truth.
+  //
+  // Only a TRAILING allocation. A bracketed number inside the question is
+  // content ("the value at [3] on the number line").
+  const stripped = text
+    .replace(/\s*[[(]\s*\d{1,2}\s*(?:marks?)?\s*[\])]\s*$/i, '')
+    .replace(/\s*\(\s*\d+\s*marks?\s*\)/gi, '')
+    .trimEnd()
+  return stripped.trim() ? stripped : text
 }
 
 /** Does this question carry a key a word or number can be marked against? */

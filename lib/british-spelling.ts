@@ -103,7 +103,18 @@ const WORDS: ReadonlyArray<readonly [string, string]> = [
   ['fibers', 'fibres'], ['fiber', 'fibre'],
   ['liters', 'litres'], ['liter', 'litre'],
   ['theaters', 'theatres'], ['theater', 'theatre'],
-  // "meter" is handled separately -- see UNIT_RULES below.
+  // "meter" is handled separately -- see UNIT_RULES below. The prefixed units
+  // are not: there is no instrument called a millimeter, so these are always
+  // the unit and always "-metre". A live Maths paper asked the learner to
+  // "Convert 500 millimeters to centimeters", which the table did not cover.
+  ['millimeters', 'millimetres'], ['millimeter', 'millimetre'],
+  ['centimeters', 'centimetres'], ['centimeter', 'centimetre'],
+  ['kilometers', 'kilometres'], ['kilometer', 'kilometre'],
+  ['micrometers', 'micrometres'], ['micrometer', 'micrometre'],
+  ['nanometers', 'nanometres'], ['nanometer', 'nanometre'],
+  ['milliliters', 'millilitres'], ['milliliter', 'millilitre'],
+  ['centiliters', 'centilitres'], ['centiliter', 'centilitre'],
+  ['kiloliters', 'kilolitres'], ['kiloliter', 'kilolitre'],
   // -lled before a suffix
   ['traveled', 'travelled'], ['traveling', 'travelling'], ['traveler', 'traveller'],
   ['labeled', 'labelled'], ['labeling', 'labelling'],

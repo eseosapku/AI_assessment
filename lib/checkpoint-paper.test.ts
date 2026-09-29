@@ -393,20 +393,33 @@ describe('the blueprint is what counts, not what the model claimed', () => {
       [{ question: 'Explain how a food chain transfers energy. (6 marks)', type: 'longform' }],
       { ...paper, slots: [written] },
     ) as any[]
-    expect(kept[0].question).toContain(`[${written.marks}]`)
+    // No number in the stem at all: the marks chip beside the question
+    // number is the one place the allocation is shown. Printing "[2]" as well
+    // was reported twice as the same thing appearing twice.
+    expect(kept[0].question).not.toMatch(/\[\d+\]/)
     expect(kept[0].question).not.toContain('(6 marks)')
-    expect(kept[0].question).not.toContain('[6]')
+    expect(kept[0].question).toBe('Explain how a food chain transfers energy.')
     expect(kept[0].marks).toBe(written.marks)
   })
 
-  it('adds the marks to a written stem that never printed them', () => {
+  it('does not add a printed allocation the marks chip already shows', () => {
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
     const written = paper.slots.find((s) => s.format === 'written')!
     const kept = applyBlueprint(
       [{ question: 'Describe one way soil forms.', type: 'longform' }],
       { ...paper, slots: [written] },
     ) as any[]
-    expect(kept[0].question).toBe(`Describe one way soil forms. [${written.marks}]`)
+    expect(kept[0].question).toBe('Describe one way soil forms.')
+  })
+
+  it('removes a bracketed allocation the model copied into the stem', () => {
+    const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
+    const written = paper.slots.find((s) => s.format === 'written')!
+    const kept = applyBlueprint(
+      [{ question: 'Calculate the mean mass of the parcels from the table. [3]', type: 'longform' }],
+      { ...paper, slots: [written] },
+    ) as any[]
+    expect(kept[0].question).toBe('Calculate the mean mass of the parcels from the table.')
   })
 
   it('leaves a one-mark stem unadorned', () => {

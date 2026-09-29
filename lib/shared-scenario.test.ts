@@ -165,3 +165,29 @@ describe('a scenario joined to a direct question', () => {
     expect(liftSharedScenarios([q(stem)])[0].question).toBe(stem)
   })
 })
+
+describe('two different experiments in the same frame', () => {
+  const q = (question: string): ScenarioQuestion => ({ question })
+
+  it('does not merge them on the words every scenario is written in', () => {
+    // Live Primary Science paper: "Write down the angle of incidence" was
+    // printed under the melting ice, and the mirror was deleted.
+    const out = liftSharedScenarios([
+      q('During a science experiment, a student heated a sample of ice until it melted. Write down the name of the process.'),
+      q('During a science experiment, a student shone a light ray at a mirror. Write down the angle of incidence.'),
+      q('During a science experiment, a student shone a light ray at a mirror. Name the angle of reflection.'),
+    ])
+    expect(out[0].scenario).toBeUndefined()
+    expect(out[1].scenario).toBe('During a science experiment, a student shone a light ray at a mirror.')
+    expect(out[2].scenario).toBe('During a science experiment, a student shone a light ray at a mirror.')
+  })
+
+  it('does not lift a run when doing so would drop a number', () => {
+    const stems = [
+      'Sam shone a light ray at a mirror at 40 degrees. Write down the angle of incidence.',
+      'Sam shone a light ray at a mirror at 60 degrees. Write down the angle of reflection.',
+    ]
+    const out = liftSharedScenarios(stems.map(q))
+    expect(out.map((x) => x.question)).toEqual(stems)
+  })
+})

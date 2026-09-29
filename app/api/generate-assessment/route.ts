@@ -39,6 +39,7 @@ import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { liftSharedScenarios, stripPassageEcho } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
+import { prettyMaths } from '@/lib/maths-notation'
 import { correctParagraphLetter, citesAMissingParagraph } from '@/lib/paragraph-reference'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
@@ -2833,6 +2834,17 @@ ${commandBlock}`
         if (!q || typeof q !== 'object') continue
         for (const field of ['question', 'scenario', 'passage', 'explanation'] as const) {
           if (typeof (q as any)[field] === 'string') (q as any)[field] = toBritish((q as any)[field])
+        }
+        // "2x^2" and "4 * 2" printed as 2x² and 4 × 2. Checkpoint only: the
+        // same route serves Computing, where an asterisk in a stem can be the
+        // multiplication operator of the language being taught.
+        if (isCheckpoint) {
+          for (const field of ['question', 'scenario'] as const) {
+            if (typeof (q as any)[field] === 'string') (q as any)[field] = prettyMaths((q as any)[field])
+          }
+          if (Array.isArray((q as any).options)) {
+            ;(q as any).options = (q as any).options.map((o: unknown) => (typeof o === 'string' ? prettyMaths(o) : o))
+          }
         }
         for (const field of ['options', 'marking_criteria', 'hints', 'items', 'categories'] as const) {
           const list = (q as any)[field]

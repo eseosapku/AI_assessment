@@ -222,3 +222,19 @@ describe('a figure referred to without a verb', () => {
     expect(danglingReference({ question: 'Explain why a graph is clearer than a list.' })).toBeNull()
   })
 })
+
+describe('inflected and named figure references', () => {
+  it('catches the stems that shipped', () => {
+    for (const stem of [
+      'Considering the diagram, write down the name of the infrastructure built to connect the city centre.',
+      'Looking at the graph, on which day did the temperature peak?',
+      'Referring to the bar chart, which month was wettest?',
+    ]) {
+      expect(danglingReference({ question: stem }), stem).toBe('figure')
+    }
+  })
+
+  it('is satisfied when the figure is there', () => {
+    expect(danglingReference({ question: 'Considering the diagram, name the force.', diagram_svg: '<svg/>' })).toBeNull()
+  })
+})

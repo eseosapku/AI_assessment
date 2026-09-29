@@ -57,7 +57,12 @@ const PROMISES: readonly Promise_[] = [
   // the commonest unattached promise left after the last pass, and it matched
   // nothing: this pattern had every figure noun except table, and the table
   // promise wants a position word ("the table above") that this shape lacks.
-  { kind: 'figure', pattern: /\b(?:look\s+at|study|examine|consider)\s+(?:the|this|these)\s+(?:diagram|figure|image|graph|chart|photograph|illustration|map|table)\b/i },
+  // Inflected forms as well as the bare verb. A live Science paper opened four
+  // questions in a row on "Considering the diagram, ..." with no diagram --
+  // `consider` matched "Consider" and not "Considering", so all four shipped.
+  // The same slack for the figure's name as the pattern below: "the car
+  // diagram", "the food web diagram".
+  { kind: 'figure', pattern: /\b(?:look(?:ing)?\s+at|stud(?:y|ying)|examin(?:e|ing)|consider(?:ing)?|referring\s+to|based\s+on|with\s+reference\s+to|given)\s+(?:the|this|these)\s+(?:\w+\s+){0,2}(?:diagram|figure|image|graph|chart|photograph|illustration|map|table)\b/i },
   // A figure referred to without one of those four verbs.
   //
   // "Tick all the correct statements about the diagram." shipped on a live
