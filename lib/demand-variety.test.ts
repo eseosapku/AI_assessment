@@ -179,3 +179,24 @@ describe('repeats on a passage paper', () => {
     expect(dropRepeatedDemands(qs, { bySubject: false }).questions).toHaveLength(2)
   })
 })
+
+describe('the same data asked about twice', () => {
+  it('catches the repeated sequence that shipped', () => {
+    const out = dropRepeatedDemands([
+      { question: 'Work out the nth term of the sequence 3, 7, 11, 15,..., using the diagram.' },
+      { question: 'Determine the nth term of the sequence: 3, 7, 11, 15,... Explain your reasoning.' },
+    ])
+    expect(out.questions).toHaveLength(1)
+  })
+
+  it('keeps questions whose numbers differ, or are too few to mean anything', () => {
+    expect(dropRepeatedDemands([
+      { question: 'Calculate 3 + 4 × 2.' },
+      { question: 'Calculate 3 + 4 × 5.' },
+    ]).questions).toHaveLength(2)
+    expect(dropRepeatedDemands([
+      { question: 'Find the area of a rectangle 5 cm by 8 cm.' },
+      { question: 'Find the perimeter of a square with side 5 cm and explain.' },
+    ]).questions).toHaveLength(2)
+  })
+})

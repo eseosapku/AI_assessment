@@ -1984,6 +1984,45 @@ ${commandBlock}`
     // This ensures the model can always finish the batch without truncation.
     const BATCH_SIZE = 5
 
+    /**
+     * What is already on the paper, for the passes that fill a shortfall.
+     *
+     * The top-up and plain passes were given the paper's topic list and
+     * nothing else, so they wrote the same topics again. Every paper's last
+     * ten or so questions were the tail of that, on a live Primary paper:
+     *
+     *   "Describe the structure of the Earth's layers."
+     *   "Describe the layers of the Earth and their relative thicknesses."
+     *   "Describe the internal structure of the Earth and its significance."
+     *
+     * three times, after three questions on the layers already -- and on
+     * Maths "the nth term of the sequence 3, 7, 11, 15" at Q9 and again at
+     * Q29. Set by the fill loops, empty for the blueprint's own batches.
+     */
+    let alreadyOnPaper: string[] = []
+    const avoidBlock = (): string => {
+      if (alreadyOnPaper.length === 0) return ''
+      const lines = alreadyOnPaper
+        .map((s) => String(s ?? '').replace(/\s+/g, ' ').trim().slice(0, 90))
+        .filter(Boolean)
+        .slice(-40)
+      return (
+        '\n\nALREADY ON THIS PAPER -- do not ask any of these again, and do not ask the same thing in ' +
+        'other words or with the same numbers. Take a DIFFERENT topic from the list, or a different ' +
+        'part of one:\n' + lines.map((l) => `- ${l}`).join('\n')
+      )
+    }
+
+    /** The paper's topics, least covered first, so a fill goes where the paper is thin. */
+    const leastCoveredTopics = (questions: any[]): string[] => {
+      const counts = new Map<string, number>(promptTopics.map((t: string) => [t, 0]))
+      for (const q of questions) {
+        const label = String(q?.topic_label ?? '').toLowerCase()
+        for (const t of counts.keys()) if (label && label === String(t).toLowerCase()) counts.set(t, (counts.get(t) ?? 0) + 1)
+      }
+      return [...counts.entries()].sort((a, b) => a[1] - b[1]).map(([t]) => t)
+    }
+
     async function tryGenerateBatch(
       batchCount: number,
       startId: number,
@@ -2254,7 +2293,7 @@ ${commandBlock}`
       // questions are simply missing -- sixteen of thirty-four in one run.
       const perQuestion = questionParts?.length ? 900 : 300
       const maxTokens = Math.min(4200, Math.max(1800, requestCount * perQuestion))
-      const text = await callBedrock(prompt, maxTokens)
+      const text = await callBedrock(prompt + avoidBlock(), maxTokens)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
       const parsed = parseJsonRobust(fixLatexInRawJson(text))
@@ -3041,7 +3080,11 @@ ${commandBlock}`
           // buys truncation against Nova Lite's output limit rather than
           // more questions.
           const ask = missing <= BATCH_SIZE ? Math.min(BATCH_SIZE, missing + 2) : missing
-          retryQs = await tryGenerateBatch(ask, allQuestions.length + 1)
+          alreadyOnPaper = allQuestions.map((q: any) => String(q?.question ?? ''))
+          retryQs = await tryGenerateBatch(
+            ask, allQuestions.length + 1, undefined, undefined,
+            isCheckpoint ? leastCoveredTopics(allQuestions).slice(0, 4) : undefined,
+          )
         }
         const seenKeys = new Set(
           allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
@@ -3081,8 +3124,10 @@ ${commandBlock}`
         console.warn(`Still short by ${missing} — plain pass ${pass + 1}, short answers only`)
         const before = allQuestions.length
         try {
+          alreadyOnPaper = allQuestions.map((q: any) => String(q?.question ?? ''))
           const plain = await tryGenerateBatch(
-            Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short',
+            Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short', undefined,
+            leastCoveredTopics(allQuestions).slice(0, 4),
           )
           const seenKeys = new Set(
             allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),

@@ -75,7 +75,25 @@ export function sameDemand(a: unknown, b: unknown, bySubject = true): boolean {
   let shared = 0
   for (const w of wa) if (wb.has(w)) shared++
   if (shared / Math.min(wa.size, wb.size) >= 0.8) return true
+  if (sameNumbers(a, b)) return true
   return bySubject && sameSubjectAsked(a, b)
+}
+
+/**
+ * The same data, asked about twice.
+ *
+ * "Work out the nth term of the sequence 3, 7, 11, 15" at Q9 and "Determine
+ * the nth term of the sequence: 3, 7, 11, 15... Explain your reasoning" at Q29
+ * on one live paper: different verbs, 40% of words in common, the same four
+ * numbers in the same order. Three or more numbers, identical and in order,
+ * is the same data set -- and parts of one question that genuinely share it
+ * are exempted by the caller, since they share a scenario.
+ */
+function sameNumbers(a: unknown, b: unknown): boolean {
+  const nums = (s: unknown) => (String(s ?? '').match(/-?\d+(?:\.\d+)?/g) ?? []).join(',')
+  const na = nums(a)
+  const nb = nums(b)
+  return na !== '' && na === nb && na.split(',').length >= 3
 }
 
 /**
