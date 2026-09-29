@@ -279,14 +279,31 @@ const CLAIMS_THE_TEXT =
  */
 function quotesAbsentText(stem: string, passage: string): boolean {
   if (!CLAIMS_THE_TEXT.test(stem)) return false
-  const haystack = passage.toLowerCase().replace(/\s+/g, ' ')
+  // Compared as WORDS, with punctuation gone from both sides.
+  //
+  // Character-exact matching called a quotation absent over a curly
+  // apostrophe against a straight one, or a single word paraphrased, and on
+  // a live ESL run it dropped twelve good questions that way -- "why the
+  // writer chose the word 'ignited' to describe Lyra's fascination", "the
+  // writer's purpose in describing Elara's fall from the tree". The fault
+  // this exists for is a quotation that is not in the text AT ALL: "The
+  // capital of France is Paris" on a story about a library shares one word
+  // of four with it.
+  const words = (s: string) =>
+    s.toLowerCase().replace(/[’‘]/g, "'").replace(/[^a-z0-9' ]+/g, ' ').replace(/'/g, '').split(/\s+/).filter(Boolean)
+  const hay = ` ${words(passage).join(' ')} `
+  const vocab = new Set(words(passage))
   const quotes = [...stem.matchAll(/["'“”‘’]([^"'“”‘’]{15,})["'“”‘’]/g)].map((m) => m[1])
   if (quotes.length === 0) return false
   return quotes.some((q) => {
-    const needle = q.toLowerCase().replace(/\s+/g, ' ').replace(/[_.]{2,}/g, '').trim()
     // A blank in the quotation means it is an exercise, not a citation.
-    if (!needle || /_{2,}/.test(q)) return false
-    return !haystack.includes(needle)
+    if (/_{2,}/.test(q)) return false
+    const w = words(q)
+    if (w.length === 0) return false
+    if (hay.includes(` ${w.join(' ')} `)) return false
+    // Nearly every word present is a paraphrase of the text, not an invention.
+    const present = w.filter((x) => vocab.has(x)).length
+    return present / w.length < 0.8
   })
 }
 

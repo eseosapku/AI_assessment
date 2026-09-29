@@ -3321,8 +3321,22 @@ ${commandBlock}`
       }
     }
 
-    // If STILL short after all retries → return error
-    if (allQuestions.length < count) {
+    // If STILL short after all retries → return error, unless it is a
+    // Checkpoint paper missing only a question or two.
+    //
+    // After the main pass, three retry passes and the plain passes, an ESL
+    // paper came back 39 of 40 and the learner was told "Failed to generate
+    // 40 questions. Please try again." -- another two-minute wait for a paper
+    // that might fail the same way. Refusing a paper over one question is the
+    // worst answer available, as the plain pass above already says. So up to
+    // a tenth of the paper, and never more than three questions, may be
+    // missing; the paper is shipped with the questions it has, and the screen
+    // reports the questions and marks it actually carries, because both are
+    // counted from the questions rather than from the blueprint.
+    const shortTolerance = isCheckpoint ? Math.min(3, Math.floor(count * 0.1)) : 0
+    if (allQuestions.length < count && allQuestions.length >= count - shortTolerance) {
+      console.warn(`Shipping ${allQuestions.length} of ${count}: short by ${count - allQuestions.length} after every pass`)
+    } else if (allQuestions.length < count) {
       return NextResponse.json(
         { error: `Failed to generate ${count} questions. The AI produced ${allQuestions.length}. Please try again.` },
         { status: 500 }

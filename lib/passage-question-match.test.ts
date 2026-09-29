@@ -303,3 +303,27 @@ describe('offPassageStrength', () => {
     }
   })
 })
+
+describe('a quotation that differs only in punctuation or one word', () => {
+  const P =
+    "Lyra’s fascination with the old books ignited a fire within her. She spent hours poring " +
+    'over faded pages in the attic, where the light fell through a cracked window.'
+
+  it('is not treated as absent from the text', () => {
+    // Curly apostrophe in the passage, straight one in the question.
+    expect(offPassageStrength(
+      "Explain why the writer chose the word 'ignited' in the text: 'Lyra's fascination with the old books ignited a fire'.",
+      P,
+    )).not.toBe('certain')
+    // One word paraphrased.
+    expect(offPassageStrength(
+      "In paragraph A, what does the writer suggest with 'she spent hours poring over old pages in the attic'?",
+      P,
+    )).not.toBe('certain')
+  })
+
+  it('is still absent when the text says nothing like it', () => {
+    expect(offPassageStrength("Find the information stated directly in the text: 'The capital of France is Paris.'", P))
+      .toBe('certain')
+  })
+})
