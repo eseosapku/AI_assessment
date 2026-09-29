@@ -50,7 +50,29 @@ export function unanswerableReason(q: AnswerableQuestion): string | null {
     Array.isArray(q.correct_category) ||
     q.type === 'interactive' ||
     q.type === 'mcq'
-  if (selects) return null
+  if (selects) {
+    // A choice item still has to ASK something. A live ESL paper printed
+    //
+    //   "Elwood placed a book on the counter each day."
+    //    ( ) To sell more books   ( ) To inspire visitors with a message ...
+    //
+    // four reasons offered for a question -- "why?" -- that never made it
+    // onto the page. A question mark, a blank, or a command is enough; a
+    // bare statement is not.
+    //
+    // Narrowly: a tick list or a table carries its instruction in the
+    // interface, so a heading-only stem ("Earthquakes and volcanoes.") is
+    // how those are meant to look, and "The capital of France." over four
+    // cities is answerable as it stands. What cannot be answered is a set of
+    // REASONS -- "To ...", "Because ..." -- under a stem that never asks why.
+    const stemText = typeof q.question === 'string' ? q.question.trim() : ''
+    const options = Array.isArray(q.options) ? q.options.map((o) => String(o ?? '').trim()) : []
+    const reasons = options.length > 0 && options.filter((o) => /^(?:to|because|so that|in order to)\b/i.test(o)).length >= Math.ceil(options.length / 2)
+    if (q.type === 'mcq' && stemText && reasons && !choiceAsksSomething(stemText)) {
+      return 'offers options for a question it never asks'
+    }
+    return null
+  }
 
   const stem = typeof q.question === 'string' ? q.question.trim() : ''
   if (!stem) return null
@@ -115,6 +137,13 @@ function areaIsNotDetermined(stem: string): boolean {
   // At least three lengths quoted is what makes it look answerable.
   const lengths = stem.match(/\d+(?:\.\d+)?\s*(?:cm|mm|m|km|units?)\b/gi) ?? []
   return lengths.length >= 3
+}
+
+/** Does this choice item's stem actually ask for a choice? */
+function choiceAsksSomething(stem: string): boolean {
+  if (/\?/.test(stem)) return true
+  if (/_{2,}|\.{3,}|…/.test(stem)) return true
+  return /\b(?:draw a ring|ring|tick|choose|select|circle|underline|complete|match|identify|name|which|what|why|how|who|where|when|write|give|find|pick|decide|sort|classify|put)\b/i.test(stem)
 }
 
 /**

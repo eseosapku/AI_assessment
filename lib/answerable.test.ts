@@ -224,3 +224,29 @@ describe('a shape with the wrong number of corners', () => {
     }
   })
 })
+
+describe('a choice item with no question', () => {
+  it('catches the stem that shipped', () => {
+    expect(unanswerableReason({
+      type: 'mcq',
+      question: 'Elwood placed a book on the counter each day.',
+      options: ['To sell more books', 'To inspire visitors', 'To keep the counter tidy', 'To attract customers'],
+    })).toBe('offers options for a question it never asks')
+    expect(unanswerableReason({
+      type: 'mcq',
+      question: 'Elwood chose books for the counter.',
+      options: ['To inspire visitors', 'To keep the shop tidy', 'To make the shop attractive', 'To sell more books'],
+    })).toBe('offers options for a question it never asks')
+  })
+
+  it('leaves choice items that ask', () => {
+    const reasons = ['To sell books', 'To inspire visitors', 'To tidy up', 'To attract customers']
+    for (const question of [
+      'Why did Elwood place a book on the counter each day?',
+      'Draw a ring around the reason Elwood placed a book on the counter.',
+      'Elwood placed a book on the counter. What was his purpose?',
+    ]) {
+      expect(unanswerableReason({ type: 'mcq', question, options: reasons }), question).toBeNull()
+    }
+  })
+})
