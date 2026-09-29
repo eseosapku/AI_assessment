@@ -206,6 +206,10 @@ const META = new Set([
   'develops', 'develop', 'across', 'idea', 'ideas', 'theme', 'themes',
   'feeling', 'feelings', 'emotion', 'emotions', 'shows', 'suggests',
   'creates', 'create', 'presented', 'presents', 'viewpoint', 'perspective',
+  // More of the same, each from a good question dropped on a live paper.
+  'varying', 'vary', 'length', 'pacing', 'pace', 'affect', 'affects',
+  'reveal', 'reveals', 'developed', 'throughout', 'trace', 'happened',
+  'event', 'events', 'agrees', 'subject', 'reaction', 'purpose', 'author',
   'list', 'order', 'opinion', 'fact', 'summary',
 ])
 
@@ -309,11 +313,37 @@ function quotesAbsentText(stem: string, passage: string): boolean {
  * strongest possible form of the test -- one word in common is enough to pass.
  */
 export function questionIsOffPassage(stem: unknown, passage: unknown): boolean {
+  return offPassageStrength(stem, passage) !== null
+}
+
+/**
+ * How sure we are that a question belongs to some other text.
+ *
+ *   'certain'  it says "the text" and quotes something the text does not
+ *              contain -- a learner told to find it will not find it.
+ *   'likely'   it shares no subject-matter word with the passage.
+ *   null       no reason to think so.
+ *
+ * The two are kept apart because they are not equally reliable. Measured on a
+ * live English paper, the word-overlap signal was right about "the priest's
+ * role in the wedding ceremony" on a story with no wedding, and wrong about
+ * "How does varying sentence length affect the pacing of the story?" and
+ * "Draw a ring around the event that happened first in paragraph B" --
+ * literature questions use words the passage does not, and roughly half its
+ * drops were good questions. Each of those pushed the paper towards "Failed
+ * to generate 17 questions", which is worse than any single question. So the
+ * caller drops a 'certain' one and only sets a 'likely' one aside.
+ */
+export function offPassageStrength(stem: unknown, passage: unknown): 'certain' | 'likely' | null {
   const text = String(stem ?? '').trim()
   const source = String(passage ?? '')
-  if (!text || !source.trim()) return false
-  if (WRITING_TASK.test(text)) return false
-  if (quotesAbsentText(text, source)) return true
+  if (!text || !source.trim()) return null
+  if (WRITING_TASK.test(text)) return null
+  if (quotesAbsentText(text, source)) return 'certain'
+  return sharesNothingWithPassage(text, source) ? 'likely' : null
+}
+
+function sharesNothingWithPassage(text: string, source: string): boolean {
   if (HAS_A_BLANK.test(text)) return false
   // An exercise that brings its own sentence and does not claim the passage
   // wrote it. "Rewrite the following reported speech into direct speech:

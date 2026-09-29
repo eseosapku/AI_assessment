@@ -1,6 +1,6 @@
 // lib/passage-question-match.test.ts
 import { describe, it, expect } from 'vitest'
-import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText, passageBorrowsAKnownWork, questionIsOffPassage } from './passage-question-match'
+import { properNounsIn, namesAbsentFromPassage, questionInventsItsOwnText, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from './passage-question-match'
 
 /** The exact stems that shipped with no passage on the page. */
 const SHIPPED = [
@@ -274,6 +274,32 @@ describe('off-passage on a live English paper that came back short', () => {
       "Find the information stated directly in the text: 'The capital of France is Paris.'",
     ]) {
       expect(questionIsOffPassage(stem, P), stem).toBe(true)
+    }
+  })
+})
+
+describe('offPassageStrength', () => {
+  const P =
+    'In the heart of the ancient city of Eldoria lived a young girl named Mira. One crisp autumn ' +
+    'morning she stumbled upon an old book in the marketplace. "Where did you come from?" she whispered.'
+
+  it('is certain only when a question quotes the text and the text does not say it', () => {
+    expect(offPassageStrength("Find the information stated directly in the text: 'The capital of France is Paris.'", P))
+      .toBe('certain')
+  })
+
+  it('is only likely when the evidence is shared words alone', () => {
+    expect(offPassageStrength("What does the priest's role in the wedding ceremony reveal about society?", P))
+      .toBe('likely')
+  })
+
+  it('says nothing about the literature questions it used to drop', () => {
+    for (const stem of [
+      'How does varying sentence length affect the pacing of the story?',
+      'Describe how the main idea is developed throughout the text.',
+      'Draw a ring around the event that happened first in paragraph B.',
+    ]) {
+      expect(offPassageStrength(stem, P), stem).toBeNull()
     }
   })
 })

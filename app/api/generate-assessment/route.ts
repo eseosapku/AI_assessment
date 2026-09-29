@@ -31,7 +31,7 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
-import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage } from '@/lib/passage-question-match'
+import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from '@/lib/passage-question-match'
 import { enforceSlotShape } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
@@ -2810,6 +2810,18 @@ ${commandBlock}`
      * condition has to see the count that will actually ship — a drop after the
      * loop comes straight off the paper.
      */
+    /**
+     * Questions set aside for sharing no words with the passage.
+     *
+     * That signal is right about half the time on English -- it caught "the
+     * priest's role in the wedding ceremony" on a story with no wedding, and
+     * it also caught "How does varying sentence length affect the pacing of
+     * the story?" -- so it is not allowed to be the reason a paper fails. They
+     * wait here, and go back in only if the paper would otherwise come back
+     * short and the learner be told "Failed to generate 17 questions".
+     */
+    const offPassageReserve: any[] = []
+
     const makeShippable = (questions: any[]): any[] => {
       // Provisional marks, before any guard reads them.
       //
@@ -3019,8 +3031,18 @@ ${commandBlock}`
         // answered from that figure, not from the reading text, and sharing
         // no words with the passage is what it is supposed to do.
         if (q?.image_url || q?.diagram_svg) return true
-        if (questionIsOffPassage(q.question, passage)) {
-          console.log(`Dropped question: it is about no part of this passage — "${String(q.question).slice(0, 70)}"`)
+        const offPassage = offPassageStrength(q.question, passage)
+        if (offPassage === 'certain') {
+          console.log(`Dropped question: it quotes the text and the text does not say that — "${String(q.question).slice(0, 70)}"`)
+          return false
+        }
+        if (offPassage === 'likely') {
+          // Set aside, not thrown away. See `offPassageReserve`.
+          const key = normalizeQuestionKey(String(q.question ?? ''))
+          if (key && !offPassageReserve.some((r) => normalizeQuestionKey(String(r.question ?? '')) === key)) {
+            offPassageReserve.push(q)
+          }
+          console.log(`Set aside: shares no words with the passage — "${String(q.question).slice(0, 70)}"`)
           return false
         }
         if (citesAMissingParagraph({ ...q, passage })) {
@@ -3139,6 +3161,25 @@ ${commandBlock}`
           break
         }
         if (allQuestions.length <= before) break
+      }
+    }
+
+    // Before refusing the paper, the reserve. A question that merely shares
+    // no words with the passage is a better answer than no paper at all.
+    if (allQuestions.length < count && offPassageReserve.length > 0) {
+      const seen = new Set(allQuestions.map((q: any) => normalizeQuestionKey(String(q?.question ?? ''))))
+      // Set aside before the answerable and markable checks ran, so they run
+      // here: a reinstated question must still be one a learner can answer
+      // and a marker can mark.
+      const vetted = cleanQuestionPaper(
+        dropUnmarkable(dropUnanswerable(offPassageReserve as any[]).kept as any[]).kept as any[],
+      )
+      const back = vetted
+        .filter((q: any) => !seen.has(normalizeQuestionKey(String(q?.question ?? ''))))
+        .slice(0, count - allQuestions.length)
+      if (back.length) {
+        console.log(`Short by ${count - allQuestions.length}: reinstated ${back.length} question(s) set aside for sharing no words with the passage`)
+        allQuestions.push(...back)
       }
     }
 
