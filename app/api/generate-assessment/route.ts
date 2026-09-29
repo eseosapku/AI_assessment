@@ -2587,7 +2587,14 @@ ${commandBlock}`
 
       const seenQuestions = existingSeen ?? new Set<string>()
       const deduped = filtered.filter((q: any) => {
-        const key = normalizeQuestionKey(String(q?.question || ''))
+        // A tick list or table is keyed on its rows as well: its stem is the
+        // paper's fixed wording, so two different ones share it, and the
+        // second was removed as a "duplicate" -- one of an ESL paper's two
+        // 2-mark tables, every run.
+        const rows = q?.type === 'interactive'
+          ? [...(Array.isArray(q.items) ? q.items : []), ...(Array.isArray(q.options) ? q.options : [])].join(' ')
+          : ''
+        const key = normalizeQuestionKey(`${String(q?.question || '')} ${rows}`)
         if (!key) return false
         if (seenQuestions.has(key)) {
           console.warn(`Duplicate question removed: "${key.slice(0, 60)}"...`)

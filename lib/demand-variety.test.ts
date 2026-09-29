@@ -273,3 +273,25 @@ describe('irregular verbs and swapped nouns', () => {
     )).toBe(false)
   })
 })
+
+// A tick list's stem is the paper's own wording -- "Tick all the correct
+// statements about paragraph D" -- and its demand is in the statements. Read
+// by the stem, two different tick lists "a paragraph letter apart" were one
+// question asked twice, and an ESL paper lost a 2-mark table every run.
+describe('a tick list or table is judged by its rows, not its stem', () => {
+  it('keeps two tick lists that share the wording the paper uses', () => {
+    const out = dropRepeatedDemands([
+      { type: 'interactive', kind: 'multi_select', question: 'Tick (✓) all the correct statements about paragraph B.', options: ['Leo lost his key.', 'The shop was closed.', 'It rained.'] },
+      { type: 'interactive', kind: 'multi_select', question: 'Tick (✓) all the correct statements about paragraph D.', options: ['Ms Elara runs the library.', 'Leo reads every day.', 'The library is new.'] },
+    ], { bySubject: false })
+    expect(out.removed).toBe(0)
+  })
+
+  it('keeps two tables that share the wording the paper uses', () => {
+    const out = dropRepeatedDemands([
+      { type: 'interactive', kind: 'categorize', question: 'Complete the table to show whether each statement is true or not.', items: ['Leo lost his key.', 'It rained.'] },
+      { type: 'interactive', kind: 'categorize', question: 'Complete the table to show whether each statement is true or not.', items: ['The library is new.', 'Ms Elara is kind.'] },
+    ], { bySubject: false })
+    expect(out.removed).toBe(0)
+  })
+})

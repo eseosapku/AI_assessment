@@ -279,7 +279,18 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
   if (!Array.isArray(questions)) return { questions: [], removed: 0 }
   const kept: T[] = []
   let removed = 0
+  // A tick list or a table carries the paper's own fixed wording -- "Complete
+  // the table to show whether each statement is true or not" -- and its
+  // demand is in its rows. Compared by stem, every second one was a repeat
+  // of the first, and an ESL paper lost one of its two 2-mark tables every
+  // run. An exact copy is still caught by the route's duplicate key, which
+  // reads the rows.
+  const byRows = (q: T) => (q as { type?: unknown }).type === 'interactive'
   for (const q of questions) {
+    if (byRows(q)) {
+      kept.push(q)
+      continue
+    }
     // Parts of one question share a scenario and a subject by design --
     // "(a) name the force, (b) explain its effect" -- and are not repeats.
     //
@@ -294,7 +305,7 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
     const partOf = (k: T) =>
       (scenario !== '' && String((k as { scenario?: unknown }).scenario ?? '').trim() === scenario) ||
       (lead !== '' && leadIn(k.question) === lead)
-    if (kept.some((k) => !partOf(k) && sameDemand(k.question, q.question, bySubject))) {
+    if (kept.some((k) => !byRows(k) && !partOf(k) && sameDemand(k.question, q.question, bySubject))) {
       removed++
       continue
     }
