@@ -200,3 +200,24 @@ describe('the same data asked about twice', () => {
     ]).questions).toHaveLength(2)
   })
 })
+
+describe('parts of one question before the scenario is lifted', () => {
+  it('keeps parts that carry the same lead-in in their stems', () => {
+    // Eleven of these were removed in one pass on a live Primary paper.
+    const lead = 'Sam measured the heights of three plants: 4 cm, 7 cm and 9 cm.'
+    const out = dropRepeatedDemands([
+      { question: `${lead} Calculate the mean height.` },
+      { question: `${lead} Calculate the range of the heights.` },
+      { question: `${lead} Explain why Sam should repeat the measurements.` },
+    ])
+    expect(out.questions).toHaveLength(3)
+  })
+
+  it('still removes a real repeat that happens to have a lead-in of its own', () => {
+    const out = dropRepeatedDemands([
+      { question: "Explain how the Arctic hare's fur colour helps it survive." },
+      { question: "In winter the snow is deep. Explain how the Arctic hare's fur colour aids its survival." },
+    ])
+    expect(out.questions).toHaveLength(1)
+  })
+})

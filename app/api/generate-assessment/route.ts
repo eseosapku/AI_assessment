@@ -3149,16 +3149,47 @@ ${commandBlock}`
         if (!want.includes(slot)) want.push(slot)
       }
 
+      // ONE call per focus, asking for all of that focus's parts together.
+      //
+      // The first version made one call per slot, and a numbered question's
+      // five parts share one focus, so five parallel calls got the same
+      // prompt and wrote the same question -- "Describe the role of bile in
+      // the digestion of fats" five times, four thrown away as duplicates.
+      // Asked together, the parts are written as parts: one scenario, several
+      // different demands, which is how the main batches have always worked.
+      // A special format still gets a call of its own, as it does there.
+      type Fmt = 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition'
+      const fmt = (s: any): Fmt =>
+        ['short', 'select', 'tick', 'table', 'written', 'justify', 'composition'].includes(String(s?.format))
+          ? (String(s.format) as Fmt)
+          : 'short'
+      const SPECIAL = new Set(['select', 'tick', 'table', 'justify', 'composition'])
+      const groups: { focus: string; strand: string; parts: any[] }[] = []
+      for (const slot of want) {
+        const focus = String(slot?.focus || '')
+        if (SPECIAL.has(fmt(slot))) {
+          groups.push({ focus, strand: String(slot?.strand || ''), parts: [slot] })
+          continue
+        }
+        const g = groups.find((x) => x.focus === focus && !SPECIAL.has(fmt(x.parts[0])))
+        if (g) g.parts.push(slot)
+        else groups.push({ focus, strand: String(slot?.strand || ''), parts: [slot] })
+      }
+
+      let nextId = have.length + 1
       const results = await Promise.allSettled(
-        want.map((slot: any, i: number) => {
-          const format = ['short', 'select', 'tick', 'table', 'written', 'justify', 'composition'].includes(String(slot?.format))
-            ? (String(slot.format) as 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition')
-            : 'short'
+        groups.map((g) => {
+          const startAt = nextId
+          nextId += g.parts.length
           return tryGenerateBatch(
-            1, have.length + i + 1, undefined,
-            [{ part: null, marks: Number(slot?.marks) || 1, format }],
-            [String(slot?.focus || '')].filter(Boolean),
-            undefined, String(slot?.strand || ''), false,
+            g.parts.length, startAt, undefined,
+            g.parts.map((p: any, i: number) => ({
+              part: g.parts.length > 1 ? String.fromCharCode(97 + i) : null,
+              marks: Number(p?.marks) || 1,
+              format: fmt(p),
+            })),
+            [g.focus].filter(Boolean),
+            undefined, g.strand, false,
           )
         }),
       )

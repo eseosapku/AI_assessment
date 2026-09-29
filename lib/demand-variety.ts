@@ -79,6 +79,30 @@ export function sameDemand(a: unknown, b: unknown, bySubject = true): boolean {
   return bySubject && sameSubjectAsked(a, b)
 }
 
+/** The last sentence of a stem -- the demand, once any scenario is set aside. */
+function lastSentence(stem: unknown): string {
+  const sentences = String(stem ?? '')
+    .split(/(?<=[.!?])\s+/)
+    .map((x) => x.trim())
+    .filter(Boolean)
+  return sentences[sentences.length - 1] ?? ''
+}
+
+/**
+ * The opening sentence of a stem that has a scenario still attached, or ''.
+ *
+ * Normalised, so the same scenario written into two parts compares equal
+ * whatever the punctuation. A one-sentence stem has no lead-in.
+ */
+function leadIn(stem: unknown): string {
+  const sentences = String(stem ?? '')
+    .split(/(?<=[.!?])\s+/)
+    .map((s) => s.trim())
+    .filter(Boolean)
+  if (sentences.length < 2) return ''
+  return sentences[0].toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
 /**
  * The same data, asked about twice.
  *
@@ -141,10 +165,14 @@ function subjectWordsOf(stem: unknown): Set<string> {
 }
 
 export function sameSubjectAsked(a: unknown, b: unknown): boolean {
-  const verb = (s: unknown) => demandOf(s).split(' ')[0] ?? ''
-  if (!verb(a) || verb(a) !== verb(b)) return false
-  const sa = subjectWordsOf(a)
-  const sb = subjectWordsOf(b)
+  // The DEMAND, not the whole stem: a scenario in front of it would otherwise
+  // make the "command" whatever word the scenario starts with.
+  const da = lastSentence(a)
+  const db = lastSentence(b)
+  const verb = (s: string) => demandOf(s).split(' ')[0] ?? ''
+  if (!verb(da) || verb(da) !== verb(db)) return false
+  const sa = subjectWordsOf(da)
+  const sb = subjectWordsOf(db)
   let shared = 0
   for (const w of sa) if (sb.has(w)) shared++
   // Against the LARGER set, so what differs has to be small as well as what
@@ -171,8 +199,18 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
   for (const q of questions) {
     // Parts of one question share a scenario and a subject by design --
     // "(a) name the force, (b) explain its effect" -- and are not repeats.
+    //
+    // Recognised two ways, because the scenario is lifted onto its own field
+    // AFTER this runs: before that, parts carry their shared lead-in at the
+    // front of the stem. Matching only the field never fired in the route, and
+    // on a Primary Science paper eleven parts were removed in one pass as
+    // repeats of each other -- same lead-in, and for "Sam measured 4, 7 and 9"
+    // the same numbers too. That paper came back 22 of 31.
     const scenario = String((q as { scenario?: unknown }).scenario ?? '').trim()
-    const partOf = (k: T) => scenario !== '' && String((k as { scenario?: unknown }).scenario ?? '').trim() === scenario
+    const lead = leadIn(q.question)
+    const partOf = (k: T) =>
+      (scenario !== '' && String((k as { scenario?: unknown }).scenario ?? '').trim() === scenario) ||
+      (lead !== '' && leadIn(k.question) === lead)
     if (kept.some((k) => !partOf(k) && sameDemand(k.question, q.question, bySubject))) {
       removed++
       continue
