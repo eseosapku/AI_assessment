@@ -234,3 +234,22 @@ describe('the instruction frame is not the question', () => {
     expect(out.questions).toHaveLength(5)
   })
 })
+
+describe('the same demand under a different scenario', () => {
+  it('catches the three xylem questions that shipped', () => {
+    const out = dropRepeatedDemands([
+      { question: 'Which structure is responsible for transporting water to the rest of the plant?' },
+      { question: 'During a lab, Alex measured the rate of water uptake in a plant stem. Write down the name of the structure that transports water in the plant.' },
+      { question: 'During an experiment, a student measured the rate of water uptake in a celery stalk. Name the part of the plant responsible for water transport.' },
+    ])
+    expect(out.questions).toHaveLength(1)
+  })
+
+  it('keeps a short demand under two different scenarios', () => {
+    const out = dropRepeatedDemands([
+      { question: 'A car travels 120 km in 2 hours. Calculate its average speed.' },
+      { question: 'A cyclist rides 30 km in 3 hours. Calculate its average speed.' },
+    ])
+    expect(out.questions).toHaveLength(2)
+  })
+})

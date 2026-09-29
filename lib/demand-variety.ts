@@ -92,6 +92,7 @@ export function sameDemand(a: unknown, b: unknown, bySubject = true): boolean {
   for (const w of wa) if (wb.has(w)) shared++
   if (shared / Math.min(wa.size, wb.size) >= 0.8) return true
   if (sameNumbers(a, b)) return true
+  if (sameDemandSentence(a, b, stem)) return true
   return bySubject && sameSubjectAsked(a, b)
 }
 
@@ -117,6 +118,38 @@ function leadIn(stem: unknown): string {
     .filter(Boolean)
   if (sentences.length < 2) return ''
   return sentences[0].toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim()
+}
+
+/**
+ * The same demand under a different scenario.
+ *
+ * A Primary paper asked, at Q4, Q18 and Q30:
+ *
+ *   "Which structure is responsible for transporting water to the rest of
+ *    the plant?"
+ *   "During a lab, Alex measured the rate of water uptake in a plant stem.
+ *    Write down the name of the structure that transports water."
+ *   "During an experiment, a student measured the rate of water uptake in a
+ *    celery stalk. Name the part of the plant responsible for water
+ *    transport."
+ *
+ * Three different openings, one answer: xylem. The check runs before the
+ * scenarios are lifted off, so each lead-in diluted the comparison below the
+ * bar. The DEMAND sentences are compared on their own as well -- with at
+ * least three words left after the frame, so "Calculate its speed" under two
+ * different journeys is never enough, and with any numbers in them equal.
+ */
+function sameDemandSentence(a: unknown, b: unknown, words: (s: unknown) => Set<string>): boolean {
+  const da = lastSentence(a)
+  const db = lastSentence(b)
+  const nums = (s: string) => (s.match(/-?\d+(?:\.\d+)?/g) ?? []).join(',')
+  if (nums(da) !== nums(db)) return false
+  const wa = words(da)
+  const wb = words(db)
+  if (wa.size < 3 || wb.size < 3) return false
+  let shared = 0
+  for (const w of wa) if (wb.has(w)) shared++
+  return shared / Math.min(wa.size, wb.size) >= 0.8
 }
 
 /**
