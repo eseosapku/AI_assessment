@@ -57,6 +57,29 @@ export function demandOf(stem: unknown): string {
     .trim()
 }
 
+/**
+ * Irregular forms, and the nouns a question swaps in for a verb, mapped to one
+ * word. Only forms of four letters or more matter: shorter ones are filtered
+ * out before comparing.
+ */
+const LEMMA: Readonly<Record<string, string>> = {
+  heard: 'hear', hears: 'hear', hearing: 'hear',
+  felt: 'feel', feels: 'feel', feeling: 'feel', feelings: 'feel', emotion: 'feel', emotions: 'feel',
+  found: 'find', finds: 'find', thought: 'think', thinks: 'think',
+  took: 'take', taken: 'take', takes: 'take', gave: 'give', given: 'give', gives: 'give',
+  went: 'go', goes: 'go', gone: 'go', came: 'come', comes: 'come',
+  knew: 'know', known: 'know', knows: 'know', told: 'tell', tells: 'tell',
+  said: 'say', says: 'say', made: 'make', makes: 'make', left: 'leave', leaves: 'leave',
+  brought: 'bring', brings: 'bring', began: 'begin', begun: 'begin', begins: 'begin',
+  chose: 'choose', chosen: 'choose', stood: 'stand', stands: 'stand',
+  held: 'hold', holds: 'hold', kept: 'keep', keeps: 'keep', spoke: 'speak', spoken: 'speak',
+  wrote: 'write', written: 'write', drew: 'draw', drawn: 'draw',
+  grew: 'grow', grown: 'grow', grows: 'grow', rose: 'rise', risen: 'rise',
+  fell: 'fall', fallen: 'fall', falls: 'fall', built: 'build', builds: 'build',
+  caught: 'catch', taught: 'teach', bought: 'buy', sought: 'seek',
+  reason: 'why', reasons: 'why', cause: 'why', causes: 'why',
+}
+
 /** Words of the instruction frame, which every item of a format shares. */
 const FRAME_WORDS: ReadonlySet<string> = new Set([
   'draw', 'ring', 'around', 'tick', 'correct', 'statement', 'statements', 'choose',
@@ -82,8 +105,12 @@ export function sameDemand(a: unknown, b: unknown, bySubject = true): boolean {
     // counted as one question asked twice. On a live ESL paper this removed
     // about forty items across the passes, and the paper failed at 34 of 40.
     const words = demandOf(s).split(' ').filter((w) => w.length > 3 && !FRAME_WORDS.has(w))
-    // Crude stemming: the tense is exactly the difference to ignore.
-    return new Set(words.map((w) => w.replace(/(?:ed|ing|s)$/, '')))
+    // Crude stemming: the tense is exactly the difference to ignore -- and
+    // irregular tenses are the ones a suffix rule cannot see. "How did she
+    // feel when she HEARD the tree's voice?" and "give the emotion Elara
+    // feels when she HEARS the tree's voice" shipped together on one English
+    // paper: "heard" never became "hear", and "emotion" never met "feel".
+    return new Set(words.map((w) => LEMMA[w] ?? w.replace(/(?:ed|ing|s)$/, '')))
   }
   const wa = stem(a)
   const wb = stem(b)

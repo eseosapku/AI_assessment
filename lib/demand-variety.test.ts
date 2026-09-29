@@ -255,3 +255,21 @@ describe('the same demand under a different scenario', () => {
     expect(out.questions).toHaveLength(2)
   })
 })
+
+describe('irregular verbs and swapped nouns', () => {
+  it('catches the Elara pair that shipped on one English paper', () => {
+    expect(sameDemand(
+      "Elara sat down at the base of the ancient oak tree. How did she feel when she heard the tree's voice?",
+      "In paragraph F, give the emotion Elara feels when she hears the tree's voice.",
+      false,
+    )).toBe(true)
+  })
+
+  it('still keeps two different questions about the same character', () => {
+    expect(sameDemand(
+      'What did Elara find beneath the oak tree?',
+      'How did Elara feel when she reached the library?',
+      false,
+    )).toBe(false)
+  })
+})
