@@ -1,6 +1,7 @@
 import Latex from 'react-latex-next'
 import 'katex/dist/katex.min.css'
 import { needsSpeechHint, speakSymbols } from './speech-symbols'
+import { hasCurrency, protectCurrency } from './currency-math'
 
 /**
  * Wrap only math fragments in $...$, not whole prose paragraphs.
@@ -38,9 +39,24 @@ export function wrapInlineMath(text: string): string {
  *
  * Text with no such symbols renders exactly as before.
  */
+/**
+ * Delimiters for text that has money in it: everything but the single "$",
+ * which is left to mean dollars. See `lib/currency-math.ts`.
+ */
+const NO_SINGLE_DOLLAR = [
+  { left: '$$', right: '$$', display: true },
+  { left: '\\(', right: '\\)', display: false },
+  { left: '\\[', right: '\\]', display: true },
+]
+
 export function LatexText({ children }: { children: string }) {
   const text = children ?? ''
-  const rendered = <Latex>{wrapInlineMath(text)}</Latex>
+  // "$50 bill after buying three items costing $12.45" was rendered as maths
+  // between the two dollar signs -- run-together italics, spaces gone. With
+  // money present, real maths moves to \( \) and "$" stays a dollar.
+  const rendered = hasCurrency(text)
+    ? <Latex delimiters={NO_SINGLE_DOLLAR}>{protectCurrency(text)}</Latex>
+    : <Latex>{wrapInlineMath(text)}</Latex>
 
   if (!needsSpeechHint(text)) return rendered
 
