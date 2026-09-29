@@ -45,15 +45,48 @@ function regionPrefix(): (typeof PREFIXES)[number] {
   return 'us'
 }
 
+/**
+ * The model id that actually worked, by bare model name, for this process.
+ *
+ * Measured in eu-west-1: `amazon.nova-lite-v1:0` fails EVERY time -- "on-demand
+ * throughput isn't supported ... use an inference profile" -- in 640-850 ms,
+ * and `eu.amazon.nova-lite-v1:0` then succeeds in about 930 ms. The candidate
+ * list tried the bare id first and remembered nothing, so every single call
+ * to Bedrock was made twice and took nearly twice as long, across all five
+ * copies of this logic. Nova Micro, the fallback, the same.
+ *
+ * Once an id has worked it is tried first, so the probing happens at most once
+ * per model per process rather than once per call.
+ */
+const WORKING_MODEL = new Map<string, string>()
+
+/** Record the id that worked, so the next call goes straight to it. */
+export function rememberWorkingModel(modelId: string): void {
+  if (modelId) WORKING_MODEL.set(stripPrefix(modelId), modelId)
+}
+
+/** Test seam: forget what worked. */
+export function resetWorkingModels(): void {
+  WORKING_MODEL.clear()
+}
+
 export function buildModelCandidates(seedId: string): string[] {
   const expanded: string[] = []
   const clean = (seedId || '').trim()
   if (!clean) return expanded
 
   const bare = stripPrefix(clean)
-  expanded.push(clean)
-  expanded.push(bare)
+  // What worked last time, first.
+  const known = WORKING_MODEL.get(bare)
+  if (known) expanded.push(known)
+  // An id configured WITH a prefix is taken at its word.
+  if (clean !== bare) expanded.push(clean)
+  // Otherwise this region's inference profile before the bare id: newer
+  // models are profile-only in most regions, and the bare id is the one that
+  // fails on every call here. The bare id stays in the list for models and
+  // regions that do serve it on demand.
   expanded.push(`${regionPrefix()}.${bare}`)
+  expanded.push(bare)
   PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
 
   // Known Gemma naming variants on Bedrock.
@@ -83,7 +116,7 @@ export function buildModelCandidates(seedId: string): string[] {
  * So a ValidationException now has to actually be about the model to qualify.
  * Anything else is raised where it happened.
  */
-function isModelIdError(err: any): boolean {
+export function isModelIdError(err: any): boolean {
   const text = `${err?.name || ''} ${err?.message || ''}`.toLowerCase()
   if (
     text.includes('provided model identifier is invalid') ||
@@ -242,7 +275,10 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
         : await client.send(cmd)
       const parsed = JSON.parse(new TextDecoder().decode(res.body))
       const text = extractText(modelId, parsed)
-      if (text.trim()) return text.trim()
+      if (text.trim()) {
+        rememberWorkingModel(modelId)
+        return text.trim()
+      }
       throw new Error(`Empty model response from ${modelId}`)
     } catch (err: any) {
       lastErr = err

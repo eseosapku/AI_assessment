@@ -8,6 +8,7 @@ import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
 import { intArrayParam, jsonbParam } from '@/lib/pg-json'
 import { BEDROCK_CREDENTIALS_ERROR, getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
+import { buildModelCandidates, isModelIdError, rememberWorkingModel } from '@/lib/bedrock'
 import { authorityForCurriculum, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
@@ -1754,52 +1755,16 @@ ${commandBlock}`
       credentials: { accessKeyId, secretAccessKey },
     })
 
-    const PREFIXES = ['eu', 'us', 'ap'] as const
-
     const stripPrefix = (id: string) => id.replace(/^(us|eu|ap)\./, '')
 
-    const regionPrefix: (typeof PREFIXES)[number] =
-      AWS_REGION.startsWith('eu-') ? 'eu' :
-        AWS_REGION.startsWith('ap-') ? 'ap' :
-          'us'
-
-    function isModelIdError(err: any): boolean {
-      const text = `${err?.name || ''} ${err?.message || ''}`.toLowerCase()
-      return (
-        text.includes('provided model identifier is invalid') ||
-        text.includes('invalid model') ||
-        text.includes('validationexception') ||
-        text.includes('on-demand throughput')
-      )
-    }
-
-    function buildModelCandidates(seedId: string): string[] {
-      const expanded: string[] = []
-      const clean = (seedId || '').trim()
-      if (!clean) return expanded
-
-      const bare = stripPrefix(clean)
-      expanded.push(clean)
-      expanded.push(bare)
-      // Try the inferred prefix first, then others.
-      expanded.push(`${regionPrefix}.${bare}`)
-      PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
-
-      // Extra safety for known Gemma naming variants.
-      if (bare === 'google.gemma-3-27b-it') {
-        expanded.push('google.gemma-3-27b-it-v1:0')
-        expanded.push(`${regionPrefix}.google.gemma-3-27b-it-v1:0`)
-        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-27b-it-v1:0`))
-      }
-
-      if (bare === 'google.gemma-3-12b-it') {
-        expanded.push('google.gemma-3-12b-it-v1:0')
-        expanded.push(`${regionPrefix}.google.gemma-3-12b-it-v1:0`)
-        PREFIXES.forEach((p) => expanded.push(`${p}.google.gemma-3-12b-it-v1:0`))
-      }
-
-      return [...new Set(expanded.filter(Boolean))]
-    }
+    // Candidate ids, the model-id error test and the memory of which id worked
+    // all come from lib/bedrock.ts. This route had its own copies of all
+    // three, and two faults with them: the bare id was tried first, which in
+    // eu-west-1 fails on every call before the inference profile is tried --
+    // every Bedrock call made twice -- and ANY ValidationException counted as
+    // a model-id error, the bug lib/bedrock.ts documents fixing (a bad request
+    // walked the whole chain and was reported as "the provided model
+    // identifier is invalid"). The fix never reached this copy.
 
     function buildBedrockBody(modelId: string, prompt: string, maxTokens: number): string {
       const m = stripPrefix(modelId)
@@ -1901,6 +1866,7 @@ ${commandBlock}`
             const parsed = JSON.parse(new TextDecoder().decode(res.body))
             const text = extractBedrockText(modelId, parsed)
             if (!text?.trim()) throw new Error(`Empty model response from ${modelId}`)
+            rememberWorkingModel(modelId)
             return { text, onlyModelIdErrors: false }
           } catch (err: any) {
             lastErr = err

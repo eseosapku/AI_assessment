@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
+import { buildModelCandidates as sharedCandidates, isModelIdError, rememberWorkingModel } from '@/lib/bedrock'
 import { gradeInteractiveQuestion } from '@/lib/grade-interactive'
 import { normalizeInteractiveQuestion } from '@/lib/interactive-assessment-plan'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
@@ -20,7 +21,6 @@ const DEFAULT_FEEDBACK_MODEL =
   process.env.AWS_MODEL_ID ||
   'google.gemma-3-27b-it'
 
-const PREFIXES = ['eu', 'us', 'ap'] as const
 
 function stripPrefix(modelId: string): string {
   return modelId.replace(/^(us|eu|ap)\./, '')
@@ -30,35 +30,18 @@ function modelFamily(modelId: string): string {
   return stripPrefix(modelId)
 }
 
+/**
+ * Candidate ids for these seeds, then the resilience fallbacks.
+ *
+ * Built by lib/bedrock.ts, which tries the region's inference profile before
+ * the bare id and remembers which id worked. This file had its own copy that
+ * tried the bare id first -- in eu-west-1 that fails on every call, so every
+ * feedback request made each model call twice -- and treated any
+ * ValidationException as a model-id error.
+ */
 function buildModelCandidates(seedIds: string[]): string[] {
-  const expanded: string[] = []
-
-  const appendWithPrefixes = (id: string) => {
-    const clean = (id || '').trim()
-    if (!clean) return
-
-    const bare = stripPrefix(clean)
-    expanded.push(clean)
-    expanded.push(bare)
-    PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
-  }
-
-  seedIds.forEach(appendWithPrefixes)
-  // Resilience fallbacks: different reliable on-demand models, not gemma.
-  appendWithPrefixes('amazon.nova-lite-v1:0')
-  appendWithPrefixes('amazon.nova-micro-v1:0')
-
-  return [...new Set(expanded.filter(Boolean))]
-}
-
-function isModelIdError(err: any): boolean {
-  const text = `${err?.name || ''} ${err?.message || ''}`.toLowerCase()
-  return (
-    text.includes('provided model identifier is invalid') ||
-    text.includes('invalid model') ||
-    text.includes('validationexception') ||
-    text.includes('on-demand throughput')
-  )
+  const seeds = [...seedIds, 'amazon.nova-lite-v1:0', 'amazon.nova-micro-v1:0']
+  return [...new Set(seeds.flatMap((id) => sharedCandidates(id)))]
 }
 
 function buildInvokeBody(modelId: string, prompt: string, maxTokens: number, temperature: number): string {
@@ -135,7 +118,10 @@ async function callFeedbackModel(
       const res = await client.send(cmd)
       const parsed = JSON.parse(new TextDecoder().decode(res.body))
       const feedback = extractBedrockText(modelId, parsed)
-      if (feedback.trim()) return feedback.trim()
+      if (feedback.trim()) {
+        rememberWorkingModel(modelId)
+        return feedback.trim()
+      }
       throw new Error(`Empty model response from ${modelId}`)
     } catch (err: any) {
       lastErr = err

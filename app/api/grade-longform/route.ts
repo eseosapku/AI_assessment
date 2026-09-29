@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { jsonrepair } from 'jsonrepair'
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
+import { buildModelCandidates as sharedCandidates, isModelIdError, rememberWorkingModel } from '@/lib/bedrock'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
@@ -43,7 +44,6 @@ const DEFAULT_GRADING_MODEL =
     'amazon.nova-lite-v1:0'
 
 const MAX_ATTEMPTS = 3
-const PREFIXES = ['eu', 'us', 'ap'] as const
 
 function stripPrefix(modelId: string): string {
     return modelId.replace(/^(us|eu|ap)\./, '')
@@ -275,36 +275,20 @@ Return ONLY valid JSON with this exact shape:
 Use exactly ${q.marking_criteria.length} criteria_results entries, in the same order as the rubric.`
 }
 
-function isModelIdError(err: any): boolean {
-    const text = `${err?.name || ''} ${err?.message || ''}`.toLowerCase()
-    return (
-        text.includes('provided model identifier is invalid') ||
-        text.includes('invalid model') ||
-        text.includes('validationexception') ||
-        text.includes('on-demand throughput')
-    )
-}
-
+/**
+ * Candidate ids for these seeds, then the resilience fallbacks.
+ *
+ * Built by lib/bedrock.ts, which tries the region's inference profile before
+ * the bare id and remembers which id worked across requests. This file had
+ * its own copy that tried the bare id first -- in eu-west-1 that fails on
+ * every call -- so each new grading request paid for a failed call before
+ * its first real one, and any ValidationException counted as a model-id
+ * error. The sticky `preferredModelId` below only ever helped within one
+ * request.
+ */
 function buildModelCandidates(seedIds: string[]): string[] {
-    const expanded: string[] = []
-
-    const appendWithPrefixes = (id: string) => {
-        const clean = (id || '').trim()
-        if (!clean) return
-
-        const bare = stripPrefix(clean)
-        expanded.push(clean)
-        expanded.push(bare)
-        PREFIXES.forEach((p) => expanded.push(`${p}.${bare}`))
-    }
-
-    seedIds.forEach(appendWithPrefixes)
-
-    // Resilience fallbacks: different reliable on-demand models, not gemma.
-    appendWithPrefixes('amazon.nova-lite-v1:0')
-    appendWithPrefixes('amazon.nova-micro-v1:0')
-
-    return [...new Set(expanded.filter(Boolean))]
+    const seeds = [...seedIds, 'amazon.nova-lite-v1:0', 'amazon.nova-micro-v1:0']
+    return [...new Set(seeds.flatMap((id) => sharedCandidates(id)))]
 }
 
 async function callBedrockGrade(
@@ -335,6 +319,7 @@ async function callBedrockGrade(
             if (!text) throw new Error(`Empty model response from ${modelId}`)
 
             const parsed = parseJsonRobust(text)
+            rememberWorkingModel(modelId)
             return { grade: parsed?.grade ?? parsed, modelId }
         } catch (err: any) {
             lastErr = err
