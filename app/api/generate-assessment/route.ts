@@ -36,7 +36,7 @@ import { enforceSlotShape } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
-import { liftSharedScenarios, stripPassageEcho } from '@/lib/shared-scenario'
+import { liftSharedScenarios, stripPassageEcho, stripFigureEcho } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
 import { prettyMaths } from '@/lib/maths-notation'
@@ -2869,6 +2869,10 @@ ${commandBlock}`
           // seventeen questions on a live English paper opened on the same
           // eleven words of the text the learner was already reading.
           q.question = stripPassageEcho(q.question, (q as any).passage)
+          // And one that restates the labels of its own drawn figure -- "A
+          // book on a table, weight 10 N, normal force 10 N" above "Write
+          // down the normal force". See `restatesFigure`.
+          q.question = stripFigureEcho(q.question, (q as any).diagram_svg)
           // "[2]" printed at the end of the stem.
           //
           // The style examples are lifted from real papers and carry the mark

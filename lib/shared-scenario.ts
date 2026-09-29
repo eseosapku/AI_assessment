@@ -191,6 +191,49 @@ function sentencesOf(stem: string): string[] {
 }
 
 /**
+ * A sentence that only restates the labels of the drawn figure beside it.
+ *
+ * A live Science question showed a force diagram labelled "normal force 10 N"
+ * and "weight 10 N", and above the question, as its scenario:
+ *
+ *   "A book on a table, weight 10 N, normal force 10 N, resting on table."
+ *   "Write down the magnitude of the normal force."
+ *
+ * The scenario is the figure's own label text, copied in by the model from
+ * the description it was given. It adds nothing the figure does not show,
+ * and it prints the answer one line above the question.
+ *
+ * Read off the drawn SVG's own text, so it only ever applies to a figure this
+ * code drew and knows the words of. Most of the sentence's content words --
+ * and every number in it -- must be on the figure.
+ */
+export function restatesFigure(sentence: unknown, svg: unknown): boolean {
+  const s = String(sentence ?? '')
+  const figure = String(svg ?? '')
+  if (!s.trim() || !figure.includes('<text')) return false
+  const onFigure = [...figure.matchAll(/<text[^>]*>([^<]*)</g)].map((m) => m[1]).join(' ').toLowerCase()
+  const nums = s.match(/\d+(?:\.\d+)?/g) ?? []
+  if (nums.some((n) => !onFigure.includes(n))) return false
+  const words = s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter((w) => w.length > 3)
+  if (words.length < 2) return false
+  const present = words.filter((w) => onFigure.includes(w)).length
+  return present / words.length >= 0.7
+}
+
+/**
+ * The stem without an opening sentence that restates its own figure.
+ *
+ * Only when something is left that is still a question.
+ */
+export function stripFigureEcho(stem: unknown, svg: unknown): string {
+  const text = String(stem ?? '').trim()
+  const sentences = text.split(/(?<=[.!?])\s+/).filter((x) => x.trim())
+  if (sentences.length < 2 || !restatesFigure(sentences[0], svg)) return text
+  const rest = sentences.slice(1).join(' ').trim()
+  return rest.split(/\s+/).length >= 3 ? rest.charAt(0).toUpperCase() + rest.slice(1) : text
+}
+
+/**
  * A stem that opens by quoting the passage printed beside it.
  *
  * `liftSharedScenarios` handles the case where the echo is its own SENTENCE.
@@ -277,7 +320,9 @@ export function liftSharedScenarios<T extends ScenarioQuestion>(questions: reado
         if (!rest) continue
         // Off the stem either way; shown only where it says something the
         // learner cannot already read. See `alreadyInPassage`.
-        if (!alreadyInPassage(scenario, out[k].passage)) out[k].scenario = scenario
+        if (!alreadyInPassage(scenario, out[k].passage) && !restatesFigure(scenario, out[k].diagram_svg)) {
+          out[k].scenario = scenario
+        }
         // Recapitalised: a demand lifted off a comma starts lowercase
         // ("...Woods, what did she carry?" leaves "what did she carry?").
         // Already-capitalised command words are unaffected.

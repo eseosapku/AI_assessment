@@ -1,6 +1,6 @@
 // lib/shared-scenario.test.ts
 import { describe, it, expect } from 'vitest'
-import { liftSharedScenarios, stripPassageEcho, type ScenarioQuestion } from './shared-scenario'
+import { liftSharedScenarios, stripPassageEcho, stripFigureEcho, type ScenarioQuestion } from './shared-scenario'
 
 const q = (question: string): ScenarioQuestion => ({ question })
 
@@ -189,5 +189,35 @@ describe('two different experiments in the same frame', () => {
     ]
     const out = liftSharedScenarios(stems.map(q))
     expect(out.map((x) => x.question)).toEqual(stems)
+  })
+})
+
+describe('a scenario that restates its own figure', () => {
+  const svg =
+    '<svg><text x="1" y="1">normal force 10 N</text><text x="1" y="2">book on a table</text>' +
+    '<text x="1" y="3">table</text><text x="1" y="4">weight 10 N</text></svg>'
+
+  it('is taken off the stem, since it prints the answer above the question', () => {
+    expect(stripFigureEcho('A book on a table, weight 10 N, normal force 10 N, resting on table. Write down the magnitude of the normal force.', svg))
+      .toBe('Write down the magnitude of the normal force.')
+  })
+
+  it('is not lifted into a scenario either', () => {
+    const lead = 'A book on a table, weight 10 N, normal force 10 N, resting on table.'
+    const out = liftSharedScenarios([
+      { question: `${lead} Write down the magnitude of the normal force.`, diagram_svg: svg },
+      { question: `${lead} Explain why the book does not move.`, diagram_svg: svg },
+    ] as ScenarioQuestion[])
+    expect(out[0].scenario).toBeUndefined()
+    expect(out[0].question).toBe('Write down the magnitude of the normal force.')
+  })
+
+  it('leaves a scenario that says something the figure does not', () => {
+    // A number the figure does not carry is information.
+    expect(stripFigureEcho('Sam pushed the book with a force of 3 N. Write down the resultant force.', svg))
+      .toBe('Sam pushed the book with a force of 3 N. Write down the resultant force.')
+    // No drawn figure at all: nothing to compare against.
+    expect(stripFigureEcho('A book rests on a table. Name the force acting upwards.', undefined))
+      .toBe('A book rests on a table. Name the force acting upwards.')
   })
 })
