@@ -308,5 +308,11 @@ describe('a real paper, read', () => {
     fs.writeFileSync(path.join(OUT_DIR, 'transcript.txt'), lines.join('\n'), 'utf8')
 
     expect(lines.length).toBeGreaterThan(0)
+    // A paper that failed to generate is the worst finding there is, and this
+    // used to report "1 passed" over five failed requests -- every paper file
+    // on disk was from the run before, and they were checked as if they were
+    // new. The learner would have seen "Failed to generate 40 questions".
+    const failed = lines.filter((l) => /REQUEST FAILED|BLEW UP/.test(l))
+    expect(failed, failed.join('\n')).toEqual([])
   }, 45 * 60 * 1000)
 })

@@ -249,3 +249,31 @@ describe('questionIsOffPassage', () => {
     expect(questionIsOffPassage('Give a word.', PASSAGE)).toBe(false)
   })
 })
+
+describe('off-passage on a live English paper that came back short', () => {
+  const P =
+    'In the heart of the ancient city of Eldoria lived a young girl named Mira. One crisp autumn ' +
+    'morning she stumbled upon an old book in the marketplace. "Where did you come from?" she whispered.'
+
+  it('keeps self-contained usage exercises and writer\'s-craft questions', () => {
+    // All four were dropped, and the paper failed at 14 of 17.
+    for (const stem of [
+      "Rewrite the following reported speech into direct speech: 'She said that she was tired.'",
+      "Form a question using the words provided: 'you / to / going / the / park'",
+      "What does the pronoun 'it' refer back to in the sentence: 'The cat chased the ball because it moved.'",
+      'Explain how the choice of speech verbs affects the portrayal of characters.',
+    ]) {
+      expect(questionIsOffPassage(stem, P), stem).toBe(false)
+    }
+  })
+
+  it('still drops a question about a different text', () => {
+    for (const stem of [
+      'Trace how the idea of using data mining develops across the text.',
+      'Explain the meaning implied by the warning sign for laser radiation.',
+      "Find the information stated directly in the text: 'The capital of France is Paris.'",
+    ]) {
+      expect(questionIsOffPassage(stem, P), stem).toBe(true)
+    }
+  })
+})

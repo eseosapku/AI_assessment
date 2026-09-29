@@ -63,7 +63,7 @@ export function demandOf(stem: unknown): string {
  * Content words, because a tense is not a difference: "where Elara lived" and
  * "where Elara lives" are one question asked twice.
  */
-export function sameDemand(a: unknown, b: unknown): boolean {
+export function sameDemand(a: unknown, b: unknown, bySubject = true): boolean {
   const stem = (s: unknown) => {
     const words = demandOf(s).split(' ').filter((w) => w.length > 3)
     // Crude stemming: the tense is exactly the difference to ignore.
@@ -75,7 +75,7 @@ export function sameDemand(a: unknown, b: unknown): boolean {
   let shared = 0
   for (const w of wa) if (wb.has(w)) shared++
   if (shared / Math.min(wa.size, wb.size) >= 0.8) return true
-  return sameSubjectAsked(a, b)
+  return bySubject && sameSubjectAsked(a, b)
 }
 
 /**
@@ -144,7 +144,9 @@ export function sameSubjectAsked(a: unknown, b: unknown): boolean {
  */
 export function dropRepeatedDemands<T extends DemandQuestion>(
   questions: readonly T[],
+  options: { bySubject?: boolean } = {},
 ): { questions: T[]; removed: number } {
+  const bySubject = options.bySubject !== false
   if (!Array.isArray(questions)) return { questions: [], removed: 0 }
   const kept: T[] = []
   let removed = 0
@@ -153,7 +155,7 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
     // "(a) name the force, (b) explain its effect" -- and are not repeats.
     const scenario = String((q as { scenario?: unknown }).scenario ?? '').trim()
     const partOf = (k: T) => scenario !== '' && String((k as { scenario?: unknown }).scenario ?? '').trim() === scenario
-    if (kept.some((k) => !partOf(k) && sameDemand(k.question, q.question))) {
+    if (kept.some((k) => !partOf(k) && sameDemand(k.question, q.question, bySubject))) {
       removed++
       continue
     }

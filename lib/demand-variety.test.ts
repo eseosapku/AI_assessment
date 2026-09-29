@@ -167,3 +167,15 @@ describe('the same subject asked in different words', () => {
     expect(out.questions).toHaveLength(2)
   })
 })
+
+describe('repeats on a passage paper', () => {
+  it('does not apply the subject rule when told not to', () => {
+    // Every question on one passage shares its names; on English this rule
+    // removed ten questions in one pass.
+    const qs = [
+      { question: 'Explain how Elara feels in the Whispering Woods at dawn.' },
+      { question: 'Explain how Elara reacts in the Whispering Woods at night.' },
+    ]
+    expect(dropRepeatedDemands(qs, { bySubject: false }).questions).toHaveLength(2)
+  })
+})

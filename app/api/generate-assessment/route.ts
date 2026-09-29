@@ -2883,7 +2883,13 @@ ${commandBlock}`
       // The same question asked twice -- a tense apart, or a paragraph letter
       // apart. The stem deduplicator sees those differences and passes both;
       // what makes them duplicates is the demand underneath.
-      const deduped = dropRepeatedDemands(working)
+      // No subject-level rule on a passage paper. Every comprehension question
+      // on one text shares its names -- "Elara", "the Whispering Woods" -- so
+      // "same command, same subject" read ten of them as one question asked
+      // ten times, removed them in a single pass, and English came back
+      // "Failed to generate 17 questions. The AI produced 11." The strict
+      // wording rule still runs there.
+      const deduped = dropRepeatedDemands(working, { bySubject: !checkpointPassage })
       if (deduped.removed > 0) {
         console.log(`Removed ${deduped.removed} question(s) repeating a demand already on the paper`)
       }
@@ -2970,6 +2976,10 @@ ${commandBlock}`
         // at this point, and this closure can see it.
         const passage = q?.passage ?? checkpointPassage
         if (!passage) return true
+        // A question carrying its own figure -- an ESL notice, a sign -- is
+        // answered from that figure, not from the reading text, and sharing
+        // no words with the passage is what it is supposed to do.
+        if (q?.image_url || q?.diagram_svg) return true
         if (questionIsOffPassage(q.question, passage)) {
           console.log(`Dropped question: it is about no part of this passage — "${String(q.question).slice(0, 70)}"`)
           return false

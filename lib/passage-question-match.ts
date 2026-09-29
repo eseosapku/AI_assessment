@@ -196,6 +196,16 @@ const META = new Set([
   'apostrophe', 'comma', 'capital', 'spelling', 'grammar', 'context',
   'statement', 'statements', 'correct', 'right', 'wrong', 'true', 'false',
   'ring', 'around', 'draw', 'circle', 'underline', 'blank', 'gap', 'box',
+  // Writer's-craft vocabulary. "Explain how the choice of speech verbs
+  // affects the portrayal of characters" is about the passage in the terms a
+  // literature question uses, and shares none of the passage's own words.
+  'choice', 'choices', 'speech', 'portrayal', 'portray', 'portrays', 'character',
+  'characters', 'technique', 'techniques', 'language', 'tone', 'mood',
+  'atmosphere', 'imagery', 'simile', 'similes', 'metaphor', 'metaphors',
+  'structure', 'effect', 'effects', 'dialogue', 'description', 'describes',
+  'develops', 'develop', 'across', 'idea', 'ideas', 'theme', 'themes',
+  'feeling', 'feelings', 'emotion', 'emotions', 'shows', 'suggests',
+  'creates', 'create', 'presented', 'presents', 'viewpoint', 'perspective',
   'list', 'order', 'opinion', 'fact', 'summary',
 ])
 
@@ -305,6 +315,20 @@ export function questionIsOffPassage(stem: unknown, passage: unknown): boolean {
   if (WRITING_TASK.test(text)) return false
   if (quotesAbsentText(text, source)) return true
   if (HAS_A_BLANK.test(text)) return false
+  // An exercise that brings its own sentence and does not claim the passage
+  // wrote it. "Rewrite the following reported speech into direct speech:
+  // 'She said that...'", "Form a question using the words: 'you / to /
+  // going'", "What does 'it' refer back to in the sentence: 'The cat
+  // chased...'" -- all usage items, all self-contained, and all dropped by
+  // the word-overlap test below on a live English paper, which then came back
+  // three questions short. The claim-the-text case has already been decided
+  // by `quotesAbsentText` above.
+  // A quotation from a LABEL, sign or notice is not the learner's own sentence
+  // -- it belongs to a figure, and "What does the label 'Room temperature Tw =
+  // 20 C' imply?" on an English paper with no such figure is exactly the fault
+  // this module catches. Those fall through to the overlap test.
+  const quotesAFigure = /\b(?:label|labelled|sign|notice|poster|advert|advertisement|caption|diagram|chart|graph|table)\b/i.test(text)
+  if (/["'“‘][^"'“”‘’]{8,}["'”’]/.test(text) && !CLAIMS_THE_TEXT.test(text) && !quotesAFigure) return false
 
   const asked = subjectWords(text)
   // Too little to judge on. A three-word stem with no subject words is
