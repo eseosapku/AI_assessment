@@ -5,7 +5,6 @@
       "Write the email below.",
       "Write your story below.",
       "Write one word for each space.",
-      "Write your answer to each question in the space provided.",
       "Write your story in <n>-<n> words in an appropriate style below."
     ],
     "complete": [
@@ -49,9 +48,7 @@
     "write": [
       "Write <n>-<n> words.",
       "Write the email below.",
-      "Write your story below.",
-      "Write your answer to each question in the space provided.",
-      "Write your name, centre number and candidate number in the boxes at the top of the page."
+      "Write your story below."
     ],
     "circle": [
       "Circle the correct letter: A, B or C.",
@@ -72,9 +69,7 @@
   "0861": {
     "write": [
       "Write no more than <n> words.",
-      "Write your answer to each question in the space provided.",
       "Write an article for your partner school about the following topic.",
-      "Write your name, centre number and candidate number in the boxes at the top of the page.",
       "Write a story called <name> <name> <name> about someone visiting an event held at night time."
     ],
     "look at": [
@@ -195,9 +190,7 @@
   },
   "0097": {
     "write": [
-      "Write your answer in the table.",
-      "Write your answer to each question in the space provided.",
-      "Write your name, centre number and candidate number in the boxes at the top of the page."
+      "Write your answer in the table."
     ],
     "look at": [
       "Look at the table.",
@@ -316,9 +309,7 @@
       "Write your answer in the table.",
       "Write the word equation for this reaction.",
       "Write this data in a suitable results table.",
-      "Write the symbol equation to show this reaction.",
-      "Write your answer to each question in the space provided.",
-      "Write your name, centre number and candidate number in the boxes at the top of the page."
+      "Write the symbol equation to show this reaction."
     ],
     "describe": [
       "Describe what he hears.",

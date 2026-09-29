@@ -137,6 +137,13 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
   const { parts, commands, figure } = opts
   const multi = parts.length > 1
   const noun = figure ? figureNoun(figure.category, figure.description) : 'diagram'
+  // A composition is the one task on the paper that is NOT a short demand
+  // about the text. Six of six came back as comprehension questions stamped
+  // at 25 marks -- "Describe Elara's feelings as she reached the Emerald
+  // Grove." -- because this prompt handed them the reading text with "Ask
+  // about THIS text ... PARAGRAPH F", and "demands are eight to ten words",
+  // and a "Do NOT set a comprehension question here" buried under all of it.
+  const writingTask = parts.every((p) => p.format === 'composition')
 
   const lines: string[] = [
     `Write ONE numbered question for a ${opts.paperName} ${opts.subject} paper, sat at ${opts.level}.`,
@@ -147,7 +154,9 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // angles marked as x, y and z. If the sum of the angles in triangle A
     // is 180 degrees, calculate ..." is forty-one words and reads nothing
     // like the paper it claims to be.
-    'Cambridge demands are SHORT: eight to ten words is typical, seventeen is long.',
+    writingTask
+      ? 'A Cambridge writing task names the form, the reader, the purpose and a rough length in two or three sentences.'
+      : 'Cambridge demands are SHORT: eight to ten words is typical, seventeen is long.',
     'A command word sets the register; never paste one of these lines as the opening.',
     ...(opts.styleExamples?.length
       ? [
@@ -159,7 +168,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     '',
   ]
 
-  if (opts.passage) {
+  if (opts.passage && !writingTask) {
     lines.push(
       'The learner is reading THIS TEXT, printed above the question:',
       '"""',
@@ -209,6 +218,21 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
       'Do NOT write an image_key. It is already attached.',
       '',
     )
+  } else if (writingTask) {
+    lines.push(
+      'There is NO picture and NO reading text for this task. It stands on its own: never mention a text, a passage or a paragraph.',
+      '',
+    )
+  } else if (opts.passage) {
+    // The text IS the situation. The line below, read on a passage paper,
+    // told the model to write its own -- "a sentence you write yourself ...
+    // do not reuse a situation from anywhere else in this paper" -- two
+    // paragraphs after "Ask about THIS text". ESL questions came back about
+    // made-up scenes and were set aside for sharing no words with the text.
+    lines.push(
+      'There is NO diagram, picture, graph or table. Never mention one — a question about something the learner cannot see is unanswerable and gets deleted. Everything the question needs is in the text above.',
+      '',
+    )
   } else {
     lines.push(
       'There is NO diagram, picture, graph or table. Never mention one — a question about something the learner cannot see is unanswerable and gets deleted. Put the situation in words instead, in a sentence you write yourself about the topic of THIS question. Do not reuse a situation from anywhere else in this paper.',
@@ -226,7 +250,10 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
   }
 
   lines.push(
-    `Return ONLY JSON: {"questions":[ ... ]} with exactly ${parts.length} object${parts.length === 1 ? '' : 's'}, in this order. Every one is "type":"longform" unless the part below says "type": "mcq".`,
+    // "unless the part below says mcq" was read by tick and table parts too,
+    // whose own line says "type": "interactive" -- two instructions, one
+    // object, and the longform one was stated first.
+    `Return ONLY JSON: {"questions":[ ... ]} with exactly ${parts.length} object${parts.length === 1 ? '' : 's'}, in this order. "type" is "longform" unless its part below names another.`,
     'The "marks" value of each is FIXED below. Copy it exactly; do not choose your own.',
     ...parts.map((p, i) => partLine(p, i, commands)),
     '',
@@ -262,6 +289,19 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
       ? [
           'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"short_answer":{"accepted":["<the answer>","<any other form a marker would accept>"],"numeric":<true only for a number>,"unit":"<only if the answer has one>"},"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
           'short_answer is REQUIRED. No marking_criteria on a short question.',
+        ]
+      // Composition and justify fell through to the mixed template below,
+      // which carries no mark scheme in the object and ends "Every object MUST
+      // carry one of the two" -- SHORT or WRITTEN, neither of which they are.
+      : writingTask
+      ? [
+          'Each object: {"id":<number>,"type":"longform","question":"Write a <story|letter|article|description> ... <who it is for, why, and roughly how many words>","marks":<number>,"marking_criteria":["<band: content and ideas>","<band: structure and paragraphing>","<band: sentence variety>","<band: vocabulary and accuracy>"],"explanation":"<one or two sentences telling the LEARNER what a strong answer does>"}',
+          'marking_criteria is REQUIRED: exactly 4 band descriptors. No short_answer.',
+        ]
+      : parts.every((p) => p.format === 'justify')
+      ? [
+          'Each object: {"id":<number>,"type":"longform","question":"<a choice about the text> Give two quotations. Explain how each quotation supports your choice.","marks":<number>,"marking_criteria":["<first quotation is apt>","<its explanation>","<second quotation is apt>","<its explanation>"],"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
+          'marking_criteria is REQUIRED, one entry per mark. No short_answer.',
         ]
       : [
           'Each object: {"id":<number>,"type":"longform","question":"...","marks":<number>,"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',

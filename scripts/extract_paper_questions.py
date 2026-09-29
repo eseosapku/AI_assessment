@@ -40,6 +40,16 @@ COMMAND = re.compile(
     re.I,
 )
 
+# The cover page. "Write your name, centre number and candidate number in the
+# boxes at the top of the page." opens with a command and ends in a full stop,
+# so it was kept as a demand -- and shown to composition slots as one of three
+# real questions from the paper.
+RUBRIC = re.compile(
+    r"candidate number|centre number|space provided|in the boxes at the top|"
+    r"answer all questions|blank pages?|this document has",
+    re.I,
+)
+
 NUMBERED = re.compile(r"^\s*\d{1,2}\s{1,4}(?=[A-Z(])")
 PART = re.compile(r"^\s*\([a-z]\)\s*")
 SUBPART = re.compile(r"^\s*\((?:i|ii|iii|iv|v)\)\s*")
@@ -87,7 +97,7 @@ def stems_from(pdf):
             if len(line) < 12 or len(line) > 150:
                 continue
             m = COMMAND.match(line)
-            if not m:
+            if not m or RUBRIC.search(line):
                 continue
             # A demand ends in a question mark, a full stop, or its marks.
             if not (line.endswith("?") or line.endswith(".") or MARKS.search(line)):

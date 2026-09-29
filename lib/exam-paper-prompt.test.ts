@@ -172,3 +172,71 @@ describe('choose, then prove it from the text', () => {
     expect(template).not.toContain('"correct_answer"')
   })
 })
+
+describe('a prompt that does not contradict itself', () => {
+  // ESL fill passes set aside questions for "sharing no words with the
+  // passage". The prompt had told them to: under the text it said "Ask about
+  // THIS text", and two paragraphs later the no-figure line said "Put the
+  // situation in words instead, in a sentence you write yourself ... Do not
+  // reuse a situation from anywhere else in this paper."
+  it('does not ask for an invented situation on a passage paper', () => {
+    const p = buildExamPaperPrompt({ ...base, subject: 'English as a Second Language', passage: 'Lila walked to the old pavilion at dusk.' })
+    expect(p).toMatch(/There is NO diagram/)
+    expect(p).not.toMatch(/sentence you write yourself/)
+    expect(p).not.toMatch(/Do not reuse a situation/)
+  })
+
+  it('still asks for one where there is no passage', () => {
+    expect(buildExamPaperPrompt(base)).toMatch(/sentence you write yourself/)
+  })
+
+  // "Every one is longform unless the part below says mcq" -- read by a tick
+  // or table part whose own line says "type": "interactive".
+  it('does not tell a tick part it is longform', () => {
+    const p = buildExamPaperPrompt({ ...base, parts: [{ part: null, marks: 1, format: 'tick' }] })
+    expect(p).not.toMatch(/unless the part below says "type": "mcq"/)
+    expect(p).toMatch(/"type": "interactive", "kind": "multi_select"/)
+  })
+})
+
+// Six of six English composition slots came back as comprehension questions
+// ("Describe Elara's feelings as she reached the Emerald Grove."), stamped at
+// 25 marks. The prompt handed them the reading text with "Ask about THIS
+// text ... Ask about PARAGRAPH F specifically", "Cambridge demands are SHORT",
+// and an object template with no marking_criteria in it.
+describe('a composition prompt asks for a composition', () => {
+  const comp = {
+    ...base,
+    subject: 'English',
+    focus: 'writing a story with a clear structure',
+    strand: 'Writing',
+    parts: [{ part: null, marks: 25, format: 'composition' as const }],
+    passage: 'Elara walked into the Emerald Grove at dawn. The trees were silent.',
+    passageParagraph: 'F',
+  }
+
+  it('does not hand it the reading text to ask about', () => {
+    const p = buildExamPaperPrompt(comp)
+    expect(p).not.toMatch(/Elara walked into the Emerald Grove/)
+    expect(p).not.toMatch(/Ask about THIS text/)
+    expect(p).not.toMatch(/PARAGRAPH F/)
+  })
+
+  it('does not tell it demands are eight to ten words', () => {
+    expect(buildExamPaperPrompt(comp)).not.toMatch(/eight to ten words/)
+  })
+
+  it('puts marking_criteria inside the object template', () => {
+    const template = buildExamPaperPrompt(comp).split('\n').find((l) => l.startsWith('Each object:'))!
+    expect(template).toContain('"marking_criteria"')
+    expect(buildExamPaperPrompt(comp)).not.toMatch(/Every object MUST carry one of the two/)
+  })
+
+  it('gives a justify part its mark scheme in the template too, and keeps its text', () => {
+    const p = buildExamPaperPrompt({ ...comp, parts: [{ part: null, marks: 4, format: 'justify' as const }] })
+    const template = p.split('\n').find((l) => l.startsWith('Each object:'))!
+    expect(template).toContain('"marking_criteria"')
+    // Justify IS about the text: choose, then prove it with quotations.
+    expect(p).toMatch(/Elara walked into the Emerald Grove/)
+  })
+})

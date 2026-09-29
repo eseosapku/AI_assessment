@@ -59,19 +59,40 @@ const COMMANDS_FOR_FORMAT: Record<string, string[]> = {
   tick: ['tick'],
   table: ['complete', 'tick'],
   justify: ['explain', 'give'],
-  composition: ['write'],
+  // None. A composition's demand IS its topic, so no real one can be shown
+  // without handing it over: shown "Write a story called <name> <name>
+  // <name> about someone visiting an event held at night time.", four of six
+  // English papers set a story about a night-time event. The prompt's own
+  // template gives the form.
+  composition: [],
 }
+
+/**
+ * A shape that only makes sense with something printed beside it.
+ *
+ * 38 of the 277 do: "Look at the diagram.", "Circle the correct letter: A, B
+ * or C.", "Tick the picture that shows a physical change." Shown to a question
+ * with nothing printed, one is an instruction to point at a picture that is
+ * not there -- and a question that does is deleted as unanswerable. ESL's
+ * only ring-around shape was one of these, so all fourteen ring-around slots
+ * on a Reading and Usage paper were shown a Listening-paper picture question.
+ */
+const POINTS_AT_A_PICTURE =
+  /\b(diagrams?|pictures?|photo(graph)?s?|graphs?|charts?|maps?|drawings?|figures?|tables?|grid|shown|anomalous|letters? [A-Z]\b|[A-Z], [A-Z],? (or|and) [A-Z])\b/i
 
 /**
  * A few real demand shapes for this paper and slot.
  *
  * Seeded rather than random so one paper's questions do not all see the same
  * three, and two runs of the same paper differ.
+ *
+ * `figure`: whether this question has one printed beside it. Without one, the
+ * shapes that point at a picture are left out.
  */
 export function styleExamplesFor(
   code: string,
   format: string,
-  opts: { count?: number; seed?: number } = {},
+  opts: { count?: number; seed?: number; figure?: boolean } = {},
 ): string[] {
   const byCommand = load()[String(code ?? '')]
   if (!byCommand) return []
@@ -79,7 +100,15 @@ export function styleExamplesFor(
   const wanted = COMMANDS_FOR_FORMAT[format] ?? COMMANDS_FOR_FORMAT.short
   const pool: string[] = []
   for (const command of wanted) {
-    for (const shape of byCommand[command] ?? []) pool.push(shape)
+    for (const shape of byCommand[command] ?? []) {
+      // A table slot IS a table on screen, so "Complete the table." is its
+      // own shape, not a pointer at something missing.
+      const pointsAway = format === 'table'
+        ? POINTS_AT_A_PICTURE.test(shape.replace(/\btables?\b/gi, ''))
+        : POINTS_AT_A_PICTURE.test(shape)
+      if (pointsAway && !opts.figure) continue
+      pool.push(shape)
+    }
   }
   if (pool.length === 0) return []
 
