@@ -1991,7 +1991,11 @@ ${commandBlock}`
         if (approved) {
           drawn = {
             svg: approved.svg,
-            spec: { kind: approved.kind } as DrawnFigure['spec'],
+            // The real spec, now that the library keeps it. This used to be a
+            // stand-in carrying only the kind, so `answerContradictsFigure`
+            // and `figureCannotAnswer` read a pie chart with no slices and a
+            // table with no rows, and passed every library figure unchecked.
+            spec: (approved.spec ?? { kind: approved.kind }) as DrawnFigure['spec'],
             labels: approved.labels,
             description: approved.description,
             noun: nounForKind(approved.kind),

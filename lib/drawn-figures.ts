@@ -18,6 +18,27 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+import { parseFigureSpec, hasPlaceholderLabels, type FigureSpec } from './figure-spec'
+
+/**
+ * The same bar a newly drawn figure has to clear.
+ *
+ * The approved figures skipped `parseFigureSpec` entirely -- they had been
+ * looked at by a person -- and a person reviewing hundreds of figures cannot
+ * check arithmetic. Run over the library, today's validators refused 64 of
+ * 1,278: fifty-nine tables with an empty value column, and five shapes that
+ * cannot exist, like a "rectangle" with sides 5, 5, 4, 4 and an equilateral
+ * triangle marked with a right angle. Those are the "bad image" figures.
+ *
+ * Returns the validated spec, `undefined` for a figure promoted before specs
+ * were kept (the SVG check below still applies to those), or `null` to refuse.
+ */
+function validatedSpec(f: { spec?: unknown }): FigureSpec | null | undefined {
+  if (f.spec === undefined) return undefined
+  const parsed = parseFigureSpec(f.spec)
+  if (!parsed || hasPlaceholderLabels(parsed)) return null
+  return parsed
+}
 
 export interface DrawnLibraryFigure {
   id: string
@@ -30,6 +51,11 @@ export interface DrawnLibraryFigure {
   description: string
   /** Exactly what a question may name. */
   labels: string[]
+  /**
+   * The numbers and labels the figure was drawn from, validated at load.
+   * Absent on a library promoted before specs were kept.
+   */
+  spec?: FigureSpec
   svg: string
 }
 
@@ -92,7 +118,10 @@ function index(): Map<string, DrawnLibraryFigure[]> {
     if (Array.isArray(raw)) {
       for (const f of raw as DrawnLibraryFigure[]) {
         if (!f?.focus || !f?.svg) continue
-        if (!figureHasItsData(f)) continue
+        const spec = validatedSpec(f)
+        if (spec === null) continue
+        if (spec) f.spec = spec
+        else if (!figureHasItsData(f)) continue
         const key = f.focus.toLowerCase().trim()
         const bucket = map.get(key)
         if (bucket) bucket.push(f)

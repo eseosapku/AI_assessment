@@ -48,8 +48,13 @@ const kept = drafts.filter((d) => verdict.get(d.id) === 'keep')
 const dropped = drafts.filter((d) => verdict.get(d.id) === 'drop')
 const undecided = drafts.length - kept.length - dropped.length
 
-// Only the fields a paper needs. The spec was how the picture was made and
-// nothing downstream reads it; carrying it would double the file.
+// The spec is carried too. It used to be dropped -- "nothing downstream reads
+// it; carrying it would double the file" -- and both halves stopped being
+// true: the checks that compare a mark scheme with its figure ("Arts is 10%
+// of this pie chart, the answer says 25%") need the numbers the figure was
+// drawn from, and the load step runs every figure through today's validators,
+// which caught five impossible shapes and fifty-nine empty tables that had
+// been approved. It adds about 5% to the file; the SVGs are the bulk.
 const library = kept.map((d) => ({
   id: d.id,
   subject: d.subject,
@@ -59,6 +64,7 @@ const library = kept.map((d) => ({
   kind: d.kind,
   description: d.description,
   labels: d.labels,
+  spec: d.spec,
   svg: d.svg,
 }))
 
