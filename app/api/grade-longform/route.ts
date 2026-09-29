@@ -1,8 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
-import { jsonrepair } from 'jsonrepair'
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
-import { buildModelCandidates as sharedCandidates, isModelIdError, rememberWorkingModel } from '@/lib/bedrock'
+import { buildModelCandidates as sharedCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust } from '@/lib/bedrock'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 
 export const runtime = 'nodejs'
@@ -108,33 +107,9 @@ function extractBedrockText(modelId: string, payload: any): string {
     return String(raw || '').trim()
 }
 
-function parseJsonRobust(text: string): any {
-    let t = (text || '')
-        .replace(/^```json\s*/i, '')
-        .replace(/^```\s*/i, '')
-        .replace(/```\s*$/i, '')
-        .trim()
-
-    if (!t.startsWith('{')) {
-        const m = t.match(/\{[\s\S]*\}/)
-        if (m) t = m[0]
-    }
-
-    try {
-        return JSON.parse(t)
-    } catch {
-        // Continue.
-    }
-
-    try {
-        return JSON.parse(jsonrepair(t))
-    } catch {
-        // Continue.
-    }
-
-    const repairedUnicode = t.replace(/\\u(?![0-9a-fA-F]{4})/g, '\\\\u')
-    return JSON.parse(jsonrepair(repairedUnicode))
-}
+// parseJsonRobust comes from lib/bedrock.ts. This file's copy had no LaTeX
+// handling at all, so marking feedback containing "\frac{3}{4}" parsed as a
+// form feed followed by "rac{3}{4}" -- the fault lib/bedrock.ts already fixes.
 
 function clampInt(value: number, min: number, max: number): number {
     return Math.max(min, Math.min(max, Math.round(value)))

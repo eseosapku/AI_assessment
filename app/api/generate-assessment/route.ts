@@ -3,12 +3,11 @@ import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand, InvokeModelCommandOutput } from '@aws-sdk/client-bedrock-runtime'
 import { withUsageTracking } from '@/lib/ai-usage-recorder'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
-import { jsonrepair } from 'jsonrepair'
 import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
 import { intArrayParam, jsonbParam } from '@/lib/pg-json'
 import { BEDROCK_CREDENTIALS_ERROR, getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
-import { buildModelCandidates, isModelIdError, rememberWorkingModel } from '@/lib/bedrock'
+import { buildModelCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust, fixLatexInRawJson } from '@/lib/bedrock'
 import { authorityForCurriculum, isExamPrepCurriculumNumeric } from '@/lib/curriculum-registry'
 import { normalizeCountry } from '@/lib/countries'
 import { getNigeriaCurriculumContext, type NigeriaLevel } from '@/lib/nigeria-curriculum'
@@ -198,28 +197,14 @@ function isRefusal(text: string): boolean {
   return REFUSAL_PREFIXES.some(p => lower.startsWith(p))
 }
 
-// Robust JSON parser: try native → jsonrepair → aggressive \u fix → throw
-function parseJsonRobust(text: string): any {
-  // Strip markdown fences
-  let t = text.replace(/^```json\s*/i, '').replace(/^```\s*/i, '').replace(/```\s*$/i, '').trim()
-  // Extract first {...} block if there's leading noise
-  if (!t.startsWith('{')) { const m = t.match(/\{[\s\S]*\}/); if (m) t = m[0] }
-
-  // 1. Try native parse first (fastest path)
-  try { return JSON.parse(t) } catch { /* fall through */ }
-
-  // 2. jsonrepair — handles unescaped quotes, bad escapes, trailing commas, etc.
-  try { return JSON.parse(jsonrepair(t)) } catch { /* fall through */ }
-
-  // 3. Fix invalid \uXXXX sequences (e.g. LaTeX \underline, \upsilon produce \u + non-hex
-  //    which breaks both JSON.parse and sometimes jsonrepair) then retry jsonrepair.
-  try {
-    const reFixed = t.replace(/\\u(?![0-9a-fA-F]{4})/g, '\\\\u')
-    return JSON.parse(jsonrepair(reFixed))
-  } catch { /* fall through */ }
-
-  throw new SyntaxError(`Could not repair JSON. Preview: ${t.slice(0, 120)}`)
-}
+// parseJsonRobust and fixLatexInRawJson come from lib/bedrock.ts.
+//
+// This route had its own copies, and they had drifted: the model writes
+// LaTeX with single backslashes, and in JSON "\f", "\t", "\b", "\n" and "\r"
+// are real escapes -- so "\frac{3}{4} \times 8" parsed as a FORM FEED then
+// "rac{3}{4}", and a TAB then "imes 8". A learner would read "rac{3}{4} imes
+// 8". lib/bedrock.ts fixed exactly this, with a comment saying so, and the fix
+// never reached the route that writes every question.
 
 function normalizeSourceText(value: unknown, maxChars = MAX_SOURCE_CHARS): { text: string; truncated: boolean } {
   const raw = typeof value === 'string' ? value : ''
@@ -228,61 +213,6 @@ function normalizeSourceText(value: unknown, maxChars = MAX_SOURCE_CHARS): { tex
   if (cleaned.length <= maxChars) return { text: cleaned, truncated: false }
   return { text: cleaned.slice(0, maxChars), truncated: true }
 }
-
-function fixLatexInRawJson(raw: string): string {
-  // Strategy: parse character-by-character inside JSON string values only,
-  // replacing any backslash that doesn't form a valid JSON escape sequence.
-  // Valid JSON escapes: \" \\ \/ \b \f \n \r \t \uXXXX
-  const VALID_AFTER_SLASH = new Set(['"', '\\', '/', 'b', 'f', 'n', 'r', 't', 'u'])
-  let out = ''
-  let inString = false
-  let i = 0
-  while (i < raw.length) {
-    const ch = raw[i]
-    if (!inString) {
-      if (ch === '"') inString = true
-      out += ch
-      i++
-    } else {
-      if (ch === '\\') {
-        const next = raw[i + 1]
-        if (next === undefined) { out += '\\\\'; i++; continue }
-        if (next === 'u') {
-          // \uXXXX unicode escape — only valid if followed by exactly 4 hex digits.
-          // LaTeX commands like \underline, \upsilon, \underbrace start with \u but
-          // are NOT valid JSON unicode escapes. Keep \uXXXX as-is; double others.
-          const hex = raw.slice(i + 2, i + 6)
-          if (/^[0-9a-fA-F]{4}$/.test(hex)) {
-            out += ch + next + hex; i += 6
-          } else {
-            out += '\\\\' + next; i += 2
-          }
-        } else if (VALID_AFTER_SLASH.has(next)) {
-          // Valid escape — keep as-is
-          out += ch + next
-          i += 2
-        } else {
-          // Bad escape — double the backslash to make it literal
-          out += '\\\\' + next
-          i += 2
-        }
-      } else if (ch === '"') {
-        inString = false
-        out += ch
-        i++
-      } else if (ch === '\n' || ch === '\r') {
-        // Unescaped newline inside a JSON string — replace with \n
-        out += '\\n'
-        i++
-      } else {
-        out += ch
-        i++
-      }
-    }
-  }
-  return out
-}
-
 
 // ── Grade-level passage specification ────────────────────────────────────────
 function gradePassageSpec(grade: number | string | undefined) {
