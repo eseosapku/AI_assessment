@@ -1999,13 +1999,27 @@ ${commandBlock}`
      * Maths "the nth term of the sequence 3, 7, 11, 15" at Q9 and again at
      * Q29. Set by the fill loops, empty for the blueprint's own batches.
      */
-    let alreadyOnPaper: string[] = []
-    const avoidBlock = (): string => {
+    let alreadyOnPaper: any[] = []
+    /**
+     * With `topics`, only the questions already asked on those topics.
+     *
+     * The focused Checkpoint prompt is about 1,200 characters on purpose --
+     * that is the length Nova Lite was measured to be reliable at -- and
+     * forty lines of other topics' stems would triple it. A fill for "the
+     * structure of the Earth" only needs to know what has been asked about
+     * the structure of the Earth.
+     */
+    const avoidBlock = (topics?: readonly string[]): string => {
       if (alreadyOnPaper.length === 0) return ''
-      const lines = alreadyOnPaper
-        .map((s) => String(s ?? '').replace(/\s+/g, ' ').trim().slice(0, 90))
+      const wanted = new Set((topics ?? []).map((t) => String(t).toLowerCase()))
+      const relevant = wanted.size
+        ? alreadyOnPaper.filter((q: any) => wanted.has(String(q?.topic_label ?? '').toLowerCase()))
+        : alreadyOnPaper
+      const lines = relevant
+        .map((q: any) => String(q?.question ?? '').replace(/\s+/g, ' ').trim().slice(0, 90))
         .filter(Boolean)
-        .slice(-40)
+        .slice(wanted.size ? -12 : -40)
+      if (lines.length === 0) return ''
       return (
         '\n\nALREADY ON THIS PAPER -- do not ask any of these again, and do not ask the same thing in ' +
         'other words or with the same numbers. Take a DIFFERENT topic from the list, or a different ' +
@@ -2136,7 +2150,7 @@ ${commandBlock}`
               ]?.label || undefined)
             : undefined,
         })
-        const text = await callBedrock(focused, Math.min(2600, 700 + questionParts.length * 550))
+        const text = await callBedrock(focused + avoidBlock(batchTopics), Math.min(2600, 700 + questionParts.length * 550))
         if (isRefusal(text)) throw new Error('Model refused to generate content.')
         const parsed = parseJsonRobust(fixLatexInRawJson(text))
         if (!Array.isArray(parsed.questions)) throw new SyntaxError('No questions array')
@@ -3067,13 +3081,102 @@ ${commandBlock}`
 
     allQuestions = makeShippable(deduplicateAndFix(allQuestions))
 
+    /**
+     * Fill a Checkpoint shortfall with the same machinery that built the paper.
+     *
+     * The fill passes used to call `tryGenerateBatch` with no parts, which
+     * falls through to the general 26,600-character prompt and its catalogue
+     * of textbook figures. On an ESL paper a single fill pass returned
+     *
+     *   "Using the diagram on page 30, describe what the fire hazard symbol
+     *    indicates."
+     *   "Using the diagram on page 11, identify the HTML code for a heading."
+     *   "Using the diagram on page 30, describe the warning sign for laser
+     *    radiation."
+     *   "Using the diagram on page 217, explain the graphs of the
+     *    trigonometric functions."
+     *
+     * all of it thrown away, and the paper failed at 27 of 40. That is also
+     * where the laser-radiation question on an English paper came from in
+     * the first place. The main batches never had this problem, because each
+     * is a focused per-question prompt about 1,200 characters long.
+     *
+     * So a fill is built from the blueprint: one small focused call per
+     * missing question, in the FORMAT the paper is short of (a paper short of
+     * written answers gets written answers, not twelve one-word ones that the
+     * client then cannot seat without the total falling short), on the
+     * least-covered foci first, run in parallel as the main batches are.
+     */
+    const checkpointFill = async (missing: number, have: any[]): Promise<any[]> => {
+      const shapeOf = (q: any): string =>
+        q?.type === 'mcq' ? 'select'
+          : q?.kind === 'multi_select' ? 'tick'
+          : q?.kind === 'categorize' ? 'table'
+          : Array.isArray(q?.short_answer?.accepted) && q.short_answer.accepted.length ? 'short'
+          : 'written'
+      const haveByShape = new Map<string, number>()
+      for (const q of have) haveByShape.set(shapeOf(q), (haveByShape.get(shapeOf(q)) ?? 0) + 1)
+
+      // Least-covered foci first, so the fill goes where the paper is thin.
+      const covered = new Map<string, number>()
+      for (const q of have) {
+        const t = String(q?.topic_label ?? '').toLowerCase()
+        if (t) covered.set(t, (covered.get(t) ?? 0) + 1)
+      }
+      const slots = [...slotPlan].sort(
+        (a: any, b: any) =>
+          (covered.get(String(a?.focus ?? '').toLowerCase()) ?? 0) -
+          (covered.get(String(b?.focus ?? '').toLowerCase()) ?? 0),
+      )
+
+      // The formats the blueprint wants that the paper does not yet have.
+      const want: any[] = []
+      const used = new Map<string, number>()
+      for (const slot of slots) {
+        const f = ['short', 'select', 'tick', 'table'].includes(String(slot?.format)) ? String(slot.format) : 'written'
+        const need = slotPlan.filter((s: any) => (['short', 'select', 'tick', 'table'].includes(String(s?.format)) ? String(s.format) : 'written') === f).length
+        const got = (haveByShape.get(f) ?? 0) + (used.get(f) ?? 0)
+        if (got < need) {
+          want.push(slot)
+          used.set(f, (used.get(f) ?? 0) + 1)
+        }
+        if (want.length >= missing) break
+      }
+      // Whatever the arithmetic says, ask for a little more than is missing:
+      // some of every pass is lost to the guards, and the surplus is trimmed.
+      for (const slot of slots) {
+        if (want.length >= missing + 2) break
+        if (!want.includes(slot)) want.push(slot)
+      }
+
+      const results = await Promise.allSettled(
+        want.map((slot: any, i: number) => {
+          const format = ['short', 'select', 'tick', 'table', 'written', 'justify', 'composition'].includes(String(slot?.format))
+            ? (String(slot.format) as 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition')
+            : 'short'
+          return tryGenerateBatch(
+            1, have.length + i + 1, undefined,
+            [{ part: null, marks: Number(slot?.marks) || 1, format }],
+            [String(slot?.focus || '')].filter(Boolean),
+            undefined, String(slot?.strand || ''), false,
+          )
+        }),
+      )
+      return results.flatMap((r) => (r.status === 'fulfilled' ? r.value : []))
+    }
+
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
     for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
       const missing = count - allQuestions.length
       console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
         let retryQs: any[]
-        if (usePassageFlow && generatedPassages.length > 0) {
+        if (isCheckpoint && slotPlan.length > 0) {
+          // A Checkpoint paper is filled the way it was built. See
+          // `checkpointFill`.
+          alreadyOnPaper = [...allQuestions]
+          retryQs = await checkpointFill(missing, allQuestions)
+        } else if (usePassageFlow && generatedPassages.length > 0) {
           const retryPassageCount = Math.min(missing, passageQuestionTarget)
           const retryDirectCount = missing - retryPassageCount
           const retryParts: any[] = []
@@ -3102,7 +3205,7 @@ ${commandBlock}`
           // buys truncation against Nova Lite's output limit rather than
           // more questions.
           const ask = missing <= BATCH_SIZE ? Math.min(BATCH_SIZE, missing + 2) : missing
-          alreadyOnPaper = allQuestions.map((q: any) => String(q?.question ?? ''))
+          alreadyOnPaper = [...allQuestions]
           retryQs = await tryGenerateBatch(
             ask, allQuestions.length + 1, undefined, undefined,
             isCheckpoint ? leastCoveredTopics(allQuestions).slice(0, 4) : undefined,
@@ -3146,11 +3249,15 @@ ${commandBlock}`
         console.warn(`Still short by ${missing} — plain pass ${pass + 1}, short answers only`)
         const before = allQuestions.length
         try {
-          alreadyOnPaper = allQuestions.map((q: any) => String(q?.question ?? ''))
-          const plain = await tryGenerateBatch(
-            Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short', undefined,
-            leastCoveredTopics(allQuestions).slice(0, 4),
-          )
+          alreadyOnPaper = [...allQuestions]
+          // The same focused fill as the retry passes when there is a
+          // blueprint to fill from; the old plain ask only without one.
+          const plain = slotPlan.length > 0
+            ? await checkpointFill(missing, allQuestions)
+            : await tryGenerateBatch(
+                Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short', undefined,
+                leastCoveredTopics(allQuestions).slice(0, 4),
+              )
           const seenKeys = new Set(
             allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
           )
