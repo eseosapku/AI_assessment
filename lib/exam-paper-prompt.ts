@@ -96,7 +96,7 @@ function partLine(spec: ExamPartSpec, index: number, commands: ExamPaperPromptOp
   if (spec.format === 'table') {
     // "Complete the table to show whether each ... is ... or not" — a row per
     // item, a column per category. A categorize on screen.
-    return `${label} "marks": ${spec.marks}, "type": "interactive", "kind": "categorize". Phrase it "Complete the table to show whether each ... is ... or not" as the paper does. Give "categories": exactly two column headings, "items": four or five short row labels, and "correct_category": the 0-based column each row belongs in. No short_answer, no marking_criteria.`
+    return `${label} "marks": ${spec.marks}, "type": "interactive", "kind": "categorize". Phrase it "Complete the table to show whether each ... is ... or not" as the paper does. Give "categories": exactly two column headings, "items": four or five short row labels, and "correct_category": for each row, the HEADING of the column it belongs in, copied exactly. No short_answer, no marking_criteria.`
   }
   if (spec.format === 'tick') {
     // "Tick all the correct statements" — the commonest special format in the
@@ -263,7 +263,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // the model copies the shape it is shown.
     ...(parts.every((p) => p.format === 'table')
       ? [
-          'Each object: {"id":<number>,"type":"interactive","kind":"categorize","question":"Complete the table to show whether each ... is ... or not","categories":["<column 1>","<column 2>"],"items":["<row 1>","<row 2>","<row 3>","<row 4>"],"correct_category":[0,1,0,1],"marks":<number>,"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
+          'Each object: {"id":<number>,"type":"interactive","kind":"categorize","question":"Complete the table to show whether each ... is ... or not","categories":["<column 1>","<column 2>"],"items":["<row 1>","<row 2>","<row 3>","<row 4>"],"correct_category":["<column 1 or column 2, for row 1>","<... for row 2>","<... for row 3>","<... for row 4>"],"marks":<number>,"explanation":"<one or two sentences telling the LEARNER why the answer is right, never what the question tests>"}',
           'No short_answer and no marking_criteria on a table question.',
         ]
       : parts.every((p) => p.format === 'tick')

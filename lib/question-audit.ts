@@ -539,7 +539,14 @@ const COMMAND_AT_START = new RegExp(String.raw`^${COMMANDS}\b`, 'i')
  */
 const COMMAND_AFTER_CLAUSE = new RegExp(String.raw`[,;]\s+${COMMANDS}\b`, 'i')
 
+/** Nothing but a command word: "Explain", "Name." */
+const BARE_COMMAND = new RegExp(String.raw`^\s*${COMMANDS}\s*[.!:]?\s*$`, 'i')
+
 export function asksNothing(stem: string): boolean {
+  // The command word the prompt said to open with, and nothing after it.
+  // Three of these on one Science paper -- "Explain", "Name", "Describe" --
+  // passed, because "Explain" does open a sentence.
+  if (BARE_COMMAND.test(stem)) return true
   if (/\?/.test(stem)) return false
   // The command word has to START a sentence, or "the students were discussing
   // human reproduction" would read as a command to discuss.

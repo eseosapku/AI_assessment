@@ -203,3 +203,28 @@ describe('figureCannotAnswer', () => {
     expect(figureCannotAnswer({ question: 'Which is highest?' }, null)).toBeNull()
   })
 })
+
+// "Write down the language with the highest number of speakers." keyed
+// Mandarin, beside a chart where English is the tallest bar; "the lowest"
+// keyed English on the same chart. Only numbers were ever compared.
+describe('a highest or lowest question keyed to the wrong bar', () => {
+  const ask = (question: string, accepted: string[]) => ({ question, short_answer: { accepted } })
+
+  it('catches a key naming a bar that is not the tallest', () => {
+    expect(answerContradictsFigure(ask('Which way of travelling is the most popular?', ['Bus']), BARS)).toMatch(/Walk/)
+    expect(answerContradictsFigure(ask('Name the way of travelling chosen by the fewest learners.', ['Walk']), BARS)).toMatch(/Cycle/)
+  })
+
+  it('catches a key that also accepts a wrong bar', () => {
+    expect(answerContradictsFigure(ask('Which way of travelling is the most popular?', ['Walk', 'Bus']), BARS)).toMatch(/Bus/)
+  })
+
+  it('passes the right bar', () => {
+    expect(answerContradictsFigure(ask('Which way of travelling is the most popular?', ['Walk', 'walking']), BARS)).toBeNull()
+    expect(answerContradictsFigure(ask('Name the least popular way of travelling.', ['Cycle']), BARS)).toBeNull()
+  })
+
+  it('says nothing about a question that is not about the extremes', () => {
+    expect(answerContradictsFigure(ask('Name one way of travelling shown on the chart.', ['Bus']), BARS)).toBeNull()
+  })
+})

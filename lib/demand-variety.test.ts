@@ -295,3 +295,38 @@ describe('a tick list or table is judged by its rows, not its stem', () => {
     expect(out.removed).toBe(0)
   })
 })
+
+// Four questions on one ESL paper answered "often"; "Name the guardian of the
+// woods" and "Name the creature that speaks to Elara" both answered "Lyrian".
+// Worded differently enough to pass every wording check, and the same
+// question every time -- which the identical answer says outright.
+describe('two questions with the same answer', () => {
+  const short = (question: string, accepted: string[]) => ({ type: 'longform', question, short_answer: { accepted } })
+
+  it('are one question asked twice', () => {
+    const out = dropRepeatedDemands([
+      short('Name the guardian of the Whispering Woods.', ['Lyrian']),
+      short('Name the creature that speaks to Elara.', ['Lyrian', 'fox']),
+      short('Write the adverb of frequency in paragraph D.', ['often']),
+      short('Which word in paragraph B shows how often she visited?', ['Often']),
+    ], { bySubject: false })
+    expect(out.removed).toBe(2)
+  })
+
+  it('are not, when the answer is a number', () => {
+    // 12 is the answer to plenty of different sums.
+    const out = dropRepeatedDemands([
+      short('Work out 3 × 4.', ['12']),
+      short('How many months are in a year?', ['12']),
+    ], { bySubject: false })
+    expect(out.removed).toBe(0)
+  })
+
+  it('are not, when the answer is yes, no, true or false', () => {
+    const out = dropRepeatedDemands([
+      short('Is the test fair? Write yes or no.', ['yes']),
+      short('Did the plant grow in the dark? Write yes or no.', ['Yes']),
+    ], { bySubject: false })
+    expect(out.removed).toBe(0)
+  })
+})

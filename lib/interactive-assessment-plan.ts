@@ -267,8 +267,21 @@ export function normalizeInteractiveQuestion(raw: any): InteractiveQuestion | nu
     const categories = (Array.isArray(raw.categories) ? raw.categories : []).map(String).filter(Boolean)
     const items = (Array.isArray(raw.items) ? raw.items : []).map(String).filter(Boolean)
     if (categories.length < 2 || items.length < 4) return null
-    let correct = (Array.isArray(raw.correct_category) ? raw.correct_category : []).map(Number)
-    if (correct.length !== items.length || correct.some((c: number) => c < 0 || c >= categories.length)) {
+    // Each row's answer may be the column's NAME, which is what the exam
+    // prompt now asks for. Asked for 0-based numbers, the model wrote them as
+    // if 1 meant "yes, it is X", and a disease table filed Streptococcus and
+    // TB under "Does not cause disease" against its own explanation. A name
+    // cannot be read backwards. Numbers are still taken.
+    const columnOf = (c: unknown): number => {
+      if (typeof c === 'number') return Number.isInteger(c) ? c : NaN
+      const name = String(c ?? '').trim().toLowerCase()
+      if (/^\d+$/.test(name)) return Number(name)
+      return categories.findIndex((cat: string) => cat.trim().toLowerCase() === name)
+    }
+    const correct = (Array.isArray(raw.correct_category) ? raw.correct_category : []).map(columnOf)
+    // `Number.isInteger` as well as the range: a name that matched nothing
+    // used to become NaN, which passes both comparisons below.
+    if (correct.length !== items.length || correct.some((c: number) => !Number.isInteger(c) || c < 0 || c >= categories.length)) {
       return null
     }
     return { ...base, kind: 'categorize', categories, items, correct_category: correct, marks: items.length }

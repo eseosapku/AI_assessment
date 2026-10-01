@@ -484,3 +484,18 @@ describe('a pointer is not a scenario', () => {
     expect(codes(paper)).toContain('scenario-repeated-across-paper')
   })
 })
+
+// "QUESTION: Explain" -- the model wrote the scenario and then just the
+// command word it had been told to open with. Three of them on one Science
+// paper, kept because "Explain" opens a sentence.
+describe('a demand that is only a command word', () => {
+  it('asks nothing', async () => {
+    const { asksNothing } = await import('./question-audit')
+    for (const stem of ['Explain', 'Name.', 'Describe', ' Explain. ']) expect(asksNothing(stem), stem).toBe(true)
+  })
+
+  it('still lets a short real demand through', async () => {
+    const { asksNothing } = await import('./question-audit')
+    for (const stem of ['Explain why.', 'Name the gas.', 'Describe what happens.']) expect(asksNothing(stem), stem).toBe(false)
+  })
+})

@@ -2146,16 +2146,20 @@ ${commandBlock}`
           // The figure goes, not the question: which of the two is wrong is
           // not knowable here, and silently rewriting the answer to match the
           // drawing would invent a mark scheme.
-          const clashes = parsed.questions
-            .flatMap((q: any) =>
-              q && typeof q === 'object'
-                ? [answerContradictsFigure(q, drawn!.spec), figureCannotAnswer(q, drawn!.spec)]
-                : [],
-            )
-            .filter((x: string | null): x is string => Boolean(x))
-          if (clashes.length) {
-            console.log(`Discarded the drawn figure: ${clashes[0]}`)
-            drawn = null
+          // The QUESTION goes now, not the figure. Dropping the figure left a
+          // question written against it -- "Write down the language with the
+          // highest number of speakers." -- with no chart to read, and
+          // nothing caught it, because it never says "the chart". Re-asked
+          // first; on the lenient retry the clashing questions are removed and
+          // the rest keep the figure they were written for.
+          const clashing = parsed.questions.filter((q: any) =>
+            q && typeof q === 'object' &&
+            (answerContradictsFigure(q, drawn!.spec) || figureCannotAnswer(q, drawn!.spec)))
+          if (clashing.length) {
+            const why = answerContradictsFigure(clashing[0], drawn!.spec) || figureCannotAnswer(clashing[0], drawn!.spec)
+            if (strictShape) throw new SyntaxError(`Answer contradicts the figure: ${why}`)
+            console.log(`Removed ${clashing.length} question(s) whose answer contradicts the figure: ${why}`)
+            parsed.questions = parsed.questions.filter((q: any) => !clashing.includes(q))
           }
         }
 

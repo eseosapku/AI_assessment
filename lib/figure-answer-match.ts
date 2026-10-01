@@ -105,6 +105,50 @@ export interface AnswerableQuestion {
  * couple of points of the drawn share is a correct reading, not a fault — the
  * check exists to catch 25 against 10, never 33 against 33.3.
  */
+const HIGHEST = /\b(?:highest|most|largest|greatest|tallest|biggest|maximum|most popular)\b/i
+const LOWEST = /\b(?:lowest|least|smallest|fewest|shortest|minimum|least popular)\b/i
+
+/**
+ * "Which ... is the highest / the fewest?" keyed to a bar that is not.
+ *
+ * "Write down the language with the highest number of speakers." was keyed
+ * Mandarin beside a chart whose tallest bar was English, and "the lowest" was
+ * keyed English on the same chart. Every check here compared numbers, and a
+ * word answer passed untouched. The chart is a set of numbers this code drew
+ * itself, so which bar is tallest is known, not guessed.
+ *
+ * Every accepted answer that names a bar must name an extreme one: a key that
+ * also accepts a wrong bar marks a wrong answer right. Ties accept any of the
+ * tied bars.
+ */
+function extremeContradiction(q: AnswerableQuestion, spec: FigureSpec, stem: string): string | null {
+  const parts: { label: string; value: unknown }[] | null =
+    spec.kind === 'barchart' ? spec.bars : spec.kind === 'piechart' ? spec.slices : null
+  if (!parts || parts.length < 2) return null
+  const wantsHigh = HIGHEST.test(stem)
+  const wantsLow = LOWEST.test(stem)
+  if (wantsHigh === wantsLow) return null
+
+  const values = parts.map((p) => Number(p.value)).filter((v) => Number.isFinite(v))
+  if (values.length !== parts.length) return null
+  const target = wantsHigh ? Math.max(...values) : Math.min(...values)
+  const right = parts.filter((p) => Number(p.value) === target).map((p) => p.label.toLowerCase().trim())
+
+  const accepted = ((q as { short_answer?: { accepted?: unknown } })?.short_answer?.accepted ?? []) as unknown[]
+  const named = accepted
+    .map((a) => String(a ?? '').toLowerCase().trim())
+    .map((a) => parts.find((p) => {
+      const label = p.label.toLowerCase().trim()
+      return a === label || a.includes(label) || label.includes(a)
+    }))
+    .filter((p): p is { label: string; value: unknown } => Boolean(p))
+  if (named.length === 0) return null
+
+  const wrong = named.find((p) => !right.includes(p.label.toLowerCase().trim()))
+  if (!wrong) return null
+  return `the key accepts "${wrong.label}" but the ${wantsHigh ? 'highest' : 'lowest'} on the chart is ${right.map((r) => `"${parts.find((p) => p.label.toLowerCase().trim() === r)!.label}"`).join(' or ')}`
+}
+
 export function answerContradictsFigure(
   q: AnswerableQuestion,
   spec: FigureSpec | null | undefined,
@@ -112,6 +156,9 @@ export function answerContradictsFigure(
   if (!spec) return null
   const stem = String(q?.question ?? '')
   if (!stem.trim()) return null
+
+  const extreme = extremeContradiction(q, spec, stem)
+  if (extreme) return extreme
 
   const answers = acceptedNumbers(q)
   if (answers.length === 0) return null

@@ -286,9 +286,26 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
   // run. An exact copy is still caught by the route's duplicate key, which
   // reads the rows.
   const byRows = (q: T) => (q as { type?: unknown }).type === 'interactive'
+  // The same answer is the same question. Four questions on one ESL paper
+  // were answered "often", two on an English paper "Lyrian" -- worded far
+  // enough apart to pass every wording check below. Not for numbers (12 is
+  // the answer to many different sums) or yes/no/true/false.
+  const answersOf = (q: T): string[] => {
+    const accepted = (q as { short_answer?: { accepted?: unknown } }).short_answer?.accepted
+    if (!Array.isArray(accepted)) return []
+    return accepted
+      .map((a) => String(a ?? '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim())
+      .filter((a) => a && !/^[\d .]+$/.test(a) && !/^(?:yes|no|true|false)$/.test(a))
+  }
+  const answered = new Set<string>()
   for (const q of questions) {
     if (byRows(q)) {
       kept.push(q)
+      continue
+    }
+    const answers = answersOf(q)
+    if (answers.some((a) => answered.has(a))) {
+      removed++
       continue
     }
     // Parts of one question share a scenario and a subject by design --
@@ -309,6 +326,7 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
       removed++
       continue
     }
+    for (const a of answers) answered.add(a)
     kept.push(q)
   }
   return { questions: kept, removed }
