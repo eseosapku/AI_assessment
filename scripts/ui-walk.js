@@ -255,6 +255,31 @@ async function main() {
     await page.waitForTimeout(700)
   }
 
+  // The report card, which nothing photographed: submitted as it stands, so
+  // most answers are blank, but every section of the results screen renders.
+  if (arg('submit', '') === '1') {
+    const submit = page.getByRole('button', { name: /submit/i }).first()
+    if (await submit.count()) {
+      await submit.click().catch(() => {})
+      await page.waitForTimeout(800)
+      const anyway = page.getByRole('button', { name: /submit anyway/i }).first()
+      if (await anyway.count()) await anyway.click().catch(() => {})
+      // Written answers are graded by the model; give it time.
+      await page.waitForTimeout(Number(arg('gradewait', 25000)))
+      for (let s = 0; s < 4; s++) {
+        const findings = await page.evaluate(probe)
+        report.push({ step: `results-${s}`, heading: 'results', findings })
+        console.log(`  [results-${s}] — ${findings.length} finding(s)`)
+        for (const f of findings.slice(0, 6)) console.log(`        ${f.kind}: ${f.detail}`)
+        await shot(`results-${s}`)
+        await page.mouse.wheel(0, HEIGHT * 0.85)
+        await page.waitForTimeout(600)
+      }
+    } else {
+      console.log('  no submit button found')
+    }
+  }
+
   fs.writeFileSync(
     path.join(OUT, 'findings.json'),
     JSON.stringify({ url: URL, viewport: [WIDTH, HEIGHT], consoleErrors, report }, null, 2),

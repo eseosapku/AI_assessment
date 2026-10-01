@@ -267,6 +267,21 @@ distinct demand openings: ${distinct}/${questions.length}`)
   // deleted and the client seated a two-point "Explain ..." in the 25-mark
   // slot. The number that was being checked was not the number on screen.
   const seated = applyBlueprint(JSON.parse(JSON.stringify(questions)), paper) as any[]
+  // And save that paper, exactly as ExamPrepForm stores it, for the browser
+  // walk. Loading the route's raw output showed marks and an order no learner
+  // ever sees.
+  fs.writeFileSync(
+    path.join(OUT_DIR, `paper-${subject.code}-${component.number}.screen.json`),
+    JSON.stringify({
+      ...json,
+      questions: seated,
+      checkpoint: {
+        programme, subject: subject.name, code: subject.code, component: component.number,
+        mode: paper.mode, strand: paper.strand, totalMarks: paper.totalMarks,
+      },
+    }),
+    'utf8',
+  )
 
   // The composition slot holds a composition.
   //
