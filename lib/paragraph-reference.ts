@@ -89,6 +89,79 @@ export function correctParagraphLetter(q: ParagraphReferencingQuestion): string 
 }
 
 /**
+ * "paragraph 3" turned into the letter the screen shows.
+ *
+ * The reader letters paragraphs A, B, C; a question that numbers them sends
+ * the learner counting, and "paragraph 3" on one ESL paper meant three
+ * different things to three readers. Only where the passage has that many.
+ */
+export function paragraphNumberToLetter(stem: unknown, passage: unknown): string {
+  const text = String(stem ?? '')
+  const paragraphs = lettered(passage)
+  if (paragraphs.length < 2) return text
+  return text.replace(/\bparagraph\s+(\d{1,2})\b/gi, (whole, n: string) => {
+    const i = Number(n) - 1
+    return i >= 0 && i < paragraphs.length ? `paragraph ${paragraphs[i].label}` : whole
+  })
+}
+
+/** A demand to find a word or phrase in the text, not to infer something. */
+const FIND_A_WORD =
+  /\b(?:write|copy|find|give|underline|ring|circle|identify|name)\b[^.?]*\b(?:word|words|phrase|verb|verbs|adjective|adverb|noun|pronoun|preposition|connective|modal|conjunction|article|synonym|antonym|expression)\b/i
+
+const contentWordsOf = (s: string) =>
+  s.toLowerCase().replace(/[^a-z0-9 ]/g, ' ').split(/\s+/).filter((w) => w.length > 3)
+
+/**
+ * A question whose answer is not in the paragraph it sends the learner to.
+ *
+ * Two shapes, both common on ESL papers in review and both beyond
+ * `correctParagraphLetter`, which can only move a letter when the answer
+ * sits in exactly one other paragraph:
+ *
+ *  - "Write the preposition that shows direction in paragraph B." keyed
+ *    "into", which is in C and nowhere in B. Only for a find-a-word demand;
+ *    "How does Elara feel in paragraph B?" -> "excited" is an inference and
+ *    is not expected to be quoted.
+ *  - "Tick all the correct statements about paragraph D." whose ticked
+ *    statements come from B and C. A ticked statement whose words are far
+ *    more at home in another paragraph than in the cited one is about that
+ *    other paragraph.
+ */
+export function paragraphMismatch(q: ParagraphReferencingQuestion): boolean {
+  const stem = String(q?.question ?? '')
+  const letter = citedParagraph(stem)
+  if (!letter) return false
+  const paragraphs = lettered(q?.passage)
+  const cited = paragraphs.find((p) => p.label === letter)
+  if (!cited || paragraphs.length < 2) return false
+
+  const options = Array.isArray((q as Record<string, unknown>).options) ? ((q as Record<string, unknown>).options as unknown[]).map(String) : []
+  const ticked = (q as Record<string, unknown>).correct_indices
+  if (Array.isArray(ticked) && options.length) {
+    const share = (words: string[], text: string) => words.length ? words.filter((w) => text.includes(w)).length / words.length : 0
+    for (const i of ticked as number[]) {
+      const words = contentWordsOf(options[i] ?? '')
+      if (words.length < 3) continue
+      const here = share(words, cited.text)
+      const best = Math.max(...paragraphs.filter((p) => p !== cited).map((p) => share(words, p.text)))
+      if (best >= 0.6 && here < 0.4) return true
+    }
+    return false
+  }
+
+  if (!FIND_A_WORD.test(stem)) return false
+  const accepted = (q as { short_answer?: { accepted?: unknown } }).short_answer?.accepted
+  if (!Array.isArray(accepted) || accepted.length === 0) return false
+  const found = accepted
+    .map((a) => String(a ?? '').toLowerCase().trim())
+    .filter((a) => a && a.split(/\s+/).length <= 4)
+  if (found.length === 0) return false
+  const has = (text: string, a: string) => new RegExp(`(?:^|[^a-z])${a.replace(/[^a-z0-9 ]/g, '')}(?:[^a-z]|$)`).test(text)
+  return !found.some((a) => has(cited.text, a))
+}
+
+/**
  * Does this stem cite a paragraph the passage does not have?
  *
  * "In paragraph K" on a passage lettered A to F points at nothing at all, and

@@ -33,3 +33,21 @@ describe('the approved figure library', () => {
     if (f?.spec?.kind === 'piechart') expect(f.spec.slices.length).toBeGreaterThan(1)
   })
 })
+
+// "A bar chart of Languages spoken at home", "Goals scored for Soccer,
+// Basketball, Hockey, Cricket", "Shoes Sold for Sneakers, Boots": 80 of the
+// 354 Science charts in the approved library, drawn in bulk for the skills
+// topics with whatever data came to hand, and printed beside Science
+// questions about pets and football.
+describe('a Science chart is about science', () => {
+  it('never offers a Science paper a chart about pets, shoes, sport or music', async () => {
+    const { drawnFigureForFocus } = await import('./drawn-figures')
+    const NOT_SCIENCE = /\b(?:languages? spoken|shoes?|pets?|goals? scored|instruments?|fruits? sold|favou?rite)\b/i
+    for (const focus of ['reading a results table described in words', 'spotting an anomalous result', 'describing a pattern in a set of results', 'drawing a conclusion the evidence supports']) {
+      for (let seed = 0; seed < 60; seed++) {
+        const f = drawnFigureForFocus(focus, { stage: 9, seed })
+        if (f && f.subject === 'Science') expect(f.description, focus).not.toMatch(NOT_SCIENCE)
+      }
+    }
+  })
+})

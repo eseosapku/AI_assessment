@@ -482,6 +482,7 @@ export function parseFigureSpec(raw: unknown): FigureSpec | null {
     if (!object) return null
     const DIRS = ['up', 'down', 'left', 'right'] as const
     const raws = Array.isArray(o.arrows) ? o.arrows : []
+    if (!forcesArePhysical(object, str(o.surface), raws)) return null
     const arrows: ForcesSpec['arrows'] = []
     const used = new Set<string>()
     for (const r of raws) {
@@ -612,6 +613,56 @@ const PLACEHOLDER_AXIS = new RegExp(
   ].join('|'),
   'i',
 )
+
+/**
+ * Is this force diagram physics?
+ *
+ * Library figures a person had approved drew weight pointing up on three
+ * questions of one Primary paper, air resistance pointing down, and a
+ * satellite on hatched ground beside a label reading "none". A reviewer of
+ * hundreds of figures checks that they look tidy, not which way gravity goes,
+ * so the rules live here, where every drawn and approved figure passes:
+ *
+ *   - weight / gravity points down;
+ *   - a normal or support force points up;
+ *   - friction, air resistance and drag act along the motion's line and
+ *     against any driving force, push or thrust -- never up or down, and
+ *     never the same way as what drives the object;
+ *   - nothing in orbit stands on a surface, and no arrow is labelled "none".
+ *
+ * Read off the raw arrows, before duplicates in one direction are dropped:
+ * a friction arrow pointing the same way as the engine would otherwise be
+ * quietly removed and the rest would look fine.
+ */
+function forcesArePhysical(object: string, surface: string, raws: unknown[]): boolean {
+  const arrows = raws
+    .filter((r): r is Record<string, unknown> => Boolean(r) && typeof r === 'object')
+    .map((r) => ({ d: String(r.direction ?? '').toLowerCase().trim(), label: String(r.label ?? '').toLowerCase().trim() }))
+  if (arrows.some((a) => /^(?:none|n\/a|-|label)$/.test(a.label))) return false
+  if (/^(?:none|n\/a|-)$/i.test(surface.trim())) return false
+  if (surface && /\b(?:satellite|planet|moon|space station|spacecraft|orbit)/i.test(object)) return false
+
+  const WEIGHT = /\b(?:weight|gravity|gravitational)\b/
+  const SUPPORT = /\b(?:normal|support|reaction)\b/
+  const RESIST = /\b(?:friction|air resistance|drag|water resistance)\b/
+  const DRIVE = /\b(?:driving|drive|engine|thrust|push|pull|pedalling|pedaling|forward|applied)\b/
+  const horizontal = (d: string) => d === 'left' || d === 'right'
+
+  for (const a of arrows) {
+    if (WEIGHT.test(a.label) && a.d !== 'down') return false
+    if (SUPPORT.test(a.label) && !WEIGHT.test(a.label) && a.d !== 'up') return false
+  }
+  const resist = arrows.filter((a) => RESIST.test(a.label))
+  const drive = arrows.filter((a) => DRIVE.test(a.label) && !RESIST.test(a.label))
+  // Something moving along the ground is pushed and resisted horizontally.
+  if (drive.some((a) => horizontal(a.d)) && resist.some((a) => !horizontal(a.d))) return false
+  for (const r of resist) {
+    if (drive.some((d) => d.d === r.d)) return false
+  }
+  // All the resistance on one object acts the same way: against its motion.
+  if (new Set(resist.map((r) => r.d)).size > 1) return false
+  return true
+}
 
 export function hasPlaceholderLabels(spec: FigureSpec): boolean {
   const bad = (re: RegExp, w: unknown) => re.test(String(w ?? '').trim())

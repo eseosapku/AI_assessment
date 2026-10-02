@@ -109,6 +109,24 @@ function figureHasItsData(f: DrawnLibraryFigure): boolean {
   return headerXs.every((hx) => body.some((c) => Math.abs(c.x - hx) < 8))
 }
 
+/**
+ * A Science chart whose data is not science.
+ *
+ * 80 of the 354 Science charts in the library -- drawn in bulk for the
+ * skills topics ("reading a results table", "spotting an anomalous result")
+ * with whatever data came to hand -- are about pets, shoes, fruit sales,
+ * instruments, languages and sport. Printed beside a Science question, they
+ * produced "Name the language with the most speakers" and "goals scored in
+ * Cricket" on Science papers.
+ */
+const NOT_SCIENCE =
+  /\b(?:languages?|spoken at home|subjects?|sports?|goals?|instruments?|band|music|fruits?|favou?rite|shoes?|sneakers|pets?|books? read|ice cream|snacks?|toys?|movies?|holidays?|lunch|clothes)\b/i
+
+function offSubject(f: DrawnLibraryFigure): boolean {
+  if (f.subject !== 'Science') return false
+  return NOT_SCIENCE.test(`${f.description} ${(f.labels ?? []).join(' ')}`)
+}
+
 let byFocus: Map<string, DrawnLibraryFigure[]> | null = null
 
 function index(): Map<string, DrawnLibraryFigure[]> {
@@ -119,6 +137,7 @@ function index(): Map<string, DrawnLibraryFigure[]> {
     if (Array.isArray(raw)) {
       for (const f of raw as DrawnLibraryFigure[]) {
         if (!f?.focus || !f?.svg) continue
+        if (offSubject(f)) continue
         const spec = validatedSpec(f)
         if (spec === null) continue
         if (spec) f.spec = spec

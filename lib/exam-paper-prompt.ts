@@ -240,7 +240,18 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     )
   }
 
-  if (multi) {
+  if (multi && opts.passage && !writingTask) {
+    // The text IS the scenario. Told to write one and open every part on
+    // it, the model paraphrased the passage -- "Lyra stumbled upon a peculiar
+    // book bound in emerald green leather." -- which then sat above every
+    // part, gave away "Give the colour of the book's cover", and headed parts
+    // about an owl and a riddle it had nothing to do with.
+    lines.push(
+      `This question has ${parts.length} parts, all about the text above. Do not restate the text: ask each part directly, and make each part ask something different.`,
+      'EVERY part must ASK something. Two parts that could take the same answer are one question, not two.',
+      '',
+    )
+  } else if (multi) {
     lines.push(
       `This question has ${parts.length} parts. Write ONE scenario sentence under 20 words — a situation, a measurement, something a named student did — and BEGIN EVERY part with that same sentence so each reads on its own.`,
       'The parts must ask DIFFERENT things. Two parts that could take the same answer are one question, not two.',

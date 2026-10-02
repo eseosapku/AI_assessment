@@ -310,10 +310,53 @@ export function carryLeadInToParts<T extends ScenarioQuestion>(parts: readonly T
     const own = sentencesOf(String(q.question ?? ''))
     // Drop it from any part that already opens with it, so it is not printed
     // twice -- once as the scenario and again as the stem's first sentence.
-    if (own.length >= 2 && (own[0] === lead || sameLeadIn(lead, own[0]))) q.question = own.slice(1).join(' ')
+    if (own.length >= 2 && (own[0] === lead || sameLeadIn(lead, own[0]))) {
+      // Recapitalised: a lead-in split off at a comma ("A girl found a book,
+      // what was its name?") left "what was its name?" in lower case.
+      const rest = own.slice(1).join(' ')
+      q.question = rest.charAt(0).toUpperCase() + rest.slice(1)
+    }
     q.scenario = lead
   }
   return out
+}
+
+/**
+ * Does this sentence only restate the reading text? Most of its content words
+ * (70%) are in the text. Three content words at least, or it says too little
+ * to judge.
+ */
+export function restatesPassage(sentence: unknown, passage: unknown): boolean {
+  const source = String(passage ?? '').toLowerCase()
+  if (!source.trim()) return false
+  const words = contentWords(String(sentence ?? ''))
+  if (words.length < 3) return false
+  const inText = words.filter((w) => new RegExp(String.raw`\b${w.replace(/[^a-z0-9]/g, '')}`).test(source)).length
+  return inText / words.length >= 0.7
+}
+
+/**
+ * A setup sentence that only restates the reading text, taken off the stem.
+ *
+ * On a reading paper the text is printed beside every question, so a first
+ * sentence that paraphrases it adds nothing -- and gives answers away: "Lyra
+ * stumbled upon a peculiar book bound in emerald green leather. Give the
+ * colour of the book's cover." `stripPassageEcho` catches an exact quote;
+ * this catches the paraphrase, by content words: most of the sentence's must
+ * be in the text. Never when the first sentence is itself the demand.
+ */
+export function stripPassageSetup(stem: unknown, passage: unknown): string {
+  const text = String(stem ?? '').trim()
+  const source = String(passage ?? '').toLowerCase()
+  if (!text || !source.trim()) return text
+  const sentences = sentencesOf(text)
+  if (sentences.length < 2) return text
+  const lead = sentences[0]
+  if (new RegExp(String.raw`^(?:${DEMAND_START}|${ASK_START})\b`, 'i').test(lead) || lead.endsWith('?')) return text
+  if (!restatesPassage(lead, source)) return text
+  const rest = sentences.slice(1).join(' ')
+  if (rest.split(/\s+/).filter(Boolean).length < 3) return text
+  return rest.charAt(0).toUpperCase() + rest.slice(1)
 }
 
 /**

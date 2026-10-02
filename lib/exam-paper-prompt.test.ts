@@ -240,3 +240,20 @@ describe('a composition prompt asks for a composition', () => {
     expect(p).toMatch(/Elara walked into the Emerald Grove/)
   })
 })
+
+// "Lyra stumbled upon a peculiar book bound in emerald green leather." opened
+// every part of a question on an English paper, gave away "Give the colour of
+// the book's cover", and sat above parts about an owl and a riddle. The
+// prompt had asked for it: "Write ONE scenario sentence ... BEGIN EVERY part
+// with that same sentence" -- on a paper whose scenario is the text.
+describe('parts of a question on a reading paper', () => {
+  it('are not told to open on a scenario sentence', () => {
+    const p = buildExamPaperPrompt({ ...base, subject: 'English', passage: 'Lyra found a book in the attic.' })
+    expect(p).not.toMatch(/scenario sentence/i)
+    expect(p).toMatch(/text above/i)
+  })
+
+  it('still are, on a paper with no text', () => {
+    expect(buildExamPaperPrompt(base)).toMatch(/scenario sentence/i)
+  })
+})

@@ -1,6 +1,6 @@
 // lib/shared-scenario.test.ts
 import { describe, it, expect } from 'vitest'
-import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripFigureEcho, type ScenarioQuestion } from './shared-scenario'
+import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripPassageSetup, stripFigureEcho, type ScenarioQuestion } from './shared-scenario'
 
 const q = (question: string): ScenarioQuestion => ({ question })
 
@@ -279,5 +279,39 @@ describe('the setup of part (a) reaches every part', () => {
     ])
     expect(out[0].scenario).toBe('On a motorway.')
     expect(out[1].scenario).toBeUndefined()
+  })
+})
+
+describe('a setup sentence that only restates the reading text', () => {
+  const passage = 'In the town of Eldoria, Lyra stumbled upon a peculiar book bound in emerald green leather. Inside were maps of the Crystal Caverns.'
+
+  it('is taken off the stem, which keeps its demand', () => {
+    expect(stripPassageSetup('Lyra stumbled upon a peculiar book in emerald green leather. Give the colour of the cover.', passage))
+      .toBe('Give the colour of the cover.')
+  })
+
+  it('leaves a stem whose first sentence is the demand', () => {
+    const stem = 'Give the colour of the book. Use the text.'
+    expect(stripPassageSetup(stem, passage)).toBe(stem)
+  })
+
+  it('leaves a setup sentence the text does not contain', () => {
+    const stem = 'A student measured the temperature of hot water every minute. Describe the pattern.'
+    expect(stripPassageSetup(stem, passage)).toBe(stem)
+  })
+
+  it('does nothing with no text', () => {
+    const stem = 'Lyra stumbled upon a book. Give its colour.'
+    expect(stripPassageSetup(stem, '')).toBe(stem)
+  })
+})
+
+describe('the carried lead-in leaves a stem that starts with a capital', () => {
+  it('recapitalises "what was its name?"', () => {
+    const out = carryLeadInToParts<ScenarioQuestion>([
+      { question: 'A girl found an old book in the attic, what was its name?' },
+      { question: 'Explain why the book glowed.' },
+    ])
+    expect(String(out[0].question)).toBe('What was its name?')
   })
 })
