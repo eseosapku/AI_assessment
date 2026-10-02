@@ -309,7 +309,12 @@ function quotesAbsentText(stem: string, passage: string): boolean {
     s.toLowerCase().replace(/[’‘]/g, "'").replace(/[^a-z0-9' ]+/g, ' ').replace(/'/g, '').split(/\s+/).filter(Boolean)
   const hay = ` ${words(passage).join(' ')} `
   const vocab = new Set(words(passage))
-  const quotes = [...stem.matchAll(/["'“”‘’]([^"'“”‘’]{15,})["'“”‘’]/g)].map((m) => m[1])
+  // An apostrophe between two letters is part of a word, not a quotation
+  // mark: "the writer's attitude towards Elara's adventure" read as a quote of
+  // "s attitude towards Elara", absent from the text, and was dropped four
+  // times on one English paper.
+  const unquoted = stem.replace(/([A-Za-z])['’]([A-Za-z])/g, '$1$2')
+  const quotes = [...unquoted.matchAll(/["'“”‘’]([^"'“”‘’]{15,})["'“”‘’]/g)].map((m) => m[1])
   if (quotes.length === 0) return false
   return quotes.some((q) => {
     // A blank in the quotation means it is an exercise, not a citation.

@@ -403,3 +403,19 @@ describe('the writing forms a Cambridge English paper sets', () => {
     expect(isWritingTask('Write a sentence using the word "reluctant".')).toBe(false)
   })
 })
+
+// "Give the writer's attitude towards Elara's adventure in paragraph C." was
+// dropped four times on one English paper as quoting something the text does
+// not say: the two possessive apostrophes were read as quotation marks around
+// "s attitude towards Elara".
+describe('an apostrophe inside a word', () => {
+  it('is not a quotation mark', () => {
+    const P = 'Elara set out on an adventure through the woods. The writer admired her courage.'
+    expect(offPassageStrength("Give the writer's attitude towards Elara's adventure in paragraph C.", P)).not.toBe('certain')
+  })
+
+  it('still lets a real quotation be checked', () => {
+    const P = 'Elara set out on an adventure through the woods.'
+    expect(offPassageStrength("What does the text mean by 'the capital of France is Paris'?", P)).toBe('certain')
+  })
+})

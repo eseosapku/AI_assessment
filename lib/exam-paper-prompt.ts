@@ -154,9 +154,12 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     // angles marked as x, y and z. If the sum of the angles in triangle A
     // is 180 degrees, calculate ..." is forty-one words and reads nothing
     // like the paper it claims to be.
-    writingTask
-      ? 'A Cambridge writing task names the form, the reader, the purpose and a rough length in two or three sentences.'
-      : 'Cambridge demands are SHORT: eight to ten words is typical, seventeen is long.',
+    // Nothing in its place for a writing task. "A Cambridge writing task names
+    // the form, the reader, the purpose ..." came back AS the task -- "Write a
+    // summary of a Cambridge writing task that names the form" -- on every
+    // pass of one English paper, which then failed. The part line below says
+    // what a composition must have, addressed to no one in particular.
+    ...(writingTask ? [] : ['Cambridge demands are SHORT: eight to ten words is typical, seventeen is long.']),
     'A command word sets the register; never paste one of these lines as the opening.',
     ...(opts.styleExamples?.length
       ? [
