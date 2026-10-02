@@ -290,12 +290,23 @@ export function dropRepeatedDemands<T extends DemandQuestion>(
   // were answered "often", two on an English paper "Lyrian" -- worded far
   // enough apart to pass every wording check below. Not for numbers (12 is
   // the answer to many different sums) or yes/no/true/false.
+  // Not for an exercise that brings its own sentence -- a gap, or a quoted
+  // line: "'___ old library stood on the hill'" and "'She opened ___ heavy
+  // door'" are both answered "the" and are two questions. Nor for a function
+  // word. Counted as repeats, 29 ESL items went in one run and the paper
+  // failed.
+  const FUNCTION_WORD = /^(?:the|a|an|and|but|or|so|because|in|on|at|to|of|for|by|with|from|is|are|was|were|be|been|has|have|had|do|does|did|he|she|it|they|we|you|his|her|its|their|this|that|these|those|who|which|whose|whom|what|when|where|will|would|can|could|must|should|might|may)$/
+  const bringsItsOwnSentence = (q: T) => {
+    const s = String(q.question ?? '')
+    return /_{2,}/.test(s) || /["'“‘][^"'“”‘’]{15,}["'”’]/.test(s.replace(/([A-Za-z])['’]([A-Za-z])/g, '$1$2'))
+  }
   const answersOf = (q: T): string[] => {
+    if (bringsItsOwnSentence(q)) return []
     const accepted = (q as { short_answer?: { accepted?: unknown } }).short_answer?.accepted
     if (!Array.isArray(accepted)) return []
     return accepted
       .map((a) => String(a ?? '').toLowerCase().replace(/[^a-z0-9 ]/g, ' ').replace(/\s+/g, ' ').trim())
-      .filter((a) => a && !/^[\d .]+$/.test(a) && !/^(?:yes|no|true|false)$/.test(a))
+      .filter((a) => a && !/^[\d .]+$/.test(a) && !/^(?:yes|no|true|false)$/.test(a) && !FUNCTION_WORD.test(a))
   }
   const answered = new Set<string>()
   for (const q of questions) {

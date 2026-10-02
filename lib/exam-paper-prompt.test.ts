@@ -274,6 +274,7 @@ describe('a grammar item on a reading paper', () => {
       ...base, subject: 'English as a Second Language', focus: 'modal verbs: can, must, should, might',
       passage: 'Leo could see the tower. He must hurry home.', passageParagraph: 'B', usageItem: true,
     })
+    expect(p).toMatch(/sentence of your own/i)
     expect(p).toMatch(/quote that sentence/i)
     expect(p).not.toMatch(/PARAGRAPH B/)
   })

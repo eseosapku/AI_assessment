@@ -330,3 +330,19 @@ describe('two questions with the same answer', () => {
     expect(out.removed).toBe(0)
   })
 })
+
+describe('a short function-word answer', () => {
+  // Two article items -- "a _ apple" and "_ sun rose" -- are answered "an"
+  // and "the" across a whole Usage section; the same answer does not make
+  // them one question. 29 ESL items were removed as repeats in one run.
+  it('does not make two grammar items the same question', () => {
+    const short = (question: string, accepted: string[]) => ({ type: 'longform', question, short_answer: { accepted } })
+    const out = dropRepeatedDemands([
+      short("Write the article that completes: '___ old library stood on the hill.'", ['The']),
+      short("Write the article that completes: 'She opened ___ heavy door slowly.'", ['the']),
+      short("Write the verb that completes: 'Leo ___ to the library every day.'", ['went']),
+      short("Write the past form that completes: 'They ___ home at noon.'", ['went']),
+    ], { bySubject: false })
+    expect(out.removed).toBe(0)
+  })
+})

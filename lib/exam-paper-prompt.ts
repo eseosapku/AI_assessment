@@ -102,7 +102,9 @@ export interface ExamPaperPromptOptions {
  * Every ESL item was pinned to a paragraph, so "Write the modal verb in
  * paragraph B" was asked whether or not B had one -- 24 items dropped on one
  * paper for answers not in the paragraph cited, and the paper failed. A usage
- * item quotes the sentence instead, which is how the real Usage section reads.
+ * item writes and quotes a short sentence of its own instead, as the real
+ * Usage section does -- which also frees it from the one 450-word text forty
+ * items were otherwise written about, where repeats were the main drain.
  */
 export function isUsageFocus(focus: unknown): boolean {
   return /\b(?:verbs?|tenses?|agreement|plurals?|singular|modal|adverbs?|adjectives?|pronouns?|prepositions?|articles?|comparatives?|superlatives?|connectives?|conjunctions?|possessives?|future forms|present perfect|past simple|past continuous|word famil|reported speech|question forms|countable|uncountable|punctuat|spelling|word order)\b/i
@@ -198,7 +200,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
       '"""',
       'Ask about THIS text. The answer must be findable in it — do not ask about anything it does not say, and do not quote more of it back than the question needs.',
       ...(opts.usageItem
-        ? ['This is a grammar and usage item. Choose ONE sentence from the text that really contains what it tests, quote that sentence in the question, and ask about it. Do not cite a paragraph.']
+        ? ['This is a grammar and usage item. Write ONE short sentence of your own that uses what it tests (a new sentence, not one from the text), quote that sentence in the question in single quotes, and ask about it. Do not cite a paragraph.']
         : opts.passageParagraph
         ? [`Ask about PARAGRAPH ${opts.passageParagraph} specifically. Other questions on this paper cover the other paragraphs, and two questions about the same sentence is one question printed twice.`]
         : []),

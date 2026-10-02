@@ -419,3 +419,10 @@ describe('an apostrophe inside a word', () => {
     expect(offPassageStrength("What does the text mean by 'the capital of France is Paris'?", P)).toBe('certain')
   })
 })
+
+describe('the words a question uses about itself', () => {
+  it('are not characters missing from the text', () => {
+    const P = 'Elara walked to the old library at dawn.'
+    expect(questionInventsItsOwnText("Choose the correct word. Options: walked, walks, walking.", P)).toBe(false)
+  })
+})

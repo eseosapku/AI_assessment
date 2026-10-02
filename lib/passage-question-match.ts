@@ -43,6 +43,9 @@ const NOT_A_NAME = new Set([
   'one', 'two', 'three', 'four', 'five', 'both', 'each', 'use', 'using',
   'find', 'work', 'put', 'add', 'draw', 'answer', 'question', 'text', 'passage',
   'yes', 'no', 'true', 'false',
+  // The question's own furniture: "Options: walked, walks" rejected five ESL
+  // items in one run for naming a character called Options.
+  'options', 'option', 'choices', 'choice', 'answer', 'answers', 'statements', 'statement', 'table', 'column', 'row',
   // Command words that open a sentence and are not anybody's name. Missing
   // these reported "Identify" and "Provide" as characters absent from the
   // passage, and deleted two perfectly good questions.
