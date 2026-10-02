@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto'
 import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand, InvokeModelCommandOutput } from '@aws-sdk/client-bedrock-runtime'
 import { withUsageTracking } from '@/lib/ai-usage-recorder'
+import { buildCheckPrompt, applyVerdicts, parseVerdicts, chunk, oneLine } from '@/lib/question-checker'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
@@ -36,13 +37,13 @@ import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
-import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripFigureEcho } from '@/lib/shared-scenario'
+import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripPassageSetup, restatesPassage, stripFigureEcho } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
 import { normaliseWrittenType } from '@/lib/written-type'
 import { prettyMaths } from '@/lib/maths-notation'
-import { correctParagraphLetter, citesAMissingParagraph } from '@/lib/paragraph-reference'
+import { correctParagraphLetter, citesAMissingParagraph, paragraphNumberToLetter, paragraphMismatch } from '@/lib/paragraph-reference'
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
@@ -2046,7 +2047,9 @@ ${commandBlock}`
         }
         // The setup on part (a) only, and "the car" in part (d) with no car.
         // These parts are one question, so the lead-in belongs to all of them.
-        if (questionParts.length > 1) parsed.questions = carryLeadInToParts(parsed.questions)
+        // Not on a reading paper, whose setting is the text: a lead-in there is a
+        // paraphrase of it, and carrying it to every part gave answers away.
+        if (questionParts.length > 1 && !checkpointPassage) parsed.questions = carryLeadInToParts(parsed.questions)
         // EVERY part carries the figure, not just the first.
         //
         // A real paper prints the diagram once above the whole question and
@@ -2165,8 +2168,16 @@ ${commandBlock}`
 
         for (const q of parsed.questions) {
           if (!q || typeof q !== 'object') continue
-          if (drawn) q.diagram_svg = drawn.svg
-          else if (assignedFigure) q.image_url = assignedFigure.localPath
+          // What the figure actually shows, for the checker -- the drawn
+          // chart's own numbers, or the picture's catalogue description.
+          // Removed before the paper is returned.
+          if (drawn) {
+            q.diagram_svg = drawn.svg
+            q.figure_spec = drawn.spec
+          } else if (assignedFigure) {
+            q.image_url = assignedFigure.localPath
+            q.figure_description = assignedFigure.description
+          }
         }
 
         // The blueprint outranks the model, which until now it did not.
@@ -2789,7 +2800,19 @@ ${commandBlock}`
           // And an opening that quotes the passage printed beside it. Six of
           // seventeen questions on a live English paper opened on the same
           // eleven words of the text the learner was already reading.
-          q.question = stripPassageEcho(q.question, (q as any).passage)
+          // `?? checkpointPassage`: q.passage is attached at the very end, so
+          // reading only that, this never once fired on a Checkpoint paper.
+          q.question = stripPassageEcho(q.question, (q as any).passage ?? checkpointPassage)
+          // And the paraphrase of it, which an exact match cannot see -- "Lyra
+          // stumbled upon a peculiar book bound in emerald green leather." above
+          // "Give the colour of the book's cover." A scenario that only restates
+          // the text goes too: the text is already beside the question.
+          if (checkpointPassage) {
+            q.question = stripPassageSetup(q.question, checkpointPassage)
+            if (typeof (q as any).scenario === 'string' && restatesPassage((q as any).scenario, checkpointPassage)) {
+              delete (q as any).scenario
+            }
+          }
           // And one that restates the labels of its own drawn figure -- "A
           // book on a table, weight 10 N, normal force 10 N" above "Write
           // down the normal force". See `restatesFigure`.
@@ -2809,6 +2832,7 @@ ${commandBlock}`
           // comprehension questions and guesses the letter; the answer key
           // and the passage between them say which letter is right, so this
           // corrects rather than deletes.
+          q.question = paragraphNumberToLetter(q.question, q.passage ?? checkpointPassage)
           q.question = correctParagraphLetter({ ...q, passage: q.passage ?? checkpointPassage })
         }
       }
@@ -3003,6 +3027,13 @@ ${commandBlock}`
           console.log(`Dropped question: it cites a paragraph this passage does not have`)
           return false
         }
+        // The answer is not in the paragraph it sends the learner to: a word
+        // to find that is not there, or ticked statements from another
+        // paragraph. See `paragraphMismatch`.
+        if (paragraphMismatch({ ...q, passage })) {
+          console.log(`Dropped question: its answer is not in the paragraph it cites -- "${String(q.question).slice(0, 60)}"`)
+          return false
+        }
         return true
       })
 
@@ -3020,6 +3051,87 @@ ${commandBlock}`
     }
 
     allQuestions = makeShippable(deduplicateAndFix(allQuestions))
+
+    /**
+     * A careful second reader for every Checkpoint question. See
+     * lib/question-checker.ts for why.
+     *
+     * Off unless BEDROCK_CHECKER_MODEL_ID names a model (Amplify passes BEDROCK_*
+     * through to production). Each question is checked once -- `checked` marks
+     * it -- so the top-up passes only pay for what they add. A question the
+     * checker drops leaves a gap the next top-up pass fills. If the checker
+     * call fails, the questions go through unchecked: a paper is better than
+     * no paper, and that is what this route did before.
+     */
+    const CHECKER_MODEL = String(process.env.BEDROCK_CHECKER_MODEL_ID ?? '').trim()
+    const callChecker = async (prompt: string): Promise<string> => {
+      const controller = new AbortController()
+      const timeout = setTimeout(() => controller.abort(), 40_000)
+      try {
+        const cmd = new InvokeModelCommand({
+          modelId: CHECKER_MODEL,
+          contentType: 'application/json',
+          accept: 'application/json',
+          body: JSON.stringify({
+            anthropic_version: 'bedrock-2023-05-31',
+            max_tokens: 4000,
+            temperature: 0,
+            messages: [{ role: 'user', content: prompt }],
+          }),
+        })
+        const res = await withUsageTracking(
+          {
+            modelId: CHECKER_MODEL,
+            feature: 'checkpoint_check',
+            requestId: usageRequestId,
+            userId: usageUserId,
+            parseBody: (r: InvokeModelCommandOutput) => JSON.parse(new TextDecoder().decode(r.body)),
+          },
+          () => bedrockClient.send(cmd, { abortSignal: controller.signal }),
+        )
+        const body = JSON.parse(new TextDecoder().decode(res.body))
+        return Array.isArray(body?.content)
+          ? body.content.filter((b: any) => b?.type === 'text').map((b: any) => b.text).join('\n')
+          : ''
+      } finally {
+        clearTimeout(timeout)
+      }
+    }
+    const runChecker = async (list: any[]): Promise<any[]> => {
+      if (!isCheckpoint || !CHECKER_MODEL) return list
+      const todo = list.filter((q) => q && typeof q === 'object' && !q.checked)
+      if (todo.length === 0) return list
+      const stage = Number(grade) <= 6 ? 'Primary Stage 6' : 'Lower Secondary Stage 9'
+      const dropped = new Set<any>()
+      let fixed = 0
+      const reasons: string[] = []
+      await Promise.allSettled(chunk(todo, 6).map(async (group) => {
+        // Numbered 1..n inside the batch so the verdicts map back exactly;
+        // ids from different passes can collide. Restored afterwards.
+        const ids = group.map((q) => q.id)
+        group.forEach((q, k) => { q.id = k + 1 })
+        try {
+          const others = list.filter((q) => !group.includes(q)).map(oneLine)
+          const prompt = buildCheckPrompt(group, {
+            subject: promptSubject, stage, passage: checkpointPassage || undefined, others,
+          })
+          const result = applyVerdicts(group, parseVerdicts(await callChecker(prompt)))
+          fixed += result.fixed
+          for (const q of group) if (!result.kept.includes(q)) dropped.add(q)
+          reasons.push(...result.dropped.map((d) => d.why))
+        } catch (err: any) {
+          console.warn(`Checker failed for ${group.length} question(s), shipped unchecked: ${String(err?.message ?? err).slice(0, 120)}`)
+        } finally {
+          group.forEach((q, k) => { q.id = ids[k] })
+        }
+      }))
+      if (fixed || dropped.size) {
+        console.log(`Checker: fixed ${fixed}, dropped ${dropped.size} of ${todo.length}${reasons.length ? ` -- ${reasons.slice(0, 6).join('; ')}` : ''}`)
+      }
+      return list.filter((q) => !dropped.has(q))
+    }
+
+    allQuestions = await runChecker(allQuestions)
 
     /**
      * Fill a Checkpoint shortfall with the same machinery that built the paper.
@@ -3232,6 +3344,7 @@ ${commandBlock}`
         // something already in the paper, and the loop condition has to judge
         // the count that will actually ship.
         allQuestions = makeShippable(allQuestions)
+        allQuestions = await runChecker(allQuestions)
       } catch (err: any) {
         console.error(`Retry pass ${retryPass} failed:`, err)
         break
@@ -3276,6 +3389,7 @@ ${commandBlock}`
           )
           allQuestions.push(...deduplicateAndFix(plain, seenKeys))
           allQuestions = makeShippable(allQuestions)
+          allQuestions = await runChecker(allQuestions)
         } catch (err) {
           console.error(`Plain pass ${pass + 1} failed:`, err)
           break
@@ -3300,6 +3414,7 @@ ${commandBlock}`
       if (back.length) {
         console.log(`Short by ${count - allQuestions.length}: reinstated ${back.length} question(s) set aside for sharing no words with the passage`)
         allQuestions.push(...back)
+        allQuestions = await runChecker(allQuestions)
       }
     }
 
@@ -3399,6 +3514,10 @@ ${commandBlock}`
       estimatedTime = et
     }
 
+    // The checker's working data, not part of the paper.
+    for (const q of allQuestions) {
+      if (q && typeof q === 'object') { delete (q as any).figure_spec; delete (q as any).figure_description }
+    }
     const assessmentData: any = { questions: allQuestions, estimated_time: estimatedTime }
 
     if (!Array.isArray(assessmentData.questions)) {
