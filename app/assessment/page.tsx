@@ -15,6 +15,7 @@ import {
 } from '@/components/interactive/InteractiveQuestionPlayer'
 import { gradeInteractiveQuestion, isInteractiveAnswerComplete } from '@/lib/grade-interactive'
 import { isCalculationDemand } from '@/lib/calculation-demand'
+import { isCompositionQuestion } from '@/lib/slot-shape'
 import { stripPrintedMarks } from '@/lib/demand-variety'
 import type { InteractiveAnswer, InteractiveQuestion, InteractiveGrade } from '@/types/interactive'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
@@ -1696,7 +1697,12 @@ function AssessmentPageClient() {
               Assessment Complete!
             </h1>
             <p className="text-gray-500 dark:text-gray-400 mb-6 text-lg">
-              {assessment.subject} — {assessment.topics.join(', ')}
+              {/* A Checkpoint paper spans 30-odd topics, and listing every one
+                  printed a paragraph of run-on topic names above the score.
+                  A handful, then a count. */}
+              {assessment.subject} — {assessment.topics.length > 4
+                ? `${assessment.topics.slice(0, 3).join(', ')} and ${assessment.topics.length - 3} more topics`
+                : assessment.topics.join(', ')}
             </p>
 
             {/* U5: a tester finished a quiz and never realised feedback
@@ -2671,14 +2677,20 @@ function AssessmentPageClient() {
                   ) : (
                     <>
                   <div className="text-xs text-ss-slate mb-2">
-                    Write a detailed answer. Each mark has a specific criterion — cover as much as you can.
+                    {/* A composition is marked in bands -- content, structure,
+                        sentences, vocabulary -- not a point per mark, and
+                        telling a learner to "cover each criterion" for a
+                        25-mark story sends them hunting for 25 points. */}
+                    {isCompositionQuestion(question)
+                      ? 'Plan first, then write it in full. It is marked on your ideas, how you organise them, your sentences and your vocabulary.'
+                      : 'Write a detailed answer. Each mark has a specific criterion — cover as much as you can.'}
                   </div>
                   <textarea
                     value={longFormAnswers[currentQuestion] || ''}
                     onChange={(e) => handleLongFormChange(e.target.value)}
                     placeholder={`Write your answer here… (${(question as LongFormQuestion).marks} marks available)`}
-                    className="w-full min-h-[220px] p-4 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 text-gray-900 dark:text-white resize-y focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors text-sm sm:text-base leading-relaxed"
-                    rows={9}
+                    className={`w-full ${isCompositionQuestion(question) ? 'min-h-[420px]' : 'min-h-[220px]'} p-4 rounded-2xl border-2 border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/60 text-gray-900 dark:text-white resize-y focus:outline-none focus:border-blue-500 dark:focus:border-blue-400 transition-colors text-sm sm:text-base leading-relaxed`}
+                    rows={isCompositionQuestion(question) ? 18 : 9}
                   />
                   <div className="mt-2 flex justify-between text-xs text-ss-slate">
                     <span>

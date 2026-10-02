@@ -3631,7 +3631,10 @@ ${commandBlock}`
     {
       if (checkpointPassage) {
         for (const q of assessmentData.questions as any[]) {
-          if (q && typeof q === 'object' && !q.passage) q.passage = checkpointPassage
+          // Not the composition. It is a writing task about a subject of its
+          // own, and the screen printed the reading text beside it, as though
+          // the essay were about the text.
+          if (q && typeof q === 'object' && !q.passage && !isCompositionQuestion(q)) q.passage = checkpointPassage
         }
       }
       // The scenario belongs to the question, not to each of its parts.
