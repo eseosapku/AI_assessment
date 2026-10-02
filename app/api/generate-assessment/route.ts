@@ -47,7 +47,7 @@ import { correctParagraphLetter, citesAMissingParagraph, paragraphNumberToLetter
 import { figureNoun } from '@/lib/figure-noun'
 import { figureMismatchReasons } from '@/lib/figure-question-match'
 import { figuresForFoci } from '@/lib/checkpoint-figures'
-import { buildExamPaperPrompt, examCommandsFor, type ExamPartSpec } from '@/lib/exam-paper-prompt'
+import { buildExamPaperPrompt, examCommandsFor, isUsageFocus, type ExamPartSpec } from '@/lib/exam-paper-prompt'
 import { repairBookReferences } from '@/lib/book-reference'
 import { tagTokens } from '@/lib/tag-tokens'
 import {
@@ -2020,11 +2020,19 @@ ${commandBlock}`
           // converge on whatever it says most loudly. Naming a paragraph per
           // question is how the real papers avoid it, and the reader letters
           // them so the learner can follow.
+          // Pinned only where a paragraph makes sense. A grammar item quotes a
+          // sentence that has the feature instead (see `isUsageFocus`); a tick
+          // list or table asks about the text as a whole -- "Tick all the
+          // correct statements about paragraph D" kept ticking statements from
+          // B and C.
           passageParagraph: checkpointPassage
+            && !isUsageFocus(batchTopics?.[0])
+            && !['tick', 'table'].includes(String(questionParts[0]?.format))
             ? (splitIntoParagraphs(checkpointPassage)[
                 (startId - 1) % Math.max(1, splitIntoParagraphs(checkpointPassage).length)
               ]?.label || undefined)
             : undefined,
+          usageItem: Boolean(checkpointPassage) && isUsageFocus(batchTopics?.[0]),
         })
         const text = await callBedrock(focused + avoidBlock(batchTopics), Math.min(2600, 700 + questionParts.length * 550))
         if (isRefusal(text)) throw new Error('Model refused to generate content.')
@@ -3099,7 +3107,10 @@ ${commandBlock}`
     }
     const runChecker = async (list: any[]): Promise<any[]> => {
       if (!isCheckpoint || !CHECKER_MODEL) return list
-      const todo = list.filter((q) => q && typeof q === 'object' && !q.checked)
+      // Not the composition: the checker read "Write a story ..." as a
+      // comprehension question about something not in the text and dropped it,
+      // twice, leaving an English paper without its 25 marks.
+      const todo = list.filter((q) => q && typeof q === 'object' && !q.checked && !isCompositionQuestion(q))
       if (todo.length === 0) return list
       const stage = Number(grade) <= 6 ? 'Primary Stage 6' : 'Lower Secondary Stage 9'
       const dropped = new Set<any>()

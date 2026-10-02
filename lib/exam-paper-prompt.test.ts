@@ -1,6 +1,6 @@
 // lib/exam-paper-prompt.test.ts
 import { describe, it, expect } from 'vitest'
-import { buildExamPaperPrompt, type ExamPaperPromptOptions } from './exam-paper-prompt'
+import { buildExamPaperPrompt, isUsageFocus, type ExamPaperPromptOptions } from './exam-paper-prompt'
 
 const base: ExamPaperPromptOptions = {
   subject: 'Science',
@@ -255,5 +255,26 @@ describe('parts of a question on a reading paper', () => {
 
   it('still are, on a paper with no text', () => {
     expect(buildExamPaperPrompt(base)).toMatch(/scenario sentence/i)
+  })
+})
+
+// Every ESL item was pinned to a paragraph, so "Write the modal verb in
+// paragraph B" was asked whether or not B had one: 24 items were dropped on
+// one paper for answers not in the paragraph cited, and the paper failed.
+describe('a grammar item on a reading paper', () => {
+  it('is recognised by its focus', () => {
+    for (const f of ['modal verbs: can, must, should, might', 'the correct verb tense in context', 'relative pronouns: who, which, that', 'adverbs of frequency and their position'])
+      expect(isUsageFocus(f), f).toBe(true)
+    for (const f of ['finding information stated directly in the text', 'how a character feels and how the text shows it'])
+      expect(isUsageFocus(f), f).toBe(false)
+  })
+
+  it('quotes a sentence that has the feature, and cites no paragraph', () => {
+    const p = buildExamPaperPrompt({
+      ...base, subject: 'English as a Second Language', focus: 'modal verbs: can, must, should, might',
+      passage: 'Leo could see the tower. He must hurry home.', passageParagraph: 'B', usageItem: true,
+    })
+    expect(p).toMatch(/quote that sentence/i)
+    expect(p).not.toMatch(/PARAGRAPH B/)
   })
 })

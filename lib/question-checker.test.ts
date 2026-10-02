@@ -83,11 +83,11 @@ describe('applying the verdicts', () => {
     expect((out.kept[1] as any).correct_category).toEqual([0, 1, 0, 1])
   })
 
-  it('fixes a mark scheme only when it has a point per mark', () => {
+  it('fixes a mark scheme only when it loses no points', () => {
     const q = { id: 1, type: 'longform', marks: 3, question: 'Explain why the ice melts.', marking_criteria: ['heat', 'energy'] }
     const good = applyVerdicts([{ ...q }], [{ id: 1, verdict: 'fix', mark_scheme: ['heat from the room', 'particles gain energy', 'they move apart'] }])
     expect((good.kept[0] as any).marking_criteria).toHaveLength(3)
-    // A "fix" that still leaves the scheme short is not a fix: the question goes.
+    // A "fix" with fewer points than the scheme it replaces is not a fix.
     const bad = applyVerdicts([{ ...q }], [{ id: 1, verdict: 'fix', mark_scheme: ['heat'] }])
     expect(bad.kept).toHaveLength(0)
   })
@@ -117,5 +117,17 @@ describe('an explanation that contradicts the answer', () => {
     expect(buildCheckPrompt([q], { subject: 'Science', stage: 'Primary Stage 6', others: [] })).toContain('Plants take in oxygen.')
     const out = applyVerdicts([q], [{ id: 1, verdict: 'fix', explanation: 'Plants take in carbon dioxide for photosynthesis.' }])
     expect((out.kept[0] as any).explanation).toMatch(/carbon dioxide/)
+  })
+})
+
+// The checker was shown each question's PROVISIONAL marks -- a slot's, by
+// position, before seating -- and dropped "a two-word answer worth 25 marks"
+// that seating would have made worth one. Marks are not its to judge.
+describe('the checker is not shown marks', () => {
+  it('leaves them out of the prompt', () => {
+    const p = buildCheckPrompt([short(1, 'Name the gas.', ['oxygen'])].map((q) => ({ ...q, marks: 25 })), {
+      subject: 'Science', stage: 'Primary Stage 6', others: [],
+    })
+    expect(p).not.toMatch(/25 marks/)
   })
 })

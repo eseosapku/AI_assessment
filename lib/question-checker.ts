@@ -62,7 +62,7 @@ For each question give ONE verdict:
           "correct_option": 0-based index of the one right option -- for a ring-around (mcq)
           "correct_options": 0-based indices of ALL true statements -- for a tick list
           "correct_columns": the column heading for each row, in order -- for a table
-          "mark_scheme": exactly as many points as the question has marks, each a creditable point
+          "mark_scheme": one creditable point per step the answer needs -- at least as many points as the scheme shown
           "explanation": a corrected explanation, when the one shown contradicts the right answer (the learner reads it after answering)
           If an open question ("name one...", "give a reason...") has more right answers than a key can list, prefer "drop".
 
@@ -74,7 +74,6 @@ For each question give ONE verdict:
           - it repeats a question listed under OTHER QUESTIONS, or an earlier one in this batch (same demand, however worded)
           - it is garbled, ungrammatical, cut off, uses American spelling, or contains instructions meant for the writer
           - a ring-around has two right options, or none
-          - its marks are clearly wrong for what it asks (a one-word answer worth 3 marks, an essay worth 1)
 
 Return ONLY a JSON array, one object per question, in order. "id" is the question's number as a plain number (Q3 -> 3):
 [{"id": <number>, "work": "<your own working or check, under 25 words>", "verdict": "ok"|"fix"|"drop", "why": "<under 20 words, for fix or drop>", ...fix fields}]`
@@ -95,7 +94,10 @@ function describeFigure(q: Q): string[] {
 
 function describe(q: Q): string {
   const kind = q.type === 'interactive' ? q.kind : q.type
-  const out = [`--- Q${q.id} [${q.marks} mark${q.marks === 1 ? '' : 's'}] ${kind}`]
+  // No marks: before seating they are a slot's by POSITION, and the checker
+  // dropped "a two-word answer worth 25 marks" that seating would have made
+  // worth one. Seating owns marks.
+  const out = [`--- Q${q.id} ${kind}`]
   if (q.scenario) out.push(`SCENARIO: ${q.scenario}`)
   out.push(`QUESTION: ${q.question}`)
   out.push(...describeFigure(q))
@@ -190,8 +192,10 @@ function applyFix(q: Q, v: Verdict): boolean {
   }
   if (v.mark_scheme !== undefined) {
     const scheme = strings(v.mark_scheme)
-    if (!scheme || scheme.length < (Number(q.marks) || 1)) return false
-    q.marking_criteria = scheme.slice(0, Number(q.marks) || scheme.length)
+    const before = Array.isArray(q.marking_criteria) ? q.marking_criteria.length : 0
+    // Fewer points than it replaces is not a mend: marks would be lost.
+    if (!scheme || scheme.length < Math.max(1, before)) return false
+    q.marking_criteria = scheme
     applied = true
   }
   if (typeof v.explanation === 'string' && v.explanation.trim()) {

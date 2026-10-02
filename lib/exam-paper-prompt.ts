@@ -88,6 +88,25 @@ export interface ExamPaperPromptOptions {
    * too, so this can name one.
    */
   passageParagraph?: string
+  /**
+   * A grammar or usage item on a reading paper. It quotes a sentence from the
+   * text that really contains what it tests, rather than being pinned to a
+   * paragraph that may not -- see `isUsageFocus`.
+   */
+  usageItem?: boolean
+}
+
+/**
+ * A grammar or usage focus, as opposed to a reading one.
+ *
+ * Every ESL item was pinned to a paragraph, so "Write the modal verb in
+ * paragraph B" was asked whether or not B had one -- 24 items dropped on one
+ * paper for answers not in the paragraph cited, and the paper failed. A usage
+ * item quotes the sentence instead, which is how the real Usage section reads.
+ */
+export function isUsageFocus(focus: unknown): boolean {
+  return /\b(?:verbs?|tenses?|agreement|plurals?|singular|modal|adverbs?|adjectives?|pronouns?|prepositions?|articles?|comparatives?|superlatives?|connectives?|conjunctions?|possessives?|future forms|present perfect|past simple|past continuous|word famil|reported speech|question forms|countable|uncountable|punctuat|spelling|word order)\b/i
+    .test(String(focus ?? ''))
 }
 
 
@@ -178,7 +197,9 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
       opts.passage.trim(),
       '"""',
       'Ask about THIS text. The answer must be findable in it — do not ask about anything it does not say, and do not quote more of it back than the question needs.',
-      ...(opts.passageParagraph
+      ...(opts.usageItem
+        ? ['This is a grammar and usage item. Choose ONE sentence from the text that really contains what it tests, quote that sentence in the question, and ask about it. Do not cite a paragraph.']
+        : opts.passageParagraph
         ? [`Ask about PARAGRAPH ${opts.passageParagraph} specifically. Other questions on this paper cover the other paragraphs, and two questions about the same sentence is one question printed twice.`]
         : []),
       '',
