@@ -202,8 +202,8 @@ export interface CheckpointPaper {
  * the model padded each run with parts like "Write down the total time
  * taken" to reach five.
  *
- * English is left at five: its papers are a reading text with a run of
- * questions on it, then the writing tasks.
+ * English is two as well: about eleven numbered questions on the reading
+ * text, then the writing tasks.
  *
  * ESL is flat by design and must stay flat: its exercises are numbered runs
  * of single items.
@@ -213,8 +213,12 @@ const PARTS_PER_QUESTION: Record<string, number> = {
   '0096': 1,
   '0893': 2,  // ~20 questions, half standalone, the rest 2-4 parts
   '0097': 2,  // ~14 questions, about two parts each
-  '0861': 5,  // 10.5 parts over 2.2 questions
-  '0058': 5,
+  // English was five too, from the same count that missed numbers printed on
+  // a line of their own. Real 0861 papers run about eleven numbered questions
+  // with few lettered parts, and five parts on one focus were padded into
+  // repeats -- three rewordings of "what was the book's title" on one paper.
+  '0861': 2,
+  '0058': 2,
   '0876': 1,  // no lettered parts at all
   '0057': 1,
 }
@@ -1279,6 +1283,7 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
   const compose = paper.slots.filter((s) => s.format === 'composition').sort((a, b) => b.marks - a.marks)
   const justify = paper.slots.filter((s) => s.format === 'justify').sort((a, b) => b.marks - a.marks)
 
+  const onPaper = [...new Set(paper.slots.map((s) => s.strand))]
   const kept: Record<string, unknown>[] = []
   for (const question of usable) {
     const keyed = hasAnswerKey(question)
@@ -1306,7 +1311,14 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
     // coming back one or two questions short were going.
     // From the written pool, the slot that FITS rather than the next one.
     // See `takeBestFit`.
-    const weight = demandWeight(question)
+    // A written answer's scheme says what it is worth: two points, two marks.
+    // Seated by wording alone, a two-point answer took a three-mark slot and
+    // printed a mark the learner could never earn -- the commonest defect in
+    // review. The wording is the fallback when there is no scheme.
+    const points = Array.isArray((question as Record<string, unknown>).marking_criteria)
+      ? ((question as Record<string, unknown>).marking_criteria as unknown[]).filter((c) => String(c ?? '').trim()).length
+      : 0
+    const weight = points > 0 ? points : demandWeight(question)
     const draw = (pool: PaperSlot[]) =>
       pool === extended && weight !== null ? takeBestFit(pool, weight) : pool.shift()
     const slot =
@@ -1347,7 +1359,11 @@ export function applyBlueprint(questions: unknown[], paper: CheckpointPaper): un
       picked.strand = slot.strand
       picked.strand_matched = true
     } else {
-      const tag = tagQuestionToStrand(picked, paper.strands)
+      // Only among the strands this PAPER assesses. Chosen from all of the
+      // subject's, an ESL Reading and Usage paper filed every "Write the name
+      // of ..." under Writing -- "write" is a Writing keyword -- and its
+      // results screen reported 18 Writing questions on a reading paper.
+      const tag = tagQuestionToStrand(picked, onPaper.length ? onPaper : paper.strands)
       picked.strand = tag?.matched ? tag.strand : slot.strand
       picked.strand_matched = tag?.matched === true
     }

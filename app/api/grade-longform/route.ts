@@ -204,6 +204,15 @@ function buildQuestionPrompt(
     workingsProvided: boolean
 ): string {
     const criteria = (q.marking_criteria || []).map((c, i) => `${i + 1}. ${c}`).join('\n')
+    // A composition carries four band descriptors for 25 marks. Told "1 mark
+    // each", a grader reads that as a ceiling of 4 out of 25 for every essay.
+    // When the marks outnumber the criteria, the criteria are bands sharing
+    // the marks, and the grader is told so.
+    const count = (q.marking_criteria || []).length
+    const banded = count > 0 && Number(q.marks) > count
+    const criteriaHeading = banded
+      ? `Marking criteria -- these are ${count} band descriptors that SHARE the ${q.marks} marks (about ${Math.round(Number(q.marks) / count)} marks each); judge how well the answer meets each and award a total out of ${q.marks}:`
+      : 'Marking criteria (1 mark each unless stated otherwise):'
     const passageBlock = q.passage ? `\nReading passage (if provided to the student):\n"""\n${q.passage}\n"""` : ''
     const modelAnswerBlock = q.model_answer ? `\nReference model answer:\n"""\n${q.model_answer}\n"""` : ''
 
@@ -212,7 +221,7 @@ function buildQuestionPrompt(
 Question (${q.marks} marks):
 ${q.question}
 
-Marking criteria (1 mark each unless stated otherwise):
+${criteriaHeading}
 ${criteria}${modelAnswerBlock}${passageBlock}
 
 Student answer:

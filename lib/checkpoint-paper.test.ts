@@ -320,9 +320,12 @@ describe('the blueprint is what counts, not what the model claimed', () => {
     // is weak evidence and the question's own words are direct evidence.
     const paper = buildPaper(science, science.components[0], { mode: 'paper', seed: 1 })
     const physicsSlot = paper.slots.find((s) => s.strand === 'Physics' && s.format === 'short')!
+    // The Physics slot first, so the question lands in it; the rest of the
+    // paper is there because a question is only ever filed under a strand the
+    // paper assesses.
     const kept = applyBlueprint(
       [{ question: 'Name the acid that reacts with a metal carbonate.', type: 'longform', short_answer: { accepted: ['hydrochloric acid'] } }],
-      { ...paper, slots: [physicsSlot] },
+      { ...paper, slots: [physicsSlot, ...paper.slots.filter((s) => s !== physicsSlot)] },
     ) as any[]
     expect(kept[0].strand).toBe('Chemistry')
     expect(kept[0].strand_matched).toBe(true)
@@ -913,5 +916,43 @@ describe('each programme draws on its own syllabus', () => {
     for (const strand of science.strands) {
       expect(fociFor(science, strand)).toEqual(STRAND_FOCI[strand] ?? [])
     }
+  })
+})
+
+// An ESL Reading and Usage paper reported "Writing 0/20, 18 questions" on its
+// results screen: every "Write the name of ..." was filed under Writing,
+// because "write" is a Writing keyword and the tagger chose from all of the
+// subject's strands, not the paper's.
+describe('a question is filed under a strand its paper assesses', () => {
+  const esl = checkpointSubject('lower-secondary', 'English as a Second Language')!
+
+  it('never files a Reading and Usage question under Writing', () => {
+    const paper = buildPaper(esl, esl.components.find((c) => c.number === '01')!, { mode: 'paper', seed: 5 })
+    const onPaper = new Set(paper.slots.map((s) => s.strand))
+    const shown = applyBlueprint([
+      { type: 'longform', question: 'Write the name of the library in paragraph A.', short_answer: { accepted: ['Veridian Library'] } },
+      { type: 'longform', question: 'Write down the word that shows how Leo felt.', short_answer: { accepted: ['wonder'] } },
+    ], paper) as any[]
+    for (const q of shown) expect(onPaper.has(q.strand), q.strand).toBe(true)
+  })
+})
+
+describe('a written answer is seated by the points its scheme has', () => {
+  it('puts a two-point answer in a two-mark slot and a three-point one in a three-mark slot', () => {
+    const maths = checkpointSubject('lower-secondary', 'Mathematics')!
+    const paper = buildPaper(maths, maths.components[0], { mode: 'paper', seed: 4 })
+    const two = paper.slots.find((s) => s.format === 'written' && s.marks === 2)
+    const three = paper.slots.find((s) => s.format === 'written' && s.marks === 3)
+    if (!two || !three) return
+    const shown = applyBlueprint([
+      { type: 'longform', question: 'Work out the area of the triangle.', marking_criteria: ['a', 'b', 'c'] },
+      { type: 'longform', question: 'Work out the perimeter.', marking_criteria: ['a', 'b'] },
+    ], { ...paper, slots: [three, two] }) as any[]
+    expect(shown.map((q) => q.marks)).toEqual([3, 2])
+    const swapped = applyBlueprint([
+      { type: 'longform', question: 'Work out the perimeter.', marking_criteria: ['a', 'b'] },
+      { type: 'longform', question: 'Work out the area of the triangle.', marking_criteria: ['a', 'b', 'c'] },
+    ], { ...paper, slots: [three, two] }) as any[]
+    expect(swapped.map((q) => q.marks)).toEqual([2, 3])
   })
 })

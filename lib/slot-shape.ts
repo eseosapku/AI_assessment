@@ -31,7 +31,7 @@ export interface SlotSpec {
 }
 
 /** What a question of this format has to look like once it comes back. */
-function shapeIsRight(q: any, format: SlotFormat): boolean {
+function shapeIsRight(q: any, format: SlotFormat, slotMarks = 1): boolean {
   if (!q || typeof q !== 'object') return false
   switch (format) {
     case 'select':
@@ -58,7 +58,11 @@ function shapeIsRight(q: any, format: SlotFormat): boolean {
         && isWritingTask(q.question)
     case 'justify':
     case 'written':
-      return Array.isArray(q.marking_criteria) && q.marking_criteria.length > 0
+      // A point for every mark, or the marks cannot be earned. "[3 marks]
+      // (1) ... (2) ..." was the commonest defect in review, and was never
+      // re-asked because any scheme at all passed here.
+      return Array.isArray(q.marking_criteria)
+        && q.marking_criteria.filter((c: unknown) => String(c ?? '').trim()).length >= Math.max(1, Number(slotMarks) || 1)
   }
 }
 
@@ -107,7 +111,7 @@ export function enforceSlotShape(questions: unknown, slots: readonly SlotSpec[] 
 
     // The slot is right by definition. The model's number is noise.
     q.marks = slot.marks
-    if (shapeIsRight(q, slot.format)) {
+    if (shapeIsRight(q, slot.format, slot.marks)) {
       // And what it was written FOR, so the guards downstream can tell a
       // composition from a question about the text. Only when it IS that
       // shape: a one-liner kept in a composition slot after a retry must not

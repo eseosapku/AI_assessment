@@ -116,3 +116,27 @@ describe('the stamp is earned', () => {
     expect(isCompositionQuestion({ question: 'You have been asked to write an article for the school website about a place you love.' })).toBe(true)
   })
 })
+
+// "[3 marks] MARK SCHEME: (1) ... (2) ..." -- the commonest single defect in
+// review: a written answer worth more marks than its scheme has points, so a
+// learner cannot earn them. The prompt asks for one point per mark; a short
+// scheme was never treated as the wrong shape, so it was never re-asked.
+describe('a written answer has a point for every mark', () => {
+  it('reports a scheme short of the slot', () => {
+    const out = enforceSlotShape(
+      [{ type: 'longform', question: 'Explain why the ice melts.', marking_criteria: ['heat', 'energy'] }],
+      [{ marks: 3, format: 'written' }],
+    )
+    expect(out.wrong).toHaveLength(1)
+  })
+
+  it('accepts one point per mark, or more', () => {
+    for (const criteria of [['a', 'b', 'c'], ['a', 'b', 'c', 'd']]) {
+      const out = enforceSlotShape(
+        [{ type: 'longform', question: 'Explain why the ice melts.', marking_criteria: criteria }],
+        [{ marks: 3, format: 'written' }],
+      )
+      expect(out.wrong).toHaveLength(0)
+    }
+  })
+})
