@@ -57,6 +57,15 @@ export interface ExamPaperPromptOptions {
    */
   drawnFigure?: { description: string; labels: string[]; noun: string }
   /**
+   * A figure from a real Checkpoint paper, with the question Cambridge asked
+   * about it (see `lib/checkpoint-figure-bank.ts`).
+   *
+   * The real question is the best brief this prompt has ever had: it shows
+   * what the figure is for, at what demand, in the paper's own register. It is
+   * a model, not a template -- `copiesOriginal` refuses it handed back.
+   */
+  pastFigure?: { noun: string; shows: string; labels: readonly string[]; original: string }
+  /**
    * The reading text this question is set on, printed above it.
    *
    * English and ESL comprehension papers are nothing without one, and asking
@@ -208,7 +217,23 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     )
   }
 
-  if (opts.drawnFigure) {
+  if (opts.pastFigure) {
+    const f = opts.pastFigure
+    // Described, never addressed: the same lesson as the drawn figure below.
+    // Every line is about the figure, so none of it reads as part of a task.
+    lines.push(
+      `Printed beside this question is a ${f.noun} from a real Cambridge paper. It shows: ${f.shows}`,
+      ...(f.labels.length ? [`The words and numbers printed on it: ${f.labels.join(', ')}.`] : []),
+      `Cambridge asked about this ${f.noun} like this:`,
+      '"""',
+      f.original.trim().slice(0, 700),
+      '"""',
+      // "For <level>", not "at the same level": a Lower Secondary paper may
+      // print a figure from a Primary one, and its question is still Stage 9.
+      `That is a model of the demand, not text to reuse. The new question is about the same ${f.noun}, in the same style, for ${opts.level}: it asks about something the ${f.noun} shows, and keeps every label and value exactly as printed. It may ask what Cambridge asked in different words, or something else the ${f.noun} answers.`,
+      '',
+    )
+  } else if (opts.drawnFigure) {
     // The figure was DRAWN for this question, from a spec, so the question can
     // be held to it exactly: these labels exist and nothing else does. That is
     // the whole point of drawing rather than searching — "name the part

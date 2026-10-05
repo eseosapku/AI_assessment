@@ -44,11 +44,14 @@ function bodyFor(programme: CheckpointProgramme, subjectName: string, componentN
       grade: programme === 'primary' ? 6 : 9,
       // `count`, not `numQuestions` — the route's own field name.
       count: paper.slots.length,
-      style: 'exam',
+      // As the form sends them. 'exam' and a bare plan carried no syllabus
+      // code, so every audit ran with no code at all: no per-paper style
+      // examples and no past-paper figures, which the real form gets.
+      style: `Cambridge ${programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ${subject.code}/${component.number} practice`,
       customTime: paper.minutes ?? undefined,
       difficultyLevel: 'medium',
       questionType: 'mixed',
-      examPrepContext: paperBrief(paper),
+      examPrepContext: `Cambridge ${subject.name} ${subject.code}/${component.number}, sat at the end of Stage ${programme === 'primary' ? 6 : 9}.\n\nPAPER PLAN:\n${paperBrief(paper)}`,
       paperSlots: paper.slots.map((s) => ({
         q: s.questionNumber, part: s.part, marks: s.marks,
         format: s.format, strand: s.strand, focus: s.focus,

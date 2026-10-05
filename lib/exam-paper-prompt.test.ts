@@ -279,3 +279,33 @@ describe('a grammar item on a reading paper', () => {
     expect(p).not.toMatch(/PARAGRAPH B/)
   })
 })
+
+describe('a figure from a real paper', () => {
+  const pastFigure = {
+    noun: 'diagram',
+    shows: 'A ruler stands beside a container of sand; a marble is about to drop. After, the sand has a crater.',
+    labels: ['ruler', 'marble', 'container of sand', 'crater', 'before', 'after'],
+    original: 'Mia drops a marble from a height of 1 m into the sand.\n(a) Write down one variable Mia should keep the same. [1]',
+  }
+
+  it('hands the writer the figure, its printed words and the real question as a model', () => {
+    const p = buildExamPaperPrompt({ ...base, pastFigure })
+    expect(p).toContain('from a real Cambridge paper')
+    expect(p).toContain(pastFigure.shows)
+    expect(p).toContain('ruler, marble, container of sand')
+    expect(p).toContain('Mia drops a marble')
+    expect(p).toContain('not text to reuse')
+    // Not also told there is no figure.
+    expect(p).not.toContain('There is NO diagram')
+  })
+
+  it('keeps a long original from swamping the prompt', () => {
+    const p = buildExamPaperPrompt({ ...base, pastFigure: { ...pastFigure, original: 'x '.repeat(2000) } })
+    expect(p.length).toBeLessThan(4000)
+  })
+
+  it('addresses no line of it to the writer in a way a stem could copy', () => {
+    const p = buildExamPaperPrompt({ ...base, pastFigure })
+    expect(p).not.toMatch(/Refer to it as|You may refer only/i)
+  })
+})

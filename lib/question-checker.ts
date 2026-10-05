@@ -87,7 +87,7 @@ function describeFigure(q: Q): string[] {
     const text = [...q.diagram_svg.matchAll(/<text[^>]*>([^<]*)</g)].map((m) => m[1].trim()).filter(Boolean)
     lines.push(`FIGURE (drawn; the only text on it): ${JSON.stringify(text.slice(0, 40))}`)
   }
-  if (q.figure_description) lines.push(`FIGURE (picture; what it shows): ${String(q.figure_description).slice(0, 400)}`)
+  if (q.figure_description) lines.push(`FIGURE (picture; what it shows): ${String(q.figure_description).slice(0, 900)}`)
   else if (q.image_url && !q.figure_spec) lines.push('FIGURE: a picture is shown, but nothing is known about what it shows.')
   return lines
 }

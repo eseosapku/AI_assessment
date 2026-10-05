@@ -351,17 +351,23 @@ export function questionLeaksInstructions(stem: unknown): boolean {
   return INSTRUCTION_LEAK.test(String(stem ?? ''))
 }
 
-export function questionNamesUndrawn(stem: unknown, figure: DrawnFigure): string[] {
+export function questionNamesUndrawn(stem: unknown, figure: Pick<DrawnFigure, 'labels'>): string[] {
   const text = String(stem ?? '')
   if (!text.trim()) return []
 
   const missing: string[] = []
-  // Single capitals are how a figure labels a point, and the drawn ones only
-  // carry those where the spec asked for them.
-  for (const m of text.matchAll(/\b(?:part|point|angle|region|vertex|side|label)s?\s+(?:labell?ed\s+|marked\s+)?([A-Z])\b/g)) {
-    const letter = m[1]
-    if (figure.labels.includes(letter)) continue
+  const note = (letter: string) => {
+    if (figure.labels.includes(letter)) return
     if (!missing.includes(letter)) missing.push(letter)
   }
+  // Single capitals are how a figure labels a point, and the drawn ones only
+  // carry those where the spec asked for them.
+  for (const m of text.matchAll(/\b(?:part|point|angle|region|vertex|side|label)s?\s+(?:labell?ed\s+|marked\s+)?([A-Z])\b/g)) note(m[1])
+  // And whatever else a figure letters. A past-paper Moon-phase diagram with
+  // no letters on it was asked about "phase B" and "position H" -- the writer
+  // reaching for the letters the real question used on ANOTHER figure. Any
+  // "labelled X" or "marked X", and the things a figure most often letters.
+  for (const m of text.matchAll(/\b(?:labell?ed|marked)\s+([A-Z])\b/g)) note(m[1])
+  for (const m of text.matchAll(/\b(?:phase|position|stage|layer|organ|planet|tube|beaker|lamp|bulb|switch|object|shape|container|ray|sample|block|liquid|solid|gas|substance|test|step)\s+([A-Z])\b(?![''’]s)/g)) note(m[1])
   return missing
 }

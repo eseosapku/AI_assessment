@@ -32,6 +32,7 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
+import { assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, type BankFigure } from '@/lib/checkpoint-figure-bank'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from '@/lib/passage-question-match'
 import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
@@ -95,6 +96,19 @@ export const runtime = 'nodejs'
 export const maxDuration = 30
 
 const MAX_DIAGRAMS = 6
+/**
+ * Drawn and textbook-library figures on Checkpoint papers. Off: those papers
+ * print figures from the real past papers instead (lib/checkpoint-figure-bank.ts).
+ * Kept switchable rather than deleted, because a syllabus with no papers on
+ * record has nothing else to draw on.
+ */
+const CHECKPOINT_DRAWN_FIGURES = process.env.CHECKPOINT_DRAWN_FIGURES === '1'
+/**
+ * The share of a Checkpoint paper's numbered questions that carry a figure,
+ * read off the papers in the bank: Science prints one beside most questions,
+ * Mathematics beside about half.
+ */
+const BANK_FIGURE_SHARE: Record<string, number> = { Science: 0.7, Mathematics: 0.5 }
 const MAX_SOURCE_CHARS = 12000
 const MAX_EXAM_SOURCE_CHARS = 32000
 
@@ -1536,8 +1550,11 @@ ${commandBlock}`
     // The syllabus code, for the style corpus. The brief opens
     // "Cambridge Science 0893/01, sat at the end of Stage 9", which is the
     // one place the route is already told which paper this is.
+    // From the brief, or failing that the style line: the form sends the code
+    // in both, and a request carrying it in either is the same paper.
     const checkpointCode = isCheckpoint
-      ? (String(rawExamPrepContext ?? '').match(new RegExp(String.raw`\b(0\d{3})\s*/\s*\d{2}\b`))?.[1] ?? '')
+      ? (`${String(rawExamPrepContext ?? '')} ${String(body?.style ?? '')}`
+          .match(new RegExp(String.raw`\b(0\d{3})\s*/\s*\d{2}\b`))?.[1] ?? '')
       : ''
     const isExamPrepMode = curriculumSlug === 'waec' || curriculumSlug === 'jamb'
     const hasTextbookImageLibrary = Number.isFinite(textbookId) && isSchoolCurriculum(textbookCurriculum) && textbookHasImages(textbookId)
@@ -1562,6 +1579,8 @@ ${commandBlock}`
     ]
 
     let visualCatalog: VisualFigureCatalogEntry[] = []
+    /** What each past-paper figure on this paper shows, for the figure-mismatch check. */
+    const bankAccountByPath = new Map<string, string>()
     if (
       hasTextbookImageLibrary &&
       Number.isFinite(textbookId) &&
@@ -1597,8 +1616,15 @@ ${commandBlock}`
         // system" in a Stage 9 paper. Per topic, every figure belongs to a
         // topic the paper is already committed to asking about, and no two
         // questions can share one.
+        // A Checkpoint paper takes its figures from the past-paper bank, per
+        // question, further down -- never from the textbook library. Library
+        // figures were matched to a question on two shared words and came with
+        // a caption written from the picture alone; see
+        // `lib/checkpoint-figure-bank.ts` for what that produced and what
+        // replaced it. The drawn figures are off too, unless asked for: six
+        // kinds of chart could not give a paper the variety a real one has.
         visualCatalog = isCheckpoint
-          ? await figuresForFoci(imageTopicFilter, maxQuestionsWithImages(count))
+          ? (CHECKPOINT_DRAWN_FIGURES ? await figuresForFoci(imageTopicFilter, maxQuestionsWithImages(count)) : [])
           : await buildVisualFigureCatalogForTopics({
               topics: imageTopicFilter,
               questionCount: count,
@@ -1610,7 +1636,7 @@ ${commandBlock}`
         }
         // Worth saying out loud: "no figures" and "no APPROVED figures" look
         // identical on the page and have different fixes.
-        if (isCheckpoint) console.log(`Approved drawn figures available: ${drawnFigureCount()}`)
+        if (isCheckpoint && CHECKPOINT_DRAWN_FIGURES) console.log(`Approved drawn figures available: ${drawnFigureCount()}`)
       } catch (visionErr) {
         console.error('Library-wide vision catalog build failed:', visionErr)
       }
@@ -1915,7 +1941,7 @@ ${commandBlock}`
       paperPass?: 'short' | 'extended',
       questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition' }[],
       batchTopics?: string[],
-      assignedFigure?: { description: string; category: string; localPath: string },
+      assignedFigure?: { description: string; category: string; localPath: string; bank?: BankFigure },
       strandHint?: string,
       /**
        * Refuse a question whose shape is not what the slot asked for.
@@ -1961,7 +1987,11 @@ ${commandBlock}`
         // both cheaper and safer than asking again here -- asking here is how
         // a 10 cm by 10 cm rectangle became the figure for "cell structure
         // and function" without anyone seeing it first.
-        const approved = drawFocus
+        // A figure from the past-paper bank, when the slot was given one, and
+        // then nothing is drawn: the real figure and the question Cambridge
+        // asked about it are a better brief than anything drawn here.
+        const bank = assignedFigure?.bank
+        const approved = drawFocus && !bank && CHECKPOINT_DRAWN_FIGURES
           ? drawnFigureForFocus(drawFocus, { stage: Number(grade) || undefined, seed: startId })
           : null
         if (approved) {
@@ -1977,7 +2007,7 @@ ${commandBlock}`
             noun: nounForKind(approved.kind),
           }
           console.log(`Approved ${approved.kind} for "${drawFocus}"`)
-        } else if (drawFocus && worthDrawing(drawFocus, promptSubject)) {
+        } else if (drawFocus && !bank && CHECKPOINT_DRAWN_FIGURES && worthDrawing(drawFocus, promptSubject)) {
           try {
             const spec = await callBedrock(
               buildFigureSpecPrompt(promptSubject, `Stage ${gradeForPrompt}`, drawFocus),
@@ -2002,14 +2032,19 @@ ${commandBlock}`
           // Seeded on the slot so one paper does not see the same three
           // fifteen times. See lib/paper-styles.ts for why showing examples
           // is safe here when it has burned this codebase three times.
-          styleExamples: styleExamplesFor(
+          // Not with a bank figure: the real question about it is the example,
+          // and three more demand shapes beside it only crowd it.
+          styleExamples: bank ? undefined : styleExamplesFor(
             checkpointCode,
             String(questionParts[0]?.format ?? 'short'),
             { count: 3, seed: startId, figure: Boolean(drawn || assignedFigure) },
           ),
-          figure: drawn || !assignedFigure
+          figure: drawn || bank || !assignedFigure
             ? undefined
             : { description: assignedFigure.description, category: assignedFigure.category },
+          pastFigure: bank
+            ? { noun: bank.noun || 'diagram', shows: bank.shows, labels: bank.labels, original: bank.original }
+            : undefined,
           drawnFigure: drawn
             ? { description: drawn.description, labels: drawn.labels, noun: drawn.noun }
             : undefined,
@@ -2174,6 +2209,27 @@ ${commandBlock}`
           }
         }
 
+        if (bank) {
+          // Held to the words printed on it, as a drawn figure is held to its
+          // labels -- they were read from the PDF, so this is a check, not a
+          // guess. Unlike a drawn figure it cannot be swapped out afterwards:
+          // the question was written FOR it. So the batch is asked again, and
+          // on the lenient retry the offending parts go.
+          const misnamed = parsed.questions.filter((q: any) =>
+            q && typeof q === 'object' && questionNamesUndrawn(q.question, { labels: labelTokens(bank) }).length > 0)
+          // And the real question handed back, which it was shown as a model.
+          const lifted = parsed.questions.filter((q: any) =>
+            q && typeof q === 'object' && copiesOriginal(q.question, bank.original))
+          if (misnamed.length || lifted.length) {
+            const why = misnamed.length
+              ? `named ${questionNamesUndrawn(misnamed[0].question, { labels: labelTokens(bank) }).join(', ')}, which the figure does not carry`
+              : 'copied the Cambridge question it was shown'
+            if (strictShape) throw new SyntaxError(`Past-paper figure: the question ${why}`)
+            console.log(`Removed ${misnamed.length + lifted.length} question(s) that ${why}`)
+            parsed.questions = parsed.questions.filter((q: any) => !misnamed.includes(q) && !lifted.includes(q))
+          }
+        }
+
         for (const q of parsed.questions) {
           if (!q || typeof q !== 'object') continue
           // What the figure actually shows, for the checker -- the drawn
@@ -2290,7 +2346,7 @@ ${commandBlock}`
       questionParts?: { part: string | null; marks: number; format: 'short' | 'select' | 'tick' | 'table' | 'written' | 'justify' | 'composition' }[]
       batchTopics?: string[]
       strandHint?: string
-      assignedFigure?: { description: string; category: string; localPath: string }
+      assignedFigure?: { description: string; category: string; localPath: string; bank?: BankFigure }
     }
     const batches: Batch[] = []
 
@@ -2454,12 +2510,85 @@ ${commandBlock}`
       }
     }
 
+    // Figures from the real past papers, one per numbered question that can
+    // carry one, each with the question Cambridge asked about it.
+    //
+    // Assigned BEFORE the question is written, so it is written to the
+    // figure. A slot keeps its focus where the bank has a figure for it, and
+    // may otherwise move within its strand to a focus that has one -- but
+    // only to a focus already on this paper, so a learner who chose three
+    // topics is never moved off them, and the strand report is unchanged.
+    const bankFamily = !isCheckpoint ? '' : /science/i.test(promptSubject) ? 'Science' : /math/i.test(promptSubject) ? 'Mathematics' : ''
+    const bankPool: BankFigure[] = bankFamily ? bankFiguresFor(checkpointCode) : []
+    /**
+     * A past-paper figure for a refill of this focus, or none.
+     *
+     * The first pass loses questions to the guards, and every refill used to
+     * be written with no figure -- so of ten illustrated questions planned on
+     * a Stage 9 paper, six survived, and the paper came out mostly text. A
+     * refill takes a figure the paper is not already printing, up to the
+     * same share of the paper the first pass aimed for.
+     */
+    const bankFigureForRefill = (
+      focus: string, onPaper: readonly any[], parts: number,
+    ): Batch['assignedFigure'] => {
+      if (!bankPool.length) return undefined
+      const room = Math.round(count * (BANK_FIGURE_SHARE[bankFamily] ?? 0))
+      const taken = new Set(onPaper.map((q: any) => String(q?.image_url ?? '')).filter(Boolean))
+      if (onPaper.filter((q: any) => q?.image_url).length + parts > room) return undefined
+      const fits = bankPool.filter((f) => !taken.has(f.localPath) && !bankRefillsGiven.has(f.localPath) &&
+        f.focus.toLowerCase() === focus.toLowerCase())
+      if (!fits.length) return undefined
+      const f = fits[Math.floor(Math.random() * fits.length)]
+      bankRefillsGiven.add(f.localPath)
+      bankAccountByPath.set(f.localPath, figureAccount(f))
+      return { description: figureAccount(f), category: f.noun || 'diagram', localPath: f.localPath, bank: f }
+    }
+    /** Figures handed to refills in the current pass, so two parallel refills never share one. */
+    const bankRefillsGiven = new Set<string>()
+
+    if (isCheckpoint && batches.some((b) => b.questionParts)) {
+      const family = bankFamily
+      const figures = bankPool
+      // A composition, a justify-from-the-text and a complete-the-table part
+      // have shapes of their own that a figure only gets in the way of.
+      const eligible = batches
+        .map((b, index) => ({ b, index }))
+        .filter(({ b }) => b.questionParts?.length && b.batchTopics?.length &&
+          !b.questionParts.some((p) => ['composition', 'justify', 'table'].includes(p.format)))
+      if (figures.length && eligible.length) {
+        const cap = Math.round(eligible.length * (BANK_FIGURE_SHARE[family] ?? 0.5))
+        const given = assignBankFigures(
+          eligible.map(({ b, index }) => ({ index, focus: b.batchTopics![0], strand: b.strandHint || '' })),
+          figures,
+          {
+            seed: Number(body?.seed) || Date.now(),
+            cap,
+            allowedFoci: new Set(batches.flatMap((b) => b.batchTopics ?? [])),
+          },
+        )
+        let moved = 0
+        for (const [index, { figure, focus }] of given) {
+          const batch = batches[index]
+          if (focus !== batch.batchTopics?.[0]) { batch.batchTopics = [focus]; moved++ }
+          batch.assignedFigure = {
+            description: figureAccount(figure),
+            category: figure.noun || 'diagram',
+            localPath: figure.localPath,
+            bank: figure,
+          }
+          bankAccountByPath.set(figure.localPath, figureAccount(figure))
+        }
+        console.log(`Past-paper figures: ${given.size} of ${eligible.length} questions (cap ${cap}, ${figures.length} in the bank for ${checkpointCode}; ${moved} moved focus to take one)`)
+      }
+    }
+
     if (isCheckpoint && visualCatalog.length > 0 && batches.some((b) => b.questionParts)) {
       const spare = [...visualCatalog]
       const cap = maxQuestionsWithImages(count)
       let given = 0
       for (const batch of batches) {
-        if (given >= cap || spare.length === 0 || !batch.batchTopics?.length) continue
+        if (given >= cap || spare.length === 0 || !batch.batchTopics?.length || batch.assignedFigure) continue
         const focus = batch.batchTopics[0].toLowerCase()
         const words = focus.split(/\s+/).filter((w) => w.length > 3)
         let best = -1
@@ -2979,6 +3108,12 @@ ${commandBlock}`
       // shipped on a live Mathematics paper with no bar chart: the guard
       // found it, said so, and was overruled by the next line.
       const matched = (kept as any[]).filter((q) => {
+        // Not a past-paper figure. This reads a caption for words, and a bank
+        // figure's account is not a caption: "counts probability, which the
+        // figure does not show" removed five of fourteen illustrated questions
+        // from one Mathematics paper. A bank figure is held to its printed
+        // labels when the question is written, which is the check that holds.
+        if (bankAccountByPath.has(String(q?.image_url ?? ''))) return true
         const reasons = figureMismatchReasons(q, byPath.get(String(q?.image_url ?? '')))
         if (!reasons.length) return true
         console.log(`Dropped question: it ${reasons.join('; ')}`)
@@ -3137,7 +3272,8 @@ ${commandBlock}`
         }
       }))
       if (fixed || dropped.size) {
-        console.log(`Checker: fixed ${fixed}, dropped ${dropped.size} of ${todo.length}${reasons.length ? ` -- ${reasons.slice(0, 6).join('; ')}` : ''}`)
+        const illustrated = [...dropped].filter((q: any) => q?.image_url).length
+        console.log(`Checker: fixed ${fixed}, dropped ${dropped.size} of ${todo.length}${illustrated ? ` (${illustrated} illustrated)` : ''}${reasons.length ? ` -- ${reasons.slice(0, 6).join('; ')}` : ''}`)
       }
       return list.filter((q) => !dropped.has(q))
     }
@@ -3299,6 +3435,10 @@ ${commandBlock}`
         groups.map((g) => {
           const startAt = nextId
           nextId += g.parts.length
+          // Not on the shapes the first pass kept figures off either.
+          const figure = g.parts.some((p: any) => ['composition', 'justify', 'table'].includes(fmt(p)))
+            ? undefined
+            : bankFigureForRefill(g.focus, have, g.parts.length)
           return tryGenerateBatch(
             g.parts.length, startAt, undefined,
             g.parts.map((p: any, i: number) => ({
@@ -3307,7 +3447,7 @@ ${commandBlock}`
               format: fmt(p),
             })),
             [g.focus].filter(Boolean),
-            undefined, g.strand, false,
+            figure, g.strand, false,
           )
         }),
       )
@@ -3536,6 +3676,11 @@ ${commandBlock}`
         sourceText, sourceName: sourceLabel, requirePassagesAll,
       })
       estimatedTime = et
+    }
+
+    if (bankPool.length) {
+      const shown = allQuestions.filter((q: any) => bankAccountByPath.has(String(q?.image_url ?? ''))).length
+      console.log(`Past-paper figures on the finished paper: ${shown} of ${allQuestions.length} questions`)
     }
 
     // The checker's working data, not part of the paper.

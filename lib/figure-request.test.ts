@@ -57,6 +57,20 @@ describe('holding the question to the figure', () => {
     expect(questionNamesUndrawn('Work out the length of side A.', poly)).toEqual([])
   })
 
+  it('catches the letters a past-paper question used on another figure', () => {
+    // A Moon-phase diagram with no letters, asked about "phase B" and
+    // "position H" -- letters the real question used on a different figure.
+    const bare = { labels: ['Sun', 'Earth'] }
+    expect(questionNamesUndrawn('Which phase B shows a full Moon?', bare)).toEqual(['B'])
+    expect(questionNamesUndrawn('Name the planet marked H.', bare)).toEqual(['H'])
+    expect(questionNamesUndrawn('Name the planet marked H.', { labels: ['H'] })).toEqual([])
+  })
+
+  it('does not read a letter in ordinary prose as a label', () => {
+    expect(questionNamesUndrawn('Give one source of vitamin C.', { labels: [] })).toEqual([])
+    expect(questionNamesUndrawn('A student heats the beaker.', { labels: [] })).toEqual([])
+  })
+
   it('leaves an ordinary question alone', () => {
     expect(questionNamesUndrawn('Work out the probability that both spinners land on 4.', spinners))
       .toEqual([])
