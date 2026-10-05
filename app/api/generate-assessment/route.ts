@@ -31,6 +31,8 @@ import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { normalizeIds, positiveId } from '@/lib/request-ids'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
+import { figuresForQuiz, keepAndSpread, type TextbookFigure } from '@/lib/textbook-figure-bank'
+import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbook-figure-prompt'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
@@ -1669,9 +1671,6 @@ ${commandBlock}`
       }
     }
 
-    const hasVisionFigures = visualCatalog.length > 0
-    const hasDiagramSupport = (isExamPrepMode && Boolean(textbookSourceText)) || hasVisionFigures
-    const maxImageQuestions = maxQuestionsWithImages(count)
     // Self-directed quizzes name themselves after the topic ("The French
     // Revolution") so the student recognises them in their history — but that
     // string classifies as no domain at all, and worse, an incidental word can
@@ -1697,6 +1696,31 @@ ${commandBlock}`
       questionType !== 'interactive' &&
       questionType !== 'study_mixed'
     const requirePassagesAll = subjectPlan.requirePassageOnAll
+
+    // Textbook figures up to the past-paper standard, each written to before
+    // its question exists (lib/textbook-figure-bank.ts). Not on Checkpoint,
+    // which has its own bank, nor on a reading paper or pasted notes, whose
+    // figures belong to their text. Where these exist they replace the
+    // library match: two sources of pictures on one quiz is how the same
+    // circuit ended up beside two questions.
+    const quizFigures: TextbookFigure[] = !isCheckpoint && !isExamPrepMode && !usePassageFlow && !hasSourceText
+      ? figuresForQuiz({
+          textbookId: Number.isFinite(textbookId) ? textbookId : undefined,
+          textbookName: textbookName || figureSubject,
+          topics: imageTopicFilter,
+          stage: Number(grade) || undefined,
+          max: Math.max(0, Math.round(count * 0.4)),
+          seed: Date.now(),
+        })
+      : []
+    if (quizFigures.length) {
+      visualCatalog = []
+      console.log(`Textbook figures: ${quizFigures.length} for [${imageTopicFilter.slice(0, 3).join(', ')}] from ${[...new Set(quizFigures.map((f) => f.textbookName.slice(0, 40)))].join('; ')}`)
+    }
+
+    const hasVisionFigures = visualCatalog.length > 0
+    const hasDiagramSupport = (isExamPrepMode && Boolean(textbookSourceText)) || hasVisionFigures
+    const maxImageQuestions = maxQuestionsWithImages(count)
 
     // ── Bedrock client (explicit timeouts + fallback model) ─────────────────
     // IMPORTANT: The AWS SDK will retry requests by default. When the model ID is
@@ -2331,6 +2355,57 @@ ${commandBlock}`
       return parsed.questions
     }
 
+    /**
+     * One question about one textbook figure.
+     *
+     * Asked twice at most. A question that copies the book's exercise, names
+     * a label the figure does not carry, or asks for a word printed on it is
+     * asked again; a second failure leaves the place to the top-up passes,
+     * which write a plain question rather than a bad illustrated one.
+     */
+    async function generateTextbookFigureQuestion(fig: TextbookFigure, id: number, kind: FigureQuestionKind): Promise<any[]> {
+      const prompt = buildTextbookFigurePrompt({
+        subject: figureSubject, level: grade ? `Grade ${gradeForPrompt}` : 'secondary level',
+        topic: fig.topic, id, kind, marks: kind === 'written' ? 2 : undefined,
+        figure: { noun: fig.noun, shows: fig.shows, labels: fig.labels, original: fig.original },
+      })
+      const labels = { labels: fig.labels }
+      for (let attempt = 0; attempt < 2; attempt++) {
+        try {
+          const text = await callBedrock(prompt, 900)
+          if (isRefusal(text)) { console.warn('Textbook figure question refused'); continue }
+          // Wrapped in {"questions": [...]} as asked, or -- as Nova returns it
+          // more often than not for a single question -- the object alone.
+          const parsed = parseJsonRobust(fixLatexInRawJson(text))
+          const q = Array.isArray(parsed?.questions) ? parsed.questions[0] : parsed
+          if (!q || typeof q !== 'object' || !String(q.question ?? '').trim()) {
+            console.warn(`Textbook figure question came back empty: ${String(text).slice(0, 160)}`)
+            continue
+          }
+          q.question = stripFigureTokens(String(q.question))
+          const why = questionLeaksInstructions(q.question) ? 'copied the instructions'
+            : copiesOriginal(q.question, fig.original) ? "copied the book's exercise"
+            : answerIsPrinted(q, labels) ? 'asked for a word printed on the figure'
+            : questionNamesUndrawn(q.question, { labels: labelTokens(labels) }).length ? 'named a label the figure does not carry'
+            : ''
+          if (why) { console.log(`Textbook figure question re-asked: it ${why}`); continue }
+          q.id = id
+          q.image_url = fig.localPath
+          q.figure_description = figureAccount(fig)
+          // Held to its printed labels above, so the caption-word check that
+          // misfired on the past-paper bank is skipped for it too.
+          bankAccountByPath.set(fig.localPath, figureAccount(fig))
+          q.topic_label = q.topic_label || fig.topic
+          return [q]
+        } catch (err) {
+          // A picture must never fail the quiz. The top-up fills the place --
+          // but say why, or a broken figure path looks like no figures at all.
+          console.warn(`Textbook figure question failed: ${String((err as any)?.message ?? err).slice(0, 160)}`)
+        }
+      }
+      return []
+    }
+
     // ── Passage-first batch: uses an already-generated passage as context ────────
     // Each question in the result has q.passage and q.passage_source already set.
     async function tryGeneratePassageBatch(
@@ -2382,6 +2457,9 @@ ${commandBlock}`
       batchTopics?: string[]
       strandHint?: string
       assignedFigure?: { description: string; category: string; localPath: string; bank?: BankFigure }
+      /** One question about one textbook figure, in its own short prompt. */
+      textbookFigure?: TextbookFigure
+      figureKind?: FigureQuestionKind
     }
     const batches: Batch[] = []
 
@@ -2540,9 +2618,16 @@ ${commandBlock}`
         batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1, paperPass: 'extended' })
       }
     } else if (batches.length === 0) {
-      for (let i = 0; i < count; i += BATCH_SIZE) {
-        batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1 })
+      const plain = count - quizFigures.length
+      for (let i = 0; i < plain; i += BATCH_SIZE) {
+        batches.push({ count: Math.min(BATCH_SIZE, plain - i), startId: i + 1 })
       }
+      // The quiz's own type, so a multiple-choice quiz stays multiple choice.
+      const kinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
+        : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
+      quizFigures.forEach((fig, k) => batches.push({
+        count: 1, startId: plain + k + 1, textbookFigure: fig, figureKind: kinds[k % kinds.length],
+      }))
     }
 
     // Figures from the real past papers, one per numbered question that can
@@ -2888,6 +2973,7 @@ ${commandBlock}`
               // numbered question with its parts, and losing it loses that
               // question outright. Two runs in three failed the whole paper
               // this way.
+              if (b.textbookFigure) return await generateTextbookFigureQuestion(b.textbookFigure, b.startId, b.figureKind ?? 'mcq')
               try {
                 return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint, true)
               } catch (first) {
@@ -3665,6 +3751,10 @@ ${commandBlock}`
     // (see makeShippable), which is exactly where a slice cuts, and it is the
     // one question on an English paper worth half the marks. As many as the
     // blueprint has composition slots are kept; any beyond that are spare.
+    // Captured before any trim, so the figure questions can be put back.
+    const figuredBeforeTrim = !isCheckpoint
+      ? allQuestions.filter((q: any) => bankAccountByPath.has(String(q?.image_url ?? '')))
+      : []
     const compositionSlots = slotPlan.filter((s: any) => s?.format === 'composition').length
     const protectComposition = (list: any[], n: number): any[] => {
       const comps = list.filter((q) => isCompositionQuestion(q)).slice(0, compositionSlots)
@@ -3689,6 +3779,20 @@ ${commandBlock}`
       }
     } else if (allQuestions.length > count) {
       allQuestions = protectComposition(allQuestions, count)
+    }
+    // A textbook-figure question is never the surplus, either.
+    //
+    // The ordinary batches ask for 40% more than they need and the figure
+    // batches run after them, so a plain slice cut exactly the questions the
+    // figures were chosen for: three figures picked for a Stage 6
+    // "Transformation" quiz, none on the quiz. Kept first, then spread through
+    // the quiz rather than left bunched at the end.
+    if (!isCheckpoint && figuredBeforeTrim.length) {
+      allQuestions = keepAndSpread(
+        [...allQuestions, ...figuredBeforeTrim.filter((q) => !allQuestions.includes(q))],
+        figuredBeforeTrim,
+        count,
+      )
     }
     // Final re-number after trim
     allQuestions.forEach((q: any, i: number) => { q.id = i + 1 })
