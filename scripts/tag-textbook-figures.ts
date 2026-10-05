@@ -24,11 +24,12 @@ import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedroc
 import { loadRawTextbookFigures, type RawTextbookFigure } from './textbook-figure-raw'
 
 const ROOT = process.cwd()
-const OUT = path.join(ROOT, 'data', 'textbook-figure-bank.tags.json')
+const OUT = process.env.TAG_OUT || path.join(ROOT, 'data', 'textbook-figure-bank.tags.json')
 const MODEL = process.env.TAG_MODEL_ID || 'eu.anthropic.claude-sonnet-5-5'
 const arg = (k: string) => (process.argv.find((a) => a.startsWith(`--${k}=`)) ?? '').split('=')[1] ?? ''
 const LIMIT = Number(arg('limit')) || Infinity
 const ONLY = arg('only').split(',').filter(Boolean).map(Number)
+const IDS = new Set(arg('ids').split(',').filter(Boolean))
 
 for (const file of ['.env', '.env.local']) {
   const p = path.join(ROOT, file)
@@ -84,7 +85,7 @@ async function main() {
     credentials: { accessKeyId: process.env.AWS_ACCESS_KEY_ID!, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY! },
   })
   const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
-  const raw = loadRawTextbookFigures().filter((f) => !ONLY.length || ONLY.includes(f.textbookId))
+  const raw = loadRawTextbookFigures().filter((f) => (!ONLY.length || ONLY.includes(f.textbookId)) && (!IDS.size || IDS.has(f.id)))
   const done: Record<string, any> = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {}
   const topicsFor = new Map<number, string[]>()
   for (const id of new Set(raw.map((f) => f.textbookId))) {
@@ -103,7 +104,9 @@ async function main() {
       const f = queue.shift()!
       const data = fs.readFileSync(path.join(ROOT, 'public', f.localPath)).toString('base64')
       const body = {
-        anthropic_version: 'bedrock-2023-05-31', max_tokens: 2000, output_config: { effort: 'low' },
+        anthropic_version: 'bedrock-2023-05-31', max_tokens: 2000,
+        // Sonnet thinks at length by default; Haiku refuses the parameter.
+        ...(/sonnet|opus/.test(MODEL) ? { output_config: { effort: 'low' } } : {}),
         messages: [{ role: 'user', content: [
           { type: 'image', source: { type: 'base64', media_type: 'image/png', data } },
           { type: 'text', text: prompt(f, topicsFor.get(f.textbookId) ?? []) },
