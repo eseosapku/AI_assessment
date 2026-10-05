@@ -22,6 +22,7 @@ ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 BANK = os.path.join(ROOT, "data", "textbook-figure-bank.json")
 DIR = os.path.join(ROOT, "public", "textbook-images", "textbook-bank")
 BIG = 120 * 1024
+MAX_W = 1000
 
 
 def main():
@@ -39,7 +40,9 @@ def main():
                 os.remove(path)
                 deleted += 1
                 continue
-            if name.endswith(".png") and size > BIG:
+            # A scanned crop ("s<page>-f<n>") is a photograph of paper, so it is
+            # a JPEG at any size; only a digital book's line art stays PNG.
+            if name.endswith(".png") and (size > BIG or name.startswith("s")):
                 jpg = path[:-4] + ".jpg"
                 Image.open(path).convert("RGB").save(jpg, "JPEG", quality=82, optimize=True)
                 os.remove(path)
@@ -52,6 +55,28 @@ def main():
                 after += size
         if not os.listdir(folder):
             os.rmdir(folder)
+    # Nothing wider than the screen needs. A figure is shown in a panel about
+    # 500 px wide; 1000 px covers a high-density screen. Scan crops came out
+    # at 1400 px and more, and the 3,163-figure bank was 165 MB.
+    shrunk = 0
+    for book in os.listdir(DIR):
+        folder = os.path.join(DIR, book)
+        for name in os.listdir(folder):
+            path = os.path.join(folder, name)
+            img = Image.open(path)
+            if img.width <= MAX_W:
+                img.close()
+                continue
+            h = round(img.height * MAX_W / img.width)
+            small = img.resize((MAX_W, h), Image.LANCZOS)
+            img.close()
+            if name.endswith(".jpg"):
+                small.convert("RGB").save(path, "JPEG", quality=80, optimize=True)
+            else:
+                small.save(path, optimize=True)
+            shrunk += 1
+    total = sum(os.path.getsize(os.path.join(DIR, b, n)) for b in os.listdir(DIR) for n in os.listdir(os.path.join(DIR, b)))
+    print("downscaled %d wider than %d px; now %.1f MB" % (shrunk, MAX_W, total / 1e6))
     json.dump(bank, open(BANK, "w", encoding="utf-8"), ensure_ascii=False, indent=1)
     print("deleted %d unused, converted %d to JPEG; %.1f MB -> %.1f MB" % (deleted, converted, before / 1e6, after / 1e6))
 
