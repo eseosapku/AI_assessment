@@ -3216,16 +3216,29 @@ ${commandBlock}`
           seenFocus.add(f)
           return true
         })
-        const pick = spread.slice(0, missing + 2)
+        // Written slots the paper is short of are filled with WRITTEN answers,
+        // one per call at the slot's own marks. Filling them with one-word
+        // answers -- worth one mark wherever they are seated -- left a Maths
+        // paper at 41 of 50: seventeen short answers and five written ones.
+        const writtenShort = Math.max(
+          0,
+          slotPlan.filter((s: any) => kindOf(s) === 'written').length - (haveByShape.get('written') ?? 0),
+        )
+        const writtenSlots = spread.filter((sl: any) => kindOf(sl) === 'written').slice(0, writtenShort)
+        const rest = spread.filter((sl: any) => !writtenSlots.includes(sl))
+        const pick = [...writtenSlots, ...rest].slice(0, missing + 2)
         const done = await Promise.allSettled(
-          pick.map((sl: any, i: number) =>
-            tryGenerateBatch(
-              1, have.length + i + 1, 'short',
-              [{ part: null, marks: 1, format: 'short' }],
+          pick.map((sl: any, i: number) => {
+            const written = writtenSlots.includes(sl)
+            return tryGenerateBatch(
+              1, have.length + i + 1, written ? undefined : 'short',
+              [written
+                ? { part: null, marks: Number(sl?.marks) || 2, format: 'written' }
+                : { part: null, marks: 1, format: 'short' }],
               [String(sl?.focus || '')].filter(Boolean),
               undefined, String(sl?.strand || ''), false,
-            ),
-          ),
+            )
+          }),
         )
         return done.flatMap((r) => (r.status === 'fulfilled' ? r.value : []))
       }
