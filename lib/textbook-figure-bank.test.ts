@@ -128,3 +128,33 @@ describe('a one-word topic', () => {
     expect(figuresForQuiz({ textbookName: 'Science', topics: ['Food'], stage: 8, max: 3, seed: 1, bank })).toEqual([])
   })
 })
+
+describe('a book whose topics are one catch-all', () => {
+  // Primary Mathematics 4 files all its figures under "Number".
+  const many = Array.from({ length: 35 }, (_, i) => fig(`clock${i}`, {
+    textbookIds: [46], textbookName: 'Cambridge Primary Mathematics Stage 4 Learners Book 4', topic: 'Number',
+    shows: 'An analogue clock face showing a time.',
+  }))
+  const placeValue = fig('pv', {
+    textbookIds: [46], textbookName: 'Cambridge Primary Mathematics Stage 4 Learners Book 4', topic: 'Number',
+    shows: 'A place value grid partitioning 3456 into thousands, hundreds, tens and ones.',
+  })
+  it('chooses by what the figure shows, not by the catch-all topic', () => {
+    const got = figuresForQuiz({
+      textbookId: 46, textbookName: placeValue.textbookName, stage: 4,
+      topics: ['Number', 'Reading, writing and partitioning numbers', 'Place value'], max: 3, seed: 1, bank: [...many, placeValue],
+    })
+    expect(got.map((f) => f.id)).toEqual(['pv'])
+  })
+})
+
+describe('a word in the figure\'s topic', () => {
+  it('outranks the same word in passing in a description', () => {
+    const bank = [
+      fig('pv', { textbookIds: [46], textbookName: 'Cambridge Primary Mathematics Stage 4 Learners Book 4', topic: 'Place value and rounding', shows: 'A number line from 0 to 100.' }),
+      fig('box', { textbookIds: [46], textbookName: 'Cambridge Primary Mathematics Stage 4 Learners Book 4', topic: '2D shapes', shows: 'A rounded rectangle and ordered shapes.' }),
+    ]
+    const got = figuresForQuiz({ textbookId: 46, textbookName: bank[0].textbookName, topics: ['Number — Ordering and rounding', 'Number — Partitioning'], stage: 4, max: 3, seed: 1, bank })
+    expect(got[0]?.id).toBe('pv')
+  })
+})

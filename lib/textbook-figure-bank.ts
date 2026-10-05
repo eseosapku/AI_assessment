@@ -77,9 +77,15 @@ export function stageOfBook(name: unknown): number | null {
 const STOP = new Set([
   'the', 'and', 'for', 'with', 'from', 'into', 'about', 'their', 'what', 'how', 'why', 'unit', 'chapter', 'topic',
   'part', 'using', 'use', 'some', 'more', 'other', 'different', 'things', 'thing', 'make', 'making', 'work', 'working',
+  // Words every Mathematics figure description and topic is full of. A
+  // "Number" quiz matched a clock ("the numbers on the clock face") and a
+  // set of packages ("reading the scale") on these alone.
+  'number', 'numbers', 'reading', 'writing', 'shows', 'shown', 'drawn', 'labelled', 'printed', 'figure', 'diagram',
 ])
+/** A light stem, so "partitioning" meets "partitioned" and "rounding" meets "rounded". */
+const stem = (w: string) => w.length > 6 ? w.replace(/(ing|ed|ions?|ies|es|s)$/, '') : w.replace(/(ies|es|s)$/, '')
 const words = (s: unknown) => new Set(String(s ?? '').toLowerCase().replace(/[^a-z\s]/g, ' ').split(/\s+/)
-  .filter((w) => w.length > 3 && !STOP.has(w)).map((w) => w.replace(/(ies|es|s)$/, '')))
+  .filter((w) => w.length > 3 && !STOP.has(w)).map(stem))
 
 function rng(seed: number): () => number {
   let a = seed >>> 0
@@ -143,10 +149,52 @@ export function figuresForQuiz(opts: {
     return xs
   }
 
+  const want = words(topics.join(' '))
+  /** Figures from `pool` whose topic and content match the quiz's words, best first. */
+  const byContent = (pool: readonly TextbookFigure[]): TextbookFigure[] => {
+    if (!want.size) return []
+    const scored = pool.map((f) => {
+      // A word in the figure's TOPIC counts double. "Rounding" in the topic
+      // "Place value and rounding" is what the figure is about; "rounded" in
+      // "a rounded rectangle" is how a shape happens to look, and on equal
+      // terms the shape beat the place value chart for a rounding quiz.
+      const inTopic = words(f.topic)
+      const inShows = words(f.shows)
+      let score = 0
+      let distinctive = false
+      for (const w of want) {
+        if (inTopic.has(w)) score += 2
+        else if (inShows.has(w)) score += 1
+        else continue
+        if (w.length >= 6) distinctive = true
+      }
+      // Two shared words -- or, for a topic only one or two words long, one
+      // that says something on its own. "Photosynthesis" is one word, and two
+      // was a bar it could never clear; "food" or "cells" alone still cannot.
+      return { f, score: score >= 2 || (want.size <= 2 && distinctive) ? Math.max(score, 2) : score }
+    }).filter((x) => x.score >= 2)
+    if (!scored.length) return []
+    const best = Math.max(...scored.map((x) => x.score))
+    // The strongest matches only, shuffled among themselves.
+    return shuffle(scored.filter((x) => x.score >= Math.max(2, best - 1)).map((x) => x.f))
+  }
+
   const id = Number(opts.textbookId)
   if (Number.isFinite(id)) {
-    const onTopic = bank.filter((f) => f.textbookIds.includes(id) && topics.includes(f.topic.trim().toLowerCase()))
-    if (onTopic.length) return shuffle([...onTopic]).slice(0, opts.max)
+    const own = bank.filter((f) => f.textbookIds.includes(id))
+    const onTopic = own.filter((f) => topics.includes(f.topic.trim().toLowerCase()))
+    // A book whose database topics never came out properly -- Primary
+    // Mathematics 3 has one topic, "Introduction", and 4 and 5 one each,
+    // "Number" -- files every figure under that one name, so matching on
+    // the topic picks at random from the whole book: a clock for a place
+    // value quiz. There the figure is chosen by what it shows instead.
+    const catchAll = own.length > 30 && new Set(own.map((f) => f.topic)).size === 1
+    if (onTopic.length && !catchAll) return shuffle([...onTopic]).slice(0, opts.max)
+    // The quiz's own book by content next -- its own figures on the subject,
+    // before any other book's. A book filed by content (the ones whose
+    // database topics failed) is matched this way on every quiz.
+    const fits = byContent(own)
+    if (fits.length) return fits.slice(0, opts.max)
   }
 
   const family = familyOf(opts.textbookName ?? '')
@@ -154,27 +202,11 @@ export function figuresForQuiz(opts: {
   // science figure on two shared words is the old fault in a new place.
   if (family === 'other') return []
   const stage = opts.stage ?? stageOfBook(opts.textbookName ?? '')
-  const want = words(topics.join(' '))
-  if (!want.size) return []
-  const scored = bank
+  const neighbours = bank
     .filter((f) => familyOf(f.textbookName) === family)
     .filter((f) => {
       const s = stageOfBook(f.textbookName)
       return stage == null || s == null || Math.abs(s - stage) <= 1
     })
-    .map((f) => {
-      const have = words(`${f.topic} ${f.shows}`)
-      let score = 0
-      let distinctive = false
-      for (const w of want) if (have.has(w)) { score++; if (w.length >= 6) distinctive = true }
-      // Two shared words -- or, for a topic only one or two words long, one
-      // that says something on its own. "Photosynthesis" is one word, and two
-      // was a bar it could never clear; "food" or "cells" alone still cannot.
-      return { f, score: score >= 2 || (want.size <= 2 && distinctive) ? Math.max(score, 2) : score }
-    })
-    .filter((x) => x.score >= 2)
-  if (!scored.length) return []
-  const best = Math.max(...scored.map((x) => x.score))
-  // The strongest matches only, shuffled among themselves.
-  return shuffle(scored.filter((x) => x.score >= Math.max(2, best - 1)).map((x) => x.f)).slice(0, opts.max)
+  return byContent(neighbours).slice(0, opts.max)
 }

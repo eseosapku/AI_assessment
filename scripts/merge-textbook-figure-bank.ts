@@ -48,7 +48,9 @@ for (const f of raw) {
     noun: String(t.noun ?? 'diagram').toLowerCase().split(/[,/]/)[0].trim() || 'diagram',
     shows: String(t.shows).trim(),
     labels: Array.isArray(t.labels) ? t.labels.map(String).filter(Boolean).slice(0, 40) : f.labels,
-    topic: String(t.topic).trim(),
+    // A book whose database topics failed is filed by content instead
+    // (scripts/retag-content-topics.ts).
+    topic: String(t.content_topic || t.topic).trim(),
     original: String(t.original).trim(),
   })
 }
