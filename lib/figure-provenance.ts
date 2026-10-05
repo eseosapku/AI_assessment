@@ -107,7 +107,9 @@ export function subjectForFigure(localPath: unknown): FigureSubject {
  * Unknown provenance is allowed through, so this can only ever remove figures
  * we can positively identify as belonging to another subject.
  */
-export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, stage?: number): boolean {
+export function figureAllowedOnPaper(
+  localPath: unknown, paperSubject: unknown, stage?: number, opts: { checkpoint?: boolean } = {},
+): boolean {
   const book = bookNameForFigure(localPath)
   if (!figureFitsSubject(book, paperSubject) || !figureFitsLevel(book, stage)) return false
 
@@ -124,7 +126,11 @@ export function figureAllowedOnPaper(localPath: unknown, paperSubject: unknown, 
   //
   // Only at Checkpoint. Elsewhere an unlabelled figure is still better than
   // none, and no one has reported it going wrong there.
-  if (typeof stage === 'number' && stage <= 9 && subjectOfBook(book) === 'other') return false
+  //
+  // That is what this said, and the code checked the STAGE instead -- so it
+  // ran on every quiz at Stage 9 or below, Checkpoint or not, and took the
+  // figures off ordinary Primary and Lower Secondary quizzes with it.
+  if (opts.checkpoint && typeof stage === 'number' && stage <= 9 && subjectOfBook(book) === 'other') return false
 
   // A figure whose own description is written past the stage. See
   // `figureIsAboveStage` — the book's level is not the figure's level.

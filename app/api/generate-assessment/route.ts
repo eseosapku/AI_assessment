@@ -29,6 +29,8 @@ import { dropUnmarkable } from '@/lib/unmarkable'
 import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
+import { normalizeIds, positiveId } from '@/lib/request-ids'
+import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
@@ -112,11 +114,6 @@ const BANK_FIGURE_SHARE: Record<string, number> = { Science: 0.7, Mathematics: 0
 const MAX_SOURCE_CHARS = 12000
 const MAX_EXAM_SOURCE_CHARS = 32000
 
-function normalizeIds(value: unknown): number[] {
-  if (!Array.isArray(value)) return []
-  const ids = value.map((v) => Number(v)).filter((v) => Number.isFinite(v))
-  return Array.from(new Set(ids))
-}
 
 // ── Per-question subtopic tagging ─────────────────────────────────────────────
 // Map each generated question to the subtopic it best fits, so the StudyLab
@@ -1339,9 +1336,11 @@ export async function POST(request: NextRequest) {
     }
     const { accessKeyId, secretAccessKey } = credentials
 
-    const textbookId = Number(textbook_id)
+    // Positive ids only: the form sends `textbook_id: null` for a typed
+    // topic, and Number(null) is 0. See lib/request-ids.ts.
+    const textbookId = positiveId(textbook_id)
     const topicIds = normalizeIds(topic_ids)
-    const subtopicId = Number(subtopic_id)
+    const subtopicId = positiveId(subtopic_id)
     const subtopicIds = normalizeIds(subtopic_ids)
     if (subtopicIds.length === 0 && Number.isFinite(subtopicId)) {
       subtopicIds.push(subtopicId)
@@ -1581,6 +1580,10 @@ ${commandBlock}`
     let visualCatalog: VisualFigureCatalogEntry[] = []
     /** What each past-paper figure on this paper shows, for the figure-mismatch check. */
     const bankAccountByPath = new Map<string, string>()
+    // The subject a figure is judged against. A typed-topic quiz names itself
+    // after the topic ("Electric circuits") and sends the broad subject
+    // separately; the topic name is no subject at all to a gate.
+    const figureSubject = String(body?.subjectDomainHint ?? '').trim() || promptSubject
     if (
       hasTextbookImageLibrary &&
       Number.isFinite(textbookId) &&
@@ -1625,9 +1628,11 @@ ${commandBlock}`
         // kinds of chart could not give a paper the variety a real one has.
         visualCatalog = isCheckpoint
           ? (CHECKPOINT_DRAWN_FIGURES ? await figuresForFoci(imageTopicFilter, maxQuestionsWithImages(count)) : [])
-          : await buildVisualFigureCatalogForTopics({
+          : await buildSubjectFigureCatalog({
               topics: imageTopicFilter,
               questionCount: count,
+              subject: figureSubject,
+              stage: Number(grade) || undefined,
             })
         if (visualCatalog.length > 0) {
           console.log(
@@ -1639,6 +1644,28 @@ ${commandBlock}`
         if (isCheckpoint && CHECKPOINT_DRAWN_FIGURES) console.log(`Approved drawn figures available: ${drawnFigureCount()}`)
       } catch (visionErr) {
         console.error('Library-wide vision catalog build failed:', visionErr)
+      }
+    } else if (
+      Number.isFinite(textbookId) && !hasTextbookImageLibrary && isSchoolCurriculum(textbookCurriculum) &&
+      !isExamPrepMode && !isCheckpoint && imageTopicFilter.length > 0
+    ) {
+      // A textbook with no figures of its own: 56 of the 81 Cambridge books,
+      // every Primary and Lower Secondary one among them. Neither branch
+      // above runs for them, so a Stage 8 Science quiz had no picture in it
+      // at all. The rest of the library, held to this book's subject and
+      // level, is better than none -- the same search a typed topic gets.
+      try {
+        visualCatalog = await buildSubjectFigureCatalog({
+          topics: imageTopicFilter,
+          questionCount: count,
+          subject: figureSubject,
+          stage: Number(grade) || undefined,
+        })
+        if (visualCatalog.length > 0) {
+          console.log(`Vision catalog (library, book has none): ${visualCatalog.length} figure(s) for [${imageTopicFilter.slice(0, 4).join(', ')}]`)
+        }
+      } catch (visionErr) {
+        console.error('Library vision catalog build failed:', visionErr)
       }
     }
 
@@ -2633,7 +2660,7 @@ ${commandBlock}`
           // is about a different picture. Until the vision pass has described
           // them, they cannot be used.
           if (!String(fig.description ?? '').trim()) return
-          if (!figureAllowedOnPaper(fig.localPath, promptSubject, Number(grade) || undefined)) return
+          if (!figureAllowedOnPaper(fig.localPath, promptSubject, Number(grade) || undefined, { checkpoint: true })) return
           // On a Checkpoint paper the exam figure is not merely preferred.
           //
           // Weighting it was the first attempt, and a weighting is a tie
@@ -3748,7 +3775,7 @@ ${commandBlock}`
         let crossed = 0
         for (const q of assessmentData.questions as any[]) {
           if (!q?.image_url) continue
-          if (figureAllowedOnPaper(q.image_url, promptSubject, Number(grade) || undefined)) continue
+          if (figureAllowedOnPaper(q.image_url, figureSubject, Number(grade) || undefined, { checkpoint: isCheckpoint })) continue
           delete q.image_url
           crossed++
         }
