@@ -246,14 +246,32 @@ export function answerIsPrinted(question: any, figure: Pick<BankFigure, 'labels'
   const sa = question?.short_answer
   const answers: string[] = Array.isArray(sa?.accepted) ? sa.accepted : typeof sa === 'string' ? [sa] : []
   const first = String(answers[0] ?? '').trim()
+  if (!first) return false
+  // A number counts as printed only inside a written statement. "64" in a
+  // table cell or on an axis has to be found, which is the skill; "weight on
+  // Earth = 350 N" written out in a notebook is copied, and a review found
+  // two marks given for exactly that.
+  const number = first.match(/\d+(?:\.\d+)?/)?.[0]
+  if (number) {
+    return figure.labels.some((row) => {
+      const w = String(row ?? '').split(/\s+/).filter(Boolean)
+      return w.length >= 3 && w.some((t) => t.replace(/[^0-9.]/g, '').replace(/\.$/, '') === number)
+    })
+  }
   // Three letters, not four: "Write down the name of the lid" over a lid
   // labelled "lid" got through at four.
-  if (!first || /\d/.test(first) || first.replace(/[^a-z]/gi, '').length < 3) return false
+  if (first.replace(/[^a-z]/gi, '').length < 3) return false
   // Joined with spaces, not kept row by row: a label printed over two lines
   // ("normal" / "force") is still one label.
   const printed = ` ${figure.labels.map((l) => words(l).join(' ')).join(' ')} `
   const answer = words(first).join(' ')
-  return Boolean(answer) && printed.includes(` ${answer} `)
+  if (!answer) return false
+  if (printed.includes(` ${answer} `)) return true
+  // A label printed over two rows can come back interleaved with its
+  // neighbour: "measuring" / "gas" / "cylinder" on a gas-collection diagram.
+  // Every word of a two-word-or-longer answer printed somewhere is printed.
+  const parts = answer.split(' ')
+  return parts.length >= 2 && parts.every((w) => printed.includes(` ${w} `))
 }
 
 /**

@@ -309,3 +309,15 @@ describe('a figure from a real paper', () => {
     expect(p).not.toMatch(/Refer to it as|You may refer only/i)
   })
 })
+
+describe('the model question carries no marks of its own', () => {
+  it('drops Cambridge\'s [1] so a three-mark part is not written as a one-word answer', () => {
+    const p = buildExamPaperPrompt({
+      ...base,
+      pastFigure: { noun: 'diagram', shows: 'A plant.', labels: [], original: 'Name the gas. [1]\nExplain why. [2]' },
+    })
+    expect(p).toContain('Name the gas.')
+    expect(p).not.toMatch(/Name the gas\. \[1\]/)
+    expect(p).toContain('never one word')
+  })
+})

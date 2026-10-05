@@ -226,6 +226,10 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
     const original = f.original.trim().slice(0, 700)
       .replace(/\[THIS DIAGRAM\]/g, `(the ${f.noun} is printed here)`)
       .replace(/\[ANOTHER DIAGRAM\]/g, '(a different figure, not shown with this question)')
+      // Cambridge's marks off: shown "[1]" after every part, the writer wrote
+      // one-word answers into two- and three-mark parts -- "oxygen" for three
+      // marks, "gas" for two -- the commonest fault a review found.
+      .replace(/\s*\[\d+\]/g, '')
     // Described, never addressed: the same lesson as the drawn figure below.
     // Every line is about the figure, so none of it reads as part of a task.
     lines.push(
@@ -239,6 +243,7 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
       // "insoluble solid copper carbonate"; "the organ that pumps blood"
       // over a horse with its heart labelled "heart".
       `A word printed on the ${f.noun} is never the answer: an answer takes reading a value, working something out, or knowing the science.`,
+      `The marks are the ones given below, not Cambridge's: a part worth 2 or 3 marks asks for that many separate points or steps, never one word.`,
       // "Calculate 5 x 10^-1 and match it to the correct answer" -- the
       // original was a draw-a-line matching task. The screen has no pen.
       `The learner answers on screen and cannot draw on the ${f.noun}, join things with lines, or fill it in.`,

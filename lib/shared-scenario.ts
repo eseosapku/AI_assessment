@@ -293,6 +293,20 @@ export function stripPassageEcho(stem: unknown, passage: unknown): string {
  * a question) with a demand after it. A part that already has a scenario is
  * the model's own arrangement and is left alone.
  */
+/**
+ * A lead-in that only points at the figure: "Referring to the diagram.",
+ * "Look at the graph.", "Using the table."
+ *
+ * Carried to every part as a scenario, it filled a box above three questions
+ * of one paper with "Referring to the diagram." -- the very opener the prompt
+ * forbids, promoted to a heading. The figure is printed beside the question;
+ * a sentence that only says so is not a scenario.
+ */
+export function isPointerOnly(sentence: unknown): boolean {
+  return /^\s*(?:look(?:ing)? at|refer(?:ring)? to|with reference to|using|use|stud(?:y|ying)|observe|examine|consider)\s+(?:the\s+|this\s+)?(?:diagram|figure|picture|graph|chart|table|image|drawing|model|photo(?:graph)?|data|results)s?\s*[.,:;]?\s*$/i
+    .test(String(sentence ?? ''))
+}
+
 export function carryLeadInToParts<T extends ScenarioQuestion>(parts: readonly T[]): T[] {
   if (!Array.isArray(parts) || parts.length < 2) return [...(parts ?? [])]
   const out = parts.map((q) => ({ ...q }))
@@ -305,6 +319,7 @@ export function carryLeadInToParts<T extends ScenarioQuestion>(parts: readonly T
   // Words, not `contentWords`: "A car travels 180 km in 3 hours." has only
   // two content words by that measure and is all the setup there is.
   if (isDemand || lead.endsWith('?') || lead.split(/\s+/).filter(Boolean).length < 4) return out
+  if (isPointerOnly(lead)) return out
 
   for (const q of out) {
     const own = sentencesOf(String(q.question ?? ''))

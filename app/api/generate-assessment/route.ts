@@ -38,7 +38,7 @@ import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
-import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripPassageSetup, restatesPassage, stripFigureEcho } from '@/lib/shared-scenario'
+import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripPassageSetup, restatesPassage, stripFigureEcho, isPointerOnly } from '@/lib/shared-scenario'
 import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
 import { toBritish } from '@/lib/british-spelling'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
@@ -3318,7 +3318,9 @@ ${commandBlock}`
      * client then cannot seat without the total falling short), on the
      * least-covered foci first, run in parallel as the main batches are.
      */
-    const checkpointFill = async (missing: number, have: any[], simple = false): Promise<any[]> => {
+    const checkpointFill = async (
+      missing: number, have: any[], simple = false, triedFoci?: Set<string>,
+    ): Promise<any[]> => {
       // A composition is its own kind here. Counted as "written", a paper
       // short of written answers asked for the composition slot again, and
       // an English paper came back with two compositions and one question
@@ -3358,12 +3360,18 @@ ${commandBlock}`
       // reliably, and what most of a Checkpoint paper is anyway.
       if (simple) {
         const seenFocus = new Set<string>()
-        const spread = slots.filter((sl: any) => {
+        const unique = slots.filter((sl: any) => {
           const f = String(sl?.focus ?? '')
           if (!f || seenFocus.has(f)) return false
           seenFocus.add(f)
           return true
         })
+        // Foci an earlier plain pass already tried go to the back. Asked the
+        // same least-covered foci twice, a Maths paper got the same short
+        // answers twice -- four repeats, nothing added, and the paper was
+        // refused at 25 of 29.
+        const fresh = triedFoci ? unique.filter((sl: any) => !triedFoci.has(String(sl?.focus ?? ''))) : unique
+        const spread = [...fresh, ...unique.filter((sl: any) => !fresh.includes(sl))]
         // Written slots the paper is short of are filled with WRITTEN answers,
         // one per call at the slot's own marks. Filling them with one-word
         // answers -- worth one mark wherever they are seated -- left a Maths
@@ -3375,6 +3383,7 @@ ${commandBlock}`
         const writtenSlots = spread.filter((sl: any) => kindOf(sl) === 'written').slice(0, writtenShort)
         const rest = spread.filter((sl: any) => !writtenSlots.includes(sl))
         const pick = [...writtenSlots, ...rest].slice(0, missing + 2)
+        for (const sl of pick) triedFoci?.add(String(sl?.focus ?? ''))
         const done = await Promise.allSettled(
           pick.map((sl: any, i: number) => {
             const written = writtenSlots.includes(sl)
@@ -3546,6 +3555,8 @@ ${commandBlock}`
       // short, while a single ask is capped at BATCH_SIZE. Stops the moment a
       // pass adds nothing, so a model that cannot fill the paper is not asked
       // six more times to prove it.
+      const triedFoci = new Set<string>()
+      let emptyPasses = 0
       for (let pass = 0; pass < 4 && allQuestions.length < count; pass++) {
         const missing = count - allQuestions.length
         console.warn(`Still short by ${missing} — plain pass ${pass + 1}, short answers only`)
@@ -3555,7 +3566,7 @@ ${commandBlock}`
           // The same focused fill as the retry passes when there is a
           // blueprint to fill from; the old plain ask only without one.
           const plain = slotPlan.length > 0
-            ? await checkpointFill(missing, allQuestions, true)
+            ? await checkpointFill(missing, allQuestions, true, triedFoci)
             : await tryGenerateBatch(
                 Math.min(BATCH_SIZE, missing + 2), allQuestions.length + 1, 'short', undefined,
                 leastCoveredTopics(allQuestions).slice(0, 4),
@@ -3570,7 +3581,8 @@ ${commandBlock}`
           console.error(`Plain pass ${pass + 1} failed:`, err)
           break
         }
-        if (allQuestions.length <= before) break
+        // Two empty passes, not one: the second asks different foci.
+        if (allQuestions.length <= before) { if (++emptyPasses >= 2) break } else emptyPasses = 0
       }
     }
 
@@ -3695,9 +3707,14 @@ ${commandBlock}`
       console.log(`Past-paper figures on the finished paper: ${shown} of ${allQuestions.length} questions`)
     }
 
-    // The checker's working data, not part of the paper.
+    // The checker's working data, not part of the paper. And a scenario that
+    // only points at the figure, from whichever step produced it -- see
+    // `isPointerOnly`.
     for (const q of allQuestions) {
-      if (q && typeof q === 'object') { delete (q as any).figure_spec; delete (q as any).figure_description }
+      if (q && typeof q === 'object') {
+        delete (q as any).figure_spec; delete (q as any).figure_description
+        if (isPointerOnly((q as any).scenario)) delete (q as any).scenario
+      }
     }
     const assessmentData: any = { questions: allQuestions, estimated_time: estimatedTime }
 

@@ -1,6 +1,6 @@
 // lib/shared-scenario.test.ts
 import { describe, it, expect } from 'vitest'
-import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripPassageSetup, stripFigureEcho, type ScenarioQuestion } from './shared-scenario'
+import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripPassageSetup, stripFigureEcho, isPointerOnly, type ScenarioQuestion } from './shared-scenario'
 
 const q = (question: string): ScenarioQuestion => ({ question })
 
@@ -313,5 +313,27 @@ describe('the carried lead-in leaves a stem that starts with a capital', () => {
       { question: 'Explain why the book glowed.' },
     ])
     expect(String(out[0].question)).toBe('What was its name?')
+  })
+})
+
+describe('a lead-in that only points at the figure', () => {
+  it('is recognised', () => {
+    expect(isPointerOnly('Referring to the diagram.')).toBe(true)
+    expect(isPointerOnly('Look at the graph.')).toBe(true)
+    expect(isPointerOnly('Using the table')).toBe(true)
+  })
+
+  it('is not a scenario with something in it', () => {
+    expect(isPointerOnly('Ahmed measures the volume of oxygen produced in 10 minutes.')).toBe(false)
+    expect(isPointerOnly('Look at the diagram of her equipment and the results.')).toBe(false)
+    expect(isPointerOnly(undefined)).toBe(false)
+  })
+
+  it('is never carried to the parts as their scenario', () => {
+    const out = carryLeadInToParts([
+      q('Referring to the diagram. Name the process that releases carbon dioxide.'),
+      q('Explain how green plants use carbon dioxide.'),
+    ])
+    expect(out.every((x) => !x.scenario)).toBe(true)
   })
 })

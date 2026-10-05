@@ -132,8 +132,14 @@ describe('answerIsPrinted', () => {
     expect(answerIsPrinted({ short_answer: { accepted: ['normal force'] } }, { labels: ['normal', 'force', 'gravity'] })).toBe(true)
   })
 
+  it('catches a number copied out of a written note', () => {
+    expect(answerIsPrinted({ short_answer: { accepted: ['350 N'] } }, { labels: ['weight on Earth = 350 N', 'mass on Earth = 35 kg'] })).toBe(true)
+    expect(answerIsPrinted({ short_answer: { accepted: ['35'] } }, { labels: ['mass on Saturn is 35 kg and weight is 372 N'] })).toBe(true)
+  })
+
   it('leaves a number read off a table, and a letter naming a part, alone', () => {
     expect(answerIsPrinted({ short_answer: { accepted: ['64'] } }, { labels: ['64', 'potassium'] })).toBe(false)
+    expect(answerIsPrinted({ short_answer: { accepted: ['770'] } }, { labels: ['melting point', 'in °C', '760', '780'] })).toBe(false)
     expect(answerIsPrinted({ short_answer: { accepted: ['C'] } }, { labels: ['A', 'B', 'C'] })).toBe(false)
   })
 
@@ -189,5 +195,14 @@ describe('a paper prefers its own figures', () => {
 describe('a three-letter printed answer', () => {
   it('is caught too', () => {
     expect(answerIsPrinted({ short_answer: { accepted: ['lid'] } }, { labels: ['lid', 'particle', 'container'] })).toBe(true)
+  })
+})
+
+describe('a printed answer whose label rows interleave', () => {
+  it('is caught when every word of it is printed', () => {
+    expect(answerIsPrinted({ short_answer: { accepted: ['measuring cylinder'] } },
+      { labels: ['measuring', 'gas', 'cylinder', 'beaker'] })).toBe(true)
+    expect(answerIsPrinted({ short_answer: { accepted: ['measuring cylinder'] } },
+      { labels: ['measuring', 'gas', 'beaker'] })).toBe(false)
   })
 })
