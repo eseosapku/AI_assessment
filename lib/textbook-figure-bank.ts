@@ -165,8 +165,12 @@ export function figuresForQuiz(opts: {
     .map((f) => {
       const have = words(`${f.topic} ${f.shows}`)
       let score = 0
-      for (const w of want) if (have.has(w)) score++
-      return { f, score }
+      let distinctive = false
+      for (const w of want) if (have.has(w)) { score++; if (w.length >= 6) distinctive = true }
+      // Two shared words -- or, for a topic only one or two words long, one
+      // that says something on its own. "Photosynthesis" is one word, and two
+      // was a bar it could never clear; "food" or "cells" alone still cannot.
+      return { f, score: score >= 2 || (want.size <= 2 && distinctive) ? Math.max(score, 2) : score }
     })
     .filter((x) => x.score >= 2)
   if (!scored.length) return []

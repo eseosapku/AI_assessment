@@ -17,10 +17,22 @@ export function loadRawTextbookFigures(): RawTextbookFigure[] {
   if (fs.existsSync(DIGITAL)) {
     for (const f of JSON.parse(fs.readFileSync(DIGITAL, 'utf8')).figures) out.push({ ...f, scanned: false })
   }
+  // A book listed twice in the database (IGCSE Biology is rows 1 and 54) is
+  // scanned once and serves every row that is it.
+  const MAP = path.join(ROOT, 'data', 'cambridge-textbook-pdf-map.json')
+  const idsFor = new Map<number, number[]>()
+  if (fs.existsSync(MAP)) {
+    const map: { id: number; pdf: string | null }[] = JSON.parse(fs.readFileSync(MAP, 'utf8'))
+    for (const m of map) {
+      if (!m.pdf) continue
+      idsFor.set(m.id, map.filter((x) => x.pdf === m.pdf).map((x) => x.id))
+    }
+  }
   if (fs.existsSync(SCANNED)) {
     for (const rec of Object.values<any>(JSON.parse(fs.readFileSync(SCANNED, 'utf8')))) {
       rec.figures.forEach((f: any, i: number) => out.push({
-        id: `tb${rec.textbookId}-s${rec.page}-${i}`, textbookId: rec.textbookId, textbookIds: [rec.textbookId],
+        id: `tb${rec.textbookId}-s${rec.page}-${i}`, textbookId: rec.textbookId,
+        textbookIds: idsFor.get(rec.textbookId) ?? [rec.textbookId],
         textbookName: rec.textbookName, page: rec.page, localPath: f.localPath, labels: [],
         heading: f.heading || null, question: String(f.question ?? ''), scanned: true,
       }))

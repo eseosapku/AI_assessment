@@ -115,3 +115,16 @@ describe('the textbook bank on disk', () => {
     }
   })
 })
+
+describe('a one-word topic', () => {
+  const bank = [
+    fig('ps', { textbookIds: [35], textbookName: 'Cambridge Lower Secondary Science 9 Learners Book', topic: '1 Photosynthesis and the carbon cycle', shows: 'Apparatus to measure photosynthesis in pondweed.' }),
+    fig('cells', { textbookIds: [33], textbookName: 'Cambridge Lower Secondary Science 7 Learners Book', topic: '1 Cells', shows: 'A plant cell with its wall labelled.' }),
+  ]
+  it('finds figures when the one word says something on its own', () => {
+    expect(figuresForQuiz({ textbookName: 'Science', topics: ['Photosynthesis'], stage: 8, max: 3, seed: 1, bank }).map((f) => f.id)).toEqual(['ps'])
+  })
+  it('does not on a short common word alone', () => {
+    expect(figuresForQuiz({ textbookName: 'Science', topics: ['Food'], stage: 8, max: 3, seed: 1, bank })).toEqual([])
+  })
+})
