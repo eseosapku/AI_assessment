@@ -7,7 +7,8 @@
   "focus": "transport in plants",
   "strand": "Biology",
   "original": "The diagram shows the pathway of water moving through a plant.\n(a) Describe how water enters the plant.\n[2]\n(b) Write down the name of one other substance that enters the plant with the water.\n[1]\n(c) Complete the sentence.\nWater is lost from a plant through organs called\n.\nThis process is called\n.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p8-0": {
   "usable": false,
@@ -27,7 +28,8 @@
   "focus": "earthquakes and volcanoes",
   "strand": "Earth and Space",
   "original": "Oliver makes a model to demonstrate what happens at the boundary of tectonic plates.\nOliver:\n• pours cold syrup into a large container\n• places two biscuits on top of the syrup\n• assembles the equipment as shown.\n(b) Write down one safety risk in Oliver’s practical.\nSuggest how Oliver controls this risk.\n(c) After a few minutes the biscuits start to move.\nDescribe the movement of the biscuits and explain why they move.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0876-english-as-second-language-may-2024-checkpoint-question-paper-1-p4-2": {
   "usable": true,
@@ -527,7 +529,8 @@
   "focus": "volume and surface area of a cuboid",
   "strand": "Algebra, Geometry and Measure",
   "original": "A pyramid has\n•\na square base with a side length of 10 cm\n•\nfour congruent triangular faces each with a height of 12 cm.\n[THIS DIAGRAM]\nCalculate the surface area of the pyramid.\ncm2 [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0876-english-as-second-language-march-2026-checkpoint-question-paper-1-p7-0": {
   "usable": true,
@@ -557,7 +560,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "Draw a ring around the scatter graph that shows positive correlation.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p2-2": {
   "usable": true,
@@ -567,7 +571,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "Draw a ring around the scatter graph that shows positive correlation.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p2-3": {
   "usable": true,
@@ -577,7 +582,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "Draw a ring around the scatter graph that shows positive correlation.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "0862-mathematics-paper-1-october-2023-p5-1": {
   "usable": true,
@@ -607,7 +613,8 @@
   "focus": "angles in triangles and quadrilaterals",
   "strand": "Algebra, Geometry and Measure",
   "original": "Construct an angle of 30°.\nThe construction has been started for you.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p6-0": {
   "usable": true,
@@ -617,7 +624,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "Five quadrilaterals are shown on the grid.\nQuadrilateral P is transformed by a reflection followed by a translation.\nDraw a ring around the unshaded quadrilateral that is not a possible image of\nquadrilateral P.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p10-0": {
   "usable": true,
@@ -627,7 +635,8 @@
   "focus": "probability of two events together",
   "strand": "Statistics and Probability",
   "original": "Pierre spins this fair spinner twice.\n[THIS DIAGRAM]\nHe adds together his two numbers to get a total.\nPierre makes two statements.\nTick () to show if each statement is true or false.\nTrue\nFalse\nThe possible totals are 2, 3, 4, 5 and 6\nP(total is 3) = 1\n5\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p12-1": {
   "usable": false,
@@ -647,7 +656,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "A circle has a radius of 8.7 cm.\n[THIS DIAGRAM]\nFind the area of the circle.\ncm2 [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p3-0": {
   "usable": true,
@@ -657,7 +667,8 @@
   "focus": "squares, cubes and roots",
   "strand": "Number",
   "original": "Use the numbers in the box to complete the sentences.\n[THIS DIAGRAM]\nand\nare irrational numbers.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p4-0": {
   "usable": true,
@@ -667,7 +678,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a square drawn on a coordinate grid.\nDraw the image of the square after an enlargement, scale factor 3, centre (2, 3).\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0862-mathematics-paper-2-april-2023-p5-1": {
   "usable": true,
@@ -677,7 +689,8 @@
   "focus": "interpreting a pie chart described in words",
   "strand": "Statistics and Probability",
   "original": "The bar chart shows the number of small, medium and large potatoes in a sack.\nComplete the pie chart to show this information.\n[3]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "0862-mathematics-paper-2-april-2023-p7-0": {
   "usable": false,
@@ -697,7 +710,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "Here are three scatter diagrams.\nDiagram A\nDiagram B\ny\ny\nx\nDiagram C\ny\nx\nDraw a line to match each scatter diagram to the best description of its correlation.\nStrong positive\nDiagram A\nWeak positive\nDiagram B\nNo correlation\nWeak negative\nDiagram C\nStrong negative",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p10-0": {
   "usable": true,
@@ -707,7 +721,8 @@
   "focus": "fair sampling and bias",
   "strand": "Statistics and Probability",
   "original": "(a) Yuri wants to investigate how exercise changes his heart rate.\nHe considers two methods for measuring his heart rate.\n[THIS DIAGRAM]\nYuri decides to use method A.\nGive one reason why this may not be the better method.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "0862-mathematics-paper-2-april-2023-p8-0": {
   "usable": true,
@@ -717,7 +732,8 @@
   "focus": "listing outcomes systematically",
   "strand": "Statistics and Probability",
   "original": "Ahmed has two bags each containing four balls.\nThe balls in bag A are numbered 1, 3, 5 and 6\nThe balls in bag B are numbered 2, 3, 4 and 6\nAhmed picks a ball at random from each bag.\nHe adds together the numbers on the two balls to get a total score.\nShow that P(total score is even) = P(total score is more than 8).\nYou may use the table to help you.\nBag A",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p6-0": {
   "usable": true,
@@ -727,7 +743,8 @@
   "focus": "angles in parallel lines",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows two parallel lines and two transversals.\nDraw a ring around all the angles that must be equal to 70°.\na b c d e\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p16-0": {
   "usable": true,
@@ -737,7 +754,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "A jug is a cylinder with a diameter of 14 cm.\nThe height of the water in the jug is 31 cm.\n[THIS DIAGRAM]\nThe capacity of a glass is 315 cm3.\nFind how many of these glasses can be completely filled using the water in the jug.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p12-0": {
   "usable": true,
@@ -747,7 +765,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "Find the equation of the graph.\nGive your answer in the form y = mx + c.\n[THIS DIAGRAM]\ny =\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p14-0": {
   "usable": true,
@@ -757,7 +776,8 @@
   "focus": "scale and scale drawing",
   "strand": "Algebra, Geometry and Measure",
   "original": "The map shows the position of a shop, S, and a library, L, on an island.\nThe scale of the map is 1 cm to 50 m.\nA restaurant, R, is built on the island\non a bearing of 130° from the shop\nand\n220 metres from the library.\nMark the position of the restaurant on the map.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p15-0": {
   "usable": true,
@@ -767,7 +787,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "The graph of 2y = 11 − 8x is shown on the grid.\n(a) Draw the graph of 2x − 5y = 10 on the grid.\nUse the table of values to help you.\n(b) Use your graph to solve the simultaneous equations.\n2y = 11 – 8x\n2x − 5y = 10\nx =\ny =",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-october-2023-p3-0": {
   "usable": true,
@@ -777,7 +798,8 @@
   "focus": "properties of 3D shapes",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here is the net of a triangular prism.\nIt is formed from three rectangles and two right-angled triangles.\n[THIS DIAGRAM]\nTick () to show if each of these facts about the faces of the triangular prism is true\nor false.\nTrue\nFalse\nThree faces have the same area.\nThe area of the largest face is 72 cm2.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-october-2023-p5-0": {
   "usable": true,
@@ -787,7 +809,8 @@
   "focus": "forming an equation from a description",
   "strand": "Algebra, Geometry and Measure",
   "original": "Pencils can be bought in small packets or large packets.\nsmall packet has 3 pencils\nlarge packet has 5 pencils\nMike buys m small packets and n large packets.\nAltogether he buys 86 pencils.\nDraw a ring around the equation that represents this situation.\n3m + 5n = 86   m + n = 86   8(m + n) = 86   5m + 3n = 86",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-october-2023-p6-1": {
   "usable": true,
@@ -807,7 +830,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows two circles, each with centre O.\nShow that the circumference of the larger circle is approximately 44 cm more than the circumference of the smaller circle.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p3-0": {
   "usable": true,
@@ -817,7 +841,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a quadrilateral drawn on a coordinate grid.\nDraw the image of the quadrilateral after an enlargement, scale factor 3, centre (5, 4).\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p7-0": {
   "usable": true,
@@ -827,7 +852,8 @@
   "focus": "comparing two sets of data",
   "strand": "Statistics and Probability",
   "original": "Angelique records the resting heart rates for a group of people before and after taking part in a fitness programme.\nResting heart rate is measured in beats per minute (bpm).\nThis back-to-back stem-and-leaf diagram shows the results.\nKey: 4 | 6 | 2 represents 64 bpm before the fitness programme and 62 bpm after the fitness programme.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p13-0": {
   "usable": true,
@@ -837,7 +863,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows shape A and shape B on a coordinate grid.\nShape A is transformed onto shape B by a combination of two single transformations.\nThe first transformation is a rotation of 90° clockwise about (0, 0).\nDescribe fully the second transformation.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p14-0": {
   "usable": true,
@@ -847,7 +874,8 @@
   "focus": "indices and powers of ten",
   "strand": "Number",
   "original": "Write the letter for each calculation in the correct place on the Venn diagram.\nOne has been done for you.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p14-1": {
   "usable": true,
@@ -857,7 +885,8 @@
   "focus": "indices and powers of ten",
   "strand": "Number",
   "original": "Write the letter for each calculation in the correct place on the Venn diagram.\nOne has been done for you.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p4-0": {
   "usable": true,
@@ -867,7 +896,8 @@
   "focus": "direct proportion",
   "strand": "Number",
   "original": "Here is a distance–time graph for a journey.\n[THIS DIAGRAM]\nCalculate the speed for this journey.\nGive your answer in km / h.\nkm / h [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p15-1": {
   "usable": false,
@@ -887,7 +917,8 @@
   "focus": "substituting into a formula",
   "strand": "Algebra, Geometry and Measure",
   "original": "This mapping diagram is for the function y = 4x2\n[THIS DIAGRAM]\nComplete the diagram with three different values.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-4rp-afp-tcm143-747538-p10-1": {
   "usable": true,
@@ -897,7 +928,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "Line L is drawn on the grid.\nFind the equation of line L.\nGive your answer in the form y = mx + c\ny =",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-4rp-afp-tcm143-747538-p7-0": {
   "usable": true,
@@ -907,7 +939,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "A triangle is drawn on the grid.\nOn the grid, draw the enlargement of the triangle by scale factor 2 from centre C.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-4rp-afp-tcm143-747538-p12-0": {
   "usable": true,
@@ -917,7 +950,8 @@
   "focus": "grouped data and class intervals",
   "strand": "Statistics and Probability",
   "original": "The graph shows information about the mass of each of 34 melons.\nCalculate an estimate of the mean mass of these melons.\nkg [4]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-7rp-afp-tcm143-725670-p5-0": {
   "usable": true,
@@ -927,7 +961,8 @@
   "focus": "area of a compound shape",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here are four parallelograms.\n[THIS DIAGRAM]\nDraw rings around the two parallelograms that have the same area.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "10-0862-02-7rp-afp-tcm143-725670-p5-3": {
   "usable": false,
@@ -947,7 +982,8 @@
   "focus": "substituting into a formula",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here is a mapping diagram for the function y = (1 + x)2\n[THIS DIAGRAM]\nComplete the mapping diagram with three different values.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-7rp-afp-tcm143-725670-p11-0": {
   "usable": true,
@@ -957,7 +993,8 @@
   "focus": "probability of a single event",
   "strand": "Statistics and Probability",
   "original": "Lily spins this fair spinner once every day for 135 days.\nIf she spins a 1 she saves $10 of her earnings for that day.\nIf she spins a 2 she saves $20 of her earnings for that day.\nIf she spins a 3 she saves $30 of her earnings for that day.\nCalculate the total amount of money Lily should expect to save over the 135 days.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "10-0862-02-7rp-afp-tcm143-725670-p13-0": {
   "usable": true,
@@ -967,7 +1004,8 @@
   "focus": "substituting into a formula",
   "strand": "Algebra, Geometry and Measure",
   "original": "By completing the table of values, draw the graph of y = x2 – 1 on the grid for values of\nx between –3 and 3",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-01-4rp-afp-tcm143-736389-p4-0": {
   "usable": true,
@@ -977,7 +1015,8 @@
   "focus": "coordinates in four quadrants",
   "strand": "Algebra, Geometry and Measure",
   "original": "Chen starts to draw the graph of y = x2 + 1\nComplete the graph of y = x2 + 1 for values of x between –3 and 3\nYou may use the table to help you.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-01-4rp-afp-tcm143-736389-p4-1": {
   "usable": true,
@@ -987,7 +1026,8 @@
   "focus": "substituting into a formula",
   "strand": "Algebra, Geometry and Measure",
   "original": "Chen starts to draw the graph of y = x2 + 1\nComplete the graph of y = x2 + 1 for values of x between –3 and 3\nYou may use the table to help you.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-7rp-afp-tcm143-725670-p13-1": {
   "usable": false,
@@ -1007,7 +1047,8 @@
   "focus": "angles in parallel lines",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows two parallel lines and two other straight lines.\nNOT TO SCALE\nFind the value of x.\nx =\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-01-4rp-afp-tcm143-736389-p13-0": {
   "usable": true,
@@ -1017,7 +1058,8 @@
   "focus": "probability of a single event",
   "strand": "Statistics and Probability",
   "original": "Yuri has two fair 7-sided spinners each numbered 1 to 7\nOne spinner is white and the other spinner is grey.\n(b) Yuri spins the white spinner 140 times.\nCalculate how many times Yuri should expect to spin a number less than 3\n(c) Yuri spins the white spinner once and the grey spinner once.\nCalculate the probability that both spinners show an odd number.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "04-0862-01-4rp-afp-tcm143-736389-p13-1": {
   "usable": true,
@@ -1027,7 +1069,8 @@
   "focus": "probability of two events together",
   "strand": "Statistics and Probability",
   "original": "Yuri has two fair 7-sided spinners each numbered 1 to 7\nOne spinner is white and the other spinner is grey.\n(b) Yuri spins the white spinner 140 times.\nCalculate how many times Yuri should expect to spin a number less than 3\n(c) Yuri spins the white spinner once and the grey spinner once.\nCalculate the probability that both spinners show an odd number.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "04-0862-01-4rp-afp-tcm143-736389-p16-0": {
   "usable": true,
@@ -1037,7 +1080,8 @@
   "focus": "area of a compound shape",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a rectangle.\n[THIS DIAGRAM]\nThe total area of the rectangle is 0.084 m2.\nWork out the value of x and the value of y.\nx =\ny =\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "04-0862-01-8rp-afp-tcm143-712734-p7-0": {
   "usable": true,
@@ -1047,7 +1091,8 @@
   "focus": "area of a compound shape",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a shape made from 6 congruent equilateral triangles and a regular hexagon.\nThe regular hexagon has an area of 140 cm2.\nCalculate the shaded area.\ncm2 [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-01-8rp-afp-tcm143-712734-p10-0": {
   "usable": true,
@@ -1057,7 +1102,8 @@
   "focus": "coordinates in four quadrants",
   "strand": "Algebra, Geometry and Measure",
   "original": "Point A lies on the y-axis and point B lies on the x-axis.\n[THIS DIAGRAM]\nM is the midpoint of AB.\nP is the midpoint of MB.\nFind the coordinates of point A and the coordinates of point B.\nA = (\n,\n)\nB = (\n,\n)\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-01-8rp-afp-tcm143-712734-p8-0": {
   "usable": false,
@@ -1077,7 +1123,8 @@
   "focus": "equivalent fractions",
   "strand": "Number",
   "original": "Rajiv says,\n[THIS DIAGRAM]\nFind a fraction with an odd denominator to show that Rajiv is not correct.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p2-0": {
   "usable": true,
@@ -1087,7 +1134,8 @@
   "focus": "properties of 3D shapes",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here is a prism made from five identical cubes.\nDraw a ring around the number of planes of symmetry this prism has.\n0 1 2 3",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p3-1": {
   "usable": false,
@@ -1107,7 +1155,8 @@
   "focus": "interpreting a bar chart described in words",
   "strand": "Statistics and Probability",
   "original": "The compound bar chart shows information about the favourite types of pizza chosen by a group of children and adults.\nEach person in the group chooses either meat or vegetarian.\n[THIS DIAGRAM]\nMike draws this table to show the data from the compound bar chart.\nMike has made some mistakes in his table.\nComplete the table correctly.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p10-0": {
   "usable": true,
@@ -1117,7 +1166,8 @@
   "focus": "probability of a single event",
   "strand": "Statistics and Probability",
   "original": "Hassan picks a letter at random from a book.\nThe letters in the book are vowels (A, E, I, O, U) or consonants.\nThe table shows the probabilities of Hassan picking some of the letters.\n[THIS DIAGRAM]\nThere are twice as many of the letter E in the book as there are of the letter I.\nFind the probability of Hassan picking a letter from the book that is a consonant.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p11-0": {
   "usable": true,
@@ -1127,7 +1177,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows shape ABCD on a grid.\nABCD is enlarged by scale factor 2, centre (5, 7) to A'B'C'D'.\nComplete the table to show the positions of vertices A', B', C' and D'.\nOne has been done for you.\nPositive y-coordinate\nNegative y-coordinate\nPositive x-coordinate\nB'\nNegative x-coordinate\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p13-0": {
   "usable": true,
@@ -1137,7 +1188,8 @@
   "focus": "volume and surface area of a cuboid",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a triangular prism.\nThe cross-section of the prism is a right-angled triangle.\n[THIS DIAGRAM]\nCalculate the area of the shaded face of the prism.\ncm2 [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "04-0862-02-8rp-afp-tcm143-712735-p3-2": {
   "usable": true,
@@ -1167,7 +1219,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "Yuri enlarges square ABCD by a scale factor of 2\n[THIS DIAGRAM]\nPoint A does not move when the square is enlarged.\nDraw a ring around the coordinates of the centre of enlargement.\n(0, 0) (2, 2) (2, 4) (4, 2) (4, 4)\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "04-0862-02-8rp-afp-tcm143-712735-p3-3": {
   "usable": true,
@@ -1177,7 +1230,8 @@
   "focus": "substituting into a formula",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here is a mapping diagram for the function y = 4x2\n[THIS DIAGRAM]\nComplete the mapping diagram with three different values.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-02-8rp-afp-tcm143-712735-p9-0": {
   "usable": true,
@@ -1187,7 +1241,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "Rajiv bisects an angle.\nHere is his construction.\nThere are arcs missing from his construction.\nConstruct the missing arcs accurately on the diagram.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "04-0862-02-8rp-afp-tcm143-712735-p11-1": {
   "usable": true,
@@ -1197,7 +1252,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here is a table of values for points that all lie on the same straight line.\n[THIS DIAGRAM]\nComplete the table.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-4rp-afp-tcm143-747537-p4-0": {
   "usable": false,
@@ -1217,7 +1273,8 @@
   "focus": "perimeter in a real context",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a garden in the shape of a hexagon.\nEva builds a fence along all 6 sides of the garden.\nThe fence costs $23 per metre.\nCalculate the total cost of the fence.\n$",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-4rp-afp-tcm143-747537-p4-1": {
   "usable": false,
@@ -1237,7 +1294,8 @@
   "focus": "angles in parallel lines",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows an isosceles triangle with its vertices on two parallel lines.\nFind the value of a.\na =\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-1-p15-0": {
   "usable": true,
@@ -1247,7 +1305,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a line drawn on a grid.\n[THIS DIAGRAM]\nFind the equation of the line.\nGive your answer in the form y = mx + c\ny =\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p2-0": {
   "usable": true,
@@ -1257,7 +1316,8 @@
   "focus": "direct proportion",
   "strand": "Number",
   "original": "The graph shows the cost of different masses of lemons.\nWork out the cost of 6 kg of lemons.\n$",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p6-0": {
   "usable": true,
@@ -1267,7 +1327,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a rectangle drawn on a grid.\nDraw the image of the rectangle after an enlargement, scale factor 3, centre (7, 4).\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p9-0": {
   "usable": true,
@@ -1277,7 +1338,8 @@
   "focus": "mode and modal class",
   "strand": "Statistics and Probability",
   "original": "Ten students each take a maths test and a science test.\nTheir results are shown in this back-to-back stem-and-leaf diagram.\n(a) Complete these sentences.\nThe lowest score in the science test is\n.\nThe highest score in the maths test is\n.\n[2]\n(b) Calculate the difference between the modal maths score and the modal science score.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-1-p4-0": {
   "usable": true,
@@ -1287,7 +1349,8 @@
   "focus": "scale and scale drawing",
   "strand": "Algebra, Geometry and Measure",
   "original": "The scale drawing shows the positions of towns A, B and C.\nscale: 1 cm represents 10 km\n(a) Rajiv says, ‘The bearing of B from C is 042°.’\nExplain why Rajiv is not correct.\n[1]\n(b) Complete these sentences with the correct values.\nThe bearing of town C from town A is\n° .\nIn real life, the distance from town A to town C is\nkm .\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-1-p8-0": {
   "usable": true,
@@ -1297,7 +1360,8 @@
   "focus": "median and range",
   "strand": "Statistics and Probability",
   "original": "Oliver records the number of passengers on some buses.\nThis back-to-back stem-and-leaf diagram shows the number of passengers on each of the eight buses in the town centre.\nHere are the number of passengers on the eight buses in the countryside.\n48 32 27 32 50 41 23 27\n(a) Complete the back-to-back stem-and-leaf diagram.\n(b) Complete the table.\ncountryside\ntown centre\nmedian\n32\nrange\n27",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-1-p11-0": {
   "usable": true,
@@ -1307,7 +1371,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows the graph of a straight line.\n[THIS DIAGRAM]\nFind the equation of the line.\nGive your answer in the form y = mx + c\ny =\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p12-1": {
   "usable": true,
@@ -1337,7 +1402,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "Some equations of straight lines have been placed in the Venn diagram.\nequations of straight lines\n[THIS DIAGRAM]\nWrite the equation y = 4x + 7 in the correct part of the Venn diagram.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-2-p5-0": {
   "usable": true,
@@ -1347,7 +1413,8 @@
   "focus": "direct proportion",
   "strand": "Number",
   "original": "The diagram shows a distance–time graph for a car journey.\n[THIS DIAGRAM]\nCalculate the speed of the car between 8 am and 10 am.\nGive your answer in km/h.\nkm/h [1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-2-p10-0": {
   "usable": true,
@@ -1357,7 +1424,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows two triangles, ABC and DEF.\nDescribe fully the single transformation that maps triangle ABC onto triangle DEF.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-2-p9-0": {
   "usable": true,
@@ -1367,7 +1435,8 @@
   "focus": "forming an equation from a description",
   "strand": "Algebra, Geometry and Measure",
   "original": "Yuri has two boxes containing counters.\n[THIS DIAGRAM]\nBox C contains fewer counters than box D.\nk is an integer.\nBy writing and solving an inequality in terms of k, find the greatest possible number of counters in box C.\n[4]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-2-p9-1": {
   "usable": false,
@@ -1387,7 +1456,8 @@
   "focus": "direct proportion",
   "strand": "Number",
   "original": "The graph shows the exchange rate between US dollars ($) and Japanese yen (¥).\nAngelique changes $40 into Japanese yen.\nCalculate how many Japanese yen Angelique receives.\n¥\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p4-1": {
   "usable": true,
@@ -1397,7 +1467,8 @@
   "focus": "mass and weight",
   "strand": "Physics",
   "original": "Blessy has a mass of 35 kg on Earth.\nShe uses the internet to find her mass and weight on different planets.\nBlessy writes her notes in a notebook.\n(a) Complete the table of results using her notes.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p2-0": {
   "usable": true,
@@ -1407,7 +1478,8 @@
   "focus": "food chains and food webs",
   "strand": "Biology",
   "original": "Look at the living things in this food web.\n[THIS DIAGRAM]\n(a) What do the arrows in the food web represent?\n[1]\n(b) Write down one food chain in this food web which contains five living things.\n[2]\n(c) A gardener sprays the grass with a toxic substance to kill weeds growing in the grass.\nSome of the hawks die.\nUse the food web to explain why.\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p4-0": {
   "usable": true,
@@ -1417,7 +1489,8 @@
   "focus": "mass and weight",
   "strand": "Physics",
   "original": "Blessy has a mass of 35 kg on Earth.\nShe uses the internet to find her mass and weight on different planets.\nBlessy writes her notes in a notebook.\n(a) Complete the table of results using her notes.\n(b) The mass on Venus and the mass on Mars are missing from her notes.\nComplete the sentences.\nThe mass on Venus is    kg and the mass on Mars is    kg.\nGravity is different on different planets.\nWhen gravity changes, the mass of Blessy    .\nWhen gravity changes, the weight of Blessy    .",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p11-0": {
   "usable": true,
@@ -1427,7 +1500,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Oliver investigates forces.\nHe uses this equipment.\n[THIS DIAGRAM]\ntable\n(a) Oliver puts a large mass on the spring at X.\nWrite down one thing Oliver does to make his investigation safe.\n[1]\n(b) Complete the sentences.\nWhen Oliver puts a large mass on the spring at X, the spring\n.\nThis happens because the large mass causes a\n.\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p7-0": {
   "usable": true,
@@ -1437,7 +1511,8 @@
   "focus": "fossils and the age of rocks",
   "strand": "Earth and Space",
   "original": "(b) Fossils are as old as the rocks surrounding them.\nThe deeper the rocks below the surface of the Earth, the older the rocks.\nLook at the diagram showing the depth of different fossils.\nbirds\nmammals\nreptiles\namphibians\nfish\nshelled\ninvertebrates\nincreasing depth\nof rock from the\nEarth’s surface\nComplete the sentences about the information in the diagram.\nThe oldest fossils are of\n.\nThe youngest fossils are of\n.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p13-0": {
   "usable": true,
@@ -1447,7 +1522,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "(b) Jamila now shows how a different type of rock is formed.\nShe takes the layers of chocolate out of the beaker.\nJamila rolls the chocolate in her warm hands and makes it into a ball.\n[THIS DIAGRAM]\nWhich word describes this process?\nCircle the correct answer.\nburial erosion metamorphism sedimentation\n[1]\n(c) Jamila wants to show how igneous rock is formed.\nDescribe two things she does to the ball of chocolate to show how igneous rock is formed.\n1\n2\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p12-0": {
   "usable": true,
@@ -1457,7 +1533,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Jamila investigates the rock cycle using chocolate.\n(a) She grates chocolate to show how one type of rock is formed.\n[THIS DIAGRAM]\nJamila:\n• grates large pieces of dark chocolate, milk chocolate and then white chocolate\n• adds layers of the small pieces of the different types of chocolate to a beaker\n• presses the layers of small pieces of chocolate together.\nWhich word describes the process when Jamila layers the different types of chocolate?\nCircle the correct answer.\nburial erosion metamorphism sedimentation [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p16-0": {
   "usable": true,
@@ -1467,7 +1544,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Mike uses secondary sources to find out about symbols in electrical circuits.\nWhich symbols are conventional electrical symbols?\nCircle the correct answer.\nA and B C and D E and F G and H\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p14-0": {
   "usable": true,
@@ -1477,7 +1555,8 @@
   "focus": "thermal and electrical conductors and insulators",
   "strand": "Physics",
   "original": "Gabriella investigates the electrical conductivity of some materials.\nThe diagram shows the equipment she uses.\nGabriella:\n• completes the circuit by touching the crocodile clips to the block of material\n• records if the lamp is on or off\n• repeats the investigation with different blocks of material.\nGabriella predicts all the materials conduct electricity.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-1-p18-0": {
   "usable": true,
@@ -1487,7 +1566,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "The diagram shows a ray of light just about to enter a glass block.\n(a) The ray of light enters the glass block.\nDraw the ray of light inside the glass block. [1]\n(b) Describe what happens to the ray of light as it moves from the air into the glass block. [1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p6-0": {
   "usable": true,
@@ -1497,7 +1577,8 @@
   "focus": "how soil forms",
   "strand": "Earth and Space",
   "original": "There are different types of soil.\n(a) Complete the sentence.\nSoils are classified based on their:\n• clay content\n• ____ content and\n• organic content.\n[1]\n(b) Aiko collects information about two different plants.\nLavender grows best in well-draining soil.\nHoneysuckle grows best in well-draining soil with lots of minerals.\nA well-draining soil lets water leave the soil quickly.\nAiko makes some predictions.\nTick the correct prediction.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p12-0": {
   "usable": true,
@@ -1507,7 +1588,8 @@
   "focus": "friction and air resistance",
   "strand": "Physics",
   "original": "This force diagram is a model.\n[THIS DIAGRAM]\nDescribe two ways this model is useful when describing the forces on a car.\n1\n2\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p13-1": {
   "usable": true,
@@ -1527,7 +1609,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Safia draws two electrical circuits.\n(b) The switches are in different positions in circuit A and circuit B.\nDescribe one other difference between circuit A and circuit B.\n[1]\n(c) The cells in each circuit are the same.\nThe lamps in each circuit are the same.\nCompare the brightness of the lamps in the two circuits.\nComplete the sentences.\nThe lamps in circuit A are\nthan the lamps in\ncircuit B.\nThe two lamps in circuit B are\nbrightness.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p17-0": {
   "usable": true,
@@ -1537,7 +1620,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Pierre is learning about the properties of light.\nHe draws a model to show one of the properties of light.\nWhich property of light is Pierre modelling?\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p14-1": {
   "usable": true,
@@ -1547,7 +1631,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Safia draws two electrical circuits.\n(a) Draw circuit A, using conventional electrical symbols.\n[3]\n(b) The switches are in different positions in circuit A and circuit B.\nDescribe one other difference between circuit A and circuit B.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p2-0": {
   "usable": true,
@@ -1557,7 +1642,8 @@
   "focus": "breathing and gas exchange",
   "strand": "Biology",
   "original": "Chimpanzees have similar organs to humans.\nLook at the respiratory system of the chimpanzee.\n(a) Write down the name of organ X.\n[1]\n(b) Which substance moves from organ X into the blood?\nTick () the correct answer.\ncarbon dioxide\nnutrients\noxygen\nwaste\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p4-1": {
   "usable": true,
@@ -1567,7 +1653,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "(c) Look at the diagram.\nIt shows a model of particles of a solid and particles of a liquid in a beaker.\n[ANOTHER DIAGRAM]\nparticles of\nthe solid\nYuri puts the solid in the beaker with the liquid.\nThe solid dissolves in the liquid.\nTick () the correct model of the particles when the solid dissolves in the liquid.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p2-0": {
   "usable": true,
@@ -1577,7 +1664,8 @@
   "focus": "breathing and gas exchange",
   "strand": "Biology",
   "original": "The human body contains different organ systems.\nThe diagram shows one organ system inside the human body.\n[THIS DIAGRAM]\n(a) Circle the name of this organ system.\ncirculatory\ndigestive\nrespiratory\nreproductive\n[1]\n(b) Complete the sentence to describe what happens inside organ X.\nInside organ X\nmoves from the air\ninto the\n.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p4-2": {
   "usable": true,
@@ -1587,7 +1675,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "(c) Look at the diagram.\nIt shows a model of particles of a solid and particles of a liquid in a beaker.\n[ANOTHER DIAGRAM]\nparticles of\nthe solid\nYuri puts the solid in the beaker with the liquid.\nThe solid dissolves in the liquid.\nTick () the correct model of the particles when the solid dissolves in the\nliquid.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p4-3": {
   "usable": true,
@@ -1597,7 +1686,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "(c) Look at the diagram.\nIt shows a model of particles of a solid and particles of a liquid in a beaker.\n[ANOTHER DIAGRAM]\nparticles of\nthe solid\nYuri puts the solid in the beaker with the liquid.\nThe solid dissolves in the liquid.\nTick () the correct model of the particles when the solid dissolves in the\nliquid.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p4-4": {
   "usable": true,
@@ -1607,7 +1697,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "(c) Look at the diagram.\nIt shows a model of particles of a solid and particles of a liquid in a beaker.\n[ANOTHER DIAGRAM]\nparticles of\nthe solid\nYuri puts the solid in the beaker with the liquid.\nThe solid dissolves in the liquid.\nTick () the correct model of the particles when the solid dissolves in the\nliquid.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p13-0": {
   "usable": true,
@@ -1617,7 +1708,8 @@
   "focus": "the particle model of solids, liquids and gases",
   "strand": "Chemistry",
   "original": "(c) Look at the diagram of the particle model for a gas.\nThe circles represent gas particles in a closed box.\n[THIS DIAGRAM]\nThe sides of the box are pressed together.\nPredict what happens to the gas particles when the sides of the box are pressed together.\nExplain why the gas particles are able to do this.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p9-0": {
   "usable": true,
@@ -1627,7 +1719,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Aiko uses electrical symbols to draw a circuit.\n(a) This circuit is not a single continuous circuit.\nThis circuit has branches in it.\nDescribe this circuit.\nInclude:\n•\nthe name of this type of circuit\n•\nthe names of all the components in the circuit.\n[2]\n(b) Draw the same components in a single continuous circuit.\nUse electrical symbols.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p16-0": {
   "usable": true,
@@ -1637,7 +1730,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "The rock cycle describes the formation of different types of rock.\nLook at part of the rock cycle.\n[THIS DIAGRAM]\nComplete the sentences.\nChoose words from the list.\nerosion fossils heat melting pressure\nsedimentation solidification\nSedimentary rock changes to metamorphic rock because of heat and\n.\nThe metamorphic rock is broken into small pieces and transported by\n.\nThe small pieces of rock are deposited in a lake and form new sedimentary rock\nby\n.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p3-0": {
   "usable": true,
@@ -1647,7 +1741,8 @@
   "focus": "food chains and food webs",
   "strand": "Biology",
   "original": "The diagram shows part of a food web.\n[THIS DIAGRAM]\nThis food web contains food chains.\n(a) How many consumers are in this food web?\n[1]\n(b) Write down the name of an animal that is both a predator and a prey.\n[1]\n(c) Complete the food chain that includes four living things.\n→\n→\n→ walrus\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p19-0": {
   "usable": true,
@@ -1657,7 +1752,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "A ball is thrown towards a baseball player.\n[THIS DIAGRAM]\nThe baseball player hits the ball.\nDescribe two things that happen to the ball.\n1\n2\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p7-0": {
   "usable": true,
@@ -1667,7 +1763,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "Gabriella investigates how eggs float in water and in different salt solutions.\nShe:\n•\nputs an egg in water\n•\nlooks at the position of the egg in the water\n•\nrepeats the experiment using different masses of salt dissolved in the\nwater.\n(b) Look at her results.\n[THIS DIAGRAM]\nComplete the table to record the observations.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p8-0": {
   "usable": true,
@@ -1677,7 +1774,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "Class 6 make a model to show the phases of the Moon.\nThe teacher holds the model and Angelique puts her head inside the model.\n[THIS DIAGRAM]\nAngelique looks at the Moon in the first quarter.\n(a) Which part of the Solar System is Angelique in this model?\n[1]\n(b) What does Angelique do to see the other Moons in this model?\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p13-0": {
   "usable": true,
@@ -1687,7 +1785,8 @@
   "focus": "how soil forms",
   "strand": "Earth and Space",
   "original": "Yuri draws a diagram of two different types of soil.\nThe arrows ( ) show the direction of water movement.\nsoil A\nsoil B\n(a) Describe how water moves in soil A and in soil B.\nsoil A\nsoil B\n[1]\n(b) Suggest why plants grow better in soil A.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p12-0": {
   "usable": true,
@@ -1697,7 +1796,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Mike holds a mirror against his face.\nLook at the picture.\n(a) Complete the sentence.\nThere is a face in the mirror because the\nin the room is\nfrom the mirror.\n[2]\n(b) Mike only sees a small part of his face in the mirror.\nDescribe what Mike does to see exactly half of his face in the mirror.\n[1]\n(c) Describe how Mike makes his face appear clearer in the mirror.\nCircle two correct answers.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p10-0": {
   "usable": true,
@@ -1707,7 +1807,8 @@
   "focus": "reactants, products and the signs of a chemical reaction",
   "strand": "Chemistry",
   "original": "Lily investigates chemical reactions.\nLook at the diagram of her equipment.\nLily adds liquid A from the test-tube into liquid B in the beaker.\nA chemical reaction happens.\n(a) Complete the sentences about the chemical reaction using words from the list.\nEach word can be used once, more than once or not at all.\nproduct reactant solid temperature\nLiquid A is a\n.\nLiquid B is a\n.\nA new liquid substance forms when liquid A and liquid B are added together.\nThe new substance is a\n.\n[2]\n(b) Lily knows there is a chemical reaction because she observes bubbles.\nWrite down what is produced to make bubbles.\n[1]\n(c) Write down two other observations that show a chemical reaction happens.\n1\n2\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p13-1": {
   "usable": false,
@@ -1727,7 +1828,8 @@
   "focus": "the circulatory system",
   "strand": "Biology",
   "original": "The heart is an organ.\n(a) Look at the diagram of the human body.\n[THIS DIAGRAM]\nWhich letter on the diagram of the human body shows the heart?\nCircle the correct answer.\nA B C D E\n[1]\n(b) The heart pumps blood around the body.\nName two substances the blood transports.\n1\n2\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p17-0": {
   "usable": true,
@@ -1737,7 +1839,8 @@
   "focus": "weathering and erosion",
   "strand": "Earth and Space",
   "original": "Priya investigates the rock cycle.\n(a) She uses four sugar cubes to show how sediment forms from rocks.\nLook at the diagrams.\nbefore\nafter\nWhat does Priya do to the sugar cubes to show how sediment forms?\n(b) Priya wants to show how water causes erosion of rocks.\nShe pours water on the sugar cubes.\nDescribe what happens.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p17-1": {
   "usable": true,
@@ -1747,7 +1850,8 @@
   "focus": "weathering and erosion",
   "strand": "Earth and Space",
   "original": "Priya investigates the rock cycle.\n(a) She uses four sugar cubes to show how sediment forms from rocks.\nLook at the diagrams.\nbefore\nafter\nWhat does Priya do to the sugar cubes to show how sediment forms?\n[1]\n(b) Priya wants to show how water causes erosion of rocks.\nShe pours water on the sugar cubes.\nDescribe what happens.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p2-0": {
   "usable": true,
@@ -1757,7 +1861,8 @@
   "focus": "the circulatory system",
   "strand": "Biology",
   "original": "Look at the model of the human circulatory system.\nThe arrows show the direction the blood flows.\n[THIS DIAGRAM]\n(a) Arteries transport blood away from the heart.\nWhich two blood vessels A, B, C or D are arteries?\nand\n[1]\n(b) Arteries are one type of blood vessel.\nWrite down the two other types of blood vessel.\n(c) Write down two substances blood transports.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p3-0": {
   "usable": true,
@@ -1767,7 +1872,8 @@
   "focus": "changes of state",
   "strand": "Chemistry",
   "original": "Mia collects information about different substances.\n[THIS DIAGRAM]\n(a) Complete the table.\nmelting point in °C | substance\nwater 0 100\nparaffin 52\nsand 1550\nsilver [2]\n(b) Complete the sentence.\nChoose from the list: chemical reaction, product, property, reactant\nThe temperature at which a substance changes state is a ____ of the substance. [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p4-0": {
   "usable": true,
@@ -1777,7 +1883,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Anastasia investigates light.\nShe:\n• shines a ray of light towards a plane mirror\n• records the values of angle A and angle B.\n[THIS DIAGRAM]\nAnastasia repeats her investigation for different angles.\nThese are her results.\nangle A in degrees: 10, 30, 40, 50, 70, 80\nangle B in degrees: 10, 30, 40, 50, 70, 80",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p8-0": {
   "usable": true,
@@ -1787,7 +1894,8 @@
   "focus": "the changes of puberty",
   "strand": "Biology",
   "original": "The graph shows the average growth of girls and boys every year between birth and age 17.\n[THIS DIAGRAM]\n(a) Boys and girls both have a sudden increase in growth.\nUse the graph to complete the sentence.\nBoys have a sudden increase in growth between age\nyears\nand age\nyears.\n[1]\n(b) The graph shows boys and girls both have a sudden increase in growth.\nUse the graph to write down one other similarity about their growth.\n[1]\n(c) What causes the sudden increase in growth in boys and girls?\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p10-0": {
   "usable": true,
@@ -1797,7 +1905,8 @@
   "focus": "thermal and electrical conductors and insulators",
   "strand": "Physics",
   "original": "Blessy investigates a property of spoons made of different materials.\nShe:\n• covers the top of four different spoons with butter\n• puts the four different spoons in boiling water.\nEach spoon A, B, C and D is made of a different material.\nFor each spoon, Blessy measures the time it takes for the butter to melt and drip into the water.\n(a) This is a fair test investigation.\nComplete the sentences.\nA control variable is the size of the spoons.\nThe independent variable is\n.\nThe dependent variable is\n.\n[1]\n(b) Which property of the spoons is Blessy investigating?",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p7-1": {
   "usable": false,
@@ -1817,7 +1926,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Aiko puts three metal objects onto the surface of water.\nThe objects are made from the same metal.\nThe mass of each object is shown.\n[THIS DIAGRAM]\nTwo of the objects sink and one object floats.\nExplain why this object floats.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p16-0": {
   "usable": true,
@@ -1827,7 +1937,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "The diagram shows an electrical circuit drawn using symbols.\n[THIS DIAGRAM]\n(a) Complete the diagram to show the names of the symbols.\nOne has been done for you.\n[2]\n(b) The switch in the diagram is an open switch.\nDraw the symbol for a closed switch.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p17-1": {
   "usable": true,
@@ -1837,7 +1948,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Describe how granite is formed.\n(b) Shale is a sedimentary rock.\nDescribe how shale is formed.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p2-0": {
   "usable": true,
@@ -1847,7 +1959,8 @@
   "focus": "microorganisms and disease",
   "strand": "Biology",
   "original": "Oliver eats food containing bacteria.\nThis gives him food poisoning and makes him feel ill.\n(a) Which statements describe ways to stop Oliver getting food poisoning again?\nTick two correct boxes.\n(b) What does Oliver have in his stomach that kills bacteria?\n(c) Bacteria cause disease.\nWrite down two other types of living things that cause disease.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p4-0": {
   "usable": true,
@@ -1857,7 +1970,8 @@
   "focus": "identifying a risk and reducing it",
   "strand": "Thinking and Working Scientifically",
   "original": "(b) Blessy pours the water into a beaker.\nShe heats the water in the beaker.\nLook at the diagram Blessy uses to heat the water.\n[THIS DIAGRAM]\nWrite down one safety risk for this experiment.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p8-1": {
   "usable": false,
@@ -1877,7 +1991,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Yuri makes a model of the rock cycle.\nHe uses chocolate in his model.\n[THIS DIAGRAM]\nComplete the names of the three different types of rock in the table.\nletter\ndescription\nA\nthe chocolate is heated and squashed together\nB\nrock\nC\nthe chocolate is melted\nD\nthe chocolate is cooled\nE\nrock\nF\nsmall pieces of chocolate model sediments\nG\nrock\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p20-0": {
   "usable": true,
@@ -1887,7 +2002,8 @@
   "focus": "fossils and the age of rocks",
   "strand": "Earth and Space",
   "original": "Look at the picture of Chen holding an object.\nComplete the sentences.\nThe object forms when small pieces of sediment\na\ndead animal.\nThe soft parts of the dead animal decompose and minerals replace the hard shell.\nThe object Chen is holding is a\n.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p2-0": {
   "usable": true,
@@ -1897,7 +2013,8 @@
   "focus": "breathing and gas exchange",
   "strand": "Biology",
   "original": "Look at the model of human lungs.\n(a) Complete the sentences about the lungs.\nThe lungs are part of the human\nsystem.\nInside the lungs a gas moves out of the air into the blood.\nThe name of this gas is\n.\n[2]\n(b) The lungs contain mucus.\nExplain why the lungs contain mucus.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p3-0": {
   "usable": true,
@@ -1907,7 +2024,8 @@
   "focus": "the particle model of solids, liquids and gases",
   "strand": "Chemistry",
   "original": "(b) The diagram shows the particles of a gas in a container with a lid.\n[THIS DIAGRAM]\nThe lid of the container is pushed downwards.\nComplete the diagram to show what happens to the particles of the gas.\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p9-0": {
   "usable": true,
@@ -1917,7 +2035,8 @@
   "focus": "the circulatory system",
   "strand": "Biology",
   "original": "The diagram shows part of an organ system in the human body.\n(a) Complete the sentences.\nThis organ system is the\nsystem.\nThe function of the organ labelled X is to\n.\n[2]\n(b) An artery is one type of blood vessel.\nName the type of blood vessel labelled Y.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p6-1": {
   "usable": true,
@@ -1927,7 +2046,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "The Moon has different phases.\nA\nB\nC\nD\nE\nF\nG\nH\n(a) Circle the name of phase B.\nfull moon new moon waning gibbous waxing crescent\n[1]\n(b) Complete the boxes to show the correct order of the phases of the Moon.\n…..  …..  …..\nA\nF\nC\nH\nD\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p6-0": {
   "usable": true,
@@ -1937,7 +2057,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "The Moon has different phases.\nA\nB\nC\nD\nE\nF\nG\nH\n(a) Circle the name of phase B.\nfull moon new moon waning gibbous waxing crescent\n[1]\n(b) Complete the boxes to show the correct order of the phases of the Moon.\n…..  …..  …..\nA\nF\nC\nH\nD\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p6-2": {
   "usable": true,
@@ -1947,7 +2068,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "The Moon has different phases.\nA B C D E F G H\n(a) Circle the name of phase B.\nfull moon new moon waning gibbous waxing crescent\n[1]\n(b) Complete the boxes to show the correct order of the phases of the Moon.\n….. ….. …..\nA F C H D\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p6-3": {
   "usable": true,
@@ -1957,7 +2079,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "The Moon has different phases.\nA\nB\nC\nD\nE\nF\nG\nH\n(a) Circle the name of phase B.\nfull moon new moon waning gibbous waxing crescent\n[1]\n(b) Complete the boxes to show the correct order of the phases of the Moon.\n…..  …..  …..\nA\nF\nC\nH\nD\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p7-0": {
   "usable": true,
@@ -1967,7 +2090,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Anastasia puts three eggs into beakers of water.\n(b) The eggs float or sink because they have different masses.\nWrite down one other thing that makes objects float or sink.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p7-1": {
   "usable": true,
@@ -1977,7 +2101,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Anastasia puts three eggs into beakers of water.\n(b) The eggs float or sink because they have different masses.\nWrite down one other thing that makes objects float or sink.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p7-2": {
   "usable": true,
@@ -1987,7 +2112,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Anastasia puts three eggs into beakers of water.\n(b) The eggs float or sink because they have different masses.\nWrite down one other thing that makes objects float or sink.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p8-0": {
   "usable": true,
@@ -1997,7 +2123,8 @@
   "focus": "reversible and irreversible changes",
   "strand": "Chemistry",
   "original": "Mike draws some pictures.\nTick () the picture that shows a physical change.\n[THIS DIAGRAM]\n[ANOTHER DIAGRAM]\ndecaying fruit\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p14-0": {
   "usable": true,
@@ -2007,7 +2134,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "The diagram shows a beaker of water and a spatula holding a coloured solid.\n[THIS DIAGRAM]\nAhmed adds the coloured solid to a beaker of water.\nThe solid disappears and the water changes colour.\n(a) Write down the name of this process.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p12-0": {
   "usable": true,
@@ -2017,7 +2145,8 @@
   "focus": "food chains and food webs",
   "strand": "Biology",
   "original": "The picture shows a food web.\n(a) Write down one food chain from this food web.\nInclude:\n• the koala\n• two other living things.\n[1]\n(b) Circle two words that describe the kangaroo in this food web.\ncarnivore consumer herbivore\nomnivore predator producer\n[2]\n(c) Write down the name of the energy source for this food web.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p8-1": {
   "usable": true,
@@ -2027,7 +2156,8 @@
   "focus": "changes of state",
   "strand": "Chemistry",
   "original": "Mike draws some pictures.\nTick () the picture that shows a physical change.\n[THIS DIAGRAM]\ndecaying fruit\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p9-0": {
   "usable": true,
@@ -2037,7 +2167,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "An archerfish looks at an insect on a branch.\nLook at the ray diagram.\n[THIS DIAGRAM]\nWhen the archerfish looks from the water to the air:\n• the insect appears to be at A\n• the insect is really at B.\nExplain why.\nUse ideas about properties of light rays.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p18-0": {
   "usable": true,
@@ -2047,7 +2178,8 @@
   "focus": "changes of state",
   "strand": "Chemistry",
   "original": "This question is about evaporation and boiling.\n(a) Complete the sentences.\nChoose from the list.\nfaster higher lower slower warmer\nEvaporation is\nthan boiling.\nEvaporation happens at\ntemperatures than the\nboiling point.\n[2]\n(b) Youssef heats some water.\nThe diagram shows what happens.\nWrite down two reasons why Youssef knows the water is boiling.\n1\n2\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p3-0": {
   "usable": true,
@@ -2057,7 +2189,8 @@
   "focus": "changes of state",
   "strand": "Chemistry",
   "original": "Chen draws a particle model to show evaporation and boiling.\nevaporation\nboiling\n(a) Evaporation only happens at the surface of a liquid.\nDescribe how the particle model shows evaporation only happens at the surface of a liquid.\n[1]\n(b) Evaporation only happens at the surface of a liquid.\nBoiling happens throughout a liquid.\nDescribe how the particle model shows one other difference between evaporation and boiling.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p3-1": {
   "usable": false,
@@ -2077,7 +2210,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Oliver uses a snooker table to model some properties of light.\n(a) Oliver hits the ball with the cue.\nThe ball moves in a straight line towards the cushion.\nComplete the diagram below to show what happens after the ball hits the cushion.\n[1]\n(b) The model shows that light travels in straight lines.\nWhich other property of light does the model show when the ball hits the cushion?\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p4-1": {
   "usable": true,
@@ -2087,7 +2221,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Oliver uses a snooker table to model some properties of light.\n(a) Oliver hits the ball with the cue.\nThe ball moves in a straight line towards the cushion.\nComplete the diagram below to show what happens after the ball hits the\ncushion.\n[1]\n(b) The model shows that light travels in straight lines.\nWhich other property of light does the model show when the ball hits the\ncushion?\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p8-0": {
   "usable": true,
@@ -2097,7 +2232,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Look at the diagram of the rock cycle.\n[THIS DIAGRAM]\nheat and pressure\nComplete the diagram by writing in the names of the three types of rock.\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p17-0": {
   "usable": false,
@@ -2117,7 +2253,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Safia makes this electrical circuit.\n[THIS DIAGRAM]\n(a) (i) She measures the voltage across the lamp using a voltmeter.\nComplete the circuit diagram to show the correct position of the voltmeter to\nmeasure the voltage across the lamp.\nUse the correct standard conventional electrical symbol.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p10-1": {
   "usable": true,
@@ -2127,7 +2264,8 @@
   "focus": "current, voltage and resistance",
   "strand": "Physics",
   "original": "(ii) Look at the diagram of the ammeter.\n[THIS DIAGRAM]\nWhat is the reading shown on the ammeter?\nA [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p15-0": {
   "usable": true,
@@ -2137,7 +2275,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "The diagram shows a ray of light travelling in air.\nThe ray of light is travelling towards a glass block.\nThere is a protractor against the surface of the block.\n(a) Write down the value of angle A.\n° [1]\n(b) Draw the ray of light as it passes through the glass block.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p12-0": {
   "usable": true,
@@ -2147,7 +2286,8 @@
   "focus": "combustion",
   "strand": "Chemistry",
   "original": "The diagram shows the carbon cycle.\n[THIS DIAGRAM]\nWrite down the name of the processes shown by arrows A and F.\nA\nF\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p14-0": {
   "usable": true,
@@ -2157,7 +2297,8 @@
   "focus": "how sound travels",
   "strand": "Physics",
   "original": "Jamila investigates the loudness of sound at different distances from a sound source.\nJamila:\n• switches on the sound source\n• measures and records the waveform at different distances from the sound source.\nLook at her results.\n[THIS DIAGRAM]\n(a) Describe how the loudness of the sound changes as the distance from the sound source changes.\nExplain your answer.\nUse information from the waveform in the table.\ndescription\nexplanation\n[2]\n(b) Describe how Jamila makes her results more reliable.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p3-0": {
   "usable": true,
@@ -2167,7 +2308,8 @@
   "focus": "atomic structure",
   "strand": "Chemistry",
   "original": "Chlorine is an element in Group 7 of the Periodic Table.\nChlorine forms a molecule with a covalent bond.\nLook at the model of a molecule of chlorine.\n[THIS DIAGRAM]\n(a) What do the crosses and dots represent in this model?\n[1]\n(b) Explain why bromine forms a molecule with a similar structure to chlorine.\nUse ideas about the Periodic Table.\n[1]\n(c) Look at the symbol for a particle.\nCl –\nExplain how this particle is made from a chlorine atom.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p2-0": {
   "usable": true,
@@ -2177,7 +2319,8 @@
   "focus": "separating mixtures",
   "strand": "Chemistry",
   "original": "Look at this model of the human excretory (renal) system.\n[THIS DIAGRAM]\n(a) (i) What organ does X represent?\nX\n[1]\n(ii) Name the liquid excreted by the renal system.\n[1]\n(b) Describe one strength and one limitation of this model.\nstrength\nlimitation\n[2]\n(c) Suggest one reason why scientific models change over time.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p8-1": {
   "usable": true,
@@ -2187,7 +2330,8 @@
   "focus": "reading a results table described in words",
   "strand": "Thinking and Working Scientifically",
   "original": "Rajiv investigates the density of three different blocks of metal.\n(a) Rajiv records data for the height, length and width of the three blocks of metal.\n[THIS DIAGRAM]\nWrite this data in a suitable results table.\nInclude the headings in your table.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p11-1": {
   "usable": false,
@@ -2207,7 +2351,8 @@
   "focus": "the periodic table",
   "strand": "Chemistry",
   "original": "Group 1 elements in the Periodic Table are metals.\n(a) Look at the table showing the melting points of some Group 1 elements.\n[THIS DIAGRAM]\nPredict the melting point of sodium.\n°C\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p13-0": {
   "usable": true,
@@ -2217,7 +2362,8 @@
   "focus": "variation and inheritance",
   "strand": "Biology",
   "original": "The diagram shows the variation in a group of puffins.\nThese variations cause different characteristics.\nVariation is caused by:\n•\ngenes\n•\nthe environment\n•\na combination of genes and the environment.\n(a) Write down one characteristic shown in the diagram that is determined only by genes.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p4-0": {
   "usable": true,
@@ -2227,7 +2373,8 @@
   "focus": "conduction, convection and radiation",
   "strand": "Physics",
   "original": "Aiko investigates conduction.\nAiko:\n• attaches a pin (tack) to four different metal rods with wax\n• assembles the equipment shown in the diagram\n[THIS DIAGRAM]\n• heats one end of the metal rods\n• measures the time it takes for the wax to melt and the pin (tack) to fall from each metal\n• records these times in a table.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p15-2": {
   "usable": true,
@@ -2267,7 +2414,8 @@
   "focus": "how sound travels",
   "strand": "Physics",
   "original": "(b) Sound waves interact with each other by cancelling out or reinforcing.\n(i) Wave G has the waveform G.\nWave H completely cancels wave G.\nDraw waveform H on the blank grid.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p17-0": {
   "usable": true,
@@ -2277,7 +2425,8 @@
   "focus": "how sound travels",
   "strand": "Physics",
   "original": "(ii) Wave J has the waveform J.\nWave K completely reinforces wave J.\nDraw waveform K on the blank grid.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p4-0": {
   "usable": true,
@@ -2287,7 +2436,8 @@
   "focus": "conduction, convection and radiation",
   "strand": "Physics",
   "original": "This question is about the transfer of thermal energy.\nThe diagram shows a Bunsen burner heating a solid object at one end.\nConduction transfers thermal energy through a solid object.\nComplete these sentences about conduction.\nThe Bunsen burner heats one end of the solid object.\nThe particles in the object gain energy and more.\nThe particles with nearby particles.\nThis passes the energy from the end of the object to the end of the object.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p15-5": {
   "usable": false,
@@ -2307,7 +2457,8 @@
   "focus": "conduction, convection and radiation",
   "strand": "Physics",
   "original": "Mia uses a model to show how tectonic plates move.\nMia:\n• floats two pieces of wood on cooking oil in a dish\n• places a candle below the dish\n• lights the candle.\nLook at the assembled equipment.\n[THIS DIAGRAM]\nExplain why the two pieces of wood move apart.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p5-2": {
   "usable": false,
@@ -2337,7 +2488,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Yuri makes an electrical circuit.\n[THIS DIAGRAM]\n(a) Yuri puts one cell in the gap in his circuit.\nDraw the standard conventional symbol for a cell in the gap in his circuit. [1]\n(b) The reading on ammeter A1 is 0.55 A.\nState the reading on ammeter A2.\n(c) Yuri measures the voltage across the lamp.\nDraw the position of a voltmeter on his electrical circuit to measure the voltage across the lamp.\nUse the correct standard conventional symbol for a voltmeter. [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p9-2": {
   "usable": false,
@@ -2367,7 +2519,8 @@
   "focus": "how sound travels",
   "strand": "Physics",
   "original": "Oliver looks at two different sound waveforms.\n[THIS DIAGRAM]\nsound waveform A\n(a) Look at sound waveform A.\nWhich feature remains the same and which feature changes in waveform A?\nremains the same\nchanges\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p10-1": {
   "usable": false,
@@ -2387,7 +2540,8 @@
   "focus": "elements, compounds and mixtures",
   "strand": "Chemistry",
   "original": "Look at the diagram of the structure of sodium chloride.\n[THIS DIAGRAM]\n(a) What is the name given to the charged particles in this structure?\n[1]\n(b) What is the type of bonding in sodium chloride?\nExplain how you can tell.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p6-0": {
   "usable": true,
@@ -2397,7 +2551,8 @@
   "focus": "fossils and the age of rocks",
   "strand": "Earth and Space",
   "original": "During the history of the Earth there have been several mass extinctions.\nThe graph shows when these mass extinctions happened.\n[THIS DIAGRAM]\nmillions of years ago\npresent day\n(a) (i) Which mass extinction had the highest percentage of species that became extinct?\nChoose from, A, B, C, D or E.\n[1]\n(ii) Complete the sentence.\nDuring the mass extinction of 450 million years ago\n% of\nspecies became extinct.\n[1]\n(b) Mass extinction B mostly affected species living in the sea.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p10-0": {
   "usable": true,
@@ -2407,7 +2562,8 @@
   "focus": "earthquakes and volcanoes",
   "strand": "Earth and Space",
   "original": "The Earth’s crust is made up of tectonic plates.\nkey\n[THIS DIAGRAM]\nThe tectonic plates move very slowly.\n(a) Describe why the tectonic plates move.\n[2]\n(b) Describe what happens when two tectonic plates collide.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p11-0": {
   "usable": true,
@@ -2417,7 +2573,8 @@
   "focus": "photosynthesis",
   "strand": "Biology",
   "original": "(b) In a green leaf water reacts with carbon dioxide in the presence of light to produce glucose.\n(i) What is the name of this process?\n(ii) The diagram shows a palisade cell.\nName the structure in the palisade cell where this process takes place.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p2-0": {
   "usable": true,
@@ -2427,7 +2584,8 @@
   "focus": "the human digestive system",
   "strand": "Biology",
   "original": "The diagram shows one organ system in the human body.\n[THIS DIAGRAM]\n(a) Circle the name of the organ system shown in the diagram.\ncirculatory excretory reproductive respiratory\n[1]\n(b) Write down the function of the organ X.\n[1]\n(c) Write down the name and function of organ Y.\nname\nfunction\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p12-0": {
   "usable": true,
@@ -2437,7 +2595,8 @@
   "focus": "what changes the rate of a reaction",
   "strand": "Chemistry",
   "original": "Safia investigates the reaction between calcium carbonate and dilute hydrochloric acid.\nCarbon dioxide gas is made and collected.\nThe total volume of carbon dioxide is measured every minute.\nThe diagram shows part of the equipment she uses.\n(a) Complete the diagram to show how Safia collects and measures the volume of carbon dioxide made.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p5-0": {
   "usable": true,
@@ -2447,7 +2606,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Force diagrams show the size and direction of different forces.\n(a) A box is on a table.\n[THIS DIAGRAM]\nDescribe the effect these two forces have on the box.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p7-0": {
   "usable": true,
@@ -2457,7 +2617,8 @@
   "focus": "reading a results table described in words",
   "strand": "Thinking and Working Scientifically",
   "original": "(b) Carlos writes his results in a notebook.\nLook at his results.\n[THIS DIAGRAM]\nComplete his table of results.\ntime taken for the metal ball to drop off the spoon\nmetal spoon\nin seconds\naluminium\nbrass\ncopper\niron\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p8-0": {
   "usable": true,
@@ -2467,7 +2628,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Safia draws part of the rock cycle.\n(a) Look at the diagram that shows the formation of sedimentary rock.\n[THIS DIAGRAM]\nComplete the label on the diagram to name the process that forms\nsedimentary rock.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p8-1": {
   "usable": true,
@@ -2477,7 +2639,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Safia draws part of the rock cycle.\n(b) Look at the diagram that shows the formation of igneous rock.\n[THIS DIAGRAM]\nComplete the label on the diagram to name the process that forms igneous rock.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p16-0": {
   "usable": true,
@@ -2487,7 +2650,8 @@
   "focus": "adaptation to a habitat",
   "strand": "Biology",
   "original": "Look at the picture of a small mammal.\nThe mammal only lived on a small island.\n[ANOTHER DIAGRAM]\n2\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p9-0": {
   "usable": true,
@@ -2497,7 +2661,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "(c) Look at the diagram.\n[THIS DIAGRAM]\nWrite down the type of rock being formed in the diagram.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p8-0": {
   "usable": true,
@@ -2507,7 +2672,8 @@
   "focus": "identifying the control variables",
   "strand": "Thinking and Working Scientifically",
   "original": "Carlos and Mike investigate which material is best at reducing thermal energy transfer by conduction.\nLook at their assembled equipment.\n[THIS DIAGRAM]\nThey measure the change in temperature of the water after 5 minutes.\nThey do the experiment five times.\nEach time they use a different material around the container.\nThey use the same volume of boiling water in each experiment.\n(a) Write down one other variable they must control in their investigation.\n(c) Carlos writes a risk assessment for the investigation.\nSuggest one safety risk.\nUse information from the diagram.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p12-0": {
   "usable": true,
@@ -2517,7 +2683,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "(b) Look at the diagrams.\nA\nB\nC\nD\nWhich letter shows the phase of the Moon on 27 May?\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p12-2": {
   "usable": true,
@@ -2527,7 +2694,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "Priya collects information about the phases of the Moon.\npercentage % of\ndate\nMoon visible\n27 April\n50\n4 May\n0\n11 May\n50\n19 May\n100\n27 May\n50\n3 June\n0\n(a) Name the phase of the Moon when 100% of the Moon is visible.\n[1]\n(b) Look at the diagrams.\nA\nB\nC\nD\nWhich letter shows the phase of the Moon on 27 May?\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p12-3": {
   "usable": true,
@@ -2537,7 +2705,8 @@
   "focus": "the phases of the Moon",
   "strand": "Earth and Space",
   "original": "Priya collects information about the phases of the Moon.\npercentage % of\ndate\nMoon visible\n27 April\n50\n4 May\n0\n11 May\n50\n19 May\n100\n27 May\n50\n3 June\n0\n(b) Look at the diagrams.\nA\nB\nC\nD\nWhich letter shows the phase of the Moon on 27 May?\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p6-0": {
   "usable": true,
@@ -2547,7 +2716,8 @@
   "focus": "thermal and electrical conductors and insulators",
   "strand": "Physics",
   "original": "Carlos investigates thermal conductivity.\nLook at the diagram of his experiment.\nCarlos records the time it takes for each metal ball to fall off each spoon.\n(a) Write down two variables Carlos keeps the same to make his experiment fair.\n1\n2\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p13-0": {
   "usable": true,
@@ -2557,7 +2727,8 @@
   "focus": "food chains and food webs",
   "strand": "Biology",
   "original": "The diagram shows a food web in a grassland habitat.\n[THIS DIAGRAM]\n(a) Write down one complete food chain from this food web that contains the warthog.\n[1]\n(b) The star grass plants die because there is not enough rain.\nUse the food web to suggest why the impala survives when the star grass plants die.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p12-1": {
   "usable": false,
@@ -2577,7 +2748,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Jamila investigates a property of light.\nLook at her ray diagram.\n[THIS DIAGRAM]\n(a) Which property of light is Jamila investigating?\n[1]\n(b) Which equipment does Jamila use to make the ray of light?\nCircle the correct diagram.\n[1]\n(c) Which equipment does Jamila use to measure A and B?\nCircle the correct diagram.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p14-2": {
   "usable": false,
@@ -2597,7 +2769,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Jamila investigates a property of light.\nLook at her ray diagram.\n(b) Which equipment does Jamila use to make the ray of light?\nCircle the correct diagram.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p14-4": {
   "usable": true,
@@ -2607,7 +2780,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "(c) Which equipment does Jamila use to measure A and B?\nCircle the correct diagram.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p14-3": {
   "usable": true,
@@ -2617,7 +2791,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "(c) Which equipment does Jamila use to measure A and B?\nCircle the correct diagram.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p2-1": {
   "usable": true,
@@ -2627,7 +2802,8 @@
   "focus": "cell structure and function",
   "strand": "Biology",
   "original": "Plants make their own food by photosynthesis.\nLook at the picture of a plant cell.\n(b) Write down the name of the cell structure where photosynthesis takes place.\n[1]\n(c) Complete the word equation for photosynthesis.\ncarbon dioxide",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p7-0": {
   "usable": true,
@@ -2637,7 +2813,8 @@
   "focus": "the human digestive system",
   "strand": "Biology",
   "original": "Humans have an excretory (renal) system.\nCats also have an excretory (renal) system.\n[THIS DIAGRAM]\nThe kidney and the bladder are part of the excretory (renal) system.\n(a) Describe two functions of the kidney.\n(b) Which letter shows a kidney?\nCircle the correct answer.\nA B C D E\n(c) Which letter shows the bladder?\nCircle the correct answer.\nA B C D E",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p9-0": {
   "usable": true,
@@ -2647,7 +2824,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Yuri investigates how voltage changes when different currents pass through a fixed resistor.\nHe uses this equipment:\n• battery of cells\n• fixed resistor\n• variable resistor\n• ammeter\n• voltmeter\n• connecting wires\n• switch.\nComplete the circuit diagram to show how he makes the electrical circuit using this equipment.\nUse standard conventional circuit symbols.\nThe battery of cells and fixed resistor have been drawn for you.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p11-0": {
   "usable": true,
@@ -2657,7 +2835,8 @@
   "focus": "interdependence in an ecosystem",
   "strand": "Biology",
   "original": "The giant panda relies on bamboo for food and shelter.\nWarmer temperatures are reducing the growth of bamboo.\nScientists think that warmer temperatures are causing the population of the giant panda\nto decrease.\n(a) What describes this change in temperature?\n[1]\n(b) What may happen to the population of the giant panda if their numbers continue\nto decrease?\n[1]\n(c) Bamboo is growing in new places.\nSuggest why bamboo growing in new places may not result in increasing numbers of\ngiant panda.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p16-0": {
   "usable": true,
@@ -2667,7 +2846,8 @@
   "focus": "elements, compounds and mixtures",
   "strand": "Chemistry",
   "original": "Look at the diagram of the bonding in ammonia.\n[THIS DIAGRAM]\n(a) Complete the sentence.\nThe diagram shows a\nof ammonia.\n[1]\n(b) The type of bonding in ammonia is covalent.\nDescribe what is meant by a covalent bond.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-2-p2-0": {
   "usable": true,
@@ -2677,7 +2857,8 @@
   "focus": "variation and inheritance",
   "strand": "Biology",
   "original": "The picture shows two moths of the same species.\n[THIS DIAGRAM]\n(a) There is a difference in colour between the peppered moths.\nWhat is the scientific word for a difference within a species?\n[1]\n(b) What causes the difference in colour between the moths?\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-2-p4-0": {
   "usable": true,
@@ -2687,7 +2868,8 @@
   "focus": "choosing suitable apparatus and units",
   "strand": "Thinking and Working Scientifically",
   "original": "Oliver investigates which metal rod is the best thermal conductor.\nHe heats four different metal rods, A, B, C and D, until the wax melts and the pin falls onto\nthe mat.\nLook at the diagram showing the equipment Oliver uses.\n[THIS DIAGRAM]\nIn his experiment Oliver:\n• heats the metal rods with a blue Bunsen burner flame\n• records the time taken for each pin to fall onto the mat.\n(a) Name the piece of equipment Oliver uses to measure the time taken.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-2-p6-0": {
   "usable": true,
@@ -2697,7 +2879,8 @@
   "focus": "the solar system",
   "strand": "Earth and Space",
   "original": "The collision theory is an idea to describe how the Moon was formed.\nLook at the diagram.\n[THIS DIAGRAM]\nThe collision theory suggests that the Moon was formed during a collision between the Earth and another small planet.\nThe pieces of rock from this collision collected in an orbit around the Earth to form the Moon.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-2-p13-1": {
   "usable": true,
@@ -2717,7 +2900,8 @@
   "focus": "stars and galaxies",
   "strand": "Earth and Space",
   "original": "Mia has a picture of a nebula.\nComplete the sentences.\nA nebula is a giant cloud of dust and\nin space.\nSome nebulae (more than one nebula) come from the explosion of a dying star.\nOther nebulae are areas that act as stellar\n.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p4-0": {
   "usable": true,
@@ -2727,7 +2911,8 @@
   "focus": "current, voltage and resistance",
   "strand": "Physics",
   "original": "Blessy uses an electric kettle.\nWhat is the unit for electrical resistance?\n(ii) The supply voltage to the kettle is 240 V.\nThe current in the kettle is 12 A.\nCalculate the electrical resistance of the kettle.\n(b) Blessy uses the kettle to boil water.\nExplain how the outside of the kettle becomes hot.\nUse ideas about thermal energy in your answer.\n(c) Blessy makes a risk assessment for using the electric kettle to boil water.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p6-0": {
   "usable": true,
@@ -2737,7 +2922,8 @@
   "focus": "atomic structure",
   "strand": "Chemistry",
   "original": "(a) Look at the structure of a molecule of methane, CH4.\n[THIS DIAGRAM]\nWrite down what is meant by a molecule.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p6-1": {
   "usable": true,
@@ -2747,7 +2933,8 @@
   "focus": "atomic structure",
   "strand": "Chemistry",
   "original": "(b) Look at the structure of a sodium ion, Na+.\n[THIS DIAGRAM]\nDescribe how a sodium atom makes a sodium ion.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p10-0": {
   "usable": true,
@@ -2757,7 +2944,8 @@
   "focus": "density",
   "strand": "Physics",
   "original": "Mike measures the density of a lump of zinc.\nLook at his results.\n[THIS DIAGRAM]\n(a) Calculate the density of zinc.\nInclude:\n• the equation you use to calculate density\n• the unit of density.\nequation to calculate density:\ndensity of zinc =\nunit\n[3]\n(b) Describe how the density of oxygen gas at room temperature compares to the density of\nsolid zinc.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p12-0": {
   "usable": true,
@@ -2767,7 +2955,8 @@
   "focus": "density",
   "strand": "Physics",
   "original": "Look at the picture of ice in liquid water.\nWhich sentence describes why ice floats in liquid water?\nTick () the correct answer.\nWater is a liquid and ice is a solid.\nLiquid water is more dense than ice.\nLiquid water is transparent and ice is opaque.\nLiquid water is warmer than ice.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p8-0": {
   "usable": true,
@@ -2777,7 +2966,8 @@
   "focus": "how sound travels",
   "strand": "Physics",
   "original": "Look at the graph of a waveform from 0 seconds to 12 seconds.\n(a) Write down the amplitude of this waveform.\namplitude =\ncm [1]\n(b) There are six complete waves on this graph.\nWrite down the time it takes for one complete wave.\ntime =\nseconds [1]\n(c) Look at this waveform.\nSound waves interact to cancel each other out.\nDescribe the waveform needed to cancel out this waveform.\nYou may draw on the graph to help you describe your answer.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p14-1": {
   "usable": true,
@@ -2787,7 +2977,8 @@
   "focus": "conduction, convection and radiation",
   "strand": "Physics",
   "original": "Mia investigates the movement of tectonic plates.\nShe:\n• puts oil into a glass container\n• heats the oil in the middle of the container\n• adds two pieces of wood to the surface of the oil in the middle of the container\n• measures the time for the pieces of wood to touch each end of the glass container.\n(a) Explain what causes the movement of the pieces of wood.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p18-0": {
   "usable": true,
@@ -2797,7 +2988,8 @@
   "focus": "adaptation to a habitat",
   "strand": "Biology",
   "original": "The drawing shows a black rat.\nThe graph shows data for the number of black rats captured in traps on an island.\n(a) Describe the change in the number of black rats captured from:\n• January (Jan) to March (Mar)\n• April (Apr) to October (Oct).\n(b) The number of black rats on the island is greater than the number shown in the graph.\nSuggest one reason why.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p14-2": {
   "usable": true,
@@ -2807,7 +2999,8 @@
   "focus": "conduction, convection and radiation",
   "strand": "Physics",
   "original": "Mia investigates the movement of tectonic plates.\nShe:\n• puts oil into a glass container\n• heats the oil in the middle of the container\n• adds two pieces of wood to the surface of the oil in the middle of the container\n• measures the time for the pieces of wood to touch each end of the glass container.\n(a) Explain what causes the movement of the pieces of wood.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p18-1": {
   "usable": true,
@@ -2817,7 +3010,8 @@
   "focus": "describing a pattern in a set of results",
   "strand": "Thinking and Working Scientifically",
   "original": "The drawing shows a black rat.\nThe graph shows data for the number of black rats captured in traps on an island.\n[THIS DIAGRAM]\nmonth\n(a) Describe the change in the number of black rats captured from:\n• January (Jan) to March (Mar)\n• April (Apr) to October (Oct).\n(b) The number of black rats on the island is greater than the number shown in the graph.\nSuggest one reason why.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p3-1": {
   "usable": false,
@@ -2837,7 +3031,8 @@
   "focus": "indices and powers of ten",
   "strand": "Number",
   "original": "Draw a line to match each calculation to its answer.\nOne has been done for you.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-april-2023-p5-0": {
   "usable": true,
@@ -2847,7 +3042,8 @@
   "focus": "a misleading statistic",
   "strand": "Statistics and Probability",
   "original": "Ahmed draws this graph to show how the number of visitors to his town has increased.\n[THIS DIAGRAM]\nGive one reason why the graph could be misleading.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-april-2023-p8-0": {
   "usable": true,
@@ -2857,7 +3053,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a triangle T drawn on a grid.\n(a) Triangle T is rotated by 180° about centre (0, 0).\nThe new triangle is then rotated by 180° about centre (0, –3) to give triangle U.\nDraw the position of triangle U on the grid.\n[2]\n(b) Draw a ring around the type of transformation that maps triangle T onto triangle U.\ntranslation reflection rotation enlargement\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-april-2023-p6-0": {
   "usable": true,
@@ -2867,7 +3064,8 @@
   "focus": "scale and scale drawing",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here is Eva’s method for drawing the perpendicular bisector of line AB.\n[THIS DIAGRAM]\nShe draws an arc radius 5 cm centre A.\nShe draws an arc radius 6 cm centre B.\nShe draws a line to connect the points where her arcs intersect.\nExplain why Eva’s method is not correct.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "0862-mathematics-paper-1-april-2023-p11-0": {
   "usable": false,
@@ -2907,7 +3105,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "Lily heats the water in her swimming pool.\nThe graph shows the temperature, in °C, of the water for the first 50 minutes after 9 am.\nThe temperature of the water continues to increase at this constant rate.\nFind the temperature of the water at 11 am.\n°C [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-april-2023-p9-0": {
   "usable": false,
@@ -2927,7 +3126,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The grid shows the positions of triangle P and triangle Q.\n(a) Describe fully the single transformation that maps triangle P onto triangle Q.\n[3]\n(b) Triangle R is congruent to triangle P.\nTriangle R maps onto itself when it is reflected in the line y = x.\nDraw a possible position for triangle R on the grid.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p3-0": {
   "usable": true,
@@ -2937,7 +3137,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "The table shows the number of visitors to a holiday resort during six months.\n[THIS DIAGRAM]\nOliver draws this time series graph to show the information.\n[ANOTHER DIAGRAM]\nOliver has made a mistake plotting the point for one of the months.\nDraw a ring around the point that Oliver has plotted incorrectly.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "04-0862-02-8rp-afp-tcm143-712735-p6-0": {
   "usable": true,
@@ -2947,7 +3148,8 @@
   "focus": "interpreting a pie chart described in words",
   "strand": "Statistics and Probability",
   "original": "The pie chart shows information about the different types of pizzas sold in a restaurant.\n[THIS DIAGRAM]\nA total of 324 pizzas are sold.\nMia says, ‘20 more cheese pizzas are sold than meat pizzas.’\nTick () to show if Mia is correct or not correct.\nYou must show your working.\nCorrect\nNot correct\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p4-0": {
   "usable": true,
@@ -2957,7 +3159,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Lily investigates what happens to a ray of light when it touches a mirror.\n(a) Write down the name of the process Lily investigates.\n(b) Lily changes the size of angle A and then measures angles A, B and C.\nShe writes her results in a table.\nDescribe two things that happen as angle A increases in size.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-1-p6-0": {
   "usable": true,
@@ -2967,7 +3170,8 @@
   "focus": "interpreting a bar chart described in words",
   "strand": "Statistics and Probability",
   "original": "Mia collects data from a group of men, women and children.\nShe asks each person if they like any of four activities.\nThe compound bar chart shows the number who said they like each activity.\nMia writes some statements about her data.\nTick to show if each of Mia’s statements is true or false.\n12 men said they like to play sport.\nA total of 17 people said they like to go for a walk.\n13 children said they like to meet friends.\n16 women said they like to watch a movie.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p8-0": {
   "usable": true,
@@ -2977,7 +3181,8 @@
   "focus": "the solar system",
   "strand": "Earth and Space",
   "original": "Yuri draws a picture of the Sun and the eight planets.\nThe picture shows the distance between the Sun and each planet.\nThe distance between the Sun and Earth is 1 AU (astronomical unit).\n(a) Write down the names of the planets labelled A, D and G.\n(b) Complete the sentences by writing the correct letter of the planet.\nThe planet with a distance of 5.2 AU from the Sun is\nThe planet with the most similar distance from the Sun to Earth is\nThe planet almost 20 times further from the Sun than the Earth is",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p18-0": {
   "usable": false,
@@ -2997,7 +3202,8 @@
   "focus": "the solar system",
   "strand": "Earth and Space",
   "original": "The diagram shows part of the Solar System.\n(a) Name planet A and planet B.\nplanet A\nplanet B\n[1]\n(b) Jupiter has many moons.\nDraw the orbit of one of the moons of Jupiter on the diagram.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p5-0": {
   "usable": true,
@@ -3007,7 +3213,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "(c) Complete the circuit diagram to show 3 lamps in a parallel circuit.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p4-0": {
   "usable": true,
@@ -3017,7 +3224,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Pierre has a series electrical circuit and a parallel electrical circuit.\nHe compares the brightness of lamps in these electrical circuits.\nLook at his results.\n[THIS DIAGRAM]\n(a) Complete the table using his results.\ntype of circuit | number of lamps | brightness of lamps\nseries | 1 | very bright\nseries\nseries\nparallel\nparallel | 3 | very bright\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p9-0": {
   "usable": true,
@@ -3027,7 +3235,8 @@
   "focus": "food chains and food webs",
   "strand": "Biology",
   "original": "Look at the food web.\n(a) Name all the animals in this food web that only eat krill.\n[1]\n(b) Name one animal in this food web that is a predator and a prey.\n[1]\n(c) Write down the energy source for this food web.\n[1]\n(d) The tiny plants absorb a toxic substance in the water.\nSuggest why this may be harmful to the penguins.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p18-0": {
   "usable": true,
@@ -3037,7 +3246,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Ahmed observes five rocks.\nHe designs a key to identify each type of rock using his observations.\nSuggest two questions he uses in his key to identify the types of rock.\nquestion 1\nquestion 2\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p11-0": {
   "usable": false,
@@ -3057,7 +3267,8 @@
   "focus": "human reproduction",
   "strand": "Biology",
   "original": "The diagram shows two types of sex cells involved in human reproduction.\n(a) What is the name for these types of sex cells?\n(b) The nucleus of each cell contains chromosomes.\nComplete the sentence.\nChromosomes contain made of .",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p2-0": {
   "usable": true,
@@ -3067,7 +3278,8 @@
   "focus": "the circulatory system",
   "strand": "Biology",
   "original": "Look at the diagram of an organ system in a horse.\n[THIS DIAGRAM]\n(a) Name this organ system.\n[1]\n(b) The diagram of the organ system in a horse is a scientific model.\nWrite down one reason why scientists use models.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p16-1": {
   "usable": false,
@@ -3087,7 +3299,8 @@
   "focus": "photosynthesis",
   "strand": "Biology",
   "original": "(b) Pierre improves his investigation by replacing the test-tube with a measuring cylinder.\n[THIS DIAGRAM]\nExplain why this improves his investigation.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-2-p8-0": {
   "usable": true,
@@ -3097,7 +3310,8 @@
   "focus": "choosing suitable apparatus and units",
   "strand": "Thinking and Working Scientifically",
   "original": "Pierre investigates how light intensity affects the rate of photosynthesis.\nThe diagram shows the equipment he uses to collect the gas produced during photosynthesis.\n(a) Pierre also has a desk lamp, metre rule and a piece of equipment to measure time.\nDescribe how Pierre uses this equipment to measure the rate of photosynthesis in different\nlight intensities.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p5-0": {
   "usable": true,
@@ -3107,7 +3321,8 @@
   "focus": "interpreting a bar chart described in words",
   "strand": "Statistics and Probability",
   "original": "The bar chart shows the number of small, medium and large potatoes in a sack.\nSize of potato\nComplete the pie chart to show this information.\n[3]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "0862-mathematics-paper-1-october-2023-p5-0": {
   "usable": true,
@@ -3117,7 +3332,8 @@
   "focus": "angles in parallel lines",
   "strand": "Algebra, Geometry and Measure",
   "original": "Each diagram shows a pair of angles on parallel lines.\nComplete the table to show if each diagram shows a pair of corresponding angles or not.\nOne has been done for you.\nCorresponding angles\nNot corresponding angles\nA",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p5-2": {
   "usable": true,
@@ -3127,7 +3343,8 @@
   "focus": "angles in parallel lines",
   "strand": "Algebra, Geometry and Measure",
   "original": "Each diagram shows a pair of angles on parallel lines.\nComplete the table to show if each diagram shows a pair of corresponding angles or not.\nOne has been done for you.\nCorresponding angles\nNot corresponding angles",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p12-0": {
   "usable": false,
@@ -3147,7 +3364,8 @@
   "focus": "angles in parallel lines",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a rectangle ABCD.\n[THIS DIAGRAM]\nCalculate the size of the angle marked x.\nx =\n° [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-1-october-2023-p2-4": {
   "usable": true,
@@ -3157,7 +3375,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "Draw a ring around the scatter graph that shows positive correlation.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-april-2023-p7-2": {
   "usable": true,
@@ -3167,7 +3386,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "Here are three scatter diagrams.\nDraw a line to match each scatter diagram to the best description of its correlation.\nStrong positive\nWeak positive\nNo correlation\nWeak negative\nStrong negative",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-october-2023-p4-0": {
   "usable": true,
@@ -3177,7 +3397,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "Point A has coordinates (1, 2).\n\nPoint A is first translated by vector (3, 1) to give point B.\n\nPoint B is then translated by vector (0, -5) to give point C.\n\nFind the coordinates of point C.\n(   ,   ) [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-october-2023-p14-0": {
   "usable": true,
@@ -3187,7 +3408,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "A solid cylinder has a height of 18 cm.\n[THIS DIAGRAM]\nThe curved surface area of the cylinder is 845 cm2.\nFind the area of the top of the cylinder.\ncm2 [3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p5-0": {
   "usable": true,
@@ -3197,7 +3419,8 @@
   "focus": "properties of 3D shapes",
   "strand": "Algebra, Geometry and Measure",
   "original": "A prism has a cross-section that is a regular pentagon.\n[THIS DIAGRAM]\n(a) Find the number of planes of symmetry of this prism.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-october-2023-p6-0": {
   "usable": true,
@@ -3207,7 +3430,8 @@
   "focus": "direct proportion",
   "strand": "Number",
   "original": "The graphs show the costs, in $, of different masses of strawberries and raspberries.\nFind how much more 1 kg of raspberries costs than 1 kg of strawberries.\n$",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-paper-2-october-2023-p13-0": {
   "usable": true,
@@ -3217,7 +3441,8 @@
   "focus": "interpreting a bar chart described in words",
   "strand": "Statistics and Probability",
   "original": "Anastasia asks the audience of a film if they liked it or did not like it.\nThe compound bar chart shows her results.\nShow that 30% of people in the audience did not like the film.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p5-1": {
   "usable": true,
@@ -3227,7 +3452,8 @@
   "focus": "properties of 3D shapes",
   "strand": "Algebra, Geometry and Measure",
   "original": "A prism has a cross-section that is a regular pentagon.\n(b) The prism has a length of 15 cm.\n[THIS DIAGRAM]\nThe area of the cross-section of the prism is 10 cm2.\nCalculate the volume of the prism.\ncm3 [1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p15-0": {
   "usable": true,
@@ -3237,7 +3463,8 @@
   "focus": "probability of two events together",
   "strand": "Statistics and Probability",
   "original": "(b) Naomi has these 5 white cards and these 3 grey cards.\n[THIS DIAGRAM]\nNaomi picks one white card at random and one grey card at random.\nCalculate the probability that both cards show a number greater than 3",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p6-0": {
   "usable": true,
@@ -3247,7 +3474,8 @@
   "focus": "area of a compound shape",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a shape made by joining a semicircle to a right-angled triangle.\nThe diameter of the semicircle is 22 cm.\nThe lengths of the perpendicular sides of the triangle are 22 cm and 31 cm.\nComplete the calculation for the total area of the shape.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-7rp-afp-tcm143-725669-p12-0": {
   "usable": true,
@@ -3257,7 +3485,8 @@
   "focus": "angles in triangles and quadrilaterals",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a triangle ABC.\nABD is a straight line.\n[THIS DIAGRAM]\nAngle x is acute and angle y is obtuse.\nFind one possible pair of values for angle x and angle y.\nx = °\ny = °",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-4rp-afp-tcm143-747538-p11-0": {
   "usable": true,
@@ -3267,7 +3496,8 @@
   "focus": "area of a compound shape",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a shape formed by a semicircle with diameter AB joined to a right-angled triangle ABC.\nAB = 12 cm and BC = 15 cm.\nCalculate the total area of the shape.\ncm2 [4]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-02-7rp-afp-tcm143-725670-p4-0": {
   "usable": true,
@@ -3277,7 +3507,8 @@
   "focus": "volume and surface area of a cuboid",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a triangular prism.\n[THIS DIAGRAM]\nTick (✓) to show if each of these statements about the prism is true or false.\nTrue\nFalse\nThe largest face has an area of 100 cm2.\nThe total area of the two triangular faces is 96 cm2.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "10-0862-02-7rp-afp-tcm143-725670-p5-1": {
   "usable": false,
@@ -3317,7 +3548,8 @@
   "focus": "perimeter in a real context",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a cake board in the shape of a rhombus.\nThe diagonals of the rhombus are of length 25.5 cm and 34 cm.\n[THIS DIAGRAM]\nEva wraps ribbon around the perimeter of the cake board.\nThe ribbon does not overlap.\nRibbon costs 60 cents per metre.\nCalculate the total cost of the ribbon Eva uses.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-01-4rp-afp-tcm143-736389-p11-1": {
   "usable": false,
@@ -3337,7 +3569,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows triangle L drawn on a grid.\nTriangle L is reflected in the line y = 2 to make triangle M.\nTriangle M is then translated by (0, –3) to give triangle N.\n(a) Draw the position of triangle N on the grid.\nYou do not need to rub out your triangle M.\n[2]\n(b) Complete the sentence with the correct words from the box.\na translation\na reflection\na rotation\nan enlargement\nThe single transformation that maps triangle L onto triangle N\nis\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-01-8rp-afp-tcm143-712734-p5-0": {
   "usable": true,
@@ -3347,7 +3580,8 @@
   "focus": "angles in triangles and quadrilaterals",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a shape made with three identical rhombuses.\n[THIS DIAGRAM]\nFind the value of x.\nx =\n[4]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p5-0": {
   "usable": true,
@@ -3357,7 +3591,8 @@
   "focus": "direct proportion",
   "strand": "Number",
   "original": "Here is a graph showing the exchange rate between US dollars and Chinese yuan.\nThe coordinate (100, 720) is marked on the graph.\n[THIS DIAGRAM]\nCalculate the exchange rate.\nGive your answer in yuan per dollar.\nyuan per dollar [1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p3-0": {
   "usable": true,
@@ -3367,7 +3602,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a cylinder with a radius of 4.1 cm and a length of 6.5 cm.\nCalculate the volume of the cylinder.\ncm3 [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "no"
  },
  "04-0862-02-6rp-afp-tcm143-736390-p9-0": {
   "usable": true,
@@ -3377,7 +3613,8 @@
   "focus": "the equation of a straight line",
   "strand": "Algebra, Geometry and Measure",
   "original": "In this question x is always positive.\nFor each function, tick () to show if the statement is true or false.\n[THIS DIAGRAM]\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-02-8rp-afp-tcm143-712735-p3-0": {
   "usable": false,
@@ -3397,7 +3634,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a solid metal cylinder with a radius of 4.1 cm and a height of 7 cm.\nThe cylinder is melted and the metal is made into cubes.\nThe side length of each cube is 2 cm.\nCalculate the number of whole cubes that are made.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "04-0862-02-8rp-afp-tcm143-712735-p10-0": {
   "usable": false,
@@ -3427,7 +3665,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a semicircle with a radius of 3 cm.\n[THIS DIAGRAM]\nTick () to show the area of the semicircle correct to the nearest cm2.\n14 cm2\n19 cm2\n28 cm2\n57 cm2\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "10-0862-01-4rp-afp-tcm143-747537-p8-0": {
   "usable": true,
@@ -3437,7 +3676,8 @@
   "focus": "solving a linear equation",
   "strand": "Algebra, Geometry and Measure",
   "original": "For this question, x can be an integer or a decimal.\nTick () to show if each of these statements is true or false.\n[THIS DIAGRAM]\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-1-p8-0": {
   "usable": true,
@@ -3447,7 +3687,8 @@
   "focus": "properties of 3D shapes",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a prism with a height of h cm.\n(a) The cross-section of the prism is a regular hexagon.\nWrite the number of planes of symmetry of this prism.\n(b) The cross-section of the prism has an area of 50 cm2.\nThe volume of the prism is 250 cm3.\nCalculate the value of h.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-1-p2-0": {
   "usable": false,
@@ -3477,7 +3718,8 @@
   "focus": "the nth term of a linear sequence",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here is a mapping diagram for a linear function.\n[THIS DIAGRAM]\nComplete the mapping diagram.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-1-p13-0": {
   "usable": true,
@@ -3487,7 +3729,8 @@
   "focus": "angles in parallel lines",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a triangle and a kite drawn between two parallel lines, AB and CD.\nFind the value of x and the value of y.\nx =\ny =\n[4]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p5-0": {
   "usable": true,
@@ -3497,7 +3740,8 @@
   "focus": "probability of two events together",
   "strand": "Statistics and Probability",
   "original": "Lily spins these fair spinners.\nLily says, ‘The probability of spinning the same number on both spinners is 4/25’\nLily is not correct.\nWrite the correct probability.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p5-1": {
   "usable": true,
@@ -3507,7 +3751,8 @@
   "focus": "probability of two events together",
   "strand": "Statistics and Probability",
   "original": "Lily spins these fair spinners.\nLily draws this possibility diagram.\nLily says, ‘The probability of spinning the same number on both spinners is 4/25’\nLily is not correct.\nWrite the correct probability.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p7-0": {
   "usable": true,
@@ -3517,7 +3762,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "(a) The diagram shows a circle with a radius of 11.4 cm.\n[THIS DIAGRAM]\nCalculate the area of the circle.\ncm2 [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p7-1": {
   "usable": true,
@@ -3527,7 +3773,8 @@
   "focus": "circumference and area of a circle",
   "strand": "Algebra, Geometry and Measure",
   "original": "(b) The diagram shows a semicircle with a diameter of 143 mm.\n[THIS DIAGRAM]\nCalculate the perimeter of the semicircle.\nmm [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-1-p10-0": {
   "usable": true,
@@ -3537,7 +3784,8 @@
   "focus": "probability of two events together",
   "strand": "Statistics and Probability",
   "original": "(b) Carlos also has two fair spinners.\nSpinner E has sides numbered 1 to 5\nSpinner F has sides numbered 1 to 9\nCarlos draws this possibility diagram to represent the outcomes of spinning both spinners.\nCarlos says,\n‘There are 14 numbers in total on both spinners and 6 of them are even.\nSo the probability of spinning an even number on both spinners is 6/14’\nCarlos is not correct.\nFind the correct probability of spinning an even number on both spinners.\n[2]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p3-1": {
   "usable": true,
@@ -3547,7 +3795,8 @@
   "focus": "drawing a conclusion from data",
   "strand": "Statistics and Probability",
   "original": "The table shows the number of visitors to a holiday resort during six months.\nOliver draws this time series graph to show the information.\nOliver has made a mistake plotting the point for one of the months.\nDraw a ring around the point that Oliver has plotted incorrectly.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0862-mathematics-march-2026-checkpoint-question-paper-2-p12-0": {
   "usable": true,
@@ -3557,7 +3806,8 @@
   "focus": "volume and surface area of a cuboid",
   "strand": "Algebra, Geometry and Measure",
   "original": "Here are two triangular prisms, A and B.\nThe cross-section of each prism is a right-angled triangle.\nOne rectangular face on each prism is shaded.\n(a) Tick the correct column in the table for the volume of each prism.\nvolume is less than 54 cm3 / volume is equal to 54 cm3 / volume is greater than 54 cm3\nprism A\nprism B\n[1]\n(b) Calculate the difference between the area of the shaded face of prism A and the area of the shaded face of prism B.\nGive your answer correct to one decimal place.\ncm2 [4]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-1-p15-0": {
   "usable": false,
@@ -3577,7 +3827,8 @@
   "focus": "area of a compound shape",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a rectangle with a smaller rectangle cut out of it.\nAll measurements are in centimetres.\n[THIS DIAGRAM]\nWrite an expression for the shaded area.\nGive your answer in its simplest form.\ncm2 [3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-1-p13-0": {
   "usable": true,
@@ -3587,7 +3838,8 @@
   "focus": "reflection, rotation and translation",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows shape P drawn on a grid.\nShape P is reflected in the line y = 1 to make shape Q.\nShape Q is then translated by (1, -3) to make shape R.\nDraw shape R on the grid.\nYou do not need to rub out your shape Q.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-2-p8-0": {
   "usable": true,
@@ -3597,7 +3849,8 @@
   "focus": "the nth term of a linear sequence",
   "strand": "Algebra, Geometry and Measure",
   "original": "The table shows information about five different linear sequences.\nComplete the table.\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0862-mathematics-may-2026-checkpoint-question-paper-2-p12-0": {
   "usable": true,
@@ -3607,7 +3860,8 @@
   "focus": "volume and surface area of a cuboid",
   "strand": "Algebra, Geometry and Measure",
   "original": "The diagram shows a triangular prism.\nThe cross-section is a right-angled triangle.\n[THIS DIAGRAM]\nThe area of the largest face of the prism is 1040 cm2.\nFind the value of x.\nx =\n[3]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p13-0": {
   "usable": true,
@@ -3617,7 +3871,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "Look at the diagrams that show particle models of solid citric acid and liquid water.\n(a) Citric acid dissolves in water to make a solution.\nDraw the particle model of citric acid solution in the box.\n(b) Describe how increasing the temperature of water affects the dissolving of citric acid in water.\nExplain your answer using the particle model.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2024-past-checkpoint-test-question-paper-2-p16-0": {
   "usable": true,
@@ -3627,7 +3882,8 @@
   "focus": "identifying a risk and reducing it",
   "strand": "Thinking and Working Scientifically",
   "original": "Ahmed wants to find out if a rock is hard or soft.\nHe scratches the rock with a sharp metal nail.\n[THIS DIAGRAM]\nAhmed writes notes to make sure he uses the sharp metal nail safely.\nAhmed:\n• identifies the risk of using the sharp metal nail\n• describes how to use the sharp metal nail safely.\nComplete the notes in his table.\nrisk of using the sharp metal nail\nhow to use the sharp metal nail safely",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p3-0": {
   "usable": true,
@@ -3637,7 +3893,8 @@
   "focus": "changes of state",
   "strand": "Chemistry",
   "original": "(a) Yuri observes some solid water changing to liquid water.\n[THIS DIAGRAM]\nWrite down one reason why this is a physical change.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p4-0": {
   "usable": true,
@@ -3647,7 +3904,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "(c) Look at the diagram.\nIt shows a model of particles of a solid and particles of a liquid in a beaker.\n[THIS DIAGRAM]\nYuri puts the solid in the beaker with the liquid.\nThe solid dissolves in the liquid.\nTick () the correct model of the particles when the solid dissolves in the liquid.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p8-0": {
   "usable": false,
@@ -3667,7 +3925,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Ahmed uses a semi-circular glass block to investigate refraction.\nLook at the diagram.\n[THIS DIAGRAM]\nAhmed changes the size of angle A by moving the flashlight.\nHe writes down the size of angle B.\n(c) Ahmed uses 25° for angle A.\nWrite down the size of angle B.\n(d) Ahmed removes the semi-circular glass block.\nComplete the sentence to explain what happens to the ray of light.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p4-0": {
   "usable": true,
@@ -3677,7 +3936,8 @@
   "focus": "choosing how to present a set of results",
   "strand": "Thinking and Working Scientifically",
   "original": "(b) Rajiv investigates the melting points of different metals.\nLook at the bar chart of his results.\nHow many metals in this bar chart have a melting point greater than 700 °C?\nCircle the correct answer.\n1 2 3 4\n(c) Rajiv finds the melting point of metal E on the internet.\nDraw the bar for the melting point of metal E on the bar chart.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p9-0": {
   "usable": true,
@@ -3687,7 +3947,8 @@
   "focus": "food chains and food webs",
   "strand": "Biology",
   "original": "Humans pollute the ocean with toxic substances.\nTiny plants absorb the toxic substances.\nLook at this food chain.\n[THIS DIAGRAM]\n(a) Explain why the shark has toxic substances in its body.\n[1]\n(b) Suggest one way humans reduce pollution in the ocean.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p18-0": {
   "usable": true,
@@ -3697,7 +3958,8 @@
   "focus": "the solar system",
   "strand": "Earth and Space",
   "original": "Rajiv and Carlos make a model of the Solar System.\n[THIS DIAGRAM]\n(a) The table shows the distances between the planets and the Sun in the model.\nComplete the table.\nChoose from:\n3.5 6.7 14.2 48.4 179.0\n(b) The Earth is 9.3 cm from the Sun in this model.\nSuggest the distance between the Moon and the Earth in this model.\nCircle the best distance.\n0.02 cm 2 cm 20 cm 200 cm",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-1-p14-0": {
   "usable": true,
@@ -3707,7 +3969,8 @@
   "focus": "describing a pattern in a set of results",
   "strand": "Thinking and Working Scientifically",
   "original": "Lily wants to find out if the height of a person affects their heart rate.\nHeart rate is how many times the heart beats in one minute.\nLily:\n•\nmeasures the height of six girls in her class\n•\nmeasures the heart rate of the six girls in her class\n•\nwrites down the height and the heart rate of the six girls in a table.\n(c) Lily says,\n‘Girls with a larger height have a faster heart rate.’\nTick to show if Lily is correct.\nExplain your answer.\nUse information from the table.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2024-past-checkpoint-test-question-paper-2-p16-0": {
   "usable": true,
@@ -3717,7 +3980,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Blessy makes an electrical buzzer game.\n[THIS DIAGRAM]\n(a) The buzzer does not make a sound at the start of the game.\nBlessy moves the loop around the wire shape.\nThe buzzer makes a sound.\nExplain why the buzzer makes a sound.\n[1]\n(b) Draw the electrical symbol for a buzzer.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "no"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p7-0": {
   "usable": true,
@@ -3727,7 +3991,8 @@
   "focus": "how soil forms",
   "strand": "Earth and Space",
   "original": "This question is about types of soil.\nLook at the diagram of clay soil and sandy soil.\n(a) Vegetables grow best in clay soil.\nClay soil has a high water content.\nDescribe how the structure of clay soil allows it to have a high water content.\n[1]\n(b) Fruit trees grow well in a soil that has a lower water content than clay soil.\nA farmer adds sandy soil to the clay soil.\nExplain how this changes the structure of the clay soil to have a lower water\ncontent.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p17-0": {
   "usable": true,
@@ -3737,7 +4002,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Describe how granite is formed.\n[1]\n(b) Shale is a sedimentary rock.\nDescribe how shale is formed.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p13-0": {
   "usable": true,
@@ -3747,7 +4013,8 @@
   "focus": "reactants, products and the signs of a chemical reaction",
   "strand": "Chemistry",
   "original": "A teacher adds magnesium to hot water.\nThe magnesium reacts with the hot water.\nHydrogen gas and magnesium hydroxide are made.\n(a) The teacher says:\n‘A chemical reaction has taken place.’\nWrite down one observation that supports this statement.\n[1]\n(b) Write down the names of the two reactants in this chemical reaction.\nand\n[1]\n(c) Write down the names of the two products in this chemical reaction.\nand\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p12-0": {
   "usable": true,
@@ -3757,7 +4024,8 @@
   "focus": "the solar system",
   "strand": "Earth and Space",
   "original": "Comets in our Solar System orbit the Sun.\nLook at the diagram.\n(a) A comet is visible from Earth when it is close to the Sun.\nComet X was visible from Earth during these years.\n1759 1835 1910 1986\nPredict when comet X will next be visible from Earth.\nShow your working.\ncomet X will next be visible from Earth in the year\n[2]\n(b) A comet is one type of body that orbits the Sun.\nWrite down one other type of body that orbits the Sun.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-may-2025-checkpoint-question-paper-2-p18-0": {
   "usable": true,
@@ -3767,7 +4035,8 @@
   "focus": "friction and air resistance",
   "strand": "Physics",
   "original": "Rajiv tries to move a very heavy box.\nThe box is too heavy for him to move.\nLook at the diagram.\nComplete the force diagram to show why the box does not move.\nDraw and label arrows to show:\n•\nthe force from Rajiv – label this force P\n•\nthe frictional force – label this force F.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p6-0": {
   "usable": true,
@@ -3777,7 +4046,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Aiko makes an electrical circuit.\n[THIS DIAGRAM]\n(a) Tick () the correct statement that describes this circuit.\na parallel circuit with lamp 1 and lamp 2 of the same brightness\na parallel circuit with lamp 1 brighter than lamp 2\na series circuit with lamp 1 and lamp 2 of the same brightness\na series circuit with lamp 1 brighter than lamp 2\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p14-0": {
   "usable": true,
@@ -3787,7 +4057,8 @@
   "focus": "food chains and food webs",
   "strand": "Biology",
   "original": "Lily researches the effect of toxic substances on living things.\nShe finds this diagram on the internet.\n[THIS DIAGRAM]\n(a) The dots (•) show the amount of toxic substance in each living thing in the food chain.\nComplete these sentences.\nThe amount of toxic substance in the water plant is dots.\nThe amount of toxic substance in the small fish is dots.\nThe small fish contain times more of the toxic substance than the water plant.\n(b) Only the water plant takes in the toxic substance directly from the water.\nLook at the food chain.\nSuggest how the toxic substance gets into the bird.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p14-1": {
   "usable": true,
@@ -3797,7 +4068,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "(b) The diagram shows his observations at 1 minute and at 10 minutes.\nExplain his observation at 10 minutes.\nUse ideas about particles in your answer.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p10-0": {
   "usable": true,
@@ -3807,7 +4079,8 @@
   "focus": "rock types and the rock cycle",
   "strand": "Earth and Space",
   "original": "Gabriella investigates the formation of sedimentary rocks.\nShe:\n• fills a syringe with 10 g of wet sand\n[THIS DIAGRAM]\n• hits the model rock with a spoon to see if it stays in one piece.\nGabriella repeats the investigation with different materials in the syringe.\nShe replaces the wet sand with 10 g of wet clay and then 10 g of wet mud.\n(a) Complete the sentences about this investigation.\nThe independent variable is\nThe control variable is",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p16-0": {
   "usable": true,
@@ -3817,7 +4090,8 @@
   "focus": "reactants, products and the signs of a chemical reaction",
   "strand": "Chemistry",
   "original": "Mia puts some solid calcium carbonate in a test-tube.\nShe records the mass of the test-tube and its contents.\nMia heats the calcium carbonate in the test-tube.\nSolid calcium oxide and carbon dioxide are made.\n(a) Tick () the reactant in this reaction.\ncalcium carbonate\ncarbon dioxide\ncalcium oxide",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper-1-p8-0": {
   "usable": true,
@@ -3827,7 +4101,8 @@
   "focus": "weathering and erosion",
   "strand": "Earth and Space",
   "original": "Erosion happens in the rock cycle.\n(a) One type of erosion is wind erosion.\nLook at the diagrams of a large rock in a desert.\n[THIS DIAGRAM]\nExplain why the rock looks different after wind erosion.\nIn your answer write about what happens to:\n• the sand on the ground around the rock\n• the rock.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p14-2": {
   "usable": false,
@@ -3847,7 +4122,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Jamila draws a force diagram showing a cyclist.\n(a) Explain what is happening to the cyclist in the force diagram.\nUse the numbers and the letters on the diagram to help you.\n[2]\n(c) Look at the diagram.\nDraw one arrow on the diagram to show the size and direction of a force due to gravity of 300 N.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-october-2025-checkpoint-question-paper2-p16-0": {
   "usable": true,
@@ -3857,7 +4133,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "Jamila draws a force diagram showing a cyclist.\n(a) Explain what is happening to the cyclist in the force diagram.\nUse the numbers and the letters on the diagram to help you.\n[2]\n(b) The numbers in the diagram are 75 N and 150 N.\nJamila knows she is 45 kg.\nComplete the sentence.\nN is the unit for\nand kg is the unit for\n.\n[1]\n(c) Look at the diagram.\nDraw one arrow on the diagram to show the size and direction of a force due\nto gravity of 300 N.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p7-0": {
   "usable": true,
@@ -3867,7 +4144,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "The diagram shows water moving through pipes.\nThe diagram contains a pump, a tap, pipes and a narrow pipe.\nThe pump pushes water through the pipes.\nThe diagram is a model of an electrical circuit.\nComplete the table to show which electrical component the pipes, narrow pipe, pump and tap are modelling.\nTwo have been done for you.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p12-0": {
   "usable": true,
@@ -3877,7 +4155,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Youssef makes this electrical circuit.\n[THIS DIAGRAM]\n(a) Which two lamps light up?\nlamp\nand lamp\n[1]\n(b) Complete the sentences about this circuit.\nIt is a series circuit when the switch is open because\n.\nIt is a parallel circuit when the switch is closed because\n.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p10-0": {
   "usable": true,
@@ -3887,7 +4166,8 @@
   "focus": "dissolving and solubility",
   "strand": "Chemistry",
   "original": "Priya dissolves sugar in water at different temperatures.\nShe measures the mass of sugar that dissolves at each temperature.\nThe graph shows the mass of sugar that dissolves at each temperature.\n[THIS DIAGRAM]\n(a) Priya writes a sentence to describe the pattern in her results.\nComplete her sentence.\nAs the temperature of water increases, the\n. [1]\n(b) When sugar dissolves in water it forms a sugar solution.\nDescribe what happens to the particles in the sugar solution as the\ntemperature increases.\n[1]",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0097-s25-qp-11-p16-0": {
   "usable": true,
@@ -3897,7 +4177,8 @@
   "focus": "thermal and electrical conductors and insulators",
   "strand": "Physics",
   "original": "Mia investigates one property of different substances.\nShe uses this equipment.\n[THIS DIAGRAM]\nMia puts each substance in the position shown in the diagram.\nShe observes what happens to the equipment.\n(a) Write down the name of the property she investigates.\n(b) Describe how this equipment shows a substance has this property.\n(c) Mia says:\n‘The substance has not been changed chemically.\nThere is no chemical reaction.’\nMia is correct.\nDescribe why Mia is correct.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p8-0": {
   "usable": true,
@@ -3907,7 +4188,8 @@
   "focus": "density",
   "strand": "Physics",
   "original": "Rajiv investigates the density of three different blocks of metal.\nLook at the diagram of one of the blocks of metal.\n[THIS DIAGRAM]\n(a) Rajiv records data for the height, length and width of the three blocks of metal.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p8-1": {
   "usable": true,
@@ -3917,7 +4199,8 @@
   "focus": "spotting an anomalous result",
   "strand": "Thinking and Working Scientifically",
   "original": "Ahmed measures the volume of oxygen produced in 10 minutes by a plant at increasing light intensities.\nHere are his results.\n[THIS DIAGRAM]\n(i) There is one anomalous volume of oxygen produced in 10 minutes.\nCircle this anomalous volume in the table.\n(ii) Ahmed calculates the rate of oxygen produced.\nHe uses this equation.\nrate of oxygen produced = volume of oxygen produced in 10 minutes × 6\nCalculate the rate of oxygen produced at light intensity 2.\nWrite your answer in the table.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-1-p5-0": {
   "usable": true,
@@ -3927,7 +4210,8 @@
   "focus": "atomic structure",
   "strand": "Chemistry",
   "original": "This question is about ionic bonding.\nMagnesium oxide has ionic bonding between a magnesium ion and an oxide ion.\nLook at the model of the structure of magnesium oxide.\nThe structure of magnesium oxide has ionic bonds.\n(a) (i) Describe what is meant by an ionic bond.\n(ii) Describe how a magnesium atom makes a magnesium ion, Mg2+, and how an oxygen atom makes an oxide ion, O2–.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p11-0": {
   "usable": false,
@@ -3947,7 +4231,8 @@
   "focus": "identifying the control variables",
   "strand": "Thinking and Working Scientifically",
   "original": "Mia uses a model to investigate asteroid collisions with the Earth. Look at a diagram of her assembled equipment. In her first experiment Mia: drops a marble from a height of 1 m into the sand; measures the diameter of the crater made in the sand; records the result in a table. Mia repeats the experiment four more times. Each time she uses a marble with a different mass. (b) Mia drops the marble from the same height. Write down one other variable Mia keeps the same. [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p15-0": {
   "usable": true,
@@ -3957,7 +4242,8 @@
   "focus": "how sound travels",
   "strand": "Physics",
   "original": "Lily investigates the waveforms of sounds produced by musical instruments.\n(a) Look at the waveforms.\n(i) Which two waveforms have the same amplitude?\nand\n[1]\n(ii) Which two waveforms have the highest frequency?\nand\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p5-1": {
   "usable": true,
@@ -3967,7 +4253,8 @@
   "focus": "conduction, convection and radiation",
   "strand": "Physics",
   "original": "Mia uses a model to show how tectonic plates move.\nMia:\n• floats two pieces of wood on cooking oil in a dish\n• places a candle below the dish\n• lights the candle.\nMia looks down at the assembled equipment and makes these drawings.\nExplain why the two pieces of wood move apart.\n[2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2025-checkpoint-question-paper-2-p15-3": {
   "usable": false,
@@ -3987,7 +4274,8 @@
   "focus": "photosynthesis",
   "strand": "Biology",
   "original": "Jamila investigates the effect of light intensity on the rate of photosynthesis.\nThe diagram shows the assembled equipment she uses.\n(a) Describe how Jamila uses this equipment to investigate how light intensity affects the rate of photosynthesis. [3]\n(b) State one variable Jamila controls in her investigation. [1]\n(c) Predict the effect of changing the light intensity on the rate of photosynthesis. [1]\n(d) Jamila does each experiment of her investigation three times. She then calculates the mean rate of photosynthesis. Explain why this improves her investigation. [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p9-0": {
   "usable": false,
@@ -4007,7 +4295,8 @@
   "focus": "separating mixtures",
   "strand": "Chemistry",
   "original": "(b) At the end of the reaction, copper sulfate solution and some insoluble solid copper carbonate are left in the beaker.\n[THIS DIAGRAM]\nDescribe how Ahmed separates the copper sulfate solution from the insoluble solid copper carbonate.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p9-1": {
   "usable": false,
@@ -4027,7 +4316,8 @@
   "focus": "conservation of mass",
   "strand": "Chemistry",
   "original": "Angelique investigates the reaction between sodium sulfate solution and barium chloride solution.\nShe wants to find out if the mass of the reactants is equal to the mass of the products.\nLook at the diagram of her equipment.\n(a) Predict what happens to the mass of the flask and its contents during the reaction.\n(b) It is important that Angelique does not let any liquid come out of the flask.\nExplain why.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-1-p12-1": {
   "usable": false,
@@ -4047,7 +4337,8 @@
   "focus": "forces and their effects",
   "strand": "Physics",
   "original": "(b) A car is moving along a road.\n[THIS DIAGRAM]\nDescribe the effect these two forces have on the moving car.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-october-2025-checkpoint-question-paper-2-p13-0": {
   "usable": true,
@@ -4057,7 +4348,8 @@
   "focus": "what changes the rate of a reaction",
   "strand": "Chemistry",
   "original": "(b) Safia does two experiments.\nShe uses:\n• the same amount of calcium carbonate and dilute hydrochloric acid\n• acid at 20 °C in the first experiment\n• acid at 40 °C in the second experiment.\nLook at the graph of her results.\nBoth reactions give the same final volume of gas.\n(i) Write down the final volume of gas.\n(ii) Safia predicts that increasing the temperature of the acid increases the rate of reaction.\nDo the results support her prediction?\nExplain your answer.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p11-0": {
   "usable": true,
@@ -4067,7 +4359,8 @@
   "focus": "the changes of puberty",
   "strand": "Biology",
   "original": "(b) During puberty, the height of girls and boys increases rapidly.\nThe graph shows the height of a boy from 11 to 18 years of age.\nWhen does the height of the boy increase most rapidly?\nCircle the correct answer.\nfrom 11 years to 12 years\nfrom 12 years to 13 years\nfrom 14 years to 15 years\nfrom 16 years to 17 years\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0097-science-march-2026-checkpoint-question-paper-2-p16-0": {
   "usable": true,
@@ -4077,7 +4370,8 @@
   "focus": "series and parallel circuits",
   "strand": "Physics",
   "original": "Hassan investigates the brightness of lamps in a series circuit.\nLook at his electrical circuit.\n[THIS DIAGRAM]\n• attaches connector X to lamp A\n• writes down the brightness of all the lamps\n• attaches connector X to lamp B\n• writes down the brightness of all the lamps.\n(a) Complete the table to predict the brightness of the lamps when:\n• connector X is attached to lamp C\n• connector X is attached to lamp D.",
-  "primary_ok": true
+  "primary_ok": true,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p2-0": {
   "usable": false,
@@ -4107,7 +4401,8 @@
   "focus": "the periodic table",
   "strand": "Chemistry",
   "original": "The table shows information about some properties of the Group 1 elements.\n(a) Describe the trend in the melting point from lithium to rubidium.\n(b) Predict the boiling point of rubidium.\n(c) Explain why it is difficult to predict the density of rubidium.\n(d) Caesium is another Group 1 element. Caesium is below rubidium in Group 1. Write a sentence to compare the reactivity of caesium and water with the reactivity of potassium and water.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p5-1": {
   "usable": true,
@@ -4117,7 +4412,8 @@
   "focus": "deciding whether a test was fair",
   "strand": "Thinking and Working Scientifically",
   "original": "Safia investigates asteroid collisions with the Earth. Look at a diagram of the equipment she uses. In her first experiment Safia: • smooths the surface of the sand in the container • drops a metal ball from 20 cm into the sand • measures the diameter of the crater made in the sand • records the result in a table. Safia repeats the experiment four more times. Each time she uses a different drop height for the metal ball. (a) Explain why it is important to smooth the surface of the sand between each experiment. [1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p5-0": {
   "usable": false,
@@ -4137,7 +4433,8 @@
   "focus": "reflection and refraction of light",
   "strand": "Physics",
   "original": "Rajiv shines a ray of white light into glass.\nThe ray of white light is made of different colours.\nLook at the diagram.\n(a) Complete the sentences about light.\nLight changes direction as it moves from\nto\n.\nThis is called\n.\n[2]\n(b) Complete the sentences about the colours of light in the diagram.\nThe colour of light that changes direction the most is\n.\nThe colour of light that changes direction the least is\n.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-2-p13-0": {
   "usable": true,
@@ -4147,7 +4444,8 @@
   "focus": "density",
   "strand": "Physics",
   "original": "Hassan finds the density of two blocks.\n(a) Calculate the volume of block A.\nInclude the unit for volume in your answer.\nvolume\nunit\n[2]\n(b) Block B has a mass of 337.5 g and a volume of 425.\nCalculate the density of block B.\ng / cm3 [2]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-march-2026-checkpoint-question-paper-1-p15-0": {
   "usable": false,
@@ -4167,7 +4465,8 @@
   "focus": "how sound travels",
   "strand": "Physics",
   "original": "(c) Lily draws a diagram to show how waveform A and waveform D interact.\n[THIS DIAGRAM]\nComplete the sentences.\nChoose from the list.\ndecreases increases stays the same\nWhen waveform A and waveform D interact the amplitude\n.\nWhen waveform A and waveform D interact the loudness\n.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p11-0": {
   "usable": true,
@@ -4177,7 +4476,8 @@
   "focus": "human reproduction",
   "strand": "Biology",
   "original": "This question is about human reproduction.\n(a) The diagram shows a human egg joining with a human sperm.\n[THIS DIAGRAM]\nName the process shown in the diagram.\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p13-0": {
   "usable": false,
@@ -4197,7 +4497,8 @@
   "focus": "reading a results table described in words",
   "strand": "Thinking and Working Scientifically",
   "original": "(b) Look at the chart.\n[THIS DIAGRAM]\nUse the chart to complete the table.\naverage number of\nnumber of women who\ncigarettes smoked per day\nstopped smoking\nbefore pregnancy\nduring pregnancy\n0-10\n11-20\n21-30\n[1]",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  },
  "0893-science-may-2026-checkpoint-question-paper-2-p14-0": {
   "usable": true,
@@ -4207,6 +4508,7 @@
   "focus": "conduction, convection and radiation",
   "strand": "Physics",
   "original": "Mia investigates the movement of tectonic plates.\nShe:\n• puts oil into a glass container\n• heats the oil in the middle of the container\n(a) Explain what causes the movement of the pieces of wood.\n[2]\n(b) Complete the sentence about this investigation.\nAs the experiment number increases, the\n.\n[1]\n(c) Suggest one improvement to this experiment.\nExplain your answer.",
-  "primary_ok": false
+  "primary_ok": false,
+  "fit": "yes"
  }
 }

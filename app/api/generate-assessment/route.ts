@@ -32,7 +32,7 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
-import { assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, type BankFigure } from '@/lib/checkpoint-figure-bank'
+import { answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, stripFigureTokens, type BankFigure } from '@/lib/checkpoint-figure-bank'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from '@/lib/passage-question-match'
 import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
@@ -2210,6 +2210,9 @@ ${commandBlock}`
         }
 
         if (bank) {
+          for (const q of parsed.questions) {
+            if (q && typeof q === 'object' && typeof q.question === 'string') q.question = stripFigureTokens(q.question)
+          }
           // Held to the words printed on it, as a drawn figure is held to its
           // labels -- they were read from the PDF, so this is a check, not a
           // guess. Unlike a drawn figure it cannot be swapped out afterwards:
@@ -2217,16 +2220,21 @@ ${commandBlock}`
           // on the lenient retry the offending parts go.
           const misnamed = parsed.questions.filter((q: any) =>
             q && typeof q === 'object' && questionNamesUndrawn(q.question, { labels: labelTokens(bank) }).length > 0)
-          // And the real question handed back, which it was shown as a model.
+          // The real question handed back, which it was shown as a model.
           const lifted = parsed.questions.filter((q: any) =>
             q && typeof q === 'object' && copiesOriginal(q.question, bank.original))
-          if (misnamed.length || lifted.length) {
+          // And an answer copied off the figure's own labels.
+          const printed = parsed.questions.filter((q: any) =>
+            q && typeof q === 'object' && answerIsPrinted(q, bank))
+          const bad = new Set([...misnamed, ...lifted, ...printed])
+          if (bad.size) {
             const why = misnamed.length
               ? `named ${questionNamesUndrawn(misnamed[0].question, { labels: labelTokens(bank) }).join(', ')}, which the figure does not carry`
-              : 'copied the Cambridge question it was shown'
+              : lifted.length ? 'copied the Cambridge question it was shown'
+              : 'asked for a word printed on the figure'
             if (strictShape) throw new SyntaxError(`Past-paper figure: the question ${why}`)
-            console.log(`Removed ${misnamed.length + lifted.length} question(s) that ${why}`)
-            parsed.questions = parsed.questions.filter((q: any) => !misnamed.includes(q) && !lifted.includes(q))
+            console.log(`Removed ${bad.size} question(s) that ${why}`)
+            parsed.questions = parsed.questions.filter((q: any) => !bad.has(q))
           }
         }
 
@@ -2539,7 +2547,10 @@ ${commandBlock}`
       const fits = bankPool.filter((f) => !taken.has(f.localPath) && !bankRefillsGiven.has(f.localPath) &&
         f.focus.toLowerCase() === focus.toLowerCase())
       if (!fits.length) return undefined
-      const f = fits[Math.floor(Math.random() * fits.length)]
+      // The paper's own figures first, as in the first pass.
+      const own = fits.filter((x) => x.code === checkpointCode)
+      const from = own.length ? own : fits
+      const f = from[Math.floor(Math.random() * from.length)]
       bankRefillsGiven.add(f.localPath)
       bankAccountByPath.set(f.localPath, figureAccount(f))
       return { description: figureAccount(f), category: f.noun || 'diagram', localPath: f.localPath, bank: f }
@@ -2565,6 +2576,7 @@ ${commandBlock}`
             seed: Number(body?.seed) || Date.now(),
             cap,
             allowedFoci: new Set(batches.flatMap((b) => b.batchTopics ?? [])),
+            prefer: (f) => f.code === checkpointCode,
           },
         )
         let moved = 0

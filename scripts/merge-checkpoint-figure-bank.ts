@@ -9,9 +9,9 @@
  * than matched loosely: the slot matcher compares foci exactly, so a figure
  * filed under a focus no slot carries would simply never be printed, and one
  * filed under the wrong strand would move a slot across the strand report.
- * Crops for refused figures are deleted, since nothing can reach them.
+ * Crops for refused figures stay unless --prune is passed (see below).
  *
- * Run with:  npx jiti scripts/merge-checkpoint-figure-bank.ts
+ * Run with:  npx jiti scripts/merge-checkpoint-figure-bank.ts [--prune]
  */
 import fs from 'node:fs'
 import path from 'node:path'
@@ -39,6 +39,10 @@ for (const f of raw) {
   // Question text printed in the middle of the figure, where no trim can
   // reach it without cutting the figure too.
   if (f.stem_inside) { refuse('question text inside the figure'); continue }
+  // Filed under the nearest focus on the list rather than its own -- see
+  // scripts/check-figure-focus-fit.ts. A kidney diagram filed as digestion
+  // gets a digestion question.
+  if (t.fit === 'no') { refuse('filed under a focus it is not about'); continue }
   // The tagger's own account admits part of the figure is missing. It is
   // told to call such a crop unusable and sometimes describes the cut and
   // passes it anyway -- a Group 1 table "with the element names not shown"
@@ -65,13 +69,19 @@ for (const f of raw) {
   })
 }
 
-// Every crop the bank does not print goes, including ones left by earlier
-// builds whose figures were since merged or renamed -- swept from the folder,
-// not looked up from the raw list, which no longer names them.
+// With --prune, every crop the bank does not print goes, including ones left
+// by earlier builds whose figures were since merged or renamed -- swept from
+// the folder, not looked up from the raw list, which no longer names them.
+//
+// Opt-in, because once papers are saved a refused figure is still printed on
+// every paper that already carries it. Pruning a crop a learner's saved paper
+// points at turns that question into a broken image -- which is exactly what
+// a walk through a paper generated an hour before a prune showed.
+const PRUNE = process.argv.includes('--prune')
 const kept = new Set(out.map((f) => f.localPath))
 const BANK_DIR = path.join(ROOT, 'public', 'textbook-images', 'checkpoint-bank')
 let deleted = 0
-for (const dir of fs.existsSync(BANK_DIR) ? fs.readdirSync(BANK_DIR) : []) {
+for (const dir of PRUNE && fs.existsSync(BANK_DIR) ? fs.readdirSync(BANK_DIR) : []) {
   const full = path.join(BANK_DIR, dir)
   for (const file of fs.readdirSync(full)) {
     if (kept.has(`/textbook-images/checkpoint-bank/${dir}/${file}`)) continue

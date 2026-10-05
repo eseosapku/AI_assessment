@@ -1,7 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
-  assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, loadFigureBank,
-  resetFigureBank, type BankFigure,
+  answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, loadFigureBank,
+  resetFigureBank, stripFigureTokens, type BankFigure,
 } from './checkpoint-figure-bank'
 
 function fig(id: string, over: Partial<BankFigure> = {}): BankFigure {
@@ -120,6 +120,36 @@ describe('copiesOriginal', () => {
   })
 })
 
+describe('answerIsPrinted', () => {
+  const beaker = { labels: ['copper sulfate solution', 'insoluble solid copper carbonate'] }
+
+  it('catches a word answer copied off the figure', () => {
+    expect(answerIsPrinted({ short_answer: { accepted: ['copper carbonate'] } }, beaker)).toBe(true)
+    expect(answerIsPrinted({ short_answer: { accepted: ['heart'] } }, { labels: ['heart'] })).toBe(true)
+  })
+
+  it('reads a label printed over two lines as one', () => {
+    expect(answerIsPrinted({ short_answer: { accepted: ['normal force'] } }, { labels: ['normal', 'force', 'gravity'] })).toBe(true)
+  })
+
+  it('leaves a number read off a table, and a letter naming a part, alone', () => {
+    expect(answerIsPrinted({ short_answer: { accepted: ['64'] } }, { labels: ['64', 'potassium'] })).toBe(false)
+    expect(answerIsPrinted({ short_answer: { accepted: ['C'] } }, { labels: ['A', 'B', 'C'] })).toBe(false)
+  })
+
+  it('leaves an answer the learner has to know', () => {
+    expect(answerIsPrinted({ short_answer: { accepted: ['filtration'] } }, beaker)).toBe(false)
+    expect(answerIsPrinted({ short_answer: { accepted: ['vein'] } }, { labels: ['artery', 'blood vessel Y'] })).toBe(false)
+  })
+})
+
+describe('stripFigureTokens', () => {
+  it('takes a copied position marker out of a stem', () => {
+    expect(stripFigureTokens('[THIS DIAGRAM] What is the net force acting on the car?')).toBe('What is the net force acting on the car?')
+    expect(stripFigureTokens('Which numbers are square numbers? [THIS DIAGRAM]')).toBe('Which numbers are square numbers?')
+  })
+})
+
 describe('the bank on disk', () => {
   it('holds only usable figures, each with a focus, a description and an image that exists', async () => {
     const fs = await import('node:fs')
@@ -132,5 +162,32 @@ describe('the bank on disk', () => {
       expect(f.shows.length, f.id).toBeGreaterThan(20)
       expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
     }
+  })
+})
+
+describe('a paper prefers its own figures', () => {
+  it('takes its own syllabus figure over a borrowed one for the same focus', () => {
+    const own = fig('own', { code: '0893' })
+    const borrowed = fig('borrowed', { code: '0097', stage: 6 })
+    for (const seed of [1, 2, 3, 4, 5, 6]) {
+      const got = assignBankFigures([{ index: 0, focus: 'transport in plants', strand: 'Biology' }], [borrowed, own], {
+        seed, cap: 1, prefer: (f) => f.code === '0893',
+      })
+      expect(got.get(0)?.figure.id).toBe('own')
+    }
+  })
+
+  it('still borrows when its own syllabus has nothing for the focus', () => {
+    const borrowed = fig('borrowed', { code: '0097', stage: 6 })
+    const got = assignBankFigures([{ index: 0, focus: 'transport in plants', strand: 'Biology' }], [borrowed], {
+      seed: 1, cap: 1, prefer: (f) => f.code === '0893',
+    })
+    expect(got.get(0)?.figure.id).toBe('borrowed')
+  })
+})
+
+describe('a three-letter printed answer', () => {
+  it('is caught too', () => {
+    expect(answerIsPrinted({ short_answer: { accepted: ['lid'] } }, { labels: ['lid', 'particle', 'container'] })).toBe(true)
   })
 })

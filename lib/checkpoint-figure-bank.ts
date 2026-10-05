@@ -132,6 +132,12 @@ export interface AssignOptions {
    * learner who chose three topics is never moved off them.
    */
   allowedFoci?: ReadonlySet<string>
+  /**
+   * Figures to try first. A Lower Secondary paper may borrow Primary figures,
+   * but its own should win wherever both fit: a borrowed figure brings a
+   * Stage 6 model question with it, and the paper's demand drifts down.
+   */
+  prefer?: (f: BankFigure) => boolean
 }
 
 function rng(seed: number): () => number {
@@ -171,7 +177,9 @@ export function assignBankFigures(
   opts: AssignOptions,
 ): Map<number, { figure: BankFigure; focus: string }> {
   const next = rng(opts.seed)
-  const pool = shuffled(figures, next)
+  const mixed = shuffled(figures, next)
+  // Preferred first, each group still in its shuffled order.
+  const pool = opts.prefer ? [...mixed.filter(opts.prefer), ...mixed.filter((f) => !opts.prefer!(f))] : mixed
   const used = new Set<string>()
   const out = new Map<number, { figure: BankFigure; focus: string }>()
   const take = (pick: (f: BankFigure) => boolean): BankFigure | null => {
@@ -213,6 +221,39 @@ export function assignBankFigures(
     }
   }
   return out
+}
+
+/** The bank's position markers, should one be copied into a stem. */
+export function stripFigureTokens(stem: string): string {
+  return stem.replace(/\s*\[(?:THIS|ANOTHER) DIAGRAM\]\s*/g, ' ').replace(/\s{2,}/g, ' ').trim()
+}
+
+const words = (s: unknown) =>
+  String(s ?? '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean)
+
+/**
+ * Is the answer a word printed on the figure?
+ *
+ * "Write down the name of the insoluble solid" beside a beaker labelled
+ * "insoluble solid copper carbonate", "the organ that pumps blood" beside a
+ * horse whose heart is labelled "heart": a question whose answer the learner
+ * copies off the picture tests nothing. Word answers only -- reading a number
+ * off a table or a graph is a real skill and Cambridge asks for it -- and
+ * never a single letter, since "which letter shows the kidney?" is answered by
+ * a letter that is printed by design.
+ */
+export function answerIsPrinted(question: any, figure: Pick<BankFigure, 'labels'>): boolean {
+  const sa = question?.short_answer
+  const answers: string[] = Array.isArray(sa?.accepted) ? sa.accepted : typeof sa === 'string' ? [sa] : []
+  const first = String(answers[0] ?? '').trim()
+  // Three letters, not four: "Write down the name of the lid" over a lid
+  // labelled "lid" got through at four.
+  if (!first || /\d/.test(first) || first.replace(/[^a-z]/gi, '').length < 3) return false
+  // Joined with spaces, not kept row by row: a label printed over two lines
+  // ("normal" / "force") is still one label.
+  const printed = ` ${figure.labels.map((l) => words(l).join(' ')).join(' ')} `
+  const answer = words(first).join(' ')
+  return Boolean(answer) && printed.includes(` ${answer} `)
 }
 
 /**

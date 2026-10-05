@@ -219,6 +219,13 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
 
   if (opts.pastFigure) {
     const f = opts.pastFigure
+    // The bank marks where figures sat with bracket tokens, and the model
+    // copied "[THIS DIAGRAM]" into the stem of eleven questions on one run.
+    // Plain words instead, and other figures named as absent so nothing is
+    // written about them.
+    const original = f.original.trim().slice(0, 700)
+      .replace(/\[THIS DIAGRAM\]/g, `(the ${f.noun} is printed here)`)
+      .replace(/\[ANOTHER DIAGRAM\]/g, '(a different figure, not shown with this question)')
     // Described, never addressed: the same lesson as the drawn figure below.
     // Every line is about the figure, so none of it reads as part of a task.
     lines.push(
@@ -226,8 +233,15 @@ export function buildExamPaperPrompt(opts: ExamPaperPromptOptions): string {
       ...(f.labels.length ? [`The words and numbers printed on it: ${f.labels.join(', ')}.`] : []),
       `Cambridge asked about this ${f.noun} like this:`,
       '"""',
-      f.original.trim().slice(0, 700),
+      original,
       '"""',
+      // "Write down the name of the insoluble solid" over a label reading
+      // "insoluble solid copper carbonate"; "the organ that pumps blood"
+      // over a horse with its heart labelled "heart".
+      `A word printed on the ${f.noun} is never the answer: an answer takes reading a value, working something out, or knowing the science.`,
+      // "Calculate 5 x 10^-1 and match it to the correct answer" -- the
+      // original was a draw-a-line matching task. The screen has no pen.
+      `The learner answers on screen and cannot draw on the ${f.noun}, join things with lines, or fill it in.`,
       // "For <level>", not "at the same level": a Lower Secondary paper may
       // print a figure from a Primary one, and its question is still Stage 9.
       `That is a model of the demand, not text to reuse. The new question is about the same ${f.noun}, in the same style, for ${opts.level}: it asks about something the ${f.noun} shows, and keeps every label and value exactly as printed. It may ask what Cambridge asked in different words, or something else the ${f.noun} answers.`,

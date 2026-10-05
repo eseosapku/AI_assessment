@@ -614,26 +614,6 @@
    "primaryOk": false
   },
   {
-   "id": "0862-mathematics-paper-1-april-2023-p4-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 1,
-   "session": "April 2023",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-1-april-2023/p4-fig-0.png",
-   "noun": "diagram",
-   "shows": "A square-based pyramid drawn in 3D, with hidden edges dashed. The base side along the front is labelled 10 cm. A line from the apex to the midpoint of the right-hand base edge is labelled 12 cm, with a right-angle mark where it meets that edge. The words NOT TO SCALE are printed beside it.",
-   "labels": [
-    "NOT TO",
-    "SCALE",
-    "12 cm",
-    "10 cm"
-   ],
-   "focus": "volume and surface area of a cuboid",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "A pyramid has\n•\na square base with a side length of 10 cm\n•\nfour congruent triangular faces each with a height of 12 cm.\n[THIS DIAGRAM]\nCalculate the surface area of the pyramid.\ncm2 [2]",
-   "primaryOk": false
-  },
-  {
    "id": "0862-mathematics-paper-1-april-2023-p5-0",
    "code": "0862",
    "stage": 9,
@@ -651,26 +631,6 @@
    "strand": "Statistics and Probability",
    "original": "Ahmed draws this graph to show how the number of visitors to his town has increased.\n[THIS DIAGRAM]\nGive one reason why the graph could be misleading.\n[1]",
    "primaryOk": true
-  },
-  {
-   "id": "0862-mathematics-paper-1-april-2023-p6-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 1,
-   "session": "April 2023",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-1-april-2023/p6-fig-0.png",
-   "noun": "diagram",
-   "shows": "A horizontal line segment with endpoints labelled A (left) and B (right). An arc labelled 5 cm is drawn from centre A and an arc labelled 6 cm is drawn from centre B, each shown with a dashed radius and arrow. The two arcs cross above and below the line, and a vertical line through both crossing points meets AB at a right angle marked with a small square.",
-   "labels": [
-    "5 cm",
-    "6 cm",
-    "A",
-    "B"
-   ],
-   "focus": "scale and scale drawing",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "Here is Eva’s method for drawing the perpendicular bisector of line AB.\n[THIS DIAGRAM]\nShe draws an arc radius 5 cm centre A.\nShe draws an arc radius 6 cm centre B.\nShe draws a line to connect the points where her arcs intersect.\nExplain why Eva’s method is not correct.\n[1]",
-   "primaryOk": false
   },
   {
    "id": "0862-mathematics-paper-1-april-2023-p8-0",
@@ -815,24 +775,6 @@
    "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-1-october-2023/p2-fig-2.png",
    "noun": "graph",
    "shows": "A scatter graph with a horizontal x axis and a vertical y axis, both drawn with arrowheads and no scale or numbers. Seven crosses rise steadily from the lower left to the upper right and lie close to a straight line.",
-   "labels": [
-    "y",
-    "x"
-   ],
-   "focus": "drawing a conclusion from data",
-   "strand": "Statistics and Probability",
-   "original": "Draw a ring around the scatter graph that shows positive correlation.",
-   "primaryOk": true
-  },
-  {
-   "id": "0862-mathematics-paper-1-october-2023-p2-3",
-   "code": "0862",
-   "stage": 9,
-   "component": 1,
-   "session": "October 2023",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-1-october-2023/p2-fig-3.png",
-   "noun": "graph",
-   "shows": "A scatter graph with a horizontal x axis and a vertical y axis, each with an arrowhead and labelled x and y. Six crosses are plotted and go steadily downward from the top left to the bottom right, so y decreases as x increases. There are no numbers or scale on the axes.",
    "labels": [
     "y",
     "x"
@@ -1013,101 +955,6 @@
    "primaryOk": false
   },
   {
-   "id": "0862-mathematics-paper-2-april-2023-p4-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "April 2023",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-2-april-2023/p4-fig-0.png",
-   "noun": "grid",
-   "shows": "A coordinate grid with x-axis from –4 to 10 and y-axis from –2 to 12, with dotted gridlines. A square with vertices at (1, 2), (4, 2), (4, 5) and (1, 5) is drawn in bold. A cross marks the point (2, 3) inside the square.",
-   "labels": [
-    "y",
-    "12",
-    "11",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-    "1",
-    "x",
-    "0",
-    "–4",
-    "–3",
-    "–2",
-    "–1",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "–1",
-    "–2"
-   ],
-   "focus": "reflection, rotation and translation",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows a square drawn on a coordinate grid.\nDraw the image of the square after an enlargement, scale factor 3, centre (2, 3).\n[2]",
-   "primaryOk": false
-  },
-  {
-   "id": "0862-mathematics-paper-2-april-2023-p5-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "April 2023",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-2-april-2023/p5-fig-0.png",
-   "noun": "bar chart",
-   "shows": "A bar chart with vertical axis labelled Frequency, numbered 0 to 11, and horizontal categories Small, Medium and Large. The Small bar has height 6, the Medium bar height 10 and the Large bar height 8.",
-   "labels": [
-    "11",
-    "10",
-    "9",
-    "8",
-    "7",
-    "Frequency 6",
-    "5",
-    "4",
-    "3",
-    "2",
-    "1",
-    "0",
-    "Small",
-    "Medium",
-    "Large"
-   ],
-   "focus": "interpreting a bar chart described in words",
-   "strand": "Statistics and Probability",
-   "original": "The bar chart shows the number of small, medium and large potatoes in a sack.\nSize of potato\nComplete the pie chart to show this information.\n[3]",
-   "primaryOk": true
-  },
-  {
-   "id": "0862-mathematics-paper-2-april-2023-p5-1",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "April 2023",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-2-april-2023/p5-fig-1.png",
-   "noun": "pie chart",
-   "shows": "A circle with its centre marked by a dot. Two radii, one vertical and one horizontal, meet at a right-angle mark at the centre. They enclose a quarter sector (upper right) labelled \"Small\". The rest of the circle is not divided or labelled.",
-   "labels": [
-    "Small"
-   ],
-   "focus": "interpreting a pie chart described in words",
-   "strand": "Statistics and Probability",
-   "original": "The bar chart shows the number of small, medium and large potatoes in a sack.\nComplete the pie chart to show this information.\n[3]",
-   "primaryOk": true
-  },
-  {
    "id": "0862-mathematics-paper-2-april-2023-p6-0",
    "code": "0862",
    "stage": 9,
@@ -1174,26 +1021,6 @@
    "strand": "Statistics and Probability",
    "original": "Ahmed has two bags each containing four balls.\nThe balls in bag A are numbered 1, 3, 5 and 6\nThe balls in bag B are numbered 2, 3, 4 and 6\nAhmed picks a ball at random from each bag.\nHe adds together the numbers on the two balls to get a total score.\nShow that P(total score is even) = P(total score is more than 8).\nYou may use the table to help you.\nBag A",
    "primaryOk": false
-  },
-  {
-   "id": "0862-mathematics-paper-2-april-2023-p10-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "April 2023",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-paper-2-april-2023/p10-fig-0.png",
-   "noun": "drawing",
-   "shows": "A box headed \"Method A\" containing a line drawing of a hand with two fingers of the other hand pressed on the inside of the wrist. Below the drawing is the text \"Find his heart rate by placing two fingers on his wrist and counting the beats.\" No numbers are printed.",
-   "labels": [
-    "Method A",
-    "Find his heart rate by placing",
-    "two fingers on his wrist and",
-    "counting the beats."
-   ],
-   "focus": "fair sampling and bias",
-   "strand": "Statistics and Probability",
-   "original": "(a) Yuri wants to investigate how exercise changes his heart rate.\nHe considers two methods for measuring his heart rate.\n[THIS DIAGRAM]\nYuri decides to use method A.\nGive one reason why this may not be the better method.\n[1]",
-   "primaryOk": true
   },
   {
    "id": "0862-mathematics-paper-2-april-2023-p12-0",
@@ -1542,57 +1369,6 @@
    "focus": "circumference and area of a circle",
    "strand": "Algebra, Geometry and Measure",
    "original": "A solid cylinder has a height of 18 cm.\n[THIS DIAGRAM]\nThe curved surface area of the cylinder is 845 cm2.\nFind the area of the top of the cylinder.\ncm2 [3]",
-   "primaryOk": false
-  },
-  {
-   "id": "10-0862-01-7rp-afp-tcm143-725669-p3-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 1,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/10-0862-01-7rp-afp-tcm143-725669/p3-fig-0.png",
-   "noun": "grid",
-   "shows": "A coordinate grid with x-axis labelled from -8 to 14 and y-axis labelled from -5 to 10. A shaded quadrilateral has vertices at (2, 3), (4, 5), (7, 5) and (7, 2). A cross marks the point (5, 4), inside the quadrilateral.",
-   "labels": [
-    "y",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-    "1",
-    "x",
-    "– 8",
-    "– 7",
-    "– 6",
-    "– 5",
-    "– 4",
-    "– 3",
-    "– 2",
-    "– 1",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9 10 11 12 13 14",
-    "– 1",
-    "– 2",
-    "– 3",
-    "– 4",
-    "– 5"
-   ],
-   "focus": "reflection, rotation and translation",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows a quadrilateral drawn on a coordinate grid.\nDraw the image of the quadrilateral after an enlargement, scale factor 3, centre (5, 4).\n[2]",
    "primaryOk": false
   },
   {
@@ -2022,28 +1798,6 @@
    "primaryOk": false
   },
   {
-   "id": "10-0862-02-7rp-afp-tcm143-725670-p4-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/10-0862-02-7rp-afp-tcm143-725670/p4-fig-0.png",
-   "noun": "diagram",
-   "shows": "A triangular prism drawn in 3D, with dashed lines for the hidden edges. The triangular end face has a right angle at the bottom left, a vertical side of 8 cm and a horizontal base of 6 cm. The prism's length is marked 10 cm along the bottom right edge, and the sloping rectangular edge at the upper right is also marked 10 cm.",
-   "labels": [
-    "NOT TO",
-    "SCALE",
-    "10 cm",
-    "8 cm",
-    "10 cm",
-    "6 cm"
-   ],
-   "focus": "volume and surface area of a cuboid",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows a triangular prism.\n[THIS DIAGRAM]\nTick (✓) to show if each of these statements about the prism is true or false.\nTrue\nFalse\nThe largest face has an area of 100 cm2.\nThe total area of the two triangular faces is 96 cm2.\n[1]",
-   "primaryOk": false
-  },
-  {
    "id": "10-0862-02-7rp-afp-tcm143-725670-p5-0",
    "code": "0862",
    "stage": 9,
@@ -2337,51 +2091,6 @@
    "primaryOk": true
   },
   {
-   "id": "04-0862-01-4rp-afp-tcm143-736389-p14-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 1,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/04-0862-01-4rp-afp-tcm143-736389/p14-fig-0.png",
-   "noun": "picture",
-   "shows": "A cartoon drawing of a smiling boy with dark hair wearing a hooded top, with a speech bubble coming from him. The speech bubble reads: \"All fractions with an odd denominator will be equivalent to a recurring decimal, for example 2/9 = 0.2\" with a dot above the 2 to show it is a recurring decimal.",
-   "labels": [
-    "All fractions with an odd denominator will be equivalent",
-    "= .",
-    "2",
-    "to a recurring decimal, for example",
-    "0 2",
-    ".",
-    "9"
-   ],
-   "focus": "equivalent fractions",
-   "strand": "Number",
-   "original": "Rajiv says,\n[THIS DIAGRAM]\nFind a fraction with an odd denominator to show that Rajiv is not correct.\n[1]",
-   "primaryOk": false
-  },
-  {
-   "id": "04-0862-01-4rp-afp-tcm143-736389-p16-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 1,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/04-0862-01-4rp-afp-tcm143-736389/p16-fig-0.png",
-   "noun": "diagram",
-   "shows": "A rectangle with a vertical dashed line splitting it into a longer left part and a shorter right part. The whole width along the top is labelled x m and the height on the left is labelled 0.12 m. Along the bottom, the left part is labelled y m and the right part is labelled 0.15 m. The diagram is marked NOT TO SCALE.",
-   "labels": [
-    "x m",
-    "NOT TO",
-    "0.12 m",
-    "SCALE",
-    "y m",
-    "0.15 m"
-   ],
-   "focus": "area of a compound shape",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows a rectangle.\n[THIS DIAGRAM]\nThe total area of the rectangle is 0.084 m2.\nWork out the value of x and the value of y.\nx =\ny =\n[3]",
-   "primaryOk": false
-  },
-  {
    "id": "04-0862-01-8rp-afp-tcm143-712734-p5-0",
    "code": "0862",
    "stage": 9,
@@ -2457,26 +2166,6 @@
    "strand": "Algebra, Geometry and Measure",
    "original": "Here is a prism made from five identical cubes.\nDraw a ring around the number of planes of symmetry this prism has.\n0 1 2 3",
    "primaryOk": true
-  },
-  {
-   "id": "04-0862-02-6rp-afp-tcm143-736390-p3-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/04-0862-02-6rp-afp-tcm143-736390/p3-fig-0.png",
-   "noun": "diagram",
-   "shows": "A horizontal cylinder is drawn with a circular end on the left and the hidden back edge of the other end shown dashed. An arrow from the centre of the left circular face up to its edge is labelled 4.1 cm. An arrow along the bottom, under the length of the cylinder, is labelled 6.5 cm. The words NOT TO SCALE are printed beside it.",
-   "labels": [
-    "4.1 cm",
-    "NOT TO",
-    "SCALE",
-    "6.5 cm"
-   ],
-   "focus": "circumference and area of a circle",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows a cylinder with a radius of 4.1 cm and a length of 6.5 cm.\nCalculate the volume of the cylinder.\ncm3 [2]",
-   "primaryOk": false
   },
   {
    "id": "04-0862-02-6rp-afp-tcm143-736390-p4-0",
@@ -2588,73 +2277,6 @@
    "primaryOk": false
   },
   {
-   "id": "04-0862-02-6rp-afp-tcm143-736390-p11-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/04-0862-02-6rp-afp-tcm143-736390/p11-fig-0.png",
-   "noun": "grid",
-   "shows": "A coordinate grid with x-axis from -6 to 9 and y-axis from -6 to 8, with dashed grid lines at each whole number. A shaded quadrilateral ABCD has vertices A at (1, 4), B at (4, 4), C at (3, 3) and D at (2, 1).",
-   "labels": [
-    "y",
-    "8",
-    "7",
-    "6",
-    "5",
-    "A",
-    "B",
-    "4",
-    "3",
-    "C",
-    "2",
-    "1",
-    "D",
-    "– 6 – 5 – 4 – 3 – 2 – 1 0",
-    "x",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "–1",
-    "–2",
-    "–3",
-    "–4",
-    "–5",
-    "–6"
-   ],
-   "focus": "reflection, rotation and translation",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows shape ABCD on a grid.\nABCD is enlarged by scale factor 2, centre (5, 7) to A'B'C'D'.\nComplete the table to show the positions of vertices A', B', C' and D'.\nOne has been done for you.\nPositive y-coordinate\nNegative y-coordinate\nPositive x-coordinate\nB'\nNegative x-coordinate\n[2]",
-   "primaryOk": false
-  },
-  {
-   "id": "04-0862-02-6rp-afp-tcm143-736390-p13-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/04-0862-02-6rp-afp-tcm143-736390/p13-fig-0.png",
-   "noun": "diagram",
-   "shows": "A triangular prism whose cross-section is a right-angled triangle. The triangle's vertical side is labelled 16 cm and its horizontal base is labelled 30 cm, with a right angle marked at the bottom left corner. The sloping rectangular face is shaded grey, and its edge running back along the prism is labelled 51 cm. Dashed lines inside the prism show hidden edges and a right angle at the back. The diagram is marked NOT TO SCALE.",
-   "labels": [
-    "NOT TO",
-    "SCALE",
-    "16 cm",
-    "51 cm",
-    "30 cm"
-   ],
-   "focus": "volume and surface area of a cuboid",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows a triangular prism.\nThe cross-section of the prism is a right-angled triangle.\n[THIS DIAGRAM]\nCalculate the area of the shaded face of the prism.\ncm2 [2]",
-   "primaryOk": false
-  },
-  {
    "id": "04-0862-02-8rp-afp-tcm143-712735-p3-3",
    "code": "0862",
    "stage": 9,
@@ -2676,39 +2298,6 @@
    "strand": "Algebra, Geometry and Measure",
    "original": "Here is a mapping diagram for the function y = 4x2\n[THIS DIAGRAM]\nComplete the mapping diagram with three different values.\n[3]",
    "primaryOk": false
-  },
-  {
-   "id": "04-0862-02-8rp-afp-tcm143-712735-p5-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/04-0862-02-8rp-afp-tcm143-712735/p5-fig-0.png",
-   "noun": "grid",
-   "shows": "A coordinate grid with x and y axes, both labelled from 0 to 5 with dashed grid lines at each whole number. A square ABCD is drawn with A at (2, 2), B at (2, 4), C at (4, 4) and D at (4, 2).",
-   "labels": [
-    "y",
-    "5",
-    "B",
-    "C",
-    "4",
-    "3",
-    "2",
-    "A",
-    "D",
-    "1",
-    "0",
-    "x",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5"
-   ],
-   "focus": "reflection, rotation and translation",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "Yuri enlarges square ABCD by a scale factor of 2\n[THIS DIAGRAM]\nPoint A does not move when the square is enlarged.\nDraw a ring around the coordinates of the centre of enlargement.\n(0, 0) (2, 2) (2, 4) (4, 2) (4, 4)\n[1]",
-   "primaryOk": true
   },
   {
    "id": "04-0862-02-8rp-afp-tcm143-712735-p6-0",
@@ -2754,21 +2343,6 @@
    "strand": "Number",
    "original": "The graph shows the exchange rate between US dollars ($) and Japanese yen (¥).\nAngelique changes $40 into Japanese yen.\nCalculate how many Japanese yen Angelique receives.\n¥\n[2]",
    "primaryOk": true
-  },
-  {
-   "id": "04-0862-02-8rp-afp-tcm143-712735-p9-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "",
-   "localPath": "/textbook-images/checkpoint-bank/04-0862-02-8rp-afp-tcm143-712735/p9-fig-0.png",
-   "noun": "diagram",
-   "shows": "Three straight lines start from one point at the bottom left. The top line and the bottom line form an angle, and a third line between them is drawn as the bisector. One short arc crosses the top line and one short arc crosses the bottom line, both at the same distance from the point. There are no printed words or numbers, and no arcs are drawn between the two lines.",
-   "labels": [],
-   "focus": "reflection, rotation and translation",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "Rajiv bisects an angle.\nHere is his construction.\nThere are arcs missing from his construction.\nConstruct the missing arcs accurately on the diagram.\n[1]",
-   "primaryOk": false
   },
   {
    "id": "04-0862-02-8rp-afp-tcm143-712735-p11-0",
@@ -3145,54 +2719,6 @@
    "primaryOk": true
   },
   {
-   "id": "0862-mathematics-march-2026-checkpoint-question-paper-2-p6-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "March 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-march-2026-checkpoint-question-paper-2/p6-fig-0.png",
-   "noun": "grid",
-   "shows": "A coordinate grid with x-axis labelled from –2 to 15 and y-axis labelled from –2 to 10, with dashed grid lines at each whole number. A rectangle has corners at (5, 3), (9, 3), (9, 5) and (5, 5). A cross marks the point (7, 4) in the centre of the rectangle.",
-   "labels": [
-    "y",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-    "1",
-    "x",
-    "–2",
-    "–1",
-    "0",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "7",
-    "8",
-    "9",
-    "10",
-    "11",
-    "12",
-    "13",
-    "14",
-    "15",
-    "–1",
-    "–2"
-   ],
-   "focus": "reflection, rotation and translation",
-   "strand": "Algebra, Geometry and Measure",
-   "original": "The diagram shows a rectangle drawn on a grid.\nDraw the image of the rectangle after an enlargement, scale factor 3, centre (7, 4).\n[2]",
-   "primaryOk": false
-  },
-  {
    "id": "0862-mathematics-march-2026-checkpoint-question-paper-2-p7-0",
    "code": "0862",
    "stage": 9,
@@ -3498,32 +3024,6 @@
    "strand": "Algebra, Geometry and Measure",
    "original": "The diagram shows a rectangle with a smaller rectangle cut out of it.\nAll measurements are in centimetres.\n[THIS DIAGRAM]\nWrite an expression for the shaded area.\nGive your answer in its simplest form.\ncm2 [3]",
    "primaryOk": false
-  },
-  {
-   "id": "0862-mathematics-may-2026-checkpoint-question-paper-2-p5-0",
-   "code": "0862",
-   "stage": 9,
-   "component": 2,
-   "session": "May 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0862-mathematics-may-2026-checkpoint-question-paper-2/p5-fig-0.png",
-   "noun": "graph",
-   "shows": "A distance–time graph with time on the horizontal axis, labelled 8 am, 9 am, 10 am and 11 am, and distance (km) on the vertical axis, labelled 0, 100 and 200. Dashed grid lines sit at every half hour and every 50 km. A solid line runs straight from (8 am, 0) through (9 am, 50) to (10 am, 100), then becomes steeper and runs straight to (11 am, 200).",
-   "labels": [
-    "200",
-    "distance",
-    "100",
-    "(km)",
-    "0",
-    "8 am",
-    "9 am",
-    "10 am",
-    "11 am",
-    "time"
-   ],
-   "focus": "direct proportion",
-   "strand": "Number",
-   "original": "The diagram shows a distance–time graph for a car journey.\n[THIS DIAGRAM]\nCalculate the speed of the car between 8 am and 10 am.\nGive your answer in km/h.\nkm/h [1]",
-   "primaryOk": true
   },
   {
    "id": "0862-mathematics-may-2026-checkpoint-question-paper-2-p7-0",
@@ -3848,21 +3348,6 @@
    "primaryOk": true
   },
   {
-   "id": "0097-science-may-2024-past-checkpoint-test-question-paper-1-p16-0",
-   "code": "0097",
-   "stage": 6,
-   "component": 1,
-   "session": "May 2024",
-   "localPath": "/textbook-images/checkpoint-bank/0097-science-may-2024-past-checkpoint-test-question-paper-1/p16-fig-0.png",
-   "noun": "drawing",
-   "shows": "A black loudspeaker symbol: a small rectangle on the left joined to a larger triangle-like cone that widens to the right. Three curved arc lines of increasing size sit to the right of the cone, showing sound waves. There are no labels or numbers.",
-   "labels": [],
-   "focus": "series and parallel circuits",
-   "strand": "Physics",
-   "original": "Mike uses secondary sources to find out about symbols in electrical circuits.\nWhich symbols are conventional electrical symbols?\nCircle the correct answer.\nA and B C and D E and F G and H\n[1]",
-   "primaryOk": false
-  },
-  {
    "id": "0097-science-may-2024-past-checkpoint-test-question-paper-1-p18-0",
    "code": "0097",
    "stage": 6,
@@ -3918,21 +3403,6 @@
    "focus": "reflection and refraction of light",
    "strand": "Physics",
    "original": "Lily investigates what happens to a ray of light when it touches a mirror.\n(a) Write down the name of the process Lily investigates.\n(b) Lily changes the size of angle A and then measures angles A, B and C.\nShe writes her results in a table.\nDescribe two things that happen as angle A increases in size.",
-   "primaryOk": false
-  },
-  {
-   "id": "0097-science-may-2024-past-checkpoint-test-question-paper-2-p6-0",
-   "code": "0097",
-   "stage": 6,
-   "component": 2,
-   "session": "May 2024",
-   "localPath": "/textbook-images/checkpoint-bank/0097-science-may-2024-past-checkpoint-test-question-paper-2/p6-fig-0.png",
-   "noun": "drawing",
-   "shows": "A black-and-white drawing of a lavender plant growing in a plastic plant pot. The plant has many narrow leaves and several dark flower spikes on upright stems. The pot is plain and tapers towards the base. There are no labels or numbers.",
-   "labels": [],
-   "focus": "how soil forms",
-   "strand": "Earth and Space",
-   "original": "There are different types of soil.\n(a) Complete the sentence.\nSoils are classified based on their:\n• clay content\n• ____ content and\n• organic content.\n[1]\n(b) Aiko collects information about two different plants.\nLavender grows best in well-draining soil.\nHoneysuckle grows best in well-draining soil with lots of minerals.\nA well-draining soil lets water leave the soil quickly.\nAiko makes some predictions.\nTick the correct prediction.",
    "primaryOk": false
   },
   {
@@ -4574,26 +4044,6 @@
    "focus": "the circulatory system",
    "strand": "Biology",
    "original": "The heart is an organ.\n(a) Look at the diagram of the human body.\n[THIS DIAGRAM]\nWhich letter on the diagram of the human body shows the heart?\nCircle the correct answer.\nA B C D E\n[1]\n(b) The heart pumps blood around the body.\nName two substances the blood transports.\n1\n2\n[2]",
-   "primaryOk": true
-  },
-  {
-   "id": "0097-science-october-2024-past-checkpoint-test-question-paper-2-p16-0",
-   "code": "0097",
-   "stage": 6,
-   "component": 2,
-   "session": "October 2024",
-   "localPath": "/textbook-images/checkpoint-bank/0097-science-october-2024-past-checkpoint-test-question-paper-2/p16-fig-0.png",
-   "noun": "diagram",
-   "shows": "A circuit drawn in perspective with a grey rectangular board. A bent metal 'wire shape' rises from the board, arches over, and goes back down into a ring on the board. The ring has a straight handle labelled 'loop', and the wire shape passes through the ring without touching it. A black lead joins the loop handle to the battery. A second lead joins the battery to the buzzer. A third lead joins the buzzer to the wire shape at its other end on the board. The labelled parts are wire shape, loop, battery and buzzer.",
-   "labels": [
-    "wire shape",
-    "loop",
-    "battery",
-    "buzzer"
-   ],
-   "focus": "series and parallel circuits",
-   "strand": "Physics",
-   "original": "Blessy makes an electrical buzzer game.\n[THIS DIAGRAM]\n(a) The buzzer does not make a sound at the start of the game.\nBlessy moves the loop around the wire shape.\nThe buzzer makes a sound.\nExplain why the buzzer makes a sound.\n[1]\n(b) Draw the electrical symbol for a buzzer.\n[1]",
    "primaryOk": true
   },
   {
@@ -5883,28 +5333,6 @@
    "primaryOk": false
   },
   {
-   "id": "0893-science-may-2025-checkpoint-question-paper-2-p2-0",
-   "code": "0893",
-   "stage": 9,
-   "component": 2,
-   "session": "May 2025",
-   "localPath": "/textbook-images/checkpoint-bank/0893-science-may-2025-checkpoint-question-paper-2/p2-fig-0.png",
-   "noun": "diagram",
-   "shows": "Two identical plastic bottles stand upside down side by side, each with a stone layer on top of a sand layer. Dirty water is poured from a beaker into the top of each bottle (both beakers are labelled 'dirty water'). Tubes from the bottom of both bottles join and lead into one funnel, and drops of 'clean water' fall from the funnel's end. A bracket labelled X spans the whole bottle, including the stone and sand layers and the space above them. The parts labelled are dirty water (twice), stone, sand, X and clean water.",
-   "labels": [
-    "dirty water",
-    "dirty water",
-    "stone",
-    "X",
-    "sand",
-    "clean water"
-   ],
-   "focus": "separating mixtures",
-   "strand": "Chemistry",
-   "original": "Look at this model of the human excretory (renal) system.\n[THIS DIAGRAM]\n(a) (i) What organ does X represent?\nX\n[1]\n(ii) Name the liquid excreted by the renal system.\n[1]\n(b) Describe one strength and one limitation of this model.\nstrength\nlimitation\n[2]\n(c) Suggest one reason why scientific models change over time.\n[1]",
-   "primaryOk": false
-  },
-  {
    "id": "0893-science-may-2025-checkpoint-question-paper-2-p3-0",
    "code": "0893",
    "stage": 9,
@@ -6224,24 +5652,6 @@
    "primaryOk": false
   },
   {
-   "id": "0893-science-october-2025-checkpoint-question-paper-1-p8-0",
-   "code": "0893",
-   "stage": 9,
-   "component": 1,
-   "session": "October 2025",
-   "localPath": "/textbook-images/checkpoint-bank/0893-science-october-2025-checkpoint-question-paper-1/p8-fig-0.png",
-   "noun": "diagram",
-   "shows": "A circuit diagram drawn as a rectangular loop of wires with a gap in the top wire, where a cell is to be placed. Ammeter A1 is in the left side wire and ammeter A2 is in the right side wire. A lamp symbol (a circle with a cross) is in the bottom wire. All components are in one series loop.",
-   "labels": [
-    "A1",
-    "A2"
-   ],
-   "focus": "series and parallel circuits",
-   "strand": "Physics",
-   "original": "Yuri makes an electrical circuit.\n[THIS DIAGRAM]\n(a) Yuri puts one cell in the gap in his circuit.\nDraw the standard conventional symbol for a cell in the gap in his circuit. [1]\n(b) The reading on ammeter A1 is 0.55 A.\nState the reading on ammeter A2.\n(c) Yuri measures the voltage across the lamp.\nDraw the position of a voltmeter on his electrical circuit to measure the voltage across the lamp.\nUse the correct standard conventional symbol for a voltmeter. [2]",
-   "primaryOk": false
-  },
-  {
    "id": "0893-science-october-2025-checkpoint-question-paper-1-p12-0",
    "code": "0893",
    "stage": 9,
@@ -6256,24 +5666,6 @@
    "focus": "how sound travels",
    "strand": "Physics",
    "original": "Oliver looks at two different sound waveforms.\n[THIS DIAGRAM]\nsound waveform A\n(a) Look at sound waveform A.\nWhich feature remains the same and which feature changes in waveform A?\nremains the same\nchanges\n[2]",
-   "primaryOk": false
-  },
-  {
-   "id": "0893-science-october-2025-checkpoint-question-paper-2-p2-0",
-   "code": "0893",
-   "stage": 9,
-   "component": 2,
-   "session": "October 2025",
-   "localPath": "/textbook-images/checkpoint-bank/0893-science-october-2025-checkpoint-question-paper-2/p2-fig-0.png",
-   "noun": "diagram",
-   "shows": "A diagram of the human urinary (excretory) system. Two kidneys sit at the top on either side of two large vertical blood vessels, with smaller vessels joining each kidney to them. One kidney is labelled X. A thin tube runs down from each kidney to a rounded bag-shaped organ at the bottom, labelled Y, which has a single narrow tube leaving its base.",
-   "labels": [
-    "X",
-    "Y"
-   ],
-   "focus": "the human digestive system",
-   "strand": "Biology",
-   "original": "The diagram shows one organ system in the human body.\n[THIS DIAGRAM]\n(a) Circle the name of the organ system shown in the diagram.\ncirculatory excretory reproductive respiratory\n[1]\n(b) Write down the function of the organ X.\n[1]\n(c) Write down the name and function of organ Y.\nname\nfunction\n[2]",
    "primaryOk": false
   },
   {
@@ -6891,21 +6283,6 @@
    "primaryOk": true
   },
   {
-   "id": "0097-science-march-2026-checkpoint-question-paper-2-p14-4",
-   "code": "0097",
-   "stage": 6,
-   "component": 2,
-   "session": "March 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0097-science-march-2026-checkpoint-question-paper-2/p14-fig-4.png",
-   "noun": "drawing",
-   "shows": "A drawing of a retractable tape measure. It has a rounded grey case with a tape pulled out of the bottom front and a metal hook at the end of the tape. The tape has a scale with small unreadable marks and numbers, and no words are printed.",
-   "labels": [],
-   "focus": "reflection and refraction of light",
-   "strand": "Physics",
-   "original": "(c) Which equipment does Jamila use to measure A and B?\nCircle the correct diagram.\n[1]",
-   "primaryOk": true
-  },
-  {
    "id": "0097-science-march-2026-checkpoint-question-paper-2-p16-0",
    "code": "0097",
    "stage": 6,
@@ -6996,27 +6373,6 @@
    "focus": "deciding whether a test was fair",
    "strand": "Thinking and Working Scientifically",
    "original": "Safia investigates asteroid collisions with the Earth. Look at a diagram of the equipment she uses. In her first experiment Safia: • smooths the surface of the sand in the container • drops a metal ball from 20 cm into the sand • measures the diameter of the crater made in the sand • records the result in a table. Safia repeats the experiment four more times. Each time she uses a different drop height for the metal ball. (a) Explain why it is important to smooth the surface of the sand between each experiment. [1]",
-   "primaryOk": false
-  },
-  {
-   "id": "0893-science-march-2026-checkpoint-question-paper-1-p7-0",
-   "code": "0893",
-   "stage": 9,
-   "component": 1,
-   "session": "March 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0893-science-march-2026-checkpoint-question-paper-1/p7-fig-0.png",
-   "noun": "diagram",
-   "shows": "A side view of a cat's body outline with the internal organs drawn inside it and five organs labelled with leader lines: A, B, C, D and E. A points to a dark organ behind the large light-grey lung-like shape near the chest. B points to a light-grey organ further back. C points to a dark, bean-shaped organ high up near the back, above the coiled intestines. D points to the coiled tubes of the intestines. E points to a pale rounded sac low in the abdomen, with tubes leading to it from the region of C.",
-   "labels": [
-    "A",
-    "B",
-    "C",
-    "D",
-    "E"
-   ],
-   "focus": "the human digestive system",
-   "strand": "Biology",
-   "original": "Humans have an excretory (renal) system.\nCats also have an excretory (renal) system.\n[THIS DIAGRAM]\nThe kidney and the bladder are part of the excretory (renal) system.\n(a) Describe two functions of the kidney.\n(b) Which letter shows a kidney?\nCircle the correct answer.\nA B C D E\n(c) Which letter shows the bladder?\nCircle the correct answer.\nA B C D E",
    "primaryOk": false
   },
   {
@@ -7327,27 +6683,6 @@
    "focus": "current, voltage and resistance",
    "strand": "Physics",
    "original": "Blessy uses an electric kettle.\nWhat is the unit for electrical resistance?\n(ii) The supply voltage to the kettle is 240 V.\nThe current in the kettle is 12 A.\nCalculate the electrical resistance of the kettle.\n(b) Blessy uses the kettle to boil water.\nExplain how the outside of the kettle becomes hot.\nUse ideas about thermal energy in your answer.\n(c) Blessy makes a risk assessment for using the electric kettle to boil water.",
-   "primaryOk": false
-  },
-  {
-   "id": "0893-science-may-2026-checkpoint-question-paper-2-p6-0",
-   "code": "0893",
-   "stage": 9,
-   "component": 2,
-   "session": "May 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0893-science-may-2026-checkpoint-question-paper-2/p6-fig-0.png",
-   "noun": "diagram",
-   "shows": "A dot-and-cross diagram of a methane molecule. A central circle labelled C has four crosses on its inner shell. A larger circle around it overlaps four smaller circles, each labelled H (top, bottom, left, right). At each overlap there is one cross and one dot, which shows a shared pair of electrons.",
-   "labels": [
-    "H",
-    "H",
-    "C",
-    "H",
-    "H"
-   ],
-   "focus": "atomic structure",
-   "strand": "Chemistry",
-   "original": "(a) Look at the structure of a molecule of methane, CH4.\n[THIS DIAGRAM]\nWrite down what is meant by a molecule.\n[2]",
    "primaryOk": false
   },
   {
