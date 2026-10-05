@@ -195,10 +195,23 @@ def main():
                 ask = asks_about(rect, rows)
                 if not ask:
                     continue
-                clip = grow_to_labels(fitz.Rect(rect.x0 - 6, rect.y0 - 6, rect.x1 + 6, rect.y1 + 6), rows) & page.rect
-                labels = [r["t"] for r in rows if fitz.Rect(r["x"], r["y"], r["x1"], r["y1"]).intersects(clip)]
-                if any(is_stem_text(l) for l in labels) and sum(len(l.split()) for l in labels) > 40:
-                    continue  # the crop is mostly text
+                def text_in(c):
+                    return [r["t"] for r in rows if fitz.Rect(r["x"], r["y"], r["x1"], r["y1"]).intersects(c)]
+
+                def mostly_text(ls):
+                    return any(is_stem_text(l) for l in ls) and sum(len(l.split()) for l in ls) > 40
+
+                own = fitz.Rect(rect.x0 - 6, rect.y0 - 6, rect.x1 + 6, rect.y1 + 6) & page.rect
+                clip = grow_to_labels(own, rows) & page.rect
+                labels = text_in(clip)
+                if mostly_text(labels):
+                    # A Mathematics book sets its figures in the text flow, and
+                    # growing the crop to the labels takes the exercise beside
+                    # it too. The figure's own box, then, and refuse only if
+                    # even that is mostly text.
+                    clip, labels = own, text_in(own)
+                    if mostly_text(labels):
+                        continue
                 try:
                     pix = page.get_pixmap(clip=clip, dpi=DPI)
                 except Exception:

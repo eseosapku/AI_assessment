@@ -35,6 +35,14 @@ for (const f of raw) {
   const localPath = fs.existsSync(path.join(ROOT, 'public', f.localPath)) ? f.localPath
     : f.localPath.replace(/\.png$/, '.jpg')
   if (!fs.existsSync(path.join(ROOT, 'public', localPath))) { refuse('crop missing on disk'); continue }
+  // A figure that is blank as a whole -- "An empty results table", "A blank
+  // tally chart" -- is a page for the learner to fill, with nothing to read
+  // off it. The judge is told so and passed thirteen anyway. Only when the
+  // description OPENS on it: a part-whole diagram with one empty circle is
+  // a good question ("what goes in the empty circle?") and stays.
+  if (/^(an?|two|three|four|five|several)?\s*(empty|blank)\b/i.test(String(t.shows).trim())) {
+    refuse('a blank form to fill in'); continue
+  }
   out.push({
     id: f.id, textbookIds: f.textbookIds, textbookName: f.textbookName, page: f.page, localPath,
     noun: String(t.noun ?? 'diagram').toLowerCase().split(/[,/]/)[0].trim() || 'diagram',

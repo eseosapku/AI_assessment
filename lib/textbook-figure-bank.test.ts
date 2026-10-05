@@ -96,3 +96,22 @@ describe('keepAndSpread', () => {
     expect(keepAndSpread(['a', 'b', 'c'], [], 2)).toEqual(['a', 'b'])
   })
 })
+
+describe('the textbook bank on disk', () => {
+  it('holds only figures with a topic, a description, an exercise and an image that exists', async () => {
+    const fs = await import('node:fs')
+    const path = await import('node:path')
+    const { loadTextbookFigureBank, resetTextbookFigureBank } = await import('./textbook-figure-bank')
+    resetTextbookFigureBank()
+    const bank = loadTextbookFigureBank()
+    if (!bank.length) return
+    for (const f of bank) {
+      expect(f.topic, f.id).toBeTruthy()
+      expect(f.shows.length, f.id).toBeGreaterThan(20)
+      expect(f.original, f.id).toBeTruthy()
+      expect(f.textbookIds.length, f.id).toBeGreaterThan(0)
+      expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
+      expect(f.shows, f.id).not.toMatch(/^(an?|two|three)?\s*(empty|blank)\b/i)
+    }
+  })
+})

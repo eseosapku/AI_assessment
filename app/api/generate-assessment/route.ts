@@ -1703,7 +1703,11 @@ ${commandBlock}`
     // figures belong to their text. Where these exist they replace the
     // library match: two sources of pictures on one quiz is how the same
     // circuit ended up beside two questions.
-    const quizFigures: TextbookFigure[] = !isCheckpoint && !isExamPrepMode && !usePassageFlow && !hasSourceText
+    // Pasted notes, not `hasSourceText`: that is also true for a textbook
+    // that carries its own stored text, and it switched the bank off for
+    // exactly the books it was built from.
+    const pastedNotes = String(rawSourceText ?? '').trim().length > 0
+    const quizFigures: TextbookFigure[] = !isCheckpoint && !isExamPrepMode && !usePassageFlow && !pastedNotes
       ? figuresForQuiz({
           textbookId: Number.isFinite(textbookId) ? textbookId : undefined,
           textbookName: textbookName || figureSubject,
@@ -3731,7 +3735,11 @@ ${commandBlock}`
     // missing; the paper is shipped with the questions it has, and the screen
     // reports the questions and marks it actually carries, because both are
     // counted from the questions rather than from the blueprint.
-    const shortTolerance = isCheckpoint ? Math.min(3, Math.floor(count * 0.1)) : 0
+    // An ordinary quiz of eight or more may ship one short, for the same
+    // reason: a Grade 1 "Shapes" quiz was refused at 7 of 8 after every pass,
+    // because a topic that narrow has only so many different questions, and
+    // the learner was sent back to wait for the same result.
+    const shortTolerance = isCheckpoint ? Math.min(3, Math.floor(count * 0.1)) : count >= 8 ? 1 : 0
     if (allQuestions.length < count && allQuestions.length >= count - shortTolerance) {
       console.warn(`Shipping ${allQuestions.length} of ${count}: short by ${count - allQuestions.length} after every pass`)
     } else if (allQuestions.length < count) {
