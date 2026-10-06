@@ -19,6 +19,8 @@ export interface InteractiveQuestionBase {
   explanation: string
   marks: number
   image_url?: string
+  /** What the figure shows, for a screen reader. */
+  image_alt?: string
   diagram_svg?: string
   figureGroup?: FigureGroupMeta
 }

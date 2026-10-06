@@ -3849,6 +3849,17 @@ ${commandBlock}`
     // The checker's working data, not part of the paper. And a scenario that
     // only points at the figure, from whichever step produced it -- see
     // `isPointerOnly`.
+    // The description goes to the learner as the figure's alt text, before
+    // the checker's copy is removed. Every figure was "Exam diagram" to a
+    // screen reader while an exact account of it sat here and was deleted.
+    const catalogAlt = new Map(visualCatalog.map((c) => [c.localPath, c.description]))
+    for (const q of allQuestions) {
+      if (q && typeof q === 'object' && (q as any).image_url) {
+        const url = String((q as any).image_url)
+        const alt = String((q as any).figure_description || bankAccountByPath.get(url) || catalogAlt.get(url) || '').trim()
+        if (alt) (q as any).image_alt = alt.slice(0, 600)
+      }
+    }
     for (const q of allQuestions) {
       if (q && typeof q === 'object') {
         delete (q as any).figure_spec; delete (q as any).figure_description

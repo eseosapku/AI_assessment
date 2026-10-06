@@ -99,6 +99,8 @@ interface MCQQuestion {
   scenario?: string
   diagram_svg?: string
   image_url?: string
+  /** What the figure shows, for a screen reader. */
+  image_alt?: string
   figureGroup?: FigureGroupMeta
 }
 
@@ -124,6 +126,8 @@ interface LongFormQuestion {
   scenario?: string
   diagram_svg?: string
   image_url?: string
+  /** What the figure shows, for a screen reader. */
+  image_alt?: string
   figureGroup?: FigureGroupMeta
 }
 
@@ -378,7 +382,7 @@ function LongFormResultCard({
           {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
             <>
               {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
-              <ExamFigure src={q.image_url} lazy />
+              <ExamFigure src={q.image_url} alt={q.image_alt} lazy />
             </>
           )}
           {q.diagram_svg && (
@@ -1879,7 +1883,7 @@ function AssessmentPageClient() {
                       {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
                         <>
                           {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
-                          <ExamFigure src={q.image_url} lazy />
+                          <ExamFigure src={q.image_url} alt={q.image_alt} lazy />
                         </>
                       )}
           {q.diagram_svg && (
@@ -2439,7 +2443,7 @@ function AssessmentPageClient() {
               className="hidden rounded-3xl border border-ss-line bg-ss-panel p-4 shadow-ss-panel lg:sticky lg:top-6 lg:block"
             >
               {currentFigure.figureGroup && <FigureGroupLabel group={currentFigure.figureGroup} />}
-              {currentFigure.image_url && <ExamFigure src={currentFigure.image_url} />}
+              {currentFigure.image_url && <ExamFigure src={currentFigure.image_url} alt={currentFigure.image_alt} />}
               {currentFigure.diagram_svg && (
                 <div className="overflow-x-auto rounded-2xl border border-ss-line bg-ss-panel p-3">
                   <DiagramSvg svg={currentFigure.diagram_svg} />
@@ -2499,7 +2503,7 @@ function AssessmentPageClient() {
                 {question.image_url && (
                   <>
                     {question.figureGroup && <FigureGroupLabel group={question.figureGroup} />}
-                    <ExamFigure src={question.image_url} className="mb-6" />
+                    <ExamFigure src={question.image_url} alt={question.image_alt} className="mb-6" />
                   </>
                 )}
                 {question.diagram_svg && (

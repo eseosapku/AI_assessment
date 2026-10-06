@@ -22,6 +22,8 @@ export interface MCQQuestion {
   explanation?: string
   diagram_svg?: string
   image_url?: string
+  /** What the figure shows, for a screen reader. */
+  image_alt?: string
 }
 
 export interface LongFormQuestion {
@@ -38,6 +40,8 @@ export interface LongFormQuestion {
   passage_source?: string   // e.g. "Charles Dickens, Great Expectations (1861)"
   diagram_svg?: string
   image_url?: string
+  /** What the figure shows, for a screen reader. */
+  image_alt?: string
 }
 
 export type Question = MCQQuestion | LongFormQuestion | InteractiveQuestion
