@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { assembleParts, hasVetted, kindForPart, vettedFor, type VettedQuestion } from './figure-question-bank'
+import { assembleParts, hasVetted, kindForPart, openPhraseAnswer, vettedFor, type VettedQuestion } from './figure-question-bank'
 
 const mcq = { kind: 'mcq' as const, question: { type: 'mcq', question: 'Which gas?', options: ['a', 'b', 'c', 'd'], correct_answer: 1 } }
 const short = { kind: 'short' as const, question: { type: 'longform', question: 'Name the gas.', marks: 1, short_answer: { accepted: ['oxygen'] } } }
@@ -26,6 +26,19 @@ describe('hasVetted', () => {
     expect(hasVetted('fig1', ['written'], bank)).toBe(true)
     expect(hasVetted('fig2', ['mcq'], bank)).toBe(false)
     expect(hasVetted('nope', undefined, bank)).toBe(false)
+  })
+})
+
+describe('a short answer only a sentence can give', () => {
+  it('is recognised, since exact matching would mark a fair rewording wrong', () => {
+    expect(openPhraseAnswer(['attract insects', 'to attract pollinators', 'attracting insects for pollination'])).toBe(true)
+    expect(openPhraseAnswer(['It stays lit', 'It stays on', 'The other lamp stays lit'])).toBe(true)
+  })
+  it('leaves a word, a fixed term or a number alone', () => {
+    expect(openPhraseAnswer(['oxygen'])).toBe(false)
+    expect(openPhraseAnswer(['carbon dioxide', 'CO2'])).toBe(false)
+    expect(openPhraseAnswer(['60', '60 °C', '60 degrees Celsius'])).toBe(false)
+    expect(openPhraseAnswer(['once', '1', 'a single time'])).toBe(false)
   })
 })
 

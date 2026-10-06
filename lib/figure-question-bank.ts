@@ -20,6 +20,23 @@ export interface VettedQuestion { kind: VettedKind; question: any }
 const FILES = ['figure-question-bank.json', 'figure-question-bank.checkpoint.json', 'figure-question-bank.igcse.json']
 let cache: Map<string, VettedQuestion[]> | null = null
 
+const words = (s: unknown) => String(s ?? '').toLowerCase().replace(/^(to|the|a|an|it|they)\s+/, '').split(/\s+/).filter(Boolean).length
+const numberLike = (s: unknown) => /^[-−–]?[\d.,/ ]+\s*(°?\s*[a-z%°³²]{0,6}\d?)?$/i.test(String(s ?? '').trim())
+
+/**
+ * A one-mark answer only a sentence can give: "It stays lit", "To offer Jonas
+ * a lift". A short answer is marked by exact match in the browser
+ * (lib/short-answer.ts), so the learner who writes "to attract bees" for
+ * "attract insects" is marked wrong however long the accepted list. Every
+ * accepted form two words or more, and the writer reaching for four or more
+ * to cover the ways of saying it, is the sign.
+ */
+export function openPhraseAnswer(accepted: readonly unknown[]): boolean {
+  if (!accepted.length || accepted.some(numberLike)) return false
+  const counts = accepted.map(words)
+  return Math.min(...counts) >= 2 && Math.max(...counts) >= 4
+}
+
 export function loadFigureQuestionBank(): Map<string, VettedQuestion[]> {
   if (cache) return cache
   const map = new Map<string, VettedQuestion[]>()
@@ -28,6 +45,7 @@ export function loadFigureQuestionBank(): Map<string, VettedQuestion[]> {
       const raw = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', file), 'utf8'))
       for (const rec of Object.values<any>(raw)) {
         const kept = (rec?.questions ?? []).filter((q: any) => q?.kept && q?.question && String(q.question.question ?? '').trim())
+          .filter((q: any) => !(q.kind === 'short' && openPhraseAnswer(q.question.short_answer?.accepted ?? [])))
         if (kept.length) map.set(String(rec.figureId), kept.map((q: any) => ({ kind: q.kind, question: q.question })))
       }
     } catch {
