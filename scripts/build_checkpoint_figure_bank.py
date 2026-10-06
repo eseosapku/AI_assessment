@@ -296,7 +296,14 @@ def main():
             rows = page_lines(page)
             clips = []
             for idx, (rect, paths) in enumerate(figures_on(page)):
-                clip = with_labels(page, rect) & page.rect
+                # A language paper's notice carries its words INSIDE its drawn
+                # box, and the question's options sit right beside it -- so
+                # growing the crop to nearby text took Cambridge's A, B and C
+                # in with seven of thirteen notices. The box alone, there.
+                if "Second Language" in ident["subject"] or ident["subject"] == "English":
+                    clip = fitz.Rect(rect.x0 - 4, rect.y0 - 4, rect.x1 + 4, rect.y1 + 4) & page.rect
+                else:
+                    clip = with_labels(page, rect) & page.rect
                 cut, stem_inside = clip, False
                 # Not on a language paper, where a notice IS sentences.
                 if ident["subject"] in ("Science", "Mathematics"):
