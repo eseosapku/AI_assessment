@@ -231,6 +231,10 @@ async function main() {
           rec.questions.push({ kind, verdict: c.verdict, reason: c.reason, question: c.question, kept: c.verdict !== 'drop' })
         }
       }
+      // Nothing written at all means the calls failed (throttling, a
+      // dropped connection), not that the figure has no questions in it --
+      // left undone, so the next run tries it again.
+      if (!rec.questions.length) continue
       done[f.id] = rec
       n++
       if (n % 10 === 0) { fs.writeFileSync(OUT, JSON.stringify(done, null, 1)); console.log(`  ${n}/${todo.length}  usage ${JSON.stringify(usage)}`) }
