@@ -53,7 +53,10 @@ let usage = { novaIn: 0, novaOut: 0, checkIn: 0, checkOut: 0 }
 
 function image(f: TextbookFigure): { bytes: string; format: 'png' | 'jpeg' } {
   const file = path.join(ROOT, 'public', f.localPath.replace(/^\//, ''))
-  return { bytes: fs.readFileSync(file).toString('base64'), format: /\.png$/i.test(file) ? 'png' : 'jpeg' }
+  // From the bytes, not the name: some library ".png" files are JPEGs.
+  const data = fs.readFileSync(file)
+  const png = data[0] === 0x89 && data[1] === 0x50 && data[2] === 0x4e && data[3] === 0x47
+  return { bytes: data.toString('base64'), format: png ? 'png' : 'jpeg' }
 }
 function firstJson(text: string): any {
   const t = String(text ?? '')
