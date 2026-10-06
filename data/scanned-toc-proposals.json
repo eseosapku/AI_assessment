@@ -1,0 +1,1844 @@
+{
+ "42": {
+  "name": "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3",
+  "units": [
+   {
+    "title": "1 Numbers to 1000",
+    "sections": [
+     "1.1 Hundreds, tens and ones",
+     "1.2 Comparing and ordering",
+     "1.3 Estimating and rounding"
+    ]
+   },
+   {
+    "title": "2 Statistics: Tally charts and frequency tables",
+    "sections": [
+     "2.1 Tally charts and frequency tables"
+    ]
+   },
+   {
+    "title": "3 Addition, subtraction and money",
+    "sections": [
+     "3.1 Addition",
+     "3.2 Subtraction",
+     "3.3 Money"
+    ]
+   },
+   {
+    "title": "Project 1: Surprising sums",
+    "sections": []
+   },
+   {
+    "title": "4 3D shapes",
+    "sections": [
+     "4.1 3D shapes"
+    ]
+   },
+   {
+    "title": "Project 2: Prism to pyramid",
+    "sections": []
+   },
+   {
+    "title": "5 Multiplication and division",
+    "sections": [
+     "5.1 Exploring multiplication and division",
+     "5.2 Connecting 2 ×, 4 × and 8 ×",
+     "5.3 Connecting 3 ×, 6 × and 9 ×"
+    ]
+   },
+   {
+    "title": "6 Measurement, area and perimeter",
+    "sections": [
+     "6.1 Measurement",
+     "6.2 2D shapes and perimeter",
+     "6.3 Introducing area"
+    ]
+   },
+   {
+    "title": "Project 3: Chalky shapes",
+    "sections": []
+   },
+   {
+    "title": "7 Fractions of shapes",
+    "sections": [
+     "7.1 Fractions and equivalence of shapes"
+    ]
+   },
+   {
+    "title": "8 Time",
+    "sections": [
+     "8.1 Time"
+    ]
+   },
+   {
+    "title": "9 More addition and subtraction",
+    "sections": [
+     "9.1 Addition: regrouping tens and reordering",
+     "9.2 Subtraction: regrouping tens",
+     "9.3 Complements"
+    ]
+   },
+   {
+    "title": "10 Graphs",
+    "sections": [
+     "10.1 Pictograms and bar charts",
+     "10.2 Venn and Carroll diagrams"
+    ]
+   },
+   {
+    "title": "11 More multiplication and division",
+    "sections": [
+     "11.1 Revisiting multiplication and division",
+     "11.2 Playing with multiplication and division",
+     "11.3 Extending multiplication and division"
+    ]
+   },
+   {
+    "title": "12 More fractions",
+    "sections": [
+     "12.1 Fractions of numbers",
+     "12.2 Ordering and comparing fractions",
+     "12.3 Calculating with fractions"
+    ]
+   },
+   {
+    "title": "Project 4: Dicey fractions",
+    "sections": []
+   },
+   {
+    "title": "13 Measure",
+    "sections": [
+     "13.1 Mass",
+     "13.2 Capacity",
+     "13.3 Temperature"
+    ]
+   },
+   {
+    "title": "14 Time (2)",
+    "sections": [
+     "14.1 Time",
+     "14.2 Timetables"
+    ]
+   },
+   {
+    "title": "15 Angles and movement",
+    "sections": [
+     "15.1 Angles, direction, position and movement"
+    ]
+   },
+   {
+    "title": "16 Chance",
+    "sections": [
+     "16.1 Chance"
+    ]
+   },
+   {
+    "title": "Project 5: Venn variety",
+    "sections": []
+   },
+   {
+    "title": "17 Pattern and symmetry",
+    "sections": [
+     "17.1 Shape and symmetry",
+     "17.2 Pattern and symmetry"
+    ]
+   },
+   {
+    "title": "Project 6: How likely?",
+    "sections": []
+   }
+  ]
+ },
+ "46": {
+  "name": "Cambridge Primary Mathematics Stage 4 Learners Book 4 ",
+  "pages": [
+   {
+    "p": 1,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE PRIMARY"
+   },
+   {
+    "p": 2,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE UNIVERSITY PRESS"
+   },
+   {
+    "p": 3,
+    "unit": "",
+    "strand": "",
+    "section": "Introduction"
+   },
+   {
+    "p": 4,
+    "unit": "1A",
+    "strand": "Number",
+    "section": "Reading, writing and partitioning numbers"
+   },
+   {
+    "p": 5,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 6,
+    "unit": "1A",
+    "strand": "",
+    "section": "Ordering and rounding"
+   },
+   {
+    "p": 7,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 8,
+    "unit": "1A",
+    "strand": "",
+    "section": "Multiplying and dividing by 10 and 100"
+   },
+   {
+    "p": 9,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 10,
+    "unit": "1A",
+    "strand": "",
+    "section": "Addition (1)"
+   },
+   {
+    "p": 11,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 12,
+    "unit": "1A",
+    "strand": "",
+    "section": "Subtraction (1)"
+   },
+   {
+    "p": 13,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 14,
+    "unit": "1A",
+    "strand": "",
+    "section": "Partitioning to add and subtract"
+   },
+   {
+    "p": 15,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 16,
+    "unit": "1A",
+    "strand": "",
+    "section": "Learning multiplication facts"
+   },
+   {
+    "p": 17,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 18,
+    "unit": "1A",
+    "strand": "",
+    "section": "Using multiplication facts"
+   },
+   {
+    "p": 19,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 20,
+    "unit": "1A",
+    "strand": "",
+    "section": "Investigating patterns"
+   },
+   {
+    "p": 21,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 22,
+    "unit": "1A",
+    "strand": "",
+    "section": "Doubles"
+   },
+   {
+    "p": 23,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 24,
+    "unit": "1A",
+    "strand": "",
+    "section": "Multiplying"
+   },
+   {
+    "p": 25,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 26,
+    "unit": "1B",
+    "strand": "Measure",
+    "section": "Measuring weight"
+   },
+   {
+    "p": 27,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 28,
+    "unit": "18",
+    "strand": "",
+    "section": "Telling the time (1)"
+   },
+   {
+    "p": 29,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 30,
+    "unit": "1B",
+    "strand": "",
+    "section": "Using timetables"
+   },
+   {
+    "p": 31,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 32,
+    "unit": "1B",
+    "strand": "",
+    "section": "Area (1)"
+   },
+   {
+    "p": 33,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 34,
+    "unit": "1B",
+    "strand": "",
+    "section": "Perimeter (1)"
+   },
+   {
+    "p": 35,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 36,
+    "unit": "1C",
+    "strand": "Handling data",
+    "section": "Tally charts and bar charts"
+   },
+   {
+    "p": 37,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 38,
+    "unit": "1C",
+    "strand": "",
+    "section": "Pictograms"
+   },
+   {
+    "p": 39,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 40,
+    "unit": "10",
+    "strand": "",
+    "section": "Carroll diagrams (1)"
+   },
+   {
+    "p": 41,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 42,
+    "unit": "10",
+    "strand": "",
+    "section": "Venn diagrams"
+   },
+   {
+    "p": 43,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 44,
+    "unit": "2A",
+    "strand": "Number",
+    "section": "Money"
+   },
+   {
+    "p": 45,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 46,
+    "unit": "2A",
+    "strand": "",
+    "section": "Positive and negative numbers"
+   },
+   {
+    "p": 47,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 48,
+    "unit": "2A",
+    "strand": "",
+    "section": "Odd and even numbers"
+   },
+   {
+    "p": 49,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 50,
+    "unit": "3A",
+    "strand": "",
+    "section": "Adding and subtracting near multiples of 10"
+   },
+   {
+    "p": 51,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 52,
+    "unit": "2A",
+    "strand": "",
+    "section": "Choosing the best method"
+   },
+   {
+    "p": 53,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 54,
+    "unit": "3A",
+    "strand": "",
+    "section": "More multiplication"
+   },
+   {
+    "p": 55,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 56,
+    "unit": "3A",
+    "strand": "",
+    "section": "This is a multiplication grid."
+   },
+   {
+    "p": 57,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 58,
+    "unit": "2A",
+    "strand": "",
+    "section": "Division"
+   },
+   {
+    "p": 59,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 60,
+    "unit": "28",
+    "strand": "Geometry",
+    "section": "Angles and turning"
+   },
+   {
+    "p": 61,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 62,
+    "unit": "20",
+    "strand": "",
+    "section": "Here are five angle cards."
+   },
+   {
+    "p": 63,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 64,
+    "unit": "28",
+    "strand": "",
+    "section": "Position and direction"
+   },
+   {
+    "p": 65,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 66,
+    "unit": "28",
+    "strand": "",
+    "section": "Symmetry"
+   },
+   {
+    "p": 67,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 68,
+    "unit": "2B",
+    "strand": "",
+    "section": "2D shapes"
+   },
+   {
+    "p": 69,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 70,
+    "unit": "28",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 71,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 72,
+    "unit": "3",
+    "strand": "",
+    "section": "3D shapes"
+   },
+   {
+    "p": 73,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 74,
+    "unit": "30",
+    "strand": "Measure",
+    "section": "Measuring length"
+   },
+   {
+    "p": 75,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 76,
+    "unit": "2C",
+    "strand": "",
+    "section": "Telling the time (2)"
+   },
+   {
+    "p": 77,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 78,
+    "unit": "25",
+    "strand": "",
+    "section": "Using calendars"
+   },
+   {
+    "p": 79,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 80,
+    "unit": "5C",
+    "strand": "",
+    "section": "Area (2)"
+   },
+   {
+    "p": 81,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 82,
+    "unit": "2C",
+    "strand": "",
+    "section": "Perimeter (2)"
+   },
+   {
+    "p": 83,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 84,
+    "unit": "3A",
+    "strand": "Number",
+    "section": "Special numbers"
+   },
+   {
+    "p": 85,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 86,
+    "unit": "3A",
+    "strand": "",
+    "section": "Exploring fractions"
+   },
+   {
+    "p": 87,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 88,
+    "unit": "3A",
+    "strand": "",
+    "section": "Fractions, decimals and mixed numbers"
+   },
+   {
+    "p": 89,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 90,
+    "unit": "3A",
+    "strand": "",
+    "section": "Fractions of ..."
+   },
+   {
+    "p": 91,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 92,
+    "unit": "3A",
+    "strand": "",
+    "section": "Ratio and proportion"
+   },
+   {
+    "p": 93,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 94,
+    "unit": "3b",
+    "strand": "Measure",
+    "section": "Measuring capacity"
+   },
+   {
+    "p": 95,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 96,
+    "unit": "3B",
+    "strand": "",
+    "section": "Capacity, length and mass"
+   },
+   {
+    "p": 97,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 98,
+    "unit": "3B",
+    "strand": "",
+    "section": "Measuring time"
+   },
+   {
+    "p": 99,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 100,
+    "unit": "3",
+    "strand": "",
+    "section": "Calculating time"
+   },
+   {
+    "p": 101,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 102,
+    "unit": "3B",
+    "strand": "",
+    "section": "Area and perimeter"
+   },
+   {
+    "p": 103,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 104,
+    "unit": "3C",
+    "strand": "Handling data",
+    "section": "Bar charts"
+   },
+   {
+    "p": 105,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 106,
+    "unit": "3",
+    "strand": "",
+    "section": "Tree diagrams"
+   },
+   {
+    "p": 107,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 108,
+    "unit": "3C",
+    "strand": "",
+    "section": "Carroll diagrams (2)"
+   },
+   {
+    "p": 109,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 110,
+    "unit": "3C",
+    "strand": "",
+    "section": "Venn diagrams (2)"
+   },
+   {
+    "p": 111,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 112,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 113,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE PRIMARY"
+   },
+   {
+    "p": 114,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE PRIMARY Mathematics"
+   }
+  ],
+  "units": [
+   {
+    "title": "Unit 1A: Number",
+    "sections": [
+     "Reading, writing and partitioning numbers",
+     "Ordering and rounding",
+     "Multiplying and dividing by 10 and 100",
+     "Addition (1)",
+     "Subtraction (1)",
+     "Partitioning to add and subtract",
+     "Learning multiplication facts",
+     "Using multiplication facts",
+     "Investigating patterns",
+     "Doubles",
+     "Multiplying"
+    ]
+   },
+   {
+    "title": "Unit 1B: Measure",
+    "sections": [
+     "Measuring weight",
+     "Telling the time (1)",
+     "Using timetables",
+     "Area (1)",
+     "Perimeter (1)"
+    ]
+   },
+   {
+    "title": "Unit 1C: Handling data",
+    "sections": [
+     "Tally charts and bar charts",
+     "Pictograms",
+     "Carroll diagrams (1)",
+     "Venn diagrams"
+    ]
+   },
+   {
+    "title": "Unit 2A: Number",
+    "sections": [
+     "Money",
+     "Positive and negative numbers",
+     "Odd and even numbers",
+     "Adding and subtracting near multiples of 10",
+     "Choosing the best method",
+     "More multiplication",
+     "Division"
+    ]
+   },
+   {
+    "title": "Unit 2B: Geometry",
+    "sections": [
+     "Angles and turning",
+     "Position and direction",
+     "Symmetry",
+     "2D shapes",
+     "3D shapes"
+    ]
+   },
+   {
+    "title": "Unit 2C: Measure",
+    "sections": [
+     "Measuring length",
+     "Telling the time (2)",
+     "Using calendars",
+     "Area (2)",
+     "Perimeter (2)"
+    ]
+   },
+   {
+    "title": "Unit 3A: Number",
+    "sections": [
+     "Special numbers",
+     "Exploring fractions",
+     "Fractions, decimals and mixed numbers",
+     "Ratio and proportion"
+    ]
+   },
+   {
+    "title": "Unit 3B: Measure",
+    "sections": [
+     "Measuring capacity",
+     "Capacity, length and mass",
+     "Measuring time",
+     "Calculating time",
+     "Area and perimeter"
+    ]
+   },
+   {
+    "title": "Unit 3C: Handling data",
+    "sections": [
+     "Bar charts",
+     "Tree diagrams",
+     "Carroll diagrams (2)",
+     "Venn diagrams (2)"
+    ]
+   }
+  ]
+ },
+ "47": {
+  "name": "Cambridge Primary Mathematics Stage 5 Learners Book",
+  "pages": [
+   {
+    "p": 1,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE PRIMARY"
+   },
+   {
+    "p": 2,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE UNIVERSITY PRESS"
+   },
+   {
+    "p": 3,
+    "unit": "",
+    "strand": "",
+    "section": "Introduction"
+   },
+   {
+    "p": 4,
+    "unit": "1A",
+    "strand": "Number",
+    "section": "Place value"
+   },
+   {
+    "p": 5,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 6,
+    "unit": "1A",
+    "strand": "",
+    "section": "Ordering and rounding"
+   },
+   {
+    "p": 7,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 8,
+    "unit": "1A",
+    "strand": "",
+    "section": "Sequences (1)"
+   },
+   {
+    "p": 9,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 10,
+    "unit": "1A",
+    "strand": "",
+    "section": "Addition and subtraction (1)"
+   },
+   {
+    "p": 11,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 12,
+    "unit": "1A",
+    "strand": "",
+    "section": "Adding more numbers"
+   },
+   {
+    "p": 13,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 14,
+    "unit": "1A",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 15,
+    "unit": "14",
+    "strand": "",
+    "section": "Multiplication and division facts"
+   },
+   {
+    "p": 16,
+    "unit": "1A",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 17,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 18,
+    "unit": "1A",
+    "strand": "",
+    "section": "Written methods of multiplication"
+   },
+   {
+    "p": 19,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 20,
+    "unit": "1A",
+    "strand": "",
+    "section": "More multiplication"
+   },
+   {
+    "p": 21,
+    "unit": "1A",
+    "strand": "",
+    "section": "Written methods of division"
+   },
+   {
+    "p": 22,
+    "unit": "1A",
+    "strand": "",
+    "section": "Multiples and squares"
+   },
+   {
+    "p": 23,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 24,
+    "unit": "1A",
+    "strand": "",
+    "section": "Tests of divisibility"
+   },
+   {
+    "p": 25,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 26,
+    "unit": "1A",
+    "strand": "",
+    "section": "Factors"
+   },
+   {
+    "p": 27,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 28,
+    "unit": "18",
+    "strand": "Geometry",
+    "section": "Parallel and perpendicular"
+   },
+   {
+    "p": 29,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 30,
+    "unit": "18",
+    "strand": "",
+    "section": "Triangles"
+   },
+   {
+    "p": 31,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 32,
+    "unit": "18",
+    "strand": "",
+    "section": "Cubes and cuboids"
+   },
+   {
+    "p": 33,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 34,
+    "unit": "18",
+    "strand": "",
+    "section": "Coordinates"
+   },
+   {
+    "p": 35,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 36,
+    "unit": "18",
+    "strand": "",
+    "section": "Translation and reflection"
+   },
+   {
+    "p": 37,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 38,
+    "unit": "10",
+    "strand": "Measure",
+    "section": "Mass"
+   },
+   {
+    "p": 39,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 40,
+    "unit": "10",
+    "strand": "",
+    "section": "Telling the time"
+   },
+   {
+    "p": 41,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 42,
+    "unit": "1C",
+    "strand": "",
+    "section": "Timetables"
+   },
+   {
+    "p": 43,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 44,
+    "unit": "1C",
+    "strand": "",
+    "section": "Area (1)"
+   },
+   {
+    "p": 45,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 46,
+    "unit": "10",
+    "strand": "",
+    "section": "Perimeter (1)"
+   },
+   {
+    "p": 47,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 48,
+    "unit": "2A",
+    "strand": "Number",
+    "section": "Sequences (2)"
+   },
+   {
+    "p": 49,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 50,
+    "unit": "2A",
+    "strand": "",
+    "section": "General statements"
+   },
+   {
+    "p": 51,
+    "unit": "2A",
+    "strand": "",
+    "section": "Positive and negative numbers"
+   },
+   {
+    "p": 52,
+    "unit": "2A",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 53,
+    "unit": "2A",
+    "strand": "",
+    "section": "The decimal system"
+   },
+   {
+    "p": 54,
+    "unit": "2A",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 55,
+    "unit": "3A",
+    "strand": "",
+    "section": "Decimal facts"
+   },
+   {
+    "p": 56,
+    "unit": "2A",
+    "strand": "",
+    "section": "Multiplication strategies"
+   },
+   {
+    "p": 57,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 58,
+    "unit": "2A",
+    "strand": "",
+    "section": "Doubling and halving"
+   },
+   {
+    "p": 59,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 60,
+    "unit": "2A",
+    "strand": "",
+    "section": "Subtraction"
+   },
+   {
+    "p": 61,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 62,
+    "unit": "2A",
+    "strand": "",
+    "section": "Addition"
+   },
+   {
+    "p": 63,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 64,
+    "unit": "3A",
+    "strand": "",
+    "section": "Adding and subtracting money"
+   },
+   {
+    "p": 65,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 66,
+    "unit": "5A",
+    "strand": "",
+    "section": "Multiplication and division"
+   },
+   {
+    "p": 67,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 68,
+    "unit": "4B",
+    "strand": "Handling data",
+    "section": "Questions and surveys"
+   },
+   {
+    "p": 69,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 70,
+    "unit": "28",
+    "strand": "",
+    "section": "Examining data"
+   },
+   {
+    "p": 71,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 72,
+    "unit": "28",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 73,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 74,
+    "unit": "3B",
+    "strand": "",
+    "section": "Probability"
+   },
+   {
+    "p": 75,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 76,
+    "unit": "3B",
+    "strand": "",
+    "section": "Line graphs"
+   },
+   {
+    "p": 77,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 78,
+    "unit": "28",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 79,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 80,
+    "unit": "28",
+    "strand": "",
+    "section": "Finding the mode"
+   },
+   {
+    "p": 81,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 82,
+    "unit": "20",
+    "strand": "Measure",
+    "section": "Measuring and drawing lines"
+   },
+   {
+    "p": 83,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 84,
+    "unit": "20",
+    "strand": "",
+    "section": "Measuring time"
+   },
+   {
+    "p": 85,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 86,
+    "unit": "10",
+    "strand": "",
+    "section": "Using calendars"
+   },
+   {
+    "p": 87,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 88,
+    "unit": "3C",
+    "strand": "",
+    "section": "Area (2)"
+   },
+   {
+    "p": 89,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 90,
+    "unit": "20",
+    "strand": "",
+    "section": "Perimeter (2)"
+   },
+   {
+    "p": 91,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 92,
+    "unit": "3A",
+    "strand": "Number",
+    "section": "Using mental strategies"
+   },
+   {
+    "p": 93,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 94,
+    "unit": "3A",
+    "strand": "",
+    "section": "Working with decimals"
+   },
+   {
+    "p": 95,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 96,
+    "unit": "3A",
+    "strand": "",
+    "section": "Percentages"
+   },
+   {
+    "p": 97,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 98,
+    "unit": "3A",
+    "strand": "",
+    "section": "Equivalent fractions, decimals and percentages"
+   },
+   {
+    "p": 99,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 100,
+    "unit": "5A",
+    "strand": "",
+    "section": "Mixed numbers and improper fractions"
+   },
+   {
+    "p": 101,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 102,
+    "unit": "",
+    "strand": "",
+    "section": "Addition and subtraction (2)"
+   },
+   {
+    "p": 103,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 104,
+    "unit": "5A",
+    "strand": "",
+    "section": "Fractions and division"
+   },
+   {
+    "p": 105,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 106,
+    "unit": "3A",
+    "strand": "",
+    "section": "Using inverse operations and brackets"
+   },
+   {
+    "p": 107,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 108,
+    "unit": "3A",
+    "strand": "",
+    "section": "Ratio and proportion"
+   },
+   {
+    "p": 109,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 110,
+    "unit": "3B",
+    "strand": "Geometry",
+    "section": "Angles"
+   },
+   {
+    "p": 111,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 112,
+    "unit": "3",
+    "strand": "",
+    "section": "Investigating angles"
+   },
+   {
+    "p": 113,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 114,
+    "unit": "6B",
+    "strand": "",
+    "section": "Triangles (2)"
+   },
+   {
+    "p": 115,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 116,
+    "unit": "9B",
+    "strand": "",
+    "section": "Symmetry in polygons"
+   },
+   {
+    "p": 117,
+    "unit": "",
+    "strand": "",
+    "section": "Symmetry in patterns"
+   },
+   {
+    "p": 118,
+    "unit": "8B",
+    "strand": "",
+    "section": "3D Shapes and nets"
+   },
+   {
+    "p": 119,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 120,
+    "unit": "18",
+    "strand": "",
+    "section": "Co-ordinates and transformations"
+   },
+   {
+    "p": 121,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 122,
+    "unit": "3",
+    "strand": "Measure",
+    "section": "Volume, capacity and mass"
+   },
+   {
+    "p": 123,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 124,
+    "unit": "9C",
+    "strand": "",
+    "section": "More about time"
+   },
+   {
+    "p": 125,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 126,
+    "unit": "3C",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 127,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 128,
+    "unit": "3C",
+    "strand": "",
+    "section": "Area and perimeter"
+   },
+   {
+    "p": 129,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 130,
+    "unit": "",
+    "strand": "",
+    "section": ""
+   },
+   {
+    "p": 131,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE PRIMARY Mathematics"
+   },
+   {
+    "p": 132,
+    "unit": "",
+    "strand": "",
+    "section": "CAMBRIDGE PRIMARY Mathematics"
+   }
+  ],
+  "units": [
+   {
+    "title": "Unit 1A: Number",
+    "sections": [
+     "Place value",
+     "Ordering and rounding",
+     "Sequences (1)",
+     "Addition and subtraction (1)",
+     "Adding more numbers",
+     "Multiplication and division facts",
+     "Written methods of multiplication",
+     "More multiplication",
+     "Written methods of division",
+     "Multiples and squares",
+     "Tests of divisibility",
+     "Factors"
+    ]
+   },
+   {
+    "title": "Unit 1B: Geometry",
+    "sections": [
+     "Parallel and perpendicular",
+     "Triangles",
+     "Cubes and cuboids",
+     "Coordinates",
+     "Translation and reflection"
+    ]
+   },
+   {
+    "title": "Unit 1C: Measure",
+    "sections": [
+     "Mass",
+     "Telling the time",
+     "Timetables",
+     "Area (1)",
+     "Perimeter (1)"
+    ]
+   },
+   {
+    "title": "Unit 2A: Number",
+    "sections": [
+     "Sequences (2)",
+     "General statements",
+     "Positive and negative numbers",
+     "The decimal system",
+     "Decimal facts",
+     "Multiplication strategies",
+     "Doubling and halving",
+     "Subtraction",
+     "Addition",
+     "Adding and subtracting money",
+     "Multiplication and division"
+    ]
+   },
+   {
+    "title": "Unit 2B: Handling data",
+    "sections": [
+     "Questions and surveys",
+     "Examining data",
+     "Probability",
+     "Line graphs",
+     "Finding the mode"
+    ]
+   },
+   {
+    "title": "Unit 2C: Measure",
+    "sections": [
+     "Measuring and drawing lines",
+     "Measuring time",
+     "Using calendars",
+     "Area (2)",
+     "Perimeter (2)"
+    ]
+   },
+   {
+    "title": "Unit 3A: Number",
+    "sections": [
+     "Using mental strategies",
+     "Working with decimals",
+     "Percentages",
+     "Equivalent fractions, decimals and percentages",
+     "Mixed numbers and improper fractions",
+     "Addition and subtraction (2)",
+     "Fractions and division",
+     "Using inverse operations and brackets",
+     "Ratio and proportion"
+    ]
+   },
+   {
+    "title": "Unit 3B: Geometry",
+    "sections": [
+     "Angles",
+     "Investigating angles",
+     "Triangles (2)",
+     "Symmetry in polygons",
+     "Symmetry in patterns",
+     "3D Shapes and nets",
+     "Co-ordinates and transformations"
+    ]
+   },
+   {
+    "title": "Unit 3C: Measure",
+    "sections": [
+     "Volume, capacity and mass",
+     "More about time",
+     "Area and perimeter"
+    ]
+   }
+  ]
+ }
+}
