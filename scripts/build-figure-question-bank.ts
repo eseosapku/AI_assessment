@@ -25,6 +25,7 @@ import fs from 'node:fs'
 import path from 'node:path'
 import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedrock-runtime'
 import { buildTextbookFigurePrompt, type FigureQuestionKind } from '../lib/textbook-figure-prompt'
+import { subjectOfBook as subjectOf, levelOfBook as levelOf } from '../lib/book-level'
 import { stageOfBook, type TextbookFigure } from '../lib/textbook-figure-bank'
 
 const ROOT = process.cwd()
@@ -50,21 +51,6 @@ const client = new BedrockRuntimeClient({
 })
 let usage = { novaIn: 0, novaOut: 0, checkIn: 0, checkOut: 0 }
 
-function subjectOf(name: string): string {
-  const n = name.toLowerCase()
-  if (/second language/.test(n)) return 'English as a Second Language'
-  if (/biology/.test(n)) return 'Biology'
-  if (/chemistry/.test(n)) return 'Chemistry'
-  if (/physics/.test(n)) return 'Physics'
-  if (/science/.test(n)) return 'Science'
-  if (/math/.test(n)) return 'Mathematics'
-  if (/comput|ict/.test(n)) return 'Computing'
-  return 'Science'
-}
-function levelOf(name: string): string {
-  const s = stageOfBook(name)
-  return s == null ? 'secondary level' : s >= 10 ? 'IGCSE (age 15-16)' : `Stage ${s}`
-}
 function image(f: TextbookFigure): { bytes: string; format: 'png' | 'jpeg' } {
   const file = path.join(ROOT, 'public', f.localPath.replace(/^\//, ''))
   return { bytes: fs.readFileSync(file).toString('base64'), format: /\.png$/i.test(file) ? 'png' : 'jpeg' }

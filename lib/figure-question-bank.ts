@@ -17,7 +17,7 @@ import path from 'node:path'
 export type VettedKind = 'mcq' | 'short' | 'written'
 export interface VettedQuestion { kind: VettedKind; question: any }
 
-const FILES = ['figure-question-bank.json', 'figure-question-bank.checkpoint.json', 'figure-question-bank.igcse.json']
+const FILES = ['figure-question-bank.json', 'figure-question-bank.checkpoint.json', 'figure-question-bank.igcse.json', 'figure-question-bank.rwanda.json']
 let cache: Map<string, VettedQuestion[]> | null = null
 
 const words = (s: unknown) => String(s ?? '').toLowerCase().replace(/^(to|the|a|an|it|they)\s+/, '').split(/\s+/).filter(Boolean).length

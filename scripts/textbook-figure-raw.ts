@@ -5,6 +5,7 @@ import path from 'node:path'
 const ROOT = process.cwd()
 const DIGITAL = path.join(ROOT, 'data', 'textbook-question-figures.raw.json')
 const SCANNED = path.join(ROOT, 'data', 'textbook-scan-figures.raw.json')
+const RWANDA = path.join(ROOT, 'data', 'textbook-rwanda-figures.raw.json')
 
 export type RawTextbookFigure = {
   id: string; textbookId: number; textbookIds: number[]; textbookName: string; page: number
@@ -37,6 +38,11 @@ export function loadRawTextbookFigures(): RawTextbookFigure[] {
         heading: f.heading || null, question: String(f.question ?? ''), scanned: true,
       }))
     }
+  }
+  // The Rwanda books' library images (scripts/rwanda-figure-raw.ts). Their
+  // "question" is the text of the page the image is on, not an exercise.
+  if (fs.existsSync(RWANDA)) {
+    for (const f of JSON.parse(fs.readFileSync(RWANDA, 'utf8')).figures) out.push({ ...f, scanned: false })
   }
   return out
 }

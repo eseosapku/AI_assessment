@@ -46,11 +46,17 @@ export function buildTextbookFigurePrompt(o: TextbookFigurePromptOptions): strin
     '',
     `Printed beside the question is a ${f.noun} from the learner's textbook. It shows: ${f.shows}`,
     ...(f.labels.length ? [`The words and numbers printed on it: ${f.labels.join(', ')}.`] : []),
-    `The textbook asks about it like this:`,
-    '"""',
-    original,
-    '"""',
-    `That is a model, not text to reuse. The new question is about the same ${f.noun}, in your own words: it asks about something the ${f.noun} shows, keeps every label and value exactly as printed, and is answered by looking at it and knowing the ${o.subject}.`,
+    // Many of the Rwanda books' figures sit on a page with no exercise about
+    // them; an empty model invites a question about nothing.
+    ...(original
+      ? [
+          `The textbook asks about it like this:`,
+          '"""',
+          original,
+          '"""',
+          `That is a model, not text to reuse. The new question is about the same ${f.noun}, in your own words: it asks about something the ${f.noun} shows, keeps every label and value exactly as printed, and is answered by looking at it and knowing the ${o.subject}.`,
+        ]
+      : [`The textbook prints it without an exercise. The question is about the ${f.noun}: it asks about something the ${f.noun} shows, keeps every label and value exactly as printed, and is answered by looking at it and knowing the ${o.subject}.`]),
     `A word printed on the ${f.noun} is never the answer. The learner answers on screen and cannot draw on it, join things with lines, or fill it in.`,
     // "How many keys are visible on the laptop's keyboard?" and "How many
     // edges does the smartphone have?" -- asked about photographs in a

@@ -41,12 +41,17 @@ for (const file of ['.env', '.env.local']) {
 }
 
 function prompt(f: RawTextbookFigure, topics: string[]): string {
+  // A Rwanda library image comes with the text of its page, not with an
+  // exercise known to ask about it (scripts/rwanda-figure-raw.ts).
+  const pageText = f.id.startsWith('rw')
   return [
-    `This figure is from the textbook "${f.textbookName}" (page ${f.page}). An exercise in the book asks about it.`,
+    pageText
+      ? `This figure is from the textbook "${f.textbookName}" (page ${f.page}).`
+      : `This figure is from the textbook "${f.textbookName}" (page ${f.page}). An exercise in the book asks about it.`,
     'A question will be written about it by a writer who CANNOT see it and relies entirely on what you say it shows.',
     '',
     ...(f.labels.length ? [`Text printed on or beside the figure: ${f.labels.slice(0, 30).join(' | ')}`, ''] : []),
-    'The book\'s exercise:',
+    pageText ? 'The text printed on the same page (it may or may not include an activity or exercise about this figure):' : 'The book\'s exercise:',
     '"""',
     f.question.slice(0, 1400),
     '"""',
@@ -62,7 +67,9 @@ function prompt(f: RawTextbookFigure, topics: string[]): string {
     '  "shows": "what is drawn, in one to three plain sentences: every labelled part and every printed value, exactly. Nothing that is not visible.",',
     '  "labels": ["every word or number printed on the figure, in reading order"],',
     '  "topic": "one topic from the list, copied exactly",',
-    '  "original": "the lines of the exercise that ask about THIS figure, copied exactly, at most 700 characters"',
+    pageText
+      ? '  "original": "the lines of the page text that ask about THIS figure, copied exactly, at most 700 characters -- or an empty string if none do"'
+      : '  "original": "the lines of the exercise that ask about THIS figure, copied exactly, at most 700 characters"',
     '}',
     '',
     'standard is TRUE only for a figure a test question could be asked about and answered from, as in an exam paper:',
@@ -71,7 +78,9 @@ function prompt(f: RawTextbookFigure, topics: string[]): string {
     '',
     'standard is FALSE when any of these is true:',
     '- it is illustration: a scene, people or children talking or working, a cartoon character, a decorative or stock photo',
-    '- the exercise does not really need it (it asks the learner to plan, research, discuss, draw their own, or go outside)',
+    pageText
+      ? '- no test question could be answered from it: people, a scene or an object with nothing a learner could be asked about'
+      : '- the exercise does not really need it (it asks the learner to plan, research, discuss, draw their own, or go outside)',
     '- the crop is cut off, so part of the figure or its labels is missing, or it holds two unrelated figures',
     '- the crop contains a sentence of the exercise (a question, an instruction) rather than only labels and a title',
     '- it is blurry, too small to read, or carries a watermark',
@@ -84,7 +93,10 @@ async function main() {
     region: process.env.AWS_REGION || 'eu-west-1',
     credentials: { accessKeyId: process.env.AWS_ACCESS_KEY_ID!, secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY! },
   })
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false },
+    connectionTimeoutMillis: 30_000, query_timeout: 60_000, keepAlive: true,
+  })
   const raw = loadRawTextbookFigures().filter((f) => (!ONLY.length || ONLY.includes(f.textbookId)) && (!IDS.size || IDS.has(f.id)))
   const done: Record<string, any> = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {}
   const topicsFor = new Map<number, string[]>()
@@ -99,7 +111,7 @@ async function main() {
   let inTok = 0, outTok = 0, n = 0
   const save = () => fs.writeFileSync(OUT, JSON.stringify(done, null, 1))
   const queue = [...todo]
-  await Promise.all(Array.from({ length: 6 }, async () => {
+  await Promise.all(Array.from({ length: Number(arg('parallel')) || 6 }, async () => {
     while (queue.length) {
       const f = queue.shift()!
       const data = fs.readFileSync(path.join(ROOT, 'public', f.localPath)).toString('base64')
@@ -108,7 +120,8 @@ async function main() {
         // Sonnet thinks at length by default; Haiku refuses the parameter.
         ...(/sonnet|opus/.test(MODEL) ? { output_config: { effort: 'low' } } : {}),
         messages: [{ role: 'user', content: [
-          { type: 'image', source: { type: 'base64', media_type: 'image/png', data } },
+          // The Rwanda library's images are JPEG.
+          { type: 'image', source: { type: 'base64', media_type: /\.png$/i.test(f.localPath) ? 'image/png' : 'image/jpeg', data } },
           { type: 'text', text: prompt(f, topicsFor.get(f.textbookId) ?? []) },
         ] }],
       }

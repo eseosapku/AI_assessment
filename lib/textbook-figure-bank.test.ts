@@ -53,6 +53,13 @@ describe('figuresForQuiz', () => {
 describe('buildTextbookFigurePrompt', () => {
   const figure = { noun: 'diagram', shows: 'A leaf with arrows.', labels: ['carbon dioxide', 'oxygen'], original: 'Which gas goes in? [1]' }
 
+  it('says so when the book prints the figure without an exercise, rather than an empty model', () => {
+    const p = buildTextbookFigurePrompt({ subject: 'Biology', level: 'Rwanda Senior 2 (age about 14)', topic: 'Photosynthesis', id: 1, kind: 'mcq', figure: { ...figure, original: '' } })
+    expect(p).not.toContain('The textbook asks about it like this')
+    expect(p).toContain('without an exercise')
+    expect(p).toContain('A leaf with arrows.')
+  })
+
   it('hands over the figure and the book\'s exercise, without its marks', () => {
     const p = buildTextbookFigurePrompt({ subject: 'Science', level: 'Stage 8', topic: 'Photosynthesis', id: 3, kind: 'mcq', figure })
     expect(p).toContain('A leaf with arrows.')
@@ -108,7 +115,8 @@ describe('the textbook bank on disk', () => {
     for (const f of bank) {
       expect(f.topic, f.id).toBeTruthy()
       expect(f.shows.length, f.id).toBeGreaterThan(20)
-      expect(f.original, f.id).toBeTruthy()
+      // A Rwanda library figure may sit on a page with no exercise about it.
+      if (!f.id.startsWith('rw')) expect(f.original, f.id).toBeTruthy()
       expect(f.textbookIds.length, f.id).toBeGreaterThan(0)
       expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
       expect(f.shows, f.id).not.toMatch(/^(an?|two|three)?\s*(empty|blank)\b/i)
