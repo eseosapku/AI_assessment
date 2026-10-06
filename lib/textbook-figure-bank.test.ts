@@ -116,7 +116,7 @@ describe('the textbook bank on disk', () => {
       expect(f.topic, f.id).toBeTruthy()
       expect(f.shows.length, f.id).toBeGreaterThan(20)
       // A Rwanda library figure may sit on a page with no exercise about it.
-      if (!f.id.startsWith('rw')) expect(f.original, f.id).toBeTruthy()
+      if (!/^(rw|lb)/.test(f.id)) expect(f.original, f.id).toBeTruthy()
       expect(f.textbookIds.length, f.id).toBeGreaterThan(0)
       expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
       expect(f.shows, f.id).not.toMatch(/^(an?|two|three)?\s*(empty|blank)\b/i)

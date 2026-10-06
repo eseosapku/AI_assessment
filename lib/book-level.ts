@@ -15,6 +15,8 @@ export function subjectOfBook(name: string): string {
   if (/geograph/.test(n)) return 'Geography'
   if (/histor/.test(n)) return 'History and Citizenship'
   if (/econom/.test(n)) return 'Economics'
+  if (/business/.test(n)) return 'Business Studies'
+  if (/environmental management/.test(n)) return 'Environmental Management'
   if (/entrepreneur/.test(n)) return 'Entrepreneurship'
   if (/agri/.test(n)) return 'Agriculture'
   if (/account|taxation/.test(n)) return 'Accounting'
@@ -45,5 +47,7 @@ export function levelOfBook(name: string): string {
   if (p) return `Rwanda Primary ${p} (age about ${Number(p) + 6})`
   if (sn) return `Rwanda Senior ${sn} (age about ${Number(sn) + 12})`
   const s = stageOfBook(name)
-  return s == null ? 'secondary level' : s >= 10 ? 'IGCSE (age 15-16)' : `Stage ${s}`
+  if (s == null) return 'secondary level'
+  if (s >= 12) return 'AS & A Level (age 16-18)'
+  return s >= 10 ? 'IGCSE (age 15-16)' : `Stage ${s}`
 }

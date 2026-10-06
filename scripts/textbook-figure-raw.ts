@@ -6,6 +6,7 @@ const ROOT = process.cwd()
 const DIGITAL = path.join(ROOT, 'data', 'textbook-question-figures.raw.json')
 const SCANNED = path.join(ROOT, 'data', 'textbook-scan-figures.raw.json')
 const RWANDA = path.join(ROOT, 'data', 'textbook-rwanda-figures.raw.json')
+const LIBRARY = path.join(ROOT, 'data', 'textbook-library-figures.raw.json')
 
 export type RawTextbookFigure = {
   id: string; textbookId: number; textbookIds: number[]; textbookName: string; page: number
@@ -41,8 +42,10 @@ export function loadRawTextbookFigures(): RawTextbookFigure[] {
   }
   // The Rwanda books' library images (scripts/rwanda-figure-raw.ts). Their
   // "question" is the text of the page the image is on, not an exercise.
-  if (fs.existsSync(RWANDA)) {
-    for (const f of JSON.parse(fs.readFileSync(RWANDA, 'utf8')).figures) out.push({ ...f, scanned: false })
+  // And the Cambridge books that have only library images, the same way.
+  for (const file of [RWANDA, LIBRARY]) {
+    if (!fs.existsSync(file)) continue
+    for (const f of JSON.parse(fs.readFileSync(file, 'utf8')).figures) out.push({ ...f, scanned: false })
   }
   return out
 }

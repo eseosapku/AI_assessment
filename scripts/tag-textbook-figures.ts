@@ -43,7 +43,7 @@ for (const file of ['.env', '.env.local']) {
 function prompt(f: RawTextbookFigure, topics: string[]): string {
   // A Rwanda library image comes with the text of its page, not with an
   // exercise known to ask about it (scripts/rwanda-figure-raw.ts).
-  const pageText = f.id.startsWith('rw')
+  const pageText = /^(rw|lb)/.test(f.id)
   return [
     pageText
       ? `This figure is from the textbook "${f.textbookName}" (page ${f.page}).`

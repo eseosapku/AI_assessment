@@ -18,6 +18,11 @@ describe('a Rwanda book', () => {
 })
 
 describe('a Cambridge book', () => {
+  it('calls an AS & A Level book what it is, not IGCSE', () => {
+    expect(levelOfBook('Cambridge International AS and A Level Biology Coursebook')).toBe('AS & A Level (age 16-18)')
+    expect(subjectOfBook('Cambridge international AS and A level business coursebook')).toBe('Business Studies')
+    expect(subjectOfBook('Cambridge IGCSE® and O Level Environmental Management Coursebook (1)')).toBe('Environmental Management')
+  })
   it('keeps its stage', () => {
     expect(levelOfBook('Cambridge Lower Secondary Science 8 Learners Book')).toBe('Stage 8')
     expect(levelOfBook('Cambridge IGCSE Biology')).toBe('IGCSE (age 15-16)')
