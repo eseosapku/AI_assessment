@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { familyOf, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from './textbook-figure-bank'
+import { bookInBank, familyOf, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from './textbook-figure-bank'
 import { buildTextbookFigurePrompt } from './textbook-figure-prompt'
 
 function fig(id: string, over: Partial<TextbookFigure> = {}): TextbookFigure {
@@ -145,6 +145,35 @@ describe('a book whose topics are one catch-all', () => {
       topics: ['Number', 'Reading, writing and partitioning numbers', 'Place value'], max: 3, seed: 1, bank: [...many, placeValue],
     })
     expect(got.map((f) => f.id)).toEqual(['pv'])
+  })
+})
+
+describe('a unit chosen without its sections', () => {
+  // "Unit 2B: Geometry" is what the quiz names; the figures are filed by
+  // what they show. The unit's sections, passed beside it, say which.
+  const book = 'Cambridge Primary Mathematics Stage 4 Learners Book 4'
+  const bank = [
+    fig('shape', { textbookIds: [46], textbookName: book, topic: '2D shapes', shows: 'A hexagon and a pentagon.' }),
+    fig('angle', { textbookIds: [46], textbookName: book, topic: 'Angles', shows: 'A right angle marked on a door.' }),
+    fig('frac', { textbookIds: [46], textbookName: book, topic: 'Fractions', shows: 'A circle cut into quarters.' }),
+  ]
+  it('finds nothing on the unit name alone', () => {
+    expect(figuresForQuiz({ textbookId: 46, textbookName: book, topics: ['Unit 2B: Geometry'], stage: 4, max: 3, seed: 1, bank })).toEqual([])
+  })
+  it('finds the unit\'s figures by its sections', () => {
+    const got = figuresForQuiz({
+      textbookId: 46, textbookName: book, stage: 4, max: 3, seed: 1, bank,
+      topics: ['Unit 2B: Geometry'], sections: ['Angles and turning', 'Position and direction', 'Symmetry', '2D shapes', '3D shapes'],
+    })
+    expect(got.map((f) => f.id).sort()).toEqual(['angle', 'shape'])
+  })
+})
+
+describe('bookInBank', () => {
+  it('knows which books the bank holds figures from', () => {
+    expect(bookInBank(34, [fig('a')])).toBe(true)
+    expect(bookInBank(35, [fig('a')])).toBe(false)
+    expect(bookInBank(NaN, [fig('a')])).toBe(false)
   })
 })
 

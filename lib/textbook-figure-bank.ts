@@ -130,10 +130,27 @@ export function keepAndSpread<T>(all: readonly T[], keep: readonly T[], count: n
  * quiz on photosynthesis may use the Stage 7 or 9 book's photosynthesis
  * figures, never a Stage 6 rock cycle or an IGCSE enzyme graph.
  */
+/**
+ * Whether the bank holds any figure from this book. Such a book takes its
+ * pictures from the bank or goes without: the library's other figures for it
+ * are the ones the bank was built to leave out.
+ */
+export function bookInBank(textbookId: unknown, bank: readonly TextbookFigure[] = loadTextbookFigureBank()): boolean {
+  const id = Number(textbookId)
+  return Number.isFinite(id) && bank.some((f) => f.textbookIds.includes(id))
+}
+
 export function figuresForQuiz(opts: {
   textbookId?: number
   textbookName?: string
   topics: readonly string[]
+  /**
+   * The sections of a topic chosen without them. They match by content only:
+   * "Unit 2B: Geometry" is the quiz's topic, and its sections ("2D shapes",
+   * "Angles and turning") are words for what its figures show, not topics a
+   * figure must be filed under.
+   */
+  sections?: readonly string[]
   stage?: number
   max: number
   seed: number
@@ -149,7 +166,7 @@ export function figuresForQuiz(opts: {
     return xs
   }
 
-  const want = words(topics.join(' '))
+  const want = words([...topics, ...(opts.sections ?? [])].join(' '))
   /** Figures from `pool` whose topic and content match the quiz's words, best first. */
   const byContent = (pool: readonly TextbookFigure[]): TextbookFigure[] => {
     if (!want.size) return []

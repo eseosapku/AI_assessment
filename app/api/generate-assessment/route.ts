@@ -31,7 +31,7 @@ import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { normalizeIds, positiveId } from '@/lib/request-ids'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
-import { figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
+import { bookInBank, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
 import { assembleParts, hasVetted, vettedFor } from '@/lib/figure-question-bank'
 import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbook-figure-prompt'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
@@ -1708,11 +1708,29 @@ ${commandBlock}`
     // that carries its own stored text, and it switched the bank off for
     // exactly the books it was built from.
     const pastedNotes = String(rawSourceText ?? '').trim().length > 0
-    const quizFigures: TextbookFigure[] = !isCheckpoint && !isExamPrepMode && !usePassageFlow && !pastedNotes
+    const bankApplies = !isCheckpoint && !isExamPrepMode && !usePassageFlow && !pastedNotes
+    // A unit chosen without its sections ("Unit 2B: Geometry") names nothing
+    // a figure shows; its sections ("2D shapes", "Angles and turning") do. A
+    // Geometry quiz matched none of its book's 18 geometry figures on the
+    // unit name alone.
+    let figureSections: string[] = []
+    if (bankApplies && !resolvedSubtopics.length && topicIds.length > 0 && Number.isFinite(textbookId)) {
+      try {
+        const { rows } = await db.query(
+          'SELECT subtopic FROM subtopics WHERE topic_id = ANY($1::int[]) AND textbook_id = $2',
+          [topicIds, textbookId],
+        )
+        figureSections = (rows ?? []).map((r: any) => String(r?.subtopic ?? '')).filter(Boolean)
+      } catch (error) {
+        console.error('Sections lookup for figures failed:', error)
+      }
+    }
+    const quizFigures: TextbookFigure[] = bankApplies
       ? figuresForQuiz({
           textbookId: Number.isFinite(textbookId) ? textbookId : undefined,
           textbookName: textbookName || figureSubject,
           topics: imageTopicFilter,
+          sections: figureSections,
           stage: Number(grade) || undefined,
           max: Math.max(0, Math.round(count * 0.4)) * 4,
           seed: Date.now(),
@@ -1724,6 +1742,14 @@ ${commandBlock}`
     if (quizFigures.length) {
       visualCatalog = []
       console.log(`Textbook figures: ${quizFigures.length} for [${imageTopicFilter.slice(0, 3).join(', ')}] from ${[...new Set(quizFigures.map((f) => f.textbookName.slice(0, 40)))].join('; ')}`)
+    } else if (bankApplies && bookInBank(textbookId) && visualCatalog.length) {
+      // A book in the bank had its figures judged, and the rest were left
+      // out. The library match would bring them back -- or another
+      // country's book -- with no vetted question: a Rwandan star pattern
+      // on a Stage 4 Geometry quiz, and a second question describing it
+      // with no picture at all. No figure is better.
+      console.log(`Textbook figures: none on [${imageTopicFilter.slice(0, 3).join(', ')}] in a bank book; library figures withheld`)
+      visualCatalog = []
     }
 
     const hasVisionFigures = visualCatalog.length > 0
