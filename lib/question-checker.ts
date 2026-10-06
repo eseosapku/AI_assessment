@@ -21,8 +21,14 @@
 
 export interface CheckContext {
   subject: string
-  /** "Primary Stage 6" or "Lower Secondary Stage 9". */
+  /** "Primary Stage 6", "Lower Secondary Stage 9", "Cambridge Primary Stage 3 (age 8)"... */
   stage: string
+  /**
+   * What the learner's book teaches at this stage and what it has not taught
+   * yet (lib/topic-briefs.ts). Without it "beyond the stage" is the checker's
+   * own idea of the stage, which is the writer's mistake over again.
+   */
+  scope?: string
   /** The reading text every question on the paper is set on, if any. */
   passage?: string
   /** One line per OTHER question on the paper, for spotting repeats. */
@@ -49,7 +55,7 @@ export interface Verdict {
 
 type Q = Record<string, any>
 
-const RUBRIC = `You are checking questions an AI wrote for a Cambridge Checkpoint practice paper, before a learner sees them. Be a strict, careful examiner. Work out every answer yourself -- do the arithmetic, check the science, find the answer in the reading text, read the figure data. Never trust the key you are shown.
+const RUBRIC = `You are checking questions an AI wrote for a Cambridge practice paper or quiz, before a learner sees them. Be a strict, careful examiner. Work out every answer yourself -- do the arithmetic, check the science, find the answer in the reading text, read the figure data. Never trust the key you are shown.
 
 A figure is described to you as FIGURE DATA (its exact numbers and labels), a list of the text drawn on it, or a description. Use only that. NEVER guess or invent what a figure shows: if a question's answer depends on values you were not given, judge only what you can see, and do not "work out" an answer from imagined values.
 
@@ -69,7 +75,7 @@ For each question give ONE verdict:
 "drop" -- the QUESTION itself is broken. Drop it when ANY of these is true:
           - it needs something the learner cannot see or is not told (a figure, table, text, earlier part or data that is not there; a figure that does not show what it asks about)
           - it gives the answer away (the answer is in the question, its scenario, or printed on the figure)
-          - it is beyond the stage (Primary Stage 6 is about age 11, Lower Secondary Stage 9 about age 14)
+          - it is beyond the stage named under PAPER: it needs content first taught at a LATER stage (judge by WHAT THE BOOK TEACHES where it is given; Primary Stage N is about age N+5, Lower Secondary Stage 9 about age 14)
           - it is not a question for this subject, or a comprehension question about something the text does not contain, or about the wrong paragraph
           - it repeats a question listed under OTHER QUESTIONS, or an earlier one in this batch (same demand, however worded)
           - it is garbled, ungrammatical, cut off, uses American spelling, or contains instructions meant for the writer
@@ -122,6 +128,7 @@ export function buildCheckPrompt(questions: readonly Q[], ctx: CheckContext): st
     RUBRIC,
     '',
     `PAPER: ${ctx.subject}, ${ctx.stage}.`,
+    ...(ctx.scope ? ['', 'WHAT THE BOOK TEACHES AT THIS STAGE:', ctx.scope.trim()] : []),
     ...(ctx.passage
       ? ['', 'READING TEXT (shown above every question; paragraphs lettered A, B, C... in order):', '"""', ctx.passage.trim(), '"""']
       : []),

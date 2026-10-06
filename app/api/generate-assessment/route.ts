@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import { BedrockRuntimeClient, InvokeModelCommand, InvokeModelCommandOutput } from '@aws-sdk/client-bedrock-runtime'
 import { withUsageTracking } from '@/lib/ai-usage-recorder'
 import { buildCheckPrompt, applyVerdicts, parseVerdicts, chunk, oneLine } from '@/lib/question-checker'
+import { briefsFor, buildBriefBlock } from '@/lib/topic-briefs'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
@@ -115,6 +116,12 @@ const CHECKPOINT_DRAWN_FIGURES = process.env.CHECKPOINT_DRAWN_FIGURES === '1'
  */
 const BANK_FIGURE_SHARE: Record<string, number> = { Science: 0.7, Mathematics: 0.5 }
 const MAX_SOURCE_CHARS = 12000
+/**
+ * The second reader when BEDROCK_CHECKER_MODEL_ID is unset. Haiku: Sonnet
+ * costs more than generating the quiz did, and Haiku catches the wrong keys
+ * and the content from a later stage that the reviews found.
+ */
+const DEFAULT_CHECKER_MODEL = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
 const MAX_EXAM_SOURCE_CHARS = 32000
 
 
@@ -545,6 +552,13 @@ function buildTopicAlignmentBlock(params: {
   topics: string[]
   grade?: number | string
   subject?: string
+  /**
+   * The learner's book says what this chapter teaches at this stage. The
+   * statistics and probability rules below set a level for any curriculum --
+   * the mean at Grade 4, probability as a number from Grade 4 -- and Cambridge
+   * Primary teaches neither by then. Where the book has spoken, they step aside.
+   */
+  hasBrief?: boolean
 }): string {
   const topicText = (params.topics || []).join(' ').toLowerCase()
   const g = Number(params.grade)
@@ -560,7 +574,7 @@ function buildTopicAlignmentBlock(params: {
   }
 
   const isStatistics = /statistic|data|graph|chart|pictograph|table|frequency|tally/.test(topicText)
-  if (isStatistics) {
+  if (isStatistics && !params.hasBrief) {
     if (Number.isFinite(g) && g <= 3) {
       rules.push('Statistics (primary): use small data lists or tallies in text and ask most, least, or compare counts. No diagrams or plotting.')
     } else if (Number.isFinite(g) && g <= 6) {
@@ -571,7 +585,7 @@ function buildTopicAlignmentBlock(params: {
   }
 
   const isProbability = /probab|chance|likelihood/.test(topicText)
-  if (isProbability) {
+  if (isProbability && !params.hasBrief) {
     if (Number.isFinite(g) && g <= 3) {
       rules.push('Probability (primary): use simple language like likely, unlikely, or certain with tiny sample spaces.')
     } else {
@@ -654,6 +668,8 @@ function buildPrompt(opts: {
    * the identifier business entirely.
    */
   assignedFigure?: { description: string; category: string }
+  /** What the learner's book teaches in these chapters at this stage (lib/topic-briefs.ts). */
+  scopeBrief?: string
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
@@ -871,7 +887,7 @@ Return exactly ${questionParts.length} questions, in this order, all type "longf
   }
 
   const difficultyInstruction = difficultyLevel ? (DIFFICULTY_INSTRUCTIONS[difficultyLevel] ?? '') : ''
-  const topicAlignment = buildTopicAlignmentBlock({ topics, grade: opts.grade, subject })
+  const topicAlignment = buildTopicAlignmentBlock({ topics, grade: opts.grade, subject, hasBrief: Boolean(opts.scopeBrief) })
 
   const sourceBlock = sourceText
     ? `SOURCE MATERIAL (${sourceName || 'Uploaded PDF'}):
@@ -975,7 +991,9 @@ ${gradeAgeNote ? `\n${gradeAgeNote}\n` : ''}
 ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 
 **Task:** ${questionInstruction}
-
+${opts.scopeBrief ? `
+${opts.scopeBrief}
+` : ''}
 ${topicAlignment}
 
 ${visualBlock}
@@ -1546,6 +1564,14 @@ ${commandBlock}`
     }
 
     const isCambridge = curriculumSlug === 'cambridge'
+    // What the learner's book teaches in these chapters at this stage, and
+    // what it has not taught yet. None of the Cambridge Primary, Lower
+    // Secondary or IGCSE books has stored text, so the writer had the chapter's
+    // name and an age band: a Stage 3 Measurement quiz asked for the area of a
+    // circle. See lib/topic-briefs.ts.
+    const chapterBriefs = isCambridge ? briefsFor(textbookId, dbTopicNames) : []
+    const scopeBrief = buildBriefBlock(chapterBriefs)
+    if (chapterBriefs.length) console.log(`Chapter briefs: ${chapterBriefs.map((b) => b.topic).join('; ')}`)
     // Cambridge Checkpoint practice. Its papers want figures the way the real
     // ones do, which is a different appetite from a revision quiz.
     const isCheckpoint = curriculumSlug === 'checkpoint'
@@ -2384,6 +2410,7 @@ ${commandBlock}`
         sourceText, sourceName: sourceLabel, visualCatalog, maxImageQuestions, requirePassagesAll,
         figureAppetite: isCheckpoint ? 'exam-paper' : 'default', paperPass, questionParts,
         assignedFigure: assignedFigure ? { description: assignedFigure.description, category: assignedFigure.category } : undefined,
+        scopeBrief: scopeBrief || undefined,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
@@ -3421,14 +3448,15 @@ ${commandBlock}`
      * A careful second reader for every Checkpoint question. See
      * lib/question-checker.ts for why.
      *
-     * Off unless BEDROCK_CHECKER_MODEL_ID names a model (Amplify passes BEDROCK_*
-     * through to production). Each question is checked once -- `checked` marks
+     * Haiku unless BEDROCK_CHECKER_MODEL_ID names another model, or "off"
+     * (Amplify passes BEDROCK_* through to production). Each question is checked once -- `checked` marks
      * it -- so the top-up passes only pay for what they add. A question the
      * checker drops leaves a gap the next top-up pass fills. If the checker
      * call fails, the questions go through unchecked: a paper is better than
      * no paper, and that is what this route did before.
      */
-    const CHECKER_MODEL = String(process.env.BEDROCK_CHECKER_MODEL_ID ?? '').trim()
+    const CHECKER_SETTING = String(process.env.BEDROCK_CHECKER_MODEL_ID ?? '').trim()
+    const CHECKER_MODEL = CHECKER_SETTING.toLowerCase() === 'off' ? '' : CHECKER_SETTING || DEFAULT_CHECKER_MODEL
     const callChecker = async (prompt: string): Promise<string> => {
       const controller = new AbortController()
       const timeout = setTimeout(() => controller.abort(), 40_000)
@@ -3447,7 +3475,7 @@ ${commandBlock}`
         const res = await withUsageTracking(
           {
             modelId: CHECKER_MODEL,
-            feature: 'checkpoint_check',
+            feature: isCheckpoint ? 'checkpoint_check' : 'quiz_check',
             requestId: usageRequestId,
             userId: usageUserId,
             parseBody: (r: InvokeModelCommandOutput) => JSON.parse(new TextDecoder().decode(r.body)),
@@ -3462,14 +3490,29 @@ ${commandBlock}`
         clearTimeout(timeout)
       }
     }
+    // Ordinary Cambridge quizzes too. Fifteen of them reviewed blind on
+    // 2026-10-06: every figure question was clean and 17 of 25 text-only
+    // Primary Mathematics questions were not -- "25% of 80" keyed 40, a median
+    // of 1-5 keyed 2, a square and a rectangle both "the shape with four right
+    // angles", the area of a circle at Stage 3.
+    const checksThisPaper = isCheckpoint || isCambridge
     const runChecker = async (list: any[]): Promise<any[]> => {
-      if (!isCheckpoint || !CHECKER_MODEL) return list
+      if (!checksThisPaper || !CHECKER_MODEL) return list
       // Not the composition: the checker read "Write a story ..." as a
       // comprehension question about something not in the text and dropped it,
       // twice, leaving an English paper without its 25 marks.
-      const todo = list.filter((q) => q && typeof q === 'object' && !q.checked && !isCompositionQuestion(q))
+      // Not a vetted figure question either: Sonnet checked it looking at the
+      // figure, and this checker reads a description of it.
+      const todo = list.filter((q) => q && typeof q === 'object' && !q.checked && !q.vetted && !isCompositionQuestion(q))
       if (todo.length === 0) return list
-      const stage = Number(grade) <= 6 ? 'Primary Stage 6' : 'Lower Secondary Stage 9'
+      const g = Number(grade)
+      const stage = isCheckpoint
+        ? (g <= 6 ? 'Primary Stage 6' : 'Lower Secondary Stage 9')
+        : g >= 10 ? 'Cambridge IGCSE (ages 14-16)'
+        : g >= 7 ? `Cambridge Lower Secondary Stage ${g} (age ${g + 5})`
+        : g >= 1 ? `Cambridge Primary Stage ${g} (age ${g + 5})`
+        : 'Cambridge'
+      const scope = chapterBriefs.map((b) => `"${b.topic}": teaches ${b.teaches}${b.notYet ? ` NOT taught yet: ${b.notYet}` : ''}`).join('\n')
       const dropped = new Set<any>()
       let fixed = 0
       const reasons: string[] = []
@@ -3481,7 +3524,7 @@ ${commandBlock}`
         try {
           const others = list.filter((q) => !group.includes(q)).map(oneLine)
           const prompt = buildCheckPrompt(group, {
-            subject: promptSubject, stage, passage: checkpointPassage || undefined, others,
+            subject: promptSubject, stage, passage: checkpointPassage || undefined, others, scope: scope || undefined,
           })
           const result = applyVerdicts(group, parseVerdicts(await callChecker(prompt)))
           fixed += result.fixed

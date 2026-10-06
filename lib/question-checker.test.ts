@@ -30,6 +30,16 @@ describe('the prompt', () => {
     expect(p).toContain('Elara walked into the woods.')
     expect(p).toMatch(/English[^]*45/)
   })
+
+  it('carries what the book teaches at the stage, so "beyond the stage" means the book\'s stage', () => {
+    const p = buildCheckPrompt([short(1, 'Work out the area of a circle of radius 2 cm.', ['12.57'])], {
+      subject: 'Mathematics', stage: 'Cambridge Primary Stage 3 (age 8)', others: [],
+      scope: 'It teaches: area by counting squares.\nNOT taught yet: area formulae, circles.',
+    })
+    expect(p).toContain('WHAT THE BOOK TEACHES AT THIS STAGE')
+    expect(p).toContain('area by counting squares')
+    expect(p).toContain('Cambridge Primary Stage 3 (age 8)')
+  })
 })
 
 describe('reading the verdicts', () => {
