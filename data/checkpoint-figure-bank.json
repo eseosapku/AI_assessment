@@ -1,33 +1,6 @@
 {
  "figures": [
   {
-   "id": "0876-english-as-second-language-may-2024-checkpoint-question-paper-1-p4-1",
-   "code": "0876",
-   "stage": 9,
-   "component": 1,
-   "session": "May 2024",
-   "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-may-2024-checkpoint-question-paper-1/p4-fig-1.png",
-   "noun": "notice",
-   "shows": "A notice board headed 'NOTICES' with a large white notice on top of several smaller grey papers. The notice is titled 'School concert' and reads: 'Please tell your parents to be in their seats at least five minutes before the performance begins. Otherwise they may not be allowed in until after the interval.' It is signed 'Headteacher'.",
-   "labels": [
-    "School concert",
-    "Please tell your",
-    "parents to be in their",
-    "seats at least five",
-    "minutes before the",
-    "performance begins.",
-    "Otherwise they may",
-    "not be allowed in until",
-    "after the interval.",
-    "Headteacher",
-    "10"
-   ],
-   "focus": "working out a meaning the text implies",
-   "strand": "Reading and Usage",
-   "original": "A If parents arrive later than requested they could miss part of the concert.\nB The school concert is going to begin slightly earlier than planned.\nC Parents can only attend the concert if they have reserved seats.",
-   "primaryOk": false
-  },
-  {
    "id": "0876-english-as-second-language-may-2024-checkpoint-question-paper-1-p4-2",
    "code": "0876",
    "stage": 9,
@@ -35,7 +8,7 @@
    "session": "May 2024",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-may-2024-checkpoint-question-paper-1/p4-fig-2.png",
    "noun": "notice",
-   "shows": "A road-style sign on a metal post against a grey sky with clouds. The sign reads: 'Golden Caves. Entry only permitted with a guide. 20% off tickets bought online in advance (full-price from ticket office).'",
+   "shows": "A road-style sign on a metal post against a cloudy sky. The sign reads: 'Golden Caves. Entry only permitted with a guide. 20% off tickets bought online in advance (full-price from ticket office).'",
    "labels": [
     "A People can choose whether or not to be",
     "accompanied when they visit the caves.",
@@ -50,7 +23,7 @@
    ],
    "focus": "working out a meaning the text implies",
    "strand": "Reading and Usage",
-   "original": "Read the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.\n[THIS DIAGRAM]",
+   "original": "[THIS DIAGRAM]\nA People can choose whether or not to be accompanied when they visit the caves.\nB There is an extra charge to go on a tour of the caves with a guide.\nC Visitors pay less to see the caves if they book their trip before arriving.",
    "primaryOk": false
   },
   {
@@ -61,66 +34,13 @@
    "session": "May 2024",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-may-2024-checkpoint-question-paper-1/p7-fig-0.png",
    "noun": "drawing",
-   "shows": "A black-and-white drawing of a young woman with a ponytail leaping sideways with her body leaning and one arm stretched high, reaching for a flying disc (frisbee) above her head. She wears a short-sleeved top, rolled-up dark trousers and trainers, and her other arm is held out behind her. A small shadow is on the ground beneath her feet.",
+   "shows": "A black-and-white drawing in a box of a young woman with a ponytail, wearing a T-shirt, rolled-up trousers and trainers. She leans sideways and stretches one arm up to reach a flying frisbee disc above her head. Her other arm is held out behind her and there is a shadow on the ground under her feet.",
    "labels": [
     "had"
    ],
-   "focus": "the correct verb tense in context",
-   "strand": "Reading and Usage",
-   "original": "Ultimate Frisbee [THIS DIAGRAM] Most people have probably (0) ____ a go at playing frisbee in a park, throwing a plastic disc between friends. But (19) ____ you know that you can play frisbee (20) ____ a team sport? It's called ultimate frisbee.",
-   "primaryOk": false
-  },
-  {
-   "id": "0876-english-as-second-language-may-2025-checkpoint-question-paper-1-1-p4-1",
-   "code": "0876",
-   "stage": 9,
-   "component": 1,
-   "session": "May 2025",
-   "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-may-2025-checkpoint-question-paper-1-1/p4-fig-1.png",
-   "noun": "picture",
-   "shows": "A drawing of a mobile phone whose screen shows a text message. It begins 'Mum', then: 'Did you pick up my gym card by mistake? I won't be allowed into the gym without it, and I want to go with Danny at 3. Will you be back by then?' and is signed 'Liam'. The answer options A, B and C sit beside the phone.",
-   "labels": [
-    "A Liam wants his mother’s permission to go to",
-    "Mum",
-    "B Liam hopes his mother will collect him from the",
-    "Did you pick up",
-    "C Liam thinks his mother might have his gym",
-    "my gym card by",
-    "mistake? I won’t be",
-    "allowed into the",
-    "gym without it, and",
-    "I want to go with",
-    "Danny at 3. Will you",
-    "be back by then?",
-    "Liam"
-   ],
-   "focus": "working out a meaning the text implies",
-   "strand": "Reading and Usage",
-   "original": "Questions 9–13\nRead the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.\nA Liam wants his mother’s permission to go to the gym with Danny.\nB Liam hopes his mother will collect him from the gym later.\nC Liam thinks his mother might have his gym membership card.",
-   "primaryOk": false
-  },
-  {
-   "id": "0876-english-as-second-language-may-2025-checkpoint-question-paper-1-1-p5-1",
-   "code": "0876",
-   "stage": 9,
-   "component": 1,
-   "session": "May 2025",
-   "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-may-2025-checkpoint-question-paper-1-1/p5-fig-1.png",
-   "noun": "notice",
-   "shows": "A notice pinned to a board with two pins, on a sheet with a curled bottom-left corner. The heading reads 'After-school Art Club members'. The text reads: 'Some places are still available! If you know anyone who would like to become a member, please tell them to come along to Thursday's meeting.' It is signed 'Ms Rodgers'.",
-   "labels": [
-    "If you know anyone who would",
-    "B to encourage more students to join the club.",
-    "like to become a member, please",
-    "tell them to come along to",
-    "Thursday’s meeting.",
-    "C to remind students when the club meeting",
-    "takes place.",
-    "Ms Rodgers"
-   ],
-   "focus": "the writer’s purpose",
-   "strand": "Reading and Usage",
-   "original": "11 Ms Rodgers w[rote this notice]... A to persuade... B to encourage more students to join the club. C to remind students when the club meeting takes place.",
+   "focus": "describing a place so a reader can picture it",
+   "strand": "Writing",
+   "original": "Ultimate Frisbee\n[THIS DIAGRAM]\nMost people have probably (0) ____ a go at playing frisbee in a park, throwing a plastic disc between friends. But (19) ____ you know that you can play frisbee (20) ____ a team sport? It's called ultimate frisbee.",
    "primaryOk": false
   },
   {
@@ -131,7 +51,7 @@
    "session": "May 2025",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-may-2025-checkpoint-question-paper-1-1/p5-fig-3.png",
    "noun": "notice",
-   "shows": "A sign on a post with clouds in the background. The sign is headed \"Science Museum\" and reads: \"A member of staff will inform visitors if filming or photography is taking place at the museum during their visit.\"",
+   "shows": "A sign on a metal post against a grey sky with clouds. The sign reads: 'Science Museum. A member of staff will inform visitors if filming or photography is taking place at the museum during their visit.'",
    "labels": [
     "B telling visitors that they won’t be filmed without",
     "A member of staff will inform",
@@ -142,69 +62,9 @@
     "during their visit.",
     "getting permission."
    ],
-   "focus": "the writer’s purpose",
-   "strand": "Reading and Usage",
-   "original": "13 Science Museum. A member of staff will inform visitors if filming or photography is taking place at the museum during their visit. The notice",
-   "primaryOk": false
-  },
-  {
-   "id": "0876-english-as-second-language-october-2025-checkpoint-question-paper-1-p4-0",
-   "code": "0876",
-   "stage": 9,
-   "component": 1,
-   "session": "October 2025",
-   "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-october-2025-checkpoint-question-paper-1/p4-fig-0.png",
-   "noun": "picture",
-   "shows": "A drawing of a mobile phone whose screen shows a text message: 'Hi Leo. I saw the film you mentioned. You're right – the ending was worth waiting for. I watched it by myself, so at least no one saw me crying! Jodie'. Beside it are three answer options: A 'Jodie regrets not seeing the film with Leo.', B 'Jodie suggests that the film was too long.', C 'Jodie agrees with Leo's opinion of the film.'",
-   "labels": [
-    "A Jodie regrets not seeing the film with Leo.",
-    "Hi Leo",
-    "B Jodie suggests that the film was too long.",
-    "I saw the film you",
-    "mentioned. You’re right –",
-    "C Jodie agrees with Leo’s opinion of the film.",
-    "the ending was worth",
-    "waiting for. I watched it",
-    "by myself, so at least no",
-    "one saw me crying!",
-    "Jodie",
-    "9",
-    "Why has Ahmed’s grandad sent this message",
-    "to him?"
-   ],
    "focus": "working out a meaning the text implies",
    "strand": "Reading and Usage",
-   "original": "Read the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.\nExample\n[THIS DIAGRAM]",
-   "primaryOk": false
-  },
-  {
-   "id": "0876-english-as-second-language-october-2025-checkpoint-question-paper-1-p4-1",
-   "code": "0876",
-   "stage": 9,
-   "component": 1,
-   "session": "October 2025",
-   "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-october-2025-checkpoint-question-paper-1/p4-fig-1.png",
-   "noun": "picture",
-   "shows": "A drawing of a mobile phone screen showing a text message. The message reads: \"Ahmed. I wondered about a history book for your mum's birthday – I saw her reading something, but didn't notice the title. Check for me so I don't get the same one. Grandad\". Below it, the top edge of the next item, number 10, is partly visible, and the question number 9 is printed beside the phone.",
-   "labels": [
-    "A to ask whether his mum still enjoys reading",
-    "Ahmed",
-    "I wondered about a",
-    "history book for your",
-    "B to avoid giving his mum a present that she",
-    "mum’s birthday – I saw",
-    "her reading something,",
-    "but didn’t notice the",
-    "C to get an idea for something for his mum’s",
-    "title. Check for me so I",
-    "don’t get the same one.",
-    "Grandad",
-    "10",
-    "You will pay more if"
-   ],
-   "focus": "the writer’s purpose",
-   "strand": "Reading and Usage",
-   "original": "Questions 9–13\nRead the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.\n[THIS DIAGRAM]\nhistory books\nalready owns\nbirthday\n[1]",
+   "original": "13 The notice [A warning ... today.] B telling visitors that they won’t be filmed without their knowledge. C asking visitors not to use their cameras without getting permission. [1]",
    "primaryOk": false
   },
   {
@@ -215,7 +75,7 @@
    "session": "October 2025",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-october-2025-checkpoint-question-paper-1/p4-fig-2.png",
    "noun": "notice",
-   "shows": "A notice in a shop window, in a black-bordered white box, headed 'Bike repairs'. It reads: 'We'll call when your bike's ready. There's an extra charge for bikes not collected within a week.'",
+   "shows": "A notice in a shop window with a black border and white background. The bold heading reads 'Bike repairs'. Below it the text reads: 'We'll call when your bike's ready. There's an extra charge for bikes not collected within a week.' The window behind it is silver and reflective.",
    "labels": [
     "A you leave your bike here for too long.",
     "Bike repairs",
@@ -240,7 +100,7 @@
    "session": "October 2025",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-october-2025-checkpoint-question-paper-1/p5-fig-0.png",
    "noun": "notice",
-   "shows": "An email window titled 'New Message' with a toolbar of icons (address book, scissors, copy, paste, paperclip). A Send button sits beside the fields 'To: All students and parents' and 'From: Headteacher'. The message box reads: 'Students will no longer be allowed to leave school early for medical appointments without permission (by email or letter) from their parents.'",
+   "shows": "An email window titled 'New Message' with a toolbar of small icons (address book, scissors, copy, paste, paperclip) and a Send button. The 'To:' box says 'All students and parents' and the 'From:' box says 'Headteacher'. The message box says: 'Students will no longer be allowed to leave school early for medical appointments without permission (by email or letter) from their parents.'",
    "labels": [
     "11",
     "What new rule is the headteacher telling",
@@ -261,7 +121,7 @@
    ],
    "focus": "working out a meaning the text implies",
    "strand": "Reading and Usage",
-   "original": "Questions 9–13 Read the text in each question. What does it say? For each question, circle the correct letter: A, B or C. 11 What new rule is the headteacher telling students and parents about? A Students cannot attend medical appointments during lessons unless their parents write to the school. B Students can only leave for medical appointments if their parents collect them from school. C Students’ parents must make sure that their medical appointments are not during school time.",
+   "original": "Questions 9–13\nRead the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.\n11 What new rule is the headteacher telling students and parents about?\nA Students cannot attend medical appointments during lessons unless their parents write to the school.\nB Students can only leave for medical appointments if their parents collect them from school.\nC Students' parents must make sure that their medical appointments are not during school time.",
    "primaryOk": false
   },
   {
@@ -272,7 +132,7 @@
    "session": "October 2025",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-october-2025-checkpoint-question-paper-1/p5-fig-1.png",
    "noun": "notice",
-   "shows": "A website pop-up window with a grey title bar and a close button (X) at top right. The text reads: \"The stadium is best reached by public transport, with four train stations and major bus routes nearby, although on match days some routes will change as roads are closed.\" The status bar at the bottom shows \"Done\" and \"Internet\". The question number 12 is printed beside it.",
+   "shows": "A pop-up style website window with a close button at top right and a status bar reading 'Done' and 'Internet'. The text inside reads: 'The stadium is best reached by public transport, with four train stations and major bus routes nearby, although on match days some routes will change as roads are closed.' The crop cuts off the right side of the question, but the notice text itself is complete.",
    "labels": [
     "12",
     "What type of information is the website giving",
@@ -291,7 +151,7 @@
    ],
    "focus": "the writer’s purpose",
    "strand": "Reading and Usage",
-   "original": "Read the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.",
+   "original": "Read the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.\n12 What type of information is the website giving stadium visitors?\nA advice on which train route to use\nB directions for those who want to drive\nC a warning for people who plan to go by bus",
    "primaryOk": false
   },
   {
@@ -302,7 +162,7 @@
    "session": "March 2026",
    "localPath": "/textbook-images/checkpoint-bank/0057-english-as-second-language-march-2026-checkpoint-question-paper-1/p3-fig-0.png",
    "noun": "picture",
-   "shows": "A drawing of a mobile phone whose screen displays a text message. The message reads: \"John. I'm sure you haven't forgotten we're playing tennis later. I've lent Katie my bike for the day so it'd be great if you could pick me up on your way to the sports centre. Billy\". Beside the phone is question 6, \"Why is Billy texting John?\", with options A to ask him for a favour, B to remind him to do something, C to explain a change of plan to him.",
+   "shows": "A drawing of a mobile phone whose screen shows a text message. The message reads: \"John. I'm sure you haven't forgotten we're playing tennis later. I've lent Katie my bike for the day so it'd be great if you could pick me up on your way to the sports centre. Billy\". The question number 6 is printed beside the phone.",
    "labels": [
     "6",
     "Why is Billy texting John?",
@@ -324,41 +184,6 @@
    "focus": "the writer’s purpose",
    "strand": "Reading and Usage",
    "original": "6 Why is Billy texting John? A to ask him for a favour B to remind him to do something C to explain a change of plan to him",
-   "primaryOk": true
-  },
-  {
-   "id": "0057-english-as-second-language-march-2026-checkpoint-question-paper-1-p5-0",
-   "code": "0057",
-   "stage": 6,
-   "component": 1,
-   "session": "March 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0057-english-as-second-language-march-2026-checkpoint-question-paper-1/p5-fig-0.png",
-   "noun": "notice",
-   "shows": "A framed notice with a grey border and a white panel with a dot in each corner. Bold heading: 'Dance competition for students'. Text below: 'Open to all under-13s. Single person/group entries welcome. Contact Dan (0704339581) for form. Return by 10th June at latest.'",
-   "labels": [
-    "10",
-    "What does the advert say?",
-    "Dance competition",
-    "A The competition doesn’t take place",
-    "for students",
-    "until 10th June.",
-    "Open to all under-13s.",
-    "Single person/group entries",
-    "B Students must be at least 13 to enter",
-    "welcome.",
-    "the competition.",
-    "Contact Dan (0704339581)",
-    "for form.",
-    "C The competition is not limited to",
-    "Return by 10th June at latest.",
-    "individual dancers.",
-    "11 New Message",
-    "What does Mrs Webster want students",
-    "to do?"
-   ],
-   "focus": "working out a meaning the text implies",
-   "strand": "Reading and Usage",
-   "original": "What does the advert say?\nA The competition doesn’t take place until 10th June.\nB Students must be at least 13 to enter the competition.\nC The competition is not limited to individual dancers.",
    "primaryOk": false
   },
   {
@@ -369,7 +194,7 @@
    "session": "March 2026",
    "localPath": "/textbook-images/checkpoint-bank/0057-english-as-second-language-march-2026-checkpoint-question-paper-1/p7-fig-0.png",
    "noun": "picture",
-   "shows": "An email window header with two rows, each with a small open-book icon. The 'To:' row contains the name Jana and the 'From:' row contains the name Fiona. Below the header, the message body begins with the greeting 'Hi Jana'.",
+   "shows": "An email window with a grey header area. The first line has a book icon, the label 'To:' and a box containing 'Jana'. The second line has a book icon, the label 'From:' and a box containing 'Fiona'. Below, in the white message area, is the greeting 'Hi Jana'.",
    "labels": [
     "Jana",
     "To:",
@@ -379,7 +204,7 @@
    ],
    "focus": "the writer’s purpose",
    "strand": "Reading and Usage",
-   "original": "Part 4\nQuestions 18–24\nComplete the email below.\nFor Questions 18–24, write ONE word in each space.\nExample: (0) are\nWhat (0) are you doing in your free time these days?\nI’m thinking of starting piano lessons, like you. I know you’ve (18) ____ very happy with your teacher. (19) ____ you think you could send her my contact details?",
+   "original": "Questions 18–24\nComplete the email below.\nFor Questions 18–24, write ONE word in each space.\nExample: (0) are\nWhat (0) ____ you doing in your free time these days?\nI’m thinking of starting piano lessons, like you. I know you’ve (18) ____ very happy with your teacher. (19) ____ you think you could send her my contact details?",
    "primaryOk": false
   },
   {
@@ -390,7 +215,7 @@
    "session": "May 2026",
    "localPath": "/textbook-images/checkpoint-bank/0057-english-as-second-language-may-2026-checkpoint-question-paper-1/p4-fig-0.png",
    "noun": "notice",
-   "shows": "A rounded, framed notice headed 'Skateboard park'. It says: 'Opening Day (23rd March): Free for all skaters!'; 'Membership: £120 per year (attend weekdays or weekends for as long as you wish)'; 'Non-members: £5 for 2 hours (entry only when skatepark is not already full)'.",
+   "shows": "A rounded, framed notice titled 'Skateboard park'. It says: 'Opening Day (23rd March): Free for all skaters!'; 'Membership: £120 per year (attend weekdays or weekends for as long as you wish)'; 'Non-members: £5 for 2 hours (entry only when skatepark is not already full)'.",
    "labels": [
     "7",
     "What does the advert say?",
@@ -413,37 +238,8 @@
    ],
    "focus": "working out a meaning the text implies",
    "strand": "Reading and Usage",
-   "original": "7 [THIS DIAGRAM] What does it say? A There may be times when some people cannot use the skatepark. B Everyone using the skatepark is limited to a two-hour session. C People can try the skatepark without paying on certain days.",
-   "primaryOk": false
-  },
-  {
-   "id": "0057-english-as-second-language-may-2026-checkpoint-question-paper-1-p4-2",
-   "code": "0057",
-   "stage": 6,
-   "component": 1,
-   "session": "May 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0057-english-as-second-language-may-2026-checkpoint-question-paper-1/p4-fig-2.png",
-   "noun": "notice",
-   "shows": "A square notice board with a white notice headed 'Lake rules' pinned on top of other papers. It lists three rules: 'Swimming only allowed 10.00 a.m. – 2.00 p.m.', 'Swim inside the marked area' and 'Must be able to manage 25 m alone'.",
-   "labels": [
-    "Lake rules",
-    "A are forbidden to swim during",
-    "Swimming only allowed",
-    "the morning.",
-    "10.00 a.m. – 2.00 p.m.",
-    "B should be able to swim a short",
-    "distance without help.",
-    "Swim inside the marked",
-    "area",
-    "C are free to swim wherever they want at",
-    "certain times.",
-    "Must be able to manage",
-    "25 m alone"
-   ],
-   "focus": "working out a meaning the text implies",
-   "strand": "Reading and Usage",
-   "original": "Read the text in each question.\nWhat does it say?\nCircle the correct letter: A, B or C.\nSwimmers\nA are forbidden to swim during the morning.\nB should be able to swim a short distance without help.\nC are free to swim wherever they want at certain times.",
-   "primaryOk": false
+   "original": "Read the text in each question.\nWhat does it say?\nCircle the correct letter: A, B or C.",
+   "primaryOk": true
   },
   {
    "id": "0057-english-as-second-language-may-2026-checkpoint-question-paper-1-p7-0",
@@ -453,7 +249,7 @@
    "session": "May 2026",
    "localPath": "/textbook-images/checkpoint-bank/0057-english-as-second-language-may-2026-checkpoint-question-paper-1/p7-fig-0.png",
    "noun": "picture",
-   "shows": "An email-style message header with two grey rows. The first row has a book icon, the label 'To:' and a box containing 'Sasha'. The second row has a book icon, the label 'From:' and a box containing 'Hannah'. Below is a white message area containing the greeting 'Hi Sasha'.",
+   "shows": "The top of an email or message window. A grey header has two rows, each with a small open-book icon on the left. The first row is labelled 'To:' and its box contains 'Sasha'. The second row is labelled 'From:' and its box contains 'Hannah'. Below the header is a white message area that begins 'Hi Sasha'.",
    "labels": [
     "To:",
     "Sasha",
@@ -461,10 +257,10 @@
     "Hannah",
     "Hi Sasha"
    ],
-   "focus": "the right preposition in a phrase",
+   "focus": "the writer’s purpose",
    "strand": "Reading and Usage",
-   "original": "Complete the message below.\nFor Questions 18–24, write one word for each space.\nThere is an example at the beginning of the message.\nI’m going (0) ____ holiday to Italy with my family and we’re travelling by plane. I’ve never been on a plane before, but I know you have. Did you enjoy it (18) ____ you went on a plane?\n(19) ____ busy was it at the airport? Did you buy anything at the airport shops, (20) ____ was everything too expensive? I’m just asking (21) ____ case I get hungry and want to get something to eat there.",
-   "primaryOk": false
+   "original": "Part 4\nQuestions 18–24\nComplete the message below.\nFor Questions 18–24, write one word for each space.\nThere is an example at the beginning of the message.\nI’m going (0) ____ holiday to Italy with my family and we’re travelling\nby plane. I’ve never been on a plane before, but I know you have. Did you enjoy\nit (18) ____ you went on a plane?",
+   "primaryOk": true
   },
   {
    "id": "0057-english-as-second-language-may-2026-checkpoint-question-paper-1-p9-0",
@@ -474,77 +270,14 @@
    "session": "May 2026",
    "localPath": "/textbook-images/checkpoint-bank/0057-english-as-second-language-may-2026-checkpoint-question-paper-1/p9-fig-0.png",
    "noun": "picture",
-   "shows": "A grey-toned drawing of a large closed book with the heading 'Books of short stories' printed above it. On the cover, a man in a flat cap and jacket holds a magnifying glass up in one hand and a pocket watch in the other. A blank darker rectangle sits at the top of the cover where a title might go.",
+   "shows": "A grey drawing of a large closed book lying at an angle, with the title \"Books of short stories\" printed above it. On the cover is a man in a flat cap holding a magnifying glass in one hand and a pocket watch in the other. A blank grey panel sits at the top of the cover.",
    "labels": [
     "Books of short stories"
    ],
-   "focus": "the meaning of a word in its context",
+   "focus": "the writer’s purpose",
    "strand": "Reading and Usage",
    "original": "The young people below are all interested in reading short stories.\nOn the next page, there a",
    "primaryOk": false
-  },
-  {
-   "id": "0876-english-as-second-language-march-2026-checkpoint-question-paper-1-p5-0",
-   "code": "0876",
-   "stage": 9,
-   "component": 1,
-   "session": "March 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-march-2026-checkpoint-question-paper-1/p5-fig-0.png",
-   "noun": "notice",
-   "shows": "A notice on a bulletin board headed \"School Play\". It reads: \"The school play is set in the 1970s. Do you have anything our actors could wear that looks like it's from that period? Talk to Mrs Gomez, if you do.\" It is pinned with four dots over overlapping pieces of paper on a grey board.",
-   "labels": [
-    "11",
-    "A Mrs Gomez is looking for people to act in the",
-    "school play.",
-    "School Play",
-    "B Mrs Gomez is requesting items she needs for",
-    "the school play.",
-    "The school play is set in the",
-    "1970s. Do you have anything",
-    "C Mrs Gomez is asking the actors to do some",
-    "our actors could wear that looks",
-    "historical research for the school play.",
-    "like it’s from that period? Talk to",
-    "Mrs Gomez, if you do.",
-    "12",
-    "A Joe should tell his mum if he prepares",
-    "Joe",
-    "something to eat."
-   ],
-   "focus": "working out a meaning the text implies",
-   "strand": "Reading and Usage",
-   "original": "Questions 9–13\nRead the text in each question.\nWhat does it say?\nFor each question, circle the correct letter: A, B or C.\n[THIS DIAGRAM]\n[1]",
-   "primaryOk": false
-  },
-  {
-   "id": "0876-english-as-second-language-march-2026-checkpoint-question-paper-1-p5-1",
-   "code": "0876",
-   "stage": 9,
-   "component": 1,
-   "session": "March 2026",
-   "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-march-2026-checkpoint-question-paper-1/p5-fig-1.png",
-   "noun": "notice",
-   "shows": "A handwritten-style note on a sheet of paper with a curled bottom corner, headed 'Joe' and signed 'Mum'. It reads: 'I'm getting a takeaway on my way home but make sandwiches if you're hungry now – there's plenty of bread. Let me know though, so I don't order too much!'",
-   "labels": [
-    "I’m getting a takeaway on my",
-    "B Joe’s mum would like him to have a snack",
-    "way home but make",
-    "before she gets home.",
-    "sandwiches if you’re hungry",
-    "now – there’s plenty of bread.",
-    "C Joe’s mum has already bought a takeaway for",
-    "Let me know though, so I",
-    "them.",
-    "don’t order too much!",
-    "Mum",
-    "13",
-    "Why did Michael send this message about the",
-    "school trip?"
-   ],
-   "focus": "working out a meaning the text implies",
-   "strand": "Reading and Usage",
-   "original": "12 Joe\nI’m getting a takeaway on my way home but make sandwiches if you’re hungry now – there’s plenty of bread. Let me know though, so I don’t order too much!\nMum\nA Joe should te[ll her if he wants] something to [eat].\nB Joe’s mum would like him to have a snack before she gets home.\nC Joe’s mum has already bought a takeaway for them.",
-   "primaryOk": true
   },
   {
    "id": "0876-english-as-second-language-march-2026-checkpoint-question-paper-1-p7-0",
@@ -554,7 +287,7 @@
    "session": "March 2026",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-march-2026-checkpoint-question-paper-1/p7-fig-0.png",
    "noun": "picture",
-   "shows": "An email header and the start of a message. Two rows with a small open-book icon beside each: 'To:' with the name 'Alessia' in a white box, and 'From:' with the name 'Sam' in a white box. Below the grey header is the start of the message body, which reads 'Hi Alessia'.",
+   "shows": "An email-style header with a grey background. A book icon sits beside 'To:' with a box containing 'Alessia', and another book icon sits beside 'From:' with a box containing 'Sam'. Below, on a white area, is the greeting 'Hi Alessia'.",
    "labels": [
     "To:",
     "Alessia",
@@ -562,7 +295,7 @@
     "Sam",
     "Hi Alessia"
    ],
-   "focus": "choosing the right word to complete a sentence",
+   "focus": "pronouns and what they refer back to",
    "strand": "Reading and Usage",
    "original": "Part 4\nQuestions 19–26\nComplete the text below.\nWrite one word for each space.\nThere is an example at the beginning of the text.\n[THIS DIAGRAM]\nhas\nMum (0) ____ spoken to your parents, and I’m coming to stay with you in\n(19) ____ couple of weeks! I can’t wait – we always have so (20) ____ fun\ntogether! Will I see your brother Marco (21) ____ will he be studying at university while\nI’m there?",
    "primaryOk": false
@@ -575,7 +308,7 @@
    "session": "March 2026",
    "localPath": "/textbook-images/checkpoint-bank/0876-english-as-second-language-march-2026-checkpoint-question-paper-1/p7-fig-1.png",
    "noun": "picture",
-   "shows": "An email-style message form. A plain box at the top contains the word 'Sam'. Below it is a grey header panel with two rows, each with an open-book icon on the left: 'To:' followed by a text field containing 'Sam', and 'From:' followed by a text field containing 'Alessia'. Under the panel is a white message box containing 'Hi Sam'.",
+   "shows": "A message screen in an email style. At the top is a white box containing the word \"Sam\". Below it is a grey panel with two rows, each with an open-book icon on the left. The first row is labelled \"To:\" and its box contains \"Sam\". The second row is labelled \"From:\" and its box contains \"Alessia\". Under the panel is a white box containing the text \"Hi Sam\".",
    "labels": [
     "Sam",
     "To:",
@@ -584,9 +317,9 @@
     "Alessia",
     "Hi Sam"
    ],
-   "focus": "the right preposition in a phrase",
+   "focus": "pronouns and what they refer back to",
    "strand": "Reading and Usage",
-   "original": "It’s brilliant news, isn’t (22) ____ ?\nMarco’s going (23) ____ be back home – his university closes for the summer. That means he has some free time and can take us to see different places (24) ____ he’s got a car. (25) ____ you like to go to the beach? (26) ____ you have any suggestions, let me know soon.\nLove\nAlessia",
+   "original": "Part 4\nQuestions 19–26\nComplete the text below.\nWrite one word for each space.\nThere is an example at the beginning of the text.\nhas\nMum (0) ____ spoken to your parents, and I’m coming to stay with you in\n(19) ____ couple of weeks! I can’t wait – we always have so (20) ____ fun\ntogether! Will I see your brother Marco (21) ____ will he be studying at university while\nI’m there?\nSee you soon!",
    "primaryOk": false
   },
   {

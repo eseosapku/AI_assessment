@@ -245,6 +245,15 @@ const words = (s: unknown) =>
 export function answerIsPrinted(question: any, figure: Pick<BankFigure, 'labels'>): boolean {
   const sa = question?.short_answer
   const answers: string[] = Array.isArray(sa?.accepted) ? sa.accepted : typeof sa === 'string' ? [sa] : []
+  // A multiple-choice question's correct option counts too, when it is a
+  // word or two: "the name that 'Hi' is addressed to" -- Sam, printed in the
+  // message's To: box. A longer option paraphrasing a notice reuses its words
+  // by design, so it is left alone.
+  const idx = Number(question?.correct_answer)
+  if (!answers.length && Array.isArray(question?.options) && Number.isInteger(idx)) {
+    const opt = String(question.options[idx] ?? '').trim()
+    if (opt && opt.split(/\s+/).length <= 2) answers.push(opt)
+  }
   const first = String(answers[0] ?? '').trim()
   if (!first) return false
   // A number counts as printed only inside a written statement. "64" in a
@@ -288,6 +297,18 @@ export function answerIsPrinted(question: any, figure: Pick<BankFigure, 'labels'
  * question that is the original in full, give or take a word, is the thing
  * refused.
  */
+/**
+ * Are the options the real question's options handed back?
+ *
+ * An ESL notice question reworded its stem and copied Cambridge's three
+ * options word for word -- the stem check could not see it.
+ */
+export function optionsCopyOriginal(question: any, original: unknown): boolean {
+  if (!Array.isArray(question?.options)) return false
+  const joined = question.options.map((o: unknown) => String(o ?? '')).join(' ')
+  return copiesOriginal(joined, original)
+}
+
 export function copiesOriginal(stem: unknown, original: unknown, share = 0.75, run = 6): boolean {
   const words = (s: unknown) => String(s ?? '').toLowerCase().replace(/[^a-z0-9\s]/g, ' ').split(/\s+/).filter(Boolean)
   const a = words(stem)

@@ -1,6 +1,6 @@
 import { afterEach, describe, expect, it } from 'vitest'
 import {
-  answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, loadFigureBank,
+  answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, loadFigureBank, optionsCopyOriginal,
   resetFigureBank, stripFigureTokens, type BankFigure,
 } from './checkpoint-figure-bank'
 
@@ -204,5 +204,20 @@ describe('a printed answer whose label rows interleave', () => {
       { labels: ['measuring', 'gas', 'cylinder', 'beaker'] })).toBe(true)
     expect(answerIsPrinted({ short_answer: { accepted: ['measuring cylinder'] } },
       { labels: ['measuring', 'gas', 'beaker'] })).toBe(false)
+  })
+})
+
+describe('a multiple-choice question about a figure', () => {
+  it('is a giveaway when its short correct option is printed on the figure', () => {
+    expect(answerIsPrinted({ options: ['Sam', 'Alessia', 'Marco', 'Mum'], correct_answer: 0 }, { labels: ['Sam', 'Hi'] })).toBe(true)
+  })
+  it('is not, when the correct option paraphrases the notice at length', () => {
+    expect(answerIsPrinted({ options: ['Booking online gives a discount on the price.', 'x'], correct_answer: 0 },
+      { labels: ['Booking online', 'discount', 'price'] })).toBe(false)
+  })
+  it('copies the original when its options are the real options', () => {
+    const original = 'What type of information is the website giving? A advice on which train route to use B directions for those who want to drive C a warning for people who plan to go by bus'
+    expect(optionsCopyOriginal({ options: ['advice on which train route to use', 'directions for those who want to drive', 'a warning for people who plan to go by bus'] }, original)).toBe(true)
+    expect(optionsCopyOriginal({ options: ['take the train', 'drive there', 'catch a bus'] }, original)).toBe(false)
   })
 })

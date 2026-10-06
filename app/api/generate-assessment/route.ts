@@ -36,7 +36,7 @@ import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbo
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
 import { drawnFigureForFocus, drawnFigureCount } from '@/lib/drawn-figures'
-import { answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, stripFigureTokens, type BankFigure } from '@/lib/checkpoint-figure-bank'
+import { answerIsPrinted, assignBankFigures, bankFiguresFor, copiesOriginal, figureAccount, labelTokens, optionsCopyOriginal, stripFigureTokens, type BankFigure } from '@/lib/checkpoint-figure-bank'
 import { questionInventsItsOwnText, namesAbsentFromPassage, passageBorrowsAKnownWork, questionIsOffPassage, offPassageStrength } from '@/lib/passage-question-match'
 import { enforceSlotShape, isCompositionQuestion } from '@/lib/slot-shape'
 import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
@@ -2046,6 +2046,7 @@ ${commandBlock}`
         // then nothing is drawn: the real figure and the question Cambridge
         // asked about it are a better brief than anything drawn here.
         const bank = assignedFigure?.bank
+        const noticeBatch = Boolean(bank) && /^(0876|0057)$/.test(String(bank?.code))
         const approved = drawFocus && !bank && CHECKPOINT_DRAWN_FIGURES
           ? drawnFigureForFocus(drawFocus, { stage: Number(grade) || undefined, seed: startId })
           : null
@@ -2103,7 +2104,9 @@ ${commandBlock}`
           drawnFigure: drawn
             ? { description: drawn.description, labels: drawn.labels, noun: drawn.noun }
             : undefined,
-          passage: checkpointPassage || undefined,
+          // An ESL notice question is answered from the notice, so it is
+          // written without the long text, as the real paper's Part 2 is.
+          passage: noticeBatch ? undefined : (checkpointPassage || undefined),
           // Spread the questions across the text.
           //
           // Sixteen parallel calls, one passage, the same focus: they
@@ -2115,14 +2118,14 @@ ${commandBlock}`
           // list or table asks about the text as a whole -- "Tick all the
           // correct statements about paragraph D" kept ticking statements from
           // B and C.
-          passageParagraph: checkpointPassage
+          passageParagraph: checkpointPassage && !noticeBatch
             && !isUsageFocus(batchTopics?.[0])
             && !['tick', 'table'].includes(String(questionParts[0]?.format))
             ? (splitIntoParagraphs(checkpointPassage)[
                 (startId - 1) % Math.max(1, splitIntoParagraphs(checkpointPassage).length)
               ]?.label || undefined)
             : undefined,
-          usageItem: Boolean(checkpointPassage) && isUsageFocus(batchTopics?.[0]),
+          usageItem: Boolean(checkpointPassage) && !noticeBatch && isUsageFocus(batchTopics?.[0]),
         })
         const text = await callBedrock(focused + avoidBlock(batchTopics), Math.min(2600, 700 + questionParts.length * 550))
         if (isRefusal(text)) throw new Error('Model refused to generate content.')
@@ -2211,7 +2214,7 @@ ${commandBlock}`
         // Not a composition batch: a writing task brings its own people and
         // places, and "Aim for about 400 words" was rejected as a character
         // named Aim.
-        if (checkpointPassage && !questionParts.every((p: any) => p.format === 'composition')) {
+        if (checkpointPassage && !noticeBatch && !questionParts.every((p: any) => p.format === 'composition')) {
           const invented = parsed.questions.filter((q: any) =>
             q && typeof q === 'object' && questionInventsItsOwnText(q.question, checkpointPassage))
           if (invented.length) {
@@ -2277,7 +2280,7 @@ ${commandBlock}`
             q && typeof q === 'object' && questionNamesUndrawn(q.question, { labels: labelTokens(bank) }).length > 0)
           // The real question handed back, which it was shown as a model.
           const lifted = parsed.questions.filter((q: any) =>
-            q && typeof q === 'object' && copiesOriginal(q.question, bank.original))
+            q && typeof q === 'object' && (copiesOriginal(q.question, bank.original) || optionsCopyOriginal(q, bank.original)))
           // And an answer copied off the figure's own labels.
           const printed = parsed.questions.filter((q: any) =>
             q && typeof q === 'object' && answerIsPrinted(q, bank))
@@ -2388,7 +2391,7 @@ ${commandBlock}`
           }
           q.question = stripFigureTokens(String(q.question))
           const why = questionLeaksInstructions(q.question) ? 'copied the instructions'
-            : copiesOriginal(q.question, fig.original) ? "copied the book's exercise"
+            : copiesOriginal(q.question, fig.original) || optionsCopyOriginal(q, fig.original) ? "copied the book's exercise"
             : answerIsPrinted(q, labels) ? 'asked for a word printed on the figure'
             : questionNamesUndrawn(q.question, { labels: labelTokens(labels) }).length ? 'named a label the figure does not carry'
             : ''
@@ -2709,6 +2712,29 @@ ${commandBlock}`
         }
         console.log(`Past-paper figures: ${given.size} of ${eligible.length} questions (cap ${cap}, ${figures.length} in the bank for ${checkpointCode}; ${moved} moved focus to take one)`)
       }
+    }
+
+    // ESL Reading and Usage: the notices, signs and messages of Part 2.
+    //
+    // A real paper prints five, each asking "What does it say?" -- answered
+    // from the notice, not from the long reading text. So they go only to
+    // single ring-around questions, never more than five, spread through the
+    // paper, and those questions are written without the passage.
+    const eslNotices = isCheckpoint && /second language/i.test(promptSubject) && Boolean(checkpointPassage)
+      ? bankFiguresFor(checkpointCode) : []
+    if (eslNotices.length) {
+      const selects = batches.map((b, index) => ({ b, index }))
+        .filter(({ b }) => b.questionParts?.length === 1 && b.questionParts[0].format === 'select' && !b.assignedFigure)
+      const pool = [...eslNotices].sort(() => Math.random() - 0.5)
+      const n = Math.min(5, selects.length, pool.length)
+      for (let k = 0; k < n; k++) {
+        const { b } = selects[Math.floor((k * selects.length) / n)]
+        const fig = pool[k]
+        b.batchTopics = [fig.focus]
+        b.assignedFigure = { description: figureAccount(fig), category: fig.noun || 'notice', localPath: fig.localPath, bank: fig }
+        bankAccountByPath.set(fig.localPath, figureAccount(fig))
+      }
+      if (n) console.log(`ESL notices: ${n} of ${selects.length} ring-around questions`)
     }
 
     if (isCheckpoint && visualCatalog.length > 0 && batches.some((b) => b.questionParts)) {
@@ -3982,7 +4008,8 @@ ${commandBlock}`
           // Not the composition. It is a writing task about a subject of its
           // own, and the screen printed the reading text beside it, as though
           // the essay were about the text.
-          if (q && typeof q === 'object' && !q.passage && !isCompositionQuestion(q)) q.passage = checkpointPassage
+          // Not to a question with its own figure: an ESL notice is its text.
+          if (q && typeof q === 'object' && !q.passage && !isCompositionQuestion(q) && !q.image_url) q.passage = checkpointPassage
         }
       }
       // The scenario belongs to the question, not to each of its parts.

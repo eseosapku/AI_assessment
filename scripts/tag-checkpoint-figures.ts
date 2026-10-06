@@ -110,6 +110,8 @@ async function main() {
   const isListening = (f: Raw) => /English as a Second Language/.test(f.subject) && f.component === 2
   const todo = raw
     .filter((f) => !done[f.id] && !isListening(f) && (!ONLY || f.code === ONLY))
+    // A crop an earlier sweep removed cannot be read; skip it rather than crash.
+    .filter((f) => fs.existsSync(path.join(ROOT, 'public', f.localPath.replace(/^\//, ''))))
     .slice(0, LIMIT)
   console.log(`${todo.length} to tag (${Object.keys(done).length} already done) with ${MODEL}`)
 
