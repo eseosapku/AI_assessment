@@ -135,9 +135,14 @@ export function keepAndSpread<T>(all: readonly T[], keep: readonly T[], count: n
  * pictures from the bank or goes without: the library's other figures for it
  * are the ones the bank was built to leave out.
  */
-export function bookInBank(textbookId: unknown, bank: readonly TextbookFigure[] = loadTextbookFigureBank()): boolean {
+export function bookInBank(
+  textbookId: unknown,
+  bank: readonly TextbookFigure[] = loadTextbookFigureBank(),
+  /** Only figures a quiz can use count -- one with a vetted question, say. */
+  usable: (f: TextbookFigure) => boolean = () => true,
+): boolean {
   const id = Number(textbookId)
-  return Number.isFinite(id) && bank.some((f) => f.textbookIds.includes(id))
+  return Number.isFinite(id) && bank.some((f) => f.textbookIds.includes(id) && usable(f))
 }
 
 /** Biology, chemistry or physics, where a book name says which. */

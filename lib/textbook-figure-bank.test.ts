@@ -208,6 +208,11 @@ describe('bookInBank', () => {
     expect(bookInBank(35, [fig('a')])).toBe(false)
     expect(bookInBank(NaN, [fig('a')])).toBe(false)
   })
+  it('counts only the figures a quiz can use, when asked', () => {
+    // A book whose bank figures have no vetted questions yet keeps its library.
+    expect(bookInBank(34, [fig('a')], (f) => f.id === 'b')).toBe(false)
+    expect(bookInBank(34, [fig('a'), fig('b')], (f) => f.id === 'b')).toBe(true)
+  })
 })
 
 describe('a word in the figure\'s topic', () => {

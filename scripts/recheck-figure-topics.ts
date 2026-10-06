@@ -107,7 +107,10 @@ async function main() {
   })
   const figures: any[] = JSON.parse(fs.readFileSync(BANK, 'utf8')).figures
     .filter((f: any) => !BOOKS.length || f.textbookIds.some((id: number) => BOOKS.includes(id)))
-  const pool = new Pool({ connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
+  const pool = new Pool({
+    connectionString: process.env.DATABASE_URL, ssl: { rejectUnauthorized: false },
+    connectionTimeoutMillis: 30_000, query_timeout: 60_000, keepAlive: true,
+  })
   const topicsFor = new Map<number, string[]>()
   for (const id of new Set(figures.map((f) => Number(f.textbookIds[0])))) {
     const { rows } = await pool.query('SELECT topic FROM topics WHERE textbook_id = $1 ORDER BY topic_id', [id])
@@ -116,7 +119,14 @@ async function main() {
   await pool.end()
   const done: Record<string, any> = fs.existsSync(OUT) ? JSON.parse(fs.readFileSync(OUT, 'utf8')) : {}
   // Filed under one of its book's database topics: the tagger's forced choice.
-  const todo = figures.filter((f) => !done[f.id] && (topicsFor.get(Number(f.textbookIds[0])) ?? []).includes(f.topic))
+  // --offlist: only the figures whose topic is NOT one of their book's listed
+  // ones -- the judge's own wording for a chapter, which no quiz topic matches.
+  const OFFLIST = process.argv.includes('--offlist')
+  const todo = figures.filter((f) => {
+    if (done[f.id]) return false
+    const listed = (topicsFor.get(Number(f.textbookIds[0])) ?? []).includes(f.topic)
+    return OFFLIST ? !listed : listed
+  })
   console.log(`${todo.length} to check (${Object.keys(done).length} done) with ${MODEL}`)
 
   let inTok = 0, outTok = 0, n = 0

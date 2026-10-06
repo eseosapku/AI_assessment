@@ -1616,11 +1616,12 @@ ${commandBlock}`
     // after the topic ("Electric circuits") and sends the broad subject
     // separately; the topic name is no subject at all to a gate.
     const figureSubject = String(body?.subjectDomainHint ?? '').trim() || promptSubject
-    // A book in the figure bank takes its pictures from the bank, further
-    // down, and the library's are thrown away. Built first anyway, they cost
+    // A book whose bank figures have vetted questions takes its pictures from
+    // the bank, further down, and the library's are thrown away. (Not one
+    // whose figures are still waiting for theirs: it would get none at all.) Built first anyway, they cost
     // seconds of a 30-second quiz (pasted notes still use the library: the
     // bank does not apply to them).
-    const libraryNotNeeded = bookInBank(textbookId) && !String(rawSourceText ?? '').trim()
+    const libraryNotNeeded = bookInBank(textbookId, undefined, (f) => hasVetted(f.id)) && !String(rawSourceText ?? '').trim()
     if (
       hasTextbookImageLibrary &&
       Number.isFinite(textbookId) &&
@@ -1788,7 +1789,7 @@ ${commandBlock}`
     if (quizFigures.length) {
       visualCatalog = []
       console.log(`Textbook figures: ${quizFigures.length} for [${imageTopicFilter.slice(0, 3).join(', ')}] from ${[...new Set(quizFigures.map((f) => f.textbookName.slice(0, 40)))].join('; ')}`)
-    } else if (bankApplies && bookInBank(textbookId) && visualCatalog.length) {
+    } else if (bankApplies && bookInBank(textbookId, undefined, (f) => hasVetted(f.id)) && visualCatalog.length) {
       // A book in the bank had its figures judged, and the rest were left
       // out. The library match would bring them back -- or another
       // country's book -- with no vetted question: a Rwandan star pattern
