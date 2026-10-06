@@ -131,9 +131,18 @@ async function writeWithClaude(f: TextbookFigure, kind: FigureQuestionKind, id: 
       usage.novaOut += out.usage?.output_tokens ?? 0
       const q = firstJson(out.content?.find((c: any) => c.type === 'text')?.text)
       if (q && String(q.question ?? '').trim()) return { ...q, id }
-    } catch { /* asked again */ }
+    } catch (e: any) { noteFailure(e) }
   }
   return null
+}
+
+const failures = new Set<string>()
+/** Each kind of failure once. Swallowed whole, 156 figures failed twice over with nothing to say why. */
+function noteFailure(e: any): void {
+  const msg = `${e?.name ?? 'Error'}: ${String(e?.message ?? e).slice(0, 160)}`
+  if (failures.has(msg)) return
+  failures.add(msg)
+  console.error(`  call failed -- ${msg}`)
 }
 
 const CHECK = (f: TextbookFigure, q: any) => [
