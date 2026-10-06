@@ -17,7 +17,9 @@ describe('the prompt', () => {
     })
     expect(p).toContain('Work out the mean of 25, 15, 30 and 10.')
     expect(p).toContain('12.5')
-    expect(p).toMatch(/\* B\. 7/)
+    // A ring-around is checked blind: its options are shown, its key is not.
+    expect(p).toContain('B. 7')
+    expect(p).not.toMatch(/\* B\. 7/)
     expect(p).toContain('Q3: Name the largest planet.')
     expect(p).toContain('Lower Secondary Stage 9')
   })
@@ -57,6 +59,43 @@ describe('reading the verdicts', () => {
 
   it('is empty, not an error, on nonsense', () => {
     expect(parseVerdicts('I cannot help with that.')).toEqual([])
+  })
+})
+
+describe('a ring-around checked blind', () => {
+  const ring = (correct: number) => ({
+    id: 1, type: 'mcq', question: 'On parallel lines, which pair of angles are equal?',
+    options: ['Corresponding angles', 'Alternate angles', 'Co-interior angles', 'Adjacent angles'], correct_answer: correct,
+    explanation: 'Corresponding angles are equal.',
+  })
+
+  it('does not show its key or the explanation that names it', () => {
+    const p = buildCheckPrompt([ring(0)], { subject: 'Mathematics', stage: 'Cambridge Lower Secondary Stage 8', others: [] })
+    expect(p).not.toMatch(/\* A\./)
+    expect(p).not.toContain('Corresponding angles are equal.')
+  })
+
+  it('goes when two options are right, or none', () => {
+    expect(applyVerdicts([ring(0)], [{ id: 1, verdict: 'ok', right: [0, 1] }]).kept).toEqual([])
+    expect(applyVerdicts([ring(0)], [{ id: 1, verdict: 'ok', right: [] }]).kept).toEqual([])
+  })
+
+  it('stays when its one right option is the key', () => {
+    const out = applyVerdicts([ring(1)], [{ id: 1, verdict: 'ok', right: [1], explain: 'x' }])
+    expect(out.kept).toHaveLength(1)
+    expect(out.fixed).toBe(0)
+    expect(out.kept[0].explanation).toBe('Corresponding angles are equal.')
+  })
+
+  it('follows the one right option when the key is another, with the explanation for it', () => {
+    const out = applyVerdicts([ring(2)], [{ id: 1, verdict: 'ok', right: [1], explain: 'Alternate angles are equal on parallel lines.' }])
+    expect(out.kept[0].correct_answer).toBe(1)
+    expect(out.kept[0].explanation).toBe('Alternate angles are equal on parallel lines.')
+    expect(out.fixed).toBe(1)
+  })
+
+  it('goes when the key is wrong and nothing explains the right one', () => {
+    expect(applyVerdicts([ring(2)], [{ id: 1, verdict: 'ok', right: [1] }]).kept).toEqual([])
   })
 })
 

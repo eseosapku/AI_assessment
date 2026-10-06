@@ -51,6 +51,14 @@ export interface Verdict {
   mark_scheme?: string[]
   /** A corrected explanation, when the shown one contradicts the answer. */
   explanation?: string
+  /**
+   * For a ring-around, whose key the checker is not shown: every option it
+   * finds correct, judged one by one. One, and the key follows it; none or
+   * two, and the question goes.
+   */
+  right?: number[]
+  /** Why the right option is right, to the learner -- used when the key moves. */
+  explain?: string
 }
 
 type Q = Record<string, any>
@@ -81,10 +89,17 @@ For each question give ONE verdict:
           - it is garbled, ungrammatical, cut off, uses American spelling, or contains instructions meant for the writer
           - a ring-around has two right options, or none
 
+A ring-around (mcq) is shown WITHOUT its key. For every one, whatever its verdict, also give:
+          "right": the 0-based index of EVERY option a fair examiner would mark correct for the question exactly as written. Solve it, then test each option on its own. An option that is also true counts, even when another seems "more" right: on parallel lines alternate AND corresponding angles are both equal; a melting solid's particles both "move faster" and "gain energy"; a toy car can use batteries. Count an option only if it is really correct, not merely plausible.
+          "explain": one or two sentences, to the learner, on why the right option is right.
+
 Return ONLY a JSON array, one object per question, in order. "id" is the question's number as a plain number (Q3 -> 3):
-[{"id": <number>, "work": "<your own working or check, under 25 words>", "verdict": "ok"|"fix"|"drop", "why": "<under 20 words, for fix or drop>", ...fix fields}]`
+[{"id": <number>, "work": "<your own working or check, under 40 words>", "verdict": "ok"|"fix"|"drop", "why": "<under 20 words, for fix or drop>", "right": [<for an mcq>], "explain": "<for an mcq>", ...fix fields}]`
 
 const letter = (i: number) => String.fromCharCode(65 + i)
+
+/** One right option out of several: checked blind. A tick list keeps its key shown. */
+const isRingAround = (q: Q) => q.type === 'mcq' && Array.isArray(q.options) && !Array.isArray(q.correct_indices)
 
 function describeFigure(q: Q): string[] {
   const lines: string[] = []
@@ -108,7 +123,11 @@ function describe(q: Q): string {
   out.push(`QUESTION: ${q.question}`)
   out.push(...describeFigure(q))
   if (Array.isArray(q.options)) {
-    const right = new Set(Array.isArray(q.correct_indices) ? q.correct_indices : [q.correct_answer])
+    // A ring-around's key is not shown. Shown it starred, the checker agreed
+    // with it: "which pair of angles are equal" kept corresponding angles as
+    // its one answer beside alternate angles, and 120 km in 2 hours stayed
+    // 30 m/s.
+    const right = new Set(isRingAround(q) ? [] : Array.isArray(q.correct_indices) ? q.correct_indices : [q.correct_answer])
     q.options.forEach((o: unknown, i: number) => out.push(`   ${right.has(i) ? '*' : ' '} ${letter(i)}. ${o}`))
   }
   if (Array.isArray(q.items)) {
@@ -119,7 +138,8 @@ function describe(q: Q): string {
   if (Array.isArray(q.marking_criteria) && q.marking_criteria.length) {
     out.push(`MARK SCHEME: ${q.marking_criteria.map((c: unknown, i: number) => `(${i + 1}) ${c}`).join(' ')}`)
   }
-  if (q.explanation) out.push(`EXPLANATION (shown to the learner afterwards): ${String(q.explanation).slice(0, 400)}`)
+  // Not for a ring-around: its explanation names the key.
+  if (q.explanation && !isRingAround(q)) out.push(`EXPLANATION (shown to the learner afterwards): ${String(q.explanation).slice(0, 400)}`)
   return out.join('\n')
 }
 
@@ -230,6 +250,30 @@ export function applyVerdicts<T extends Q>(questions: readonly T[], verdicts: re
     if (v.verdict === 'drop') {
       dropped.push({ id: Number(q.id), why: String(v.why ?? '').slice(0, 160) })
       continue
+    }
+    if (isRingAround(q) && Array.isArray(v.right)) {
+      const n = (q.options as unknown[]).length
+      const right = [...new Set(v.right.map(Number))].filter((i) => Number.isInteger(i) && i >= 0 && i < n)
+      if (right.length !== 1) {
+        dropped.push({ id: Number(q.id), why: right.length ? `options ${right.map(letter).join(' and ')} are all right` : 'no option is right' })
+        continue
+      }
+      if (right[0] !== Number(q.correct_answer)) {
+        // The key moves, and its explanation argued for the old one.
+        const explain = typeof v.explain === 'string' ? v.explain.trim() : ''
+        if (!explain) {
+          dropped.push({ id: Number(q.id), why: 'the key was wrong, with nothing to explain the right one' })
+          continue
+        }
+        ;(q as Q).correct_answer = right[0]
+        ;(q as Q).explanation = explain
+        fixed++
+        if (v.verdict === 'ok') {
+          ;(q as Q).checked = true
+          kept.push(q)
+          continue
+        }
+      }
     }
     if (v.verdict === 'fix') {
       if (!applyFix(q, v)) {

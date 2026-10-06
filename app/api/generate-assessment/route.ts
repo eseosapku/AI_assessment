@@ -1758,11 +1758,22 @@ ${commandBlock}`
           topics: imageTopicFilter,
           sections: figureSections,
           stage: Number(grade) || undefined,
-          max: Math.max(0, Math.round(count * 0.4)) * 4,
+          // Every candidate, shuffled: the vetted filter below takes its
+          // share from all of them, not from a dozen picked before it.
+          max: count > 0 ? 500 : 0,
           seed: Date.now(),
         })
-          // Figures with a vetted question first, then trimmed to the share.
-          .sort((a, b) => Number(hasVetted(b.id)) - Number(hasVetted(a.id)))
+          // Only figures with a vetted question this quiz can use. Written
+          // live, about half of them were wrong in a blind review -- a blank
+          // results table asked for a reading, micro:bit code the checker
+          // cannot see keyed wrongly -- against none of the vetted ones.
+          .filter((f) => {
+            const sameLevel = !Number.isFinite(textbookId) || f.textbookIds.includes(textbookId)
+              || stageOfBook(f.textbookName) === (Number(grade) || null)
+            const kinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
+              : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
+            return sameLevel && hasVetted(f.id, kinds)
+          })
           .slice(0, Math.max(0, Math.round(count * 0.4)))
       : []
     if (quizFigures.length) {
