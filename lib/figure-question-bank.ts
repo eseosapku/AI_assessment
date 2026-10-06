@@ -17,7 +17,7 @@ import path from 'node:path'
 export type VettedKind = 'mcq' | 'short' | 'written'
 export interface VettedQuestion { kind: VettedKind; question: any }
 
-const FILES = ['figure-question-bank.json', 'figure-question-bank.checkpoint.json']
+const FILES = ['figure-question-bank.json', 'figure-question-bank.checkpoint.json', 'figure-question-bank.igcse.json']
 let cache: Map<string, VettedQuestion[]> | null = null
 
 export function loadFigureQuestionBank(): Map<string, VettedQuestion[]> {

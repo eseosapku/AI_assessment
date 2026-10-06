@@ -200,6 +200,8 @@ async function main() {
   let figures = bank
     .filter((f) => !books.length || f.textbookIds.some((id) => books.includes(id)))
     .filter((f) => !process.argv.includes('--skip-igcse') || !/igcse|o level/i.test(f.textbookName))
+    // --only-igcse: the IGCSE books on their own, into their own file.
+    .filter((f) => !process.argv.includes('--only-igcse') || /igcse|o level/i.test(f.textbookName))
   if (arg('limit')) {
     // An even spread through the book, not its first chapter.
     const n = Number(arg('limit'))
