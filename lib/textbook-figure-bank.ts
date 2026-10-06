@@ -140,6 +140,17 @@ export function bookInBank(textbookId: unknown, bank: readonly TextbookFigure[] 
   return Number.isFinite(id) && bank.some((f) => f.textbookIds.includes(id))
 }
 
+/** Biology, chemistry or physics, where a book name says which. */
+const scienceOf = (name: unknown) => String(name ?? '').toLowerCase().match(/\b(biology|chemistry|physics)\b/)?.[1] ?? null
+
+/** Another book on the same shelf: the same subject at exactly the same stage. */
+function sameShelf(a: unknown, b: unknown): boolean {
+  const stage = stageOfBook(a)
+  if (stage == null || stage !== stageOfBook(b) || familyOf(a) !== familyOf(b) || familyOf(a) === 'other') return false
+  const sa = scienceOf(a), sb = scienceOf(b)
+  return !sa || !sb || sa === sb
+}
+
 export function figuresForQuiz(opts: {
   textbookId?: number
   textbookName?: string
@@ -206,12 +217,19 @@ export function figuresForQuiz(opts: {
     // the topic picks at random from the whole book: a clock for a place
     // value quiz. There the figure is chosen by what it shows instead.
     const catchAll = own.length > 30 && new Set(own.map((f) => f.topic)).size === 1
-    if (onTopic.length && !catchAll) return shuffle([...onTopic]).slice(0, opts.max)
     // The quiz's own book by content next -- its own figures on the subject,
     // before any other book's. A book filed by content (the ones whose
     // database topics failed) is matched this way on every quiz.
-    const fits = byContent(own)
-    if (fits.length) return fits.slice(0, opts.max)
+    const ownPick = onTopic.length && !catchAll ? shuffle([...onTopic]) : byContent(own)
+    if (ownPick.length) {
+      // Then a sister book's on the same content: the same subject at the
+      // same stage, so its vetted questions are at the quiz's level. Most
+      // chapters have three figures or fewer of their own, and every quiz on
+      // one showed the same three; IGCSE Physics, Chemistry and Biology each
+      // have a second book on the same syllabus.
+      const sisters = byContent(bank.filter((f) => !f.textbookIds.includes(id) && sameShelf(f.textbookName, opts.textbookName)))
+      return [...ownPick, ...sisters.filter((f) => !ownPick.includes(f))].slice(0, opts.max)
+    }
   }
 
   const family = familyOf(opts.textbookName ?? '')

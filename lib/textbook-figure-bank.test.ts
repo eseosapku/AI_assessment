@@ -169,6 +169,31 @@ describe('a unit chosen without its sections', () => {
   })
 })
 
+describe('figures from a sister book at the same stage', () => {
+  // IGCSE Physics has a workbook and a coursebook; a chapter with three
+  // figures in one has more on the same content in the other.
+  const wb = 'Cambridge IGCSE Physics Workbook with Digital Access'
+  const cb = 'IGCSE-Physics-Coursebook-by-David-Sang'
+  const bank = [
+    fig('own', { textbookIds: [18], textbookName: wb, topic: 'Electrical circuits', shows: 'A series circuit with a cell, a lamp and an ammeter.' }),
+    fig('sister', { textbookIds: [209], textbookName: cb, topic: 'Chapter 30: Electric circuits', shows: 'A parallel circuit with two lamps and a switch.' }),
+    fig('chemistry', { textbookIds: [16], textbookName: 'Cambridge IGCSE Chemistry Workbook', topic: 'Electrochemistry', shows: 'An electrolysis circuit with a cell and electrodes.' }),
+    fig('lower', { textbookIds: [35], textbookName: 'Cambridge Lower Secondary Science 9 Learners Book', topic: '3 Forces and energy', shows: 'A series circuit with two lamps.' }),
+    fig('offtopic', { textbookIds: [209], textbookName: cb, topic: 'Chapter 2: Describing motion', shows: 'A distance-time graph.' }),
+  ]
+  const got = () => figuresForQuiz({ textbookId: 18, textbookName: wb, topics: ['Electrical circuits'], stage: 10, max: 10, seed: 3, bank }).map((f) => f.id)
+
+  it('comes after the book\'s own', () => {
+    expect(got()[0]).toBe('own')
+    expect(got()).toContain('sister')
+  })
+  it('is the same subject at the same stage, on the same content', () => {
+    expect(got()).not.toContain('chemistry')
+    expect(got()).not.toContain('lower')
+    expect(got()).not.toContain('offtopic')
+  })
+})
+
 describe('bookInBank', () => {
   it('knows which books the bank holds figures from', () => {
     expect(bookInBank(34, [fig('a')])).toBe(true)
