@@ -114,14 +114,17 @@ async function main() {
   await Promise.all(Array.from({ length: Number(arg('parallel')) || 6 }, async () => {
     while (queue.length) {
       const f = queue.shift()!
-      const data = fs.readFileSync(path.join(ROOT, 'public', f.localPath)).toString('base64')
+      const bytes = fs.readFileSync(path.join(ROOT, 'public', f.localPath))
+      const data = bytes.toString('base64')
+      // From the bytes, not the name: some library ".png" files are JPEGs.
+      const isPng = bytes[0] === 0x89 && bytes[1] === 0x50 && bytes[2] === 0x4e && bytes[3] === 0x47
       const body = {
         anthropic_version: 'bedrock-2023-05-31', max_tokens: 2000,
         // Sonnet thinks at length by default; Haiku refuses the parameter.
         ...(/sonnet|opus/.test(MODEL) ? { output_config: { effort: 'low' } } : {}),
         messages: [{ role: 'user', content: [
           // The Rwanda library's images are JPEG.
-          { type: 'image', source: { type: 'base64', media_type: /\.png$/i.test(f.localPath) ? 'image/png' : 'image/jpeg', data } },
+          { type: 'image', source: { type: 'base64', media_type: isPng ? 'image/png' : 'image/jpeg', data } },
           { type: 'text', text: prompt(f, topicsFor.get(f.textbookId) ?? []) },
         ] }],
       }
