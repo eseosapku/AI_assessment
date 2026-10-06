@@ -4,6 +4,7 @@ import { BedrockRuntimeClient, InvokeModelCommand, InvokeModelCommandOutput } fr
 import { withUsageTracking } from '@/lib/ai-usage-recorder'
 import { buildCheckPrompt, applyVerdicts, parseVerdicts, chunk, oneLine } from '@/lib/question-checker'
 import { briefsFor, buildBriefBlock } from '@/lib/topic-briefs'
+import { shortfallTolerance } from '@/lib/quiz-shortfall'
 import { NodeHttpHandler } from '@smithy/node-http-handler'
 import { db } from '@/lib/db'
 import { isMissingColumn } from '@/lib/pg-errors'
@@ -3761,11 +3762,13 @@ ${commandBlock}`
     }
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
+    let outOfTime = false
     for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
       // A retry is a generation and a check, ten seconds or more. An ordinary
       // quiz too far into its 30 seconds ships short instead.
       if (!isCheckpoint && Date.now() - requestStarted > 17_000) {
         console.warn(`No retry pass: ${Math.round((Date.now() - requestStarted) / 1000)}s in, ${allQuestions.length} of ${count}`)
+        outOfTime = true
         break
       }
       const missing = count - allQuestions.length
@@ -3913,7 +3916,7 @@ ${commandBlock}`
     // reason: a Grade 1 "Shapes" quiz was refused at 7 of 8 after every pass,
     // because a topic that narrow has only so many different questions, and
     // the learner was sent back to wait for the same result.
-    const shortTolerance = isCheckpoint ? Math.min(3, Math.floor(count * 0.1)) : count >= 8 ? 1 : 0
+    const shortTolerance = shortfallTolerance(count, { checkpoint: isCheckpoint, outOfTime })
     if (allQuestions.length < count && allQuestions.length >= count - shortTolerance) {
       console.warn(`Shipping ${allQuestions.length} of ${count}: short by ${count - allQuestions.length} after every pass`)
     } else if (allQuestions.length < count) {
