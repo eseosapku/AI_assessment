@@ -70,6 +70,18 @@ function stripRestatedSubject(text: string): string {
   return m ? m[2].trim() : text
 }
 
+/**
+ * Drop a leading article: "the heart" is the same answer as "heart".
+ *
+ * Only before a word, never before a label: "A and C" names two labels, and
+ * "a b" is two letters, not the letter b.
+ */
+function dropArticle(text: string): string {
+  const m = /^(?:an?|the)\s+(\S+)/.exec(text)
+  if (!m || !/^[a-z]{3,}/.test(m[1]) || /^(and|or)$/.test(m[1])) return text
+  return text.slice(m[0].length - m[1].length)
+}
+
 function toNumber(text: string): number | null {
   const cleaned = text.replace(/,/g, '').replace(/\s+/g, '')
   if (!/^-?\d*\.?\d+$/.test(cleaned)) return null
@@ -126,6 +138,7 @@ export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnsw
   const answer = stripRestatedSubject(raw)
 
   if (accepted.includes(answer)) return { correct: true, reason: 'exact' }
+  if (accepted.some((a) => dropArticle(a) === dropArticle(answer))) return { correct: true, reason: 'exact' }
 
   if (key.numeric) {
     const { value, unit } = splitUnit(answer)

@@ -30,6 +30,19 @@ describe('what counts as the same answer', () => {
   it('collapses internal whitespace rather than failing on it', () => {
     expect(gradeShortAnswer('food   web', key(['food web'])).correct).toBe(true)
   })
+
+  it('ignores a leading article on either side, the way a marker would', () => {
+    expect(gradeShortAnswer('the heart', key(['heart'])).correct).toBe(true)
+    expect(gradeShortAnswer('lens', key(['a lens'])).correct).toBe(true)
+    expect(gradeShortAnswer('An increase', key(['increase'])).correct).toBe(true)
+  })
+
+  it('never takes a label for an article', () => {
+    // "A and C" names two labels; it is not "and C".
+    expect(gradeShortAnswer('A and C', key(['and c'])).correct).toBe(false)
+    expect(gradeShortAnswer('A', key(['heart'])).correct).toBe(false)
+    expect(gradeShortAnswer('a b', key(['b'])).correct).toBe(false)
+  })
 })
 
 describe('numbers', () => {
