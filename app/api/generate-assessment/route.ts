@@ -3548,7 +3548,17 @@ ${commandBlock}`
           const prompt = buildCheckPrompt(group, {
             subject: promptSubject, stage, passage: checkpointPassage || undefined, others, scope: scope || undefined,
           })
-          const result = applyVerdicts(group, parseVerdicts(await callChecker(prompt)))
+          // Asked again once on a refusal or a dropped call, while there is
+          // time: "Bedrock is unable to process your request" sent a Physics
+          // quiz out unchecked with 120 km in 2 hours keyed 30 m/s.
+          let reply: string
+          try {
+            reply = await callChecker(prompt)
+          } catch (err) {
+            if (!isCheckpoint && Date.now() - requestStarted > CHECK_DEADLINE_MS - 6_000) throw err
+            reply = await callChecker(prompt)
+          }
+          const result = applyVerdicts(group, parseVerdicts(reply))
           fixed += result.fixed
           for (const q of group) if (!result.kept.includes(q)) dropped.add(q)
           reasons.push(...result.dropped.map((d) => d.why))
