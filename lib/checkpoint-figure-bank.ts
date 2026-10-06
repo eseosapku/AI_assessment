@@ -137,7 +137,7 @@ export interface AssignOptions {
    * but its own should win wherever both fit: a borrowed figure brings a
    * Stage 6 model question with it, and the paper's demand drifts down.
    */
-  prefer?: (f: BankFigure) => boolean
+  prefer?: (f: BankFigure) => boolean | number
 }
 
 function rng(seed: number): () => number {
@@ -178,8 +178,10 @@ export function assignBankFigures(
 ): Map<number, { figure: BankFigure; focus: string }> {
   const next = rng(opts.seed)
   const mixed = shuffled(figures, next)
-  // Preferred first, each group still in its shuffled order.
-  const pool = opts.prefer ? [...mixed.filter(opts.prefer), ...mixed.filter((f) => !opts.prefer!(f))] : mixed
+  // Preferred first, each tier still in its shuffled order. A number ranks
+  // in tiers (own syllabus with a vetted question, own syllabus, borrowed).
+  const rank = (f: BankFigure) => Number(opts.prefer ? opts.prefer(f) : 0)
+  const pool = opts.prefer ? [...mixed].sort((a, b) => rank(b) - rank(a)) : mixed
   const used = new Set<string>()
   const out = new Map<number, { figure: BankFigure; focus: string }>()
   const take = (pick: (f: BankFigure) => boolean): BankFigure | null => {

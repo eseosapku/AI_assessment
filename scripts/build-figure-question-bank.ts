@@ -52,6 +52,7 @@ let usage = { novaIn: 0, novaOut: 0, checkIn: 0, checkOut: 0 }
 
 function subjectOf(name: string): string {
   const n = name.toLowerCase()
+  if (/second language/.test(n)) return 'English as a Second Language'
   if (/biology/.test(n)) return 'Biology'
   if (/chemistry/.test(n)) return 'Chemistry'
   if (/physics/.test(n)) return 'Physics'
@@ -180,9 +181,25 @@ async function check(f: TextbookFigure, q: any): Promise<{ verdict: string; reas
 }
 
 async function main() {
-  const bank: TextbookFigure[] = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'textbook-figure-bank.json'), 'utf8')).figures
   const books = arg('books').split(',').filter(Boolean).map(Number)
-  let figures = bank.filter((f) => !books.length || f.textbookIds.some((id) => books.includes(id)))
+  // --source=checkpoint: the past-paper figures, read into the same shape. A
+  // Checkpoint figure has a code and a stage where a textbook figure has a
+  // book, so it is given a book-like name the level and subject come from.
+  const CHECKPOINT_NAMES: Record<string, string> = {
+    '0893': 'Cambridge Lower Secondary Science 9', '0097': 'Cambridge Primary Science 6',
+    '0862': 'Cambridge Lower Secondary Mathematics Stage 9', '0096': 'Cambridge Primary Mathematics Stage 6',
+    '0876': 'Cambridge Lower Secondary English as a Second Language Stage 9', '0057': 'Cambridge Primary English as a Second Language Stage 6',
+  }
+  const bank: TextbookFigure[] = arg('source') === 'checkpoint'
+    ? JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'checkpoint-figure-bank.json'), 'utf8')).figures.map((f: any) => ({
+        id: f.id, textbookIds: [], textbookName: CHECKPOINT_NAMES[f.code] ?? 'Cambridge Checkpoint', page: 0,
+        localPath: f.localPath, noun: f.noun, shows: f.shows, labels: f.labels, topic: f.focus, original: f.original,
+      }))
+    : JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'textbook-figure-bank.json'), 'utf8')).figures
+  // --skip-igcse: the IGCSE books, held back until approved.
+  let figures = bank
+    .filter((f) => !books.length || f.textbookIds.some((id) => books.includes(id)))
+    .filter((f) => !process.argv.includes('--skip-igcse') || !/igcse|o level/i.test(f.textbookName))
   if (arg('limit')) {
     // An even spread through the book, not its first chapter.
     const n = Number(arg('limit'))
@@ -195,7 +212,7 @@ async function main() {
   console.log(`variant ${VARIANT}: ${todo.length} figure(s) to do (${Object.keys(done).length} done)`)
   let n = 0
   const queue = todo.map((f, i) => ({ f, i }))
-  await Promise.all(Array.from({ length: 5 }, async () => {
+  await Promise.all(Array.from({ length: Number(arg('parallel')) || 5 }, async () => {
     while (queue.length) {
       const { f, i } = queue.shift()!
       const rec: any = { figureId: f.id, localPath: f.localPath, textbookIds: f.textbookIds, topic: f.topic, questions: [] }

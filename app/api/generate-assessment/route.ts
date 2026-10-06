@@ -31,7 +31,8 @@ import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { normalizeIds, positiveId } from '@/lib/request-ids'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
-import { figuresForQuiz, keepAndSpread, type TextbookFigure } from '@/lib/textbook-figure-bank'
+import { figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
+import { assembleParts, hasVetted, vettedFor } from '@/lib/figure-question-bank'
 import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbook-figure-prompt'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
@@ -1713,9 +1714,12 @@ ${commandBlock}`
           textbookName: textbookName || figureSubject,
           topics: imageTopicFilter,
           stage: Number(grade) || undefined,
-          max: Math.max(0, Math.round(count * 0.4)),
+          max: Math.max(0, Math.round(count * 0.4)) * 4,
           seed: Date.now(),
         })
+          // Figures with a vetted question first, then trimmed to the share.
+          .sort((a, b) => Number(hasVetted(b.id)) - Number(hasVetted(a.id)))
+          .slice(0, Math.max(0, Math.round(count * 0.4)))
       : []
     if (quizFigures.length) {
       visualCatalog = []
@@ -2047,6 +2051,22 @@ ${commandBlock}`
         // asked about it are a better brief than anything drawn here.
         const bank = assignedFigure?.bank
         const noticeBatch = Boolean(bank) && /^(0876|0057)$/.test(String(bank?.code))
+        // Questions written and checked ahead of time for this figure, when
+        // every part can be filled from them (lib/figure-question-bank.ts).
+        // Only for the paper's own syllabus: a borrowed figure's questions
+        // were written for another stage.
+        if (bank && bank.code === checkpointCode) {
+          const vetted = assembleParts(bank.id, questionParts)
+          if (vetted) {
+            for (const q of vetted) {
+              q.image_url = assignedFigure!.localPath
+              q.figure_description = assignedFigure!.description
+              q.vetted = true
+            }
+            console.log(`Vetted question(s) for ${bank.id}: ${vetted.length} part(s)`)
+            return enforceSlotShape(vetted, questionParts).questions
+          }
+        }
         const approved = drawFocus && !bank && CHECKPOINT_DRAWN_FIGURES
           ? drawnFigureForFocus(drawFocus, { stage: Number(grade) || undefined, seed: startId })
           : null
@@ -2371,6 +2391,24 @@ ${commandBlock}`
      * which write a plain question rather than a bad illustrated one.
      */
     async function generateTextbookFigureQuestion(fig: TextbookFigure, id: number, kind: FigureQuestionKind): Promise<any[]> {
+      // A question written and checked ahead of time, when the figure has one
+      // of a kind this quiz takes -- and the figure is from a book at the
+      // quiz's own stage or the quiz is a typed topic, since a vetted
+      // question was written for its own book's level.
+      const allowed: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
+        : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
+      const sameLevel = !Number.isFinite(textbookId) || fig.textbookIds.includes(textbookId)
+        || stageOfBook(fig.textbookName) === (Number(grade) || null)
+      const vetted = sameLevel ? vettedFor(fig.id, allowed, kind) : null
+      if (vetted) {
+        vetted.id = id
+        vetted.image_url = fig.localPath
+        vetted.figure_description = figureAccount(fig)
+        vetted.topic_label = vetted.topic_label || fig.topic
+        vetted.vetted = true
+        bankAccountByPath.set(fig.localPath, figureAccount(fig))
+        return [vetted]
+      }
       const prompt = buildTextbookFigurePrompt({
         subject: figureSubject, level: grade ? `Grade ${gradeForPrompt}` : 'secondary level',
         topic: fig.topic, id, kind, marks: kind === 'written' ? 2 : undefined,
@@ -2695,7 +2733,10 @@ ${commandBlock}`
             seed: Number(body?.seed) || Date.now(),
             cap,
             allowedFoci: new Set(batches.flatMap((b) => b.batchTopics ?? [])),
-            prefer: (f) => f.code === checkpointCode,
+            // Own syllabus with a vetted question, then own syllabus, then
+            // borrowed. A borrowed figure's vetted question was written for
+            // its own stage, so it is never used on this paper anyway.
+            prefer: (f) => (f.code === checkpointCode ? 2 : 0) + (f.code === checkpointCode && hasVetted(f.id) ? 1 : 0),
           },
         )
         let moved = 0
@@ -2725,7 +2766,7 @@ ${commandBlock}`
     if (eslNotices.length) {
       const selects = batches.map((b, index) => ({ b, index }))
         .filter(({ b }) => b.questionParts?.length === 1 && b.questionParts[0].format === 'select' && !b.assignedFigure)
-      const pool = [...eslNotices].sort(() => Math.random() - 0.5)
+      const pool = [...eslNotices].sort(() => Math.random() - 0.5).sort((a, b) => Number(hasVetted(b.id)) - Number(hasVetted(a.id)))
       const n = Math.min(5, selects.length, pool.length)
       for (let k = 0; k < n; k++) {
         const { b } = selects[Math.floor((k * selects.length) / n)]
