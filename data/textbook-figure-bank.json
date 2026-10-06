@@ -126,7 +126,7 @@
     "3RD closest match",
     "flamingo"
    ],
-   "topic": "Connections are made: Accessing the internet",
+   "topic": "Living with AI: Digital data",
    "original": "In the example above, the website challenges the user to draw a picture (a giraffe) and\nthe AI in the program tries to work out what it thinks the user’s picture looks similar to.\nAs the user was drawing a giraffe, the machine learning and neural networks (a type of\nmachine learning designed to mimic the way the human brain works) were looking back\nat all of the other users who drew a giraffe to try to find examples where the other users\nwere drawing a similar item."
   },
   {
@@ -237,7 +237,7 @@
     "display.show(Image.DIAMOND)",
     "sleep(500)"
    ],
-   "topic": "Block it out: Moving from blocks to text",
+   "topic": "Sequencing and pattern recognition: Getting the message across",
    "original": "The highlighted sections show where the errors in the sequence are. These lines of\nMicroPython code are not the same as the flowchart. Once the errors have been found,\nyou can rearrange the sequence to fix the program."
   },
   {
@@ -615,7 +615,7 @@
     "E",
     "Scrub hands."
    ],
-   "topic": "Unit 6: Be a problem solver",
+   "topic": "Algorithms and sequencing",
    "original": "What is the right order of steps? The first two are done for you.\nSteps: A, C, ____, ____, ____\n2 Show your partner how you would follow these steps."
   },
   {
@@ -629,7 +629,7 @@
    "noun": "grid",
    "shows": "A grid of 4 rows and 5 columns. Grey rock pictures fill these squares: the top right, the second row's second, third and fifth squares, the third row's third square, and the bottom row's first four squares. A girl in a pink outfit stands in the bottom right square. The third row's second square holds a red starfish and two white shells. The other squares are plain orange with no rocks.",
    "labels": [],
-   "topic": "Unit 6: Be a problem solver",
+   "topic": "Algorithms",
    "original": "Eve goes searching for shells. She follows the path shown.\n1 Copy and complete the steps for the algorithm that follows this path."
   },
   {
@@ -698,7 +698,7 @@
     "yes",
     "no"
    ],
-   "topic": "Unit 7: Computers control things",
+   "topic": "Unit 1: Computers are everywhere",
    "original": "yes\nno"
   },
   {
@@ -719,7 +719,7 @@
     "Stop",
     "Start"
    ],
-   "topic": "Unit 1: Computers are everywhere",
+   "topic": "Unit 7: Computers control things",
    "original": "2 Say the name of this output device.\n3 Say the name of this output device."
   },
   {
@@ -750,7 +750,7 @@
     "Mango",
     "3"
    ],
-   "topic": "Unit 3: Be a data detective",
+   "topic": "Unit 8: Be a data collector",
    "original": "b Say the names of the groups.\n3 Which is the least popular ice-cream?\n4 Which is the most popular ice-cream?"
   },
   {
@@ -789,7 +789,7 @@
     "15",
     "2"
    ],
-   "topic": "Term 1",
+   "topic": "Algorithms and programming",
    "original": "Algorithm\nCode\nYes\nNo\na Does the code match the algorithm?\nb Give a reason for your answer."
   },
   {
@@ -803,7 +803,7 @@
    "noun": "photograph",
    "shows": "A photograph of an open laptop computer seen from the front. The screen is filled with plain bright green and the keyboard and trackpad are below it. No text or labels are printed on it.",
    "labels": [],
-   "topic": "Term 1",
+   "topic": "Computing devices",
    "original": "1 Circle the computing devices that can be used to complete\nes that"
   },
   {
@@ -819,7 +819,7 @@
    "labels": [
     "A"
    ],
-   "topic": "Term 1",
+   "topic": "Term 2",
    "original": "1 Circle the portable computer devices in the picture."
   },
   {
@@ -838,7 +838,7 @@
     "pop",
     "5"
    ],
-   "topic": "Term 2",
+   "topic": "Programming with ScratchJr",
    "original": "2 Add a Child character and the code below.\n3 Draw a line to match each code block to an instruction."
   },
   {
@@ -964,7 +964,7 @@
     "Wall 2",
     "This code makes your first backdrop change to the second backdrop after eight seconds."
    ],
-   "topic": "Unit 10: Be a game developer",
+   "topic": "Unit 6: Be a storyteller",
    "original": "2  Click on the backdrop thumbnail and add the code shown below."
   },
   {
@@ -1098,7 +1098,7 @@
     "row",
     "A cell is formed"
    ],
-   "topic": "Unit 3: Be a data expert",
+   "topic": "Unit 11: Be a data designer",
    "original": "When a row and column cross, they form a cell.\nData is entered within a cell.\nThe first row in a table usually shows the headings.\nThe headings are labels for the different items of data.\nIn this table, the headings are Name and Age."
   },
   {
@@ -1139,7 +1139,7 @@
     "9",
     "10"
    ],
-   "topic": "Unit 3: Be a data expert",
+   "topic": "Unit 11: Be a data designer",
    "original": "2 What part of the spreadsheet shows the cell address?\nA Column\nB Row\nC Name Box\n3 Which of these is a correct cell address?\nA 5A B A5 C A D 5\n4 What is the cell address of the red cell?"
   },
   {
@@ -1195,7 +1195,7 @@
     "6",
     "7"
    ],
-   "topic": "Unit 3: Be a data expert",
+   "topic": "Unit 11: Be a data designer",
    "original": "1 Copy this table on a sheet of paper.\nFill in the table by collecting data from five students in your class.\n2 a  What are the best formats for data in each of these columns?\n• Name\n• Date of Birth\n• Age\n• Eye Colour\n• Amount of money spent on candy.\n3 a What is the cell address of the heading ‘Age’?"
   },
   {
@@ -1420,7 +1420,7 @@
     "2",
     "5"
    ],
-   "topic": "Term 2",
+   "topic": "Spreadsheet functions",
    "original": "This spreadsheet shows the AVERAGE function to calculate the mean of the same three numbers."
   },
   {
@@ -1468,7 +1468,7 @@
     "10.0",
     "25.0"
    ],
-   "topic": "Term 2",
+   "topic": "Term 3",
    "original": "1\t State the data type that is best suited for the data in each of the following fields.\nChoose from the options in these boxes:\nnumber\ntext\ndate\na\t Name of Student\nb\t Date Test Taken\nc\t Math Mark\nd\t Science Mark\n2\t The teacher enters the data ‘Alex’ in the Math Mark column, but she gets an error message.\nExplain why she got an error message."
   },
   {
@@ -1513,7 +1513,7 @@
     "Average Amount Sold",
     "Total Amount Remaining"
    ],
-   "topic": "Term 3",
+   "topic": "Spreadsheets formulas",
    "original": "Use the spreadsheet to answer the following questions.\n1 \t Choose the correct formula to calculate the\nnumber of scones remaining.\nA\t=B2–C2\nB\t=B5–C5\nC\t=B5+C5\nD\t=B5*C5\n2 \t Choose the correct function to calculate the average amount of desserts sold.\nA\t=(C2+C3+C4+C5)/5\nB\t=SUM(C2:C5)\nC\t=AVERAGE(C2:C5)\nD\t=AVERAGE(B2:B5)\n3 \t Choose the correct function to calculate the Total amount of desserts remaining."
   },
   {
@@ -1591,7 +1591,7 @@
     "3V",
     "GND"
    ],
-   "topic": "Term 2",
+   "topic": "Term 3",
    "original": "3 \t Run and test your code. Determine how this program works.\n4 \t In the simulator, you can change the light level. What happens on the LED display when the simulated light level is a) 255 b) 0?"
   },
   {
@@ -1675,7 +1675,7 @@
    "noun": "drawing",
    "shows": "A 3D drawing of a cube made of small cubes, 4 by 4 by 4. The top face is orange, the left face is white, and the right face is green. Each visible face is divided into a 4 by 4 grid of small squares. No numbers or words are printed on it.",
    "labels": [],
-   "topic": "The number system",
+   "topic": "Numbers and sequences",
    "original": "4\t Here are three cubes of increasing size.\nBoth answers are the cube of the length.\nWhat is equivalent to finding the square of the length?"
   },
   {
@@ -1689,7 +1689,7 @@
    "noun": "diagram",
    "shows": "A 3D drawing of a 5 by 5 by 5 cube built from small squares. The top face is orange, the left face is white and the right face is green. Each visible face is a 5 by 5 grid of small squares. There are no labels or numbers.",
    "labels": [],
-   "topic": "3D shapes",
+   "topic": "Numbers and sequences",
    "original": "4\tHere are three cubes of increasing size.\nBoth answers are the cube of the length.\nWhat is equivalent to finding the square of the length?"
   },
   {
@@ -1703,7 +1703,7 @@
    "noun": "drawing",
    "shows": "A tan board puzzle with nine shaped pieces in a 3 by 3 grid. The top row is green: a rectangular prism, a triangular prism and a cylinder. The middle row is orange-red: a diamond (square) prism, a heart-shaped piece and a cross-shaped piece. The bottom row is blue-purple: a circular cylinder, a trapezoid prism and a square prism.",
    "labels": [],
-   "topic": "3D shapes",
+   "topic": "Addition and subtraction (1)",
    "original": "5\t This puzzle has 9 pieces.\nHassan places 1 or more shapes and Sanjay places the other shapes.\na\t Copy and complete this table to show the number of pieces each\nperson places.\nb\t Write a number sentence linking x, y and 9."
   },
   {
@@ -1721,7 +1721,7 @@
     "b",
     "15 cm"
    ],
-   "topic": "Exploring measures",
+   "topic": "Expressions and formulae",
    "original": "8\tThis isosceles triangle has a perimeter of 15 cm.\na\tFind three possible sets of values for x and y.\nb\tWrite a formula for the perimeter (p) of the triangle using x and y."
   },
   {
@@ -1892,7 +1892,7 @@
     "Lion",
     "35%"
    ],
-   "topic": "Data",
+   "topic": "Fractions and percentages",
    "original": "The pie chart shows the favourite animals of Stage 6 children.\n32 children chose elephants.\nHow many children are in Stage 6? Explain your answer."
   },
   {
@@ -1926,7 +1926,7 @@
     "D",
     "E"
    ],
-   "topic": "2D shapes",
+   "topic": "Exploring measures",
    "original": "4\t Estimate the area of these triangles by counting the squares."
   },
   {
@@ -2299,7 +2299,7 @@
     "A",
     "B"
    ],
-   "topic": "2D shapes",
+   "topic": "Transformation",
    "original": "a\t Sort the diagrams into two groups.\nDescribe the properties of each group."
   },
   {
@@ -2382,7 +2382,7 @@
     "1",
     "odd / even"
    ],
-   "topic": "Working with numbers to 10",
+   "topic": "Numbers to 10",
    "original": "1 Is each number odd or even? Draw a ring around the correct word.\nodd / even\n1 odd / even"
   },
   {
@@ -2579,7 +2579,7 @@
    "noun": "drawing",
    "shows": "A light brown wooden table is drawn from the side. A black and white football is on the floor underneath the table, between the table legs and below the tabletop.",
    "labels": [],
-   "topic": "Position",
+   "topic": "Position, direction and patterns",
    "original": "5 Join the words to match the position of the ball.\nbelow\nbetween"
   },
   {
@@ -2637,7 +2637,7 @@
    "labels": [
     "12"
    ],
-   "topic": "Time",
+   "topic": "Time (2)",
    "original": "5 What o’clock time does the clock show?"
   },
   {
@@ -2665,7 +2665,7 @@
     "5",
     "6"
    ],
-   "topic": "Time",
+   "topic": "Time (2)",
    "original": "What half past time does the clock show?"
   },
   {
@@ -2693,7 +2693,7 @@
     "5",
     "6"
    ],
-   "topic": "Time",
+   "topic": "Time (2)",
    "original": "8 The long hand is pointing to 6.\nWhat half past time does the clock show?"
   },
   {
@@ -2802,7 +2802,7 @@
    "noun": "drawing",
    "shows": "Three pairs of shoes are drawn with laces. One red or brown pair is at the top. Two black pairs are at the bottom, side by side. Each shoe has a dashed white stitching line down the side.",
    "labels": [],
-   "topic": "Statistics",
+   "topic": "Statistics (2)",
    "original": "Draw lines to sort the pairs of shoes into the circles.\nblack\nred\nComplete the pictogram by drawing the pairs of shoes in the table.\nbrown\nblack\nred\nWhich colour has the most shoes?"
   },
   {
@@ -2917,7 +2917,7 @@
     "5",
     "6"
    ],
-   "topic": "Time",
+   "topic": "Time (2)",
    "original": "2 What time is it?\nThese clocks only have one hand. Write the time in words\nbelow each clock."
   },
   {
@@ -3003,7 +3003,7 @@
    "noun": "drawing",
    "shows": "Two identical drawings of an apple cut in half from top to bottom, side by side. Each half shows pale yellow flesh, a red-brown skin outline, a short brown stem at the top, and a central core with two brown seeds. The two halves look equal in size and shape.",
    "labels": [],
-   "topic": "Fractions",
+   "topic": "Fractions (2)",
    "original": "one of two equal parts"
   },
   {
@@ -3083,7 +3083,7 @@
    "noun": "drawing",
    "shows": "Eleven unfilled outline shapes are scattered on a page. There are two hexagons at the top left, a pentagon, and an octagon at the top right. In the middle are a downward-pointing arrow, an octagon, a square, and a right-pointing arrow. At the bottom are a square and a triangle. None of the shapes has a label or any shading.",
    "labels": [],
-   "topic": "Geometry (2)",
+   "topic": "Geometry",
    "original": "with small squares. Fill the pentagons with small dots,\nthe hexagons with large dots and the octagons with stripes.\nSort the patterned shapes into the Carroll diagram."
   },
   {
@@ -3111,7 +3111,7 @@
    "noun": "drawing",
    "shows": "A bar of chocolate drawn as a rectangle divided into a grid of equal squares, with 7 squares in each row and 4 rows, so 28 squares in total. All squares are the same brown colour, and there are no labels or numbers.",
    "labels": [],
-   "topic": "Calculating",
+   "topic": "Working with numbers to 100",
    "original": "5 4 boys share this bar of chocolate equally.\nHow many squares does each boy have?"
   },
   {
@@ -3125,7 +3125,7 @@
    "noun": "diagram",
    "shows": "Two 3D shapes on a blue background. At the top is a cube with its right side face shaded grey, and an arrow points to that face. Below it is a square-based pyramid, and an arrow points to one of its edges, the edge running down the front from the apex. No words or numbers are printed on the figure.",
    "labels": [],
-   "topic": "Geometry (2)",
+   "topic": "Geometry",
    "original": "3D shapes have vertices, edges and faces or curved surfaces.\nLabel each of the parts marked with an arrow."
   },
   {
@@ -3139,7 +3139,7 @@
    "noun": "diagram",
    "shows": "Two 3D shapes on a blue background: a white cuboid at the top and a white cylinder below it. Two arrows from the right point to the cuboid: one to its shaded right-hand face and one to a vertex at its bottom right corner. One arrow points to the middle of the cylinder's curved surface. The arrows have no printed labels.",
    "labels": [],
-   "topic": "Geometry (2)",
+   "topic": "Geometry",
    "original": "3D shapes have vertices, edges and faces or curved surfaces.\nLabel each of the parts marked with an arrow."
   },
   {
@@ -3153,7 +3153,7 @@
    "noun": "drawing",
    "shows": "Six white 2D shapes with dark outlines on a teal background, in two rows of three. The top row has an isosceles triangle, a trapezoid with a shorter top side than its base, and a parallelogram leaning to the right. The bottom row has an irregular spiky starburst shape, a shape with a flat left side and a semicircular right side (a D shape), and a narrow U-shaped curved sliver that is wide and pointed at the top and rounded at the bottom.",
    "labels": [],
-   "topic": "Symmetry, position and movement",
+   "topic": "Geometry",
    "original": "Which shapes have a vertical line of symmetry?\nUse a ruler to draw the vertical line of symmetry."
   },
   {
@@ -3172,7 +3172,7 @@
     "Can swim",
     "Cannot swim"
    ],
-   "topic": "Statistics (2)",
+   "topic": "Statistics",
    "original": "Arun did a survey to see how many of his friends could swim\nand ride a bike. He showed the results in a Carroll diagram.\nUse the diagram to answer these questions.\na\nchildren can swim.\nb\nchildren cannot ride a bike.\nc\nchildren cannot swim and cannot ride a bike.\nd\nchildren can swim and can ride a bike."
   },
   {
@@ -3202,7 +3202,7 @@
     "79",
     "93"
    ],
-   "topic": "Statistics",
+   "topic": "Statistics (2)",
    "original": "Look at this Venn diagram.\nWrite a list of the numbers that would go in ‘less than 40’.\nWrite a list of the numbers that would go in the middle.\nNow write your numbers in the Venn diagram above."
   },
   {
@@ -3291,7 +3291,7 @@
     "tens",
     "ones"
    ],
-   "topic": "Working with numbers to 100",
+   "topic": "Calculating",
    "original": "3 Complete each subtraction.\nUse some objects on the place value grid to help you calculate.\na 89\nb 56\nc 78\nd 67\n– 52\n– 44\n– 36\n– 24\ntens\nones"
   },
   {
@@ -3308,7 +3308,7 @@
     "tens",
     "ones"
    ],
-   "topic": "Working with numbers to 100",
+   "topic": "Calculating",
    "original": "Complete each subtraction.\nUse some objects on the place value grid to help you calculate.\na\n89\nb\n56\nc\n78\nd\n67\n– 52\n– 44\n– 36"
   },
   {
@@ -3340,7 +3340,7 @@
     "47",
     "?"
    ],
-   "topic": "Numbers to 100",
+   "topic": "Pattern and probability",
    "original": "from a 100 square. What does the question mark represent\nin each of these diagonal lines?"
   },
   {
@@ -3358,7 +3358,7 @@
     "68",
     "?"
    ],
-   "topic": "Numbers to 100 (2)",
+   "topic": "Pattern and probability",
    "original": "from a 100 square. What does the question mark represent in each of these diagonal lines?"
   },
   {
@@ -3821,7 +3821,7 @@
     "6.7",
     "3.3"
    ],
-   "topic": "Chapter 9: Generating sequences",
+   "topic": "Adding and subtracting decimals",
    "original": "The Decimal Diamond on the right was generated from the diamond on the left.\nWork out how the values in the squares were calculated."
   },
   {
@@ -3845,7 +3845,7 @@
     "5",
     "3.3"
    ],
-   "topic": "Chapter 9: Generating sequences",
+   "topic": "Mean of decimals",
    "original": "The Decimal Diamond on the right was generated from the diamond on the left.\nWork out how the values in the squares were calculated."
   },
   {
@@ -3911,7 +3911,7 @@
    "labels": [
     "one bar"
    ],
-   "topic": "Chapter 7: Fractions and recurring decimals",
+   "topic": "Adding fractions",
    "original": "Here is an example of a few bars of music.\none bar\nThis means that the number of notes that can fit into each bar depends on\nthe type of notes.\nImagine a bar is like a cake. The number of slices (notes) into which it can be\ncut depends on how large the slices are (how many beats each note lasts for)."
   },
   {
@@ -3929,7 +3929,7 @@
     "35 cm",
     "15 cm"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "3D shapes, plans and elevations",
    "original": "The diagram shows a cuboid.\n10 cm\n35 cm\na\t Write the number of faces, vertices and edges of the cuboid.\nb\t Draw accurately the top view, front view and side view of the cuboid.\nUse a scale of 1 : 5"
   },
   {
@@ -3949,7 +3949,7 @@
     "4 cm",
     "3 cm"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Plans and elevations",
    "original": "Li and Seb are drawing the plan view of this shape.\nb Have they drawn their plan views to scale?\nd Draw the front elevation of the shape.\ne Draw the side elevation of the shape from\ni the left\nii the right."
   },
   {
@@ -3968,7 +3968,7 @@
     "20 m",
     "12 m"
    ],
-   "topic": "Chapter 12: Simplifying ratios",
+   "topic": "Scale drawings",
    "original": "Use a scale of 1 : 200\nConvert dimensions to centimetres before using the scale to work out the dimensions of the scale drawings."
   },
   {
@@ -3986,7 +3986,7 @@
     "B",
     "C"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Area and perimeter",
    "original": "The diagram shows four shapes drawn on"
   },
   {
@@ -4022,7 +4022,7 @@
     "–3",
     "(1, –3)"
    ],
-   "topic": "Chapter 11: Functions",
+   "topic": "Straight-line graphs",
    "original": "You have used positive and negative numbers as coordinates to show points\non a Cartesian grid. You know that equations involving x and y can correspond\nto lines and curves on such a coordinate grid.\nIn this unit, you will concentrate on straight-line graphs.\nTwo examples, y = −2 and y = x, are shown on the Cartesian grid above."
   },
   {
@@ -4060,7 +4060,7 @@
     "8",
     "Distance (km)"
    ],
-   "topic": "Chapter 11: Functions",
+   "topic": "Straight-line graphs",
    "original": "This graph shows the fares charged by two different taxis.\nEach taxi has a fixed charge and a charge per kilometre.\na\t How much does each taxi charge for a journey of 7 km?\nb\t Find the fixed charge for each taxi.\nc\nFind the charge per kilometre for each taxi.\nd\t What distance will cost the same amount in either taxi?"
   },
   {
@@ -4095,7 +4095,7 @@
     "–3",
     "–4"
    ],
-   "topic": "Chapter 11: Functions",
+   "topic": "Translations (transformations)",
    "original": "The diagram shows triangle T on a coordinate grid.\nDraw the image of triangle T after each translation."
   },
   {
@@ -4127,7 +4127,7 @@
     "7",
     "x"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Reflection (transformations)",
    "original": "Draw a reflection of this triangle in the lines\na x = 4\nb y = 4"
   },
   {
@@ -4166,7 +4166,7 @@
     "–6",
     "–7"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Reflection and transformations",
    "original": "The diagram shows shape B on a coordinate grid.\nDraw the image of shape B after reflection in the line\na\nx = −1\nb\ny = −2\nc\nx = 0.5\nd\ny = −0.5"
   },
   {
@@ -4183,7 +4183,7 @@
     "f",
     "scale factor 4"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Enlargement transformations",
    "original": "f scale factor 4\ncomplete the\nenlargement."
   },
   {
@@ -4219,7 +4219,7 @@
     "-3",
     "-4"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Reflection and transformations",
    "original": "the line y = 3.\na A to B\nb A to C."
   },
   {
@@ -4238,7 +4238,7 @@
     "3 m",
     "7 m"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Volume of prisms",
    "original": "2 Work out the volume of each triangular prism.\nb"
   },
   {
@@ -4256,7 +4256,7 @@
     "15 cm",
     "4 cm"
    ],
-   "topic": "Chapter 15: Converting between miles and kilometres",
+   "topic": "Volume of prisms",
    "original": "1 Copy and complete the workings to find the volume of each\ntriangular prism."
   },
   {
@@ -4274,7 +4274,7 @@
     "3 cm",
     "9 cm"
    ],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Volume of prisms",
    "original": "4 Work out the volume of this triangular prism."
   },
   {
@@ -4288,7 +4288,7 @@
    "noun": "grid",
    "shows": "A square grid of 12 by 12 small squares has six rectangles drawn on it. Measured in grid squares, they are 2 by 5 (left, tall), 5 by 2 (top), 2 by 3 (top right), 2 by 3 (middle, tall), 5 by 3 (right) and 5 by 3 (bottom). No labels or values are printed.",
    "labels": [],
-   "topic": "Chapter 8: Quadrilaterals and polygons",
+   "topic": "Surface area and volume",
    "original": "For example, these six rectangles could be joined to make this 2 cm by 3 cm by 5 cm cuboid: There are lots of gaps between the rectangles, so perhaps we could have made a cuboid with a bigger surface area and a bigger volume. Can you find a cuboid that uses more of the paper? What is the volume of your cuboid? What different volumes of cuboid can you make from a 12 cm by 12 cm square?"
   },
   {
@@ -4426,7 +4426,7 @@
     "2011",
     "Year"
    ],
-   "topic": "Chapter 16: Interpreting and drawing frequency diagrams",
+   "topic": "Time series graphs",
    "original": "1 The time series graph shows the profit made by a company each year for a six-year period.\na How much profit did the company make in i 2006 ii 2007?\nb In which year did the company make the largest profit?\nc Between which two years was the greatest increase in profit?\nd Between which two years was the greatest decrease in profit?\ne Describe the trend in the company profits over the six-year period."
   },
   {
@@ -4445,7 +4445,7 @@
     "b",
     "a"
    ],
-   "topic": "Chapter 2: Substituting into expressions",
+   "topic": "Expressions and formulae",
    "original": "10\t The diagram shows a shape made from a square and a rectangle.\na Write a formula for the area (A) of the shape.\nb Work out A when a = 6, b = 3 and c = 4.5\nc Show that you can rearrange your formula to give a = (A − bc)/... \nd Work out a when A = 80, b = 8 and c = 2."
   },
   {
@@ -4555,7 +4555,7 @@
     "-1",
     "-2"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Straight-line graphs",
    "original": "rearrange the equation of a straight line to find the gradient and the y-intercept.\ngradient is m and the y-intercept is c.\nYou saw in the last section that a graph of ax + by = c is a straight line. To find the gradient and intercept, rewrite the function with y as the subject."
   },
   {
@@ -4585,7 +4585,7 @@
     "50",
     "Time (minutes)"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Straight-line graphs gradient",
    "original": "This graph shows how the temperature of a metal bar changes\nover 50 minutes.\na\t How does the graph show that the rate of cooling is constant?\nb\t Find the gradient of the line.\nc What does the gradient tell you?\nd\t The temperature is y °C after t minutes. Find the equation of\nthe line.\ne\t The bar continues to cool at the same rate. Find the temperature\nafter 11\n2 hours."
   },
   {
@@ -4613,7 +4613,7 @@
     "30",
     "Petrol (litres)"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Real-life straight-line graphs",
    "original": "3 This graph shows the cost of petrol.\na Find the cost of 20 litres.\nb How many litres can you buy for 21 dollars?\nc Find the cost of 1 litre of petrol.\ne Find the cost of 45.8 litres of petrol.\nf Hassan pays 51.1 dollars for petrol. How many litres\ndoes Hassan buy?"
   },
   {
@@ -4641,7 +4641,7 @@
     "40",
     "euros"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Chapter 11: Using ratios",
    "original": "10\t This graph shows the exchange rate between euros and Japanese yen.\na Work out the number of Japanese yen you can exchange for 40 euros.\nb A computer costs 275 euros. Work out the cost\nin Japanese yen. Show your method."
   },
   {
@@ -4666,7 +4666,7 @@
     "4",
     "Time (hours)"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Straight-line graphs",
    "original": "An engine runs on diesel.\nThis graph shows the amount of diesel in the tank.\na Describe how the amount of diesel in the tank is\nchanging.\nb Work out an equation to show the number of litres\nin the tank after t hours.\nc Work out the length of time before the engine runs\nout of diesel."
   },
   {
@@ -4702,7 +4702,7 @@
     "6",
     "7"
    ],
-   "topic": "Chapter 13: Bearings and scale drawings",
+   "topic": "Midpoint of line segment",
    "original": "The diagram shows a line segment AB. You can see from the diagram that the midpoint of AB is (3, 3)."
   },
   {
@@ -4734,7 +4734,7 @@
     "10",
     "12"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Coordinates and line segments",
    "original": "2 The diagram shows the line segment PQ.\nCards A to F show a fraction of the way along PQ.\nCards i to vi show coordinates.\nMatch each card A to F with the correct card i to vi.\nThe first one has been done for you: A and v."
   },
   {
@@ -4773,7 +4773,7 @@
     "-3",
     "-4"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Transformations",
    "original": "The diagram shows triangles A, B, C and D.\na\t Copy the diagram and draw the image of triangle A after a\nreflection in the y-axis followed by a rotation 90° clockwise,\ncentre (−1, 1).\nLabel the image E.\nb\t Are triangle A and triangle E congruent or not congruent?\nc Describe the transformation that transforms\ni triangle A to triangle B\nii\t triangle B to triangle C\niii\t triangle C to triangle D."
   },
   {
@@ -4814,7 +4814,7 @@
     "-4",
     "y"
    ],
-   "topic": "Chapter 10: Functions",
+   "topic": "Transformations",
    "original": "to give the blue triangle shown in the\ndiagram.\nThen rotate the blue triangle 90°\ny = 1\nclockwise about\n(−1, 1), shown by an orange dot,\nto give the final image.\nRemember to label the final\ntriangle E."
   },
   {
@@ -4853,7 +4853,7 @@
     "10",
     "x"
    ],
-   "topic": "Chapter 5: Calculating angles",
+   "topic": "Transformations",
    "original": "10\t The diagram shows shape A on a coordinate grid.\nMake two copies of the grid.\na i On the first copy, reflect shape A in the line\nx = 5 and label the image B. Then rotate shape\nB 180°, centre (5, 5), and label the image C.\nii Describe the single transformation that takes\nshape A to shape C.\nb i On the second copy, rotate shape A 90°\nanticlockwise, centre (2, 8), and label the image D."
   },
   {
@@ -4867,7 +4867,7 @@
    "noun": "grid",
    "shows": "A green trapezium is drawn on a square grid with light blue lines. It has a vertical left side, a horizontal top and bottom, and a slanted right side that goes down and to the right. A red dot lies inside the trapezium, near its lower left. The trapezium's top is 3 grid squares long, its bottom is 4 squares long, and its height is 3 squares.",
    "labels": [],
-   "topic": "Chapter 13: Bearings and scale drawings",
+   "topic": "Transformations",
    "original": "Draw an enlargement of the trapezium, with scale factor 2,\ncentre of enlargement shown."
   },
   {
@@ -4885,7 +4885,7 @@
     "8 cm",
     "6 cm"
    ],
-   "topic": "Chapter 7: Circumference and area of a circle",
+   "topic": "Surface area of 3D shapes",
    "original": "3 The diagram shows a square-based pyramid and a cylinder.\nWhich shape has the greater surface area? Show your working."
   },
   {
@@ -4901,7 +4901,7 @@
    "labels": [
     "SAMPLE"
    ],
-   "topic": "Chapter 14: Calculating the volume of prisms",
+   "topic": "Planes of symmetry",
    "original": "How many planes of symmetry does this cuboid have?"
   },
   {
@@ -4932,7 +4932,7 @@
     "40",
     "Height (cm)"
    ],
-   "topic": "Chapter 15: Interpreting and drawing frequency polygons",
+   "topic": "Frequency polygons",
    "original": "b This frequency polygon shows the heights of the 20 plants grown outdoors.\nCompare the two frequency polygons (the diagram shown here and the diagram you drew in part a).\nWhat can you say about the heights of the two sets of plants?"
   },
   {
@@ -4946,7 +4946,7 @@
    "noun": "graph",
    "shows": "A scatter graph with an x-axis and a y-axis, both unlabelled and without scales. Eleven crosses are plotted and rise from bottom left to top right, with some spread. A straight line of best fit slopes upward through the points.",
    "labels": [],
-   "topic": "Chapter 6: Data collection and sampling",
+   "topic": "Scatter graphs",
    "original": "The diagrams below show examples of the different strengths of correlation."
   },
   {
@@ -4976,7 +4976,7 @@
     "20",
     "Distance travelled (km)"
    ],
-   "topic": "Chapter 15: Interpreting and drawing frequency polygons",
+   "topic": "Scatter graphs and correlation",
    "original": "the time taken by a taxi driver for the 12 journeys he made on one day.\na What type and strength of correlation does the scatter graph show? Explain your answer.\nb One of the journeys doesn’t seem to fit the correlation. Which journey is this? Explain why you think this journey might be different from the other journeys."
   },
   {
@@ -5167,7 +5167,7 @@
     "10",
     "0"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "States of matter",
    "original": "What are the temperatures shown on the thermometers?"
   },
   {
@@ -5196,7 +5196,7 @@
     "30",
     "20"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Measuring volume of liquids",
    "original": "Look at the diagram. What is the volume of water in each measuring cylinder?"
   },
   {
@@ -5225,7 +5225,7 @@
     "60",
     "50"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Measuring volume of liquids",
    "original": "Look at the diagram. What is the volume of water in each measuring cylinder?"
   },
   {
@@ -5254,7 +5254,7 @@
     "90",
     "80"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Measuring volume of liquids",
    "original": "Look at the diagram. What is the volume of water in each measuring cylinder?"
   },
   {
@@ -5276,7 +5276,7 @@
     "3",
     "4"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "2 Materials and their structure",
    "original": "Record this in a table. (Copy and extend the one below.)"
   },
   {
@@ -5301,7 +5301,7 @@
     "C ..................",
     "D .................."
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "States of matter",
    "original": "Copy this flow chart. The arrows represent the processes involved when matter changes state. Add the name for each process, A–D."
   },
   {
@@ -5323,7 +5323,7 @@
     "CaCl2",
     "H2"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Elements and compounds",
    "original": "Which of these substances are elements, and which are compounds? Explain your answer."
   },
   {
@@ -5342,7 +5342,7 @@
     "oxygen",
     "water"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Atoms, elements, molecules",
    "original": "The diagram shows some particles in air. The red circles represent oxygen atoms. The black circles represent carbon atoms. The blue circles represent nitrogen atoms. The white circles represent hydrogen atoms."
   },
   {
@@ -5396,7 +5396,7 @@
     "8",
     "58"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Changes of state",
    "original": "Here are her results."
   },
   {
@@ -5442,7 +5442,7 @@
     "Saturn",
     "10"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Earth and space",
    "original": "The table shows the average speed of each planet's orbit around the Sun."
   },
   {
@@ -5463,7 +5463,7 @@
     "Neptune",
     "5"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Earth and space",
    "original": "Use the information in the table to draw a bar graph."
   },
   {
@@ -5477,7 +5477,7 @@
    "noun": "photograph",
    "shows": "A photograph of a simple circuit. A green flat battery has a light blue wire looped from one terminal at its top, around the left side, to a red bulb holder at the bottom. A second wire runs from the other terminal around the right side to the same holder. The small bulb in the holder is lit and glowing brightly.",
    "labels": [],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "Look at the picture of the circuit."
   },
   {
@@ -5626,7 +5626,7 @@
    "labels": [
     "Deidre"
    ],
-   "topic": "4 Grouping and identifying organisms",
+   "topic": "Variation",
    "original": "Look at the photographs of four learners."
   },
   {
@@ -5739,7 +5739,7 @@
     "C",
     "D"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "5 Properties of materials",
    "original": "Look at the diagrams below. Are they elements, compounds or mixtures? Give reasons for your answers."
   },
   {
@@ -5767,7 +5767,7 @@
     "tripod",
     "bunsen burner"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Separating mixtures",
    "original": "One group of students thought their mixture was taking too long to filter so they used a pencil to stir it up while it was in the filter paper. Explain why this is not a good idea."
   },
   {
@@ -5797,7 +5797,7 @@
     "yellow",
     "4"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Acids and alkalis",
    "original": "Record the type of each liquid, such as strongly or weakly acidic, neutral, strongly or weakly alkaline. You could use a table like this one."
   },
   {
@@ -5866,7 +5866,7 @@
     "1000 to 1999",
     "2000 to 2999"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Periodic table / elements",
    "original": "a Copy and complete these tally charts."
   },
   {
@@ -5911,7 +5911,7 @@
     "C",
     "D"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound",
    "original": "Which of these arrows shows how the particles in air vibrate?"
   },
   {
@@ -5927,7 +5927,7 @@
    "labels": [
     "direction of hand movement"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound",
    "original": "In which direction does the wave in the spring move?"
   },
   {
@@ -5944,7 +5944,7 @@
     "reflected sound waves",
     "sound waves from ship"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound",
    "original": "A fishing boat uses an echo to find the distance from the boat to some fish."
   },
   {
@@ -5963,7 +5963,7 @@
     "sheet of card",
     "position of mirror under card"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound and echoes",
    "original": "In this model, the light represents the sound made by the dolphin or bat. State what the mirror represents."
   },
   {
@@ -5979,7 +5979,7 @@
    "labels": [
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound",
    "original": "Arun goes to the same music concert in two different theatres, A and B. The theatres are shown in the pictures."
   },
   {
@@ -5998,7 +5998,7 @@
     "water",
     "electric hot plate"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Earth structure, plate tectonics",
    "original": "In your model for continental drift, state what is represented by:"
   },
   {
@@ -6023,7 +6023,7 @@
     "Y molten rock below the crust",
     "Z solid iron and nickel at the centre of the Earth"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Earth structure",
    "original": "Match the parts of the of the Earth's structure, A–D, with the descriptions, W–Z."
   },
   {
@@ -6040,7 +6040,7 @@
     "Sun",
     "Earth"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Earth and space",
    "original": "Make two copies of this diagram. Your copies do not have to be accurate."
   },
   {
@@ -6054,7 +6054,7 @@
    "noun": "photograph",
    "shows": "A coloured scanning electron micrograph of a cluster of yeast cells on a dark purple background. The cells are oval or round and coloured green. Several cells have small brown circular scars or bumps on their surface, and a few small buds are joined to larger cells. No labels or values are printed.",
    "labels": [],
-   "topic": "1 Cells",
+   "topic": "4 Grouping and identifying organisms",
    "original": "We can see yeast on the surface of fruit. Why is yeast classed as a microorganism?"
   },
   {
@@ -6068,7 +6068,7 @@
    "noun": "photograph",
    "shows": "A microscope photograph on a black background showing several microorganisms. Long green-yellow filaments made of many rectangular cells joined end to end cross the view. A round green colony made of many cells sits at the bottom left. Pale blue-white oval cells with tiny hairs are joined in pairs, and a few small green algae are scattered around, including a crescent-shaped one and a tiny spiky round one. There are no labels.",
    "labels": [],
-   "topic": "1 Cells",
+   "topic": "Microorganisms",
    "original": "Some of the microorganisms in the photograph are not single-celled. How are their cells arranged?"
   },
   {
@@ -6092,7 +6092,7 @@
     "acacia",
     "grass"
    ],
-   "topic": "4 Grouping and identifying organisms",
+   "topic": "Ecosystems and food webs",
    "original": "Write down two more food chains that you can find in the food web diagram."
   },
   {
@@ -6106,7 +6106,7 @@
    "noun": "photograph",
    "shows": "Three orange fruits sit on a white plate. Each one is partly covered in white, powdery mould with grey-green patches, and the orange peel shows through in places. There are no labels.",
    "labels": [],
-   "topic": "4 Grouping and identifying organisms",
+   "topic": "Ecosystems and decomposers",
    "original": "What sort of decomposers are growing on these oranges?"
   },
   {
@@ -6126,7 +6126,7 @@
     "microorganisms",
     "banana"
    ],
-   "topic": "4 Grouping and identifying organisms",
+   "topic": "Ecology and food webs",
    "original": "Look at the food web above. Are decomposers producers or consumers? Explain your answer."
   },
   {
@@ -6166,7 +6166,7 @@
     "– 214",
     "2800"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Chemical reactions",
    "original": "Compare the melting points of magnesium, oxygen and magnesium oxide."
   },
   {
@@ -6192,7 +6192,7 @@
     "acid",
     "metal"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Chemical reactions",
    "original": "Explain how you tested for hydrogen."
   },
   {
@@ -6213,7 +6213,7 @@
     "e Coal burning",
     "f Copper roof turning green"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Chemical reactions",
    "original": "For each of these photographs, say if it is a physical change or a chemical reaction, and explain why you think so."
   },
   {
@@ -6231,7 +6231,7 @@
     "alkali",
     "neutral"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Acids and alkalis",
    "original": "What colour is universal indicator when the solution is neutral?"
   },
   {
@@ -6256,7 +6256,7 @@
     "conical flask",
     "alkali and universal indicator"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Acids and alkalis",
    "original": "Look at the three diagrams of a burette."
   },
   {
@@ -6274,7 +6274,7 @@
     "indigestion powder",
     "hydrochloric acid and universal indicator"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Acids and alkalis",
    "original": "Which variables are they keeping the same in this investigation?"
   },
   {
@@ -6297,7 +6297,7 @@
     "C",
     "24"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Acids and alkalis",
    "original": "Which is the most effective powder?"
   },
   {
@@ -6333,7 +6333,7 @@
     "25",
     "24"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Acids and alkalis",
    "original": "Now which powder do you think is the most effective?"
   },
   {
@@ -6350,7 +6350,7 @@
     "manganese dioxide",
     "hydrogen peroxide"
    ],
-   "topic": "2 Materials and their structure",
+   "topic": "Chemical reactions",
    "original": "2 Describe what happened to the glowing splint when you tested for oxygen."
   },
   {
@@ -6379,7 +6379,7 @@
     "8",
     "7"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Acids and alkalis",
    "original": "The table shows their results."
   },
   {
@@ -6397,7 +6397,7 @@
     "acid",
     "alkali and universal indicator"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Acids and alkalis",
    "original": "They used a burette to add acid to the alkali."
   },
   {
@@ -6411,7 +6411,7 @@
    "noun": "photograph",
    "shows": "A close-up photograph of a strip of magnesium ribbon held in metal tongs against a plain blue background. The ribbon is burning, and a bright white glowing flame and white smoke rise and trail down and up from the end of the ribbon. No labels or values are printed.",
    "labels": [],
-   "topic": "5 Properties of materials",
+   "topic": "Chemical reactions",
    "original": "Magnesium ribbon burns in air."
   },
   {
@@ -6428,7 +6428,7 @@
     "-",
     "+"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "Look at this circuit diagram. Discuss what this circuit could be used for. Make a list of all the possible uses."
   },
   {
@@ -6445,7 +6445,7 @@
     "–",
     "+"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Describe the three mistakes in the diagram."
   },
   {
@@ -6474,7 +6474,7 @@
     "A",
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Which of these circuits could be used to measure the current in a buzzer?"
   },
   {
@@ -6510,7 +6510,7 @@
     "C",
     "D"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "The diagram shows four different ammeters in four different circuits. Write down the current shown on each ammeter. Include the unit in your answer."
   },
   {
@@ -6531,7 +6531,7 @@
     "Y",
     "Z"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "You are going to measure the current at different positions in the circuit. You will do this by placing the ammeter in the positions X, Y and Z, as shown."
   },
   {
@@ -6548,7 +6548,7 @@
     "body",
     "pins"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Electrical circuits",
    "original": "The drawing shows some types of plugs that are used in different countries."
   },
   {
@@ -6579,7 +6579,7 @@
     "14",
     "15"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Electricity",
    "original": "Put the names of each of these objects into the table and complete the other columns."
   },
   {
@@ -6598,7 +6598,7 @@
     "A",
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "Look at these two circuit diagrams. Each component is identical in both circuits."
   },
   {
@@ -6617,7 +6617,7 @@
     "A",
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "Look at these two circuit diagrams. Each component is identical in both circuits."
   },
   {
@@ -6633,7 +6633,7 @@
    "labels": [
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "Look at the circuit diagram."
   },
   {
@@ -6649,7 +6649,7 @@
    "labels": [
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "Build this circuit."
   },
   {
@@ -6665,7 +6665,7 @@
    "labels": [
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "6 Build this circuit."
   },
   {
@@ -6686,7 +6686,7 @@
     "lamp",
     "crocodile clips"
    ],
-   "topic": "5 Properties of materials",
+   "topic": "Electricity",
    "original": "Arun has a circuit for testing whether an object is a conductor or an insulator."
   },
   {
@@ -6700,7 +6700,7 @@
    "noun": "diagram",
    "shows": "A circuit diagram with one rectangular loop of wire. The top has a battery of two cells in series. The left side has an open switch. The bottom has three identical lamps in series. There are no printed labels or values.",
    "labels": [],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity",
    "original": "Look at the circuit diagram."
   },
   {
@@ -6731,7 +6731,7 @@
     "15",
     "20"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electric circuits",
    "original": "Which of these ammeters will give a correct result for the current in the lamp?"
   },
   {
@@ -6759,7 +6759,7 @@
    "noun": "diagram",
    "shows": "A cross-section diagram of a round-bottomed flask shape: a large circle with a narrow neck at the top. The wall is drawn as a thick pale yellow band with thin lines inside it. There are no labels or values.",
    "labels": [],
-   "topic": "Science Skills",
+   "topic": "Thermal energy transfer",
    "original": "Copy this diagram."
   },
   {
@@ -6779,7 +6779,7 @@
     "Breathing in",
     "Breathing out"
    ],
-   "topic": "1 Respiration",
+   "topic": "Respiration and breathing",
    "original": "Copy and complete this table."
   },
   {
@@ -6847,7 +6847,7 @@
    "noun": "diagram",
    "shows": "Two separate drawings of blood cells side by side, with no labels. On the left is a round cell with a dark outline, red-orange at the edge and paler cream in the centre, with no nucleus. On the right is a larger, irregular, pale blue cell with a purple nucleus that is lobed and oddly shaped.",
    "labels": [],
-   "topic": "7 Diet and growth",
+   "topic": "Respiration and blood cells",
    "original": "The diagrams show two blood cells."
   },
   {
@@ -6886,7 +6886,7 @@
     "8",
     "10"
    ],
-   "topic": "Science Skills",
+   "topic": "2 Properties of materials",
    "original": "Use the table below to make up food dye solutions C, D and E. Place the solutions in the test tube rack, in order, from A–E."
   },
   {
@@ -6934,7 +6934,7 @@
     "copper sulfate",
     "Graph showing the solubility of three salts at a range of temperatures"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Solubility",
    "original": "8 What is the general trend for the solubility of all three salts?"
   },
   {
@@ -6961,7 +6961,7 @@
     "lead chloride",
     "1"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Solubility of materials",
    "original": "Use the data in the table to draw a bar chart to show the solubility of the various solutes in 100 g water at 20 °C."
   },
   {
@@ -7016,7 +7016,7 @@
     "148",
     "56"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Solubility of salts",
    "original": "This table and the graph on the next page show the solubility of three salts at a range of temperatures. Look carefully at the graph and answer the questions."
   },
   {
@@ -7036,7 +7036,7 @@
     "A",
     "chromatogram from Sunny Red"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Chromatography, separating mixtures",
    "original": "5 The chromatogram for Sunny Red shows four separate substances. Are any not permitted? If so, which?"
   },
   {
@@ -7097,7 +7097,7 @@
     "green",
     "insoluble"
    ],
-   "topic": "8 Chemical reactions",
+   "topic": "Properties of compounds",
    "original": "The table gives the names, colours and solubility in water of four compounds."
   },
   {
@@ -7309,7 +7309,7 @@
     "C",
     "D"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Forces and moments",
    "original": "Arun has a spanner for turning a nut. The direction that the nut must turn is shown by the arrow. The pivot is in the centre of the nut."
   },
   {
@@ -7362,7 +7362,7 @@
     "0.25 m",
     "20 N"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Forces and moments",
    "original": "Look at this diagram. What is the moment caused by the weight on the arm?"
   },
   {
@@ -7401,7 +7401,7 @@
    "noun": "diagram",
    "shows": "A drawing of a hand pressing a thumb tack into a wall with the thumb. The tack's flat head is against the thumb, and its sharp point touches a vertical wall on the right. No labels or values are printed.",
    "labels": [],
-   "topic": "3 Forces and energy",
+   "topic": "Pressure",
    "original": "A thumb tack has an area of 0.5 mm² in contact with a wall. A pressure of 40 N/mm² is needed for the thumb tack to go into the wall. Calculate the force needed to push the thumb tack into the wall. Show your working and give the unit with your answer."
   },
   {
@@ -7431,7 +7431,7 @@
    "noun": "photograph",
    "shows": "A close-up photograph of a flat, deflated tyre on a vehicle wheel with a silver-grey steel rim. The tyre has a chunky tread and its sidewall is sagging and bulging outward at the bottom, where it rests on sandy ground. Part of a silver-grey vehicle body and wheel arch is visible above the tyre.",
    "labels": [],
-   "topic": "3 Forces and energy",
+   "topic": "Pressure",
    "original": "Look at the tyre in this picture."
   },
   {
@@ -7448,7 +7448,7 @@
     "container A",
     "container B"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Atmosphere composition",
    "original": "The diagram shows two types of particle in containers, A and B. The containers have the same volume."
   },
   {
@@ -7558,7 +7558,7 @@
    "labels": [
     "New Zealand"
    ],
-   "topic": "5 Materials and cycles on Earth",
+   "topic": "Water cycle and weather",
    "original": "Describe the weather in each of the photographs. Use as many of the words from the Getting started task as you can."
   },
   {
@@ -7574,7 +7574,7 @@
    "labels": [
     "Bangladesh"
    ],
-   "topic": "5 Materials and cycles on Earth",
+   "topic": "Weather",
    "original": "Describe the weather in each of the photographs. Use as many of the words from the Getting started task as you can."
   },
   {
@@ -7591,7 +7591,7 @@
     "Key",
     "ice sheet"
    ],
-   "topic": "5 Materials and cycles on Earth",
+   "topic": "Climate change and ice ages",
    "original": "Name a part of the Earth that was covered with ice 25 000 years ago, but is no longer covered with ice."
   },
   {
@@ -7634,7 +7634,7 @@
    "noun": "photograph",
    "shows": "A preserved, furry, brown animal body (the mammoth Yuka) lies in an open wooden crate on white material, partly covered with clear plastic sheeting. Two people in light shirts and blue caps, one wearing a face mask and white gloves, lean over the body and touch it. Other people stand behind a blue rope barrier in the background.",
    "labels": [],
-   "topic": "5 Materials and cycles on Earth",
+   "topic": "Carbon cycle, decay",
    "original": "With a partner, discuss why Yuka's body has been preserved for so long. Be ready to share your ideas with the rest of the class."
   },
   {
@@ -8270,7 +8270,7 @@
     "fibula",
     "The human skeleton"
    ],
-   "topic": "7 Diet and growth",
+   "topic": "Skeleton and muscles",
    "original": "Look at the diagram of the skeleton. If you have a model of a skeleton, you could look at that as well."
   },
   {
@@ -8606,7 +8606,7 @@
     "19",
     "23"
    ],
-   "topic": "8 Chemical reactions",
+   "topic": "Science Skills",
    "original": "Complete the table for both of the student's results."
   },
   {
@@ -8764,7 +8764,7 @@
     "N",
     "S"
    ],
-   "topic": "5 Materials and cycles on Earth",
+   "topic": "Earth and space",
    "original": "Copy this diagram of the Earth on its axis."
   },
   {
@@ -8878,7 +8878,7 @@
     "3",
     "4"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "1 Photosynthesis and the carbon cycle",
    "original": "With a partner, match each of these statements to one of the numbers on the diagram."
   },
   {
@@ -8965,7 +8965,7 @@
     "63",
     "777"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Periodic table Group 1",
    "original": "What is the trend in the boiling points of Group 1 elements?"
   },
   {
@@ -9025,7 +9025,7 @@
     "19p 20n",
     "potassium atom"
    ],
-   "topic": "5 Reactivity",
+   "topic": "2 Properties of materials",
    "original": "What happens to the size of the atoms as you go down this group?"
   },
   {
@@ -9088,7 +9088,7 @@
     "18n",
     "chlorine"
    ],
-   "topic": "5 Reactivity",
+   "topic": "2 Properties of materials",
    "original": "16 What happens to the size of the atoms as you go down this group?"
   },
   {
@@ -9105,7 +9105,7 @@
     "fluorine atom",
     "chlorine atom"
    ],
-   "topic": "5 Reactivity",
+   "topic": "2 Properties of materials",
    "original": "Now look at the electronic structures for the elements fluorine and chorine."
   },
   {
@@ -9160,7 +9160,7 @@
     "O",
     "C"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Elements, compounds, molecules",
    "original": "Which of the nine molecules shown in the diagram above are compounds?"
   },
   {
@@ -9245,7 +9245,7 @@
     "688",
     "Explodes with such force that the container cracks."
    ],
-   "topic": "5 Reactivity",
+   "topic": "Group 1 alkali metals",
    "original": "There is a trend in the melting points and boiling points of these elements. Use the trend to predict the following:"
   },
   {
@@ -9264,7 +9264,7 @@
     "39",
     "85"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Periodic table, mass numbers",
    "original": "The following are the mass numbers of the four elements in the table above. Match the numbers with the elements."
   },
   {
@@ -9280,7 +9280,7 @@
    "labels": [
     "lithium"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "5 Reactivity",
    "original": "Lithium has two electron shells. The electronic structure is 2,1. This can be seen in the diagram below."
   },
   {
@@ -9313,7 +9313,7 @@
     "sodium ion Na+",
     "chloride ion Cl−"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Ionic bonding and lattices",
    "original": "What holds the lattice together?"
   },
   {
@@ -9331,7 +9331,7 @@
     "6 cm",
     "3 cm"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "3 Forces and energy",
    "original": "The diagram shows a block of wood."
   },
   {
@@ -9368,7 +9368,7 @@
     "20",
     "10"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Density and volume",
    "original": "Use the diagram to calculate the volume of the toy car."
   },
   {
@@ -9397,7 +9397,7 @@
     "layer B",
     "layer C"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Density of liquids",
    "original": "Use information in the diagram and in the table to identify the liquids in the three layers, A, B and C."
   },
   {
@@ -9614,7 +9614,7 @@
     "white",
     "silver"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Thermal energy transfer",
    "original": "You will be placing hot water in each can and investigating how long the water takes to cool in each can. Write a prediction for this investigation, explaining any differences between the three cans."
   },
   {
@@ -9664,7 +9664,7 @@
    "labels": [
     "root"
    ],
-   "topic": "4 Maintaining life",
+   "topic": "Plant transport in xylem",
    "original": "On a large sheet of paper, make a big copy of the unlabelled, circular diagram showing the position of xylem vessels in a root."
   },
   {
@@ -9701,7 +9701,7 @@
    "noun": "photograph",
    "shows": "A close-up photograph of a cut celery stalk. The pale green stalk has ridges along its length and a curved, C-shaped cut end. Small blue-stained dots, which are the dyed vascular bundles, form an arc around the curved outer edge of the cut end. There are no labels.",
    "labels": [],
-   "topic": "4 Maintaining life",
+   "topic": "1 Photosynthesis and the carbon cycle",
    "original": "Make a drawing of the cut end of the stalk after it has been in the blue dye."
   },
   {
@@ -9720,7 +9720,7 @@
     "water vapour",
     "stoma"
    ],
-   "topic": "1 Photosynthesis and the carbon cycle",
+   "topic": "4 Maintaining life",
    "original": "Look at the diagram of the inside of a leaf in Topic 1.2. Use the information on that diagram to identify these parts on the diagram on this page"
   },
   {
@@ -9743,7 +9743,7 @@
     "G",
     "H"
    ],
-   "topic": "1 Photosynthesis and the carbon cycle",
+   "topic": "Variation",
    "original": "Now hang all eight leaves on your washing line. You cannot actually label the leaves, so make sure that you keep them in exactly the same order as on the paper (see the diagram below)."
   },
   {
@@ -9778,7 +9778,7 @@
     "B",
     "conical flask"
    ],
-   "topic": "5 Reactivity",
+   "topic": "Acid-alkali titration",
    "original": "The diagram shows some of her apparatus set up."
   },
   {
@@ -9797,7 +9797,7 @@
     "C",
     "D"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound waves",
    "original": "This is the waveform of a sound displayed on an oscilloscope screen. Write down: a the letter that represents the amplitude of the wave b one letter that shows a measurement that depends on the frequency of the wave."
   },
   {
@@ -9816,7 +9816,7 @@
     "C",
     "D"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound waves",
    "original": "Look at the four sound waveforms, A, B, C and D."
   },
   {
@@ -9877,7 +9877,7 @@
    "noun": "diagram",
    "shows": "A long, flat, rectangular piece of wood is drawn with two thin nails (pins) attached to its lower edge, one near the left end and one near the right end. Each nail points downward and has a flat head at the bottom. Nothing is labelled.",
    "labels": [],
-   "topic": "3 Forces and energy",
+   "topic": "Waves (sound and light)",
    "original": "Suggest why both nails are attached to the same piece of wood and not dipped into the water separately. Use the words frequency and amplitude in your answer."
   },
   {
@@ -9906,7 +9906,7 @@
     "100",
     "water"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound",
    "original": "Set up the equipment as shown in the diagram."
   },
   {
@@ -9920,7 +9920,7 @@
    "noun": "photograph",
    "shows": "A false-colour space photograph of a nebula, a cloud of gas and dust, against a dark background scattered with many small blue stars. The cloud is green and orange-pink, with a bright rim and a dark hole on the left, and several red glowing spots lie within and around it. It has no labels or printed values.",
    "labels": [],
-   "topic": "3 Forces and energy",
+   "topic": "Earth and space",
    "original": "a Describe what is meant by the term stellar nursery."
   },
   {
@@ -9938,7 +9938,7 @@
     "volcanoes",
     "earthquakes"
    ],
-   "topic": "2 Properties of materials",
+   "topic": "Plate tectonics",
    "original": "Use the map shown above to discuss the statement ‘Earthquakes and volcanoes always occur at tectonic plate boundaries.’"
   },
   {
@@ -9961,7 +9961,7 @@
     "backward",
     "D"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound waves",
    "original": "Which measurement shows the amplitude?"
   },
   {
@@ -9980,7 +9980,7 @@
     "C",
     "D"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Sound waves",
    "original": "The diagram shows how four different sounds appear as waveforms on an oscilloscope."
   },
   {
@@ -9994,7 +9994,7 @@
    "noun": "photograph",
    "shows": "A row of five goats of different ages on a plain white background. From left to right: a black and white kid standing, a larger brown and white goat walking, a black and white kid sitting on the ground, a large black and white goat with horns and a beard standing, and a small white kid standing. All have four legs, ears, a tail, and a similar body shape. Their coat colours and patterns differ.",
    "labels": [],
-   "topic": "4 Maintaining life",
+   "topic": "Variation and inheritance",
    "original": "These goats all belong to the same species. What similarities are there between them?"
   },
   {
@@ -10019,7 +10019,7 @@
     "13.0 – 13.9",
     "14.0 – 14.9"
    ],
-   "topic": "4 Maintaining life",
+   "topic": "Variation and inheritance",
    "original": "Now put a mark in the Tally column for each measurement that fits into that category."
   },
   {
@@ -10042,7 +10042,7 @@
     "in humans, contain 23 chromosomes",
     "contain either an X chromosome or a Y chromosome"
    ],
-   "topic": "4 Maintaining life",
+   "topic": "Reproduction and inheritance",
    "original": "Copy and complete the table. Put a tick in a space if you think the description is correct. Leave the space empty if you think the description is not correct."
   },
   {
@@ -10079,7 +10079,7 @@
     "2004",
     "Year"
    ],
-   "topic": "4 Maintaining life",
+   "topic": "Variation and natural selection",
    "original": "A bacterium called Staphylococcus pneumoniae causes a serious infection of the lungs, called pneumonia. The graph shows the percentage of cases of pneumonia in which the bacteria were resistant to penicillin (an antibiotic)."
   },
   {
@@ -10119,7 +10119,7 @@
     "C",
     "D"
    ],
-   "topic": "5 Reactivity",
+   "topic": "Rates of reaction",
    "original": "Use the graph above to find the average rate of reaction between 60 and 80 seconds. How does this rate of reaction compare with the rate between 10 and 30 seconds?"
   },
   {
@@ -10133,7 +10133,7 @@
    "noun": "drawing",
    "shows": "A 3D drawing of a cuboid made of identical blue cubes. The front face is 9 cubes wide and 3 cubes high, and the cuboid is one cube deep, so it has 27 cubes in total. No labels or values are printed on it.",
    "labels": [],
-   "topic": "2 Properties of materials",
+   "topic": "Reactivity, rates of reaction",
    "original": "5 This shape still has 27 blocks. What is the total surface area of this shape?"
   },
   {
@@ -10147,7 +10147,7 @@
    "noun": "drawing",
    "shows": "Twenty-seven identical blue cubes are arranged in three rows of nine, with gaps between all the cubes so they are separated. No labels, measurements or numbers are printed.",
    "labels": [],
-   "topic": "2 Properties of materials",
+   "topic": "Reaction rates, surface area",
    "original": "7 There are still 27 blocks. What is the total surface area of all the blocks now they have been separated?"
   },
   {
@@ -10366,7 +10366,7 @@
     "1 A",
     "0.5 A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and magnetism",
    "original": "Calculate the missing current, X, in each of these circuits."
   },
   {
@@ -10388,7 +10388,7 @@
     "X",
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Calculate the missing current, X, in each of these circuits."
   },
   {
@@ -10412,7 +10412,7 @@
     "A",
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and circuits",
    "original": "Calculate the missing current, X, in each of these circuits."
   },
   {
@@ -10428,7 +10428,7 @@
    "labels": [
     "A3"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Check your prediction by putting the ammeter in the position shown in the next diagram."
   },
   {
@@ -10449,7 +10449,7 @@
     "9V",
     "9V"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Look at these circuit diagrams."
   },
   {
@@ -10465,7 +10465,7 @@
    "labels": [
     "220V"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and magnetism",
    "original": "A school classroom has six identical lamps. Each of the lamps is connected in parallel across a 220 V mains supply, as shown in the diagram."
   },
   {
@@ -10484,7 +10484,7 @@
     "L1",
     "B1"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and magnetism",
    "original": "Zara has a series circuit with a 9 V battery, a lamp and a buzzer as shown in the diagram."
   },
   {
@@ -10503,7 +10503,7 @@
     "L2",
     "B1"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Set up a series circuit as shown in the diagram."
   },
   {
@@ -10530,7 +10530,7 @@
     "A",
     "V"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Sofia wants to measure the current through a lamp and the voltage across the lamp. Which of these shows the correct way to do this? Write one letter."
   },
   {
@@ -10547,7 +10547,7 @@
     "A",
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and magnetism",
    "original": "Set up the circuit as shown in the first diagram."
   },
   {
@@ -10566,7 +10566,7 @@
     "V",
     "6Ω"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and circuits",
    "original": "This circuit contains a 6Ω resistor. The current through the resistor is 2 A. Calculate the voltage across this resistor. Show your working and give the unit with your answer."
   },
   {
@@ -10585,7 +10585,7 @@
     "100Ω",
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "This circuit contains a 100Ω resistor. The voltage across the resistor is 12 V. Calculate the current through this resistor. Show your working and give the unit with your answer."
   },
   {
@@ -10602,7 +10602,7 @@
     "A",
     "V"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Set up the circuit with one cell as shown in the diagram."
   },
   {
@@ -10630,7 +10630,7 @@
     "a buzzer can only be switched on at the same time the lamp is on",
     "the brightness of the lamp can be varied without affecting the sound from the buzzer"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and magnetism",
    "original": "Draw circuit diagrams for the following circuits."
   },
   {
@@ -10644,7 +10644,7 @@
    "noun": "diagram",
    "shows": "A circuit diagram of a single series loop. At the top is a battery of cells, drawn with the cell symbols and a dotted line between them. On the bottom, from left to right, are a variable resistor (a rectangle with an arrow through it), a lamp (a circle with a cross) and a buzzer. All of these are joined by plain wires. There are no printed labels or values.",
    "labels": [],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "Look at the circuit diagram."
   },
   {
@@ -10660,7 +10660,7 @@
    "labels": [
     "A"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electrical circuits",
    "original": "A circuit has a resistor in series with an ammeter and a cell. State the effect on the current through the cell when making these changes separately:"
   },
   {
@@ -10678,7 +10678,7 @@
     "R",
     "V"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and resistance",
    "original": "This circuit contains a resistor, an ammeter and a voltmeter. In each of these questions, show your working and give the unit with your answer. Calculate:"
   },
   {
@@ -10713,7 +10713,7 @@
     "A",
     "X"
    ],
-   "topic": "3 Forces and energy",
+   "topic": "Electricity and resistance",
    "original": "Look at the circuit diagram."
   },
   {
@@ -10807,7 +10807,7 @@
     "SUGAR",
     "JAM"
    ],
-   "topic": "Ourselves",
+   "topic": "Being alive",
    "original": "Which of these foods are healthy foods?"
   },
   {
@@ -11098,7 +11098,7 @@
     "B",
     "C"
    ],
-   "topic": "Going outside",
+   "topic": "Caring for environment",
    "original": "What could we do to solve the problems in these environments?"
   },
   {
@@ -11136,7 +11136,7 @@
    "noun": "photograph",
    "shows": "A satellite photograph of a large hurricane seen from above. White clouds swirl in a huge spiral around a small dark eye at the center. Dark blue sea surrounds the storm, with green land at the bottom left, the bottom right and the top right.",
    "labels": [],
-   "topic": "Going outside",
+   "topic": "Weather",
    "original": "Look at the picture. There is a very bad storm under these clouds. The storm is moving nearer the land. What will happen to the weather on the land?"
   },
   {
@@ -11159,7 +11159,7 @@
     "lion",
     "fish"
    ],
-   "topic": "Going outside",
+   "topic": "Habitats",
    "original": "Which animals might live in the dry place?"
   },
   {
@@ -11200,7 +11200,7 @@
     "A",
     "wooden table"
    ],
-   "topic": "Changing materials",
+   "topic": "Materials",
    "original": "What natural material is used to make each of the things shown below?"
   },
   {
@@ -11234,7 +11234,7 @@
     "C",
     "table salt"
    ],
-   "topic": "Looking at rocks",
+   "topic": "Materials",
    "original": "What natural material is used to make each of the things shown below?"
   },
   {
@@ -11250,7 +11250,7 @@
    "labels": [
     "cotton T-shirt"
    ],
-   "topic": "Changing materials",
+   "topic": "Natural materials",
    "original": "What natural material is used to make each of the things shown below?"
   },
   {
@@ -11267,7 +11267,7 @@
     "E",
     "woollen jumper"
    ],
-   "topic": "Changing materials",
+   "topic": "Natural materials",
    "original": "What natural material is used to make each of the things shown below?"
   },
   {
@@ -11318,7 +11318,7 @@
     "thick elastic",
     "6"
    ],
-   "topic": "Changing materials",
+   "topic": "Forces and movement",
    "original": "Juno used different elastic bands to flick three identical paper aeroplanes."
   },
   {
@@ -11604,7 +11604,7 @@
    "noun": "drawing",
    "shows": "A drawing of a model flower made from craft materials. It has a yellow flower head with five pointed petals and an orange circular centre, on a white stem. Two green leaves are tied to the stem with thread, and loose grey threads hang from the bottom of the stem as roots. No labels are printed.",
    "labels": [],
-   "topic": "Living things",
+   "topic": "Looking after plants",
    "original": "Make a plant like this one."
   },
   {
@@ -11623,7 +11623,7 @@
     "B",
     "A"
    ],
-   "topic": "Living things",
+   "topic": "Parts of plants",
    "original": "Here is a flowering plant. Copy and complete these sentences. A is the ______. B is the ______. C is a ______. D is the ______."
   },
   {
@@ -11820,7 +11820,7 @@
     "whorl",
     "arch"
    ],
-   "topic": "Looking after ourselves",
+   "topic": "Fingerprints / forensic science",
    "original": "Look at your fingers. Use a magnifying glass if possible. Identify which type of fingerprint you have."
   },
   {
@@ -12066,7 +12066,7 @@
     "a football",
     "metal scissors"
    ],
-   "topic": "Investigating materials",
+   "topic": "Magnets",
    "original": "Copy and complete this table."
   },
   {
@@ -12088,7 +12088,7 @@
     "plastic",
     "✓"
    ],
-   "topic": "Investigating materials",
+   "topic": "Magnets",
    "original": "Draw a table like this one for your results."
   },
   {
@@ -12863,7 +12863,7 @@
    "noun": "drawing",
    "shows": "Two upright rectangular mirrors are joined along a vertical edge at a right angle, forming a corner. A yellow coin lies on the surface at the bottom of the corner where the two mirrors meet. No labels or values are printed.",
    "labels": [],
-   "topic": "The way we see things",
+   "topic": "Reflecting light",
    "original": "Arrange the two mirrors upright and at right angles to each other. Place your small object where the two mirrors meet."
   },
   {
@@ -17370,7 +17370,7 @@
     "Wet soil",
     "Dry sand"
    ],
-   "topic": "Introduction",
+   "topic": "Temperature investigation",
    "original": "Discuss with your partner the estimated temperature of both containers after 30 minutes and record your estimates in the table."
   },
   {
@@ -27040,7 +27040,7 @@
     "They are both prime",
     "Their product is a cube number"
    ],
-   "topic": "Project 1 Mixed-up properties",
+   "topic": "1 Integers",
    "original": "Can you find a way to arrange the property cards and the number cards in a grid, so that each property card describes the pair of numbers at the top of the column and on the left of the row?"
   },
   {
@@ -27169,7 +27169,7 @@
    "labels": [
     "?"
    ],
-   "topic": "7 Fractions",
+   "topic": "3 Estimation and rounding",
    "original": "e"
   },
   {
@@ -27354,7 +27354,7 @@
     "v 0, 1, 2, 3, 4, ...",
     "vi −3, −2, −1, 0, 1, ..."
    ],
-   "topic": "1 Integers",
+   "topic": "2 Expressions, formulae and equations",
    "original": "Match each inequality on the left to the correct largest or smallest integer in the middle, and to the correct list of integers on the right. The first one has been done for you."
   },
   {
@@ -27393,7 +27393,7 @@
     "0",
     "1"
    ],
-   "topic": "1 Integers",
+   "topic": "2 Expressions, formulae and equations",
    "original": "Copy each number line and show each inequality on the number line."
   },
   {
@@ -27455,7 +27455,7 @@
     "-4",
     "-3"
    ],
-   "topic": "1 Integers",
+   "topic": "2 Expressions, formulae and equations",
    "original": "Write down the inequality that each of these number lines shows. Use the letter x."
   },
   {
@@ -27843,7 +27843,7 @@
     "26",
     "39"
    ],
-   "topic": "1 Integers",
+   "topic": "7 Fractions",
    "original": "Copy and complete the table, which shows the 13 times table."
   },
   {
@@ -28123,7 +28123,7 @@
     "57°",
     "49°"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "8 Shapes and symmetry",
    "original": "Calculate the size of angle B in each of these triangles."
   },
   {
@@ -28181,7 +28181,7 @@
     "110°",
     "a"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "8 Shapes and symmetry",
    "original": "In these quadrilaterals, calculate the size of the angles that have a letter."
   },
   {
@@ -28220,7 +28220,7 @@
     "35°",
     "c"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "8 Shapes and symmetry",
    "original": "In these quadrilaterals, calculate the size of the angles that have a letter."
   },
   {
@@ -28239,7 +28239,7 @@
     "y",
     "z"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "8 Shapes and symmetry",
    "original": "This shape is a parallelogram. Work out angles x, y and z."
   },
   {
@@ -28582,7 +28582,7 @@
     "60°",
     "60°"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "8 Shapes and symmetry",
    "original": "Find the angles of this quadrilateral."
   },
   {
@@ -28823,7 +28823,7 @@
     "opposite angles",
     "60°"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "8 Shapes and symmetry",
    "original": "Draw a quadrilateral with these four angles. The 60° angle must be opposite the 75° angle, as shown in this diagram."
   },
   {
@@ -28862,7 +28862,7 @@
     "D",
     "C"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "8 Shapes and symmetry",
    "original": "Calculate angle C."
   },
   {
@@ -29055,7 +29055,7 @@
     "17",
     "21"
    ],
-   "topic": "16 Interpreting results",
+   "topic": "6 Statistical investigations",
    "original": "b How many people replied?"
   },
   {
@@ -29098,7 +29098,7 @@
     "11",
     "23"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "13 Probability",
    "original": "What can you say about Suki's prediction now?"
   },
   {
@@ -29127,7 +29127,7 @@
     "48",
     "110"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "13 Probability",
    "original": "Do these results confirm your conclusion in part b? Give a reason for your answer."
   },
   {
@@ -29154,7 +29154,7 @@
     "1",
     "8"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "What can you say about your prediction in part a? Give a reason for your answer."
   },
   {
@@ -29206,7 +29206,7 @@
     "2.33…",
     "2.32"
    ],
-   "topic": "4 Decimals",
+   "topic": "7 Fractions",
    "original": "Match each of these fractions to its correct decimal."
   },
   {
@@ -29327,7 +29327,7 @@
    "labels": [
     "3/4 m"
    ],
-   "topic": "15 Shapes, area and volume",
+   "topic": "7 Fractions",
    "original": "Work out the area of this square."
   },
   {
@@ -29688,7 +29688,7 @@
    "labels": [
     "ii"
    ],
-   "topic": "8 Shapes and symmetry",
+   "topic": "14 Position and transformation",
    "original": "Copy and complete the pattern in each diagram."
   },
   {
@@ -29710,7 +29710,7 @@
     "F",
     "G"
    ],
-   "topic": "5 Angles and constructions",
+   "topic": "15 Shapes, area and volume",
    "original": "For the diagram shown, write down the letters of the lines that are:"
   },
   {
@@ -29780,7 +29780,7 @@
    "noun": "grid",
    "shows": "A 5 by 5 square grid with some squares shaded pink. A dashed diagonal line of symmetry runs from the bottom left to the top right across the grid. The shaded pattern is meant to be a reflection in that dashed line.",
    "labels": [],
-   "topic": "8 Shapes and symmetry",
+   "topic": "14 Position and transformation",
    "original": "Explain the mistake that the other person has made."
   },
   {
@@ -29794,7 +29794,7 @@
    "noun": "grid",
    "shows": "A 5 by 5 square grid with some squares shaded pink and a dashed diagonal line running from the lower left to the upper right as a mirror line. Row 1 has the second square shaded. Row 2 has the second and third squares shaded. Row 3 has the second and fourth squares shaded. Row 4 has the first, second, fourth and fifth squares shaded. Row 5 has no squares shaded. The grid is being used to complete a shape with reflection symmetry about the diagonal line.",
    "labels": [],
-   "topic": "8 Shapes and symmetry",
+   "topic": "14 Position and transformation",
    "original": "Explain the mistake that the other person has made."
   },
   {
@@ -29808,7 +29808,7 @@
    "noun": "diagram",
    "shows": "A pattern of squares made of five squares in a horizontal row that alternate yellow, blue, yellow, blue, yellow from the left. A sixth blue square sits directly below the leftmost yellow square.",
    "labels": [],
-   "topic": "9 Sequences and functions",
+   "topic": "12 Ratio and proportion",
    "original": "Copy these patterns onto squared grid paper."
   },
   {
@@ -29845,7 +29845,7 @@
     "E",
     "H"
    ],
-   "topic": "14 Position and transformation",
+   "topic": "8 Shapes and symmetry",
    "original": "Which of these triangles are congruent to triangle A?"
   },
   {
@@ -30020,7 +30020,7 @@
     "23°",
     "Z"
    ],
-   "topic": "8 Shapes and symmetry",
+   "topic": "14 Position and transformation",
    "original": "These two triangles are congruent."
   },
   {
@@ -30075,7 +30075,7 @@
     "4 cm",
     "P"
    ],
-   "topic": "8 Shapes and symmetry",
+   "topic": "15 Shapes, area and volume",
    "original": "Classify these shapes into groups. Describe the properties that characterise each of your groups."
   },
   {
@@ -30094,7 +30094,7 @@
     "iii",
     "iv"
    ],
-   "topic": "15 Shapes, area and volume",
+   "topic": "8 Shapes and symmetry",
    "original": "Match the properties (a to d) of each 3D shape with its name (A to D) and picture (i to iv). The first one has been done for you."
   },
   {
@@ -30115,7 +30115,7 @@
     "5.3 cm",
     "9.5 cm"
    ],
-   "topic": "8 Shapes and symmetry",
+   "topic": "14 Position and transformation",
    "original": "Who is correct, Sofia or Zara? Explain your answer."
   },
   {
@@ -30383,7 +30383,7 @@
     "11.3 cm",
     "F"
    ],
-   "topic": "8 Shapes and symmetry",
+   "topic": "14 Position and transformation",
    "original": "Triangle ABC is congruent to triangle DEF."
   },
   {
@@ -30397,7 +30397,7 @@
    "noun": "diagram",
    "shows": "A green, semi-transparent drawing of a square-based pyramid. The square base is at the bottom and four triangular faces meet at a single apex at the top. Some edges are visible through the faces. There are no labels or printed values.",
    "labels": [],
-   "topic": "8 Shapes and symmetry",
+   "topic": "15 Shapes, area and volume",
    "original": "Write down the properties that characterise a square-based pyramid."
   },
   {
@@ -30892,7 +30892,7 @@
     "63",
     "100"
    ],
-   "topic": "1 Integers",
+   "topic": "13 Probability",
    "original": "Here are some number cards."
   },
   {
@@ -31166,7 +31166,7 @@
    "noun": "diagram",
    "shows": "A circle divided by lines from the centre into 11 sectors. Four adjacent sectors on the right-hand side are coloured pink and the other seven sectors are coloured blue. There are no printed labels or values.",
    "labels": [],
-   "topic": "7 Fractions",
+   "topic": "10 Percentages",
    "original": "In the circle diagram shown, how much of the circle is: i pink? ii blue? Give your answers as decimals, fractions and percentages."
   },
   {
@@ -31440,7 +31440,7 @@
     "Cost ($)",
     "2.4"
    ],
-   "topic": "9 Sequences and functions",
+   "topic": "12 Ratio and proportion",
    "original": "Copy and complete this table of values."
   },
   {
@@ -31660,7 +31660,7 @@
     "x",
     "Time (days)"
    ],
-   "topic": "11 Graphs",
+   "topic": "16 Interpreting results",
    "original": "The height of a plant is measured every day. This graph shows the results."
   },
   {
@@ -31690,7 +31690,7 @@
     "4",
     "6"
    ],
-   "topic": "11 Graphs",
+   "topic": "14 Position and transformation",
    "original": "Write down the equations of the three lines on this grid."
   },
   {
@@ -32334,7 +32334,7 @@
     "Wolf's",
     "Castle"
    ],
-   "topic": "15 Shapes, area and volume",
+   "topic": "16 Interpreting results",
    "original": "Use a ruler to measure the distance, in cm, from Letterston to Wolf's Castle. Write this down."
   },
   {
@@ -33410,7 +33410,7 @@
     "A:C",
     "A:D"
    ],
-   "topic": "12 Ratio and proportion",
+   "topic": "14 Position and transformation",
    "original": "Copy and complete this table. Write all the ratios in their simplest form."
   },
   {
@@ -33437,7 +33437,7 @@
     "4 cm",
     "8 cm"
    ],
-   "topic": "12 Ratio and proportion",
+   "topic": "14 Position and transformation",
    "original": "Explain why flag C is not an enlargement of flag A."
   },
   {
@@ -34089,7 +34089,7 @@
     "$8.49",
     "Size of tin: 250 mL"
    ],
-   "topic": "4 Decimals",
+   "topic": "15 Shapes, area and volume",
    "original": "How many tins of paint does Michiko need to buy?"
   },
   {
@@ -34191,7 +34191,7 @@
    "labels": [
     "x"
    ],
-   "topic": "2 Expressions, formulae and equations",
+   "topic": "15 Shapes, area and volume",
    "original": "This cube has a side length of x."
   },
   {
@@ -34320,7 +34320,7 @@
     "D",
     "Month"
    ],
-   "topic": "11 Graphs",
+   "topic": "16 Interpreting results",
    "original": "How many skateboards did Ian sell in: i March? ii May?"
   },
   {
@@ -34458,7 +34458,7 @@
     "7",
     "24"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "a How many home games did the hockey team lose? b How many away games did the hockey team win? c How many games did the hockey team draw altogether? d What is the total number of games that the hockey team played in this season?"
   },
   {
@@ -34486,7 +34486,7 @@
     "banana",
     "Fruit"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "The bar chart shows the favourite fruit of the students in Arun's class."
   },
   {
@@ -34655,7 +34655,7 @@
     "13",
     "12"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Copy and complete the table."
   },
   {
@@ -34686,7 +34686,7 @@
     "9",
     "32"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Copy and complete the table."
   },
   {
@@ -34796,7 +34796,7 @@
     "8",
     "2"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "This two-way table shows the number of holidays sold by a travel agency in a period of two weeks."
   },
   {
@@ -34911,7 +34911,7 @@
     "other colour",
     "Colour of hair"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Copy and complete the dual bar chart to show this information."
   },
   {
@@ -34940,7 +34940,7 @@
     "8",
     "5"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "The two-way table shows how the students in class 7P travel to school."
   },
   {
@@ -34965,7 +34965,7 @@
     "other",
     "7"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Draw a pie chart to represent the data."
   },
   {
@@ -34990,7 +34990,7 @@
     "72°",
     "Greece"
    ],
-   "topic": "7 Fractions",
+   "topic": "16 Interpreting results",
    "original": "What fraction of the population went to Spain?"
   },
   {
@@ -35019,7 +35019,7 @@
     "100%",
     "360°"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Copy the table and use the diagram to complete it."
   },
   {
@@ -35044,7 +35044,7 @@
     "Nissan",
     "20"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "The table shows the number of different makes of car in a car park."
   },
   {
@@ -35058,7 +35058,7 @@
    "noun": "grid",
    "shows": "A waffle diagram: a grid of 3 rows and 8 columns of small squares, coloured in from the left. Row 1 reads red, blue, blue, green, green, green, white, white. Row 2 reads red, blue, blue, green, green, yellow, white, white. Row 3 reads red, blue, green, green, green, white, white, white.",
    "labels": [],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Copy the table and use the waffle diagram to complete it, showing the number of each colour car."
   },
   {
@@ -35081,7 +35081,7 @@
     "yellow",
     "white"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Copy the table and use the waffle diagram to complete it, showing the number of each colour car."
   },
   {
@@ -35101,7 +35101,7 @@
     "= girls",
     "= boys"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Draw a pie chart to show the information given in the waffle diagram."
   },
   {
@@ -35140,7 +35140,7 @@
     "6.3 million tonnes of bananas come from Brazil",
     "5 million tonnes of bananas come from Ecuador"
    ],
-   "topic": "4 Decimals",
+   "topic": "16 Interpreting results",
    "original": "This infographic shows the mass of bananas produced by different countries."
   },
   {
@@ -35165,7 +35165,7 @@
     "other",
     "7"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Draw a pie chart to show the information in the table."
   },
   {
@@ -35220,7 +35220,7 @@
     "28",
     "100"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Make an infographic to show the information given in the tables."
   },
   {
@@ -35368,7 +35368,7 @@
     "Thursday",
     "Friday"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "What do you think of Adira's infographic?"
   },
   {
@@ -35450,7 +35450,7 @@
     "33%",
     "relationships"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "This infographic shows the results of a survey."
   },
   {
@@ -35487,7 +35487,7 @@
     "950",
     "700"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "The table shows the length and mass of 10 hedgehogs."
   },
   {
@@ -35574,7 +35574,7 @@
     "40",
     "50"
    ],
-   "topic": "11 Graphs",
+   "topic": "16 Interpreting results",
    "original": "Draw a diagram, graph or chart to represent the data."
   },
   {
@@ -35601,7 +35601,7 @@
     "10",
     "3"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "The table shows the number of dentist appointments for two dentists on one day."
   },
   {
@@ -35636,7 +35636,7 @@
     "4",
     "7"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Work out the: i mode ii median iii mean time"
   },
   {
@@ -35665,7 +35665,7 @@
     "54",
     "51"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Work out the: i mode ii median iii mean age"
   },
   {
@@ -35698,7 +35698,7 @@
     "10",
     "13"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "Use an appropriate average to decide which size of belt the store owner should always try to keep in stock."
   },
   {
@@ -35726,7 +35726,7 @@
     "2",
     "1"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "a Find the missing frequency."
   },
   {
@@ -35814,7 +35814,7 @@
     "bicycle",
     "18"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "A group of 60 people are asked which type of transport they prefer to use. The table shows the results. Draw a pie chart to show the information given in the table."
   },
   {
@@ -35878,7 +35878,7 @@
     "4",
     "34"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "The two-way table shows the favourite colour of the students in Mr Byrd's class."
   },
   {
@@ -35940,7 +35940,7 @@
     "2",
     "3"
    ],
-   "topic": "6 Statistical investigations",
+   "topic": "16 Interpreting results",
    "original": "The table shows the number of days of rain in the first week of May in a town, recorded over 35 years."
   },
   {
@@ -36068,7 +36068,7 @@
     "Variable name",
     "Data type"
    ],
-   "topic": "An array of skills",
+   "topic": "Presenting choices: Combining constructs",
    "original": "Copy the table below and add the variables and data types that will be required when creating the program."
   },
   {
@@ -36227,7 +36227,7 @@
     "i",
     "countdown"
    ],
-   "topic": "An array of skills",
+   "topic": "Iteration loops",
    "original": "Complete the trace table using the Python program."
   },
   {
@@ -36370,7 +36370,7 @@
     "0",
     "1"
    ],
-   "topic": "Drilling down: How the processor handles instructions",
+   "topic": "Error detection in data transmission",
    "original": "A smart watch and a mobile phone have agreed to use an even parity-checking system. The mobile phone receives the following byte:"
   },
   {
@@ -36393,7 +36393,7 @@
     "0",
     "0"
    ],
-   "topic": "Drilling down: How the processor handles instructions",
+   "topic": "Data transmission error detection",
    "original": "A PC and a server have agreed to use an odd parity-checking system. The server receives the following byte:"
   },
   {
@@ -36416,7 +36416,7 @@
     "0",
     "0"
    ],
-   "topic": "Drilling down: How the processor handles instructions",
+   "topic": "Data transmission, parity checks",
    "original": "A tablet and a PC have agreed to use an odd parity-checking system. The PC receives the following byte:"
   },
   {
@@ -36436,7 +36436,7 @@
     "C:\\Users\\Network Admin>md network-users",
     "C:\\Users\\Network Admin>"
    ],
-   "topic": "Design your own network: Shape and size",
+   "topic": "Network management commands",
    "original": "1 Use the command md to create a folder called 'network-users'. Use the example below to help you."
   },
   {
@@ -36473,7 +36473,7 @@
     "Odd/Even",
     "ODD"
    ],
-   "topic": "An array of skills",
+   "topic": "Error detection parity",
    "original": "a Copy and complete the table below, identifying whether each column and row is odd or even."
   },
   {
@@ -36596,7 +36596,7 @@
     "C:\\Users\\Network Admin\\network-users>md mark asher safiya lauren nadia",
     "C:\\Users\\Network Admin\\network-users>"
    ],
-   "topic": "Design your own network: Shape and size",
+   "topic": "Network management",
    "original": "You now need to create folders for five users on the network. Pick the names of five people in your class and use the example below to help you to write a command to create folders for all the users."
   },
   {
@@ -36636,7 +36636,7 @@
     "7 Dir(s) 8,023,261,184 bytes free",
     "C:\\Users\\Network Admin\\network-users>"
    ],
-   "topic": "Design your own network: Shape and size",
+   "topic": "Command-line file management",
    "original": "To check that this has worked properly, use dir to list the files in your 'network-users' folder."
   },
   {
@@ -36685,7 +36685,7 @@
     "display.show(Image.ARROW_N)",
     "sleep(2000)"
    ],
-   "topic": "Coding and testing: Game development for the micro:bit",
+   "topic": "Presenting choices: Combining constructs",
    "original": "Develop the program to add the other three conditional statements to check whether the micro:bit is being tilted in any of the other directions."
   },
   {
@@ -36780,7 +36780,7 @@
     "ENDIF",
     "STOP"
    ],
-   "topic": "An array of skills",
+   "topic": "Coding and testing: Game development for the micro:bit",
    "original": "A game such as a quiz requires the players to be placed in a group or team. Look at the pseudocode below."
   },
   {
@@ -36819,7 +36819,7 @@
     "music.play(line1)",
     "music.play(line1)"
    ],
-   "topic": "Coding and testing: Game development for the micro:bit",
+   "topic": "An array of skills",
    "original": "d This will output the line once. However, the line is repeated in the song. You could write this by adding the same line again:"
   },
   {
@@ -36869,7 +36869,7 @@
     "Happy birthday to you",
     "F4:2, F4, E:4, C4, D4, C4"
    ],
-   "topic": "Presenting choices: Combining constructs",
+   "topic": "An array of skills",
    "original": "a Create the pseudocode to output the tune ‘Happy Birthday’ twice using this musical sequence."
   },
   {
@@ -36967,7 +36967,7 @@
     "1",
     "Time (seconds)"
    ],
-   "topic": "Introduction",
+   "topic": "Representing sound data",
    "original": "Use sampling to convert the sound wave below into digital format. The sample rate is 10 Hz."
   },
   {
@@ -37009,7 +37009,7 @@
     "1",
     "Time (seconds)"
    ],
-   "topic": "An array of skills",
+   "topic": "Sound data representation",
    "original": "The sample above was recorded using only 2 bits (a bit depth of 2). a Try sampling the same sound wave using 4 bits (a bit depth of 4)."
   },
   {
@@ -37077,7 +37077,7 @@
     "Fewer staff are needed so some jobs are lost",
     "The software and technology needed is expensive"
    ],
-   "topic": "Introduction",
+   "topic": "Machine learning impacts",
    "original": "3 Copy and complete the table below to show how machine learning has affected the scenarios you examined in task 2."
   },
   {
@@ -37098,7 +37098,7 @@
     "Q",
     "Z"
    ],
-   "topic": "Presenting choices: Combining constructs",
+   "topic": "Logic gates",
    "original": "Copy and complete the Boolean expression below to explain how the logic circuit shown on the right operates."
   },
   {
@@ -37119,7 +37119,7 @@
     "The image is 20,000 pixels × 2000 pixels",
     "Each pixel is represented by 3 bits"
    ],
-   "topic": "Introduction",
+   "topic": "Data representation and storage",
    "original": "Use what you learned in the 'Data storage' section to work out the minimum amount of storage needed to store each of the files below."
   },
   {
@@ -38194,7 +38194,7 @@
    "noun": "grid",
    "shows": "A grid of 7 columns and 6 rows with some cells shaded blue as walls and the rest cream as open paths. A smiley face is in the top-left cell and an apple is in the bottom row, sixth column. Blue cells: column 2 in rows 1-4; row 2 columns 4-6; column 3 in rows 4-5; column 5 in rows 2-6; column 7 in rows 4-6.",
    "labels": [],
-   "topic": "An array of skills",
+   "topic": "Algorithms and sequencing",
    "original": "What commands are needed to get the smiley face from its starting point to the apple?"
   },
   {
@@ -38248,7 +38248,7 @@
     "Stop",
     "exit()"
    ],
-   "topic": "Presenting choices: Combining constructs",
+   "topic": "Sub-programs (procedures)",
    "original": "Use the flowchart below to add a new sub-program age() to your times-table game to check that the user is the correct age to play the game."
   },
   {
@@ -38331,7 +38331,7 @@
     "4",
     "print(i+2)"
    ],
-   "topic": "An array of skills",
+   "topic": "Presenting choices: Combining constructs",
    "original": "Copy and complete the trace table for the program below:"
   },
   {
@@ -38592,7 +38592,7 @@
     "3 for x in range(0,age):",
     "4 print(x+1,\"Your name is\",naem)"
    ],
-   "topic": "An array of skills",
+   "topic": "Programming errors",
    "original": "Identify the syntax errors in the program below. For each error, say which line it is on, describe the error and write a corrected version of the program code."
   },
   {
@@ -38617,7 +38617,7 @@
     "5",
     "ENDFOR"
    ],
-   "topic": "An array of skills",
+   "topic": "Loops and debugging algorithms",
    "original": "Identify the logic errors in the code that prevent the algorithm from working correctly. For each error, say which line the error is on and how to correct it."
   },
   {
@@ -38637,7 +38637,7 @@
     "print(food)",
     "apple"
    ],
-   "topic": "Presenting choices: Combining constructs",
+   "topic": "An array of skills",
    "original": "The code random.choice() will retrieve an item randomly from a list:"
   },
   {
@@ -38659,7 +38659,7 @@
     "INPUT option",
     "IF option == 1 THEN …"
    ],
-   "topic": "Presenting choices: Combining constructs",
+   "topic": "An array of skills",
    "original": "Use the pseudocode below as a guide for the options that your sub-program will need to include."
   },
   {
@@ -38688,7 +38688,7 @@
     "7",
     "ENDFOR"
    ],
-   "topic": "Presenting choices: Combining constructs",
+   "topic": "An array of skills",
    "original": "Copy and complete the trace table for the following part of the algorithm if the points returned from the sub-routine are 2, 1, 0, 1, 2."
   },
   {
@@ -39273,7 +39273,7 @@
     "H",
     "H"
    ],
-   "topic": "Biological molecules",
+   "topic": "Plant nutrition",
    "original": "Take the balls representing one oxygen and two hydrogens, and put them into an angled box to make a water molecule (Figure 6.4)."
   },
   {
@@ -40187,7 +40187,7 @@
     "neurotransmitter molecules diffuse across gap",
     "receptor proteins"
    ],
-   "topic": "Cells",
+   "topic": "Coordination and response",
    "original": "We can say that information travels along a neurone in an electrical form but travels between neurones in a chemical form. Explain this statement."
   },
   {
@@ -40210,7 +40210,7 @@
     "Dish B",
     "Dish C"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Coordination and response",
    "original": "Describe how the seedlings in dish A responded to light from one side. What is the name for this response?"
   },
   {
@@ -40229,7 +40229,7 @@
     "beans",
     "moist paper"
    ],
-   "topic": "Plant nutrition",
+   "topic": "Coordination and response",
    "original": "Describe your results. You could include labelled diagrams if you like."
   },
   {
@@ -40247,7 +40247,7 @@
     "before",
     "after"
    ],
-   "topic": "Transport in plants",
+   "topic": "Coordination and response",
    "original": "What is the response shown by the shoot that was placed on its side? Use two of these words in your answer:"
   },
   {
@@ -40262,7 +40262,7 @@
    "noun": "diagram",
    "shows": "A black-and-white drawing of a human eye seen from the front, with the eyelid and eyelashes, the white of the eye, a large grey iris, and a small dark circular pupil at the centre. The pupil is small compared with the iris. No labels are printed.",
    "labels": [],
-   "topic": "Human nutrition",
+   "topic": "Coordination and response",
    "original": "The diagram shows the eye of a person who is relaxed."
   },
   {
@@ -40277,7 +40277,7 @@
    "noun": "drawing",
    "shows": "Three unlabelled line drawings of germinating bean seeds, each with a kidney-shaped seed and a root growing downward from it. The ragged seed coat is split open and lies around the base of the root. In the left drawing the seed is upright and the root points straight down. In the middle drawing the seed lies on its side with the root pointing down. In the right drawing the root curves round and then points down.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Coordination and response",
    "original": "The diagram shows some germinating bean seeds."
   },
   {
@@ -40292,7 +40292,7 @@
    "noun": "photograph",
    "shows": "A black-and-white photograph of a tarsier clinging to a thin vertical branch with its long-fingered hands and feet. It has very large round eyes, a small nose, small ears and dense fur. Large leaves are in the background. There are no labels.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Ecology and conservation",
    "original": "The photograph shows a tarsier."
   },
   {
@@ -40307,7 +40307,7 @@
    "noun": "photograph",
    "shows": "A small green plant pot lies on its side on a wooden rail, with grass in the background. Soil is visible in the pot's opening. A thin seedling stem grows out of the soil, runs along the rail, and then bends upward. The upright part of the stem carries several green leaves. There are no labels.",
    "labels": [],
-   "topic": "Transport in plants",
+   "topic": "Coordination and response",
    "original": "What is the response of a shoot to gravity?"
   },
   {
@@ -40326,7 +40326,7 @@
     "B",
     "mitochondria"
    ],
-   "topic": "Cells",
+   "topic": "Coordination and response",
    "original": "The diagram shows a synapse."
   },
   {
@@ -40345,7 +40345,7 @@
     "magnification ×3300",
     "outer edge of the nephron close to blood capillaries"
    ],
-   "topic": "Human nutrition",
+   "topic": "Excretion (kidney)",
    "original": "Look at the yellow objects at the top of the picture. Think about what you have learnt about the cells that line the small intestine. What might these structures in the nephron be? What could their function be?"
   },
   {
@@ -40374,7 +40374,7 @@
     "5",
     "Time / hours"
    ],
-   "topic": "Human nutrition",
+   "topic": "Coordination and response",
    "original": "The graph shows the blood glucose concentration in a healthy person. She ate a meal containing starch at time 0."
   },
   {
@@ -40391,7 +40391,7 @@
    "labels": [
     "X"
    ],
-   "topic": "Human nutrition",
+   "topic": "Excretion in humans",
    "original": "What is the structure labelled X?"
   },
   {
@@ -40420,7 +40420,7 @@
     "Time of day",
     "Blood glucose concentration / mg per 100 cm³"
    ],
-   "topic": "Human nutrition",
+   "topic": "Coordination and response (homeostasis)",
    "original": "The graph shows the changes in concentration of blood glucose after a meal containing starch."
   },
   {
@@ -40456,7 +40456,7 @@
     "60",
     "Time / minutes"
    ],
-   "topic": "Respiration and gas exchange",
+   "topic": "Coordination and response",
    "original": "State the body temperatures of both men at the start of the experiment."
   },
   {
@@ -40471,7 +40471,7 @@
    "noun": "photograph",
    "shows": "Two photographs of strawberry plants. The left one shows plants on bare soil with long thin red stems (runners) running along the ground, and small new plantlets with leaves growing at points along the runners. The right one shows a mature plant with green trifoliate leaves, white flowers, and several fruits in different stages, unripe whitish-green and ripe red, hanging over dark plastic sheeting.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Reproduction in plants",
    "original": "Look at the photographs in Figure 14.1. They both show a strawberry plant reproducing."
   },
   {
@@ -40486,7 +40486,7 @@
    "noun": "photograph",
    "shows": "A close-up photograph of white flowers with broad, rounded, slightly overlapping petals. The centre of the main flower has many thin stamens with small reddish-brown anthers around a pale greenish-yellow centre. A second flower is partly visible on the right, with green leaves and water droplets on the petals. No labels are printed on it.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Reproduction in plants",
    "original": "Can you identify the different parts of the flower?"
   },
   {
@@ -40501,7 +40501,7 @@
    "noun": "photograph",
    "shows": "A close-up colour photograph of a large purple, star-shaped flower with visible darker veins on its petals. A bumblebee with a black and yellow-banded body sits at the centre of the flower, among thin pale stamens and style. The background shows some green leaves and paving stones. There are no labels.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Sexual reproduction in plants",
    "original": "Describe how the flower is adapted to make sure that bees will visit it, and also that the bees will pick up pollen and deposit it in the right place."
   },
   {
@@ -40519,7 +40519,7 @@
     "stigmas",
     "stamens"
    ],
-   "topic": "Plant nutrition",
+   "topic": "Reproduction in plants",
    "original": "Explain how these flowers are adapted for wind pollination."
   },
   {
@@ -40537,7 +40537,7 @@
     "pin-eyed",
     "thrum-eyed"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Reproduction in plants",
    "original": "The diagram below shows two types of primrose flower."
   },
   {
@@ -40557,7 +40557,7 @@
     "C",
     "D"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Reproduction in plants",
    "original": "The diagram below shows a flower. In which part are pollen grains produced?"
   },
   {
@@ -40587,7 +40587,7 @@
     "zygotes",
     "flowers"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Reproduction in plants",
    "original": "Which two words complete the sentence? Sexual reproduction involves the fusion of the nuclei of 1 , producing 2 ."
   },
   {
@@ -40618,7 +40618,7 @@
     "Warm temperature",
     "Light"
    ],
-   "topic": "Plant nutrition",
+   "topic": "Reproduction in plants",
    "original": "Copy and complete the table, to show the environmental conditions present in each tube."
   },
   {
@@ -40635,7 +40635,7 @@
    "labels": [
     "suckers"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Reproduction in plants",
    "original": "Name the type of reproduction that is shown in the diagram."
   },
   {
@@ -40650,7 +40650,7 @@
    "noun": "diagram",
    "shows": "A drawing of a human sperm cell with no labels. On the left is a rounded head with a dark, pointed nucleus inside a thin cap. Behind the head is a middle piece with a central core surrounded by small oval mitochondria. A long, thin tail extends to the right, curves back on itself and continues left as a very thin end piece.",
    "labels": [],
-   "topic": "Cells",
+   "topic": "Reproduction in humans",
    "original": "7 This diagram shows a human sperm."
   },
   {
@@ -40685,7 +40685,7 @@
     "28",
     "Time / days"
    ],
-   "topic": "Human nutrition",
+   "topic": "Reproduction in humans",
    "original": "8 The graph below shows the concentrations of oestrogen and progesterone in a woman's blood, during a 28-day menstrual cycle."
   },
   {
@@ -40715,7 +40715,7 @@
     "urea",
     "oxygen"
    ],
-   "topic": "Transport in animals",
+   "topic": "Reproduction in humans",
    "original": "Which row shows substances that pass from the fetus to the mother, and from the mother to the fetus, across the placenta?"
   },
   {
@@ -40790,7 +40790,7 @@
     "22",
     "X"
    ],
-   "topic": "Cells",
+   "topic": "Inheritance",
    "original": "In Figures 16.3 and 16.4, how do you think the numbers written underneath each pair of chromosomes have been decided on?"
   },
   {
@@ -40830,7 +40830,7 @@
     "X",
     "Y"
    ],
-   "topic": "Cells",
+   "topic": "Inheritance",
    "original": "In Figures 16.3 and 16.4, how do you think the numbers written underneath each pair of chromosomes have been decided on?"
   },
   {
@@ -40870,7 +40870,7 @@
     "colour-blind male",
     "colour-blind female"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Inheritance",
    "original": "9 The figure below shows a pedigree chart for a family in which some of the members are red–green colour blind."
   },
   {
@@ -40900,7 +40900,7 @@
     "X or Y",
     "Y only"
    ],
-   "topic": "Cells",
+   "topic": "Inheritance",
    "original": "Which sex chromosomes are found in the gametes of a man and a woman?"
   },
   {
@@ -40930,7 +40930,7 @@
     "IAIo",
     "IBIo"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Inheritance",
    "original": "What could be the genotypes of the man and the woman?"
   },
   {
@@ -40945,7 +40945,7 @@
    "noun": "photograph",
    "shows": "A photograph of a row of eleven children standing in a line in front of a blue corrugated metal shutter. Most of them wear backpacks. They differ in height, clothing and hair. An adult man in a green cardigan stands at the right end of the line holding a folder and a shoulder bag. The children's clothing colours include green, red, pink, purple, brown and plaid.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Variation and inheritance",
    "original": "What characteristic here shows discontinuous variation?"
   },
   {
@@ -40960,7 +40960,7 @@
    "noun": "photograph",
    "shows": "A color photograph of a small brown furry mammal, a tarsier, clinging upright to a thin vertical tree branch. It has very large round eyes, large rounded ears, long slender fingers gripping the branch, and a long thin tail hanging down. The background is blurred green leaves.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Variation and selection",
    "original": "Figure 17.12 shows a small mammal called a tarsier. Tarsiers feed on insects, which they hunt in trees at night. What adaptive features can you see in the photograph?"
   },
   {
@@ -40975,7 +40975,7 @@
    "noun": "photograph",
    "shows": "A close-up photograph of a single maize cob on a black background, lying horizontally. The kernels are in long rows and are different colours: white, pale cream, yellow, and dark purple-brown. The colours are scattered in an irregular pattern across the cob. There are no labels.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Inheritance",
    "original": "Figure 17.10 shows a maize cob. Each of the kernels (fruits) in the cob is a new individual."
   },
   {
@@ -41026,7 +41026,7 @@
     "11",
     "Year"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Variation and selection",
    "original": "The graph below shows the mean yield of milk per cow over the 11 years that the farmer carried out selective breeding."
   },
   {
@@ -41056,7 +41056,7 @@
     "inherited",
     "reproduce"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Variation and selection",
    "original": "What two words are missing from this description of an adaptive feature? An 1 feature that helps an organism to survive and 2 in its environment."
   },
   {
@@ -41137,7 +41137,7 @@
     "100%",
     "Remove every aa offspring from the population"
    ],
-   "topic": "Cells",
+   "topic": "Variation and selection",
    "original": "How do your selection pressures affect the proportion of homozygous recessive organisms in the population? Do they ever disappear completely?"
   },
   {
@@ -41152,7 +41152,7 @@
    "noun": "photograph",
    "shows": "An aerial photograph of a very large dairy farm in flat desert land. Many long, parallel rows of dark cattle pens are shaded by pale grey roofs, with dirt tracks between the rows. Farm buildings and some trees are in the distance, with green and brown fields beyond. There are no labels.",
    "labels": [],
-   "topic": "Human nutrition",
+   "topic": "Ecology and energy flow",
    "original": "Figure 18.12 shows a dairy farm. This is in a desert region, where there is no grass for cattle to graze. Instead, the cattle are fed on soya beans. Explain why this is not an energy-efficient way of producing food for humans."
   },
   {
@@ -41170,7 +41170,7 @@
     "a",
     "b"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Food chains, ecology",
    "original": "In a desert, kangaroo rats eat seeds of creosote bushes. Some of the kangaroo rats are eaten by kit foxes (Figure 18.6). Coyotes eat kit foxes."
   },
   {
@@ -41185,7 +41185,7 @@
    "noun": "photograph",
    "shows": "A close-up photograph of a sundew leaf, green with many red stalked tentacles that each end in a glistening droplet. A small fly with a metallic green head is stuck to the tentacles on the right of the leaf and is held by the sticky droplets. The background is blurred blue-green. No labels are printed.",
    "labels": [],
-   "topic": "Plant nutrition",
+   "topic": "Ecology / nutrient cycles",
    "original": "Carnivorous plants, such as sundews, often live in these places. These are plants that capture and digest insects, by producing proteases that they secrete onto the insect’s body (Figure 18.16). Suggest why carnivorous plants are usually found growing in waterlogged soils."
   },
   {
@@ -41209,7 +41209,7 @@
     "grass",
     "ladysmock"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Ecology: food webs",
    "original": "The diagram shows a food web."
   },
   {
@@ -41252,7 +41252,7 @@
     "carnivore",
     "1"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Ecology: energy flow",
    "original": "Use the data in the table to sketch a pyramid of numbers. Label the trophic levels in your pyramid and indicate the number of organisms represented by each bar in the pyramid."
   },
   {
@@ -41267,7 +41267,7 @@
    "noun": "photograph",
    "shows": "A photograph of a large agricultural field planted with many long, parallel rows of young light-green lettuce plants. The rows are separated by strips of bare brown soil and run away into the distance. A patch of dark bare soil is visible at the top right. No labels or values are printed.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Human influences on ecosystems",
    "original": "With a partner, discuss how using the land in the way shown in Figure 19.1 could affect the organisms that might otherwise live there."
   },
   {
@@ -41282,7 +41282,7 @@
    "noun": "photograph",
    "shows": "A photograph inside a large indoor poultry house crowded with many brown hens with red combs. In the foreground, hens stand on a raised white plastic slatted floor. The hens are packed closely together across the floor, and the building has a metal roof, walls and small windows along one side. No labels or text are printed on it.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Human influences on ecosystems",
    "original": "Figure 19.15 shows chickens being farmed intensively. Outline the disadvantages of this method of farming chickens."
   },
   {
@@ -41316,7 +41316,7 @@
     "Weeks",
     "mating observed"
    ],
-   "topic": "Human nutrition",
+   "topic": "Reproduction in animals",
    "original": "Use the graph to explain how monitoring PGFM levels in faeces can help researchers to determine when a female lynx is pregnant, and when she is likely to give birth."
   },
   {
@@ -41331,7 +41331,7 @@
    "noun": "photograph",
    "shows": "A black-and-white underwater photograph of a hawksbill turtle swimming to the right near the water surface. It shows the patterned shell (carapace), the head with a pointed beak, two visible flippers with scaly markings, and the dark water below. There are no labels.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Biodiversity and conservation",
    "original": "The hawksbill turtle has lost 90% of its population in the last 100 years. It is classified by the International Union for the Conservation of Nature (IUCN) as an endangered species. The photograph below shows a hawksbill turtle."
   },
   {
@@ -41346,7 +41346,7 @@
    "noun": "photograph",
    "shows": "A black and white photograph of an Iberian lynx crouching on a large rock and leaning its head downward over the edge. The lynx has a spotted coat, pointed ear tufts and a short tail. The background is blurred rocks and trees. There are no labels.",
    "labels": [],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Conservation / biodiversity",
    "original": "The Iberian lynx, Lynx pardinus, is an endangered species. The photograph shows an Iberian lynx."
   },
   {
@@ -41369,7 +41369,7 @@
     "modifying crop plants to confer resistance to pests",
     "modifying crop plants to improve nutritional qualities"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Biotechnology and genetic modification",
    "original": "Copy and complete this table, to summarise some examples of genetic modification."
   },
   {
@@ -41402,7 +41402,7 @@
     "pH 9",
     "pH 3"
    ],
-   "topic": "Enzymes",
+   "topic": "Biotechnology and genetic engineering",
    "original": "Lactase can be made commercially using the bacterium Lactobacillus. The graphs below show how temperature and pH affect the quantity of lactase that the bacterium synthesises during the time the bacterium is grown in a fermenter."
   },
   {
@@ -41434,7 +41434,7 @@
     "20 °C",
     "40 °C"
    ],
-   "topic": "Enzymes",
+   "topic": "Biotechnology and genetic modification",
    "original": "Use the information in the graphs, and your own knowledge, to suggest how Lactobacillus should be grown in a fermenter and explain how optimum conditions for its growth should be maintained."
   },
   {
@@ -41471,7 +41471,7 @@
     "2020",
     "Year"
    ],
-   "topic": "Characteristics and classification of living organisms",
+   "topic": "Biotechnology and genetic modification",
    "original": "This graph shows how the use of two genetically modified (GM) crops changed in the USA between 1996 and 2019."
   },
   {
@@ -41498,7 +41498,7 @@
     "−30",
     "357"
    ],
-   "topic": "Chapter 1: The nature of matter",
+   "topic": "States of matter",
    "original": "The melting and boiling points of three pure substances are given in Table 1.3."
   },
   {
@@ -41599,7 +41599,7 @@
     "higher level this side",
     "b"
    ],
-   "topic": "Chapter 1: The nature of matter",
+   "topic": "Diffusion of gases",
    "original": "Explain why the levels of liquid change when hydrogen is placed outside the porous pot cylinder (Figure 1.23 b)."
   },
   {
@@ -41827,7 +41827,7 @@
     "680–790",
     "energy increasing"
    ],
-   "topic": "Chapter 2: Atoms, molecules and ions",
+   "topic": "Atomic structure",
    "original": "Table 2.7 shows the general relationship between the colour, frequency and energy of the light released. The bigger the change in energy level of the electrons, the greater the energy of the light released."
   },
   {
@@ -41905,7 +41905,7 @@
     "Cl",
     "O"
    ],
-   "topic": "Chapter 2: Atoms, molecules and ions",
+   "topic": "Chapter 3: Stoichiometry",
    "original": "A gas is made up of simple molecules that have the formula NOCl. Which of the diagrams A–D in Figure 3.11 correctly represents the molecules of NOCl?"
   },
   {
@@ -42047,7 +42047,7 @@
     "H",
     "Figure 3.18: Methanoic acid"
    ],
-   "topic": "Chapter 2: Atoms, molecules and ions",
+   "topic": "Covalent bonding",
    "original": "Figure 3.19 shows the structure of a molecule of methanoic acid."
   },
   {
@@ -42184,7 +42184,7 @@
     "Cl-",
     "Fe3+"
    ],
-   "topic": "Chapter 2: Atoms, molecules and ions",
+   "topic": "Formulae of ionic compounds",
    "original": "Use Figure 4.10 as a guide."
   },
   {
@@ -42204,7 +42204,7 @@
     "OH",
     "OH"
    ],
-   "topic": "Chapter 2: Atoms, molecules and ions",
+   "topic": "Covalent bonding",
    "original": "What is its molecular formula?"
   },
   {
@@ -42229,7 +42229,7 @@
     "C",
     "O"
    ],
-   "topic": "Chapter 11: Organic chemistry",
+   "topic": "Chapter 3: Stoichiometry",
    "original": "What is the empirical formula of butenedioic acid?"
   },
   {
@@ -42544,7 +42544,7 @@
     "products",
     "Reaction pathway"
    ],
-   "topic": "Chapter 13: Rates of reaction",
+   "topic": "Chapter 8: Energy changes",
    "original": "Does the presence of a catalyst increase or decrease the activation energy for a reaction?"
   },
   {
@@ -42676,7 +42676,7 @@
     "sulfur",
     "magnesium"
    ],
-   "topic": "Chapter 6: The periodic table",
+   "topic": "Chapter 5: Acids, bases and salts",
    "original": "Which row in the table correctly defines the nature of the oxides of the elements listed?"
   },
   {
@@ -42760,7 +42760,7 @@
     "W",
     "V"
    ],
-   "topic": "Chapter 6: The periodic table",
+   "topic": "Metals",
    "original": "Which combination of the elements V, W, X or Y in the table is a metal and a non-metal?"
   },
   {
@@ -42830,7 +42830,7 @@
     "pins",
     "Figure 14.16: An electric plug."
    ],
-   "topic": "Chapter 9: Structure and properties of matter",
+   "topic": "Metals and their uses",
    "original": "The wiring and connections involved in a domestic electric circuit must be very safe. Figure 14.16 shows the structure of a simple domestic electric plug."
   },
   {
@@ -42879,7 +42879,7 @@
     "insulation",
     "wire"
    ],
-   "topic": "Chapter 9: Structure and properties of matter",
+   "topic": "Properties and uses of metals",
    "original": "Electrical wiring requires use of a good conductor and insulation. Figure 14.17 shows the end of some cabling. a Which metal is usually used as the wire in this cable?"
   },
   {
@@ -42902,7 +42902,7 @@
     "They can easily be bent and shaped",
     "They have high melting points"
    ],
-   "topic": "Chapter 6: The periodic table",
+   "topic": "Properties of metals",
    "original": "The table shows some of the properties of metals and non-metals. For each property, write True or False in the space provided to show whether it applies to most metals, most non-metals or to both."
   },
   {
@@ -42920,7 +42920,7 @@
     "alloy",
     "pure metal B"
    ],
-   "topic": "Chapter 9: Structure and properties of matter",
+   "topic": "Metals and alloys",
    "original": "The figure shows an alloy and the metals from which it is made."
   },
   {
@@ -42950,7 +42950,7 @@
     "reacted quite quickly",
     "no reaction"
    ],
-   "topic": "Chapter 6: The periodic table",
+   "topic": "Metals reactivity series",
    "original": "She then tried the same experiments with three other metals: calcium, iron and a third metal that she did not know the name of. The results are shown in the table."
   },
   {
@@ -42980,7 +42980,7 @@
     "distilled water",
     "boiled distilled water (boiled to remove any dissolved air)"
    ],
-   "topic": "Chapter 4: Chemical reactions",
+   "topic": "Metals",
    "original": "The results of an experiment to investigate rusting are shown in Figure 16.10. The following tasks are based on the experiment."
   },
   {
@@ -43001,7 +43001,7 @@
     "iron",
     "slag"
    ],
-   "topic": "Chapter 10: Electrolysis",
+   "topic": "Metals",
    "original": "The figure shows a blast furnace for extracting iron from hematite. What are X and Y?"
   },
   {
@@ -43030,7 +43030,7 @@
     "limestone",
     "coke"
    ],
-   "topic": "Chapter 4: Chemical reactions",
+   "topic": "Metals and extraction of iron",
    "original": "What are X and Y?"
   },
   {
@@ -43048,7 +43048,7 @@
     "oxygen",
     "other gases"
    ],
-   "topic": "Chapter 1: The nature of matter",
+   "topic": "Chemistry of the environment",
    "original": "What is the percentage of nitrogen in clean dry air?"
   },
   {
@@ -43265,7 +43265,7 @@
     "Bitumen",
     "Lubricating oil"
    ],
-   "topic": "Chapter 11: Organic chemistry",
+   "topic": "Organic chemistry (petroleum)",
    "original": "Table 20.3 is an example set up for you to try. Complete the puzzle using the names of the fractions. This puzzle is a relatively easy one."
   },
   {
@@ -43322,7 +43322,7 @@
     "H",
     "H"
    ],
-   "topic": "Chapter 11: Organic chemistry",
+   "topic": "Polymers (proteins)",
    "original": "The compound shown is an amino acid."
   },
   {
@@ -43441,7 +43441,7 @@
     "Zinc, Zn2+",
     "White precipitate, this will redissolve in excess NaOH(aq) to give a clear, colourless solution"
    ],
-   "topic": "Chapter 5: Acids, bases and salts",
+   "topic": "Chemical analysis",
    "original": "A few drops of dilute sodium hydroxide solution (NaOH(aq)) were added to a sample of aluminium chloride (AlCl3(aq)), and this produced a white precipitate. Write the balanced equation for this reaction, including state symbols."
   },
   {
@@ -43470,7 +43470,7 @@
     "Blue–green",
     "Table 22.1: Standard colours obtained with the flame test for different metal ions."
    ],
-   "topic": "Chapter 5: Acids, bases and salts",
+   "topic": "Chemical analysis",
    "original": "Flame tests on three different metal sulfates (SO₄²⁻) gave three different coloured flames: lilac, red and light green. What metal ion was present in each test? Deduce the formulae of the three sulfates that were tested."
   },
   {
@@ -43517,7 +43517,7 @@
     "Al3+",
     "Figure 22.7: A strategy for identifying metal cations."
    ],
-   "topic": "Chapter 5: Acids, bases and salts",
+   "topic": "Chemical analysis",
    "original": "A few drops of NaOH(aq) were added to a sample containing an unknown aqueous metal ion. The result was a green precipitate. A student concluded that the sample contained chromium(III) ions. Was their conclusion valid? If not, what should be done to provide a valid result?"
   },
   {
@@ -43540,7 +43540,7 @@
     "An acidified solution of barium nitrate was added",
     "A white precipitate was formed"
    ],
-   "topic": "Chapter 5: Acids, bases and salts",
+   "topic": "Chemical analysis",
    "original": "Identify the salt present in the: i Filtrate (X)"
   },
   {
@@ -43559,7 +43559,7 @@
     "Aqueous sodium hydroxide was added slowly until in excess",
     "A white precipitate that did not redissolve was formed"
    ],
-   "topic": "Chapter 5: Acids, bases and salts",
+   "topic": "Chemical analysis",
    "original": "Identify the salt present in the: ii Residue (Y)"
   },
   {
@@ -43589,7 +43589,7 @@
     "white precipitate",
     "[6]"
    ],
-   "topic": "Chapter 5: Acids, bases and salts",
+   "topic": "Chemical analysis",
    "original": "The table shows some salts and the results of tests carried out on the salts. Complete the table."
   },
   {
@@ -43990,7 +43990,7 @@
     "The elements are ......................... in a ......................... proportion by mass.",
     "The substances can be ......................... in ......................... proportion by mass."
    ],
-   "topic": "Experimental design and separation techniques",
+   "topic": "Elements, compounds and mixtures",
    "original": "Using the words provided, complete Table 3.1 to show the difference between a compound and a mixture. Some words may be used more than once."
   },
   {
@@ -44127,7 +44127,7 @@
     "Zn",
     "Br"
    ],
-   "topic": "The Periodic Table",
+   "topic": "Chemical formulae and equations",
    "original": "Complete Figure 4.1 by adding the valencies (combining power) of the atoms shown."
   },
   {
@@ -44216,7 +44216,7 @@
     "................ atom.",
     "Carbon-12 is used as the standard for relative atomic mass."
    ],
-   "topic": "Atomic structure",
+   "topic": "Chemical formulae and equations",
    "original": "17 Complete Figure 4.6 by filling in the blanks."
   },
   {
@@ -44323,7 +44323,7 @@
     "Step 2",
     "Step 3"
    ],
-   "topic": "Chemical analysis",
+   "topic": "Chemical calculations",
    "original": "Complete the labels for the pieces of apparatus used and give the colour of the solution before titration (Figure 5.2)."
   },
   {
@@ -44495,7 +44495,7 @@
     "Mean average",
     "……………………….."
    ],
-   "topic": "Rates of reaction",
+   "topic": "Experimental design and separation techniques",
    "original": "Fill in the mean average of the results obtained. Can you think of possible reasons why the three results are not the same?"
   },
   {
@@ -44559,7 +44559,7 @@
     "blue",
     "blue colour moves towards negative"
    ],
-   "topic": "Experimental design and separation techniques",
+   "topic": "Electrochemistry",
    "original": "The results are shown in Table 6.2."
   },
   {
@@ -44611,7 +44611,7 @@
     "hot solid (yellow)",
     "solid (white)"
    ],
-   "topic": "Chemical formulae and equations",
+   "topic": "Reactivity of metals",
    "original": "Complete the flowchart by naming the chemicals in the boxes and writing the correct labels on the arrows."
   },
   {
@@ -45377,7 +45377,7 @@
     "Ca(NO3)2",
     "MgCl2"
    ],
-   "topic": "Preparation of salts",
+   "topic": "Acids and bases",
    "original": "Table 11.2 gives the formulae of some different acids, bases, reactive metals, reactive metal carbonates and salts. Use this information to write the word and balanced symbol equations for the reactions a–f."
   },
   {
@@ -45504,7 +45504,7 @@
     "22.0",
     "final reading"
    ],
-   "topic": "Chemical analysis",
+   "topic": "Acids and bases",
    "original": "Figure 11.3 shows the results from the titration for experiment 2 (acid solution Q). Use this diagram to complete Table 11.3."
   },
   {
@@ -45526,7 +45526,7 @@
     "0.0",
     "Difference"
    ],
-   "topic": "Chemical calculations",
+   "topic": "Preparation of salts",
    "original": "Use this diagram to complete Table 11.3."
   },
   {
@@ -45587,7 +45587,7 @@
     "potassium hydroxide",
     "potassium phosphate"
    ],
-   "topic": "Preparation of salts",
+   "topic": "Acids and bases",
    "original": "Complete Table 12.1, which summarises the products of various reactions of acids."
   },
   {
@@ -46133,7 +46133,7 @@
     "43",
     "44"
    ],
-   "topic": "Reactivity of metals",
+   "topic": "Chemical energetics",
    "original": "A student took the following readings when carrying out this experiment."
   },
   {
@@ -46466,7 +46466,7 @@
     "propyl ethanoate",
     "CH3COOC2H5"
    ],
-   "topic": "Chemical formulae and equations",
+   "topic": "Introduction to organic chemistry",
    "original": "Complete Table 18.3, in which the structural and empirical formulae of some typical compounds are listed."
   },
   {
@@ -47031,7 +47031,7 @@
     "28",
     "29"
    ],
-   "topic": "Chemical calculations",
+   "topic": "Chemical analysis",
    "original": "Use information from Figure 22.1 to complete Table 22.3."
   },
   {
@@ -47139,7 +47139,7 @@
     "102.5 mm",
     "65 mm"
    ],
-   "topic": "Chapter 7: Density and floating",
+   "topic": "Chapter 1: Making measurements",
    "original": "A brick is shown in Figure 1.9. It has a mass of 2.8 kg."
   },
   {
@@ -47153,7 +47153,7 @@
    "noun": "photograph",
    "shows": "A photograph of two brass-coloured drawing pins (thumb tacks) on a plain grey surface. The left pin is tilted on its side, showing the domed round head with the pin shaft below it. The right pin stands upright with its sharp point upward and a wide circular head at the base. No labels or values are printed.",
    "labels": [],
-   "topic": "Chapter 7: Density and floating",
+   "topic": "Chapter 1: Making measurements",
    "original": "40 drawing pins (thumb tacks) like those shown in Figure 1.10 have a mass of 17.55 g. What is the volume (in mm³) of one pin when they are made of metal with a density of 8.7 g/cm³?"
   },
   {
@@ -47174,7 +47174,7 @@
     "3",
     "4"
    ],
-   "topic": "Chapter 7: Density and floating",
+   "topic": "Chapter 1: Making measurements",
    "original": "The graph shows the mass and volume of several different objects. Which two objects have the same density?"
   },
   {
@@ -47212,7 +47212,7 @@
     "lead",
     "11.34"
    ],
-   "topic": "Chapter 7: Density and floating",
+   "topic": "Chapter 1: Making measurements",
    "original": "Three metal cubes have the same volume but are made of different metals. Each one is lowered into a beaker of water. Use the data in the table to decide which one will cause the biggest rise in water level."
   },
   {
@@ -47229,7 +47229,7 @@
     "Colour of layer",
     "Thickness of layer / cm"
    ],
-   "topic": "Chapter 7: Density and floating",
+   "topic": "Chapter 1: Making measurements",
    "original": "Copy the diagram below. Using the data from the table above, write down the colour of the liquid you would expect to find in each layer and how thick the layer would be."
   },
   {
@@ -47430,7 +47430,7 @@
     "20",
     "Time / s"
    ],
-   "topic": "Chapter 1: Kinematics – describing motion",
+   "topic": "Chapter 2: Describing motion",
    "original": "Look at Figure 2.20. What is the skydiver's acceleration at: a 0 s b 5.5 s?"
   },
   {
@@ -47464,7 +47464,7 @@
     "80",
     "Table 2.8"
    ],
-   "topic": "Chapter 1: Kinematics – describing motion",
+   "topic": "Chapter 2: Describing motion",
    "original": "Use the data in Table 2.8 to plot a distance–time graph for the train. Find the train's average speed between Kirby Lonsdale and Dolphinholme. Give your answer in km/h."
   },
   {
@@ -47572,7 +47572,7 @@
    "labels": [
     "WANG"
    ],
-   "topic": "Chapter 3: Forces and their effects",
+   "topic": "Chapter 3: Forces and motion",
    "original": "Throwing the hammer is an Olympic sport (Figure 3.15), where the thrower spins around inside a circle while swinging a 'hammer'. Throwers spin as fast as they can before releasing the hammer. Looking down from above, sketch the path of the hammer moving in a circle followed by its path after it is released."
   },
   {
@@ -47617,7 +47617,7 @@
    "noun": "diagram",
    "shows": "A drawing of a tan wooden block, a long rectangular box, shown in perspective with its open end facing the lower left. A small green tennis ball sits at the lower left, and a black arrow runs from the ball to the block's end face, showing the ball travelling toward the block. There are no labels or values.",
    "labels": [],
-   "topic": "Chapter 2: Newton’s laws of motion",
+   "topic": "Chapter 3: Forces and motion",
    "original": "Explain how the speed of the ball can be calculated using the principle of conservation of momentum. (Hint: this is a collision between the ball and the box.)"
   },
   {
@@ -47796,7 +47796,7 @@
     "P",
     "C"
    ],
-   "topic": "Chapter 3: Forces and their effects",
+   "topic": "Chapter 4: Turning effects of forces",
    "original": "a As the sail is pulled up from A to C, how does the force needed vary? Explain your answer."
   },
   {
@@ -47950,7 +47950,7 @@
     "contact force",
     "friction"
    ],
-   "topic": "Chapter 3: Forces and their effects",
+   "topic": "Chapter 4: Turning effects of forces",
    "original": "Figure 4.24 shows the forces acting on a cyclist."
   },
   {
@@ -48264,7 +48264,7 @@
     "V_B",
     "h"
    ],
-   "topic": "Chapter 5: Work, power and energy",
+   "topic": "Momentum",
    "original": "Scientists use a ballistic pendulum to work out the speed of a projectile that hits it. The block has a mass of 4.7 kg and moves with an initial speed of 1.24 m/s when it is hit."
   },
   {
@@ -48290,7 +48290,7 @@
     "energy in the nucleus of an atom",
     "energy escaping from a hot object"
    ],
-   "topic": "Chapter 4: Energy transfer",
+   "topic": "Chapter 6: Energy transformations and energy transfers",
    "original": "Copy and complete the table. For each description, write down the name of the associated energy and state whether it is a store or transfer."
   },
   {
@@ -48308,7 +48308,7 @@
     "useful energy output",
     "waste energy"
    ],
-   "topic": "Chapter 4: Energy transfer",
+   "topic": "Energy transformations and transfers",
    "original": "This diagram represents an energy transfer. Copy and complete the following two word equations for this energy change:"
   },
   {
@@ -48412,7 +48412,7 @@
     "0.75 m",
     "400 N"
    ],
-   "topic": "Chapter 5: Work, power and energy",
+   "topic": "Chapter 8: Work and power",
    "original": "a How much work does she do in raising the box? b How much g.p.e. does the box gain?"
   },
   {
@@ -48444,7 +48444,7 @@
    "noun": "photograph",
    "shows": "A gymnast in a white sleeveless top and long white trousers holds himself motionless on two gymnastic rings, with his arms stretched out horizontally to each side and his body hanging straight down. Spectators sit in stands behind him. No labels or values are printed.",
    "labels": [],
-   "topic": "Chapter 5: Work, power and energy",
+   "topic": "Chapter 8: Work and power",
    "original": "But is he doing any work from a physics point of view?"
   },
   {
@@ -48487,7 +48487,7 @@
     "75",
     "96"
    ],
-   "topic": "Chapter 3: Forces and motion",
+   "topic": "Chapter 8: Work and power",
    "original": "Assume that the mass of the car is 1500 kg and the braking force is 10 000 N. Show that you get nearly the same braking distance as in Table 8.1."
   },
   {
@@ -48524,7 +48524,7 @@
     "20 m",
     "10 m"
    ],
-   "topic": "Chapter 5: Work, power and energy",
+   "topic": "Chapter 8: Work and power",
    "original": "A man pushes a 25 kg pram up a slope as shown in the diagram. He pushes with a force of 150 N along the 20 m slope. How much energy is dissipated as thermal energy?"
   },
   {
@@ -48714,7 +48714,7 @@
     "2 mins",
     "Adjust times according to your particular oven."
    ],
-   "topic": "Chapter 5: Work, power and energy",
+   "topic": "Chapter 8: Work and power",
    "original": "Huda follows the cooking instructions for a tin of baked beans."
   },
   {
@@ -48774,7 +48774,7 @@
     "ice",
     "Bunsen burner"
    ],
-   "topic": "Chapter 10: Changes of state",
+   "topic": "Chapter 9: Heat transfer",
    "original": "Describe your observations."
   },
   {
@@ -49079,7 +49079,7 @@
     "Wall",
     "60 m"
    ],
-   "topic": "Chapter 21: Properties of sound",
+   "topic": "Chapter 20: Sound",
    "original": "A student stands 60 metres from a wall. He makes a sound and hears the echo 0.3 seconds later."
   },
   {
@@ -49479,7 +49479,7 @@
     "e",
     "f"
    ],
-   "topic": "Chapter 15: Light",
+   "topic": "Electromagnetic waves",
    "original": "Each of the pictures in Figure 15.14 represents a use or a danger of a type of electromagnetic radiation. Identify the wave involved and discuss what the use or danger is."
   },
   {
@@ -49551,7 +49551,7 @@
     "blue light",
     "yellow light"
    ],
-   "topic": "Chapter 14: Properties of waves",
+   "topic": "Electromagnetic spectrum",
    "original": "Copy the diagram and add these labels in the correct order: radio waves, ultraviolet, infrared, gamma rays, microwaves, red light."
   },
   {
@@ -49664,7 +49664,7 @@
     "top-pan balance with magnet on top",
     "Figure 16.13: Apparatus for investigating the strength"
    ],
-   "topic": "Chapter 25: The magnetic effect of current",
+   "topic": "Chapter 24: Electromagnetism",
    "original": "How does the strength of an electromagnet depend on the number of turns?"
   },
   {
@@ -49711,7 +49711,7 @@
    "noun": "photograph",
    "shows": "A photograph of a smiling child with closed eyes. The child has curly brown hair standing out in all directions from the head, and wears an orange top with grey-brown horizontal stripes. The background is bright and blurred, with light vertical shapes.",
    "labels": [],
-   "topic": "Chapter 23: Magnetism",
+   "topic": "Static electricity",
    "original": "Figure 17.4 shows a child's hair standing on end after the child has been on a trampoline."
   },
   {
@@ -49799,7 +49799,7 @@
     "before rubbing",
     "after rubbing"
    ],
-   "topic": "Chapter 30: Electric circuits",
+   "topic": "Static electricity",
    "original": "a Draw a diagram similar to Figure 17.8 to show how an acetate rod becomes positively charged by losing electrons."
   },
   {
@@ -49838,7 +49838,7 @@
     "−",
     "positively and negatively charged plates"
    ],
-   "topic": "Chapter 30: Electric circuits",
+   "topic": "Electrostatics",
    "original": "b Copy these diagrams and draw the electric field around the charged objects:"
   },
   {
@@ -49855,7 +49855,7 @@
     "insulator",
     "9.22 G"
    ],
-   "topic": "Chapter 30: Electric circuits",
+   "topic": "Static electricity",
    "original": "8 A student rubs a balloon so that it becomes positively charged. He places the balloon on top of an insulating sheet on an electronic balance."
   },
   {
@@ -49889,7 +49889,7 @@
     "d",
     "Table 18.2"
    ],
-   "topic": "Chapter 30: Electric circuits",
+   "topic": "Electric charge and current",
    "original": "Calculate the missing values a-d in Table 18.2. Show all your working."
   },
   {
@@ -49992,7 +49992,7 @@
     "i",
     "j"
    ],
-   "topic": "Chapter 5: Work, power and energy",
+   "topic": "Electrical energy and power",
    "original": "Use the information in Table 18.8 to work out the missing values a–j. Assume that electricity costs 16p per unit."
   },
   {
@@ -50134,7 +50134,7 @@
     "R_2 = 80 Ω",
     "0V"
    ],
-   "topic": "Chapter 32: Electronic devices",
+   "topic": "Chapter 30: Electric circuits",
    "original": "b Work out V_1 and R_1 in Figure 19.18b."
   },
   {
@@ -50362,7 +50362,7 @@
     "pivot",
     "iron"
    ],
-   "topic": "Chapter 25: The magnetic effect of current",
+   "topic": "Chapter 24: Electromagnetism",
    "original": "Explain what happens when the switch is closed, and then when it is re-opened."
   },
   {
@@ -50429,7 +50429,7 @@
     "soft iron core",
     "current-carrying coil"
    ],
-   "topic": "Chapter 27: The motor effect",
+   "topic": "Chapter 26: Forces on currents in magnetic fields",
    "original": "Figure 20.18 shows a type of ammeter. Copy and complete the sentences to explain how it works."
   },
   {
@@ -50460,7 +50460,7 @@
     "wire",
     "Figure 20.20"
    ],
-   "topic": "Chapter 27: The motor effect",
+   "topic": "Chapter 28: Generators",
    "original": "The student moves the wire so that it passes from the north to the south pole of the magnet as shown in Figure 20.20. Explain why the wire does not move."
   },
   {
@@ -50501,7 +50501,7 @@
     "former",
     "pole piece"
    ],
-   "topic": "Chapter 27: The motor effect",
+   "topic": "Chapter 26: Forces on currents in magnetic fields",
    "original": "Describe the energy transfers that happen in: b a loudspeaker."
   },
   {
@@ -50608,7 +50608,7 @@
     "S",
     "N"
    ],
-   "topic": "Chapter 28: Generators",
+   "topic": "Chapter 24: Electromagnetism",
    "original": "The diagram shows a coil and a magnet. When the magnet is moved away from the coil, current flows. Which one of the following describes what happens?"
   },
   {
@@ -50666,7 +50666,7 @@
     "13",
     "Table 22.5 Proton and nucleon numbers of nuclei"
    ],
-   "topic": "Chapter 34: Nuclear reactions",
+   "topic": "Chapter 33: Radioactive materials",
    "original": "Table 22.5 lists the proton and nucleon numbers of six different nuclei. a Copy and complete the table by filling in the empty spaces. b Which three nuclei are isotopes of one element? c Which two nuclei are isotopes of another element? d Use the Periodic Table (Figure 22.7) to identify the three elements in Table 22.5."
   },
   {
@@ -50714,7 +50714,7 @@
    "noun": "diagram",
    "shows": "A model of an atom with a central nucleus made of a tight cluster of circles, some shaded grey and some white. Two dashed circular orbits surround the nucleus, and small black dots (electrons) sit on them. The inner orbit has two electrons and the outer orbit has two electrons. In the nucleus there are 4 grey circles and 5 white circles. No labels or values are printed.",
    "labels": [],
-   "topic": "Chapter 34: Nuclear reactions",
+   "topic": "Chapter 33: Radioactive materials",
    "original": "The diagram shows a neutral beryllium atom."
   },
   {
@@ -50915,7 +50915,7 @@
    "noun": "photograph",
    "shows": "A photograph of the Moon against a dark navy sky. The Moon is gibbous, with the right side lit and the left edge in shadow. Grey maria (dark patches) and craters are visible, with many craters along the lower left edge where the shadow falls. No labels or values are printed.",
    "labels": [],
-   "topic": "Chapter 1: Making measurements",
+   "topic": "Earth and the Solar System",
    "original": "Look at the photograph of the Moon (Figure 24.8)."
   },
   {
@@ -50938,7 +50938,7 @@
     "Sun",
     "Saturn"
    ],
-   "topic": "Chapter 3: Forces and motion",
+   "topic": "Earth and space",
    "original": "The diagram shows how people 1000 years ago thought the Solar System looked."
   },
   {
@@ -50993,7 +50993,7 @@
     "−230",
     "500"
    ],
-   "topic": "Chapter 3: Forces and their effects",
+   "topic": "Earth and the Solar System",
    "original": "6 The table shows some data about the objects orbiting the Sun. Use the information in the table to answer the following questions."
   },
   {
@@ -51018,7 +51018,7 @@
     "C",
     "Figure 25.17: The Universe represented by the surface of an"
    ],
-   "topic": "Chapter 1: Making measurements",
+   "topic": "Astronomy and the Universe",
    "original": "If buttons and elastic are not available, take measurements from the diagram."
   },
   {
@@ -51046,7 +51046,7 @@
     "neutron star",
     "black hole"
    ],
-   "topic": "Chapter 34: Nuclear reactions",
+   "topic": "Stars and the Universe",
    "original": "Explain the following terms about the life cycle of a star:"
   },
   {
@@ -51088,7 +51088,7 @@
     "Scale: 3 mm = 10 million light-years",
     "Figure 25.18: Modelling the expanding Universe."
    ],
-   "topic": "Chapter 25: The magnetic effect of current",
+   "topic": "Cosmology, expanding Universe",
    "original": "4 Use your plotted distance-time graph(s) from the previous step to work out the (recession) speed for each cluster (in million light-years per billion years) and comment on what you find."
   },
   {
@@ -51121,7 +51121,7 @@
     "7.3",
     "1150"
    ],
-   "topic": "Chapter 2: Describing motion",
+   "topic": "Cosmology, expanding universe",
    "original": "The table shows data for a parallel universe. Plot a graph of recessional speed (in km/s) versus distance (million light-years) to each galaxy for this parallel universe."
   },
   {
@@ -51176,7 +51176,7 @@
     "2 700",
     "gold"
    ],
-   "topic": "Forces and matter",
+   "topic": "Making measurements",
    "original": "Some data about the density of various solids and liquids are shown in Table 1.1. Complete the fourth column in Table 1.1 by converting each density in kg/m³ to the equivalent value in g/cm³. The first two have been done for you."
   },
   {
@@ -51787,7 +51787,7 @@
     "time",
     "temperature"
    ],
-   "topic": "Describing motion",
+   "topic": "Forces and motion",
    "original": "Complete the table, showing which quantities are vectors and which are scalars."
   },
   {
@@ -53169,7 +53169,7 @@
    "noun": "diagram",
    "shows": "A circuit diagram with a single loop containing a filament lamp at the top, a variable resistor on the right, and a cell at the bottom. A battery of two cells is on the left side. Nothing in the diagram has a text label or a printed value.",
    "labels": [],
-   "topic": "Electrical circuits",
+   "topic": "Electrical quantities",
    "original": "Figure 18.1 shows a simple circuit."
   },
   {
@@ -53183,7 +53183,7 @@
    "noun": "diagram",
    "shows": "A circuit diagram with a rectangular main loop. The top wire holds a cell, with a long and a short plate, and the bottom-left wire holds a lamp (a circle with a cross). The right side holds a circle with nothing inside, which is an incomplete meter symbol. A second empty circle sits in a branch above the cell, with its two ends joined to the wire on either side of the cell, so it is in parallel with the cell.",
    "labels": [],
-   "topic": "Electrical circuits",
+   "topic": "Electrical quantities",
    "original": "The circuit in Figure 18.2 has two meters. Their symbols are incomplete."
   },
   {
@@ -53207,7 +53207,7 @@
     "silver",
     "wood"
    ],
-   "topic": "Electrical quantities",
+   "topic": "Static electricity",
    "original": "Complete the table by putting a tick (✓) in the correct column to indicate whether the material listed is a conductor or an insulator."
   },
   {
@@ -53273,7 +53273,7 @@
    "noun": "diagram",
    "shows": "A circuit diagram with a single closed rectangular loop. A cell or battery is at the top, with its longer thin line on the left and its shorter thick line on the right. A lamp (a circle containing a cross) is on the left side. A resistor (an open rectangle) is on the bottom. These are joined by plain wires. No arrows or text are drawn on it.",
    "labels": [],
-   "topic": "Electrical circuits",
+   "topic": "Electrical quantities",
    "original": "Draw an arrow on the circuit to show the direction of electron flow and label it ‘electron flow’."
   },
   {
@@ -53508,7 +53508,7 @@
    "noun": "photograph",
    "shows": "A white UK mains wall socket with an adapter plugged in, which has several plugs and chargers connected. A large plug sits in the top of the adapter, another white plug is in the upper right, and a black plug with a lead is at the top right. Two white charger plugs with white cables are in the lower sockets. The sockets are overloaded with many devices drawn from a single wall outlet.",
    "labels": [],
-   "topic": "Electrical quantities",
+   "topic": "Electrical circuits",
    "original": "Describe what safety issue Figure 19.10 shows."
   },
   {
@@ -53927,7 +53927,7 @@
     "−1",
     "e"
    ],
-   "topic": "The nuclear atom",
+   "topic": "Radioactivity",
    "original": "In the last column of the table, state the composition of each of them in terms of the subatomic particles: protons, neutrons and electrons."
   },
   {
@@ -54243,7 +54243,7 @@
     "x",
     "x"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 1: Making sense of algebra",
    "original": "For each shape: i write an expression for the perimeter ii calculate the perimeter if x = 4 cm."
   },
   {
@@ -54650,7 +54650,7 @@
     "x",
     "19°"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
    "original": "h"
   },
   {
@@ -55660,7 +55660,7 @@
     "E",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 2: Perimeter, area and volume",
    "original": "3 Circle 1 and circle 2 have the same centre (O). Use the correct terms or letters to copy and complete each statement."
   },
   {
@@ -55817,7 +55817,7 @@
    "noun": "diagram",
    "shows": "A black circle with one blue straight line segment drawn inside it. The segment is vertical, lies left of the centre, and has both endpoints on the circle, so it is a chord that does not pass through the centre. There are no labels or numbers.",
    "labels": [],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 1: Lines, angles and shapes",
    "original": "Name the circle parts shown in blue on these circles."
   },
   {
@@ -55838,7 +55838,7 @@
     "3.2 cm",
     "C"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Unit 1: Lines, angles and shapes",
    "original": "Accurately construct these triangles."
   },
   {
@@ -55860,7 +55860,7 @@
     "4 cm",
     "E"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Unit 1: Lines, angles and shapes",
    "original": "Accurately construct these triangles."
   },
   {
@@ -55883,7 +55883,7 @@
     "5 cm",
     "H"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Unit 1: Lines, angles and shapes",
    "original": "Accurately construct these triangles."
   },
   {
@@ -55905,7 +55905,7 @@
     "E",
     "5 cm"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 1: Lines, angles and shapes",
    "original": "The diagram shows a rough sketch for a logo design. AE and CE are straight lines and AD = 8 cm."
   },
   {
@@ -56265,7 +56265,7 @@
     "After exercise",
     "8 | 7 represents 87 beats per minute"
    ],
-   "topic": "Unit 1: Collecting, organising and displaying data",
+   "topic": "Unit 3: Averages and measures of spread",
    "original": "This stem-and-leaf diagram shows the pulse rate of a group of people measured before and after exercising on a treadmill."
   },
   {
@@ -56396,7 +56396,7 @@
     "7428",
     "11898"
    ],
-   "topic": "Unit 1: Review of number concepts",
+   "topic": "Unit 1: Collecting, organising and displaying data",
    "original": "This distance table shows the flying distance (in miles) between some major world airports."
   },
   {
@@ -56548,7 +56548,7 @@
     "40",
     "41"
    ],
-   "topic": "Unit 1: Collecting, organising and displaying data",
+   "topic": "Unit 3: Averages and measures of spread",
    "original": "Here is a set of raw data showing the average summer temperature (in °C) for 20 cities in the Middle East during one year."
   },
   {
@@ -56654,7 +56654,7 @@
     "End of game",
     "Time"
    ],
-   "topic": "Unit 1: Collecting, organising and displaying data",
+   "topic": "Unit 3: Straight lines and quadratic equations",
    "original": "This graph shows the happiness levels of Team A's supporters during a football match. The final score in the match is 3 goals to 2, with Team A winning. Make up a story to fit the graph, describing the events that lead to changes in the graph."
   },
   {
@@ -56785,7 +56785,7 @@
     "82",
     "96"
    ],
-   "topic": "Unit 4: Scatter diagrams and correlation",
+   "topic": "Unit 1: Collecting, organising and displaying data",
    "original": "The table shows the temperature of water in a beaker as it is heated over a Bunsen burner. The line graph shows how the temperature changes over time."
   },
   {
@@ -56982,7 +56982,7 @@
     "22",
     "68"
    ],
-   "topic": "Unit 1: Collecting, organising and displaying data",
+   "topic": "Unit 2: Fractions, percentages and standard form",
    "original": "This table shows the percentage of people who own a laptop and a mobile phone in four different districts in a large city."
   },
   {
@@ -57384,7 +57384,7 @@
     "(2x + 3) cm",
     "I"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 2: Equations, factors and formulae",
    "original": "b Find the distance EF in terms of x."
   },
   {
@@ -57669,7 +57669,7 @@
     "5.3 cm",
     "8.2 cm"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "c"
   },
   {
@@ -57711,7 +57711,7 @@
     "18 cm",
     "2.4 cm"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "e"
   },
   {
@@ -59018,7 +59018,7 @@
    "noun": "grid",
    "shows": "A net of a triangular prism is drawn on a square grid. Three rectangles sit side by side in a row, and the middle one is narrower than the other two. An isosceles triangle is attached above the top edge of the middle rectangle, pointing up. A matching triangle is attached below its bottom edge, pointing down. The triangles' base is the width of the middle rectangle, which is 5 grid squares, and their height is about 7 squares.",
    "labels": [],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 2: Perimeter, area and volume",
    "original": "Write down the mathematical name for the type of triangle shown on the grid."
   },
   {
@@ -59341,7 +59341,7 @@
     "2",
     "22"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "Use the given Venn diagram to answer the following questions."
   },
   {
@@ -59400,7 +59400,7 @@
     "B",
     "C"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "Make seven copies of this Venn diagram and shade the following sets:"
   },
   {
@@ -59429,7 +59429,7 @@
     "k",
     "i"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "illustrate these sets in a Venn diagram"
   },
   {
@@ -59446,7 +59446,7 @@
     "A",
     "B"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "Copy the diagram shown below twice and shade the sets indicated."
   },
   {
@@ -59510,7 +59510,7 @@
     "g",
     "d"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "For the Venn diagram shown above, find:"
   },
   {
@@ -60261,7 +60261,7 @@
     "O",
     "P"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 3: Straight lines and quadratic equations",
    "original": "Use the graph to find the length and the midpoint of each line segment."
   },
   {
@@ -60327,7 +60327,7 @@
     "iv",
     "9"
    ],
-   "topic": "Unit 1: Making sense of algebra",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "Copy and complete this table by substituting different values of a into the expressions."
   },
   {
@@ -60348,7 +60348,7 @@
     "A",
     "D"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 5: Curved graphs",
    "original": "A farmer wants to use 100 m of fencing to build three sides of the rectangular pen shown in the diagram:"
   },
   {
@@ -61297,7 +61297,7 @@
     "Area = 272.25 m²",
     "Area = 900 m²"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "b"
   },
   {
@@ -61318,7 +61318,7 @@
     "x cm",
     "Area = 6.875 cm²"
    ],
-   "topic": "Unit 6: Ratio, rate and proportion",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "c"
   },
   {
@@ -61338,7 +61338,7 @@
     "Area = 135 cm²",
     "Area = 303.75 cm²"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "d"
   },
   {
@@ -61560,7 +61560,7 @@
     "12 cm",
     "Volume = 288 cm³"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "a"
   },
   {
@@ -61579,7 +61579,7 @@
     "3.2 m",
     "Volume = 80.64 m³"
    ],
-   "topic": "Unit 6: Ratio, rate and proportion",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "d"
   },
   {
@@ -61601,7 +61601,7 @@
     "Area =",
     "x cm²"
    ],
-   "topic": "Unit 6: Ratio, rate and proportion",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "a"
   },
   {
@@ -61689,7 +61689,7 @@
     "X",
     "W"
    ],
-   "topic": "Unit 5: Symmetry",
+   "topic": "Similar shapes",
    "original": "c"
   },
   {
@@ -61729,7 +61729,7 @@
     "U",
     "T"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "d"
   },
   {
@@ -61771,7 +61771,7 @@
     "D",
     "E"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
    "original": "Triangle FAB is congruent to triangle FED. Prove that BFDC is a kite."
   },
   {
@@ -62577,7 +62577,7 @@
     "2",
     "1"
    ],
-   "topic": "Unit 1: Collecting, organising and displaying data",
+   "topic": "Histograms and cumulative frequency",
    "original": "a Find the number of times the temperature of the room was recorded."
   },
   {
@@ -62664,7 +62664,7 @@
     "B",
     "C"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "Complete the Venn diagram to show this information. [Using Figure 3 in the Unit 3 Past Paper Questions Resource Sheet.]"
   },
   {
@@ -62710,7 +62710,7 @@
     "5:30",
     "Total time worked"
    ],
-   "topic": "Unit 5: Managing money",
+   "topic": "Unit 4: Understanding measurement",
    "original": "Samuel works in a bookshop. This is his time sheet for the week."
   },
   {
@@ -62840,7 +62840,7 @@
     "03:36",
     "15:37"
    ],
-   "topic": "Unit 1: Collecting, organising and displaying data",
+   "topic": "Unit 4: Understanding measurement",
    "original": "The tides for a two-week period are shown on this tide table."
   },
   {
@@ -62914,7 +62914,7 @@
     "38.4°",
     "78.1°"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 4: Understanding measurement",
    "original": "The angles in a triangle are x°, 38.4° (to 1 d.p.) and 78.1° (to 1 d.p.). Calculate upper and lower bounds for x."
   },
   {
@@ -62980,7 +62980,7 @@
     "5.3 cm",
     "C"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 4: Understanding measurement",
    "original": "The lengths in the diagram are given to 1 decimal place."
   },
   {
@@ -63049,7 +63049,7 @@
     "7.00 p.m.",
     "45 mins"
    ],
-   "topic": "Unit 5: Managing money",
+   "topic": "Time calculations",
    "original": "This time-card records a worker's start time and finish times and the length of their lunch break each day for a week."
   },
   {
@@ -63156,7 +63156,7 @@
     "-2",
     "-3"
    ],
-   "topic": "Unit 3: Straight lines and quadratic equations",
+   "topic": "Graphical inequalities",
    "original": "For each of the following diagrams, find the inequality that is represented by the unshaded region."
   },
   {
@@ -63186,7 +63186,7 @@
     "-2",
     "-3"
    ],
-   "topic": "Unit 3: Straight lines and quadratic equations",
+   "topic": "Graphical inequalities",
    "original": "For each of the following diagrams, find the inequality that is represented by the unshaded region."
   },
   {
@@ -63250,7 +63250,7 @@
     "-1",
     "R"
    ],
-   "topic": "Unit 4: Further solving of equations and inequalities",
+   "topic": "Graphical inequalities",
    "original": "Write down the three inequalities that define the unshaded triangular region R."
   },
   {
@@ -64259,7 +64259,7 @@
     "M",
     "B"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Circle theorems",
    "original": "O is the centre of a circle with OM = 12 cm. a Calculate AM. b Calculate AB."
   },
   {
@@ -64459,7 +64459,7 @@
     "x",
     "sin θ°"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry",
    "original": "3 d sin θ°"
   },
   {
@@ -64715,7 +64715,7 @@
     "60°",
     "18 cm"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry",
    "original": "Calculate the exact length of the unknown side in each triangle. b"
   },
   {
@@ -64985,7 +64985,7 @@
     "E",
     "D"
    ],
-   "topic": "Unit 5: Symmetry",
+   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
    "original": "The diagram shows a regular pentagon with sides of 2 cm. O is the centre of the pentagon."
   },
   {
@@ -65008,7 +65008,7 @@
     "cos 15° and cos 345°",
     "tan 100 and tan 280°"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Trigonometric functions graphs",
    "original": "Now do the same for these pairs:"
   },
   {
@@ -65029,7 +65029,7 @@
     "8 cm",
     "Q"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule, non-right-angled triangles",
    "original": "In triangle PQR, Q = 120°, side PQ = 8cm and side PR = 13cm. Calculate the size of R, the size of P, and the length of side QR. Give your answers to the nearest whole number."
   },
   {
@@ -65050,7 +65050,7 @@
     "X",
     "Y"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine and cosine rules",
    "original": "In triangle XYZ, X = 40°, side XZ = 12cm and side YZ = 15cm."
   },
   {
@@ -65071,7 +65071,7 @@
     "34 m",
     "D"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine and cosine rules",
    "original": "In triangle DEF, F = 120°, side EF = 25 m and side FD = 34 m. Calculate the length of side DE."
   },
   {
@@ -65092,7 +65092,7 @@
     "P",
     "Q"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry",
    "original": "In triangle PQR, R = 100°, side PR = 8 cm and side RQ = 5 cm. a Calculate the length of side PQ. b Calculate, correct to the nearest degree, P and Q."
   },
   {
@@ -65113,7 +65113,7 @@
     "34°",
     "E"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule trigonometry",
    "original": "In triangle DEF, DF = 10 cm, EF = 7 cm and angle EDF = 34°. Calculate, to the nearest degree, the possible size of: a angle DEF b angle DFE."
   },
   {
@@ -65132,7 +65132,7 @@
     "65°",
     "9 cm"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry (sine rule)",
    "original": "a"
   },
   {
@@ -65153,7 +65153,7 @@
     "72°",
     "33°"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule (further trigonometry)",
    "original": "b"
   },
   {
@@ -65173,7 +65173,7 @@
     "25°",
     "6 cm"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule trigonometry",
    "original": "c"
   },
   {
@@ -65192,7 +65192,7 @@
     "102°",
     "x"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry (sine rule)",
    "original": "e"
   },
   {
@@ -65234,7 +65234,7 @@
     "12 cm",
     "c"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine and cosine rules",
    "original": "b"
   },
   {
@@ -65254,7 +65254,7 @@
     "6 cm",
     "θ"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule trigonometry",
    "original": "c"
   },
   {
@@ -65273,7 +65273,7 @@
     "θ",
     "8 cm"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule, further trigonometry",
    "original": "d"
   },
   {
@@ -65292,7 +65292,7 @@
     "30°",
     "θ"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule (further trigonometry)",
    "original": "e"
   },
   {
@@ -65312,7 +65312,7 @@
     "9.2 cm",
     "11.8 cm"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule (further trigonometry)",
    "original": "f"
   },
   {
@@ -65333,7 +65333,7 @@
     "D",
     "E"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine rule trigonometry",
    "original": "In triangle DEF, D = 140°, E = 15° and side DF = 6m. Calculate the size of F and the lengths of the sides DE and EF."
   },
   {
@@ -65355,7 +65355,7 @@
     "9 cm",
     "B"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Further trigonometry",
    "original": "Find the area of the parallelogram shown in the diagram."
   },
   {
@@ -65455,7 +65455,7 @@
     "63 cm",
     "Q"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry (sine rule, area)",
    "original": "The diagram shows triangle PQR, which has an area of 630 cm². a Use the formula area = 1/2 pr sinQ to find Q correct to 1 decimal place. b Find P correct to 1 decimal place."
   },
   {
@@ -65476,7 +65476,7 @@
     "12 cm",
     "C"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Cosine rule trigonometry",
    "original": "In triangle ABC, B = 45°, side AB = 10 cm and side BC = 12 cm. Calculate the length of side AC."
   },
   {
@@ -65497,7 +65497,7 @@
     "14 m",
     "D"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine and cosine rules",
    "original": "In triangle DEF, F = 150°, side EF = 9 m and side FD = 14 m. Calculate the length of side DE."
   },
   {
@@ -65519,7 +65519,7 @@
     "11 cm",
     "Q"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Cosine rule trigonometry",
    "original": "In triangle PQR, side PQ = 11 cm, side QR = 9 cm and side RP = 8 cm. Calculate the size of p correct to 1 decimal place."
   },
   {
@@ -65540,7 +65540,7 @@
     "T",
     "U"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine and cosine rules",
    "original": "In triangle STU, S = 95°, side ST = 10 m and side SU = 15 m. a Calculate the length of side TU. b Calculate U. c Calculate T."
   },
   {
@@ -65584,7 +65584,7 @@
     "6.8 m",
     "E"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry",
    "original": "Find the area of each triangle."
   },
   {
@@ -65627,7 +65627,7 @@
     "7 cm",
     "L"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry",
    "original": "Find the area of each triangle."
   },
   {
@@ -65672,7 +65672,7 @@
     "S",
     "T"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Further trigonometry",
    "original": "Find the area of each triangle."
   },
   {
@@ -65745,7 +65745,7 @@
     "M",
     "C"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
    "original": "The diagram shows a tetrahedron ABCD. M is the midpoint of CD. AB = 4 m, AC = 3 m, AD = 3 m. Calculate:"
   },
   {
@@ -65876,7 +65876,7 @@
     "8 cm",
     "Q"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Further trigonometry (3D)",
    "original": "A pyramid, VPQRS, has a square base, PQRS, with sides of length 8 cm. Each sloping edge is 9 cm long. a Calculate the perpendicular height of the pyramid. b Calculate the angle the sloping edge VP makes with the base."
   },
   {
@@ -65913,7 +65913,7 @@
     "B",
     "y = sin x°"
    ],
-   "topic": "Unit 5: Curved graphs",
+   "topic": "Graphs of trigonometric functions",
    "original": "The diagram shows the graph of y = sin x for 0 ≤ x ≤ 360. a Write down the coordinates of A, the point on the graph where x = 90°. b Find the value of sin 270°. c By considering the line y = -1/2 for 0 ≤ x ≤ 360, find the number of solutions there are for the equation sin x = -1/2 for 0 ≤ x ≤ 360."
   },
   {
@@ -66387,7 +66387,7 @@
     "C",
     "NOT TO SCALE"
    ],
-   "topic": "Unit 4: Scale drawings, bearings and trigonometry",
+   "topic": "Sine and cosine rules",
    "original": "Calculate AC."
   },
   {
@@ -66412,7 +66412,7 @@
     "24cm",
     "NOT TO SCALE"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 2: Perimeter, area and volume",
    "original": "The diagram shows a prism, ABCDEF. AB = 13 cm, AC = 20 cm, CF = 24 cm and angle ABC = 90°."
   },
   {
@@ -66430,7 +66430,7 @@
     "I have heard this but I am not sure what it means",
     "I know what this means and can explain it to others"
    ],
-   "topic": "Unit 1: Collecting, organising and displaying data",
+   "topic": "Self-assessment of vocabulary",
    "original": "Copy this table."
   },
   {
@@ -67335,7 +67335,7 @@
     "4",
     "6"
    ],
-   "topic": "Unit 3: Straight lines and quadratic equations",
+   "topic": "Unit 5: Curved graphs",
    "original": "c"
   },
   {
@@ -67752,7 +67752,7 @@
     "8000",
     "16 000"
    ],
-   "topic": "Unit 5: Curved graphs",
+   "topic": "Unit 6: More equations, formulae and functions",
    "original": "The population of bedbugs in New York City is found to be increasing exponentially. The changes in population are given in the table."
   },
   {
@@ -67986,7 +67986,7 @@
     "−1",
     "1"
    ],
-   "topic": "Unit 5: Curved graphs",
+   "topic": "Differentiation",
    "original": "Copy and complete the table and compare the gradient to the value of x² in each case."
   },
   {
@@ -68148,7 +68148,7 @@
     "x",
     "x"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 5: Curved graphs",
    "original": "A manufacturer makes open-topped boxes by taking a 2 m × 1 m sheet of metal, cutting x m × x m squares out of the corners and folding along the dotted lines shown in the diagram."
   },
   {
@@ -68701,7 +68701,7 @@
     "O",
     "D"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "In the diagram, AB and AD are tangents to the circle. ABC is a straight line. Calculate the size of angle x."
   },
   {
@@ -68722,7 +68722,7 @@
     "O",
     "C"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Circle theorems",
    "original": "In this diagram, find the length of AO and the area of quadrilateral AOCB. BA and BC are tangents to the circle."
   },
   {
@@ -68789,7 +68789,7 @@
     "D",
     "AB = 2.8 m"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Apply what you have learned about circle properties to calculate the diameter of each circle. Give approximate answers to 3 significant figures. Show all your working and give reasons for any deductions."
   },
   {
@@ -68850,7 +68850,7 @@
     "x",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "Calculate the size of the lettered angles in each diagram. Show your working and give reasons for any deductions."
   },
   {
@@ -68873,7 +68873,7 @@
     "C",
     "D"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "Calculate the size of the lettered angles in each diagram. Show your working and give reasons for any deductions."
   },
   {
@@ -68895,7 +68895,7 @@
     "O",
     "B"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Calculate the length of the chord AB in each of the following circles. (In each case, X is the midpoint of AB.)"
   },
   {
@@ -68917,7 +68917,7 @@
     "O",
     "B"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Calculate the length of the chord AB in each of the following circles. (In each case, X is the midpoint of AB.)"
   },
   {
@@ -68939,7 +68939,7 @@
     "X",
     "B"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Calculate the length of the chord AB in each of the following circles. (In each case, X is the midpoint of AB.)"
   },
   {
@@ -68960,7 +68960,7 @@
     "e",
     "f"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "c"
   },
   {
@@ -68982,7 +68982,7 @@
     "B",
     "C"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "In the diagram, TA and TB are the tangents from T to the circle whose centre is O. AC is a diameter of the circle and angle ACB = x."
   },
   {
@@ -69002,7 +69002,7 @@
     "B",
     "C"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "The diagram shows two chords, AC and BD, drawn in a circle. The chords intersect at the point X."
   },
   {
@@ -69024,7 +69024,7 @@
     "x",
     "E"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "Calculate the value of x in each diagram. Show your working and give reasons for any deductions."
   },
   {
@@ -69045,7 +69045,7 @@
     "x",
     "O"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "Calculate the value of x in each diagram. Show your working and give reasons for any deductions."
   },
   {
@@ -69067,7 +69067,7 @@
     "B",
     "40°"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "In the diagram, BCF and BAE are the tangents to the circle at C and A respectively. AD is a diameter and angle ABC = 40°."
   },
   {
@@ -69088,7 +69088,7 @@
     "q",
     "r"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "a"
   },
   {
@@ -69107,7 +69107,7 @@
     "b",
     "O"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "b"
   },
   {
@@ -69130,7 +69130,7 @@
     "c",
     "d"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "c"
   },
   {
@@ -69149,7 +69149,7 @@
     "75°",
     "95°"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "d"
   },
   {
@@ -69168,7 +69168,7 @@
     "70°",
     "b"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "e"
   },
   {
@@ -69188,7 +69188,7 @@
     "86°",
     "z"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "f"
   },
   {
@@ -69208,7 +69208,7 @@
     "115°",
     "95°"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "g"
   },
   {
@@ -69230,7 +69230,7 @@
     "A",
     "T"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "2 In the diagram SAT is the tangent to the circle at point A. The points B and C lie on the circle and O is the centre of the circle. If angle ACB = x, express, in terms of x, the size of:"
   },
   {
@@ -69251,7 +69251,7 @@
     "x",
     "y"
    ],
-   "topic": "Unit 5: Symmetry",
+   "topic": "Circle theorems",
    "original": "Explain why angle PAB is equal to y."
   },
   {
@@ -69273,7 +69273,7 @@
     "30°",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "Prove that CD is a diameter of the circle."
   },
   {
@@ -69296,7 +69296,7 @@
     "y",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Given that O is the centre of the circle prove that 2x − y = 90°"
   },
   {
@@ -69322,7 +69322,7 @@
     "S",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "Find the unknown angle x."
   },
   {
@@ -69336,7 +69336,7 @@
    "noun": "diagram",
    "shows": "A three-dimensional line drawing of a hexagonal prism lying on its side. Its ends are regular hexagons, and the long rectangular faces run between them. Hidden edges are dashed and visible edges are solid. There are no labels or measurements.",
    "labels": [],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 5: Symmetry",
    "original": "The diagram shows a prism with regular cross-section."
   },
   {
@@ -69354,7 +69354,7 @@
     "P",
     "Q"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "The diagram shows a circle with two tangents PX and XQ. The tangents intersect at the point X and meet the circle at P and Q respectively."
   },
   {
@@ -69375,7 +69375,7 @@
     "43x + 50°",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "The diagram shows a circle and quadrilateral OABC, where O is the centre of the circle and A, B and C all lie on the circumference."
   },
   {
@@ -69399,7 +69399,7 @@
     "Q",
     "C"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "P, Q, R and S are points on the circumference of a circle with centre O. AB and CB are tangents to the circle at P and Q respectively."
   },
   {
@@ -69421,7 +69421,7 @@
     "B",
     "A"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "a Find the angle x in each of the following. Give full reasons for your answers."
   },
   {
@@ -69445,7 +69445,7 @@
     "A",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "b Find the angle x in each of the following. Give full reasons for your answers."
   },
   {
@@ -69467,7 +69467,7 @@
     "100°",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Find the angle x in each of the following. Give full reasons for your answers."
   },
   {
@@ -69489,7 +69489,7 @@
     "C",
     "60°"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "d Find the angle x in each of the following. Give full reasons for your answers."
   },
   {
@@ -69512,7 +69512,7 @@
     "45°",
     "C"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "e Find the angle x in each of the following. Give full reasons for your answers."
   },
   {
@@ -69532,7 +69532,7 @@
     "x",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "f Find the angle x in each of the following. Give full reasons for your answers."
   },
   {
@@ -69645,7 +69645,7 @@
     "d",
     "37°"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Write down the values of a, b, c and d."
   },
   {
@@ -69665,7 +69665,7 @@
     "C",
     "B"
    ],
-   "topic": "Unit 3: Pythagoras' theorem and similar shapes",
+   "topic": "Circle theorems",
    "original": "The diagram shows two chords, AC and BD, that intersect at the point X."
   },
   {
@@ -69686,7 +69686,7 @@
     "C",
     "D"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "A, B, C and D are points on the circle, centre O. Angle BOD = 86°."
   },
   {
@@ -70352,7 +70352,7 @@
     "Biscuit",
     "0.85"
    ],
-   "topic": "Unit 5: Managing money",
+   "topic": "Unit 1: Review of number concepts",
    "original": "Sue has one tea and one cake. Calculate how much she pays."
   },
   {
@@ -70524,7 +70524,7 @@
     "H",
     "NOT TO SCALE"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Circle theorems",
    "original": "c"
   },
   {
@@ -70736,7 +70736,7 @@
     "A",
     "B"
    ],
-   "topic": "Unit 1: Lines, angles and shapes",
+   "topic": "Unit 5: Symmetry",
    "original": "Points A, B, C, D, E and F lie on a circle, centre O. Find the value of x and the value of y."
   },
   {
@@ -71063,7 +71063,7 @@
     "Giraffe",
     "10"
    ],
-   "topic": "Unit 3: Averages and measures of spread",
+   "topic": "Unit 1: Collecting, organising and displaying data",
    "original": "The table gives the mean life expectancy (in years) of some African animals."
   },
   {
@@ -71177,7 +71177,7 @@
     "Time (minutes)",
     "F"
    ],
-   "topic": "Unit 4: Understanding measurement",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "This graph shows the movement of a taxi in city traffic during a 4-hour period."
   },
   {
@@ -71248,7 +71248,7 @@
     "Distance (d)",
     "Time (t)"
    ],
-   "topic": "Unit 3: Straight lines and quadratic equations",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "Clearly describe what is happening in each of the distance–time graphs below."
   },
   {
@@ -71302,7 +71302,7 @@
     "d",
     "t"
    ],
-   "topic": "Unit 4: Understanding measurement",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "Clearly describe what is happening in each of the distance–time graphs below."
   },
   {
@@ -71332,7 +71332,7 @@
     "08:40",
     "Time"
    ],
-   "topic": "Unit 3: Straight lines and quadratic equations",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "How far was Ibrahim from home at 08:30 hours?"
   },
   {
@@ -71464,7 +71464,7 @@
     "10",
     "Time (seconds)"
    ],
-   "topic": "Unit 3: Straight lines and quadratic equations",
+   "topic": "Unit 5: Curved graphs",
    "original": "The graph below shows the speed, in m/s, of a car as it comes to rest from a speed of 10 m/s."
   },
   {
@@ -71574,7 +71574,7 @@
     "10.8",
     "50"
    ],
-   "topic": "Unit 6: More equations, formulae and functions",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "Corresponding values of s and t are given in the table. Which of the following statements is true?"
   },
   {
@@ -71602,7 +71602,7 @@
     "25",
     "Time (minutes)"
    ],
-   "topic": "Unit 4: Understanding measurement",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "The speed-time graph represents the journey of a train between two stations. The train slowed down and stopped after 15 minutes because of engineering work on the railway line."
   },
   {
@@ -71689,7 +71689,7 @@
     "y",
     "x"
    ],
-   "topic": "Unit 5: Curved graphs",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "The six graphs show six different relationships between variables x and y."
   },
   {
@@ -71707,7 +71707,7 @@
     "y",
     "x"
    ],
-   "topic": "Unit 4: Scatter diagrams and correlation",
+   "topic": "Unit 3: Straight lines and quadratic equations",
    "original": "The six graphs show six different relationships between variables x and y."
   },
   {
@@ -71761,7 +71761,7 @@
     "y",
     "x"
    ],
-   "topic": "Unit 5: Curved graphs",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "The six graphs show six different relationships between variables x and y."
   },
   {
@@ -71779,7 +71779,7 @@
     "y",
     "x"
    ],
-   "topic": "Unit 3: Straight lines and quadratic equations",
+   "topic": "Unit 6: Ratio, rate and proportion",
    "original": "The six graphs show six different relationships between variables x and y."
   },
   {
@@ -71801,7 +71801,7 @@
     "p",
     "p"
    ],
-   "topic": "Unit 2: Perimeter, area and volume",
+   "topic": "Unit 1: Making sense of algebra",
    "original": "An artist places three photos so they are centred in a frame as shown. The photos are congruent and each one is r cm wide and s cm high. The other dimensions are shown on the diagram."
   },
   {
@@ -74112,7 +74112,7 @@
     "d",
     "e"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "Look at this Venn diagram. What do the letters a, b, c, d and e represent?"
   },
   {
@@ -74273,7 +74273,7 @@
     "C",
     "28"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "Determine the value of x."
   },
   {
@@ -74464,7 +74464,7 @@
     "30",
     "10"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "How many of the students do not take maths or physics?"
   },
   {
@@ -74530,7 +74530,7 @@
     "P",
     "Q"
    ],
-   "topic": "Unit 6: Probability using tree diagrams and Venn diagrams",
+   "topic": "Unit 3: Sequences, surds and sets",
    "original": "On the Venn diagram, shade the region P' ∪ Q."
   },
   {
@@ -74601,7 +74601,7 @@
     "(x − 2)cm",
     "(x + 1)cm"
    ],
-   "topic": "Unit 2: Equations, factors and formulae",
+   "topic": "Unit 3: Straight lines and quadratic equations",
    "original": "The difference between the areas of the two rectangles is 62 cm². i Show that x² + 2x − 63 = 0."
   },
   {
