@@ -1616,11 +1616,17 @@ ${commandBlock}`
     // after the topic ("Electric circuits") and sends the broad subject
     // separately; the topic name is no subject at all to a gate.
     const figureSubject = String(body?.subjectDomainHint ?? '').trim() || promptSubject
+    // A book in the figure bank takes its pictures from the bank, further
+    // down, and the library's are thrown away. Built first anyway, they cost
+    // seconds of a 30-second quiz (pasted notes still use the library: the
+    // bank does not apply to them).
+    const libraryNotNeeded = bookInBank(textbookId) && !String(rawSourceText ?? '').trim()
     if (
       hasTextbookImageLibrary &&
       Number.isFinite(textbookId) &&
       !isExamPrepMode &&
-      imageTopicFilter.length > 0
+      imageTopicFilter.length > 0 &&
+      !libraryNotNeeded
     ) {
       try {
         visualCatalog = await buildVisualFigureCatalog({
@@ -1679,7 +1685,7 @@ ${commandBlock}`
       }
     } else if (
       Number.isFinite(textbookId) && !hasTextbookImageLibrary && isSchoolCurriculum(textbookCurriculum) &&
-      !isExamPrepMode && !isCheckpoint && imageTopicFilter.length > 0
+      !isExamPrepMode && !isCheckpoint && imageTopicFilter.length > 0 && !libraryNotNeeded
     ) {
       // A textbook with no figures of its own: 56 of the 81 Cambridge books,
       // every Primary and Lower Secondary one among them. Neither branch
@@ -2082,7 +2088,11 @@ ${commandBlock}`
       // The surplus is stripped after deduplication.
       // No surplus when the parts are named: asking for extra parts of a
       // question that has two is asking for a different question.
-      const requestCount = questionParts?.length ? batchCount : batchCount + Math.ceil(batchCount * 0.4)
+      // An ordinary quiz asks for 60%: the checker now drops what it finds
+      // broken, and there is seldom time in 30 seconds for a retry to make up
+      // the loss. A 20-question quiz came out of a 40% ask 12 of 20.
+      const requestCount = questionParts?.length ? batchCount
+        : batchCount + Math.ceil(batchCount * (isCheckpoint ? 0.4 : 0.6))
 
       // One exam question gets its OWN prompt, not the general one with an
       // exam-shaped instruction bolted on. The general prompt is 26,600
@@ -2731,8 +2741,16 @@ ${commandBlock}`
       }
     } else if (batches.length === 0) {
       const plain = count - quizFigures.length
-      for (let i = 0; i < plain; i += BATCH_SIZE) {
-        batches.push({ count: Math.min(BATCH_SIZE, plain - i), startId: i + 1 })
+      // Each batch its own share of the chapters. Handed all seven, four
+      // parallel batches each wrote "which of these numbers is irrational",
+      // and a 20-question Stage 9 quiz lost a quarter of itself to repeats.
+      const nPlain = Math.ceil(plain / BATCH_SIZE)
+      const spread = !isCheckpoint && promptTopics.length > 1 && nPlain > 1
+      for (let i = 0, k = 0; i < plain; i += BATCH_SIZE, k++) {
+        const share = spread
+          ? promptTopics.filter((_, t) => t % nPlain === k % nPlain).concat(promptTopics.length < nPlain ? [promptTopics[k % promptTopics.length]] : [])
+          : undefined
+        batches.push({ count: Math.min(BATCH_SIZE, plain - i), startId: i + 1, batchTopics: share?.length ? [...new Set(share)] : undefined })
       }
       // The quiz's own type, so a multiple-choice quiz stays multiple choice.
       const kinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
@@ -3456,6 +3474,7 @@ ${commandBlock}`
       return cleanQuestionPaper(markable.kept as any[])
     }
 
+    if (!isCheckpoint) console.log(`Timing: first pass ${allQuestions.length} question(s) by ${Math.round((Date.now() - requestStarted) / 1000)}s`)
     allQuestions = makeShippable(deduplicateAndFix(allQuestions))
 
     /**
@@ -3539,7 +3558,10 @@ ${commandBlock}`
       const dropped = new Set<any>()
       let fixed = 0
       const reasons: string[] = []
-      await Promise.allSettled(chunk(todo, 6).map(async (group) => {
+      // Threes on an ordinary quiz: four calls of six took 9-11 seconds of its
+      // 30 and some were cut off by the deadline; half the length each, in
+      // parallel, they finish in about half the time.
+      await Promise.allSettled(chunk(todo, isCheckpoint ? 6 : 3).map(async (group) => {
         // Numbered 1..n inside the batch so the verdicts map back exactly;
         // ids from different passes can collide. Restored afterwards.
         const ids = group.map((q) => q.id)
@@ -3576,7 +3598,10 @@ ${commandBlock}`
       return list.filter((q) => !dropped.has(q))
     }
 
+    const secs = () => Math.round((Date.now() - requestStarted) / 1000)
+    if (!isCheckpoint) console.log(`Timing: ${allQuestions.length} question(s) after the guards by ${secs()}s`)
     allQuestions = await runChecker(allQuestions)
+    if (!isCheckpoint) console.log(`Timing: ${allQuestions.length} after the checker by ${secs()}s`)
 
     /**
      * Fill a Checkpoint shortfall with the same machinery that built the paper.
@@ -4278,7 +4303,10 @@ ${commandBlock}`
     // so the StudyLab Learning Gap Map can read real topic-level performance.
     const assessmentPayload: Record<string, any> = {
       user_id: user_id || null,
-      subject: promptSubject,
+      // The column is varchar(100), and a book's full name is the subject:
+      // "Cambridge International AS and A Level Mathematics..." failed the
+      // save and the quiz was never stored.
+      subject: String(promptSubject ?? '').slice(0, 100),
       difficulty: style,
       duration: estimatedTime,
       questions_data: assessmentData.questions,

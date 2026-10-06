@@ -10,5 +10,5 @@
 export function shortfallTolerance(count: number, opts: { checkpoint: boolean; outOfTime: boolean }): number {
   if (opts.checkpoint) return Math.min(3, Math.floor(count * 0.1))
   const usual = count >= 8 ? 1 : 0
-  return opts.outOfTime ? Math.max(usual, Math.floor(count * 0.25)) : usual
+  return opts.outOfTime ? Math.max(usual, Math.floor(count * 0.4)) : usual
 }

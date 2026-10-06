@@ -7,11 +7,11 @@ describe('how short a quiz may ship', () => {
     expect(shortfallTolerance(5, { checkpoint: false, outOfTime: false })).toBe(0)
   })
 
-  it('is a quarter when the 30 seconds, not the model, stopped the retries', () => {
-    // "No retry pass: 21s in, 17 of 20" was answered "Please try again".
-    expect(shortfallTolerance(20, { checkpoint: false, outOfTime: true })).toBe(5)
-    expect(shortfallTolerance(10, { checkpoint: false, outOfTime: true })).toBe(2)
-    expect(shortfallTolerance(8, { checkpoint: false, outOfTime: true })).toBe(2)
+  it('is two-fifths when the 30 seconds, not the model, stopped the retries', () => {
+    // "No retry pass: 21s in, 12 of 20" was answered "Please try again", four times running.
+    expect(shortfallTolerance(20, { checkpoint: false, outOfTime: true })).toBe(8)
+    expect(shortfallTolerance(10, { checkpoint: false, outOfTime: true })).toBe(4)
+    expect(shortfallTolerance(8, { checkpoint: false, outOfTime: true })).toBe(3)
   })
 
   it('keeps a Checkpoint paper to its own rule', () => {
