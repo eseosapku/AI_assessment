@@ -1288,6 +1288,8 @@ function isUnanswerableWithoutVisual(q: any, subject = '', allowDiagrams = false
 
 // ── Main route ────────────────────────────────────────────────────────────────
 export async function POST(request: NextRequest) {
+  // An ordinary quiz is answered inside maxDuration, or not at all.
+  const requestStarted = Date.now()
   try {
     const body = await request.json()
 
@@ -3470,7 +3472,9 @@ ${commandBlock}`
     const CHECKER_MODEL = CHECKER_SETTING.toLowerCase() === 'off' ? '' : CHECKER_SETTING || DEFAULT_CHECKER_MODEL
     const callChecker = async (prompt: string): Promise<string> => {
       const controller = new AbortController()
-      const timeout = setTimeout(() => controller.abort(), 40_000)
+      // An ordinary quiz has what is left of its 30 seconds; a Checkpoint
+      // paper runs as a job and has no such window.
+      const timeout = setTimeout(() => controller.abort(), isCheckpoint ? 40_000 : Math.max(1_000, CHECK_DEADLINE_MS - (Date.now() - requestStarted)))
       try {
         const cmd = new InvokeModelCommand({
           modelId: CHECKER_MODEL,
@@ -3507,8 +3511,15 @@ ${commandBlock}`
     // of 1-5 keyed 2, a square and a rectangle both "the shape with four right
     // angles", the area of a circle at Stage 3.
     const checksThisPaper = isCheckpoint || isCambridge
+    // Past this, an ordinary quiz ships what it has unchecked rather than be
+    // killed at maxDuration with nothing to show.
+    const CHECK_DEADLINE_MS = 25_000
     const runChecker = async (list: any[]): Promise<any[]> => {
       if (!checksThisPaper || !CHECKER_MODEL) return list
+      if (!isCheckpoint && Date.now() - requestStarted > CHECK_DEADLINE_MS - 4_000) {
+        console.warn(`Checker skipped: ${Math.round((Date.now() - requestStarted) / 1000)}s into a 30-second request`)
+        return list
+      }
       // Not the composition: the checker read "Write a story ..." as a
       // comprehension question about something not in the text and dropped it,
       // twice, leaving an English paper without its 25 marks.
@@ -3741,6 +3752,12 @@ ${commandBlock}`
 
     // ── Retry: up to 3 passes to fill any shortfall ──────────────────────────
     for (let retryPass = 1; retryPass <= 3 && allQuestions.length < count; retryPass++) {
+      // A retry is a generation and a check, ten seconds or more. An ordinary
+      // quiz too far into its 30 seconds ships short instead.
+      if (!isCheckpoint && Date.now() - requestStarted > 17_000) {
+        console.warn(`No retry pass: ${Math.round((Date.now() - requestStarted) / 1000)}s in, ${allQuestions.length} of ${count}`)
+        break
+      }
       const missing = count - allQuestions.length
       console.warn(`Short by ${missing} questions (pass ${retryPass}) — retrying...`)
       try {
