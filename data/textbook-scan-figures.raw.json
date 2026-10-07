@@ -131081,5 +131081,5595 @@
   "textbookName": "Cambridge IGCSE™ ICT Coursebook",
   "page": 559,
   "figures": []
+ },
+ "198:2": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 2,
+  "figures": []
+ },
+ "198:3": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 3,
+  "figures": []
+ },
+ "198:1": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 1,
+  "figures": []
+ },
+ "198:6": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 6,
+  "figures": []
+ },
+ "198:4": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 4,
+  "figures": []
+ },
+ "198:5": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 5,
+  "figures": []
+ },
+ "198:7": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 7,
+  "figures": []
+ },
+ "198:11": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 11,
+  "figures": []
+ },
+ "198:8": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 8,
+  "figures": []
+ },
+ "198:10": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 10,
+  "figures": [
+   {
+    "box": [
+     355,
+     508,
+     530,
+     662
+    ],
+    "question": "This design is made from 1 blue circle, 4 orange circles and 16 green circles. The circles touch each other. Given that the radius of each green circle is 1 unit, find the exact radius of a the orange circles, b the blue circle.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s10-f0.png",
+    "w": 316,
+    "h": 309
+   }
+  ]
+ },
+ "198:9": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 9,
+  "figures": []
+ },
+ "198:12": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 12,
+  "figures": []
+ },
+ "198:13": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 13,
+  "figures": []
+ },
+ "198:18": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 18,
+  "figures": []
+ },
+ "198:17": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 17,
+  "figures": []
+ },
+ "198:16": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 16,
+  "figures": []
+ },
+ "198:15": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 15,
+  "figures": []
+ },
+ "198:14": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 14,
+  "figures": [
+   {
+    "box": [
+     105,
+     664,
+     482,
+     878
+    ],
+    "question": "b Sketch the graph of the function f.",
+    "heading": "WORKED EXAMPLE 1",
+    "localPath": "/textbook-images/textbook-bank/198/s14-f0.png",
+    "w": 600,
+    "h": 421
+   }
+  ]
+ },
+ "198:20": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 20,
+  "figures": []
+ },
+ "198:21": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 21,
+  "figures": []
+ },
+ "198:23": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 23,
+  "figures": []
+ },
+ "198:22": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 22,
+  "figures": [
+   {
+    "box": [
+     93,
+     743,
+     710,
+     795
+    ],
+    "question": "a Complete the table of values for y = |x − 2| + 3.",
+    "heading": "Exercise 1.5",
+    "localPath": "/textbook-images/textbook-bank/198/s22-f0.png",
+    "w": 938,
+    "h": 119
+   }
+  ]
+ },
+ "198:24": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 24,
+  "figures": [
+   {
+    "box": [
+     613,
+     118,
+     905,
+     296
+    ],
+    "question": "Discuss the function f(x) = x² for x ∈ ℝ. Does the function f have an inverse? Explain your answer. How could you change the domain of f so that f(x) = x² does have an inverse?",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s24-f0.png",
+    "w": 490,
+    "h": 355
+   }
+  ]
+ },
+ "198:19": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 19,
+  "figures": []
+ },
+ "198:30": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 30,
+  "figures": []
+ },
+ "198:26": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 26,
+  "figures": []
+ },
+ "198:28": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 28,
+  "figures": [
+   {
+    "box": [
+     418,
+     120,
+     719,
+     347
+    ],
+    "question": "On a copy of the grid, draw the graph of the inverse of the function f.",
+    "heading": "Exercise 1.7",
+    "localPath": "/textbook-images/textbook-bank/198/s28-f0.png",
+    "w": 503,
+    "h": 445
+   },
+   {
+    "box": [
+     418,
+     357,
+     719,
+     576
+    ],
+    "question": "On a copy of the grid, draw the graph of the inverse of the function g.",
+    "heading": "Exercise 1.7",
+    "localPath": "/textbook-images/textbook-bank/198/s28-f1.png",
+    "w": 503,
+    "h": 431
+   }
+  ]
+ },
+ "198:25": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 25,
+  "figures": []
+ },
+ "198:29": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 29,
+  "figures": []
+ },
+ "198:27": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 27,
+  "figures": [
+   {
+    "box": [
+     585,
+     520,
+     910,
+     790
+    ],
+    "question": "Sundeep says that the diagram shows the graph of the function f(x) = x^x for x > 0, together with its inverse function y = f^{-1}(x). Is Sundeep correct? Explain your answer.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s27-f0.png",
+    "w": 538,
+    "h": 526
+   }
+  ]
+ },
+ "198:33": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 33,
+  "figures": [
+   {
+    "box": [
+     439,
+     316,
+     583,
+     428
+    ],
+    "question": "On a copy of the axes below sketch the graphs of y = g(x) and of y = g^{-1}(x), showing the coordinates of any points where the curves meet the coordinate axes.",
+    "heading": "9 b ii",
+    "localPath": "/textbook-images/textbook-bank/198/s33-f0.png",
+    "w": 278,
+    "h": 231
+   },
+   {
+    "box": [
+     388,
+     508,
+     535,
+     795
+    ],
+    "question": "On the axes below, sketch the graphs of y = 2 − x and y = |3 + 2x|.",
+    "heading": "10 i",
+    "localPath": "/textbook-images/textbook-bank/198/s33-f1.png",
+    "w": 283,
+    "h": 558
+   }
+  ]
+ },
+ "198:32": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 32,
+  "figures": []
+ },
+ "198:31": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 31,
+  "figures": [
+   {
+    "box": [
+     414,
+     580,
+     584,
+     711
+    ],
+    "question": "Sketch the graph of y = |2x − 5|, showing the coordinates of the points where the graph meets the coordinate axes.",
+    "heading": "Exercise 1.8 Exam Exercise",
+    "localPath": "/textbook-images/textbook-bank/198/s31-f0.png",
+    "w": 315,
+    "h": 268
+   }
+  ]
+ },
+ "198:35": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 35,
+  "figures": []
+ },
+ "198:34": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 34,
+  "figures": []
+ },
+ "198:36": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 36,
+  "figures": []
+ },
+ "198:40": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 40,
+  "figures": []
+ },
+ "198:38": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 38,
+  "figures": []
+ },
+ "198:37": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 37,
+  "figures": []
+ },
+ "198:39": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 39,
+  "figures": []
+ },
+ "198:41": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 41,
+  "figures": []
+ },
+ "198:42": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 42,
+  "figures": [
+   {
+    "box": [
+     405,
+     585,
+     700,
+     760
+    ],
+    "question": "Sketch the graph of y = f(x), showing the coordinates of the points where the graph intersects the x and y-axes.",
+    "heading": "WORKED EXAMPLE 4",
+    "localPath": "/textbook-images/textbook-bank/198/s42-f0.png",
+    "w": 493,
+    "h": 349
+   }
+  ]
+ },
+ "198:46": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 46,
+  "figures": []
+ },
+ "198:45": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 45,
+  "figures": []
+ },
+ "198:44": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 44,
+  "figures": []
+ },
+ "198:47": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 47,
+  "figures": []
+ },
+ "198:43": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 43,
+  "figures": []
+ },
+ "198:48": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 48,
+  "figures": []
+ },
+ "198:50": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 50,
+  "figures": []
+ },
+ "198:49": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 49,
+  "figures": []
+ },
+ "198:52": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 52,
+  "figures": []
+ },
+ "198:51": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 51,
+  "figures": []
+ },
+ "198:53": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 53,
+  "figures": []
+ },
+ "198:54": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 54,
+  "figures": []
+ },
+ "198:59": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 59,
+  "figures": [
+   {
+    "box": [
+     572,
+     118,
+     935,
+     331
+    ],
+    "question": "On a copy of the grid to the right, sketch the graph of y = |(x − 2)(x + 3)| for −5 ≤ x ≤ 4, and state the coordinates of the points where the curve meets the coordinate axes.",
+    "heading": "12",
+    "localPath": "/textbook-images/textbook-bank/198/s59-f0.png",
+    "w": 587,
+    "h": 421
+   }
+  ]
+ },
+ "198:55": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 55,
+  "figures": []
+ },
+ "198:57": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 57,
+  "figures": []
+ },
+ "198:56": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 56,
+  "figures": []
+ },
+ "198:60": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 60,
+  "figures": []
+ },
+ "198:58": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 58,
+  "figures": [
+   {
+    "box": [
+     651,
+     377,
+     884,
+     517
+    ],
+    "question": "b On the axes below, sketch the graph of y = f(x), showing the coordinates of the point where your graph intersects the y-axis.",
+    "heading": "7 It is given that f(x) = 4 + 8x − x^2.",
+    "localPath": "/textbook-images/textbook-bank/198/s58-f0.png",
+    "w": 402,
+    "h": 284
+   }
+  ]
+ },
+ "198:62": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 62,
+  "figures": []
+ },
+ "198:64": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 64,
+  "figures": []
+ },
+ "198:65": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 65,
+  "figures": []
+ },
+ "198:61": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 61,
+  "figures": []
+ },
+ "198:66": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 66,
+  "figures": [
+   {
+    "box": [
+     307,
+     315,
+     895,
+     674
+    ],
+    "question": "The frog can only hop onto lilypads that contain surds. It is allowed to move along a row (west or east) or a column (north or south) but is not allowed to move diagonally. Find the route that the frog must take to catch the fly.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s66-f0.png",
+    "w": 907,
+    "h": 691
+   }
+  ]
+ },
+ "198:63": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 63,
+  "figures": [
+   {
+    "box": [
+     563,
+     95,
+     925,
+     290
+    ],
+    "question": "The diagram shows the graph of y = 2^x for -3 ≤ x ≤ 3. Discuss the following questions with your classmates: How does the graph behave when x > 3?",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s63-f0.png",
+    "w": 588,
+    "h": 386
+   }
+  ]
+ },
+ "198:69": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 69,
+  "figures": []
+ },
+ "198:72": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 72,
+  "figures": []
+ },
+ "198:68": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 68,
+  "figures": []
+ },
+ "198:70": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 70,
+  "figures": [
+   {
+    "box": [
+     440,
+     655,
+     702,
+     780
+    ],
+    "question": "a Find the value of AC². b Find the value of tan x. Write your answer in the form a√6/b, where a and b are integers. c Find the area of the triangle. Write your answer in the form p√6/q, where p and q are integers.",
+    "heading": "8",
+    "localPath": "/textbook-images/textbook-bank/198/s70-f0.png",
+    "w": 444,
+    "h": 256
+   }
+  ]
+ },
+ "198:71": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 71,
+  "figures": []
+ },
+ "198:67": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 67,
+  "figures": [
+   {
+    "box": [
+     510,
+     393,
+     745,
+     495
+    ],
+    "question": "a Find the exact length of AB. b Find the exact perimeter of the triangle.",
+    "heading": "Exercise 3.3",
+    "localPath": "/textbook-images/textbook-bank/198/s67-f0.png",
+    "w": 406,
+    "h": 213
+   },
+   {
+    "box": [
+     488,
+     529,
+     727,
+     688
+    ],
+    "question": "The number in the rectangle on the side of the triangle is the sum of the numbers at the adjacent vertices. Find the value of x, the value of y and the value of z.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s67-f1.png",
+    "w": 412,
+    "h": 319
+   },
+   {
+    "box": [
+     500,
+     740,
+     727,
+     925
+    ],
+    "question": "This design is made from 1 blue circle, 4 orange circles and 16 green circles. The circles touch each other. Given that the radius of each green circle is 1 unit, find the exact radius of a the orange circles, b the blue circle.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s67-f2.png",
+    "w": 395,
+    "h": 367
+   }
+  ]
+ },
+ "198:77": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 77,
+  "figures": []
+ },
+ "198:73": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 73,
+  "figures": [
+   {
+    "box": [
+     480,
+     688,
+     780,
+     828
+    ],
+    "question": "8 a Find the value of tan x. Write your answer in the form (a + b√2)/c, where a, b and c are integers. b Find the area of the triangle. Write your answer in the form (p + q√2)/r, where p, q and r are integers.",
+    "heading": "",
+    "localPath": "/textbook-images/textbook-bank/198/s73-f0.png",
+    "w": 498,
+    "h": 284
+   },
+   {
+    "box": [
+     500,
+     840,
+     780,
+     975
+    ],
+    "question": "9 Find the value of cos θ. Write your answer in the form (a + b√7)/c, where a, b and c are integers.",
+    "heading": "",
+    "localPath": "/textbook-images/textbook-bank/198/s73-f1.png",
+    "w": 470,
+    "h": 274
+   }
+  ]
+ },
+ "198:76": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 76,
+  "figures": []
+ },
+ "198:75": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 75,
+  "figures": []
+ },
+ "198:78": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 78,
+  "figures": [
+   {
+    "box": [
+     212,
+     493,
+     458,
+     600
+    ],
+    "question": "Without using a calculator, find the value of cos θ, giving your answer in the form (a + b√3)/c, where a, b and c are integers.",
+    "heading": "Examination questions",
+    "localPath": "/textbook-images/textbook-bank/198/s78-f0.png",
+    "w": 421,
+    "h": 223
+   }
+  ]
+ },
+ "198:74": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 74,
+  "figures": [
+   {
+    "box": [
+     465,
+     95,
+     695,
+     220
+    ],
+    "question": "The blue circle has radius 2 and the green circle has radius 1. AB is a common tangent and all three circles touch each other. Find the radius of the smaller circle.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s74-f0.png",
+    "w": 400,
+    "h": 256
+   }
+  ]
+ },
+ "198:80": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 80,
+  "figures": [
+   {
+    "box": [
+     207,
+     372,
+     688,
+     600
+    ],
+    "question": "The diagram shows a triangle ABC in which angle A = 90°. Sides AB and AC are √5 − 2 and √5 + 1 respectively. Find tan B in the form a + b√5, where a and b are integers.",
+    "heading": "8 Calculators must not be used in this question.",
+    "localPath": "/textbook-images/textbook-bank/198/s80-f0.png",
+    "w": 755,
+    "h": 449
+   },
+   {
+    "box": [
+     207,
+     672,
+     870,
+     783
+    ],
+    "question": "The diagram shows two parallelograms that are similar. The base and height, in centimetres, of each parallelogram is shown. Given that x, the height of the smaller parallelogram, is (p+q√3)/6, find the value of each of the integers p and q.",
+    "heading": "10 Do not use a calculator in this question.",
+    "localPath": "/textbook-images/textbook-bank/198/s80-f1.png",
+    "w": 1013,
+    "h": 231
+   }
+  ]
+ },
+ "198:79": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 79,
+  "figures": []
+ },
+ "198:84": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 84,
+  "figures": []
+ },
+ "198:82": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 82,
+  "figures": []
+ },
+ "198:83": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 83,
+  "figures": [
+   {
+    "box": [
+     89,
+     182,
+     745,
+     260
+    ],
+    "question": "Discuss with your classmates what the degree of each of the following polynomials is:",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s83-f0.png",
+    "w": 1004,
+    "h": 168
+   }
+  ]
+ },
+ "198:81": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 81,
+  "figures": []
+ },
+ "198:86": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 86,
+  "figures": []
+ },
+ "198:85": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 85,
+  "figures": []
+ },
+ "198:90": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 90,
+  "figures": []
+ },
+ "198:89": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 89,
+  "figures": []
+ },
+ "198:88": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 88,
+  "figures": []
+ },
+ "198:87": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 87,
+  "figures": [
+   {
+    "box": [
+     99,
+     168,
+     753,
+     246
+    ],
+    "question": "Discuss with your classmates which of the following expressions are exactly divisible by x − 2.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s87-f0.png",
+    "w": 1000,
+    "h": 169
+   }
+  ]
+ },
+ "198:96": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 96,
+  "figures": []
+ },
+ "198:93": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 93,
+  "figures": []
+ },
+ "198:92": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 92,
+  "figures": []
+ },
+ "198:91": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 91,
+  "figures": []
+ },
+ "198:95": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 95,
+  "figures": []
+ },
+ "198:94": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 94,
+  "figures": []
+ },
+ "198:97": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 97,
+  "figures": []
+ },
+ "198:99": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 99,
+  "figures": []
+ },
+ "198:98": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 98,
+  "figures": []
+ },
+ "198:101": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 101,
+  "figures": []
+ },
+ "198:102": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 102,
+  "figures": []
+ },
+ "198:100": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 100,
+  "figures": []
+ },
+ "198:103": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 103,
+  "figures": []
+ },
+ "198:107": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 107,
+  "figures": []
+ },
+ "198:106": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 106,
+  "figures": []
+ },
+ "198:105": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 105,
+  "figures": []
+ },
+ "198:104": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 104,
+  "figures": []
+ },
+ "198:108": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 108,
+  "figures": [
+   {
+    "box": [
+     188,
+     442,
+     568,
+     650
+    ],
+    "question": "The graphs of y=|x−2| and y=|2x−10| are shown on the grid. Write down the set of values of x that satisfy the inequality |x−2|>|2x−10|.",
+    "heading": "Exercise 5.2",
+    "localPath": "/textbook-images/textbook-bank/198/s108-f0.png",
+    "w": 610,
+    "h": 409
+   }
+  ]
+ },
+ "198:113": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 113,
+  "figures": [
+   {
+    "box": [
+     635,
+     757,
+     950,
+     960
+    ],
+    "question": "The diagram shows part of the graph of y = x(x − 2)(x + 1). Use the graph to solve each of the following inequalities",
+    "heading": "Exercise 5.4",
+    "localPath": "/textbook-images/textbook-bank/198/s113-f0.png",
+    "w": 518,
+    "h": 401
+   }
+  ]
+ },
+ "198:109": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 109,
+  "figures": []
+ },
+ "198:111": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 111,
+  "figures": [
+   {
+    "box": [
+     561,
+     606,
+     833,
+     763
+    ],
+    "question": "Find the coordinates of the points A, B and C where the curve intercepts the x-axis and the point D where the curve intercepts the positive y-axis.",
+    "heading": "Exercise 5.3",
+    "localPath": "/textbook-images/textbook-bank/198/s111-f0.png",
+    "w": 457,
+    "h": 316
+   },
+   {
+    "box": [
+     610,
+     838,
+     926,
+     968
+    ],
+    "question": "Find the coordinates of the point A and the point B, where A is the point where the curve intercepts the positive x-axis and B is the point where the curve intercepts the positive y-axis.",
+    "heading": "Exercise 5.3",
+    "localPath": "/textbook-images/textbook-bank/198/s111-f1.png",
+    "w": 519,
+    "h": 266
+   }
+  ]
+ },
+ "198:110": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 110,
+  "figures": []
+ },
+ "198:114": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 114,
+  "figures": [
+   {
+    "box": [
+     567,
+     98,
+     902,
+     313
+    ],
+    "question": "The diagram shows part of the graph of y=(x+1)^2(2−x). Use the graph to solve each of the following inequalities",
+    "heading": "2",
+    "localPath": "/textbook-images/textbook-bank/198/s114-f0.png",
+    "w": 546,
+    "h": 423
+   },
+   {
+    "box": [
+     567,
+     335,
+     902,
+     548
+    ],
+    "question": "The diagram shows part of the graph of y=(1−x)(x−2)(x+1). Use the graph to solve each of the following inequalities",
+    "heading": "3",
+    "localPath": "/textbook-images/textbook-bank/198/s114-f1.png",
+    "w": 546,
+    "h": 419
+   }
+  ]
+ },
+ "198:112": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 112,
+  "figures": [
+   {
+    "box": [
+     355,
+     500,
+     665,
+     707
+    ],
+    "question": "The diagram shows the graph of y = k(x−a)^2(x−b). Find the values of a, b and k.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s112-f0.png",
+    "w": 510,
+    "h": 408
+   },
+   {
+    "box": [
+     330,
+     775,
+     665,
+     985
+    ],
+    "question": "The diagram shows the graph of y = |k(x−a)(x−b)(x−c)| where a < b < c. Find the values of a, b, c and k.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s112-f1.png",
+    "w": 546,
+    "h": 413
+   }
+  ]
+ },
+ "198:119": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 119,
+  "figures": []
+ },
+ "198:116": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 116,
+  "figures": []
+ },
+ "198:117": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 117,
+  "figures": []
+ },
+ "198:115": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 115,
+  "figures": []
+ },
+ "198:120": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 120,
+  "figures": [
+   {
+    "box": [
+     160,
+     218,
+     670,
+     495
+    ],
+    "question": "The diagram shows part of the graph of y = 2(x+1)(x−1)(2−x). Use the graph to solve the inequality (x+1)(x−1)(2−x) > −1.",
+    "heading": "11",
+    "localPath": "/textbook-images/textbook-bank/198/s120-f0.png",
+    "w": 793,
+    "h": 539
+   }
+  ]
+ },
+ "198:118": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 118,
+  "figures": [
+   {
+    "box": [
+     96,
+     686,
+     597,
+     920
+    ],
+    "question": "a On the same axes sketch the graphs of y = x^2(x - 2) and y = x(6 - x), showing clearly the points at which the curves meet the coordinate axes.",
+    "heading": "Examination questions",
+    "localPath": "/textbook-images/textbook-bank/198/s118-f0.png",
+    "w": 781,
+    "h": 458
+   }
+  ]
+ },
+ "198:121": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 121,
+  "figures": []
+ },
+ "198:125": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 125,
+  "figures": []
+ },
+ "198:124": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 124,
+  "figures": []
+ },
+ "198:123": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 123,
+  "figures": []
+ },
+ "198:126": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 126,
+  "figures": []
+ },
+ "198:122": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 122,
+  "figures": []
+ },
+ "198:130": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 130,
+  "figures": []
+ },
+ "198:127": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 127,
+  "figures": []
+ },
+ "198:132": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 132,
+  "figures": []
+ },
+ "198:131": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 131,
+  "figures": []
+ },
+ "198:128": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 128,
+  "figures": []
+ },
+ "198:129": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 129,
+  "figures": []
+ },
+ "198:136": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 136,
+  "figures": []
+ },
+ "198:135": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 135,
+  "figures": []
+ },
+ "198:138": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 138,
+  "figures": []
+ },
+ "198:134": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 134,
+  "figures": []
+ },
+ "198:137": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 137,
+  "figures": []
+ },
+ "198:133": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 133,
+  "figures": []
+ },
+ "198:140": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 140,
+  "figures": []
+ },
+ "198:139": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 139,
+  "figures": []
+ },
+ "198:144": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 144,
+  "figures": []
+ },
+ "198:142": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 142,
+  "figures": []
+ },
+ "198:141": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 141,
+  "figures": []
+ },
+ "198:143": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 143,
+  "figures": []
+ },
+ "198:148": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 148,
+  "figures": []
+ },
+ "198:145": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 145,
+  "figures": []
+ },
+ "198:147": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 147,
+  "figures": []
+ },
+ "198:150": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 150,
+  "figures": []
+ },
+ "198:146": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 146,
+  "figures": []
+ },
+ "198:149": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 149,
+  "figures": []
+ },
+ "198:154": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 154,
+  "figures": []
+ },
+ "198:152": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 152,
+  "figures": []
+ },
+ "198:155": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 155,
+  "figures": []
+ },
+ "198:156": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 156,
+  "figures": []
+ },
+ "198:151": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 151,
+  "figures": []
+ },
+ "198:153": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 153,
+  "figures": []
+ },
+ "198:157": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 157,
+  "figures": []
+ },
+ "198:158": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 158,
+  "figures": []
+ },
+ "198:160": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 160,
+  "figures": []
+ },
+ "198:162": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 162,
+  "figures": [
+   {
+    "box": [
+     545,
+     212,
+     927,
+     437
+    ],
+    "question": "7 AB is parallel to DC and BC is perpendicular to AB. a Find the coordinates of C. b Find the area of trapezium ABCD.",
+    "heading": "",
+    "localPath": "/textbook-images/textbook-bank/198/s162-f0.png",
+    "w": 615,
+    "h": 442
+   }
+  ]
+ },
+ "198:159": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 159,
+  "figures": [
+   {
+    "box": [
+     655,
+     737,
+     935,
+     937
+    ],
+    "question": "Discuss with your classmates, how you can find the area of triangle ABC.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s159-f0.png",
+    "w": 470,
+    "h": 396
+   }
+  ]
+ },
+ "198:161": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 161,
+  "figures": [
+   {
+    "box": [
+     655,
+     812,
+     968,
+     978
+    ],
+    "question": "Angle ABC is 90° and M is the midpoint of the line AB. The point C lies on the y-axis. a Find the coordinates of B and C. b Find the area of triangle ABC.",
+    "heading": "Exercise 7.4",
+    "localPath": "/textbook-images/textbook-bank/198/s161-f0.png",
+    "w": 516,
+    "h": 334
+   }
+  ]
+ },
+ "198:164": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 164,
+  "figures": []
+ },
+ "198:167": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 167,
+  "figures": []
+ },
+ "198:163": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 163,
+  "figures": []
+ },
+ "198:165": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 165,
+  "figures": []
+ },
+ "198:166": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 166,
+  "figures": [
+   {
+    "box": [
+     89,
+     186,
+     297,
+     322
+    ],
+    "question": "Find y in terms of x. a",
+    "heading": "WORKED EXAMPLE 12",
+    "localPath": "/textbook-images/textbook-bank/198/s166-f0.png",
+    "w": 367,
+    "h": 276
+   },
+   {
+    "box": [
+     398,
+     186,
+     600,
+     322
+    ],
+    "question": "Find y in terms of x. b",
+    "heading": "WORKED EXAMPLE 12",
+    "localPath": "/textbook-images/textbook-bank/198/s166-f1.png",
+    "w": 358,
+    "h": 276
+   }
+  ]
+ },
+ "198:168": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 168,
+  "figures": [
+   {
+    "box": [
+     60,
+     185,
+     310,
+     355
+    ],
+    "question": "a",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f0.png",
+    "w": 427,
+    "h": 340
+   },
+   {
+    "box": [
+     345,
+     185,
+     580,
+     355
+    ],
+    "question": "b",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f1.png",
+    "w": 406,
+    "h": 340
+   },
+   {
+    "box": [
+     625,
+     185,
+     860,
+     355
+    ],
+    "question": "c",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f2.png",
+    "w": 405,
+    "h": 340
+   },
+   {
+    "box": [
+     60,
+     385,
+     310,
+     540
+    ],
+    "question": "d",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f3.png",
+    "w": 427,
+    "h": 312
+   },
+   {
+    "box": [
+     345,
+     385,
+     580,
+     540
+    ],
+    "question": "e",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f4.png",
+    "w": 406,
+    "h": 312
+   },
+   {
+    "box": [
+     625,
+     385,
+     860,
+     540
+    ],
+    "question": "f",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f5.png",
+    "w": 405,
+    "h": 312
+   },
+   {
+    "box": [
+     60,
+     610,
+     310,
+     775
+    ],
+    "question": "a i express y in terms of x ii find the value of y when x = 2.",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f6.png",
+    "w": 427,
+    "h": 331
+   },
+   {
+    "box": [
+     345,
+     610,
+     580,
+     775
+    ],
+    "question": "b i express y in terms of x ii find the value of y when x = 2.",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f7.png",
+    "w": 406,
+    "h": 331
+   },
+   {
+    "box": [
+     625,
+     610,
+     860,
+     775
+    ],
+    "question": "c i express y in terms of x ii find the value of y when x = 2.",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f8.png",
+    "w": 405,
+    "h": 331
+   },
+   {
+    "box": [
+     60,
+     800,
+     310,
+     955
+    ],
+    "question": "d i express y in terms of x ii find the value of y when x = 2.",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f9.png",
+    "w": 427,
+    "h": 311
+   },
+   {
+    "box": [
+     345,
+     800,
+     580,
+     955
+    ],
+    "question": "e i express y in terms of x ii find the value of y when x = 2.",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f10.png",
+    "w": 406,
+    "h": 311
+   },
+   {
+    "box": [
+     625,
+     800,
+     860,
+     955
+    ],
+    "question": "f i express y in terms of x ii find the value of y when x = 2.",
+    "heading": "Exercise 7.6",
+    "localPath": "/textbook-images/textbook-bank/198/s168-f11.png",
+    "w": 405,
+    "h": 311
+   }
+  ]
+ },
+ "198:171": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 171,
+  "figures": []
+ },
+ "198:169": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 169,
+  "figures": []
+ },
+ "198:173": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 173,
+  "figures": [
+   {
+    "box": [
+     99,
+     121,
+     572,
+     164
+    ],
+    "question": "The table shows experimental values of the variables x and y.",
+    "heading": "Exercise 7.7",
+    "localPath": "/textbook-images/textbook-bank/198/s173-f0.png",
+    "w": 744,
+    "h": 103
+   },
+   {
+    "box": [
+     99,
+     365,
+     550,
+     407
+    ],
+    "question": "The table shows experimental values of the variables x and y.",
+    "heading": "Exercise 7.7",
+    "localPath": "/textbook-images/textbook-bank/198/s173-f1.png",
+    "w": 713,
+    "h": 101
+   },
+   {
+    "box": [
+     105,
+     674,
+     551,
+     719
+    ],
+    "question": "The table shows experimental values of the variables x and y.",
+    "heading": "Exercise 7.7",
+    "localPath": "/textbook-images/textbook-bank/198/s173-f2.png",
+    "w": 706,
+    "h": 107
+   }
+  ]
+ },
+ "198:170": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 170,
+  "figures": [
+   {
+    "box": [
+     77,
+     354,
+     525,
+     396
+    ],
+    "question": "a By plotting a suitable straight-line graph, show that x and y are related by the equation y = k × x^n, where k and n are constants.",
+    "heading": "WORKED EXAMPLE 14",
+    "localPath": "/textbook-images/textbook-bank/198/s170-f0.png",
+    "w": 709,
+    "h": 101
+   }
+  ]
+ },
+ "198:174": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 174,
+  "figures": [
+   {
+    "box": [
+     86,
+     170,
+     535,
+     217
+    ],
+    "question": "Draw the graph of ln m against t.",
+    "heading": "4",
+    "localPath": "/textbook-images/textbook-bank/198/s174-f0.png",
+    "w": 709,
+    "h": 110
+   },
+   {
+    "box": [
+     86,
+     302,
+     461,
+     349
+    ],
+    "question": "Draw the graph of lg y against lg x.",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s174-f1.png",
+    "w": 604,
+    "h": 110
+   },
+   {
+    "box": [
+     86,
+     474,
+     537,
+     518
+    ],
+    "question": "Draw the graph of lg y against x.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s174-f2.png",
+    "w": 712,
+    "h": 105
+   },
+   {
+    "box": [
+     86,
+     645,
+     538,
+     691
+    ],
+    "question": "Draw the graph of ln y against x.",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s174-f3.png",
+    "w": 714,
+    "h": 109
+   }
+  ]
+ },
+ "198:172": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 172,
+  "figures": [
+   {
+    "box": [
+     75,
+     140,
+     526,
+     183
+    ],
+    "question": "a Draw the graph of x²y against x.",
+    "heading": "WORKED EXAMPLE 15",
+    "localPath": "/textbook-images/textbook-bank/198/s172-f0.png",
+    "w": 712,
+    "h": 103
+   }
+  ]
+ },
+ "198:180": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 180,
+  "figures": [
+   {
+    "box": [
+     293,
+     205,
+     665,
+     372
+    ],
+    "question": "Variables x and y are such that, when ln y is plotted against ln x, a straight line graph passing through the points (2, 5.8) and (6, 3.8) is obtained.",
+    "heading": "8",
+    "localPath": "/textbook-images/textbook-bank/198/s180-f0.png",
+    "w": 601,
+    "h": 334
+   }
+  ]
+ },
+ "198:177": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 177,
+  "figures": []
+ },
+ "198:178": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 178,
+  "figures": [
+   {
+    "box": [
+     97,
+     132,
+     473,
+     176
+    ],
+    "question": "The table shows values of variables V and p.",
+    "heading": "2",
+    "localPath": "/textbook-images/textbook-bank/198/s178-f0.png",
+    "w": 605,
+    "h": 105
+   },
+   {
+    "box": [
+     318,
+     521,
+     650,
+     693
+    ],
+    "question": "Variables x and y are such that y = Ab^x, where A and b are constants. The diagram shows the graph of ln y against x, passing through the points (2, 4) and (8, 10).",
+    "heading": "4",
+    "localPath": "/textbook-images/textbook-bank/198/s178-f1.png",
+    "w": 544,
+    "h": 343
+   }
+  ]
+ },
+ "198:175": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 175,
+  "figures": [
+   {
+    "box": [
+     106,
+     91,
+     556,
+     136
+    ],
+    "question": "The table shows experimental values of the variables x and y.",
+    "heading": "8",
+    "localPath": "/textbook-images/textbook-bank/198/s175-f0.png",
+    "w": 711,
+    "h": 107
+   },
+   {
+    "box": [
+     106,
+     285,
+     556,
+     329
+    ],
+    "question": "The table shows experimental values of the variables x and y.",
+    "heading": "9",
+    "localPath": "/textbook-images/textbook-bank/198/s175-f1.png",
+    "w": 711,
+    "h": 105
+   },
+   {
+    "box": [
+     106,
+     478,
+     556,
+     523
+    ],
+    "question": "The table shows experimental values of the variables x and y.",
+    "heading": "10",
+    "localPath": "/textbook-images/textbook-bank/198/s175-f2.png",
+    "w": 711,
+    "h": 106
+   },
+   {
+    "box": [
+     106,
+     745,
+     557,
+     790
+    ],
+    "question": "The table shows experimental values of the variables x and y.",
+    "heading": "11",
+    "localPath": "/textbook-images/textbook-bank/198/s175-f3.png",
+    "w": 712,
+    "h": 107
+   }
+  ]
+ },
+ "198:176": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 176,
+  "figures": [
+   {
+    "box": [
+     322,
+     622,
+     640,
+     816
+    ],
+    "question": "The diagram shows a quadrilateral ABCD in which A is the point (1, 4), and B is the point (6, 5). Angle ABC is a right angle and the point C lies on the x-axis. The line AD is parallel to the y-axis and the line CD is parallel to BA. Find a the equation of the line CD, b the area of the quadrilateral ABCD.",
+    "heading": "Examination questions",
+    "localPath": "/textbook-images/textbook-bank/198/s176-f0.png",
+    "w": 523,
+    "h": 384
+   }
+  ]
+ },
+ "198:179": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 179,
+  "figures": [
+   {
+    "box": [
+     325,
+     135,
+     725,
+     330
+    ],
+    "question": "The diagram shows a trapezium ABCD with vertices A(11, 4), B(7, 7), C(−3, 2) and D. The side AD is parallel to BC and the side CD is perpendicular to BC. Find the area of the trapezium ABCD.",
+    "heading": "5 Solutions to this question by accurate drawing will not be accepted.",
+    "localPath": "/textbook-images/textbook-bank/198/s179-f0.png",
+    "w": 640,
+    "h": 385
+   },
+   {
+    "box": [
+     141,
+     464,
+     590,
+     520
+    ],
+    "question": "The table shows experimental values of two variables x and y.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s179-f1.png",
+    "w": 711,
+    "h": 127
+   },
+   {
+    "box": [
+     141,
+     592,
+     592,
+     650
+    ],
+    "question": "a Complete the following table.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s179-f2.png",
+    "w": 713,
+    "h": 131
+   }
+  ]
+ },
+ "198:186": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 186,
+  "figures": []
+ },
+ "198:183": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 183,
+  "figures": []
+ },
+ "198:182": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 182,
+  "figures": []
+ },
+ "198:184": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 184,
+  "figures": [
+   {
+    "box": [
+     97,
+     493,
+     718,
+     549
+    ],
+    "question": "Copy and complete the tables, giving your answers in terms of π.",
+    "heading": "Exercise 8.1",
+    "localPath": "/textbook-images/textbook-bank/198/s184-f0.png",
+    "w": 952,
+    "h": 127
+   },
+   {
+    "box": [
+     97,
+     559,
+     797,
+     613
+    ],
+    "question": "Copy and complete the tables, giving your answers in terms of π.",
+    "heading": "Exercise 8.1",
+    "localPath": "/textbook-images/textbook-bank/198/s184-f1.png",
+    "w": 1064,
+    "h": 123
+   },
+   {
+    "box": [
+     590,
+     814,
+     893,
+     933
+    ],
+    "question": "Anna is told the size of angle BAC in degrees and she is then asked to calculate the length of the line BC. She uses her calculator but forgets that her calculator is in radian mode. Luckily she still manages to obtain the correct answer. Given that angle BAC is between 10° and 15°, use graphing software to help you find the size of angle BAC in degrees correct to 2 decimal places.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s184-f2.png",
+    "w": 501,
+    "h": 245
+   }
+  ]
+ },
+ "198:185": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 185,
+  "figures": []
+ },
+ "198:181": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 181,
+  "figures": []
+ },
+ "198:192": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 192,
+  "figures": [
+   {
+    "box": [
+     255,
+     148,
+     572,
+     335
+    ],
+    "question": "The diagram shows an isosceles triangle AOB and a sector OCDEO of a circle with centre O.",
+    "heading": "Examination questions",
+    "localPath": "/textbook-images/textbook-bank/198/s192-f0.png",
+    "w": 522,
+    "h": 371
+   }
+  ]
+ },
+ "198:188": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 188,
+  "figures": []
+ },
+ "198:191": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 191,
+  "figures": [
+   {
+    "box": [
+     360,
+     152,
+     700,
+     296
+    ],
+    "question": "The diagram shows a semi-circle, centre O, radius 10 cm. FH is the arc of a circle, centre E. Find the area of a triangle EOF b sector FOG c sector FEH d the shaded region.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s191-f0.png",
+    "w": 554,
+    "h": 292
+   },
+   {
+    "box": [
+     600,
+     354,
+     716,
+     442
+    ],
+    "question": "The diagram shows a circle inscribed inside a square of side length 10 cm. A quarter circle of radius 10 cm is drawn with the vertex of the square as its centre. Find the shaded area.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s191-f1.png",
+    "w": 237,
+    "h": 187
+   }
+  ]
+ },
+ "198:189": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 189,
+  "figures": [
+   {
+    "box": [
+     612,
+     438,
+     950,
+     622
+    ],
+    "question": "ABCD is a rectangle with AB = 9 cm and BC = 18 cm. O is the midpoint of BC. OAED is a sector of a circle, centre O. Find a AO b angle AOD, in radians c the area of the shaded region.",
+    "heading": "Exercise 8.3",
+    "localPath": "/textbook-images/textbook-bank/198/s189-f0.png",
+    "w": 551,
+    "h": 365
+   },
+   {
+    "box": [
+     595,
+     632,
+     935,
+     830
+    ],
+    "question": "The circle has radius 12 cm and centre O. PQ is a tangent to the circle at the point P. QRO is a straight line. Find a angle POQ, in radians b the area of sector POR c the area of the shaded region.",
+    "heading": "Exercise 8.3",
+    "localPath": "/textbook-images/textbook-bank/198/s189-f1.png",
+    "w": 554,
+    "h": 392
+   },
+   {
+    "box": [
+     590,
+     808,
+     950,
+     952
+    ],
+    "question": "AOB is the sector of a circle, centre O, radius 8 cm. AC is a tangent to the circle at the point A. CBO is a straight line and the area of sector AOB is 32 cm². Find a angle AOB, in radians b the area of triangle AOC c the area of the shaded region.",
+    "heading": "Exercise 8.3",
+    "localPath": "/textbook-images/textbook-bank/198/s189-f2.png",
+    "w": 582,
+    "h": 291
+   }
+  ]
+ },
+ "198:187": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 187,
+  "figures": [
+   {
+    "box": [
+     135,
+     222,
+     235,
+     313
+    ],
+    "question": "Find the perimeter of each of these sectors.",
+    "heading": "4a",
+    "localPath": "/textbook-images/textbook-bank/198/s187-f0.png",
+    "w": 214,
+    "h": 193
+   },
+   {
+    "box": [
+     295,
+     222,
+     470,
+     313
+    ],
+    "question": "Find the perimeter of each of these sectors.",
+    "heading": "4b",
+    "localPath": "/textbook-images/textbook-bank/198/s187-f1.png",
+    "w": 320,
+    "h": 193
+   },
+   {
+    "box": [
+     483,
+     218,
+     660,
+     345
+    ],
+    "question": "Find the perimeter of each of these sectors.",
+    "heading": "4c",
+    "localPath": "/textbook-images/textbook-bank/198/s187-f2.png",
+    "w": 323,
+    "h": 259
+   },
+   {
+    "box": [
+     583,
+     338,
+     915,
+     520
+    ],
+    "question": "ABCD is a rectangle with AB = 6 cm and BC = 16 cm. O is the midpoint of BC. OAED is a sector of a circle, centre O. Find",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s187-f3.png",
+    "w": 542,
+    "h": 361
+   },
+   {
+    "box": [
+     660,
+     617,
+     840,
+     685
+    ],
+    "question": "Find a the length of arc AB b the length of chord AB c the perimeter of the shaded segment.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s187-f4.png",
+    "w": 327,
+    "h": 149
+   },
+   {
+    "box": [
+     583,
+     740,
+     945,
+     872
+    ],
+    "question": "Triangle EFG is isosceles with EG = FG = 16 cm. GH is an arc of a circle, centre F, with angle HFG = 0.85 radians. Find",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s187-f5.png",
+    "w": 585,
+    "h": 268
+   }
+  ]
+ },
+ "198:190": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 190,
+  "figures": [
+   {
+    "box": [
+     573,
+     100,
+     929,
+     222
+    ],
+    "question": "Triangle EFG is isosceles with EG = FG = 9 cm. GH is an arc of a circle, centre F, with angle HFG = 0.6 radians. Find",
+    "heading": "9",
+    "localPath": "/textbook-images/textbook-bank/198/s190-f0.png",
+    "w": 577,
+    "h": 251
+   },
+   {
+    "box": [
+     664,
+     243,
+     849,
+     342
+    ],
+    "question": "The diagram shows a circle, centre O, radius 12 cm. Angle AOB = θ radians. Arc AB = 9π cm.",
+    "heading": "10",
+    "localPath": "/textbook-images/textbook-bank/198/s190-f1.png",
+    "w": 335,
+    "h": 207
+   },
+   {
+    "box": [
+     595,
+     403,
+     924,
+     552
+    ],
+    "question": "AOD is a sector of a circle, centre O, radius 4 cm. BOC is a sector of a circle, centre O, radius 10 cm. The shaded region has a perimeter of 18 cm. Find",
+    "heading": "11",
+    "localPath": "/textbook-images/textbook-bank/198/s190-f2.png",
+    "w": 539,
+    "h": 300
+   },
+   {
+    "box": [
+     595,
+     563,
+     924,
+     725
+    ],
+    "question": "AOB is a sector of a circle, centre O, with radius 9 cm. Angle COD = 0.5 radians and angle ODC is a right angle. OC = 5 cm. Find",
+    "heading": "12",
+    "localPath": "/textbook-images/textbook-bank/198/s190-f3.png",
+    "w": 539,
+    "h": 325
+   },
+   {
+    "box": [
+     595,
+     745,
+     924,
+     898
+    ],
+    "question": "FOG is a sector of a circle, centre O, with angle FOG = 1.2 radians. EOH is a sector of a circle, centre O, with radius 5 cm. The shaded region has an area of 71.4 cm². Find the perimeter of the shaded region.",
+    "heading": "13",
+    "localPath": "/textbook-images/textbook-bank/198/s190-f4.png",
+    "w": 539,
+    "h": 308
+   }
+  ]
+ },
+ "198:195": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 195,
+  "figures": [
+   {
+    "box": [
+     290,
+     110,
+     610,
+     265
+    ],
+    "question": "The diagram shows two circles, centres A and B, each of radius 10cm. The point B lies on the circumference of the circle with centre A. The two circles intersect at the points C and D. The point E lies on the circumference of the circle centre B such that ABE is a diameter.",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s195-f0.png",
+    "w": 525,
+    "h": 312
+   },
+   {
+    "box": [
+     287,
+     455,
+     760,
+     645
+    ],
+    "question": "The diagram shows a circle, centre O, radius 8 cm. The points P and Q lie on the circle. The lines PT and QT are tangents to the circle and angle POQ = 3π/4 radians.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s195-f1.png",
+    "w": 742,
+    "h": 377
+   }
+  ]
+ },
+ "198:193": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 193,
+  "figures": [
+   {
+    "box": [
+     283,
+     305,
+     576,
+     452
+    ],
+    "question": "The diagram shows a sector OPQ of a circle with centre O and radius x cm.",
+    "heading": "Exercise 8.4 Exam Exercise",
+    "localPath": "/textbook-images/textbook-bank/198/s193-f0.png",
+    "w": 487,
+    "h": 297
+   },
+   {
+    "box": [
+     286,
+     736,
+     489,
+     819
+    ],
+    "question": "The diagram shows a circle with centre O and a chord AB.",
+    "heading": "Exercise 8.4 Exam Exercise",
+    "localPath": "/textbook-images/textbook-bank/198/s193-f1.png",
+    "w": 360,
+    "h": 177
+   }
+  ]
+ },
+ "198:194": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 194,
+  "figures": [
+   {
+    "box": [
+     255,
+     113,
+     595,
+     345
+    ],
+    "question": "The diagram shows a square ABCD of side 16 cm. M is the mid-point of AB. The points E and F are on AD and BC respectively such that AE = BF = 6 cm. EF is an arc of the circle centre M, such that angle EMF is θ radians.",
+    "heading": "3",
+    "localPath": "/textbook-images/textbook-bank/198/s194-f0.png",
+    "w": 554,
+    "h": 455
+   },
+   {
+    "box": [
+     250,
+     515,
+     545,
+     665
+    ],
+    "question": "The diagram shows a right-angled triangle ABC and a sector CBDC of a circle with centre C and radius 12 cm. Angle ACB = 1 radian and ACD is a straight line.",
+    "heading": "4",
+    "localPath": "/textbook-images/textbook-bank/198/s194-f1.png",
+    "w": 490,
+    "h": 302
+   }
+  ]
+ },
+ "198:196": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 196,
+  "figures": [
+   {
+    "box": [
+     262,
+     105,
+     548,
+     336
+    ],
+    "question": "The diagram shows a circle, centre O, radius r cm. Points A, B and C are such that A and B lie on the circle and the tangents at A and B meet at C. Angle AOB = θ radians.",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s196-f0.png",
+    "w": 476,
+    "h": 453
+   }
+  ]
+ },
+ "198:198": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 198,
+  "figures": []
+ },
+ "198:197": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 197,
+  "figures": []
+ },
+ "198:200": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 200,
+  "figures": []
+ },
+ "198:201": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 201,
+  "figures": []
+ },
+ "198:202": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 202,
+  "figures": []
+ },
+ "198:204": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 204,
+  "figures": []
+ },
+ "198:199": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 199,
+  "figures": []
+ },
+ "198:203": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 203,
+  "figures": [
+   {
+    "box": [
+     733,
+     666,
+     945,
+     835
+    ],
+    "question": "On a copy of the diagram, record which ratios are positive in each quadrant.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s203-f0.png",
+    "w": 372,
+    "h": 338
+   }
+  ]
+ },
+ "198:207": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 207,
+  "figures": []
+ },
+ "198:205": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 205,
+  "figures": []
+ },
+ "198:209": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 209,
+  "figures": []
+ },
+ "198:210": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 210,
+  "figures": []
+ },
+ "198:208": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 208,
+  "figures": []
+ },
+ "198:206": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 206,
+  "figures": []
+ },
+ "198:215": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 215,
+  "figures": [
+   {
+    "box": [
+     118,
+     235,
+     548,
+     411
+    ],
+    "question": "Part of the graph of y = A tan Bx + C is shown above. The graph passes through the point P(π/4, 4). Find the value of A, the value of B and the value of C.",
+    "heading": "8",
+    "localPath": "/textbook-images/textbook-bank/198/s215-f0.png",
+    "w": 678,
+    "h": 351
+   }
+  ]
+ },
+ "198:213": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 213,
+  "figures": []
+ },
+ "198:211": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 211,
+  "figures": []
+ },
+ "198:214": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 214,
+  "figures": [
+   {
+    "box": [
+     62,
+     88,
+     478,
+     268
+    ],
+    "question": "The graph of y = a + b sin cx, for 0 ≤ x ≤ π, is shown above. Write down the value of a, the value of b and the value of c.",
+    "heading": "3",
+    "localPath": "/textbook-images/textbook-bank/198/s214-f0.png",
+    "w": 659,
+    "h": 358
+   },
+   {
+    "box": [
+     62,
+     343,
+     480,
+     522
+    ],
+    "question": "Part of the graph of y = a sin bx + c is shown above. Write down the value of a, the value of b and the value of c.",
+    "heading": "4",
+    "localPath": "/textbook-images/textbook-bank/198/s214-f1.png",
+    "w": 661,
+    "h": 356
+   },
+   {
+    "box": [
+     62,
+     609,
+     470,
+     768
+    ],
+    "question": "The graph of y = a + b cos cx, for 0° ≤ x ≤ 360°, is shown above. Write down the value of a, the value of b and the value of c.",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s214-f2.png",
+    "w": 647,
+    "h": 319
+   }
+  ]
+ },
+ "198:216": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 216,
+  "figures": []
+ },
+ "198:212": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 212,
+  "figures": [
+   {
+    "box": [
+     90,
+     448,
+     465,
+     577
+    ],
+    "question": "d Sketch the graph of y = f(x).",
+    "heading": "WORKED EXAMPLE 6",
+    "localPath": "/textbook-images/textbook-bank/198/s212-f0.png",
+    "w": 600,
+    "h": 262
+   },
+   {
+    "box": [
+     90,
+     620,
+     467,
+     798
+    ],
+    "question": "e Use your answer to part d to sketch the graph of y = 3 sin 2x +1.",
+    "heading": "WORKED EXAMPLE 6",
+    "localPath": "/textbook-images/textbook-bank/198/s212-f1.png",
+    "w": 603,
+    "h": 354
+   }
+  ]
+ },
+ "198:217": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 217,
+  "figures": []
+ },
+ "198:221": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 221,
+  "figures": []
+ },
+ "198:222": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 222,
+  "figures": []
+ },
+ "198:218": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 218,
+  "figures": [
+   {
+    "box": [
+     215,
+     713,
+     540,
+     872
+    ],
+    "question": "The diagram shows the graph of f(x) = |a + b cos cx|, where a, b and c are positive integers. Find the value of a, the value of b and the value of c.",
+    "heading": "CHALLENGE Q 10",
+    "localPath": "/textbook-images/textbook-bank/198/s218-f0.png",
+    "w": 531,
+    "h": 319
+   }
+  ]
+ },
+ "198:219": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 219,
+  "figures": []
+ },
+ "198:220": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 220,
+  "figures": []
+ },
+ "198:224": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 224,
+  "figures": []
+ },
+ "198:223": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 223,
+  "figures": []
+ },
+ "198:228": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 228,
+  "figures": []
+ },
+ "198:227": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 227,
+  "figures": []
+ },
+ "198:225": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 225,
+  "figures": []
+ },
+ "198:226": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 226,
+  "figures": [
+   {
+    "box": [
+     140,
+     136,
+     962,
+     385
+    ],
+    "question": "Discuss why each of the trigonometric expressions in the blue boxes simplify to sin x.",
+    "heading": "CLASS DISCUSSION Equivalent trigonometric expressions",
+    "localPath": "/textbook-images/textbook-bank/198/s226-f0.png",
+    "w": 1230,
+    "h": 487
+   }
+  ]
+ },
+ "198:233": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 233,
+  "figures": [
+   {
+    "box": [
+     175,
+     306,
+     523,
+     546
+    ],
+    "question": "On a copy of the axes below sketch, for 0 ≤ x ≤ 2π, the graph of",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s233-f0.png",
+    "w": 561,
+    "h": 469
+   }
+  ]
+ },
+ "198:231": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 231,
+  "figures": []
+ },
+ "198:230": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 230,
+  "figures": []
+ },
+ "198:232": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 232,
+  "figures": [
+   {
+    "box": [
+     228,
+     205,
+     720,
+     375
+    ],
+    "question": "State the value of a, of b and of c.",
+    "heading": "Worked example",
+    "localPath": "/textbook-images/textbook-bank/198/s232-f0.png",
+    "w": 764,
+    "h": 339
+   }
+  ]
+ },
+ "198:229": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 229,
+  "figures": [
+   {
+    "box": [
+     192,
+     230,
+     790,
+     468
+    ],
+    "question": "Find the trigonometric expression that does not match the other six expressions.",
+    "heading": "CLASS DISCUSSION Odd one out",
+    "localPath": "/textbook-images/textbook-bank/198/s229-f0.png",
+    "w": 915,
+    "h": 467
+   }
+  ]
+ },
+ "198:234": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 234,
+  "figures": [
+   {
+    "box": [
+     140,
+     105,
+     525,
+     298
+    ],
+    "question": "The diagram shows a sketch of the curve y = a sin(bx) + c for 0° ≤ x ≤ 180°. Find the values of a, b and c.",
+    "heading": "9",
+    "localPath": "/textbook-images/textbook-bank/198/s234-f0.png",
+    "w": 612,
+    "h": 382
+   }
+  ]
+ },
+ "198:239": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 239,
+  "figures": []
+ },
+ "198:240": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 240,
+  "figures": []
+ },
+ "198:236": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 236,
+  "figures": []
+ },
+ "198:235": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 235,
+  "figures": []
+ },
+ "198:237": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 237,
+  "figures": [
+   {
+    "box": [
+     128,
+     838,
+     502,
+     874
+    ],
+    "question": "a Find the number of different arrangements of these nine cards if there are no restrictions.",
+    "heading": "WORKED EXAMPLE 2",
+    "localPath": "/textbook-images/textbook-bank/198/s237-f0.png",
+    "w": 597,
+    "h": 90
+   }
+  ]
+ },
+ "198:238": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 238,
+  "figures": [
+   {
+    "box": [
+     193,
+     326,
+     439,
+     353
+    ],
+    "question": "a Find the number of different arrangements of these seven objects if there are no restrictions.",
+    "heading": "WORKED EXAMPLE 3",
+    "localPath": "/textbook-images/textbook-bank/198/s238-f0.png",
+    "w": 418,
+    "h": 73
+   }
+  ]
+ },
+ "198:246": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 246,
+  "figures": []
+ },
+ "198:242": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 242,
+  "figures": []
+ },
+ "198:244": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 244,
+  "figures": []
+ },
+ "198:243": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 243,
+  "figures": []
+ },
+ "198:241": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 241,
+  "figures": []
+ },
+ "198:245": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 245,
+  "figures": []
+ },
+ "198:248": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 248,
+  "figures": []
+ },
+ "198:251": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 251,
+  "figures": []
+ },
+ "198:249": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 249,
+  "figures": []
+ },
+ "198:252": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 252,
+  "figures": []
+ },
+ "198:247": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 247,
+  "figures": [
+   {
+    "box": [
+     553,
+     89,
+     746,
+     146
+    ],
+    "question": "The diagram shows 2 different boxes, A and B. 8 different toys are to be placed in the boxes. Find the number of ways in which the 8 toys can be placed in the boxes so that 5 toys are in box A and 3 toys are in box B.",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s247-f0.png",
+    "w": 342,
+    "h": 129
+   }
+  ]
+ },
+ "198:250": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 250,
+  "figures": []
+ },
+ "198:257": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 257,
+  "figures": []
+ },
+ "198:255": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 255,
+  "figures": []
+ },
+ "198:254": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 254,
+  "figures": []
+ },
+ "198:258": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 258,
+  "figures": []
+ },
+ "198:253": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 253,
+  "figures": [
+   {
+    "box": [
+     158,
+     194,
+     688,
+     244
+    ],
+    "question": "Four of these balls are chosen at random, without replacement. Calculate the number of ways this can be done so that",
+    "heading": "8 b",
+    "localPath": "/textbook-images/textbook-bank/198/s253-f0.png",
+    "w": 817,
+    "h": 116
+   }
+  ]
+ },
+ "198:256": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 256,
+  "figures": [
+   {
+    "box": [
+     323,
+     118,
+     629,
+     259
+    ],
+    "question": "Which other number patterns can you find in Pascal's triangle?",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s256-f0.png",
+    "w": 502,
+    "h": 285
+   }
+  ]
+ },
+ "198:262": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 262,
+  "figures": []
+ },
+ "198:260": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 260,
+  "figures": []
+ },
+ "198:264": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 264,
+  "figures": []
+ },
+ "198:261": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 261,
+  "figures": []
+ },
+ "198:263": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 263,
+  "figures": []
+ },
+ "198:259": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 259,
+  "figures": [
+   {
+    "box": [
+     282,
+     181,
+     621,
+     451
+    ],
+    "question": "The diagram shows there are 3 routes from the START stone to stone G.",
+    "heading": "CLASS DISCUSSION The stepping stone game",
+    "localPath": "/textbook-images/textbook-bank/198/s259-f0.png",
+    "w": 547,
+    "h": 523
+   }
+  ]
+ },
+ "198:269": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 269,
+  "figures": []
+ },
+ "198:265": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 265,
+  "figures": []
+ },
+ "198:268": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 268,
+  "figures": []
+ },
+ "198:267": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 267,
+  "figures": []
+ },
+ "198:266": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 266,
+  "figures": []
+ },
+ "198:270": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 270,
+  "figures": []
+ },
+ "198:275": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 275,
+  "figures": []
+ },
+ "198:271": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 271,
+  "figures": []
+ },
+ "198:273": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 273,
+  "figures": []
+ },
+ "198:276": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 276,
+  "figures": []
+ },
+ "198:272": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 272,
+  "figures": []
+ },
+ "198:274": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 274,
+  "figures": []
+ },
+ "198:282": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 282,
+  "figures": []
+ },
+ "198:280": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 280,
+  "figures": []
+ },
+ "198:279": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 279,
+  "figures": []
+ },
+ "198:277": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 277,
+  "figures": [
+   {
+    "box": [
+     124,
+     281,
+     647,
+     399
+    ],
+    "question": "You are given that the triangle in pattern 1 has side length x units. a Find, in terms of x, expressions for the perimeter of each of patterns 1, 2, 3 and 4 and explain why this progression for the perimeter of the snowflake diverges to infinity.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s277-f0.png",
+    "w": 815,
+    "h": 243
+   },
+   {
+    "box": [
+     141,
+     513,
+     647,
+     780
+    ],
+    "question": "b Show that the area of each of patterns 1, 2, 3 and 4 can be written as",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s277-f1.png",
+    "w": 791,
+    "h": 521
+   }
+  ]
+ },
+ "198:281": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 281,
+  "figures": []
+ },
+ "198:278": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 278,
+  "figures": [
+   {
+    "box": [
+     600,
+     155,
+     771,
+     269
+    ],
+    "question": "17 A circle of radius 1 unit is drawn touching the three edges of an equilateral triangle. Three smaller circles are then drawn at each corner to touch the original circle and two edges of the triangle. This process is then repeated an infinite number of times. a Find the sum of the circumferences of all the circles. b Find the sum of the areas of all the circles.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s278-f0.png",
+    "w": 315,
+    "h": 235
+   }
+  ]
+ },
+ "198:402": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 402,
+  "figures": [
+   {
+    "box": [
+     262,
+     295,
+     540,
+     415
+    ],
+    "question": "b Use your result from part a to evaluate the area of the shaded region.",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s402-f0.png",
+    "w": 462,
+    "h": 247
+   },
+   {
+    "box": [
+     285,
+     458,
+     600,
+     615
+    ],
+    "question": "The diagram shows part of the curve y = 4/(2x − 1). Given that the shaded region has area 8, find the exact value of k.",
+    "heading": "CHALLENGE Q 8",
+    "localPath": "/textbook-images/textbook-bank/198/s402-f1.png",
+    "w": 515,
+    "h": 315
+   },
+   {
+    "box": [
+     280,
+     787,
+     510,
+     875
+    ],
+    "question": "b Use your result from part a to evaluate the area of the shaded region.",
+    "heading": "CHALLENGE Q 9",
+    "localPath": "/textbook-images/textbook-bank/198/s402-f2.png",
+    "w": 395,
+    "h": 187
+   }
+  ]
+ },
+ "198:398": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 398,
+  "figures": [
+   {
+    "box": [
+     352,
+     568,
+     625,
+     730
+    ],
+    "question": "Find the area of the shaded region.",
+    "heading": "WORKED EXAMPLE 21",
+    "localPath": "/textbook-images/textbook-bank/198/s398-f0.png",
+    "w": 456,
+    "h": 325
+   }
+  ]
+ },
+ "198:399": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 399,
+  "figures": [
+   {
+    "box": [
+     440,
+     125,
+     722,
+     270
+    ],
+    "question": "Find the total area of the shaded regions.",
+    "heading": "WORKED EXAMPLE 22",
+    "localPath": "/textbook-images/textbook-bank/198/s399-f0.png",
+    "w": 468,
+    "h": 293
+   }
+  ]
+ },
+ "198:397": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 397,
+  "figures": [
+   {
+    "box": [
+     456,
+     480,
+     655,
+     597
+    ],
+    "question": "Find the area of the shaded region.",
+    "heading": "WORKED EXAMPLE 19",
+    "localPath": "/textbook-images/textbook-bank/198/s397-f0.png",
+    "w": 352,
+    "h": 241
+   },
+   {
+    "box": [
+     390,
+     814,
+     612,
+     941
+    ],
+    "question": "Find the area of the shaded region.",
+    "heading": "WORKED EXAMPLE 20",
+    "localPath": "/textbook-images/textbook-bank/198/s397-f1.png",
+    "w": 383,
+    "h": 259
+   }
+  ]
+ },
+ "198:401": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 401,
+  "figures": [
+   {
+    "box": [
+     135,
+     90,
+     420,
+     250
+    ],
+    "question": "e y = 2 sin x + 3 cos x",
+    "heading": "Find the area of each shaded region.",
+    "localPath": "/textbook-images/textbook-bank/198/s401-f0.png",
+    "w": 473,
+    "h": 320
+   },
+   {
+    "box": [
+     520,
+     90,
+     810,
+     265
+    ],
+    "question": "f y = 1 + sin 2x",
+    "heading": "Find the area of each shaded region.",
+    "localPath": "/textbook-images/textbook-bank/198/s401-f1.png",
+    "w": 480,
+    "h": 348
+   },
+   {
+    "box": [
+     125,
+     305,
+     400,
+     440
+    ],
+    "question": "a y = x(x − 2)",
+    "heading": "2 Find the area of each shaded region.",
+    "localPath": "/textbook-images/textbook-bank/198/s401-f2.png",
+    "w": 459,
+    "h": 274
+   },
+   {
+    "box": [
+     520,
+     300,
+     800,
+     440
+    ],
+    "question": "b y = x − 5 cos(x/2)",
+    "heading": "2 Find the area of each shaded region.",
+    "localPath": "/textbook-images/textbook-bank/198/s401-f3.png",
+    "w": 466,
+    "h": 283
+   },
+   {
+    "box": [
+     125,
+     455,
+     400,
+     595
+    ],
+    "question": "c y = 4/(x + 2)",
+    "heading": "2 Find the area of each shaded region.",
+    "localPath": "/textbook-images/textbook-bank/198/s401-f4.png",
+    "w": 459,
+    "h": 284
+   },
+   {
+    "box": [
+     520,
+     450,
+     810,
+     600
+    ],
+    "question": "d y = x + 2/(2x + 3)",
+    "heading": "2 Find the area of each shaded region.",
+    "localPath": "/textbook-images/textbook-bank/198/s401-f5.png",
+    "w": 480,
+    "h": 302
+   },
+   {
+    "box": [
+     285,
+     610,
+     690,
+     860
+    ],
+    "question": "Find the total shaded region.",
+    "heading": "3",
+    "localPath": "/textbook-images/textbook-bank/198/s401-f6.png",
+    "w": 642,
+    "h": 488
+   }
+  ]
+ },
+ "198:404": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 404,
+  "figures": []
+ },
+ "198:408": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 408,
+  "figures": []
+ },
+ "198:406": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 406,
+  "figures": [
+   {
+    "box": [
+     563,
+     90,
+     832,
+     222
+    ],
+    "question": "Find the area of the region enclosed by the curve y = 1 + cos x and the line y = 1.",
+    "heading": "Exercise 15.11",
+    "localPath": "/textbook-images/textbook-bank/198/s406-f0.png",
+    "w": 450,
+    "h": 268
+   },
+   {
+    "box": [
+     570,
+     222,
+     925,
+     398
+    ],
+    "question": "Find the area of the region bounded by the curve y = 2 + 3x − x², the line x = 2 and the line y = 2.",
+    "heading": "Exercise 15.11",
+    "localPath": "/textbook-images/textbook-bank/198/s406-f1.png",
+    "w": 571,
+    "h": 351
+   },
+   {
+    "box": [
+     565,
+     411,
+     818,
+     570
+    ],
+    "question": "Find the area of the region bounded by the curve y = 3x² + 2, the line y = 14 and the y-axis.",
+    "heading": "Exercise 15.11",
+    "localPath": "/textbook-images/textbook-bank/198/s406-f2.png",
+    "w": 427,
+    "h": 319
+   },
+   {
+    "box": [
+     565,
+     582,
+     848,
+     718
+    ],
+    "question": "Find the area of the shaded region.",
+    "heading": "Exercise 15.11",
+    "localPath": "/textbook-images/textbook-bank/198/s406-f3.png",
+    "w": 469,
+    "h": 277
+   }
+  ]
+ },
+ "198:407": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 407,
+  "figures": [
+   {
+    "box": [
+     700,
+     178,
+     962,
+     352
+    ],
+    "question": "Find the shaded area enclosed by the curve y = 3√x the line y = 10 − x and the x-axis.",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s407-f0.png",
+    "w": 440,
+    "h": 347
+   },
+   {
+    "box": [
+     672,
+     352,
+     962,
+     472
+    ],
+    "question": "The tangent to the curve y = 6x − x² at the point (2, 8) cuts the x-axis at the point P. a Find the coordinates of P. b Find the area of the shaded region.",
+    "heading": "8",
+    "localPath": "/textbook-images/textbook-bank/198/s407-f1.png",
+    "w": 480,
+    "h": 246
+   },
+   {
+    "box": [
+     690,
+     485,
+     962,
+     635
+    ],
+    "question": "The curve y = √(2x+1) meets the y-axis at the point P. The tangent at the point Q(12, 5) to this curve meets the y-axis at the point R. Find the area of the shaded region PQR.",
+    "heading": "9",
+    "localPath": "/textbook-images/textbook-bank/198/s407-f2.png",
+    "w": 454,
+    "h": 302
+   },
+   {
+    "box": [
+     702,
+     645,
+     962,
+     788
+    ],
+    "question": "The diagram shows the graphs of y = 2 + cos 2x and y = 1 + 2 cos 2x for 0 ≤ x ≤ π. Find the area of the shaded region.",
+    "heading": "10",
+    "localPath": "/textbook-images/textbook-bank/198/s407-f3.png",
+    "w": 437,
+    "h": 289
+   },
+   {
+    "box": [
+     655,
+     808,
+     942,
+     962
+    ],
+    "question": "The diagram shows the graphs of y = 6/(x+3) and y = 4 − x. Find the area of the shaded region.",
+    "heading": "11 CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s407-f4.png",
+    "w": 475,
+    "h": 309
+   }
+  ]
+ },
+ "198:403": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 403,
+  "figures": [
+   {
+    "box": [
+     292,
+     196,
+     555,
+     296
+    ],
+    "question": "b Use your result from part a to evaluate the area of the shaded region.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s403-f0.png",
+    "w": 442,
+    "h": 209
+   }
+  ]
+ },
+ "198:405": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 405,
+  "figures": [
+   {
+    "box": [
+     605,
+     736,
+     922,
+     925
+    ],
+    "question": "Discuss with your classmates how you could find the shaded area, A, enclosed by the curve y = x(8 − x) the line y = 3x and the x-axis.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s405-f0.png",
+    "w": 518,
+    "h": 374
+   }
+  ]
+ },
+ "198:412": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 412,
+  "figures": [
+   {
+    "box": [
+     225,
+     355,
+     549,
+     535
+    ],
+    "question": "Find the area of the shaded region.",
+    "heading": "10",
+    "localPath": "/textbook-images/textbook-bank/198/s412-f0.png",
+    "w": 528,
+    "h": 358
+   }
+  ]
+ },
+ "198:411": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 411,
+  "figures": [
+   {
+    "box": [
+     345,
+     263,
+     688,
+     418
+    ],
+    "question": "The diagram shows part of the curve y = 2 sin 3x. The normal to the curve y = 2 sin 3x at the point where x = π/9 meets the y-axis at the point P.",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s411-f0.png",
+    "w": 555,
+    "h": 313
+   }
+  ]
+ },
+ "198:410": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 410,
+  "figures": [
+   {
+    "box": [
+     310,
+     835,
+     660,
+     945
+    ],
+    "question": "The diagram shows part of the curve of y = 9x² − x³, which meets the x-axis at the origin O and at the point A. The line y − 2x + 18 = 0 passes through A and meets the y-axis at the point B.",
+    "heading": "Exercise 15.12 Exam Exercise",
+    "localPath": "/textbook-images/textbook-bank/198/s410-f0.png",
+    "w": 564,
+    "h": 228
+   }
+  ]
+ },
+ "198:414": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 414,
+  "figures": []
+ },
+ "198:413": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 413,
+  "figures": []
+ },
+ "198:409": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 409,
+  "figures": [
+   {
+    "box": [
+     240,
+     356,
+     565,
+     482
+    ],
+    "question": "The diagram shows part of a curve such that dy/dx = 3x^2 − 6x − 9. Points A and B are stationary points of the curve and lines from A and B are drawn perpendicular to the x-axis. Given that the curve passes through the point (0, 30), find",
+    "heading": "Examination questions",
+    "localPath": "/textbook-images/textbook-bank/198/s409-f0.png",
+    "w": 529,
+    "h": 258
+   }
+  ]
+ },
+ "198:417": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 417,
+  "figures": []
+ },
+ "198:418": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 418,
+  "figures": []
+ },
+ "198:415": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 415,
+  "figures": []
+ },
+ "198:419": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 419,
+  "figures": []
+ },
+ "198:420": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 420,
+  "figures": []
+ },
+ "198:416": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 416,
+  "figures": [
+   {
+    "box": [
+     286,
+     281,
+     701,
+     566
+    ],
+    "question": "Earlier in this chapter you considered this displacement-time graph for the first 5 seconds of the motion of a particle P. The displacement of the particle, s metres, from a fixed point O, t seconds after passing through O, was given by s = 4t − t².",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s416-f0.png",
+    "w": 656,
+    "h": 553
+   }
+  ]
+ },
+ "198:422": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 422,
+  "figures": []
+ },
+ "198:421": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 421,
+  "figures": []
+ },
+ "198:424": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 424,
+  "figures": []
+ },
+ "198:425": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 425,
+  "figures": []
+ },
+ "198:423": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 423,
+  "figures": []
+ },
+ "198:426": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 426,
+  "figures": []
+ },
+ "198:427": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 427,
+  "figures": []
+ },
+ "198:431": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 431,
+  "figures": [
+   {
+    "box": [
+     283,
+     148,
+     688,
+     298
+    ],
+    "question": "The velocity-time graph represents the motion of a particle moving in a straight line.",
+    "heading": "Exercise 16.3 Exam Exercise",
+    "localPath": "/textbook-images/textbook-bank/198/s431-f0.png",
+    "w": 642,
+    "h": 303
+   }
+  ]
+ },
+ "198:430": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 430,
+  "figures": []
+ },
+ "198:428": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 428,
+  "figures": []
+ },
+ "198:432": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 432,
+  "figures": [
+   {
+    "box": [
+     196,
+     322,
+     528,
+     482
+    ],
+    "question": "Use the information to complete the velocity-time graph.",
+    "heading": "6 a i",
+    "localPath": "/textbook-images/textbook-bank/198/s432-f0.png",
+    "w": 539,
+    "h": 321
+   }
+  ]
+ },
+ "198:429": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 429,
+  "figures": []
+ },
+ "198:433": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 433,
+  "figures": []
+ },
+ "198:436": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 436,
+  "figures": []
+ },
+ "198:438": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 438,
+  "figures": []
+ },
+ "198:434": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 434,
+  "figures": []
+ },
+ "198:437": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 437,
+  "figures": []
+ },
+ "198:435": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 435,
+  "figures": []
+ },
+ "198:443": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 443,
+  "figures": []
+ },
+ "198:440": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 440,
+  "figures": []
+ },
+ "198:441": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 441,
+  "figures": []
+ },
+ "198:444": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 444,
+  "figures": []
+ },
+ "198:442": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 442,
+  "figures": []
+ },
+ "198:439": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 439,
+  "figures": []
+ },
+ "198:446": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 446,
+  "figures": []
+ },
+ "198:448": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 448,
+  "figures": []
+ },
+ "198:445": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 445,
+  "figures": []
+ },
+ "198:450": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 450,
+  "figures": []
+ },
+ "198:447": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 447,
+  "figures": []
+ },
+ "198:449": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 449,
+  "figures": []
+ },
+ "198:452": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 452,
+  "figures": []
+ },
+ "198:453": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 453,
+  "figures": []
+ },
+ "198:454": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 454,
+  "figures": []
+ },
+ "198:451": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 451,
+  "figures": []
+ },
+ "198:456": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 456,
+  "figures": []
+ },
+ "198:455": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 455,
+  "figures": []
+ },
+ "198:460": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 460,
+  "figures": []
+ },
+ "198:458": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 458,
+  "figures": []
+ },
+ "198:461": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 461,
+  "figures": []
+ },
+ "198:459": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 459,
+  "figures": []
+ },
+ "198:462": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 462,
+  "figures": []
+ },
+ "198:457": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 457,
+  "figures": []
+ },
+ "198:466": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 466,
+  "figures": []
+ },
+ "198:467": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 467,
+  "figures": []
+ },
+ "198:468": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 468,
+  "figures": []
+ },
+ "198:465": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 465,
+  "figures": []
+ },
+ "198:463": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 463,
+  "figures": []
+ },
+ "198:464": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 464,
+  "figures": []
+ },
+ "198:471": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 471,
+  "figures": []
+ },
+ "198:470": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 470,
+  "figures": []
+ },
+ "198:469": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 469,
+  "figures": []
+ },
+ "198:284": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 284,
+  "figures": []
+ },
+ "198:287": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 287,
+  "figures": []
+ },
+ "198:288": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 288,
+  "figures": []
+ },
+ "198:283": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 283,
+  "figures": []
+ },
+ "198:285": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 285,
+  "figures": []
+ },
+ "198:286": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 286,
+  "figures": []
+ },
+ "198:293": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 293,
+  "figures": []
+ },
+ "198:290": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 290,
+  "figures": []
+ },
+ "198:291": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 291,
+  "figures": []
+ },
+ "198:294": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 294,
+  "figures": []
+ },
+ "198:289": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 289,
+  "figures": []
+ },
+ "198:292": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 292,
+  "figures": []
+ },
+ "198:299": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 299,
+  "figures": []
+ },
+ "198:295": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 295,
+  "figures": []
+ },
+ "198:297": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 297,
+  "figures": []
+ },
+ "198:296": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 296,
+  "figures": []
+ },
+ "198:298": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 298,
+  "figures": []
+ },
+ "198:300": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 300,
+  "figures": [
+   {
+    "box": [
+     108,
+     595,
+     420,
+     705
+    ],
+    "question": "b Find the area of triangle ABC.",
+    "heading": "WORKED EXAMPLE 11",
+    "localPath": "/textbook-images/textbook-bank/198/s300-f0.png",
+    "w": 512,
+    "h": 228
+   }
+  ]
+ },
+ "198:301": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 301,
+  "figures": []
+ },
+ "198:303": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 303,
+  "figures": []
+ },
+ "198:304": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 304,
+  "figures": [
+   {
+    "box": [
+     148,
+     566,
+     330,
+     676
+    ],
+    "question": "The volume of the solid cuboid is 360 cm^3 and the surface area is A cm^2. a Express y in terms of x. b Show that A = 4x^2 + 1080/x. c Find, in terms of p, the approximate change in A as x increases from 2 to 2 + p, where p is small. State whether the change is an increase or decrease.",
+    "heading": "Exercise 12.6",
+    "localPath": "/textbook-images/textbook-bank/198/s304-f0.png",
+    "w": 328,
+    "h": 227
+   }
+  ]
+ },
+ "198:302": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 302,
+  "figures": []
+ },
+ "198:306": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 306,
+  "figures": []
+ },
+ "198:305": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 305,
+  "figures": [
+   {
+    "box": [
+     251,
+     156,
+     382,
+     260
+    ],
+    "question": "1 Discuss how the height of water in container A changes with time.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s305-f0.png",
+    "w": 256,
+    "h": 216
+   },
+   {
+    "box": [
+     438,
+     156,
+     567,
+     260
+    ],
+    "question": "2 Discuss how the height of water in container B changes with time.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s305-f1.png",
+    "w": 254,
+    "h": 216
+   },
+   {
+    "box": [
+     630,
+     156,
+     762,
+     260
+    ],
+    "question": "3 Discuss how the height of water in container C changes with time.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s305-f2.png",
+    "w": 258,
+    "h": 216
+   }
+  ]
+ },
+ "198:310": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 310,
+  "figures": [
+   {
+    "box": [
+     82,
+     573,
+     717,
+     709
+    ],
+    "question": "Copy and complete the table to show whether dy/dx and d²y/dx² are positive (+), negative (–) or zero (0) for the given values of x.",
+    "heading": "Exercise 12.8",
+    "localPath": "/textbook-images/textbook-bank/198/s310-f0.png",
+    "w": 973,
+    "h": 276
+   }
+  ]
+ },
+ "198:308": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 308,
+  "figures": []
+ },
+ "198:311": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 311,
+  "figures": []
+ },
+ "198:309": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 309,
+  "figures": [
+   {
+    "box": [
+     722,
+     80,
+     998,
+     262
+    ],
+    "question": "Water is poured into the conical container at a rate of 5 cm³ s⁻¹. After t seconds, the volume of water in the container, V cm³, is given by V = 1/12 πh³, where h cm is the height of the water in the container.",
+    "heading": "13",
+    "localPath": "/textbook-images/textbook-bank/198/s309-f0.png",
+    "w": 431,
+    "h": 362
+   },
+   {
+    "box": [
+     705,
+     278,
+     998,
+     438
+    ],
+    "question": "Water is poured into the hemispherical bowl at a rate of 4π cm³ s⁻¹. After t seconds, the volume of water in the bowl, V cm³, is given by V = 8πh² − 1/3 πh³, where h cm is the height of the water in the bowl.",
+    "heading": "14",
+    "localPath": "/textbook-images/textbook-bank/198/s309-f1.png",
+    "w": 455,
+    "h": 321
+   }
+  ]
+ },
+ "198:312": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 312,
+  "figures": []
+ },
+ "198:307": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 307,
+  "figures": [
+   {
+    "box": [
+     245,
+     107,
+     550,
+     238
+    ],
+    "question": "The diagram shows a water container in the shape of a triangular prism of length 120 cm. The vertical cross-section is an equilateral triangle. Water is poured into the container at a rate of 24 cm³ s⁻¹. a Show that the volume of water in the container, V cm³, is given by V = 40√3 h², where h cm is the height of the water in the container. b Find the rate of change of h when h = 12.",
+    "heading": "WORKED EXAMPLE 16",
+    "localPath": "/textbook-images/textbook-bank/198/s307-f0.png",
+    "w": 502,
+    "h": 267
+   }
+  ]
+ },
+ "198:315": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 315,
+  "figures": []
+ },
+ "198:314": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 314,
+  "figures": []
+ },
+ "198:313": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 313,
+  "figures": []
+ },
+ "198:317": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 317,
+  "figures": [
+   {
+    "box": [
+     303,
+     109,
+     517,
+     264
+    ],
+    "question": "A piece of wire, of length 2 m, is bent to form the shape PQRST. PQST is a rectangle and QRS is a semi-circle with diameter SQ. PT = x m and PQ = ST = y m. The total area enclosed by the shape is A m².",
+    "heading": "WORKED EXAMPLE 21",
+    "localPath": "/textbook-images/textbook-bank/198/s317-f0.png",
+    "w": 375,
+    "h": 311
+   }
+  ]
+ },
+ "198:316": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 316,
+  "figures": [
+   {
+    "box": [
+     119,
+     232,
+     684,
+     396
+    ],
+    "question": "The diagram shows a 24 cm by 15 cm sheet of metal with a square of side x cm removed from each corner. The metal is then folded to make an open rectangular box of depth x cm and volume V cm³. a Show that V = 4x³ − 78x² + 360x. b Find the stationary value of V and the value of x for which this occurs. c Determine the nature of this stationary value.",
+    "heading": "WORKED EXAMPLE 20",
+    "localPath": "/textbook-images/textbook-bank/198/s316-f0.png",
+    "w": 872,
+    "h": 327
+   }
+  ]
+ },
+ "198:318": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 318,
+  "figures": [
+   {
+    "box": [
+     705,
+     681,
+     933,
+     836
+    ],
+    "question": "The diagram shows a rectangular garden with a fence on three of its sides and a wall on its fourth side. The total length of the fence is 100 m and the area enclosed is A m².",
+    "heading": "Exercise 12.10",
+    "localPath": "/textbook-images/textbook-bank/198/s318-f0.png",
+    "w": 394,
+    "h": 311
+   },
+   {
+    "box": [
+     718,
+     818,
+     953,
+     975
+    ],
+    "question": "The volume of the solid cuboid is 576 cm³ and the surface area is A cm².",
+    "heading": "Exercise 12.10",
+    "localPath": "/textbook-images/textbook-bank/198/s318-f1.png",
+    "w": 404,
+    "h": 314
+   }
+  ]
+ },
+ "198:323": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 323,
+  "figures": []
+ },
+ "198:321": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 321,
+  "figures": [
+   {
+    "box": [
+     722,
+     90,
+     1000,
+     268
+    ],
+    "question": "The diagram shows a right circular cone of base radius r cm and height h cm cut from a solid sphere of radius 10 cm. The volume of the cone is V cm³.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s321-f0.png",
+    "w": 430,
+    "h": 356
+   }
+  ]
+ },
+ "198:324": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 324,
+  "figures": []
+ },
+ "198:322": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 322,
+  "figures": [
+   {
+    "box": [
+     325,
+     536,
+     668,
+     692
+    ],
+    "question": "The figure shows a sector ABC of a circle centre C, radius 2r cm, where angle ACB is 3θ radians. The points D, E, F and G lie on an arc of a circle centre C, radius r cm. The points D and G are the mid-points of CA and CB respectively. Angles DCE and FCG are each θ radians. The area of the shaded region is 5 cm².",
+    "heading": "Examination questions",
+    "localPath": "/textbook-images/textbook-bank/198/s322-f0.png",
+    "w": 557,
+    "h": 313
+   }
+  ]
+ },
+ "198:320": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 320,
+  "figures": [
+   {
+    "box": [
+     683,
+     104,
+     865,
+     285
+    ],
+    "question": "The diagram shows a solid formed by joining a hemisphere of radius r cm to a cylinder of radius r cm and height h cm. The surface area of the solid is 288π cm² and the volume is V cm³.",
+    "heading": "9",
+    "localPath": "/textbook-images/textbook-bank/198/s320-f0.png",
+    "w": 329,
+    "h": 361
+   },
+   {
+    "box": [
+     653,
+     490,
+     850,
+     665
+    ],
+    "question": "The diagram shows a solid cylinder of radius r cm and height 2h cm cut from a solid sphere of radius 5 cm. The volume of the cylinder is V cm³.",
+    "heading": "11",
+    "localPath": "/textbook-images/textbook-bank/198/s320-f1.png",
+    "w": 351,
+    "h": 349
+   },
+   {
+    "box": [
+     653,
+     677,
+     920,
+     880
+    ],
+    "question": "The diagram shows a hollow cone with base radius 12 cm and height 24 cm.",
+    "heading": "CHALLENGE Q 12",
+    "localPath": "/textbook-images/textbook-bank/198/s320-f2.png",
+    "w": 450,
+    "h": 402
+   }
+  ]
+ },
+ "198:319": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 319,
+  "figures": [
+   {
+    "box": [
+     722,
+     203,
+     925,
+     342
+    ],
+    "question": "A piece of wire, of length 60 cm, is bent to form a sector of a circle with radius r cm and sector angle θ radians. The total area enclosed by the shape is A cm².",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s319-f0.png",
+    "w": 359,
+    "h": 282
+   },
+   {
+    "box": [
+     704,
+     411,
+     908,
+     569
+    ],
+    "question": "The diagram shows a window made from a rectangle with base 2r m and height h m and a semicircle of radius r m.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s319-f1.png",
+    "w": 360,
+    "h": 317
+   },
+   {
+    "box": [
+     606,
+     596,
+     958,
+     759
+    ],
+    "question": "ABCD is a rectangle with base length 2p units, and area A units². The points A and B lie on the x-axis and the points C and D lie on the curve y = 4 − x².",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s319-f2.png",
+    "w": 570,
+    "h": 327
+   }
+  ]
+ },
+ "198:329": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 329,
+  "figures": [
+   {
+    "box": [
+     716,
+     500,
+     936,
+     634
+    ],
+    "question": "Write each vector in the form ai + bj.",
+    "heading": "Exercise 13.1",
+    "localPath": "/textbook-images/textbook-bank/198/s329-f0.png",
+    "w": 383,
+    "h": 272
+   }
+  ]
+ },
+ "198:327": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 327,
+  "figures": []
+ },
+ "198:325": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 325,
+  "figures": [
+   {
+    "box": [
+     250,
+     175,
+     720,
+     320
+    ],
+    "question": "A rectangular sheet of metal measures 60 cm by 45 cm. A scoop is made by cutting out squares, of side x cm, from two corners of the sheet and folding the remainder as shown.",
+    "heading": "10",
+    "localPath": "/textbook-images/textbook-bank/198/s325-f0.png",
+    "w": 736,
+    "h": 293
+   },
+   {
+    "box": [
+     240,
+     500,
+     520,
+     650
+    ],
+    "question": "The diagram shows an empty container in the form of an open triangular prism. The triangular faces are equilateral with a side of x cm and the length of each rectangular face is y cm.",
+    "heading": "11",
+    "localPath": "/textbook-images/textbook-bank/198/s325-f1.png",
+    "w": 467,
+    "h": 302
+   }
+  ]
+ },
+ "198:328": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 328,
+  "figures": []
+ },
+ "198:326": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 326,
+  "figures": []
+ },
+ "198:330": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 330,
+  "figures": []
+ },
+ "198:333": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 333,
+  "figures": []
+ },
+ "198:332": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 332,
+  "figures": []
+ },
+ "198:331": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 331,
+  "figures": []
+ },
+ "198:336": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 336,
+  "figures": [
+   {
+    "box": [
+     598,
+     637,
+     835,
+     800
+    ],
+    "question": "1 OA = a, OB = b. R is the midpoint of OA and OP = 3OB. AQ = λAB and RQ = μRP. a Find OQ in terms of λ, a and b.",
+    "heading": "Exercise 13.3",
+    "localPath": "/textbook-images/textbook-bank/198/s336-f0.png",
+    "w": 406,
+    "h": 325
+   },
+   {
+    "box": [
+     584,
+     815,
+     840,
+     920
+    ],
+    "question": "2 AB = 5a, DC = 3a and CB = b. AX = λAC and DX = μDB. a Find in terms of a and b, i AD, ii DB.",
+    "heading": "Exercise 13.3",
+    "localPath": "/textbook-images/textbook-bank/198/s336-f1.png",
+    "w": 433,
+    "h": 218
+   }
+  ]
+ },
+ "198:334": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 334,
+  "figures": [
+   {
+    "box": [
+     287,
+     338,
+     520,
+     471
+    ],
+    "question": "Find in terms of a and b: i BA ii BX iii OX iv BY",
+    "heading": "WORKED EXAMPLE 6",
+    "localPath": "/textbook-images/textbook-bank/198/s334-f0.png",
+    "w": 400,
+    "h": 270
+   }
+  ]
+ },
+ "198:335": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 335,
+  "figures": [
+   {
+    "box": [
+     483,
+     622,
+     750,
+     775
+    ],
+    "question": "c If M, X and A are collinear, find the value of λ.",
+    "heading": "WORKED EXAMPLE 7",
+    "localPath": "/textbook-images/textbook-bank/198/s335-f0.png",
+    "w": 449,
+    "h": 307
+   }
+  ]
+ },
+ "198:338": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 338,
+  "figures": [
+   {
+    "box": [
+     476,
+     243,
+     691,
+     330
+    ],
+    "question": "Find, in terms of a and/or b, i OE ii OD iii OC.",
+    "heading": "CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s338-f0.png",
+    "w": 376,
+    "h": 185
+   }
+  ]
+ },
+ "198:341": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 341,
+  "figures": []
+ },
+ "198:340": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 340,
+  "figures": []
+ },
+ "198:339": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 339,
+  "figures": []
+ },
+ "198:337": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 337,
+  "figures": [
+   {
+    "box": [
+     617,
+     86,
+     960,
+     248
+    ],
+    "question": "3 OP = a, PY = 2b, and OQ = 3b. OX = λOY and QX = μQP.",
+    "heading": "3",
+    "localPath": "/textbook-images/textbook-bank/198/s337-f0.png",
+    "w": 556,
+    "h": 323
+   },
+   {
+    "box": [
+     622,
+     256,
+     960,
+     396
+    ],
+    "question": "4 OA = a, OB = b. B is the midpoint of OD and AC = 2/3 OA. AX = λAD and BX = μBC.",
+    "heading": "4",
+    "localPath": "/textbook-images/textbook-bank/198/s337-f1.png",
+    "w": 548,
+    "h": 282
+   },
+   {
+    "box": [
+     622,
+     452,
+     960,
+     598
+    ],
+    "question": "5 OA = a, OB = b. M is the midpoint of AB and OY = 3/4 OA. OX = λOM and BX = μBY.",
+    "heading": "5",
+    "localPath": "/textbook-images/textbook-bank/198/s337-f2.png",
+    "w": 548,
+    "h": 293
+   },
+   {
+    "box": [
+     622,
+     634,
+     960,
+     780
+    ],
+    "question": "6 OA = a, OB = b, BX = 3/5 BA and OY = 5/7 OA. OP = λOX and BP = μBY.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s337-f3.png",
+    "w": 548,
+    "h": 294
+   },
+   {
+    "box": [
+     622,
+     805,
+     960,
+     960
+    ],
+    "question": "7 OA = a, OB = b and O is the origin. OX = λOA and OY = μOB.",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s337-f4.png",
+    "w": 548,
+    "h": 310
+   }
+  ]
+ },
+ "198:342": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 342,
+  "figures": [
+   {
+    "box": [
+     628,
+     712,
+     785,
+     887
+    ],
+    "question": "Find the value of p such that (-5 p) km h^-1 represents the velocity of the ship.",
+    "heading": "Worked example",
+    "localPath": "/textbook-images/textbook-bank/198/s342-f0.png",
+    "w": 293,
+    "h": 348
+   }
+  ]
+ },
+ "198:346": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 346,
+  "figures": [
+   {
+    "box": [
+     285,
+     207,
+     575,
+     336
+    ],
+    "question": "The points A and B have position vectors a and b with respect to an origin O. The point C lies on AB and is such that AB : AC is 1 : λ. Find an expression for OC in terms of a, b and λ.",
+    "heading": "9 b",
+    "localPath": "/textbook-images/textbook-bank/198/s346-f0.png",
+    "w": 480,
+    "h": 264
+   }
+  ]
+ },
+ "198:343": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 343,
+  "figures": [
+   {
+    "box": [
+     326,
+     624,
+     667,
+     765
+    ],
+    "question": "In the diagram OA = a, OB = b and AP = 2/5 AB.",
+    "heading": "Exercise 13.5 Exam Exercise",
+    "localPath": "/textbook-images/textbook-bank/198/s343-f0.png",
+    "w": 553,
+    "h": 285
+   }
+  ]
+ },
+ "198:344": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 344,
+  "figures": []
+ },
+ "198:345": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 345,
+  "figures": [
+   {
+    "box": [
+     315,
+     120,
+     700,
+     242
+    ],
+    "question": "The position vectors of points A and B relative to an origin O are a and b respectively. The point P is such that OP = μOA. The point Q is such that OQ = λOB. The lines AQ and BP intersect at the point R.",
+    "heading": "7",
+    "localPath": "/textbook-images/textbook-bank/198/s345-f0.png",
+    "w": 614,
+    "h": 250
+   },
+   {
+    "box": [
+     370,
+     513,
+     665,
+     746
+    ],
+    "question": "The figure shows points A, B and C with position vectors a, b and c respectively, relative to an origin O. The point P lies on AB such that AP : AB = 3 : 4. The point Q lies on OC such that OQ : QC = 2 : 3.",
+    "heading": "8",
+    "localPath": "/textbook-images/textbook-bank/198/s345-f1.png",
+    "w": 488,
+    "h": 456
+   }
+  ]
+ },
+ "198:347": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 347,
+  "figures": []
+ },
+ "198:348": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 348,
+  "figures": [
+   {
+    "box": [
+     78,
+     555,
+     489,
+     823
+    ],
+    "question": "Discuss with your classmates what conclusions can be made from these two graphs.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s348-f0.png",
+    "w": 651,
+    "h": 522
+   },
+   {
+    "box": [
+     492,
+     555,
+     902,
+     823
+    ],
+    "question": "Discuss with your classmates what conclusions can be made from these two graphs.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s348-f1.png",
+    "w": 649,
+    "h": 522
+   }
+  ]
+ },
+ "198:351": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 351,
+  "figures": []
+ },
+ "198:350": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 350,
+  "figures": []
+ },
+ "198:354": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 354,
+  "figures": []
+ },
+ "198:353": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 353,
+  "figures": []
+ },
+ "198:349": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 349,
+  "figures": []
+ },
+ "198:352": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 352,
+  "figures": [
+   {
+    "box": [
+     497,
+     170,
+     890,
+     448
+    ],
+    "question": "Discuss with your classmates what conclusions you can make about the gradient function.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s352-f0.png",
+    "w": 625,
+    "h": 539
+   }
+  ]
+ },
+ "198:357": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 357,
+  "figures": []
+ },
+ "198:355": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 355,
+  "figures": []
+ },
+ "198:358": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 358,
+  "figures": []
+ },
+ "198:359": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 359,
+  "figures": []
+ },
+ "198:360": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 360,
+  "figures": []
+ },
+ "198:356": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 356,
+  "figures": [
+   {
+    "box": [
+     78,
+     673,
+     930,
+     917
+    ],
+    "question": "Discuss with your classmates what conclusions you can make from these two graphs.",
+    "heading": "CLASS DISCUSSION",
+    "localPath": "/textbook-images/textbook-bank/198/s356-f0.png",
+    "w": 1273,
+    "h": 476
+   }
+  ]
+ },
+ "198:362": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 362,
+  "figures": []
+ },
+ "198:366": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 366,
+  "figures": []
+ },
+ "198:361": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 361,
+  "figures": []
+ },
+ "198:365": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 365,
+  "figures": []
+ },
+ "198:363": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 363,
+  "figures": []
+ },
+ "198:364": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 364,
+  "figures": [
+   {
+    "box": [
+     200,
+     130,
+     540,
+     275
+    ],
+    "question": "The diagram shows an isosceles trapezium PQRS with area A cm². Angle SPQ = angle PQR = θ radians. PS = QR = 10 cm and SR = 16 cm. a Show that A = 160 sin θ + 100 sin θ cos θ. b Find the value of θ for which A has a stationary value. c Determine the nature of this stationary value.",
+    "heading": "WORKED EXAMPLE 13",
+    "localPath": "/textbook-images/textbook-bank/198/s364-f0.png",
+    "w": 550,
+    "h": 292
+   }
+  ]
+ },
+ "198:369": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 369,
+  "figures": []
+ },
+ "198:368": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 368,
+  "figures": [
+   {
+    "box": [
+     300,
+     152,
+     666,
+     307
+    ],
+    "question": "The figure shows a sector OAB of a circle, centre O, radius 10 cm. Angle AOB = 2θ radians where 0 < θ < π/2. A circle centre C, radius r cm, touches the arc AB at the point D. The lines OA and OB are tangents to the circle at the points E and F respectively.",
+    "heading": "Examination questions",
+    "localPath": "/textbook-images/textbook-bank/198/s368-f0.png",
+    "w": 588,
+    "h": 311
+   }
+  ]
+ },
+ "198:371": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 371,
+  "figures": [
+   {
+    "box": [
+     270,
+     618,
+     600,
+     872
+    ],
+    "question": "The diagram shows a circle, centre O, radius r cm. The points A and B lie on the circle such that angle AOB = 2θ radians.",
+    "heading": "12",
+    "localPath": "/textbook-images/textbook-bank/198/s371-f0.png",
+    "w": 536,
+    "h": 497
+   }
+  ]
+ },
+ "198:370": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 370,
+  "figures": [
+   {
+    "box": [
+     283,
+     478,
+     612,
+     708
+    ],
+    "question": "The diagram shows part of the curve y = ln(x + 1) − ln x. The tangent to the curve at the point P(1, ln 2) meets the x-axis at A and the y-axis at B. The normal to the curve at P meets the x-axis at C and the y-axis at D.",
+    "heading": "6",
+    "localPath": "/textbook-images/textbook-bank/198/s370-f0.png",
+    "w": 533,
+    "h": 452
+   }
+  ]
+ },
+ "198:372": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 372,
+  "figures": []
+ },
+ "198:367": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 367,
+  "figures": [
+   {
+    "box": [
+     620,
+     98,
+     958,
+     225
+    ],
+    "question": "The diagram shows a semi-circle with diameter EF of length 12 cm. Angle GEF = θ radians and the shaded region has an area of A cm². a Show that A = 36θ + 18 sin 2θ.",
+    "heading": "16",
+    "localPath": "/textbook-images/textbook-bank/198/s367-f0.png",
+    "w": 547,
+    "h": 259
+   },
+   {
+    "box": [
+     640,
+     258,
+     950,
+     490
+    ],
+    "question": "The diagram shows an isosceles triangle PQR inscribed in a circle, centre O, radius r cm. PR = QR and angle ORP = θ radians. Triangle PQR has an area of A cm². a Show that A = r² sin 2θ + r² sin 2θ cos 2θ.",
+    "heading": "17 CHALLENGE Q",
+    "localPath": "/textbook-images/textbook-bank/198/s367-f1.png",
+    "w": 508,
+    "h": 453
+   }
+  ]
+ },
+ "198:377": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 377,
+  "figures": []
+ },
+ "198:374": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 374,
+  "figures": []
+ },
+ "198:375": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 375,
+  "figures": []
+ },
+ "198:376": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 376,
+  "figures": []
+ },
+ "198:378": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 378,
+  "figures": []
+ },
+ "198:373": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 373,
+  "figures": []
+ },
+ "198:382": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 382,
+  "figures": []
+ },
+ "198:380": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 380,
+  "figures": []
+ },
+ "198:379": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 379,
+  "figures": []
+ },
+ "198:384": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 384,
+  "figures": []
+ },
+ "198:383": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 383,
+  "figures": []
+ },
+ "198:381": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 381,
+  "figures": []
+ },
+ "198:390": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 390,
+  "figures": []
+ },
+ "198:388": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 388,
+  "figures": []
+ },
+ "198:386": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 386,
+  "figures": []
+ },
+ "198:385": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 385,
+  "figures": []
+ },
+ "198:389": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 389,
+  "figures": []
+ },
+ "198:387": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 387,
+  "figures": []
+ },
+ "198:393": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 393,
+  "figures": []
+ },
+ "198:392": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 392,
+  "figures": []
+ },
+ "198:394": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 394,
+  "figures": []
+ },
+ "198:391": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 391,
+  "figures": []
+ },
+ "198:396": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 396,
+  "figures": []
+ },
+ "198:395": {
+  "textbookId": 198,
+  "textbookName": "Cambridge IGCSE® and O Level Additional Mathematics Coursebook (Sue Pemberton)",
+  "page": 395,
+  "figures": []
  }
 }

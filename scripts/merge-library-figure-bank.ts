@@ -35,8 +35,12 @@ const SET = BOOKS.length
 // Only the crops: the same books' library images (lb) and past-paper figures
 // (pp) are judged into other tags files, and would otherwise be dropped from
 // the bank here as "not judged yet".
+// --new-only: a book cropped again (with --any) keeps the entries it has --
+// their chapter re-check and compacted image paths -- and gains only new ids.
+const NEW_ONLY = process.argv.includes('--new-only')
+const inBank = new Set<string>(NEW_ONLY ? JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'textbook-figure-bank.json'), 'utf8')).figures.map((f: any) => f.id) : [])
 const raw: any[] = BOOKS.length
-  ? loadRawTextbookFigures().filter((f) => BOOKS.includes(f.textbookId) && f.id.startsWith('tb'))
+  ? loadRawTextbookFigures().filter((f) => BOOKS.includes(f.textbookId) && f.id.startsWith('tb') && !inBank.has(f.id))
   : JSON.parse(fs.readFileSync(path.join(ROOT, 'data', SET.raw), 'utf8')).figures
 const tags: Record<string, any> = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', SET.tags), 'utf8'))
 const bank = JSON.parse(fs.readFileSync(BANK, 'utf8'))
