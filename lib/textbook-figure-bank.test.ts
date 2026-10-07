@@ -121,7 +121,9 @@ describe('the textbook bank on disk', () => {
       expect(fs.existsSync(path.join(process.cwd(), 'public', f.localPath)), f.localPath).toBe(true)
       expect(f.shows, f.id).not.toMatch(/^(an?|two|three)?\s*(empty|blank)\b/i)
     }
-  })
+    // Some 10,800 figures, each image checked on disk: past the 5-second
+    // default once, with the whole suite running beside it.
+  }, 30_000)
 })
 
 describe('a one-word topic', () => {
