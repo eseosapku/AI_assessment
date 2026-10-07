@@ -1,6 +1,12 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
+  // Server source maps were 37 MB of the 50 MB server output, and Amplify
+  // counts them against its 220 MB build-output limit (it rejected a 280 MB
+  // build). Production stack traces point at compiled code instead.
+  experimental: {
+    serverSourceMaps: false,
+  },
   serverExternalPackages: [
     '@aws-sdk/client-bedrock-runtime',
     '@aws-sdk/client-sqs',
@@ -30,6 +36,14 @@ const nextConfig = {
       './docs/**/*',
       './migrations/**/*',
       './*.md',
+      // The old library's uncurated manifest (read only when the curated one
+      // is missing) and the vision-description records (read by scripts).
+      './data/textbook-images/manifest.json',
+      './data/textbook-images/vision-descriptions.json',
+      // Sources the build has already compiled into .next/server.
+      './lib/**/*',
+      './app/**/*',
+      './components/**/*',
     ],
   },
 }
