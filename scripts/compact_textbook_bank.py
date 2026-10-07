@@ -11,10 +11,14 @@ judge refused them, and nothing has printed them. Run AFTER the merge and
 BEFORE any paper is saved with these figures; once papers reference them,
 never delete (see merge-checkpoint-figure-bank.ts).
 
-    python scripts/compact_textbook_bank.py
+    python scripts/compact_textbook_bank.py [--only=13,14]
+
+--only limits it to those books' folders: crops already shipped elsewhere are
+never touched by a run meant for newly cropped books.
 """
 import json
 import os
+import sys
 
 from PIL import Image
 
@@ -25,11 +29,17 @@ BIG = 120 * 1024
 MAX_W = 1000
 
 
+def books(directory):
+    only = next((a.split("=", 1)[1] for a in sys.argv if a.startswith("--only=")), None)
+    names = os.listdir(directory)
+    return [n for n in names if n in only.split(",")] if only else names
+
+
 def main():
     bank = json.load(open(BANK, encoding="utf-8"))
     used = {f["localPath"] for f in bank["figures"]}
     before = after = converted = deleted = 0
-    for book in os.listdir(DIR):
+    for book in books(DIR):
         folder = os.path.join(DIR, book)
         for name in os.listdir(folder):
             path = os.path.join(folder, name)
@@ -59,7 +69,7 @@ def main():
     # 500 px wide; 1000 px covers a high-density screen. Scan crops came out
     # at 1400 px and more, and the 3,163-figure bank was 165 MB.
     shrunk = 0
-    for book in os.listdir(DIR):
+    for book in books(DIR):
         folder = os.path.join(DIR, book)
         for name in os.listdir(folder):
             path = os.path.join(folder, name)
