@@ -18,6 +18,18 @@ describe('a Rwanda book', () => {
 })
 
 describe('a Cambridge book', () => {
+  it('knows an English book is English, not Science', () => {
+    // Defaulted to Science, the Oxford English books' figures were written
+    // to as Science: gills, volcanoes and lightning in an English quiz.
+    expect(subjectOfBook('Oxford English for Cambridge Primary Student Book 1')).toBe('English')
+    expect(subjectOfBook('Complete English for Cambridge Lower Secondary Student Book 7')).toBe('English')
+    expect(subjectOfBook('Cambridge IGCSE English as a Second Language Workbook')).toBe('English as a Second Language')
+    expect(subjectOfBook('Cambridge International AS  A Level Global Perspectives  Research Coursebook')).toBe('Global Perspectives')
+    expect(subjectOfBook('Cambridge International AS Level History Modern Europe, 1750–1921 Coursebook')).toBe('History')
+    expect(subjectOfBook('HISTORY AND CITIZENSHIP STUDENT BOOK S1')).toBe('History and Citizenship')
+    expect(subjectOfBook('IT for Cambridge International AS A Level Coursebook')).toBe('Computing')
+    expect(subjectOfBook('Cambridge IGCSE information and communication technology. (Graham Brown)')).toBe('Computing')
+  })
   it('calls an AS & A Level book what it is, not IGCSE', () => {
     expect(levelOfBook('Cambridge International AS and A Level Biology Coursebook')).toBe('AS & A Level (age 16-18)')
     expect(subjectOfBook('Cambridge international AS and A level business coursebook')).toBe('Business Studies')

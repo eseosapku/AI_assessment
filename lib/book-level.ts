@@ -11,9 +11,13 @@ import { stageOfBook } from './textbook-figure-bank'
 export function subjectOfBook(name: string): string {
   const n = name.toLowerCase()
   if (/second language/.test(n)) return 'English as a Second Language'
+  // Before the default: "Oxford English for Cambridge Primary" fell through to
+  // Science, and its figures were written to as Science.
+  if (/\benglish\b|literature/.test(n)) return 'English'
+  if (/global perspectives/.test(n)) return 'Global Perspectives'
   // The Rwanda books' subjects, which the Cambridge list never needed.
   if (/geograph/.test(n)) return 'Geography'
-  if (/histor/.test(n)) return 'History and Citizenship'
+  if (/histor/.test(n)) return /citizenship/.test(n) ? 'History and Citizenship' : 'History'
   if (/econom/.test(n)) return 'Economics'
   if (/business/.test(n)) return 'Business Studies'
   if (/environmental management/.test(n)) return 'Environmental Management'
@@ -34,7 +38,7 @@ export function subjectOfBook(name: string): string {
   if (/physics/.test(n)) return 'Physics'
   if (/science/.test(n)) return 'Science'
   if (/math/.test(n)) return 'Mathematics'
-  if (/comput|ict/.test(n)) return 'Computing'
+  if (/comput|ict|\bit\b|information and communic/.test(n)) return 'Computing'
   return 'Science'
 }
 export function levelOfBook(name: string): string {
