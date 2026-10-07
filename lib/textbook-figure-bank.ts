@@ -32,6 +32,11 @@ export interface TextbookFigure {
   topic: string
   /** The book's exercise about this figure. */
   original: string
+  /**
+   * Judged from the text of its page, not picked for an exercise about it
+   * (build_textbook_question_figures.py --any): `original` may be empty.
+   */
+  pageText?: boolean
 }
 
 const BANK_PATH = path.join(process.cwd(), 'data', 'textbook-figure-bank.json')

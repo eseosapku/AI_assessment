@@ -126148,5 +126148,4938 @@
     "h": 581
    }
   ]
+ },
+ "17:1": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 1,
+  "figures": []
+ },
+ "17:3": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 3,
+  "figures": []
+ },
+ "17:5": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 5,
+  "figures": []
+ },
+ "17:6": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 6,
+  "figures": []
+ },
+ "17:2": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 2,
+  "figures": []
+ },
+ "17:4": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 4,
+  "figures": []
+ },
+ "17:7": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 7,
+  "figures": []
+ },
+ "17:10": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 10,
+  "figures": []
+ },
+ "17:11": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 11,
+  "figures": []
+ },
+ "17:12": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 12,
+  "figures": []
+ },
+ "17:9": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 9,
+  "figures": [
+   {
+    "box": [
+     75,
+     175,
+     935,
+     358
+    ],
+    "question": "In Figure 1.1, you will see some images of hardware components of a computer system and a list of their names. Match up the letters of the components with the numbers of their names.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s9-f0.png",
+    "w": 1279,
+    "h": 387
+   },
+   {
+    "box": [
+     280,
+     690,
+     723,
+     886
+    ],
+    "question": "Industrial robots, such as the ones shown in Figure 1.2, have taken over the jobs of many workers. 1 Explain why a robot can be thought of as a computer system.",
+    "heading": "Discussion questions",
+    "localPath": "/textbook-images/textbook-bank/17/s9-f1.png",
+    "w": 693,
+    "h": 412
+   }
+  ]
+ },
+ "17:8": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 8,
+  "figures": []
+ },
+ "17:18": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 18,
+  "figures": []
+ },
+ "17:14": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 14,
+  "figures": []
+ },
+ "17:13": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 13,
+  "figures": []
+ },
+ "17:16": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 16,
+  "figures": []
+ },
+ "17:15": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 15,
+  "figures": []
+ },
+ "17:17": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 17,
+  "figures": [
+   {
+    "box": [
+     70,
+     209,
+     933,
+     249
+    ],
+    "question": "Carry out research to find 10 DOS commands. Create a table giving the commands in the first column and explanations of their use in the second column, as shown below.",
+    "heading": "ACTIVITY 1.4",
+    "localPath": "/textbook-images/textbook-bank/17/s17-f0.png",
+    "w": 1283,
+    "h": 104
+   }
+  ]
+ },
+ "17:24": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 24,
+  "figures": []
+ },
+ "17:22": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 22,
+  "figures": []
+ },
+ "17:19": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 19,
+  "figures": []
+ },
+ "17:23": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 23,
+  "figures": []
+ },
+ "17:21": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 21,
+  "figures": []
+ },
+ "17:20": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 20,
+  "figures": [
+   {
+    "box": [
+     55,
+     409,
+     948,
+     845
+    ],
+    "question": "6 Compare and contrast desktop and laptop computers.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s20-f0.png",
+    "w": 1325,
+    "h": 888
+   }
+  ]
+ },
+ "17:26": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 26,
+  "figures": []
+ },
+ "17:25": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 25,
+  "figures": []
+ },
+ "17:28": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 28,
+  "figures": [
+   {
+    "box": [
+     250,
+     512,
+     750,
+     752
+    ],
+    "question": "1 What are the advantages to using sensors in multi-storey car parks?",
+    "heading": "Discussion questions",
+    "localPath": "/textbook-images/textbook-bank/17/s28-f0.png",
+    "w": 774,
+    "h": 500
+   }
+  ]
+ },
+ "17:30": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 30,
+  "figures": []
+ },
+ "17:29": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 29,
+  "figures": []
+ },
+ "17:27": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 27,
+  "figures": [
+   {
+    "box": [
+     67,
+     555,
+     935,
+     918
+    ],
+    "question": "On paper write the headings 'Input devices', 'Output devices' and 'Both'. Write the names of the input and output devices from the images under the correct headings.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s27-f0.png",
+    "w": 1291,
+    "h": 744
+   }
+  ]
+ },
+ "17:34": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 34,
+  "figures": []
+ },
+ "17:33": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 33,
+  "figures": []
+ },
+ "17:32": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 32,
+  "figures": []
+ },
+ "17:36": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 36,
+  "figures": []
+ },
+ "17:35": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 35,
+  "figures": []
+ },
+ "17:31": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 31,
+  "figures": []
+ },
+ "17:42": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 42,
+  "figures": []
+ },
+ "17:38": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 38,
+  "figures": []
+ },
+ "17:39": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 39,
+  "figures": [
+   {
+    "box": [
+     55,
+     270,
+     949,
+     735
+    ],
+    "question": "4 Discuss how RFID can be used in the retail industry.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s39-f0.png",
+    "w": 1326,
+    "h": 945
+   }
+  ]
+ },
+ "17:37": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 37,
+  "figures": []
+ },
+ "17:40": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 40,
+  "figures": []
+ },
+ "17:41": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 41,
+  "figures": [
+   {
+    "box": [
+     275,
+     229,
+     493,
+     356
+    ],
+    "question": "As a whole class, brainstorm the advantages of a laser printer and an inkjet printer. Decide which is the least expensive overall.",
+    "heading": "ACTIVITY 2.3",
+    "localPath": "/textbook-images/textbook-bank/17/s41-f0.png",
+    "w": 377,
+    "h": 276
+   },
+   {
+    "box": [
+     506,
+     229,
+     717,
+     356
+    ],
+    "question": "As a whole class, brainstorm the advantages of a laser printer and an inkjet printer. Decide which is the least expensive overall.",
+    "heading": "ACTIVITY 2.3",
+    "localPath": "/textbook-images/textbook-bank/17/s41-f1.png",
+    "w": 367,
+    "h": 276
+   }
+  ]
+ },
+ "17:45": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 45,
+  "figures": []
+ },
+ "17:47": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 47,
+  "figures": []
+ },
+ "17:44": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 44,
+  "figures": []
+ },
+ "17:43": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 43,
+  "figures": []
+ },
+ "17:46": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 46,
+  "figures": []
+ },
+ "17:48": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 48,
+  "figures": [
+   {
+    "box": [
+     68,
+     262,
+     936,
+     575
+    ],
+    "question": "Data is stored in three different ways: magnetically, optically and solid-state. Draw a table, like the one shown below, and write the letters in the correct columns.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s48-f0.png",
+    "w": 1290,
+    "h": 645
+   }
+  ]
+ },
+ "17:51": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 51,
+  "figures": []
+ },
+ "17:50": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 50,
+  "figures": []
+ },
+ "17:49": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 49,
+  "figures": []
+ },
+ "17:54": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 54,
+  "figures": [
+   {
+    "box": [
+     94,
+     508,
+     916,
+     582
+    ],
+    "question": "Using a word processor, insert a table like the one below including the headings given:",
+    "heading": "PRACTICAL TASK 3.1",
+    "localPath": "/textbook-images/textbook-bank/17/s54-f0.png",
+    "w": 1226,
+    "h": 171
+   }
+  ]
+ },
+ "17:53": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 53,
+  "figures": []
+ },
+ "17:52": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 52,
+  "figures": [
+   {
+    "box": [
+     55,
+     603,
+     975,
+     693
+    ],
+    "question": "The following table shows some statements about hard disk drives. Make a copy of the table and place ticks in the correct columns to indicate whether these are true or false.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s52-f0.png",
+    "w": 1363,
+    "h": 203
+   }
+  ]
+ },
+ "17:55": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 55,
+  "figures": []
+ },
+ "17:58": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 58,
+  "figures": []
+ },
+ "17:60": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 60,
+  "figures": []
+ },
+ "17:57": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 57,
+  "figures": []
+ },
+ "17:56": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 56,
+  "figures": [
+   {
+    "box": [
+     95,
+     93,
+     917,
+     169
+    ],
+    "question": "Read the four statements and state which ones are true.",
+    "heading": "EXAM-STYLE QUESTIONS",
+    "localPath": "/textbook-images/textbook-bank/17/s56-f0.png",
+    "w": 1225,
+    "h": 175
+   }
+  ]
+ },
+ "17:59": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 59,
+  "figures": [
+   {
+    "box": [
+     67,
+     445,
+     935,
+     550
+    ],
+    "question": "Match the letters with the numbers.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s59-f0.png",
+    "w": 1291,
+    "h": 232
+   }
+  ]
+ },
+ "17:62": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 62,
+  "figures": []
+ },
+ "17:66": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 66,
+  "figures": []
+ },
+ "17:63": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 63,
+  "figures": []
+ },
+ "17:64": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 64,
+  "figures": [
+   {
+    "box": [
+     55,
+     566,
+     948,
+     671
+    ],
+    "question": "Copy and complete the table below with the words internet, extranet or intranet.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s64-f0.png",
+    "w": 1325,
+    "h": 233
+   }
+  ]
+ },
+ "17:61": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 61,
+  "figures": []
+ },
+ "17:65": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 65,
+  "figures": [
+   {
+    "box": [
+     57,
+     895,
+     949,
+     973
+    ],
+    "question": "10 Which of these statements shown in the table below are true and which are false?",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s65-f0.png",
+    "w": 1324,
+    "h": 179
+   }
+  ]
+ },
+ "17:72": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 72,
+  "figures": []
+ },
+ "17:69": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 69,
+  "figures": []
+ },
+ "17:67": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 67,
+  "figures": []
+ },
+ "17:68": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 68,
+  "figures": []
+ },
+ "17:70": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 70,
+  "figures": []
+ },
+ "17:71": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 71,
+  "figures": [
+   {
+    "box": [
+     55,
+     549,
+     948,
+     788
+    ],
+    "question": "13 Explain the differences between video- and web-conferencing.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s71-f0.png",
+    "w": 1325,
+    "h": 498
+   }
+  ]
+ },
+ "17:73": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 73,
+  "figures": []
+ },
+ "17:74": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 74,
+  "figures": []
+ },
+ "17:76": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 76,
+  "figures": []
+ },
+ "17:75": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 75,
+  "figures": []
+ },
+ "17:78": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 78,
+  "figures": []
+ },
+ "17:77": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 77,
+  "figures": []
+ },
+ "17:84": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 84,
+  "figures": []
+ },
+ "17:80": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 80,
+  "figures": []
+ },
+ "17:79": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 79,
+  "figures": []
+ },
+ "17:81": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 81,
+  "figures": []
+ },
+ "17:82": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 82,
+  "figures": []
+ },
+ "17:83": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 83,
+  "figures": []
+ },
+ "17:85": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 85,
+  "figures": []
+ },
+ "17:86": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 86,
+  "figures": []
+ },
+ "17:90": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 90,
+  "figures": []
+ },
+ "17:89": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 89,
+  "figures": []
+ },
+ "17:87": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 87,
+  "figures": [
+   {
+    "box": [
+     70,
+     679,
+     933,
+     829
+    ],
+    "question": "Table 6.1 shows some ICT applications. Table 6.2 shows some uses of the ICT applications shown in Table 6.1. Match the applications with the correct uses.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s87-f0.png",
+    "w": 1283,
+    "h": 321
+   }
+  ]
+ },
+ "17:88": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 88,
+  "figures": [
+   {
+    "box": [
+     316,
+     566,
+     686,
+     741
+    ],
+    "question": "What could be the advantage of keeping a box of shampoo next to a pair of trousers on a shelf?",
+    "heading": "Discussion questions",
+    "localPath": "/textbook-images/textbook-bank/17/s88-f0.png",
+    "w": 591,
+    "h": 371
+   }
+  ]
+ },
+ "17:94": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 94,
+  "figures": []
+ },
+ "17:91": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 91,
+  "figures": []
+ },
+ "17:96": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 96,
+  "figures": []
+ },
+ "17:93": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 93,
+  "figures": []
+ },
+ "17:95": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 95,
+  "figures": []
+ },
+ "17:92": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 92,
+  "figures": []
+ },
+ "17:102": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 102,
+  "figures": []
+ },
+ "17:99": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 99,
+  "figures": []
+ },
+ "17:100": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 100,
+  "figures": []
+ },
+ "17:101": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 101,
+  "figures": []
+ },
+ "17:98": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 98,
+  "figures": []
+ },
+ "17:97": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 97,
+  "figures": []
+ },
+ "17:104": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 104,
+  "figures": [
+   {
+    "box": [
+     280,
+     15,
+     730,
+     300
+    ],
+    "question": "a Describe how a 3D printer makes solid objects.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s104-f0.png",
+    "w": 703,
+    "h": 589
+   }
+  ]
+ },
+ "17:108": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 108,
+  "figures": []
+ },
+ "17:103": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 103,
+  "figures": []
+ },
+ "17:106": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 106,
+  "figures": []
+ },
+ "17:107": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 107,
+  "figures": []
+ },
+ "17:105": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 105,
+  "figures": []
+ },
+ "17:114": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 114,
+  "figures": []
+ },
+ "17:113": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 113,
+  "figures": []
+ },
+ "17:109": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 109,
+  "figures": []
+ },
+ "17:112": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 112,
+  "figures": []
+ },
+ "17:111": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 111,
+  "figures": []
+ },
+ "17:110": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 110,
+  "figures": []
+ },
+ "17:120": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 120,
+  "figures": []
+ },
+ "17:115": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 115,
+  "figures": []
+ },
+ "17:117": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 117,
+  "figures": []
+ },
+ "17:119": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 119,
+  "figures": []
+ },
+ "17:116": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 116,
+  "figures": [
+   {
+    "box": [
+     93,
+     107,
+     917,
+     220
+    ],
+    "question": "Sort the numbers of the processes into the order in which they take place:",
+    "heading": "EXAM-STYLE QUESTIONS",
+    "localPath": "/textbook-images/textbook-bank/17/s116-f0.png",
+    "w": 1228,
+    "h": 249
+   }
+  ]
+ },
+ "17:118": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 118,
+  "figures": []
+ },
+ "17:125": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 125,
+  "figures": []
+ },
+ "17:126": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 126,
+  "figures": []
+ },
+ "17:121": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 121,
+  "figures": []
+ },
+ "17:122": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 122,
+  "figures": [
+   {
+    "box": [
+     56,
+     412,
+     947,
+     698
+    ],
+    "question": "While investigating an existing system, observation, interviews and questionnaires can be used. Compare and contrast these three methods.",
+    "heading": "Question",
+    "localPath": "/textbook-images/textbook-bank/17/s122-f0.png",
+    "w": 1322,
+    "h": 591
+   }
+  ]
+ },
+ "17:123": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 123,
+  "figures": []
+ },
+ "17:124": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 124,
+  "figures": []
+ },
+ "17:128": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 128,
+  "figures": []
+ },
+ "17:127": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 127,
+  "figures": []
+ },
+ "17:129": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 129,
+  "figures": []
+ },
+ "17:132": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 132,
+  "figures": []
+ },
+ "17:130": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 130,
+  "figures": []
+ },
+ "17:131": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 131,
+  "figures": []
+ },
+ "17:135": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 135,
+  "figures": []
+ },
+ "17:136": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 136,
+  "figures": [
+   {
+    "box": [
+     119,
+     211,
+     837,
+     286
+    ],
+    "question": "Copy and complete the table to show four items that will need to be designed and give one example of each.",
+    "heading": "EXAM-STYLE QUESTIONS",
+    "localPath": "/textbook-images/textbook-bank/17/s136-f0.png",
+    "w": 1079,
+    "h": 174
+   }
+  ]
+ },
+ "17:137": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 137,
+  "figures": []
+ },
+ "17:134": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 134,
+  "figures": []
+ },
+ "17:133": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 133,
+  "figures": []
+ },
+ "17:138": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 138,
+  "figures": []
+ },
+ "17:142": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 142,
+  "figures": []
+ },
+ "17:141": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 141,
+  "figures": []
+ },
+ "17:139": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 139,
+  "figures": [
+   {
+    "box": [
+     70,
+     327,
+     934,
+     533
+    ],
+    "question": "The room in Figure 8.1 is full of hazards. How many can you find?",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s139-f0.png",
+    "w": 1284,
+    "h": 432
+   }
+  ]
+ },
+ "17:144": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 144,
+  "figures": []
+ },
+ "17:143": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 143,
+  "figures": [
+   {
+    "box": [
+     55,
+     168,
+     947,
+     333
+    ],
+    "question": "Describe three responsibilities of the data holder that should be in a data protection act.",
+    "heading": "Question",
+    "localPath": "/textbook-images/textbook-bank/17/s143-f0.png",
+    "w": 1323,
+    "h": 352
+   }
+  ]
+ },
+ "17:140": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 140,
+  "figures": []
+ },
+ "17:150": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 150,
+  "figures": []
+ },
+ "17:148": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 148,
+  "figures": []
+ },
+ "17:145": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 145,
+  "figures": []
+ },
+ "17:146": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 146,
+  "figures": []
+ },
+ "17:149": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 149,
+  "figures": []
+ },
+ "17:147": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 147,
+  "figures": []
+ },
+ "17:153": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 153,
+  "figures": []
+ },
+ "17:154": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 154,
+  "figures": []
+ },
+ "17:155": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 155,
+  "figures": []
+ },
+ "17:152": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 152,
+  "figures": []
+ },
+ "17:151": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 151,
+  "figures": []
+ },
+ "17:156": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 156,
+  "figures": [
+   {
+    "box": [
+     295,
+     220,
+     712,
+     405
+    ],
+    "question": "In groups, discuss these presentations and decide on the audience each is intended for.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s156-f0.png",
+    "w": 656,
+    "h": 391
+   },
+   {
+    "box": [
+     310,
+     431,
+     688,
+     614
+    ],
+    "question": "In groups, discuss these presentations and decide on the audience each is intended for.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s156-f1.png",
+    "w": 602,
+    "h": 387
+   }
+  ]
+ },
+ "17:161": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 161,
+  "figures": []
+ },
+ "17:162": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 162,
+  "figures": []
+ },
+ "17:158": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 158,
+  "figures": []
+ },
+ "17:157": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 157,
+  "figures": []
+ },
+ "17:159": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 159,
+  "figures": []
+ },
+ "17:160": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 160,
+  "figures": []
+ },
+ "17:168": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 168,
+  "figures": []
+ },
+ "17:164": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 164,
+  "figures": []
+ },
+ "17:167": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 167,
+  "figures": []
+ },
+ "17:166": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 166,
+  "figures": []
+ },
+ "17:163": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 163,
+  "figures": []
+ },
+ "17:165": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 165,
+  "figures": [
+   {
+    "box": [
+     65,
+     117,
+     935,
+     433
+    ],
+    "question": "The following lists contains items relating to methods of communicating using ICT and descriptions of those methods. Match the letters of the items to their descriptions.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s165-f0.png",
+    "w": 1293,
+    "h": 651
+   }
+  ]
+ },
+ "17:169": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 169,
+  "figures": []
+ },
+ "17:170": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 170,
+  "figures": []
+ },
+ "17:172": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 172,
+  "figures": []
+ },
+ "17:173": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 173,
+  "figures": [
+   {
+    "box": [
+     95,
+     287,
+     916,
+     424
+    ],
+    "question": "2 Copy out the table below.",
+    "heading": "PRACTICAL TASK 10.2",
+    "localPath": "/textbook-images/textbook-bank/17/s173-f0.png",
+    "w": 1224,
+    "h": 296
+   },
+   {
+    "box": [
+     69,
+     474,
+     933,
+     557
+    ],
+    "question": "Create a second table like the one below and complete the spaces.",
+    "heading": "Self-assessment",
+    "localPath": "/textbook-images/textbook-bank/17/s173-f1.png",
+    "w": 1285,
+    "h": 189
+   }
+  ]
+ },
+ "17:174": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 174,
+  "figures": []
+ },
+ "17:171": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 171,
+  "figures": []
+ },
+ "17:175": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 175,
+  "figures": []
+ },
+ "17:177": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 177,
+  "figures": []
+ },
+ "17:176": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 176,
+  "figures": []
+ },
+ "17:180": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 180,
+  "figures": []
+ },
+ "17:178": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 178,
+  "figures": []
+ },
+ "17:179": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 179,
+  "figures": []
+ },
+ "17:182": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 182,
+  "figures": []
+ },
+ "17:183": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 183,
+  "figures": []
+ },
+ "17:186": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 186,
+  "figures": []
+ },
+ "17:184": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 184,
+  "figures": []
+ },
+ "17:181": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 181,
+  "figures": [
+   {
+    "box": [
+     80,
+     828,
+     927,
+     934
+    ],
+    "question": "Which of the file names shown in this table are a good or bad method of file version control:",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s181-f0.png",
+    "w": 1260,
+    "h": 234
+   }
+  ]
+ },
+ "17:185": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 185,
+  "figures": [
+   {
+    "box": [
+     55,
+     368,
+     947,
+     668
+    ],
+    "question": "A lossy compression has been used to reduce the file sizes size. Can you easily tell the difference?",
+    "heading": "Lossy compression",
+    "localPath": "/textbook-images/textbook-bank/17/s185-f0.png",
+    "w": 1323,
+    "h": 619
+   }
+  ]
+ },
+ "17:187": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 187,
+  "figures": []
+ },
+ "17:188": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 188,
+  "figures": []
+ },
+ "17:189": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 189,
+  "figures": []
+ },
+ "17:192": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 192,
+  "figures": []
+ },
+ "17:190": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 190,
+  "figures": [
+   {
+    "box": [
+     205,
+     589,
+     810,
+     981
+    ],
+    "question": "Figure 12.1 shows some tools in a graphic editing program. Working with a partner, identify the tools labelled a to f.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s190-f0.png",
+    "w": 921,
+    "h": 800
+   }
+  ]
+ },
+ "17:191": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 191,
+  "figures": []
+ },
+ "17:197": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 197,
+  "figures": []
+ },
+ "17:193": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 193,
+  "figures": []
+ },
+ "17:195": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 195,
+  "figures": []
+ },
+ "17:194": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 194,
+  "figures": []
+ },
+ "17:198": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 198,
+  "figures": []
+ },
+ "17:196": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 196,
+  "figures": []
+ },
+ "17:199": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 199,
+  "figures": []
+ },
+ "17:200": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 200,
+  "figures": [
+   {
+    "box": [
+     318,
+     439,
+     685,
+     809
+    ],
+    "question": "The page should appear as in Figure 12.18.",
+    "heading": "PRACTICAL TASK 12.1",
+    "localPath": "/textbook-images/textbook-bank/17/s200-f0.png",
+    "w": 587,
+    "h": 757
+   }
+  ]
+ },
+ "17:203": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 203,
+  "figures": [
+   {
+    "box": [
+     246,
+     232,
+     756,
+     447
+    ],
+    "question": "Using a graphics program, perform the same edits (e.g. brightness, contrast, saturation and temperature). See Figure 12.24 for an example.",
+    "heading": "PRACTICAL TASK 12.2",
+    "localPath": "/textbook-images/textbook-bank/17/s203-f0.png",
+    "w": 787,
+    "h": 450
+   }
+  ]
+ },
+ "17:204": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 204,
+  "figures": []
+ },
+ "17:202": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 202,
+  "figures": []
+ },
+ "17:201": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 201,
+  "figures": [
+   {
+    "box": [
+     352,
+     52,
+     680,
+     228
+    ],
+    "question": "Rotate Image_b.jpg through 10° (see Figure 12.19).",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s201-f0.png",
+    "w": 532,
+    "h": 373
+   },
+   {
+    "box": [
+     261,
+     313,
+     743,
+     445
+    ],
+    "question": "Make a copy of Image_c.jpg and paste the copy directly to the left of the original. Flip the copy so that it is a mirror image of the original (see Figure 12.20).",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s201-f1.png",
+    "w": 748,
+    "h": 286
+   }
+  ]
+ },
+ "17:206": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 206,
+  "figures": [
+   {
+    "box": [
+     279,
+     315,
+     725,
+     541
+    ],
+    "question": "You are going to create this front page (see Figure 12.28) for a document about your holidays.",
+    "heading": "PRACTICAL TASK 12.3",
+    "localPath": "/textbook-images/textbook-bank/17/s206-f0.png",
+    "w": 698,
+    "h": 472
+   }
+  ]
+ },
+ "17:205": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 205,
+  "figures": []
+ },
+ "17:209": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 209,
+  "figures": []
+ },
+ "17:207": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 207,
+  "figures": [
+   {
+    "box": [
+     245,
+     48,
+     760,
+     304
+    ],
+    "question": "You are going to edit the page to that shown in Figure 12.29.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s207-f0.png",
+    "w": 795,
+    "h": 531
+   }
+  ]
+ },
+ "17:208": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 208,
+  "figures": []
+ },
+ "17:210": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 210,
+  "figures": []
+ },
+ "17:212": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 212,
+  "figures": []
+ },
+ "17:216": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 216,
+  "figures": [
+   {
+    "box": [
+     110,
+     63,
+     770,
+     531
+    ],
+    "question": "Figure 13.1 shows some features in a document. Working with a partner, identify the features, labelled a to i, and match them with the numbered words below.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s216-f0.png",
+    "w": 998,
+    "h": 952
+   }
+  ]
+ },
+ "17:215": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 215,
+  "figures": []
+ },
+ "17:213": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 213,
+  "figures": []
+ },
+ "17:211": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 211,
+  "figures": []
+ },
+ "17:214": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 214,
+  "figures": []
+ },
+ "17:220": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 220,
+  "figures": []
+ },
+ "17:221": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 221,
+  "figures": []
+ },
+ "17:219": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 219,
+  "figures": []
+ },
+ "17:222": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 222,
+  "figures": []
+ },
+ "17:218": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 218,
+  "figures": []
+ },
+ "17:217": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 217,
+  "figures": [
+   {
+    "box": [
+     335,
+     533,
+     667,
+     812
+    ],
+    "question": "Look at the two layouts in Figure 13.3 for a business card.",
+    "heading": "Discussion questions",
+    "localPath": "/textbook-images/textbook-bank/17/s217-f0.png",
+    "w": 537,
+    "h": 577
+   }
+  ]
+ },
+ "17:228": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 228,
+  "figures": []
+ },
+ "17:223": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 223,
+  "figures": []
+ },
+ "17:227": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 227,
+  "figures": []
+ },
+ "17:225": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 225,
+  "figures": []
+ },
+ "17:226": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 226,
+  "figures": [
+   {
+    "box": [
+     165,
+     82,
+     945,
+     332
+    ],
+    "question": "Insert the chart from the spreadsheet document eWaste.xlsx into the document so that it is updated if the spreadsheet changes.",
+    "heading": "PRACTICAL TASK 13.1",
+    "localPath": "/textbook-images/textbook-bank/17/s226-f0.png",
+    "w": 1167,
+    "h": 520
+   }
+  ]
+ },
+ "17:224": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 224,
+  "figures": []
+ },
+ "17:233": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 233,
+  "figures": []
+ },
+ "17:230": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 230,
+  "figures": []
+ },
+ "17:231": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 231,
+  "figures": []
+ },
+ "17:232": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 232,
+  "figures": []
+ },
+ "17:234": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 234,
+  "figures": []
+ },
+ "17:229": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 229,
+  "figures": []
+ },
+ "17:235": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 235,
+  "figures": [
+   {
+    "box": [
+     277,
+     50,
+     727,
+     129
+    ],
+    "question": "Create the table shown in Figure 13.43 using your word processing software.",
+    "heading": "Question",
+    "localPath": "/textbook-images/textbook-bank/17/s235-f0.png",
+    "w": 704,
+    "h": 181
+   },
+   {
+    "box": [
+     160,
+     361,
+     842,
+     672
+    ],
+    "question": "A spreadsheet is a table with lots of rows and columns and can have thousands of cells. Each cell has a unique name or address. What is the address of the cell with a red fill in Figure 13.44?",
+    "heading": "PRACTICAL TASK 13.2",
+    "localPath": "/textbook-images/textbook-bank/17/s235-f1.png",
+    "w": 1029,
+    "h": 641
+   }
+  ]
+ },
+ "17:237": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 237,
+  "figures": []
+ },
+ "17:240": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 240,
+  "figures": []
+ },
+ "17:238": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 238,
+  "figures": []
+ },
+ "17:236": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 236,
+  "figures": [
+   {
+    "box": [
+     70,
+     808,
+     975,
+     912
+    ],
+    "question": "Check the points in the following table to make sure you have done everything in the task:",
+    "heading": "Self-assessment",
+    "localPath": "/textbook-images/textbook-bank/17/s236-f0.png",
+    "w": 1342,
+    "h": 231
+   }
+  ]
+ },
+ "17:239": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 239,
+  "figures": []
+ },
+ "17:244": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 244,
+  "figures": []
+ },
+ "17:241": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 241,
+  "figures": []
+ },
+ "17:242": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 242,
+  "figures": []
+ },
+ "17:245": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 245,
+  "figures": []
+ },
+ "17:243": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 243,
+  "figures": []
+ },
+ "17:246": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 246,
+  "figures": [
+   {
+    "box": [
+     277,
+     566,
+     728,
+     762
+    ],
+    "question": "Paste the chart into the document so that it is updated when the spreadsheet changes.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s246-f0.png",
+    "w": 705,
+    "h": 413
+   }
+  ]
+ },
+ "17:250": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 250,
+  "figures": [
+   {
+    "box": [
+     160,
+     549,
+     855,
+     680
+    ],
+    "question": "Figure 14.1 shows the range of styles in three different application programs. Name the types of application.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s250-f0.png",
+    "w": 1047,
+    "h": 284
+   }
+  ]
+ },
+ "17:252": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 252,
+  "figures": []
+ },
+ "17:248": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 248,
+  "figures": []
+ },
+ "17:247": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 247,
+  "figures": []
+ },
+ "17:251": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 251,
+  "figures": []
+ },
+ "17:249": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 249,
+  "figures": []
+ },
+ "17:258": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 258,
+  "figures": []
+ },
+ "17:256": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 256,
+  "figures": []
+ },
+ "17:255": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 255,
+  "figures": []
+ },
+ "17:253": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 253,
+  "figures": []
+ },
+ "17:257": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 257,
+  "figures": []
+ },
+ "17:254": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 254,
+  "figures": [
+   {
+    "box": [
+     66,
+     143,
+     934,
+     264
+    ],
+    "question": "Copy out the following table. Suggest appropriate point sizes and explain the reasons for your selection in the text of these documents:",
+    "heading": "ACTIVITY 14.2",
+    "localPath": "/textbook-images/textbook-bank/17/s254-f0.png",
+    "w": 1290,
+    "h": 264
+   }
+  ]
+ },
+ "17:263": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 263,
+  "figures": [
+   {
+    "box": [
+     352,
+     298,
+     660,
+     526
+    ],
+    "question": "Create a new table style named New-Table to the specification shown in Figure 14.27.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s263-f0.png",
+    "w": 503,
+    "h": 476
+   },
+   {
+    "box": [
+     258,
+     617,
+     745,
+     707
+    ],
+    "question": "Use this new style to create the table shown in Figure 14.28 at the end of the document from the Practice section.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s263-f1.png",
+    "w": 755,
+    "h": 203
+   }
+  ]
+ },
+ "17:261": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 261,
+  "figures": []
+ },
+ "17:260": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 260,
+  "figures": []
+ },
+ "17:264": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 264,
+  "figures": []
+ },
+ "17:259": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 259,
+  "figures": [
+   {
+    "box": [
+     352,
+     205,
+     650,
+     550
+    ],
+    "question": "Apply these styles to the body text, title, subtitles and lists in the document.",
+    "heading": "WORKED EXAMPLE 14.1 SECONDARY STORAGE",
+    "localPath": "/textbook-images/textbook-bank/17/s259-f0.png",
+    "w": 489,
+    "h": 708
+   }
+  ]
+ },
+ "17:262": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 262,
+  "figures": [
+   {
+    "box": [
+     342,
+     262,
+     662,
+     318
+    ],
+    "question": "Edit this document to the required specification, using your own software.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s262-f0.png",
+    "w": 520,
+    "h": 136
+   },
+   {
+    "box": [
+     96,
+     566,
+     916,
+     674
+    ],
+    "question": "In the document create the new paragraph styles shown in Table 14.1.",
+    "heading": "PRACTICAL TASK 14.1",
+    "localPath": "/textbook-images/textbook-bank/17/s262-f1.png",
+    "w": 1223,
+    "h": 239
+   }
+  ]
+ },
+ "17:268": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 268,
+  "figures": []
+ },
+ "17:270": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 270,
+  "figures": []
+ },
+ "17:266": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 266,
+  "figures": [
+   {
+    "box": [
+     400,
+     228,
+     610,
+     267
+    ],
+    "question": "Set the bullet types shown in Figure 14.32.",
+    "heading": "PRACTICAL TASK 14.3",
+    "localPath": "/textbook-images/textbook-bank/17/s266-f0.png",
+    "w": 366,
+    "h": 102
+   },
+   {
+    "box": [
+     335,
+     359,
+     678,
+     483
+    ],
+    "question": "Based on these styles, create three slides and present information about style. Figure 14.33 shows an example with the styles applied.",
+    "heading": "PRACTICAL TASK 14.3",
+    "localPath": "/textbook-images/textbook-bank/17/s266-f1.png",
+    "w": 553,
+    "h": 270
+   },
+   {
+    "box": [
+     405,
+     595,
+     600,
+     639
+    ],
+    "question": "Set the bullet types shown in Figure 14.34:",
+    "heading": "PRACTICAL TASK 14.3",
+    "localPath": "/textbook-images/textbook-bank/17/s266-f2.png",
+    "w": 345,
+    "h": 112
+   }
+  ]
+ },
+ "17:267": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 267,
+  "figures": []
+ },
+ "17:265": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 265,
+  "figures": [
+   {
+    "box": [
+     93,
+     603,
+     916,
+     695
+    ],
+    "question": "Create the new styles shown in Table 14.2.",
+    "heading": "PRACTICAL TASK 14.2",
+    "localPath": "/textbook-images/textbook-bank/17/s265-f0.png",
+    "w": 1227,
+    "h": 207
+   }
+  ]
+ },
+ "17:269": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 269,
+  "figures": [
+   {
+    "box": [
+     68,
+     264,
+     883,
+     371
+    ],
+    "question": "Create and store the following paragraph styles:",
+    "heading": "EXAM-STYLE QUESTIONS",
+    "localPath": "/textbook-images/textbook-bank/17/s269-f0.png",
+    "w": 1216,
+    "h": 237
+   }
+  ]
+ },
+ "17:274": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 274,
+  "figures": []
+ },
+ "17:276": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 276,
+  "figures": []
+ },
+ "17:273": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 273,
+  "figures": []
+ },
+ "17:272": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 272,
+  "figures": []
+ },
+ "17:275": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 275,
+  "figures": []
+ },
+ "17:271": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 271,
+  "figures": [
+   {
+    "box": [
+     307,
+     567,
+     695,
+     684
+    ],
+    "question": "Figure 15.1 shows a message that one student sent to another. With a partner, carefully read through the message and see if you can find ten errors.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s271-f0.png",
+    "w": 616,
+    "h": 256
+   }
+  ]
+ },
+ "17:279": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 279,
+  "figures": []
+ },
+ "17:282": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 282,
+  "figures": []
+ },
+ "17:277": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 277,
+  "figures": []
+ },
+ "17:278": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 278,
+  "figures": []
+ },
+ "17:280": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 280,
+  "figures": []
+ },
+ "17:281": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 281,
+  "figures": []
+ },
+ "17:284": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 284,
+  "figures": []
+ },
+ "17:288": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 288,
+  "figures": []
+ },
+ "17:285": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 285,
+  "figures": [
+   {
+    "box": [
+     54,
+     429,
+     732,
+     504
+    ],
+    "question": "For each validation below, state the advantages and give an example of abnormal data. Copy and complete the table.",
+    "heading": "Question",
+    "localPath": "/textbook-images/textbook-bank/17/s285-f0.png",
+    "w": 1024,
+    "h": 173
+   }
+  ]
+ },
+ "17:286": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 286,
+  "figures": []
+ },
+ "17:287": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 287,
+  "figures": []
+ },
+ "17:283": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 283,
+  "figures": [
+   {
+    "box": [
+     93,
+     82,
+     915,
+     515
+    ],
+    "question": "Open Gym.xlsm into your spreadsheet software and create the validation rules specified.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s283-f0.png",
+    "w": 1226,
+    "h": 882
+   }
+  ]
+ },
+ "17:292": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 292,
+  "figures": []
+ },
+ "17:290": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 290,
+  "figures": []
+ },
+ "17:289": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 289,
+  "figures": [
+   {
+    "box": [
+     52,
+     418,
+     949,
+     521
+    ],
+    "question": "Match the proofreading techniques to the sentence starters in Table 15.2.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s289-f0.png",
+    "w": 1331,
+    "h": 229
+   }
+  ]
+ },
+ "17:291": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 291,
+  "figures": []
+ },
+ "17:294": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 294,
+  "figures": []
+ },
+ "17:293": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 293,
+  "figures": [
+   {
+    "box": [
+     284,
+     623,
+     734,
+     827
+    ],
+    "question": "Figure 16.1 shows a bar chart detailing the rainfall in Jakarta and Cairo. Parts of the graph have been labelled with letters. Match the letters to the description numbers below.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s293-f0.png",
+    "w": 703,
+    "h": 428
+   }
+  ]
+ },
+ "17:300": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 300,
+  "figures": [
+   {
+    "box": [
+     100,
+     315,
+     898,
+     667
+    ],
+    "question": "Your finished chart should look like Figure 16.15.",
+    "heading": "PRACTICAL TASK 16.1",
+    "localPath": "/textbook-images/textbook-bank/17/s300-f0.png",
+    "w": 1192,
+    "h": 722
+   }
+  ]
+ },
+ "17:298": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 298,
+  "figures": []
+ },
+ "17:299": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 299,
+  "figures": []
+ },
+ "17:296": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 296,
+  "figures": [
+   {
+    "box": [
+     275,
+     108,
+     728,
+     222
+    ],
+    "question": "Refer to Figure 16.6 and answer the following questions:",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s296-f0.png",
+    "w": 707,
+    "h": 251
+   }
+  ]
+ },
+ "17:297": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 297,
+  "figures": [
+   {
+    "box": [
+     282,
+     36,
+     721,
+     200
+    ],
+    "question": "Working with a partner, identify the following in the chart shown in Figure 16.8.",
+    "heading": "ACTIVITY 16.2",
+    "localPath": "/textbook-images/textbook-bank/17/s297-f0.png",
+    "w": 688,
+    "h": 349
+   }
+  ]
+ },
+ "17:295": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 295,
+  "figures": []
+ },
+ "17:302": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 302,
+  "figures": []
+ },
+ "17:305": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 305,
+  "figures": []
+ },
+ "17:303": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 303,
+  "figures": []
+ },
+ "17:304": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 304,
+  "figures": []
+ },
+ "17:301": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 301,
+  "figures": [
+   {
+    "box": [
+     109,
+     107,
+     896,
+     491
+    ],
+    "question": "Your modified chart should look like Figure 16.16.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s301-f0.png",
+    "w": 1177,
+    "h": 785
+   }
+  ]
+ },
+ "17:306": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 306,
+  "figures": []
+ },
+ "17:307": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 307,
+  "figures": []
+ },
+ "17:310": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 310,
+  "figures": []
+ },
+ "17:312": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 312,
+  "figures": []
+ },
+ "17:311": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 311,
+  "figures": []
+ },
+ "17:309": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 309,
+  "figures": [
+   {
+    "box": [
+     299,
+     87,
+     706,
+     269
+    ],
+    "question": "How far did the person travel between 8 a.m. and 10 a.m.?",
+    "heading": "Getting started",
+    "localPath": "/textbook-images/textbook-bank/17/s309-f0.png",
+    "w": 643,
+    "h": 385
+   },
+   {
+    "box": [
+     272,
+     466,
+     722,
+     670
+    ],
+    "question": "Your finished chart should look like Figure 16.32.",
+    "heading": "Practice",
+    "localPath": "/textbook-images/textbook-bank/17/s309-f1.png",
+    "w": 703,
+    "h": 429
+   },
+   {
+    "box": [
+     266,
+     795,
+     700,
+     1000
+    ],
+    "question": "Your finished chart should look like Figure 16.33.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s309-f2.png",
+    "w": 681,
+    "h": 419
+   }
+  ]
+ },
+ "17:308": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 308,
+  "figures": []
+ },
+ "17:317": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 317,
+  "figures": []
+ },
+ "17:313": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 313,
+  "figures": [
+   {
+    "box": [
+     306,
+     389,
+     697,
+     590
+    ],
+    "question": "Your finished chart should look like Figure 16.38.",
+    "heading": "PRACTICAL TASK 16.3",
+    "localPath": "/textbook-images/textbook-bank/17/s313-f0.png",
+    "w": 620,
+    "h": 422
+   },
+   {
+    "box": [
+     306,
+     703,
+     697,
+     902
+    ],
+    "question": "Your finished chart should look like Figure 16.39.",
+    "heading": "PRACTICAL TASK 16.3",
+    "localPath": "/textbook-images/textbook-bank/17/s313-f1.png",
+    "w": 620,
+    "h": 419
+   }
+  ]
+ },
+ "17:314": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 314,
+  "figures": []
+ },
+ "17:316": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 316,
+  "figures": []
+ },
+ "17:318": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 318,
+  "figures": [
+   {
+    "box": [
+     85,
+     303,
+     922,
+     660
+    ],
+    "question": "Create the spreadsheet using the steps in the example.",
+    "heading": "Question",
+    "localPath": "/textbook-images/textbook-bank/17/s318-f0.png",
+    "w": 1246,
+    "h": 732
+   }
+  ]
+ },
+ "17:315": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 315,
+  "figures": []
+ },
+ "17:319": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 319,
+  "figures": []
+ },
+ "17:320": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 320,
+  "figures": []
+ },
+ "17:322": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 322,
+  "figures": []
+ },
+ "17:321": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 321,
+  "figures": []
+ },
+ "17:323": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 323,
+  "figures": [
+   {
+    "box": [
+     100,
+     95,
+     920,
+     705
+    ],
+    "question": "In Figure 17.1 some layout features have been labelled a to h. Match the letters of these labels with the numbers of the definitions given below.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s323-f0.png",
+    "w": 1223,
+    "h": 1232
+   }
+  ]
+ },
+ "17:324": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 324,
+  "figures": []
+ },
+ "17:328": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 328,
+  "figures": []
+ },
+ "17:325": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 325,
+  "figures": []
+ },
+ "17:326": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 326,
+  "figures": []
+ },
+ "17:327": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 327,
+  "figures": []
+ },
+ "17:329": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 329,
+  "figures": []
+ },
+ "17:330": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 330,
+  "figures": []
+ },
+ "17:335": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 335,
+  "figures": []
+ },
+ "17:336": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 336,
+  "figures": []
+ },
+ "17:334": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 334,
+  "figures": []
+ },
+ "17:331": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 331,
+  "figures": []
+ },
+ "17:332": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 332,
+  "figures": []
+ },
+ "17:333": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 333,
+  "figures": []
+ },
+ "17:338": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 338,
+  "figures": []
+ },
+ "17:339": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 339,
+  "figures": []
+ },
+ "17:337": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 337,
+  "figures": []
+ },
+ "17:340": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 340,
+  "figures": []
+ },
+ "17:342": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 342,
+  "figures": [
+   {
+    "box": [
+     294,
+     537,
+     710,
+     610
+    ],
+    "question": "Identify five text enhancements which have been used in the text sample in Figure 17.30.",
+    "heading": "PRACTICAL TASK 17.1",
+    "localPath": "/textbook-images/textbook-bank/17/s342-f0.png",
+    "w": 656,
+    "h": 169
+   }
+  ]
+ },
+ "17:341": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 341,
+  "figures": []
+ },
+ "17:346": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 346,
+  "figures": []
+ },
+ "17:347": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 347,
+  "figures": []
+ },
+ "17:348": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 348,
+  "figures": []
+ },
+ "17:343": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 343,
+  "figures": []
+ },
+ "17:344": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 344,
+  "figures": []
+ },
+ "17:345": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 345,
+  "figures": []
+ },
+ "17:349": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 349,
+  "figures": []
+ },
+ "17:353": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 353,
+  "figures": []
+ },
+ "17:352": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 352,
+  "figures": [
+   {
+    "box": [
+     283,
+     258,
+     703,
+     372
+    ],
+    "question": "The Supplies Inc address block should be on the same lines as the Big Corporation address block but should be aligned with the right margin (see Figure 17.51).",
+    "heading": "PRACTICAL TASK 17.2",
+    "localPath": "/textbook-images/textbook-bank/17/s352-f0.png",
+    "w": 661,
+    "h": 251
+   },
+   {
+    "box": [
+     82,
+     771,
+     933,
+     853
+    ],
+    "question": "Match the following terms with their correct meanings:",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s352-f1.png",
+    "w": 1266,
+    "h": 187
+   }
+  ]
+ },
+ "17:350": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 350,
+  "figures": []
+ },
+ "17:351": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 351,
+  "figures": []
+ },
+ "17:354": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 354,
+  "figures": []
+ },
+ "17:355": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 355,
+  "figures": []
+ },
+ "17:359": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 359,
+  "figures": []
+ },
+ "17:360": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 360,
+  "figures": []
+ },
+ "17:356": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 356,
+  "figures": [
+   {
+    "box": [
+     69,
+     568,
+     934,
+     688
+    ],
+    "question": "Here are two lists. One contains terms relating to databases and the other their definitions or explanations. Unfortunately, they are not in the same order. Working with a partner, try to work out which number from the first list goes with which letter from the second.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s356-f0.png",
+    "w": 1286,
+    "h": 262
+   }
+  ]
+ },
+ "17:357": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 357,
+  "figures": []
+ },
+ "17:358": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 358,
+  "figures": []
+ },
+ "17:364": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 364,
+  "figures": []
+ },
+ "17:365": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 365,
+  "figures": []
+ },
+ "17:362": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 362,
+  "figures": []
+ },
+ "17:363": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 363,
+  "figures": []
+ },
+ "17:361": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 361,
+  "figures": []
+ },
+ "17:366": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 366,
+  "figures": []
+ },
+ "17:370": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 370,
+  "figures": []
+ },
+ "17:372": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 372,
+  "figures": []
+ },
+ "17:369": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 369,
+  "figures": []
+ },
+ "17:367": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 367,
+  "figures": []
+ },
+ "17:371": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 371,
+  "figures": []
+ },
+ "17:368": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 368,
+  "figures": []
+ },
+ "17:378": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 378,
+  "figures": []
+ },
+ "17:373": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 373,
+  "figures": []
+ },
+ "17:374": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 374,
+  "figures": []
+ },
+ "17:377": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 377,
+  "figures": []
+ },
+ "17:376": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 376,
+  "figures": [
+   {
+    "box": [
+     172,
+     93,
+     830,
+     228
+    ],
+    "question": "Copy the tables onto a piece of paper and draw lines showing the fields that link the tables together.",
+    "heading": "PRACTICAL TASK 18.3",
+    "localPath": "/textbook-images/textbook-bank/17/s376-f0.png",
+    "w": 995,
+    "h": 292
+   }
+  ]
+ },
+ "17:375": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 375,
+  "figures": [
+   {
+    "box": [
+     55,
+     160,
+     929,
+     236
+    ],
+    "question": "Match the statement with the correct term relating to database structure.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s375-f0.png",
+    "w": 1298,
+    "h": 176
+   }
+  ]
+ },
+ "17:379": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 379,
+  "figures": []
+ },
+ "17:381": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 381,
+  "figures": []
+ },
+ "17:384": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 384,
+  "figures": []
+ },
+ "17:383": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 383,
+  "figures": []
+ },
+ "17:382": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 382,
+  "figures": []
+ },
+ "17:380": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 380,
+  "figures": []
+ },
+ "17:388": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 388,
+  "figures": [
+   {
+    "box": [
+     281,
+     530,
+     723,
+     763
+    ],
+    "question": "Take a screenshot of your form with the list selected and paste it into Task4.doc.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s388-f0.png",
+    "w": 692,
+    "h": 486
+   }
+  ]
+ },
+ "17:386": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 386,
+  "figures": []
+ },
+ "17:385": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 385,
+  "figures": []
+ },
+ "17:390": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 390,
+  "figures": []
+ },
+ "17:389": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 389,
+  "figures": []
+ },
+ "17:387": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 387,
+  "figures": [
+   {
+    "box": [
+     275,
+     740,
+     723,
+     882
+    ],
+    "question": "An example is shown in Figure 18.53.",
+    "heading": "PRACTICAL TASK 18.4",
+    "localPath": "/textbook-images/textbook-bank/17/s387-f0.png",
+    "w": 700,
+    "h": 306
+   }
+  ]
+ },
+ "17:394": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 394,
+  "figures": []
+ },
+ "17:395": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 395,
+  "figures": []
+ },
+ "17:391": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 391,
+  "figures": []
+ },
+ "17:393": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 393,
+  "figures": []
+ },
+ "17:392": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 392,
+  "figures": []
+ },
+ "17:396": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 396,
+  "figures": [
+   {
+    "box": [
+     62,
+     90,
+     929,
+     149
+    ],
+    "question": "Describe what the following criteria are intended to find and how the results will be displayed.",
+    "heading": "a",
+    "localPath": "/textbook-images/textbook-bank/17/s396-f0.png",
+    "w": 1289,
+    "h": 141
+   },
+   {
+    "box": [
+     62,
+     176,
+     929,
+     234
+    ],
+    "question": "Describe what the following criteria are intended to find and how the results will be displayed.",
+    "heading": "b",
+    "localPath": "/textbook-images/textbook-bank/17/s396-f1.png",
+    "w": 1289,
+    "h": 140
+   },
+   {
+    "box": [
+     62,
+     262,
+     929,
+     319
+    ],
+    "question": "Describe what the following criteria are intended to find and how the results will be displayed.",
+    "heading": "c",
+    "localPath": "/textbook-images/textbook-bank/17/s396-f2.png",
+    "w": 1289,
+    "h": 138
+   },
+   {
+    "box": [
+     62,
+     346,
+     929,
+     408
+    ],
+    "question": "Describe what the following criteria are intended to find and how the results will be displayed.",
+    "heading": "d",
+    "localPath": "/textbook-images/textbook-bank/17/s396-f3.png",
+    "w": 1289,
+    "h": 147
+   },
+   {
+    "box": [
+     62,
+     434,
+     929,
+     494
+    ],
+    "question": "Describe what the following criteria are intended to find and how the results will be displayed.",
+    "heading": "e",
+    "localPath": "/textbook-images/textbook-bank/17/s396-f4.png",
+    "w": 1289,
+    "h": 143
+   }
+  ]
+ },
+ "17:400": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 400,
+  "figures": []
+ },
+ "17:398": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 398,
+  "figures": []
+ },
+ "17:402": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 402,
+  "figures": []
+ },
+ "17:401": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 401,
+  "figures": []
+ },
+ "17:399": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 399,
+  "figures": []
+ },
+ "17:397": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 397,
+  "figures": []
+ },
+ "17:408": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 408,
+  "figures": []
+ },
+ "17:405": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 405,
+  "figures": []
+ },
+ "17:404": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 404,
+  "figures": []
+ },
+ "17:406": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 406,
+  "figures": []
+ },
+ "17:403": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 403,
+  "figures": []
+ },
+ "17:407": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 407,
+  "figures": []
+ },
+ "17:412": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 412,
+  "figures": []
+ },
+ "17:413": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 413,
+  "figures": []
+ },
+ "17:414": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 414,
+  "figures": []
+ },
+ "17:410": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 410,
+  "figures": []
+ },
+ "17:409": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 409,
+  "figures": []
+ },
+ "17:411": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 411,
+  "figures": []
+ },
+ "17:418": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 418,
+  "figures": [
+   {
+    "box": [
+     286,
+     150,
+     716,
+     417
+    ],
+    "question": "Take a screenshot of the report in Print Preview view and paste it into Task6.doc. An example is shown in Figure 18.104.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s418-f0.png",
+    "w": 675,
+    "h": 553
+   }
+  ]
+ },
+ "17:420": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 420,
+  "figures": []
+ },
+ "17:416": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 416,
+  "figures": [
+   {
+    "box": [
+     225,
+     805,
+     745,
+     925
+    ],
+    "question": "Figure 18.102 shows the icons of tools that can be used in form and report design in a database. Identify those that are labelled.",
+    "heading": "PRACTICAL TASK 18.6",
+    "localPath": "/textbook-images/textbook-bank/17/s416-f0.png",
+    "w": 802,
+    "h": 262
+   }
+  ]
+ },
+ "17:417": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 417,
+  "figures": [
+   {
+    "box": [
+     286,
+     346,
+     718,
+     777
+    ],
+    "question": "An example is shown in Figure 18.103.",
+    "heading": "Practice",
+    "localPath": "/textbook-images/textbook-bank/17/s417-f0.png",
+    "w": 678,
+    "h": 877
+   }
+  ]
+ },
+ "17:419": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 419,
+  "figures": []
+ },
+ "17:415": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 415,
+  "figures": []
+ },
+ "17:422": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 422,
+  "figures": []
+ },
+ "17:423": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 423,
+  "figures": []
+ },
+ "17:425": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 425,
+  "figures": []
+ },
+ "17:424": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 424,
+  "figures": []
+ },
+ "17:421": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 421,
+  "figures": []
+ },
+ "17:426": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 426,
+  "figures": [
+   {
+    "box": [
+     92,
+     606,
+     899,
+     650
+    ],
+    "question": "Add the following student and data (see its placement in Figure 18.120).",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s426-f0.png",
+    "w": 1204,
+    "h": 112
+   }
+  ]
+ },
+ "17:428": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 428,
+  "figures": []
+ },
+ "17:430": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 430,
+  "figures": []
+ },
+ "17:431": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 431,
+  "figures": []
+ },
+ "17:429": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 429,
+  "figures": [
+   {
+    "box": [
+     93,
+     87,
+     917,
+     131
+    ],
+    "question": "The table stores several items of information about each cat.",
+    "heading": "EXAM-STYLE QUESTIONS",
+    "localPath": "/textbook-images/textbook-bank/17/s429-f0.png",
+    "w": 1228,
+    "h": 112
+   }
+  ]
+ },
+ "17:427": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 427,
+  "figures": []
+ },
+ "17:432": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 432,
+  "figures": [
+   {
+    "box": [
+     202,
+     145,
+     800,
+     292
+    ],
+    "question": "Look at the example slides in Figure 19.1 and then write down what you think of them.\nAre they good or bad? Explain your answers giving details of why you think they are good or bad.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s432-f0.png",
+    "w": 911,
+    "h": 315
+   }
+  ]
+ },
+ "17:435": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 435,
+  "figures": []
+ },
+ "17:434": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 434,
+  "figures": []
+ },
+ "17:433": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 433,
+  "figures": []
+ },
+ "17:438": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 438,
+  "figures": []
+ },
+ "17:436": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 436,
+  "figures": []
+ },
+ "17:437": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 437,
+  "figures": [
+   {
+    "box": [
+     352,
+     174,
+     651,
+     224
+    ],
+    "question": "Logo1 and Logo2 should appear at the top left of each slide as shown in Figure 19.13:",
+    "heading": "PRACTICAL TASK 19.1",
+    "localPath": "/textbook-images/textbook-bank/17/s437-f0.png",
+    "w": 491,
+    "h": 124
+   },
+   {
+    "box": [
+     137,
+     323,
+     867,
+     615
+    ],
+    "question": "Change the first to third level bullets to ones of your choice (see Figure 19.14 for an example).",
+    "heading": "PRACTICAL TASK 19.1",
+    "localPath": "/textbook-images/textbook-bank/17/s437-f1.png",
+    "w": 1096,
+    "h": 603
+   }
+  ]
+ },
+ "17:442": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 442,
+  "figures": []
+ },
+ "17:443": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 443,
+  "figures": []
+ },
+ "17:441": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 441,
+  "figures": []
+ },
+ "17:444": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 444,
+  "figures": []
+ },
+ "17:439": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 439,
+  "figures": []
+ },
+ "17:440": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 440,
+  "figures": []
+ },
+ "17:448": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 448,
+  "figures": []
+ },
+ "17:449": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 449,
+  "figures": []
+ },
+ "17:446": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 446,
+  "figures": []
+ },
+ "17:450": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 450,
+  "figures": []
+ },
+ "17:445": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 445,
+  "figures": []
+ },
+ "17:447": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 447,
+  "figures": []
+ },
+ "17:454": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 454,
+  "figures": []
+ },
+ "17:456": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 456,
+  "figures": []
+ },
+ "17:455": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 455,
+  "figures": []
+ },
+ "17:451": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 451,
+  "figures": []
+ },
+ "17:453": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 453,
+  "figures": []
+ },
+ "17:452": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 452,
+  "figures": []
+ },
+ "17:458": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 458,
+  "figures": []
+ },
+ "17:459": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 459,
+  "figures": []
+ },
+ "17:460": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 460,
+  "figures": []
+ },
+ "17:461": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 461,
+  "figures": []
+ },
+ "17:462": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 462,
+  "figures": []
+ },
+ "17:457": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 457,
+  "figures": []
+ },
+ "17:468": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 468,
+  "figures": []
+ },
+ "17:466": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 466,
+  "figures": []
+ },
+ "17:467": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 467,
+  "figures": [
+   {
+    "box": [
+     300,
+     361,
+     706,
+     628
+    ],
+    "question": "Print out as Notes. Save as a PDF file named Task4_2.",
+    "heading": "PRACTICAL TASK 19.4",
+    "localPath": "/textbook-images/textbook-bank/17/s467-f0.png",
+    "w": 641,
+    "h": 554
+   }
+  ]
+ },
+ "17:465": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 465,
+  "figures": []
+ },
+ "17:464": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 464,
+  "figures": [
+   {
+    "box": [
+     292,
+     248,
+     713,
+     416
+    ],
+    "question": "Set the master slide so that there are the following placeholders: See example master slide in Figure 19.64.",
+    "heading": "PRACTICAL TASK 19.3",
+    "localPath": "/textbook-images/textbook-bank/17/s464-f0.png",
+    "w": 663,
+    "h": 357
+   },
+   {
+    "box": [
+     298,
+     644,
+     706,
+     807
+    ],
+    "question": "Slide 1 should have a menu system with action buttons to select any of the other slides (see Figure 19.65 on the next page). Prevent slide transitions with a mouse click.",
+    "heading": "PRACTICAL TASK 19.3",
+    "localPath": "/textbook-images/textbook-bank/17/s464-f1.png",
+    "w": 644,
+    "h": 348
+   }
+  ]
+ },
+ "17:463": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 463,
+  "figures": []
+ },
+ "17:470": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 470,
+  "figures": []
+ },
+ "17:474": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 474,
+  "figures": []
+ },
+ "17:471": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 471,
+  "figures": []
+ },
+ "17:473": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 473,
+  "figures": []
+ },
+ "17:469": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 469,
+  "figures": []
+ },
+ "17:472": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 472,
+  "figures": []
+ },
+ "17:475": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 475,
+  "figures": []
+ },
+ "17:477": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 477,
+  "figures": []
+ },
+ "17:478": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 478,
+  "figures": []
+ },
+ "17:480": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 480,
+  "figures": []
+ },
+ "17:476": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 476,
+  "figures": []
+ },
+ "17:479": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 479,
+  "figures": [
+   {
+    "box": [
+     79,
+     522,
+     964,
+     583
+    ],
+    "question": "A partially completed spreadsheet is shown. Copy the spreadsheet and then enter the formulae.",
+    "heading": "Question",
+    "localPath": "/textbook-images/textbook-bank/17/s479-f0.png",
+    "w": 1314,
+    "h": 145
+   }
+  ]
+ },
+ "17:486": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 486,
+  "figures": []
+ },
+ "17:482": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 482,
+  "figures": []
+ },
+ "17:484": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 484,
+  "figures": []
+ },
+ "17:483": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 483,
+  "figures": []
+ },
+ "17:485": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 485,
+  "figures": []
+ },
+ "17:481": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 481,
+  "figures": []
+ },
+ "17:491": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 491,
+  "figures": []
+ },
+ "17:487": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 487,
+  "figures": []
+ },
+ "17:492": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 492,
+  "figures": []
+ },
+ "17:490": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 490,
+  "figures": []
+ },
+ "17:488": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 488,
+  "figures": []
+ },
+ "17:489": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 489,
+  "figures": []
+ },
+ "17:495": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 495,
+  "figures": []
+ },
+ "17:497": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 497,
+  "figures": []
+ },
+ "17:494": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 494,
+  "figures": []
+ },
+ "17:498": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 498,
+  "figures": []
+ },
+ "17:496": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 496,
+  "figures": []
+ },
+ "17:493": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 493,
+  "figures": []
+ },
+ "17:500": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 500,
+  "figures": []
+ },
+ "17:503": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 503,
+  "figures": []
+ },
+ "17:499": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 499,
+  "figures": []
+ },
+ "17:502": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 502,
+  "figures": []
+ },
+ "17:501": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 501,
+  "figures": []
+ },
+ "17:504": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 504,
+  "figures": []
+ },
+ "17:509": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 509,
+  "figures": []
+ },
+ "17:508": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 508,
+  "figures": []
+ },
+ "17:510": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 510,
+  "figures": []
+ },
+ "17:505": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 505,
+  "figures": []
+ },
+ "17:507": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 507,
+  "figures": []
+ },
+ "17:506": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 506,
+  "figures": []
+ },
+ "17:513": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 513,
+  "figures": []
+ },
+ "17:515": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 515,
+  "figures": []
+ },
+ "17:516": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 516,
+  "figures": [
+   {
+    "box": [
+     400,
+     636,
+     603,
+     838
+    ],
+    "question": "Figure 21.1 shows a simple HTML document layout. Fit the following descriptions to the elements and tags.",
+    "heading": "GETTING STARTED",
+    "localPath": "/textbook-images/textbook-bank/17/s516-f0.png",
+    "w": 356,
+    "h": 424
+   }
+  ]
+ },
+ "17:512": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 512,
+  "figures": []
+ },
+ "17:514": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 514,
+  "figures": []
+ },
+ "17:511": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 511,
+  "figures": [
+   {
+    "box": [
+     79,
+     270,
+     925,
+     475
+    ],
+    "question": "Create a border around range H14:K16.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s511-f0.png",
+    "w": 1260,
+    "h": 431
+   }
+  ]
+ },
+ "17:518": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 518,
+  "figures": []
+ },
+ "17:521": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 521,
+  "figures": []
+ },
+ "17:519": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 519,
+  "figures": []
+ },
+ "17:522": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 522,
+  "figures": [
+   {
+    "box": [
+     405,
+     468,
+     610,
+     553
+    ],
+    "question": "Use the correct tags to show the content of Figure 21.9 at the start of the document.",
+    "heading": "PRACTICAL TASK 21.1",
+    "localPath": "/textbook-images/textbook-bank/17/s522-f0.png",
+    "w": 359,
+    "h": 193
+   },
+   {
+    "box": [
+     405,
+     598,
+     610,
+     757
+    ],
+    "question": "Under this create the unordered and ordered lists shown in Figure 21.10.",
+    "heading": "PRACTICAL TASK 21.1",
+    "localPath": "/textbook-images/textbook-bank/17/s522-f1.png",
+    "w": 359,
+    "h": 340
+   }
+  ]
+ },
+ "17:520": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 520,
+  "figures": []
+ },
+ "17:517": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 517,
+  "figures": []
+ },
+ "17:526": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 526,
+  "figures": []
+ },
+ "17:528": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 528,
+  "figures": []
+ },
+ "17:523": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 523,
+  "figures": [
+   {
+    "box": [
+     365,
+     44,
+     640,
+     264
+    ],
+    "question": "7 Add the heading 'Links' and create the types of links shown in Figure 21.11.",
+    "heading": "",
+    "localPath": "/textbook-images/textbook-bank/17/s523-f0.png",
+    "w": 457,
+    "h": 460
+   },
+   {
+    "box": [
+     442,
+     411,
+     558,
+     470
+    ],
+    "question": "10 In the Links section add a link to Section 2 (see Figure 21.12).",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s523-f1.png",
+    "w": 234,
+    "h": 142
+   }
+  ]
+ },
+ "17:525": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 525,
+  "figures": []
+ },
+ "17:527": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 527,
+  "figures": [
+   {
+    "box": [
+     72,
+     443,
+     931,
+     632
+    ],
+    "question": "Create a table with the following specifications: Width should be set to 75%. It should have a border and each cell should have a border. There should be at least nine rows and a heading. There should be three columns in all. Text should be entered into each cell as shown in Figure 21.21.",
+    "heading": "PRACTICAL TASK 21.2",
+    "localPath": "/textbook-images/textbook-bank/17/s527-f0.png",
+    "w": 1277,
+    "h": 398
+   }
+  ]
+ },
+ "17:524": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 524,
+  "figures": []
+ },
+ "17:530": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 530,
+  "figures": []
+ },
+ "17:533": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 533,
+  "figures": []
+ },
+ "17:529": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 529,
+  "figures": []
+ },
+ "17:534": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 534,
+  "figures": []
+ },
+ "17:532": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 532,
+  "figures": []
+ },
+ "17:531": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 531,
+  "figures": []
+ },
+ "17:539": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 539,
+  "figures": []
+ },
+ "17:538": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 538,
+  "figures": []
+ },
+ "17:536": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 536,
+  "figures": []
+ },
+ "17:540": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 540,
+  "figures": []
+ },
+ "17:535": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 535,
+  "figures": []
+ },
+ "17:537": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 537,
+  "figures": []
+ },
+ "17:545": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 545,
+  "figures": []
+ },
+ "17:546": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 546,
+  "figures": []
+ },
+ "17:542": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 542,
+  "figures": []
+ },
+ "17:541": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 541,
+  "figures": []
+ },
+ "17:543": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 543,
+  "figures": []
+ },
+ "17:544": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 544,
+  "figures": []
+ },
+ "17:549": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 549,
+  "figures": [
+   {
+    "box": [
+     270,
+     196,
+     745,
+     431
+    ],
+    "question": "14 Save the document as Task3_Challenge.html. Your table should look like Figure 21.59.",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s549-f0.png",
+    "w": 738,
+    "h": 490
+   }
+  ]
+ },
+ "17:547": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 547,
+  "figures": [
+   {
+    "box": [
+     306,
+     61,
+     698,
+     354
+    ],
+    "question": "Create the web page according to the specifications.",
+    "heading": "Questions",
+    "localPath": "/textbook-images/textbook-bank/17/s547-f0.png",
+    "w": 622,
+    "h": 605
+   }
+  ]
+ },
+ "17:551": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 551,
+  "figures": []
+ },
+ "17:552": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 552,
+  "figures": []
+ },
+ "17:550": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 550,
+  "figures": [
+   {
+    "box": [
+     80,
+     445,
+     923,
+     658
+    ],
+    "question": "The styled table should look like Figure 21.60.",
+    "heading": "PRACTICAL TASK 21.4",
+    "localPath": "/textbook-images/textbook-bank/17/s550-f0.png",
+    "w": 1255,
+    "h": 446
+   }
+  ]
+ },
+ "17:548": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 548,
+  "figures": [
+   {
+    "box": [
+     306,
+     345,
+     770,
+     810
+    ],
+    "question": "The result should look like Figure 21.58.",
+    "heading": "PRACTICAL TASK 21.3",
+    "localPath": "/textbook-images/textbook-bank/17/s548-f0.png",
+    "w": 723,
+    "h": 945
+   }
+  ]
+ },
+ "17:556": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 556,
+  "figures": []
+ },
+ "17:555": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 555,
+  "figures": []
+ },
+ "17:558": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 558,
+  "figures": []
+ },
+ "17:553": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 553,
+  "figures": [
+   {
+    "box": [
+     262,
+     406,
+     745,
+     747
+    ],
+    "question": "Your finished page should look like Figure 21.68.",
+    "heading": "PRACTICAL TASK 21.5",
+    "localPath": "/textbook-images/textbook-bank/17/s553-f0.png",
+    "w": 750,
+    "h": 700
+   }
+  ]
+ },
+ "17:554": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 554,
+  "figures": [
+   {
+    "box": [
+     90,
+     145,
+     913,
+     395
+    ],
+    "question": "11 Use <div> tags to create two areas, side-by-side for the audio and the video (see Figure 21.69).",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s554-f0.png",
+    "w": 1227,
+    "h": 519
+   },
+   {
+    "box": [
+     323,
+     425,
+     682,
+     682
+    ],
+    "question": "14 When the window is resized, the video should resize accordingly (see Figure 21.70).",
+    "heading": "Challenge",
+    "localPath": "/textbook-images/textbook-bank/17/s554-f1.png",
+    "w": 575,
+    "h": 533
+   }
+  ]
+ },
+ "17:557": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 557,
+  "figures": [
+   {
+    "box": [
+     93,
+     194,
+     720,
+     428
+    ],
+    "question": "Examine this example containing an internal CSS section.",
+    "heading": "EXAM-STYLE QUESTIONS",
+    "localPath": "/textbook-images/textbook-bank/17/s557-f0.png",
+    "w": 952,
+    "h": 488
+   }
+  ]
+ },
+ "17:560": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 560,
+  "figures": []
+ },
+ "17:559": {
+  "textbookId": 17,
+  "textbookName": "Cambridge IGCSE™ ICT Coursebook",
+  "page": 559,
+  "figures": []
  }
 }

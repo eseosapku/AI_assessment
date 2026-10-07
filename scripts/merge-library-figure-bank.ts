@@ -32,8 +32,11 @@ const SET = BOOKS.length
   : process.argv.includes('--set=library')
     ? { prefix: 'lb', raw: 'textbook-library-figures.raw.json', tags: 'textbook-figure-bank.library-tags.json' }
     : { prefix: 'rw', raw: 'textbook-rwanda-figures.raw.json', tags: 'textbook-figure-bank.rwanda-tags.json' }
+// Only the crops: the same books' library images (lb) and past-paper figures
+// (pp) are judged into other tags files, and would otherwise be dropped from
+// the bank here as "not judged yet".
 const raw: any[] = BOOKS.length
-  ? loadRawTextbookFigures().filter((f) => BOOKS.includes(f.textbookId))
+  ? loadRawTextbookFigures().filter((f) => BOOKS.includes(f.textbookId) && f.id.startsWith('tb'))
   : JSON.parse(fs.readFileSync(path.join(ROOT, 'data', SET.raw), 'utf8')).figures
 const tags: Record<string, any> = JSON.parse(fs.readFileSync(path.join(ROOT, 'data', SET.tags), 'utf8'))
 const bank = JSON.parse(fs.readFileSync(BANK, 'utf8'))
@@ -59,6 +62,7 @@ for (const f of raw) {
     labels: Array.isArray(t.labels) ? t.labels.map(String).filter(Boolean).slice(0, 40) : [],
     topic: String(t.content_topic || t.topic).trim(),
     original: String(t.original ?? '').trim(),
+    ...(f.pageText ? { pageText: true } : {}),
   })
 }
 

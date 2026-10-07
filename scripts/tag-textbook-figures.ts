@@ -29,7 +29,9 @@ const MODEL = process.env.TAG_MODEL_ID || 'eu.anthropic.claude-sonnet-5-5'
 const arg = (k: string) => (process.argv.find((a) => a.startsWith(`--${k}=`)) ?? '').split('=')[1] ?? ''
 const LIMIT = Number(arg('limit')) || Infinity
 const ONLY = arg('only').split(',').filter(Boolean).map(Number)
-const IDS = new Set(arg('ids').split(',').filter(Boolean))
+// --ids=@list.txt reads them from a file: Windows refuses a command line of
+// a few hundred ids.
+const IDS = new Set((arg('ids').startsWith('@') ? fs.readFileSync(arg('ids').slice(1), 'utf8') : arg('ids')).split(/[,\s]+/).filter(Boolean))
 
 for (const file of ['.env', '.env.local']) {
   const p = path.join(ROOT, file)
@@ -42,8 +44,9 @@ for (const file of ['.env', '.env.local']) {
 
 function prompt(f: RawTextbookFigure, topics: string[]): string {
   // A Rwanda library image comes with the text of its page, not with an
-  // exercise known to ask about it (scripts/rwanda-figure-raw.ts).
-  const pageText = /^(rw|lb)/.test(f.id)
+  // exercise known to ask about it (scripts/rwanda-figure-raw.ts), and so
+  // does a crop taken with build_textbook_question_figures.py --any.
+  const pageText = /^(rw|lb)/.test(f.id) || (f as { pageText?: boolean }).pageText === true
   return [
     pageText
       ? `This figure is from the textbook "${f.textbookName}" (page ${f.page}).`

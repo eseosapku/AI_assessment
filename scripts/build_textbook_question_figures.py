@@ -17,7 +17,10 @@ text is kept with it, as the past-paper bank keeps the examiner's.
 Emits data/textbook-question-figures.raw.json and crops under
 public/textbook-images/textbook-bank/<textbookId>/. Run:
 
-    python scripts/build_textbook_question_figures.py <book-map.json> [--only=34]
+    python scripts/build_textbook_question_figures.py <book-map.json> [--only=34] [--any]
+
+--any keeps a figure no question is near too, with the page text round it
+(marked pageText), for the judge to decide.
 
 where the map is [{"id": 34, "name": "...", "pdf": "C:/.../book.pdf"}, ...].
 """
@@ -159,6 +162,7 @@ def asks_about(rect, rows):
 def main():
     mapping = json.load(open(sys.argv[1], encoding="utf-8"))
     only = next((a.split("=")[1] for a in sys.argv if a.startswith("--only=")), None)
+    keep_any = "--any" in sys.argv
     by_pdf = collections.OrderedDict()
     for m in mapping:
         if m.get("pdf"):
@@ -193,6 +197,13 @@ def main():
             for idx, rect in enumerate(rects):
                 seen += 1
                 ask = asks_about(rect, rows)
+                if not ask and keep_any:
+                    # An AS & A Level Mathematics book sets its graphs in worked
+                    # examples and prose, rarely beside a numbered question: the
+                    # judge decides, reading the page round it as it does a
+                    # library image's.
+                    near = [r["t"] for r in rows if abs(r["y"] - rect.y0) < 260 or abs(r["y"] - rect.y1) < 260]
+                    ask = {"heading": None, "question": "\n".join(near)[:1400], "pageText": True}
                 if not ask:
                     continue
                 def text_in(c):
@@ -226,6 +237,7 @@ def main():
                     "page": pno, "localPath": "%s/%d/%s" % (URL_BASE, book_id, name),
                     "width": pix.width, "height": pix.height,
                     "labels": labels[:40], "heading": ask["heading"], "question": ask["question"],
+                    **({"pageText": True} if ask.get("pageText") else {}),
                 })
                 kept += 1
         print("%4d %-60s pages %4d figures %5d kept %4d" % (book_id, books[0]["name"][:60], doc.page_count, seen, kept), file=sys.stderr)
