@@ -21,6 +21,15 @@ const nextConfig = {
       './data/cambridge-textbook-pdf-map.json',
       './data/figure-drafts/**/*',
       './data/audit/**/*',
+      // The rest of public/ (served by the CDN, never read by the server),
+      // the docs, the migrations and the notes. With them the server bundle
+      // reached 224 MB against Amplify's 220 MB, and every build from
+      // 2026-10-06 failed while the site kept serving a September build.
+      // Not scripts/: app/api/exam-sources runs one at runtime.
+      './public/**/*',
+      './docs/**/*',
+      './migrations/**/*',
+      './*.md',
     ],
   },
 }

@@ -193,7 +193,8 @@ async function main() {
         id: f.id, textbookIds: [], textbookName: CHECKPOINT_NAMES[f.code] ?? 'Cambridge Checkpoint', page: 0,
         localPath: f.localPath, noun: f.noun, shows: f.shows, labels: f.labels, topic: f.focus, original: f.original,
       }))
-    : JSON.parse(fs.readFileSync(path.join(ROOT, 'data', 'textbook-figure-bank.json'), 'utf8')).figures
+    // --bank=data/x.json: figures not (yet) in the live bank, e.g. a pilot.
+    : JSON.parse(fs.readFileSync(path.join(ROOT, arg('bank') || 'data/textbook-figure-bank.json'), 'utf8')).figures
   // --skip-igcse: the IGCSE books, held back until approved.
   let figures = bank
     .filter((f) => !books.length || f.textbookIds.some((id) => books.includes(id)))
@@ -226,7 +227,13 @@ async function main() {
           if (!q) continue
           const c = await check(f, q)
           if (!c) continue
-          rec.questions.push({ kind, verdict: c.verdict, reason: c.reason, question: c.question, kept: c.verdict !== 'drop' })
+          // A dropped question keeps its verdict and reason, not its text: the
+          // app reads only kept ones, and the text of the rest was two thirds
+          // of the files that pushed the server bundle past Amplify's limit.
+          const kept = c.verdict !== 'drop'
+          rec.questions.push(kept
+            ? { kind, verdict: c.verdict, reason: c.reason, question: c.question, kept }
+            : { kind, verdict: c.verdict, reason: c.reason, kept })
         }
       }
       // Nothing written at all means the calls failed (throttling, a
