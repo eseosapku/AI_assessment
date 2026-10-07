@@ -32,18 +32,14 @@ const nextConfig = {
       // reached 224 MB against Amplify's 220 MB, and every build from
       // 2026-10-06 failed while the site kept serving a September build.
       // Not scripts/: app/api/exam-sources runs one at runtime.
-      './public/**/*',
-      './docs/**/*',
-      './migrations/**/*',
-      './*.md',
-      // The old library's uncurated manifest (read only when the curated one
-      // is missing) and the vision-description records (read by scripts).
+      //
+      // These patterns match ANYWHERE in a path, node_modules included: a
+      // "./lib/**/*" meant for the project's sources also took pg/lib, and
+      // every route that touches the database failed in production (HTTP 500,
+      // 2026-10-07). Only patterns no installed package can match.
+      './public/art/**/*',
       './data/textbook-images/manifest.json',
       './data/textbook-images/vision-descriptions.json',
-      // Sources the build has already compiled into .next/server.
-      './lib/**/*',
-      './app/**/*',
-      './components/**/*',
     ],
   },
 }
