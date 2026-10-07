@@ -1784,7 +1784,11 @@ ${commandBlock}`
               : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
             return sameLevel && hasVetted(f.id, kinds)
           })
-          .slice(0, Math.max(0, Math.round(count * 0.4)))
+          // Up to three in five. A vetted figure question reviewed 90-97%
+          // clean against about 70% for a question written live in words, so
+          // a chapter rich in figures is better for using more of them; one
+          // with few uses all it has either way.
+          .slice(0, Math.max(0, Math.round(count * 0.6)))
       : []
     if (quizFigures.length) {
       visualCatalog = []
