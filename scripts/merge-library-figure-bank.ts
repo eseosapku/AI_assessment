@@ -17,6 +17,7 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { loadRawTextbookFigures } from './textbook-figure-raw'
+import { isSelfAssessmentChart } from '../lib/textbook-figure-bank'
 
 const ROOT = process.cwd()
 const BANK = path.join(ROOT, 'data', 'textbook-figure-bank.json')
@@ -49,6 +50,7 @@ for (const f of raw) {
   if (shows.length <= 20) { refuse('no description'); continue }
   if (/cut off|not shown|not visible|is missing|are missing|partly hidden|outside the crop/i.test(shows)) { refuse('description admits the crop is incomplete'); continue }
   if (/^(an?|two|three|four|five|several)?\s*(empty|blank)\b/i.test(shows)) { refuse('a blank form to fill in'); continue }
+  if (isSelfAssessmentChart({ shows, labels: Array.isArray(t.labels) ? t.labels : [] })) { refuse('a self-assessment chart'); continue }
   if (!fs.existsSync(path.join(ROOT, 'public', f.localPath.replace(/^\//, '')))) { refuse('image missing on disk'); continue }
   kept.push({
     id: f.id, textbookIds: f.textbookIds, textbookName: f.textbookName, page: f.page, localPath: f.localPath,

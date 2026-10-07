@@ -34,6 +34,10 @@ describe('a short answer only a sentence can give', () => {
     expect(openPhraseAnswer(['attract insects', 'to attract pollinators', 'attracting insects for pollination'])).toBe(true)
     expect(openPhraseAnswer(['It stays lit', 'It stays on', 'The other lamp stays lit'])).toBe(true)
   })
+  it('is recognised when the question itself asks for a phrase', () => {
+    expect(openPhraseAnswer(['shows a result', 'introduces a consequence'], 'What is its purpose? Answer with a short phrase.')).toBe(true)
+    expect(openPhraseAnswer(['oxygen'], 'Name the gas.')).toBe(false)
+  })
   it('leaves a word, a fixed term or a number alone', () => {
     expect(openPhraseAnswer(['oxygen'])).toBe(false)
     expect(openPhraseAnswer(['carbon dioxide', 'CO2'])).toBe(false)

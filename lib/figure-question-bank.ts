@@ -31,7 +31,10 @@ const numberLike = (s: unknown) => /^[-−–]?[\d.,/ ]+\s*(°?\s*[a-z%°³²]{0
  * accepted form two words or more, and the writer reaching for four or more
  * to cover the ways of saying it, is the sign.
  */
-export function openPhraseAnswer(accepted: readonly unknown[]): boolean {
+export function openPhraseAnswer(accepted: readonly unknown[], question = ''): boolean {
+  // Asked for in so many words: "Answer with a short phrase." -- and "shows
+  // the result" was marked wrong beside "shows a result".
+  if (/short phrase|a few words/i.test(question)) return true
   if (!accepted.length || accepted.some(numberLike)) return false
   const counts = accepted.map(words)
   return Math.min(...counts) >= 2 && Math.max(...counts) >= 4
@@ -45,7 +48,7 @@ export function loadFigureQuestionBank(): Map<string, VettedQuestion[]> {
       const raw = JSON.parse(fs.readFileSync(path.join(process.cwd(), 'data', file), 'utf8'))
       for (const rec of Object.values<any>(raw)) {
         const kept = (rec?.questions ?? []).filter((q: any) => q?.kept && q?.question && String(q.question.question ?? '').trim())
-          .filter((q: any) => !(q.kind === 'short' && openPhraseAnswer(q.question.short_answer?.accepted ?? [])))
+          .filter((q: any) => !(q.kind === 'short' && openPhraseAnswer(q.question.short_answer?.accepted ?? [], String(q.question.question ?? ''))))
         if (kept.length) map.set(String(rec.figureId), kept.map((q: any) => ({ kind: q.kind, question: q.question })))
       }
     } catch {

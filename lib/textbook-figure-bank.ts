@@ -37,11 +37,22 @@ export interface TextbookFigure {
 const BANK_PATH = path.join(process.cwd(), 'data', 'textbook-figure-bank.json')
 let cache: TextbookFigure[] | null = null
 
+/**
+ * A book's self-assessment chart -- "When writing a blog post I can:" with
+ * faces to tick, a success-criteria table. Apparatus for the learner, not a
+ * figure about the subject: "What is a learner doing when they tick one of
+ * the faces?" reached an English quiz from one.
+ */
+const SELF_ASSESSMENT = /self[- ]assessment|I fully understand|I think I do|not really sure|success criteria|How did my work show|\b(when|while) (writing|reading)[^.]{0,40}\bI can\b/i
+export function isSelfAssessmentChart(f: Pick<TextbookFigure, 'shows' | 'labels'>): boolean {
+  return SELF_ASSESSMENT.test(String(f.shows ?? '')) || SELF_ASSESSMENT.test((f.labels ?? []).join(' '))
+}
+
 export function loadTextbookFigureBank(): TextbookFigure[] {
   if (cache) return cache
   try {
     const raw = JSON.parse(fs.readFileSync(BANK_PATH, 'utf8'))
-    cache = Array.isArray(raw?.figures) ? raw.figures : []
+    cache = (Array.isArray(raw?.figures) ? raw.figures : []).filter((f: TextbookFigure) => !isSelfAssessmentChart(f))
   } catch {
     cache = []
   }

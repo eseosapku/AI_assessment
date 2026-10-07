@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { bookInBank, familyOf, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from './textbook-figure-bank'
+import { bookInBank, familyOf, figuresForQuiz, isSelfAssessmentChart, keepAndSpread, stageOfBook, type TextbookFigure } from './textbook-figure-bank'
 import { buildTextbookFigurePrompt } from './textbook-figure-prompt'
 
 function fig(id: string, over: Partial<TextbookFigure> = {}): TextbookFigure {
@@ -199,6 +199,14 @@ describe('figures from a sister book at the same stage', () => {
     expect(got()).not.toContain('chemistry')
     expect(got()).not.toContain('lower')
     expect(got()).not.toContain('offtopic')
+  })
+})
+
+describe('a self-assessment chart', () => {
+  it('is the book\'s apparatus, not a figure to ask about', () => {
+    expect(isSelfAssessmentChart(fig('a', { shows: "A table with a yellow border. The header row reads 'When writing a blog post I can:' followed by three faces." }))).toBe(true)
+    expect(isSelfAssessmentChart(fig('b', { shows: 'A table of success criteria with three columns headed Yes, No and Sometimes.' }))).toBe(true)
+    expect(isSelfAssessmentChart(fig('c', { shows: 'A food web with arrows from grass to rabbits.' }))).toBe(false)
   })
 })
 
