@@ -228,6 +228,22 @@ export function figuresForQuiz(opts: {
     return shuffle(scored.filter((x) => x.score >= Math.max(2, best - 1)).map((x) => x.f))
   }
 
+  /**
+   * Another book's figure only when it is about the whole of the quiz's topic,
+   * not one word of it. "Pascal's triangle" borrowed Pythagoras triangles on
+   * the shared "triangle" -- no other book had a Pascal's triangle figure, so
+   * that one word was the strongest match there was. Up to three of the
+   * topic's words must all be there; a word may differ in form
+   * ("electrical" meets "electric").
+   */
+  const topicWords = [...words(topics.join(' '))]
+  const sameWord = (a: string, b: string) => a === b || (a.length >= 5 && b.length >= 5 && (a.startsWith(b) || b.startsWith(a)))
+  const aboutWholeTopic = (f: TextbookFigure): boolean => {
+    if (!topicWords.length) return false
+    const own = [...words(f.topic), ...words(f.shows)]
+    return topicWords.filter((w) => own.some((x) => sameWord(w, x))).length >= Math.min(topicWords.length, 3)
+  }
+
   const id = Number(opts.textbookId)
   if (Number.isFinite(id)) {
     const own = bank.filter((f) => f.textbookIds.includes(id))
@@ -248,7 +264,7 @@ export function figuresForQuiz(opts: {
       // chapters have three figures or fewer of their own, and every quiz on
       // one showed the same three; IGCSE Physics, Chemistry and Biology each
       // have a second book on the same syllabus.
-      const sisters = byContent(bank.filter((f) => !f.textbookIds.includes(id) && sameShelf(f.textbookName, opts.textbookName)))
+      const sisters = byContent(bank.filter((f) => !f.textbookIds.includes(id) && sameShelf(f.textbookName, opts.textbookName) && aboutWholeTopic(f)))
       return [...ownPick, ...sisters.filter((f) => !ownPick.includes(f))].slice(0, opts.max)
     }
   }
@@ -264,5 +280,5 @@ export function figuresForQuiz(opts: {
       const s = stageOfBook(f.textbookName)
       return stage == null || s == null || Math.abs(s - stage) <= 1
     })
-  return byContent(neighbours).slice(0, opts.max)
+  return byContent(neighbours.filter(aboutWholeTopic)).slice(0, opts.max)
 }

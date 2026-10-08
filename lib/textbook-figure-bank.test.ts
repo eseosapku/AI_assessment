@@ -205,6 +205,31 @@ describe('figures from a sister book at the same stage', () => {
   })
 })
 
+describe('a figure borrowed from another book', () => {
+  // A "Pascal's triangle" quiz borrowed Pythagoras triangles from another
+  // book on the one shared word; 54 chapters showed nothing but such figures.
+  const own = 'Cambridge Lower Secondary Mathematics Stage 8'
+  const other = 'Cambridge Lower Secondary Mathematics Learners Book 8'
+  const bank = [
+    fig('own', { textbookIds: [610], textbookName: own, topic: "Chapter 11: Pascal's triangle", shows: 'Rows of numbers arranged in a triangle.' }),
+    fig('pythagoras', { textbookIds: [99], textbookName: other, topic: "Unit 3: Pythagoras' theorem and similar triangles", shows: 'A right-angled triangle with its sides labelled a, b and c.' }),
+    fig('pascal', { textbookIds: [99], textbookName: other, topic: "Pascal's triangle", shows: "The first six rows of Pascal's triangle." }),
+  ]
+  const ids = (textbookId: number, from = bank) => figuresForQuiz({ textbookId, textbookName: own, topics: ["Chapter 11: Pascal's triangle"], stage: 8, max: 10, seed: 1, bank: from }).map((f) => f.id)
+  // As on the live bank: no other book had a Pascal's triangle figure, so one
+  // shared "triangle" was the strongest match there was and every triangle passed.
+  const noPascal = bank.filter((f) => f.id !== 'pascal')
+
+  it('is about the whole topic, not one word of it', () => {
+    expect(ids(610)).toEqual(expect.arrayContaining(['own', 'pascal']))
+    expect(ids(610, noPascal)).toEqual(['own'])
+  })
+  it('holds to the same rule when the book has no figures of its own', () => {
+    expect(ids(611)).toContain('pascal')
+    expect(ids(611, noPascal)).not.toContain('pythagoras')
+  })
+})
+
 describe('a self-assessment chart', () => {
   it('is the book\'s apparatus, not a figure to ask about', () => {
     expect(isSelfAssessmentChart(fig('a', { shows: "A table with a yellow border. The header row reads 'When writing a blog post I can:' followed by three faces." }))).toBe(true)
