@@ -130,6 +130,7 @@ export async function POST(request: NextRequest) {
           actions: [],
           suggestions: [],
           refusal: 'Could not draft a plan.',
+          retry: true,
         })
       }
       // A gap lesson may be reshaped, but not away from the gap. Asked to skip

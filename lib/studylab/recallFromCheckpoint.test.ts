@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
+import { buildCheckpointRecallCards, recallNotice } from '@/lib/studylab/recallFromCheckpoint'
 import type { QuizCell } from '@/lib/studylab/types'
 
 function cell(state: QuizCell['state'], question: QuizCell['question']): QuizCell {
@@ -26,5 +26,15 @@ describe('buildCheckpointRecallCards', () => {
     ]
     const cards = buildCheckpointRecallCards(cells)
     expect(cards.map((c) => c.back)).toEqual(['X is ...', 'returns Y', 'L → R'])
+  })
+})
+
+describe('telling the student about Recall', () => {
+  it('says how many questions went, and why', () => {
+    expect(recallNotice(1)).toMatch(/^The question you missed is saved to Recall/)
+    expect(recallNotice(3)).toMatch(/^The 3 questions you missed are saved to Recall/)
+  })
+  it('says nothing when nothing was saved', () => {
+    expect(recallNotice(0)).toBe('')
   })
 })

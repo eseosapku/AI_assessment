@@ -3,7 +3,7 @@ import { describe, it, expect } from 'vitest'
 import { policyFor } from './lessonPolicy'
 import {
   emptyRun, proposePlan, acceptPlan, editPlan, nextBeat, beginCheck,
-  passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stop, finish,
+  passCheck, failCheck, requestTestOut, skipStep, jumpTo, setPace, stop, finish, measuredBefore,
   type LessonRun, type LessonStep,
 } from './lessonRun'
 
@@ -530,5 +530,22 @@ describe('a lesson does not end with steps nobody has done', () => {
     expect(run.steps[0].status).toBe('known')
     for (let i = 0; i < 4; i += 1) run = pass(run)
     expect(run.phase).toBe('done')
+  })
+})
+
+describe('where the student stood before the lesson', () => {
+  const step = (id: string, accuracy?: number) => ({
+    id, title: `Step ${id}`, goal: 'g', status: 'pending' as const, cardIds: [],
+    ...(accuracy === undefined ? {} : { lockedBy: { subtopicId: 1, accuracy } }),
+  })
+
+  it('is the weakest measured step', () => {
+    const run = { ...emptyRun(policyFor('gap')), steps: [step('a'), step('b', 62), step('c', 38)] }
+    expect(measuredBefore(run)).toEqual({ title: 'Step c', accuracy: 38 })
+  })
+
+  it('is nothing when no step was measured', () => {
+    expect(measuredBefore({ ...emptyRun(policyFor('gap')), steps: [step('a')] })).toBeNull()
+    expect(measuredBefore(null)).toBeNull()
   })
 })

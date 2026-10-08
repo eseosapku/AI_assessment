@@ -1300,6 +1300,16 @@ describe('a turn that produces nothing', () => {
       run: openRun(), policy: GAP, userId: null, action: { type: 'next_beat' }, context: {},
     })
     expect(result.refusal).toBe('That did not come through. Try that again.')
+    // Pressing again can fix it, so the page offers the button.
+    expect(result.retry).toBe(true)
+  })
+
+  it('does not offer to retry a refusal that is a rule', async () => {
+    const result = await applyAction({
+      run: openRun(), policy: GAP, userId: null, action: { type: 'answer_check', passed: true }, context: {},
+    })
+    expect(result.refusal).toBeTruthy()
+    expect(result.retry).toBeUndefined()
   })
 
   it('leaves the run where it was, so pressing again retries the same turn', async () => {

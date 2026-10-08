@@ -73,6 +73,8 @@ interface ChatMouthpieceProps {
   onStartHomework?: (questionIds: string[]) => void
   /** Send a failed action again (the error bubble's Try again). */
   onRetry?: (action: Record<string, unknown>) => void
+  /** The measured score this lesson was opened for, shown beside "Prove it". */
+  before?: { title: string; accuracy: number } | null
 }
 
 /**
@@ -90,7 +92,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry, before = null }: ChatMouthpieceProps) {
   // A plan is awaiting a decision when the newest plan card is still live.
   const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
 
@@ -239,20 +241,16 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
               ) : m.kind === 'refusal' ? (
                 <div className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-warn)]/40 bg-[color:var(--ss-warn)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
                   <SafeLatex>{m.content}</SafeLatex>
+                  {m.retryAction && onRetry && i === messages.length - 1 && (
+                    <RetryButton onClick={() => onRetry(m.retryAction!)} disabled={busy} />
+                  )}
                 </div>
               ) : m.kind === 'error' ? (
                 <div role="alert" className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-bad)]/40 bg-[color:var(--ss-bad)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
                   <SafeLatex>{m.content}</SafeLatex>
                   {/* Only on the latest message: an old error retrying an old action would surprise. */}
                   {m.retryAction && onRetry && i === messages.length - 1 && (
-                    <button
-                      type="button"
-                      onClick={() => onRetry(m.retryAction!)}
-                      disabled={busy}
-                      className="mt-2 block rounded-lg bg-ss-accent px-3 py-1.5 text-[12.5px] font-bold text-white hover:opacity-90 disabled:opacity-60"
-                    >
-                      Try again
-                    </button>
+                    <RetryButton onClick={() => onRetry(m.retryAction!)} disabled={busy} />
                   )}
                 </div>
               ) : (
@@ -397,6 +395,11 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
           </p>
           {onProveIt && (
             <>
+              {before && (
+                <p className="mt-2 text-[12.5px] font-semibold text-ss-ink">
+                  Before this lesson: {before.accuracy}% on {before.title}. Take the quiz to see where you are now.
+                </p>
+              )}
               {/* The lesson is only half the loop — a saved result is what
                   moves the gap map, so offer the test right here. */}
               <button
@@ -489,5 +492,19 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
         <p className="text-[12px] text-ss-slate text-center mt-2">AI can make mistakes. Check important info.</p>
       </div>
     </div>
+  )
+}
+
+/** Sends the failed turn again. Only ever on the newest message. */
+function RetryButton({ onClick, disabled }: { onClick: () => void; disabled: boolean }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="mt-2 block rounded-lg bg-ss-accent px-3 py-1.5 text-[12.5px] font-bold text-white hover:opacity-90 disabled:opacity-60"
+    >
+      Try again
+    </button>
   )
 }

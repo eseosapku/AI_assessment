@@ -115,6 +115,13 @@ export interface DispatchResult {
   actions: unknown[]
   suggestions: string[]
   refusal?: string
+  /**
+   * The refusal is a turn that failed for a reason pressing again can fix
+   * (a reply that did not parse, a check that did not write), so the page
+   * offers Try again. Absent on a refusal that is a rule, which would only
+   * refuse again.
+   */
+  retry?: boolean
   plan?: PlanCard
   /**
    * What just happened, when an action only moved state.
@@ -355,6 +362,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       actions: [],
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
+      retry: true,
     }
   }
 
@@ -373,6 +381,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       actions: [],
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
+      retry: true,
     }
   }
 
@@ -390,6 +399,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       actions: [],
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
+      retry: true,
     }
   }
 
@@ -405,6 +415,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
       actions: [],
       suggestions: [],
       refusal: 'I nearly repeated myself there — press continue again.',
+      retry: true,
     }
   }
   const opened = openEmittedCheckpoint(advanced, rawActions, board)
@@ -1090,6 +1101,7 @@ async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<
       actions: [],
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
+      retry: true,
     }
   }
 
@@ -1100,6 +1112,7 @@ async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<
       actions: [],
       suggestions: [],
       refusal: 'Could not put together a check for that step — try again.',
+      retry: true,
     }
   }
 
@@ -1194,6 +1207,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
       actions: [],
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
+      retry: true,
     }
   }
 
@@ -1233,6 +1247,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
       actions: [],
       suggestions: [],
       refusal: 'That did not come through. Try that again.',
+      retry: true,
     }
   }
 

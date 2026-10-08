@@ -24,13 +24,27 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ added: 0, message: 'No cards to import' })
     }
 
-    const deckInsert = await db.query(
-      `INSERT INTO recall_decks (user_id, title, subject, source, source_ref)
-       VALUES ($1, $2, $3, 'studylab', $4)
-       RETURNING *`,
-      [userId, `${subject} — missed in checkpoint`, subject, sourceRef]
-    )
-    const deck = deckInsert.rows[0]
+    // One deck per lesson. Each missed check used to make a deck of its own:
+    // 60 decks for 17 lessons, 15 of them from a single lesson.
+    let deck = sourceRef
+      ? (
+          await db.query(
+            `SELECT * FROM recall_decks
+              WHERE user_id = $1 AND source = 'studylab' AND source_ref = $2
+              ORDER BY created_at LIMIT 1`,
+            [userId, sourceRef]
+          )
+        ).rows[0]
+      : undefined
+    if (!deck) {
+      const deckInsert = await db.query(
+        `INSERT INTO recall_decks (user_id, title, subject, source, source_ref)
+         VALUES ($1, $2, $3, 'studylab', $4)
+         RETURNING *`,
+        [userId, `${subject} — missed in checkpoint`, subject, sourceRef]
+      )
+      deck = deckInsert.rows[0]
+    }
     const init = initialCardState()
 
     let added = 0

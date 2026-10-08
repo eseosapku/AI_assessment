@@ -338,3 +338,11 @@
 .react-flow__node-stepRegion {
   pointer-events: none !important;
 }
+
+/* LearnSpace with Board tools off: the dots a link is dragged from are
+   hidden. They stay in place, invisible, because the tutor's own links are
+   still drawn from them. */
+.ss-board-plain .react-flow__handle {
+  opacity: 0;
+  pointer-events: none;
+}

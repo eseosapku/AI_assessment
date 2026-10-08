@@ -19,11 +19,11 @@ import { layoutGraph } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
 import { checkAnswers, checkpointResultText } from '@/lib/studylab/quiz'
-import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
+import { buildCheckpointRecallCards, recallNotice } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import type { ChatPlan } from '@/lib/studylab/types'
-import type { LessonRun } from '@/lib/studylab/lessonRun'
+import { measuredBefore, type LessonRun } from '@/lib/studylab/lessonRun'
 import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
@@ -253,6 +253,7 @@ export default function Workspace({ id }: { id: string }) {
           actions?: TutorAction[]
           suggestions?: string[]
           refusal?: string
+          retry?: boolean
           error?: string
           plan?: ChatPlan
           ack?: string
@@ -274,7 +275,11 @@ export default function Workspace({ id }: { id: string }) {
         if (body.refusal) {
           // A refusal is a sentence in the tutor's voice, not an error toast —
           // and the run is unchanged, so there is nothing else to apply.
-          setMessages((prev) => [...prev, { role: 'assistant', kind: 'refusal', content: body.refusal! }])
+          // One that pressing again can fix offers the button to do it.
+          setMessages((prev) => [
+            ...prev,
+            { role: 'assistant', kind: 'refusal', content: body.refusal!, ...(body.retry ? { retryAction: action } : {}) },
+          ])
           return
         }
 
@@ -953,7 +958,13 @@ export default function Workspace({ id }: { id: string }) {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ userId: user.id, subject: space?.subject ?? space?.title ?? 'StudyLab', sourceRef: id, cards: missed }),
-          }).catch(() => {})
+          })
+            .then((res) => (res.ok ? res.json() : null))
+            .then((saved: { added?: number } | null) => {
+              const notice = recallNotice(Number(saved?.added ?? 0))
+              if (notice) setMessages((prev) => [...prev, { role: 'assistant', kind: 'status', content: notice }])
+            })
+            .catch(() => {})
         }
         // Dispatch one checkpoint per pass; the next answered one fires on re-run.
         break
@@ -1211,6 +1222,7 @@ export default function Workspace({ id }: { id: string }) {
           onProveIt={handleProveIt}
           provingIt={provingIt}
           proveUpdatesGapMap={Boolean(space?.textbook_id && space?.topic_id)}
+          before={measuredBefore(run)}
           onAcceptPlan={(pace) => {
             markPlanSettled()
             void sendAction({ type: 'accept_plan', pace })

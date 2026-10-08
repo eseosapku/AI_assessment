@@ -354,3 +354,20 @@ export function finish(run: LessonRun, policy: LessonPolicy): Transition {
   }
   return ok({ ...run, phase: 'done', currentStep: -1, openCheck: undefined, awaiting: true })
 }
+
+/**
+ * Where the student stood before this lesson, for the step it was opened for.
+ *
+ * A gap lesson exists because of a measured score, and the lesson ended
+ * without mentioning it: "Prove it" had no before to set the after against.
+ * The weakest measured step, or null when nothing in the plan was measured.
+ */
+export function measuredBefore(run: LessonRun | null | undefined): { title: string; accuracy: number } | null {
+  let worst: { title: string; accuracy: number } | null = null
+  for (const step of run?.steps ?? []) {
+    const accuracy = step.lockedBy?.accuracy
+    if (typeof accuracy !== 'number') continue
+    if (!worst || accuracy < worst.accuracy) worst = { title: step.title, accuracy }
+  }
+  return worst
+}

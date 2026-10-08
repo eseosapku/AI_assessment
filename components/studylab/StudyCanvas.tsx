@@ -20,7 +20,7 @@ import {
 } from '@xyflow/react'
 import '@xyflow/react/dist/style.css'
 import 'katex/dist/katex.min.css'
-import { Loader2, Download, Brain } from 'lucide-react'
+import { Loader2, Download, Brain, Wrench } from 'lucide-react'
 import { CanvasContext, studyNodeTypes } from './canvasNodes'
 import PaletteToolbar from './PaletteToolbar'
 import { exportLayout, exportFileName, triggerDownload, brandExport } from '@/lib/studylab/exportCanvas'
@@ -109,6 +109,28 @@ function FlowInner({
   const [cardMenu, setCardMenu] = useState<{ id: string; title: string; x: number; y: number } | null>(null)
   const [exporting, setExporting] = useState(false)
   const [exportMenu, setExportMenu] = useState(false)
+  // Export, the minimap and drawing links between cards are for the few who
+  // want them; to everyone else they were clutter, and a stray drag from a
+  // card's edge drew a link nobody meant. Off until asked for, remembered per
+  // browser. "Add block" stays: the tour teaches it, and notes are theirs.
+  const [tools, setTools] = useState(false)
+  useEffect(() => {
+    try {
+      setTools(localStorage.getItem(BOARD_TOOLS_KEY) === 'on')
+    } catch {
+      /* storage blocked: stay off */
+    }
+  }, [])
+  const toggleTools = () => {
+    const next = !tools
+    setTools(next)
+    if (!next) setExportMenu(false)
+    try {
+      localStorage.setItem(BOARD_TOOLS_KEY, next ? 'on' : 'off')
+    } catch {
+      /* storage blocked: the switch still works for this visit */
+    }
+  }
   // null ⇒ "all steps selected"; a Set ⇒ the user's explicit choice.
   const [picked, setPicked] = useState<Set<number> | null>(null)
 
@@ -541,7 +563,7 @@ function FlowInner({
   }, [effects, rf])
 
   return (
-    <div ref={wrapperRef} className="w-full h-full" onDrop={onDrop} onDragOver={onDragOver}>
+    <div ref={wrapperRef} className={`w-full h-full ${tools ? '' : 'ss-board-plain'}`} onDrop={onDrop} onDragOver={onDragOver}>
       <ReactFlow
         nodes={drawnNodes}
         edges={rfEdges}
@@ -552,11 +574,12 @@ function FlowInner({
         onNodeDragStop={onNodeDragStop}
         onNodeClick={onNodeClick}
         onConnect={onConnect}
+        nodesConnectable={tools}
         deleteKeyCode={null}
-        onEdgeDoubleClick={(_, edge) => {
+        onEdgeDoubleClick={tools ? (_, edge) => {
           const v = window.prompt('Edge label', (edge.label as string) ?? '')
           if (v !== null) onEdgeLabel(edge.id, v)
-        }}
+        } : undefined}
         fitView
         fitViewOptions={{ padding: 0.3, maxZoom: 1 }}
         minZoom={0.15}
@@ -568,14 +591,16 @@ function FlowInner({
         <Panel position="bottom-left">
           <ZoomControl />
         </Panel>
-        <MiniMap
-          pannable
-          zoomable
-          nodeColor="#9CD4F0"
-          nodeStrokeColor="#0E8FD1"
-          maskColor="rgba(12,116,180,0.08)"
-          className="!rounded-xl !border !border-ss-line !bg-ss-panel"
-        />
+        {tools && (
+          <MiniMap
+            pannable
+            zoomable
+            nodeColor="#9CD4F0"
+            nodeStrokeColor="#0E8FD1"
+            maskColor="rgba(12,116,180,0.08)"
+            className="!rounded-xl !border !border-ss-line !bg-ss-panel"
+          />
+        )}
         <Panel position="top-right">
           <PaletteToolbar onAdd={addAtCenter} />
         </Panel>
@@ -589,6 +614,19 @@ function FlowInner({
               <span className="max-w-[200px] truncate text-[12.5px] font-extrabold text-ss-ink">{title || 'LearnSpace'}</span>
               <span className="rounded-full bg-[color:var(--ss-accent)]/15 px-1.5 py-0.5 text-[12px] font-extrabold uppercase tracking-wide text-ss-accent">Beta</span>
             </div>
+          <button
+            type="button"
+            onClick={toggleTools}
+            aria-pressed={tools}
+            title={tools ? 'Hide export, the minimap and links between cards' : 'Show export, the minimap and links between cards'}
+            className={`flex items-center gap-1.5 rounded-xl border px-3 py-2 text-[12px] font-semibold shadow-ss-panel ${
+              tools ? 'border-ss-accent bg-ss-accent-soft text-ss-accent' : 'border-ss-line bg-ss-panel text-ss-ink hover:border-ss-accent'
+            }`}
+          >
+            <Wrench className="h-4 w-4" aria-hidden />
+            Board tools
+          </button>
+          {tools && (
           <div className="relative">
             <button
               type="button"
@@ -652,6 +690,7 @@ function FlowInner({
               </div>
             )}
           </div>
+          )}
           </div>
         </Panel>
       </ReactFlow>
@@ -684,6 +723,8 @@ function FlowInner({
     </div>
   )
 }
+
+const BOARD_TOOLS_KEY = 'ss-learnspace-board-tools'
 
 export default function StudyCanvas(props: StudyCanvasProps) {
   return (

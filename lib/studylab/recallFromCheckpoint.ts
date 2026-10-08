@@ -30,3 +30,17 @@ export function buildCheckpointRecallCards(cells: QuizCell[]): RecallCardInput[]
   }
   return out
 }
+
+/**
+ * What the student is told once their missed questions are saved to Recall.
+ *
+ * They were always saved, and nobody was told: a deck appeared in Recall with
+ * no account of where it came from, and the review that makes a miss worth
+ * something never happened.
+ */
+export function recallNotice(saved: number): string {
+  if (saved <= 0) return ''
+  return saved === 1
+    ? 'The question you missed is saved to Recall, so it comes back for review.'
+    : `The ${saved} questions you missed are saved to Recall, so they come back for review.`
+}
