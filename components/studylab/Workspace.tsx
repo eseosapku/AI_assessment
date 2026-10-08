@@ -18,13 +18,14 @@ import { pdfFirstPageToDataUrl } from '@/lib/studylab/pdfToImage'
 import { layoutGraph } from '@/lib/studylab/layout'
 import { boardSummary } from '@/lib/studylab/boardSummary'
 import { busyLabel } from '@/lib/studylab/busyLabel'
-import { checkpointResultText } from '@/lib/studylab/quiz'
+import { checkAnswers, checkpointResultText } from '@/lib/studylab/quiz'
 import { buildCheckpointRecallCards } from '@/lib/studylab/recallFromCheckpoint'
 import type { CanvasState, ChatMessage, QuizCell, StudyNodeData, TutorAction } from '@/lib/studylab/types'
 import { policyFor } from '@/lib/studylab/lessonPolicy'
 import type { ChatPlan } from '@/lib/studylab/types'
 import type { LessonRun } from '@/lib/studylab/lessonRun'
 import { useAuth } from '@/components/AuthProvider'
+import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
 
 // React Flow is client-only; load without SSR.
@@ -125,17 +126,46 @@ export default function Workspace({ id }: { id: string }) {
   const done = run?.phase === 'done'
 
   // ── Persistence ─────────────────────────────────────────────────────────────
+  // A failed save was only logged: a quiz answer or an edited card could be
+  // gone after a reload with nothing said. What did not save is kept and sent
+  // again, with the latest board, and the page says so until it lands.
+  type Partial_ = { canvas_state?: CanvasState; current_step?: number; messages?: ChatMessage[]; status?: string }
+  const [unsaved, setUnsaved] = useState(false)
+  const failedSave = useRef<{ messages: ChatMessage[]; status?: string } | null>(null)
+  const retryTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+
   const persist = useCallback(
-    async (partial: { canvas_state?: CanvasState; current_step?: number; messages?: ChatMessage[]; status?: string }) => {
+    async (partial: Partial_, opts?: { keepalive?: boolean }): Promise<boolean> => {
+      const carried = failedSave.current
+      const body = {
+        ...partial,
+        ...(carried?.status && partial.status === undefined ? { status: carried.status } : {}),
+        ...(carried?.messages.length ? { messages: [...carried.messages, ...(partial.messages ?? [])] } : {}),
+        // The owner, which the route now checks before saving anything.
+        user_id: user?.id,
+      }
+      const json = JSON.stringify(body)
       try {
-        await fetch(`/api/studylab/${id}`, {
+        const res = await fetch(`/api/studylab/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          // The owner, which the route now checks before saving anything.
-          body: JSON.stringify({ ...partial, user_id: user?.id }),
+          body: json,
+          // Survives the page closing, within the browser's 64 KB allowance.
+          keepalive: Boolean(opts?.keepalive) && json.length < 60_000,
         })
+        if (!res.ok) throw new Error(`save ${res.status}`)
+        failedSave.current = null
+        setUnsaved(false)
+        return true
       } catch (err) {
         console.error('Autosave failed:', err)
+        failedSave.current = { messages: body.messages ?? [], status: body.status }
+        setUnsaved(true)
+        if (retryTimer.current) clearTimeout(retryTimer.current)
+        retryTimer.current = setTimeout(() => {
+          void persist({ canvas_state: canvasRef.current, current_step: stepRef.current })
+        }, 5000)
+        return false
       }
     },
     [id, user?.id]
@@ -144,8 +174,29 @@ export default function Workspace({ id }: { id: string }) {
   const scheduleCanvasSave = useCallback(() => {
     if (saveTimer.current) clearTimeout(saveTimer.current)
     saveTimer.current = setTimeout(() => {
+      saveTimer.current = null
       persist({ canvas_state: canvasRef.current, current_step: stepRef.current })
     }, 1200)
+  }, [persist])
+
+  // A save still waiting on its debounce, or one that failed, goes now when
+  // the student leaves: the tab hidden, the page closed, or the lesson left
+  // for the hub. It used to be dropped with the timer.
+  useEffect(() => {
+    const flush = () => {
+      if (!saveTimer.current && !failedSave.current) return
+      if (saveTimer.current) { clearTimeout(saveTimer.current); saveTimer.current = null }
+      void persist({ canvas_state: canvasRef.current, current_step: stepRef.current }, { keepalive: true })
+    }
+    const onHidden = () => { if (document.visibilityState === 'hidden') flush() }
+    document.addEventListener('visibilitychange', onHidden)
+    window.addEventListener('pagehide', flush)
+    return () => {
+      document.removeEventListener('visibilitychange', onHidden)
+      window.removeEventListener('pagehide', flush)
+      if (retryTimer.current) clearTimeout(retryTimer.current)
+      flush()
+    }
   }, [persist])
 
   // ── Tutor actions ───────────────────────────────────────────────────────────
@@ -177,9 +228,15 @@ export default function Workspace({ id }: { id: string }) {
       busyRef.current = true
       setWorking(busyLabel(action as { type?: string }))
       setBusy(true)
+      // A stalled request spun forever. The route gives up at 24 s and
+      // Amplify at 30 s, so 40 s only catches a connection that went quiet.
+      const controller = new AbortController()
+      const giveUp = setTimeout(() => controller.abort(), 40_000)
+      const slow = setTimeout(() => setWorking('Still working on it…'), 15_000)
       try {
         const res = await fetch('/api/studylab/tutor', {
           method: 'POST',
+          signal: controller.signal,
           headers: { 'Content-Type': 'application/json' },
           // What is already on the board goes with every action. Without it
           // the tutor cannot see its own work and rebuilds the same card.
@@ -190,7 +247,7 @@ export default function Workspace({ id }: { id: string }) {
             board: boardSummary(canvasRef.current, messagesRef.current),
           }),
         })
-        const body: {
+        const body: null | {
           run?: LessonRun
           say?: string
           actions?: TutorAction[]
@@ -199,15 +256,17 @@ export default function Workspace({ id }: { id: string }) {
           error?: string
           plan?: ChatPlan
           ack?: string
-        } = await res.json()
+        } = await res.json().catch(() => null)
 
-        if (!res.ok || body.error) {
+        // No readable body (an HTML error page) is a failure like any other.
+        if (!body || !res.ok || body.error) {
           setMessages((prev) => [
             ...prev,
             {
               role: 'assistant',
               kind: 'error',
-              content: body.error || 'Something went wrong. Please try again.',
+              content: friendlyTutorError({ status: res.ok ? 500 : res.status, bodyError: body?.error }),
+              retryAction: action,
             },
           ])
           return
@@ -292,9 +351,11 @@ export default function Workspace({ id }: { id: string }) {
       } catch (err: any) {
         setMessages((prev) => [
           ...prev,
-          { role: 'assistant', content: `⚠️ ${err?.message || 'Something went wrong. Please try again.'}` },
+          { role: 'assistant', kind: 'error', content: friendlyTutorError({ thrown: err }), retryAction: action },
         ])
       } finally {
+        clearTimeout(giveUp)
+        clearTimeout(slow)
         busyRef.current = false
         setBusy(false)
       }
@@ -878,10 +939,12 @@ export default function Workspace({ id }: { id: string }) {
           }))
         }
 
+        // `passed` is only the page's view; the tutor marks `answers` itself.
         void sendAction({
           type: 'answer_check',
           passed,
           missed: cells.filter((c) => c.state !== 'correct').map((c) => c.question.prompt),
+          answers: checkAnswers(cells),
         })
         // Feed the questions they got wrong into spaced-repetition recall.
         const missed = buildCheckpointRecallCards(cells)
@@ -931,7 +994,7 @@ export default function Workspace({ id }: { id: string }) {
 
     released.current.add(cpId)
     const passed = cells.length > 0 && cells.filter((c) => c.state === 'correct').length > cells.length / 2
-    void sendAction({ type: 'answer_check', passed, missed: [] })
+    void sendAction({ type: 'answer_check', passed, missed: [], answers: checkAnswers(cells) })
   }, [canvas.nodes, run?.openCheck?.checkpointId, busy, loaded, sendAction])
 
   // ── Initial load ────────────────────────────────────────────────────────────
@@ -1106,7 +1169,12 @@ export default function Workspace({ id }: { id: string }) {
         onAddPage={handleAddPage}
       />
 
-      <div data-tour="lesson-board" className="flex-1 min-w-0 h-full">
+      <div data-tour="lesson-board" className="relative flex-1 min-w-0 h-full">
+        {unsaved && (
+          <div role="status" className="absolute left-3 top-3 z-20 rounded-full border border-ss-line bg-ss-panel px-3 py-1.5 text-[12.5px] font-semibold text-ss-ink shadow">
+            Not saved yet. Retrying…
+          </div>
+        )}
         <StudyCanvas
           nodes={canvas.nodes}
           edges={canvas.edges}
@@ -1153,6 +1221,7 @@ export default function Workspace({ id }: { id: string }) {
             void sendAction({ type: 'draft_plan', answer })
           }}
           onStartHomework={startHomework}
+          onRetry={(action) => void sendAction(action)}
         />
       </div>
 

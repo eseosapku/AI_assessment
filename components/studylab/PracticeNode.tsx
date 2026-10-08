@@ -5,6 +5,7 @@ import { type NodeProps } from '@xyflow/react'
 import { PenLine, Check, Loader2, Eye } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { CardFrame, SafeLatex, CanvasContext } from './canvasShared'
+import { useAuth } from '@/components/AuthProvider'
 import { localVerdict, isAttemptable, type PracticeCell } from '@/lib/studylab/practice'
 
 /**
@@ -31,6 +32,7 @@ export function PracticeNode({ id, data }: NodeProps) {
   const settled = cell.state === 'correct' || cell.state === 'close' || cell.state === 'incorrect'
 
   const { onNodeDataChange } = useContext(CanvasContext)
+  const { user } = useAuth()
   const patch = (next: Partial<PracticeCell>) =>
     onNodeDataChange(id, { practice: { ...cell, ...next } })
 
@@ -61,6 +63,7 @@ export function PracticeNode({ id, data }: NodeProps) {
           attempt,
           expected: typeof d.answer === 'string' ? d.answer : String(d.answer ?? ''),
           rubric: typeof d.rubric === 'string' ? d.rubric : '',
+          userId: user?.id ?? null,
         }),
       })
       const json = await res.json()

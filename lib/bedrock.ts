@@ -226,6 +226,12 @@ export interface CallGemmaOptions {
    * how every existing caller behaves — this is additive on purpose.
    */
   usage?: { feature: string; requestId: string; userId: string | null }
+  /**
+   * Gives up on the call when aborted. A request has 30 s on Amplify before
+   * the student gets a gateway error page; a caller with a deadline passes
+   * one so the call stops in time to answer properly instead.
+   */
+  signal?: AbortSignal
 }
 
 /**
@@ -253,6 +259,7 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
 
   let lastErr: any = null
   for (const modelId of uniqueCandidates) {
+    if (opts.signal?.aborted) throw abortError()
     try {
       const cmd = new InvokeModelCommand({
         modelId,
@@ -270,9 +277,9 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
               parseBody: (r: InvokeModelCommandOutput) =>
                 JSON.parse(new TextDecoder().decode(r.body)),
             },
-            () => client.send(cmd),
+            () => client.send(cmd, { abortSignal: opts.signal }),
           )
-        : await client.send(cmd)
+        : await client.send(cmd, { abortSignal: opts.signal })
       const parsed = JSON.parse(new TextDecoder().decode(res.body))
       const text = extractText(modelId, parsed)
       if (text.trim()) {
@@ -288,6 +295,10 @@ export async function callGemma(prompt: string, opts: CallGemmaOptions = {}): Pr
   }
 
   throw lastErr || new Error('No Bedrock model candidate succeeded.')
+}
+
+function abortError(): Error {
+  return Object.assign(new Error('The model call ran out of time.'), { name: 'AbortError' })
 }
 
 // ── Robust JSON parsing (ported from generate-assessment) ─────────────────────

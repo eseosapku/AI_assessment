@@ -1,5 +1,8 @@
 import { describe, it, expect } from 'vitest'
-import { serializeArg } from '@/lib/studylab/runner/serialize'
+import { SERIALIZE_SRC } from '@/lib/studylab/runner/workerSrc'
+
+// The worker's own text, run as the worker runs it.
+const serializeArg = new Function(`${SERIALIZE_SRC}; return serializeArg`)() as (v: unknown) => string
 
 describe('serializeArg', () => {
   it('passes strings through', () => {

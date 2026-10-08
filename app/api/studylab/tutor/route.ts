@@ -14,8 +14,24 @@ import { checkRateLimit, identify } from '@/lib/rate-limit'
 // only its handlers, and `next build` failed the type check while it was
 // declared here.
 
+/**
+ * How long a turn may spend before it gives up and says so. Amplify ends a
+ * request at 30 s with a gateway error page; this leaves room to save the run
+ * and answer properly.
+ */
+const TURN_BUDGET_MS = 24_000
+
+/** Largest turn the route reads: the board plus one photo, with room to spare. */
+const MAX_TURN_BYTES = 10_000_000
+
 export async function POST(request: NextRequest) {
+  const deadline = Date.now() + TURN_BUDGET_MS
   try {
+    // A board and one photo fit well inside this. Anything larger was read
+    // whole into memory and handed on.
+    if (Number(request.headers.get('content-length') ?? 0) > MAX_TURN_BYTES) {
+      return NextResponse.json({ error: 'That is too much to send at once. Try a smaller photo.' }, { status: 413 })
+    }
     const body = await request.json()
     const learnspaceId = String(body?.learnspaceId ?? '').trim()
     const action = body?.action
@@ -100,7 +116,7 @@ export async function POST(request: NextRequest) {
       const { steps, questions, programming } = await draftPlan({
         title: String(space.title ?? ''),
         subject: space.subject ? String(space.subject) : null,
-        policy, userId, subtopics, requestId, mustCover,
+        policy, userId, subtopics, requestId, mustCover, deadline,
         answer: typeof action.answer === 'string' ? action.answer : undefined,
       })
       if (steps.length === 0) {
@@ -126,7 +142,7 @@ export async function POST(request: NextRequest) {
       // Decided once, here, and carried for the rest of the lesson: every
       // teaching turn checks it before allowing a card that runs code.
       const next = planned.ok ? { ...planned.run, programming } : run
-      await saveRun(learnspaceId, next)
+      await saveRun(learnspaceId, next, space.lesson_run)
 
       // The plan goes to the chat, not just the sidebar. A plan the learner
       // cannot see themselves being asked about is an announcement, and an
@@ -144,7 +160,7 @@ export async function POST(request: NextRequest) {
     // here — `space.canvas_state` is a debounced autosave and can be a beat
     // behind, which is exactly the window a duplicate card gets created in.
     const result = await applyAction({
-      run, policy, userId, action, requestId,
+      run, policy, userId, action, requestId, deadline,
       context: {
         title: space.title,
         subject: space.subject,
@@ -158,9 +174,20 @@ export async function POST(request: NextRequest) {
           : [],
       },
     })
-    if (!result.refusal) await saveRun(learnspaceId, result.run)
+    if (!result.refusal) await saveRun(learnspaceId, result.run, space.lesson_run)
     return NextResponse.json(result)
   } catch (error) {
+    if (error instanceof RunConflict) {
+      return NextResponse.json(
+        { error: 'Your lesson moved on in another tab or from a double tap. Reload the page to carry on from there.' },
+        { status: 409 },
+      )
+    }
+    // Nothing was saved, so pressing again starts from the same place.
+    const name = (error as { name?: string } | null)?.name
+    if (name === 'AbortError' || name === 'TimeoutError') {
+      return NextResponse.json({ error: 'The tutor took too long to answer. Try again.' }, { status: 504 })
+    }
     console.error('Tutor dispatch failed:', error)
     return NextResponse.json({ error: 'Tutor request failed' }, { status: 500 })
   }
@@ -180,12 +207,22 @@ function planCardFor(run: LessonRun, policy: ReturnType<typeof policyFor>, quest
   }
 }
 
-/** Persists just the run. Last write wins, matching how canvas_state behaves. */
-async function saveRun(learnspaceId: string, run: LessonRun): Promise<void> {
-  await db.query('UPDATE learnspaces SET lesson_run = $1::jsonb, updated_at = NOW() WHERE id = $2', [
-    jsonbParam(run),
-    learnspaceId,
-  ])
+/** A turn that would write over one which landed while it was with the model. */
+class RunConflict extends Error {}
+
+/**
+ * Persists just the run, but only over the run this turn started from. A turn
+ * reads the run, spends 5-20 s with the model, then writes it back: last write
+ * wins let a double tap or a second tab wipe the turn that landed first. Only
+ * this route writes `lesson_run` (the page's autosave never sends it), so the
+ * run as read is a sound guard.
+ */
+async function saveRun(learnspaceId: string, run: LessonRun, readAs: unknown): Promise<void> {
+  const res = await db.query(
+    'UPDATE learnspaces SET lesson_run = $1::jsonb, updated_at = NOW() WHERE id = $2 AND lesson_run IS NOT DISTINCT FROM $3::jsonb RETURNING id',
+    [jsonbParam(run), learnspaceId, jsonbParam(readAs ?? null)],
+  )
+  if (!(res.rowCount ?? res.rows.length)) throw new RunConflict()
 }
 
 /** The subtopics a step can be attributed to. Empty for a scratch lesson. */

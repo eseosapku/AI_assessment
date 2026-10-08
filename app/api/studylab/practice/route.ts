@@ -4,6 +4,10 @@ import { callGemma, parseJsonRobust } from '@/lib/bedrock'
 import { modelForJob } from '@/lib/studylab/lessonJobs'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 import { parseVerdict, type PracticeVerdict } from '@/lib/studylab/practice'
+import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscription-server'
+import { fenceStudentText, MAX_TYPED_CHARS } from '@/lib/studylab/untrusted'
+
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
 /**
  * Marks one attempt at a practice problem.
@@ -25,10 +29,21 @@ export async function POST(request: NextRequest) {
     const attempt = String(body?.attempt ?? '').trim()
     const expected = String(body?.expected ?? '').trim()
     const rubric = String(body?.rubric ?? '').trim()
-    const userId = body?.userId ? String(body.userId) : null
+    const userId = String(body?.userId ?? '').trim()
 
     if (!prompt || !attempt) {
       return NextResponse.json({ error: 'A problem and an attempt are required' }, { status: 400 })
+    }
+    // A paid call, so it needs someone it is paid for. Anyone could mark
+    // anything here, with no account and no plan.
+    if (!UUID_RE.test(userId)) {
+      return NextResponse.json({ error: 'Sign in to have that marked.' }, { status: 401 })
+    }
+    if (attempt.length > MAX_TYPED_CHARS) {
+      return NextResponse.json(
+        { error: `That answer is too long to mark. Keep it under ${MAX_TYPED_CHARS.toLocaleString('en')} characters.` },
+        { status: 413 },
+      )
     }
 
     const limit = checkRateLimit('studylab-practice', identify(userId, request.headers))
@@ -39,7 +54,17 @@ export async function POST(request: NextRequest) {
       )
     }
 
-    const raw = await callGemma(markingPrompt({ prompt, attempt, expected, rubric }), {
+    const gate = await assertSubscriptionAccess(userId, 'study')
+    if (!gate.allowed) return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
+
+    // The problem, answer and rubric come off the board, which the page owns;
+    // capped rather than refused, since the student did not write them.
+    const raw = await callGemma(markingPrompt({
+      prompt: prompt.slice(0, MAX_TYPED_CHARS),
+      attempt,
+      expected: expected.slice(0, 1000),
+      rubric: rubric.slice(0, 1500),
+    }), {
       maxTokens: 320,
       temperature: 0.2,
       model: modelForJob('grade'),
@@ -87,7 +112,7 @@ function markingPrompt(o: { prompt: string; attempt: string; expected: string; r
     `PROBLEM: ${o.prompt}`,
     o.expected ? `EXPECTED ANSWER: ${o.expected}` : '',
     o.rubric ? `WHAT A GOOD ANSWER SHOWS: ${o.rubric}` : '',
-    `THE STUDENT WROTE: ${o.attempt}`,
+    fenceStudentText('THE STUDENT WROTE', o.attempt),
     '',
     'CORRECT means the final answer matches the expected answer — in any form,',
     'any notation, with or without units or working shown.',

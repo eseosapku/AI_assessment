@@ -200,6 +200,8 @@ export interface ChatMessage {
   suggestions?: string[]
   /** Data URL of an image the student attached to this message. */
   imageUrl?: string
+  /** On an error: the action to send again when the student taps Try again. Never saved. */
+  retryAction?: Record<string, unknown>
 }
 
 // ── Tutor → canvas action protocol ────────────────────────────────────────────

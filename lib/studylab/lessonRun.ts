@@ -1,5 +1,6 @@
 // lib/studylab/lessonRun.ts
 import type { LessonPolicy, Pace } from './lessonPolicy'
+import type { CheckpointQuestion } from './types'
 
 /**
  * The lesson's control flow, as data.
@@ -56,6 +57,12 @@ export interface OpenCheck {
   checkpointId: string
   kind: 'checkpoint' | 'testout'
   gate: 'hard' | 'soft'
+  /**
+   * The questions as written, kept so the answers are marked by the server
+   * rather than reported by the page. Absent on a check opened before they
+   * were kept, which falls back to the page's own result.
+   */
+  questions?: CheckpointQuestion[]
 }
 
 export interface LessonRun {

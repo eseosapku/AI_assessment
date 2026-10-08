@@ -6,6 +6,7 @@ import { assertSubscriptionAccess, subscriptionPaywallBody } from '@/lib/subscri
 import { checkRateLimit, identify } from '@/lib/rate-limit'
 import { parseHomeworkSheet, EMPTY_SHEET } from '@/lib/studylab/homework'
 import { parseImageDataUrl } from '@/lib/studylab/imageMime'
+import { fenceStudentText, MAX_IMAGE_CHARS } from '@/lib/studylab/untrusted'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -34,12 +35,18 @@ export async function POST(request: NextRequest) {
 
     const body = await request.json()
     const userId = String(body?.userId ?? body?.user_id ?? '').trim()
-    if (userId && UUID_RE.test(userId)) {
-      const gate = await assertSubscriptionAccess(userId, 'study')
-      if (!gate.allowed) return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
+    // The paywall only applied when the page said who it was, so leaving the
+    // id off read a sheet with no plan at all.
+    if (!UUID_RE.test(userId)) {
+      return NextResponse.json({ error: 'Sign in to read a homework sheet.' }, { status: 401 })
+    }
+    const gate = await assertSubscriptionAccess(userId, 'study')
+    if (!gate.allowed) return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
+    if (typeof body?.image === 'string' && body.image.length > MAX_IMAGE_CHARS) {
+      return NextResponse.json({ error: 'That photo is too large. Try a smaller one.' }, { status: 413 })
     }
 
-    const limit = checkRateLimit('studylab-homework-read', identify(userId || null, request.headers))
+    const limit = checkRateLimit('studylab-homework-read', identify(userId, request.headers))
     if (!limit.allowed) {
       return NextResponse.json(
         { error: 'That is a lot of sheets very quickly. Give it a moment.' },
@@ -59,7 +66,7 @@ export async function POST(request: NextRequest) {
         maxTokens: 2000,
         temperature: 0.1,
         ...(image ? { image, maxCandidates: 2 } : {}),
-        usage: { feature: 'homework_read', requestId: randomUUID(), userId: userId || null },
+        usage: { feature: 'homework_read', requestId: randomUUID(), userId },
       })
     } catch (err) {
       console.warn('Homework read failed:', (err as Error)?.message ?? err)
@@ -98,7 +105,7 @@ function readPrompt(text: string): string {
   return [
     'You are reading a page of a student\'s homework so a tutor can help them with it.',
     'DO NOT SOLVE ANYTHING. Transcribe what is on the page.',
-    text ? `\nThe student also typed this:\n${text}\n` : '',
+    text ? `\n${fenceStudentText('The student also typed this', text)}\n` : '',
     '',
     'Find each question that is set. For each one:',
     '  "label"   the number as printed on the page — "1", "Q3", "7.4-7".',

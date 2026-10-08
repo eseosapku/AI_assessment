@@ -47,6 +47,13 @@ describe('extractTokens', () => {
     })
   })
 
+  it('reads the OpenAI-style shape Gemma answers in', () => {
+    // Logged with a total and no split, so a tutor call could not be priced.
+    expect(extractTokens({ usage: { prompt_tokens: 3100, completion_tokens: 640, total_tokens: 3740 } })).toEqual({
+      inputTokens: 3100, outputTokens: 640, totalTokens: 3740,
+    })
+  })
+
   it('reads the invocation-metrics shape Bedrock adds to some models', () => {
     expect(extractTokens({ amazonBedrockInvocationMetrics: { inputTokenCount: 10, outputTokenCount: 5 } })).toEqual({
       inputTokens: 10, outputTokens: 5, totalTokens: 15,

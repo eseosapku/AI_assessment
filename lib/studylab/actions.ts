@@ -3,7 +3,7 @@
 // for the component to run against the React Flow instance.
 import type { CanvasState, StudyEdge, StudyNode, TutorAction } from './types'
 import { isCardKind, blockSize } from './blocks'
-import { isValidQuestion, coerceQuestion } from './quiz'
+import { salvageQuestions } from './quiz'
 import { validateSpec } from './activities/validate'
 import { parseMaterialSpec } from './material/parse'
 import { createInitialMaterialState } from './material/initialState'
@@ -331,10 +331,7 @@ export function applyActions(state: CanvasState, actions: TutorAction[]): ApplyR
         const step = action.step
         const gate = action.gate === 'soft' ? 'soft' : 'hard'
         // Salvage: backfill missing ids, keep only valid questions, coerce them.
-        const questions = (action.questions ?? [])
-          .map((q: any, i: number) => ({ ...q, id: typeof q?.id === 'string' && q.id ? q.id : `${action.id}-q${i}` }))
-          .filter(isValidQuestion)
-          .map(coerceQuestion)
+        const questions = salvageQuestions(action.id, action.questions)
         if (questions.length === 0) break
         const headerId = `${action.id}-hdr`
         if (!nodes.some((n) => n.id === headerId)) {

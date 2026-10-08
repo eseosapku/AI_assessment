@@ -9,14 +9,28 @@ import {
 import type { StudyNodeData } from '@/lib/studylab/types'
 import { CanvasContext, handleClass } from './canvasShared'
 
-// Debounced persist for free-text fields, so typing doesn't round-trip per keystroke.
+// Debounced persist for free-text fields, so typing doesn't round-trip per
+// keystroke. A note still waiting when its card closes (the step collapsed, the
+// lesson left) is saved then; the cleanup used to cancel it and drop the words.
 function useDebouncedPersist(id: string) {
   const { onNodeDataChange } = useContext(CanvasContext)
   const timer = useRef<ReturnType<typeof setTimeout> | null>(null)
-  useEffect(() => () => { if (timer.current) clearTimeout(timer.current) }, [])
+  const pending = useRef<Partial<StudyNodeData> | null>(null)
+  const save = useRef(onNodeDataChange)
+  save.current = onNodeDataChange
+  useEffect(() => () => {
+    if (timer.current) clearTimeout(timer.current)
+    if (pending.current) save.current(id, pending.current)
+  }, [id])
   return (patch: Partial<StudyNodeData>) => {
     if (timer.current) clearTimeout(timer.current)
-    timer.current = setTimeout(() => onNodeDataChange(id, patch), 600)
+    pending.current = { ...(pending.current ?? {}), ...patch }
+    timer.current = setTimeout(() => {
+      timer.current = null
+      const p = pending.current
+      pending.current = null
+      if (p) onNodeDataChange(id, p)
+    }, 600)
   }
 }
 

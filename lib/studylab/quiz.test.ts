@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell, markCheck, salvageQuestions, checkAnswers } from '@/lib/studylab/quiz'
 import type { CheckpointQuestion, QuizCell } from '@/lib/studylab/types'
 
 const mcq: CheckpointQuestion = { id: 'q1', format: 'mcq', prompt: 'p', options: ['a', 'b'], answer: 1 }
@@ -113,5 +113,39 @@ describe('a check question saved while it was being marked', () => {
   it('is put back to unanswered so the student can try again', () => {
     expect(settleStaleCell({ state: 'pending', given: 'x' } as QuizCell)).toEqual({ state: 'unanswered', given: 'x' })
     expect(settleStaleCell({ state: 'correct', given: 'x' } as QuizCell)).toBeNull()
+  })
+})
+
+describe('marking a check on the server', () => {
+  const mcq = { id: 'q1', format: 'mcq' as const, prompt: 'p?', options: ['a', 'b'], answer: 0 }
+  const match = { id: 'q2', format: 'match' as const, prompt: 'pair', pairs: [{ left: 'x', right: '1' }, { left: 'y', right: '2' }] }
+  const short = { id: 'q3', format: 'short' as const, prompt: 'why?' }
+
+  it('marks choice and matching questions from what was picked, not from the state the page claims', () => {
+    expect(markCheck([mcq], { q1: { given: 0 } })).toBe(true)
+    expect(markCheck([mcq], { q1: { given: 1, state: 'correct' } })).toBe(false)
+    expect(markCheck([match], { q2: { given: ['1', '2'] } })).toBe(true)
+    expect(markCheck([match], { q2: { given: ['2', '1'], state: 'correct' } })).toBe(false)
+  })
+
+  it("takes the grade route's verdict for a written answer", () => {
+    expect(markCheck([short], { q3: { given: 'because', state: 'correct' } })).toBe(true)
+    expect(markCheck([short], { q3: { given: 'because', state: 'incorrect' } })).toBe(false)
+  })
+
+  it('needs more than half right, and nothing reported is nothing right', () => {
+    expect(markCheck([mcq, match, short], { q1: { given: 0 }, q3: { state: 'correct' } })).toBe(true)
+    expect(markCheck([mcq, match], { q1: { given: 0 } })).toBe(false)
+    expect(markCheck([mcq], undefined)).toBe(false)
+  })
+
+  it('names questions by the same ids the board gives them', () => {
+    const kept = salvageQuestions('cp-9', [{ format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: '1' }, { format: 'mcq', prompt: 'broken' }])
+    expect(kept).toEqual([{ id: 'cp-9-q0', format: 'mcq', prompt: 'p?', options: ['a', 'b'], answer: 1 }])
+  })
+
+  it('reports each answered cell by its question id', () => {
+    const cells = [{ checkpointId: 'cp', gate: 'hard' as const, question: mcq, state: 'correct' as const, given: 0 }]
+    expect(checkAnswers(cells)).toEqual({ q1: { given: 0, state: 'correct' } })
   })
 })

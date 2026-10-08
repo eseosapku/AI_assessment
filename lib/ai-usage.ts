@@ -100,11 +100,13 @@ function asCount(value: unknown): number | null {
 export function extractTokens(body: unknown): TokenCounts {
   const b = (body ?? {}) as Record<string, any>
 
-  // Nova, and Bedrock's converse-style responses.
+  // Nova, Bedrock's converse-style responses, and the OpenAI-style shape Gemma
+  // answers in. Gemma's `prompt_tokens`/`completion_tokens` went unread, so
+  // every tutor call was logged with a total and no split to price it by.
   const usage = b.usage ?? b.amazonBedrockInvocationMetrics ?? null
   if (usage && typeof usage === 'object') {
-    const input = asCount(usage.inputTokens ?? usage.input_tokens ?? usage.inputTokenCount)
-    const output = asCount(usage.outputTokens ?? usage.output_tokens ?? usage.outputTokenCount)
+    const input = asCount(usage.inputTokens ?? usage.input_tokens ?? usage.inputTokenCount ?? usage.prompt_tokens)
+    const output = asCount(usage.outputTokens ?? usage.output_tokens ?? usage.outputTokenCount ?? usage.completion_tokens)
     const total = asCount(usage.totalTokens ?? usage.total_tokens)
     return {
       inputTokens: input,

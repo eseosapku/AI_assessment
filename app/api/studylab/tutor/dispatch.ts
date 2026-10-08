@@ -10,11 +10,12 @@ import {
 import type { PlanEdit } from '@/lib/studylab/lessonRun'
 import type { Pace } from '@/lib/studylab/lessonPolicy'
 import { applyLocks } from '@/lib/studylab/stepLocks'
-import { isValidQuestion, coerceQuestion } from '@/lib/studylab/quiz'
+import { isValidQuestion, coerceQuestion, markCheck, salvageQuestions, type CheckAnswers } from '@/lib/studylab/quiz'
 import { parseBoardSummary, type BoardSummary } from '@/lib/studylab/boardSummary'
 import { parseHomeworkSheet, stepsFromQuestions } from '@/lib/studylab/homework'
 import { isCardKind } from '@/lib/studylab/blocks'
 import { parseImageDataUrl } from '@/lib/studylab/imageMime'
+import { fenceStudentText, MAX_TYPED_CHARS } from '@/lib/studylab/untrusted'
 import { isValidAction, plainTitle, titleKey } from '@/lib/studylab/actions'
 import type { CheckpointQuestion } from '@/lib/studylab/types'
 import type { Database } from '@/lib/db'
@@ -41,7 +42,7 @@ export type LessonAction =
   | { type: 'edit_plan'; edit: PlanEdit }
   | { type: 'next_beat' }
   | { type: 'test_out'; stepId: string; checkpointId: string }
-  | { type: 'answer_check'; passed: boolean; missed?: string[] }
+  | { type: 'answer_check'; passed: boolean; missed?: string[]; answers?: CheckAnswers }
   | { type: 'skip'; stepId: string }
   | { type: 'jump'; stepId: string }
   | { type: 'set_pace'; pace: Pace }
@@ -82,6 +83,24 @@ export interface DispatchInput {
   /** Everything the teaching job needs to write its cards. Absent in tests. */
   context?: Record<string, unknown>
   requestId?: string
+  /**
+   * When the route must answer by, as epoch ms. Amplify ends a request at
+   * 30 s and the student reads a gateway error page; past this the model
+   * call is abandoned so the route can say so itself. Absent in tests.
+   */
+  deadline?: number
+}
+
+/**
+ * Time a closing check needs to be worth starting. The cheap model takes a
+ * few seconds; started any later, it would cost the turn it rides on.
+ */
+const CLOSE_CHECK_BUDGET_MS = 8_000
+
+/** Aborts a model call at the deadline. Undefined without one. */
+function signalFor(deadline: number | undefined): AbortSignal | undefined {
+  if (deadline === undefined) return undefined
+  return AbortSignal.timeout(Math.max(1, deadline - Date.now()))
 }
 
 /** The plan as the chat renders it: steps, why any is locked, and the questions. */
@@ -155,8 +174,13 @@ function transitionFor(input: DispatchInput): Transition {
     }
     case 'next_beat': return nextBeat(run)
     case 'test_out': return requestTestOut(run, action.stepId, action.checkpointId, policy)
-    case 'answer_check':
-      return action.passed ? passCheck(run) : failCheck(run, action.missed ?? [])
+    case 'answer_check': {
+      // Marked here when the run holds the questions; the page's `passed` is
+      // only taken for a check opened before they were kept.
+      const questions = run.openCheck?.questions
+      const passed = questions?.length ? markCheck(questions, action.answers) : action.passed
+      return passed ? passCheck(run) : failCheck(run, action.missed ?? [])
+    }
     case 'skip': return skipStep(run, action.stepId, policy)
     case 'jump': return jumpTo(run, action.stepId, policy)
     case 'set_pace': return setPace(run, action.pace)
@@ -316,6 +340,7 @@ export async function applyAction(input: DispatchInput): Promise<DispatchResult>
     usage: input.requestId
       ? { feature: 'lesson_teach_beat', requestId: input.requestId, userId: input.userId }
       : undefined,
+    signal: signalFor(input.deadline),
   })
 
   let parsed: { say?: unknown; actions?: unknown; suggestions?: unknown }
@@ -487,10 +512,15 @@ async function ensureStepCloses(
   if (own) {
     questions = [own]
   } else {
+    // A slow teaching turn leaves no room for a second call. The step stays
+    // open and the next turn closes it, which beats the whole turn timing out.
+    if (input.deadline !== undefined && input.deadline - Date.now() < CLOSE_CHECK_BUDGET_MS) {
+      return { run, actions }
+    }
     try {
       questions = await writeCheck(
         step, checkpointId, input.userId, input.requestId, 'close-step',
-        board.askedByStep[stepNo] ?? [],
+        board.askedByStep[stepNo] ?? [], signalFor(input.deadline),
       )
     } catch {
       return { run, actions }
@@ -502,7 +532,7 @@ async function ensureStepCloses(
   if (!begun.ok) return { run, actions }
 
   return {
-    run: begun.run,
+    run: keepQuestions(begun.run, checkpointId, questions),
     actions: [
       ...actions,
       { type: 'checkpoint', id: checkpointId, step: stepNo, gate: 'hard', questions },
@@ -997,7 +1027,20 @@ function openEmittedCheckpoint(
     // resolve anything.
     return { run, actions: rawActions.filter((_, i) => i !== cpIndex) }
   }
-  return { run: opened.run, actions: renamed }
+  return {
+    run: keepQuestions(opened.run, id, (rawActions[cpIndex] as { questions?: unknown }).questions),
+    actions: renamed,
+  }
+}
+
+/**
+ * Puts a check's questions on the run, where `answer_check` marks against
+ * them. Salvaged the way the board salvages them, so the ids match the
+ * questions the learner actually sees.
+ */
+function keepQuestions(run: LessonRun, checkpointId: string, raw: unknown): LessonRun {
+  if (run.openCheck?.checkpointId !== checkpointId) return run
+  return { ...run, openCheck: { ...run.openCheck, questions: salvageQuestions(checkpointId, raw) } }
 }
 
 /**
@@ -1037,7 +1080,9 @@ async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<
 
   let questions: CheckpointQuestion[]
   try {
-    questions = await writeCheck(step, check.checkpointId, input.userId, input.requestId)
+    questions = await writeCheck(
+      step, check.checkpointId, input.userId, input.requestId, 'test-out', [], signalFor(input.deadline),
+    )
   } catch {
     return {
       run: input.run,
@@ -1059,7 +1104,7 @@ async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<
   }
 
   return {
-    run: advanced,
+    run: keepQuestions(advanced, check.checkpointId, questions),
     say: '',
     actions: [
       { type: 'checkpoint', id: check.checkpointId, step: stepIndex + 1, gate: check.gate, questions },
@@ -1076,9 +1121,15 @@ async function applyTestOut(input: DispatchInput, advanced: LessonRun): Promise<
  * unaltered copy of it, never a step or beat further along.
  */
 async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<DispatchResult> {
-  const question = input.action.type === 'ask' ? input.action.question.trim() : ''
+  const question = input.action.type === 'ask' ? String(input.action.question ?? '').trim() : ''
   if (!question) {
     return { run: input.run, say: '', actions: [], suggestions: [], refusal: 'Ask me something first.' }
+  }
+  if (question.length > MAX_TYPED_CHARS) {
+    return {
+      run: input.run, say: '', actions: [], suggestions: [],
+      refusal: `That is a lot to take in at once. Keep a question under ${MAX_TYPED_CHARS.toLocaleString('en')} characters.`,
+    }
   }
 
   // A finished lesson has no current step, and that is exactly when a learner
@@ -1117,7 +1168,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     photo
       ? 'THEY HAVE ATTACHED A PHOTO OF THEIR OWN WORK. Read it and answer what is actually on it — say what is right before what is wrong, and name the first line that goes wrong rather than listing everything. Do not write out a corrected version for them to copy.'
       : '',
-    `QUESTION: ${question}`,
+    fenceStudentText('QUESTION', question),
   ]
     .filter(Boolean)
     .join('\n')
@@ -1130,6 +1181,7 @@ async function applyAsk(input: DispatchInput, advanced: LessonRun): Promise<Disp
     usage: input.requestId
       ? { feature: photo ? 'lesson_ask_photo' : 'lesson_ask', requestId: input.requestId, userId: input.userId }
       : undefined,
+    signal: signalFor(input.deadline),
   })
 
   let parsed: { say?: unknown; actions?: unknown; suggestions?: unknown }
@@ -1243,6 +1295,7 @@ async function writeCheck(
   kind: 'close-step' | 'test-out' = 'test-out',
   /** Questions already put to this learner on this step. Never ask them again. */
   asked: string[] = [],
+  signal?: AbortSignal,
 ): Promise<CheckpointQuestion[]> {
   // The field names are spelled out with a worked example of each shape.
   // Naming only the formats got back `type` and `question` every time — a
@@ -1298,6 +1351,7 @@ async function writeCheck(
     usage: requestId
       ? { feature: 'lesson_check', requestId, userId }
       : undefined,
+    signal,
   })
 
   const parsed = parseJsonRobust(raw)
@@ -1922,6 +1976,8 @@ export interface DraftPlanInput {
    * the gap willingly reads better than one with a step bolted onto the front.
    */
   mustCover?: string | null
+  /** When the route must answer by, as epoch ms. See DispatchInput. */
+  deadline?: number
 }
 
 /**
@@ -2004,6 +2060,7 @@ export async function draftPlan(input: DraftPlanInput): Promise<DraftedPlan> {
     usage: input.requestId
       ? { feature: 'lesson_plan', requestId: input.requestId, userId: input.userId }
       : undefined,
+    signal: signalFor(input.deadline),
   })
 
   let parsed: { steps?: unknown; questions?: unknown; programming?: unknown }

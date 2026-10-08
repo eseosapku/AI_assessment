@@ -48,6 +48,9 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
   const [spaces, setSpaces] = useState<LearnSpace[]>([])
   const [loading, setLoading] = useState(true)
   const [warning, setWarning] = useState<string | null>(null)
+  // A failed load used to look exactly like an empty account: "Start your
+  // first LearnSpace", to a student whose lessons were all still there.
+  const [loadFailed, setLoadFailed] = useState(false)
   const [showCreate, setShowCreate] = useState(false)
   // Read after mount: hasSeenDemo touches localStorage, and deciding the tile's
   // framing on the server would flash "Start here" at everyone.
@@ -84,13 +87,15 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
       return
     }
     setLoading(true)
+    setLoadFailed(false)
     try {
       const res = await fetch(`/api/studylab?user_id=${encodeURIComponent(user.id)}`)
-      const json = await res.json()
+      const json = await res.json().catch(() => null)
+      if (!res.ok || !json) throw new Error('load failed')
       setSpaces(json.data ?? [])
       setWarning(json.warning ?? null)
     } catch {
-      setSpaces([])
+      setLoadFailed(true)
     } finally {
       setLoading(false)
     }
@@ -209,6 +214,14 @@ export default function StudyLabHub({ embedded = false }: { embedded?: boolean }
         {loading ? (
           <div className="flex justify-center py-24">
             <Loader2 className="h-7 w-7 animate-spin text-ss-accent" />
+          </div>
+        ) : loadFailed && spaces.length === 0 ? (
+          <div role="alert" className="flex flex-col items-center gap-3 rounded-2xl border border-ss-line bg-ss-chip px-6 py-14 text-center">
+            <p className="text-[15px] font-bold text-ss-ink">Couldn&apos;t load your LearnSpaces.</p>
+            <p className="text-[13.5px] text-ss-slate">Your lessons are safe. Check your connection and try again.</p>
+            <button type="button" onClick={() => load()} className="rounded-full bg-ss-accent px-5 py-2 text-[13.5px] font-bold text-white hover:opacity-90">
+              Try again
+            </button>
           </div>
         ) : spaces.length === 0 ? (
           <EmptyState onCreate={() => setShowCreate(true)} />

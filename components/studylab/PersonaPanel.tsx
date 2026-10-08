@@ -1,5 +1,6 @@
 'use client'
 
+import { useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { AlertTriangle, ArrowRight, Loader2, Sparkles, TrendingDown } from 'lucide-react'
 import type { PersonaSnapshot, WeakArea } from '@/lib/studylab/persona'
@@ -20,8 +21,15 @@ interface PersonaPanelProps {
 
 export default function PersonaPanel({ persona, loading, userId }: PersonaPanelProps) {
   const router = useRouter()
+  // One lesson per tap: a double tap on a slow connection made two, and a
+  // failure only reached the console.
+  const [starting, setStarting] = useState<string | null>(null)
+  const [startError, setStartError] = useState<string | null>(null)
 
   const startStudy = async (area: WeakArea) => {
+    if (starting) return
+    setStarting(area.label)
+    setStartError(null)
     try {
       const res = await fetch('/api/studylab', {
         method: 'POST',
@@ -43,6 +51,9 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
       openLearnSpace(json.data.id, router)
     } catch (err) {
       console.error('Start study failed:', err)
+      setStartError("Couldn't start that lesson. Check your connection and try again.")
+    } finally {
+      setStarting(null)
     }
   }
 
@@ -76,6 +87,9 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
         )}
       </div>
 
+      {startError && (
+        <p role="alert" className="px-5 pt-3 text-[13px] font-semibold text-[color:var(--ss-bad)] sm:px-6">{startError}</p>
+      )}
       {persona.weakAreas.length > 0 ? (
         <ul className="divide-y divide-ss-line">
           {persona.weakAreas.map((area) => (
@@ -89,11 +103,13 @@ export default function PersonaPanel({ persona, loading, userId }: PersonaPanelP
                 </p>
               </div>
               <button
+                type="button"
                 onClick={() => startStudy(area)}
-                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-ss-accent-soft px-3 py-1.5 text-xs font-bold text-ss-accent transition-colors hover:brightness-95"
+                disabled={starting !== null}
+                className="flex shrink-0 items-center gap-1.5 rounded-lg bg-ss-accent-soft px-3 py-1.5 text-xs font-bold text-ss-accent transition-colors hover:brightness-95 disabled:opacity-60"
               >
-                <Sparkles className="h-3.5 w-3.5" />
-                Study
+                {starting === area.label ? <Loader2 className="h-3.5 w-3.5 animate-spin" aria-hidden /> : <Sparkles className="h-3.5 w-3.5" aria-hidden />}
+                {starting === area.label ? 'Starting…' : 'Study'}
               </button>
             </li>
           ))}

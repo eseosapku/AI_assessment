@@ -89,3 +89,49 @@ export function coerceQuestion(q: CheckpointQuestion): CheckpointQuestion {
   if (q.format === 'mcq') return { ...q, answer: Number(q.answer) }
   return q
 }
+
+/**
+ * A checkpoint's questions as the board will show them: missing ids filled
+ * in, broken questions dropped, answers coerced. The board builds its quiz
+ * from this and the tutor route keeps it to mark against, so both name the
+ * same questions by the same ids.
+ */
+export function salvageQuestions(checkpointId: string, raw: unknown): CheckpointQuestion[] {
+  return (Array.isArray(raw) ? raw : [])
+    .map((q: any, i: number) => ({ ...q, id: typeof q?.id === 'string' && q.id ? q.id : `${checkpointId}-q${i}` }))
+    .filter(isValidQuestion)
+    .map(coerceQuestion)
+}
+
+/** What the page reports for each question of a check, by question id. */
+export type CheckAnswers = Record<string, { given?: unknown; state?: unknown }>
+
+/** A check's answers as the page reports them to the tutor. */
+export function checkAnswers(cells: QuizCell[]): CheckAnswers {
+  return Object.fromEntries(cells.map((c) => [c.question.id, { given: c.given, state: c.state }]))
+}
+
+/**
+ * Whether a check was passed, marked against the questions the server wrote.
+ *
+ * The page used to send `passed: true` and the route took its word, so one
+ * request cleared a hard check, including on a step locked by a measured
+ * gap. Choice and matching questions are marked here from what was picked.
+ * Written and code answers are marked by the grade route, which records
+ * nothing this route can read, so their verdict is still the page's.
+ */
+export function markCheck(questions: CheckpointQuestion[], answers: CheckAnswers | undefined): boolean {
+  let correct = 0
+  for (const q of questions) {
+    const a = answers?.[q.id]
+    if (q.format === 'mcq') {
+      if (typeof a?.given === 'number' && gradeMcq(q, a.given)) correct++
+    } else if (q.format === 'match') {
+      const given = a?.given
+      if (Array.isArray(given) && given.every((g) => typeof g === 'string') && gradeMatch(q, given)) correct++
+    } else if (a?.state === 'correct') {
+      correct++
+    }
+  }
+  return correct > questions.length / 2
+}

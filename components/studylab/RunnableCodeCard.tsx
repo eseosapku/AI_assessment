@@ -20,18 +20,29 @@ export function RunnableCodeNode({ id, data }: NodeProps) {
   // read-only by the tutor, and not browser-only JS that can't run in the worker.
   const runnable = isRunnable(d.language) && d.runnable !== false && !isShowcaseOnly(d.language, code)
 
-  // Abort a run and cancel any pending save when the card unmounts.
+  // Abort a run when the card unmounts, and save the last edit rather than
+  // drop it with the pending timer.
+  const pendingCode = useRef<string | null>(null)
   useEffect(
     () => () => {
       abortRef.current?.abort()
-      if (saveTimer.current) clearTimeout(saveTimer.current)
+      if (saveTimer.current) {
+        clearTimeout(saveTimer.current)
+        if (pendingCode.current !== null) onNodeDataChange(id, { code: pendingCode.current })
+      }
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     []
   )
 
   const persist = (next: string) => {
     if (saveTimer.current) clearTimeout(saveTimer.current)
-    saveTimer.current = setTimeout(() => onNodeDataChange(id, { code: next }), 700)
+    pendingCode.current = next
+    saveTimer.current = setTimeout(() => {
+      saveTimer.current = null
+      pendingCode.current = null
+      onNodeDataChange(id, { code: next })
+    }, 700)
   }
 
   const onChange = (next: string) => {

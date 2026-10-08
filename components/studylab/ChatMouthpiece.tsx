@@ -71,6 +71,8 @@ interface ChatMouthpieceProps {
   lockedHint?: string
   /** Homework: begin on the questions the learner picked off their own sheet. */
   onStartHomework?: (questionIds: string[]) => void
+  /** Send a failed action again (the error bubble's Try again). */
+  onRetry?: (action: Record<string, unknown>) => void
 }
 
 /**
@@ -88,7 +90,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework, onRetry }: ChatMouthpieceProps) {
   // A plan is awaiting a decision when the newest plan card is still live.
   const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
 
@@ -239,8 +241,19 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                   <SafeLatex>{m.content}</SafeLatex>
                 </div>
               ) : m.kind === 'error' ? (
-                <div className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-bad)]/40 bg-[color:var(--ss-bad)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
+                <div role="alert" className="rounded-2xl rounded-tl-sm border border-[color:var(--ss-bad)]/40 bg-[color:var(--ss-bad)]/10 px-3.5 py-2.5 text-[13.5px] font-medium leading-relaxed text-ss-ink max-w-[85%] whitespace-pre-wrap">
                   <SafeLatex>{m.content}</SafeLatex>
+                  {/* Only on the latest message: an old error retrying an old action would surprise. */}
+                  {m.retryAction && onRetry && i === messages.length - 1 && (
+                    <button
+                      type="button"
+                      onClick={() => onRetry(m.retryAction!)}
+                      disabled={busy}
+                      className="mt-2 block rounded-lg bg-ss-accent px-3 py-1.5 text-[12.5px] font-bold text-white hover:opacity-90 disabled:opacity-60"
+                    >
+                      Try again
+                    </button>
+                  )}
                 </div>
               ) : (
                 <div className="max-w-[85%] space-y-1.5">

@@ -7,7 +7,7 @@
  *
  * Run with: npx vitest run --config vitest.live.config.ts liveHomeworkRead
  */
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import fs from 'fs'
 import path from 'path'
 
@@ -15,6 +15,13 @@ for (const line of fs.readFileSync('.env', 'utf8').split(/\r?\n/)) {
   const m = line.match(/^\s*([A-Z0-9_]+)\s*=\s*(.*)$/)
   if (m) process.env[m[1]] = m[2].replace(/^["']|["']$/g, '')
 }
+
+// The route now needs a signed-in student on a plan; the model is what this
+// tests, so the plan check is waved through.
+vi.mock('@/lib/subscription-server', () => ({
+  assertSubscriptionAccess: async () => ({ allowed: true }),
+  subscriptionPaywallBody: () => ({}),
+}))
 
 import { callGemma, parseJsonRobust } from '@/lib/bedrock'
 import { parseHomeworkSheet, questionSummary, stepsFromQuestions } from '@/lib/studylab/homework'
@@ -31,7 +38,10 @@ async function readSheet(file: string) {
   const req = new Request('http://localhost/api/studylab/homework/read', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ image: `data:image/gif;base64,${image.base64}` }),
+    body: JSON.stringify({
+      userId: '00000000-0000-4000-8000-000000000000',
+      image: `data:image/gif;base64,${image.base64}`,
+    }),
   })
   const res = await mod.POST(req as never)
   const json = await res.json()
