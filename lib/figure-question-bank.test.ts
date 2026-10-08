@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { assembleParts, hasVetted, kindForPart, openPhraseAnswer, vettedFor, type VettedQuestion } from './figure-question-bank'
+import { assembleParts, hasFreshVetted, hasVetted, kindForPart, openPhraseAnswer, questionKey, vettedFor, type VettedQuestion } from './figure-question-bank'
 
 const mcq = { kind: 'mcq' as const, question: { type: 'mcq', question: 'Which gas?', options: ['a', 'b', 'c', 'd'], correct_answer: 1 } }
 const short = { kind: 'short' as const, question: { type: 'longform', question: 'Name the gas.', marks: 1, short_answer: { accepted: ['oxygen'] } } }
@@ -18,6 +18,31 @@ describe('vettedFor', () => {
     const q = vettedFor('fig1', ['mcq'], 'mcq', bank)
     q.image_url = '/x.png'
     expect((bank.get('fig1')![0].question as any).image_url).toBeUndefined()
+  })
+  it('gives a student who has had the figure a question they have not had', () => {
+    const seen = new Set([questionKey('Name the gas.')])
+    for (let i = 0; i < 20; i++) {
+      expect(vettedFor('fig1', ['mcq', 'short', 'written'], 'short', bank, seen)?.question).not.toBe('Name the gas.')
+    }
+  })
+  it('falls back to a question they have had when every allowed one is', () => {
+    const seen = new Set([questionKey('Which gas?')])
+    expect(vettedFor('fig1', ['mcq'], 'mcq', bank, seen)?.question).toBe('Which gas?')
+  })
+})
+
+describe('questionKey', () => {
+  it('is the same for the same question however it is spaced or cased', () => {
+    expect(questionKey('  Which   GAS?\n')).toBe(questionKey('which gas?'))
+    expect(questionKey(undefined)).toBe('')
+  })
+})
+
+describe('hasFreshVetted', () => {
+  it('knows whether a figure has a question of a kind the student has not had', () => {
+    expect(hasFreshVetted('fig1', ['mcq'], new Set([questionKey('Which gas?')]), bank)).toBe(false)
+    expect(hasFreshVetted('fig1', ['mcq', 'short'], new Set([questionKey('Which gas?')]), bank)).toBe(true)
+    expect(hasFreshVetted('fig1', ['mcq'], new Set(), bank)).toBe(true)
   })
 })
 

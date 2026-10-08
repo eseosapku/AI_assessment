@@ -69,18 +69,37 @@ export function hasVetted(figureId: string, kinds?: readonly VettedKind[], bank 
   return kinds ? list.some((q) => kinds.includes(q.kind)) : list.length > 0
 }
 
+/** A question's identity across quizzes: its text, case and spacing aside. */
+export function questionKey(text: unknown): string {
+  return String(text ?? '').toLowerCase().replace(/\s+/g, ' ').trim().slice(0, 200)
+}
+
+/** Whether the figure has a question of an allowed kind the student has not had. */
+export function hasFreshVetted(
+  figureId: string, kinds: readonly VettedKind[], seen: ReadonlySet<string>, bank = loadFigureQuestionBank(),
+): boolean {
+  return (bank.get(figureId) ?? []).some((q) => kinds.includes(q.kind) && !seen.has(questionKey(q.question?.question)))
+}
+
 /**
  * A vetted question for this figure: the preferred kind if there is one,
- * otherwise any allowed kind. A fresh copy -- the route stamps ids and
- * figure fields onto what it returns.
+ * otherwise any allowed kind, chosen at random among equals. With `seen` (the
+ * questions this student had in recent quizzes), one they have not had comes
+ * first -- a figure that comes round again brings a different question where
+ * it has one. A fresh copy -- the route stamps ids and figure fields onto
+ * what it returns.
  */
 export function vettedFor(
   figureId: string, allowed: readonly VettedKind[], prefer?: VettedKind, bank = loadFigureQuestionBank(),
+  seen?: ReadonlySet<string>,
 ): any | null {
   const list = (bank.get(figureId) ?? []).filter((q) => allowed.includes(q.kind))
   if (!list.length) return null
-  const pick = (prefer && list.find((q) => q.kind === prefer)) || list[Math.floor(Math.random() * list.length)]
-  return JSON.parse(JSON.stringify(pick.question))
+  const fresh = seen?.size ? list.filter((q) => !seen.has(questionKey(q.question?.question))) : list
+  const pool = fresh.length ? fresh : list
+  const preferred = prefer ? pool.filter((q) => q.kind === prefer) : []
+  const from = preferred.length ? preferred : pool
+  return JSON.parse(JSON.stringify(from[Math.floor(Math.random() * from.length)].question))
 }
 
 export interface VettedPart { format: string; marks: number }

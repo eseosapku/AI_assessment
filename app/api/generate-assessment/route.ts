@@ -34,7 +34,8 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { normalizeIds, positiveId } from '@/lib/request-ids'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
 import { bookInBank, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
-import { assembleParts, hasVetted, vettedFor } from '@/lib/figure-question-bank'
+import { assembleParts, hasFreshVetted, hasVetted, vettedFor } from '@/lib/figure-question-bank'
+import { NO_HISTORY, orderForStudent, seenFromRows, type SeenFigures } from '@/lib/student-figure-history'
 import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbook-figure-prompt'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
@@ -1761,8 +1762,30 @@ ${commandBlock}`
         console.error('Sections lookup for figures failed:', error)
       }
     }
+    // The figure questions this student had in their recent quizzes on this
+    // book, so the next one leads with figures and questions they have not
+    // had. A lookup that fails costs nothing: the quiz is built as before.
+    let seenFigures: SeenFigures = NO_HISTORY
+    if (bankApplies && userId && Number.isFinite(textbookId)) {
+      try {
+        const { rows } = await db.query(
+          `SELECT q->>'image_url' AS image, q->>'question' AS text
+             FROM (SELECT questions_data FROM assessments
+                    WHERE user_id::text = $1 AND textbook_id = $2 AND jsonb_typeof(questions_data) = 'array'
+                    ORDER BY created_at DESC LIMIT 30) a,
+                  jsonb_array_elements(a.questions_data) q
+            WHERE q->>'image_url' IS NOT NULL`,
+          [userId, textbookId],
+        )
+        seenFigures = seenFromRows(rows ?? [])
+      } catch (error) {
+        console.error('Recent quizzes lookup for figures failed:', error)
+      }
+    }
+    const figureKinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
+      : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
     const quizFigures: TextbookFigure[] = bankApplies
-      ? figuresForQuiz({
+      ? orderForStudent(figuresForQuiz({
           textbookId: Number.isFinite(textbookId) ? textbookId : undefined,
           textbookName: textbookName || figureSubject,
           topics: imageTopicFilter,
@@ -1780,10 +1803,11 @@ ${commandBlock}`
           .filter((f) => {
             const sameLevel = !Number.isFinite(textbookId) || f.textbookIds.includes(textbookId)
               || stageOfBook(f.textbookName) === (Number(grade) || null)
-            const kinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
-              : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
-            return sameLevel && hasVetted(f.id, kinds)
-          })
+            return sameLevel && hasVetted(f.id, figureKinds)
+          }),
+        // Unseen first, then seen ones with a question still new to them,
+        // then two at most that would repeat a question.
+        seenFigures, (f) => hasFreshVetted(f.id, figureKinds, seenFigures.questions))
           // Up to three in five. A vetted figure question reviewed 90-97%
           // clean against about 70% for a question written live in words, so
           // a chapter rich in figures is better for using more of them; one
@@ -2481,7 +2505,7 @@ ${commandBlock}`
         : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
       const sameLevel = !Number.isFinite(textbookId) || fig.textbookIds.includes(textbookId)
         || stageOfBook(fig.textbookName) === (Number(grade) || null)
-      const vetted = sameLevel ? vettedFor(fig.id, allowed, kind) : null
+      const vetted = sameLevel ? vettedFor(fig.id, allowed, kind, undefined, seenFigures.questions) : null
       if (vetted) {
         vetted.id = id
         vetted.image_url = fig.localPath
