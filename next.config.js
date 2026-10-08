@@ -40,6 +40,12 @@ const nextConfig = {
       './public/art/**/*',
       './data/textbook-images/manifest.json',
       './data/textbook-images/vision-descriptions.json',
+      // The old picture library's index and its descriptions (32 MB). On the
+      // server its images are never on disk (public/textbook-images is left
+      // out above), so lib/textbook-source-images.ts keeps none of them and
+      // both readers fall back to empty when the files are absent.
+      './data/textbook-images/manifest.curated.json',
+      './data/textbook-images/vision-cache.json',
     ],
   },
 }
