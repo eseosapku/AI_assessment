@@ -6,8 +6,10 @@ import {
   buildWall,
   filterWall,
   priorityTiles,
+  unplacedQuizzes,
   wallSummary,
   type MasteryStatus,
+  type UnplacedSubject,
   type WallTile,
 } from '@/lib/studylab/wall'
 import { canonicalSubject } from '@/lib/canonical-subject'
@@ -63,6 +65,93 @@ function Glyph({ kind }: { kind: 'check' | 'dash' | 'cross' | 'none' }) {
   return <span className="h-1.5 w-1.5 rounded-full bg-current opacity-50" aria-hidden />
 }
 
+export interface UnlinkedResults { count: number; average: number | null; last: string | null }
+
+/** The same bands the gap-map API colours a topic by. */
+function statusForScore(p: number | null): MasteryStatus {
+  if (p === null) return 'not_assessed'
+  return p >= 80 ? 'mastered' : p >= 50 ? 'developing' : 'gap'
+}
+
+function shortDate(value: string | null): string {
+  if (!value) return ''
+  const d = new Date(value)
+  return Number.isNaN(d.getTime()) ? '' : d.toLocaleDateString(undefined, { day: 'numeric', month: 'short' })
+}
+
+function ScorePill({ score }: { score: number | null }) {
+  const s = statusForScore(score)
+  return (
+    <span className={`inline-flex shrink-0 items-center gap-1 rounded-full px-2 py-0.5 text-[12px] font-extrabold tabular-nums ${BADGE[s]}`}>
+      <Glyph kind={STATUS[s].glyph} />
+      {score === null ? '—' : `${Math.round(score)}%`}
+    </span>
+  )
+}
+
+/**
+ * Quizzes that could not colour the wall, with their scores.
+ *
+ * A quiz colours the wall only when it recorded the chapters it covered, and
+ * most taken before July 2026 did not -- nor do teacher-set ones, which are
+ * saved without a quiz behind them. Those students saw every chapter "not
+ * tested", or a message telling them to take a quiz they had already taken.
+ */
+function QuizResults({ unplaced, unlinked, lead }: { unplaced: UnplacedSubject[]; unlinked: UnlinkedResults | null; lead: boolean }) {
+  return (
+    <section aria-labelledby="wall-quiz-results" className="rounded-[20px] border border-ss-line bg-ss-chip p-5 sm:p-6">
+      <h3 id="wall-quiz-results" className="text-[16px] font-extrabold text-ss-ink">
+        {lead ? 'Your quiz results' : 'Quizzes the wall cannot show'}
+      </h3>
+      <p className="mt-1 max-w-2xl text-[13.5px] font-medium text-ss-slate">
+        These quizzes did not record which chapters they covered, so they cannot colour the wall. Your scores
+        are here. A quiz you take on a textbook&apos;s chapters fills the wall in by itself.
+      </p>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {unplaced.map((s) => (
+          <div key={s.subject} className="min-w-0 rounded-[16px] border border-ss-line bg-ss-panel p-4">
+            <p className="truncate text-[14.5px] font-extrabold text-ss-ink" title={s.subject}>{s.subject}</p>
+            <p className="text-[12.5px] font-semibold text-ss-slate">
+              {s.quizzes.length} {s.quizzes.length === 1 ? 'quiz' : 'quizzes'}
+              {s.average !== null ? ` · average ${s.average}%` : ''}
+            </p>
+            <ul className="mt-3 space-y-1.5">
+              {s.quizzes.slice(0, 5).map((q, i) => (
+                <li key={q.id || `${s.subject}-${i}`} className="flex items-center justify-between gap-3 text-[13px]">
+                  <span className="min-w-0 truncate font-semibold text-ss-ink" title={q.label}>
+                    {q.label}
+                    {q.created_at && <span className="ml-2 font-medium text-ss-slate">{shortDate(q.created_at)}</span>}
+                  </span>
+                  <ScorePill score={q.percentage} />
+                </li>
+              ))}
+            </ul>
+            {s.quizzes.length > 5 && (
+              <p className="mt-2 text-[12px] font-semibold text-ss-slate">and {s.quizzes.length - 5} more</p>
+            )}
+          </div>
+        ))}
+        {unlinked && (
+          <div className="min-w-0 rounded-[16px] border border-ss-line bg-ss-panel p-4">
+            <p className="text-[14.5px] font-extrabold text-ss-ink">Other quizzes</p>
+            <div className="mt-1 flex items-center justify-between gap-3">
+              <p className="text-[12.5px] font-semibold text-ss-slate">
+                {unlinked.count} {unlinked.count === 1 ? 'quiz' : 'quizzes'}
+                {unlinked.last ? `, latest ${shortDate(unlinked.last)}` : ''}
+              </p>
+              {unlinked.average !== null && <ScorePill score={unlinked.average} />}
+            </div>
+            <p className="mt-2 text-[13px] font-medium text-ss-slate">
+              These were not linked to a subject, such as quizzes a teacher set, so they cannot appear on the wall.
+              The score is your average across them.
+            </p>
+          </div>
+        )}
+      </div>
+    </section>
+  )
+}
+
 /**
  * The gap map, without the map.
  *
@@ -84,9 +173,12 @@ export function KnowledgeWall({
   onQuiz,
   canQuiz,
   busy = false,
+  unlinked = null,
 }: {
   /** Raw `textbooks` array from the gap-map API. */
   subjects: readonly unknown[]
+  /** Results saved with no quiz behind them, from the gap-map API's `unlinked_results`. */
+  unlinked?: UnlinkedResults | null
   onStudy: (tile: WallTile) => void
   onQuiz?: (tile: WallTile) => void
   /**
@@ -98,6 +190,7 @@ export function KnowledgeWall({
   busy?: boolean
 }) {
   const all = useMemo(() => buildWall(subjects, canonicalSubject), [subjects])
+  const unplaced = useMemo(() => unplacedQuizzes(subjects, canonicalSubject), [subjects])
   const totals = useMemo(() => wallSummary(all), [all])
   const priorities = useMemo(() => priorityTiles(all, 3), [all])
 
@@ -131,7 +224,12 @@ export function KnowledgeWall({
     [all, query, showUntested],
   )
 
+  const hasUnplaced = unplaced.length > 0 || !!unlinked
+
   if (all.length === 0) {
+    // Quizzes taken but none of them placeable: show them, not an invitation
+    // to take the quiz they already took.
+    if (hasUnplaced) return <QuizResults unplaced={unplaced} unlinked={unlinked} lead />
     return (
       <div className="rounded-[20px] border border-dashed border-ss-line bg-ss-chip p-10 text-center">
         <h3 className="text-[17px] font-extrabold text-ss-ink">Your wall is empty — for now</h3>
@@ -145,6 +243,10 @@ export function KnowledgeWall({
 
   return (
     <div className="space-y-6">
+      {/* Nothing on the wall is coloured: the results come first, or the
+          student reads a wall of "not tested" as their quizzes being lost. */}
+      {hasUnplaced && assessedCount === 0 && <QuizResults unplaced={unplaced} unlinked={unlinked} lead />}
+
       {/* Counts first, then the two controls that make ninety-six topics
           navigable: find one by name, or bring the untested ones in. */}
       <div className="flex flex-wrap items-center gap-x-5 gap-y-3">
@@ -332,6 +434,10 @@ export function KnowledgeWall({
           </section>
         ))
       )}
+
+      {/* Some subjects coloured, others only quizzes that recorded no
+          chapters: those results after the wall, not lost. */}
+      {hasUnplaced && assessedCount > 0 && <QuizResults unplaced={unplaced} unlinked={unlinked} lead={false} />}
 
       {/* Detail for one chip. A panel rather than a hover card: there is no
           hover on a phone, and this is a phone-first screen. */}

@@ -5,7 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation'
 import { ArrowLeft, Loader2, Sparkles, Target, X, BookOpen, ChevronRight, ChevronDown, FileQuestion } from 'lucide-react'
 import type { MasteryStatus } from '@/lib/studylab/types'
 import { openLearnSpace } from '@/lib/studylab/openSpace'
-import { KnowledgeWall } from '@/components/studylab/KnowledgeWall'
+import { KnowledgeWall, type UnlinkedResults } from '@/components/studylab/KnowledgeWall'
 import type { WallTile } from '@/lib/studylab/wall'
 import type { CountryCode } from '@/lib/countries'
 import ProductTour from '@/components/studio/ProductTour'
@@ -82,6 +82,8 @@ interface Subject {
 interface GapTree {
   textbooks: Subject[]
   summary: { mastered: number; developing: number; gap: number; not_assessed: number; total_assessed: number; overall_mastery: number }
+  /** Results saved with no quiz behind them: counted so the page can show them. */
+  unlinked_results?: UnlinkedResults | null
 }
 
 function subjectKey(s: Subject): string {
@@ -516,6 +518,7 @@ export default function GapMap({
         ) : (
           <KnowledgeWall
             subjects={visibleSubjects}
+            unlinked={tree?.unlinked_results ?? null}
             onStudy={(tile: WallTile) => startStudy(nodeFor(tile))}
             // Studying and being tested were always the two halves of this
             // screen; the wall shipped with only the first wired up.

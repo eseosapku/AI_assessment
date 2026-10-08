@@ -3,6 +3,7 @@ import { db } from '@/lib/db'
 import { pgErrorMessage } from '@/lib/pg-errors'
 import { isExamPrepCurriculumNumeric, slugForTextbookCurriculum } from '@/lib/curriculum-registry'
 import type { MasteryStatus } from '@/lib/studylab/types'
+import { unlinkedSummary } from '@/lib/studylab/wall'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
 
@@ -121,11 +122,21 @@ export async function GET(request: NextRequest) {
     )
     const resultRows = resultRowsRes.rows
 
+    // Results saved without a quiz behind them (teacher-set quizzes are saved
+    // this way) can't be placed on a chapter, but they are the student's
+    // results: counted and averaged so the page can say so, rather than
+    // telling someone with a term of quizzes to go and take one.
+    const unlinkedRes = await db.query(
+      `SELECT percentage, created_at FROM results WHERE user_id = $1 AND assessment_id IS NULL`,
+      [userId]
+    )
+    const unlinked = unlinkedSummary(unlinkedRes.rows ?? [])
+
     const results = (resultRows ?? []).filter((r: any) => r.assessment_id)
     if (results.length === 0) {
       return NextResponse.json({
-        data: { textbooks: [], summary: emptySummary() },
-        warning: 'No assessment history yet — take a few quizzes and your gap map will fill in automatically.',
+        data: { textbooks: [], summary: emptySummary(), unlinked_results: unlinked },
+        warning: unlinked ? null : 'No assessment history yet — take a few quizzes and your gap map will fill in automatically.',
       })
     }
 
@@ -178,8 +189,8 @@ export async function GET(request: NextRequest) {
     })
     if (schoolResults.length === 0) {
       return NextResponse.json({
-        data: { textbooks: [], summary: emptySummary() },
-        warning: 'No school assessment history yet — take a few quizzes and your gap map will fill in automatically.',
+        data: { textbooks: [], summary: emptySummary(), unlinked_results: unlinked },
+        warning: unlinked ? null : 'No school assessment history yet — take a few quizzes and your gap map will fill in automatically.',
       })
     }
 
@@ -470,6 +481,7 @@ export async function GET(request: NextRequest) {
         source: 'assessments',
         textbooks: subjects,
         summary: { ...counts, total_assessed: totalAssessed, overall_mastery: overallMastery },
+        unlinked_results: unlinked,
       },
     })
   } catch (err) {

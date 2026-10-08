@@ -215,6 +215,59 @@ export function buildWall(subjects: readonly unknown[], canonicalise: (s: string
   return sections
 }
 
+export interface UnplacedQuiz { id: string; label: string; percentage: number | null; created_at: string | null }
+export interface UnplacedSubject { subject: string; quizzes: UnplacedQuiz[]; average: number | null }
+
+/**
+ * Subjects the student has quizzes in that coloured nothing on the wall.
+ *
+ * A quiz colours the wall only when it recorded the chapters or sections it
+ * covered. Most taken before July 2026 recorded neither, so a student with a
+ * term of quizzes saw their book's chapters all "not tested" -- or, with no
+ * chapter list, the empty-wall message telling them to take a quiz. Their
+ * results were there all along; this is where they are shown instead.
+ */
+export function unplacedQuizzes(subjects: readonly unknown[], canonicalise: (s: string) => string = (s) => s): UnplacedSubject[] {
+  const out: UnplacedSubject[] = []
+  for (const raw of subjects ?? []) {
+    const subject = (raw ?? {}) as RawSubject & { assessments?: unknown }
+    const name = canonicalise(String(subject.name ?? '').trim())
+    const quizzes = Array.isArray(subject.assessments) ? (subject.assessments as Record<string, unknown>[]) : []
+    if (!name || !quizzes.length) continue
+    if (tilesForSubject(subject).some((t) => t.status !== 'not_assessed')) continue
+    const list: UnplacedQuiz[] = quizzes.map((q) => ({
+      id: String(q?.id ?? ''),
+      label: String(q?.label ?? '').trim() || name,
+      percentage: asNumberOrNull(q?.percentage),
+      created_at: q?.created_at ? String(q.created_at) : null,
+    })).sort((a, b) => (b.created_at ? Date.parse(b.created_at) : 0) - (a.created_at ? Date.parse(a.created_at) : 0))
+    const scored = list.map((q) => q.percentage).filter((p): p is number => p !== null)
+    out.push({ subject: name, quizzes: list, average: scored.length ? Math.round(scored.reduce((a, b) => a + b, 0) / scored.length) : null })
+  }
+  return out
+}
+
+/**
+ * Results that belong to no quiz the map can read (saved without one, as
+ * teacher-set quizzes are): how many, their average, the latest. Null when
+ * there are none.
+ */
+export function unlinkedSummary(rows: readonly { percentage?: unknown; created_at?: unknown }[]): { count: number; average: number | null; last: string | null } | null {
+  if (!rows.length) return null
+  const scores = rows.map((r) => (r.percentage === null || r.percentage === undefined || r.percentage === '' ? null : asNumberOrNull(r.percentage))).filter((p): p is number => p !== null)
+  // Postgres hands back Date objects; compare times, not their text.
+  let last: string | null = null
+  let lastTime = -Infinity
+  for (const r of rows) {
+    if (!r.created_at) continue
+    const t = new Date(r.created_at as string | Date).getTime()
+    if (Number.isNaN(t) || t <= lastTime) continue
+    lastTime = t
+    last = r.created_at instanceof Date ? r.created_at.toISOString() : String(r.created_at)
+  }
+  return { count: rows.length, average: scores.length ? Math.round(scores.reduce((a, b) => a + b, 0) / scores.length) : null, last }
+}
+
 /** Totals across the whole wall, for the summary strip. */
 export function wallSummary(sections: readonly WallSection[]): Record<MasteryStatus, number> {
   const total: Record<MasteryStatus, number> = { gap: 0, developing: 0, mastered: 0, not_assessed: 0 }

@@ -1,5 +1,48 @@
 import { describe, it, expect } from 'vitest'
-import { tilesForSubject, buildWall, wallSummary, priorityTiles, groupByTopic, tileMatches, filterWall } from './wall'
+import { tilesForSubject, buildWall, wallSummary, priorityTiles, groupByTopic, tileMatches, filterWall, unplacedQuizzes, unlinkedSummary } from './wall'
+
+describe('unplacedQuizzes', () => {
+  const quiz = (over: Record<string, unknown> = {}) => ({ id: 'a1', label: 'Physics quiz', percentage: 70, created_at: '2026-05-02T10:00:00Z', ...over })
+  const grey = { id: 7, name: 'Physics', topics: [{ id: 1, name: 'Forces', subtopics: [{ id: 2, name: 'Moments', status: 'not_assessed' }] }], assessments: [quiz(), quiz({ id: 'a2', percentage: 40, created_at: '2026-06-01T10:00:00Z' })] }
+  const placed = { id: 8, name: 'Biology', topics: [{ id: 3, name: 'Cells', subtopics: [{ id: 4, name: 'Nucleus', status: 'gap', accuracy: 20 }] }], assessments: [quiz({ id: 'b1', label: 'Biology quiz' })] }
+  const noTree = { id: null, name: 'Chemistry', topics: [], assessments: [quiz({ id: 'c1', label: 'Acids', percentage: 55 })] }
+  const noQuizzes = { id: 9, name: 'History', topics: [], assessments: [] }
+
+  it('lists the quizzes of a subject the map could not colour, newest first, with their average', () => {
+    const out = unplacedQuizzes([grey])
+    expect(out).toHaveLength(1)
+    expect(out[0].subject).toBe('Physics')
+    expect(out[0].quizzes.map((q) => q.id)).toEqual(['a2', 'a1'])
+    expect(out[0].average).toBe(55)
+  })
+  it('includes a subject with no chapter list at all', () => {
+    expect(unplacedQuizzes([noTree]).map((s) => s.subject)).toEqual(['Chemistry'])
+  })
+  it('leaves out a subject the map did colour, and one with no quizzes', () => {
+    expect(unplacedQuizzes([placed, noQuizzes])).toEqual([])
+  })
+  it('survives a malformed subject rather than crashing the page', () => {
+    expect(unplacedQuizzes([{}, { name: 'X', assessments: 'nope' }, null as any])).toEqual([])
+  })
+})
+
+describe('unlinkedSummary', () => {
+  it('counts and averages results that belong to no quiz', () => {
+    expect(unlinkedSummary([{ percentage: 80, created_at: '2026-05-01' }, { percentage: 40, created_at: '2026-06-01' }]))
+      .toEqual({ count: 2, average: 60, last: '2026-06-01' })
+  })
+  it('is null when there are none', () => {
+    expect(unlinkedSummary([])).toBeNull()
+  })
+  it('finds the latest by time when the database hands back Date objects', () => {
+    const out = unlinkedSummary([{ percentage: 50, created_at: new Date('2026-09-30T10:00:00Z') }, { percentage: 70, created_at: new Date('2026-10-02T10:00:00Z') }])
+    expect(out?.last).toBe('2026-10-02T10:00:00.000Z')
+  })
+  it('skips a score that is not a number in the average but still counts the result', () => {
+    expect(unlinkedSummary([{ percentage: null, created_at: null }, { percentage: '50', created_at: '2026-05-01' }]))
+      .toEqual({ count: 2, average: 50, last: '2026-05-01' })
+  })
+})
 
 const topic = (over: Record<string, unknown> = {}) => ({
   id: 1, name: 'Forces', status: 'developing', accuracy: 60, attempts: 2,
