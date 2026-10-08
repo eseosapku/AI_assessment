@@ -3,7 +3,7 @@ import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedroc
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 import { buildModelCandidates as sharedCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust } from '@/lib/bedrock'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
-import { gradeShortAnswer, type ShortAnswerKey } from '@/lib/short-answer'
+import { gradeShortAnswer, secondLookQuestion, type ShortAnswerKey } from '@/lib/short-answer'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -413,10 +413,16 @@ export async function POST(request: NextRequest) {
             const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria : []
             const marksTotal = Number(q.marks) || Math.max(1, criteria.length)
 
-            // A keyed short answer that reaches here is marked by its key, as
-            // the page marks it: it has no criteria for a model to read.
+            // A keyed short answer: the key marks it when it clearly matches.
+            // When it does not, the model reads it -- "it goes up" for "it
+            // increases" -- held to the accepted answers as its one criterion,
+            // so short answers are marked as fairly as the written ones.
             if (q.short_answer && Array.isArray(q.short_answer.accepted)) {
                 const verdict = gradeShortAnswer(studentAnswer, q.short_answer)
+                if (verdict.reason === 'no-match') {
+                    questionsToGrade.push({ q: secondLookQuestion(q) as LongFormQuestion, idx, studentAnswer })
+                    continue
+                }
                 grades[idx] = {
                     marks_awarded: verdict.correct ? marksTotal : 0,
                     marks_total: marksTotal,
@@ -425,7 +431,7 @@ export async function POST(request: NextRequest) {
                         ? 'Correct.'
                         : verdict.reason === 'blank'
                             ? 'No answer given.'
-                            : `The expected answer was: ${q.short_answer.accepted[0]}`,
+                            : 'This question has no answer key, so it could not be marked.',
                 }
                 continue
             }

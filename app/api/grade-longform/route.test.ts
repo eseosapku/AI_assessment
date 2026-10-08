@@ -23,6 +23,23 @@ describe('grade-longform and short answers', () => {
     expect(json.grades?.[0]).toBeUndefined()
   })
 
+  it('sends an answer the key does not match to the model, not straight to 0', async () => {
+    // "The height increases" for "It increases": exact matching said wrong
+    // while the same words in a written question earned the mark. With no
+    // credentials here the model path answers "could not be graded" -- the
+    // point is that the key alone no longer marks it wrong.
+    const saved = ['BEDROCK_ACCESS_KEY_ID', 'AWS_ACCESS_KEY_ID', 'BEDROCK_SECRET_ACCESS_KEY', 'AWS_SECRET_ACCESS_KEY'].map((k) => [k, process.env[k]] as const)
+    saved.forEach(([k]) => { delete process.env[k] })
+    try {
+      const res = await post({ questions: [bearing], answers: { 0: 'north-east, so forty five degrees' } })
+      const json = await res.json()
+      expect(json.grades?.[0]).toBeDefined()
+      expect(json.grades[0].general_feedback).not.toMatch(/expected answer was/i)
+    } finally {
+      saved.forEach(([k, v]) => { if (v !== undefined) process.env[k] = v })
+    }
+  })
+
   it('marks a keyed short answer by its key, never as unanswered', async () => {
     const res = await post({ questions: [bearing], answers: { 0: '045' } })
     const json = await res.json()

@@ -1,6 +1,6 @@
 // lib/short-answer.test.ts
 import { describe, it, expect } from 'vitest'
-import { gradeShortAnswer, normalizeAnswer, isPlaceholderKey } from './short-answer'
+import { gradeShortAnswer, normalizeAnswer, isPlaceholderKey, secondLookQuestion } from './short-answer'
 
 const key = (accepted: string[], extra: Record<string, unknown> = {}) => ({ accepted, ...extra })
 
@@ -196,5 +196,48 @@ describe('the fill-in-the-blank keys that were never caught', () => {
   it('still accepts a real answer that happens to contain those words', () => {
     expect(isPlaceholderKey({ accepted: ['photosynthesis'] })).toBe(false)
     expect(isPlaceholderKey({ accepted: ['here'] })).toBe(false)
+  })
+})
+
+describe('an answer written as a short sentence', () => {
+  // Real answers marked wrong by exact matching while the same words in a
+  // written question earned the mark: students write sentences.
+  it('accepts a lead-in before the answer', () => {
+    expect(gradeShortAnswer('Because its an insulator', key(['insulator', 'it is an insulator'])).correct).toBe(true)
+    expect(gradeShortAnswer("It's greater", key(['greater'])).correct).toBe(true)
+  })
+
+  it('accepts an answer that contains an accepted one as whole words', () => {
+    const r = gradeShortAnswer('The height increases', key(['It increases', 'h increases', 'Increases']))
+    expect(r).toEqual({ correct: true, reason: 'phrase' })
+  })
+
+  it('never accepts a negated answer', () => {
+    expect(gradeShortAnswer('It is not an insulator', key(['insulator'])).correct).toBe(false)
+    expect(gradeShortAnswer("It doesn't increase", key(['increases', 'increase'])).correct).toBe(false)
+  })
+
+  it('still marks the opposite answer wrong', () => {
+    expect(gradeShortAnswer('Its less than', key(['greater', 'higher', 'more than atmospheric pressure'])).correct).toBe(false)
+    expect(gradeShortAnswer('The height decreases', key(['increases'])).correct).toBe(false)
+  })
+
+  it('does not find a label or a number inside a longer answer', () => {
+    expect(gradeShortAnswer('B and C', key(['C'])).correct).toBe(false)
+    expect(gradeShortAnswer('It is 45 or 90', key(['45'], { numeric: true })).correct).toBe(false)
+  })
+
+  it('does not credit a long answer for mentioning the word in passing', () => {
+    expect(gradeShortAnswer('plastic is cheap and light and easy to shape and it is also an insulator sometimes', key(['insulator'])).correct).toBe(false)
+  })
+})
+
+describe('secondLookQuestion', () => {
+  it('turns a key into a marking criterion a model can read', () => {
+    const q = secondLookQuestion({ type: 'longform', question: 'What happens to h?', marks: 1, short_answer: { accepted: ['It increases', 'h increases'] } })
+    expect(q.marking_criteria).toHaveLength(1)
+    expect(q.marking_criteria[0]).toContain('It increases / h increases')
+    expect(q.model_answer).toBe('It increases / h increases')
+    expect(q.marks).toBe(1)
   })
 })

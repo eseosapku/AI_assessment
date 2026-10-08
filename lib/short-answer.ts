@@ -36,7 +36,7 @@ export interface ShortAnswerKey {
   unit?: string
 }
 
-export type ShortAnswerReason = 'exact' | 'spelling' | 'numeric' | 'no-match' | 'blank' | 'no-key'
+export type ShortAnswerReason = 'exact' | 'spelling' | 'numeric' | 'phrase' | 'no-match' | 'blank' | 'no-key'
 
 export interface ShortAnswerResult {
   correct: boolean
@@ -80,6 +80,48 @@ function dropArticle(text: string): string {
   const m = /^(?:an?|the)\s+(\S+)/.exec(text)
   if (!m || !/^[a-z]{3,}/.test(m[1]) || /^(and|or)$/.test(m[1])) return text
   return text.slice(m[0].length - m[1].length)
+}
+
+/**
+ * Drop the sentence around an answer: "Because its an insulator" is the answer
+ * "insulator", "It's greater" is "greater". Students write the box as a
+ * sentence, and a written question marked by a model gave the same words the
+ * mark that exact matching withheld. An article goes only before a real word,
+ * as in dropArticle, so "a and c" keeps its labels.
+ */
+const LEAD_IN = /^(?:because|since|as|so|it is|it's|its|it|they are|they're|theyre|this is|that is|the answer is|answer is|answer|i think that|i think|it would be|it will be)\s+/
+function stripLeadIn(text: string): string {
+  let out = text
+  for (let i = 0; i < 6; i++) {
+    const next = dropArticle(out.replace(LEAD_IN, ''))
+    if (next === out || !next) break
+    out = next
+  }
+  return out
+}
+
+/** A negation anywhere turns a phrase into a different answer: "not an insulator". */
+const NEGATION = /\b(not|no|never|neither|nor|cannot|without)\b|n't\b/
+
+/** Short sentences only: a long answer that mentions the word in passing has not given it. */
+const MAX_PHRASE_WORDS = 8
+
+/**
+ * The answer contains an accepted one as whole words: "the height increases"
+ * for "increases". Never for a number or a one- or two-letter label, which a
+ * longer answer can contain without meaning it ("B and C" is not "C"), and
+ * never past a negation.
+ */
+function containsAccepted(answer: string, accepted: readonly string[]): boolean {
+  const words = (s: string) => s.replace(/[^a-z0-9°%]+/g, ' ').trim()
+  const padded = ` ${words(answer)} `
+  if (NEGATION.test(answer) || padded.trim().split(' ').length > MAX_PHRASE_WORDS) return false
+  return accepted.some((a) => {
+    const core = words(stripLeadIn(dropArticle(a)))
+    // A real word in it, not labels joined by "and": "A and C" is not "and c".
+    if (!core.split(' ').some((w) => /^[a-z]{4,}$/.test(w)) || toNumber(core) !== null) return false
+    return padded.includes(` ${core} `)
+  })
 }
 
 function toNumber(text: string): number | null {
@@ -137,11 +179,13 @@ export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnsw
   if (!raw) return { correct: false, reason: 'blank' }
   const answer = stripRestatedSubject(raw)
 
-  if (accepted.includes(answer)) return { correct: true, reason: 'exact' }
-  if (accepted.some((a) => dropArticle(a) === dropArticle(answer))) return { correct: true, reason: 'exact' }
+  const same = (text: string) => accepted.includes(text) || accepted.some((a) => dropArticle(a) === dropArticle(text))
+  if (same(answer)) return { correct: true, reason: 'exact' }
+  const bare = stripLeadIn(answer)
+  if (bare !== answer && same(bare)) return { correct: true, reason: 'exact' }
 
   if (key.numeric) {
-    const { value, unit } = splitUnit(answer)
+    const { value, unit } = splitUnit(bare)
     const mine = toNumber(value)
     if (mine !== null) {
       // A unit is optional because the paper already printed it — but a
@@ -166,7 +210,7 @@ export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnsw
 
   for (const a of accepted) {
     const allowance = spellingAllowance(a)
-    if (allowance > 0 && levenshtein(answer, a) <= allowance) {
+    if (allowance > 0 && (levenshtein(answer, a) <= allowance || levenshtein(bare, a) <= allowance)) {
       // Never let a slip carry one listed answer into another: if the typed
       // word is at least as close to a different accepted answer, it is not a
       // misspelling of this one.
@@ -174,7 +218,27 @@ export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnsw
     }
   }
 
+  if (!key.numeric && containsAccepted(bare, accepted)) return { correct: true, reason: 'phrase' }
+
   return { correct: false, reason: 'no-match' }
+}
+
+/**
+ * A short answer the key did not match, as a question a model can mark.
+ *
+ * Exact matching cannot know that "it goes up" means "it increases"; the
+ * model marking the written questions can. Its one criterion is the key
+ * itself, so it is held to the accepted answers rather than its own idea of
+ * the right one.
+ */
+export function secondLookQuestion<T extends { marks?: number; short_answer?: ShortAnswerKey }>(q: T): T & { marking_criteria: string[]; model_answer: string } {
+  const list = (q.short_answer?.accepted ?? []).map((a) => String(a ?? '').trim()).filter(Boolean).join(' / ')
+  return {
+    ...q,
+    marks: Number(q.marks) || 1,
+    marking_criteria: [`Gives an answer that means the same as one of these accepted answers: ${list}`],
+    model_answer: list,
+  }
 }
 
 /**

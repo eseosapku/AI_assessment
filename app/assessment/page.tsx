@@ -1163,14 +1163,16 @@ function AssessmentPageClient() {
     setShowResults(true)
     setIsSubmitted(false)
 
-    // Mark the short answers here, before anything is sent anywhere. A word
-    // or a number is checked against the question's own key in microseconds;
-    // only the questions that really need reading go to the model below.
+    // Mark the short answers here, before anything is sent anywhere. A clear
+    // match against the question's own key is marked in microseconds; an
+    // answer the key does not match goes to the model with the written ones
+    // ("it goes up" for "it increases"), held to the accepted answers, so a
+    // short answer is marked as fairly as a written one.
     const longFormGradesResult: Record<number, LongFormGrade> = {}
-    questions.forEach((q, idx) => {
-      if (!isShortAnswer(q)) return
+    const secondLook = new Set<number>()
+    const keyVerdict = (q: LongFormQuestion, idx: number): LongFormGrade => {
       const verdict = gradeShortAnswer(longFormAnswers[idx], q.short_answer!)
-      longFormGradesResult[idx] = {
+      return {
         marks_awarded: verdict.correct ? q.marks : 0,
         marks_total: q.marks,
         criteria_results: [],
@@ -1180,20 +1182,26 @@ function AssessmentPageClient() {
             ? 'No answer given.'
             : `The expected answer was: ${q.short_answer!.accepted[0]}`,
       }
+    }
+    questions.forEach((q, idx) => {
+      if (!isShortAnswer(q)) return
+      if (gradeShortAnswer(longFormAnswers[idx], q.short_answer!).reason === 'no-match') secondLook.add(idx)
+      else longFormGradesResult[idx] = keyVerdict(q, idx)
     })
     if (Object.keys(longFormGradesResult).length > 0) setLongFormGrades({ ...longFormGradesResult })
 
-    const needsModel = questions.some((q, idx) => isLongForm(q) && !isShortAnswer(q) && longFormAnswers[idx] !== undefined)
+    const needsModel = secondLook.size > 0
+      || questions.some((q, idx) => isLongForm(q) && !isShortAnswer(q) && longFormAnswers[idx] !== undefined)
     if (hasLongForm && needsModel) {
       setIsGradingLongForm(true)
       try {
-        // Only the questions a model has to read. Short answers are already
-        // marked, and including them would pay for a judgement already made.
+        // The questions a model has to read: the written ones and the short
+        // answers the key did not match. The rest are marked already, and
+        // sending them would pay for a judgement already made.
+        const marked = (idx: number) => isShortAnswer(questions[idx]) && !secondLook.has(idx)
         const gradingPayload = {
-          questions: questions.map((q, idx) => (isShortAnswer(q) ? { ...q, __skip: idx } : q)),
-          answers: Object.fromEntries(
-            Object.entries(longFormAnswers).filter(([k]) => !isShortAnswer(questions[Number(k)])),
-          ),
+          questions: questions.map((q, idx) => (marked(idx) ? { ...q, __skip: idx } : q)),
+          answers: Object.fromEntries(Object.entries(longFormAnswers).filter(([k]) => !marked(Number(k)))),
           subject: assessment?.subject,
         }
         let data: any
@@ -1209,16 +1217,23 @@ function AssessmentPageClient() {
           })
           data = await res.json()
         }
-        // The model's grades for the questions it read; a short answer keeps
-        // the mark it was given above. Copying everything over let an
-        // "unanswered" 0 replace a correct "045".
+        // The model's grades for the questions it read; a short answer the key
+        // marked keeps that mark. Copying everything over let an "unanswered"
+        // 0 replace a correct "045".
         for (const [k, g] of Object.entries(data.grades ?? {})) {
-          if (!isShortAnswer(questions[Number(k)])) longFormGradesResult[Number(k)] = g as LongFormGrade
+          if (!marked(Number(k))) longFormGradesResult[Number(k)] = g as LongFormGrade
         }
         setLongFormGrades({ ...longFormGradesResult })
       } catch (err) {
         console.error('Long-form grading failed:', err)
       } finally {
+        // A short answer the model never came back on keeps the key's verdict
+        // rather than waiting forever.
+        let filled = false
+        secondLook.forEach((idx) => {
+          if (!longFormGradesResult[idx]) { longFormGradesResult[idx] = keyVerdict(questions[idx] as LongFormQuestion, idx); filled = true }
+        })
+        if (filled) setLongFormGrades({ ...longFormGradesResult })
         setIsGradingLongForm(false)
       }
     }
