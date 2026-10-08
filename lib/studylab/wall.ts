@@ -247,6 +247,34 @@ export function unplacedQuizzes(subjects: readonly unknown[], canonicalise: (s: 
   return out
 }
 
+interface PickableSubject { id: number | null; name: string; topics_assessed?: number; last_assessed?: string | null; assessments?: { id: string }[] }
+
+/**
+ * The subject a link into the map asked for ("Study these areas" on a
+ * finished quiz). The quiz's own id decides first. By name alone, a real book
+ * with tested topics beats a bucket that is only a name: an old "Mathematics"
+ * quiz saved with no book came first by name, and a student who had just
+ * finished a book quiz landed on a June result instead.
+ */
+export function pickRequestedSubject<T extends PickableSubject>(
+  subjects: readonly T[], want: { assessmentId?: string | null; name?: string | null },
+): T | undefined {
+  const id = String(want.assessmentId ?? '').trim()
+  if (id) {
+    const holder = subjects.find((s) => (s.assessments ?? []).some((a) => String(a.id) === id))
+    if (holder) return holder
+  }
+  const name = String(want.name ?? '').trim().toLowerCase()
+  if (!name) return undefined
+  const matches = subjects.filter((s) => {
+    const n = String(s.name ?? '').toLowerCase()
+    return n === name || n.includes(name) || name.includes(n)
+  })
+  const rank = (s: T) => (s.id !== null ? 2 : 0) + ((s.topics_assessed ?? 0) > 0 ? 1 : 0)
+  return [...matches].sort((a, b) => rank(b) - rank(a)
+    || (b.last_assessed ? Date.parse(b.last_assessed) : 0) - (a.last_assessed ? Date.parse(a.last_assessed) : 0))[0]
+}
+
 /**
  * Results that belong to no quiz the map can read (saved without one, as
  * teacher-set quizzes are): how many, their average, the latest. Null when

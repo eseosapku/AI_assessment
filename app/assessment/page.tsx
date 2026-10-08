@@ -495,7 +495,12 @@ function LongFormResultCard({
               className="mt-2 bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 text-sm text-gray-700 dark:text-gray-300 border border-gray-200 dark:border-gray-700"
             >
               <div className="font-semibold text-gray-900 dark:text-gray-100 mb-1">Model Answer</div>
-              <p className="leading-relaxed">{q.model_answer}</p>
+              {/* A short answer has a key, not a written model: show the key. */}
+              <p className="leading-relaxed">
+                {q.model_answer || (Array.isArray(q.short_answer?.accepted) && q.short_answer!.accepted.length
+                  ? q.short_answer!.accepted.join(' / ')
+                  : 'No model answer for this question.')}
+              </p>
             </motion.div>
           )}
         </AnimatePresence>
@@ -1204,7 +1209,12 @@ function AssessmentPageClient() {
           })
           data = await res.json()
         }
-        Object.assign(longFormGradesResult, data.grades ?? {})
+        // The model's grades for the questions it read; a short answer keeps
+        // the mark it was given above. Copying everything over let an
+        // "unanswered" 0 replace a correct "045".
+        for (const [k, g] of Object.entries(data.grades ?? {})) {
+          if (!isShortAnswer(questions[Number(k)])) longFormGradesResult[Number(k)] = g as LongFormGrade
+        }
         setLongFormGrades({ ...longFormGradesResult })
       } catch (err) {
         console.error('Long-form grading failed:', err)
@@ -1800,6 +1810,7 @@ function AssessmentPageClient() {
               <NextStepsPanel
                 areas={problemAreas}
                 subject={assessment.subject}
+                assessmentId={assessment.assessment_id}
                 onJumpToQuestion={jumpToQuestion}
                 onRetake={handleRetake}
                 retaking={isRetaking}

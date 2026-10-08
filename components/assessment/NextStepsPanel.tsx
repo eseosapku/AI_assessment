@@ -20,10 +20,13 @@ function barColor(accuracy: number): string {
   return 'var(--ss-bad, #E2645F)'
 }
 
-function gapMapHref(subject: string, focus?: string): string {
+function gapMapHref(subject: string, focus?: string, assessmentId?: string): string {
   const params = new URLSearchParams()
   if (subject) params.set('subject', subject)
   if (focus) params.set('focus', focus)
+  // The quiz itself, so the map opens on the subject that holds it rather
+  // than on whichever subject's name matches first.
+  if (assessmentId) params.set('assessment', assessmentId)
   const qs = params.toString()
   return `/studylab/gap-map${qs ? `?${qs}` : ''}`
 }
@@ -80,6 +83,7 @@ function AreaRow({
 export default function NextStepsPanel({
   areas,
   subject,
+  assessmentId,
   onJumpToQuestion,
   onRetake,
   retaking = false,
@@ -87,6 +91,8 @@ export default function NextStepsPanel({
   /** Problem areas only — an empty list renders the "nothing to fix" state. */
   areas: WeakArea[]
   subject: string
+  /** The finished quiz, carried into the gap-map link. */
+  assessmentId?: string
   onJumpToQuestion: (questionNumber: number) => void
   onRetake?: () => void
   retaking?: boolean
@@ -124,7 +130,7 @@ export default function NextStepsPanel({
 
         <div className="flex flex-col gap-2.5 pt-1 sm:flex-row">
           <a
-            href={gapMapHref(subject, primaryFocus)}
+            href={gapMapHref(subject, primaryFocus, assessmentId)}
             className="group flex flex-1 items-center justify-center gap-2 rounded-2xl bg-ss-accent px-5 py-3.5 text-[13.5px] font-extrabold text-white transition-opacity hover:opacity-90"
           >
             {hasGaps ? 'Study these areas' : 'Open my gap map'}

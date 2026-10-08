@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { tilesForSubject, buildWall, wallSummary, priorityTiles, groupByTopic, tileMatches, filterWall, unplacedQuizzes, unlinkedSummary } from './wall'
+import { tilesForSubject, buildWall, wallSummary, priorityTiles, groupByTopic, tileMatches, filterWall, unplacedQuizzes, unlinkedSummary, pickRequestedSubject } from './wall'
 
 describe('unplacedQuizzes', () => {
   const quiz = (over: Record<string, unknown> = {}) => ({ id: 'a1', label: 'Physics quiz', percentage: 70, created_at: '2026-05-02T10:00:00Z', ...over })
@@ -23,6 +23,26 @@ describe('unplacedQuizzes', () => {
   })
   it('survives a malformed subject rather than crashing the page', () => {
     expect(unplacedQuizzes([{}, { name: 'X', assessments: 'nope' }, null as any])).toEqual([])
+  })
+})
+
+describe('pickRequestedSubject', () => {
+  const legacy = { id: null, name: 'Mathematics', topics_assessed: 0, last_assessed: '2026-06-17', assessments: [{ id: 'old' }] }
+  const book = { id: 610, name: 'Cambridge Lower Secondary Mathematics Stage 8', topics_assessed: 4, last_assessed: '2026-10-08', assessments: [{ id: 'new' }] }
+  const science = { id: 9, name: 'Science', topics_assessed: 2, last_assessed: '2026-10-01', assessments: [{ id: 's1' }] }
+
+  it('opens the subject that holds the quiz the student just finished', () => {
+    // "Study these areas" from a Maths quiz opened an old June "Mathematics"
+    // quiz saved with no book: it was first by name and sorted weakest first.
+    expect(pickRequestedSubject([legacy, book, science], { assessmentId: 'new', name: 'Mathematics' })?.id).toBe(610)
+  })
+  it('by name, prefers a real book with tested topics over a name-only bucket', () => {
+    expect(pickRequestedSubject([legacy, book], { name: 'Mathematics' })?.id).toBe(610)
+  })
+  it('falls back to the only match, and to nothing when none matches', () => {
+    expect(pickRequestedSubject([legacy], { name: 'Mathematics' })?.name).toBe('Mathematics')
+    expect(pickRequestedSubject([science], { name: 'History' })).toBeUndefined()
+    expect(pickRequestedSubject([science], {})).toBeUndefined()
   })
 })
 

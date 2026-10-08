@@ -3,6 +3,7 @@ import { BedrockRuntimeClient, InvokeModelCommand } from '@aws-sdk/client-bedroc
 import { getBedrockCredentials, getBedrockRegion } from '@/lib/aws-config'
 import { buildModelCandidates as sharedCandidates, isModelIdError, rememberWorkingModel, parseJsonRobust } from '@/lib/bedrock'
 import { checkRateLimit, identify } from '@/lib/rate-limit'
+import { gradeShortAnswer, type ShortAnswerKey } from '@/lib/short-answer'
 
 export const runtime = 'nodejs'
 export const maxDuration = 30
@@ -28,6 +29,10 @@ interface LongFormQuestion {
     marking_criteria: string[]
     model_answer?: string
     passage?: string
+    /** A one-word or number answer, marked against its key, never by a model. */
+    short_answer?: ShortAnswerKey
+    /** Set by the page on a short answer it has already marked. */
+    __skip?: number
 }
 
 const AWS_REGION = getBedrockRegion()
@@ -389,9 +394,12 @@ export async function POST(request: NextRequest) {
             return NextResponse.json({ error: 'Questions and answers required' }, { status: 400 })
         }
 
+        // The page marks short answers itself and sends them flagged __skip,
+        // with their answers withheld. Graded here as unanswered they came back
+        // 0 with "No answer was written" -- and that replaced the right mark.
         const longFormQuestions = (questions as any[])
             .map((q: any, idx: number) => ({ q: q as LongFormQuestion, idx }))
-            .filter(({ q }) => q?.type === 'longform')
+            .filter(({ q }) => q?.type === 'longform' && q.__skip === undefined)
 
         if (longFormQuestions.length === 0) {
             return NextResponse.json({ grades: {} })
@@ -404,6 +412,23 @@ export async function POST(request: NextRequest) {
             const studentAnswer = ((answers as Record<number, string>)[idx] || '').trim()
             const criteria = Array.isArray(q.marking_criteria) ? q.marking_criteria : []
             const marksTotal = Number(q.marks) || Math.max(1, criteria.length)
+
+            // A keyed short answer that reaches here is marked by its key, as
+            // the page marks it: it has no criteria for a model to read.
+            if (q.short_answer && Array.isArray(q.short_answer.accepted)) {
+                const verdict = gradeShortAnswer(studentAnswer, q.short_answer)
+                grades[idx] = {
+                    marks_awarded: verdict.correct ? marksTotal : 0,
+                    marks_total: marksTotal,
+                    criteria_results: [],
+                    general_feedback: verdict.correct
+                        ? 'Correct.'
+                        : verdict.reason === 'blank'
+                            ? 'No answer given.'
+                            : `The expected answer was: ${q.short_answer.accepted[0]}`,
+                }
+                continue
+            }
 
             if (!studentAnswer) {
                 grades[idx] = {

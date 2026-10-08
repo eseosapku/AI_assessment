@@ -6,7 +6,7 @@ import { ArrowLeft, Loader2, Sparkles, Target, X, BookOpen, ChevronRight, Chevro
 import type { MasteryStatus } from '@/lib/studylab/types'
 import { openLearnSpace } from '@/lib/studylab/openSpace'
 import { KnowledgeWall, type UnlinkedResults } from '@/components/studylab/KnowledgeWall'
-import type { WallTile } from '@/lib/studylab/wall'
+import { pickRequestedSubject, type WallTile } from '@/lib/studylab/wall'
 import type { CountryCode } from '@/lib/countries'
 import ProductTour from '@/components/studio/ProductTour'
 
@@ -253,6 +253,7 @@ export default function GapMap({
   const searchParams = useSearchParams()
   const requestedSubject = searchParams.get('subject') ?? ''
   const requestedFocus = searchParams.get('focus') ?? ''
+  const requestedAssessment = searchParams.get('assessment') ?? ''
 
   useEffect(() => {
     let cancelled = false
@@ -272,13 +273,9 @@ export default function GapMap({
             // quiz's subject rather than the globally weakest one — the student
             // asked about this subject, and dropping them somewhere else reads
             // as the button having failed.
-            const requested = requestedSubject.trim().toLowerCase()
-            const match = requested
-              ? data.textbooks.find((s) => {
-                  const name = String(s.name ?? '').toLowerCase()
-                  return name === requested || name.includes(requested) || requested.includes(name)
-                })
-              : undefined
+            // The finished quiz decides first; by name, a real book with
+            // tested topics beats an old bucket that is only a name.
+            const match = pickRequestedSubject(data.textbooks, { assessmentId: requestedAssessment, name: requestedSubject })
             // The API already sorts weakest-first, so the head is the sensible default.
             setActiveKey(subjectKey(match ?? data.textbooks[0]))
           }
