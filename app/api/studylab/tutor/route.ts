@@ -23,11 +23,17 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'A learnspace and an action are required' }, { status: 400 })
     }
 
+    // Only the lesson's owner may drive it. The route trusted the lesson id
+    // alone and charged the owner's rate limit and subscription, so anyone
+    // holding a student's lesson id could spend the student's tutor allowance.
+    const caller = String(body?.userId ?? '').trim()
     const { rows } = await db.query('SELECT * FROM learnspaces WHERE id = $1 LIMIT 1', [learnspaceId])
     const space = rows[0]
-    if (!space) return NextResponse.json({ error: 'Lesson not found' }, { status: 404 })
+    if (!space || !caller || String(space.user_id ?? '') !== caller) {
+      return NextResponse.json({ error: 'Lesson not found' }, { status: 404 })
+    }
 
-    const userId = space.user_id ? String(space.user_id) : null
+    const userId = String(space.user_id)
 
     // Ceiling on a paid call. Subscription gating decides whether someone may
     // do this at all; nothing decided how often, so one loop could run up an

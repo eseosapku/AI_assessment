@@ -1,10 +1,10 @@
 'use client'
 
-import { useContext, useMemo, useState } from 'react'
+import { useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Handle, Position, type NodeProps } from '@xyflow/react'
 import { Target, Check, X, Play, Loader2, HelpCircle } from 'lucide-react'
 import type { StudyNodeData, QuizCell, CheckpointQuestion } from '@/lib/studylab/types'
-import { gradeMcq, gradeMatch } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
 import { getEngine, normalizeLanguage } from '@/lib/studylab/runner'
 import { CanvasContext, handleClass, SafeLatex } from './canvasShared'
 import { useAuth } from '@/components/AuthProvider'
@@ -35,13 +35,19 @@ export function CheckpointHeaderNode({ data }: NodeProps) {
 
 function useGrade() {
   const { user } = useAuth()
+  // Never throws, and never reads a failure as a wrong answer: see readGradeReply.
   return async (payload: Record<string, unknown>) => {
-    const res = await fetch('/api/studylab/grade', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...payload, user_id: user?.id }),
-    })
-    return (await res.json()) as { correct: boolean; feedback: string }
+    try {
+      const res = await fetch('/api/studylab/grade', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ...payload, user_id: user?.id }),
+      })
+      const body = await res.json().catch(() => null)
+      return readGradeReply(res.ok, body)
+    } catch {
+      return readGradeReply(false, null)
+    }
   }
 }
 
@@ -51,6 +57,13 @@ export function QuizNode({ id, data }: NodeProps) {
   const d = data as unknown as StudyNodeData
   const { onNodeDataChange } = useContext(CanvasContext)
   const quiz = d.quiz
+  // A question saved mid-marking comes back answerable instead of spinning
+  // for good. On mount only: a grade in flight belongs to this instance.
+  const stale = quiz ? settleStaleCell(quiz) : null
+  useEffect(() => {
+    if (quiz && stale) onNodeDataChange(id, { quiz: { ...quiz, ...stale } })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
   if (!quiz) return null
   const set: SetCell = (patch) => onNodeDataChange(id, { quiz: { ...quiz, ...patch } })
   const q = quiz.question
@@ -114,11 +127,15 @@ function Short({ q, quiz, set }: { q: Extract<CheckpointQuestion, { format: 'sho
   // question locked — a stray click on Check cost a mark and, once every other
   // cell was settled, took the whole check down with it.
   const empty = !text.trim()
+  // A second tap before the re-render would send a second grade.
+  const inFlight = useRef(false)
   const check = async () => {
-    if (empty) return
+    if (empty || inFlight.current) return
+    inFlight.current = true
     set({ given: text, state: 'pending' })
     const r = await grade({ prompt: q.prompt, format: 'short', answer: text, rubric: q.rubric })
-    set({ given: text, state: r.correct ? 'correct' : 'incorrect', feedback: r.feedback })
+    inFlight.current = false
+    set({ given: text, state: r.verdict === 'ungraded' ? 'unanswered' : r.verdict, feedback: r.feedback })
   }
   return (
     <div className="space-y-2">
@@ -217,11 +234,14 @@ function CodeChallenge({ q, quiz, set }: { q: Extract<CheckpointQuestion, { form
     }
   }
   const blank = !code.trim()
+  const inFlight = useRef(false)
   const submit = async () => {
-    if (blank) return
+    if (blank || inFlight.current) return
+    inFlight.current = true
     set({ given: code, state: 'pending' })
     const r = await grade({ prompt: q.prompt, format: 'code', answer: code, goal: q.goal, output })
-    set({ given: code, state: r.correct ? 'correct' : 'incorrect', feedback: r.feedback })
+    inFlight.current = false
+    set({ given: code, state: r.verdict === 'ungraded' ? 'unanswered' : r.verdict, feedback: r.feedback })
   }
   return (
     <div className="space-y-2">

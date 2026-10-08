@@ -49,6 +49,10 @@ interface SpaceMeta {
   current_step: number
   origin: string
   focus: GapFocus | null
+  /** The curriculum rows the lesson is about, when it has them (a Gap Map lesson does). */
+  textbook_id: number | null
+  topic_id: number | null
+  subtopic_id: number | null
 }
 
 const EMPTY_CANVAS: CanvasState = { nodes: [], edges: [], viewport: { x: 0, y: 0, zoom: 1 } }
@@ -83,6 +87,14 @@ export default function Workspace({ id }: { id: string }) {
   // sendAction needs a same-tick-accurate guard rather than the `busy` state
   // closure, which can lag a render behind two rapid clicks.
   const busyRef = useRef(false)
+  // What the student said since the last save. Only the tutor's replies were
+  // saved, so after a reload the transcript showed it answering nobody; these
+  // go into the same save as the reply, ahead of it.
+  const unsavedFromStudent = useRef<ChatMessage[]>([])
+  const sayToTutor = useCallback((msg: ChatMessage) => {
+    setMessages((prev) => [...prev, msg])
+    unsavedFromStudent.current.push(msg)
+  }, [])
   busyRef.current = busy
   const startedRef = useRef(false)
   const effectVersion = useRef(0)
@@ -119,13 +131,14 @@ export default function Workspace({ id }: { id: string }) {
         await fetch(`/api/studylab/${id}`, {
           method: 'PUT',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(partial),
+          // The owner, which the route now checks before saving anything.
+          body: JSON.stringify({ ...partial, user_id: user?.id }),
         })
       } catch (err) {
         console.error('Autosave failed:', err)
       }
     },
-    [id]
+    [id, user?.id]
   )
 
   const scheduleCanvasSave = useCallback(() => {
@@ -172,6 +185,7 @@ export default function Workspace({ id }: { id: string }) {
           // the tutor cannot see its own work and rebuilds the same card.
           body: JSON.stringify({
             learnspaceId: id,
+            userId: user?.id,
             action,
             board: boardSummary(canvasRef.current, messagesRef.current),
           }),
@@ -267,10 +281,12 @@ export default function Workspace({ id }: { id: string }) {
         }
         if (newMessages.length > 0) setMessages((prev) => [...prev, ...newMessages])
 
+        const toSave = [...unsavedFromStudent.current, ...newMessages]
+        unsavedFromStudent.current = []
         persist({
           canvas_state: nextCanvas,
           current_step: nextStep,
-          ...(newMessages.length > 0 ? { messages: newMessages } : {}),
+          ...(toSave.length > 0 ? { messages: toSave } : {}),
           ...(nextRun?.phase === 'done' ? { status: 'completed' } : {}),
         })
       } catch (err: any) {
@@ -283,7 +299,7 @@ export default function Workspace({ id }: { id: string }) {
         setBusy(false)
       }
     },
-    [id, persist]
+    [id, persist, user?.id]
   )
 
   // Continue (and any suggestion chip — both arrive as a "silent" send from
@@ -512,10 +528,7 @@ export default function Workspace({ id }: { id: string }) {
               r.readAsDataURL(file)
             })
         const image = await downscaleDataUrl(raw)
-        setMessages((prev) => [
-          ...prev,
-          { role: 'user', content: "Here's another page.", imageUrl: image },
-        ])
+        sayToTutor({ role: 'user', content: "Here's another page.", imageUrl: image })
         await readHomework(image, null)
       } catch {
         setMessages((prev) => [
@@ -524,7 +537,7 @@ export default function Workspace({ id }: { id: string }) {
         ])
       }
     },
-    [readHomework],
+    [readHomework, sayToTutor],
   )
 
   const handleAdvance = useCallback(() => {
@@ -552,12 +565,12 @@ export default function Workspace({ id }: { id: string }) {
       // one. Both go to the tutor: the photo used to be shown in the transcript
       // and dropped, so the answer came back as though the page were not in
       // front of it — which for homework is the whole of what they are asking.
-      setMessages((prev) => [...prev, { role: 'user', content: text, imageUrl: opts?.image }])
+      sayToTutor({ role: 'user', content: text, imageUrl: opts?.image })
       const question = text.trim()
       if (!question) return
       void sendAction({ type: 'ask', question, image: opts?.image })
     },
-    [busy, handleAdvance, sendAction]
+    [busy, handleAdvance, sendAction, sayToTutor]
   )
 
   // A card's context-menu action ("Explain this deeper", "Quiz me on this"…)
@@ -571,10 +584,10 @@ export default function Workspace({ id }: { id: string }) {
       // The learner sees what they asked for; the tutor gets the card id it
       // needs to target. Showing the tutor's copy is how the transcript ended
       // up quoting "(card id: s5-dialogue-prompt)" back at them.
-      setMessages((prev) => [...prev, { role: 'user', content: label }])
+      sayToTutor({ role: 'user', content: label })
       void sendAction({ type: 'ask', question: prompt })
     },
-    [busy, sendAction]
+    [busy, sendAction, sayToTutor]
   )
 
   // ── Canvas interactions ───────────────────────────────────────────────────
@@ -735,16 +748,35 @@ export default function Workspace({ id }: { id: string }) {
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: user?.id,
-          subject: space?.title || space?.subject || 'Study session',
-          subjectDomainHint: space?.subject || undefined,
-          topics: [space?.title || space?.subject].filter(Boolean),
-          count: 10,
-          style: 'Test Style (Textbooks)',
-          questionType: 'mcq',
-          difficultyLevel: 'intermediate',
-        }),
+        // The lesson's own book and topic, as the Gap Map's "Quiz me" sends
+        // them. With the title alone the score landed in a "Mastering ..."
+        // group of its own and never moved the tile the student came from.
+        body: JSON.stringify(
+          space?.textbook_id && space?.topic_id
+            ? {
+                user_id: user?.id,
+                className: user?.class ?? undefined,
+                subject: space.subject || space.title,
+                textbook_id: space.textbook_id,
+                topic_ids: [space.topic_id],
+                subtopic_ids: space.subtopic_id ? [space.subtopic_id] : [],
+                topics: [space.focus?.subtopic_name || space.focus?.topic_name || space.title].filter(Boolean),
+                count: 10,
+                style: 'Test Style (Textbooks)',
+                questionType: 'mcq',
+                difficultyLevel: 'intermediate',
+              }
+            : {
+                user_id: user?.id,
+                subject: space?.title || space?.subject || 'Study session',
+                subjectDomainHint: space?.subject || undefined,
+                topics: [space?.title || space?.subject].filter(Boolean),
+                count: 10,
+                style: 'Test Style (Textbooks)',
+                questionType: 'mcq',
+                difficultyLevel: 'intermediate',
+              },
+        ),
       })
       const text = await res.text()
       if (!text) throw new Error('Server returned an empty response.')
@@ -754,9 +786,14 @@ export default function Workspace({ id }: { id: string }) {
       // Same tab: the quiz is the next step, not a side trip.
       window.location.href = '/assessment'
     } catch {
+      // It used to fail in silence: a tap, a wait, and nothing.
       setProvingIt(false)
+      setMessages((prev) => [
+        ...prev,
+        { role: 'assistant', kind: 'error', content: "Couldn't build the quiz just now. Check your connection and try again." },
+      ])
     }
-  }, [provingIt, space?.title, space?.subject, user?.id])
+  }, [provingIt, space, user?.id, user?.class])
 
   // A hard checkpoint is "pending" until every one of its quiz nodes is answered.
   // Surface the count + the node ids still unanswered so the chat banner can tell
@@ -902,7 +939,7 @@ export default function Workspace({ id }: { id: string }) {
     let cancelled = false
     ;(async () => {
       try {
-        const res = await fetch(`/api/studylab/${id}`)
+        const res = await fetch(`/api/studylab/${id}?user_id=${encodeURIComponent(user?.id ?? '')}`)
         const json = await res.json()
         if (cancelled) return
         if (!res.ok) {
@@ -918,6 +955,9 @@ export default function Workspace({ id }: { id: string }) {
           current_step: s.current_step,
           origin: s.origin ?? 'scratch',
           focus: json.focus ?? null,
+          textbook_id: Number(s.textbook_id) > 0 ? Number(s.textbook_id) : null,
+          topic_id: Number(s.topic_id) > 0 ? Number(s.topic_id) : null,
+          subtopic_id: Number(s.subtopic_id) > 0 ? Number(s.subtopic_id) : null,
         })
         setCurrentStep(s.current_step || 0)
         const saved: CanvasState =
@@ -968,7 +1008,7 @@ export default function Workspace({ id }: { id: string }) {
     return () => {
       cancelled = true
     }
-  }, [id])
+  }, [id, user?.id])
 
   // The lesson no longer starts itself. A space with a run already in progress
   // resumes it; one that has never been planned asks for a plan and nothing
@@ -1102,13 +1142,14 @@ export default function Workspace({ id }: { id: string }) {
           onGoToCheck={goToNode}
           onProveIt={handleProveIt}
           provingIt={provingIt}
+          proveUpdatesGapMap={Boolean(space?.textbook_id && space?.topic_id)}
           onAcceptPlan={(pace) => {
             markPlanSettled()
             void sendAction({ type: 'accept_plan', pace })
           }}
           onAnswerPlan={(answer) => {
             markPlanSettled()
-            setMessages((prev) => [...prev, { role: 'user', content: answer }])
+            sayToTutor({ role: 'user', content: answer })
             void sendAction({ type: 'draft_plan', answer })
           }}
           onStartHomework={startHomework}

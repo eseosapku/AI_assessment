@@ -1,5 +1,5 @@
 import { describe, it, expect } from 'vitest'
-import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion } from '@/lib/studylab/quiz'
+import { gradeMcq, gradeMatch, checkpointResultText, isValidQuestion, readGradeReply, settleStaleCell } from '@/lib/studylab/quiz'
 import type { CheckpointQuestion, QuizCell } from '@/lib/studylab/types'
 
 const mcq: CheckpointQuestion = { id: 'q1', format: 'mcq', prompt: 'p', options: ['a', 'b'], answer: 1 }
@@ -71,5 +71,47 @@ describe('checkpointResultText', () => {
       { checkpointId: 'c', gate: 'hard', question: { ...mcq, id: 'q2', prompt: 'tricky' }, state: 'incorrect' },
     ])
     expect(text).not.toContain('tricky')
+  })
+})
+
+describe('a multiple-choice question with a bad answer key', () => {
+  // Number(null) and Number('') are 0, so a missing key passed as "option A",
+  // and an index past the options made a question nobody could get right.
+  const mcq = (answer: unknown) => ({ id: 'q', prompt: 'Which?', format: 'mcq', options: ['a', 'b', 'c'], answer })
+  it('is refused when the key is missing', () => {
+    expect(isValidQuestion(mcq(null))).toBe(false)
+    expect(isValidQuestion(mcq(''))).toBe(false)
+    expect(isValidQuestion(mcq(undefined))).toBe(false)
+  })
+  it('is refused when the key is past the options', () => {
+    expect(isValidQuestion(mcq(3))).toBe(false)
+    expect(isValidQuestion(mcq(-1))).toBe(false)
+  })
+  it('still takes a numeric-string key the model sometimes sends', () => {
+    expect(isValidQuestion(mcq('2'))).toBe(true)
+    expect(isValidQuestion(mcq(0))).toBe(true)
+  })
+})
+
+describe('reading the marker\'s reply', () => {
+  it('takes a clear verdict', () => {
+    expect(readGradeReply(true, { correct: true, feedback: 'Yes.' })).toEqual({ verdict: 'correct', feedback: 'Yes.' })
+    expect(readGradeReply(true, { correct: false, feedback: 'No.' })).toEqual({ verdict: 'incorrect', feedback: 'No.' })
+  })
+  it('never turns a failure into a wrong answer', () => {
+    // An AWS blip, a paywall or a server error came back as `incorrect`, and
+    // the answer locked -- a mark lost to something the student did not do.
+    expect(readGradeReply(false, { error: 'Server error' }).verdict).toBe('ungraded')
+    expect(readGradeReply(true, { error: 'Subscription required' }).verdict).toBe('ungraded')
+    expect(readGradeReply(true, { feedback: 'hm' }).verdict).toBe('ungraded')
+    expect(readGradeReply(true, { correct: false, feedback: 'Could not grade right now — try again.' }).verdict).toBe('ungraded')
+    expect(readGradeReply(true, null).verdict).toBe('ungraded')
+  })
+})
+
+describe('a check question saved while it was being marked', () => {
+  it('is put back to unanswered so the student can try again', () => {
+    expect(settleStaleCell({ state: 'pending', given: 'x' } as QuizCell)).toEqual({ state: 'unanswered', given: 'x' })
+    expect(settleStaleCell({ state: 'correct', given: 'x' } as QuizCell)).toBeNull()
   })
 })

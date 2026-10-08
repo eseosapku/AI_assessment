@@ -1,6 +1,6 @@
 'use client'
 
-import { useContext, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { type NodeProps } from '@xyflow/react'
 import { PenLine, Check, Loader2, Eye } from 'lucide-react'
 import type { StudyNodeData } from '@/lib/studylab/types'
@@ -33,6 +33,13 @@ export function PracticeNode({ id, data }: NodeProps) {
   const { onNodeDataChange } = useContext(CanvasContext)
   const patch = (next: Partial<PracticeCell>) =>
     onNodeDataChange(id, { practice: { ...cell, ...next } })
+
+  // "marking" is saved with the board, so a reload mid-request left the button
+  // disabled for good. On mount only: a request in flight belongs to this one.
+  useEffect(() => {
+    if (cell.state === 'marking') patch({ state: 'unattempted' })
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   const submit = async () => {
     if (!isAttemptable(attempt) || cell.state === 'marking') return

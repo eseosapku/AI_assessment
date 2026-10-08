@@ -43,6 +43,8 @@ interface ChatMouthpieceProps {
   /** Optional: start a real assessment on the studied topic once done. */
   onProveIt?: () => void
   provingIt?: boolean
+  /** Whether the end-of-lesson quiz files its score where the Gap Map can read it. */
+  proveUpdatesGapMap?: boolean
   onSend: (text: string, opts?: { image?: string; silent?: boolean }) => void
   pendingCheckpoint?: { total: number; remaining: number; nextId: string | null } | null
   onGoToCheck?: (nodeId: string) => void
@@ -86,7 +88,7 @@ function builtCards(actions: TutorAction[] | undefined) {
     .filter((c) => c.title.length > 0)
 }
 
-export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework }: ChatMouthpieceProps) {
+export default function ChatMouthpiece({ messages, suggestions, busy, done, onSend, pendingCheckpoint, onGoToCheck, onQuizMe, onProveIt, provingIt = false, proveUpdatesGapMap = false, onAcceptPlan, onAnswerPlan, working = 'Thinking…', onFocusCard, defaultPace, composed = null, locked = false, lockedHint, onStartHomework }: ChatMouthpieceProps) {
   // A plan is awaiting a decision when the newest plan card is still live.
   const awaitingPlan = [...messages].reverse().find((m) => m.kind === 'plan')?.plan?.live === true
 
@@ -393,7 +395,7 @@ export default function ChatMouthpiece({ messages, suggestions, busy, done, onSe
                 {provingIt ? 'Building your quiz…' : 'Prove it — take the quiz'}
               </button>
               <p className="mt-1.5 text-center text-[12px] text-emerald-700/80 dark:text-emerald-400/70">
-                Fresh questions on this topic. Your score updates your gap map.
+                {proveUpdatesGapMap ? 'Fresh questions on this topic. Your score updates your gap map.' : 'Fresh questions on this topic.'}
               </p>
             </>
           )}
