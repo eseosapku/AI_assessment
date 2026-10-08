@@ -59,6 +59,7 @@ import { figuresForFoci } from '@/lib/checkpoint-figures'
 import { buildExamPaperPrompt, examCommandsFor, isUsageFocus, type ExamPartSpec } from '@/lib/exam-paper-prompt'
 import { repairBookReferences } from '@/lib/book-reference'
 import { tagTokens } from '@/lib/tag-tokens'
+import { tagQuestionsWithSubtopics } from '@/lib/question-tagging'
 import {
   attachImagesFromCatalog,
   buildVisualCatalogPromptBlock,
@@ -128,55 +129,8 @@ const MAX_EXAM_SOURCE_CHARS = 32000
 
 
 // ── Per-question subtopic tagging ─────────────────────────────────────────────
-// Map each generated question to the subtopic it best fits, so the StudyLab
-// Learning Gap Map can record real per-subtopic mastery (and cascade up into
-// topic/subject mastery). Done locally — NO extra AI call, so no extra credits.
-
-interface TaggableSubtopic { id: number; name: string; topic_id: number | null; tokens: Set<string> }
-
-// Assign each question a subtopic_id + topic_id from the candidate list. Uses
-// keyword overlap with the subtopic name; falls back to round-robin so coverage
-// is always distributed rather than dumped onto one subtopic.
-function tagQuestionsWithSubtopics(
-  questions: any[],
-  subtopics: Array<{ id: number; name: string; topic_id: number | null }>
-): number[] {
-  if (!Array.isArray(questions) || questions.length === 0 || subtopics.length === 0) return []
-  const candidates: TaggableSubtopic[] = subtopics.map((s) => ({ ...s, tokens: new Set(tagTokens(s.name)) }))
-  const used = new Set<number>()
-  let rr = 0
-  for (const q of questions) {
-    const qText = `${q?.question ?? ''} ${(Array.isArray(q?.options) ? q.options.join(' ') : '')} ${q?.explanation ?? ''}`
-    const qTokens = new Set(tagTokens(qText))
-    let best: TaggableSubtopic | null = null
-    let bestScore = 0
-    for (const c of candidates) {
-      let score = 0
-      for (const tok of c.tokens) if (qTokens.has(tok)) score += 1
-      if (score > bestScore) {
-        bestScore = score
-        best = c
-      }
-    }
-    // A keyword hit is a finding. So is a single candidate — if the student
-    // asked for exactly one subtopic, every question is from it and saying so
-    // is not a guess. Round-robin across several is neither.
-    const matched = (bestScore > 0 && best) || candidates.length === 1
-    const chosen = bestScore > 0 && best ? best : candidates[rr++ % candidates.length]
-    q.subtopic_id = chosen.id
-    q.topic_id = chosen.topic_id ?? null
-    // Round-robin is a fair way to spread untagged questions across areas for
-    // scoring, but it is an assignment, not a finding. Only a real match may
-    // be shown to the student as where the question came from.
-    q.topic_label_matched = matched
-    // Readable counterpart to subtopic_id. The review page groups a finished
-    // attempt into named weak areas, and it only has questions_data to work
-    // from — an id alone would force a lookup the results page cannot do.
-    q.topic_label = chosen.name
-    used.add(chosen.id)
-  }
-  return [...used]
-}
+// Each question is tagged to the subtopic it fits, for the Learning Gap Map:
+// lib/question-tagging.ts, where the rules and their tests live.
 
 /**
  * Label each question with the topic it came from, by name only.
@@ -211,7 +165,7 @@ function tagQuestionsWithTopicLabels(questions: any[], topics: string[]): void {
     // requested topics rather than collapsing onto whichever matched first.
     q.topic_label = bestScore > 0 && best ? best.name : candidates[rr++ % candidates.length].name
     // Citable only when it was found, or when there was only ever one topic
-    // to find. See the note in tagQuestionsWithSubtopics.
+    // to find. See the note in lib/question-tagging.ts.
     q.topic_label_matched = (bestScore > 0 && best) || candidates.length === 1
   }
 }
