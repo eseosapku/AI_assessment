@@ -1,6 +1,6 @@
 # Figure Library: 250,000 educational figures for every topic
 
-Date: 2026-10-10. Status: design, awaiting review.
+Date: 2026-10-10. Status: approved 2026-10-11, with one change from the user: S3 and CloudFront cannot be set up yet, so everything is built and stored locally first (section 5.6).
 
 ## 1. What the user asked for
 
@@ -164,7 +164,7 @@ Educational photographs and diagrams from openly licensed collections.
 - `figure_library_questions`: figure_id, level_band, kind (mcq, short, written), stem, parts, answer, accepted answers, marks, explanation, model, check verdict.
 - `curriculum_concepts` and `topic_concepts`: curriculum, textbook_id or syllabus subject, topic_id or name, subtopic_id (nullable), concept_id, weight.
 
-**Files:** an S3 bucket behind CloudFront, using the S3 move parked on 2026-10-08. About 4 GB of real images and 2 GB of SVG cost about $0.15 a month to store.
+**Files:** an S3 bucket behind CloudFront, using the S3 move parked on 2026-10-08. About 4 GB of real images and 2 GB of SVG cost about $0.15 a month to store. Until then the files live locally (section 5.6).
 
 **Quiz route:**
 - `figuresForQuiz` gains a library source. Topic and subtopic map to concepts, which map to approved figures at the quiz's level band. The existing banks stay first for their own books.
@@ -185,6 +185,20 @@ Educational photographs and diagrams from openly licensed collections.
 - **Pilot comparison:** the same 60 real images run through the Haiku pipeline and the existing Sonnet pipeline, then blind-reviewed. Haiku is accepted if it scores at least 90% of Sonnet's clean rate.
 - **Variety guard:** every batch merge recomputes family share per topic and refuses to add figures that would push a family over 25% of a topic.
 - **Samples for the user:** a sample sheet for each subject's families (rendered figures with their questions and answers), shown before bulk generation, as agreed.
+
+### 5.6 Local first, until S3 and CloudFront work
+
+On 2026-10-11 AWS could not be used for S3 or CloudFront. The library is built so that moving to S3 later is a copy and a setting change, nothing more.
+
+- **Staging store.** A SQLite database (`figures.db`) holds everything while the library is built: concepts, topic mappings, the family catalogue, figures, questions, review results and spend. Python and Node can both read it, using Python's built-in `sqlite3` and Node's built-in `node:sqlite`. Pipeline runs never write to the production database.
+- **Files.** Images and SVGs go in a local folder outside the repository, set by `FIGURE_LIBRARY_DIR` (default `C:\Users\Stephen\figure-library`). Files are laid out exactly as the S3 keys will be (`assets/<origin>/<id>.<ext>`), so the move is one `aws s3 sync`.
+- **Publishing.** A publish script copies approved rows from the staging store into the Postgres tables in 5.4, and the files to S3. It is the only step that touches production, and it runs only after S3 and CloudFront exist.
+- **The app.** The quiz route reads library figures only when `FIGURE_ASSET_BASE` is set (the CloudFront URL in production). In development it can point at a dev-only route serving the local folder, so library figures can be tried in real quizzes on this machine before anything is deployed.
+- **Batch pricing needs S3.** Bedrock batch jobs read and write S3. Until S3 works:
+  - P0 and the pilot run at on-demand prices; both are small.
+  - Drawn figures are unaffected.
+  - Harvesting, filtering and screening real images can go ahead (screening on-demand with Nova Lite costs little).
+  - Writing and checking questions for real images in bulk waits for S3. Running it on-demand would double its cost and halve the number of real images.
 
 ## 6. Data flow for one topic
 
@@ -226,8 +240,8 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
   - The user receives a feasibility report: for each topic, the planned drawn and real supply, and a named list of any topics that cannot reach 50 educational figures, with options.
 - **P1 Pilot.** About 6 topics across Maths, Biology, Geography, Economics, a language and History. About 20 drawn families. About 600 real candidates.
   - Exit: blind reviews pass; the Haiku-versus-Sonnet result is decided; the user has seen sample sheets and approved them.
-- **P2 Foundation.** Database tables, S3 and CloudFront, the quiz-route library source, the credit line, the coverage report.
-  - Exit: library figures appear in real quizzes on the production simulation and on the live site.
+- **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
+  - Exit: library figures appear in real quizzes on this machine, served from the local folder. Going live waits for S3 and CloudFront; then it is publish, set `FIGURE_ASSET_BASE`, deploy, and check a live marker.
 - **P3 Drawn at scale.** In waves by subject: Maths, Physics, Chemistry, Biology, Geography, Economics and Business, Computing, Languages, History, Music. Each wave starts with samples for the user.
   - Exit: each wave's families pass review; the wave's topics reach their drawn share.
 - **P4 Real images at scale.** Real-rich and hard topics first.
@@ -237,7 +251,7 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
 
 ## 10. Prerequisites from the user
 
-1. **AWS.** An S3 bucket and CloudFront distribution for figures. An IAM user key for the pipeline with S3 write, Bedrock invoke, and permission to create batch jobs. A Bedrock batch service role that can read and write the batch bucket. The `.env.assets.local` key planned on 2026-10-08 can be widened to cover this.
+1. **AWS, when it is working again** (P0 to P3 do not need it). An S3 bucket and CloudFront distribution for figures. An IAM user key for the pipeline with S3 write, Bedrock invoke, and permission to create batch jobs. A Bedrock batch service role that can read and write the batch bucket. The `.env.assets.local` key planned on 2026-10-08 can be widened to cover this.
 2. **Free API keys:**
    - Openverse: OAuth app registration, which raises the anonymous limit of 100 requests a day.
    - Smithsonian: an api.data.gov key.
