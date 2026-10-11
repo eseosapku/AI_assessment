@@ -11,6 +11,8 @@ export interface ModelReply {
   text: string
   inputTokens: number
   outputTokens: number
+  /** The model stopped at maxTokens, so the reply is incomplete. */
+  truncated?: boolean
 }
 
 export type SendFn = (model: string, prompt: string, maxTokens: number) => Promise<ModelReply>
@@ -52,6 +54,7 @@ export function bedrockSender(env: Record<string, string> = loadEnv()): SendFn {
       text: (Array.isArray(body.content) ? body.content : []).map((c: { text?: string }) => c.text ?? '').join(''),
       inputTokens: Number(body.usage?.input_tokens ?? 0),
       outputTokens: Number(body.usage?.output_tokens ?? 0),
+      truncated: body.stop_reason === 'max_tokens',
     }
   }
 }
@@ -107,6 +110,8 @@ export async function askJson(o: {
       outputTokens: reply.outputTokens || o.maxTokens,
     })
     checkBudget(o.db, { job: o.job, jobCapUsd: o.jobCapUsd })
+    // The same prompt would be cut off the same way again: say so instead of paying for it.
+    if (reply.truncated) throw new Error(`The reply was cut off at ${o.maxTokens} tokens; send less per call or allow more`)
     try {
       return extractJson(reply.text)
     } catch (err) {

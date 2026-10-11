@@ -45,6 +45,16 @@ describe('asking the model for JSON', () => {
     expect(totalSpend(db, 't')).toBeCloseTo((1000 * 1.1 + 1000 * 5.5) / 1e6, 9)
   })
 
+  it('does not pay again for a reply that was cut off at the token limit', async () => {
+    // Biology's 900-name chunk ran past 16k output tokens; the same prompt was
+    // sent three more times and cut off identically each time.
+    const db = openStore(':memory:')
+    let calls = 0
+    const send: SendFn = async () => { calls++; return { text: '{"concepts":[{"id":"a"', inputTokens: 10, outputTokens: 50, truncated: true } }
+    await expect(askJson({ db, job: 't', jobCapUsd: 1, prompt: 'p', maxTokens: 50, send, wait: noWait })).rejects.toThrow(/cut off/)
+    expect(calls).toBe(1)
+  })
+
   it('stops the job once it crosses its cap', async () => {
     const db = openStore(':memory:')
     const send: SendFn = async () => ({ text: '{}', inputTokens: 1_000_000, outputTokens: 0 })
