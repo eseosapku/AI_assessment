@@ -2,14 +2,15 @@
 // Run: npx jiti scripts/figure-library/probe-supply.ts [--limit=200] [--redo]
 // Free: Wikimedia's search API. One request at a time, 250 ms apart.
 import { openStore } from './store'
+import { parseArgs } from './args'
 import { sleep } from './claude'
 import { countImages, saveSupply, termsToProbe } from './wikimedia'
 
 async function main() {
-  const args = Object.fromEntries(process.argv.slice(2).map((a) => a.replace(/^--/, '').split('=')).map(([k, v]) => [k, v ?? 'true']))
+  const args = parseArgs(process.argv.slice(2), { limit: 'int', redo: 'flag' })
   const db = openStore()
-  const all = termsToProbe(db, args.redo === 'true')
-  const todo = args.limit ? all.slice(0, Number(args.limit)) : all
+  const all = termsToProbe(db, args.redo === true)
+  const todo = args.limit ? all.slice(0, args.limit as number) : all
   console.log(`${todo.length} search terms to count (about ${Math.ceil(todo.length * 0.7 / 60)} minutes)`)
   let done = 0
   const failed: string[] = []

@@ -2,13 +2,15 @@
 // Run: npx jiti scripts/figure-library/build-concepts.ts [--subject=biology] [--redo]
 //      npx jiti scripts/figure-library/build-concepts.ts --consolidate [--subject=biology]
 //        merges duplicates in stored concepts and coarsens subjects split too finely, without rebuilding
+//      add --remap to replace concepts of a subject whose topics are already mapped (clears those plans)
 import { openStore, type Store } from './store'
+import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, costUsd, totalSpend } from './spend'
 import { HAIKU, askJson, bedrockSender, runPool, type SendFn } from './claude'
 import { displayName } from './curriculum'
 import {
-  applyMerges, chunk, coarsenTarget, conceptPrompt, consolidationPrompt, loadConcepts, mergeConcepts,
-  namesWithBands, parseConcepts, type Concept, type NamedLevel,
+  applyMerges, chunk, coarsenTarget, conceptPrompt, consolidationPrompt, loadConcepts, mappedTopicCount, mergeConcepts,
+  namesWithBands, parseConcepts, replaceSubjectConcepts, type Concept, type NamedLevel,
 } from './concepts'
 
 const JOB = 'p0-concepts'
@@ -38,17 +40,9 @@ async function consolidate(db: Store, send: SendFn, subject: string, concepts: C
   return applyMerges(subject, concepts, raw)
 }
 
-function save(db: Store, subject: string, concepts: readonly Concept[]) {
-  // A subject's concepts are replaced whole, so a redo leaves no stale ids behind.
-  const insert = db.prepare('INSERT OR REPLACE INTO concepts (id, subject, name, bands, aliases) VALUES (?, ?, ?, ?, ?)')
-  db.exec('BEGIN')
-  db.prepare('DELETE FROM concepts WHERE subject = ?').run(subject)
-  for (const c of concepts) insert.run(c.id, c.subject, c.name, JSON.stringify(c.bands), JSON.stringify(c.aliases))
-  db.exec('COMMIT')
-}
 
 async function main() {
-  const args = Object.fromEntries(process.argv.slice(2).map((a) => a.replace(/^--/, '').split('=')).map(([k, v]) => [k, v ?? 'true']))
+  const args = parseArgs(process.argv.slice(2), { subject: 'string', redo: 'flag', consolidate: 'flag', remap: 'flag' })
   const db = openStore()
   const have = loadConcepts(db)
   const allSubjects = (db.prepare('SELECT DISTINCT subject FROM topics ORDER BY subject').all() as { subject: string }[]).map((r) => r.subject)
@@ -58,11 +52,22 @@ async function main() {
     failures.push(`${subject}: ${String((err as Error)?.message ?? err).slice(0, 120)}`)
   }
   const send = bedrockSender()
+  const remap = args.remap === true
+  // Checked before anything is spent: replacing a mapped subject's concepts would orphan its topic plans.
+  const blocked = (s: string) => {
+    const n = remap ? 0 : mappedTopicCount(db, s)
+    if (n) console.log(`  skipped ${s}: ${n} topic plans use its concepts; add --remap to replace them and clear those plans`)
+    return n > 0
+  }
+  const save = (subject: string, concepts: readonly Concept[]) => {
+    const cleared = replaceSubjectConcepts(db, subject, concepts, remap)
+    if (cleared) console.log(`  ${subject}: cleared ${cleared} topic plans; run map-topics to map them again`)
+  }
 
   try {
-    if (args.consolidate === 'true') {
+    if (args.consolidate === true) {
       const work = allSubjects
-        .filter((s) => have.has(s) && (!args.subject || s === args.subject))
+        .filter((s) => have.has(s) && (!args.subject || s === args.subject) && !blocked(s))
         .map((s) => ({ subject: s, concepts: have.get(s)!, target: coarsenTarget(have.get(s)!.length, namesOf(db, s).length) }))
         .filter((w) => w.target !== null || args.subject)
       const estimate = work.reduce((sum, w) => sum + estimateMerge(w.concepts.length), 0)
@@ -71,13 +76,13 @@ async function main() {
       await runPool(work, 4, async ({ subject, concepts, target }) => {
         try {
           const done = await consolidate(db, send, subject, concepts, target)
-          save(db, subject, done.concepts)
+          save(subject, done.concepts)
           console.log(`  ${subject}: ${concepts.length} → ${done.concepts.length} concepts${target ? ` (target about ${target})` : ''}`)
         } catch (err) { fail(subject, err) }
       })
     } else {
       const work = allSubjects
-        .filter((s) => (!args.subject || s === args.subject) && (args.redo === 'true' || !have.has(s)))
+        .filter((s) => (!args.subject || s === args.subject) && (args.redo === true || !have.has(s)) && !blocked(s))
         .map((s) => { const names = namesOf(db, s); return { subject: s, nameCount: names.length, chunks: chunk(names, CHUNK) } })
       const estimate = work.reduce((sum, w) => sum + w.chunks.reduce((s, c) => s + estimateChunk(c.length), 0) + (w.chunks.length > 1 ? estimateMerge(w.nameCount / 2) : 0), 0)
       console.log(`${work.length} subjects, ${work.reduce((s, w) => s + w.chunks.length, 0)} calls, estimate $${estimate.toFixed(2)}`)
@@ -97,7 +102,7 @@ async function main() {
             concepts = (await consolidate(db, send, subject, concepts, target)).concepts
             note = ` (${before} before merging${target ? `, target about ${target}` : ''})`
           }
-          save(db, subject, concepts)
+          save(subject, concepts)
           console.log(`  ${subject}: ${concepts.length} concepts${note}`)
         } catch (err) { fail(subject, err) }
       })

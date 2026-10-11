@@ -62,6 +62,33 @@ describe('asking the model for JSON', () => {
   })
 })
 
+describe('stopping a run', () => {
+  it('starts no new item after one fails, and settles every call in flight before reporting it', async () => {
+    // A budget stop used to reject straight away; main closed the store and the
+    // other workers carried on through the queue, paying for calls they could not record.
+    const started: number[] = []
+    const finished: number[] = []
+    const run = runPool(Array.from({ length: 30 }, (_, i) => i), 6, async (i) => {
+      started.push(i)
+      await new Promise((r) => setTimeout(r, i === 2 ? 1 : 20))
+      if (i === 2) throw new BudgetExceeded('stop')
+      finished.push(i)
+    })
+    await expect(run).rejects.toThrow(BudgetExceeded)
+    expect(started.length).toBeLessThanOrEqual(7)
+    expect(finished.sort((a, b) => a - b)).toEqual(started.filter((i) => i !== 2).sort((a, b) => a - b))
+  })
+
+  it('refuses to send once the job is already over its cap', async () => {
+    const db = openStore(':memory:')
+    db.prepare("INSERT INTO spend (job, model, input_tokens, output_tokens, usd, at) VALUES ('t', 'm', 0, 0, 2, 'now')").run()
+    let calls = 0
+    const send: SendFn = async () => { calls++; return { text: '{}', inputTokens: 1, outputTokens: 1 } }
+    await expect(askJson({ db, job: 't', jobCapUsd: 1, prompt: 'p', maxTokens: 10, send, wait: noWait })).rejects.toThrow(BudgetExceeded)
+    expect(calls).toBe(0)
+  })
+})
+
 describe('running work a few at a time', () => {
   it('does every item, never more than the workers at once', async () => {
     let live = 0, peak = 0

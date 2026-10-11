@@ -20,6 +20,15 @@ describe('the staging store', () => {
     again.close()
   })
 
+  it('waits for a busy database instead of failing at once', () => {
+    // The probe writes for hours; with no busy timeout a second writer failed in
+    // 1 ms with "database is locked", after its model reply had been paid for.
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'figlib-busy-'))
+    const db = openStore(path.join(dir, 'figures.db'), process.cwd())
+    expect((db.prepare('PRAGMA busy_timeout').get() as { timeout: number }).timeout).toBe(10_000)
+    db.close()
+  })
+
   it('refuses to live inside the repository', () => {
     // About 6 GB of figures cannot go through git or Amplify's bundle.
     expect(() => openStore(path.join(process.cwd(), 'data', 'figures.db'), process.cwd())).toThrow(/outside the repository/)

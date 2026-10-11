@@ -7,13 +7,17 @@ import { libraryDir, openStore, readJson } from './store'
 import { totalSpend } from './spend'
 import { KIND_BY_ID } from './figureKinds'
 import { assess, subtopicOk, summarise, type PlanRow } from './feasibility'
+import { topicsToMap } from './topicMap'
+import { displayName } from './curriculum'
 
 function main() {
   const db = openStore()
   const hitsByTerm = new Map((db.prepare('SELECT term, hits FROM supply').all() as { term: string; hits: number }[]).map((r) => [r.term, r.hits]))
   const rows = db.prepare(`SELECT t.key, t.source, t.subject, t.band, t.name, m.kinds, m.terms, m.visual
     FROM topics t JOIN topic_map m ON m.topic_key = t.key ORDER BY t.subject, t.key`).all() as Record<string, string>[]
-  const unmapped = (db.prepare('SELECT COUNT(*) AS n FROM topics t LEFT JOIN topic_map m ON m.topic_key = t.key WHERE m.topic_key IS NULL').get() as { n: number }).n
+  // Named, not just counted: spec section 3 says no topic is quietly left short.
+  const unmappedTopics = topicsToMap(db, {}).map((t) => ({ key: t.key, subject: t.subject, book: t.book, name: displayName(t.name) }))
+  const unmapped = unmappedTopics.length
   const assessed = rows.map((r) => {
     const plan: PlanRow = { key: r.key, source: r.source, subject: r.subject, band: r.band, name: r.name, kinds: readJson(r.kinds, []), terms: readJson(r.terms, []), visual: r.visual }
     return { plan, assessment: assess(plan, (t) => hitsByTerm.get(t), KIND_BY_ID) }
@@ -27,7 +31,7 @@ function main() {
 
   const dir = path.join(libraryDir(), 'reports')
   fs.mkdirSync(dir, { recursive: true })
-  fs.writeFileSync(path.join(dir, 'p0-feasibility.json'), JSON.stringify({ summary, unmapped, subtopics: { total: subRows.length, ok: subOk }, termsUnprobed, topics: assessed }, null, 1))
+  fs.writeFileSync(path.join(dir, 'p0-feasibility.json'), JSON.stringify({ summary, unmapped, unmappedTopics, subtopics: { total: subRows.length, ok: subOk }, termsUnprobed, topics: assessed }, null, 1))
 
   const pct = (n: number, d: number) => `${d ? Math.round((100 * n) / d) : 0}%`
   const md = [
@@ -43,6 +47,10 @@ function main() {
     '| Subject | Ready | Thin | Hard | Likely with families |',
     '|---|---|---|---|---|',
     ...Object.entries(summary.bySubject).sort((a, b) => a[0].localeCompare(b[0])).map(([s, c]) => `| ${s} | ${c.ready} | ${c.thin} | ${c.hard} | ${summary.likelyBySubject[s] ?? 0} |`),
+    '',
+    '## Topics with no plan',
+    '',
+    ...(unmappedTopics.length ? unmappedTopics.map((t) => `- ${t.subject}: ${t.name} (${t.book}, ${t.key})`) : ['None.']),
     '',
     '## Topics not ready',
     '',

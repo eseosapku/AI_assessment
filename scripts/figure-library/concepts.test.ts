@@ -1,7 +1,7 @@
 // scripts/figure-library/concepts.test.ts
 import { describe, it, expect } from 'vitest'
 import { openStore } from './store'
-import { applyMerges, chunk, coarsenTarget, conceptPrompt, consolidationPrompt, loadConcepts, mergeConcepts, namesWithBands, parseConcepts, slug, type Concept } from './concepts'
+import { applyMerges, chunk, coarsenTarget, conceptPrompt, consolidationPrompt, loadConcepts, mappedTopicCount, mergeConcepts, namesWithBands, parseConcepts, replaceSubjectConcepts, slug, type Concept } from './concepts'
 
 describe('names sent to the concept builder', () => {
   it('drops repeats regardless of case and spacing, keeping every level a name is taught at', () => {
@@ -93,5 +93,40 @@ describe('coarsening a subject split too finely', () => {
   it('tells the model the target when there is one', () => {
     expect(consolidationPrompt('mathematics', many, 30)).toMatch(/120 concepts[\s\S]*about 30/)
     expect(consolidationPrompt('mathematics', many)).not.toMatch(/about \d+\. Merge/)
+  })
+})
+
+describe('replacing a subject\'s concepts after topics were mapped', () => {
+  // Topic plans name concept ids; a rebuild that replaced the ids left plans
+  // pointing at concepts that no longer existed, and they still counted as done.
+  function mappedStore() {
+    const db = openStore(':memory:')
+    db.prepare("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:1', 'rwanda', 'Geography S2', 'geography', 'LS', 'Rivers')").run()
+    db.prepare("INSERT INTO subtopics (key, topic_key, name) VALUES ('db:100', 'db:1', 'Erosion')").run()
+    db.prepare("INSERT INTO concepts (id, subject, name, bands, aliases) VALUES ('geography.rivers', 'geography', 'Rivers', '[\"LS\"]', '[]')").run()
+    db.prepare("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, model, mapped_at) VALUES ('db:1', '[\"geography.rivers\"]', '[\"geo.map\"]', '[]', 'high', 'm', 'now')").run()
+    db.prepare("INSERT INTO subtopic_map (subtopic_key, concepts, kinds) VALUES ('db:100', '[\"geography.rivers\"]', '[\"geo.map\"]')").run()
+    return db
+  }
+  const fresh: Concept[] = [{ id: 'geography.river-processes', subject: 'geography', name: 'River processes', bands: ['LS'], aliases: [] }]
+
+  it('refuses while topic plans use them, unless asked to remap', () => {
+    const db = mappedStore()
+    expect(() => replaceSubjectConcepts(db, 'geography', fresh, false)).toThrow(/--remap/)
+    expect(loadConcepts(db).get('geography')?.map((c) => c.id)).toEqual(['geography.rivers'])
+  })
+
+  it('with remap, clears the subject\'s plans so they are mapped again', () => {
+    const db = mappedStore()
+    expect(replaceSubjectConcepts(db, 'geography', fresh, true)).toBe(1)
+    expect(loadConcepts(db).get('geography')?.map((c) => c.id)).toEqual(['geography.river-processes'])
+    expect((db.prepare('SELECT COUNT(*) AS n FROM topic_map').get() as { n: number }).n).toBe(0)
+    expect((db.prepare('SELECT COUNT(*) AS n FROM subtopic_map').get() as { n: number }).n).toBe(0)
+  })
+
+  it('needs no remap for a subject nothing has been mapped to yet', () => {
+    const db = openStore(':memory:')
+    expect(replaceSubjectConcepts(db, 'geography', fresh, false)).toBe(0)
+    expect(mappedTopicCount(db, 'geography')).toBe(0)
   })
 })

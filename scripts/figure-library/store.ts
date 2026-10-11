@@ -83,6 +83,9 @@ export function openStore(file: string = path.join(libraryDir(), 'figures.db'), 
   }
   const db = new DatabaseSync(file)
   db.exec('PRAGMA foreign_keys = ON')
+  // Wait up to 10 s for another writer (the probe runs for hours) rather than
+  // failing at once and losing a spend record for a reply already paid for.
+  db.exec('PRAGMA busy_timeout = 10000')
   if (file !== ':memory:') db.exec('PRAGMA journal_mode = WAL')
   db.exec(SCHEMA)
   return db

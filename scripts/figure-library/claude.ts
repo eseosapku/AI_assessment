@@ -71,8 +71,8 @@ const THROTTLED = /throttl|too many requests|rate exceeded|serviceunavailable|\b
 
 /**
  * One model call that must come back as JSON. Every reply is paid for and
- * recorded before it is parsed, and the budget is checked after each, so a
- * run can never spend past its cap by more than one call.
+ * recorded before it is parsed, and the budget is checked before and after
+ * each, so a run spends past its cap by at most one call per worker.
  */
 export async function askJson(o: {
   db: Store
@@ -90,6 +90,8 @@ export async function askJson(o: {
   const attempts = o.attempts ?? 4
   let last: unknown = null
   for (let i = 0; i < attempts; i++) {
+    // A job already over its cap sends nothing more.
+    checkBudget(o.db, { job: o.job, jobCapUsd: o.jobCapUsd })
     let reply: ModelReply
     try {
       reply = await o.send(model, o.prompt, o.maxTokens)
@@ -121,12 +123,24 @@ export async function askJson(o: {
   throw last instanceof Error ? last : new Error('The model gave no usable reply')
 }
 
+/**
+ * Runs `fn` over the items, a few at a time. The first failure stops new items
+ * starting, and every call already in flight settles before it is reported: a
+ * budget stop used to return at once, the store was closed, and the other
+ * workers went on paying for calls they could no longer record.
+ */
 export async function runPool<T>(items: readonly T[], workers: number, fn: (item: T) => Promise<void>): Promise<void> {
   let next = 0
+  let failed: { error: unknown } | null = null
   await Promise.all(Array.from({ length: Math.min(workers, items.length) }, async () => {
-    while (next < items.length) {
+    while (!failed && next < items.length) {
       const item = items[next++]
-      await fn(item)
+      try {
+        await fn(item)
+      } catch (error) {
+        if (!failed) failed = { error }
+      }
     }
   }))
+  if (failed) throw (failed as { error: unknown }).error
 }

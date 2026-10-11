@@ -1,6 +1,7 @@
 // scripts/figure-library/map-topics.ts
 // Run: npx jiti scripts/figure-library/map-topics.ts [--limit=20] [--subject=geography] [--redo]
 import { openStore } from './store'
+import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { HAIKU, askJson, bedrockSender, runPool } from './claude'
 import { displayName } from './curriculum'
@@ -14,11 +15,11 @@ const JOB_CAP_USD = 32
 const RETRY_NOTE = '\nYour last reply used ids that are not in the lists, or none at all. Use only ids from the CONCEPTS and FIGURE KINDS lists above.'
 
 async function main() {
-  const args = Object.fromEntries(process.argv.slice(2).map((a) => a.replace(/^--/, '').split('=')).map(([k, v]) => [k, v ?? 'true']))
+  const args = parseArgs(process.argv.slice(2), { limit: 'int', subject: 'string', redo: 'flag' })
   const db = openStore()
   const conceptsBySubject = loadConcepts(db)
   const validKinds = new Set(FIGURE_KINDS.map((k) => k.id))
-  const todo = topicsToMap(db, { limit: args.limit ? Number(args.limit) : undefined, subject: args.subject, redo: args.redo === 'true' })
+  const todo = topicsToMap(db, { limit: args.limit as number | undefined, subject: args.subject as string | undefined, redo: args.redo === true })
   const subsOf = db.prepare('SELECT key, name FROM subtopics WHERE topic_key = ? ORDER BY key')
   const failures: string[] = []
   const truncated: string[] = []

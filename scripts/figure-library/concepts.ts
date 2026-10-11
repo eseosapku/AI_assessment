@@ -166,6 +166,37 @@ export function applyMerges(subject: string, concepts: readonly Concept[], raw: 
   return { concepts: [...byId.values()], merged }
 }
 
+/** Topics of a subject that already have a plan, which names its concept ids. */
+export function mappedTopicCount(db: Store, subject: string): number {
+  return Number((db.prepare('SELECT COUNT(*) AS n FROM topic_map m JOIN topics t ON t.key = m.topic_key WHERE t.subject = ?').get(subject) as { n: number }).n)
+}
+
+/**
+ * Replaces a subject's concepts whole. Topic plans name concept ids, so
+ * replacing the ids under them would leave plans pointing at concepts that no
+ * longer exist while still counting as done. Refused while plans exist, unless
+ * `remap` clears them so they are mapped again. Returns the plans cleared.
+ */
+export function replaceSubjectConcepts(db: Store, subject: string, concepts: readonly Concept[], remap: boolean): number {
+  const mapped = mappedTopicCount(db, subject)
+  if (mapped > 0 && !remap) {
+    throw new Error(`${subject} has ${mapped} topic plans using its concepts; rerun with --remap to replace them and clear those plans`)
+  }
+  const insert = db.prepare('INSERT OR REPLACE INTO concepts (id, subject, name, bands, aliases) VALUES (?, ?, ?, ?, ?)')
+  db.exec('BEGIN')
+  try {
+    db.prepare('DELETE FROM subtopic_map WHERE subtopic_key IN (SELECT s.key FROM subtopics s JOIN topics t ON t.key = s.topic_key WHERE t.subject = ?)').run(subject)
+    db.prepare('DELETE FROM topic_map WHERE topic_key IN (SELECT key FROM topics WHERE subject = ?)').run(subject)
+    db.prepare('DELETE FROM concepts WHERE subject = ?').run(subject)
+    for (const c of concepts) insert.run(c.id, c.subject, c.name, JSON.stringify(c.bands), JSON.stringify(c.aliases))
+    db.exec('COMMIT')
+  } catch (err) {
+    db.exec('ROLLBACK')
+    throw err
+  }
+  return mapped
+}
+
 export function loadConcepts(db: Store): Map<string, Concept[]> {
   const rows = db.prepare('SELECT id, subject, name, bands, aliases FROM concepts ORDER BY id').all() as Record<string, string>[]
   const out = new Map<string, Concept[]>()

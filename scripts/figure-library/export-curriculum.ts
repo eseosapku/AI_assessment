@@ -3,12 +3,14 @@
 // Reads production with SELECT only, and writes the staging store.
 import { Pool } from 'pg'
 import { openStore } from './store'
+import { parseArgs } from './args'
 import { loadEnv } from './claude'
-import { curriculumRows } from './curriculum'
+import { curriculumRows, stageCurriculum } from './curriculum'
 import { WAEC_SUBJECTS, JAMB_UTME_SUBJECTS } from '../../lib/nigeria-exam-syllabi'
 import { CHECKPOINT_SUBJECTS } from '../../lib/cambridge-checkpoint'
 
 async function main() {
+  parseArgs(process.argv.slice(2), {})
   const env = loadEnv()
   const pool = new Pool({ connectionString: env.DATABASE_URL, ssl: { rejectUnauthorized: false } })
   const books = (await pool.query('SELECT textbook_id, textbook_name, curriculum FROM textbooks WHERE curriculum IN (0, 1, 2)')).rows
@@ -22,15 +24,8 @@ async function main() {
 
   const rows = curriculumRows({ books, topics, subtopics, waec: WAEC_SUBJECTS, jamb: JAMB_UTME_SUBJECTS, checkpoint: CHECKPOINT_SUBJECTS })
   const db = openStore()
-  const upTopic = db.prepare(`INSERT INTO topics (key, source, textbook_id, book, subject, band, name) VALUES (?, ?, ?, ?, ?, ?, ?)
-    ON CONFLICT(key) DO UPDATE SET source = excluded.source, textbook_id = excluded.textbook_id, book = excluded.book,
-      subject = excluded.subject, band = excluded.band, name = excluded.name`)
-  const upSub = db.prepare(`INSERT INTO subtopics (key, topic_key, name) VALUES (?, ?, ?)
-    ON CONFLICT(key) DO UPDATE SET topic_key = excluded.topic_key, name = excluded.name`)
-  db.exec('BEGIN')
-  for (const t of rows.topics) upTopic.run(t.key, t.source, t.textbookId, t.book, t.subject, t.band, t.name)
-  for (const s of rows.subtopics) upSub.run(s.key, s.topicKey, s.name)
-  db.exec('COMMIT')
+  const staged = stageCurriculum(db, rows)
+  console.log(`new topics ${staged.added}; changed (plan cleared, map again) ${staged.changed}; gone from production (removed) ${staged.removed}`)
 
   const bySource = new Map<string, number>()
   for (const t of rows.topics) bySource.set(t.source, (bySource.get(t.source) ?? 0) + 1)

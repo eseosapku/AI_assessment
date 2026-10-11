@@ -1,6 +1,7 @@
 // scripts/figure-library/curriculum.test.ts
 import { describe, it, expect } from 'vitest'
-import { curriculumRows, displayName } from './curriculum'
+import { curriculumRows, displayName, stageCurriculum } from './curriculum'
+import { openStore } from './store'
 
 const input = {
   books: [
@@ -63,5 +64,45 @@ describe('the curriculum staged for mapping', () => {
     const odd = curriculumRows({ ...input, books: [{ textbook_id: 9, textbook_name: 'Mystery Book', curriculum: 0 }], topics: [{ topic_id: 9, textbook_id: 9, topic: 'X' }] })
     expect(odd.unmapped).toEqual(['Mystery Book'])
     expect(odd.uncertain).toEqual(['Mystery Book'])
+  })
+})
+
+describe('staging a fresh export over an earlier one', () => {
+  // A re-export kept a topic's plan after its name or subtopics changed, kept
+  // topics deleted from production, and WAEC/JAMB keys are positions, so a
+  // reordered syllabus pointed old plans at different topics.
+  function earlier() {
+    const db = openStore(':memory:')
+    const topic = db.prepare("INSERT INTO topics (key, source, book, subject, band, name) VALUES (?, 'rwanda', 'Geography S2', 'geography', 'LS', ?)")
+    topic.run('db:1', 'Rivers'); topic.run('db:2', 'Coasts'); topic.run('db:3', 'Deserts')
+    db.prepare("INSERT INTO subtopics (key, topic_key, name) VALUES ('db:100', 'db:2', 'Spits')").run()
+    const map = db.prepare("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, model, mapped_at) VALUES (?, '[]', '[\"geo.map\"]', '[]', 'high', 'm', 'now')")
+    map.run('db:1'); map.run('db:2'); map.run('db:3')
+    db.prepare("INSERT INTO subtopic_map (subtopic_key, concepts, kinds) VALUES ('db:100', '[]', '[\"geo.map\"]')").run()
+    return db
+  }
+  const t = (key: string, name: string) => ({ key, source: 'rwanda' as const, textbookId: 10, book: 'Geography S2', subject: 'geography', band: 'LS' as const, name })
+
+  it('keeps unchanged plans, clears changed ones, and removes topics production no longer has', () => {
+    const db = earlier()
+    const result = stageCurriculum(db, {
+      topics: [t('db:1', 'Rivers'), t('db:2', 'Coastal landforms'), t('db:4', 'Glaciers')],
+      subtopics: [{ key: 'db:100', topicKey: 'db:2', name: 'Spits' }],
+    })
+    expect(result).toEqual({ added: 1, changed: 1, removed: 1 })
+    const mapped = (db.prepare('SELECT topic_key FROM topic_map ORDER BY topic_key').all() as { topic_key: string }[]).map((r) => r.topic_key)
+    expect(mapped).toEqual(['db:1'])
+    expect((db.prepare("SELECT COUNT(*) AS n FROM topics WHERE key = 'db:3'").get() as { n: number }).n).toBe(0)
+    expect((db.prepare('SELECT COUNT(*) AS n FROM subtopic_map').get() as { n: number }).n).toBe(0)
+  })
+
+  it('clears a plan when its subtopics change, since the plan maps them by position', () => {
+    const db = earlier()
+    const result = stageCurriculum(db, {
+      topics: [t('db:1', 'Rivers'), t('db:2', 'Coasts'), t('db:3', 'Deserts')],
+      subtopics: [{ key: 'db:100', topicKey: 'db:2', name: 'Spits and bars' }],
+    })
+    expect(result).toEqual({ added: 0, changed: 1, removed: 0 })
+    expect((db.prepare("SELECT COUNT(*) AS n FROM topic_map WHERE topic_key = 'db:2'").get() as { n: number }).n).toBe(0)
   })
 })
