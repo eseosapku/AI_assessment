@@ -1,7 +1,11 @@
 // scripts/figure-library/store.ts
 import fs from 'node:fs'
 import path from 'node:path'
-import { DatabaseSync } from 'node:sqlite'
+// Loaded straight from Node, not imported: jiti 1.x, which runs the pipeline
+// scripts, rewrites "node:sqlite" to "sqlite", and sqlite has no unprefixed
+// name. A type-only import is erased, so jiti never sees it.
+const { DatabaseSync } = (process as unknown as { getBuiltinModule(id: 'node:sqlite'): typeof import('node:sqlite') })
+  .getBuiltinModule('node:sqlite')
 
 /**
  * Where the library is built until S3 exists (spec 5.6). Outside the
@@ -66,7 +70,7 @@ CREATE TABLE IF NOT EXISTS spend (
 );
 `
 
-export type Store = DatabaseSync
+export type Store = import('node:sqlite').DatabaseSync
 
 export function openStore(file: string = path.join(libraryDir(), 'figures.db'), repoRoot: string = process.cwd()): Store {
   if (file !== ':memory:') {

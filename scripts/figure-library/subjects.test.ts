@@ -43,6 +43,8 @@ const CASES: [string, string][] = [
   ['Physical and Health Education', 'physical-education'],
   ['Agricultural Science', 'agriculture'],
   ['Animal Husbandry', 'agriculture'],
+  ['AGRIC S2 SB', 'agriculture'],
+  ['NERDC Primary 4 — Pre-vocational Studies', 'vocational'],
   ['NERDC Junior Secondary 1 — Trade: Livestock Farming', 'vocational'],
   ['Auto Mechanics', 'vocational'],
   ['Catering Craft Practice', 'home-science'],

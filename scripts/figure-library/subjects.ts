@@ -11,7 +11,7 @@
  */
 const RULES: [RegExp, string][] = [
   [/\btrade:|auto mechanic|garment making/i, 'vocational'],
-  [/pre ?vocational/i, 'vocational'],
+  [/pre[- ]?vocational/i, 'vocational'],
   [/physical (and health )?education|\bpes\b|\bsports?\b/i, 'physical-education'],
   [/\bict\b|information (and communication )?technology|computer|computing|digital (technolog|literacy)|data processing|\bit (coursebook|for)\b/i, 'computing'],
   [/math|statistic|probabilit/i, 'mathematics'],
@@ -20,7 +20,7 @@ const RULES: [RegExp, string][] = [
   [/physic/i, 'physics'],
   [/geograph|environmental management/i, 'geography'],
   // Before science: "Agricultural Science" is agriculture.
-  [/agricult|husbandry|horticult|livestock/i, 'agriculture'],
+  [/agricult|\bagric\b|husbandry|horticult|livestock/i, 'agriculture'],
   [/basic science|intermediate science|elementary technology|\bset\b|\bscience\b|ibidukikije/i, 'science'],
   [/histor/i, 'history'],
   [/citizenship|civic|government|social studies|\bsst\b|global perspective|\bgscs\b|general studies/i, 'social-studies'],
