@@ -87,11 +87,12 @@ Maps every topic and subtopic to what can illustrate it.
 - **Concepts.** A controlled list per subject, built first by clustering topic and subtopic names across curricula. Photosynthesis in Rwanda S2, Cambridge LS 8, NERDC SS2 and WAEC Biology becomes one concept, so one figure serves all four.
 - **Output for each topic:**
   - its concepts;
-  - which drawn families fit (from the family registry, 5.2);
+  - which figure kinds fit, from a closed list of about 45. Drawn kinds include line graphs, circuits, maps and Punnett squares; real kinds include specimens, micrographs and landscapes. Drawn families are designed per kind in P3;
   - search terms and source hints for real images (5.3);
   - a feasibility class: drawn-rich, real-rich, mixed, or hard.
-- **Method:** Haiku 4.5 through Bedrock batch, one call per topic including its subtopics (about 3,900 calls). Then a deterministic check: every concept named must exist in the list, and every family named must exist in the registry.
-- **Cost:** about $15.
+- **Method:** Haiku 4.5, one call per topic including its subtopics (about 3,900 calls), at on-demand prices while batch mode waits for S3 (5.6). Then a deterministic check: every concept named must exist in the list, and every kind named must exist in the closed list.
+- **Supply probe:** each real-image search term is counted against Wikimedia Commons (free, one request at a time), so the feasibility report rests on how many candidate images actually exist.
+- **Cost:** about $30.
 
 ### 5.2 Drawn figures
 
@@ -220,16 +221,16 @@ Take "Rivers" in a Rwanda S2 Geography book:
 
 | Item | Model | Estimate |
 |---|---|---|
-| P0 concept map | Haiku batch | $15 |
+| P0 concept map | Haiku on-demand | $30 |
 | P1 pilot, both pipelines plus comparison | Haiku, Sonnet, Nova | $25 |
 | Drawn: rephrasing | Nova Micro batch | $3 |
 | Drawn: blind reviews and audits (about 250 families) | Sonnet and Haiku | $60 |
 | Real: screening (about 450,000 candidates) | Nova Lite batch | $25 |
 | Real: writing and checking | Haiku batch | $380 |
-| Reserve | | $92 |
+| Reserve | | $77 |
 | **Total** | | **$600** |
 
-**Enforcement:** every pipeline script records actual token use in a spend ledger (the existing `ai_usage_events` table, feature `figure_library_*`). A job estimates its own cost before starting and refuses to start if the estimate would take cumulative spend past $600. Spend is reported after every job.
+**Enforcement:** every pipeline script records actual token use in a spend ledger, the `spend` table of the staging store (5.6; pipeline runs never write to production). A job estimates its own cost before starting and refuses to start if the estimate would take cumulative spend past $600. Spend is reported after every job.
 
 Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50 / $2.50 per million tokens, Nova Lite at $0.03 / $0.12, Nova Micro at $0.0175 / $0.07. They are re-read from the AWS pricing page before P0.
 
