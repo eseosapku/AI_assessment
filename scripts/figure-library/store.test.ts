@@ -43,4 +43,11 @@ describe('the staging store', () => {
     expect(readJson('not json', [])).toEqual([])
     expect(readJson('["a"]', [])).toEqual(['a'])
   })
+
+  it('reads a missing column as the fallback, not as null', () => {
+    // A subtopic with no plan has a NULL kinds column; JSON.parse("null") is
+    // null, and the first report crashed reading its length.
+    expect(readJson(null, [])).toEqual([])
+    expect(readJson(undefined, [])).toEqual([])
+  })
 })

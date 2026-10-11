@@ -88,10 +88,12 @@ export function openStore(file: string = path.join(libraryDir(), 'figures.db'), 
   return db
 }
 
-/** Parses a JSON column, falling back rather than throwing on a damaged row. */
+/** Parses a JSON column, falling back rather than throwing on a damaged or missing value. */
 export function readJson<T>(text: unknown, fallback: T): T {
+  if (text === null || text === undefined) return fallback
   try {
-    return JSON.parse(String(text)) as T
+    const value = JSON.parse(String(text)) as T | null
+    return value === null ? fallback : value
   } catch {
     return fallback
   }

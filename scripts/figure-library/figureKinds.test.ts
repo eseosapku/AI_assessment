@@ -12,6 +12,14 @@ describe('the closed list of figure kinds', () => {
     expect(FIGURE_KINDS.filter((k) => k.drawn).length).toBeGreaterThanOrEqual(30)
     expect(FIGURE_KINDS.filter((k) => !k.drawn).length).toBeGreaterThanOrEqual(8)
   })
+  it('says how many drawn families each drawn kind is planned to have', () => {
+    // Variety is defined by families (spec section 3); geometry alone plans
+    // angles, polygons, circles, constructions, transformations and bearings.
+    for (const k of FIGURE_KINDS) expect(k.families).toBeGreaterThanOrEqual(1)
+    expect(KIND_BY_ID.get('maths.geometry')?.families).toBe(6)
+    expect(KIND_BY_ID.get('graph.pie')?.families).toBe(1)
+  })
+
   it('looks kinds up by id', () => {
     expect(KIND_BY_ID.get('physics.circuit')?.drawn).toBe(true)
     expect(KIND_BY_ID.get('photo.micrograph')?.drawn).toBe(false)
