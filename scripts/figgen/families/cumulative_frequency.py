@@ -14,6 +14,8 @@ ID = "cumulative_frequency"
 KIND = "graph.stats"
 SUBJECT = "mathematics"
 BANDS = ("UP",)
+# One variable: a shared word like "dispersion" is no reason to sit in a two-variable chapter.
+AVOID = r"bivariate|scatter|correlation|regression|random variable"
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("cumulative-distribution-function", "quartiles", "dispersion-measures",
                                              "calculating-statistics-grouped-data"))
 

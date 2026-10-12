@@ -135,3 +135,26 @@ def test_more_than_a_boundary_is_said_as_the_context_says_it():
         _, qs = run(histogram, s)
         assert re.search(r"(are more than \d+ cm tall|took more than \d+ minutes|weigh more than \d+ kg|are more than \d+ years old)\?$",
                          qs[3].stem), qs[3].stem
+
+
+ONE_VARIABLE = ("box_plot", "cumulative_frequency", "stem_leaf")
+
+
+@pytest.mark.parametrize("fid", ONE_VARIABLE)
+def test_one_variable_figures_stay_out_of_two_variable_chapters(fid):
+    """A shared word like "dispersion" pulled box plots into Bivariate Statistics (the quiz check, P3b)."""
+    avoid = FAMILIES[fid].AVOID
+    for name in ("Bivariate Statistics", "Unit 4: Scatter diagrams and correlation", "Regression lines", "Random Variables"):
+        assert re.search(avoid, name, re.I), name
+    for name in ("Unit 14: Measures of dispersion", "Statistics", "Unit 3: Averages and measures of spread", "Statistics advanced"):
+        assert not re.search(avoid, name, re.I), name
+
+
+def test_a_two_way_table_stays_out_of_averages_and_spread():
+    avoid = FAMILIES["two_way_table"].AVOID
+    for name in ("Unit 14: Measures of dispersion", "Unit 3: Averages and measures of spread", "Unit 4: Scatter diagrams and correlation",
+                 "Random Variables"):
+        assert re.search(avoid, name, re.I), name
+    for name in ("Bivariate Statistics", "Probability", "Statistics and probability", "16 Interpreting results",
+                 "Conditional Probability and Bayes Theorem", "Chapter 12: Mutually exclusive events"):
+        assert not re.search(avoid, name, re.I), name

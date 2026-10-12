@@ -23,7 +23,7 @@ from figgen.core import render  # noqa: E402
 from figgen.families import FAMILIES  # noqa: E402
 from figgen.link import band_of, reach, topic_index, topics_for, unknown_concepts  # noqa: E402
 from figgen.pilot import topics_for as topics_for_pilot  # noqa: E402
-from figgen.store import delete_family, has_figure, library_dir, open_store, save_drawn, topic  # noqa: E402
+from figgen.store import delete_family, has_figure, library_dir, open_store, relink, save_drawn, topic  # noqa: E402
 
 
 def figure_id(family: str, seed: int) -> str:
@@ -104,11 +104,25 @@ def families_to_draw(families: dict, index) -> tuple[dict, list[str]]:
     return draw, skipped
 
 
+def relink_family(db, m, index) -> tuple[int, int]:
+    """Re-reads which topics each stored figure of a concept-linked family reaches, from its saved
+    parameters, after the family's concepts, stages or avoided chapters change. Returns how many
+    figures moved, and how many of those now reach no topic (they stay stored, and serve nothing)."""
+    moved = orphaned = 0
+    for r in db.execute("SELECT id, spec FROM figures WHERE origin = 'drawn' AND family = ?", (m.ID,)).fetchall():
+        keys = topics_for(index, m, json.loads(r["spec"]))
+        if relink(db, r["id"], keys):
+            moved += 1
+            orphaned += not keys
+    return moved, orphaned
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Draw the P1a pilot's figures into the staging store")
     ap.add_argument("--per-family", type=int, default=30)
     ap.add_argument("--families", default="", help="comma-separated family ids; all when left out")
     ap.add_argument("--redo", action="store_true", help="redraw these families from scratch, dropping their reviews")
+    ap.add_argument("--relink", action="store_true", help="re-read the topics of these families' stored figures; draw nothing")
     a = ap.parse_args(argv)
     ids = [f.strip() for f in a.families.split(",") if f.strip()] or list(FAMILIES)
     unknown = [f for f in ids if f not in FAMILIES]
@@ -117,6 +131,12 @@ def main(argv=None) -> int:
     lib = library_dir()
     db = open_store()
     index = topic_index(db)
+    if a.relink:
+        for fid in (f for f in ids if hasattr(FAMILIES[f], "CONCEPTS")):
+            moved, orphaned = relink_family(db, FAMILIES[fid], index)
+            print(f"{fid:20s} {moved} figures moved, {orphaned} of them to no topic")
+        db.close()
+        return 0
     todo, skipped = families_to_draw({f: FAMILIES[f] for f in ids}, index)
     for fid in skipped:
         print(f"{fid:20s} skipped: its figures reach no topic in the current books")

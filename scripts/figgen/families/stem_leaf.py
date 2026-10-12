@@ -12,6 +12,8 @@ ID = "stem_leaf"
 KIND = "graph.stats"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
+# One variable: a shared word like "dispersion" is no reason to sit in a two-variable chapter.
+AVOID = r"bivariate|scatter|correlation|regression|random variable"
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("stem-leaf-diagrams", "median", "range", "mode-finding", "rank-order-list",
                                              "central-tendencies-ungrouped-data", "dispersion-measures"))
 

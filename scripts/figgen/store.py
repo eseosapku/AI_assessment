@@ -81,6 +81,18 @@ def save_drawn(db: sqlite3.Connection, *, figure_id: str, family: str, kind: str
               json.dumps(q.accepted), q.explanation) for n, q in enumerate(questions, 1)])
 
 
+def relink(db: sqlite3.Connection, figure_id: str, topics: list[str]) -> bool:
+    """Points a stored figure at these topics instead of the ones it was saved with; the figure, its
+    questions, reviews and status stay as they are. True when its topics changed."""
+    had = {r[0] for r in db.execute("SELECT topic_key FROM figure_topics WHERE figure_id = ?", (figure_id,))}
+    if had == set(topics):
+        return False
+    with db:
+        db.execute("DELETE FROM figure_topics WHERE figure_id = ?", (figure_id,))
+        db.executemany("INSERT INTO figure_topics (figure_id, topic_key) VALUES (?, ?)", [(figure_id, k) for k in topics])
+    return True
+
+
 def delete_family(db: sqlite3.Connection, family: str) -> list[str]:
     """Removes a drawn family's figures with their questions, topics and reviews; returns the file keys to delete."""
     rows = db.execute("SELECT id, asset, preview FROM figures WHERE origin = 'drawn' AND family = ?", (family,)).fetchall()

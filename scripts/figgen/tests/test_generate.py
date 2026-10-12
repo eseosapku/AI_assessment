@@ -168,3 +168,29 @@ def test_the_same_figure_under_another_name_is_stored_once(db, tmp_path):
     assert generate_family(db, tmp_path / "lib", m, 1)["have"] == 1
     with pytest.raises(RuntimeError, match="only 1"):
         generate_family(db, tmp_path / "lib", m, 2, max_seeds=20)
+
+
+def test_relinking_moves_stored_figures_to_the_topics_they_reach_now(tmp_path):
+    """Links are made when a figure is saved; a family that learns to avoid a chapter must leave it."""
+    from figgen.generate import relink_family
+    db = open_store(tmp_path / "figures.db")
+    m = FAMILIES["box_plot"]
+    band = m.BANDS[0]
+    db.executemany("INSERT INTO topics (key, source, book, subject, band, name) VALUES (?, 'test', 'Book', 'mathematics', ?, ?)",
+                   [("t:spread", band, "Measures of dispersion"), ("t:two", band, "Two variables")])
+    db.executemany("INSERT INTO concepts (id, subject, name, bands) VALUES (?, 'mathematics', ?, '[]')", [(c, c) for c in m.CONCEPTS])
+    db.commit()
+    topic = lambda key, concepts: {"key": key, "band": band, "subject": "mathematics", "name": key, "stage": None, "concepts": concepts}
+    every = frozenset(m.CONCEPTS)
+    generate_family(db, tmp_path, m, 3, index=[topic("t:spread", every), topic("t:two", every)])
+    links = lambda: sorted(db.execute("SELECT figure_id, topic_key FROM figure_topics").fetchall(), key=tuple)
+    assert {tuple(r)[1] for r in links()} == {"t:spread", "t:two"}
+    approved_before = db.execute("SELECT COUNT(*) FROM figures WHERE status = 'stored'").fetchone()[0]
+
+    assert relink_family(db, m, [topic("t:spread", every), topic("t:two", frozenset())]) == (3, 0)
+    assert {tuple(r)[1] for r in links()} == {"t:spread"}
+    # The figures, their questions and their status are untouched: only where they are served moves.
+    assert db.execute("SELECT COUNT(*) FROM figures WHERE status = 'stored'").fetchone()[0] == approved_before
+    assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] > 0
+    assert relink_family(db, m, [topic("t:spread", every), topic("t:two", frozenset())]) == (0, 0)
+    assert relink_family(db, m, [topic("t:two", frozenset())]) == (3, 3)  # reaching nothing now: counted
