@@ -300,7 +300,17 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - Landforms (14 kept) and the Cold War (32) stay thin on Commons; drawn families and other collections must carry them.
       - Credit lines need cleaning, since Artist fields carry notes and links.
       - History screening still lets through weak items, such as uniform plates and 1980s station photos.
-    - Sample sheet: https://claude.ai/artifact/66UHHw6WDBehsNR1PBPHLG.
+    - Sample sheet: https://claude.ai/artifact/66UHHw6WDBehsNR1PBPHLG (version 2, after the changes below).
+    - **The user's decision on the round-two sheet (2026-10-12): no scanned pages of old books or catalogues, "at all", however good the drawing.**
+      - A rule turns away DPLA, Biodiversity Heritage Library and Internet Archive book pages before download, and the screen judges `scanned_page`.
+      - 33 held scans were rejected. Scanned declassified documents (CIA maps of Cuba via DPLA) went too; the Cold War is down to 9 approved images.
+    - **Approval, for P2 (from the final review):**
+      - A real figure is published when its status is `approved`, with all its `figure_questions`.
+      - `approveReal` sets that from the screen, the writer's check and the blind review: questions the review failed are dropped, and an image it judged unclear is rejected.
+      - Any rejection, whether by the screen, the scanned-page rule or the review, removes the image's questions.
+      - Pilot result: 86 images approved, with 142 questions (Cells 16, Classification 19, Flowering plants 16, Apparatus 18, Landforms 8, Cold War 9; 39 of them diagrams).
+    - **The screen judges distant examples against the learners' own region**, from the curriculum: Rwanda and East Africa for Rwanda and Cambridge, Nigeria or West Africa for NERDC, WAEC and JAMB.
+    - Spend for P1b.2 in all: $5.30; P1 in all $19.33. Library total $45.13.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
   - Exit: library figures appear in real quizzes on this machine, served from the local folder. Going live waits for S3 and CloudFront; then it is publish, set `FIGURE_ASSET_BASE`, deploy, and check a live marker.
 - **P3 Drawn at scale.** In waves by subject: Maths, Physics, Chemistry, Biology, Geography, Economics and Business, Computing, Languages, History, Music. Each wave starts with samples for the user.
