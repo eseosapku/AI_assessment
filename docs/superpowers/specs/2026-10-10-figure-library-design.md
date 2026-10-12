@@ -329,15 +329,20 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - **Families:** 37 Maths families: 28 new and the pilot's 9 reworded, across number, measure, geometry, solids, graphs, coordinates, statistics and probability.
       - Every answer is recomputed by a test over 1,000 figures.
       - Where it can be, the answer is checked against the drawing itself: polygons from their angles, areas by the shoelace formula, every circle-theorem angle measured, cube nets folded, transformations without symmetry and every wrong option shown not to fit.
-      - 495 tests pass.
+      - 586 tests pass, including one per finding of the whole-branch review.
+    - **Questions stand alone:** a quiz asks one question per figure.
+      - Each question carries what it needs: its scale, its size, which line.
+      - Each question needs the figure: the given angles are on the drawing, not in the question.
+      - Each answer is accepted in every fair form ("8" for "8.0", "15 eggs" for 15).
     - **A wording of its own:** 27 of every 30 figures carry a question no other has, because the quiz route drops a repeated wording.
     - **Linking:** families reach topics by P0 concept and level (`link.py`).
       - A topic counts its sections' concepts.
       - At Primary, a figure reaches only the school years it suits, read from the book's name: a 7-digit place-value chart is Stage 6, not Stage 1.
-    - **Coverage of the 302 mapped Maths topics:** with no figure source, 298 before and 83 with the wave. With six or more families, 0 before and 16 with the wave.
-      - The 83 are mostly A Level and Upper Secondary functions, calculus, matrices, complex numbers, money and finance.
+      - Concepts that pulled families into calculus, ratio or polynomial chapters were dropped, or those chapters are avoided by name.
+    - **Coverage of the 302 mapped Maths topics** (school years counted): with no figure source, 298 before and 107 with the wave. With six or more families, 0 before and 16 with the wave.
+      - The 107 are mostly A Level and Upper Secondary functions, calculus, matrices, complex numbers, money and finance.
       - They need a second Maths batch: function and trigonometric graphs, money, Argand diagrams, mechanics and distributions.
-      - Thirteen families reach under three topics at some level, because today's books barely teach them (none names bearings or nets).
+      - Thirteen families reach under three topics at some level, because today's books barely teach them. Bearings reaches none, since no book names bearings or nets.
     - Sample sheet: https://claude.ai/artifact/4sEbeJdYjQM77F6vrWo2Ju
     - **Next, P3b, after the user's verdict:** fixes, generation, the blind review (about $10), approval and coverage.
 - **P4 Real images at scale.** Real-rich and hard topics first.
