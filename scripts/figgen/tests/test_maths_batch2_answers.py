@@ -433,3 +433,111 @@ def test_price_tag():
             else:
                 assert francs(qs[0].answer) == P * r * n // 100 and P * r * n % 100 == 0
                 assert francs(qs[1].answer) == P + P * r * n // 100
+
+
+# --- Task 7: Primary number and proportion; algebra; Pascal ----------------------------------
+
+def test_bar_model():
+    m = fam("bar_model")
+    for s in SEEDS:
+        p, (missing, sentence) = run(m, s)
+        kind, nums, hole = p["kind"], p["numbers"], p["hole"]
+        lo, _ = m.stages(p)
+        top = {1: 20, 2: 100, 3: 1000, 5: 10000}[lo]
+        if kind == "part_whole":
+            whole, parts = nums[0], nums[1:]
+            assert whole == sum(parts) <= top and all(v > 0 for v in parts)
+        elif kind == "compare":
+            big, small, diff = nums
+            assert big - small == diff > 0 and big <= top
+        else:
+            whole, n, each = nums
+            assert whole == n * each <= top and n >= 2
+        assert int(missing.answer) == nums[hole]
+        # The sentence picked works out to the missing number.
+        expr = picked(sentence).replace("×", "*").replace("÷", "/").replace("−", "-").replace(",", "").split("=")[0]
+        assert eval(expr) == nums[hole], (picked(sentence), nums, hole)  # noqa: S307
+        wrong = [o for i, o in enumerate(sentence.options) if i != int(sentence.answer)]
+        assert all(eval(o.replace("×", "*").replace("÷", "/").replace("−", "-").replace(",", "").split("=")[0]) != nums[hole]  # noqa: S307
+                   for o in wrong)
+
+
+def test_scale_drawing():
+    m = fam("scale_drawing")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        w, h, sc = p["w"], p["h"], p["scale"]
+        assert w != h and 2 <= min(w, h)
+        length, width = qs[:2]
+        assert int(length.answer) == max(w, h) * sc and int(width.answer) == min(w, h) * sc
+        rest = qs[2:]
+        if p["band"] == "LS":
+            assert int(rest[0].answer) == w * h * sc * sc
+            rest = rest[1:]
+        real = int(re.search(r"(\d+) m long in real life", rest[0].stem).group(1))
+        assert real % sc == 0 and int(rest[0].answer) == real // sc
+
+
+def test_percent_grid():
+    from math import gcd
+    m = fam("percent_grid")
+    for s in SEEDS:
+        p, (pct, fraction, decimal, ratio, more) = run(m, s)
+        n = p["shaded"]
+        assert 5 <= n <= 95 and len(p["cells"]) == n == len(set(map(tuple, p["cells"])))
+        assert int(pct.answer) == n
+        assert Fraction(fraction.answer) == Fraction(n, 100) and fraction.answer == f"{Fraction(n, 100).numerator}/{Fraction(n, 100).denominator}"
+        assert Fraction(decimal.answer) == Fraction(100 - n, 100)
+        g = gcd(n, 100 - n)
+        assert ratio.answer == f"{n // g}:{(100 - n) // g}"
+        t = int(re.search(r"make (\d+)%", more.stem).group(1))
+        assert t > n and int(more.answer) == t - n
+
+
+def expand(text):
+    """("x² + 5x + 6") -> {2: 1, 1: 5, 0: 6}."""
+    out = {}
+    for sign, coef, power in re.findall(r"([+-]?)\s*(\d*)(x²|x|)(?=\s*[+-]|$)", text.replace(" ", "")):
+        if not (coef or power):
+            continue
+        k = {"x²": 2, "x": 1, "": 0}[power]
+        out[k] = out.get(k, 0) + (int(coef) if coef else 1) * (-1 if sign == "-" else 1)
+    return out
+
+
+def test_algebra_area():
+    m = fam("algebra_area")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        (a1, b1), (a2, b2) = p["sides"]  # each side a·x + b
+        perim, area, value = qs[:3]
+        assert expand(picked(perim)) == {k: v for k, v in {1: 2 * (a1 + a2), 0: 2 * (b1 + b2)}.items() if v}
+        want = {2: a1 * a2, 1: a1 * b2 + a2 * b1, 0: b1 * b2}
+        assert expand(picked(area)) == {k: v for k, v in want.items() if v}
+        for i, o in enumerate(area.options):
+            if i != int(area.answer):
+                assert expand(o) != expand(picked(area))
+        x = int(re.search(r"x = (\d+)", value.stem).group(1))
+        assert int(value.answer) == (a1 * x + b1) * (a2 * x + b2) and a1 * x + b1 > 0 and a2 * x + b2 > 0
+        if p["band"] == "UP":
+            N = int(re.search(r"area is (\d+) cm²", qs[3].stem).group(1))
+            root = int(qs[3].answer)
+            assert (a1 * root + b1) * (a2 * root + b2) == N and root > 0
+
+
+def test_pascal():
+    from math import comb
+    m = fam("pascal")
+    for s in SEEDS:
+        p, (gap, coef, total, row) = run(m, s)
+        for label, (r, k) in p["holes"].items():
+            assert 0 < k < r <= 7
+        label = re.search(r"number at ([PQR])\?", gap.stem).group(1)
+        r, k = p["holes"][label]
+        assert int(gap.answer) == comb(r, k)
+        k2, n = (int(v) for v in re.search(r"x\^?(\d)\D+\(1 \+ x\)\^?(\d)", coef.stem).groups())
+        assert int(coef.answer) == comb(n, k2)
+        n3 = int(re.search(r"row (\d)\?", total.stem).group(1))
+        assert int(total.answer) == 2 ** n3
+        n4 = int(re.search(r"\(a \+ b\)\^?(\d)", row.stem).group(1))
+        assert picked(row) == f"row {n4}"

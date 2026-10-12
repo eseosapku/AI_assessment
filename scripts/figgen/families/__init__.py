@@ -4,8 +4,9 @@ from . import (angles, area_shapes, bar_chart, bearings, box_plot, break_even, c
                population_pyramid, punnett, right_triangle, ruler, sample_space, scale_reading, scatter_graph, stem_leaf, supply_demand, timeline, timetable, transformation, travel_graph, two_way_table,
                tree_diagram, vectors_grid, venn)
 # P3c: the second maths batch
-from . import (area_under_curve, argand, exp_graph, limit_graph, matrix_transform, money, pdf_graph, points_3d, price_tag,
-               prob_distribution, rational_graph, stationary_points, tangent_gradient, trig_graph, velocity_time)
+from . import (algebra_area, area_under_curve, argand, bar_model, exp_graph, limit_graph, matrix_transform, money, pascal, pdf_graph,
+               percent_grid, points_3d, price_tag, prob_distribution, rational_graph, scale_drawing, stationary_points, tangent_gradient,
+               trig_graph, velocity_time)
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -23,4 +24,5 @@ FAMILIES = {m.ID: m for m in (
     argand, matrix_transform, points_3d,
     prob_distribution, pdf_graph, velocity_time,
     money, price_tag,
+    bar_model, scale_drawing, percent_grid, algebra_area, pascal,
 )}
