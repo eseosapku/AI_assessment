@@ -313,6 +313,16 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - Spend for P1b.2 in all: $5.30; P1 in all $19.33. Library total $45.13.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
   - Exit: library figures appear in real quizzes on this machine, served from the local folder. Going live waits for S3 and CloudFront; then it is publish, set `FIGURE_ASSET_BASE`, deploy, and check a live marker.
+  - **P2a result (2026-10-12, plan `2026-10-12-figure-library-p2a-local-quizzes.md`):** the local half, built, with no model spend.
+    - **Approval.** `review-drawn.ts --approve` approved 598 drawn figures in all 20 families (the 2 review rejections stay rejected). The store now holds 684 approved figures, 598 drawn and 86 real, on 22 topics (`coverage-report.ts`).
+    - **Source.** `lib/figure-library/local-source.ts` reads the store read-only, and only when `FIGURE_LIBRARY_DIR` and `FIGURE_ASSET_BASE` are both set; on Amplify neither is, and the route is unchanged. A quiz on sections takes its topics' figures.
+    - **Choosing.** Library figures come after the bank's, within the same three-in-five share. They are shuffled and taken from each source in turn, and each comes with its question reserved: a wording not yet on the paper, one the student has not had, of the kind the quiz's mix asks for at its place.
+      - Drawn families ask the same few questions of every figure ("What is the median?"), and the route removes a repeated wording. A one-family topic therefore gives one or two figures per quiz; P3's further families and wordings are what fill it.
+    - **Files.** `/api/figure-library/asset/...` serves `assets/` only, in development only.
+    - **Credit.** A real image shows its credit line under the figure in the quiz and on the results page, and on a recall card made from a missed question.
+    - **Before going live:**
+      - Quizzes made on this machine save `/api/figure-library/asset/...` addresses to the production database, and those figures show broken there.
+      - The Postgres tables, the publish script and a Postgres source (P2b) wait for S3.
 - **P3 Drawn at scale.** In waves by subject: Maths, Physics, Chemistry, Biology, Geography, Economics and Business, Computing, Languages, History, Music. Each wave starts with samples for the user.
   - Exit: each wave's families pass review; the wave's topics reach their drawn share.
 - **P4 Real images at scale.** Real-rich and hard topics first.
