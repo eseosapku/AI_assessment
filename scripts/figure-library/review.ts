@@ -109,7 +109,10 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   const expected = numbersIn(q.answer)
   if (expected.length) {
     const mine = numbersIn(text)
-    return mine.length === expected.length && mine.every((v, i) => Math.abs(v - expected[i]) < 1e-9)
+    const same = (a: number, b: number) => Math.abs(a - b) < 1e-9
+    // "1/10 (0.1)" restates one answer; it is not two.
+    if (expected.length === 1 && mine.length > 1) return mine.every((v) => same(v, expected[0]))
+    return mine.length === expected.length && mine.every((v, i) => same(v, expected[i]))
   }
   return (q.accepted.length ? q.accepted : [q.answer]).some((form) => words(form) === words(text))
 }
@@ -205,6 +208,34 @@ export function saveVerdict(db: Store, o: { job: string; model: string; figureId
     db.exec('ROLLBACK')
     throw err
   }
+}
+
+/**
+ * Recomputes every verdict in a job from what its reviewer said, under the current rules
+ * (after agrees() learns another fair way of writing an answer). Nothing is sent or paid
+ * for. Returns how many verdicts changed.
+ */
+export function regrade(db: Store, job: string): number {
+  const rows = db.prepare('SELECT figure_id AS id, model, detail FROM reviews WHERE job = ? ORDER BY figure_id')
+    .all(job) as { id: string; model: string; detail: string }[]
+  const questionsOf = db.prepare('SELECT n, kind, stem, options, answer, accepted FROM figure_questions WHERE figure_id = ?')
+  let changed = 0
+  for (const r of rows) {
+    const v = readJson<Verdict | null>(r.detail, null)
+    if (!v?.questions) continue
+    const qs = (questionsOf.all(r.id) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string }[])
+      .map((q) => ({ ...q, options: readJson<string[]>(q.options, []), accepted: readJson<string[]>(q.accepted, []) }))
+    const questions = v.questions.map((q) => {
+      const asked = qs.find((x) => x.n === q.n)
+      return asked ? { ...q, keyCorrect: agrees(asked, q.ownAnswer) } : q
+    })
+    const pass = v.figureClear && v.educational && questions.every((q) => q.keyCorrect && q.answerable && q.singleAnswer)
+    if (pass !== v.pass || questions.some((q, i) => q.keyCorrect !== v.questions[i].keyCorrect)) {
+      saveVerdict(db, { job, model: r.model, figureId: r.id, verdict: { ...v, questions, pass } })
+      changed++
+    }
+  }
+  return changed
 }
 
 export interface FamilyScore { family: string; reviewed: number; passed: number; passes: boolean }

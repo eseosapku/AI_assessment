@@ -2,6 +2,8 @@
 from __future__ import annotations
 
 import random
+from functools import lru_cache
+from itertools import combinations, product
 
 from ..core import FILL, FILL_2, GRID, mcq, new_figure, short
 
@@ -11,43 +13,41 @@ SUBJECT = "geography"
 BANDS = ("LS", "UP")
 
 GROUPS = ["0–9", "10–19", "20–29", "30–39", "40–49", "50–59", "60–69", "70+"]
-SHAPES = {
-    "expanding": [15, 13, 9, 6, 3, 2, 1, 1],
-    "stable": [7, 7, 7, 7, 6, 6, 5, 5],
-    "contracting": [5, 5, 6, 7, 8, 7, 6, 6],
-}
+SHAPES = {"expanding": None, "stable": None, "contracting": None}  # profiles: _sides(shape)
 NAMES = {"expanding": "Expanding (a young population)", "stable": "Stable", "contracting": "Contracting (an ageing population)"}
 
 
-def _looks(shape: str, t: list[int]) -> bool:
-    """Whether the bar totals still show the shape they were drawn as, so the shape question has one answer."""
-    if shape == "expanding":
-        return all(a >= b for a, b in zip(t, t[1:])) and t[0] >= 2 * t[3]
-    if shape == "stable":
-        return t[0] >= max(t[1:]) and all(abs(a - b) <= 4 for a, b in zip(t, t[1:])) and 2 * t[-1] >= t[0]
-    return max(t[2:6]) >= t[0] + 4
+@lru_cache(maxsize=None)
+def _sides(shape: str) -> tuple:
+    """Every one-sided profile, young to old, in % of the whole population and adding to 50,
+    that plainly shows the shape on its own. Noise on each bar left most pyramids between two
+    shapes, so the shape question had two defensible answers; these profiles never do."""
+    out = []
+    if shape == "expanding":  # narrows steadily from a wide base
+        for young in combinations(range(16, 1, -1), 6):
+            for old in ((2, 1), (1, 1), (2, 2)):
+                side = (*young, *old)
+                if sum(side) == 50 and young[-1] >= old[0] and side[0] >= 3 * side[4] and side[0] >= 2 * side[3]:
+                    out.append(side)
+    elif shape == "stable":  # straight sides to 40, then a gentle taper
+        for rest in product(range(2, 8), repeat=4):
+            side = (7, 7, 7, 7, *rest)
+            if sum(side) == 50 and all(0 <= a - b <= 2 for a, b in zip(side[3:], side[4:])) and 2 * side[-1] >= 7:
+                out.append(side)
+    else:  # contracting: narrower towards the base, widest in middle age
+        for young in combinations(range(3, 12), 5):
+            for old in product(range(4, 12), repeat=3):
+                side = (*young, *old)
+                if (sum(side) == 50 and side[0] <= side[4] - 3
+                        and side[4] >= old[0] >= old[1] >= old[2]):
+                    out.append(side)
+    return tuple(out)
 
 
 def sample(rng: random.Random) -> dict:
     shape = rng.choice(sorted(SHAPES))
-    base = SHAPES[shape]
-    while True:
-        p = _noisy(rng, shape, base)
-        if _looks(shape, [m + f for m, f in zip(p["male"], p["female"])]):
-            return p
-
-
-def _noisy(rng: random.Random, shape: str, base: list[int]) -> dict:
-    male = [max(1, v + rng.choice([-1, 0, 0, 1])) for v in base]
-    female = [max(1, v + rng.choice([-1, 0, 0, 1])) for v in base]
-    # One population's percentages add to 100: take the noise's drift back out, a bar at a time.
-    sides = (male, female)
-    while (total := sum(male) + sum(female)) != 100:
-        side, i = rng.randrange(2), rng.randrange(len(base))
-        step = 1 if total < 100 else -1
-        if sides[side][i] + step >= 1:
-            sides[side][i] += step
-    return {"shape": shape, "male": male, "female": female}
+    sides = _sides(shape)
+    return {"shape": shape, "male": list(rng.choice(sides)), "female": list(rng.choice(sides))}
 
 
 def draw(p: dict):

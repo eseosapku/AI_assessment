@@ -67,11 +67,15 @@ def questions(p: dict, rng: random.Random) -> list:
     recessive = sum(1 for g in flat if g == p["letter"].lower() * 2)
     pct = f"{recessive * 25}%"
     allele = p["letter"]
-    note = f"{allele} is the allele for {p['dom']}; {allele.lower()} is the allele for {p['rec']}."
+    # "tall" and "short" describe the plant; the other traits name a part ("wrinkled seeds").
+    plain = " " not in p["rec"]
+    dom, rec = (f"{p['dom']} plants", f"{p['rec']} plants") if plain else (p["dom"], p["rec"])
+    note = f"{allele} is the allele for {dom}; {allele.lower()} is the allele for {rec}."
+    shows = f"be {p['rec']}" if plain else f"have {p['rec']}"
     return [
         # Chosen, not typed: the app's marker ignores letter case, so TT, Tt and tt would mark the same.
         mcq(f"{note} Which genotype goes in the box marked ?", cells[r][c],
             [g for g in (allele * 2, allele + allele.lower(), allele.lower() * 2) if g != cells[r][c]], rng),
-        mcq(f"{note} What percentage of the offspring are expected to have {p['rec']}?", pct,
+        mcq(f"{note} What percentage of the offspring are expected to {shows}?", pct,
             rng.sample([x for x in ["0%", "25%", "50%", "75%", "100%"] if x != pct], 3), rng),
     ]

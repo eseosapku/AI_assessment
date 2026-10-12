@@ -48,9 +48,11 @@ def questions(p: dict, rng: random.Random) -> list:
     count = p["angles"][i] * p["total"] // 360
     j = max(range(len(p["cats"])), key=lambda n: p["angles"][n])
     f = Fraction(p["angles"][j], 360)
+    x, y = sorted(rng.sample(range(len(p["cats"])), 2), key=lambda n: -p["angles"][n])
+    more = (p["angles"][x] - p["angles"][y]) * p["total"] // 360
     wrong = [frac(Fraction(p["angles"][n], 360)) for n in range(len(p["cats"])) if n != j] + [f"{p['angles'][j]}/100"]
     return [
         short(f"{p['total']} {p['unit']} were asked. How many chose {p['cats'][i]}?", count),
         mcq(f"What fraction of the {p['unit']} chose {p['cats'][j]}?", frac(f), wrong, rng),
-        short(f"What is the angle of the sector for {p['cats'][i]}, in degrees?", p["angles"][i], [f"{p['angles'][i]}°"]),
+        short(f"How many more {p['unit']} chose {p['cats'][x]} than chose {p['cats'][y]}?", more),
     ]

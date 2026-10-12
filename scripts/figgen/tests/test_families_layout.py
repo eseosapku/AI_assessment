@@ -11,8 +11,9 @@ import matplotlib.pyplot as plt
 import pytest
 from matplotlib.text import Text
 
-from figgen.families import (FAMILIES, angles, climate_graph, coordinates, cross_section, food_web, line_graph, notice,
-                             population_pyramid, punnett, scale_reading, scatter_graph, timeline, timetable, tree_diagram)
+from figgen.families import (FAMILIES, angles, break_even, climate_graph, coordinates, cross_section, food_web, line_graph, notice,
+                             pie_chart, population_pyramid, punnett, scale_reading, scatter_graph, supply_demand, timeline,
+                             timetable, tree_diagram)
 
 
 def drawn_texts(fig):
@@ -189,8 +190,13 @@ def test_angle_arcs_each_mark_one_angle():
         sizes = [a.width for a in fig.axes[0].patches if isinstance(a, Arc)]
         plt.close(fig)
         assert len(sizes) == len(p["parts"])
-        pairs = list(zip(sizes, sizes[1:])) + ([(sizes[-1], sizes[0])] if p["total"] == 360 else [])
-        assert all(x != y for x, y in pairs), f"seed {seed}: neighbouring arcs share a radius and join up"
+        assert len(set(sizes)) == len(sizes), f"seed {seed}: two arcs share a radius and can join up"
+        # A bigger angle never gets the smaller arc: the review read a 105 degree angle with the
+        # inner arc as the smaller of the two.
+        for i, a in enumerate(p["parts"]):
+            for j, b in enumerate(p["parts"]):
+                if a > b:
+                    assert sizes[i] > sizes[j], f"seed {seed}: {a} has a smaller arc than {b}"
 
 
 def test_climate_values_sit_on_gridlines_both_axes_share():
@@ -319,3 +325,56 @@ def test_fair_ways_of_writing_a_time_are_accepted():
         q = timetable.questions(p, rng)[0]
         hh, mm = q.answer.split(":")
         assert f"{int(hh)}.{mm}" in q.accepted and f"{int(hh)}:{mm}" in q.accepted, f"seed {seed}: {q.accepted}"
+
+
+# From the blind review (round three).
+
+def test_pyramid_each_side_shows_the_shape_on_its_own():
+    # Noise on each bar left most pyramids between two shapes; each side is now a clean profile.
+    for seed in range(1, 200):
+        p = population_pyramid.sample(random.Random(seed))
+        for side in (p["male"], p["female"]):
+            assert sum(side) == 50, f"seed {seed}"
+            if p["shape"] == "expanding":
+                assert all(a > b for a, b in zip(side[:6], side[1:6])), f"seed {seed}: {side}"
+                assert all(a >= b for a, b in zip(side[5:], side[6:])), f"seed {seed}: {side}"
+                assert side[0] >= 3 * side[4] and side[0] >= 2 * side[3], f"seed {seed}: {side}"
+            elif p["shape"] == "stable":
+                assert len(set(side[:4])) == 1, f"seed {seed}: {side}"
+                assert all(0 <= a - b <= 2 for a, b in zip(side[3:], side[4:])) and 2 * side[-1] >= side[0], f"seed {seed}: {side}"
+            else:
+                assert all(a < b for a, b in zip(side[:5], side[1:5])), f"seed {seed}: {side}"
+                assert all(a >= b for a, b in zip(side[4:], side[5:])) and side[0] <= side[4] - 3, f"seed {seed}: {side}"
+
+
+def test_break_even_profit_stays_on_the_chart_and_names_the_variable_cost():
+    for seed in range(1, 120):
+        rng = random.Random(seed)
+        p = break_even.sample(rng)
+        q = break_even.questions(p, rng)[2]
+        out = int(q.stem.split("output of ")[1].split(" ")[0])
+        assert out <= 2 * p["be"], f"seed {seed}: {out} units is off the chart"
+        assert "variable cost" in q.stem
+
+
+def test_pie_questions_need_working_not_a_printed_label():
+    for seed in range(1, 60):
+        rng = random.Random(seed)
+        qs = pie_chart.questions(pie_chart.sample(rng), rng)
+        assert not any("angle" in q.stem.lower() for q in qs)
+
+
+def test_punnett_questions_read_naturally():
+    for seed in range(1, 60):
+        rng = random.Random(seed)
+        for q in punnett.questions(punnett.sample(rng), rng):
+            assert "have short" not in q.stem and "have tall" not in q.stem and "for tall;" not in q.stem, q.stem
+
+
+def test_supply_changes_have_a_cause_that_fits_the_good():
+    for seed in range(1, 200):
+        rng = random.Random(seed)
+        p = supply_demand.sample(rng)
+        text = supply_demand.questions(p, rng)[2].stem
+        if p["good"] in ("cement", "school uniforms", "mobile phones"):
+            assert "harvest" not in text, f"seed {seed}: {text}"

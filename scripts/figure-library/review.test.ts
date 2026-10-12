@@ -5,7 +5,8 @@ import os from 'node:os'
 import path from 'node:path'
 import { openStore, type Store } from './store'
 import {
-  PASS_MARK, REVIEW_SIZE, agrees, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, reviewPrompt, saveVerdict,
+  PASS_MARK, REVIEW_SIZE, agrees, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt,
+  saveVerdict,
   type ReviewItem, type ReviewQuestion,
 } from './review'
 
@@ -105,6 +106,9 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('07:30'), '7:30')).toBe(true)
     expect(agrees(short('3.4'), '3.6')).toBe(false)
     expect(agrees(short('40'), '38')).toBe(false)
+    // A reviewer restating its answer in another form is one answer, not two.
+    expect(agrees(short('0.1'), '1/10 (0.1)')).toBe(true)
+    expect(agrees(short('0.1'), '0.1 or 0.2')).toBe(false)
   })
 
   it('compares words without case, a leading "the" or a full stop', () => {
@@ -159,6 +163,22 @@ describe('recording a verdict', () => {
     saveVerdict(db, { job: 'j', model: 'm', figureId: a, verdict: parseVerdict(good, item) })
     saveVerdict(db, { job: 'j', model: 'm', figureId: b, verdict: parseVerdict({ ...good, problems: ['the labels are small'] }, item) })
     expect(notedPasses(db, 'j')).toEqual([{ figureId: b, notes: 'the labels are small' }])
+  })
+})
+
+describe('regrading', () => {
+  it('recomputes stored verdicts under the current rules, sending nothing', () => {
+    // A verdict saved before agrees() read "1/10 (0.1)" as one answer is put right without paying again.
+    const db = store()
+    const id = addFigure(db, 'bar_chart', 1)
+    const old = parseVerdict(good, item)
+    const stale = { ...old, pass: false, questions: old.questions.map((q) => (q.n === 2 ? { ...q, ownAnswer: '40 (forty)', keyCorrect: false } : q)) }
+    saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: stale })
+    expect(db.prepare('SELECT status FROM figures WHERE id = ?').get(id)).toEqual({ status: 'rejected' })
+    expect(regrade(db, 'j')).toBe(1)
+    expect(db.prepare('SELECT pass FROM reviews').get()).toEqual({ pass: 1 })
+    expect(db.prepare('SELECT status FROM figures WHERE id = ?').get(id)).toEqual({ status: 'stored' })
+    expect(regrade(db, 'j')).toBe(0)
   })
 })
 

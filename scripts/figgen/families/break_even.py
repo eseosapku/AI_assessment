@@ -47,11 +47,12 @@ def draw(p: dict):
 
 
 def questions(p: dict, rng: random.Random) -> list:
-    q = rng.choice([100, 200, 300]) + p["be"]  # above break-even, so the answer is a profit
+    # Above break-even, so the answer is a profit, and on the chart, which ends at twice break-even.
+    q = p["be"] + rng.choice([d for d in (100, 200, 300) if d <= p["be"]])
     profit = (p["price"] - p["var"]) * q - p["fixed"]
     return [
         short("What are the fixed costs, in $?", p["fixed"], [f"${p['fixed']}"]),
         short("What is the break-even output, in units?", p["be"], [f"{p['be']} units"]),
-        short(f"Each unit sells for ${p['price']} and costs ${p['var']} to make. What profit is made at an output of {q} units, in $?",
+        short(f"Each unit sells for ${p['price']} and has a variable cost of ${p['var']}. What profit is made at an output of {q} units, in $?",
               profit, [f"${profit}"]),
     ]

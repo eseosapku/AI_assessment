@@ -37,12 +37,15 @@ def test_bar_chart():
 
 def test_pie_chart():
     for s in SEEDS:
-        p, (count, fraction, angle) = run(pie_chart, s)
+        p, (count, fraction, more) = run(pie_chart, s)
         assert sum(p["angles"]) == 360
         name = count.stem.split("chose ")[1].rstrip("?")
         i = p["cats"].index(name)
         assert int(count.answer) * 360 == p["angles"][i] * p["total"]
-        assert int(angle.answer) == p["angles"][i]
+        x = more.stem.split("chose ")[1].split(" than")[0]
+        y = more.stem.split("than chose ")[1].rstrip("?")
+        diff = p["angles"][p["cats"].index(x)] - p["angles"][p["cats"].index(y)]
+        assert int(more.answer) * 360 == diff * p["total"] and int(more.answer) > 0
         j = p["angles"].index(max(p["angles"]))
         assert Fraction(picked(fraction)) == Fraction(p["angles"][j], 360)
 

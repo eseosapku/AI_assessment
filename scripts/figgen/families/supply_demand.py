@@ -14,9 +14,18 @@ GOODS = ["maize", "rice", "cement", "school uniforms", "mobile phones", "coffee"
 CHANGES = {
     "demand_up": ("Incomes rise, so demand for {g} increases (D1 to D2).", "D"),
     "demand_down": ("A cheaper substitute appears, so demand for {g} falls (D1 to D2).", "D"),
-    "supply_up": ("A good harvest or new technology increases the supply of {g} (S1 to S2).", "S"),
+    "supply_up": ("{cause} increases the supply of {g} (S1 to S2).", "S"),
     "supply_down": ("A rise in production costs reduces the supply of {g} (S1 to S2).", "S"),
 }
+
+
+FARMED = {"maize", "rice", "coffee"}
+
+
+def _change(p: dict) -> str:
+    """What happened, in words that fit the good: a harvest for crops, technology for made goods."""
+    cause = "A good harvest" if p["good"] in FARMED else "New technology that lowers costs"
+    return CHANGES[p["change"]][0].format(g=p["good"], cause=cause)
 
 
 def sample(rng: random.Random) -> dict:
@@ -72,7 +81,7 @@ def draw(p: dict):
 
 
 def questions(p: dict, rng: random.Random) -> list:
-    text = CHANGES[p["change"]][0].format(g=p["good"])
+    text = _change(p)
     moved = "rises" if p["p2"] > p["pe"] else "falls"
     return [
         short("What is the equilibrium price before the change, in $?", p["pe"], [f"${p['pe']}", f"{p['pe']} dollars"]),

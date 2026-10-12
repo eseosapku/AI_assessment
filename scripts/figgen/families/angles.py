@@ -38,12 +38,12 @@ def draw(p: dict):
     for e in edges[:-1] if p["total"] == 360 else edges[1:-1]:
         r = math.radians(e)
         ax.plot([0, 1.1 * math.cos(r)], [0, 1.1 * math.sin(r)], color="#111111")
-    # Neighbouring arcs at different radii, so each visibly stops at its own two rays; with
-    # one radius they joined into a single semicircle and x could not be told apart.
-    cycle = 3 if p["total"] == 360 and len(p["parts"]) % 2 == 1 else 2
+    # Each angle its own radius, larger angles further out: arcs never join up, and a bigger
+    # angle never gets the smaller arc (the review read a 105 degree angle as the smaller one).
+    rank = {i: k for k, i in enumerate(sorted(range(len(p["parts"])), key=lambda i: (p["parts"][i], i)))}
     for i, a in enumerate(p["parts"]):
         mid = math.radians(edges[i] + a / 2)
-        r = (0.32, 0.46, 0.6)[i % cycle]
+        r = 0.28 + 0.1 * rank[i]
         ax.add_patch(Arc((0, 0), 2 * r, 2 * r, theta1=edges[i], theta2=edges[i + 1], color="#111111"))
         label = "x" if i == p["unknown"] else f"{a}\u00b0"
         ax.text((r + 0.16) * math.cos(mid), (r + 0.16) * math.sin(mid), label, ha="center", va="center", fontsize=12,
