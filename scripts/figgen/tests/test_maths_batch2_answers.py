@@ -121,8 +121,7 @@ def test_area_under_curve():
         x0, x1, y0, y1 = m.view(p)
         assert x0 <= a < b <= x1 and max(value(co, a + (b - a) * k / 200) for k in range(201)) <= y1
         assert picked(which) == f"∫ from {a} to {b} of ({p['equation']}) dx"
-        lo, hi = (int(v) for v in re.search(r"from (-?\d+) to (-?\d+)", part.stem).groups())
-        assert hi == lo + 1 and int(part.answer) == F(hi) - F(lo)
+        assert "right-hand edge" in part.stem and int(part.answer) == value(co, b) and value(co, b) <= y1  # on the drawing
 
 
 def test_limit_graph():
@@ -630,6 +629,7 @@ def test_a_number_of_a_thousand_or_more_accepts_its_comma(fid):
                 mt = re.fullmatch(r"(-?\d{4,})(\D*)", a)
                 if mt:
                     assert f"{int(mt.group(1)):,}{mt.group(2)}" in q.accepted, (fid, s, a, q.accepted)
+                    assert f"{int(mt.group(1)):,}".replace(",", " ") + mt.group(2) in q.accepted, (fid, s, a, q.accepted)
 
 
 @pytest.mark.parametrize("fid", NEW)
@@ -740,3 +740,94 @@ def test_more_figures_where_they_were_few():
 def test_cubic_sketching_chapters_keep_stationary_points():
     avoid = fam("stationary_points").AVOID
     assert not re.search(avoid, "Chapter 5: Solving equations of the type |ax - b| = c", re.I)
+
+
+
+# --- The P3d blind review's triage --------------------------------------------------------------
+
+def _region(text):
+    """"-1 < x < 2", "x < -1 or x > 2", "x < 3", "x > -2" as a test on x."""
+    if m := re.fullmatch(r"(-?\d+) < x < (-?\d+)", text):
+        lo, hi = map(int, m.groups())
+        return lambda x: lo < x < hi
+    if m := re.fullmatch(r"x < (-?\d+) or x > (-?\d+)", text):
+        lo, hi = map(int, m.groups())
+        return lambda x: x < lo or x > hi
+    if m := re.fullmatch(r"x ([<>]) (-?\d+)", text):
+        op, t = m.group(1), int(m.group(2))
+        return (lambda x: x < t) if op == "<" else (lambda x: x > t)
+    raise AssertionError(text)
+
+
+def test_a_wrong_gradient_region_is_false_somewhere():
+    """'x > 2' when the gradient is negative for x > -2 is also true (P3d review): every wrong option must
+    name somewhere the gradient is not negative."""
+    m = fam("stationary_points")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        co, neg = p["coeffs"], qs[1]
+        xs = [i / 4 for i in range(-60, 61)]
+        for i, o in enumerate(neg.options):
+            inside = [x for x in xs if _region(o)(x)]
+            if i == int(neg.answer):
+                assert all(slope(co, x) < 0 for x in inside), (s, o)
+            else:
+                assert any(slope(co, x) >= 0 for x in inside), (s, o, neg.options)
+
+
+def test_a_tangent_letter_sits_by_its_own_point():
+    """Q's letter sat beside the curve, away from its dot (P3d review)."""
+    import matplotlib.pyplot as plt
+    m = fam("tangent_gradient")
+    for s in range(1, 201):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        labels = {t.get_text(): t.get_position() for t in ax.texts if t.get_text() in ("P", "Q")}
+        plt.close(fig)
+        co = p["coeffs"]
+        curve_pts = [(x / 20, value(co, x / 20)) for x in range(-200, 201)]
+        qx, qy = labels["Q"]
+        dq = ((qx - p["Q"][0]) ** 2 + (qy - p["Q"][1]) ** 2) ** 0.5
+        dc = min(((qx - x) ** 2 + (qy - y) ** 2) ** 0.5 for x, y in curve_pts)
+        assert dq < dc, (s, p, labels["Q"])
+
+
+def test_equal_parts_show_the_part_in_every_part():
+    """One number in one of nine cells read as the whole or the part (P3d review)."""
+    import matplotlib.pyplot as plt
+    m = fam("bar_model")
+    for s in SEEDS:
+        p, (missing, _) = run(m, s)
+        if p["kind"] != "equal":
+            continue
+        assert "shared equally" not in missing.stem
+        if p["hole"] == 0:
+            fig = m.draw(p)
+            shown = [t.get_text() for t in fig.axes[0].texts]
+            plt.close(fig)
+            assert shown.count(f"{p['numbers'][2]:,}") == p["numbers"][1], (s, shown)
+
+
+def test_a_coin_says_it_is_francs():
+    import matplotlib.pyplot as plt
+    m = fam("money")
+    for s in range(1, 121):
+        p = m.sample(random.Random(s))
+        if p["kind"] != "purse":
+            continue
+        fig = m.draw(p)
+        texts = [t.get_text() for t in fig.axes[0].texts][1:]
+        plt.close(fig)
+        assert all("Frw" in t for t in texts), (s, texts)
+
+
+def test_the_shading_never_hides_the_axis_numbers():
+    import matplotlib.pyplot as plt
+    m = fam("area_under_curve")
+    for s in range(1, 21):
+        fig = m.draw(m.sample(random.Random(s)))
+        ax = fig.axes[0]
+        fills = [c for c in ax.collections]
+        assert fills and all(c.get_zorder() < ax.yaxis.get_zorder() for c in fills), s
+        plt.close(fig)

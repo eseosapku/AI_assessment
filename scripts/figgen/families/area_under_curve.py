@@ -56,7 +56,8 @@ def draw(p: dict):
     fig, ax = new_figure(5.8, 5.4)
     function_axes(ax, x0, x1, y0, y1, ystep=1 if y1 - y0 <= 14 else 2)
     xs = [a + (b - a) * k / 200 for k in range(201)]
-    ax.fill_between(xs, 0, [value(co, x) for x in xs], color=FILL_2, linewidth=0)
+    # Under the axes, so the shading never hides the y-axis numbers where it crosses them.
+    ax.fill_between(xs, 0, [value(co, x) for x in xs], color=FILL_2, linewidth=0, zorder=0.2)
     for x in (a, b):
         ax.plot([x, x], [0, value(co, x)], color=INK, linewidth=1.1)
     curve(ax, lambda x: value(co, x), x0 - 0.5, x1 + 0.5, y0 - 0.5, y1 + 0.5)
@@ -69,13 +70,14 @@ def questions(p: dict, rng: random.Random) -> list:
     F = antiderivative(co)
     integral = lambda lo, hi: int(value(F, Fraction(hi)) - value(F, Fraction(lo)))  # noqa: E731
     area = integral(a, b)
-    shaded = short(f"{p['name']} shaded part of the region under y = {eq}. Calculate the area of the shaded region.", area,
+    shaded = short(f"{p['name']} shaded a region under the curve y = {eq}. Calculate the area of the shaded region.", area,
                    [f"{area} units²", f"{area} units2", f"{area} square units"])
     form = lambda lo, hi, f: f"∫ from {lo} to {hi} of ({f}) dx"  # noqa: E731
     # The antiderivative in place of the curve: its coefficients are whole numbers by construction.
     # The limits' order and the curve (or its antiderivative): each wrong in two of the four options.
     Feq = poly([int(c) for c in F])
     which = mcq("Which integral gives the shaded area?", form(a, b, eq), [form(b, a, eq), form(a, b, Feq), form(b, a, Feq)], rng)
-    lo = rng.choice([a - 1, b])
-    part = short(f"Using the curve drawn, what is the value of ∫ from {lo} to {lo + 1} of y dx?", integral(lo, lo + 1))
+    # Read on the drawing: the height of the shaded region where it ends (every part of it is drawn).
+    h = int(value(co, b))
+    part = short("How high is the right-hand edge of the shaded region?", h, [f"y = {h}", f"{h} units"])
     return [shaded, which, part]

@@ -81,8 +81,10 @@ def draw(p: dict):
     else:
         whole, n, each = nums
         _bar(ax, 0, 1.4, W, 1.0, shown[0], FILL_2)
+        # Every part shows its number (or the first its "?"): one number in one of nine parts read as
+        # either the whole or a part.
         for j in range(n):
-            _bar(ax, j * W / n, 0.2, W / n, 1.0, shown[2] if j == 0 else "", "white")
+            _bar(ax, j * W / n, 0.2, W / n, 1.0, shown[2] if j == 0 or hole != 2 else "", "white")
     ax.set_xlim(-0.1, W + 0.1)
     ax.set_ylim(0, 2.6)
     ax.axis("off")
@@ -92,7 +94,7 @@ def draw(p: dict):
 def questions(p: dict, rng: random.Random) -> list:
     kind, nums, hole, thing, name = p["kind"], p["numbers"], p["hole"], p["thing"], p["name"]
     shown = {"part_whole": f"{name}'s {thing} in {len(nums) - 1} groups", "compare": f"how {name}'s two piles of {thing} compare",
-             "equal": f"{name}'s {thing} shared equally"}[kind]
+             "equal": f"{name}'s {thing} in {nums[1]} equal groups"}[kind]
     missing = short(f"The bar model shows {shown}. What is the missing number?", nums[hole], [f"{nums[hole]} {thing}"])
     # Every sentence, right or wrong, is built from the numbers the model shows: a wrong one that printed
     # the hidden number would give the answer away.

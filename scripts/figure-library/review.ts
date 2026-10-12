@@ -84,7 +84,9 @@ const NUMBER = /(?<![\d.])-?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*\/\s*\d+(?:\.\d+)?)?/g
 
 /** Every number in an answer, a fraction as its value: "9/25", "18/50" and "0.36" are one answer. */
 function numbersIn(text: string): number[] {
-  return (text.replace(/[\u2212\u2013\u2014]/g, '-').match(NUMBER) ?? []).map((t) => {
+  // "1,500" and "12 800" are one number: a comma or space before exactly three digits separates thousands.
+  const joined = text.replace(/[\u2212\u2013\u2014]/g, '-').replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1')
+  return (joined.match(NUMBER) ?? []).map((t) => {
     const [a, b] = t.split('/').map((x) => Number(x.trim()))
     return b === undefined ? a : a / b
   })
@@ -118,7 +120,9 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   }
   const expected = numbersIn(q.answer)
   if (expected.length) {
-    const mine = numbersIn(text)
+    // "17/3 ≈ 5.67": the exact answer, then the same answer roughly; only the exact part is compared.
+    const exact = text.includes('≈') ? text.split('≈')[0].trim() || text : text
+    const mine = numbersIn(exact)
     const same = (a: number, b: number) => Math.abs(a - b) < 1e-9
     const near = (a: number) => Math.abs(a - expected[0]) <= (q.tolerance ?? 0) + 1e-9
     const reached = expected.length === 1

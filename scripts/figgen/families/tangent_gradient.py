@@ -43,7 +43,8 @@ def sample(rng: random.Random) -> dict:
         g, yp = slope(co, xp), value(co, xp)
         if g == 0 or abs(g) > 6 or abs(yp) > 8:
             continue
-        steps = [d for d in (-3, -2, 2, 3) if abs(yp + g * d) <= 10]
+        # Q on the tangent but off the curve (a cubic's tangent meets it again), so Q is plainly the line's.
+        steps = [d for d in (-3, -2, 2, 3) if abs(yp + g * d) <= 10 and abs(value(co, xp + d) - (yp + g * d)) >= 1]
         if not steps:
             continue
         d = rng.choice(steps)
@@ -64,11 +65,17 @@ def draw(p: dict):
     curve(ax, lambda x: value(co, x), lo, hi, y0 - 0.5, y1 + 0.5)
     g = slope(co, xp)
     infinite(ax.plot([lo, hi], [yp + g * (lo - xp), yp + g * (hi - xp)], color=INK, linewidth=1.3, linestyle=(0, (6, 3))))
-    for (x, y), name in (((xp, yp), "P"), ((xq, yq), "Q")):
+    # Each letter beside its own dot, where it is furthest from the curve, the tangent, the other dot and
+    # the axes (whose numbers sit along them).
+    xs = [lo + (hi - lo) * i / 400 for i in range(401)]
+    avoid = [(x, value(co, x)) for x in xs if y0 - 1 <= value(co, x) <= y1 + 1]
+    avoid += [(x, yp + g * (x - xp)) for x in xs] + [(x, 0) for x in xs] + [(0, y / 4) for y in range(4 * (y0 - 1), 4 * (y1 + 1))]
+    for (x, y), name, other in (((xp, yp), "P", (xq, yq)), ((xq, yq), "Q", (xp, yp))):
         ax.plot([x], [y], marker="o", markersize=6, color=INK, linestyle="none", zorder=5)
-        # The letter on the side away from the line's slope, so it never sits on the curve or line.
-        dx = -0.45 if g > 0 else 0.45
-        ax.text(x + dx, y + 0.45, name, fontsize=12, fontweight="bold", ha="center", va="center")
+        spots = [(x + 0.55 * c, y + 0.55 * s) for c, s in ((1, 0), (0.7, 0.7), (0, 1), (-0.7, 0.7), (-1, 0), (-0.7, -0.7), (0, -1), (0.7, -0.7))]
+        clear = lambda sp: min(((sp[0] - u) ** 2 + (sp[1] - v) ** 2) ** 0.5 for u, v in avoid + [other])  # noqa: E731
+        sx, sy = max(spots, key=clear)
+        ax.text(sx, sy, name, fontsize=12, fontweight="bold", ha="center", va="center")
     ax.set_title(f"y = {poly(co)}", fontsize=12)
     return fig
 

@@ -123,11 +123,17 @@ def short(stem: str, answer, accepted=(), explanation: str = "", tolerance: floa
         m = re.fullmatch(r"(-?\d+)\.0(\D*)", f)
         if m and m.group(1) + m.group(2) not in forms:
             forms.append(m.group(1) + m.group(2))
+    # "55kg" for "55 kg": students drop the space before a unit symbol.
+    for f in list(forms):
+        m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|mg|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C|m/s|m/s²|m/s2|Frw|RWF|units²|units2)", f)
+        if m:
+            _add(forms, m.group(1) + m.group(2))
     # "1,500" for 1500: a number of a thousand or more, as the figure itself may print it.
     for f in list(forms):
         m = re.fullmatch(r"(-?)(\d{4,})(\D*)", f)
         if m:
             _add(forms, f"{m.group(1)}{int(m.group(2)):,}{m.group(3)}")
+            _add(forms, f"{m.group(1)}{int(m.group(2)):,}".replace(",", " ") + m.group(3))  # "12 800", as many write it
     # "0.234" for 0.234375: three significant figures of a long decimal.
     for f in list(forms):
         if re.fullmatch(r"-?\d*\.\d{4,}", f):
@@ -137,11 +143,6 @@ def short(stem: str, answer, accepted=(), explanation: str = "", tolerance: floa
         m = re.fullmatch(r"(-?)0(\.\d+)(\D*)", f)
         if m:
             _add(forms, m.group(1) + m.group(2) + m.group(3))
-    # "55kg" for "55 kg": students drop the space before a unit symbol.
-    for f in list(forms):
-        m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|mg|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C|m/s|m/s²|m/s2|Frw|RWF|units²|units2)", f)
-        if m:
-            _add(forms, m.group(1) + m.group(2))
     return Question("short", one(stem), canonical, [], forms, explanation, tolerance)
 
 

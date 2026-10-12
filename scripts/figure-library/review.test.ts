@@ -153,6 +153,22 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('8', ['8', '8 cm', '80 mm']), '80 mm')).toBe(true)
   })
 
+  it('reads a thousands separator as part of the number, comma or space', () => {
+    // "12 800 m²" is one number to a student and to the marker (P3d review), and so is "1,500 Frw".
+    expect(agrees(short('12800'), '12 800 m²')).toBe(true)
+    expect(agrees(short('1500'), '1,500 Frw')).toBe(true)
+    expect(agrees(short('1500'), '1,600 Frw')).toBe(false)
+    expect(agrees(short('(3, 4)'), '(3, 4)')).toBe(true)
+    expect(agrees(short('3'), '3, 4')).toBe(false)
+  })
+
+  it('reads an approximation after the exact answer as the same answer restated', () => {
+    // "17/3 ≈ 5.67" gives one answer, exactly and then roughly (P3d review).
+    expect(agrees(short('17/3'), '17/3 ≈ 5.67')).toBe(true)
+    expect(agrees(short('15/64'), '15/64 ≈ 0.234')).toBe(true)
+    expect(agrees(short('17/3'), '16/3 ≈ 5.33')).toBe(false)
+  })
+
   it('reads a decimal without its leading zero, and a hyphen between numbers as a range', () => {
     expect(agrees(short('0.7', ['0.7', '.7']), '7')).toBe(false)
     expect(agrees(short('0.7', ['0.7', '.7']), '.7')).toBe(true)

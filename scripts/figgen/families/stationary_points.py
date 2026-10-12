@@ -83,16 +83,20 @@ def questions(p: dict, rng: random.Random) -> list:
                       [_pt(bx, by), _pt(tx, by), _pt(bx, ty)], rng))  # each coordinate wrong in two of four
         between, outside = f"{xa} < x < {xb}", f"x < {xa} or x > {xb}"
         right = between if lead > 0 else outside
-        qs.append(mcq("For which values of x is the gradient of the curve negative?", right,
-                      [outside if right == between else between, f"x < {xa}", f"x > {xb}"], rng))
+        # Every wrong region takes in somewhere the gradient is not negative: "x < A" is part of the
+        # answer when the curve falls outside its turning points, so it is never offered then.
+        wrong = [outside, f"x < {xa}", f"x > {xb}"] if lead > 0 else [between, f"x > {xa}", f"x < {xb}"]
+        qs.append(mcq("For which values of x is the gradient of the curve negative?", right, wrong, rng))
         lo, hi = min(ya, yb), max(ya, yb)
     else:
         (h, k), = pts
         qs.append(mcq(f"{p['name']} drew the graph of y = {eq}. What are the coordinates of its turning point?", _pt(h, k),
                       [_pt(-h, k), _pt(h, -k), _pt(-h, -k)], rng))  # each sign wrong in two of four
         right = f"x < {h}" if lead > 0 else f"x > {h}"
-        qs.append(mcq("For which values of x is the gradient of the curve negative?", right,
-                      [f"x > {h}" if lead > 0 else f"x < {h}", f"x < {k}" if k != h else f"x < {h + 1}", f"x > {-h}" if h else f"x > {h + 1}"], rng))
+        # Wrong regions that take in where the gradient is positive: "x > 2" when it is negative for
+        # x > -2 would be true as well.
+        wrong = [f"x > {h}", f"x > {h - 2}", f"x < {h + 2}"] if lead > 0 else [f"x < {h}", f"x < {h + 2}", f"x > {h - 2}"]
+        qs.append(mcq("For which values of x is the gradient of the curve negative?", right, wrong, rng))
         lo = hi = k
     x0, x1, y0, y1 = view(p)
     ks = [v for v in range(y0, y1 + 1) if v not in (lo, hi)]

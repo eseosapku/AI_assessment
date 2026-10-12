@@ -97,7 +97,7 @@ def draw(p: dict):
         else:
             for j, v in enumerate(row):
                 ax.add_patch(Circle((1.1 + 1.7 * j, y - 0.85), 0.7, facecolor="white", edgecolor=INK, linewidth=1.4))
-                ax.text(1.1 + 1.7 * j, y - 0.85, f"{v}", ha="center", va="center", fontsize=11, fontweight="bold")
+                ax.text(1.1 + 1.7 * j, y - 0.85, f"{v}\nFrw", ha="center", va="center", fontsize=10, fontweight="bold", linespacing=0.95)
             y -= 1.9
     ax.set_xlim(0, width)
     ax.set_ylim(0, height)
