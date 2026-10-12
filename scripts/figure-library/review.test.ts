@@ -5,7 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { openStore, type Store } from './store'
 import {
-  PASS_MARK, REVIEW_SIZE, agrees, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt,
+  PASS_MARK, REVIEW_SIZE, agrees, cleanRate, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt,
   saveVerdict,
   type ReviewItem, type ReviewQuestion,
 } from './review'
@@ -200,6 +200,41 @@ describe('family scores', () => {
       { family: 'c', reviewed: 20, passed: 20, passes: false },
     ])
     expect([REVIEW_SIZE, PASS_MARK]).toEqual([30, 27])
+  })
+})
+
+describe('real images, one writer at a time', () => {
+  function realStore(): Store {
+    const db = store()
+    db.prepare(`INSERT INTO figures (id, origin, kind, subject, band, asset, preview, spec, status, created_at)
+      VALUES ('wikimedia/9', 'wikimedia', 'photo.micrograph', 'biology', 'UP', 'assets/wikimedia/9.webp', 'assets/wikimedia/9-512.jpg', '{}', 'screened', 'now')`).run()
+    for (const [id, n, model, answer] of [['wikimedia/9#haiku#1', 1, 'haiku-model', '0'], ['wikimedia/9#sonnet#1', 1, 'sonnet-model', '1']] as const) {
+      db.prepare(`INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, options, answer, accepted, model)
+        VALUES (?, 'wikimedia/9', ?, 'UP', 'mcq', 'What is it?', '["Nucleus","Vacuole","Wall","Membrane"]', ?, '[]', ?)`).run(id, n, answer, model)
+    }
+    return db
+  }
+
+  it("reviews one writer's questions at a time, without rejecting the image", () => {
+    const db = realStore()
+    const [h] = itemsToReview(db, { job: 'h', size: 30, figureIds: ['wikimedia/9'], writer: 'haiku-model' })
+    expect(h.preview).toBe('assets/wikimedia/9.webp')  // the full image, not the 512 px copy
+    expect(h.questions.map((q) => q.answer)).toEqual(['0'])
+    const [s] = itemsToReview(db, { job: 's', size: 30, figureIds: ['wikimedia/9'], writer: 'sonnet-model' })
+    expect(s.questions.map((q) => q.answer)).toEqual(['1'])
+    const failed = parseVerdict({ questions: [{ n: 1, own_answer: 'B', answerable: true, single_answer: true }], figure_clear: true, educational: true }, h)
+    saveVerdict(db, { job: 'h', model: 'm', figureId: 'wikimedia/9', verdict: failed, mark: false })
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/9'").get()).toEqual({ status: 'screened' })
+    expect(itemsToReview(db, { job: 'h', size: 30, figureIds: ['wikimedia/9'], writer: 'haiku-model' })).toEqual([])
+    expect(itemsToReview(db, { job: 'x', size: 30, figureIds: ['wikimedia/9'], writer: 'nobody' })).toEqual([])
+  })
+
+  it('counts clean questions, the measure the writers are compared on', () => {
+    const db = realStore()
+    const [s] = itemsToReview(db, { job: 's', size: 30, figureIds: ['wikimedia/9'], writer: 'sonnet-model' })
+    saveVerdict(db, { job: 's', model: 'm', figureId: 'wikimedia/9', verdict: parseVerdict({ questions: [{ n: 1, own_answer: 'B', answerable: true, single_answer: true }], figure_clear: true, educational: true }, s), mark: false })
+    expect(cleanRate(db, 's')).toEqual({ figures: 1, questions: 1, clean: 1, rate: 1 })
+    expect(cleanRate(db, 'none')).toEqual({ figures: 0, questions: 0, clean: 0, rate: 0 })
   })
 })
 

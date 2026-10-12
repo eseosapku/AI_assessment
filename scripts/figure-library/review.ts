@@ -148,25 +148,38 @@ export function parseVerdict(raw: unknown, item: ReviewItem): Verdict {
 }
 
 /**
- * Up to `size` figures from each family, earliest seeds first, leaving out
- * any this job has already reviewed, so a stopped run carries on without
- * paying twice. Rejected figures stay in the sample: they count against the
- * family.
+ * Figures to review in a job, leaving out any already reviewed, so a stopped run carries on
+ * without paying twice. Drawn families: up to `size` per family, earliest seeds first,
+ * rejected ones included. Given `figureIds` (real images): those figures, with the full
+ * image and only the questions `writer` wrote; one with none from that writer is left out.
  */
-export function itemsToReview(db: Store, o: { job: string; size: number; families?: readonly string[] }): ReviewItem[] {
+export function itemsToReview(db: Store, o: { job: string; size: number; families?: readonly string[]; figureIds?: readonly string[]; writer?: string }): ReviewItem[] {
+  const reviewed = db.prepare('SELECT 1 FROM reviews WHERE job = ? AND figure_id = ?')
+  const questionsOf = db.prepare(`SELECT n, kind, stem, options, answer, accepted FROM figure_questions
+    WHERE figure_id = ? AND (? IS NULL OR model = ?) ORDER BY n`)
+  const toItem = (f: { id: string; family: string; subject: string; band: string; preview: string | null }): ReviewItem => ({
+    figureId: f.id, family: f.family, subject: f.subject, band: f.band, preview: f.preview ?? '',
+    questions: (questionsOf.all(f.id, o.writer ?? null, o.writer ?? null) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string }[])
+      .map((q) => ({ n: q.n, kind: q.kind, stem: q.stem, options: readJson<string[]>(q.options, []), answer: q.answer, accepted: readJson<string[]>(q.accepted, []) })),
+  })
+  if (o.figureIds) {
+    const pick = db.prepare(`SELECT id, COALESCE(family, origin) AS family, subject, band,
+      CASE WHEN origin = 'drawn' THEN preview ELSE asset END AS preview FROM figures WHERE id = ?`)
+    return o.figureIds.flatMap((id) => {
+      const f = pick.get(id) as { id: string; family: string; subject: string; band: string; preview: string | null } | undefined
+      if (!f || reviewed.get(o.job, id)) return []
+      const item = toItem(f)
+      return item.questions.length ? [item] : []
+    })
+  }
   const families = o.families?.length
     ? o.families
     : (db.prepare("SELECT DISTINCT family FROM figures WHERE origin = 'drawn' ORDER BY family").all() as { family: string }[]).map((r) => r.family)
   const pick = db.prepare("SELECT id, family, subject, band, preview FROM figures WHERE origin = 'drawn' AND family = ? ORDER BY seed LIMIT ?")
-  const reviewed = db.prepare('SELECT 1 FROM reviews WHERE job = ? AND figure_id = ?')
-  const questionsOf = db.prepare('SELECT n, kind, stem, options, answer, accepted FROM figure_questions WHERE figure_id = ? ORDER BY n')
   const items: ReviewItem[] = []
   for (const family of families) {
     for (const f of pick.all(family, o.size) as { id: string; family: string; subject: string; band: string; preview: string | null }[]) {
-      if (reviewed.get(o.job, f.id)) continue
-      const questions = (questionsOf.all(f.id) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string }[])
-        .map((q) => ({ n: q.n, kind: q.kind, stem: q.stem, options: readJson<string[]>(q.options, []), answer: q.answer, accepted: readJson<string[]>(q.accepted, []) }))
-      items.push({ figureId: f.id, family: f.family, subject: f.subject, band: f.band, preview: f.preview ?? '', questions })
+      if (!reviewed.get(o.job, f.id)) items.push(toItem(f))
     }
   }
   return items
@@ -192,16 +205,19 @@ function reasonFor(v: Verdict): string {
 }
 
 /** Records one verdict, replacing any earlier one for this job. A failed figure is rejected, with the reasons. */
-export function saveVerdict(db: Store, o: { job: string; model: string; figureId: string; verdict: Verdict }): void {
+export function saveVerdict(db: Store, o: { job: string; model: string; figureId: string; verdict: Verdict; mark?: boolean }): void {
   db.exec('BEGIN')
   try {
     db.prepare(`INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES (?, ?, ?, ?, ?, ?)
       ON CONFLICT(job, figure_id) DO UPDATE SET model = excluded.model, pass = excluded.pass, detail = excluded.detail, at = excluded.at`)
       .run(o.job, o.figureId, o.model, o.verdict.pass ? 1 : 0, JSON.stringify(o.verdict), new Date().toISOString())
-    if (o.verdict.pass) {
-      db.prepare("UPDATE figures SET status = 'stored', reason = NULL WHERE id = ? AND status = 'rejected'").run(o.figureId)
-    } else {
-      db.prepare("UPDATE figures SET status = 'rejected', reason = ? WHERE id = ?").run(reasonFor(o.verdict), o.figureId)
+    // A comparison of writers judges questions, not the image: it leaves the figure's status alone.
+    if (o.mark !== false) {
+      if (o.verdict.pass) {
+        db.prepare("UPDATE figures SET status = 'stored', reason = NULL WHERE id = ? AND status = 'rejected'").run(o.figureId)
+      } else {
+        db.prepare("UPDATE figures SET status = 'rejected', reason = ? WHERE id = ?").run(reasonFor(o.verdict), o.figureId)
+      }
     }
     db.exec('COMMIT')
   } catch (err) {
@@ -215,15 +231,15 @@ export function saveVerdict(db: Store, o: { job: string; model: string; figureId
  * (after agrees() learns another fair way of writing an answer). Nothing is sent or paid
  * for. Returns how many verdicts changed.
  */
-export function regrade(db: Store, job: string): number {
+export function regrade(db: Store, job: string, writer?: string): number {
   const rows = db.prepare('SELECT figure_id AS id, model, detail FROM reviews WHERE job = ? ORDER BY figure_id')
     .all(job) as { id: string; model: string; detail: string }[]
-  const questionsOf = db.prepare('SELECT n, kind, stem, options, answer, accepted FROM figure_questions WHERE figure_id = ?')
+  const questionsOf = db.prepare('SELECT n, kind, stem, options, answer, accepted FROM figure_questions WHERE figure_id = ? AND (? IS NULL OR model = ?)')
   let changed = 0
   for (const r of rows) {
     const v = readJson<Verdict | null>(r.detail, null)
     if (!v?.questions) continue
-    const qs = (questionsOf.all(r.id) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string }[])
+    const qs = (questionsOf.all(r.id, writer ?? null, writer ?? null) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string }[])
       .map((q) => ({ ...q, options: readJson<string[]>(q.options, []), accepted: readJson<string[]>(q.accepted, []) }))
     const questions = v.questions.map((q) => {
       const asked = qs.find((x) => x.n === q.n)
@@ -276,4 +292,19 @@ export function previewImage(lib: string, item: Pick<ReviewItem, 'preview'>): Im
   const mediaType = IMAGE_TYPES[path.extname(file).toLowerCase()]
   if (!mediaType || !fs.existsSync(file)) return null
   return { mediaType, data: fs.readFileSync(file).toString('base64') }
+}
+
+/** Questions in a job that pass on every count: the measure two writers are compared on (spec 5.5). */
+export function cleanRate(db: Store, job: string): { figures: number; questions: number; clean: number; rate: number } {
+  const rows = db.prepare('SELECT detail FROM reviews WHERE job = ?').all(job) as { detail: string }[]
+  let questions = 0
+  let clean = 0
+  for (const r of rows) {
+    const v = readJson<Partial<Verdict>>(r.detail, {})
+    for (const q of v.questions ?? []) {
+      questions++
+      if (v.figureClear && v.educational && q.keyCorrect && q.answerable && q.singleAnswer) clean++
+    }
+  }
+  return { figures: rows.length, questions, clean, rate: questions ? clean / questions : 0 }
 }
