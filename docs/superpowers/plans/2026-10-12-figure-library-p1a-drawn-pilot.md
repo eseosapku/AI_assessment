@@ -1444,7 +1444,7 @@ def setup(tmp_path):
                    topics=["db:410"], seed=seed, spec={"s": seed}, asset=f"assets/{fid}.svg",
                    preview=f"assets/{fid}.png", width=10, height=10,
                    questions=[Question("mcq", f"Which is <b>largest</b> in chart {seed}?", "2", ["Maize", "Beans", "Rice & peas"], []),
-                              Question("short", "How many in total?", "40", ["40", "40 people"])])
+                              Question("short", "How many in total?", "40", [], ["40", "40 people"])])
     db.execute("UPDATE figures SET status = 'rejected', reason = 'Q1: two bars equal' WHERE id = 'drawn/bar_chart/2'")
     db.execute("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES "
                "('p1a-review', 'drawn/bar_chart/1', 'm', 1, '{}', 'now'), ('p1a-review', 'drawn/bar_chart/2', 'm', 0, '{}', 'now')")
