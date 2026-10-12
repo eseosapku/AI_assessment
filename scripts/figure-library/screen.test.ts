@@ -1,7 +1,7 @@
 // scripts/figure-library/screen.test.ts
 import { describe, it, expect } from 'vitest'
 import { openStore, type Store } from './store'
-import { parseScreen, resetScreens, saveScreen, screenPrompt, toScreen, type ScreenItem } from './screen'
+import { parseScreen, regradeScreens, resetScreens, saveScreen, screenPrompt, toScreen, type ScreenItem } from './screen'
 
 const item: ScreenItem = {
   figureId: 'wikimedia/1', subject: 'biology', band: 'UP', topic: 'Cells', title: 'File:Onion cells.jpg',
@@ -91,5 +91,30 @@ describe('screening again', () => {
     expect(toScreen(db).map((i) => i.figureId)).toEqual(['wikimedia/1', 'wikimedia/2'])
     expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'candidate', reason: null })
     expect(db.prepare("SELECT status FROM figures WHERE id = 'drawn/x/1'").get()).toEqual({ status: 'rejected' })
+  })
+})
+
+describe('distant examples', () => {
+  // The screener rejected a bee showing insect features and a dissected flower showing its
+  // parts as "unfamiliar": what an organism or object shows is the same anywhere. Only a
+  // place or a case, in geography or history, is held to the learners' world.
+  it('count only against places and cases, in geography and history', () => {
+    const distant = { ...good, unfamiliar_example: true }
+    expect(parseScreen(distant, 'biology').keep).toBe(true)
+    expect(parseScreen(distant, 'chemistry').keep).toBe(true)
+    expect(parseScreen(distant, 'geography').reasons).toEqual(['an unfamiliar example'])
+    expect(parseScreen(distant, 'history').keep).toBe(false)
+    expect(parseScreen(distant).keep).toBe(false)
+  })
+
+  it('are regraded from the stored judgements, without screening again', () => {
+    const db = store()
+    saveScreen(db, { figureId: 'wikimedia/1', model: 'm', screening: parseScreen({ ...good, unfamiliar_example: true }), detail: { ...good, unfamiliar_example: true } })
+    saveScreen(db, { figureId: 'wikimedia/2', model: 'm', screening: parseScreen({ ...good, clear: false }), detail: { ...good, clear: false } })
+    expect(regradeScreens(db)).toBe(1)
+    expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/1'").get()).toEqual({ status: 'screened', reason: null })
+    expect(db.prepare("SELECT keep FROM screenings WHERE figure_id = 'wikimedia/1'").get()).toEqual({ keep: 1 })
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'rejected' })
+    expect(regradeScreens(db)).toBe(0)
   })
 })

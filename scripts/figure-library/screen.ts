@@ -27,6 +27,12 @@ const CHECKS: [string, boolean, string][] = [
   ['decorative', false, 'decorative'],
 ]
 const TYPES = ['diagram', 'photo', 'micrograph', 'map']
+/**
+ * Subjects where a distant place or case is held against an image. Elsewhere what an organism,
+ * object or cell shows is the same anywhere: the screener rejected a bee showing insect features
+ * and a dissected flower as "unfamiliar" until this rule.
+ */
+const PLACE_SUBJECTS = new Set(['geography', 'history', 'social-studies'])
 
 export function screenPrompt(item: ScreenItem): string {
   // No example values: Nova Lite copied a filled-in example reply word for word. The screener
@@ -45,7 +51,7 @@ export function screenPrompt(item: ScreenItem): string {
     '- in_syllabus: it shows something these syllabus points teach, at this level.',
     '- clear: sharp and well lit, with the thing that matters large enough to see.',
     '- beyond_level: a figure from a research paper (often several labelled panels), specialist or medical detail, or anything beyond what these learners study.',
-    '- unfamiliar_example: a particular place, landscape or case from far away that the syllabus does not name, where a diagram or an example from Rwanda or East Africa would teach the same thing.',
+    '- unfamiliar_example: a particular place, landscape or case from far away that the syllabus does not name, where a diagram or an example from Rwanda or East Africa would teach the same thing. An organism, object, cell or piece of apparatus is never an unfamiliar example: what it shows is the same anywhere.',
     '- person_is_subject: one or more identifiable people are the main subject (a portrait, a selfie, people posing or working as the focus).',
     '- mostly_text: it is mainly words or a table.',
     '- foreign_labels: it has labels or captions in a language other than English.',
@@ -57,13 +63,14 @@ export function screenPrompt(item: ScreenItem): string {
 }
 
 /** The screener's reply. Whether to keep is worked out here; a reply missing any judgement is refused, never read as a keep. */
-export function parseScreen(raw: unknown): Screening {
+export function parseScreen(raw: unknown, subject?: string): Screening {
   if (!raw || typeof raw !== 'object') throw new Error('The screening is not a JSON object')
   const r = raw as Record<string, unknown>
   const reasons: string[] = []
   for (const [key, keeps, why] of CHECKS) {
     if (typeof r[key] !== 'boolean') throw new Error(`The screening has no ${key} judgement`)
-    if (r[key] !== keeps) reasons.push(why)
+    const heldToPlace = key !== 'unfamiliar_example' || !subject || PLACE_SUBJECTS.has(subject)
+    if (r[key] !== keeps && heldToPlace) reasons.push(why)
   }
   const shows = String(r.shows ?? '').trim()
   if (!shows) throw new Error('The screening does not say what the image shows')
@@ -119,4 +126,36 @@ export function resetScreens(db: Store): number {
     throw err
   }
   return Number(n)
+}
+
+/**
+ * Works each stored screening out again from the screener's own judgements, under the current
+ * rules (such as which subjects hold a distant example against an image). Nothing is sent.
+ * Returns how many verdicts changed.
+ */
+export function regradeScreens(db: Store): number {
+  const rows = db.prepare(`SELECT s.figure_id AS id, s.keep, s.detail, f.subject FROM screenings s JOIN figures f ON f.id = s.figure_id
+    WHERE f.origin <> 'drawn'`).all() as { id: string; keep: number; detail: string; subject: string }[]
+  let changed = 0
+  for (const r of rows) {
+    let screening: Screening
+    try {
+      screening = parseScreen(readJson<unknown>(r.detail, null), r.subject)
+    } catch {
+      continue  // a screening from an older prompt without today's judgements stays as it is
+    }
+    if (screening.keep === (r.keep === 1)) continue
+    db.exec('BEGIN')
+    try {
+      db.prepare('UPDATE screenings SET keep = ? WHERE figure_id = ?').run(screening.keep ? 1 : 0, r.id)
+      db.prepare('UPDATE figures SET status = ?, reason = ? WHERE id = ?')
+        .run(screening.keep ? 'screened' : 'rejected', screening.keep ? null : screening.reasons.join('; '), r.id)
+      db.exec('COMMIT')
+    } catch (err) {
+      db.exec('ROLLBACK')
+      throw err
+    }
+    changed++
+  }
+  return changed
 }
