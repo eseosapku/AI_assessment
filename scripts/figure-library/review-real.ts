@@ -27,7 +27,7 @@ function compare(db: ReturnType<typeof openStore>): void {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag' })
+  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag', job: 'string' })
   const db = openStore()
   if (args.compare) {
     compare(db)
@@ -37,7 +37,7 @@ async function main() {
   const tag = String(args.writer ?? '')
   if (tag !== 'haiku' && tag !== 'sonnet') throw new Error('--writer must be haiku or sonnet')
   if (!args.ids) throw new Error('--ids=<file> is needed: the comparison images')
-  const job = `p1b-blind-${tag}`
+  const job = args.job ? String(args.job) : `p1b-blind-${tag}`
   const ids = fs.readFileSync(String(args.ids), 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean)
   const lib = libraryDir()
   const items = itemsToReview(db, { job, size: REVIEW_SIZE, figureIds: ids, writer: MODELS[tag] })

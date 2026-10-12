@@ -21,7 +21,6 @@ from figgen.store import library_dir, open_store  # noqa: E402
 # The writers' model ids, as scripts/figure-library/claude.ts names them.
 HAIKU = "eu.anthropic.claude-haiku-4-5-20251001-v1:0"
 SONNET = "eu.anthropic.claude-sonnet-5-5"
-JOBS = {HAIKU: "p1b-blind-haiku", SONNET: "p1b-blind-sonnet"}
 NAMES = {HAIKU: "Haiku", SONNET: "Sonnet"}
 LEVELS = {"P": "Primary", "LS": "Lower Secondary", "UP": "Upper Secondary", "AL": "A Level"}
 
@@ -70,6 +69,7 @@ ol.opts li.key{color:var(--key);background:var(--key-bg);font-weight:600}
 .out figure{margin:0;font-size:12px;color:var(--muted);min-width:0}
 .out img{width:100%;height:auto;border-radius:3px;opacity:.85}
 .out figcaption{color:var(--fail);margin-top:4px}
+.type{align-self:flex-start;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--accent);border:1px solid var(--rule);border-radius:3px;padding:0 6px}
 """
 
 
@@ -96,8 +96,8 @@ def questions_html(db, figure_id: str, model: str) -> str:
     return f'<ol class="qs">{"".join(items)}</ol>' if items else '<p class="credit">No question kept.</p>'
 
 
-def verdict_html(db, figure_id: str, model: str) -> str:
-    row = db.execute("SELECT pass FROM reviews WHERE job = ? AND figure_id = ?", (JOBS[model], figure_id)).fetchone()
+def verdict_html(db, figure_id: str, job: str) -> str:
+    row = db.execute("SELECT pass FROM reviews WHERE job = ? AND figure_id = ?", (job, figure_id)).fetchone()
     if row is None:
         return ""
     return f' <span class="verdict {"pass" if row["pass"] else "fail"}">blind review {"passed" if row["pass"] else "failed"}</span>'
@@ -114,50 +114,60 @@ def clean(db, job: str) -> tuple[int, int, int]:
     return figures, questions, good
 
 
-def card(db, lib: Path, f) -> str:
+def card(db, lib: Path, f, jobs: dict) -> str:
     spec = json.loads(f["spec"] or "{}")
     title = spec.get("title", "").removeprefix("File:").rsplit(".", 1)[0]
     licence = escape(f["licence"] or "")
     lic = f'<a href="{escape(spec["licence_url"])}">{licence}</a>' if spec.get("licence_url") else licence
     credit = (f'<p class="credit">{escape(title)} by {escape(f["author"] or "an unknown author")} &middot; {lic} &middot; '
               f'<a href="{escape(f["source_url"] or "")}">Wikimedia Commons</a></p>')
-    parts = [image(lib, f["preview"]), credit, f'<p class="shows">Screener: {escape(f["shows"])}</p>']
-    for model in (HAIKU, SONNET):
+    kind = (json.loads(f["detail"] or "{}") or {}).get("image_type", "")
+    parts = [image(lib, f["preview"]), *([f'<span class="type">{escape(kind)}</span>'] if kind else []), credit,
+             f'<p class="shows">Screener: {escape(f["shows"])}</p>']
+    for model, job in jobs.items():
         if db.execute("SELECT 1 FROM question_checks WHERE figure_id = ? AND writer = ?", (f["id"], model)).fetchone():
-            parts.append(f'<p class="writer">{NAMES[model]}{verdict_html(db, f["id"], model)}</p>{questions_html(db, f["id"], model)}')
+            parts.append(f'<p class="writer">{NAMES[model]}{verdict_html(db, f["id"], job)}</p>{questions_html(db, f["id"], model)}')
     return f'<figure class="card">{"".join(parts)}</figure>'
 
 
-def build_real_sheet(db, lib: Path, per_topic: int = 12) -> str:
+def build_real_sheet(db, lib: Path, per_topic: int = 12, jobs: dict | None = None) -> str:
+    """The sheet for a round's writers and their review jobs; round one's two by default."""
+    jobs = jobs or {HAIKU: "p1b-blind-haiku", SONNET: "p1b-blind-sonnet"}
+    first = next(iter(jobs))
     harvested = db.execute("SELECT COUNT(*) FROM figures WHERE origin <> 'drawn'").fetchone()[0]
     screened = db.execute("SELECT COUNT(*), COALESCE(SUM(keep), 0) FROM screenings").fetchone()
     written = db.execute("SELECT COUNT(*), COALESCE(SUM(keep), 0) FROM question_checks WHERE writer = ? AND question_id NOT LIKE '%#0'",
-                         (HAIKU,)).fetchone()
-    with_q = db.execute("SELECT COUNT(DISTINCT figure_id) FROM figure_questions WHERE model = ?", (HAIKU,)).fetchone()[0]
-    funnel = [("harvested", harvested), ("kept by the screen", screened[1]), ("questions Haiku wrote", written[0]),
+                         (first,)).fetchone()
+    with_q = db.execute("SELECT COUNT(DISTINCT figure_id) FROM figure_questions WHERE model = ?", (first,)).fetchone()[0]
+    funnel = [("harvested", harvested), ("kept by the screen", screened[1]), (f"questions {NAMES[first]} wrote", written[0]),
               ("kept by its check", written[1]), ("images with a kept question", with_q)]
     rows, rates = [], {}
-    for model in (HAIKU, SONNET):
-        figures, questions, good = clean(db, JOBS[model])
+    for model, job in jobs.items():
+        figures, questions, good = clean(db, job)
         rates[model] = good / questions if questions else None
         rate = f"{100 * good / questions:.0f}%" if questions else "&ndash;"
         rows.append(f"<tr><td>{NAMES[model]}</td><td>{figures}</td><td>{good}/{questions}</td><td>{rate}</td></tr>")
-    h, so = rates[HAIKU], rates[SONNET]
-    if h is None or so is None:
+    h, so = rates.get(HAIKU), rates.get(SONNET)
+    if list(jobs) == [SONNET]:
+        decision = ("Sonnet writes, as P1b decided; " + (f"its questions here were clean {so:.0%} of the time." if so is not None
+                                                          else "its questions have not been reviewed yet."))
+    elif h is None or so is None:
         decision = "The writers have not both been reviewed yet."
     elif h >= 0.9 * so:
         decision = f"Haiku's questions were clean {h:.0%} of the time against Sonnet's {so:.0%}, at least 90% of it: Haiku writes."
     else:
         decision = (f"Haiku's questions were clean {h:.0%} of the time against Sonnet's {so:.0%}, under 90% of it: "
                     "by the spec's rule, Sonnet writes the library's real-image questions.")
+    marks = ", ".join("?" * len(jobs))
     sections = []
     for t in db.execute("SELECT DISTINCT t.key, t.name, t.subject, t.band FROM topics t JOIN figure_topics ft ON ft.topic_key = t.key "
                         "JOIN figures f ON f.id = ft.figure_id WHERE f.origin <> 'drawn' ORDER BY t.subject, t.name").fetchall():
         passed = db.execute(
-            "SELECT f.*, s.shows FROM figures f JOIN figure_topics ft ON ft.figure_id = f.id JOIN screenings s ON s.figure_id = f.id "
-            "WHERE ft.topic_key = ? AND s.keep = 1 AND EXISTS (SELECT 1 FROM figure_questions q WHERE q.figure_id = f.id) "
-            "ORDER BY EXISTS (SELECT 1 FROM reviews r WHERE r.figure_id = f.id AND r.job LIKE 'p1b-blind-%') DESC, f.id LIMIT ?",
-            (t["key"], per_topic)).fetchall()
+            "SELECT f.*, s.shows, s.detail FROM figures f JOIN figure_topics ft ON ft.figure_id = f.id JOIN screenings s ON s.figure_id = f.id "
+            f"WHERE ft.topic_key = ? AND s.keep = 1 AND EXISTS (SELECT 1 FROM figure_questions q WHERE q.figure_id = f.id AND q.model IN ({marks})) "
+            "ORDER BY (json_extract(s.detail, '$.image_type') = 'diagram') DESC, "
+            f"EXISTS (SELECT 1 FROM reviews r WHERE r.figure_id = f.id AND r.job IN ({marks})) DESC, f.id LIMIT ?",
+            (t["key"], *jobs.keys(), *jobs.values(), per_topic)).fetchall()
         out = db.execute(
             "SELECT f.preview, f.reason FROM figures f JOIN figure_topics ft ON ft.figure_id = f.id JOIN screenings s ON s.figure_id = f.id "
             "WHERE ft.topic_key = ? AND s.keep = 0 ORDER BY f.id LIMIT 8", (t["key"],)).fetchall()
@@ -168,9 +178,20 @@ def build_real_sheet(db, lib: Path, per_topic: int = 12) -> str:
             f'<section class="topic"><h2>{escape(t["name"])}</h2>'
             f'<p class="meta">{escape(t["subject"])} &middot; {LEVELS.get(t["band"], t["band"])} &middot; '
             f'{counts[1]} of {counts[0]} images kept by the screen</p>'
-            f'<div class="cards">{"".join(card(db, lib, f) for f in passed)}</div>'
+            f'<div class="cards">{"".join(card(db, lib, f, jobs) for f in passed)}</div>'
             + (f'<p class="meta">Turned away by the screen:</p><div class="out">{strip}</div>' if strip else "") + "</section>")
     stats = "".join(f"<li><b>{n}</b>{escape(label)}</li>" for label, n in funnel)
+    if list(jobs) == [SONNET]:
+        process = ("Openly licensed images from Wikimedia Commons, diagrams first. Haiku made search terms from each topic's syllabus "
+                   "points; files with the wrong licence, too small, of a person, or a near-copy were turned away before download; Haiku "
+                   "screened every image against the syllabus points and the learners' world, rejecting distant examples and anything "
+                   "beyond the level. Sonnet wrote questions bound to the syllabus points, checked them, and answered them blind.")
+    else:
+        process = ("Openly licensed images from Wikimedia Commons for six pilot topics. Files with the wrong licence, too small, of a "
+                   "person, or a near-copy were turned away before download; Haiku then screened every image for the topic and level "
+                   "(Nova Lite, the first choice, kept almost everything). Haiku wrote questions on each image that passed and checked "
+                   "them in a second call. On a comparison set, Sonnet wrote too, and Sonnet answered both writers' questions blind, "
+                   "without the keys.")
     return f"""<title>Real Image Samples</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -178,11 +199,8 @@ def build_real_sheet(db, lib: Path, per_topic: int = 12) -> str:
 <style>{CSS}</style>
 <main>
 <header><p class="eyebrow">StudySquare figure library &middot; pilot P1b</p><h1>Real image samples</h1>
-<p class="lede">Openly licensed images from Wikimedia Commons for six pilot topics. Files with the wrong licence, too small,
-of a person, or a near-copy were turned away before download; Haiku then screened every image for the topic and level
-(Nova Lite, the first choice, kept almost everything). Haiku wrote questions on each image that passed and checked them in a
-second call. On a comparison set, Sonnet wrote too, and Sonnet answered both writers' questions blind, without the keys.
-{escape(decision)} Correct options are marked in green. Each image carries its credit: author, licence and source.</p></header>
+<p class="lede">{escape(process)} {escape(decision)} Correct options are marked in green. Each image carries its credit:
+author, licence and source.</p></header>
 <ul class="funnel">{stats}</ul>
 <div class="table-wrap"><table><thead><tr><th>Writer</th><th>Images reviewed</th><th>Clean questions</th><th>Clean rate</th></tr></thead>
 <tbody>{"".join(rows)}</tbody></table></div>
@@ -195,12 +213,14 @@ def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Write the P1b real-image sample sheet")
     ap.add_argument("--per-topic", type=int, default=12)
     ap.add_argument("--out", default="")
+    ap.add_argument("--round", type=int, default=1, help="2 shows round two: Sonnet only, review job p1b2-blind")
     a = ap.parse_args(argv)
     lib = library_dir()
     db = open_store()
-    out = Path(a.out) if a.out else lib / "reports" / "p1b-samples.html"
+    out = Path(a.out) if a.out else lib / "reports" / f"p1b{'2' if a.round == 2 else ''}-samples.html"
     out.parent.mkdir(parents=True, exist_ok=True)
-    out.write_text(build_real_sheet(db, lib, a.per_topic), encoding="utf-8")
+    jobs = {SONNET: "p1b2-blind"} if a.round == 2 else None
+    out.write_text(build_real_sheet(db, lib, a.per_topic, jobs), encoding="utf-8")
     db.close()
     print(f"Wrote {out} ({out.stat().st_size // 1024} KB)")
     return 0

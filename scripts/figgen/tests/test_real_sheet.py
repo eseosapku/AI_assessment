@@ -57,3 +57,15 @@ def test_the_sheet_compares_the_writers(tmp_path):
     page = build_real_sheet(db, lib)
     assert "1/1" in page  # Haiku: one clean question of one
     assert "Sonnet" in page and '<li class="key">Wall</li>' in page
+
+
+def test_round_two_shows_only_its_writer_and_the_image_type(tmp_path):
+    db, lib = setup(tmp_path)
+    db.execute("UPDATE screenings SET detail = '{\"image_type\": \"diagram\"}' WHERE figure_id = 'wikimedia/1'")
+    db.execute("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('p1b2-blind', 'wikimedia/1', 'm', 0, ?, 'now')",
+               (json.dumps({"figureClear": True, "educational": True, "questions": [{"keyCorrect": False, "answerable": True, "singleAnswer": True}]}),))
+    db.commit()
+    page = build_real_sheet(db, lib, jobs={SONNET: "p1b2-blind"})
+    assert '<span class="type">diagram</span>' in page
+    assert "Haiku" not in page.split("<main>")[1].split("</table>")[1]  # no Haiku questions on the cards
+    assert "blind review failed" in page and "0/1" in page
