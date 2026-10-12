@@ -21,7 +21,7 @@ if __package__ in (None, ""):  # run as a script: make "figgen" importable
 
 from figgen.core import render  # noqa: E402
 from figgen.families import FAMILIES  # noqa: E402
-from figgen.link import band_of, topic_index, topics_for, unknown_concepts  # noqa: E402
+from figgen.link import band_of, reach, topic_index, topics_for, unknown_concepts  # noqa: E402
 from figgen.pilot import topics_for as topics_for_pilot  # noqa: E402
 from figgen.store import delete_family, has_figure, library_dir, open_store, save_drawn, topic  # noqa: E402
 
@@ -57,8 +57,10 @@ def generate_family(db, lib: Path, m, count: int, redo: bool = False, max_seeds:
             raise RuntimeError(f"{m.ID}: only {have} different figures in {max_seeds} seeds")
         rng = random.Random(seed)
         params = m.sample(rng)
-        key = json.dumps(params, sort_keys=True)
-        if key in seen:  # the same figure as an earlier seed: never store it twice
+        # The same numbers as an earlier seed -- whoever the person in the question is -- are the
+        # same figure: never store it twice (spec 3.4).
+        key = json.dumps({k: v for k, v in params.items() if k != "name"}, sort_keys=True)
+        if key in seen:
             continue
         seen.add(key)
         fid = figure_id(m.ID, seed)
@@ -90,6 +92,18 @@ def generate_family(db, lib: Path, m, count: int, redo: bool = False, max_seeds:
     return {"family": m.ID, "have": have, "drawn": drawn}
 
 
+def families_to_draw(families: dict, index) -> tuple[dict, list[str]]:
+    """The families worth drawing, and those whose figures reach no topic in today's books.
+    The pilot's hand-linked families are always drawn."""
+    draw, skipped = {}, []
+    for fid, m in families.items():
+        if hasattr(m, "CONCEPTS") and not reach(index, m):
+            skipped.append(fid)
+        else:
+            draw[fid] = m
+    return draw, skipped
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Draw the P1a pilot's figures into the staging store")
     ap.add_argument("--per-family", type=int, default=30)
@@ -103,7 +117,10 @@ def main(argv=None) -> int:
     lib = library_dir()
     db = open_store()
     index = topic_index(db)
-    for fid in ids:
+    todo, skipped = families_to_draw({f: FAMILIES[f] for f in ids}, index)
+    for fid in skipped:
+        print(f"{fid:20s} skipped: its figures reach no topic in the current books")
+    for fid in todo:
         r = generate_family(db, lib, FAMILIES[fid], a.per_family, redo=a.redo, index=index)
         print(f"{fid:20s} {r['have']} figures ({r['drawn']} new)")
     total = db.execute("SELECT COUNT(*) FROM figures WHERE origin = 'drawn'").fetchone()[0]

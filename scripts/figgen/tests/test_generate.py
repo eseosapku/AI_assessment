@@ -144,3 +144,27 @@ def test_a_family_naming_an_unknown_concept_is_refused(db, tmp_path):
     mapped(db)
     with pytest.raises(ValueError, match="mathematics.nope"):
         generate_family(db, tmp_path / "lib", concept_family(concepts=("mathematics.pie-charts", "mathematics.nope")), 1)
+
+
+def test_a_family_that_reaches_no_topic_is_skipped(db):
+    from figgen.generate import families_to_draw
+    from figgen.link import topic_index
+    mapped(db)
+    reaching, nowhere = concept_family(), concept_family(bands=("P",))
+    nowhere.ID = "nowhere"
+    draw, skipped = families_to_draw({"concept_test": reaching, "nowhere": nowhere, "climate_graph": FAMILIES["climate_graph"]}, topic_index(db))
+    assert sorted(draw) == ["climate_graph", "concept_test"] and skipped == ["nowhere"]  # hand-linked families are kept
+
+
+def test_the_same_figure_under_another_name_is_stored_once(db, tmp_path):
+    """Names change only the wording: the same numbers under another name are a near-duplicate (spec 3.4)."""
+    import types
+    from figgen.families import bar_chart
+    mapped(db)
+    fixed = {k: v for k, v in bar_chart.sample(random.Random(3)).items() if k != "band"}
+    m = types.SimpleNamespace(ID="named", KIND=bar_chart.KIND, SUBJECT="mathematics", BANDS=("LS",), CONCEPTS=("mathematics.pie-charts",),
+                              sample=lambda rng: {**fixed, "name": rng.choice(["Aline", "Eric", "Grace"])},
+                              draw=bar_chart.draw, questions=bar_chart.questions)
+    assert generate_family(db, tmp_path / "lib", m, 1)["have"] == 1
+    with pytest.raises(RuntimeError, match="only 1"):
+        generate_family(db, tmp_path / "lib", m, 2, max_seeds=20)
