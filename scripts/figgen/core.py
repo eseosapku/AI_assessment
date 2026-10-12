@@ -192,6 +192,50 @@ def function_axes(ax, x0: int, x1: int, y0: int, y1: int, ystep: int = 1, xstep:
     ax.tick_params(labelsize=8)
 
 
+def curve(ax, f, x0: float, x1: float, y0: float, y1: float, n: int = 800, **style) -> None:
+    """Plots y = f(x) for x0 <= x <= x1 only where it lies within y0 <= y <= y1, one line per stretch
+    inside, each ended exactly on the edge it leaves by: a graph that runs off the grid stops at its
+    edge instead of being cut by the frame."""
+    style = {"color": INK, "linewidth": 1.8, **style}
+    inside = lambda y: y0 <= y <= y1  # noqa: E731
+    run: list[tuple[float, float]] = []
+    prev = None
+    for i in range(n + 1):
+        x = x0 + (x1 - x0) * i / n
+        y = f(x)
+        if prev is not None and inside(y) != inside(prev[1]):
+            # Where the graph crosses the edge between the two samples, by straight-line interpolation.
+            edge = y1 if max(y, prev[1]) > y1 else y0
+            t = (edge - prev[1]) / (y - prev[1])
+            run.append((prev[0] + t * (x - prev[0]), edge))
+            if not inside(y):
+                if len(run) > 1:
+                    ax.plot(*zip(*run), **style)
+                run = []
+        if inside(y):
+            run.append((x, y))
+        prev = (x, y)
+    if len(run) > 1:
+        ax.plot(*zip(*run), **style)
+
+
+_SUP = {2: "²", 3: "³"}
+
+
+def poly(coeffs) -> str:
+    """Whole-number coefficients, highest power first, as a student writes them: 3x² - 2x + 4,
+    -x³ + 3x, x - 1."""
+    n = len(coeffs) - 1
+    out = ""
+    for i, c in enumerate(coeffs):
+        k = n - i
+        if c == 0:
+            continue
+        body = ("" if abs(c) == 1 and k > 0 else str(abs(c))) + ("x" if k else "") + _SUP.get(k, "")
+        out += ("-" if c < 0 else "") + body if not out else f" {'-' if c < 0 else '+'} {body}"
+    return out or "0"
+
+
 def grid_y(ax, top: float, step: float) -> None:
     """Horizontal gridlines on every labelled step, so values read exactly."""
     ticks = [i * step for i in range(int(round(top / step)) + 1)]
