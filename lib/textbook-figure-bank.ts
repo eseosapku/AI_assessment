@@ -37,6 +37,8 @@ export interface TextbookFigure {
    * (build_textbook_question_figures.py --any): `original` may be empty.
    */
   pageText?: boolean
+  /** The credit line a real image must carry (author, licence, source); figure-library images only. */
+  credit?: string
 }
 
 const BANK_PATH = path.join(process.cwd(), 'data', 'textbook-figure-bank.json')

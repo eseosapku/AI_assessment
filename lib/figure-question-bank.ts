@@ -64,6 +64,15 @@ export function resetFigureQuestionBank(map?: Map<string, VettedQuestion[]>): vo
   cache = map ?? null
 }
 
+/**
+ * Adds questions to the loaded bank: the figure library's, registered per quiz under their
+ * "lib:" ids so hasVetted and vettedFor treat them like any other vetted figure.
+ */
+export function addVetted(questions: ReadonlyMap<string, VettedQuestion[]>): void {
+  const bank = loadFigureQuestionBank()
+  for (const [id, list] of questions) if (list.length) bank.set(id, list)
+}
+
 export function hasVetted(figureId: string, kinds?: readonly VettedKind[], bank = loadFigureQuestionBank()): boolean {
   const list = bank.get(figureId) ?? []
   return kinds ? list.some((q) => kinds.includes(q.kind)) : list.length > 0
