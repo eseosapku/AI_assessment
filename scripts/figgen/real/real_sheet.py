@@ -136,11 +136,20 @@ def build_real_sheet(db, lib: Path, per_topic: int = 12) -> str:
     with_q = db.execute("SELECT COUNT(DISTINCT figure_id) FROM figure_questions WHERE model = ?", (HAIKU,)).fetchone()[0]
     funnel = [("harvested", harvested), ("kept by the screen", screened[1]), ("questions Haiku wrote", written[0]),
               ("kept by its check", written[1]), ("images with a kept question", with_q)]
-    rows = []
+    rows, rates = [], {}
     for model in (HAIKU, SONNET):
         figures, questions, good = clean(db, JOBS[model])
+        rates[model] = good / questions if questions else None
         rate = f"{100 * good / questions:.0f}%" if questions else "&ndash;"
         rows.append(f"<tr><td>{NAMES[model]}</td><td>{figures}</td><td>{good}/{questions}</td><td>{rate}</td></tr>")
+    h, so = rates[HAIKU], rates[SONNET]
+    if h is None or so is None:
+        decision = "The writers have not both been reviewed yet."
+    elif h >= 0.9 * so:
+        decision = f"Haiku's questions were clean {h:.0%} of the time against Sonnet's {so:.0%}, at least 90% of it: Haiku writes."
+    else:
+        decision = (f"Haiku's questions were clean {h:.0%} of the time against Sonnet's {so:.0%}, under 90% of it: "
+                    "by the spec's rule, Sonnet writes the library's real-image questions.")
     sections = []
     for t in db.execute("SELECT DISTINCT t.key, t.name, t.subject, t.band FROM topics t JOIN figure_topics ft ON ft.topic_key = t.key "
                         "JOIN figures f ON f.id = ft.figure_id WHERE f.origin <> 'drawn' ORDER BY t.subject, t.name").fetchall():
@@ -170,10 +179,10 @@ def build_real_sheet(db, lib: Path, per_topic: int = 12) -> str:
 <main>
 <header><p class="eyebrow">StudySquare figure library &middot; pilot P1b</p><h1>Real image samples</h1>
 <p class="lede">Openly licensed images from Wikimedia Commons for six pilot topics. Files with the wrong licence, too small,
-of a person, or a near-copy were turned away before download; Nova Lite then screened every image for the topic and level.
-Haiku wrote questions on each image that passed and checked them in a second call. On a comparison set, Sonnet wrote too,
-and Sonnet answered both writers' questions blind, without the keys. Correct options are marked in green. Each image
-carries its credit: author, licence and source.</p></header>
+of a person, or a near-copy were turned away before download; Haiku then screened every image for the topic and level
+(Nova Lite, the first choice, kept almost everything). Haiku wrote questions on each image that passed and checked them in a
+second call. On a comparison set, Sonnet wrote too, and Sonnet answered both writers' questions blind, without the keys.
+{escape(decision)} Correct options are marked in green. Each image carries its credit: author, licence and source.</p></header>
 <ul class="funnel">{stats}</ul>
 <div class="table-wrap"><table><thead><tr><th>Writer</th><th>Images reviewed</th><th>Clean questions</th><th>Clean rate</th></tr></thead>
 <tbody>{"".join(rows)}</tbody></table></div>

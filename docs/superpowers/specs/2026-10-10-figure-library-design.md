@@ -263,6 +263,22 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - Spend $8.73 (first review $3.80, blind review $4.93). Library total $34.53.
     - Sample sheet: https://claude.ai/artifact/MhzcrPTiCKXaQn1bh1W1dP.
     - Approved by the user on 2026-10-12 ("okay go ahead, graphs are cool"), who called the real images "the real test". P1a's exit is met.
+  - **P1b result (2026-10-12), real images:**
+    - Six topics, one per real kind: Cells (IGCSE), Classification of Kingdom Animalia (S1–S3), Forms of relief (S1–S3), The Cold War, Laboratory safety and apparatus (S1–S3), and The life cycle of flowering plants (Primary).
+    - Harvest, Wikimedia Commons only: 600 candidates stored. Rules before download turned away 296 files: too small, wrong licence, people or logo categories, near-copies, or no author.
+    - Screening: **Nova Lite failed.** It copied the example reply (599 of 600 kept); with a placeholder template it wrote "<true>" and kept an office block for the Cold War and cancer slides for Cells. Haiku screens instead: 316 of 600 kept, and every case checked by eye was right.
+    - Keep rates show where Commons is thin: landforms 82%, animals 66%, apparatus 60%, flowering plants 54%, the Cold War 29% (people, unrelated buildings) and cells 25% (research-paper figures and medical histology).
+    - **Writer comparison (5.5), on the same 60 images, both blind-reviewed with the key hidden:**
+      - Sonnet: 87 of 92 questions clean (95%).
+      - Haiku: 67 of 113 (59%).
+      - Haiku is at 63% of Sonnet's rate, under the 90% bar, so by the fallback in 5.3, **Sonnet writes real-image questions.**
+      - Haiku's faults: 27 wrong keys, 21 with more than one right answer, 14 not answerable from the image.
+    - Costs per image, on-demand: screening $0.0018 (Haiku), Sonnet writing and checking $0.0148, review $0.0065.
+      - Screening is far over section 8's estimate. P4 needs free pre-filters (title, category and description relevance) and smaller thumbnails before the model sees an image, and other collections for the thin topics.
+      - At batch prices with Sonnet, the $380 real-image budget gives roughly 25,000 to 35,000 real images, as 5.3 foresaw for this case.
+    - Credit lines need cleaning in P4: Wikimedia's Artist field can carry notes ("Author info – Reusing images") or a link instead of a name.
+    - Spend $5.30 (screen $1.30, Haiku writing $2.27, Sonnet writing $0.89, reviews $0.86). Library total $39.84.
+    - Sample sheet: https://claude.ai/artifact/B66CKkscUKRnqYdb26zgdy.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
   - Exit: library figures appear in real quizzes on this machine, served from the local folder. Going live waits for S3 and CloudFront; then it is publish, set `FIGURE_ASSET_BASE`, deploy, and check a live marker.
 - **P3 Drawn at scale.** In waves by subject: Maths, Physics, Chemistry, Biology, Geography, Economics and Business, Computing, Languages, History, Music. Each wave starts with samples for the user.
