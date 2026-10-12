@@ -83,6 +83,16 @@ describe('reading a verdict', () => {
     expect(parseVerdict(answering(1, { single_answer: false }), item).pass).toBe(false)
   })
 
+  it('lets an estimate stand when the mark scheme accepts the range the reviewer hedges over', () => {
+    // A curve reading the reviewer calls "13 or 14" is one answer to a marker who accepts 12 to 16.
+    const ranged: ReviewItem = { ...item, questions: [item.questions[0], { ...item.questions[1], answer: '14', accepted: ['14', '12', '13', '15', '16'] }] }
+    const hedged = (own: string) => answering(2, { own_answer: own, single_answer: false })
+    expect(parseVerdict(hedged('13'), ranged).pass).toBe(true)
+    expect(parseVerdict(hedged('18'), ranged).pass).toBe(false)
+    // One accepted value: more than one right answer is a real fault.
+    expect(parseVerdict(hedged('40'), item).pass).toBe(false)
+  })
+
   it('works the pass out itself, whatever the reviewer claims', () => {
     expect(parseVerdict({ ...good, pass: true, educational: false }, item).pass).toBe(false)
   })
@@ -195,6 +205,17 @@ describe('regrading', () => {
     expect(db.prepare('SELECT pass FROM reviews').get()).toEqual({ pass: 1 })
     expect(db.prepare('SELECT status FROM figures WHERE id = ?').get(id)).toEqual({ status: 'stored' })
     expect(regrade(db, 'j')).toBe(0)
+  })
+
+  it('lets a stored estimate stand once its mark scheme accepts a range', () => {
+    const db = store()
+    const id = addFigure(db, 'bar_chart', 1)
+    db.prepare(`UPDATE figure_questions SET answer = '14', accepted = '["14","13","15"]' WHERE figure_id = ? AND n = 2`).run(id)
+    const old = parseVerdict(good, item)
+    const hedged = { ...old, pass: false, questions: old.questions.map((q) => (q.n === 2 ? { ...q, ownAnswer: '13', singleAnswer: false } : q)) }
+    saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: hedged })
+    expect(regrade(db, 'j')).toBe(1)
+    expect(db.prepare('SELECT pass FROM reviews').get()).toEqual({ pass: 1 })
   })
 })
 

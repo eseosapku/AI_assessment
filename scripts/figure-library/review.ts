@@ -126,6 +126,17 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
 }
 
 /**
+ * Whether the marker accepts a range of numbers for this question (an estimate read from a
+ * curve, "12 to 16"). Its range is the mark scheme's answer to "13 or 14": a reviewer who hedges
+ * inside it has found one right answer, not two.
+ */
+export function acceptsRange(q: ReviewQuestion): boolean {
+  if (q.kind === 'mcq') return false
+  const values = new Set([q.answer, ...q.accepted].map(numbersIn).filter((ns) => ns.length === 1).map((ns) => ns[0]))
+  return values.size >= 3
+}
+
+/**
  * The reviewer's reply as a verdict. Whether each key is right is worked out here, by
  * comparing the reviewer's own answer with it; the pass is worked out from the parts and
  * never taken from the model; and a reply that leaves out an answer or a judgement is
@@ -145,8 +156,9 @@ export function parseVerdict(raw: unknown, item: ReviewItem): Verdict {
       throw new Error(`The review does not answer and judge question ${q.n}`)
     }
     const key = q.kind === 'mcq' ? `${letter(Number(q.answer))}) ${q.options[Number(q.answer)]}` : q.answer
+    const keyCorrect = agrees(q, own)
     return {
-      n: q.n, key, ownAnswer: own, keyCorrect: agrees(q, own), answerable: v.answerable, singleAnswer: v.single_answer,
+      n: q.n, key, ownAnswer: own, keyCorrect, answerable: v.answerable, singleAnswer: v.single_answer || (keyCorrect && acceptsRange(q)),
       problem: String(v.problem ?? ''),
     }
   })
@@ -251,7 +263,9 @@ export function regrade(db: Store, job: string, writer?: string): number {
       .map((q) => ({ ...q, options: readJson<string[]>(q.options, []), accepted: readJson<string[]>(q.accepted, []) }))
     const questions = v.questions.map((q) => {
       const asked = qs.find((x) => x.n === q.n)
-      return asked ? { ...q, keyCorrect: agrees(asked, q.ownAnswer) } : q
+      if (!asked) return q
+      const keyCorrect = agrees(asked, q.ownAnswer)
+      return { ...q, keyCorrect, singleAnswer: q.singleAnswer || (keyCorrect && acceptsRange(asked)) }
     })
     const pass = v.figureClear && v.educational && questions.every((q) => q.keyCorrect && q.answerable && q.singleAnswer)
     if (pass !== v.pass || questions.some((q, i) => q.keyCorrect !== v.questions[i].keyCorrect)) {
