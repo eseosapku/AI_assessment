@@ -14,6 +14,13 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
 ))
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """The first quadrant from Stage 4; all four at Stage 6."""
+    if p["band"] != "P":
+        return None
+    return (6, 6) if p["lo"] < 0 else (4, 6)
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     # Four quadrants at Lower Secondary; at Primary mostly the first, as before Stage 6.

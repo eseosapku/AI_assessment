@@ -44,6 +44,11 @@ def _turn(cells, k: int, mirror: bool):
     return sorted([x - mx, y - my] for x, y in out)
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Nets of solids: Stage 4 on."""
+    return (4, 6) if p["band"] == "P" else None
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     solid = rng.choice(SOLIDS)

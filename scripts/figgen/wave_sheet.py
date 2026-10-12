@@ -98,7 +98,7 @@ def build_wave_sheet(families: dict, per_family: int, index, before: dict, other
                 shown = "; ".join(sorted(set(names))[:5]) + (f"; and {len(names) - 5} more" if len(names) > 5 else "")
                 parts.append(f"<b>{escape(LEVELS[b])}</b>: {len(names)} topics ({escape(shown)})")
             else:
-                parts.append(f'<span class="flag">reaches no {escape(LEVELS[b])} topic</span>')
+                parts.append(f'<span class="flag">reaches no {escape(LEVELS[b])} topic in the current books</span>')
         cards = "".join(_card(m, s) for s in _seeds(m, per_family))
         toc.append(f'<li><a href="#{escape(fid)}">{escape(title_of(fid))}</a></li>')
         sections.append(

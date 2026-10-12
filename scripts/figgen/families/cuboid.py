@@ -23,6 +23,11 @@ LS_THINGS = [("box", "cm"), ("water tank", "m"), ("brick", "cm"), ("classroom", 
 DEPTH = (0.5, 0.38)  # the receding edges, per unit of width
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Counting cubes for volume: Stage 4 on."""
+    return (4, 6) if p["band"] == "P" else None
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     name = rng.choice(NAMES)

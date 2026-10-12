@@ -31,6 +31,11 @@ def expression(a: int, c: int) -> str:
     return f"{a}n" if c == 0 else f"{a}n + {c}" if c > 0 else f"{a}n - {-c}"
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Growing patterns to a far term: Stage 3 on."""
+    return (3, 6) if p["band"] == "P" else None
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     kind = rng.choice(sorted(KINDS))

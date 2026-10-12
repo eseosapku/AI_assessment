@@ -32,6 +32,14 @@ def _forms(mm: int) -> list[str]:
     return [cm, f"{cm} cm", f"{cm}cm", f"{mm} mm", f"{mm}mm"]
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Whole centimetres from Stage 2, half centimetres from Stage 3, millimetres from Stage 4."""
+    if p["band"] != "P":
+        return None
+    length = p["end"] - p["start"]
+    return (2, 6) if length % 10 == 0 else (3, 6) if length % 5 == 0 else (4, 6)
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     obj = rng.choice(OBJECTS)

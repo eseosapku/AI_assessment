@@ -12,7 +12,8 @@ ID = "stem_leaf"
 KIND = "graph.stats"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
-CONCEPTS = tuple(f"mathematics.{c}" for c in ("stem-leaf-diagrams", "median", "range", "mode-finding", "rank-order-list"))
+CONCEPTS = tuple(f"mathematics.{c}" for c in ("stem-leaf-diagrams", "median", "range", "mode-finding", "rank-order-list",
+                                             "central-tendencies-ungrouped-data", "dispersion-measures"))
 
 # what was measured, its unit, the people or things, the lowest and highest values, and how to
 # ask for more than a value ("a mass of more than 50 kg")

@@ -7,17 +7,34 @@ serves every Lower Secondary topic on bar charts in every book, not one pilot to
 from __future__ import annotations
 
 import json
+import re
 import sqlite3
 
 TopicIndex = list[dict]
 
 
+def stage_of(book: str) -> int | None:
+    """The school year a book is for, 1 to 9, from its name; None when it does not say (or is past 9)."""
+    b = book.lower()
+    for pattern, offset in ((r"\bp(\d)\b", 0), (r"\bprimary\s+(\d)\b", 0), (r"\bstage\s*(\d)\b", 0),
+                            (r"\bbook\s*(\d)\b", 0), (r"junior secondary\s+(\d)\b", 6),
+                            (r"(?:^|[-\s])s([1-3])(?:[-\s]|$)", 6)):
+        m = re.search(pattern, b)
+        if m:
+            return int(m.group(1)) + offset
+    return None
+
+
 def topic_index(db: sqlite3.Connection) -> TopicIndex:
-    """Every topic the P0 map kept, with its level and concepts."""
-    rows = db.execute("SELECT t.key, t.band, t.subject, t.name, m.concepts FROM topics t "
+    """Every topic the P0 map kept, with its level, its book's stage, and its concepts -- its own and
+    its sections' (a topic teaches what its sections teach)."""
+    rows = db.execute("SELECT t.key, t.band, t.subject, t.name, t.book, m.concepts FROM topics t "
                       "JOIN topic_map m ON m.topic_key = t.key WHERE m.dropped = 0 ORDER BY t.key").fetchall()
-    return [{"key": r["key"], "band": r["band"], "subject": r["subject"], "name": r["name"],
-             "concepts": frozenset(json.loads(r["concepts"] or "[]"))} for r in rows]
+    sections: dict[str, set[str]] = {}
+    for r in db.execute("SELECT s.topic_key, sm.concepts FROM subtopics s JOIN subtopic_map sm ON sm.subtopic_key = s.key"):
+        sections.setdefault(r["topic_key"], set()).update(json.loads(r["concepts"] or "[]"))
+    return [{"key": r["key"], "band": r["band"], "subject": r["subject"], "name": r["name"], "stage": stage_of(r["book"] or ""),
+             "concepts": frozenset(json.loads(r["concepts"] or "[]")) | frozenset(sections.get(r["key"], ()))} for r in rows]
 
 
 def concepts_of(m, params: dict) -> frozenset[str]:
@@ -30,9 +47,17 @@ def band_of(m, params: dict) -> str:
     return params.get("band") or m.BANDS[0]
 
 
+def stages_of(m, params: dict) -> tuple[int, int] | None:
+    """The school years an instance suits, where the family says (a 7-digit place value chart is
+    Stage 6, not Stage 1); None for any year of its level."""
+    fits = getattr(m, "stages", None)
+    return fits(params) if fits else None
+
+
 def topics_for(index: TopicIndex, m, params: dict) -> list[str]:
-    band, concepts = band_of(m, params), concepts_of(m, params)
-    return sorted(t["key"] for t in index if t["band"] == band and t["concepts"] & concepts)
+    band, concepts, years = band_of(m, params), concepts_of(m, params), stages_of(m, params)
+    return sorted(t["key"] for t in index if t["band"] == band and t["concepts"] & concepts
+                  and (years is None or t.get("stage") is None or years[0] <= t["stage"] <= years[1]))
 
 
 def unknown_concepts(db: sqlite3.Connection, m) -> list[str]:

@@ -11,7 +11,7 @@ KIND = "graph.pie"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
-    "pie-charts", "statistical-graphs-presentation-reading",
+    "pie-charts", "statistical-graphs-presentation-reading", "data-types", "frequency-distribution-table",
 ))
 
 SURVEYS = [

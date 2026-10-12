@@ -31,6 +31,11 @@ CONTEXTS = [
 ]
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """One symbol for several from Stage 2; half symbols from Stage 3."""
+    return (3, 6) if any(v % p["key"] for v in p["values"]) else (2, 6)
+
+
 def sample(rng: random.Random) -> dict:
     ci = rng.randrange(len(CONTEXTS))
     title, items, verb, prep, rows, which = CONTEXTS[ci]

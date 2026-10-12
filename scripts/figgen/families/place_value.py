@@ -33,8 +33,13 @@ def _forms(n: int) -> list[str]:
     return list(dict.fromkeys([fmt(n), str(n), fmt(n).replace(",", " ")]))
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """A 2-digit chart for the first years, up to millions in Stage 6."""
+    return {2: (1, 2), 3: (2, 3), 4: (3, 4), 5: (4, 5), 6: (5, 6), 7: (6, 6)}[len(p["digits"])]
+
+
 def sample(rng: random.Random) -> dict:
-    size = rng.choice([3, 4, 4, 5, 5, 6, 7])  # hundreds at the earliest stages up to millions at Stage 6
+    size = rng.choice([2, 2, 3, 4, 4, 5, 5, 6, 7])  # tens and ones in the first years up to millions at Stage 6
     while True:
         digits = [rng.randint(1, 9)] + [rng.choice([0, 0, *range(1, 9)]) for _ in range(size - 1)]
         if any(d < 9 for d in digits) and any(d > 0 for d in digits[1:]):

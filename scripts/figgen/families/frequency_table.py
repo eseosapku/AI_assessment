@@ -40,6 +40,11 @@ def _clean(v: float) -> bool:
     return abs((v * 10) % 1 - 0.5) > 0.05
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Frequency tables: Stage 3 on."""
+    return (3, 6) if p["band"] == "P" else None
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     if band == "UP" and rng.random() < 0.5:

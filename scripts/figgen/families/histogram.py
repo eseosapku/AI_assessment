@@ -15,7 +15,8 @@ ID = "histogram"
 KIND = "graph.bar"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
-CONCEPTS = tuple(f"mathematics.{c}" for c in ("histogram", "frequency-polygons", "grouped-data-definition", "class-boundaries"))
+CONCEPTS = tuple(f"mathematics.{c}" for c in ("histogram", "frequency-polygons", "grouped-data-definition", "class-boundaries",
+                                             "calculating-statistics-grouped-data"))
 
 # what, variable, unit, who, equal-width classes, unequal-width classes
 CONTEXTS = [

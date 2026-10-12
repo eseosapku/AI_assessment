@@ -34,6 +34,13 @@ SHAPES = {
 }
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Halves and quarters from Stage 1, up to eighths from Stage 3, more parts from Stage 4."""
+    if p["band"] != "P":
+        return None
+    return (1, 4) if p["n"] <= 4 else (3, 6) if p["n"] <= 8 else (4, 6)
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     shape, rows, cols = rng.choice(SHAPES[band])

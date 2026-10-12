@@ -25,6 +25,11 @@ def _clock(h: int) -> str:
     return f"{h:02d}:00"
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Line graphs of a day's temperature: Stage 4 on."""
+    return (4, 6) if p["band"] == "P" else None
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     place = rng.choice(sorted(CLIMATE))

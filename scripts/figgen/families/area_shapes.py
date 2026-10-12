@@ -28,6 +28,11 @@ THINGS = [("garden", "m"), ("vegetable plot", "m"), ("classroom floor", "m"), ("
 WORDS = {"m": "metres", "cm": "centimetres"}
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Area and perimeter by counting squares: Stage 3 on."""
+    return (3, 6) if p["band"] == "P" else None
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     thing, unit = rng.choice(THINGS)

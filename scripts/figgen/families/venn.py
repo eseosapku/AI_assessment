@@ -33,6 +33,11 @@ CONTEXTS = [
 ]
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Sorting into two sets: Stage 2 on."""
+    return (2, 6) if p["band"] == "P" else None
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     top = 15 if band == "P" else 30

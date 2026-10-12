@@ -29,6 +29,17 @@ def _text(d: Decimal) -> str:
     return "0" if s == "-0" else s
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Ones from 0 at Stages 1-3, larger steps at 2-5, tenths and halves from Stage 4."""
+    if p["band"] != "P":
+        return None
+    first, second = p["ticks"][0], p["ticks"][1]
+    if "." in first or "." in second:
+        return (4, 6)
+    step = int(second) - int(first)
+    return (1, 3) if step == 1 and int(first) <= 10 else (2, 5)
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     step, n, lo, hi = rng.choice(SCALES[band])

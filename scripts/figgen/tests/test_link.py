@@ -48,3 +48,33 @@ def test_unknown_concepts_are_named_and_reach_is_reported_per_level(tmp_path):
     db = store(tmp_path)
     assert unknown_concepts(db, family(CONCEPTS=("mathematics.fractions", "mathematics.nope"))) == ["mathematics.nope"]
     assert link_report(db, {"f": family()}) == {"f": {"P": 1, "LS": 1}}
+
+
+def test_a_topic_teaches_what_its_sections_teach(tmp_path):
+    db = store(tmp_path)
+    db.execute("INSERT INTO subtopics (key, topic_key, name) VALUES ('s:1', 'db:3', 'Telling the time and fractions of an hour')")
+    db.execute("INSERT INTO subtopic_map (subtopic_key, concepts, kinds) VALUES ('s:1', '[\"mathematics.fractions\"]', '[]')")
+    db.commit()
+    assert topics_for(topic_index(db), family(), {"band": "P"}) == ["db:1", "db:3"]
+
+
+def test_the_stage_of_a_book():
+    from figgen.link import stage_of
+    cases = {"P1 Mathematics PB ,": 1, "NERDC Primary 3 – Mathematics": 3, "Cambridge Primary Mathematics Learner’s Book 2, 2nd Edition": 2,
+             "Cambridge Primary Mathematics Stage 4 Learners Book 4": 4, "CAMBRIDGE PRIMARY MATHEMATICS LEARNERS BOOK3": 3,
+             "Cambridge Lower Secondary Mathematics Learners Book 7": 7, "Mathematics-S2-SB": 8, "NERDC Junior Secondary 1 – Mathematics": 7,
+             "P5-Mathematics-PB (2)": 5, "Cambridge IGCSE 3rd (Third Edition)": None}
+    assert {b: stage_of(b) for b in cases} == cases
+
+
+def test_an_instance_reaches_only_topics_at_stages_it_suits(tmp_path):
+    db = store(tmp_path)
+    db.execute("UPDATE topics SET book = 'P1 Mathematics PB' WHERE key = 'db:1'")
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:5', 'x', 'P6 Mathematics PB', 'mathematics', 'P', 'Fractions 6')")
+    db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
+               "VALUES ('db:5', '[\"mathematics.fractions\"]', '[]', '[]', 'high', 0, 'm', 'now')")
+    db.commit()
+    index = topic_index(db)
+    m = family(stages=lambda p: (5, 6) if p.get("hard") else None)
+    assert topics_for(index, m, {"band": "P", "hard": True}) == ["db:5"]  # db:1 is a Primary 1 book
+    assert topics_for(index, m, {"band": "P"}) == ["db:1", "db:5"]  # no stage given: every stage

@@ -21,6 +21,13 @@ SURVEYS = [
 ]
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Scales in ones from Stage 1, in twos from Stage 2."""
+    if p["band"] != "P":
+        return None
+    return (1, 6) if p["step"] == 1 else (2, 6)
+
+
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     title, cats, unit, verb = rng.choice(SURVEYS)

@@ -41,6 +41,11 @@ def _plus(h: int, m: int, d: int) -> tuple[int, int]:
     return (total // 60) or 12, total % 60
 
 
+def stages(p: dict) -> tuple[int, int] | None:
+    """Telling the time and working out when things end: from Stage 3."""
+    return (3, 6)
+
+
 def sample(rng: random.Random) -> dict:
     hour = rng.randint(1, 12)
     # Early stages read o'clock, half past and quarter times; later ones any five minutes.
