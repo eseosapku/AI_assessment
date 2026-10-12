@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest'
 import { openStore } from './store'
 import { BudgetExceeded, totalSpend } from './spend'
-import { HAIKU, SONNET, askJson, extractJson, requestBody, runPool, type ImageInput, type SendFn } from './claude'
+import { HAIKU, NOVA_LITE, SONNET, askJson, extractJson, readReply, requestBody, runPool, type ImageInput, type SendFn } from './claude'
 
 const noWait = async () => {}
 
@@ -140,5 +140,30 @@ describe('asking about an image', () => {
     const send: SendFn = async () => ({ text: '{"ok":1}', inputTokens: 0, outputTokens: 0 })
     await askJson({ db, job: 't', jobCapUsd: 1, prompt: 'abc', maxTokens: 100, send, model: SONNET, images: [{ mediaType: 'image/png', data: 'x' }], wait: noWait })
     expect(db.prepare('SELECT input_tokens AS i, output_tokens AS o FROM spend').get()).toEqual({ i: 1 + 1600, o: 100 })
+  })
+})
+
+describe('Nova Lite', () => {
+  it('gets the Nova request shape, images first', () => {
+    expect(requestBody(NOVA_LITE, 'judge this', 300, [{ mediaType: 'image/jpeg', data: 'abc' }])).toEqual({
+      schemaVersion: 'messages-v1',
+      messages: [{ role: 'user', content: [{ image: { format: 'jpeg', source: { bytes: 'abc' } } }, { text: 'judge this' }] }],
+      inferenceConfig: { maxTokens: 300, temperature: 0 },
+    })
+  })
+
+  it('reads a Nova reply, and a Claude reply, into one shape', () => {
+    expect(readReply(NOVA_LITE, { output: { message: { content: [{ text: '{"ok":' }, { text: 'true}' }] } }, stopReason: 'end_turn', usage: { inputTokens: 10, outputTokens: 6 } }))
+      .toEqual({ text: '{"ok":true}', inputTokens: 10, outputTokens: 6, truncated: false })
+    expect(readReply(NOVA_LITE, { output: { message: { content: [] } }, stopReason: 'max_tokens', usage: {} }).truncated).toBe(true)
+    expect(readReply(HAIKU, { content: [{ text: 'hi' }], stop_reason: 'end_turn', usage: { input_tokens: 3, output_tokens: 1 } }))
+      .toEqual({ text: 'hi', inputTokens: 3, outputTokens: 1, truncated: false })
+  })
+
+  it('has a price, so its spend is recorded', async () => {
+    const db = openStore(':memory:')
+    const send: SendFn = async () => ({ text: '{"ok":1}', inputTokens: 1000, outputTokens: 100 })
+    await askJson({ db, job: 't', jobCapUsd: 1, prompt: 'p', maxTokens: 50, send, model: NOVA_LITE, wait: noWait })
+    expect(totalSpend(db, 't')).toBeCloseTo((1000 * 0.078 + 100 * 0.312) / 1e6, 12)
   })
 })

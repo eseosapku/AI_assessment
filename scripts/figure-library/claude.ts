@@ -7,6 +7,8 @@ import { checkBudget, recordSpend } from './spend'
 
 export const HAIKU = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
 export const SONNET = 'eu.anthropic.claude-sonnet-5-5'
+export const NOVA_LITE = 'eu.amazon.nova-lite-v1:0'
+const isNova = (model: string) => /nova/.test(model)
 
 /** An image sent with a prompt, base64-encoded. */
 export interface ImageInput {
@@ -33,6 +35,16 @@ export type SendFn = (model: string, prompt: string, maxTokens: number, images?:
  * Sonnet scripts do. A prompt with no images is sent exactly as before.
  */
 export function requestBody(model: string, prompt: string, maxTokens: number, images: readonly ImageInput[] = []): Record<string, unknown> {
+  if (isNova(model)) {
+    return {
+      schemaVersion: 'messages-v1',
+      messages: [{
+        role: 'user',
+        content: [...images.map((i) => ({ image: { format: i.mediaType.split('/')[1], source: { bytes: i.data } } })), { text: prompt }],
+      }],
+      inferenceConfig: { maxTokens, temperature: 0 },
+    }
+  }
   const content = images.length
     ? [
         ...images.map((i) => ({ type: 'image', source: { type: 'base64', media_type: i.mediaType, data: i.data } })),
@@ -75,13 +87,26 @@ export function bedrockSender(env: Record<string, string> = loadEnv()): SendFn {
       accept: 'application/json',
       body: JSON.stringify(requestBody(model, prompt, maxTokens, images ?? [])),
     }))
-    const body = JSON.parse(new TextDecoder().decode(res.body))
+    return readReply(model, JSON.parse(new TextDecoder().decode(res.body)))
+  }
+}
+
+/** A Bedrock reply as text, token counts and whether it was cut off, from Claude's shape or Nova's. */
+export function readReply(model: string, body: any): ModelReply {
+  if (isNova(model)) {
+    const content = body?.output?.message?.content
     return {
-      text: (Array.isArray(body.content) ? body.content : []).map((c: { text?: string }) => c.text ?? '').join(''),
-      inputTokens: Number(body.usage?.input_tokens ?? 0),
-      outputTokens: Number(body.usage?.output_tokens ?? 0),
-      truncated: body.stop_reason === 'max_tokens',
+      text: (Array.isArray(content) ? content : []).map((c: { text?: string }) => c.text ?? '').join(''),
+      inputTokens: Number(body?.usage?.inputTokens ?? 0),
+      outputTokens: Number(body?.usage?.outputTokens ?? 0),
+      truncated: body?.stopReason === 'max_tokens',
     }
+  }
+  return {
+    text: (Array.isArray(body?.content) ? body.content : []).map((c: { text?: string }) => c.text ?? '').join(''),
+    inputTokens: Number(body?.usage?.input_tokens ?? 0),
+    outputTokens: Number(body?.usage?.output_tokens ?? 0),
+    truncated: body?.stop_reason === 'max_tokens',
   }
 }
 

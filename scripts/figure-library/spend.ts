@@ -5,6 +5,8 @@ import type { Store } from './store'
 export const PRICES: Record<string, { input: number; output: number }> = {
   'eu.anthropic.claude-haiku-4-5-20251001-v1:0': { input: 1.1, output: 5.5 },
   'eu.anthropic.claude-sonnet-5-5': { input: 2.2, output: 11 },
+  // Nova Lite, eu-west-1 on-demand: used to screen real images (spec 5.3 step 3).
+  'eu.amazon.nova-lite-v1:0': { input: 0.078, output: 0.312 },
 }
 
 /** The user's hard cap on model spend for the whole library (spec section 8). */
