@@ -9,8 +9,8 @@ import { askJson, bedrockSender, runPool } from './claude'
 import { previewImage } from './review'
 import { SCREEN_JOB, SCREEN_MODEL, SCREEN_USD_PER_ITEM, parseScreen, resetScreens, saveScreen, screenPrompt, toScreen } from './screen'
 
-/** Raised from $1 when Haiku replaced Nova Lite; P1 stays within spec 8's $25. */
-const JOB_CAP_USD = 2
+/** Round two (P1b.2) screens about 1,000 images with Haiku; P1 stays within spec 8's $25. */
+const JOB_CAP_USD = 3
 const MAX_UNUSABLE = 15
 
 async function main() {
