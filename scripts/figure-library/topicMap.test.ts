@@ -93,3 +93,23 @@ describe('estimating a mapping run', () => {
     expect(estimateMapUsd(8000, 90)).toBeCloseTo(estimateMapUsd(8000, 60), 12)
   })
 })
+
+describe('rechecking a topic mapped to few kinds', () => {
+  it('shows the kinds it got before and asks for every kind that genuinely fits', () => {
+    // 85 topics (mostly Art and Music) got one or two kinds; some were mapped narrowly.
+    const p = topicPrompt({ subject: 'geography', band: 'LS', book: 'B', name: 'Rivers', subtopics: [] }, concepts, FIGURE_KINDS, ['geo.map'])
+    expect(p).toMatch(/mapped before to only: geo\.map/)
+    expect(p).toMatch(/every kind that genuinely fits/)
+    expect(p).toMatch(/Do not pad/)
+  })
+
+  it('selects topics by key, including mapped ones when asked to redo', () => {
+    const db = openStore(':memory:')
+    for (const k of ['db:1', 'db:2', 'db:3']) {
+      db.prepare("INSERT INTO topics (key, source, book, subject, band, name) VALUES (?, 'rwanda', 'B', 'geography', 'LS', ?)").run(k, `Topic ${k}`)
+    }
+    saveTopicMap(db, 'db:2', [], { concepts: ['geography.rivers'], kinds: ['geo.map'], terms: [], visual: 'high', subtopics: [], dropped: 0 }, 'test')
+    expect(topicsToMap(db, { keys: ['db:2', 'db:3'] }).map((t) => t.key)).toEqual(['db:3'])
+    expect(topicsToMap(db, { keys: ['db:2', 'db:3'], redo: true }).map((t) => t.key)).toEqual(['db:2', 'db:3'])
+  })
+})

@@ -38,6 +38,7 @@ Today 7,037 figures have usable checked questions (`hasVetted`). Of 2,475 Cambri
 
 1. At least 250,000 approved figures. Existing banks count toward the total.
 2. Every topic has at least 50 approved figures at its level; every subtopic has at least 10. Any topic that cannot reach this with educational figures is named in a list for the user to decide on (section 9, P0); none is quietly left short.
+   - Decided 2026-10-12: text-led topics (mapped "mostly words", or a language or literature topic short of variety) aim for 15 picture questions instead of 50. The figures come from notices, timetables, menus, forms, picture prompts and source extracts. The P0 report names 91 such topics.
 3. Quality: each source and each drawn family passes a blind review of 30 items scoring 27/30 or better before it is scaled, and keeps passing spot audits afterwards.
 4. Variety: each topic's figures come from at least 6 different families or sources, no single family is more than 25% of a topic's figures, and near-duplicates are removed.
 5. Licences: every real image is public domain, CC0, CC BY or CC BY-SA, or under Pixabay's licence, and carries its credit wherever it is shown.
@@ -245,7 +246,12 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - 1,264 topics (33%) ready now by figure kinds. 2,441 (63%) ready once the drawn families are built (an upper bound). 183 (5%) still short: 91 mostly words, 85 with few kinds mapped (largely Art and Music), 7 short of real images.
     - 8,742 of 12,424 subtopics (70%) have two or more kinds under a feasible topic.
     - Spend $25.44: concepts $5.09, mapping $20.35.
-    - Report: https://claude.ai/artifact/BqS74o2K7ERYoaj4bNqfkW. The user's decision on the short topics is pending.
+    - Report: https://claude.ai/artifact/BqS74o2K7ERYoaj4bNqfkW.
+    - Decisions (2026-10-12, the user: "do all that you recommend"):
+      - The text-led topics take the lower target in section 3.
+      - The few-kind topics are rechecked by remapping them. Done: 38 of 85 now reach the target, for 1,266 ready, 2,477 ready once drawn and 145 short. The remaining 47 use one medium (art media, music notation) and take the lower target of 15 unless the drawn music families give them enough variety.
+      - The real-image gaps go to the other collections in P4.
+      - The pilot is split into P1a (drawn figures) and P1b (real images).
 - **P1 Pilot.** About 6 topics across Maths, Biology, Geography, Economics, a language and History. About 20 drawn families. About 600 real candidates.
   - Exit: blind reviews pass; the Haiku-versus-Sonnet result is decided; the user has seen sample sheets and approved them.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.

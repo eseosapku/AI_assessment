@@ -1,6 +1,8 @@
 // scripts/figure-library/map-topics.ts
 // Run: npx jiti scripts/figure-library/map-topics.ts [--limit=20] [--subject=geography] [--redo]
-import { openStore } from './store'
+//      [--keys=<file of topic keys, one a line>] [--recheck]  (recheck: remap those keys, showing the kinds they had)
+import fs from 'node:fs'
+import { openStore, readJson } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { HAIKU, askJson, bedrockSender, runPool } from './claude'
@@ -15,11 +17,15 @@ const JOB_CAP_USD = 32
 const RETRY_NOTE = '\nYour last reply used ids that are not in the lists, or none at all. Use only ids from the CONCEPTS and FIGURE KINDS lists above.'
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { limit: 'int', subject: 'string', redo: 'flag' })
+  const args = parseArgs(process.argv.slice(2), { limit: 'int', subject: 'string', redo: 'flag', keys: 'string', recheck: 'flag' })
+  const keys = args.keys ? fs.readFileSync(args.keys as string, 'utf8').split(/\r?\n/).map((k) => k.trim()).filter(Boolean) : undefined
+  const recheck = args.recheck === true
+  if (recheck && !keys) throw new Error('--recheck needs --keys=<file>: the topics to remap')
   const db = openStore()
+  const kindsBefore = db.prepare('SELECT kinds FROM topic_map WHERE topic_key = ?')
   const conceptsBySubject = loadConcepts(db)
   const validKinds = new Set(FIGURE_KINDS.map((k) => k.id))
-  const todo = topicsToMap(db, { limit: args.limit as number | undefined, subject: args.subject as string | undefined, redo: args.redo === true })
+  const todo = topicsToMap(db, { limit: args.limit as number | undefined, subject: args.subject as string | undefined, redo: args.redo === true || recheck, keys })
   const subsOf = db.prepare('SELECT key, name FROM subtopics WHERE topic_key = ? ORDER BY key')
   const failures: string[] = []
   const truncated: string[] = []
@@ -30,7 +36,8 @@ async function main() {
     const subs = subsOf.all(t.key) as { key: string; name: string }[]
     if (subs.length > MAX_SUBTOPICS) truncated.push(`${t.key} (${subs.length} subtopics)`)
     const count = Math.min(subs.length, MAX_SUBTOPICS)
-    const prompt = topicPrompt({ subject: t.subject, band: t.band, book: t.book, name: displayName(t.name), subtopics: subs.map((s) => displayName(s.name)) }, concepts, FIGURE_KINDS)
+    const prompt = topicPrompt({ subject: t.subject, band: t.band, book: t.book, name: displayName(t.name), subtopics: subs.map((s) => displayName(s.name)) }, concepts, FIGURE_KINDS,
+      recheck ? readJson<string[]>((kindsBefore.get(t.key) as { kinds?: string } | undefined)?.kinds, []) : undefined)
     return [{ t, concepts, subs, count, prompt }]
   })
   const estimate = prepared.reduce((sum, p) => sum + estimateMapUsd(p.prompt.length, p.count), 0)

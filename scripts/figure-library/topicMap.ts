@@ -46,7 +46,8 @@ export function conceptsForBand(all: readonly Concept[], band: Band): Concept[] 
   return fit.length >= 20 ? fit : [...all]
 }
 
-export function topicPrompt(t: TopicInput, concepts: readonly Concept[], kinds: readonly FigureKind[]): string {
+/** `recheck` is the kinds a topic was mapped to before, when it got too few. */
+export function topicPrompt(t: TopicInput, concepts: readonly Concept[], kinds: readonly FigureKind[], recheck?: readonly string[]): string {
   const subs = t.subtopics.slice(0, MAX_SUBTOPICS)
   const local = (id: string) => id.slice(t.subject.length + 1)
   return [
@@ -67,6 +68,9 @@ export function topicPrompt(t: TopicInput, concepts: readonly Concept[], kinds: 
     '- terms: up to 8 short search terms for finding REAL images a question can be asked about on Wikimedia Commons: a labelled diagram, a specimen, a micrograph, apparatus, a landform, a map, a historical source, a document. For example "onion cell micrograph" or "oxbow lake aerial". Never buildings, offices, people at work or generic scenes. Empty, with no real kinds, if no real image could carry a question on this topic.',
     '- visual: "high" if this topic is naturally taught with figures, "medium" if partly, "low" if it is mostly words (for example essay writing).',
     '- subtopics: for each subtopic by number, its concept ids and kinds.',
+    ...(recheck?.length
+      ? [`This topic was mapped before to only: ${recheck.join(', ')}. Read the FIGURE KINDS list again and add every kind that genuinely fits, whether drawn or real. Do not pad: a kind still has to carry a real question on this topic.`]
+      : []),
     'Reply with JSON only: {"concepts":[],"kinds":[],"terms":[],"visual":"","subtopics":[{"i":0,"concepts":[],"kinds":[]}]}',
   ].join('\n')
 }
@@ -124,10 +128,16 @@ export function estimateMapUsd(promptChars: number, subtopics: number): number {
 }
 
 /** Topics with no plan yet, so a stopped run resumes where it left off. */
-export function topicsToMap(db: Store, o: { limit?: number; subject?: string; redo?: boolean }): StagedRow[] {
-  const where = [o.redo ? '1 = 1' : 'm.topic_key IS NULL', o.subject ? 't.subject = ?' : '1 = 1'].join(' AND ')
+export function topicsToMap(db: Store, o: { limit?: number; subject?: string; redo?: boolean; keys?: readonly string[] }): StagedRow[] {
+  const keys = o.keys ?? []
+  const where = [
+    o.redo ? '1 = 1' : 'm.topic_key IS NULL',
+    o.subject ? 't.subject = ?' : '1 = 1',
+    keys.length ? `t.key IN (${keys.map(() => '?').join(', ')})` : '1 = 1',
+  ].join(' AND ')
   const sql = `SELECT t.key, t.subject, t.band, t.book, t.name FROM topics t LEFT JOIN topic_map m ON m.topic_key = t.key WHERE ${where} ORDER BY t.subject, t.key${o.limit ? ` LIMIT ${Math.max(1, Math.floor(o.limit))}` : ''}`
-  return (o.subject ? db.prepare(sql).all(o.subject) : db.prepare(sql).all()) as StagedRow[]
+  const params = [...(o.subject ? [o.subject] : []), ...keys]
+  return db.prepare(sql).all(...params) as StagedRow[]
 }
 
 export function saveTopicMap(db: Store, topicKey: string, subtopicKeys: readonly string[], map: TopicMap, model: string): void {
