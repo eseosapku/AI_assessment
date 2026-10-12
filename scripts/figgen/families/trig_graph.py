@@ -21,7 +21,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "trigonometric-functions-graphs", "trigonometric-inequalities", "equations-inequalities", "simple-harmonic-motion",
 ))
 # Sine and cosine graphs: not differential equations.
-AVOID = r"differential equation"
+AVOID = r"differential equation|solving equations of the type"
 
 
 def sample(rng: random.Random) -> dict:
@@ -65,9 +65,9 @@ def questions(p: dict, rng: random.Random) -> list:
     period = short("What is the period of the graph, in degrees?", 360 // b, [f"{360 // b}°", f"{360 // b} degrees"])
     top = short("What is the greatest value of y?", a + c, [f"y = {a + c}"])
     other = "cos" if fn == "sin" else "sin"
-    eq = mcq("Which equation is drawn?", equation(a, b, c, fn),
-             [equation(a, b, c, other), equation(a, b + 1 if b < 3 else b - 1, c, fn), equation(a + 1 if a < 4 else a - 1, b, c, fn),
-              equation(a, b, -c if c else c + 1, fn)], rng)
+    # sin or cos, by b or another: each wrong in two of the four options, so none can be picked unseen.
+    b2 = b + 1 if b < 3 else b - 1
+    eq = mcq("Which equation is drawn?", equation(a, b, c, fn), [equation(a, b, c, other), equation(a, b2, c, fn), equation(a, b2, c, other)], rng)
     # Strictly between the least and greatest values, in half units (a sine of amplitude 1 has no whole
     # number there but its middle line, which it meets at 0 and 360 as well).
     ks = [c - a + h / 2 for h in range(1, 4 * a) if not (fn == "sin" and c - a + h / 2 == c)]

@@ -59,9 +59,10 @@ def questions(p: dict, rng: random.Random) -> list:
     vert = short(f"{p['name']} drew the curve y = f(x) and its asymptotes. What is the equation of the vertical asymptote?",
                  f"x = {h}", [f"x={h}", str(h)])
     horiz = short("What is the equation of the horizontal asymptote?", f"y = {q}", [f"y={q}", str(q)])
-    cross = short("Where does the curve cross the y-axis? Give the y-coordinate.", q - k // h, [f"(0, {q - k // h})"])
-    eq = mcq("Which equation is drawn?", equation(k, h, q), [equation(k, -h, q), equation(-k, h, q), equation(k, h, -q) if q else equation(k, h, 1),
-                                                          equation(k, h, h) if h != q else equation(k, h, q + 1)], rng)
+    c0 = q - k // h
+    cross = short("Where does the curve cross the y-axis? Give the y-coordinate.", c0, [f"(0, {c0})", f"(0,{c0})", f"y = {c0}", f"y={c0}"])
+    # The sign of k and of p: each wrong in two of the four options.
+    eq = mcq("Which equation is drawn?", equation(k, h, q), [equation(-k, h, q), equation(k, -h, q), equation(-k, -h, q)], rng)
     up, down = "increases without limit", "decreases without limit"
     toward = mcq(f"As x tends to {h} from the right, what happens to y?", up if k > 0 else down,
                  [down if k > 0 else up, f"it tends to {q}", "it tends to 0" if q else "it tends to 1"], rng)

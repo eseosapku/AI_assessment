@@ -77,5 +77,7 @@ def questions(p: dict, rng: random.Random) -> list:
         exists = mcq(f"Does the limit of f(x) as x tends to {a} exist?", f"Yes: it is {L}",
                      [f"Yes: it is {V}" if V != L else f"Yes: it is {L + 1}", differ, undefined], rng)
     answers = {"jump": f"No: the limit as x tends to {a} does not exist", "hole": f"No: the limit is not equal to f({a})", "continuous": "Yes"}
-    cont = mcq(f"Is f continuous at x = {a}?", answers[case], [v for v in answers.values() if v != answers[case]] + [undefined], rng)
+    # For a jump the limit does not exist, so "it is not equal to f(a)" is arguably true too: not offered.
+    wrong = [v for k, v in answers.items() if k != case and not (case == "jump" and k == "hole")] + [undefined]
+    cont = mcq(f"Is f continuous at x = {a}?", answers[case], wrong, rng)
     return [val, left, right, exists, cont]

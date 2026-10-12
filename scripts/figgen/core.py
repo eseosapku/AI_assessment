@@ -123,12 +123,31 @@ def short(stem: str, answer, accepted=(), explanation: str = "", tolerance: floa
         m = re.fullmatch(r"(-?\d+)\.0(\D*)", f)
         if m and m.group(1) + m.group(2) not in forms:
             forms.append(m.group(1) + m.group(2))
+    # "1,500" for 1500: a number of a thousand or more, as the figure itself may print it.
+    for f in list(forms):
+        m = re.fullmatch(r"(-?)(\d{4,})(\D*)", f)
+        if m:
+            _add(forms, f"{m.group(1)}{int(m.group(2)):,}{m.group(3)}")
+    # "0.234" for 0.234375: three significant figures of a long decimal.
+    for f in list(forms):
+        if re.fullmatch(r"-?\d*\.\d{4,}", f):
+            _add(forms, f"{float(f):.3g}")
+    # ".78" for 0.78: students drop the leading zero.
+    for f in list(forms):
+        m = re.fullmatch(r"(-?)0(\.\d+)(\D*)", f)
+        if m:
+            _add(forms, m.group(1) + m.group(2) + m.group(3))
     # "55kg" for "55 kg": students drop the space before a unit symbol.
     for f in list(forms):
-        m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C)", f)
-        if m and m.group(1) + m.group(2) not in forms:
-            forms.append(m.group(1) + m.group(2))
+        m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|mg|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C|m/s|m/s²|m/s2|Frw|RWF|units²|units2)", f)
+        if m:
+            _add(forms, m.group(1) + m.group(2))
     return Question("short", one(stem), canonical, [], forms, explanation, tolerance)
+
+
+def _add(forms: list, form: str) -> None:
+    if form not in forms:
+        forms.append(form)
 
 
 def label_spot(poly, centre_first: bool = True) -> tuple[float, float]:
@@ -165,6 +184,10 @@ def money(n: int) -> list[str]:
         for b in bases:
             if b + suffix not in forms:
                 forms.append(b + suffix)
+    for prefix in ("Frw ", "RWF "):  # as a price is often written: Frw 1,500
+        for b in bases:
+            if prefix + b not in forms:
+                forms.append(prefix + b)
     return forms
 
 

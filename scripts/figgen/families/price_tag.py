@@ -23,7 +23,9 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
 ))
 # Percentages in money: not logarithms, nor powers of 10.
 AVOID = r"logarithm|powers of"
-GOODS = ["pair of shoes", "radio", "mobile phone", "school bag", "mattress", "bicycle", "cooking pot", "football"]
+# What is on sale, and what it costs before the sale, in Frw: a bicycle is never 8,500 Frw.
+GOODS = {"pair of shoes": (8000, 30000), "radio": (10000, 40000), "mobile phone": (30000, 150000), "school bag": (6000, 20000),
+         "mattress": (30000, 90000), "bicycle": (60000, 150000), "cooking pot": (5000, 20000), "football": (5000, 15000)}
 RECEIPT = [("Rice, 5 kg", 4500, 7000), ("Cooking oil, 1 litre", 2500, 3500), ("Sugar, 2 kg", 2500, 3500), ("Beans, 3 kg", 2000, 3500),
            ("Soap", 500, 1000), ("Tea leaves", 1000, 2000), ("Salt", 300, 600), ("Exercise books", 1500, 3000)]
 BANKS = ["Savings account", "School fees saver", "Young savers' account"]
@@ -34,7 +36,9 @@ def sample(rng: random.Random) -> dict:
     kind = rng.choice(["sale", "vat", "commission", "interest"])
     base = {"band": band, "kind": kind, "name": rng.choice(NAMES)}
     if kind == "sale":
-        return base | {"item": rng.choice(GOODS), "was": 500 * rng.randint(4, 100), "rate": rng.choice([10, 15, 20, 25, 30, 40, 50])}
+        item = rng.choice(sorted(GOODS))
+        lo, hi = GOODS[item]
+        return base | {"item": item, "was": 500 * rng.randint(lo // 500, hi // 500), "rate": rng.choice([10, 15, 20, 25, 30, 40, 50])}
     if kind == "vat":
         lines = rng.sample(RECEIPT, 3)
         return base | {"lines": [n for n, _, _ in lines], "prices": [50 * rng.randint(lo // 50, hi // 50) for _, lo, hi in lines]}

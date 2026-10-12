@@ -73,8 +73,9 @@ def questions(p: dict, rng: random.Random) -> list:
                    [f"{area} units²", f"{area} units2", f"{area} square units"])
     form = lambda lo, hi, f: f"∫ from {lo} to {hi} of ({f}) dx"  # noqa: E731
     # The antiderivative in place of the curve: its coefficients are whole numbers by construction.
-    which = mcq("Which integral gives the shaded area?", form(a, b, eq),
-                [form(b, a, eq), form(a, b + 1, eq), form(a, b, poly([int(c) for c in F]))], rng)
+    # The limits' order and the curve (or its antiderivative): each wrong in two of the four options.
+    Feq = poly([int(c) for c in F])
+    which = mcq("Which integral gives the shaded area?", form(a, b, eq), [form(b, a, eq), form(a, b, Feq), form(b, a, Feq)], rng)
     lo = rng.choice([a - 1, b])
     part = short(f"Using the curve drawn, what is the value of ∫ from {lo} to {lo + 1} of y dx?", integral(lo, lo + 1))
     return [shaded, which, part]

@@ -81,7 +81,9 @@ def draw(p: dict):
 def questions(p: dict, rng: random.Random) -> list:
     a, b, c, d = p["M"]
     right = image(p["M"])
-    wrong = [M for M in ((a, c, b, d), (d, b, c, a), (-a, b, -c, d), (a, -b, c, -d), (b, a, d, c))
+    # Transposed or not, the first column's sign or not: a 2 × 2 set where it draws four images; any that
+    # draws the same image is replaced from the spares.
+    wrong = [M for M in ((a, c, b, d), (-a, b, -c, d), (-a, c, -b, d), (d, b, c, a), (a, -b, c, -d))
              if set(image(M)) != set(right)]
     which = mcq(f"{p['name']} drew the unit square OABC and its image O′A′B′C′. Which matrix maps OABC onto O′A′B′C′?",
                 matrix(a, b, c, d), [matrix(*M) for M in wrong], rng)

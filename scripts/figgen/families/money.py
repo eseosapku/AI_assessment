@@ -132,9 +132,13 @@ def questions(p: dict, rng: random.Random) -> list:
         return [total, change, dearest, more]
     pieces = p["pieces"]
     have = sum(pieces)
-    one, _, cheap, dear = rng.choice(lv["items"])
-    cost = rng.choice([v for v in range(lv["step"], lv["limit"] + 1, lv["step"]) if v != have and cheap <= v <= max(dear, have + lv["step"])]
-                      or [have + lv["step"]])
+    # A price the item really costs: an egg is never 400 Frw.
+    while True:
+        one, _, cheap, dear = rng.choice(lv["items"])
+        costs = [v for v in range(cheap, dear + 1, lv["step"]) if v != have]
+        if costs:
+            cost = rng.choice(costs)
+            break
     total = _amount(f"How much money is in {name}'s purse?", have)
     if cost > have:
         spend = _amount(f"How much more money does {name} need to buy one {one} costing {cost:,} Frw?", cost - have)

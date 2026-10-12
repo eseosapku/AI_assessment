@@ -147,11 +147,14 @@ def test_exp_graph():
     for s in SEEDS:
         p, qs = run(m, s)
         if p["kind"] == "pure":
-            k = p["base"]
-            assert int(qs[0].answer) == 1  # the y-intercept
+            k, a, up = p["base"], p["scale"], p["up"]
+            assert int(qs[0].answer) == a  # the y-intercept
             xq = int(re.search(r"x = (-?\d+)\?", qs[1].stem).group(1))
-            assert xq >= 0 and int(qs[1].answer) == k ** xq and k ** xq <= m.view(p)[3]  # on a gridline, in view
-            assert picked(qs[2]) == f"y = {k}^x"
+            y = Fraction(a) * Fraction(k) ** (xq if up else -xq)
+            assert y.denominator == 1 and int(qs[1].answer) == y and y <= m.view(p)[3]  # on a gridline, in view
+            x0, x1, _, _ = m.view(p)
+            assert x0 <= xq <= x1
+            assert picked(qs[2]) == m.pure_equation(a, k, up)
             assert picked(qs[3]) == "y = 0"
             continue
         N0, T, grow = p["start"], p["period"], p["kind"] == "growth"
@@ -558,8 +561,182 @@ def test_pascal():
     ("price_tag", "Unit 2: Logarithmic and Exponential Functions", "Unit 4: Percentage, discount, profit and loss"),
     ("percent_grid", "Multiplication and division (2)", "Ratios, Proportions and Percentages"),
     ("scale_drawing", "Thales' Theorem", "Ratio and proportion"),
+    # The final review: a tangent to a polynomial, not exponential or trigonometric chapters; a modulus
+    # chapter suits cubic sketching, not sine graphs.
+    ("tangent_gradient", "Unit 2: Logarithmic and Exponential Functions", "Calculus introduction (SS3)"),
+    ("tangent_gradient", "Trigonometric Functions and their Inverses", "Unit 9: Differentiation of polynomials, rational and irrational functions"),
+    ("trig_graph", "Chapter 5: Solving equations of the type |ax - b| = c", "Trigonometric Formulae, Equations and Inequalities"),
 ])
 def test_a_family_keeps_out_of_chapters_it_does_not_suit(fid, misfit, fit):
     avoid = getattr(fam(fid), "AVOID", None)
     assert avoid and re.search(avoid, misfit, re.I), misfit
     assert not re.search(avoid, fit, re.I), fit
+
+
+
+# --- The P3c final review ---------------------------------------------------------------------
+
+NEW = ["tangent_gradient", "stationary_points", "area_under_curve", "limit_graph", "exp_graph", "trig_graph", "rational_graph", "argand",
+       "matrix_transform", "points_3d", "prob_distribution", "pdf_graph", "velocity_time", "money", "price_tag", "bar_model",
+       "scale_drawing", "percent_grid", "algebra_area", "pascal"]
+
+
+def test_velocity_time_reads_every_corner_on_a_gridline():
+    """A speed between two lines, or a corner a unit off a labelled line, is read wrong (final review)."""
+    import matplotlib.pyplot as plt
+    m = fam("velocity_time")
+    for s in range(1, 301):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        ys = {round(v, 6) for v in ax.get_yticks(minor=True)} | {round(v, 6) for v in ax.get_yticks()}
+        major_x = [round(v, 6) for v in ax.get_xticks()]
+        plt.close(fig)
+        assert all(round(v, 6) in ys for _, v in p["corners"]), (s, p["corners"])
+        assert all(x % p["tstep"] == 0 for x in major_x), (s, major_x, p["tstep"])
+
+
+def test_a_half_acceleration_accepts_its_fraction():
+    m = fam("velocity_time")
+    for s in range(1, 301):
+        _, (first, last, _, _) = run(m, s)
+        for q in (first, last):
+            if "." in q.answer:
+                f = Fraction(q.answer)
+                assert f"{f.numerator}/{f.denominator}" in q.accepted, q.accepted
+
+
+def test_bar_model_options_use_only_the_numbers_shown():
+    """Every wrong sentence printed the hidden number, so the key was the one without it (final review)."""
+    m = fam("bar_model")
+    for s in SEEDS:
+        p, (_, sentence) = run(m, s)
+        hidden = p["numbers"][p["hole"]]
+        shown = {v for i, v in enumerate(p["numbers"]) if i != p["hole"]}
+        for o in sentence.options:
+            used = {int(v.replace(",", "")) for v in re.findall(r"\d[\d,]*", o)}
+            assert hidden not in used or hidden in shown, (s, o, p["numbers"], p["hole"])
+
+
+@pytest.mark.parametrize("fid", NEW)
+def test_a_number_of_a_thousand_or_more_accepts_its_comma(fid):
+    m = fam(fid)
+    for s in range(1, 301):
+        _, qs = run(m, s)
+        for q in qs:
+            if q.kind != "short":
+                continue
+            for a in list(q.accepted):
+                mt = re.fullmatch(r"(-?\d{4,})(\D*)", a)
+                if mt:
+                    assert f"{int(mt.group(1)):,}{mt.group(2)}" in q.accepted, (fid, s, a, q.accepted)
+
+
+@pytest.mark.parametrize("fid", NEW)
+def test_a_decimal_accepts_its_fair_forms(fid):
+    """".78" for 0.78, and three significant figures for a long decimal (0.234 for 0.234375)."""
+    m = fam(fid)
+    for s in range(1, 301):
+        _, qs = run(m, s)
+        for q in qs:
+            if q.kind != "short":
+                continue
+            for a in list(q.accepted):
+                if re.fullmatch(r"-?0\.\d+", a):
+                    assert a.replace("0.", ".", 1) in q.accepted, (fid, s, a, q.accepted)
+                if re.fullmatch(r"-?\d*\.\d{4,}", a):
+                    assert f"{float(a):.3g}" in q.accepted, (fid, s, a, q.accepted)
+
+
+def test_fair_forms_the_final_review_found_missing():
+    from figgen.core import money as forms, short
+    assert "Frw 1,500" in forms(1500) and "RWF 1500" in forms(1500)
+    assert "15m/s" in short("s", 15, ["15 m/s"]).accepted
+    for s in range(1, 301):
+        _, qs = run(fam("rational_graph"), s)
+        c = int(qs[2].answer)
+        assert {f"y = {c}", f"(0,{c})"} <= set(qs[2].accepted)
+        _, qs = run(fam("argand"), s)
+        if "sum" in qs[3].stem and re.fullmatch(r"-?\d*i", qs[3].answer):
+            assert any(a.startswith("0 +") or a.startswith("0 -") for a in qs[3].accepted), qs[3].accepted
+
+
+def test_prices_fit_what_is_bought():
+    """An egg at 400 Frw and a bicycle at 8,500 Frw are not prices a learner in Rwanda would believe."""
+    money_m, tag = fam("money"), fam("price_tag")
+    for s in SEEDS:
+        p, qs = run(money_m, s)
+        if p["kind"] == "purse":
+            item, cost = re.search(r"one (.+?) costing ([\d,]+) Frw", qs[1].stem).groups()
+            lv = money_m.LEVELS[tuple(p["years"])]
+            lo, hi = next((a, b) for one, _, a, b in lv["items"] if one == item)
+            assert lo <= francs(cost) <= hi, (s, item, cost)
+        p, _ = run(tag, s)
+        if p["kind"] == "sale":
+            lo, hi = tag.GOODS[p["item"]]
+            assert lo <= p["was"] <= hi, (s, p["item"], p["was"])
+
+
+EQUATION_MCQS = ("Which equation", "Which is the equation", "maximum point", "turning point", "Which matrix", "Which integral")
+
+
+def _central(options):
+    """The option nearest all the others, word by word; None on a tie."""
+    from collections import Counter
+    toks = [Counter(re.findall(r"-?\d+|[a-zA-Z]+|\S", o)) for o in options]
+    score = [sum(sum(((t - u) + (u - t)).values()) for u in toks) for t in toks]
+    best = min(score)
+    return score.index(best) if score.count(best) == 1 else None
+
+
+@pytest.mark.parametrize("fid", ["trig_graph", "rational_graph", "exp_graph", "stationary_points", "tangent_gradient", "matrix_transform",
+                                 "area_under_curve"])
+def test_an_equation_mcq_cannot_be_picked_from_its_options_alone(fid):
+    """Each wrong option changed one feature of the key, so the key was the option nearest all the others
+    (final review): a student or a blind reviewer needs no figure."""
+    m = fam(fid)
+    seen = hits = 0
+    for s in range(1, 301):
+        _, qs = run(m, s)
+        for q in qs:
+            if q.kind == "mcq" and any(w in q.stem for w in EQUATION_MCQS):
+                seen += 1
+                hits += _central(q.options) == int(q.answer)
+    assert seen and hits / seen <= 0.35, (fid, hits, seen)
+
+
+def test_a_jump_offers_no_second_defensible_reason():
+    m = fam("limit_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        if p["case"] == "jump":
+            assert not any("not equal to f(" in o for o in qs[4].options), qs[4].options
+
+
+def test_the_plan_caption_never_covers_the_plan():
+    import matplotlib.pyplot as plt
+    from figgen.tests.test_families_layout import drawn_texts
+    m = fam("scale_drawing")
+    for s in range(1, 121):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        top_px = ax.transData.transform((1, 1 + p["h"]))[1]
+        for t, box in drawn_texts(fig):
+            if "Plan of" in t.get_text():
+                assert box.y0 >= top_px - 1, (s, p)
+        plt.close(fig)
+
+
+def test_more_figures_where_they_were_few():
+    exp_m, sp = fam("exp_graph"), fam("stationary_points")
+    pure = {repr({k: v for k, v in p.items() if k != "name"}) for s in range(1, 3001) if (p := exp_m.sample(random.Random(s)))["kind"] == "pure"}
+    assert len(pure) >= 10, len(pure)
+    cubics = {repr(p["coeffs"]) for s in range(1, 6001) if (p := sp.sample(random.Random(s)))["band"] == "AL"}
+    assert len(cubics) >= 60, len(cubics)
+
+
+
+def test_cubic_sketching_chapters_keep_stationary_points():
+    avoid = fam("stationary_points").AVOID
+    assert not re.search(avoid, "Chapter 5: Solving equations of the type |ax - b| = c", re.I)

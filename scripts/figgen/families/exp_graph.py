@@ -31,8 +31,9 @@ GROWTH = [("the number of bacteria in a dish", "N", "", "hours", "bacteria"),
 def sample(rng: random.Random) -> dict:
     kind = rng.choice(["decay", "decay", "growth", "pure"])
     name = rng.choice(NAMES)
-    if kind == "pure":
-        return {"band": "UP", "kind": kind, "base": rng.choice([2, 3]), "name": name}
+    if kind == "pure":  # y = a·kˣ, rising, or y = a·(1/k)ˣ, falling
+        return {"band": "UP", "kind": kind, "base": rng.choice([2, 3]), "scale": rng.choice([1, 2, 3]), "up": rng.random() < 0.6,
+                "name": name}
     T = rng.choice([2, 3, 4, 5])
     if kind == "decay":
         what, symbol, unit, time = rng.choice(DECAY)
@@ -49,10 +50,31 @@ def amount(p: dict, t: float) -> float:
     return p["start"] * (2 if p["kind"] == "growth" else 0.5) ** (t / p["period"])
 
 
+TOP = 9  # the pure variant's grid runs to y = 9
+
+
+def pure(p: dict, x: float) -> float:
+    return p["scale"] * p["base"] ** (x if p["up"] else -x)
+
+
+def reach(p: dict) -> int:
+    """How far along x the pure curve stays on the grid on its rising side."""
+    n = 0
+    while p["scale"] * p["base"] ** (n + 1) <= TOP:
+        n += 1
+    return n
+
+
+def pure_equation(a: int, k: int, up: bool) -> str:
+    """y = 2^x, y = 3 × (1/2)^x."""
+    base = str(k) if up else f"(1/{k})"
+    return f"y = {base}^x" if a == 1 else f"y = {a} × {base}^x"
+
+
 def view(p: dict) -> tuple[int, int, int, int]:
     if p["kind"] == "pure":
-        k = p["base"]
-        return -3, 3 if k == 2 else 2, 0, 8 if k == 2 else 9
+        n = reach(p)
+        return (-3, n, 0, TOP) if p["up"] else (-n, 3, 0, TOP)
     top = p["start"] if p["kind"] == "decay" else p["start"] * 8
     return 0, p["tmax"], 0, top
 
@@ -62,8 +84,7 @@ def draw(p: dict):
     if p["kind"] == "pure":
         fig, ax = new_figure(5.2, 5.6)
         function_axes(ax, x0, x1, -1, y1)
-        k = p["base"]
-        curve(ax, lambda x: k ** x, x0 - 0.5, x1 + 0.5, -1.5, y1 + 0.5)
+        curve(ax, lambda x: pure(p, x), x0 - 0.5, x1 + 0.5, -1.5, y1 + 0.5)
         ax.set_title("y = f(x)", fontsize=12)
         return fig
     fig, ax = new_figure(6.4, 4.8)
@@ -87,13 +108,18 @@ def draw(p: dict):
 
 def questions(p: dict, rng: random.Random) -> list:
     if p["kind"] == "pure":
-        k = p["base"]
-        xq = rng.choice([1, 2, 3] if k == 2 else [1, 2])
+        a, k, up = p["scale"], p["base"], p["up"]
+        n = reach(p)
+        xq = rng.choice([x for x in range(1, n + 1)] if up else [-x for x in range(1, n + 1)])
+        # The base, and rising or falling: each wrong in two of the four options.
         return [
-            short(f"{p['name']} drew the graph of y = f(x). Where does it cross the y-axis? Give the y-coordinate.", 1, ["(0, 1)", "y = 1"]),
-            short(f"Use {p['name']}'s graph: what is the value of y when x = {xq}?", k ** xq),
-            mcq("Which equation is drawn?", f"y = {k}^x", [f"y = {5 - k}^x", f"y = x^{k}", f"y = {k}x", f"y = (1/{k})^x"], rng),
-            mcq("Which line does the curve get closer and closer to as x decreases?", "y = 0", ["x = 0", "y = 1", "x = 1"], rng),
+            short(f"{p['name']} drew the graph of y = f(x). Where does it cross the y-axis? Give the y-coordinate.", a,
+                  [f"(0, {a})", f"y = {a}"]),
+            short(f"Use {p['name']}'s graph: what is the value of y when x = {xq}?", round(pure(p, xq))),
+            mcq("Which equation is drawn?", pure_equation(a, k, up),
+                [pure_equation(a, k, not up), pure_equation(a, 5 - k, up), pure_equation(a, 5 - k, not up)], rng),
+            mcq(f"Which line does the curve get closer and closer to as x {'decreases' if up else 'increases'}?", "y = 0",
+                ["x = 0", f"y = {a}", "x = 1" if a != 1 else "y = 1"] if a != 1 else ["x = 0", "y = 1", "x = 1"], rng),
         ]
     N0, T, unit, time, sym = p["start"], p["period"], p["unit"], p["time"], p["symbol"]
     grow = p["kind"] == "growth"
@@ -109,8 +135,8 @@ def questions(p: dict, rng: random.Random) -> list:
         after = count(f"Use {p['name']}'s graph: how many {p['noun']} are there after {t} {time}?", later, p["noun"])
     else:
         after = short(f"Use {p['name']}'s graph: how much is left after {t} {time}?", later, with_unit(later))
-    base = "2" if grow else "(1/2)"
+    # Doubling or halving, and the period read or one more: each wrong in two of the four options.
+    base, other = ("2", "(1/2)") if grow else ("(1/2)", "2")
     eq = mcq(f"Which equation gives {sym} after t {time}?", f"{sym} = {N0} × {base}^(t/{T})",
-             [f"{sym} = {N0} × {base}^({T}t)", f"{sym} = {N0 // 2} × {base}^(t/{T})", f"{sym} = {N0} × {'(1/2)' if grow else '2'}^(t/{T})",
-              f"{sym} = {N0} × {base}^(t/{T + 1})"], rng)
+             [f"{sym} = {N0} × {other}^(t/{T})", f"{sym} = {N0} × {base}^(t/{T + 1})", f"{sym} = {N0} × {other}^(t/{T + 1})"], rng)
     return [start, period, after, eq]

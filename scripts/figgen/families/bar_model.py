@@ -94,25 +94,32 @@ def questions(p: dict, rng: random.Random) -> list:
     shown = {"part_whole": f"{name}'s {thing} in {len(nums) - 1} groups", "compare": f"how {name}'s two piles of {thing} compare",
              "equal": f"{name}'s {thing} shared equally"}[kind]
     missing = short(f"The bar model shows {shown}. What is the missing number?", nums[hole], [f"{nums[hole]} {thing}"])
+    # Every sentence, right or wrong, is built from the numbers the model shows: a wrong one that printed
+    # the hidden number would give the answer away.
     v = [f"{x:,}" for x in nums]
     if kind == "part_whole":
+        parts = v[1:]
         if hole == 0:
-            right, wrong = " + ".join(v[1:]) + " = ?", [f"{v[1]} − {v[2]} = ?" if nums[1] > nums[2] else f"{v[2]} − {v[1]} = ?",
-                                                        " × ".join(v[1:]) + " = ?"]
+            hi_, lo_ = (parts[0], parts[1]) if nums[1] > nums[2] else (parts[1], parts[0])
+            right = " + ".join(parts) + " = ?"
+            wrong = [f"{hi_} − {lo_} = ?", " × ".join(parts) + " = ?", f"{lo_} − {hi_} = ?"]
         else:
-            rest = [x for i, x in enumerate(v[1:], 1) if i != hole]
+            rest = [x for i, x in enumerate(parts, 1) if i != hole]
             right = f"{v[0]} − " + " − ".join(rest) + " = ?"
-            wrong = [f"{v[0]} + " + " + ".join(rest) + " = ?", " − ".join(rest) + f" − {v[0]} = ?" if len(rest) == 1 else f"{v[0]} − {rest[0]} = ?",
-                     f"{v[0]} × " + " × ".join(rest) + " = ?"]
+            wrong = [f"{v[0]} + " + " + ".join(rest) + " = ?", " − ".join(rest) + f" − {v[0]} = ?", f"{v[0]} × {rest[0]} = ?"]
     elif kind == "compare":
-        big, small, diff = v
-        right = {0: f"{small} + {diff} = ?", 1: f"{big} − {diff} = ?", 2: f"{big} − {small} = ?"}[hole]
-        wrong = [f"{big} + {small} = ?", f"{small} − {diff} = ?", f"{big} + {diff} = ?", f"{small} + {big} + {diff} = ?"]
+        right = {0: f"{v[1]} + {v[2]} = ?", 1: f"{v[0]} − {v[2]} = ?", 2: f"{v[0]} − {v[1]} = ?"}[hole]
+        x, y = [s for i, s in enumerate(v) if i != hole]
+        wrong = [f"{x} + {y} = ?", f"{y} − {x} = ?", f"{x} − {y} = ?", f"{x} × {y} = ?"]
     else:
         whole, n, each = v
-        right = f"{n} × {each} = ?" if hole == 0 else f"{whole} ÷ {n} = ?"
-        wrong = [f"{whole} × {n} = ?", f"{whole} − {n} = ?", f"{whole} + {n} = ?", f"{n} + {each} = ?"]
+        if hole == 0:
+            right = f"{n} × {each} = ?"
+            wrong = [f"{n} + {each} = ?", f"{each} − {n} = ?" if nums[2] > nums[1] else f"{n} − {each} = ?", f"{each} ÷ {n} = ?"]
+        else:
+            right = f"{whole} ÷ {n} = ?"
+            wrong = [f"{whole} × {n} = ?", f"{whole} − {n} = ?", f"{whole} + {n} = ?"]
     clean = lambda o: o.replace("×", "*").replace("÷", "/").replace("−", "-").replace(",", "").split("=")[0]  # noqa: E731
-    wrong = [w for w in wrong if eval(clean(w)) != nums[hole]]  # noqa: S307 -- our own arithmetic, never another answer
+    wrong = [w for w in wrong if w != right and eval(clean(w)) != nums[hole]]  # noqa: S307 -- our own arithmetic
     sentence = mcq("Which number sentence finds the missing number?", right, wrong, rng)
     return [missing, sentence]

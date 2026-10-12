@@ -56,13 +56,15 @@ def draw(p: dict):
     pts = p["corners"]
     T = pts[-1][0]
     V = max(v for _, v in pts)
-    vstep = 1 if V <= 12 else 2
     fig, ax = new_figure(6.4, 4.2)
     ax.plot([t for t, _ in pts], [v for _, v in pts], color=INK, linewidth=1.9)
-    big = 5 if T > 30 else 2 * p["tstep"] if T > 12 else p["tstep"]
+    # A gridline at every whole m/s and every time step, numbered at a multiple of the step: every
+    # corner lies on two lines, and no numbered line falls between them.
+    vstep = 1
+    big = p["tstep"] * (5 if T > 30 else 2 if T > 12 else 1)
     ax.set_xticks(range(0, T + 1, big))
     ax.set_xticks(range(0, T + 1, p["tstep"]), minor=True)
-    ax.set_yticks(range(0, V + vstep + 1, vstep * (2 if V > 8 else 1)))
+    ax.set_yticks(range(0, V + vstep + 1, 2 if V > 10 else 1))
     ax.set_yticks(range(0, V + vstep + 1, vstep), minor=True)
     ax.grid(True, which="both", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
@@ -74,15 +76,21 @@ def draw(p: dict):
     return fig
 
 
+def _rate(f: Fraction) -> list[str]:
+    """An acceleration as a student writes it: 1.5, 3/2, with m/s² or m/s2."""
+    values = [num(f)] + ([f"{f.numerator}/{f.denominator}"] if f.denominator > 1 else [])
+    return values + [f"{v} {u}" for v in values for u in ("m/s²", "m/s2")]
+
+
 def questions(p: dict, rng: random.Random) -> list:
     pts = p["corners"]
     (t0, v0), (t1, v1) = pts[0], pts[1]
     a1 = Fraction(v1 - v0, t1 - t0)
     first = short(f"{p['name']}'s {p['mover']} starts from rest. What is its acceleration in the first {t1} seconds?", num(a1),
-                  [f"{num(a1)} m/s²", f"{num(a1)} m/s2"])
+                  _rate(a1))
     (ta, va), (tb, vb) = pts[-2], pts[-1]
     d = Fraction(va - vb, tb - ta)
-    last = short(f"What is its deceleration in the last {tb - ta} seconds?", num(d), [f"{num(d)} m/s²", f"{num(d)} m/s2"])
+    last = short(f"What is its deceleration in the last {tb - ta} seconds?", num(d), _rate(d))
     area = int(sum(Fraction((a[1] + b[1]) * (b[0] - a[0]), 2) for a, b in zip(pts, pts[1:])))
     distance = short("How far does it travel altogether?", area, [f"{area} m", f"{area} metres"])
     V = max(v for _, v in pts)

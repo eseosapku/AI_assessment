@@ -41,17 +41,17 @@ def sample(rng: random.Random) -> dict:
 def draw(p: dict):
     w, h = p["w"], p["h"]
     W, H = w + 2, h + 2
-    fig, ax = new_figure(0.45 * W + 0.4, 0.45 * (H + 1.6) + 0.4)
+    fig, ax = new_figure(0.45 * W + 0.4, 0.45 * (H + 2.6) + 0.4)
     for x in range(W + 1):
         ax.plot([x, x], [0, H], color=GRID, linewidth=0.6)
     for y in range(H + 1):
         ax.plot([0, W], [y, y], color=GRID, linewidth=0.6)
     ax.add_patch(Rectangle((1, 1), w, h, facecolor=FILL_2, edgecolor=INK, linewidth=2.0))
-    ax.text(1 + w / 2, 1 + h / 2, f"Plan of the {p['place']}", ha="center", va="center", fontsize=10,
-            fontweight="bold", wrap=True)
+    # The caption above the grid: over the plan it covered the edges a student counts squares along.
+    ax.text(0, H + 1.8, f"Plan of the {p['place']}", ha="left", va="center", fontsize=11, fontweight="bold")
     ax.text(0, H + 0.8, f"Scale: 1 cm represents {p['scale']} m", ha="left", va="center", fontsize=11)
     ax.set_xlim(-0.1, W + 0.1)
-    ax.set_ylim(-0.1, H + 1.5)
+    ax.set_ylim(-0.1, H + 2.4)
     ax.set_aspect("equal")
     ax.axis("off")
     return fig

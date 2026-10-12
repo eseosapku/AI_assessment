@@ -36,7 +36,11 @@ def fmt(x: int, y: int) -> str:
 
 
 def forms(x: int, y: int) -> list[str]:
-    return [fmt(x, y), fmt(x, y).replace(" ", "")]
+    out = [fmt(x, y), fmt(x, y).replace(" ", "")]
+    if x == 0 and y:  # "0 + 3i" for 3i
+        im = ("" if abs(y) == 1 else str(abs(y))) + "i"
+        out += [f"0 {'+' if y > 0 else '-'} {im}", f"0{'+' if y > 0 else '-'}{im}"]
+    return out
 
 
 def sample(rng: random.Random) -> dict:

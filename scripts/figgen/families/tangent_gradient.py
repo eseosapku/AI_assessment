@@ -20,7 +20,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "curve-gradient", "gradient-function", "tangents-normals", "rates-of-change", "differentiation-applications",
 ))
 # Tangents to polynomial curves: not vectors, circular measure, rates of pay, trig identities or integrals.
-AVOID = r"vector|circular measure|ratio, rate|trigonometric formulae|integration|reversed|differential equation"
+AVOID = r"vector|circular measure|ratio, rate|trigonometric|integration|reversed|differential equation|logarithm|exponential"
 
 
 def value(co, x):
@@ -87,8 +87,10 @@ def questions(p: dict, rng: random.Random) -> list:
                  "the tangent.", g)
     xr = rng.choice([x for x in range(-3, 4) if x != xp])
     at = short(f"Find the gradient of the curve drawn at the point where x = {xr}.", slope(co, xr))
-    wrong = [line(-g, c), line(g, c + g), line(g, yp), line(g, -c if c else 2), line(g, xp)]
-    tangent = mcq("Which is the equation of the tangent at P?", line(g, c), [w for w in wrong if w != line(g, c)], rng)
+    # The gradient's sign and the intercept (the true one, or P's y-coordinate taken for it): each wrong in
+    # two of the four options.
+    c2 = yp if yp != c else c + g
+    tangent = mcq("Which is the equation of the tangent at P?", line(g, c), [line(-g, c), line(g, c2), line(-g, c2)], rng)
     n = Fraction(-1, g)
     forms = [frac(n)] + ([f"{float(n):g}"] if n.denominator in (2, 4, 5) else [])  # the decimal where it ends
     normal = short("What is the gradient of the normal to the curve at P?", frac(n), forms)

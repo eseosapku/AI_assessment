@@ -20,7 +20,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "stationary-points", "optimization-practical-maximum-minimum", "derivatives-second", "cubic-polynomials-graphs-moduli",
 ))
 # Polynomial turning points: not exponential, logarithmic or trigonometric chapters, nor modulus equations.
-AVOID = r"logarithm|exponential|trigonometric|solving equations of the type"
+AVOID = r"logarithm|exponential|trigonometric"
 
 
 def value(co, x):
@@ -38,7 +38,7 @@ def sample(rng: random.Random) -> dict:
 def _draw_numbers(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     if band == "AL" or rng.random() < 0.65:
-        a, c, e = rng.choice([-2, -1, 1, 2]), rng.randint(-2, 2), rng.randint(-3, 3)
+        a, c, e = rng.choice([-3, -2, -1, 1, 2, 3]), rng.randint(-3, 3), rng.randint(-3, 3)
         co = [a, -3 * a * c, 3 * a * c * c - 3 * a, -a * c ** 3 + 3 * a * c + e]
         points = [[c - 1, e + 2 * a], [c + 1, e - 2 * a]]
         kind = "cubic"
@@ -80,7 +80,7 @@ def questions(p: dict, rng: random.Random) -> list:
         (xa, ya), (xb, yb) = pts
         (tx, ty), (bx, by) = sorted(pts, key=lambda q: -q[1])
         qs.append(mcq(f"{p['name']} drew the graph of y = {eq}. What are the coordinates of its maximum point?", _pt(tx, ty),
-                      [_pt(bx, by), _pt(ty, tx), _pt(tx, -ty), _pt(-tx, ty), _pt(tx, by), _pt(bx, ty), _pt(tx, ty + 1)], rng))
+                      [_pt(bx, by), _pt(tx, by), _pt(bx, ty)], rng))  # each coordinate wrong in two of four
         between, outside = f"{xa} < x < {xb}", f"x < {xa} or x > {xb}"
         right = between if lead > 0 else outside
         qs.append(mcq("For which values of x is the gradient of the curve negative?", right,
@@ -89,7 +89,7 @@ def questions(p: dict, rng: random.Random) -> list:
     else:
         (h, k), = pts
         qs.append(mcq(f"{p['name']} drew the graph of y = {eq}. What are the coordinates of its turning point?", _pt(h, k),
-                      [_pt(k, h), _pt(-h, k), _pt(h, -k), _pt(h, p["coeffs"][2]), _pt(h, k + 1), _pt(h + 1, k)], rng))
+                      [_pt(-h, k), _pt(h, -k), _pt(-h, -k)], rng))  # each sign wrong in two of four
         right = f"x < {h}" if lead > 0 else f"x > {h}"
         qs.append(mcq("For which values of x is the gradient of the curve negative?", right,
                       [f"x > {h}" if lead > 0 else f"x < {h}", f"x < {k}" if k != h else f"x < {h + 1}", f"x > {-h}" if h else f"x > {h + 1}"], rng))
