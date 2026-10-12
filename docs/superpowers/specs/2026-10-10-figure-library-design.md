@@ -344,11 +344,11 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - They need a second Maths batch: function and trigonometric graphs, money, Argand diagrams, mechanics and distributions.
       - Thirteen families reach under three topics at some level, because today's books barely teach them. Bearings reaches none, since no book names bearings or nets.
     - Sample sheet: https://claude.ai/artifact/4sEbeJdYjQM77F6vrWo2Ju
-  - **P3b result (2026-10-12, plan `2026-10-12-figure-library-p3b-maths-scale.md`): the Maths wave drawn, reviewed and approved. The blind review cost $11.03; the library total is $56.16.**
-    - **Store:** all 36 drawn families pass the blind review, and 5,137 Maths figures are approved.
+  - **P3b result (2026-10-12, plan `2026-10-12-figure-library-p3b-maths-scale.md`): the Maths wave drawn, reviewed and approved. The blind review cost $12.04; the library total is $57.17.**
+    - **Store:** all 36 drawn families pass the blind review, and 5,144 Maths figures are approved.
       - Each family has 150 figures, except four that have no more different figures: clock 144, quadratic 84, pattern 66, conversion 54.
       - Bearings is not drawn, because no book teaches it yet.
-      - The library holds 5,466 approved drawn figures and 86 real images.
+      - The library holds 5,473 approved drawn figures and 86 real images.
     - **Review:** 33 of 36 families passed the first time. The three failures, and the reviewer's notes on passing figures, were fixed; those families were redrawn and reviewed again.
       - **Fixed in the figures:**
         - travel graphs name the place;
@@ -366,6 +366,14 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - **Linking:** the quiz check found box plots in Bivariate Statistics, pulled in by a section mapped to "dispersion".
       - One-variable families now avoid two-variable chapters, and two-way tables avoid averages and spread.
       - `generate.py --relink` moves stored figures without redrawing them or losing their reviews.
+    - **The final review** found sub-types whose reviewed figures had all failed, inside families that passed as a whole.
+      - The L of dots had its upright arm cut off, so the key counted dots the drawing did not show.
+      - Two obtuse vertically-opposite arcs closed into a ring.
+      - A translation asked about a corner the image shared.
+      - All three are fixed, and the families were redrawn and passed again (the L 3 of 3, vertically opposite 6 of 6).
+      - The review's slack is now stated per question: `figure_questions.tolerance`, set only on curve readings. Elsewhere every number the reviewer writes must be the key.
+      - A cumulative frequency window never takes in an answer got by a wrong method: none, n/2 as the median, or a quartile read off and left.
+      - After each review, triage the rejections inside passing families by sub-type, not only the failing families.
     - **Coverage of the 302 mapped Maths topics:** 195 have approved figures.
       - 153 have 50 or more, 24 have 20 to 49, and 18 have fewer than 20; all 18 are at Primary, where a figure suits only some school years.
       - 107 have none, as P3a predicted.
