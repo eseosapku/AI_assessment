@@ -19,10 +19,11 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in ("cumulative-distribution-function"
 
 # what, unit, who, the axis's end, how to say "more than t", and the grid's small step (the
 # quartiles and the reading fall on it)
-CONTEXTS = [("marks in a test", "marks", "students", 100, "scored more than {t} marks", 2),
-            ("times taken to finish a puzzle", "minutes", "students", 60, "took more than {t} minutes", 2),
-            ("heights of seedlings", "cm", "seedlings", 40, "had a height of more than {t} cm", 1),
-            ("masses of parcels", "kg", "parcels", 20, "had a mass of more than {t} kg", 1)]
+CONTEXTS = [("marks in a test", "marks", "students", 100, "scored more than {t} marks", 2, "the marks of {n} students in a test"),
+            ("times taken to finish a puzzle", "minutes", "students", 60, "took more than {t} minutes", 2,
+             "the times {n} students took to finish a puzzle"),
+            ("heights of seedlings", "cm", "seedlings", 40, "had a height of more than {t} cm", 1, "the heights of {n} seedlings"),
+            ("masses of parcels", "kg", "parcels", 20, "had a mass of more than {t} kg", 1, "the masses of {n} parcels")]
 
 
 def _knots(p: dict) -> list[tuple[float, float]]:
@@ -98,7 +99,7 @@ def sample(rng: random.Random) -> dict:
 
 
 def draw(p: dict):
-    what, unit, _, xmax, _, step = CONTEXTS[p["context"]]
+    what, unit, _, xmax, _, step, _ = CONTEXTS[p["context"]]
     n = p["total"]
     fig, ax = new_figure(6.4, 5.0)
     xs = [x * xmax / 400 for x in range(401)]
@@ -115,18 +116,20 @@ def draw(p: dict):
     word = what.split(" ")[0].capitalize()
     ax.set_xlabel(word if word.lower() == unit else f"{word} ({unit})")
     ax.set_ylabel("Cumulative frequency")
-    ax.set_title(f"The {what} of {n} {CONTEXTS[p['context']][2]}", fontsize=11)
+    title = CONTEXTS[p["context"]][6].format(n=n)
+    ax.set_title(title[0].upper() + title[1:], fontsize=11)
     return fig
 
 
 def questions(p: dict, rng: random.Random) -> list:
-    what, unit, who, _, more, _ = CONTEXTS[p["context"]]
+    what, unit, who, _, more, _, of_n = CONTEXTS[p["context"]]
+    of_n = of_n.format(n=p["total"])
     n, (q1, m, q3), (t, ct) = p["total"], p["quartiles"], p["extra"]
     low = {"marks": f"scored {q1} marks or fewer", "minutes": f"took {q1} minutes or less", "cm": f"were {q1} cm tall or less",
            "kg": f"had a mass of {q1} kg or less"}[unit]
     return [
-        short(f"{p['name']} drew this graph of the {what} of {n} {who}. Use it to estimate the median.", m, [f"{m} {unit}"]),
-        short(f"Use the graph to estimate the interquartile range of the {what} of the {n} {who}.", q3 - q1, [f"{q3 - q1} {unit}"]),
+        short(f"{p['name']} drew this graph of {of_n}. Use it to estimate the median.", m, [f"{m} {unit}"]),
+        short(f"Use the graph to estimate the interquartile range of {of_n}.", q3 - q1, [f"{q3 - q1} {unit}"]),
         short(f"Use the graph to estimate how many of the {who} {more.format(t=t)}.", n - ct),
         short(f"Use {p['name']}'s graph to estimate how many of the {who} {low}.", n // 4),
     ]

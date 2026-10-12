@@ -48,7 +48,12 @@ def draw(p: dict):
 
 
 def _label(p: dict, cat: str) -> str:
-    return f"{p['verb']} {cat}" if p["verb"] != "read by" else f"read by {cat}"
+    """How the people who gave an answer are described: "walk", "travel by bus", "chose mango"."""
+    if p["verb"] == "read by":
+        return f"read by {cat}"  # a person's name keeps its capital
+    if cat == "Walk":
+        return "walk"
+    return f"{p['verb']} {cat.lower()}"
 
 
 def questions(p: dict, rng: random.Random) -> list:

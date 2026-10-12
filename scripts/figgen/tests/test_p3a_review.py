@@ -197,3 +197,56 @@ def test_no_family_reaches_a_topic_it_does_not_teach():
             reached |= set(topics_for(index, m, m.sample(random.Random(s))))
         bad = sorted(names[k] for k in reached if re.search(pattern, names[k], re.I))
         assert not bad, (fid, bad)
+
+
+# ---- P3b polish: the review's deferred minors, fixed before the figures go for review ----------
+
+from figgen.families import bar_chart, clock, cuboid, scatter_graph  # noqa: E402
+
+
+def _stems(m, seeds=range(1, 301)):
+    for s in seeds:
+        p, qs = run(m, s)
+        yield p, qs
+
+
+def test_wording_reads_naturally():
+    for p, qs in _stems(bar_chart):
+        assert not any(re.search(r"travel by [Ww]alk|chose [A-Z]", q.stem) for q in qs), [q.stem for q in qs]
+    for p, qs in _stems(cumulative_frequency):
+        assert not any("puzzle of" in q.stem for q in qs)
+    for p, qs in _stems(histogram):
+        if "time" in histogram.CONTEXTS[p["context"]][0]:
+            assert "took between" in qs[0].stem, qs[0].stem
+    for p, qs in _stems(clock):
+        assert "after the time shown" not in qs[2].stem and "mins" in qs[2].accepted[-1] + " ".join(qs[2].accepted)
+
+
+@pytest.mark.parametrize("fid", MATHS)
+def test_units_are_accepted_without_a_space(fid):
+    """"55kg" for "55 kg": students drop the space."""
+    for p, qs in _stems(FAMILIES[fid], range(1, 201)):
+        for q in qs:
+            for a in q.accepted:
+                m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C)", a)
+                if m:
+                    assert m.group(1) + m.group(2) in q.accepted, (fid, a, q.accepted)
+
+
+def test_bearings_accept_degrees_in_words():
+    for p, qs in _stems(bearings):
+        assert f"{p['theta']:03d} degrees" in qs[0].accepted and f"{p['theta']} degrees" in qs[0].accepted
+
+
+def test_scatter_values_are_in_rwandan_francs_and_thresholds_split_the_points():
+    for p, qs in _stems(scatter_graph, SEEDS):
+        assert "$" not in p["yl"] and not any("$" in q.stem for q in qs)
+        n = int(qs[2].answer)
+        assert 0 < n < len(p["ys"]), (p["ys"], qs[2].stem)  # points on both sides of the value asked about
+
+
+def test_cuboid_sizes_suit_the_object():
+    for p, qs in _stems(cuboid, SEEDS):
+        if p["band"] == "LS":
+            lo, hi = cuboid.SIZES[p["thing"]]
+            assert all(a <= v <= b for v, a, b in zip((p["l"], p["w"], p["h"]), lo, hi)), p

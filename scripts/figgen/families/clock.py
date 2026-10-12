@@ -94,6 +94,6 @@ def questions(p: dict, rng: random.Random) -> list:
                  _t(eh, em), [f"{eh}.{em:02d}", f"{eh:02d}:{em:02d}", f"{eh:02d}.{em:02d}"])
     target = rng.choice([h % 12 + 1, (h + 1) % 12 + 1])
     gap = ((target % 12) * 60 - ((h % 12) * 60 + m)) % 720
-    until = short(f"{name} must be home by {target} o'clock. How many minutes is that after the time shown?", gap,
-                  [f"{gap} minutes", f"{gap} min"])
+    until = short(f"{name} must be home by {target} o'clock. How many minutes is it from the time shown until then?", gap,
+                  [f"{gap} minutes", f"{gap} min", f"{gap} mins"])
     return [shown, ends, until]

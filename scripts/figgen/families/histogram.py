@@ -18,16 +18,16 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("histogram", "frequency-polygons", "grouped-data-definition", "class-boundaries",
                                              "calculating-statistics-grouped-data"))
 
-# what, variable, unit, who, equal-width classes, unequal-width classes
+# what, variable, unit, who, equal-width classes, unequal-width classes, and how to say "in a class"
 CONTEXTS = [
     ("heights of seedlings", "h", "cm", "seedlings", [(0, 10), (10, 20), (20, 30), (30, 40), (40, 50)],
-     [(0, 10), (10, 20), (20, 30), (30, 50), (50, 80)]),
+     [(0, 10), (10, 20), (20, 30), (30, 50), (50, 80)], "are between {lo} and {hi} cm tall"),
     ("times taken to walk to school", "t", "minutes", "students", [(0, 5), (5, 10), (10, 15), (15, 20), (20, 25), (25, 30)],
-     [(0, 4), (4, 10), (10, 20), (20, 30), (30, 50)]),
+     [(0, 4), (4, 10), (10, 20), (20, 30), (30, 50)], "took between {lo} and {hi} minutes"),
     ("masses of bags of rice", "m", "kg", "bags", [(0, 2), (2, 4), (4, 6), (6, 8), (8, 10)],
-     [(0, 2), (2, 4), (4, 8), (8, 12), (12, 20)]),
+     [(0, 2), (2, 4), (4, 8), (8, 12), (12, 20)], "weigh between {lo} and {hi} kg"),
     ("ages of people at a clinic", "a", "years", "people", [(0, 10), (10, 20), (20, 30), (30, 40), (40, 50), (50, 60)],
-     [(0, 10), (10, 20), (20, 40), (40, 60), (60, 90)]),
+     [(0, 10), (10, 20), (20, 40), (40, 60), (60, 90)], "are between {lo} and {hi} years old"),
 ]
 
 
@@ -86,7 +86,8 @@ def questions(p: dict, rng: random.Random) -> list:
     best = fs.index(max(fs))
     k = rng.randrange(1, len(classes))
     return [
-        count(f"{p['name']} drew this histogram of the {what}. How many of the {who} are between {lo} and {hi} {unit}?", fs[i], who),
+        count(f"{p['name']} drew this histogram of the {what}. How many of the {who} {CONTEXTS[p['context']][6].format(lo=lo, hi=hi)}?",
+              fs[i], who),
         count(f"How many {who} does {p['name']}'s histogram show altogether?", sum(fs), who),
         mcq(f"In {p['name']}'s histogram, which class has the most {who}?", labels[best], [lab for j, lab in enumerate(labels) if j != best], rng),
         # Adding classes: everything above one of the class boundaries.

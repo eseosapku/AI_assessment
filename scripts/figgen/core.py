@@ -111,6 +111,11 @@ def short(stem: str, answer, accepted=(), explanation: str = "") -> Question:
         m = re.fullmatch(r"(-?\d+)\.0(\D*)", f)
         if m and m.group(1) + m.group(2) not in forms:
             forms.append(m.group(1) + m.group(2))
+    # "55kg" for "55 kg": students drop the space before a unit symbol.
+    for f in list(forms):
+        m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C)", f)
+        if m and m.group(1) + m.group(2) not in forms:
+            forms.append(m.group(1) + m.group(2))
     return Question("short", stem, canonical, [], forms, explanation)
 
 

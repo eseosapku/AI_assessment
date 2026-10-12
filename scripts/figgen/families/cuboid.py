@@ -20,6 +20,10 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
 P_THINGS = ["stack of building blocks", "box of sugar cubes", "model made of cubes", "pile of wooden blocks", "tower of cubes"]
 LS_THINGS = [("box", "cm"), ("water tank", "m"), ("brick", "cm"), ("classroom", "m"), ("fish tank", "cm"), ("matchbox", "cm"),
              ("shipping container", "m"), ("block of soap", "cm")]
+# Real sizes for each object: (shortest length, width, height) up to (longest), in its unit.
+SIZES = {"box": ((10, 8, 5), (40, 30, 25)), "water tank": ((1, 1, 1), (4, 3, 3)), "brick": ((20, 9, 6), (25, 12, 8)),
+         "classroom": ((6, 5, 3), (12, 9, 4)), "fish tank": ((30, 20, 20), (80, 40, 50)), "matchbox": ((5, 3, 1), (6, 4, 2)),
+         "shipping container": ((6, 2, 2), (12, 3, 3)), "block of soap": ((6, 4, 2), (10, 6, 4))}
 DEPTH = (0.5, 0.38)  # the receding edges, per unit of width
 
 
@@ -35,8 +39,9 @@ def sample(rng: random.Random) -> dict:
         return {"band": "P", "name": name, "thing": rng.choice(P_THINGS), "unit": "cm",
                 "l": rng.randint(2, 5), "w": rng.randint(2, 4), "h": rng.randint(2, 4)}
     thing, unit = rng.choice(LS_THINGS)
+    (l0, w0, h0), (l1, w1, h1) = SIZES[thing]
     return {"band": "LS", "name": name, "thing": thing, "unit": unit,
-            "l": rng.randint(3, 12), "w": rng.randint(2, 10), "h": rng.randint(2, 10)}
+            "l": rng.randint(l0, l1), "w": rng.randint(w0, w1), "h": rng.randint(h0, h1)}
 
 
 def draw(p: dict):

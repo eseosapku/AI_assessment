@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import random
 
-from ..core import count, GRID, mcq, new_figure, short
+from ..core import NAMES, count, GRID, mcq, new_figure, short
 
 ID = "scatter_graph"
 KIND = "graph.scatter"
@@ -15,7 +15,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
 
 PAIRS = [
     ("Hours of revision", "Test score (%)", "positive", "a student who revised for {x} hours", "score"),
-    ("Age of car (years)", "Value of car ($ hundreds)", "negative", "a car that is {x} years old", "value, in $ hundreds"),
+    ("Age of car (years)", "Value of car (millions of RWF)", "negative", "a car that is {x} years old", "value, in millions of RWF"),
     ("Daily temperature (°C)", "Cold drinks sold", "positive", "a day when the temperature was {x} °C", "number of drinks sold"),
     ("Shoe size", "Mark in a spelling test", "none", "the student with shoe size {x}", "mark"),
 ]
@@ -46,7 +46,8 @@ def sample(rng: random.Random) -> dict:
             ys = [5 * rng.randint(4, 16) for _ in xs]
         r = _r(xs, ys)
         if (trend == "positive" and r > 0.8) or (trend == "negative" and r < -0.8) or (trend == "none" and abs(r) < 0.2):
-            return {"band": band, "xl": xl, "yl": yl, "trend": trend, "who": who, "what": what, "xs": xs, "ys": ys}
+            return {"band": band, "xl": xl, "yl": yl, "trend": trend, "who": who, "what": what, "xs": xs, "ys": ys,
+                    "name": rng.choice(NAMES)}
 
 
 def draw(p: dict):
@@ -67,13 +68,15 @@ def questions(p: dict, rng: random.Random) -> list:
     name = {"positive": "Positive correlation", "negative": "Negative correlation", "none": "No correlation"}
     i = rng.randrange(len(p["xs"]))
     who = p["who"].format(x=p["xs"][i])
-    # A value no point sits on, so "more than" is never in doubt; 0 only if nothing else works.
-    between = [t for t in range(5, 100, 5) if t not in p["ys"] and any(y > t for y in p["ys"])]
-    t = rng.choice(between) if between else 0
+    # Points on both sides of the value asked about, and none on it: a gridline if one is free,
+    # else a whole number between gridlines (the points all sit on fives).
+    lo, hi = min(p["ys"]), max(p["ys"])
+    between = [t for t in range(5, 100, 5) if t not in p["ys"] and lo < t < hi]
+    t = rng.choice(between) if between else rng.choice([t for t in range(lo + 1, hi) if t % 5])
     things, measure = COUNTED[p["xl"]]
     return [
-        mcq("What type of correlation does the scatter graph show?", name[p["trend"]],
+        mcq(f"{p['name']} drew this scatter graph. What type of correlation does it show?", name[p["trend"]],
             [v for k, v in name.items() if k != p["trend"]], rng),
-        short(f"What is the {p['what']} for {who}?", p["ys"][i]),
-        count(f"How many {things} had {measure} of more than {t}?", sum(1 for y in p["ys"] if y > t), things),
+        short(f"In {p['name']}'s graph, what is the {p['what']} for {who}?", p["ys"][i]),
+        count(f"In {p['name']}'s graph, how many {things} had {measure} of more than {t}?", sum(1 for y in p["ys"] if y > t), things),
     ]

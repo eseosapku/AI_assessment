@@ -74,7 +74,7 @@ def draw(p: dict):
 
 
 def _forms(t: int) -> list[str]:
-    return [f"{t:03d}°", f"{t:03d}", str(t), f"{t}°", f"{t:03d} degrees"]
+    return [f"{t:03d}°", f"{t:03d}", str(t), f"{t}°", f"{t:03d} degrees", f"{t} degrees"]
 
 
 def questions(p: dict, rng: random.Random) -> list:

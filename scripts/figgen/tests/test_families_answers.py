@@ -553,7 +553,7 @@ def test_cuboid():
     for s in SEEDS:
         p, qs = run(cuboid, s)
         l, w, h = p["l"], p["w"], p["h"]
-        assert all(isinstance(v, int) and 1 <= v <= 12 for v in (l, w, h))
+        assert all(isinstance(v, int) and 1 <= v <= 80 for v in (l, w, h))
         assert int(qs[0].answer) == l * w * h and f"{l * w * h} {p['unit']}³" in qs[0].accepted
         if p["band"] == "LS":
             sa = 2 * (l * w + l * h + w * h)
