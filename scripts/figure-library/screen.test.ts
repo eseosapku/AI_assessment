@@ -34,7 +34,7 @@ describe('the reply the screener is shown', () => {
     // block "on topic" for the Cold War. The template now holds only placeholders.
     const p = screenPrompt(item)
     expect(p).not.toMatch(/"(?:educational|on_topic|clear|beyond_level|person_is_subject|mostly_text|foreign_labels|decorative)":\s*(?:true|false)/)
-    expect(p).toContain('"educational": <true or false>')
+    expect(p).toContain('"educational": boolean')
     expect(p.indexOf('topic_fit')).toBeLessThan(p.indexOf('"educational"'))
   })
 })

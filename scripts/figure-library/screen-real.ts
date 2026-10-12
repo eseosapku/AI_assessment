@@ -1,15 +1,16 @@
 // scripts/figure-library/screen-real.ts
 // Run: npx jiti scripts/figure-library/screen-real.ts [--limit=N] [--dry] [--workers=6] [--redo]
 //      (--redo: screen every real image again, after a change to the screen)
-// Screens real candidates with Nova Lite on their 512 px copy (spec 5.3 step 3). Resumable.
+// Screens real candidates on their 512 px copy (spec 5.3 step 3), with Haiku: see SCREEN_MODEL. Resumable.
 import { libraryDir, openStore } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
-import { NOVA_LITE, askJson, bedrockSender, runPool } from './claude'
+import { askJson, bedrockSender, runPool } from './claude'
 import { previewImage } from './review'
-import { SCREEN_JOB, SCREEN_USD_PER_ITEM, parseScreen, resetScreens, saveScreen, screenPrompt, toScreen } from './screen'
+import { SCREEN_JOB, SCREEN_MODEL, SCREEN_USD_PER_ITEM, parseScreen, resetScreens, saveScreen, screenPrompt, toScreen } from './screen'
 
-const JOB_CAP_USD = 1
+/** Raised from $1 when Haiku replaced Nova Lite; P1 stays within spec 8's $25. */
+const JOB_CAP_USD = 2
 const MAX_UNUSABLE = 15
 
 async function main() {
@@ -38,9 +39,9 @@ async function main() {
         return
       }
       try {
-        const raw = await askJson({ db, job: SCREEN_JOB, jobCapUsd: JOB_CAP_USD, prompt: screenPrompt(item), images: [image], maxTokens: 400, send, model: NOVA_LITE })
+        const raw = await askJson({ db, job: SCREEN_JOB, jobCapUsd: JOB_CAP_USD, prompt: screenPrompt(item), images: [image], maxTokens: 500, send, model: SCREEN_MODEL })
         const screening = parseScreen(raw)
-        saveScreen(db, { figureId: item.figureId, model: NOVA_LITE, screening, detail: raw })
+        saveScreen(db, { figureId: item.figureId, model: SCREEN_MODEL, screening, detail: raw })
         if (screening.keep) kept++
         for (const r of screening.reasons) reasons[r] = (reasons[r] ?? 0) + 1
       } catch (err) {

@@ -3,8 +3,13 @@ import { readJson, type Store } from './store'
 import { LEVELS } from './review'
 
 export const SCREEN_JOB = 'p1b-screen'
-/** A 512 px image (about 600 tokens) and a short prompt to Nova Lite, with a sentence back. */
-export const SCREEN_USD_PER_ITEM = 0.0003
+/**
+ * Haiku screens. Nova Lite, the spec's choice, copied the example reply (599 of 600 kept), then
+ * wrote "<true>" and kept office blocks and cancer slides: the pilot's finding (P1b).
+ */
+export const SCREEN_MODEL = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
+/** A 512 px image (about 350 tokens), a 600-token prompt, and two sentences and nine judgements back. */
+export const SCREEN_USD_PER_ITEM = 0.0016
 
 export interface ScreenItem { figureId: string; subject: string; band: string; topic: string; title: string; description: string; preview: string }
 export interface Screening { keep: boolean; shows: string; reasons: string[] }
@@ -42,8 +47,8 @@ export function screenPrompt(item: ScreenItem): string {
     '- foreign_labels: it has labels or captions in a language other than English.',
     '- decorative: a logo, an icon, clip art, an advert or a decoration.',
     '',
-    'Reply with JSON only, these keys in this order, each value your own:',
-    '{"shows": "...", "topic_fit": "...", "educational": <true or false>, "on_topic": <true or false>, "clear": <true or false>, "beyond_level": <true or false>, "person_is_subject": <true or false>, "mostly_text": <true or false>, "foreign_labels": <true or false>, "decorative": <true or false>}',
+    'Reply with JSON only: an object with these keys in this order, each judgement a JSON true or false of your own:',
+    '{"shows": string, "topic_fit": string, "educational": boolean, "on_topic": boolean, "clear": boolean, "beyond_level": boolean, "person_is_subject": boolean, "mostly_text": boolean, "foreign_labels": boolean, "decorative": boolean}',
   ].join('\n')
 }
 
