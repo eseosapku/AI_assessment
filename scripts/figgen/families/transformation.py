@@ -82,10 +82,10 @@ def _random_t(rng: random.Random, band: str) -> dict:
         return {"kind": k}
     if k == "rotate":
         return {"kind": k, "deg": rng.choice([90, 90, 180]), "dir": rng.choice(["clockwise", "anticlockwise"]),
-                "c": (rng.randint(-2, 2), rng.randint(-2, 2))}
+                "c": [rng.randint(-2, 2), rng.randint(-2, 2)]}  # lists, not tuples: the spec is saved as JSON
     if k == "translate":
-        return {"kind": k, "v": (rng.choice([v for v in range(-6, 7) if v]), rng.randint(-5, 5))}
-    return {"kind": k, "sf": 2 if band == "LS" else rng.choice([2, 3]), "c": (rng.randint(-5, 0), rng.randint(-5, 0))}
+        return {"kind": k, "v": [rng.choice([v for v in range(-6, 7) if v]), rng.randint(-5, 5)]}
+    return {"kind": k, "sf": 2 if band == "LS" else rng.choice([2, 3]), "c": [rng.randint(-5, 0), rng.randint(-5, 0)]}
 
 
 def _cells(pts) -> set:
@@ -130,7 +130,7 @@ def _distractors(p: dict, rng: random.Random) -> list[str]:
         vx, vy = t["v"]
         near += [{"kind": k, "v": (vy, vx)}, {"kind": k, "v": (-vx, -vy)}, {"kind": k, "v": (vx, -vy)}]
     if k == "enlarge":
-        near += [{**t, "sf": t["sf"] + 1}, {**t, "c": (0, 0) if t["c"] != (0, 0) else (1, 1)}, {**t, "sf": 2 if t["sf"] == 3 else 3}]
+        near += [{**t, "sf": t["sf"] + 1}, {**t, "c": (0, 0) if tuple(t["c"]) != (0, 0) else (1, 1)}, {**t, "sf": 2 if t["sf"] == 3 else 3}]
     if k in ("reflect_yx", "reflect_ynx"):
         near += [{"kind": "reflect_ynx" if k == "reflect_yx" else "reflect_yx"}, {"kind": "reflect_x", "k": 0},
                  {"kind": "rotate", "deg": 90, "dir": "clockwise", "c": (0, 0)}]
