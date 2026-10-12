@@ -15,7 +15,7 @@ def sample(rng: random.Random) -> dict:
     four = rng.random() < 0.5
     lo, hi = (-6, 6) if four else (0, 10)
     cells = [(x, y) for x in range(lo + (0 if four else 1), hi + 1) for y in range(lo + (0 if four else 1), hi + 1)
-             if not (four and (x == 0 or y == 0))]
+             if not (four and (abs(x) < 2 or abs(y) < 2))]  # clear of the numbers along each axis
     pts = rng.sample(cells, 4)
     return {"lo": lo, "hi": hi, "points": [list(p) for p in pts]}
 

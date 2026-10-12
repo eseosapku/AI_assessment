@@ -11,7 +11,9 @@ SUBJECT = "mathematics"
 BANDS = ("P", "LS", "UP")
 
 HOURS = [6, 8, 10, 12, 14, 16, 18]
-PLACES = ["Kigali", "Huye", "Musanze", "Lagos", "Nairobi", "Kampala"]
+# The coolest and hottest a day's readings can plausibly be in each place, in °C.
+CLIMATE = {"Kigali": (14, 30), "Huye": (12, 28), "Musanze": (10, 26), "Lagos": (22, 34), "Nairobi": (10, 28),
+           "Kampala": (16, 30)}
 
 
 def _clock(h: int) -> str:
@@ -19,14 +21,18 @@ def _clock(h: int) -> str:
 
 
 def sample(rng: random.Random) -> dict:
+    place = rng.choice(sorted(CLIMATE))
+    lo, hi = CLIMATE[place]
     while True:
-        start = rng.randrange(10, 20, 2)
-        temps = [start]
-        for _ in HOURS[1:]:
-            temps.append(temps[-1] + rng.choice([-2, 0, 2, 2, 4]))
-        peak = max(temps)
-        if temps.count(peak) == 1 and min(temps) >= 8 and peak <= 34:
-            return {"place": rng.choice(PLACES), "temps": temps}
+        # A day warms to one peak at 12:00, 14:00 or 16:00 and cools after it.
+        peak = rng.choice([3, 4, 5])
+        temps = [rng.randrange(lo, lo + 5, 2)]
+        for i in range(1, len(HOURS)):
+            step = rng.choice([0, 2, 2, 4])
+            temps.append(temps[-1] + (step if i <= peak else -step))
+        top = max(temps)
+        if temps.count(top) == 1 and temps.index(top) == peak and top <= hi and min(temps) >= lo:
+            return {"place": place, "temps": temps}
 
 
 def draw(p: dict):

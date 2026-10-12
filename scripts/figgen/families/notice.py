@@ -33,6 +33,8 @@ def sample(rng: random.Random) -> dict:
 
 
 def _time(h: int) -> str:
+    if h == 12:
+        return "12 noon"  # "12:00 p.m." is read both ways
     return f"{h % 12 or 12}:00 {'a.m.' if h < 12 else 'p.m.'}"
 
 

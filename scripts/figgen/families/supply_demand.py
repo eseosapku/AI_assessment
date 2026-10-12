@@ -47,8 +47,9 @@ def draw(p: dict):
     def line(f, label, style="-"):
         pts = [(q, f(q)) for q in qs if 0 <= f(q) <= 26]
         ax.plot([x for x, _ in pts], [y for _, y in pts], color="#111111", linestyle=style)
-        x, y = pts[-1] if label.startswith("S") else pts[-1]
-        ax.text(x + 0.2, y, label, fontsize=11, fontweight="bold")
+        x, y = pts[-1]
+        # A line that leaves through the top is labelled just inside the grid, clear of the title.
+        ax.text(x + 0.2, min(y, 24.4), label, fontsize=11, fontweight="bold")
 
     line(lambda q: a - b * q, "D1")
     line(lambda q: c + d * q, "S1")

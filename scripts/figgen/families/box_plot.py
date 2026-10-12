@@ -34,10 +34,12 @@ def draw(p: dict):
     ax.add_patch(Rectangle((q1, -0.25), q3 - q1, 0.5, fill=False, edgecolor="#111111", linewidth=1.6))
     for x, h in ((mn, 0.15), (md, 0.25), (mx, 0.15)):
         ax.plot([x, x], [-h, h], color="#111111")
-    ax.set_xticks(range(p["lo"] - 2, p["hi"] + 3))
+    # Numbers every 5, a gridline on every mark: values are whole marks and read exactly.
+    ax.set_xticks([v for v in range(p["lo"] - 2, p["hi"] + 3) if v % 5 == 0])
+    ax.set_xticks(range(p["lo"] - 2, p["hi"] + 3), minor=True)
     ax.set_xlim(p["lo"] - 2, p["hi"] + 2)
-    ax.tick_params(axis="x", labelsize=8)
-    ax.xaxis.grid(True, color=GRID, linewidth=0.6)
+    ax.tick_params(axis="x", labelsize=9)
+    ax.xaxis.grid(True, which="both", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
     ax.set_yticks([])
     ax.spines["left"].set_visible(False)

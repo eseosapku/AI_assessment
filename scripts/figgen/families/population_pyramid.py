@@ -43,9 +43,10 @@ def draw(p: dict):
     ax.axvline(0, color="#111111", linewidth=1)
     ax.set_xlabel("Percentage of population (%)")
     ax.set_ylabel("Age group (years)")
-    ax.text(-top / 2, len(GROUPS) - 0.2, "Male", ha="center", fontweight="bold")
-    ax.text(top / 2, len(GROUPS) - 0.2, "Female", ha="center", fontweight="bold")
-    ax.set_title("Population pyramid for a country")
+    ax.set_ylim(-0.6, len(GROUPS) + 0.4)  # room above the top bar for the headings
+    ax.text(-top / 2, len(GROUPS) - 0.15, "Male", ha="center", va="center", fontweight="bold")
+    ax.text(top / 2, len(GROUPS) - 0.15, "Female", ha="center", va="center", fontweight="bold")
+    ax.set_title("Population pyramid for a country", pad=10)
     return fig
 
 

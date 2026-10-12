@@ -38,7 +38,7 @@ def draw(p: dict):
     labels = [f"{c}\n{a}°" for c, a in zip(p["cats"], p["angles"])]
     ax.pie(p["angles"], labels=labels, colors=SHADES[: len(p["angles"])], startangle=90, counterclock=False,
            wedgeprops={"edgecolor": "#111111", "linewidth": 1})
-    ax.set_title(f"{p['title']} ({p['total']} {p['unit']})")
+    ax.set_title(f"{p['title']} ({p['total']} {p['unit']})", pad=30)  # clear of a label at the top
     ax.axis("equal")
     return fig
 

@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import random
 from fractions import Fraction
+from math import gcd
 
 from ..core import frac, mcq, new_figure, short
 
@@ -22,9 +23,17 @@ SETUPS = [
 def sample(rng: random.Random) -> dict:
     text, first, second = rng.choice(SETUPS)
     n = rng.choice([4, 5, 6, 7, 8, 9, 10, 11, 12])
-    # Not an even split: then several wrong answers equal the right one.
-    a = rng.choice([v for v in range(1, n) if 2 * v != n])
+    # Not an even split: then several wrong answers equal the right one. A probability the
+    # question states is in lowest terms; counts of counters need not be.
+    a = rng.choice([v for v in range(1, n) if 2 * v != n and ("{a}/{n}" not in text or gcd(v, n) == 1)])
     return {"text": text, "names": [first, second], "a": a, "n": n}
+
+
+def _prob(ax, x0: float, y0: float, x1: float, y1: float, text: str, size: int) -> None:
+    """A branch's probability beside its middle, on the outer side, so the branch never runs through it."""
+    up = y1 > y0
+    ax.annotate(text, ((x0 + x1) / 2, (y0 + y1) / 2), xytext=(-3, 4 if up else -4), textcoords="offset points",
+                ha="right", va="bottom" if up else "top", fontsize=size)
 
 
 def draw(p: dict):
@@ -37,12 +46,12 @@ def draw(p: dict):
     firsts = [(0.3, 0.78, x1, pa), (0.3, 0.22, y1, pb)]
     for (x, y, name, prob) in firsts:
         ax.plot([-0.25, x - 0.04], [0.5, y], color="#111111")
-        ax.text((-0.25 + x) / 2 - 0.04, (0.5 + y) / 2 + (0.04 if y > 0.5 else -0.07), prob, fontsize=11)
+        _prob(ax, -0.25, 0.5, x - 0.04, y, prob, 11)
         ax.text(x, y, name, va="center", fontsize=11)
         for (dy, name2, prob2) in ((0.12, x1, pa), (-0.12, y1, pb)):
             ex, ey = 0.72, y + dy
             ax.plot([x + 0.12, ex - 0.02], [y, ey], color="#111111")
-            ax.text((x + 0.12 + ex) / 2 - 0.02, (y + ey) / 2 + (0.02 if dy > 0 else -0.05), prob2, fontsize=10)
+            _prob(ax, x + 0.12, y, ex - 0.02, ey, prob2, 10)
             ax.text(ex, ey, name2, va="center", fontsize=11)
     ax.set_xlim(-0.3, 0.95)
     ax.set_ylim(0, 1.1)
