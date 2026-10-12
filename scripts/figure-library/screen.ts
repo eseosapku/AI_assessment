@@ -22,21 +22,28 @@ const CHECKS: [string, boolean, string][] = [
 ]
 
 export function screenPrompt(item: ScreenItem): string {
+  // No example values: Nova Lite copied a filled-in example reply word for word (599 of 600
+  // kept, an office block "on topic" for the Cold War). It describes and weighs the image
+  // first, then gives each judgement itself.
   return [
     `This image may be used in a ${item.subject} quiz for learners at ${LEVELS[item.band] ?? item.band}, on the topic "${item.topic}".`,
     `Its file is called "${item.title}".${item.description ? ` Its description says: "${item.description.slice(0, 300)}"` : ''}`,
     '',
-    'Look at the image and judge it:',
+    'Look at the image, then answer in this order:',
+    '1. shows: one sentence on what the image actually shows.',
+    `2. topic_fit: one sentence on whether a teacher of "${item.topic}" at this level would use it, and why or why not.`,
+    '3. Each judgement below, true or false, from what you see:',
     '- educational: it clearly shows something learners of this topic study (an organism, a cell, a landform, apparatus, a historical source, a process), well enough to ask a question about.',
-    '- on_topic: it fits this topic, not only the subject in general.',
+    '- on_topic: it fits this topic, not only the subject in general. A building, street or object unrelated to the topic is not on topic.',
     '- clear: sharp and well lit, with the thing that matters large enough to see.',
     '- beyond_level: a figure from a research paper (often several labelled panels), specialist or medical detail, or anything beyond what learners at this level study.',
-    '- person_is_subject: an identifiable person is the main subject (a portrait, a selfie, a posed group).',
+    '- person_is_subject: one or more identifiable people are the main subject (a portrait, a selfie, people posing or working as the focus).',
     '- mostly_text: it is mainly words or a table.',
     '- foreign_labels: it has labels or captions in a language other than English.',
     '- decorative: a logo, an icon, clip art, an advert or a decoration.',
     '',
-    'Reply with JSON only: {"shows":"one sentence on what the image shows","educational":true,"on_topic":true,"clear":true,"beyond_level":false,"person_is_subject":false,"mostly_text":false,"foreign_labels":false,"decorative":false}',
+    'Reply with JSON only, these keys in this order, each value your own:',
+    '{"shows": "...", "topic_fit": "...", "educational": <true or false>, "on_topic": <true or false>, "clear": <true or false>, "beyond_level": <true or false>, "person_is_subject": <true or false>, "mostly_text": <true or false>, "foreign_labels": <true or false>, "decorative": <true or false>}',
   ].join('\n')
 }
 
@@ -80,4 +87,19 @@ export function saveScreen(db: Store, o: { figureId: string; model: string; scre
     db.exec('ROLLBACK')
     throw err
   }
+}
+
+/** Puts every real image back to be screened again, after a change to the screen. Returns how many. */
+export function resetScreens(db: Store): number {
+  const n = (db.prepare("SELECT COUNT(*) AS n FROM screenings s JOIN figures f ON f.id = s.figure_id WHERE f.origin <> 'drawn'").get() as { n: number }).n
+  db.exec('BEGIN')
+  try {
+    db.prepare("DELETE FROM screenings WHERE figure_id IN (SELECT id FROM figures WHERE origin <> 'drawn')").run()
+    db.prepare("UPDATE figures SET status = 'candidate', reason = NULL WHERE origin <> 'drawn' AND status IN ('screened', 'rejected')").run()
+    db.exec('COMMIT')
+  } catch (err) {
+    db.exec('ROLLBACK')
+    throw err
+  }
+  return Number(n)
 }

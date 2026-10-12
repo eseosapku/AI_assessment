@@ -1,19 +1,21 @@
 // scripts/figure-library/screen-real.ts
-// Run: npx jiti scripts/figure-library/screen-real.ts [--limit=N] [--dry] [--workers=6]
+// Run: npx jiti scripts/figure-library/screen-real.ts [--limit=N] [--dry] [--workers=6] [--redo]
+//      (--redo: screen every real image again, after a change to the screen)
 // Screens real candidates with Nova Lite on their 512 px copy (spec 5.3 step 3). Resumable.
 import { libraryDir, openStore } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { NOVA_LITE, askJson, bedrockSender, runPool } from './claude'
 import { previewImage } from './review'
-import { SCREEN_JOB, SCREEN_USD_PER_ITEM, parseScreen, saveScreen, screenPrompt, toScreen } from './screen'
+import { SCREEN_JOB, SCREEN_USD_PER_ITEM, parseScreen, resetScreens, saveScreen, screenPrompt, toScreen } from './screen'
 
 const JOB_CAP_USD = 1
 const MAX_UNUSABLE = 15
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { limit: 'int', dry: 'flag', workers: 'int' })
+  const args = parseArgs(process.argv.slice(2), { limit: 'int', dry: 'flag', workers: 'int', redo: 'flag' })
   const db = openStore()
+  if (args.redo && !args.dry) console.log(`${resetScreens(db)} screenings cleared`)
   const lib = libraryDir()
   const items = toScreen(db, { limit: args.limit as number | undefined })
   const estimate = items.length * SCREEN_USD_PER_ITEM

@@ -1,7 +1,7 @@
 // scripts/figure-library/screen.test.ts
 import { describe, it, expect } from 'vitest'
 import { openStore, type Store } from './store'
-import { parseScreen, saveScreen, screenPrompt, toScreen, type ScreenItem } from './screen'
+import { parseScreen, resetScreens, saveScreen, screenPrompt, toScreen, type ScreenItem } from './screen'
 
 const item: ScreenItem = {
   figureId: 'wikimedia/1', subject: 'biology', band: 'UP', topic: 'Cells', title: 'File:Onion cells.jpg',
@@ -25,6 +25,17 @@ describe('the screening prompt', () => {
   it('names the subject, level, topic and file, and asks every judgement', () => {
     const p = screenPrompt(item)
     for (const part of ['biology', 'Upper Secondary', '"Cells"', 'Onion cells.jpg', 'beyond_level', 'research paper', 'person_is_subject', 'foreign_labels', 'decorative']) expect(p).toContain(part)
+  })
+})
+
+describe('the reply the screener is shown', () => {
+  it('carries no values to copy', () => {
+    // Nova Lite copied the example reply verbatim: 599 of 600 kept, a Buffalo office
+    // block "on topic" for the Cold War. The template now holds only placeholders.
+    const p = screenPrompt(item)
+    expect(p).not.toMatch(/"(?:educational|on_topic|clear|beyond_level|person_is_subject|mostly_text|foreign_labels|decorative)":\s*(?:true|false)/)
+    expect(p).toContain('"educational": <true or false>')
+    expect(p.indexOf('topic_fit')).toBeLessThan(p.indexOf('"educational"'))
   })
 })
 
@@ -56,5 +67,19 @@ describe('screening in the store', () => {
     expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/1'").get()).toEqual({ status: 'screened', reason: null })
     expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'rejected', reason: 'not educational' })
     expect(db.prepare('SELECT COUNT(*) AS n FROM screenings').get()).toEqual({ n: 2 })
+  })
+})
+
+describe('screening again', () => {
+  it('puts every real image back to be screened, and leaves drawn figures alone', () => {
+    const db = store()
+    db.prepare(`INSERT INTO figures (id, origin, kind, subject, band, asset, status, created_at)
+      VALUES ('drawn/x/1', 'drawn', 'graph.bar', 'mathematics', 'LS', 'a.svg', 'rejected', 'now')`).run()
+    saveScreen(db, { figureId: 'wikimedia/1', model: 'nova', screening: parseScreen(good), detail: good })
+    saveScreen(db, { figureId: 'wikimedia/2', model: 'nova', screening: parseScreen({ ...good, educational: false }), detail: {} })
+    expect(resetScreens(db)).toBe(2)
+    expect(toScreen(db).map((i) => i.figureId)).toEqual(['wikimedia/1', 'wikimedia/2'])
+    expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'candidate', reason: null })
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'drawn/x/1'").get()).toEqual({ status: 'rejected' })
   })
 })
