@@ -1,8 +1,8 @@
 """Every drawn family, by id."""
-from . import (angles, area_shapes, bar_chart, bearings, box_plot, break_even, circle_theorem, climate_graph, clock, coordinates, cross_section, cuboid, food_web,
-               fraction_model, line_graph, nets, notice, number_line, parallel_lines, pattern_sequence, pictogram, pie_chart, place_value, polygon_angles,
-               population_pyramid, punnett, right_triangle, ruler, scale_reading, scatter_graph, supply_demand, timeline, timetable,
-               tree_diagram)
+from . import (angles, area_shapes, bar_chart, bearings, box_plot, break_even, circle_theorem, climate_graph, clock, conversion_graph, coordinates, cross_section, cuboid, food_web,
+               fraction_model, inequality_region, line_graph, linear_graph, nets, notice, number_line, parallel_lines, pattern_sequence, pictogram, pie_chart, place_value, polygon_angles, quadratic_graph,
+               population_pyramid, punnett, right_triangle, ruler, scale_reading, scatter_graph, supply_demand, timeline, timetable, transformation, travel_graph,
+               tree_diagram, vectors_grid)
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -12,4 +12,5 @@ FAMILIES = {m.ID: m for m in (
     place_value, fraction_model, pattern_sequence, pictogram, clock, ruler,
     parallel_lines, polygon_angles, area_shapes, bearings,
     right_triangle, circle_theorem, cuboid, nets,
+    linear_graph, quadratic_graph, conversion_graph, travel_graph, transformation, vectors_grid, inequality_region,
 )}

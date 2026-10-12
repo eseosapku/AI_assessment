@@ -108,6 +108,21 @@ def short(stem: str, answer, accepted=(), explanation: str = "") -> Question:
     return Question("short", stem, canonical, [], forms, explanation)
 
 
+def label_spot(poly, centre_first: bool = True) -> tuple[float, float]:
+    """Where to print a label inside a polygon on a coordinate grid: the middle of a grid square
+    inside it, as far from the axes (and their numbers) as it can be, near the middle of the shape."""
+    from matplotlib.path import Path
+    path = Path(poly)
+    xs, ys = [p[0] for p in poly], [p[1] for p in poly]
+    cx, cy = sum(xs) / len(xs), sum(ys) / len(ys)
+    cells = [(x + 0.5, y + 0.5) for x in range(int(min(xs)) - 1, int(max(xs)) + 1) for y in range(int(min(ys)) - 1, int(max(ys)) + 1)
+             if path.contains_point((x + 0.5, y + 0.5))]
+    if not cells:
+        return cx, cy
+    clear = [c for c in cells if min(abs(c[0]), abs(c[1])) >= 1.5] or [c for c in cells if min(abs(c[0]), abs(c[1])) >= 1] or cells
+    return min(clear, key=lambda c: (c[0] - cx) ** 2 + (c[1] - cy) ** 2)
+
+
 def grid_y(ax, top: float, step: float) -> None:
     """Horizontal gridlines on every labelled step, so values read exactly."""
     ticks = [i * step for i in range(int(round(top / step)) + 1)]

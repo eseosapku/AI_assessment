@@ -594,3 +594,176 @@ def test_nets():
         if p["band"] == "LS" and solid in ("cube", "cuboid"):
             l, w, h = p["dims"]
             assert int(qs[2].answer) == 2 * (l * w + l * h + w * h)
+
+
+from figgen.families import (conversion_graph, inequality_region, linear_graph, quadratic_graph,  # noqa: E402
+                             transformation, travel_graph, vectors_grid)
+
+
+def _pair_of(text: str) -> tuple[float, float]:
+    a, b = re.findall(r"-?\d+(?:\.\d+)?", text)[:2]
+    return float(a), float(b)
+
+
+def test_linear_graph():
+    for s in SEEDS:
+        p, qs = run(linear_graph, s)
+        m, c = Fraction(p["m"]), p["c"]
+        grad, cross, eq, at, when = qs[:5]
+        assert Fraction(grad.answer) == m and int(cross.answer) == c
+        assert picked(eq) == linear_graph.equation(m, c) and len(set(eq.options)) == len(eq.options)
+        x = int(re.search(r"when x = (-?\d+)", at.stem).group(1))
+        assert Fraction(at.answer) == m * x + c and (m * x + c).denominator == 1  # on a gridline
+        v = int(re.search(r"is y = (-?\d+)", when.stem).group(1))
+        assert m * int(when.answer) + c == v
+        lo, hi = p["xlim"]
+        assert lo <= x <= hi and lo <= int(when.answer) <= hi
+        if p["band"] == "UP":
+            sim = qs[5]
+            m2, c2 = Fraction(p["m2"]), p["c2"]
+            xs = (c2 - c) / (m - m2)
+            assert xs.denominator == 1 and (m * xs + c).denominator == 1  # they cross on a grid point
+            assert picked(sim) == f"x = {int(xs)}, y = {int(m * xs + c)}"
+
+
+def test_quadratic_graph():
+    for s in SEEDS:
+        p, qs = run(quadratic_graph, s)
+        a, r1, r2 = p["a"], p["p"], p["q"]
+        f = lambda x: a * (x - r1) * (x - r2)  # noqa: E731
+        roots, turn, cross, level = qs[:4]
+        assert picked(roots) == f"x = {r1} or x = {r2}"
+        h = (r1 + r2) // 2
+        assert (r1 + r2) % 2 == 0 and picked(turn) == f"({h}, {f(h)})"
+        assert int(cross.answer) == f(0)
+        k = int(re.search(r"= (-?\d+)\.$", level.stem).group(1))
+        x1, x2 = (float(v) for v in re.findall(r"-?\d+", picked(level))[:2])
+        assert f(x1) == k and f(x2) == k and x1 != x2
+        assert p["equation"] in roots.stem
+        if p["band"] == "UP":
+            neg = qs[4]
+            assert picked(neg) == (f"{r1} < x < {r2}" if a > 0 else f"x < {r1} or x > {r2}")
+        xr = int(re.search(r"when x = (-?\d+)\?", qs[-1].stem).group(1))
+        assert int(qs[-1].answer) == f(xr) and r1 - 2 <= xr <= r2 + 2  # read off the drawn curve
+
+
+def test_conversion_graph():
+    for s in SEEDS:
+        p, qs = run(conversion_graph, s)
+        conv = conversion_graph.spec(p)
+        to_y = lambda x: Fraction(conv["slope"]) * Fraction(x) + conv["offset"]  # noqa: E731
+        fwd, back = qs[0], qs[1]
+        x = Fraction(re.search(r"change (-?\d+) ", fwd.stem).group(1))
+        assert Fraction(fwd.answer) == to_y(x)
+        assert x % conv["xstep"] == 0 and (to_y(x) - conv["offset"]) % conv["ystep"] == 0  # on gridlines
+        y = Fraction(re.search(r"change (-?\d+) ", back.stem).group(1))
+        assert to_y(Fraction(back.answer)) == y
+        if len(qs) > 2:
+            big = Fraction(re.search(r"change (\d+) ", qs[2].stem).group(1))
+            assert big > conv["xmax"] and Fraction(qs[2].answer) == to_y(big) and conv["offset"] == 0
+
+
+def test_travel_graph():
+    for s in SEEDS:
+        p, (where, stop, speed) = run(travel_graph, s)
+        pts = p["points"]  # (minutes after the start, km from home)
+        assert pts[0][1] == 0 and pts[-1][1] == 0 and all(t % 15 == 0 for t, _ in pts)
+        t = travel_graph.minutes(re.search(r"at (\d+:\d\d)", where.stem).group(1), p["start"])
+        corner = [d for tt, d in pts if tt == t]
+        assert corner and float(where.answer) == corner[0]
+        far = max(d for _, d in pts)
+        stops = [b[0] - a[0] for a, b in zip(pts, pts[1:]) if a[1] == b[1] == far]
+        assert len(stops) == 1 and int(stop.answer) == stops[0]  # the stop at the place, the furthest point
+        (t0, d0), (t1, d1) = pts[-2], pts[-1]
+        assert float(speed.answer) == (d0 - d1) / ((t1 - t0) / 60) and float(speed.answer).is_integer()
+
+
+def _transform(desc: str, pt):
+    x, y = pt
+    if m := re.match(r"Reflection in the line x = (-?\d+)", desc):
+        k = int(m.group(1)); return (2 * k - x, y)
+    if m := re.match(r"Reflection in the line y = (-?\d+)$", desc):
+        k = int(m.group(1)); return (x, 2 * k - y)
+    if desc == "Reflection in the line y = x":
+        return (y, x)
+    if desc == "Reflection in the line y = -x":
+        return (-y, -x)
+    if m := re.match(r"Rotation (90|180)° ?(clockwise|anticlockwise)? about \((-?\d+), (-?\d+)\)", desc):
+        a, b = int(m.group(3)), int(m.group(4))
+        dx, dy = x - a, y - b
+        if m.group(1) == "180":
+            return (a - dx, b - dy)
+        return (a + dy, b - dx) if m.group(2) == "clockwise" else (a - dy, b + dx)
+    if m := re.match(r"Translation by the vector \((-?\d+), (-?\d+)\)", desc):
+        return (x + int(m.group(1)), y + int(m.group(2)))
+    if m := re.match(r"Enlargement, scale factor (\d+), centre \((-?\d+), (-?\d+)\)", desc):
+        k, a, b = int(m.group(1)), int(m.group(2)), int(m.group(3))
+        return (a + k * (x - a), b + k * (y - b))
+    raise AssertionError(desc)
+
+
+def _symmetric(pts) -> bool:
+    """Whether any turn or flip of the shape lands on itself (after sliding it back)."""
+    def norm(ps):
+        mx, my = min(x for x, _ in ps), min(y for _, y in ps)
+        return {(x - mx, y - my) for x, y in ps}
+    maps = [lambda x, y: (-y, x), lambda x, y: (-x, -y), lambda x, y: (y, -x), lambda x, y: (-x, y), lambda x, y: (x, -y),
+            lambda x, y: (y, x), lambda x, y: (-y, -x)]
+    return any(norm([f(x, y) for x, y in pts]) == norm(pts) for f in maps)
+
+
+def test_transformation():
+    assert not any(_symmetric(shape) for shape in transformation.SHAPES)
+    for s in SEEDS:
+        p, (which, image) = run(transformation, s)
+        A = [tuple(v) for v in p["A"]]
+        B = {tuple(v) for v in p["B"]}
+        maps = [o for o in which.options if {_transform(o, v) for v in A} == B]
+        assert maps == [picked(which)]  # the key maps A onto B, and no other option does
+        lo, hi = p["lim"]
+        assert all(lo <= c <= hi for v in A + list(B) for c in v)
+        P = _pair_of(image.stem)
+        assert _pair_of(image.answer) == _transform(picked(which), P) and P in A
+
+
+def test_vectors_grid():
+    for s in SEEDS:
+        p, qs = run(vectors_grid, s)
+        vec = {n: tuple(v) for n, v in p["vectors"].items()}
+        which, combo, move = qs[:3]
+        name = re.search(r"Which column vector is (\w)\?", which.stem).group(1)
+        assert _pair_of(picked(which)) == vec[name] and len(set(which.options)) == len(which.options)
+        m = re.search(r"What is (\d?)(\w) ([+-]) (\w)\?", combo.stem)
+        k = int(m.group(1) or 1)
+        u, w = vec[m.group(2)], vec[m.group(4)]
+        sign = 1 if m.group(3) == "+" else -1
+        assert _pair_of(combo.answer) == (k * u[0] + sign * w[0], k * u[1] + sign * w[1])
+        start = _pair_of(move.stem)
+        n = re.search(r"by the vector (\w)\.", move.stem).group(1)
+        assert _pair_of(move.answer) == (start[0] + vec[n][0], start[1] + vec[n][1])
+        assert all(v != (0, 0) and all(-5 <= c <= 5 for c in v) for v in vec.values())
+        if p["band"] == "UP":
+            mag = qs[3]
+            n = re.search(r"magnitude of (\w)\?", mag.stem).group(1)
+            assert mag.answer == f"{math.hypot(*vec[n]):.1f}"
+
+
+def _holds(cond: str, x: int, y: int) -> bool:
+    left, op, right = re.match(r"\s*(.+?)\s*(≤|≥|<|>)\s*(.+?)\s*$", cond).groups()
+    env = {"x": x, "y": y}
+    lv, rv = eval(left.replace("−", "-"), {}, env), eval(re.sub(r"(\d)x", r"\1*x", right.replace("−", "-")), {}, env)
+    return {"≤": lv <= rv, "≥": lv >= rv, "<": lv < rv, ">": lv > rv}[op]
+
+
+def test_inequality_region():
+    for s in SEEDS:
+        p, (which, inside, largest) = run(inequality_region, s)
+        grid = [(x, y) for x in range(-8, 9) for y in range(-8, 9)]
+        region = {pt for pt in grid if inequality_region.contains(p, *pt)}
+        assert region
+        ok = [o for o in which.options if {pt for pt in grid if all(_holds(c, *pt) for c in o.split(", "))} == region]
+        assert ok == [picked(which)]  # the key describes R exactly, and no other option does
+        pts = [_pair_of(o) for o in inside.options]
+        assert [pt for pt in pts if (int(pt[0]), int(pt[1])) in region] == [_pair_of(picked(inside))]
+        k = int(re.search(r"y = (-?\d+)", largest.stem).group(1))
+        assert int(largest.answer) == max(x for x, y in region if y == k)
