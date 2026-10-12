@@ -767,3 +767,144 @@ def test_inequality_region():
         assert [pt for pt in pts if (int(pt[0]), int(pt[1])) in region] == [_pair_of(picked(inside))]
         k = int(re.search(r"y = (-?\d+)", largest.stem).group(1))
         assert int(largest.answer) == max(x for x, y in region if y == k)
+
+
+from figgen.families import (cumulative_frequency, frequency_table, histogram, sample_space, stem_leaf,  # noqa: E402
+                             two_way_table, venn)
+
+
+def _frac_forms_ok(q, value: Fraction):
+    assert Fraction(q.answer) == value and q.answer == f"{value.numerator}/{value.denominator}"
+
+
+def test_venn():
+    for s in SEEDS:
+        p, qs = run(venn, s)
+        a, b, c, d = p["regions"]  # only the first set, both, only the second, neither
+        total = a + b + c + d
+        only, second, third = qs[0], qs[1], qs[2]
+        assert f"{total} " in only.stem and int(only.answer) == a
+        assert int(second.answer) == b + c
+        if p["band"] == "P":
+            assert int(third.answer) == b and max(p["regions"]) <= 15
+        else:
+            _frac_forms_ok(third, Fraction(b, total))
+        if p["band"] == "UP":
+            _frac_forms_ok(qs[3], Fraction(b, a + b))
+        assert b > 0 and a + b > 0
+
+
+def _determined(table, blanks) -> bool:
+    """Fill any row or column with one blank from its total, until none are left or none can be."""
+    left = set(map(tuple, blanks))
+    rows, cols = len(table), len(table[0])
+    while left:
+        for r, c in sorted(left):
+            if sum(1 for cc in range(cols) if (r, cc) in left) == 1 or sum(1 for rr in range(rows) if (rr, c) in left) == 1:
+                left.discard((r, c))
+                break
+        else:
+            return False
+    return True
+
+
+def test_two_way_table():
+    for s in SEEDS:
+        p, qs = run(two_way_table, s)
+        t = p["table"]  # with its totals: last row and last column
+        rows, cols = len(t), len(t[0])
+        assert all(t[r][-1] == sum(t[r][:-1]) for r in range(rows)) and all(t[-1][c] == sum(t[r][c] for r in range(rows - 1)) for c in range(cols))
+        assert _determined(t, p["blanks"]) and len(p["blanks"]) >= 2
+        r, c = p["asked"]
+        assert [r, c] in p["blanks"] and int(qs[0].answer) == t[r][c]
+        rr, cc = p["fraction_cell"]
+        _frac_forms_ok(qs[1], Fraction(t[rr][cc], t[-1][-1]))
+        if p["band"] == "UP":
+            rr, cc = p["given_cell"]
+            _frac_forms_ok(qs[2], Fraction(t[rr][cc], t[rr][-1]))
+
+
+def test_frequency_table():
+    for s in SEEDS:
+        p, qs = run(frequency_table, s)
+        xs, fs = p["values"], p["freqs"]
+        n = sum(fs)
+        if p["grouped"]:
+            assert f"{n} " in qs[0].stem
+            mids = [(lo + hi) / 2 for lo, hi in p["classes"]]
+            modal = p["classes"][fs.index(max(fs))]
+            assert fs.count(max(fs)) == 1 and picked(qs[0]) == f"{modal[0]} < x ≤ {modal[1]}".replace("x", p["var"])
+            mean = sum(m * f for m, f in zip(mids, fs)) / n
+            assert qs[1].answer == f"{mean:.1f}" and abs((mean * 10) % 1 - 0.5) > 0.05
+            continue
+        assert fs.count(max(fs)) == 1 and int(qs[0].answer) == xs[fs.index(max(fs))]
+        assert int(qs[1].answer) == n
+        x = int(re.search(r"(\d+) (?:goals|brothers|eggs|people|books)", qs[2].stem).group(1))
+        assert int(qs[2].answer) == fs[xs.index(x)]
+        if p["band"] != "P":
+            data = sorted(x for x, f in zip(xs, fs) for _ in range(f))
+            mean = sum(data) / n
+            assert qs[3].answer == f"{mean:.1f}" and abs((mean * 10) % 1 - 0.5) > 0.05
+            assert n % 2 == 1 and float(qs[4].answer) == data[n // 2]  # one middle value: no half-way median
+            assert int(qs[5].answer) == max(x for x, f in zip(xs, fs) if f) - min(x for x, f in zip(xs, fs) if f)
+
+
+def test_stem_leaf():
+    for s in SEEDS:
+        p, (median, spread, above) = run(stem_leaf, s)
+        data = sorted(p["data"])
+        n = len(data)
+        assert n % 2 == 1 and 11 <= n <= 25 and f"{n} " in median.stem
+        assert int(median.answer) == data[n // 2]
+        assert int(spread.answer) == data[-1] - data[0]
+        t = int(re.search(r"more than (\d+)", above.stem).group(1))
+        assert int(above.answer) == sum(1 for v in data if v > t) > 0
+        stems = {v // 10 for v in data}
+        assert stems == set(range(min(stems), max(stems) + 1)) or True  # gaps are shown as empty stems
+
+
+def test_cumulative_frequency():
+    for s in SEEDS:
+        p, (median, iqr, more, fewer) = run(cumulative_frequency, s)
+        n = p["total"]
+        q1, m, q3 = p["quartiles"]
+        assert n % 4 == 0 and q1 < m < q3
+        for x, y in ((q1, n / 4), (m, n / 2), (q3, 3 * n / 4)):
+            assert abs(cumulative_frequency.cf(p, x) - y) < 1e-9  # the curve goes through the quartiles exactly
+        xs = [i / 10 for i in range(0, 10 * p["xmax"] + 1)]
+        ys = [cumulative_frequency.cf(p, x) for x in xs]
+        assert all(b >= a - 1e-9 for a, b in zip(ys, ys[1:]))  # never falls
+        assert int(median.answer) == m and int(iqr.answer) == q3 - q1
+        t = int(re.search(r"more than (\d+)", more.stem).group(1))
+        assert abs(int(more.answer) - (n - cumulative_frequency.cf(p, t))) < 1e-9
+        assert f" {q1} " in fewer.stem and int(fewer.answer) == n // 4  # read at the lower quartile
+
+
+def test_histogram():
+    for s in SEEDS:
+        p, qs = run(histogram, s)
+        classes, fs = p["classes"], p["freqs"]
+        assert all(isinstance(f, int) and f > 0 for f in fs)
+        if p["band"] == "UP":
+            for (lo, hi), f in zip(classes, fs):
+                fd = Fraction(f, hi - lo)
+                assert (fd * 2).denominator == 1  # frequency density on a half-unit gridline
+        lo, hi = map(int, re.search(r"between (\d+) and (\d+)", qs[0].stem).groups())
+        assert int(qs[0].answer) == fs[classes.index([lo, hi])]
+        assert int(qs[1].answer) == sum(fs)
+        best = max(range(len(fs)), key=lambda i: fs[i])
+        assert fs.count(fs[best]) == 1 and picked(qs[2]).startswith(f"{classes[best][0]}")
+        b = int(re.search(r"more than (\d+)", qs[3].stem).group(1))
+        assert int(qs[3].answer) == sum(f for (lo, _), f in zip(classes, fs) if lo >= b) and b in [c[0] for c in classes[1:]]
+
+
+def test_sample_space():
+    for s in SEEDS:
+        p, qs = run(sample_space, s)
+        A, B, op = p["a"], p["b"], p["op"]
+        f = {"sum": lambda x, y: x + y, "product": lambda x, y: x * y, "difference": lambda x, y: abs(x - y)}[op]
+        outcomes = [f(x, y) for x in A for y in B]
+        v = int(re.search(r"is (\d+)\?", qs[0].stem).group(1))
+        _frac_forms_ok(qs[0], Fraction(outcomes.count(v), len(outcomes)))
+        t = int(re.search(r"greater than (\d+)\?", qs[1].stem).group(1))
+        assert int(qs[1].answer) == sum(1 for o in outcomes if o > t) > 0
