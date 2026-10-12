@@ -34,7 +34,9 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { normalizeIds, positiveId } from '@/lib/request-ids'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
 import { bookInBank, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
-import { assembleParts, hasFreshVetted, hasVetted, vettedFor } from '@/lib/figure-question-bank'
+import { addVetted, assembleParts, hasFreshVetted, hasVetted, vettedFor } from '@/lib/figure-question-bank'
+import { libraryEnabled, libraryFigures } from '@/lib/figure-library/local-source'
+import { withLibrary } from '@/lib/figure-library/pick'
 import { NO_HISTORY, orderForStudent, seenFromRows, type SeenFigures } from '@/lib/student-figure-history'
 import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbook-figure-prompt'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
@@ -1738,7 +1740,7 @@ ${commandBlock}`
     }
     const figureKinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
       : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
-    const quizFigures: TextbookFigure[] = bankApplies
+    const bankFigures: TextbookFigure[] = bankApplies
       ? orderForStudent(figuresForQuiz({
           textbookId: Number.isFinite(textbookId) ? textbookId : undefined,
           textbookName: textbookName || figureSubject,
@@ -1768,6 +1770,21 @@ ${commandBlock}`
           // with few uses all it has either way.
           .slice(0, Math.max(0, Math.round(count * 0.6)))
       : []
+    // The figure library's approved figures for these topics, after the bank's (spec 5.4), on
+    // this machine only until S3 exists: off unless FIGURE_LIBRARY_DIR and FIGURE_ASSET_BASE are
+    // set. Its figures are linked to topics, so a quiz on sections takes its topics' figures.
+    const figureShare = Math.max(0, Math.round(count * 0.6))
+    const libraryTopics = [...new Set([...topicIds, ...resolvedSubtopics.map((s) => s.topic_id).filter((n): n is number => n != null)])]
+    let quizFigures: TextbookFigure[] = bankFigures
+    if (bankApplies && libraryEnabled() && bankFigures.length < figureShare && libraryTopics.length) {
+      const library = libraryFigures({ topicIds: libraryTopics })
+      addVetted(library.questions)
+      quizFigures = withLibrary(bankFigures, orderForStudent(library.figures, seenFigures,
+        (f) => hasFreshVetted(f.id, figureKinds, seenFigures.questions)), figureShare, (f) => hasVetted(f.id, figureKinds))
+      if (quizFigures.length > bankFigures.length) {
+        console.log(`Figure library: ${quizFigures.length - bankFigures.length} figure(s) for topics [${libraryTopics.slice(0, 4).join(', ')}]`)
+      }
+    }
     if (quizFigures.length) {
       visualCatalog = []
       console.log(`Textbook figures: ${quizFigures.length} for [${imageTopicFilter.slice(0, 3).join(', ')}] from ${[...new Set(quizFigures.map((f) => f.textbookName.slice(0, 40)))].join('; ')}`)
@@ -2466,6 +2483,8 @@ ${commandBlock}`
         vetted.figure_description = figureAccount(fig)
         vetted.topic_label = vetted.topic_label || fig.topic
         vetted.vetted = true
+        // A real image from the figure library carries its author, licence and source.
+        if (fig.credit) vetted.image_credit = fig.credit
         bankAccountByPath.set(fig.localPath, figureAccount(fig))
         return [vetted]
       }
