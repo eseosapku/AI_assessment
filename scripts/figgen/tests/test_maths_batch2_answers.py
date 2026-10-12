@@ -199,3 +199,90 @@ def test_rational_graph():
         assert xq != h and f(xq).denominator == 1 and int(reading.answer) == f(xq)
         x0, x1, y0, y1 = m.view(p)
         assert x0 <= xq <= x1 and y0 <= f(xq) <= y1 and y0 <= f(0) <= y1
+
+
+# --- Task 4: complex numbers, matrices and 3D ---------------------------------------------------
+
+def cx(text):
+    """"3 - 2i" -> (3, -2); "i" -> (0, 1); "-4" -> (-4, 0)."""
+    t = text.replace(" ", "")
+    both = re.fullmatch(r"(-?\d+)([+-])(\d*)i", t)
+    if both:
+        im = int(both.group(3) or 1)
+        return int(both.group(1)), -im if both.group(2) == "-" else im
+    pure = re.fullmatch(r"(-?)(\d*)i", t)
+    if pure:
+        im = int(pure.group(2) or 1)
+        return 0, -im if pure.group(1) else im
+    return int(t), 0
+
+
+def test_argand():
+    import math
+    m = fam("argand")
+    for s in SEEDS:
+        p, (which, number, modulus, last) = run(m, s)
+        pts = {k: tuple(v) for k, v in p["points"].items()}
+        assert len(set(pts.values())) == 3 and (0, 0) not in pts.values()
+        target = cx(re.search(r"represents (.+)\?$", which.stem).group(1))
+        assert pts[picked(which)] == target
+        assert cx(picked(number)) == pts["A"]
+        xc, yc = pts["C"]
+        r = math.hypot(xc, yc)
+        if r == int(r):
+            assert int(modulus.answer) == int(r)
+        else:
+            assert modulus.answer == f"{r:.1f}" and f"√{xc * xc + yc * yc}" in modulus.accepted
+        if "conjugate" in last.stem:
+            xa, ya = pts["A"]
+            assert ya != 0 and pts[picked(last)] == (xa, -ya)
+        else:
+            assert cx(last.answer) == (pts["A"][0] + pts["C"][0], pts["A"][1] + pts["C"][1])
+        x0, x1, y0, y1 = m.view(p)
+        assert all(x0 <= x <= x1 and y0 <= y <= y1 for x, y in pts.values())
+
+
+def rows_of(text):
+    a, b, c, d = (int(v) for v in re.findall(r"-?\d+", text))
+    return a, b, c, d
+
+
+def test_matrix_transform():
+    m = fam("matrix_transform")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        a, b, c, d = p["M"]
+        square = [(0, 0), (1, 0), (1, 1), (0, 1)]
+        image = lambda M: {(M[0] * x + M[1] * y, M[2] * x + M[3] * y) for x, y in square}  # noqa: E731
+        assert b != c and a * d - b * c != 0
+        which, corner, area = qs[:3]
+        assert rows_of(picked(which)) == (a, b, c, d)
+        for i, o in enumerate(which.options):
+            if i != int(which.answer):
+                assert image(rows_of(o)) != image((a, b, c, d)), (p, o)  # no other option draws the same image
+        x, y = point_of(re.search(r"the point (\(.+?\))", corner.stem).group(1))
+        assert point_of(corner.answer) == (a * x + b * y, c * x + d * y)
+        assert int(area.answer) == abs(a * d - b * c)
+        if len(qs) > 3:
+            assert int(qs[3].answer) == a * d - b * c
+        x0, x1, y0, y1 = m.view(p)
+        assert all(x0 <= x <= x1 and y0 <= y <= y1 for x, y in image((a, b, c, d)) | set(square))
+
+
+def test_points_3d():
+    import math
+    m = fam("points_3d")
+    for s in SEEDS:
+        p, (coords, length, middle, vertex) = run(m, s)
+        P, Q, R = p["size"]
+        corners = m.corners(P, Q, R)
+        assert corners["F"] == (P, Q, R) and corners["E"] == (P, 0, R) and corners["O"] == (0, 0, 0)
+        assert point_of(coords.answer) == corners[re.search(r"coordinates of ([A-G])\?", coords.stem).group(1)]
+        d = math.sqrt(P * P + Q * Q + R * R)
+        if d == int(d):
+            assert int(length.answer) == int(d)
+        else:
+            assert length.answer == f"{d:.1f}" and f"√{P * P + Q * Q + R * R}" in length.accepted
+        assert tuple(Fraction(v) for v in re.findall(r"-?[\d.]+", middle.answer)) == (Fraction(P, 2), Fraction(Q, 2), Fraction(R, 2))
+        target = point_of(re.search(r"coordinates (\(.+?\))", vertex.stem).group(1))
+        assert corners[picked(vertex)] == target
