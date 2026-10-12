@@ -111,6 +111,16 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('0.1'), '0.1 or 0.2')).toBe(false)
   })
 
+  it('counts any answer the marker accepts, as the student would be marked', () => {
+    // An estimate read from a curve is accepted a small square either way; so is the reviewer's.
+    expect(agrees(short('14', ['14', '13', '15']), 'about 15 minutes')).toBe(true)
+    expect(agrees(short('14', ['14']), 'about 15 minutes')).toBe(false)
+    // A range the reviewer adds in brackets is a remark: its answer is the number before it.
+    expect(agrees(short('56', ['56', '55', '57']), 'about 55 marks (accept 54 to 57)')).toBe(true)
+    expect(agrees(short('56', ['56']), 'about 55 marks (accept 54 to 57)')).toBe(false)
+    expect(agrees(short('56', ['56', '55', '57']), '55 or 58')).toBe(false)
+  })
+
   it('compares words without case, a leading "the" or a full stop', () => {
     expect(agrees(short('Market'), 'the market.')).toBe(true)
     expect(agrees(short('Room 13', ['Room 13', '13']), 'room 13')).toBe(true)

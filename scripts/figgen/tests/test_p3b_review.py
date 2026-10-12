@@ -32,6 +32,18 @@ def test_curve_estimates_accept_a_small_square_either_way():
         assert {str(int(more.answer) - unit_y), str(int(more.answer) + unit_y)} <= set(more.accepted)
 
 
+def test_curve_readings_ask_for_a_whole_unit_and_take_a_half():
+    """A reading from a curve lands between gridlines: the stem says how to give it, and a half-unit
+    reading inside the slack ("20.5" for 21) is marked right, as a mark scheme's range would."""
+    for s in SEEDS:
+        p, (median, iqr, *_) = run(cumulative_frequency, s)
+        unit = cumulative_frequency.CONTEXTS[p["context"]][1]
+        for q in (median, iqr):
+            assert "to the nearest" in q.stem, q.stem
+            v = int(q.answer)
+            assert {f"{v - 0.5:g}", f"{v + 0.5:g}", f"{v + 0.5:g} {unit}"} <= set(q.accepted), (s, q.accepted)
+
+
 def test_the_place_is_named_on_a_travel_graph():
     for s in range(1, 41):
         p = travel_graph.sample(random.Random(s))

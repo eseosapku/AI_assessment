@@ -110,8 +110,15 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   if (expected.length) {
     const mine = numbersIn(text)
     const same = (a: number, b: number) => Math.abs(a - b) < 1e-9
-    // "1/10 (0.1)" restates one answer; it is not two.
-    if (expected.length === 1 && mine.length > 1) return mine.every((v) => same(v, expected[0]))
+    if (expected.length === 1) {
+      // Any number the marker accepts is right, as the student would be marked: an estimate
+      // read from a curve is accepted a small square either way. A bracketed remark ("about 55
+      // (accept 54 to 57)", "1/10 (0.1)") is not part of the answer.
+      const accepted = [q.answer, ...q.accepted].map(numbersIn).filter((ns) => ns.length === 1).map((ns) => ns[0])
+      const main = numbersIn(text.replace(/\([^)]*\)/g, ' '))
+      if (main.length === 1) return accepted.some((v) => same(v, main[0]))
+      if (mine.length > 1) return mine.every((v) => same(v, expected[0]))
+    }
     return mine.length === expected.length && mine.every((v, i) => same(v, expected[i]))
   }
   return (q.accepted.length ? q.accepted : [q.answer]).some((form) => words(form) === words(text))
