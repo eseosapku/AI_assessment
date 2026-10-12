@@ -6,7 +6,7 @@ from PIL import Image
 from pictures import picture
 
 from figgen.real.choose import choose
-from figgen.real.harvest import harvest_topic
+from figgen.real.harvest import harvest_topic, topic_terms
 from figgen.store import open_store
 
 
@@ -111,3 +111,29 @@ def test_choose_takes_the_same_screened_images_every_time(db, tmp_path):
                "('wikimedia/1', 'm', 1, 'cells', '{}', 'now'), ('wikimedia/5', 'm', 0, 'blurred', '{}', 'now')")
     db.commit()
     assert choose(db, per_topic=10) == ["wikimedia/1"] == choose(db, per_topic=10)
+
+def test_searches_the_syllabus_terms_first(db, tmp_path):
+    db.execute("INSERT INTO search_terms (topic_key, term, kind, model, at) VALUES "
+               "('db:2', 'plant cell', 'diagram', 'm', 'now'), ('db:2', 'cell micrograph', 'photo', 'm', 'now')")
+    db.commit()
+    assert topic_terms(db, "db:2") == ["plant cell", "cell micrograph"]
+    fetch = FakeFetch()
+    fetch.searched = []
+    original = fetch.json
+    fetch.json = lambda url: (fetch.searched.append(url), original(url))[1]
+    harvest_topic(db, tmp_path / "lib", fetch, "db:2", "photo.micrograph", want=10)
+    assert "plant+cell" in fetch.searched[0]
+    assert json.loads(db.execute("SELECT spec FROM figures WHERE id = 'wikimedia/5'").fetchone()[0])["mime"] == "image/jpeg"
+
+
+def test_falls_back_to_the_concept_map_terms(db):
+    assert topic_terms(db, "db:2") == ["cell micrograph", "plant cell"]
+
+
+def test_choose_can_put_diagrams_first(db, tmp_path):
+    harvest_topic(db, tmp_path / "lib", FakeFetch(), "db:2", "photo.micrograph", want=10)
+    db.execute("INSERT INTO screenings (figure_id, model, keep, shows, detail, at) VALUES "
+               "('wikimedia/1', 'm', 1, 'a', '{\"image_type\": \"photo\"}', 'now'), ('wikimedia/5', 'm', 1, 'b', '{\"image_type\": \"diagram\"}', 'now')")
+    db.commit()
+    assert choose(db, per_topic=1, diagrams_first=True) == ["wikimedia/5"]
+    assert sorted(choose(db, per_topic=2, diagrams_first=True)) == ["wikimedia/1", "wikimedia/5"]

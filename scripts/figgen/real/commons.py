@@ -17,7 +17,7 @@ FIELDS = "LicenseShortName|LicenseUrl|Artist|Credit|ImageDescription|Attribution
 def search_url(term: str, limit: int = 25) -> str:
     params = {
         "action": "query", "format": "json", "formatversion": "2", "generator": "search",
-        "gsrsearch": f"{term} filetype:bitmap", "gsrnamespace": "6", "gsrlimit": str(limit),
+        "gsrsearch": f"{term} filetype:bitmap|drawing", "gsrnamespace": "6", "gsrlimit": str(limit),
         "prop": "imageinfo|categories", "cllimit": "max", "clshow": "!hidden",
         "iiprop": "url|size|mime|extmetadata", "iiurlwidth": "1280", "iiextmetadatafilter": FIELDS,
     }

@@ -80,3 +80,13 @@ def test_parse_search_reads_licence_author_and_size():
 
 def test_parse_search_survives_an_empty_reply():
     assert parse_search({}, "x") == []
+
+
+def test_reject_reason_keeps_a_vector_diagram():
+    svg = candidate(mime="image/svg+xml", width=649, height=475, title="File:Plant cell structure-en.svg")
+    assert reject_reason(svg) is None  # vector: any size renders sharp
+    assert reject_reason(candidate(mime="image/svg+xml", title="File:Plant cell structure-zh.svg")) == "a translated copy"
+
+
+def test_search_url_finds_diagrams_too():
+    assert "filetype%3Abitmap%7Cdrawing" in search_url("plant cell diagram")

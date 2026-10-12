@@ -59,10 +59,19 @@ def credit_line(c: dict) -> str:
     return f"{name} by {c['author'] or 'an unknown author'}, {c['licence']}, via Wikimedia Commons"
 
 
+def topic_terms(db, key: str) -> list[str]:
+    """The topic's search terms: those made from its syllabus points (diagrams first), else the concept map's."""
+    rows = db.execute("SELECT term FROM search_terms WHERE topic_key = ? "
+                      "ORDER BY CASE kind WHEN 'diagram' THEN 0 ELSE 1 END, rowid", (key,)).fetchall()
+    if rows:
+        return [r[0] for r in rows]
+    return json.loads(db.execute("SELECT terms FROM topic_map WHERE topic_key = ?", (key,)).fetchone()[0])
+
+
 def harvest_topic(db, lib: Path, fetch, key: str, kind: str, want: int, per_term: int = 25) -> dict:
     """Fills one topic up to `want` stored candidates from its search terms, turning away what cannot be used."""
     t = topic(db, key)
-    terms = json.loads(db.execute("SELECT terms FROM topic_map WHERE topic_key = ?", (key,)).fetchone()[0])
+    terms = topic_terms(db, key)
     have = db.execute("SELECT COUNT(*) FROM figure_topics ft JOIN figures f ON f.id = ft.figure_id "
                       "WHERE ft.topic_key = ? AND f.origin = 'wikimedia'", (key,)).fetchone()[0]
     hashes = [int(r[0], 16) for r in db.execute("SELECT phash FROM figures WHERE phash IS NOT NULL")]
@@ -94,7 +103,7 @@ def harvest_topic(db, lib: Path, fetch, key: str, kind: str, want: int, per_term
             save_real(db, figure_id=fid, origin="wikimedia", kind=kind, subject=t["subject"], band=t["band"],
                       topic_key=key, asset=asset, preview=preview, width=width, height=height,
                       spec={"pageid": c["pageid"], "title": c["title"], "term": term, "description": c["description"],
-                            "categories": c["categories"][:20], "licence_url": c["licence_url"]},
+                            "categories": c["categories"][:20], "licence_url": c["licence_url"], "mime": c["mime"]},
                       licence=c["licence"], author=c["author"], source_url=c["page"], credit=credit_line(c),
                       phash=f"{h:016x}")
             hashes.append(h)
