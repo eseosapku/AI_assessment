@@ -121,7 +121,11 @@ def main(argv=None) -> int:
     for fid in skipped:
         print(f"{fid:20s} skipped: its figures reach no topic in the current books")
     for fid in todo:
-        r = generate_family(db, lib, FAMILIES[fid], a.per_family, redo=a.redo, index=index)
+        try:
+            r = generate_family(db, lib, FAMILIES[fid], a.per_family, redo=a.redo, index=index)
+        except RuntimeError as err:  # a family with fewer different figures than asked: keep what it has
+            print(f"{fid:20s} {err}")
+            continue
         print(f"{fid:20s} {r['have']} figures ({r['drawn']} new)")
     total = db.execute("SELECT COUNT(*) FROM figures WHERE origin = 'drawn'").fetchone()[0]
     print(f"{total} drawn figures in the store at {lib}")

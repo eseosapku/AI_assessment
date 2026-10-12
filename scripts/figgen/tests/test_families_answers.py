@@ -348,6 +348,7 @@ def test_pattern_sequence():
             n = int(re.search(r"in pattern (\d+)\?", q.stem).group(1))
             assert int(q.answer) == a * n + c
         assert int(re.search(r"in pattern (\d+)\?", qs[1].stem).group(1)) >= 10  # far enough to need the rule
+        assert p["start"] in (1, 2, 3)
         if p["band"] == "LS":
             rule = qs[2]
             assert picked(rule) == pattern_sequence.expression(a, c) and len(set(rule.options)) == len(rule.options)

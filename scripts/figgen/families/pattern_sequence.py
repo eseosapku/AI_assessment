@@ -16,6 +16,8 @@ ID = "pattern_sequence"
 KIND = "maths.number"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
+# Eleven kinds of pattern, three sizes to start from, two levels: 66 different figures in all.
+MIN_VARIETY = 30
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "sequences-simple", "investigating-patterns", "sequences-arithmetic-general-term", "expressions-sequences-equivalent",
     "sequences-functions", "numbers-and-sequences", "sequences-whole-numbers-fractions-decimals",
@@ -23,7 +25,10 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
 
 # kind: (what is counted, pieces per unit a, pieces in a pattern of size 0)
 KINDS = {"squares": ("matchsticks", 3, 1), "triangles": ("matchsticks", 2, 1), "houses": ("matchsticks", 5, 1),
-         "dots_L": ("dots", 2, 1), "dots_T": ("dots", 3, 1), "dots_cross": ("dots", 4, 1), "tables": ("chairs", 2, 2)}
+         "hexagons": ("matchsticks", 5, 1), "two_rows": ("matchsticks", 5, 2),
+         "dots_L": ("dots", 2, 1), "dots_T": ("dots", 3, 1), "dots_cross": ("dots", 4, 1), "dots_rect": ("dots", 2, 2),
+         "dots_square": ("dots", 4, 0), "tables": ("chairs", 2, 2)}
+W3 = 3 ** 0.5  # the width of a hexagon of side 1, flat side to flat side
 H = 0.866  # height of an equilateral triangle of side 1
 
 
@@ -39,7 +44,7 @@ def stages(p: dict) -> tuple[int, int] | None:
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     kind = rng.choice(sorted(KINDS))
-    start = rng.choice([1, 1, 2])  # pattern 1 has this many units
+    start = rng.choice([1, 1, 2, 3])  # pattern 1 has this many units
     items, a, c0 = KINDS[kind]
     return {"band": band, "name": rng.choice(NAMES), "kind": kind, "start": start, "items": items,
             "a": a, "c": a * (start - 1) + c0}
@@ -60,6 +65,17 @@ def pieces(p: dict, n: int) -> list:
             if k == "houses":
                 out += [_seg((i, 1), (i + 0.5, 1.6)), _seg((i + 0.5, 1.6), (i + 1, 1))]
         out += [_seg((x, 0), (x, 1)) for x in range(m + 1)]
+    elif k == "hexagons":
+        # A row of hexagons, pointed at top and bottom, each sharing an upright side with the next.
+        for i in range(m):
+            cx = i * W3
+            corners = [(cx + 0.5 * W3 * dx, dy) for dx, dy in ((-1, -0.5), (0, -1), (1, -0.5), (1, 0.5), (0, 1), (-1, 0.5))]
+            out += [_seg(corners[j], corners[(j + 1) % 6]) for j in range(6)]
+    elif k == "two_rows":
+        # Two rows of m squares.
+        for i in range(m):
+            out += [_seg((i, y), (i + 1, y)) for y in (0, 1, 2)]
+        out += [_seg((x, y), (x, y + 1)) for x in range(m + 1) for y in (0, 1)]
     elif k == "triangles":
         for i in range(m):
             j = i // 2
@@ -69,6 +85,10 @@ def pieces(p: dict, n: int) -> list:
         out = [(0, y) for y in range(m + 1)] + [(x, 0) for x in range(1, m + 1)]
     elif k == "dots_T":
         out = [(x, m) for x in range(-m, m + 1)] + [(0, y) for y in range(m)]
+    elif k == "dots_rect":
+        out = [(x, y) for x in range(m + 1) for y in (0, 1)]
+    elif k == "dots_square":
+        out = [(x, y) for x in range(m + 1) for y in range(m + 1) if x in (0, m) or y in (0, m)]
     elif k == "dots_cross":
         out = [(0, 0)] + [(d * s, 0) for s in range(1, m + 1) for d in (-1, 1)] + [(0, d * s) for s in range(1, m + 1) for d in (-1, 1)]
     elif k == "tables":
@@ -85,6 +105,14 @@ def _extent(p: dict, n: int) -> tuple[float, float, float, float]:
         return -m, m, -m, m
     if k == "tables":
         return -0.8, m + 0.8, -0.8, 1.8
+    if k == "hexagons":
+        return -0.5 * W3, (m - 0.5) * W3, -1, 1
+    if k == "two_rows":
+        return 0, m, 0, 2
+    if k == "dots_rect":
+        return 0, m, 0, 1
+    if k == "dots_square":
+        return 0, m, 0, m
     if k == "triangles":
         return 0, (m + 1) / 2, 0, H
     return 0, m, 0, 1.6 if k == "houses" else 1

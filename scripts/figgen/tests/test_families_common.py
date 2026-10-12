@@ -54,7 +54,9 @@ def test_questions_are_well_formed(fid):
 @pytest.mark.parametrize("fid", sorted(FAMILIES))
 def test_figures_vary_from_seed_to_seed(fid):
     m = FAMILIES[fid]
-    specs = {repr(m.sample(random.Random(s))) for s in SEEDS}
+    # The person in the question is not part of the figure: the same numbers under another name
+    # are the same figure (generate.py stores it once).
+    specs = {repr({k: v for k, v in m.sample(random.Random(s)).items() if k != "name"}) for s in SEEDS}
     need = getattr(m, "MIN_VARIETY", 40)
     assert len(specs) >= need, f"{fid}: only {len(specs)} different figures in {len(SEEDS)} seeds"
 
