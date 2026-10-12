@@ -21,16 +21,17 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in ("histogram", "frequency-polygons",
 # The axis names one value, as exam papers do: "Age (a years)".
 AXIS = {"heights": "Height", "times": "Time", "masses": "Mass", "ages": "Age"}
 
-# what, variable, unit, who, equal-width classes, unequal-width classes, and how to say "in a class"
+# what, variable, unit, who, equal-width classes, unequal-width classes, how to say "in a class", and
+# how to say "above a boundary"
 CONTEXTS = [
     ("heights of seedlings", "h", "cm", "seedlings", [(0, 10), (10, 20), (20, 30), (30, 40), (40, 50)],
-     [(0, 10), (10, 20), (20, 30), (30, 50), (50, 80)], "are between {lo} and {hi} cm tall"),
+     [(0, 10), (10, 20), (20, 30), (30, 50), (50, 80)], "are between {lo} and {hi} cm tall", "are more than {b} cm tall"),
     ("times taken to walk to school", "t", "minutes", "students", [(0, 5), (5, 10), (10, 15), (15, 20), (20, 25), (25, 30)],
-     [(0, 4), (4, 10), (10, 20), (20, 30), (30, 50)], "took between {lo} and {hi} minutes"),
+     [(0, 4), (4, 10), (10, 20), (20, 30), (30, 50)], "took between {lo} and {hi} minutes", "took more than {b} minutes"),
     ("masses of bags of rice", "m", "kg", "bags", [(0, 2), (2, 4), (4, 6), (6, 8), (8, 10)],
-     [(0, 2), (2, 4), (4, 8), (8, 12), (12, 20)], "weigh between {lo} and {hi} kg"),
+     [(0, 2), (2, 4), (4, 8), (8, 12), (12, 20)], "weigh between {lo} and {hi} kg", "weigh more than {b} kg"),
     ("ages of people at a clinic", "a", "years", "people", [(0, 10), (10, 20), (20, 30), (30, 40), (40, 50), (50, 60)],
-     [(0, 10), (10, 20), (20, 40), (40, 60), (60, 90)], "are between {lo} and {hi} years old"),
+     [(0, 10), (10, 20), (20, 40), (40, 60), (60, 90)], "are between {lo} and {hi} years old", "are more than {b} years old"),
 ]
 
 
@@ -94,5 +95,5 @@ def questions(p: dict, rng: random.Random) -> list:
         count(f"How many {who} does {p['name']}'s histogram show altogether?", sum(fs), who),
         mcq(f"In {p['name']}'s histogram, which class has the most {who}?", labels[best], [lab for j, lab in enumerate(labels) if j != best], rng),
         # Adding classes: everything above one of the class boundaries.
-        count(f"How many of the {who} in {p['name']}'s histogram are more than {classes[k][0]} {unit}?", sum(fs[k:]), who),
+        count(f"How many of the {who} in {p['name']}'s histogram {CONTEXTS[p['context']][7].format(b=classes[k][0])}?", sum(fs[k:]), who),
     ]

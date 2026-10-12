@@ -127,3 +127,11 @@ def test_a_histogram_axis_names_one_value():
         label = fig.axes[0].get_xlabel()
         plt.close(fig)
         assert label.split(" ")[0] in {"Height", "Time", "Mass", "Age"}, label
+
+
+def test_more_than_a_boundary_is_said_as_the_context_says_it():
+    """"Took more than 5 minutes", "are more than 20 cm tall": never "are more than 5 minutes"."""
+    for s in SEEDS:
+        _, qs = run(histogram, s)
+        assert re.search(r"(are more than \d+ cm tall|took more than \d+ minutes|weigh more than \d+ kg|are more than \d+ years old)\?$",
+                         qs[3].stem), qs[3].stem
