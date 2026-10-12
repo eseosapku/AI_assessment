@@ -2,23 +2,25 @@
 // Run: npx jiti scripts/figure-library/screen-real.ts [--limit=N] [--dry] [--workers=6] [--redo]
 //      (--redo: screen every real image again, after a change to the screen)
 //      (--regrade: work stored screenings out again under the current rules; sends nothing)
+//      (--rescreen-kept: screen the kept images again, after a judgement is added)
 // Screens real candidates on their 512 px copy (spec 5.3 step 3), with Haiku: see SCREEN_MODEL. Resumable.
 import { libraryDir, openStore } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { askJson, bedrockSender, runPool } from './claude'
 import { previewImage } from './review'
-import { SCREEN_JOB, SCREEN_MODEL, SCREEN_USD_PER_ITEM, parseScreen, regradeScreens, resetScreens, saveScreen, screenPrompt, toScreen } from './screen'
+import { SCREEN_JOB, SCREEN_MODEL, SCREEN_USD_PER_ITEM, parseScreen, regradeScreens, resetKept, resetScreens, saveScreen, screenPrompt, toScreen } from './screen'
 
 /** Round two (P1b.2) screens about 1,000 images with Haiku; P1 stays within spec 8's $25. */
 const JOB_CAP_USD = 3
 const MAX_UNUSABLE = 15
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { limit: 'int', dry: 'flag', workers: 'int', redo: 'flag', regrade: 'flag' })
+  const args = parseArgs(process.argv.slice(2), { limit: 'int', dry: 'flag', workers: 'int', redo: 'flag', regrade: 'flag', 'rescreen-kept': 'flag' })
   const db = openStore()
   if (args.redo && !args.dry) console.log(`${resetScreens(db)} screenings cleared`)
   if (args.regrade) console.log(`${regradeScreens(db)} screenings changed on regrading`)
+  if (args['rescreen-kept'] && !args.dry) console.log(`${resetKept(db)} kept images put back to be screened`)
   const lib = libraryDir()
   const items = toScreen(db, { limit: args.limit as number | undefined })
   const estimate = items.length * SCREEN_USD_PER_ITEM

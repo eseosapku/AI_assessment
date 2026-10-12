@@ -21,6 +21,7 @@ const CHECKS: [string, boolean, string][] = [
   ['clear', true, 'not clear enough'],
   ['beyond_level', false, 'beyond this level'],
   ['unfamiliar_example', false, 'an unfamiliar example'],
+  ['scanned_page', false, 'a scanned book page'],
   ['person_is_subject', false, 'a person is the subject'],
   ['mostly_text', false, 'mostly text'],
   ['foreign_labels', false, 'labels not in English'],
@@ -52,13 +53,14 @@ export function screenPrompt(item: ScreenItem): string {
     '- clear: sharp and well lit, with the thing that matters large enough to see.',
     '- beyond_level: a figure from a research paper (often several labelled panels), specialist or medical detail, or anything beyond what these learners study.',
     '- unfamiliar_example: a particular place, landscape or case from far away that the syllabus does not name, where a diagram or an example from Rwanda or East Africa would teach the same thing. An organism, object, cell or piece of apparatus is never an unfamiliar example: what it shows is the same anywhere.',
+    '- scanned_page: a scanned page of an old book, catalogue, newspaper or document: printed text around the picture, or aged paper. The user does not want these, however good the drawing on them.',
     '- person_is_subject: one or more identifiable people are the main subject (a portrait, a selfie, people posing or working as the focus).',
     '- mostly_text: it is mainly words or a table.',
     '- foreign_labels: it has labels or captions in a language other than English.',
     '- decorative: a logo, an icon, clip art, an advert or a decoration.',
     '',
     'Reply with JSON only: an object with these keys in this order, each judgement a JSON true or false of your own:',
-    '{"shows": string, "image_type": string, "topic_fit": string, "educational": boolean, "in_syllabus": boolean, "clear": boolean, "beyond_level": boolean, "unfamiliar_example": boolean, "person_is_subject": boolean, "mostly_text": boolean, "foreign_labels": boolean, "decorative": boolean}',
+    '{"shows": string, "image_type": string, "topic_fit": string, "educational": boolean, "in_syllabus": boolean, "clear": boolean, "beyond_level": boolean, "unfamiliar_example": boolean, "scanned_page": boolean, "person_is_subject": boolean, "mostly_text": boolean, "foreign_labels": boolean, "decorative": boolean}',
   ].join('\n')
 }
 
@@ -158,4 +160,22 @@ export function regradeScreens(db: Store): number {
     changed++
   }
   return changed
+}
+
+/** Puts the images the screen kept back to be screened again, after a judgement is added. Returns how many. */
+export function resetKept(db: Store): number {
+  const ids = (db.prepare("SELECT s.figure_id AS id FROM screenings s JOIN figures f ON f.id = s.figure_id WHERE f.origin <> 'drawn' AND s.keep = 1")
+    .all() as { id: string }[]).map((r) => r.id)
+  db.exec('BEGIN')
+  try {
+    for (const id of ids) {
+      db.prepare('DELETE FROM screenings WHERE figure_id = ?').run(id)
+      db.prepare("UPDATE figures SET status = 'candidate', reason = NULL WHERE id = ?").run(id)
+    }
+    db.exec('COMMIT')
+  } catch (err) {
+    db.exec('ROLLBACK')
+    throw err
+  }
+  return ids.length
 }

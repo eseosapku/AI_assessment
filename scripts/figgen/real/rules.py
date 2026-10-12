@@ -14,6 +14,10 @@ PEOPLE = re.compile(r"portrait|selfie|\bpeople\b|\bmen\b|\bwomen\b|\bpersons?\b|
 LANGS = ("zh|fr|es|de|ru|ar|ja|ko|it|pt|nl|pl|uk|fa|tr|he|cs|sv|fi|hu|vi|id|ca|el|ro|bg|sr|hr|th|hi|bn|ta|da|nb|"
          "sk|sl|lt|lv|et|eu|gl|ms|sw|rw")
 TRANSLATED = re.compile(rf"[-_( ](?:{LANGS})(?:-[a-z]{{2,4}})?\)?\.(?:jpe?g|png|tiff?|webp|gif|svg)$", re.I)
+# A scanned page of an old book, catalogue or document, which the user does not want however good the
+# drawing on it (2026-10-12): DPLA and Biodiversity Heritage Library scans, Internet Archive book pages.
+SCANNED_TITLE = re.compile(r"\bDPLA\b|\bBHL\d|\(page \d+\)|\bimage from page\b|\bpage \d+ of\b", re.I)
+SCANNED_CATEGORY = re.compile(r"internet archive book images|biodiversity heritage library|\bbook scans?\b", re.I)
 MIN_SHORT_SIDE = 600  # spec 5.3: at least 600 px on the short side
 TYPES = ("image/jpeg", "image/png", "image/webp", "image/tiff", "image/svg+xml")
 
@@ -21,6 +25,10 @@ TYPES = ("image/jpeg", "image/png", "image/webp", "image/tiff", "image/svg+xml")
 def licence_ok(name: str) -> bool:
     name = name.strip()
     return bool(name) and bool(LICENCE.search(name)) and not BANNED.search(name)
+
+
+def is_scan(title: str, categories) -> bool:
+    return bool(SCANNED_TITLE.search(title)) or any(SCANNED_CATEGORY.search(cat) for cat in categories)
 
 
 def reject_reason(c: dict) -> str | None:
@@ -40,4 +48,6 @@ def reject_reason(c: dict) -> str | None:
         return f"category {hits[0]}"
     if TRANSLATED.search(c["title"]):
         return "a translated copy"
+    if is_scan(c["title"], c["categories"]):
+        return "a scanned book page"
     return None

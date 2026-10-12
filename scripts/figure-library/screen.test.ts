@@ -1,14 +1,14 @@
 // scripts/figure-library/screen.test.ts
 import { describe, it, expect } from 'vitest'
 import { openStore, type Store } from './store'
-import { parseScreen, regradeScreens, resetScreens, saveScreen, screenPrompt, toScreen, type ScreenItem } from './screen'
+import { parseScreen, regradeScreens, resetKept, resetScreens, saveScreen, screenPrompt, toScreen, type ScreenItem } from './screen'
 
 const item: ScreenItem = {
   figureId: 'wikimedia/1', subject: 'biology', band: 'UP', topic: 'Cells', title: 'File:Onion cells.jpg',
   description: 'Onion epidermis under a light microscope', preview: 'assets/wikimedia/1-512.jpg',
   subtopics: ['Animal and plant cells', 'Specialised cells'],
 }
-const good = { shows: 'Onion epidermis cells with nuclei', image_type: 'micrograph', topic_fit: 'a light micrograph of plant cells', educational: true, in_syllabus: true, clear: true, beyond_level: false, unfamiliar_example: false, person_is_subject: false, mostly_text: false, foreign_labels: false, decorative: false }
+const good = { shows: 'Onion epidermis cells with nuclei', image_type: 'micrograph', topic_fit: 'a light micrograph of plant cells', educational: true, in_syllabus: true, clear: true, beyond_level: false, unfamiliar_example: false, scanned_page: false, person_is_subject: false, mostly_text: false, foreign_labels: false, decorative: false }
 
 function store(): Store {
   const db = openStore(':memory:')
@@ -26,7 +26,7 @@ function store(): Store {
 describe('the screening prompt', () => {
   it('names the subject, level, topic and file, and asks every judgement', () => {
     const p = screenPrompt(item)
-    for (const part of ['biology', 'Upper Secondary', '"Cells"', 'Onion cells.jpg', 'Syllabus points: Animal and plant cells; Specialised cells.', 'in_syllabus', 'unfamiliar_example', 'image_type', 'beyond_level', 'research paper', 'person_is_subject', 'foreign_labels', 'decorative']) expect(p).toContain(part)
+    for (const part of ['biology', 'Upper Secondary', '"Cells"', 'Onion cells.jpg', 'Syllabus points: Animal and plant cells; Specialised cells.', 'in_syllabus', 'unfamiliar_example', 'scanned_page', 'image_type', 'beyond_level', 'research paper', 'person_is_subject', 'foreign_labels', 'decorative']) expect(p).toContain(part)
   })
 })
 
@@ -116,5 +116,22 @@ describe('distant examples', () => {
     expect(db.prepare("SELECT keep FROM screenings WHERE figure_id = 'wikimedia/1'").get()).toEqual({ keep: 1 })
     expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'rejected' })
     expect(regradeScreens(db)).toBe(0)
+  })
+})
+
+describe('scanned pages', () => {
+  // The user (2026-10-12): no scanned pages of old books or catalogues, however good the drawing.
+  it('are rejected', () => {
+    expect(parseScreen({ ...good, scanned_page: true }).reasons).toEqual(['a scanned book page'])
+    expect(() => parseScreen({ ...good, scanned_page: undefined })).toThrow(/scanned_page/)
+  })
+
+  it('can be screened for again among kept images only', () => {
+    const db = store()
+    saveScreen(db, { figureId: 'wikimedia/1', model: 'm', screening: parseScreen(good), detail: good })
+    saveScreen(db, { figureId: 'wikimedia/2', model: 'm', screening: parseScreen({ ...good, clear: false }), detail: {} })
+    expect(resetKept(db)).toBe(1)
+    expect(toScreen(db).map((i) => i.figureId)).toEqual(['wikimedia/1'])
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'rejected' })
   })
 })

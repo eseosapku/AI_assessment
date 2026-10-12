@@ -151,3 +151,15 @@ def test_a_transparent_diagram_is_stored_on_white(tmp_path):
     for key in (asset, preview):
         corner = Image.open(tmp_path / key).convert("RGB").getpixel((5, 5))
         assert min(corner) >= 245, f"{key}: background {corner}"
+
+
+def test_held_scans_are_rejected_by_the_rule(db, tmp_path):
+    from figgen.real.harvest import reject_held_scans
+    harvest_topic(db, tmp_path / "lib", FakeFetch(), "db:2", "photo.micrograph", want=10)
+    db.execute("UPDATE figures SET spec = json_set(spec, '$.title', 'File:Cells (Page 12) BHL123.jpg') WHERE id = 'wikimedia/1'")
+    db.execute("INSERT INTO screenings (figure_id, model, keep, shows, detail, at) VALUES ('wikimedia/1', 'm', 1, 'x', '{}', 'now')")
+    db.commit()
+    assert reject_held_scans(db) == 1
+    assert tuple(db.execute("SELECT status, reason FROM figures WHERE id = 'wikimedia/1'").fetchone()) == ("rejected", "a scanned book page")
+    assert db.execute("SELECT keep FROM screenings WHERE figure_id = 'wikimedia/1'").fetchone()[0] == 0
+    assert reject_held_scans(db) == 0

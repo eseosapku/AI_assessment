@@ -125,3 +125,14 @@ def test_fetcher_retries_a_timeout(monkeypatch):
     monkeypatch.setattr(commons.time, "sleep", lambda s: None)
     assert commons.Fetcher(gap=0).json("https://example.org/x") == {"ok": True}
     assert len(calls) == 2
+
+
+def test_reject_reason_turns_away_scanned_book_pages():
+    # The user (2026-10-12): no scanned pages of old books or catalogues, however good the drawing.
+    for title in ("File:Chemical Supplies Apparatus Chemicals Books - DPLA - 4b1c.jpg",
+                  "File:A manual of the anatomy of the vertebrated animals (Page 453) BHL33406999.jpg",
+                  "File:Image from page 174 of \"On safari\" (1908).jpg",
+                  "File:Cucurbita hand pollination page 78 of \"Luther Burbank\".jpg"):
+        assert reject_reason(candidate(title=title)) == "a scanned book page", title
+    assert reject_reason(candidate(categories=["Internet Archive book images"])) == "a scanned book page"
+    assert reject_reason(candidate(title="File:Front page of a leaf.jpg")) is None

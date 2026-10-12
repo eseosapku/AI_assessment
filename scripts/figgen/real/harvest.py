@@ -20,7 +20,7 @@ from PIL import Image  # noqa: E402
 
 from figgen.real.commons import Fetcher, parse_search, search_url  # noqa: E402
 from figgen.real.hashing import MIN_DISTANCE, dhash, distance  # noqa: E402
-from figgen.real.rules import reject_reason  # noqa: E402
+from figgen.real.rules import is_scan, reject_reason  # noqa: E402
 from figgen.store import library_dir, open_store, save_real, topic  # noqa: E402
 
 # Pilot topics (P1b), one for each kind of real image: topic key -> figure kind.
@@ -117,12 +117,31 @@ def harvest_topic(db, lib: Path, fetch, key: str, kind: str, want: int, per_term
     return {"topic": key, "have": have, "turned": turned}
 
 
+def reject_held_scans(db) -> int:
+    """Rejects held images that the scanned-page rule now turns away, and their screenings. Returns how many."""
+    n = 0
+    for r in db.execute("SELECT id, spec FROM figures WHERE origin <> 'drawn' AND status <> 'rejected'").fetchall():
+        spec = json.loads(r["spec"] or "{}")
+        if is_scan(spec.get("title", ""), spec.get("categories", [])):
+            with db:
+                db.execute("UPDATE figures SET status = 'rejected', reason = 'a scanned book page' WHERE id = ?", (r["id"],))
+                db.execute("UPDATE screenings SET keep = 0 WHERE figure_id = ?", (r["id"],))
+            n += 1
+    return n
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Harvest the P1b real-image pilot from Wikimedia Commons")
     ap.add_argument("--per-topic", type=int, default=100)
     ap.add_argument("--per-term", type=int, default=25)
     ap.add_argument("--topics", default="", help="comma-separated topic keys; the pilot's six when left out")
+    ap.add_argument("--recheck", action="store_true", help="only reject held images the current rules turn away")
     a = ap.parse_args(argv)
+    if a.recheck:
+        db = open_store()
+        print(f"{reject_held_scans(db)} held scanned pages rejected")
+        db.close()
+        return 0
     keys = [k.strip() for k in a.topics.split(",") if k.strip()] or list(PILOT)
     unknown = [k for k in keys if k not in PILOT]
     if unknown:
