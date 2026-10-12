@@ -21,7 +21,8 @@ if __package__ in (None, ""):  # run as a script: make "figgen" importable
 
 from figgen.core import render  # noqa: E402
 from figgen.families import FAMILIES  # noqa: E402
-from figgen.pilot import topics_for  # noqa: E402
+from figgen.link import band_of, topic_index, topics_for, unknown_concepts  # noqa: E402
+from figgen.pilot import topics_for as topics_for_pilot  # noqa: E402
 from figgen.store import delete_family, has_figure, library_dir, open_store, save_drawn, topic  # noqa: E402
 
 
@@ -33,8 +34,18 @@ def png_size(png: bytes) -> tuple[int, int]:
     return int.from_bytes(png[16:20], "big"), int.from_bytes(png[20:24], "big")
 
 
-def generate_family(db, lib: Path, m, count: int, redo: bool = False, max_seeds: int = 5000) -> dict:
-    """Draws figures for one family until it has `count` different ones."""
+def generate_family(db, lib: Path, m, count: int, redo: bool = False, max_seeds: int = 5000, index=None) -> dict:
+    """Draws figures for one family until it has `count` different ones.
+
+    A family that names its concepts reaches its topics by concept and level (link.py), and an
+    instance that reaches none is not stored; the pilot's families keep their hand-made topics.
+    """
+    by_concept = hasattr(m, "CONCEPTS")
+    if by_concept:
+        unknown = unknown_concepts(db, m)
+        if unknown:
+            raise ValueError(f"{m.ID} names concepts the store does not have: {', '.join(unknown)}")
+        index = index if index is not None else topic_index(db)
     if redo:
         for key in delete_family(db, m.ID):
             (lib / key).unlink(missing_ok=True)
@@ -54,18 +65,24 @@ def generate_family(db, lib: Path, m, count: int, redo: bool = False, max_seeds:
         if has_figure(db, fid):
             have += 1
             continue
+        if by_concept:
+            keys, band, subject = topics_for(index, m, params), band_of(m, params), m.SUBJECT
+            if not keys:  # serves no topic at its level: not worth storing
+                continue
+        else:
+            keys = topics_for_pilot(m.ID, params)
+            first = topic(db, keys[0])
+            if first["band"] not in m.BANDS:
+                raise ValueError(f"{m.ID} draws for {', '.join(m.BANDS)}, but {keys[0]} is {first['band']}")
+            band, subject = first["band"], first["subject"]
         questions = m.questions(params, rng)
-        keys = topics_for(m.ID, params)
-        first = topic(db, keys[0])
-        if first["band"] not in m.BANDS:
-            raise ValueError(f"{m.ID} draws for {', '.join(m.BANDS)}, but {keys[0]} is {first['band']}")
         out = render(m.draw(params))
         asset, preview = f"assets/{fid}.svg", f"assets/{fid}.png"
         (lib / asset).parent.mkdir(parents=True, exist_ok=True)
         (lib / asset).write_text(out.svg, encoding="utf-8")
         (lib / preview).write_bytes(out.png)
         width, height = png_size(out.png)
-        save_drawn(db, figure_id=fid, family=m.ID, kind=m.KIND, subject=first["subject"], band=first["band"],
+        save_drawn(db, figure_id=fid, family=m.ID, kind=m.KIND, subject=subject, band=band,
                    topics=keys, seed=seed, spec=params, questions=questions, asset=asset, preview=preview,
                    width=width, height=height)
         have += 1
@@ -85,8 +102,9 @@ def main(argv=None) -> int:
         ap.error(f"unknown families: {', '.join(unknown)}")
     lib = library_dir()
     db = open_store()
+    index = topic_index(db)
     for fid in ids:
-        r = generate_family(db, lib, FAMILIES[fid], a.per_family, redo=a.redo)
+        r = generate_family(db, lib, FAMILIES[fid], a.per_family, redo=a.redo, index=index)
         print(f"{fid:20s} {r['have']} figures ({r['drawn']} new)")
     total = db.execute("SELECT COUNT(*) FROM figures WHERE origin = 'drawn'").fetchone()[0]
     print(f"{total} drawn figures in the store at {lib}")

@@ -29,9 +29,11 @@ def db(tmp_path):
 
 
 def test_every_family_has_pilot_topics_at_its_level():
-    assert set(PILOT) | set(BY_PARAMS) == set(FAMILIES)
+    # A family naming its concepts reaches its topics by concept (link.py); the rest keep the pilot's.
+    by_hand = {f: m for f, m in FAMILIES.items() if not hasattr(m, "CONCEPTS")}
+    assert set(by_hand) <= set(PILOT) | set(BY_PARAMS)
     assert set(TIMELINE) == set(timeline.SETS)
-    for fid, m in FAMILIES.items():
+    for fid, m in by_hand.items():
         for s in range(1, 21):
             keys = topics_for(fid, m.sample(random.Random(s)))
             assert keys and all(k in TOPICS for k in keys), fid
@@ -99,3 +101,41 @@ def test_scale_readings_go_to_the_subject_of_their_instrument():
     for s in range(1, 40):
         params = FAMILIES["scale_reading"].sample(random.Random(s))
         assert topics_for("scale_reading", params) == (["db:1101"] if params["kind"] == "thermometer" else ["db:1884"])
+
+
+def concept_family(bands=("LS",), concepts=("mathematics.pie-charts",)):
+    """bar_chart's drawing, declared as a family linked by concept."""
+    import types
+    from figgen.families import bar_chart
+    return types.SimpleNamespace(ID="concept_test", KIND=bar_chart.KIND, SUBJECT="mathematics", BANDS=bands, CONCEPTS=concepts,
+                                 sample=bar_chart.sample, draw=bar_chart.draw, questions=bar_chart.questions)
+
+
+def mapped(db):
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:900', 'test', 'Book', 'mathematics', 'LS', 'Pie charts')")
+    db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
+               "VALUES ('db:900', '[\"mathematics.pie-charts\"]', '[]', '[]', 'high', 0, 'm', 'now')")
+    db.execute("INSERT INTO concepts (id, subject, name, bands) VALUES ('mathematics.pie-charts', 'mathematics', 'Pie charts', '[]')")
+    db.commit()
+    return db
+
+
+def test_a_family_with_concepts_is_linked_by_concept_at_its_instances_level(db, tmp_path):
+    mapped(db)
+    r = generate_family(db, tmp_path / "lib", concept_family(), 3)
+    assert r["have"] == 3
+    rows = db.execute("SELECT f.band, f.subject, ft.topic_key FROM figures f JOIN figure_topics ft ON ft.figure_id = f.id").fetchall()
+    assert [tuple(row) for row in rows] == [("LS", "mathematics", "db:900")] * 3
+
+
+def test_an_instance_reaching_no_topic_is_not_stored(db, tmp_path):
+    mapped(db)
+    with pytest.raises(RuntimeError, match="only 0"):
+        generate_family(db, tmp_path / "lib", concept_family(bands=("P",)), 3, max_seeds=5)
+    assert db.execute("SELECT COUNT(*) FROM figures").fetchone()[0] == 0
+
+
+def test_a_family_naming_an_unknown_concept_is_refused(db, tmp_path):
+    mapped(db)
+    with pytest.raises(ValueError, match="mathematics.nope"):
+        generate_family(db, tmp_path / "lib", concept_family(concepts=("mathematics.pie-charts", "mathematics.nope")), 1)
