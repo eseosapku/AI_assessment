@@ -45,7 +45,9 @@ def _sides(shape: str) -> tuple:
 
 
 def sample(rng: random.Random) -> dict:
-    shape = rng.choice(sorted(SHAPES))
+    # Only shapes a reader cannot dispute: the blind review judged 8 of 8 "stable" pyramids
+    # also contracting or expanding. "Stable" stays in the question as a wrong option.
+    shape = rng.choice(["contracting", "expanding"])
     sides = _sides(shape)
     return {"shape": shape, "male": list(rng.choice(sides)), "female": list(rng.choice(sides))}
 

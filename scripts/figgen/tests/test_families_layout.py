@@ -378,3 +378,13 @@ def test_supply_changes_have_a_cause_that_fits_the_good():
         text = supply_demand.questions(p, rng)[2].stem
         if p["good"] in ("cement", "school uniforms", "mobile phones"):
             assert "harvest" not in text, f"seed {seed}: {text}"
+
+
+def test_pyramids_are_drawn_only_in_shapes_a_reader_cannot_dispute():
+    # The blind review failed 8 of 8 "stable" pyramids as also contracting or expanding; it
+    # passed every expanding and contracting one. Stable stays as a wrong option.
+    shapes = {population_pyramid.sample(random.Random(s))["shape"] for s in range(1, 200)}
+    assert shapes == {"expanding", "contracting"}
+    rng = random.Random(1)
+    q = population_pyramid.questions(population_pyramid.sample(rng), rng)[0]
+    assert "Stable" in q.options
