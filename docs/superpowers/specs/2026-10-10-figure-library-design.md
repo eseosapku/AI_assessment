@@ -407,6 +407,30 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - triage rejections by sub-type, including those inside passing families;
       - approve, draw to volume and approve again;
       - report coverage.
+  - **P3d result (2026-10-13, plan `2026-10-12-figure-library-p3d-maths-second-batch-scale.md`): the second Maths batch drawn, reviewed and approved. The blind review cost $7.80; the library total is $64.97.**
+    - **Store:** all 20 families pass the blind review, and 2,928 more Maths figures are approved, so the Maths drawn total is 8,072.
+      - Each family has 150 figures, except exp_graph 136, trig_graph 120, pdf_graph 148 and algebra_area 126.
+      - The library holds 8,401 approved drawn figures and 86 real images.
+    - **Review:** 18 of 20 families passed the first time.
+      - **Area under a curve:** a question asked about curve the figure did not show. It now reads the shaded region's edge, and the shading no longer hides the axis numbers.
+      - **Density functions:** the reviewer was right but wrote "17/3 ≈ 5.67". The check now reads an approximation after the exact answer as the same answer.
+      - **Sub-types failing inside passing families,** each fixed, redrawn and reviewed again:
+        - a wrong gradient region that was also true;
+        - a tangent's letter beside the curve;
+        - one number in one of several equal parts;
+        - coins without "Frw";
+        - "12 800" with a space, now accepted, and read by the review as one number.
+      - **Noted passes acted on:** a gradient asked off the drawing; seats and stamps for squares; a curve drawn past its stated range; "the first 1 seconds"; a rain count with too few values; a reading on the plot's edge.
+      - Three rejections were the reviewer's own slips and are recorded, not "fixed".
+    - **New:** `generate.py --refresh-forms` widens stored figures' accepted answers in place where the stem and key are unchanged, so their reviews still stand.
+    - **Coverage of the 302 mapped Maths topics:** 274 have approved figures.
+      - 242 have 50 or more, 20 have 20 to 49, and 12 have fewer than 20.
+      - 88 have three or more families, and 17 six or more.
+      - 28 have none: those P3c listed, plus derivatives of exponential functions, which the calculus families now exclude as a misfit.
+    - **Next:**
+      - refresh the earlier Maths families' accepted forms (`--refresh-forms`);
+      - give money-specific figures to the Primary francs chapters, which also draw bar models;
+      - then the Physics wave, starting with sample figures for the user.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
