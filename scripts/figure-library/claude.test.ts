@@ -2,7 +2,7 @@
 import { describe, it, expect } from 'vitest'
 import { openStore } from './store'
 import { BudgetExceeded, totalSpend } from './spend'
-import { askJson, extractJson, runPool, type SendFn } from './claude'
+import { HAIKU, SONNET, askJson, extractJson, requestBody, runPool, type ImageInput, type SendFn } from './claude'
 
 const noWait = async () => {}
 
@@ -100,5 +100,45 @@ describe('running work a few at a time', () => {
     })
     expect(done.sort()).toEqual([1, 2, 3, 4, 5, 6, 7])
     expect(peak).toBeLessThanOrEqual(3)
+  })
+})
+
+describe('the request sent to Bedrock', () => {
+  it('sends words alone to Haiku, as before', () => {
+    expect(requestBody(HAIKU, 'hello', 100)).toEqual({
+      anthropic_version: 'bedrock-2023-05-31', max_tokens: 100, messages: [{ role: 'user', content: 'hello' }],
+    })
+  })
+
+  it('puts images before the words, and gives Sonnet an effort setting instead of a temperature', () => {
+    const body = requestBody(SONNET, 'check this', 500, [{ mediaType: 'image/png', data: 'iVBOR' }]) as {
+      messages: { content: unknown }[]; output_config?: unknown
+    }
+    expect(body.messages[0].content).toEqual([
+      { type: 'image', source: { type: 'base64', media_type: 'image/png', data: 'iVBOR' } },
+      { type: 'text', text: 'check this' },
+    ])
+    expect(body.output_config).toEqual({ effort: 'low' })
+    expect(body).not.toHaveProperty('temperature')
+  })
+})
+
+describe('asking about an image', () => {
+  it('passes the images through to the model', async () => {
+    const db = openStore(':memory:')
+    let seen: readonly ImageInput[] | undefined
+    const send: SendFn = async (_m, _p, _t, images) => {
+      seen = images
+      return { text: '{"ok":1}', inputTokens: 10, outputTokens: 10 }
+    }
+    await askJson({ db, job: 't', jobCapUsd: 1, prompt: 'p', maxTokens: 50, send, images: [{ mediaType: 'image/png', data: 'x' }], wait: noWait })
+    expect(seen).toEqual([{ mediaType: 'image/png', data: 'x' }])
+  })
+
+  it('counts a reply with no usage figures at its worst case, images included', async () => {
+    const db = openStore(':memory:')
+    const send: SendFn = async () => ({ text: '{"ok":1}', inputTokens: 0, outputTokens: 0 })
+    await askJson({ db, job: 't', jobCapUsd: 1, prompt: 'abc', maxTokens: 100, send, model: SONNET, images: [{ mediaType: 'image/png', data: 'x' }], wait: noWait })
+    expect(db.prepare('SELECT input_tokens AS i, output_tokens AS o FROM spend').get()).toEqual({ i: 1 + 1600, o: 100 })
   })
 })

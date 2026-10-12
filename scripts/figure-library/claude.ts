@@ -6,6 +6,16 @@ import type { Store } from './store'
 import { checkBudget, recordSpend } from './spend'
 
 export const HAIKU = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
+export const SONNET = 'eu.anthropic.claude-sonnet-5-5'
+
+/** An image sent with a prompt, base64-encoded. */
+export interface ImageInput {
+  mediaType: 'image/png' | 'image/jpeg' | 'image/webp'
+  data: string
+}
+
+/** What one image is counted as when a reply carries no usage figures: a 1,200 px figure is about 1,600 tokens. */
+const IMAGE_TOKENS_WORST = 1600
 
 export interface ModelReply {
   text: string
@@ -15,7 +25,27 @@ export interface ModelReply {
   truncated?: boolean
 }
 
-export type SendFn = (model: string, prompt: string, maxTokens: number) => Promise<ModelReply>
+export type SendFn = (model: string, prompt: string, maxTokens: number, images?: readonly ImageInput[]) => Promise<ModelReply>
+
+/**
+ * The InvokeModel body. Images go before the words. Sonnet refuses a
+ * temperature, so it gets an effort setting instead, as the repo's other
+ * Sonnet scripts do. A prompt with no images is sent exactly as before.
+ */
+export function requestBody(model: string, prompt: string, maxTokens: number, images: readonly ImageInput[] = []): Record<string, unknown> {
+  const content = images.length
+    ? [
+        ...images.map((i) => ({ type: 'image', source: { type: 'base64', media_type: i.mediaType, data: i.data } })),
+        { type: 'text', text: prompt },
+      ]
+    : prompt
+  return {
+    anthropic_version: 'bedrock-2023-05-31',
+    max_tokens: maxTokens,
+    ...(/sonnet|opus/.test(model) ? { output_config: { effort: 'low' } } : {}),
+    messages: [{ role: 'user', content }],
+  }
+}
 
 export const sleep = (ms: number) => new Promise<void>((resolve) => setTimeout(resolve, ms))
 
@@ -38,16 +68,12 @@ export function bedrockSender(env: Record<string, string> = loadEnv()): SendFn {
     region: env.AWS_REGION || 'eu-west-1',
     credentials: { accessKeyId: env.AWS_ACCESS_KEY_ID, secretAccessKey: env.AWS_SECRET_ACCESS_KEY },
   })
-  return async (model, prompt, maxTokens) => {
+  return async (model, prompt, maxTokens, images) => {
     const res = await client.send(new InvokeModelCommand({
       modelId: model,
       contentType: 'application/json',
       accept: 'application/json',
-      body: JSON.stringify({
-        anthropic_version: 'bedrock-2023-05-31',
-        max_tokens: maxTokens,
-        messages: [{ role: 'user', content: prompt }],
-      }),
+      body: JSON.stringify(requestBody(model, prompt, maxTokens, images ?? [])),
     }))
     const body = JSON.parse(new TextDecoder().decode(res.body))
     return {
@@ -81,6 +107,7 @@ export async function askJson(o: {
   prompt: string
   maxTokens: number
   send: SendFn
+  images?: readonly ImageInput[]
   model?: string
   attempts?: number
   wait?: (ms: number) => Promise<void>
@@ -94,7 +121,7 @@ export async function askJson(o: {
     checkBudget(o.db, { job: o.job, jobCapUsd: o.jobCapUsd })
     let reply: ModelReply
     try {
-      reply = await o.send(model, o.prompt, o.maxTokens)
+      reply = await o.send(model, o.prompt, o.maxTokens, o.images)
     } catch (err) {
       last = err
       const e = err as { name?: string; message?: string }
@@ -108,7 +135,7 @@ export async function askJson(o: {
     recordSpend(o.db, {
       job: o.job,
       model,
-      inputTokens: reply.inputTokens || Math.ceil(o.prompt.length / 3),
+      inputTokens: reply.inputTokens || Math.ceil(o.prompt.length / 3) + IMAGE_TOKENS_WORST * (o.images?.length ?? 0),
       outputTokens: reply.outputTokens || o.maxTokens,
     })
     checkBudget(o.db, { job: o.job, jobCapUsd: o.jobCapUsd })
