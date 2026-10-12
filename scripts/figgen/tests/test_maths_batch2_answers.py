@@ -356,3 +356,80 @@ def test_velocity_time():
         assert int(top.answer) == max(v for _, v in pts)
         for (t0, v0), (t1, v1) in zip(pts, pts[1:]):
             assert (Fraction(v1 - v0, t1 - t0) * 2).denominator == 1  # whole or half m/s²
+
+
+# --- Task 6: money ----------------------------------------------------------------------------
+
+def francs(text):
+    return int(text.replace(",", "").replace(" ", ""))
+
+
+def test_money():
+    from figgen.core import money as forms
+    m = fam("money")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        lo, hi = m.stages(p)
+        limit = {1: 1000, 3: 5000, 5: 50000}[lo]
+        for q in qs:
+            if q.kind == "short" and not q.stem.startswith("How many"):
+                assert set(forms(int(q.answer))) <= set(q.accepted), q.accepted  # every fair form of an amount
+        if p["kind"] == "board":
+            price = {it["one"]: it["price"] for it in p["items"]} | {it["many"]: it["price"] for it in p["items"]}
+            total, change, dearest, more = qs
+            n1, i1, n2, i2 = re.search(r"How much do (\d+) (.+?) and (\d+) (.+?) cost altogether\?", total.stem).groups()
+            assert francs(total.answer) == int(n1) * price[i1] + int(n2) * price[i2] <= limit
+            item, paid = re.search(r"for one (.+?) with ([\d,]+) Frw", change.stem).groups()
+            assert francs(change.answer) == francs(paid) - price[item] > 0
+            top = max(it["price"] for it in p["items"])
+            assert [it["price"] for it in p["items"]].count(top) == 1 and price[picked(dearest)] == top
+            a, b = re.search(r"does one (.+?) cost than one (.+?)\?", more.stem).groups()
+            assert francs(more.answer) == price[a] - price[b] > 0
+        else:
+            pieces = p["pieces"]
+            total, spend, how_many = qs
+            assert francs(total.answer) == sum(pieces) <= limit
+            cost = francs(re.search(r"costing ([\d,]+) Frw", spend.stem).group(1))
+            assert francs(spend.answer) == abs(cost - sum(pieces)) and cost != sum(pieces)
+            assert ("need" in spend.stem) == (cost > sum(pieces))
+            v = francs(re.search(r"How many ([\d,]+) Frw", how_many.stem).group(1))
+            assert int(how_many.answer) == pieces.count(v) >= 1
+        assert all(it["price"] % {1: 10, 3: 50, 5: 500}[lo] == 0 for it in p.get("items", []))
+
+
+def test_price_tag():
+    from fractions import Fraction as Fr
+    m = fam("price_tag")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        kind = p["kind"]
+        if kind == "sale":
+            was, r = p["was"], p["rate"]
+            now, saved, share = qs
+            assert francs(now.answer) == was * (100 - r) // 100 and was * (100 - r) % 100 == 0
+            assert francs(saved.answer) == was * r // 100
+            assert int(share.answer) == 100 - r
+        elif kind == "vat":
+            sub = sum(p["prices"])
+            subtotal, vat, total = qs
+            assert francs(subtotal.answer) == sub and sub * 18 % 100 == 0
+            assert francs(vat.answer) == sub * 18 // 100 and francs(total.answer) == sub * 118 // 100
+        elif kind == "commission":
+            sales, r = sum(p["sales"]), p["rate"]
+            total_sales, commission = qs[:2]
+            assert francs(total_sales.answer) == sales and francs(commission.answer) == sales * r // 100 and sales * r % 100 == 0
+            if len(qs) > 2:
+                wage = francs(re.search(r"wage of ([\d,]+) Frw", qs[2].stem).group(1))
+                assert francs(qs[2].answer) == wage + sales * r // 100
+        else:
+            r = p["rate"]
+            P = francs(re.search(r"saves ([\d,]+) Frw", qs[0].stem).group(1))
+            n = int(re.search(r"for (\d+) years", qs[0].stem).group(1))
+            if p["compound"]:
+                amount = Fr(P) * (1 + Fr(r, 100)) ** n
+                key = int(amount + Fr(1, 2))  # to the nearest franc, a half rounded up
+                assert francs(qs[0].answer) == key and "nearest franc" in qs[0].stem
+                assert francs(qs[1].answer) == key - P
+            else:
+                assert francs(qs[0].answer) == P * r * n // 100 and P * r * n % 100 == 0
+                assert francs(qs[1].answer) == P + P * r * n // 100
