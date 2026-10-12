@@ -5,7 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { openStore, type Store } from './store'
 import {
-  PASS_MARK, REVIEW_SIZE, agrees, cleanRate, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt,
+  PASS_MARK, REVIEW_SIZE, agrees, approveReal, cleanRate, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt,
   saveVerdict,
   type ReviewItem, type ReviewQuestion,
 } from './review'
@@ -257,5 +257,47 @@ describe('the figure image for the reviewer', () => {
 
   it('is null when the file is missing, so nothing is sent or paid for', () => {
     expect(previewImage(os.tmpdir(), { preview: 'assets/none/0.png' })).toBeNull()
+  })
+})
+
+describe('approving real images', () => {
+  function approvalStore(): Store {
+    const db = store()
+    for (const n of [1, 2, 3]) {
+      db.prepare(`INSERT INTO figures (id, origin, kind, subject, band, asset, preview, spec, status, created_at)
+        VALUES (?, 'wikimedia', 'photo.specimen', 'biology', 'UP', ?, ?, '{}', 'screened', 'now')`).run(`wikimedia/${n}`, `a${n}.webp`, `a${n}.jpg`)
+      db.prepare("INSERT INTO screenings (figure_id, model, keep, shows, detail, at) VALUES (?, 'm', 1, 'x', '{}', 'now')").run(`wikimedia/${n}`)
+      for (const q of [1, 2]) {
+        db.prepare(`INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, options, answer, accepted, model)
+          VALUES (?, ?, ?, 'UP', 'short', 's', '[]', '1', '["1"]', 'sonnet')`).run(`wikimedia/${n}#sonnet#${q}`, `wikimedia/${n}`, q)
+      }
+    }
+    const verdict = (clean: boolean[], figureClear = true) => JSON.stringify({ pass: clean.every(Boolean) && figureClear, figureClear, educational: true, problems: [],
+      questions: clean.map((c, i) => ({ n: i + 1, key: '1', ownAnswer: c ? '1' : '2', keyCorrect: c, answerable: true, singleAnswer: true, problem: '' })) })
+    db.prepare("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', 'wikimedia/1', 'm', 0, ?, 'now')").run(verdict([true, false]))
+    db.prepare("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', 'wikimedia/2', 'm', 0, ?, 'now')").run(verdict([true, true], false))
+    return db
+  }
+
+  it('approves an image with a clean question, drops the questions the review failed, and rejects an unclear image', () => {
+    const db = approvalStore()
+    expect(approveReal(db, { writer: 'sonnet', job: 'j' })).toEqual({ approved: 2, rejected: 1, questionsDropped: 3 })
+    expect(db.prepare("SELECT id FROM figure_questions WHERE figure_id = 'wikimedia/1'").all()).toEqual([{ id: 'wikimedia/1#sonnet#1' }])
+    expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'rejected', reason: 'failed the blind review' })
+    expect(db.prepare("SELECT COUNT(*) AS n FROM figure_questions WHERE figure_id = 'wikimedia/2'").get()).toEqual({ n: 0 })
+    // Not reviewed: kept by the screen and its check, so approved on those.
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/3'").get()).toEqual({ status: 'approved' })
+    expect(db.prepare("SELECT keep, reason FROM question_checks WHERE question_id = 'wikimedia/1#sonnet#2'").get()).toEqual({ keep: 0, reason: 'failed the blind review' })
+  })
+
+  it("regrading one writer's job never rejects the image", () => {
+    const db = approvalStore()
+    // Stored as a pass, but the reviewer's own answer disagrees with the key: regrading fails it.
+    db.prepare("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', 'wikimedia/3', 'm', 1, ?, 'now')").run(JSON.stringify({
+      pass: true, figureClear: true, educational: true, problems: [],
+      questions: [{ n: 1, key: '1', ownAnswer: '2', keyCorrect: true, answerable: true, singleAnswer: true, problem: '' }] }))
+    expect(regrade(db, 'j', 'sonnet')).toBe(1)
+    expect(db.prepare("SELECT pass FROM reviews WHERE figure_id = 'wikimedia/3'").get()).toEqual({ pass: 0 })
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/3'").get()).toEqual({ status: 'screened' })
   })
 })

@@ -247,7 +247,8 @@ export function regrade(db: Store, job: string, writer?: string): number {
     })
     const pass = v.figureClear && v.educational && questions.every((q) => q.keyCorrect && q.answerable && q.singleAnswer)
     if (pass !== v.pass || questions.some((q, i) => q.keyCorrect !== v.questions[i].keyCorrect)) {
-      saveVerdict(db, { job, model: r.model, figureId: r.id, verdict: { ...v, questions, pass } })
+      // A writer's job judges that writer's questions, never the image itself.
+      saveVerdict(db, { job, model: r.model, figureId: r.id, verdict: { ...v, questions, pass }, mark: !writer })
       changed++
     }
   }
@@ -307,4 +308,59 @@ export function cleanRate(db: Store, job: string): { figures: number; questions:
     }
   }
   return { figures: rows.length, questions, clean, rate: questions ? clean / questions : 0 }
+}
+
+/**
+ * Approves real images for the library (spec 5.3: a figure is approved when it has at least one
+ * kept question). Screened-in images with this writer's kept questions are approved, except:
+ * questions the blind review failed are dropped (and recorded in question_checks), and an image the
+ * reviewer judged unclear or not educational, or left with no question, is rejected. Images the
+ * review did not sample are approved on the screen and the check alone. P2 publishes real figures
+ * with status 'approved' and their figure_questions.
+ */
+export function approveReal(db: Store, o: { writer: string; job: string }): { approved: number; rejected: number; questionsDropped: number } {
+  const figures = (db.prepare(`SELECT f.id FROM figures f JOIN screenings s ON s.figure_id = f.id AND s.keep = 1
+    WHERE f.origin <> 'drawn' AND f.status <> 'rejected' AND EXISTS (SELECT 1 FROM figure_questions q WHERE q.figure_id = f.id AND q.model = ?)
+    ORDER BY f.id`).all(o.writer) as { id: string }[]).map((r) => r.id)
+  const review = db.prepare('SELECT detail FROM reviews WHERE job = ? AND figure_id = ?')
+  const dropOne = db.prepare('DELETE FROM figure_questions WHERE figure_id = ? AND model = ? AND n = ?')
+  const idOf = db.prepare('SELECT id FROM figure_questions WHERE figure_id = ? AND model = ? AND n = ?')
+  const left = db.prepare('SELECT COUNT(*) AS n FROM figure_questions WHERE figure_id = ? AND model = ?')
+  const record = db.prepare(`INSERT INTO question_checks (question_id, figure_id, writer, keep, reason, question, at)
+    VALUES (?, ?, ?, 0, 'failed the blind review', '{}', ?)
+    ON CONFLICT(question_id) DO UPDATE SET keep = 0, reason = excluded.reason, at = excluded.at`)
+  const setStatus = db.prepare('UPDATE figures SET status = ?, reason = ? WHERE id = ?')
+  const at = new Date().toISOString()
+  let approved = 0
+  let rejected = 0
+  let questionsDropped = 0
+  db.exec('BEGIN')
+  try {
+    for (const id of figures) {
+      const row = review.get(o.job, id) as { detail: string } | undefined
+      const v = row ? readJson<Partial<Verdict>>(row.detail, {}) : null
+      const failing = !v ? [] : (v.figureClear && v.educational)
+        ? (v.questions ?? []).filter((q) => !(q.keyCorrect && q.answerable && q.singleAnswer)).map((q) => q.n)
+        : (db.prepare('SELECT n FROM figure_questions WHERE figure_id = ? AND model = ?').all(id, o.writer) as { n: number }[]).map((q) => q.n)
+      for (const n of failing) {
+        const q = idOf.get(id, o.writer, n) as { id: string } | undefined
+        if (!q) continue
+        record.run(q.id, id, o.writer, at)
+        dropOne.run(id, o.writer, n)
+        questionsDropped++
+      }
+      if (Number((left.get(id, o.writer) as { n: number }).n) > 0) {
+        setStatus.run('approved', null, id)
+        approved++
+      } else {
+        setStatus.run('rejected', 'failed the blind review', id)
+        rejected++
+      }
+    }
+    db.exec('COMMIT')
+  } catch (err) {
+    db.exec('ROLLBACK')
+    throw err
+  }
+  return { approved, rejected, questionsDropped }
 }

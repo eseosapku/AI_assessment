@@ -164,17 +164,26 @@ export function saveWritten(db: Store, o: { figureId: string; writer: string; ba
   return kept
 }
 
-/** Clears real-image questions and their checks before a new round; drawn figures' questions stay. Returns how many questions went. */
-export function clearWritten(db: Store): number {
-  const n = (db.prepare("SELECT COUNT(*) AS n FROM figure_questions q JOIN figures f ON f.id = q.figure_id WHERE f.origin <> 'drawn'").get() as { n: number }).n
+/**
+ * Clears real-image questions and their checks before writing again; drawn figures' questions
+ * stay. Given figure ids, only those images: a re-run never wipes finished work elsewhere.
+ * Returns how many questions went.
+ */
+export function clearWritten(db: Store, figureIds?: readonly string[]): number {
+  const ids = figureIds ?? (db.prepare("SELECT id FROM figures WHERE origin <> 'drawn'").all() as { id: string }[]).map((r) => r.id)
+  const count = db.prepare("SELECT COUNT(*) AS n FROM figure_questions q JOIN figures f ON f.id = q.figure_id WHERE f.origin <> 'drawn' AND q.figure_id = ?")
+  let n = 0
   db.exec('BEGIN')
   try {
-    db.prepare("DELETE FROM figure_questions WHERE figure_id IN (SELECT id FROM figures WHERE origin <> 'drawn')").run()
-    db.prepare("DELETE FROM question_checks WHERE figure_id IN (SELECT id FROM figures WHERE origin <> 'drawn')").run()
+    for (const id of ids) {
+      n += Number((count.get(id) as { n: number }).n)
+      db.prepare("DELETE FROM figure_questions WHERE figure_id = ? AND figure_id IN (SELECT id FROM figures WHERE origin <> 'drawn')").run(id)
+      db.prepare("DELETE FROM question_checks WHERE figure_id = ? AND figure_id IN (SELECT id FROM figures WHERE origin <> 'drawn')").run(id)
+    }
     db.exec('COMMIT')
   } catch (err) {
     db.exec('ROLLBACK')
     throw err
   }
-  return Number(n)
+  return n
 }

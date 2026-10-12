@@ -5,7 +5,7 @@ import { LEVELS } from './review'
 export const TERMS_JOB = 'p1b2-terms'
 
 /** Where a source's learners are: examples from their world teach better than distant ones. */
-const WHERE: Record<string, string> = {
+export const LEARNERS: Record<string, string> = {
   rwanda: 'Rwanda',
   cambridge: 'Rwanda and East Africa, on the Cambridge curriculum',
   checkpoint: 'Rwanda and East Africa, on the Cambridge curriculum',
@@ -30,7 +30,7 @@ export function topicsForTerms(db: Store, keys: readonly string[]): TermsItem[] 
 export function termsPrompt(t: TermsItem): string {
   return [
     'Find teaching images on Wikimedia Commons for this syllabus topic.',
-    `Subject: ${t.subject}. Level: ${LEVELS[t.band] ?? t.band}, for learners in ${WHERE[t.source] ?? 'Africa'}. Topic: ${t.topic}.`,
+    `Subject: ${t.subject}. Level: ${LEVELS[t.band] ?? t.band}, for learners in ${LEARNERS[t.source] ?? 'Africa'}. Topic: ${t.topic}.`,
     ...(t.subtopics.length ? [`Syllabus points: ${t.subtopics.join('; ')}.`] : []),
     '',
     'Give search terms that find:',

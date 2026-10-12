@@ -116,3 +116,15 @@ describe('the syllabus in writing', () => {
     expect(db.prepare('SELECT COUNT(*) AS n FROM question_checks').get()).toEqual({ n: 0 })
   })
 })
+
+describe('clearing before a new round', () => {
+  it('clears only the images named, so a re-run never wipes finished work', () => {
+    const db = store()
+    for (const id of ['wikimedia/1', 'wikimedia/2']) {
+      const { questions } = parseWritten({ questions: [mcq] }, id)
+      saveWritten(db, { figureId: id, writer: HAIKU, band: 'UP', questions, checks: [{ keep: true, reason: '' }] })
+    }
+    expect(clearWritten(db, ['wikimedia/1'])).toBe(1)
+    expect(db.prepare('SELECT figure_id FROM figure_questions').all()).toEqual([{ figure_id: 'wikimedia/2' }])
+  })
+})

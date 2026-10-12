@@ -125,7 +125,10 @@ def reject_held_scans(db) -> int:
         if is_scan(spec.get("title", ""), spec.get("categories", [])):
             with db:
                 db.execute("UPDATE figures SET status = 'rejected', reason = 'a scanned book page' WHERE id = ?", (r["id"],))
-                db.execute("UPDATE screenings SET keep = 0 WHERE figure_id = ?", (r["id"],))
+                # Marked as the rule's, so regrading the screen never undoes it; the questions go with the image.
+                db.execute("UPDATE screenings SET keep = 0, detail = json_set(detail, '$.rule', 'a scanned book page') "
+                           "WHERE figure_id = ?", (r["id"],))
+                db.execute("DELETE FROM figure_questions WHERE figure_id = ?", (r["id"],))
             n += 1
     return n
 

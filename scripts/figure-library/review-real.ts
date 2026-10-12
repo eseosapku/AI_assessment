@@ -1,5 +1,6 @@
 // scripts/figure-library/review-real.ts
-// Run: npx jiti scripts/figure-library/review-real.ts --writer=haiku|sonnet --ids=<file> [--dry] [--workers=4]
+// Run: npx jiti scripts/figure-library/review-real.ts --writer=haiku|sonnet --ids=<file> [--job=<name>] [--dry] [--workers=4]
+//      npx jiti scripts/figure-library/review-real.ts --writer=sonnet --job=<name> --approve   (approve images; sends nothing)
 //      npx jiti scripts/figure-library/review-real.ts --compare
 // The blind review of one writer's questions on the comparison images (spec 5.5): Sonnet
 // answers without the keys, code compares. --compare applies the rule: Haiku is accepted if
@@ -9,7 +10,7 @@ import { libraryDir, openStore } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { HAIKU, SONNET, askJson, bedrockSender, runPool } from './claude'
-import { REVIEW_SIZE, REVIEW_USD_PER_ITEM, cleanRate, itemsToReview, notedPasses, parseVerdict, previewImage, reviewPrompt, saveVerdict } from './review'
+import { REVIEW_SIZE, REVIEW_USD_PER_ITEM, approveReal, cleanRate, itemsToReview, notedPasses, parseVerdict, previewImage, reviewPrompt, saveVerdict } from './review'
 
 const MODELS = { haiku: HAIKU, sonnet: SONNET } as const
 const JOB_CAP_USD = 2
@@ -27,7 +28,7 @@ function compare(db: ReturnType<typeof openStore>): void {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag', job: 'string' })
+  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag', job: 'string', approve: 'flag' })
   const db = openStore()
   if (args.compare) {
     compare(db)
@@ -36,8 +37,14 @@ async function main() {
   }
   const tag = String(args.writer ?? '')
   if (tag !== 'haiku' && tag !== 'sonnet') throw new Error('--writer must be haiku or sonnet')
-  if (!args.ids) throw new Error('--ids=<file> is needed: the comparison images')
   const job = args.job ? String(args.job) : `p1b-blind-${tag}`
+  if (args.approve) {
+    const r = approveReal(db, { writer: MODELS[tag], job })
+    console.log(`Approved ${r.approved} images, rejected ${r.rejected}, dropped ${r.questionsDropped} questions the blind review failed (${job})`)
+    db.close()
+    return
+  }
+  if (!args.ids) throw new Error('--ids=<file> is needed: the comparison images')
   const ids = fs.readFileSync(String(args.ids), 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean)
   const lib = libraryDir()
   const items = itemsToReview(db, { job, size: REVIEW_SIZE, figureIds: ids, writer: MODELS[tag] })

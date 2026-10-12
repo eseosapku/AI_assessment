@@ -1,6 +1,7 @@
 // scripts/figure-library/screen.ts
 import { readJson, type Store } from './store'
 import { LEVELS } from './review'
+import { LEARNERS } from './terms'
 
 export const SCREEN_JOB = 'p1b2-screen'
 /**
@@ -9,9 +10,9 @@ export const SCREEN_JOB = 'p1b2-screen'
  */
 export const SCREEN_MODEL = 'eu.anthropic.claude-haiku-4-5-20251001-v1:0'
 /** A 512 px image (about 350 tokens), a 600-token prompt, and two sentences and nine judgements back. */
-export const SCREEN_USD_PER_ITEM = 0.0016
+export const SCREEN_USD_PER_ITEM = 0.0022  // measured $0.0021 over 946 images in P1b.2
 
-export interface ScreenItem { figureId: string; subject: string; band: string; topic: string; subtopics: string[]; title: string; description: string; preview: string }
+export interface ScreenItem { figureId: string; subject: string; band: string; topic: string; subtopics: string[]; source: string; title: string; description: string; preview: string }
 export interface Screening { keep: boolean; shows: string; reasons: string[]; type: string }
 
 /** Each judgement, the answer that keeps the image, and the reason recorded when it does not. */
@@ -36,10 +37,11 @@ const TYPES = ['diagram', 'photo', 'micrograph', 'map']
 const PLACE_SUBJECTS = new Set(['geography', 'history', 'social-studies'])
 
 export function screenPrompt(item: ScreenItem): string {
+  const region = LEARNERS[item.source] ?? 'Africa'
   // No example values: Nova Lite copied a filled-in example reply word for word. The screener
   // describes and weighs the image against the syllabus points before each judgement.
   return [
-    `This image may be used in a ${item.subject} quiz for learners at ${LEVELS[item.band] ?? item.band} in Rwanda and East Africa, on the topic "${item.topic}".`,
+    `This image may be used in a ${item.subject} quiz for learners at ${LEVELS[item.band] ?? item.band} in ${region}, on the topic "${item.topic}".`,
     ...(item.subtopics.length ? [`Syllabus points: ${item.subtopics.join('; ')}.`] : []),
     `Its file is called "${item.title}".${item.description ? ` Its description says: "${item.description.slice(0, 300)}"` : ''}`,
     '',
@@ -52,7 +54,7 @@ export function screenPrompt(item: ScreenItem): string {
     '- in_syllabus: it shows something these syllabus points teach, at this level.',
     '- clear: sharp and well lit, with the thing that matters large enough to see.',
     '- beyond_level: a figure from a research paper (often several labelled panels), specialist or medical detail, or anything beyond what these learners study.',
-    '- unfamiliar_example: a particular place, landscape or case from far away that the syllabus does not name, where a diagram or an example from Rwanda or East Africa would teach the same thing. An organism, object, cell or piece of apparatus is never an unfamiliar example: what it shows is the same anywhere.',
+    `- unfamiliar_example: a particular place, landscape or case from far away that the syllabus does not name, where a diagram or an example from ${region} would teach the same thing. An organism, object, cell or piece of apparatus is never an unfamiliar example: what it shows is the same anywhere.`,
     '- scanned_page: a scanned page of an old book, catalogue, newspaper or document: printed text around the picture, or aged paper. The user does not want these, however good the drawing on them.',
     '- person_is_subject: one or more identifiable people are the main subject (a portrait, a selfie, people posing or working as the focus).',
     '- mostly_text: it is mainly words or a table.',
@@ -76,7 +78,8 @@ export function parseScreen(raw: unknown, subject?: string): Screening {
   }
   const shows = String(r.shows ?? '').trim()
   if (!shows) throw new Error('The screening does not say what the image shows')
-  const said = String(r.image_type ?? '').trim().toLowerCase()
+  if (typeof r.image_type !== 'string' || !r.image_type.trim()) throw new Error('The screening has no image_type')
+  const said = r.image_type.trim().toLowerCase()
   const type = TYPES.includes(said) ? said : 'other'
   return { keep: reasons.length === 0, shows: shows.slice(0, 300), reasons, type }
 }
@@ -87,16 +90,22 @@ export function toScreen(db: Store, o: { limit?: number } = {}): ScreenItem[] {
     JOIN figure_topics ft ON ft.figure_id = f.id
     WHERE f.origin <> 'drawn' AND f.status = 'candidate' AND f.id NOT IN (SELECT figure_id FROM screenings)
     GROUP BY f.id ORDER BY f.id LIMIT ?`).all(o.limit ?? 1_000_000) as { id: string; subject: string; band: string; spec: string; preview: string; topic_key: string }[]
-  const topicName = db.prepare('SELECT name FROM topics WHERE key = ?')
+  const topicRow = db.prepare('SELECT name, source FROM topics WHERE key = ?')
   const subs = db.prepare('SELECT name FROM subtopics WHERE topic_key = ? ORDER BY key')
   return rows.map((r) => {
     const spec = readJson<{ title?: string; description?: string }>(r.spec, {})
+    const t = topicRow.get(r.topic_key) as { name: string; source: string }
     return {
-      figureId: r.id, subject: r.subject, band: r.band, topic: (topicName.get(r.topic_key) as { name: string }).name,
+      figureId: r.id, subject: r.subject, band: r.band, topic: t.name, source: t.source,
       subtopics: (subs.all(r.topic_key) as { name: string }[]).map((s) => s.name),
       title: spec.title ?? '', description: spec.description ?? '', preview: r.preview,
     }
   })
+}
+
+/** The reply as stored: the screener's own words, with the image type cleaned up for whoever reads it next. */
+function cleanDetail(detail: unknown, screening: Screening): unknown {
+  return detail && typeof detail === 'object' ? { ...(detail as Record<string, unknown>), image_type: screening.type } : detail ?? null
 }
 
 /** Records one screening, replacing any earlier one; the figure becomes screened, or rejected with the reasons. */
@@ -105,9 +114,11 @@ export function saveScreen(db: Store, o: { figureId: string; model: string; scre
   try {
     db.prepare(`INSERT INTO screenings (figure_id, model, keep, shows, detail, at) VALUES (?, ?, ?, ?, ?, ?)
       ON CONFLICT(figure_id) DO UPDATE SET model = excluded.model, keep = excluded.keep, shows = excluded.shows, detail = excluded.detail, at = excluded.at`)
-      .run(o.figureId, o.model, o.screening.keep ? 1 : 0, o.screening.shows, JSON.stringify(o.detail ?? null), new Date().toISOString())
+      .run(o.figureId, o.model, o.screening.keep ? 1 : 0, o.screening.shows, JSON.stringify(cleanDetail(o.detail, o.screening)), new Date().toISOString())
     db.prepare('UPDATE figures SET status = ?, reason = ? WHERE id = ?')
       .run(o.screening.keep ? 'screened' : 'rejected', o.screening.keep ? null : o.screening.reasons.join('; '), o.figureId)
+    // A rejected image takes its questions with it, so nothing on it can be published.
+    if (!o.screening.keep) db.prepare('DELETE FROM figure_questions WHERE figure_id = ?').run(o.figureId)
     db.exec('COMMIT')
   } catch (err) {
     db.exec('ROLLBACK')
@@ -133,25 +144,33 @@ export function resetScreens(db: Store): number {
 /**
  * Works each stored screening out again from the screener's own judgements, under the current
  * rules (such as which subjects hold a distant example against an image). Nothing is sent.
- * Returns how many verdicts changed.
+ * A kept image's status is left alone (it may since have been approved); a rejection's reasons
+ * are refreshed; a flip either way follows the screen. Rejections made by a rule (marked in the
+ * stored reply) are never undone here. Returns how many images changed.
  */
 export function regradeScreens(db: Store): number {
-  const rows = db.prepare(`SELECT s.figure_id AS id, s.keep, s.detail, f.subject FROM screenings s JOIN figures f ON f.id = s.figure_id
-    WHERE f.origin <> 'drawn'`).all() as { id: string; keep: number; detail: string; subject: string }[]
+  const rows = db.prepare(`SELECT s.figure_id AS id, s.keep, s.detail, f.subject, f.status, f.reason FROM screenings s
+    JOIN figures f ON f.id = s.figure_id WHERE f.origin <> 'drawn'`).all() as
+    { id: string; keep: number; detail: string; subject: string; status: string; reason: string | null }[]
   let changed = 0
   for (const r of rows) {
+    const raw = readJson<Record<string, unknown> | null>(r.detail, null)
+    if (raw && raw.rule) continue
     let screening: Screening
     try {
-      screening = parseScreen(readJson<unknown>(r.detail, null), r.subject)
+      screening = parseScreen(raw, r.subject)
     } catch {
       continue  // a screening from an older prompt without today's judgements stays as it is
     }
-    if (screening.keep === (r.keep === 1)) continue
+    const reason = screening.reasons.join('; ')
+    const wasKept = r.keep === 1
+    if (screening.keep === wasKept && (wasKept || r.reason === reason)) continue
     db.exec('BEGIN')
     try {
       db.prepare('UPDATE screenings SET keep = ? WHERE figure_id = ?').run(screening.keep ? 1 : 0, r.id)
       db.prepare('UPDATE figures SET status = ?, reason = ? WHERE id = ?')
-        .run(screening.keep ? 'screened' : 'rejected', screening.keep ? null : screening.reasons.join('; '), r.id)
+        .run(screening.keep ? 'screened' : 'rejected', screening.keep ? null : reason, r.id)
+      if (!screening.keep) db.prepare('DELETE FROM figure_questions WHERE figure_id = ?').run(r.id)
       db.exec('COMMIT')
     } catch (err) {
       db.exec('ROLLBACK')

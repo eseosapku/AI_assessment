@@ -163,3 +163,13 @@ def test_held_scans_are_rejected_by_the_rule(db, tmp_path):
     assert tuple(db.execute("SELECT status, reason FROM figures WHERE id = 'wikimedia/1'").fetchone()) == ("rejected", "a scanned book page")
     assert db.execute("SELECT keep FROM screenings WHERE figure_id = 'wikimedia/1'").fetchone()[0] == 0
     assert reject_held_scans(db) == 0
+
+
+def test_rejecting_a_held_scan_removes_its_questions(db, tmp_path):
+    from figgen.real.harvest import reject_held_scans
+    harvest_topic(db, tmp_path / "lib", FakeFetch(), "db:2", "photo.micrograph", want=10)
+    db.execute("UPDATE figures SET spec = json_set(spec, '$.title', 'File:Cells - DPLA - 1.jpg') WHERE id = 'wikimedia/1'")
+    db.execute("INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, answer, model) VALUES ('wikimedia/1#sonnet#1', 'wikimedia/1', 1, 'UP', 'short', 's', 'x', 'sonnet')")
+    db.commit()
+    reject_held_scans(db)
+    assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 0

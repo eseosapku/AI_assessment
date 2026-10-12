@@ -1,6 +1,6 @@
 // scripts/figure-library/write-real.ts
 // Run: npx jiti scripts/figure-library/write-real.ts [--writer=haiku|sonnet] [--ids=<file>] [--limit=N] [--dry] [--workers=4] [--reset]
-//      (--reset: clear earlier real-image questions first, for a new round)
+//      (--reset: clear earlier questions on the --ids images first, for a new round)
 // Writes questions for screened real images, then checks them in a separate strict call by the
 // same model (spec 5.3 steps 5 and 6). Resumable: an image is written once per writer.
 import fs from 'node:fs'
@@ -26,7 +26,8 @@ async function main() {
   const cap = CAPS[tag]
   const ids = args.ids ? fs.readFileSync(String(args.ids), 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean) : undefined
   const db = openStore()
-  if (args.reset && !args.dry) console.log(`${clearWritten(db)} earlier real-image questions cleared`)
+  if (args.reset && !ids) throw new Error('--reset needs --ids: it clears only the images about to be written')
+  if (args.reset && !args.dry) console.log(`${clearWritten(db, ids)} earlier questions on these images cleared`)
   const lib = libraryDir()
   const items = toWrite(db, { writer: model, figureIds: ids, limit: args.limit as number | undefined })
   const estimate = items.length * PER_ITEM[tag]

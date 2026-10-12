@@ -6,7 +6,7 @@ import { parseScreen, regradeScreens, resetKept, resetScreens, saveScreen, scree
 const item: ScreenItem = {
   figureId: 'wikimedia/1', subject: 'biology', band: 'UP', topic: 'Cells', title: 'File:Onion cells.jpg',
   description: 'Onion epidermis under a light microscope', preview: 'assets/wikimedia/1-512.jpg',
-  subtopics: ['Animal and plant cells', 'Specialised cells'],
+  subtopics: ['Animal and plant cells', 'Specialised cells'], source: 'cambridge',
 }
 const good = { shows: 'Onion epidermis cells with nuclei', image_type: 'micrograph', topic_fit: 'a light micrograph of plant cells', educational: true, in_syllabus: true, clear: true, beyond_level: false, unfamiliar_example: false, scanned_page: false, person_is_subject: false, mostly_text: false, foreign_labels: false, decorative: false }
 
@@ -133,5 +133,37 @@ describe('scanned pages', () => {
     expect(resetKept(db)).toBe(1)
     expect(toScreen(db).map((i) => i.figureId)).toEqual(['wikimedia/1'])
     expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/2'").get()).toEqual({ status: 'rejected' })
+  })
+})
+
+describe('the final review', () => {
+  it('refuses a screening with no image type, and stores the cleaned-up type', () => {
+    expect(() => parseScreen({ ...good, image_type: undefined })).toThrow(/image_type/)
+    const db = store()
+    saveScreen(db, { figureId: 'wikimedia/1', model: 'm', screening: parseScreen({ ...good, image_type: 'Diagram' }), detail: { ...good, image_type: 'Diagram' } })
+    expect(JSON.parse((db.prepare("SELECT detail FROM screenings WHERE figure_id = 'wikimedia/1'").get() as { detail: string }).detail).image_type).toBe('diagram')
+  })
+
+  it("holds distant examples to the learners' own region, from the curriculum", () => {
+    expect(screenPrompt({ ...item, source: 'waec' })).toContain('West Africa')
+    expect(screenPrompt({ ...item, source: 'waec' })).not.toContain('Rwanda')
+    expect(screenPrompt({ ...item, source: 'rwanda' })).toContain('learners at Upper Secondary (IGCSE, senior secondary, WAEC (ages 14 to 17)) in Rwanda'.slice(0, 20))
+    expect(toScreen(store())[0].source).toBe('cambridge')
+  })
+
+  it("takes an image's questions away when the screen rejects it", () => {
+    const db = store()
+    db.prepare(`INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, answer, model) VALUES ('wikimedia/1#sonnet#1', 'wikimedia/1', 1, 'UP', 'short', 's', 'x', 'sonnet')`).run()
+    saveScreen(db, { figureId: 'wikimedia/1', model: 'm', screening: parseScreen({ ...good, clear: false }), detail: { ...good, clear: false } })
+    expect(db.prepare('SELECT COUNT(*) AS n FROM figure_questions').get()).toEqual({ n: 0 })
+  })
+
+  it('refreshes the reasons on regrading, even when the verdict stays', () => {
+    const db = store()
+    const both = { ...good, unfamiliar_example: true, clear: false }
+    saveScreen(db, { figureId: 'wikimedia/1', model: 'm', screening: parseScreen(both), detail: both })
+    expect(db.prepare("SELECT reason FROM figures WHERE id = 'wikimedia/1'").get()).toEqual({ reason: 'not clear enough; an unfamiliar example' })
+    expect(regradeScreens(db)).toBe(1)  // biology: a distant example no longer counts
+    expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/1'").get()).toEqual({ status: 'rejected', reason: 'not clear enough' })
   })
 })
