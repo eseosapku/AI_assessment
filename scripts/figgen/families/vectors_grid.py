@@ -62,7 +62,8 @@ def draw(p: dict):
     for n in p["names"]:
         (x0, y0), (dx, dy) = p["starts"][n], p["vectors"][n]
         ax.annotate("", xy=(x0 + dx, y0 + dy), xytext=(x0, y0),
-                    arrowprops={"arrowstyle": "-|>", "color": INK, "linewidth": 1.8, "mutation_scale": 16})
+                    # No shrink: the tip on the grid point, where the components are read from.
+                    arrowprops={"arrowstyle": "-|>", "color": INK, "linewidth": 1.8, "mutation_scale": 16, "shrinkA": 0, "shrinkB": 0})
         # The name beside the arrow's middle, off to its left.
         L = math.hypot(dx, dy)
         ax.text(x0 + dx / 2 - 0.45 * dy / L, y0 + dy / 2 + 0.45 * dx / L, n, fontsize=14, fontweight="bold", style="italic",

@@ -18,6 +18,9 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("histogram", "frequency-polygons", "grouped-data-definition", "class-boundaries",
                                              "calculating-statistics-grouped-data"))
 
+# The axis names one value, as exam papers do: "Age (a years)".
+AXIS = {"heights": "Height", "times": "Time", "masses": "Mass", "ages": "Age"}
+
 # what, variable, unit, who, equal-width classes, unequal-width classes, and how to say "in a class"
 CONTEXTS = [
     ("heights of seedlings", "h", "cm", "seedlings", [(0, 10), (10, 20), (20, 30), (30, 40), (40, 50)],
@@ -71,7 +74,7 @@ def draw(p: dict):
     ax.set_xticks(sorted({c for cls in classes for c in cls}))
     ax.set_xlim(classes[0][0], classes[-1][1])
     ax.set_ylim(0, ticks[-1])
-    ax.set_xlabel(f"{what.split(' ')[0].capitalize()} ({var} {unit})")
+    ax.set_xlabel(f"{AXIS[what.split(' ')[0]]} ({var} {unit})")
     ax.set_ylabel("Frequency" if p["band"] == "LS" else "Frequency density")
     ax.set_title(f"The {what}", fontsize=11)
     return fig

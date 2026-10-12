@@ -5,8 +5,10 @@ import re
 import matplotlib.pyplot as plt
 import pytest
 
-from figgen.families import (FAMILIES, cuboid, cumulative_frequency, linear_graph, pictogram, quadratic_graph, ruler,
-                             sample_space, travel_graph)
+from matplotlib.text import Annotation
+
+from figgen.families import (FAMILIES, cuboid, cumulative_frequency, histogram, linear_graph, pictogram, quadratic_graph,
+                             ruler, sample_space, travel_graph, vectors_grid)
 from figgen.tests.test_families_layout import drawn_texts
 
 SEEDS = range(1, 501)
@@ -107,3 +109,21 @@ def test_villages_and_classes_run_in_order():
         p, _ = run(pictogram, s)
         rows = pictogram.CONTEXTS[p["context"]][4]
         assert p["cats"] == rows[:len(p["cats"])], p["cats"]
+
+
+def test_a_vector_arrow_ends_on_its_grid_point():
+    """matplotlib stops an arrow two points short of each end; on a grid that reads as off the point."""
+    for s in range(1, 21):
+        fig = vectors_grid.draw(vectors_grid.sample(random.Random(s)))
+        arrows = [a for a in fig.axes[0].texts if isinstance(a, Annotation)]
+        plt.close(fig)
+        assert arrows and all(a.arrow_patch.shrinkA == 0 and a.arrow_patch.shrinkB == 0 for a in arrows), s
+
+
+def test_a_histogram_axis_names_one_value():
+    """Exam papers label the axis "Age (a years)", not "Ages (a years)"."""
+    for s in range(1, 41):
+        fig = histogram.draw(histogram.sample(random.Random(s)))
+        label = fig.axes[0].get_xlabel()
+        plt.close(fig)
+        assert label.split(" ")[0] in {"Height", "Time", "Mass", "Age"}, label
