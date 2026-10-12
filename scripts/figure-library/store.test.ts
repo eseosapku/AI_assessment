@@ -78,4 +78,11 @@ describe('the staging store', () => {
     expect(() => add.run()).toThrow(/UNIQUE/)
     db.close()
   })
+
+  it('has tables for real-image screenings and question checks', () => {
+    const db = openStore(':memory:')
+    const tables = (db.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all() as { name: string }[]).map((r) => r.name)
+    expect(tables).toEqual(expect.arrayContaining(['screenings', 'question_checks']))
+    db.close()
+  })
 })

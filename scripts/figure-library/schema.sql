@@ -108,3 +108,23 @@ CREATE TABLE IF NOT EXISTS reviews (
   at TEXT NOT NULL,
   UNIQUE (job, figure_id)
 );
+-- What the screener saw in a real image and whether it kept it (spec 5.3 step 3).
+CREATE TABLE IF NOT EXISTS screenings (
+  figure_id TEXT PRIMARY KEY REFERENCES figures(id),
+  model TEXT NOT NULL,
+  keep INTEGER NOT NULL,
+  shows TEXT NOT NULL DEFAULT '',
+  detail TEXT NOT NULL,
+  at TEXT NOT NULL
+);
+-- Every question a model wrote and its checker's verdict (spec 5.3 step 6). Only kept
+-- questions go into figure_questions; an image that got none has a row ending "#0".
+CREATE TABLE IF NOT EXISTS question_checks (
+  question_id TEXT PRIMARY KEY,
+  figure_id TEXT NOT NULL REFERENCES figures(id),
+  writer TEXT NOT NULL,
+  keep INTEGER NOT NULL,
+  reason TEXT NOT NULL DEFAULT '',
+  question TEXT NOT NULL,
+  at TEXT NOT NULL
+);
