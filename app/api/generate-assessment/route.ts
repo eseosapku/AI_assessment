@@ -34,9 +34,9 @@ import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
 import { normalizeIds, positiveId } from '@/lib/request-ids'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
 import { bookInBank, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
-import { addVetted, assembleParts, hasFreshVetted, hasVetted, vettedFor } from '@/lib/figure-question-bank'
+import { assembleParts, hasFreshVetted, hasVetted, vettedFor } from '@/lib/figure-question-bank'
 import { libraryEnabled, libraryFigures } from '@/lib/figure-library/local-source'
-import { withLibrary } from '@/lib/figure-library/pick'
+import { pickLibraryFigures } from '@/lib/figure-library/pick'
 import { NO_HISTORY, orderForStudent, seenFromRows, type SeenFigures } from '@/lib/student-figure-history'
 import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbook-figure-prompt'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
@@ -1778,12 +1778,13 @@ ${commandBlock}`
     let quizFigures: TextbookFigure[] = bankFigures
     if (bankApplies && libraryEnabled() && bankFigures.length < figureShare && libraryTopics.length) {
       const library = libraryFigures({ topicIds: libraryTopics })
-      addVetted(library.questions)
-      quizFigures = withLibrary(bankFigures, orderForStudent(library.figures, seenFigures,
-        (f) => hasFreshVetted(f.id, figureKinds, seenFigures.questions)), figureShare, (f) => hasVetted(f.id, figureKinds))
-      if (quizFigures.length > bankFigures.length) {
-        console.log(`Figure library: ${quizFigures.length - bankFigures.length} figure(s) for topics [${libraryTopics.slice(0, 4).join(', ')}]`)
-      }
+      // Each comes with the question it will ask, so no wording is asked twice on the paper.
+      const picked = pickLibraryFigures({
+        library: library.figures, questions: library.questions, kinds: figureKinds,
+        room: figureShare - bankFigures.length, startAt: bankFigures.length, seen: seenFigures, seed: Date.now(),
+      })
+      quizFigures = [...bankFigures, ...picked]
+      if (picked.length) console.log(`Figure library: ${picked.length} figure(s) for topics [${libraryTopics.slice(0, 4).join(', ')}]`)
     }
     if (quizFigures.length) {
       visualCatalog = []
@@ -2476,7 +2477,9 @@ ${commandBlock}`
         : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
       const sameLevel = !Number.isFinite(textbookId) || fig.textbookIds.includes(textbookId)
         || stageOfBook(fig.textbookName) === (Number(grade) || null)
-      const vetted = sameLevel ? vettedFor(fig.id, allowed, kind, undefined, seenFigures.questions) : null
+      // A library figure brings the question reserved for it when the quiz was planned.
+      const vetted = fig.reserved ? JSON.parse(JSON.stringify(fig.reserved.question))
+        : sameLevel ? vettedFor(fig.id, allowed, kind, undefined, seenFigures.questions) : null
       if (vetted) {
         vetted.id = id
         vetted.image_url = fig.localPath

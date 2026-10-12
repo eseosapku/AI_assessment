@@ -17,6 +17,7 @@
  */
 import fs from 'node:fs'
 import path from 'node:path'
+import type { VettedQuestion } from '@/lib/figure-question-bank'
 
 export interface TextbookFigure {
   id: string
@@ -39,6 +40,11 @@ export interface TextbookFigure {
   pageText?: boolean
   /** The credit line a real image must carry (author, licence, source); figure-library images only. */
   credit?: string
+  /**
+   * The question this figure asks, chosen when the quiz was planned: the figure library's,
+   * so no wording is asked twice on one paper (lib/figure-library/pick.ts).
+   */
+  reserved?: VettedQuestion
 }
 
 const BANK_PATH = path.join(process.cwd(), 'data', 'textbook-figure-bank.json')

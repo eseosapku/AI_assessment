@@ -7,6 +7,9 @@ import path from 'node:path'
 import type { TextbookFigure } from '@/lib/textbook-figure-bank'
 import { openPhraseAnswer, type VettedQuestion } from '@/lib/figure-question-bank'
 
+/** A library figure, with the source it came from (a drawn family, or a real image's collection). */
+export interface LibraryFigure extends TextbookFigure { source: string }
+
 type Db = { prepare(sql: string): { all(...p: unknown[]): unknown[] }; close(): void }
 // Loaded at call time: bundlers and jiti rewrite a static import of node:sqlite.
 const sqlite = () => (process as unknown as { getBuiltinModule(id: string): { DatabaseSync: new (f: string, o?: object) => Db } })
@@ -57,8 +60,8 @@ function drawnShows(family: string | null, kind: string, spec: string | null): s
  * figures with ids "lib:<figure id>", and their questions in the vetted bank's format. A store
  * that cannot be opened gives nothing: the quiz is built without library figures.
  */
-export function libraryFigures(o: { topicIds: readonly number[]; file?: string; base?: string }): { figures: TextbookFigure[]; questions: Map<string, VettedQuestion[]> } {
-  const empty = { figures: [] as TextbookFigure[], questions: new Map<string, VettedQuestion[]>() }
+export function libraryFigures(o: { topicIds: readonly number[]; file?: string; base?: string }): { figures: LibraryFigure[]; questions: Map<string, VettedQuestion[]> } {
+  const empty = { figures: [] as LibraryFigure[], questions: new Map<string, VettedQuestion[]>() }
   const keys = o.topicIds.filter((n) => Number.isFinite(n)).map((n) => `db:${n}`)
   if (!keys.length) return empty
   const file = o.file ?? path.join(process.env.FIGURE_LIBRARY_DIR ?? '', 'figures.db')
@@ -77,13 +80,13 @@ export function libraryFigures(o: { topicIds: readonly number[]; file?: string; 
         credit: string | null; shows: string | null; topic: string; book: string; books: string | null
       }[]
     const qs = db.prepare('SELECT kind, stem, options, answer, accepted, explanation FROM figure_questions WHERE figure_id = ? ORDER BY n')
-    const figures: TextbookFigure[] = []
+    const figures: LibraryFigure[] = []
     const questions = new Map<string, VettedQuestion[]>()
     for (const r of rows) {
       const id = `lib:${r.id}`
       const real = r.origin !== 'drawn'
       figures.push({
-        id, textbookIds: String(r.books ?? '').split(',').filter(Boolean).map(Number).filter(Number.isFinite),
+        id, source: r.family ?? r.origin, textbookIds: String(r.books ?? '').split(',').filter(Boolean).map(Number).filter(Number.isFinite),
         textbookName: r.book, page: 0, localPath: `${base}/${r.asset}`,
         noun: real ? NOUNS[r.kind] ?? 'image' : 'diagram',
         shows: (real && r.shows) || drawnShows(r.family, r.kind, real ? null : r.spec),

@@ -4,7 +4,6 @@ import os from 'node:os'
 import path from 'node:path'
 import { openStore } from '../../scripts/figure-library/store'
 import { libraryEnabled, libraryFigures, toVetted } from './local-source'
-import { addVetted, hasVetted, resetFigureQuestionBank, vettedFor } from '../figure-question-bank'
 
 function makeStore(): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'figlib-src-'))
@@ -42,11 +41,11 @@ describe('the local library source', () => {
     const { figures, questions } = libraryFigures({ topicIds: [2], file: makeStore(), base: '/api/figure-library/asset' })
     expect(figures.map((f) => f.id).sort()).toEqual(['lib:drawn/bar_chart/1', 'lib:drawn/punnett/1', 'lib:wikimedia/1'])
     const real = figures.find((f) => f.id === 'lib:wikimedia/1')!
-    expect(real).toMatchObject({ textbookIds: [77], textbookName: 'Cambridge IGCSE Biology', topic: 'Cells', noun: 'micrograph',
+    expect(real).toMatchObject({ source: 'wikimedia', textbookIds: [77], textbookName: 'Cambridge IGCSE Biology', topic: 'Cells', noun: 'micrograph',
       localPath: '/api/figure-library/asset/assets/wikimedia/1.webp', shows: 'Onion epidermis cells with nuclei',
       credit: 'Onion cells by A, CC BY 4.0, via Wikimedia Commons' })
     expect(figures.find((f) => f.id === 'lib:drawn/punnett/1')!.credit).toBeUndefined()
-    expect(figures.find((f) => f.id === 'lib:drawn/bar_chart/1')!).toMatchObject({ noun: 'diagram', shows: 'bar chart: How students travel to school' })
+    expect(figures.find((f) => f.id === 'lib:drawn/bar_chart/1')!).toMatchObject({ source: 'bar_chart', noun: 'diagram', shows: 'bar chart: How students travel to school' })
     // The open-phrase short answer is dropped, as the bank drops it: it is marked by exact match.
     expect(questions.get('lib:wikimedia/1')).toEqual([{ kind: 'mcq', question: { type: 'mcq', question: 'What is the dark dot?',
       options: ['Nucleus', 'Vacuole', 'Wall', 'Membrane'], correct_answer: 0, explanation: 'It holds DNA.' } }])
@@ -60,15 +59,5 @@ describe('the local library source', () => {
   it('converts a short answer to the bank format', () => {
     expect(toVetted({ kind: 'short', stem: 'What %?', options: '[]', answer: '25%', accepted: '["25%","25"]', explanation: '' }))
       .toEqual({ kind: 'short', question: { type: 'longform', question: 'What %?', marks: 1, short_answer: { accepted: ['25%', '25'] }, explanation: '' } })
-  })
-
-  it('registers its questions with the vetted bank', () => {
-    resetFigureQuestionBank(new Map())
-    const { questions } = libraryFigures({ topicIds: [2], file: makeStore(), base: '/x' })
-    addVetted(questions)
-    expect(hasVetted('lib:wikimedia/1', ['mcq'])).toBe(true)
-    expect(hasVetted('lib:drawn/punnett/1', ['mcq'])).toBe(false)
-    expect(vettedFor('lib:drawn/punnett/1', ['short'])?.short_answer.accepted).toEqual(['25%', '25'])
-    resetFigureQuestionBank()
   })
 })
