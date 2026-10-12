@@ -261,7 +261,8 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - Looking at the figures and the two review rounds found and fixed real defects in 15 families: overlapping labels, arrows running behind food-web boxes (which changed the chain count), merged angle arcs, ambiguous pyramid shapes, a measuring cylinder in a geography topic, timetable questions that were arithmetic, case-only Punnett keys the app's marker cannot tell apart, and more. "Stable" pyramids are no longer drawn: the reviewer disputed 8 of 8.
     - Two rejections were reviewer errors (a number line miscounted), kept rejected.
     - Spend $8.73 (first review $3.80, blind review $4.93). Library total $34.53.
-    - Sample sheet: https://claude.ai/artifact/MhzcrPTiCKXaQn1bh1W1dP. P1a's exit waits on the user's approval of it.
+    - Sample sheet: https://claude.ai/artifact/MhzcrPTiCKXaQn1bh1W1dP.
+    - Approved by the user on 2026-10-12 ("okay go ahead, graphs are cool"), who called the real images "the real test". P1a's exit is met.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
   - Exit: library figures appear in real quizzes on this machine, served from the local folder. Going live waits for S3 and CloudFront; then it is publish, set `FIGURE_ASSET_BASE`, deploy, and check a live marker.
 - **P3 Drawn at scale.** In waves by subject: Maths, Physics, Chemistry, Biology, Geography, Economics and Business, Computing, Languages, History, Music. Each wave starts with samples for the user.
