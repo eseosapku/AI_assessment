@@ -158,7 +158,8 @@ export function regradeScreens(db: Store): number {
     if (raw && raw.rule) continue
     let screening: Screening
     try {
-      screening = parseScreen(raw, r.subject)
+      // scanned_page was added after the first screenings; one not asked counts as not seen.
+      screening = parseScreen(raw && !('scanned_page' in raw) ? { ...raw, scanned_page: false } : raw, r.subject)
     } catch {
       continue  // a screening from an older prompt without today's judgements stays as it is
     }

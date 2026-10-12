@@ -167,3 +167,13 @@ describe('the final review', () => {
     expect(db.prepare("SELECT status, reason FROM figures WHERE id = 'wikimedia/1'").get()).toEqual({ status: 'rejected', reason: 'not clear enough' })
   })
 })
+
+describe('older screenings', () => {
+  it('are regraded too: a judgement added since they were made counts as not seen', () => {
+    const db = store()
+    const { scanned_page: _added, ...older } = { ...good, unfamiliar_example: true, clear: false }
+    saveScreen(db, { figureId: 'wikimedia/1', model: 'm', screening: { keep: false, shows: 'x', reasons: ['not clear enough', 'an unfamiliar example'], type: 'micrograph' }, detail: older })
+    expect(regradeScreens(db)).toBe(1)
+    expect(db.prepare("SELECT reason FROM figures WHERE id = 'wikimedia/1'").get()).toEqual({ reason: 'not clear enough' })
+  })
+})
