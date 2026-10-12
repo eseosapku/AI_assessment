@@ -1,0 +1,55 @@
+"""Box plot drawn on a labelled scale. The five values sit on whole-number ticks."""
+from __future__ import annotations
+
+import random
+
+from matplotlib.patches import Rectangle
+
+from ..core import GRID, new_figure, short
+
+ID = "box_plot"
+KIND = "graph.stats"
+SUBJECT = "mathematics"
+BANDS = ("UP",)
+
+DATA = [
+    ("Times to run 100 m (seconds)", 10, 30),
+    ("Marks in a mathematics test", 20, 60),
+    ("Heights of seedlings (cm)", 2, 22),
+    ("Minutes spent on homework", 10, 50),
+]
+
+
+def sample(rng: random.Random) -> dict:
+    title, lo, hi = rng.choice(DATA)
+    five = sorted(rng.sample(range(lo, hi + 1), 5))
+    return {"title": title, "lo": lo, "hi": hi, "five": five}
+
+
+def draw(p: dict):
+    mn, q1, md, q3, mx = p["five"]
+    fig, ax = new_figure(6.6, 2.6)
+    ax.plot([mn, q1], [0, 0], color="#111111")
+    ax.plot([q3, mx], [0, 0], color="#111111")
+    ax.add_patch(Rectangle((q1, -0.25), q3 - q1, 0.5, fill=False, edgecolor="#111111", linewidth=1.6))
+    for x, h in ((mn, 0.15), (md, 0.25), (mx, 0.15)):
+        ax.plot([x, x], [-h, h], color="#111111")
+    ax.set_xticks(range(p["lo"] - 2, p["hi"] + 3))
+    ax.set_xlim(p["lo"] - 2, p["hi"] + 2)
+    ax.tick_params(axis="x", labelsize=8)
+    ax.xaxis.grid(True, color=GRID, linewidth=0.6)
+    ax.set_axisbelow(True)
+    ax.set_yticks([])
+    ax.spines["left"].set_visible(False)
+    ax.set_ylim(-0.6, 0.6)
+    ax.set_title(p["title"])
+    return fig
+
+
+def questions(p: dict, rng: random.Random) -> list:
+    mn, q1, md, q3, mx = p["five"]
+    return [
+        short("What is the median?", md),
+        short("What is the interquartile range?", q3 - q1),
+        short("What is the range?", mx - mn),
+    ]

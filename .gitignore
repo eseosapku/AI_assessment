@@ -56,3 +56,7 @@ data/audit/paper-*.json
 data/audit/findings.txt
 data/audit/transcript.txt
 data/audit/redraw.txt
+
+# Python caches (scripts/figgen)
+__pycache__/
+.pytest_cache/

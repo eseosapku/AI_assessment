@@ -1,0 +1,4 @@
+# Drawn figures (scripts/figgen). Install: python -m pip install --user -r scripts/figgen/requirements.txt
+matplotlib==3.11.2
+# Tests: python -m pytest scripts/figgen -q
+pytest==9.1.1
