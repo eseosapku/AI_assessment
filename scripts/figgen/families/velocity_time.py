@@ -16,13 +16,16 @@ KIND = "graph.line"
 SUBJECT = "mathematics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("acceleration-time", "acceleration-displacement", "differentiation-kinematics", "kinematic-graphs"))
+# Straight-line motion: not circular motion, projectiles, vectors or trig.
+AVOID = r"circular motion|projectile|vector|trigonometric"
 # what moves, and its greatest speed in m/s
 MOVERS = [("minibus", 16), ("moto", 14), ("bus", 14), ("car", 20), ("cyclist", 8), ("train", 20)]
 
 
 def _stage(rng, v0: int, v1: int, tstep: int) -> int | None:
-    """A duration (a multiple of tstep) that changes the speed from v0 to v1 at a whole or half m/s²."""
-    times = [t for t in range(tstep, 21, tstep) if (Fraction(abs(v1 - v0), t) * 2).denominator == 1 and Fraction(abs(v1 - v0), t) <= 4]
+    """A duration (a multiple of tstep) that changes the speed from v0 to v1 at a whole or half m/s², at most
+    2 m/s²: a minibus, a moto or a cyclist speeds up no faster than that."""
+    times = [t for t in range(tstep, 21, tstep) if (Fraction(abs(v1 - v0), t) * 2).denominator == 1 and Fraction(abs(v1 - v0), t) <= 2]
     return rng.choice(times) if times else None
 
 

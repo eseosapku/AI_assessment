@@ -17,6 +17,8 @@ KIND = "maths.number"
 SUBJECT = "mathematics"
 BANDS = ("P",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("missing-numbers-operations", "partitioning-add-subtract", "complements-to-ten", "subtraction-take-away"))
+# Bar models of whole numbers: not fractions, nor sequences.
+AVOID = r"fraction|sequence"
 YEARS = {(1, 2): 20, (2, 3): 100, (3, 4): 1000, (5, 6): 10000}
 THINGS = ["mangoes", "beans", "books", "chairs", "eggs", "pencils", "bananas", "cows", "trees", "bottles"]
 

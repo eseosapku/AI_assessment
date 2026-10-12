@@ -355,7 +355,7 @@ def test_velocity_time():
         assert area.denominator == 1 and int(distance.answer) == area
         assert int(top.answer) == max(v for _, v in pts)
         for (t0, v0), (t1, v1) in zip(pts, pts[1:]):
-            assert (Fraction(v1 - v0, t1 - t0) * 2).denominator == 1  # whole or half m/s²
+            assert (Fraction(v1 - v0, t1 - t0) * 2).denominator == 1 and abs(Fraction(v1 - v0, t1 - t0)) <= 2  # whole or half m/s², no more than 2
 
 
 # --- Task 6: money ----------------------------------------------------------------------------
@@ -541,3 +541,25 @@ def test_pascal():
         assert int(total.answer) == 2 ** n3
         n4 = int(re.search(r"\(a \+ b\)\^?(\d)", row.stem).group(1))
         assert picked(row) == f"row {n4}"
+
+
+# --- Task 8: chapters a family shares a word with but does not suit (the link report) ----------
+
+@pytest.mark.parametrize("fid, misfit, fit", [
+    ("area_under_curve", "Hooke's law", "Unit 3: Integration"),
+    ("area_under_curve", "Equilibrium of a rigid body", "Chapter 9: Integration"),
+    ("algebra_area", "Glossary and Index", "Algebraic processes"),
+    ("algebra_area", "Chapter 12: Simplifying ratios", "Unit 6: Quadratic equations and inequalities"),
+    ("matrix_transform", "Bivariate Statistics", "Transformation of Matrices"),
+    ("tangent_gradient", "Unit 6: Ratio, rate and proportion", "Unit 5: Curved graphs"),
+    ("points_3d", "Circular motion", "Points, Straight Lines, Planes and Sphere in 3D"),
+    ("rational_graph", "Hyperbolic functions", "Rational functions"),
+    ("velocity_time", "Projectiles", "Unit 9: Differentiation of polynomials, rational and irrational functions"),
+    ("price_tag", "Unit 2: Logarithmic and Exponential Functions", "Unit 4: Percentage, discount, profit and loss"),
+    ("percent_grid", "Multiplication and division (2)", "Ratios, Proportions and Percentages"),
+    ("scale_drawing", "Thales' Theorem", "Ratio and proportion"),
+])
+def test_a_family_keeps_out_of_chapters_it_does_not_suit(fid, misfit, fit):
+    avoid = getattr(fam(fid), "AVOID", None)
+    assert avoid and re.search(avoid, misfit, re.I), misfit
+    assert not re.search(avoid, fit, re.I), fit

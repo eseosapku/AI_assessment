@@ -16,6 +16,8 @@ KIND = "maths.coordinate"
 SUBJECT = "mathematics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("definite-integrals", "integration", "indefinite-integrals", "differentiation-reversed"))
+# The area under a polynomial: not mechanics, hyperbolic functions, probability density or differential equations.
+AVOID = r"equilibrium|hooke|hyperbolic|projectile|random variable|differential equation|circular motion"
 
 
 def value(co, x):

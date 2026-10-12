@@ -19,6 +19,8 @@ BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "stationary-points", "optimization-practical-maximum-minimum", "derivatives-second", "cubic-polynomials-graphs-moduli",
 ))
+# Polynomial turning points: not exponential, logarithmic or trigonometric chapters, nor modulus equations.
+AVOID = r"logarithm|exponential|trigonometric|solving equations of the type"
 
 
 def value(co, x):

@@ -19,6 +19,8 @@ KIND = "maths.number"
 SUBJECT = "mathematics"
 BANDS = ("P",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("fractions-percentages", "ratios-proportions-percentages", "working-with-ratio", "fractions-decimals"))
+# A hundred square in percentages: not multiplication chapters.
+AVOID = r"multiplication"
 WHAT = ["a hundred square", "a floor of 100 tiles", "a garden of 100 plots", "a hall of 100 seats", "a sheet of 100 stamps"]
 
 

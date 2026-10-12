@@ -17,6 +17,8 @@ KIND = "maths.coordinate"
 SUBJECT = "mathematics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("three-dimensional-case", "point-location-space", "distance-two-points", "position-line-plane-3d"))
+# Coordinates in 3D: not mechanics, nor matrices.
+AVOID = r"circular motion|equilibrium|matrices"
 # Whole-number diagonals with every edge at least 2, so no two corners crowd together.
 WHOLE = [(2, 3, 6), (4, 4, 7), (2, 4, 4), (6, 6, 7), (2, 6, 9), (4, 8, 8), (3, 6, 6)]
 DEPTH, SLANT = 0.7, math.radians(35)

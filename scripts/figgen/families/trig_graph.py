@@ -20,6 +20,8 @@ BANDS = ("UP",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "trigonometric-functions-graphs", "trigonometric-inequalities", "equations-inequalities", "simple-harmonic-motion",
 ))
+# Sine and cosine graphs: not differential equations.
+AVOID = r"differential equation"
 
 
 def sample(rng: random.Random) -> dict:

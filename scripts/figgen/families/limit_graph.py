@@ -16,6 +16,8 @@ KIND = "maths.coordinate"
 SUBJECT = "mathematics"
 BANDS = ("UP",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("limits-numerical-functions", "one-sided-limits", "function-continuity", "limits-applications"))
+# Limits of a function at a point: not integration, nor limits of sequences.
+AVOID = r"integration|sequence"
 CASES = ("jump", "hole", "continuous")
 
 

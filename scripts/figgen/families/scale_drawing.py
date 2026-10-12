@@ -16,7 +16,10 @@ ID = "scale_drawing"
 KIND = "maths.measure"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
-CONCEPTS = tuple(f"mathematics.{c}" for c in ("scale-drawing-concept", "scale-drawings-actual-distance", "scale-drawings-length"))
+CONCEPTS = tuple(f"mathematics.{c}" for c in ("scale-drawing-concept", "scale-drawings-actual-distance", "scale-drawings-length",
+                                              "direct-proportion-meaning", "ratio-direct-proportion-ls"))
+# Plans with a scale: not simplifying ratios, unit conversion, multipliers or Thales.
+AVOID = r"simplifying ratios|miles and kilometres|multiplier|thales"
 PLACES = {"P": [("classroom", [1, 2]), ("garden", [2, 5]), ("school compound", [5, 10]), ("farm plot", [5, 10])],
           "LS": [("classroom", [1, 2]), ("football pitch", [10, 20]), ("garden", [2, 5]), ("school compound", [10, 20]),
                  ("farm", [20, 50])]}

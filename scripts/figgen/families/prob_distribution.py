@@ -16,6 +16,8 @@ KIND = "graph.bar"
 SUBJECT = "mathematics"
 BANDS = ("AL",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("discrete-random-variables", "cumulative-distribution-function"))
+# A discrete distribution: not continuous random variables, nor factorials.
+AVOID = r"continuous|factorial"
 # what X counts, and its least value
 CONTEXTS = [("the number of goals a team scores in a match", 0), ("the number of children in a family", 1),
             ("the number of buses that arrive late in a morning", 0), ("the score on a biased five-sided spinner", 1),

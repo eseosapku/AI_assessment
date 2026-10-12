@@ -21,6 +21,8 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "buying-selling-prices", "percentage-change", "multipliers-percentage-change", "commission", "indirect-taxes", "interest-rates",
     "borrowing-investing-money", "commercial-arithmetic",
 ))
+# Percentages in money: not logarithms, nor powers of 10.
+AVOID = r"logarithm|powers of"
 GOODS = ["pair of shoes", "radio", "mobile phone", "school bag", "mattress", "bicycle", "cooking pot", "football"]
 RECEIPT = [("Rice, 5 kg", 4500, 7000), ("Cooking oil, 1 litre", 2500, 3500), ("Sugar, 2 kg", 2500, 3500), ("Beans, 3 kg", 2000, 3500),
            ("Soap", 500, 1000), ("Tea leaves", 1000, 2000), ("Salt", 300, 600), ("Exercise books", 1500, 3000)]

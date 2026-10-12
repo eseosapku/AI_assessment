@@ -19,6 +19,8 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "exponential-equations-practical-applications", "decay-radioactive", "population-growth-problems",
     "continuity-exponential-functions", "exponents-logarithms-applications", "inverse-logarithmic-exponential",
 ))
+# Exponential graphs: not integration, nor limits of rational functions.
+AVOID = r"integration|rational and irrational"
 # what, its symbol, its unit, the time unit
 DECAY = [("the mass of a medicine in a patient's blood", "m", "mg", "hours"), ("the mass of a radioactive sample", "m", "g", "days"),
          ("the mass of a radioactive sample", "m", "g", "years")]
