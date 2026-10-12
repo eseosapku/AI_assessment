@@ -40,6 +40,9 @@ export function openStore(file: string = path.join(libraryDir(), 'figures.db'), 
   db.exec('PRAGMA busy_timeout = 10000')
   if (file !== ':memory:') db.exec('PRAGMA journal_mode = WAL')
   db.exec(SCHEMA)
+  // A store made before questions carried a tolerance gains the column (0: exact).
+  const columns = db.prepare('PRAGMA table_info(figure_questions)').all() as { name: string }[]
+  if (!columns.some((c) => c.name === 'tolerance')) db.exec('ALTER TABLE figure_questions ADD COLUMN tolerance REAL NOT NULL DEFAULT 0')
   return db
 }
 

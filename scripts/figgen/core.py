@@ -52,6 +52,7 @@ class Question:
     options: list[str] = field(default_factory=list)
     accepted: list[str] = field(default_factory=list)
     explanation: str = ""
+    tolerance: float = 0  # a reading from a curve: how far from the key is still right; 0 is exact
 
 
 @dataclass
@@ -110,7 +111,7 @@ def mcq(stem: str, correct: str, distractors, rng: random.Random, explanation: s
     return Question("mcq", one(stem), str(options.index(correct)), options, [], explanation)
 
 
-def short(stem: str, answer, accepted=(), explanation: str = "") -> Question:
+def short(stem: str, answer, accepted=(), explanation: str = "", tolerance: float = 0) -> Question:
     """An exact short answer, with every form a student might fairly write."""
     canonical = str(answer)
     forms = [canonical]
@@ -127,7 +128,7 @@ def short(stem: str, answer, accepted=(), explanation: str = "") -> Question:
         m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C)", f)
         if m and m.group(1) + m.group(2) not in forms:
             forms.append(m.group(1) + m.group(2))
-    return Question("short", one(stem), canonical, [], forms, explanation)
+    return Question("short", one(stem), canonical, [], forms, explanation, tolerance)
 
 
 def label_spot(poly, centre_first: bool = True) -> tuple[float, float]:

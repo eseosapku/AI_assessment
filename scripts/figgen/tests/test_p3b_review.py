@@ -7,8 +7,8 @@ import pytest
 
 from matplotlib.text import Annotation
 
-from figgen.families import (FAMILIES, cuboid, cumulative_frequency, histogram, linear_graph, pictogram, quadratic_graph,
-                             ruler, sample_space, travel_graph, vectors_grid)
+from figgen.families import (FAMILIES, cuboid, cumulative_frequency, histogram, linear_graph, parallel_lines, pattern_sequence,
+                             pictogram, quadratic_graph, ruler, sample_space, transformation, travel_graph, vectors_grid)
 from figgen.tests.test_families_layout import drawn_texts
 
 SEEDS = range(1, 501)
@@ -158,3 +158,90 @@ def test_a_two_way_table_stays_out_of_averages_and_spread():
     for name in ("Bivariate Statistics", "Probability", "Statistics and probability", "16 Interpreting results",
                  "Conditional Probability and Bayes Theorem", "Chapter 12: Mutually exclusive events"):
         assert not re.search(avoid, name, re.I), name
+
+
+
+# --- The final review (job p3b-blind): sub-types whose reviewed figures all failed -----------------
+
+def _points(piece):
+    if piece[0] == "chair":
+        return [piece[1:]]
+    return list(piece) if isinstance(piece[0], tuple) else [piece]
+
+
+def test_every_piece_of_a_pattern_lies_inside_the_space_drawn_for_it():
+    """The L of dots had no space of its own and fell back to one unit high: its upright arm was cut
+    off, so the drawing showed 5 dots where the key counted 7."""
+    kinds = set()
+    for s in range(1, 3001):
+        p = pattern_sequence.sample(random.Random(s))
+        kinds.add(p["kind"])
+        for n in (1, 2, 3):
+            x0, x1, y0, y1 = pattern_sequence._extent(p, n)
+            for x, y in (pt for piece in pattern_sequence.pieces(p, n) for pt in _points(piece)):
+                assert x0 - 1e-9 <= x <= x1 + 1e-9 and y0 - 1e-9 <= y <= y1 + 1e-9, (p["kind"], n, (x, y))
+    assert kinds == set(pattern_sequence.KINDS)
+
+
+def test_vertically_opposite_angles_are_acute():
+    """Two obtuse arcs round one point close into a ring, and x could be either side (both reviewed failed)."""
+    seen = 0
+    for s in SEEDS:
+        p = parallel_lines.sample(random.Random(s))
+        if p["fact"] == "vertically opposite":
+            seen += 1
+            t = p["theta"]
+            assert {"ar": t, "bl": t, "al": 180 - t, "br": 180 - t}[p["given"][1]] < 90, p
+    assert seen > 50
+
+
+def test_the_corner_asked_about_is_not_also_a_corner_of_the_image():
+    """When the image shares a corner with the shape, "this corner on shape D" can be read as the shared one."""
+    for s in SEEDS:
+        p, qs = run(transformation, s)
+        x, y = map(int, re.search(r"corner at \((-?\d+), (-?\d+)\)", qs[1].stem).groups())
+        assert (x, y) not in {tuple(v) for v in p["B"]}, (s, qs[1].stem)
+
+
+def _numbers(forms):
+    return {float(re.match(r"-?[\d.]+", a).group()) for a in forms}
+
+
+def test_a_curve_reading_window_takes_in_no_wrong_method_answer():
+    """One small square either way must not reach "none", the cumulative reading itself, the position
+    n/2, or a quartile read off and left: a mark wrongly given teaches a wrong method (final review)."""
+    for s in SEEDS:
+        p, (median, iqr, more, fewer) = run(cumulative_frequency, s)
+        n, (q1, m, q3), (t, ct) = p["total"], p["quartiles"], p["extra"]
+        for q, wrong in ((median, {n / 2, q1, q3}), (iqr, {q1, q3, m, n / 2}), (more, {0, ct, n}), (fewer, {q1})):
+            assert not _numbers(q.accepted) & wrong, (s, q.stem, sorted(_numbers(q.accepted) & wrong))
+
+
+def test_curve_readings_carry_their_tolerance():
+    """The slack is stated on the question, so the review allows it there and nowhere else."""
+    for s in range(1, 101):
+        p, (median, iqr, more, fewer) = run(cumulative_frequency, s)
+        step, unit_y = cumulative_frequency.CONTEXTS[p["context"]][5], p["total"] // 20
+        assert (median.tolerance, iqr.tolerance, more.tolerance, fewer.tolerance) == (step, 2 * step, unit_y, unit_y)
+    for fid in MATHS:
+        if fid != "cumulative_frequency":
+            for s in range(1, 21):
+                assert all(q.tolerance == 0 for q in run(FAMILIES[fid], s)[1]), fid
+
+
+def test_a_question_tolerance_is_stored_and_an_old_store_gains_the_column(tmp_path):
+    import sqlite3
+    from figgen.core import Question
+    from figgen.store import SCHEMA_FILE, open_store, save_drawn
+    old = tmp_path / "old" / "figures.db"
+    old.parent.mkdir()
+    raw = sqlite3.connect(old)
+    raw.executescript(SCHEMA_FILE.read_text(encoding="utf-8").replace("  tolerance REAL NOT NULL DEFAULT 0,\n", ""))
+    raw.close()
+    db = open_store(old)
+    assert "tolerance" in {r[1] for r in db.execute("PRAGMA table_info(figure_questions)")}
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('t:1', 'test', 'Book', 'mathematics', 'UP', 'Statistics')")
+    save_drawn(db, figure_id="drawn/x/1", family="x", kind="graph.line", subject="mathematics", band="UP", topics=["t:1"], seed=1,
+               spec={}, questions=[Question("short", "s", "14", [], ["14"], "", tolerance=2)], asset="a.svg", preview="a.png",
+               width=1, height=1)
+    assert db.execute("SELECT tolerance FROM figure_questions").fetchone()[0] == 2

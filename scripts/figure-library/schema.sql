@@ -96,6 +96,7 @@ CREATE TABLE IF NOT EXISTS figure_questions (
   answer TEXT NOT NULL,
   accepted TEXT NOT NULL DEFAULT '[]',
   explanation TEXT NOT NULL DEFAULT '',
+  tolerance REAL NOT NULL DEFAULT 0,
   model TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS reviews (

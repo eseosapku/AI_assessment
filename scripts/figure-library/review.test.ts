@@ -64,10 +64,12 @@ describe('the blind review prompt', () => {
     expect(reviewPrompt(item)).not.toMatch(/bar_chart|drawn|generated|\bcode\b|seed|family/i)
   })
 
-  it('says an estimate read from a graph has one answer, give or take a small square', () => {
+  it('says an estimate read from a graph has one answer, give or take a small square, only when one is asked', () => {
     // A blind reviewer otherwise fails every curve reading as "13 or 14", which a mark scheme
-    // accepts both of; the marker here accepts that range too.
-    expect(reviewPrompt(item)).toMatch(/estimate.*small square/i)
+    // accepts both of. An exact reading keeps the objection: its marker gives no slack.
+    const estimate: ReviewItem = { ...item, questions: [item.questions[0], { ...item.questions[1], tolerance: 2 }] }
+    expect(reviewPrompt(estimate)).toMatch(/estimate.*small square/i)
+    expect(reviewPrompt(item)).not.toMatch(/small square/i)
   })
 })
 
@@ -83,13 +85,18 @@ describe('reading a verdict', () => {
     expect(parseVerdict(answering(1, { single_answer: false }), item).pass).toBe(false)
   })
 
-  it('lets an estimate stand when the mark scheme accepts the range the reviewer hedges over', () => {
+  it('lets an estimate stand when its stated tolerance covers the reviewer hedge', () => {
     // A curve reading the reviewer calls "13 or 14" is one answer to a marker who accepts 12 to 16.
-    const ranged: ReviewItem = { ...item, questions: [item.questions[0], { ...item.questions[1], answer: '14', accepted: ['14', '12', '13', '15', '16'] }] }
+    const accepted = ['14', '12', '13', '15', '16']
+    const ranged: ReviewItem = { ...item, questions: [item.questions[0], { ...item.questions[1], answer: '14', accepted, tolerance: 2 }] }
     const hedged = (own: string) => answering(2, { own_answer: own, single_answer: false })
     expect(parseVerdict(hedged('13'), ranged).pass).toBe(true)
+    expect(parseVerdict(hedged('13 or 14'), ranged).pass).toBe(true)
+    expect(parseVerdict(hedged('13 or 17'), ranged).pass).toBe(false)
     expect(parseVerdict(hedged('18'), ranged).pass).toBe(false)
-    // One accepted value: more than one right answer is a real fault.
+    // The same list without a tolerance: forms, not a range; more than one right answer is a real fault.
+    const listed: ReviewItem = { ...item, questions: [item.questions[0], { ...item.questions[1], answer: '14', accepted }] }
+    expect(parseVerdict(hedged('14'), listed).pass).toBe(false)
     expect(parseVerdict(hedged('40'), item).pass).toBe(false)
   })
 
@@ -127,14 +134,30 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('0.1'), '0.1 or 0.2')).toBe(false)
   })
 
-  it('counts any answer the marker accepts, as the student would be marked', () => {
-    // An estimate read from a curve is accepted a small square either way; so is the reviewer's.
-    expect(agrees(short('14', ['14', '13', '15']), 'about 15 minutes')).toBe(true)
-    expect(agrees(short('14', ['14']), 'about 15 minutes')).toBe(false)
-    // A range the reviewer adds in brackets is a remark: its answer is the number before it.
-    expect(agrees(short('56', ['56', '55', '57']), 'about 55 marks (accept 54 to 57)')).toBe(true)
-    expect(agrees(short('56', ['56']), 'about 55 marks (accept 54 to 57)')).toBe(false)
-    expect(agrees(short('56', ['56', '55', '57']), '55 or 58')).toBe(false)
+  it('allows a reading its stated tolerance, and every number the reviewer writes must lie inside it', () => {
+    const est = (answer: string, tolerance: number): ReviewQuestion => ({ ...short(answer), tolerance })
+    expect(agrees(est('14', 1), 'about 15 minutes')).toBe(true)
+    expect(agrees(est('56', 2), 'about 55 marks (accept 54 to 57)')).toBe(true)
+    expect(agrees(est('13', 2), 'about 12 cm (accept 12-13)')).toBe(true)
+    expect(agrees(est('56', 1), '55 or 58')).toBe(false)
+    expect(agrees(est('14', 1), 'about 16 minutes')).toBe(false)
+  })
+
+  it('takes no slack from the accepted list where no tolerance is stated', () => {
+    // Other numbers in the list are other forms of the key ("80 mm" for 8 cm), not other right answers.
+    expect(agrees(short('8', ['8', '8 cm', '80 mm']), '80 cm')).toBe(false)
+    expect(agrees(short('8', ['8', '8 cm', '80 mm']), '80')).toBe(false)
+    expect(agrees(short('14', ['14', '13', '15']), 'about 15 minutes')).toBe(false)
+    expect(agrees(short('8'), '8 (or 9)')).toBe(false)
+    // Typed exactly as an accepted form, it is right, as the student would be marked.
+    expect(agrees(short('8', ['8', '8 cm', '80 mm']), '80 mm')).toBe(true)
+  })
+
+  it('reads a decimal without its leading zero, and a hyphen between numbers as a range', () => {
+    expect(agrees(short('0.7', ['0.7', '.7']), '7')).toBe(false)
+    expect(agrees(short('0.7', ['0.7', '.7']), '.7')).toBe(true)
+    expect(agrees(short('-0.5', ['-0.5', '-.5']), '5')).toBe(false)
+    expect(agrees(short('-0.5', ['-0.5', '-.5']), '-.5')).toBe(true)
   })
 
   it('compares words without case, a leading "the" or a full stop', () => {
@@ -152,7 +175,7 @@ describe('choosing figures to review', () => {
     saveVerdict(db, { job: 'j', model: 'm', figureId: 'drawn/bar_chart/1', verdict: parseVerdict(good, item) })
     const items = itemsToReview(db, { job: 'j', size: 3 })
     expect(items.map((i) => i.figureId)).toEqual(['drawn/bar_chart/2', 'drawn/bar_chart/3', 'drawn/pie_chart/1'])
-    expect(items[0].questions[1]).toEqual({ n: 2, kind: 'short', stem: 'How many students were asked?', options: [], answer: '40', accepted: ['40', '40 students'] })
+    expect(items[0].questions[1]).toEqual({ n: 2, kind: 'short', stem: 'How many students were asked?', options: [], answer: '40', accepted: ['40', '40 students'], tolerance: 0 })
   })
 
   it('keeps to the families asked for', () => {
@@ -207,10 +230,10 @@ describe('regrading', () => {
     expect(regrade(db, 'j')).toBe(0)
   })
 
-  it('lets a stored estimate stand once its mark scheme accepts a range', () => {
+  it('lets a stored estimate stand once its question states a tolerance', () => {
     const db = store()
     const id = addFigure(db, 'bar_chart', 1)
-    db.prepare(`UPDATE figure_questions SET answer = '14', accepted = '["14","13","15"]' WHERE figure_id = ? AND n = 2`).run(id)
+    db.prepare(`UPDATE figure_questions SET answer = '14', accepted = '["14","13","15"]', tolerance = 1 WHERE figure_id = ? AND n = 2`).run(id)
     const old = parseVerdict(good, item)
     const hedged = { ...old, pass: false, questions: old.questions.map((q) => (q.n === 2 ? { ...q, ownAnswer: '13', singleAnswer: false } : q)) }
     saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: hedged })

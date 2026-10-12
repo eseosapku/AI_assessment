@@ -70,6 +70,18 @@ describe('the staging store', () => {
     db.close()
   })
 
+  it('gives a store made before questions carried a tolerance the column, exact by default', () => {
+    const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'figlib-'))
+    const file = path.join(dir, 'figures.db')
+    const old = openStore(file, process.cwd())
+    old.exec('ALTER TABLE figure_questions DROP COLUMN tolerance')
+    old.close()
+    const db = openStore(file, process.cwd())
+    const cols = (db.prepare('PRAGMA table_info(figure_questions)').all() as { name: string; dflt_value: string }[])
+    expect(cols.find((c) => c.name === 'tolerance')?.dflt_value).toBe('0')
+    db.close()
+  })
+
   it('keeps one review per figure per job', () => {
     const db = openStore(':memory:')
     db.prepare("INSERT INTO figures (id, origin, kind, subject, band, asset, status, created_at) VALUES ('drawn/x/1', 'drawn', 'graph.bar', 'mathematics', 'LS', 'assets/drawn/x/1.svg', 'stored', 'now')").run()

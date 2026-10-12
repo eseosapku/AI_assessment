@@ -111,7 +111,7 @@ def _extent(p: dict, n: int) -> tuple[float, float, float, float]:
         return 0, m, 0, 2
     if k == "dots_rect":
         return 0, m, 0, 1
-    if k == "dots_square":
+    if k in ("dots_square", "dots_L"):  # the L stands as tall as it is long
         return 0, m, 0, m
     if k == "triangles":
         return 0, (m + 1) / 2, 0, H

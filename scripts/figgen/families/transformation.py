@@ -167,8 +167,10 @@ def questions(p: dict, rng: random.Random) -> list:
     wrong = _distractors(p, rng)
     a, b = p["labels"]
     which = mcq(f"Describe the single transformation that maps shape {a} onto shape {b}.", describe(p["t"]), wrong[:3], rng)
-    # A corner that moves: one on a mirror line or at the centre of turn would ask nothing.
-    i = rng.choice([j for j in range(len(p["A"])) if p["A"][j] != p["B"][j]])
+    # A corner that moves: one on a mirror line or at the centre of turn would ask nothing. Nor one the
+    # image also has: "this corner on shape D" could then be read as that shared corner.
+    image_corners = {tuple(v) for v in p["B"]}
+    i = rng.choice([j for j in range(len(p["A"])) if p["A"][j] != p["B"][j] and tuple(p["A"][j]) not in image_corners])
     (x, y), (u, v) = p["A"][i], p["B"][i]
     image = short(f"Shape {a} has a corner at ({x}, {y}). What are the coordinates of this corner on shape {b}?", f"({u}, {v})",
                   [f"({u},{v})", f"{u}, {v}", f"{u},{v}"])

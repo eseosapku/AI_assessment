@@ -37,6 +37,9 @@ def open_store(file: str | Path | None = None, repo: Path = REPO) -> sqlite3.Con
     if target != ":memory:":
         db.execute("PRAGMA journal_mode = WAL")
     db.executescript(SCHEMA_FILE.read_text(encoding="utf-8"))
+    # A store made before questions carried a tolerance gains the column (0: exact).
+    if "tolerance" not in {r[1] for r in db.execute("PRAGMA table_info(figure_questions)")}:
+        db.execute("ALTER TABLE figure_questions ADD COLUMN tolerance REAL NOT NULL DEFAULT 0")
     return db
 
 
@@ -75,10 +78,11 @@ def save_drawn(db: sqlite3.Connection, *, figure_id: str, family: str, kind: str
         db.executemany("INSERT OR IGNORE INTO figure_topics (figure_id, topic_key) VALUES (?, ?)",
                        [(figure_id, key) for key in topics])
         db.executemany(
-            """INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, options, answer, accepted, explanation, model)
-               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'code')""",
+            """INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, options, answer, accepted, explanation, tolerance,
+                                            model)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'code')""",
             [(f"{figure_id}#{n}", figure_id, n, band, q.kind, q.stem, json.dumps(q.options), q.answer,
-              json.dumps(q.accepted), q.explanation) for n, q in enumerate(questions, 1)])
+              json.dumps(q.accepted), q.explanation, q.tolerance) for n, q in enumerate(questions, 1)])
 
 
 def relink(db: sqlite3.Connection, figure_id: str, topics: list[str]) -> bool:

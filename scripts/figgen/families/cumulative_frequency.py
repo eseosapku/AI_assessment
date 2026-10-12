@@ -86,13 +86,20 @@ def sample(rng: random.Random) -> dict:
         # The reading above the upper quartile where a flattening S-curve would put it.
         f = (t - q[2]) / (xmax - q[2])
         ct = unit_y * round((0.75 * n + 0.25 * n * (1 - (1 - f) ** 2)) / unit_y)
-        ct = min(max(ct, int(0.75 * n) + unit_y), n - unit_y)
+        ct = min(max(ct, int(0.75 * n) + unit_y), n - 2 * unit_y)
         p = {"band": "UP", "context": ci, "total": n, "xmax": xmax, "quartiles": q, "extra": [t, ct], "name": rng.choice(NAMES)}
         # The slopes between the points rise to one peak and fall: a single S, no second steep step.
         pts = _knots(p)
         slopes = [(y1 - y0) / (x1 - x0) for (x0, y0), (x1, y1) in zip(pts, pts[1:])]
         top = slopes.index(max(slopes))
         if not (all(a < b for a, b in zip(slopes[:top], slopes[1:top + 1])) and all(a > b for a, b in zip(slopes[top:], slopes[top + 1:]))):
+            continue
+        # One small square either way must not reach an answer got by a wrong method: the position n/2
+        # given as the median, a quartile read off and left, the cumulative reading not taken from n.
+        m = q[1]
+        if any(abs(v - w) <= slack for v, slack, wrong in (
+                (m, step, (n / 2, q[0], q[2])), (q[2] - q[0], 2 * step, (q[0], q[2], m, n / 2)),
+                (n - ct, unit_y, (0, ct, n)), (n // 4, unit_y, (q[0],))) for w in wrong):
             continue
         xs = [x * xmax / 400 for x in range(401)]
         ys = [cf(p, x) for x in xs]
@@ -141,9 +148,9 @@ def questions(p: dict, rng: random.Random) -> list:
     nearest = {"marks": "mark", "minutes": "minute"}.get(unit, unit)
     return [
         short(f"{p['name']} drew this graph of {of_n}. Use it to estimate the median, to the nearest {nearest}.", m,
-              near(m, step, unit, halves=True)),
+              near(m, step, unit, halves=True), tolerance=step),
         short(f"Use the graph to estimate the interquartile range of {of_n}, to the nearest {nearest}.", q3 - q1,
-              near(q3 - q1, 2 * step, unit, halves=True)),
-        short(f"Use the graph to estimate how many of the {who} {more.format(t=t)}.", n - ct, near(n - ct, unit_y)),
-        short(f"Use {p['name']}'s graph to estimate how many of the {who} {low}.", n // 4, near(n // 4, unit_y)),
+              near(q3 - q1, 2 * step, unit, halves=True), tolerance=2 * step),
+        short(f"Use the graph to estimate how many of the {who} {more.format(t=t)}.", n - ct, near(n - ct, unit_y), tolerance=unit_y),
+        short(f"Use {p['name']}'s graph to estimate how many of the {who} {low}.", n // 4, near(n // 4, unit_y), tolerance=unit_y),
     ]

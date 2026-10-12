@@ -23,7 +23,8 @@ export const LEVELS: Record<string, string> = {
   AL: 'AS and A Level (ages 16 to 18)',
 }
 
-export interface ReviewQuestion { n: number; kind: string; stem: string; options: string[]; answer: string; accepted: string[] }
+/** `tolerance`: how far from the key a reading from a curve is still right, as the question states it; 0 or absent is exact. */
+export interface ReviewQuestion { n: number; kind: string; stem: string; options: string[]; answer: string; accepted: string[]; tolerance?: number }
 export interface ReviewItem { figureId: string; family: string; subject: string; band: string; preview: string; questions: ReviewQuestion[] }
 export interface QuestionVerdict {
   n: number
@@ -54,6 +55,9 @@ export function reviewPrompt(item: ReviewItem): string {
     }
     return `${q.n}. [short answer] ${q.stem}`
   }).join('\n\n')
+  // Only where a question states a tolerance: an exact reading's marker gives no slack, so there
+  // "readings could differ by a square" stays a real objection.
+  const estimate = item.questions.some((q) => (q.tolerance ?? 0) > 0)
   return [
     'You are checking one exam figure and its questions before they are given to students.',
     `Subject: ${item.subject}. Level: ${LEVELS[item.band] ?? item.band}.`,
@@ -65,8 +69,8 @@ export function reviewPrompt(item: ReviewItem): string {
     'Answer each question yourself, from the figure and the question alone, as a careful student would.',
     'Give a multiple-choice answer as its letter. Then judge:',
     '- answerable: a student at this level can answer it from the figure and the question alone; nothing is unclear or missing.',
-    '- single_answer: exactly one answer is right; for multiple choice, no other option is also right. '
-      + 'An estimate read from a graph counts as one answer when careful readings agree to within one small square, as a mark scheme accepts that range.',
+    '- single_answer: exactly one answer is right; for multiple choice, no other option is also right.'
+      + (estimate ? ' An estimate read from a graph counts as one answer when careful readings agree to within one small square, as a mark scheme accepts that range.' : ''),
     '- figure_clear: every label, number and line the questions need is legible and unambiguous; nothing overlaps or is cut off.',
     '- educational: the figure teaches or tests something real in this subject at this level.',
     '',
@@ -75,7 +79,8 @@ export function reviewPrompt(item: ReviewItem): string {
   ].join('\n')
 }
 
-const NUMBER = /-?\d+(?:\.\d+)?(?:\s*\/\s*\d+(?:\.\d+)?)?/g
+// ".7" is 0.7; a hyphen after a digit joins a range ("12-13"), it is not a minus sign.
+const NUMBER = /(?<![\d.])-?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*\/\s*\d+(?:\.\d+)?)?/g
 
 /** Every number in an answer, a fraction as its value: "9/25", "18/50" and "0.36" are one answer. */
 function numbersIn(text: string): number[] {
@@ -97,7 +102,11 @@ const LETTER = /^\(?([a-z])(?:[).:]|\s|$)/i
 /**
  * Whether the reviewer's own answer is the key. Multiple choice: the same letter, or the
  * option's words. A numeric key: the same numbers in the same order, whatever the units
- * ("40 students", "07:30" against "7:30", "(3, -2)"). Otherwise the same words.
+ * ("40 students", "07:30" against "7:30", "(3, -2)"); for a one-number key, every number the
+ * reviewer writes is it ("1/10 (0.1)" restates it), or within the tolerance the question states
+ * ("about 55 (accept 54 to 57)"). Other numbers in the accepted list are other forms of the key
+ * ("80 mm" for 8 cm), never other right answers. An answer typed exactly as an accepted form is
+ * right, as the student would be marked. Otherwise the same words.
  */
 export function agrees(q: ReviewQuestion, own: string): boolean {
   const text = own.trim()
@@ -111,29 +120,22 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   if (expected.length) {
     const mine = numbersIn(text)
     const same = (a: number, b: number) => Math.abs(a - b) < 1e-9
-    if (expected.length === 1) {
-      // Any number the marker accepts is right, as the student would be marked: an estimate
-      // read from a curve is accepted a small square either way. A bracketed remark ("about 55
-      // (accept 54 to 57)", "1/10 (0.1)") is not part of the answer.
-      const accepted = [q.answer, ...q.accepted].map(numbersIn).filter((ns) => ns.length === 1).map((ns) => ns[0])
-      const main = numbersIn(text.replace(/\([^)]*\)/g, ' '))
-      if (main.length === 1) return accepted.some((v) => same(v, main[0]))
-      if (mine.length > 1) return mine.every((v) => same(v, expected[0]))
-    }
-    return mine.length === expected.length && mine.every((v, i) => same(v, expected[i]))
+    const near = (a: number) => Math.abs(a - expected[0]) <= (q.tolerance ?? 0) + 1e-9
+    const reached = expected.length === 1
+      ? mine.length > 0 && mine.every(near)
+      : mine.length === expected.length && mine.every((v, i) => same(v, expected[i]))
+    return reached || q.accepted.some((form) => words(form) === words(text))
   }
   return (q.accepted.length ? q.accepted : [q.answer]).some((form) => words(form) === words(text))
 }
 
 /**
- * Whether the marker accepts a range of numbers for this question (an estimate read from a
- * curve, "12 to 16"). Its range is the mark scheme's answer to "13 or 14": a reviewer who hedges
- * inside it has found one right answer, not two.
+ * A reviewer's "not a single answer" is met by the question's own tolerance when every number it
+ * wrote lies inside it (agrees() checks that): "13 or 14" is one right answer to a marker who
+ * accepts 12 to 16. Only a question that states a tolerance; elsewhere the objection stands.
  */
-export function acceptsRange(q: ReviewQuestion): boolean {
-  if (q.kind === 'mcq') return false
-  const values = new Set([q.answer, ...q.accepted].map(numbersIn).filter((ns) => ns.length === 1).map((ns) => ns[0]))
-  return values.size >= 3
+function hedgeInside(q: ReviewQuestion, keyCorrect: boolean): boolean {
+  return keyCorrect && q.kind !== 'mcq' && (q.tolerance ?? 0) > 0
 }
 
 /**
@@ -158,7 +160,7 @@ export function parseVerdict(raw: unknown, item: ReviewItem): Verdict {
     const key = q.kind === 'mcq' ? `${letter(Number(q.answer))}) ${q.options[Number(q.answer)]}` : q.answer
     const keyCorrect = agrees(q, own)
     return {
-      n: q.n, key, ownAnswer: own, keyCorrect, answerable: v.answerable, singleAnswer: v.single_answer || (keyCorrect && acceptsRange(q)),
+      n: q.n, key, ownAnswer: own, keyCorrect, answerable: v.answerable, singleAnswer: v.single_answer || hedgeInside(q, keyCorrect),
       problem: String(v.problem ?? ''),
     }
   })
@@ -175,12 +177,12 @@ export function parseVerdict(raw: unknown, item: ReviewItem): Verdict {
  */
 export function itemsToReview(db: Store, o: { job: string; size: number; families?: readonly string[]; figureIds?: readonly string[]; writer?: string }): ReviewItem[] {
   const reviewed = db.prepare('SELECT 1 FROM reviews WHERE job = ? AND figure_id = ?')
-  const questionsOf = db.prepare(`SELECT n, kind, stem, options, answer, accepted FROM figure_questions
+  const questionsOf = db.prepare(`SELECT n, kind, stem, options, answer, accepted, tolerance FROM figure_questions
     WHERE figure_id = ? AND (? IS NULL OR model = ?) ORDER BY n`)
   const toItem = (f: { id: string; family: string; subject: string; band: string; preview: string | null }): ReviewItem => ({
     figureId: f.id, family: f.family, subject: f.subject, band: f.band, preview: f.preview ?? '',
-    questions: (questionsOf.all(f.id, o.writer ?? null, o.writer ?? null) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string }[])
-      .map((q) => ({ n: q.n, kind: q.kind, stem: q.stem, options: readJson<string[]>(q.options, []), answer: q.answer, accepted: readJson<string[]>(q.accepted, []) })),
+    questions: (questionsOf.all(f.id, o.writer ?? null, o.writer ?? null) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string; tolerance: number }[])
+      .map((q) => ({ n: q.n, kind: q.kind, stem: q.stem, options: readJson<string[]>(q.options, []), answer: q.answer, accepted: readJson<string[]>(q.accepted, []), tolerance: Number(q.tolerance) || 0 })),
   })
   if (o.figureIds) {
     const pick = db.prepare(`SELECT id, COALESCE(family, origin) AS family, subject, band,
@@ -254,18 +256,18 @@ export function saveVerdict(db: Store, o: { job: string; model: string; figureId
 export function regrade(db: Store, job: string, writer?: string): number {
   const rows = db.prepare('SELECT figure_id AS id, model, detail FROM reviews WHERE job = ? ORDER BY figure_id')
     .all(job) as { id: string; model: string; detail: string }[]
-  const questionsOf = db.prepare('SELECT n, kind, stem, options, answer, accepted FROM figure_questions WHERE figure_id = ? AND (? IS NULL OR model = ?)')
+  const questionsOf = db.prepare('SELECT n, kind, stem, options, answer, accepted, tolerance FROM figure_questions WHERE figure_id = ? AND (? IS NULL OR model = ?)')
   let changed = 0
   for (const r of rows) {
     const v = readJson<Verdict | null>(r.detail, null)
     if (!v?.questions) continue
-    const qs = (questionsOf.all(r.id, writer ?? null, writer ?? null) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string }[])
-      .map((q) => ({ ...q, options: readJson<string[]>(q.options, []), accepted: readJson<string[]>(q.accepted, []) }))
+    const qs = (questionsOf.all(r.id, writer ?? null, writer ?? null) as { n: number; kind: string; stem: string; options: string; answer: string; accepted: string; tolerance: number }[])
+      .map((q) => ({ ...q, options: readJson<string[]>(q.options, []), accepted: readJson<string[]>(q.accepted, []), tolerance: Number(q.tolerance) || 0 }))
     const questions = v.questions.map((q) => {
       const asked = qs.find((x) => x.n === q.n)
       if (!asked) return q
       const keyCorrect = agrees(asked, q.ownAnswer)
-      return { ...q, keyCorrect, singleAnswer: q.singleAnswer || (keyCorrect && acceptsRange(asked)) }
+      return { ...q, keyCorrect, singleAnswer: q.singleAnswer || hedgeInside(asked, keyCorrect) }
     })
     const pass = v.figureClear && v.educational && questions.every((q) => q.keyCorrect && q.answerable && q.singleAnswer)
     if (pass !== v.pass || questions.some((q, i) => q.keyCorrect !== v.questions[i].keyCorrect)) {

@@ -35,7 +35,10 @@ LETTERS = [("P", "Q"), ("G", "H"), ("S", "T"), ("M", "N"), ("E", "F"), ("K", "L"
 def sample(rng: random.Random) -> dict:
     theta = rng.choice([t for t in range(30, 151) if abs(t - 90) >= 15])
     fact = rng.choice(sorted(PAIRS))
-    a, b = rng.choice(PAIRS[fact])
+    # Vertically opposite angles only acute: two obtuse arcs round one point close into a ring, and x
+    # could be either side of it.
+    size = {"ar": theta, "bl": theta, "al": 180 - theta, "br": 180 - theta}
+    a, b = rng.choice([pr for pr in PAIRS[fact] if fact != "vertically opposite" or size[pr[0][1]] < 90])
     given, unknown = (a, b) if rng.random() < 0.5 else (b, a)
     return {"band": "LS", "theta": theta, "fact": fact, "given": list(given), "unknown": list(unknown),
             "letters": list(rng.choice(LETTERS))}
