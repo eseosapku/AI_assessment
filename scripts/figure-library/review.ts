@@ -16,7 +16,7 @@ export const PASS_MARK = 27
 /** A figure (about 800 tokens), the prompt (about 600) and a worked check of each question (about 450 out). */
 export const REVIEW_USD_PER_ITEM = 0.008
 
-const LEVELS: Record<string, string> = {
+export const LEVELS: Record<string, string> = {
   P: 'Primary (ages 6 to 11)',
   LS: 'Lower Secondary (ages 11 to 14)',
   UP: 'Upper Secondary: IGCSE, senior secondary, WAEC (ages 14 to 17)',
@@ -267,10 +267,13 @@ export function notedPasses(db: Store, job: string): { figureId: string; notes: 
   })
 }
 
-/** The figure's PNG for the reviewer, or null when the file is missing: then nothing is sent or paid for. */
+const IMAGE_TYPES: Record<string, ImageInput['mediaType']> = { '.png': 'image/png', '.jpg': 'image/jpeg', '.jpeg': 'image/jpeg', '.webp': 'image/webp' }
+
+/** The figure's image for a model, typed by its extension, or null when missing: then nothing is sent or paid for. */
 export function previewImage(lib: string, item: Pick<ReviewItem, 'preview'>): ImageInput | null {
   if (!item.preview) return null
   const file = path.join(lib, item.preview)
-  if (!fs.existsSync(file)) return null
-  return { mediaType: 'image/png', data: fs.readFileSync(file).toString('base64') }
+  const mediaType = IMAGE_TYPES[path.extname(file).toLowerCase()]
+  if (!mediaType || !fs.existsSync(file)) return null
+  return { mediaType, data: fs.readFileSync(file).toString('base64') }
 }

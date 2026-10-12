@@ -211,6 +211,15 @@ describe('the figure image for the reviewer', () => {
     expect(previewImage(lib, item)).toEqual({ mediaType: 'image/png', data: 'iVBORw==' })
   })
 
+  it('reads a JPEG or WebP as what it is', () => {
+    const lib = fs.mkdtempSync(path.join(os.tmpdir(), 'figlib-prev-'))
+    fs.mkdirSync(path.join(lib, 'assets/wikimedia'), { recursive: true })
+    fs.writeFileSync(path.join(lib, 'assets/wikimedia/1-512.jpg'), Buffer.from([1]))
+    fs.writeFileSync(path.join(lib, 'assets/wikimedia/1.webp'), Buffer.from([1]))
+    expect(previewImage(lib, { preview: 'assets/wikimedia/1-512.jpg' })?.mediaType).toBe('image/jpeg')
+    expect(previewImage(lib, { preview: 'assets/wikimedia/1.webp' })?.mediaType).toBe('image/webp')
+  })
+
   it('is null when the file is missing, so nothing is sent or paid for', () => {
     expect(previewImage(os.tmpdir(), { preview: 'assets/none/0.png' })).toBeNull()
   })
