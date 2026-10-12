@@ -367,3 +367,45 @@ def test_pictogram():
         assert int(total.answer) == sum(values)
         v = int(re.search(r" (\d+) ", which.stem).group(1))
         assert values.count(v) == 1 and picked(which) == cats[values.index(v)]
+
+
+from figgen.families import clock, ruler  # noqa: E402
+
+
+def _hm(text: str) -> int:
+    """Minutes past 12 for "7:25" or "7.25" on a 12-hour clock."""
+    h, m = re.split(r"[:.]", text)
+    return (int(h) % 12) * 60 + int(m)
+
+
+def test_clock():
+    for s in SEEDS:
+        p, (shown, ends, until) = run(clock, s)
+        h, m = p["hour"], p["minute"]
+        assert 1 <= h <= 12 and m % 5 == 0 and 0 <= m < 60
+        hour_angle, minute_angle = clock.hand_angles(p)
+        assert minute_angle == 6 * m and hour_angle == (30 * (h % 12) + m / 2)  # the hour hand moves on through the hour
+        assert picked(shown) == f"{h}:{m:02d}" and len(set(shown.options)) == len(shown.options)
+        d = int(re.search(r"lasts (\d+) minutes", ends.stem).group(1))
+        assert _hm(ends.answer) == (_hm(f"{h}:{m:02d}") + d) % 720
+        assert all(_hm(a.replace(" ", "")) == _hm(ends.answer) for a in ends.accepted)
+        target = int(re.search(r"by (\d+) o'clock", until.stem).group(1))
+        assert int(until.answer) == ((target % 12) * 60 - _hm(f"{h}:{m:02d}")) % 720 > 0
+
+
+def test_ruler():
+    for s in SEEDS:
+        p, qs = run(ruler, s)
+        start, end = p["start"], p["end"]  # millimetres along the ruler
+        assert 0 <= start < end <= 150 and isinstance(start, int) and isinstance(end, int)
+        length = end - start
+        cm = f"{length // 10}" if length % 10 == 0 else f"{length / 10:g}"
+        long_, more = qs[0], qs[1]
+        assert long_.answer == cm and f"{cm} cm" in long_.accepted and f"{length} mm" in long_.accepted
+        k = int(re.search(r"longer than (\d+) cm", more.stem).group(1))
+        diff = length - 10 * k
+        assert diff > 0 and float(more.answer) * 10 == diff
+        if p["band"] == "P":
+            assert start % 10 == 0 and len(qs) == 2  # Primary: from a whole centimetre
+        else:
+            assert qs[2].answer == str(length) and f"{length} mm" in qs[2].accepted
