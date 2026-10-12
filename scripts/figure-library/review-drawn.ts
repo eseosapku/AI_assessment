@@ -1,12 +1,12 @@
 // scripts/figure-library/review-drawn.ts
 // Run: npx jiti scripts/figure-library/review-drawn.ts [--families=bar_chart,pie_chart] [--dry] [--workers=4]
-// The blind review of the drawn families (spec 5.5): Sonnet checks 30 figures
-// from each family, with their questions and keys; 27 must pass. Resumable.
+// The blind review of the drawn families (spec 5.5): Sonnet answers the questions on 30
+// figures from each family without seeing the keys; code compares; 27 must pass. Resumable.
 import { libraryDir, openStore } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { SONNET, askJson, bedrockSender, runPool } from './claude'
-import { REVIEW_JOB, REVIEW_SIZE, REVIEW_USD_PER_ITEM, familyScores, itemsToReview, parseVerdict, previewImage, reviewPrompt, saveVerdict } from './review'
+import { REVIEW_JOB, REVIEW_SIZE, REVIEW_USD_PER_ITEM, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, reviewPrompt, saveVerdict } from './review'
 
 /** Spec section 8 gives drawn reviews $60 over about 250 families; the pilot's 20 need about $5. */
 const JOB_CAP_USD = 8
@@ -55,6 +55,8 @@ async function main() {
       const state = s.passes ? 'pass' : s.reviewed < REVIEW_SIZE ? 'incomplete' : 'FAIL'
       console.log(`${s.family.padEnd(20)} ${String(s.passed).padStart(2)}/${s.reviewed}  ${state}`)
     }
+    const noted = notedPasses(db, REVIEW_JOB)
+    if (noted.length) console.log(`${noted.length} passes carry a reviewer's concern, to read before approving:\n  ${noted.map((n) => `${n.figureId}: ${n.notes}`).join('\n  ')}`)
     if (unusable.length) console.log(`${unusable.length} not reviewed (run again to retry):\n  ${unusable.join('\n  ')}`)
     console.log(`Reviewed ${done} this run. ${REVIEW_JOB} spend $${totalSpend(db, REVIEW_JOB).toFixed(2)}; library total $${totalSpend(db).toFixed(2)}`)
     db.close()

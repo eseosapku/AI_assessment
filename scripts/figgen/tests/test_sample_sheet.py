@@ -23,7 +23,7 @@ def setup(tmp_path):
                               Question("short", "How many in total?", "40", [], ["40", "40 people"])])
     db.execute("UPDATE figures SET status = 'rejected', reason = 'Q1: two bars equal' WHERE id = 'drawn/bar_chart/2'")
     db.execute("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES "
-               "('p1a-review', 'drawn/bar_chart/1', 'm', 1, '{}', 'now'), ('p1a-review', 'drawn/bar_chart/2', 'm', 0, '{}', 'now')")
+               "('p1a-blind', 'drawn/bar_chart/1', 'm', 1, '{}', 'now'), ('p1a-blind', 'drawn/bar_chart/2', 'm', 0, '{}', 'now')")
     db.commit()
     return db, lib
 

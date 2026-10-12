@@ -4,7 +4,12 @@ import path from 'node:path'
 import { readJson, type Store } from './store'
 import type { ImageInput } from './claude'
 
-export const REVIEW_JOB = 'p1a-review'
+/**
+ * The blind review: the reviewer answers each question without seeing the key, and code
+ * compares. 'p1a-review' was the first run, which showed the key and let a reviewer pass
+ * items it had itself called ambiguous; its verdicts stay in the store as history.
+ */
+export const REVIEW_JOB = 'p1a-blind'
 /** Spec 3.3: a family passes a blind review of 30 items scoring 27 or better. */
 export const REVIEW_SIZE = 30
 export const PASS_MARK = 27
@@ -20,45 +25,100 @@ const LEVELS: Record<string, string> = {
 
 export interface ReviewQuestion { n: number; kind: string; stem: string; options: string[]; answer: string; accepted: string[] }
 export interface ReviewItem { figureId: string; family: string; subject: string; band: string; preview: string; questions: ReviewQuestion[] }
-export interface QuestionVerdict { n: number; ownAnswer: string; keyCorrect: boolean; answerable: boolean; problem: string }
+export interface QuestionVerdict {
+  n: number
+  /** The answer as the key gives it, for the record and the rejection reason. */
+  key: string
+  ownAnswer: string
+  /** Worked out in code: the reviewer's own answer is the key. */
+  keyCorrect: boolean
+  answerable: boolean
+  /** Exactly one answer is right: for multiple choice, no other option is also right. */
+  singleAnswer: boolean
+  problem: string
+}
 export interface Verdict { pass: boolean; figureClear: boolean; educational: boolean; questions: QuestionVerdict[]; problems: string[] }
 
 const letter = (i: number) => String.fromCharCode(65 + i)
 
-/** The words sent with the figure. Blind: nothing says how the figure was made or what family it is from. */
+/**
+ * The words sent with the figure. Blind twice over: nothing says how the figure was made
+ * or what family it is from, and no answer key is shown, so the key cannot lead the
+ * reviewer's own answer.
+ */
 export function reviewPrompt(item: ReviewItem): string {
   const questions = item.questions.map((q) => {
     if (q.kind === 'mcq') {
       const options = q.options.map((o, i) => `   ${letter(i)}) ${o}`).join('\n')
-      return `${q.n}. [multiple choice] ${q.stem}\n${options}\n   Key: ${letter(Number(q.answer))}`
+      return `${q.n}. [multiple choice] ${q.stem}\n${options}`
     }
-    const also = q.accepted.slice(1)
-    return `${q.n}. [short answer] ${q.stem}\n   Key: ${q.answer}${also.length ? ` (also accepted: ${also.join('; ')})` : ''}`
+    return `${q.n}. [short answer] ${q.stem}`
   }).join('\n\n')
   return [
     'You are checking one exam figure and its questions before they are given to students.',
     `Subject: ${item.subject}. Level: ${LEVELS[item.band] ?? item.band}.`,
     '',
-    'The figure is attached. These are its questions, each with its answer key:',
+    'The figure is attached. These are its questions:',
     '',
     questions,
     '',
-    'For each question, work it out yourself from the figure first, then compare your answer with the key.',
-    'Judge:',
-    '- key_correct: the key is the right answer, and for multiple choice no other option is also right.',
+    'Answer each question yourself, from the figure and the question alone, as a careful student would.',
+    'Give a multiple-choice answer as its letter. Then judge:',
     '- answerable: a student at this level can answer it from the figure and the question alone; nothing is unclear or missing.',
+    '- single_answer: exactly one answer is right; for multiple choice, no other option is also right.',
     '- figure_clear: every label, number and line the questions need is legible and unambiguous; nothing overlaps or is cut off.',
     '- educational: the figure teaches or tests something real in this subject at this level.',
     '',
     'Reply with JSON only, in this shape:',
-    '{"questions":[{"n":1,"worked":"one or two lines","own_answer":"...","key_correct":true,"answerable":true,"problem":""}],"figure_clear":true,"educational":true,"problems":[]}',
+    '{"questions":[{"n":1,"worked":"one or two lines","own_answer":"...","answerable":true,"single_answer":true,"problem":""}],"figure_clear":true,"educational":true,"problems":[]}',
   ].join('\n')
 }
 
+const NUMBER = /-?\d+(?:\.\d+)?(?:\s*\/\s*\d+(?:\.\d+)?)?/g
+
+/** Every number in an answer, a fraction as its value: "9/25", "18/50" and "0.36" are one answer. */
+function numbersIn(text: string): number[] {
+  return (text.replace(/[\u2212\u2013\u2014]/g, '-').match(NUMBER) ?? []).map((t) => {
+    const [a, b] = t.split('/').map((x) => Number(x.trim()))
+    return b === undefined ? a : a / b
+  })
+}
+
+/** Lowercased and single-spaced, without a closing full stop or a leading article. */
+function words(text: string): string {
+  return text.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim()
+    .replace(/[.,;:!?]+$/g, '').trim().replace(/^(?:the|an?)\s+/, '')
+}
+
+/** A letter on its own or before a bracket, stop or space: "A", "(A)", "A) Mango", "A. Mango". */
+const LETTER = /^\(?([a-z])(?:[).:]|\s|$)/i
+
 /**
- * The reviewer's reply as a verdict. The pass is worked out here from its
- * parts, never taken from the model, and a reply that leaves out a question
- * or a judgement is refused rather than read as a pass.
+ * Whether the reviewer's own answer is the key. Multiple choice: the same letter, or the
+ * option's words. A numeric key: the same numbers in the same order, whatever the units
+ * ("40 students", "07:30" against "7:30", "(3, -2)"). Otherwise the same words.
+ */
+export function agrees(q: ReviewQuestion, own: string): boolean {
+  const text = own.trim()
+  if (q.kind === 'mcq') {
+    const key = Number(q.answer)
+    const m = LETTER.exec(text)
+    if (m) return m[1].toUpperCase().charCodeAt(0) - 65 === key
+    return words(text) === words(q.options[key] ?? '')
+  }
+  const expected = numbersIn(q.answer)
+  if (expected.length) {
+    const mine = numbersIn(text)
+    return mine.length === expected.length && mine.every((v, i) => Math.abs(v - expected[i]) < 1e-9)
+  }
+  return (q.accepted.length ? q.accepted : [q.answer]).some((form) => words(form) === words(text))
+}
+
+/**
+ * The reviewer's reply as a verdict. Whether each key is right is worked out here, by
+ * comparing the reviewer's own answer with it; the pass is worked out from the parts and
+ * never taken from the model; and a reply that leaves out an answer or a judgement is
+ * refused rather than read as a pass.
  */
 export function parseVerdict(raw: unknown, item: ReviewItem): Verdict {
   if (!raw || typeof raw !== 'object') throw new Error('The review is not a JSON object')
@@ -69,13 +129,18 @@ export function parseVerdict(raw: unknown, item: ReviewItem): Verdict {
   const given = Array.isArray(r.questions) ? (r.questions as Record<string, unknown>[]) : []
   const questions = item.questions.map((q) => {
     const v = given.find((x) => x && Number(x.n) === q.n)
-    if (!v || typeof v.key_correct !== 'boolean' || typeof v.answerable !== 'boolean') {
-      throw new Error(`The review does not judge question ${q.n}`)
+    const own = typeof v?.own_answer === 'string' || typeof v?.own_answer === 'number' ? String(v.own_answer).trim() : ''
+    if (!v || !own || typeof v.answerable !== 'boolean' || typeof v.single_answer !== 'boolean') {
+      throw new Error(`The review does not answer and judge question ${q.n}`)
     }
-    return { n: q.n, ownAnswer: String(v.own_answer ?? ''), keyCorrect: v.key_correct, answerable: v.answerable, problem: String(v.problem ?? '') }
+    const key = q.kind === 'mcq' ? `${letter(Number(q.answer))}) ${q.options[Number(q.answer)]}` : q.answer
+    return {
+      n: q.n, key, ownAnswer: own, keyCorrect: agrees(q, own), answerable: v.answerable, singleAnswer: v.single_answer,
+      problem: String(v.problem ?? ''),
+    }
   })
   const problems = Array.isArray(r.problems) ? r.problems.map(String).filter(Boolean) : []
-  const pass = r.figure_clear && r.educational && questions.every((q) => q.keyCorrect && q.answerable)
+  const pass = r.figure_clear && r.educational && questions.every((q) => q.keyCorrect && q.answerable && q.singleAnswer)
   return { pass, figureClear: r.figure_clear, educational: r.educational, questions, problems }
 }
 
@@ -109,8 +174,15 @@ function reasonFor(v: Verdict): string {
     ...(v.figureClear ? [] : ['figure unclear']),
     ...(v.educational ? [] : ['not educational']),
     ...v.questions
-      .filter((q) => !q.keyCorrect || !q.answerable)
-      .map((q) => `Q${q.n}: ${q.problem || (q.keyCorrect ? 'not answerable' : `key wrong (reviewer: ${q.ownAnswer})`)}`),
+      .filter((q) => !q.keyCorrect || !q.answerable || !q.singleAnswer)
+      .map((q) => {
+        const why = [
+          ...(q.keyCorrect ? [] : [`the reviewer answered "${q.ownAnswer}", the key is ${q.key}`]),
+          ...(q.singleAnswer ? [] : ['more than one answer is right']),
+          ...(q.answerable ? [] : ['not answerable from the figure']),
+        ]
+        return `Q${q.n}: ${why.join('; ')}${q.problem ? `: ${q.problem}` : ''}`
+      }),
     ...v.problems,
   ]
   return (parts.join('; ') || 'failed review').slice(0, 600)
@@ -148,6 +220,20 @@ export function familyScores(db: Store, job: string): FamilyScore[] {
     passed: Number(r.passed),
     passes: Number(r.reviewed) >= REVIEW_SIZE && Number(r.passed) >= PASS_MARK,
   }))
+}
+
+/**
+ * Passes whose reviewer still wrote a concern. The verdict stands, but a person reads
+ * these before a family is approved: a reviewer has passed items it called ambiguous.
+ */
+export function notedPasses(db: Store, job: string): { figureId: string; notes: string }[] {
+  const rows = db.prepare('SELECT figure_id AS id, detail FROM reviews WHERE job = ? AND pass = 1 ORDER BY figure_id')
+    .all(job) as { id: string; detail: string }[]
+  return rows.flatMap((r) => {
+    const v = readJson<Partial<Verdict>>(r.detail, {})
+    const notes = [...(v.problems ?? []), ...(v.questions ?? []).map((q) => q.problem)].filter(Boolean).join('; ')
+    return notes ? [{ figureId: r.id, notes }] : []
+  })
 }
 
 /** The figure's PNG for the reviewer, or null when the file is missing: then nothing is sent or paid for. */

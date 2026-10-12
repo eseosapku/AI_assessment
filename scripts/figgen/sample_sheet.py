@@ -103,7 +103,7 @@ def card(db, lib: Path, f) -> str:
             f'<ol class="qs">{"".join(items)}</ol></figure>')
 
 
-def build_sheet(db, lib: Path, per_family: int = 3, job: str = "p1a-review") -> str:
+def build_sheet(db, lib: Path, per_family: int = 3, job: str = "p1a-blind") -> str:
     rows, sections = [], []
     for fid, m in FAMILIES.items():
         figs = db.execute("SELECT id, preview FROM figures WHERE origin = 'drawn' AND family = ? AND status != 'rejected' "
@@ -145,7 +145,8 @@ def build_sheet(db, lib: Path, per_family: int = 3, job: str = "p1a-review") -> 
 <main>
 <header><p class="eyebrow">StudySquare figure library &middot; pilot P1a</p><h1>Drawn figure samples</h1>
 <p class="lede">{len(sections)} families and {figures} figures, drawn by code. Each answer is computed by the same code that drew
-the figure. Sonnet reviewed 30 figures from each family without being told how they were made; a family passes at 27 of 30.
+the figure. Sonnet answered the questions on 30 figures from each family without seeing the keys or being told how the
+figures were made, and its answers were checked against the keys; a family passes at 27 of 30.
 Correct options are marked in green. Figures the review rejected are listed under their family with the reason.</p></header>
 <div class="table-wrap"><table><thead><tr><th>Family</th><th>Kind</th><th>Level</th><th>Pilot topic</th><th>Figures</th>
 <th>Blind review</th></tr></thead><tbody>{"".join(rows)}</tbody></table></div>

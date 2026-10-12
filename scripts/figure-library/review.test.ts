@@ -4,7 +4,10 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { openStore, type Store } from './store'
-import { PASS_MARK, REVIEW_SIZE, familyScores, itemsToReview, parseVerdict, previewImage, reviewPrompt, saveVerdict, type ReviewItem } from './review'
+import {
+  PASS_MARK, REVIEW_SIZE, agrees, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, reviewPrompt, saveVerdict,
+  type ReviewItem, type ReviewQuestion,
+} from './review'
 
 function store(): Store {
   const db = openStore(':memory:')
@@ -33,19 +36,26 @@ const item: ReviewItem = {
 
 const good = {
   questions: [
-    { n: 1, worked: 'The mango bar is tallest', own_answer: 'A', key_correct: true, answerable: true, problem: '' },
-    { n: 2, worked: '12 + 10 + 18', own_answer: '40', key_correct: true, answerable: true, problem: '' },
+    { n: 1, worked: 'The mango bar is tallest', own_answer: 'A', answerable: true, single_answer: true, problem: '' },
+    { n: 2, worked: '12 + 10 + 18', own_answer: '40', answerable: true, single_answer: true, problem: '' },
   ],
   figure_clear: true, educational: true, problems: [],
 }
 
+const answering = (n: number, change: Record<string, unknown>) =>
+  ({ ...good, questions: good.questions.map((q) => (q.n === n ? { ...q, ...change } : q)) })
+
+const short = (answer: string, accepted: string[] = [answer]): ReviewQuestion =>
+  ({ n: 1, kind: 'short', stem: 's', options: [], answer, accepted })
+
 describe('the blind review prompt', () => {
-  it('shows every question with its key, options lettered', () => {
+  it('shows every question with its options lettered, and no answer key', () => {
+    // The reviewer answers first; code compares with the key, so the key cannot anchor it.
     const p = reviewPrompt(item)
     expect(p).toContain('A) Mango')
-    expect(p).toContain('Key: A')
-    expect(p).toContain('Key: 40 (also accepted: 40 students)')
+    expect(p).toContain('How many students were asked?')
     expect(p).toContain('Lower Secondary')
+    expect(p).not.toMatch(/\bkey\b|40 students/i)
   })
 
   it('does not say where the figure came from', () => {
@@ -55,22 +65,52 @@ describe('the blind review prompt', () => {
 })
 
 describe('reading a verdict', () => {
-  it('passes only when the figure and every question are sound', () => {
+  it('passes only when the reviewer reaches every key and the figure is sound', () => {
     expect(parseVerdict(good, item).pass).toBe(true)
-    const wrongKey = { ...good, questions: [good.questions[0], { ...good.questions[1], key_correct: false, own_answer: '38' }] }
-    expect(parseVerdict(wrongKey, item).pass).toBe(false)
+    expect(parseVerdict(answering(1, { own_answer: 'B' }), item).pass).toBe(false)
+    expect(parseVerdict(answering(2, { own_answer: '38' }), item).pass).toBe(false)
     expect(parseVerdict({ ...good, figure_clear: false }, item).pass).toBe(false)
+  })
+
+  it('fails a question with more than one right answer, even when the key is among them', () => {
+    expect(parseVerdict(answering(1, { single_answer: false }), item).pass).toBe(false)
   })
 
   it('works the pass out itself, whatever the reviewer claims', () => {
     expect(parseVerdict({ ...good, pass: true, educational: false }, item).pass).toBe(false)
   })
 
-  it('refuses a reply that skips a question or a judgement', () => {
+  it('refuses a reply that skips a question, an answer or a judgement', () => {
     expect(() => parseVerdict({ ...good, questions: [good.questions[0]] }, item)).toThrow(/question 2/)
     expect(() => parseVerdict({ questions: good.questions }, item)).toThrow(/figure_clear/)
-    expect(() => parseVerdict({ ...good, questions: [good.questions[0], { n: 2, key_correct: 'yes', answerable: true }] }, item)).toThrow(/question 2/)
+    expect(() => parseVerdict(answering(2, { answerable: 'yes' }), item)).toThrow(/question 2/)
+    expect(() => parseVerdict(answering(2, { own_answer: '' }), item)).toThrow(/question 2/)
+    expect(() => parseVerdict(answering(1, { single_answer: undefined }), item)).toThrow(/question 1/)
     expect(() => parseVerdict(null, item)).toThrow()
+  })
+})
+
+describe('whether the reviewer reached the key', () => {
+  it('reads a multiple-choice answer as a letter or as the option itself', () => {
+    const q = item.questions[0]
+    for (const own of ['A', 'a', 'A) Mango', '(A)', 'A. Mango', 'Mango']) expect(agrees(q, own), own).toBe(true)
+    for (const own of ['B', 'Apple', 'C) Orange']) expect(agrees(q, own), own).toBe(false)
+  })
+
+  it('compares numbers, whatever the units or form', () => {
+    expect(agrees(short('40', ['40', '40 students']), '40 students')).toBe(true)
+    expect(agrees(short('40'), '40.0')).toBe(true)
+    expect(agrees(short('9/25'), '0.36')).toBe(true)
+    expect(agrees(short('9/25'), '18/50')).toBe(true)
+    expect(agrees(short('07:30'), '7:30')).toBe(true)
+    expect(agrees(short('3.4'), '3.6')).toBe(false)
+    expect(agrees(short('40'), '38')).toBe(false)
+  })
+
+  it('compares words without case, a leading "the" or a full stop', () => {
+    expect(agrees(short('Market'), 'the market.')).toBe(true)
+    expect(agrees(short('Room 13', ['Room 13', '13']), 'room 13')).toBe(true)
+    expect(agrees(short('Market'), 'Hospital')).toBe(false)
   })
 })
 
@@ -97,11 +137,10 @@ describe('recording a verdict', () => {
   it('rejects a failed figure, with the reviewer reasons', () => {
     const db = store()
     const id = addFigure(db, 'bar_chart', 1)
-    const bad = parseVerdict({ ...good, questions: [good.questions[0], { ...good.questions[1], key_correct: false, own_answer: '38', problem: 'the bars add to 38' }] }, item)
-    saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: bad })
+    saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: parseVerdict(answering(2, { own_answer: '38', problem: 'the bars add to 38' }), item) })
     const f = db.prepare('SELECT status, reason FROM figures WHERE id = ?').get(id) as { status: string; reason: string }
     expect(f.status).toBe('rejected')
-    expect(f.reason).toContain('Q2: the bars add to 38')
+    expect(f.reason).toContain('Q2: the reviewer answered "38", the key is 40: the bars add to 38')
   })
 
   it('keeps one verdict per figure per job, the latest', () => {
@@ -111,6 +150,15 @@ describe('recording a verdict', () => {
     saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: parseVerdict(good, item) })
     expect(db.prepare('SELECT COUNT(*) AS n, MAX(pass) AS p FROM reviews').get()).toEqual({ n: 1, p: 1 })
     expect(db.prepare('SELECT status, reason FROM figures WHERE id = ?').get(id)).toEqual({ status: 'stored', reason: null })
+  })
+
+  it('lists the passes whose reviewer still wrote a concern, for a person to read', () => {
+    const db = store()
+    const a = addFigure(db, 'bar_chart', 1)
+    const b = addFigure(db, 'bar_chart', 2)
+    saveVerdict(db, { job: 'j', model: 'm', figureId: a, verdict: parseVerdict(good, item) })
+    saveVerdict(db, { job: 'j', model: 'm', figureId: b, verdict: parseVerdict({ ...good, problems: ['the labels are small'] }, item) })
+    expect(notedPasses(db, 'j')).toEqual([{ figureId: b, notes: 'the labels are small' }])
   })
 })
 
