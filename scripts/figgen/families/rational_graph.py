@@ -67,7 +67,7 @@ def questions(p: dict, rng: random.Random) -> list:
     up, down = "increases without limit", "decreases without limit"
     toward = mcq(f"As x tends to {h} from the right, what happens to y?", up if k > 0 else down,
                  [down if k > 0 else up, f"it tends to {q}", "it tends to 0" if q else "it tends to 1"], rng)
-    xs = [h + d for d in range(-5, 6) if d and k % d == 0 and h + d != 0 and x0 < h + d < x1 and abs(k // d) <= 6]  # not at an edge
+    xs = [h + d for d in range(-5, 6) if d and k % d == 0 and h + d != 0 and x0 < h + d < x1 and abs(k // d) <= 5]  # clear of every edge
     xq = rng.choice(xs)
     reading = short(f"{p['name']}'s graph is drawn for {x0} ≤ x ≤ {x1}. What is the value of y when x = {xq}?", k // (xq - h) + q)
     return [vert, horiz, cross, eq, toward, reading]

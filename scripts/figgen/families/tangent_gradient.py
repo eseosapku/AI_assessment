@@ -97,7 +97,7 @@ def questions(p: dict, rng: random.Random) -> list:
     co, (xp, yp) = p["coeffs"], p["P"]
     g, eq = slope(co, xp), poly(co)
     c = yp - g * xp
-    grad = short(f"{p['name']} drew the tangent to y = {eq} at P. Use the marked points P and Q to find the gradient of "
+    grad = short(f"{p['name']} drew the tangent to y = {eq} at P; it passes through Q. Use P and Q to find the gradient of "
                  "the tangent.", g)
     # A point of the curve the figure shows, worked from the equation printed above it.
     xr = rng.choice(_elsewhere(p))

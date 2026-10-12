@@ -883,3 +883,18 @@ def test_a_count_runs_as_far_as_its_context_allows():
     for s in range(1, 301):
         _, qs = run(m, s)
         assert "days in a week" not in qs[0].stem, qs[0].stem
+
+
+def test_a_value_is_read_clear_of_the_plot_edge_and_q_is_on_the_tangent():
+    """A reading on the plot's top or bottom edge could not be read reliably; Q's place on the tangent is
+    said, since Q is not on the curve (P3d notes)."""
+    m = fam("rational_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        xq = int(re.search(r"when x = (-?\d+)\?", qs[5].stem).group(1))
+        _, _, y0, y1 = m.view(p)
+        y = Fraction(p["k"], xq - p["p"]) + p["q"]
+        assert y0 + 1 <= y <= y1 - 1, (s, y, y0, y1)
+    for s in range(1, 301):
+        _, qs = run(fam("tangent_gradient"), s)
+        assert "passes through Q" in qs[0].stem, qs[0].stem
