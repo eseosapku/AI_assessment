@@ -4,7 +4,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { execFileSync } from 'node:child_process'
-import { openStore, readJson } from './store'
+import { SCHEMA, openStore, readJson } from './store'
 
 describe('the staging store', () => {
   it('creates every table, and opening it again keeps what was there', () => {
@@ -58,5 +58,24 @@ describe('the staging store', () => {
     // null, and the first report crashed reading its length.
     expect(readJson(null, [])).toEqual([])
     expect(readJson(undefined, [])).toEqual([])
+  })
+
+  it('creates the figure tables from the schema file it shares with Python', () => {
+    // scripts/figgen/store.py creates the same tables from the same file, so
+    // the two languages cannot drift apart.
+    const db = openStore(':memory:')
+    const tables = (db.prepare("SELECT name FROM sqlite_master WHERE type = 'table'").all() as { name: string }[]).map((r) => r.name)
+    expect(tables).toEqual(expect.arrayContaining(['figures', 'figure_topics', 'figure_questions', 'reviews']))
+    expect(SCHEMA).toBe(fs.readFileSync(path.resolve('scripts/figure-library/schema.sql'), 'utf8'))
+    db.close()
+  })
+
+  it('keeps one review per figure per job', () => {
+    const db = openStore(':memory:')
+    db.prepare("INSERT INTO figures (id, origin, kind, subject, band, asset, status, created_at) VALUES ('drawn/x/1', 'drawn', 'graph.bar', 'mathematics', 'LS', 'assets/drawn/x/1.svg', 'stored', 'now')").run()
+    const add = db.prepare("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', 'drawn/x/1', 'm', 1, '{}', 'now')")
+    add.run()
+    expect(() => add.run()).toThrow(/UNIQUE/)
+    db.close()
   })
 })
