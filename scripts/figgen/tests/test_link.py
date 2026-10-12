@@ -47,7 +47,8 @@ def test_a_family_may_narrow_its_concepts_per_instance(tmp_path):
 def test_unknown_concepts_are_named_and_reach_is_reported_per_level(tmp_path):
     db = store(tmp_path)
     assert unknown_concepts(db, family(CONCEPTS=("mathematics.fractions", "mathematics.nope"))) == ["mathematics.nope"]
-    assert link_report(db, {"f": family()}) == {"f": {"P": 1, "LS": 1}}
+    drawn = family(sample=lambda rng: {"band": rng.choice(("P", "LS"))})  # reach is counted over drawn figures
+    assert link_report(db, {"f": drawn}) == {"f": {"P": 1, "LS": 1}}
 
 
 def test_a_topic_teaches_what_its_sections_teach(tmp_path):
@@ -78,3 +79,10 @@ def test_an_instance_reaches_only_topics_at_stages_it_suits(tmp_path):
     m = family(stages=lambda p: (5, 6) if p.get("hard") else None)
     assert topics_for(index, m, {"band": "P", "hard": True}) == ["db:5"]  # db:1 is a Primary 1 book
     assert topics_for(index, m, {"band": "P"}) == ["db:1", "db:5"]  # no stage given: every stage
+
+
+def test_a_family_can_avoid_topics_that_share_a_word_but_not_a_subject(tmp_path):
+    index = topic_index(store(tmp_path))
+    m = family(AVOID=r"decimals")
+    assert topics_for(index, m, {"band": "LS"}) == []  # "Fractions and decimals" is avoided
+    assert topics_for(index, m, {"band": "P"}) == ["db:1"]

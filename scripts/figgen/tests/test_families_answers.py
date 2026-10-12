@@ -62,10 +62,10 @@ def test_line_graph():
         p, (reading, hottest, change) = run(line_graph, s)
         t = p["temps"]
         hours = line_graph.HOURS
-        at = int(reading.stem.split(" at ")[1][:2])
+        at = int(re.search(r"at (\d\d):00, in", reading.stem).group(1))
         assert int(reading.answer) == t[hours.index(at)]
         assert int(picked(hottest)[:2]) == hours[t.index(max(t))]
-        times = [int(x[:2]) for x in change.stem.split(" at ")[1].split(",")[0].split(" and ")]
+        times = [int(x) for x in re.findall(r"(\d\d):00", change.stem)]
         assert int(change.answer) == abs(t[hours.index(times[1])] - t[hours.index(times[0])]) > 0
         assert all(v % 2 == 0 for v in t)  # on the 2 °C gridlines
         assert p["band"] in ("P", "LS") and all(p["place"] in q.stem for q in (reading, hottest, change))
@@ -119,7 +119,7 @@ def test_angles():
         assert sum(p["parts"]) == p["total"]
         known = [a for i, a in enumerate(p["parts"]) if i != p["unknown"]]
         assert int(q.answer) == p["total"] - sum(known)
-        assert all(f"{a}°" in q.stem for a in known)  # the stem names the angles it gives
+        assert p["letter"] in q.stem and "°" not in q.stem  # the angles given are read from the figure
 
 
 def test_coordinates():
@@ -461,7 +461,7 @@ def test_polygon_angles():
             drawn = [360 - a for a in drawn]
         assert all(abs(d - a) < 0.5 for d, a in zip(drawn, angles))  # drawn as labelled, so convex too
         x = angles[p["unknown"]]
-        assert int(find.answer) == x and all(f"{a}°" in find.stem for i, a in enumerate(angles) if i != p["unknown"])
+        assert int(find.answer) == x and f"at {p['letters'][p['unknown']]}." in find.stem
         assert int(total.answer) == (n - 2) * 180
         assert int(exterior.answer) == 180 - x
         if p["band"] == "LS":
@@ -495,7 +495,7 @@ def test_bearings():
         theta = round(math.degrees(math.atan2(bx - ax_, by - ay))) % 360  # clockwise from north
         assert theta == p["theta"] and theta % 90 != 0
         assert find.answer == f"{theta:03d}°" and {f"{theta:03d}", str(theta)} <= set(find.accepted)
-        assert f"is {theta:03d}°" in back.stem and back.answer == f"{(theta + 180) % 360:03d}°"
+        assert back.stem.endswith(f"Find the bearing of the {p['from']} from the {p['to']}.") and back.answer == f"{(theta + 180) % 360:03d}°"
         assert 0 < p["given"] < 90  # the angle printed is measured from the nearest of N, E, S and W
 
 

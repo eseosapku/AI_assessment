@@ -16,7 +16,7 @@ KIND = "maths.coordinate"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
-    "linear-functions", "gradient-function", "intercepts", "linear-equation-gradient-intercept", "plotting-graphs",
+    "linear-functions", "intercepts", "linear-equation-gradient-intercept", "plotting-graphs",
     "simultaneous-equations-graphical", "two-variables-equation",
 ))
 
@@ -89,6 +89,9 @@ def draw(p: dict):
         xs = [x / 10 for x in range(10 * (XLIM[0] - 1), 10 * (XLIM[1] + 1) + 1)]
         pts = [(x, float(m) * x + c) for x in xs if YLIM[0] - 0.5 <= float(m) * x + c <= YLIM[1] + 0.5]
         ax.plot([q[0] for q in pts], [q[1] for q in pts], color=INK, linewidth=1.8)
+        if len(lines) > 1:  # two lines: each named where it leaves the picture
+            lx, ly = pts[int(0.9 * (len(pts) - 1))]
+            ax.text(lx + 0.35, ly, "A" if (m, c) == lines[0] else "B", fontsize=13, fontweight="bold", ha="left", va="center")
     ax.set_aspect("equal")
     return fig
 
@@ -104,16 +107,22 @@ def questions(p: dict, rng: random.Random) -> list:
     m, c = Fraction(p["m"]), p["c"]
     xs = _on_grid(m, c)
     x_at, x_when = rng.sample([x for x in xs if x != 0] or xs, 2) if len(xs) > 2 else (xs[0], xs[-1])
-    x_pt = rng.choice(xs)
+    two = p["band"] == "UP"
+    other = equation(Fraction(p["m2"]), p["c2"]) if two else ""
+    # With two lines drawn every question names line A, and the point given is on line A only.
+    on_b = (lambda x: Fraction(p["m2"]) * x + p["c2"] == m * x + c) if two else (lambda x: False)
+    x_pt = rng.choice([x for x in xs if not on_b(x)] or xs)
+    ref, its = ("line A", "line A") if two else ("the line", "its")
     eq = equation(m, c)
     wrong = [equation(-m, c), equation(m, -c) if c else equation(m, c + 1), equation(Fraction(c) if c else Fraction(1), int(m) if m.denominator == 1 else 1),
-             equation(1 / m, c), equation(m, c - 1)]
+             equation(1 / m, c), equation(m, c - 1), equation(m, c + 2)]
     qs = [
-        short(f"The line passes through ({x_pt}, {int(m * x_pt + c)}). What is its gradient?", frac(m), _grad_forms(m)[1:]),
-        short("At what value of y does the line cross the y-axis?", c, [f"(0, {c})", f"y = {c}"]),
-        mcq("Which is the equation of the line?", eq, [w for w in wrong if w != eq], rng),
-        short(f"Use the graph: what is y when x = {x_at}?", int(m * x_at + c)),
-        short(f"Use the graph: for what value of x is y = {int(m * x_when + c)}?", x_when),
+        short(f"{ref[0].upper() + ref[1:]} passes through ({x_pt}, {int(m * x_pt + c)}). What is the gradient of {its}?", frac(m),
+              _grad_forms(m)[1:]),
+        short(f"At what value of y does {ref} cross the y-axis?", c, [f"(0, {c})", f"y = {c}"]),
+        mcq(f"Which is the equation of {ref}?", eq, [w for w in wrong if w not in (eq, other)], rng),
+        short(f"Use the graph: on {ref}, what is y when x = {x_at}?", int(m * x_at + c)),
+        short(f"Use the graph: on {ref}, for what value of x is y = {int(m * x_when + c)}?", x_when),
     ]
     if p["band"] == "UP":
         m2, c2 = Fraction(p["m2"]), p["c2"]

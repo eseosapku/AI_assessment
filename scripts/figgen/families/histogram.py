@@ -9,7 +9,7 @@ import random
 
 from matplotlib.patches import Rectangle
 
-from ..core import FILL, GRID, INK, NAMES, mcq, new_figure, short
+from ..core import count, FILL, GRID, INK, NAMES, mcq, new_figure, short
 
 ID = "histogram"
 KIND = "graph.bar"
@@ -49,6 +49,11 @@ def sample(rng: random.Random) -> dict:
             return {"band": band, "context": ci, "classes": [list(c) for c in classes], "freqs": fs, "name": rng.choice(NAMES)}
 
 
+def minor_step(p: dict) -> float:
+    """The small gridlines: every whole frequency at Lower Secondary, every half unit of density at Upper."""
+    return 1 if p["band"] == "LS" else 0.5
+
+
 def draw(p: dict):
     what, var, unit, who, *_ = CONTEXTS[p["context"]]
     classes, fs = p["classes"], p["freqs"]
@@ -57,9 +62,9 @@ def draw(p: dict):
     fig, ax = new_figure(6.4, 4.4)
     for (lo, hi), h in zip(classes, heights):
         ax.add_patch(Rectangle((lo, 0), hi - lo, h, facecolor=FILL, edgecolor=INK, linewidth=1.2))
-    step = 1 if p["band"] == "LS" and top <= 12 else 2 if p["band"] == "LS" else 0.5
-    ticks = [i * step for i in range(int(top / step) + 2)]
-    ax.set_yticks(ticks[:: (2 if p["band"] == "UP" or step == 2 else 1)] if p["band"] == "UP" else ticks)
+    minor = minor_step(p)
+    ticks = [i * minor for i in range(int(top / minor) + 2)]
+    ax.set_yticks(ticks[::2] if (p["band"] == "UP" or top > 12) else ticks)  # numbers every whole or every two
     ax.set_yticks(ticks, minor=True)
     ax.grid(True, axis="y", which="both", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
@@ -81,9 +86,9 @@ def questions(p: dict, rng: random.Random) -> list:
     best = fs.index(max(fs))
     k = rng.randrange(1, len(classes))
     return [
-        short(f"{p['name']} drew this histogram of the {what}. How many of the {who} are between {lo} and {hi} {unit}?", fs[i]),
-        short(f"How many {who} does {p['name']}'s histogram show altogether?", sum(fs)),
+        count(f"{p['name']} drew this histogram of the {what}. How many of the {who} are between {lo} and {hi} {unit}?", fs[i], who),
+        count(f"How many {who} does {p['name']}'s histogram show altogether?", sum(fs), who),
         mcq(f"In {p['name']}'s histogram, which class has the most {who}?", labels[best], [lab for j, lab in enumerate(labels) if j != best], rng),
         # Adding classes: everything above one of the class boundaries.
-        short(f"How many of the {who} in {p['name']}'s histogram are more than {classes[k][0]} {unit}?", sum(fs[k:])),
+        count(f"How many of the {who} in {p['name']}'s histogram are more than {classes[k][0]} {unit}?", sum(fs[k:]), who),
     ]

@@ -5,7 +5,7 @@ import random
 
 from matplotlib.patches import Circle, Wedge
 
-from ..core import FILL, INK, mcq, new_figure, short
+from ..core import count, FILL, INK, mcq, new_figure, short
 
 ID = "pictogram"
 KIND = "graph.bar"
@@ -87,8 +87,8 @@ def questions(p: dict, rng: random.Random) -> list:
     w = rng.randrange(len(cats))
     which = CONTEXTS[p["context"]][5].format(v=values[w])
     return [
-        short(f"How many {items} were {verb} {prep} {cats[i]}?", values[i]),
-        short(f"How many more {items} were {verb} {prep} {cats[a]} than {prep} {cats[b]}?", values[a] - values[b]),
-        short(f"How many {items} were {verb} altogether?", sum(values)),
+        count(f"How many {items} were {verb} {prep} {cats[i]}?", values[i], items),
+        count(f"How many more {items} were {verb} {prep} {cats[a]} than {prep} {cats[b]}?", values[a] - values[b], items),
+        count(f"How many {items} were {verb} altogether?", sum(values), items),
         mcq(which, cats[w], [c for j, c in enumerate(cats) if j != w], rng),
     ]

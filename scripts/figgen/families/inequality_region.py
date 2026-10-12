@@ -60,8 +60,9 @@ def _points(conds: list[dict]) -> frozenset:
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     while True:
-        a, b = sorted(rng.sample(range(-5, 6), 2))
-        c, d = sorted(rng.sample(range(-5, 6), 2))
+        # Never on an axis: a dashed boundary drawn over an axis looks solid.
+        a, b = sorted(rng.sample([v for v in range(-5, 6) if v], 2))
+        c, d = sorted(rng.sample([v for v in range(-5, 6) if v], 2))
         if b - a < 3 or d - c < 3:
             continue
         conds = [{"var": "x", "op": rng.choice(["≥", ">"]), "k": a}, {"var": "y", "op": rng.choice(["≥", ">"]), "k": c}]

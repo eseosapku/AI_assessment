@@ -14,7 +14,7 @@ KIND = "maths.coordinate"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
-    "column-vector-definition", "vectors", "vectors-column-addition-subtraction", "vector-magnitude", "vectors-equivalent",
+    "column-vector-definition", "vectors-column-addition-subtraction", "vector-magnitude", "vectors-equivalent",
     "vector-scalar-multiplication",
 ))
 

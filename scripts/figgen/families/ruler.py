@@ -33,11 +33,11 @@ def _forms(mm: int) -> list[str]:
 
 
 def stages(p: dict) -> tuple[int, int] | None:
-    """Whole centimetres from Stage 2, half centimetres from Stage 3, millimetres from Stage 4."""
+    """Whole centimetres from Stage 2; parts of a centimetre, written as decimals, from Stage 4."""
     if p["band"] != "P":
         return None
     length = p["end"] - p["start"]
-    return (2, 6) if length % 10 == 0 else (3, 6) if length % 5 == 0 else (4, 6)
+    return (2, 6) if length % 10 == 0 else (4, 6)  # parts of a centimetre come with decimals
 
 
 def sample(rng: random.Random) -> dict:

@@ -17,6 +17,8 @@ ID = "area_shapes"
 KIND = "maths.geometry"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
+# A quadratic-equations chapter shares area problems without teaching area.
+AVOID = r"quadratic"
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "perimeter-2d-shapes", "parallelogram-trapezium-area", "shapes-square-rectangle-triangle", "mensuration",
     "problem-solving-areas-volumes", "grid", "hectares",
@@ -144,7 +146,8 @@ def questions(p: dict, rng: random.Random) -> list:
     if p["shape"] in ("grid", "L"):
         pts = vertices(p)
         per = num(sum(math.dist(a, b) for a, b in zip(pts, pts[1:] + pts[:1])))
-        qs.append(short(f"What is the perimeter of {name}'s {thing}?", per, _length_forms(per, u)))
+        ask = f"{lead} What is its perimeter?" if p["shape"] == "grid" else f"What is the perimeter of {name}'s {thing}?"
+        qs.append(short(ask, per, _length_forms(per, u)))
     if p["shape"] == "L":
         y = str(p["sides"][p["missing"]])
         qs.append(short(f"What is the length of the side marked y on {name}'s {thing}?", y, _length_forms(y, u)))

@@ -6,7 +6,7 @@ from fractions import Fraction
 
 from matplotlib.patches import Rectangle
 
-from ..core import FILL_2, INK, frac, new_figure, short
+from ..core import count, FILL_2, INK, frac, new_figure, short
 
 ID = "sample_space"
 KIND = "maths.probability"
@@ -14,7 +14,7 @@ SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "die-toss-outcomes-representing", "chance-experiments", "calculating-probabilities", "combined-events",
-    "probability-experimental-theoretical", "cartesian-product", "probability-independent-events-multiplication",
+    "probability-experimental-theoretical", "probability-independent-events-multiplication",
 ))
 
 DEVICES = [("dice", [1, 2, 3, 4, 5, 6]), ("spinner", [1, 2, 3, 4]), ("spinner", [1, 2, 3, 4, 5]), ("spinner", [2, 4, 6, 8]),
@@ -69,13 +69,13 @@ def questions(p: dict, rng: random.Random) -> list:
     outcomes = [FUN[op](x, y) for x in a for y in b]
     total = len(outcomes)
     first, second = p["names"]
-    what = f"The {first} and the {second} are each used once, and the {op} of the two numbers is found."
+    what = f"The first {first} and the second {second} are each used once, and the {op} of the two numbers is found."
     v = rng.choice(sorted(set(outcomes)))
     ans, forms = _prob(outcomes.count(v), total)
     t = rng.choice([o for o in sorted(set(outcomes))[:-1]])
     qs = [
         short(f"{what} What is the probability that the {op} is {v}?", ans, forms),
-        short(f"How many of the {total} outcomes give a {op} greater than {t}?", sum(1 for o in outcomes if o > t)),
+        count(f"How many of the {total} outcomes give a {op} greater than {t}?", sum(1 for o in outcomes if o > t), "outcomes"),
     ]
     if p["band"] == "UP":
         even = sum(1 for o in outcomes if o % 2 == 0)

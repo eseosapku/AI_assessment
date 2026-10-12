@@ -10,7 +10,7 @@ import random
 
 from matplotlib.patches import Polygon
 
-from ..core import FILL_2, INK, NAMES, mcq, new_figure, short
+from ..core import count, FILL_2, INK, NAMES, mcq, new_figure, short
 
 ID = "nets"
 KIND = "maths.solid"
@@ -122,10 +122,10 @@ def questions(p: dict, rng: random.Random) -> list:
     qs = [mcq(f"{name} cuts this net out of card.{size} Which solid does it fold to make?", solid, rng.sample(others, 3), rng)]
     feature = rng.randrange(3)
     word = ("faces", "edges", "vertices")[feature]
-    qs.append(short(f"How many {word} does the solid made from {name}'s net have?", COUNTS[solid][feature]))
+    qs.append(count(f"How many {word} does the solid made from {name}'s net have?", COUNTS[solid][feature], word))
     if p["band"] == "LS" and solid in ("cube", "cuboid"):
         l, w, h = p["dims"]
         area = 2 * (l * w + l * h + w * h)
-        qs.append(short(f"What is the total area of card in {name}'s net?", area,
+        qs.append(short(f"{size.strip()} What is the total area of card in {name}'s net?".lstrip(), area,
                         [f"{area} cm²", f"{area} cm2", f"{area} cm^2", f"{area}cm²", f"{area}cm2"]))
     return qs

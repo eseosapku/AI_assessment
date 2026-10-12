@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import random
 
-from ..core import FILL, grid_y, mcq, new_figure, short
+from ..core import count, FILL, grid_y, mcq, new_figure, short
 
 ID = "bar_chart"
 KIND = "graph.bar"
@@ -58,12 +58,12 @@ def questions(p: dict, rng: random.Random) -> list:
     b_value, b = pairs[-1]
     if p["unit"] == "books":
         q1 = mcq("Who read the most books?", top, [c for _, c in pairs[1:]], rng)
-        q2 = short(f"How many more books did {a} read than {b}?", a_value - b_value)
-        q3 = short("How many books were read altogether?", sum(p["values"]))
+        q2 = count(f"How many more books did {a} read than {b}?", a_value - b_value, "books")
+        q3 = count("How many books were read altogether?", sum(p["values"]), "books")
     else:
         q1 = mcq("Which was the most common answer?", top, [c for _, c in pairs[1:]], rng)
-        q2 = short(f"How many more {p['unit']} {_label(p, a)} than {_label(p, b)}?", a_value - b_value)
-        q3 = short(f"How many {p['unit']} were asked altogether?", sum(p["values"]))
+        q2 = count(f"How many more {p['unit']} {_label(p, a)} than {_label(p, b)}?", a_value - b_value, p["unit"])
+        q3 = count(f"How many {p['unit']} were asked altogether?", sum(p["values"]), p["unit"])
     # Which bar has a given height: every figure asks it of its own number.
     v_value, v = pairs[rng.randrange(len(pairs))]
     q4 = mcq(f"Which bar shows {v_value} {p['unit']}?", v, [c for _, c in pairs if c != v], rng)

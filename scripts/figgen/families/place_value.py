@@ -35,13 +35,16 @@ def _forms(n: int) -> list[str]:
 
 def stages(p: dict) -> tuple[int, int] | None:
     """A 2-digit chart for the first years, up to millions in Stage 6."""
-    return {2: (1, 2), 3: (2, 3), 4: (3, 4), 5: (4, 5), 6: (5, 6), 7: (6, 6)}[len(p["digits"])]
+    if int("".join(map(str, p["digits"]))) <= 20:
+        return (1, 2)  # Stage 1 counts to 20
+    return {2: (2, 3), 3: (2, 4), 4: (3, 5), 5: (4, 6), 6: (5, 6), 7: (6, 6)}[len(p["digits"])]
 
 
 def sample(rng: random.Random) -> dict:
     size = rng.choice([2, 2, 3, 4, 4, 5, 5, 6, 7])  # tens and ones in the first years up to millions at Stage 6
     while True:
-        digits = [rng.randint(1, 9)] + [rng.choice([0, 0, *range(1, 9)]) for _ in range(size - 1)]
+        first = rng.choice([1, 1, 2, *range(3, 10)]) if size == 2 else rng.randint(1, 9)  # teens for the first year
+        digits = [first] + [rng.choice([0, 0, *range(1, 9)]) for _ in range(size - 1)]
         if any(d < 9 for d in digits) and any(d > 0 for d in digits[1:]):
             break
     return {"band": "P", "name": rng.choice(NAMES), "digits": digits}

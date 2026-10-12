@@ -56,8 +56,21 @@ def stages_of(m, params: dict) -> tuple[int, int] | None:
 
 def topics_for(index: TopicIndex, m, params: dict) -> list[str]:
     band, concepts, years = band_of(m, params), concepts_of(m, params), stages_of(m, params)
+    # A topic can share a concept word without teaching the subject: "Polynomials" adds integers.
+    avoid = getattr(m, "AVOID", None)
     return sorted(t["key"] for t in index if t["band"] == band and t["concepts"] & concepts
-                  and (years is None or t.get("stage") is None or years[0] <= t["stage"] <= years[1]))
+                  and (years is None or t.get("stage") is None or years[0] <= t["stage"] <= years[1])
+                  and not (avoid and re.search(avoid, t["name"], re.I)))
+
+
+def reach(index: TopicIndex, m, samples: int = 300) -> set[str]:
+    """Every topic some figure of the family reaches: its stages, per-figure concepts and avoided
+    topics all counted, by drawing `samples` figures."""
+    import random
+    out: set[str] = set()
+    for s in range(1, samples + 1):
+        out.update(topics_for(index, m, m.sample(random.Random(s))))
+    return out
 
 
 def unknown_concepts(db: sqlite3.Connection, m) -> list[str]:
@@ -68,8 +81,9 @@ def unknown_concepts(db: sqlite3.Connection, m) -> list[str]:
 def link_report(db: sqlite3.Connection, families: dict) -> dict[str, dict[str, int]]:
     """For each family, how many topics it reaches at each level it draws for."""
     index = topic_index(db)
+    bands = {t["key"]: t["band"] for t in index}
     out = {}
     for fid, m in families.items():
-        concepts = frozenset(m.CONCEPTS)
-        out[fid] = {b: sum(1 for t in index if t["band"] == b and t["concepts"] & concepts) for b in m.BANDS}
+        keys = reach(index, m)
+        out[fid] = {b: sum(1 for k in keys if bands[k] == b) for b in m.BANDS}
     return out

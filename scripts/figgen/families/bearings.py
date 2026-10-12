@@ -10,13 +10,13 @@ import random
 
 from matplotlib.patches import Arc
 
-from ..core import INK, new_figure, short
+from ..core import NAMES, INK, new_figure, short
 
 ID = "bearings"
 KIND = "maths.geometry"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
-CONCEPTS = tuple(f"mathematics.{c}" for c in ("bearings", "regular-polygons-bearings", "scale-drawing-concept", "scale-drawings-actual-distance"))
+CONCEPTS = tuple(f"mathematics.{c}" for c in ("bearings", "regular-polygons-bearings", ))
 
 PLACES = ["school", "market", "health centre", "church", "well", "bus stop", "farm", "police station", "mosque", "bridge"]
 REFS = {0: "N", 90: "E", 180: "S", 270: "W"}
@@ -25,10 +25,10 @@ REFS = {0: "N", 90: "E", 180: "S", 270: "W"}
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     a, b = rng.sample(PLACES, 2)
-    theta = rng.choice([t for t in range(1, 360) if 10 <= t % 90 <= 80])
+    theta = rng.choice([t for t in range(1, 360) if 25 <= t % 90 <= 65])  # angles wide enough to label clearly
     ref = min(REFS, key=lambda r: min(abs(theta - r), 360 - abs(theta - r)))
     given = min(abs(theta - ref), 360 - abs(theta - ref))
-    return {"band": band, "from": a, "to": b, "theta": theta, "ref": ref, "given": given}
+    return {"band": band, "from": a, "to": b, "theta": theta, "ref": ref, "given": given, "name": rng.choice(NAMES)}
 
 
 def positions(p: dict) -> tuple[tuple[float, float], tuple[float, float]]:
@@ -50,20 +50,21 @@ def draw(p: dict):
     _north(ax, ax_, ay)
     _north(ax, bx, by)
     ax.plot([ax_, bx], [ay, by], color=INK, linewidth=1.8)
-    # Each name on the far side of its place from the line, clear of the line and the angle.
-    ux, uy = (bx - ax_) / 3.0, (by - ay) / 3.0
-    for (x, y), name, (dx, dy) in (((ax_, ay), p["from"], (-ux, -uy)), ((bx, by), p["to"], (ux, uy))):
+    # Each name diagonally away from its place, on the far side from the line: between the
+    # compass lines, so it never sits on one.
+    sx, sy = (1 if bx > ax_ else -1), (1 if by > ay else -1)
+    for (x, y), name, (dx, dy) in (((ax_, ay), p["from"], (-sx, -sy)), ((bx, by), p["to"], (sx, sy))):
         ax.plot(x, y, "o", color=INK, markersize=6)
-        ax.text(x + 0.45 * dx, y + 0.45 * dy, name.capitalize(), fontsize=11,
-                ha="left" if dx > 0.25 else "right" if dx < -0.25 else "center",
-                va="bottom" if dy > 0.25 else "top" if dy < -0.25 else "center")
+        ax.text(x + 0.22 * dx, y + 0.22 * dy, name.capitalize(), fontsize=11, ha="left" if dx > 0 else "right",
+                va="bottom" if dy > 0 else "top")
     # The printed angle: from the nearest compass direction to the line, an arc between them.
     theta, ref = p["theta"], p["ref"]
     start, end = 90 - ref, 90 - theta  # matplotlib angles: anticlockwise from east
     lo, hi = sorted((start, end)) if abs(start - end) < 180 else sorted((start, end + 360 if end < start else end - 360))
     ax.add_patch(Arc((ax_, ay), 1.4, 1.4, theta1=lo, theta2=hi, color=INK, linewidth=1.2))
     mid = math.radians((lo + hi) / 2)
-    ax.text(ax_ + 1.0 * math.cos(mid), ay + 1.0 * math.sin(mid), f"{p['given']}°", ha="center", va="center", fontsize=11)
+    r = max(0.95, 0.3 / math.sin(math.radians(p["given"] / 2)))  # out far enough to clear both arms
+    ax.text(ax_ + r * math.cos(mid), ay + r * math.sin(mid), f"{p['given']}°", ha="center", va="center", fontsize=11)
     xs, ys = [ax_, bx], [ay, by]
     ax.set_xlim(min(xs) - 2.2, max(xs) + 2.2)
     ax.set_ylim(min(ys) - 1.8, max(ys) + 2.0)
@@ -80,7 +81,6 @@ def questions(p: dict, rng: random.Random) -> list:
     t, a, b = p["theta"], p["from"], p["to"]
     back = (t + 180) % 360
     return [
-        short(f"Find the bearing of the {b} from the {a}.", f"{t:03d}°", _forms(t)[1:]),
-        short(f"The bearing of the {b} from the {a} is {t:03d}°. Find the bearing of the {a} from the {b}.", f"{back:03d}°",
-              _forms(back)[1:]),
+        short(f"{p['name']} walks from the {a} to the {b}. Find the bearing of the {b} from the {a}.", f"{t:03d}°", _forms(t)[1:]),
+        short(f"{p['name']} walks back from the {b} to the {a}. Find the bearing of the {a} from the {b}.", f"{back:03d}°", _forms(back)[1:]),
     ]

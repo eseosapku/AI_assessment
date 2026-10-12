@@ -3,7 +3,7 @@ from __future__ import annotations
 
 import random
 
-from ..core import GRID, mcq, new_figure, short
+from ..core import NAMES, GRID, mcq, new_figure, short
 
 ID = "line_graph"
 KIND = "graph.line"
@@ -16,9 +16,10 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
 
 HOURS = [6, 8, 10, 12, 14, 16, 18]
 # The coolest and hottest a day's readings can plausibly be in each place, in °C.
-CLIMATE = {"Kigali": (14, 30), "Huye": (12, 28), "Musanze": (10, 26), "Lagos": (22, 34), "Nairobi": (10, 28),
-           "Kampala": (16, 30), "Rubavu": (16, 28), "Nyagatare": (16, 32), "Rusizi": (16, 30), "Muhanga": (12, 28),
-           "Rwamagana": (14, 30)}  # lows even: readings start on the 2 °C gridlines
+# Schools, not real towns: no real place is given invented readings. Lows even, so readings
+# start on the 2 °C gridlines.
+CLIMATE = {"school on a hill": (10, 26), "school by a lake": (16, 30), "school in a valley": (14, 32),
+           "school on the plains": (16, 32), "school in the mountains": (8, 24)}
 
 
 def _clock(h: int) -> str:
@@ -32,8 +33,9 @@ def stages(p: dict) -> tuple[int, int] | None:
 
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
-    place = rng.choice(sorted(CLIMATE))
-    lo, hi = CLIMATE[place]
+    kind = rng.choice(sorted(CLIMATE))
+    lo, hi = CLIMATE[kind]
+    place = f"{rng.choice(NAMES)}'s {kind}"
     while True:
         # A day warms to one peak at 12:00, 14:00 or 16:00 and cools after it.
         peak = rng.choice([3, 4, 5])
@@ -43,7 +45,7 @@ def sample(rng: random.Random) -> dict:
             temps.append(temps[-1] + (step if i <= peak else -step))
         top = max(temps)
         if temps.count(top) == 1 and temps.index(top) == peak and top <= hi and min(temps) >= lo:
-            return {"band": band, "place": place, "temps": temps}
+            return {"band": band, "kind": kind, "place": place, "temps": temps}
 
 
 def draw(p: dict):
@@ -58,7 +60,7 @@ def draw(p: dict):
     ax.set_axisbelow(True)
     ax.set_xlabel("Time of day")
     ax.set_ylabel("Temperature (°C)")
-    ax.set_title(f"Temperature in {p['place']} during one day")
+    ax.set_title(f"Temperature at {p['place']} during one day", pad=14)  # clear of the top number
     return fig
 
 
@@ -69,8 +71,8 @@ def questions(p: dict, rng: random.Random) -> list:
     hottest = HOURS[t.index(max(t))]
     others = [_clock(h) for h in HOURS if h != hottest]
     return [
-        short(f"What was the temperature in {p['place']} at {_clock(HOURS[i])}, in °C?", t[i], [f"{t[i]}°C", f"{t[i]} °C"]),
-        mcq(f"At what time was the temperature in {p['place']} highest?", _clock(hottest), rng.sample(others, 3), rng),
-        short(f"What is the difference between the temperatures in {p['place']} at {_clock(HOURS[a])} and {_clock(HOURS[b])}, in \u00b0C?",
+        short(f"What was the temperature at {p['place']} at {_clock(HOURS[i])}, in °C?", t[i], [f"{t[i]}°C", f"{t[i]} °C"]),
+        mcq(f"At what time was the temperature at {p['place']} highest?", _clock(hottest), rng.sample(others, 3), rng),
+        short(f"What is the difference between the temperatures at {p['place']} at {_clock(HOURS[a])} and {_clock(HOURS[b])}, in \u00b0C?",
               abs(t[b] - t[a]), [f"{abs(t[b] - t[a])}\u00b0C", f"{abs(t[b] - t[a])} \u00b0C"]),
     ]

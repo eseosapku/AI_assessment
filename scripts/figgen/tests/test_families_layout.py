@@ -121,7 +121,7 @@ def test_tree_stated_probabilities_are_in_lowest_terms():
 def test_line_graph_temperatures_fit_the_place_and_the_day():
     for seed in range(1, 300):
         p = line_graph.sample(random.Random(seed))
-        lo, hi = line_graph.CLIMATE[p["place"]]
+        lo, hi = line_graph.CLIMATE[p["kind"]]
         t = p["temps"]
         assert lo <= min(t) and max(t) <= hi, f"seed {seed}: {p['place']} {t}"
         k = t.index(max(t))

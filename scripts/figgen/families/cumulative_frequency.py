@@ -69,7 +69,8 @@ def sample(rng: random.Random) -> dict:
     xmax, step = CONTEXTS[ci][3], CONTEXTS[ci][5]
     while True:
         n = rng.choice([40, 60, 80, 100, 120, 160, 200])
-        q = sorted(rng.sample(range(round(0.15 * xmax), round(0.75 * xmax) + 1, step), 3))
+        start = step * round(0.15 * xmax / step)  # on a gridline, so every reading is exact
+        q = sorted(rng.sample(range(start, round(0.75 * xmax) + 1, step), 3))
         # Quartiles spread like a real distribution's, so the curve is a smooth S.
         if not all(0.08 * xmax <= gap <= 0.35 * xmax for gap in (q[1] - q[0], q[2] - q[1])):
             continue

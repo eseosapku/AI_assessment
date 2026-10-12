@@ -19,8 +19,7 @@ SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "circle-theorems", "angles-centre-circumference-circle", "angle-in-semicircle", "angles-cyclic-quadrilateral",
-    "angles-same-segment", "circle-tangent", "chords-properties", "circle-elements",
-))
+    "angles-same-segment", "circle-tangent", "chords-properties", ))
 
 REASONS = {
     "centre": "The angle at the centre is twice the angle at the circumference",
@@ -43,7 +42,7 @@ def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     theorem = rng.choice(BY_BAND[band])
     rot = rng.randrange(0, 360, 5)
-    g = {"centre": rng.randint(20, 80), "semicircle": rng.randint(20, 70), "cyclic": rng.randint(60, 120),
+    g = {"centre": rng.randint(20, 80), "semicircle": rng.randint(20, 70), "cyclic": rng.choice([v for v in range(60, 121) if v != 90]),  # at 90 the semicircle would also give x
          "same segment": rng.randint(20, 70), "tangent": rng.randint(25, 65), "isosceles": 2 * rng.randint(20, 70)}[theorem]
     flip = theorem == "centre" and rng.random() < 0.5  # the angle at the centre given, the one at the edge asked
     return {"band": band, "theorem": theorem, "rot": rot, "g": g, "flip": flip,

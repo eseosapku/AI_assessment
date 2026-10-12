@@ -3,14 +3,14 @@ from __future__ import annotations
 
 import random
 
-from ..core import GRID, mcq, new_figure, short
+from ..core import count, GRID, mcq, new_figure, short
 
 ID = "scatter_graph"
 KIND = "graph.scatter"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
-    "scatter-graphs", "relationships-data", "coefficient-correlation", "regression-lines",
+    "scatter-graphs", "coefficient-correlation", "regression-lines",
 ))
 
 PAIRS = [
@@ -75,5 +75,5 @@ def questions(p: dict, rng: random.Random) -> list:
         mcq("What type of correlation does the scatter graph show?", name[p["trend"]],
             [v for k, v in name.items() if k != p["trend"]], rng),
         short(f"What is the {p['what']} for {who}?", p["ys"][i]),
-        short(f"How many {things} had {measure} of more than {t}?", sum(1 for y in p["ys"] if y > t)),
+        count(f"How many {things} had {measure} of more than {t}?", sum(1 for y in p["ys"] if y > t), things),
     ]

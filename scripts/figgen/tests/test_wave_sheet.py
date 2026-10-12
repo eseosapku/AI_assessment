@@ -34,3 +34,11 @@ def test_coverage_counts_topics_by_how_many_families_reach_them():
     rows = coverage_rows({"place_value": place_value, "box_plot": box_plot}, INDEX, before={"db:1": 7})
     # before: db:1 had 7 sources, the others none; with the wave: db:1 and db:2 reached by one family each.
     assert rows == [("No family", 2, 1), ("1-2", 0, 1), ("3-5", 0, 0), ("6 or more", 1, 1)]
+
+
+def test_coverage_counts_only_the_years_a_family_suits():
+    stage_one = [dict(INDEX[0], stage=1)] + INDEX[1:]
+    late = types.SimpleNamespace(**{k: getattr(place_value, k) for k in ("ID", "KIND", "SUBJECT", "BANDS", "CONCEPTS", "sample", "draw", "questions")},
+                                 stages=lambda p: (5, 6))
+    rows = coverage_rows({"place_value": late}, stage_one, before={})
+    assert rows[0] == ("No family", 3, 3)  # a Stage 1 place value topic is not reached by Stage 5-6 charts

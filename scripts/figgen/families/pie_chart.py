@@ -4,7 +4,7 @@ from __future__ import annotations
 import random
 from fractions import Fraction
 
-from ..core import frac, mcq, new_figure, short
+from ..core import count as count_q, frac, mcq, new_figure, short
 
 ID = "pie_chart"
 KIND = "graph.pie"
@@ -56,7 +56,7 @@ def questions(p: dict, rng: random.Random) -> list:
     more = (p["angles"][x] - p["angles"][y]) * p["total"] // 360
     wrong = [frac(Fraction(p["angles"][n], 360)) for n in range(len(p["cats"])) if n != j] + [f"{p['angles'][j]}/100"]
     return [
-        short(f"{p['total']} {p['unit']} were asked. How many chose {p['cats'][i]}?", count),
+        count_q(f"{p['total']} {p['unit']} were asked. How many chose {p['cats'][i]}?", count, p["unit"]),
         mcq(f"What fraction of the {p['unit']} chose {p['cats'][j]}?", frac(f), wrong, rng),
         short(f"Of the {p['total']} {p['unit']}, how many more chose {p['cats'][x]} than chose {p['cats'][y]}?", more),
     ]

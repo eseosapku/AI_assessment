@@ -10,7 +10,7 @@ import random
 
 from matplotlib.patches import Arc
 
-from ..core import INK, new_figure, short
+from ..core import NAMES as PEOPLE, INK, new_figure, short
 
 ID = "polygon_angles"
 KIND = "maths.geometry"
@@ -19,6 +19,7 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("polygons", "symmetry-polygons", "calculating-angles", "triangle-exterior-angle", "2d-shapes"))
 
 NAMES = {4: "quadrilateral", 5: "pentagon", 6: "hexagon"}
+LETTERS = ["ABCDEF", "PQRSTU", "KLMNPQ", "EFGHJK", "VWXYZA"]
 
 
 def sample(rng: random.Random) -> dict:
@@ -32,7 +33,8 @@ def sample(rng: random.Random) -> dict:
             angles = [180 - e for e in ext]
             sides = _sides(ext, rng)
             if sides:
-                return {"band": band, "angles": angles, "sides": sides, "unknown": rng.randrange(n)}
+                return {"band": band, "angles": angles, "sides": sides, "unknown": rng.randrange(n),
+                        "letters": rng.choice(LETTERS)[:n], "name": rng.choice(PEOPLE)}
 
 
 def _sides(ext: list[int], rng: random.Random) -> list[float] | None:
@@ -89,6 +91,9 @@ def draw(p: dict):
         label = "x" if i == p["unknown"] else f"{p['angles'][i]}°"
         ax.text(vx + r * math.cos(mid), vy + r * math.sin(mid), label, ha="center", va="center", fontsize=11,
                 style="italic" if label == "x" else "normal")
+        # The corner's letter just outside it, opposite its angle.
+        ax.text(vx - 0.32 * math.cos(mid), vy - 0.32 * math.sin(mid), p["letters"][i], ha="center", va="center", fontsize=12,
+                fontweight="bold")
     ax.set_aspect("equal")
     ax.axis("off")
     return fig
@@ -97,12 +102,11 @@ def draw(p: dict):
 def questions(p: dict, rng: random.Random) -> list:
     angles, u = p["angles"], p["unknown"]
     n = len(angles)
-    known = [f"{a}°" for i, a in enumerate(angles) if i != u]
-    listed = f"{', '.join(known[:-1])} and {known[-1]}"
-    words = ("Three", "Four", "Five")[n - 4]
     x = angles[u]
+    shape, corner = f"{NAMES[n]} {p['letters']}", p["letters"][u]
+    # The angles given are on the figure only: the questions cannot be done without it.
     return [
-        short(f"{words} of the angles of this {NAMES[n]} are {listed}. Find the angle x.", x, [f"{x}°"]),
+        short(f"In {p['name']}'s {shape}, find the angle x at {corner}.", x, [f"{x}°"]),
         short(f"What is the sum of the interior angles of a {NAMES[n]}?", (n - 2) * 180, [f"{(n - 2) * 180}°"]),
-        short(f"The {NAMES[n]} has angles {listed} and x. What is the exterior angle at the corner marked x?", 180 - x, [f"{180 - x}°"]),
+        short(f"What is the exterior angle at {corner} in {p['name']}'s {shape}?", 180 - x, [f"{180 - x}°"]),
     ]

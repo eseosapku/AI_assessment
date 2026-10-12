@@ -6,7 +6,7 @@ import random
 
 from matplotlib.patches import Polygon
 
-from ..core import FILL, FILL_2, INK, NAMES, new_figure, short
+from ..core import count, FILL, FILL_2, INK, NAMES, new_figure, short
 
 ID = "cuboid"
 KIND = "maths.solid"
@@ -87,7 +87,7 @@ def questions(p: dict, rng: random.Random) -> list:
     if p["band"] == "P":
         return [
             short(f"{name}'s {thing} is made of 1 cm cubes. What is its volume?", vol, _forms(vol, u, "3")),
-            short(f"How many 1 cm cubes are in {name}'s {thing}?", vol),
+            count(f"How many 1 cm cubes are in {name}'s {thing}?", vol, "cubes"),
         ]
     sa = 2 * (l * w + l * h + w * h)
     face = rng.choice([("top", l * w), ("front", l * h)])

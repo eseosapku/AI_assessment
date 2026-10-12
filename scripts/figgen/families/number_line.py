@@ -10,6 +10,8 @@ ID = "number_line"
 KIND = "maths.number"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
+# "Polynomials" shares "adding and subtracting integers" without being about number lines.
+AVOID = r"polynomial"
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "number-line", "intervals-closed-line", "adding-subtracting-integers", "negative-numbers-problems", "integers",
 ))
@@ -30,14 +32,14 @@ def _text(d: Decimal) -> str:
 
 
 def stages(p: dict) -> tuple[int, int] | None:
-    """Ones from 0 at Stages 1-3, larger steps at 2-5, tenths and halves from Stage 4."""
+    """Numbers to 20 at Stages 1-2, to 100 at 2-3, beyond at 3-5; tenths and halves from Stage 4."""
     if p["band"] != "P":
         return None
     first, second = p["ticks"][0], p["ticks"][1]
     if "." in first or "." in second:
         return (4, 6)
-    step = int(second) - int(first)
-    return (1, 3) if step == 1 and int(first) <= 10 else (2, 5)
+    top = int(p["ticks"][-1])
+    return (1, 2) if top <= 20 else (2, 3) if top <= 100 else (3, 5)
 
 
 def sample(rng: random.Random) -> dict:

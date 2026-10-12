@@ -22,7 +22,7 @@ if __package__ in (None, ""):  # run as a script: make "figgen" importable
 
 from figgen.core import render  # noqa: E402
 from figgen.families import FAMILIES  # noqa: E402
-from figgen.link import band_of, topic_index, topics_for  # noqa: E402
+from figgen.link import band_of, reach, topic_index  # noqa: E402
 from figgen.sample_sheet import CSS, LEVELS, title_of  # noqa: E402
 from figgen.store import library_dir  # noqa: E402
 
@@ -69,9 +69,9 @@ def _card(m, seed: int) -> str:
 
 
 def _reach(m, index) -> dict[str, list[str]]:
-    """The topics the family reaches at each of its levels, with every concept it declares."""
-    concepts = frozenset(m.CONCEPTS)
-    return {b: [t["name"] for t in index if t["band"] == b and t["concepts"] & concepts] for b in m.BANDS}
+    """The topics the family's figures reach at each of its levels (school years counted)."""
+    keys = reach(index, m)
+    return {b: [t["name"] for t in index if t["band"] == b and t["key"] in keys] for b in m.BANDS}
 
 
 def coverage_rows(families: dict, index, before: dict, others: dict | None = None) -> list[tuple[str, int, int]]:
@@ -80,7 +80,8 @@ def coverage_rows(families: dict, index, before: dict, others: dict | None = Non
     others = before if others is None else others
     subject = {m.SUBJECT for m in families.values()}
     topics = [t for t in index if t["subject"] in subject]
-    wave = {t["key"]: sum(1 for m in families.values() if t["band"] in m.BANDS and t["concepts"] & frozenset(m.CONCEPTS)) for t in topics}
+    reached = [reach(index, m) for m in families.values()]
+    wave = {t["key"]: sum(1 for keys in reached if t["key"] in keys) for t in topics}
     rows = []
     for label, lo, hi in BUCKETS:
         rows.append((label, sum(1 for t in topics if lo <= before.get(t["key"], 0) <= hi),

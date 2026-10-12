@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import io
 import random
+import re
 from dataclasses import dataclass, field
 from fractions import Fraction
 
@@ -105,6 +106,11 @@ def short(stem: str, answer, accepted=(), explanation: str = "") -> Question:
     for a in accepted:
         if str(a) not in forms:
             forms.append(str(a))
+    # "8.0" to 1 decimal place is also the whole number 8, and a student may write it so.
+    for f in list(forms):
+        m = re.fullmatch(r"(-?\d+)\.0(\D*)", f)
+        if m and m.group(1) + m.group(2) not in forms:
+            forms.append(m.group(1) + m.group(2))
     return Question("short", stem, canonical, [], forms, explanation)
 
 
@@ -121,6 +127,16 @@ def label_spot(poly, centre_first: bool = True) -> tuple[float, float]:
         return cx, cy
     clear = [c for c in cells if min(abs(c[0]), abs(c[1])) >= 1.5] or [c for c in cells if min(abs(c[0]), abs(c[1])) >= 1] or cells
     return min(clear, key=lambda c: (c[0] - cx) ** 2 + (c[1] - cy) ** 2)
+
+
+def count(stem: str, n: int, *nouns: str, explanation: str = "") -> Question:
+    """A count, accepted bare or with its noun ("15", "15 eggs", and "1 egg" for one)."""
+    forms = []
+    for noun in nouns:
+        forms.append(f"{n} {noun}")
+        if n == 1 and noun.endswith("s"):
+            forms.append(f"{n} {noun[:-1]}")
+    return short(stem, n, forms, explanation)
 
 
 def grid_y(ax, top: float, step: float) -> None:

@@ -6,7 +6,7 @@ from __future__ import annotations
 
 import random
 
-from ..core import INK, NAMES, new_figure, short
+from ..core import count, INK, NAMES, new_figure, short
 
 ID = "stem_leaf"
 KIND = "graph.stats"
@@ -61,5 +61,5 @@ def questions(p: dict, rng: random.Random) -> list:
     return [
         short(f"{p['name']} recorded the {p['what']} of {n} {who}. What is the median?", data[n // 2], forms(data[n // 2])),
         short(f"What is the range of the {p['what']} {p['name']} recorded?", data[-1] - data[0], forms(data[-1] - data[0])),
-        short(f"How many of the {who} have {more}?", above),
+        count(f"How many of the {who} have {more}?", above, who),
     ]

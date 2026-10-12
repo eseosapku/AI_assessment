@@ -7,6 +7,7 @@ The roots are whole numbers with p + q even, so the turning point is a grid poin
 from __future__ import annotations
 
 import random
+import re
 
 from ..core import GRID, INK, mcq, new_figure, short
 
@@ -71,13 +72,18 @@ def draw(p: dict):
     return fig
 
 
+def _two(options: list[str]) -> list[str]:
+    """Wrong pairs of roots, never one number twice ("x = 0 or x = 0")."""
+    return [o for o in options if not ((m := re.fullmatch(r"x = (-?\d+) or x = (-?\d+)", o)) and m.group(1) == m.group(2))]
+
+
 def questions(p: dict, rng: random.Random) -> list:
     a, r1, r2, eq = p["a"], p["p"], p["q"], p["equation"]
     h = (r1 + r2) // 2
     k_turn = int(_f(p, h))
     c = int(_f(p, 0))
     roots = mcq(f"The graph of y = {eq} is drawn. Use it to solve {eq} = 0.", f"x = {r1} or x = {r2}",
-                [f"x = {-r2} or x = {-r1}", f"x = {h} or x = {k_turn}", f"x = 0 or x = {c}", f"x = {r1 - 1} or x = {r2 + 1}"], rng)
+                _two([f"x = {-r2} or x = {-r1}", f"x = {h} or x = {k_turn}", f"x = 0 or x = {c}", f"x = {r1 - 1} or x = {r2 + 1}"]), rng)
     turn = mcq(f"What are the coordinates of the turning point of y = {eq}?", f"({h}, {k_turn})",
                [f"({k_turn}, {h})", f"({-h}, {k_turn})", f"({h}, {-k_turn})", f"({h}, {c})", f"({h + 1}, {k_turn})"], rng)
     cross = short(f"Where does the graph of y = {eq} cross the y-axis? Give the y-coordinate.", c, [f"(0, {c})", f"y = {c}"])
@@ -86,7 +92,7 @@ def questions(p: dict, rng: random.Random) -> list:
     k = int(_f(p, x0))
     lo, hi = sorted((x0, 2 * h - x0))
     level = mcq(f"Use the graph of y = {eq} to solve {eq} = {k}.", f"x = {lo} or x = {hi}",
-                [f"x = {r1} or x = {r2}", f"x = {lo - 1} or x = {hi + 1}", f"x = {-hi} or x = {-lo}", f"x = {h} or x = {k}"], rng)
+                _two([f"x = {r1} or x = {r2}", f"x = {lo - 1} or x = {hi + 1}", f"x = {-hi} or x = {-lo}", f"x = {h} or x = {k}"]), rng)
     xr = rng.choice([x for x in range(r1 - 2, r2 + 3) if x not in (0, x0)])
     reading = short(f"Use the graph of y = {eq}: what is the value of y when x = {xr}?", int(_f(p, xr)))
     qs = [roots, turn, cross, level]

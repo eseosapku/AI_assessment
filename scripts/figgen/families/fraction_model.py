@@ -11,7 +11,7 @@ from fractions import Fraction
 
 from matplotlib.patches import Rectangle, Wedge
 
-from ..core import FILL, INK, NAMES, frac, mcq, new_figure, short
+from ..core import count, FILL, INK, NAMES, frac, mcq, new_figure, short
 
 ID = "fraction_model"
 KIND = "maths.number"
@@ -35,10 +35,15 @@ SHAPES = {
 
 
 def stages(p: dict) -> tuple[int, int] | None:
-    """Halves and quarters from Stage 1, up to eighths from Stage 3, more parts from Stage 4."""
+    """Halves and quarters from Stage 1; thirds, fifths and eighths from Stage 3; more parts from Stage 4."""
     if p["band"] != "P":
         return None
-    return (1, 4) if p["n"] <= 4 else (3, 6) if p["n"] <= 8 else (4, 6)
+    return (1, 4) if p["n"] in (2, 4) else (3, 6) if p["n"] <= 8 else (4, 6)
+
+
+def concepts_for(p: dict) -> frozenset:
+    """Percentages are asked at Lower Secondary only, so a Primary model does not reach them."""
+    return frozenset(c for c in CONCEPTS if p["band"] != "P" or not c.endswith("fractions-percentages"))
 
 
 def sample(rng: random.Random) -> dict:
@@ -94,10 +99,10 @@ def questions(p: dict, rng: random.Random) -> list:
     targets = sorted({Fraction(t, n) for t in range(k + 1, n + 1)} - {Fraction(1)}, key=lambda f: (f.denominator, f))
     target = rng.choice([t for t in targets if t.denominator < n] or targets) if targets else Fraction(1)
     if target == Fraction(1):
-        qs.append(short(f"How many more parts must {name} shade so that the whole {word} is shaded?", n - k))
+        qs.append(count(f"How many more parts must {name} shade so that the whole {word} is shaded?", n - k, "parts"))
     else:
-        qs.append(short(f"How many more parts must {name} shade so that {frac(target)} of the {word} is shaded?",
-                        int(target * n) - k))
+        qs.append(count(f"How many more parts must {name} shade so that {frac(target)} of the {word} is shaded?",
+                        int(target * n) - k, "parts"))
     if p["band"] == "LS":
         left = Fraction(n - k, n)
         if (left * 100).denominator == 1:

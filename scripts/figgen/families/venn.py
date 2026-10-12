@@ -10,7 +10,7 @@ from fractions import Fraction
 
 from matplotlib.patches import Circle, Rectangle
 
-from ..core import INK, frac, new_figure, short
+from ..core import count, INK, frac, new_figure, short
 
 ID = "venn"
 KIND = "maths.probability"
@@ -77,11 +77,11 @@ def questions(p: dict, rng: random.Random) -> list:
     a, b, c, d = p["regions"]
     total = a + b + c + d
     qs = [
-        short(f"The Venn diagram shows {total} {who}. How many {doA} but {notB}?", a),
-        short(f"How many of the {who} {doB}?", b + c),
+        count(f"The Venn diagram shows {total} {who}. How many {doA} but {notB}?", a, who),
+        count(f"How many of the {who} {doB}?", b + c, who),
     ]
     if p["band"] == "P":
-        qs.append(short(f"How many of the {who} {both}?", b))
+        qs.append(count(f"How many of the {who} {both}?", b, who))
     else:
         ans, forms = _prob(Fraction(b, total), total, b)
         qs.append(short(f"One of the {total} {who} is chosen at random. What is the probability that they {both}? "

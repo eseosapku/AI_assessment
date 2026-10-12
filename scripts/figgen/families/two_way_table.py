@@ -10,7 +10,7 @@ from fractions import Fraction
 
 from matplotlib.patches import Rectangle
 
-from ..core import FILL_2, INK, frac, mcq, new_figure, short  # noqa: F401
+from ..core import count, FILL_2, INK, frac, mcq, new_figure, short  # noqa: F401
 
 ID = "two_way_table"
 KIND = "table.data"
@@ -104,7 +104,7 @@ def questions(p: dict, rng: random.Random) -> list:
     t = p["table"]
     r, c = p["asked"]
     total = t[-1][-1]
-    qs = [short(f"Some numbers are missing from the table. How many {ROWS[r].lower()} {do[c]}?", t[r][c])]
+    qs = [count(f"Some numbers are missing from the table. How many {ROWS[r].lower()} {do[c]}?", t[r][c], ROWS[r].lower())]
     rr, cc = p["fraction_cell"]
     ans, forms = _prob(Fraction(t[rr][cc], total), t[rr][cc], total)
     qs.append(short(f"What fraction of the {total} students are {ROWS[rr].lower()} who {do[cc]}? Give your answer as a fraction.",

@@ -10,7 +10,7 @@ import random
 
 from matplotlib.patches import Circle, Rectangle
 
-from ..core import FILL, INK, NAMES, mcq, new_figure, short
+from ..core import count, FILL, INK, NAMES, mcq, new_figure, short
 
 ID = "pattern_sequence"
 KIND = "maths.number"
@@ -127,8 +127,8 @@ def questions(p: dict, rng: random.Random) -> list:
     near = rng.choice([4, 5, 6])
     far = rng.choice([10, 12, 15, 20] if p["band"] == "P" else [20, 25, 50, 100])
     qs = [
-        short(f"{name} makes these patterns with {items}. How many {items} are in pattern {near}?", a * near + c),
-        short(f"{name} keeps going. How many {items} are in pattern {far}?", a * far + c),
+        count(f"{name} makes these patterns with {items}. How many {items} are in pattern {near}?", a * near + c, items),
+        count(f"{name} keeps going. How many {items} are in pattern {far}?", a * far + c, items),
     ]
     if p["band"] == "LS":
         # Wrong rules: the difference as the constant, the first pattern times n, one out at the start.

@@ -17,8 +17,7 @@ KIND = "maths.geometry"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
-    "right-angled-triangles", "pythagorean-triples", "tangent-acute-angle", "trigonometric-concepts", "trigonometric-ratios-exact",
-))
+    "right-angled-triangles", "pythagorean-triples", "tangent-acute-angle", ))
 
 LETTERS = [("A", "B", "C"), ("P", "Q", "R"), ("L", "M", "N"), ("D", "E", "F"), ("R", "S", "T"), ("G", "H", "K"), ("U", "V", "W")]
 TRIPLES = [(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25)]

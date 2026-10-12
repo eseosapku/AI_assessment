@@ -13,7 +13,7 @@ ID = "travel_graph"
 KIND = "graph.line"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
-CONCEPTS = tuple(f"mathematics.{c}" for c in ("kinematic-graphs", "rates", "rates-of-change", "speed-distance-time"))
+CONCEPTS = tuple(f"mathematics.{c}" for c in ("kinematic-graphs", "speed-distance-time"))
 
 PLACES = ["market", "health centre", "lake", "farm", "football ground", "town centre", "library", "bus station"]
 

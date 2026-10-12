@@ -6,7 +6,7 @@ import random
 
 from matplotlib.patches import Arc
 
-from ..core import new_figure, short
+from ..core import NAMES, new_figure, short
 
 ID = "angles"
 KIND = "maths.geometry"
@@ -29,7 +29,7 @@ def sample(rng: random.Random) -> dict:
         if min(parts) >= 25 and (total == 180 or all(abs(a - 180) > 15 for a in parts)):
             break
     unknown = rng.randrange(k)
-    return {"total": total, "parts": parts, "unknown": unknown}
+    return {"total": total, "parts": parts, "unknown": unknown, "name": rng.choice(NAMES), "letter": rng.choice("OPQRSTAB")}
 
 
 def draw(p: dict):
@@ -55,14 +55,20 @@ def draw(p: dict):
     ax.set_aspect("equal")
     ax.set_xlim(-1.3, 1.3)
     ax.set_ylim(-1.3 if p["total"] == 360 else -0.2, 1.3)
+    # The meeting point's letter: below a straight line, or in the widest angle round a point.
+    if p["total"] == 180:
+        ax.text(0, -0.12, p["letter"], ha="center", va="top", fontsize=12, fontweight="bold")
+    else:
+        w = max(range(len(p["parts"])), key=lambda i: p["parts"][i])
+        mid = math.radians(edges[w] + p["parts"][w] / 2)
+        ax.text(0.14 * math.cos(mid), 0.14 * math.sin(mid), p["letter"], ha="center", va="center", fontsize=11, fontweight="bold")
     ax.axis("off")
     return fig
 
 
 def questions(p: dict, rng: random.Random) -> list:
     x = p["parts"][p["unknown"]]
-    known = [f"{a}°" for i, a in enumerate(p["parts"]) if i != p["unknown"]]
     count = ("Two", "Three", "Four")[len(p["parts"]) - 2]
-    verb = "lie on a straight line" if p["total"] == 180 else "meet at a point"
-    given = f"The other is {known[0]}" if len(known) == 1 else f"The others are {', '.join(known[:-1])} and {known[-1]}"
-    return [short(f"{count} angles {verb}. {given}. Work out the value of x.", x, [f"{x}°"])]
+    # The angles given are on the figure only: the question cannot be done without it.
+    where = f"lie on a straight line at {p['letter']}" if p["total"] == 180 else f"meet at the point {p['letter']}"
+    return [short(f"In {p['name']}'s diagram, {count.lower()} angles {where}. Work out the value of x.", x, [f"{x}°"])]

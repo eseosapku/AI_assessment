@@ -10,14 +10,14 @@ import random
 
 from matplotlib.patches import Rectangle
 
-from ..core import FILL_2, INK, NAMES, mcq, new_figure, short
+from ..core import count, FILL_2, INK, NAMES, mcq, new_figure, short
 
 ID = "frequency_table"
 KIND = "table.data"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
-    "frequency-distribution-table", "central-tendencies-ungrouped-data", "arithmetic-mean", "mode-finding", "median",
+    "frequency-distribution-table", "central-tendencies-ungrouped-data", "mode-finding", "median",
     "calculating-statistics-grouped-data", "grouped-data-definition", "class-boundaries",
 ))
 
@@ -31,8 +31,9 @@ UNGROUPED = [
     ("people living in each house", "People", range(1, 8), "houses", "How many houses have {x} people living in them?"),
     ("books each student read last month", "Books", range(0, 6), "students", "How many students read {x} books last month?"),
 ]
-GROUPED = [("time taken to walk to school", "Time (t minutes)", "t", [(0, 10), (10, 20), (20, 30), (30, 40), (40, 60)], "students"),
-           ("mass of each bag of beans", "Mass (m kg)", "m", [(0, 5), (5, 10), (10, 15), (15, 20), (20, 30)], "bags"),
+# Equal widths: with unequal ones "the modal class" means different things in different syllabuses.
+GROUPED = [("time taken to walk to school", "Time (t minutes)", "t", [(0, 10), (10, 20), (20, 30), (30, 40), (40, 50)], "students"),
+           ("mass of each bag of beans", "Mass (m kg)", "m", [(0, 5), (5, 10), (10, 15), (15, 20), (20, 25)], "bags"),
            ("height of each seedling", "Height (h cm)", "h", [(0, 4), (4, 8), (8, 12), (12, 16), (16, 20)], "seedlings")]
 
 
@@ -111,8 +112,8 @@ def questions(p: dict, rng: random.Random) -> list:
     i = rng.randrange(len(xs))
     qs = [
         short(f"{p['name']} recorded the number of {p['title']}. What is the mode?", mode),
-        short(f"How many {who} are in {p['name']}'s table?", n),
-        short(UNGROUPED[p["kind"]][4].format(x=xs[i]), fs[i]),
+        count(f"How many {who} are in {p['name']}'s table?", n, who),
+        count(UNGROUPED[p["kind"]][4].format(x=xs[i]), fs[i], UNGROUPED[p["kind"]][3]),
     ]
     if p["band"] != "P":
         data = sorted(x for x, f in zip(xs, fs) for _ in range(f))
