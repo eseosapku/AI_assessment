@@ -239,6 +239,13 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
 - **P0 Concept map.**
   - Exit: every topic and subtopic mapped.
   - The user receives a feasibility report: for each topic, the planned drawn and real supply, and a named list of any topics that cannot reach 50 educational figures, with options.
+  - **Result (2026-10-12):**
+    - 3,888 of 3,889 topics mapped; "ICT Basics", a computing unit inside the P4 SET book, is left for Computing.
+    - 3,350 concepts. 17,857 Wikimedia search terms counted.
+    - 1,264 topics (33%) ready now by figure kinds. 2,441 (63%) ready once the drawn families are built (an upper bound). 183 (5%) still short: 91 mostly words, 85 with few kinds mapped (largely Art and Music), 7 short of real images.
+    - 8,742 of 12,424 subtopics (70%) have two or more kinds under a feasible topic.
+    - Spend $25.44: concepts $5.09, mapping $20.35.
+    - Report: https://claude.ai/artifact/BqS74o2K7ERYoaj4bNqfkW. The user's decision on the short topics is pending.
 - **P1 Pilot.** About 6 topics across Maths, Biology, Geography, Economics, a language and History. About 20 drawn families. About 600 real candidates.
   - Exit: blind reviews pass; the Haiku-versus-Sonnet result is decided; the user has seen sample sheets and approved them.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
