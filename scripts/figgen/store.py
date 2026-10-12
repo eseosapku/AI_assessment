@@ -90,3 +90,19 @@ def delete_family(db: sqlite3.Connection, family: str) -> list[str]:
             db.executemany(f"DELETE FROM {table} WHERE figure_id = ?", ids)
         db.executemany("DELETE FROM figures WHERE id = ?", ids)
     return [key for r in rows for key in (r["asset"], r["preview"]) if key]
+
+
+def save_real(db: sqlite3.Connection, *, figure_id: str, origin: str, kind: str, subject: str, band: str,
+              topic_key: str, asset: str, preview: str, width: int, height: int, spec: dict, licence: str,
+              author: str, source_url: str, credit: str, phash: str) -> None:
+    """One real image, a candidate for screening, with its licence and credit (spec 5.3). Saving it again changes nothing."""
+    now = datetime.now(timezone.utc).isoformat()
+    with db:
+        db.execute(
+            """INSERT INTO figures (id, origin, family, kind, subject, band, asset, preview, width, height, spec,
+                                    licence, author, source_url, credit, phash, status, created_at)
+               VALUES (?, ?, NULL, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'candidate', ?)
+               ON CONFLICT(id) DO NOTHING""",
+            (figure_id, origin, kind, subject, band, asset, preview, width, height, json.dumps(spec, sort_keys=True),
+             licence, author, source_url, credit, phash, now))
+        db.execute("INSERT OR IGNORE INTO figure_topics (figure_id, topic_key) VALUES (?, ?)", (figure_id, topic_key))
