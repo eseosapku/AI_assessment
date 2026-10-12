@@ -31,7 +31,11 @@ export function buildMissedRecallCards(
     const back = explanation ? `${correctText}\n\n${explanation}` : correctText
     if (!front || !back) return
 
-    const card: RecallCardInput = { front, back, hint: subject }
+    // A real image carries its author, licence and source wherever it is shown (CC BY, CC BY-SA).
+    const credit = q.image_url && q.image_credit ? `
+
+Image: ${String(q.image_credit)}` : ''
+    const card: RecallCardInput = { front: `${front}${credit}`, back, hint: subject }
     if (q.image_url) card.front_image_url = String(q.image_url)
     if (q.diagram_svg) card.front_diagram_svg = String(q.diagram_svg)
 
