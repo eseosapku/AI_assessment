@@ -10,10 +10,10 @@ FREE_WITHOUT_AUTHOR = re.compile(r"^(?:cc0|cc-zero|public domain|pd(?:\b|-))", r
 # The subject is a person, or the file is a logo or decoration (spec section 4).
 PEOPLE = re.compile(r"portrait|selfie|\bpeople\b|\bmen\b|\bwomen\b|\bpersons?\b|\blogos?\b|\bicons?\b|clip ?art|"
                     r"\bemblems?\b|coats? of arms|\bsignatures?\b", re.I)
-# A translated copy of a diagram, such as "...-zh.jpg", has labels that are not in English.
+# A translated copy of a diagram, such as "...-zh.jpg" or "... tr.svg", has labels that are not in English.
 LANGS = ("zh|fr|es|de|ru|ar|ja|ko|it|pt|nl|pl|uk|fa|tr|he|cs|sv|fi|hu|vi|id|ca|el|ro|bg|sr|hr|th|hi|bn|ta|da|nb|"
          "sk|sl|lt|lv|et|eu|gl|ms|sw|rw")
-TRANSLATED = re.compile(rf"[-_(](?:{LANGS})(?:-[a-z]{{2,4}})?\)?\.(?:jpe?g|png|tiff?|webp|gif|svg)$", re.I)
+TRANSLATED = re.compile(rf"[-_( ](?:{LANGS})(?:-[a-z]{{2,4}})?\)?\.(?:jpe?g|png|tiff?|webp|gif|svg)$", re.I)
 MIN_SHORT_SIDE = 600  # spec 5.3: at least 600 px on the short side
 TYPES = ("image/jpeg", "image/png", "image/webp", "image/tiff", "image/svg+xml")
 

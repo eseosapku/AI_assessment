@@ -42,7 +42,13 @@ def store_image(lib: Path, fid: str, data: bytes) -> tuple[str, str, int, int, i
     """Writes the WebP (at most 1200 px) and the 512 px JPEG; returns (asset, preview, width, height, hash)."""
     img = Image.open(io.BytesIO(data))
     img.load()
-    img = img.convert("RGB")
+    if img.mode in ("RGBA", "LA") or (img.mode == "P" and "transparency" in img.info):
+        # Diagrams often have a transparent background, which turns black as plain RGB: put them on white.
+        rgba = img.convert("RGBA")
+        img = Image.new("RGB", rgba.size, "white")
+        img.paste(rgba, mask=rgba.split()[3])
+    else:
+        img = img.convert("RGB")
     h = dhash(img)
     big, small = img.copy(), img.copy()
     big.thumbnail((1200, 1200), Image.Resampling.LANCZOS)

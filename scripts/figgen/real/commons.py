@@ -69,6 +69,12 @@ class Fetcher:
                     time.sleep(2 * 2 ** attempt)
                     continue
                 raise
+            except (TimeoutError, urllib.error.URLError, ConnectionError):
+                # A slow or dropped connection is retried like a busy server.
+                if attempt < 3:
+                    time.sleep(2 * 2 ** attempt)
+                    continue
+                raise
             finally:
                 self.last = time.monotonic()
         raise RuntimeError(f"Gave up on {url}")

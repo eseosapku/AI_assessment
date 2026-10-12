@@ -90,3 +90,38 @@ def test_reject_reason_keeps_a_vector_diagram():
 
 def test_search_url_finds_diagrams_too():
     assert "filetype%3Abitmap%7Cdrawing" in search_url("plant cell diagram")
+
+
+def test_reject_reason_catches_a_language_code_after_a_space():
+    # "Animal cell structure tr.svg" carried Turkish labels past the rule.
+    assert reject_reason(candidate(mime="image/svg+xml", title="File:Animal cell structure tr.svg")) == "a translated copy"
+    assert reject_reason(candidate(title="File:Plant cell structure it.png")) == "a translated copy"
+    assert reject_reason(candidate(title="File:Onion cells x400 red.jpg")) is None
+
+
+def test_fetcher_retries_a_timeout(monkeypatch):
+    # A read timeout from Wikimedia crashed a run; it is now retried like a busy server.
+    import urllib.request
+    from figgen.real import commons
+    calls = []
+
+    class Reply:
+        def __enter__(self):
+            return self
+
+        def __exit__(self, *a):
+            return False
+
+        def read(self):
+            return b'{"ok": true}'
+
+    def urlopen(req, timeout):
+        calls.append(req.full_url)
+        if len(calls) == 1:
+            raise TimeoutError("The read operation timed out")
+        return Reply()
+
+    monkeypatch.setattr(urllib.request, "urlopen", urlopen)
+    monkeypatch.setattr(commons.time, "sleep", lambda s: None)
+    assert commons.Fetcher(gap=0).json("https://example.org/x") == {"ok": True}
+    assert len(calls) == 2

@@ -137,3 +137,17 @@ def test_choose_can_put_diagrams_first(db, tmp_path):
     db.commit()
     assert choose(db, per_topic=1, diagrams_first=True) == ["wikimedia/5"]
     assert sorted(choose(db, per_topic=2, diagrams_first=True)) == ["wikimedia/1", "wikimedia/5"]
+
+
+def test_a_transparent_diagram_is_stored_on_white(tmp_path):
+    # SVG diagrams render with a transparent background; converted to RGB it turned black.
+    from PIL import ImageDraw
+    from figgen.real.harvest import store_image
+    img = Image.new("RGBA", (800, 600), (0, 0, 0, 0))
+    ImageDraw.Draw(img).rectangle((300, 200, 500, 400), fill=(20, 120, 60, 255))
+    buf = io.BytesIO()
+    img.save(buf, "PNG")
+    asset, preview, *_ = store_image(tmp_path, "wikimedia/7", buf.getvalue())
+    for key in (asset, preview):
+        corner = Image.open(tmp_path / key).convert("RGB").getpixel((5, 5))
+        assert min(corner) >= 245, f"{key}: background {corner}"
