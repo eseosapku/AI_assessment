@@ -393,6 +393,13 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - **Coverage of the 302 mapped Maths topics:** topics with no family fall from 107 to 27, and topics with six or more families rise from 15 to 17.
       - **Still empty:** completing the square, the equation of a line and types of data at A Level; mechanics (Hooke's law, projectiles, circular motion, equilibrium); hypothesis tests; proof by induction and series; indices, surds and standard form; number sets and binary operations; Thales; Primary position and time.
     - Sample sheet: https://claude.ai/artifact/GmdMwLUEFkuFSs5f3Ub3n4
+    - **Final review:** it found no wrong key, and its findings are fixed:
+      - velocity–time corners now lie on gridlines;
+      - bar-model options no longer print the hidden number;
+      - every family accepts more answer forms through `core.short` ("3,843", ".78", three significant figures, "15m/s"), and `core.money` takes "Frw 1,500";
+      - prices fit what is bought;
+      - every "Which equation…?" MCQ has a 2 × 2 option set, so its key cannot be picked from the options alone.
+    - **Families with fewer than 150 different figures** stop there: exp_graph 136, trig_graph 120, pdf_graph 148, algebra_area 126.
     - **Next, P3d, after the user's verdict:**
       - fix what the user flags;
       - draw 30 figures of each family;
