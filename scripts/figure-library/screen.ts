@@ -14,6 +14,7 @@ const CHECKS: [string, boolean, string][] = [
   ['educational', true, 'not educational'],
   ['on_topic', true, 'off the topic'],
   ['clear', true, 'not clear enough'],
+  ['beyond_level', false, 'beyond this level'],
   ['person_is_subject', false, 'a person is the subject'],
   ['mostly_text', false, 'mostly text'],
   ['foreign_labels', false, 'labels not in English'],
@@ -29,12 +30,13 @@ export function screenPrompt(item: ScreenItem): string {
     '- educational: it clearly shows something learners of this topic study (an organism, a cell, a landform, apparatus, a historical source, a process), well enough to ask a question about.',
     '- on_topic: it fits this topic, not only the subject in general.',
     '- clear: sharp and well lit, with the thing that matters large enough to see.',
+    '- beyond_level: a figure from a research paper (often several labelled panels), specialist or medical detail, or anything beyond what learners at this level study.',
     '- person_is_subject: an identifiable person is the main subject (a portrait, a selfie, a posed group).',
     '- mostly_text: it is mainly words or a table.',
     '- foreign_labels: it has labels or captions in a language other than English.',
     '- decorative: a logo, an icon, clip art, an advert or a decoration.',
     '',
-    'Reply with JSON only: {"shows":"one sentence on what the image shows","educational":true,"on_topic":true,"clear":true,"person_is_subject":false,"mostly_text":false,"foreign_labels":false,"decorative":false}',
+    'Reply with JSON only: {"shows":"one sentence on what the image shows","educational":true,"on_topic":true,"clear":true,"beyond_level":false,"person_is_subject":false,"mostly_text":false,"foreign_labels":false,"decorative":false}',
   ].join('\n')
 }
 

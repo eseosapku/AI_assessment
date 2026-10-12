@@ -7,7 +7,7 @@ const item: ScreenItem = {
   figureId: 'wikimedia/1', subject: 'biology', band: 'UP', topic: 'Cells', title: 'File:Onion cells.jpg',
   description: 'Onion epidermis under a light microscope', preview: 'assets/wikimedia/1-512.jpg',
 }
-const good = { shows: 'Onion epidermis cells with nuclei', educational: true, on_topic: true, clear: true, person_is_subject: false, mostly_text: false, foreign_labels: false, decorative: false }
+const good = { shows: 'Onion epidermis cells with nuclei', educational: true, on_topic: true, clear: true, beyond_level: false, person_is_subject: false, mostly_text: false, foreign_labels: false, decorative: false }
 
 function store(): Store {
   const db = openStore(':memory:')
@@ -24,7 +24,7 @@ function store(): Store {
 describe('the screening prompt', () => {
   it('names the subject, level, topic and file, and asks every judgement', () => {
     const p = screenPrompt(item)
-    for (const part of ['biology', 'Upper Secondary', '"Cells"', 'Onion cells.jpg', 'person_is_subject', 'foreign_labels', 'decorative']) expect(p).toContain(part)
+    for (const part of ['biology', 'Upper Secondary', '"Cells"', 'Onion cells.jpg', 'beyond_level', 'research paper', 'person_is_subject', 'foreign_labels', 'decorative']) expect(p).toContain(part)
   })
 })
 
@@ -33,6 +33,8 @@ describe('reading a screening', () => {
     expect(parseScreen(good)).toEqual({ keep: true, shows: 'Onion epidermis cells with nuclei', reasons: [] })
     expect(parseScreen({ ...good, person_is_subject: true })).toEqual({ keep: false, shows: good.shows, reasons: ['a person is the subject'] })
     expect(parseScreen({ ...good, clear: false, foreign_labels: true }).reasons).toEqual(['not clear enough', 'labels not in English'])
+    // Commons' openly licensed micrographs are mostly research-paper figures: beyond any school level.
+    expect(parseScreen({ ...good, beyond_level: true }).reasons).toEqual(['beyond this level'])
   })
 
   it('refuses a screening that leaves out a judgement', () => {
