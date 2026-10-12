@@ -2,7 +2,7 @@
 import type { Store } from './store'
 import { LEVELS } from './review'
 
-export interface WriteItem { figureId: string; subject: string; band: string; topic: string; shows: string; image: string }
+export interface WriteItem { figureId: string; subject: string; band: string; topic: string; shows: string; image: string; subtopics: string[] }
 export interface Written { kind: 'mcq' | 'short'; stem: string; options: string[]; answer: string; accepted: string[]; explanation: string }
 export interface Check { keep: boolean; reason: string }
 
@@ -15,9 +15,11 @@ export function writePrompt(item: WriteItem): string {
   return [
     `Write up to three questions for a ${item.subject} quiz, answered by a learner at ${LEVELS[item.band] ?? item.band}.`,
     `Topic: ${item.topic}.`,
+    ...(item.subtopics.length ? [`Syllabus points: ${item.subtopics.join('; ')}.`] : []),
     `The image is attached. It shows: ${item.shows}`,
     '',
     'Rules:',
+    '- Ask only what these syllabus points teach at this level. Never a fact a learner here would not have been taught.',
     `- Each question is about something the image shows, and is answered by looking at it and knowing the ${item.subject} of this topic at this level.`,
     '- Ask what a learner would be asked: what it is, what a part is or does, what process or idea it shows, what would happen, or what can be seen or read in it. Never trivia (counting things, colours for their own sake), and never something only an expert could tell from this image.',
     '- A word printed on the image is never the answer.',
@@ -93,10 +95,11 @@ export function checkPrompt(item: WriteItem, questions: Written[]): string {
   ).join('\n\n')
   return [
     `You are a strict checker for a ${item.subject} quiz at ${LEVELS[item.band] ?? item.band}, on the topic "${item.topic}". The image is attached.`,
+    ...(item.subtopics.length ? [`Syllabus points: ${item.subtopics.join('; ')}.`] : []),
     'Keep a question only if all of these hold:',
     '- the image clearly shows what the question needs, and a learner at this level could answer from the image and their knowledge;',
     '- the key is right, and for multiple choice no other option is also right;',
-    '- it is about this topic, it is not trivia, and its answer is not a word printed on the image.',
+    '- it tests something these syllabus points teach, at this level; it is not trivia, and its answer is not a word printed on the image.',
     'Otherwise drop it, and say why in a few words.',
     '',
     list,
@@ -118,14 +121,18 @@ export function parseChecked(raw: unknown, count: number): Check[] {
 
 /** Screened-kept images this writer has not written for yet. */
 export function toWrite(db: Store, o: { writer: string; figureIds?: readonly string[]; limit?: number }): WriteItem[] {
-  const rows = db.prepare(`SELECT f.id, f.subject, f.band, f.asset, s.shows, MIN(t.name) AS topic FROM figures f
+  const rows = db.prepare(`SELECT f.id, f.subject, f.band, f.asset, s.shows, MIN(ft.topic_key) AS topic_key FROM figures f
     JOIN screenings s ON s.figure_id = f.id AND s.keep = 1
-    JOIN figure_topics ft ON ft.figure_id = f.id JOIN topics t ON t.key = ft.topic_key
+    JOIN figure_topics ft ON ft.figure_id = f.id
     WHERE f.id NOT IN (SELECT figure_id FROM question_checks WHERE writer = ?)
-    GROUP BY f.id ORDER BY f.id`).all(o.writer) as { id: string; subject: string; band: string; asset: string; shows: string; topic: string }[]
+    GROUP BY f.id ORDER BY f.id`).all(o.writer) as { id: string; subject: string; band: string; asset: string; shows: string; topic_key: string }[]
+  const topicName = db.prepare('SELECT name FROM topics WHERE key = ?')
+  const subs = db.prepare('SELECT name FROM subtopics WHERE topic_key = ? ORDER BY key')
   const wanted = o.figureIds ? new Set(o.figureIds) : null
-  return rows.filter((r) => !wanted || wanted.has(r.id)).slice(0, o.limit ?? rows.length)
-    .map((r) => ({ figureId: r.id, subject: r.subject, band: r.band, topic: r.topic, shows: r.shows, image: r.asset }))
+  return rows.filter((r) => !wanted || wanted.has(r.id)).slice(0, o.limit ?? rows.length).map((r) => ({
+    figureId: r.id, subject: r.subject, band: r.band, topic: (topicName.get(r.topic_key) as { name: string }).name, shows: r.shows,
+    image: r.asset, subtopics: (subs.all(r.topic_key) as { name: string }[]).map((x) => x.name),
+  }))
 }
 
 /** Saves one image's questions: kept ones into figure_questions, every one (or the lack of one) into question_checks. */
@@ -155,4 +162,19 @@ export function saveWritten(db: Store, o: { figureId: string; writer: string; ba
     throw err
   }
   return kept
+}
+
+/** Clears real-image questions and their checks before a new round; drawn figures' questions stay. Returns how many questions went. */
+export function clearWritten(db: Store): number {
+  const n = (db.prepare("SELECT COUNT(*) AS n FROM figure_questions q JOIN figures f ON f.id = q.figure_id WHERE f.origin <> 'drawn'").get() as { n: number }).n
+  db.exec('BEGIN')
+  try {
+    db.prepare("DELETE FROM figure_questions WHERE figure_id IN (SELECT id FROM figures WHERE origin <> 'drawn')").run()
+    db.prepare("DELETE FROM question_checks WHERE figure_id IN (SELECT id FROM figures WHERE origin <> 'drawn')").run()
+    db.exec('COMMIT')
+  } catch (err) {
+    db.exec('ROLLBACK')
+    throw err
+  }
+  return Number(n)
 }

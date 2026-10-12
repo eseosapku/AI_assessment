@@ -2,15 +2,16 @@
 import { describe, it, expect } from 'vitest'
 import { openStore, type Store } from './store'
 import { HAIKU, SONNET } from './claude'
-import { checkPrompt, parseChecked, parseWritten, saveWritten, toWrite, writePrompt, writerTag, type WriteItem } from './write'
+import { checkPrompt, clearWritten, parseChecked, parseWritten, saveWritten, toWrite, writePrompt, writerTag, type WriteItem } from './write'
 
-const item: WriteItem = { figureId: 'wikimedia/1', subject: 'biology', band: 'UP', topic: 'Cells', shows: 'Onion epidermis cells with nuclei', image: 'assets/wikimedia/1.webp' }
+const item: WriteItem = { figureId: 'wikimedia/1', subject: 'biology', band: 'UP', topic: 'Cells', shows: 'Onion epidermis cells with nuclei', image: 'assets/wikimedia/1.webp', subtopics: ['Animal and plant cells', 'Specialised cells'] }
 const mcq = { kind: 'mcq', stem: 'Look at the micrograph. What is the dark dot in each cell?', options: ['Nucleus', 'Vacuole', 'Chloroplast', 'Cell wall'], answer: 0, explanation: 'It holds the DNA.' }
 const short = { kind: 'short', stem: 'Look at the micrograph. What surrounds each plant cell?', answer: 'cell wall', accepted: ['a cell wall', 'cell wall'], explanation: '' }
 
 function store(): Store {
   const db = openStore(':memory:')
   db.prepare("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:2', 'cambridge', 'Biology', 'biology', 'UP', 'Cells')").run()
+  db.prepare("INSERT INTO subtopics (key, topic_key, name) VALUES ('s1', 'db:2', 'Animal and plant cells')").run()
   for (const [n, keep] of [[1, 1], [2, 1], [3, 0]] as const) {
     db.prepare(`INSERT INTO figures (id, origin, kind, subject, band, asset, preview, spec, status, created_at)
       VALUES (?, 'wikimedia', 'photo.micrograph', 'biology', 'UP', ?, ?, '{}', ?, 'now')`).run(`wikimedia/${n}`, `assets/wikimedia/${n}.webp`, `assets/wikimedia/${n}-512.jpg`, keep ? 'screened' : 'rejected')
@@ -23,7 +24,7 @@ function store(): Store {
 describe('the writing prompt', () => {
   it('sets the subject, level, topic and what the image shows, and the house rules', () => {
     const p = writePrompt(item)
-    for (const part of ['biology', 'Upper Secondary', 'Topic: Cells.', 'Onion epidermis cells with nuclei', 'never the answer', 'four options', 'at most four words', '{"questions": []}']) expect(p).toContain(part)
+    for (const part of ['biology', 'Upper Secondary', 'Topic: Cells.', 'Syllabus points: Animal and plant cells; Specialised cells.', 'Ask only what these syllabus points teach', 'Onion epidermis cells with nuclei', 'never the answer', 'four options', 'at most four words', '{"questions": []}']) expect(p).toContain(part)
   })
 })
 
@@ -91,5 +92,27 @@ describe('writing in the store', () => {
 
   it('names each writer', () => {
     expect([writerTag(HAIKU), writerTag(SONNET), writerTag('other')]).toEqual(['haiku', 'sonnet', 'model'])
+  })
+})
+
+describe('the syllabus in writing', () => {
+  it('tells the checker the syllabus points', () => {
+    const { questions } = parseWritten({ questions: [mcq] }, 'wikimedia/1')
+    expect(checkPrompt(item, questions)).toContain('it tests something these syllabus points teach')
+  })
+
+  it('reads each image with its syllabus points', () => {
+    expect(toWrite(store(), { writer: HAIKU })[0].subtopics).toEqual(['Animal and plant cells'])
+  })
+
+  it('clears real-image questions only, before a new round', () => {
+    const db = store()
+    const { questions } = parseWritten({ questions: [mcq] }, 'wikimedia/1')
+    saveWritten(db, { figureId: 'wikimedia/1', writer: HAIKU, band: 'UP', questions, checks: [{ keep: true, reason: '' }] })
+    db.prepare(`INSERT INTO figures (id, origin, family, kind, subject, band, asset, status, created_at) VALUES ('drawn/x/1', 'drawn', 'x', 'graph.bar', 'biology', 'UP', 'a.svg', 'stored', 'now')`).run()
+    db.prepare(`INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, answer, model) VALUES ('drawn/x/1#1', 'drawn/x/1', 1, 'UP', 'short', 's', '1', 'code')`).run()
+    expect(clearWritten(db)).toBe(1)
+    expect(db.prepare('SELECT id FROM figure_questions').all()).toEqual([{ id: 'drawn/x/1#1' }])
+    expect(db.prepare('SELECT COUNT(*) AS n FROM question_checks').get()).toEqual({ n: 0 })
   })
 })

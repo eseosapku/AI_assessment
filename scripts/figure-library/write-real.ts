@@ -1,5 +1,6 @@
 // scripts/figure-library/write-real.ts
-// Run: npx jiti scripts/figure-library/write-real.ts [--writer=haiku|sonnet] [--ids=<file>] [--limit=N] [--dry] [--workers=4]
+// Run: npx jiti scripts/figure-library/write-real.ts [--writer=haiku|sonnet] [--ids=<file>] [--limit=N] [--dry] [--workers=4] [--reset]
+//      (--reset: clear earlier real-image questions first, for a new round)
 // Writes questions for screened real images, then checks them in a separate strict call by the
 // same model (spec 5.3 steps 5 and 6). Resumable: an image is written once per writer.
 import fs from 'node:fs'
@@ -8,7 +9,7 @@ import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { HAIKU, SONNET, askJson, bedrockSender, runPool } from './claude'
 import { previewImage } from './review'
-import { checkPrompt, parseChecked, parseWritten, saveWritten, toWrite, writePrompt } from './write'
+import { checkPrompt, clearWritten, parseChecked, parseWritten, saveWritten, toWrite, writePrompt } from './write'
 
 const MODELS = { haiku: HAIKU, sonnet: SONNET } as const
 const CAPS = { haiku: 6, sonnet: 3 } as const
@@ -17,14 +18,15 @@ const PER_ITEM = { haiku: 0.012, sonnet: 0.03 } as const
 const MAX_UNUSABLE = 10
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', limit: 'int', dry: 'flag', workers: 'int' })
+  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', limit: 'int', dry: 'flag', workers: 'int', reset: 'flag' })
   const tag = String(args.writer ?? 'haiku')
   if (tag !== 'haiku' && tag !== 'sonnet') throw new Error('--writer must be haiku or sonnet')
   const model = MODELS[tag]
-  const job = `p1b-write-${tag}`
+  const job = `p1b2-write-${tag}`
   const cap = CAPS[tag]
   const ids = args.ids ? fs.readFileSync(String(args.ids), 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean) : undefined
   const db = openStore()
+  if (args.reset && !args.dry) console.log(`${clearWritten(db)} earlier real-image questions cleared`)
   const lib = libraryDir()
   const items = toWrite(db, { writer: model, figureIds: ids, limit: args.limit as number | undefined })
   const estimate = items.length * PER_ITEM[tag]
