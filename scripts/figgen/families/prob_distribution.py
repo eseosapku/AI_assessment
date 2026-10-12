@@ -21,7 +21,7 @@ AVOID = r"continuous|factorial"
 # what X counts, and its least value
 CONTEXTS = [("the number of goals a team scores in a match", 0), ("the number of children in a family", 1),
             ("the number of buses that arrive late in a morning", 0), ("the score on a biased five-sided spinner", 1),
-            ("the number of days in a week that it rains", 0), ("the number of eggs a hen lays in a week", 1)]
+            ("the number of matches a team wins in a four-match tournament", 0), ("the number of eggs a hen lays in a week", 1)]
 
 
 def sample(rng: random.Random) -> dict:

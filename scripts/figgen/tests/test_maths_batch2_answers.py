@@ -350,7 +350,7 @@ def test_velocity_time():
         assert pts[0] == (0, 0) and pts[-1][1] == 0 and all(t1 > t0 for (t0, _), (t1, _) in zip(pts, pts[1:]))
         assert all(t % p["tstep"] == 0 for t, _ in pts)  # every corner on a gridline
         (t0, v0), (t1, v1) = pts[0], pts[1]
-        assert dec(first.answer) == Fraction(v1 - v0, t1 - t0) and f"first {t1} seconds" in first.stem
+        assert dec(first.answer) == Fraction(v1 - v0, t1 - t0) and (f"first {t1} seconds" in first.stem or (t1 == 1 and "first second" in first.stem))
         (ta, va), (tb, vb) = pts[-2], pts[-1]
         assert dec(last.answer) == Fraction(va - vb, tb - ta)
         area = sum(Fraction((v0 + v1) * (t1 - t0), 2) for (t0, v0), (t1, v1) in zip(pts, pts[1:]))
@@ -831,3 +831,55 @@ def test_the_shading_never_hides_the_axis_numbers():
         fills = [c for c in ax.collections]
         assert fills and all(c.get_zorder() < ax.yaxis.get_zorder() for c in fills), s
         plt.close(fig)
+
+
+
+# --- The P3d review's notes on passing figures --------------------------------------------------
+
+def test_a_gradient_is_asked_where_the_curve_is_drawn():
+    """'The gradient of the curve drawn at x = 3' when the drawing stops at x = 2 (10 notes)."""
+    m = fam("tangent_gradient")
+    for s in SEEDS:
+        p, (_, at_x, _, _) = run(m, s)
+        xr = int(re.search(r"where x = (-?\d+)", at_x.stem).group(1))
+        x0, x1, y0, y1 = m.view(p)
+        assert "equation" in at_x.stem and x0 <= xr <= x1 and y0 <= value(p["coeffs"], xr) <= y1, (s, xr)
+
+
+def test_a_hundred_square_is_called_squares():
+    m = fam("percent_grid")
+    for s in range(1, 301):
+        _, qs = run(m, s)
+        assert not re.search(r"seat|stamp|plot|tile", qs[0].stem), qs[0].stem
+
+
+def test_a_reciprocal_curve_is_drawn_just_where_the_stem_says():
+    import matplotlib.pyplot as plt
+    m = fam("rational_graph")
+    for s in range(1, 121):
+        p, qs = run(m, s)
+        lo, hi = (int(v) for v in re.search(r"drawn for (-?\d+) ≤ x ≤ (-?\d+)", qs[5].stem).groups())
+        xq = int(re.search(r"when x = (-?\d+)\?", qs[5].stem).group(1))
+        assert lo < xq < hi, (s, lo, xq, hi)
+        fig = m.draw(p)
+        for ln in fig.axes[0].lines:
+            if ln.get_linestyle() == "-":
+                assert all(lo - 1e-9 <= x <= hi + 1e-9 for x in ln.get_xdata()), (s, lo, hi)
+        plt.close(fig)
+
+
+def test_motion_stems_read_naturally():
+    m = fam("velocity_time")
+    for s in range(1, 301):
+        _, qs = run(m, s)
+        for q in qs:
+            assert not re.search(r"\b(first|last) 1 seconds", q.stem), q.stem
+        assert not re.search(r"'s (minibus|moto|bus|car|cyclist|train)\b", qs[0].stem), qs[0].stem
+
+
+def test_a_count_runs_as_far_as_its_context_allows():
+    """'The number of days in a week that it rains' could be 7, not just 0 to 4."""
+    m = fam("prob_distribution")
+    for s in range(1, 301):
+        _, qs = run(m, s)
+        assert "days in a week" not in qs[0].stem, qs[0].stem

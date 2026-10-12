@@ -44,8 +44,9 @@ def draw(p: dict):
     fig, ax = new_figure(5.8, 5.8)
     function_axes(ax, x0, x1, y0, y1)
     lo, hi = y0 - 0.5, y1 + 0.5
-    curve(ax, lambda x: k / (x - h) + q, x0 - 0.5, h - 1e-3, lo, hi, n=1200)
-    curve(ax, lambda x: k / (x - h) + q, h + 1e-3, x1 + 0.5, lo, hi, n=1200)
+    # Drawn just for x0 <= x <= x1, as the question says.
+    curve(ax, lambda x: k / (x - h) + q, x0, h - 1e-3, lo, hi, n=1200)
+    curve(ax, lambda x: k / (x - h) + q, h + 1e-3, x1, lo, hi, n=1200)
     dash = {"color": INK, "linewidth": 1.1, "linestyle": (0, (5, 4))}
     ax.plot([h, h], [lo, hi], **dash)
     ax.plot([x0 - 0.5, x1 + 0.5], [q, q], **dash)
@@ -66,7 +67,7 @@ def questions(p: dict, rng: random.Random) -> list:
     up, down = "increases without limit", "decreases without limit"
     toward = mcq(f"As x tends to {h} from the right, what happens to y?", up if k > 0 else down,
                  [down if k > 0 else up, f"it tends to {q}", "it tends to 0" if q else "it tends to 1"], rng)
-    xs = [h + d for d in range(-5, 6) if d and k % d == 0 and h + d != 0 and x0 <= h + d <= x1 and abs(k // d) <= 6]
+    xs = [h + d for d in range(-5, 6) if d and k % d == 0 and h + d != 0 and x0 < h + d < x1 and abs(k // d) <= 6]  # not at an edge
     xq = rng.choice(xs)
     reading = short(f"{p['name']}'s graph is drawn for {x0} ≤ x ≤ {x1}. What is the value of y when x = {xq}?", k // (xq - h) + q)
     return [vert, horiz, cross, eq, toward, reading]

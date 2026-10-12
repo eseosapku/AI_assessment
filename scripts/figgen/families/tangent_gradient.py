@@ -48,7 +48,14 @@ def sample(rng: random.Random) -> dict:
         if not steps:
             continue
         d = rng.choice(steps)
-        return {"band": "UP", "coeffs": co, "P": [xp, yp], "Q": [xp + d, yp + g * d], "name": rng.choice(NAMES)}
+        p = {"band": "UP", "coeffs": co, "P": [xp, yp], "Q": [xp + d, yp + g * d], "name": rng.choice(NAMES)}
+        if _elsewhere(p):  # another point of the curve on the drawing, for the gradient from the equation
+            return p
+
+
+def _elsewhere(p: dict) -> list[int]:
+    x0, x1, y0, y1 = view(p)
+    return [x for x in range(x0, x1 + 1) if x != p["P"][0] and y0 <= value(p["coeffs"], x) <= y1]
 
 
 def view(p: dict) -> tuple[int, int, int, int]:
@@ -92,8 +99,9 @@ def questions(p: dict, rng: random.Random) -> list:
     c = yp - g * xp
     grad = short(f"{p['name']} drew the tangent to y = {eq} at P. Use the marked points P and Q to find the gradient of "
                  "the tangent.", g)
-    xr = rng.choice([x for x in range(-3, 4) if x != xp])
-    at = short(f"Find the gradient of the curve drawn at the point where x = {xr}.", slope(co, xr))
+    # A point of the curve the figure shows, worked from the equation printed above it.
+    xr = rng.choice(_elsewhere(p))
+    at = short(f"Using the equation of the curve, find its gradient at the point where x = {xr}.", slope(co, xr))
     # The gradient's sign and the intercept (the true one, or P's y-coordinate taken for it): each wrong in
     # two of the four options.
     c2 = yp if yp != c else c + g

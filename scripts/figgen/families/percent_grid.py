@@ -21,7 +21,7 @@ BANDS = ("P",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("fractions-percentages", "ratios-proportions-percentages", "working-with-ratio", "fractions-decimals"))
 # A hundred square in percentages: not multiplication chapters.
 AVOID = r"multiplication"
-WHAT = ["a hundred square", "a floor of 100 tiles", "a garden of 100 plots", "a hall of 100 seats", "a sheet of 100 stamps"]
+WHAT = ["a hundred square", "a 10 by 10 grid of squares"]  # what the figure is: squares, not seats or tiles
 
 
 def stages(p: dict) -> tuple[int, int]:
@@ -52,13 +52,13 @@ def questions(p: dict, rng: random.Random) -> list:
     n, name = p["shaded"], p["name"]
     f = Fraction(n, 100)
     g = gcd(n, 100 - n)
-    pct = short(f"{name} shaded part of {p['what']}. What percentage is shaded?", n, [f"{n}%", f"{n} percent"])
+    pct = short(f"{name} shaded some squares of {p['what']}. What percentage of the squares is shaded?", n, [f"{n}%", f"{n} percent"])
     fraction = short("What fraction of the squares is shaded? Give it in its lowest terms.", f"{f.numerator}/{f.denominator}")
     rest = Fraction(100 - n, 100)
     decimal = short("What decimal of the squares is not shaded?", f"{float(rest):.2f}".rstrip("0").rstrip("."),
                     [f"{float(rest):.2f}"])
     ratio = short("What is the ratio of shaded squares to unshaded squares, in its simplest form?", f"{n // g}:{(100 - n) // g}",
                   [f"{n // g} : {(100 - n) // g}"])
-    t = rng.choice([v for v in range(10, 101, 5) if v > n] or [100])
+    t = rng.choice([v for v in range(n + 3, 101)] or [100])  # any whole percentage above it
     more = count(f"How many more squares must {name} shade to make {t}% of the squares shaded?", t - n, "squares")
     return [pct, fraction, decimal, ratio, more]

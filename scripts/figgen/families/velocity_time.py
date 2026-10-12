@@ -76,6 +76,10 @@ def draw(p: dict):
     return fig
 
 
+def _seconds(t: int) -> str:
+    return "second" if t == 1 else f"{t} seconds"  # "the first second", never "the first 1 seconds"
+
+
 def _rate(f: Fraction) -> list[str]:
     """An acceleration as a student writes it: 1.5, 3/2, with m/s² or m/s2."""
     values = [num(f)] + ([f"{f.numerator}/{f.denominator}"] if f.denominator > 1 else [])
@@ -86,11 +90,11 @@ def questions(p: dict, rng: random.Random) -> list:
     pts = p["corners"]
     (t0, v0), (t1, v1) = pts[0], pts[1]
     a1 = Fraction(v1 - v0, t1 - t0)
-    first = short(f"{p['name']}'s {p['mover']} starts from rest. What is its acceleration in the first {t1} seconds?", num(a1),
+    first = short(f"{p['name']} watched a {p['mover']} start from rest. What is its acceleration in the first {_seconds(t1)}?", num(a1),
                   _rate(a1))
     (ta, va), (tb, vb) = pts[-2], pts[-1]
     d = Fraction(va - vb, tb - ta)
-    last = short(f"What is its deceleration in the last {tb - ta} seconds?", num(d), _rate(d))
+    last = short(f"What is its deceleration in the last {_seconds(tb - ta)}?", num(d), _rate(d))
     area = int(sum(Fraction((a[1] + b[1]) * (b[0] - a[0]), 2) for a, b in zip(pts, pts[1:])))
     distance = short("How far does it travel altogether?", area, [f"{area} m", f"{area} metres"])
     V = max(v for _, v in pts)
