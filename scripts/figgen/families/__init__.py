@@ -4,7 +4,7 @@ from . import (angles, area_shapes, bar_chart, bearings, box_plot, break_even, c
                population_pyramid, punnett, right_triangle, ruler, sample_space, scale_reading, scatter_graph, stem_leaf, supply_demand, timeline, timetable, transformation, travel_graph, two_way_table,
                tree_diagram, vectors_grid, venn)
 # P3c: the second maths batch
-from . import area_under_curve, limit_graph, stationary_points, tangent_gradient
+from . import area_under_curve, exp_graph, limit_graph, rational_graph, stationary_points, tangent_gradient, trig_graph
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -18,4 +18,5 @@ FAMILIES = {m.ID: m for m in (
     venn, two_way_table, frequency_table, stem_leaf, cumulative_frequency, histogram, sample_space,
     # P3c: the second maths batch
     tangent_gradient, stationary_points, area_under_curve, limit_graph,
+    exp_graph, trig_graph, rational_graph,
 )}

@@ -138,3 +138,64 @@ def test_limit_graph():
         x0, x1, y0, y1 = m.view(p)
         ends = [L + p["m1"] * (p["x0"] - a), R + p["m2"] * (p["x1"] - a)]
         assert all(y0 <= y <= y1 for y in ends + [L, R, V]) and x0 <= p["x0"] < a < p["x1"] <= x1
+
+
+# --- Task 3: function graphs ------------------------------------------------------------------
+
+def test_exp_graph():
+    m = fam("exp_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        if p["kind"] == "pure":
+            k = p["base"]
+            assert int(qs[0].answer) == 1  # the y-intercept
+            xq = int(re.search(r"x = (-?\d+)\?", qs[1].stem).group(1))
+            assert xq >= 0 and int(qs[1].answer) == k ** xq and k ** xq <= m.view(p)[3]  # on a gridline, in view
+            assert picked(qs[2]) == f"y = {k}^x"
+            assert picked(qs[3]) == "y = 0"
+            continue
+        N0, T, grow = p["start"], p["period"], p["kind"] == "growth"
+        at = lambda t: N0 * (2 if grow else Fraction(1, 2)) ** Fraction(t, T)  # noqa: E731
+        start, period, later, eq = qs
+        assert int(start.answer) == N0
+        assert int(period.answer) == T
+        t = int(re.search(r"after (\d+) ", later.stem).group(1))
+        assert t % T == 0 and Fraction(later.answer) == at(t) and at(t) % p["ystep"] == 0  # read on a gridline
+        assert t <= p["tmax"]
+        assert picked(eq) == f"{p['symbol']} = {N0} × {'2' if grow else '(1/2)'}^(t/{T})"
+
+
+def test_trig_graph():
+    import math
+    m = fam("trig_graph")
+    for s in SEEDS:
+        p, (amp, period, top, eq, count, reading) = run(m, s)
+        a, b, c, fn = p["a"], p["b"], p["c"], p["fn"]
+        f = lambda x: a * (math.sin if fn == "sin" else math.cos)(math.radians(b * x)) + c  # noqa: E731
+        assert int(amp.answer) == a and int(period.answer) == 360 // b and int(top.answer) == a + c
+        assert picked(eq) == m.equation(a, b, c, fn)
+        k = float(re.search(r"line y = (-?[\d.]+) ", count.stem).group(1))
+        assert c - a < k < c + a and not (fn == "sin" and k == c)
+        # Samples between the special angles, so no root falls on one and is counted twice.
+        sols = sum(1 for x in range(0, 360 * 8) if (f((x + 0.37) / 8) - k) * (f((x + 1.37) / 8) - k) < 0)
+        assert int(count.answer) == sols, (p, k, sols)
+        xq = int(re.search(r"x = (\d+)\?", reading.stem).group(1))
+        assert (b * xq) % 90 == 0 and int(reading.answer) == round(f(xq)) and abs(f(xq) - round(f(xq))) < 1e-9
+
+
+def test_rational_graph():
+    m = fam("rational_graph")
+    for s in SEEDS:
+        p, (vert, horiz, cross, eq, toward, reading) = run(m, s)
+        k, h, q = p["k"], p["p"], p["q"]
+        f = lambda x: Fraction(k, x - h) + q  # noqa: E731
+        assert h != 0 and k % h == 0
+        assert vert.answer == f"x = {h}" and str(h) in vert.accepted
+        assert horiz.answer == f"y = {q}" and str(q) in horiz.accepted
+        assert Fraction(cross.answer) == f(0) and f(0).denominator == 1
+        assert picked(eq) == m.equation(k, h, q)
+        assert picked(toward) == ("increases without limit" if k > 0 else "decreases without limit")
+        xq = int(re.search(r"when x = (-?\d+)\?", reading.stem).group(1))
+        assert xq != h and f(xq).denominator == 1 and int(reading.answer) == f(xq)
+        x0, x1, y0, y1 = m.view(p)
+        assert x0 <= xq <= x1 and y0 <= f(xq) <= y1 and y0 <= f(0) <= y1
