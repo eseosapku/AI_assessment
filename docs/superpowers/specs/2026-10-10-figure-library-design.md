@@ -279,6 +279,28 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - Credit lines need cleaning in P4: Wikimedia's Artist field can carry notes ("Author info – Reusing images") or a link instead of a name.
     - Spend $5.30 (screen $1.30, Haiku writing $2.27, Sonnet writing $0.89, reviews $0.86). Library total $39.84.
     - Sample sheet: https://claude.ai/artifact/B66CKkscUKRnqYdb26zgdy.
+  - **The user's review of the P1b sheet (2026-10-12):**
+    - Too many images were decorative; the user wants diagrams "like" a textbook's.
+    - Some cell images were at the wrong level.
+    - Landforms were "way out of league", and learners "will never have seen those things".
+    - The Cold War is fine if it keeps to the curriculum.
+    - Lab apparatus and classification were good.
+  - **P1b.2 result (2026-10-12), diagrams first and judged against the syllabus.** Same six topics.
+    - **Changes:**
+      - Haiku made each topic's search terms from its syllabus points, diagrams first and then East African or named examples.
+      - The harvest includes SVG diagrams, rendered to PNG by Wikimedia and placed on white.
+      - The screen sees the syllabus points and judges `in_syllabus`, `unfamiliar_example` and the image type. A distant example counts only against places, in geography and history; elsewhere it rejected bees and flowers.
+      - Sonnet writes questions bound to the syllabus points.
+    - **Screening:** 946 candidates, of which 374 were kept (classification 109, flowering plants 88, apparatus 82, cells 49, Cold War 32, landforms 14).
+      - Landforms are now the East African Rift, Lake Kivu, the Albertine Rift, and Kenyan and Malawian scarps.
+      - Cells are now numbered plant and animal cell diagrams and a labelled prokaryote.
+    - **Writing:** Sonnet wrote 207 questions on 89 images (diagrams first) and kept 122. The blind review found 119 of 122 clean (98%) on 72 images, up from 95% in P1b.
+    - **Spend:** $3.72 (screen $1.97, writing $1.28, review $0.46, terms $0.01). P1 in all $17.75, within section 8's $25. Library total $43.56.
+    - **For P4:**
+      - Landforms (14 kept) and the Cold War (32) stay thin on Commons; drawn families and other collections must carry them.
+      - Credit lines need cleaning, since Artist fields carry notes and links.
+      - History screening still lets through weak items, such as uniform plates and 1980s station photos.
+    - Sample sheet: https://claude.ai/artifact/66UHHw6WDBehsNR1PBPHLG.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
   - Exit: library figures appear in real quizzes on this machine, served from the local folder. Going live waits for S3 and CloudFront; then it is publish, set `FIGURE_ASSET_BASE`, deploy, and check a live marker.
 - **P3 Drawn at scale.** In waves by subject: Maths, Physics, Chemistry, Biology, Geography, Economics and Business, Computing, Languages, History, Music. Each wave starts with samples for the user.
