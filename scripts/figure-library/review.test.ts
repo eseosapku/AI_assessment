@@ -63,6 +63,12 @@ describe('the blind review prompt', () => {
     // Spec 5.5: the reviewer cannot see where an item came from.
     expect(reviewPrompt(item)).not.toMatch(/bar_chart|drawn|generated|\bcode\b|seed|family/i)
   })
+
+  it('says an estimate read from a graph has one answer, give or take a small square', () => {
+    // A blind reviewer otherwise fails every curve reading as "13 or 14", which a mark scheme
+    // accepts both of; the marker here accepts that range too.
+    expect(reviewPrompt(item)).toMatch(/estimate.*small square/i)
+  })
 })
 
 describe('reading a verdict', () => {

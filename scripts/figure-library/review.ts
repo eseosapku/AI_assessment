@@ -65,7 +65,8 @@ export function reviewPrompt(item: ReviewItem): string {
     'Answer each question yourself, from the figure and the question alone, as a careful student would.',
     'Give a multiple-choice answer as its letter. Then judge:',
     '- answerable: a student at this level can answer it from the figure and the question alone; nothing is unclear or missing.',
-    '- single_answer: exactly one answer is right; for multiple choice, no other option is also right.',
+    '- single_answer: exactly one answer is right; for multiple choice, no other option is also right. '
+      + 'An estimate read from a graph counts as one answer when careful readings agree to within one small square, as a mark scheme accepts that range.',
     '- figure_clear: every label, number and line the questions need is legible and unambiguous; nothing overlaps or is cut off.',
     '- educational: the figure teaches or tests something real in this subject at this level.',
     '',
