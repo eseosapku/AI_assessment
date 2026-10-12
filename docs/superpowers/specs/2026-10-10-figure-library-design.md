@@ -254,6 +254,14 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - The pilot is split into P1a (drawn figures) and P1b (real images).
 - **P1 Pilot.** About 6 topics across Maths, Biology, Geography, Economics, a language and History. About 20 drawn families. About 600 real candidates.
   - Exit: blind reviews pass; the Haiku-versus-Sonnet result is decided; the user has seen sample sheets and approved them.
+  - **P1a result (2026-10-12), drawn figures:**
+    - 20 families, 600 figures (30 each), in the local store; 16 pilot topics across maths, biology, geography, economics and business, English and history.
+    - Every answer is recomputed independently in tests on 1,000 seeds; layout tests check text overlap, lines through labels and boxes, and values on gridlines.
+    - Blind review changed during the pilot. The first run showed the key and passed items the reviewer had itself called ambiguous; the review now has Sonnet answer each question without the key, and code compares. Every family passes: 18 at 30/30, number line and population pyramid at 29/30.
+    - Looking at the figures and the two review rounds found and fixed real defects in 15 families: overlapping labels, arrows running behind food-web boxes (which changed the chain count), merged angle arcs, ambiguous pyramid shapes, a measuring cylinder in a geography topic, timetable questions that were arithmetic, case-only Punnett keys the app's marker cannot tell apart, and more. "Stable" pyramids are no longer drawn: the reviewer disputed 8 of 8.
+    - Two rejections were reviewer errors (a number line miscounted), kept rejected.
+    - Spend $8.73 (first review $3.80, blind review $4.93). Library total $34.53.
+    - Sample sheet: https://claude.ai/artifact/MhzcrPTiCKXaQn1bh1W1dP. P1a's exit waits on the user's approval of it.
 - **P2 Foundation.** The staging store and local file layout (5.6), the Postgres tables, the quiz-route library source, the credit line, the coverage report, and the publish script.
   - Exit: library figures appear in real quizzes on this machine, served from the local folder. Going live waits for S3 and CloudFront; then it is publish, set `FIGURE_ASSET_BASE`, deploy, and check a live marker.
 - **P3 Drawn at scale.** In waves by subject: Maths, Physics, Chemistry, Biology, Geography, Economics and Business, Computing, Languages, History, Music. Each wave starts with samples for the user.
