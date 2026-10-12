@@ -497,3 +497,100 @@ def test_bearings():
         assert find.answer == f"{theta:03d}°" and {f"{theta:03d}", str(theta)} <= set(find.accepted)
         assert f"is {theta:03d}°" in back.stem and back.answer == f"{(theta + 180) % 360:03d}°"
         assert 0 < p["given"] < 90  # the angle printed is measured from the nearest of N, E, S and W
+
+
+from figgen.families import circle_theorem, cuboid, nets, right_triangle  # noqa: E402
+
+
+def _angle_at(v, a, b) -> float:
+    """The angle at v between the rays to a and b, in degrees."""
+    a1 = math.atan2(a[1] - v[1], a[0] - v[0])
+    a2 = math.atan2(b[1] - v[1], b[0] - v[0])
+    d = abs(math.degrees(a1 - a2)) % 360
+    return min(d, 360 - d)
+
+
+def test_right_triangle():
+    for s in SEEDS:
+        p, (find, which) = run(right_triangle, s)
+        pts = right_triangle.vertices(p)  # {letter: (x, y)}; the right angle at the third letter
+        a_, b_, c_ = p["letters"]
+        assert abs(_angle_at(pts[c_], pts[a_], pts[b_]) - 90) < 1e-6
+        true = {"hyp": math.dist(pts[a_], pts[b_]), "opp": math.dist(pts[b_], pts[c_]), "adj": math.dist(pts[a_], pts[c_]),
+                "angle": _angle_at(pts[a_], pts[b_], pts[c_])}
+        for role, v in p["given"].items():  # what the figure prints is what it draws
+            assert abs(true[role] - v) < 1e-6
+        want = true[p["unknown"]]
+        if p["exact"]:
+            assert float(find.answer) == round(want) and abs(want - round(want)) < 1e-9
+        else:
+            assert find.answer == f"{want:.1f}" and "1 decimal place" in find.stem
+        if p["band"] == "LS":
+            assert p["unknown"] != "angle" and "angle" not in p["given"]
+            assert picked(which) == f"{a_}{b_}"  # the hypotenuse, opposite the right angle
+        else:
+            assert picked(which) in ("sin", "cos", "tan")
+            roles = set(p["given"]) | {p["unknown"]}
+            assert picked(which) == {frozenset({"opp", "hyp"}): "sin", frozenset({"adj", "hyp"}): "cos",
+                                     frozenset({"opp", "adj"}): "tan"}[frozenset(roles - {"angle"})]
+
+
+def test_circle_theorem():
+    for s in SEEDS:
+        p, (find, reason) = run(circle_theorem, s)
+        pts = circle_theorem.points(p)
+        for name in p["on_circle"]:  # every point said to be on the circle is on it
+            assert abs(math.hypot(*pts[name]) - 1) < 1e-9
+        values = {"given": p["given"], "x": int(find.answer)}
+        for vertex, a, b, which in circle_theorem.marks(p):
+            assert abs(_angle_at(pts[vertex], pts[a], pts[b]) - values[which]) < 1e-6, (s, p["theorem"], which)
+        assert f"{p['given']}°" in find.stem and picked(reason) == circle_theorem.REASONS[p["theorem"]]
+        if p["band"] == "LS":
+            assert p["theorem"] in ("semicircle", "tangent", "isosceles")
+
+
+def test_cuboid():
+    for s in SEEDS:
+        p, qs = run(cuboid, s)
+        l, w, h = p["l"], p["w"], p["h"]
+        assert all(isinstance(v, int) and 1 <= v <= 12 for v in (l, w, h))
+        assert int(qs[0].answer) == l * w * h and f"{l * w * h} {p['unit']}³" in qs[0].accepted
+        if p["band"] == "LS":
+            sa = 2 * (l * w + l * h + w * h)
+            assert int(qs[1].answer) == sa and f"{sa} {p['unit']}²" in qs[1].accepted
+        else:
+            assert l <= 5 and w <= 5 and h <= 5  # cubes a child can count
+
+
+def _folds_to_cube(cells) -> bool:
+    """Roll a die across the net: a cube net puts a different face down on every square."""
+    cells = set(map(tuple, cells))
+    start = next(iter(cells))
+    # A die as (bottom, top, north, south, east, west) face numbers.
+    roll = {(1, 0): lambda d: (d[4], d[5], d[2], d[3], d[1], d[0]), (-1, 0): lambda d: (d[5], d[4], d[2], d[3], d[0], d[1]),
+            (0, 1): lambda d: (d[2], d[3], d[1], d[0], d[4], d[5]), (0, -1): lambda d: (d[3], d[2], d[0], d[1], d[4], d[5])}
+    seen, stack = {start: (0, 1, 2, 3, 4, 5)}, [start]
+    while stack:
+        c = stack.pop()
+        for (dx, dy), f in roll.items():
+            n = (c[0] + dx, c[1] + dy)
+            if n in cells and n not in seen:
+                seen[n] = f(seen[c])
+                stack.append(n)
+    return len(seen) == 6 and len({d[0] for d in seen.values()}) == 6
+
+
+def test_nets():
+    counts = {"cube": (6, 12, 8), "cuboid": (6, 12, 8), "triangular prism": (5, 9, 6), "square-based pyramid": (5, 8, 5),
+              "tetrahedron": (4, 6, 4)}
+    for s in SEEDS:
+        p, qs = run(nets, s)
+        solid, which, count = p["solid"], qs[0], qs[1]
+        assert picked(which) == solid
+        if solid == "cube":
+            assert _folds_to_cube(p["cells"]) and "cuboid" not in which.options  # a cube is a cuboid too
+        feature = re.search(r"How many (faces|edges|vertices)", count.stem).group(1)
+        assert int(count.answer) == counts[solid][("faces", "edges", "vertices").index(feature)]
+        if p["band"] == "LS" and solid in ("cube", "cuboid"):
+            l, w, h = p["dims"]
+            assert int(qs[2].answer) == 2 * (l * w + l * h + w * h)
