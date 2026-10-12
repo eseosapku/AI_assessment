@@ -20,7 +20,10 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "length-capacity-mass-revision",
 ))
 
-OBJECTS = ["pencil", "crayon", "nail", "eraser", "piece of chalk", "key", "toothbrush", "stick"]
+# Objects the drawing looks like: a pencil, a crayon and a nail have their own shapes; the rest are
+# plain strips, which a toothbrush or a key is not.
+DRAWN = ["pencil", "crayon", "nail", "piece of chalk", "stick", "drinking straw", "strip of paper", "ribbon"]
+OBJECTS = DRAWN
 
 
 def _cm(mm: int) -> str:

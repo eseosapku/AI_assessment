@@ -42,7 +42,7 @@ def sample(rng: random.Random) -> dict:
     key = rng.choice([2, 4, 5, 10])
     unit = key // 2 if key % 2 == 0 else key  # half symbols only when the key halves exactly
     k = rng.randint(4, len(rows)) if len(rows) > 4 else 4
-    cats = rows[:k] if prep == "on" else sorted(rng.sample(rows, k))
+    cats = rows[:k]  # in order: Monday to Thursday, Village A to D, never A, B, D, E
     values = [unit * v for v in rng.sample(range(1, 8 * key // unit + 1), k)]
     return {"band": "P", "context": ci, "title": title, "items": items, "verb": verb, "prep": prep,
             "cats": cats, "values": values, "key": key}

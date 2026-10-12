@@ -127,9 +127,16 @@ def questions(p: dict, rng: random.Random) -> list:
     n, (q1, m, q3), (t, ct) = p["total"], p["quartiles"], p["extra"]
     low = {"marks": f"scored {q1} marks or fewer", "minutes": f"took {q1} minutes or less", "cm": f"were {q1} cm tall or less",
            "kg": f"had a mass of {q1} kg or less"}[unit]
+    step, unit_y = CONTEXTS[p["context"]][5], n // 20
+
+    def near(v: int, slack: int, u: str = "") -> list[str]:
+        """Every whole number within the slack, with and without the unit: an estimate read from a
+        curve is allowed one small square either way, as mark schemes allow."""
+        out = [str(w) for w in range(v - slack, v + slack + 1) if w != v]
+        return out + ([f"{w} {u}" for w in range(v - slack, v + slack + 1)] if u else [])
     return [
-        short(f"{p['name']} drew this graph of {of_n}. Use it to estimate the median.", m, [f"{m} {unit}"]),
-        short(f"Use the graph to estimate the interquartile range of {of_n}.", q3 - q1, [f"{q3 - q1} {unit}"]),
-        short(f"Use the graph to estimate how many of the {who} {more.format(t=t)}.", n - ct),
-        short(f"Use {p['name']}'s graph to estimate how many of the {who} {low}.", n // 4),
+        short(f"{p['name']} drew this graph of {of_n}. Use it to estimate the median.", m, near(m, step, unit)),
+        short(f"Use the graph to estimate the interquartile range of {of_n}.", q3 - q1, near(q3 - q1, 2 * step, unit)),
+        short(f"Use the graph to estimate how many of the {who} {more.format(t=t)}.", n - ct, near(n - ct, unit_y)),
+        short(f"Use {p['name']}'s graph to estimate how many of the {who} {low}.", n // 4, near(n // 4, unit_y)),
     ]

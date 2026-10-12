@@ -55,6 +55,9 @@ def draw(p: dict):
     end, far = pts[-1][0], max(d for _, d in pts)
     fig, ax = new_figure(6.6, 4.4)
     ax.plot([t for t, _ in pts], [d for _, d in pts], color=INK, linewidth=1.8)
+    # The place named over the stop there, the furthest from home: a trip may stop on the way too.
+    a, b = next((a, b) for a, b in zip(pts, pts[1:]) if a[1] == b[1] == far)
+    ax.text((a[0] + b[0]) / 2, far + 0.15 * (1 if far <= 10 else 2), p["place"].capitalize(), ha="center", va="bottom", fontsize=10)
     ax.set_xticks(range(0, end + 1, 30), [_clock(p["start"], t) for t in range(0, end + 1, 30)])
     ax.set_xticks(range(0, end + 1, 15), minor=True)
     step = 1 if far <= 10 else 2

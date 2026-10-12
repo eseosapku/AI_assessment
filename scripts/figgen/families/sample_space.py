@@ -69,7 +69,8 @@ def questions(p: dict, rng: random.Random) -> list:
     outcomes = [FUN[op](x, y) for x in a for y in b]
     total = len(outcomes)
     first, second = p["names"]
-    what = f"The first {first} and the second {second} are each used once, and the {op} of the two numbers is found."
+    what = (f"The first {first} and the second {second} are both fair. Each is used once, and the {op} of the two numbers "
+            "is found.")
     v = rng.choice(sorted(set(outcomes)))
     ans, forms = _prob(outcomes.count(v), total)
     t = rng.choice([o for o in sorted(set(outcomes))[:-1]])

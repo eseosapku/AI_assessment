@@ -53,7 +53,8 @@ def draw(p: dict):
     front = [(0, 0), (L, 0), (L, H), (0, H)]
     top = [(0, H), (L, H), (L + dx, H + dy), (dx, H + dy)]
     side = [(L, 0), (L + dx, dy), (L + dx, H + dy), (L, H)]
-    for face, shade in ((front, FILL_2), (top, "white"), (side, FILL)):
+    # The top shaded too, so the box reads as closed, not an open tray.
+    for face, shade in ((front, FILL_2), (top, "#e9ecef"), (side, FILL)):
         ax.add_patch(Polygon(face, closed=True, facecolor=shade, edgecolor=INK, linewidth=1.6))
     if p["band"] == "P":
         # The cubes: a line at every centimetre across each visible face.
@@ -98,6 +99,6 @@ def questions(p: dict, rng: random.Random) -> list:
     face = rng.choice([("top", l * w), ("front", l * h)])
     return [
         short(f"{name}'s {thing} is a cuboid. What is its volume?", vol, _forms(vol, u, "3")),
-        short(f"What is the total surface area of {name}'s {thing}?", sa, _forms(sa, u, "2")),
+        short(f"What is the total surface area of {name}'s {thing}, including the top?", sa, _forms(sa, u, "2")),
         short(f"What is the area of the {face[0]} face of {name}'s {thing}?", face[1], _forms(face[1], u, "2")),
     ]

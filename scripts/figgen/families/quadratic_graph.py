@@ -46,7 +46,7 @@ def _f(p: dict, x: float) -> float:
 
 
 def _range(p: dict) -> tuple[int, int, int, int]:
-    x0, x1 = p["p"] - 2, p["q"] + 2
+    x0, x1 = min(p["p"] - 2, 0), max(p["q"] + 2, 0)  # the y-axis always in view: its crossing is asked
     ys = [_f(p, x) for x in range(x0, x1 + 1)]
     return x0, x1, int(min(ys)), int(max(ys))
 

@@ -840,7 +840,7 @@ def test_frequency_table():
             continue
         assert fs.count(max(fs)) == 1 and int(qs[0].answer) == xs[fs.index(max(fs))]
         assert int(qs[1].answer) == n
-        x = int(re.search(r"(\d+) (?:goals|brothers|eggs|people|books)", qs[2].stem).group(1))
+        x = int(re.search(r"(\d+) (?:goals?|brothers?|eggs?|people|person|books?)", qs[2].stem).group(1))
         assert int(qs[2].answer) == fs[xs.index(x)]
         if p["band"] != "P":
             data = sorted(x for x, f in zip(xs, fs) for _ in range(f))

@@ -111,13 +111,14 @@ def questions(p: dict, rng: random.Random) -> list:
     other = equation(Fraction(p["m2"]), p["c2"]) if two else ""
     # With two lines drawn every question names line A, and the point given is on line A only.
     on_b = (lambda x: Fraction(p["m2"]) * x + p["c2"] == m * x + c) if two else (lambda x: False)
-    x_pt = rng.choice([x for x in xs if not on_b(x)] or xs)
+    x_pt = rng.choice([x for x in xs if not on_b(x) and x not in (x_at, x_when)] or [x for x in xs if not on_b(x)] or xs)
     ref, its = ("line A", "line A") if two else ("the line", "its")
     eq = equation(m, c)
     wrong = [equation(-m, c), equation(m, -c) if c else equation(m, c + 1), equation(Fraction(c) if c else Fraction(1), int(m) if m.denominator == 1 else 1),
              equation(1 / m, c), equation(m, c - 1), equation(m, c + 2)]
     qs = [
-        short(f"{ref[0].upper() + ref[1:]} passes through ({x_pt}, {int(m * x_pt + c)}). What is the gradient of {its}?", frac(m),
+        short(f"{ref[0].upper() + ref[1:]} passes through ({x_pt}, {int(m * x_pt + c)}). "
+              + ("What is the gradient of line A?" if two else "What is its gradient?"), frac(m),
               _grad_forms(m)[1:]),
         short(f"At what value of y does {ref} cross the y-axis?", c, [f"(0, {c})", f"y = {c}"]),
         mcq(f"Which is the equation of {ref}?", eq, [w for w in wrong if w not in (eq, other)], rng),

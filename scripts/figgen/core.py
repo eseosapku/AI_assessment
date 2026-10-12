@@ -88,6 +88,17 @@ def frac(f: Fraction) -> str:
     return str(f.numerator) if f.denominator == 1 else f"{f.numerator}/{f.denominator}"
 
 
+# "1 books" reads as a slip: one of a thing is singular.
+SINGULAR = {"brothers and sisters": "brother or sister", "people": "person", "mangoes": "mango", "books": "book", "hours": "hour",
+            "years": "year", "students": "student", "eggs": "egg", "patients": "patient", "bottles": "bottle", "trees": "tree",
+            "goals": "goal", "cars": "car", "days": "day"}
+_ONE = re.compile(r"(?<![\d.,/])1 (" + "|".join(sorted(SINGULAR, key=len, reverse=True)) + r")\b")
+
+
+def one(stem: str) -> str:
+    return _ONE.sub(lambda m: "1 " + SINGULAR[m.group(1)], stem)
+
+
 def mcq(stem: str, correct: str, distractors, rng: random.Random, explanation: str = "") -> Question:
     """Four options at most, the correct one always present, no repeats."""
     seen: list[str] = []
@@ -96,7 +107,7 @@ def mcq(stem: str, correct: str, distractors, rng: random.Random, explanation: s
             seen.append(d)
     options = [correct, *seen[:3]]
     rng.shuffle(options)
-    return Question("mcq", stem, str(options.index(correct)), options, [], explanation)
+    return Question("mcq", one(stem), str(options.index(correct)), options, [], explanation)
 
 
 def short(stem: str, answer, accepted=(), explanation: str = "") -> Question:
@@ -116,7 +127,7 @@ def short(stem: str, answer, accepted=(), explanation: str = "") -> Question:
         m = re.fullmatch(r"(-?[\d.,/]+) (cm|mm|m|km|kg|g|cm²|cm2|m²|m2|cm³|cm3|m³|m3|°C)", f)
         if m and m.group(1) + m.group(2) not in forms:
             forms.append(m.group(1) + m.group(2))
-    return Question("short", stem, canonical, [], forms, explanation)
+    return Question("short", one(stem), canonical, [], forms, explanation)
 
 
 def label_spot(poly, centre_first: bool = True) -> tuple[float, float]:
