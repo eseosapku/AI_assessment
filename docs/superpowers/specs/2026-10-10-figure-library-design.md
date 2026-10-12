@@ -379,6 +379,27 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - 107 have none, as P3a predicted.
       - 66 topics have figures from three or more families, and 15 from six or more. Reaching section 3's mix needs the second Maths batch and real images.
     - **Next:** the second Maths batch for the 107 topics (function and trigonometric graphs, money, Argand diagrams, mechanics, distributions), then the Physics wave.
+  - **P3c result (2026-10-12, plan `2026-10-12-figure-library-p3c-maths-second-batch.md`): the second Maths batch's samples. $0 spent, nothing written to the store.**
+    - **Families:** 20 new ones.
+      - **Calculus and functions:** tangent and gradient, stationary points, the area under a curve, limits and continuity from a graph, exponential growth and decay, sine and cosine graphs, and reciprocal curves.
+      - **Complex numbers, matrices and 3D:** Argand diagrams, the unit square under a matrix, and a cuboid on x, y and z axes.
+      - **A Level:** a discrete distribution, a straight-line density function, and velocity–time graphs.
+      - **Money:** a shop board and a purse in Rwandan francs; sale tags, VAT receipts, commission slips and savings notices.
+      - **Primary and algebra:** bar models, plans with a scale, hundred-square percentages, area models for brackets, and Pascal's triangle.
+    - **Checks:** every answer is recomputed by a test over 1,000 figures, and 1,032 tests pass.
+      - A new shared test fails any family that draws outside its axes. Lines that stand for whole straight lines are marked, so they may run to the frame.
+      - An amount of francs is accepted in every fair form ("1,500", "1500 Frw", "1500 RWF").
+    - **Linking:** the link report listed every topic each family reaches. Misfits are named in `AVOID`, for example area under a curve in Hooke's law and an area model in a book's glossary.
+    - **Coverage of the 302 mapped Maths topics:** topics with no family fall from 107 to 27, and topics with six or more families rise from 15 to 17.
+      - **Still empty:** completing the square, the equation of a line and types of data at A Level; mechanics (Hooke's law, projectiles, circular motion, equilibrium); hypothesis tests; proof by induction and series; indices, surds and standard form; number sets and binary operations; Thales; Primary position and time.
+    - Sample sheet: https://claude.ai/artifact/GmdMwLUEFkuFSs5f3Ub3n4
+    - **Next, P3d, after the user's verdict:**
+      - fix what the user flags;
+      - draw 30 figures of each family;
+      - run the blind review (about $5);
+      - triage rejections by sub-type, including those inside passing families;
+      - approve, draw to volume and approve again;
+      - report coverage.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
