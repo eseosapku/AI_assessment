@@ -128,3 +128,13 @@ CREATE TABLE IF NOT EXISTS question_checks (
   question TEXT NOT NULL,
   at TEXT NOT NULL
 );
+-- Search terms made for a topic from its syllabus points (P1b.2): diagrams first, then
+-- photos. Row order is the order the harvest searches them in.
+CREATE TABLE IF NOT EXISTS search_terms (
+  topic_key TEXT NOT NULL REFERENCES topics(key),
+  term TEXT NOT NULL,
+  kind TEXT NOT NULL,
+  model TEXT NOT NULL,
+  at TEXT NOT NULL,
+  PRIMARY KEY (topic_key, term)
+);
