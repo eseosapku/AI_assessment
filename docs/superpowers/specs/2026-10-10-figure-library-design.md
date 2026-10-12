@@ -344,7 +344,33 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - They need a second Maths batch: function and trigonometric graphs, money, Argand diagrams, mechanics and distributions.
       - Thirteen families reach under three topics at some level, because today's books barely teach them. Bearings reaches none, since no book names bearings or nets.
     - Sample sheet: https://claude.ai/artifact/4sEbeJdYjQM77F6vrWo2Ju
-    - **Next, P3b, after the user's verdict:** fixes, generation, the blind review (about $10), approval and coverage.
+  - **P3b result (2026-10-12, plan `2026-10-12-figure-library-p3b-maths-scale.md`): the Maths wave drawn, reviewed and approved. The blind review cost $11.03; the library total is $56.16.**
+    - **Store:** all 36 drawn families pass the blind review, and 5,137 Maths figures are approved.
+      - Each family has 150 figures, except four that have no more different figures: clock 144, quadratic 84, pattern 66, conversion 54.
+      - Bearings is not drawn, because no book teaches it yet.
+      - The library holds 5,466 approved drawn figures and 86 real images.
+    - **Review:** 33 of 36 families passed the first time. The three failures, and the reviewer's notes on passing figures, were fixed; those families were redrawn and reviewed again.
+      - **Fixed in the figures:**
+        - travel graphs name the place;
+        - cuboids look closed and say "including the top";
+        - one of a thing is singular;
+        - ruler objects are things the drawing looks like;
+        - spinners are said to be fair;
+        - the y-axis is always drawn on quadratics;
+        - vectors end on their grid points;
+        - histogram axes say "Age", not "Ages", and each context has its own wording.
+      - **Fixed in the marking:**
+        - a reading from a curve accepts a small square either way, including half-units, and asks for the nearest unit;
+        - the review counts any answer the marker accepts;
+        - a reviewer's "13 or 14" inside an accepted range is one answer.
+    - **Linking:** the quiz check found box plots in Bivariate Statistics, pulled in by a section mapped to "dispersion".
+      - One-variable families now avoid two-variable chapters, and two-way tables avoid averages and spread.
+      - `generate.py --relink` moves stored figures without redrawing them or losing their reviews.
+    - **Coverage of the 302 mapped Maths topics:** 195 have approved figures.
+      - 153 have 50 or more, 24 have 20 to 49, and 18 have fewer than 20; all 18 are at Primary, where a figure suits only some school years.
+      - 107 have none, as P3a predicted.
+      - 66 topics have figures from three or more families, and 15 from six or more. Reaching section 3's mix needs the second Maths batch and real images.
+    - **Next:** the second Maths batch for the 107 topics (function and trigonometric graphs, money, Argand diagrams, mechanics, distributions), then the Physics wave.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
