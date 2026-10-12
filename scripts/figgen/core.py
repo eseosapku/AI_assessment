@@ -17,6 +17,9 @@ matplotlib.use("Agg")
 import matplotlib.pyplot as plt  # noqa: E402
 
 INK = "#111111"
+# Names learners in Rwanda know, for the people in questions; twenty, so stems rarely repeat.
+NAMES = ["Aline", "Eric", "Grace", "Uwase", "Mugisha", "Divine", "Kevin", "Keza", "Jean", "Ange", "Teta", "Ishimwe",
+         "Nshuti", "Mutoni", "Gasana", "Ingabire", "Kalisa", "Umutoni", "Habimana", "Iradukunda"]
 GRID = "#c8c8c8"
 FILL = "#9aa4ad"
 FILL_2 = "#d6dade"

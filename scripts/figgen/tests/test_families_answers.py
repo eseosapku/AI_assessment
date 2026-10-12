@@ -284,3 +284,86 @@ def test_timeline():
         assert int(gap.answer) == years[b] - years[a] > 0
         for name, year in p["events"]:
             assert (name, year) in timeline.SETS[p["title"]]
+
+
+# ---- P3a: the maths wave ------------------------------------------------------------------
+
+from figgen.families import fraction_model, pattern_sequence, pictogram, place_value  # noqa: E402
+
+
+def _num(text: str) -> int:
+    return int(text.replace(",", "").replace(" ", ""))
+
+
+def test_place_value():
+    cols = place_value.COLUMNS
+    for s in SEEDS:
+        p, (shown, added, worth) = run(place_value, s)
+        digits = p["digits"]
+        number = int("".join(map(str, digits)))
+        assert digits[0] != 0 and all(0 <= d <= 9 for d in digits)
+        assert _num(picked(shown)) == number and len({_num(o) for o in shown.options}) == len(shown.options)
+        m = re.search(r"adds (\d+) more counters? to the (.+?) column", added.stem)
+        k, col = int(m.group(1)), cols.index(m.group(2))
+        assert digits[len(digits) - 1 - col] + k <= 9  # no exchanging at this stage
+        assert _num(added.answer) == number + k * 10 ** col
+        assert {added.answer.replace(",", ""), added.answer} <= set(added.accepted)
+        col = cols.index(re.search(r"counters in the (.+?) column", worth.stem).group(1))
+        assert _num(worth.answer) == digits[len(digits) - 1 - col] * 10 ** col > 0
+
+
+def test_fraction_model():
+    for s in SEEDS:
+        p, qs = run(fraction_model, s)
+        n, k = p["n"], len(p["shaded"])
+        assert 0 < k < n and len(set(p["shaded"])) == k and all(0 <= i < n for i in p["shaded"])
+        shaded, more = qs[0], qs[1]
+        values = [Fraction(o) for o in shaded.options]
+        assert len(set(values)) == len(values)  # no two options equal: 3/4 and 6/8 never both offered
+        assert values[int(shaded.answer)] == Fraction(k, n) and picked(shaded) == f"{Fraction(k, n).numerator}/{Fraction(k, n).denominator}"
+        found = re.search(r"so that (\d+/\d+) of", more.stem)
+        target = Fraction(found.group(1)) if found else Fraction(1)
+        assert found or "so that the whole" in more.stem
+        assert target * n == int(target * n) and int(more.answer) == target * n - k > 0
+        if p["band"] == "P":
+            assert n <= 12 and len(qs) == 2
+        else:
+            rest = qs[2]
+            left = Fraction(n - k, n)
+            if "percentage" in rest.stem:
+                assert Fraction(int(rest.answer), 100) == left and f"{rest.answer}%" in rest.accepted
+            else:
+                assert rest.answer == f"{left.numerator}/{left.denominator}" and "simplest form" in rest.stem
+
+
+def test_pattern_sequence():
+    for s in SEEDS:
+        p, qs = run(pattern_sequence, s)
+        a, c = p["a"], p["c"]
+        # The rule holds for the three patterns as drawn: count the pieces the drawing puts down.
+        for n in (1, 2, 3):
+            assert len(set(pattern_sequence.pieces(p, n))) == a * n + c
+        for q in qs[:2]:
+            n = int(re.search(r"in pattern (\d+)\?", q.stem).group(1))
+            assert int(q.answer) == a * n + c
+        assert int(re.search(r"in pattern (\d+)\?", qs[1].stem).group(1)) >= 10  # far enough to need the rule
+        if p["band"] == "LS":
+            rule = qs[2]
+            assert picked(rule) == pattern_sequence.expression(a, c) and len(set(rule.options)) == len(rule.options)
+        else:
+            assert len(qs) == 2
+
+
+def test_pictogram():
+    for s in SEEDS:
+        p, (one, diff, total, which) = run(pictogram, s)
+        key, values, cats = p["key"], p["values"], p["cats"]
+        unit = key // 2 if key % 2 == 0 else key  # half symbols only when the key halves exactly
+        assert all(v % unit == 0 and 0 < v <= 8 * key for v in values) and len(set(values)) == len(values)
+        cat = next(c for c in cats if f" on {c}?" in one.stem or f" by {c}?" in one.stem)
+        assert int(one.answer) == values[cats.index(cat)]
+        a, b = re.search(r"(?:on|by) (.+?) than (?:on|by) (.+?)\?", diff.stem).groups()
+        assert int(diff.answer) == values[cats.index(a)] - values[cats.index(b)] > 0
+        assert int(total.answer) == sum(values)
+        v = int(re.search(r" (\d+) ", which.stem).group(1))
+        assert values.count(v) == 1 and picked(which) == cats[values.index(v)]
