@@ -1,6 +1,6 @@
 """Every drawn family, by id."""
-from . import (angles, bar_chart, box_plot, break_even, climate_graph, clock, coordinates, cross_section, food_web,
-               fraction_model, line_graph, notice, number_line, pattern_sequence, pictogram, pie_chart, place_value,
+from . import (angles, area_shapes, bar_chart, bearings, box_plot, break_even, climate_graph, clock, coordinates, cross_section, food_web,
+               fraction_model, line_graph, notice, number_line, parallel_lines, pattern_sequence, pictogram, pie_chart, place_value, polygon_angles,
                population_pyramid, punnett, ruler, scale_reading, scatter_graph, supply_demand, timeline, timetable,
                tree_diagram)
 
@@ -10,4 +10,5 @@ FAMILIES = {m.ID: m for m in (
     break_even, notice, timetable, timeline,
     # P3a: the maths wave
     place_value, fraction_model, pattern_sequence, pictogram, clock, ruler,
+    parallel_lines, polygon_angles, area_shapes, bearings,
 )}

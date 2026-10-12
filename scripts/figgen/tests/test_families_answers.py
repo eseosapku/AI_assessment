@@ -3,6 +3,7 @@
 A drawn figure is only worth having if its answer key is right every time; these
 tests recompute every answer independently over many seeds.
 """
+import math
 import random
 import re
 from fractions import Fraction
@@ -409,3 +410,90 @@ def test_ruler():
             assert start % 10 == 0 and len(qs) == 2  # Primary: from a whole centimetre
         else:
             assert qs[2].answer == str(length) and f"{length} mm" in qs[2].accepted
+
+
+from figgen.families import area_shapes, bearings, parallel_lines, polygon_angles  # noqa: E402
+
+FACTS = {"corresponding": "Corresponding angles are equal", "alternate": "Alternate angles are equal",
+         "co-interior": "Co-interior angles add up to 180°", "vertically opposite": "Vertically opposite angles are equal"}
+
+
+def test_parallel_lines():
+    # The angle in each corner where the transversal meets a line, from its slope alone.
+    for s in SEEDS:
+        p, (find, fact) = run(parallel_lines, s)
+        t = p["theta"]
+        size = {"ar": t, "al": 180 - t, "bl": t, "br": 180 - t}
+        (gi, gp), (ui, up) = p["given"], p["unknown"]
+        g, x = size[gp], size[up]
+        assert f"{g}°" in find.stem and int(find.answer) == x
+        if gi == ui:
+            kind = "vertically opposite"
+            assert {gp, up} in ({"ar", "bl"}, {"al", "br"})
+        elif gp == up:
+            kind = "corresponding"
+        elif {gp, up} in ({"bl", "ar"}, {"br", "al"}) and {gi + gp, ui + up} in ({"Pbl", "Qar"}, {"Pbr", "Qal"}):
+            kind = "alternate"
+        else:
+            kind = "co-interior"
+            assert {gi + gp, ui + up} in ({"Pbl", "Qal"}, {"Pbr", "Qar"})
+            assert g + x == 180
+        assert picked(fact) == FACTS[kind] and 30 <= t <= 150 and abs(t - 90) >= 15
+
+
+def _interior_angles(pts):
+    n, out = len(pts), []
+    for i in range(n):
+        (ax, ay), (bx, by), (cx, cy) = pts[i - 1], pts[i], pts[(i + 1) % n]
+        a1 = math.atan2(ay - by, ax - bx)
+        a2 = math.atan2(cy - by, cx - bx)
+        out.append(math.degrees((a1 - a2) % (2 * math.pi)))
+    return out
+
+
+def test_polygon_angles():
+    for s in SEEDS:
+        p, (find, total, exterior) = run(polygon_angles, s)
+        n, angles = len(p["angles"]), p["angles"]
+        assert sum(angles) == (n - 2) * 180 and all(60 <= a <= 165 for a in angles)
+        drawn = _interior_angles(polygon_angles.vertices(p))
+        if abs(sum(drawn) - (n - 2) * 180) > 1:  # the vertices run the other way round
+            drawn = [360 - a for a in drawn]
+        assert all(abs(d - a) < 0.5 for d, a in zip(drawn, angles))  # drawn as labelled, so convex too
+        x = angles[p["unknown"]]
+        assert int(find.answer) == x and all(f"{a}°" in find.stem for i, a in enumerate(angles) if i != p["unknown"])
+        assert int(total.answer) == (n - 2) * 180
+        assert int(exterior.answer) == 180 - x
+        if p["band"] == "LS":
+            assert n in (4, 5)
+
+
+def _shoelace(pts):
+    return abs(sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(pts, pts[1:] + pts[:1]))) / 2
+
+
+def test_area_shapes():
+    for s in SEEDS:
+        p, qs = run(area_shapes, s)
+        pts = area_shapes.vertices(p)
+        area = qs[0]
+        assert float(area.answer) == _shoelace(pts) and f"{area.answer} {p['unit']}²" in area.accepted
+        assert f"{area.answer} {p['unit']}2" in area.accepted
+        if p["shape"] in ("grid", "L"):
+            perim = sum(math.dist(a, b) for a, b in zip(pts, pts[1:] + pts[:1]))
+            assert float(qs[1].answer) == perim
+        if p["shape"] == "L":
+            assert float(qs[2].answer) == p["sides"][p["missing"]]
+        if p["band"] == "P":
+            assert p["shape"] == "grid"
+
+
+def test_bearings():
+    for s in SEEDS:
+        p, (find, back) = run(bearings, s)
+        (ax_, ay), (bx, by) = bearings.positions(p)
+        theta = round(math.degrees(math.atan2(bx - ax_, by - ay))) % 360  # clockwise from north
+        assert theta == p["theta"] and theta % 90 != 0
+        assert find.answer == f"{theta:03d}°" and {f"{theta:03d}", str(theta)} <= set(find.accepted)
+        assert f"is {theta:03d}°" in back.stem and back.answer == f"{(theta + 180) % 360:03d}°"
+        assert 0 < p["given"] < 90  # the angle printed is measured from the nearest of N, E, S and W
