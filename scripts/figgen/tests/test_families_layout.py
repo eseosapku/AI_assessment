@@ -4,6 +4,7 @@ Each check here comes from looking at the pilot's first figures before review:
 labels ran into each other, a leader line ran through another event's label, a
 cross-section's sections had no boundaries, and Lagos was 12 °C at dawn.
 """
+import math
 import random
 from math import gcd
 
@@ -53,6 +54,57 @@ def crosses(line, box, margin=1.0) -> bool:
     """Whether any part of a drawn line passes through a box, in pixels."""
     pts = line.get_transform().transform(line.get_xydata())
     return any(segment_hits(a, b, box, margin) for a, b in zip(pts, pts[1:]))
+
+
+def points_drawn(ax):
+    """Every point a figure drew in data coordinates, with what drew it: line vertices, patch outlines
+    (arcs sampled along their sweep, curves flattened), and collections' offsets and paths."""
+    from matplotlib.patches import Arc, Circle, Ellipse
+    data = ax.transData
+    for ln in ax.lines:
+        # A whole straight line (core.infinite) runs to the frame's edge on purpose.
+        if ln.get_transform().contains_branch(data) and not getattr(ln, "figgen_infinite", False):
+            yield from ((x, y, ln) for x, y in ln.get_xydata())
+    for pa in ax.patches:
+        if not pa.get_transform().contains_branch(data):
+            continue
+        if isinstance(pa, Arc):
+            (cx, cy), w, h, rot = pa.center, pa.width, pa.height, math.radians(pa.angle)
+            for k in range(33):
+                t = math.radians(pa.theta1 + (pa.theta2 - pa.theta1) * k / 32)
+                x, y = w / 2 * math.cos(t), h / 2 * math.sin(t)
+                yield cx + x * math.cos(rot) - y * math.sin(rot), cy + x * math.sin(rot) + y * math.cos(rot), pa
+        elif isinstance(pa, (Circle, Ellipse)):
+            (cx, cy), w, h = pa.center, pa.width, pa.height
+            yield from ((cx + dx, cy + dy, pa) for dx, dy in ((w / 2, 0), (-w / 2, 0), (0, h / 2), (0, -h / 2)))
+        else:
+            for poly in pa.get_path().to_polygons(pa.get_patch_transform(), closed_only=False):
+                yield from ((x, y, pa) for x, y in poly)
+    for c in ax.collections:
+        offsets = c.get_offsets()
+        if len(offsets) and c.get_offset_transform().contains_branch(data):
+            yield from ((x, y, c) for x, y in offsets)
+        if c.get_transform().contains_branch(data):
+            for p in c.get_paths():
+                yield from ((x, y, c) for x, y in p.vertices)
+
+
+@pytest.mark.parametrize("fid", sorted(FAMILIES))
+def test_everything_drawn_lies_inside_the_axes(fid):
+    """A piece drawn past the axes' limits is cut off: the L of dots lost its upright arm, and the key
+    counted dots the figure did not show (P3b final review)."""
+    m = FAMILIES[fid]
+    for seed in range(1, 13):
+        fig = m.draw(m.sample(random.Random(seed)))
+        try:
+            for ax in fig.axes:
+                (x0, x1), (y0, y1) = sorted(ax.get_xlim()), sorted(ax.get_ylim())
+                slack = 1e-6 * max(1.0, x1 - x0, y1 - y0)
+                for x, y, art in points_drawn(ax):
+                    assert x0 - slack <= x <= x1 + slack and y0 - slack <= y <= y1 + slack, \
+                        (fid, seed, type(art).__name__, (round(float(x), 3), round(float(y), 3)), (x0, x1, y0, y1))
+        finally:
+            plt.close(fig)
 
 
 @pytest.mark.parametrize("fid", sorted(FAMILIES))

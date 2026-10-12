@@ -11,7 +11,7 @@ import random
 
 from matplotlib.patches import Polygon
 
-from ..core import FILL_2, GRID, INK, label_spot, mcq, new_figure, short
+from ..core import FILL_2, GRID, INK, infinite, label_spot, mcq, new_figure, short
 
 ID = "inequality_region"
 KIND = "maths.coordinate"
@@ -119,11 +119,11 @@ def draw(p: dict):
     for c in p["conds"]:
         style = (0, (5, 3)) if c["op"] in ("<", ">") else "solid"
         if c["var"] == "x":
-            ax.plot([c["k"], c["k"]], list(ends), color=INK, linewidth=1.6, linestyle=style)
+            infinite(ax.plot([c["k"], c["k"]], list(ends), color=INK, linewidth=1.6, linestyle=style))
         elif "m" in c:
-            ax.plot(list(ends), [c["m"] * x + c["k"] for x in ends], color=INK, linewidth=1.6, linestyle=style)
+            infinite(ax.plot(list(ends), [c["m"] * x + c["k"] for x in ends], color=INK, linewidth=1.6, linestyle=style))
         else:
-            ax.plot(list(ends), [c["k"], c["k"]], color=INK, linewidth=1.6, linestyle=style)
+            infinite(ax.plot(list(ends), [c["k"], c["k"]], color=INK, linewidth=1.6, linestyle=style))
     ax.set_xlim(-LIM - 0.5, LIM + 0.5)
     ax.set_ylim(-LIM - 0.5, LIM + 0.5)
     ax.tick_params(labelsize=8)

@@ -89,7 +89,15 @@ def coverage_rows(families: dict, index, before: dict, others: dict | None = Non
     return rows
 
 
-def build_wave_sheet(families: dict, per_family: int, index, before: dict, others: dict | None = None) -> str:
+def families_for(subject: str, names: str = "") -> dict:
+    """The concept-linked families of a subject, or just those named ("a,b,c"), in the order named."""
+    if names.strip():
+        return {f.strip(): FAMILIES[f.strip()] for f in names.split(",") if f.strip()}
+    return {f: m for f, m in FAMILIES.items() if m.SUBJECT == subject and hasattr(m, "CONCEPTS")}
+
+
+def build_wave_sheet(families: dict, per_family: int, index, before: dict, others: dict | None = None,
+                     label: str | None = None) -> str:
     sections, toc = [], []
     for fid, m in families.items():
         reach = _reach(m, index)
@@ -110,13 +118,14 @@ def build_wave_sheet(families: dict, per_family: int, index, before: dict, other
     rows = "".join(f"<tr><td>{escape(label)}</td><td>{a}</td><td>{b}</td></tr>"
                    for label, a, b in coverage_rows(families, index, before, others))
     subject = escape(", ".join(sorted({m.SUBJECT for m in families.values()})).capitalize())
+    label = escape(label or f"P3a, the {subject.lower()} wave")
     return f"""<title>{subject} Wave Samples</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;600&family=Newsreader:opsz,wght@6..72,600&display=swap">
 <style>{CSS}{EXTRA_CSS}</style>
 <main>
-<header><p class="eyebrow">StudySquare figure library &middot; P3a, the {subject.lower()} wave</p><h1>{subject} figure samples</h1>
+<header><p class="eyebrow">StudySquare figure library &middot; {label}</p><h1>{subject} figure samples</h1>
 <p class="lede">{len(families)} drawn families, {per_family} figures each, drawn by code: every answer is computed by the same
 code that drew the figure, and checked a second time by a test over 1,000 figures. Correct options are marked in green. Each
 family reaches the topics whose P0 concepts it draws, at the levels it draws for. Nothing has been reviewed by a model yet:
@@ -142,14 +151,16 @@ def main(argv=None) -> int:
     ap.add_argument("--subject", default="mathematics")
     ap.add_argument("--per-family", type=int, default=3)
     ap.add_argument("--out", required=True)
+    ap.add_argument("--families", default="", help="comma-separated family ids; the subject's all when left out")
+    ap.add_argument("--label", default=None, help='the phase line at the top, e.g. "P3c, the second Maths batch"')
     a = ap.parse_args(argv)
-    fams = {f: m for f, m in FAMILIES.items() if m.SUBJECT == a.subject and hasattr(m, "CONCEPTS")}
+    fams = families_for(a.subject, a.families)
     db = sqlite3.connect(f"file:{(library_dir() / 'figures.db').as_posix()}?mode=ro", uri=True)
     db.row_factory = sqlite3.Row
     index = topic_index(db)
     before, others = _sources_now(db, set()), _sources_now(db, set(fams))
     db.close()
-    html = build_wave_sheet(fams, a.per_family, index, before, others)
+    html = build_wave_sheet(fams, a.per_family, index, before, others, label=a.label)
     Path(a.out).write_text(html, encoding="utf-8")
     print(f"{len(fams)} families written to {a.out} ({len(html) // 1024} KB)")
     for label, now, wave in coverage_rows(fams, index, before, others):

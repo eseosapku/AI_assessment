@@ -9,7 +9,7 @@ from __future__ import annotations
 import random
 from fractions import Fraction
 
-from ..core import GRID, INK, frac, mcq, new_figure, short
+from ..core import GRID, INK, frac, infinite, mcq, new_figure, short
 
 ID = "linear_graph"
 KIND = "maths.coordinate"
@@ -88,7 +88,7 @@ def draw(p: dict):
     for m, c in lines:
         xs = [x / 10 for x in range(10 * (XLIM[0] - 1), 10 * (XLIM[1] + 1) + 1)]
         pts = [(x, float(m) * x + c) for x in xs if YLIM[0] - 0.5 <= float(m) * x + c <= YLIM[1] + 0.5]
-        ax.plot([q[0] for q in pts], [q[1] for q in pts], color=INK, linewidth=1.8)
+        infinite(ax.plot([q[0] for q in pts], [q[1] for q in pts], color=INK, linewidth=1.8))
         if len(lines) > 1:  # two lines: each named where it leaves the picture
             lx, ly = pts[int(0.9 * (len(pts) - 1))]
             ax.text(lx + 0.35, ly, "A" if (m, c) == lines[0] else "B", fontsize=13, fontweight="bold", ha="left", va="center")

@@ -23,6 +23,15 @@ def test_every_family_shows_its_figures_keys_levels_and_topics():
     assert "<title>" in html and "prefers-color-scheme: dark" in html
 
 
+def test_a_sheet_can_show_some_families_under_its_own_label():
+    from figgen.wave_sheet import families_for
+    fams = families_for("mathematics", "quadratic_graph,linear_graph")
+    assert list(fams) == ["quadratic_graph", "linear_graph"]
+    assert set(families_for("mathematics", "")) >= {"quadratic_graph", "linear_graph", "venn"}
+    html = build_wave_sheet({"quadratic_graph": fams["quadratic_graph"]}, 1, [], {}, label="P3c, the second Maths batch")
+    assert "P3c, the second Maths batch" in html and "P3a" not in html
+
+
 def test_a_level_that_reaches_no_topic_is_flagged():
     lonely = types.SimpleNamespace(**{k: getattr(place_value, k) for k in ("ID", "KIND", "SUBJECT", "sample", "draw", "questions")},
                                    BANDS=("P", "LS"), CONCEPTS=place_value.CONCEPTS)

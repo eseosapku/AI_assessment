@@ -11,7 +11,7 @@ import random
 
 from matplotlib.patches import Arc, Circle
 
-from ..core import INK, mcq, new_figure, short
+from ..core import INK, infinite, mcq, new_figure, short
 
 ID = "circle_theorem"
 KIND = "maths.geometry"
@@ -108,7 +108,7 @@ def draw(p: dict):
     if p["theorem"] == "tangent":
         (ax_, ay), (tx, ty) = pts["A"], pts["T"]
         dx, dy = tx - ax_, ty - ay
-        ax.plot([ax_ - 0.5 * dx, tx + 0.25 * dx], [ay - 0.5 * dy, ty + 0.25 * dy], color=INK, linewidth=1.4)
+        infinite(ax.plot([ax_ - 0.5 * dx, tx + 0.25 * dx], [ay - 0.5 * dy, ty + 0.25 * dy], color=INK, linewidth=1.4))
     # The centre only where the theorem uses it: in a cyclic quadrilateral or the same segment
     # it is a stray dot where chords may cross.
     centred = p["theorem"] not in ("cyclic", "same segment")

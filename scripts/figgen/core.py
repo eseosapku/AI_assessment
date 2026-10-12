@@ -156,6 +156,42 @@ def count(stem: str, n: int, *nouns: str, explanation: str = "") -> Question:
     return short(stem, n, forms, explanation)
 
 
+def money(n: int) -> list[str]:
+    """An amount of Rwandan francs in every form a student may fairly write: "1500", "1,500", "1 500",
+    with or without "Frw", "RWF" or "francs". The bare number first, as the key."""
+    bases = [str(n)] + ([f"{n:,}", f"{n:,}".replace(",", " ")] if n >= 1000 else [])
+    forms = []
+    for suffix in ("", " Frw", "Frw", " RWF", "RWF", " francs"):
+        for b in bases:
+            if b + suffix not in forms:
+                forms.append(b + suffix)
+    return forms
+
+
+def infinite(lines):
+    """Marks lines that stand for whole straight lines (a graph of y = mx + c, a boundary, a tangent):
+    they are drawn to the frame's edge and cut there on purpose."""
+    for ln in lines:
+        ln.figgen_infinite = True
+    return lines
+
+
+def function_axes(ax, x0: int, x1: int, y0: int, y1: int, ystep: int = 1, xstep: int = 1) -> None:
+    """The coordinate grid the function graphs share: axes through the origin, a gridline on every
+    unit so each lattice point reads exactly, numbers every `xstep` and `ystep`."""
+    ax.set_xticks([x for x in range(x0, x1 + 1) if x % xstep == 0])
+    ax.set_yticks([y for y in range(y0, y1 + 1) if y % ystep == 0])
+    ax.set_xticks(range(x0, x1 + 1), minor=True)
+    ax.set_yticks(range(y0, y1 + 1), minor=True)
+    ax.grid(True, which="both", color=GRID, linewidth=0.6)
+    ax.set_axisbelow(True)
+    for s in ("left", "bottom"):
+        ax.spines[s].set_position("zero")
+    ax.set_xlim(x0 - 0.5, x1 + 0.5)
+    ax.set_ylim(y0 - 0.5, y1 + 0.5)
+    ax.tick_params(labelsize=8)
+
+
 def grid_y(ax, top: float, step: float) -> None:
     """Horizontal gridlines on every labelled step, so values read exactly."""
     ticks = [i * step for i in range(int(round(top / step)) + 1)]
