@@ -14,9 +14,11 @@ interface ExamFigureProps {
    * the fold (e.g. results review, flashcard decks rendered as a list).
    */
   lazy?: boolean
+  /** Shown under the figure: a real image's author, licence and source, as CC BY and CC BY-SA require (spec 5.4). */
+  credit?: string
 }
 
-export default function ExamFigure({ src, alt = 'Exam diagram', className = '', lazy = false }: ExamFigureProps) {
+export default function ExamFigure({ src, alt = 'Exam diagram', className = '', lazy = false, credit }: ExamFigureProps) {
   /**
    * Tap to enlarge.
    *
@@ -87,6 +89,7 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
           </span>
         </button>
       </div>
+      {credit && <p className="-mt-2 mb-3 break-words text-[12px] leading-snug text-ss-slate">{credit}</p>}
 
       {zoomed && (
         <div

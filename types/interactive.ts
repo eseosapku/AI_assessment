@@ -21,6 +21,8 @@ export interface InteractiveQuestionBase {
   image_url?: string
   /** What the figure shows, for a screen reader. */
   image_alt?: string
+  /** A real image's author, licence and source, shown under it. */
+  image_credit?: string
   diagram_svg?: string
   figureGroup?: FigureGroupMeta
 }

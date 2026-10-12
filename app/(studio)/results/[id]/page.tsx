@@ -47,6 +47,7 @@ interface MCQQuestion {
     diagram_svg?: string
     image_url?: string
   image_alt?: string
+  image_credit?: string
     figureGroup?: FigureGroupMeta
     source?: QuestionSource
 }
@@ -64,6 +65,7 @@ interface LongFormQuestion {
     diagram_svg?: string
     image_url?: string
   image_alt?: string
+  image_credit?: string
     figureGroup?: FigureGroupMeta
     source?: QuestionSource
 }
@@ -281,7 +283,7 @@ function LongFormResultCard({
                     {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
                         <>
                             {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
-                            <ExamFigure src={q.image_url} alt={q.image_alt} lazy />
+                            <ExamFigure src={q.image_url} alt={q.image_alt} credit={q.image_credit} lazy />
                         </>
                     )}
                     {q.diagram_svg && (
@@ -462,7 +464,7 @@ function McqResultCard({
                     {q.image_url && (!q.figureGroup || idx === q.figureGroup.startIndex) && (
                         <>
                             {q.figureGroup && <FigureGroupLabel group={q.figureGroup} />}
-                            <ExamFigure src={q.image_url} alt={q.image_alt} lazy />
+                            <ExamFigure src={q.image_url} alt={q.image_alt} credit={q.image_credit} lazy />
                         </>
                     )}
                     {q.diagram_svg && (
