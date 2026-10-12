@@ -5,7 +5,7 @@ import os from 'node:os'
 import path from 'node:path'
 import { openStore, type Store } from './store'
 import {
-  PASS_MARK, REVIEW_SIZE, agrees, approveReal, cleanRate, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt,
+  PASS_MARK, REVIEW_SIZE, agrees, approveDrawn, approveReal, cleanRate, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt,
   saveVerdict,
   type ReviewItem, type ReviewQuestion,
 } from './review'
@@ -299,5 +299,23 @@ describe('approving real images', () => {
     expect(regrade(db, 'j', 'sonnet')).toBe(1)
     expect(db.prepare("SELECT pass FROM reviews WHERE figure_id = 'wikimedia/3'").get()).toEqual({ pass: 0 })
     expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/3'").get()).toEqual({ status: 'screened' })
+  })
+})
+
+describe('approving drawn figures', () => {
+  it('approves the figures of families that passed, leaving rejected figures and failing families alone', () => {
+    const db = store()
+    const fill = (family: string, n: number, failures: number) => {
+      for (let s = 1; s <= n; s++) {
+        const id = addFigure(db, family, s)
+        saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: { ...parseVerdict(good, item), pass: s > failures } })
+      }
+    }
+    fill('a', 30, 2)
+    fill('b', 30, 5)
+    expect(approveDrawn(db, 'j')).toEqual({ approved: 28, families: ['a'] })
+    expect(db.prepare("SELECT COUNT(*) AS n FROM figures WHERE family = 'a' AND status = 'approved'").get()).toEqual({ n: 28 })
+    expect(db.prepare("SELECT COUNT(*) AS n FROM figures WHERE family = 'a' AND status = 'rejected'").get()).toEqual({ n: 2 })
+    expect(db.prepare("SELECT COUNT(*) AS n FROM figures WHERE family = 'b' AND status = 'approved'").get()).toEqual({ n: 0 })
   })
 })

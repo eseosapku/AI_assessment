@@ -1,13 +1,14 @@
 // scripts/figure-library/review-drawn.ts
-// Run: npx jiti scripts/figure-library/review-drawn.ts [--families=bar_chart,pie_chart] [--dry] [--workers=4] [--regrade]
+// Run: npx jiti scripts/figure-library/review-drawn.ts [--families=bar_chart,pie_chart] [--dry] [--workers=4] [--regrade] [--approve]
 //      (--regrade: recompute stored verdicts under the current rules; sends nothing)
+//      (--approve: approve the figures of every family that passed; sends nothing)
 // The blind review of the drawn families (spec 5.5): Sonnet answers the questions on 30
 // figures from each family without seeing the keys; code compares; 27 must pass. Resumable.
 import { libraryDir, openStore } from './store'
 import { parseArgs } from './args'
 import { BudgetExceeded, assertBudget, totalSpend } from './spend'
 import { SONNET, askJson, bedrockSender, runPool } from './claude'
-import { REVIEW_JOB, REVIEW_SIZE, REVIEW_USD_PER_ITEM, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt, saveVerdict } from './review'
+import { REVIEW_JOB, REVIEW_SIZE, REVIEW_USD_PER_ITEM, approveDrawn, familyScores, itemsToReview, notedPasses, parseVerdict, previewImage, regrade, reviewPrompt, saveVerdict } from './review'
 
 /** Spec section 8 gives drawn reviews $60 over about 250 families; the pilot's 20 need about $5. */
 const JOB_CAP_USD = 8
@@ -15,9 +16,15 @@ const JOB_CAP_USD = 8
 const MAX_UNUSABLE = 10
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { families: 'string', dry: 'flag', workers: 'int', regrade: 'flag' })
+  const args = parseArgs(process.argv.slice(2), { families: 'string', dry: 'flag', workers: 'int', regrade: 'flag', approve: 'flag' })
   const families = args.families ? String(args.families).split(',').map((f) => f.trim()).filter(Boolean) : undefined
   const db = openStore()
+  if (args.approve) {
+    const r = approveDrawn(db, REVIEW_JOB)
+    console.log(`Approved ${r.approved} figures in ${r.families.length} families: ${r.families.join(', ')}`)
+    db.close()
+    return
+  }
   const lib = libraryDir()
   if (args.regrade) console.log(`${regrade(db, REVIEW_JOB)} verdicts changed on regrading`)
   const items = itemsToReview(db, { job: REVIEW_JOB, size: REVIEW_SIZE, families })

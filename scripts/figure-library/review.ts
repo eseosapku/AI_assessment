@@ -271,6 +271,19 @@ export function familyScores(db: Store, job: string): FamilyScore[] {
 }
 
 /**
+ * Approves the drawn figures of every family that passes its blind review in this job (27 of 30):
+ * all its figures not rejected, including those beyond the reviewed sample, since a family is
+ * judged as a whole. P2 serves figures with status 'approved'.
+ */
+export function approveDrawn(db: Store, job: string): { approved: number; families: string[] } {
+  const families = familyScores(db, job).filter((s) => s.passes).map((s) => s.family)
+  const approve = db.prepare("UPDATE figures SET status = 'approved', reason = NULL WHERE origin = 'drawn' AND family = ? AND status <> 'rejected'")
+  let approved = 0
+  for (const family of families) approved += Number(approve.run(family).changes)
+  return { approved, families }
+}
+
+/**
  * Passes whose reviewer still wrote a concern. The verdict stands, but a person reads
  * these before a family is approved: a reviewer has passed items it called ambiguous.
  */
