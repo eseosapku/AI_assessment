@@ -48,24 +48,28 @@ def test_every_figure_spec_survives_json():
             assert json.loads(json.dumps(p)) == p, fid
 
 
+# A family that keeps the pilot's hand-made topics: climate graphs for Geography LS, db:1115.
+BY_HAND = "climate_graph"
+
+
 def test_draws_distinct_figures_and_their_files(db, tmp_path):
     lib = tmp_path / "lib"
-    r = generate_family(db, lib, FAMILIES["bar_chart"], 5)
+    r = generate_family(db, lib, FAMILIES[BY_HAND], 5)
     assert (r["have"], r["drawn"]) == (5, 5)
     rows = db.execute("SELECT id, spec, asset, preview, width, band, subject FROM figures").fetchall()
     assert len(rows) == 5 and len({row["spec"] for row in rows}) == 5
     for row in rows:
         assert (lib / row["asset"]).read_text(encoding="utf-8").lstrip().startswith("<?xml")
         assert (lib / row["preview"]).read_bytes()[:4] == b"\x89PNG" and row["width"] > 100
-        assert (row["band"], row["subject"]) == ("LS", "mathematics")
+        assert (row["band"], row["subject"]) == ("LS", "geography")
     assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 15  # three questions each
-    assert db.execute("SELECT COUNT(*) FROM figure_topics WHERE topic_key = 'db:410'").fetchone()[0] == 5
+    assert db.execute("SELECT COUNT(*) FROM figure_topics WHERE topic_key = 'db:1115'").fetchone()[0] == 5
 
 
 def test_a_second_run_keeps_what_is_there(db, tmp_path):
     lib = tmp_path / "lib"
-    generate_family(db, lib, FAMILIES["bar_chart"], 5)
-    again = generate_family(db, lib, FAMILIES["bar_chart"], 7)
+    generate_family(db, lib, FAMILIES[BY_HAND], 5)
+    again = generate_family(db, lib, FAMILIES[BY_HAND], 7)
     assert (again["have"], again["drawn"]) == (7, 2)
     assert db.execute("SELECT COUNT(*) FROM figures").fetchone()[0] == 7
     assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 21
@@ -73,19 +77,19 @@ def test_a_second_run_keeps_what_is_there(db, tmp_path):
 
 def test_redo_redraws_the_family_and_drops_its_reviews(db, tmp_path):
     lib = tmp_path / "lib"
-    generate_family(db, lib, FAMILIES["bar_chart"], 3)
+    generate_family(db, lib, FAMILIES[BY_HAND], 3)
     db.execute("INSERT INTO reviews (job, figure_id, model, pass, detail, at) SELECT 'p1a-review', id, 'm', 0, '{}', 'now' FROM figures")
     db.commit()
-    r = generate_family(db, lib, FAMILIES["bar_chart"], 3, redo=True)
+    r = generate_family(db, lib, FAMILIES[BY_HAND], 3, redo=True)
     assert r["drawn"] == 3
     assert db.execute("SELECT COUNT(*) FROM reviews").fetchone()[0] == 0
 
 
 def test_refuses_a_topic_outside_the_family_levels(db, tmp_path):
-    db.execute("UPDATE topics SET band = 'AL' WHERE key = 'db:410'")
+    db.execute("UPDATE topics SET band = 'AL' WHERE key = 'db:1115'")
     db.commit()
-    with pytest.raises(ValueError, match="db:410"):
-        generate_family(db, tmp_path / "lib", FAMILIES["bar_chart"], 1)
+    with pytest.raises(ValueError, match="db:1115"):
+        generate_family(db, tmp_path / "lib", FAMILIES[BY_HAND], 1)
 
 
 def test_timeline_figures_go_to_the_topic_of_their_set(db, tmp_path):
@@ -108,7 +112,8 @@ def concept_family(bands=("LS",), concepts=("mathematics.pie-charts",)):
     import types
     from figgen.families import bar_chart
     return types.SimpleNamespace(ID="concept_test", KIND=bar_chart.KIND, SUBJECT="mathematics", BANDS=bands, CONCEPTS=concepts,
-                                 sample=bar_chart.sample, draw=bar_chart.draw, questions=bar_chart.questions)
+                                 sample=lambda rng: {k: v for k, v in bar_chart.sample(rng).items() if k != "band"},
+                                 draw=bar_chart.draw, questions=bar_chart.questions)
 
 
 def mapped(db):

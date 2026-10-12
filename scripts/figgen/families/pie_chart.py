@@ -10,6 +10,9 @@ ID = "pie_chart"
 KIND = "graph.pie"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
+CONCEPTS = tuple(f"mathematics.{c}" for c in (
+    "pie-charts", "statistical-graphs-presentation-reading",
+))
 
 SURVEYS = [
     ("Favourite subject", ["Maths", "Science", "English", "History", "Art"], "students"),
@@ -20,6 +23,7 @@ SHADES = ["#9aa4ad", "#d6dade", "#5f6b75", "#ffffff", "#b9c1c8"]
 
 
 def sample(rng: random.Random) -> dict:
+    band = rng.choice(BANDS)
     title, cats, unit = rng.choice(SURVEYS)
     # At most four sectors: four different sizes of twelfths need 1+2+3+4 = 10 <= 12; five would need 15.
     k = rng.randint(3, min(4, len(cats)))
@@ -30,7 +34,7 @@ def sample(rng: random.Random) -> dict:
             break
     angles = [30 * x for x in parts]
     total = rng.choice([24, 36, 48, 60, 72, 120])  # a multiple of 12, so every count is whole
-    return {"title": title, "cats": rng.sample(cats, k), "angles": angles, "total": total, "unit": unit}
+    return {"band": band, "title": title, "cats": rng.sample(cats, k), "angles": angles, "total": total, "unit": unit}
 
 
 def draw(p: dict):
@@ -54,5 +58,5 @@ def questions(p: dict, rng: random.Random) -> list:
     return [
         short(f"{p['total']} {p['unit']} were asked. How many chose {p['cats'][i]}?", count),
         mcq(f"What fraction of the {p['unit']} chose {p['cats'][j]}?", frac(f), wrong, rng),
-        short(f"How many more {p['unit']} chose {p['cats'][x]} than chose {p['cats'][y]}?", more),
+        short(f"Of the {p['total']} {p['unit']}, how many more chose {p['cats'][x]} than chose {p['cats'][y]}?", more),
     ]

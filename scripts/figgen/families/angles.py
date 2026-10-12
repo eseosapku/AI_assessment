@@ -11,7 +11,11 @@ from ..core import new_figure, short
 ID = "angles"
 KIND = "maths.geometry"
 SUBJECT = "mathematics"
-BANDS = ("LS", "UP")
+# Angles at a point and on a line are Lower Secondary work; Upper Secondary has moved past them.
+BANDS = ("LS",)
+CONCEPTS = tuple(f"mathematics.{c}" for c in (
+    "angles-at-a-point", "calculating-angles", "lines-intersecting",
+))
 
 
 def sample(rng: random.Random) -> dict:
@@ -57,5 +61,8 @@ def draw(p: dict):
 
 def questions(p: dict, rng: random.Random) -> list:
     x = p["parts"][p["unknown"]]
-    where = "on a straight line" if p["total"] == 180 else "around a point"
-    return [short(f"The angles {where} are shown. Work out the value of x.", x, [f"{x}°"])]
+    known = [f"{a}°" for i, a in enumerate(p["parts"]) if i != p["unknown"]]
+    count = ("Two", "Three", "Four")[len(p["parts"]) - 2]
+    verb = "lie on a straight line" if p["total"] == 180 else "meet at a point"
+    given = f"The other is {known[0]}" if len(known) == 1 else f"The others are {', '.join(known[:-1])} and {known[-1]}"
+    return [short(f"{count} angles {verb}. {given}. Work out the value of x.", x, [f"{x}°"])]

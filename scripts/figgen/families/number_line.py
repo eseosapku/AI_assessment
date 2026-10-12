@@ -10,26 +10,33 @@ ID = "number_line"
 KIND = "maths.number"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
+CONCEPTS = tuple(f"mathematics.{c}" for c in (
+    "number-line", "intervals-closed-line", "adding-subtracting-integers", "negative-numbers-problems", "integers",
+))
 
-# (step, how many ticks, lowest start) — whole numbers, tens, decimals, negatives
-SCALES = [
-    (Decimal(1), 10, 0), (Decimal(2), 10, 0), (Decimal(5), 10, 0), (Decimal(10), 10, 0),
-    (Decimal("0.1"), 10, 0), (Decimal("0.5"), 8, 0), (Decimal(1), 10, -8), (Decimal("0.2"), 10, 1),
-]
+# (step, how many ticks, lowest and highest start, in steps). Primary: whole numbers, tens and
+# tenths from zero up. Lower Secondary: negative numbers and decimals either side of zero.
+SCALES = {
+    "P": [(Decimal(1), 10, 0, 20), (Decimal(2), 10, 0, 20), (Decimal(5), 10, 0, 20), (Decimal(10), 10, 0, 30),
+          (Decimal("0.1"), 10, 0, 20), (Decimal("0.5"), 8, 0, 10)],
+    "LS": [(Decimal(1), 10, -10, -2), (Decimal(2), 10, -10, -3), (Decimal("0.1"), 10, -10, 10),
+           (Decimal("0.2"), 10, 0, 10), (Decimal("0.5"), 8, -6, 6)],
+}
 
 
 def _text(d: Decimal) -> str:
     s = format(d.normalize(), "f")
-    return s
+    return "0" if s == "-0" else s
 
 
 def sample(rng: random.Random) -> dict:
-    step, n, low = rng.choice(SCALES)
-    start = Decimal(low) + step * rng.randint(0, 4)
+    band = rng.choice(BANDS)
+    step, n, lo, hi = rng.choice(SCALES[band])
+    start = step * rng.randint(lo, hi)
     ticks = [start + step * i for i in range(n + 1)]
     labelled = {0, n}  # only the two ends are labelled; the arrow is on an unlabelled tick
     target = rng.choice([i for i in range(1, n) if i not in labelled])
-    return {"ticks": [_text(t) for t in ticks], "target": target}
+    return {"band": band, "ticks": [_text(t) for t in ticks], "target": target}
 
 
 def draw(p: dict):
@@ -50,11 +57,27 @@ def draw(p: dict):
     return fig
 
 
-def questions(p: dict, rng: random.Random) -> list:
-    value = p["ticks"][p["target"]]
+def _forms(value: str) -> list[str]:
+    """The number as written, and without its leading zero (".4", "-.4")."""
     forms = [value]
     if value.startswith("0."):
         forms.append(value[1:])
     if value.startswith("-0."):
         forms.append("-" + value[2:])
-    return [short("What number is the arrow pointing to?", value, forms)]
+    return forms
+
+
+def questions(p: dict, rng: random.Random) -> list:
+    ticks, t = p["ticks"], p["target"]
+    n = len(ticks) - 1
+    ends = f"from {ticks[0]} to {ticks[-1]}"
+    # Counting on or back from the arrow, staying on the line.
+    moves = [(k, d) for k in (1, 2, 3) for d in (1, -1) if 0 <= t + d * k <= n]
+    k, d = rng.choice(moves)
+    other = ticks[t + d * k]
+    side = "right" if d == 1 else "left"
+    return [
+        short(f"The number line goes {ends}. What number is the arrow pointing to?", ticks[t], _forms(ticks[t])),
+        short(f"On the number line {ends}, which number is {k} mark{'s' if k > 1 else ''} to the {side} of the arrow?",
+              other, _forms(other)),
+    ]

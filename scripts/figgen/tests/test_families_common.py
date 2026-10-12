@@ -66,3 +66,27 @@ def test_renders_valid_svg_and_png(fid):
         r = render(m.draw(m.sample(random.Random(seed))))
         ET.fromstring(r.svg)  # well-formed
         assert r.png[:8] == b"\x89PNG\r\n\x1a\n" and len(r.png) > 2000
+
+
+WORDED_SUBJECTS = {"mathematics"}  # waves done; each later wave adds its subject
+WORDED = sorted(f for f, m in FAMILIES.items() if m.SUBJECT in WORDED_SUBJECTS)
+
+
+@pytest.mark.parametrize("fid", WORDED)
+def test_most_figures_have_a_wording_of_their_own(fid):
+    """The quiz route removes a repeated wording, figure or not (P2a): a family whose figures all
+    ask "What is the median?" gives one figure a quiz. Of 30 figures, 27 must each carry a stem
+    no other of the 30 has."""
+    m = FAMILIES[fid]
+    stems = []
+    for seed in range(1, 31):
+        rng = random.Random(seed)
+        stems.append({q.stem for q in m.questions(m.sample(rng), rng)})
+    own = sum(1 for i, s in enumerate(stems) if s - set().union(*(t for j, t in enumerate(stems) if j != i)))
+    assert own >= 27, f"{fid}: only {own} of 30 figures have a wording of their own"
+
+
+@pytest.mark.parametrize("fid", WORDED)
+def test_declares_its_concepts(fid):
+    m = FAMILIES[fid]
+    assert m.CONCEPTS and all(c.startswith(f"{m.SUBJECT}.") for c in m.CONCEPTS)

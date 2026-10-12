@@ -8,12 +8,17 @@ from ..core import GRID, mcq, new_figure, short
 ID = "line_graph"
 KIND = "graph.line"
 SUBJECT = "mathematics"
-BANDS = ("P", "LS", "UP")
+# Reading a day's temperatures is Primary and Lower Secondary work, below Upper Secondary.
+BANDS = ("P", "LS")
+CONCEPTS = tuple(f"mathematics.{c}" for c in (
+    "line-graphs-interpreting", "time-series-graphs", "statistical-graphs-presentation-reading",
+))
 
 HOURS = [6, 8, 10, 12, 14, 16, 18]
 # The coolest and hottest a day's readings can plausibly be in each place, in °C.
 CLIMATE = {"Kigali": (14, 30), "Huye": (12, 28), "Musanze": (10, 26), "Lagos": (22, 34), "Nairobi": (10, 28),
-           "Kampala": (16, 30)}
+           "Kampala": (16, 30), "Rubavu": (16, 28), "Nyagatare": (16, 32), "Rusizi": (16, 30), "Muhanga": (12, 28),
+           "Rwamagana": (14, 30)}  # lows even: readings start on the 2 °C gridlines
 
 
 def _clock(h: int) -> str:
@@ -21,6 +26,7 @@ def _clock(h: int) -> str:
 
 
 def sample(rng: random.Random) -> dict:
+    band = rng.choice(BANDS)
     place = rng.choice(sorted(CLIMATE))
     lo, hi = CLIMATE[place]
     while True:
@@ -32,7 +38,7 @@ def sample(rng: random.Random) -> dict:
             temps.append(temps[-1] + (step if i <= peak else -step))
         top = max(temps)
         if temps.count(top) == 1 and temps.index(top) == peak and top <= hi and min(temps) >= lo:
-            return {"place": place, "temps": temps}
+            return {"band": band, "place": place, "temps": temps}
 
 
 def draw(p: dict):
@@ -58,8 +64,8 @@ def questions(p: dict, rng: random.Random) -> list:
     hottest = HOURS[t.index(max(t))]
     others = [_clock(h) for h in HOURS if h != hottest]
     return [
-        short(f"What was the temperature at {_clock(HOURS[i])}, in °C?", t[i], [f"{t[i]}°C", f"{t[i]} °C"]),
-        mcq("At what time was the temperature highest?", _clock(hottest), rng.sample(others, 3), rng),
-        short(f"What is the difference between the temperatures at {_clock(HOURS[a])} and {_clock(HOURS[b])}, in \u00b0C?",
+        short(f"What was the temperature in {p['place']} at {_clock(HOURS[i])}, in °C?", t[i], [f"{t[i]}°C", f"{t[i]} °C"]),
+        mcq(f"At what time was the temperature in {p['place']} highest?", _clock(hottest), rng.sample(others, 3), rng),
+        short(f"What is the difference between the temperatures in {p['place']} at {_clock(HOURS[a])} and {_clock(HOURS[b])}, in \u00b0C?",
               abs(t[b] - t[a]), [f"{abs(t[b] - t[a])}\u00b0C", f"{abs(t[b] - t[a])} \u00b0C"]),
     ]

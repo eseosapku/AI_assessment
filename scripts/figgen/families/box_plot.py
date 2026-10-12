@@ -11,6 +11,9 @@ ID = "box_plot"
 KIND = "graph.stats"
 SUBJECT = "mathematics"
 BANDS = ("UP",)
+CONCEPTS = tuple(f"mathematics.{c}" for c in (
+    "quartiles", "dispersion-measures", "averages-types",
+))
 
 DATA = [
     ("Times to run 100 m (seconds)", 10, 30),
@@ -18,6 +21,8 @@ DATA = [
     ("Heights of seedlings (cm)", 2, 22),
     ("Minutes spent on homework", 10, 50),
 ]
+NOUNS = {"Times to run 100 m (seconds)": "times", "Marks in a mathematics test": "marks",
+         "Heights of seedlings (cm)": "heights", "Minutes spent on homework": "homework times"}
 
 
 def sample(rng: random.Random) -> dict:
@@ -54,4 +59,7 @@ def questions(p: dict, rng: random.Random) -> list:
         short("What is the median?", md),
         short("What is the interquartile range?", q3 - q1),
         short("What is the range?", mx - mn),
+        # A quarter of the data lies beyond each quartile: asked of this plot's own quartiles.
+        short(f"About what percentage of the {NOUNS[p['title']]} are more than {q3}?", 25, ["25%"]),
+        short(f"About what percentage of the {NOUNS[p['title']]} are less than {q1}?", 25, ["25%"]),
     ]

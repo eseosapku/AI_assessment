@@ -9,6 +9,9 @@ ID = "bar_chart"
 KIND = "graph.bar"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
+CONCEPTS = tuple(f"mathematics.{c}" for c in (
+    "bar-charts-dual-compound", "tally-charts-bar-charts", "statistical-graphs-presentation-reading", "data-examining", "infographics",
+))
 
 SURVEYS = [
     ("Favourite fruit", ["Mango", "Banana", "Orange", "Pineapple", "Avocado", "Papaya"], "students", "chose"),
@@ -19,12 +22,13 @@ SURVEYS = [
 
 
 def sample(rng: random.Random) -> dict:
+    band = rng.choice(BANDS)
     title, cats, unit, verb = rng.choice(SURVEYS)
     k = rng.randint(4, min(6, len(cats)))
     chosen = rng.sample(cats, k)
-    step = rng.choice([1, 2, 5])
+    step = rng.choice([1, 2] if band == "P" else [2, 5])  # Primary counts in ones and twos
     values = [v * step for v in rng.sample(range(1, 11), k)]  # distinct, so most and least are unique
-    return {"title": title, "cats": chosen, "values": values, "step": step, "unit": unit, "verb": verb}
+    return {"band": band, "title": title, "cats": chosen, "values": values, "step": step, "unit": unit, "verb": verb}
 
 
 def draw(p: dict):
@@ -53,4 +57,7 @@ def questions(p: dict, rng: random.Random) -> list:
         q1 = mcq("Which was the most common answer?", top, [c for _, c in pairs[1:]], rng)
         q2 = short(f"How many more {p['unit']} {_label(p, a)} than {_label(p, b)}?", a_value - b_value)
         q3 = short(f"How many {p['unit']} were asked altogether?", sum(p["values"]))
-    return [q1, q2, q3]
+    # Which bar has a given height: every figure asks it of its own number.
+    v_value, v = pairs[rng.randrange(len(pairs))]
+    q4 = mcq(f"Which bar shows {v_value} {p['unit']}?", v, [c for _, c in pairs if c != v], rng)
+    return [q1, q2, q3, q4]
