@@ -286,3 +286,73 @@ def test_points_3d():
         assert tuple(Fraction(v) for v in re.findall(r"-?[\d.]+", middle.answer)) == (Fraction(P, 2), Fraction(Q, 2), Fraction(R, 2))
         target = point_of(re.search(r"coordinates (\(.+?\))", vertex.stem).group(1))
         assert corners[picked(vertex)] == target
+
+
+# --- Task 5: A Level statistics and motion ----------------------------------------------------
+
+def dec(text):
+    return Fraction(text) if "/" in text else Fraction(text)
+
+
+def test_prob_distribution():
+    m = fam("prob_distribution")
+    for s in SEEDS:
+        p, (missing, tail, mean, mode) = run(m, s)
+        xs, ps, k = p["xs"], [Fraction(v, 20) for v in p["twentieths"]], p["missing"]
+        assert sum(ps) == 1 and all(v >= Fraction(1, 20) for v in ps)
+        P = dict(zip(xs, ps))
+        assert Fraction(1, 20) <= P[k] <= Fraction(1, 2)
+        assert dec(missing.answer) == P[k] and f"P(X = {k})" in missing.stem
+        sign, t = re.search(r"P\(X ([≥≤]) (\d+)\)", tail.stem).groups()
+        want = sum(v for x, v in P.items() if (x >= int(t) if sign == "≥" else x <= int(t)))
+        assert dec(tail.answer) == want
+        assert dec(mean.answer) == sum(x * v for x, v in P.items())
+        top = max(ps)
+        assert ps.count(top) == 1 and int(mode.answer) == xs[ps.index(top)]
+
+
+def test_pdf_graph():
+    m = fam("pdf_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        kind, lo, hi = p["kind"], p["lo"], p["hi"]
+        w = hi - lo
+        # The area under f by integration, from lo to c, of the straight-line shape drawn.
+        f = {"uniform": lambda x: Fraction(1, w), "ramp": lambda x: Fraction(2, w) * (x - lo) / w,
+             "fall": lambda x: Fraction(2, w) * (hi - x) / w,
+             "tent": lambda x: Fraction(2, w) * (1 - abs(2 * x - lo - hi) / Fraction(w))}[kind]
+        mid = Fraction(lo + hi, 2)
+
+        def integral(g, a, b):
+            """Simpson's rule on each straight piece of f (split at the tent's peak): exact up to cubics."""
+            cuts = [a] + ([mid] if a < mid < b else []) + [b]
+            return sum((v - u) / 6 * (g(u) + 4 * g((u + v) / 2) + g(v)) for u, v in zip(cuts, cuts[1:]))
+        F = lambda c: integral(f, Fraction(lo), Fraction(c))  # noqa: E731
+        k = max(f(Fraction(lo)), f(Fraction(hi)), f(mid))
+        E = integral(lambda x: x * f(x), Fraction(lo), Fraction(hi))
+        assert integral(f, Fraction(lo), Fraction(hi)) == 1  # the area is 1
+        height, below, mean = qs[:3]
+        assert dec(height.answer) == k
+        c = int(re.search(r"P\(X < (\d+)\)", below.stem).group(1))
+        assert dec(below.answer) == F(c) and 0 < F(c) < 1
+        assert dec(mean.answer) == E
+        if kind == "uniform":
+            assert dec(qs[3].answer) == mid  # the median of a uniform distribution
+
+
+def test_velocity_time():
+    m = fam("velocity_time")
+    for s in SEEDS:
+        p, (first, last, distance, top) = run(m, s)
+        pts = [tuple(c) for c in p["corners"]]
+        assert pts[0] == (0, 0) and pts[-1][1] == 0 and all(t1 > t0 for (t0, _), (t1, _) in zip(pts, pts[1:]))
+        assert all(t % p["tstep"] == 0 for t, _ in pts)  # every corner on a gridline
+        (t0, v0), (t1, v1) = pts[0], pts[1]
+        assert dec(first.answer) == Fraction(v1 - v0, t1 - t0) and f"first {t1} seconds" in first.stem
+        (ta, va), (tb, vb) = pts[-2], pts[-1]
+        assert dec(last.answer) == Fraction(va - vb, tb - ta)
+        area = sum(Fraction((v0 + v1) * (t1 - t0), 2) for (t0, v0), (t1, v1) in zip(pts, pts[1:]))
+        assert area.denominator == 1 and int(distance.answer) == area
+        assert int(top.answer) == max(v for _, v in pts)
+        for (t0, v0), (t1, v1) in zip(pts, pts[1:]):
+            assert (Fraction(v1 - v0, t1 - t0) * 2).denominator == 1  # whole or half m/s²
