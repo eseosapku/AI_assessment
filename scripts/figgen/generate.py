@@ -104,6 +104,31 @@ def families_to_draw(families: dict, index) -> tuple[dict, list[str]]:
     return draw, skipped
 
 
+def refresh_forms(db, m) -> tuple[int, int]:
+    """Re-reads the accepted answer forms of a family's stored figures from today's code, where the stem
+    and the key are unchanged ("12 800" learnt after they were drawn), so their reviews still stand.
+    A figure whose numbers or wording changed is left as it is: it needs --redo. Returns how many
+    figures were updated and how many were left."""
+    updated = left = 0
+    for r in db.execute("SELECT id, seed, spec FROM figures WHERE origin = 'drawn' AND family = ?", (m.ID,)).fetchall():
+        rng = random.Random(r["seed"])
+        params = m.sample(rng)
+        if json.dumps(params, sort_keys=True) != r["spec"]:
+            left += 1
+            continue
+        qs = m.questions(params, rng)
+        stored = db.execute("SELECT n, stem, answer, accepted FROM figure_questions WHERE figure_id = ? ORDER BY n", (r["id"],)).fetchall()
+        if len(stored) != len(qs) or any(s["stem"] != q.stem or s["answer"] != q.answer for s, q in zip(stored, qs)):
+            left += 1
+            continue
+        changes = [(json.dumps(q.accepted), q.tolerance, r["id"], s["n"]) for s, q in zip(stored, qs) if json.loads(s["accepted"]) != q.accepted]
+        if changes:
+            with db:
+                db.executemany("UPDATE figure_questions SET accepted = ?, tolerance = ? WHERE figure_id = ? AND n = ?", changes)
+            updated += 1
+    return updated, left
+
+
 def relink_family(db, m, index) -> tuple[int, int]:
     """Re-reads which topics each stored figure of a concept-linked family reaches, from its saved
     parameters, after the family's concepts, stages or avoided chapters change. Returns how many
@@ -123,6 +148,8 @@ def main(argv=None) -> int:
     ap.add_argument("--families", default="", help="comma-separated family ids; all when left out")
     ap.add_argument("--redo", action="store_true", help="redraw these families from scratch, dropping their reviews")
     ap.add_argument("--relink", action="store_true", help="re-read the topics of these families' stored figures; draw nothing")
+    ap.add_argument("--refresh-forms", action="store_true",
+                    help="re-read the accepted answer forms of stored figures whose wording is unchanged; draw nothing")
     a = ap.parse_args(argv)
     ids = [f.strip() for f in a.families.split(",") if f.strip()] or list(FAMILIES)
     unknown = [f for f in ids if f not in FAMILIES]
@@ -131,6 +158,12 @@ def main(argv=None) -> int:
     lib = library_dir()
     db = open_store()
     index = topic_index(db)
+    if a.refresh_forms:
+        for fid in ids:
+            updated, left = refresh_forms(db, FAMILIES[fid])
+            print(f"{fid:20s} {updated} figures' forms refreshed, {left} left (their wording changed)")
+        db.close()
+        return 0
     if a.relink:
         for fid in (f for f in ids if hasattr(FAMILIES[f], "CONCEPTS")):
             moved, orphaned = relink_family(db, FAMILIES[fid], index)

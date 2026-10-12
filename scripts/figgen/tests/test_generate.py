@@ -194,3 +194,33 @@ def test_relinking_moves_stored_figures_to_the_topics_they_reach_now(tmp_path):
     assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] > 0
     assert relink_family(db, m, [topic("t:spread", every), topic("t:two", frozenset())]) == (0, 0)
     assert relink_family(db, m, [topic("t:two", frozenset())]) == (3, 3)  # reaching nothing now: counted
+
+
+
+def test_refreshing_forms_widens_what_is_accepted_and_keeps_the_review(tmp_path):
+    """A fair form learnt later ("12 800") reaches figures already reviewed, without redrawing them: the
+    stem and the key are the same, so the verdict on them stands. A figure whose wording changed is
+    left alone (it needs --redo)."""
+    from figgen.generate import refresh_forms
+    db = open_store(tmp_path / "figures.db")
+    m = FAMILIES["box_plot"]
+    band = m.BANDS[0]
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('t:1', 'test', 'Book', 'mathematics', ?, 'Statistics')",
+               (band,))
+    db.executemany("INSERT INTO concepts (id, subject, name, bands) VALUES (?, 'mathematics', ?, '[]')", [(c, c) for c in m.CONCEPTS])
+    db.commit()
+    index = [{"key": "t:1", "band": band, "subject": "mathematics", "name": "Statistics", "stage": None, "concepts": frozenset(m.CONCEPTS)}]
+    generate_family(db, tmp_path, m, 3, index=index)
+    full = {r[0]: r[1] for r in db.execute("SELECT id, accepted FROM figure_questions")}
+    db.execute("UPDATE figure_questions SET accepted = json_array(answer)")  # as if drawn before the forms were learnt
+    first = db.execute("SELECT id FROM figures ORDER BY id LIMIT 1").fetchone()[0]
+    db.execute("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', ?, 'm', 1, '{}', 'now')", (first,))
+    last = db.execute("SELECT id FROM figures ORDER BY id DESC LIMIT 1").fetchone()[0]
+    db.execute("UPDATE figure_questions SET stem = 'An older wording' WHERE figure_id = ? AND n = 1", (last,))
+    db.commit()
+
+    assert refresh_forms(db, m) == (2, 1)
+    now = {r[0]: r[1] for r in db.execute("SELECT id, accepted FROM figure_questions")}
+    assert all(now[q] == full[q] for q in now if not q.startswith(last))
+    assert db.execute("SELECT COUNT(*) FROM reviews").fetchone()[0] == 1  # the verdict stands
+    assert refresh_forms(db, m) == (0, 1)
