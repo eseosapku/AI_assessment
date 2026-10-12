@@ -55,8 +55,8 @@ def test_line_graph():
         at = int(reading.stem.split(" at ")[1][:2])
         assert int(reading.answer) == t[hours.index(at)]
         assert int(picked(hottest)[:2]) == hours[t.index(max(t))]
-        times = [int(x[:2]) for x in change.stem.split("between ")[1].rstrip("?").split(" and ")]
-        assert int(change.answer) == abs(t[hours.index(times[1])] - t[hours.index(times[0])])
+        times = [int(x[:2]) for x in change.stem.split("temperatures at ")[1].split(",")[0].split(" and ")]
+        assert int(change.answer) == abs(t[hours.index(times[1])] - t[hours.index(times[0])]) > 0
         assert all(v % 2 == 0 for v in t)  # on the 2 °C gridlines
 
 
@@ -120,7 +120,7 @@ def test_punnett():
         p, (cell, pct) = run(punnett, s)
         r, c = p["blank"]
         alleles = sorted(p["p1"][r] + p["p2"][c], key=lambda ch: (ch.islower(), ch))
-        assert cell.answer == "".join(alleles)
+        assert picked(cell) == "".join(alleles)
         rec = sum(1 for a in p["p1"] for b in p["p2"] if a.islower() and b.islower())
         assert picked(pct) == f"{rec * 25}%"
 
@@ -160,7 +160,7 @@ def test_climate_graph():
         month = rain.stem.split(" in ")[1].split(",")[0]
         assert int(rain.answer) == p["rain"][climate_graph.FULL.index(month)]
         assert int(trange.answer) == max(p["temp"]) - min(p["temp"])
-        assert all(r % 25 == 0 for r in p["rain"]) and all(t % 2 == 0 for t in p["temp"])
+        assert all(r % 5 == 0 for r in p["rain"]) and all(t % 2 == 0 for t in p["temp"])
 
 
 def test_population_pyramid():
@@ -217,9 +217,12 @@ def test_notice():
 
 def test_timetable():
     for s in SEEDS:
-        p, (arrival, journey, latest) = run(timetable, s)
+        p, (arrival, where, latest, note) = run(timetable, s)
         rows = timetable.times(p)
-        assert int(journey.answer) == sum(p["gaps"])
+        wb = int(where.stem.split("Bus ")[1].split(" ")[0]) - 1
+        hh, mm = where.stem.split(" reach at ")[1].rstrip("?").split(":")
+        assert rows[wb][p["stops"].index(where.answer)] == int(hh) * 60 + int(mm)
+        assert picked(note) == timetable.NOTES[p["note"]][2]
         bus = int(arrival.stem.split("Bus ")[1].split(" ")[0]) - 1
         stop = arrival.stem.split("reach ")[1].rstrip("?")
         m = rows[bus][p["stops"].index(stop)]

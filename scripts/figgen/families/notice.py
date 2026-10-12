@@ -38,6 +38,15 @@ def _time(h: int) -> str:
     return f"{h % 12 or 12}:00 {'a.m.' if h < 12 else 'p.m.'}"
 
 
+def _forms(h: int) -> list[str]:
+    """Every fair way to write the hour: 9:00 a.m., 9 am, 9am, 09:00 and the rest."""
+    h12 = h % 12 or 12
+    out = []
+    for suffix in (("a.m.", "am") if h < 12 else ("p.m.", "pm")):
+        out += [f"{h12}:00 {suffix}", f"{h12}:00{suffix}", f"{h12} {suffix}", f"{h12}{suffix}"]
+    return out + [f"{h:02d}:00", f"{h}:00"]
+
+
 def draw(p: dict):
     fig, ax = new_figure(5.6, 4.4)
     ax.add_patch(FancyBboxPatch((0.03, 0.03), 0.94, 0.94, boxstyle="round,pad=0.01", fill=False, edgecolor="#111111", linewidth=2))
@@ -64,7 +73,7 @@ def questions(p: dict, rng: random.Random) -> list:
     hours = p["end"] - p["start"]
     place = p["place"]
     return [
-        short("What time does the event start?", start, [start.replace(".", ""), start.replace(" ", ""), f"{p['start'] % 12 or 12} {'am' if p['start'] < 12 else 'pm'}"]),
+        short("What time does the event start?", start, _forms(p["start"])),
         short("How many hours does the event last?", hours, [f"{hours} hours"]),
         short("Which room should you go to if you have a question?", f"Room {p['room']}", [str(p["room"]), f"room {p['room']}"]),
         short(f"Where is the {p['event'].lower()} held?", place, [place.replace("the ", ""), place[0].upper() + place[1:]]),

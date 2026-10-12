@@ -32,9 +32,9 @@ def sample(rng: random.Random) -> dict:
     while True:
         xs = sorted(rng.sample(range(1, 13), 9))  # distinct x, so each point is named by its x
         if trend == "positive":
-            ys = [min(100, max(5, 5 * round((20 + 6 * x + rng.choice([-10, -5, 0, 5, 10])) / 5))) for x in xs]
+            ys = [min(95, max(5, 5 * round((20 + 6 * x + rng.choice([-10, -5, 0, 5, 10])) / 5))) for x in xs]
         elif trend == "negative":
-            ys = [min(100, max(5, 5 * round((90 - 6 * x + rng.choice([-10, -5, 0, 5, 10])) / 5))) for x in xs]
+            ys = [min(95, max(5, 5 * round((90 - 6 * x + rng.choice([-10, -5, 0, 5, 10])) / 5))) for x in xs]
         else:
             ys = [5 * rng.randint(4, 16) for _ in xs]
         r = _r(xs, ys)

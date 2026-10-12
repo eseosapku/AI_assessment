@@ -40,6 +40,8 @@ def draw(p: dict):
     lo, hi = first - 2, last + 2
     fig, ax = new_figure(6.6, 5.2)
     ax.plot([0, 0], [lo, hi], color="#111111", linewidth=2)
+    for y in range(lo, hi + 1):  # a small tick for every year, so each dot's year can be checked by eye
+        ax.plot([-0.06, 0.06], [y, y], color="#111111", linewidth=0.8)
     step = 5 if hi - lo <= 40 else 10
     for y in range(-(-lo // step) * step, hi + 1, step):
         ax.plot([-0.12, 0.12], [y, y], color="#111111", linewidth=1)

@@ -14,7 +14,6 @@ PILOT = {
     "number_line": ["db:489"], "coordinates": ["db:489"],  # Maths P: Numbers and sequences
     "punnett": ["db:111"],  # Biology UP: Genetics
     "food_web": ["db:3856"],  # NERDC SS2 Biology: Ecology
-    "scale_reading": ["db:1101"],  # Geography LS: Weather and climate
     "climate_graph": ["db:1115"],  # Geography LS: Climate and climate change in Rwanda
     "population_pyramid": ["db:1105"],  # Geography LS: Population and settlement
     "cross_section": ["db:1112"],  # Geography LS: Relief in Rwanda
@@ -25,9 +24,16 @@ PILOT = {
 }
 # A timeline goes to the history topic its events belong to.
 TIMELINE = {"The Cold War": ["db:162"], "Independence in Africa": ["db:1057"]}
+# A thermometer fits weather; a measuring cylinder is a science skill (the review rejected it in geography).
+INSTRUMENT = {"thermometer": ["db:1101"],  # Geography LS: Weather and climate
+              "measuring cylinder": ["db:1884"]}  # Physics LS: Measurement of physical quantities
+BY_PARAMS = {
+    "timeline": lambda params: TIMELINE[params["title"]],
+    "scale_reading": lambda params: INSTRUMENT[params["kind"]],
+}
 
 
 def topics_for(family: str, params: dict) -> list[str]:
-    if family == "timeline":
-        return TIMELINE[params["title"]]
+    if family in BY_PARAMS:
+        return BY_PARAMS[family](params)
     return PILOT[family]

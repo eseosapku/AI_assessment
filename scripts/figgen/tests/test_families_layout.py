@@ -11,7 +11,8 @@ import matplotlib.pyplot as plt
 import pytest
 from matplotlib.text import Text
 
-from figgen.families import FAMILIES, coordinates, cross_section, line_graph, notice, timeline, tree_diagram
+from figgen.families import (FAMILIES, angles, climate_graph, coordinates, cross_section, food_web, line_graph, notice,
+                             population_pyramid, punnett, scale_reading, scatter_graph, timeline, timetable, tree_diagram)
 
 
 def drawn_texts(fig):
@@ -37,15 +38,20 @@ def overlap(a, b, margin=1.0) -> bool:
     return min(a.x1, b.x1) - max(a.x0, b.x0) > margin and min(a.y1, b.y1) - max(a.y0, b.y0) > margin
 
 
-def crosses(line, box, margin=1.0, steps=80) -> bool:
+def inside(pt, box, margin=1.0) -> bool:
+    return box.x0 + margin < pt[0] < box.x1 - margin and box.y0 + margin < pt[1] < box.y1 - margin
+
+
+def segment_hits(p0, p1, box, margin=1.0, steps=80) -> bool:
+    """Whether a straight segment between two pixel points passes through a box."""
+    return any(inside((p0[0] + (p1[0] - p0[0]) * k / steps, p0[1] + (p1[1] - p0[1]) * k / steps), box, margin)
+               for k in range(steps + 1))
+
+
+def crosses(line, box, margin=1.0) -> bool:
     """Whether any part of a drawn line passes through a box, in pixels."""
     pts = line.get_transform().transform(line.get_xydata())
-    for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
-        for k in range(steps + 1):
-            x, y = x0 + (x1 - x0) * k / steps, y0 + (y1 - y0) * k / steps
-            if box.x0 + margin < x < box.x1 - margin and box.y0 + margin < y < box.y1 - margin:
-                return True
-    return False
+    return any(segment_hits(a, b, box, margin) for a, b in zip(pts, pts[1:]))
 
 
 @pytest.mark.parametrize("fid", sorted(FAMILIES))
@@ -142,3 +148,174 @@ def test_coordinate_points_stay_clear_of_the_axis_numbers():
         p = coordinates.sample(random.Random(seed))
         if p["lo"] < 0:
             assert all(abs(x) >= 2 and abs(y) >= 2 for x, y in p["points"]), f"seed {seed}: {p['points']}"
+
+
+# From the blind review's rejections (round two).
+
+def test_food_web_arrows_never_pass_through_another_box_and_their_heads_show():
+    # Arrows that skipped a level ran behind the box between, so the web read as other links.
+    for seed in range(1, 81):
+        p = food_web.sample(random.Random(seed))
+        fig = food_web.draw(p)
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        ax = fig.axes[0]
+        boxes = {t.get_text(): t.get_bbox_patch().get_window_extent(renderer) for t in ax.texts if t.get_bbox_patch()}
+        arrows = [a for a in ax.texts if (a.get_gid() or "").startswith("edge:")]
+        assert len(arrows) == len(p["links"]), f"seed {seed}"
+        for a in arrows:
+            food, eater = a.get_gid()[5:].split(">")
+            start, end = ax.transData.transform(a.xyann), ax.transData.transform(a.xy)
+            for name, box in boxes.items():
+                assert not inside(end, box), f"seed {seed}: the head of {food}->{eater} is hidden in {name}"
+                if name not in (food, eater):
+                    assert not segment_hits(start, end, box), f"seed {seed}: {food}->{eater} passes through {name}"
+        plt.close(fig)
+
+
+def test_food_web_question_says_what_a_chain_is():
+    rng = random.Random(1)
+    stem = food_web.questions(food_web.sample(rng), rng)[2].stem
+    assert "producer" in stem and "nothing" in stem
+
+
+def test_angle_arcs_each_mark_one_angle():
+    from matplotlib.patches import Arc
+    for seed in range(1, 120):
+        p = angles.sample(random.Random(seed))
+        if p["total"] == 360:
+            assert all(abs(a - 180) > 15 for a in p["parts"]), f"seed {seed}: {p['parts']}: two rays look like one line"
+        fig = angles.draw(p)
+        sizes = [a.width for a in fig.axes[0].patches if isinstance(a, Arc)]
+        plt.close(fig)
+        assert len(sizes) == len(p["parts"])
+        pairs = list(zip(sizes, sizes[1:])) + ([(sizes[-1], sizes[0])] if p["total"] == 360 else [])
+        assert all(x != y for x, y in pairs), f"seed {seed}: neighbouring arcs share a radius and join up"
+
+
+def test_climate_values_sit_on_gridlines_both_axes_share():
+    for seed in range(1, 60):
+        p = climate_graph.sample(random.Random(seed))
+        assert sum(1 for r in p["rain"] if r > 0) >= 3, f"seed {seed}: {p['name']} {p['rain']}"
+        fig = climate_graph.draw(p)
+        ax, ax2 = fig.axes[0], fig.axes[1]
+        assert ax.get_ylim()[0] == 0 and ax2.get_ylim()[0] == 0
+        top, ttop = ax.get_ylim()[1], ax2.get_ylim()[1]
+        lines = {round(float(v), 6) for v in list(ax.get_yticks()) + list(ax.get_yticks(minor=True))}
+        plt.close(fig)
+        for r in p["rain"]:
+            assert round(float(r), 6) in lines, f"seed {seed}: {r} mm is between gridlines"
+        for t in p["temp"]:
+            assert round(t / ttop * top, 6) in lines, f"seed {seed}: {t} degrees is between gridlines"
+
+
+def test_scatter_points_stay_inside_the_plot():
+    for seed in range(1, 200):
+        p = scatter_graph.sample(random.Random(seed))
+        assert all(5 <= y <= 95 for y in p["ys"]), f"seed {seed}: a point on the plot's edge"
+
+
+def test_scale_readings_are_clear_of_the_bottom_and_thermometers_have_a_bulb():
+    from matplotlib.patches import Ellipse  # the bulb: round on the page, though the axes are not square
+    for seed in range(1, 120):
+        p = scale_reading.sample(random.Random(seed))
+        assert p["value"] - p["lo"] >= (p["hi"] - p["lo"]) / 6, f"seed {seed}: {p['value']} is too near the bottom"
+        if seed <= 20:
+            fig = scale_reading.draw(p)
+            bulbs = [c for c in fig.axes[0].patches if isinstance(c, Ellipse)]
+            plt.close(fig)
+            assert bool(bulbs) == (p["kind"] == "thermometer"), f"seed {seed}"
+
+
+def test_pyramid_percentages_add_to_100_and_axis_numbers_have_room():
+    for seed in range(1, 120):
+        p = population_pyramid.sample(random.Random(seed))
+        assert sum(p["male"]) + sum(p["female"]) == 100, f"seed {seed}"
+        assert min(p["male"] + p["female"]) >= 1
+    for seed in range(1, 16):
+        fig = population_pyramid.draw(population_pyramid.sample(random.Random(seed)))
+        fig.canvas.draw()
+        renderer = fig.canvas.get_renderer()
+        boxes = sorted((t.get_window_extent(renderer) for t in fig.axes[0].get_xticklabels() if t.get_text()),
+                       key=lambda b: b.x0)
+        plt.close(fig)
+        gap = min(b.x0 - a.x1 for a, b in zip(boxes, boxes[1:]))
+        assert gap >= 6, f"seed {seed}: axis numbers only {gap:.1f}px apart"
+
+
+def test_timetable_questions_are_answered_by_reading_it():
+    # The review judged duration sums to be numeracy, not English reading.
+    for seed in range(1, 40):
+        rng = random.Random(seed)
+        p = timetable.sample(rng)
+        qs = timetable.questions(p, rng)
+        fig = timetable.draw(p)
+        words = " ".join(t.get_text() for t, _ in drawn_texts(fig)).lower()
+        plt.close(fig)
+        for q in qs:
+            key = q.options[int(q.answer)] if q.kind == "mcq" else q.answer
+            assert key.lower() in words, f"seed {seed}: {key!r} cannot be read off the timetable"
+            assert "how many minutes" not in q.stem.lower()
+
+
+def test_timeline_marks_every_year():
+    for seed in range(1, 21):
+        p = timeline.sample(random.Random(seed))
+        fig = timeline.draw(p)
+        ys = {round(float(line.get_ydata()[0]), 6) for line in fig.axes[0].lines
+              if len(line.get_ydata()) == 2 and line.get_ydata()[0] == line.get_ydata()[1] and line.get_xdata()[0] < 0}
+        plt.close(fig)
+        first, last = p["events"][0][1], p["events"][-1][1]
+        assert set(range(first - 2, last + 3)) <= ys, f"seed {seed}: some years have no tick"
+
+
+# From the final code review.
+
+def test_pyramid_shapes_look_like_their_names():
+    # Independent noise made most "stable" pyramids bulge in the middle, so "contracting" was also right.
+    for seed in range(1, 200):
+        p = population_pyramid.sample(random.Random(seed))
+        t = [m + f for m, f in zip(p["male"], p["female"])]
+        if p["shape"] == "expanding":
+            assert all(a >= b for a, b in zip(t, t[1:])) and t[0] >= 2 * t[3], f"seed {seed}: {t}"
+        elif p["shape"] == "stable":
+            assert t[0] >= max(t[1:]), f"seed {seed}: a stable pyramid wider above its base: {t}"
+            assert all(abs(a - b) <= 4 for a, b in zip(t, t[1:])) and 2 * t[-1] >= t[0], f"seed {seed}: {t}"
+        else:
+            assert max(t[2:6]) >= t[0] + 4, f"seed {seed}: a contracting pyramid with a wide base: {t}"
+
+
+def test_punnett_genotype_is_chosen_not_typed():
+    # The app's marker ignores letter case, so a typed TT, Tt and tt would all mark the same.
+    for seed in range(1, 60):
+        rng = random.Random(seed)
+        p = punnett.sample(rng)
+        q = punnett.questions(p, rng)[0]
+        letter = p["letter"]
+        assert q.kind == "mcq"
+        assert sorted(q.options) == sorted([letter * 2, letter + letter.lower(), letter.lower() * 2])
+
+
+def test_line_graph_asks_for_a_difference_that_is_never_zero():
+    # "By how many degrees did it change" had answers of 0, and a fair "-2" was marked wrong.
+    for seed in range(1, 120):
+        rng = random.Random(seed)
+        q = line_graph.questions(line_graph.sample(rng), rng)[2]
+        assert "difference" in q.stem and int(q.answer) > 0, f"seed {seed}: {q.stem} {q.answer}"
+
+
+def test_fair_ways_of_writing_a_time_are_accepted():
+    for seed in range(1, 60):
+        rng = random.Random(seed)
+        p = notice.sample(rng)
+        q = notice.questions(p, rng)[0]
+        h = p["start"]
+        h12, ap = h % 12 or 12, ("am" if h < 12 else "pm")
+        dotted = "a.m." if h < 12 else "p.m."
+        for form in (f"{h12} {ap}", f"{h12}{ap}", f"{h12}:00 {ap}", f"{h12} {dotted}", f"{h:02d}:00"):
+            assert form in q.accepted, f"seed {seed}: {form!r} not in {q.accepted}"
+        rng = random.Random(seed)
+        p = timetable.sample(rng)
+        q = timetable.questions(p, rng)[0]
+        hh, mm = q.answer.split(":")
+        assert f"{int(hh)}.{mm}" in q.accepted and f"{int(hh)}:{mm}" in q.accepted, f"seed {seed}: {q.accepted}"

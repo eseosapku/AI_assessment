@@ -54,12 +54,12 @@ def draw(p: dict):
 def questions(p: dict, rng: random.Random) -> list:
     t = p["temps"]
     i = rng.randrange(len(HOURS))
-    a, b = sorted(rng.sample(range(len(HOURS)), 2))
+    a, b = rng.choice([(a, b) for a in range(len(HOURS)) for b in range(a + 1, len(HOURS)) if t[a] != t[b]])
     hottest = HOURS[t.index(max(t))]
     others = [_clock(h) for h in HOURS if h != hottest]
     return [
         short(f"What was the temperature at {_clock(HOURS[i])}, in °C?", t[i], [f"{t[i]}°C", f"{t[i]} °C"]),
         mcq("At what time was the temperature highest?", _clock(hottest), rng.sample(others, 3), rng),
-        short(f"By how many degrees did the temperature change between {_clock(HOURS[a])} and {_clock(HOURS[b])}?",
-              abs(t[b] - t[a])),
+        short(f"What is the difference between the temperatures at {_clock(HOURS[a])} and {_clock(HOURS[b])}, in \u00b0C?",
+              abs(t[b] - t[a]), [f"{abs(t[b] - t[a])}\u00b0C", f"{abs(t[b] - t[a])} \u00b0C"]),
     ]

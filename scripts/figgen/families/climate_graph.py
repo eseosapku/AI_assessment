@@ -15,38 +15,46 @@ FULL = ["January", "February", "March", "April", "May", "June", "July", "August"
         "November", "December"]
 
 # Monthly shapes (rainfall in 25 mm units, temperature in °C) for real climate types.
+# (rain step in mm, rain in steps, temperature in °C) by month. A hot desert's rain is a few
+# millimetres in its cooler months, so it is counted in 5 mm steps on its own scale.
 TYPES = {
-    "equatorial, two rainy seasons": ([3, 4, 5, 6, 4, 1, 1, 2, 3, 4, 5, 4], [21, 21, 21, 21, 20, 20, 20, 21, 21, 21, 20, 20]),
-    "tropical wet and dry": ([0, 0, 1, 2, 4, 6, 8, 8, 6, 3, 1, 0], [24, 26, 29, 31, 30, 28, 27, 26, 27, 28, 27, 25]),
-    "hot desert": ([0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0], [14, 16, 20, 24, 28, 32, 34, 34, 30, 26, 20, 16]),
-    "temperate, southern hemisphere": ([2, 2, 3, 3, 4, 4, 4, 3, 3, 2, 2, 2], [22, 22, 20, 18, 14, 12, 12, 12, 14, 16, 18, 20]),
+    "equatorial, two rainy seasons": (25, [3, 4, 5, 6, 4, 1, 1, 2, 3, 4, 5, 4],
+                                      [21, 21, 21, 21, 20, 20, 20, 21, 21, 21, 20, 20]),
+    "tropical wet and dry": (25, [0, 0, 1, 2, 4, 6, 8, 8, 6, 3, 1, 0], [24, 26, 29, 31, 30, 28, 27, 26, 27, 28, 27, 25]),
+    "hot desert": (5, [2, 2, 1, 1, 0, 0, 0, 0, 0, 1, 2, 3], [14, 16, 20, 24, 28, 32, 34, 34, 30, 26, 20, 16]),
+    "temperate, southern hemisphere": (25, [2, 2, 3, 3, 4, 4, 4, 3, 3, 2, 2, 2],
+                                       [22, 22, 20, 18, 14, 12, 12, 12, 14, 16, 18, 20]),
 }
 
 
 def sample(rng: random.Random) -> dict:
     name = rng.choice(sorted(TYPES))
-    rain_units, temps = TYPES[name]
+    step, rain_units, temps = TYPES[name]
     while True:
-        rain = [25 * max(0, u + rng.choice([-1, 0, 0, 1])) for u in rain_units]
+        rain = [step * max(0, u + rng.choice([-1, 0, 0, 1])) for u in rain_units]
         temp = [2 * round((t + rng.choice([-2, 0, 0, 2])) / 2) for t in temps]
-        if rain.count(max(rain)) == 1 and max(rain) > 0:
-            return {"name": name, "rain": rain, "temp": temp}
+        if rain.count(max(rain)) == 1 and sum(1 for r in rain if r) >= 3:
+            return {"name": name, "step": step, "rain": rain, "temp": temp}
 
 
 def draw(p: dict):
     fig, ax = new_figure(7.0, 4.4)
+    step = p["step"]
     ax.bar(MONTHS, p["rain"], color=FILL, edgecolor="#111111", width=0.7)
-    top = max(250, max(p["rain"]) + 25)
-    ax.set_yticks(range(0, top + 1, 25))
+    # Twenty gridlines up each side: every 2 °C on the right falls on a line every half step
+    # of rain on the left, so both readings sit on gridlines.
+    top = 10 * step
+    ax.set_yticks([step * i for i in range(11)])
+    ax.set_yticks([step * i / 2 for i in range(21)], minor=True)
     ax.set_ylim(0, top)
-    ax.yaxis.grid(True, color=GRID, linewidth=0.6)
+    ax.yaxis.grid(True, which="both", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
     ax.set_ylabel("Rainfall (mm)")
     ax2 = ax.twinx()
     ax2.plot(MONTHS, p["temp"], marker="o", color="#111111")
     ax2.set_yticks(range(0, 41, 2))
     ax2.set_ylim(0, 40)
-    ax2.set_ylabel("Temperature (°C)")
+    ax2.set_ylabel("Temperature (\u00b0C)")
     ax2.spines["right"].set_visible(True)
     ax2.tick_params(labelsize=8)
     ax.tick_params(labelsize=8)

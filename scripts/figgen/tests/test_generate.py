@@ -5,7 +5,7 @@ import pytest
 
 from figgen.families import FAMILIES, timeline
 from figgen.generate import generate_family
-from figgen.pilot import PILOT, TIMELINE, topics_for
+from figgen.pilot import BY_PARAMS, PILOT, TIMELINE, topics_for
 from figgen.store import open_store
 
 # The pilot's topics as they are in the staging store (checked 2026-10-12).
@@ -15,7 +15,7 @@ TOPICS = {
     "db:3856": ("biology", "UP"), "db:1101": ("geography", "LS"), "db:1115": ("geography", "LS"),
     "db:1105": ("geography", "LS"), "db:1112": ("geography", "LS"), "waec:Economics:1": ("economics", "UP"),
     "jamb:Commerce:2": ("business", "UP"), "checkpoint:lower-secondary:0876:0": ("english", "LS"),
-    "db:162": ("history", "UP"), "db:1057": ("history", "UP"),
+    "db:162": ("history", "UP"), "db:1057": ("history", "UP"), "db:1884": ("physics", "LS"),
 }
 
 
@@ -29,7 +29,7 @@ def db(tmp_path):
 
 
 def test_every_family_has_pilot_topics_at_its_level():
-    assert set(PILOT) | {"timeline"} == set(FAMILIES)
+    assert set(PILOT) | set(BY_PARAMS) == set(FAMILIES)
     assert set(TIMELINE) == set(timeline.SETS)
     for fid, m in FAMILIES.items():
         for s in range(1, 21):
@@ -92,3 +92,10 @@ def test_timeline_figures_go_to_the_topic_of_their_set(db, tmp_path):
     assert len(rows) == 6
     for row in rows:
         assert row["topic_key"] == TIMELINE[json.loads(row["spec"])["title"]][0]
+
+
+def test_scale_readings_go_to_the_subject_of_their_instrument():
+    # A measuring cylinder is a science skill; the review rejected it in a geography topic.
+    for s in range(1, 40):
+        params = FAMILIES["scale_reading"].sample(random.Random(s))
+        assert topics_for("scale_reading", params) == (["db:1101"] if params["kind"] == "thermometer" else ["db:1884"])

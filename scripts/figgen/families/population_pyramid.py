@@ -19,11 +19,34 @@ SHAPES = {
 NAMES = {"expanding": "Expanding (a young population)", "stable": "Stable", "contracting": "Contracting (an ageing population)"}
 
 
+def _looks(shape: str, t: list[int]) -> bool:
+    """Whether the bar totals still show the shape they were drawn as, so the shape question has one answer."""
+    if shape == "expanding":
+        return all(a >= b for a, b in zip(t, t[1:])) and t[0] >= 2 * t[3]
+    if shape == "stable":
+        return t[0] >= max(t[1:]) and all(abs(a - b) <= 4 for a, b in zip(t, t[1:])) and 2 * t[-1] >= t[0]
+    return max(t[2:6]) >= t[0] + 4
+
+
 def sample(rng: random.Random) -> dict:
     shape = rng.choice(sorted(SHAPES))
     base = SHAPES[shape]
+    while True:
+        p = _noisy(rng, shape, base)
+        if _looks(shape, [m + f for m, f in zip(p["male"], p["female"])]):
+            return p
+
+
+def _noisy(rng: random.Random, shape: str, base: list[int]) -> dict:
     male = [max(1, v + rng.choice([-1, 0, 0, 1])) for v in base]
     female = [max(1, v + rng.choice([-1, 0, 0, 1])) for v in base]
+    # One population's percentages add to 100: take the noise's drift back out, a bar at a time.
+    sides = (male, female)
+    while (total := sum(male) + sum(female)) != 100:
+        side, i = rng.randrange(2), rng.randrange(len(base))
+        step = 1 if total < 100 else -1
+        if sides[side][i] + step >= 1:
+            sides[side][i] += step
     return {"shape": shape, "male": male, "female": female}
 
 
@@ -33,11 +56,14 @@ def draw(p: dict):
     ax.barh(y, [-m for m in p["male"]], color=FILL, edgecolor="#111111", height=0.8)
     ax.barh(y, p["female"], color=FILL_2, edgecolor="#111111", height=0.8)
     top = max(max(p["male"]), max(p["female"])) + 1
-    ticks = list(range(-top, top + 1))
+    # Numbers every 2 on a wide scale so they never crowd; a gridline on every whole percent.
+    every = 2 if top > 10 else 1
+    ticks = [t for t in range(-top, top + 1) if t % every == 0]
     ax.set_xticks(ticks, [str(abs(t)) for t in ticks])
+    ax.set_xticks(range(-top, top + 1), minor=True)
     ax.set_xlim(-top - 0.5, top + 0.5)
     ax.tick_params(axis="x", labelsize=8)
-    ax.xaxis.grid(True, color=GRID, linewidth=0.6)
+    ax.xaxis.grid(True, which="both", color=GRID, linewidth=0.6)
     ax.set_axisbelow(True)
     ax.set_yticks(list(y), GROUPS)
     ax.axvline(0, color="#111111", linewidth=1)

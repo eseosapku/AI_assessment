@@ -93,42 +93,68 @@ def sample(rng: random.Random) -> dict:
     return {"name": name, "links": [list(l) for l in links]}
 
 
-def _levels(links):
-    eats = _graph(links)
-    level: dict[str, int] = {}
+# Where each organism stands: x across the page, y its level from the plants up. Placed by
+# hand, as a textbook would, so no arrow runs behind another organism's box (one that did
+# made the web read as different links). A web with organisms left out keeps these places.
+LAYOUT = {
+    "African savanna": {
+        "grass": (0.32, 0), "acacia": (0.85, 0), "grasshopper": (0.1, 1), "zebra": (0.33, 1), "gazelle": (0.58, 1),
+        "giraffe": (0.85, 1), "lizard": (0.1, 2), "cheetah": (0.58, 2), "lion": (0.82, 2), "eagle": (0.1, 3),
+    },
+    "Pond": {
+        "algae": (0.3, 0), "pondweed": (0.75, 0), "tadpole": (0.25, 1), "water snail": (0.7, 1),
+        "dragonfly larva": (0.2, 2), "fish": (0.55, 3), "heron": (0.55, 4),
+    },
+    "Rainforest": {
+        "leaves": (0.25, 0), "fruit tree": (0.75, 0), "gorilla": (0.1, 1), "caterpillar": (0.35, 1), "monkey": (0.62, 1),
+        "fruit bat": (0.88, 1), "chameleon": (0.13, 2), "bird": (0.4, 2), "leopard": (0.88, 2), "snake": (0.28, 3),
+        "eagle": (0.5, 4),
+    },
+    "Seashore": {
+        "seaweed": (0.18, 0), "phytoplankton": (0.65, 0), "periwinkle": (0.13, 1), "mussel": (0.45, 1),
+        "zooplankton": (0.82, 1), "crab": (0.25, 2), "starfish": (0.5, 2), "small fish": (0.82, 2), "seagull": (0.5, 3),
+    },
+    "Farmland": {
+        "maize": (0.35, 0), "grass": (0.8, 0), "grasshopper": (0.12, 1), "rat": (0.45, 1), "rabbit": (0.8, 1),
+        "frog": (0.12, 2), "owl": (0.6, 2), "fox": (0.88, 2), "snake": (0.3, 3), "hawk": (0.3, 4),
+    },
+}
 
-    def lv(n: str) -> int:
-        if n not in level:
-            level[n] = 0 if not eats[n] else 1 + max(lv(f) for f in eats[n])
-        return level[n]
 
-    for n in eats:
-        lv(n)
-    return level
+def _edge(centre, toward, half):
+    """Where the line from a box's centre toward a point leaves the box."""
+    (cx, cy), (tx, ty), (hw, hh) = centre, toward, half
+    dx, dy = tx - cx, ty - cy
+    s = min(hw / abs(dx) if dx else float("inf"), hh / abs(dy) if dy else float("inf"))
+    return cx + dx * s, cy + dy * s
 
 
 def draw(p: dict):
     links = [tuple(l) for l in p["links"]]
-    level = _levels(links)
-    rows: dict[int, list[str]] = {}
-    for n in sorted(level):
-        rows.setdefault(level[n], []).append(n)
-    pos = {}
-    for lvl, names in rows.items():
-        for i, n in enumerate(names):
-            pos[n] = ((i + 1) / (len(names) + 1), lvl)
+    place = LAYOUT[p["name"]]
+    names = sorted({n for l in links for n in l})
     fig, ax = new_figure(6.8, 4.8)
-    for food, eater in links:
-        (x1, y1), (x2, y2) = pos[food], pos[eater]
-        ax.annotate("", xy=(x2, y2 - 0.12), xytext=(x1, y1 + 0.12),
-                    arrowprops={"arrowstyle": "->", "color": "#111111", "linewidth": 1.2})
-    for n, (x, y) in pos.items():
-        ax.text(x, y, n, ha="center", va="center", fontsize=11,
-                bbox={"boxstyle": "round,pad=0.3", "facecolor": "white", "edgecolor": "#111111"})
     ax.set_xlim(0, 1)
-    ax.set_ylim(-0.5, max(level.values()) + 0.5)
+    ax.set_ylim(-0.5, max(place[n][1] for n in names) + 0.5)
     ax.axis("off")
     ax.set_title(f"Food web: {p['name'].lower()}")
+    boxes = {n: ax.text(*place[n], n, ha="center", va="center", fontsize=11, zorder=3,
+                        bbox={"boxstyle": "round,pad=0.3", "facecolor": "white", "edgecolor": "#111111"})
+             for n in names}
+    fig.canvas.draw()  # a box's size is known only once it is drawn
+    renderer = fig.canvas.get_renderer()
+    to_data = ax.transData.inverted()
+    half = {}
+    for n, t in boxes.items():
+        b = t.get_bbox_patch().get_window_extent(renderer)
+        (x0, y0), (x1, y1) = to_data.transform([(b.x0, b.y0), (b.x1, b.y1)])
+        half[n] = ((x1 - x0) / 2, (y1 - y0) / 2)
+    # Each arrow runs from the edge of one box to the edge of the other, so its head always shows.
+    for food, eater in links:
+        ax.annotate("", xy=_edge(place[eater], place[food], half[eater]),
+                    xytext=_edge(place[food], place[eater], half[food]), zorder=2, gid=f"edge:{food}>{eater}",
+                    arrowprops={"arrowstyle": "-|>", "color": "#111111", "linewidth": 1.2, "mutation_scale": 14,
+                                "shrinkA": 2, "shrinkB": 2})
     return fig
 
 
@@ -146,5 +172,6 @@ def questions(p: dict, rng: random.Random) -> list:
         mcq("Which organism in this food web is a producer?", prod, rng.sample(others, min(3, len(others))), rng),
         mcq("Which organism is a primary consumer (eats only producers)?", herb,
             rng.sample(not_herb, min(3, len(not_herb))), rng),
-        short("How many food chains are there in this food web?", chains(links)),
+        short("A food chain starts with a producer and ends with an animal that nothing in this web eats. "
+              "How many food chains are there in this food web?", chains(links)),
     ]

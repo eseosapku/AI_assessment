@@ -69,7 +69,9 @@ def questions(p: dict, rng: random.Random) -> list:
     allele = p["letter"]
     note = f"{allele} is the allele for {p['dom']}; {allele.lower()} is the allele for {p['rec']}."
     return [
-        short(f"{note} What genotype goes in the box marked ?", cells[r][c]),
+        # Chosen, not typed: the app's marker ignores letter case, so TT, Tt and tt would mark the same.
+        mcq(f"{note} Which genotype goes in the box marked ?", cells[r][c],
+            [g for g in (allele * 2, allele + allele.lower(), allele.lower() * 2) if g != cells[r][c]], rng),
         mcq(f"{note} What percentage of the offspring are expected to have {p['rec']}?", pct,
             rng.sample([x for x in ["0%", "25%", "50%", "75%", "100%"] if x != pct], 3), rng),
     ]
