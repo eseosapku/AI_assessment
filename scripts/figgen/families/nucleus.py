@@ -19,7 +19,7 @@ KIND = "chem.particle"
 SUBJECT = "physics"
 BANDS = ("UP",)  # the lower-secondary physics topics never reach the atom
 CONCEPTS = tuple(f"physics.{c}" for c in ("atomic-structure", "nuclear-structure", "nuclear-atom", "radioactivity"))
-AVOID = r"fission|fusion|reactor|half-life|photoelectric|quantum|static electricity|electromagnetic spectrum|particle nature"
+AVOID = r"fission|fusion|reactor|half-life|static electricity|electromagnetic spectrum|particle nature"
 ELEMENTS = ["hydrogen", "helium", "lithium", "beryllium", "boron", "carbon", "nitrogen", "oxygen", "fluorine", "neon", "sodium",
             "magnesium", "aluminium", "silicon", "phosphorus", "sulfur", "chlorine", "argon", "potassium", "calcium", "scandium"]
 SYMBOLS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc"]
@@ -114,6 +114,6 @@ def questions(p: dict, rng: random.Random) -> list:
     if p["beta"]:
         # A neutron becomes a proton: the nucleon number stays and the proton number rises by one.
         options = [_symbol(a, z, SYMBOLS[z - 1]) for a in (A, A - 4) for z in (Z + 1, Z - 1)]
-        qs.append(mcq(f"{element.capitalize()}-{A} is radioactive and decays by giving out a beta particle. Which nucleus is formed?", options[0],
+        qs.append(mcq("The nucleus in this model is radioactive and decays by giving out a beta particle. Which nucleus is formed?", options[0],
                       options[1:], rng))
     return qs

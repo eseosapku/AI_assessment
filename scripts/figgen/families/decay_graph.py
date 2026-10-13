@@ -19,7 +19,7 @@ KIND = "graph.line"
 SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("radioactivity", "radioactive-decay", "decay-constant-and-half-life"))
-AVOID = r"fission|fusion|reactor|photoelectric|quantum"
+AVOID = r"the nuclear atom|fission|fusion|reactor|photoelectric|quantum"
 # isotope: half-life, its unit, the gridline step, and what is measured
 ISOTOPES = {
     "iodine-131": (8, "days", 1, "activity"), "phosphorus-32": (14, "days", 2, "activity"), "technetium-99m": (6, "hours", 1, "activity"),

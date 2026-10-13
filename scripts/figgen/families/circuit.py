@@ -21,7 +21,7 @@ BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("electric-current", "potential-difference", "electrical-resistance", "ohms-law", "resistors-in-circuits",
                                           "circuit-symbols-and-diagrams", "electrical-energy-and-power", "kirchhoffs-laws"))
 # Direct-current circuits: not fields, capacitors, alternating current, induction, motors or generators.
-AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|capacitance|alternating|induction|telecommunication|magnetic effect|motor effect|generators|electromagnetic forces|^magnetism$|work, energy"
+AVOID = r"^p2:|installation|transmission|field|electrostatic|static electricity|charged particle|coulomb|capacitance|alternating|induction|telecommunication|magnetic effect|motor effect|generators|electromagnetic forces|^magnetism$|work, energy"
 OHMS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60]
 VOLTS = [Fraction(3, 2), Fraction(3), Fraction(9, 2), Fraction(6), Fraction(9), Fraction(12), Fraction(24)]
 
@@ -46,9 +46,9 @@ def _exact2(v: Fraction) -> bool:
 def sample(rng: random.Random) -> dict:
     band = rng.choice(BANDS)
     kinds = {"LS": ["series", "parallel"], "UP": ["series", "parallel", "mixed"], "AL": ["parallel", "mixed"]}[band]
+    kind = rng.choice(kinds)  # chosen once, so the retries below cannot favour the kind that fits most often
+    n = 3 if kind == "mixed" else rng.choice([2, 3]) if kind == "series" else 2
     while True:
-        kind = rng.choice(kinds)
-        n = 3 if kind == "mixed" else rng.choice([2, 3]) if kind == "series" else 2
         R = [Fraction(rng.choice(OHMS)) for _ in range(n)]
         volts = rng.choice(VOLTS)
         total, current, currents = solve(kind, volts, R)
@@ -57,7 +57,8 @@ def sample(rng: random.Random) -> dict:
         if current > 5:
             continue
         ammeter = None if kind == "series" or rng.random() < 0.5 else rng.choice([1, 2] if kind == "mixed" else [0, 1])
-        voltmeter = rng.randrange(n) if kind != "mixed" else rng.choice([0, 1])
+        # Across a parallel pair a voltmeter would read the battery's printed voltage: none is drawn.
+        voltmeter = None if kind == "parallel" else rng.randrange(n) if kind == "series" else rng.choice([0, 1])
         return {"band": band, "kind": kind, "volts": exact(volts), "resistors": [int(r) for r in R], "ammeter": ammeter, "voltmeter": voltmeter}
 
 
@@ -135,7 +136,7 @@ def draw(p: dict):
             _wire(ax, (1.2, H), (1.2, H + 1.1), (1.84, H + 1.1))
             _wire(ax, (2.56, H + 1.1), (3.2, H + 1.1), (3.2, H))
             _meter(ax, 2.2, H + 1.1, "V")
-        else:
+        elif p["voltmeter"] is not None:
             # Across the parallel pair, below it inside the loop.
             _wire(ax, (a, H), (a, H - 1.4), (mid - 0.36, H - 1.4))
             _wire(ax, (mid + 0.36, H - 1.4), (b, H - 1.4), (b, H))
@@ -148,6 +149,15 @@ def draw(p: dict):
     return fig
 
 
+def third(p: dict, currents: list, R: list, rng: random.Random):
+    """The voltmeter's reading; in a parallel circuit, which has none, the current in a branch not metered."""
+    if p["kind"] == "parallel":
+        j = rng.choice([0, 1]) if p["ammeter"] is None else 1 - p["ammeter"]
+        return short(f"What is the current in resistor R{j + 1}?", exact(currents[j]), measure(currents[j], "A"))
+    pd = currents[p["voltmeter"]] * R[p["voltmeter"]]
+    return short("What does the voltmeter read?", exact(pd), measure(pd, "V"))
+
+
 def questions(p: dict, rng: random.Random) -> list:
     R = [Fraction(r) for r in p["resistors"]]
     total, current, currents = solve(p["kind"], Fraction(p["volts"]), R)
@@ -155,18 +165,16 @@ def questions(p: dict, rng: random.Random) -> list:
     where = rng.choice(["in the school laboratory", "at the science club", "for a class practical", "on a circuit board", "for a science fair",
                         "during a physics lesson"])
     amp = currents[p["ammeter"]] if p["ammeter"] is not None else current
-    across = p["voltmeter"]
-    pd = currents[across] * R[across]
     k = rng.randrange(len(R))
     power = currents[k] ** 2 * R[k]
     qs = [
         short(f"{name} built this circuit with a {p['volts']} V {'cell' if Fraction(p['volts']) <= 2 else 'battery'} {where}. "
               f"What is the total resistance of the {['two', 'three'][len(R) - 2]} resistors?", exact(total), measure(total, "Ω")),
         short("What does the ammeter read?", exact(amp), measure(amp, "A")),
-        short("What does the voltmeter read?", exact(pd), measure(pd, "V")),
+        third(p, currents, R, rng),
         short(f"What is the power in resistor R{k + 1}?", exact(power), measure(power, "W")),
     ]
-    if p["band"] == "AL" and p["ammeter"] is not None:
+    if p["band"] == "AL" and p["kind"] == "mixed" and p["ammeter"] is not None:
         # Kirchhoff: the current into a junction equals the current out, so the other branch carries the rest.
         j = ({1, 2} if p["kind"] == "mixed" else {0, 1}).difference({p["ammeter"]}).pop()
         qs.append(short(f"The current from the battery is {exact(current)} A. What is the current in resistor R{j + 1}?", exact(currents[j]),

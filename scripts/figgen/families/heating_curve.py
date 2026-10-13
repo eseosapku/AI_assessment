@@ -23,10 +23,9 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("changes-of-state", "heat-and-temperature", "internal-energy", "heat-capacity-and-specific-heat",
                                           "states-of-matter"))
 # Not climate, radiation, insulation, pressure, density, circuits or farming.
-AVOID = r"climate|greenhouse|global warming|radiation|insulat|pressure|environmental|plant growth|gas laws|resistors|pascal|agriculture|density|making measurements"
+AVOID = r"^chapter 9: heat transfer$|^thermal energy transfers$|climate|greenhouse|global warming|radiation|insulat|pressure|environmental|plant growth|gas laws|resistors|pascal|agriculture|density|making measurements"
 MELTS = {"stearic acid": 69, "naphthalene": 80, "lauric acid": 44}
 STATES = ["solid only", "solid and liquid", "liquid only", "liquid and gas"]
-WHY = [f"Energy is {a} as the forces between the particles {b}" for a in ("taken in", "given out") for b in ("are overcome", "form")]
 SETTINGS = ["in the school laboratory", "at the science club", "for a class practical", "during a physics lesson", "for a science fair"]
 
 
@@ -129,15 +128,10 @@ def questions(p: dict, rng: random.Random) -> list:
                 qs.append(short(f"The beaker held {exact(M)} kg of water and the heater gave out {P} W. If no heat was lost, what specific "
                                 "heat capacity does this give for water, in J/(kg °C)?", exact(cap),
                                 measure(cap, "J/(kg °C)") + [f"{exact(cap)} J/kg°C", f"{exact(cap)} J/kg °C"]))
-            key = WHY[0]
-            qs.append(mcq("Why does the temperature stay at 0 °C while the ice melts?", key, [w for w in WHY if w != key], rng))
         return qs
     substance = p["substance"]
     qs = [short(f"{name} let some melted {substance} cool in a test tube {rng.choice(SETTINGS)}. At what temperature did it freeze?", c[1][1],
                 measure(c[1][1], "°C")),
           short(f"How long did the {substance} take to freeze?", span, minutes),
           state]
-    if p["band"] == "UP":
-        key = WHY[3]
-        qs.append(mcq(f"Why does the temperature stay the same while the {substance} freezes?", key, [w for w in WHY if w != key], rng))
     return qs

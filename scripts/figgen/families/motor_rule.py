@@ -145,8 +145,9 @@ def questions(p: dict, rng: random.Random) -> list:
     else:
         changes = [f"moving the wire {s} {w}" for s in ("faster", "more slowly") for w in ("in the same direction", "in the opposite direction")]
     bigger = mcq(f"Which change makes {thing} bigger without changing its direction?", changes[0], changes[1:], rng)
-    rules = [f"{w} {h} rule" for w in ("Fleming's", "the") for h in ("left-hand", "right-hand")]
-    rules = [r.replace("the left-hand rule", "the left-hand grip rule").replace("the right-hand rule", "the right-hand grip rule") for r in rules]
-    rule_key = "Fleming's left-hand rule" if p["mode"] == "motor" else "Fleming's right-hand rule"
-    rule = mcq(f"Which rule gives the direction of {thing}?", rule_key, [r for r in rules if r != rule_key], rng)
-    return [first, bigger, rule, amount]
+    # Each reversal, of the current (or the motion) or of the poles, turns the direction round.
+    one = "the current is reversed" if p["mode"] == "motor" else "the wire moves the other way"
+    change, flips = rng.choice([(one, 1), ("the magnet's poles are swapped", 1), (f"{one} and the magnet's poles are swapped", 2)])
+    now = key if flips == 2 else _named(tuple(-c for c in VEC[key]))
+    after = mcq(f"If {change}, in which direction is {thing} now?", now, _options(now, rng), rng)
+    return [first, bigger, after, amount]

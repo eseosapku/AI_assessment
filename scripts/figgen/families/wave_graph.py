@@ -19,7 +19,7 @@ SUBJECT = "physics"
 BANDS = ("UP", "AL")  # the lower-secondary physics topics have no waves
 CONCEPTS = tuple(f"physics.{c}" for c in ("wave-properties", "waves", "sound", "simple-harmonic-motion"))
 # Not light's particle nature, the spectrum, signals, imaging or optics chapters.
-AVOID = r"photoelectric|quantum|photon|electromagnetic spectrum|communication|medical imaging|environmental|signals|refraction of light|machines|particle nature"
+AVOID = r"earthquake|interference|^p2:|photoelectric|quantum|photon|electromagnetic spectrum|communication|medical imaging|environmental|signals|refraction of light|machines|particle nature"
 # axis, x unit, y unit, gridline sizes, the range of the wavelength or period, the amplitudes (in y gridlines)
 CONTEXTS = {
     "ripple tank": ("distance", "cm", "mm", ("0.25", "0.5", "1"), (2, 12), 1, (2, 3, 4, 5)),

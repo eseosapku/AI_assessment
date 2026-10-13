@@ -135,7 +135,7 @@ def questions(p: dict, rng: random.Random) -> list:
     qs = [
         short(f"{name} measured the current through a component {rng.choice(PLACES)}. What is its resistance at the point P?",
               exact(R), measure(R, "Ω")),
-        mcq("Which component gives this graph?", WHAT[p["kind"]], [w for k, w in WHAT.items() if k != p["kind"]] + ["a light-dependent resistor"],
+        mcq("Which component gives this graph?", WHAT[p["kind"]], [w for k, w in WHAT.items() if k != p["kind"]] + ["a capacitor"],
             rng),
         mcq("Does the component obey Ohm's law?", key, [o for o in ohm_options if o != key], rng),
     ]

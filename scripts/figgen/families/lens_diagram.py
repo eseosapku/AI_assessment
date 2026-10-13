@@ -60,6 +60,29 @@ def _clip(x0: float, y0: float, dx: float, dy: float, box) -> tuple[float, float
     return x0 + t * dx, y0 + t * dy
 
 
+def _hits(box, seg) -> bool:
+    """Whether a segment (in display points) passes through a label's box, padded a little."""
+    (x0, y0), (x1, y1) = seg
+    box = box.padded(2)
+    return any(box.contains(x0 + (x1 - x0) * i / 80, y0 + (y1 - y0) * i / 80) for i in range(81))
+
+
+def _place(ax, renderer, segs, placed, x, y, text, tries):
+    """Puts a label at the first of its places that no ray, arrow or other label crosses and the frame
+    holds; failing all, at the first."""
+    frame = ax.get_window_extent(renderer)
+    for dx, dy, ha, va in tries:
+        t = ax.text(x + dx, y + dy, text, ha=ha, va=va, fontsize=10, fontweight="bold" if text == "F" else "normal")
+        box = t.get_window_extent(renderer)
+        if (frame.x0 <= box.x0 and box.x1 <= frame.x1 and frame.y0 <= box.y0 and box.y1 <= frame.y1
+                and not any(_hits(box, sg) for sg in segs) and not any(box.overlaps(b) for b in placed)):
+            placed.append(box)
+            return
+        t.remove()
+    dx, dy, ha, va = tries[0]
+    ax.text(x + dx, y + dy, text, ha=ha, va=va, fontsize=10)
+
+
 def _arrow(ax, x: float, top: float, dashed: bool = False):
     ax.annotate("", xy=(x, top), xytext=(x, 0), arrowprops=dict(arrowstyle="-|>", color=INK, lw=2.0, mutation_scale=16,
                                                                   linestyle="--" if dashed else "-", shrinkA=0, shrinkB=0))
@@ -72,7 +95,7 @@ def draw(p: dict):
     xl, xr = min(-u, v, -f) - 2, max(v, f) + 3
     box = (xl, xr, yb, yt)
     width = 7.0
-    fig, ax = new_figure(width, max(2.6, min(6.0, width * (yt - yb) / (xr - xl))))
+    fig, ax = new_figure(width, max(3.4, min(6.0, width * (yt - yb) / (xr - xl))))
     ax.set_xticks(range(int(xl), int(xr) + 1))
     ax.set_yticks(range(int(yb), int(yt) + 1))
     ax.grid(True, color=GRID, linewidth=0.5)
@@ -82,10 +105,7 @@ def draw(p: dict):
     ax.annotate("", xy=(0, yt - 0.3), xytext=(0, yb + 0.3), arrowprops=dict(arrowstyle="<|-|>", color=INK, lw=2.0, mutation_scale=16))
     for x in (-f, f):
         ax.plot([x], [0], marker="o", markersize=4, color=INK)
-        ax.text(x, -0.35, "F", ha="center", va="top", fontsize=11, fontweight="bold")
     _arrow(ax, -u, h)
-    # Labels run up beside each arrow, clear of the rays that meet at its tip.
-    ax.text(-u - 0.2, h / 2, "object", ha="right", va="center", rotation=90, fontsize=9)
     # Ray 1: parallel to the axis, then through the far focus. Ray 2: straight through the centre.
     ax.plot([-u, 0], [h, h], color=INK, linewidth=1.3)
     end1 = _clip(0, h, f, -h, box)
@@ -94,17 +114,37 @@ def draw(p: dict):
     ax.plot([-u, end2[0]], [h, end2[1]], color=INK, linewidth=1.3)
     if v > 0:
         _arrow(ax, v, hi)
-        ax.text(v + 0.2, hi / 2, "image", ha="left", va="center", rotation=90, fontsize=9)
     else:
         # A virtual image: the rays spread out, and seem to come from where their backward lines meet.
         ax.plot([0, v], [h, hi], color=INK, linewidth=1.0, linestyle=(0, (4, 3)))
         ax.plot([0, v], [0, hi], color=INK, linewidth=1.0, linestyle=(0, (4, 3)))
         _arrow(ax, v, hi, dashed=True)
-        ax.text(v - 0.2, hi / 2, "image", ha="right", va="center", rotation=90, fontsize=9)
     ax.text(0, -0.04, f"Each square is {p['scale']} cm.", transform=ax.transAxes, ha="left", va="top", fontsize=9)
     ax.set_xlim(xl, xr)
     ax.set_ylim(yb, yt)
     ax.set_aspect("equal")
+    # The labels go last, each where no ray, arrow or other label runs through it.
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    to_screen = ax.transData.transform
+    segs = []
+    for ln in ax.lines:
+        pts = to_screen(list(zip(ln.get_xdata(), ln.get_ydata())))
+        segs += list(zip(pts[:-1], pts[1:]))
+    for (x0, y0), (x1, y1) in (((-u, 0), (-u, h)), ((v, 0), (v, hi)), ((0, yb + 0.3), (0, yt - 0.3))):
+        segs.append(tuple(to_screen([(x0, y0), (x1, y1)])))
+    placed = []
+    near = [(0, -0.35, "center", "top"), (0, 0.35, "center", "bottom"), (-0.3, -0.35, "right", "top"), (0.3, -0.35, "left", "top"),
+            (-0.3, 0.35, "right", "bottom"), (0.3, 0.35, "left", "bottom")]
+    for x in (-f, f):
+        _place(ax, r, segs, placed, x, 0, "F", near)
+    for x, top, text in ((-u, h, "object"), (v, hi, "image")):
+        up = 1 if top > 0 else -1
+        _place(ax, r, segs, placed, x, top, text,
+               [(0, 0.3 * up, "center", "bottom" if up > 0 else "top"), (-0.3, top / -2, "right", "center"), (0.3, top / -2, "left", "center"),
+                (0, -0.35 * up - top, "center", "top" if up > 0 else "bottom"), (-0.3, 0.3 * up, "right", "bottom" if up > 0 else "top"),
+                (0.3, 0.3 * up, "left", "bottom" if up > 0 else "top"),
+                (0.3, -0.35 * up - top, "left", "top" if up > 0 else "bottom"), (-0.3, -0.35 * up - top, "right", "top" if up > 0 else "bottom")])
     return fig
 
 

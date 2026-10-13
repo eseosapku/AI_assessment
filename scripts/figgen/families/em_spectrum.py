@@ -4,8 +4,8 @@ missing region (typed: any list of regions would give it away, six being on the 
 at an extreme, and the region a use or a danger belongs to.
 
 The band's order and the arrow agree: frequency rises from radio waves to gamma rays and wavelength
-falls. A use question never offers a neighbouring region, since neighbours share some uses (infrared
-and microwaves both heat food; X-rays and gamma rays both treat cancer).
+falls. The use question never offers a neighbouring region's use, since neighbours share some uses
+(infrared and microwaves both heat food; X-rays and gamma rays both treat cancer).
 """
 from __future__ import annotations
 
@@ -21,21 +21,20 @@ SUBJECT = "physics"
 BANDS = ("UP",)  # the lower-secondary physics topics never reach the spectrum
 CONCEPTS = tuple(f"physics.{c}" for c in ("electromagnetic-spectrum", "light-and-optics"))
 # Not sound, mechanical waves, or lens, eye and refraction chapters.
-AVOID = r"\bsound|seismic|ultrasound|ripple|refraction|lens|human eye|interference|mechanical waves|optical instruments"
+AVOID = r"block diagram|analog|stars and the universe|\bsound|seismic|ultrasound|ripple|refraction|lens|human eye|interference|mechanical waves|optical instruments"
 # Two orders, two arrows and seven blanks: 28 figures in all, so 60 seeds cannot show 40.
 MIN_VARIETY = 22
 EM = ["radio waves", "microwaves", "infrared", "visible light", "ultraviolet", "X-rays", "gamma rays"]
 SHORT = {"radio waves": "radio\nwaves", "microwaves": "micro-\nwaves", "visible light": "visible\nlight", "ultraviolet": "ultra-\nviolet", "gamma rays": "gamma\nrays"}
-USES = [("radio waves", "Which region is used to broadcast radio and television programmes?"),
-        ("microwaves", "Which region carries mobile phone signals to and from the masts?"),
-        ("microwaves", "Which region is used to cook food from the inside?"),
-        ("infrared", "Which region does a TV remote control use?"),
-        ("infrared", "Which region does a thermal camera detect, to see warm bodies at night?"),
-        ("visible light", "Which region carries pictures along the optical fibre of an endoscope?"),
-        ("ultraviolet", "Which region makes the hidden marks on a bank note glow?"),
-        ("ultraviolet", "Which region in sunlight causes sunburn and skin cancer?"),
-        ("X-rays", "Which region is used to take pictures of broken bones?"),
-        ("gamma rays", "Which region is used to kill cancer cells in radiotherapy?")]
+# What each region is used for, as a learner meets it; heating food is microwaves' only (infrared, its
+# neighbour, grills), and a use question never offers a neighbour's use.
+USES = {"radio waves": ["broadcasting radio and television programmes"],
+        "microwaves": ["carrying mobile phone signals to and from the masts", "heating and cooking food in an oven"],
+        "infrared": ["sending signals from a TV remote control", "thermal cameras that see warm bodies at night"],
+        "visible light": ["carrying pictures along the optical fibre of an endoscope"],
+        "ultraviolet": ["making the hidden marks on bank notes glow"],
+        "X-rays": ["taking pictures of broken bones"],
+        "gamma rays": ["killing cancer cells in radiotherapy"]}
 FORMS = {"radio waves": ["radio", "radio wave", "radiowaves", "Radio waves"],
          "microwaves": ["microwave", "micro waves", "Microwaves"],
          "infrared": ["infra-red", "infra red", "IR", "infrared radiation", "infrared waves", "Infrared"],
@@ -98,13 +97,12 @@ def questions(p: dict, rng: random.Random) -> list:
     missing = EM[p["blank"]]
     first = short(f"{name} saw the electromagnetic spectrum {rng.choice(SOURCES)} with one region missing. Which region is missing?",
                   missing, [missing, *FORMS[missing]])
+    # Typed, like the missing region: a list of regions would name the blank among its options.
     prop = rng.choice(list(EXTREMES))
     key = EXTREMES[prop]
-    other = "gamma rays" if key == "radio waves" else "radio waves"
-    middle = rng.sample(EM[1:6], 2)
-    extreme = mcq(f"Which region of the spectrum has the {prop}?", key, [other, *middle], rng)
-    region, stem = rng.choice(USES)
-    k = EM.index(region)
-    far = [r for i, r in enumerate(EM) if abs(i - k) > 1]
-    use = mcq(f"{friend} asks: {stem}", region, rng.sample(far, 3), rng)
+    extreme = short(f"{friend} asks: which region of the spectrum has the {prop}?", key, [key, *FORMS[key]])
+    # The use of the region marked "?": the figure, and the missing region, are needed to answer.
+    k = p["blank"]
+    far = rng.sample([i for i in range(len(EM)) if abs(i - k) > 1], 3)
+    use = mcq("What is the region marked ? used for?", rng.choice(USES[EM[k]]), [rng.choice(USES[EM[i]]) for i in far], rng)
     return [first, extreme, use]

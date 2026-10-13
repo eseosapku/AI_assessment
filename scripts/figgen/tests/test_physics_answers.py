@@ -5,6 +5,7 @@ import random
 import re
 from fractions import Fraction
 
+import matplotlib.pyplot as plt
 import pytest
 
 from figgen.families import FAMILIES
@@ -61,20 +62,43 @@ def test_motion_graph():
             assert num(last.answer) == -rate(pts[-2], pts[-1]) > 0
 
 
+TRIPLES = {(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29)}
+
+
 def test_force_diagram():
     m = fam("force_diagram")
+    kinds, balanced = set(), set()
     for s in SEEDS:
-        p, (resultant, accel, weight) = run(m, s)
-        net = sum(f if d == "right" else -f for d, f in p["forces"])
-        assert net != 0
-        size, way = abs(net), "right" if net > 0 else "left"
-        assert picked(resultant) == f"{size} N to the {way}"
-        assert all(o != picked(resultant) for i, o in enumerate(resultant.options) if i != int(resultant.answer))
-        assert num(accel.answer) == Fraction(size, p["mass"]) and (2 * Fraction(size, p["mass"])).denominator == 1  # a = F/m
+        p, qs = run(m, s)
+        resultant, accel, weight = qs[:3]
+        kinds.add(p["kind"])
+        if p["kind"] == "line":
+            net = sum(f if d == "right" else -f for d, f in p["forces"])
+            size, way = abs(net), "right" if net > 0 else "left"
+            balanced.add(net == 0)
+            if net == 0:
+                assert resultant.kind == "short" and num(resultant.answer) == 0
+            else:
+                total = sum(f for _, f in p["forces"])
+                assert picked(resultant) == f"{size} N to the {way}"
+                # Size (the resultant, or all the forces added up) by direction: a 2 x 2 set, nothing to pick unseen.
+                assert set(resultant.options) == {f"{v} N to the {w}" for v in (size, total) for w in ("right", "left")}
+            eq = qs[3]
+            assert picked(eq) == ("Yes: the resultant force is zero" if net == 0 else "No: the resultant force is not zero")
+        else:
+            # Two pulls at right angles, seen from above: the resultant is the hypotenuse of a Pythagorean triple.
+            assert p["band"] == "UP"
+            (d1, f1), (d2, f2) = p["forces"]
+            assert d1 in ("right", "left") and d2 in ("up", "down")
+            size = round((f1 ** 2 + f2 ** 2) ** 0.5)
+            assert size ** 2 == f1 ** 2 + f2 ** 2
+            assert any(Fraction(f1, a) == Fraction(f2, b) == Fraction(size, c) or Fraction(f1, b) == Fraction(f2, a) == Fraction(size, c)
+                       for a, b, c in TRIPLES)
+            assert num(resultant.answer) == size
+        a = Fraction(size, p["mass"])
+        assert num(accel.answer) == a and (100 * a).denominator == 1  # a = F/m
         assert "g = 10 N/kg" in weight.stem and num(weight.answer) == 10 * p["mass"]
-        total = sum(f for _, f in p["forces"])
-        # Size (the resultant, or all the forces added up) by direction: a 2 x 2 set, nothing to pick unseen.
-        assert set(resultant.options) == {f"{v} N to the {w}" for v in (size, total) for w in ("right", "left")}
+    assert kinds == {"line", "right"} and balanced == {True, False}
 
 
 def test_moments():
@@ -103,6 +127,7 @@ def test_spring_graph():
         e, L = Fraction(p["cm_per_n"]), p["limit"]
         k, ext, limit = qs[:3]
         assert num(k.answer) == 1 / e
+        assert ext.stem.startswith("What is the extension of the spring for a load of"), ext.stem
         F = int(re.search(r"load of (\d+) N", ext.stem).group(1))
         assert F <= L and num(ext.answer) == F * e and (F * e) % Fraction(p["ystep"]) == 0  # on a gridline
         assert int(limit.answer) == L
@@ -117,6 +142,7 @@ def test_spring_graph():
 
 def test_pressure():
     m = fam("pressure")
+    keys, asks = set(), set()
     for s in SEEDS:
         p, qs = run(m, s)
         if p["kind"] == "manometer":
@@ -125,15 +151,39 @@ def test_pressure():
             assert int(height.answer) == h and h > 0
             assert "g = 10 N/kg" in pressure.stem and num(pressure.answer) == Fraction(1000 * 10 * h, 100)  # ρgh, h in m
             # The gas pushes its side down: the lower level is the side at the higher pressure.
-            assert picked(higher) == ("the gas supply" if p["left"] < p["right"] else "the open air")
+            gas_higher = p["left"] < p["right"]
+            assert picked(higher) == f"{'the gas' if gas_higher else 'the open air'}: the water level on its side is lower"
+            # The story fits the levels: a supply pushes harder than the air; a flask being pumped out, less.
+            assert ("pump" in height.stem) != gas_higher and "cylinder" not in height.stem
         else:
             a, b, c = p["dims"]  # cm
-            pressure, most = qs
+            pressure, face = qs
             w, h = p["face"]
+            depth = next(d for d in (a, b, c) if d not in (w, h))
             area = Fraction(w * h, 10000)  # m²
+            assert int(re.search(r"weighs (\d+) N", pressure.stem).group(1)) == p["weight"]
             assert num(pressure.answer) == p["weight"] / area and (p["weight"] / area).denominator == 1
-            smallest = sorted([(a, b), (a, c), (b, c)], key=lambda f: f[0] * f[1])[0]
-            assert picked(most) == f"the {max(smallest)} cm by {min(smallest)} cm face"
+            # The faces as drawn: P the front (w by depth), Q the top (w by h), R the side (h by depth).
+            areas = {"face P": w * depth, "face Q": w * h, "face R": h * depth}
+            most = "greatest" in face.stem
+            asks.add(most)
+            want = (min if most else max)(areas, key=areas.get)
+            assert picked(face) == want and set(face.options) == {*areas, "the same on every face"}
+            keys.add(want)
+    assert keys == {"face P", "face Q", "face R"} and asks == {True, False}
+
+
+def test_the_manometer_gas_arm_is_closed_to_the_air():
+    m = fam("pressure")
+    for s in range(1, 40):
+        p = m.sample(random.Random(s))
+        if p["kind"] != "manometer":
+            continue
+        fig = m.draw(p)
+        lines = [(list(map(float, ln.get_xdata())), list(map(float, ln.get_ydata()))) for ln in fig.axes[0].lines]
+        plt.close(fig)
+        assert ([1.5, 2.5], [22.0, 22.0]) in lines  # the gas arm is capped
+        assert any(xs[0] == 2.0 and ys[0] == 22.0 and ys[1] > 22.0 for xs, ys in lines)  # and piped from its top
 
 
 def test_density_displacement():
@@ -163,9 +213,22 @@ def test_energy_sankey():
         useful = sum(v for _, v, kind in flows if kind == "useful")
         assert num(efficiency.answer) == Fraction(100 * useful, total_in) and (Fraction(100 * useful, total_in)).denominator == 1
         assert picked(form) == next(name for name, _, kind in flows if kind == "useful")
+        # A kettle's useful output is heat, and a stove's pot holds water: no other heat is offered unless the
+        # figure labels it as wasted.
+        wasted = {name for name, _, kind in flows if kind == "wasted"}
+        if picked(form).startswith("heat"):
+            assert all(o in wasted for o in form.options if o != picked(form) and o.startswith("heat")), form.options
         if len(qs) > 3:
             t = int(re.search(r"in (\d+) s", qs[3].stem).group(1))
             assert num(qs[3].answer) == Fraction(total_in, t) and Fraction(total_in, t).denominator == 1
+
+
+def test_only_the_motor_sankey_reaches_motor_and_generator_chapters():
+    m = fam("energy_sankey")
+    for s in range(1, 200):
+        p = m.sample(random.Random(s))
+        for name in ("Chapter 31: Electric motors", "Chapter 28: Generators"):
+            assert bool(re.search(m.avoid_for(p), name, re.I)) == (p["device"] != "electric motor"), (p["device"], name)
 
 
 PHYSICS = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "physics")
@@ -202,22 +265,35 @@ def solve(p):
 
 
 def test_circuit():
+    from collections import Counter
     m = fam("circuit")
+    kinds = Counter()
     for s in SEEDS:
         p, qs = run(m, s)
+        kinds[(p["band"], p["kind"])] += 1
         total, I, currents = solve(p)
         R = [Fraction(r) for r in p["resistors"]]
         resistance, ammeter, voltmeter, power = qs[:4]
         assert num(resistance.answer) == total
         assert num(ammeter.answer) == (currents[p["ammeter"]] if p["ammeter"] is not None else I)
-        across = p["voltmeter"]
-        assert num(voltmeter.answer) == currents[across] * R[across]  # V = IR across that resistor
+        if p["kind"] == "parallel":
+            # Across a parallel pair a voltmeter reads the battery's printed voltage, so none is drawn; a branch current instead.
+            assert p["voltmeter"] is None
+            j = int(re.search(r"current in resistor R(\d)", voltmeter.stem).group(1)) - 1
+            assert j != p["ammeter"] and num(voltmeter.answer) == currents[j]
+            across = j
+        else:
+            across = p["voltmeter"]
+            assert num(voltmeter.answer) == currents[across] * R[across]  # V = IR across that resistor
         k = int(re.search(r"resistor R(\d)", power.stem).group(1)) - 1
         assert num(power.answer) == currents[k] ** 2 * R[k]  # P = I²R
         # Every value a student writes is exact to two decimal places.
         assert all((v * 100).denominator == 1 for v in [total, I, *currents, currents[across] * R[across], currents[k] ** 2 * R[k]])
         if p["kind"] != "series":
             assert sum(currents[1:] if p["kind"] == "mixed" else currents) == I  # Kirchhoff: currents at a junction
+    for band, allowed in (("LS", ("series", "parallel")), ("UP", ("series", "parallel", "mixed")), ("AL", ("parallel", "mixed"))):
+        n = sum(kinds[(band, k)] for k in allowed)
+        assert all(kinds[(band, k)] >= 0.2 * n for k in allowed), (band, kinds)  # each kind a fair share
 
 
 def test_meter_dial():
@@ -241,6 +317,8 @@ def test_iv_graph():
         V, I = Fraction(p["point"][0]), Fraction(p["point"][1]) / 1000  # mA to A
         assert num(resistance.answer) == V / I and (V / I).denominator == 1
         assert picked(which) == {"resistor": "a fixed resistor", "lamp": "a filament lamp", "diode": "a diode"}[kind]
+        # An LDR in steady light, or a thermistor at one temperature, gives a resistor's straight line too.
+        assert set(which.options) <= {"a fixed resistor", "a filament lamp", "a diode", "a capacitor"}
         assert picked(ohms).startswith("Yes") == (kind == "resistor")
         if kind == "lamp":  # a filament's resistance grows as it heats, from a finite value when cold
             assert p["R0"] > 0 and p["a"] > 0 and m.current(p, 0.5) / 0.5 < 1000 / p["R0"] + 1e-9
@@ -281,14 +359,17 @@ def test_motor_rule():
             assert p["view"] == "end" and v[2] == 0 and sum(a * b for a, b in zip(v, B)) == 0
             want = named(cross(v, B))  # the push on the wire's free charges, v x B
             size = Fraction(p["tesla"]) * Fraction(p["cm"], 100) * p["speed"]  # emf = BLv
-        direction, bigger, rule, amount = qs[:4]
+        direction, bigger, after, amount = qs[:4]
         assert picked(direction) == want
         # Two axes, both ways along each: the key cannot be told from the options alone.
         assert len(direction.options) == 4 and all(o in VEC for o in direction.options)
         assert len({tuple(map(abs, VEC[o])) for o in direction.options}) == 2
         assert {o for o in direction.options if tuple(map(abs, VEC[o])) == tuple(map(abs, VEC[want]))} == {want, named(tuple(-c for c in VEC[want]))}
         assert picked(bigger).startswith(("a larger", "a stronger", "moving the wire faster")) and "same" in picked(bigger)
-        assert picked(rule) == ("Fleming's left-hand rule" if p["mode"] == "motor" else "Fleming's right-hand rule")
+        flips = sum(w in after.stem for w in ("reversed", "swapped", "other way"))
+        assert flips in (1, 2), after.stem
+        assert picked(after) == (want if flips == 2 else named(tuple(-c for c in VEC[want])))  # each reversal turns it round
+        assert len({tuple(map(abs, VEC[o])) for o in after.options}) == 2
         assert num(amount.answer) == size
 
 
@@ -345,9 +426,7 @@ def test_heating_curve():
             elif "specific heat capacity" in q.stem:
                 P, M = int(re.search(r"(\d+) W", q.stem).group(1)), Fraction(re.search(r"([\d.]+) kg", q.stem).group(1))
                 assert num(q.answer) == P * (c[3][0] - c[2][0]) * 60 / (M * 100)  # c = Pt / (m ΔT), water from 0 to 100 °C
-            elif q.kind == "mcq":
-                assert picked(q) == ("Energy is taken in as the forces between the particles are overcome" if p["kind"] == "ice"
-                                     else "Energy is given out as the forces between the particles form")
+            assert not q.stem.startswith("Why")
 
 
 def test_wave_graph():
@@ -390,7 +469,8 @@ def test_ray_optics():
             n = math.sin(math.radians(i)) / math.sin(math.radians(r))
             n = n if p["into"] else 1 / n
             assert 1.3 <= n <= 1.6 and abs(n * 100 - round(n * 100)) < 0.4  # a real index, not on a rounding edge
-            assert num(n_q.answer) == Fraction(f"{n:.2f}")
+            assert num(n_q.answer) == Fraction(f"{n:.2f}") and not n_q.answer.endswith("0")
+            assert f"{n:.2f}" in n_q.accepted
             assert (r < i) == p["into"]  # into the denser medium it bends towards the normal
             text = picked(bend)
             assert text.startswith("Towards" if p["into"] else "Away") and ("slows down" in text) == p["into"]
@@ -426,11 +506,12 @@ def test_em_spectrum():
         assert shown.count(None) == 1 and [x or canonical[i] for i, x in enumerate(shown)] == canonical
         assert m.arrow_right(p) == ((p["arrow"] == "frequency") == (p["order"] == "radio-first"))  # frequency rises towards gamma
         missing, extreme, use = qs[:3]
+        assert not any(EM[p["blank"]].lower() in o.lower() for q in qs for o in q.options)  # nothing names the blank
         # Typed, not chosen: six regions are on the figure, so any list of regions gives the seventh away.
         assert missing.kind == "short" and missing.answer == EM[p["blank"]]
         long_end = any(w in extreme.stem for w in ("longest wavelength", "lowest frequency", "least energy"))
-        assert picked(extreme) == ("radio waves" if long_end else "gamma rays")
-        assert picked(use) == next(r for k, r in EM_USES.items() if k in use.stem)
+        assert extreme.kind == "short" and extreme.answer == ("radio waves" if long_end else "gamma rays")
+        assert "?" in use.stem and next(r for k, r in EM_USES.items() if k in picked(use)) == EM[p["blank"]]  # the use of the blank
 
 
 # --- Task 7: atomic physics ---------------------------------------------------------------------
@@ -475,6 +556,7 @@ def test_nucleus():
         assert picked(sym) == notation(A, Z) and len(set(sym.options)) == 4
         if len(qs) > 3:  # beta-minus decay: a neutron becomes a proton, so A is kept and Z rises by one
             assert p["beta"] and picked(qs[3]) == notation(A, Z + 1) and len(set(qs[3].options)) == 4
+            assert SYMBOLS[Z - 1] not in qs[3].stem and str(A) not in qs[3].stem and "-" not in qs[3].stem
 
 
 # --- Review Focus 2: no MCQ answerable from its options alone ---------------------------------------
@@ -504,3 +586,47 @@ def test_a_physics_mcq_cannot_be_picked_from_its_options_alone(fid):
                 hits[key] += _central(q.options) == int(q.answer)
     bad = {k: (hits[k], seen[k]) for k in seen if seen[k] >= 10 and hits[k] / seen[k] > 0.35}
     assert not bad, (fid, bad)
+
+
+# --- Final review: labels clear of lines -------------------------------------------------------------
+
+def _crossings(fig):
+    """Labels a drawn line passes through: each line's segments, and each annotation arrow's, sampled
+    against every label's box (shrunk a little, so a line passing by is not counted)."""
+    from matplotlib.text import Annotation
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    ax = fig.axes[0]
+    segs = []
+    for ln in ax.lines:
+        xy = ax.transData.transform(list(zip(ln.get_xdata(), ln.get_ydata())))
+        segs += list(zip(xy[:-1], xy[1:]))
+    labels = []
+    for t in ax.texts:
+        if isinstance(t, Annotation) and not t.get_text():
+            a, b = ax.transData.transform([t.xyann, t.xy])
+            segs.append((a, b))
+        elif t.get_text().strip():
+            labels.append(t)
+    hits = []
+    for t in labels:
+        box = t.get_window_extent(r).shrunk(0.86, 0.7)
+        for (x0, y0), (x1, y1) in segs:
+            if any(box.contains(x0 + (x1 - x0) * i / 60, y0 + (y1 - y0) * i / 60) for i in range(61)):
+                hits.append(t.get_text())
+                break
+    return hits
+
+
+@pytest.mark.parametrize("fid", ["lens_diagram", "pressure"])
+def test_no_line_runs_through_a_label(fid):
+    m = fam(fid)
+    bad = []
+    for s in range(1, 61):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        hits = _crossings(fig)
+        plt.close(fig)
+        if hits:
+            bad.append((s, hits))
+    assert not bad, bad

@@ -18,7 +18,7 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("hookes-law", "forces"))
 # Hooke's law, forces and matter: not electric or magnetic forces, pressure, turning, or machines.
-AVOID = r"electric|electrostatic|static electricity|magnet|installation|environmental|earthquake|pressure|density|turning|moment|centre of gravity|machines|frictional"
+AVOID = r"^chapter 2: newton|electric|electrostatic|static electricity|magnet|installation|environmental|earthquake|pressure|density|turning|moment|centre of gravity|machines|frictional"
 
 
 def sample(rng: random.Random) -> dict:
@@ -70,7 +70,7 @@ def questions(p: dict, rng: random.Random) -> list:
                 measure(k, "N/cm") + [f"{exact(k * 100)} N/m"]),
           ]
     F = p["step"] * rng.randint(1, L // p["step"])
-    qs.append(short(f"What is the extension of {thing.replace('the spring', 'that spring').replace('a spring', 'that spring')} for a load of {F} N?",
+    qs.append(short(f"What is the extension of the spring for a load of {F} N?",
                     exact(F * e), measure(F * e, "cm")))
     qs.append(short("Up to what load does the spring obey Hooke's law?", L, measure(L, "N")))
     if p["band"] == "UP":

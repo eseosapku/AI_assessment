@@ -9,10 +9,11 @@ from __future__ import annotations
 
 import math
 import random
+from fractions import Fraction
 
 from matplotlib.patches import Arc, Rectangle
 
-from ..core import FILL_2, INK, NAMES, mcq, new_figure, short
+from ..core import FILL_2, INK, NAMES, exact, mcq, new_figure, short
 
 ID = "ray_optics"
 KIND = "physics.ray"
@@ -20,7 +21,7 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("reflection-of-waves", "plane-mirrors", "refraction-of-waves", "light-and-optics"))
 # Not sound, mechanical waves, interference or light's particle nature.
-AVOID = r"\bsound|seismic|ultrasound|plant growth|interference|mechanical waves|particle nature"
+AVOID = r"lens|human eye|optical instruments|\bsound|seismic|ultrasound|plant growth|interference|mechanical waves|particle nature"
 INDEX = {"glass": 1.5, "Perspex": 1.49, "water": 1.33}
 BENDS = [f"{d} the normal, because it {s}" for d in ("Towards", "Away from") for s in ("slows down", "speeds up")]
 
@@ -141,6 +142,7 @@ def questions(p: dict, rng: random.Random) -> list:
     n = n if p["into"] else 1 / n
     way = f"from air into {medium}" if p["into"] else f"from {medium} into air"
     key = BENDS[0] if p["into"] else BENDS[3]
+    two = f"{n:.2f}"  # "1.50" as asked, and "1.5" as the key, since it is the same number
     return [short(f"{name} shone {tool} {way} {rng.choice(SETTINGS)}. What is the refractive index of the {medium}, to 2 decimal places?",
-                  f"{n:.2f}"),
+                  exact(Fraction(two)), [two]),
             mcq("Which way does the ray bend as it crosses the boundary, and why?", key, [b for b in BENDS if b != key], rng)]

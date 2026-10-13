@@ -10,6 +10,7 @@ import io
 import random
 import re
 from dataclasses import dataclass, field
+from decimal import ROUND_HALF_UP, Decimal
 from fractions import Fraction
 
 import matplotlib
@@ -136,10 +137,12 @@ def short(stem: str, answer, accepted=(), explanation: str = "", tolerance: floa
             _add(forms, f"{m.group(1)}{int(m.group(2)):,}".replace(",", " ") + m.group(3))  # "12 800", as many write it
     # "0.234" or "0.2344" for 0.234375: three or four significant figures of a long decimal under 10,
     # keeping their zeros ("0.200"). Larger values are left: "123" for 123.4567 would be a whole number.
+    # Rounded half up from the decimal as written: a binary float would round 0.3125 down to 0.312.
     for f in list(forms):
         if re.fullmatch(r"-?\d*\.\d{4,}", f) and 0 < abs(float(f)) < 10:
+            d = Decimal(f)
             for sig in (3, 4):
-                _add(forms, format(float(f), f"#.{sig}g").rstrip("."))
+                _add(forms, format(d.quantize(Decimal(1).scaleb(d.adjusted() - sig + 1), rounding=ROUND_HALF_UP), "f"))
     # ".78" for 0.78: students drop the leading zero.
     for f in list(forms):
         m = re.fullmatch(r"(-?)0(\.\d+)(\D*)", f)
@@ -216,19 +219,37 @@ def exact(v) -> str:
     return format(Decimal(repr(f)).normalize(), "f")
 
 
+# The same quantity in another unit a student may fairly write it in: kilo- for a thousand or more,
+# milli- for less than one, and seconds, metres and centimetres for their smaller units.
+KILO = ("J", "W", "Pa", "Hz", "Ω", "N", "V")
+MILLI = ("A", "V", "N", "J", "W", "s")
+SCALED = {"ms": ("s", Fraction(1, 1000)), "cm": ("m", Fraction(1, 100)), "mm": ("cm", Fraction(1, 10))}
+
+
 def measure(v, unit: str) -> list[str]:
-    """Every fair form of a quantity: 6, "6 Ω", "6Ω", "6 ohms"; "1,200 J"; for a current under 1 A,
-    its milliamps too ("500 mA"). The bare number first, as the key."""
+    """Every fair form of a quantity: 6, "6 Ω", "6Ω", "6 ohms"; "1,200 J" and "1.2 kJ"; "500 mA" for
+    0.5 A; "0.02 s" for 20 ms. The bare number first, as the key."""
     numbers = short("_", exact(v)).accepted  # the number's own forms: 1,200 and 1 200, .5 for 0.5
     numbers += [n.replace("-", "−", 1) for n in numbers if n.startswith("-")]  # -20 and −20, a true minus sign
     forms = list(numbers)
     for n in numbers:
         for f in (f"{n} {unit}", f"{n}{unit}", *(f"{n} {w}" for w in UNIT_WORDS.get(unit, ()))):
-            if f not in forms:
-                forms.append(f)
-    if unit == "A" and 0 < float(v) < 1:
-        ma = exact(float(v) * 1000)
-        forms += [f for f in (f"{ma} mA", f"{ma}mA") if f not in forms]
+            _add(forms, f)
+    value = Fraction(exact(v))
+    others = []
+    if unit in KILO and abs(value) >= 1000:
+        others.append((value / 1000, "k" + unit))
+    if unit in MILLI and 0 < abs(value) < 1:
+        others.append((value * 1000, "m" + unit))
+    if unit in SCALED:
+        others.append((value * SCALED[unit][1], SCALED[unit][0]))
+    if unit == "m" and 0 < abs(value) < 1:
+        others.append((value * 100, "cm"))
+    for w, u in others:
+        if (w * 10000).denominator == 1:  # written exactly, to four places at most
+            for n in short("_", exact(w)).accepted:
+                _add(forms, f"{n} {u}")
+                _add(forms, f"{n}{u}")
     return forms
 
 

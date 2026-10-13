@@ -39,3 +39,14 @@ def test_a_measure_is_accepted_in_every_fair_form():
     # A temperature below zero, typed with a hyphen or set with a true minus sign; times in minutes.
     assert {"-20", "-20 °C", "−20", "−20 °C", "-20 degrees"} <= set(measure(-20, "°C"))
     assert {"6 min", "6 minutes"} <= set(measure(6, "min"))
+    # The same quantity with a prefix (final review): 36 kJ, 0.02 s for 20 ms, 1.5 m for 150 cm, 500 mV.
+    assert {"36 kJ", "36kJ"} <= set(measure(36000, "J"))
+    assert {"0.02 s", "0.02s"} <= set(measure(20, "ms")) and "20 ms" in measure(0.02, "s")
+    assert "1.5 m" in measure(150, "cm") and "500 mV" in measure(0.5, "V")
+
+
+def test_three_significant_figures_round_half_up():
+    """0.3125 is 0.313 to 3 s.f.; a binary float rounds it half-even to 0.312 (final review)."""
+    from figgen.core import short
+    forms = short("_", "0.3125").accepted
+    assert "0.313" in forms and "0.312" not in forms

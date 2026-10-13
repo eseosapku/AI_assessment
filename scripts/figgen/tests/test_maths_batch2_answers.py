@@ -645,7 +645,10 @@ def test_a_decimal_accepts_its_fair_forms(fid):
                 if re.fullmatch(r"-?0\.\d+", a):
                     assert a.replace("0.", ".", 1) in q.accepted, (fid, s, a, q.accepted)
                 if re.fullmatch(r"-?\d*\.\d{4,}", a):
-                    assert f"{float(a):.3g}" in q.accepted, (fid, s, a, q.accepted)
+                    # Rounded half up, as taught: 0.5625 is 0.563 (a float's half-even rounding gave 0.562).
+                    from decimal import ROUND_HALF_UP, Decimal
+                    d = Decimal(a)
+                    assert format(d.quantize(Decimal(1).scaleb(d.adjusted() - 2), rounding=ROUND_HALF_UP), "f") in q.accepted, (fid, s, a)
 
 
 def test_fair_forms_the_final_review_found_missing():

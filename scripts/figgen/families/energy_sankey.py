@@ -20,7 +20,8 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("energy-conversions-and-transfers", "conservation-of-energy", "energy", "power"))
 # Energy transfers and efficiency: not waves, light, nuclei, fields, signals or forces chapters.
-AVOID = r"electrostatic|static electricity|environmental|friction|induction|magnet|plant growth|telecommunication|resistors|signals|agriculture|optical fib|radioactiv|nuclear|nuclei|changes of state|sound|hearing|motor effect|turning|forces and matter|climate|earthquake|field|oscillation|orbit|wave|relativity|stellar|projectile|light"
+AVOID = (r"electrostatic|static electricity|environmental|friction|induction|magnet|plant growth|telecommunication|resistors|signals|agriculture|optical fib|radioactiv|nuclear|nuclei|changes of state|sound|hearing|motor effect|turning|forces and matter|climate|earthquake|field|oscillation|orbit|wave|relativity|stellar|projectile|light"
+         r"|^chapter 9: heat transfer$|^heat and temperature$|^current electricity|^electrical quantities$")
 # the device, the energy in, the useful output, the wasted outputs, and its efficiency range (%)
 DEVICES = [("filament lamp", "electrical", "light", ["heat"], (5, 15)), ("LED lamp", "electrical", "light", ["heat"], (40, 80)),
            ("electric kettle", "electrical", "heat in the water", ["heat to the air", "sound"], (80, 95)),
@@ -28,6 +29,11 @@ DEVICES = [("filament lamp", "electrical", "light", ["heat"], (5, 15)), ("LED la
            ("electric motor", "electrical", "kinetic", ["heat", "sound"], (60, 85)), ("radio", "electrical", "sound", ["heat"], (5, 20)),
            ("moto engine", "chemical", "kinetic", ["heat", "sound"], (20, 30))]
 FORMS = ["light", "heat", "sound", "kinetic", "electrical", "heat in the water", "heat in the pot", "heat to the air"]
+
+
+def avoid_for(p: dict) -> str:
+    """Only the electric motor's diagram belongs in the motor and generator chapters."""
+    return AVOID + ("" if p["device"] == "electric motor" else "|motor|generator")
 
 
 def sample(rng: random.Random) -> dict:
@@ -94,6 +100,8 @@ def questions(p: dict, rng: random.Random) -> list:
     useful = sum(v for _, v, k in p["flows"] if k == "useful")
     eff = Fraction(100 * useful, p["input"])
     others = [f for f in FORMS if f != useful_name and f not in [w for w, _, _ in p["flows"]]]
+    if useful_name.startswith("heat"):  # a kettle's output is heat, and a stove's pot holds water: no second right answer
+        others = [f for f in others if not f.startswith("heat")]
     rng.shuffle(others)
     qs = [
         short(f"{name} drew this energy transfer diagram for {article(p['device'])} {p['device']}. What is the missing amount of energy?", hid,
