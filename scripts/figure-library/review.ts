@@ -85,7 +85,9 @@ const NUMBER = /(?<![\d.])-?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*\/\s*\d+(?:\.\d+)?)?/g
 /** Every number in an answer, a fraction as its value: "9/25", "18/50" and "0.36" are one answer. */
 function numbersIn(text: string): number[] {
   // "1,500" and "12 800" are one number: a comma or space before exactly three digits separates thousands.
+  // A unit's power after a number is part of the unit: "3 m/s^2", "3 m s^-2", "12 cm3" each give one number.
   const joined = text.replace(/[\u2212\u2013\u2014]/g, '-').replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1')
+    .replace(/(\d\s?(?:[ckm]?m|m\/s|m\s?s|s))(?:\s?\^\s?-?\d+|-?[123](?![\d.]))/g, '$1')
   return (joined.match(NUMBER) ?? []).map((t) => {
     const [a, b] = t.split('/').map((x) => Number(x.trim()))
     return b === undefined ? a : a / b

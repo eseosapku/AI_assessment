@@ -198,6 +198,14 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(ms, '20 ms (0.02 s)')).toBe(true)
   })
 
+  it('reads a unit power as part of the unit, not as a second number', () => {
+    // "3 m/s^2 to the left" gives one number, 3 (P3f review): the 2 belongs to the unit.
+    for (const own of ['3 m/s^2 to the left', '3 m/s2', '3 m s^-2', '3 ms^-2']) expect(agrees(short('3'), own), own).toBe(true)
+    expect(agrees(short('12'), '12 cm^3')).toBe(true)
+    expect(agrees(short('12'), '12 m2')).toBe(true)
+    expect(agrees(short('3'), '2 m/s^2')).toBe(false)
+  })
+
   it('compares words without case, a leading "the" or a full stop', () => {
     expect(agrees(short('Market'), 'the market.')).toBe(true)
     expect(agrees(short('Room 13', ['Room 13', '13']), 'room 13')).toBe(true)
