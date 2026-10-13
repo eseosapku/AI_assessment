@@ -435,6 +435,48 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - **Answer forms refreshed:** 284 stored figures of earlier families (sample_space, supply_demand, cross_section and others) gained the newer fair forms in place, with no figure left out and every review kept.
     - **Money bar models (2026-10-13, job `p3d-money`, $0.12):** about a third of bar models are now about francs, in the steps a learner pays in. A new per-figure `avoid_for` in `link.py` means only those reach the francs chapters: 43 of 43 bar models there are about money, and they passed review 30/30.
     - **Next:** the Physics wave (P3e), starting with sample figures for the user.
+  - **P3e result (2026-10-13, plan `2026-10-13-figure-library-p3e-physics-samples.md`): the Physics wave's samples. $0 spent; nothing new written to the store.**
+    - **Families:** 19 new ones.
+      - **Motion and forces:** distance–time and speed–time graphs, force diagrams (along a line, or at right angles at UP), moments on a metre rule, and force–extension graphs.
+      - **Matter and energy:** U-tube manometers and blocks on their faces, density by displacement, and Sankey diagrams.
+      - **Electricity:** series, parallel and mixed circuits; ammeter, voltmeter and newton-meter dials; and I–V graphs of a resistor, a filament lamp and a diode.
+      - **Magnetism:** the motor effect and induction, and transformers.
+      - **Heat, waves and light:** heating and cooling curves, wave graphs, reflection and refraction, converging-lens ray diagrams, and the electromagnetic spectrum.
+      - **Atomic physics:** decay curves of real isotopes, and models of real atoms.
+    - **Checks:** every answer is recomputed over 1,000 figures, and each family's test checks the physics itself, not only the numbers.
+      - Directions are cross products (F = IL × B, v × B).
+      - Refraction keeps to Snell's law on the drawn angles, and lens images obey 1/f = 1/u + 1/v.
+      - Energy is conserved, and Kirchhoff's laws hold at each junction.
+      - Half-lives and melting points are the real ones, and only real beta emitters decay.
+      - Every value asked for lies on a mark.
+      - The full suite has 1,341 tests.
+    - **New shared checks:** every Physics MCQ is tested against the P3c centrality test. Lens and pressure labels are tested clear of every line.
+    - **Answer forms:** `core.measure` accepts every fair form of a quantity: "6 ohms", "6Ω", "2.5N", "1 200 J", "36 kJ", "0.02 s" for 20 ms, and "−20 °C". Three significant figures now round half up, as taught. Six stored pdf_graph figures that offered "0.562" for 0.5625 were refreshed in place.
+    - **Linking:** the link report was read topic by topic, and AVOID keeps each family out of chapters it does not suit. Only the motor's Sankey reaches the motor chapters.
+      - Waves, the spectrum and the atom are not drawn for lower secondary, which has no chapter for them.
+      - **Coverage of the 195 mapped Physics topics:** 156 get a family (121 one or two, 35 three to five).
+      - **Still empty:** electric, gravitational and magnetic fields; electrostatics; circular motion and orbits; A Level thermal physics, ideal gases, capacitance, quantum physics and medical imaging; communications; relativity; lower-secondary magnetism.
+    - **Final review:** it found no wrong key and confirmed the physics. Its findings are fixed:
+      - a Sankey option set with two right answers;
+      - garbled spring wording;
+      - the manometer's gas arm drawn open, and stories that contradicted the levels;
+      - a face MCQ answerable from its options;
+      - labels crossed by rays;
+      - circuits skewed to parallel, with a voltmeter question whose answer was printed;
+      - an LDR distractor that gives a resistor's line;
+      - MCQs the figure played no part in (where a figure-based question was cheap);
+      - the plan's right-angle forces and equilibrium question;
+      - the remaining link misfits;
+      - missing unit forms.
+      Its minor points are recorded in the plan's ledger.
+    - Sample sheet: https://claude.ai/artifact/7UsXRD685aNXRsPuskV7Bm
+    - **Next, P3f, after the user's verdict:**
+      - fix what the user flags;
+      - draw 30 figures of each family;
+      - run the blind review (about $5);
+      - triage rejections by sub-type;
+      - approve, draw to volume and approve again;
+      - report coverage.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
