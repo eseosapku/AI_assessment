@@ -178,3 +178,74 @@ def test_a_physics_stem_takes_the_right_article(fid):
         _, qs = run(m, s)
         for q in qs:
             assert not re.search(r"\ba (?:[aeiouAEIOU]|LED\b)", q.stem), (fid, s, q.stem)
+
+
+# --- Task 4: electricity ------------------------------------------------------------------------
+
+def solve(p):
+    """The circuit's total resistance, main current and each resistor's current, from first principles."""
+    R = [Fraction(r) for r in p["resistors"]]
+    V = Fraction(p["volts"])
+    if p["kind"] == "series":
+        total = sum(R)
+        I = V / total
+        return total, I, [I] * len(R)
+    if p["kind"] == "parallel":
+        total = 1 / sum(1 / r for r in R)
+        return total, V / total, [V / r for r in R]
+    par = 1 / (1 / R[1] + 1 / R[2])  # R1 in series with R2 parallel R3
+    total = R[0] + par
+    I = V / total
+    vp = I * par
+    return total, I, [I, vp / R[1], vp / R[2]]
+
+
+def test_circuit():
+    m = fam("circuit")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        total, I, currents = solve(p)
+        R = [Fraction(r) for r in p["resistors"]]
+        resistance, ammeter, voltmeter, power = qs[:4]
+        assert num(resistance.answer) == total
+        assert num(ammeter.answer) == (currents[p["ammeter"]] if p["ammeter"] is not None else I)
+        across = p["voltmeter"]
+        assert num(voltmeter.answer) == currents[across] * R[across]  # V = IR across that resistor
+        k = int(re.search(r"resistor R(\d)", power.stem).group(1)) - 1
+        assert num(power.answer) == currents[k] ** 2 * R[k]  # P = I²R
+        # Every value a student writes is exact to two decimal places.
+        assert all((v * 100).denominator == 1 for v in [total, I, *currents, currents[across] * R[across], currents[k] ** 2 * R[k]])
+        if p["kind"] != "series":
+            assert sum(currents[1:] if p["kind"] == "mixed" else currents) == I  # Kirchhoff: currents at a junction
+
+
+def test_meter_dial():
+    m = fam("meter_dial")
+    for s in SEEDS:
+        p, (reading, division, change) = run(m, s)
+        v = Fraction(p["value"])
+        assert v % Fraction(p["minor"]) == 0 and 0 < v <= p["full"]  # the needle on a division
+        assert num(reading.answer) == v and any(a.endswith(f" {p['unit']}") for a in reading.accepted)
+        assert num(division.answer) == Fraction(p["minor"])
+        later = Fraction(re.search(r"reads ([\d.]+)", change.stem).group(1))
+        assert num(change.answer) == abs(later - v) and later <= p["full"]
+
+
+def test_iv_graph():
+    m = fam("iv_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        kind = p["kind"]
+        resistance, which, ohms = qs[:3]
+        V, I = Fraction(p["point"][0]), Fraction(p["point"][1]) / 1000  # mA to A
+        assert num(resistance.answer) == V / I and (V / I).denominator == 1
+        assert picked(which) == {"resistor": "a fixed resistor", "lamp": "a filament lamp", "diode": "a diode"}[kind]
+        assert picked(ohms).startswith("Yes") == (kind == "resistor")
+        if kind == "lamp":  # a filament's resistance grows as it heats, from a finite value when cold
+            assert p["R0"] > 0 and p["a"] > 0 and m.current(p, 0.5) / 0.5 < 1000 / p["R0"] + 1e-9
+        # The marked point lies on the drawn characteristic.
+        assert abs(m.current(p, float(V)) - float(p["point"][1])) < 1e-9
+        if len(qs) > 3:  # the current at another voltage, from the component's own law
+            v = float(re.search(r"to ([\d.]+) V", qs[3].stem).group(1))
+            law = {"resistor": lambda: v * 1000 / p["R"], "lamp": lambda: v * 1000 / (p["R0"] + p["a"] * v), "diode": lambda: max(0, p["g"] * (v - 0.6))}
+            assert abs(num(qs[3].answer) - law[kind]()) < 1e-9
