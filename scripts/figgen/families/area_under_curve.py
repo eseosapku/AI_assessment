@@ -1,5 +1,5 @@
 """The area under a curve as a definite integral: the shaded area, the integral that gives it, and
-the value of a neighbouring integral (UP, AL).
+the height of the shaded region's right-hand edge (UP, AL).
 
 The curve is y = 3αx² + 2βx + γ, the derivative of αx³ + βx² + γx, so every integral between whole
 numbers is a whole number. The shaded region lies above the x-axis: the curve is positive across it.
@@ -73,10 +73,12 @@ def questions(p: dict, rng: random.Random) -> list:
     shaded = short(f"{p['name']} shaded a region under the curve y = {eq}. Calculate the area of the shaded region.", area,
                    [f"{area} units²", f"{area} units2", f"{area} square units"])
     form = lambda lo, hi, f: f"∫ from {lo} to {hi} of ({f}) dx"  # noqa: E731
-    # The antiderivative in place of the curve: its coefficients are whole numbers by construction.
-    # The limits' order and the curve (or its antiderivative): each wrong in two of the four options.
-    Feq = poly([int(c) for c in F])
-    which = mcq("Which integral gives the shaded area?", form(a, b, eq), [form(b, a, eq), form(a, b, Feq), form(b, a, Feq)], rng)
+    # The limits read off the shading (or one square too wide) and the curve read off the title (or the
+    # curve with its sign changed): each wrong in two of the four options, and no option can be told
+    # from the others without the figure.
+    lo2, hi2 = (a, b + 1) if rng.random() < 0.5 else (a - 1, b)
+    neg = poly([-c for c in co])
+    which = mcq("Which integral gives the shaded area?", form(a, b, eq), [form(lo2, hi2, eq), form(a, b, neg), form(lo2, hi2, neg)], rng)
     # Read on the drawing: the height of the shaded region where it ends (every part of it is drawn).
     h = int(value(co, b))
     part = short("How high is the right-hand edge of the shaded region?", h, [f"y = {h}", f"{h} units"])

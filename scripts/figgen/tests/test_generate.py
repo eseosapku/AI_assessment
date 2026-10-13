@@ -199,28 +199,28 @@ def test_relinking_moves_stored_figures_to_the_topics_they_reach_now(tmp_path):
 
 def test_refreshing_forms_widens_what_is_accepted_and_keeps_the_review(tmp_path):
     """A fair form learnt later ("12 800") reaches figures already reviewed, without redrawing them: the
-    stem and the key are the same, so the verdict on them stands. A figure whose wording changed is
-    left alone (it needs --redo)."""
+    stem, key and options are the same, so the verdict on them stands. A figure whose wording or options
+    changed is left alone (it needs --redo)."""
     from figgen.generate import refresh_forms
     db = open_store(tmp_path / "figures.db")
-    m = FAMILIES["box_plot"]
-    band = m.BANDS[0]
-    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('t:1', 'test', 'Book', 'mathematics', ?, 'Statistics')",
-               (band,))
+    m = FAMILIES["quadratic_graph"]  # every figure has a multiple-choice question
+    db.executemany("INSERT INTO topics (key, source, book, subject, band, name) VALUES (?, 'test', 'Book', 'mathematics', ?, 'Graphs')",
+                   [(f"t:{b}", b) for b in m.BANDS])
     db.executemany("INSERT INTO concepts (id, subject, name, bands) VALUES (?, 'mathematics', ?, '[]')", [(c, c) for c in m.CONCEPTS])
     db.commit()
-    index = [{"key": "t:1", "band": band, "subject": "mathematics", "name": "Statistics", "stage": None, "concepts": frozenset(m.CONCEPTS)}]
-    generate_family(db, tmp_path, m, 3, index=index)
+    index = [{"key": f"t:{b}", "band": b, "subject": "mathematics", "name": "Graphs", "stage": None, "concepts": frozenset(m.CONCEPTS)}
+             for b in m.BANDS]
+    generate_family(db, tmp_path, m, 4, index=index)
     full = {r[0]: r[1] for r in db.execute("SELECT id, accepted FROM figure_questions")}
     db.execute("UPDATE figure_questions SET accepted = json_array(answer)")  # as if drawn before the forms were learnt
-    first = db.execute("SELECT id FROM figures ORDER BY id LIMIT 1").fetchone()[0]
-    db.execute("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', ?, 'm', 1, '{}', 'now')", (first,))
-    last = db.execute("SELECT id FROM figures ORDER BY id DESC LIMIT 1").fetchone()[0]
-    db.execute("UPDATE figure_questions SET stem = 'An older wording' WHERE figure_id = ? AND n = 1", (last,))
+    ids = [r[0] for r in db.execute("SELECT id FROM figures ORDER BY id")]
+    db.execute("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', ?, 'm', 1, '{}', 'now')", (ids[0],))
+    db.execute("UPDATE figure_questions SET stem = 'An older wording' WHERE figure_id = ? AND n = 1", (ids[-1],))
+    db.execute("UPDATE figure_questions SET options = '[\"an older option\", \"b\", \"c\"]' WHERE figure_id = ? AND kind = 'mcq'", (ids[-2],))
     db.commit()
 
-    assert refresh_forms(db, m) == (2, 1)
+    assert refresh_forms(db, m) == (2, 2)
     now = {r[0]: r[1] for r in db.execute("SELECT id, accepted FROM figure_questions")}
-    assert all(now[q] == full[q] for q in now if not q.startswith(last))
+    assert all(now[q] == full[q] for q in now if not q.startswith((ids[-1], ids[-2])))
     assert db.execute("SELECT COUNT(*) FROM reviews").fetchone()[0] == 1  # the verdict stands
-    assert refresh_forms(db, m) == (0, 1)
+    assert refresh_forms(db, m) == (0, 2)

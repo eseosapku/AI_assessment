@@ -117,14 +117,19 @@ def refresh_forms(db, m) -> tuple[int, int]:
             left += 1
             continue
         qs = m.questions(params, rng)
-        stored = db.execute("SELECT n, stem, answer, accepted FROM figure_questions WHERE figure_id = ? ORDER BY n", (r["id"],)).fetchall()
-        if len(stored) != len(qs) or any(s["stem"] != q.stem or s["answer"] != q.answer for s, q in zip(stored, qs)):
+        stored = db.execute("SELECT n, kind, stem, options, answer, accepted, tolerance FROM figure_questions WHERE figure_id = ? ORDER BY n",
+                            (r["id"],)).fetchall()
+        # The reviewed figure is the one with these stems, keys, options and tolerances; anything else
+        # changed is a different figure, for --redo.
+        if len(stored) != len(qs) or any(s["kind"] != q.kind or s["stem"] != q.stem or s["answer"] != q.answer
+                                         or json.loads(s["options"]) != q.options or float(s["tolerance"] or 0) != float(q.tolerance)
+                                         for s, q in zip(stored, qs)):
             left += 1
             continue
-        changes = [(json.dumps(q.accepted), q.tolerance, r["id"], s["n"]) for s, q in zip(stored, qs) if json.loads(s["accepted"]) != q.accepted]
+        changes = [(json.dumps(q.accepted), r["id"], s["n"]) for s, q in zip(stored, qs) if json.loads(s["accepted"]) != q.accepted]
         if changes:
             with db:
-                db.executemany("UPDATE figure_questions SET accepted = ?, tolerance = ? WHERE figure_id = ? AND n = ?", changes)
+                db.executemany("UPDATE figure_questions SET accepted = ? WHERE figure_id = ? AND n = ?", changes)
             updated += 1
     return updated, left
 

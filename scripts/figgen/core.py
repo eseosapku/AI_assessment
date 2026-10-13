@@ -134,10 +134,12 @@ def short(stem: str, answer, accepted=(), explanation: str = "", tolerance: floa
         if m:
             _add(forms, f"{m.group(1)}{int(m.group(2)):,}{m.group(3)}")
             _add(forms, f"{m.group(1)}{int(m.group(2)):,}".replace(",", " ") + m.group(3))  # "12 800", as many write it
-    # "0.234" for 0.234375: three significant figures of a long decimal.
+    # "0.234" or "0.2344" for 0.234375: three or four significant figures of a long decimal under 10,
+    # keeping their zeros ("0.200"). Larger values are left: "123" for 123.4567 would be a whole number.
     for f in list(forms):
-        if re.fullmatch(r"-?\d*\.\d{4,}", f):
-            _add(forms, f"{float(f):.3g}")
+        if re.fullmatch(r"-?\d*\.\d{4,}", f) and 0 < abs(float(f)) < 10:
+            for sig in (3, 4):
+                _add(forms, format(float(f), f"#.{sig}g").rstrip("."))
     # ".78" for 0.78: students drop the leading zero.
     for f in list(forms):
         m = re.fullmatch(r"(-?)0(\.\d+)(\D*)", f)

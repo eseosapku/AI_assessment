@@ -169,6 +169,16 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('17/3'), '16/3 ≈ 5.33')).toBe(false)
   })
 
+  it('reads a labelled approximation as the answer, and a hedge after the approximation as a hedge', () => {
+    // "x ≈ 1.6" names nothing before "≈" but a letter: the answer is after it (P3d final review).
+    expect(agrees(short('1.6'), 'x ≈ 1.6')).toBe(true)
+    expect(agrees(short('5'), 'Mean ≈ 5')).toBe(true)
+    expect(agrees({ ...short('3'), tolerance: 0.5 }, 'y ≈ 3.2')).toBe(true)
+    // After an exact answer, only roundings of it may follow: "or 16/3" is a second answer.
+    expect(agrees(short('17/3'), '17/3 ≈ 5.67 or 16/3')).toBe(false)
+    expect(agrees(short('17/3'), '17/3 ≈ 5.7')).toBe(true)
+  })
+
   it('reads a decimal without its leading zero, and a hyphen between numbers as a range', () => {
     expect(agrees(short('0.7', ['0.7', '.7']), '7')).toBe(false)
     expect(agrees(short('0.7', ['0.7', '.7']), '.7')).toBe(true)

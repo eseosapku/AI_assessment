@@ -92,6 +92,19 @@ function numbersIn(text: string): number[] {
   })
 }
 
+/** Whether every number written in `text` is `key` rounded to the places it is written to ("5.67" or "5.7" for 17/3). */
+function roundsTo(text: string, key: number): boolean {
+  const tokens = text.replace(/[−–—]/g, '-').replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1').match(NUMBER) ?? []
+  return tokens.length > 0 && tokens.every((t) => {
+    if (t.includes('/')) {
+      const [a, b] = t.split('/').map((x) => Number(x.trim()))
+      return Math.abs(a / b - key) < 1e-9
+    }
+    const places = (t.split('.')[1] ?? '').length
+    return Math.abs(Number(t) - key) <= 0.5 * 10 ** -places + 1e-9
+  })
+}
+
 /** Lowercased and single-spaced, without a closing full stop or a leading article. */
 function words(text: string): string {
   return text.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim()
@@ -120,8 +133,16 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   }
   const expected = numbersIn(q.answer)
   if (expected.length) {
-    // "17/3 ≈ 5.67": the exact answer, then the same answer roughly; only the exact part is compared.
-    const exact = text.includes('≈') ? text.split('≈')[0].trim() || text : text
+    let exact = text
+    if (text.includes('≈')) {
+      const at = text.indexOf('≈')
+      const head = text.slice(0, at).trim()
+      const tail = text.slice(at + 1).trim()
+      // "x ≈ 1.6": a label, then the answer. "17/3 ≈ 5.67": the exact answer, then a rounding of it;
+      // anything else after "≈" ("or 16/3") is a second answer and is compared with the rest.
+      if (!numbersIn(head).length) exact = tail
+      else if (expected.length === 1 && roundsTo(tail, expected[0])) exact = head
+    }
     const mine = numbersIn(exact)
     const same = (a: number, b: number) => Math.abs(a - b) < 1e-9
     const near = (a: number) => Math.abs(a - expected[0]) <= (q.tolerance ?? 0) + 1e-9

@@ -898,3 +898,23 @@ def test_a_value_is_read_clear_of_the_plot_edge_and_q_is_on_the_tangent():
     for s in range(1, 301):
         _, qs = run(fam("tangent_gradient"), s)
         assert "passes through Q" in qs[0].stem, qs[0].stem
+
+
+
+def test_the_integral_options_cannot_be_told_apart_without_the_figure():
+    """The other integrand was always the antiderivative, one degree higher: 'pick the lower degree' found
+    the key every time (P3d final review). Each option now differs in the limits read off the shading or
+    in the curve read off the title."""
+    m = fam("area_under_curve")
+    by_degree = seen = 0
+    for s in SEEDS:
+        p, (_, which, _) = run(m, s)
+        degree = lambda o: next((d for d, mark in ((3, "x³"), (2, "x²"), (1, "x")) if mark in o.split(" of ")[1]), 0)  # noqa: E731
+        # The giveaway: drop the options whose limits run backwards, then take the lowest degree.
+        upward = [i for i, o in enumerate(which.options) if int(re.search(r"from (-?\d+)", o).group(1)) < int(re.search(r"to (-?\d+)", o).group(1))]
+        lows = [i for i in upward if degree(which.options[i]) == min(degree(which.options[j]) for j in upward)]
+        seen += 1
+        by_degree += lows == [int(which.answer)]
+        limits = {re.search(r"from (-?\d+) to (-?\d+)", o).groups() for o in which.options}
+        assert len(limits) == 2 and (str(p["a"]), str(p["b"])) in limits, which.options
+    assert by_degree / seen <= 0.05, by_degree
