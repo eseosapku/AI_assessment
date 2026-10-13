@@ -1,0 +1,111 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: >
+  StudySquare question figures (public/textbook-images, public/exam-images)
+  served from a private S3 bucket through CloudFront. Its own stack: nothing
+  here touches the backend Lambda stack, Amplify, or the database.
+
+Parameters:
+  BucketName:
+    Type: String
+    Default: ''
+    Description: Leave empty for studysquare-figures-<account>-<region>.
+
+Conditions:
+  DefaultBucketName: !Equals [!Ref BucketName, '']
+
+Resources:
+  FiguresBucket:
+    Type: AWS::S3::Bucket
+    # The figures exist nowhere else once they leave the repo.
+    DeletionPolicy: Retain
+    UpdateReplacePolicy: Retain
+    Properties:
+      BucketName: !If
+        - DefaultBucketName
+        - !Sub 'studysquare-figures-${AWS::AccountId}-${AWS::Region}'
+        - !Ref BucketName
+      PublicAccessBlockConfiguration:
+        BlockPublicAcls: true
+        BlockPublicPolicy: true
+        IgnorePublicAcls: true
+        RestrictPublicBuckets: true
+      OwnershipControls:
+        Rules:
+          - ObjectOwnership: BucketOwnerEnforced
+      BucketEncryption:
+        ServerSideEncryptionConfiguration:
+          - ServerSideEncryptionByDefault:
+              SSEAlgorithm: AES256
+      VersioningConfiguration:
+        Status: Enabled
+      LifecycleConfiguration:
+        Rules:
+          - Id: ExpireReplacedVersions
+            Status: Enabled
+            NoncurrentVersionExpiration:
+              NoncurrentDays: 90
+
+  FiguresOriginAccessControl:
+    Type: AWS::CloudFront::OriginAccessControl
+    Properties:
+      OriginAccessControlConfig:
+        Name: !Sub '${AWS::StackName}-oac'
+        OriginAccessControlOriginType: s3
+        SigningBehavior: always
+        SigningProtocol: sigv4
+
+  FiguresDistribution:
+    Type: AWS::CloudFront::Distribution
+    Properties:
+      DistributionConfig:
+        Enabled: true
+        Comment: StudySquare question figures
+        # PriceClass_100 has no African edge locations, where the learners are.
+        PriceClass: PriceClass_All
+        HttpVersion: http2and3
+        IPV6Enabled: true
+        Origins:
+          - Id: FiguresS3
+            DomainName: !GetAtt FiguresBucket.RegionalDomainName
+            OriginAccessControlId: !GetAtt FiguresOriginAccessControl.Id
+            S3OriginConfig:
+              OriginAccessIdentity: ''
+        DefaultCacheBehavior:
+          TargetOriginId: FiguresS3
+          ViewerProtocolPolicy: redirect-to-https
+          AllowedMethods: [GET, HEAD, OPTIONS]
+          CachedMethods: [GET, HEAD]
+          Compress: true
+          # Managed-CachingOptimized
+          CachePolicyId: 658327ea-f89d-4fab-a63d-7e88639e58f6
+          # Managed-SimpleCORS: a canvas or html-to-image export of a page
+          # holding a figure re-fetches it, and is refused without this.
+          ResponseHeadersPolicyId: 60669652-455b-4ae9-85a4-c4c02393f86c
+
+  FiguresBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref FiguresBucket
+      PolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          # GetObject only. s3:ListBucket would let anyone list every key
+          # through the distribution's root URL.
+          - Sid: AllowCloudFrontRead
+            Effect: Allow
+            Principal:
+              Service: cloudfront.amazonaws.com
+            Action: s3:GetObject
+            Resource: !Sub '${FiguresBucket.Arn}/*'
+            Condition:
+              StringEquals:
+                AWS:SourceArn: !Sub 'arn:aws:cloudfront::${AWS::AccountId}:distribution/${FiguresDistribution}'
+
+Outputs:
+  BucketName:
+    Value: !Ref FiguresBucket
+  DistributionId:
+    Value: !Ref FiguresDistribution
+  FigureBaseUrl:
+    Description: Value for NEXT_PUBLIC_FIGURE_BASE_URL in Amplify.
+    Value: !Sub 'https://${FiguresDistribution.DomainName}'

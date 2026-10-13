@@ -1,6 +1,7 @@
 'use client'
 
 import { useEffect, useState } from 'react'
+import { figureSrc } from '@/lib/figure-src'
 
 interface ExamFigureProps {
   src: string
@@ -43,6 +44,7 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
   }, [zoomed])
 
   if (!src) return null
+  const url = figureSrc(src)
 
   return (
     <>
@@ -57,7 +59,7 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={src}
+            src={url}
             alt={alt}
             // Capped in viewport height, not just width. A tall portrait figure —
             // a digestive system, a river profile — otherwise fills the screen and
@@ -99,7 +101,7 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
-            src={src}
+            src={url}
             alt={alt}
             onClick={(e) => e.stopPropagation()}
             className="max-h-[92vh] max-w-[95vw] cursor-zoom-out rounded-xl bg-ss-panel object-contain p-2 shadow-ss-panel"

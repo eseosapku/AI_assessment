@@ -3,6 +3,7 @@ import os from 'os'
 import path from 'path'
 import { callGemma, type ImageInput } from '@/lib/bedrock'
 import { describeForPrompt } from '@/lib/figure-keying'
+import { figureSrc } from '@/lib/figure-src'
 import {
   getImagesForTextbook,
   getDescribedImages,
@@ -186,11 +187,13 @@ async function loadImageInput(localPath: string): Promise<ImageInput | null> {
   const origin =
     appOrigin() ||
     (process.env.NODE_ENV !== 'production' ? 'http://localhost:3000' : '')
+  const fromCdn = figureSrc(localPath)
+  const url = fromCdn !== localPath ? fromCdn : origin ? `${origin}/${normalized}` : ''
 
-  if (!origin) return null
+  if (!url) return null
 
   try {
-    const response = await fetch(`${origin}/${normalized}`, { cache: 'no-store' })
+    const response = await fetch(url, { cache: 'no-store' })
     if (!response.ok) return null
     const buf = Buffer.from(await response.arrayBuffer())
     if (buf.length < 500) return null

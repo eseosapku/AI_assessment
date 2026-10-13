@@ -69,13 +69,15 @@ function fileIsThere(localPath: unknown): boolean {
   // need one already check for it.
   if (!rel) return true
 
-  const full = path.join(process.cwd(), 'public', rel)
+  // `rel` is a catalog path, not a literal. Without the ignore, Turbopack
+  // traces all of public/ (the figure folders included) into the server bundle.
+  const full = path.join(/*turbopackIgnore: true*/ process.cwd(), 'public', rel)
   const dir = path.dirname(full)
 
   let entries = dirCache.get(dir)
   if (entries === undefined) {
     try {
-      entries = new Set(fs.readdirSync(dir))
+      entries = new Set(fs.readdirSync(/*turbopackIgnore: true*/ dir))
     } catch {
       entries = null
     }

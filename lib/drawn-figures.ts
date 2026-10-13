@@ -133,7 +133,9 @@ function index(): Map<string, DrawnLibraryFigure[]> {
   if (byFocus) return byFocus
   const map = new Map<string, DrawnLibraryFigure[]>()
   try {
-    const raw = JSON.parse(fs.readFileSync(FILE, 'utf8'))
+    // FILE is reassigned by tests. Without the ignore, Turbopack treats the
+    // path as the whole project and traces every file into the server bundle.
+    const raw = JSON.parse(fs.readFileSync(/*turbopackIgnore: true*/ FILE, 'utf8'))
     if (Array.isArray(raw)) {
       for (const f of raw as DrawnLibraryFigure[]) {
         if (!f?.focus || !f?.svg) continue
