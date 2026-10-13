@@ -431,3 +431,47 @@ def test_em_spectrum():
         long_end = any(w in extreme.stem for w in ("longest wavelength", "lowest frequency", "least energy"))
         assert picked(extreme) == ("radio waves" if long_end else "gamma rays")
         assert picked(use) == next(r for k, r in EM_USES.items() if k in use.stem)
+
+
+# --- Task 7: atomic physics ---------------------------------------------------------------------
+
+def test_decay_graph():
+    m = fam("decay_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        A0, T = p["A0"], p["half"]
+        assert T % p["xstep"] == 0  # the half-life on a gridline
+        for n in range(4):  # A0 / 2^n at whole half-lives, each on a gridline
+            assert Fraction(A0, 2 ** n) % p["ystep"] == 0
+            assert abs(m.activity(p, n * T) - A0 / 2 ** n) < 1e-9
+        half, after, until = qs[:3]
+        assert num(half.answer) == T
+        t = Fraction(re.search(r"after ([\d.,]+)", after.stem).group(1).replace(",", ""))
+        assert (t / T).denominator == 1 and num(after.answer) == Fraction(A0, 2 ** int(t / T))
+        target = Fraction(re.search(r"fall to ([\d.,]+)", until.stem).group(1).replace(",", ""))
+        k = (Fraction(A0) / target).numerator.bit_length() - 1
+        assert Fraction(A0) / target == 2 ** k and k >= 1 and num(until.answer) == k * T
+
+
+SYMBOLS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca", "Sc"]
+SUP, SUB = str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹"), str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+
+
+def notation(A, Z):
+    return f"{str(A).translate(SUP)}{str(Z).translate(SUB)}{SYMBOLS[Z - 1]}"
+
+
+def test_nucleus():
+    m = fam("nucleus")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        Z, A = p["Z"], p["A"]
+        drawn = m.layout(p)
+        assert sum(1 for *_, k in drawn if k == "proton") == Z and sum(1 for *_, k in drawn if k == "neutron") == A - Z
+        shells = m.shells(p)  # 2, 8, 8, 2: each shell filled before the next
+        assert sum(shells) == Z and all(n == cap for n, cap in zip(shells[:-1], (2, 8, 8)))
+        z_q, a_q, sym = qs[:3]
+        assert num(z_q.answer) == Z and num(a_q.answer) == A
+        assert picked(sym) == notation(A, Z) and len(set(sym.options)) == 4
+        if len(qs) > 3:  # beta-minus decay: a neutron becomes a proton, so A is kept and Z rises by one
+            assert p["beta"] and picked(qs[3]) == notation(A, Z + 1) and len(set(qs[3].options)) == 4
