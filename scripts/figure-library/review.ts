@@ -149,7 +149,12 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     const reached = expected.length === 1
       ? mine.length > 0 && mine.every(near)
       : mine.length === expected.length && mine.every((v, i) => same(v, expected[i]))
-    return reached || q.accepted.some((form) => words(form) === words(text))
+    // "0.5 A (500 mA)", "R = 6 Ω": in parts at brackets, "=" and "or", each part with a number is the key
+    // or one of its accepted forms. A part "or" splits off must be one too, so a hedge still fails.
+    const parts = exact.split(/[()=]|\s+or\s+/).map((s) => s.trim()).filter((s) => numbersIn(s).length > 0)
+    const restated = expected.length === 1 && parts.length > 1
+      && parts.every((part) => numbersIn(part).every(near) || q.accepted.some((form) => words(form) === words(part)))
+    return reached || restated || q.accepted.some((form) => words(form) === words(text))
   }
   return (q.accepted.length ? q.accepted : [q.answer]).some((form) => words(form) === words(text))
 }

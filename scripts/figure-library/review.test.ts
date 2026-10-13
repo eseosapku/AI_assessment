@@ -186,6 +186,18 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('-0.5', ['-0.5', '-.5']), '-.5')).toBe(true)
   })
 
+  it('reads a restatement in another accepted unit, or a named quantity, as the same answer', () => {
+    // Physics keys carry units, and a reviewer restates them: "0.5 A (500 mA)" is one answer (P3f).
+    const amps = short('0.5', ['0.5', '0.5 A', '500 mA'])
+    expect(agrees(amps, '0.5 A (500 mA)')).toBe(true)
+    expect(agrees(amps, '500 mA (0.5 A)')).toBe(true)
+    expect(agrees(amps, 'I = 0.5 A')).toBe(true)
+    expect(agrees(amps, '0.5 A or 0.6 A')).toBe(false) // a hedge between two values
+    expect(agrees(amps, '0.5 A (600 mA)')).toBe(false)
+    const ms = short('20', ['20', '20 ms', '0.02 s'])
+    expect(agrees(ms, '20 ms (0.02 s)')).toBe(true)
+  })
+
   it('compares words without case, a leading "the" or a full stop', () => {
     expect(agrees(short('Market'), 'the market.')).toBe(true)
     expect(agrees(short('Room 13', ['Room 13', '13']), 'room 13')).toBe(true)
