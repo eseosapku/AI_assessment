@@ -8,7 +8,7 @@ from . import (algebra_area, area_under_curve, argand, bar_model, exp_graph, lim
                percent_grid, points_3d, price_tag, prob_distribution, rational_graph, scale_drawing, stationary_points, tangent_gradient,
                trig_graph, velocity_time)
 # P3e: the physics wave
-from . import circuit, density_displacement, energy_sankey, force_diagram, iv_graph, meter_dial, moments, motion_graph, motor_rule, pressure, spring_graph, transformer
+from . import circuit, density_displacement, em_spectrum, energy_sankey, force_diagram, heating_curve, iv_graph, lens_diagram, meter_dial, moments, motion_graph, motor_rule, pressure, ray_optics, spring_graph, transformer, wave_graph
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -32,4 +32,5 @@ FAMILIES = {m.ID: m for m in (
     pressure, density_displacement, energy_sankey,
     circuit, meter_dial, iv_graph,
     motor_rule, transformer,
+    heating_curve, wave_graph, ray_optics, lens_diagram, em_spectrum,
 )}

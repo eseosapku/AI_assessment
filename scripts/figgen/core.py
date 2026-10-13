@@ -198,7 +198,8 @@ def money(n: int) -> list[str]:
 UNIT_WORDS = {"Ω": ("ohms", "ohm"), "N": ("newtons", "newton"), "J": ("joules", "joule"), "W": ("watts", "watt"),
               "V": ("volts", "volt"), "A": ("amps", "amp", "amperes", "ampere"), "Hz": ("hertz",), "Pa": ("pascals", "pascal"),
               "s": ("seconds", "second"), "m": ("metres", "metre"), "°C": ("degrees",), "kg": ("kilograms", "kilogram"),
-              "cm": ("centimetres",), "Bq": ("becquerels",)}
+              "cm": ("centimetres",), "Bq": ("becquerels",), "min": ("minutes", "minute"), "mm": ("millimetres",),
+              "ms": ("milliseconds",)}
 
 
 def article(noun: str) -> str:
@@ -219,6 +220,7 @@ def measure(v, unit: str) -> list[str]:
     """Every fair form of a quantity: 6, "6 Ω", "6Ω", "6 ohms"; "1,200 J"; for a current under 1 A,
     its milliamps too ("500 mA"). The bare number first, as the key."""
     numbers = short("_", exact(v)).accepted  # the number's own forms: 1,200 and 1 200, .5 for 0.5
+    numbers += [n.replace("-", "−", 1) for n in numbers if n.startswith("-")]  # -20 and −20, a true minus sign
     forms = list(numbers)
     for n in numbers:
         for f in (f"{n} {unit}", f"{n}{unit}", *(f"{n} {w}" for w in UNIT_WORDS.get(unit, ()))):

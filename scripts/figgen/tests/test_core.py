@@ -36,3 +36,6 @@ def test_a_measure_is_accepted_in_every_fair_form():
     assert {"0.5 A", ".5 A", "0.5 amps", "500 mA"} <= set(measure(0.5, "A"))
     forms = measure(3, "m/s")
     assert "3 m/s" in forms and len(forms) == len(set(forms))
+    # A temperature below zero, typed with a hyphen or set with a true minus sign; times in minutes.
+    assert {"-20", "-20 °C", "−20", "−20 °C", "-20 degrees"} <= set(measure(-20, "°C"))
+    assert {"6 min", "6 minutes"} <= set(measure(6, "min"))

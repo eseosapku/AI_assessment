@@ -1,5 +1,6 @@
 """Answers of the Physics wave (P3e), recomputed from each figure's numbers over 1,000 seeds, with the
 physics each figure must obey checked on what is drawn (P3e Review Focus 5)."""
+import math
 import random
 import re
 from fractions import Fraction
@@ -305,3 +306,128 @@ def test_transformer():
         if p["band"] == "AL":
             Ip = Fraction(re.search(r"([\d.]+) A", qs[3].stem).group(1))
             assert num(qs[3].answer) == Ip * Vp / Vs  # an ideal transformer: power in = power out
+
+
+# --- Task 6: heat, waves and light --------------------------------------------------------------
+
+MELTS = {"water": 0, "stearic acid": 69, "naphthalene": 80, "lauric acid": 44}
+STATES = ["solid only", "solid and liquid", "liquid only", "liquid and gas"]
+
+
+def test_heating_curve():
+    m = fam("heating_curve")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        c = p["corners"]
+        assert all(isinstance(t, int) and isinstance(T, int) for t, T in c)  # every corner on a gridline crossing
+        flats = [(a[0], b[0], a[1]) for a, b in zip(c, c[1:]) if a[1] == b[1]]
+        if p["kind"] == "ice":
+            assert p["substance"] == "water" and [f[2] for f in flats] == [0, 100] and c[0][1] < 0
+            assert all(b[1] >= a[1] for a, b in zip(c, c[1:]))  # warming, apart from the plateaus
+            stages = STATES
+        else:
+            assert [f[2] for f in flats] == [MELTS[p["substance"]]] and c[0][1] > MELTS[p["substance"]] > c[-1][1]
+            assert all(b[1] <= a[1] for a, b in zip(c, c[1:]))  # cooling
+            stages = ["liquid only", "solid and liquid", "solid only"]
+        span = flats[0][1] - flats[0][0]
+        first, second, state = qs[:3]
+        if p["kind"] == "ice":
+            assert num(first.answer) == span and num(second.answer) == c[0][1]  # how long it took to melt; the start
+        else:
+            assert num(first.answer) == flats[0][2] and num(second.answer) == span  # the freezing point; how long it took
+        a, b = map(int, re.search(r"between (\d+) and (\d+) minutes", state.stem).groups())
+        k = next(k for k in range(len(c) - 1) if c[k][0] <= a < b <= c[k + 1][0])
+        assert picked(state) == stages[k] and sorted(state.options) == sorted(STATES)
+        for q in qs[3:]:
+            if "energy" in q.stem and q.kind == "short":
+                P = int(re.search(r"(\d+) W", q.stem).group(1))
+                assert num(q.answer) == P * span * 60  # E = Pt, t in seconds
+            elif "specific heat capacity" in q.stem:
+                P, M = int(re.search(r"(\d+) W", q.stem).group(1)), Fraction(re.search(r"([\d.]+) kg", q.stem).group(1))
+                assert num(q.answer) == P * (c[3][0] - c[2][0]) * 60 / (M * 100)  # c = Pt / (m ΔT), water from 0 to 100 °C
+            elif q.kind == "mcq":
+                assert picked(q) == ("Energy is taken in as the forces between the particles are overcome" if p["kind"] == "ice"
+                                     else "Energy is given out as the forces between the particles form")
+
+
+def test_wave_graph():
+    m = fam("wave_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        assert p["cells"] % 4 == 0  # the peaks and the crossings fall on gridlines
+        L = Fraction(p["cell"]) * p["cells"]  # the wavelength or the period, in the axis's unit
+        for k in range(9):  # the drawn curve passes through zero or a peak at every quarter
+            y = m.displacement(p, float(L * k / 4))
+            assert min(abs(y), abs(abs(y) - p["amp"])) < 1e-9
+        assert abs(m.displacement(p, float(L / 4)) - m.displacement(p, float(L / 4 + L))) < 1e-9  # it repeats every L
+        amp, length, third = qs[:3]
+        assert num(amp.answer) == p["amp"] and num(length.answer) == L
+        if p["axis"] == "distance":
+            f = Fraction(re.search(r"([\d.]+) Hz", third.stem).group(1))
+            metres = L / 100 if p["unit"] == "cm" else L
+            assert num(third.answer) == f * metres  # v = f λ, in m/s
+        else:
+            seconds = L / 1000 if p["unit"] == "ms" else L
+            assert num(third.answer) == 1 / seconds  # f = 1 / T
+            lam = Fraction(re.search(r"([\d.]+) m\b", qs[3].stem).group(1))
+            assert num(qs[3].answer) == lam / seconds  # v = f λ
+        assert all((num(q.answer) * 100).denominator == 1 for q in qs if q.kind == "short")
+
+
+def test_ray_optics():
+    m = fam("ray_optics")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        if p["kind"] == "reflection":
+            refl, mirror = qs[:2]
+            assert num(refl.answer) == p["i"] and num(mirror.answer) == 90 - p["i"]  # the law of reflection
+            # The drawn rays make equal angles with the normal, on opposite sides of it.
+            a, b = m.ray_angles(p)
+            assert abs(a + b) < 1e-9 and abs(abs(a) - p["i"]) < 1e-9
+        else:
+            n_q, bend = qs[:2]
+            i, r = p["i"], p["r"]
+            n = math.sin(math.radians(i)) / math.sin(math.radians(r))
+            n = n if p["into"] else 1 / n
+            assert 1.3 <= n <= 1.6 and abs(n * 100 - round(n * 100)) < 0.4  # a real index, not on a rounding edge
+            assert num(n_q.answer) == Fraction(f"{n:.2f}")
+            assert (r < i) == p["into"]  # into the denser medium it bends towards the normal
+            text = picked(bend)
+            assert text.startswith("Towards" if p["into"] else "Away") and ("slows down" in text) == p["into"]
+
+
+def test_lens_diagram():
+    m = fam("lens_diagram")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        f, u, h, sc = Fraction(p["f"]), Fraction(p["u"]), Fraction(p["h"]), p["scale"]
+        v = 1 / (1 / f - 1 / u)  # 1/f = 1/u + 1/v, real distances positive
+        hi = -h * v / u
+        assert v.denominator == 1 and hi.denominator == 1  # the image's tip on a lattice point
+        dist, height, mag, kind = qs[:4]
+        assert num(dist.answer) == abs(v) * sc and num(height.answer) == abs(hi) * sc
+        assert num(mag.answer) == abs(v / u) and (abs(v / u) * 100).denominator == 1
+        assert picked(kind).lower() == ("real and inverted" if v > 0 else "virtual and upright")
+        assert sorted(o.lower() for o in kind.options) == ["real and inverted", "real and upright", "virtual and inverted", "virtual and upright"]
+
+
+EM = ["radio waves", "microwaves", "infrared", "visible light", "ultraviolet", "X-rays", "gamma rays"]
+EM_USES = {"broadcast": "radio waves", "cook": "microwaves", "mobile phone": "microwaves", "remote control": "infrared",
+           "thermal camera": "infrared", "optical fibre": "visible light", "bank note": "ultraviolet", "sunburn": "ultraviolet",
+           "broken bone": "X-rays", "cancer cells": "gamma rays"}
+
+
+def test_em_spectrum():
+    m = fam("em_spectrum")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        shown = m.regions(p)  # left to right, None for the blank
+        canonical = EM if p["order"] == "radio-first" else EM[::-1]
+        assert shown.count(None) == 1 and [x or canonical[i] for i, x in enumerate(shown)] == canonical
+        assert m.arrow_right(p) == ((p["arrow"] == "frequency") == (p["order"] == "radio-first"))  # frequency rises towards gamma
+        missing, extreme, use = qs[:3]
+        # Typed, not chosen: six regions are on the figure, so any list of regions gives the seventh away.
+        assert missing.kind == "short" and missing.answer == EM[p["blank"]]
+        long_end = any(w in extreme.stem for w in ("longest wavelength", "lowest frequency", "least energy"))
+        assert picked(extreme) == ("radio waves" if long_end else "gamma rays")
+        assert picked(use) == next(r for k, r in EM_USES.items() if k in use.stem)
