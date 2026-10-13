@@ -19,7 +19,8 @@ KIND = "physics.ray"
 SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("lens-formula-and-ray-diagrams", "lenses", "thin-lenses", "optical-instruments"))
-AVOID = r"\bsound|seismic|ultrasound|mirror"
+# Not mirrors, sound or light's particle nature.
+AVOID = r"\bsound|seismic|ultrasound|mirror|particle nature"
 KINDS = [f"{a} and {b}" for a in ("Real", "Virtual") for b in ("inverted", "upright")]
 
 

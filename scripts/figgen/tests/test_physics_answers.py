@@ -475,3 +475,32 @@ def test_nucleus():
         assert picked(sym) == notation(A, Z) and len(set(sym.options)) == 4
         if len(qs) > 3:  # beta-minus decay: a neutron becomes a proton, so A is kept and Z rises by one
             assert p["beta"] and picked(qs[3]) == notation(A, Z + 1) and len(set(qs[3].options)) == 4
+
+
+# --- Review Focus 2: no MCQ answerable from its options alone ---------------------------------------
+
+def _central(options):
+    """The option nearest all the others, token by token; None on a tie."""
+    from collections import Counter
+    toks = [Counter(re.findall(r"-?\d+|[a-zA-Z]+|\S", o)) for o in options]
+    score = [sum(sum(((t - u) + (u - t)).values()) for u in toks) for t in toks]
+    best = min(score)
+    return score.index(best) if score.count(best) == 1 else None
+
+
+@pytest.mark.parametrize("fid", sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "physics"))
+def test_a_physics_mcq_cannot_be_picked_from_its_options_alone(fid):
+    """When each wrong option changes one feature of the key, the key is the option nearest all the
+    others (P3c): a student needs no figure. Every Physics MCQ, by its question, keeps that under 35%."""
+    from collections import defaultdict
+    m = FAMILIES[fid]
+    seen, hits = defaultdict(int), defaultdict(int)
+    for s in range(1, 301):
+        _, qs = run(m, s)
+        for q in qs:
+            if q.kind == "mcq":
+                key = re.sub(r"\d+", "#", q.stem.rsplit(". ", 1)[-1])  # the question itself, without its story
+                seen[key] += 1
+                hits[key] += _central(q.options) == int(q.answer)
+    bad = {k: (hits[k], seen[k]) for k in seen if seen[k] >= 10 and hits[k] / seen[k] > 0.35}
+    assert not bad, (fid, bad)

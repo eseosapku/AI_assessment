@@ -19,7 +19,8 @@ MEASURING = tuple(f"physics.{c}" for c in ("measurement-precision-and-uncertaint
 MEASURES = {"ammeter": ("physics.electric-current",), "voltmeter": ("physics.potential-difference",),
             "newton meter": ("physics.forces", "physics.mass-weight-and-gravity")}
 CONCEPTS = MEASURING + tuple(c for cs in MEASURES.values() for c in cs)
-AVOID = r"field|electrostatic|static electricity|charged particle|coulomb"
+# Not fields, magnets, turning, pressure, nuclei or natural disasters.
+AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|centre of gravity|environmental|induction|^magnetism$|magnetic effect|electromagnetic forces|telecommunication|motor effect|nuclear|turning|moment|pressure|solar system|earthquake|work, energy"
 # the meter, its unit, full scale, and the size of one small division
 SCALES = [("ammeter", "A", 1, Fraction(1, 50)), ("ammeter", "A", 1, Fraction(1, 20)), ("ammeter", "A", 3, Fraction(1, 10)),
           ("ammeter", "A", 5, Fraction(1, 10)), ("ammeter", "A", 10, Fraction(1, 5)), ("voltmeter", "V", 3, Fraction(1, 10)),

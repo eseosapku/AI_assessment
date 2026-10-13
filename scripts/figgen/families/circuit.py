@@ -20,8 +20,8 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("electric-current", "potential-difference", "electrical-resistance", "ohms-law", "resistors-in-circuits",
                                           "circuit-symbols-and-diagrams", "electrical-energy-and-power", "kirchhoffs-laws"))
-# Not electric fields, electrostatics or charged particles, which share "potential difference" and "current".
-AVOID = r"field|electrostatic|static electricity|charged particle|coulomb"
+# Direct-current circuits: not fields, capacitors, alternating current, induction, motors or generators.
+AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|capacitance|alternating|induction|telecommunication|magnetic effect|motor effect|generators|electromagnetic forces|^magnetism$|work, energy"
 OHMS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60]
 VOLTS = [Fraction(3, 2), Fraction(3), Fraction(9, 2), Fraction(6), Fraction(9), Fraction(12), Fraction(24)]
 

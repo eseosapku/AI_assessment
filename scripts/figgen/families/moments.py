@@ -19,6 +19,8 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("moments-and-turning-effects", "stability-and-equilibrium", "centre-of-mass-and-gravity",
                                           "simple-machines"))
+# Not mirrors, manometers, motors or the laws of motion.
+AVOID = r"mirror|manometer|pascal|motor|newton's laws|dynamics"
 
 
 def sample(rng: random.Random) -> dict:

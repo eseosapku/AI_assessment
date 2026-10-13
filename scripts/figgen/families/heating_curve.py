@@ -22,8 +22,8 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("changes-of-state", "heat-and-temperature", "internal-energy", "heat-capacity-and-specific-heat",
                                           "states-of-matter"))
-# Not the Earth's climate, nor thermal radiation or insulation alone.
-AVOID = r"climate|greenhouse|global warming|radiation|insulat"
+# Not climate, radiation, insulation, pressure, density, circuits or farming.
+AVOID = r"climate|greenhouse|global warming|radiation|insulat|pressure|environmental|plant growth|gas laws|resistors|pascal|agriculture|density|making measurements"
 MELTS = {"stearic acid": 69, "naphthalene": 80, "lauric acid": 44}
 STATES = ["solid only", "solid and liquid", "liquid only", "liquid and gas"]
 WHY = [f"Energy is {a} as the forces between the particles {b}" for a in ("taken in", "given out") for b in ("are overcome", "form")]

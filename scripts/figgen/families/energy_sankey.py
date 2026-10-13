@@ -19,6 +19,8 @@ KIND = "process.flow"
 SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("energy-conversions-and-transfers", "conservation-of-energy", "energy", "power"))
+# Energy transfers and efficiency: not waves, light, nuclei, fields, signals or forces chapters.
+AVOID = r"electrostatic|static electricity|environmental|friction|induction|magnet|plant growth|telecommunication|resistors|signals|agriculture|optical fib|radioactiv|nuclear|nuclei|changes of state|sound|hearing|motor effect|turning|forces and matter|climate|earthquake|field|oscillation|orbit|wave|relativity|stellar|projectile|light"
 # the device, the energy in, the useful output, the wasted outputs, and its efficiency range (%)
 DEVICES = [("filament lamp", "electrical", "light", ["heat"], (5, 15)), ("LED lamp", "electrical", "light", ["heat"], (40, 80)),
            ("electric kettle", "electrical", "heat in the water", ["heat to the air", "sound"], (80, 95)),

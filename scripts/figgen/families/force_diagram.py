@@ -20,6 +20,8 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("forces", "force-mass-and-acceleration", "newtons-laws-of-motion", "mass-weight-and-gravity",
                                           "friction", "scalars-and-vectors"))
+# Not electric or magnetic forces, fields, pressure, density, work and energy, or turning effects.
+AVOID = r"electric|electrostatic|static electricity|magnet|motor effect|nuclear|earthquake|measurement|errors|orbit|relativity|potential|field|pressure|density|archimedes|pascal|environmental|solar system|projectile|work|energy|turning"
 THINGS = ["box", "cart", "sack of maize", "crate of bananas", "wheelbarrow"]
 
 

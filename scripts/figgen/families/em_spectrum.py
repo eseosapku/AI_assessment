@@ -1,4 +1,4 @@
-"""The electromagnetic spectrum (LS, UP): its seven regions as a band, radio waves at one end or the
+"""The electromagnetic spectrum (UP): its seven regions as a band, radio waves at one end or the
 other, one region left blank, and an arrow for increasing frequency or increasing wavelength. The
 missing region (typed: any list of regions would give it away, six being on the figure), the region
 at an extreme, and the region a use or a danger belongs to.
@@ -18,9 +18,10 @@ from ..core import FILL_2, INK, NAMES, mcq, new_figure, short
 ID = "em_spectrum"
 KIND = "physics.wave"
 SUBJECT = "physics"
-BANDS = ("LS", "UP")
+BANDS = ("UP",)  # the lower-secondary physics topics never reach the spectrum
 CONCEPTS = tuple(f"physics.{c}" for c in ("electromagnetic-spectrum", "light-and-optics"))
-AVOID = r"\bsound|seismic|ultrasound|ripple"
+# Not sound, mechanical waves, or lens, eye and refraction chapters.
+AVOID = r"\bsound|seismic|ultrasound|ripple|refraction|lens|human eye|interference|mechanical waves|optical instruments"
 # Two orders, two arrows and seven blanks: 28 figures in all, so 60 seeds cannot show 40.
 MIN_VARIETY = 22
 EM = ["radio waves", "microwaves", "infrared", "visible light", "ultraviolet", "X-rays", "gamma rays"]

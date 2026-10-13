@@ -99,11 +99,12 @@ def questions(p: dict, rng: random.Random) -> list:
     Z, A = p["Z"], p["A"]
     N, sym, element = A - Z, SYMBOLS[Z - 1], ELEMENTS[Z - 1]
     key = _symbol(A, Z, sym)
-    wrong = []
-    for top, bottom in ((Z, A), (N, Z), (A, N), (A, A), (N, A), (A + Z, Z)):
-        option = _symbol(top, bottom, sym)
-        if option != key and option not in wrong:
-            wrong.append(option)
+    # A 2 x 2: the top number A or the neutron number, the bottom Z or the neutron number, so the key
+    # is no nearer the other options than any of them is. Where N is 0 or equals Z, a stand-in keeps
+    # the four apart.
+    top2 = N if N > 0 else A + 1
+    bottom2 = N if N not in (0, Z) else (A if A != Z else Z + 1)
+    wrong = [_symbol(t, b, sym) for t in (A, top2) for b in (Z, bottom2)][1:]
     qs = [
         short(f"{name} drew this model of {'an atom' if p['electrons'] else 'the nucleus of an atom'} {rng.choice(SETTINGS)}. "
               "What is its proton number?", Z, [f"{Z} protons"]),

@@ -22,8 +22,8 @@ SUBJECT = "physics"
 BANDS = ("UP",)
 CONCEPTS = tuple(f"physics.{c}" for c in ("force-on-current-carrying-conductor", "magnetic-fields", "electric-motors",
                                           "electromagnetic-induction", "generators"))
-# Not electric or gravitational fields, nor the Earth's magnetism alone.
-AVOID = r"electric field|gravitational|electrostatic|static electricity|coulomb"
+# Not electric or gravitational fields, transmission, electronics or circuits.
+AVOID = r"electric field|gravitational|electrostatic|static electricity|coulomb|transmission|electronic|kirchhoff"
 VEC = {"right": (1, 0, 0), "left": (-1, 0, 0), "up": (0, 1, 0), "down": (0, -1, 0), "out of the page": (0, 0, 1), "into the page": (0, 0, -1)}
 ACROSS = {"right": ("up", "down"), "left": ("up", "down"), "up": ("right", "left"), "down": ("right", "left")}  # in the page, across the field
 TESLA = ["0.05", "0.1", "0.2", "0.25", "0.4", "0.5"]

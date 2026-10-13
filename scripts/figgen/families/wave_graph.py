@@ -1,4 +1,4 @@
-"""Wave graphs (LS, UP, AL): a transverse wave drawn as displacement against distance (ripples in a
+"""Wave graphs (UP, AL): a transverse wave drawn as displacement against distance (ripples in a
 ripple tank, a wave on a rope, waves on Lake Kivu) or against time (a buoy on the lake, a point on a
 guitar string). The amplitude, the wavelength or period, the frequency, and the speed by v = f λ.
 
@@ -16,9 +16,10 @@ from ..core import GRID, INK, NAMES, exact, measure, new_figure, short
 ID = "wave_graph"
 KIND = "physics.wave"
 SUBJECT = "physics"
-BANDS = ("LS", "UP", "AL")
+BANDS = ("UP", "AL")  # the lower-secondary physics topics have no waves
 CONCEPTS = tuple(f"physics.{c}" for c in ("wave-properties", "waves", "sound", "simple-harmonic-motion"))
-AVOID = r"photoelectric|quantum|photon|electromagnetic spectrum"
+# Not light's particle nature, the spectrum, signals, imaging or optics chapters.
+AVOID = r"photoelectric|quantum|photon|electromagnetic spectrum|communication|medical imaging|environmental|signals|refraction of light|machines|particle nature"
 # axis, x unit, y unit, gridline sizes, the range of the wavelength or period, the amplitudes (in y gridlines)
 CONTEXTS = {
     "ripple tank": ("distance", "cm", "mm", ("0.25", "0.5", "1"), (2, 12), 1, (2, 3, 4, 5)),

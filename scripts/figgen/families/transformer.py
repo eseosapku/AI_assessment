@@ -19,7 +19,8 @@ KIND = "physics.circuit"
 SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("transformers", "electromagnetic-induction", "alternating-current"))
-AVOID = r"electric field|electrostatic|static electricity|charged particle|coulomb"
+# Not fields, communications, motors or electronics.
+AVOID = r"electric field|electrostatic|static electricity|charged particle|coulomb|communication|signals|^chapter 23: magnetism$|electric motors|electronic|magnetic effect"
 TURNS = [100, 200, 250, 400, 500, 800, 1000, 1200, 2000, 2400]
 RATIOS = [Fraction(1, 20), Fraction(1, 10), Fraction(1, 5), Fraction(1, 4), Fraction(1, 2), Fraction(2), Fraction(3), Fraction(4), Fraction(5),
           Fraction(10)]

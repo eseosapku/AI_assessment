@@ -18,6 +18,8 @@ KIND = "physics.force"
 SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("pressure", "atmospheric-pressure", "manometer-pressure-measurement"))
+# Not measurement alone, plant growth, farming or natural disasters.
+AVOID = r"earthquake|measurement|plant growth|agriculture|environmental"
 
 
 def sample(rng: random.Random) -> dict:

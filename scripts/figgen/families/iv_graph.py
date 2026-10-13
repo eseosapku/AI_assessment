@@ -19,7 +19,8 @@ KIND = "graph.line"
 SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("ohms-law", "electrical-resistance", "basic-electronic-components"))
-AVOID = r"field|electrostatic|static electricity|charged particle|coulomb"
+# Not fields or capacitors.
+AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|capacitance"
 WHAT = {"resistor": "a fixed resistor", "lamp": "a filament lamp", "diode": "a diode"}
 DIODE_ON = 0.6  # volts before a diode conducts
 

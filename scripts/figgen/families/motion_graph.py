@@ -17,6 +17,8 @@ KIND = "graph.line"
 SUBJECT = "physics"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("speed", "velocity", "acceleration", "distance-time-graphs"))
+# Waves, oscillations, circular motion, sound, quakes and relativity share speed but not motion graphs.
+AVOID = r"wave|oscillat|circular|\bsound|earthquake|relativity|work and power"
 # what moves, its top speed (m/s), and the mass with its rider (kg)
 MOVERS = [("runner", 6, 60), ("bicycle", 8, 80), ("moto", 16, 200), ("minibus", 20, 2000)]
 
