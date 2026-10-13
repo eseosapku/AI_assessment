@@ -201,6 +201,11 @@ UNIT_WORDS = {"Ω": ("ohms", "ohm"), "N": ("newtons", "newton"), "J": ("joules",
               "cm": ("centimetres",), "Bq": ("becquerels",)}
 
 
+def article(noun: str) -> str:
+    """"a kettle", "an electric kettle", "an LED lamp": "an" before a vowel sound."""
+    return "an" if noun[:1].lower() in "aeiou" or noun.startswith(("LED", "MP3", "X-ray")) else "a"
+
+
 def exact(v) -> str:
     """A number written exactly: 12, 2.5, 0.125 (never rounded to two places as num() does)."""
     from decimal import Decimal

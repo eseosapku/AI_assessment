@@ -110,3 +110,71 @@ def test_spring_graph():
         if p["band"] == "UP":
             F2 = int(re.search(r"load of (\d+) N", qs[3].stem).group(1))
             assert F2 <= L and num(qs[3].answer) == Fraction(1, 2) * F2 * F2 * e / 100  # ½Fx, x in m
+
+
+# --- Task 3: matter and energy ------------------------------------------------------------------
+
+def test_pressure():
+    m = fam("pressure")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        if p["kind"] == "manometer":
+            height, pressure, higher = qs
+            h = abs(p["left"] - p["right"])
+            assert int(height.answer) == h and h > 0
+            assert "g = 10 N/kg" in pressure.stem and num(pressure.answer) == Fraction(1000 * 10 * h, 100)  # ρgh, h in m
+            # The gas pushes its side down: the lower level is the side at the higher pressure.
+            assert picked(higher) == ("the gas supply" if p["left"] < p["right"] else "the open air")
+        else:
+            a, b, c = p["dims"]  # cm
+            pressure, most = qs
+            w, h = p["face"]
+            area = Fraction(w * h, 10000)  # m²
+            assert num(pressure.answer) == p["weight"] / area and (p["weight"] / area).denominator == 1
+            smallest = sorted([(a, b), (a, c), (b, c)], key=lambda f: f[0] * f[1])[0]
+            assert picked(most) == f"the {max(smallest)} cm by {min(smallest)} cm face"
+
+
+def test_density_displacement():
+    m = fam("density_displacement")
+    for s in SEEDS:
+        p, (volume, density, mass) = run(m, s)
+        v = p["after"] - p["before"]
+        assert v > 0 and p["before"] % p["mark"] == 0 and p["after"] % p["mark"] == 0  # on marked divisions
+        assert int(volume.answer) == v
+        rho = Fraction(p["grams"]).limit_denominator(1000) / v
+        assert num(density.answer) == rho and (rho * 100).denominator == 1  # exact to 2 d.p.
+        k = int(re.search(r"mass of (\d+) cm³", mass.stem).group(1))
+        assert num(mass.answer) == rho * k
+
+
+def test_energy_sankey():
+    m = fam("energy_sankey")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        flows = p["flows"]
+        total_in = p["input"]
+        assert sum(v for _, v, _ in flows) == total_in  # energy is conserved
+        missing, efficiency, form = qs[:3]
+        hidden = p["hidden"]
+        values = [total_in] + [v for _, v, _ in flows]
+        assert int(missing.answer) == values[hidden]
+        useful = sum(v for _, v, kind in flows if kind == "useful")
+        assert num(efficiency.answer) == Fraction(100 * useful, total_in) and (Fraction(100 * useful, total_in)).denominator == 1
+        assert picked(form) == next(name for name, _, kind in flows if kind == "useful")
+        if len(qs) > 3:
+            t = int(re.search(r"in (\d+) s", qs[3].stem).group(1))
+            assert num(qs[3].answer) == Fraction(total_in, t) and Fraction(total_in, t).denominator == 1
+
+
+PHYSICS = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "physics")
+
+
+@pytest.mark.parametrize("fid", PHYSICS)
+def test_a_physics_stem_takes_the_right_article(fid):
+    """'a electric kettle' (P3e): "an" before a vowel sound, "an LED"."""
+    m = FAMILIES[fid]
+    for s in range(1, 201):
+        _, qs = run(m, s)
+        for q in qs:
+            assert not re.search(r"\ba (?:[aeiouAEIOU]|LED\b)", q.stem), (fid, s, q.stem)
