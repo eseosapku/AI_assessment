@@ -7,6 +7,8 @@ from . import (angles, area_shapes, bar_chart, bearings, box_plot, break_even, c
 from . import (algebra_area, area_under_curve, argand, bar_model, exp_graph, limit_graph, matrix_transform, money, pascal, pdf_graph,
                percent_grid, points_3d, price_tag, prob_distribution, rational_graph, scale_drawing, stationary_points, tangent_gradient,
                trig_graph, velocity_time)
+# P3e: the physics wave
+from . import force_diagram, moments, motion_graph, spring_graph
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -25,4 +27,6 @@ FAMILIES = {m.ID: m for m in (
     prob_distribution, pdf_graph, velocity_time,
     money, price_tag,
     bar_model, scale_drawing, percent_grid, algebra_area, pascal,
+    # P3e: the physics wave
+    motion_graph, force_diagram, moments, spring_graph,
 )}
