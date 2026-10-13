@@ -86,3 +86,18 @@ def test_a_family_can_avoid_topics_that_share_a_word_but_not_a_subject(tmp_path)
     m = family(AVOID=r"decimals")
     assert topics_for(index, m, {"band": "LS"}) == []  # "Fractions and decimals" is avoided
     assert topics_for(index, m, {"band": "P"}) == ["db:1"]
+
+
+
+def test_a_figure_can_name_chapters_it_does_not_suit():
+    """A family may avoid chapters figure by figure (avoid_for): a bar model of cows is no figure for
+    a chapter on Rwandan francs, while one of francs is."""
+    import types
+    from figgen.link import topics_for
+    m = types.SimpleNamespace(ID="x", BANDS=("P",), CONCEPTS=("mathematics.a",),
+                              avoid_for=lambda p: None if p["money"] else r"franc")
+    index = [{"key": "t:1", "band": "P", "subject": "mathematics", "name": "Rwandan Francs up to 1000 FRW", "stage": None,
+              "concepts": frozenset({"mathematics.a"})},
+             {"key": "t:2", "band": "P", "subject": "mathematics", "name": "Addition", "stage": None, "concepts": frozenset({"mathematics.a"})}]
+    assert topics_for(index, m, {"band": "P", "money": True}) == ["t:1", "t:2"]
+    assert topics_for(index, m, {"band": "P", "money": False}) == ["t:2"]

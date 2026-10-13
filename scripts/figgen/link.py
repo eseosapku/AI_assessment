@@ -56,8 +56,9 @@ def stages_of(m, params: dict) -> tuple[int, int] | None:
 
 def topics_for(index: TopicIndex, m, params: dict) -> list[str]:
     band, concepts, years = band_of(m, params), concepts_of(m, params), stages_of(m, params)
-    # A topic can share a concept word without teaching the subject: "Polynomials" adds integers.
-    avoid = getattr(m, "AVOID", None)
+    # A topic can share a concept word without teaching the subject: "Polynomials" adds integers. A
+    # family may say so figure by figure (avoid_for): a bar model of cows is no figure for francs.
+    avoid = m.avoid_for(params) if hasattr(m, "avoid_for") else getattr(m, "AVOID", None)
     return sorted(t["key"] for t in index if t["band"] == band and t["concepts"] & concepts
                   and (years is None or t.get("stage") is None or years[0] <= t["stage"] <= years[1])
                   and not (avoid and re.search(avoid, t["name"], re.I)))

@@ -2,7 +2,10 @@
 with one number missing; the missing number and the number sentence that finds it.
 
 The bars are drawn to scale. Numbers fit the school year: to 20 in Stages 1–2, 100 in Stages 2–3,
-1,000 in Stages 3–4 and 10,000 in Stages 5–6; equal sharing starts in Stage 2.
+1,000 in Stages 3–4 and 10,000 in Stages 5–6; equal sharing starts in Stage 2. About a third are about
+money, in Rwandan francs, in the steps a learner pays in: tens to 100 Frw in Stages 1–2, fifties to
+1,000 Frw in Stages 2–3, hundreds to 5,000 Frw in Stages 3–4 and five hundreds to 50,000 Frw in
+Stages 5–6. Only those reach the francs chapters.
 """
 from __future__ import annotations
 
@@ -10,16 +13,28 @@ import random
 
 from matplotlib.patches import Rectangle
 
-from ..core import FILL, FILL_2, INK, NAMES, mcq, new_figure, short
+from ..core import FILL, FILL_2, INK, NAMES, mcq, money, new_figure, short
 
 ID = "bar_model"
 KIND = "maths.number"
 SUBJECT = "mathematics"
 BANDS = ("P",)
-CONCEPTS = tuple(f"mathematics.{c}" for c in ("missing-numbers-operations", "partitioning-add-subtract", "complements-to-ten", "subtraction-take-away"))
+BASE = tuple(f"mathematics.{c}" for c in ("missing-numbers-operations", "partitioning-add-subtract", "complements-to-ten", "subtraction-take-away"))
+MONEY_CONCEPTS = tuple(f"mathematics.{c}" for c in ("buying-selling-prices", "simple-budgeting-rwandan-currency", "money-earning"))
+CONCEPTS = BASE + MONEY_CONCEPTS
 # Bar models of whole numbers: not fractions, nor sequences.
 AVOID = r"fraction|sequence"
 YEARS = {(1, 2): 20, (2, 3): 100, (3, 4): 1000, (5, 6): 10000}
+MONEY = {(1, 2): (100, 10), (2, 3): (1000, 50), (3, 4): (5000, 100), (5, 6): (50000, 500)}  # the most, the step
+
+
+def concepts_for(p: dict) -> tuple[str, ...]:
+    return CONCEPTS if p["money"] else BASE
+
+
+def avoid_for(p: dict) -> str:
+    """A bar model of cows or mangoes is no figure for a chapter on Rwandan francs; one of francs is."""
+    return AVOID if p["money"] else AVOID + r"|franc|frw|money|currency"
 THINGS = ["mangoes", "beans", "books", "chairs", "eggs", "pencils", "bananas", "cows", "trees", "bottles"]
 
 
@@ -29,7 +44,10 @@ def stages(p: dict) -> tuple[int, int]:
 
 def sample(rng: random.Random) -> dict:
     years = rng.choice(list(YEARS))
-    top = YEARS[years]
+    is_money = rng.random() < 0.35
+    # Money is drawn in whole steps (tens, fifties, ...): the numbers below count steps, then scale.
+    top, step = MONEY[years] if is_money else (YEARS[years], 1)
+    top //= step
     kind = rng.choice(["part_whole", "compare"] + (["equal"] if years[0] >= 2 else []))
     lo = max(1, top // 20)
     if kind == "part_whole":
@@ -47,10 +65,11 @@ def sample(rng: random.Random) -> dict:
         n = rng.randint(2, 6 if top <= 100 else 9)
         each = rng.randint(2, top // n)
         nums = [n * each, n, each]
+    nums = [v if kind == "equal" and i == 1 else v * step for i, v in enumerate(nums)]  # the count of parts is not money
     # The number hidden: never the count of equal parts (it is drawn as that many parts).
     hole = rng.choice([i for i in range(len(nums)) if not (kind == "equal" and i == 1)])
-    return {"band": "P", "years": list(years), "kind": kind, "numbers": nums, "hole": hole, "thing": rng.choice(THINGS),
-            "name": rng.choice(NAMES)}
+    return {"band": "P", "years": list(years), "kind": kind, "numbers": nums, "hole": hole, "money": is_money,
+            "thing": "money" if is_money else rng.choice(THINGS), "name": rng.choice(NAMES)}
 
 
 def _bar(ax, x, y, w, h, text, shade):
@@ -62,7 +81,9 @@ def draw(p: dict):
     kind, nums, hole = p["kind"], p["numbers"], p["hole"]
     shown = ["?" if i == hole else f"{v:,}" for i, v in enumerate(nums)]
     W = 10.0
-    fig, ax = new_figure(6.4, 2.6)
+    fig, ax = new_figure(6.4, 3.0 if p["money"] else 2.6)
+    if p["money"]:
+        ax.text(0, 2.75, "Amounts in Rwandan francs (Frw)", ha="left", va="center", fontsize=11, style="italic")
     if kind == "part_whole":
         _bar(ax, 0, 1.4, W, 1.0, shown[0], FILL_2)
         x = 0.0
@@ -86,16 +107,27 @@ def draw(p: dict):
         for j in range(n):
             _bar(ax, j * W / n, 0.2, W / n, 1.0, shown[2] if j == 0 or hole != 2 else "", "white")
     ax.set_xlim(-0.1, W + 0.1)
-    ax.set_ylim(0, 2.6)
+    ax.set_ylim(0, 3.0 if p["money"] else 2.6)
     ax.axis("off")
     return fig
 
 
 def questions(p: dict, rng: random.Random) -> list:
     kind, nums, hole, thing, name = p["kind"], p["numbers"], p["hole"], p["thing"], p["name"]
-    shown = {"part_whole": f"{name}'s {thing} in {len(nums) - 1} groups", "compare": f"how {name}'s two piles of {thing} compare",
-             "equal": f"{name}'s {thing} in {nums[1]} equal groups"}[kind]
-    missing = short(f"The bar model shows {shown}. What is the missing number?", nums[hole], [f"{nums[hole]} {thing}"])
+    if p["money"]:
+        # Who and where are in the words only, never the drawing: the same bar model under another story
+        # is the same figure (generate.py stores it once).
+        friend = rng.choice([n for n in NAMES if n != name])
+        place = rng.choice(["the market", "the shop", "the bakery", "the bookshop", "the canteen"])
+        group = rng.choice(["children", "friends", "cousins", "classmates"])
+        shown = {"part_whole": f"the money {name} spent at {place} on {len(nums) - 1} things",
+                 "compare": f"how much money {name} and {friend} saved",
+                 "equal": f"the money {name} gave to {nums[1]} {group}, the same amount to each"}[kind]
+        missing = short(f"The bar model shows {shown}, in Frw. What is the missing amount?", nums[hole], money(nums[hole]))
+    else:
+        shown = {"part_whole": f"{name}'s {thing} in {len(nums) - 1} groups", "compare": f"how {name}'s two piles of {thing} compare",
+                 "equal": f"{name}'s {thing} in {nums[1]} equal groups"}[kind]
+        missing = short(f"The bar model shows {shown}. What is the missing number?", nums[hole], [f"{nums[hole]} {thing}"])
     # Every sentence, right or wrong, is built from the numbers the model shows: a wrong one that printed
     # the hidden number would give the answer away.
     v = [f"{x:,}" for x in nums]

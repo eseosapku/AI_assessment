@@ -445,7 +445,7 @@ def test_bar_model():
         p, (missing, sentence) = run(m, s)
         kind, nums, hole = p["kind"], p["numbers"], p["hole"]
         lo, _ = m.stages(p)
-        top = {1: 20, 2: 100, 3: 1000, 5: 10000}[lo]
+        top = {1: 100, 2: 1000, 3: 5000, 5: 50000}[lo] if p["money"] else {1: 20, 2: 100, 3: 1000, 5: 10000}[lo]
         if kind == "part_whole":
             whole, parts = nums[0], nums[1:]
             assert whole == sum(parts) <= top and all(v > 0 for v in parts)
@@ -918,3 +918,31 @@ def test_the_integral_options_cannot_be_told_apart_without_the_figure():
         limits = {re.search(r"from (-?\d+) to (-?\d+)", o).groups() for o in which.options}
         assert len(limits) == 2 and (str(p["a"]), str(p["b"])) in limits, which.options
     assert by_degree / seen <= 0.05, by_degree
+
+
+
+def test_money_bar_models_are_in_francs_and_only_they_reach_the_francs_chapters():
+    """The Primary francs chapters drew bar models of cows (P3d): now a third of bar models are about
+    money, in the steps a learner pays in, and only those link there."""
+    from figgen.core import money as forms
+    from figgen.link import topics_for
+    m = fam("bar_model")
+    francs = {"key": "t:frw", "band": "P", "subject": "mathematics", "name": "Rwandan Francs up to 1000 FRW", "stage": None,
+              "concepts": frozenset(m.CONCEPTS)}
+    plain = {"key": "t:add", "band": "P", "subject": "mathematics", "name": "Addition and subtraction", "stage": None,
+             "concepts": frozenset(m.CONCEPTS)}
+    seen = 0
+    for s in SEEDS:
+        p, (missing, _) = run(m, s)
+        reached = topics_for([francs, plain], m, p)
+        if p["money"]:
+            seen += 1
+            lo, _ = m.stages(p)
+            step = {1: 10, 2: 50, 3: 100, 5: 500}[lo]
+            amounts = [v for i, v in enumerate(p["numbers"]) if not (p["kind"] == "equal" and i == 1)]
+            assert all(v % step == 0 for v in amounts), (s, p)
+            assert "Frw" in missing.stem and set(forms(int(missing.answer))) <= set(missing.accepted)
+            assert "t:frw" in reached
+        else:
+            assert "t:frw" not in reached and "t:add" in reached
+    assert 250 <= seen <= 450, seen
