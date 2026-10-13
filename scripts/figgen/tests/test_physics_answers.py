@@ -249,3 +249,59 @@ def test_iv_graph():
             v = float(re.search(r"to ([\d.]+) V", qs[3].stem).group(1))
             law = {"resistor": lambda: v * 1000 / p["R"], "lamp": lambda: v * 1000 / (p["R0"] + p["a"] * v), "diode": lambda: max(0, p["g"] * (v - 0.6))}
             assert abs(num(qs[3].answer) - law[kind]()) < 1e-9
+
+
+# --- Task 5: magnetism --------------------------------------------------------------------------
+
+VEC = {"right": (1, 0, 0), "left": (-1, 0, 0), "up": (0, 1, 0), "down": (0, -1, 0), "out of the page": (0, 0, 1), "into the page": (0, 0, -1)}
+
+
+def cross(a, b):
+    return (a[1] * b[2] - a[2] * b[1], a[2] * b[0] - a[0] * b[2], a[0] * b[1] - a[1] * b[0])
+
+
+def named(v):
+    return next(k for k, u in VEC.items() if u == v)
+
+
+def test_motor_rule():
+    m = fam("motor_rule")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        B = VEC[p["field"]]  # from the N pole to the S pole, across the page
+        assert B[2] == 0
+        if p["mode"] == "motor":
+            L = VEC[p["current"]]
+            assert sum(a * b for a, b in zip(L, B)) == 0  # the wire runs across the field
+            want = named(cross(L, B))  # F = I L x B
+            size = Fraction(p["tesla"]) * p["amps"] * Fraction(p["cm"], 100)  # F = BIL
+        else:
+            v = VEC[p["motion"]]
+            assert p["view"] == "end" and v[2] == 0 and sum(a * b for a, b in zip(v, B)) == 0
+            want = named(cross(v, B))  # the push on the wire's free charges, v x B
+            size = Fraction(p["tesla"]) * Fraction(p["cm"], 100) * p["speed"]  # emf = BLv
+        direction, bigger, rule, amount = qs[:4]
+        assert picked(direction) == want
+        # Two axes, both ways along each: the key cannot be told from the options alone.
+        assert len(direction.options) == 4 and all(o in VEC for o in direction.options)
+        assert len({tuple(map(abs, VEC[o])) for o in direction.options}) == 2
+        assert {o for o in direction.options if tuple(map(abs, VEC[o])) == tuple(map(abs, VEC[want]))} == {want, named(tuple(-c for c in VEC[want]))}
+        assert picked(bigger).startswith(("a larger", "a stronger", "moving the wire faster")) and "same" in picked(bigger)
+        assert picked(rule) == ("Fleming's left-hand rule" if p["mode"] == "motor" else "Fleming's right-hand rule")
+        assert num(amount.answer) == size
+
+
+def test_transformer():
+    m = fam("transformer")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        Np, Ns, Vp, Vs = (Fraction(str(p[k])) for k in ("Np", "Ns", "Vp", "Vs"))
+        assert Vs / Vp == Ns / Np and Ns != Np  # the turns rule
+        missing, kind, turns = qs[:3]
+        assert num(missing.answer) == {"Np": Np, "Ns": Ns, "Vp": Vp, "Vs": Vs}[p["missing"]]
+        assert picked(kind).lower().startswith("step-up" if Ns > Np else "step-down")
+        V2 = Fraction(re.search(r"wants ([\d.]+) V", turns.stem).group(1))
+        assert num(turns.answer) == Np * V2 / Vp and (Np * V2 / Vp).denominator == 1 and V2 != Vs
+        if p["band"] == "AL":
+            Ip = Fraction(re.search(r"([\d.]+) A", qs[3].stem).group(1))
+            assert num(qs[3].answer) == Ip * Vp / Vs  # an ideal transformer: power in = power out
