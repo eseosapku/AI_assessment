@@ -433,9 +433,8 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - `--refresh-forms` leaves any figure whose options, kind or tolerance changed;
       - three and four significant figures are offered only for decimals under 10.
     - **Answer forms refreshed:** 284 stored figures of earlier families (sample_space, supply_demand, cross_section and others) gained the newer fair forms in place, with no figure left out and every review kept.
-    - **Next:**
-      - give money-specific figures to the Primary francs chapters, which also draw bar models;
-      - then the Physics wave, starting with sample figures for the user.
+    - **Money bar models (2026-10-13, job `p3d-money`, $0.12):** about a third of bar models are now about francs, in the steps a learner pays in. A new per-figure `avoid_for` in `link.py` means only those reach the francs chapters: 43 of 43 bar models there are about money, and they passed review 30/30.
+    - **Next:** the Physics wave (P3e), starting with sample figures for the user.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
