@@ -194,6 +194,37 @@ def money(n: int) -> list[str]:
     return forms
 
 
+# Units as students also write them out in words.
+UNIT_WORDS = {"Ω": ("ohms", "ohm"), "N": ("newtons", "newton"), "J": ("joules", "joule"), "W": ("watts", "watt"),
+              "V": ("volts", "volt"), "A": ("amps", "amp", "amperes", "ampere"), "Hz": ("hertz",), "Pa": ("pascals", "pascal"),
+              "s": ("seconds", "second"), "m": ("metres", "metre"), "°C": ("degrees",), "kg": ("kilograms", "kilogram"),
+              "cm": ("centimetres",), "Bq": ("becquerels",)}
+
+
+def exact(v) -> str:
+    """A number written exactly: 12, 2.5, 0.125 (never rounded to two places as num() does)."""
+    from decimal import Decimal
+    f = float(v)
+    if f.is_integer():
+        return str(int(f))
+    return format(Decimal(repr(f)).normalize(), "f")
+
+
+def measure(v, unit: str) -> list[str]:
+    """Every fair form of a quantity: 6, "6 Ω", "6Ω", "6 ohms"; "1,200 J"; for a current under 1 A,
+    its milliamps too ("500 mA"). The bare number first, as the key."""
+    numbers = short("_", exact(v)).accepted  # the number's own forms: 1,200 and 1 200, .5 for 0.5
+    forms = list(numbers)
+    for n in numbers:
+        for f in (f"{n} {unit}", f"{n}{unit}", *(f"{n} {w}" for w in UNIT_WORDS.get(unit, ()))):
+            if f not in forms:
+                forms.append(f)
+    if unit == "A" and 0 < float(v) < 1:
+        ma = exact(float(v) * 1000)
+        forms += [f for f in (f"{ma} mA", f"{ma}mA") if f not in forms]
+    return forms
+
+
 def infinite(lines):
     """Marks lines that stand for whole straight lines (a graph of y = mx + c, a boundary, a tangent):
     they are drawn to the frame's edge and cut there on purpose."""

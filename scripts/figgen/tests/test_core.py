@@ -24,3 +24,15 @@ def test_a_rounding_is_offered_only_where_it_is_a_rounding():
     assert {"0.234", "0.2344", ".234"} <= set(small)
     zeros = short("s", "0.200040").accepted
     assert "0.2" not in zeros and "0.200" in zeros
+
+
+def test_a_measure_is_accepted_in_every_fair_form():
+    """Physics answers carry units: "6 ohms" and "6Ω" are the same answer as "6 Ω" (P3e)."""
+    from figgen.core import measure
+    assert {"6", "6 Ω", "6Ω", "6 ohms", "6 ohm"} <= set(measure(6, "Ω"))
+    assert measure(6, "Ω")[0] == "6"
+    assert {"2.5", "2.5 N", "2.5N", "2.5 newtons", "2.5 newton"} <= set(measure(2.5, "N"))
+    assert {"1200 J", "1,200 J", "1 200 J", "1200J", "1200 joules"} <= set(measure(1200, "J"))
+    assert {"0.5 A", ".5 A", "0.5 amps", "500 mA"} <= set(measure(0.5, "A"))
+    forms = measure(3, "m/s")
+    assert "3 m/s" in forms and len(forms) == len(set(forms))
