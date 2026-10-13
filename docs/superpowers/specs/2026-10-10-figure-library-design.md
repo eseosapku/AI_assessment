@@ -407,7 +407,7 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - triage rejections by sub-type, including those inside passing families;
       - approve, draw to volume and approve again;
       - report coverage.
-  - **P3d result (2026-10-13, plan `2026-10-12-figure-library-p3d-maths-second-batch-scale.md`): the second Maths batch drawn, reviewed and approved. The blind review cost $7.80; the library total is $64.97.**
+  - **P3d result (2026-10-13, plan `2026-10-12-figure-library-p3d-maths-second-batch-scale.md`): the second Maths batch drawn, reviewed and approved. The blind review cost $7.99; the library total is $65.16.**
     - **Store:** all 20 families pass the blind review, and 2,928 more Maths figures are approved, so the Maths drawn total is 8,072.
       - Each family has 150 figures, except exp_graph 136, trig_graph 120, pdf_graph 148 and algebra_area 126.
       - The library holds 8,401 approved drawn figures and 86 real images.
@@ -427,8 +427,13 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - 242 have 50 or more, 20 have 20 to 49, and 12 have fewer than 20.
       - 88 have three or more families, and 17 six or more.
       - 28 have none: those P3c listed, plus derivatives of exponential functions, which the calculus families now exclude as a misfit.
+    - **Final review:** it confirmed, figure by figure, that every approved figure matches the reviewed code. Its findings are fixed:
+      - the review now reads "x ≈ 1.6" as a label and the answer, and a hedge after "≈" as a second answer;
+      - the integral MCQ varies the limits read off the shading and the curve's sign, so no option can be picked without the figure (area_under_curve was redrawn and passed again, 30/30);
+      - `--refresh-forms` leaves any figure whose options, kind or tolerance changed;
+      - three and four significant figures are offered only for decimals under 10.
+    - **Answer forms refreshed:** 284 stored figures of earlier families (sample_space, supply_demand, cross_section and others) gained the newer fair forms in place, with no figure left out and every review kept.
     - **Next:**
-      - refresh the earlier Maths families' accepted forms (`--refresh-forms`);
       - give money-specific figures to the Primary francs chapters, which also draw bar models;
       - then the Physics wave, starting with sample figures for the user.
 - **P4 Real images at scale.** Real-rich and hard topics first.
