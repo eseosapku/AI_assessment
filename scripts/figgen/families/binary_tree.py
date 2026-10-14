@@ -104,5 +104,5 @@ def questions(p: dict, rng: random.Random) -> list:
     up = parent[p["new"]]
     return [short(f"{who} built this binary search tree {rng.choice(SETTINGS)}. Write the {HOW[p['how']]} traversal of the tree.", text,
                   [text, ",".join(map(str, seq)), " ".join(map(str, seq))]),
-            short(f"How many levels does {friend}'s binary search tree have? The root is on level 1.", h, [str(h), f"{h} levels"]),
+            short(f"{friend} counts the levels of this binary search tree, with the root on level 1. How many levels does it have?", h, [str(h), f"{h} levels"]),
             short(f"The value {p['new']} is added to this binary search tree. Which value will be its parent?", up, [str(up)])]

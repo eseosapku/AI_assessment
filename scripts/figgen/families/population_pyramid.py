@@ -107,7 +107,7 @@ def questions(p: dict, rng: random.Random) -> list:
         short(f"{who} reads this population pyramid {rng.choice(SETTINGS)}. What percentage of the population are {side} aged {GROUPS[i]}?",
               v, _pct(v)),
         short(f"{friend} adds males and females together. What percentage of the population is aged under 20?", young, _pct(young)),
-        short(f"What percentage of {who}'s population is aged under 20 or 60 and over, males and females together?", dependent,
+        short(f"What percentage of the population in this pyramid is aged under 20 or 60 and over, males and females together?", dependent,
               _pct(dependent)),
         short("Are there more males or more females aged 60 and over in this pyramid?", more,
               [more, more.lower(), f"more {more.lower()}"]),

@@ -82,4 +82,4 @@ def questions(p: dict, rng: random.Random) -> list:
     key = f"X = {text(p['expr'])}"
     return [mcq(f"{who} wrote this truth table {rng.choice(SETTINGS)}. Which expression matches every row?", key,
                 [f"X = {text(t)}" for t in p["alts"] if text(t) != text(p["expr"])], rng),
-            short(f"In {friend}'s truth table, how many rows give X = 1?", ones, [str(ones), f"{ones} rows"])]
+            short(f"{friend} looks at this truth table. How many rows give X = 1?", ones, [str(ones), f"{ones} rows"])]

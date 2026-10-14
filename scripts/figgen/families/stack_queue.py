@@ -119,5 +119,5 @@ def questions(p: dict, rng: random.Random) -> list:
     where = "at the top of the stack" if kind == "stack" else "at the front of the queue"
     k = p["ask"]
     return [short(f"{who} carries out the operations {rng.choice(SETTINGS)}, in order. Which item is {where} after all of them?", end, [end]),
-            short(f"Which item does operation {k + 1} remove from {friend}'s {kind}?", removed[k], [removed[k]]),
+            short(f"{friend} checks the {kind}. Which item does operation {k + 1} remove?", removed[k], [removed[k]]),
             short(f"How many items are left in the {kind} when the operations are done?", len(items), [str(len(items)), f"{len(items)} items"])]

@@ -582,3 +582,13 @@ def test_a_mesh_of_four_is_drawn_without_crossing_cables():
         for c, d in pairs[i + 1:]:
             if len({a, b, c, d}) == 4:
                 assert not _cross(a, b, c, d), (a, b, c, d)
+
+
+def test_a_trace_table_says_when_its_rows_are_written():
+    """Max before or after the IF in each row read both ways (P3l review): each row is the values after the loop's body."""
+    import matplotlib.pyplot as plt
+    m = fam("trace_table")
+    fig = m.draw(m.sample(random.Random(1)))
+    texts = [t.get_text() for t in fig.axes[0].texts]
+    plt.close(fig)
+    assert any("after" in t and "loop" in t for t in texts)

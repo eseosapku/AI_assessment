@@ -118,6 +118,9 @@ def draw(p: dict):
     tx, cw, rh = 7.0, 1.25, 0.55
     heads = ["Row"] + cols
     ty = top
+    # when a row is written, so Max before or after the IF is not a guess (P3l review)
+    ax.text(tx + len(heads) * cw / 2, ty + 0.12, "Each row: the values after\none time round the loop", ha="center", va="bottom",
+            fontsize=8.5, style="italic", color="#444444", linespacing=1.2)
     for c, h in enumerate(heads):
         ax.add_patch(Rectangle((tx + c * cw, ty - rh), cw, rh, facecolor="#d9dee3", edgecolor=INK, linewidth=1.0))
         ax.text(tx + c * cw + cw / 2, ty - rh / 2, h, ha="center", va="center", fontsize=10, fontweight="bold", family="monospace")
@@ -133,7 +136,7 @@ def draw(p: dict):
                     fontweight="bold" if shown == "?" else "normal")
     bottom = min(ty - (len(rows) + 1) * rh, -0.45 if p["template"] == "max" else 0.4)
     ax.set_xlim(-0.2, tx + len(heads) * cw + 0.2)
-    ax.set_ylim(bottom - 0.2, top + 0.4)
+    ax.set_ylim(bottom - 0.2, top + 0.85)
     ax.set_aspect("equal")
     ax.axis("off")
     return fig

@@ -92,3 +92,19 @@ def test_most_figures_have_a_wording_of_their_own(fid):
 def test_declares_its_concepts(fid):
     m = FAMILIES[fid]
     assert m.CONCEPTS and all(c.startswith(f"{m.SUBJECT}.") for c in m.CONCEPTS)
+
+
+@pytest.mark.parametrize("fid", sorted(f for f, m in FAMILIES.items() if m.SUBJECT in ("computing", "geography")))
+def test_a_figure_belongs_to_no_one_but_the_person_who_made_it(fid):
+    """A reviewer reads every question at once: "Keza's image" beside "Kalisa drew this bitmap" was called unclear
+    whose image it is, and failed 24 bitmaps (P3l review). A name that owns the figure is the first question's."""
+    import re
+    from figgen.core import NAMES
+    m = FAMILIES[fid]
+    for seed in range(1, 60):
+        rng = random.Random(seed)
+        qs = m.questions(m.sample(rng), rng)
+        first = next((n for n in NAMES if qs[0].stem.startswith(n)), None)
+        for q in qs:
+            for owner in re.findall(r"\b(" + "|".join(NAMES) + r")'s\b", q.stem):
+                assert owner == first, (fid, seed, q.stem)
