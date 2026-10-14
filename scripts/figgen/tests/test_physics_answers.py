@@ -1014,9 +1014,12 @@ def test_magnet_field_lines_leave_the_magnet_and_carry_their_arrow_clear_of_it()
                 continue
             x, y = pts[0]
             gap = min(max(x0 - x, 0, x - x1) + max(abs(y) - 0.45, 0) for x0, x1 in bodies)
-            assert gap <= 0.02, (s, pts[0])  # drawn from the magnet's surface
+            assert gap <= 0.06, (s, pts[0])  # traced from just off the magnet's surface: no stub, no kink
             along = sum(math.dist(pts[k], pts[k + 1]) for k in range(i))
-            assert along >= 0.6, (s, along)  # the arrow well clear of the pole it leaves
+            assert along >= 1.0, (s, along)  # the arrow well clear of the pole it leaves
+            turns = [abs(math.atan2(pts[k + 1][1] - pts[k][1], pts[k + 1][0] - pts[k][0])
+                         - math.atan2(pts[k][1] - pts[k - 1][1], pts[k][0] - pts[k - 1][0])) for k in range(1, min(i + 2, len(pts) - 1))]
+            assert max((min(t, 2 * math.pi - t) for t in turns), default=0) < math.radians(30), s  # no kink before the arrow
             (ax_, ay), (bx_, by) = pts[i - 1], pts[i + 1]
             fx, fy = m.field(p, *pts[i])
             assert (bx_ - ax_) * fx + (by - ay) * fy > 0  # and pointing along the field

@@ -157,11 +157,20 @@ describe('whether the reviewer reached the key', () => {
     const f = short('11', ['11', '11 × 10¹⁴ Hz'])
     expect(agrees(f, '11 ×10¹⁴ Hz')).toBe(true)
     expect(agrees(f, '11 ×10¹⁴ cm')).toBe(false)
+    expect(agrees(f, 'about 11 ×10^14 Hz')).toBe(true)  // 'about' is no part of the unit
     const g = short('5', ['5', 'group 5', 'group 15'])
     expect(agrees(g, 'Group 5 (also called group 15)')).toBe(true)
     const s = short('170', ['170', '170 g', '170 g per 100 g of water'])
     expect(agrees(s, 'about 170 g per 100 g of water')).toBe(true)
     expect(agrees(s, 'about 160 g per 100 g of water')).toBe(false)
+  })
+
+  it('reads a bracketed unit factor as a unit, not a second number (P3h fix review)', () => {
+    expect(agrees(short('7'), '7 (×10¹⁴ Hz)')).toBe(true)
+    expect(agrees({ ...short('5'), tolerance: 0.2 }, 'about 4.9 (×10¹⁴ Hz)')).toBe(true)
+    expect(agrees({ ...short('7'), tolerance: 0.2 }, 'about 6.9 (≈7) × 10¹⁴ Hz')).toBe(true)
+    expect(agrees(short('7'), '8 (×10¹⁴ Hz)')).toBe(false)
+    expect(agrees(short('7'), '7 (×10¹⁴ Hz) or 8')).toBe(false)
   })
 
   it('reads the sign of a charge, not only its size (P3g final review)', () => {

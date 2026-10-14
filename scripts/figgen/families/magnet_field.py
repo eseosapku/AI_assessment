@@ -99,7 +99,7 @@ def _magnet(ax, x0, x1, left_label, right_label):
 
 def lines(p: dict) -> list[tuple[list[tuple[float, float]], int | None]]:
     """Each field line from the magnet's surface, and where its arrow sits: on the first stretch inside the frame, at
-    least 0.6 along from the pole, or none on a stub too short to hold one (P3h review: lines that began in mid-air
+    least 1.0 along from the pole, or none on a stub too short to hold one (P3h review: lines that began in mid-air
     with small arrows beside the pole read as pointing into N)."""
     single = p["kind"] == "single"
     W, H = (4.6, 3.2) if single else (6.4, 3.2)
@@ -118,15 +118,20 @@ def lines(p: dict) -> list[tuple[list[tuple[float, float]], int | None]]:
             sx, sy = px + out * 0.62 * math.cos(a), 0.62 * math.sin(a)
             if any(b0 - 0.05 <= sx <= b1 + 0.05 and abs(sy) <= 0.5 for b0, b1 in bodies):
                 continue
-            face = (sx, math.copysign(0.45, sy)) if x0 <= sx <= x1 else (x1 if sx > x1 else x0, max(-0.45, min(0.45, sy)))
-            pts = [face] + _trace(p, sx, sy, bodies)
+            # Traced from just off the surface, where the ring's direction meets the magnet: a stub to the ring left a kink
+            # that read as a line turning into N (P3h fix review).
+            if x0 <= sx <= x1:
+                start = (sx, math.copysign(0.5, sy))
+            else:
+                start = (x1 + 0.05 if sx > x1 else x0 - 0.05, max(-0.4, min(0.4, sy * 0.65)))
+            pts = _trace(p, *start, bodies)
             k, along, at = 1, 0.0, None
             while k < len(pts) and abs(pts[k][0]) < W - 0.3 and abs(pts[k][1]) < H - 0.3:
                 along += math.dist(pts[k - 1], pts[k])
                 k += 1
             first = along  # the length of the first stretch inside the frame
-            if first >= 1.0:
-                want, along = max(0.6, 0.45 * first), 0.0
+            if first >= 1.6:
+                want, along = max(1.0, 0.5 * first), 0.0
                 for j in range(1, k - 1):
                     along += math.dist(pts[j - 1], pts[j])
                     if along >= want:

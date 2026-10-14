@@ -160,6 +160,9 @@ function chargeOf(text: string, isKey = false): { size: number; sign: string; sy
   return null
 }
 
+/** "(×10¹⁴ Hz)", "x 10^14 Hz" with no number before it: a unit factor the question set (P3h fix review). */
+const UNIT_FACTOR = /(?<![\d.]\s*)\(?\s*[×x*]\s?10\s?(?:\^\s?-?\d+|[⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)\s*[A-Za-zΩμµ/]*\s*\)?/g
+
 /** "about 170 g", "≈ 63.6", "approximately 60": the words that mark an estimate, not part of the answer. */
 const HEDGE = /^(?:about|approximately|approx\.?|roughly|around|nearly|almost|~|≈)\s*/i
 
@@ -210,7 +213,7 @@ function isForm(q: ReviewQuestion, part: string): boolean {
     if (c === mine || mine.endsWith(' ' + c)) return true
     const theirs = numbersIn(form)
     return theirs.length > 0 && theirs.length === nums.length && theirs.every((v, i) => Math.abs(v - nums[i]) < 1e-9 * Math.max(1, Math.abs(v)))
-      && unitOf(form) === unitOf(part)
+      && unitOf(form) === unitOf(unhedged(part))
   })
 }
 
@@ -235,11 +238,13 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   }
   const expected = numbersIn(q.answer)
   if (expected.length) {
-    let exact = text
-    if (text.includes('≈')) {
-      const at = text.indexOf('≈')
-      const head = text.slice(0, at).trim()
-      const tail = text.slice(at + 1).trim()
+    // "7 (×10¹⁴ Hz)": a power of ten with no number before it is the unit the question set, not a second number.
+    const unitless = text.replace(UNIT_FACTOR, ' ').trim()
+    let exact = unitless
+    if (unitless.includes('≈')) {
+      const at = unitless.indexOf('≈')
+      const head = unitless.slice(0, at).trim()
+      const tail = unitless.slice(at + 1).trim()
       // "x ≈ 1.6": a label, then the answer. "17/3 ≈ 5.67": the exact answer, then a rounding of it;
       // anything else after "≈" ("or 16/3") is a second answer and is compared with the rest.
       if (!numbersIn(head).length) exact = tail
