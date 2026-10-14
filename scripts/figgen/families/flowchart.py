@@ -16,9 +16,9 @@ from ..core import INK, NAMES, new_figure, short
 ID = "flowchart"
 KIND = "process.flow"
 SUBJECT = "computing"
-BANDS = ("LS", "UP")
+BANDS = ("LS", "UP", "AL")  # AL: algorithm design, monitoring and control
 CONCEPTS = tuple(f"computing.{c}" for c in ("algorithms", "conditional-logic", "iteration-control", "problem-solving-design"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|processor handles|scheduling|introduction to java|introduction to visual basic|complex data structure|digital project"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|processor handles|scheduling|introduction to java|introduction to visual basic|complex data structure|digital project|paradigm|declarative|low-level|expert system|modelling|ethics|digital divide"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"flow ?chart|algorithm|problem.solving|decision|loop|iteration|selection|sequence|repetition|program"
 FILL = "#eef1f3"

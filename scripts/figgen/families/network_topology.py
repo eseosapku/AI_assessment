@@ -16,7 +16,7 @@ from ..core import INK, NAMES, mcq, new_figure, short
 ID = "network_topology"
 KIND = "cs.structure"
 SUBJECT = "computing"
-BANDS = ("LS", "UP")
+BANDS = ("LS", "UP", "AL")  # AL: Cambridge 9618/9626 AS networks
 CONCEPTS = tuple(f"computing.{c}" for c in ("network-topologies", "computer-network-characteristics", "lan-hardware"))
 AVOID = r"spreadsheet|database|graphic|presentation|python|html|logic gate|boolean|algorithm"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.

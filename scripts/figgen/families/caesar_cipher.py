@@ -16,9 +16,9 @@ from ..core import INK, NAMES, new_figure, short
 ID = "caesar_cipher"
 KIND = "cs.structure"
 SUBJECT = "computing"
-BANDS = ("LS", "UP")
+BANDS = ("LS", "UP", "AL")  # AL: the security chapters' encryption
 CONCEPTS = tuple(f"computing.{c}" for c in ("cipher-encryption", "computer-security-terms"))
-AVOID = r"spreadsheet|database|graphic|presentation|html|logic gate|boolean|word processing|protecting a document|internet and email|searching the internet"
+AVOID = r"spreadsheet|database|graphic|presentation|html|logic gate|boolean|word processing|protecting a document|internet and email|searching the internet|e-safety|health and safety|in society|using networks"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"encrypt|cipher|cypher|security|cryptograph|caesar|protect"
 WORDS = ["SCHOOL", "RIVER", "MANGO", "BANANA", "VOLCANO", "MARKET", "LAKE", "COFFEE", "GORILLA", "HILLS", "DRUM", "BREAD",
