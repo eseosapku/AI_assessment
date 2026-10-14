@@ -308,6 +308,102 @@ def test_sound_samples():
                 assert int(q.answer) == round(1000 / step) * secs * b // 8
 
 
+
+# --- Task 4: spreadsheets, databases and networks -------------------------------------------------
+
+def cell(table, ref):
+    return table[int(ref[1:]) - 1][ord(ref[0]) - ord("A")]
+
+
+def span(table, a, b):
+    """The values in a range within one column or one row."""
+    if a[0] == b[0]:
+        return [cell(table, f"{a[0]}{r}") for r in range(int(a[1:]), int(b[1:]) + 1)]
+    return [cell(table, f"{chr(c)}{a[1:]}") for c in range(ord(a[0]), ord(b[0]) + 1)]
+
+
+def formula(table, text):
+    m = re.fullmatch(r"=(SUM|AVERAGE|MAX|MIN)\(([A-Z]\d+):([A-Z]\d+)\)", text)
+    if m:
+        xs = span(table, m.group(2), m.group(3))
+        return {"SUM": sum, "MAX": max, "MIN": min, "AVERAGE": lambda v: sum(v) / len(v)}[m.group(1)](xs)
+    m = re.fullmatch(r'=COUNTIF\(([A-Z]\d+):([A-Z]\d+),"([<>]=?)(\d+)"\)', text)
+    if m:
+        ops = {">": lambda x, n: x > n, "<": lambda x, n: x < n, ">=": lambda x, n: x >= n, "<=": lambda x, n: x <= n}
+        return sum(ops[m.group(3)](x, int(m.group(4))) for x in span(table, m.group(1), m.group(2)))
+    m = re.fullmatch(r'=IF\(([A-Z]\d+)([<>]=?)(\d+),"(\w+)","(\w+)"\)', text)
+    assert m, text
+    x, n = cell(table, m.group(1)), int(m.group(3))
+    yes = {">": x > n, "<": x < n, ">=": x >= n, "<=": x <= n}[m.group(2)]
+    return m.group(4) if yes else m.group(5)
+
+
+def as_key(v):
+    return str(int(v)) if isinstance(v, (int, float)) and v == int(v) else str(v)
+
+
+def test_spreadsheet_formula():
+    m = fam("spreadsheet_formula")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        table = p["table"]
+        for q in qs:
+            if "What does cell" in q.stem:
+                assert q.answer == as_key(formula(table, p["formula"])), (s, p["formula"], q.answer)
+            got = re.search(r"changes it to (=\S+?\))", q.stem)
+            if got:
+                assert q.answer == as_key(formula(table, got.group(1))), (s, got.group(1), q.answer)
+            got = re.search(r"Which cell holds (\S+?)\?", q.stem)
+            if got:
+                v = got.group(1)
+                assert as_key(cell(table, q.answer)) == v
+                assert sum(as_key(x) == v for row in table for x in row) == 1  # the value is in one cell only
+
+
+def run_query(p):
+    q = p["query"]
+    field, op, value = q["where"]
+    ops = {">": lambda a, b: a > b, "<": lambda a, b: a < b, "=": lambda a, b: a == b}
+    rows = [r for r in p["records"] if ops[op](r[field], value)]
+    key, way = q["order"]
+    return sorted(rows, key=lambda r: r[key], reverse=(way == "DESC"))
+
+
+def test_database_query():
+    m = fam("database_query")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        rows = run_query(p)
+        assert rows, s
+        key = p["query"]["order"][0]
+        assert len({r[key] for r in rows}) == len(rows)  # no ties, so the order is fixed
+        first = p["query"]["select"][0]
+        for q in qs:
+            if "How many records" in q.stem:
+                assert int(q.answer) == len(rows)
+            if "first record" in q.stem:
+                assert q.answer == str(rows[0][first])
+            if "last record" in q.stem:
+                assert q.answer == str(rows[-1][first])
+
+
+def test_network_topology():
+    m = fam("network_topology")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        letter = {t: "ABCD"[i] for i, t in enumerate(p["order"])}
+        assert sorted(p["order"]) == ["bus", "mesh", "ring", "star"]
+        for q in qs:
+            got = re.search(r"Which network is a (\w+) topology", q.stem)
+            if got:
+                assert picked(q) == letter[got.group(1)]
+            if "How many cables" in q.stem:
+                n = p["sizes"]["mesh"]
+                assert int(q.answer) == n * (n - 1) // 2
+            if "stops every" in q.stem:
+                assert q.answer == p["hub"]
+
+
 COMPUTING = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "computing")
 
 
