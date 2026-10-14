@@ -477,6 +477,41 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - triage rejections by sub-type;
       - approve, draw to volume and approve again;
       - report coverage.
+  - **P3f result (2026-10-14, plan `2026-10-13-figure-library-p3f-physics-scale.md`): the Physics wave drawn, reviewed and approved. The blind review cost $7.91 (cap $8); the library total is $73.20.**
+    - **Store:** all 19 families pass, and 2,599 Physics figures are approved.
+      - Each family has 150 figures, except where it has fewer distinct ones: iv_graph 124, nucleus 50, em_spectrum 28.
+      - The library holds 11,000 approved drawn figures and 86 real images.
+    - **Review:** the first pass gave 495 of 547. Two network drops were resumed.
+      - **Failing families, fixed by TDD, redrawn and reviewed again:**
+        - **Meter dials (8 of 30):** dials of 30 to 50 small divisions were misread by one. They now have at most 12, with two or more between each number.
+        - **Lens diagrams (1 of 9):** "What is the magnification?" was read as signed. They now ask how many times as tall, and number the axes in centimetres.
+      - **Other fixes, from rejections and noted passes:**
+        - each question states what it assumes: friction ignored, the rule's weight, an ideal transformer, resistance as V ÷ I;
+        - each motion question names what moves;
+        - manometer levels are dashed to the scale;
+        - the spring's limit is a visible corner;
+        - decay questions sit on gridlines inside the plot;
+        - lamp curves keep rising;
+        - devices run at real powers;
+        - atoms go up to aluminium;
+        - the transformer's coils are marked not to scale.
+      - **The answer check now reads, as one answer:**
+        - a restated unit ("0.5 A (500 mA)");
+        - standard form ("4 × 10^4");
+        - a unit's power ("m/s^2");
+        - trailing zeros ("0.020 s").
+      - Grams are accepted as kilograms.
+      - A family with fewer than 30 figures passes once all of them are reviewed, at 27 in 30.
+      - Three rejections were the reviewer's own slips, and are recorded.
+    - **Coverage of the 195 mapped Physics topics:** 156 have approved figures.
+      - 146 have 50 or more, and 10 have 20 to 49.
+      - 35 have three or more families.
+      - 39 have none: fields, electrostatics, orbits and circular motion, A Level thermal physics, gases, capacitance, quantum physics and medical imaging, communications, relativity, and lower-secondary magnetism.
+    - **Quiz check (in process, the way the route reads it):**
+      - resistors in circuits: 118 figures, 410 questions;
+      - lenses: 150 figures, 750 questions;
+      - radioactivity: 76 figures, 228 questions.
+    - **Next:** the next subject wave (Chemistry or Biology), or Physics families for the 39 empty topics (fields, orbits, capacitance), whichever the user chooses.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
