@@ -1,4 +1,5 @@
 """Answers of the Geography wave (P3m), recomputed from each figure's params over 1,000 seeds."""
+import math
 import random
 import re
 
@@ -461,8 +462,9 @@ def test_a_hydrograph_marks_the_middle_of_its_tallest_rain_bar():
         assert any("middle of the tallest rain bar" in q.stem for q in qs if "lag time" in q.stem)
 
 
-def test_a_wind_roses_bars_start_at_the_centre_on_numbered_rings():
-    """Bars from a calm circle's edge left zero unclear, and unlabelled rings were miscounted (P3o review)."""
+def test_a_wind_roses_bars_start_at_its_calm_circle_with_a_scale_from_0():
+    """Bars from an unmarked circle hid where 0 was (P3o review), and bars from the centre crowded it (P3o fix review):
+    bars start at the calm circle's edge, and a numbered scale runs from 0 there."""
     import matplotlib.pyplot as plt
     from matplotlib.patches import Polygon
     m = fam("wind_rose")
@@ -473,10 +475,11 @@ def test_a_wind_roses_bars_start_at_the_centre_on_numbered_rings():
         bars = [pa for pa in ax.patches if isinstance(pa, Polygon)]
         texts = _texts(fig)
         plt.close(fig)
-        assert all(min(abs(complex(*v)) for v in pa.get_xy()) < 0.3 for pa in bars), s  # each bar starts at the centre
+        assert all(abs(min(abs(complex(*v)) for v in pa.get_xy()) - math.hypot(m.R0, 0.12)) < 0.05 for pa in bars), s
         top = max(p["days"].values())
-        assert all(str(d) in texts for d in range(1, top + 1)), s
-        assert any("calm" in t.lower() and str(p["calm"]) in t for t in texts), s
+        assert all(str(d) in texts for d in range(0, top + 1)), s
+        day = "day" if p["calm"] == 1 else "days"
+        assert f"Calm: {p['calm']} {day}" in texts, s
 
 
 def test_a_ternary_graph_has_angled_ticks():
