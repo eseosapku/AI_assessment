@@ -404,6 +404,98 @@ def test_network_topology():
                 assert q.answer == p["hub"]
 
 
+
+# --- Task 5: data structures and encryption -------------------------------------------------------
+
+def bst(values):
+    """Insertion into a binary search tree: {value: [left, right]}, and each value's parent."""
+    kids, parent = {values[0]: [None, None]}, {}
+    for v in values[1:]:
+        node = values[0]
+        while True:
+            side = 0 if v < node else 1
+            if kids[node][side] is None:
+                kids[node][side], kids[v], parent[v] = v, [None, None], node
+                break
+            node = kids[node][side]
+    return kids, parent
+
+
+def order(kids, node, how):
+    if node is None:
+        return []
+    left, right = (order(kids, k, how) for k in kids[node])
+    return {"in": left + [node] + right, "pre": [node] + left + right, "post": left + right + [node]}[how]
+
+
+def levels(kids, node):
+    return 0 if node is None else 1 + max(levels(kids, k) for k in kids[node])
+
+
+def test_binary_tree():
+    m = fam("binary_tree")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        vals = p["values"]
+        kids, _ = bst(vals)
+        for q in qs:
+            got = re.search(r"(in|pre|post)-order traversal", q.stem)
+            if got:
+                assert nums(q.answer) == order(kids, vals[0], got.group(1))
+            if "How many levels" in q.stem:
+                assert int(q.answer) == levels(kids, vals[0])
+            got = re.search(r"(\d+) is added", q.stem)
+            if got:
+                new = int(got.group(1))
+                assert new not in vals
+                _, parent = bst(vals + [new])
+                assert int(q.answer) == parent[new]
+
+
+def test_stack_queue():
+    m = fam("stack_queue")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        items = list(p["start"])  # bottom to top, or front to rear
+        removed = []
+        for op in p["ops"]:
+            word, *arg = op.split()
+            if word in ("PUSH", "ENQUEUE"):
+                items.append(arg[0])
+                removed.append(None)
+            else:
+                assert items, (s, p)
+                removed.append(items.pop() if word == "POP" else items.pop(0))
+        for q in qs:
+            if "after all" in q.stem:
+                assert q.answer == (items[-1] if p["kind"] == "stack" else items[0])
+            got = re.search(r"operation (\d+) remove", q.stem)
+            if got:
+                assert q.answer == removed[int(got.group(1)) - 1] is not None
+            if "How many items" in q.stem:
+                assert int(q.answer) == len(items)
+
+
+def caesar(word, shift):
+    return "".join(chr((ord(c) - 65 + shift) % 26 + 65) for c in word)
+
+
+def test_caesar_cipher():
+    m = fam("caesar_cipher")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        k = p["shift"]
+        assert 1 <= k <= 25
+        for q in qs:
+            got = re.search(r"Encrypt the word ([A-Z]+)", q.stem)
+            if got:
+                assert q.answer == caesar(got.group(1), k)
+            got = re.search(r"Decrypt the word ([A-Z]+)", q.stem)
+            if got:
+                assert caesar(q.answer, k) == got.group(1)
+                assert q.answer in p["words"]  # a real word comes back
+
+
 COMPUTING = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "computing")
 
 

@@ -25,6 +25,7 @@ from . import logic_gates, truth_table
 from . import binary_search, flowchart, sort_trace, trace_table
 from . import binary_place, bitmap_image, sound_samples
 from . import database_query, network_topology, spreadsheet_formula
+from . import binary_tree, caesar_cipher, stack_queue
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -62,4 +63,5 @@ FAMILIES = {m.ID: m for m in (
     sort_trace, binary_search, trace_table, flowchart,
     binary_place, bitmap_image, sound_samples,
     spreadsheet_formula, database_query, network_topology,
+    binary_tree, stack_queue, caesar_cipher,
 )}
