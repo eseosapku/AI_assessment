@@ -180,6 +180,100 @@ def test_spirometer_trace():
                 assert num(q.answer) == Fraction(str(p["tidal"])) * p["rate"]
 
 
+# --- Task 2: inheritance and DNA -----------------------------------------------------------------
+
+def _possible(people):
+    """Every genotype (0, 1 or 2 recessive alleles) each person can have, given who is affected and who their parents
+    are: an independent backtracking solver over all assignments consistent with Mendel."""
+    order = sorted(people, key=lambda n: people[n]["generation"])
+    seen = {n: set() for n in people}
+
+    def options(n, g):
+        q = people[n]
+        mine = [2] if q["affected"] else [0, 1]
+        if q["parents"]:
+            a, b = (g[x] for x in q["parents"])
+            can = {x + y for x in ({0} if a == 0 else {1} if a == 2 else {0, 1}) for y in ({0} if b == 0 else {1} if b == 2 else {0, 1})}
+            mine = [x for x in mine if x in can]
+        return mine
+
+    def go(i, g):
+        if i == len(order):
+            for n in people:
+                seen[n].add(g[n])
+            return
+        n = order[i]
+        for x in options(n, g):
+            g[n] = x
+            go(i + 1, g)
+        g.pop(n, None)
+
+    go(0, {})
+    return seen
+
+
+def test_pedigree():
+    m = fam("pedigree")
+    for s in range(1, 401):
+        p, qs = run(m, s)
+        people = {int(k): v for k, v in p["people"].items()}
+        possible = _possible(people)
+        assert all(possible[n] for n in people), s  # the chart is consistent with a recessive allele
+        couples = [(a, b) for a in people for b in people if a < b and any(set(q["parents"]) == {a, b} for q in people.values())]
+        assert any(not people[a]["affected"] and not people[b]["affected"] and
+                   any(set(q["parents"]) == {a, b} and q["affected"] for q in people.values()) for a, b in couples), s
+        big, small = p["allele"], p["allele"].lower()
+        names = {0: big + big, 1: big + small, 2: small + small}
+        for q in qs:
+            got = re.search(r"genotype of person (\d+)", q.stem)
+            if got:
+                n = int(got.group(1))
+                assert len(possible[n]) == 1, (s, n, possible[n])  # only a genotype the chart decides
+                assert picked(q) == names[next(iter(possible[n]))]
+            got = re.search(r"persons? (\d+) and (\d+) have another child", q.stem)
+            if got:
+                a, b = int(got.group(1)), int(got.group(2))
+                assert len(possible[a]) == 1 and len(possible[b]) == 1
+                ga, gb = next(iter(possible[a])), next(iter(possible[b]))
+                pa, pb = Fraction(ga, 2), Fraction(gb, 2)  # the chance each passes on the recessive allele
+                assert num(q.answer) == pa * pb * 100
+            if q.kind == "mcq" and "dominant or recessive" in q.stem:
+                assert picked(q).startswith("recessive")
+
+
+PAIR = {"A": "T", "T": "A", "G": "C", "C": "G"}
+
+
+def test_dna_strand():
+    m = fam("dna_strand")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        top, bottom = p["top"], p["bottom"]
+        assert all(PAIR[a] == b for a, b in zip(top, bottom))  # every pair drawn is complementary
+        shown = p["shown"]  # positions of the lower strand that are printed
+        for q in qs:
+            got = re.search(r"position (\d+) on the lower strand", q.stem)
+            if got:
+                k = int(got.group(1))
+                assert k - 1 not in shown and q.answer == bottom[k - 1]  # asked only where it is hidden
+            got = re.search(r"How many (\w+) bases", q.stem)
+            if got:
+                base = {"adenine": "A", "thymine": "T", "guanine": "G", "cytosine": "C"}[got.group(1)]
+                assert int(q.answer) == (top + bottom).count(base)
+            got = re.search(r"percentage of the bases .* are (\w+)", q.stem)
+            if got:
+                base = {"adenine": "A", "thymine": "T", "guanine": "G", "cytosine": "C"}[got.group(1)]
+                assert num(q.answer) == Fraction(100 * (top + bottom).count(base), 2 * len(top))
+            got = re.search(r"bases (\d+) to (\d+) of the lower strand", q.stem)
+            if got:
+                i, j = int(got.group(1)), int(got.group(2))
+                assert q.answer == "".join(top[i - 1:j]).replace("T", "U")  # the mRNA matches the other strand, U for T
+            got = re.search(r"hydrogen bonds hold base pair (\d+)", q.stem)
+            if got:
+                k = int(got.group(1))
+                assert int(q.answer) == (2 if top[k - 1] in "AT" else 3)
+
+
 BIOLOGY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "biology")
 
 
