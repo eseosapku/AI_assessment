@@ -19,6 +19,8 @@ SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("dna-structure", "nucleic-acids-protein-synthesis", "dna-replication"))
 AVOID = r"plant|photosynth|ecolog|population|enzyme|immun|digest|respiration|transport|pedigree|selection|technology|inherited|mitotic|division"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"\bdna\b|nucleic|base pair|replication|protein synthesis|transcription|genetic code"
 PAIR = {"A": "T", "T": "A", "G": "C", "C": "G"}
 WORD = {"A": "adenine", "T": "thymine", "G": "guanine", "C": "cytosine"}
 N = 10

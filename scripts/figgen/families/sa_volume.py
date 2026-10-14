@@ -20,6 +20,8 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("size-surface-area-volume-ratio", "gas-exchange", "cell-membranes-transport"))
 AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|digest|photosynth|hormone|ecolog|population|plant|classification|living things|human nutrition|proteins|specialized tissues"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"surface area|volume ratio|diffusion|exchange surface|gas exchange"
 S = 0.55  # drawing units a centimetre
 
 

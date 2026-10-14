@@ -19,6 +19,8 @@ SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("gas-exchange", "breathing-mechanism-humans", "respiratory-diseases-smoking"))
 AVOID = r"plant|photosynth|genetic|inherit|ecolog|population|enzyme|reproduc|cell|digest|nutrition|specialized tissues"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"breathing|ventilation|lung|spiromet|tidal|vital capacity|gas exchange in humans"
 QUIET = 20  # seconds of quiet breathing
 
 

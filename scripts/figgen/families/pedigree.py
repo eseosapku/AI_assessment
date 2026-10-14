@@ -22,6 +22,8 @@ SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("monohybrid-inheritance", "inheritance-concepts", "genes-mutations"))
 AVOID = r"plant|photosynth|ecolog|population|enzyme|immun|digest|respiration|transport|cell structure|technology|nucleic|mitotic|division|chromosomes|dna|evolution and speciation|reproductive|mutation|selection|protein synthesis"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"inherit|pedigree|monohybrid|genetic disorder|genetic disease|recessive|sex[- ]linked"
 CONDITIONS = [("albinism", "A"), ("cystic fibrosis", "F"), ("a form of deafness", "D")]
 SIZE = 0.5
 WHY = [f"{a}: {b}" for a in ("recessive", "dominant")

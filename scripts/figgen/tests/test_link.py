@@ -101,3 +101,22 @@ def test_a_figure_can_name_chapters_it_does_not_suit():
              {"key": "t:2", "band": "P", "subject": "mathematics", "name": "Addition", "stage": None, "concepts": frozenset({"mathematics.a"})}]
     assert topics_for(index, m, {"band": "P", "money": True}) == ["t:1", "t:2"]
     assert topics_for(index, m, {"band": "P", "money": False}) == ["t:2"]
+
+
+def test_a_family_that_needs_words_reaches_only_topics_whose_sections_name_them(tmp_path):
+    """A shared broad concept is not enough where the book lists its sections: "Effect of Human Activities"
+    shared an ecology concept with quadrats but teaches no sampling (the user's curriculum question, P3j)."""
+    db = store(tmp_path)
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:5', 'x', 'B', 'mathematics', 'P', 'Parts of a whole')")
+    db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
+               "VALUES ('db:5', ?, '[]', '[]', 'high', 0, 'm', 'now')", (json.dumps(["mathematics.fractions"]),))
+    for key, topic, name in (("s1", "db:5", "Halves and quarters"), ("s2", "db:1", "Shading a fraction of a shape")):
+        db.execute("INSERT INTO subtopics (key, topic_key, name) VALUES (?, ?, ?)", (key, topic, name))
+    db.commit()
+    index = topic_index(db)
+    m = family(NEEDS=r"shad")
+    # db:1 has a section that names shading; db:5 has sections, none of them shading; db:3 shares no concept
+    assert topics_for(index, m, {"band": "P"}) == ["db:1"]
+    db.execute("DELETE FROM subtopics WHERE key = 's1'")  # a topic the store lists no sections for is judged by its concepts
+    db.commit()
+    assert topics_for(topic_index(db), m, {"band": "P"}) == ["db:1", "db:5"]

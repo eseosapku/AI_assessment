@@ -13,6 +13,8 @@ SUBJECT = "biology"
 BANDS = ("UP",)
 CONCEPTS = tuple(f"biology.{c}" for c in ("monohybrid-inheritance", "inheritance-concepts"))
 AVOID = r"division"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"punnett|monohybrid|cross|inherit|genotype|mendel"
 
 # Pea plant traits Mendel studied: (gene letter, dominant, recessive, what it is)
 TRAITS = [

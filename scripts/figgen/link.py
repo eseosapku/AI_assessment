@@ -33,8 +33,12 @@ def topic_index(db: sqlite3.Connection) -> TopicIndex:
     sections: dict[str, set[str]] = {}
     for r in db.execute("SELECT s.topic_key, sm.concepts FROM subtopics s JOIN subtopic_map sm ON sm.subtopic_key = s.key"):
         sections.setdefault(r["topic_key"], set()).update(json.loads(r["concepts"] or "[]"))
+    titles: dict[str, list[str]] = {}
+    for r in db.execute("SELECT topic_key, name FROM subtopics"):
+        titles.setdefault(r["topic_key"], []).append(r["name"])
     return [{"key": r["key"], "band": r["band"], "subject": r["subject"], "name": r["name"], "stage": stage_of(r["book"] or ""),
-             "concepts": frozenset(json.loads(r["concepts"] or "[]")) | frozenset(sections.get(r["key"], ()))} for r in rows]
+             "concepts": frozenset(json.loads(r["concepts"] or "[]")) | frozenset(sections.get(r["key"], ())),
+             "sections": tuple(titles.get(r["key"], ()))} for r in rows]
 
 
 def concepts_of(m, params: dict) -> frozenset[str]:
@@ -59,9 +63,20 @@ def topics_for(index: TopicIndex, m, params: dict) -> list[str]:
     # A topic can share a concept word without teaching the subject: "Polynomials" adds integers. A
     # family may say so figure by figure (avoid_for): a bar model of cows is no figure for francs.
     avoid = m.avoid_for(params) if hasattr(m, "avoid_for") else getattr(m, "AVOID", None)
+    # A shared broad concept is not evidence on its own: where the book lists a topic's sections, a family that
+    # NEEDS words reaches the topic only if its name or a section names what the figure teaches (P3j: quadrats had
+    # reached "Effect of Human Activities", which teaches no sampling). A topic listed without sections is judged
+    # by its concepts, as before.
+    needs = getattr(m, "NEEDS", None)
+
+    def taught(t) -> bool:
+        if not needs or not t.get("sections"):
+            return True
+        return any(re.search(needs, x, re.I) for x in (t["name"], *t["sections"]))
+
     return sorted(t["key"] for t in index if t["band"] == band and t["concepts"] & concepts
                   and (years is None or t.get("stage") is None or years[0] <= t["stage"] <= years[1])
-                  and not (avoid and re.search(avoid, t["name"], re.I)))
+                  and not (avoid and re.search(avoid, t["name"], re.I)) and taught(t))
 
 
 def reach(index: TopicIndex, m, samples: int = 300) -> set[str]:

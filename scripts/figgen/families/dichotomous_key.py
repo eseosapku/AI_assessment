@@ -20,6 +20,8 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("classification-organisms",))  # the biodiversity concept pulled in every Ecology topic
 AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|virus"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"\bkeys?\b|classif|identif"
 FEATURES = ("compound", "parallel", "lobed", "toothed", "narrow")  # the order a couplet is chosen in
 PLANTS = {
     "maize": {"compound": False, "lobed": False, "toothed": False, "parallel": True, "narrow": True},

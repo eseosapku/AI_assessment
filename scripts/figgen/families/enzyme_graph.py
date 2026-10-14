@@ -19,6 +19,8 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("enzymes", "enzyme-technology-applications", "biological-molecules"))
 AVOID = r"photosynth|respiration|genetic|inherit|ecolog|population|immun|disease|reproduc|excretion|transport|passive|skin|autotroph|cell biology|dna|movement into|plant nutrition|gene technology|food components|testing for|carbohydrates|vitamins|culturing"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"enzyme"
 TEMP = {"an enzyme from a human": (40, 60), "an enzyme from a plant": (25, 45),
         "an enzyme from a hot-spring bacterium": (70, 90)}  # optimum, the temperature it stops working at
 PH = {"pepsin": 2, "salivary amylase": 7, "trypsin": 8, "arginase": 10}

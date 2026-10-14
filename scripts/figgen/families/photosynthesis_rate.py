@@ -17,6 +17,8 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("photosynthesis", "plant-nutrition", "leaf-internal-structure-photosynthesis"))
 AVOID = r"respiration|genetic|inherit|immun|disease|reproduc|excretion|digest|enzyme|biological molecules|gas|transport|response and coordination|growth and development|specialized tissues|carbohydrates"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"photosynth|limiting factor"
 FACTORS = {"carbon dioxide concentration": ("with 0.04% carbon dioxide", "with 0.1% carbon dioxide"),
            "temperature": ("at 15 °C", "at 25 °C")}
 # Oxygen, a product, is the fourth: with it no option stands out from the others by its words alone.
