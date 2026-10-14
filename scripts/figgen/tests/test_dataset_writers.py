@@ -290,7 +290,7 @@ def test_histogram():
 def test_scatter():
     for row, qs in asked("math.scatter"):
         p = row["params"]
-        assert qs, row["id"]  # every row asks something
+        assert qs or p["correlation"] == "none", row["id"]  # a "none" diagram near ±0.4 asks nothing
         xs, ys = zip(*p["points"])
         mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
         slope = sum((x - mx) * (y - my) for x, y in p["points"])
@@ -298,3 +298,61 @@ def test_scatter():
             if "correlation" in q.stem:
                 want = "No correlation" if p["correlation"] == "none" else ("Positive" if slope > 0 else "Negative")
                 assert picked(q) == want, row["id"]
+
+
+# --- batch 3: circuits -----------------------------------------------------------------------------
+
+RESISTIVE = {"resistor", "lamp", "thermistor", "ldr", "variable_resistor"}
+
+
+def _parts(p):
+    return [c for side in ("top", "right", "bottom", "left") for c in p.get(side) or []]
+
+
+def test_circuit():
+    asking = values = 0
+    for row, qs in asked("phys.circuit"):
+        p = row["params"]
+        if p["labels"] != "values" or p["kind"] == "diode":
+            assert not qs
+            continue
+        values += 1
+        asking += bool(qs)  # a circuit whose every value is printed asks nothing
+        drawn = set(row["labels"])
+        source = next(c["value"] for c in _parts(p) if c["kind"] in ("battery", "cell"))
+        closed = not any(c["kind"] == "switch_open" for c in _parts(p))
+        if p["kind"] == "parallel":
+            branches = [sum(c["value"] for c in br if c["kind"] in RESISTIVE) for br in p["parallel"]]
+            total = 1 / sum(1 / r for r in branches)
+        else:
+            rs = {c["id"]: c["value"] for c in _parts(p) if c["kind"] in RESISTIVE}
+            total = sum(rs.values())
+        current = source / total if closed else 0.0
+        for q in qs:
+            v = float(q.answer)
+            printed = [float(d.split()[0]) for d in drawn if d[:1].isdigit()]
+            assert not any(abs(v - x) < 1e-9 for x in printed), (row["id"], q.answer)  # never a printed value
+            if "total resistance" in q.stem or "combined resistance" in q.stem:
+                assert abs(v - total) <= 0.006 * total + 1e-9, (row["id"], v, total)
+            if "current in the circuit" in q.stem or "current from the" in q.stem:
+                assert abs(v - current) <= 0.006 * max(current, 0.01) + 1e-9, (row["id"], v, current)
+            got = re.search(r"p\.d\. across the ([\d.]+) Ω", q.stem)
+            if got:
+                assert p["kind"] != "parallel"
+                assert abs(v - current * float(got.group(1))) <= 0.01 * max(current * float(got.group(1)), 0.01) + 1e-9
+            got = re.search(r"current in the ([\d.]+) Ω", q.stem)
+            if got:
+                assert abs(v - source / float(got.group(1))) <= 0.006 * source / float(got.group(1)) + 1e-9
+    assert asking >= 0.8 * values, (asking, values)
+
+
+def test_no_correlation_is_asked_only_where_r_is_near_0():
+    """"No correlation" diagrams with r near ±0.4 were fairly read as weak correlation (P3q review)."""
+    for row, qs in asked("math.scatter"):
+        p = row["params"]
+        if p["correlation"] == "none" and qs:
+            xs, ys = zip(*p["points"])
+            mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+            sxy = sum((x - mx) * (y - my) for x, y in p["points"])
+            r = sxy / math.sqrt(sum((x - mx) ** 2 for x in xs) * sum((y - my) ** 2 for y in ys))
+            assert abs(r) < 0.2, (row["id"], r)

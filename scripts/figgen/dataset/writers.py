@@ -366,12 +366,85 @@ def scatter(row: dict, rng: random.Random) -> list:
     pts = p["points"]
     mx, my = sum(x for x, _ in pts) / len(pts), sum(y for _, y in pts) / len(pts)
     slope = sum((x - mx) * (y - my) for x, y in pts)
+    if p["correlation"] == "none":
+        r = slope / math.sqrt(sum((x - mx) ** 2 for x, _ in pts) * sum((y - my) ** 2 for _, y in pts))
+        if abs(r) >= 0.2:
+            return []  # near ±0.4 it was fairly read as weak correlation (P3q review)
     key = "No correlation" if p["correlation"] == "none" else ("Positive" if slope > 0 else "Negative")
     return [mcq(f"{_lead(rng, 'scatter diagram')} What type of correlation does it show?", key,
                 [x for x in ("Positive", "Negative", "No correlation") if x != key], rng)]
 
 
+# --- batch 3: circuits -----------------------------------------------------------------------------
+
+RESISTIVE = {"resistor", "lamp", "thermistor", "ldr", "variable_resistor"}
+PART_NAME = {"resistor": "resistor", "lamp": "lamp", "thermistor": "thermistor", "ldr": "LDR", "variable_resistor": "variable resistor"}
+
+
+def _parts(p: dict) -> list[dict]:
+    return [c for side in ("top", "right", "bottom", "left") for c in p.get(side) or []]
+
+
+def _sf(v: float) -> str:
+    """Three significant figures, whole numbers as they are."""
+    return str(int(round(v))) if abs(v - round(v)) < 1e-9 else f"{v:.3g}"
+
+
+def _q(stem: str, v: float, unit: str) -> object:
+    a = _sf(v)
+    forms = [a, f"{a} {unit}", f"{a}{unit}", f"{v:.2g}", f"{v:.2f}"]
+    return short(stem, a, list(dict.fromkeys(forms)), tolerance=0.01 * max(abs(v), 0.01))
+
+
+def circuit(row: dict, rng: random.Random) -> list:
+    """Values circuits only, with no diode (its voltage drop is a convention the figure does not state). A value the
+    figure prints, such as a meter reading, is never asked."""
+    p = row["params"]
+    if p["labels"] != "values" or p["kind"] == "diode":
+        return []
+    printed = [float(d.split()[0]) for d in row["labels"] if d[:1].isdigit()]
+
+    def shown(v: float) -> bool:
+        return any(abs(float(_sf(v)) - x) < 1e-9 for x in printed)
+
+    parts = _parts(p)
+    source = next(c for c in parts if c["kind"] in ("battery", "cell"))
+    V = source["value"]
+    closed = not any(c["kind"] == "switch_open" for c in parts)
+    lead = _lead(rng, "circuit")
+    qs = []
+    if p["kind"] == "parallel":
+        branches = [[c for c in br if c["kind"] in RESISTIVE] for br in p["parallel"]]
+        total = 1 / sum(1 / sum(c["value"] for c in br) for br in branches)
+        if not shown(total):
+            qs.append(_q(f"{lead} What is the combined resistance of the parallel part of the circuit, in Ω?", total, "Ω"))
+        if not shown(V / total):
+            qs.append(_q(f"What is the current from the {source['kind']}, in A?", V / total, "A"))
+        single = [br[0] for br in branches if len(br) == 1]
+        if single:
+            c = rng.choice(single)
+            if not shown(V / c["value"]):
+                qs.append(_q(f"What is the current in the {_sf(c['value'])} Ω {PART_NAME[c['kind']]}, in A?", V / c["value"], "A"))
+    else:
+        rs = [c for c in parts if c["kind"] in RESISTIVE]
+        total = sum(c["value"] for c in rs)
+        current = V / total if closed else 0.0
+        if not shown(total):
+            qs.append(_q(f"{lead} What is the total resistance of the circuit, in Ω?", total, "Ω"))
+        if not shown(current):
+            qs.append(_q("What is the current in the circuit, in A?" + ("" if closed else " Look at the switch."), current, "A"))
+        if closed:
+            c = rng.choice(rs)
+            pd = current * c["value"]
+            if not shown(pd):
+                qs.append(_q(f"What is the p.d. across the {_sf(c['value'])} Ω {PART_NAME[c['kind']]}, in V?", pd, "V"))
+    if qs and not any(qs[0].stem.startswith(n) for n in NAMES):  # the lead goes on whichever question comes first
+        qs[0].stem = f"{lead} {qs[0].stem}"
+    return qs
+
+
 WRITERS = {
+    "phys.circuit": circuit,
     "chem.titration_curve": titration_curve,
     "phys.decay_curve": decay_curve,
     "math.box_plot": box_plot,
