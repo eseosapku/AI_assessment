@@ -36,6 +36,16 @@ from . import cost_revenue, elasticity, national_income, ppc, price_index
 # P3p accounting imports
 from . import bank_reconciliation, depreciation, income_statement, ratio_analysis, t_account, trial_balance
 # P3p business imports
+# P3s: the primary science wave (one line each, added when the modules import cleanly)
+# P3s physical imports
+from . import force_arrows_p, magnets_p, seesaw_p, shadows_p, simple_circuit_p
+# P3s materials imports
+from . import materials_test_p, plant_growth_p, soil_drainage_p, state_changes_p, weather_chart_p
+# P3s living imports
+from . import body_data_p, carroll_sort_p, food_chain_p, grid_robot_p, teeth_p
+# P3t: agriculture
+# P3t agriculture imports
+from . import crop_calendar, farm_record, fertiliser_calc, pearson_square, soil_texture
 from . import cash_flow_forecast, critical_path, inventory_chart, pricing
 
 FAMILIES = {m.ID: m for m in (
@@ -86,4 +96,13 @@ FAMILIES = {m.ID: m for m in (
     t_account, trial_balance, depreciation, bank_reconciliation, income_statement, ratio_analysis,
     # P3p business families
     cash_flow_forecast, critical_path, inventory_chart, pricing,
+    # P3s: the primary science wave
+    # P3s physical families
+    simple_circuit_p, magnets_p, shadows_p, seesaw_p, force_arrows_p,
+    # P3s materials families
+    materials_test_p, soil_drainage_p, state_changes_p, weather_chart_p, plant_growth_p,
+    # P3s living families
+    carroll_sort_p, food_chain_p, body_data_p, teeth_p, grid_robot_p,
+    # P3t agriculture families
+    pearson_square, fertiliser_calc, farm_record, soil_texture, crop_calendar,
 )}
