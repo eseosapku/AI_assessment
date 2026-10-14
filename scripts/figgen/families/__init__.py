@@ -22,6 +22,7 @@ from . import dichotomous_key, quadrat, variation_chart
 from . import antibiotic_plate, food_test_table, magnification, sa_volume
 # P3k: the computing wave
 from . import logic_gates, truth_table
+from . import binary_search, flowchart, sort_trace, trace_table
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -56,4 +57,5 @@ FAMILIES = {m.ID: m for m in (
     enzyme_graph, photosynthesis_rate, population_curve, osmosis_graph, glucose_graph, spirometer_trace, pedigree, dna_strand, quadrat, dichotomous_key, variation_chart,
     magnification, antibiotic_plate, sa_volume, food_test_table,
     logic_gates, truth_table,
+    sort_trace, binary_search, trace_table, flowchart,
 )}

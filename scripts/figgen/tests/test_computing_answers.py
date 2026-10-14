@@ -102,6 +102,148 @@ def test_truth_table():
                         assert any(ev(alt, table[i]) != ev(tree, table[i]) for i in shown), (s, text(alt))
 
 
+# --- Task 2: algorithms ---------------------------------------------------------------------------
+
+def nums(text):
+    return [int(x) for x in re.findall(r"-?\d+", text)]
+
+
+def bubble_pass(xs):
+    xs, swaps = list(xs), 0
+    for i in range(len(xs) - 1):
+        if xs[i] > xs[i + 1]:
+            xs[i], xs[i + 1] = xs[i + 1], xs[i]
+            swaps += 1
+    return xs, swaps
+
+
+def insertion_pass(xs, k):
+    """Pass k (from 1) puts item k+1 (1-based) into the sorted part on its left."""
+    xs = list(xs)
+    v, j = xs[k], k - 1
+    while j >= 0 and xs[j] > v:
+        xs[j + 1] = xs[j]
+        j -= 1
+    xs[j + 1] = v
+    return xs
+
+
+def test_sort_trace():
+    m = fam("sort_trace")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        xs = p["list"]
+        assert len(set(xs)) == len(xs)
+        if p["algorithm"] == "bubble":
+            states, first_swaps = [xs], bubble_pass(xs)[1]
+            while states[-1] != sorted(xs):
+                states.append(bubble_pass(states[-1])[0])
+        else:
+            states = [xs]
+            for k in range(1, len(xs)):
+                states.append(insertion_pass(states[-1], k))
+        for q in qs:
+            got = re.search(r"after pass (\d+)", q.stem)
+            if got:
+                assert nums(q.answer) == states[int(got.group(1))]
+            if "swaps" in q.stem:
+                assert int(q.answer) == first_swaps
+            if "first in order" in q.stem:
+                assert int(q.answer) == next(k for k, st in enumerate(states) if st == sorted(xs))
+
+
+def test_binary_search():
+    m = fam("binary_search")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        xs, target = p["list"], p["target"]
+        assert xs == sorted(xs) and len(set(xs)) == len(xs)
+        low, high, checked = 0, len(xs) - 1, []
+        while low <= high:
+            mid = (low + high) // 2  # the stated rule: (low + high) DIV 2
+            checked.append(mid)
+            if xs[mid] == target:
+                break
+            if xs[mid] < target:
+                low = mid + 1
+            else:
+                high = mid - 1
+        for q in qs:
+            if "checked first" in q.stem:
+                assert int(q.answer) == checked[0]
+            if "How many items" in q.stem:
+                assert int(q.answer) == len(checked)
+            if "in the order" in q.stem:
+                assert nums(q.answer) == [xs[i] for i in checked]
+
+
+def test_trace_table():
+    m = fam("trace_table")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        rows, out = m.execute(p)  # the family's own run, checked against an independent one below
+        t, v = p["template"], p["values"]
+        if t == "sum":
+            total, mine = 0, []
+            for count in range(1, v["n"] + 1):
+                total += count * v["k"]
+                mine.append({"Count": count, "Total": total})
+            assert out == total
+        elif t == "while":
+            x, y, mine = v["a"], 0, []
+            while x > v["b"]:
+                x -= v["c"]
+                y += 1
+                mine.append({"X": x, "Y": y})
+            assert out == y
+        else:
+            best, mine = v["list"][0], []
+            for i in range(2, len(v["list"]) + 1):
+                if v["list"][i - 1] > best:
+                    best = v["list"][i - 1]
+                mine.append({"i": i, "Max": best})
+            assert out == best
+        assert [{k: r[k] for k in mine[0]} for r in rows] == mine
+        for q in qs:
+            got = re.search(r"value of (\w+) in row (\d+)", q.stem)
+            if got:
+                assert int(q.answer) == rows[int(got.group(2)) - 1][got.group(1)]
+                assert (int(got.group(2)) - 1, got.group(1)) in {tuple(b) for b in p["blanks"]}  # asked only where blank
+            if "What is output" in q.stem:
+                assert int(q.answer) == out
+            if "How many times" in q.stem:
+                assert int(q.answer) == len(rows)
+
+
+def test_flowchart():
+    m = fam("flowchart")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        v = p["values"]
+        n, count = p["input"], 0
+        if p["template"] == "subtract":
+            while n > v["limit"]:
+                n, count = n - v["step"], count + 1
+            out = count
+        elif p["template"] == "double":
+            while n <= v["limit"]:
+                n, count = n * 2, count + 1
+            out = n
+        else:  # "add": not an even/odd test, whose output a student knows without the figure
+            total = 0
+            while n > 0:
+                total, n, count = total + n, n - v["step"], count + 1
+            out = total
+        assert count >= 2, (s, p)
+        for q in qs:
+            if "What is output" in q.stem:
+                assert q.answer == str(out)
+            if "How many times" in q.stem:
+                assert int(q.answer) == count
+            if "value of n when" in q.stem:
+                assert int(q.answer) == n
+
+
 COMPUTING = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "computing")
 
 
