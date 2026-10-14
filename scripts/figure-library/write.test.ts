@@ -26,6 +26,14 @@ describe('the writing prompt', () => {
     const p = writePrompt(item)
     for (const part of ['biology', 'Upper Secondary', 'Topic: Cells.', 'Syllabus points: Animal and plant cells; Specialised cells.', 'Ask only what these syllabus points teach', 'Onion epidermis cells with nuclei', 'never the answer', 'four options', 'at most four words', '{"questions": []}']) expect(p).toContain(part)
   })
+
+  it('asks only what needs the image, and the checker drops what does not (P3u)', () => {
+    // 300 of 400 reviewed questions could be answered without looking: the image was only context.
+    const p = writePrompt(item)
+    expect(p).toMatch(/could not answer it without (?:seeing|looking at) (?:the|this) image/i)
+    expect(p).not.toMatch(/Never trivia \(counting things/)
+    expect(checkPrompt(item, [])).toMatch(/drop[^\n]*without (?:seeing|looking at) the image/i)
+  })
 })
 
 describe('reading what was written', () => {
