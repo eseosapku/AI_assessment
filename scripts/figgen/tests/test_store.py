@@ -28,7 +28,7 @@ def test_creates_the_shared_tables(tmp_path):
     db = open_store(tmp_path / "figures.db")
     names = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type = 'table'")}
     assert {"topics", "spend", "figures", "figure_topics", "figure_questions", "reviews"} <= names
-    assert db.execute("PRAGMA busy_timeout").fetchone()[0] == 10000
+    assert db.execute("PRAGMA busy_timeout").fetchone()[0] == 60000
     assert db.execute("PRAGMA foreign_keys").fetchone()[0] == 1
 
 

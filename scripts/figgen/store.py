@@ -29,11 +29,11 @@ def open_store(file: str | Path | None = None, repo: Path = REPO) -> sqlite3.Con
         if path == root or root in path.parents:
             raise ValueError(f"The figure library must live outside the repository, not at {path}")
         path.parent.mkdir(parents=True, exist_ok=True)
-    db = sqlite3.connect(target, timeout=10)
+    db = sqlite3.connect(target, timeout=60)
     db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys = ON")
     # Another writer (a review run, a probe) may hold the file; wait rather than fail.
-    db.execute("PRAGMA busy_timeout = 10000")
+    db.execute("PRAGMA busy_timeout = 60000")
     if target != ":memory:":
         db.execute("PRAGMA journal_mode = WAL")
     db.executescript(SCHEMA_FILE.read_text(encoding="utf-8"))
