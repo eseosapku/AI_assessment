@@ -349,6 +349,106 @@ def test_variation_chart():
                 assert q.answer == cont["classes"][i]
 
 
+# --- Task 4: cells and the laboratory ------------------------------------------------------------
+
+SIZE_UM = {"a cheek cell": (40, 80), "a palisade cell": (40, 120), "an onion epidermis cell": (100, 300),
+           "a red blood cell": (6, 9), "a bacterium": (1, 5), "a mitochondrion": (0.5, 5), "a pollen grain": (20, 60)}
+
+
+def test_magnification():
+    m = fam("magnification")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        L = p["end"] - p["start"]  # mm on the drawing, read off the ruler's mm marks
+        assert isinstance(p["start"], int) and isinstance(p["end"], int)
+        actual = Fraction(L * 1000, p["mag"])
+        lo, hi = SIZE_UM[p["specimen"]]
+        assert lo <= actual <= hi, (s, p["specimen"], actual)  # a real cell's size
+        if p["bar"]:
+            assert Fraction(p["bar"]["mm"] * 1000, p["bar"]["um"]) == p["mag"]  # the scale bar gives the magnification
+        for q in qs:
+            if "image" in q.stem and "mm" in q.stem and "long" in q.stem:
+                assert num(q.answer) == L
+            if "actual" in q.stem:
+                assert num(q.answer) == actual
+            if "What is the magnification" in q.stem:
+                assert num(q.answer.lstrip("×x")) == p["mag"]
+
+
+def test_antibiotic_plate():
+    m = fam("antibiotic_plate")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        g = p["grid"]
+        for d in p["discs"]:
+            r = Fraction(d["zone"], 2)
+            if d["zone"]:
+                for edge in (d["x"] - r, d["x"] + r, d["y"] - r, d["y"] + r):
+                    assert edge % g == 0, (s, d)  # every zone's edge on a gridline
+        zones = sorted(d["zone"] for d in p["discs"])
+        assert zones[-1] > zones[-2]  # one most effective
+        by = {d["letter"]: d for d in p["discs"]}
+        for q in qs:
+            got = re.search(r"clear zone around disc ([A-Z])", q.stem)
+            if got and "diameter" in q.stem:
+                assert num(q.answer) == by[got.group(1)]["zone"]
+            if got and "area" in q.stem:
+                assert num(q.answer) == Fraction(314, 100) * Fraction(by[got.group(1)]["zone"], 2) ** 2
+            if q.kind == "mcq" and "most effective" in q.stem:
+                assert by[picked(q)]["zone"] == zones[-1]
+
+
+def test_sa_volume():
+    m = fam("sa_volume")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        side = {c["letter"]: c["side"] for c in p["cubes"]}
+        assert len(set(side.values())) == len(side)
+        for q in qs:
+            got = re.search(r"cube ([A-Z])", q.stem)
+            if not got:
+                continue
+            a = side[got.group(1)]
+            if "surface area to volume" in q.stem and q.kind == "short":
+                assert num(q.answer) == Fraction(6, a)
+            elif "surface area" in q.stem:
+                assert num(q.answer) == 6 * a * a
+            elif "volume" in q.stem:
+                assert num(q.answer) == a ** 3
+        for q in qs:
+            if q.kind == "mcq":
+                assert side[picked(q)] == min(side.values())  # the smallest cube has the most surface for its volume
+
+
+SHOWS = {"starch": ("iodine", "blue-black"), "reducing sugar": ("Benedict's", "brick-red"), "protein": ("biuret", "purple"),
+         "fat": ("ethanol", "cloudy white")}
+
+
+def test_food_test_table():
+    m = fam("food_test_table")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        foods = p["foods"]  # {letter: {nutrient: bool}}
+        for letter, has in foods.items():
+            for nutrient, present in has.items():
+                test, colour = SHOWS[nutrient]
+                assert (m.result(nutrient, present) == colour) == present  # the colour drawn says what is there
+        for q in qs:
+            got = re.search(r"Which food contains (starch|reducing sugar|protein|fat)\?", q.stem)
+            if got:
+                n = got.group(1)
+                have = [k for k, v in foods.items() if v[n]]
+                assert have == [picked(q)]
+            got = re.search(r"How many of the foods contain (starch|reducing sugar|protein|fat)\?", q.stem)
+            if got:
+                assert int(q.answer) == sum(v[got.group(1)] for v in foods.values())
+            got = re.search(r"Which food contains both (\w[\w ]*) and (\w[\w ]*)\?", q.stem)
+            if got:
+                a, b = got.group(1), got.group(2)
+                have = [k for k, v in foods.items() if v[a] and v[b]]
+                assert have == [picked(q)]
+
+
 BIOLOGY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "biology")
 
 
