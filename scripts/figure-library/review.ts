@@ -164,6 +164,8 @@ function chargeOf(text: string, isKey = false): { size: number; sign: string; sy
 const UNIT_FACTOR = /(?<![\d.]\s*)\(?\s*[×x*]\s?10\s?(?:\^\s?-?\d+|[⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)\s*[A-Za-zΩμµ/]*\s*\)?/g
 // A code: hexadecimal with a digit and a letter ("3F", "0x3F", "3Fh", "3F₁₆"), or letters then digits ("C4", "S03").
 const CODE = /^(?:0x)?(?=[0-9a-f]*\d)[0-9a-f]*[a-f][0-9a-f]*(?:h|₁₆)?$|^[a-z]{1,3}\d{1,3}$/i
+// A latitude or longitude: a number of degrees and its hemisphere ("30°N", "45° E").
+const HEMISPHERE = /^(\d+(?:\.\d+)?)\s*°?\s*([NSEW])$/i
 
 /** "about 170 g", "≈ 63.6", "approximately 60": the words that mark an estimate, not part of the answer. */
 const HEDGE = /^(?:about|approximately|approx\.?|roughly|around|nearly|almost|~|≈)\s*/i
@@ -234,6 +236,13 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     const codes = unhedged(text).split(/[\s,;()]+/).map((t) => t.replace(/[.:]+$/, '')).filter((t) => CODE.test(t))
     return codes.length === 1 && forms.includes(canon(codes[0]))
   }
+  // A latitude or longitude is its number and its hemisphere: "30°S" read as 30 had reached "30°N" (P3m). The answer
+  // names one, in letters or words ("30 degrees north"), perhaps glossed.
+  const hemi = HEMISPHERE.exec(q.answer.trim())
+  if (hemi) {
+    const found = [...unhedged(text).toLowerCase().matchAll(/(\d+(?:\.\d+)?)\s*(?:°|degrees?)?\s*(north|south|east|west|[nsew])\b/g)]
+    return found.length === 1 && Number(found[0][1]) === Number(hemi[1]) && found[0][2][0] === hemi[2].toLowerCase()
+  }
   // A charge or an ion ("2+", "1-", "Pb²⁺") is its size and its sign, and the element if one is named: numbers
   // alone read "2-" as "2+" (P3g final review). An answer in words ("lead(II) ions") falls to the accepted forms.
   const key = chargeOf(q.answer, true)
@@ -268,8 +277,12 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     // "0.5 A (500 mA)", "R = 6 Ω": in parts at brackets, "=" and "or", each part with a number is the key
     // or one of its accepted forms. A part "or" splits off must be one too, so a hedge still fails.
     const parts = exact.split(/[()=]|\s+or\s+/).map((s) => s.trim()).filter((s) => numbersIn(s).length > 0)
-    const restated = expected.length === 1 && parts.length > 0
-      && parts.every((part) => numbersIn(part).every(near) || roughly(part, expected[0]) || isForm(q, part))
+    // A key of several numbers ("15:00") may be restated in brackets too ("15:00 (3 p.m.)"): one part has its numbers,
+    // and every other part is one of its forms (P3m).
+    const all = (part: string) => { const v = numbersIn(part); return v.length === expected.length && v.every((x, i) => same(x, expected[i])) }
+    const restated = parts.length > 0 && (expected.length === 1
+      ? parts.every((part) => numbersIn(part).every(near) || roughly(part, expected[0]) || isForm(q, part))
+      : parts.some(all) && parts.every((part) => all(part) || isForm(q, part)))
     return reached || restated || isForm(q, text)
   }
   // "Copper (metal)", "Chlorine gas (Cl2)", "copper, deposited on electrode Y": the answer, then a gloss. The part

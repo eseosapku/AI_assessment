@@ -115,6 +115,20 @@ describe('reading a verdict', () => {
 })
 
 describe('whether the reviewer reached the key', () => {
+  it('reads a latitude or longitude by its hemisphere, not its number alone (P3m)', () => {
+    const lat = short('30°N', ['30°N', '30° N', '30 N', '30N'])
+    for (const own of ['30°N', '30° N', '30 degrees north', '30°N (north of the Equator)']) expect(agrees(lat, own), own).toBe(true)
+    for (const own of ['30°S', '30° S', '30 degrees south', '30°N or 30°S', '45°N']) expect(agrees(lat, own), own).toBe(false)
+    expect(agrees(short('45°E', ['45°E', '45° E']), '45°W')).toBe(false)
+    expect(agrees(short('45°E', ['45°E', '45° E']), '45 degrees east')).toBe(true)
+  })
+
+  it('reads a key of several numbers restated in brackets, as a time with its 12-hour form (P3m)', () => {
+    const time = short('15:00', ['15:00', '3 p.m.', '3pm', '3 pm'])
+    for (const own of ['15:00', '15:00 (3 p.m.)', '3 p.m.']) expect(agrees(time, own), own).toBe(true)
+    for (const own of ['16:00 (3 p.m.)', '16:00', '15:00 (4 p.m.)']) expect(agrees(time, own), own).toBe(false)
+  })
+
   it('never matches a code by its digits alone: hex, cell references, IDs (P3k)', () => {
     const hex = short('3F', ['3F', '3Fh', '0x3F', '3F₁₆'])
     for (const own of ['3F', '3f', '0x3F', '3F (hexadecimal)']) expect(agrees(hex, own), own).toBe(true)
