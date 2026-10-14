@@ -311,12 +311,27 @@ describe('family scores', () => {
     fill('a', 30, 3)
     fill('b', 30, 4)
     fill('c', 20, 0)
+    for (let s = 21; s <= 30; s++) addFigure(db, 'c', s) // drawn, not yet reviewed
     expect(familyScores(db, 'j')).toEqual([
       { family: 'a', reviewed: 30, passed: 27, passes: true },
       { family: 'b', reviewed: 30, passed: 26, passes: false },
       { family: 'c', reviewed: 20, passed: 20, passes: false },
     ])
     expect([REVIEW_SIZE, PASS_MARK]).toEqual([30, 27])
+  })
+
+  it('passes a family with fewer than 30 figures once every one is reviewed, at the same rate', () => {
+    // em_spectrum has only 28 different figures (P3f): 27 of 30 is 90%, so 26 of 28 passes.
+    const db = store()
+    const fill = (family: string, n: number, failures: number) => {
+      for (let s = 1; s <= n; s++) {
+        const id = addFigure(db, family, s)
+        saveVerdict(db, { job: 'j', model: 'm', figureId: id, verdict: { ...parseVerdict(good, item), pass: s > failures } })
+      }
+    }
+    fill('d', 28, 2)
+    fill('e', 28, 3)
+    expect(familyScores(db, 'j').map((f) => [f.family, f.passes])).toEqual([['d', true], ['e', false]])
   })
 })
 

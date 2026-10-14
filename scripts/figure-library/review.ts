@@ -327,15 +327,23 @@ export interface FamilyScore { family: string; reviewed: number; passed: number;
 
 /** Each family's score in this job. A family passes at 27 of 30; fewer than 30 reviewed is not yet a pass. */
 export function familyScores(db: Store, job: string): FamilyScore[] {
-  const rows = db.prepare(`SELECT f.family AS family, COUNT(*) AS reviewed, SUM(r.pass) AS passed
+  const rows = db.prepare(`SELECT f.family AS family, COUNT(*) AS reviewed, SUM(r.pass) AS passed,
+      (SELECT COUNT(*) FROM figures d WHERE d.origin = 'drawn' AND d.family = f.family) AS drawn
     FROM reviews r JOIN figures f ON f.id = r.figure_id WHERE r.job = ? GROUP BY f.family ORDER BY f.family`)
-    .all(job) as { family: string; reviewed: number; passed: number }[]
-  return rows.map((r) => ({
-    family: r.family,
-    reviewed: Number(r.reviewed),
-    passed: Number(r.passed),
-    passes: Number(r.reviewed) >= REVIEW_SIZE && Number(r.passed) >= PASS_MARK,
-  }))
+    .all(job) as { family: string; reviewed: number; passed: number; drawn: number }[]
+  return rows.map((r) => {
+    const reviewed = Number(r.reviewed)
+    const passed = Number(r.passed)
+    // A family with fewer than 30 different figures (em_spectrum has 28) passes once every one is
+    // reviewed, at the same rate: 27 of 30.
+    const short = reviewed < REVIEW_SIZE && reviewed >= Number(r.drawn)
+    return {
+      family: r.family,
+      reviewed,
+      passed,
+      passes: reviewed >= REVIEW_SIZE ? passed >= PASS_MARK : short && passed * REVIEW_SIZE >= PASS_MARK * reviewed,
+    }
+  })
 }
 
 /**
