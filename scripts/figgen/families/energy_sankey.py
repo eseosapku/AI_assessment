@@ -28,7 +28,12 @@ DEVICES = [("filament lamp", "electrical", "light", ["heat"], (5, 15)), ("LED la
            ("solar panel", "light", "electrical", ["heat"], (15, 25)), ("charcoal stove", "chemical", "heat in the pot", ["heat to the air"], (20, 40)),
            ("electric motor", "electrical", "kinetic", ["heat", "sound"], (60, 85)), ("radio", "electrical", "sound", ["heat"], (5, 20)),
            ("moto engine", "chemical", "kinetic", ["heat", "sound"], (20, 30))]
-FORMS = ["light", "heat", "sound", "kinetic", "electrical", "heat in the water", "heat in the pot", "heat to the air"]
+# The options: these forms, and the figure's own named ones ("heat in the water"), never another device's.
+FORMS = ["light", "heat", "sound", "kinetic", "electrical", "chemical"]
+# Powers each device really works at, in watts (P3f review: a 200 W LED lamp).
+POWER = {"filament lamp": [40, 60, 100], "LED lamp": [5, 8, 10, 20], "electric kettle": [1000, 1500, 2000, 2500],
+         "solar panel": [100, 200, 250, 400], "charcoal stove": [1000, 2000, 2500, 4000], "electric motor": [50, 100, 200, 250, 500],
+         "radio": [4, 5, 8, 10, 20, 25], "moto engine": [4000, 5000, 8000, 10000]}
 
 
 def avoid_for(p: dict) -> str:
@@ -110,8 +115,10 @@ def questions(p: dict, rng: random.Random) -> list:
         mcq(f"What is the useful energy output of the {p['device']}?", useful_name,
             [w for w, _, k in p["flows"] if k == "wasted"] + others, rng),
     ]
-    if p["band"] == "UP":
-        t = rng.choice([t for t in (2, 4, 5, 10, 20, 25, 50) if p["input"] % t == 0])
-        qs.append(short(f"The {p['device']} takes in this energy in {t} s. What is its input power?", p["input"] // t,
-                        measure(p["input"] // t, "W")))
+    powers = [P for P in POWER[p["device"]] if (Fraction(p["input"], P) * 100).denominator == 1]
+    if p["band"] == "UP" and powers:
+        P = rng.choice(powers)
+        t = Fraction(p["input"], P)
+        qs.append(short(f"The {p['device']} works at {P} W. How long does it take to take in this energy, in seconds?", exact(t),
+                        measure(t, "s")))
     return qs

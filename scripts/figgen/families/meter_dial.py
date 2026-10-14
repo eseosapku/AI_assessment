@@ -21,13 +21,16 @@ MEASURES = {"ammeter": ("physics.electric-current",), "voltmeter": ("physics.pot
 CONCEPTS = MEASURING + tuple(c for cs in MEASURES.values() for c in cs)
 # Not fields, magnets, turning, pressure, nuclei or natural disasters.
 AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|centre of gravity|environmental|induction|^magnetism$|magnetic effect|electromagnetic forces|telecommunication|motor effect|nuclear|turning|moment|pressure|solar system|earthquake|work, energy"
-# the meter, its unit, full scale, and the size of one small division
-SCALES = [("ammeter", "A", 1, Fraction(1, 50)), ("ammeter", "A", 1, Fraction(1, 20)), ("ammeter", "A", 3, Fraction(1, 10)),
-          ("ammeter", "A", 5, Fraction(1, 10)), ("ammeter", "A", 10, Fraction(1, 5)), ("voltmeter", "V", 3, Fraction(1, 10)),
-          ("voltmeter", "V", 5, Fraction(1, 10)), ("voltmeter", "V", 6, Fraction(1, 5)), ("voltmeter", "V", 10, Fraction(1, 5)),
-          ("voltmeter", "V", 15, Fraction(1, 2)), ("voltmeter", "V", 20, Fraction(1, 2)), ("newton meter", "N", 10, Fraction(1, 5)),
-          ("newton meter", "N", 20, Fraction(1, 2)), ("newton meter", "N", 50, Fraction(1))]
-LOADS = ["a bag of beans", "a pineapple", "a bag of sugar", "a bunch of bananas", "a bag of rice", "a cabbage"]
+# the meter, its unit, full scale, and the size of one small division: at most 20 divisions, since dials
+# of 30 to 50 were misread by one division (P3f review)
+SCALES = [("ammeter", "A", 1, Fraction(1, 20)), ("ammeter", "A", 1, Fraction(1, 10)), ("ammeter", "A", 3, Fraction(1, 5)),
+          ("ammeter", "A", 5, Fraction(1, 4)), ("ammeter", "A", 10, Fraction(1, 2)), ("voltmeter", "V", 3, Fraction(1, 5)),
+          ("voltmeter", "V", 5, Fraction(1, 4)), ("voltmeter", "V", 6, Fraction(1, 2)), ("voltmeter", "V", 10, Fraction(1, 2)),
+          ("voltmeter", "V", 15, Fraction(1)), ("voltmeter", "V", 20, Fraction(1)), ("newton meter", "N", 10, Fraction(1, 2)),
+          ("newton meter", "N", 20, Fraction(1)), ("newton meter", "N", 50, Fraction(5, 2))]
+# What hangs from a newton meter, by its full scale: a weight that fits the dial (no 47 N pineapple).
+LOADS = {10: ["a pineapple", "a cabbage", "a bunch of bananas"], 20: ["a bag of sugar", "a bag of rice", "a bag of beans"],
+         50: ["a small jerrycan of water", "a bag of maize flour", "a bucket of potatoes"]}
 WORD = {"A": "current", "V": "voltage", "N": "force"}
 
 
@@ -39,7 +42,7 @@ SWEEP = (150, 30)  # the scale runs from 150° on the left to 30° on the right
 def sample(rng: random.Random) -> dict:
     meter, unit, full, minor = rng.choice(SCALES)
     steps = int(full / minor)
-    k = rng.randint(1, steps - 1)
+    k = rng.randint(2, steps - 2)  # clear of the stops at either end
     return {"band": rng.choice(BANDS), "meter": meter, "unit": unit, "full": full, "minor": str(minor), "value": exact(minor * k)}
 
 
@@ -55,25 +58,27 @@ def draw(p: dict):
     label = next(L for L in map(Fraction, ("0.1", "0.2", "0.5", "1", "2", "5", "10"))
                  if (L / minor).denominator == 1 and (p["full"] / L).denominator == 1 and 3 <= p["full"] / L <= 10)
     major = int(label / minor)
-    fig, ax = new_figure(5.0, 3.8)
-    ax.add_patch(FancyBboxPatch((-3.3, -0.9), 6.6, 4.3, boxstyle="round,pad=0.05,rounding_size=0.3", facecolor=FILL_2, edgecolor=INK,
+    R = 3.0  # a large dial: the needle's thin tip meets the ticks on the scale's arc
+    fig, ax = new_figure(6.4, 4.8)
+    ax.add_patch(FancyBboxPatch((-3.9, -1.6), 7.8, 5.7, boxstyle="round,pad=0.05,rounding_size=0.3", facecolor=FILL_2, edgecolor=INK,
                                 linewidth=1.6))
-    ax.add_patch(Arc((0, 0), 5.0, 5.0, theta1=SWEEP[1], theta2=SWEEP[0], color=INK, linewidth=1.2))
+    ax.add_patch(Arc((0, 0), 2 * R, 2 * R, theta1=SWEEP[1], theta2=SWEEP[0], color=INK, linewidth=1.2))
     for i in range(steps + 1):
         a = _angle(p, float(minor * i))
         big = i % major == 0
-        mid = major % 2 == 0 and i % (major // 2) == 0
-        r0 = 2.5 - (0.35 if big else 0.26 if mid else 0.18)
-        ax.plot([r0 * math.cos(a), 2.5 * math.cos(a)], [r0 * math.sin(a), 2.5 * math.sin(a)], color=INK, linewidth=1.0 if big else 0.6)
+        mid = major >= 4 and major % 2 == 0 and i % (major // 2) == 0
+        r0 = R - (0.5 if big else 0.36 if mid else 0.26)
+        ax.plot([r0 * math.cos(a), R * math.cos(a)], [r0 * math.sin(a), R * math.sin(a)], color=INK, linewidth=1.4 if big else 1.0)
         if big:
-            ax.text(2.85 * math.cos(a), 2.85 * math.sin(a), exact(minor * i), ha="center", va="center", fontsize=8)
+            ax.text((R + 0.4) * math.cos(a), (R + 0.4) * math.sin(a), exact(minor * i), ha="center", va="center", fontsize=10)
     a = _angle(p, float(Fraction(p["value"])))
-    ax.plot([0, 2.45 * math.cos(a)], [0, 2.45 * math.sin(a)], color=INK, linewidth=1.6)  # the tip reaches the scale
-    ax.plot([0], [0], marker="o", markersize=6, color=INK)
-    ax.text(0, 0.9, p["unit"], ha="center", va="center", fontsize=16, fontweight="bold")
-    ax.text(0, -0.55, p["meter"], ha="center", va="center", fontsize=10)
-    ax.set_xlim(-3.5, 3.5)
-    ax.set_ylim(-1.1, 3.6)
+    ax.plot([0, R * math.cos(a)], [0, R * math.sin(a)], color=INK, linewidth=1.3)  # the tip ends on the arc, where the ticks end
+    ax.plot([0], [0], marker="o", markersize=7, color=INK)
+    # The unit and the meter's name below the pivot, where the needle never goes.
+    ax.text(0, -0.55, p["unit"], ha="center", va="center", fontsize=16, fontweight="bold")
+    ax.text(0, -1.15, p["meter"], ha="center", va="center", fontsize=10)
+    ax.set_xlim(-4.1, 4.1)
+    ax.set_ylim(-1.8, 4.3)
     ax.set_aspect("equal")
     ax.axis("off")
     return fig
@@ -86,12 +91,13 @@ def questions(p: dict, rng: random.Random) -> list:
     later = rng.choice([minor * k for k in range(1, int(p["full"] / minor)) if minor * k != v])
     change = abs(later - v)
     if p["meter"] == "newton meter":
-        load = rng.choice(LOADS)
+        load = rng.choice(LOADS[p["full"]])
         first = f"{name} hung {load} from a newton meter. What is the weight of the {load.split(' ', 1)[1]}?"
     else:
         first = f"{name} read the {p['meter']} in a circuit. What is its reading?"
     return [
         short(first, exact(v), measure(v, unit)),
         short(f"What does one small division on this {p['meter']} stand for?", exact(minor), measure(minor, unit)),
-        short(f"Later the {p['meter']} reads {exact(later)} {unit}. By how much has the {word} changed?", exact(change), measure(change, unit)),
+        short(f"The needle shows the first reading. Later the {p['meter']} reads {exact(later)} {unit}. By how much has the {word} changed?",
+              exact(change), measure(change, unit)),
     ]

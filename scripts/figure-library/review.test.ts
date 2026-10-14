@@ -196,6 +196,17 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(amps, '0.5 A (600 mA)')).toBe(false)
     const ms = short('20', ['20', '20 ms', '0.02 s'])
     expect(agrees(ms, '20 ms (0.02 s)')).toBe(true)
+    // An accepted form matches whatever trailing zeros the reviewer writes: 0.020 s is 0.02 s.
+    expect(agrees(ms, '20 ms (0.020 s)')).toBe(true)
+    expect(agrees(ms, '0.020 s')).toBe(true)
+    expect(agrees(ms, '0.03 s')).toBe(false)
+  })
+
+  it('reads standard form as one number', () => {
+    // "40000 Pa (4×10^4 Pa)" restates one answer (P3f review).
+    for (const own of ['40000 Pa (4×10^4 Pa)', '4 × 10^4 Pa', '4x10^4', '4 × 10⁴ Pa', '4.0 × 10^4']) expect(agrees(short('40000'), own), own).toBe(true)
+    expect(agrees(short('0.002'), '2 × 10^-3 N')).toBe(true)
+    expect(agrees(short('40000'), '4 × 10^5 Pa')).toBe(false)
   })
 
   it('reads a unit power as part of the unit, not as a second number', () => {

@@ -80,5 +80,6 @@ def questions(p: dict, rng: random.Random) -> list:
                     measure(f * abs(x - pivot) / 100, "N m") + [f"{mom} Nm", f"{f * abs(x - pivot)} N cm"]))
     if p["band"] != "LS":
         up = sum(f for _, f in p["loads"]) + uf + p["rule"]
-        qs.append(short("The rule is balanced. What is the upward force of the pivot on the rule?", up, measure(up, "N")))
+        weight = f"The rule weighs {p['rule']} N." if p["rule"] else "Ignore the rule's own weight."
+        qs.append(short(f"The rule is balanced. {weight} What is the upward force of the pivot on the rule?", up, measure(up, "N")))
     return qs

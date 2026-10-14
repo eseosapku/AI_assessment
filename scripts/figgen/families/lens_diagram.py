@@ -159,10 +159,13 @@ def questions(p: dict, rng: random.Random) -> list:
     key = KINDS[0] if v > 0 else KINDS[3]
     thing = rng.choice(["a candle flame", "a small bulb", "a lit arrow on a card", "a letter on a lamp box", "a torch bulb", "a glowing LED"])
     return [
-        short(f"{name} used a converging lens to form an image of {thing} {rng.choice(SETTINGS)}. How far is the image from the lens?",
+        short(f"{name} used a converging lens to form an image of {thing}, drawn here as an arrow, {rng.choice(SETTINGS)}. "
+              "How far is the image from the lens?",
               exact(abs(v) * sc), measure(abs(v) * sc, "cm")),
         short(f"The object is {exact(p['h'] * sc)} cm tall. How tall is the image?", exact(abs(hi) * sc), measure(abs(hi) * sc, "cm")),
-        short("What is the magnification?", exact(mag), [f"×{exact(mag)}", f"x{exact(mag)}", f"{exact(mag)}x", f"{exact(mag)}×"]),
+        # Sizes, not a signed magnification: "What is the magnification?" drew "2 (or -2 with sign)" (P3f review).
+        short("How many times as tall as the object is the image?", exact(mag),
+              [f"×{exact(mag)}", f"x{exact(mag)}", f"{exact(mag)}x", f"{exact(mag)}×", f"{exact(mag)} times"]),
         mcq("Which describes the image?", key, [k for k in KINDS if k != key], rng),
         short("What is the focal length of the lens?", p["f"] * sc, measure(p["f"] * sc, "cm")),
     ]

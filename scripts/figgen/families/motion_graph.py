@@ -63,7 +63,8 @@ def draw(p: dict):
     fig, ax = new_figure(6.4, 4.2)
     ax.plot([t for t, _ in pts], [y for _, y in pts], color=INK, linewidth=1.9)
     ts, ys = p["tstep"], p["ystep"]
-    ax.set_xticks(range(0, T + 1, ts * (5 if T > 30 * ts // 2 and ts == 2 else 1 if ts == 10 else 2)))
+    # Numbers every 2 s on a short speed-time graph, so no reading falls between two unnumbered lines.
+    ax.set_xticks(range(0, T + 1, ts * (1 if ts == 10 else 5 if T > 30 else 2 if T > 12 else 1)))
     ax.set_xticks(range(0, T + 1, ts), minor=True)
     top = Y + ys
     ax.set_yticks(range(0, top + 1, ys * (2 if top // ys > 10 else 1)))
@@ -92,8 +93,8 @@ def questions(p: dict, rng: random.Random) -> list:
         avg = Fraction(pts[-1][1], pts[-1][0])
         return [
             short(f"{name} timed a {mover} on this journey. What was the {mover}'s speed in the first {_seconds(t1)}?", exact(v), measure(v, "m/s")),
-            short("For how long was it stopped?", stop, measure(stop, "s")),
-            short("What was its average speed for the whole journey?", exact(avg), measure(avg, "m/s")),
+            short(f"For how long was the {mover} stopped?", stop, measure(stop, "s")),
+            short(f"What was the {mover}'s average speed for the whole journey?", exact(avg), measure(avg, "m/s")),
             short(f"How far did the {mover} travel altogether?", pts[-1][1], measure(pts[-1][1], "m")),
         ]
     mass = dict((m, kg) for m, _, kg in MOVERS)[mover]
@@ -104,11 +105,11 @@ def questions(p: dict, rng: random.Random) -> list:
     area = int(sum(Fraction((a[1] + b[1]) * (b[0] - a[0]), 2) for a, b in zip(pts, pts[1:])))
     d = -Fraction(pts[-1][1] - pts[-2][1], pts[-1][0] - pts[-2][0])
     return [
-        short(f"{name} watched a {mover} start from rest. What was its acceleration in the first {_seconds(t1)}?", exact(a1),
+        short(f"{name} watched a {mover} start from rest. What was the {mover}'s acceleration in the first {_seconds(t1)}?", exact(a1),
               measure(a1, "m/s²") + measure(a1, "m/s2")[1:]),
-        short("How far did it travel altogether?", area, measure(area, "m")),
-        short(("The runner has a mass of" if mover == "runner" else f"The {mover} and the people on it have a mass of")
+        short(f"How far did the {mover} travel altogether?", area, measure(area, "m")),
+        short(("The runner has a mass of" if mover == "runner" else f"The {mover} and the people on board have a mass of")
               + f" {mass} kg. What resultant force speeds {'the runner' if mover == 'runner' else 'them'} up in the first {_seconds(t1)}?",
               int(mass * a1), measure(int(mass * a1), "N")),
-        short(f"What was its deceleration in the last {_seconds(pts[-1][0] - pts[-2][0])}?", exact(d), measure(d, "m/s²") + measure(d, "m/s2")[1:]),
+        short(f"What was the {mover}'s deceleration in the last {_seconds(pts[-1][0] - pts[-2][0])}?", exact(d), measure(d, "m/s²") + measure(d, "m/s2")[1:]),
     ]

@@ -60,6 +60,10 @@ def _manometer(p: dict):
     ax.plot([2.0, 2.0, 0.3], [22.0, 23.2, 23.2], color=INK, linewidth=1.6)
     ax.text(0.3, 23.55, "to the gas supply" if L < R else "to the flask", ha="left", va="bottom", fontsize=10)
     ax.text(6.8, 21.6, "open to\nthe air", ha="left", va="center", fontsize=10, linespacing=1.0)
+    # A dashed line from each water surface to the scale, so each level is read off a mark: to the scale's
+    # ticks, or on the right, where a number may stand at that height, to just past it.
+    ax.plot([2.5, 3.6], [L, L], color=INK, linewidth=0.9, linestyle=(0, (3, 2)))
+    ax.plot([5.5, 4.15 if R % 5 else 5.0], [R, R], color=INK, linewidth=0.9, linestyle=(0, (3, 2)))
     # The centimetre scale between the arms.
     for y in range(bottom + 1, 22):  # the scale starts above the bend, clear of its line
         ax.plot([3.6, 3.6 + (0.5 if y % 5 == 0 else 0.25)], [y, y], color=INK, linewidth=0.8)

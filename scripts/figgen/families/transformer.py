@@ -66,6 +66,7 @@ def draw(p: dict):
         ax.plot([8.3, 9.3], [y, y], color=INK, linewidth=1.4)
         ax.add_patch(Circle((9.45, y), 0.15, facecolor="white", edgecolor=INK, linewidth=1.4))
     ax.text(4.0, 6.35, "iron core", ha="center", va="bottom", fontsize=10)
+    ax.text(4.0, 3.0, "coils not drawn to scale", ha="center", va="center", fontsize=8, style="italic")  # 1:20 cannot be drawn
     shown = lambda k, text: "?" if p["missing"] == k else text  # noqa: E731
     for x, side, N, V in ((0.75, "primary", "Np", "Vp"), (7.25, "secondary", "Ns", "Vs")):
         ax.text(x, -0.35, f"{side} coil", ha="center", va="top", fontsize=10)
@@ -79,7 +80,7 @@ def draw(p: dict):
 
 
 SETTINGS = ["in the school laboratory", "at the science club", "for a class practical", "during a physics lesson", "for a science fair",
-            "for a model railway"]
+            "for a school project"]
 
 
 def questions(p: dict, rng: random.Random) -> list:
@@ -94,7 +95,8 @@ def questions(p: dict, rng: random.Random) -> list:
     others = [Vp * k for k in RATIOS if (Np * k).denominator == 1 and _exact2(Vp * k) and Vp * k != Vs]
     V2 = rng.choice(others)
     qs = [
-        short(f"{name} built this transformer {rng.choice(SETTINGS)}. What is the {LABEL[p['missing']]}?", exact(value), measure(value, unit)),
+        short(f"{name} built this transformer {rng.choice(SETTINGS)}. Treat it as ideal. What is the {LABEL[p['missing']]}?", exact(value),
+              measure(value, unit)),
         mcq("Is this a step-up or a step-down transformer?", key, [k for k in kinds if k != key], rng),
         short(f"{friend} wants {exact(V2)} V from the same supply and primary coil. How many turns must the secondary coil have?",
               exact(Np * V2 / Vp), measure(Np * V2 / Vp, "turns")),

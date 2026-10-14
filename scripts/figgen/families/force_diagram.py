@@ -141,7 +141,8 @@ def questions(p: dict, rng: random.Random) -> list:
                             rng)
     a = Fraction(size, mass)
     qs = [resultant,
-          short(f"What is the acceleration of {name}'s {mass} kg {thing}?", exact(a), measure(a, "m/s²") + measure(a, "m/s2")[1:]),
+          short(f"{'Ignore friction.' if p['kind'] == 'right' else 'The arrows show every horizontal force on it.'} "
+                f"What is the acceleration of {name}'s {mass} kg {thing}?", exact(a), measure(a, "m/s²") + measure(a, "m/s2")[1:]),
           short(f"Take g = 10 N/kg. What is the weight of {name}'s {thing}?", 10 * mass, measure(10 * mass, "N"))]
     if p["kind"] == "line":
         key = EQUILIBRIUM[0] if size == 0 else EQUILIBRIUM[3]

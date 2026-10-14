@@ -127,7 +127,7 @@ def test_spring_graph():
         e, L = Fraction(p["cm_per_n"]), p["limit"]
         k, ext, limit = qs[:3]
         assert num(k.answer) == 1 / e
-        assert ext.stem.startswith("What is the extension of the spring for a load of"), ext.stem
+        assert re.match(r"What is the extension of the [\w' ]*spring for a load of", ext.stem) and "that spring" not in ext.stem, ext.stem
         F = int(re.search(r"load of (\d+) N", ext.stem).group(1))
         assert F <= L and num(ext.answer) == F * e and (F * e) % Fraction(p["ystep"]) == 0  # on a gridline
         assert int(limit.answer) == L
@@ -184,6 +184,9 @@ def test_the_manometer_gas_arm_is_closed_to_the_air():
         plt.close(fig)
         assert ([1.5, 2.5], [22.0, 22.0]) in lines  # the gas arm is capped
         assert any(xs[0] == 2.0 and ys[0] == 22.0 and ys[1] > 22.0 for xs, ys in lines)  # and piped from its top
+        # A dashed line runs from each water surface to the scale, so each level is read off a mark (P3f review).
+        assert any(ys == [float(p["left"])] * 2 and min(xs) <= 2.5 and max(xs) >= 3.6 for xs, ys in lines), "left level"
+        assert any(ys == [float(p["right"])] * 2 and max(xs) >= 5.5 and min(xs) <= 5.0 for xs, ys in lines), "right level"
 
 
 def test_density_displacement():
@@ -197,6 +200,10 @@ def test_density_displacement():
         assert num(density.answer) == rho and (rho * 100).denominator == 1  # exact to 2 d.p.
         k = int(re.search(r"mass of (\d+) cm³", mass.stem).group(1))
         assert num(mass.answer) == rho * k
+
+
+DEVICE_POWER = {"filament lamp": (25, 150), "LED lamp": (3, 30), "electric kettle": (1000, 3000), "solar panel": (50, 500),
+                "charcoal stove": (500, 5000), "electric motor": (20, 1000), "radio": (2, 50), "moto engine": (2000, 20000)}
 
 
 def test_energy_sankey():
@@ -218,9 +225,13 @@ def test_energy_sankey():
         wasted = {name for name, _, kind in flows if kind == "wasted"}
         if picked(form).startswith("heat"):
             assert all(o in wasted for o in form.options if o != picked(form) and o.startswith("heat")), form.options
-        if len(qs) > 3:
-            t = int(re.search(r"in (\d+) s", qs[3].stem).group(1))
-            assert num(qs[3].answer) == Fraction(total_in, t) and Fraction(total_in, t).denominator == 1
+        if len(qs) > 3:  # a power the device really works at, and the time to take in the energy (P3f review: a 200 W LED)
+            P = int(re.search(r"at (\d+) W", qs[3].stem).group(1))
+            lo, hi = DEVICE_POWER[p["device"]]
+            assert lo <= P <= hi and num(qs[3].answer) == Fraction(total_in, P), (p["device"], P)
+        # The options are energy forms, and only the figure's own named forms ("heat in the water") (P3f review).
+        generic = {"light", "heat", "sound", "kinetic", "electrical", "chemical"}
+        assert set(form.options) <= generic | {name for name, _, _ in flows}, form.options
 
 
 def test_only_the_motor_sankey_reaches_motor_and_generator_chapters():
@@ -630,3 +641,140 @@ def test_no_line_runs_through_a_label(fid):
         if hits:
             bad.append((s, hits))
     assert not bad, bad
+
+
+# --- P3f review: each question stands alone; the physics it assumes is stated ---------------------
+
+def test_a_motion_question_names_what_moves():
+    """A quiz asks one question per figure, so "For how long was it stopped?" names nothing (P3f review)."""
+    m = fam("motion_graph")
+    for s in range(1, 301):
+        p, qs = run(m, s)
+        for q in qs:
+            assert not re.search(r"\bits?\b", q.stem), q.stem
+            assert p["mover"] in q.stem or "runner" in q.stem, q.stem
+
+
+def test_a_short_speed_time_graph_numbers_its_time_axis_often():
+    m = fam("motion_graph")
+    for s in range(1, 200):
+        p = m.sample(random.Random(s))
+        if p["kind"] != "vt":
+            continue
+        fig = m.draw(p)
+        labelled = [t for t in fig.axes[0].get_xticks() if 0 <= t <= p["corners"][-1][0]]
+        plt.close(fig)
+        assert len(labelled) >= 4, (s, labelled)  # "0" and "4" alone leave 2 s and 6 s to guess
+
+
+def test_the_acceleration_says_which_forces_act():
+    """Friction unstated made the acceleration two answers (P3f review)."""
+    m = fam("force_diagram")
+    for s in range(1, 301):
+        p, qs = run(m, s)
+        want = "Ignore friction." if p["kind"] == "right" else "The arrows show every horizontal force on it."
+        assert want in qs[1].stem, qs[1].stem
+
+
+def test_the_pivot_force_counts_the_rule_or_says_to_ignore_it():
+    """With the pivot at the middle, the rule's own weight still pushes on the pivot (P3f review)."""
+    m = fam("moments")
+    for s in range(1, 301):
+        p, qs = run(m, s)
+        for q in qs:
+            if "upward force of the pivot" in q.stem:
+                stated = f"weighs {p['rule']} N" in q.stem if p["rule"] else "Ignore the rule's own weight." in q.stem
+                assert stated, q.stem
+
+
+def test_spring_energy_is_exact_to_two_places_and_the_limit_is_a_corner():
+    m = fam("spring_graph")
+    for s in range(1, 301):
+        p, qs = run(m, s)
+        for q in qs:
+            if "energy" in q.stem:
+                assert (num(q.answer) * 100).denominator == 1, q.answer  # "0.3125 J" was rounded by every reviewer
+        e, L, step = float(Fraction(p["cm_per_n"])), p["limit"], p["step"]
+        below = (m.extension(p, L) - m.extension(p, L - 0.01 * step)) / (0.01 * step)
+        above = (m.extension(p, L + 0.01 * step) - m.extension(p, L)) / (0.01 * step)
+        assert above >= 1.4 * below, (s, below, above)  # the line bends visibly at the limit, not gradually
+
+
+def test_a_dial_has_few_enough_divisions_to_count():
+    """Dials of 30 to 50 small divisions were misread by one division (P3f review, 8 of 30 passed)."""
+    m = fam("meter_dial")
+    for s in range(1, 301):
+        p, qs = run(m, s)
+        steps = Fraction(p["full"]) / Fraction(p["minor"])
+        k = Fraction(p["value"]) / Fraction(p["minor"])
+        assert steps.denominator == 1 and steps <= 20, (p["full"], p["minor"])
+        assert 2 <= k <= steps - 2, (k, steps)  # not on the stop at either end
+        assert qs[2].stem.startswith("The needle shows the first reading."), qs[2].stem
+
+
+def test_a_lamp_curve_keeps_rising_like_a_real_filament():
+    """A curve flat at the top looked like no component (P3f review): a filament's current still rises by a
+    third or more over the top half of the range."""
+    m = fam("iv_graph")
+    for s in range(1, 400):
+        p = m.sample(random.Random(s))
+        if p["kind"] == "lamp":
+            assert m.current(p, 12) >= 1.33 * m.current(p, 6) - 1e-9, p
+
+
+def test_the_transformer_says_its_coils_are_not_to_scale():
+    m = fam("transformer")
+    fig = m.draw(m.sample(random.Random(1)))
+    texts = [t.get_text() for t in fig.axes[0].texts]
+    plt.close(fig)
+    assert "coils not drawn to scale" in texts
+
+
+def test_the_lens_asks_how_many_times_as_tall_not_a_signed_magnification():
+    """"What is the magnification?" drew "2 (or -2 with sign)" from 8 of 9 reviewers (P3f review)."""
+    m = fam("lens_diagram")
+    for s in range(1, 200):
+        p, qs = run(m, s)
+        assert qs[2].stem == "How many times as tall as the object is the image?", qs[2].stem
+        assert "drawn here as an arrow" in qs[0].stem
+
+
+def test_the_transformer_is_stated_ideal_and_its_settings_real():
+    m = fam("transformer")
+    for s in range(1, 200):
+        p, qs = run(m, s)
+        assert "ideal" in qs[0].stem, qs[0].stem
+        assert not any("model railway" in q.stem for q in qs)
+
+
+def test_the_resistance_at_p_is_v_over_i():
+    """"Resistance at P" read as the gradient by some reviewers (P3f review): say V ÷ I."""
+    m = fam("iv_graph")
+    for s in range(1, 100):
+        p, qs = run(m, s)
+        assert "(V ÷ I)" in qs[0].stem, qs[0].stem
+
+
+def test_each_decay_question_is_read_on_the_plotted_grid():
+    """"After 30 hours" read 6.25 Bq off every gridline, and "fall to half" repeated the half-life (P3f review)."""
+    m = fam("decay_graph")
+    for s in range(1, 301):
+        p, qs = run(m, s)
+        assert qs[0].stem.endswith("What half-life does the graph show?"), qs[0].stem  # not one known by heart
+        t = Fraction(re.search(r"after ([\d.,]+)", qs[1].stem).group(1).replace(",", ""))
+        n = t / p["half"]
+        assert n <= p["end"] and (Fraction(p["A0"], 2 ** int(n)) % p["ystep"]) == 0, (s, n)
+        target = Fraction(re.search(r"fall to ([\d.,]+)", qs[2].stem).group(1).replace(",", ""))
+        assert Fraction(p["A0"]) / target >= 4  # two half-lives or more: not the first question again
+
+
+def test_an_atom_has_few_enough_particles_to_count_and_its_key_shows():
+    """39 nucleons were miscounted (P3f review); hydrogen's key was cut at the top."""
+    m = fam("nucleus")
+    for s in range(1, 300):
+        p = m.sample(random.Random(s))
+        assert p["A"] <= 27, p
+    fig = m.draw({"band": "UP", "Z": 1, "A": 1, "beta": False, "electrons": True})
+    lo, hi = fig.axes[0].get_ylim()
+    plt.close(fig)
+    assert hi >= 1.0 + 0.12 + 0.2 and lo <= -0.2

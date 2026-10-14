@@ -27,8 +27,10 @@ SYMBOLS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al
 ISOTOPES = [(1, 1), (1, 2), (2, 4), (3, 6), (3, 7), (4, 9), (5, 10), (5, 11), (6, 12), (6, 13), (6, 14), (7, 14), (7, 15), (8, 16), (8, 17),
             (8, 18), (9, 19), (10, 20), (10, 22), (11, 23), (11, 24), (12, 24), (12, 25), (12, 26), (13, 27), (14, 28), (15, 31), (15, 32),
             (16, 32), (16, 35), (17, 35), (17, 37), (18, 40), (19, 39), (19, 40), (20, 40)]
-BETA = {(6, 14), (11, 24), (15, 32), (16, 35), (19, 40)}
-# 36 real isotopes, drawn with or without their electrons: 72 figures in all, so 60 seeds show about 40.
+# Up to aluminium: 39 nucleons were miscounted (P3f review), and so were 19 electrons.
+ISOTOPES = [(z, a) for z, a in ISOTOPES if a <= 27]
+BETA = {(6, 14), (11, 24)}
+# 25 real isotopes, drawn with or without their electrons: 50 figures in all, so 60 seeds show about 35.
 MIN_VARIETY = 30
 SUP, SUB = str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹"), str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
 
@@ -80,7 +82,7 @@ def draw(p: dict):
         ax.plot([lx], [0.0], marker="X", markersize=7, color=INK)
         ax.text(lx + 0.25, 0.0, "electron", ha="left", va="center", fontsize=10)
     ax.set_xlim(-outer - 0.2, lx + 1.9)
-    ax.set_ylim(-outer - 0.2, outer + 0.2)
+    ax.set_ylim(min(-outer - 0.2, -1.4), max(outer + 0.2, 1.4))  # room for the key beside a small atom
     ax.set_aspect("equal")
     ax.axis("off")
     return fig

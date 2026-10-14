@@ -71,8 +71,11 @@ def questions(p: dict, rng: random.Random) -> list:
     name, friend = rng.sample(NAMES, 2)
     T, A0, unit, iso = p["half"], p["A0"], p["unit"], p["isotope"]
     what = "activity" if p["quantity"] == "activity" else "count rate"
-    n = rng.choice([n for n in (2, 3, 4, 5, 6) if (Fraction(A0, 2 ** n) * 100).denominator == 1])  # exact to 2 d.p.
-    k = rng.choice([1, 2, 3])
+    # Whole numbers of half-lives inside the plot whose activity lies on a gridline (P3f review: 6.25 Bq read
+    # off the grid, past the plot), two or more so the last question is not the first one again.
+    on_grid = [m for m in range(2, p["end"] + 1) if Fraction(A0, 2 ** m) % p["ystep"] == 0]
+    n = rng.choice(on_grid)
+    k = rng.choice([m for m in on_grid if m != n] or on_grid)
     target = Fraction(A0, 2 ** k)
     words = {"days": ("d",), "hours": ("h", "hrs"), "minutes": ("min", "mins"), "years": ("y", "yrs"), "seconds": ("s", "secs")}[unit]
     times = lambda v: [str(v), f"{v} {unit}", *(f"{v} {w}" for w in words), *(f"{v}{w}" for w in words)]  # noqa: E731
@@ -80,7 +83,7 @@ def questions(p: dict, rng: random.Random) -> list:
     rate = lambda v: ([str(v), *measure(v, "Bq")[1:]] if p["quantity"] == "activity"  # noqa: E731
                       else [str(v), f"{v} counts per second", f"{v} counts/s", f"{v} cps"])
     return [
-        short(f"{name} plotted the {what} of a sample of {iso} {WHERE[iso]}. What is the half-life of {iso}?", T, times(T)),
+        short(f"{name} plotted the {what} of a sample of {iso} {WHERE[iso]}. What half-life does the graph show?", T, times(T)),
         short(f"What will the {what} be after {n * T} {unit}?", exact(left), rate(exact(left))),
         short(f"{friend} wants to know how long the {what} takes to fall to {exact(target)} {_per(p)}. How long does it take?", k * T,
               times(k * T)),

@@ -223,7 +223,7 @@ def exact(v) -> str:
 # milli- for less than one, and seconds, metres and centimetres for their smaller units.
 KILO = ("J", "W", "Pa", "Hz", "Ω", "N", "V")
 MILLI = ("A", "V", "N", "J", "W", "s")
-SCALED = {"ms": ("s", Fraction(1, 1000)), "cm": ("m", Fraction(1, 100)), "mm": ("cm", Fraction(1, 10))}
+SCALED = {"ms": ("s", Fraction(1, 1000)), "cm": ("m", Fraction(1, 100)), "mm": ("cm", Fraction(1, 10)), "g": ("kg", Fraction(1, 1000))}
 
 
 def measure(v, unit: str) -> list[str]:

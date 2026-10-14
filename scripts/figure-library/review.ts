@@ -85,8 +85,15 @@ const NUMBER = /(?<![\d.])-?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*\/\s*\d+(?:\.\d+)?)?/g
 /** Every number in an answer, a fraction as its value: "9/25", "18/50" and "0.36" are one answer. */
 function numbersIn(text: string): number[] {
   // "1,500" and "12 800" are one number: a comma or space before exactly three digits separates thousands.
+  // Standard form is one number: "4 × 10^4" and "4×10⁴" are 40000.
+  const sup = '⁰¹²³⁴⁵⁶⁷⁸⁹'
+  const standard = text.replace(/[\u2212\u2013\u2014]/g, '-')
+    .replace(/(-?\d+(?:\.\d+)?)\s*[×x*·]\s*10\s*(?:\^\s*(-?\d+)|([⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+))/g, (_, a: string, p: string | undefined, s: string | undefined) => {
+      const power = p ?? s!.replace('⁻', '-').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, (d) => String(sup.indexOf(d)))
+      return String(parseFloat((Number(a) * 10 ** Number(power)).toPrecision(12)))
+    })
   // A unit's power after a number is part of the unit: "3 m/s^2", "3 m s^-2", "12 cm3" each give one number.
-  const joined = text.replace(/[\u2212\u2013\u2014]/g, '-').replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1')
+  const joined = standard.replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1')
     .replace(/(\d\s?(?:[ckm]?m|m\/s|m\s?s|s))(?:\s?\^\s?-?\d+|-?[123](?![\d.]))/g, '$1')
   return (joined.match(NUMBER) ?? []).map((t) => {
     const [a, b] = t.split('/').map((x) => Number(x.trim()))
@@ -111,6 +118,11 @@ function roundsTo(text: string, key: number): boolean {
 function words(text: string): string {
   return text.normalize('NFKC').toLowerCase().replace(/\s+/g, ' ').trim()
     .replace(/[.,;:!?]+$/g, '').trim().replace(/^(?:the|an?)\s+/, '')
+}
+
+/** As `words`, each number by its value: "0.020 s" and "0.02 s" are the same form. */
+function canon(text: string): string {
+  return words(text).replace(/-?\d+\.\d+/g, (t) => String(Number(t)))
 }
 
 /** A letter on its own or before a bracket, stop or space: "A", "(A)", "A) Mango", "A. Mango". */
@@ -155,8 +167,8 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     // or one of its accepted forms. A part "or" splits off must be one too, so a hedge still fails.
     const parts = exact.split(/[()=]|\s+or\s+/).map((s) => s.trim()).filter((s) => numbersIn(s).length > 0)
     const restated = expected.length === 1 && parts.length > 1
-      && parts.every((part) => numbersIn(part).every(near) || q.accepted.some((form) => words(form) === words(part)))
-    return reached || restated || q.accepted.some((form) => words(form) === words(text))
+      && parts.every((part) => numbersIn(part).every(near) || q.accepted.some((form) => canon(form) === canon(part)))
+    return reached || restated || q.accepted.some((form) => canon(form) === canon(text))
   }
   return (q.accepted.length ? q.accepted : [q.answer]).some((form) => words(form) === words(text))
 }

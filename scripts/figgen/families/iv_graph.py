@@ -66,7 +66,10 @@ def sample(rng: random.Random) -> dict:
         if kind == "resistor":
             p = {"band": band, "kind": kind, "R": rng.choice([10, 20, 25, 40, 50, 100])}
         elif kind == "lamp":
-            p = {"band": band, "kind": kind, "R0": rng.choice([5, 10, 20]), "a": rng.choice([2, 5, 10])}  # ohms cold, ohms more per volt
+            # Ohms cold, and ohms more per volt: a filament's resistance grows a few times over, so its current still
+            # rises by a third or more over the top half (12a/R0 from 0.8 to 2), never levelling off.
+            R0, a = rng.choice([(10, 1), (20, 2), (20, 3), (30, 2), (30, 5), (15, 2), (25, 2), (25, 4), (40, 5), (50, 5)])
+            p = {"band": band, "kind": kind, "R0": R0, "a": a}
         else:
             p = {"band": band, "kind": kind, "g": rng.choice([50, 100, 125, 200, 250, 500])}  # mA per volt once on
         points = _points(p)
@@ -133,7 +136,7 @@ def questions(p: dict, rng: random.Random) -> list:
     # Yes or No, by either reason: the key cannot be told from the options alone.
     ohm_options = [f"{a}: {r}" for a in ("Yes", "No") for r in (obeys, changes)]
     qs = [
-        short(f"{name} measured the current through a component {rng.choice(PLACES)}. What is its resistance at the point P?",
+        short(f"{name} measured the current through a component {rng.choice(PLACES)}. What is its resistance (V ÷ I) at the point P?",
               exact(R), measure(R, "Ω")),
         mcq("Which component gives this graph?", WHAT[p["kind"]], [w for k, w in WHAT.items() if k != p["kind"]] + ["a capacitor"],
             rng),

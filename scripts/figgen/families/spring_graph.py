@@ -33,7 +33,8 @@ def sample(rng: random.Random) -> dict:
 def extension(p: dict, F: float) -> float:
     e, L = float(Fraction(p["cm_per_n"])), p["limit"]
     over = (F - L) / p["step"]
-    return F * e if F <= L else L * e + (F - L) * e * (1 + 0.45 * over)  # past the limit it stretches more and more
+    # Past the limit it stretches half as much again at once, and more and more: a corner a learner can see.
+    return F * e if F <= L else L * e + (F - L) * e * (1.5 + 0.45 * over)
 
 
 def view(p: dict) -> tuple[int, int, int, float]:
@@ -64,17 +65,20 @@ def questions(p: dict, rng: random.Random) -> list:
     e, L = Fraction(p["cm_per_n"]), p["limit"]
     name = rng.choice(NAMES)
     k = 1 / e
-    thing = rng.choice(["the spring from a pen", "a spring from a mattress", "the spring of a spring balance", "the spring from a toy car",
-                        "the spring that closes a door"])
+    thing, again = rng.choice([("the spring from a pen", "the pen's spring"), ("a spring from a bicycle seat", "the bicycle seat's spring"),
+                               ("the spring of a spring balance", "the spring balance's spring"), ("the spring from a toy car", "the toy car's spring"),
+                               ("the spring that closes a door", "the door spring")])
     qs = [short(f"{name} hung loads on {thing} and drew this graph. What is the spring constant, in N/cm?", exact(k),
                 measure(k, "N/cm") + [f"{exact(k * 100)} N/m"]),
           ]
     F = p["step"] * rng.randint(1, L // p["step"])
-    qs.append(short(f"What is the extension of the spring for a load of {F} N?",
+    qs.append(short(f"What is the extension of {again} for a load of {F} N?",
                     exact(F * e), measure(F * e, "cm")))
     qs.append(short("Up to what load does the spring obey Hooke's law?", L, measure(L, "N")))
-    if p["band"] == "UP":
-        F2 = p["step"] * rng.randint(2, L // p["step"])
+    # Loads whose stored energy is exact to two places: "0.3125 J" was rounded by every reviewer.
+    loads = [F2 for F2 in range(2 * p["step"], L + 1, p["step"]) if (Fraction(1, 2) * F2 * F2 * e).denominator == 1]
+    if p["band"] == "UP" and loads:
+        F2 = rng.choice(loads)
         energy = Fraction(1, 2) * F2 * F2 * e / 100
         qs.append(short(f"How much energy is stored in the spring when it holds a load of {F2} N? Give your answer in joules.",
                         exact(energy), measure(energy, "J")))

@@ -43,6 +43,7 @@ def test_a_measure_is_accepted_in_every_fair_form():
     assert {"36 kJ", "36kJ"} <= set(measure(36000, "J"))
     assert {"0.02 s", "0.02s"} <= set(measure(20, "ms")) and "20 ms" in measure(0.02, "s")
     assert "1.5 m" in measure(150, "cm") and "500 mV" in measure(0.5, "V")
+    assert {"1.95 kg", "1.95kg"} <= set(measure(1950, "g"))  # "1950 g (1.95 kg)" (P3f review)
 
 
 def test_three_significant_figures_round_half_up():
