@@ -10,6 +10,7 @@ Run from the repo root:
 from __future__ import annotations
 
 import argparse
+import collections
 import random
 import shutil
 from pathlib import Path
@@ -31,14 +32,25 @@ def _seed(row: dict) -> int:
         return 0
 
 
-def import_rows(db, lib: Path, families: set[str] | None = None, per_family: int | None = None, index=None) -> dict:
-    """Stores up to `per_family` new figures a family (all when None); returns what happened to the rows read."""
+def import_rows(db, lib: Path, families: set[str] | None = None, per_family: int | None = None, index=None,
+                spread: bool = False) -> dict:
+    """Stores up to `per_family` new figures a family (all when None); returns what happened to the rows read. A spread
+    sample takes the middle row of each stride across the family: the manifest is grouped by subtopic and kind, so its
+    first rows are all one kind."""
     index = index if index is not None else link.topic_index(db)
     out = {"stored": 0, "kept": 0, "no_writer": 0, "no_topic": 0}
     taken: dict[str, int] = {}
+    seen: collections.Counter = collections.Counter()
+    step = {}
+    if spread and per_family:
+        sizes = collections.Counter(r["family"] for r in manifest.rows(families))
+        step = {f: max(1, n // per_family) for f, n in sizes.items()}
     src = manifest.root()
     for k, row in enumerate(manifest.rows(families)):
         fam = row["family"]
+        seen[fam] += 1
+        if step and (seen[fam] - 1) % step[fam] != step[fam] // 2:
+            continue
         if per_family is not None and taken.get(fam, 0) >= per_family:
             continue
         fid = figure_id(row)
@@ -80,13 +92,14 @@ def main(argv=None) -> int:
     ap.add_argument("--families", default="", help="comma-separated dataset families; all with a writer when left out")
     ap.add_argument("--per-family", type=int, default=None)
     ap.add_argument("--all", action="store_true", help="every row of the families, not a sample")
+    ap.add_argument("--spread", action="store_true", help="a sample across each family, not its first rows")
     args = ap.parse_args(argv)
     if not manifest.available():
         print(f"The dataset is not at {manifest.root()}")
         return 1
     fams = set(filter(None, args.families.split(","))) or set(writers.WRITERS)
     db = open_store()
-    r = import_rows(db, library_dir(), fams, None if args.all else (args.per_family or 30))
+    r = import_rows(db, library_dir(), fams, None if args.all else (args.per_family or 30), spread=args.spread)
     print(f"{r['stored']} stored, {r['kept']} already there, {r['no_writer']} with no question, {r['no_topic']} with no topic")
     return 0
 

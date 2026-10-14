@@ -60,3 +60,14 @@ def test_a_row_that_reaches_no_topic_is_not_stored(tmp_path, monkeypatch):
     db = open_store(tmp_path / "figures.db")  # no topics at all
     r = importer.import_rows(db, tmp_path / "lib", families={"math.number_line"})
     assert r["stored"] == 0 and r["no_topic"] == 2
+
+
+def test_a_spread_sample_takes_rows_across_the_family(tmp_path, monkeypatch):
+    # a sample of the first rows is one kind (the manifest is grouped by subtopic and kind), so a spread one takes every k-th
+    from figgen.dataset import importer
+    monkeypatch.setenv("FIGGEN_DATASET", str(tiny_dataset(tmp_path)))
+    db = store_with_topic(tmp_path)
+    r = importer.import_rows(db, tmp_path / "lib", families={"math.number_line"}, per_family=1, spread=True)
+    assert r["stored"] == 1
+    # two rows, one wanted: the middle row of each stride of two, not the first row
+    assert [x[0] for x in db.execute("SELECT id FROM figures")] == ["dataset/math.number_line/00000001"]
