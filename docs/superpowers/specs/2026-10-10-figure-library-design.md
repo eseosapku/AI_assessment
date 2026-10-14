@@ -564,6 +564,21 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - Library: 14,064 drawn and real figures approved.
     - **Quiz check (in process):** electrochemical cells, 64 figures and 256 questions; indicators and titration curves, 214 and 708; carboxylic acids, 44 and 176.
     - **Next:** the Biology sheet (P3i, built and reviewed), its scale (P3j), and the Computing wave (P3k), which has the most empty topics (397).
+  - **P3i result (2026-10-15, plan `2026-10-14-figure-library-p3i-biology-wave.md`): the Biology wave as samples.** $0 spent; nothing new was stored.
+    - **15 new families:**
+      - enzyme, photosynthesis, population, osmosis, blood-glucose and spirometer graphs;
+      - pedigrees, solved for the genotypes the chart decides, and DNA strands;
+      - quadrats, dichotomous keys of real leaves (maize, banana, mango, avocado, hibiscus, cassava, bean, neem), and variation charts;
+      - magnification, antibiotic plates, agar cubes and food test tables.
+    - **Changes to existing families:** Biology joined the wording test; food_web and punnett gained concepts and a named lead sentence.
+    - **The fresh review** found:
+      - Critical: cassava drawn as five free ellipses read as five leaflets, so the key led to neem;
+      - Important: a scale bar that could not be measured on screen;
+      - Important: MCQs that needed no figure (insulin, "denatured", "which is a producer");
+      - Important: units written several ways.
+      All were fixed with tests.
+    - **Sheet:** https://claude.ai/artifact/4NdZG8ffZRKyC94UiWVvTc
+    - **Next:** P3j, drawing Biology to scale, and P3k, the Computing wave.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
