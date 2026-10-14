@@ -89,6 +89,14 @@ def _shape(ax, kind, x0, x1, y):
                     color=INK, linewidth=0.8)
 
 
+def bar_span(p: dict) -> tuple[int, int]:
+    """The scale bar's ends, on whole millimetres of the ruler, clear to the right of the specimen."""
+    end = p["end"]
+    right = 10 * math.ceil((end + 8) / 10)
+    x1 = right - 2
+    return x1 - p["bar"]["mm"], x1
+
+
 def draw(p: dict):
     end = p["end"]
     right = 10 * math.ceil((end + 8) / 10)
@@ -108,9 +116,11 @@ def draw(p: dict):
     ax.text(right + 3.5, 3.5, "mm", ha="left", va="center", fontsize=9)
     top = y + L * 0.55 + 4
     if p["bar"]:
-        bx = right - p["bar"]["mm"] - 2
-        ax.plot([bx, bx + p["bar"]["mm"]], [top, top], color=INK, linewidth=3, solid_capstyle="butt")
-        ax.text(bx + p["bar"]["mm"] / 2, top + 1.5, f"{p['bar']['um']} µm", ha="center", va="bottom", fontsize=10)
+        bx, ex = bar_span(p)
+        ax.plot([bx, ex], [top, top], color=INK, linewidth=3, solid_capstyle="butt")
+        for x in (bx, ex):  # guides down to the ruler, so its length is read there (P3i review)
+            ax.plot([x, x], [top, 7.2], color=INK, linewidth=0.8, linestyle=(0, (3, 2)))
+        ax.text((bx + ex) / 2, top + 1.5, f"{p['bar']['um']} µm", ha="center", va="bottom", fontsize=10)
     else:
         ax.text(right - 2, top, f"× {p['mag']:,}".replace(",", " "), ha="right", va="center", fontsize=12, fontweight="bold")
     ax.set_xlim(-3, right + 9)
@@ -138,7 +148,7 @@ def questions(p: dict, rng: random.Random) -> list:
     if p["bar"]:
         m = p["mag"]
         qs.append(short(f"The scale bar represents {p['bar']['um']} µm. What is the magnification of the drawing?", m,
-                        [str(m), f"×{m}", f"x{m}", f"× {m}", f"{m} times", f"{m:,}", f"×{m:,}"]))
+                        [str(m), f"×{m}", f"x{m}", f"× {m}", f"x {m}", f"{m}x", f"{m}×", f"{m} times", f"{m:,}", f"×{m:,}"]))
         qs.append(short(f"{friend} uses the magnification. What is the actual length of the {sp.split(' ', 1)[1]}, in µm?", exact(actual),
                         _um(actual)))
     else:

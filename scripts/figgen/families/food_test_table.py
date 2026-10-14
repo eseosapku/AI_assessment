@@ -83,6 +83,6 @@ def questions(p: dict, rng: random.Random) -> list:
     count = sum(v[c] for v in foods.values())
     return [mcq(f"{who} tested four foods {rng.choice(SETTINGS)} and recorded the colours. Which food contains {n}?", key,
                 [k for k in letters if k != key], rng),
-            short(f"How many of the foods contain {c}?", count, [str(count), f"{count} foods"]),
+            short(f"How many of the foods contain {c}?", count, [str(count), f"{count} foods"] + (["none", "no foods"] if count == 0 else [])),
             mcq(f"{friend} wants a food with two nutrients. Which food contains both {a} and {b}?", both,
                 [k for k in letters if k != both], rng)]

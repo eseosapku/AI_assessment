@@ -176,13 +176,17 @@ def questions(p: dict, rng: random.Random) -> list:
     who = rng.choice(NAMES)
     place = PLACES.get(p["name"], "a " + p["name"].lower())
     setting = rng.choice(SETTINGS)
-    prod = rng.choice(producers)
-    herb = rng.choice(herbivores)
-    return [
-        mcq(f"{who} drew this food web of {place} {setting}. Which organism in this food web is a producer?",
-            prod, rng.sample(others, min(3, len(others))), rng),
-        mcq("Which organism is a primary consumer (eats only producers)?", herb,
-            rng.sample(not_herb, min(3, len(not_herb))), rng),
-        short("A food chain starts with a producer and ends with an animal that nothing in this web eats. "
-              "How many food chains are there in this food web?", chains(links)),
-    ]
+    # Questions only the web answers (P3i review: "which is a producer" was answered by knowing maize is a plant).
+    n = len(producers)
+    qs = [short(f"{who} drew this food web of {place} {setting}. How many producers are there in this food web?", n,
+                [str(n), f"{n} producers"])]
+    single = [f for f in sorted(eats) if sum(1 for _, food in [(e, x) for e, foods in eats.items() for x in foods] if food == f) == 1]
+    animals = sorted(n_ for n_ in eats if n_ not in producers)
+    if single:
+        food = rng.choice(single)
+        eater = next(e for e, foods in eats.items() if food in foods)
+        qs.append(mcq(f"Which animal in this food web eats the {food}?", eater,
+                      rng.sample([a for a in animals if a != eater], min(3, len(animals) - 1)), rng))
+    qs.append(short("A food chain starts with a producer and ends with an animal that nothing in this web eats. "
+                    "How many food chains are there in this food web?", chains(links)))
+    return qs

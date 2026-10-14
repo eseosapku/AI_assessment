@@ -1,7 +1,7 @@
 """Enzyme graphs (LS, UP, AL): the rate of an enzyme-controlled reaction against temperature (one or two
 enzymes: from a human, a plant, a hot-spring bacterium) or against pH (two digestive enzymes). The optimum,
 the rate there, where a heated enzyme stops working, which enzyme works in the stomach, and why the rate
-falls past the optimum.
+falls to zero past the optimum.
 
 Each curve peaks at its real optimum, on a gridline, at a rate on a gridline; heated past it, the rate falls
 to zero at a gridline.
@@ -103,7 +103,5 @@ def questions(p: dict, rng: random.Random) -> list:
         others = [f"enzyme {z['letter']}" for z in p["enzymes"] if z["letter"] != stomach]
         qs.append(mcq(f"{friend} asks which enzyme works in the stomach, where the pH is about 2. Which one?", f"enzyme {stomach}",
                       others + ["both enzymes equally", "neither enzyme"], rng))
-    if p["band"] != "LS":
-        past = "above the optimum temperature" if temp else "far from the optimum pH"
-        qs.append(mcq(f"Why does the rate fall {past}?", WHY[0], WHY[1:], rng))
+    # No "why does the rate fall" question: denaturing is the answer whatever the figure (P3i review).
     return qs

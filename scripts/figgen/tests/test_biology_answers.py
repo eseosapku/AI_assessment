@@ -449,6 +449,126 @@ def test_food_test_table():
                 assert have == [picked(q)]
 
 
+# --- P3i final review ----------------------------------------------------------------------------
+
+def test_a_lobed_leaf_is_one_blade_not_leaflets():
+    """Cassava drawn as five free ellipses read as "divided into leaflets", so the key led to neem (P3i review)."""
+    from matplotlib.path import Path as MPath
+    m = fam("dichotomous_key")
+    pts = m.palmate(0.0, 0.0, 2.4)  # one outline
+    shape = MPath(pts)
+    assert shape.contains_point((0.0, 0.3))  # a palm joins the lobes near the base
+    tips = [(0.0, 0.0 + 2.4 * 0.75)]
+    assert all(min(((x - tx) ** 2 + (y - ty) ** 2) ** 0.5 for x, y in pts) < 0.15 for tx, ty in tips)
+    assert not shape.contains_point((0.45, 1.6))  # deep cuts between the lobes
+
+
+def test_the_scale_bar_is_measured_on_the_ruler():
+    """A bar 30 mm above the ruler with no guides could not be measured on screen (P3i review)."""
+    import matplotlib.pyplot as plt
+    m = fam("magnification")
+    for s in range(1, 300):
+        p = m.sample(random.Random(s))
+        if not p["bar"]:
+            continue
+        x0, x1 = m.bar_span(p)
+        assert x0 == int(x0) and x1 == int(x1) and x1 - x0 == p["bar"]["mm"]  # whole millimetres on the ruler
+        fig = m.draw(p)
+        drops = {round(ln.get_xdata()[0], 6) for ln in fig.axes[0].lines
+                 if len(ln.get_xdata()) == 2 and ln.get_xdata()[0] == ln.get_xdata()[1] and ln.get_linestyle() != "-"}
+        plt.close(fig)
+        assert {x0, x1} <= drops, (s, drops)  # dashed guides from the bar's ends down to the ruler
+
+
+def test_no_biology_question_is_answerable_without_the_figure():
+    """The hormone, the "why it falls" and the producer questions needed no figure (P3i review)."""
+    for fid, words in (("glucose_graph", "hormone"), ("enzyme_graph", "Why does the rate fall"),
+                       ("food_web", "is a producer?")):
+        m = fam(fid)
+        for s in range(1, 120):
+            _, qs = run(m, s)
+            assert not any(words in q.stem for q in qs), (fid, s)
+
+
+def test_osmosis_asks_about_the_points_either_side_of_the_crossing():
+    m = fam("osmosis_graph")
+    for s in SEEDS:
+        p = m.sample(random.Random(s))
+        cs = sorted(c for c, _ in p["points"])
+        below = max(c for c in cs if c < p["zero"])
+        above = min(c for c in cs if c > p["zero"])
+        assert p["why"] in (below, above)  # 0 always gains and 1.0 always loses: no reading needed
+
+
+def test_food_web_asks_what_only_the_web_shows():
+    m = fam("food_web")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        links = [tuple(l) for l in p["links"]]
+        eaters = {e for _, e in links}
+        names = {n for l in links for n in l}
+        producers = names - eaters
+        q = next(q for q in qs if "How many producers" in q.stem)
+        assert int(q.answer) == len(producers)
+        q = next((q for q in qs if q.kind == "mcq" and "eats" in q.stem), None)
+        if q:
+            food = re.search(r"eats (?:the )?([\w -]+?)\?", q.stem).group(1)
+            assert {e for f_, e in links if f_ == food} == {picked(q)}  # the one animal that eats it
+
+
+def test_units_written_several_ways_are_accepted():
+    pc = fam("population_curve")
+    for s in range(1, 200):
+        p, qs = run(pc, s)
+        if "millions" in pc.ORGANISMS[p["organism"]][4]:
+            q = next(q for q in qs if "carrying capacity" in q.stem)
+            assert f"{q.answer} million" in q.accepted and f"{q.answer} million cells per cm³" in q.accepted
+    sp = fam("spirometer_trace")
+    for s in range(1, 100):
+        _, qs = run(sp, s)
+        q = next(q for q in qs if "tidal volume" in q.stem)
+        assert any(f.endswith(" ml") for f in q.accepted) and any(f.endswith(" mL") for f in q.accepted)
+    ph = fam("photosynthesis_rate")
+    for s in range(1, 100):
+        p, qs = run(ph, s)
+        q = next(q for q in qs if "What is the rate" in q.stem)
+        unit = ph.RATES[p["units"]][1]
+        if "bubbles" in unit:
+            assert f"{q.answer} bubbles/min" in q.accepted
+        else:
+            assert f"{q.answer} cm³ per hour" in q.accepted and f"{q.answer} cm3/h" in q.accepted
+    mg = fam("magnification")
+    for s in range(1, 300):
+        p, qs = run(mg, s)
+        for q in qs:
+            if "What is the magnification" in q.stem:
+                assert f"{q.answer}x" in q.accepted and f"x {q.answer}" in q.accepted
+    gl = fam("glucose_graph")
+    for s in range(1, 50):
+        _, qs = run(gl, s)
+        q = next(q for q in qs if "minutes after the meal" in q.stem)
+        assert f"{q.answer} mins" in q.accepted
+    ft = fam("food_test_table")
+    for s in range(1, 300):
+        _, qs = run(ft, s)
+        q = next(q for q in qs if "How many of the foods" in q.stem)
+        if q.answer == "0":
+            assert "none" in q.accepted
+    vc = fam("variation_chart")
+    for s in range(1, 50):
+        _, qs = run(vc, s)
+        q = next(q for q in qs if "modal class" in q.stem)
+        assert q.answer.replace("–", " - ") in q.accepted
+
+
+def test_the_genotype_question_names_its_condition():
+    m = fam("pedigree")
+    for s in range(1, 100):
+        p, qs = run(m, s)
+        q = next(q for q in qs if "genotype of person" in q.stem)
+        assert p["condition"] in q.stem
+
+
 BIOLOGY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "biology")
 
 

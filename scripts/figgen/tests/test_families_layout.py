@@ -228,7 +228,7 @@ def test_food_web_arrows_never_pass_through_another_box_and_their_heads_show():
 
 def test_food_web_question_says_what_a_chain_is():
     rng = random.Random(1)
-    stem = food_web.questions(food_web.sample(rng), rng)[2].stem
+    stem = next(q.stem for q in food_web.questions(food_web.sample(rng), rng) if "food chains" in q.stem)
     assert "producer" in stem and "nothing" in stem
 
 

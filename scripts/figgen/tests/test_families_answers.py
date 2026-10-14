@@ -170,12 +170,10 @@ def test_punnett():
 
 def test_food_web():
     for s in SEEDS:
-        p, (producer, herbivore, chains) = run(food_web, s)
+        p, qs = run(food_web, s)
+        chains = next(q for q in qs if "food chains" in q.stem)
         links = [tuple(l) for l in p["links"]]
         eaters = {e for _, e in links}
-        assert picked(producer) not in eaters  # a producer eats nothing
-        foods = {f for f, e in links if e == picked(herbivore)}
-        assert foods and all(f not in eaters for f in foods)  # eats only producers
         # Count chains by brute force: every path from a producer to an animal nothing eats.
         foods_of = {n: [e for f, e in links if f == n] for n in {x for l in links for x in l}}
 

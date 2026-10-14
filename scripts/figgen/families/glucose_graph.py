@@ -1,7 +1,7 @@
 """Blood glucose graphs (UP, AL): the blood glucose concentration of two people, lettered, for three hours
 after the same meal. One has diabetes: they start higher, peak higher and later, and are still high at the
 end. Neither is labelled. The highest concentration, when the other person's level is back to where it
-started, which person most likely has diabetes, and the hormone released as glucose rises.
+started, and which person most likely has diabetes.
 
 The curves run smoothly through knots on gridlines without overshooting them; every value asked is a knot.
 """
@@ -100,8 +100,8 @@ def questions(p: dict, rng: random.Random) -> list:
     qs = [short(f"{who} measured the blood glucose of two people after the same meal {rng.choice(SETTINGS)}. What was the "
                 f"highest blood glucose of person {x['letter']}?", exact(peak), _mmol(peak)),
           short(f"How many minutes after the meal was person {normal['letter']}'s blood glucose back to its starting level?", back,
-                [str(back), f"{back} minutes", f"{back} min"]),
+                [str(back), f"{back} minutes", f"{back} min", f"{back} mins"]),
           mcq(f"{friend} compares the two curves. Which person most likely has diabetes?", f"person {diabetic}",
-              [f"person {q}" for q in letters if q != diabetic] + ["both people", "neither person"], rng),
-          mcq("Which hormone does the pancreas release when blood glucose rises?", "insulin", HORMONES[1:], rng)]
+              [f"person {q}" for q in letters if q != diabetic] + ["both people", "neither person"], rng)]
+    # No "which hormone" question: insulin, whatever the figure (P3i review).
     return qs

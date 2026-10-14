@@ -97,6 +97,33 @@ def _veins(ax, cx, base, length, width, parallel):
                 ax.plot([cx, cx + side * hw * 0.75], [y, y + length * 0.09], color=INK, linewidth=0.6)
 
 
+def palmate(cx: float, base: float, size: float) -> list[tuple[float, float]]:
+    """A palmately lobed leaf's outline as one shape: five lobes from a palm that joins them near the stalk, the cuts
+    between them reaching two-thirds of the way in (P3i review: five free ellipses read as five leaflets)."""
+    pts = []
+    angles = (-60, -30, 0, 30, 60)
+    palm = size * 0.22
+    for k, ang in enumerate(angles):
+        a = math.radians(ang)
+        L = size * (0.75 if ang == 0 else 0.62)
+        w = 0.2  # a lobe's half-angle at its widest, in radians
+        for t in [j / 12 for j in range(13)]:  # out along one side of the lobe and back along the other
+            r = palm + (L - palm) * math.sin(math.pi * t / 2) if t <= 1 else L
+            side = a - w * (1 - t)
+            pts.append((cx + r * math.sin(side), base + r * math.cos(side)))
+        for t in [j / 12 for j in range(12, -1, -1)]:
+            r = palm + (L - palm) * math.sin(math.pi * t / 2)
+            side = a + w * (1 - t)
+            pts.append((cx + r * math.sin(side), base + r * math.cos(side)))
+        if k < len(angles) - 1:  # the cut down to the palm, between this lobe and the next
+            mid = math.radians((ang + angles[k + 1]) / 2)
+            pts.append((cx + palm * math.sin(mid), base + palm * math.cos(mid)))
+    pts.append((cx + palm * 0.4 * math.sin(math.radians(80)), base + palm * 0.2))
+    pts.append((cx, base))
+    pts.append((cx - palm * 0.4 * math.sin(math.radians(80)), base + palm * 0.2))
+    return pts
+
+
 def _leaf(ax, cx, base, f, size=2.4):
     fill = "#dbe7d2"
     ax.plot([cx, cx], [base - 0.35, base], color=INK, linewidth=1.4)  # the stalk
@@ -120,12 +147,13 @@ def _leaf(ax, cx, base, f, size=2.4):
                 rot = [(cx + x * math.cos(a) - y * math.sin(a), base + 0.7 + x * math.sin(a) + y * math.cos(a)) for x, y in pts]
                 ax.add_patch(Polygon(rot, closed=True, facecolor=fill, edgecolor=INK, linewidth=0.9))
         return
-    if f["lobed"]:  # palmate: deep lobes spreading from one point, like a hand
-        for ang in (-70, -35, 0, 35, 70):
+    if f["lobed"]:  # palmate: one blade cut into deep lobes, joined by a palm near the stalk
+        size *= 0.9  # the outer lobes spread wide: kept inside the leaf's column
+        ax.add_patch(Polygon(palmate(cx, base, size), closed=True, facecolor=fill, edgecolor=INK, linewidth=1.1))
+        for ang in (-60, -30, 0, 30, 60):  # a vein up each lobe from the palm
             a = math.radians(ang)
-            L = size * (0.75 if ang == 0 else 0.62)
-            ax.add_patch(Ellipse((cx + math.sin(a) * L / 2, base + math.cos(a) * L / 2), 0.36, L, angle=-ang, facecolor=fill,
-                                 edgecolor=INK, linewidth=0.9))
+            L = size * (0.68 if ang == 0 else 0.56)
+            ax.plot([cx, cx + math.sin(a) * L], [base, base + math.cos(a) * L], color=INK, linewidth=0.6)
         return
     length, width = (size, size / 4.5) if f["narrow"] else (size * 0.85, size * 0.55)
     ax.add_patch(Polygon(_outline(cx, base, length, width, f["toothed"]), closed=True, facecolor=fill, edgecolor=INK, linewidth=1.1))

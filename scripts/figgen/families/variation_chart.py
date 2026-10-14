@@ -99,5 +99,6 @@ def questions(p: dict, rng: random.Random) -> list:
               f"chart {c['letter']}", [f"chart {d['letter']}", "both charts", "neither chart"], rng),
           short(_how_many(d["feature"], p["ask"]), n, [str(n), f"{n} students"]),
           short(f"{friend} looks at chart {c['letter']}. What is the modal class of {c['feature']}?", mode,
-                [mode, plain, plain.replace("-", " to "), f"{mode} {c['unit']}", f"{plain} {c['unit']}"])]
+                [mode, plain, plain.replace("-", " to "), plain.replace("-", " - "), mode.replace("–", " – "), f"{mode} {c['unit']}",
+                 f"{plain} {c['unit']}"])]
     return qs

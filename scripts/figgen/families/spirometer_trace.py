@@ -78,7 +78,7 @@ SETTINGS = ["in a biology lesson", "in a sports science class", "at a health che
 def _dm3(v) -> list[str]:
     n = exact(v)
     return [n, f"{n} dm³", f"{n} litres", f"{n} L", f"{n} l", f"{n}dm³", f"{n} dm3"] + \
-        ([f"{int(Fraction(n) * 1000)} cm³"] if Fraction(n) < 10 else [])
+        ([f"{int(Fraction(n) * 1000)} {u}" for u in ("cm³", "cm3", "ml", "mL")] if Fraction(n) < 10 else [])
 
 
 def questions(p: dict, rng: random.Random) -> list:

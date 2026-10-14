@@ -90,6 +90,14 @@ def draw(p: dict):
 SETTINGS = ["in a biology lesson", "for a class project", "in an ecology study", "at the science club"]
 
 
+def _counts(v, count: str) -> list[str]:
+    """20 and "20 rabbits"; for cells, "20 million" and "20 million cells per cm³" too (P3i review)."""
+    forms = [str(v), f"{v} {count}"]
+    if count.startswith("millions"):
+        forms += [f"{v} million", f"{v} million cells per cm³", f"{v} million cells/cm³", f"{v} million per cm³", f"{v} million cells"]
+    return forms
+
+
 def questions(p: dict, rng: random.Random) -> list:
     who, friend = rng.sample(NAMES, 2)
     name, place, unit, _, count = ORGANISMS[p["organism"]]
@@ -99,8 +107,8 @@ def questions(p: dict, rng: random.Random) -> list:
     t = p["ask"]
     qs = [mcq(f"{who} followed {name} put into {place} {rng.choice(SETTINGS)}. Which letter shows the exponential (log) phase?",
               expo, [x for x in letters if x != expo] + ["none of them"], rng),
-          short("What is the carrying capacity of this environment?", p["K"], [str(p["K"]), f"{p['K']} {count}"]),
-          short(f"What was the population after {t} {unit}?", at[t], [str(at[t]), f"{at[t]} {count}"])]
+          short("What is the carrying capacity of this environment?", p["K"], _counts(p["K"], count)),
+          short(f"What was the population after {t} {unit}?", at[t], _counts(at[t], count))]
     if p["band"] == "UP":
         a, b = p["between"]
         r = Fraction(at[b] - at[a], b - a)

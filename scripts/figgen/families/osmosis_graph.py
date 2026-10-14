@@ -30,7 +30,8 @@ def sample(rng: random.Random) -> dict:
     pts.append([10, pts[-1][1] - 5 * rng.choice([0, 1])])
     others = [c for c, _ in pts if c != zero]
     return {"band": rng.choice(BANDS), "zero": zero, "points": pts, "tissue": rng.choice(TISSUES),
-            "ask": rng.choice(others), "why": rng.choice(others)}
+            # The gain-or-lose question uses a point either side of the crossing: at 0 or 1.0 the answer needs no graph.
+            "ask": rng.choice(others), "why": rng.choice([max(c for c in others if c < zero), min(c for c in others if c > zero)])}
 
 
 def draw(p: dict):

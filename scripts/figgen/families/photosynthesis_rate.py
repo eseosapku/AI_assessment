@@ -66,6 +66,13 @@ def draw(p: dict):
 SETTINGS = ["in a biology lesson", "in the school laboratory", "for a class practical", "at the science club"]
 
 
+def _rate_forms(r, unit: str) -> list[str]:
+    """"10 bubbles/min", "10 cm³ per hour", "10 cm3/h": the ways a rate is written (P3i review)."""
+    if "bubbles" in unit:
+        return [f"{r} bubbles/min", f"{r} bubbles per min", f"{r} per minute", f"{r} bubbles/minute"]
+    return [f"{r} cm³ per hour", f"{r} cm³/h", f"{r} cm3/h", f"{r} cm³/hour", f"{r} cm3 per hour", f"{r} cm³ of oxygen/h"]
+
+
 def questions(p: dict, rng: random.Random) -> list:
     who, friend = rng.sample(NAMES, 2)
     low = p["curves"][0]
@@ -75,7 +82,7 @@ def questions(p: dict, rng: random.Random) -> list:
     unit = RATES[p["units"]][1]
     plant = rng.choice(["pondweed", "an aquatic plant", "a water plant", "Elodea"])
     qs = [short(f"{who} measured the rate of photosynthesis of {plant} {rng.choice(SETTINGS)}. What is the rate at a light "
-                f"intensity of {x} units, {low['label']}?", r, [str(r), f"{r} {unit}"]),
+                f"intensity of {x} units, {low['label']}?", r, [str(r), f"{r} {unit}"] + _rate_forms(r, unit)),
           short(f"{low['label'][0].upper()}{low['label'][1:]}, the rate levels off. At what light intensity does it start to level off?", lx, [str(lx), f"{lx} units"])]
     for name in rng.sample(["P", "Q"], 2 if p["band"] != "LS" else 1):
         lx_here = p["points"][name][0]

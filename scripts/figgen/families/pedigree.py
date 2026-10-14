@@ -203,6 +203,6 @@ def questions(p: dict, rng: random.Random) -> list:
     pct = Fraction(ga, 2) * Fraction(gb, 2) * 100
     return [mcq(f"{who} drew this family tree of {cond} {rng.choice(SETTINGS)}. Is {cond} caused by a dominant or a recessive allele?",
                 WHY[0], WHY[1:], rng),
-            mcq(f"{big} is the dominant allele and {small} the recessive allele. What is the genotype of person {t}?", key,
+            mcq(f"For {cond}, {big} is the dominant allele and {small} the recessive allele that causes it. What is the genotype of person {t}?", key,
                 [x for x in names.values() if x != key], rng),
             short(f"If persons {a} and {b} have another child, what is the chance that it has {cond}?", _chance(pct)[0], _chance(pct))]
