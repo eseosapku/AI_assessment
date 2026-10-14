@@ -3,12 +3,14 @@ from __future__ import annotations
 
 import random
 
-from ..core import mcq, new_figure, short
+from ..core import NAMES, mcq, new_figure, short
 
 ID = "food_web"
 KIND = "bio.ecology"
 SUBJECT = "biology"
 BANDS = ("LS", "UP")
+CONCEPTS = tuple(f"biology.{c}" for c in ("energy-flow-ecosystem", "interdependence-organisms-environment",
+                                           "ecological-terms-biodiversity-meaning"))
 # Built from real ecosystems, so fewer distinct figures than a numeric family; 30 in 60 still
 # fills a family's share of a topic (at most 12 of 50). More real webs add more.
 MIN_VARIETY = 30
@@ -158,6 +160,10 @@ def draw(p: dict):
     return fig
 
 
+SETTINGS = ["in a biology lesson", "for homework", "on a field trip", "at the science club", "on a revision card"]
+PLACES = {"African savanna": "an African savanna", "Farmland": "a farm"}
+
+
 def questions(p: dict, rng: random.Random) -> list:
     links = [tuple(l) for l in p["links"]]
     eats = _graph(links)
@@ -166,10 +172,14 @@ def questions(p: dict, rng: random.Random) -> list:
     others = sorted(n for n in eats if n not in producers)
     # Wrong answers for "primary consumer": animals that eat other animals, and producers.
     not_herb = sorted(n for n in eats if n not in herbivores)
+    who = rng.choice(NAMES)
+    place = PLACES.get(p["name"], "a " + p["name"].lower())
+    setting = rng.choice(SETTINGS)
     prod = rng.choice(producers)
     herb = rng.choice(herbivores)
     return [
-        mcq("Which organism in this food web is a producer?", prod, rng.sample(others, min(3, len(others))), rng),
+        mcq(f"{who} drew this food web of {place} {setting}. Which organism in this food web is a producer?",
+            prod, rng.sample(others, min(3, len(others))), rng),
         mcq("Which organism is a primary consumer (eats only producers)?", herb,
             rng.sample(not_herb, min(3, len(not_herb))), rng),
         short("A food chain starts with a producer and ends with an animal that nothing in this web eats. "

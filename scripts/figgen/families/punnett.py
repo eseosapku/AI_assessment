@@ -5,12 +5,13 @@ import random
 
 from matplotlib.patches import Rectangle
 
-from ..core import mcq, new_figure, short
+from ..core import NAMES, mcq, new_figure, short
 
 ID = "punnett"
 KIND = "bio.genetics"
 SUBJECT = "biology"
 BANDS = ("UP",)
+CONCEPTS = tuple(f"biology.{c}" for c in ("monohybrid-inheritance", "inheritance-concepts"))
 
 # Pea plant traits Mendel studied: (gene letter, dominant, recessive, what it is)
 TRAITS = [
@@ -60,6 +61,9 @@ def draw(p: dict):
     return fig
 
 
+SETTINGS = ["in a biology lesson", "for homework", "on a revision card", "for a class test", "at the science club"]
+
+
 def questions(p: dict, rng: random.Random) -> list:
     cells = offspring(p)
     r, c = p["blank"]
@@ -71,10 +75,11 @@ def questions(p: dict, rng: random.Random) -> list:
     plain = " " not in p["rec"]
     dom, rec = (f"{p['dom']} plants", f"{p['rec']} plants") if plain else (p["dom"], p["rec"])
     note = f"{allele} is the allele for {dom}; {allele.lower()} is the allele for {rec}."
+    lead = f"{rng.choice(NAMES)} drew this Punnett square of a cross between two pea plants {rng.choice(SETTINGS)}."
     shows = f"be {p['rec']}" if plain else f"have {p['rec']}"
     return [
         # Chosen, not typed: the app's marker ignores letter case, so TT, Tt and tt would mark the same.
-        mcq(f"{note} Which genotype goes in the box marked ?", cells[r][c],
+        mcq(f"{lead} {note} Which genotype goes in the box marked ?", cells[r][c],
             [g for g in (allele * 2, allele + allele.lower(), allele.lower() * 2) if g != cells[r][c]], rng),
         mcq(f"{note} What percentage of the offspring are expected to {shows}?", pct,
             rng.sample([x for x in ["0%", "25%", "50%", "75%", "100%"] if x != pct], 3), rng),
