@@ -22,7 +22,7 @@ SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("covalent-bonding", "dot-and-cross-diagrams", "simple-molecules",
                                              "chemical-formulae"))
-AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration"
+AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration|polymer|petro|amine|benzene|electrochem|stoichiometry|mixture|oxide|reactions|introduction"
 # formula: atoms (the first is the one asked about), bonds (i, j, order), lone pairs, each neighbour's
 # direction from atom 0 in degrees (atoms beyond the first two hang off atom 0).
 MOLECULES = {

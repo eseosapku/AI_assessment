@@ -16,7 +16,7 @@ KIND = "graph.line"
 SUBJECT = "physics"
 BANDS = ("AL",)
 CONCEPTS = tuple(f"physics.{c}" for c in ("capacitors", "energy-stored-in-capacitor", "potential-difference"))
-AVOID = r"radioactiv|nuclear|decay|magnet|wave|optic"
+AVOID = r"radioactiv|nuclear|decay|magnet|wave|optic|kirchhoff|resistiv|practical circuits|electronics|alternating|electric current"
 USES = ["for a camera flash", "in a laboratory circuit", "in a smoke alarm's backup supply", "in a timer circuit"]
 
 

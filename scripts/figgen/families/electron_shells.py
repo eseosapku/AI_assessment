@@ -18,7 +18,7 @@ KIND = "chem.particle"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("electronic-configuration", "atomic-structure", "bohr-model", "periodic-table-structure"))
-AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration"
+AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration|benzene|chemical reactions|alloy|transition"
 
 
 def shells(p: dict) -> list[int]:

@@ -16,7 +16,7 @@ SUBJECT = "chemistry"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("alkanes", "alkene-chemistry", "alcohols", "carboxylic-acids",
                                              "organic-functional-groups", "homologous-series"))
-AVOID = r"ionic|electrolysis|equilibrium|rate|titration|metal|periodic|isotope|bonding-ionic"
+AVOID = r"ionic|electrolysis|equilibrium|rate|titration|metal|periodic|isotope|bonding-ionic|masses of atoms|amine|benzene|carbonyl|analysis|halogeno|polymer"
 STEM = ["meth", "eth", "prop", "but", "pent"]
 SERIES = {"alkane": "alkanes", "alkene": "alkenes", "alcohol": "alcohols", "acid": "carboxylic acids"}
 GAP = 1.3  # carbon to carbon

@@ -18,7 +18,7 @@ SUBJECT = "chemistry"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("reaction-rate", "factors-affecting-reaction-rate", "catalysis",
                                              "rates-of-reaction"))
-AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|equilibrium-constant"
+AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|equilibrium-constant|transition|alcohol|energ|environment|equilibri|categories"
 # what reacts, and the gas it gives off
 REACTIONS = [("magnesium ribbon and dilute hydrochloric acid", "hydrogen"),
              ("marble chips and dilute hydrochloric acid", "carbon dioxide"),

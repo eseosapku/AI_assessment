@@ -19,7 +19,7 @@ KIND = "physics.wave"
 SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("line-spectra", "spectra-and-quantum-physics", "photon-and-light-energy"))
-AVOID = r"radioactiv|nuclear|decay|circuit|lens|mirror|sound"
+AVOID = r"radioactiv|nuclear|decay|circuit|lens|mirror|sound|\bwaves$|superposition|medical|stellar|stars"
 ATOMS = {"hydrogen": ["-13.6", "-3.4", "-1.51", "-0.85"], "sodium": ["-5.14", "-3.03", "-1.95", "-1.52"],
          "mercury": ["-10.4", "-5.5", "-3.7", "-1.6"]}
 LETTERS = "ABCD"

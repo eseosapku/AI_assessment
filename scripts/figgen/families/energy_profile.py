@@ -19,7 +19,7 @@ SUBJECT = "chemistry"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("enthalpy-changes", "bond-energy", "catalysis", "thermochemistry",
                                              "exothermic-endothermic"))
-AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding-ionic|chromatograph"
+AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding-ionic|chromatograph|group|lattice|redox|transition|states of matter|alcohol|benzene|bond|experimental|fertili|npk|phase|stoichiometry"
 def sample(rng: random.Random) -> dict:
     # No named reaction: a real one's enthalpy change would not match the made-up levels.
     exo = rng.random() < 0.5

@@ -18,7 +18,7 @@ KIND = "physics.field"
 SUBJECT = "physics"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("coulombs-law", "electrostatics", "electric-field", "applications-of-electrostatics"))
-AVOID = r"gravitational|magnet|circuit|resistor|kirchhoff"
+AVOID = r"gravitational|magnet|circuit|resistor|kirchhoff|capacit|nuclear"
 K = 9 * 10 ** 9
 SETTINGS = ["in the school laboratory", "at the science club", "for a class practical", "during a physics lesson", "for a science fair"]
 

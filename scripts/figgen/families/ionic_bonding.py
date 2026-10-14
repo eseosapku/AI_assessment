@@ -19,7 +19,7 @@ KIND = "chem.structure"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("ionic-bonding", "chemical-formulae", "electronic-configuration"))
-AVOID = r"organic|alkane|alcohol|covalent|electrolysis|equilibrium|rate|enthalpy"
+AVOID = r"organic|alkane|alcohol|covalent|electrolysis|equilibrium|rate|enthalpy|acid|bases|analysis|transition|states of matter|stoichiometry|mixture|reactions|group 1[345]|electrochem|introduction|oxide|preparation of salts|mass spectrum"
 # compound: metal, its charge, count; non-metal, its charge, count
 COMPOUNDS = {"sodium chloride": ("Na", 1, 1, "Cl", -1, 1), "magnesium oxide": ("Mg", 2, 1, "O", -2, 1),
              "calcium chloride": ("Ca", 2, 1, "Cl", -1, 2), "sodium oxide": ("Na", 1, 2, "O", -2, 1),

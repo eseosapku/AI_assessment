@@ -23,7 +23,7 @@ BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("electric-field", "electric-field-strength", "electric-potential", "potential-difference",
                                           "electrostatics", "applications-of-electrostatics"))
 # Not gravitational or magnetic fields alone, nor circuits.
-AVOID = r"gravitational|magnet|circuit|resistor|kirchhoff"
+AVOID = r"gravitational|magnet|circuit|resistor|kirchhoff|resist|electronic|alternating|current|installation|telecommunication|transmission|electrical quantities"
 DIRS = {"up": (0, 1), "down": (0, -1), "left": (-1, 0), "right": (1, 0)}
 WAYS = {"up": "up the page", "down": "down the page", "left": "left across the page", "right": "right across the page"}
 THINGS = ["charged oil drop", "charged dust grain", "charged pollen grain", "charged plastic bead"]

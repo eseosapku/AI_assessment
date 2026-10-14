@@ -20,7 +20,7 @@ KIND = "physics.force"
 SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("motion-in-a-circle", "centripetal-acceleration-and-force", "angular-displacement-and-velocity"))
-AVOID = r"electric|magnet|wave|optic|lens|radioactiv|nuclear|thermal|heat"
+AVOID = r"electric|magnet|wave|optic|lens|radioactiv|nuclear|thermal|heat|generator|relativity|degradation|power generation|describing motion"
 # the thing, its masses (kg), speeds (m/s) and radii (m), and where it goes round
 CONTEXTS = {"car": ([800, 1000, 1200, 1500], [5, 6, 8, 10, 12], [10, 15, 20, 25, 40, 50], "on a roundabout in Kigali"),
             "stone": (["0.1", "0.2", "0.25", "0.4", "0.5"], [2, 3, 4, 5, 6], ["0.5", "0.8", "1", "1.25", "1.5"], "on a string"),
