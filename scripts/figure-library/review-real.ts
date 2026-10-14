@@ -28,7 +28,7 @@ function compare(db: ReturnType<typeof openStore>): void {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag', job: 'string', approve: 'flag' })
+  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag', job: 'string', approve: 'flag', cap: 'string' })
   const db = openStore()
   if (args.compare) {
     compare(db)
@@ -54,7 +54,8 @@ async function main() {
     db.close()
     return
   }
-  assertBudget(db, { job, estimateUsd: estimate, jobCapUsd: JOB_CAP_USD })
+  const jobCapUsd = args.cap ? Number(args.cap) : JOB_CAP_USD  // --cap: a later, larger review (P3u)
+  assertBudget(db, { job, estimateUsd: estimate, jobCapUsd })
   const send = bedrockSender()
   const unusable: string[] = []
   let done = 0
@@ -66,7 +67,7 @@ async function main() {
         return
       }
       try {
-        const raw = await askJson({ db, job, jobCapUsd: JOB_CAP_USD, prompt: reviewPrompt(item), images: [image], maxTokens: 2500, send, model: SONNET })
+        const raw = await askJson({ db, job, jobCapUsd, prompt: reviewPrompt(item), images: [image], maxTokens: 2500, send, model: SONNET })
         saveVerdict(db, { job, model: SONNET, figureId: item.figureId, verdict: parseVerdict(raw, item), mark: false })
       } catch (err) {
         if (err instanceof BudgetExceeded) throw err
