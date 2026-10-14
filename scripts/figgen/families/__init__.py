@@ -18,6 +18,7 @@ from . import chromatogram, titration
 # P3i: the biology wave
 from . import enzyme_graph, glucose_graph, osmosis_graph, photosynthesis_rate, population_curve, spirometer_trace
 from . import dna_strand, pedigree
+from . import dichotomous_key, quadrat, variation_chart
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -49,5 +50,5 @@ FAMILIES = {m.ID: m for m in (
     gas_law, capacitor_discharge, photoelectric, energy_levels,
     # P3g: the chemistry wave
     particle_diagram, electron_shells, ionic_bonding, covalent_bonding, periodic_table, organic_structure, energy_profile, electrolysis, rate_graph, solubility_curve, ph_curve, mass_spectrum, titration, chromatogram,
-    enzyme_graph, photosynthesis_rate, population_curve, osmosis_graph, glucose_graph, spirometer_trace, pedigree, dna_strand,
+    enzyme_graph, photosynthesis_rate, population_curve, osmosis_graph, glucose_graph, spirometer_trace, pedigree, dna_strand, quadrat, dichotomous_key, variation_chart,
 )}

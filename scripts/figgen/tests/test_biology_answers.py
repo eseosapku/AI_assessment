@@ -274,6 +274,81 @@ def test_dna_strand():
                 assert int(q.answer) == (2 if top[k - 1] in "AT" else 3)
 
 
+# --- Task 3: ecology, keys and variation ---------------------------------------------------------
+
+def test_quadrat():
+    m = fam("quadrat")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        W, H, plants, quads = p["W"], p["H"], p["plants"], p["quadrats"]
+        cells = {tuple(c) for c in quads.values()}
+        assert len(cells) == len(quads) and all(0 <= x < W and 0 <= y < H for x, y in cells)
+        assert all(max(abs(a[0] - b[0]), abs(a[1] - b[1])) >= 2 for a in cells for b in cells if a != b)  # none touch
+        for x, y in plants:  # no plant near a gridline, so none sits on a quadrat's edge
+            assert 0.1 <= x % 1 <= 0.9 and 0.1 <= y % 1 <= 0.9, (s, x, y)
+        for i, (x1, y1) in enumerate(plants):  # plants in a cell stand apart, so each can be counted
+            for x2, y2 in plants[i + 1:]:
+                if int(x1) == int(x2) and int(y1) == int(y2):
+                    assert ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5 >= 0.25, (s, x1, y1, x2, y2)
+        count = {k: sum(1 for x, y in plants if int(x) == c[0] and int(y) == c[1]) for k, c in quads.items()}
+        mean = Fraction(sum(count.values()), len(count))
+        for q in qs:
+            got = re.search(r"in quadrat ([A-Z])\b", q.stem)
+            if got and "How many" in q.stem:
+                assert int(q.answer) == count[got.group(1)]
+            if "mean number" in q.stem:
+                assert num(q.answer) == mean
+            if "whole field" in q.stem:
+                assert num(q.answer) == mean * W * H
+
+
+def test_dichotomous_key():
+    m = fam("dichotomous_key")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        plants = {x["letter"]: x for x in p["plants"]}
+        vectors = [tuple(sorted(x["features"].items())) for x in p["plants"]]
+        assert len(set(vectors)) == len(vectors) and len({x["name"] for x in p["plants"]}) == len(vectors)
+        key = p["key"]  # couplets: {"feature", "yes": [kind, value], "no": [kind, value]}
+        for x in p["plants"]:  # every leaf, followed through the key, reaches its own name
+            at, steps = 1, 0
+            while True:
+                c = key[at - 1]
+                kind, value = c["yes"] if x["features"][c["feature"]] else c["no"]
+                steps += 1
+                assert steps <= len(key)
+                if kind == "name":
+                    assert value == x["name"], (s, x["name"], value)
+                    break
+                at = value
+        for q in qs:
+            got = re.search(r"name the plant that leaf ([A-Z]) comes from", q.stem)
+            if got:
+                assert q.answer == plants[got.group(1)]["name"]
+            if q.kind == "mcq" and "Which leaf" in q.stem:
+                f = p["unique"]
+                have = [x["letter"] for x in p["plants"] if x["features"][f]]
+                assert have == [picked(q)]
+
+
+def test_variation_chart():
+    m = fam("variation_chart")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        cont, disc = p["continuous"], p["discrete"]
+        assert sorted(cont["freq"]).count(max(cont["freq"])) == 1  # one modal class
+        for q in qs:
+            if q.kind == "mcq" and "continuous variation" in q.stem:
+                assert picked(q) == f"chart {cont['letter']}"
+            got = re.search(r"How many students (?:have|had|are|were|can) (.+?)\?", q.stem)
+            if got:
+                i = disc["categories"].index(p["ask"])
+                assert int(q.answer) == disc["freq"][i]
+            if "modal class" in q.stem:
+                i = cont["freq"].index(max(cont["freq"]))
+                assert q.answer == cont["classes"][i]
+
+
 BIOLOGY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "biology")
 
 
