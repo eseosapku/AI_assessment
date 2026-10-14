@@ -46,6 +46,13 @@ from . import body_data_p, carroll_sort_p, food_chain_p, grid_robot_p, teeth_p
 # P3t: agriculture
 # P3t agriculture imports
 from . import crop_calendar, farm_record, fertiliser_calc, pearson_square, soil_texture
+# P3w: biology diagrams
+# P3w structures imports
+from . import arm_muscles, flower_diagram, heart_diagram, nephron_diagram, reflex_arc
+# P3w processes imports
+from . import carbon_cycle, cell_division, life_cycle, nitrogen_cycle, tropism_experiment
+# P3w data imports
+from . import antibody_response, blood_vessels, gas_exchange, menstrual_cycle, potometer
 from . import cash_flow_forecast, critical_path, inventory_chart, pricing
 
 FAMILIES = {m.ID: m for m in (
@@ -105,4 +112,11 @@ FAMILIES = {m.ID: m for m in (
     carroll_sort_p, food_chain_p, body_data_p, teeth_p, grid_robot_p,
     # P3t agriculture families
     pearson_square, fertiliser_calc, farm_record, soil_texture, crop_calendar,
+    # P3w: biology diagrams
+    # P3w structures families
+    heart_diagram, flower_diagram, nephron_diagram, reflex_arc, arm_muscles,
+    # P3w processes families
+    carbon_cycle, nitrogen_cycle, cell_division, tropism_experiment, life_cycle,
+    # P3w data families
+    potometer, menstrual_cycle, antibody_response, blood_vessels, gas_exchange,
 )}
