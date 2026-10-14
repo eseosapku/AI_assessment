@@ -24,7 +24,7 @@ POINTS = ["north", "north-east", "east", "south-east", "south", "south-west", "w
 SHORT = {"north": "N", "north-east": "NE", "east": "E", "south-east": "SE", "south": "S", "south-west": "SW",
          "west": "W", "north-west": "NW"}
 MONTHS = {"April": 30, "June": 30, "September": 30, "November": 30, "January": 31, "March": 31, "July": 31, "October": 31}
-UNIT = 0.42  # one day along a bar, one ring
+UNIT = 0.5  # one day along a bar, one ring
 
 
 def sample(rng: random.Random) -> dict:
@@ -34,7 +34,7 @@ def sample(rng: random.Random) -> dict:
         calm = rng.randint(1, 5)
         cuts = sorted(rng.sample(range(1, total - calm), 7))
         counts = [b - a for a, b in zip([0] + cuts, cuts + [total - calm])]
-        if max(counts) <= 11 and counts.count(max(counts)) == 1 and max(counts) - sorted(counts)[-2] >= 2:
+        if min(counts) >= 2 and max(counts) <= 11 and counts.count(max(counts)) == 1 and max(counts) - sorted(counts)[-2] >= 2:
             return {"band": rng.choice(BANDS), "month": total, "name": month, "calm": calm,
                     "days": dict(zip(POINTS, counts)), "ask": rng.choice(POINTS)}
 
@@ -52,8 +52,8 @@ def draw(p: dict):
     for k, name in enumerate(POINTS):
         a = math.radians(90 - 45 * k)
         n = p["days"][name]
-        ux, uy, vx, vy = math.cos(a), math.sin(a), -math.sin(a) * 0.13, math.cos(a) * 0.13
-        r0, r1 = 0.12, n * UNIT
+        ux, uy, vx, vy = math.cos(a), math.sin(a), -math.sin(a) * 0.1, math.cos(a) * 0.1
+        r0, r1 = 0.0, n * UNIT  # narrow bars from the very centre, every one at least 2 days long (P3o fix review)
         ax.add_patch(Polygon([(r0 * ux + vx, r0 * uy + vy), (r1 * ux + vx, r1 * uy + vy), (r1 * ux - vx, r1 * uy - vy),
                               (r0 * ux - vx, r0 * uy - vy)], closed=True, facecolor=FILL, edgecolor=INK, linewidth=1.0, zorder=3))
         rl = (top + 1.3) * UNIT

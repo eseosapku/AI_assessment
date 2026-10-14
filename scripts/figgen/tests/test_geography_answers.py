@@ -494,3 +494,10 @@ def test_a_rwandan_climate_bar_stays_below_the_top_of_its_axis():
         p = m.sample(random.Random(s))
         if p.get("place"):
             assert max(p["rain"]) <= 190, s
+
+
+def test_no_wind_rose_bar_is_too_short_to_read():
+    """1-day bars crowded the centre and were called unclear (P3o fix review)."""
+    m = fam("wind_rose")
+    for s in SEEDS:
+        assert min(m.sample(random.Random(s))["days"].values()) >= 2, s
