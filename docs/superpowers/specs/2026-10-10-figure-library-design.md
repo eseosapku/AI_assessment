@@ -579,6 +579,24 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       All were fixed with tests.
     - **Sheet:** https://claude.ai/artifact/4NdZG8ffZRKyC94UiWVvTc
     - **Next:** P3j, drawing Biology to scale, and P3k, the Computing wave.
+  - **Curriculum audit (2026-10-15), after the user asked whether quadrats are really taught at upper secondary.** They are: Rwanda S4 Biology Unit 1 covers sampling techniques, Rwanda S6 covers measuring population density, and Cambridge AS/A Level covers systematic sampling. But some links were loose, so every subject's links were checked against the books' subtopics.
+    - **The rule:** `link.topic_index` now carries each topic's section names. A family may declare `NEEDS`, a pattern for what it teaches. A topic whose book lists sections is reached only when its name or one of its sections matches. Topics without sections (WAEC, JAMB, NERDC) are judged by concepts as before.
+    - **Applied to:** all 17 Biology families, 11 Chemistry families and 6 Physics families. Eleven Maths families gained targeted `AVOID`s, read section by section.
+    - **spring_graph** is now Upper Secondary only: no Lower Secondary book teaches springs.
+    - **Effect:** 5,223 loose links removed (92,296 to 87,073 before P3j). Physics 173 of 210 topics with figures (162 with 50+), Chemistry 98 of 185 (84), Maths 271 of 515 (238). The P3h figures above were before the audit.
+  - **P3j result (2026-10-15, plan `2026-10-15-figure-library-p3j-biology-scale.md`): Biology at scale.** $5.09 spent (blind review $3.80, three fix reviews $1.29); library total $86.88.
+    - **Blind review:** 475 of 510 passed. Three families fell short:
+      - quadrat (13 failures): labels covered plants and plants sat on edges. Plants now stand clear of edges and labels.
+      - osmosis_graph (20): "% decrease in mass" and like forms were missing. Forms were added; a free regrade flipped 10.
+      - dna_strand (26): no 5′ and 3′ ends, so the codon could be read either way. The ends are now drawn. Reviewers then read "written 5′ to 3′" backwards, and called "(left to right)" a contradiction, so the stem asks for "the mRNA codon that pairs with bases i to i+2 … in order from left to right". The key was right throughout.
+    - **Approved:** all 17 families, 2,490 figures. punnett has only 96 distinct figures; the rest have 150 each.
+    - **Coverage:** Biology 80 of 169 mapped topics have figures, 77 with 50 or more (it had 9). Library: 16,494 figures approved, 95,741 approved links.
+    - **Quiz check (in process):**
+      - Movement into and out of cells: 283 figures, 999 questions.
+      - Rwanda S4 Introduction to biodiversity: 299 figures, 892 questions.
+      - Respiration and gas exchange: 226 figures, 828 questions.
+      None were missing a question or a file.
+    - **Next:** P3k, the Computing wave (397 empty topics).
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**

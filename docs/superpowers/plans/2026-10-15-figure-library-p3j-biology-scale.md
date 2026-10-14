@@ -40,15 +40,15 @@
 
 ### Task 1: Draw 30, review, triage, approve
 
-- [ ] Back up the store to `figures.db.bak-p3j`. Run `generate.py --per-family 30` on the 15 new families, and `--redo --per-family 30` on food_web and punnett.
-- [ ] Run `review-drawn.ts --job=p3j-blind --cap=6 --families=<the 17> --dry`, then the same without `--dry`.
-- [ ] Triage:
+- [x] Back up the store to `figures.db.bak-p3j`. Run `generate.py --per-family 30` on the 15 new families, and `--redo --per-family 30` on food_web and punnett.
+- [x] Run `review-drawn.ts --job=p3j-blind --cap=6 --families=<the 17> --dry`, then the same without `--dry`.
+- [x] Triage:
   - fix grader misses in `agrees`, then `--regrade --dry`;
   - fix family faults by TDD, `--redo` the family, and re-review under `p3j-fix`.
-- [ ] Approve both jobs.
+- [x] Approve both jobs.
 
 ### Task 2: Volume, coverage and the record
 
-- [ ] Draw to 150 with `generate.py --per-family 150`, then approve again.
-- [ ] Report Biology coverage, and run the in-process quiz check on three newly reached topics.
-- [ ] Record a P3j result in the spec and memory, and commit `docs(figure-library): the P3j result`.
+- [x] Draw to 150 with `generate.py --per-family 150`, then approve again.
+- [x] Report Biology coverage, and run the in-process quiz check on three newly reached topics.
+- [x] Record a P3j result in the spec and memory, and commit `docs(figure-library): the P3j result`.
