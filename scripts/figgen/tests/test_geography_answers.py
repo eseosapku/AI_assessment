@@ -231,3 +231,79 @@ def test_lat_long():
             got = re.search(r"difference in latitude between points ([A-D]) and ([A-D])", q.stem)
             if got:
                 assert int(q.answer.rstrip("°")) == abs(pts[got.group(1)][0] - pts[got.group(2)][0])
+
+
+# --- Task 4: rivers, soils, population and development --------------------------------------------
+
+def test_hydrograph():
+    m = fam("hydrograph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        rain, flow = p["rain"], p["flow"]
+        assert rain.count(max(rain)) == 1 and flow.count(max(flow)) == 1
+        tr, tp = rain.index(max(rain)), flow.index(max(flow))
+        assert tp > tr
+        for q in qs:
+            if "lag time" in q.stem:
+                assert int(q.answer) == tp - tr
+            if "peak discharge" in q.stem:
+                assert int(q.answer) == max(flow)
+            if "rise" in q.stem and "base flow" in q.stem:
+                assert int(q.answer) == max(flow) - flow[0]
+
+
+def test_ternary_graph():
+    m = fam("ternary_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        names = p["parts"]
+        for k, v in p["points"].items():
+            assert sum(v) == 100 and all(x % 10 == 0 and x > 0 for x in v), (s, k, v)  # on gridline crossings
+        for q in qs:
+            got = re.search(r"percentage of (\w+)(?: jobs)? (?:is there |are there )?at point ([A-D])", q.stem)
+            if got:
+                assert int(q.answer) == p["points"][got.group(2)][names.index(got.group(1))]
+            got = re.search(r"Which point has the most (\w+)(?: jobs)?\?", q.stem)
+            if got:
+                i = names.index(got.group(1))
+                values = {k: v[i] for k, v in p["points"].items()}
+                top = max(values.values())
+                assert list(values.values()).count(top) == 1 and picked(q) == f"Point {max(values, key=values.get)}"
+
+
+def test_dtm():
+    m = fam("dtm")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        br, dr = p["birth"], p["death"]  # at the stage boundaries, 0 to 5
+        assert all(v % 5 == 0 for v in br + dr)
+        for q in qs:
+            got = re.search(r"birth rate at the end of stage (\d)", q.stem)
+            if got:
+                assert int(q.answer) == br[int(got.group(1))]
+            got = re.search(r"death rate at the end of stage (\d)", q.stem)
+            if got:
+                assert int(q.answer) == dr[int(got.group(1))]
+            got = re.search(r"natural increase at the end of stage (\d)", q.stem)
+            if got:
+                k = int(got.group(1))
+                assert int(q.answer) == br[k] - dr[k]
+
+
+def test_employment_structure():
+    m = fam("employment_structure")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        rows = p["countries"]
+        for name, v in rows.items():
+            assert sum(v) == 100 and all(x % 10 == 0 and x > 0 for x in v)
+        for q in qs:
+            got = re.search(r"percentage of (Country [A-D])'s workers are in the (primary|secondary|tertiary)", q.stem)
+            if got:
+                assert int(q.answer) == rows[got.group(1)][["primary", "secondary", "tertiary"].index(got.group(2))]
+            got = re.search(r"Which country has the largest (primary|secondary|tertiary) sector", q.stem)
+            if got:
+                i = ["primary", "secondary", "tertiary"].index(got.group(1))
+                values = {k: v[i] for k, v in rows.items()}
+                top = max(values.values())
+                assert list(values.values()).count(top) == 1 and picked(q) == max(values, key=values.get)

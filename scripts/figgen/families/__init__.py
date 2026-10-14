@@ -29,6 +29,7 @@ from . import binary_tree, caesar_cipher, stack_queue
 # P3m: the geography wave
 from . import contour_map, grid_reference, map_distance
 from . import lat_long, weather_station, wind_rose
+from . import dtm, employment_structure, hydrograph, ternary_graph
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -70,4 +71,5 @@ FAMILIES = {m.ID: m for m in (
     # P3m: the geography wave
     grid_reference, map_distance, contour_map,
     weather_station, wind_rose, lat_long,
+    hydrograph, ternary_graph, dtm, employment_structure,
 )}
