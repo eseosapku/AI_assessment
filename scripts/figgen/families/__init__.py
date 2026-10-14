@@ -23,6 +23,7 @@ from . import antibiotic_plate, food_test_table, magnification, sa_volume
 # P3k: the computing wave
 from . import logic_gates, truth_table
 from . import binary_search, flowchart, sort_trace, trace_table
+from . import binary_place, bitmap_image, sound_samples
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -58,4 +59,5 @@ FAMILIES = {m.ID: m for m in (
     magnification, antibiotic_plate, sa_volume, food_test_table,
     logic_gates, truth_table,
     sort_trace, binary_search, trace_table, flowchart,
+    binary_place, bitmap_image, sound_samples,
 )}

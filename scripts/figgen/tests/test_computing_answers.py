@@ -244,6 +244,70 @@ def test_flowchart():
                 assert int(q.answer) == n
 
 
+
+# --- Task 3: data representation ------------------------------------------------------------------
+
+def test_binary_place():
+    m = fam("binary_place")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        bits = p["bits"]
+        assert len(bits) == 8 and set(bits) <= {0, 1}
+        v = int("".join(map(str, bits)), 2)
+        for q in qs:
+            if "denary value of this byte" in q.stem:
+                assert int(q.answer) == v
+            if "hexadecimal" in q.stem:
+                assert q.answer == format(v, "02X")
+            got = re.search(r"left shift of (\d) place", q.stem)
+            if got:
+                k = int(got.group(1))
+                assert v << k < 256, (s, v, k)  # nothing shifted out, so no overflow rule is needed
+                assert int(q.answer) == v << k
+
+
+def test_bitmap_image():
+    m = fam("bitmap_image")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        grid, depth = p["grid"], p["depth"]
+        h, w = len(grid), len(grid[0])
+        assert all(0 <= c < 2 ** depth for row in grid for c in row)
+        for q in qs:
+            got = re.search(r"binary code for row (\d+)", q.stem)
+            if got:
+                row = grid[int(got.group(1)) - 1]
+                assert q.answer.replace(" ", "") == "".join(format(c, f"0{depth}b") for c in row)
+            got = re.search(r"file size in (bits|bytes)", q.stem)
+            if got:
+                bits = w * h * depth
+                assert int(q.answer) == (bits if got.group(1) == "bits" else bits // 8)
+                assert got.group(1) == "bits" or bits % 8 == 0
+            got = re.search(r"How many pixels are (\w+)", q.stem)
+            if got:
+                i = p["palette"].index(got.group(1))
+                assert int(q.answer) == sum(row.count(i) for row in grid)
+
+
+def test_sound_samples():
+    m = fam("sound_samples")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        vals, step = p["samples"], p["interval_ms"]
+        for q in qs:
+            got = re.search(r"sample value at ([\d.]+) ms", q.stem)
+            if got:
+                k = round(float(got.group(1)) / step)
+                assert abs(k * step - float(got.group(1))) < 1e-9
+                assert int(q.answer) == vals[k]
+            if "sample rate" in q.stem:
+                assert int(q.answer) == round(1000 / step)
+            got = re.search(r"sample resolution of (\d+) bits.* (\d+) seconds", q.stem)
+            if got:
+                b, secs = int(got.group(1)), int(got.group(2))
+                assert int(q.answer) == round(1000 / step) * secs * b // 8
+
+
 COMPUTING = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "computing")
 
 
