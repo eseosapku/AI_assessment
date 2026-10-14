@@ -38,6 +38,9 @@ PRODUCT_FORMS = {
     "oxygen": ["oxygen", "O2", "O₂", "oxygen gas"],
 }
 LETTERS = [("A", "B"), ("P", "Q"), ("X", "Y"), ("M", "N")]
+ION_WORDS = {"Pb2+": ["lead ions", "lead(II) ions", "Pb2+ ions", "Pb²⁺ ions"], "Na+": ["sodium ions", "Na+ ions", "Na⁺ ions"],
+             "Zn2+": ["zinc ions", "Zn2+ ions", "Zn²⁺ ions"], "H+": ["hydrogen ions", "H+ ions", "H⁺ ions"],
+             "Cu2+": ["copper ions", "copper(II) ions", "Cu2+ ions", "Cu²⁺ ions"]}
 
 
 def sample(rng: random.Random) -> dict:
@@ -96,5 +99,5 @@ def questions(p: dict, rng: random.Random) -> list:
         qs.append(short(f"{friend} tests what forms at electrode {anode}. Name the product at electrode {anode}.", at_anode,
                         PRODUCT_FORMS[at_anode]))
     body, charge = ion[:-2] if ion[-2].isdigit() else ion[:-1], ion[-2:] if ion[-2].isdigit() else ion[-1:]
-    qs.append(short("Which ion is discharged at the cathode?", body + sup(charge), formula_forms(body, charge)))
+    qs.append(short("Which ion is discharged at the cathode?", body + sup(charge), formula_forms(body, charge) + ION_WORDS[ion]))
     return qs

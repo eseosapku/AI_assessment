@@ -2,7 +2,7 @@
 experiments where one runs twice as fast to the same total. The total volume, the volume at a time, when
 the reaction stopped, at UP and AL the mean rate over the first seconds, and which experiment was faster.
 
-Each curve rises fastest at the start and levels off at a corner on gridlines; the half-way time and the
+Each curve rises fastest at the start and meets its plateau at a visible corner on gridlines; the half-way time and the
 volume collected by then also sit on gridlines (three-quarters of the total), so every reading is exact.
 """
 from __future__ import annotations
@@ -16,17 +16,23 @@ ID = "rate_graph"
 KIND = "graph.line"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP", "AL")
-CONCEPTS = tuple(f"chemistry.{c}" for c in ("reaction-rate", "factors-affecting-reaction-rate", "catalysis",
-                                             "rates-of-reaction"))
-AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|equilibrium-constant|transition|alcohol|energ|environment|equilibri|categories"
+CONCEPTS = tuple(f"chemistry.{c}" for c in ("reaction-rate", "factors-affecting-reaction-rate", "catalysis"))
+AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|equilibrium-constant|transition|alcohol|energ|environment|equilibri|categories|experimental design"
 # what reacts, and the gas it gives off
 REACTIONS = [("magnesium ribbon and dilute hydrochloric acid", "hydrogen"),
              ("marble chips and dilute hydrochloric acid", "carbon dioxide"),
              ("hydrogen peroxide with a manganese(IV) oxide catalyst", "oxygen"),
              ("zinc granules and dilute sulfuric acid", "hydrogen"),
              ("calcium carbonate powder and dilute nitric acid", "carbon dioxide")]
-CHANGES = ["at a higher temperature", "with more concentrated acid, the solid still used up first", "with the solid powdered",
-           "with a catalyst added"]
+# the changes that make sense for each reaction, in REACTIONS' order (P3g final review: no acid in peroxide)
+CHANGES = [["at a higher temperature", "with more concentrated acid, the magnesium still used up first",
+            "with magnesium powder instead of ribbon"],
+           ["at a higher temperature", "with more concentrated acid, the marble still used up first",
+            "with powdered marble instead of chips"],
+           ["at a higher temperature", "with more of the catalyst", "with the catalyst as a finer powder"],
+           ["at a higher temperature", "with more concentrated acid, the zinc still used up first",
+            "with zinc powder instead of granules", "with a little copper(II) sulfate added as a catalyst"],
+           ["at a higher temperature", "with more concentrated acid, the calcium carbonate still used up first"]]
 
 
 def sample(rng: random.Random) -> dict:
@@ -42,13 +48,17 @@ def sample(rng: random.Random) -> dict:
         runs = [{"label": "A", "T": T}, fast] if rng.random() < 0.5 else [{"label": "B", "T": T}, {"label": "A", "T": T // 2}]
     reaction = rng.randrange(len(REACTIONS))
     return {"band": band, "xstep": xstep, "ystep": ystep, "vmax": vmax, "runs": runs, "end": T + xstep * rng.randint(2, 4),
-            "reaction": reaction, "change": rng.randrange(len(CHANGES))}
+            "reaction": reaction, "change": rng.randrange(len(CHANGES[reaction]))}
 
 
 def volume(p: dict, run: dict, t: float) -> float:
-    """Fastest at the start, level from the run's time T: vmax(1 - (1 - t/T)^2)."""
+    """Fastest at the start, level from the run's time T: vmax(2.5u - 2.5u² + u³) with u = t/T. Three-quarters
+    of the total at half-time, and still rising at T, so the corner where it stops shows (P3g final review)."""
     T = run["T"]
-    return p["vmax"] if t >= T else p["vmax"] * (1 - (1 - t / T) ** 2)
+    if t >= T:
+        return p["vmax"]
+    u = t / T
+    return p["vmax"] * (2.5 * u - 2.5 * u * u + u ** 3)
 
 
 def draw(p: dict):
@@ -87,7 +97,7 @@ def questions(p: dict, rng: random.Random) -> list:
     v_half = Fraction(3, 4) * vmax
     lead = f"{who} reacted {what} {rng.choice(SETTINGS)} and collected the {gas} in a gas syringe."
     if two:
-        lead += f" Experiment {p['runs'][1]['label']} was done {CHANGES[p['change']]}."
+        lead += f" Experiment {p['runs'][1]['label']} was done {CHANGES[p['reaction']][p['change']]}."
     qs = [short(f"{lead} What total volume of gas was collected{of}?", vmax, measure(vmax, "cm³")),
           short(f"What volume of gas had been collected{of} after {half} s?", exact(v_half), measure(v_half, "cm³")),
           short(f"{friend} wants to know when the reaction{of} stopped. After how many seconds did it stop?", T, measure(T, "s"))]

@@ -19,11 +19,11 @@ KIND = "physics.wave"
 SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("line-spectra", "spectra-and-quantum-physics", "photon-and-light-energy"))
-AVOID = r"radioactiv|nuclear|decay|circuit|lens|mirror|sound|\bwaves$|superposition|medical|stellar|stars"
+AVOID = r"radioactiv|nuclear|decay|circuit|lens|mirror|sound|\bwaves$|superposition|medical|stellar|stars|electromagnetic spectrum"
 ATOMS = {"hydrogen": ["-13.6", "-3.4", "-1.51", "-0.85"], "sodium": ["-5.14", "-3.03", "-1.95", "-1.52"],
          "mercury": ["-10.4", "-5.5", "-3.7", "-1.6"]}
 LETTERS = "ABCD"
-SOURCES = {"hydrogen": ["a hydrogen discharge tube", "a hydrogen lamp in the laboratory", "a star's spectrum", "a gas tube at the science club"],
+SOURCES = {"hydrogen": ["a hydrogen discharge tube", "a hydrogen lamp in the laboratory", "a lamp in a school demonstration", "a gas tube at the science club"],
            "sodium": ["a sodium street lamp", "a sodium lamp in the laboratory", "salt in a Bunsen flame", "a yellow street light"],
            "mercury": ["a mercury vapour lamp", "a fluorescent tube", "a mercury lamp in the laboratory", "an old street light"]}
 

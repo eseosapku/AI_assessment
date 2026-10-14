@@ -18,7 +18,7 @@ SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("gravitational-field", "gravitational-field-strength", "newtons-law-of-gravitation",
                                           "orbiting-under-gravity", "kepler-laws", "satellites", "solar-system-structure"))
-AVOID = r"electric|magnet|circuit|wave|optic|radioactiv|thermal|heat|coulomb|stellar|stars"
+AVOID = r"electric|magnet|circuit|wave|optic|radioactiv|thermal|heat|coulomb|stellar|stars|forces and motion"
 BODIES = {"the Earth": "10", "the Moon": "1.6", "Venus": "8.8", "Saturn": "10.4", "Jupiter": "24"}
 # Too few bodies for 40 different figures in 60: five bodies, two ranges, two bands.
 MIN_VARIETY = 14

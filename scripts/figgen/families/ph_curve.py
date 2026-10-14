@@ -72,7 +72,7 @@ def draw(p: dict):
     ax.set_xticks(range(0, end + 1, big))
     ax.set_xticks(range(0, end + 1, small), minor=True)
     ax.set_yticks(range(0, 15, 2))
-    ax.set_yticks(range(0, 15), minor=True)
+    ax.set_yticks([v / 2 for v in range(0, 29)], minor=True)  # half-pH lines to estimate between
     ax.grid(True, which="both", color=GRID, linewidth=0.5)
     ax.set_axisbelow(True)
     ax.set_xlim(0, end)
@@ -95,11 +95,13 @@ def questions(p: dict, rng: random.Random) -> list:
     alkali = "aqueous ammonia" if kind == "strong-weak" else "sodium hydroxide solution"
     start = round(ph(p, 0), 1)
     strong = kind.startswith("strong")
-    options = [f"{k}, because the pH at the start is {e}" for k in ("strong", "weak") for e in ("below 2", "above 2")]
-    key = f"{'strong' if strong else 'weak'}, because the pH at the start is {'below 2' if start < 2 else 'above 2'}"
+    shapes = ("the pH starts low and changes little until the jump", "the pH starts higher, rises quickly, then levels off before the jump")
+    options = [f"{k}: {e}" for k in ("strong", "weak") for e in shapes]
+    key = f"{'strong' if strong else 'weak'}: {shapes[0] if strong else shapes[1]}"
     qs = [short(f"{who} added {alkali} to {p['Va']}.0 cm³ of {p['acid']} {rng.choice(SETTINGS)} and recorded the pH. "
                 "What volume of alkali was needed to reach the equivalence point?", veq, measure(veq, "cm³") + [f"{veq}.0 cm³", f"{veq}.0"]),
-          short("What was the pH at the start, before any alkali was added?", exact(start), [exact(start), f"pH {exact(start)}"], tolerance=0.2),
+          short("Estimate the pH at the start, before any alkali was added, to one decimal place.", exact(start),
+                [exact(start), f"pH {exact(start)}"], tolerance=0.25),
           mcq(f"{friend} says the curve shows what kind of acid was used. Is the acid strong or weak?", key, [o for o in options if o != key], rng)]
     if kind in CHOICES:
         right, wrong = CHOICES[kind]
@@ -112,6 +114,6 @@ def questions(p: dict, rng: random.Random) -> list:
         qs.append(short("What is the pH at the equivalence point?", "7", ["7", "7.0", "pH 7"], tolerance=0.2))
     if p["band"] == "AL" and kind == "weak-strong" and veq % 10 == 0:
         pka = WEAK[p["acid"]]
-        qs.append(short(f"Use the pH when half of the acid has been neutralised, after {veq // 2} cm³, to find the pKa of {p['acid']}.",
-                        exact(round(ph(p, veq / 2), 1)), [exact(round(pka, 1)), exact(round(ph(p, veq / 2), 2))], tolerance=0.2))
+        qs.append(short(f"Estimate the pKa of {p['acid']} from the pH when half of the acid has been neutralised, after {veq // 2} cm³.",
+                        exact(round(ph(p, veq / 2), 1)), [exact(round(pka, 1)), exact(round(ph(p, veq / 2), 2))], tolerance=0.25))
     return qs

@@ -18,7 +18,7 @@ KIND = "chem.particle"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("states-of-matter", "kinetic-theory", "chemical-formulae", "separation-techniques"))
-AVOID = r"organic|alkane|alcohol|acid|electrolysis|redox|equilibrium|rate|waste|polymer|petro|enthalpy|solvent|colligative|group|oxide|salt|oxygen|stoichiometry|equation|bonding|chemical reactions|trends"
+AVOID = r"organic|alkane|alcohol|acid|electrolysis|redox|equilibrium|rate|waste|polymer|petro|enthalpy|solvent|colligative|group|oxide|salt|oxygen|stoichiometry|equation|bonding|chemical reactions|trends|phase diagram|mole concept"
 KINDS = ["atoms", "molecules", "compound", "mixture"]
 SHADES = ["#111111", "#9aa3ab", "#ffffff"]  # dark, grey and white atoms
 R = 0.12  # three atoms in a row span 0.72: a clear gap to the next cell's particle and to the walls
@@ -59,29 +59,50 @@ def _draw_particle(ax, x, y, atoms, angle):
         ax.add_patch(Circle((cx, cy), R, facecolor=SHADES[shade], edgecolor=INK, linewidth=1.0, zorder=3))
 
 
-def draw(p: dict):
+def _placed(p: dict) -> list[tuple[int, int, float, float, list[int], float]]:
+    """Each particle's box, number, centre, atoms and angle."""
     import math
+    out = []
+    for i, box in enumerate(p["boxes"]):
+        x0 = i * 3.3
+        rng = random.Random(box["seed"])
+        parts = box["particles"]
+        if box["state"] == "solid" and box["kind"] == "atoms":  # single atoms packed touching, three by three
+            for k, atoms in enumerate(parts):
+                r, c = divmod(k, 3)
+                out.append((i, k, x0 + 1.5 + (c - 1) * 2 * R, 0.85 + r * 2 * R, atoms, 0.0))
+        elif box["state"] == "solid":  # particles in neat rows of two, a gap between each (a mixture too: P3g review)
+            for k, atoms in enumerate(parts):
+                r, c = divmod(k, 2)
+                out.append((i, k, x0 + 1.5 + (c - 0.5) * 1.12, 0.75 + r * (2 * R + 0.22), atoms, 0.0))
+        else:  # spread out, one particle to a cell of a three-by-three grid, so none overlap or leave the box
+            cells = rng.sample([(c, r) for c in range(3) for r in range(3)], len(parts))
+            for k, ((c, r), atoms) in enumerate(zip(cells, parts)):
+                x = x0 + 0.55 + 0.95 * c + rng.uniform(-0.04, 0.04)
+                y = 0.55 + 0.95 * r + rng.uniform(-0.04, 0.04)
+                out.append((i, k, x, y, atoms, rng.choice([0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4])))
+    return out
+
+
+def atoms_drawn(p: dict) -> list[tuple[int, int, float, float]]:
+    """Every atom's box, particle and centre, as drawn."""
+    import math
+    out = []
+    for i, k, x, y, atoms, angle in _placed(p):
+        dx, dy = 2 * R * math.cos(angle), 2 * R * math.sin(angle)
+        start = -(len(atoms) - 1) / 2
+        out += [(i, k, x + (start + j) * dx, y + (start + j) * dy) for j in range(len(atoms))]
+    return out
+
+
+def draw(p: dict):
     fig, ax = new_figure(8.4, 2.9)
     for i, box in enumerate(p["boxes"]):
         x0 = i * 3.3
         ax.add_patch(Rectangle((x0, 0), 3.0, 3.0, facecolor="none", edgecolor=INK, linewidth=1.4))
         ax.text(x0 + 1.5, -0.25, box["letter"], ha="center", va="top", fontsize=13, fontweight="bold")
-        rng = random.Random(box["seed"])
-        parts = box["particles"]
-        if box["state"] == "solid" and len(parts[0]) == 1:  # single atoms packed touching, three by three
-            for k, atoms in enumerate(parts):
-                r, c = divmod(k, 3)
-                _draw_particle(ax, x0 + 1.5 + (c - 1) * 2 * R, 0.85 + r * 2 * R, atoms, 0.0)
-        elif box["state"] == "solid":  # molecules in neat rows of two, a small gap between each
-            for k, atoms in enumerate(parts):
-                r, c = divmod(k, 2)
-                _draw_particle(ax, x0 + 1.5 + (c - 0.5) * 1.12, 0.75 + r * (2 * R + 0.22), atoms, 0.0)
-        else:  # spread out, one particle to a cell of a three-by-three grid, so none overlap or leave the box
-            cells = rng.sample([(c, r) for c in range(3) for r in range(3)], len(parts))
-            for (c, r), atoms in zip(cells, parts):
-                x = x0 + 0.55 + 0.95 * c + rng.uniform(-0.04, 0.04)
-                y = 0.55 + 0.95 * r + rng.uniform(-0.04, 0.04)
-                _draw_particle(ax, x, y, atoms, rng.choice([0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4]))
+    for i, k, x, y, atoms, angle in _placed(p):
+        _draw_particle(ax, x, y, atoms, angle)
     ax.set_xlim(-0.2, 13.1)
     ax.set_ylim(-0.8, 3.15)
     ax.set_aspect("equal")
@@ -104,6 +125,6 @@ def questions(p: dict, rng: random.Random) -> list:
     return [mcq(f"{name} drew these four boxes of particles {rng.choice(SETTINGS)}. Which box shows {ASKS[first]}?", by_kind[first],
                 [x for x in letters if x != by_kind[first]], rng),
             mcq(f"Which box shows {ASKS[second]}?", by_kind[second], [x for x in letters if x != by_kind[second]], rng),
-            mcq("Which box shows a substance in the solid state?", solid["letter"], [x for x in letters if x != solid["letter"]], rng),
+            mcq("Which box shows particles in the solid state?", solid["letter"], [x for x in letters if x != solid["letter"]], rng),
             short(f"How many separate {unit} are there in box {count_box['letter']}? {friend} counts each molecule as one.",
                   len(count_box["particles"]), [f"{len(count_box['particles'])} {unit}"])]

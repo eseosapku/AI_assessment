@@ -19,7 +19,7 @@ SUBJECT = "physics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("photoelectric-effect", "photon-and-light-energy", "wave-particle-duality",
                                           "spectra-and-quantum-physics"))
-AVOID = r"radioactiv|nuclear|decay|circuit|lens|mirror|\bwaves$|superposition|medical|stellar"
+AVOID = r"radioactiv|nuclear|decay|circuit|lens|mirror|\bwaves$|superposition|medical|stellar|electromagnetic spectrum"
 # Threshold frequencies (10¹⁴ Hz) from real work functions rounded to a gridline of 0.4 eV.
 METALS = {"caesium": 5, "sodium": 6, "potassium": 6, "calcium": 7, "lithium": 7, "magnesium": 9, "aluminium": 10, "zinc": 11, "copper": 12}
 H = Fraction(4, 10)  # eV per 10¹⁴ Hz

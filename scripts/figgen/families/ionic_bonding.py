@@ -83,7 +83,9 @@ def questions(p: dict, rng: random.Random) -> list:
     c = metal["charge"]
     return [short(f"{name} drew the ions in an ionic compound {rng.choice(SETTINGS)}. What is the formula of the compound?", sub(formula),
                   formula_forms(formula)),
-          short(f"What is the charge on the {metal['symbol']} ion?", f"{c}+", [f"{c}+", f"+{c}", "+" if c == 1 else f"{c}+", f"{sup(str(c) if c > 1 else '')}⁺"]),
+          short(f"What is the charge on the {metal['symbol']} ion?", f"{c}+",
+                [f"{c}+", f"+{c}", "+" if c == 1 else f"{c}+", f"{sup(str(c) if c > 1 else '')}⁺",
+                 f"{metal['symbol']}{c if c > 1 else ''}+", f"{metal['symbol']}{sup(str(c) if c > 1 else '')}⁺"]),
           short(f"{friend} asks how many electrons each {metal['symbol']} atom gives away to form its ion. How many?", c,
                 [str(c), f"{c} electrons" if c > 1 else "1 electron"]),
           short(f"How many electrons are in the outer shell of the {nonmetal['symbol']} ion?", 8, ["8", "8 electrons", "eight"])]

@@ -18,10 +18,15 @@ ID = "periodic_table"
 KIND = "chem.structure"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
-CONCEPTS = tuple(f"chemistry.{c}" for c in ("periodic-table-structure", "groups-and-periods", "group-1-alkali-metals",
+CONCEPTS = tuple(f"chemistry.{c}" for c in ("periodic-table-structure", "group-1-alkali-metals",
                                              "noble-gases", "ionic-bonding"))
 AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration|acid|bases|reactions|electrolyte|oxide|salt|analysis|conductivity|electrochem|extraction|reactivity|states of matter|introduction|transition"
 LETTERS = "VWXYZ"
+
+
+def avoid_for(p: dict) -> str:
+    """At LS no formula is asked, so bonding and equations topics are no fit (P3g final review)."""
+    return AVOID + ("|bonding|equation" if p["band"] == "LS" else "")
 W = 0.8  # a cell
 GAP = 3.2  # the transition elements' width, between groups 2 and 3
 

@@ -115,6 +115,21 @@ describe('reading a verdict', () => {
 })
 
 describe('whether the reviewer reached the key', () => {
+  it('reads the sign of a charge, not only its size (P3g final review)', () => {
+    const two = short('2+', ['2+', '+2', '²⁺'])
+    for (const own of ['2+', '+2', '²⁺', '2 +', 'Mg2+', 'Mg²⁺']) expect(agrees(two, own), own).toBe(true)
+    for (const own of ['2-', '-2', '²⁻', '2−', 'Mg2-']) expect(agrees(two, own), own).toBe(false)
+    const one = short('1-', ['1-', '-1', '-'])
+    for (const own of ['1-', '-', '−1', 'Cl⁻']) expect(agrees(one, own), own).toBe(true)
+    for (const own of ['+1', '1+', '+']) expect(agrees(one, own), own).toBe(false)
+    const ion = short('Pb²⁺', ['Pb²⁺', 'Pb2+', 'lead(II) ions'])
+    for (const own of ['Pb2+', 'Pb²⁺', 'lead(II) ions']) expect(agrees(ion, own), own).toBe(true)
+    for (const own of ['Pb2-', 'Br-', 'Zn2+']) expect(agrees(ion, own), own).toBe(false)
+
+    const minus = short('-3', ['-3'])  // a negative number is not a charge: 'x = -3' still reads as -3
+    expect(agrees(minus, 'x = -3')).toBe(true)
+  })
+
   it('reads a multiple-choice answer as a letter or as the option itself', () => {
     const q = item.questions[0]
     for (const own of ['A', 'a', 'A) Mango', '(A)', 'A. Mango', 'Mango']) expect(agrees(q, own), own).toBe(true)

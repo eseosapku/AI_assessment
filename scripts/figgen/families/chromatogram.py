@@ -20,9 +20,8 @@ ID = "chromatogram"
 KIND = "chem.chromatogram"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
-CONCEPTS = tuple(f"chemistry.{c}" for c in ("chromatography", "separation-techniques", "laboratory-techniques",
-                                             "purity"))
-AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|titration|gas-chromatograph|acid|concentration|waste|oxide|oxygen|salt|states|water|petro"
+CONCEPTS = tuple(f"chemistry.{c}" for c in ("chromatography", "separation-techniques", "laboratory-techniques"))
+AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|titration|gas-chromatograph|acid|concentration|waste|oxide|oxygen|salt|states|water|petro|solvent extraction|laboratory safety"
 WHAT = ["a black ink", "a food colouring", "a fruit drink colouring", "a felt-tip pen ink", "a sweet coating"]
 
 

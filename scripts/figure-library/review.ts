@@ -148,6 +148,18 @@ const LETTER = /^\(?([a-z])(?:[).:]|\s|$)/i
  * ("80 mm" for 8 cm), never other right answers. An answer typed exactly as an accepted form is
  * right, as the student would be marked. Otherwise the same words.
  */
+/** "2+", "+2", "Mg²⁺", "Cl⁻" as a size, a sign and an element; anything else, null. A key is a charge only with
+ *  its sign last ("2+"): a key "-3" is a number, and "x = -3" must still read as it. */
+function chargeOf(text: string, isKey = false): { size: number; sign: string; symbol: string } | null {
+  const t = text.normalize('NFKC').replace(/[−–]/g, '-').replace(/\s+/g, '')
+  let m = /^([A-Z][a-z]?)?(\d?)([+-])$/.exec(t)
+  if (m) return { symbol: m[1] ?? '', size: Number(m[2] || 1), sign: m[3] }
+  if (isKey) return null
+  m = /^([+-])(\d)$/.exec(t)
+  if (m) return { symbol: '', size: Number(m[2]), sign: m[1] }
+  return null
+}
+
 export function agrees(q: ReviewQuestion, own: string): boolean {
   const text = own.trim()
   if (q.kind === 'mcq') {
@@ -155,6 +167,14 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     const m = LETTER.exec(text)
     if (m) return m[1].toUpperCase().charCodeAt(0) - 65 === key
     return words(text) === words(q.options[key] ?? '')
+  }
+  // A charge or an ion ("2+", "1-", "Pb²⁺") is its size and its sign, and the element if one is named: numbers
+  // alone read "2-" as "2+" (P3g final review). An answer in words ("lead(II) ions") falls to the accepted forms.
+  const key = chargeOf(q.answer, true)
+  if (key) {
+    const mine = chargeOf(text)
+    if (mine) return mine.size === key.size && mine.sign === key.sign && (!key.symbol || mine.symbol === key.symbol)
+    return q.accepted.some((form) => canon(form) === canon(text))
   }
   const expected = numbersIn(q.answer)
   if (expected.length) {

@@ -1,8 +1,7 @@
 """Covalent bonding (LS, UP): a dot-and-cross diagram of a small molecule, outer shells only. Each atom's
 outer shell is a circle; bonded atoms' circles overlap, with the shared pairs in the overlap, one electron
 from each atom, and the lone pairs on the circle. One atom's electrons are dots, the others' crosses. The
-number of shared pairs, the lone pairs on one atom, the formula, and at UP whether a bond is single,
-double or triple.
+number of shared pairs, the lone pairs on one atom, the formula, and at UP the pairs shared in one bond.
 
 Every outer electron is drawn, and every atom ends with a full outer shell: two for hydrogen, eight for
 the rest.
@@ -14,15 +13,15 @@ import random
 
 from matplotlib.patches import Circle
 
-from ..core import INK, NAMES, formula_forms, mcq, new_figure, short, sub
+from ..core import INK, NAMES, formula_forms, new_figure, short, sub
 
 ID = "covalent_bonding"
 KIND = "chem.structure"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
-CONCEPTS = tuple(f"chemistry.{c}" for c in ("covalent-bonding", "dot-and-cross-diagrams", "simple-molecules",
+CONCEPTS = tuple(f"chemistry.{c}" for c in ("covalent-bonding",
                                              "chemical-formulae"))
-AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration|polymer|petro|amine|benzene|electrochem|stoichiometry|mixture|oxide|reactions|introduction"
+AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration|polymer|petro|amine|benzene|electrochem|stoichiometry|mixture|oxide|reactions|introduction|chemical equations|states of matter|arrangement of elements|group 1[345]"
 # formula: atoms (the first is the one asked about), bonds (i, j, order), lone pairs, each neighbour's
 # direction from atom 0 in degrees (atoms beyond the first two hang off atom 0).
 MOLECULES = {
@@ -107,8 +106,9 @@ def draw(p: dict):
 
 
 SETTINGS = ["in a chemistry lesson", "on a revision card", "for homework", "at the science club", "for a class test"]
+MET = ["drew a dot-and-cross diagram of a molecule", "copied this dot-and-cross diagram from the board",
+       "found this dot-and-cross diagram in a textbook", "built a model of a molecule and drew its dot-and-cross diagram"]
 NAME = {"H": "hydrogen", "Cl": "chlorine", "F": "fluorine", "O": "oxygen", "N": "nitrogen", "C": "carbon"}
-KINDS = {1: "a single covalent bond", 2: "a double covalent bond", 3: "a triple covalent bond"}
 
 
 def questions(p: dict, rng: random.Random) -> list:
@@ -119,14 +119,15 @@ def questions(p: dict, rng: random.Random) -> list:
     each = len(atoms) == 2 and atoms[0] == atoms[1]
     where = f"each {NAME[c]} atom" if each else f"the {NAME[c]} atom"
     n = lone[p["centre"]]
-    qs = [short(f"{name} drew a dot-and-cross diagram of a molecule {rng.choice(SETTINGS)}. How many pairs of electrons are shared?",
+    qs = [short(f"{name} {rng.choice(MET)} {rng.choice(SETTINGS)}. How many pairs of electrons are shared?",
                 shared, [str(shared), f"{shared} pairs", f"{shared} shared pairs"]),
           short(f"How many lone pairs (pairs not shared) are on {where}?", n, [str(n), f"{n} lone pairs", f"{n} pairs"] + (["none"] if n == 0 else [])),
           short(f"{friend} names the molecule from the diagram. What is its formula?", sub(p["formula"]), formula_forms(p["formula"]))]
-    if p["band"] == "UP":
-        i, j, order = rng.choice(bonds)
+    if p["band"] == "UP" and len(bonds) > 1:  # a diatomic's one bond is the first question already
+        # Counted on the figure: a bond-type MCQ named the pair, and "single" was the key 74% of the time (P3g review).
+        i, j, order = max(bonds, key=lambda b: (b[2], rng.random()))
         a, b = sorted([NAME[atoms[i]], NAME[atoms[j]]])
         pair = f"the two {a} atoms" if a == b else f"the {a} and {b} atoms"
-        qs.append(mcq(f"Which describes the bond between {pair}?", KINDS[order],
-                      [k for o, k in KINDS.items() if o != order] + ["an ionic bond"], rng))
+        qs.append(short(f"How many pairs of electrons are shared between {pair}?", order,
+                        [str(order), f"{order} pairs", f"{order} shared pairs"]))
     return qs

@@ -76,10 +76,18 @@ def test_electron_shells():
         assert m.shells(p) == shells
         assert qs[0].answer == ",".join(map(str, shells)) and "2.8.1".replace("2.8.1", ".".join(map(str, shells))) in qs[0].accepted
         group = 8 if shells[-1] == 8 or z == 2 else shells[-1]
-        assert int(qs[1].answer) == group and int(qs[2].answer) == len(shells)
-        if len(qs) > 3:
+        g = next((q for q in qs if "In which group" in q.stem), None)
+        assert (g is None) == (z == 1)  # hydrogen's group is disputed (P3g final review)
+        if g:
+            assert int(g.answer) == group and (group < 3 or f"group {group + 10}" in g.accepted)
+            assert ["I", "II", "III", "IV", "V", "VI", "VII", "VIII"][group - 1] in g.accepted
+        per = next(q for q in qs if "In which period" in q.stem)
+        assert int(per.answer) == len(shells)
+        ion = next((q for q in qs if "charge on the ion" in q.stem), None)
+        if ion:
+            assert z not in (1, 5)  # boron forms no simple ion
             charge = {1: 1, 2: 2, 3: 3, 5: -3, 6: -2, 7: -1}[group]  # metals lose, non-metals gain, to a full shell
-            assert qs[3].answer == f"{abs(charge)}{'+' if charge > 0 else '-'}"
+            assert ion.answer == f"{abs(charge)}{'+' if charge > 0 else '-'}"
 
 
 def test_ionic_bonding():
@@ -111,6 +119,14 @@ def test_covalent_bonding():
         assert int(qs[0].answer) == sum(o for _, _, o in bonds)  # shared pairs
         centre = p["centre"]
         assert int(qs[1].answer) == lone[centre]
+        assert not any("Which describes the bond" in q.stem for q in qs)  # single was the key 74% of the time
+        for q in qs:
+            got = re.search(r"shared between the (\w+) and (\w+) atoms|shared between the two (\w+) atoms", q.stem)
+            if got:
+                names = {"hydrogen": "H", "chlorine": "Cl", "fluorine": "F", "oxygen": "O", "nitrogen": "N", "carbon": "C"}
+                a_, b_ = (got.group(1), got.group(2)) if got.group(1) else (got.group(3), got.group(3))
+                orders = {o for i, j, o in bonds if {atoms[i], atoms[j]} == {names[a_], names[b_]}}
+                assert orders == {int(q.answer)}
 
 
 def test_periodic_table():
@@ -237,8 +253,9 @@ def test_rate_graph():
         T, vmax, xs, ys = main["T"], p["vmax"], p["xstep"], p["ystep"]
         assert T % xs == 0 and (T // 2) % xs == 0 and vmax % ys == 0  # the corner and the half-way point on gridlines
 
-        def v(t, run=main):
-            return min(Fraction(vmax), vmax * (1 - (1 - Fraction(t, run["T"])) ** 2)) if t < run["T"] else Fraction(vmax)
+        def v(t, run=main):  # vmax(2.5u - 2.5u^2 + u^3): three-quarters at half-time, still rising at T
+            u = Fraction(t, run["T"])
+            return vmax * (Fraction(5, 2) * u - Fraction(5, 2) * u ** 2 + u ** 3) if t < run["T"] else Fraction(vmax)
 
         for q in qs:
             if "total volume" in q.stem:
@@ -381,6 +398,111 @@ def test_chromatogram():
                 assert int(q.answer) == len(mix) + (unknown is not None)
             if q.kind == "mcq" and "travelled furthest" in q.stem:
                 assert dyes[picked(q)] == max(dyes.values())
+
+
+# --- P3g final review ----------------------------------------------------------------------------
+
+def test_particles_drawn_in_a_box_never_overlap():
+    m = fam("particle_diagram")
+    for s in range(1, 401):
+        p = m.sample(random.Random(s))
+        atoms = m.atoms_drawn(p)  # [(box, particle, x, y)]
+        for i, (b1, k1, x1, y1) in enumerate(atoms):
+            for b2, k2, x2, y2 in atoms[i + 1:]:
+                if b1 != b2:
+                    continue
+                d = ((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5
+                packed = p["boxes"][b1]["kind"] == "atoms" and p["boxes"][b1]["state"] == "solid"
+                if k1 == k2 or packed:
+                    assert d >= 2 * m.R - 1e-9, (s, b1)  # a molecule's atoms, and a solid element's, touch
+                else:
+                    assert d >= 2 * m.R + 0.02, (s, b1, k1, k2)  # separate particles never overlap
+
+
+def test_particle_solid_question_asks_about_particles_not_a_substance():
+    m = fam("particle_diagram")
+    for s in range(1, 200):
+        _, qs = run(m, s)
+        assert not any("substance in the solid state" in q.stem for q in qs)  # the mixture is no substance
+
+
+def test_most_soluble_is_clear_on_the_drawn_curves():
+    m = fam("solubility_curve")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        for q in qs:
+            got = re.search(r"most soluble at (\d+) °C", q.stem)
+            if got:
+                t = int(got.group(1))
+                best = picked(q)
+                assert all(m.drawn(p, best, t) >= m.drawn(p, o, t) + p["ystep"] for o in q.options if o != best), (s, t)
+
+
+def test_no_mass_of_crystals_asked_of_a_hydrated_salt():
+    m = fam("solubility_curve")
+    for s in SEEDS:
+        p, _ = run(m, s)
+        assert p["cool"][0] != "copper(II) sulfate"  # its crystals hold water: CuSO4·5H2O
+
+
+def test_rate_changes_fit_the_reaction():
+    m = fam("rate_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        if len(p["runs"]) < 2:
+            continue
+        what, _ = m.REACTIONS[p["reaction"]]
+        change = m.CHANGES[p["reaction"]][p["change"]]
+        if "acid" not in what:
+            assert "acid" not in change, (what, change)
+        if "catalyst" in what:
+            assert "catalyst added" not in change, (what, change)
+        if "powder" in what:
+            assert "powdered" not in change, (what, change)
+
+
+def test_rate_curve_meets_its_plateau_at_an_angle_you_can_see():
+    m = fam("rate_graph")
+    for s in SEEDS:
+        p = m.sample(random.Random(s))
+        for r in p["runs"]:
+            T, vmax = r["T"], p["vmax"]
+            before = m.volume(p, r, T - p["xstep"])
+            assert vmax - before >= 0.2 * p["ystep"], (s, T, before)  # one gridline back it is visibly lower
+
+
+def test_ph_readings_are_estimates_and_the_kind_mcq_names_no_threshold():
+    m = fam("ph_curve")
+    for s in range(1, 300):
+        p, qs = run(m, s)
+        for q in qs:
+            if q.kind == "mcq" and "strong or weak" in q.stem:
+                assert not any("below 2" in o or "above 2" in o for o in q.options)
+            if "pH at the start" in q.stem or "pKa" in q.stem:
+                assert "Estimate" in q.stem and q.tolerance >= 0.25
+    fig = m.draw(m.sample(random.Random(1)))
+    minor = fig.axes[0].get_yticks(minor=True)
+    assert any(abs(t - 0.5) < 1e-9 for t in minor)  # half-pH lines to estimate between
+
+
+def test_typed_forms_of_ions_moles_and_charges_are_accepted():
+    e = fam("electrolysis")
+    for s in range(1, 200):
+        p, qs = run(e, s)
+        q = next(q for q in qs if "discharged at the cathode" in q.stem)
+        assert any(f.endswith(" ions") for f in q.accepted)
+    i = fam("ionic_bonding")
+    for s in range(1, 100):
+        p, qs = run(i, s)
+        q = next(q for q in qs if "charge on the" in q.stem)
+        metal = p["ions"][0]
+        assert f"{metal['symbol']}{metal['charge']}+" in q.accepted or f"{metal['symbol']}+" in q.accepted
+    t = fam("titration")
+    for s in range(1, 300):
+        p, qs = run(t, s)
+        for q in qs:
+            if "How many moles" in q.stem:
+                assert any("× 10⁻" in f for f in q.accepted)
 
 
 CHEMISTRY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "chemistry")

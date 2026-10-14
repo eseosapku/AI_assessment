@@ -95,6 +95,21 @@ def _cm3(h: int) -> list[str]:
     return forms
 
 
+def _standard(v: Fraction) -> list[str]:
+    """3.5175 × 10⁻³ and 3.52 × 10⁻³, as a student writes moles (P3g final review)."""
+    from decimal import ROUND_HALF_UP, Decimal
+    d = Decimal(v.numerator) / Decimal(v.denominator)
+    e = d.adjusted()
+    mant = d.scaleb(-e).normalize()
+    sup_e = "⁻" + str(-e).translate(str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹"))
+    out = []
+    for m in (format(mant, "f"), str(mant.quantize(Decimal("0.01"), rounding=ROUND_HALF_UP))):
+        for f in (f"{m} × 10{sup_e}", f"{m} x 10^{e}", f"{m} × 10^{e}", f"{m}e{e}", f"{m} × 10{sup_e} mol"):
+            if f not in out:
+                out.append(f)
+    return out
+
+
 def questions(p: dict, rng: random.Random) -> list:
     who, friend = rng.sample(NAMES, 2)
     burette, flask = PAIRS[p["pair"]]
@@ -114,5 +129,5 @@ def questions(p: dict, rng: random.Random) -> list:
         moles = Fraction(str(p["conc"])) * mean / 100 / 1000
         mol = exact(moles)
         qs.append(short(f"The {burette} had a concentration of {p['conc']} mol/dm³. How many moles of it were in the mean titre?",
-                        mol, [mol, f"{mol} mol"]))
+                        mol, [mol, f"{mol} mol"] + _standard(moles)))
     return qs

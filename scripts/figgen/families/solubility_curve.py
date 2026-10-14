@@ -16,8 +16,7 @@ ID = "solubility_curve"
 KIND = "graph.line"
 SUBJECT = "chemistry"
 BANDS = ("UP",)
-CONCEPTS = tuple(f"chemistry.{c}" for c in ("solutions-and-solubility", "salts", "separation-techniques",
-                                             "crystallisation"))
+CONCEPTS = tuple(f"chemistry.{c}" for c in ("solutions-and-solubility", "salts", "separation-techniques"))
 AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|rate|benzene|stoichiometry|analysis|environment|conductivity|npk|petro|phase|colligative|states of matter|group"
 TEMPS = (0, 20, 40, 60, 80, 100)
 REAL = {"potassium nitrate": (13, 32, 64, 110, 169, 246), "potassium chloride": (28, 34, 40, 45.5, 51, 56),
@@ -50,18 +49,29 @@ def sample(rng: random.Random) -> dict:
     asked = [s for s in salts if s in READ and (ystep == 5 or s == "potassium nitrate")]
     salt = rng.choice(asked)
     t = rng.choice([20, 40, 60, 80])
-    cool_salt = rng.choice(asked)
+    cool_salt = rng.choice([s for s in asked if s != "copper(II) sulfate"])  # its crystals hold water: CuSO4·5H2O
     t1 = rng.choice([40, 60, 80, 100])
     t2 = rng.choice([x for x in TEMPS if x < t1 and reading(cool_salt, x, ystep) < reading(cool_salt, t1, ystep)])
-    clear = [x for x in TEMPS if _margin(salts, x) >= 3]
+    shown = {"salts": salts, "asked": asked, "ystep": ystep}
+    clear = [x for x in TEMPS if _margin(shown, x) >= ystep]
     return {"band": "UP", "salts": salts, "asked": asked, "ystep": ystep, "top": top, "ask": salt, "t": t,
             "cool": [cool_salt, t1, t2],
             "most": rng.choice(clear) if clear else None}
 
 
-def _margin(salts: list[str], t: int) -> float:
-    vals = sorted((REAL[s][TEMPS.index(t)] for s in salts), reverse=True)
-    return vals[0] - vals[1]
+def drawn(p: dict, salt: str, t: int) -> float:
+    """The value the curve is drawn through at t: rounded to the grid where the salt is read, true elsewhere."""
+    return reading(salt, t, p["ystep"]) if salt in p["asked"] else REAL[salt][TEMPS.index(t)]
+
+
+def _margin(p: dict, t: int) -> float:
+    """How far the top curve stands above the next, as drawn (P3g final review: rounding made two curves meet),
+    and zero when the drawn order is not the real one."""
+    drawn_order = sorted(p["salts"], key=lambda s: drawn(p, s, t), reverse=True)
+    real_top = max(p["salts"], key=lambda s: REAL[s][TEMPS.index(t)])
+    if drawn_order[0] != real_top:
+        return 0
+    return drawn(p, drawn_order[0], t) - drawn(p, drawn_order[1], t)
 
 
 def _pchip(xs, ys, n=300):
@@ -94,7 +104,7 @@ def draw(p: dict):
     ax.set_ylim(0, top)
     for salt, style in zip(p["salts"], STYLES):
         # A salt never asked about here is drawn true: rounded to this axis's 10 g it would wobble.
-        values = _points(salt, step) if salt in p["asked"] else REAL[salt]
+        values = [drawn(p, salt, t) for t in TEMPS]
         xs, ys = _pchip(list(TEMPS), [float(v) for v in values])
         ax.plot(xs, ys, color=INK, linewidth=1.7, linestyle=style, label=salt)
     ax.set_xlabel("Temperature (°C)")
@@ -126,6 +136,6 @@ def questions(p: dict, rng: random.Random) -> list:
                 "What mass of crystals forms?", exact(drop), measure(drop, "g"))]
     if p["most"] is not None:
         k = TEMPS.index(p["most"])
-        best = max(p["salts"], key=lambda s: REAL[s][k])
+        best = max(p["salts"], key=lambda s: drawn(p, s, p["most"]))
         qs.append(mcq(f"Which salt is the most soluble at {p['most']} °C?", best, [s for s in p["salts"] if s != best], rng))
     return qs

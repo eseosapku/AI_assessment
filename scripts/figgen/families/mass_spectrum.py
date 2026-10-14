@@ -16,8 +16,7 @@ ID = "mass_spectrum"
 KIND = "graph.bar"
 SUBJECT = "chemistry"
 BANDS = ("UP", "AL")
-CONCEPTS = tuple(f"chemistry.{c}" for c in ("mass-spectrometry", "relative-atomic-mass", "atomic-number-mass-number-isotopes",
-                                             "isotopes"))
+CONCEPTS = tuple(f"chemistry.{c}" for c in ("mass-spectrometry", "relative-atomic-mass", "atomic-number-mass-number-isotopes"))
 AVOID = r"organic|alkane|electrolysis|titration|bonding|enthalpy|rate|chromatograph|nuclear|radioactiv|half-life|periodic table|electronic structure|formulae|introduction|stoichiometry"
 ELEMENTS = {  # mass number, % abundance
     "chlorine": [(35, 75), (37, 25)], "boron": [(10, 20), (11, 80)], "lithium": [(6, 8), (7, 92)],

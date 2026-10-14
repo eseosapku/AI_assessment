@@ -974,3 +974,24 @@ def test_the_sankey_power_is_the_power_taken_in():
         p, qs = run(m, s)
         if len(qs) > 3:
             assert "takes in energy at" in qs[3].stem, qs[3].stem
+
+
+# --- P3g final review ----------------------------------------------------------------------------
+
+def test_a_magnet_is_drawn_in_one_fill():
+    """A half-shaded magnet hints at which pole is N (P3g final review)."""
+    import matplotlib.pyplot as plt
+    from matplotlib.patches import Rectangle
+    m = fam("magnet_field")
+    for s in range(1, 40):
+        fig = m.draw(m.sample(random.Random(s)))
+        fills = {tuple(r.get_facecolor()) for r in fig.axes[0].patches if isinstance(r, Rectangle)}
+        plt.close(fig)
+        assert len(fills) == 1, (s, fills)
+
+
+def test_light_given_out_never_comes_from_a_star():
+    m = fam("energy_levels")
+    for s in range(1, 300):
+        _, qs = run(m, s)
+        assert not any("star" in q.stem for q in qs)  # a star's spectrum is one of absorption lines

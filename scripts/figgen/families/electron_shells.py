@@ -12,6 +12,7 @@ import random
 from matplotlib.patches import Circle
 
 from ..core import FILL_2, INK, NAMES, new_figure, short
+from .periodic_table import _group_forms
 
 ID = "electron_shells"
 KIND = "chem.particle"
@@ -71,12 +72,12 @@ def questions(p: dict, rng: random.Random) -> list:
     conf = ",".join(map(str, s))
     forms = [conf, ".".join(map(str, s)), ", ".join(map(str, s)), " ".join(map(str, s)), "-".join(map(str, s))]
     g = group(p)
-    qs = [short(f"{name} drew the electrons of an atom {rng.choice(SETTINGS)}. What is its electronic configuration?", conf, forms),
-          short(f"{friend} wants to place this element in the periodic table. In which group is it?", g,
-                [str(g), f"group {g}", f"Group {g}"] + (["0", "group 0", "VIII", "group VIII"] if g == 8 else [])),
-          short("In which period of the periodic table is this element?", len(s), [str(len(s)), f"period {len(s)}", f"Period {len(s)}"])]
+    qs = [short(f"{name} drew the electrons of an atom {rng.choice(SETTINGS)}. What is its electronic configuration?", conf, forms)]
+    if p["Z"] != 1:  # hydrogen's group is disputed (P3g final review)
+        qs.append(short(f"{friend} wants to place this element in the periodic table. In which group is it?", g, _group_forms(g)))
+    qs.append(short("In which period of the periodic table is this element?", len(s), [str(len(s)), f"period {len(s)}", f"Period {len(s)}"]))
     charges = {1: "1+", 2: "2+", 3: "3+", 5: "3-", 6: "2-", 7: "1-"}
-    if p["band"] == "UP" and g in charges and p["Z"] > 2:
+    if p["band"] == "UP" and g in charges and p["Z"] > 2 and p["Z"] != 5:  # boron forms no simple B³⁺ ion
         c = charges[g]
         sign = c[-1]
         qs.append(short("This atom forms an ion with a full outer shell. What is the charge on the ion?", c,

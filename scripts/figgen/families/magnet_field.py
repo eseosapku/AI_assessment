@@ -20,7 +20,7 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("magnetism", "magnetization-and-demagnetization", "magnetic-fields"))
 # Not the motor effect or induction, which have their own figures, nor electric or gravitational fields.
-AVOID = r"motor|induction|generator|transformer|electric field|gravitational|electrostatic"
+AVOID = r"motor|induction|generator|transformer|electric field|gravitational|electrostatic|magnetic effect of current|forces on currents"
 DIRS = {"up": (0, 1), "down": (0, -1), "left": (-1, 0), "right": (1, 0)}
 WAYS = {"up": "up the page", "down": "down the page", "left": "left across the page", "right": "right across the page"}
 SPOTS = {"single": [(-3.4, 0.0), (3.4, 0.0), (0.0, 1.8), (0.0, -1.8), (-1.0, 1.6), (1.0, -1.6), (0.0, 2.6)],
@@ -91,7 +91,8 @@ def sample(rng: random.Random) -> dict:
 def _magnet(ax, x0, x1, left_label, right_label):
     mid = (x0 + x1) / 2
     ax.add_patch(Rectangle((x0, -0.45), mid - x0, 0.9, facecolor=FILL_2, edgecolor=INK, linewidth=1.5, zorder=3))
-    ax.add_patch(Rectangle((mid, -0.45), x1 - mid, 0.9, facecolor="white", edgecolor=INK, linewidth=1.5, zorder=3))
+    # One fill: a shaded half hinted which pole was N (P3g final review).
+    ax.add_patch(Rectangle((mid, -0.45), x1 - mid, 0.9, facecolor=FILL_2, edgecolor=INK, linewidth=1.5, zorder=3))
     ax.text(x0 + 0.4, 0, left_label, ha="center", va="center", fontsize=13, fontweight="bold", zorder=4)
     ax.text(x1 - 0.4, 0, right_label, ha="center", va="center", fontsize=13, fontweight="bold", zorder=4)
 
