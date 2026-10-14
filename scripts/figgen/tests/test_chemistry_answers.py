@@ -335,6 +335,54 @@ def test_mass_spectrum():
                 assert picked(q) == p["element"]
 
 
+# --- Task 8: analysis -----------------------------------------------------------------------------
+
+def test_titration():
+    m = fam("titration")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        runs = p["runs"]  # [start, end] in hundredths of a cm³
+        assert all(r % 5 == 0 for run_ in runs for r in run_)  # read to the nearest 0.05 cm³
+        assert all(0 <= a < b <= 5000 for a, b in runs)
+        titres = [b - a for a, b in runs]
+        close = [i for i in range(3) if any(abs(titres[i] - titres[j]) <= 10 for j in range(3) if j != i)]
+        assert len(close) == 2 and all(abs(titres[i] - titres[j]) >= 30 for i in range(3) if i not in close for j in close)
+        mean = Fraction(sum(titres[i] for i in close), 2 * 100)
+        for v in (x for run_ in runs for x in run_):
+            lo, hi = m.window(v)  # each reading drawn in a window of the scale that shows it and a numbered mark
+            assert lo <= v <= hi and any(k * 100 in range(lo, hi + 1) for k in range(0, 51))
+        for q in qs:
+            got = re.search(r"titre in run (\d)", q.stem)
+            if got:
+                assert num(q.answer) == Fraction(titres[int(got.group(1)) - 1], 100)
+            if "mean of the concordant" in q.stem:
+                assert num(q.answer) == mean
+            got = re.search(r"reading at the end of run (\d)", q.stem)
+            if got:
+                assert num(q.answer) == Fraction(runs[int(got.group(1)) - 1][1], 100)
+            if "How many moles" in q.stem:
+                assert Fraction(q.answer) == Fraction(str(p["conc"])) * mean / 1000
+
+
+def test_chromatogram():
+    m = fam("chromatogram")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        front, dyes, mix, unknown = p["front"], p["dyes"], p["mixture"], p["unknown"]
+        heights = list(dyes.values()) + ([unknown] if unknown is not None else [])
+        assert len(set(heights)) == len(heights) and all(0 < h < front for h in heights)  # each spot its own height
+        for q in qs:
+            got = re.search(r"Rf value of dye ([A-Z])", q.stem)
+            if got:
+                assert Fraction(q.answer) == Fraction(dyes[got.group(1)], front)
+            if "Which dyes does" in q.stem:
+                assert set(re.findall(r"\b[A-Z]\b", q.answer)) == set(mix)
+            if "How many different substances" in q.stem:
+                assert int(q.answer) == len(mix) + (unknown is not None)
+            if q.kind == "mcq" and "travelled furthest" in q.stem:
+                assert dyes[picked(q)] == max(dyes.values())
+
+
 CHEMISTRY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "chemistry")
 
 
