@@ -34,6 +34,12 @@ LINKS = {
     "bio.leaf_section": dict(subject=B, kind="diagram.template", concepts=["leaf-internal-structure-photosynthesis"],
                              needs=r"leaf|leaves|photosynth|plant nutrition|plant tissue|transpiration|gas exchange in plants",
                              avoid=r"genetic|inherit|reproduc|ecolog|population"),
+    # families we draw too: linked as ours are, by that family's concepts, NEEDS and AVOID
+    "chem.titration_curve": dict(like="ph_curve"),
+    "phys.decay_curve": dict(like="decay_graph"),
+    "math.box_plot": dict(like="box_plot", avoid_extra=r"binomial|chi-squared|non-parametric|inferential|distribution"),
+    "math.histogram": dict(like="histogram"),
+    "math.scatter": dict(like="scatter_graph"),
 }
 
 
@@ -46,6 +52,12 @@ GRAPH_KINDS = {"linear": ["linear-functions", "linear-equation-gradient-intercep
 def family_of(row: dict, band: str):
     """A stand-in for a drawn family module, so `link.topics_for` applies the same rules."""
     spec = LINKS[row["family"]]
+    if "like" in spec:
+        from ..families import FAMILIES
+        m = FAMILIES[spec["like"]]
+        avoid = "|".join(x for x in (getattr(m, "AVOID", None), spec.get("avoid_extra")) if x) or None
+        return types.SimpleNamespace(ID=f"ds.{row['family']}", SUBJECT=m.SUBJECT, KIND=m.KIND, BANDS=(band,), CONCEPTS=tuple(m.CONCEPTS),
+                                     NEEDS=getattr(m, "NEEDS", None), AVOID=avoid)
     kind = (row.get("params") or {}).get("kind")
     if row["family"] == "math.function_graph" and kind in GRAPH_KINDS:
         spec = {**spec, "concepts": GRAPH_KINDS[kind]}

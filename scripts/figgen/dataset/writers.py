@@ -294,7 +294,89 @@ def leaf_section(row: dict, rng: random.Random) -> list:
     return _labels(row, rng, LEAF, "section through a leaf") if p["style"] == "letters" else []
 
 
+# --- batch 2: titration, decay, statistics ---------------------------------------------------------
+
+def titration_curve(row: dict, rng: random.Random) -> list:
+    """All the acids and bases here are monoprotic, so the reaction is 1 : 1 and c1 V1 = c2 V2."""
+    p = row["params"]
+    acid_flask = p["analyte"] == "acid"
+    flask, burette = (p["acid"], p["base"]) if acid_flask else (p["base"], p["acid"])
+    c_flask, c_burette = (p["c_acid"], p["c_base"]) if acid_flask else (p["c_base"], p["c_acid"])
+    v, vol = p["v_eq"], p["analyte_volume"]
+    tol_v = p["x_max"] / 40
+    v_s = _n(v)
+    qs = [short(f"{_lead(rng, 'titration curve')} What volume of {burette} has been added at the equivalence point, in cm³?", v_s,
+                [v_s, f"{v_s} cm³", f"{v_s} cm3", f"{v:.1f}"], tolerance=tol_v)]
+    c_s = _n(c_flask)
+    qs.append(short(f"The {flask} in the flask had a volume of {_n(vol)} cm³, and the {burette} has a concentration of "
+                    f"{_n(c_burette)} mol/dm³. Use the graph to find the concentration of the {flask}, in mol/dm³.", c_s,
+                    [c_s, f"{c_flask:.3f}", f"{c_s} mol/dm³", f"{c_s} mol dm⁻³", f"{c_s} M"], tolerance=c_burette * tol_v / vol))
+    return qs
+
+
+DECAY_UNITS = {"mass": "g", "activity": "Bq", "nuclei": "", "count rate": "counts/min"}
+DECAY_WHAT = {"mass": "the mass of the isotope", "activity": "the activity", "nuclei": "the number of undecayed nuclei",
+              "count rate": "the count rate"}
+
+
+def decay_curve(row: dict, rng: random.Random) -> list:
+    p = row["params"]
+    t, unit = p["half_life"], p["unit"]
+    t_s = _n(t)
+    qs = [short(f"{_lead(rng, 'decay curve')} Use the graph to find the half-life, in {unit}.", t_s,
+                [t_s, f"{t_s} {unit}", f"{t:.1f}"], tolerance=t / 10)]
+    left = p["N0"] / 4
+    u = DECAY_UNITS[p["quantity"]]
+    l_s = _n(left)
+    qs.append(short(f"What is {DECAY_WHAT[p['quantity']]} after {_n(2 * t)} {unit}?", l_s,
+                    [l_s] + ([f"{l_s} {u}"] if u else []), tolerance=p["N0"] / 40))
+    return qs
+
+
+def box_plot(row: dict, rng: random.Random) -> list:
+    p = row["params"]
+    groups = p["groups"] or [None]
+    k = rng.randrange(len(groups))
+    lo, q1, med, q3, hi = p["plots"][k]
+    of = f" for {groups[k]}" if groups[k] else ""
+    ask = rng.sample(["median", "iqr", "range"], 2)
+    qs = []
+    for j, what in enumerate(ask):
+        lead = f"{_lead(rng, 'box-and-whisker plot')} " if j == 0 else ""
+        if what == "median":
+            qs.append(short(f"{lead}What is the median{of}?", _n(med), [_n(med)], tolerance=1))
+        elif what == "iqr":
+            qs.append(short(f"{lead}What is the interquartile range{of}?", _n(q3 - q1), [_n(q3 - q1)], tolerance=1))
+        else:
+            qs.append(short(f"{lead}What is the range{of}?" if of else f"{lead}What is the range?", _n(hi - lo), [_n(hi - lo)], tolerance=1))
+    return qs
+
+
+def histogram(row: dict, rng: random.Random) -> list:
+    p = row["params"]
+    b, f = p["bounds"], p["freqs"]
+    i = rng.randrange(len(f))
+    total = sum(f)
+    return [short(f"{_lead(rng, 'histogram')} How many values lie in the class from {_n(b[i])} to {_n(b[i + 1])}?", f[i], [str(f[i])]),
+            short("How many values does the histogram show altogether?", total, [str(total)])]
+
+
+def scatter(row: dict, rng: random.Random) -> list:
+    p = row["params"]
+    pts = p["points"]
+    mx, my = sum(x for x, _ in pts) / len(pts), sum(y for _, y in pts) / len(pts)
+    slope = sum((x - mx) * (y - my) for x, y in pts)
+    key = "No correlation" if p["correlation"] == "none" else ("Positive" if slope > 0 else "Negative")
+    return [mcq(f"{_lead(rng, 'scatter diagram')} What type of correlation does it show?", key,
+                [x for x in ("Positive", "Negative", "No correlation") if x != key], rng)]
+
+
 WRITERS = {
+    "chem.titration_curve": titration_curve,
+    "phys.decay_curve": decay_curve,
+    "math.box_plot": box_plot,
+    "math.histogram": histogram,
+    "math.scatter": scatter,
     "math.trig_triangle": trig_triangle,
     "math.transformation": transformation,
     "math.vector": vector,

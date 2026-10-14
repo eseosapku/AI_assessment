@@ -221,3 +221,80 @@ def test_label_questions_skip_what_the_drawings_leave_ambiguous():
                 assert "A fungal cell" not in q.options
                 if "Name the part labelled" in q.stem and q.answer.endswith("mesophyll"):
                     assert f"{q.answer} cell" in q.accepted and f"{q.answer} cells" in q.accepted
+
+
+# --- batch 2: titration, decay, statistics ---------------------------------------------------------
+
+def test_titration_curve():
+    for row, qs in asked("chem.titration_curve"):
+        p = row["params"]
+        assert qs, row["id"]  # every row asks something
+        for q in qs:
+            if "equivalence point" in q.stem and "concentration" not in q.stem:
+                assert float(q.answer) == p["v_eq"] and q.tolerance > 0
+            if "find the concentration" in q.stem:
+                want = p["c_acid"] if p["analyte"] == "acid" else p["c_base"]
+                assert abs(float(q.answer) - want) < 1e-9, row["id"]
+                # what the stem gives is the other solution's concentration and the analyte's volume
+                given = p["c_base"] if p["analyte"] == "acid" else p["c_acid"]
+                assert _n(given) in q.stem and _n(p["analyte_volume"]) in q.stem
+
+
+def _n(v):
+    return str(int(v)) if float(v).is_integer() else str(v)
+
+
+def test_decay_curve():
+    for row, qs in asked("phys.decay_curve"):
+        p = row["params"]
+        assert qs, row["id"]  # every row asks something
+        for q in qs:
+            if "half-life" in q.stem:
+                assert float(q.answer) == p["half_life"]
+            got = re.search(r"after ([\d.]+) ", q.stem)
+            if got:
+                assert float(got.group(1)) == 2 * p["half_life"]
+                assert float(q.answer) == p["N0"] / 4
+
+
+def test_box_plot():
+    for row, qs in asked("math.box_plot"):
+        p = row["params"]
+        assert qs, row["id"]  # every row asks something
+        groups = p["groups"] or [None]
+        for q in qs:
+            k = next((i for i, g in enumerate(groups) if g and g in q.stem), 0)
+            lo, q1, med, q3, hi = p["plots"][k]
+            if "median" in q.stem:
+                assert float(q.answer) == med
+            if "interquartile range" in q.stem:
+                assert float(q.answer) == q3 - q1
+            if q.stem.endswith("What is the range?") or " range of " in q.stem and "interquartile" not in q.stem:
+                assert float(q.answer) == hi - lo
+
+
+def test_histogram():
+    for row, qs in asked("math.histogram"):
+        p = row["params"]
+        assert qs, row["id"]  # every row asks something
+        b, f = p["bounds"], p["freqs"]
+        for q in qs:
+            got = re.search(r"class from (\d+) to (\d+)", q.stem)
+            if got:
+                i = b.index(int(got.group(1)))
+                assert b[i + 1] == int(got.group(2)) and int(q.answer) == f[i]
+            if "altogether" in q.stem:
+                assert int(q.answer) == sum(f)
+
+
+def test_scatter():
+    for row, qs in asked("math.scatter"):
+        p = row["params"]
+        assert qs, row["id"]  # every row asks something
+        xs, ys = zip(*p["points"])
+        mx, my = sum(xs) / len(xs), sum(ys) / len(ys)
+        slope = sum((x - mx) * (y - my) for x, y in p["points"])
+        for q in qs:
+            if "correlation" in q.stem:
+                want = "No correlation" if p["correlation"] == "none" else ("Positive" if slope > 0 else "Negative")
+                assert picked(q) == want, row["id"]
