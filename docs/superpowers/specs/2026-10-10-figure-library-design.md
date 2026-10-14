@@ -597,6 +597,22 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - Respiration and gas exchange: 226 figures, 828 questions.
       None were missing a question or a file.
     - **Next:** P3k, the Computing wave (397 empty topics).
+  - **P3j final review and the index fix (2026-10-15).** $0.
+    - **The app's marker (Critical):** the short-answer slip allowance applied to a whole accepted form. So "2 hydrogen bonds" passed for "3 hydrogen bonds", and "5% increase in mass" for "5% decrease in mass". It is now judged word by word: numbers and words under 8 letters must be exact (`lib/short-answer.ts`).
+    - **Six NEEDS misfits:** osmoregulation, codominance, work and energy, oxidation numbers, measurement errors and plant nutrition no longer receive figures.
+    - **The index:** `topic_map.dropped` counts the invalid ids the mapper returned. link.py read it as "the topic was dropped", which hid 491 mapped topics, 213 of them Maths. They are now indexed.
+      - That reached 234 more topics. Each was read by name, and the misfits were named in AVOID across 45 families; no existing link was lost.
+      - 75 Lower Secondary spring graphs had been left unlinked when spring_graph became Upper Secondary only; they were rejected.
+    - **Coverage:**
+      - Maths: 425 of 515 topics have figures (373 with 50 or more).
+      - Physics: 186 of 210 (174).
+      - Chemistry: 107 of 185 (90).
+      - Biology: 80 of 169 (76).
+      - Library: 16,419 figures approved, 126,839 approved links.
+    - **Quiz check:**
+      - Rwanda Primary "Numbers from 0 up to 200": 41 figures, 123 questions.
+      - IGCSE "Histograms and cumulative frequency diagrams": 264 figures, 1,034 questions.
+      - AL "Cell membranes and transport": 17 figures, 68 questions.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
