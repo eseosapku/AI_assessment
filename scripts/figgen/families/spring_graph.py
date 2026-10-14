@@ -15,7 +15,8 @@ from ..core import GRID, INK, NAMES, curve, exact, measure, new_figure, short
 ID = "spring_graph"
 KIND = "graph.line"
 SUBJECT = "physics"
-BANDS = ("LS", "UP")
+BANDS = ("UP",)  # no Lower Secondary book in the store teaches springs; its links were Newton's-laws chapters
+MIN_VARIETY = 35  # one band now: the same numbers, no longer doubled by an LS copy
 CONCEPTS = tuple(f"physics.{c}" for c in ("hookes-law", "forces"))
 # Hooke's law, forces and matter: not electric or magnetic forces, pressure, turning, or machines.
 AVOID = r"^chapter 2: newton|electric|electrostatic|static electricity|magnet|installation|environmental|earthquake|pressure|density|turning|moment|centre of gravity|machines|frictional"
