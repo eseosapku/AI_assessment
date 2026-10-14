@@ -144,5 +144,5 @@ def questions(p: dict, rng: random.Random) -> list:
     find = p["find"]
     ref = next(f"{chr(ord('A') + c)}{r + 1}" for r, row in enumerate(table) for c, x in enumerate(row) if x == find)
     return [short(f"{who} types the formula shown in cell {at} {rng.choice(SETTINGS)}. What does cell {at} show?", v1, _forms(v1)),
-            short(f"{friend} changes it to {p['change']}. What value is shown in cell {at} now?", v2, _forms(v2)),
-            short(f"Look at the spreadsheet {who} made. Which cell holds {find}?", ref, [ref, ref.lower()])]
+            short(f"{friend} changes the formula in {at} to {p['change']}. What value is shown in cell {at} now?", v2, _forms(v2)),
+            short(f"Look at the spreadsheet {who} made. Which cell holds {find}?", ref, [ref, ref.lower(), f"cell {ref}", f"cell {ref.lower()}"])]

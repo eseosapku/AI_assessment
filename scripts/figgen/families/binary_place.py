@@ -46,6 +46,14 @@ def draw(p: dict):
     return fig
 
 
+def _hex_forms(v: int) -> list[str]:
+    """Each way of writing the hexadecimal, with and without the leading zero of a byte under 16 (P3k review)."""
+    out = []
+    for h in dict.fromkeys([format(v, "02X"), format(v, "X")]):
+        out += [h, f"{h}h", f"0x{h}", f"{h}₁₆"]
+    return out
+
+
 SETTINGS = ["in a computing lesson", "for homework", "on a revision card", "at the coding club", "for a class test"]
 
 
@@ -58,6 +66,6 @@ def questions(p: dict, rng: random.Random) -> list:
     shifted = v << k
     place = "place" if k == 1 else "places"
     return [short(f"{who} writes a byte in this table {rng.choice(SETTINGS)}. What is the denary value of this byte?", v, [str(v)]),
-            short(f"{friend} converts the byte in the table to hexadecimal. What does {friend} write?", hx, [hx, f"{hx}h", f"0x{hx}", f"{hx}₁₆"]),
+            short(f"{friend} converts the byte in the table to hexadecimal. What does {friend} write?", hx, _hex_forms(v)),
             short(f"{who} then does a logical left shift of {k} {place} on the byte in the table. What is the denary value after the shift?",
                   shifted, [str(shifted)])]

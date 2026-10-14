@@ -85,8 +85,11 @@ def test_truth_table():
         tree = p["expr"]
         table = rows(p)
         blanks = set(p["blanks"])
-        assert blanks and len(blanks) < len(table)
+        # a blank can be worked out only from the expression, so blanks come only with it printed (P3k review)
+        assert (p["shows"] == "expression") == bool(blanks) and len(blanks) < len(table)
         for q in qs:
+            if q.kind == "mcq":
+                assert p["shows"] == "table", s  # the expression is not printed beside the question that asks for it
             got = re.search(r"value of X in row (\d+)", q.stem)
             if got:
                 k = int(got.group(1)) - 1
@@ -100,6 +103,7 @@ def test_truth_table():
                 for alt in p["alts"]:
                     if text(alt) != text(tree):  # a wrong option disagrees with a row the table shows
                         assert any(ev(alt, table[i]) != ev(tree, table[i]) for i in shown), (s, text(alt))
+        assert any("rows give" in q.stem for q in qs), s  # the count is always asked, and checked
 
 
 # --- Task 2: algorithms ---------------------------------------------------------------------------
@@ -143,9 +147,13 @@ def test_sort_trace():
             for k in range(1, len(xs)):
                 states.append(insertion_pass(states[-1], k))
         for q in qs:
+            # the list is the figure's: a stem that prints it needs no figure (P3k review)
+            assert ", ".join(map(str, xs)) not in q.stem and " a insertion" not in q.stem, (s, q.stem)
             got = re.search(r"after pass (\d+)", q.stem)
             if got:
-                assert nums(q.answer) == states[int(got.group(1))]
+                k = int(got.group(1))
+                assert nums(q.answer) == states[k]
+                assert states[k] != states[k - 1], (s, k)  # the pass asked moves something, so copying the figure fails
             if "swaps" in q.stem:
                 assert int(q.answer) == first_swaps
             if "first in order" in q.stem:
@@ -259,6 +267,7 @@ def test_binary_place():
                 assert int(q.answer) == v
             if "hexadecimal" in q.stem:
                 assert q.answer == format(v, "02X")
+                assert format(v, "X") in q.accepted  # "E" for 0E: the leading zero is not needed (P3k review)
             got = re.search(r"left shift of (\d) place", q.stem)
             if got:
                 k = int(got.group(1))
@@ -278,6 +287,9 @@ def test_bitmap_image():
             if got:
                 row = grid[int(got.group(1)) - 1]
                 assert q.answer.replace(" ", "") == "".join(format(c, f"0{depth}b") for c in row)
+                code = q.answer.replace(" ", "")
+                if len(code) > 4:  # written in fours, as bytes are, is a fair answer (P3k review)
+                    assert " ".join(code[i:i + 4] for i in range(0, len(code), 4)) in q.accepted
             got = re.search(r"file size in (bits|bytes)", q.stem)
             if got:
                 bits = w * h * depth
@@ -350,11 +362,12 @@ def test_spreadsheet_formula():
         for q in qs:
             if "What does cell" in q.stem:
                 assert q.answer == as_key(formula(table, p["formula"])), (s, p["formula"], q.answer)
-            got = re.search(r"changes it to (=\S+?\))", q.stem)
+            got = re.search(r"in [A-D]\d+ to (=\S+?\))", q.stem)
             if got:
                 assert q.answer == as_key(formula(table, got.group(1))), (s, got.group(1), q.answer)
             got = re.search(r"Which cell holds (\S+?)\?", q.stem)
             if got:
+                assert f"cell {q.answer}" in q.accepted  # "cell B2" is a fair answer (P3k review)
                 v = got.group(1)
                 assert as_key(cell(table, q.answer)) == v
                 assert sum(as_key(x) == v for row in table for x in row) == 1  # the value is in one cell only
@@ -457,7 +470,7 @@ def test_stack_queue():
     for s in SEEDS:
         p, qs = run(m, s)
         items = list(p["start"])  # bottom to top, or front to rear
-        removed = []
+        removed, peak = [], len(items)
         for op in p["ops"]:
             word, *arg = op.split()
             if word in ("PUSH", "ENQUEUE"):
@@ -466,6 +479,12 @@ def test_stack_queue():
             else:
                 assert items, (s, p)
                 removed.append(items.pop() if word == "POP" else items.pop(0))
+            peak = max(peak, len(items))
+        # never past the drawn cells: a fixed array would call it full (P3k review). A drawn queue's rear only moves on.
+        if p["kind"] == "stack":
+            assert peak <= 5, (s, p)
+        else:
+            assert len(p["start"]) + sum(op.startswith("ENQUEUE") for op in p["ops"]) <= 6, (s, p)
         for q in qs:
             if "after all" in q.stem:
                 assert q.answer == (items[-1] if p["kind"] == "stack" else items[0])
@@ -521,3 +540,45 @@ def test_a_computing_mcq_cannot_be_picked_from_its_options_alone(fid):
                 hits[key] += _central(q.options) == int(q.answer)
     bad = {k: (hits[k], seen[k]) for k in seen if seen[k] >= 10 and hits[k] / seen[k] > 0.35}
     assert not bad, (fid, bad)
+
+
+def test_a_truth_table_with_blanks_prints_its_expression():
+    """A "?" cell cannot be worked out from the inputs alone (P3k review)."""
+    import matplotlib.pyplot as plt
+    m = fam("truth_table")
+    for s in range(1, 60):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        texts = [t.get_text() for t in fig.axes[0].texts]
+        plt.close(fig)
+        assert (f"X = {text(p['expr'])}" in texts) == bool(p["blanks"]), s
+
+
+
+def test_a_trace_table_marks_its_blanks():
+    """An empty cell in a Cambridge trace table means "unchanged"; a blank to fill in shows "?" (P3k review)."""
+    import matplotlib.pyplot as plt
+    m = fam("trace_table")
+    for s in range(1, 40):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        texts = [t.get_text() for t in fig.axes[0].texts]
+        plt.close(fig)
+        assert texts.count("?") == len(p["blanks"]), s
+
+
+def _cross(a, b, c, d):
+    def side(p, q, r):
+        return (q[0] - p[0]) * (r[1] - p[1]) - (q[1] - p[1]) * (r[0] - p[0])
+    return side(a, b, c) * side(a, b, d) < 0 and side(c, d, a) * side(c, d, b) < 0
+
+
+def test_a_mesh_of_four_is_drawn_without_crossing_cables():
+    """Two crossing diagonals with no device read as a four-way junction, 8 cables for 6 (P3k review)."""
+    m = fam("network_topology")
+    pts = m.mesh_points(4, 0.0, 0.0)
+    pairs = [(pts[i], pts[j]) for i in range(4) for j in range(i + 1, 4)]
+    for i, (a, b) in enumerate(pairs):
+        for c, d in pairs[i + 1:]:
+            if len({a, b, c, d}) == 4:
+                assert not _cross(a, b, c, d), (a, b, c, d)

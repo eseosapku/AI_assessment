@@ -127,8 +127,10 @@ def draw(p: dict):
         ax.text(tx + cw / 2, y + rh / 2, str(r + 1), ha="center", va="center", fontsize=9.5, color="#555555")
         for c, h in enumerate(cols):
             ax.add_patch(Rectangle((tx + (c + 1) * cw, y), cw, rh, facecolor="white", edgecolor=INK, linewidth=1.0))
-            if (r, h) not in blanks:
-                ax.text(tx + (c + 1.5) * cw, y + rh / 2, str(row[h]), ha="center", va="center", fontsize=10.5)
+            # a blank to fill in shows "?": in a Cambridge trace table an empty cell means "unchanged" (P3k review)
+            shown = "?" if (r, h) in blanks else str(row[h])
+            ax.text(tx + (c + 1.5) * cw, y + rh / 2, shown, ha="center", va="center", fontsize=10.5,
+                    fontweight="bold" if shown == "?" else "normal")
     bottom = min(ty - (len(rows) + 1) * rh, -0.45 if p["template"] == "max" else 0.4)
     ax.set_xlim(-0.2, tx + len(heads) * cw + 0.2)
     ax.set_ylim(bottom - 0.2, top + 0.4)

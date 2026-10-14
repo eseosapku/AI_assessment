@@ -34,6 +34,16 @@ def sample(rng: random.Random) -> dict:
             "ask": rng.choice(TOPOLOGIES)}
 
 
+def mesh_points(n: int, cx: float, cy: float) -> list[tuple[float, float]]:
+    """A full mesh's devices: four as a triangle round a centre, so no two cables cross where no device is (two
+    crossing diagonals read as a four-way junction, P3k review); five on a pentagon."""
+    if n == 4:
+        return [(round(cx, 6), round(cy - 0.15, 6))] + [
+            (round(cx + 1.3 * math.cos(math.pi / 2 + 2 * math.pi * k / 3), 6), round(cy - 0.15 + 1.15 * math.sin(math.pi / 2 + 2 * math.pi * k / 3), 6))
+            for k in range(3)]
+    return [(cx + 1.2 * math.cos(math.pi / 2 + 2 * math.pi * k / n), cy + 1.0 * math.sin(math.pi / 2 + 2 * math.pi * k / n)) for k in range(n)]
+
+
 def _device(ax, x, y, label="", big=False):
     w, h = (0.75, 0.5) if big else (0.5, 0.38)
     ax.add_patch(FancyBboxPatch((x - w / 2, y - h / 2), w, h, boxstyle="round,pad=0.03", facecolor="#d9dee3" if big else FILL,
@@ -68,8 +78,8 @@ def _panel(ax, topo: str, cx: float, cy: float, p: dict):
             _cable(ax, (x, y0), (x, y))
             _device(ax, x, y)
     else:
-        pts = [(cx + 1.2 * math.cos(math.pi / 2 + 2 * math.pi * k / n), cy + 1.0 * math.sin(math.pi / 2 + 2 * math.pi * k / n))
-               for k in range(n)]
+        pts = mesh_points(n, cx, cy) if topo == "mesh" else [
+            (cx + 1.2 * math.cos(math.pi / 2 + 2 * math.pi * k / n), cy + 1.0 * math.sin(math.pi / 2 + 2 * math.pi * k / n)) for k in range(n)]
         if topo == "ring":
             for k in range(n):
                 _cable(ax, pts[k], pts[(k + 1) % n])

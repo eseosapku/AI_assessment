@@ -11,7 +11,7 @@ import random
 
 from matplotlib.patches import Rectangle
 
-from ..core import INK, NAMES, new_figure, short
+from ..core import INK, NAMES, article, new_figure, short
 
 ID = "sort_trace"
 KIND = "cs.structure"
@@ -66,8 +66,13 @@ def sample(rng: random.Random) -> dict:
     algorithm = rng.choice(["bubble", "insertion"])
     while True:
         xs = rng.sample(range(1, 100), rng.randint(6, 8))
-        p = {"band": rng.choice(BANDS), "algorithm": algorithm, "list": xs, "pass": rng.choice([1, 2])}
-        if first_in_order(p) >= 3:  # in order only after a few passes, so "after pass 2" is never the sorted list
+        p = {"band": rng.choice(BANDS), "algorithm": algorithm, "list": xs}
+        if first_in_order(p) < 3:  # in order only after a few passes, so "after pass 2" is never the sorted list
+            continue
+        st = states(p)
+        moving = [k for k in (1, 2, 3) if st[k] != st[k - 1]]  # a pass that moves nothing is answered by copying (P3k review)
+        if moving:
+            p["pass"] = rng.choice(moving)
             return p
 
 
@@ -104,12 +109,12 @@ def questions(p: dict, rng: random.Random) -> list:
     after = st[k]
     name = p["algorithm"]
     done = first_in_order(p)
-    qs = [short(f"{who} sorts this list {rng.choice(SETTINGS)} with a {name} sort. Write the list after pass {k}.",
+    qs = [short(f"{who} sorts the list in the figure {rng.choice(SETTINGS)} with {article(name)} {name} sort. Write the list after pass {k}.",
                 ", ".join(map(str, after)), _forms(after))]
     if name == "bubble":
         swaps = bubble_pass(p["list"])[1]
-        qs.append(short(f"How many swaps does the first pass of this bubble sort make on the list {', '.join(map(str, p['list']))}?",
+        qs.append(short("How many swaps does the first pass of this bubble sort make on the list in the figure?",
                         swaps, [str(swaps), f"{swaps} swaps"]))
-    qs.append(short(f"{friend} keeps going with the {name} sort of {', '.join(map(str, p['list']))}. After which pass is the list first in order?",
+    qs.append(short(f"{friend} keeps going with the {name} sort of the list in the figure. After which pass is the list first in order?",
                     done, [str(done), f"pass {done}", f"after pass {done}"]))
     return qs

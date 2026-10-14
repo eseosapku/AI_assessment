@@ -1,8 +1,10 @@
-"""Truth tables (UP, AL): the truth table of a two- or three-input expression, rows numbered, inputs in binary order,
-and two or three output cells left blank. A blank cell, how many rows give X = 1 once the blanks are filled in, and
-which of four expressions the table shows.
+"""Truth tables (UP, AL): the truth table of a two- or three-input expression, rows numbered, inputs in binary order.
+Either the expression is printed above it and two or three output cells are left blank, asking a blank cell and how
+many rows give X = 1; or the table is complete with no expression, asking which of four expressions it shows and how
+many rows give X = 1.
 
-The three wrong expressions each disagree with a row the table prints, so the table decides the answer.
+A blank comes only with its expression printed: from the inputs alone it cannot be worked out (P3k review). The three
+wrong expressions each disagree with a row the table prints, so the table decides the answer.
 """
 from __future__ import annotations
 
@@ -28,11 +30,12 @@ def sample(rng: random.Random) -> dict:
         names = inputs(tree)
         out = table(tree, names)
         n = len(out)
-        blanks = sorted(rng.sample(range(n), rng.choice([2, 3])))
+        shows = rng.choice(["expression", "table"])
+        blanks = sorted(rng.sample(range(n), rng.choice([2, 3]))) if shows == "expression" else []
         shown = [i for i in range(n) if i not in blanks]
         if all(any(table(a, names)[i] != out[i] for i in shown) for a in alts if text(a) != text(tree)):
             return {"band": rng.choice(BANDS), "expr": tree, "alts": alts, "inputs": names, "blanks": blanks,
-                    "ask": rng.choice(blanks)}
+                    "shows": shows, "ask": rng.choice(blanks) if blanks else None}
 
 
 def draw(p: dict):
@@ -41,7 +44,7 @@ def draw(p: dict):
     cols = ["row"] + names + ["X"]
     n = len(out)
     w, h = 0.9, 0.55
-    fig, ax = new_figure(1.0 + 0.9 * len(cols), 0.55 * (n + 1) + 0.6)
+    fig, ax = new_figure(max(1.0 + 0.9 * len(cols), 4.6), 0.55 * (n + 1) + 1.1)
     for j, c in enumerate(cols):
         ax.add_patch(Rectangle((j * w, n * h), w, h, facecolor="#dfe4e8", edgecolor=INK, linewidth=1.1))
         ax.text(j * w + w / 2, n * h + h / 2, c, ha="center", va="center", fontsize=11, fontweight="bold")
@@ -52,8 +55,12 @@ def draw(p: dict):
             ax.add_patch(Rectangle((j * w, y), w, h, facecolor="none", edgecolor=INK, linewidth=1.0))
             ax.text(j * w + w / 2, y + h / 2, v, ha="center", va="center", fontsize=11,
                     fontweight="bold" if j == len(cells) - 1 else "normal", color="#555555" if j == 0 else INK)
+    top = (n + 1) * h
+    if p["blanks"]:
+        ax.text(len(cols) * w / 2, top + 0.35, f"X = {text(p['expr'])}", ha="center", va="center", fontsize=11.5,
+                family="monospace", fontweight="bold")
     ax.set_xlim(-0.05, len(cols) * w + 0.05)
-    ax.set_ylim(-0.05, (n + 1) * h + 0.05)
+    ax.set_ylim(-0.05, top + 0.7)
     ax.set_aspect("equal")
     ax.axis("off")
     return fig
@@ -66,10 +73,13 @@ def questions(p: dict, rng: random.Random) -> list:
     who, friend = rng.sample(NAMES, 2)
     names = p["inputs"]
     out = table(p["expr"], names)
-    k = p["ask"]
     ones = sum(out)
+    if p["blanks"]:
+        k = p["ask"]
+        return [short(f"{who} is working out this truth table {rng.choice(SETTINGS)}. What is the value of X in row {k + 1}?",
+                      out[k], [str(out[k])]),
+                short(f"{friend} fills in the blanks. How many rows give X = 1 then?", ones, [str(ones), f"{ones} rows"])]
     key = f"X = {text(p['expr'])}"
-    return [short(f"{who} worked out this truth table {rng.choice(SETTINGS)}. What is the value of X in row {k + 1}?", out[k], [str(out[k])]),
-            mcq(f"{friend} wants the expression the table shows. Which expression matches every row printed?", key,
+    return [mcq(f"{who} wrote this truth table {rng.choice(SETTINGS)}. Which expression matches every row?", key,
                 [f"X = {text(t)}" for t in p["alts"] if text(t) != text(p["expr"])], rng),
-            short("Once the blanks are filled in, how many rows give X = 1?", ones, [str(ones), f"{ones} rows"])]
+            short(f"In {friend}'s truth table, how many rows give X = 1?", ones, [str(ones), f"{ones} rows"])]

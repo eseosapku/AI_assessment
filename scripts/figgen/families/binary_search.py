@@ -65,7 +65,7 @@ def draw(p: dict):
     ax.text(-0.12, 1.25, "item", ha="right", va="center", fontsize=9)
     mid = n * w / 2
     ax.text(mid, 2.4, f"Binary search for {p['target']}", ha="center", va="center", fontsize=12, fontweight="bold")
-    ax.text(mid, 0.55, f"Start with low = 0 and high = {n - 1}.", ha="center", va="center", fontsize=9.5)
+    ax.text(mid, 0.55, f"Start with low = 0 and high = {n - 1}. DIV divides and drops any remainder.", ha="center", va="center", fontsize=9.5)
     ax.text(mid, 0.15, "mid = (low + high) DIV 2", ha="center", va="center", fontsize=10, family="monospace")
     ax.text(mid, -0.25, "If the item at mid is too small, low = mid + 1.\nIf it is too big, high = mid − 1.", ha="center",
             va="top", fontsize=9.5, linespacing=1.4)

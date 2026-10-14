@@ -38,6 +38,21 @@ def run_ops(p: dict) -> tuple[list[str], list[str | None]]:
     return items, removed
 
 
+CELLS = {"stack": 5, "queue": 6}
+
+
+def _fits(kind: str, start: list[str], ops: list[str]) -> bool:
+    """Never past the drawn cells, where a fixed array would be full (P3k review): a stack's height stays within its
+    slots, and a queue's rear, which only moves on, stays within its cells."""
+    if kind == "queue":
+        return len(start) + sum(op.startswith("ENQUEUE") for op in ops) <= CELLS["queue"]
+    size = peak = len(start)
+    for op in ops:
+        size += 1 if op.startswith("PUSH") else -1
+        peak = max(peak, size)
+    return peak <= CELLS["stack"]
+
+
 def sample(rng: random.Random) -> dict:
     kind = rng.choice(["stack", "queue"])
     add, take = ("PUSH", "POP") if kind == "stack" else ("ENQUEUE", "DEQUEUE")
@@ -53,7 +68,7 @@ def sample(rng: random.Random) -> dict:
                 ops.append(f"{add} {fresh.pop()}")
                 size += 1
         takes = [i for i, op in enumerate(ops) if op == take]
-        if len(takes) >= 2 and size >= 1:
+        if len(takes) >= 2 and size >= 1 and _fits(kind, start, ops):
             return {"band": rng.choice(BANDS), "kind": kind, "start": start, "ops": ops, "ask": rng.choice(takes)}
 
 
@@ -62,7 +77,7 @@ def draw(p: dict):
     items = p["start"]
     if p["kind"] == "stack":
         w, h, x0 = 1.4, 0.55, 1.0
-        for i in range(5):
+        for i in range(CELLS["stack"]):
             ax.add_patch(Rectangle((x0, 0.3 + i * h), w, h, facecolor=FILL if i < len(items) else "white", edgecolor=INK, linewidth=1.2))
             if i < len(items):
                 ax.text(x0 + w / 2, 0.3 + i * h + h / 2, items[i], ha="center", va="center", fontsize=13, fontweight="bold")
@@ -73,7 +88,7 @@ def draw(p: dict):
         lx = 4.6
     else:
         w, h, x0, y0 = 0.8, 0.6, 0.6, 1.4
-        for i in range(6):
+        for i in range(CELLS["queue"]):
             ax.add_patch(Rectangle((x0 + i * w, y0), w, h, facecolor=FILL if i < len(items) else "white", edgecolor=INK, linewidth=1.2))
             if i < len(items):
                 ax.text(x0 + i * w + w / 2, y0 + h / 2, items[i], ha="center", va="center", fontsize=13, fontweight="bold")

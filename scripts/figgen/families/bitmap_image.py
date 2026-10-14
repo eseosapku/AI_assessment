@@ -80,7 +80,7 @@ def questions(p: dict, rng: random.Random) -> list:
     name = palette[p["count"]]
     n = sum(row.count(p["count"]) for row in grid)
     return [short(f"{who} drew this bitmap {rng.choice(SETTINGS)}. Using the key, write the binary code for row {r + 1}, left to right.",
-                  code, [code, " ".join(codes)]),
+                  code, [code, " ".join(codes)] + [" ".join(code[i:i + g] for i in range(0, len(code), g)) for g in (4, 8) if len(code) > g]),
             short(f"What is the file size in {unit} of {friend}'s image, with no header?" + (" (8 bits = 1 byte)" if unit == "bytes" else ""),
                   size, [str(size), f"{size} {unit}"]),
             short(f"How many pixels are {name} in this bitmap?", n, [str(n), f"{n} pixels"])]
