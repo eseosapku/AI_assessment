@@ -20,8 +20,10 @@ KIND = "physics.force"
 SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("pressure", "atmospheric-pressure", "manometer-pressure-measurement"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('pressure',))
 # Not measurement alone, plant growth, farming or natural disasters.
-AVOID = r"earthquake|measurement|plant growth|agriculture|environmental"
+AVOID = r"earthquake|measurement|plant growth|agriculture|environmental|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 SUPPLIES = ["the laboratory gas supply", "a biogas digester", "the gas tap on the bench"]
 PUMPED = ["a flask that a vacuum pump is emptying", "a flask from which a pump is drawing the air", "a flask a hand pump is emptying"]
 FACES = ["face P", "face Q", "face R"]

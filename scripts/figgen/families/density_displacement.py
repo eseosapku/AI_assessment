@@ -18,8 +18,10 @@ KIND = "instrument.reading"
 SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("density", "measurement-of-length-and-volume", "measurement-precision-and-uncertainty"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('density', 'floating-and-sinking'))
 # Not motion, manometers or pressure chapters.
-AVOID = r"motion|manometer|pascal|agriculture|^chapter 6: pressure$|kinetic theory"
+AVOID = r"motion|manometer|pascal|agriculture|^chapter 6: pressure$|kinetic theory|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"densit|displace|archimedes|volume|float|sink|upthrust|making measurements"  # tightened after the P3j review
 # rocks and metals, with densities in g/cm³ a learner might meet

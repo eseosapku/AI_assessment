@@ -21,7 +21,9 @@ KIND = "chem.chromatogram"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("chromatography", "separation-techniques", "laboratory-techniques"))
-AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|titration|gas-chromatograph|acid|concentration|waste|oxide|oxygen|salt|states|water|petro|solvent extraction|laboratory safety"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('paper-chromatography', 'separation-techniques'))
+AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|titration|gas-chromatograph|acid|concentration|waste|oxide|oxygen|salt|states|water|petro|solvent extraction|laboratory safety|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"chromatog|separat|purif|purity"
 WHAT = ["a black ink", "a food colouring", "a fruit drink colouring", "a felt-tip pen ink", "a sweet coating"]

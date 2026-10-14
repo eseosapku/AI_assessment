@@ -20,8 +20,10 @@ KIND = "physics.ray"
 SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("reflection-of-waves", "plane-mirrors", "refraction-of-waves", "light-and-optics"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('light-reflection', 'light-refraction'))
 # Not sound, mechanical waves, interference or light's particle nature.
-AVOID = r"lens|human eye|optical instruments|\bsound|seismic|ultrasound|plant growth|interference|mechanical waves|particle nature"
+AVOID = r"lens|human eye|optical instruments|\bsound|seismic|ultrasound|plant growth|interference|mechanical waves|particle nature|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 INDEX = {"glass": 1.5, "Perspex": 1.49, "water": 1.33}
 BENDS = [f"{d} the normal, because it {s}" for d in ("Towards", "Away from") for s in ("slows down", "speeds up")]
 

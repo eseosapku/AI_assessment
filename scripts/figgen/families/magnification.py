@@ -20,7 +20,9 @@ KIND = "instrument.reading"
 SUBJECT = "biology"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("cell-structure", "animal-plant-cells", "electron-microscopes", "cell-importance"))
-AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|ecolog|population|biological molecules|mitotic|transport|division|classification|living things|movement|gene technology|protein synthesis|skeleton|gas exchange|testing for"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('cell-structure', 'cells-tissues-organs'))
+AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|ecolog|population|biological molecules|mitotic|transport|division|classification|living things|movement|gene technology|protein synthesis|skeleton|gas exchange|testing for|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"magnif|microscop|sizes? of|specimen"
 # specimen: its real size (µm), the magnifications it is drawn at, and its shape

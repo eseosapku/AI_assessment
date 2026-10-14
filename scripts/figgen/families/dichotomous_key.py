@@ -19,7 +19,9 @@ KIND = "bio.key"
 SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("classification-organisms",))  # the biodiversity concept pulled in every Ecology topic
-AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|virus"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('identification-keys', 'organisms-classification'))
+AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|virus|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"\bkeys?\b|classif|identif"
 FEATURES = ("compound", "parallel", "lobed", "toothed", "narrow")  # the order a couplet is chosen in

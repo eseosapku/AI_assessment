@@ -19,10 +19,13 @@ KIND = "process.flow"
 SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("energy-conversions-and-transfers", "conservation-of-energy", "energy", "power"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('energy-transformation', 'energy-conservation'))
 # Energy transfers and efficiency: not waves, light, nuclei, fields, signals or forces chapters.
 AVOID = (r"electrostatic|static electricity|environmental|friction|induction|magnet|plant growth|telecommunication|resistors|signals|agriculture|optical fib|radioactiv|nuclear|nuclei|changes of state|sound|hearing|motor effect|turning|forces and matter|climate|earthquake|field|oscillation|orbit|wave|relativity|stellar|projectile|light"
          r"|^chapter 9: heat transfer$|^heat and temperature$|^current electricity|^electrical quantities$"
-         r"|solar system|simple harmonic|kinetic theory")
+         r"|solar system|simple harmonic|kinetic theory"
+         r"|glossary|thinking and working scientifically|science in context|scientific method|science skills|respiration|materials and cycles")
 # the device, the energy in, the useful output, the wasted outputs, and its efficiency range (%)
 DEVICES = [("filament lamp", "electrical", "light", ["heat"], (5, 15)), ("LED lamp", "electrical", "light", ["heat"], (40, 80)),
            ("electric kettle", "electrical", "heat in the water", ["heat to the air", "sound"], (80, 95)),

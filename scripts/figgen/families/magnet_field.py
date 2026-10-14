@@ -19,8 +19,10 @@ KIND = "physics.field"
 SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("magnetism", "magnetization-and-demagnetization", "magnetic-fields"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('magnetic-field', 'magnetism'))
 # Not the motor effect or induction, which have their own figures, nor electric or gravitational fields.
-AVOID = r"motor|induction|generator|transformer|electric field|gravitational|electrostatic|magnetic effect of current|forces on currents"
+AVOID = r"motor|induction|generator|transformer|electric field|gravitational|electrostatic|magnetic effect of current|forces on currents|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 DIRS = {"up": (0, 1), "down": (0, -1), "left": (-1, 0), "right": (1, 0)}
 WAYS = {"up": "up the page", "down": "down the page", "left": "left across the page", "right": "right across the page"}
 SPOTS = {"single": [(-3.4, 0.0), (3.4, 0.0), (0.0, 1.8), (0.0, -1.8), (-1.0, 1.6), (1.0, -1.6), (0.0, 2.6)],

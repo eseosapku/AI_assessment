@@ -166,3 +166,18 @@ def test_newly_indexed_topics_that_teach_none_of_it_are_named_in_avoid():
     # and the AVOID does not turn away what the family teaches
     assert not re.search(FAMILIES["trig_graph"].AVOID, "Trigonometric Formulae, Equations and Inequalities", re.I)
     assert not re.search(FAMILIES["place_value"].AVOID, "Numbers from 0 up to 200", re.I)
+
+
+def test_a_family_also_reaches_another_subjects_topics_by_the_concepts_it_also_teaches(tmp_path):
+    """Integrated Science teaches density with a science.* concept; a physics family that says so (ALSO) reaches it, at
+    its own level only (P3n)."""
+    db = store(tmp_path)
+    for key, band in (("db:7", "LS"), ("db:8", "P")):
+        db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES (?, 'x', 'B', 'science', ?, 'Forces and energy')", (key, band))
+        db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
+                   "VALUES (?, ?, '[]', '[]', 'high', 0, 'm', 'now')", (key, json.dumps(["science.density"])))
+    db.commit()
+    index = topic_index(db)
+    m = family(CONCEPTS=("mathematics.nope",), ALSO=("science.density",))
+    assert topics_for(index, m, {"band": "LS"}) == ["db:7"]
+    assert topics_for(index, family(CONCEPTS=("mathematics.nope",)), {"band": "LS"}) == []

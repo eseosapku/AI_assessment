@@ -20,8 +20,10 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("electric-current", "potential-difference", "electrical-resistance", "ohms-law", "resistors-in-circuits",
                                           "circuit-symbols-and-diagrams", "electrical-energy-and-power", "kirchhoffs-laws"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('electrical-components', 'electricity-basics', 'simple-circuits'))
 # Direct-current circuits: not fields, capacitors, alternating current, induction, motors or generators.
-AVOID = r"^p2:|installation|transmission|field|electrostatic|static electricity|charged particle|coulomb|capacitance|alternating|induction|telecommunication|magnetic effect|motor effect|generators|electromagnetic forces|^magnetism$|work, energy"
+AVOID = r"^p2:|installation|transmission|field|electrostatic|static electricity|charged particle|coulomb|capacitance|alternating|induction|telecommunication|magnetic effect|motor effect|generators|electromagnetic forces|^magnetism$|work, energy|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 OHMS = [1, 2, 3, 4, 5, 6, 8, 10, 12, 15, 20, 24, 30, 40, 60]
 VOLTS = [Fraction(3, 2), Fraction(3), Fraction(9, 2), Fraction(6), Fraction(9), Fraction(12), Fraction(24)]
 

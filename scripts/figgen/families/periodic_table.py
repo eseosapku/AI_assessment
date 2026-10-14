@@ -20,7 +20,9 @@ SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("periodic-table-structure", "group-1-alkali-metals",
                                              "noble-gases", "ionic-bonding"))
-AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration|acid|bases|reactions|electrolyte|oxide|salt|analysis|conductivity|electrochem|extraction|reactivity|states of matter|introduction|transition"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('periodic-table',))
+AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration|acid|bases|reactions|electrolyte|oxide|salt|analysis|conductivity|electrochem|extraction|reactivity|states of matter|introduction|transition|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"periodic|groups?\b|formula|ionic|noble|alkali"
 LETTERS = "VWXYZ"

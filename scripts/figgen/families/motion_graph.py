@@ -17,8 +17,10 @@ KIND = "graph.line"
 SUBJECT = "physics"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("speed", "velocity", "acceleration", "distance-time-graphs"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('speed-and-velocity',))
 # Waves, oscillations, circular motion, sound, quakes and relativity share speed but not motion graphs.
-AVOID = r"wave|oscillat|circular|\bsound|earthquake|relativity|work and power"
+AVOID = r"wave|oscillat|circular|\bsound|earthquake|relativity|work and power|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # what moves, its top speed (m/s), and the mass with its rider (kg)
 MOVERS = [("runner", 6, 60), ("bicycle", 8, 80), ("moto", 16, 200), ("minibus", 20, 2000)]
 

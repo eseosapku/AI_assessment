@@ -20,7 +20,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "venn-carroll-diagrams", "intersection-sets", "complement-of-set", "set-notation", "sets-problems", "combined-events",
     "conditional-probability",
 ))
-AVOID = r"tally charts and frequency"  # topics that teach none of it, read section by section
+AVOID = r"tally charts and frequency|glossary"  # topics that teach none of it, read section by section
 
 # who; the two sets' labels; doing A, doing B, not doing B; both; one of them; doing A (he/she does)
 CONTEXTS = [

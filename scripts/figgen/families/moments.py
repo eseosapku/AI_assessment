@@ -19,8 +19,10 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("moments-and-turning-effects", "stability-and-equilibrium", "centre-of-mass-and-gravity",
                                           "simple-machines"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('turning-forces', 'simple-machines'))
 # Not mirrors, manometers, motors or the laws of motion.
-AVOID = r"mirror|manometer|pascal|motor|newton's laws|dynamics"
+AVOID = r"mirror|manometer|pascal|motor|newton's laws|dynamics|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 
 
 def sample(rng: random.Random) -> dict:

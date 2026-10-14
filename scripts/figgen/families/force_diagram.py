@@ -23,10 +23,13 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("forces", "force-mass-and-acceleration", "newtons-laws-of-motion", "mass-weight-and-gravity",
                                           "friction", "scalars-and-vectors"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('forces-and-motion', 'push-and-pull', 'friction', 'gravitational-force'))
 # Not electric or magnetic forces, fields, pressure, density, work and energy, turning effects, machines or practicals.
 AVOID = (r"electric|electrostatic|static electricity|magnet|motor effect|nuclear|earthquake|measurement|errors|orbit|relativity|potential"
          r"|field|pressure|density|archimedes|pascal|environmental|solar system|projectile|work|energy|turning|centre of gravity"
-         r"|simple machines|practical physics")
+         r"|simple machines|practical physics"
+         r"|glossary|thinking and working scientifically|science in context|scientific method|science skills|respiration")
 THINGS = ["box", "cart", "sack of maize", "crate of bananas", "wheelbarrow"]
 TRIPLES = [(3, 4, 5), (5, 12, 13), (8, 15, 17), (7, 24, 25), (20, 21, 29)]
 PLACES = ["at the market", "in the school yard", "on the farm", "at the bus park", "outside the shop", "at the cooperative store"]

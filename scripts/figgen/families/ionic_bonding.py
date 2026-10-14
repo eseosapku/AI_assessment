@@ -19,7 +19,9 @@ KIND = "chem.structure"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("ionic-bonding", "chemical-formulae", "electronic-configuration"))
-AVOID = r"organic|alkane|alcohol|covalent|electrolysis|equilibrium|rate|enthalpy|acid|bases|analysis|transition|states of matter|stoichiometry|mixture|reactions|group 1[345]|electrochem|introduction|oxide|preparation of salts|mass spectrum"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('chemical-bonding',))
+AVOID = r"organic|alkane|alcohol|covalent|electrolysis|equilibrium|rate|enthalpy|acid|bases|analysis|transition|states of matter|stoichiometry|mixture|reactions|group 1[345]|electrochem|introduction|oxide|preparation of salts|mass spectrum|glossary|thinking and working scientifically|science in context|scientific method|science skills|materials and their structure"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"ionic|\bions?\b|bonding|formula"
 # compound: metal, its charge, count; non-metal, its charge, count

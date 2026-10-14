@@ -22,8 +22,10 @@ SUBJECT = "physics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("changes-of-state", "heat-and-temperature", "internal-energy", "heat-capacity-and-specific-heat",
                                           "states-of-matter"))
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('changes-of-state', 'states-of-matter', 'thermal-energy-transfer'))
 # Not climate, radiation, insulation, pressure, density, circuits or farming.
-AVOID = r"^chapter 9: heat transfer$|^thermal energy transfers$|climate|greenhouse|global warming|radiation|insulat|pressure|environmental|plant growth|gas laws|resistors|pascal|agriculture|density|making measurements"
+AVOID = r"^chapter 9: heat transfer$|^thermal energy transfers$|climate|greenhouse|global warming|radiation|insulat|pressure|environmental|plant growth|gas laws|resistors|pascal|agriculture|density|making measurements|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 MELTS = {"stearic acid": 69, "naphthalene": 80, "lauric acid": 44}
 STATES = ["solid only", "solid and liquid", "liquid only", "liquid and gas"]
 SETTINGS = ["in the school laboratory", "at the science club", "for a class practical", "during a physics lesson", "for a science fair"]

@@ -20,7 +20,9 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("population-characteristics", "ecosystem-properties-ecological-factors",
                                            "ecological-terms-biodiversity-meaning"))
-AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|selection|plant nutrition|variation"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('habitats-and-environments', 'ecosystems'))
+AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|selection|plant nutrition|variation|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"sampl|quadrat|abundance|population density|population size|measuring population"
 SPECIES = [("dandelions", "*"), ("daisies", "o"), ("clover plants", "^"), ("thistles", "x")]

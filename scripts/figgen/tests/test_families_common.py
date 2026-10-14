@@ -108,3 +108,16 @@ def test_a_figure_belongs_to_no_one_but_the_person_who_made_it(fid):
         for q in qs:
             for owner in re.findall(r"\b(" + "|".join(NAMES) + r")'s\b", q.stem):
                 assert owner == first, (fid, seed, q.stem)
+
+
+@pytest.mark.parametrize("fid", sorted(f for f, m in FAMILIES.items() if getattr(m, "ALSO", None)))
+def test_what_a_family_also_teaches_is_another_subjects_known_concept(fid):
+    import sqlite3
+    from pathlib import Path
+    store = Path("C:/Users/Stephen/figure-library/figures.db")
+    m = FAMILIES[fid]
+    assert all(not c.startswith(f"{m.SUBJECT}.") for c in m.ALSO), fid
+    if store.exists():
+        db = sqlite3.connect(f"file:{store}?mode=ro", uri=True)
+        known = {r[0] for r in db.execute("SELECT id FROM concepts")}
+        assert set(m.ALSO) <= known, (fid, sorted(set(m.ALSO) - known))

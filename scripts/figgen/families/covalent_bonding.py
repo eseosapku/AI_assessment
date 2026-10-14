@@ -21,7 +21,9 @@ SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("covalent-bonding",
                                              "chemical-formulae"))
-AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration|polymer|petro|amine|benzene|electrochem|stoichiometry|mixture|oxide|reactions|introduction|chemical equations|states of matter|arrangement of elements|group 1[345]|carboxylic"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('chemical-bonding',))
+AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration|polymer|petro|amine|benzene|electrochem|stoichiometry|mixture|oxide|reactions|introduction|chemical equations|states of matter|arrangement of elements|group 1[345]|carboxylic|glossary|thinking and working scientifically|science in context|scientific method|science skills|materials and their structure"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"covalent|molecul|\bbond|dot.and.cross|formula"
 # formula: atoms (the first is the one asked about), bonds (i, j, order), lone pairs, each neighbour's

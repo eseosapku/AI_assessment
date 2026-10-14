@@ -21,7 +21,9 @@ KIND = "chem.particle"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("states-of-matter", "kinetic-theory", "chemical-formulae", "separation-techniques"))
-AVOID = r"organic|alkane|alcohol|acid|electrolysis|redox|equilibrium|rate|waste|polymer|petro|enthalpy|solvent|colligative|group|oxide|salt|oxygen|stoichiometry|equation|bonding|chemical reactions|trends|phase diagram|mole concept"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('particle-motion', 'compounds-and-mixtures', 'states-of-matter'))
+AVOID = r"organic|alkane|alcohol|acid|electrolysis|redox|equilibrium|rate|waste|polymer|petro|enthalpy|solvent|colligative|group|oxide|salt|oxygen|stoichiometry|equation|bonding|chemical reactions|trends|phase diagram|mole concept|glossary|thinking and working scientifically|science in context|scientific method|science skills|forces and energy"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"particle|states of matter|kinetic|element|compound|mixture|molecul|\batoms?\b"
 KINDS = ["atoms", "molecules", "compound", "mixture"]

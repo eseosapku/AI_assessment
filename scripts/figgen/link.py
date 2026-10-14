@@ -43,9 +43,11 @@ def topic_index(db: sqlite3.Connection) -> TopicIndex:
 
 
 def concepts_of(m, params: dict) -> frozenset[str]:
-    """The concepts this instance draws: the family's, or fewer where the family narrows them."""
+    """The concepts this instance draws: the family's, or fewer where the family narrows them, and those of another
+    subject it also teaches (ALSO: a density figure is Integrated Science's density too, P3n)."""
     narrow = getattr(m, "concepts_for", None)
-    return frozenset(narrow(params)) if narrow else frozenset(m.CONCEPTS)
+    own = frozenset(narrow(params)) if narrow else frozenset(m.CONCEPTS)
+    return own | frozenset(getattr(m, "ALSO", ()))
 
 
 def band_of(m, params: dict) -> str:

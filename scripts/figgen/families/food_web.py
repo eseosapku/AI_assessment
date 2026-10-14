@@ -11,7 +11,9 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("energy-flow-ecosystem", "interdependence-organisms-environment",
                                            "ecological-terms-biodiversity-meaning"))
-AVOID = r"active transport|photosynthesis"
+# Integrated Science teaches this too (P3n): its Lower Secondary topics are reached by these.
+ALSO = tuple(f"science.{c}" for c in ('food-chains-and-webs', 'ecosystems'))
+AVOID = r"active transport|photosynthesis|glossary|thinking and working scientifically|science in context|scientific method|science skills"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"food (?:web|chain)|feeding relation|trophic|energy flow|producers?\b|consumers?\b|ecological pyramid|concepts of ecology"
 # Built from real ecosystems, so fewer distinct figures than a numeric family; 30 in 60 still
