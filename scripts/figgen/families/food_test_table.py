@@ -18,7 +18,7 @@ KIND = "table.data"
 SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("food-components-identification", "biological-molecules", "proteins"))
-AVOID = r"cell structure|genetic|inherit|immun|disease|reproduc|photosynth|hormone|ecolog|population|respiration|enzyme|autotroph|protein synthesis"
+AVOID = r"cell structure|genetic|inherit|immun|disease|reproduc|photosynth|hormone|ecolog|population|respiration|enzyme|autotroph|protein synthesis|plant nutrition"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"food test|tests? for|testing for|benedict|iodine|biuret|food components|biological molecules|carbohydrate|lipid|protein"
 NUTRIENTS = ["starch", "reducing sugar", "protein", "fat"]

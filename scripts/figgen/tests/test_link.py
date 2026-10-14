@@ -120,3 +120,22 @@ def test_a_family_that_needs_words_reaches_only_topics_whose_sections_name_them(
     db.execute("DELETE FROM subtopics WHERE key = 's1'")  # a topic the store lists no sections for is judged by its concepts
     db.commit()
     assert topics_for(topic_index(db), m, {"band": "P"}) == ["db:1", "db:5"]
+
+
+def test_needs_turn_away_the_misfits_the_p3j_review_found():
+    """Each pattern must miss the section or name a fresh reviewer found it reaching, and still match what it is for."""
+    import re
+    from figgen.families import FAMILIES
+    cases = {
+        "osmosis_graph": ("Excretion and Osmoregulation", "Osmosis"),
+        "variation_chart": ("Inheritance: variations from Mendel's pattern", "Continuous and discontinuous variation"),
+        "spring_graph": ("Unit 4: Work, Energy and Power", "Hooke's law"),
+        "electrolysis": ("Redox and oxidation number", "Electrolysis of brine"),
+        "density_displacement": ("Sources of errors in measurement of physical quantities", "Making measurements"),
+    }
+    for fid, (misfit, fit) in cases.items():
+        needs = FAMILIES[fid].NEEDS
+        assert not re.search(needs, misfit, re.I), (fid, misfit)
+        assert re.search(needs, fit, re.I), (fid, fit)
+    # food tests keep the units on carbohydrates and proteins, but not plant nutrition's leaves
+    assert re.search(FAMILIES["food_test_table"].AVOID, "Plant nutrition", re.I)

@@ -18,7 +18,7 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("continuous-discontinuous-variation", "variation-causes"))
 AVOID = r"cell|enzyme|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|ecolog|population|mitosis|meiosis|mutation"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"variation"
+NEEDS = r"continuous|discontinuous|types of variation|^variation"  # tightened after the P3j review
 CONTINUOUS = [("height", "cm", 140, 5), ("hand span", "cm", 16, 2), ("mass", "kg", 40, 5)]  # feature, unit, first class, width
 DISCRETE = [("blood group", ["A", "B", "AB", "O"]), ("tongue rolling", ["can roll", "cannot roll"]),
             ("earlobes", ["free", "attached"])]

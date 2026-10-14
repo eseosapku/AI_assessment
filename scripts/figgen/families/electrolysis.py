@@ -20,7 +20,7 @@ BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("electrolysis", "redox-reactions", "electrochemistry"))
 AVOID = r"organic|alkane|titration|isotope|chromatograph|rate|enthalpy|cell-potential|electrode-potential|group|transition|carboxylic|masses of atoms|write equations|acids and bases|chemical analysis|formulae|environment|npk|fertili|stoichiometry|reactivity"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"electroly|electrochem|redox|oxidation|extraction|electrode|conductiv|\bcells?\b"
+NEEDS = r"electroly|electrochem|extraction|electrode|conductiv|\bcells?\b"  # tightened after the P3j review
 # electrolyte: (name under the beaker, electrode material, cathode product, anode product, ion discharged at the cathode)
 ELECTROLYTES = {
     "molten lead(II) bromide": ("molten lead(II) bromide", "carbon", "lead", "bromine", "Pb2+"),

@@ -19,7 +19,7 @@ BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("osmosis", "cell-membranes-transport", "plasma-membrane-gradients"))
 AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|ecolog|population|photosynth|respiration|digest|biological molecules|gas exchange|human nutrition"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"osmo|water potential|plasmolys|turgid|into and out of cells|across the cell membrane|diffusion"
+NEEDS = r"osmosis|water potential|plasmolys|turgid|into and out of cells|across the cell membrane|diffusion"  # tightened after the P3j review
 TISSUES = ["potato", "carrot", "sweet potato", "beetroot"]
 
 
