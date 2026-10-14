@@ -37,8 +37,16 @@ export interface QuestionVerdict {
   answerable: boolean
   /** Exactly one answer is right: for multiple choice, no other option is also right. */
   singleAnswer: boolean
+  /** A real image's question needs the image: not answerable from knowledge alone (P3u). Absent for drawn figures. */
+  needsFigure?: boolean
   problem: string
 }
+
+/** A real image (Wikimedia, OpenStax), not a drawn or dataset figure, whose every question is built to need it. */
+const isReal = (item: ReviewItem) => !item.figureId.startsWith('drawn/') && !item.figureId.startsWith('dataset/')
+
+/** A question the review passes: the key reached, answerable, one answer, and the figure needed where that was asked. */
+const clean = (q: QuestionVerdict) => q.keyCorrect && q.answerable && q.singleAnswer && q.needsFigure !== false
 export interface Verdict { pass: boolean; figureClear: boolean; educational: boolean; questions: QuestionVerdict[]; problems: string[] }
 
 const letter = (i: number) => String.fromCharCode(65 + i)
@@ -72,11 +80,14 @@ export function reviewPrompt(item: ReviewItem): string {
     '- answerable: a student at this level can answer it from the figure and the question alone; nothing is unclear or missing.',
     '- single_answer: exactly one answer is right; for multiple choice, no other option is also right.'
       + (estimate ? ' An estimate read from a graph counts as one answer when careful readings agree to within one small square, as a mark scheme accepts that range.' : ''),
+    ...(isReal(item) ? ['- needs_figure: a student could NOT answer it correctly without looking at the figure; false when general knowledge alone answers it, or when the figure only decorates the question.'] : []),
     '- figure_clear: every label, number and line the questions need is legible and unambiguous; nothing overlaps or is cut off.',
     '- educational: the figure teaches or tests something real in this subject at this level.',
     '',
     'Reply with JSON only, in this shape:',
-    '{"questions":[{"n":1,"worked":"one or two lines","own_answer":"...","answerable":true,"single_answer":true,"problem":""}],"figure_clear":true,"educational":true,"problems":[]}',
+    isReal(item)
+      ? '{"questions":[{"n":1,"worked":"one or two lines","own_answer":"...","answerable":true,"single_answer":true,"needs_figure":true,"problem":""}],"figure_clear":true,"educational":true,"problems":[]}'
+      : '{"questions":[{"n":1,"worked":"one or two lines","own_answer":"...","answerable":true,"single_answer":true,"problem":""}],"figure_clear":true,"educational":true,"problems":[]}',
   ].join('\n')
 }
 
@@ -328,18 +339,20 @@ export function parseVerdict(raw: unknown, item: ReviewItem): Verdict {
   const questions = item.questions.map((q) => {
     const v = given.find((x) => x && Number(x.n) === q.n)
     const own = typeof v?.own_answer === 'string' || typeof v?.own_answer === 'number' ? String(v.own_answer).trim() : ''
-    if (!v || !own || typeof v.answerable !== 'boolean' || typeof v.single_answer !== 'boolean') {
+    if (!v || !own || typeof v.answerable !== 'boolean' || typeof v.single_answer !== 'boolean'
+      || (isReal(item) && typeof v.needs_figure !== 'boolean')) {
       throw new Error(`The review does not answer and judge question ${q.n}`)
     }
     const key = q.kind === 'mcq' ? `${letter(Number(q.answer))}) ${q.options[Number(q.answer)]}` : q.answer
     const keyCorrect = agrees(q, own)
     return {
       n: q.n, key, ownAnswer: own, keyCorrect, answerable: v.answerable, singleAnswer: v.single_answer || hedgeInside(q, keyCorrect),
+      ...(isReal(item) ? { needsFigure: v.needs_figure as boolean } : {}),
       problem: String(v.problem ?? ''),
     }
   })
   const problems = Array.isArray(r.problems) ? r.problems.map(String).filter(Boolean) : []
-  const pass = r.figure_clear && r.educational && questions.every((q) => q.keyCorrect && q.answerable && q.singleAnswer)
+  const pass = r.figure_clear && r.educational && questions.every(clean)
   return { pass, figureClear: r.figure_clear, educational: r.educational, questions, problems }
 }
 
@@ -386,12 +399,13 @@ function reasonFor(v: Verdict): string {
     ...(v.figureClear ? [] : ['figure unclear']),
     ...(v.educational ? [] : ['not educational']),
     ...v.questions
-      .filter((q) => !q.keyCorrect || !q.answerable || !q.singleAnswer)
+      .filter((q) => !clean(q))
       .map((q) => {
         const why = [
           ...(q.keyCorrect ? [] : [`the reviewer answered "${q.ownAnswer}", the key is ${q.key}`]),
           ...(q.singleAnswer ? [] : ['more than one answer is right']),
           ...(q.answerable ? [] : ['not answerable from the figure']),
+          ...(q.needsFigure === false ? ['answerable without the figure'] : []),
         ]
         return `Q${q.n}: ${why.join('; ')}${q.problem ? `: ${q.problem}` : ''}`
       }),
@@ -443,7 +457,7 @@ export function regrade(db: Store, job: string, writer?: string): number {
       const keyCorrect = agrees(asked, q.ownAnswer)
       return { ...q, keyCorrect, singleAnswer: q.singleAnswer || hedgeInside(asked, keyCorrect) }
     })
-    const pass = v.figureClear && v.educational && questions.every((q) => q.keyCorrect && q.answerable && q.singleAnswer)
+    const pass = v.figureClear && v.educational && questions.every(clean)
     if (pass !== v.pass || questions.some((q, i) => q.keyCorrect !== v.questions[i].keyCorrect)) {
       // A writer's job judges that writer's questions, never the image itself.
       saveVerdict(db, { job, model: r.model, figureId: r.id, verdict: { ...v, questions, pass }, mark: !writer })
@@ -519,15 +533,15 @@ export function previewImage(lib: string, item: Pick<ReviewItem, 'preview'>): Im
 export function cleanRate(db: Store, job: string): { figures: number; questions: number; clean: number; rate: number } {
   const rows = db.prepare('SELECT detail FROM reviews WHERE job = ?').all(job) as { detail: string }[]
   let questions = 0
-  let clean = 0
+  let cleanCount = 0
   for (const r of rows) {
     const v = readJson<Partial<Verdict>>(r.detail, {})
     for (const q of v.questions ?? []) {
       questions++
-      if (v.figureClear && v.educational && q.keyCorrect && q.answerable && q.singleAnswer) clean++
+      if (v.figureClear && v.educational && clean(q)) cleanCount++
     }
   }
-  return { figures: rows.length, questions, clean, rate: questions ? clean / questions : 0 }
+  return { figures: rows.length, questions, clean: cleanCount, rate: questions ? cleanCount / questions : 0 }
 }
 
 /**
@@ -562,7 +576,7 @@ export function approveReal(db: Store, o: { writer: string; job: string }): { ap
       const row = review.get(o.job, id) as { detail: string } | undefined
       const v = row ? readJson<Partial<Verdict>>(row.detail, {}) : null
       const failing = !v ? [] : (v.figureClear && v.educational)
-        ? (v.questions ?? []).filter((q) => !(q.keyCorrect && q.answerable && q.singleAnswer)).map((q) => q.n)
+        ? (v.questions ?? []).filter((q) => !clean(q as QuestionVerdict)).map((q) => q.n)
         : (db.prepare('SELECT n FROM figure_questions WHERE figure_id = ? AND model = ?').all(id, o.writer) as { n: number }[]).map((q) => q.n)
       for (const n of failing) {
         const q = idOf.get(id, o.writer, n) as { id: string } | undefined

@@ -73,6 +73,27 @@ describe('the blind review prompt', () => {
   })
 })
 
+describe('a real image must be needed to answer its question (P3u)', () => {
+  // The user's OpenStax review: a radish photo for "discrete or continuous", a chromium photo for metallic bonding,
+  // each answerable without looking. A drawn family is built so that every key needs the figure: not asked there.
+  const real: ReviewItem = { ...item, figureId: 'openstax/chemistry/m1/f1', family: 'openstax' }
+  const judged = (needs: boolean[]) => ({ ...good, questions: good.questions.map((q, i) => ({ ...q, needs_figure: needs[i] })) })
+
+  it('asks whether the image is needed for a real image only', () => {
+    expect(reviewPrompt(real)).toMatch(/needs_figure/)
+    expect(reviewPrompt(item)).not.toMatch(/needs_figure/)
+  })
+
+  it('fails a question answerable without the image, and refuses a reply that does not judge it', () => {
+    expect(parseVerdict(judged([true, true]), real).pass).toBe(true)
+    const v = parseVerdict(judged([true, false]), real)
+    expect(v.pass).toBe(false)
+    expect(v.questions[1].needsFigure).toBe(false)
+    expect(() => parseVerdict(good, real)).toThrow()
+    expect(parseVerdict(good, item).pass).toBe(true)
+  })
+})
+
 describe('reading a verdict', () => {
   it('passes only when the reviewer reaches every key and the figure is sound', () => {
     expect(parseVerdict(good, item).pass).toBe(true)
@@ -482,7 +503,7 @@ describe('real images, one writer at a time', () => {
     expect(h.questions.map((q) => q.answer)).toEqual(['0'])
     const [s] = itemsToReview(db, { job: 's', size: 30, figureIds: ['wikimedia/9'], writer: 'sonnet-model' })
     expect(s.questions.map((q) => q.answer)).toEqual(['1'])
-    const failed = parseVerdict({ questions: [{ n: 1, own_answer: 'B', answerable: true, single_answer: true }], figure_clear: true, educational: true }, h)
+    const failed = parseVerdict({ questions: [{ n: 1, own_answer: 'B', answerable: true, single_answer: true, needs_figure: true }], figure_clear: true, educational: true }, h)
     saveVerdict(db, { job: 'h', model: 'm', figureId: 'wikimedia/9', verdict: failed, mark: false })
     expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/9'").get()).toEqual({ status: 'screened' })
     expect(itemsToReview(db, { job: 'h', size: 30, figureIds: ['wikimedia/9'], writer: 'haiku-model' })).toEqual([])
@@ -492,7 +513,7 @@ describe('real images, one writer at a time', () => {
   it('counts clean questions, the measure the writers are compared on', () => {
     const db = realStore()
     const [s] = itemsToReview(db, { job: 's', size: 30, figureIds: ['wikimedia/9'], writer: 'sonnet-model' })
-    saveVerdict(db, { job: 's', model: 'm', figureId: 'wikimedia/9', verdict: parseVerdict({ questions: [{ n: 1, own_answer: 'B', answerable: true, single_answer: true }], figure_clear: true, educational: true }, s), mark: false })
+    saveVerdict(db, { job: 's', model: 'm', figureId: 'wikimedia/9', verdict: parseVerdict({ questions: [{ n: 1, own_answer: 'B', answerable: true, single_answer: true, needs_figure: true }], figure_clear: true, educational: true }, s), mark: false })
     expect(cleanRate(db, 's')).toEqual({ figures: 1, questions: 1, clean: 1, rate: 1 })
     expect(cleanRate(db, 'none')).toEqual({ figures: 0, questions: 0, clean: 0, rate: 0 })
   })
@@ -538,6 +559,15 @@ describe('approving real images', () => {
     db.prepare("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', 'wikimedia/2', 'm', 0, ?, 'now')").run(verdict([true, true], false))
     return db
   }
+
+  it('drops a question the review found answerable without the image (P3u)', () => {
+    const db = approvalStore()
+    db.prepare("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', 'wikimedia/3', 'm', 0, ?, 'now')").run(JSON.stringify({
+      pass: false, figureClear: true, educational: true, problems: [],
+      questions: [1, 2].map((n) => ({ n, key: '1', ownAnswer: '1', keyCorrect: true, answerable: true, singleAnswer: true, needsFigure: n === 1, problem: '' })) }))
+    approveReal(db, { writer: 'sonnet', job: 'j' })
+    expect(db.prepare("SELECT id FROM figure_questions WHERE figure_id = 'wikimedia/3'").all()).toEqual([{ id: 'wikimedia/3#sonnet#1' }])
+  })
 
   it('approves an image with a clean question, drops the questions the review failed, and rejects an unclear image', () => {
     const db = approvalStore()
