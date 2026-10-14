@@ -20,6 +20,8 @@ from . import enzyme_graph, glucose_graph, osmosis_graph, photosynthesis_rate, p
 from . import dna_strand, pedigree
 from . import dichotomous_key, quadrat, variation_chart
 from . import antibiotic_plate, food_test_table, magnification, sa_volume
+# P3k: the computing wave
+from . import logic_gates, truth_table
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -53,4 +55,5 @@ FAMILIES = {m.ID: m for m in (
     particle_diagram, electron_shells, ionic_bonding, covalent_bonding, periodic_table, organic_structure, energy_profile, electrolysis, rate_graph, solubility_curve, ph_curve, mass_spectrum, titration, chromatogram,
     enzyme_graph, photosynthesis_rate, population_curve, osmosis_graph, glucose_graph, spirometer_trace, pedigree, dna_strand, quadrat, dichotomous_key, variation_chart,
     magnification, antibiotic_plate, sa_volume, food_test_table,
+    logic_gates, truth_table,
 )}
