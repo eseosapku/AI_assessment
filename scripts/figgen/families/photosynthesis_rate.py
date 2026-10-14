@@ -31,7 +31,7 @@ def sample(rng: random.Random) -> dict:
     lx = rng.randint(3, 6) if m == 1 else rng.randint(2, 4)
     hx = lx + rng.randint(2, 3)
     other = rng.choice(list(FACTORS))
-    corners = [(lx * xstep, m * lx * ystep), (hx * xstep, m * hx * ystep)]
+    corners = [[lx * xstep, m * lx * ystep], [hx * xstep, m * hx * ystep]]  # lists: the spec is stored as JSON
     px = rng.randint(1, lx - 1)
     qx = rng.randint(lx + 1, hx + 3)
     return {"band": rng.choice(BANDS), "xstep": xstep, "ystep": ystep, "end": (hx + 4) * xstep, "other": other,
