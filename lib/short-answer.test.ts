@@ -105,6 +105,29 @@ describe('spelling', () => {
     expect(gradeShortAnswer('photo', key(['photosynthesis'])).correct).toBe(false)
     expect(gradeShortAnswer('evaporation', key(['condensation'])).correct).toBe(false)
   })
+
+  it('never lets a slip change a number', () => {
+    // A long accepted form ("3 hydrogen bonds") earned a slip allowance that let a wrong count through.
+    expect(gradeShortAnswer('2 hydrogen bonds', key(['3', '3 hydrogen bonds'])).correct).toBe(false)
+    expect(gradeShortAnswer('100 dandelions', key(['105', '105 dandelions'])).correct).toBe(false)
+    expect(gradeShortAnswer('10% decrease in mass', key(['-5', '5% decrease in mass'])).correct).toBe(false)
+    expect(gradeShortAnswer("5'-CCA-3'", key(['CCU', "5'-CCU-3'"])).correct).toBe(false)
+    // a slip in the words beside the right number is still forgiven
+    expect(gradeShortAnswer('3 hydrogan bonds', key(['3', '3 hydrogen bonds'])).correct).toBe(true)
+  })
+
+  it('never lets a slip turn a word into its opposite', () => {
+    expect(gradeShortAnswer('5% increase in mass', key(['-5', '5% decrease in mass'])).correct).toBe(false)
+    expect(gradeShortAnswer('increase of 5%', key(['5', 'decrease of 5%'])).correct).toBe(false)
+    expect(gradeShortAnswer('haploid cell', key(['diploid cell'])).correct).toBe(false)
+    expect(gradeShortAnswer('descending order', key(['ascending order'])).correct).toBe(false)
+    expect(gradeShortAnswer('exothermic reaction', key(['endothermic reaction'])).correct).toBe(false)
+    expect(gradeShortAnswer('hypotonic solution', key(['hypertonic solution'])).correct).toBe(false)
+    expect(gradeShortAnswer('minimum value', key(['maximum value'])).correct).toBe(false)
+    expect(gradeShortAnswer('decreasing rate', key(['increasing rate'])).correct).toBe(false)
+    // a genuine slip in a word with an opposite is still forgiven
+    expect(gradeShortAnswer('decreese in mass', key(['decrease in mass'])).correct).toBe(true)
+  })
 })
 
 describe('refusing to guess', () => {

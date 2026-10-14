@@ -169,6 +169,25 @@ function spellingAllowance(word: string): number {
   return word.length >= 12 ? 2 : 1
 }
 
+/**
+ * A misspelling of an accepted form, judged word by word. The slip allowance
+ * once applied to the whole form, so a long form lent it to its numbers and
+ * short words: "2 hydrogen bonds" passed for "3 hydrogen bonds", "5% increase
+ * in mass" for "5% decrease in mass", "5'-CCA-3'" for "5'-CCU-3'". Now every
+ * number and every short word must be exactly right, each long word may slip
+ * only within its own allowance, and spacing or punctuation may differ.
+ */
+function isSlipOf(text: string, form: string): boolean {
+  const words = (s: string) => s.split(/[^\p{L}\p{N}]+/u).filter(Boolean)
+  const numbers = (s: string) => (s.match(/\d+/g) ?? []).join(' ')
+  if (numbers(text) !== numbers(form)) return false
+  const mine = words(text)
+  const theirs = words(form)
+  if (mine.join('') === theirs.join('')) return true
+  if (mine.length !== theirs.length) return false
+  return mine.every((w, i) => w === theirs[i] || (!/\d/.test(theirs[i]) && levenshtein(w, theirs[i]) <= spellingAllowance(theirs[i])))
+}
+
 export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnswerResult {
   const accepted = (Array.isArray(key?.accepted) ? key.accepted : [])
     .map(normalizeAnswer)
@@ -209,13 +228,7 @@ export function gradeShortAnswer(given: unknown, key: ShortAnswerKey): ShortAnsw
   }
 
   for (const a of accepted) {
-    const allowance = spellingAllowance(a)
-    if (allowance > 0 && (levenshtein(answer, a) <= allowance || levenshtein(bare, a) <= allowance)) {
-      // Never let a slip carry one listed answer into another: if the typed
-      // word is at least as close to a different accepted answer, it is not a
-      // misspelling of this one.
-      return { correct: true, reason: 'spelling' }
-    }
+    if (isSlipOf(answer, a) || isSlipOf(bare, a)) return { correct: true, reason: 'spelling' }
   }
 
   if (!key.numeric && containsAccepted(bare, accepted)) return { correct: true, reason: 'phrase' }
