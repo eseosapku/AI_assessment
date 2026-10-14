@@ -28,6 +28,14 @@ describe('the screening prompt', () => {
     const p = screenPrompt(item)
     for (const part of ['biology', 'Upper Secondary', '"Cells"', 'Onion cells.jpg', 'Syllabus points: Animal and plant cells; Specialised cells.', 'in_syllabus', 'unfamiliar_example', 'scanned_page', 'image_type', 'beyond_level', 'research paper', 'person_is_subject', 'foreign_labels', 'decorative']) expect(p).toContain(part)
   })
+
+  it('judges labels at phone size and a photo that only illustrates as decorative (P3u)', () => {
+    // The user's look at the OpenStax pilot: a tree of life with dozens of tiny names, a radish photo that taught nothing.
+    const p = screenPrompt(item)
+    expect(p).toMatch(/clear:[^\n]*phone/)
+    expect(p).toMatch(/decorative:[^\n]*only illustrates/)
+    expect(p).toMatch(/beyond_level:[^\n]*university/)
+  })
 })
 
 describe('the reply the screener is shown', () => {

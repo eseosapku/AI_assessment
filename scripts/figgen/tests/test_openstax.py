@@ -35,8 +35,15 @@ class FakeFetch:
 
     def bytes(self, url):
         self.urls.append(url)
+        img = Image.new("RGB", self.size, "white")
+        # each fetch a different picture, so two figures are never near-copies of each other
+        from PIL import ImageDraw
+        d = ImageDraw.Draw(img)
+        for k in range(len(self.urls) + 2):
+            x = (k * 97 * len(self.urls)) % self.size[0]
+            d.rectangle([x, 0, x + self.size[0] // 6, self.size[1] // (k + 2)], fill="black")
         buf = io.BytesIO()
-        Image.new("RGB", self.size, "white").save(buf, "PNG")
+        img.save(buf, "PNG")
         return buf.getvalue()
 
 
@@ -81,3 +88,58 @@ def test_a_small_image_is_turned_away(tmp_path):
     db = store_with_topics(tmp_path)
     r = openstax.harvest(db, tmp_path / "lib", FakeFetch(size=(500, 200)), [line()])
     assert r["stored"] == 0 and r["turned"].get("small") == 1
+
+
+def test_a_university_book_reaches_a_level_topics_only(tmp_path):
+    # The user's look at the pilot: Microbiology's tree of life and Anatomy's organ systems were beyond upper secondary
+    from figgen.real import openstax
+    db = store_with_topics(tmp_path)
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:9', 'x', 'B', 'physics', 'AL', 'Electric circuits and resistance')")
+    db.commit()
+    assert openstax.best_topic(openstax.topics(db, "physics", openstax.bands_of("College Physics 2e")), line()) == "db:9"
+    assert openstax.best_topic(openstax.topics(db, "physics", openstax.bands_of("Physics")), line()) == "db:1"
+
+
+def test_a_match_needs_a_word_of_the_section_not_the_caption_alone(tmp_path):
+    from figgen.real import openstax
+    db = store_with_topics(tmp_path)
+    topics = openstax.topics(db, "physics", ("UP", "AL"))
+    loose = line(section_title="Introduction to Physics", chapter_title="Physics Basics",
+                 caption="A circuit with resistance: electric current through a resistor in a circuit with resistance.")
+    assert openstax.best_topic(topics, loose) is None
+
+
+def test_an_image_two_books_share_is_held_once(tmp_path):
+    # Biology 2e and Concepts of Biology share modules: the same tree of life came twice
+    from figgen.real import openstax
+    db = store_with_topics(tmp_path)
+    fetch = FakeFetch()
+    r = openstax.harvest(db, tmp_path / "lib", fetch, [line(), line(book="College Physics 2e", module_id="m2", figure_id="fig-9")])
+    assert r["stored"] == 1 and r["turned"].get("shared") == 1
+
+
+def test_recheck_applies_the_rules_to_held_figures(tmp_path):
+    # P3u: figures held under the pilot's rules are matched again, a shared copy is turned away, and the rest go back
+    # to the screen (its rules changed too), approved ones included, keeping their questions
+    from figgen.real import openstax
+    db = store_with_topics(tmp_path)
+    lib = tmp_path / "lib"
+    openstax.harvest(db, lib, FakeFetch(), [line(), line(figure_id="fig-2", media="media/Fig_2.jpg", section_title="Waves",
+                                                          caption="Sound waves and their pitch.")])
+    db.execute("INSERT INTO figure_questions (id, figure_id, n, band, kind, stem, options, answer, accepted, model) "
+               "SELECT id || '#1', id, 1, 'UP', 'short', 's', '[]', '1', '[]', 'w' FROM figures")
+    db.execute("INSERT INTO screenings (figure_id, model, keep, shows, detail, at) SELECT id, 'm', 1, 'x', '{}', 'now' FROM figures")
+    db.execute("UPDATE figures SET status = 'approved'")
+    # the second figure's section no longer reaches a topic once its words change
+    sid = openstax.figure_id(line(figure_id="fig-2"))
+    spec = json.loads(db.execute("SELECT spec FROM figures WHERE id = ?", (sid,)).fetchone()[0])
+    spec["section_title"], spec["caption"] = "Photosynthesis", "A leaf."
+    db.execute("UPDATE figures SET spec = ? WHERE id = ?", (json.dumps(spec), sid))
+    db.commit()
+    r = openstax.recheck(db)
+    assert r == {"rejected": 1, "rescreen": 1, "relinked": 0}
+    first = openstax.figure_id(line())
+    assert db.execute("SELECT status FROM figures WHERE id = ?", (first,)).fetchone()[0] == "candidate"
+    assert db.execute("SELECT COUNT(*) FROM screenings WHERE figure_id = ?", (first,)).fetchone()[0] == 0
+    assert db.execute("SELECT COUNT(*) FROM figure_questions WHERE figure_id = ?", (first,)).fetchone()[0] == 1
+    assert db.execute("SELECT status FROM figures WHERE id = ?", (sid,)).fetchone()[0] == "rejected"
