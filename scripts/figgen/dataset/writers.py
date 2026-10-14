@@ -383,7 +383,8 @@ WRITERS = {
     "math.function_graph": function_graph,
     "math.number_line": number_line,
     "bio.cell": bio_cell,
-    "bio.leaf_section": leaf_section,
+    # bio.leaf_section is not imported: its leader lines end between parts (palisade cell or chloroplast, air space or
+    # spongy cell), and the blind review passed 18 of 30 even with the clearest parts only (P3q fix review)
 }
 
 
