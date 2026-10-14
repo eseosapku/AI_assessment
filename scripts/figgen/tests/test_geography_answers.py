@@ -168,3 +168,66 @@ def test_contour_map():
             if "gradient" in q.stem:
                 rise = abs(p["points"]["A"] - p["points"]["B"]) * step
                 assert p["run"] % rise == 0 and q.answer == f"1 in {p['run'] // rise}"
+
+
+# --- Task 3: weather and the globe ----------------------------------------------------------------
+
+DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+
+
+def test_weather_station():
+    m = fam("weather_station")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        rain, hi, lo = p["rain"], p["tmax"], p["tmin"]
+        assert len(rain) == len(hi) == len(lo) == 7 and all(a > b for a, b in zip(hi, lo))
+        spans = [a - b for a, b in zip(hi, lo)]
+        for q in qs:
+            if "total rainfall" in q.stem:
+                assert int(q.answer) == sum(rain)
+            if "mean maximum" in q.stem:
+                assert sum(hi) % 7 == 0 and int(q.answer) == sum(hi) // 7
+            if "greatest range" in q.stem:
+                assert spans.count(max(spans)) == 1 and q.answer == DAYS[spans.index(max(spans))]
+
+
+def test_wind_rose():
+    m = fam("wind_rose")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        days, calm = p["days"], p["calm"]
+        assert sum(days.values()) + calm == p["month"]
+        for q in qs:
+            if "prevailing wind" in q.stem:
+                top = max(days.values())
+                assert list(days.values()).count(top) == 1
+                assert q.answer == max(days, key=days.get)
+            got = re.search(r"blow from the (\S+?)\?", q.stem)
+            if got:
+                assert int(q.answer) == days[got.group(1)]
+            if "calm" in q.stem:
+                assert int(q.answer) == calm
+
+
+def test_lat_long():
+    m = fam("lat_long")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        pts = p["points"]
+        assert all(v % 15 == 0 for x in pts.values() for v in x)  # every point on a gridline crossing
+        for q in qs:
+            got = re.search(r"latitude of point ([A-D])\?", q.stem)
+            if got:
+                lat = pts[got.group(1)][0]
+                assert q.answer == f"{abs(lat)}°{'N' if lat > 0 else 'S'}" and lat != 0
+            got = re.search(r"longitude of point ([A-D])\?", q.stem)
+            if got:
+                lon = pts[got.group(1)][1]
+                assert q.answer == f"{abs(lon)}°{'E' if lon > 0 else 'W'}" and lon != 0
+            got = re.search(r"noon at point ([A-D]).*local time at point ([A-D])", q.stem)
+            if got:
+                hours = 12 + (pts[got.group(2)][1] - pts[got.group(1)][1]) // 15  # east is ahead
+                assert q.answer == f"{hours:02d}:00" and 0 <= hours <= 23
+            got = re.search(r"difference in latitude between points ([A-D]) and ([A-D])", q.stem)
+            if got:
+                assert int(q.answer.rstrip("°")) == abs(pts[got.group(1)][0] - pts[got.group(2)][0])
