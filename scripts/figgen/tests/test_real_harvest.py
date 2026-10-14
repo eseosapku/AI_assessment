@@ -173,3 +173,13 @@ def test_rejecting_a_held_scan_removes_its_questions(db, tmp_path):
     db.commit()
     reject_held_scans(db)
     assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 0
+
+
+def test_any_topic_can_be_harvested_with_a_stated_kind():
+    # P3u: history and social studies topics, beyond the pilot's six, each with the kind of image wanted
+    from figgen.real.harvest import kinds_for
+    assert kinds_for(["db:2"], None) == {"db:2": "photo.micrograph"}  # a pilot topic keeps its own kind
+    assert kinds_for(["db:777", "db:2"], "photo.history") == {"db:777": "photo.history", "db:2": "photo.history"}
+    import pytest
+    with pytest.raises(ValueError):
+        kinds_for(["db:777"], None)  # a new topic needs a kind

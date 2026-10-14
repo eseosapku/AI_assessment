@@ -34,6 +34,16 @@ PILOT = {
 }
 
 
+def kinds_for(keys: list[str], kind: str | None) -> dict[str, str]:
+    """The image kind to file each topic's images under: the stated one, else a pilot topic's own."""
+    if kind:
+        return {k: kind for k in keys}
+    unknown = [k for k in keys if k not in PILOT]
+    if unknown:
+        raise ValueError(f"not pilot topics, so --kind is needed: {', '.join(unknown)}")
+    return {k: PILOT[k] for k in keys}
+
+
 def figure_id(pageid: int) -> str:
     return f"wikimedia/{pageid}"
 
@@ -139,6 +149,7 @@ def main(argv=None) -> int:
     ap.add_argument("--per-term", type=int, default=25)
     ap.add_argument("--topics", default="", help="comma-separated topic keys; the pilot's six when left out")
     ap.add_argument("--recheck", action="store_true", help="only reject held images the current rules turn away")
+    ap.add_argument("--kind", default=None, help="the image kind for topics beyond the pilot's, e.g. photo.history")
     a = ap.parse_args(argv)
     if a.recheck:
         db = open_store()
@@ -146,12 +157,13 @@ def main(argv=None) -> int:
         db.close()
         return 0
     keys = [k.strip() for k in a.topics.split(",") if k.strip()] or list(PILOT)
-    unknown = [k for k in keys if k not in PILOT]
-    if unknown:
-        ap.error(f"not pilot topics: {', '.join(unknown)}")
+    try:
+        kinds = kinds_for(keys, a.kind)
+    except ValueError as e:
+        ap.error(str(e))
     lib, db, fetch = library_dir(), open_store(), Fetcher()
     for key in keys:
-        r = harvest_topic(db, lib, fetch, key, PILOT[key], a.per_topic, a.per_term)
+        r = harvest_topic(db, lib, fetch, key, kinds[key], a.per_topic, a.per_term)
         print(f"{key:8s} {r['have']:4d} held; turned away: {r['turned']}")
     total = db.execute("SELECT COUNT(*) FROM figures WHERE origin = 'wikimedia'").fetchone()[0]
     print(f"{total} real candidates in the store at {lib}")
