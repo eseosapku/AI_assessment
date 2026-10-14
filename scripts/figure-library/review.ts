@@ -546,7 +546,9 @@ export function approveReal(db: Store, o: { writer: string; job: string }): { ap
   let approved = 0
   let rejected = 0
   let questionsDropped = 0
-  db.exec('BEGIN')
+  // IMMEDIATE: read-then-write in a deferred transaction fails at once (SQLITE_BUSY) while other processes
+  // write, as the drawing runs do; taking the write lock first waits for them instead.
+  db.exec('BEGIN IMMEDIATE')
   try {
     for (const id of figures) {
       const row = review.get(o.job, id) as { detail: string } | undefined
