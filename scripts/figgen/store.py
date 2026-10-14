@@ -5,15 +5,38 @@ languages create the store from that file, so they cannot disagree.
 """
 from __future__ import annotations
 
+import functools
 import json
 import os
+import random
 import sqlite3
+import time
 from datetime import datetime, timezone
 from pathlib import Path
 
 REPO = Path(__file__).resolve().parents[2]
 SCHEMA_FILE = REPO / "scripts" / "figure-library" / "schema.sql"
 DEFAULT_DIR = "C:/Users/Stephen/figure-library"
+
+
+def with_retry(fn, tries: int = 30, wait: float = 3.0):
+    """Runs a write, trying again while another process holds the lock: SQLite's wait is not fair, and with eight
+    writers at once a run that waited a minute and stopped lost hours. Any other error is raised at once."""
+    for k in range(tries):
+        try:
+            return fn()
+        except sqlite3.OperationalError as e:
+            if "locked" not in str(e) or k == tries - 1:
+                raise
+            time.sleep(wait * (0.5 + random.random()))
+
+
+def _retrying(f):
+    """A write whose `with db:` rolls back on failure, so trying it again is safe."""
+    @functools.wraps(f)
+    def g(*args, **kwargs):
+        return with_retry(lambda: f(*args, **kwargs))
+    return g
 
 
 def library_dir() -> Path:
@@ -54,6 +77,7 @@ def has_figure(db: sqlite3.Connection, figure_id: str) -> bool:
     return db.execute("SELECT 1 FROM figures WHERE id = ?", (figure_id,)).fetchone() is not None
 
 
+@_retrying
 def save_drawn(db: sqlite3.Connection, *, figure_id: str, family: str, kind: str, subject: str, band: str,
                topics: list[str], seed: int, spec: dict, questions: list, asset: str, preview: str,
                width: int, height: int) -> None:
@@ -85,6 +109,7 @@ def save_drawn(db: sqlite3.Connection, *, figure_id: str, family: str, kind: str
               json.dumps(q.accepted), q.explanation, q.tolerance) for n, q in enumerate(questions, 1)])
 
 
+@_retrying
 def relink(db: sqlite3.Connection, figure_id: str, topics: list[str]) -> bool:
     """Points a stored figure at these topics instead of the ones it was saved with; the figure, its
     questions, reviews and status stay as they are. True when its topics changed."""
@@ -97,6 +122,7 @@ def relink(db: sqlite3.Connection, figure_id: str, topics: list[str]) -> bool:
     return True
 
 
+@_retrying
 def delete_family(db: sqlite3.Connection, family: str) -> list[str]:
     """Removes a drawn family's figures with their questions, topics and reviews; returns the file keys to delete."""
     rows = db.execute("SELECT id, asset, preview FROM figures WHERE origin = 'drawn' AND family = ?", (family,)).fetchall()
@@ -108,6 +134,7 @@ def delete_family(db: sqlite3.Connection, family: str) -> list[str]:
     return [key for r in rows for key in (r["asset"], r["preview"]) if key]
 
 
+@_retrying
 def save_real(db: sqlite3.Connection, *, figure_id: str, origin: str, kind: str, subject: str, band: str,
               topic_key: str, asset: str, preview: str, width: int, height: int, spec: dict, licence: str,
               author: str, source_url: str, credit: str, phash: str) -> None:

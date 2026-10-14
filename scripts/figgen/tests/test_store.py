@@ -79,3 +79,32 @@ def test_delete_family_removes_everything_and_names_the_files(tmp_path):
                                     "assets/drawn/bar_chart/2.svg", "assets/drawn/bar_chart/2.png"])
     assert db.execute("SELECT COUNT(*) FROM figures").fetchone()[0] == 1
     assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 2
+
+
+def test_a_write_retries_while_another_process_holds_the_lock():
+    # Eight writers at once (drawing runs, imports, a harvest): SQLite's wait is not fair, and a run that waited a
+    # minute and stopped lost hours. A locked write is tried again; any other error is raised at once.
+    import sqlite3
+    import pytest
+    from figgen.store import with_retry
+    calls = {"n": 0}
+
+    def flaky():
+        calls["n"] += 1
+        if calls["n"] < 3:
+            raise sqlite3.OperationalError("database is locked")
+        return "saved"
+
+    assert with_retry(flaky, tries=5, wait=0) == "saved" and calls["n"] == 3
+
+    def broken():
+        raise sqlite3.OperationalError("no such table: figures")
+
+    with pytest.raises(sqlite3.OperationalError, match="no such table"):
+        with_retry(broken, tries=5, wait=0)
+
+    def always():
+        raise sqlite3.OperationalError("database is locked")
+
+    with pytest.raises(sqlite3.OperationalError, match="locked"):
+        with_retry(always, tries=3, wait=0)
