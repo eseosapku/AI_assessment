@@ -540,6 +540,30 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - **Links:** each family's AVOID was read topic by topic. capacitor_discharge reaches only A Level Capacitance; the Chemistry families reach 4 to 33 topics each.
     - **Sheets:** Chemistry at https://claude.ai/artifact/AS8zC9cQzqPeCa1zqCGLgn, and the Physics gaps at https://claude.ai/artifact/XFygkwvbENVmF5WCPB6HM3.
     - **Next:** P3h, drawing these 23 families at scale (plan `2026-10-14-figure-library-p3h-gaps-and-chemistry-scale.md`). After it, the Biology wave (P3i), whose first six families are already built.
+  - **P3h result (2026-10-15): the Physics gaps and the Chemistry wave, drawn, reviewed and approved.** The blind review cost $5.64 and the fix review $2.56; the library total is $81.79.
+    - **First pass:** 515 of 680 figures passed. 89 rejections were the answer check, not the figures. The reviewer had the answer right but wrote it as:
+      - a word with a gloss: "Copper (metal)";
+      - a charge inside text: "Cu2+ (copper(II) ion)";
+      - the key to 2 or 3 significant figures: "158 mJ (158.4 mJ)";
+      - a form in standard form: "11 ×10¹⁴ Hz";
+      - "about" before a unit with a number in it: "about 170 g per 100 g of water";
+      - a part ending in an accepted form: "also called group 15".
+    - **The fixes:**
+      - `agrees` reads all six patterns, plus a bare unit factor ("7 (×10¹⁴ Hz)"). This was a free regrade.
+      - Eight families were redrawn and reviewed again:
+        - field lines on the plates are arrowed and evenly spaced;
+        - magnet field lines are traced from the magnet's surface, after correct arrows were read as pointing into N;
+        - particle boxes are all drawn as gases, after a solid box among element, compound and mixture boxes read as no solid;
+        - covalent bonding counts one named multiple bond;
+        - group numbering is stated;
+        - burette readings carry ±0.05 cm³ and photoelectric intercepts ±0.2.
+    - **Approved:** all 23 families, 2,978 figures. gravity_orbit has 20 distinct figures, organic_structure 82, magnet_field 76, photoelectric and ionic_bonding 72 each, and electrolysis 128.
+    - **Coverage:**
+      - Physics: 176 of the 210 mapped topics have figures, 163 with 50 or more.
+      - Chemistry: 107 of 185 have figures, 90 with 50 or more (it had 1).
+      - Library: 14,064 drawn and real figures approved.
+    - **Quiz check (in process):** electrochemical cells, 64 figures and 256 questions; indicators and titration curves, 214 and 708; carboxylic acids, 44 and 176.
+    - **Next:** the Biology sheet (P3i, built and reviewed), its scale (P3j), and the Computing wave (P3k), which has the most empty topics (397).
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
