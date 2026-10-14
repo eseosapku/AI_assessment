@@ -13,6 +13,7 @@ KIND = "geo.section"
 SUBJECT = "geography"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"geography.{c}" for c in ("cross-sections-sketch-maps", "topographic-maps", "relief-landforms"))
+AVOID = r"exam-style|^introduction$"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"cross.section|contour|relief|topographic|map work|map reading|sketch map|vertical exaggeration"
 VERTICAL = [5000, 10000, 25000]  # 1 : this, under a horizontal 1 : 50 000

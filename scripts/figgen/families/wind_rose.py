@@ -19,7 +19,7 @@ SUBJECT = "geography"
 BANDS = ("LS", "UP")
 CONCEPTS = ("geography.winds", "geography.weather-data-collection")
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"wind|weather|climat|instrument|station"
+NEEDS = r"wind|weather(?!ing)|climat|instrument|station"
 POINTS = ["north", "north-east", "east", "south-east", "south", "south-west", "west", "north-west"]
 SHORT = {"north": "N", "north-east": "NE", "east": "E", "south-east": "SE", "south": "S", "south-west": "SW",
          "west": "W", "north-west": "NW"}

@@ -18,6 +18,7 @@ KIND = "table.data"
 SUBJECT = "geography"
 BANDS = ("UP",)
 CONCEPTS = ("geography.development-indicators", "geography.industry-definition", "geography.statistical-presentation")
+AVOID = r"exam-style|^introduction$|hiv|trade and commerce|transport and communication|geographic techniques"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"employment|development|economic|industr|sector|production|statistic"
 SECTORS = ["primary", "secondary", "tertiary"]

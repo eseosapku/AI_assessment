@@ -16,6 +16,7 @@ KIND = "graph.line"
 SUBJECT = "geography"
 BANDS = ("UP",)
 CONCEPTS = ("geography.population-growth", "geography.population-structure")
+AVOID = r"relief|hiv"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"population|demograph|birth|death|growth|transition"
 

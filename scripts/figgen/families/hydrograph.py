@@ -16,6 +16,7 @@ KIND = "graph.line"
 SUBJECT = "geography"
 BANDS = ("UP",)
 CONCEPTS = tuple(f"geography.{c}" for c in ("river-system", "flooding", "drainage-systems", "river-processes"))
+AVOID = r"internal landform"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"river|drainage|flood|hydrograph|discharge|catchment|basin"
 RIVERS = ["Nyabarongo", "Akagera", "Mukungwa", "Sebeya", "Akanyaru", "Mwogo"]

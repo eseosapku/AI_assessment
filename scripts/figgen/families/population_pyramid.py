@@ -15,6 +15,7 @@ KIND = "geo.climate"
 SUBJECT = "geography"
 BANDS = ("LS", "UP")
 CONCEPTS = ("geography.population-structure", "geography.population-growth")
+AVOID = r"relief|hiv"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"population|pyramid|age.sex|demograph|dependen"
 

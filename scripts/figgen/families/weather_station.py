@@ -18,7 +18,7 @@ SUBJECT = "geography"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"geography.{c}" for c in ("weather-data-collection", "weather-elements", "humidity-precipitation", "temperature"))
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"weather|climat|rain|temperature|instrument|station|precipitation"
+NEEDS = r"weather(?!ing)|climat|rain|temperature|instrument|station|precipitation"
 DAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 SCHOOLS = ["Huye", "Musanze", "Rubavu", "Kayonza", "Nyanza", "Rusizi", "Muhanga", "Gicumbi"]
 

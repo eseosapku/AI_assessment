@@ -16,7 +16,7 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"geography.{c}" for c in ("weather-elements", "temperature", "humidity-precipitation", "climate-zones",
                                             "climate-factors", "equatorial-climate", "hot-desert-climate", "weather-climate-definition"))
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"climat|weather|rainfall|temperature|season|precipitation"
+NEEDS = r"climat|weather(?!ing)|rainfall|temperature|season|precipitation"
 # Rwandan stations and their typical temperature in °C (Musanze is high and cool, Nyagatare low and warm)
 STATIONS = {"Kigali": 20, "Huye": 20, "Rubavu": 20, "Musanze": 16, "Nyagatare": 22}
 

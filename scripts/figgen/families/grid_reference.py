@@ -20,6 +20,7 @@ KIND = "geo.map"
 SUBJECT = "geography"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"geography.{c}" for c in ("map-reading-and-interpretation", "topographic-maps", "map-skills-measurement"))
+AVOID = r"exam-style|^introduction$"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"map|grid reference|direction|bearing|location|topographic"
 SYMBOLS = {"school": ("s", "#1a1a1a"), "church": ("P", "#1a1a1a"), "health centre": ("o", "#d62728"),

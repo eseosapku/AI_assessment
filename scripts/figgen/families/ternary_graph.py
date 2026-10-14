@@ -20,6 +20,7 @@ KIND = "graph.line"
 SUBJECT = "geography"
 BANDS = ("UP",)
 CONCEPTS = tuple(f"geography.{c}" for c in ("soil-properties", "soil-classification", "development-indicators", "statistical-presentation"))
+AVOID = r"exam-style|^introduction$|hiv|trade and commerce|transport and communication"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"soil|texture|employment|development|economic|statistic|graph|triangular|ternary"
 CONTEXTS = {"soil": ["sand", "silt", "clay"], "employment": ["primary", "secondary", "tertiary"]}

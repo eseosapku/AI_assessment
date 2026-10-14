@@ -17,6 +17,7 @@ KIND = "geo.map"
 SUBJECT = "geography"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"geography.{c}" for c in ("earth-movements", "earth-universe", "cartographic-projections"))
+AVOID = r"tectonic|structure of the earth|origin of the earth"  # topics that teach none of it, read by name and section (P3m)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"latitude|longitude|earth|universe|time|projection|location|globe"
 LATS = [v for v in range(-60, 61, 15) if v]
