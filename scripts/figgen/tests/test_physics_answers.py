@@ -865,3 +865,33 @@ def test_magnet_field():
         compass = next(q for q in qs if "compass" in q.stem)
         assert picked(compass).split()[0] == want, (s, bx, by)
         assert len({tuple(map(abs, DIRS[o.split()[0]])) for o in compass.options}) == 2  # two axes, both ways
+
+
+# --- P3g Task 3: circles and gravity ------------------------------------------------------------------
+
+def test_circular_motion():
+    m = fam("circular_motion")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        mass, v, r = Fraction(p["m"]), Fraction(p["v"]), Fraction(p["r"])
+        out = DIRS[p["at"]]  # where the object is, from the centre
+        assert DIRS[picked(qs[0]).split()[0]] == (-out[0], -out[1])  # the resultant force points to the centre
+        assert num(qs[1].answer) == v * v / r  # a = v²/r
+        assert num(qs[2].answer) == mass * v * v / r  # F = mv²/r
+        if len(qs) > 3:
+            assert "π = 3.14" in qs[3].stem and num(qs[3].answer) == 2 * Fraction("3.14") * r / v  # T = 2πr/v
+        assert all((num(q.answer) * 100).denominator == 1 for q in qs if q.kind == "short")
+
+
+def test_gravity_orbit():
+    m = fam("gravity_orbit")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        g0 = Fraction(p["g0"])
+        for n in (1, 2, 3, 4):
+            assert abs(m.g(p, n) - float(g0) / n ** 2) < 1e-9  # the curve is the inverse square
+        assert num(qs[0].answer) == g0 and num(qs[1].answer) == g0 / 4
+        mass = Fraction(re.search(r"A ([\d.]+) kg", qs[2].stem).group(1))
+        assert num(qs[2].answer) == mass * g0 / 4  # W = mg there
+        if len(qs) > 3:
+            assert num(qs[3].answer) == g0 / 16 and (g0 / 16 * 100).denominator == 1
