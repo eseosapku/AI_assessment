@@ -400,50 +400,45 @@ def _q(stem: str, v: float, unit: str) -> object:
 
 
 def circuit(row: dict, rng: random.Random) -> list:
-    """Values circuits only, with no diode (its voltage drop is a convention the figure does not state) and no switch
-    (open and closed are drawn alike, a gap between two circles, so the reviewers read a closed one as open). A value
-    the figure prints, such as a meter reading, is never asked."""
+    """Values circuits only, in series (a divider is two in series), with no diode (its voltage drop is a convention the
+    figure does not state), no switch (open and closed are drawn alike, a gap between two circles, so the reviewers read
+    a closed one as open), and no fuse or motor (no value printed; a fuse looks like a resistor without one). Parallel
+    circuits draw their first branch on the main wire, and every reviewer read it as in series with the rest. A value
+    the figure prints, such as a meter reading, is never asked, and a printed voltage must be exact: subtracting a
+    rounded one (6.0 V − 5.5 V for 6.0 V − 5.45 V) lands far from the key."""
     p = row["params"]
-    if p["labels"] != "values" or p["kind"] == "diode" or any("switch" in c["kind"] for c in _parts(p)):
+    parts = _parts(p)
+    if p["labels"] != "values" or p["kind"] not in ("series", "divider"):
         return []
-    if any(c["kind"] in ("fuse", "motor") for c in _parts(p)):  # no value printed; a fuse looks like a resistor without one
+    if any("switch" in c["kind"] or c["kind"] in ("fuse", "motor", "diode") for c in parts):
         return []
+    source = next(c for c in parts if c["kind"] in ("battery", "cell"))
+    V = source["value"]
+    rs = [c for c in parts if c["kind"] in RESISTIVE]
+    total = sum(c["value"] for c in rs)
+    current = V / total
     printed = [float(d.split()[0]) for d in row["labels"] if d[:1].isdigit()]
+    if p["show_readings"]:
+        volts = [float(d.split()[0]) for d in row["labels"] if d.endswith(" V")]
+        volts.remove(V)
+        amps = [float(d.split()[0]) for d in row["labels"] if d.endswith(" A")]
+        across = next((c["value"] for c in parts if p.get("voltmeter") and c["id"] == p["voltmeter"]["across"]), None)
+        if any(abs(a - current) > 0.01 * current for a in amps) or (across and any(abs(v - current * across) > 1e-9 for v in volts)):
+            return []
 
     def shown(v: float) -> bool:
         return any(abs(float(_sf(v)) - x) < 1e-9 for x in printed)
 
-    parts = _parts(p)
-    source = next(c for c in parts if c["kind"] in ("battery", "cell"))
-    V = source["value"]
-    closed = not any(c["kind"] == "switch_open" for c in parts)
     lead = _lead(rng, "circuit")
     qs = []
-    if p["kind"] == "parallel":
-        branches = [[c for c in br if c["kind"] in RESISTIVE] for br in p["parallel"]]
-        total = 1 / sum(1 / sum(c["value"] for c in br) for br in branches)
-        if not shown(total):
-            qs.append(_q(f"{lead} What is the combined resistance of the parallel part of the circuit, in Ω?", total, "Ω"))
-        if not shown(V / total):
-            qs.append(_q(f"What is the current from the {source['kind']}, in A?", V / total, "A"))
-        single = [br[0] for br in branches if len(br) == 1]
-        if single:
-            c = rng.choice(single)
-            if not shown(V / c["value"]):
-                qs.append(_q(f"What is the current in the {_sf(c['value'])} Ω {PART_NAME[c['kind']]}, in A?", V / c["value"], "A"))
-    else:
-        rs = [c for c in parts if c["kind"] in RESISTIVE]
-        total = sum(c["value"] for c in rs)
-        current = V / total if closed else 0.0
-        if not shown(total):
-            qs.append(_q(f"{lead} What is the total resistance of the circuit, in Ω?", total, "Ω"))
-        if not shown(current):
-            qs.append(_q("What is the current in the circuit, in A?" + ("" if closed else " Look at the switch."), current, "A"))
-        if closed:
-            c = rng.choice(rs)
-            pd = current * c["value"]
-            if not shown(pd):
-                qs.append(_q(f"What is the p.d. across the {_sf(c['value'])} Ω {PART_NAME[c['kind']]}, in V?", pd, "V"))
+    if not shown(total):
+        qs.append(_q(f"{lead} What is the total resistance of the circuit, in Ω?", total, "Ω"))
+    if not shown(current):
+        qs.append(_q("What is the current in the circuit, in A?", current, "A"))
+    c = rng.choice(rs)
+    pd = current * c["value"]
+    if not shown(pd):
+        qs.append(_q(f"What is the p.d. across the {_sf(c['value'])} Ω {PART_NAME[c['kind']]}, in V?", pd, "V"))
     if qs and not any(qs[0].stem.startswith(n) for n in NAMES):  # the lead goes on whichever question comes first
         qs[0].stem = f"{lead} {qs[0].stem}"
     return qs

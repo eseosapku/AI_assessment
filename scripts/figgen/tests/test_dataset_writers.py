@@ -315,38 +315,39 @@ def test_circuit():
         p = row["params"]
         switch = any("switch" in c["kind"] for c in _parts(p))  # open and closed are drawn alike, a gap between two circles
         unvalued = any(c["kind"] in ("fuse", "motor") for c in _parts(p))  # no value printed; a fuse looks like a resistor
-        if p["labels"] != "values" or p["kind"] == "diode" or switch or unvalued:
+        # parallel: the first branch lies on the main wire, and every reviewer read it as in series with the rest
+        if p["labels"] != "values" or p["kind"] in ("diode", "parallel") or switch or unvalued:
             assert not qs
             continue
-        values += 1
-        asking += bool(qs)  # a circuit whose every value is printed asks nothing
         drawn = set(row["labels"])
         source = next(c["value"] for c in _parts(p) if c["kind"] in ("battery", "cell"))
-        closed = not any(c["kind"] == "switch_open" for c in _parts(p))
-        if p["kind"] == "parallel":
-            branches = [sum(c["value"] for c in br if c["kind"] in RESISTIVE) for br in p["parallel"]]
-            total = 1 / sum(1 / r for r in branches)
-        else:
-            rs = {c["id"]: c["value"] for c in _parts(p) if c["kind"] in RESISTIVE}
-            total = sum(rs.values())
-        current = source / total if closed else 0.0
+        total = sum(c["value"] for c in _parts(p) if c["kind"] in RESISTIVE)
+        current = source / total
+        if p["show_readings"]:
+            # a printed voltage is exact, or subtracting it (6.0 V − 5.5 V) lands far from the key (0.545 V); a rounded
+            # current only scales, so within 1% it stays within the key's 2%
+            volts = [float(d.split()[0]) for d in row["labels"] if d.endswith(" V")]
+            volts.remove(source)
+            amps = [float(d.split()[0]) for d in row["labels"] if d.endswith(" A")]
+            across = next((c["value"] for c in _parts(p) if p.get("voltmeter") and c["id"] == p["voltmeter"]["across"]), None)
+            if any(abs(a - current) > 0.01 * current for a in amps) or (across and any(abs(v - current * across) > 1e-9 for v in volts)):
+                assert not qs, row["id"]
+                continue
+        values += 1
+        asking += bool(qs)  # a circuit whose every value is printed asks nothing
         for q in qs:
             v = float(q.answer)
             # a meter reading is printed rounded (2.3 V for 2.25 V), so working from it lands within 2%
             assert q.tolerance >= 0.0199 * max(abs(v), 0.01), (row["id"], q.tolerance)  # of the unrounded value
             printed = [float(d.split()[0]) for d in drawn if d[:1].isdigit()]
             assert not any(abs(v - x) < 1e-9 for x in printed), (row["id"], q.answer)  # never a printed value
-            if "total resistance" in q.stem or "combined resistance" in q.stem:
+            if "total resistance" in q.stem:
                 assert abs(v - total) <= 0.006 * total + 1e-9, (row["id"], v, total)
-            if "current in the circuit" in q.stem or "current from the" in q.stem:
+            if "current in the circuit" in q.stem:
                 assert abs(v - current) <= 0.006 * max(current, 0.01) + 1e-9, (row["id"], v, current)
             got = re.search(r"p\.d\. across the ([\d.]+) Ω", q.stem)
             if got:
-                assert p["kind"] != "parallel"
                 assert abs(v - current * float(got.group(1))) <= 0.01 * max(current * float(got.group(1)), 0.01) + 1e-9
-            got = re.search(r"current in the ([\d.]+) Ω", q.stem)
-            if got:
-                assert abs(v - source / float(got.group(1))) <= 0.006 * source / float(got.group(1)) + 1e-9
     assert asking >= 0.8 * values, (asking, values)
 
 
@@ -543,3 +544,179 @@ def test_molecule():
                     assert q.answer == FORMULA[p["name"]]
                 seen.add("formula")
     assert seen == {"name", "series", "formula"}
+
+
+# --- batch 5: inequality regions, motion graphs, cumulative frequency, Punnett squares -------------
+
+def satisfies(cons, x, y):
+    ops = {"<": lambda u, v: u < v, "<=": lambda u, v: u <= v, ">": lambda u, v: u > v, ">=": lambda u, v: u >= v}
+    return all(ops[op](a * x + b * y, c) for a, b, c, op in cons)
+
+
+def on_a_line(cons, x, y):
+    return any(abs(a * x + b * y - c) < 1e-9 for a, b, c, _ in cons)
+
+
+def parsed(text):
+    """An option's inequalities as a test of (x, y): '2y ≥ x, x + y < 9' -> callable. Test-only, our own strings."""
+    parts = [t.strip() for t in text.replace(" and ", ", ").split(",")]
+    exprs = []
+    for t in parts:
+        e = t.replace("≤", "<=").replace("≥", ">=").replace("−", "-")
+        e = re.sub(r"(\d)([xy])", r"\1*\2", e)
+        exprs.append(e)
+    return lambda x, y: all(eval(e, {}, {"x": x, "y": y}) for e in exprs)
+
+
+def test_inequality_region():
+    seen = set()
+    for row, qs in asked("math.inequality_region"):
+        p = row["params"]
+        cons, (lo, hi) = p["cons"], p["window"]
+        grid = [(lo + i / 2, lo + j / 2) for i in range(2 * (hi - lo) + 1) for j in range(2 * (hi - lo) + 1)]
+        assert qs, row["id"]
+        for q in qs:
+            if "Which point lies in the region R" in q.stem:
+                pts = [tuple(nums(o)) for o in q.options]
+                key = pts[int(q.answer)]
+                assert satisfies(cons, *key) and not on_a_line(cons, *key)
+                assert all(not satisfies(cons, *pt) and not on_a_line(cons, *pt) for k, pt in enumerate(pts) if k != int(q.answer))
+                seen.add("point")
+            if "define the region R" in q.stem:
+                for k, o in enumerate(q.options):
+                    same = all(parsed(o)(x, y) == satisfies(cons, x, y) for x, y in grid)
+                    assert same == (k == int(q.answer)), (row["id"], o)
+                seen.add("set")
+            got = re.search(r"greatest possible value of (.+)\?", q.stem)
+            if got:
+                obj = got.group(1).replace("−", "-")
+                val = lambda x, y: eval(re.sub(r"(\d)([xy])", r"\1*\2", obj), {}, {"x": x, "y": y})
+                inside = [(x, y) for x in range(lo, hi + 1) for y in range(lo, hi + 1) if satisfies(cons, x, y)]
+                assert int(q.answer) == max(val(x, y) for x, y in inside), (row["id"], q.answer)
+                seen.add("max")
+    assert seen == {"point", "set", "max"}
+
+
+def motion(p):
+    """Each segment's start and end time, start and end speed, and distance: speed changes evenly over a segment,
+    except on the distance-time graphs marked constant, where each segment is at its own steady speed."""
+    t, v, out = 0, p["v0"], []
+    for d, end in p["segments"]:
+        if p.get("constant"):
+            out.append((t, t + d, end, end, end * d))
+        else:
+            out.append((t, t + d, v, end, (v + end) / 2 * d))
+        t, v = t + d, end
+    return out
+
+
+def test_motion_graph():
+    seen = set()
+    for row, qs in asked("phys.motion_graph"):
+        p = row["params"]
+        segs = motion(p)
+        assert qs, row["id"]
+        for q in qs:
+            span = re.search(r"between t = ([\d.]+) s and t = ([\d.]+) s", q.stem)
+            seg = next((s for s in segs if span and (s[0], s[1]) == (float(span.group(1)), float(span.group(2)))), None)
+            if "acceleration" in q.stem or "deceleration" in q.stem:
+                assert p["kind"] == "speed-time" and seg
+                a = (seg[3] - seg[2]) / (seg[1] - seg[0])
+                assert a != 0 and abs(float(q.answer) - abs(a)) <= q.tolerance + 1e-9
+                assert ("deceleration" in q.stem) == (a < 0)
+                seen.add("acc")
+            if "total distance" in q.stem:
+                assert abs(float(q.answer) - sum(s[4] for s in segs)) <= q.tolerance + 1e-9
+                seen.add("dist")
+            if "What is the speed between" in q.stem:
+                assert p["kind"] == "distance-time" and seg and seg[2] == seg[3]
+                assert abs(float(q.answer) - seg[2]) <= q.tolerance + 1e-9
+                seen.add("speed")
+    assert seen == {"acc", "dist", "speed"}
+
+
+def cumulative(row):
+    p = row["params"]
+    xs = [float(x) for x in row["labels"][:len(p["freqs"]) + 1]]
+    cum = [0]
+    for f in p["freqs"]:
+        cum.append(cum[-1] + f)
+    return xs, cum
+
+
+def at(xs, cum, target):
+    for k in range(1, len(cum)):
+        if cum[k] >= target:
+            return xs[k - 1] + (target - cum[k - 1]) / (cum[k] - cum[k - 1]) * (xs[k] - xs[k - 1])
+
+
+def test_cumulative_frequency():
+    seen = set()
+    for row, qs in asked("math.cumulative_frequency"):
+        p = row["params"]
+        xs, cum = cumulative(row)
+        n, width = cum[-1], xs[1] - xs[0]
+        assert qs, row["id"]
+        for q in qs:
+            less = re.search(r"([\d.]+) [^?]* or less\?", q.stem)
+            more = re.search(r"more than ([\d.]+)", q.stem)
+            if less:
+                assert int(q.answer) == cum[xs.index(float(less.group(1)))]
+                seen.add("less")
+            elif more:
+                assert int(q.answer) == n - cum[xs.index(float(more.group(1)))]
+                seen.add("more")
+            if "median" in q.stem:
+                assert q.tolerance <= width / 4 and abs(float(q.answer) - at(xs, cum, n / 2)) <= q.tolerance
+                seen.add("median")
+            if "interquartile range" in q.stem:
+                assert p["lines"] == "quartiles"
+                iqr = at(xs, cum, 3 * n / 4) - at(xs, cum, n / 4)
+                assert q.tolerance <= width / 2 and abs(float(q.answer) - iqr) <= q.tolerance
+                seen.add("iqr")
+    assert seen == {"less", "more", "median", "iqr"}
+
+
+def gametes(genotype, kind):
+    if kind == "dihybrid":
+        a, b = genotype[:2], genotype[2:]
+        return [x + y for x in a for y in b]
+    return re.findall(r"I[ABO]|X[A-Za-z]|Y|[A-Za-z]", genotype)
+
+
+def phenotype(child, p):
+    kind = p["kind"]
+    if kind == "blood":
+        al = set(re.findall(r"I[ABO]", child))
+        return "AB" if {"IA", "IB"} <= al else "A" if "IA" in al else "B" if "IB" in al else "O"
+    if kind == "sex":
+        xs = re.findall(r"X([A-Za-z])", child)
+        sex = "female" if len(xs) == 2 else "male"
+        return f"{p['dominant'] if any(c.isupper() for c in xs) else p['recessive']} {sex}"
+    if kind == "dihybrid":
+        genes = [[c for c in child if c.lower() == g] for g in dict.fromkeys(c.lower() for c in child)]
+        return ", ".join(p["dominant"][k] if any(c.isupper() for c in g) else p["recessive"][k] for k, g in enumerate(genes))
+    return p["dominant"] if any(c.isupper() for c in child) else p["recessive"]
+
+
+def test_punnett():
+    from fractions import Fraction
+    seen = set()
+    for row, qs in asked("bio.punnett"):
+        p = row["params"]
+        a, b = p["parents"]
+        kids = [phenotype(x + y, p) for x in gametes(a, p["kind"]) for y in gametes(b, p["kind"])]
+        assert qs, row["id"]
+        for q in qs:
+            got = re.search(r"probability that an offspring (?:has blood group|is an?|is) (.+?)\?", q.stem)
+            if got:
+                want = Fraction(sum(k == got.group(1).replace(" and ", ", ") for k in kids), len(kids))
+                assert 0 < want < 1 and Fraction(q.answer) == want, (row["id"], got.group(1), q.answer, want)
+                seen.add("prob")
+            got = re.search(r"ratio of (.+) to (.+) offspring", q.stem)
+            if got:
+                assert p["show"] != "full"
+                x, y = (sum(k == g for k in kids) for g in got.groups())
+                assert [int(v) for v in q.answer.split(":")] == [x // math.gcd(x, y), y // math.gcd(x, y)]
+                seen.add("ratio")
+    assert seen == {"prob", "ratio"}
