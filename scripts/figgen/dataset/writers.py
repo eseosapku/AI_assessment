@@ -840,7 +840,8 @@ def inequality_region(row: dict, rng: random.Random) -> list:
     key = ", ".join(_ineq_text(*c) for c in cons)
     variants = []
     for k, (a, b, c, op) in enumerate(cons):
-        for new_op in (INEQ_STRICT[op], INEQ_FLIP[op]):
+        on_axis = c == 0 and 0 in (a, b)  # drawn as the axis itself, so its dashes cannot be seen
+        for new_op in ((INEQ_FLIP[op],) if on_axis else (INEQ_STRICT[op], INEQ_FLIP[op])):
             alt = list(cons)
             alt[k] = (a, b, c, new_op)
             if frozenset(pt for pt in grid if _holds(alt, *pt)) != region:
@@ -857,7 +858,10 @@ def inequality_region(row: dict, rng: random.Random) -> list:
     k1 = 1 if obj in ("x + y", "x + 2y", "x + 3y") else int(obj[0])
     k2 = 1 if obj in ("x + y", "2x + y", "3x + y") else int(obj[4])
     points = [pt for pt in whole if _holds(cons, *pt)]
-    if points:
+    # the same with the axis lines included, as a student who cannot see their dashes takes them
+    loose = [(a, b, c, op.rstrip("=") + "=") if c == 0 and 0 in (a, b) else (a, b, c, op) for a, b, c, op in cons]
+    wide = [pt for pt in whole if _holds(loose, *pt)]
+    if points and max(k1 * x + k2 * y for x, y in wide) == max(k1 * x + k2 * y for x, y in points):
         best = max(k1 * x + k2 * y for x, y in points)
         if all(hi not in pt for pt in points if k1 * pt[0] + k2 * pt[1] == best):  # R closed inside the window
             qs.append(short(f"The point (x, y) has integer coordinates and lies in the region R. What is the greatest "
@@ -992,6 +996,19 @@ def _chance(f: Fraction) -> list[str]:
     return forms
 
 
+def _allele_key(p: dict) -> str:
+    """'The allele T (tall) is dominant to t (short).' per gene, from the letters the parents carry."""
+    a, b = p["parents"]
+    if p["kind"] == "sex":
+        letter = re.search(r"X([A-Za-z])", a + b).group(1).upper()
+        return f"The allele X{letter} ({p['dominant']}) is dominant to X{letter.lower()} ({p['recessive']})."
+    if p["kind"] == "dihybrid":
+        return " ".join(f"The allele {g} ({p['dominant'][k]}) is dominant to {g.lower()} ({p['recessive'][k]})."
+                        for k, g in enumerate((a[0].upper(), a[2].upper())))
+    g = (a + b)[0].upper()
+    return f"The allele {g} ({p['dominant']}) is dominant to {g.lower()} ({p['recessive']})."
+
+
 def punnett(row: dict, rng: random.Random) -> list:
     """The chance that an offspring has a phenotype present but not certain, from the parents' gametes; and, where the
     diagram does not print it, the ratio of the two phenotypes of a monohybrid cross."""
@@ -1024,6 +1041,9 @@ def punnett(row: dict, rng: random.Random) -> list:
         r = f"{x // g}:{y // g}"
         qs.append(short(f"What is the ratio of {p['dominant']} to {p['recessive']} offspring?", r,
                         [r, f"{x // g} : {y // g}", f"{x // g} to {y // g}"]))
+    if qs and p["kind"] != "blood":  # the figure gives no key to the alleles (P3q review)
+        for q in qs:
+            q.stem = f"{_allele_key(p)} {q.stem}"
     if qs:
         qs[0].stem = f"{_lead(rng, 'genetic diagram')} {qs[0].stem}"
     return qs

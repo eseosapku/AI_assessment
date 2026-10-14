@@ -586,6 +586,11 @@ def test_inequality_region():
                 for k, o in enumerate(q.options):
                     same = all(parsed(o)(x, y) == satisfies(cons, x, y) for x, y in grid)
                     assert same == (k == int(q.answer)), (row["id"], o)
+                    # a line on an axis is drawn as the axis, so its dashes cannot be seen: a wrong option differs
+                    # from R somewhere off the axis lines
+                    axes = [con for con in cons if con[2] == 0 and 0 in con[:2]]
+                    if k != int(q.answer):
+                        assert any(parsed(o)(x, y) != satisfies(cons, x, y) for x, y in grid if not on_a_line(axes, x, y)), (row["id"], o)
                 seen.add("set")
             got = re.search(r"greatest possible value of (.+)\?", q.stem)
             if got:
@@ -593,6 +598,9 @@ def test_inequality_region():
                 val = lambda x, y: eval(re.sub(r"(\d)([xy])", r"\1*\2", obj), {}, {"x": x, "y": y})
                 inside = [(x, y) for x in range(lo, hi + 1) for y in range(lo, hi + 1) if satisfies(cons, x, y)]
                 assert int(q.answer) == max(val(x, y) for x, y in inside), (row["id"], q.answer)
+                loose = [(a, b, c, op.rstrip("=") + "=") if c == 0 and 0 in (a, b) else (a, b, c, op) for a, b, c, op in cons]
+                wide = [(x, y) for x in range(lo, hi + 1) for y in range(lo, hi + 1) if satisfies(loose, x, y)]
+                assert int(q.answer) == max(val(x, y) for x, y in wide), (row["id"], "turns on an axis line's dashes")
                 seen.add("max")
     assert seen == {"point", "set", "max"}
 
@@ -709,6 +717,8 @@ def test_punnett():
         genos = ["".join(sorted(x + y, key=lambda c: (c.islower(), c))) for x in gametes(a, p["kind"]) for y in gametes(b, p["kind"])]
         assert qs or (len(set(kids)) == 1 and p["kind"] in ("sex", "dihybrid")), row["id"]
         for q in qs:
+            if p["kind"] != "blood" and (got_q := re.search(r"probability|ratio|genotype", q.stem)):
+                assert "is dominant to" in q.stem, (row["id"], q.stem)  # the figure has no key to the alleles
             got = re.search(r"probability that an offspring (?:has blood group|is an?|is) (.+?)\?", q.stem)
             if got and "heterozygous" not in q.stem:
                 want = Fraction(sum(k == got.group(1).replace(" and ", ", ") for k in kids), len(kids))
