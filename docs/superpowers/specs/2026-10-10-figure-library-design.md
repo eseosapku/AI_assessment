@@ -640,6 +640,29 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - a spreadsheet topic: 71 figures, 213 questions.
       None were missing a question or a file.
     - **Next:** P3m, the Geography wave (plan `2026-10-15-figure-library-p3m-geography-wave.md`).
+  - **P3m result (2026-10-15, plan `2026-10-15-figure-library-p3m-geography-wave.md`): the Geography wave as samples.** $0 spent; nothing new was stored.
+    - **Families (13):**
+      - the three pilots reworked:
+        - Rwandan climate graphs follow the stations' normals but name no station;
+        - the disputed pyramid-shape question was dropped;
+        - vertical exaggeration was added at UP;
+      - map skills: grid references, map distance and area, contour maps;
+      - weather and the globe: weather-station records, wind roses, latitude, longitude and time;
+      - rivers, soils, population and development: storm hydrographs, ternary graphs (soil texture or employment), the demographic transition model, employment structure.
+    - **Links:** read by name and section. 29 misfit pairs were removed; "weather" no longer matches "weathering". 66 of Geography's 146 topics get a family.
+    - **The grader:** a probe found "30°S" reaching "30°N" (a hemisphere guard was added), and "15:00 (3 p.m.)" refused. Both were fixed by TDD, and regrading passed four stored figures that had been misgraded.
+    - **The fresh review:** nothing Critical. Important:
+      - real Rwandan stations drawn wrongly;
+      - DTM stage shapes and fixed stage-5 keys;
+      - near-flat hydrograph crests;
+      - Lower Secondary roads needing Pythagoras.
+      All were fixed with tests, as were fair answer forms (minus signs, hemisphere words, times).
+    - **Sheet:** https://claude.ai/artifact/XcBEZqjmTrxYSwH1JEG1uo
+    - **Next:** P3o, drawing Geography at scale. The 90 stored P1 geography figures carry the old questions, so their families are redrawn with `--redo`.
+  - **P3n result (2026-10-15, plan `2026-10-15-figure-library-p3n-science-links.md`): Integrated Science.** $0; no figure drawn.
+    - **How:** a family's `ALSO` names the `science.*` concepts its figures teach too. 25 LS-band Physics, Chemistry and Biology families reach the Lower Secondary Science topics of Cambridge LS Science 7–9, Checkpoint 0893 and NERDC Integrated Science.
+    - **Misfits:** glossary, skills and method pages, and five chapter misfits, were named in AVOID. No link outside Science moved (`reach_snap` diff); venn no longer reaches a Maths glossary.
+    - **Coverage:** Science 27 of 179 topics have figures, 25 with 50 or more (it had 1). The Primary Science topics wait for Primary-level families.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
