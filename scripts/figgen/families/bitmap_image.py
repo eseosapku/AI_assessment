@@ -18,7 +18,7 @@ KIND = "cs.structure"
 SUBJECT = "computing"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"computing.{c}" for c in ("data-representation-structure-management", "data-storage-measurement", "file-compression"))
-AVOID = r"spreadsheet|database|network|internet|security|document|presentation|email|python|html"
+AVOID = r"spreadsheet|database|network|internet|security|document|presentation|email|python|html|animation|expert system|monitoring and control|modelling|mail merge|data, information, knowledge|data processing and information|project management|sound and video|operating systems|magnetic media|storage devices|role of the cpu|computer applications|data management|software and hardware|^storage$"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"bitmap|image|pixel|graphic|colour depth|color depth|resolution|file size|data representation|storage|compression"
 PALETTES = {1: ["white", "black"], 2: ["white", "black", "red", "blue"]}

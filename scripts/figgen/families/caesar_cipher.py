@@ -18,7 +18,7 @@ KIND = "cs.structure"
 SUBJECT = "computing"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"computing.{c}" for c in ("cipher-encryption", "computer-security-terms"))
-AVOID = r"spreadsheet|database|graphic|presentation|html|logic gate|boolean"
+AVOID = r"spreadsheet|database|graphic|presentation|html|logic gate|boolean|word processing|protecting a document|internet and email|searching the internet"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"encrypt|cipher|cypher|security|cryptograph|caesar|protect"
 WORDS = ["SCHOOL", "RIVER", "MANGO", "BANANA", "VOLCANO", "MARKET", "LAKE", "COFFEE", "GORILLA", "HILLS", "DRUM", "BREAD",

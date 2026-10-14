@@ -16,7 +16,7 @@ KIND = "cs.structure"
 SUBJECT = "computing"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"computing.{c}" for c in ("number-systems", "data-representation-structure-management"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|animation|expert system|monitoring and control|modelling|mail merge|data, information, knowledge|data processing and information|project management|computer applications|data management"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"binary|denary|hexadecimal|number system|number base|bits?\b|bytes?\b|data representation|conversion"
 PLACES = [128, 64, 32, 16, 8, 4, 2, 1]

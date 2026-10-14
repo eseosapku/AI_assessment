@@ -20,7 +20,7 @@ KIND = "cs.logic"
 SUBJECT = "computing"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"computing.{c}" for c in ("logic-gates", "circuits-digital", "logic-expressions", "boolean-algebra"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|expert system|introduction to computer algorithm"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|expert system|introduction to computer algorithm|algorithm design|components of a computer|declarative|monitoring and control|microprocessor|operators and expressions|control statements|control structures"
 W, H = 1.3, 0.9  # a gate's body
 FILL = "#eef1f3"
 

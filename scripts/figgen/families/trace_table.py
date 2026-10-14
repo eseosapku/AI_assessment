@@ -19,7 +19,7 @@ KIND = "cs.code"
 SUBJECT = "computing"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"computing.{c}" for c in ("algorithms", "variable-assignment", "iteration-control", "program-testing-running"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|monitoring and control|expert system|modelling|systems life cycle"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|monitoring and control|expert system|modelling|systems life cycle|animation|expert system|monitoring and control|modelling|mail merge|data, information, knowledge|data processing and information|project management|scheduling|low-level|declarative|introduction to java|introduction to visual basic|introduction to c\+\+|complex data structure|digital project"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"trace|pseudocode|algorithm|program|loop|iteration|variable|testing|dry.run|selection|repetition"
 FILL = "#eef1f3"

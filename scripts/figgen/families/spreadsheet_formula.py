@@ -18,7 +18,7 @@ KIND = "table.data"
 SUBJECT = "computing"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"computing.{c}" for c in ("spreadsheet-functions", "complex-formulas-functions", "spreadsheet-cells"))
-AVOID = r"database|network|internet|security|graphic|presentation|email|python|html|logic gate|boolean"
+AVOID = r"database|network|internet|security|graphic|presentation|email|python|html|logic gate|boolean|objects in a document"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"spreadsheet|formula|function|cell|worksheet|excel|calc"
 CONTEXTS = {

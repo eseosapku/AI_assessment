@@ -19,7 +19,7 @@ KIND = "cs.logic"
 SUBJECT = "computing"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"computing.{c}" for c in ("logic-expressions", "boolean-algebra", "logic-gates"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|expert system"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|expert system|algorithm design|components of a computer|declarative|control statements|control structures"
 
 
 def sample(rng: random.Random) -> dict:

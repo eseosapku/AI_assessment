@@ -17,7 +17,7 @@ KIND = "cs.structure"
 SUBJECT = "computing"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"computing.{c}" for c in ("algorithms", "data-structures-introduction"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|monitoring and control|expert system|modelling|systems life cycle"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|monitoring and control|expert system|modelling|systems life cycle|animation|expert system|monitoring and control|modelling|mail merge|data, information, knowledge|data processing and information|project management|scheduling"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"search|algorithm|sort"
 FILL = "#eef1f3"

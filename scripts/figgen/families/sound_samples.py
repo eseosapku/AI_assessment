@@ -17,7 +17,7 @@ KIND = "graph.line"
 SUBJECT = "computing"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"computing.{c}" for c in ("data-representation-structure-management", "data-storage-measurement"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|animation|expert system|monitoring and control|modelling|mail merge|data, information, knowledge|data processing and information|project management|operating systems|magnetic media|storage devices|role of the cpu|computer applications|data management|software and hardware|^storage$|^images$|graphics"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"sound|audio|sampl|data representation|file size|storage|multimedia"
 INTERVALS = [0.1, 0.2, 0.25, 0.5]  # ms: 10 000, 5 000, 4 000 and 2 000 samples a second
