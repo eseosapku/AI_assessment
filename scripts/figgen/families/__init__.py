@@ -13,6 +13,7 @@ from . import capacitor_discharge, circuit, circular_motion, coulomb_force, deca
 # P3g: the chemistry wave
 from . import covalent_bonding, electron_shells, ionic_bonding, particle_diagram, periodic_table
 from . import electrolysis, energy_profile, organic_structure
+from . import mass_spectrum, ph_curve, rate_graph, solubility_curve
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -43,5 +44,5 @@ FAMILIES = {m.ID: m for m in (
     circular_motion, gravity_orbit,
     gas_law, capacitor_discharge, photoelectric, energy_levels,
     # P3g: the chemistry wave
-    particle_diagram, electron_shells, ionic_bonding, covalent_bonding, periodic_table, organic_structure, energy_profile, electrolysis,
+    particle_diagram, electron_shells, ionic_bonding, covalent_bonding, periodic_table, organic_structure, energy_profile, electrolysis, rate_graph, solubility_curve, ph_curve, mass_spectrum,
 )}

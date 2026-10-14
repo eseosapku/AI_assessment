@@ -227,6 +227,114 @@ def test_electrolysis():
                 assert plain(q.answer) == ion
 
 
+# --- Task 7: graphs -------------------------------------------------------------------------------
+
+def test_rate_graph():
+    m = fam("rate_graph")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        main = p["runs"][0]
+        T, vmax, xs, ys = main["T"], p["vmax"], p["xstep"], p["ystep"]
+        assert T % xs == 0 and (T // 2) % xs == 0 and vmax % ys == 0  # the corner and the half-way point on gridlines
+
+        def v(t, run=main):
+            return min(Fraction(vmax), vmax * (1 - (1 - Fraction(t, run["T"])) ** 2)) if t < run["T"] else Fraction(vmax)
+
+        for q in qs:
+            if "total volume" in q.stem:
+                assert num(q.answer) == vmax
+            got = re.search(r"after (\d+) s", q.stem)
+            if got:
+                t = int(got.group(1))
+                assert v(t) % ys == 0 and num(q.answer) == v(t)  # read off a gridline
+            got = re.search(r"mean rate .*first (\d+) s", q.stem)
+            if got:
+                t = int(got.group(1))
+                assert num(q.answer) == v(t) / t
+            if "stopped" in q.stem:
+                assert num(q.answer) == T
+            if q.kind == "mcq" and "faster" in q.stem:
+                fast = min(p["runs"], key=lambda r: r["T"])
+                assert picked(q) == f"experiment {fast['label']}"
+
+
+SOLUBILITY = {  # g per 100 g of water at 0, 20, 40, 60, 80 and 100 °C
+    "potassium nitrate": (13, 32, 64, 110, 169, 246), "potassium chloride": (28, 34, 40, 45.5, 51, 56),
+    "ammonium chloride": (29.4, 37.2, 45.8, 55.2, 65.6, 77.3), "copper(II) sulfate": (14.3, 20.7, 28.5, 40, 55, 75.4),
+    "sodium chloride": (35.7, 36.0, 36.6, 37.3, 38.4, 39.8),
+}
+
+
+def test_solubility_curve():
+    m = fam("solubility_curve")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        step = p["ystep"]
+        for q in qs:
+            got = re.search(r"solubility of (.+?) at (\d+) °C", q.stem)
+            if got:
+                salt, t = got.group(1), int(got.group(2))
+                v = num(q.answer)
+                assert v % step == 0 and v == Fraction(str(m.reading(salt, t)))  # on a gridline, where the curve is drawn
+                assert abs(v - Fraction(str(SOLUBILITY[salt][t // 20]))) <= Fraction(step, 2)  # the real value, rounded
+            got = re.search(r"of (.+?) in 100 g of water is cooled from (\d+) °C to (\d+) °C", q.stem)
+            if got:
+                salt, t1, t2 = got.group(1), int(got.group(2)), int(got.group(3))
+                assert num(q.answer) == Fraction(str(m.reading(salt, t1))) - Fraction(str(m.reading(salt, t2))) > 0
+            got = re.search(r"most soluble at (\d+) °C", q.stem)
+            if got:
+                k = int(got.group(1)) // 20
+                best = picked(q)
+                assert all(SOLUBILITY[best][k] >= SOLUBILITY[o][k] + 3 for o in q.options if o != best)
+
+
+def test_ph_curve():
+    m = fam("ph_curve")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        veq = p["veq"]
+        assert veq % 5 == 0 and Fraction(str(p["Ca"])) * p["Va"] == Fraction(str(p["Cb"])) * veq  # moles of acid = moles of alkali
+        assert m.ph(p, veq + 0.5) - m.ph(p, veq - 0.5) >= 3  # the jump is at the equivalence volume
+        for q in qs:
+            if "equivalence" in q.stem and q.kind == "short" and "volume" in q.stem:
+                assert num(q.answer) == veq
+            if "starting pH" in q.stem or "pH at the start" in q.stem:
+                assert abs(float(q.answer) - m.ph(p, 0)) <= 0.1
+            if q.kind == "mcq" and "strong or weak" in q.stem:
+                assert picked(q).startswith("strong" if p["kind"].startswith("strong") else "weak")
+            if q.kind == "mcq" and "indicator" in q.stem:
+                lo, hi = (float(x) for x in re.search(r"pH ([\d.]+)–([\d.]+)", picked(q)).groups())
+                assert m.ph(p, veq * 0.99) <= lo and hi <= m.ph(p, veq * 1.01)  # changes colour inside the jump
+                for o in q.options:
+                    if o != picked(q):
+                        a, b = (float(x) for x in re.search(r"pH ([\d.]+)–([\d.]+)", o).groups())
+                        assert b < m.ph(p, veq * 0.99) or a > m.ph(p, veq * 1.01)  # the others change outside it
+
+
+REAL_AR = {"chlorine": 35.45, "boron": 10.81, "lithium": 6.94, "copper": 63.55, "bromine": 79.90, "magnesium": 24.31,
+           "neon": 20.18, "silicon": 28.09, "gallium": 69.72, "silver": 107.87, "rubidium": 85.47, "potassium": 39.10,
+           "zinc": 65.38, "sulfur": 32.06}
+
+
+def test_mass_spectrum():
+    m = fam("mass_spectrum")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        peaks = p["peaks"]  # [(mass number, % abundance)]
+        assert sum(a for _, a in peaks) == 100
+        ar = Fraction(sum(mz * a for mz, a in peaks), 100)
+        assert abs(ar - Fraction(str(REAL_AR[p["element"]]))) <= Fraction(12, 100)  # real abundances, rounded
+        for q in qs:
+            if "relative atomic mass" in q.stem:
+                assert num(q.answer) == ar
+            if "How many isotopes" in q.stem:
+                assert int(q.answer) == len(peaks)
+            if "most abundant" in q.stem:
+                assert int(q.answer) == max(peaks, key=lambda x: x[1])[0]
+            if q.kind == "mcq" and "Which element" in q.stem:
+                assert picked(q) == p["element"]
+
+
 CHEMISTRY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "chemistry")
 
 
