@@ -40,8 +40,9 @@ def _crossed(road) -> set[tuple[int, int]]:
 
 
 def sample(rng: random.Random) -> dict:
+    band = rng.choice(BANDS)
     while True:
-        if rng.random() < 0.5:
+        if band == "UP" and rng.random() < 0.5:  # a diagonal needs Pythagoras: Upper Secondary only (P3m review)
             dx, dy = rng.choice([(3, 4), (4, 3)])
             dx, dy = dx * rng.choice([1, -1]), dy * rng.choice([1, -1])
         else:
@@ -68,7 +69,7 @@ def sample(rng: random.Random) -> dict:
         if len(forest) < 3:
             continue
         ends = rng.sample(PLACES, 2)
-        return {"band": rng.choice(BANDS), "road": road, "forest": sorted([list(f) for f in forest]), "ends": ends,
+        return {"band": band, "road": road, "forest": sorted([list(f) for f in forest]), "ends": ends,
                 "cm": rng.randint(2, 12)}
 
 
@@ -82,11 +83,13 @@ def draw(p: dict):
         ax.plot([0, N], [k, k], color="#5f8fb0", linewidth=1.0, zorder=2)
     (x1, y1), (x2, y2) = p["road"]
     ax.plot([x1, x2], [y1, y2], color="#8b4a1c", linewidth=3.2, solid_capstyle="round", zorder=3)
-    for (x, y), name in zip(p["road"], p["ends"]):
+    flat = y1 == y2  # on one line, the two names go one above and one below, or a short road's names meet
+    for k, ((x, y), name) in enumerate(zip(p["road"], p["ends"])):
         ax.plot([x], [y], marker="s", markersize=9, color="#1a1a1a", zorder=4)
         right = x <= N - 2  # a name near the key goes on the left of its place
-        ax.text(x + 0.12 if right else x - 0.12, y + 0.14, name, ha="left" if right else "right", va="bottom", fontsize=9.5,
-                fontweight="bold", zorder=5,
+        above = not flat or k == 0
+        ax.text(x + 0.12 if right else x - 0.12, y + 0.14 if above else y - 0.14, name, ha="left" if right else "right",
+                va="bottom" if above else "top", fontsize=9.5, fontweight="bold", zorder=5,
                 bbox=dict(boxstyle="round,pad=0.15", facecolor="white", edgecolor="none", alpha=0.85))
     kx = N + 0.4
     ax.text(kx, N - 0.1, "Key", ha="left", va="center", fontsize=10.5, fontweight="bold")

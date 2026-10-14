@@ -87,7 +87,8 @@ SETTINGS = ["in a geography lesson", "for homework", "on a revision card", "for 
 
 
 def _part(context: str, name: str, point: str) -> str:
-    return f"{name} is there at point {point}" if context == "soil" else f"{name} jobs are there at point {point}"
+    # "of tertiary jobs at point A" read as a share of all tertiary jobs (P3m review): the jobs at the point, in a sector
+    return f"{name} is there at point {point}" if context == "soil" else f"the jobs at point {point} are {name}"
 
 
 def questions(p: dict, rng: random.Random) -> list:

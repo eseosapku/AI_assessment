@@ -47,6 +47,9 @@ def test_climate_graph():
                 assert int(q.answer) == rain[MONTHS.index(got.group(1))]
             if "temperature range" in q.stem:
                 assert int(q.answer) == max(temp) - min(temp)
+            got = re.search(r"temperature in (\w+) at", q.stem)
+            if got:
+                assert int(q.answer) == temp[MONTHS.index(got.group(1))]
             got = re.search(r"from (\w+) to (\w+)", q.stem)
             if got:
                 a, b = MONTHS.index(got.group(1)), MONTHS.index(got.group(2))
@@ -260,9 +263,12 @@ def test_ternary_graph():
         for k, v in p["points"].items():
             assert sum(v) == 100 and all(x % 10 == 0 and x > 0 for x in v), (s, k, v)  # on gridline crossings
         for q in qs:
-            got = re.search(r"percentage of (\w+)(?: jobs)? (?:is there |are there )?at point ([A-D])", q.stem)
+            got = re.search(r"percentage of (?!the )(\w+)(?: jobs)? (?:is there |are there )?at point ([A-D])", q.stem)
             if got:
                 assert int(q.answer) == p["points"][got.group(2)][names.index(got.group(1))]
+            got = re.search(r"percentage of the jobs at point ([A-D]) are (\w+)\?", q.stem)
+            if got:
+                assert int(q.answer) == p["points"][got.group(1)][names.index(got.group(2))]
             got = re.search(r"Which point has the most (\w+)(?: jobs)?\?", q.stem)
             if got:
                 i = names.index(got.group(1))
@@ -307,3 +313,104 @@ def test_employment_structure():
                 values = {k: v[i] for k, v in rows.items()}
                 top = max(values.values())
                 assert list(values.values()).count(top) == 1 and picked(q) == max(values, key=values.get)
+
+
+# --- P3m review fixes -----------------------------------------------------------------------------
+
+def test_a_rwandan_climate_graph_is_drawn_from_normals_and_claims_no_real_station():
+    """Noise had given Rubavu 50 mm in July and a 4 °C jump between months; a real place is never drawn wrongly as if it
+    were accurate (P3m review): the profiles follow the stations' normals, and the title names only Rwanda."""
+    import matplotlib.pyplot as plt
+    m = fam("climate_graph")
+    for s in range(1, 400):
+        p = m.sample(random.Random(s))
+        if not p.get("place"):
+            continue
+        rain, temp = p["rain"], p["temp"]
+        assert rain[5] <= 40 and rain[6] <= 30 and rain[7] <= 60, (s, rain)
+        assert max(temp) - min(temp) <= 2 and all(abs(a - b) <= 2 for a, b in zip(temp, temp[1:])), (s, temp)
+        assert rain.index(max(rain)) == 3, (s, rain)  # April, the long rains' peak
+        if s < 40:
+            fig = m.draw(p)
+            title = fig.axes[0].get_title()
+            plt.close(fig)
+            assert p["place"] not in title and "Rwanda" in title
+            _, qs = run(m, s)
+            assert not any(p["place"] in q.stem for q in qs)
+    for s in SEEDS:
+        p, qs = run(m, s)
+        a, b = p["season"]
+        assert sum(p["rain"][a:b + 1]) > 0, s  # a season with no rain is no question
+
+
+def test_the_dtm_keeps_its_stage_shapes_and_varies_its_keys():
+    m = fam("dtm")
+    seen = {"d5": set(), "b5": set(), "ni5": set()}
+    for s in SEEDS:
+        p = m.sample(random.Random(s))
+        br, dr = p["birth"], p["death"]
+        assert br[0] - dr[0] <= 5, (s, br, dr)          # stage 1: births and deaths both high and close
+        assert abs(br[4] - br[3]) <= 5, (s, br)          # stage 4: births low and level
+        assert br[5] < dr[5], (s, br, dr)                # stage 5: births below deaths
+        seen["d5"].add(dr[5]); seen["b5"].add(br[5]); seen["ni5"].add(br[5] - dr[5])
+    assert all(len(v) >= 2 for v in seen.values()), seen  # no key the same in every figure
+
+
+def test_a_hydrograph_peaks_plainly():
+    m = fam("hydrograph")
+    for s in SEEDS:
+        flow = m.sample(random.Random(s))["flow"]
+        tp = flow.index(max(flow))
+        assert flow[tp] - max(flow[tp - 1], flow[tp + 1]) >= 5, (s, flow[tp - 1:tp + 2])  # one gridline clear of each neighbour
+
+
+def test_lower_secondary_roads_need_no_pythagoras():
+    m = fam("map_distance")
+    for s in SEEDS:
+        p = m.sample(random.Random(s))
+        (x1, y1), (x2, y2) = p["road"]
+        if p["band"] == "LS":
+            assert x1 == x2 or y1 == y2, s
+
+
+def test_geography_keys_take_their_fair_forms():
+    """Fair answers the marker would refuse (P3m review)."""
+    checks = 0
+    for fid in ("dtm", "lat_long", "population_pyramid"):
+        m = fam(fid)
+        for s in range(1, 200):
+            _, qs = run(m, s)
+            for q in qs:
+                if q.answer.startswith("-"):
+                    assert "\u2212" + q.answer[1:] in q.accepted
+                    checks += 1
+                if re.fullmatch(r"\d+°[NS]", q.answer):
+                    word = "north" if q.answer.endswith("N") else "south"
+                    assert f"{q.answer[:-2]}° {word}" in q.accepted and f"{q.answer[:-2]} degrees {q.answer[-1]}" in q.accepted
+                    checks += 1
+                if re.fullmatch(r"\d\d:00", q.answer):
+                    h = int(q.answer[:2])
+                    twelve, half = h % 12 or 12, "pm" if h >= 12 else "am"
+                    assert f"{twelve}:00{half}" in q.accepted and f"{h:02d}00 hours" in q.accepted
+                    checks += 1
+                if q.answer in ("Males", "Females"):
+                    assert ("men" if q.answer == "Males" else "women") in q.accepted
+                    checks += 1
+    assert checks > 50
+
+
+def test_a_pyramids_old_age_question_has_a_plain_answer():
+    m = fam("population_pyramid")
+    for s in SEEDS:
+        p = m.sample(random.Random(s))
+        assert abs(sum(p["male"][6:]) - sum(p["female"][6:])) >= 2, s
+
+
+def test_an_employment_point_is_asked_as_its_share_of_jobs():
+    """"What percentage of tertiary jobs are there at point A" reads as a share of all tertiary jobs (P3m review)."""
+    m = fam("ternary_graph")
+    for s in range(1, 200):
+        p, qs = run(m, s)
+        if p["context"] == "employment":
+            for q in qs:
+                assert "jobs are there" not in q.stem

@@ -58,7 +58,7 @@ def sample(rng: random.Random) -> dict:
     sides = _sides(shape)
     while True:
         male, female = list(rng.choice(sides)), list(rng.choice(sides))
-        if sum(male[6:]) != sum(female[6:]):  # one sex plainly has more people aged 60 and over
+        if abs(sum(male[6:]) - sum(female[6:])) >= 2:  # one sex plainly has more people aged 60 and over (P3m review)
             return {"band": rng.choice(BANDS), "shape": shape, "male": male, "female": female,
                     "group": rng.randrange(len(GROUPS)), "side": rng.choice(["males", "females"])}
 
@@ -111,5 +111,5 @@ def questions(p: dict, rng: random.Random) -> list:
         short(f"What percentage of the population in this pyramid is aged under 20 or 60 and over, males and females together?", dependent,
               _pct(dependent)),
         short("Are there more males or more females aged 60 and over in this pyramid?", more,
-              [more, more.lower(), f"more {more.lower()}"]),
+              [more, more.lower(), f"more {more.lower()}", more.lower().rstrip("s"), "men" if more == "Males" else "women"]),
     ]

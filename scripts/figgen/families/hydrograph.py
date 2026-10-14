@@ -47,7 +47,8 @@ def sample(rng: random.Random) -> dict:
                 q = base + (peak - base) * max(0.0, 1 - (h - tp) / (2.2 * (tp - tr))) ** 1.4
             flow.append(int(round(q)))
         flow[tp] = peak
-        if flow.count(peak) == 1:
+        # a crest one gridline clear of the hours either side, so the peak's hour is not a guess (P3m review)
+        if flow.count(peak) == 1 and peak - max(flow[tp - 1], flow[tp + 1]) >= 5:
             return {"band": "UP", "river": rng.choice(RIVERS), "rain": rain, "flow": flow}
 
 

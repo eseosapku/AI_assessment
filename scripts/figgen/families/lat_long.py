@@ -70,8 +70,18 @@ SETTINGS = ["in a geography lesson", "for homework", "on a revision card", "for 
 def _time_forms(h: int) -> list[str]:
     twelve = h % 12 or 12
     half = "a.m." if h < 12 else "p.m."
-    return [f"{h:02d}:00", f"{h}:00", f"{h:02d}00", f"{h:02d}.00", f"{twelve} {half}", f"{twelve}{half.replace('.', '')}",
-            f"{twelve} {half.replace('.', '')}", f"{twelve}:00 {half}"]
+    bare = half.replace(".", "")
+    return [f"{h:02d}:00", f"{h}:00", f"{h:02d}00", f"{h:02d}.00", f"{twelve} {half}", f"{twelve}{bare}", f"{twelve} {bare}",
+            f"{twelve}:00 {half}", f"{twelve}:00{bare}", f"{twelve}:00 {bare}", f"{twelve}.00 {half}", f"{twelve}.00{bare}",
+            f"{h:02d}00 hours", f"{h:02d}:00 hours"]
+
+
+def _place_forms(text: str) -> list[str]:
+    """"30°N" as students write it: "30° N", "30 N", "30N", "30° north", "30 degrees north", "30 degrees N" (P3m review)."""
+    n, side = text[:-2], text[-1]
+    word = {"N": "north", "S": "south", "E": "east", "W": "west"}[side]
+    return [text, f"{n}° {side}", f"{n} {side}", f"{n}{side}", f"{n}° {word}", f"{n} degrees {word}", f"{n} degrees {side}",
+            f"{n}°{word}"]
 
 
 def questions(p: dict, rng: random.Random) -> list:
@@ -84,9 +94,8 @@ def questions(p: dict, rng: random.Random) -> list:
     diff = abs(pts[d1][0] - pts[d2][0])
     lat_s, lon_s = lat_text(la), lon_text(lo)
     return [short(f"{who} finds the points on this grid {rng.choice(SETTINGS)}. What is the latitude of point {p['lat']}?", lat_s,
-                  [lat_s, lat_s.replace("°", "° "), lat_s.replace("°", " "), lat_s.replace("°", "")]),
-            short(f"What is the longitude of point {p['lon']}?", lon_s, [lon_s, lon_s.replace("°", "° "), lon_s.replace("°", " "),
-                                                                          lon_s.replace("°", "")]),
+                  _place_forms(lat_s)),
+            short(f"What is the longitude of point {p['lon']}?", lon_s, _place_forms(lon_s)),
             short(f"{friend} uses 15° of longitude = 1 hour, with places to the east ahead. When it is 12:00 noon at point {t1}, "
                   f"what is the local time at point {t2}?", f"{hours:02d}:00", _time_forms(hours)),
             short(f"What is the difference in latitude between points {d1} and {d2}?", f"{diff}°", [f"{diff}°", str(diff), f"{diff} degrees"])]

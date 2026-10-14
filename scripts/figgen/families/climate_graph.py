@@ -17,8 +17,16 @@ CONCEPTS = tuple(f"geography.{c}" for c in ("weather-elements", "temperature", "
                                             "climate-factors", "equatorial-climate", "hot-desert-climate", "weather-climate-definition"))
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"climat|weather(?!ing)|rainfall|temperature|season|precipitation"
-# Rwandan stations and their typical temperature in °C (Musanze is high and cool, Nyagatare low and warm)
-STATIONS = {"Kigali": 20, "Huye": 20, "Rubavu": 20, "Musanze": 16, "Nyagatare": 22}
+# Rwandan stations' normals, rain to the nearest 10 mm and temperature to 2 °C (P3m review: noise had given 50 mm in July
+# and 4 °C jumps). The graph names no station, so a rounded profile is never passed off as one place's record.
+STATIONS = {
+    "Kigali": ([80, 90, 110, 150, 90, 20, 10, 30, 70, 100, 110, 80], [20, 20, 20, 20, 20, 20, 20, 22, 22, 20, 20, 20]),
+    "Huye": ([100, 110, 140, 170, 110, 20, 10, 40, 90, 120, 130, 110], [20, 20, 20, 20, 20, 18, 18, 20, 20, 20, 20, 20]),
+    "Musanze": ([70, 90, 140, 190, 150, 40, 20, 50, 100, 140, 150, 100], [16, 16, 16, 16, 16, 16, 16, 16, 18, 16, 16, 16]),
+    "Rubavu": ([100, 100, 130, 150, 120, 30, 20, 50, 100, 130, 130, 100], [20, 20, 20, 20, 20, 20, 20, 20, 22, 20, 20, 20]),
+    "Nyagatare": ([50, 60, 100, 140, 80, 10, 10, 20, 50, 90, 100, 60], [22, 22, 22, 22, 22, 22, 22, 24, 24, 22, 22, 22]),
+}
+DRY_CAP = {5: 40, 6: 30, 7: 60}  # June, July and August
 
 MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"]
 FULL = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October",
@@ -47,16 +55,23 @@ def sample(rng: random.Random) -> dict:
     name = rng.choice(sorted(TYPES))
     step, rain_units, temps = TYPES[name]
     place = rng.choice(sorted(STATIONS)) if name.startswith("equatorial") else None
-    if place:
-        temps = [STATIONS[place]] * 12
     while True:
-        rain = [step * max(0, u + rng.choice([-1, 0, 0, 1])) for u in rain_units]
-        temp = [2 * round((t + rng.choice([-2, 0, 0, 2])) / 2) for t in temps]
+        if place:
+            step = 20
+            normals, temp = STATIONS[place]
+            # the wet months vary by 10 mm; the dry June to August keep their normals, never an empty July
+            rain = [r if k in DRY_CAP else r + rng.choice([-10, 0, 0, 10]) for k, r in enumerate(normals)]
+            temp = list(temp)
+            if rain.index(max(rain)) != 3:
+                continue  # April, the peak of the long rains
+        else:
+            rain = [step * max(0, u + rng.choice([-1, 0, 0, 1])) for u in rain_units]
+            temp = [2 * round((t + rng.choice([-2, 0, 0, 2])) / 2) for t in temps]
         if rain.count(max(rain)) != 1 or sum(1 for r in rain if r) < 3:
             continue
         if place and not (max(rain[5:8]) < min(rain[2:5]) and max(rain[5:8]) < rain[10]):
             continue  # Rwanda's long rains, short rains and dry June to August
-        start = rng.choice([2, 8]) if place else rng.randrange(0, 9)
+        start = rng.choice([2, 8]) if place else rng.choice([k for k in range(0, 9) if sum(rain[k:k + 3]) > 0])
         return {"band": rng.choice(BANDS), "name": name, "place": place, "step": step, "rain": rain, "temp": temp,
                 "season": [start, start + (3 if place and start == 8 else 2)]}
 
@@ -82,7 +97,7 @@ def draw(p: dict):
     ax2.spines["right"].set_visible(True)
     ax2.tick_params(labelsize=8)
     ax.tick_params(labelsize=8)
-    ax.set_title(f"Climate graph for {p['place']}, Rwanda" if p.get("place") else "Climate graph for a weather station")
+    ax.set_title("Climate graph for a weather station in Rwanda" if p.get("place") else "Climate graph for a weather station")
     return fig
 
 
@@ -91,17 +106,21 @@ SETTINGS = ["in a geography lesson", "for homework", "on a revision card", "for 
 
 def questions(p: dict, rng: random.Random) -> list:
     who, friend = rng.sample(NAMES, 2)
-    where = p["place"] or "this weather station"
+    where = "this weather station"
     wettest = p["rain"].index(max(p["rain"]))
     i = rng.choice([n for n in range(12) if p["rain"][n] > 0])
     rng_range = max(p["temp"]) - min(p["temp"])
     wrong = [FULL[n] for n in sorted(range(12), key=lambda n: -p["rain"][n]) if n != wettest][:3]
     a, b = p["season"]
     total = sum(p["rain"][a:b + 1])
+    t = rng.randrange(12)
     return [
         mcq(f"{who} studies this climate graph {rng.choice(SETTINGS)}. Which month has the most rainfall at {where}?",
             FULL[wettest], wrong, rng),
         short(f"How much rain falls in {FULL[i]} at {where}, in mm?", p["rain"][i], [f"{p['rain'][i]}mm", f"{p['rain'][i]} mm"]),
+        # a Rwandan station's range is 0 to 2 °C in every graph, a key learnt once; a month's temperature varies
+        short(f"What is the temperature in {FULL[t]} at {where}, in °C?", p["temp"][t], [str(p["temp"][t]), f"{p['temp'][t]}°C", f"{p['temp'][t]} °C"])
+        if p.get("place") else
         short(f"What is the annual temperature range at {where}, in °C?", rng_range, [f"{rng_range}°C", f"{rng_range} °C"]),
         short(f"{friend} adds up the rain at {where} from {FULL[a]} to {FULL[b]}. What is the total, in mm?", total,
               [f"{total}mm", f"{total} mm"]),

@@ -22,12 +22,19 @@ NEEDS = r"population|demograph|birth|death|growth|transition"
 
 
 def sample(rng: random.Random) -> dict:
+    # P3m review: stage 1 births and deaths both high and close; stage 4 births low and level; stage 5 births below
+    # deaths, by an amount that varies, so no key is the same in every figure
     while True:
         b = rng.choice([35, 40, 45])
-        birth = [b, b, b, rng.choice([20, 25]), rng.choice([10, 15]), 10]
-        d0 = rng.choice([30, 35, 40])
-        death = [d0, d0, rng.choice([15, 20]), rng.choice([10, 15]), 10, 15]
-        if d0 <= b and all(dd <= bb for dd, bb in zip(death[2:5], birth[2:5])) and birth[4] >= birth[5]:
+        b3 = rng.choice([15, 20])
+        b4 = rng.choice([b3, b3 - 5])
+        b5 = rng.choice([v for v in (5, 10) if v <= b4])
+        birth = [b, b, b, b3, b4, b5]
+        d0 = rng.choice([b, b - 5])
+        d4 = rng.choice([v for v in (10, 15) if v <= b4])  # stage 4 deaths low, never an unreal 5 per 1000
+        d5 = rng.choice([v for v in (10, 15) if v > b5 and v >= d4])  # deaths level or rising in stage 5
+        death = [d0, d0, rng.choice([15, 20]), rng.choice([v for v in (10, 15) if v <= b3]), d4, d5]
+        if death[2] < b:
             ks = rng.sample(range(1, 6), 3)
             return {"band": "UP", "birth": birth, "death": death, "ask": ks}
 
@@ -54,6 +61,14 @@ def draw(p: dict):
     return fig
 
 
+def _forms(v: int) -> list[str]:
+    """With the true minus sign too, for a natural decrease (P3m review)."""
+    out = [str(v), f"{v} per 1000"]
+    if v < 0:
+        out += [f"−{-v}", f"−{-v} per 1000", f"−{-v} per 1000 people per year"]
+    return out
+
+
 SETTINGS = ["in a geography lesson", "for homework", "on a revision card", "for a class test", "in a population project"]
 
 
@@ -66,4 +81,4 @@ def questions(p: dict, rng: random.Random) -> list:
                   birth[a], [str(birth[a]), f"{birth[a]} per 1000"]),
             short(f"What is the death rate at the end of stage {b}, {unit}?", death[b], [str(death[b]), f"{death[b]} per 1000"]),
             short(f"{friend} subtracts the death rate from the birth rate. What is the natural increase at the end of stage {c}, {unit}?",
-                  birth[c] - death[c], [str(birth[c] - death[c]), f"{birth[c] - death[c]} per 1000"])]
+                  birth[c] - death[c], _forms(birth[c] - death[c]))]
