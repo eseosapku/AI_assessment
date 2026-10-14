@@ -1,15 +1,17 @@
 """Simple circuits (Primary): three or four small circuits side by side, lettered A to D, each a loop with a cell,
-wires, a bulb and sometimes a switch. Some loops are complete; each of the others has one fault: a gap in a wire,
-an open switch, both wires taken to the same end of the cell, or (upper level) no cell at all.
+wires, a bulb and sometimes a switch. Some loops are complete; each of the others has exactly one fault: a gap in
+a wire, an open switch, or no cell at all. (Both wires taken to one end of the cell was dropped: blind reviewers
+missed it.)
 
 Two levels. The lower one draws the parts as pictures, as a Primary 2 to 4 book does: a cell with its + and -
 ends, a bulb in a holder, a switch with a lever. The upper one (Rwanda P5 to P6, Cambridge Stage 6) draws circuit
-symbols, and a loop may hold two bulbs. A switch drawn open is a lever lifted at 35 degrees, well clear of its far
-contact; one drawn closed lies flat across both contacts.
+symbols, and a loop may hold two bulbs. Every switch is large and labelled "switch", its lever over a unit long and
+much thicker than the wires: drawn open it is lifted at 35 degrees, well clear of its far contact; drawn closed it
+lies flat on both contacts. (A thin closed switch read as a gap at review size.)
 
 Which bulbs light, how many, and why one does not (or what would make it light). Every key comes from each
 circuit's connections in the params: a bulb lights when its loop has a cell, the two wires reach different ends
-of the cell, no wire has a gap, and no switch is open.
+of the cell, no wire has a gap, and no switch is open. Wrong options never name a part the circuit does not have.
 """
 from __future__ import annotations
 
@@ -28,18 +30,19 @@ CONCEPTS = ("science.simple-circuits", "science.electricity-basics", "science.el
 # A topic whose sections the book lists is reached only if one names electricity, circuits or switches.
 NEEDS = r"electric|circuit|switch"
 
-FAULTS = {"lower": ["gap", "open", "same_end"], "upper": ["gap", "open", "nocell"]}
-REASON = {"gap": "There is a gap in the wire.", "open": "The switch is open.",
-          "same_end": "Both wires go to the same end of the cell.", "nocell": "There is no cell in the circuit.",
-          "turn": "The cell is the wrong way round."}
-FIX = {"gap": "Join the gap in the wire", "open": "Close the switch", "same_end": "Move one wire to the other end of the cell",
-       "nocell": "Add a cell to the circuit", "turn": "Turn the cell round"}
+FAULTS = ["gap", "open", "nocell"]
+# Why a bulb does not light, and what would make it light: the faults, then the slips a child makes.
+REASON = {"gap": "There is a gap in the wire.", "open": "The switch is open.", "nocell": "There is no cell in the circuit.",
+          "turn": "The cell is the wrong way round.", "far": "The bulb is too far from the cell.",
+          "long": "The wires are too long."}
+FIX = {"gap": "Join the gap in the wire", "open": "Close the switch", "nocell": "Add a cell to the circuit",
+       "turn": "Turn the cell round", "far": "Move the bulb closer to the cell", "long": "Use shorter wires"}
 
 # One panel, in its own units: the loop's corners, the bulb on the top wire, the switch to its right, the cell
 # on the bottom wire.
 LX, RX, BY, TY = 0.4, 4.0, 0.9, 3.4
 PW, PH = 4.9, 5.75  # one panel's width and height, with the space between panels
-HINGE, FAR = 2.7, 3.5  # the switch's two contacts on the top wire
+HINGE, FAR = 2.6, 3.7  # the switch's two contacts on the top wire
 OPEN = 35  # degrees a lever is lifted when the switch is open
 
 
@@ -52,15 +55,13 @@ def sample(rng: random.Random) -> dict:
     level = rng.choice(["lower", "upper"])
     n = rng.choice([3, 4])
     n_lit = rng.randint(1, n - 1)
-    kinds = ["ok"] * n_lit + rng.sample(FAULTS[level], n - n_lit)
+    kinds = ["ok"] * n_lit + rng.sample(FAULTS, n - n_lit)
     rng.shuffle(kinds)
     circuits = []
     for letter, kind in zip("ABCD", kinds):
         plus = rng.choice(["left", "right"])
         ends = ["+", "-"] if plus == "left" else ["-", "+"]  # the cell's left end, then its right end
-        leads = list(ends)
-        if kind == "same_end":
-            leads = [rng.choice(ends)] * 2
+        leads = list(ends)  # the left wire meets the cell's left end, the right wire its right end
         bulbs = 1 if level == "lower" else rng.choice([1, 2])
         circuits.append({
             "letter": letter, "cell": kind != "nocell", "plus": plus if kind != "nocell" else None, "leads": leads,
@@ -74,8 +75,6 @@ def sample(rng: random.Random) -> dict:
 def _fault(c: dict) -> str | None:
     if not c["cell"]:
         return "nocell"
-    if c["leads"][0] == c["leads"][1]:
-        return "same_end"
     if c["gap"]:
         return "gap"
     if c["switch"] == "open":
@@ -160,7 +159,8 @@ def _symbol_bulb(ax, letter, cx, cy, vertical, ox, oy, k) -> tuple[tuple, tuple]
 
 
 def _switch(ax, c, picture, ox, oy):
-    """Two contacts on the top wire and a lever hinged at the left one: flat when closed, lifted when open."""
+    """Two contacts on the top wire and a thick lever hinged at the left one: lying flat on both contacts when
+    closed, lifted well clear of the right one when open. Labelled, so no reader takes it for a gap."""
     letter = c["letter"]
     length = FAR - HINGE
     if c["switch"] == "open":
@@ -169,18 +169,18 @@ def _switch(ax, c, picture, ox, oy):
     else:
         end = (FAR, TY)
     if picture:
-        ax.add_patch(Rectangle((ox + HINGE - 0.2, oy + TY - 0.24), length + 0.4, 0.16, facecolor=FILL_2, edgecolor=INK,
-                               linewidth=1.2, zorder=2))
+        ax.add_patch(Rectangle((ox + HINGE - 0.2, oy + TY - 0.3), length + 0.4, 0.2, facecolor=FILL_2, edgecolor=INK,
+                               linewidth=1.3, zorder=2))
         for x in (HINGE, FAR):
-            ax.add_patch(Circle((ox + x, oy + TY), 0.08, facecolor=INK, edgecolor=INK, zorder=5))
-        ax.plot([ox + HINGE, ox + end[0]], [oy + TY, oy + end[1]], color=INK, linewidth=3.6, solid_capstyle="round",
-                gid=f"lever-{letter}", zorder=6)
-        ax.add_patch(Circle((ox + end[0], oy + end[1]), 0.09, facecolor=FILL, edgecolor=INK, linewidth=1.2, zorder=7))
+            ax.add_patch(Circle((ox + x, oy + TY), 0.12, facecolor=FILL, edgecolor=INK, linewidth=1.4, zorder=5))
+        width = 5.5
     else:
-        ax.plot([ox + HINGE, ox + end[0]], [oy + TY, oy + end[1]], color=INK, linewidth=2.0, solid_capstyle="round",
-                gid=f"lever-{letter}", zorder=4)
         for x in (HINGE, FAR):
-            ax.add_patch(Circle((ox + x, oy + TY), 0.08, facecolor="white", edgecolor=INK, linewidth=1.5, zorder=5))
+            ax.add_patch(Circle((ox + x, oy + TY), 0.11, facecolor="white", edgecolor=INK, linewidth=1.8, zorder=5))
+        width = 4.2
+    ax.plot([ox + HINGE, ox + end[0]], [oy + TY, oy + end[1]], color=INK, linewidth=width, solid_capstyle="round",
+            gid=f"lever-{letter}", zorder=6)
+    ax.text(ox + (HINGE + FAR) / 2, oy + TY - 0.62, "switch", ha="center", va="center", fontsize=10.5)
 
 
 def _panel(ax, c, picture, ox, oy):
@@ -219,26 +219,10 @@ def _panel(ax, c, picture, ox, oy):
     plus_at = cl if c["plus"] == "left" else cr
     minus_at = cr if c["plus"] == "left" else cl
     _link(ax, f"cell-{letter}", plus_at, minus_at, ox, oy)
-    ends = ["+", "-"] if c["plus"] == "left" else ["-", "+"]
-    if c["leads"][0] != c["leads"][1]:
-        _vertical(ax, letter, LX, TY, BY, cuts_left, ox, oy)
-        _vertical(ax, letter, RX, TY, BY, cuts_right, ox, oy)
-        _wire(ax, letter, [(LX, BY), cl], ox, oy)
-        _wire(ax, letter, [cr, (RX, BY)], ox, oy)
-        return
-    # Both wires to one end: the wire from that side meets its upper half, the other runs under the cell to its
-    # lower half. The other end of the cell is left bare.
-    low = BY - 0.55
-    if c["leads"][0] == ends[0]:  # the left end
-        _vertical(ax, letter, LX, TY, BY + 0.12, cuts_left, ox, oy)
-        _wire(ax, letter, [(LX, BY + 0.12), (cl[0], BY + 0.12)], ox, oy)
-        _vertical(ax, letter, RX, TY, low, cuts_right, ox, oy)
-        _wire(ax, letter, [(RX, low), (cl[0] - 0.45, low), (cl[0] - 0.45, BY - 0.12), (cl[0], BY - 0.12)], ox, oy)
-    else:
-        _vertical(ax, letter, RX, TY, BY + 0.12, cuts_right, ox, oy)
-        _wire(ax, letter, [(RX, BY + 0.12), (cr[0], BY + 0.12)], ox, oy)
-        _vertical(ax, letter, LX, TY, low, cuts_left, ox, oy)
-        _wire(ax, letter, [(LX, low), (cr[0] + 0.45, low), (cr[0] + 0.45, BY - 0.12), (cr[0], BY - 0.12)], ox, oy)
+    _vertical(ax, letter, LX, TY, BY, cuts_left, ox, oy)
+    _vertical(ax, letter, RX, TY, BY, cuts_right, ox, oy)
+    _wire(ax, letter, [(LX, BY), cl], ox, oy)
+    _wire(ax, letter, [cr, (RX, BY)], ox, oy)
 
 
 def draw(p: dict):
@@ -271,39 +255,54 @@ def _set(ls) -> str:
     return ", ".join(ls[:-1]) + f" and {ls[-1]}"
 
 
+def _options(x: dict, fault: str, table: dict, rng: random.Random) -> list[str]:
+    """Wrong answers that match what is drawn: a switch named only where a closed one is drawn, the cell turned or
+    moved only where there is one, and no gap offered beside an open switch (an open switch is a gap to some)."""
+    allowed = []
+    for k in ("turn", "far", "gap", "open", "nocell", "long"):
+        if k == fault:
+            continue
+        if k == "open" and x["switch"] != "closed":
+            continue
+        if k in ("turn", "far") and not x["cell"]:
+            continue
+        if k == "gap" and fault == "open":
+            continue
+        allowed.append(k)
+    first = [k for k in allowed if k in ("turn", "far")][:1]  # the slip a child makes, offered wherever it fits
+    rest = [k for k in allowed if k not in first]
+    rng.shuffle(rest)
+    return [table[k] for k in first + rest]
+
+
 def questions(p: dict, rng: random.Random) -> list:
     cs = p["circuits"]
     upper = p["level"] == "upper"
-    name, friend = rng.sample(NAMES, 2)
+    name = rng.choice(NAMES)
     lit = [c["letter"] for c in cs if _fault(c) is None]
     broken = [c for c in cs if _fault(c) is not None]
     first = f"{name} {rng.choice(VERBS)} {WORD[len(cs)]} circuits {rng.choice(SETTINGS)}."
     if len(lit) == 1:
-        one = next(c for c in cs if c["letter"] == lit[0])
-        noun = "bulbs" if one["bulbs"] == 2 else "bulb"
-        q1 = mcq(f"{first} In which circuit will the {noun} light?", f"Circuit {lit[0]}",
-                 [f"Circuit {c['letter']}" for c in broken], rng)
+        ask = "Which circuit will light up?" if upper else "Which circuit will light the bulb?"
+        q1 = mcq(f"{first} {ask}", f"Circuit {lit[0]}", [f"Circuit {c['letter']}" for c in broken], rng)
     else:
         # The slips: every circuit lights; the one with the easiest fault to miss lights too; one lit loop is missed.
-        subtle = sorted(broken, key=lambda c: ["open", "same_end", "gap", "nocell"].index(_fault(c)))[0]["letter"]
+        subtle = sorted(broken, key=lambda c: ["open", "gap", "nocell"].index(_fault(c)))[0]["letter"]
         wrong = [_set([c["letter"] for c in cs]), _set(lit + [subtle]), _set(rng.sample(lit, len(lit) - 1)),
                  _set([c["letter"] for c in broken])]
-        q1 = mcq(f"{first} In which circuits will the {'bulbs' if upper else 'bulb'} light?", _set(lit), wrong, rng)
+        ask = "Which circuits will light up?" if upper else "In which circuits will the bulb light?"
+        q1 = mcq(f"{first} {ask}", _set(lit), wrong, rng)
     on = sum(c["bulbs"] for c in cs if c["letter"] in lit)
     total = sum(c["bulbs"] for c in cs)
     if rng.random() < 0.5:
-        q2 = count("How many bulbs will light altogether?", on, "bulbs")
+        q2 = count("How many bulbs will light, in all the circuits together?", on, "bulbs")
     else:
-        q2 = count("How many bulbs will not light?", total - on, "bulbs")
+        q2 = count("How many bulbs will not light, in all the circuits together?", total - on, "bulbs")
     x = rng.choice(broken)
     fault = _fault(x)
     noun = "bulbs" if x["bulbs"] == 2 else "bulb"
-    others = [k for k in REASON if k not in (fault, "turn")]
-    rng.shuffle(others)
     if rng.random() < 0.5:
-        q3 = mcq(f"Why will the {noun} in circuit {x['letter']} not light?", REASON[fault],
-                 [REASON["turn"]] + [REASON[k] for k in others], rng)
+        q3 = mcq(f"Why will the {noun} in circuit {x['letter']} not light?", REASON[fault], _options(x, fault, REASON, rng), rng)
     else:
-        q3 = mcq(f"What would make the {noun} in circuit {x['letter']} light?", FIX[fault],
-                 [FIX["turn"]] + [FIX[k] for k in others], rng)
+        q3 = mcq(f"What would make the {noun} in circuit {x['letter']} light?", FIX[fault], _options(x, fault, FIX, rng), rng)
     return [q1, q2, q3]

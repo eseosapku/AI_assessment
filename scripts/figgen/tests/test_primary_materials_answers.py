@@ -322,7 +322,7 @@ def test_state_changes_p():
                 assert round(level.get_y() + level.get_height(), 6) == p["temp"], s
                 assert f"thermo-tick-{p['temp']}" in tagged, s
         if p["level"] == "upper":
-            assert p["temp"] % 5 == 0 and 10 <= p["temp"] <= 90, s
+            assert p["temp"] % 10 == 0 and 10 <= p["temp"] <= 90, s
         else:
             assert p["temp"] is None
         for q in qs:
@@ -346,6 +346,61 @@ def test_state_changes_p():
             else:
                 pytest.fail(f"seed {s}: an unexpected question: {stem}")
     assert set(asked) >= {"melting", "freezing", "condensing"} and ("boiling" in asked or "evaporating" in asked), asked
+
+
+WARMTH = {"solid": 0, "liquid": 1, "gas": 2}
+
+
+def test_state_changes_p_every_label_matches_its_arrows_direction():
+    """Blind review (p3s): a reader took an arrow labelled cooling for steam forming. Every arrow towards the gas says
+    heating and every arrow towards the solid says cooling, its word nearer its own arrow than any other, in every
+    figure; and the states read left to right as ice, water, steam, heating arrows above, as a textbook draws them."""
+    m = fam("state_changes_p")
+    for s in SEEDS:
+        p, _ = run(m, s)
+        fig = m.draw(p)
+        tagged = by_gid(fig)
+        plt.close(fig)
+        centre = {st: tagged[f"centre-{st}"].get_xydata()[0] for st in WARMTH}
+        assert centre["solid"][0] < centre["liquid"][0] < centre["gas"][0], (s, "ice, water, steam from left to right")
+        mids = {}
+        for k in "ABCD":
+            arrow = tagged[f"arrow-{k}"]
+            (x0, y0), (x1, y1) = arrow.xyann, arrow.xy
+            mids[k] = ((x0 + x1) / 2, (y0 + y1) / 2)
+            ends = sorted(WARMTH, key=lambda st: abs(centre[st][0] - x1))[0]
+            starts = sorted(WARMTH, key=lambda st: abs(centre[st][0] - x0))[0]
+            assert abs(WARMTH[ends] - WARMTH[starts]) == 1, (s, k, starts, ends)
+            want = "heating" if WARMTH[ends] > WARMTH[starts] else "cooling"
+            assert tagged[f"word-{k}"].get_text() == want, (s, k, starts, ends)
+            assert (want == "heating") == (x1 > x0) == (y0 > 0), (s, k, "heating points right, above the cooling arrows")
+        for k in "ABCD":
+            wx, wy = tagged[f"word-{k}"].get_position()
+            near = min(mids, key=lambda j: (mids[j][0] - wx) ** 2 + (mids[j][1] - wy) ** 2)
+            assert near == k, (s, k, near)
+
+
+def test_state_changes_p_has_one_thermometer_read_on_a_numbered_mark():
+    """Blind review (p3s): readings of 45 and 75 between numbered marks were read as "about 44"; a small thermometer in
+    the glass without a scale beside the large one "may confuse". One thermometer, its level on a numbered mark."""
+    from matplotlib.patches import Circle
+    m = fam("state_changes_p")
+    seen = 0
+    for s in range(1, 301):
+        p, _ = run(m, s)
+        fig = m.draw(p)
+        main = fig.axes[0]
+        assert not any(isinstance(a, Circle) for a in main.patches), s  # no second thermometer in the glass
+        if p["level"] == "upper":
+            seen += 1
+            assert len(fig.axes) == 2, s
+            numbers = {t.get_text() for t in fig.axes[1].texts}
+            assert str(p["temp"]) in numbers, (s, p["temp"])
+            assert any("glass" in t for t in numbers), s
+        else:
+            assert len(fig.axes) == 1, s
+        plt.close(fig)
+    assert seen >= 100
 
 
 # --- weather_chart_p --------------------------------------------------------------------------------

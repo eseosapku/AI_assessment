@@ -1,12 +1,14 @@
 """Teeth (P): one jaw drawn from above as a band of gum with simple shapes for teeth, a child's (ten milk teeth:
 four incisors, two canines, four molars) or an adult's (sixteen: four incisors, two canines, four premolars, six
 molars). Incisors are thin flat blades, canines pointed, premolars small squares with one groove, molars big
-squares with a cross. A key beside the jaw draws each shape with its name and its job. Three teeth are lettered,
-one of each kind (an incisor, a canine, and a premolar or a molar, never both, so one letter grinds), and one or two
-teeth are missing (a child's have fallen out; an adult's have been lost), so the counts must be read off the figure.
+squares with a cross. A key beside the jaw draws each shape with its name and its job, and every tooth in the jaw is
+drawn exactly as its key shape, not turned (turned canines read as skewed parallelograms, p3s-blind). The jaw's two
+halves mirror each other, and every tooth is there: a "fallen out" premise left reviewers unsure what to count. Three
+teeth are lettered, one of each kind (an incisor, a canine, and a premolar or a molar, never both, so one letter
+grinds), each by a leader line that ends on its tooth.
 
-Which letter shows a tooth for biting, tearing or grinding; what kind of tooth a letter shows; how many molars,
-incisors or premolars there are in this jaw; and how many teeth it has altogether.
+Which letter shows a tooth for biting, tearing or grinding; what kind of tooth a letter shows; and how many teeth in
+the jaw are the same kind as a lettered one (its kind is read off the drawing, then counted).
 """
 from __future__ import annotations
 
@@ -43,44 +45,44 @@ def sample(rng: random.Random) -> dict:
     grind = "molar" if age == "child" else rng.choice(["premolar", "molar"])
     chosen = [rng.choice([i for i, t in enumerate(teeth) if t == kind]) for kind in ("incisor", "canine", grind)]
     letters = dict(zip(rng.sample("ABC", 3), chosen))
-    free = [i for i in range(len(teeth)) if i not in chosen]
-    missing = sorted(rng.sample(free, rng.randint(1, 2)))
     return {"band": "P", "age": age, "jaw": rng.choice(["upper", "lower"]), "teeth": teeth,
-            "letters": dict(sorted(letters.items())), "missing": missing}
+            "letters": dict(sorted(letters.items()))}
 
 
 # --- drawing ----------------------------------------------------------------------------------------
 
 def _arch(p: dict):
-    """Each tooth's centre, the way along the arch there, and the way out of the mouth, on half an ellipse."""
-    a, b = (1.9, 2.3) if p["age"] == "child" else (2.6, 3.3)
+    """Each tooth's centre and the way out of the mouth there, on half an ellipse: the left half spaced by arc length,
+    the right half its mirror image, so the jaw is symmetrical."""
+    a, b = (2.0, 2.4) if p["age"] == "child" else (2.7, 3.4)
     s = 1 if p["jaw"] == "upper" else -1  # an upper jaw opens downward on the page, a lower jaw upward
-    ts = [math.pi * (1 - k / 600) for k in range(601)]
+    ts = [math.pi * (1 - k / 2000) for k in range(2001)]
     pts = [(a * math.cos(t), s * b * math.sin(t)) for t in ts]
     cum = [0.0]
     for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
         cum.append(cum[-1] + math.hypot(x1 - x0, y1 - y0))
     widths = [WIDTH[t] for t in p["teeth"]]
     spare = (cum[-1] - sum(widths)) / len(widths)
-    out, at = [], spare / 2
-    for w in widths:
+    half, at = [], spare / 2
+    for w in widths[:len(widths) // 2]:
         target = at + w / 2
-        k = next(k for k in range(len(cum)) if cum[k] >= target)
-        t = ts[k]
-        along = (a * math.sin(t), -s * b * math.cos(t))
+        k = next(k for k in range(1, len(cum)) if cum[k] >= target)
+        f = (target - cum[k - 1]) / (cum[k] - cum[k - 1])
+        t = ts[k - 1] + f * (ts[k] - ts[k - 1])
         norm = (math.cos(t) / a, s * math.sin(t) / b)
-        la, ln = math.hypot(*along), math.hypot(*norm)
-        out.append((pts[k], (along[0] / la, along[1] / la), (norm[0] / ln, norm[1] / ln)))
+        ln = math.hypot(*norm)
+        half.append(((a * math.cos(t), s * b * math.sin(t)), (norm[0] / ln, norm[1] / ln)))
         at += w + spare
-    return out, a, b, s
+    mirror = [((-x, y), (-nx, ny)) for (x, y), (nx, ny) in reversed(half)]
+    return half + mirror, a, b, s
 
 
 def _shape(kind: str) -> list[tuple[float, float]]:
-    """A tooth's outline in its own frame: along the arch, then out of the mouth."""
+    """A tooth's outline about its centre, upright on the page, the same in the jaw as in the key."""
     if kind == "incisor":
         return [(-0.19, -0.08), (0.19, -0.08), (0.19, 0.08), (-0.19, 0.08)]
     if kind == "canine":
-        return [(0, 0.28), (0.15, 0), (0, -0.28), (-0.15, 0)]  # a diamond, pointing out of the mouth
+        return [(0, 0.27), (0.15, 0), (0, -0.27), (-0.15, 0)]  # a diamond
     h = 0.2 if kind == "premolar" else 0.27
     c = 0.06
     return [(-h + c, -h), (h - c, -h), (h, -h + c), (h, h - c), (h - c, h), (-h + c, h), (-h, h - c), (-h, -h + c)]
@@ -94,16 +96,12 @@ def _grooves(kind: str) -> list[list[tuple[float, float]]]:
     return []
 
 
-def _place(local, centre, along, norm):
-    return [(centre[0] + u * along[0] + v * norm[0], centre[1] + u * along[1] + v * norm[1]) for u, v in local]
-
-
-def _tooth(ax, kind: str, centre, along, norm, gid: str) -> None:
-    ax.add_patch(Polygon(_place(_shape(kind), centre, along, norm), closed=True, facecolor="white", edgecolor=INK,
+def _tooth(ax, kind: str, centre, gid: str) -> None:
+    cx, cy = centre
+    ax.add_patch(Polygon([(cx + u, cy + v) for u, v in _shape(kind)], closed=True, facecolor="white", edgecolor=INK,
                          linewidth=1.4, zorder=3, gid=gid))
     for g in _grooves(kind):
-        xs, ys = zip(*_place(g, centre, along, norm))
-        ax.plot(xs, ys, color=INK, linewidth=1.0, zorder=4)
+        ax.plot([cx + u for u, _ in g], [cy + v for _, v in g], color=INK, linewidth=1.0, zorder=4)
 
 
 def draw(p: dict):
@@ -114,13 +112,13 @@ def draw(p: dict):
     outer = [((a + 0.5) * math.cos(t), s * (b + 0.5) * math.sin(t)) for t in ts]
     inner = [((a - 0.5) * math.cos(t), s * (b - 0.5) * math.sin(t)) for t in ts][::-1]
     ax.add_patch(Polygon(outer + inner, closed=True, facecolor=FILL_2, edgecolor=INK, linewidth=1.0, zorder=1))
-    for i, (kind, (centre, along, norm)) in enumerate(zip(p["teeth"], spots)):
-        if i not in p["missing"]:
-            _tooth(ax, kind, centre, along, norm, f"tooth:{i}:{kind}")
+    for i, (kind, (centre, _)) in enumerate(zip(p["teeth"], spots)):
+        _tooth(ax, kind, centre, f"tooth:{i}:{kind}")
     for letter, i in p["letters"].items():
-        (cx, cy), _, (nx, ny) = spots[i]
-        ax.plot([cx + nx * 0.36, cx + nx * 0.78], [cy + ny * 0.36, cy + ny * 0.78], color=INK, linewidth=1.0)
-        ax.text(cx + nx * 1.0, cy + ny * 1.0, letter, ha="center", va="center", fontsize=14, fontweight="bold",
+        (cx, cy), (nx, ny) = spots[i]
+        # the leader runs from the letter to the tooth's middle, under the tooth, so it stops at the tooth's edge
+        ax.plot([cx + nx * 0.8, cx], [cy + ny * 0.8, cy], color=INK, linewidth=1.0, zorder=2.5, gid=f"leader:{letter}")
+        ax.text(cx + nx * 1.02, cy + ny * 1.02, letter, ha="center", va="center", fontsize=14, fontweight="bold",
                 gid=f"letter:{letter}")
     # the key: each kind in this jaw, its shape, its name and its job
     kinds = [k for k in KINDS if k in p["teeth"]]
@@ -130,7 +128,7 @@ def draw(p: dict):
     ax.text(x0 - 0.35, top + 0.25, "Key", ha="left", va="center", fontsize=12, fontweight="bold")
     for j, kind in enumerate(kinds):
         y = top - 0.6 - 1.2 * j
-        _tooth(ax, kind, (x0, y), (1, 0), (0, 1), f"key:{kind}")
+        _tooth(ax, kind, (x0, y), f"key:{kind}")
         ax.text(x0 + 0.5, y + 0.2, kind.capitalize(), ha="left", va="center", fontsize=11.5, fontweight="bold")
         ax.text(x0 + 0.5, y - 0.22, f"for {JOBS[kind]}", ha="left", va="center", fontsize=10.5)
     ax.set_xlim(-a - 1.7, x0 + 4.0)
@@ -147,7 +145,7 @@ def draw(p: dict):
 SETTINGS = ["in a science lesson", "for a health club poster", "after a visit to the dentist in Kigali", "for homework",
             "for a class display in Huye", "at the school clinic"]
 VERBS = ["drew", "made", "copied"]
-PICTURES = ["picture", "drawing", "diagram"]
+PICTURES = ["picture", "sketch", "diagram"]
 
 
 def questions(p: dict, rng: random.Random) -> list:
@@ -163,10 +161,7 @@ def questions(p: dict, rng: random.Random) -> list:
     other = rng.choice([k for k in order if k != key])
     kinds = [k for k in KINDS if k in teeth]
     qs.append(mcq(f"What kind of tooth is tooth {other}?", kind_of[other], [k for k in kinds if k != kind_of[other]], rng))
-    lost = "One tooth has" if len(p["missing"]) == 1 else "Two teeth have"
-    gone = f"{lost} fallen out" if p["age"] == "child" else f"{lost} been lost"
-    here = [t for i, t in enumerate(teeth) if i not in p["missing"]]
-    ask = rng.choice(["molar", "molar", "incisor"] + (["premolar"] if p["age"] == "adult" else []))
-    qs.append(count(f"{gone}. How many {ask}s are there in this jaw?", here.count(ask), f"{ask}s"))
-    qs.append(count("How many teeth are there in this jaw altogether?", len(here), "teeth"))
+    third = next(k for k in order if k not in (key, other))
+    n = teeth.count(kind_of[third])
+    qs.append(count(f"How many teeth in this jaw are the same kind as tooth {third}?", n, "teeth"))
     return qs

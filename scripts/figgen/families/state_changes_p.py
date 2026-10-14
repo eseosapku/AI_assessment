@@ -1,7 +1,11 @@
-"""Changes of state of water (P): an ice cube, a glass of water and a kettle's steam in a row, labelled solid, liquid
-and gas, with an arrow each way between neighbours. The four arrows are lettered A to D at random, and each says
+"""Changes of state of water (P): an ice cube, a glass of water and a kettle's steam in a row from left to right,
+labelled solid, liquid and gas, as a textbook draws them: the heating arrows above, pointing right towards the gas,
+the cooling arrows below, pointing left towards the solid. The four arrows are lettered A to D at random, and each says
 "heating" or "cooling"; the names of the changes (melting, freezing, boiling or evaporating, condensing) are never
-printed. The upper level adds a thermometer standing in the glass of water.
+printed. The upper level adds a thermometer standing in the glass of water, its level on a numbered mark.
+
+(The blind review read a figure drawn steam-first, its cooling arrows pointing right, as steam forming: the order is
+now fixed, so left to right is always warmer.)
 
 Which arrow shows a change, what the change at a lettered arrow is called, and (upper) the water's temperature and
 how far it must warm to boil at 100 °C. Each arrow runs from the state it starts in to the state it ends in, so
@@ -12,7 +16,7 @@ from __future__ import annotations
 import math
 import random
 
-from matplotlib.patches import Arc, Circle, Ellipse, Polygon, Rectangle
+from matplotlib.patches import Arc, Ellipse, Polygon, Rectangle
 
 from ..core import INK, NAMES, mcq, new_figure, short
 
@@ -42,7 +46,6 @@ def _changes(p: dict) -> dict:
 
 def sample(rng: random.Random) -> dict:
     level = rng.choice(["lower", "upper"])
-    order = STATES[:] if rng.random() < 0.5 else STATES[::-1]
     moves = [["solid", "liquid"], ["liquid", "solid"], ["liquid", "gas"], ["gas", "liquid"]]
     letters = rng.sample("ABCD", 4)
     arrows = {k: mv for k, mv in sorted(zip(letters, moves))}
@@ -51,8 +54,8 @@ def sample(rng: random.Random) -> dict:
     one, two, three = rng.sample(names, 3)
     changes = {**CHANGE, gas_word: ["liquid", "gas"]}
     named = next(k for k, mv in arrows.items() if mv == changes[three])
-    return {"band": "P", "level": level, "order": order, "heat_top": rng.random() < 0.5, "arrows": arrows,
-            "gas_word": gas_word, "temp": 5 * rng.randint(2, 18) if level == "upper" else None,
+    return {"band": "P", "level": level, "arrows": arrows,
+            "gas_word": gas_word, "temp": 10 * rng.randint(1, 9) if level == "upper" else None,
             "ask": {"which": [one, two], "name": named}}
 
 
@@ -68,7 +71,7 @@ def _ice(ax, cx: float, cy: float) -> None:
     ax.plot([x0 + 0.18, x0 + 0.18, x0 + 0.36], [y0 + 0.5, y0 + 0.82, y0 + 0.82], color="#8aa4b2", linewidth=1.4)
 
 
-def _glass(ax, cx: float, cy: float, temp: int | None) -> None:
+def _glass(ax, cx: float, cy: float) -> None:
     bottom, top, h = 0.42, 0.62, 1.5
     y0, y1 = cy - h / 2, cy + h / 2
     level = y0 + 0.62 * h
@@ -77,10 +80,6 @@ def _glass(ax, cx: float, cy: float, temp: int | None) -> None:
                          facecolor="#b9cbd6", edgecolor="none"))
     ax.plot([cx - w, cx + w], [level, level], color="#3d5260", linewidth=1.4)
     ax.plot([cx - top, cx - bottom, cx + bottom, cx + top], [y1, y0, y0, y1], color=INK, linewidth=1.8)
-    if temp is not None:  # standing in the water: its scale is drawn large beside the picture
-        ax.add_patch(Rectangle((cx + 0.1, y0 + 0.2), 0.1, h + 0.05, facecolor="white", edgecolor=INK, linewidth=1.1, zorder=3))
-        ax.add_patch(Circle((cx + 0.15, y0 + 0.2), 0.1, facecolor="#5f6b75", edgecolor=INK, linewidth=1.1, zorder=4))
-        ax.add_patch(Rectangle((cx + 0.125, y0 + 0.2), 0.05, 0.1 + 1.3 * temp / 100, facecolor="#5f6b75", edgecolor="none", zorder=4))
 
 
 def _kettle(ax, cx: float, cy: float, side: int) -> None:
@@ -106,24 +105,24 @@ def draw(p: dict):
     fig, ax = new_figure(10.6 if upper else 8.8, 3.6)
     if upper:
         ax.set_position([0.0, 0.0, 0.82, 1.0])
-    centre = {st: (5.0 * i, 0.0) for i, st in enumerate(p["order"])}
+    centre = {st: (5.0 * i, 0.0) for i, st in enumerate(STATES)}  # ice, water, steam from left to right
     for st, (cx, cy) in centre.items():
         if st == "solid":
             _ice(ax, cx, cy)
         elif st == "liquid":
-            _glass(ax, cx, cy, p["temp"])
+            _glass(ax, cx, cy)
         else:
-            _kettle(ax, cx, cy, 1 if cx > 0 else -1)
+            _kettle(ax, cx, cy, 1)
         ax.plot([cx], [cy], linestyle="none", marker="none", gid=f"centre-{st}")
         ax.text(cx, -1.55, LABEL[st], ha="center", va="center", fontsize=12, fontweight="bold")
     for k, (a, b) in p["arrows"].items():
         (xa, _), (xb, _) = centre[a], centre[b]
         heating = WARMER[b] > WARMER[a]
-        y = 0.55 if heating == p["heat_top"] else -0.55
+        y = 0.55 if heating else -0.55  # heating above, pointing right; cooling below, pointing left
         step = 1.0 if xb > xa else -1.0
         start, end = (xa + 1.25 * step, y), (xb - 1.25 * step, y)
         ax.annotate("", xy=end, xytext=start, gid=f"arrow-{k}",
-                    arrowprops=dict(arrowstyle="-|>", color=INK, linewidth=2.0, mutation_scale=20, shrinkA=0, shrinkB=0))
+                    arrowprops=dict(arrowstyle="-|>", color=INK, linewidth=2.0, mutation_scale=26, shrinkA=0, shrinkB=0))
         mid = (xa + xb) / 2
         ax.text(mid, y, k, ha="center", va="center", fontsize=12, fontweight="bold", gid=f"letter-{k}",
                 bbox=dict(boxstyle="circle,pad=0.25", facecolor="white", edgecolor=INK, linewidth=1.3))
@@ -151,13 +150,11 @@ def _thermometer(fig, temp: int) -> None:
     th.add_patch(Rectangle((0.42, bulb), 0.36, hi - bulb, fill=False, edgecolor=INK, linewidth=1.3))
     th.add_patch(Ellipse((0.6, bulb), w, h, facecolor="#5f6b75", edgecolor=INK, linewidth=1.3, zorder=3))
     th.add_patch(Rectangle((0.52, bulb), 0.16, temp - bulb, facecolor="#5f6b75", edgecolor="none", zorder=4, gid="thermo-level"))
-    for t in range(0, 101, 5):
-        big = t % 10 == 0
-        th.plot([0.78, 0.78 + (0.3 if big else 0.16)], [t, t], color=INK, linewidth=1.1 if big else 0.8, gid=f"thermo-tick-{t}")
-        if big:
-            th.text(1.18, t, str(t), ha="left", va="center", fontsize=10)
+    for t in range(0, 101, 10):  # every mark numbered, and the level always on one
+        th.plot([0.78, 1.08], [t, t], color=INK, linewidth=1.1, gid=f"thermo-tick-{t}")
+        th.text(1.18, t, str(t), ha="left", va="center", fontsize=10)
     th.text(1.18, hi + 3, "°C", ha="left", va="center", fontsize=10)
-    th.text(1.1, hi + 30, "Thermometer\nin the glass", ha="center", va="top", fontsize=10)
+    th.text(1.1, hi + 30, "Thermometer in\nthe glass of water", ha="center", va="top", fontsize=10)
 
 
 VERBS = ["draws", "is learning", "studies", "makes a poster about", "writes notes on"]

@@ -501,11 +501,8 @@ def test_teeth_p():
         p, qs = run(m, s)
         ages[p["age"]] += 1
         teeth = JAW[p["age"]] + JAW[p["age"]][::-1]
-        assert p["teeth"] == teeth, s
-        missing = set(p["missing"])
-        assert 1 <= len(missing) <= 2 and missing <= set(range(len(teeth)))
+        assert p["teeth"] == teeth and "missing" not in p, s  # every tooth is there: nothing to wonder about (p3s-blind)
         letters = p["letters"]
-        assert not missing & set(letters.values()), s  # a lettered tooth is drawn
         lettered = [teeth[i] for i in letters.values()]
         assert len(set(lettered)) == len(lettered) == 3, s  # one of each kind: one answer for each job
         assert len(set(lettered) & {"premolar", "molar"}) == 1, s
@@ -516,15 +513,15 @@ def test_teeth_p():
                      if g.startswith("tooth:")}
             words = " ".join(t for t, *_ in boxes(fig))
             plt.close(fig)
-            assert drawn == {i: t for i, t in enumerate(teeth) if i not in missing}, s
+            assert drawn == dict(enumerate(teeth)), s
             for kind in set(teeth):
                 assert kind.capitalize() in words, (s, kind)  # the key names every kind drawn
             for job in JOB:
                 assert job in words, (s, job)
-        here = Counter(t for i, t in enumerate(teeth) if i not in missing)
         seen = set()
         for q in qs:
             st = q.stem
+            assert "fallen" not in st and "missing" not in st and "lost" not in st, st
             if got := re.search(r"Which letter shows a tooth (?:used )?for (\w+)", st):
                 kinds = JOB[got.group(1)]
                 assert teeth[letters[picked(q)]] in kinds, (s, st)
@@ -534,16 +531,69 @@ def test_teeth_p():
                 assert picked(q) == teeth[letters[got.group(1)]]
                 assert set(q.options) <= set(teeth) and len(q.options) == len(set(teeth))
                 seen.add("kind")
-            elif got := re.search(r"How many (molars|incisors|premolars|canines) are there in this jaw", st):
-                assert q.answer == str(here[got.group(1)[:-1]]), (s, st)
+            elif got := re.search(r"How many teeth in this jaw are the same kind as tooth ([A-D])\?", st):
+                # the kind is read off the drawing (its letter), then counted, lettered tooth included
+                assert q.answer == str(teeth.count(teeth[letters[got.group(1)]])), (s, st)
                 seen.add("count")
-            elif "How many teeth are there in this jaw" in st:
-                assert q.answer == str(len(teeth) - len(missing))
-                seen.add("total")
             else:
                 pytest.fail(f"seed {s}: an unexpected question {st}")
-        assert {"job", "kind", "count"} <= seen, (s, seen)
+        assert seen == {"job", "kind", "count"}, (s, seen)
     assert min(ages.values()) > 300
+
+
+def _outline(pa):
+    """A patch's corners in data coordinates."""
+    return [tuple(v) for v in pa.get_patch_transform().transform(pa.get_path().vertices)]
+
+
+def _middle(pts):
+    """The middle of a shape's bounding box (a closed outline repeats its first corner, so a mean is lopsided)."""
+    xs, ys = [x for x, _ in pts], [y for _, y in pts]
+    return (min(xs) + max(xs)) / 2, (min(ys) + max(ys)) / 2
+
+
+def test_teeth_p_are_drawn_as_the_key_shows_them_in_a_mirrored_jaw():
+    """Every tooth is exactly its key's shape, not turned (canines read as skewed parallelograms beside the key's
+    diamond); the two halves of the jaw mirror each other; and each leader line ends on its own tooth (one ended on
+    the gum). From the p3s-blind review."""
+    from matplotlib.path import Path as MPath
+    m = fam("teeth_p")
+    for s in range(1, DRAWN + 1):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        patches = {pa.get_gid(): pa for pa in ax.patches if pa.get_gid()}
+        lines = {ln.get_gid(): ln for ln in ax.lines if ln.get_gid()}
+        plt.close(fig)
+        teeth = p["teeth"]
+        n = len(teeth)
+        shape = {}
+        for kind in set(teeth):
+            pts = _outline(patches[f"key:{kind}"])
+            cx, cy = _middle(pts)
+            shape[kind] = [(round(x - cx, 6), round(y - cy, 6)) for x, y in pts]
+        centre = {}
+        for i, kind in enumerate(teeth):
+            pts = _outline(patches[f"tooth:{i}:{kind}"])
+            cx, cy = _middle(pts)
+            assert [(round(x - cx, 6), round(y - cy, 6)) for x, y in pts] == shape[kind], (s, i, kind)
+            centre[i] = (cx, cy)
+        for i in range(n):
+            (x0, y0), (x1, y1) = centre[i], centre[n - 1 - i]
+            assert abs(x0 + x1) < 1e-6 and abs(y0 - y1) < 1e-6, (s, i)  # mirrored about the jaw's middle
+        # no two teeth touch
+        for i in range(n - 1):
+            a, b = MPath(_outline(patches[f"tooth:{i}:{teeth[i]}"])), MPath(_outline(patches[f"tooth:{i + 1}:{teeth[i + 1]}"]))
+            assert not a.intersects_path(b, filled=True), (s, i)
+        for letter, i in p["letters"].items():
+            xs, ys = lines[f"leader:{letter}"].get_data()
+            tooth = MPath(_outline(patches[f"tooth:{i}:{teeth[i]}"]))
+            assert tooth.contains_point((xs[-1], ys[-1])), (s, letter)  # it ends on its tooth
+            for j, kind in enumerate(teeth):
+                if j != i:  # and passes over no other tooth
+                    other = MPath(_outline(patches[f"tooth:{j}:{kind}"]))
+                    seg = MPath([(xs[0], ys[0]), (xs[-1], ys[-1])])
+                    assert not other.intersects_path(seg, filled=True), (s, letter, j)
 
 
 # --- grid_robot_p ----------------------------------------------------------------------------------

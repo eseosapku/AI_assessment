@@ -98,10 +98,8 @@ def test_concepts_exist():
 
 # --- simple_circuit_p ----------------------------------------------------------------------------------
 
-REASON = {"gap": "There is a gap in the wire.", "open": "The switch is open.",
-          "same_end": "Both wires go to the same end of the cell.", "nocell": "There is no cell in the circuit."}
-FIX = {"gap": "Join the gap in the wire", "open": "Close the switch", "same_end": "Move one wire to the other end of the cell",
-       "nocell": "Add a cell to the circuit"}
+REASON = {"gap": "There is a gap in the wire.", "open": "The switch is open.", "nocell": "There is no cell in the circuit."}
+FIX = {"gap": "Join the gap in the wire", "open": "Close the switch", "nocell": "Add a cell to the circuit"}
 
 
 def circuit_faults(c) -> list[str]:
@@ -187,11 +185,10 @@ def test_simple_circuit_p():
         faults = {}
         for c in cs:
             f = circuit_faults(c)
-            assert len(f) <= 1, (s, c)  # one fault at most, so a reason is never in doubt
-            if p["level"] == "lower":
-                assert c["bulbs"] == 1 and "nocell" not in f, (s, c)
-            else:
-                assert c["bulbs"] in (1, 2) and "same_end" not in f, (s, c)
+            assert len(f) <= 1, (s, c)  # each broken circuit has exactly one fault, so a reason is never in doubt
+            # Both wires to one end of the cell was missed by reviewers (P3s blind review): not drawn.
+            assert "same_end" not in f, (s, c)
+            assert c["bulbs"] == (1 if p["level"] == "lower" else c["bulbs"]) and c["bulbs"] in (1, 2), (s, c)
             if f:
                 faults[c["letter"]] = f[0]
             else:
@@ -208,6 +205,7 @@ def test_simple_circuit_p():
             assert all(len(letters(o)) == 1 for o in q1.options), (s, q1.options)
         # How many bulbs
         cq = next(q for q in qs if q.kind == "short")
+        assert "in all" in cq.stem, (s, cq.stem)  # which circuits it counts over is said
         on = sum(c["bulbs"] for c in cs if c["letter"] in lit)
         off = sum(c["bulbs"] for c in cs) - on
         want = off if "not light" in cq.stem else on
@@ -219,14 +217,26 @@ def test_simple_circuit_p():
         assert x in faults, (s, x)
         table = REASON if rq.stem.startswith("Why") else FIX
         assert picked(rq) == table[faults[x]], (s, rq.stem, picked(rq))
+        xc = next(c for c in cs if c["letter"] == x)
         for o in rq.options:
             if o != picked(rq):
-                assert o not in (table[faults[x]],), (s, o)
+                assert o != table[faults[x]], (s, o)
+                # The wording matches what is drawn: no switch named where none is drawn, no cell turned or moved
+                # where there is none, and no "gap" offered beside an open switch (which a reader may call a gap).
+                if "switch" in o.lower():
+                    assert xc["switch"] == "closed", (s, x, o)
+                if re.search(r"cell (round|the wrong way)|from the cell|closer to the cell", o):
+                    assert xc["cell"], (s, x, o)
+                if "gap" in o:
+                    assert faults[x] != "open", (s, x, o)
         if s <= DRAWN:
             fig = m.draw(p)
             ax = fig.axes[0]
             try:
                 words = words_of(fig)
+                # Every switch is labelled, so no reader takes it for a gap; nothing else is.
+                assert words.count("switch") == sum(1 for c in cs if c["switch"]), (s, words)
+                wire_w = max(ln.get_linewidth() for ln in ax.lines if (ln.get_gid() or "").startswith("wire-"))
                 for c in cs:
                     assert c["letter"] in words, (s, c["letter"])
                     assert drawn_circuit_lights(ax, c["letter"]) == (c["letter"] in lit), (s, c)
@@ -236,8 +246,11 @@ def test_simple_circuit_p():
                     if lever:
                         (x0, y0), (x1, y1) = lever[0].get_xydata()[0], lever[0].get_xydata()[-1]
                         angle = abs(math.degrees(math.atan2(y1 - y0, x1 - x0)))
+                        # Large: a lever over a unit long and plainly thicker than the wires (a thin one read as a gap).
+                        assert math.hypot(x1 - x0, y1 - y0) >= 1.0, (s, c)
+                        assert lever[0].get_linewidth() >= 1.75 * wire_w, (s, c)
                         if c["switch"] == "open":
-                            assert 25 <= angle <= 60, (s, angle)
+                            assert 30 <= angle <= 60, (s, angle)
                         else:
                             assert angle < 1, (s, angle)
             finally:
