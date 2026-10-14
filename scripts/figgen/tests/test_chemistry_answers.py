@@ -137,6 +137,96 @@ def test_periodic_table():
                 assert q.answer.replace("₂", "2").replace("₃", "3") == want, (q.stem, q.answer, want)
 
 
+# --- Task 6: structures, energy, electrolysis ----------------------------------------------------
+
+def plain(text):
+    return text.translate(str.maketrans("₀₁₂₃₄₅₆₇₈₉⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻−", "01234567890123456789+--"))
+
+
+STEM = ["meth", "eth", "prop", "but", "pent"]
+VALENCY = {"C": 4, "H": 1, "O": 2}
+
+
+def test_organic_structure():
+    m = fam("organic_structure")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        n, series, pos = p["n"], p["series"], p["position"]
+        atoms, bonds = m.structure(p)  # what is drawn: [(symbol, x, y)], [(i, j, order)]
+        for i, (sym, _, _) in enumerate(atoms):  # every atom drawn with its full number of bonds
+            assert sum(o for a, b, o in bonds if i in (a, b)) == VALENCY[sym], (s, p, i, sym)
+        counts = {e: sum(1 for a in atoms if a[0] == e) for e in "CHO"}
+        h = {"alkane": 2 * n + 2, "alkene": 2 * n, "alcohol": 2 * n + 2, "acid": 2 * n}[series]
+        o = {"alkane": 0, "alkene": 0, "alcohol": 1, "acid": 2}[series]
+        assert counts == {"C": n, "H": h, "O": o}, (s, p, counts)
+        formula = "C" + (str(n) if n > 1 else "") + f"H{h}" + {0: "", 1: "O", 2: "O2"}[o]
+        assert plain(next(q for q in qs if "molecular formula" in q.stem).answer) == formula
+        assert int(next(q for q in qs if "hydrogen atoms" in q.stem).answer) == h
+        series_q = next(q for q in qs if q.kind == "mcq" and "homologous series" in q.stem)
+        assert picked(series_q) == {"alkane": "alkanes", "alkene": "alkenes", "alcohol": "alcohols", "acid": "carboxylic acids"}[series]
+        name = next(q for q in qs if "name of" in q.stem).answer
+        assert name.startswith(STEM[n - 1])
+        want = {"alkane": "ane", "alkene": "ene", "alcohol": "ol", "acid": "anoic acid"}[series]
+        assert name.endswith(want), (name, series)
+        if series in ("alkene", "alcohol") and n >= {"alkene": 4, "alcohol": 3}[series]:
+            assert f"-{pos}-" in name or name.endswith(f"-{pos}-ol"), name  # where the group is, when it can be in two places
+
+
+def test_energy_profile():
+    m = fam("energy_profile")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        r, pr, peak, cat, step = p["reactants"], p["products"], p["peak"], p["catalysed"], p["step"]
+        assert all(v % step == 0 for v in (r, pr, peak, cat))  # every level on a gridline
+        assert max(r, pr) < cat < peak <= p["top"]
+        for q in qs:
+            v = None if q.kind == "mcq" else Fraction(plain(q.answer))
+            if "enthalpy change" in q.stem:
+                assert v == pr - r
+            elif "reverse" in q.stem:
+                assert v == peak - pr
+            elif "with the catalyst" in q.stem:  # not "without the catalyst"
+                assert v == cat - r
+            elif "activation energy" in q.stem:
+                assert v == peak - r
+            elif q.kind == "mcq":
+                assert picked(q).startswith("exothermic" if pr < r else "endothermic")
+                assert ("less energy" in picked(q)) == (pr < r)
+
+
+ELECTROLYSIS = {  # electrolyte: product at the cathode, at the anode, the ion discharged at the cathode
+    "molten lead(II) bromide": ("lead", "bromine", "Pb2+"),
+    "molten sodium chloride": ("sodium", "chlorine", "Na+"),
+    "molten zinc chloride": ("zinc", "chlorine", "Zn2+"),
+    "concentrated sodium chloride solution": ("hydrogen", "chlorine", "H+"),
+    "copper(II) sulfate solution, carbon electrodes": ("copper", "oxygen", "Cu2+"),
+    "copper(II) sulfate solution, copper electrodes": ("copper", None, "Cu2+"),
+    "copper(II) chloride solution": ("copper", "chlorine", "Cu2+"),
+    "dilute sulfuric acid": ("hydrogen", "oxygen", "H+"),
+}
+
+
+def test_electrolysis():
+    m = fam("electrolysis")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        left, right = p["letters"]
+        anode = left if p["plus"] == "left" else right  # the electrode joined to the battery's + side
+        cathode = right if anode == left else left
+        at_cathode, at_anode, ion = ELECTROLYSIS[p["electrolyte"]]
+        assert m.wired_to_plus(p) == anode
+        for q in qs:
+            if "is the cathode" in q.stem:
+                assert q.answer == cathode
+            got = re.search(r"product at electrode ([A-Z])", q.stem)
+            if got:
+                assert q.answer == (at_cathode if got.group(1) == cathode else at_anode), (s, q.stem, q.answer)
+            if "What happens to electrode" in q.stem:
+                assert re.search(r"electrode ([A-Z])", q.stem).group(1) == anode and "dissolves" in picked(q)
+            if "discharged at the cathode" in q.stem:
+                assert plain(q.answer) == ion
+
+
 CHEMISTRY = sorted(f for f, m in FAMILIES.items() if m.SUBJECT == "chemistry")
 
 
