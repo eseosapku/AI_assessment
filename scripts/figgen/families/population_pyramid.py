@@ -1,16 +1,22 @@
-"""Population pyramid by ten-year age group. Bars end on whole percentages."""
+"""Population pyramid by ten-year age group. Bars end on whole percentages. The percentage of one sex and age group,
+the percentage aged under 20, the percentage aged under 20 or 60 and over, and whether more males or females are aged
+60 and over. The shape is not asked: the blind review disputed it (P3b), and the profiles below only keep it plain.
+"""
 from __future__ import annotations
 
 import random
 from functools import lru_cache
 from itertools import combinations, product
 
-from ..core import FILL, FILL_2, GRID, mcq, new_figure, short
+from ..core import FILL, FILL_2, GRID, NAMES as PEOPLE, new_figure, short
 
 ID = "population_pyramid"
 KIND = "geo.climate"
 SUBJECT = "geography"
 BANDS = ("LS", "UP")
+CONCEPTS = ("geography.population-structure", "geography.population-growth")
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"population|pyramid|age.sex|demograph|dependen"
 
 GROUPS = ["0–9", "10–19", "20–29", "30–39", "40–49", "50–59", "60–69", "70+"]
 SHAPES = {"expanding": None, "stable": None, "contracting": None}  # profiles: _sides(shape)
@@ -49,7 +55,11 @@ def sample(rng: random.Random) -> dict:
     # also contracting or expanding. "Stable" stays in the question as a wrong option.
     shape = rng.choice(["contracting", "expanding"])
     sides = _sides(shape)
-    return {"shape": shape, "male": list(rng.choice(sides)), "female": list(rng.choice(sides))}
+    while True:
+        male, female = list(rng.choice(sides)), list(rng.choice(sides))
+        if sum(male[6:]) != sum(female[6:]):  # one sex plainly has more people aged 60 and over
+            return {"band": rng.choice(BANDS), "shape": shape, "male": male, "female": female,
+                    "group": rng.randrange(len(GROUPS)), "side": rng.choice(["males", "females"])}
 
 
 def draw(p: dict):
@@ -78,14 +88,27 @@ def draw(p: dict):
     return fig
 
 
+SETTINGS = ["in a geography lesson", "for homework", "on a revision card", "for a class test", "in a census project"]
+
+
+def _pct(v: int) -> list[str]:
+    return [str(v), f"{v}%", f"{v} %"]
+
+
 def questions(p: dict, rng: random.Random) -> list:
-    i = rng.randrange(len(GROUPS))
+    who, friend = rng.sample(PEOPLE, 2)
+    i, side = p["group"], p["side"]
+    v = (p["male"] if side == "males" else p["female"])[i]
     young = sum(p["male"][:2]) + sum(p["female"][:2])
+    old_m, old_f = sum(p["male"][6:]), sum(p["female"][6:])
+    dependent = young + old_m + old_f
+    more = "Males" if old_m > old_f else "Females"
     return [
-        mcq("Which best describes the shape of this population pyramid?", NAMES[p["shape"]],
-            [v for k, v in NAMES.items() if k != p["shape"]], rng),
-        short(f"What percentage of the population are males aged {GROUPS[i]}?", p["male"][i],
-              [f"{p['male'][i]}%", f"{p['male'][i]} %"]),
-        short("What percentage of the population is aged under 20 (males and females together)?", young,
-              [f"{young}%", f"{young} %"]),
+        short(f"{who} reads this population pyramid {rng.choice(SETTINGS)}. What percentage of the population are {side} aged {GROUPS[i]}?",
+              v, _pct(v)),
+        short(f"{friend} adds males and females together. What percentage of the population is aged under 20?", young, _pct(young)),
+        short(f"What percentage of {who}'s population is aged under 20 or 60 and over, males and females together?", dependent,
+              _pct(dependent)),
+        short("Are there more males or more females aged 60 and over in this pyramid?", more,
+              [more, more.lower(), f"more {more.lower()}"]),
     ]

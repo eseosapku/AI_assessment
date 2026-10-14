@@ -437,6 +437,6 @@ def test_pyramids_are_drawn_only_in_shapes_a_reader_cannot_dispute():
     # passed every expanding and contracting one. Stable stays as a wrong option.
     shapes = {population_pyramid.sample(random.Random(s))["shape"] for s in range(1, 200)}
     assert shapes == {"expanding", "contracting"}
+    # P3m: the shape is no longer asked at all; the profiles only keep the pyramid plain to read
     rng = random.Random(1)
-    q = population_pyramid.questions(population_pyramid.sample(rng), rng)[0]
-    assert "Stable" in q.options
+    assert not any("shape" in q.stem for q in population_pyramid.questions(population_pyramid.sample(rng), rng))

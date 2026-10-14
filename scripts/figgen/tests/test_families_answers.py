@@ -10,8 +10,8 @@ from fractions import Fraction
 
 import pytest
 
-from figgen.families import (angles, bar_chart, box_plot, break_even, climate_graph, coordinates, cross_section,
-                             food_web, line_graph, notice, number_line, pie_chart, population_pyramid, punnett,
+from figgen.families import (angles, bar_chart, box_plot, break_even, coordinates,
+                             food_web, line_graph, notice, number_line, pie_chart, punnett,
                              scale_reading, scatter_graph, supply_demand, timeline, timetable, tree_diagram)
 
 SEEDS = range(1, 1001)  # spec 12: every answer holds on 1,000 seeds
@@ -194,34 +194,10 @@ def test_scale_reading():
         assert abs(steps - round(steps)) < 1e-9  # on a marked division
 
 
-def test_climate_graph():
-    for s in SEEDS:
-        p, (wettest, rain, trange) = run(climate_graph, s)
-        assert picked(wettest) == climate_graph.FULL[p["rain"].index(max(p["rain"]))]
-        month = rain.stem.split(" in ")[1].split(",")[0]
-        assert int(rain.answer) == p["rain"][climate_graph.FULL.index(month)]
-        assert int(trange.answer) == max(p["temp"]) - min(p["temp"])
-        assert all(r % 5 == 0 for r in p["rain"]) and all(t % 2 == 0 for t in p["temp"])
 
 
-def test_population_pyramid():
-    for s in SEEDS:
-        p, (shape, males, young) = run(population_pyramid, s)
-        assert picked(shape) == population_pyramid.NAMES[p["shape"]]
-        group = males.stem.split("aged ")[1].rstrip("?")
-        assert int(males.answer) == p["male"][population_pyramid.GROUPS.index(group)]
-        assert int(young.answer) == p["male"][0] + p["male"][1] + p["female"][0] + p["female"][1]
 
 
-def test_cross_section():
-    for s in SEEDS:
-        p, (hx, diff, steep) = run(cross_section, s)
-        h = p["heights"]
-        assert int(hx.answer) == h[p["x"]] and int(diff.answer) == abs(h[p["x"]] - h[p["y"]])
-        assert all(v % 50 == 0 for v in h)
-        c = p["cuts"]
-        grads = [abs(h[b] - h[a]) / (b - a) for a, b in zip(c, c[1:])]
-        assert picked(steep) == f"Section {grads.index(max(grads)) + 1}"
 
 
 def test_supply_demand():

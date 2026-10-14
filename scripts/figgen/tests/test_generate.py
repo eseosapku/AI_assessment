@@ -48,8 +48,9 @@ def test_every_figure_spec_survives_json():
             assert json.loads(json.dumps(p)) == p, fid
 
 
-# A family that keeps the pilot's hand-made topics: climate graphs for Geography LS, db:1115.
-BY_HAND = "climate_graph"
+# A family that keeps the pilot's hand-made topics: supply and demand for WAEC Economics (climate graphs, the
+# example before, now reach topics by concept, P3m).
+BY_HAND = "supply_demand"
 
 
 def test_draws_distinct_figures_and_their_files(db, tmp_path):
@@ -61,9 +62,9 @@ def test_draws_distinct_figures_and_their_files(db, tmp_path):
     for row in rows:
         assert (lib / row["asset"]).read_text(encoding="utf-8").lstrip().startswith("<?xml")
         assert (lib / row["preview"]).read_bytes()[:4] == b"\x89PNG" and row["width"] > 100
-        assert (row["band"], row["subject"]) == ("LS", "geography")
-    assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 15  # three questions each
-    assert db.execute("SELECT COUNT(*) FROM figure_topics WHERE topic_key = 'db:1115'").fetchone()[0] == 5
+        assert (row["band"], row["subject"]) == ("UP", "economics")
+    assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 20  # four questions each
+    assert db.execute("SELECT COUNT(*) FROM figure_topics WHERE topic_key = 'waec:Economics:1'").fetchone()[0] == 5
 
 
 def test_a_second_run_keeps_what_is_there(db, tmp_path):
@@ -72,7 +73,7 @@ def test_a_second_run_keeps_what_is_there(db, tmp_path):
     again = generate_family(db, lib, FAMILIES[BY_HAND], 7)
     assert (again["have"], again["drawn"]) == (7, 2)
     assert db.execute("SELECT COUNT(*) FROM figures").fetchone()[0] == 7
-    assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 21
+    assert db.execute("SELECT COUNT(*) FROM figure_questions").fetchone()[0] == 28
 
 
 def test_redo_redraws_the_family_and_drops_its_reviews(db, tmp_path):
@@ -86,9 +87,9 @@ def test_redo_redraws_the_family_and_drops_its_reviews(db, tmp_path):
 
 
 def test_refuses_a_topic_outside_the_family_levels(db, tmp_path):
-    db.execute("UPDATE topics SET band = 'AL' WHERE key = 'db:1115'")
+    db.execute("UPDATE topics SET band = 'AL' WHERE key = 'waec:Economics:1'")
     db.commit()
-    with pytest.raises(ValueError, match="db:1115"):
+    with pytest.raises(ValueError, match="waec:Economics:1"):
         generate_family(db, tmp_path / "lib", FAMILIES[BY_HAND], 1)
 
 
@@ -152,8 +153,8 @@ def test_a_family_that_reaches_no_topic_is_skipped(db):
     mapped(db)
     reaching, nowhere = concept_family(), concept_family(bands=("P",))
     nowhere.ID = "nowhere"
-    draw, skipped = families_to_draw({"concept_test": reaching, "nowhere": nowhere, "climate_graph": FAMILIES["climate_graph"]}, topic_index(db))
-    assert sorted(draw) == ["climate_graph", "concept_test"] and skipped == ["nowhere"]  # hand-linked families are kept
+    draw, skipped = families_to_draw({"concept_test": reaching, "nowhere": nowhere, "supply_demand": FAMILIES["supply_demand"]}, topic_index(db))
+    assert sorted(draw) == ["concept_test", "supply_demand"] and skipped == ["nowhere"]  # hand-linked families are kept
 
 
 def test_the_same_figure_under_another_name_is_stored_once(db, tmp_path):
