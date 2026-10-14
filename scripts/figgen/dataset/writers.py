@@ -406,6 +406,8 @@ def circuit(row: dict, rng: random.Random) -> list:
     p = row["params"]
     if p["labels"] != "values" or p["kind"] == "diode" or any("switch" in c["kind"] for c in _parts(p)):
         return []
+    if any(c["kind"] in ("fuse", "motor") for c in _parts(p)):  # no value printed; a fuse looks like a resistor without one
+        return []
     printed = [float(d.split()[0]) for d in row["labels"] if d[:1].isdigit()]
 
     def shown(v: float) -> bool:
@@ -523,6 +525,35 @@ GENOTYPES = {"AR": ["AA", "Aa", "aa"], "AD": ["DD", "Dd", "dd"],
              "f": ["XᴬXᴬ", "XᴬXᵃ", "XᵃXᵃ", "XᴬY"], "m": ["XᴬY", "XᵃY", "XᴬXᵃ", "XᵃXᵃ"]}
 
 
+def pedigree_numbers(people: list[dict]) -> dict[int, int]:
+    """The number the drawing gives each person: generation by generation, left to right, as it lays them out. The
+    founders in id order; then each couple's children in the order their parents were drawn, children by id, each
+    followed by the spouse who married in. (The ids are not the drawn numbers: P3q review read them as such.)"""
+    spouses: dict[int, list[int]] = {}
+    for x in people:
+        if x.get("spouse_of"):
+            spouses.setdefault(x["spouse_of"], []).append(x["id"])
+    order = sorted(x["id"] for x in people if x["gen"] == 1 and not x.get("spouse_of"))
+    drawn = list(order)
+    while True:
+        couples = []
+        for pid in order:
+            for x in sorted(people, key=lambda y: y["id"]):
+                c = tuple(x["parents"] or ())
+                if pid in c and c not in couples:
+                    couples.append(c)
+        nxt = []
+        for c in couples:
+            for kid in sorted(x["id"] for x in people if tuple(x["parents"] or ()) == c):
+                nxt += [kid] + sorted(spouses.get(kid, []))
+        nxt = [i for i in nxt if i not in drawn]
+        if not nxt:
+            break
+        drawn += nxt
+        order = nxt
+    return {pid: k + 1 for k, pid in enumerate(drawn)}
+
+
 def pedigree(row: dict, rng: random.Random) -> list:
     """Dominant or recessive, asked only where the chart proves it (a couple alike with a child unlike them). A genotype,
     asked only of a person whose genotype the chart decides, preferring the ones it takes a step to decide."""
@@ -556,7 +587,8 @@ def pedigree(row: dict, rng: random.Random) -> list:
     if pick:
         x, key = rng.choice(pick)
         options = GENOTYPES[mode] if mode != "XR" else GENOTYPES[x["sex"]]
-        qs.append(mcq(f"{ALLELES[mode]} What is the genotype of person {x['id']}?", key, options, rng))
+        number = pedigree_numbers(p["people"])[x["id"]]
+        qs.append(mcq(f"{ALLELES[mode]} What is the genotype of person {number}?", key, options, rng))
     if qs:
         qs[0].stem = f"{_lead(rng, 'family tree')} Shaded symbols are people with an inherited condition. {qs[0].stem}"
     return qs

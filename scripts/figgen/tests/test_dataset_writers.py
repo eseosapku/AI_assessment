@@ -314,7 +314,8 @@ def test_circuit():
     for row, qs in asked("phys.circuit"):
         p = row["params"]
         switch = any("switch" in c["kind"] for c in _parts(p))  # open and closed are drawn alike, a gap between two circles
-        if p["labels"] != "values" or p["kind"] == "diode" or switch:
+        unvalued = any(c["kind"] in ("fuse", "motor") for c in _parts(p))  # no value printed; a fuse looks like a resistor
+        if p["labels"] != "values" or p["kind"] == "diode" or switch or unvalued:
             assert not qs
             continue
         values += 1
@@ -413,10 +414,23 @@ def test_energy_profile():
     assert seen == {"exo", "dh", "ea", "cat"}
 
 
+def drawn_order(row):
+    """The people's ids in the order the drawing numbers them 1, 2, 3 ..., read from the SVG (data, never run)."""
+    svg = (manifest.root() / row["svg"]).read_text(encoding="utf-8")
+    return [int(x) for x in re.findall(r'class="number" data-pid="(\d+)"', svg)]
+
+
+def test_pedigree_numbers_follow_the_drawing():
+    from figgen.dataset import writers as w
+    for row in manifest.rows({"bio.pedigree"}):
+        assert w.pedigree_numbers(row["params"]["people"]) == {pid: k + 1 for k, pid in enumerate(drawn_order(row))}, row["id"]
+
+
 def test_pedigree():
     seen = set()
     for row, qs in asked("bio.pedigree"):
         p = row["params"]
+        order = drawn_order(row)
         people = {x["id"]: x for x in p["people"]}
         kids = {i: [x for x in p["people"] if x["parents"] and i in x["parents"]] for i in people}
         couples = {tuple(x["parents"]) for x in p["people"] if x["parents"]}
@@ -431,7 +445,7 @@ def test_pedigree():
                 seen.add("mode")
             m = re.search(r"genotype of person (\d+)", q.stem)
             if m:
-                x = people[int(m.group(1))]
+                x = people[order[int(m.group(1)) - 1]]
                 near = [people[i] for i in (x["parents"] or [])] + kids[x["id"]]
                 g = picked(q)
                 if p["mode"] == "AR":
