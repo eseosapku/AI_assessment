@@ -119,13 +119,16 @@ def questions(p: dict, rng: random.Random) -> list:
     other = p["other_price"]
     up = (other - cost) * 100 // cost
     thing = p["product"].split(" ", 1)[1]  # "loaf of bread"
+    # The profit names its own basis, and comes before the rival's price: "at that price" after it was read as the
+    # rival's (P3p review, 17 of 30).
+    basis = f"{pct}% mark-up" if p["mode"] == "markup" else f"{pct}% profit margin"
     return [
         short(first, price, money(price)),
+        short(rng.choice([f"At the price set with the {basis} shown, what is the profit per {unit}, in Frw?",
+                          f"How much profit per {unit} does {who} make when pricing with the {basis} shown, in Frw?"]),
+              price - cost, money(price - cost)),
         short(rng.choice([f"A shop nearby sells the same {thing} for {fr(other)} Frw, with the same costs. ",
                           f"Suppose the {thing} were sold for {fr(other)} Frw instead. "])
               + f"Mark-up % = (selling price − cost per {unit}) ÷ cost per {unit} × 100. What mark-up % does that price give?",
               up, [f"{up}%", f"{up} %", f"{up} percent"]),
-        short(rng.choice([f"At the price {who} charges, what is the profit per {unit}, in Frw?",
-                          f"How much profit per {unit} does {who} make at that price, in Frw?"]), price - cost,
-              money(price - cost)),
     ]

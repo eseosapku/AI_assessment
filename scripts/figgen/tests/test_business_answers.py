@@ -357,11 +357,16 @@ def test_pricing():
         price = int(price)
         modes[p["mode"]] += 1
         seen = set()
+        order = []
         for q in qs:
             if "profit per" in q.stem:
                 accepts_money(q, price - cost)
+                # its own basis named: "that price" after the rival's price was read as the rival's (P3p review)
+                assert "that price" not in q.stem and f"{pct}%" in q.stem, (s, q.stem)
                 seen.add("profit")
+                order.append("profit")
             elif "mark-up %" in q.stem and "÷" in q.stem:
+                order.append("markup")
                 (rival,) = stem_money(q.stem)
                 up = (rival - cost) * 100 / cost
                 assert up.is_integer() and up > 0 and up != pct, s
@@ -374,6 +379,7 @@ def test_pricing():
                 accepts_money(q, price)
                 seen.add("price")
         assert seen == {"price", "markup", "profit"}, (s, seen)
+        assert order == ["profit", "markup"], (s, order)  # the profit is asked before another price comes in
     assert modes["markup"] > 300 and modes["margin"] > 300
 
 

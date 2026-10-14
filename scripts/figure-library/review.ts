@@ -181,16 +181,24 @@ function sigRound(v: number, n: number): number {
   return Math.sign(v) * Math.floor(Math.abs(v) / step + 0.5 + 1e-9) * step
 }
 
+/** "1.18 million": a number written with a word for its scale. */
+const SCALE: Record<string, number> = { thousand: 1e3, million: 1e6, billion: 1e9 }
+/** "a deficit of 140", "a loss of 30": a negative key restated as its size with a word for its sign (P3p). */
+const LESS = /\b(?:deficit|loss|decrease|fall|drop|shortfall|overdrawn|overdraft)\b/i
+
 /**
  * Whether a part holds one number, the key rounded to the 2 or 3 (or more) significant figures it is written to:
  * "158" or "160" for 158.4, "0.63" for 0.625, "1690" for 1687.5 (P3h review). One significant figure is not
- * enough: "0" for 0.4 and "4" for 4.4 say too little to be the key.
+ * enough: "0" for 0.4 and "4" for 4.4 say too little to be the key. The number may carry a scale word
+ * ("1.18 million") and, for a negative key, a sign word ("a deficit of 140").
  */
 function roughly(part: string, key: number): boolean {
   const tokens = unhedged(part).replace(/[−–—]/g, '-').replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1').match(NUMBER) ?? []
   if (tokens.length !== 1 || tokens[0].includes('/')) return false
   const t = tokens[0]
-  const v = Number(t)
+  const scale = SCALE[(/\b(thousand|million|billion)\b/i.exec(part)?.[1] ?? '').toLowerCase()] ?? 1
+  if (key < 0 && Number(t) > 0 && LESS.test(part)) key = -key
+  const v = Number(t) * scale
   if (Math.abs(v - key) < 1e-9) return true
   const digits = t.replace(/^-/, '').replace('.', '').replace(/^0+/, '')
   const least = t.includes('.') ? digits.length : digits.replace(/0+$/, '').length  // "1690" may be 3 or 4 figures

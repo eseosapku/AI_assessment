@@ -262,6 +262,15 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('3'), '3, 4')).toBe(false)
   })
 
+  it('reads a negative restated as a deficit or loss, and a number restated in millions (P3p)', () => {
+    // "−140 billion Frw (a deficit of 140)" and "1 180 000 Frw (≈1.18 million)" each give one answer twice.
+    expect(agrees(short('-140'), '−140 billion Frw (a deficit of 140)')).toBe(true)
+    expect(agrees(short('-680'), '−680 billion Frw (a trade deficit of 680)')).toBe(true)
+    expect(agrees(short('1180000'), 'about 1 180 000 Frw (≈1.18 million)')).toBe(true)
+    expect(agrees(short('-140'), '−140 (a surplus of 140)')).toBe(false)
+    expect(agrees(short('1180000'), '1 180 000 Frw (≈1.5 million)')).toBe(false)
+  })
+
   it('reads an approximation after the exact answer as the same answer restated', () => {
     // "17/3 ≈ 5.67" gives one answer, exactly and then roughly (P3d review).
     expect(agrees(short('17/3'), '17/3 ≈ 5.67')).toBe(true)
