@@ -150,7 +150,9 @@ def harvest(db, lib: Path, fetch, lines: list[dict], limit: int | None = None) -
         save_real(db, figure_id=fid, origin="openstax", kind="textbook.figure", subject=subject, band=bands[key],
                   topic_key=key, asset=asset, preview=preview, width=width, height=height,
                   spec={k: line.get(k) for k in ("book", "repo", "chapter_title", "section_title", "module_id", "figure_id",
-                                                 "subfigure", "caption", "alt", "media")} | {"source": source_line(line)},
+                                                 "subfigure", "caption", "alt", "media")}
+                  | {"source": source_line(line), "title": f"{line['book']}: {line.get('section_title') or line.get('chapter_title')}",
+                     "description": line.get("caption") or ""},  # what the screen and the writer read
                   licence=f"OpenStax agreement ({line['license']})", author="OpenStax",
                   source_url=f"https://github.com/openstax/{line['repo']}", credit="", phash=f"{h:016x}")
         hashes.append(h)

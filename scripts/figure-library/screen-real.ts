@@ -16,7 +16,10 @@ const JOB_CAP_USD = 3
 const MAX_UNUSABLE = 15
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { limit: 'int', dry: 'flag', workers: 'int', redo: 'flag', regrade: 'flag', 'rescreen-kept': 'flag' })
+  const args = parseArgs(process.argv.slice(2), { limit: 'int', dry: 'flag', workers: 'int', redo: 'flag', regrade: 'flag', 'rescreen-kept': 'flag', job: 'string', cap: 'string' })
+  // --job and --cap: a later source (OpenStax, P3r) is screened under its own name and cap
+  const job = (args.job as string | undefined) ?? SCREEN_JOB
+  const jobCapUsd = args.cap ? Number(args.cap) : JOB_CAP_USD
   const db = openStore()
   if (args.redo && !args.dry) console.log(`${resetScreens(db)} screenings cleared`)
   if (args.regrade) console.log(`${regradeScreens(db)} screenings changed on regrading`)
@@ -29,7 +32,7 @@ async function main() {
     db.close()
     return
   }
-  assertBudget(db, { job: SCREEN_JOB, estimateUsd: estimate, jobCapUsd: JOB_CAP_USD })
+  assertBudget(db, { job, estimateUsd: estimate, jobCapUsd })
   const send = bedrockSender()
   const unusable: string[] = []
   const reasons: Record<string, number> = {}
@@ -43,7 +46,7 @@ async function main() {
         return
       }
       try {
-        const raw = await askJson({ db, job: SCREEN_JOB, jobCapUsd: JOB_CAP_USD, prompt: screenPrompt(item), images: [image], maxTokens: 500, send, model: SCREEN_MODEL })
+        const raw = await askJson({ db, job, jobCapUsd, prompt: screenPrompt(item), images: [image], maxTokens: 500, send, model: SCREEN_MODEL })
         const screening = parseScreen(raw, item.subject)
         saveScreen(db, { figureId: item.figureId, model: SCREEN_MODEL, screening, detail: raw })
         if (screening.keep) kept++
@@ -54,7 +57,7 @@ async function main() {
         if (unusable.length > MAX_UNUSABLE) throw new Error(`Stopping: ${unusable.length} screenings failed. Last: ${unusable[unusable.length - 1]}`)
         return
       }
-      if (++done % 50 === 0) console.log(`  ${done}/${items.length} screened, $${totalSpend(db, SCREEN_JOB).toFixed(3)}`)
+      if (++done % 50 === 0) console.log(`  ${done}/${items.length} screened, $${totalSpend(db, job).toFixed(3)}`)
     })
   } catch (err) {
     if (!(err instanceof BudgetExceeded)) throw err
@@ -62,7 +65,7 @@ async function main() {
   } finally {
     console.log(`Screened ${done}: kept ${kept}. Reasons for rejecting: ${JSON.stringify(reasons)}`)
     if (unusable.length) console.log(`${unusable.length} not screened (run again to retry):\n  ${unusable.join('\n  ')}`)
-    console.log(`${SCREEN_JOB} spend $${totalSpend(db, SCREEN_JOB).toFixed(3)}; library total $${totalSpend(db).toFixed(2)}`)
+    console.log(`${job} spend $${totalSpend(db, job).toFixed(3)}; library total $${totalSpend(db).toFixed(2)}`)
     db.close()
   }
 }

@@ -18,12 +18,13 @@ const PER_ITEM = { haiku: 0.012, sonnet: 0.03 } as const
 const MAX_UNUSABLE = 10
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', limit: 'int', dry: 'flag', workers: 'int', reset: 'flag' })
+  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', limit: 'int', dry: 'flag', workers: 'int', reset: 'flag', job: 'string', cap: 'string' })
   const tag = String(args.writer ?? 'haiku')
   if (tag !== 'haiku' && tag !== 'sonnet') throw new Error('--writer must be haiku or sonnet')
   const model = MODELS[tag]
-  const job = `p1b2-write-${tag}`
-  const cap = CAPS[tag]
+  // --job and --cap: a later source (OpenStax, P3r) is written under its own name and cap
+  const job = (args.job as string | undefined) ?? `p1b2-write-${tag}`
+  const cap = args.cap ? Number(args.cap) : CAPS[tag]
   const ids = args.ids ? fs.readFileSync(String(args.ids), 'utf8').split(/\r?\n/).map((s) => s.trim()).filter(Boolean) : undefined
   const db = openStore()
   if (args.reset && !ids) throw new Error('--reset needs --ids: it clears only the images about to be written')

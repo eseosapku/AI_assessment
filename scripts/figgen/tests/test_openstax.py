@@ -67,6 +67,8 @@ def test_harvest_stores_a_credited_candidate_once(tmp_path):
     assert not row["credit"]  # the app shows a credit only when there is one: none under the agreement
     source = json.loads(row["spec"])["source"]  # kept, to show where it came from if ever asked
     assert "OpenStax" in source and "Physics" in source and "CC BY 4.0" in source and "NASA" in source
+    spec = json.loads(row["spec"])  # the screen and the writer read a title and a description
+    assert spec["title"] == "Physics: Ohm's Law and Resistance" and spec["description"].startswith("A simple circuit")
     assert fetch.urls == ["https://raw.githubusercontent.com/openstax/osbooks-physics/HEAD/media/Fig_1.jpg"]
     assert (tmp_path / "lib" / row["asset"]).exists()
     assert db.execute("SELECT topic_key FROM figure_topics").fetchone()[0] == "db:1"
