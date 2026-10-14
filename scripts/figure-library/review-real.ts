@@ -1,6 +1,7 @@
 // scripts/figure-library/review-real.ts
 // Run: npx jiti scripts/figure-library/review-real.ts --writer=haiku|sonnet --ids=<file> [--job=<name>] [--dry] [--workers=4]
-//      npx jiti scripts/figure-library/review-real.ts --writer=sonnet --job=<name> --approve   (approve images; sends nothing)
+//      npx jiti scripts/figure-library/review-real.ts --writer=sonnet --job=<name> --approve [--strict]   (approve images; sends nothing;
+//      --strict: only the images this job reviewed)
 //      npx jiti scripts/figure-library/review-real.ts --compare
 // The blind review of one writer's questions on the comparison images (spec 5.5): Sonnet
 // answers without the keys, code compares. --compare applies the rule: Haiku is accepted if
@@ -28,7 +29,7 @@ function compare(db: ReturnType<typeof openStore>): void {
 }
 
 async function main() {
-  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag', job: 'string', approve: 'flag', cap: 'string' })
+  const args = parseArgs(process.argv.slice(2), { writer: 'string', ids: 'string', dry: 'flag', workers: 'int', compare: 'flag', job: 'string', approve: 'flag', cap: 'string', strict: 'flag' })
   const db = openStore()
   if (args.compare) {
     compare(db)
@@ -39,7 +40,7 @@ async function main() {
   if (tag !== 'haiku' && tag !== 'sonnet') throw new Error('--writer must be haiku or sonnet')
   const job = args.job ? String(args.job) : `p1b-blind-${tag}`
   if (args.approve) {
-    const r = approveReal(db, { writer: MODELS[tag], job })
+    const r = approveReal(db, { writer: MODELS[tag], job, strict: Boolean(args.strict) })
     console.log(`Approved ${r.approved} images, rejected ${r.rejected}, dropped ${r.questionsDropped} questions the blind review failed (${job})`)
     db.close()
     return

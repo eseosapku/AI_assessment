@@ -560,6 +560,14 @@ describe('approving real images', () => {
     return db
   }
 
+  it('approves only the images this job reviewed when strict (P3u)', () => {
+    // At scale the review covers every image, across more than one job: an image not yet reviewed in this job waits.
+    const db = approvalStore()
+    approveReal(db, { writer: 'sonnet', job: 'j', strict: true })
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/3'").get()).toEqual({ status: 'screened' })
+    expect(db.prepare("SELECT status FROM figures WHERE id = 'wikimedia/1'").get()).toEqual({ status: 'approved' })
+  })
+
   it('drops a question the review found answerable without the image (P3u)', () => {
     const db = approvalStore()
     db.prepare("INSERT INTO reviews (job, figure_id, model, pass, detail, at) VALUES ('j', 'wikimedia/3', 'm', 0, ?, 'now')").run(JSON.stringify({

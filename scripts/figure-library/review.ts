@@ -549,10 +549,11 @@ export function cleanRate(db: Store, job: string): { figures: number; questions:
  * kept question). Screened-in images with this writer's kept questions are approved, except:
  * questions the blind review failed are dropped (and recorded in question_checks), and an image the
  * reviewer judged unclear or not educational, or left with no question, is rejected. Images the
- * review did not sample are approved on the screen and the check alone. P2 publishes real figures
- * with status 'approved' and their figure_questions.
+ * review did not sample are approved on the screen and the check alone, unless `strict`: then an image this job has
+ * not reviewed waits (P3u: at scale the review covers every image, across more than one job). P2 publishes real
+ * figures with status 'approved' and their figure_questions.
  */
-export function approveReal(db: Store, o: { writer: string; job: string }): { approved: number; rejected: number; questionsDropped: number } {
+export function approveReal(db: Store, o: { writer: string; job: string; strict?: boolean }): { approved: number; rejected: number; questionsDropped: number } {
   const figures = (db.prepare(`SELECT f.id FROM figures f JOIN screenings s ON s.figure_id = f.id AND s.keep = 1
     WHERE f.origin <> 'drawn' AND f.status <> 'rejected' AND EXISTS (SELECT 1 FROM figure_questions q WHERE q.figure_id = f.id AND q.model = ?)
     ORDER BY f.id`).all(o.writer) as { id: string }[]).map((r) => r.id)
@@ -574,6 +575,7 @@ export function approveReal(db: Store, o: { writer: string; job: string }): { ap
   try {
     for (const id of figures) {
       const row = review.get(o.job, id) as { detail: string } | undefined
+      if (o.strict && !row) continue
       const v = row ? readJson<Partial<Verdict>>(row.detail, {}) : null
       const failing = !v ? [] : (v.figureClear && v.educational)
         ? (v.questions ?? []).filter((q) => !clean(q as QuestionVerdict)).map((q) => q.n)

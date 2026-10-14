@@ -5,6 +5,7 @@ fertiliser's nutrient and bags, a farm record's total, mean, income and best row
 (and its USDA texture class, by the USDA's own rules), and a crop calendar's months. Every value a question needs is
 checked as shown in the figure.
 """
+import itertools
 import math
 import random
 import re
@@ -367,6 +368,12 @@ def test_soil_texture():
         assert sorted(pts) == list("ABCD")
         for k, v in pts.items():
             assert sum(v) == 100 and all(x % 10 == 0 and x >= 10 for x in v), (s, k, v)  # on gridline crossings
+        for a, b in itertools.combinations(pts, 2):
+            # never on neighbouring crossings: a gridline crossing at least between them (B and C crowded, P3t review)
+            assert math.dist(place(*pts[a]), place(*pts[b])) > 10.5, (s, a, b, pts)
+        if p["mode"] == "class":
+            # clear of every class line: bold USDA lines 2-3% off a gridline read as gridlines (/27, P3t review)
+            assert all(well_inside(v, 4.0) for v in pts.values()), (s, pts)
         grams, total = p["sample"]["grams"], p["sample"]["total"]
         assert sum(grams) == total
         pct = [Fraction(100 * g, total) for g in grams]
@@ -385,6 +392,7 @@ def test_soil_texture():
                 _check_drawn_classes(fig, s)
             if s <= 120:
                 _no_text_overlaps(fig, s)
+            _points_sit_on_crossings(fig, pts, s)
             plt.close(fig)
             for k, i in zip(("sand", "silt", "clay"), range(3)):
                 assert value(g[f"grams:{k}"]) == grams[i]
@@ -396,6 +404,8 @@ def test_soil_texture():
             got = re.search(r"percentage of (sand|silt|clay) is in sample ([A-D])\?", q.stem)
             if got:
                 asked.add("read")
+                if got.group(1) == "silt":  # silt is the hard direction to read (P3t review): worked from the other two
+                    assert "silt = 100 − sand − clay" in q.stem, q.stem
                 assert value(q.answer) == pts[got.group(2)][["sand", "silt", "clay"].index(got.group(1))], (s, q.stem)
             if "the most clay" in q.stem:
                 asked.add("most")
@@ -405,6 +415,7 @@ def test_soil_texture():
                 mcq_is_sound(q, f"Sample {max(clay, key=clay.get)}")
             if "Which lettered sample" in q.stem:
                 asked.add("which")
+                assert "sand and clay" in q.stem  # matched without reading silt
                 mcq_is_sound(q, f"Sample {next(k for k, v in pts.items() if v == pct)}")
             if "texture class" in q.stem:
                 asked.add("class")
@@ -412,6 +423,43 @@ def test_soil_texture():
                 mcq_is_sound(q, usda(*pct))
         assert {"read", "most"} <= asked and ("which" in asked) == (p["mode"] == "point") and ("class" in asked) == (p["mode"] == "class"), (s, asked)
     assert modes == {"point", "class"}
+
+
+def _points_sit_on_crossings(fig, pts, s):
+    """Every dot, from its drawn coordinates, is exactly where three 10% gridlines cross, at its params; each letter is
+    nearer its own dot than any other; and no two side numbers crowd a corner (P3t review)."""
+    ax = fig.axes[0]
+    dots = {ln.get_gid()[4:]: tuple(ln.get_xydata()[0]) for ln in ax.lines if (ln.get_gid() or "").startswith("dot:")}
+    grid = [ln.get_xydata() for ln in ax.lines if ln.get_gid() == "grid"]
+    assert sorted(dots) == list("ABCD"), sorted(dots)
+    for k, (x, y) in dots.items():
+        u = unplace(x, y)
+        assert all(abs(c - 10 * round(c / 10)) < 1e-6 for c in u), (s, k, u)
+        assert [10 * round(c / 10) for c in u] == pts[k], (s, k, u, pts[k])
+        through = 0
+        for (x0, y0), (x1, y1) in grid:
+            cross = (x1 - x0) * (y - y0) - (y1 - y0) * (x - x0)
+            within = min(x0, x1) - 1e-6 <= x <= max(x0, x1) + 1e-6 and min(y0, y1) - 1e-6 <= y <= max(y0, y1) + 1e-6
+            through += abs(cross) < 1e-6 and within
+        assert through == 3, (s, k, through)
+    for t in ax.texts:
+        if (t.get_gid() or "").startswith("point:"):
+            tx, ty = t.get_position()
+            near = min(dots, key=lambda k: math.dist(dots[k], (tx, ty)))
+            assert near == t.get_text(), (s, t.get_text(), near)
+    for t in ax.texts:
+        if (t.get_gid() or "").startswith("tick:"):
+            # a side number lies on its own gridline carried past the edge, so that part is the same there
+            _, part, k = t.get_gid().split(":")
+            assert abs(unplace(*t.get_position())[["sand", "silt", "clay"].index(part)] - int(k)) < 1e-6, (s, t.get_gid())
+    ticks = [(t.get_text(), t.get_position()) for t in ax.texts if (t.get_gid() or "").startswith("tick:")]
+    assert ticks and all(text != "0" for text, _ in ticks), s
+    for text, (x, y) in ticks:
+        # beyond an edge, not on a corner: the 100s were printed on the vertices themselves (P3t review)
+        assert min(unplace(x, y)) * H <= -3, (s, text, (x, y))
+    for i, (a, pa) in enumerate(ticks):
+        for b, pb in ticks[i + 1:]:
+            assert math.dist(pa, pb) >= 6, (s, a, b, pa, pb)
 
 
 def _no_text_overlaps(fig, s):

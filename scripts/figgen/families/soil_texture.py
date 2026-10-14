@@ -47,9 +47,9 @@ CLASSES = {
 }
 # Where each class is named, on the drawing (x, y), its lines, and its rotation.
 LABELS = {
-    "Clay": ((48, 50), "Clay", 0), "Silty clay": ((71, 41), "Silty\nclay", 0), "Sandy clay": ((27.5, 35.5), "Sandy\nclay", 0),
+    "Clay": ((50, 75), "Clay", 0), "Silty clay": ((71, 41), "Silty\nclay", 0), "Sandy clay": ((27.5, 35.5), "Sandy\nclay", 0),
     "Clay loam": ((50.5, 29), "Clay loam", 0), "Silty clay loam": ((73.5, 29), "Silty clay\nloam", 0),
-    "Sandy clay loam": ((26.5, 23.5), "Sandy clay\nloam", 0), "Loam": ((49, 16), "Loam", 0),
+    "Sandy clay loam": ((26.5, 23.5), "Sandy clay\nloam", 0), "Loam": ((50, 11.5), "Loam", 0),
     "Silt loam": ((72, 12), "Silt loam", 0), "Silt": ((91.5, 4.3), "Silt", 0), "Sandy loam": ((31, 8.5), "Sandy loam", 0),
     "Loamy sand": ((15.6, 4.8), "Loamy sand", -34.7), "Sand": ((5.2, 2.6), "Sand", 0),
 }
@@ -141,7 +141,8 @@ def sample(rng: random.Random) -> dict:
     mode = rng.choice(["point", "class"])
     crossings = [[a, b, 100 - a - b] for a in range(10, 90, 10) for b in range(10, 90, 10) if 100 - a - b >= 10]
     if mode == "class":
-        crossings = [v for v in crossings if _side(v)]
+        # clear of the class names, and of every class line: a bold USDA line 2-3% off a gridline reads as one (P3t review)
+        crossings = [v for v in crossings if _side(v) and classify(v)[1] >= 4.5]
     while True:
         pts = rng.sample(crossings, 4)
         if mode == "point":
@@ -149,7 +150,7 @@ def sample(rng: random.Random) -> dict:
             swap = rng.sample(range(3), 2)
             decoy = list(target)
             decoy[swap[0]], decoy[swap[1]] = decoy[swap[1]], decoy[swap[0]]
-            if decoy != target and decoy not in pts[1:] and rng.random() < 0.7:
+            if decoy != target and decoy not in pts[1:] and _apart([target, decoy]) and rng.random() < 0.7:
                 pts[1] = decoy  # the same numbers read on the wrong sides
             rng.shuffle(pts)
             pct = target
@@ -164,9 +165,11 @@ def sample(rng: random.Random) -> dict:
                     if name and d >= 4.5:
                         break
         clays = [v[2] for v in pts]
-        if clays.count(max(clays)) > 1 or len({tuple(v) for v in pts}) < 4:
+        if clays.count(max(clays)) > 1 or len({tuple(v) for v in pts}) < 4 or not _apart(pts):
             continue
-        first, second = rng.sample(range(3), 2)
+        # sand or clay is read along its gridlines; silt, the hard direction (P3t review), only as 100 - sand - clay
+        first = rng.choice([0, 2])
+        second = rng.choice([2 - first, 1])
         letters = "ABCD"
         return {"band": rng.choice(BANDS), "mode": mode, "place": rng.choice(PLACES),
                 "points": {k: v for k, v in zip(letters, pts)},
@@ -175,24 +178,31 @@ def sample(rng: random.Random) -> dict:
                 "ask": [rng.choice(letters), first, rng.choice(letters), second]}
 
 
+def _apart(pts) -> bool:
+    """No two samples on neighbouring crossings: a gridline crossing at least between any two."""
+    return all(math.dist(xy(a), xy(b)) > 10.5 for i, a in enumerate(pts) for b in pts[i + 1:])
+
+
 def _triangle(ax, p: dict) -> None:
     ax.add_patch(Polygon([(0, 0), (100, 0), (50, 100 * H)], closed=True, facecolor="#f7f8f4", edgecolor=INK, linewidth=1.5))
     for k in range(10, 100, 10):
         # constant clay (horizontal), constant silt (parallel to the left side), constant sand (parallel to the right)
         for a, b in (((0, 100 - k, k), (100 - k, 0, k)), ((100 - k, k, 0), (0, k, 100 - k)), ((k, 100 - k, 0), (k, 0, 100 - k))):
             (x1, y1), (x2, y2) = xy(a), xy(b)
-            ax.plot([x1, x2], [y1, y2], color="#b9c2ca", linewidth=0.7, zorder=1)
+            ax.plot([x1, x2], [y1, y2], color="#b9c2ca", linewidth=0.7, zorder=1, gid="grid")
     # each number at the end of a short tick that carries on its own part's gridline beyond the edge (ternary_graph's way)
-    for k in range(0, 101, 10):
-        for edge, inside in (((100 - k, 0, k), (0, 100 - k, k)),   # clay: horizontal lines, numbered on the left side
-                             ((0, k, 100 - k), (100 - k, k, 0)),   # silt: parallel to the left side, numbered on the right
-                             ((k, 100 - k, 0), (k, 0, 100 - k))):  # sand: parallel to the right side, numbered below
-            (x0, y0), (x1, y1) = xy(edge), xy(inside)
-            d = math.hypot(x1 - x0, y1 - y0) or 1.0
-            ux, uy = (x0 - x1) / d, (y0 - y1) / d
+    # Each part's ticks point outward along its own gridlines: clay to the left, silt up and right, sand down and right.
+    # The direction is the part's, not each tick's: at 100 a gridline shrinks to its corner and has none (the 100s were
+    # printed on the vertices, P3t review).
+    outward = {"clay": (-1.0, 0.0), "silt": (0.5, H), "sand": (0.5, -H)}
+    for k in range(10, 101, 10):  # no 0: at each corner it met the other side's 100 (P3t review); the 100 names the corner
+        for part, edge in (("clay", (100 - k, 0, k)),   # horizontal lines, numbered on the left side
+                           ("silt", (0, k, 100 - k)),   # parallel to the left side, numbered on the right
+                           ("sand", (k, 100 - k, 0))):  # parallel to the right side, numbered below
+            (x0, y0), (ux, uy) = xy(edge), outward[part]
             (line,) = ax.plot([x0, x0 + 3.5 * ux], [y0, y0 + 3.5 * uy], color=INK, linewidth=0.9)
             line.set_gid("tick")
-            ax.text(x0 + 5.5 * ux, y0 + 5.5 * uy, str(k), ha="center", va="center", fontsize=8)
+            ax.text(x0 + 5.5 * ux, y0 + 5.5 * uy, str(k), ha="center", va="center", fontsize=8, gid=f"tick:{part}:{k}")
     ax.text(3.0, 56.0, "% clay", ha="center", va="center", fontsize=10.5, fontweight="bold", rotation=60)
     ax.text(99.0, 58.0, "% silt", ha="center", va="center", fontsize=10.5, fontweight="bold", rotation=-60)
     ax.text(50, -16, "% sand", ha="center", va="center", fontsize=10.5, fontweight="bold")
@@ -211,7 +221,7 @@ def draw(p: dict):
                     rotation_mode="anchor", linespacing=1.05, zorder=3, gid=f"label:{name}")
     for name, v in p["points"].items():
         x, y = xy(v)
-        ax.plot([x], [y], marker="o", markersize=7, color="#c0392b", markeredgecolor=INK, zorder=4)
+        ax.plot([x], [y], marker="o", markersize=7, color="#c0392b", markeredgecolor=INK, zorder=4, gid=f"dot:{name}")
         dx, dy, ha, va = SIDES[p["sides"][name]]
         ax.text(x + dx, y + dy, name, ha=ha, va=va, fontsize=11.5, fontweight="bold", zorder=5, gid=f"point:{name}",
                 bbox=dict(boxstyle="square,pad=0.05", facecolor="white", edgecolor="none", alpha=0.85))
@@ -265,19 +275,25 @@ def questions(p: dict, rng: random.Random) -> list:
     top = max(pts, key=lambda k: pts[k][2])
     grams, total = p["sample"]["grams"], p["sample"]["total"]
     pct = [g * 100 // total for g in grams]
-    qs = [short(f"{who} {rng.choice(VERBS)} soil samples on this texture triangle {rng.choice(SETTINGS)}. "
-                f"What percentage of {PARTS[i]} is in sample {x}?", pts[x][i], [f"{pts[x][i]}%", f"{pts[x][i]} %"]),
-          short(f"{friend} reads another sample along the gridlines. What percentage of {PARTS[j]} is in sample {y}?", pts[y][j],
-                [f"{pts[y][j]}%", f"{pts[y][j]} %"]),
+    if j == 1:  # silt from the other two, each read along its own gridlines
+        second = short(f"{friend} works out silt for another sample: silt = 100 − sand − clay. Read sand and clay for sample {y} "
+                       f"along their gridlines. What percentage of silt is in sample {y}?", pts[y][1],
+                       [f"{pts[y][1]}%", f"{pts[y][1]} %"])
+    else:
+        second = short(f"{friend} reads another sample along the gridlines. What percentage of {PARTS[j]} is in sample {y}?",
+                       pts[y][j], [f"{pts[y][j]}%", f"{pts[y][j]} %"])
+    qs = [short(f"{who} {rng.choice(VERBS)} soil samples on this texture triangle {rng.choice(SETTINGS)}. Reading along the "
+                f"{PARTS[i]} gridlines, what percentage of {PARTS[i]} is in sample {x}?", pts[x][i], [f"{pts[x][i]}%", f"{pts[x][i]} %"]),
+          second,
           mcq("Which sample has the most clay?", f"Sample {top}", [f"Sample {k}" for k in "ABCD" if k != top], rng)]
     if p["mode"] == "point":
         match = next(k for k, v in pts.items() if v == pct)
         qs.append(mcq(f"The table gives the mass of sand, silt and clay in a sample from {p['place']}. Which lettered sample on "
-                      f"the triangle has the same percentages? (% = mass ÷ total mass × 100)", f"Sample {match}",
+                      f"the triangle has the same percentages of sand and clay? (% = mass ÷ total mass × 100)", f"Sample {match}",
                       [f"Sample {k}" for k in "ABCD" if k != match], rng))
     else:
         name = classify(pct)[0]
         qs.append(mcq(f"The table gives the mass of sand, silt and clay in a sample from {p['place']}. Work out each "
-                      f"percentage (% = mass ÷ total mass × 100) and plot it. What is its texture class?", name,
+                      f"percentage (% = mass ÷ total mass × 100) and plot it by its sand and clay. What is its texture class?", name,
                       NEIGHBOURS[name], rng))
     return qs
