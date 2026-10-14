@@ -10,6 +10,9 @@ from . import (algebra_area, area_under_curve, argand, bar_model, exp_graph, lim
 # P3e: the physics wave
 from . import capacitor_discharge, circuit, circular_motion, coulomb_force, decay_graph, electric_field, density_displacement, em_spectrum, energy_levels, energy_sankey, force_diagram, gas_law, gravity_orbit, heating_curve, iv_graph, lens_diagram, magnet_field, meter_dial, moments, motion_graph, motor_rule, nucleus, photoelectric, pressure, ray_optics, spring_graph, transformer, wave_graph
 
+# P3g: the chemistry wave
+from . import covalent_bonding, electron_shells, ionic_bonding, particle_diagram, periodic_table
+
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
     punnett, food_web, scale_reading, climate_graph, population_pyramid, cross_section, supply_demand,
@@ -38,4 +41,6 @@ FAMILIES = {m.ID: m for m in (
     electric_field, coulomb_force, magnet_field,
     circular_motion, gravity_orbit,
     gas_law, capacitor_discharge, photoelectric, energy_levels,
+    # P3g: the chemistry wave
+    particle_diagram, electron_shells, ionic_bonding, covalent_bonding, periodic_table,
 )}
