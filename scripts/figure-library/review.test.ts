@@ -115,6 +115,19 @@ describe('reading a verdict', () => {
 })
 
 describe('whether the reviewer reached the key', () => {
+  it('never matches a code by its digits alone: hex, cell references, IDs (P3k)', () => {
+    const hex = short('3F', ['3F', '3Fh', '0x3F', '3F₁₆'])
+    for (const own of ['3F', '3f', '0x3F', '3F (hexadecimal)']) expect(agrees(hex, own), own).toBe(true)
+    for (const own of ['3E', '0x3E', '3F or 3E']) expect(agrees(hex, own), own).toBe(false)
+    const ref = short('C4', ['C4', 'c4'])
+    for (const own of ['C4', 'cell C4', 'Cell C4.']) expect(agrees(ref, own), own).toBe(true)
+    for (const own of ['D4', 'C5', 'C4 or D4']) expect(agrees(ref, own), own).toBe(false)
+    expect(agrees(short('S03'), 'S05')).toBe(false)
+    // numbers that are not codes still compare as numbers
+    expect(agrees(short('-12 - 3i', ['-12 - 3i', '-12-3i']), '-12 - 3i')).toBe(true)
+    expect(agrees(short('108', ['108']), '108 (denary)')).toBe(true)
+  })
+
   it('reads a word answer with a gloss in brackets or after a comma (P3h review)', () => {
     const copper = short('copper', ['copper', 'Cu', 'copper metal'])
     for (const own of ['Copper (metal)', 'Copper (metal), deposited on electrode Y', 'Cu (copper metal)']) expect(agrees(copper, own), own).toBe(true)

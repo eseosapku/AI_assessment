@@ -162,6 +162,8 @@ function chargeOf(text: string, isKey = false): { size: number; sign: string; sy
 
 /** "(×10¹⁴ Hz)", "x 10^14 Hz" with no number before it: a unit factor the question set (P3h fix review). */
 const UNIT_FACTOR = /(?<![\d.]\s*)\(?\s*[×x*]\s?10\s?(?:\^\s?-?\d+|[⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+)\s*[A-Za-zΩμµ/]*\s*\)?/g
+// A code: hexadecimal with a digit and a letter ("3F", "0x3F", "3Fh", "3F₁₆"), or letters then digits ("C4", "S03").
+const CODE = /^(?:0x)?(?=[0-9a-f]*\d)[0-9a-f]*[a-f][0-9a-f]*(?:h|₁₆)?$|^[a-z]{1,3}\d{1,3}$/i
 
 /** "about 170 g", "≈ 63.6", "approximately 60": the words that mark an estimate, not part of the answer. */
 const HEDGE = /^(?:about|approximately|approx\.?|roughly|around|nearly|almost|~|≈)\s*/i
@@ -224,6 +226,13 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     const m = LETTER.exec(text)
     if (m) return m[1].toUpperCase().charCodeAt(0) - 65 === key
     return words(text) === words(q.options[key] ?? '')
+  }
+  // A code ("3F", "0x3F", "C4", "S03") is not its digits: "3E" read as 3 had reached "3F" (P3k). The answer
+  // names exactly one code, perhaps glossed ("cell C4", "3F (hexadecimal)"), and it is one of the forms.
+  if (CODE.test(q.answer.replace(/\s+/g, ''))) {
+    const forms = [q.answer, ...q.accepted].map(canon)
+    const codes = unhedged(text).split(/[\s,;()]+/).map((t) => t.replace(/[.:]+$/, '')).filter((t) => CODE.test(t))
+    return codes.length === 1 && forms.includes(canon(codes[0]))
   }
   // A charge or an ion ("2+", "1-", "Pb²⁺") is its size and its sign, and the element if one is named: numbers
   // alone read "2-" as "2+" (P3g final review). An answer in words ("lead(II) ions") falls to the accepted forms.
