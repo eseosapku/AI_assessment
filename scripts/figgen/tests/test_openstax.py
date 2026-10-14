@@ -1,5 +1,6 @@
-"""OpenStax figures as real candidates (P3r): only books whose licence we may use, credited to the book; each figure
-matched to the topic its section and caption name; fetched, stored and held once."""
+"""OpenStax figures as real candidates (P3r): every book, under the user's licensing agreement with OpenStax (confirmed
+2026-10-14), with no credit shown and the source kept; each figure matched to the topic its section and caption name;
+fetched, stored and held once."""
 import io
 import json
 
@@ -39,11 +40,11 @@ class FakeFetch:
         return buf.getvalue()
 
 
-def test_only_a_licence_we_may_use_and_a_captioned_unflagged_figure_is_taken():
+def test_any_book_under_the_agreement_but_never_another_rights_holders_image():
     from figgen.real import openstax
     assert openstax.unusable(line()) is None
-    assert "licence" in openstax.unusable(line(license="CC BY-NC-SA 4.0"))
-    assert "credit" in openstax.unusable(line(credit_flag=True))
+    assert openstax.unusable(line(license="CC BY-NC-SA 4.0")) is None  # the agreement covers OpenStax's own books
+    assert "credit" in openstax.unusable(line(credit_flag=True))  # "© University of Michigan": not OpenStax's to license
     assert "caption" in openstax.unusable(line(caption=""))
 
 
@@ -59,11 +60,13 @@ def test_harvest_stores_a_credited_candidate_once(tmp_path):
     from figgen.real import openstax
     db = store_with_topics(tmp_path)
     fetch = FakeFetch()
-    r = openstax.harvest(db, tmp_path / "lib", fetch, [line(), line(license="CC BY-NC-SA 4.0", figure_id="fig-2")])
-    assert r["stored"] == 1 and r["turned"].get("licence") == 1
-    row = db.execute("SELECT id, origin, status, subject, licence, credit, source_url, asset FROM figures").fetchone()
+    r = openstax.harvest(db, tmp_path / "lib", fetch, [line(), line(credit_flag=True, figure_id="fig-2")])
+    assert r["stored"] == 1 and r["turned"].get("credit") == 1
+    row = db.execute("SELECT id, origin, status, subject, licence, credit, source_url, asset, spec FROM figures").fetchone()
     assert row["origin"] == "openstax" and row["status"] == "candidate" and row["subject"] == "physics"
-    assert "OpenStax" in row["credit"] and "Physics" in row["credit"] and "CC BY 4.0" in row["credit"] and "NASA" in row["credit"]
+    assert not row["credit"]  # the app shows a credit only when there is one: none under the agreement
+    source = json.loads(row["spec"])["source"]  # kept, to show where it came from if ever asked
+    assert "OpenStax" in source and "Physics" in source and "CC BY 4.0" in source and "NASA" in source
     assert fetch.urls == ["https://raw.githubusercontent.com/openstax/osbooks-physics/HEAD/media/Fig_1.jpg"]
     assert (tmp_path / "lib" / row["asset"]).exists()
     assert db.execute("SELECT topic_key FROM figure_topics").fetchone()[0] == "db:1"

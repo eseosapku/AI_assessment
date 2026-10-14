@@ -2,10 +2,12 @@
 blind review that Wikimedia images go through (spec 5.3).
 
 The inventory (`<FIGURE_LIBRARY_DIR>/openstax/inventory.jsonl`, one line per figure image, made from the books' CNXML on
-GitHub) gives each figure's book, licence, section, caption and credit. Only a licence the library may use is taken
-(rules.licence_ok: most OpenStax books are CC BY-NC-SA, which it bans; Physics and Statistics are CC BY). Each figure
-goes to the topic of its subject whose name and sections share the most words with the figure's section title and
-caption; the screen judges the fit after.
+GitHub) gives each figure's book, licence, section, caption and credit. Every book is taken under the user's licensing
+agreement with OpenStax (confirmed by the user on 2026-10-14; most books are otherwise CC BY-NC-SA, which
+rules.licence_ok bans): no credit is shown in the app, and the source is kept in the spec. An image whose own credit
+names another rights holder ("© 2012 University of Michigan", Getty) is still left out: it is not OpenStax's to license.
+Each figure goes to the topic of its subject whose name and sections share the most words with the figure's section
+title and caption; the screen judges the fit after.
 
 Run from the repo root:  python scripts/figgen/real/openstax.py [--books "Physics,Statistics"] [--limit 150]
 """
@@ -22,13 +24,22 @@ if __package__ in (None, ""):  # run as a script: make "figgen" importable
 
 from figgen.real.harvest import store_image  # noqa: E402
 from figgen.real.hashing import MIN_DISTANCE, distance  # noqa: E402
-from figgen.real.rules import licence_ok  # noqa: E402
 from figgen.store import library_dir, open_store, save_real  # noqa: E402
 
 RAW = "https://raw.githubusercontent.com/openstax/{repo}/HEAD/{media}"
-SUBJECTS = {"Physics": "physics", "College Physics 2e": "physics", "Statistics": "mathematics",
-            "Introductory Statistics 2e": "mathematics", "Biology 2e": "biology", "Concepts of Biology": "biology",
-            "Chemistry 2e": "chemistry", "Principles of Economics 3e": "economics", "Introduction to Business 2e": "business"}
+SUBJECTS = {
+    "Biology 2e": "biology", "Concepts of Biology": "biology", "Biology for AP Courses": "biology", "Microbiology": "biology",
+    "Anatomy and Physiology 2e": "biology", "Chemistry 2e": "chemistry", "Chemistry: Atoms First 2e": "chemistry",
+    "Physics": "physics", "College Physics 2e": "physics", "Astronomy 2e": "physics",
+    "Introductory Statistics 2e": "mathematics", "Statistics": "mathematics", "Prealgebra 2e": "mathematics",
+    "Elementary Algebra 2e": "mathematics", "Intermediate Algebra 2e": "mathematics", "College Algebra 2e": "mathematics",
+    "Algebra and Trigonometry 2e": "mathematics", "Precalculus 2e": "mathematics", "Calculus Volume 1": "mathematics",
+    "Principles of Economics 3e": "economics", "Principles of Microeconomics 3e": "economics",
+    "Principles of Macroeconomics 3e": "economics",
+    "Principles of Accounting, Volume 1: Financial Accounting": "accounting",
+    "Principles of Accounting, Volume 2: Managerial Accounting": "accounting",
+    "Introduction to Business 2e": "business", "Entrepreneurship": "business",
+    "World History, Volume 1": "history", "World History, Volume 2": "history", "Psychology 2e": "psychology"}
 MIN_SIDE = 400  # textbook diagrams are wide and short; the 600 px rule is for photographs (spec 5.3)
 STOP = set("""about above after again also among an and another any are around as at be because been before being below
 between both but by can could did does doing down during each either every few figure for from further had has have here
@@ -48,9 +59,7 @@ def words(text: str) -> set[str]:
 
 
 def unusable(line: dict) -> str | None:
-    """Why a figure is not taken, or None."""
-    if not licence_ok(line.get("license") or ""):
-        return f"licence {line.get('license')}"
+    """Why a figure is not taken, or None. The licence is not checked: the agreement covers OpenStax's own books."""
     if line.get("credit_flag"):
         return "credit names another rights holder"
     if not (line.get("caption") or "").strip():
@@ -90,7 +99,8 @@ def figure_id(line: dict) -> str:
     return f"openstax/{line['repo'].removeprefix('osbooks-')}/{line['module_id']}/{line['figure_id']}{tail}"
 
 
-def credit_line(line: dict) -> str:
+def source_line(line: dict) -> str:
+    """Where the figure came from, kept in the spec (not shown: the agreement asks for no credit)."""
     own = (line.get("credit") or "").strip().removeprefix("credit:").strip()
     return f"{line['book']}, OpenStax, {line['license']}" + (f"; {own}" if own else "")
 
@@ -140,9 +150,9 @@ def harvest(db, lib: Path, fetch, lines: list[dict], limit: int | None = None) -
         save_real(db, figure_id=fid, origin="openstax", kind="textbook.figure", subject=subject, band=bands[key],
                   topic_key=key, asset=asset, preview=preview, width=width, height=height,
                   spec={k: line.get(k) for k in ("book", "repo", "chapter_title", "section_title", "module_id", "figure_id",
-                                                 "subfigure", "caption", "alt", "media")},
-                  licence=line["license"], author="OpenStax", source_url=f"https://github.com/openstax/{line['repo']}",
-                  credit=credit_line(line), phash=f"{h:016x}")
+                                                 "subfigure", "caption", "alt", "media")} | {"source": source_line(line)},
+                  licence=f"OpenStax agreement ({line['license']})", author="OpenStax",
+                  source_url=f"https://github.com/openstax/{line['repo']}", credit="", phash=f"{h:016x}")
         hashes.append(h)
         out["stored"] += 1
     return out
@@ -151,13 +161,18 @@ def harvest(db, lib: Path, fetch, lines: list[dict], limit: int | None = None) -
 def main(argv=None) -> int:
     from figgen.real.commons import Fetcher
     ap = argparse.ArgumentParser(description=__doc__.splitlines()[0])
-    ap.add_argument("--books", default="Physics,Statistics")
+    ap.add_argument("--books", default="", help="comma-separated book titles; every book when left out")
     ap.add_argument("--limit", type=int, default=150)
     args = ap.parse_args(argv)
     lib = library_dir()
-    books = set(args.books.split(","))
+    books = set(filter(None, args.books.split(",")))
     lines = [json.loads(x) for x in (lib / "openstax" / "inventory.jsonl").read_text(encoding="utf-8").splitlines() if x.strip()]
-    lines = [x for x in lines if x["book"] in books]
+    lines = [x for x in lines if not books or x["book"] in books]
+    # book by book in turn, so a sample spreads over the books instead of filling from the first
+    nth: dict[str, int] = {}
+    for x in lines:
+        x["_n"] = nth[x["book"]] = nth.get(x["book"], -1) + 1
+    lines.sort(key=lambda x: x["_n"])
     db = open_store()
     r = harvest(db, lib, Fetcher(), lines, args.limit)
     print(f"{r['stored']} stored; turned away: {r['turned']}")
