@@ -634,3 +634,17 @@ def test_dna_strands_show_their_ends_and_the_codon_says_its_direction():
         for q in qs:
             if "codon" in q.stem:
                 assert "5′ to 3′" in q.stem
+
+
+def test_the_codon_reads_left_to_right_and_takes_its_ends_written():
+    """Reviewers reversed the codon one time in six, and "5′-CCU-3′" was marked wrong (P3j fix review)."""
+    m = fam("dna_strand")
+    seen = 0
+    for s in range(1, 200):
+        _, qs = run(m, s)
+        for q in qs:
+            if "codon" in q.stem:
+                seen += 1
+                assert "left to right" in q.stem
+                assert f"5′-{q.answer}-3′" in q.accepted and f"5'-{q.answer}-3'" in q.accepted
+    assert seen > 20
