@@ -25,6 +25,7 @@ AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|chr
 PAIRS = [("hydrochloric acid", "sodium hydroxide solution"), ("sodium hydroxide solution", "ethanoic acid"),
          ("sulfuric acid", "potassium hydroxide solution"), ("nitric acid", "sodium carbonate solution"),
          ("sodium hydroxide solution", "hydrochloric acid")]
+HALF = 0.05  # a burette reads to half a 0.1 cm³ division (P3h review: 21.75 for 21.80 is a fair reading)
 SCALE = 2.6  # drawing units per cm³: 0.1 cm³ marks far enough apart to see a half-way meniscus
 SPAN = 200  # hundredths of a cm³ in a window: two numbered marks always show, so the scale's direction does
 ROW = SPAN / 100 * SCALE + 1.3  # one row of windows to the next
@@ -119,12 +120,13 @@ def questions(p: dict, rng: random.Random) -> list:
     mean_h = int(mean)
     k = p["ask"]
     qs = [short(f"{who} added {burette} from a burette to {flask} {rng.choice(SETTINGS)}. These are the burette readings at the "
-                f"start and end of each run. What was the titre in run {k}?", _cm3(titres[k - 1])[0], _cm3(titres[k - 1]))]
+                f"start and end of each run. What was the titre in run {k}?", _cm3(titres[k - 1])[0], _cm3(titres[k - 1]), tolerance=HALF)]
     qs.append(short(f"{friend} says two titres are concordant: within 0.10 cm³ of each other. What is the mean of the concordant titres?",
-                    _cm3(mean_h)[0], _cm3(mean_h)))
+                    _cm3(mean_h)[0], _cm3(mean_h), tolerance=HALF))
     if p["band"] == "UP":
         j = p["read"]
-        qs.append(short(f"What was the burette reading at the end of run {j}?", _cm3(p["runs"][j - 1][1])[0], _cm3(p["runs"][j - 1][1])))
+        qs.append(short(f"What was the burette reading at the end of run {j}?", _cm3(p["runs"][j - 1][1])[0], _cm3(p["runs"][j - 1][1]),
+                        tolerance=HALF))
     else:
         moles = Fraction(str(p["conc"])) * mean / 100 / 1000
         mol = exact(moles)

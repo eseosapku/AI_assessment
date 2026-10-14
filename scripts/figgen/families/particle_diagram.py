@@ -1,7 +1,10 @@
 """Particle diagrams (LS, UP): four boxes, A to D, each holding a different kind of substance: an element of
-single atoms, an element of molecules, a compound, or a mixture. One box is packed as a solid; the others
+single atoms, an element of molecules, a compound, or a mixture, every box spread out as a gas. Which box is
 are spread out as gases. Which box is a compound, a mixture, an element of atoms or of molecules, which box
-is a solid, and how many particles a box holds.
+a pure compound, a mixture or a pure element, how many particles a box holds, and how many kinds of atom.
+
+No box is drawn as a solid (P3h review): among element, compound and mixture boxes it read as no solid at all,
+and a packed lattice of one kind of atom cannot show molecules.
 
 Atoms of different elements are shaded differently; the atoms of one molecule touch.
 """
@@ -40,12 +43,10 @@ def _particles(kind: str, n: int, rng: random.Random) -> list[list[int]]:
 
 def sample(rng: random.Random) -> dict:
     kinds = rng.sample(KINDS, 4)
-    solid = rng.randrange(4)
     boxes = []
     for i, kind in enumerate(kinds):
-        # A solid packs nine single atoms, or six molecules in three rows of two; a gas holds five to eight.
-        n = (9 if kind == "atoms" else 6) if i == solid else rng.randint(5, 8)
-        boxes.append({"letter": "ABCD"[i], "kind": kind, "state": "solid" if i == solid else "gas",
+        n = rng.randint(5, 8)
+        boxes.append({"letter": "ABCD"[i], "kind": kind, "state": "gas",
                       "particles": _particles(kind, n, rng), "seed": rng.randint(0, 10 ** 6)})
     return {"band": rng.choice(BANDS), "boxes": boxes}
 
@@ -67,20 +68,12 @@ def _placed(p: dict) -> list[tuple[int, int, float, float, list[int], float]]:
         x0 = i * 3.3
         rng = random.Random(box["seed"])
         parts = box["particles"]
-        if box["state"] == "solid" and box["kind"] == "atoms":  # single atoms packed touching, three by three
-            for k, atoms in enumerate(parts):
-                r, c = divmod(k, 3)
-                out.append((i, k, x0 + 1.5 + (c - 1) * 2 * R, 0.85 + r * 2 * R, atoms, 0.0))
-        elif box["state"] == "solid":  # particles in neat rows of two, a gap between each (a mixture too: P3g review)
-            for k, atoms in enumerate(parts):
-                r, c = divmod(k, 2)
-                out.append((i, k, x0 + 1.5 + (c - 0.5) * 1.12, 0.75 + r * (2 * R + 0.22), atoms, 0.0))
-        else:  # spread out, one particle to a cell of a three-by-three grid, so none overlap or leave the box
-            cells = rng.sample([(c, r) for c in range(3) for r in range(3)], len(parts))
-            for k, ((c, r), atoms) in enumerate(zip(cells, parts)):
-                x = x0 + 0.55 + 0.95 * c + rng.uniform(-0.04, 0.04)
-                y = 0.55 + 0.95 * r + rng.uniform(-0.04, 0.04)
-                out.append((i, k, x, y, atoms, rng.choice([0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4])))
+        # spread out, one particle to a cell of a three-by-three grid, so none overlap or leave the box
+        cells = rng.sample([(c, r) for c in range(3) for r in range(3)], len(parts))
+        for k, ((c, r), atoms) in enumerate(zip(cells, parts)):
+            x = x0 + 0.55 + 0.95 * c + rng.uniform(-0.04, 0.04)
+            y = 0.55 + 0.95 * r + rng.uniform(-0.04, 0.04)
+            out.append((i, k, x, y, atoms, rng.choice([0.0, math.pi / 4, math.pi / 2, 3 * math.pi / 4])))
     return out
 
 
@@ -110,7 +103,9 @@ def draw(p: dict):
     return fig
 
 
-ASKS = {"compound": "a compound", "mixture": "a mixture", "atoms": "an element made of single atoms", "molecules": "an element made of molecules"}
+# "pure": the mixture box holds compound molecules or single atoms too (P3h review)
+ASKS = {"compound": "a pure compound", "mixture": "a mixture", "atoms": "a pure element made of single atoms",
+        "molecules": "a pure element made of molecules"}
 SETTINGS = ["in a chemistry lesson", "for homework", "on a revision card", "at the science club", "for a class test"]
 
 
@@ -119,12 +114,14 @@ def questions(p: dict, rng: random.Random) -> list:
     letters = [b["letter"] for b in p["boxes"]]
     by_kind = {b["kind"]: b["letter"] for b in p["boxes"]}
     first, second = rng.sample(KINDS, 2)
-    solid = next(b for b in p["boxes"] if b["state"] == "solid")
     count_box = rng.choice(p["boxes"])
     unit = "atoms" if count_box["kind"] == "atoms" else "particles"
+    molecules = any(len(x) > 1 for x in count_box["particles"])
+    sort_box = rng.choice([b for b in p["boxes"] if b["letter"] != count_box["letter"]])
+    sorts = len({a for x in sort_box["particles"] for a in x})
     return [mcq(f"{name} drew these four boxes of particles {rng.choice(SETTINGS)}. Which box shows {ASKS[first]}?", by_kind[first],
                 [x for x in letters if x != by_kind[first]], rng),
             mcq(f"Which box shows {ASKS[second]}?", by_kind[second], [x for x in letters if x != by_kind[second]], rng),
-            mcq("Which box shows particles in the solid state?", solid["letter"], [x for x in letters if x != solid["letter"]], rng),
-            short(f"How many separate {unit} are there in box {count_box['letter']}? {friend} counts each molecule as one.",
-                  len(count_box["particles"]), [f"{len(count_box['particles'])} {unit}"])]
+            short(f"How many separate {unit} are there in box {count_box['letter']}?" + (f" {friend} counts each molecule as one." if molecules else ""),
+                  len(count_box["particles"]), [f"{len(count_box['particles'])} {unit}"]),
+            short(f"How many kinds of atom are there in box {sort_box['letter']}?", sorts, [str(sorts), f"{sorts} kinds", f"{sorts} kinds of atom"])]

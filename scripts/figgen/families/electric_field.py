@@ -44,6 +44,12 @@ def _arrowhead(ax, x, y, dx, dy):
                                  color=INK, lw=1.2))
 
 
+def field_lines(p: dict) -> tuple[list[float], str, float]:
+    """The field lines' x positions, the way their arrows point, and the bead's x, midway between two lines (P3h review:
+    lines with no arrows, unevenly spaced, read as anything)."""
+    return [0.8, 2.4, 4.0, 5.6, 7.2], ("down" if p["top"] == "+" else "up"), 3.2
+
+
 def _plates(p: dict):
     fig, ax = new_figure(6.2, 4.4)
     for y, sign in ((3.0, p["top"]), (0.0, "-" if p["top"] == "+" else "+")):
@@ -51,10 +57,12 @@ def _plates(p: dict):
         for k in range(5):
             ax.text(0.8 + 1.6 * k, y + (0.32 if y > 0 else -0.32), "+" if sign == "+" else "−", ha="center", va="center", fontsize=13,
                     fontweight="bold")
-    for x in (1.2, 2.6, 5.4, 6.8):  # field lines, no arrows: the direction is to be worked out
+    xs, way, bead = field_lines(p)
+    for x in xs:  # evenly spaced and arrowed from + to −: a uniform field drawn as textbooks draw it
         ax.plot([x, x], [0.08, 2.92], color=INK, linewidth=0.9)
-    ax.add_patch(Circle((4.0, 1.5), 0.32, facecolor=FILL_2, edgecolor=INK, linewidth=1.3, zorder=3))
-    ax.text(4.0, 1.5, "+" if p["charge"] == "+" else "−", ha="center", va="center", fontsize=13, fontweight="bold", zorder=4)
+        _arrowhead(ax, x, 1.5, 0, -1 if way == "down" else 1)
+    ax.add_patch(Circle((bead, 1.5), 0.32, facecolor=FILL_2, edgecolor=INK, linewidth=1.3, zorder=3))
+    ax.text(bead, 1.5, "+" if p["charge"] == "+" else "−", ha="center", va="center", fontsize=13, fontweight="bold", zorder=4)
     ax.annotate("", xy=(8.7, 3.0), xytext=(8.7, 0.0), arrowprops=dict(arrowstyle="<|-|>", color=INK, lw=1.0, mutation_scale=12))
     ax.text(8.9, 1.5, f"{p['gap_cm']} cm", ha="left", va="center", fontsize=11)
     ax.text(4.0, -1.15, f"potential difference between the plates: {p['volts']} V", ha="center", va="center", fontsize=10)
@@ -103,10 +111,8 @@ def questions(p: dict, rng: random.Random) -> list:
         push = field if p["charge"] == "+" else ("up" if field == "down" else "down")
         E = Fraction(p["volts"]) / (Fraction(p["gap_cm"]) / 100)
         thing = rng.choice(THINGS)
-        qs = [mcq(f"{name} joined two metal plates to a {p['volts']} V supply {rng.choice(SETTINGS)}. Which way does the electric field "
-                  "point between the plates?", WAYS[field], _ways(WAYS[field], rng), rng),
-              short(f"The plates are {p['gap_cm']} cm apart. What is the electric field strength between them, in V/m?", exact(E),
-                    measure(E, "V/m") + [f"{exact(E)} N/C"]),
+        qs = [short(f"{name} joined two metal plates, {p['gap_cm']} cm apart, to a {p['volts']} V supply {rng.choice(SETTINGS)}. "
+                    "What is the electric field strength between them, in V/m?", exact(E), measure(E, "V/m") + [f"{exact(E)} N/C"]),
               mcq(f"{article(thing).capitalize()} {thing} sits between the plates. Which way is the electric force on it?", WAYS[push],
                   _ways(WAYS[push], rng), rng)]
         if p["band"] != "LS":

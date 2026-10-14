@@ -68,10 +68,11 @@ def questions(p: dict, rng: random.Random) -> list:
     f0 = Fraction(p["f0"])
     f1 = rng.choice([f for f in range(p["f0"] + 1, p["fmax"] + 1)])
     qs = [short(f"{name} shone light of different frequencies on {p['metal']}. What is the threshold frequency, in units of 10¹⁴ Hz?",
-                exact(f0), _freq(f0)),
-          short(f"What is the work function of {p['metal']}, in eV?", exact(H * f0), measure(H * f0, "eV") + [f"{exact(H * f0)} electronvolts"]),
+                exact(f0), _freq(f0), tolerance=0.2),  # read off an intercept (P3h review)
+          short(f"What is the work function of {p['metal']}, in eV?", exact(H * f0), measure(H * f0, "eV") + [f"{exact(H * f0)} electronvolts"],
+                tolerance=0.2),
           short(f"{friend} uses light with a frequency of {f1} × 10¹⁴ Hz. What is the greatest kinetic energy of the electrons, in eV?",
                 exact(H * (f1 - f0)), measure(H * (f1 - f0), "eV"))]
     if p["band"] == "AL":
-        qs.append(short("What is the gradient of the line, in eV per 10¹⁴ Hz?", exact(H), [exact(H), ".4", "0.4 eV per 10^14 Hz"]))
+        qs.append(short("What is the gradient of the line, in eV per 10¹⁴ Hz?", exact(H), [exact(H), ".4", "0.4 eV per 10^14 Hz", "0.4 eV per 10¹⁴ Hz"]))
     return qs

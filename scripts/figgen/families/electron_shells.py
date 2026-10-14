@@ -74,7 +74,8 @@ def questions(p: dict, rng: random.Random) -> list:
     g = group(p)
     qs = [short(f"{name} drew the electrons of an atom {rng.choice(SETTINGS)}. What is its electronic configuration?", conf, forms)]
     if p["Z"] != 1:  # hydrogen's group is disputed (P3g final review)
-        qs.append(short(f"{friend} wants to place this element in the periodic table. In which group is it?", g, _group_forms(g)))
+        qs.append(short(f"{friend} wants to place this element in the periodic table. Numbering the main groups 1 to 8, with the "
+                        "noble gases in group 8, in which group is it?", g, _group_forms(g)))
     qs.append(short("In which period of the periodic table is this element?", len(s), [str(len(s)), f"period {len(s)}", f"Period {len(s)}"]))
     charges = {1: "1+", 2: "2+", 3: "3+", 5: "3-", 6: "2-", 7: "1-"}
     if p["band"] == "UP" and g in charges and p["Z"] > 2 and p["Z"] != 5:  # boron forms no simple B³⁺ ion

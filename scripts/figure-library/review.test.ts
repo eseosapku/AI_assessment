@@ -115,6 +115,55 @@ describe('reading a verdict', () => {
 })
 
 describe('whether the reviewer reached the key', () => {
+  it('reads a word answer with a gloss in brackets or after a comma (P3h review)', () => {
+    const copper = short('copper', ['copper', 'Cu', 'copper metal'])
+    for (const own of ['Copper (metal)', 'Copper (metal), deposited on electrode Y', 'Cu (copper metal)']) expect(agrees(copper, own), own).toBe(true)
+    for (const own of ['Copper (or zinc)', 'Zinc (metal)', 'copper, or perhaps zinc']) expect(agrees(copper, own), own).toBe(false)
+    const chlorine = short('chlorine', ['chlorine', 'Cl2', 'Cl₂', 'chlorine gas'])
+    for (const own of ['Chlorine gas (Cl2)', 'Chlorine (gas)']) expect(agrees(chlorine, own), own).toBe(true)
+    const dyes = short('B and C', ['B and C', 'B, C', 'BC'])
+    expect(agrees(dyes, 'B and C (plus one unknown substance not among A-D)')).toBe(true)
+  })
+
+  it('finds a charge inside an answer that names the ion too (P3h review)', () => {
+    const cu = short('Cu²⁺', ['Cu²⁺', 'Cu2+', 'copper(II) ions'])
+    for (const own of ['Cu2+ (copper(II) ion)', 'Copper(II) ion, Cu2+']) expect(agrees(cu, own), own).toBe(true)
+    for (const own of ['Cu+ (copper(I) ion)', 'Cu2+ or H+']) expect(agrees(cu, own), own).toBe(false)
+    const na = short('Na⁺', ['Na⁺', 'Na+', 'sodium ions'])
+    for (const own of ['Sodium ion (Na+)', 'Sodium ion, Na+', 'Na+ (sodium ion)']) expect(agrees(na, own), own).toBe(true)
+    const one = short('1+', ['1+', '+1', '+'])
+    for (const own of ['+1 (1+)', '1+ (+)', '+1 (K⁺)']) expect(agrees(one, own), own).toBe(true)
+    expect(agrees(short('2-', ['2-', '-2']), '2- (−2)')).toBe(true)
+  })
+
+  it('reads the key rounded to 2 or 3 significant figures as the key (P3h review)', () => {
+    expect(agrees(short('158.4'), '158 mJ (158.4 mJ)')).toBe(true)
+    expect(agrees(short('7.52'), '7.5 mC (7.52 mC)')).toBe(true)
+    expect(agrees(short('60.16'), 'about 60 mJ')).toBe(true)
+    expect(agrees(short('15.84'), '15.8 mJ')).toBe(true)
+    expect(agrees(short('1687.5'), 'about 1690 N (1687.5 N)')).toBe(true)
+    expect(agrees(short('39.25'), '39.25 s (about 39 s)')).toBe(true)
+    expect(agrees(short('0.625', ['0.625', '5/8']), 'about 0.63 (5/8)')).toBe(true)
+    expect(agrees(short('63.62'), 'Ar ≈ 63.6')).toBe(true)
+    expect(agrees(short('65.46'), '65.5 (≈65.46)')).toBe(true)
+    // ...but one significant figure, another value, or a hedge is not the key
+    expect(agrees(short('0.4'), '0')).toBe(false)
+    expect(agrees(short('4.4'), '4')).toBe(false)
+    expect(agrees(short('158.4'), '160 mJ or 150 mJ')).toBe(false)
+    expect(agrees(short('5'), 'about 7 s')).toBe(false)
+  })
+
+  it('matches an accepted form by its numbers and units, and an answer that ends in one (P3h review)', () => {
+    const f = short('11', ['11', '11 × 10¹⁴ Hz'])
+    expect(agrees(f, '11 ×10¹⁴ Hz')).toBe(true)
+    expect(agrees(f, '11 ×10¹⁴ cm')).toBe(false)
+    const g = short('5', ['5', 'group 5', 'group 15'])
+    expect(agrees(g, 'Group 5 (also called group 15)')).toBe(true)
+    const s = short('170', ['170', '170 g', '170 g per 100 g of water'])
+    expect(agrees(s, 'about 170 g per 100 g of water')).toBe(true)
+    expect(agrees(s, 'about 160 g per 100 g of water')).toBe(false)
+  })
+
   it('reads the sign of a charge, not only its size (P3g final review)', () => {
     const two = short('2+', ['2+', '+2', '²⁺'])
     for (const own of ['2+', '+2', '²⁺', '2 +', 'Mg2+', 'Mg²⁺']) expect(agrees(two, own), own).toBe(true)

@@ -106,7 +106,9 @@ def questions(p: dict, rng: random.Random) -> list:
     per = by_role[p["ask_period"]]
     qs = [pick(first[0], f"{name} lettered five elements on a periodic table {rng.choice(SETTINGS)}. Which letter is {'a noble gas' if first[0] == 'noble' else 'an alkali metal'}?"),
           pick(second[0], f"Which letter is {'a noble gas' if second[0] == 'noble' else 'an alkali metal'}?"),
-          short(f"In which group is element {g['letter']}?", g["group"], _group_forms(g["group"])),
+          # The numbering is stated: 5 or 15, 8 or 0 or 18 split the reviewers when it was not (P3h review).
+          short(f"In which group is element {g['letter']}? Number the main groups 1 to 8, with the noble gases in group 8.",
+                g["group"], _group_forms(g["group"])),
           short(f"{friend} counts the rows. In which period is element {per['letter']}?", per["period"],
                 [str(per["period"]), f"period {per['period']}", f"Period {per['period']}"])]
     if p["band"] == "UP":

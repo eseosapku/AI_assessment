@@ -97,31 +97,54 @@ def _magnet(ax, x0, x1, left_label, right_label):
     ax.text(x1 - 0.4, 0, right_label, ha="center", va="center", fontsize=13, fontweight="bold", zorder=4)
 
 
-def draw(p: dict):
+def lines(p: dict) -> list[tuple[list[tuple[float, float]], int | None]]:
+    """Each field line from the magnet's surface, and where its arrow sits: on the first stretch inside the frame, at
+    least 0.6 along from the pole, or none on a stub too short to hold one (P3h review: lines that began in mid-air
+    with small arrows beside the pole read as pointing into N)."""
     single = p["kind"] == "single"
     W, H = (4.6, 3.2) if single else (6.4, 3.2)
-    fig, ax = new_figure(6.4 if single else 7.2, 4.6)
     bodies = [(-2.0, 2.0)] if single else [(-5.0, -1.0), (1.0, 5.0)]
     lefts = (-1.8,) if single else (-4.8, 1.2)  # poles at the left end of their magnet: their field leaves leftwards
+    out_lines = []
     for (px, py), sign in poles(p):
         if sign < 0:
             continue
         out = -1 if any(abs(px - x) < 1e-9 for x in lefts) else 1
-        # Lines leave a north pole all round, not only from its end face: start them on a ring about it, outside
-        # the magnet, so those leaving sideways loop back to the south end.
+        x0, x1 = next(b for b in bodies if b[0] <= px <= b[1])
+        # Lines leave a north pole all round, not only from its end face: traced from a ring about it, outside the
+        # magnet, so those leaving sideways loop back to the south end; each is drawn from the magnet's surface.
         for deg in (-140, -110, -80, -50, -20, 20, 50, 80, 110, 140):
             a = math.radians(deg)
             sx, sy = px + out * 0.62 * math.cos(a), 0.62 * math.sin(a)
-            if any(x0 - 0.05 <= sx <= x1 + 0.05 and abs(sy) <= 0.5 for x0, x1 in bodies):
+            if any(b0 - 0.05 <= sx <= b1 + 0.05 and abs(sy) <= 0.5 for b0, b1 in bodies):
                 continue
-            pts = _trace(p, sx, sy, bodies)
-            line = ax.plot([x for x, _ in pts], [y for _, y in pts], color=INK, linewidth=0.9)
-            infinite(line)  # a field line runs on past the frame and is cut there on purpose
-            seen = [q for q in pts if abs(q[0]) < W - 0.4 and abs(q[1]) < H - 0.4]
-            if len(seen) > 8:
-                i = len(seen) // 2
-                (x0, y0), (x1, y1) = seen[i - 1], seen[i + 1]
-                ax.add_patch(FancyArrowPatch((x0, y0), (x1, y1), arrowstyle="-|>", mutation_scale=12, color=INK, lw=0.9))
+            face = (sx, math.copysign(0.45, sy)) if x0 <= sx <= x1 else (x1 if sx > x1 else x0, max(-0.45, min(0.45, sy)))
+            pts = [face] + _trace(p, sx, sy, bodies)
+            k, along, at = 1, 0.0, None
+            while k < len(pts) and abs(pts[k][0]) < W - 0.3 and abs(pts[k][1]) < H - 0.3:
+                along += math.dist(pts[k - 1], pts[k])
+                k += 1
+            first = along  # the length of the first stretch inside the frame
+            if first >= 1.0:
+                want, along = max(0.6, 0.45 * first), 0.0
+                for j in range(1, k - 1):
+                    along += math.dist(pts[j - 1], pts[j])
+                    if along >= want:
+                        at = j
+                        break
+            out_lines.append((pts, at))
+    return out_lines
+
+
+def draw(p: dict):
+    single = p["kind"] == "single"
+    W, H = (4.6, 3.2) if single else (6.4, 3.2)
+    fig, ax = new_figure(6.4 if single else 7.2, 4.6)
+    for pts, i in lines(p):
+        line = ax.plot([x for x, _ in pts], [y for _, y in pts], color=INK, linewidth=0.9)
+        infinite(line)  # a field line runs on past the frame and is cut there on purpose
+        if i is not None:
+            ax.add_patch(FancyArrowPatch(pts[i - 1], pts[i + 1], arrowstyle="-|>", mutation_scale=15, color=INK, lw=0.9, zorder=4))
     if single:
         _magnet(ax, -2.0, 2.0, "X", "Y")
     else:

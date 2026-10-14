@@ -123,11 +123,14 @@ def questions(p: dict, rng: random.Random) -> list:
                 shared, [str(shared), f"{shared} pairs", f"{shared} shared pairs"]),
           short(f"How many lone pairs (pairs not shared) are on {where}?", n, [str(n), f"{n} lone pairs", f"{n} pairs"] + (["none"] if n == 0 else [])),
           short(f"{friend} names the molecule from the diagram. What is its formula?", sub(p["formula"]), formula_forms(p["formula"]))]
-    if p["band"] == "UP" and len(bonds) > 1:  # a diatomic's one bond is the first question already
-        # Counted on the figure: a bond-type MCQ named the pair, and "single" was the key 74% of the time (P3g review).
-        i, j, order = max(bonds, key=lambda b: (b[2], rng.random()))
-        a, b = sorted([NAME[atoms[i]], NAME[atoms[j]]])
-        pair = f"the two {a} atoms" if a == b else f"the {a} and {b} atoms"
-        qs.append(short(f"How many pairs of electrons are shared between {pair}?", order,
+    multiple = [b for b in bonds if b[2] > 1]
+    if p["band"] == "UP" and len(bonds) > 1 and multiple:
+        # Counted on the figure, for one named multiple bond: a bond-type MCQ was guessable (P3g review), and "between
+        # the carbon and hydrogen atoms" read as a total and repeated the first question (P3h review).
+        i, j, order = multiple[0]
+        centre, other = (atoms[i], atoms[j]) if i == p["centre"] else (atoms[j], atoms[i])
+        several = sum(1 for a in atoms if a == other) > 1
+        qs.append(short(f"How many pairs of electrons are shared in the bond between the {NAME[centre]} atom and "
+                        f"{'one of the' if several else 'the'} {NAME[other]} atom{'s' if several else ''}?", order,
                         [str(order), f"{order} pairs", f"{order} shared pairs"]))
     return qs

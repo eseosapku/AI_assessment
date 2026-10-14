@@ -39,19 +39,26 @@ def test_particle_diagram():
         p, qs = run(m, s)
         kinds = {b["letter"]: b["kind"] for b in p["boxes"]}
         assert len(set(kinds.values())) == 4  # four different kinds: one right answer to each "which box"
+        # P3h review: a solid box among element, compound and mixture boxes read as no solid at all, and a packed
+        # lattice cannot show molecules. Every box is spread out, and no question asks about a state.
+        assert all(b["state"] == "gas" for b in p["boxes"]) and not any("solid" in q.stem for q in qs)
         for q in qs:
             if q.kind != "mcq":
                 continue
-            for word, kind in (("compound", "compound"), ("mixture", "mixture"), ("element made of single atoms", "atoms"),
-                               ("element made of molecules", "molecules")):
-                if f"shows {'a ' if word in ('compound', 'mixture') else 'an '}{word}" in q.stem:
+            for word, kind in (("a pure compound", "compound"), ("a mixture", "mixture"),
+                               ("a pure element made of single atoms", "atoms"), ("a pure element made of molecules", "molecules")):
+                if f"shows {word}" in q.stem:
                     assert kinds[picked(q)] == kind, (s, q.stem)
-            if "solid" in q.stem:
-                assert next(b for b in p["boxes"] if b["letter"] == picked(q))["state"] == "solid"
-        count = next(q for q in qs if q.stem.startswith("How many"))
+        count = next(q for q in qs if q.stem.startswith("How many separate"))
         letter = re.search(r"box ([A-D])", count.stem).group(1)
         box = next(b for b in p["boxes"] if b["letter"] == letter)
         assert int(count.answer) == len(box["particles"])  # particles: atoms or molecules, as drawn
+        assert ("each molecule as one" in count.stem) == any(len(x) > 1 for x in box["particles"])
+        sorts = next((q for q in qs if "kinds of atom" in q.stem), None)
+        if sorts:
+            letter = re.search(r"box ([A-D])", sorts.stem).group(1)
+            box = next(b for b in p["boxes"] if b["letter"] == letter)
+            assert int(sorts.answer) == len({a for x in box["particles"] for a in x})  # the shades drawn there
 
 
 SHELLS = (2, 8, 8, 2)
@@ -76,7 +83,7 @@ def test_electron_shells():
         assert m.shells(p) == shells
         assert qs[0].answer == ",".join(map(str, shells)) and "2.8.1".replace("2.8.1", ".".join(map(str, shells))) in qs[0].accepted
         group = 8 if shells[-1] == 8 or z == 2 else shells[-1]
-        g = next((q for q in qs if "In which group" in q.stem), None)
+        g = next((q for q in qs if "which group" in q.stem.lower()), None)
         assert (g is None) == (z == 1)  # hydrogen's group is disputed (P3g final review)
         if g:
             assert int(g.answer) == group and (group < 3 or f"group {group + 10}" in g.accepted)
@@ -121,12 +128,12 @@ def test_covalent_bonding():
         assert int(qs[1].answer) == lone[centre]
         assert not any("Which describes the bond" in q.stem for q in qs)  # single was the key 74% of the time
         for q in qs:
-            got = re.search(r"shared between the (\w+) and (\w+) atoms|shared between the two (\w+) atoms", q.stem)
-            if got:
+            got = re.search(r"in the bond between the (\w+) atom and (?:one of )?the (\w+) atoms?", q.stem)
+            if got:  # one named bond, in a molecule with a multiple bond: never a total, never a repeat of the first question
                 names = {"hydrogen": "H", "chlorine": "Cl", "fluorine": "F", "oxygen": "O", "nitrogen": "N", "carbon": "C"}
-                a_, b_ = (got.group(1), got.group(2)) if got.group(1) else (got.group(3), got.group(3))
-                orders = {o for i, j, o in bonds if {atoms[i], atoms[j]} == {names[a_], names[b_]}}
-                assert orders == {int(q.answer)}
+                orders = {o for i, j, o in bonds if {atoms[i], atoms[j]} == {names[got.group(1)], names[got.group(2)]}}
+                assert orders == {int(q.answer)} and len(bonds) > 1 and max(o for *_, o in bonds) > 1
+            assert "shared between the" not in q.stem  # P3h review: "between the carbon and hydrogen atoms" read as a total
 
 
 def test_periodic_table():
@@ -530,3 +537,23 @@ def test_a_chemistry_mcq_cannot_be_picked_from_its_options_alone(fid):
                 hits[key] += _central(q.options) == int(q.answer)
     bad = {k: (hits[k], seen[k]) for k in seen if seen[k] >= 10 and hits[k] / seen[k] > 0.35}
     assert not bad, (fid, bad)
+
+
+# --- P3h review ----------------------------------------------------------------------------------
+
+def test_burette_readings_carry_the_usual_half_division():
+    """A burette reads to ±0.05 cm³: a reviewer reading 21.75 for 21.80 is within it (P3h review)."""
+    m = fam("titration")
+    for s in range(1, 200):
+        _, qs = run(m, s)
+        for q in qs:
+            if "titre in run" in q.stem or "mean of the concordant" in q.stem or "reading at the end" in q.stem:
+                assert q.tolerance == 0.05, q.stem
+
+
+def test_solubility_accepts_per_100_g_water_both_ways():
+    m = fam("solubility_curve")
+    for s in range(1, 100):
+        _, qs = run(m, s)
+        q = next(q for q in qs if "What is the solubility" in q.stem)
+        assert f"{q.answer} g per 100 g water" in q.accepted and f"{q.answer} g per 100 g of water" in q.accepted

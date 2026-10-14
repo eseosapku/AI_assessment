@@ -120,7 +120,7 @@ SETTINGS = ["in a chemistry lesson", "for homework", "on a revision card", "for 
 def _g(v) -> list[str]:
     forms = measure(v, "g")
     for n in [f for f in forms if " " not in f and "g" not in f]:
-        forms += [f"{n} g per 100 g of water", f"{n} g/100 g water", f"{n} g/100 g"]
+        forms += [f"{n} g per 100 g of water", f"{n} g per 100 g water", f"{n} g per 100g water", f"{n} g/100 g water", f"{n} g/100 g"]
     return forms
 
 

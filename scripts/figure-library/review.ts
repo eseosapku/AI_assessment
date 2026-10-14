@@ -160,6 +160,60 @@ function chargeOf(text: string, isKey = false): { size: number; sign: string; sy
   return null
 }
 
+/** "about 170 g", "≈ 63.6", "approximately 60": the words that mark an estimate, not part of the answer. */
+const HEDGE = /^(?:about|approximately|approx\.?|roughly|around|nearly|almost|~|≈)\s*/i
+
+function unhedged(text: string): string {
+  return text.trim().replace(HEDGE, '').trim()
+}
+
+/** `v` rounded half up to `n` significant figures. */
+function sigRound(v: number, n: number): number {
+  if (v === 0) return 0
+  const step = 10 ** (Math.floor(Math.log10(Math.abs(v))) - n + 1)
+  return Math.sign(v) * Math.floor(Math.abs(v) / step + 0.5 + 1e-9) * step
+}
+
+/**
+ * Whether a part holds one number, the key rounded to the 2 or 3 (or more) significant figures it is written to:
+ * "158" or "160" for 158.4, "0.63" for 0.625, "1690" for 1687.5 (P3h review). One significant figure is not
+ * enough: "0" for 0.4 and "4" for 4.4 say too little to be the key.
+ */
+function roughly(part: string, key: number): boolean {
+  const tokens = unhedged(part).replace(/[−–—]/g, '-').replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1').match(NUMBER) ?? []
+  if (tokens.length !== 1 || tokens[0].includes('/')) return false
+  const t = tokens[0]
+  const v = Number(t)
+  if (Math.abs(v - key) < 1e-9) return true
+  const digits = t.replace(/^-/, '').replace('.', '').replace(/^0+/, '')
+  const least = t.includes('.') ? digits.length : digits.replace(/0+$/, '').length  // "1690" may be 3 or 4 figures
+  for (let n = Math.max(2, least); n <= digits.length; n++) {
+    if (Math.abs(sigRound(key, n) - v) <= 1e-9 * Math.max(1, Math.abs(v))) return true
+  }
+  return false
+}
+
+/** The letters of a unit, with a standard form's "× 10" taken out: "11 ×10¹⁴ Hz" and "11 x 10^14 Hz" are both "hz". */
+function unitOf(text: string): string {
+  return text.replace(/\s?[×x*·]\s?10/gi, ' ').replace(/[^A-Za-zµμΩ°%]/g, '').toLowerCase()
+}
+
+/**
+ * Whether a part is one of the accepted forms: the same words (an "about" in front aside), ending in one ("also
+ * called group 15"), or the same numbers in the same unit ("11 ×10¹⁴ Hz" for "11 × 10¹⁴ Hz").
+ */
+function isForm(q: ReviewQuestion, part: string): boolean {
+  const mine = canon(unhedged(part))
+  const nums = numbersIn(part)
+  return q.accepted.some((form) => {
+    const c = canon(form)
+    if (c === mine || mine.endsWith(' ' + c)) return true
+    const theirs = numbersIn(form)
+    return theirs.length > 0 && theirs.length === nums.length && theirs.every((v, i) => Math.abs(v - nums[i]) < 1e-9 * Math.max(1, Math.abs(v)))
+      && unitOf(form) === unitOf(part)
+  })
+}
+
 export function agrees(q: ReviewQuestion, own: string): boolean {
   const text = own.trim()
   if (q.kind === 'mcq') {
@@ -172,9 +226,12 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   // alone read "2-" as "2+" (P3g final review). An answer in words ("lead(II) ions") falls to the accepted forms.
   const key = chargeOf(q.answer, true)
   if (key) {
-    const mine = chargeOf(text)
-    if (mine) return mine.size === key.size && mine.sign === key.sign && (!key.symbol || mine.symbol === key.symbol)
-    return q.accepted.some((form) => canon(form) === canon(text))
+    // "Cu2+ (copper(II) ion)", "Sodium ion, Na+", "+1 (1+)": every charge written is the key, and there is one.
+    const pieces = [text, ...text.split(/[(),;]|\s+or\s+|\s+and\s+/)].map((p) => unhedged(p)).filter(Boolean)
+    const found = pieces.map((p) => chargeOf(p)).filter((c): c is NonNullable<typeof c> => c !== null)
+    if (found.length) return found.every((c) => c.size === key.size && c.sign === key.sign && (!key.symbol || !c.symbol || c.symbol === key.symbol))
+      && found.some((c) => !key.symbol || c.symbol === key.symbol)
+    return q.accepted.some((form) => canon(form) === canon(unhedged(text)))
   }
   const expected = numbersIn(q.answer)
   if (expected.length) {
@@ -197,11 +254,18 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     // "0.5 A (500 mA)", "R = 6 Ω": in parts at brackets, "=" and "or", each part with a number is the key
     // or one of its accepted forms. A part "or" splits off must be one too, so a hedge still fails.
     const parts = exact.split(/[()=]|\s+or\s+/).map((s) => s.trim()).filter((s) => numbersIn(s).length > 0)
-    const restated = expected.length === 1 && parts.length > 1
-      && parts.every((part) => numbersIn(part).every(near) || q.accepted.some((form) => canon(form) === canon(part)))
-    return reached || restated || q.accepted.some((form) => canon(form) === canon(text))
+    const restated = expected.length === 1 && parts.length > 0
+      && parts.every((part) => numbersIn(part).every(near) || roughly(part, expected[0]) || isForm(q, part))
+    return reached || restated || isForm(q, text)
   }
-  return (q.accepted.length ? q.accepted : [q.answer]).some((form) => words(form) === words(text))
+  // "Copper (metal)", "Chlorine gas (Cl2)", "copper, deposited on electrode Y": the answer, then a gloss. The part
+  // before the bracket or comma must be the key, and the gloss must not offer another answer ("or zinc").
+  const forms = q.accepted.length ? q.accepted : [q.answer]
+  const plain = unhedged(text)
+  if (forms.some((form) => words(form) === words(plain))) return true
+  const at = plain.search(/[(,]/)
+  if (at > 0 && !/\bor\b/i.test(plain.slice(at))) return forms.some((form) => words(form) === words(plain.slice(0, at)))
+  return false
 }
 
 /**

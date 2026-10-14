@@ -818,14 +818,19 @@ def test_electric_field():
         p, qs = run(m, s)
         if p["kind"] == "plates":
             field = "down" if p["top"] == "+" else "up"  # from the positive plate to the negative
-            assert picked(qs[0]) == f"{field} the page"
+            xs, way, bead = m.field_lines(p)  # field lines are drawn arrowed (P3h review: bare lines read as anything)
+            assert way == field and all(abs(x - bead) >= 0.5 for x in xs)
+            assert len({round(b - a, 6) for a, b in zip(xs, xs[1:])}) == 1  # evenly spaced: a uniform field
+            assert not any("Which way does the electric field" in q.stem for q in qs)  # the arrows show it
             E = Fraction(p["volts"]) / (Fraction(p["gap_cm"]) / 100)
-            assert num(qs[1].answer) == E  # E = V/d, d in metres
+            assert num(next(q for q in qs if "field strength" in q.stem).answer) == E  # E = V/d, d in metres
             force_dir = field if p["charge"] == "+" else ("up" if field == "down" else "down")
-            assert picked(qs[2]) == f"{force_dir} the page"  # a positive charge is pushed along the field
-            if len(qs) > 3:
-                q = Fraction(re.search(r"charge of ([\d.]+) × 10⁻⁶ C", qs[3].stem).group(1)) / 10 ** 6
-                assert num(qs[3].answer) == q * E and (q * E * 100).denominator == 1  # F = qE
+            force = next(q for q in qs if q.kind == "mcq" and "electric force on it" in q.stem)
+            assert picked(force) == f"{force_dir} the page"  # a positive charge is pushed along the field
+            size = next((q for q in qs if "charge of" in q.stem), None)
+            if size:
+                q = Fraction(re.search(r"charge of ([\d.]+) × 10⁻⁶ C", size.stem).group(1)) / 10 ** 6
+                assert num(size.answer) == q * E and (q * E * 100).denominator == 1  # F = qE
         else:
             sign_word = "positive" if p["sign"] == "+" else "negative"
             assert picked(qs[0]).startswith(sign_word.capitalize())
@@ -995,3 +1000,35 @@ def test_light_given_out_never_comes_from_a_star():
     for s in range(1, 300):
         _, qs = run(m, s)
         assert not any("star" in q.stem for q in qs)  # a star's spectrum is one of absorption lines
+
+
+def test_magnet_field_lines_leave_the_magnet_and_carry_their_arrow_clear_of_it():
+    """P3h review: lines that began in mid-air beside a pole, with small arrowheads next to it, read as pointing into N."""
+    import math
+    m = fam("magnet_field")
+    for s in range(1, 60):
+        p = m.sample(random.Random(s))
+        bodies = [(-2.0, 2.0)] if p["kind"] == "single" else [(-5.0, -1.0), (1.0, 5.0)]
+        for pts, i in m.lines(p):
+            if i is None:  # a stub too short to hold an arrow
+                continue
+            x, y = pts[0]
+            gap = min(max(x0 - x, 0, x - x1) + max(abs(y) - 0.45, 0) for x0, x1 in bodies)
+            assert gap <= 0.02, (s, pts[0])  # drawn from the magnet's surface
+            along = sum(math.dist(pts[k], pts[k + 1]) for k in range(i))
+            assert along >= 0.6, (s, along)  # the arrow well clear of the pole it leaves
+            (ax_, ay), (bx_, by) = pts[i - 1], pts[i + 1]
+            fx, fy = m.field(p, *pts[i])
+            assert (bx_ - ax_) * fx + (by - ay) * fy > 0  # and pointing along the field
+
+
+def test_photoelectric_intercepts_are_read_with_a_tolerance():
+    """Intercepts read off the graph: the reviewer's 6.9 for 7 and 2.9 eV for 2.8 eV are fair readings (P3h review)."""
+    m = fam("photoelectric")
+    for s in range(1, 200):
+        _, qs = run(m, s)
+        for q in qs:
+            if "threshold frequency" in q.stem or "work function" in q.stem:
+                assert q.tolerance >= 0.2, q.stem
+            if "gradient" in q.stem:
+                assert "0.4 eV per 10¹⁴ Hz" in q.accepted
