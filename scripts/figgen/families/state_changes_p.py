@@ -2,13 +2,13 @@
 labelled solid, liquid and gas, as a textbook draws them: the heating arrows above, pointing right towards the gas,
 the cooling arrows below, pointing left towards the solid. The four arrows are lettered A to D at random, and each says
 "heating" or "cooling"; the names of the changes (melting, freezing, boiling or evaporating, condensing) are never
-printed. The upper level adds a thermometer standing in the glass of water, its level on a numbered mark.
+printed. (A thermometer beside the row was dropped after the blind review: at review size it was a few pixels per
+10 °C, and readings on a numbered mark were read between marks. Reading a scale is scale_reading's.)
 
 (The blind review read a figure drawn steam-first, its cooling arrows pointing right, as steam forming: the order is
 now fixed, so left to right is always warmer.)
 
-Which arrow shows a change, what the change at a lettered arrow is called, and (upper) the water's temperature and
-how far it must warm to boil at 100 °C. Each arrow runs from the state it starts in to the state it ends in, so
+Which arrow shows a change, and what the change at a lettered arrow is called. Each arrow runs from the state it starts in to the state it ends in, so
 the drawing and its heating or cooling decide each key.
 """
 from __future__ import annotations
@@ -16,9 +16,9 @@ from __future__ import annotations
 import math
 import random
 
-from matplotlib.patches import Arc, Ellipse, Polygon, Rectangle
+from matplotlib.patches import Arc, Polygon, Rectangle
 
-from ..core import INK, NAMES, mcq, new_figure, short
+from ..core import INK, NAMES, mcq, new_figure
 
 ID = "state_changes_p"
 KIND = "process.flow"
@@ -55,7 +55,7 @@ def sample(rng: random.Random) -> dict:
     changes = {**CHANGE, gas_word: ["liquid", "gas"]}
     named = next(k for k, mv in arrows.items() if mv == changes[three])
     return {"band": "P", "level": level, "arrows": arrows,
-            "gas_word": gas_word, "temp": 10 * rng.randint(1, 9) if level == "upper" else None,
+            "gas_word": gas_word,
             "ask": {"which": [one, two], "name": named}}
 
 
@@ -101,10 +101,7 @@ def _kettle(ax, cx: float, cy: float, side: int) -> None:
 
 
 def draw(p: dict):
-    upper = p["level"] == "upper"
-    fig, ax = new_figure(10.6 if upper else 8.8, 3.6)
-    if upper:
-        ax.set_position([0.0, 0.0, 0.82, 1.0])
+    fig, ax = new_figure(8.8, 3.6)
     centre = {st: (5.0 * i, 0.0) for i, st in enumerate(STATES)}  # ice, water, steam from left to right
     for st, (cx, cy) in centre.items():
         if st == "solid":
@@ -133,28 +130,7 @@ def draw(p: dict):
     ax.set_aspect("equal")
     ax.axis("off")
     ax.set_title("Water as a solid, a liquid and a gas", fontsize=12.5)
-    if upper:
-        _thermometer(fig, p["temp"])
     return fig
-
-
-def _thermometer(fig, temp: int) -> None:
-    th = fig.add_axes([0.86, 0.04, 0.13, 0.84])
-    lo, hi = -22, 112
-    th.set_xlim(0, 2.2)
-    th.set_ylim(lo, hi + 31)
-    th.axis("off")
-    (x0, y0), (x1, y1) = th.transData.transform([(0, 0), (1, 1)])
-    w, h = 26 / (x1 - x0), 26 / (y1 - y0)  # a bulb 26 px across, round on the page
-    bulb = -6 - h / 2
-    th.add_patch(Rectangle((0.42, bulb), 0.36, hi - bulb, fill=False, edgecolor=INK, linewidth=1.3))
-    th.add_patch(Ellipse((0.6, bulb), w, h, facecolor="#5f6b75", edgecolor=INK, linewidth=1.3, zorder=3))
-    th.add_patch(Rectangle((0.52, bulb), 0.16, temp - bulb, facecolor="#5f6b75", edgecolor="none", zorder=4, gid="thermo-level"))
-    for t in range(0, 101, 10):  # every mark numbered, and the level always on one
-        th.plot([0.78, 1.08], [t, t], color=INK, linewidth=1.1, gid=f"thermo-tick-{t}")
-        th.text(1.18, t, str(t), ha="left", va="center", fontsize=10)
-    th.text(1.18, hi + 3, "°C", ha="left", va="center", fontsize=10)
-    th.text(1.1, hi + 30, "Thermometer in\nthe glass of water", ha="center", va="top", fontsize=10)
 
 
 VERBS = ["draws", "is learning", "studies", "makes a poster about", "writes notes on"]
@@ -179,10 +155,4 @@ def questions(p: dict, rng: random.Random) -> list:
                arrow_for(one), letters, rng),
            mcq(f"What is the change at arrow {k} called?", what, names, rng),
            mcq(f"Which arrow shows {two}?", arrow_for(two), letters, rng)]
-    if p["level"] == "upper":
-        t = p["temp"]
-        out.append(short("A thermometer stands in the glass of water. What temperature does the thermometer show?", t,
-                         [f"{t} °C", f"{t}°C", f"{t} degrees", f"{t} degrees Celsius"]))
-        out.append(short("Water boils at 100 °C. How many more degrees must the water in the glass warm up to boil?", 100 - t,
-                         [f"{100 - t} °C", f"{100 - t}°C", f"{100 - t} degrees", f"{100 - t} degrees Celsius"]))
     return out

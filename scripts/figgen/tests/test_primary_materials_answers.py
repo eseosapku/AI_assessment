@@ -317,14 +317,6 @@ def test_state_changes_p():
                 assert d(start, centre[a]) < d(start, centre[b]) and d(end, centre[b]) < d(end, centre[a]), (s, k)
                 assert tagged[f"word-{k}"].get_text() == HEAT[(a, b)], (s, k)
                 assert tagged[f"letter-{k}"].get_text() == k, (s, k)
-            if p["level"] == "upper":
-                level = tagged["thermo-level"]
-                assert round(level.get_y() + level.get_height(), 6) == p["temp"], s
-                assert f"thermo-tick-{p['temp']}" in tagged, s
-        if p["level"] == "upper":
-            assert p["temp"] % 10 == 0 and 10 <= p["temp"] <= 90, s
-        else:
-            assert p["temp"] is None
         for q in qs:
             stem = q.stem
             if (mt := re.search(r"Which arrow shows (?:the )?(?:water )?(melting|freezing|boiling|evaporating|condensing)", stem)):
@@ -338,11 +330,6 @@ def test_state_changes_p():
                 right = [o for o in q.options if PROCESS[o] == pair]
                 assert right == [picked(q)], (s, q.options)
                 assert not {"boiling", "evaporating"} <= set(q.options)
-            elif "thermometer show" in stem:
-                accepts(q, p["temp"], "°C")
-            elif "How many more degrees" in stem:
-                assert "100 °C" in stem
-                accepts(q, 100 - p["temp"], "°C")
             else:
                 pytest.fail(f"seed {s}: an unexpected question: {stem}")
     assert set(asked) >= {"melting", "freezing", "condensing"} and ("boiling" in asked or "evaporating" in asked), asked
@@ -380,27 +367,17 @@ def test_state_changes_p_every_label_matches_its_arrows_direction():
             assert near == k, (s, k, near)
 
 
-def test_state_changes_p_has_one_thermometer_read_on_a_numbered_mark():
-    """Blind review (p3s): readings of 45 and 75 between numbered marks were read as "about 44"; a small thermometer in
-    the glass without a scale beside the large one "may confuse". One thermometer, its level on a numbered mark."""
-    from matplotlib.patches import Circle
+def test_state_changes_p_draws_no_thermometer():
+    """Blind review (p3s-fix, 26/30): at review size a thermometer beside the wide row was a few pixels per 10 °C, and
+    readings on a numbered mark were still read between marks. Reading a scale is scale_reading's; this figure asks
+    the changes of state only."""
     m = fam("state_changes_p")
-    seen = 0
     for s in range(1, 301):
-        p, _ = run(m, s)
+        p, qs = run(m, s)
         fig = m.draw(p)
-        main = fig.axes[0]
-        assert not any(isinstance(a, Circle) for a in main.patches), s  # no second thermometer in the glass
-        if p["level"] == "upper":
-            seen += 1
-            assert len(fig.axes) == 2, s
-            numbers = {t.get_text() for t in fig.axes[1].texts}
-            assert str(p["temp"]) in numbers, (s, p["temp"])
-            assert any("glass" in t for t in numbers), s
-        else:
-            assert len(fig.axes) == 1, s
+        assert len(fig.axes) == 1 and "temp" not in p, s
+        assert not any(re.search(r"thermometer|degrees", q.stem, re.I) for q in qs), s
         plt.close(fig)
-    assert seen >= 100
 
 
 # --- weather_chart_p --------------------------------------------------------------------------------
