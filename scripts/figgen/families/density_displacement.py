@@ -20,6 +20,8 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("density", "measurement-of-length-and-volume", "measurement-precision-and-uncertainty"))
 # Not motion, manometers or pressure chapters.
 AVOID = r"motion|manometer|pascal|agriculture|^chapter 6: pressure$"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"densit|displace|archimedes|volume|measur|float|sink|upthrust"
 # rocks and metals, with densities in g/cm³ a learner might meet
 STONES = [("stone", [Fraction(5, 2), Fraction(27, 10), Fraction(3)]), ("piece of iron", [Fraction(39, 5)]),
           ("piece of copper", [Fraction(89, 10)]), ("piece of granite", [Fraction(27, 10)]), ("piece of glass", [Fraction(5, 2)])]

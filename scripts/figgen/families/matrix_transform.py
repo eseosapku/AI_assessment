@@ -19,7 +19,7 @@ SUBJECT = "mathematics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("linear-transformation-2d", "transformation-matrices", "operations-linear-transformation", "matrices"))
 # Matrix transformations: not statistics.
-AVOID = r"statistic"
+AVOID = r"statistic|^vectors$|subspaces"
 SQUARE = [(0, 0), (1, 0), (1, 1), (0, 1)]
 
 

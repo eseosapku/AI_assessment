@@ -19,6 +19,8 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"physics.{c}" for c in ("hookes-law", "forces"))
 # Hooke's law, forces and matter: not electric or magnetic forces, pressure, turning, or machines.
 AVOID = r"^chapter 2: newton|electric|electrostatic|static electricity|magnet|installation|environmental|earthquake|pressure|density|turning|moment|centre of gravity|machines|frictional"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"spring|hooke|elastic|stretch|extension|deform|energy"
 
 
 def sample(rng: random.Random) -> dict:

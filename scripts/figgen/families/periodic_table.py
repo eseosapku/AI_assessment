@@ -21,6 +21,8 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("periodic-table-structure", "group-1-alkali-metals",
                                              "noble-gases", "ionic-bonding"))
 AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration|acid|bases|reactions|electrolyte|oxide|salt|analysis|conductivity|electrochem|extraction|reactivity|states of matter|introduction|transition"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"periodic|groups?\b|formula|ionic|noble|alkali"
 LETTERS = "VWXYZ"
 
 

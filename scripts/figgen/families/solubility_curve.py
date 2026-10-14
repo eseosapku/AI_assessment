@@ -18,6 +18,8 @@ SUBJECT = "chemistry"
 BANDS = ("UP",)
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("solutions-and-solubility", "salts", "separation-techniques"))
 AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|rate|benzene|stoichiometry|analysis|environment|conductivity|npk|petro|phase|colligative|states of matter|group"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"solub|solution|crystal|\bsalts?\b|separat"
 TEMPS = (0, 20, 40, 60, 80, 100)
 REAL = {"potassium nitrate": (13, 32, 64, 110, 169, 246), "potassium chloride": (28, 34, 40, 45.5, 51, 56),
         "ammonium chloride": (29.4, 37.2, 45.8, 55.2, 65.6, 77.3), "copper(II) sulfate": (14.3, 20.7, 28.5, 40, 55, 75.4),

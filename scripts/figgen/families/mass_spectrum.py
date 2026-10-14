@@ -18,6 +18,8 @@ SUBJECT = "chemistry"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("mass-spectrometry", "relative-atomic-mass", "atomic-number-mass-number-isotopes"))
 AVOID = r"organic|alkane|electrolysis|titration|bonding|enthalpy|rate|chromatograph|nuclear|radioactiv|half-life|periodic table|electronic structure|formulae|introduction|stoichiometry"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"isotop|mass spectr|relative atomic mass|inside the atom|atomic structure|structure of an? atom|masses of atoms"
 ELEMENTS = {  # mass number, % abundance
     "chlorine": [(35, 75), (37, 25)], "boron": [(10, 20), (11, 80)], "lithium": [(6, 8), (7, 92)],
     "copper": [(63, 69), (65, 31)], "bromine": [(79, 51), (81, 49)], "gallium": [(69, 60), (71, 40)],

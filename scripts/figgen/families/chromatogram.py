@@ -22,6 +22,8 @@ SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("chromatography", "separation-techniques", "laboratory-techniques"))
 AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|titration|gas-chromatograph|acid|concentration|waste|oxide|oxygen|salt|states|water|petro|solvent extraction|laboratory safety"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"chromatog|separat|purif|purity"
 WHAT = ["a black ink", "a food colouring", "a fruit drink colouring", "a felt-tip pen ink", "a sweet coating"]
 
 

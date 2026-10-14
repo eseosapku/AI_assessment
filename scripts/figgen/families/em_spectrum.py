@@ -22,6 +22,8 @@ BANDS = ("UP",)  # the lower-secondary physics topics never reach the spectrum
 CONCEPTS = tuple(f"physics.{c}" for c in ("electromagnetic-spectrum", "light-and-optics"))
 # Not sound, mechanical waves, or lens, eye and refraction chapters.
 AVOID = r"block diagram|analog|stars and the universe|\bsound|seismic|ultrasound|ripple|refraction|lens|human eye|interference|mechanical waves|optical instruments"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"electromagnetic|spectrum|radio|optical fib|light|infra-?red|waves?\b|x-ray|gamma|ultraviolet|microwave"
 # Two orders, two arrows and seven blanks: 28 figures in all, so 60 seeds cannot show 40.
 MIN_VARIETY = 22
 EM = ["radio waves", "microwaves", "infrared", "visible light", "ultraviolet", "X-rays", "gamma rays"]

@@ -19,6 +19,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "place-value", "numbers-forming-reading", "reading-numbers-up-to-2000", "whole-numbers-beyond-1000000",
     "counting-reading-writing-numbers", "number-and-numeration", "comparing-and-ordering-numbers",
 ))
+AVOID = r"^introduction$|addition and subtraction \(1\)"  # topics that teach none of it, read section by section
 
 COLUMNS = ["ones", "tens", "hundreds", "thousands", "ten thousands", "hundred thousands", "millions"]
 HEADS = ["O", "T", "H", "Th", "TTh", "HTh", "M"]

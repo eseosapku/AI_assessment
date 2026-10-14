@@ -18,7 +18,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "algebraic-expressions-constructing", "working-with-brackets", "simplifying-expressions", "algebraic-expressions-substituting-evaluating",
 ))
 # Expanding brackets: not ratio, sequences, indices, linear equations, calculus or a book's index.
-AVOID = r"ratio|sequence|glossary|indices|surds|linear equations|project|pascal|gradient|mappings|integration|fraction"
+AVOID = r"ratio|sequence|glossary|indices|surds|linear equations|project|pascal|gradient|mappings|integration|fraction|more equations, formulae and functions"
 
 
 def sample(rng: random.Random) -> dict:

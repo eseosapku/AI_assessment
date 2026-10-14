@@ -17,6 +17,7 @@ KIND = "maths.geometry"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("polygons", "symmetry-polygons", "calculating-angles", "triangle-exterior-angle", "2d-shapes"))
+AVOID = r"perimeter, area and volume"  # topics that teach none of it, read section by section
 
 NAMES = {4: "quadrilateral", 5: "pentagon", 6: "hexagon"}
 LETTERS = ["ABCDEF", "PQRSTU", "KLMNPQ", "EFGHJK", "VWXYZA"]

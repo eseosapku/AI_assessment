@@ -22,6 +22,8 @@ SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("states-of-matter", "kinetic-theory", "chemical-formulae", "separation-techniques"))
 AVOID = r"organic|alkane|alcohol|acid|electrolysis|redox|equilibrium|rate|waste|polymer|petro|enthalpy|solvent|colligative|group|oxide|salt|oxygen|stoichiometry|equation|bonding|chemical reactions|trends|phase diagram|mole concept"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"particle|states of matter|kinetic|element|compound|mixture|molecul|\batoms?\b"
 KINDS = ["atoms", "molecules", "compound", "mixture"]
 SHADES = ["#111111", "#9aa3ab", "#ffffff"]  # dark, grey and white atoms
 R = 0.12  # three atoms in a row span 0.72: a clear gap to the next cell's particle and to the walls

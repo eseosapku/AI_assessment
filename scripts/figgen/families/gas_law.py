@@ -19,6 +19,8 @@ BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"physics.{c}" for c in ("ideal-gas-law", "kinetic-theory-of-matter", "pressure"))
 # Not liquids' pressure, manometers or the atmosphere alone.
 AVOID = r"manometer|pascal|archimedes|liquid|atmospheric|density|agricultur|changes of state|forces and matter|earthquake|measure|energy transfers"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"\bgas|boyle|charles|kinetic|ideal|pressure law"
 TRAPPED = ["air trapped in a sealed syringe", "air in a bicycle pump with its end sealed", "air trapped in a glass tube by a column of oil"]
 
 

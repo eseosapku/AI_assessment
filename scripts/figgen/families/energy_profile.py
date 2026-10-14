@@ -19,6 +19,8 @@ SUBJECT = "chemistry"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("enthalpy-changes", "bond-energy", "catalysis", "thermochemistry"))
 AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding-ionic|chromatograph|group|lattice|redox|transition|states of matter|alcohol|benzene|bond|experimental|fertili|npk|phase|stoichiometry|quantitative chemical equilibrium"
+# A topic whose sections the book lists is reached only if one names what this figure teaches.
+NEEDS = r"enthalp|energ|exothermic|endothermic|catalys|activation|\brates?\b|\bbond"
 def sample(rng: random.Random) -> dict:
     # No named reaction: a real one's enthalpy change would not match the made-up levels.
     exo = rng.random() < 0.5

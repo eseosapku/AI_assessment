@@ -14,6 +14,7 @@ KIND = "graph.line"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("kinematic-graphs", "speed-distance-time"))
+AVOID = r"gradient function"  # topics that teach none of it, read section by section
 
 PLACES = ["market", "health centre", "lake", "farm", "football ground", "town centre", "library", "bus station"]
 
