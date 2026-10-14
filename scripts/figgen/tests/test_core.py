@@ -51,3 +51,14 @@ def test_three_significant_figures_round_half_up():
     from figgen.core import short
     forms = short("_", "0.3125").accepted
     assert "0.313" in forms and "0.312" not in forms
+
+
+def test_a_formula_is_accepted_however_it_is_typed():
+    """Chemistry answers are formulas and ions: "H2O" is "H₂O", "Mg2+" is "Mg²⁺" (P3g)."""
+    from figgen.core import formula_forms, sub, sup
+    assert sub("CO2") == "CO₂" and sub("CaCl2") == "CaCl₂" and sub("C2H5OH") == "C₂H₅OH"
+    assert sup("2+") == "²⁺" and sup("-") == "⁻"
+    assert {"H₂O", "H2O", "h2o"} <= set(formula_forms("H2O"))
+    assert {"Mg²⁺", "Mg2+", "Mg+2", "mg2+"} <= set(formula_forms("Mg2+"))
+    assert {"Cl⁻", "Cl-", "cl-"} <= set(formula_forms("Cl-"))
+    assert formula_forms("H2O")[0] == "H₂O"  # the displayed form first, as the key

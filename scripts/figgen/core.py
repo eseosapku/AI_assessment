@@ -205,6 +205,41 @@ UNIT_WORDS = {"Ω": ("ohms", "ohm"), "N": ("newtons", "newton"), "J": ("joules",
               "ms": ("milliseconds",)}
 
 
+SUB_DIGITS = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+SUP_CHARGE = str.maketrans("0123456789+-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻")
+
+
+def sub(formula: str) -> str:
+    """A formula as printed: "CO2" is "CO₂" (every digit in a formula is a subscript)."""
+    return formula.translate(SUB_DIGITS)
+
+
+def sup(charge: str) -> str:
+    """A charge as printed: "2+" is "²⁺"."""
+    return charge.translate(SUP_CHARGE)
+
+
+def formula_forms(text: str, charge: str | None = None) -> list[str]:
+    """Every fair way to type a formula or an ion: "H₂O" and "H2O"; "Mg²⁺", "Mg2+", "Mg+2" and "Mg^2+".
+    A one-element ion may come as one string ("Mg2+", "Cl-"); a group ion as a formula and its charge
+    ("SO4", "2-"). The printed form first, as the key."""
+    body = text
+    if charge is None:
+        m = re.fullmatch(r"([A-Z][a-z]?)(\d?[+-])", text)
+        body, charge = (m.group(1), m.group(2)) if m else (text, "")
+    shown = sub(body) + sup(charge)
+    forms = [shown, body + charge]
+    if charge:
+        n, sign = charge[:-1], charge[-1]
+        forms += [body + sign + n, body + "^" + charge, sub(body) + charge]
+    for f in list(forms):
+        _add(forms, f.lower())
+    out: list[str] = []
+    for f in forms:
+        _add(out, f)
+    return out
+
+
 def article(noun: str) -> str:
     """"a kettle", "an electric kettle", "an LED lamp": "an" before a vowel sound."""
     return "an" if noun[:1].lower() in "aeiou" or noun.startswith(("LED", "MP3", "X-ray")) else "a"
