@@ -12,6 +12,7 @@ KIND = "bio.genetics"
 SUBJECT = "biology"
 BANDS = ("UP",)
 CONCEPTS = tuple(f"biology.{c}" for c in ("monohybrid-inheritance", "inheritance-concepts"))
+AVOID = r"division"
 
 # Pea plant traits Mendel studied: (gene letter, dominant, recessive, what it is)
 TRAITS = [

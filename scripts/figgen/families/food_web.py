@@ -11,6 +11,7 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("energy-flow-ecosystem", "interdependence-organisms-environment",
                                            "ecological-terms-biodiversity-meaning"))
+AVOID = r"active transport|photosynthesis"
 # Built from real ecosystems, so fewer distinct figures than a numeric family; 30 in 60 still
 # fills a family's share of a topic (at most 12 of 50). More real webs add more.
 MIN_VARIETY = 30

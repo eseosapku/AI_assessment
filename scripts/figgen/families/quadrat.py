@@ -20,7 +20,7 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("population-characteristics", "ecosystem-properties-ecological-factors",
                                            "ecological-terms-biodiversity-meaning"))
-AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone"
+AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|selection|plant nutrition|variation"
 SPECIES = [("dandelions", "*"), ("daisies", "o"), ("clover plants", "^"), ("thistles", "x")]
 
 

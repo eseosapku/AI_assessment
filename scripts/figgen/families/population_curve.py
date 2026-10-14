@@ -18,7 +18,7 @@ SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("population-characteristics", "population-size-limiting-factors",
                                            "interdependence-organisms-environment"))
-AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration"
+AVOID = r"cell|enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|selection|classification|biodiversity|variation"
 # organism, its place, the time unit, the time step, the count's unit
 ORGANISMS = [("yeast", "a flask of sugar solution", "hours", 2, "millions of cells per cm³"),
              ("bacteria", "a flask of nutrient broth", "hours", 2, "millions of cells per cm³"),

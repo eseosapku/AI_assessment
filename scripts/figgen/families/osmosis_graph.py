@@ -17,7 +17,7 @@ KIND = "graph.line"
 SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("osmosis", "cell-membranes-transport", "plasma-membrane-gradients"))
-AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|ecolog|population|photosynth|respiration|digest"
+AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|ecolog|population|photosynth|respiration|digest|biological molecules|gas exchange|human nutrition"
 TISSUES = ["potato", "carrot", "sweet potato", "beetroot"]
 
 

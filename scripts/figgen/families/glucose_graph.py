@@ -17,7 +17,7 @@ SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("homeostasis-general-principles", "endocrine-system-structure-function",
                                            "hormonal-imbalance-effects", "internal-environment"))
-AVOID = r"plant|photosynth|genetic|inherit|ecolog|population|immun|reproduc|enzyme|cell"
+AVOID = r"plant|photosynth|genetic|inherit|ecolog|population|immun|reproduc|enzyme|cell|behaviour|excretion|nervous|temperature|circulatory|proteins|vitamins"
 HORMONES = ["insulin", "glucagon", "adrenaline", "ADH"]
 
 

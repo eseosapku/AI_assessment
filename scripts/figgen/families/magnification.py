@@ -20,7 +20,7 @@ KIND = "instrument.reading"
 SUBJECT = "biology"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("cell-structure", "animal-plant-cells", "electron-microscopes", "cell-importance"))
-AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|ecolog|population"
+AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|excretion|digest|photosynth|respiration|hormone|ecolog|population|biological molecules|mitotic|transport|division|classification|living things|movement|gene technology|protein synthesis|skeleton|gas exchange|testing for"
 # specimen: its real size (µm), the magnifications it is drawn at, and its shape
 SPECIMENS = {"a cheek cell": ((40, 80), [400, 500, 1000], "blob"), "a palisade cell": ((40, 120), [400, 500], "palisade"),
              "an onion epidermis cell": ((100, 300), [100, 200], "brick"), "a red blood cell": ((6, 9), [4000, 5000], "disc"),

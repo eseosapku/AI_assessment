@@ -19,7 +19,7 @@ KIND = "maths.solid"
 SUBJECT = "biology"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"biology.{c}" for c in ("size-surface-area-volume-ratio", "gas-exchange", "cell-membranes-transport"))
-AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|digest|photosynth|hormone|ecolog|population|plant"
+AVOID = r"enzyme|genetic|inherit|immun|disease|reproduc|digest|photosynth|hormone|ecolog|population|plant|classification|living things|human nutrition|proteins|specialized tissues"
 S = 0.55  # drawing units a centimetre
 
 

@@ -18,7 +18,7 @@ KIND = "graph.line"
 SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("gas-exchange", "breathing-mechanism-humans", "respiratory-diseases-smoking"))
-AVOID = r"plant|photosynth|genetic|inherit|ecolog|population|enzyme|reproduc|cell|digest"
+AVOID = r"plant|photosynth|genetic|inherit|ecolog|population|enzyme|reproduc|cell|digest|nutrition|specialized tissues"
 QUIET = 20  # seconds of quiet breathing
 
 

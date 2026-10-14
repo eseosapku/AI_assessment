@@ -20,7 +20,7 @@ SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("antibiotics", "aseptic-technique", "bacterial-diseases-plants-animals",
                                            "infectious-diseases"))
-AVOID = r"plant nutrition|photosynth|genetic|inherit|ecolog|population|digest|respiration|hormone|enzyme"
+AVOID = r"plant nutrition|photosynth|genetic|inherit|ecolog|population|digest|respiration|hormone|enzyme|classification|testing for"
 G = 5  # mm a grid square
 R = 45  # the plate's radius, mm
 SPOTS = [(-20, 20), (20, 20), (-20, -20), (20, -20)]
