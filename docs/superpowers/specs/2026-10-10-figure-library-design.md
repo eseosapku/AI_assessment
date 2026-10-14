@@ -629,6 +629,17 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - **The grader:** a probe of `agrees` found that it matched codes by their digits, so "3E" reached "3F" and "D4" reached "C4". Fixed before any Computing review was paid for.
     - **Sheet:** https://claude.ai/artifact/EBt1kTPURmuHeZhxzp6B93
     - **Next:** P3l, drawing Computing at scale (plan `2026-10-15-figure-library-p3l-computing-scale.md`).
+  - **P3l result (2026-10-15, plan `2026-10-15-figure-library-p3l-computing-scale.md`): Computing at scale.** $4.46 spent (blind review $3.28, fix review $1.18); library total $91.34.
+    - **Blind review:** 414 of 450 passed. bitmap_image (6/30) and truth_table (21/30) failed for one reason: a later question gave the figure to another person ("Keza's image" beside "Kalisa drew this bitmap"), and reviewers, who read every question at once, called it unclear whose image it was. A test now keeps a figure's owner to the first question's person, in Computing and Geography. Trace tables now say each row is the values after one time round the loop.
+    - **Fix review:** 149 of 150 passed.
+    - **Approved:** all 15 families, 2,248 figures (150 each, two rejected).
+    - **Coverage:** Computing 106 of 397 mapped topics have figures, 101 with 50 or more (it had none). Library: 18,667 figures approved.
+    - **Quiz check (in process):**
+      - Rwanda "Introduction to Computer Algorithm": 375 figures, 990 questions.
+      - Cambridge AL "Algorithms": 372 figures, 1,085 questions.
+      - a spreadsheet topic: 71 figures, 213 questions.
+      None were missing a question or a file.
+    - **Next:** P3m, the Geography wave (plan `2026-10-15-figure-library-p3m-geography-wave.md`).
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
