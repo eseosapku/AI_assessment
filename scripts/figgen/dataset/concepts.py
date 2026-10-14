@@ -40,6 +40,7 @@ LINKS = {
     "math.box_plot": dict(like="box_plot", avoid_extra=r"binomial|chi-squared|non-parametric|inferential|distribution"),
     "math.histogram": dict(like="histogram"),
     "math.scatter": dict(like="scatter_graph"),
+    "phys.circuit": dict(like="circuit"),
 }
 
 
