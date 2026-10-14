@@ -82,8 +82,9 @@ def questions(p: dict, rng: random.Random) -> list:
     if p["band"] == "AL":
         i = p["codon"] + 1
         codon = top[i - 1:i + 2].replace("T", "U")
-        # "left to right": reviewers read the template backwards one time in six (P3j fix review)
-        qs.append(short(f"The lower strand is the template. Give the mRNA codon made from bases {i} to {i + 2} of the lower strand, written 5′ to 3′ (left to right).",
+        # The pairing bases left to right, which is the mRNA's 5′ to 3′: "written 5′ to 3′" was read backwards by one
+        # reviewer in six, and adding "(left to right)" was then called a contradiction (P3j fix reviews)
+        qs.append(short(f"The lower strand is the template. Give the mRNA codon that pairs with bases {i} to {i + 2} of the lower strand, in order from left to right.",
                         codon, [codon, "-".join(codon), " ".join(codon), f"5′-{codon}-3′", f"5'-{codon}-3'"]))
         j = p["bonds"] + 1
         h = 2 if top[j - 1] in "AT" else 3

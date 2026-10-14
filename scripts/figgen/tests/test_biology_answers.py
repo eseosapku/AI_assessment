@@ -622,7 +622,8 @@ def test_osmosis_accepts_a_change_said_in_words():
 
 
 def test_dna_strands_show_their_ends_and_the_codon_says_its_direction():
-    """With no 5' and 3' ends the codon could be read either way (P3j review)."""
+    """With no 5' and 3' ends the codon could be read either way (P3j review); "written 5′ to 3′" in the stem
+    was itself read backwards, so the stem asks for the pairing bases left to right (P3j fix review)."""
     import matplotlib.pyplot as plt
     m = fam("dna_strand")
     fig = m.draw(m.sample(random.Random(1)))
@@ -633,7 +634,7 @@ def test_dna_strands_show_their_ends_and_the_codon_says_its_direction():
         _, qs = run(m, s)
         for q in qs:
             if "codon" in q.stem:
-                assert "5′ to 3′" in q.stem
+                assert "in order from left to right" in q.stem and "5′ to 3′" not in q.stem
 
 
 def test_the_codon_reads_left_to_right_and_takes_its_ends_written():
