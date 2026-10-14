@@ -707,7 +707,7 @@ def test_a_dial_has_few_enough_divisions_to_count():
         p, qs = run(m, s)
         steps = Fraction(p["full"]) / Fraction(p["minor"])
         k = Fraction(p["value"]) / Fraction(p["minor"])
-        assert steps.denominator == 1 and steps <= 20, (p["full"], p["minor"])
+        assert steps.denominator == 1 and steps <= 12, (p["full"], p["minor"])  # 20 still misread (P3f re-review)
         assert 2 <= k <= steps - 2, (k, steps)  # not on the stop at either end
         assert qs[2].stem.startswith("The needle shows the first reading."), qs[2].stem
 
@@ -778,3 +778,21 @@ def test_an_atom_has_few_enough_particles_to_count_and_its_key_shows():
     lo, hi = fig.axes[0].get_ylim()
     plt.close(fig)
     assert hi >= 1.0 + 0.12 + 0.2 and lo <= -0.2
+
+
+def test_the_lens_axes_are_numbered_in_centimetres_from_the_lens():
+    """Reviewers counting 17-pixel squares read 70 cm for 36 (P3f re-review): number the distances."""
+    m = fam("lens_diagram")
+    for s in range(1, 40):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        fig.canvas.draw()
+        ax = fig.axes[0]
+        xs = [t.get_text() for t in ax.get_xticklabels() if t.get_text()]  # a distance appears on both sides of the lens
+        ys = [t.get_text() for t in ax.get_yticklabels() if t.get_text()]
+        plt.close(fig)
+        assert "0" in xs and len(xs) >= 4 and all(int(x) % p["scale"] == 0 for x in xs), xs
+        assert len(ys) >= 3, ys
+        v, _ = m.image(p)
+        width = max(v, p["f"]) + 3 - min(-p["u"], v, -p["f"]) + 2
+        assert width <= 30, width  # squares across

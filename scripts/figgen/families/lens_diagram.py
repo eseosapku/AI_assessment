@@ -39,7 +39,7 @@ def sample(rng: random.Random) -> dict:
             continue
         v, hi = image(p)
         width = max(v, p["f"]) + 3 - min(-p["u"], v, -p["f"]) + 2  # squares across the drawing, both foci in it
-        if (v.denominator == 1 and hi.denominator == 1 and 1 <= abs(v) <= 20 and abs(hi) <= 8 and width <= 36
+        if (v.denominator == 1 and hi.denominator == 1 and 1 <= abs(v) <= 20 and abs(hi) <= 8 and width <= 30
                 and (abs(v / p["u"]) * 100).denominator == 1):
             return p
 
@@ -96,11 +96,18 @@ def draw(p: dict):
     box = (xl, xr, yb, yt)
     width = 7.0
     fig, ax = new_figure(width, max(3.4, min(6.0, width * (yt - yb) / (xr - xl))))
-    ax.set_xticks(range(int(xl), int(xr) + 1))
-    ax.set_yticks(range(int(yb), int(yt) + 1))
-    ax.grid(True, color=GRID, linewidth=0.5)
+    # A gridline on every square, and the distances from the lens numbered in centimetres: counting small
+    # squares, reviewers read 70 cm for 36 (P3f review).
+    ax.set_xticks(range(int(xl), int(xr) + 1), minor=True)
+    ax.set_yticks(range(int(yb), int(yt) + 1), minor=True)
+    every = 2 if xr - xl <= 20 else 4
+    xs = [x for x in range(int(xl), int(xr) + 1) if x % every == 0]
+    ax.set_xticks(xs, [str(abs(x) * p["scale"]) for x in xs])
+    ys = [y for y in range(int(yb), int(yt) + 1) if y % (1 if yt - yb <= 8 else 2) == 0]
+    ax.set_yticks(ys, [str(abs(y) * p["scale"]) for y in ys])
+    ax.grid(True, which="both", color=GRID, linewidth=0.5)
     ax.set_axisbelow(True)
-    ax.tick_params(length=0, labelbottom=False, labelleft=False)
+    ax.tick_params(which="both", length=0, labelsize=8)
     ax.plot([xl, xr], [0, 0], color=INK, linewidth=1.0)  # the principal axis
     ax.annotate("", xy=(0, yt - 0.3), xytext=(0, yb + 0.3), arrowprops=dict(arrowstyle="<|-|>", color=INK, lw=2.0, mutation_scale=16))
     for x in (-f, f):
@@ -119,7 +126,8 @@ def draw(p: dict):
         ax.plot([0, v], [h, hi], color=INK, linewidth=1.0, linestyle=(0, (4, 3)))
         ax.plot([0, v], [0, hi], color=INK, linewidth=1.0, linestyle=(0, (4, 3)))
         _arrow(ax, v, hi, dashed=True)
-    ax.text(0, -0.04, f"Each square is {p['scale']} cm.", transform=ax.transAxes, ha="left", va="top", fontsize=9)
+    ax.annotate(f"Each square is {p['scale']} cm. The scales are in cm: across, from the lens; up and down, from the axis.", xy=(0, 0), xycoords="axes fraction",
+                xytext=(0, -20), textcoords="offset points", ha="left", va="top", fontsize=9)  # below the axis numbers
     ax.set_xlim(xl, xr)
     ax.set_ylim(yb, yt)
     ax.set_aspect("equal")

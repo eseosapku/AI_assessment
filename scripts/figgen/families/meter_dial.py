@@ -21,13 +21,13 @@ MEASURES = {"ammeter": ("physics.electric-current",), "voltmeter": ("physics.pot
 CONCEPTS = MEASURING + tuple(c for cs in MEASURES.values() for c in cs)
 # Not fields, magnets, turning, pressure, nuclei or natural disasters.
 AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|centre of gravity|environmental|induction|^magnetism$|magnetic effect|electromagnetic forces|telecommunication|motor effect|nuclear|turning|moment|pressure|solar system|earthquake|work, energy"
-# the meter, its unit, full scale, and the size of one small division: at most 20 divisions, since dials
-# of 30 to 50 were misread by one division (P3f review)
-SCALES = [("ammeter", "A", 1, Fraction(1, 20)), ("ammeter", "A", 1, Fraction(1, 10)), ("ammeter", "A", 3, Fraction(1, 5)),
-          ("ammeter", "A", 5, Fraction(1, 4)), ("ammeter", "A", 10, Fraction(1, 2)), ("voltmeter", "V", 3, Fraction(1, 5)),
-          ("voltmeter", "V", 5, Fraction(1, 4)), ("voltmeter", "V", 6, Fraction(1, 2)), ("voltmeter", "V", 10, Fraction(1, 2)),
-          ("voltmeter", "V", 15, Fraction(1)), ("voltmeter", "V", 20, Fraction(1)), ("newton meter", "N", 10, Fraction(1, 2)),
-          ("newton meter", "N", 20, Fraction(1)), ("newton meter", "N", 50, Fraction(5, 2))]
+# the meter, its unit, full scale, and the size of one small division: at most 12 divisions, in steps a
+# learner counts easily, since dials of 20 to 50 divisions were misread by one (P3f review)
+SCALES = [("ammeter", "A", 1, Fraction(1, 10)), ("ammeter", "A", 3, Fraction(1, 4)), ("ammeter", "A", 5, Fraction(1, 2)),
+          ("ammeter", "A", 10, Fraction(1)), ("voltmeter", "V", 3, Fraction(1, 4)), ("voltmeter", "V", 5, Fraction(1, 2)),
+          ("voltmeter", "V", 6, Fraction(1, 2)), ("voltmeter", "V", 10, Fraction(1)), ("voltmeter", "V", 12, Fraction(1)),
+          ("voltmeter", "V", 20, Fraction(2)), ("newton meter", "N", 10, Fraction(1)), ("newton meter", "N", 20, Fraction(2)),
+          ("newton meter", "N", 50, Fraction(5))]
 # What hangs from a newton meter, by its full scale: a weight that fits the dial (no 47 N pineapple).
 LOADS = {10: ["a pineapple", "a cabbage", "a bunch of bananas"], 20: ["a bag of sugar", "a bag of rice", "a bag of beans"],
          50: ["a small jerrycan of water", "a bag of maize flour", "a bucket of potatoes"]}
