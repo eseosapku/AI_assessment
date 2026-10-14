@@ -895,3 +895,64 @@ def test_gravity_orbit():
         assert num(qs[2].answer) == mass * g0 / 4  # W = mg there
         if len(qs) > 3:
             assert num(qs[3].answer) == g0 / 16 and (g0 / 16 * 100).denominator == 1
+
+
+# --- P3g Task 4: gases, capacitors and quanta -------------------------------------------------------
+
+def test_gas_law():
+    m = fam("gas_law")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        if p["kind"] == "boyle":
+            k = p["k"]
+            assert all(V * P == k for V, P in p["points"])  # Boyle: pV is constant at constant temperature
+            V1 = Fraction(re.search(r"volume is ([\d.]+) cm³", qs[0].stem).group(1))
+            assert num(qs[0].answer) == k / V1 and num(qs[1].answer) == k
+            V2 = Fraction(re.search(r"to ([\d.]+) cm³", qs[2].stem).group(1))
+            assert num(qs[2].answer) == k / V2 and ((k / V2) * 100).denominator == 1
+        else:
+            c = Fraction(p["c"])  # cm³ per kelvin: Charles, V proportional to T in kelvin
+            assert all(Fraction(V) == c * T for T, V in p["points"])
+            T1 = int(re.search(r"at (\d+) K", qs[0].stem).group(1))
+            assert num(qs[0].answer) == c * T1
+            assert num(qs[1].answer) == T1 - 273
+            T2 = int(re.search(r"to (\d+) K", qs[2].stem).group(1))
+            assert num(qs[2].answer) == c * T2
+
+
+def test_capacitor_discharge():
+    m = fam("capacitor_discharge")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        V0, half, C = p["V0"], p["half"], p["C_uF"]
+        for n in range(4):
+            assert abs(m.voltage(p, n * half) - V0 / 2 ** n) < 1e-9  # it halves every half-time
+        assert num(qs[0].answer) == V0
+        assert num(qs[1].answer) == Fraction(C * V0, 1000)  # Q = CV, in mC
+        assert num(qs[2].answer) == half
+        assert num(qs[3].answer) == Fraction(C * V0 * V0, 2000)  # E = ½CV², in mJ
+
+
+def test_photoelectric():
+    m = fam("photoelectric")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        f0 = Fraction(p["f0"])
+        h = Fraction(4, 10)  # eV per 10¹⁴ Hz: h ≈ 4 × 10⁻¹⁵ eV s
+        assert abs(m.energy(p, float(f0))) < 1e-9 and abs(m.energy(p, float(f0) + 1) - 0.4) < 1e-9
+        assert num(qs[0].answer) == f0 and num(qs[1].answer) == h * f0  # threshold; work function = h f0
+        f1 = Fraction(re.search(r"frequency of ([\d.]+) × 10¹⁴ Hz", qs[2].stem).group(1))
+        assert f1 > f0 and num(qs[2].answer) == h * (f1 - f0)  # Ek = h(f − f0)
+
+
+def test_energy_levels():
+    m = fam("energy_levels")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        levels = [Fraction(e) for e in p["levels"]]
+        gaps = {t["letter"]: levels[t["upper"]] - levels[t["lower"]] for t in p["transitions"]}
+        assert all(g > 0 for g in gaps.values()) and len(set(gaps.values())) == len(gaps)  # downward, no two alike
+        first = p["transitions"][0]["letter"]
+        assert first in qs[0].stem and num(qs[0].answer) == gaps[first]
+        assert picked(qs[1]) == max(gaps, key=gaps.get)  # the highest frequency: the biggest drop
+        assert num(qs[2].answer) == -levels[0]  # ionisation from the ground state
