@@ -47,7 +47,7 @@ D = 1.55  # bonded atoms' centres: the circles overlap enough to hold a triple b
 def sample(rng: random.Random) -> dict:
     formula = rng.choice(list(MOLECULES))
     atoms, bonds, lone, _ = MOLECULES[formula]
-    return {"band": rng.choice(BANDS), "formula": formula, "atoms": list(atoms), "bonds": list(bonds),
+    return {"band": rng.choice(BANDS), "formula": formula, "atoms": list(atoms), "bonds": [list(b) for b in bonds],  # lists: the spec is stored as JSON
             "lone": list(lone), "centre": 0, "turn": rng.choice([0, 90, 180, 270]), "dots": rng.choice(["first", "others"])}
 
 

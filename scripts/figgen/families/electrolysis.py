@@ -42,7 +42,7 @@ LETTERS = [("A", "B"), ("P", "Q"), ("X", "Y"), ("M", "N")]
 
 def sample(rng: random.Random) -> dict:
     return {"band": rng.choice(BANDS), "electrolyte": rng.choice(list(ELECTROLYTES)), "plus": rng.choice(["left", "right"]),
-            "letters": rng.choice(LETTERS)}
+            "letters": list(rng.choice(LETTERS))}
 
 
 def wired_to_plus(p: dict) -> str:
