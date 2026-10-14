@@ -24,7 +24,7 @@ POINTS = ["north", "north-east", "east", "south-east", "south", "south-west", "w
 SHORT = {"north": "N", "north-east": "NE", "east": "E", "south-east": "SE", "south": "S", "south-west": "SW",
          "west": "W", "north-west": "NW"}
 MONTHS = {"April": 30, "June": 30, "September": 30, "November": 30, "January": 31, "March": 31, "July": 31, "October": 31}
-R0, UNIT = 0.9, 0.38  # the centre circle, and one day along a bar
+UNIT = 0.42  # one day along a bar, one ring
 
 
 def sample(rng: random.Random) -> dict:
@@ -40,27 +40,28 @@ def sample(rng: random.Random) -> dict:
 
 
 def draw(p: dict):
-    fig, ax = new_figure(6.0, 6.0)
+    """Bars from the centre, each ending on a numbered ring; the calm days in a box (P3o review: bars from a calm circle's
+    edge left zero unclear, and unnumbered rings were miscounted)."""
+    fig, ax = new_figure(6.0, 6.2)
     top = max(p["days"].values())
+    a_lab = math.radians(90 - 22.5)  # ring numbers in the gap between north and north-east
     for d in range(1, top + 1):
-        ax.add_patch(Circle((0, 0), R0 + d * UNIT, facecolor="none", edgecolor="#bbbbbb", linewidth=0.6, linestyle=(0, (2, 2))))
-    for d in range(2, top + 1, 2):  # ring numbers in the gap between north and north-east
-        a = math.radians(90 - 22.5)
-        ax.text((R0 + d * UNIT) * math.cos(a), (R0 + d * UNIT) * math.sin(a), str(d), ha="center", va="center", fontsize=7.5,
-                color="#555555", bbox=dict(boxstyle="square,pad=0.05", facecolor="white", edgecolor="none"))
+        ax.add_patch(Circle((0, 0), d * UNIT, facecolor="none", edgecolor="#bbbbbb", linewidth=0.6, linestyle=(0, (2, 2))))
+        ax.text(d * UNIT * math.cos(a_lab), d * UNIT * math.sin(a_lab), str(d), ha="center", va="center", fontsize=7,
+                color="#555555", bbox=dict(boxstyle="square,pad=0.03", facecolor="white", edgecolor="none"), zorder=5)
     for k, name in enumerate(POINTS):
         a = math.radians(90 - 45 * k)
         n = p["days"][name]
-        ux, uy, vx, vy = math.cos(a), math.sin(a), -math.sin(a) * 0.2, math.cos(a) * 0.2
-        r1 = R0 + n * UNIT
-        ax.add_patch(Polygon([(R0 * ux + vx, R0 * uy + vy), (r1 * ux + vx, r1 * uy + vy), (r1 * ux - vx, r1 * uy - vy),
-                              (R0 * ux - vx, R0 * uy - vy)], closed=True, facecolor=FILL, edgecolor=INK, linewidth=1.0, zorder=3))
-        rl = R0 + (top + 1.3) * UNIT
+        ux, uy, vx, vy = math.cos(a), math.sin(a), -math.sin(a) * 0.13, math.cos(a) * 0.13
+        r0, r1 = 0.12, n * UNIT
+        ax.add_patch(Polygon([(r0 * ux + vx, r0 * uy + vy), (r1 * ux + vx, r1 * uy + vy), (r1 * ux - vx, r1 * uy - vy),
+                              (r0 * ux - vx, r0 * uy - vy)], closed=True, facecolor=FILL, edgecolor=INK, linewidth=1.0, zorder=3))
+        rl = (top + 1.3) * UNIT
         ax.text(rl * ux, rl * uy, SHORT[name], ha="center", va="center", fontsize=11, fontweight="bold")
-    ax.add_patch(Circle((0, 0), R0, facecolor="white", edgecolor=INK, linewidth=1.2, zorder=4))
-    ax.text(0, 0.12, str(p["calm"]), ha="center", va="center", fontsize=13, fontweight="bold", zorder=5)
-    ax.text(0, -0.3, "calm", ha="center", va="center", fontsize=8.5, zorder=5)
-    lim = R0 + (top + 2) * UNIT
+    lim = (top + 2) * UNIT
+    ax.text(-lim + 0.05, -lim + 0.1, f"Calm: {p['calm']} days", ha="left", va="bottom", fontsize=10, fontweight="bold",
+            bbox=dict(boxstyle="round,pad=0.25", facecolor="white", edgecolor=INK, linewidth=0.8))
+    ax.text(lim - 0.05, -lim + 0.1, "1 ring = 1 day", ha="right", va="bottom", fontsize=9)
     ax.set_title(f"{p['name']}: days the wind blew from each direction", fontsize=10)
     ax.set_xlim(-lim, lim)
     ax.set_ylim(-lim, lim)

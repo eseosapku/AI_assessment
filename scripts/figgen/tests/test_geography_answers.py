@@ -127,7 +127,7 @@ def test_grid_reference():
                 x = sym[got.group(1)]
                 assert q.answer == f"{e0 + x['i']:02d}{x['a']}{n0 + x['j']:02d}{x['b']}"
                 assert 1 <= x["a"] <= 9 and 1 <= x["b"] <= 9  # never on a gridline
-            got = re.search(r"direction from the (.+?) to the (.+?)\?", q.stem)
+            got = re.search(r"direction from the (.+?) to the (.+?)(?:,|\?)", q.stem)
             if got:
                 a, b = sym[got.group(1)], sym[got.group(2)]
                 dx = (b["i"] + b["a"] / 10) - (a["i"] + a["a"] / 10)
@@ -414,3 +414,83 @@ def test_an_employment_point_is_asked_as_its_share_of_jobs():
         if p["context"] == "employment":
             for q in qs:
                 assert "jobs are there" not in q.stem
+
+
+# --- P3o review fixes -----------------------------------------------------------------------------
+
+def _texts(fig):
+    return [t.get_text() for ax in fig.axes for t in ax.texts]
+
+
+def test_a_contour_maps_gradient_takes_n_alone_and_its_heights_say_metres():
+    """Asked "as 1 in n", reviewers wrote "8"; contour labels of 1930 read as years (P3o review)."""
+    import matplotlib.pyplot as plt
+    m = fam("contour_map")
+    for s in range(1, 40):
+        p, qs = run(m, s)
+        for q in qs:
+            if "gradient" in q.stem:
+                assert q.answer.split()[-1] in q.accepted
+        fig = m.draw(p)
+        assert any("metres" in t for t in _texts(fig))
+        plt.close(fig)
+
+
+def test_a_grid_direction_names_its_precision_and_lies_near_its_point():
+    m = fam("grid_reference")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        for q in qs:
+            if "compass direction" in q.stem:
+                assert "8 compass points" in q.stem
+        a, b = (p["symbols"][k] for k in p["walk"])
+        assert m.direction(a, b)[1] <= 8, s  # plainly the point it names, never "slightly south of west"
+
+
+def test_a_hydrograph_marks_the_middle_of_its_tallest_rain_bar():
+    """Reviewers read the tallest bar as spanning an hour, so the lag could be 7, 7.5 or 8 (P3o review)."""
+    import matplotlib.pyplot as plt
+    m = fam("hydrograph")
+    for s in range(1, 30):
+        p, qs = run(m, s)
+        tr = p["rain"].index(max(p["rain"]))
+        fig = m.draw(p)
+        dashed = [ln for ax in fig.axes for ln in ax.lines if ln.get_linestyle() == "--" and set(ln.get_xdata()) == {tr}]
+        plt.close(fig)
+        assert dashed, s
+        assert any("middle of the tallest rain bar" in q.stem for q in qs if "lag time" in q.stem)
+
+
+def test_a_wind_roses_bars_start_at_the_centre_on_numbered_rings():
+    """Bars from a calm circle's edge left zero unclear, and unlabelled rings were miscounted (P3o review)."""
+    import matplotlib.pyplot as plt
+    from matplotlib.patches import Polygon
+    m = fam("wind_rose")
+    for s in range(1, 30):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        bars = [pa for pa in ax.patches if isinstance(pa, Polygon)]
+        texts = _texts(fig)
+        plt.close(fig)
+        assert all(min(abs(complex(*v)) for v in pa.get_xy()) < 0.3 for pa in bars), s  # each bar starts at the centre
+        top = max(p["days"].values())
+        assert all(str(d) in texts for d in range(1, top + 1)), s
+        assert any("calm" in t.lower() and str(p["calm"]) in t for t in texts), s
+
+
+def test_a_ternary_graph_has_angled_ticks():
+    import matplotlib.pyplot as plt
+    m = fam("ternary_graph")
+    fig = m.draw(m.sample(random.Random(1)))
+    ticks = [ln for ln in fig.axes[0].lines if getattr(ln, "get_gid", lambda: None)() == "tick"]
+    plt.close(fig)
+    assert len(ticks) == 33  # eleven a side, each along its own part's gridline
+
+
+def test_a_rwandan_climate_bar_stays_below_the_top_of_its_axis():
+    m = fam("climate_graph")
+    for s in range(1, 600):
+        p = m.sample(random.Random(s))
+        if p.get("place"):
+            assert max(p["rain"]) <= 190, s

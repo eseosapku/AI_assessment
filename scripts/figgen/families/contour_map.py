@@ -83,6 +83,7 @@ def draw(p: dict):
         ax.text(x + 0.2 * math.cos(t), y + 0.2 * math.sin(t), name, ha="center", va="center", fontsize=11, fontweight="bold", zorder=5)
     ax.annotate("", xy=(R + 0.9, R * 0.75 + 0.3), xytext=(R + 0.9, R * 0.75 - 0.5), arrowprops=dict(arrowstyle="-|>", color=INK, lw=1.4))
     ax.text(R + 0.9, R * 0.75 + 0.4, "N", ha="center", va="bottom", fontsize=11, fontweight="bold")
+    ax.text(-R - 0.4, -R * 0.75 - 0.55, "Heights in metres", ha="left", va="center", fontsize=9.5)  # not years (P3o review)
     ax.set_xlim(-R - 0.5, R + 1.4)
     ax.set_ylim(-R * 0.75 - 0.8, R * 0.75 + 0.9)
     ax.set_aspect("equal")
@@ -107,4 +108,4 @@ def questions(p: dict, rng: random.Random) -> list:
             mcq(f"{friend} looks at how close the contours are. Which side of the hill is steeper?", steep,
                 [s.capitalize() + " side" for s in SIDES if s != p["steep"]], rng),
             short(f"The horizontal distance from A to B is {p['run']} m. What is the average gradient from A to B, as 1 in n?",
-                  f"1 in {g}", [f"1 in {g}", f"1:{g}", f"1/{g}", f"1 : {g}"])]
+                  f"1 in {g}", [f"1 in {g}", f"1:{g}", f"1/{g}", f"1 : {g}", str(g), f"n = {g}"])]  # asked as 1 in n, "8" is n (P3o review)

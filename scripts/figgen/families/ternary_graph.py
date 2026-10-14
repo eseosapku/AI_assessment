@@ -60,24 +60,29 @@ def draw(p: dict):
         for a, b in (((0, 100 - k, k), (100 - k, 0, k)), ((100 - k, k, 0), (0, k, 100 - k)), ((k, 100 - k, 0), (k, 0, 100 - k))):
             (x1, y1), (x2, y2) = xy(a), xy(b)
             ax.plot([x1, x2], [y1, y2], color="#b9c2ca", linewidth=0.7, zorder=1)
+    # angled ticks: each number at the end of a short tick that carries on its own part's gridline beyond the edge, so it
+    # is plain which lines to follow (P3o review)
     for k in range(0, 101, 10):
-        x, y = xy((100 - k, 0, k))  # the top part on the left side
-        ax.text(x - 2.5, y, str(k), ha="right", va="center", fontsize=8)
-        x, y = xy((0, k, 100 - k))  # the right part on the right side
-        ax.text(x + 2.5, y, str(k), ha="left", va="center", fontsize=8)
-        x, y = xy((k, 100 - k, 0))  # the left part along the bottom
-        ax.text(x, -3, str(k), ha="center", va="top", fontsize=8)
-    ax.text(7.5, 53.5, f"% {parts[2]}", ha="center", va="center", fontsize=10.5, fontweight="bold", rotation=60)
-    ax.text(92.5, 53.5, f"% {parts[1]}", ha="center", va="center", fontsize=10.5, fontweight="bold", rotation=-60)
-    ax.text(50, -11, f"% {parts[0]}", ha="center", va="center", fontsize=10.5, fontweight="bold")
+        for edge, inside, ha, va in (((100 - k, 0, k), (0, 100 - k, k), "right", "center"),   # top part: horizontal lines
+                                     ((0, k, 100 - k), (100 - k, k, 0), "left", "center"),    # right part: parallel to the left side
+                                     ((k, 100 - k, 0), (k, 0, 100 - k), "center", "top")):    # left part: parallel to the right side
+            (x0, y0), (x1, y1) = xy(edge), xy(inside)
+            d = math.hypot(x1 - x0, y1 - y0) or 1.0
+            ux, uy = (x0 - x1) / d, (y0 - y1) / d  # outward, along the gridline
+            (line,) = ax.plot([x0, x0 + 3.5 * ux], [y0, y0 + 3.5 * uy], color=INK, linewidth=0.9)
+            line.set_gid("tick")
+            ax.text(x0 + 5.5 * ux, y0 + 5.5 * uy, str(k), ha="center", va="center", fontsize=8)
+    ax.text(3.0, 56.0, f"% {parts[2]}", ha="center", va="center", fontsize=10.5, fontweight="bold", rotation=60)
+    ax.text(99.0, 58.0, f"% {parts[1]}", ha="center", va="center", fontsize=10.5, fontweight="bold", rotation=-60)
+    ax.text(50, -16, f"% {parts[0]}", ha="center", va="center", fontsize=10.5, fontweight="bold")
     for name, v in p["points"].items():
         x, y = xy(v)
         ax.plot([x], [y], marker="o", markersize=7, color="#c0392b", markeredgecolor=INK, zorder=4)
         ax.text(x + 1.8, y + 1.8, name, ha="left", va="bottom", fontsize=11.5, fontweight="bold", zorder=5,
                 bbox=dict(boxstyle="square,pad=0.05", facecolor="white", edgecolor="none", alpha=0.85))
     ax.set_title("Soil texture" if p["context"] == "soil" else "Employment structure", fontsize=11)
-    ax.set_xlim(-18, 118)
-    ax.set_ylim(-15, 100 * H + 6)
+    ax.set_xlim(-22, 124)
+    ax.set_ylim(-20, 100 * H + 8)
     ax.set_aspect("equal")
     ax.axis("off")
     return fig

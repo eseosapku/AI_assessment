@@ -60,7 +60,7 @@ def sample(rng: random.Random) -> dict:
             step = 20
             normals, temp = STATIONS[place]
             # the wet months vary by 10 mm; the dry June to August keep their normals, never an empty July
-            rain = [r if k in DRY_CAP else r + rng.choice([-10, 0, 0, 10]) for k, r in enumerate(normals)]
+            rain = [r if k in DRY_CAP else min(190, r + rng.choice([-10, 0, 0, 10])) for k, r in enumerate(normals)]  # below the top (P3o)
             temp = list(temp)
             if rain.index(max(rain)) != 3:
                 continue  # April, the peak of the long rains

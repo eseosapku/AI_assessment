@@ -76,6 +76,9 @@ def draw(p: dict):
     ax2.set_yticks(range(0, top_r + 1, 1), minor=True)
     ax2.set_ylabel("Rainfall (mm per hour)")
     ax2.tick_params(labelsize=8.5)
+    # the peak of the rain is the middle of its tallest bar, marked (P3o review: read as a bar spanning the hour)
+    tr = p["rain"].index(max(p["rain"]))
+    ax.plot([tr, tr], [0, top_q], color="#555555", linewidth=1.0, linestyle="--", zorder=3)
     ax.set_title(f"Storm hydrograph for the River {p['river']}", fontsize=11)
     return fig
 
@@ -87,8 +90,8 @@ def questions(p: dict, rng: random.Random) -> list:
     who, friend = rng.sample(NAMES, 2)
     tr, tp = p["rain"].index(max(p["rain"])), p["flow"].index(max(p["flow"]))
     peak, base = max(p["flow"]), p["flow"][0]
-    return [short(f"{who} reads this storm hydrograph of the River {p['river']} {rng.choice(SETTINGS)}. What is the lag time, from the peak of the rain to "
-                  "the peak of the discharge, in hours?", tp - tr, [str(tp - tr), f"{tp - tr} hours", f"{tp - tr} h"]),
+    return [short(f"{who} reads this storm hydrograph of the River {p['river']} {rng.choice(SETTINGS)}. What is the lag time, from the peak of the rain (the "
+                  "middle of the tallest rain bar, on the dashed line) to the peak of the discharge, in hours?", tp - tr, [str(tp - tr), f"{tp - tr} hours", f"{tp - tr} h"]),
             short(f"What is the peak discharge of the River {p['river']} in this storm, in m³/s?", peak,
                   [str(peak), f"{peak} m³/s", f"{peak} m3/s", f"{peak} cumecs"]),
             short(f"{friend} compares the peak with the base flow before the storm. By how much does the discharge rise above the "

@@ -46,7 +46,7 @@ def sample(rng: random.Random) -> dict:
         names = rng.sample(sorted(SYMBOLS), 4)
         squares = rng.sample([(i, j) for i in range(N) for j in range(N)], 4)
         symbols = [{"name": nm, "i": i, "j": j, "a": rng.randint(2, 8), "b": rng.randint(2, 8)} for nm, (i, j) in zip(names, squares)]
-        pairs = [(a, b) for a in range(4) for b in range(4) if a != b and direction(symbols[a], symbols[b])[1] <= 12]
+        pairs = [(a, b) for a in range(4) for b in range(4) if a != b and direction(symbols[a], symbols[b])[1] <= 8]  # plainly that point (P3o)
         if pairs:
             a, b = rng.choice(pairs)
             return {"band": rng.choice(BANDS), "e0": rng.randint(10, 90), "n0": rng.randint(10, 90), "symbols": symbols,
@@ -106,4 +106,4 @@ def questions(p: dict, rng: random.Random) -> list:
             short(f"What is the six-figure grid reference of the {s['name']}? Give the eastings first.", six,
                   near + [f"{x[:3]} {x[3:]}" for x in near]),
             short(f"{friend} walks straight from the {a['name']} to the {b['name']}. What is the compass direction from the "
-                  f"{a['name']} to the {b['name']}?", way, [way, way.replace("-", " "), way.replace("-", ""), SHORT[way]])]
+                  f"{a['name']} to the {b['name']}, to the nearest of the 8 compass points?", way, [way, way.replace("-", " "), way.replace("-", ""), SHORT[way]])]
