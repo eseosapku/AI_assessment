@@ -613,6 +613,22 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - Rwanda Primary "Numbers from 0 up to 200": 41 figures, 123 questions.
       - IGCSE "Histograms and cumulative frequency diagrams": 264 figures, 1,034 questions.
       - AL "Cell membranes and transport": 17 figures, 68 questions.
+  - **P3k result (2026-10-15, plan `2026-10-15-figure-library-p3k-computing-wave.md`): the Computing wave as samples.** $0 spent; nothing new was stored.
+    - **15 families**, each answer computed by running what is drawn:
+      - logic: gates and truth tables;
+      - algorithms: flowcharts, trace tables of Cambridge-style pseudocode, bubble and insertion sorts, binary search;
+      - data: binary place value, bitmaps, sound samples;
+      - applications: spreadsheet formulas, SQL queries, network topologies;
+      - structures and security: binary search trees, stacks and queues, Caesar ciphers.
+    - **Links:** read by name. 109 misfit pairs were named in AVOID: AS IT topics with no sections, storage hardware, Java, C++ and Visual Basic introductions for pseudocode, and word processing. They reach 106 of the 397 Computing topics that had no figure.
+    - **The fresh review** found:
+      - Critical: truth-table blanks that could not be worked out, with no expression printed;
+      - Important: stacks and queues that overflowed their drawn cells; insertion passes that moved nothing; stems that printed the list; one-digit hex refused.
+      - Re-graded to Important: "cell B2" and bit codes in fours refused; empty trace-table cells, which Cambridge reads as "unchanged"; a mesh of four whose crossing diagonals read as a junction.
+      All were fixed with tests.
+    - **The grader:** a probe of `agrees` found that it matched codes by their digits, so "3E" reached "3F" and "D4" reached "C4". Fixed before any Computing review was paid for.
+    - **Sheet:** https://claude.ai/artifact/EBt1kTPURmuHeZhxzp6B93
+    - **Next:** P3l, drawing Computing at scale (plan `2026-10-15-figure-library-p3l-computing-scale.md`).
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
