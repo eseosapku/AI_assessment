@@ -663,6 +663,19 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
     - **How:** a family's `ALSO` names the `science.*` concepts its figures teach too. 25 LS-band Physics, Chemistry and Biology families reach the Lower Secondary Science topics of Cambridge LS Science 7–9, Checkpoint 0893 and NERDC Integrated Science.
     - **Misfits:** glossary, skills and method pages, and five chapter misfits, were named in AVOID. No link outside Science moved (`reach_snap` diff); venn no longer reaches a Maths glossary.
     - **Coverage:** Science 27 of 179 topics have figures, 25 with 50 or more (it had 1). The Primary Science topics wait for Primary-level families.
+  - **P3o result (2026-10-15, plan `2026-10-15-figure-library-p3o-geography-scale.md`): Geography at scale.** $5.71 spent (blind review $3.37, fix reviews $2.34); library total $97.05.
+    - **Blind review:** 338 of 390 passed. Five families fell short:
+      - contour_map: "8" for "1 in 8", and labels like 1930 read as years. Now n alone is accepted, and the map says "Heights in metres".
+      - grid_reference: directions with no stated precision. Now "to the nearest of the 8 compass points", and only within 8° of the point.
+      - hydrograph: the tallest rain bar was read as spanning an hour. Now a dashed line marks its middle, and the stem says so.
+      - ternary_graph: misreadings. Now there are angled ticks.
+      - wind_rose: where 0 was, and short bars. Two redraws: the classic rose, a scale from 0 at the calm circle, every bar at least 2 days.
+    - **Approved:** all 13 families, 1,944 figures. The 90 P1 geography figures were redrawn first.
+    - **Coverage:** Geography 66 of 146 topics have figures, all 66 with 50 or more (it had 5). Library: 20,527 figures approved.
+    - **Quiz check:**
+      - Rwanda "Map Work Interpretation": 285 figures, 928 questions.
+      - "Climate in Rwanda": 65 figures, 260 questions.
+      - "Population in Rwanda": 221 figures, 734 questions.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
