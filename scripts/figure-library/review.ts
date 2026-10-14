@@ -13,6 +13,7 @@ export const REVIEW_JOB = 'p1a-blind'
 /** Spec 3.3: a family passes a blind review of 30 items scoring 27 or better. */
 export const REVIEW_SIZE = 30
 export const PASS_MARK = 27
+export const SHORT_FLOOR = 20
 /** A figure (about 800 tokens), the prompt (about 600) and a worked check of each question (about 450 out). */
 export const REVIEW_USD_PER_ITEM = 0.008
 
@@ -82,19 +83,29 @@ export function reviewPrompt(item: ReviewItem): string {
 // ".7" is 0.7; a hyphen after a digit joins a range ("12-13"), it is not a minus sign.
 const NUMBER = /(?<![\d.])-?(?:\d+(?:\.\d+)?|\.\d+)(?:\s*\/\s*\d+(?:\.\d+)?)?/g
 
+// A unit's power, read as part of the unit only where it is one (P3f final review):
+// - the unit follows a number; a one-letter unit (m, s) only after a space, so "6m^5" and "1s2 2s2" stay algebra and
+//   configurations;
+// - the power is one a unit has: ^2, ^3, ^-1, ^-2, or written bare as m2, cm3, m/s2, m s-2;
+// - nothing that reads as another unit follows it, so "1 ms–2 ms" stays a range.
+const UNIT_POWER = new RegExp(
+  String.raw`(\d\s?(?:[ckm]m|m\/s|m\s?s)|\d\s(?:m|s))` +
+  String.raw`(?:\s?\^\s?-?[123]|(?<=[ckm]?m)[23]|(?<=\/s)2|(?<=s)-[12])` +
+  String.raw`(?![\d.])(?!\s?(?:[ckm]?m|m\/s|m\s?s|s)\b)`, 'g')
+
 /** Every number in an answer, a fraction as its value: "9/25", "18/50" and "0.36" are one answer. */
 function numbersIn(text: string): number[] {
   // "1,500" and "12 800" are one number: a comma or space before exactly three digits separates thousands.
   // Standard form is one number: "4 × 10^4" and "4×10⁴" are 40000.
   const sup = '⁰¹²³⁴⁵⁶⁷⁸⁹'
   const standard = text.replace(/[\u2212\u2013\u2014]/g, '-')
-    .replace(/(-?\d+(?:\.\d+)?)\s*[×x*·]\s*10\s*(?:\^\s*(-?\d+)|([⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+))/g, (_, a: string, p: string | undefined, s: string | undefined) => {
+    .replace(/(?<![\d./])(-?(?:\d+(?:\.\d+)?|\.\d+))\s*[×x*·]\s*10\s*(?:\^\s*(-?\d+)|([⁻]?[⁰¹²³⁴⁵⁶⁷⁸⁹]+))/g,
+      (_, a: string, p: string | undefined, s: string | undefined) => {
       const power = p ?? s!.replace('⁻', '-').replace(/[⁰¹²³⁴⁵⁶⁷⁸⁹]/g, (d) => String(sup.indexOf(d)))
       return String(parseFloat((Number(a) * 10 ** Number(power)).toPrecision(12)))
     })
   // A unit's power after a number is part of the unit: "3 m/s^2", "3 m s^-2", "12 cm3" each give one number.
-  const joined = standard.replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1')
-    .replace(/(\d\s?(?:[ckm]?m|m\/s|m\s?s|s))(?:\s?\^\s?-?\d+|-?[123](?![\d.]))/g, '$1')
+  const joined = standard.replace(/(\d)[, ](?=\d{3}(?!\d))/g, '$1').replace(UNIT_POWER, '$1')
   return (joined.match(NUMBER) ?? []).map((t) => {
     const [a, b] = t.split('/').map((x) => Number(x.trim()))
     return b === undefined ? a : a / b
@@ -329,14 +340,15 @@ export interface FamilyScore { family: string; reviewed: number; passed: number;
 export function familyScores(db: Store, job: string): FamilyScore[] {
   const rows = db.prepare(`SELECT f.family AS family, COUNT(*) AS reviewed, SUM(r.pass) AS passed,
       (SELECT COUNT(*) FROM figures d WHERE d.origin = 'drawn' AND d.family = f.family) AS drawn
-    FROM reviews r JOIN figures f ON f.id = r.figure_id WHERE r.job = ? GROUP BY f.family ORDER BY f.family`)
+    FROM reviews r JOIN figures f ON f.id = r.figure_id WHERE r.job = ? AND f.family IS NOT NULL GROUP BY f.family ORDER BY f.family`)
     .all(job) as { family: string; reviewed: number; passed: number; drawn: number }[]
   return rows.map((r) => {
     const reviewed = Number(r.reviewed)
     const passed = Number(r.passed)
     // A family with fewer than 30 different figures (em_spectrum has 28) passes once every one is
     // reviewed, at the same rate: 27 of 30.
-    const short = reviewed < REVIEW_SIZE && reviewed >= Number(r.drawn)
+    // ...but never on fewer than SHORT_FLOOR: one figure, or a draw cut short, says too little (P3f final review).
+    const short = reviewed < REVIEW_SIZE && reviewed >= SHORT_FLOOR && reviewed >= Number(r.drawn)
     return {
       family: r.family,
       reviewed,

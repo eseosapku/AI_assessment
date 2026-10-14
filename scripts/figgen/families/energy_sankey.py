@@ -119,6 +119,6 @@ def questions(p: dict, rng: random.Random) -> list:
     if p["band"] == "UP" and powers:
         P = rng.choice(powers)
         t = Fraction(p["input"], P)
-        qs.append(short(f"The {p['device']} works at {P} W. How long does it take to take in this energy, in seconds?", exact(t),
+        qs.append(short(f"The {p['device']} takes in energy at {P} W. How long does it take to take in the energy in the diagram, in seconds?", exact(t),
                         measure(t, "s")))
     return qs

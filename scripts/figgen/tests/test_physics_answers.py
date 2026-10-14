@@ -956,3 +956,21 @@ def test_energy_levels():
         assert first in qs[0].stem and num(qs[0].answer) == gaps[first]
         assert picked(qs[1]) == max(gaps, key=gaps.get)  # the highest frequency: the biggest drop
         assert num(qs[2].answer) == -levels[0]  # ionisation from the ground state
+
+
+def test_the_manometer_story_names_what_its_figure_shows():
+    """The figure says "to the flask"; a story about a bottle contradicted it (P3f final review)."""
+    m = fam("pressure")
+    for s in range(1, 300):
+        p, qs = run(m, s)
+        if p["kind"] == "manometer" and p["left"] > p["right"]:
+            assert "flask" in qs[0].stem and "bottle" not in qs[0].stem, qs[0].stem
+
+
+def test_the_sankey_power_is_the_power_taken_in():
+    """"Works at 200 W" reads as a solar panel's output; the key uses the energy taken in (P3f final review)."""
+    m = fam("energy_sankey")
+    for s in range(1, 300):
+        p, qs = run(m, s)
+        if len(qs) > 3:
+            assert "takes in energy at" in qs[3].stem, qs[3].stem

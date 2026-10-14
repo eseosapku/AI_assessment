@@ -23,7 +23,7 @@ CONCEPTS = tuple(f"physics.{c}" for c in ("pressure", "atmospheric-pressure", "m
 # Not measurement alone, plant growth, farming or natural disasters.
 AVOID = r"earthquake|measurement|plant growth|agriculture|environmental"
 SUPPLIES = ["the laboratory gas supply", "a biogas digester", "the gas tap on the bench"]
-PUMPED = ["a flask that a vacuum pump is emptying", "a flask from which a pump is drawing the air", "a bottle a hand pump is emptying"]
+PUMPED = ["a flask that a vacuum pump is emptying", "a flask from which a pump is drawing the air", "a flask a hand pump is emptying"]
 FACES = ["face P", "face Q", "face R"]
 
 

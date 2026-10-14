@@ -202,6 +202,23 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(ms, '0.03 s')).toBe(false)
   })
 
+  it('never reads a range, an algebra power or a configuration as a unit power (P3f final review)', () => {
+    // A range's second end is a hedge, not a power: "1 m–2 m" is two answers.
+    const pairs: [string, string][] = [['1', '1 m–2 m'], ['2', '2 s–3 s'], ['1', '1 ms–2 ms'], ['2', '2m-3m'], ['1', '1s-3s'], ['2', '2m3s'],
+      ['5', '5m1'], ['6m^6', '6m^5'], ['4s^3', '4s^2'], ['3m^3 + 2m', '3m^2 + 2m'], ['2m2', '2m3'], ['1s2 2s2 2p6 3s1', '1s2 2s2 2p6 3s2'],
+      ['42', '4 m2']]
+    for (const [key, own] of pairs) expect(agrees(short(key), own), `${key} vs ${own}`).toBe(false)
+    // Real unit powers still belong to their unit.
+    for (const own of ['3 m/s^2', '3 m/s2', '3 m s^-2', '3 ms^-2', '3 m/s^2 to the left']) expect(agrees(short('3'), own), own).toBe(true)
+    for (const own of ['12 cm^3', '12 cm3', '12 m2', '12 m^2']) expect(agrees(short('12'), own), own).toBe(true)
+  })
+
+  it('reads standard form only from a whole number before the times sign (P3f final review)', () => {
+    expect(agrees(short('0.5'), '.5 × 10^3')).toBe(false)
+    expect(agrees(short('500'), '.5 × 10^3')).toBe(true)
+    expect(agrees(short('0.000025'), '1/4 × 10^4')).toBe(false)
+  })
+
   it('reads standard form as one number', () => {
     // "40000 Pa (4×10^4 Pa)" restates one answer (P3f review).
     for (const own of ['40000 Pa (4×10^4 Pa)', '4 × 10^4 Pa', '4x10^4', '4 × 10⁴ Pa', '4.0 × 10^4']) expect(agrees(short('40000'), own), own).toBe(true)
@@ -331,7 +348,9 @@ describe('family scores', () => {
     }
     fill('d', 28, 2)
     fill('e', 28, 3)
-    expect(familyScores(db, 'j').map((f) => [f.family, f.passes])).toEqual([['d', true], ['e', false]])
+    fill('f', 1, 0) // one figure, one pass: too few to judge a family by (P3f final review)
+    fill('g', 19, 0)
+    expect(familyScores(db, 'j').map((f) => [f.family, f.passes])).toEqual([['d', true], ['e', false], ['f', false], ['g', false]])
   })
 })
 
