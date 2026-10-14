@@ -46,6 +46,14 @@ def sample(rng: random.Random) -> dict:
     return {"band": rng.choice(BANDS), "meter": meter, "unit": unit, "full": full, "minor": str(minor), "value": exact(minor * k)}
 
 
+def label_step(p: dict) -> Fraction:
+    """The numbered step: the smallest round one that ends on the full scale in 3 to 10 steps, with at least
+    two small divisions in each, so "one small division" means something (P3f re-review)."""
+    minor = Fraction(p["minor"])
+    return next(L for L in map(Fraction, ("0.1", "0.2", "0.5", "1", "2", "4", "5", "10"))
+                if (L / minor).denominator == 1 and L / minor >= 2 and (p["full"] / L).denominator == 1 and 3 <= p["full"] / L <= 10)
+
+
 def _angle(p: dict, v: float) -> float:
     a0, a1 = SWEEP
     return math.radians(a0 + (a1 - a0) * v / p["full"])
@@ -54,9 +62,7 @@ def _angle(p: dict, v: float) -> float:
 def draw(p: dict):
     minor = Fraction(p["minor"])
     steps = int(p["full"] / minor)
-    # Label every L, the smallest round step that ends on the full scale with 3 to 10 labelled steps.
-    label = next(L for L in map(Fraction, ("0.1", "0.2", "0.5", "1", "2", "5", "10"))
-                 if (L / minor).denominator == 1 and (p["full"] / L).denominator == 1 and 3 <= p["full"] / L <= 10)
+    label = label_step(p)
     major = int(label / minor)
     R = 3.0  # a large dial: the needle's thin tip meets the ticks on the scale's arc
     fig, ax = new_figure(6.4, 4.8)

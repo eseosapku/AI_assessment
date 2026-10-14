@@ -796,3 +796,12 @@ def test_the_lens_axes_are_numbered_in_centimetres_from_the_lens():
         v, _ = m.image(p)
         width = max(v, p["f"]) + 3 - min(-p["u"], v, -p["f"]) + 2
         assert width <= 30, width  # squares across
+
+
+def test_a_dial_has_small_divisions_between_its_numbers():
+    """With every tick numbered, "one small division" had no meaning to 5 of 30 reviewers (P3f re-review)."""
+    m = fam("meter_dial")
+    for meter, unit, full, minor in m.SCALES:
+        p = {"band": "LS", "meter": meter, "unit": unit, "full": full, "minor": str(minor), "value": str(2 * minor)}
+        step = m.label_step(p)
+        assert step / minor >= 2 and (full / step).denominator == 1 and 3 <= full / step <= 10, (full, minor, step)
