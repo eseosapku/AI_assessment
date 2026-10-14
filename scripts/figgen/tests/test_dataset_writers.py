@@ -313,7 +313,8 @@ def test_circuit():
     asking = values = 0
     for row, qs in asked("phys.circuit"):
         p = row["params"]
-        if p["labels"] != "values" or p["kind"] == "diode":
+        switch = any("switch" in c["kind"] for c in _parts(p))  # open and closed are drawn alike, a gap between two circles
+        if p["labels"] != "values" or p["kind"] == "diode" or switch:
             assert not qs
             continue
         values += 1
@@ -330,6 +331,8 @@ def test_circuit():
         current = source / total if closed else 0.0
         for q in qs:
             v = float(q.answer)
+            # a meter reading is printed rounded (2.3 V for 2.25 V), so working from it lands within 2%
+            assert q.tolerance >= 0.0199 * max(abs(v), 0.01), (row["id"], q.tolerance)  # of the unrounded value
             printed = [float(d.split()[0]) for d in drawn if d[:1].isdigit()]
             assert not any(abs(v - x) < 1e-9 for x in printed), (row["id"], q.answer)  # never a printed value
             if "total resistance" in q.stem or "combined resistance" in q.stem:
@@ -356,3 +359,173 @@ def test_no_correlation_is_asked_only_where_r_is_near_0():
             sxy = sum((x - mx) * (y - my) for x, y in p["points"])
             r = sxy / math.sqrt(sum((x - mx) ** 2 for x in xs) * sum((y - my) ** 2 for y in ys))
             assert abs(r) < 0.2, (row["id"], r)
+
+
+# --- batch 4: constructions, energy profiles, pedigrees, molecules, electron shells -----------------
+
+CONSTRUCTIONS = {"perp_bisector": "The perpendicular bisector of a line segment", "angle_bisector": "The bisector of an angle",
+                 "perp_from_point": "The perpendicular from a point to a line", "triangle_sss": "A triangle from its three sides"}
+LOCUS = {"perp_bisector": "It is the same distance from A and from B",
+         "angle_bisector": "It is the same distance from the lines BA and BC"}
+
+
+def test_construction():
+    seen = set()
+    for row, qs in asked("math.construction"):
+        p = row["params"]
+        assert qs, row["id"]
+        for q in qs:
+            if "Which construction" in q.stem:
+                assert picked(q) == CONSTRUCTIONS[p["kind"]]
+                seen.add("which")
+            if "every point on" in q.stem.lower():
+                assert picked(q) == LOCUS[p["kind"]]
+                seen.add("locus")
+            if "angle BAC" in q.stem:
+                ab, ac, bc = p["AB"], p["AC"], p["BC"]
+                want = math.degrees(math.acos((ab * ab + ac * ac - bc * bc) / (2 * ab * ac)))
+                assert p["kind"] == "triangle_sss" and q.answer == f"{want:.1f}", (row["id"], q.answer, want)
+                seen.add("angle")
+    assert seen == {"which", "locus", "angle"}
+
+
+def test_energy_profile():
+    seen = set()
+    for row, qs in asked("chem.energy_profile"):
+        p = row["params"]
+        assert qs, row["id"]
+        for q in qs:
+            if "exothermic or endothermic" in q.stem:
+                assert picked(q) == ("Exothermic" if p["h_prod"] < p["h_react"] else "Endothermic")
+                seen.add("exo")
+            if "Which letter shows the enthalpy change" in q.stem:
+                # the letters run Ea, then the catalysed Ea if there is one, then ΔH (checked on the images)
+                assert p["arrow_labels"] == "lettered" and p["diagram"] == "profile"
+                assert picked(q) == ("C" if p["h_peak_cat"] is not None else "B")
+                seen.add("dh")
+            if "Which letter shows the activation energy" in q.stem:
+                assert p["arrow_labels"] == "lettered" and p["h_peak_cat"] is None and picked(q) == "A"
+                seen.add("ea")
+            if "catalyst" in q.stem:
+                assert p["h_peak_cat"] is not None and p["h_peak_cat"] < p["h_peak"]
+                assert picked(q) == "It lowers the activation energy"
+                seen.add("cat")
+    assert seen == {"exo", "dh", "ea", "cat"}
+
+
+def test_pedigree():
+    seen = set()
+    for row, qs in asked("bio.pedigree"):
+        p = row["params"]
+        people = {x["id"]: x for x in p["people"]}
+        kids = {i: [x for x in p["people"] if x["parents"] and i in x["parents"]] for i in people}
+        couples = {tuple(x["parents"]) for x in p["people"] if x["parents"]}
+        assert qs, row["id"]
+        for q in qs:
+            if "dominant or a recessive" in q.stem:
+                dominant = p["mode"] == "AD"
+                assert picked(q).startswith("dominant" if dominant else "recessive")
+                # only asked where the chart proves it
+                assert any(people[a]["affected"] == dominant and people[b]["affected"] == dominant
+                           and any(k["affected"] != dominant for k in kids[a] if k in kids[b]) for a, b in couples)
+                seen.add("mode")
+            m = re.search(r"genotype of person (\d+)", q.stem)
+            if m:
+                x = people[int(m.group(1))]
+                near = [people[i] for i in (x["parents"] or [])] + kids[x["id"]]
+                g = picked(q)
+                if p["mode"] == "AR":
+                    assert g == ("aa" if x["affected"] else "Aa")
+                    assert x["affected"] or any(y["affected"] for y in near)
+                elif p["mode"] == "AD":
+                    assert g == ("Dd" if x["affected"] else "dd")
+                    assert not x["affected"] or any(not y["affected"] for y in near)
+                elif x["sex"] == "m":
+                    assert g == ("XᵃY" if x["affected"] else "XᴬY")
+                else:
+                    assert g == ("XᵃXᵃ" if x["affected"] else "XᴬXᵃ")
+                    assert x["affected"] or any(y["affected"] and y["sex"] == "m" for y in near)
+                seen.add(p["mode"])
+    assert seen == {"mode", "AR", "AD", "XR"}
+
+
+Z = {"H": 1, "He": 2, "Li": 3, "Be": 4, "B": 5, "C": 6, "N": 7, "O": 8, "F": 9, "Ne": 10, "Na": 11, "Mg": 12, "Al": 13, "Si": 14,
+     "P": 15, "S": 16, "Cl": 17, "Ar": 18, "K": 19, "Ca": 20}
+IONS = {("O", -2): "an oxide ion, O²⁻", ("S", -2): "a sulfide ion, S²⁻", ("N", -3): "a nitride ion, N³⁻", ("F", -1): "a fluoride ion, F⁻",
+        ("Cl", -1): "a chloride ion, Cl⁻", ("Na", 1): "a sodium ion, Na⁺", ("Li", 1): "a lithium ion, Li⁺", ("K", 1): "a potassium ion, K⁺",
+        ("Mg", 2): "a magnesium ion, Mg²⁺", ("Ca", 2): "a calcium ion, Ca²⁺", ("Be", 2): "a beryllium ion, Be²⁺",
+        ("Al", 3): "an aluminium ion, Al³⁺"}
+
+
+def test_electron_shells():
+    seen = set()
+    for row, qs in asked("chem.electron_shells"):
+        p = row["params"]
+        assert qs or (p["symbol"], p["charge"]) == ("H", -1), row["id"]  # H⁻ is not taught at IGCSE
+        for q in qs:
+            if "electronic configuration" in q.stem:
+                n, shells = Z[p["symbol"]] - p["charge"], []
+                for cap in (2, 8, 8, 2):
+                    if n > 0:
+                        shells.append(min(cap, n))
+                        n -= min(cap, n)
+                assert q.answer == ",".join(map(str, shells)), (row["id"], q.answer)
+                seen.add("config")
+            if "Which particle" in q.stem:
+                assert p["nucleus"] == "particles"
+                if p["charge"]:
+                    assert picked(q) == IONS[(p["symbol"], p["charge"])]
+                else:
+                    assert picked(q).endswith(" atom") and p["symbol"] not in picked(q)
+                    assert sum(o.endswith(" atom") for o in q.options) >= 2
+                seen.add("particle")
+            if "mass number" in q.stem:
+                n = int(next(lab[:-1] for lab in row["labels"] if re.fullmatch(r"\d+n", lab)))
+                assert p["nucleus"] == "particles" and int(q.answer) == Z[p["symbol"]] + n
+                seen.add("mass")
+    assert seen == {"config", "particle", "mass"}
+
+
+SERIES = {"ethanol": "Alcohols", "ethane-1,2-diol": "Alcohols", "ethyl ethanoate": "Esters", "butane": "Alkanes",
+          "2,2-dimethylpropane": "Alkanes", "propene": "Alkenes", "penta-1,3-diene": "Alkenes", "ethanoic acid": "Carboxylic acids",
+          "propanone": "Ketones", "ethanal": "Aldehydes", "methylamine": "Amines", "bromoethane": "Halogenoalkanes"}
+MIXED = {"prop-2-en-1-ol", "2-hydroxypropanoic acid", "aspirin", "propenoic acid", "benzaldehyde", "ethyl propenoate",
+         "2-aminoethanoic acid", "ethanoic anhydride", "benzene", "cyclohexene", "phenol", "methoxymethane"}
+FORMULA = {"benzene": "C6H6", "cyclohexene": "C6H10", "ethanenitrile": "C2H3N", "methylamine": "CH5N", "ethyl ethanoate": "C4H8O2",
+           "chloromethane": "CH3Cl", "methane": "CH4", "propan-2-ol": "C3H8O", "butanal": "C4H8O", "1-iodobutane": "C4H9I"}
+IGCSE_NAMES = re.compile(r"^(meth|eth|prop|but)(ane|ene|anol|an-[12]-ol|anoic acid)$|^but-[12]-ene$"
+                         r"|^(methyl|ethyl|propyl|butyl) (methan|ethan|propan|butan)oate$")
+
+
+def drawn_formula(labels):
+    """The molecular formula from the atoms the drawing shows: C, H, then the rest alphabetically."""
+    n = {}
+    for lab in labels:
+        for el, k in re.findall(r"(Cl|Br|[A-Z])(\d*)", lab):
+            n[el] = n.get(el, 0) + int(k or 1)
+    order = ["C", "H"] + sorted(e for e in n if e not in ("C", "H"))
+    return "".join(e + (str(n[e]) if n[e] > 1 else "") for e in order if e in n)
+
+
+def test_molecule():
+    seen = set()
+    for row, qs in asked("chem.molecule"):
+        p = row["params"]
+        for q in qs:
+            if "name of this compound" in q.stem:
+                assert picked(q) == p["name"]
+                if row["qualification"] == "igcse":
+                    assert all(IGCSE_NAMES.match(o) for o in q.options), q.options
+                seen.add("name")
+            if "homologous series" in q.stem:
+                assert p["name"] not in MIXED
+                if p["name"] in SERIES:
+                    assert picked(q) == SERIES[p["name"]]
+                seen.add("series")
+            if "molecular formula" in q.stem:
+                if p["mode"] != "skeletal":
+                    assert q.answer == drawn_formula(row["labels"]), (p["name"], q.answer, row["labels"])
+                if p["name"] in FORMULA:
+                    assert q.answer == FORMULA[p["name"]]
+                seen.add("formula")
+    assert seen == {"name", "series", "formula"}

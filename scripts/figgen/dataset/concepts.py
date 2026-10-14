@@ -5,7 +5,7 @@ from __future__ import annotations
 
 import types
 
-M, B = "mathematics", "biology"
+M, B, C = "mathematics", "biology", "chemistry"
 LINKS = {
     "math.trig_triangle": dict(subject=M, kind="maths.geometry",
                                concepts=["right-angled-triangles", "trigonometric-concepts", "sine-cosine-rules", "trigonometric-ratios-exact"],
@@ -41,13 +41,44 @@ LINKS = {
     "math.histogram": dict(like="histogram"),
     "math.scatter": dict(like="scatter_graph"),
     "phys.circuit": dict(like="circuit"),
+    "chem.energy_profile": dict(like="energy_profile"),
+    "bio.pedigree": dict(like="pedigree"),
+    "chem.electron_shells": dict(like="electron_shells"),
+    "math.construction": dict(subject=M, kind="maths.geometry", concepts=["constructing-angles", "construction-polygons-nets"],
+                              needs=r"construct|loci|locus|bisect|compass|scale drawing",
+                              avoid=r"algebra|expression|vector|transformation|statistic|probabil|trigonometr|graph|coordinate"),
+    # concepts by the molecule's homologous series (MOLECULE_SERIES), so a halogenoalkane never reaches a topic on alcohols
+    "chem.molecule": dict(subject=C, kind="chem.structure", concepts=["organic-functional-groups"],
+                          needs=r"organic|hydrocarbon|alkane|alkene|alcohol|carboxylic|ester|carbonyl|aldehyde|ketone|amine|amide"
+                                r"|nitrile|halogeno|acyl|homologous|isomer|functional group|skeletal|displayed",
+                          avoid=r"ionic|electrolysis|equilibrium|\brates?\b|titration|metal|periodic|isotope|masses of atoms|polymer"
+                                r"|analysis|spectr|chromatograph"),
 }
 
+
+MOLECULE_SERIES = {"Alkanes": ["alkanes"], "Alkenes": ["alkene-chemistry"], "Alcohols": ["alcohols"],
+                   "Carboxylic acids": ["carboxylic-acids"], "Esters": ["esters"], "Aldehydes": ["aldehydes-and-ketones"],
+                   "Ketones": ["aldehydes-and-ketones"], "Amines": ["amines"], "Halogenoalkanes": ["halogenoalkanes"],
+                   "Nitriles": ["nitriles"], "Amides": ["amides"], "Acyl chlorides": ["acyl-chlorides"]}
+# A topic that names another series and not the molecule's own teaches the other one: an alcohol is no figure for
+# "Carbonyl compounds", nor an alkane for "Benzene".
+SERIES_WORDS = {"Alkanes": r"\balkane", "Alkenes": r"\balkene", "Alcohols": r"\balcohol", "Carboxylic acids": r"carboxylic",
+                "Esters": r"\bester", "Aldehydes": r"carbonyl|aldehyde", "Ketones": r"carbonyl|ketone", "Amines": r"\bamine",
+                "Halogenoalkanes": r"halogeno|alkyl halide", "Nitriles": r"nitrile", "Amides": r"\bamide", "Acyl chlorides": r"\bacyl"}
+OTHER_SERIES = "benzene|arene|phenol|" + "|".join(SERIES_WORDS.values())
 
 # A function graph links by its own kind: a quadratic is no figure for rational functions.
 GRAPH_KINDS = {"linear": ["linear-functions", "linear-equation-gradient-intercept", "intercepts"],
                "quadratic": ["functions-quadratic-graphs", "parabola", "quadratic-graphs-review", "quadratic-equations-graphical-method"],
                "cubic": ["cubic-polynomials-graphs-moduli", "curves-relationships"]}
+
+
+def extra_bands(row: dict, band: str) -> tuple:
+    """Bands a row also links at: the bisector constructions are taught at Lower Secondary before IGCSE (the triangle's
+    cosine-rule question is IGCSE Extended, so it stays at its own band)."""
+    if row["family"] == "math.construction" and band == "UP" and (row.get("params") or {}).get("kind") != "triangle_sss":
+        return ("LS",)
+    return ()
 
 
 def family_of(row: dict, band: str):
@@ -62,6 +93,17 @@ def family_of(row: dict, band: str):
     kind = (row.get("params") or {}).get("kind")
     if row["family"] == "math.function_graph" and kind in GRAPH_KINDS:
         spec = {**spec, "concepts": GRAPH_KINDS[kind]}
+    if row["family"] == "chem.molecule":
+        from .writers import series_of
+        series = series_of(row["params"]["name"])
+        if series:
+            # its series only: the general organic concepts are mapped to every organic topic, halogenoalkanes included
+            spec = {**spec, "concepts": MOLECULE_SERIES[series] + (["isomerism"] if "isomer" in row.get("subtopic_id", "") else []),
+                    "avoid": f"{spec['avoid']}|^(?!.*(?:{SERIES_WORDS[series]})).*(?:{OTHER_SERIES})"}
+        else:  # several groups: the general organic topics, not one series' topic
+            spec = {**spec, "avoid": f"{spec['avoid']}|{OTHER_SERIES}"}
+        if band == "AL":  # the A-level books map their organic chapters to mechanisms; "Representing organic molecules" is this
+            spec = {**spec, "concepts": spec["concepts"] + ["chemical-formulae", "isomerism"]}
     return types.SimpleNamespace(ID=f"ds.{row['family']}", SUBJECT=spec["subject"], KIND=spec["kind"], BANDS=(band,),
                                  CONCEPTS=tuple(f"{spec['subject']}.{c}" for c in spec["concepts"]),
                                  NEEDS=spec.get("needs"), AVOID=spec.get("avoid"))

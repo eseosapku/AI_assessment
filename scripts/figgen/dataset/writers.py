@@ -11,8 +11,10 @@ Conventions checked against the images (2026-10-15):
 """
 from __future__ import annotations
 
+import functools
 import math
 import random
+import re
 
 from ..core import NAMES, mcq, short
 
@@ -393,14 +395,16 @@ def _sf(v: float) -> str:
 def _q(stem: str, v: float, unit: str) -> object:
     a = _sf(v)
     forms = [a, f"{a} {unit}", f"{a}{unit}", f"{v:.2g}", f"{v:.2f}"]
-    return short(stem, a, list(dict.fromkeys(forms)), tolerance=0.01 * max(abs(v), 0.01))
+    # 2%: a meter reading is printed rounded (2.3 V for 2.25 V), and working from it lands within that
+    return short(stem, a, list(dict.fromkeys(forms)), tolerance=0.02 * max(abs(v), 0.01))
 
 
 def circuit(row: dict, rng: random.Random) -> list:
-    """Values circuits only, with no diode (its voltage drop is a convention the figure does not state). A value the
-    figure prints, such as a meter reading, is never asked."""
+    """Values circuits only, with no diode (its voltage drop is a convention the figure does not state) and no switch
+    (open and closed are drawn alike, a gap between two circles, so the reviewers read a closed one as open). A value
+    the figure prints, such as a meter reading, is never asked."""
     p = row["params"]
-    if p["labels"] != "values" or p["kind"] == "diode":
+    if p["labels"] != "values" or p["kind"] == "diode" or any("switch" in c["kind"] for c in _parts(p)):
         return []
     printed = [float(d.split()[0]) for d in row["labels"] if d[:1].isdigit()]
 
@@ -443,6 +447,302 @@ def circuit(row: dict, rng: random.Random) -> list:
     return qs
 
 
+# --- constructions -----------------------------------------------------------------------------------
+
+CONSTRUCTIONS = {"perp_bisector": "The perpendicular bisector of a line segment", "angle_bisector": "The bisector of an angle",
+                 "perp_from_point": "The perpendicular from a point to a line", "triangle_sss": "A triangle from its three sides"}
+LOCUS = {"perp_bisector": ("It is the same distance from A and from B",
+                           ["It is closer to A than to B", "It is on a circle with centre A", "It is twice as far from A as from B"]),
+         "angle_bisector": ("It is the same distance from the lines BA and BC",
+                            ["It is the same distance from the points A and B", "It is twice as far from BA as from BC",
+                             "It is on a circle with centre B"])}
+
+
+def construction(row: dict, rng: random.Random) -> list:
+    """Every kind: which construction the arcs show. The bisectors: the locus property of the line drawn. The triangle:
+    the angle at A from its three printed sides."""
+    p = row["params"]
+    kind = p["kind"]
+    qs = [mcq(f"{_lead(rng, 'construction')} It was drawn with compasses and a ruler, and the arcs are left in. "
+              "Which construction is shown?", CONSTRUCTIONS[kind], [v for k, v in CONSTRUCTIONS.items() if k != kind], rng)]
+    if kind in LOCUS:
+        key, wrong = LOCUS[kind]
+        qs.append(mcq("Which is true of every point on the line drawn through the crossing arcs?", key, wrong, rng))
+    if kind == "triangle_sss":
+        ab, ac, bc = p["AB"], p["AC"], p["BC"]
+        a = f"{math.degrees(math.acos((ab * ab + ac * ac - bc * bc) / (2 * ab * ac))):.1f}"
+        qs.append(short("Use the cosine rule to work out angle BAC. Give your answer correct to 1 decimal place.", a,
+                        [a, f"{a}°", f"BAC = {a}°"], tolerance=0.1))
+    return qs
+
+
+# --- energy profiles ---------------------------------------------------------------------------------
+
+def _in_order(q):
+    """Letter options read A, B, C rather than shuffled."""
+    key = q.options[int(q.answer)]
+    q.options = sorted(q.options)
+    q.answer = str(q.options.index(key))
+    return q
+
+
+def energy_profile(row: dict, rng: random.Random) -> list:
+    """Exothermic or endothermic from the two levels. On lettered profiles the letters run Ea, then the catalysed Ea if
+    there is one, then ΔH (checked on the images); with a catalyst the two Ea letters crowd each other, so only ΔH is
+    asked there. The catalysed curve is the dashed one."""
+    p = row["params"]
+    exo = p["h_prod"] < p["h_react"]
+    what = "energy level diagram" if p["diagram"] == "levels" else "energy profile"
+    qs = [mcq(f"{_lead(rng, what)} Is the reaction exothermic or endothermic?", "Exothermic" if exo else "Endothermic",
+              ["Endothermic" if exo else "Exothermic"], rng)]
+    if p["diagram"] != "profile":
+        return qs
+    cat = p["h_peak_cat"] is not None
+    if p["arrow_labels"] == "lettered":
+        letters = ["A", "B", "C"] if cat else ["A", "B"]
+        if cat or rng.random() < 0.5:
+            qs.append(_in_order(mcq("Which letter shows the enthalpy change, ΔH, of the reaction?", letters[-1], letters[:-1], rng)))
+        else:
+            qs.append(_in_order(mcq("Which letter shows the activation energy?", "A", ["B"], rng)))
+    if cat:
+        qs.append(mcq("The dashed curve is the same reaction with a catalyst. What does the catalyst do?",
+                      "It lowers the activation energy",
+                      ["It changes ΔH", "It raises the energy of the products", "It raises the activation energy"], rng))
+    return qs
+
+
+# --- pedigrees ---------------------------------------------------------------------------------------
+
+WHY = {True: "dominant: two affected parents have an unaffected child", False: "recessive: two unaffected parents have an affected child"}
+WHY_WRONG = ["dominant: two unaffected parents have an affected child", "recessive: two affected parents have an unaffected child"]
+ALLELES = {"AR": "The alleles are A (dominant) and a (recessive), and the condition is caused by a.",
+           "AD": "The alleles are D (dominant) and d (recessive), and the condition is caused by D.",
+           "XR": "The condition is sex-linked: it is caused by the recessive allele Xᵃ on the X chromosome, and Xᴬ is the "
+                 "dominant allele."}
+GENOTYPES = {"AR": ["AA", "Aa", "aa"], "AD": ["DD", "Dd", "dd"],
+             "f": ["XᴬXᴬ", "XᴬXᵃ", "XᵃXᵃ", "XᴬY"], "m": ["XᴬY", "XᵃY", "XᴬXᵃ", "XᵃXᵃ"]}
+
+
+def pedigree(row: dict, rng: random.Random) -> list:
+    """Dominant or recessive, asked only where the chart proves it (a couple alike with a child unlike them). A genotype,
+    asked only of a person whose genotype the chart decides, preferring the ones it takes a step to decide."""
+    p = row["params"]
+    mode = p["mode"]
+    people = {x["id"]: x for x in p["people"]}
+    kids = {i: [x for x in p["people"] if x["parents"] and i in x["parents"]] for i in people}
+    couples = {tuple(x["parents"]) for x in p["people"] if x["parents"]}
+
+    def near(x):
+        return [people[i] for i in (x["parents"] or [])] + kids[x["id"]]
+
+    qs = []
+    dominant = mode == "AD"
+    if any(people[a]["affected"] == dominant and people[b]["affected"] == dominant
+           and any(k["affected"] != dominant for k in kids[a] if k in kids[b]) for a, b in couples):
+        qs.append(mcq("Is the condition caused by a dominant or a recessive allele? Choose the answer with the reason the "
+                      "chart gives.", WHY[dominant], [WHY[not dominant], *WHY_WRONG], rng))
+    everyone = list(people.values())
+    if mode == "AR":
+        sure = [(x, "Aa") for x in everyone if not x["affected"] and any(y["affected"] for y in near(x))]
+        plain = [(x, "aa") for x in everyone if x["affected"]]
+    elif mode == "AD":
+        sure = [(x, "Dd") for x in everyone if x["affected"] and any(not y["affected"] for y in near(x))]
+        plain = [(x, "dd") for x in everyone if not x["affected"]]
+    else:
+        sure = [(x, "XᴬXᵃ") for x in everyone
+                if x["sex"] == "f" and not x["affected"] and any(y["affected"] and y["sex"] == "m" for y in near(x))]
+        plain = [(x, "XᵃY") for x in everyone if x["sex"] == "m" and x["affected"]]
+    pick = sure or plain
+    if pick:
+        x, key = rng.choice(pick)
+        options = GENOTYPES[mode] if mode != "XR" else GENOTYPES[x["sex"]]
+        qs.append(mcq(f"{ALLELES[mode]} What is the genotype of person {x['id']}?", key, options, rng))
+    if qs:
+        qs[0].stem = f"{_lead(rng, 'family tree')} Shaded symbols are people with an inherited condition. {qs[0].stem}"
+    return qs
+
+
+# --- electron shells ---------------------------------------------------------------------------------
+
+ELEMENTS = ["hydrogen", "helium", "lithium", "beryllium", "boron", "carbon", "nitrogen", "oxygen", "fluorine", "neon", "sodium",
+            "magnesium", "aluminium", "silicon", "phosphorus", "sulfur", "chlorine", "argon", "potassium", "calcium"]
+SYMBOLS = ["H", "He", "Li", "Be", "B", "C", "N", "O", "F", "Ne", "Na", "Mg", "Al", "Si", "P", "S", "Cl", "Ar", "K", "Ca"]
+ANIONS = {"N": "nitride", "O": "oxide", "F": "fluoride", "S": "sulfide", "Cl": "chloride", "P": "phosphide"}
+ION_CHARGE = {"Li": 1, "Na": 1, "K": 1, "Be": 2, "Mg": 2, "Ca": 2, "Al": 3, "N": -3, "P": -3, "O": -2, "S": -2, "F": -1, "Cl": -1}
+SUPERSCRIPT = str.maketrans("0123456789+-", "⁰¹²³⁴⁵⁶⁷⁸⁹⁺⁻")
+
+
+def _a(word: str) -> str:
+    return ("an " if word[0] in "aeiou" else "a ") + word
+
+
+def _particle(z: int, charge: int) -> str:
+    sym, name = SYMBOLS[z - 1], ELEMENTS[z - 1]
+    if not charge:
+        return _a(f"{name} atom")
+    sup = ((str(abs(charge)) if abs(charge) > 1 else "") + ("+" if charge > 0 else "-")).translate(SUPERSCRIPT)
+    return _a(f"{ANIONS[sym] if charge < 0 else name} ion, {sym}{sup}")
+
+
+def _shells(electrons: int) -> list[int]:
+    out = []
+    for cap in (2, 8, 8, 2):
+        if electrons > 0:
+            out.append(min(cap, electrons))
+            electrons -= out[-1]
+    return out
+
+
+def electron_shells(row: dict, rng: random.Random) -> list:
+    """The configuration from the electrons drawn (2, 8, 8, 2). Where the nucleus shows its protons and neutrons, which
+    particle it is (against the atoms beside it, the atom of an ion, and particles with the same electrons) and the
+    mass number. H⁻ is left out: it is not taught at IGCSE."""
+    p = row["params"]
+    sym, charge = p["symbol"], p["charge"]
+    if sym == "H" and charge < 0:
+        return []
+    z = SYMBOLS.index(sym) + 1
+    e = z - charge
+    which = "ion" if charge else "atom"
+    shells = _shells(e)
+    a = ",".join(map(str, shells))
+    forms = [a, ".".join(map(str, shells)), ", ".join(map(str, shells)), " ".join(map(str, shells)), "-".join(map(str, shells))]
+    qs = [short(f"{_lead(rng, 'diagram')} It shows the electrons in their shells. What is the electronic configuration of this "
+                f"{which}?", a, list(dict.fromkeys(forms)))]
+    if p["nucleus"] != "particles":
+        return qs
+    near = []
+    if charge:
+        near.append(_particle(z, 0))
+        if 1 <= e <= 20:
+            near.append(_particle(e, 0))
+        same = [_particle(SYMBOLS.index(s) + 1, c) for s, c in ION_CHARGE.items() if SYMBOLS.index(s) + 1 - c == e and s != sym]
+        near += rng.sample(same, len(same))
+    else:
+        near += [_particle(k, 0) for k in (z - 1, z + 1) if 1 <= k <= 20]
+        if sym in ION_CHARGE:
+            near.append(_particle(z, ION_CHARGE[sym]))
+        near += [_particle(k, 0) for k in (z - 2, z + 2) if 1 <= k <= 20]
+    qs.append(mcq("Which particle does the diagram show?", _particle(z, charge), near, rng))
+    neutrons = next((int(lab[:-1]) for lab in row["labels"] if lab[:-1].isdigit() and lab.endswith("n")), None)
+    if neutrons is not None:
+        qs.append(short(f"What is the mass number of this {which}?", z + neutrons, [str(z + neutrons)]))
+    return qs
+
+
+# --- molecules ---------------------------------------------------------------------------------------
+
+_ATOM = re.compile(r"Cl|Br|[BCNOSPFI]|[cnos]")
+SUBSCRIPT = str.maketrans("0123456789", "₀₁₂₃₄₅₆₇₈₉")
+SERIES_RULES = [("Halogenoalkanes", r"(chloro|bromo|iodo)[a-z\d,-]*ane$"), ("Esters", r"^\S+ \S+oate$"),
+                ("Carboxylic acids", r"oic acid$"), ("Alcohols", r"ane?(-[\d,]+-)?(di|tri)?ol$"), ("Aldehydes", r"anal$"),
+                ("Ketones", r"an(-\d-)?one$"), ("Amines", r"amine$"), ("Amides", r"amide$"), ("Nitriles", r"nitrile$"),
+                ("Acyl chlorides", r"oyl chloride$"), ("Alkenes", r"ene$"), ("Alkanes", r"ane$")]
+OTHER_GROUPS = r"hydroxy|amino|oxo|cyano|nitro|benz|phen|cyclo|oxy|-en-|enoic|enoate|anhydride|aspirin|paracetamol|serine|alanine|salicyl"
+IGCSE_SERIES = ["Alkanes", "Alkenes", "Alcohols", "Carboxylic acids", "Esters"]
+AS_SERIES = IGCSE_SERIES + ["Aldehydes", "Ketones", "Amines", "Halogenoalkanes", "Nitriles", "Amides", "Acyl chlorides"]
+IGCSE_NAME = re.compile(r"^(meth|eth|prop|but)(ane|ene|anol|an-[12]-ol|anoic acid)$|^but-[12]-ene$"
+                        r"|^(methyl|ethyl|propyl|butyl) (methan|ethan|propan|butan)oate$")
+
+
+def series_of(name: str) -> str | None:
+    """The homologous series a name puts a compound in, or None where it has more than one functional group."""
+    if re.search(OTHER_GROUPS, name):
+        return None
+    for series, rule in SERIES_RULES:
+        if re.search(rule, name):
+            if series != "Halogenoalkanes" and re.search(r"chloro|bromo|iodo", name):
+                return None
+            return series
+    return None
+
+
+def formula_of(smiles: str) -> str | None:
+    """The molecular formula of a neutral molecule written without brackets: hydrogens from the valences
+    (H = 2C + 2 + N − halogens − 2 × double-bond equivalents), C and H first, then the rest alphabetically."""
+    if "[" in smiles or "%" in smiles:
+        return None
+    atoms = _ATOM.findall(smiles)
+    n: dict[str, int] = {}
+    for at in atoms:
+        el = at.upper() if len(at) == 1 else at
+        n[el] = n.get(el, 0) + 1
+    rings = sum(ch.isdigit() for ch in smiles) // 2
+    dbe = smiles.count("=") + 2 * smiles.count("#") + rings + sum(at.islower() for at in atoms) // 2
+    h = 2 * n.get("C", 0) + 2 + n.get("N", 0) - sum(n.get(x, 0) for x in ("F", "Cl", "Br", "I")) - 2 * dbe
+    if h < 0:
+        return None
+    if h:
+        n["H"] = h
+    order = ["C", "H"] + sorted(e for e in n if e not in ("C", "H"))
+    return "".join(e + (str(n[e]) if n[e] > 1 else "") for e in order if e in n)
+
+
+def _drawn(labels: list[str]) -> str:
+    """The formula of the atoms a drawing labels, in the same order as `formula_of`."""
+    n: dict[str, int] = {}
+    for lab in labels:
+        for el, k in re.findall(r"(Cl|Br|[A-Z])(\d*)", lab):
+            n[el] = n.get(el, 0) + int(k or 1)
+    order = ["C", "H"] + sorted(e for e in n if e not in ("C", "H"))
+    return "".join(e + (str(n[e]) if n[e] > 1 else "") for e in order if e in n)
+
+
+@functools.lru_cache(maxsize=1)
+def _named() -> dict:
+    """Every molecule the dataset draws, name -> (formula, series, carbons): the pool the wrong names come from."""
+    from . import manifest
+    out = {}
+    for r in manifest.rows({"chem.molecule"}):
+        name, smiles = r["params"]["name"], r["params"]["smiles"]
+        f = formula_of(smiles)
+        if f:
+            out[name] = (f, series_of(name), sum(1 for at in _ATOM.findall(smiles) if at in ("C", "c")))
+    return out
+
+
+def _wrong_names(name: str, igcse: bool, rng: random.Random) -> list[str]:
+    """Isomers first, then the same series a carbon longer or shorter, then the same carbons in another series."""
+    pool = {k: v for k, v in _named().items() if k != name and (not igcse or IGCSE_NAME.match(k))}
+    f, s, c = _named()[name]
+    tiers = [[k for k, v in pool.items() if v[0] == f],
+             [k for k, v in pool.items() if s and v[1] == s and abs(v[2] - c) == 1],
+             [k for k, v in pool.items() if v[2] == c and v[0] != f]]
+    out = []
+    for t in tiers:
+        rng.shuffle(t)
+        out += [k for k in t if k not in out]
+    return out
+
+
+def molecule(row: dict, rng: random.Random) -> list:
+    """The name (at IGCSE only the names the syllabus teaches: unbranched, up to four carbons, and their esters), the
+    homologous series where there is one functional group, and the molecular formula. Polyfunctional A2 molecules are
+    named by trivial names, so they are not asked for a name."""
+    p = row["params"]
+    name, mode = p["name"], p["mode"]
+    igcse = row["qualification"] == "igcse"
+    qs = []
+    if name in _named() and row["qualification"] != "a2" and (not igcse or IGCSE_NAME.match(name)):
+        wrong = _wrong_names(name, igcse, rng)
+        if len(wrong) >= 3:
+            qs.append(mcq("Which is the name of this compound?", name, wrong, rng))
+    s = series_of(name)
+    if s and (s in IGCSE_SERIES or not igcse):
+        others = [x for x in (IGCSE_SERIES if igcse else AS_SERIES) if x != s]
+        qs.append(mcq("Which homologous series does this compound belong to?", s, rng.sample(others, len(others)), rng))
+    f = formula_of(p["smiles"])
+    if mode != "skeletal" and f != _drawn(row["labels"]):
+        f = None  # a ring drawn as a bare hexagon in a structural formula: neither skeletal nor showing every atom
+    if f and not (mode == "structural" and len(row["labels"]) == 1):  # a lone "CH4" is its own formula
+        hint = " The skeletal formula does not show the hydrogen atoms on carbon." if mode == "skeletal" else ""
+        qs.append(short(f"What is the molecular formula of this compound?{hint}", f, [f, f.translate(SUBSCRIPT)]))
+    if qs:
+        what = {"skeletal": "skeletal formula", "structural": "structural formula"}.get(mode, "displayed formula")
+        qs[0].stem = f"{_lead(rng, what)} {qs[0].stem}"
+    return qs
+
+
 WRITERS = {
     "phys.circuit": circuit,
     "chem.titration_curve": titration_curve,
@@ -456,6 +756,11 @@ WRITERS = {
     "math.function_graph": function_graph,
     "math.number_line": number_line,
     "bio.cell": bio_cell,
+    "math.construction": construction,
+    "chem.energy_profile": energy_profile,
+    "bio.pedigree": pedigree,
+    "chem.electron_shells": electron_shells,
+    "chem.molecule": molecule,
     # bio.leaf_section is not imported: its leader lines end between parts (palisade cell or chloroplast, air space or
     # spongy cell), and the blind review passed 18 of 30 even with the clearest parts only (P3q fix review)
 }

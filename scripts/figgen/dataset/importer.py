@@ -56,6 +56,8 @@ def import_rows(db, lib: Path, families: set[str] | None = None, per_family: int
         band = manifest.band_of(row)
         m = concepts.family_of(row, band)
         topics = link.topics_for(index, m, {"band": band})
+        for extra in concepts.extra_bands(row, band):
+            topics = sorted(set(topics) | set(link.topics_for(index, concepts.family_of(row, extra), {"band": extra})))
         if not topics:
             out["no_topic"] += 1
             continue
