@@ -18,7 +18,7 @@ KIND = "process.flow"
 SUBJECT = "computing"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"computing.{c}" for c in ("algorithms", "conditional-logic", "iteration-control", "problem-solving-design"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|processor handles"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"flow ?chart|algorithm|problem.solving|decision|loop|iteration|selection|sequence|repetition|program"
 FILL = "#eef1f3"

@@ -21,7 +21,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "complex-numbers-applications", "modulus-complex-numbers", "polar-coordinate-system", "exponential-form-complex-definition",
 ))
 # Argand diagrams: not logarithmic equations.
-AVOID = r"logarithm"
+AVOID = r"logarithm|differential equations|conics"
 PYTHAGOREAN = [(sx * a, sy * b) for a, b in ((3, 4), (4, 3), (6, 8), (8, 6)) for sx in (1, -1) for sy in (1, -1)]
 
 

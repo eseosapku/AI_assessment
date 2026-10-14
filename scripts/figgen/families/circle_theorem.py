@@ -20,6 +20,7 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "circle-theorems", "angles-centre-circumference-circle", "angle-in-semicircle", "angles-cyclic-quadrilateral",
     "angles-same-segment", "circle-tangent", "chords-properties", ))
+AVOID = r"trigonometry introduction|symmetry|points, straight lines and circles"  # topics that teach none of it, read by name
 
 REASONS = {
     "centre": "The angle at the centre is twice the angle at the circumference",

@@ -20,7 +20,7 @@ MEASURES = {"ammeter": ("physics.electric-current",), "voltmeter": ("physics.pot
             "newton meter": ("physics.forces", "physics.mass-weight-and-gravity")}
 CONCEPTS = MEASURING + tuple(c for cs in MEASURES.values() for c in cs)
 # Not fields, magnets, turning, pressure, nuclei or natural disasters.
-AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|centre of gravity|environmental|induction|^magnetism$|magnetic effect|electromagnetic forces|telecommunication|motor effect|nuclear|turning|moment|pressure|solar system|earthquake|work, energy"
+AVOID = r"field|electrostatic|static electricity|charged particle|coulomb|centre of gravity|environmental|induction|^magnetism$|magnetic effect|electromagnetic forces|telecommunication|motor effect|nuclear|turning|moment|pressure|solar system|earthquake|work, energy|scalars and vectors"
 # the meter, its unit, full scale, and the size of one small division: at most 12 divisions, in steps a
 # learner counts easily, since dials of 20 to 50 divisions were misread by one (P3f review)
 SCALES = [("ammeter", "A", 1, Fraction(1, 10)), ("ammeter", "A", 3, Fraction(1, 4)), ("ammeter", "A", 5, Fraction(1, 2)),

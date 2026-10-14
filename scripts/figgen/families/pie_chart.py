@@ -13,7 +13,7 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "pie-charts", "statistical-graphs-presentation-reading", "data-types", "frequency-distribution-table",
 ))
-AVOID = r"scatter diagrams|measures of dispersion"  # topics that teach none of it, read section by section
+AVOID = r"scatter diagrams|measures of dispersion|bivariate|histograms and cumulative"  # topics that teach none of it, read section by section
 
 SURVEYS = [
     ("Favourite subject", ["Maths", "Science", "English", "History", "Art"], "students"),

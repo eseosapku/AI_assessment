@@ -22,7 +22,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "sequences-simple", "investigating-patterns", "sequences-arithmetic-general-term", "expressions-sequences-equivalent",
     "sequences-functions", "numbers-and-sequences", "sequences-whole-numbers-fractions-decimals",
 ))
-AVOID = r"numbers to 1000|^introduction$|addition and subtraction \(1\)"  # topics that teach none of it, read section by section
+AVOID = r"numbers to 1000|^introduction$|addition and subtraction \(1\)|prime factori|irrational|powers, indices|unit 3b: geometry"  # topics that teach none of it, read section by section
 
 # kind: (what is counted, pieces per unit a, pieces in a pattern of size 0)
 KINDS = {"squares": ("matchsticks", 3, 1), "triangles": ("matchsticks", 2, 1), "houses": ("matchsticks", 5, 1),

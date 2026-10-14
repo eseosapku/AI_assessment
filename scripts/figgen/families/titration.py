@@ -20,7 +20,7 @@ SUBJECT = "chemistry"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("acid-base-titrations", "mole-concept", "laboratory-techniques",
                                              "neutralization"))
-AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|chromatograph|redox-titration|redox|masses of atoms|states of matter|equilibri|separation|chemical reactions|environment|npk|polymer|solubility|solvent|introduction"
+AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|chromatograph|redox-titration|redox|masses of atoms|states of matter|equilibri|separation|chemical reactions|environment|npk|polymer|solubility|solvent|introduction|amines"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"titrat|\bacids?\b|\bbases?\b|neutrali|\bmoles?\b|concentration|\bsalts?\b|volumetric|stoichiometr"
 # in the burette, in the flask

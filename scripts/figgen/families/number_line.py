@@ -11,7 +11,7 @@ KIND = "maths.number"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
 # "Polynomials" shares "adding and subtracting integers" without being about number lines.
-AVOID = r"polynomial"
+AVOID = r"polynomial|number bases|pythagoras"
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "number-line", "intervals-closed-line", "adding-subtracting-integers", "negative-numbers-problems", "integers",
 ))

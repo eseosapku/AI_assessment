@@ -12,6 +12,7 @@ BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "scatter-graphs", "coefficient-correlation", "regression-lines",
 ))
+AVOID = r"length of a line"  # topics that teach none of it, read by name
 
 PAIRS = [
     ("Hours of revision", "Test score (%)", "positive", "a student who revised for {x} hours", "score"),

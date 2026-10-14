@@ -19,7 +19,7 @@ SUBJECT = "chemistry"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("acid-base-titrations", "ph-scale", "acid-base-indicators",
                                              "weak-acids-and-bases", "acids-and-bases"))
-AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|chromatograph|amine|analysis|environment|benzene|preparation of salts|solubility|stoichiometry|group"
+AVOID = r"organic|alkane|electrolysis|isotope|periodic|bonding|enthalpy|rate|chromatograph|amine|analysis|environment|benzene|preparation of salts|solubility|stoichiometry|group|nitrogen gas|chemical calculations"
 KW = 1e-14
 STRONG = ["hydrochloric acid", "nitric acid"]
 WEAK = {"ethanoic acid": 4.76, "methanoic acid": 3.75, "propanoic acid": 4.87}

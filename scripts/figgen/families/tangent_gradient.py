@@ -20,7 +20,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "curve-gradient", "gradient-function", "tangents-normals", "rates-of-change", "differentiation-applications",
 ))
 # Tangents to polynomial curves: not vectors, circular measure, rates of pay, trig identities or integrals.
-AVOID = r"vector|circular measure|ratio, rate|trigonometric|integration|reversed|differential equation|logarithm|exponential"
+AVOID = r"vector|circular measure|ratio, rate|trigonometric|integration|reversed|differential equation|logarithm|exponential|straight lines and quadratic|length of a line"
 
 
 def value(co, x):

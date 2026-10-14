@@ -21,7 +21,7 @@ SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("covalent-bonding",
                                              "chemical-formulae"))
-AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration|polymer|petro|amine|benzene|electrochem|stoichiometry|mixture|oxide|reactions|introduction|chemical equations|states of matter|arrangement of elements|group 1[345]"
+AVOID = r"organic|alkene|alcohol|ionic|electrolysis|equilibrium|rate|enthalpy|titration|polymer|petro|amine|benzene|electrochem|stoichiometry|mixture|oxide|reactions|introduction|chemical equations|states of matter|arrangement of elements|group 1[345]|carboxylic"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"covalent|molecul|\bbond|dot.and.cross|formula"
 # formula: atoms (the first is the one asked about), bonds (i, j, order), lone pairs, each neighbour's

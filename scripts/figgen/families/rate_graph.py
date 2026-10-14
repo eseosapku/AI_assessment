@@ -17,7 +17,7 @@ KIND = "graph.line"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP", "AL")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("reaction-rate", "factors-affecting-reaction-rate", "catalysis"))
-AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|equilibrium-constant|transition|alcohol|energ|environment|equilibri|categories|experimental design"
+AVOID = r"organic|alkane|electrolysis|titration|isotope|periodic|bonding|enthalpy|equilibrium-constant|transition|alcohol|energ|environment|equilibri|categories|experimental design|nitrogen gas|arenes|chirality"
 # what reacts, and the gas it gives off
 REACTIONS = [("magnesium ribbon and dilute hydrochloric acid", "hydrogen"),
              ("marble chips and dilute hydrochloric acid", "carbon dioxide"),

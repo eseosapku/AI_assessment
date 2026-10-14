@@ -19,6 +19,7 @@ BANDS = ("P", "LS")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "shapes-nets", "construction-polygons-nets", "3d-shapes", "solids-properties", "surface-area-triangular-prisms-pyramids",
 ))
+AVOID = r"quadrilaterals and polygons"  # topics that teach none of it, read by name
 
 SOLIDS = ["cube", "cuboid", "triangular prism", "square-based pyramid", "tetrahedron"]
 COUNTS = {"cube": (6, 12, 8), "cuboid": (6, 12, 8), "triangular prism": (5, 9, 6), "square-based pyramid": (5, 8, 5),

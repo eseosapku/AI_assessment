@@ -15,6 +15,7 @@ KIND = "graph.line"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("conversion-graphs", "converting-miles-kilometres", "proportion-direct-inverse"))
+AVOID = r"basic concepts of algebra|collinear"  # topics that teach none of it, read by name
 
 CONVERSIONS = {
     "km-miles": {"x": "kilometres", "y": "miles", "xu": "km", "yu": "miles", "slope": Fraction(5, 8), "offset": 0,

@@ -19,7 +19,7 @@ BANDS = ("UP",)  # no Lower Secondary book in the store teaches springs; its lin
 MIN_VARIETY = 35  # one band now: the same numbers, no longer doubled by an LS copy
 CONCEPTS = tuple(f"physics.{c}" for c in ("hookes-law", "forces"))
 # Hooke's law, forces and matter: not electric or magnetic forces, pressure, turning, or machines.
-AVOID = r"^chapter 2: newton|electric|electrostatic|static electricity|magnet|installation|environmental|earthquake|pressure|density|turning|moment|centre of gravity|machines|frictional"
+AVOID = r"^chapter 2: newton|electric|electrostatic|static electricity|magnet|installation|environmental|earthquake|pressure|density|turning|moment|centre of gravity|machines|frictional|scalars and vectors"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"spring|hooke|elastic|stretch|extension|deform"  # tightened after the P3j review
 

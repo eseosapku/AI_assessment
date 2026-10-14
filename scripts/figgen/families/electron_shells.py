@@ -19,7 +19,7 @@ KIND = "chem.particle"
 SUBJECT = "chemistry"
 BANDS = ("LS", "UP")
 CONCEPTS = tuple(f"chemistry.{c}" for c in ("electronic-configuration", "atomic-structure", "bohr-model", "periodic-table-structure"))
-AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration|benzene|chemical reactions|alloy|transition"
+AVOID = r"organic|alkane|alcohol|electrolysis|equilibrium|rate|enthalpy|titration|benzene|chemical reactions|alloy|transition|radioactivity"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"electron|atomic structure|structure of an? atom|configuration|periodic table|ionic|\bbond|isotop"
 

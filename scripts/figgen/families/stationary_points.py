@@ -20,7 +20,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "stationary-points", "optimization-practical-maximum-minimum", "derivatives-second", "cubic-polynomials-graphs-moduli",
 ))
 # Polynomial turning points: not exponential, logarithmic or trigonometric chapters, nor modulus equations.
-AVOID = r"logarithm|exponential|trigonometric"
+AVOID = r"logarithm|exponential|trigonometric|conics|scale drawings, bearings|simultaneous equations|^integration$"
 
 
 def value(co, x):

@@ -18,6 +18,7 @@ KIND = "maths.geometry"
 SUBJECT = "mathematics"
 BANDS = ("LS",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("calculating-angles", "lines-intersecting", "lines-relationships", "lines-2d"))
+AVOID = r"linear and quadratic functions|trigonometry introduction"  # topics that teach none of it, read by name
 
 FACTS = {"corresponding": "Corresponding angles are equal", "alternate": "Alternate angles are equal",
          "co-interior": "Co-interior angles add up to 180°", "vertically opposite": "Vertically opposite angles are equal"}

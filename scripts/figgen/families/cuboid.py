@@ -16,6 +16,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "volume-cubes-cuboids", "cubes-cuboids", "cuboid-dimension", "surface-area-cubes-cuboids", "prism-volume", "3d-shapes",
     "solids-properties",
 ))
+AVOID = r"quadrilaterals and polygons"  # topics that teach none of it, read by name
 
 P_THINGS = ["stack of building blocks", "box of sugar cubes", "model made of cubes", "pile of wooden blocks", "tower of cubes"]
 LS_THINGS = [("box", "cm"), ("water tank", "m"), ("brick", "cm"), ("classroom", "m"), ("fish tank", "cm"), ("matchbox", "cm"),

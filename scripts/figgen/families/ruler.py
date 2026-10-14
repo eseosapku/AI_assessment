@@ -19,7 +19,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "length-measurement", "lines-drawing-measuring", "measurement-general", "unit-conversion-length",
     "length-capacity-mass-revision",
 ))
-AVOID = r"substituting into expressions|^introduction$"  # topics that teach none of it, read section by section
+AVOID = r"substituting into expressions|^introduction$|litre|capacity|kilogram|^mass|mass measurements|^angles$"  # topics that teach none of it, read section by section
 
 # Objects the drawing looks like: a pencil, a crayon and a nail have their own shapes; the rest are
 # plain strips, which a toothbrush or a key is not.

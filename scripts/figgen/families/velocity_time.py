@@ -17,7 +17,7 @@ SUBJECT = "mathematics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("acceleration-time", "acceleration-displacement", "differentiation-kinematics", "kinematic-graphs"))
 # Straight-line motion: not circular motion, projectiles, vectors or trig.
-AVOID = r"circular motion|projectile|vector|trigonometric|gradient function"
+AVOID = r"circular motion|projectile|vector|trigonometric|gradient function|taylor|momentum"
 # what moves, and its greatest speed in m/s
 MOVERS = [("minibus", 16), ("moto", 14), ("bus", 14), ("car", 20), ("cyclist", 8), ("train", 20)]
 

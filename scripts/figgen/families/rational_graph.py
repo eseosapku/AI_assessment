@@ -17,7 +17,7 @@ SUBJECT = "mathematics"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("asymptotes", "rational-functions", "curves-relationships"))
 # Reciprocal curves: not probability, hyperbolic, exponential or trigonometric chapters, nor polynomial roots.
-AVOID = r"random variable|hyperbolic|logarithm|exponential|trigonometric|roots of polynomial"
+AVOID = r"random variable|hyperbolic|logarithm|exponential|trigonometric|roots of polynomial|conics|polar|trigonometry"
 
 
 def sample(rng: random.Random) -> dict:

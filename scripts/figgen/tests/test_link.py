@@ -10,8 +10,7 @@ def store(tmp_path):
     db = open_store(tmp_path / "figures.db")
     rows = [("db:1", "P", "Fractions", ["mathematics.fractions", "mathematics.decimals"], 0),
             ("db:2", "LS", "Fractions and decimals", ["mathematics.fractions"], 0),
-            ("db:3", "P", "Time", ["mathematics.time-general"], 0),
-            ("db:4", "P", "Fractions again", ["mathematics.fractions"], 1)]  # dropped by the map
+            ("db:3", "P", "Time", ["mathematics.time-general"], 0)]
     for key, band, name, concepts, dropped in rows:
         db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES (?, 'x', 'B', 'mathematics', ?, ?)", (key, band, name))
         db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
@@ -139,3 +138,31 @@ def test_needs_turn_away_the_misfits_the_p3j_review_found():
         assert re.search(needs, fit, re.I), (fid, fit)
     # food tests keep the units on carbohydrates and proteins, but not plant nutrition's leaves
     assert re.search(FAMILIES["food_test_table"].AVOID, "Plant nutrition", re.I)
+
+
+def test_a_topic_whose_map_dropped_an_invalid_id_still_teaches_its_valid_concepts(tmp_path):
+    """`dropped` counts the invalid ids the mapper returned and the loader threw away; the topic and its valid
+    concepts stand (P0). Reading it as "the topic was dropped" hid 491 mapped topics, AL "Cell membranes and
+    transport" among them (P3j final review)."""
+    db = store(tmp_path)
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:4', 'x', 'B', 'mathematics', 'P', 'Fractions again')")
+    db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
+               "VALUES ('db:4', ?, '[]', '[]', 'high', 2, 'm', 'now')", (json.dumps(["mathematics.fractions"]),))
+    db.commit()
+    assert topics_for(topic_index(db), family(), {"band": "P"}) == ["db:1", "db:4"]
+
+
+def test_newly_indexed_topics_that_teach_none_of_it_are_named_in_avoid():
+    """Indexing every mapped topic reached a further 234; these were read by name and do not teach the family
+    (P3j index fix). energy_sankey had gained a second AVOID that the first silently overrode."""
+    import re
+    from figgen.families import FAMILIES
+    cases = [("place_value", "Main parts of the day and days of the week"), ("ruler", "Kilogram, the Standard Unit of Mass"),
+             ("energy_sankey", "Unit 12: General Structure of the Solar System"), ("binary_search", "Chapter 7: Expert systems"),
+             ("rational_graph", "Chapter 5: Trigonometry"), ("pie_chart", "UNIT 1: BIVARIATE STATISTICS"),
+             ("glucose_graph", "Coordination"), ("linear_graph", "Unit 4: Ordinary Differential Equations")]
+    for fid, name in cases:
+        assert re.search(FAMILIES[fid].AVOID, name, re.I), (fid, name)
+    # and the AVOID does not turn away what the family teaches
+    assert not re.search(FAMILIES["trig_graph"].AVOID, "Trigonometric Formulae, Equations and Inequalities", re.I)
+    assert not re.search(FAMILIES["place_value"].AVOID, "Numbers from 0 up to 200", re.I)

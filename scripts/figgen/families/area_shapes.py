@@ -18,7 +18,7 @@ KIND = "maths.geometry"
 SUBJECT = "mathematics"
 BANDS = ("P", "LS")
 # A quadratic-equations chapter shares area problems without teaching area.
-AVOID = r"quadratic"
+AVOID = r"quadratic|^transformation$"
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "perimeter-2d-shapes", "parallelogram-trapezium-area", "shapes-square-rectangle-triangle", "mensuration",
     "problem-solving-areas-volumes", "grid", "hectares",

@@ -18,7 +18,7 @@ KIND = "cs.structure"
 SUBJECT = "computing"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"computing.{c}" for c in ("algorithms", "data-structures-introduction"))
-AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean"
+AVOID = r"spreadsheet|database|network|internet|security|graphic|document|presentation|email|python|html|logic gate|boolean|monitoring and control|expert system|modelling|systems life cycle"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"sort|bubble|insertion|algorithm|searching"
 RULES = {"bubble": "One pass: compare each pair of neighbours from left to right,\nand swap them if the left number is larger.",

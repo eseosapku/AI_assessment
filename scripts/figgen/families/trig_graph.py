@@ -21,7 +21,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "trigonometric-functions-graphs", "trigonometric-inequalities", "equations-inequalities", "simple-harmonic-motion",
 ))
 # Sine and cosine graphs: not differential equations.
-AVOID = r"differential equation|solving equations of the type"
+AVOID = r"differential equation|solving equations of the type|^inequalities$|^mechanics$|complex numbers|numerical functions, equations"
 
 
 def sample(rng: random.Random) -> dict:

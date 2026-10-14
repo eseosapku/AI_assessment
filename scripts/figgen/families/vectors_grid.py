@@ -17,6 +17,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "column-vector-definition", "vectors-column-addition-subtraction", "vector-magnitude", "vectors-equivalent",
     "vector-scalar-multiplication",
 ))
+AVOID = r"bearings|complex numbers"  # topics that teach none of it, read by name
 
 NAMES = [("a", "b", "c"), ("p", "q", "r"), ("u", "v", "w"), ("d", "e", "f"), ("m", "n", "k")]
 W, H = 14, 10  # grid size

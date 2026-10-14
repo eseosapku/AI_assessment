@@ -27,9 +27,10 @@ def stage_of(book: str) -> int | None:
 
 def topic_index(db: sqlite3.Connection) -> TopicIndex:
     """Every topic the P0 map kept, with its level, its book's stage, and its concepts -- its own and
-    its sections' (a topic teaches what its sections teach)."""
+    its sections' (a topic teaches what its sections teach). `dropped` counts the invalid ids the mapper
+    returned and the loader threw away, not a dropped topic: those topics stand on their valid concepts."""
     rows = db.execute("SELECT t.key, t.band, t.subject, t.name, t.book, m.concepts FROM topics t "
-                      "JOIN topic_map m ON m.topic_key = t.key WHERE m.dropped = 0 ORDER BY t.key").fetchall()
+                      "JOIN topic_map m ON m.topic_key = t.key ORDER BY t.key").fetchall()
     sections: dict[str, set[str]] = {}
     for r in db.execute("SELECT s.topic_key, sm.concepts FROM subtopics s JOIN subtopic_map sm ON sm.subtopic_key = s.key"):
         sections.setdefault(r["topic_key"], set()).update(json.loads(r["concepts"] or "[]"))

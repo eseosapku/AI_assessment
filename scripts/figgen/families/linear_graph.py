@@ -19,6 +19,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "linear-functions", "intercepts", "linear-equation-gradient-intercept", "plotting-graphs",
     "simultaneous-equations-graphical", "two-variables-equation",
 ))
+AVOID = r"differential equations"  # topics that teach none of it, read by name
 
 XLIM = (-6, 6)
 YLIM = (-8, 8)

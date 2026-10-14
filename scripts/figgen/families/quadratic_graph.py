@@ -19,6 +19,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "functions-quadratic-graphs", "quadratic-equations-graphical-method", "quadratic-graphs-review", "parabola",
     "quadratic-equations-roots", "quadratic-inequalities",
 ))
+AVOID = r"length of a line"  # topics that teach none of it, read by name
 
 
 def _poly(a: int, p: int, q: int) -> str:

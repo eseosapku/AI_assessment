@@ -17,7 +17,7 @@ KIND = "table.data"
 SUBJECT = "mathematics"
 BANDS = ("LS", "UP")
 # Counts in two ways at once: not averages, spread, scatter or random variables.
-AVOID = r"dispersion|averages|spread|scatter|correlation|random variable"
+AVOID = r"dispersion|averages|spread|scatter|correlation|random variable|histograms and cumulative"
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "frequency-distribution-table", "calculating-probabilities", "conditional-probability", "statistical-data-interpretation",
     "data-examining",

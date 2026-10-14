@@ -20,7 +20,7 @@ SUBJECT = "mathematics"
 BANDS = ("P",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("fractions-percentages", "ratios-proportions-percentages", "working-with-ratio", "fractions-decimals"))
 # A hundred square in percentages: not multiplication chapters.
-AVOID = r"multiplication"
+AVOID = r"multiplication|scale drawings"
 WHAT = ["a hundred square", "a 10 by 10 grid of squares"]  # what the figure is: squares, not seats or tiles
 
 

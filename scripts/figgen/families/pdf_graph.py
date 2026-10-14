@@ -18,7 +18,7 @@ SUBJECT = "mathematics"
 BANDS = ("AL",)
 CONCEPTS = tuple(f"mathematics.{c}" for c in ("continuous-random-variables", "probability-density-function-transformation", "calculating-e-gx-continuous"))
 # A density function: not hypothesis tests.
-AVOID = r"non-parametric|chi-squared|inferential"
+AVOID = r"non-parametric|chi-squared|inferential|the range"
 
 
 KINDS = ("uniform", "ramp", "fall", "tent")

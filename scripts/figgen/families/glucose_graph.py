@@ -17,7 +17,7 @@ SUBJECT = "biology"
 BANDS = ("UP", "AL")
 CONCEPTS = tuple(f"biology.{c}" for c in ("homeostasis-general-principles", "endocrine-system-structure-function",
                                            "hormonal-imbalance-effects", "internal-environment"))
-AVOID = r"plant|photosynth|genetic|inherit|ecolog|population|immun|reproduc|enzyme|cell|behaviour|excretion|nervous|temperature|circulatory|proteins|vitamins"
+AVOID = r"plant|photosynth|genetic|inherit|ecolog|population|immun|reproduc|enzyme|cell|behaviour|excretion|nervous|temperature|circulatory|proteins|vitamins|^coordination$"
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"glucose|insulin|diabet|homeostasis|hormon"
 HORMONES = ["insulin", "glucagon", "adrenaline", "ADH"]

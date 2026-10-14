@@ -12,6 +12,7 @@ BANDS = ("P", "LS")
 CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "grid", "position-and-direction", "ordered-pair", "point-location-space", "position-describing",
 ))
+AVOID = r"constructing angles|regular polygons and bearings|bearings"  # topics that teach none of it, read by name
 
 
 def stages(p: dict) -> tuple[int, int] | None:

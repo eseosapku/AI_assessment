@@ -23,6 +23,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "fractions", "fractions-equivalent-shading", "fractions-exploring-models", "fractions-denominator",
     "ordering-comparing-fractions", "decimal-fractions-illustration", "fractions-percentages",
 ))
+AVOID = r"addition and subtraction \(2\)|^geometry$"  # topics that teach none of it, read by name
 
 WORDS = {"bar": "strip", "grid": "rectangle", "circle": "circle"}
 # (shape, rows, columns): a strip of parts, a grid of parts, or a circle in sectors.

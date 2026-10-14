@@ -19,6 +19,7 @@ CONCEPTS = tuple(f"mathematics.{c}" for c in (
     "reflection-definition", "rotation-angle-centre", "rotation-introduction", "translation-definition", "enlargement-definition",
     "enlargement-locating-scale-factor", "isometries-introduction", "position-transformation",
 ))
+AVOID = r"bearings"  # topics that teach none of it, read by name
 
 LIM = (-7, 7)
 # The two shapes' letters, object then image: a different pair from figure to figure.
