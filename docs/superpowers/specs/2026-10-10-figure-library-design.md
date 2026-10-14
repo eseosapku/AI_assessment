@@ -512,6 +512,34 @@ Prices used are AWS-listed on-demand prices halved for batch: Haiku 4.5 at $0.50
       - lenses: 150 figures, 750 questions;
       - radioactivity: 76 figures, 228 questions.
     - **Next:** the next subject wave (Chemistry or Biology), or Physics families for the 39 empty topics (fields, orbits, capacitance), whichever the user chooses.
+  - **P3g result (2026-10-14, plan `2026-10-14-figure-library-p3g-physics-gaps-and-chemistry.md`): the Physics gaps and the Chemistry wave, as samples. $0 spent; nothing new written to the store.** The user asked for both ("do all that you reccomend") and then gave standing approval to keep going ("i agree and approve whatever yo do till i get back"). So the sheets are published, and scaling (P3h) does not wait for a verdict.
+    - **23 families:**
+      - 9 Physics families for the empty topics: electric_field, coulomb_force, magnet_field, circular_motion, gravity_orbit, gas_law, capacitor_discharge, photoelectric and energy_levels.
+      - 14 Chemistry families: particle_diagram, electron_shells, ionic_bonding, covalent_bonding, periodic_table, organic_structure, energy_profile, electrolysis, rate_graph, solubility_curve, ph_curve, mass_spectrum, titration and chromatogram.
+    - **The chemistry is checked on what is drawn, over 1,000 seeds:**
+      - shells fill 2,8,8,2;
+      - ionic charges balance;
+      - every covalent and organic atom has its full number of bonds;
+      - electrolysis products follow the discharge rules;
+      - pH curves are solved from the charge balance;
+      - solubility and isotope data are real, rounded to the grid.
+    - **Shared changes:**
+      - `core.formula_forms` accepts "H2O" for "H₂O" and "Mg2+" for "Mg²⁺".
+      - The review's `agrees` now reads a charge's sign and its element. Before, "2-" passed for "2+".
+    - **The fresh review** found 2 Critical and 8 Important problems, all fixed with tests:
+      - overlapping particles in a solid mixture;
+      - a "most soluble" question asked where two rounded curves met;
+      - rate-graph changes that did not fit the reaction (acid added to hydrogen peroxide);
+      - a stop time the curve hid;
+      - the sign-blind grader;
+      - hydrogen asked for its group, and a B³⁺ ion;
+      - pH values read between gridlines;
+      - a guessable bond-type MCQ;
+      - a half-shaded magnet that hinted at the pole;
+      - link misfits.
+    - **Links:** each family's AVOID was read topic by topic. capacitor_discharge reaches only A Level Capacitance; the Chemistry families reach 4 to 33 topics each.
+    - **Sheets:** Chemistry at https://claude.ai/artifact/AS8zC9cQzqPeCa1zqCGLgn, and the Physics gaps at https://claude.ai/artifact/XFygkwvbENVmF5WCPB6HM3.
+    - **Next:** P3h, drawing these 23 families at scale (plan `2026-10-14-figure-library-p3h-gaps-and-chemistry-scale.md`). After it, the Biology wave (P3i), whose first six families are already built.
 - **P4 Real images at scale.** Real-rich and hard topics first.
   - Exit: the $380 budget is used, or every topic's real share is met.
 - **P5 Fill and report.**
