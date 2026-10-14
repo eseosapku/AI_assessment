@@ -658,7 +658,7 @@ def test_cumulative_frequency():
         n, width = cum[-1], xs[1] - xs[0]
         assert qs, row["id"]
         for q in qs:
-            less = re.search(r"([\d.]+) [^?]* or less\?", q.stem)
+            less = re.search(r"were ([\d.]+) [^?]* or less\?", q.stem)
             more = re.search(r"more than ([\d.]+)", q.stem)
             if less:
                 assert int(q.answer) == cum[xs.index(float(less.group(1)))]
@@ -706,10 +706,11 @@ def test_punnett():
         p = row["params"]
         a, b = p["parents"]
         kids = [phenotype(x + y, p) for x in gametes(a, p["kind"]) for y in gametes(b, p["kind"])]
-        assert qs, row["id"]
+        genos = ["".join(sorted(x + y, key=lambda c: (c.islower(), c))) for x in gametes(a, p["kind"]) for y in gametes(b, p["kind"])]
+        assert qs or (len(set(kids)) == 1 and p["kind"] in ("sex", "dihybrid")), row["id"]
         for q in qs:
             got = re.search(r"probability that an offspring (?:has blood group|is an?|is) (.+?)\?", q.stem)
-            if got:
+            if got and "heterozygous" not in q.stem:
                 want = Fraction(sum(k == got.group(1).replace(" and ", ", ") for k in kids), len(kids))
                 assert 0 < want < 1 and Fraction(q.answer) == want, (row["id"], got.group(1), q.answer, want)
                 seen.add("prob")
@@ -719,4 +720,14 @@ def test_punnett():
                 x, y = (sum(k == g for k in kids) for g in got.groups())
                 assert [int(v) for v in q.answer.split(":")] == [x // math.gcd(x, y), y // math.gcd(x, y)]
                 seen.add("ratio")
-    assert seen == {"prob", "ratio"}
+            if "genotype of every offspring" in q.stem:
+                assert p["kind"] == "mono" and len(set(genos)) == 1 and picked(q) == genos[0]
+                seen.add("one genotype")
+            if "heterozygous" in q.stem:
+                het = Fraction(sum(g[0] != g[1] for g in genos), len(genos))
+                assert p["kind"] == "mono" and len(set(kids)) == 1 and 0 < het < 1 and Fraction(q.answer) == het
+                seen.add("het")
+            if "blood group do all" in q.stem:
+                assert len(set(kids)) == 1 and picked(q) == kids[0]
+                seen.add("one group")
+    assert {"prob", "ratio", "one genotype", "het"} <= seen

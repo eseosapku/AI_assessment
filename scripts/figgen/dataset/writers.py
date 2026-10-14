@@ -11,10 +11,12 @@ Conventions checked against the images (2026-10-15):
 """
 from __future__ import annotations
 
+import collections
 import functools
 import math
 import random
 import re
+from fractions import Fraction
 
 from ..core import NAMES, mcq, short
 
@@ -770,6 +772,263 @@ def molecule(row: dict, rng: random.Random) -> list:
     return qs
 
 
+# --- inequality regions ------------------------------------------------------------------------------
+
+INEQ_SYMBOL = {"<": "<", "<=": "≤", ">": ">", ">=": "≥"}
+INEQ_FLIP = {"<": ">", "<=": ">=", ">": "<", ">=": "<="}
+INEQ_STRICT = {"<": "<=", "<=": "<", ">": ">=", ">=": ">"}
+OBJECTIVES = ["x + y", "2x + y", "x + 2y", "3x + y", "x + 3y"]
+
+
+def _coef(k: float, var: str, first: bool) -> str:
+    """One term of a linear expression: '2x', 'y', '− 3y', '+ x'."""
+    size = "" if abs(k) == 1 else _n(abs(k))
+    if first:
+        return f"{MINUS if k < 0 else ''}{size}{var}"
+    return f" {MINUS if k < 0 else '+'} {size}{var}"
+
+
+def _ineq_text(a: float, b: float, c: float, op: str) -> str:
+    """As a textbook writes it: 'x ≥ 1', 'y > 0', 'x + y < 9', 'y ≤ 2x', '2y ≥ x', '4x + 3y < 24'."""
+    if b == 0:
+        if a < 0:
+            a, c, op = -a, -c, INEQ_FLIP[op]
+        return f"x {INEQ_SYMBOL[op]} {_n(c / a).replace('-', MINUS)}"
+    if a == 0:
+        if b < 0:
+            b, c, op = -b, -c, INEQ_FLIP[op]
+        return f"y {INEQ_SYMBOL[op]} {_n(c / b).replace('-', MINUS)}"
+    if c == 0 and (a > 0) != (b > 0):
+        if a < 0:
+            a, b, op = -a, -b, INEQ_FLIP[op]
+        # a x + b y op 0 with b < 0 is (−b) y op' a x
+        return f"{_coef(-b, 'y', True)} {INEQ_SYMBOL[INEQ_FLIP[op]]} {_coef(a, 'x', True)}"
+    if a < 0:
+        a, b, c, op = -a, -b, -c, INEQ_FLIP[op]
+    return f"{_coef(a, 'x', True)}{_coef(b, 'y', False)} {INEQ_SYMBOL[op]} {_n(c).replace('-', MINUS)}"
+
+
+def _holds(cons, x: float, y: float) -> bool:
+    test = {"<": lambda u, v: u < v, "<=": lambda u, v: u <= v, ">": lambda u, v: u > v, ">=": lambda u, v: u >= v}
+    return all(test[op](a * x + b * y, c) for a, b, c, op in cons)
+
+
+def _on_line(cons, x: float, y: float) -> bool:
+    return any(abs(a * x + b * y - c) < 1e-9 for a, b, c, _ in cons)
+
+
+def inequality_region(row: dict, rng: random.Random) -> list:
+    """The unshaded region R (Cambridge shades what is not wanted; a dashed line is not included, a solid one is). A
+    point in R against points just outside it; the three inequalities against sets with one turned round or one line's
+    inclusion changed (kept only where they describe a different set); and the greatest value of an expression over
+    the points of R with integer coordinates, where R is closed inside the window."""
+    p = row["params"]
+    cons = [tuple(c) for c in p["cons"]]
+    lo, hi = p["window"]
+    whole = [(x, y) for x in range(lo, hi + 1) for y in range(lo, hi + 1)]
+    inside = [pt for pt in whole if _holds(cons, *pt) and not _on_line(cons, *pt)]
+    outside = [pt for pt in whole if not _holds(cons, *pt) and not _on_line(cons, *pt) and lo < pt[0] < hi and lo < pt[1] < hi]
+    qs = []
+    if inside and len(outside) >= 3:
+        near = sorted(outside, key=lambda pt: sum(not _holds([c], *pt) for c in cons))
+        near = [pt for pt in near if sum(not _holds([c], *pt) for c in cons) == 1] or near
+        wrong = rng.sample(near, min(3, len(near)))
+        fmt = lambda pt: f"({_n(pt[0]).replace('-', MINUS)}, {_n(pt[1]).replace('-', MINUS)})"
+        qs.append(mcq("Which point lies in the region R?", fmt(rng.choice(inside)), [fmt(pt) for pt in wrong], rng))
+    grid = [(lo + i / 2, lo + j / 2) for i in range(2 * (hi - lo) + 1) for j in range(2 * (hi - lo) + 1)]
+    region = frozenset(pt for pt in grid if _holds(cons, *pt))
+    key = ", ".join(_ineq_text(*c) for c in cons)
+    variants = []
+    for k, (a, b, c, op) in enumerate(cons):
+        for new_op in (INEQ_STRICT[op], INEQ_FLIP[op]):
+            alt = list(cons)
+            alt[k] = (a, b, c, new_op)
+            if frozenset(pt for pt in grid if _holds(alt, *pt)) != region:
+                variants.append((new_op == INEQ_STRICT[op], ", ".join(_ineq_text(*x) for x in alt)))
+    strict = [t for s, t in variants if s]
+    turned = [t for s, t in variants if not s]
+    rng.shuffle(strict)
+    rng.shuffle(turned)
+    wrong = strict[:1] + turned[:2]
+    wrong += [t for t in strict[1:] + turned[2:] if t not in wrong][:3 - len(wrong)]
+    if len(wrong) == 3:
+        qs.append(mcq("Which three inequalities define the region R?", key, wrong, rng))
+    obj = rng.choice(OBJECTIVES)
+    k1 = 1 if obj in ("x + y", "x + 2y", "x + 3y") else int(obj[0])
+    k2 = 1 if obj in ("x + y", "2x + y", "3x + y") else int(obj[4])
+    points = [pt for pt in whole if _holds(cons, *pt)]
+    if points:
+        best = max(k1 * x + k2 * y for x, y in points)
+        if all(hi not in pt for pt in points if k1 * pt[0] + k2 * pt[1] == best):  # R closed inside the window
+            qs.append(short(f"The point (x, y) has integer coordinates and lies in the region R. What is the greatest "
+                            f"possible value of {obj}?", best, [str(best)]))
+    if qs:
+        qs[0].stem = f"{_lead(rng, 'graph')} The region R is left unshaded. {qs[0].stem}"
+    return qs
+
+
+# --- motion graphs -----------------------------------------------------------------------------------
+
+def _segments(p: dict) -> list[tuple]:
+    """(start time, end time, start speed, end speed, distance) for each segment. Speed changes evenly over a segment,
+    except on distance-time graphs marked constant, where each segment is at its own steady speed (checked on the
+    images)."""
+    t, v, out = 0, p["v0"], []
+    for d, end in p["segments"]:
+        if p.get("constant"):
+            out.append((t, t + d, end, end, end * d))
+        else:
+            out.append((t, t + d, v, end, (v + end) / 2 * d))
+        t, v = t + d, end
+    return out
+
+
+def motion_graph(row: dict, rng: random.Random) -> list:
+    """Speed-time: an acceleration or deceleration from a sloping part, and the distance from the area under the line.
+    Distance-time: the speed on a straight part from its gradient, and the distance at the end."""
+    p = row["params"]
+    segs = _segments(p)
+    total = sum(s[4] for s in segs)
+    span = lambda s: f"between t = {_n(s[0])} s and t = {_n(s[1])} s"
+    qs = []
+    if p["kind"] == "speed-time":
+        sloped = [s for s in segs if s[2] != s[3]]
+        if sloped:
+            s = rng.choice(sloped)
+            a = (s[3] - s[2]) / (s[1] - s[0])
+            word = "acceleration" if a > 0 else "deceleration"
+            v = _sf(abs(a))
+            qs.append(short(f"What is the {word} {span(s)}, in m/s²?", v, [v, f"{v} m/s²", f"{v} m/s2", f"{v}m/s²"],
+                            tolerance=0.01 * abs(a)))
+        d = _sf(total)
+        qs.append(short("What is the total distance travelled, in m?", d, [d, f"{d} m", f"{d}m"], tolerance=0.01 * total))
+    else:
+        steady = [s for s in segs if s[2] == s[3] and s[2] > 0]
+        if steady:
+            s = rng.choice(steady)
+            v = _sf(s[2])
+            qs.append(short(f"What is the speed {span(s)}, in m/s?", v, [v, f"{v} m/s", f"{v}m/s"], tolerance=0.05 * s[2]))
+        d = _sf(total)
+        qs.append(short("What is the total distance travelled, in m?", d, [d, f"{d} m", f"{d}m"], tolerance=0.02 * total))
+    what = "speed-time graph" if p["kind"] == "speed-time" else "distance-time graph"
+    qs[0].stem = f"{_lead(rng, what)} {qs[0].stem}"
+    return qs
+
+
+# --- cumulative frequency ----------------------------------------------------------------------------
+
+def cumulative_frequency(row: dict, rng: random.Random) -> list:
+    """The class boundaries are the x-axis labels (checked on the images). How many values were at most, or more than, a
+    boundary (a plotted point, exact); the median, and the interquartile range where the quartile lines are drawn,
+    within a quarter and a half of a class width, as mark schemes allow."""
+    p = row["params"]
+    freqs = p["freqs"]
+    try:
+        xs = [float(x) for x in row["labels"][:len(freqs) + 1]]
+    except ValueError:
+        return []
+    width = xs[1] - xs[0]
+    if any(abs((b - a) - width) > 1e-9 for a, b in zip(xs, xs[1:])):
+        return []
+    title = next((lab for lab in row["labels"] if re.search(r"[a-z]", lab) and lab != "Cumulative frequency"), "")
+    unit = re.search(r"\(([^)]+)\)", title)
+    unit = unit.group(1) if unit else title.lower()
+    cum = [0]
+    for f in freqs:
+        cum.append(cum[-1] + f)
+    n = cum[-1]
+
+    def at(target: float) -> float:
+        for k in range(1, len(cum)):
+            if cum[k] >= target:
+                return xs[k - 1] + (target - cum[k - 1]) / (cum[k] - cum[k - 1]) * (xs[k] - xs[k - 1])
+
+    k = rng.randrange(1, len(freqs))
+    x = _n(xs[k])
+    qs = []
+    if rng.random() < 0.5:
+        qs.append(short(f"How many of the {n} values were {x} {unit} or less?", cum[k], [str(cum[k])]))
+    else:
+        qs.append(short(f"How many of the {n} values were more than {x} {unit}?", n - cum[k], [str(n - cum[k])]))
+    med = f"{at(n / 2):.1f}"
+    qs.append(short("Use the graph to estimate the median.", med, [med, f"{med} {unit}"], tolerance=width / 4))
+    if p["lines"] == "quartiles":
+        iqr = f"{at(3 * n / 4) - at(n / 4):.1f}"
+        qs.append(short("Use the graph to estimate the interquartile range.", iqr, [iqr, f"{iqr} {unit}"], tolerance=width / 2))
+    qs[0].stem = f"{_lead(rng, 'cumulative frequency graph')} {qs[0].stem}"
+    return qs
+
+
+# --- Punnett squares ---------------------------------------------------------------------------------
+
+def _gametes(genotype: str, kind: str) -> list[str]:
+    if kind == "dihybrid":
+        return [x + y for x in genotype[:2] for y in genotype[2:]]
+    return re.findall(r"I[ABO]|X[A-Za-z]|Y|[A-Za-z]", genotype)
+
+
+def _phenotype(child: str, p: dict) -> str:
+    kind = p["kind"]
+    if kind == "blood":
+        al = set(re.findall(r"I[ABO]", child))
+        return "AB" if {"IA", "IB"} <= al else "A" if "IA" in al else "B" if "IB" in al else "O"
+    if kind == "sex":
+        xs = re.findall(r"X([A-Za-z])", child)
+        return f"{p['dominant'] if any(c.isupper() for c in xs) else p['recessive']} {'female' if len(xs) == 2 else 'male'}"
+    if kind == "dihybrid":
+        genes = [[c for c in child if c.lower() == g] for g in dict.fromkeys(c.lower() for c in child)]
+        return ", ".join(p["dominant"][k] if any(c.isupper() for c in g) else p["recessive"][k] for k, g in enumerate(genes))
+    return p["dominant"] if any(c.isupper() for c in child) else p["recessive"]
+
+
+def _chance(f: Fraction) -> list[str]:
+    pct = f * 100
+    p_s = _n(float(pct)) if pct.denominator in (1, 2, 4, 5, 8) else None
+    forms = [f"{f.numerator}/{f.denominator}"]
+    if p_s:
+        forms += [_n(float(f)), f"{p_s}%", f"{p_s} %"]
+    if f.numerator == 1:
+        forms.append(f"1 in {f.denominator}")
+    return forms
+
+
+def punnett(row: dict, rng: random.Random) -> list:
+    """The chance that an offspring has a phenotype present but not certain, from the parents' gametes; and, where the
+    diagram does not print it, the ratio of the two phenotypes of a monohybrid cross."""
+    p = row["params"]
+    a, b = p["parents"]
+    kids = [_phenotype(x + y, p) for x in _gametes(a, p["kind"]) for y in _gametes(b, p["kind"])]
+    counts = collections.Counter(kids)
+    qs = []
+    some = [ph for ph, c in counts.items() if c < len(kids)]
+    if some:
+        ph = rng.choice(sorted(some))
+        f = Fraction(counts[ph], len(kids))
+        words = {"blood": f"has blood group {ph}", "sex": f"is {'an' if ph[0] in 'aeiou' else 'a'} {ph}",
+                 "dihybrid": f"is {ph.replace(', ', ' and ')}"}.get(p["kind"], f"is {ph}")
+        forms = _chance(f)
+        qs.append(short(f"What is the probability that an offspring {words}?", forms[0], forms))
+    if not some and p["kind"] == "mono":  # one phenotype: the genotypes, which a cross like TT × tt decides
+        genos = ["".join(sorted(x + y, key=lambda c: (c.islower(), c))) for x in _gametes(a, "mono") for y in _gametes(b, "mono")]
+        big = next(c for c in a + b if c.isupper())
+        if len(set(genos)) == 1:  # a choice, not typed: "TT" and "Tt" differ only in case
+            qs.append(mcq("What is the genotype of every offspring?", genos[0], [big + big, big + big.lower(), big.lower() * 2], rng))
+        else:
+            forms = _chance(Fraction(sum(g[0] != g[1] for g in genos), len(genos)))
+            qs.append(short("What is the probability that an offspring is heterozygous?", forms[0], forms))
+    if not some and p["kind"] == "blood":
+        qs.append(mcq("What blood group do all the offspring have?", kids[0], ["A", "B", "AB", "O"], rng))
+    if p["kind"] == "mono" and p["show"] != "full" and len(counts) == 2:
+        x, y = counts[p["dominant"]], counts[p["recessive"]]
+        g = math.gcd(x, y)
+        r = f"{x // g}:{y // g}"
+        qs.append(short(f"What is the ratio of {p['dominant']} to {p['recessive']} offspring?", r,
+                        [r, f"{x // g} : {y // g}", f"{x // g} to {y // g}"]))
+    if qs:
+        qs[0].stem = f"{_lead(rng, 'genetic diagram')} {qs[0].stem}"
+    return qs
+
+
 WRITERS = {
     "phys.circuit": circuit,
     "chem.titration_curve": titration_curve,
@@ -788,6 +1047,10 @@ WRITERS = {
     "bio.pedigree": pedigree,
     "chem.electron_shells": electron_shells,
     "chem.molecule": molecule,
+    "math.inequality_region": inequality_region,
+    "phys.motion_graph": motion_graph,
+    "math.cumulative_frequency": cumulative_frequency,
+    "bio.punnett": punnett,
     # bio.leaf_section is not imported: its leader lines end between parts (palisade cell or chloroplast, air space or
     # spongy cell), and the blind review passed 18 of 30 even with the clearest parts only (P3q fix review)
 }
