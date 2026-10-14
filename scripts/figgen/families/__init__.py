@@ -30,6 +30,13 @@ from . import binary_tree, caesar_cipher, stack_queue
 from . import contour_map, grid_reference, map_distance
 from . import lat_long, weather_station, wind_rose
 from . import dtm, employment_structure, hydrograph, ternary_graph
+# P3p: the commerce wave (one line each, added when the modules import cleanly)
+# P3p economics imports
+from . import cost_revenue, elasticity, national_income, ppc, price_index
+# P3p accounting imports
+from . import bank_reconciliation, depreciation, income_statement, ratio_analysis, t_account, trial_balance
+# P3p business imports
+from . import cash_flow_forecast, critical_path, inventory_chart, pricing
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -72,4 +79,11 @@ FAMILIES = {m.ID: m for m in (
     grid_reference, map_distance, contour_map,
     weather_station, wind_rose, lat_long,
     hydrograph, ternary_graph, dtm, employment_structure,
+    # P3p: the commerce wave
+    # P3p economics families
+    ppc, elasticity, cost_revenue, price_index, national_income,
+    # P3p accounting families
+    t_account, trial_balance, depreciation, bank_reconciliation, income_statement, ratio_analysis,
+    # P3p business families
+    cash_flow_forecast, critical_path, inventory_chart, pricing,
 )}
