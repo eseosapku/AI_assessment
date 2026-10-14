@@ -63,9 +63,10 @@ WHY = [f"{a}: water moves {b} the cells by osmosis" for a in ("gains mass", "los
 def _pct(v: int) -> list[str]:
     forms = [str(v), f"{v}%", f"{v} %"]
     if v > 0:
-        forms += [f"+{v}", f"+{v}%", f"a gain of {v}%", f"{v}% increase", f"increase of {v}%"]
+        forms += [f"+{v}", f"+{v}%", f"a gain of {v}%", f"{v}% increase", f"increase of {v}%", f"{v}% increase in mass", f"{v}% gain in mass"]
     elif v < 0:
-        forms += [f"−{-v}", f"−{-v}%", f"a loss of {-v}%", f"{-v}% decrease", f"decrease of {-v}%"]
+        forms += [f"−{-v}", f"−{-v}%", f"a loss of {-v}%", f"{-v}% decrease", f"decrease of {-v}%", f"{-v}% decrease in mass",
+                  f"{-v}% loss in mass", f"{-v}% loss of mass"]
     return forms
 
 

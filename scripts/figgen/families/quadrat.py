@@ -29,25 +29,30 @@ SPECIES = [("dandelions", "*"), ("daisies", "o"), ("clover plants", "^"), ("this
 def sample(rng: random.Random) -> dict:
     W, H = 10, rng.choice([6, 8])
     n = rng.choice([4, 5])
-    rich = [(rng.uniform(0, W), rng.uniform(0, H)) for _ in range(rng.randint(2, 3))]  # the patches plants grow thick in
-    plants = []
-    for cx in range(W):
-        for cy in range(H):
-            near = min(((cx + 0.5 - x) ** 2 + (cy + 0.5 - y) ** 2) ** 0.5 for x, y in rich)
-            k = max(0, min(5, round(4.5 - near * 0.9 + rng.uniform(-1, 1))))
-            here = []
-            for _ in range(40):  # each plant at least 0.25 m from the others in its square, so each can be counted
-                if len(here) == k:
-                    break
-                x, y = round(cx + rng.uniform(0.15, 0.85), 3), round(cy + rng.uniform(0.15, 0.85), 3)
-                if all((x - a) ** 2 + (y - b) ** 2 >= 0.3 ** 2 for a, b in here):
-                    here.append([x, y])
-            plants += here
     cells = []  # a row above each for its letter; never touching, or two read as one long box
     while len(cells) < n:
         c = (rng.randrange(W), rng.randrange(H - 1))
         if all(max(abs(c[0] - d[0]), abs(c[1] - d[1])) >= 2 for d in cells):
             cells.append(c)
+    rich = [(rng.uniform(0, W), rng.uniform(0, H)) for _ in range(rng.randint(2, 3))]  # the patches plants grow thick in
+
+    def clear(x, y):
+        """Not under a quadrat's letter, which sits in the lower half of the square above it (P3j review)."""
+        return not any(cx <= x <= cx + 1 and cy + 1 <= y <= cy + 1.5 for cx, cy in cells)
+
+    plants = []
+    for cx in range(W):
+        for cy in range(H):
+            near = min(((cx + 0.5 - x) ** 2 + (cy + 0.5 - y) ** 2) ** 0.5 for x, y in rich)
+            k = max(0, min(4, round(4.0 - near * 0.9 + rng.uniform(-1, 1))))
+            here = []
+            for _ in range(60):  # each plant 0.22 m inside its square and 0.3 m from the others, so each can be counted
+                if len(here) == k:
+                    break
+                x, y = round(cx + rng.uniform(0.22, 0.78), 3), round(cy + rng.uniform(0.22, 0.78), 3)
+                if clear(x, y) and all((x - a) ** 2 + (y - b) ** 2 >= 0.3 ** 2 for a, b in here):
+                    here.append([x, y])
+            plants += here
     letters = "ABCDE"[:n]
     return {"band": rng.choice(BANDS), "W": W, "H": H, "plants": plants, "quadrats": {k: list(c) for k, c in zip(letters, cells)},
             "species": rng.randrange(len(SPECIES)), "ask": rng.choice(letters)}
@@ -66,7 +71,7 @@ def draw(p: dict):
     ax.plot(xs, ys, linestyle="none", marker=marker, markersize=5.5, color=INK, markerfacecolor="white" if marker == "o" else INK,
             zorder=3)
     for letter, (cx, cy) in p["quadrats"].items():
-        ax.add_patch(Rectangle((cx, cy), 1, 1, facecolor="none", edgecolor=INK, linewidth=2.6, zorder=4))
+        ax.add_patch(Rectangle((cx, cy), 1, 1, facecolor="none", edgecolor=INK, linewidth=2.2, zorder=4))
         ax.text(cx + 0.5, cy + 1.12, letter, ha="center", va="bottom", fontsize=11, fontweight="bold", zorder=5,
                 bbox={"boxstyle": "round,pad=0.12", "facecolor": "white", "edgecolor": "none"})
     ax.set_xlim(-0.1, W + 0.1)

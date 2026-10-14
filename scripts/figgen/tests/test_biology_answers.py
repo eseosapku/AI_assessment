@@ -594,3 +594,43 @@ def test_a_biology_mcq_cannot_be_picked_from_its_options_alone(fid):
                 hits[key] += _central(q.options) == int(q.answer)
     bad = {k: (hits[k], seen[k]) for k in seen if seen[k] >= 10 and hits[k] / seen[k] > 0.35}
     assert not bad, (fid, bad)
+
+
+# --- P3j review ----------------------------------------------------------------------------------
+
+def test_quadrat_labels_hide_no_plant_and_plants_stand_clear_of_edges():
+    """Letters above the quadrats covered plants, and plants near the edges read as maybe in (P3j review)."""
+    m = fam("quadrat")
+    for s in range(1, 300):
+        p = m.sample(random.Random(s))
+        for x, y in p["plants"]:
+            assert 0.22 - 1e-9 <= x % 1 <= 0.78 + 1e-9 and 0.22 - 1e-9 <= y % 1 <= 0.78 + 1e-9, (s, x, y)
+            for cx, cy in p["quadrats"].values():
+                assert not (cx <= x <= cx + 1 and cy + 1 <= y <= cy + 1.5), (s, x, y)  # the letter's patch above
+
+
+def test_osmosis_accepts_a_change_said_in_words():
+    m = fam("osmosis_graph")
+    for s in range(1, 200):
+        _, qs = run(m, s)
+        q = next(q for q in qs if "percentage change" in q.stem)
+        v = int(q.answer)
+        if v < 0:
+            assert f"{-v}% decrease in mass" in q.accepted
+        elif v > 0:
+            assert f"{v}% increase in mass" in q.accepted
+
+
+def test_dna_strands_show_their_ends_and_the_codon_says_its_direction():
+    """With no 5' and 3' ends the codon could be read either way (P3j review)."""
+    import matplotlib.pyplot as plt
+    m = fam("dna_strand")
+    fig = m.draw(m.sample(random.Random(1)))
+    texts = [t.get_text() for t in fig.axes[0].texts]
+    plt.close(fig)
+    assert texts.count("5′") == 2 and texts.count("3′") == 2
+    for s in range(1, 200):
+        _, qs = run(m, s)
+        for q in qs:
+            if "codon" in q.stem:
+                assert "5′ to 3′" in q.stem

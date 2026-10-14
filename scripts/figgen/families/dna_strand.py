@@ -48,9 +48,13 @@ def draw(p: dict):
     end = (N - 1) * 0.75 + w
     ax.plot([0, end], [2.25, 2.25], color=INK, linewidth=2.2)  # the sugar-phosphate backbones
     ax.plot([0, end], [0.05, 0.05], color=INK, linewidth=2.2)
-    ax.text(end + 0.15, 1.92, "upper strand", ha="left", va="center", fontsize=9)
-    ax.text(end + 0.15, 0.42, "lower strand", ha="left", va="center", fontsize=9)
-    ax.set_xlim(-0.2, end + 1.6)
+    ax.text(end + 0.5, 1.92, "upper strand", ha="left", va="center", fontsize=9)
+    ax.text(end + 0.5, 0.42, "lower strand", ha="left", va="center", fontsize=9)
+    # The ends, so the codon's direction is fixed: upper strand 5′ to 3′ left to right, the lower antiparallel (P3j review)
+    for y, left, right in ((1.92, "5′", "3′"), (0.42, "3′", "5′")):
+        ax.text(-0.12, y, left, ha="right", va="center", fontsize=10, fontweight="bold")
+        ax.text(end + 0.12, y, right, ha="left", va="center", fontsize=10, fontweight="bold")
+    ax.set_xlim(-0.6, end + 2.0)
     ax.set_ylim(-0.15, 2.8)
     ax.set_aspect("equal")
     ax.axis("off")
@@ -78,7 +82,7 @@ def questions(p: dict, rng: random.Random) -> list:
     if p["band"] == "AL":
         i = p["codon"] + 1
         codon = top[i - 1:i + 2].replace("T", "U")
-        qs.append(short(f"The lower strand is the template. Reading from left to right, give the mRNA codon made from bases {i} to {i + 2} of the lower strand.",
+        qs.append(short(f"The lower strand is the template. Give the mRNA codon made from bases {i} to {i + 2} of the lower strand, written 5′ to 3′.",
                         codon, [codon, "-".join(codon), " ".join(codon)]))
         j = p["bonds"] + 1
         h = 2 if top[j - 1] in "AT" else 3
