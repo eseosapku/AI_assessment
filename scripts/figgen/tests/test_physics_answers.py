@@ -805,3 +805,63 @@ def test_a_dial_has_small_divisions_between_its_numbers():
         p = {"band": "LS", "meter": meter, "unit": unit, "full": full, "minor": str(minor), "value": str(2 * minor)}
         step = m.label_step(p)
         assert step / minor >= 2 and (full / step).denominator == 1 and 3 <= full / step <= 10, (full, minor, step)
+
+
+# --- P3g Task 2: fields ----------------------------------------------------------------------------
+
+DIRS = {"up": (0, 1), "down": (0, -1), "left": (-1, 0), "right": (1, 0)}
+
+
+def test_electric_field():
+    m = fam("electric_field")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        if p["kind"] == "plates":
+            field = "down" if p["top"] == "+" else "up"  # from the positive plate to the negative
+            assert picked(qs[0]) == f"{field} the page"
+            E = Fraction(p["volts"]) / (Fraction(p["gap_cm"]) / 100)
+            assert num(qs[1].answer) == E  # E = V/d, d in metres
+            force_dir = field if p["charge"] == "+" else ("up" if field == "down" else "down")
+            assert picked(qs[2]) == f"{force_dir} the page"  # a positive charge is pushed along the field
+            if len(qs) > 3:
+                q = Fraction(re.search(r"charge of ([\d.]+) × 10⁻⁶ C", qs[3].stem).group(1)) / 10 ** 6
+                assert num(qs[3].answer) == q * E and (q * E * 100).denominator == 1  # F = qE
+        else:
+            sign_word = "positive" if p["sign"] == "+" else "negative"
+            assert picked(qs[0]).startswith(sign_word.capitalize())
+            out = DIRS[p["at"]]  # P lies this way from the charge
+            push = out if p["sign"] == "+" else (-out[0], -out[1])  # on a small positive charge at P
+            assert DIRS[picked(qs[1]).split()[0]] == push
+            if len(qs) > 2:
+                E = Fraction(9 * 10 ** 9) * p["nC"] / 10 ** 9 / (Fraction(p["r_cm"]) / 100) ** 2
+                assert num(qs[2].answer) == E and E.denominator == 1  # E = kQ/r²
+
+
+def test_coulomb_force():
+    m = fam("coulomb_force")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        a, b = p["q1"], p["q2"]  # μC, signed
+        attract = (a > 0) != (b > 0)
+        assert picked(qs[0]).startswith("Attract" if attract else "Repel")
+        if p["band"] != "LS":
+            F = Fraction(9 * 10 ** 9) * abs(a * b) / 10 ** 12 / (Fraction(p["r_cm"]) / 100) ** 2
+            assert num(qs[1].answer) == F and (F * 100).denominator == 1  # F = kQq/r²
+            assert num(qs[2].answer) == F / 4 and "doubled" in qs[2].stem  # inverse square
+
+
+def test_magnet_field():
+    m = fam("magnet_field")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        # The field at P from the poles, by the inverse-square sum of "pole strengths" (+1 at N, -1 at S).
+        bx = by = 0.0
+        for (x, y), pole in m.poles(p):
+            dx, dy = p["P"][0] - x, p["P"][1] - y
+            r3 = (dx * dx + dy * dy) ** 1.5
+            bx += pole * dx / r3
+            by += pole * dy / r3
+        want = max(DIRS, key=lambda d: DIRS[d][0] * bx + DIRS[d][1] * by)
+        compass = next(q for q in qs if "compass" in q.stem)
+        assert picked(compass).split()[0] == want, (s, bx, by)
+        assert len({tuple(map(abs, DIRS[o.split()[0]])) for o in compass.options}) == 2  # two axes, both ways
