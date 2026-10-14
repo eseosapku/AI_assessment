@@ -207,3 +207,17 @@ def test_every_question_has_a_named_lead_and_the_figure():
         for row, qs in asked(family, limit=40):
             if qs:
                 assert any(qs[0].stem.startswith(n) for n in NAMES), (family, qs[0].stem)
+
+
+def test_label_questions_skip_what_the_drawings_leave_ambiguous():
+    """P3q review: nucleus lines end by the nucleolus, ribosome dots are unidentifiable, stomata are two loose circles,
+    and bundle lines end on the whole bundle; a fungal cell could not be ruled out with no wall drawn."""
+    for family, skip in (("bio.cell", {"nucleus", "ribosome"}),
+                         ("bio.leaf_section", {"stoma", "guard cell", "xylem", "phloem", "chloroplast"})):
+        for row, qs in asked(family):
+            for q in qs:
+                assert q.answer not in skip, (family, q.stem, q.answer)
+                assert "How many stomata" not in q.stem
+                assert "A fungal cell" not in q.options
+                if "Name the part labelled" in q.stem and q.answer.endswith("mesophyll"):
+                    assert f"{q.answer} cell" in q.accepted and f"{q.answer} cells" in q.accepted

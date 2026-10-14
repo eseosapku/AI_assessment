@@ -248,7 +248,7 @@ def number_line(row: dict, rng: random.Random) -> list:
 
 # --- biology labels --------------------------------------------------------------------------------
 
-CELL = {"membrane": ("cell membrane", ["membrane", "plasma membrane", "cell surface membrane"]), "cytoplasm": ("cytoplasm", []),
+CELL = {"membrane": ("cell membrane", ["membrane", "plasma membrane", "cell surface membrane", "cell (plasma) membrane"]), "cytoplasm": ("cytoplasm", []),
         "nucleus": ("nucleus", []), "mitochondrion": ("mitochondrion", ["mitochondria"]), "ribosome": ("ribosome", ["ribosomes"]),
         "vacuole": ("vacuole", ["permanent vacuole", "sap vacuole"]), "chloroplast": ("chloroplast", ["chloroplasts"]),
         "wall": ("cell wall", ["wall"]), "dna": ("circular DNA", ["DNA", "loop of DNA", "chromosome"]),
@@ -260,14 +260,21 @@ LEAF = {"cuticle": ("cuticle", ["waxy cuticle"]), "upper_epidermis": ("upper epi
         "spongy": ("spongy mesophyll", ["spongy layer", "spongy cells"]), "phloem": ("phloem", [])}
 
 
+# Parts the drawings leave ambiguous (P3q review): a nucleus line ends by the nucleolus, ribosome dots cannot be told from
+# other dots, stomata are two loose circles, bundle lines end on the whole bundle, chloroplast lines in a crowd.
+UNCLEAR = {"nucleus", "ribosome", "stoma", "guard_cell", "xylem", "phloem", "chloroplast"}
+
+
 def _labels(row: dict, rng: random.Random, names: dict, what: str) -> list:
     p = row["params"]
-    letters = rng.sample(range(len(p["labelled"])), min(2, len(p["labelled"])))
+    clear = [i for i, part in enumerate(p["labelled"]) if part not in UNCLEAR]
+    letters = rng.sample(clear, min(2, len(clear)))
     qs = []
     for k, i in enumerate(letters):
         name, more = names[p["labelled"][i]]
         lead = f"{_lead(rng, what)} " if k == 0 else ""
-        qs.append(short(f"{lead}Name the part labelled {'ABCDEFGH'[i]}.", name, [name, name.lower(), *more]))
+        extra = [f"{name} cell", f"{name} cells", f"{name} layer"] if name.endswith("mesophyll") else []
+        qs.append(short(f"{lead}Name the part labelled {'ABCDEFGH'[i]}.", name, [name, name.lower(), *more, *extra]))
     return qs
 
 
@@ -276,16 +283,15 @@ def bio_cell(row: dict, rng: random.Random) -> list:
     if p["style"] == "letters":
         return _labels(row, rng, CELL, "cell")
     key = {"animal": "An animal cell", "plant": "A plant cell", "bacterium": "A bacterial cell"}[p["kind"]]
+    # no fungal option: with no wall drawn it could not be ruled out from an animal cell's figure (P3q review)
     return [mcq(f"{_lead(rng, 'diagram')} What kind of cell is this?", key,
-                [x for x in ("An animal cell", "A plant cell", "A bacterial cell", "A fungal cell") if x != key], rng)]
+                [x for x in ("An animal cell", "A plant cell", "A bacterial cell") if x != key], rng)]
 
 
 def leaf_section(row: dict, rng: random.Random) -> list:
     p = row["params"]
-    if p["style"] == "letters":
-        return _labels(row, rng, LEAF, "section through a leaf")
-    n = p["stomata"]
-    return [short(f"{_lead(rng, 'section through a leaf')} How many stomata are shown?", n, [str(n), f"{n} stomata"])]
+    # names-style sections ask nothing: their stomata are two loose circles, so a count is ambiguous (P3q review)
+    return _labels(row, rng, LEAF, "section through a leaf") if p["style"] == "letters" else []
 
 
 WRITERS = {
