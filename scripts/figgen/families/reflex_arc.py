@@ -172,9 +172,12 @@ def questions(p: dict, rng: random.Random) -> list:
     qs.append(Question("mcq", rng.choice(["In which order does an impulse pass through the lettered parts?",
                                           "Which order shows the path of an impulse through the lettered parts of this reflex arc?"]),
                        str(options.index(" → ".join(right))), options))
+    # Two letters crossed with two actions: every option shares its letter with one other and its action with
+    # one other, so the key is not the option most like the rest.
+    other = rng.choice([r, m])
     good = f"{e}: it contracts and pulls the hand away"
-    options = [good, f"{e}: it relaxes so the hand drops away", f"{r}: it contracts and pulls the hand away",
-               f"{m}: it contracts and pulls the hand away"]
+    options = [good, f"{e}: it relaxes so the hand drops away", f"{other}: it contracts and pulls the hand away",
+               f"{other}: it relaxes so the hand drops away"]
     rng.shuffle(options)
     qs.append(Question("mcq", rng.choice(["Which letter shows the effector, and what does it do?",
                                           "Which letter is the effector in this reflex, and what does it do?"]),
