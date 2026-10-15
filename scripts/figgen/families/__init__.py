@@ -66,6 +66,19 @@ from . import expert_system, file_transfer, gantt_chart, mail_merge, web_page
 from . import admin_ladder_p, budget_p, compass_map_p, family_tree_p, map_key_p
 # P3x history imports
 from . import arms_of_government, census_chart, election_chart
+# P3y accounting-b imports
+from . import (accrual_prepayment, club_accounts, doubtful_debts, financial_position, investment_appraisal,
+               manufacturing_account, partnership_appropriation)
+# P3y accounting-a imports
+from . import accounting_equation, business_document, control_account, day_book, petty_cash_book, suspense_account
+# P3y economics-micro imports
+from . import budget_line, demand_schedule, market_diagram, monopoly_diagram, production_table, utility_table
+# P3y economics-macro imports
+from . import (ad_as, balance_of_payments, circular_flow, exchange_rate, labour_force, lorenz_curve, multiplier,
+               trade_tables)
+# P3y business imports
+from . import (boston_matrix, break_even_chart, capacity_utilisation, decision_tree, market_research, org_chart, payslip,
+               personal_budget, product_life_cycle)
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -143,4 +156,16 @@ FAMILIES = {m.ID: m for m in (
     compass_map_p, map_key_p, family_tree_p, admin_ladder_p, budget_p,
     # P3x history families
     arms_of_government, census_chart, election_chart,
+    # P3y accounting-b families
+    financial_position, accrual_prepayment, doubtful_debts, partnership_appropriation, club_accounts,
+    manufacturing_account, investment_appraisal,
+    # P3y accounting-a families
+    petty_cash_book, business_document, day_book, control_account, suspense_account, accounting_equation,
+    # P3y economics-micro families
+    market_diagram, demand_schedule, production_table, utility_table, budget_line, monopoly_diagram,
+    # P3y economics-macro families
+    circular_flow, ad_as, labour_force, multiplier, trade_tables, balance_of_payments, exchange_rate, lorenz_curve,
+    # P3y business families
+    org_chart, product_life_cycle, boston_matrix, market_research, break_even_chart, decision_tree,
+    capacity_utilisation, payslip, personal_budget,
 )}
