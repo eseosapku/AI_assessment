@@ -18,6 +18,7 @@ ID = "ppc"
 KIND = "econ.curve"
 SUBJECT = "economics"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the chapter is named for it
 CONCEPTS = tuple(f"economics.{c}" for c in ("production-possibility-curve", "scarcity-choice-opportunity-cost",
                                             "basic-economic-problems"))
 ALSO = ("business.production-possibility-frontier",)

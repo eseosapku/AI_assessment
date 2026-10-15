@@ -18,6 +18,7 @@ ID = "national_income"
 KIND = "business.document"
 SUBJECT = "economics"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the chapter is named for it
 CONCEPTS = tuple(f"economics.{c}" for c in ("gdp-gni", "national-income-measurement", "national-income-statistics",
                                             "national-income"))
 AVOID = r"nigeria|excludab"  # another country's economy; public goods, whose sections only cite a GDP table

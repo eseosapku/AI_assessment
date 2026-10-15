@@ -17,6 +17,7 @@ ID = "inventory_chart"
 KIND = "graph.line"
 SUBJECT = "business"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same chart in Cambridge AS Level Business
 # IGCSE teaches the chart under "Production of goods and services"; Rwanda S6 under "Stock control".
 CONCEPTS = ("business.inventory-management", "business.production-of-goods-and-services")
 # A topic whose sections the book lists is reached only if one names what this figure teaches.

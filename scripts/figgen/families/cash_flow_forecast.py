@@ -20,6 +20,7 @@ ID = "cash_flow_forecast"
 KIND = "business.document"
 SUBJECT = "business"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same chart in Cambridge AS Level Business
 CONCEPTS = ("business.budgeting-and-forecasting",)
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"cash.?flow|forecast|budget|working capital"

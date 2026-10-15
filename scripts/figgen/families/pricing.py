@@ -18,9 +18,10 @@ ID = "pricing"
 KIND = "business.document"
 SUBJECT = "business"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same chart in Cambridge AS Level Business
 CONCEPTS = ("business.price-and-price-fluctuations", "business.costs-and-revenue")
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
-NEEDS = r"pricing|mix: price|mark.?up|cost.?plus|unit cost|profit margin"
+NEEDS = r"pricing|mix: price|product and price|mark.?up|cost.?plus|unit cost|profit margin"
 # Topics listed without sections that share costs-and-revenue but teach no pricing.
 AVOID = r"e-commerce|aids to trade|transport|insurance|^finance$"
 

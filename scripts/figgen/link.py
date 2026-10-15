@@ -77,7 +77,17 @@ def topics_for(index: TopicIndex, m, params: dict) -> list[str]:
             return True
         return any(re.search(needs, x, re.I) for x in (t["name"], *t["sections"]))
 
-    return sorted(t["key"] for t in index if t["band"] == band and t["concepts"] & concepts
+    # A figure may suit another level's topics as drawn (ALSO_BANDS): an inventory chart is the same in IGCSE and AS
+    # Level Business. There the topic's own name must say what the figure teaches: the AS Level chapters list no
+    # sections, and a broad shared concept alone carried a pricing table into "Capacity utilisation".
+    others = set(getattr(m, "ALSO_BANDS", {}).get(band, ()))
+
+    def level(t) -> bool:
+        if t["band"] == band:
+            return True
+        return t["band"] in others and bool(needs) and re.search(needs, t["name"], re.I) is not None
+
+    return sorted(t["key"] for t in index if level(t) and t["concepts"] & concepts
                   and (years is None or t.get("stage") is None or years[0] <= t["stage"] <= years[1])
                   and not (avoid and re.search(avoid, t["name"], re.I)) and taught(t))
 

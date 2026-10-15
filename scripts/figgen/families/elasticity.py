@@ -20,7 +20,9 @@ ID = "elasticity"
 KIND = "econ.curve"
 SUBJECT = "economics"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the chapter is named for it
 CONCEPTS = ("economics.elasticity", "economics.price-elasticity-demand")
+ALSO = ("business.elasticity-of-demand",)  # Rwanda's Entrepreneurship books teach it under business
 AVOID = r"elasticity of supply"  # a chapter on PES only: this figure is demand's
 # A topic whose sections the book lists is reached only if one names what this figure teaches.
 NEEDS = r"elasticit|\bPED\b"

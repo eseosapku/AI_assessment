@@ -19,10 +19,12 @@ ID = "bank_reconciliation"
 KIND = "business.document"
 SUBJECT = "accounting"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the chapter is named for it
 CONCEPTS = ("accounting.bank-reconciliation", "accounting.cash-book")
+ALSO = ("business.bookkeeping-and-accounting-basics",)  # Rwanda's Entrepreneurship books teach it under business
 # A topic whose sections the book lists is reached only if one names the reconciliation or the bank statement.
 NEEDS = r"reconcil|bank statement"
-AVOID = r"partnership|compan|club|societ|non-profit|manufactur|tax|costing|budget|petty cash|control account"
+AVOID = r"partnership|compan|club|societ|non-profit|manufactur|tax|costing|budget|petty cash|control account|^finance"
 
 
 def sample(rng: random.Random) -> dict:

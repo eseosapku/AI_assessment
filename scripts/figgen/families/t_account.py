@@ -20,7 +20,9 @@ ID = "t_account"
 KIND = "business.document"
 SUBJECT = "accounting"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the chapter is named for it
 CONCEPTS = ("accounting.balancing-accounts", "accounting.ledgers", "accounting.double-entry-bookkeeping")
+ALSO = ("business.general-ledger-and-trial-balance", "business.bookkeeping-and-accounting-basics")  # Rwanda's Entrepreneurship books teach it under business
 # A topic whose sections the book lists is reached only if one names ledger accounts or their balancing ("trial
 # balance" alone is not balancing an account).
 NEEDS = r"balancing|balanced|balance [cb]/d|\bledgers?\b|double.entry|posting|t.accounts?\b|three.column"
@@ -28,7 +30,7 @@ NEEDS = r"balancing|balanced|balance [cb]/d|\bledgers?\b|double.entry|posting|t.
 # depreciation and accruals accounts, statements, and other kinds of business.
 AVOID = (r"partnership|compan|club|societ|non-profit|manufactur|incomplete|tax|costing|budget|cash flow|control account|"
          r"depreciation|financial statements|payables|receivables|correction|errors|trial balance|reconciliation|"
-         r"books of (original|prime) entry|journaliz|introduction")
+         r"books of (original|prime) entry|journaliz|introduction|^finance")
 
 # (details, side, lowest, highest, step, at most once): what goes into and out of the bank and the cash.
 # "customer" and "supplier" stand for a named credit customer paying in, or a supplier being paid.

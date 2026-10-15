@@ -16,8 +16,10 @@ ID = "trial_balance"
 KIND = "business.document"
 SUBJECT = "accounting"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the chapter is named for it
 # The book chapters on the trial balance carry double entry but not the trial-balance concept (the P0 map missed it).
 CONCEPTS = ("accounting.trial-balance", "accounting.double-entry-bookkeeping")
+ALSO = ("business.general-ledger-and-trial-balance",)  # Rwanda's Entrepreneurship books teach it under business
 # A topic whose sections the book lists is reached only if one names the trial balance.
 NEEDS = r"trial balance"
 AVOID = (r"partnership|compan|club|societ|non-profit|manufactur|incomplete|tax|costing|budget|control account|suspense|"

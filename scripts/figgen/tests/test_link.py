@@ -181,3 +181,32 @@ def test_a_family_also_reaches_another_subjects_topics_by_the_concepts_it_also_t
     m = family(CONCEPTS=("mathematics.nope",), ALSO=("science.density",))
     assert topics_for(index, m, {"band": "LS"}) == ["db:7"]
     assert topics_for(index, family(CONCEPTS=("mathematics.nope",)), {"band": "LS"}) == []
+
+
+def test_a_family_may_say_its_figures_also_suit_another_level(tmp_path):
+    """An inventory chart is the same chart in IGCSE and AS Level Business: a family that says so (ALSO_BANDS) reaches
+    the other level's topics too, from its own level only, and never a level it does not name."""
+    db = store(tmp_path)
+    db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES ('db:9', 'x', 'B', 'mathematics', 'AL', 'Fractions again')")
+    db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
+               "VALUES ('db:9', ?, '[]', '[]', 'high', 0, 'm', 'now')", (json.dumps(["mathematics.fractions"]),))
+    db.commit()
+    index = topic_index(db)
+    m = family(ALSO_BANDS={"LS": ("AL",)}, NEEDS="again")
+    assert topics_for(index, m, {"band": "LS"}) == ["db:2", "db:9"]
+    assert topics_for(index, m, {"band": "P"}) == ["db:1"]
+    assert topics_for(index, family(), {"band": "LS"}) == ["db:2"]
+
+
+def test_another_level_is_reached_only_where_the_topic_name_says_what_the_figure_teaches(tmp_path):
+    """The AS Level Business chapters list no sections, so a shared broad concept would carry a pricing table into
+    'Capacity utilisation': across levels the topic's own NAME must match NEEDS, and a family with no NEEDS stays home."""
+    db = store(tmp_path)
+    for key, name in (("db:9", "Fractions again"), ("db:10", "Capacity utilisation")):
+        db.execute("INSERT INTO topics (key, source, book, subject, band, name) VALUES (?, 'x', 'B', 'mathematics', 'AL', ?)", (key, name))
+        db.execute("INSERT INTO topic_map (topic_key, concepts, kinds, terms, visual, dropped, model, mapped_at) "
+                   "VALUES (?, ?, '[]', '[]', 'high', 0, 'm', 'now')", (key, json.dumps(["mathematics.fractions"])))
+    db.commit()
+    index = topic_index(db)
+    assert topics_for(index, family(ALSO_BANDS={"LS": ("AL",)}, NEEDS="fraction"), {"band": "LS"}) == ["db:2", "db:9"]
+    assert topics_for(index, family(ALSO_BANDS={"LS": ("AL",)}), {"band": "LS"}) == ["db:2"]

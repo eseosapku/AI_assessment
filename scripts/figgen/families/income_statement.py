@@ -19,7 +19,9 @@ ID = "income_statement"
 KIND = "business.document"
 SUBJECT = "accounting"
 BANDS = ("UP",)
+ALSO_BANDS = {"UP": ("AL",)}  # the same layout in Cambridge AS Level, where the chapter is named for it
 CONCEPTS = ("accounting.financial-statements-sole-traders",)
+ALSO = ("business.financial-statements",)  # Rwanda's Entrepreneurship books teach it under business
 # A topic whose sections the book lists is reached only if one names the income statement or what it works out.
 NEEDS = r"income statement|profit or loss|trading|final accounts|financial statements|cost of sales|gross profit|sole trader"
 # Part B of the financial statements is the statement of financial position; interpretation is ratios.
