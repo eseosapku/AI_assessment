@@ -79,6 +79,16 @@ from . import (ad_as, balance_of_payments, circular_flow, exchange_rate, labour_
 # P3y business imports
 from . import (boston_matrix, break_even_chart, capacity_utilisation, decision_tree, market_research, org_chart, payslip,
                personal_budget, product_life_cycle)
+# P3z geography imports
+from . import (coast_features, drainage_pattern, earth_layers, plate_boundary, river_features, rock_cycle,
+               soil_profile)
+# P3z ict imports
+from . import (block_code_p, computer_parts, document_format, email_screen, folder_tree, simple_network_p,
+               system_life_cycle)
+# P3z early-maths imports
+from . import calendar_p, capacity_mass_p, clock_early_p, compare_length_p, position_p, shapes_p
+# P3z chemistry imports
+from . import air_composition, concentration_table, gas_collection, ph_scale, reactivity_test, separation_apparatus
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -168,4 +178,12 @@ FAMILIES = {m.ID: m for m in (
     # P3y business families
     org_chart, product_life_cycle, boston_matrix, market_research, break_even_chart, decision_tree,
     capacity_utilisation, payslip, personal_budget,
+    # P3z geography families
+    soil_profile, rock_cycle, earth_layers, drainage_pattern, river_features, coast_features, plate_boundary,
+    # P3z ict families
+    block_code_p, simple_network_p, computer_parts, folder_tree, email_screen, document_format, system_life_cycle,
+    # P3z early-maths families
+    clock_early_p, position_p, compare_length_p, shapes_p, capacity_mass_p, calendar_p,
+    # P3z chemistry families
+    separation_apparatus, gas_collection, ph_scale, air_composition, concentration_table, reactivity_test,
 )}
