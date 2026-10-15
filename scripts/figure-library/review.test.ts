@@ -283,6 +283,16 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('3'), '3, 4')).toBe(false)
   })
 
+  it('reads "Bit 3" as a word and a number, not a code, and a spaced binary string as the string (P3v)', () => {
+    // "Bit 3" lost its space and read as the code "bit3", so "Bit 3" never matched; "0 0 1 1 0 0 0 1" is 00110001.
+    expect(agrees(short('Bit 3'), 'Bit 3')).toBe(true)
+    expect(agrees(short('Bit 3'), 'Bit 4')).toBe(false)
+    expect(agrees(short('C4'), 'cell C4')).toBe(true)
+    expect(agrees(short('00110001'), '0 0 1 1 0 0 0 1')).toBe(true)
+    expect(agrees(short('00110001'), '0011 0001')).toBe(true)
+    expect(agrees(short('00110001'), '00110011')).toBe(false)
+  })
+
   it('reads a negative restated as a deficit or loss, and a number restated in millions (P3p)', () => {
     // "−140 billion Frw (a deficit of 140)" and "1 180 000 Frw (≈1.18 million)" each give one answer twice.
     expect(agrees(short('-140'), '−140 billion Frw (a deficit of 140)')).toBe(true)

@@ -248,9 +248,15 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     if (m) return m[1].toUpperCase().charCodeAt(0) - 65 === key
     return words(text) === words(q.options[key] ?? '')
   }
+  // A binary string ("00110001") is its bits, however spaced ("0011 0001", "0 0 1 1 0 0 0 1"), not a number (P3v).
+  if (/^[01]{4,}$/.test(q.answer.trim())) {
+    const bits = unhedged(text).replace(/\s+/g, '').match(/[01]{4,}/g)
+    return bits !== null && bits.length === 1 && bits[0] === q.answer.trim()
+  }
   // A code ("3F", "0x3F", "C4", "S03") is not its digits: "3E" read as 3 had reached "3F" (P3k). The answer
-  // names exactly one code, perhaps glossed ("cell C4", "3F (hexadecimal)"), and it is one of the forms.
-  if (CODE.test(q.answer.replace(/\s+/g, ''))) {
+  // names exactly one code, perhaps glossed ("cell C4", "3F (hexadecimal)"), and it is one of the forms. A word and
+  // a number ("Bit 3") is not a code: its space is kept (P3v).
+  if (CODE.test(q.answer.trim())) {
     const forms = [q.answer, ...q.accepted].map(canon)
     const codes = unhedged(text).split(/[\s,;()]+/).map((t) => t.replace(/[.:]+$/, '')).filter((t) => CODE.test(t))
     return codes.length === 1 && forms.includes(canon(codes[0]))
