@@ -240,6 +240,14 @@ function isForm(q: ReviewQuestion, part: string): boolean {
   })
 }
 
+/** "per 1 000 Frw" in an answer to a question asked "in US dollars per 1 000 Frw": the question's own unit said again,
+ * not a second number (P3y: nine right exchange rates failed as two numbers). */
+function withoutStemUnit(text: string, stem: string): string {
+  const flat = (s: string) => s.toLowerCase().replace(/(\d)[ ,](?=\d{3}(?!\d))/g, '$1').replace(/\s+/g, ' ')
+  const asked = flat(stem)
+  return text.replace(/\bper\s+\d{1,3}(?:[ ,]\d{3})*\s+[a-z$]+/gi, (m) => (asked.includes(flat(m)) ? ' ' : m))
+}
+
 export function agrees(q: ReviewQuestion, own: string): boolean {
   const text = own.trim()
   if (q.kind === 'mcq') {
@@ -286,7 +294,7 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   const expected = numbersIn(q.answer)
   if (expected.length) {
     // "7 (×10¹⁴ Hz)": a power of ten with no number before it is the unit the question set, not a second number.
-    const unitless = text.replace(UNIT_FACTOR, ' ').trim()
+    const unitless = withoutStemUnit(text, q.stem).replace(UNIT_FACTOR, ' ').trim()
     let exact = unitless
     if (unitless.includes('≈')) {
       const at = unitless.indexOf('≈')

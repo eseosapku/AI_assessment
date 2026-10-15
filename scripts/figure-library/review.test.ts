@@ -293,6 +293,13 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('00110001'), '00110011')).toBe(false)
   })
 
+  it('reads the unit the question set ("per 1 000 Frw") as the unit, not a second number (P3y)', () => {
+    // "$0.60 per 1 000 Frw" read as two numbers, 0.60 and 1000, and failed nine right exchange-rate answers.
+    const rate = { ...short('0.60', ['0.60', '0.6', '$0.60']), stem: 'What is the exchange rate at the new equilibrium E2, in US dollars per 1 000 Frw?' }
+    for (const own of ['$0.60 per 1 000 Frw', '0.60 US$ per 1 000 Frw', 'US$0.60 per 1,000 Frw', '0.6 US dollars per 1 000 Frw']) expect(agrees(rate, own), own).toBe(true)
+    for (const own of ['$0.65 per 1 000 Frw', '0.60 per 100 Frw', '$0.60 or $0.65 per 1 000 Frw']) expect(agrees(rate, own), own).toBe(false)
+  })
+
   it('reads a grid square written with its letter and number apart as the square (P3x)', () => {
     // "E, 3" split at the comma into "E" and "3", neither a code, so a right grid reference failed.
     const grid = short('E3', ['E3', 'e3', 'E 3', 'e 3', 'E, 3', 'E,3'])
