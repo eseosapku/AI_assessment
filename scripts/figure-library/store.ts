@@ -37,7 +37,7 @@ export function openStore(file: string = path.join(libraryDir(), 'figures.db'), 
   db.exec('PRAGMA foreign_keys = ON')
   // Wait up to 10 s for another writer (the probe runs for hours) rather than
   // failing at once and losing a spend record for a reply already paid for.
-  db.exec('PRAGMA busy_timeout = 10000')
+  db.exec('PRAGMA busy_timeout = 60000')  // a minute, as the Python store: eight writers at once starve a shorter wait
   if (file !== ':memory:') db.exec('PRAGMA journal_mode = WAL')
   db.exec(SCHEMA)
   // A store made before questions carried a tolerance gains the column (0: exact).

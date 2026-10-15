@@ -25,7 +25,7 @@ describe('the staging store', () => {
     // 1 ms with "database is locked", after its model reply had been paid for.
     const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'figlib-busy-'))
     const db = openStore(path.join(dir, 'figures.db'), process.cwd())
-    expect((db.prepare('PRAGMA busy_timeout').get() as { timeout: number }).timeout).toBe(10_000)
+    expect((db.prepare('PRAGMA busy_timeout').get() as { timeout: number }).timeout).toBe(60_000)
     db.close()
   })
 
