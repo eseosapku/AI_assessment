@@ -257,7 +257,10 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
     return words(text) === words(q.options[key] ?? '')
   }
   // A binary string ("00110001") is its bits, however spaced ("0011 0001", "0 0 1 1 0 0 0 1"), not a number (P3v).
-  if (/^[01]{4,}$/.test(q.answer.trim())) {
+  // Only a key with a leading 0 or a question about bits: a profit of 1000000 Frw is a number (P3y).
+  const binary = /^[01]{4,}$/.test(q.answer.trim())
+    && (q.answer.trim().startsWith('0') || /\b(binary|bits?|bytes?|nibble|parity|registers?|accumulator|denary|hexadecimal|two's complement)\b/i.test(q.stem))
+  if (binary) {
     const bits = unhedged(text).replace(/\s+/g, '').match(/[01]{4,}/g)
     return bits !== null && bits.length === 1 && bits[0] === q.answer.trim()
   }

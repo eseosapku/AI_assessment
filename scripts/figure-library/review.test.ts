@@ -293,6 +293,16 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('00110001'), '00110011')).toBe(false)
   })
 
+  it('reads a number of 0s and 1s as a number unless the question is about bits (P3y)', () => {
+    // A profit of 1 000 000 Frw was read as the bit string "1000000", so "1,000,000 Frw" failed.
+    const profit = { ...short('1000000', ['1000000', '1,000,000', '1 000 000 Frw']), stem: 'What supernormal profit does it make, in Frw per week?' }
+    for (const own of ['1,000,000 Frw per week', '1,000,000', '1 000 000 Frw']) expect(agrees(profit, own), own).toBe(true)
+    expect(agrees(profit, '1,100,000 Frw')).toBe(false)
+    const bits = { ...short('1011'), stem: 'What is the binary number stored in the register?' }
+    expect(agrees(bits, '1 0 1 1')).toBe(true)
+    expect(agrees(bits, '1,011')).toBe(false)
+  })
+
   it('reads the unit the question set ("per 1 000 Frw") as the unit, not a second number (P3y)', () => {
     // "$0.60 per 1 000 Frw" read as two numbers, 0.60 and 1000, and failed nine right exchange-rate answers.
     const rate = { ...short('0.60', ['0.60', '0.6', '$0.60']), stem: 'What is the exchange rate at the new equilibrium E2, in US dollars per 1 000 Frw?' }
