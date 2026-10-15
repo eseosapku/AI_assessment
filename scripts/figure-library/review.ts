@@ -258,7 +258,11 @@ export function agrees(q: ReviewQuestion, own: string): boolean {
   // a number ("Bit 3") is not a code: its space is kept (P3v).
   if (CODE.test(q.answer.trim())) {
     const forms = [q.answer, ...q.accepted].map(canon)
-    const codes = unhedged(text).split(/[\s,;()]+/).map((t) => t.replace(/[.:]+$/, '')).filter((t) => CODE.test(t))
+    // A grid square may be written with its letter and number apart ("E, 3", "E 3"): join a lone letter to the number
+    // after it, so the split below keeps the square whole (P3x).
+    const grid = /^[a-z]\d{1,3}$/i.test(q.answer.trim())
+    const said = grid ? unhedged(text).replace(/\b([a-z])\s*,?\s*(\d{1,3})\b/gi, '$1$2') : unhedged(text)
+    const codes = said.split(/[\s,;()]+/).map((t) => t.replace(/[.:]+$/, '')).filter((t) => CODE.test(t))
     return codes.length === 1 && forms.includes(canon(codes[0]))
   }
   // A latitude or longitude is its number and its hemisphere: "30°S" read as 30 had reached "30°N" (P3m). The answer

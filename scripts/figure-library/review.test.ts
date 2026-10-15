@@ -293,6 +293,13 @@ describe('whether the reviewer reached the key', () => {
     expect(agrees(short('00110001'), '00110011')).toBe(false)
   })
 
+  it('reads a grid square written with its letter and number apart as the square (P3x)', () => {
+    // "E, 3" split at the comma into "E" and "3", neither a code, so a right grid reference failed.
+    const grid = short('E3', ['E3', 'e3', 'E 3', 'e 3', 'E, 3', 'E,3'])
+    for (const own of ['E, 3', 'E 3', 'e3', 'square E3', 'E3 (column E, row 3)']) expect(agrees(grid, own), own).toBe(true)
+    for (const own of ['E, 4', 'D3', 'E3 or E4']) expect(agrees(grid, own), own).toBe(false)
+  })
+
   it('reads a negative restated as a deficit or loss, and a number restated in millions (P3p)', () => {
     // "−140 billion Frw (a deficit of 140)" and "1 180 000 Frw (≈1.18 million)" each give one answer twice.
     expect(agrees(short('-140'), '−140 billion Frw (a deficit of 140)')).toBe(true)
