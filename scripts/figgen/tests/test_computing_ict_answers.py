@@ -419,7 +419,7 @@ def test_web_page():
         url = urlsplit(p["url"])
         assert "".join(p["parts"]) == p["url"] and len(p["parts"]) == 4
         folder, file = url.path.rsplit("/", 1)
-        role = {"protocol": f"{url.scheme}://", "domain name": url.netloc, "path": folder + "/", "file name": file}
+        role = {"protocol": f"{url.scheme}://", "domain name": url.netloc, "folder": folder + "/", "file name": file}
         if p["kind"] == "link":
             assert [lk["href"] for lk in page.links] == [p["url"]]  # the address shown is the link's
         asked = set()
@@ -480,12 +480,14 @@ def test_web_page():
                 tag = next(t for t, x in page.blocks if x.strip() == got.group(1))
                 assert q.answer == css(page)[tag]["font-size"].removesuffix("px"), s
                 asked.add("html")
-            got = re.search(r"Which labelled part of the URL is the ([a-z ]+)\?", q.stem)
+            # "path" is told two ways (the folder, or the folder and file together), and so is a domain name with or
+            # without its www (P3v blind review): the URL is asked only by its lettered parts, the folder by that name.
+            assert "path" not in q.stem.lower(), (s, q.stem)
+            if "URL" in q.stem:
+                assert q.kind == "mcq" and q.options == list("ABCD"), (s, q.stem)
+            got = re.search(r"Which labelled part of the URL is the (protocol|domain name|folder|file name)\b", q.stem)
             if got:
                 assert p["parts"][ord(picked(q)) - ord("A")] == role[got.group(1)], (s, q.stem)
-                asked.add("url")
-            if "domain name in the URL" in q.stem:
-                assert q.answer == url.netloc
                 asked.add("url")
         assert "url" in asked and ("html" in asked or "tag" in asked), (s, asked)
         assert ("tag" in asked) == (p["mode"] == "both"), (s, asked)

@@ -3,13 +3,14 @@ in a table and the state of the actuators before the first reading. Two forms:
 
 - a flowchart (Start, INPUT from the sensor, two decisions with their set points, three boxes setting the two
   actuators, a wait, and the loop back), for temperature (heater and window motor) or light (lamps and blind motor);
-- a block diagram of the control loop (sensor, ADC, microprocessor and actuator, lettered, in a feedback loop with the
-  greenhouse, drawn left to right or right to left), with the program's one rule, for a heater, a cooling fan, a
-  sprinkler (soil moisture) or grow lamps.
+- a block diagram of the control loop (sensor, ADC, microprocessor and actuator, each lettered with its name beneath,
+  in a feedback loop with the greenhouse, drawn left to right or right to left), with the program's one rule, for a
+  heater, a cooling fan, a sprinkler (soil moisture) or lamps.
 
-Asks what the actuators are doing just after a given reading, how many times one is switched on, what the program
+Asks what the actuators are doing just after a given reading, how many times one changes from OFF to ON (OFF before
+the first reading, said in the stem: "switched on" read as every ON box run in the blind review), what the program
 does when a reading equals a set point (each decision's test is printed: < or <=, > or >=), and either how many
-readings leave the window open (or blind closed) or which letter is a named part of the loop.
+readings leave the window open (or blind closed) or which letter is the actuator.
 
 Every key is the rule applied to each reading in turn. The four statements are both actuators' states crossed.
 """
@@ -105,7 +106,7 @@ def sample(rng: random.Random) -> dict:
         if form == "block":
             p["flow"] = rng.choice(["ltr", "rtl"])
             p["letters"] = dict(zip(PARTS, rng.sample("PQRS", 4)))
-            p["ask_part"] = rng.choice(["actuator", "actuator", "sensor", "ADC", "microprocessor"])
+            p["ask_part"] = "actuator"  # every block is named, so only the actuator takes knowing which it is
         else:
             p["letters"] = {}
         return p
@@ -210,6 +211,18 @@ def draw_flowchart(p: dict):
     return fig
 
 
+def _block_name(p: dict, part: str) -> str:
+    """What each lettered block is, printed under its letter (P3v blind review: unnamed blocks left the order to guess)."""
+    if part == "sensor":
+        return {"temperature": "Temperature", "moisture": "Moisture", "light": "Light"}[p["sensor"]] + "\nsensor"
+    if part == "ADC":
+        return "ADC"
+    if part == "microprocessor":
+        return "Micro-\nprocessor"
+    device = (p["low"] or p["high"])["device"]
+    return device[0].upper() + device[1:].replace(" ", "\n")
+
+
 def draw_block(p: dict):
     fig, ax = new_figure(10.4, 7.0)
     rule = p["low"] or p["high"]
@@ -221,11 +234,12 @@ def draw_block(p: dict):
     xs = [1.9, 5.0, 8.1, 11.2]
     order = PARTS if p["flow"] == "ltr" else PARTS[::-1]
     at = {part: x for part, x in zip(order, xs)}
-    y, w, h = 4.4, 2.1, 1.0
+    y, w, h = 4.4, 2.1, 1.4
     for part in PARTS:
         ax.add_patch(FancyBboxPatch((at[part] - w / 2, y - h / 2), w, h, boxstyle="round,pad=0.03", facecolor=FILL,
                                     edgecolor=INK, linewidth=1.3))
-        _text(ax, at[part], y, p["letters"][part], 16, fontweight="bold", gid=f"block:{part}")
+        _text(ax, at[part], y + 0.33, p["letters"][part], 15, fontweight="bold", gid=f"block:{part}")
+        _text(ax, at[part], y - 0.27, _block_name(p, part), 9.5, gid=f"blockname:{part}")
     for a, b in zip(PARTS, PARTS[1:]):
         step = (w / 2) * (1 if at[b] > at[a] else -1)
         _arrow(ax, (at[a] + step, y), (at[b] - step, y))
@@ -293,7 +307,9 @@ def questions(p: dict, rng: random.Random) -> list:
     else:
         now = "on" if st_all[t][count_side] else "off"
         qs.append(short(f"{head}, {verb} the {device} on or off?", now, [now, now.upper(), f"the {device} is {now}"]))
-    qs.append(short(f"{friend} counts from the table. How many times {verb} the {device} switched on during these readings?",
+    do = "do" if device == "lamps" else "does"
+    qs.append(short(f"{friend} works through the table. The {device} {verb} OFF before the first reading. How many times "
+                    f"{do} the {device} change from OFF to ON?",
                     switches, [str(switches), f"{switches} times"]))
     if p["form"] == "flowchart":
         qs.append(_grid(p, st_eq, rng, f"Suppose the sensor reads exactly {eq} {unit}. Following the flowchart, which is true just "

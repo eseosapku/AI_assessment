@@ -452,6 +452,7 @@ def test_sensor_control():
         else:
             assert bool(p["low"]) != bool(p["high"])
         all_states = [states(p, r) for r in readings]
+        counted = 0
         for q in qs:
             got = re.search(r"Just after the reading at (\d\d:\d\d)", q.stem)
             if got:
@@ -462,14 +463,19 @@ def test_sensor_control():
                 else:
                     side = "low" if p["low"] else "high"
                     assert q.answer == ("on" if st[side] else "off"), s
-            got = re.search(r"How many times (?:is|are) the ([a-z ]+) switched on", q.stem)
+            # "switched on" read two ways in the blind review (P3v): changes from OFF to ON, or every ON box run while
+            # already on. The question asks for changes, and says the device is OFF before the first reading.
+            assert "switched on" not in q.stem, (s, q.stem)
+            got = re.search(r"How many times do(?:es)? the ([a-z ]+?) change from OFF to ON\b", q.stem)
             if got:
                 side = next(k for k in ("low", "high") if p[k] and p[k]["device"] == got.group(1))
-                was, switches = False, 0
+                assert f"OFF before the first reading" in q.stem, (s, q.stem)
+                was, changes = False, 0
                 for st in all_states:
-                    switches += st[side] and not was
+                    changes += st[side] and not was
                     was = st[side]
-                assert int(q.answer) == switches and switches >= 1, s
+                assert int(q.answer) == changes and changes >= 1, s
+                counted += 1
             got = re.search(r"reads exactly (\d+)", q.stem)
             if got:
                 v = int(got.group(1))
@@ -488,9 +494,10 @@ def test_sensor_control():
                 assert int(q.answer) == sum(st[side] == want for st in all_states), s
             got = re.search(r"Which letter is the (sensor|ADC|microprocessor|actuator)\?", q.stem)
             if got:
+                assert got.group(1) == "actuator", s  # every block is named, so only the actuator takes knowing
                 assert picked(q) == p["letters"][got.group(1)], s
                 assert sorted(q.options) == sorted(p["letters"].values())
-        assert len(qs) == 4
+        assert len(qs) == 4 and counted == 1, s
     assert {f for f, _ in forms} == {"flowchart", "block"}
     assert {s for _, s in forms} == {"temperature", "moisture", "light"}
 
@@ -509,6 +516,12 @@ def test_sensor_control_figure_shows_readings_rules_and_letters():
         if p["form"] == "block":
             for part, letter in p["letters"].items():
                 assert g[f"block:{part}"][0] == letter, s
+            # each letter has its block's name beside it (P3v blind review: unnamed blocks left the order to guess)
+            names = {part: " ".join(g[f"blockname:{part}"][0].lower().replace("-\n", "").split()) for part in p["letters"]}
+            device = (p["low"] or p["high"])["device"]
+            assert device.split()[-1] in names["actuator"], (s, names)
+            assert p["sensor"] in names["sensor"] or "light" in names["sensor"], (s, names)
+            assert "adc" in names["ADC"] and "microprocessor" in names["microprocessor"], (s, names)
         assert "off" in g["start-state"][0].lower()
 
 

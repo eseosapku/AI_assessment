@@ -1,12 +1,13 @@
 """Web pages (UP, LS, AL): a short HTML snippet in a code panel, a table, a list, a link, an image with alt text, or
 CSS setting colours and font sizes, either beside what the browser shows or in place of it, and below them a URL broken
-into four lettered parts: protocol, domain name, path and file name. Rwandan sites: a Huye library, a Musanze
+into four lettered parts: protocol, domain name, folder and file name. Rwandan sites: a Huye library, a Musanze
 cooperative, a Kigali coding club, a Rubavu craft shop and a Nyanza school.
 
 From the code alone: what the browser shows in a table cell, how many rows the table has, the number beside a list item,
 how many bullet points, a link's words and the file it opens, an image's alt text and width, and the colour or font size
 CSS gives a line. Beside the output: which tag makes what is shown. And which lettered part of the URL is the protocol,
-domain name, path or file name, or what its domain name is.
+domain name, folder (directory) or file name, asked by letter only: "path" and a domain name written out with or
+without its www are each read two ways.
 
 Every key is read from the snippet's own elements; the answer test parses the HTML with Python's html.parser.
 """
@@ -157,9 +158,8 @@ def sample(rng: random.Random) -> dict:
     body = {"table": _table, "list": _list, "link": _link, "image": _image, "css": _css}[kind](rng)
     parts = body.pop("parts", None) or _url(rng, body["site"])
     mode = "code" if kind == "css" else rng.choice(["code", "both"])
-    role = rng.choice(["protocol", "domain name", "path", "file name"])
-    return {"band": rng.choice(BANDS), "kind": kind, "mode": mode, "url": "".join(parts), "parts": parts, "role": role,
-            "ask_domain": role != "domain name" and rng.random() < 0.5, **body}
+    role = rng.choice(["protocol", "domain name", "folder", "file name"])
+    return {"band": rng.choice(BANDS), "kind": kind, "mode": mode, "url": "".join(parts), "parts": parts, "role": role, **body}
 
 
 # --- drawing: positions in inches, on axes that fill the figure ----------------------------------
@@ -334,12 +334,12 @@ def questions(p: dict, rng: random.Random) -> list:
     first = f"{who} {rng.choice(VERBS)} {SITES[p['site']][1]} {rng.choice(SETTINGS)}. "
     q0 = qs[0]
     q0.stem = first + q0.stem
+    # Asked by its lettered parts only: "path" (the folder, or the folder and file?) and a domain name written out (with
+    # its www or without?) are each told two ways (P3v blind review).
     role = p["role"]
-    letter = "ABCD"[["protocol", "domain name", "path", "file name"].index(role)]
-    q = mcq(f"Which labelled part of the URL is the {role}?", letter, [x for x in "ABCD" if x != letter], rng)
+    letter = "ABCD"[["protocol", "domain name", "folder", "file name"].index(role)]
+    asks = {"folder": "Which labelled part of the URL is the folder (directory) that the file is in?"}
+    q = mcq(asks.get(role, f"Which labelled part of the URL is the {role}?"), letter, [x for x in "ABCD" if x != letter], rng)
     q.options, q.answer = list("ABCD"), str("ABCD".index(letter))  # the letters in their order, as on a paper
     qs.append(q)
-    if p["ask_domain"]:
-        host = p["parts"][1]
-        qs.append(short("What is the domain name in the URL?", host, [host, host.removeprefix("www.")]))
     return qs

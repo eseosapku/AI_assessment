@@ -156,7 +156,7 @@ def questions(p: dict, rng: random.Random) -> list:
         key = ok if k != r else parity_bit if c == 0 else data_bit
         first = mcq(f"{opening} What does the block show about byte {k + 1}?", key, [ok, parity_bit, data_bit], rng)
     column = (short("Which column holds the changed bit?", "Parity bit",
-                    ["parity bit", "the parity bit", "Bit 1", "bit 1", "1"]) if c == 0 else
+                    ["parity bit", "the parity bit", "parity bit column", "Parity bit column", "the parity bit column", "Bit 1", "bit 1", "1"]) if c == 0 else
               short("Which column holds the changed bit?", f"Bit {c + 1}", [f"bit {c + 1}", str(c + 1)]))
     return [first, column,
             short(f"{friend} corrects the error. Write the byte that held it as it was sent, all 8 bits from the parity bit "

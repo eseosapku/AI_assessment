@@ -6,10 +6,10 @@ school, a Musanze cooperative, a Kigali shop or a Huye health centre. Which stat
 between two entities (the reversed one, one-to-one and many-to-many are the slips), and which attribute is the
 foreign key.
 
-"fd": one table with sample rows, its primary key underlined, and its functional dependencies listed. The table is
-unnormalised (a repeating group: a record's other lines left blank), in 1NF (a partial dependency on part of a
-composite key), in 2NF (a non-key dependency) or in 3NF. Which normal form it is in, and how many tables the data
-needs in 3NF.
+"fd": one table with sample rows, the primary key the dependencies imply underlined, and its functional dependencies
+listed. The table is unnormalised (a repeating group: several values in one cell, a record to a row), in 1NF (every
+value repeated, a partial dependency on part of a composite key), in 2NF (a non-key dependency) or in 3NF. The highest
+normal form it is in, and how many tables the data needs in 3NF (not asked when it is one: the table is normalised).
 
 Every key is worked out from what is drawn: the many side of a relationship is the table holding the other's primary
 key; the 3NF tables are one per determinant, plus a table of the composite key when no determinant covers it.
@@ -95,7 +95,7 @@ TEACHERS = ["Mr Habimana", "Ms Uwase", "Mr Kalisa", "Ms Mutoni", "Mr Gasana", "M
 LINES = {"school": [("MAT", "Maths"), ("PHY", "Physics"), ("CSC", "Computing"), ("ENG", "English"), ("BIO", "Biology")],
          "coop": [("C1", "Potatoes"), ("C2", "Beans"), ("C3", "Maize"), ("C4", "Wheat"), ("C5", "Peas")],
          "shop": [("P1", "Sugar"), ("P2", "Rice"), ("P3", "Soap"), ("P4", "Milk"), ("P5", "Tea")],
-         "clinic": [("M1", "Paracetamol"), ("M2", "Amoxicillin"), ("M3", "ORS"), ("M4", "Zinc"), ("M5", "Ibuprofen")],
+         "clinic": [("M1", "ORS"), ("M2", "Zinc"), ("M3", "Iron"), ("M4", "Quinine"), ("M5", "Aspirin")],
          "clubs": [("CL1", "Chess"), ("CL2", "Debate"), ("CL3", "Coding"), ("CL4", "Football"), ("CL5", "Drama")]}
 
 
@@ -140,13 +140,15 @@ def _flat(s: str, nf: str, rng: random.Random) -> dict:
               ([[[K1, K3], [L]]] if L else [])
         rows = []
         for k1, a1, fk, lines in records:
-            for j, (k3, a3, lv) in enumerate(lines):
-                head = [k1, a1, fk] + ([v["fa"][fk]] if show_fa else [])
-                if nf == "UNF" and j:
-                    head = [""] * len(head)
-                rows.append(head + [k3] + ([a3] if show_a3 else []) + ([str(lv)] if L else []))
-        return {"table": f["doc"], "attrs": attrs, "key": [K1] if nf == "UNF" else [K1, K3],
-                "group": group if nf == "UNF" else [], "fds": fds, "rows": rows}
+            head = [k1, a1, fk] + ([v["fa"][fk]] if show_fa else [])
+            cells = [[k3] + ([a3] if show_a3 else []) + ([str(lv)] if L else []) for k3, a3, lv in lines]
+            if nf == "UNF":  # a record to a row, its group's values side by side in one cell (blind review)
+                rows.append(head + [", ".join(c[i] for c in cells) for i in range(len(group))])
+            else:  # 1NF: every value repeated on every line
+                rows += [head + c for c in cells]
+        # The key the dependencies imply, unnormalised or not: the record's key and the group's together (blind review).
+        return {"table": f["doc"], "attrs": attrs, "key": [K1, K3], "group": group if nf == "UNF" else [], "fds": fds,
+                "rows": rows}
     if nf == "1NF-line":
         attrs = [K1, K3, A3] + ([L] if L else [])
         fds = [[[K3], [A3]]] + ([[[K1, K3], [L]]] if L else [])
@@ -322,9 +324,8 @@ def normal_form(p: dict) -> str:
 def tables_3nf(p: dict) -> int:
     """One table per determinant, and one of the composite key when no determinant holds all of it."""
     lhs = {tuple(sorted(l)) for l, _ in p["fds"]}
-    composite = len(p["key"]) > 1 or p["group"]
-    whole = tuple(sorted(p["key"] + ([p["group"][0]] if p["group"] else [])))
-    return len(lhs) + (1 if composite and whole not in lhs else 0)
+    whole = tuple(sorted(p["key"]))
+    return len(lhs) + (1 if len(whole) > 1 and whole not in lhs else 0)
 
 
 NF = {"UNF": "UNF (unnormalised)", "1NF": "1NF", "2NF": "2NF", "3NF": "3NF"}
@@ -337,11 +338,13 @@ def questions(p: dict, rng: random.Random) -> list:
     who = rng.choice(NAMES)
     verb, setting = rng.choice(VERBS), rng.choice(SETTINGS)
     if p["view"] == "fd":
-        nf = normal_form(p)
-        return [mcq(f"{who} {verb} the {p['table']} table {setting}. Its primary key is underlined and its functional "
-                    f"dependencies are listed. Which normal form is the table in?", NF[nf], list(NF.values()), rng),
-                short("How many tables are there once the data is normalised to third normal form (3NF) using these "
-                      "dependencies?", tables_3nf(p), [f"{tables_3nf(p)} tables"])]
+        nf, count = normal_form(p), tables_3nf(p)
+        qs = [mcq(f"{who} {verb} the {p['table']} table {setting}. Its primary key is underlined and its functional "
+                  f"dependencies are listed. What is the highest normal form this table is in?", NF[nf], list(NF.values()), rng)]
+        if count > 1:  # one table would be no question: the table is already normalised (blind review)
+            qs.append(short("How many tables are there once the data is normalised to third normal form (3NF) using these "
+                            "dependencies?", count, [f"{count} tables"]))
+        return qs
     x, y = p["pair"]
     one, many = next((lk["one"], lk["many"]) for lk in p["links"] if {lk["one"], lk["many"]} == {x, y})
     key = f"One {one} record is linked to many {many} records"

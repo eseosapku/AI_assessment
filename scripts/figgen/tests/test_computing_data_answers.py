@@ -163,6 +163,8 @@ def test_parity_check():
                     seen.add("bit")
                     assert q.answer == bit, (s, q.answer, bit)
                     assert (str(c + 1) in q.accepted) and (f"bit {c + 1}" in q.accepted)
+                    if c == 0:  # as a reviewer would write it (blind review)
+                        assert {"parity bit column", "the parity bit", "parity bit"} <= set(q.accepted), q.accepted
                 if "as it was sent" in q.stem:
                     seen.add("fix")
                     assert q.answer == sent and f"{sent[:4]} {sent[4:]}" in q.accepted, (s, q.answer, sent)
@@ -524,34 +526,44 @@ def test_er_normalisation():
             attrs, key, group = p["attrs"], p["key"], p["group"]
             fds = [(lhs, rhs) for lhs, rhs in p["fds"]]
             assert all(set(lhs) | set(rhs) <= set(attrs) for lhs, rhs in fds)
-            if not group:  # the underlined key is a candidate key: it decides every attribute, and no part of it does
-                assert closure(key, fds) == set(attrs), (s, key)
-                assert not any(closure(set(key) - {a}, fds) == set(attrs) for a in key), (s, key)
+            # The underlined key is the candidate key the dependencies imply, unnormalised tables too (blind review): it
+            # decides every attribute, and no part of it does.
+            assert [set(k) for k in candidate_keys(attrs, fds)] == [set(key)], (s, key, candidate_keys(attrs, fds))
+            assert not any(closure(set(key) - {a}, fds) == set(attrs) for a in key), (s, key)
             nf = normal_form(attrs, key, group, fds)
             rows = p["rows"]
             filled = []
-            for r in rows:  # a repeating group's lines leave the rest of the record blank: fill it down to check the data
-                assert len(r) == len(attrs)
-                if group and not all(r[attrs.index(a)] for a in attrs if a not in group):
-                    assert not any(r[attrs.index(a)] for a in attrs if a not in group) and filled, (s, r)
-                    r = [prev if a not in group else v for a, v, prev in zip(attrs, r, filled[-1])]
-                assert all(r), (s, r)
-                filled.append(r)
+            for r in rows:
+                assert len(r) == len(attrs) and all(r), (s, r)  # no blank cells: a blank reads as visual grouping
+                lists = {a: r[attrs.index(a)].split(", ") for a in attrs}
+                if group:  # the repeating group sits in its record's cells, several values to a cell
+                    sizes = {len(lists[a]) for a in group}
+                    assert len(sizes) == 1 and all(len(lists[a]) == 1 for a in attrs if a not in group), (s, r)
+                    for i in range(sizes.pop()):
+                        filled.append([lists[a][i] if a in group else lists[a][0] for a in attrs])
+                else:
+                    assert all(len(v) == 1 for v in lists.values()), (s, r)  # 1NF and beyond: one value to a cell
+                    filled.append(r)
             if group:
-                assert len(filled) > len({tuple(r[attrs.index(a)] for a in key) for r in filled}), s  # a group repeats
+                assert any(", " in r[attrs.index(group[0])] for r in rows), s  # a group repeats in some record
+            assert len({tuple(r[attrs.index(a)] for a in key) for r in filled}) == len(filled), s  # the key is unique
             for lhs, rhs in fds:  # the data agree with every dependency listed
                 seen_map = {}
                 for r in filled:
                     k = tuple(r[attrs.index(a)] for a in lhs)
                     v = tuple(r[attrs.index(a)] for a in rhs)
                     assert seen_map.setdefault(k, v) == v, (s, lhs, rhs)
+            count = third_nf_tables(attrs, fds)
             for q in qs:
-                if "Which normal form" in q.stem:
+                assert "Which normal form" not in q.stem  # a 3NF table is in 1NF and 2NF too: the highest is asked
+                if "highest normal form" in q.stem:
                     seen.add("nf:" + nf)
                     assert picked(q) == {"UNF": NF_OPTIONS[0]}.get(nf, nf) and sorted(q.options) == sorted(NF_OPTIONS)
                 if "How many tables" in q.stem:
                     seen.add("count")
-                    assert int(q.answer) == third_nf_tables(attrs, fds), (s, q.answer, p["table"], nf)
+                    assert int(q.answer) == count, (s, q.answer, p["table"], nf)
+            # one table is no question: the table is already normalised (blind review)
+            assert any("How many tables" in q.stem for q in qs) == (count > 1), (s, count)
             if s <= DRAWN:
                 g, lines = drawn(m, p)
                 for j, a in enumerate(attrs):
