@@ -8,16 +8,17 @@ water tap, and a tree that stands for a forest). The key beside the map gives ev
   symbol, so the key names what is there (P3x review: an arrow that stopped short pointed at empty ground). The wrong
   options are the symbols that look most like it (a church and a hospital both have a cross; a school and a church are
   both houses).
-- Which place is next to the river (or the road)? One symbol touches it, its centre no more than half a symbol and a
-  little from the line's middle, and every other symbol stands at least three times as far away (P3x review: no option
-  had touched the line, and several had stood at like distances).
+- Which place is next to the river (or the road)? The river and the road are drawn as filled bands of a known width,
+  and one symbol's solid body reaches over the band's edge, so it plainly touches it, with its centre off the band.
+  Every other symbol, flag and cross included, stands at least a whole symbol's width from both bands (P3x reviews: a
+  symbol half a symbol from the line's middle still showed a clear gap).
 """
 from __future__ import annotations
 
 import math
 import random
 
-from matplotlib.patches import Rectangle
+from matplotlib.patches import Polygon, Rectangle
 
 from ..core import INK, NAMES, count, mcq, new_figure
 from ._map_icons import ROAD, WATER, symbol
@@ -41,10 +42,12 @@ LOOKALIKE = {"school": ["church", "market", "hospital"], "church": ["hospital", 
              "hospital": ["church", "school", "water tap"], "market": ["school", "church", "water tap"],
              "water tap": ["hospital", "market", "forest"], "forest": ["water tap", "market", "school"]}
 AREAS = ["Rugarama", "Kigarama", "Gatare", "Mubuga", "Nyarutovu", "Karama", "Kabuye", "Rubona", "Ruhanga", "Rwaza"]
-# How far the symbol beside a line stands from the line's middle (its edge then meets the line's edge), at most ADJOIN,
-# and how far every other symbol stays from both lines: three times ADJOIN.
-NEAR, ADJOIN = 0.45, 0.5
-FAR = 3 * ADJOIN
+SIZE = 1.1  # the map draws its symbols a little larger than the key does
+HALF_WIDTH = {"river": 0.11, "road": 0.16}  # each line is a filled band this far either side of its middle
+OVERLAP = 0.08  # how far the symbol beside a line reaches over the band's edge: plainly touching it
+# How far every other symbol's centre stays from both lines' middles. A symbol reaches at most 0.4 from its centre, so
+# its edge is then at least 1.5 - 0.4 - 0.16 = 0.94 from either band: more than a whole symbol's width (0.66).
+FAR = 1.5
 
 
 def stages(p: dict) -> tuple[int, int] | None:
@@ -60,6 +63,76 @@ def _seg_dist(p, a, b) -> float:
 
 def dist(p, line) -> float:
     return min(_seg_dist(p, a, b) for a, b in zip(line, line[1:]))
+
+
+_OUTLINES: dict = {}
+
+
+def _outline(kind: str) -> list:
+    """Points every 0.02 along the solid pieces of a map symbol as drawn, centred on (0, 0). Pieces smaller than 0.01
+    (a flag, a door, a drop) are left out: touching a line with one of them is not touching it."""
+    if kind not in _OUTLINES:
+        from matplotlib.figure import Figure
+        from matplotlib.patches import Circle
+        ax = Figure().add_subplot()
+        symbol(ax, kind, 0.0, 0.0, s=SIZE)
+        pts = []
+        for pa in ax.patches:
+            if isinstance(pa, Circle):
+                (cx, cy), r = pa.center, pa.radius
+                if math.pi * r * r >= 0.01:
+                    pts += [(cx + r * math.cos(k * math.pi / 24), cy + r * math.sin(k * math.pi / 24)) for k in range(48)]
+                continue
+            for poly in pa.get_path().to_polygons(pa.get_patch_transform()):
+                ring = [(float(x), float(y)) for x, y in poly]
+                area = abs(sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1]))) / 2
+                if area < 0.01:
+                    continue
+                for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1]):
+                    n = max(1, int(math.hypot(x1 - x0, y1 - y0) / 0.02))
+                    pts += [(x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n) for k in range(n)]
+        _OUTLINES[kind] = pts
+    return _OUTLINES[kind]
+
+
+def _gap(x: float, y: float, pts: list, line: list, hw: float) -> float:
+    """How far a symbol centred on (x, y) stands from the edge of a line's band: below 0 where it reaches over it."""
+    near = [(a, b) for a, b in zip(line, line[1:]) if _seg_dist((x, y), a, b) <= 1.0]
+    if not near:
+        return math.inf
+    return min(_seg_dist((x + px, y + py), a, b) for px, py in pts for a, b in near) - hw
+
+
+def band(points: list, hw: float) -> list:
+    """The outline of a line drawn as a band hw either side of its middle: mitred at each bend, and cut along the
+    map's edge where the line ends on it."""
+    pts = [(float(x), float(y)) for x, y in points]
+
+    def normal(a, b):
+        dx, dy = b[0] - a[0], b[1] - a[1]
+        n = math.hypot(dx, dy)
+        return -dy / n, dx / n
+
+    left, right = [], []
+    for i, (x, y) in enumerate(pts):
+        if i in (0, len(pts) - 1):
+            nx, ny = normal(pts[0], pts[1]) if i == 0 else normal(pts[-2], pts[-1])
+            if abs(x) < 1e-9 or abs(x - W) < 1e-9:  # ends on a side of the map: cut along it
+                off = (0.0, math.copysign(hw / abs(ny), ny))
+            elif abs(y) < 1e-9 or abs(y - H) < 1e-9:  # ends on the top or bottom
+                off = (math.copysign(hw / abs(nx), nx), 0.0)
+            else:
+                off = (nx * hw, ny * hw)
+        else:
+            (ax_, ay), (bx, by) = normal(pts[i - 1], pts[i]), normal(pts[i], pts[i + 1])
+            mx, my = ax_ + bx, ay + by
+            m = math.hypot(mx, my)
+            mx, my = mx / m, my / m
+            reach = hw / (mx * ax_ + my * ay)
+            off = (mx * reach, my * reach)
+        left.append((x + off[0], y + off[1]))
+        right.append((x - off[0], y - off[1]))
+    return left + right[::-1]
 
 
 def _lines(rng: random.Random) -> tuple[list, list]:
@@ -84,20 +157,32 @@ def _lines(rng: random.Random) -> tuple[list, list]:
     return river, road
 
 
-def _place_beside(rng, line, other, taken) -> list | None:
-    """A point NEAR from `line`, on one side of it, well away from the other line and inside the map."""
-    for _ in range(60):
-        i = rng.randrange(1, len(line) - 1)
-        (ax, ay), (bx, by) = line[i - 1], line[i + 1]
-        t = rng.random()
-        px, py = line[i - 1][0] + t * (bx - ax), line[i - 1][1] + t * (by - ay)
-        n = math.hypot(bx - ax, by - ay)
+def _place_beside(rng, kind: str, line: list, hw: float, other: list) -> list | None:
+    """Where a symbol stands beside a line's band: its solid body reaching OVERLAP over the band's edge, its centre off
+    the band, well away from the other line and inside the map."""
+    pts = _outline(kind)
+    segs = list(zip(line, line[1:]))
+    lengths = [math.hypot(b[0] - a[0], b[1] - a[1]) for a, b in segs]
+    for _ in range(80):
+        (ax_, ay), (bx, by) = rng.choices(segs, weights=lengths)[0]
+        t = rng.uniform(0.2, 0.8)
+        px, py = ax_ + t * (bx - ax_), ay + t * (by - ay)
+        n = math.hypot(bx - ax_, by - ay)
         side = rng.choice([-1, 1])
-        x, y = round(px - side * (by - ay) / n * NEAR, 2), round(py + side * (bx - ax) / n * NEAR, 2)
+        nx, ny = -side * (by - ay) / n, side * (bx - ax_) / n
+        lo, hi = hw + 0.08, hw + 0.7  # the centre's distance out from the line's middle
+        if _gap(px + nx * lo, py + ny * lo, pts, line, hw) > -OVERLAP:
+            continue
+        for _ in range(14):  # out as far as it goes while still reaching OVERLAP over the edge
+            mid = (lo + hi) / 2
+            if _gap(px + nx * mid, py + ny * mid, pts, line, hw) <= -OVERLAP:
+                lo = mid
+            else:
+                hi = mid
+        x, y = round(px + nx * lo, 2), round(py + ny * lo, 2)
         if not (0.5 <= x <= W - 0.5 and 0.5 <= y <= H - 0.5):
             continue
-        if 0.4 <= dist((x, y), line) <= ADJOIN and dist((x, y), other) >= FAR and \
-                all(math.hypot(x - u, y - v) >= 1.15 for u, v in taken):
+        if _gap(x, y, pts, line, hw) <= -0.02 and dist((x, y), line) >= hw + 0.06 and dist((x, y), other) >= FAR:
             return [x, y]
     return None
 
@@ -113,7 +198,7 @@ def _try(rng: random.Random, level: str) -> dict | None:
     which = rng.choice(["river", "road"])
     line, other = (river, road) if which == "river" else (road, river)
     near_kind = rng.choice([k for k in KINDS if k != "forest"])
-    spot = _place_beside(rng, line, other, [])
+    spot = _place_beside(rng, near_kind, line, HALF_WIDTH[which], other)
     if not spot:
         return None
     symbols = [[near_kind, spot[0], spot[1]]]
@@ -137,8 +222,8 @@ def _try(rng: random.Random, level: str) -> dict | None:
             continue
         for ang in range(0, 360, 45):
             lx, ly = x + 0.75 * math.cos(math.radians(ang)), y + 0.75 * math.sin(math.radians(ang))
-            if 0.35 <= lx <= W - 0.35 and 0.35 <= ly <= H - 0.35 and dist((lx, ly), river) >= 0.4 and \
-                    dist((lx, ly), road) >= 0.4 and \
+            if 0.35 <= lx <= W - 0.35 and 0.35 <= ly <= H - 0.35 and dist((lx, ly), river) >= 0.55 and \
+                    dist((lx, ly), road) >= 0.55 and \
                     all(math.hypot(lx - u, ly - v) >= 1.15 for j, (_, u, v) in enumerate(symbols) if j != i):
                 marks.append((i, [round(lx, 3), round(ly, 3)]))
                 break
@@ -168,21 +253,25 @@ def sample(rng: random.Random) -> dict:
 
 # --- drawing ----------------------------------------------------------------------------------------
 
-def _road(ax, xs, ys, gid=None) -> None:
-    ax.plot(xs, ys, color="#6d6d6d", linewidth=10, solid_capstyle="butt", solid_joinstyle="miter", zorder=1.5)
-    ax.plot(xs, ys, color=ROAD, linewidth=7, solid_capstyle="butt", solid_joinstyle="miter", zorder=1.6, gid=gid)
+def _band(ax, kind: str, points: list, gid: str, hw: float | None = None) -> None:
+    """A river or a road as a filled band of a known width in map units."""
+    outline = band(points, HALF_WIDTH[kind] if hw is None else hw)
+    if kind == "river":
+        ax.add_patch(Polygon(outline, closed=True, facecolor=WATER, edgecolor="none", zorder=1, gid=gid))
+    else:
+        ax.add_patch(Polygon(outline, closed=True, facecolor=ROAD, edgecolor="#6d6d6d", linewidth=1.2,
+                             joinstyle="miter", zorder=1.5, gid=gid))
 
 
 def draw(p: dict):
     w, h = p["width"], p["height"]
     fig, ax = new_figure(10.5, 5.8)
     ax.add_patch(Rectangle((0, 0), w, h, facecolor="#eef5e4", edgecolor="none", zorder=0))
-    ax.plot([q[0] for q in p["river"]], [q[1] for q in p["river"]], color=WATER, linewidth=5, solid_capstyle="butt",
-            zorder=1, gid="river")
-    _road(ax, [q[0] for q in p["road"]], [q[1] for q in p["road"]])
+    _band(ax, "river", p["river"], "river")
+    _band(ax, "road", p["road"], "road")
     ax.add_patch(Rectangle((0, 0), w, h, facecolor="none", edgecolor=INK, linewidth=1.4, zorder=5))
     for i, (kind, x, y) in enumerate(p["symbols"]):
-        symbol(ax, kind, x, y, s=1.1, gid=f"sym:{i}:{kind}", z=3)
+        symbol(ax, kind, x, y, s=SIZE, gid=f"sym:{i}:{kind}", z=3, part=f"part:{i}")
     kind, x, y = p["symbols"][p["marked"]]
     lx, ly = p["mark_at"]
     ax.annotate(p["letter"], xy=(x, y), xytext=(lx, ly), ha="center", va="center",  # the tip on the symbol's centre
@@ -197,11 +286,11 @@ def draw(p: dict):
     for k, kind in enumerate(KINDS + ["road", "river"]):
         y = h - 1.1 - k * 0.76
         if kind == "road":
-            _road(ax, [kx + 0.3, kx + 1.0], [y, y])
+            _band(ax, "road", [(kx + 0.3, y), (kx + 1.0, y)], "keyband:road")
         elif kind == "river":
             xs = [kx + 0.3 + 0.7 * i / 20 for i in range(21)]
-            ax.plot(xs, [y + 0.08 * math.sin(2 * math.pi * (v - xs[0]) / 0.35) for v in xs], color=WATER, linewidth=4,
-                    zorder=1)
+            _band(ax, "river", [(v, y + 0.08 * math.sin(2 * math.pi * (v - xs[0]) / 0.35)) for v in xs], "keyband:river",
+                  hw=0.07)
         else:
             symbol(ax, kind, kx + 0.65, y, s=0.85, gid=f"keysym:{kind}", z=3)
         ax.text(kx + 1.3, y, kind, ha="left", va="center", fontsize=11, gid=f"key:{kind}")

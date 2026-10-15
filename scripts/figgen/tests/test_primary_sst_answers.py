@@ -321,6 +321,8 @@ PLURAL = {"schools": "school", "hospitals": "hospital", "markets": "market", "ch
 def _seg_dist(p, a, b):
     (px, py), (ax, ay), (bx, by) = p, a, b
     vx, vy = bx - ax, by - ay
+    if vx == vy == 0:  # a ring's closing point repeats its first
+        return math.hypot(px - ax, py - ay)
     t = max(0.0, min(1.0, ((px - ax) * vx + (py - ay) * vy) / (vx * vx + vy * vy)))
     return math.hypot(px - ax - t * vx, py - ay - t * vy)
 
@@ -329,11 +331,92 @@ def line_dist(p, pts):
     return min(_seg_dist(p, a, b) for a, b in zip(pts, pts[1:]))
 
 
-# A map symbol reaches 0.3 of a unit from its centre at size 1, and the map draws them at 1.1: a symbol's box.
+# A map symbol reaches 0.3 of a unit from its centre at size 1, and the map draws them at 1.1: a symbol's box, and a
+# symbol's width.
 SYMBOL_HALF = 0.33
-# "Next to" a line: the symbol's centre at most half a symbol and a little from the line's middle, so its edge meets
-# the line's edge (P3x review).
-ADJOIN = 0.5
+SYMBOL_WIDTH = 0.66
+SOLID = 0.01  # a piece smaller than this (a flag, a door, a drop) is not the symbol touching a line
+
+
+def _cross(o, a, b):
+    return (a[0] - o[0]) * (b[1] - o[1]) - (a[1] - o[1]) * (b[0] - o[0])
+
+
+def _seg_seg(a, b, c, d) -> float:
+    """The distance between segments ab and cd: 0 where they cross."""
+    if (_cross(c, d, a) > 0) != (_cross(c, d, b) > 0) and (_cross(a, b, c) > 0) != (_cross(a, b, d) > 0):
+        return 0.0
+    return min(_seg_dist(a, c, d), _seg_dist(b, c, d), _seg_dist(c, a, b), _seg_dist(d, a, b))
+
+
+def pieces(ax, i):
+    """Symbol i as drawn, from the figure: each filled piece as a ring of points with its area, each circle, and each
+    stroke (a flag pole, a cross)."""
+    from matplotlib.patches import Circle
+    rings, circles, strokes = [], [], []
+    for pa in ax.patches:
+        g = pa.get_gid() or ""
+        if not (g.startswith(f"sym:{i}:") or g == f"part:{i}"):
+            continue
+        if isinstance(pa, Circle):
+            circles.append((tuple(map(float, pa.center)), float(pa.radius)))
+            continue
+        for poly in pa.get_path().to_polygons(pa.get_patch_transform()):
+            ring = [tuple(map(float, v)) for v in poly]
+            if ring[0] == ring[-1]:
+                ring = ring[:-1]
+            area = abs(sum(x0 * y1 - x1 * y0 for (x0, y0), (x1, y1) in zip(ring, ring[1:] + ring[:1]))) / 2
+            rings.append((ring, area))
+    for ln in ax.lines:
+        if (ln.get_gid() or "") == f"part:{i}":
+            strokes.append([tuple(map(float, v)) for v in ln.get_xydata()])
+    return rings, circles, strokes
+
+
+def band_of(ax, gid):
+    """The filled band a line is drawn as: its outline, and that outline as a path."""
+    from matplotlib.path import Path
+    pa = next(pa for pa in ax.patches if pa.get_gid() == gid)
+    ring = [tuple(map(float, v)) for v in pa.get_path().to_polygons(pa.get_patch_transform())[0]]
+    return ring, Path(ring)
+
+
+def edge_gap(rings, circles, strokes, band, solid_only=False) -> float:
+    """How far a symbol's drawn pieces stand from a band's drawn edge: 0 where one touches or overlaps it. Only the
+    solid pieces when `solid_only`; looks no further than 2 units."""
+    ring_b, path_b = band
+    edges = list(zip(ring_b, ring_b[1:] + ring_b[:1]))
+
+    def nearby(x0, y0, x1, y1):
+        return [(a, b) for a, b in edges if min(a[0], b[0]) <= x1 + 2 and max(a[0], b[0]) >= x0 - 2
+                and min(a[1], b[1]) <= y1 + 2 and max(a[1], b[1]) >= y0 - 2]
+
+    best = math.inf
+    for ring, area in rings:
+        if solid_only and area < SOLID:
+            continue
+        if any(path_b.contains_point(v) for v in ring):
+            return 0.0
+        xs, ys = [v[0] for v in ring], [v[1] for v in ring]
+        for a, b in nearby(min(xs), min(ys), max(xs), max(ys)):
+            for c, d in zip(ring, ring[1:] + ring[:1]):
+                best = min(best, _seg_seg(a, b, c, d))
+    for (cx, cy), r in circles:
+        if solid_only and math.pi * r * r < SOLID:
+            continue
+        if path_b.contains_point((cx, cy)):
+            return 0.0
+        for a, b in nearby(cx - r, cy - r, cx + r, cy + r):
+            best = min(best, max(0.0, _seg_dist((cx, cy), a, b) - r))
+    if not solid_only:
+        for st in strokes:
+            if any(path_b.contains_point(v) for v in st):
+                return 0.0
+            xs, ys = [v[0] for v in st], [v[1] for v in st]
+            for a, b in nearby(min(xs), min(ys), max(xs), max(ys)):
+                for c, d in zip(st, st[1:]):
+                    best = min(best, _seg_seg(a, b, c, d))
+    return best
 
 
 def test_map_key_p():
@@ -350,7 +433,8 @@ def test_map_key_p():
         river, road = [tuple(v) for v in p["river"]], [tuple(v) for v in p["road"]]
         for i, (k, (x, y)) in enumerate(sym):
             assert 0.4 <= x <= w - 0.4 and 0.4 <= y <= h - 0.4, (s, k)
-            assert line_dist((x, y), river) >= 0.4 and line_dist((x, y), road) >= 0.4, (s, k, "a symbol on a line")
+            # no centre on a line's middle (the drawn test checks every centre is off its band)
+            assert line_dist((x, y), river) >= 0.15 and line_dist((x, y), road) >= 0.15, (s, k, "a symbol on a line")
             for k2, (x2, y2) in sym[i + 1:]:
                 assert math.hypot(x - x2, y - y2) >= 1.0, (s, k, k2)
         seen = set()
@@ -383,13 +467,13 @@ def test_map_key_p():
                 continue
             got = re.search(r"Which place in \w+ Cell is next to the (river|road)\?$", st)
             if got:
-                line = river if got.group(1) == "river" else road
+                line, other = (river, road) if got.group(1) == "river" else (road, river)
                 lines[got.group(1)] += 1
-                near = [i for i, (k, xy) in enumerate(sym) if line_dist(xy, line) <= ADJOIN]
-                assert len(near) == 1, (s, st, near)
-                d0 = line_dist(sym[near[0]][1], line)
-                assert all(line_dist(xy, line) >= 3 * d0 for i, (k, xy) in enumerate(sym) if i != near[0]), s
-                kind = sym[near[0]][0]
+                order = sorted((line_dist(xy, line), i) for i, (k, xy) in enumerate(sym))
+                near = order[0][1]
+                assert order[0][0] <= 0.6 and order[1][0] >= 1.4, (s, st, order[:2])  # one beside it, the rest far off
+                assert line_dist(sym[near][1], other) >= 1.4, s
+                kind = sym[near][0]
                 assert kind != "forest" and picked(q) == f"a {kind}", (s, q.options)
                 for o in wrong(q):
                     assert o[2:] in tally and o[2:] != kind, (s, o)  # each is on the map, and none is by the line
@@ -404,16 +488,17 @@ def test_map_key_p():
             drawn = Counter(g.split(":")[2] for g in (pa.get_gid() or "" for pa in ax.patches) if g.startswith("sym:"))
             keyed = {g[4:] for t, g, *_ in texts if g.startswith("key:")}
             marks = [((x0 + x1) / 2, (y0 + y1) / 2) for t, g, x0, y0, x1, y1 in texts if g == "mark" and t == p["letter"]]
-            river_line = [ln for ln in ax.lines if ln.get_gid() == "river"]
+            bands = {name: band_of(ax, name) for name in ("river", "road")}
             plt.close(fig)
             assert drawn == tally, (s, drawn, tally)
             assert keyed == set(KINDS) | {"road", "river"}, (s, keyed)
             assert len(marks) == 1
             dist = sorted((math.hypot(marks[0][0] - x, marks[0][1] - y), i) for i, (k, (x, y)) in enumerate(sym))
             assert dist[0][1] == p["marked"] and dist[1][0] - dist[0][0] >= 0.35, (s, dist[:2])
-            assert len(river_line) == 1
-            assert [tuple(round(float(v), 6) for v in pt) for pt in river_line[0].get_xydata()] == \
-                [tuple(round(float(v), 6) for v in pt) for pt in river]
+            for name, pts in (("river", river), ("road", road)):  # each band follows its line, close on both sides
+                ring, path = bands[name]
+                assert all(path.contains_point(pt) for pt in pts[1:-1]), (s, name)
+                assert all(line_dist(v, pts) <= 0.3 for v in ring), (s, name)
     assert min(levels.values()) > 300 and min(lines.values()) > 300 and counted["two"] > 150
 
 
@@ -437,22 +522,36 @@ def test_map_key_p_marker_points_at_its_symbol():
 
 
 def test_map_key_p_next_to_means_touching_and_nothing_else_close():
-    """P3x blind review: no option touched the road or river, and several stood at like distances. The answer's symbol
-    adjoins the line (centre within ADJOIN of the line's middle), and every other symbol on the map, so every wrong
-    option, stands at least three times as far from it."""
+    """P3x re-review: nothing visibly touched the line; a hospital sat a symbol's width below the river. Measured on the
+    figure as drawn, edge to edge: the river and the road are filled bands, and the answer's symbol (a solid piece of it,
+    not a flag or a door) touches or overlaps its band, with its own centre off the band. Every other symbol on the map,
+    flags and crosses included, stands at least a whole symbol's width from that band, and every symbol at all a whole
+    width from the other line's band."""
     m = fam("map_key_p")
-    for s in SEEDS:
+    asked = Counter()
+    for s in range(1, 301):
         p, qs = run(m, s)
         q = next(q for q in qs if "is next to the" in q.stem)
         which = re.search(r"next to the (river|road)\?$", q.stem).group(1)
-        line = [tuple(v) for v in p[which]]
-        dists = sorted((line_dist((x, y), line), k) for k, x, y in p["symbols"])
-        d0, kind = dists[0]
-        assert d0 <= ADJOIN and picked(q) == f"a {kind}", (s, dists[:2], q.options)
-        assert dists[1][0] >= 3 * d0, (s, dists[:2])
-        for o in wrong(q):
-            nearest = min(line_dist((x, y), line) for k, x, y in p["symbols"] if k == o[2:])
-            assert nearest >= 3 * d0, (s, o, nearest, d0)
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        band, other = band_of(ax, which), band_of(ax, "road" if which == "river" else "river")
+        touching = []
+        for i, (kind, x, y) in enumerate(p["symbols"]):
+            parts = pieces(ax, i)
+            assert parts[0] or parts[1], (s, i, "a symbol with nothing drawn")
+            if edge_gap(*parts, band, solid_only=True) <= 0:
+                touching.append(i)
+                assert not band[1].contains_point((x, y)), (s, kind, "on the line, not beside it")
+            else:
+                assert edge_gap(*parts, band) >= SYMBOL_WIDTH, (s, kind, which, edge_gap(*parts, band))
+            assert edge_gap(*parts, other) >= SYMBOL_WIDTH, (s, kind, "near the other line")
+        plt.close(fig)
+        assert len(touching) == 1, (s, which, touching)
+        kind = p["symbols"][touching[0]][0]
+        assert picked(q) == f"a {kind}" and f"a {kind}" not in wrong(q), (s, q.options)
+        asked[which] += 1
+    assert min(asked.values()) > 100, asked
 
 
 # --- family_tree_p --------------------------------------------------------------------------------

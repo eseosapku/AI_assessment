@@ -29,8 +29,19 @@ def _poly(ax, pts, face, z, gid=None, lw=1.0, edge=INK):
     ax.add_patch(Polygon(pts, closed=True, facecolor=face, edgecolor=edge, linewidth=lw, zorder=z, gid=gid))
 
 
-def symbol(ax, kind: str, cx: float, cy: float, s: float = 1.0, gid: str | None = None, z: float = 3) -> None:
-    """Draws the symbol for `kind` centred on (cx, cy)."""
+def symbol(ax, kind: str, cx: float, cy: float, s: float = 1.0, gid: str | None = None, z: float = 3,
+           part: str | None = None) -> None:
+    """Draws the symbol for `kind` centred on (cx, cy). Its first patch carries `gid`; every other piece of it (patches
+    and strokes) carries `part`, so a test can measure the whole symbol as drawn."""
+    patches, lines = len(ax.patches), len(ax.lines)
+    _symbol(ax, kind, cx, cy, s, gid, z)
+    if part:
+        for art in list(ax.patches)[patches:] + list(ax.lines)[lines:]:
+            if art.get_gid() is None:
+                art.set_gid(part)
+
+
+def _symbol(ax, kind: str, cx: float, cy: float, s: float, gid: str | None, z: float) -> None:
     def X(d):
         return cx + d * s
 
