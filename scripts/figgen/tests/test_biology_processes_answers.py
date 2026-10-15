@@ -325,6 +325,10 @@ GRAVITY_RESULT = {("flat", "shoot"): "curves upwards", ("flat", "root"): "curves
                   ("upside", "shoot"): "curves upwards", ("upside", "root"): "curves downwards",
                   ("clinostat", "shoot"): "keeps growing straight", ("clinostat", "root"): "keeps growing straight"}
 WORDS = {"one": 1, "two": 2, "three": 3, "four": 4}
+# The tropisms an option set may name, by the set-up (p3w-fix review: a shoot growing up and bending to light fits both
+# "positive phototropism" and "negative gravitropism", so a light set never offers gravitropism, nor a gravity set
+# phototropism). The stem names the stimulus.
+TROPISMS = {"light": {"phototropism", "hydrotropism"}, "gravity": {"gravitropism", "hydrotropism"}}
 
 
 def expected_way(mode, pot, organ):
@@ -373,10 +377,12 @@ def test_tropism_experiment():
                 else:
                     assert sorted(q.options) == ["curves downwards", "curves upwards", "keeps growing straight"]
                 seen.add("way")
-            got = re.search(r"how many of the (\w+) seedlings will have (shoots that bend to one side|roots that have "
-                            r"turned to grow downwards|shoots that have turned to grow upwards)\?$", q.stem)
+            got = re.search(r"After three days, how many of the (\w+) seedlings will have (shoots bending to one side|"
+                            r"roots turned to grow downwards|shoots turned to grow upwards)\?$", q.stem)
             if got:
+                # A prediction for every seedling, the "?" ones too, and said so (p3w-fix review).
                 assert WORDS[got.group(1)] == len(pots)
+                assert "including those marked ?" in q.stem, q.stem
                 if mode == "light":
                     key = sum(LIGHT_RESULT[x["setup"]] == "towards" for x in pots.values())
                 else:
@@ -386,16 +392,19 @@ def test_tropism_experiment():
                 assert q.answer == str(key), (s, q.stem, q.answer, p["pots"])
                 counts.add((mode, key))
                 seen.add("count")
-            got = re.search(r"Which response does the (shoot|root) of seedling ([A-D]) show\?$", q.stem)
+            got = re.search(r"Seedling ([A-D])'s (shoot|root) .+\. What is this response to (light|gravity) called\?$", q.stem)
             if got:
-                organ, L = got.groups()
+                L, organ, stimulus = got.groups()
                 assert pots[L]["shown"], s  # the response named is one the figure shows
+                assert stimulus == mode, s
                 way = expected_way(mode, pots[L], organ)
                 key = ("positive phototropism" if mode == "light" and way.startswith("bends") else
                        "negative gravitropism" if way == "curves upwards" else
                        "positive gravitropism" if way == "curves downwards" else None)
                 assert key and picked(q) == key, (s, way, q.options)
-                assert sorted(q.options) == sorted(f"{a} {b}" for a in ("positive", "negative") for b in ("phototropism", "gravitropism"))
+                named = {o.split()[1] for o in q.options}
+                assert named <= TROPISMS[mode] and not {"phototropism", "gravitropism"} <= named, (s, q.options)
+                assert sorted(q.options) == sorted(f"{a} {b}" for a in ("positive", "negative") for b in TROPISMS[mode])
                 seen.add("name")
         assert seen == {"way", "count", "name"}, (s, seen)
     assert modes == {"light", "gravity"}
@@ -409,7 +418,13 @@ def test_tropism_experiment():
         lamps = {pa.get_gid()[5:]: pa for pa in ax.patches if (pa.get_gid() or "").startswith("lamp:")}
         caps = {pa.get_gid()[4:]: pa for pa in ax.patches if (pa.get_gid() or "").startswith("cap:")}
         holders = [pa.get_gid().split(":")[0] for pa in ax.patches if (pa.get_gid() or "").split(":")[0] in ("board", "disc")]
+        walls = {ln.get_gid()[5:]: ln.get_xydata() for ln in ax.lines if (ln.get_gid() or "").startswith("wall:")}
+        rays = {}
+        for t in ax.texts:
+            if (t.get_gid() or "").startswith("ray:"):
+                rays.setdefault(t.get_gid().split(":")[1], []).append((t.xyann, t.xy))
         plt.close(fig)
+        assert "Seedlings marked ? are shown at the start" in texts["note"].get_text(), s
         if p["mode"] == "gravity":  # a square of cork for each seedling pinned still, a disc for each on a clinostat
             assert holders.count("disc") == sum(x["setup"] == "clinostat" for x in p["pots"]), s
             assert holders.count("board") == sum(x["setup"] != "clinostat" for x in p["pots"]), s
@@ -430,6 +445,19 @@ def test_tropism_experiment():
                         assert (dx < -0.2) if x["side"] == "left" else (dx > 0.2), (s, L, dx)
                     else:
                         assert abs(dx) < 0.03, (s, L, dx)
+                # A slit box has a clear gap in the wall facing the lamp, at the shoot's height, and the lamp's rays pass
+                # through it into the box (p3w-fix review: the slit was not seen, and the rays hit the wall above).
+                assert (L in walls) == (x["setup"] == "slit"), (s, L)
+                if x["setup"] == "slit":
+                    pts = walls[L]
+                    wx, top, bottom = pts[0][0], pts[0][1], pts[-1][1]
+                    assert pts[-1][0] == wx and top - bottom >= 0.5, (s, pts[0], pts[-1])
+                    assert base[1] + 0.6 <= bottom and top <= base[1] + 1.9, (s, bottom, top)
+                    assert bottom < lamp[1] < top and (lamp[0] - wx) * (wx - base[0]) > 0, s
+                    assert len(rays[L]) >= 2, s
+                    for (x0, y0), (x1, y1) in rays[L]:
+                        assert bottom < y0 < top and bottom < y1 < top, (s, y0, y1)
+                        assert (x0 - wx) * (x1 - wx) < 0, (s, x0, x1, wx)  # from outside the wall to inside
                 # A foil cap is a cap you can see, over the tip, and labelled (p3w blind review).
                 assert (L in caps) == (x["setup"] == "foil"), (s, L)
                 if x["setup"] == "foil":

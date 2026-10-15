@@ -50,7 +50,13 @@ GAP = 3.3  # from one seedling's centre to the next
 SCALE = 0.54
 SOIL = 1.25
 LAMP_Y = 3.6  # a lamp at the side, level with the rays' middle
-SLIT = (3.3, 3.9)
+# The slit in a box: a clear gap at the shoot's height, the lamp level with it (p3w-fix review: a slit up by the lid
+# was not seen, and the rays hit the wall above the seedling).
+SLIT = (SOIL + 0.85, SOIL + 1.55)
+# The tropisms a question may name, by the set-up: never phototropism and gravitropism side by side, since a shoot that
+# grows up and bends to light fits both (p3w-fix review). The stem names the stimulus.
+TROPISMS = {"light": ("phototropism", "hydrotropism"), "gravity": ("gravitropism", "hydrotropism")}
+NOTE = "Seedlings marked ? are shown at the start, before they grow; the others are shown after three days."
 
 
 def way(mode: str, pot: dict, organ: str = "shoot") -> str:
@@ -134,8 +140,8 @@ def _leaves(ax, pts, back: float = 0.0, size: float = 0.3) -> None:
                              angle=ang + turn, facecolor="white", edgecolor=INK, linewidth=1.1, zorder=4))
 
 
-def _lamp(ax, letter, x, y, toward) -> None:
-    """A lamp: a bulb on a little cap, and three rays (arrows) running from it the way `toward` points."""
+def _lamp(ax, letter, x, y, toward, reach: float = 0.36) -> None:
+    """A lamp: a bulb on a little cap, and three rays (arrows) `reach` long running from it the way `toward` points."""
     ax.add_patch(Circle((x, y), 0.17, facecolor="white", edgecolor=INK, linewidth=1.3, zorder=3, gid=f"lamp:{letter}"))
     dx, dy = toward
     ax.add_patch(Rectangle((x - dx * 0.21 - 0.07, y - dy * 0.21 - 0.07), 0.14, 0.14,
@@ -143,7 +149,7 @@ def _lamp(ax, letter, x, y, toward) -> None:
     nx, ny = -dy, dx
     for k in (-1, 0, 1):
         sx, sy = x + dx * 0.27 + nx * 0.2 * k, y + dy * 0.27 + ny * 0.2 * k
-        ax.annotate("", xy=(sx + dx * 0.36, sy + dy * 0.36), xytext=(sx, sy),
+        ax.annotate("", xy=(sx + dx * reach, sy + dy * reach), xytext=(sx, sy), gid=f"ray:{letter}:{k}",
                     arrowprops={"arrowstyle": "-|>", "color": INK, "linewidth": 1.0, "mutation_scale": 9,
                                 "shrinkA": 0, "shrinkB": 0})
 
@@ -155,7 +161,8 @@ def _shoot_light(cx: float, pot: dict) -> list:
     if LIGHT[pot["setup"]] == "up":
         return [base, (cx, SOIL + 1.45), (cx, SOIL + 1.9)]
     s = -1 if pot["side"] == "left" else 1
-    return _bezier(base, (cx, SOIL + 1.15), (cx + s * 0.55, SOIL + 1.75))
+    lean = 0.45 if pot["setup"] == "slit" else 0.55  # inside a box, clear of its wall
+    return _bezier(base, (cx, SOIL + 1.15), (cx + s * lean, SOIL + 1.75))
 
 
 def _draw_light(ax, cx: float, pot: dict) -> float:
@@ -168,7 +175,7 @@ def _draw_light(ax, cx: float, pot: dict) -> float:
         wall, other = (x0, x1) if s < 0 else (x1, x0)
         # The walls all round, broken only by the slit in the wall facing the lamp.
         ax.plot([wall, wall, other, other, wall, wall], [SLIT[1], y1, y1, y0, y0, SLIT[0]], color=INK, linewidth=2.2,
-                zorder=1)
+                zorder=1, gid=f"wall:{L}")
     if setup == "clinostat":  # the pot stands on a plate a motor turns slowly
         ax.add_patch(Rectangle((cx - 0.7, 0.33), 1.4, 0.1, facecolor=FILL, edgecolor=INK, linewidth=1.0, zorder=2))
         ax.plot([cx, cx], [0.12, 0.33], color=INK, linewidth=2.0, zorder=1)
@@ -206,10 +213,13 @@ def _draw_light(ax, cx: float, pot: dict) -> float:
         _leaves(ax, pts)
     if setup == "above":
         _lamp(ax, L, cx, 4.35, (0, -1))
+    elif setup == "slit":  # level with the slit, its rays running through it into the box
+        _lamp(ax, L, cx + s * 1.22, sum(SLIT) / 2, (-s, 0), reach=0.53)
     else:
-        _lamp(ax, L, cx + s * (1.22 if setup == "slit" else 1.18), LAMP_Y, (-s, 0))
+        _lamp(ax, L, cx + s * 1.18, LAMP_Y, (-s, 0))
     if not pot["shown"]:
-        ax.text(cx, SOIL + 1.45, "?", ha="center", va="center", fontsize=15, fontweight="bold", gid=f"ask:{L}")
+        qx = cx - s * 0.2 if setup == "slit" else cx  # clear of the rays coming through a slit
+        ax.text(qx, SOIL + 1.45, "?", ha="center", va="center", fontsize=15, fontweight="bold", gid=f"ask:{L}")
     return -0.3
 
 
@@ -286,10 +296,11 @@ def draw(p: dict):
         ax.text(cx, top, pot["letter"], ha="center", va="top", fontsize=13, fontweight="bold", gid=f"pot:{pot['letter']}")
         ax.text(cx, top - 0.42, CAPTION[p["mode"]][pot["setup"]], ha="center", va="top", fontsize=8.5, linespacing=1.2)
     width = 3.2 + (n - 1) * GAP
-    head = ("Seedlings marked ? are drawn at the start; the others after three days." if p["mode"] == "light" else
-            "All the seedlings are kept in the dark. Seedlings marked ? are drawn\nat the start; the others after three days.")
+    head = (NOTE if p["mode"] == "light" else
+            "All the seedlings are kept in the dark. Seedlings marked ? are shown at the start,\n"
+            "before they grow; the others are shown after three days.")
     y1 = 5.05 if p["mode"] == "light" else 4.75
-    ax.text(width / 2, y1 - 0.05, head, ha="center", va="top", fontsize=9, linespacing=1.25)
+    ax.text(width / 2, y1 - 0.05, head, ha="center", va="top", fontsize=9, linespacing=1.25, gid="note")
     ylim = (-1.35, y1 + (0.05 if p["mode"] == "light" else 0.35))
     ax.set_xlim(0, width)
     ax.set_ylim(*ylim)
@@ -316,7 +327,8 @@ def questions(p: dict, rng: random.Random) -> list:
     # The set-up, said exactly as drawn.
     if mode == "light":
         lead = (f"{who} grew {WORD[n]} {plant} seedlings in pots {rng.choice(SETTINGS)} and lit them as shown, to find "
-                "out how shoots respond to light. Seedlings marked ? are drawn at the start; the others after three days.")
+                "out how shoots respond to light. Seedlings marked ? are shown at the start, before they grow; the others "
+                "after three days.")
     else:
         still = sum(x["setup"] != "clinostat" for x in pots.values())
         turned = n - still
@@ -325,8 +337,8 @@ def questions(p: dict, rng: random.Random) -> list:
         if turned:
             what += f" and {WORD[turned]} to " + ("a cork disc on a turning clinostat" if turned == 1 else
                                                   "cork discs on turning clinostats")
-        lead = (f"{who} pinned {what} {rng.choice(SETTINGS)}, and kept them all in the dark. Seedlings marked ? are drawn "
-                "at the start; the others after three days.")
+        lead = (f"{who} pinned {what} {rng.choice(SETTINGS)}, and kept them all in the dark. Seedlings marked ? are shown "
+                "at the start, before they grow; the others after three days.")
     hidden = sorted(L for L, x in pots.items() if not x["shown"])
     target = rng.choice(hidden)
     organ = "shoot" if mode == "light" else rng.choice(["shoot", "root"])
@@ -336,13 +348,14 @@ def questions(p: dict, rng: random.Random) -> list:
     # How many respond, by the rules, the drawn ones and the "?" ones alike.
     if mode == "light":
         k = sum(LIGHT[x["setup"]] == "towards" for x in pots.values())
-        qs.append(count(f"After three days, how many of the {WORD[n]} seedlings will have shoots that bend to one side?",
-                        k, "seedlings"))
+        qs.append(count(f"Predict for every seedling, including those marked ?. After three days, how many of the "
+                        f"{WORD[n]} seedlings will have shoots bending to one side?", k, "seedlings"))
     else:
         organ3 = rng.choice(["shoot", "root"])
         k = sum(GRAVITY[(x["setup"], organ3)] in ("up", "down") for x in pots.values())
-        words = "roots that have turned to grow downwards" if organ3 == "root" else "shoots that have turned to grow upwards"
-        qs.append(count(f"After three days, how many of the {WORD[n]} seedlings will have {words}?", k, "seedlings"))
+        words = "roots turned to grow downwards" if organ3 == "root" else "shoots turned to grow upwards"
+        qs.append(count(f"Predict for every seedling, including those marked ?. After three days, how many of the "
+                        f"{WORD[n]} seedlings will have {words}?", k, "seedlings"))
     bent = sorted(L for L, x in pots.items() if x["shown"]
                   and (LIGHT[x["setup"]] == "towards" if mode == "light" else x["setup"] != "clinostat"))
     seen = rng.choice(bent)
@@ -350,6 +363,11 @@ def questions(p: dict, rng: random.Random) -> list:
     w = way(mode, pots[seen], organ2)
     key = ("positive phototropism" if mode == "light" else
            "negative gravitropism" if w == "curves upwards" else "positive gravitropism")
-    names = [f"{a} {b}" for a in ("positive", "negative") for b in ("phototropism", "gravitropism")]
-    qs.append(mcq(f"Which response does the {organ2} of seedling {seen} show?", key, [x for x in names if x != key], rng))
+    if mode == "light":
+        said = f"Seedling {seen}'s shoot has bent towards the light. What is this response to light called?"
+    else:
+        said = (f"Seedling {seen}'s {organ2} has turned to grow {'upwards' if organ2 == 'shoot' else 'downwards'}. "
+                "What is this response to gravity called?")
+    names = [f"{a} {b}" for a in ("positive", "negative") for b in TROPISMS[mode]]
+    qs.append(mcq(said, key, [x for x in names if x != key], rng))
     return qs
