@@ -54,6 +54,16 @@ from . import carbon_cycle, cell_division, life_cycle, nitrogen_cycle, tropism_e
 # P3w data imports
 from . import antibody_response, blood_vessels, gas_exchange, menstrual_cycle, potometer
 from . import cash_flow_forecast, critical_path, inventory_chart, pricing
+# P3v: computing
+# P3v cs imports
+from . import assembly_trace, floating_point, karnaugh_map, register_transfer, sensor_control
+# P3v data imports
+from . import er_normalisation, hash_table, ip_address, linked_list_array, parity_check
+# P3v ict imports
+from . import expert_system, file_transfer, gantt_chart, mail_merge, web_page
+# P3x: social studies and history
+# P3x primary imports
+# P3x history imports
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -119,4 +129,14 @@ FAMILIES = {m.ID: m for m in (
     carbon_cycle, nitrogen_cycle, cell_division, tropism_experiment, life_cycle,
     # P3w data families
     potometer, menstrual_cycle, antibody_response, blood_vessels, gas_exchange,
+    # P3v: computing
+    # P3v cs families
+    assembly_trace, register_transfer, karnaugh_map, sensor_control, floating_point,
+    # P3v data families
+    parity_check, ip_address, linked_list_array, hash_table, er_normalisation,
+    # P3v ict families
+    mail_merge, gantt_chart, file_transfer, expert_system, web_page,
+    # P3x: social studies and history
+    # P3x primary families
+    # P3x history families
 )}
