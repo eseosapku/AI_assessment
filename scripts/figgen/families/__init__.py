@@ -63,7 +63,9 @@ from . import er_normalisation, hash_table, ip_address, linked_list_array, parit
 from . import expert_system, file_transfer, gantt_chart, mail_merge, web_page
 # P3x: social studies and history
 # P3x primary imports
+from . import admin_ladder_p, budget_p, compass_map_p, family_tree_p, map_key_p
 # P3x history imports
+from . import arms_of_government, census_chart, election_chart
 
 FAMILIES = {m.ID: m for m in (
     bar_chart, pie_chart, line_graph, scatter_graph, box_plot, number_line, angles, coordinates, tree_diagram,
@@ -138,5 +140,7 @@ FAMILIES = {m.ID: m for m in (
     mail_merge, gantt_chart, file_transfer, expert_system, web_page,
     # P3x: social studies and history
     # P3x primary families
+    compass_map_p, map_key_p, family_tree_p, admin_ladder_p, budget_p,
     # P3x history families
+    arms_of_government, census_chart, election_chart,
 )}

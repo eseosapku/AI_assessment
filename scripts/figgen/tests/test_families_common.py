@@ -70,7 +70,7 @@ def test_renders_valid_svg_and_png(fid):
         assert r.png[:8] == b"\x89PNG\r\n\x1a\n" and len(r.png) > getattr(m, "MIN_PNG_BYTES", 2000)
 
 
-WORDED_SUBJECTS = {"mathematics", "physics", "chemistry", "biology", "computing", "geography", "science", "agriculture"}  # waves done; each later wave adds its subject
+WORDED_SUBJECTS = {"mathematics", "physics", "chemistry", "biology", "computing", "geography", "science", "agriculture", "history", "social-studies"}  # waves done; each later wave adds its subject
 # The P1a pilot families of a worded subject are hand-linked and fixed in wording; they are reworked with the P3p
 # pilots (task 1), and join then.
 PILOTS_TO_REWORK = {"scale_reading"}

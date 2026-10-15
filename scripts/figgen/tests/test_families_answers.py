@@ -12,7 +12,7 @@ import pytest
 
 from figgen.families import (angles, bar_chart, box_plot, break_even, coordinates,
                              food_web, line_graph, notice, number_line, pie_chart, punnett,
-                             scale_reading, scatter_graph, supply_demand, timeline, timetable, tree_diagram)
+                             scale_reading, scatter_graph, supply_demand, timetable, tree_diagram)
 
 SEEDS = range(1, 1001)  # spec 12: every answer holds on 1,000 seeds
 
@@ -250,15 +250,7 @@ def test_timetable():
         assert picked(latest) == f"Bus {max(ok) + 1}"
 
 
-def test_timeline():
-    for s in SEEDS:
-        p, (first, gap) = run(timeline, s)
-        years = {name: year for name, year in p["events"]}
-        assert picked(first) == min(years, key=years.get)
-        a, b = gap.stem.split('"')[1], gap.stem.split('"')[3]
-        assert int(gap.answer) == years[b] - years[a] > 0
-        for name, year in p["events"]:
-            assert (name, year) in timeline.SETS[p["title"]]
+# The timeline's answers moved to test_history_answers.py when it was reworked (P3x).
 
 
 # ---- P3a: the maths wave ------------------------------------------------------------------

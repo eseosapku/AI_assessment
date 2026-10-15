@@ -3,9 +3,9 @@ import random
 
 import pytest
 
-from figgen.families import FAMILIES, timeline
+from figgen.families import FAMILIES
 from figgen.generate import generate_family
-from figgen.pilot import BY_PARAMS, PILOT, TIMELINE, topics_for
+from figgen.pilot import BY_PARAMS, PILOT, topics_for
 from figgen.store import open_store
 
 # The pilot's topics as they are in the staging store (checked 2026-10-12).
@@ -32,7 +32,6 @@ def test_every_family_has_pilot_topics_at_its_level():
     # A family naming its concepts reaches its topics by concept (link.py); the rest keep the pilot's.
     by_hand = {f: m for f, m in FAMILIES.items() if not hasattr(m, "CONCEPTS")}
     assert set(by_hand) <= set(PILOT) | set(BY_PARAMS)
-    assert set(TIMELINE) == set(timeline.SETS)
     for fid, m in by_hand.items():
         for s in range(1, 21):
             keys = topics_for(fid, m.sample(random.Random(s)))
@@ -93,12 +92,23 @@ def test_refuses_a_topic_outside_the_family_levels(db, tmp_path):
         generate_family(db, tmp_path / "lib", FAMILIES[BY_HAND], 1)
 
 
-def test_timeline_figures_go_to_the_topic_of_their_set(db, tmp_path):
-    generate_family(db, tmp_path / "lib", FAMILIES["timeline"], 6)
-    rows = db.execute("SELECT f.spec, t.topic_key FROM figures f JOIN figure_topics t ON t.figure_id = f.id").fetchall()
-    assert len(rows) == 6
-    for row in rows:
-        assert row["topic_key"] == TIMELINE[json.loads(row["spec"])["title"]][0]
+def test_a_timeline_reaches_the_topics_of_its_era():
+    # P3x: the timeline names its concepts era by era (link.py), no longer the pilot's two hand-made topics (TIMELINE in
+    # pilot.py): a Cold War timeline reaches a Cold War topic, a timeline of Rwanda since independence a Rwanda one.
+    from figgen.link import topics_for as link_topics
+    m = FAMILIES["timeline"]
+    topic = lambda key, name, concept: {"key": key, "band": "UP", "subject": "history", "name": name, "stage": None,  # noqa: E731
+                                        "concepts": frozenset([concept]), "sections": ()}
+    index = [topic("t:cold", "The Cold War", "history.cold-war"),
+             topic("t:rwanda", "The First and the Second Republics of Rwanda", "history.first-republic-rwanda")]
+    seen = set()
+    for s in range(1, 200):
+        p = m.sample(random.Random(s))
+        if p["band"] == "UP":
+            want = {"The Cold War": ["t:cold"], "Rwanda since independence": ["t:rwanda"]}.get(p["title"], [])
+            assert link_topics(index, m, p) == want, p["title"]
+            seen.add(p["title"])
+    assert {"The Cold War", "Rwanda since independence"} <= seen
 
 
 def test_scale_readings_go_to_the_subject_of_their_instrument():

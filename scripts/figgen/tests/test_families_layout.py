@@ -317,14 +317,17 @@ def test_timetable_questions_are_answered_by_reading_it():
 
 
 def test_timeline_marks_every_year():
-    for seed in range(1, 21):
+    # P3x: an era of more than 80 years (the end of the slave trade, West Africa's empires) is ticked every 5 or 10 years.
+    for seed in range(1, 41):
         p = timeline.sample(random.Random(seed))
         fig = timeline.draw(p)
         ys = {round(float(line.get_ydata()[0]), 6) for line in fig.axes[0].lines
               if len(line.get_ydata()) == 2 and line.get_ydata()[0] == line.get_ydata()[1] and line.get_xdata()[0] < 0}
         plt.close(fig)
         first, last = p["events"][0][1], p["events"][-1][1]
-        assert set(range(first - 2, last + 3)) <= ys, f"seed {seed}: some years have no tick"
+        step = 1 if last - first <= 80 else 5 if last - first <= 150 else 10
+        want = set(range(first - 2, last + 3)) if step == 1 else set(range(first // step * step, last + step, step))
+        assert want <= ys, f"seed {seed}: some years have no tick"
 
 
 # From the final code review.
