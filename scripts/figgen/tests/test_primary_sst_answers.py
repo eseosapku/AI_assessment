@@ -175,6 +175,14 @@ def in_quarter(d, a, b) -> bool:
     return dx * ux >= 0 and dy * uy >= 0
 
 
+COLUMNS = "ABCDEFGH"
+
+
+def grid_square(cell) -> str:
+    """A square as a Primary map names it: its column's letter, then its row's number counted from the bottom."""
+    return f"{COLUMNS[cell[0]]}{cell[1] + 1}"
+
+
 def test_compass_map_p():
     m = fam("compass_map_p")
     levels, asked_diag = Counter(), Counter()
@@ -186,6 +194,7 @@ def test_compass_map_p():
         n = len(places)
         assert (5 <= n <= 6) if p["level"] == "lower" else (6 <= n <= 7), (s, n)
         cols, rows = p["cols"], p["rows"]
+        assert cols <= len(COLUMNS)
         assert all(0 <= x < cols and 0 <= y < rows for x, y in places.values())
         cells = list(places.values())
         for i, a in enumerate(cells):  # no two places in touching squares: every label has room
@@ -194,6 +203,19 @@ def test_compass_map_p():
         along, k = p["river"]
         assert along in ("col", "row")
         assert all((x if along == "col" else y) != k for x, y in cells), (s, "a place on the river")
+        # the road joins two places, straight or with one turn, never through another place or along the river
+        road_from, road_to, corner = p["road"]
+        pa, pb, c = places[road_from], places[road_to], tuple(corner)
+        assert (pa[0] == c[0] or pa[1] == c[1]) and (pb[0] == c[0] or pb[1] == c[1]), (s, p["road"])
+        path, cur = [pa], pa
+        for target in (c, pb):
+            while cur != target:
+                cur = (cur[0] + _sign(target[0] - cur[0]), cur[1] + _sign(target[1] - cur[1]))
+                path.append(cur)
+        assert len(path) == len(set(path)), (s, "the road doubles back")
+        assert not set(path[1:-1]) & set(cells), (s, "the road runs through another place")
+        for u, v in zip(path, path[1:]):
+            assert not ((u[0] == v[0] == k) if along == "col" else (u[1] == v[1] == k)), (s, "the road runs along the river")
         seen = set()
         for q in qs:
             st = q.stem
@@ -228,35 +250,15 @@ def test_compass_map_p():
                 assert all(score[o] < best and o in places for o in wrong(q))
                 seen.add("far")
                 continue
-            got = re.search(r"Along the road, how many squares is it from the (.+?) to the (.+?)\? Count each step "
-                            r"from one square to the next\.$", st)
+            got = re.search(r"In which square is the (.+?)\? Give the letter, then the number\.$", st)
             if got:
-                a, b = got.groups()
-                road_from, road_to, corner = p["road"]
-                assert {a, b} == {road_from, road_to}
-                pa, pb, c = places[road_from], places[road_to], tuple(corner)
-                assert (pa[0] == c[0] or pa[1] == c[1]) and (pb[0] == c[0] or pb[1] == c[1]), (s, p["road"])
-                legs = abs(pa[0] - c[0]) + abs(pa[1] - c[1]) + abs(pb[0] - c[0]) + abs(pb[1] - c[1])
-                assert legs == abs(pa[0] - pb[0]) + abs(pa[1] - pb[1]), (s, "the road doubles back")
-                # the squares the road passes through, end to end
-                path, cur = [pa], pa
-                for target in (c, pb):
-                    while cur != target:
-                        cur = (cur[0] + _sign(target[0] - cur[0]), cur[1] + _sign(target[1] - cur[1]))
-                        path.append(cur)
-                assert len(path) == len(set(path)) == legs + 1
-                assert not set(path[1:-1]) & set(cells), (s, "the road runs through another place")
-                for u, v in zip(path, path[1:]):  # never along the river
-                    if along == "col":
-                        assert not (u[0] == v[0] == k), s
-                    else:
-                        assert not (u[1] == v[1] == k), s
-                assert q.kind == "short" and q.answer == str(legs), (s, q.answer, legs)
-                assert 3 <= legs <= 9
-                seen.add("road")
+                key = grid_square(places[got.group(1)])
+                assert q.kind == "short" and q.answer == key, (s, q.answer, key)
+                assert {key.lower(), f"{key[0]} {key[1:]}"} <= set(q.accepted), q.accepted
+                seen.add("square")
                 continue
             pytest.fail(f"seed {s}: an unexpected question {st}")
-        assert seen == {"direction", "which", "far", "road"}, (s, seen)
+        assert seen == {"direction", "which", "far", "square"}, (s, seen)
         if s <= DRAWN:
             fig = m.draw(p)
             texts = boxes(fig)
@@ -267,18 +269,46 @@ def test_compass_map_p():
                 assert len(label) == 1, (s, name)
                 x0, y0, x1, y1 = label[0]
                 assert x - 0.05 <= x0 and x1 <= x + 1.05 and y - 0.05 <= y0 and y1 <= y + 1.05, (s, name, label)
+            # the grid's letters along the bottom and numbers up the side, each in line with its column or row
+            for t, g, x0, y0, x1, y1 in texts:
+                if g.startswith("col:"):
+                    i = COLUMNS.index(g[4:])
+                    assert t == g[4:] and abs((x0 + x1) / 2 - (i + 0.5)) < 0.05 and y1 < 0, (s, t)
+                if g.startswith("row:"):
+                    j = int(g[4:]) - 1
+                    assert t == g[4:] and abs((y0 + y1) / 2 - (j + 0.5)) < 0.05 and x1 < 0, (s, t)
+            assert {g[4:] for t, g, *_ in texts if g.startswith("col:")} == set(COLUMNS[:cols])
+            assert {g[4:] for t, g, *_ in texts if g.startswith("row:")} == {str(j + 1) for j in range(rows)}
             letters = {g[8:]: ((x0 + x1) / 2, (y0 + y1) / 2) for t, g, x0, y0, x1, y1 in texts if g.startswith("compass:")}
             want = {LETTERS[d] for d in allowed}
             assert set(letters) == want, (s, set(letters))
             assert letters["N"][1] > letters["S"][1] and letters["E"][0] > letters["W"][0]  # north is up the page
             assert len(road) == 1
             pts = [tuple(round(float(v), 6) for v in pt) for pt in road[0].get_xydata()]
-            road_from, road_to, corner = p["road"]
-            ends = [(places[road_from][0] + 0.5, places[road_from][1] + 0.5), (corner[0] + 0.5, corner[1] + 0.5),
-                    (places[road_to][0] + 0.5, places[road_to][1] + 0.5)]
+            ends = [(pa[0] + 0.5, pa[1] + 0.5), (c[0] + 0.5, c[1] + 0.5), (pb[0] + 0.5, pb[1] + 0.5)]
             assert pts[0] == ends[0] and pts[-1] == ends[2] and ends[1] in pts, (s, pts, ends)
     assert min(levels.values()) > 300
     assert asked_diag[True] > 150  # the upper level asks the in-between points too
+
+
+def test_compass_map_p_no_wrong_option_lies_that_way_at_all():
+    """P3x blind review: "Which place is west of the water tap?" also fitted the football field, west of it but higher
+    up. A wrong option must not lie that way even loosely: for west it is level with the place or east of it (its x is
+    no smaller), and so for each point, its half of the map (for north-east, dx + dy <= 0). The answer lies exactly that
+    way, on the place's own row, column or diagonal."""
+    m = fam("compass_map_p")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        places = {k: tuple(v) for k, v in p["places"].items()}
+        q = next(q for q in qs if re.search(r"Which place is ([a-z-]+) of the (.+?)\?$", q.stem))
+        d, x = re.search(r"Which place is ([a-z-]+) of the (.+?)\?$", q.stem).groups()
+        ux, uy = DIRS[d]
+        X = places[x]
+        assert exact_direction(X, places[picked(q)]) == d, (s, q.stem)
+        assert len(q.options) >= 3
+        for o in wrong(q):
+            dx, dy = places[o][0] - X[0], places[o][1] - X[1]
+            assert dx * ux + dy * uy <= 0, (s, q.stem, o, (dx, dy))
 
 
 # --- map_key_p ------------------------------------------------------------------------------------
@@ -299,6 +329,13 @@ def line_dist(p, pts):
     return min(_seg_dist(p, a, b) for a, b in zip(pts, pts[1:]))
 
 
+# A map symbol reaches 0.3 of a unit from its centre at size 1, and the map draws them at 1.1: a symbol's box.
+SYMBOL_HALF = 0.33
+# "Next to" a line: the symbol's centre at most half a symbol and a little from the line's middle, so its edge meets
+# the line's edge (P3x review).
+ADJOIN = 0.5
+
+
 def test_map_key_p():
     m = fam("map_key_p")
     levels, lines, counted = Counter(), Counter(), Counter()
@@ -313,7 +350,7 @@ def test_map_key_p():
         river, road = [tuple(v) for v in p["river"]], [tuple(v) for v in p["road"]]
         for i, (k, (x, y)) in enumerate(sym):
             assert 0.4 <= x <= w - 0.4 and 0.4 <= y <= h - 0.4, (s, k)
-            assert line_dist((x, y), river) >= 0.5 and line_dist((x, y), road) >= 0.5, (s, k, "a symbol on a line")
+            assert line_dist((x, y), river) >= 0.4 and line_dist((x, y), road) >= 0.4, (s, k, "a symbol on a line")
             for k2, (x2, y2) in sym[i + 1:]:
                 assert math.hypot(x - x2, y - y2) >= 1.0, (s, k, k2)
         seen = set()
@@ -336,9 +373,9 @@ def test_map_key_p():
                 counted["one"] += 1
                 seen.add("count")
                 continue
-            got = re.search(r"What does the symbol marked ([A-Z]) on the map of (\w+) Cell stand for\? Use the key\.$", st)
+            got = re.search(r"What is at the place marked ([A-Z])\? Use the key\.$", st)
             if got:
-                assert got.groups() == (p["letter"], p["area"])
+                assert got.group(1) == p["letter"]
                 kind = sym[p["marked"]][0]
                 assert picked(q) == f"a {kind}", (s, q.options)
                 assert all(o.startswith("a ") and o[2:] in KINDS and o[2:] != kind for o in wrong(q))
@@ -348,9 +385,10 @@ def test_map_key_p():
             if got:
                 line = river if got.group(1) == "river" else road
                 lines[got.group(1)] += 1
-                near = [i for i, (k, xy) in enumerate(sym) if line_dist(xy, line) <= 0.8]
+                near = [i for i, (k, xy) in enumerate(sym) if line_dist(xy, line) <= ADJOIN]
                 assert len(near) == 1, (s, st, near)
-                assert all(line_dist(xy, line) >= 1.3 for i, (k, xy) in enumerate(sym) if i != near[0]), s
+                d0 = line_dist(sym[near[0]][1], line)
+                assert all(line_dist(xy, line) >= 3 * d0 for i, (k, xy) in enumerate(sym) if i != near[0]), s
                 kind = sym[near[0]][0]
                 assert kind != "forest" and picked(q) == f"a {kind}", (s, q.options)
                 for o in wrong(q):
@@ -377,6 +415,44 @@ def test_map_key_p():
             assert [tuple(round(float(v), 6) for v in pt) for pt in river_line[0].get_xydata()] == \
                 [tuple(round(float(v), 6) for v in pt) for pt in river]
     assert min(levels.values()) > 300 and min(lines.values()) > 300 and counted["two"] > 150
+
+
+def test_map_key_p_marker_points_at_its_symbol():
+    """P3x blind review: a letter's arrow pointed at empty ground. The arrow's tip lands inside the marked symbol's box
+    and no other symbol's, and the letter itself sits nearer that symbol than any other."""
+    m = fam("map_key_p")
+    for s in range(1, 301):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        marks = [t for t in fig.axes[0].texts if t.get_gid() == "mark"]
+        plt.close(fig)
+        assert len(marks) == 1 and marks[0].get_text() == p["letter"], s
+        (tx, ty), (lx, ly) = marks[0].xy, marks[0].xyann
+        kind, x, y = p["symbols"][p["marked"]]
+        assert abs(tx - x) <= SYMBOL_HALF and abs(ty - y) <= SYMBOL_HALF, (s, kind, (tx, ty), (x, y))
+        for j, (k, u, v) in enumerate(p["symbols"]):
+            if j != p["marked"]:
+                assert not (abs(tx - u) <= SYMBOL_HALF and abs(ty - v) <= SYMBOL_HALF), (s, k)
+                assert math.hypot(lx - u, ly - v) > math.hypot(lx - x, ly - y) + 0.3, (s, k)
+
+
+def test_map_key_p_next_to_means_touching_and_nothing_else_close():
+    """P3x blind review: no option touched the road or river, and several stood at like distances. The answer's symbol
+    adjoins the line (centre within ADJOIN of the line's middle), and every other symbol on the map, so every wrong
+    option, stands at least three times as far from it."""
+    m = fam("map_key_p")
+    for s in SEEDS:
+        p, qs = run(m, s)
+        q = next(q for q in qs if "is next to the" in q.stem)
+        which = re.search(r"next to the (river|road)\?$", q.stem).group(1)
+        line = [tuple(v) for v in p[which]]
+        dists = sorted((line_dist((x, y), line), k) for k, x, y in p["symbols"])
+        d0, kind = dists[0]
+        assert d0 <= ADJOIN and picked(q) == f"a {kind}", (s, dists[:2], q.options)
+        assert dists[1][0] >= 3 * d0, (s, dists[:2])
+        for o in wrong(q):
+            nearest = min(line_dist((x, y), line) for k, x, y in p["symbols"] if k == o[2:])
+            assert nearest >= 3 * d0, (s, o, nearest, d0)
 
 
 # --- family_tree_p --------------------------------------------------------------------------------

@@ -4,10 +4,13 @@ water tap, and a tree that stands for a forest). The key beside the map gives ev
 
 - How many of one symbol are on the map (upper: how many more of one than of another, or how many of two altogether)?
   Counted from the symbols placed; the key decides what each one is.
-- What does the symbol marked with a letter stand for? The wrong options are the symbols that look most like it (a church and a
-  hospital both have a cross; a school and a church are both houses).
-- Which place is next to the river (or the road)? One symbol sits beside it, and every other symbol is well away from
-  it (more than twice as far), so there is no second answer.
+- What is at the place marked with a letter? A letter in a circle, with an arrow whose tip lands on the centre of the
+  symbol, so the key names what is there (P3x review: an arrow that stopped short pointed at empty ground). The wrong
+  options are the symbols that look most like it (a church and a hospital both have a cross; a school and a church are
+  both houses).
+- Which place is next to the river (or the road)? One symbol touches it, its centre no more than half a symbol and a
+  little from the line's middle, and every other symbol stands at least three times as far away (P3x review: no option
+  had touched the line, and several had stood at like distances).
 """
 from __future__ import annotations
 
@@ -38,7 +41,10 @@ LOOKALIKE = {"school": ["church", "market", "hospital"], "church": ["hospital", 
              "hospital": ["church", "school", "water tap"], "market": ["school", "church", "water tap"],
              "water tap": ["hospital", "market", "forest"], "forest": ["water tap", "market", "school"]}
 AREAS = ["Rugarama", "Kigarama", "Gatare", "Mubuga", "Nyarutovu", "Karama", "Kabuye", "Rubona", "Ruhanga", "Rwaza"]
-NEAR, FAR = 0.65, 1.4  # how far the symbol beside a line stands from it, and how far every other symbol stays
+# How far the symbol beside a line stands from the line's middle (its edge then meets the line's edge), at most ADJOIN,
+# and how far every other symbol stays from both lines: three times ADJOIN.
+NEAR, ADJOIN = 0.45, 0.5
+FAR = 3 * ADJOIN
 
 
 def stages(p: dict) -> tuple[int, int] | None:
@@ -90,7 +96,7 @@ def _place_beside(rng, line, other, taken) -> list | None:
         x, y = round(px - side * (by - ay) / n * NEAR, 2), round(py + side * (bx - ax) / n * NEAR, 2)
         if not (0.5 <= x <= W - 0.5 and 0.5 <= y <= H - 0.5):
             continue
-        if 0.55 <= dist((x, y), line) <= 0.75 and dist((x, y), other) >= FAR and \
+        if 0.4 <= dist((x, y), line) <= ADJOIN and dist((x, y), other) >= FAR and \
                 all(math.hypot(x - u, y - v) >= 1.15 for u, v in taken):
             return [x, y]
     return None
@@ -148,7 +154,8 @@ def _try(rng: random.Random, level: str) -> dict | None:
         else:
             ask = ["both", *rng.sample(KINDS, 2)]
     return {"band": "P", "level": level, "area": rng.choice(AREAS), "width": W, "height": H, "river": river,
-            "road": road, "symbols": symbols, "marked": marked, "mark_at": mark_at, "letter": rng.choice("ABPQRXYZ"), "near": [which, near], "count": ask}
+            "road": road, "symbols": symbols, "marked": marked, "mark_at": mark_at, "letter": rng.choice("ABPQRXYZ"),
+            "near": [which, near], "count": ask}
 
 
 def sample(rng: random.Random) -> dict:
@@ -178,8 +185,7 @@ def draw(p: dict):
         symbol(ax, kind, x, y, s=1.1, gid=f"sym:{i}:{kind}", z=3)
     kind, x, y = p["symbols"][p["marked"]]
     lx, ly = p["mark_at"]
-    d = math.hypot(lx - x, ly - y)
-    ax.annotate(p["letter"], xy=(x + (lx - x) / d * 0.36, y + (ly - y) / d * 0.36), xytext=(lx, ly), ha="center", va="center",
+    ax.annotate(p["letter"], xy=(x, y), xytext=(lx, ly), ha="center", va="center",  # the tip on the symbol's centre
                 fontsize=12, fontweight="bold", gid="mark", zorder=7,
                 bbox=dict(boxstyle="circle,pad=0.15", facecolor="white", edgecolor=INK, linewidth=1.2),
                 arrowprops=dict(arrowstyle="-|>", color=INK, linewidth=1.2, shrinkA=0, shrinkB=0))
@@ -228,7 +234,7 @@ def questions(p: dict, rng: random.Random) -> list:
         a, b = ask[1], ask[2]
         q1 = count(f"{lead} How many {PLURAL[a]} and {PLURAL[b]} are on the map altogether?", tally[a] + tally[b])
     kind = syms[p["marked"]][0]
-    q2 = mcq(f"What does the symbol marked {p['letter']} on the map of {p['area']} Cell stand for? Use the key.",
+    q2 = mcq(f"What is at the place marked {p['letter']}? Use the key.",
              f"a {kind}", [f"a {k}" for k in LOOKALIKE[kind]], rng)
     which, i = p["near"]
     line = p["river"] if which == "river" else p["road"]

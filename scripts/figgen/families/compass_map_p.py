@@ -1,16 +1,19 @@
 """A map of a sector on a light grid (P, Primary Social Studies): 5 to 7 named places, each a simple picture in a
 square of its own (a school, a church, a market, a health centre, the sector office, a bank, a football field, a
 water tap), a river running down a column or across a row, and a road joining two places, with a compass rose:
-N, E, S and W at the lower level, and NE, SE, SW and NW as well at the upper level (P5 to P6). North is up.
+N, E, S and W at the lower level, and NE, SE, SW and NW as well at the upper level (P5 to P6). North is up. The
+columns are lettered A to H along the bottom and the rows numbered 1 to 6 up the side.
 
 - In which direction is one place from another? Only asked of two places in the same row, the same column or (upper)
   the same diagonal, so the answer is exact. The wrong options are the opposite way (reading it from the second place
   to the first) and the other points.
-- Which place is east (north-east, ...) of a place? The answer is exactly that way, and no other place lies anywhere in
-  that quarter of the map around it, so no reading of "east of" gives a second answer.
+- Which place is east (north-east, ...) of a place? The answer is exactly that way, on the place's own row, column or
+  diagonal, and no other place lies anywhere in that quarter of the map around it. Every wrong option lies in the other
+  half of the map, not that way at all even loosely: for west, level with the place or east of it (P3x review: a
+  football field west of the water tap but higher up had read as a second answer).
 - Which place is the furthest north (south, east, west)? One place only.
-- How many squares along the road from one place to another? Counted step by step along the road, which runs straight
-  or turns once, never through another place and never along the river.
+- In which square is a place? Its column's letter, then its row's number (P3x review: counting steps along the road
+  was read two ways, since the pictures sit inside their squares and the road runs under them).
 """
 from __future__ import annotations
 
@@ -19,7 +22,7 @@ import random
 
 from matplotlib.patches import Polygon, Rectangle
 
-from ..core import GRID, INK, NAMES, count, mcq, new_figure
+from ..core import GRID, INK, NAMES, mcq, new_figure, short
 from ._map_icons import ROAD, WATER, symbol
 
 ID = "compass_map_p"
@@ -34,6 +37,7 @@ AVOID = (r"\bgod\b|god's|bible|qur'?an|prayer|faith|\bsin\b|creation|commandment
          r"democracy and governance|community helpers|rights and responsibilities|historical events")
 
 COLS, ROWS = 8, 6
+COLUMNS = "ABCDEFGH"
 PLACES = ["school", "church", "market", "health centre", "sector office", "bank", "football field", "water tap"]
 LABEL = {"health centre": "health\ncentre", "sector office": "sector\noffice", "football field": "football\nfield",
          "water tap": "water\ntap"}
@@ -71,6 +75,18 @@ def quarter(d: str, a, b) -> bool:
         along = dx * ux + dy * uy
         return along > 0 and abs(dx * uy - dy * ux) <= along
     return dx * ux >= 0 and dy * uy >= 0
+
+
+def other_half(d: str, a, b) -> bool:
+    """Whether b lies in the half of the map facing away from point d, seen from a (the dividing line included): not
+    that way at all, even loosely."""
+    ux, uy = DIRS[d]
+    return (b[0] - a[0]) * ux + (b[1] - a[1]) * uy <= 0
+
+
+def square(cell) -> str:
+    """A square as a Primary map names it: its column's letter, then its row's number counted from the bottom."""
+    return f"{COLUMNS[cell[0]]}{cell[1] + 1}"
 
 
 def _point(ux: int, uy: int) -> str:
@@ -117,8 +133,9 @@ def _try(rng: random.Random, level: str) -> dict | None:
     for x in names:
         for d in allowed:
             inside = [o for o in names if o != x and quarter(d, places[x], places[o])]
-            if len(inside) == 1 and way(places[x], places[inside[0]]) == d:
-                whiches.append((x, d))
+            away = [o for o in names if o != x and other_half(d, places[x], places[o])]
+            if len(inside) == 1 and way(places[x], places[inside[0]]) == d and len(away) >= 2:
+                whiches.append((x, d))  # one answer, and two wrong options not that way at all
     if level == "upper" and rng.random() < 0.5:
         whiches = [w for w in whiches if w[1] not in CARDINAL] or whiches
     fars = []
@@ -150,7 +167,7 @@ def _try(rng: random.Random, level: str) -> dict | None:
     return {"band": "P", "level": level, "sector": rng.choice(SECTORS), "cols": COLS, "rows": ROWS,
             "places": {nm: list(places[nm]) for nm in sorted(names)}, "river": [along, k],
             "road": [a, b, list(corner)], "dir_pair": list(rng.choice(sorted(pairs))),
-            "which": list(rng.choice(sorted(whiches))), "far": rng.choice(fars)}
+            "which": list(rng.choice(sorted(whiches))), "far": rng.choice(fars), "square": rng.choice(sorted(names))}
 
 
 def sample(rng: random.Random) -> dict:
@@ -228,8 +245,12 @@ def draw(p: dict):
     ax.plot(wx, [ky - 0.6 + 0.08 * math.sin(2 * math.pi * (v - wx[0]) / 0.4) for v in wx], color=WATER, linewidth=4,
             zorder=1)
     ax.text(cols + 1.45, ky - 0.6, "river", ha="left", va="center", fontsize=10)
-    ax.set_xlim(-0.1, cols + 3.0)
-    ax.set_ylim(-0.1, rows + 0.7)
+    for i in range(cols):
+        ax.text(i + 0.5, -0.3, COLUMNS[i], ha="center", va="center", fontsize=11, fontweight="bold", gid=f"col:{COLUMNS[i]}")
+    for j in range(rows):
+        ax.text(-0.3, j + 0.5, str(j + 1), ha="center", va="center", fontsize=11, fontweight="bold", gid=f"row:{j + 1}")
+    ax.set_xlim(-0.6, cols + 3.0)
+    ax.set_ylim(-0.6, rows + 0.7)
     ax.set_aspect("equal")
     ax.axis("off")
     return fig
@@ -260,15 +281,14 @@ def questions(p: dict, rng: random.Random) -> list:
     qs.append(mcq(f"{who} {rng.choice(VERBS)} this map of {p['sector']} Sector {setting}. In which direction is the {b} "
                   f"from the {a}?", key, others, rng))
 
-    # 2. which place lies that way
+    # 2. which place lies that way; the wrong options all lie in the other half of the map
     x, d = p["which"]
     key = next(o for o in names if o != x and quarter(d, places[x], places[o]))
-    back = [o for o in names if o not in (x, key) and way(places[x], places[o]) == opposite(d)]
-    lined = [o for o in names if o not in (x, key) and way(places[x], places[o]) and o not in back]
-    rest = [o for o in names if o not in (x, key) and o not in back + lined]
-    rng.shuffle(lined)
+    away = [o for o in names if o not in (x, key) and other_half(d, places[x], places[o])]
+    back = [o for o in away if way(places[x], places[o]) == opposite(d)]  # exactly the other way: east for west
+    rest = [o for o in away if o not in back]
     rng.shuffle(rest)
-    qs.append(mcq(f"Which place is {d} of the {x}?", key, back + lined + rest, rng))
+    qs.append(mcq(f"Which place is {d} of the {x}?", key, back + rest, rng))
 
     # 3. the furthest one way
     d = p["far"]
@@ -277,9 +297,8 @@ def questions(p: dict, rng: random.Random) -> list:
     back = order[-1]
     qs.append(mcq(f"Which place is the furthest {d} on the map?", order[0], [back, order[1]] + order[2:-1], rng))
 
-    # 4. along the road
-    a, b, corner = p["road"]
-    steps = len(road_path(places[a], corner, places[b])) - 1
-    qs.append(count(f"Along the road, how many squares is it from the {a} to the {b}? Count each step from one square "
-                    f"to the next.", steps, "squares"))
+    # 4. a grid reference: the column's letter, then the row's number
+    key = square(places[p["square"]])
+    forms = [key.lower(), f"{key[0]} {key[1:]}", f"{key[0].lower()} {key[1:]}", f"{key[0]}, {key[1:]}", f"{key[0]},{key[1:]}"]
+    qs.append(short(f"In which square is the {p['square']}? Give the letter, then the number.", key, forms))
     return qs
