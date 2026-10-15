@@ -141,6 +141,12 @@ CARBON = {("air", "plants"): "photosynthesis", ("plants", "air"): "respiration",
           ("fossil", "air"): "combustion", ("plants", "fossil"): "fossilisation", ("animals", "fossil"): "fossilisation"}
 CARBON_BOXES = {"air": "carbon dioxide in the air", "plants": "green plants", "animals": "animals",
                 "decomposers": "decomposers", "fossil": "fossil fuels"}
+# Processes that overlap the key for an arrow, so are never offered beside it (p3w blind review): decomposers giving
+# out carbon dioxide is respiration, and could be read as decay; dead plants or animals reaching decomposers is death
+# and decay, and could be read as the decomposers feeding; dead remains becoming fossil fuels could be read as death.
+CARBON_NEVER = {("decomposers", "air"): {"death and decay", "feeding"}, ("plants", "decomposers"): {"feeding"},
+                ("animals", "decomposers"): {"feeding"}, ("plants", "fossil"): {"death and decay"},
+                ("animals", "fossil"): {"death and decay"}}
 
 
 def test_carbon_cycle():
@@ -165,13 +171,30 @@ def test_carbon_cycle():
                 assert picked(q) == proc[got.group(1)], (s, q.stem, q.options)
                 assert all(o in set(CARBON.values()) for o in q.options)
                 assert sum(o == proc[got.group(1)] for o in q.options) == 1
+                assert not set(q.options) & CARBON_NEVER.get(pairs[got.group(1)], set()), (s, pairs[got.group(1)], q.options)
                 seen.add("process")
             if q.stem.endswith("released into the air?"):
                 set_question(q, frozenset(L for L, (f, t) in pairs.items() if t == "air"), pairs)
                 seen.add("set")
         assert seen == {"letter", "process", "set"}, s
     for s in DRAWN:
-        check_cycle_drawing(m, m.sample(random.Random(s)), CARBON_BOXES, s)
+        p = m.sample(random.Random(s))
+        check_cycle_drawing(m, p, CARBON_BOXES, s)
+        # One head an arrow, and no two arrows' ends close enough to read as one arrow with two heads (p3w blind
+        # review: a curve and a straight arrow met the fossil fuels box side by side).
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        heads = [t.get_gid() for t in ax.texts if (t.get_gid() or "").startswith("head:")]
+        ends = {ln.get_gid().split(":")[1]: [tuple(ln.get_xydata()[0]), tuple(ln.get_xydata()[-1])]
+                for ln in ax.lines if (ln.get_gid() or "").startswith("arrow:")}
+        plt.close(fig)
+        assert sorted(heads) == sorted(f"head:{a['letter']}" for a in p["arrows"]), s
+        for a in ends:
+            for b in ends:
+                if a < b:
+                    for u in ends[a]:
+                        for v in ends[b]:
+                            assert math.hypot(u[0] - v[0], u[1] - v[1]) > 0.55, (s, a, b, u, v)
 
 
 # --- the nitrogen cycle ---------------------------------------------------------------------------
@@ -301,7 +324,7 @@ LIGHT_RESULT = {"side": "towards", "slit": "towards", "foil": "straight up", "ab
 GRAVITY_RESULT = {("flat", "shoot"): "curves upwards", ("flat", "root"): "curves downwards",
                   ("upside", "shoot"): "curves upwards", ("upside", "root"): "curves downwards",
                   ("clinostat", "shoot"): "keeps growing straight", ("clinostat", "root"): "keeps growing straight"}
-CONTROL = {"light": {"above", "clinostat"}, "gravity": {"clinostat"}}
+WORDS = {"one": 1, "two": 2, "three": 3, "four": 4}
 
 
 def expected_way(mode, pot, organ):
@@ -313,16 +336,31 @@ def expected_way(mode, pot, organ):
 
 def test_tropism_experiment():
     m = fam("tropism_experiment")
-    modes = set()
+    modes, counts = set(), set()
     for s in SEEDS:
         p, qs = run(m, s)
         pots = {x["letter"]: x for x in p["pots"]}
         mode = p["mode"]
         modes.add(mode)
         assert sorted(pots) == list("ABCD"[:len(pots)]) and len(pots) >= 3, s
-        controls = [L for L, x in pots.items() if x["setup"] in CONTROL[mode]]
-        assert len(controls) == 1, (s, p["pots"])
         assert any(not x["shown"] for x in pots.values()) and any(x["shown"] for x in pots.values()), s
+        # No "which is the control?" (p3w blind review: what a control is depends on what is tested, and several
+        # seedlings could each be argued).
+        assert not any("control" in q.stem for q in qs), s
+        # The stem says exactly what is drawn: how many seedlings, and in the gravity set how many are pinned still
+        # and how many turn on a clinostat.
+        lead = qs[0].stem
+        if mode == "light":
+            got = re.search(r"grew (\w+) \w+ seedlings in pots", lead)
+            assert got and WORDS[got.group(1)] == len(pots), (s, lead)
+        else:
+            still = sum(x["setup"] != "clinostat" for x in pots.values())
+            turned = len(pots) - still
+            got = re.search(r"pinned (\w+) germinating \w+ seeds? to (?:a square|squares) of cork", lead)
+            assert got and WORDS[got.group(1)] == still, (s, lead)
+            got = re.search(r"and (\w+) to (?:a cork disc|cork discs) on (?:a turning clinostat|turning clinostats)", lead)
+            assert (WORDS[got.group(1)] if got else 0) == turned, (s, lead)
+            assert "dark" in lead
         seen = set()
         for q in qs:
             got = re.search(r"Which way will the (shoot|root) of seedling ([A-D]) grow\?$", q.stem)
@@ -335,9 +373,19 @@ def test_tropism_experiment():
                 else:
                     assert sorted(q.options) == ["curves downwards", "curves upwards", "keeps growing straight"]
                 seen.add("way")
-            if q.stem.endswith("Which seedling is the control?"):
-                assert picked(q) == controls[0] and all(o in pots for o in q.options), s
-                seen.add("control")
+            got = re.search(r"how many of the (\w+) seedlings will have (shoots that bend to one side|roots that have "
+                            r"turned to grow downwards|shoots that have turned to grow upwards)\?$", q.stem)
+            if got:
+                assert WORDS[got.group(1)] == len(pots)
+                if mode == "light":
+                    key = sum(LIGHT_RESULT[x["setup"]] == "towards" for x in pots.values())
+                else:
+                    organ = "root" if "roots" in got.group(2) else "shoot"
+                    want = "curves downwards" if organ == "root" else "curves upwards"
+                    key = sum(GRAVITY_RESULT[(x["setup"], organ)] == want for x in pots.values())
+                assert q.answer == str(key), (s, q.stem, q.answer, p["pots"])
+                counts.add((mode, key))
+                seen.add("count")
             got = re.search(r"Which response does the (shoot|root) of seedling ([A-D]) show\?$", q.stem)
             if got:
                 organ, L = got.groups()
@@ -349,8 +397,9 @@ def test_tropism_experiment():
                 assert key and picked(q) == key, (s, way, q.options)
                 assert sorted(q.options) == sorted(f"{a} {b}" for a in ("positive", "negative") for b in ("phototropism", "gravitropism"))
                 seen.add("name")
-        assert seen == {"way", "control", "name"}, (s, seen)
+        assert seen == {"way", "count", "name"}, (s, seen)
     assert modes == {"light", "gravity"}
+    assert len({k for md, k in counts if md == "light"}) >= 3 and len({k for md, k in counts if md == "gravity"}) >= 3
     for s in DRAWN:
         p = m.sample(random.Random(s))
         fig = m.draw(p)
@@ -358,7 +407,12 @@ def test_tropism_experiment():
         texts = {t.get_gid(): t for t in ax.texts if t.get_gid()}
         organs = {ln.get_gid(): ln.get_xydata() for ln in ax.lines if (ln.get_gid() or "").split(":")[0] in ("shoot", "root")}
         lamps = {pa.get_gid()[5:]: pa for pa in ax.patches if (pa.get_gid() or "").startswith("lamp:")}
+        caps = {pa.get_gid()[4:]: pa for pa in ax.patches if (pa.get_gid() or "").startswith("cap:")}
+        holders = [pa.get_gid().split(":")[0] for pa in ax.patches if (pa.get_gid() or "").split(":")[0] in ("board", "disc")]
         plt.close(fig)
+        if p["mode"] == "gravity":  # a square of cork for each seedling pinned still, a disc for each on a clinostat
+            assert holders.count("disc") == sum(x["setup"] == "clinostat" for x in p["pots"]), s
+            assert holders.count("board") == sum(x["setup"] != "clinostat" for x in p["pots"]), s
         for x in p["pots"]:
             L = x["letter"]
             assert texts[f"pot:{L}"].get_text() == L
@@ -376,6 +430,16 @@ def test_tropism_experiment():
                         assert (dx < -0.2) if x["side"] == "left" else (dx > 0.2), (s, L, dx)
                     else:
                         assert abs(dx) < 0.03, (s, L, dx)
+                # A foil cap is a cap you can see, over the tip, and labelled (p3w blind review).
+                assert (L in caps) == (x["setup"] == "foil"), (s, L)
+                if x["setup"] == "foil":
+                    ext = caps[L].get_path().get_extents()
+                    assert ext.width >= 0.24 and ext.height >= 0.3, (s, ext)
+                    assert ext.x0 < tip[0] < ext.x1 and ext.y0 < tip[1] < ext.y1, s
+                    label = texts[f"foil:{L}"]
+                    assert label.get_text() == "foil"
+                    lx, ly = label.get_position()
+                    assert math.hypot(lx - tip[0], ly - tip[1]) < 1.0, s
             else:
                 for organ in ("shoot", "root"):
                     pts = organs[f"{organ}:{L}"]

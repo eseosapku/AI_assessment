@@ -41,14 +41,17 @@ def bezier(p0, c, p1, n: int = 28) -> list:
              (1 - t) ** 2 * p0[1] + 2 * (1 - t) * t * c[1] + t ** 2 * p1[1]) for t in (k / n for k in range(n + 1))]
 
 
-def u_curve(p0, p1, depth: float, n: int = 32) -> list:
-    """From p0 down, across and up into p1 (both on one level), leaving and arriving upright, its lowest point
-    `depth` below them."""
-    k = depth * 4 / 3  # a cubic's middle sits three quarters of the way to its inner control points
-    c0, c1 = (p0[0], p0[1] - k), (p1[0], p1[1] - k)
-    return [((1 - t) ** 3 * p0[0] + 3 * (1 - t) ** 2 * t * c0[0] + 3 * (1 - t) * t ** 2 * c1[0] + t ** 3 * p1[0],
-             (1 - t) ** 3 * p0[1] + 3 * (1 - t) ** 2 * t * c0[1] + 3 * (1 - t) * t ** 2 * c1[1] + t ** 3 * p1[1])
-            for t in (j / n for j in range(n + 1))]
+def u_curve(p0, p1, depth: float, n: int = 32, stub: float = 0.22) -> list:
+    """From p0 down, across and up into p1 (both on one level), its lowest point `depth` below them. It leaves and
+    arrives by a short straight upright stub, so an arrowhead set on the last stub lies along the line (one set on a
+    still-bending end sat askew beside it and read as a second head, p3w blind review)."""
+    a, b = (p0[0], p0[1] - stub), (p1[0], p1[1] - stub)
+    k = (depth - stub) * 4 / 3  # a cubic's middle sits three quarters of the way to its inner control points
+    c0, c1 = (a[0], a[1] - k), (b[0], b[1] - k)
+    mid = [((1 - t) ** 3 * a[0] + 3 * (1 - t) ** 2 * t * c0[0] + 3 * (1 - t) * t ** 2 * c1[0] + t ** 3 * b[0],
+            (1 - t) ** 3 * a[1] + 3 * (1 - t) ** 2 * t * c0[1] + 3 * (1 - t) * t ** 2 * c1[1] + t ** 3 * b[1])
+           for t in (j / n for j in range(n + 1))]
+    return [tuple(p0)] + mid + [tuple(p1)]
 
 
 def dense(pts, step: float = 0.04) -> list:
@@ -77,8 +80,14 @@ def distance(pt, pts) -> float:
     return min(math.hypot(pt[0] - x, pt[1] - y) for x, y in dense(pts, 0.03))
 
 
-def clean(routes: dict, boxes: dict, gap: float = 0.12) -> bool:
-    """No arrow runs through (or grazes) a box it does not join, and no two arrows cross or run close together."""
+def clean(routes: dict, boxes: dict, gap: float = 0.12, ends: float = 0.0) -> bool:
+    """No arrow runs through (or grazes) a box it does not join, and no two arrows cross; with `ends`, no two
+    arrows' ends are that close (two heads side by side read as one arrow with a double head)."""
+    tips = [(k, pt) for k, pts in routes.items() for pt in (pts[0], pts[-1])]
+    for i, (a, u) in enumerate(tips):
+        for b, v in tips[i + 1:]:
+            if a != b and math.hypot(u[0] - v[0], u[1] - v[1]) <= ends:
+                return False
     for (f, t), pts in routes.items():
         for k, r in boxes.items():
             if k not in (f, t) and any(inside(pt, r, gap) for pt in dense(pts)):
@@ -150,12 +159,8 @@ def draw_arrow(ax, letter: str, pair, pts, at) -> None:
     xs, ys = zip(*pts)
     ax.plot(xs, ys, color=INK, linewidth=1.4, zorder=1, gid=f"arrow:{letter}:{pair[0]}>{pair[1]}",
             solid_capstyle="butt")
-    # The head: the last stretch of the arrow, about a quarter of a unit long, ending on the box it enters.
-    back = pts[-1]
-    for pt in reversed(pts[:-1]):
-        back = pt
-        if math.hypot(pts[-1][0] - pt[0], pts[-1][1] - pt[1]) >= 0.25:
-            break
+    # The head lies along the arrow's last straight stretch: a straight arrow's whole length, a curve's end stub.
+    back = pts[-2]
     ax.annotate("", xy=pts[-1], xytext=back, zorder=4, gid=f"head:{letter}",
                 arrowprops={"arrowstyle": "-|>", "color": INK, "linewidth": 1.4, "mutation_scale": 14,
                             "shrinkA": 0, "shrinkB": 0})

@@ -1,17 +1,21 @@
 """Tropism experiments (LS, UP): seedlings lettered A to D in two kinds of investigation, drawn as textbooks draw them.
 
-- light: four potted seedlings, one each lit from one side, in a box with a slit facing a lamp, with a foil cap over
-  the tip and lit from one side, and a control lit evenly (from above, or turned on a clinostat beside a lamp);
-- gravity: three or four germinating bean seedlings in the dark, pinned on their side, pinned upside down, and a
-  control on its side on a turning clinostat.
+- light: four potted seedlings, each lit from one side, in a box with a slit facing a lamp, with a foil cap (labelled)
+  over its tip and lit from one side, lit from above, or turned on a clinostat beside a lamp (two may both be lit from
+  one side, from opposite sides);
+- gravity: three or four germinating bean seeds in the dark, pinned to squares of cork on their side or upside down,
+  or pinned on their side to a cork disc on a turning clinostat.
 
 Some seedlings are drawn after three days, the others at the start with a "?". What each does follows fixed rules: a
 shoot bends towards light from one side unless its tip is covered; light from above, or a clinostat turning it, lights
 it evenly, so it grows straight up; a shoot grows away from gravity and a root towards it, unless a clinostat turns
-them, when both grow straight on.
+them, when both grow straight on. The first question says exactly what was set up: how many seedlings, and how many
+were pinned still and how many turned.
 
-Which way the shoot (or root) of a "?" seedling will grow; which seedling is the control; the response a drawn
-seedling shows (positive or negative phototropism or gravitropism).
+Which way the shoot (or root) of a "?" seedling will grow; how many of the seedlings will bend to one side (or turn to
+grow up or down) by the rules, drawn or not; the response a drawn seedling shows (positive or negative phototropism or
+gravitropism). No "which is the control?": what a control is depends on what is tested, and the p3w blind review
+found several seedlings each arguable.
 """
 from __future__ import annotations
 
@@ -20,7 +24,7 @@ import random
 
 from matplotlib.patches import Arc, Circle, Ellipse, Polygon, Rectangle
 
-from ..core import FILL, FILL_2, INK, NAMES, mcq, new_figure
+from ..core import FILL, FILL_2, INK, NAMES, count, mcq, new_figure
 
 ID = "tropism_experiment"
 KIND = "diagram.template"
@@ -34,7 +38,7 @@ NEEDS = r"tropism|plant responses?|responses? (?:and coordination )?in plants|co
 LIGHT = {"side": "towards", "slit": "towards", "foil": "up", "above": "up", "clinostat": "up"}
 GRAVITY = {("flat", "shoot"): "up", ("flat", "root"): "down", ("upside", "shoot"): "up", ("upside", "root"): "down",
            ("clinostat", "shoot"): "on", ("clinostat", "root"): "on"}
-CONTROL = {"light": ("above", "clinostat"), "gravity": ("clinostat",)}
+WORD = {1: "one", 2: "two", 3: "three", 4: "four"}
 CAPTION = {"light": {"side": "light from one side", "slit": "box with a slit,\nlamp outside",
                      "foil": "foil cap on the tip,\nlight from one side", "above": "light from above",
                      "clinostat": "turning clinostat,\nlight from one side"},
@@ -60,15 +64,21 @@ def way(mode: str, pot: dict, organ: str = "shoot") -> str:
 def sample(rng: random.Random) -> dict:
     mode = rng.choice(["light", "gravity"])
     if mode == "light":
-        pots = [{"setup": s, "side": rng.choice(["left", "right"])} for s in ("side", "slit", "foil")]
-        pots.append({"setup": rng.choice(CONTROL["light"]), "side": rng.choice(["left", "right"])})
-        for x in pots:
-            if x["setup"] == "above":
-                x["side"] = "above"
+        # Four seedlings from these set-ups (two may both be lit from one side), at least one of them bending.
+        while True:
+            setups = rng.sample(["side", "side", "slit", "foil", "above", "clinostat"], 4)
+            if any(x in ("side", "slit") for x in setups):
+                break
+        pots = [{"setup": x, "side": "above" if x == "above" else rng.choice(["left", "right"])} for x in setups]
         bending = ("side", "slit")
     else:
-        others = rng.sample([("flat", "left"), ("flat", "right"), ("upside", "down")], rng.choice([2, 3]))
-        pots = [{"setup": s, "side": d} for s, d in others] + [{"setup": "clinostat", "side": rng.choice(["left", "right"])}]
+        # Three or four seeds, at least one pinned still (so one turns to grow up and down).
+        while True:
+            picks = rng.sample([("flat", "left"), ("flat", "right"), ("upside", "down"), ("clinostat", "left"),
+                                ("clinostat", "right")], rng.choice([3, 4]))
+            if any(x != "clinostat" for x, _ in picks):
+                break
+        pots = [{"setup": x, "side": d} for x, d in picks]
         bending = ("flat", "upside")
     rng.shuffle(pots)
     if mode == "light":
@@ -173,19 +183,25 @@ def _draw_light(ax, cx: float, pot: dict) -> float:
     xs, ys = zip(*pts)
     ax.plot(xs, ys, color=INK, linewidth=2.4, zorder=3, solid_capstyle="round", gid=f"shoot:{L}")
     if setup == "foil":
-        _leaves(ax, pts, 0.38, 0.26)
+        _leaves(ax, pts, 0.64, 0.26)
         (x0, y0), (x1, y1) = pts[-2], pts[-1]
         d = math.hypot(x1 - x0, y1 - y0)
         ux, uy = (x1 - x0) / d, (y1 - y0) / d
-        # A cap over the last bit of the shoot: straight sides, a rounded top, open at the bottom.
+        # A cap over the last bit of the shoot, big enough to see as a cap: straight sides, a rounded top, open at
+        # the bottom; labelled "foil" on the side away from the lamp (p3w blind review: too small, unlabelled).
         nx, ny = -uy, ux
-        w, back = 0.09, 0.2
+        w, back = 0.14, 0.32
         cap = [(x1 - ux * back + nx * w, y1 - uy * back + ny * w)]
         for k in range(13):
             a = math.pi * k / 12
-            cap.append((x1 + nx * w * math.cos(a) + ux * w * math.sin(a), y1 + ny * w * math.cos(a) + uy * w * math.sin(a)))
+            cap.append((x1 + ux * 0.02 + nx * w * math.cos(a) + ux * w * math.sin(a),
+                        y1 + uy * 0.02 + ny * w * math.cos(a) + uy * w * math.sin(a)))
         cap.append((x1 - ux * back - nx * w, y1 - uy * back - ny * w))
-        ax.add_patch(Polygon(cap, closed=True, facecolor="#555555", edgecolor=INK, linewidth=1.0, zorder=5))
+        ax.add_patch(Polygon(cap, closed=True, facecolor="#9ba3ab", edgecolor=INK, linewidth=1.2, zorder=5,
+                             gid=f"cap:{L}"))
+        ax.plot([x1 - s * 0.16, x1 - s * 0.42], [y1 - 0.12, y1 - 0.12], color=INK, linewidth=0.9, zorder=5)
+        ax.text(x1 - s * 0.47, y1 - 0.12, "foil", ha="right" if s > 0 else "left", va="center", fontsize=9,
+                zorder=5, gid=f"foil:{L}")
     else:
         _leaves(ax, pts)
     if setup == "above":
@@ -214,7 +230,7 @@ def _gravity_parts(c, pot):
     if not pot["shown"]:
         return [s0, (cx + d * 0.7, cy)], [r0, (cx - d * 0.62, cy)]
     if setup == "clinostat":
-        return [s0, (cx + d * 0.95, cy)], [r0, (cx - d * 0.88, cy)]
+        return [s0, (cx + d * 0.78, cy)], [r0, (cx - d * 0.75, cy)]  # clear of the rim, leaves and all
     # On along the way it points, then a quarter turn: the shoot up, the root down.
     p1, q1 = cx + d * 0.42, cx - d * 0.4
     shoot = [s0] + _arc((p1, cy + 0.3), 0.3, -90, -180 if d < 0 else 0) + [(p1 + d * 0.3, cy + 0.55)]
@@ -228,7 +244,7 @@ def _draw_gravity(ax, cx: float, pot: dict) -> float:
     if pot["setup"] == "clinostat":  # a cork disc on an axle a motor turns slowly, on a stand
         ax.plot([cx, cx], [0.3, 1.15], color=INK, linewidth=2.0, zorder=0)
         ax.add_patch(Rectangle((cx - 0.45, 0.18), 0.9, 0.12, facecolor=FILL, edgecolor=INK, linewidth=1.0, zorder=1))
-        ax.add_patch(Circle(c, 1.15, facecolor=FILL_2, edgecolor=INK, linewidth=1.3, zorder=1))
+        ax.add_patch(Circle(c, 1.15, facecolor=FILL_2, edgecolor=INK, linewidth=1.3, zorder=1, gid=f"disc:{L}"))
         ax.add_patch(Circle(c, 0.06, facecolor=INK, edgecolor=INK, zorder=2))
         ax.add_patch(Arc(c, 2.6, 2.6, theta1=-35, theta2=35, color=INK, linewidth=1.2, zorder=1))
         a = math.radians(35)
@@ -236,7 +252,8 @@ def _draw_gravity(ax, cx: float, pot: dict) -> float:
         ax.annotate("", xy=(end[0] - 0.15 * math.sin(a), end[1] + 0.15 * math.cos(a)), xytext=end,
                     arrowprops={"arrowstyle": "-|>", "color": INK, "linewidth": 1.2, "mutation_scale": 10, "shrinkA": 0, "shrinkB": 0})
     else:  # a square of cork, standing still
-        ax.add_patch(Rectangle((cx - 1.1, 1.2), 2.2, 2.2, facecolor=FILL_2, edgecolor=INK, linewidth=1.3, zorder=1))
+        ax.add_patch(Rectangle((cx - 1.1, 1.2), 2.2, 2.2, facecolor=FILL_2, edgecolor=INK, linewidth=1.3, zorder=1,
+                               gid=f"board:{L}"))
     shoot, root = _gravity_parts(c, pot)
     for organ, pts, lw in (("root", root, 1.5), ("shoot", shoot, 2.4)):
         xs, ys = zip(*pts)
@@ -296,23 +313,38 @@ def questions(p: dict, rng: random.Random) -> list:
     who = rng.choice(NAMES)
     plant = rng.choice(PLANTS[mode])
     n = len(pots)
+    # The set-up, said exactly as drawn.
     if mode == "light":
-        lead = (f"{who} set up {n} {plant} seedlings {rng.choice(SETTINGS)} to find out how shoots respond to light "
-                "from one side. Seedlings marked ? are drawn at the start; the others after three days.")
+        lead = (f"{who} grew {WORD[n]} {plant} seedlings in pots {rng.choice(SETTINGS)} and lit them as shown, to find "
+                "out how shoots respond to light. Seedlings marked ? are drawn at the start; the others after three days.")
     else:
-        lead = (f"{who} pinned {n} germinating {plant} seeds to cork {rng.choice(SETTINGS)} to find out how roots and "
-                "shoots respond to gravity, and kept them in the dark. Seedlings marked ? are drawn at the start.")
+        still = sum(x["setup"] != "clinostat" for x in pots.values())
+        turned = n - still
+        what = (f"{WORD[still]} germinating {plant} seed{'s' if still > 1 else ''} to "
+                f"{'a square' if still == 1 else 'squares'} of cork")
+        if turned:
+            what += f" and {WORD[turned]} to " + ("a cork disc on a turning clinostat" if turned == 1 else
+                                                  "cork discs on turning clinostats")
+        lead = (f"{who} pinned {what} {rng.choice(SETTINGS)}, and kept them all in the dark. Seedlings marked ? are drawn "
+                "at the start; the others after three days.")
     hidden = sorted(L for L, x in pots.items() if not x["shown"])
-    tests = [L for L in hidden if pots[L]["setup"] not in CONTROL[mode]]
-    target = rng.choice(tests or hidden)
+    target = rng.choice(hidden)
     organ = "shoot" if mode == "light" else rng.choice(["shoot", "root"])
     right = way(mode, pots[target], organ)
     qs = [mcq(f"{lead} Which way will the {organ} of seedling {target} grow?", right,
               [w for w in WAYS[mode] if w != right], rng)]
-    control = next(L for L, x in pots.items() if x["setup"] in CONTROL[mode])
-    qs.append(mcq("Which seedling is the control?", control, [L for L in sorted(pots) if L != control], rng))
-    bent = sorted(L for L, x in pots.items() if x["shown"] and x["setup"] not in CONTROL[mode]
-                  and (mode == "gravity" or LIGHT[x["setup"]] == "towards"))
+    # How many respond, by the rules, the drawn ones and the "?" ones alike.
+    if mode == "light":
+        k = sum(LIGHT[x["setup"]] == "towards" for x in pots.values())
+        qs.append(count(f"After three days, how many of the {WORD[n]} seedlings will have shoots that bend to one side?",
+                        k, "seedlings"))
+    else:
+        organ3 = rng.choice(["shoot", "root"])
+        k = sum(GRAVITY[(x["setup"], organ3)] in ("up", "down") for x in pots.values())
+        words = "roots that have turned to grow downwards" if organ3 == "root" else "shoots that have turned to grow upwards"
+        qs.append(count(f"After three days, how many of the {WORD[n]} seedlings will have {words}?", k, "seedlings"))
+    bent = sorted(L for L, x in pots.items() if x["shown"]
+                  and (LIGHT[x["setup"]] == "towards" if mode == "light" else x["setup"] != "clinostat"))
     seen = rng.choice(bent)
     organ2 = "shoot" if mode == "light" else rng.choice(["shoot", "root"])
     w = way(mode, pots[seen], organ2)

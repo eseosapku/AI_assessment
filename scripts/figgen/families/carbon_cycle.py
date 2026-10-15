@@ -37,13 +37,20 @@ PROCESS = {("air", "plants"): "photosynthesis", ("plants", "air"): "respiration"
            ("decomposers", "air"): "respiration", ("plants", "animals"): "feeding",
            ("plants", "decomposers"): "death and decay", ("animals", "decomposers"): "death and decay",
            ("fossil", "air"): "combustion", ("plants", "fossil"): "fossilisation", ("animals", "fossil"): "fossilisation"}
-# The mistakes a student makes for each process: the reverse arrow, another arrow into or out of the same box.
-CONFUSED = {"photosynthesis": ["respiration", "combustion", "feeding"],
-            "respiration": ["photosynthesis", "combustion", "death and decay"],
-            "feeding": ["death and decay", "respiration", "photosynthesis"],
-            "death and decay": ["feeding", "fossilisation", "respiration"],
+# The mistakes a student makes for each process, likeliest first: the reverse arrow, another arrow into or out of
+# the same box.
+CONFUSED = {"photosynthesis": ["respiration", "combustion", "feeding", "fossilisation"],
+            "respiration": ["photosynthesis", "combustion", "fossilisation", "death and decay", "feeding"],
+            "feeding": ["death and decay", "respiration", "photosynthesis", "fossilisation"],
+            "death and decay": ["feeding", "fossilisation", "respiration", "combustion"],
             "combustion": ["respiration", "fossilisation", "photosynthesis"],
-            "fossilisation": ["combustion", "death and decay", "feeding"]}
+            "fossilisation": ["combustion", "death and decay", "feeding", "respiration"]}
+# Processes that overlap the key for an arrow, so are never offered beside it (p3w blind review): decomposers giving
+# out carbon dioxide is respiration but could be read as decay; dead plants or animals reaching decomposers is death
+# and decay but could be read as the decomposers feeding; dead remains becoming fossil fuels could be read as death.
+NEVER = {("decomposers", "air"): {"death and decay", "feeding"}, ("plants", "decomposers"): {"feeding"},
+         ("animals", "decomposers"): {"feeding"}, ("plants", "fossil"): {"death and decay"},
+         ("animals", "fossil"): {"death and decay"}}
 # The row beneath the air, left to right (each also drawn mirrored).
 ROWS = [["fossil", "plants", "animals", "decomposers"], ["plants", "animals", "decomposers", "fossil"],
         ["plants", "animals", "fossil", "decomposers"], ["animals", "plants", "decomposers", "fossil"]]
@@ -86,8 +93,9 @@ def routes(row: list, pairs: list) -> dict:
             ra, rb = bx[row[a]], bx[row[b]]
             # Down from the box, across under the row, up into the other: a wider curve leaves further out and
             # dips lower, so curves from one box never run together.
-            xa = ra[2] - 0.35 - 0.5 * (span - 2)
-            xb = rb[0] + 0.35 + 0.5 * (span - 2)
+            # Near the middle of each box, clear of the corner where a straight arrow may arrive.
+            xa = cy.centre(ra)[0] + 0.3 - 0.65 * (span - 2)
+            xb = cy.centre(rb)[0] - 0.3 + 0.65 * (span - 2)
             y = ra[1]
             pts = cy.u_curve((xa, y), (xb, y), 0.6 + 0.45 * (span - 2))
         out[(f, t)] = pts if i < j else pts[::-1]
@@ -105,7 +113,7 @@ def sample(rng: random.Random) -> dict:
         pairs += rng.choice([[("animals", "decomposers")], [("plants", "decomposers")],
                              [("animals", "decomposers"), ("plants", "decomposers")]])
         pairs += rng.choice([[("plants", "fossil")], [("animals", "fossil")], [("plants", "fossil"), ("animals", "fossil")]])
-        if len(pairs) > 9 or not cy.clean(routes(row, pairs), boxes(row)):
+        if len(pairs) > 9 or not cy.clean(routes(row, pairs), boxes(row), ends=0.6):
             continue
         rng.shuffle(pairs)
         arrows = [{"letter": "ABCDEFGHIJ"[k], "from": f, "to": t} for k, (f, t) in enumerate(pairs)]
@@ -150,7 +158,9 @@ def questions(p: dict, rng: random.Random) -> list:
     qs = [mcq(f"{who} {rng.choice(VERBS)} this diagram of the carbon cycle {rng.choice(SETTINGS)}. "
               f"Which letter shows {ask}?", key, wrong[:3], rng)]
     other = rng.choice(sorted(L for L in proc if L != key))
-    qs.append(mcq(f"What process does arrow {other} show?", proc[other], CONFUSED[proc[other]], rng))
+    pair = next((a["from"], a["to"]) for a in p["arrows"] if a["letter"] == other)
+    wrong = [x for x in CONFUSED[proc[other]] if x not in NEVER.get(pair, set())][:3]
+    qs.append(mcq(f"What process does arrow {other} show?", proc[other], wrong, rng))
     # Plausible wrong sets, each one slip from the key: photosynthesis put in (every arrow touching the air), one arrow
     # into the air left out (most often combustion, which is not respiration), or both.
     photo = next(L for L, x in proc.items() if x == "photosynthesis")
