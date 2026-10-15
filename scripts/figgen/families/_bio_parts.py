@@ -92,12 +92,15 @@ def flow(ax, tail, head, gid: str, color: str = INK, lw: float = 1.6, z: float =
                 arrowprops=dict(arrowstyle="-|>,head_length=0.55,head_width=0.3", color=color, lw=lw, shrinkA=0, shrinkB=0))
 
 
-def letter(ax, name: str, at, end, gap: float = 0.3, size: float = LETTER_SIZE) -> None:
-    """The letter at `at`, and its leader from just clear of the letter to `end`, on the part."""
+def letter(ax, name: str, at, end, gap: float = 0.3, size: float = LETTER_SIZE, dot: bool = False) -> None:
+    """The letter at `at`, and its leader from just clear of the letter to `end`, on the part (with a dot there when
+    `dot`, so where it stops is plain)."""
     dx, dy = end[0] - at[0], end[1] - at[1]
     ln = math.hypot(dx, dy) or 1.0
     start = (at[0] + dx / ln * gap, at[1] + dy / ln * gap)
     ax.plot([start[0], end[0]], [start[1], end[1]], color=INK, linewidth=1.0, zorder=8, gid=f"leader:{name}")
+    if dot:
+        ax.plot([end[0]], [end[1]], marker="o", markersize=3.5, color=INK, zorder=8)
     ax.text(at[0], at[1], name, ha="center", va="center", fontsize=size, fontweight="bold", zorder=9, gid=f"letter:{name}")
 
 

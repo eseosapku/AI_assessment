@@ -547,3 +547,110 @@ def test_arm_muscles():
                 pytest.fail(f"seed {s}: an unexpected question {st}")
         assert seen == {"antagonistic", "contract", "joint"}, (s, seen)
     assert min(moves.values()) > 350
+
+
+# --- from the blind review (p3w-blind) -----------------------------------------------------------------
+
+def _edge_distance(pa, pt) -> float:
+    """How far a point lies from a shape's outline, in data units."""
+    v = _data_path(pa).vertices
+    best = math.inf
+    for (x0, y0), (x1, y1) in zip(v, v[1:]):
+        dx, dy = x1 - x0, y1 - y0
+        t = 0.0 if dx == dy == 0 else max(0.0, min(1.0, ((pt[0] - x0) * dx + (pt[1] - y0) * dy) / (dx * dx + dy * dy)))
+        best = min(best, math.hypot(pt[0] - x0 - t * dx, pt[1] - y0 - t * dy))
+    return best
+
+
+def _segment_distance(pt, a, b) -> float:
+    dx, dy = b[0] - a[0], b[1] - a[1]
+    t = max(0.0, min(1.0, ((pt[0] - a[0]) * dx + (pt[1] - a[1]) * dy) / (dx * dx + dy * dy)))
+    return math.hypot(pt[0] - a[0] - t * dx, pt[1] - a[1] - t * dy)
+
+
+def _leaders(ax) -> dict:
+    return {ln.get_gid()[7:]: list(zip(*map(lambda a: [float(x) for x in a], ln.get_data())))
+            for ln in ax.lines if (ln.get_gid() or "").startswith("leader:")}
+
+
+def _crossed(ax, pts) -> set:
+    """The parts a leader passes over on its way (not counting the last stretch, where it reaches its own)."""
+    (x0, y0), (x1, y1) = pts[0], pts[-1]
+    out = set()
+    for k in range(3, 37):
+        seen = topmost(ax, (x0 + (x1 - x0) * k / 40, y0 + (y1 - y0) * k / 40))
+        if seen is not None and (seen.get_gid() or "").startswith("part:"):
+            out.add(seen.get_gid()[5:])
+    return out
+
+
+HEART_JOINS = {"vena cava": "right atrium", "pulmonary artery": "right ventricle", "aorta": "left ventricle",
+               "pulmonary vein": "left atrium"}
+VALVE_IN = {"tricuspid valve": "right ventricle", "bicuspid valve": "left ventricle"}
+
+
+def test_heart_diagram_vessels_and_leaders_read_one_way():
+    """Reviewers read a horizontal vessel with arrows both ways that crossed the others and joined no chamber; two
+    alike pulmonary veins made Q1 have two right answers; leaders that stopped near a wall read as wall or chamber."""
+    m = fam("heart_diagram")
+    for s in range(1, DRAWN + 1):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        flows = [t for t in ax.texts if (t.get_gid() or "").startswith("flow:")]
+        for v, chamber in HEART_JOINS.items():
+            shapes = parts_named(ax, v)
+            assert len(shapes) == 1, (s, v, len(shapes))  # one vessel, drawn once
+            path = _data_path(shapes[0])
+            assert path.intersects_path(_data_path(parts_named(ax, chamber)[0]), filled=True), (s, v)  # it joins its chamber
+            for other in HEART_JOINS:
+                if other != v:
+                    assert not path.intersects_path(_data_path(parts_named(ax, other)[0]), filled=True), (s, v, other)
+            # its arrows all go one way
+            dirs = []
+            for t in flows:
+                mid = ((t.xy[0] + t.xyann[0]) / 2, (t.xy[1] + t.xyann[1]) / 2)
+                if path.contains_point(mid):
+                    d = (t.xy[0] - t.xyann[0], t.xy[1] - t.xyann[1])
+                    dirs.append((d[0] / math.hypot(*d), d[1] / math.hypot(*d)))
+            assert dirs, (s, v)
+            assert all(a[0] * b[0] + a[1] * b[1] > -0.1 for a in dirs for b in dirs), (s, v, dirs)
+        for L, pts in _leaders(ax).items():
+            name = p["labels"][L]
+            end = pts[-1]
+            own = parts_named(ax, name)
+            if name in CHAMBERS:
+                assert _edge_distance(own[0], end) >= 0.5, (s, name, _edge_distance(own[0], end))
+            elif name in VESSELS:
+                assert _edge_distance(own[0], end) >= 0.25, (s, name)
+            elif name == "septum":
+                assert _edge_distance(own[0], end) >= 0.35, (s, name)
+            for t in flows:  # and clear of every arrow (a valve's thin flap hangs beside the arrow through it)
+                assert _segment_distance(end, t.xyann, t.xy) >= (0.3 if name in VALVE_IN else 0.35), (s, name, t.get_gid())
+            assert _crossed(ax, pts) <= {name, VALVE_IN.get(name)}, (s, name, _crossed(ax, pts))
+        plt.close(fig)
+
+
+def test_arm_muscles_leaders_and_movement_read_clearly():
+    """Reviewers read a leader on the humerus level with a muscle as the muscle, and a leader where a tendon crossed
+    the joint as the joint; could not tell front from back; and read one arrow as the other movement."""
+    m = fam("arm_muscles")
+    for s in range(1, DRAWN + 1):
+        p = m.sample(random.Random(s))
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        for L, pts in _leaders(ax).items():
+            name = p["labels"][L]
+            end = pts[-1]
+            assert _crossed(ax, pts) <= {name}, (s, name, _crossed(ax, pts))  # it passes over no other part
+            for pa in ax.patches:
+                gid = pa.get_gid() or ""
+                if gid.startswith("part:") and gid != f"part:{name}":
+                    assert not _data_path(pa).contains_point(end) and _edge_distance(pa, end) >= 0.2, (s, name, gid)
+        texts = {t.get_text(): t.get_position()[0] for t in ax.texts}
+        hx = centre(parts_named(ax, "humerus")[0])[0]
+        assert texts["front of the arm"] > hx > texts["back of the arm"], s  # the biceps' side is named
+        hand = next(pa for pa in ax.patches if pa.get_gid() == "hand")
+        arrow = next(t for t in ax.texts if (t.get_gid() or "").startswith("flow:"))
+        assert math.dist(arrow.xyann, centre(hand)) <= 1.0, s  # the arrow starts at the hand and shows where it goes
+        plt.close(fig)

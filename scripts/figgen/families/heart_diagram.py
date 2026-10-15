@@ -90,7 +90,7 @@ OPENING = {"right": (2.25, 3.15), "left": (6.85, 7.65)}  # the gaps between each
 FLAPS = {"tricuspid valve": [((2.3, 4.5), (2.55, 3.75)), ((3.1, 4.5), (2.85, 3.75))],
          "bicuspid valve": [((6.9, 4.5), (7.1, 3.75)), ((7.6, 4.5), (7.4, 3.75))]}
 OXY, DEOXY = "#ec9c9c", "#9fbfe6"
-LEFT_X, RIGHT_X = -0.7, 10.7
+LEFT_X, RIGHT_X = -0.7, 11.3
 
 
 def _flap(base, tip) -> list[list[float]]:
@@ -98,22 +98,24 @@ def _flap(base, tip) -> list[list[float]]:
     return spline([(bx - 0.1, by), (bx + 0.1, by), (tx + 0.05, ty + 0.15), (tx, ty), (tx - 0.05, ty + 0.15)], per=8)
 
 
-def _centroid(pts) -> tuple[float, float]:
-    return sum(p[0] for p in pts) / len(pts), sum(p[1] for p in pts) / len(pts)
+def _on_flap(base, tip, f: float = 0.25) -> tuple[float, float]:
+    """A point a quarter of the way down a valve flap: on the flap, clear of the arrow between the flaps."""
+    return base[0] + f * (tip[0] - base[0]), base[1] - 0.05 + f * (tip[1] - base[1])
 
 
-# Each part's letter: where the letter sits and where its leader ends, on the part, clear of every arrow.
+# Each part's letter: where the letter sits and where its leader ends: well inside a chamber or on a vessel's middle,
+# clear of every arrow, passing over no other part on the way (p3w-blind: leaders near a wall read as the wall).
 SLOT = {
-    "vena cava": ((LEFT_X, 9.35), (2.1, 9.35)),
-    "pulmonary artery": ((LEFT_X, 7.75), (1.0, 7.75)),
-    "right atrium": ((LEFT_X, 5.75), (2.25, 5.75)),
-    "tricuspid valve": ((LEFT_X, 4.2), _centroid(_flap(*FLAPS["tricuspid valve"][0]))),
-    "right ventricle": ((LEFT_X, 3.0), (2.9, 3.0)),
-    "aorta": ((RIGHT_X, 9.3), (9.1, 9.3)),
-    "left atrium": ((RIGHT_X, 7.0), (7.5, 6.45)),
-    "pulmonary vein": ((RIGHT_X, 5.35), (9.3, 5.35)),
-    "bicuspid valve": ((RIGHT_X, 4.2), _centroid(_flap(*FLAPS["bicuspid valve"][1]))),
-    "left ventricle": ((RIGHT_X, 2.4), (6.5, 2.4)),
+    "vena cava": ((LEFT_X, 9.05), (2.1, 9.05)),
+    "pulmonary artery": ((4.0, 10.45), (4.0, 9.05)),
+    "right atrium": ((LEFT_X, 5.95), (2.6, 5.95)),
+    "tricuspid valve": ((LEFT_X, 4.27), _on_flap(*FLAPS["tricuspid valve"][0])),
+    "right ventricle": ((LEFT_X, 2.85), (3.2, 2.85)),
+    "aorta": ((RIGHT_X, 9.3), (9.7, 9.3)),
+    "left atrium": ((RIGHT_X, 7.0), (7.5, 6.05)),
+    "pulmonary vein": ((RIGHT_X, 5.62), (10.0, 5.62)),
+    "bicuspid valve": ((RIGHT_X, 4.27), _on_flap(*FLAPS["bicuspid valve"][1])),
+    "left ventricle": ((RIGHT_X, 2.75), (6.62, 2.75)),
     "septum": ((5.0, -0.3), (5.0, 2.8)),
 }
 
@@ -125,7 +127,7 @@ def _blood(p: dict, name: str) -> str:
 
 
 def draw(p: dict):
-    fig, ax = new_figure(6.6, 6.6)
+    fig, ax = new_figure(6.8, 6.8)
     from matplotlib.patches import Polygon, Rectangle
     wall_face = "#f3e1db" if p["shaded"] else FILL_2
     ax.add_patch(Polygon(spline(WALL), closed=True, facecolor=wall_face, edgecolor=INK, linewidth=1.6, zorder=1, gid="wall"))
@@ -139,39 +141,37 @@ def draw(p: dict):
     for name, flaps in FLAPS.items():
         for base, tip in flaps:
             part(ax, _flap(base, tip), name, "white", lw=1.0, z=3.2)
-    # the vessels: the pulmonary artery lies behind the vena cava and the aorta where they cross
-    pa = [(3.6, 4.3), (3.6, 7.45), (0.3, 7.45), (0.3, 8.05), (9.7, 8.05), (9.7, 7.45), (4.4, 7.45), (4.4, 4.3)]
-    ax.add_patch(Polygon(pa, closed=True, facecolor=_blood(p, "pulmonary artery"), edgecolor="none", zorder=3,
-                         gid="part:pulmonary artery"))
-    ax.plot([q[0] for q in pa], [q[1] for q in pa], color=INK, linewidth=1.2, zorder=3.01)
-    vessel(ax, [(2.1, 6.3), (2.1, 9.7)], 0.8, "vena cava", _blood(p, "vena cava"), z=4, ends=False)
-    ax.plot([1.7, 2.5], [9.7, 9.7], color=INK, linewidth=1.2, zorder=4.01)
+    # the vessels, each opening into its own chamber and crossing no other (p3w-blind): the vena cava into the right
+    # atrium, the pulmonary artery up out of the right ventricle, the aorta arching out of the left ventricle, one
+    # pulmonary vein into the left atrium
     import math
+    vessel(ax, [(2.1, 6.3), (2.1, 9.6)], 0.8, "vena cava", _blood(p, "vena cava"), z=4)
+    ax.plot([1.7, 2.5], [9.6, 9.6], color=INK, linewidth=1.2, zorder=4.01)
+    vessel(ax, [(4.0, 4.3), (4.0, 9.6)], 0.8, "pulmonary artery", _blood(p, "pulmonary artery"), z=4)
+    ax.plot([3.6, 4.4], [9.6, 9.6], color=INK, linewidth=1.2, zorder=4.01)
     arch = [(6.0, 4.3), (6.0, 8.4)] + [(6.9 + 0.9 * math.cos(math.radians(a)), 8.4 + 0.9 * math.sin(math.radians(a)))
-                                      for a in range(175, 89, -5)] + [(9.5, 9.3)]
+                                      for a in range(175, 89, -5)] + [(10.4, 9.3)]
     vessel(ax, arch, 0.8, "aorta", _blood(p, "aorta"), z=4)
-    ax.plot([9.5, 9.5], [8.9, 9.7], color=INK, linewidth=1.2, zorder=4.01)
-    for y in (5.35, 6.1):
-        vessel(ax, [(8.0, y), (9.8, y)], 0.42, "pulmonary vein", _blood(p, "pulmonary vein"), z=4)
-        ax.plot([9.8, 9.8], [y - 0.21, y + 0.21], color=INK, linewidth=1.2, zorder=4.01)
+    ax.plot([10.4, 10.4], [8.9, 9.7], color=INK, linewidth=1.2, zorder=4.01)
+    vessel(ax, [(8.0, 5.62), (10.4, 5.62)], 0.6, "pulmonary vein", _blood(p, "pulmonary vein"), z=4)
+    ax.plot([10.4, 10.4], [5.32, 5.92], color=INK, linewidth=1.2, zorder=4.01)
     # semilunar valves: small pockets on the inside of each artery's base
     for x0, x1 in ((3.6, 4.4), (5.6, 6.4)):
         for x, s in ((x0, 1), (x1, -1)):
             ax.add_patch(Polygon([(x, 4.72), (x + s * 0.2, 4.86), (x + s * 0.24, 5.02), (x, 5.02)], closed=True,
                                  facecolor="white", edgecolor=INK, linewidth=0.9, zorder=4.5, gid="semilunar valve"))
     # the blood's path
-    flow(ax, (2.1, 8.9), (2.1, 6.7), "vena cava>right atrium")
-    flow(ax, (2.7, 5.95), (2.7, 3.6), "right atrium>right ventricle")
-    flow(ax, (4.0, 3.0), (4.0, 6.8), "right ventricle>pulmonary artery")
-    flow(ax, (3.45, 7.75), (2.65, 7.75), "pulmonary artery>lungs")
-    flow(ax, (6.7, 7.75), (8.6, 7.75), "pulmonary artery>lungs")
-    flow(ax, (9.6, 6.1), (8.4, 6.1), "pulmonary vein>left atrium")
-    flow(ax, (7.25, 5.6), (7.25, 3.6), "left atrium>left ventricle")
-    flow(ax, (6.0, 3.0), (6.0, 6.8), "left ventricle>aorta")
-    flow(ax, (7.0, 9.3), (8.6, 9.3), "aorta>body")
+    flow(ax, (2.1, 8.55), (2.1, 6.75), "vena cava>right atrium")
+    flow(ax, (2.7, 5.2), (2.7, 3.6), "right atrium>right ventricle")
+    flow(ax, (4.0, 3.4), (4.0, 6.2), "right ventricle>pulmonary artery")
+    flow(ax, (4.0, 7.0), (4.0, 8.5), "pulmonary artery>lungs")
+    flow(ax, (9.5, 5.62), (8.4, 5.62), "pulmonary vein>left atrium")
+    flow(ax, (7.22, 5.25), (7.22, 3.6), "left atrium>left ventricle")
+    flow(ax, (6.0, 3.4), (6.0, 7.4), "left ventricle>aorta")
+    flow(ax, (7.1, 9.3), (9.0, 9.3), "aorta>body")
     for L, name in p["labels"].items():
         at, end = SLOT[name]
-        letter(ax, L, at, end, gap=0.32)
+        letter(ax, L, at, end, gap=0.32, dot=True)
     ax.text(2.6, -1.05, "right side of the body", ha="center", va="center", fontsize=10, style="italic")
     ax.text(7.6, -1.05, "left side of the body", ha="center", va="center", fontsize=10, style="italic")
     bottom = -1.5
@@ -180,8 +180,8 @@ def draw(p: dict):
             ax.add_patch(Rectangle((x, -2.15), 0.5, 0.4, facecolor=face, edgecolor=INK, linewidth=0.9))
             ax.text(x + 0.75, -1.95, words, ha="left", va="center", fontsize=10)
         bottom = -2.4
-    ax.set_xlim(-1.4, 11.4)
-    ax.set_ylim(bottom, 10.1)
+    ax.set_xlim(-1.4, 12.0)
+    ax.set_ylim(bottom, 10.85)
     ax.set_aspect("equal")
     ax.axis("off")
     ax.set_title("Section through the human heart, seen from the front", fontsize=12)
