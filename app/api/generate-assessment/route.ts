@@ -35,9 +35,10 @@ import { normalizeIds, positiveId } from '@/lib/request-ids'
 import { buildSubjectFigureCatalog } from '@/lib/subject-figure-catalog'
 import { bookInBank, figuresForQuiz, keepAndSpread, stageOfBook, type TextbookFigure } from '@/lib/textbook-figure-bank'
 import { assembleParts, hasFreshVetted, hasVetted, vettedFor } from '@/lib/figure-question-bank'
-import { libraryEnabled, libraryFigures } from '@/lib/figure-library/local-source'
+import { libraryEnabled, libraryFigures, librarySource } from '@/lib/figure-library/local-source'
+import { libraryFiguresPg, seenAssets } from '@/lib/figure-library/pg-source'
 import { pickLibraryFigures } from '@/lib/figure-library/pick'
-import { NO_HISTORY, orderForStudent, seenFromRows, type SeenFigures } from '@/lib/student-figure-history'
+import { askedWith, NO_HISTORY, orderForStudent, readSeenFigures, type SeenFigures } from '@/lib/student-figure-history'
 import { buildTextbookFigurePrompt, type FigureQuestionKind } from '@/lib/textbook-figure-prompt'
 import { buildFigureSpecPrompt, drawFromReply, questionNamesUndrawn, questionLeaksInstructions, worthDrawing, nounForKind, type DrawnFigure } from '@/lib/figure-request'
 import { answerContradictsFigure, figureCannotAnswer } from '@/lib/figure-answer-match'
@@ -1718,26 +1719,9 @@ ${commandBlock}`
         console.error('Sections lookup for figures failed:', error)
       }
     }
-    // The figure questions this student had in their recent quizzes on this
-    // book, so the next one leads with figures and questions they have not
-    // had. A lookup that fails costs nothing: the quiz is built as before.
-    let seenFigures: SeenFigures = NO_HISTORY
-    if (bankApplies && userId && Number.isFinite(textbookId)) {
-      try {
-        const { rows } = await db.query(
-          `SELECT q->>'image_url' AS image, q->>'question' AS text
-             FROM (SELECT questions_data FROM assessments
-                    WHERE user_id::text = $1 AND textbook_id = $2 AND jsonb_typeof(questions_data) = 'array'
-                    ORDER BY created_at DESC LIMIT 30) a,
-                  jsonb_array_elements(a.questions_data) q
-            WHERE q->>'image_url' IS NOT NULL`,
-          [userId, textbookId],
-        )
-        seenFigures = seenFromRows(rows ?? [])
-      } catch (error) {
-        console.error('Recent quizzes lookup for figures failed:', error)
-      }
-    }
+    // The figure questions this student had in their recent quizzes of any kind, so no figure comes
+    // back with a question they were asked on it (spec 2026-10-16 3.4). A failed lookup costs nothing.
+    const seenFigures: SeenFigures = userId ? await readSeenFigures(db, userId) : NO_HISTORY
     const figureKinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
       : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
     const bankFigures: TextbookFigure[] = bankApplies
@@ -1761,23 +1745,26 @@ ${commandBlock}`
               || stageOfBook(f.textbookName) === (Number(grade) || null)
             return sameLevel && hasVetted(f.id, figureKinds)
           }),
-        // Unseen first, then seen ones with a question still new to them,
-        // then two at most that would repeat a question.
-        seenFigures, (f) => hasFreshVetted(f.id, figureKinds, seenFigures.questions))
+        // Unseen first, then seen ones with a question not yet asked with
+        // them; none that would repeat a pair.
+        seenFigures, (f) => hasFreshVetted(f.id, figureKinds, askedWith(seenFigures, f.localPath)))
           // Up to three in five. A vetted figure question reviewed 90-97%
           // clean against about 70% for a question written live in words, so
           // a chapter rich in figures is better for using more of them; one
           // with few uses all it has either way.
           .slice(0, Math.max(0, Math.round(count * 0.6)))
       : []
-    // The figure library's approved figures for these topics, after the bank's (spec 5.4), on
-    // this machine only until S3 exists: off unless FIGURE_LIBRARY_DIR and FIGURE_ASSET_BASE are
-    // set. Its figures are linked to topics, so a quiz on sections takes its topics' figures.
+    // The figure library's approved figures for these topics, after the bank's (spec 5.4): from
+    // Postgres in production (FIGURE_LIBRARY_SOURCE=postgres), from the local staging store in
+    // development (FIGURE_LIBRARY_DIR); off without FIGURE_ASSET_BASE. Its figures are linked to
+    // topics, so a quiz on sections takes its topics' figures.
     const figureShare = Math.max(0, Math.round(count * 0.6))
     const libraryTopics = [...new Set([...topicIds, ...resolvedSubtopics.map((s) => s.topic_id).filter((n): n is number => n != null)])]
     let quizFigures: TextbookFigure[] = bankFigures
     if (bankApplies && libraryEnabled() && bankFigures.length < figureShare && libraryTopics.length) {
-      const library = libraryFigures({ topicIds: libraryTopics })
+      const library = librarySource() === 'postgres'
+        ? await libraryFiguresPg(db, { topicIds: libraryTopics, excludeAssets: seenAssets(seenFigures.images, process.env.FIGURE_ASSET_BASE ?? '') })
+        : libraryFigures({ topicIds: libraryTopics })
       // Each comes with the question it will ask, so no wording is asked twice on the paper.
       const picked = pickLibraryFigures({
         library: library.figures, questions: library.questions, kinds: figureKinds,
@@ -2479,7 +2466,7 @@ ${commandBlock}`
         || stageOfBook(fig.textbookName) === (Number(grade) || null)
       // A library figure brings the question reserved for it when the quiz was planned.
       const vetted = fig.reserved ? JSON.parse(JSON.stringify(fig.reserved.question))
-        : sameLevel ? vettedFor(fig.id, allowed, kind, undefined, seenFigures.questions) : null
+        : sameLevel ? vettedFor(fig.id, allowed, kind, undefined, askedWith(seenFigures, fig.localPath)) : null
       if (vetted) {
         vetted.id = id
         vetted.image_url = fig.localPath
