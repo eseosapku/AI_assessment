@@ -1,7 +1,8 @@
 /**
- * Figures from the figure library's local staging store, for quizzes on this machine before S3
- * exists (spec 5.6). Read-only, and only when FIGURE_LIBRARY_DIR and FIGURE_ASSET_BASE are both
- * set -- never on Amplify, where neither is. Server-only.
+ * Figures from the figure library's local staging store, for quizzes on this machine (spec 5.6).
+ * Read-only, and only when FIGURE_LIBRARY_DIR and FIGURE_ASSET_BASE are both set. Production reads
+ * the published rows from Postgres instead (pg-source.ts, FIGURE_LIBRARY_SOURCE=postgres); the
+ * switch and the naming helpers both sources share live here. Server-only.
  */
 import path from 'node:path'
 import type { TextbookFigure } from '@/lib/textbook-figure-bank'
@@ -10,19 +11,36 @@ import { openPhraseAnswer, type VettedQuestion } from '@/lib/figure-question-ban
 /** A library figure, with the source it came from (a drawn family, or a real image's collection). */
 export interface LibraryFigure extends TextbookFigure { source: string }
 
-type Db = { prepare(sql: string): { all(...p: unknown[]): unknown[] }; close(): void }
+export type StagingDb = { prepare(sql: string): { all(...p: unknown[]): unknown[] }; close(): void }
 // Loaded at call time: bundlers and jiti rewrite a static import of node:sqlite.
-const sqlite = () => (process as unknown as { getBuiltinModule(id: string): { DatabaseSync: new (f: string, o?: object) => Db } })
+const sqlite = () => (process as unknown as { getBuiltinModule(id: string): { DatabaseSync: new (f: string, o?: object) => StagingDb } })
   .getBuiltinModule('node:sqlite')
 
+/** The staging store, opened read-only. */
+export function openStaging(file: string): StagingDb {
+  return new (sqlite().DatabaseSync)(file, { readOnly: true })
+}
+
+/** Where library figures come from: Postgres in production, the local staging store in development, or nowhere. */
+export function librarySource(env: Record<string, string | undefined> = process.env): 'postgres' | 'local' | null {
+  if (!env.FIGURE_ASSET_BASE) return null
+  if (env.FIGURE_LIBRARY_SOURCE === 'postgres') return 'postgres'
+  return env.FIGURE_LIBRARY_DIR ? 'local' : null
+}
+
 export function libraryEnabled(env: Record<string, string | undefined> = process.env): boolean {
-  return Boolean(env.FIGURE_LIBRARY_DIR && env.FIGURE_ASSET_BASE)
+  return librarySource(env) !== null
 }
 
 /** What a reader calls each kind of real image, for the figure's description in a question. */
 const NOUNS: Record<string, string> = {
   'photo.micrograph': 'micrograph', 'photo.landscape': 'photograph', 'photo.specimen': 'photograph',
   'photo.apparatus': 'photograph', 'photo.object': 'photograph', 'source.historical': 'source',
+}
+
+/** What a reader calls the figure in a question: a real image by its kind, a drawn one a diagram. */
+export function nounFor(origin: string, kind: string): string {
+  return origin !== 'drawn' ? NOUNS[kind] ?? 'image' : 'diagram'
 }
 
 const list = (s: unknown): string[] => {
@@ -44,7 +62,7 @@ export function toVetted(q: QuestionRow): VettedQuestion {
 }
 
 /** A drawn figure in words: its family, and the title it carries, where it has one. */
-function drawnShows(family: string | null, kind: string, spec: string | null): string {
+export function drawnShows(family: string | null, kind: string, spec: string | null): string {
   let title = ''
   try {
     title = String(JSON.parse(spec ?? '{}')?.title ?? '').trim()
@@ -66,9 +84,9 @@ export function libraryFigures(o: { topicIds: readonly number[]; file?: string; 
   if (!keys.length) return empty
   const file = o.file ?? path.join(process.env.FIGURE_LIBRARY_DIR ?? '', 'figures.db')
   const base = (o.base ?? process.env.FIGURE_ASSET_BASE ?? '').replace(/\/+$/, '')
-  let db: Db | null = null
+  let db: StagingDb | null = null
   try {
-    db = new (sqlite().DatabaseSync)(file, { readOnly: true })
+    db = openStaging(file)
     const marks = keys.map(() => '?').join(', ')
     const rows = db.prepare(`SELECT f.id, f.origin, f.family, f.kind, f.asset, f.spec, f.credit, s.shows,
         MIN(t.name) AS topic, MIN(t.book) AS book, GROUP_CONCAT(DISTINCT t.textbook_id) AS books
@@ -88,7 +106,7 @@ export function libraryFigures(o: { topicIds: readonly number[]; file?: string; 
       figures.push({
         id, source: r.family ?? r.origin, textbookIds: String(r.books ?? '').split(',').filter(Boolean).map(Number).filter(Number.isFinite),
         textbookName: r.book, page: 0, localPath: `${base}/${r.asset}`,
-        noun: real ? NOUNS[r.kind] ?? 'image' : 'diagram',
+        noun: nounFor(r.origin, r.kind),
         shows: (real && r.shows) || drawnShows(r.family, r.kind, real ? null : r.spec),
         labels: [], topic: r.topic, original: '',
         ...(real && r.credit ? { credit: r.credit } : {}),

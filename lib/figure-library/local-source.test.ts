@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import os from 'node:os'
 import path from 'node:path'
 import { openStore } from '../../scripts/figure-library/store'
-import { libraryEnabled, libraryFigures, toVetted } from './local-source'
+import { drawnShows, libraryEnabled, libraryFigures, librarySource, nounFor, toVetted } from './local-source'
 
 function makeStore(): string {
   const dir = fs.mkdtempSync(path.join(os.tmpdir(), 'figlib-src-'))
@@ -35,6 +35,21 @@ describe('the local library source', () => {
     expect(libraryEnabled({ FIGURE_LIBRARY_DIR: 'C:/lib' })).toBe(false)
     expect(libraryEnabled({ FIGURE_ASSET_BASE: '/api/figure-library/asset' })).toBe(false)
     expect(libraryEnabled({ FIGURE_LIBRARY_DIR: 'C:/lib', FIGURE_ASSET_BASE: '/x' })).toBe(true)
+  })
+
+  it('reads Postgres when FIGURE_LIBRARY_SOURCE says so, still needing the asset base', () => {
+    expect(librarySource({ FIGURE_LIBRARY_SOURCE: 'postgres', FIGURE_ASSET_BASE: 'https://cdn/figure-library' })).toBe('postgres')
+    expect(librarySource({ FIGURE_LIBRARY_SOURCE: 'postgres' })).toBe(null)
+    expect(librarySource({ FIGURE_LIBRARY_DIR: 'C:/lib', FIGURE_ASSET_BASE: '/x' })).toBe('local')
+    expect(librarySource({})).toBe(null)
+    expect(libraryEnabled({ FIGURE_LIBRARY_SOURCE: 'postgres', FIGURE_ASSET_BASE: 'https://cdn' })).toBe(true)
+  })
+
+  it('names a figure as a reader would, and a drawn one by its family and title', () => {
+    expect(nounFor('wikimedia', 'photo.micrograph')).toBe('micrograph')
+    expect(nounFor('openstax', 'unknown.kind')).toBe('image')
+    expect(nounFor('drawn', 'graph.bar')).toBe('diagram')
+    expect(drawnShows('bar_chart', 'graph.bar', '{"title": "Rain in Huye"}')).toBe('bar chart: Rain in Huye')
   })
 
   it('gives the approved figures of the quiz topics, shaped like bank figures, with their credit', () => {
