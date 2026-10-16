@@ -51,13 +51,43 @@ describe('choosing library figures for a quiz', () => {
     expect(pick({ library: figures, questions, room: 0 })).toEqual([])
   })
 
-  it('puts figures the student has not seen first, with a question they have not had', () => {
+  it('puts unseen figures first; a seen figure comes back only with a question not asked with it', () => {
     const figures = [fig('lib:a', 'a'), fig('lib:b', 'b')]
     const questions = new Map([['lib:a', [mcq('Old?'), mcq('New?')]], ['lib:b', [mcq('Other?')]]])
-    const seen: SeenFigures = { images: new Set(['/x/lib:a']), questions: new Set(['old?']) }
+    const seen: SeenFigures = { images: new Set(['/x/lib:a']), questions: new Set(['old?']), askedWith: new Map([['/x/lib:a', new Set(['old?'])]]) }
     const chosen = pick({ library: figures, questions, seen, room: 2 })
     expect(chosen.map((f) => f.id)).toEqual(['lib:b', 'lib:a'])
     expect(chosen[1].reserved?.question.question).toBe('New?')
+  })
+
+  it('never shows a figure again with a question it was asked with', () => {
+    const figures = [fig('lib:a', 'a')]
+    const questions = new Map([['lib:a', [mcq('Only?')]]])
+    const seen: SeenFigures = { images: new Set(['/x/lib:a']), questions: new Set(['only?']), askedWith: new Map([['/x/lib:a', new Set(['only?'])]]) }
+    expect(pick({ library: figures, questions, seen, room: 1 })).toEqual([])
+  })
+
+  it('brings a seen figure back with a question asked only of another figure', () => {
+    // Judged by wording, "Shared?" counted as had and the figure was dropped; with this figure it is new.
+    const figures = [fig('lib:a', 'a')]
+    const questions = new Map([['lib:a', [mcq('Old?'), mcq('Shared?')]]])
+    const seen: SeenFigures = { images: new Set(['/x/lib:a', '/x/lib:c']), questions: new Set(['old?', 'shared?']),
+      askedWith: new Map([['/x/lib:a', new Set(['old?'])], ['/x/lib:c', new Set(['shared?'])]]) }
+    expect(pick({ library: figures, questions, seen, room: 1 }).map((f) => f.reserved?.question.question)).toEqual(['Shared?'])
+  })
+
+  it('skips a seen figure rather than repeat its pair when its new question is already on the paper', () => {
+    const figures = [fig('lib:b', 'b'), fig('lib:a', 'a')]
+    const questions = new Map([['lib:b', [mcq('New?')]], ['lib:a', [mcq('Old?'), mcq('New?')]]])
+    const seen: SeenFigures = { images: new Set(['/x/lib:a']), questions: new Set(['old?']), askedWith: new Map([['/x/lib:a', new Set(['old?'])]]) }
+    expect(pick({ library: figures, questions, seen, room: 2 }).map((f) => f.id)).toEqual(['lib:b'])
+  })
+
+  it('asks a wording seen on one figure of another figure: it is a new pair', () => {
+    const { figures, questions } = family('box', 2, ['What is the median?'])
+    const seen: SeenFigures = { images: new Set([figures[0].localPath]), questions: new Set(['what is the median?']),
+      askedWith: new Map([[figures[0].localPath, new Set(['what is the median?'])]]) }
+    expect(pick({ library: figures, questions, seen, room: 2 }).map((f) => f.id)).toEqual([figures[1].id])
   })
 
   it('follows the quiz mix of kinds from where the bank left off', () => {

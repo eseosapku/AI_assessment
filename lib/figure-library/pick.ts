@@ -1,5 +1,5 @@
 import { questionKey, type VettedKind, type VettedQuestion } from '@/lib/figure-question-bank'
-import { orderForStudent, type SeenFigures } from '@/lib/student-figure-history'
+import { isSeenPair, orderForStudent, type SeenFigures } from '@/lib/student-figure-history'
 import type { LibraryFigure } from './local-source'
 
 function rng(seed: number): () => number {
@@ -38,8 +38,9 @@ function interleave(figures: readonly LibraryFigure[]): LibraryFigure[] {
  * every figure it draws ("What is the median?"), and the route removes a second question with
  * the same wording, figure or not: so a figure is taken only with a wording not yet on the
  * paper, and that is the question it gets. Figures the student has not seen come first, then
- * seen ones with a question still new to them (as the bank's are ordered); within a figure, a
- * question they have not had, of the kind the quiz's mix asks for at its place.
+ * seen ones with a question not yet asked WITH THEM (as the bank's are ordered); within a figure,
+ * a question new to them on that figure, of the kind the quiz's mix asks for at its place. A figure
+ * whose every open question was asked with it is skipped: no pair is ever shown twice.
  */
 export function pickLibraryFigures(o: {
   library: readonly LibraryFigure[]
@@ -55,17 +56,18 @@ export function pickLibraryFigures(o: {
   if (o.room <= 0 || !o.kinds.length) return []
   const next = rng(o.seed)
   const allowed = (f: LibraryFigure) => (o.questions.get(f.id) ?? []).filter((q) => o.kinds.includes(q.kind))
-  const fresh = (q: VettedQuestion) => !o.seen.questions.has(questionKey(q.question?.question))
+  // A question is fresh when the student has not been asked it WITH THIS FIGURE (spec 2026-10-16 3.4).
+  const fresh = (f: LibraryFigure, q: VettedQuestion) => !isSeenPair(o.seen, f.localPath, q.question?.question)
   const usable = o.library.filter((f) => allowed(f).length)
-  const ordered = orderForStudent(interleave(shuffled(usable, next)), o.seen, (f) => allowed(f).some(fresh))
+  const ordered = orderForStudent(interleave(shuffled(usable, next)), o.seen, (f) => allowed(f).some((q) => fresh(f, q)))
   const taken = new Set<string>()
   const chosen: LibraryFigure[] = []
   for (const f of ordered) {
     if (chosen.length >= o.room) break
     const open = allowed(f).filter((q) => !taken.has(questionKey(q.question?.question)))
-    if (!open.length) continue
-    const unseen = open.filter(fresh)
-    const pool = unseen.length ? unseen : open
+    // Never a pair the student has had: a seen figure comes back only with a new question.
+    const pool = open.filter((q) => fresh(f, q))
+    if (!pool.length) continue
     const want = o.kinds[(o.startAt + chosen.length) % o.kinds.length]
     const preferred = pool.filter((q) => q.kind === want)
     const from = preferred.length ? preferred : pool
