@@ -8,6 +8,7 @@ import 'katex/dist/katex.min.css'
 import { useAuth } from '@/components/AuthProvider'
 import FeedbackPanel from '@/components/FeedbackPanel'
 import ExamFigure from '@/components/ExamFigure'
+import { quizUsesWideLayout, type SideContentFields } from '@/lib/quiz-layout'
 import {
   InteractiveQuestionPlayer,
   InteractiveResultCard,
@@ -1993,7 +1994,11 @@ function AssessmentPageClient() {
   // to find out what was being asked -- reported as "I don't like that I have
   // to scroll down or up to view the image".
   const currentFigure = question.image_url || question.diagram_svg ? question : null
-  const splitColumn = Boolean(currentPassage) || Boolean(currentFigure)
+  // The layout is decided once for the quiz, not per question: switching between a narrow column and
+  // the wide grid as a learner moved from an image question to a text one made the Next button jump
+  // sideways and up and down (lib/quiz-layout.ts).
+  const wideLayout = quizUsesWideLayout(assessment.questions as unknown as SideContentFields[])
+  const sideContent = Boolean(currentPassage) || Boolean(currentFigure)
   const progressInput: ProgressInput = {
     total: assessment.questions.length,
     current: currentQuestion,
@@ -2450,10 +2455,11 @@ function AssessmentPageClient() {
           footer telling the learner to scroll up to re-read it -- forty times
           on an ESL paper. Below lg there is no room for two, so the stacked
           box stays and is collapsible. */}
-      <div className="flex-1 flex items-start justify-center p-4 sm:p-6 lg:p-8">
+      {/* Bottom padding clears the navigation bar pinned below. */}
+      <div className="flex-1 flex items-start justify-center px-4 pt-4 pb-28 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8">
         <div
           className={
-            splitColumn
+            wideLayout
               ? 'grid w-full max-w-7xl items-start gap-6 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,1.15fr)]'
               : 'w-full max-w-3xl'
           }
@@ -2471,9 +2477,9 @@ function AssessmentPageClient() {
               className="hidden rounded-3xl border border-ss-line bg-ss-panel p-4 shadow-ss-panel lg:sticky lg:top-6 lg:block"
             >
               {currentFigure.figureGroup && <FigureGroupLabel group={currentFigure.figureGroup} />}
-              {currentFigure.image_url && <ExamFigure src={currentFigure.image_url} alt={currentFigure.image_alt} credit={currentFigure.image_credit} />}
+              {currentFigure.image_url && <ExamFigure src={currentFigure.image_url} alt={currentFigure.image_alt} credit={currentFigure.image_credit} frame="aside" />}
               {currentFigure.diagram_svg && (
-                <div className="overflow-x-auto rounded-2xl border border-ss-line bg-ss-panel p-3">
+                <div className="flex h-[60vh] items-center justify-center overflow-auto rounded-2xl border border-ss-line bg-ss-panel p-3 [&_svg]:max-h-full [&_svg]:max-w-full">
                   <DiagramSvg svg={currentFigure.diagram_svg} />
                 </div>
               )}
@@ -2486,7 +2492,10 @@ function AssessmentPageClient() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="bg-white dark:bg-[#1c1c1e] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-gray-200/50 dark:border-gray-800/50"
+              // In a wide quiz a question with nothing beside it spans both columns at a reading width.
+              className={`bg-white dark:bg-[#1c1c1e] rounded-3xl p-6 sm:p-8 lg:p-10 shadow-xl border border-gray-200/50 dark:border-gray-800/50 ${
+                wideLayout && !sideContent ? 'lg:col-span-2 lg:mx-auto lg:w-full lg:max-w-3xl' : ''
+              }`}
             >
               <div className="flex items-center gap-3 mb-6">
                 <div className="inline-flex items-center justify-center px-3 py-1 rounded-full bg-blue-50 dark:bg-blue-900/20 text-blue-600 dark:text-blue-400 text-xs sm:text-sm font-semibold">
@@ -2531,11 +2540,11 @@ function AssessmentPageClient() {
                 {question.image_url && (
                   <>
                     {question.figureGroup && <FigureGroupLabel group={question.figureGroup} />}
-                    <ExamFigure src={question.image_url} alt={question.image_alt} credit={question.image_credit} className="mb-6" />
+                    <ExamFigure src={question.image_url} alt={question.image_alt} credit={question.image_credit} className="mb-6" frame="stacked" />
                   </>
                 )}
                 {question.diagram_svg && (
-                  <div className="mb-6 overflow-x-auto rounded-2xl border border-ss-line bg-ss-panel p-4">
+                  <div className="mb-6 flex h-[30vh] items-center justify-center overflow-auto rounded-2xl border border-ss-line bg-ss-panel p-4 [&_svg]:max-h-full [&_svg]:max-w-full">
                     <DiagramSvg svg={question.diagram_svg} />
                   </div>
                 )}
@@ -2752,8 +2761,15 @@ function AssessmentPageClient() {
             </motion.div>
           </AnimatePresence>
 
-          {/* Navigation */}
-          <div className="flex justify-between items-center mt-4 sm:mt-6 gap-2">
+          {/* Navigation, pinned to the bottom of the screen at the quiz's own width, so Previous and Next
+              sit in the same place on every question. In the flow below the card they moved with the
+              height of each figure and question, and sideways when the layout changed. Fixed, not sticky:
+              sticky only pins once the page is taller than the screen, and a short question is not. */}
+          <div
+            className="fixed inset-x-0 bottom-0 z-20 border-t border-ss-line bg-white/90 px-4 pt-3 backdrop-blur-xl dark:bg-[#1c1c1e]/90 sm:px-6 lg:px-8"
+            style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+          >
+          <div className={`mx-auto flex w-full items-center justify-between gap-2 ${wideLayout ? 'max-w-7xl' : 'max-w-3xl'}`}>
             <motion.button
               onClick={() => setCurrentQuestion(Math.max(0, currentQuestion - 1))}
               disabled={currentQuestion === 0}
@@ -2787,6 +2803,7 @@ function AssessmentPageClient() {
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
               </motion.button>
             )}
+          </div>
           </div>
 
           {/* Legend for mixed */}

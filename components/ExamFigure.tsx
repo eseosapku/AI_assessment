@@ -17,9 +17,18 @@ interface ExamFigureProps {
   lazy?: boolean
   /** Shown under the figure: a real image's author, licence and source, as CC BY and CC BY-SA require (spec 5.4). */
   credit?: string
+  /**
+   * A fixed-height frame the image is scaled to fit, for the quiz page: every figure there takes the
+   * same space, so a tall diagram, a small table or a figure still loading never moves the question
+   * or the controls around it. "aside" is the pinned column on a wide screen, "stacked" the figure
+   * above the question below it. Without a frame the figure takes its own size (results, recall).
+   */
+  frame?: 'aside' | 'stacked'
 }
 
-export default function ExamFigure({ src, alt = 'Exam diagram', className = '', lazy = false, credit }: ExamFigureProps) {
+const FRAME_HEIGHT = { aside: 'h-[60vh]', stacked: 'h-[30vh]' } as const
+
+export default function ExamFigure({ src, alt = 'Exam diagram', className = '', lazy = false, credit, frame }: ExamFigureProps) {
   /**
    * Tap to enlarge.
    *
@@ -51,13 +60,17 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
   return (
     <>
       <div
-        className={`bg-ss-panel rounded-xl p-3 mb-3 border border-ss-line min-h-[120px] flex items-center justify-center overflow-hidden ${className}`}
+        className={`bg-ss-panel rounded-xl p-3 mb-3 border border-ss-line flex items-center justify-center overflow-hidden ${
+          frame ? FRAME_HEIGHT[frame] : 'min-h-[120px]'
+        } ${className}`}
       >
         <button
           type="button"
           onClick={() => setZoomed(true)}
           aria-label="Enlarge the diagram"
-          className="group relative min-w-0 cursor-zoom-in rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ss-accent"
+          className={`group relative min-w-0 cursor-zoom-in rounded-lg focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ss-accent ${
+            frame ? 'flex h-full w-full items-center justify-center' : ''
+          }`}
         >
           {/* eslint-disable-next-line @next/next/no-img-element */}
           <img
@@ -73,7 +86,7 @@ export default function ExamFigure({ src, alt = 'Exam diagram', className = '', 
             // intrinsic width — so a 1420px past-paper crop inside a ~900px card
             // did not scale down, it hung over the edge and was clipped. Learners
             // saw diagrams with their right-hand labels sliced off.
-            className="min-w-0 max-w-full h-auto max-h-[45vh] w-auto object-contain mx-auto rounded-lg"
+            className={`min-w-0 max-w-full h-auto w-auto object-contain mx-auto rounded-lg ${frame ? 'max-h-full' : 'max-h-[45vh]'}`}
             loading={lazy ? 'lazy' : 'eager'}
             // Decode off the main thread so a large figure cannot jank the page
             // while the student is already reading the question.
