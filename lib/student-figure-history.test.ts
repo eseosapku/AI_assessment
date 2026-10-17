@@ -60,6 +60,15 @@ describe('readSeenFigures', () => {
     expect(calls[0][1]).toEqual(['u1', 50])
   })
 
+  it('compares the student id as a uuid, so the user_id index is used', async () => {
+    // user_id::text = $1 cast the indexed uuid column and scanned every quiz on every request.
+    const calls: string[] = []
+    const db = { query: async (sql: string) => { calls.push(sql); return { rows: [] } as never } }
+    await readSeenFigures(db, '7b0e5c1e-0000-4000-8000-000000000000')
+    expect(calls[0]).toMatch(/user_id = \$1::uuid/)
+    expect(calls[0]).not.toMatch(/user_id::text/)
+  })
+
   it('gives no history when the lookup fails', async () => {
     const db = { query: async () => { throw new Error('down') } }
     const seen = await readSeenFigures(db as never, 'u1')

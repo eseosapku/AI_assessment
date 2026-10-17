@@ -1720,8 +1720,9 @@ ${commandBlock}`
       }
     }
     // The figure questions this student had in their recent quizzes of any kind, so no figure comes
-    // back with a question they were asked on it (spec 2026-10-16 3.4). A failed lookup costs nothing.
-    const seenFigures: SeenFigures = userId ? await readSeenFigures(db, userId) : NO_HISTORY
+    // back with a question they were asked on it (spec 2026-10-16 3.4). Read only where the bank and
+    // library figures that use it apply; a failed lookup costs nothing.
+    const seenFigures: SeenFigures = bankApplies && userId ? await readSeenFigures(db, userId) : NO_HISTORY
     const figureKinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
       : questionType === 'mixed' ? ['mcq', 'short', 'written'] : ['mcq']
     const bankFigures: TextbookFigure[] = bankApplies

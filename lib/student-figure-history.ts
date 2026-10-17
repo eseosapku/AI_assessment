@@ -47,14 +47,16 @@ export function isSeenPair(seen: SeenFigures, image: string, text: unknown): boo
 
 /**
  * The figure questions a student had in their last `limit` quizzes of any kind and any book. A
- * lookup that fails gives no history: the quiz is built as it would be for a new student.
+ * lookup that fails gives no history: the quiz is built as it would be for a new student. The id is
+ * compared as a uuid so the user_id index is used (a text cast scanned every quiz); an id that is
+ * not a uuid fails the cast and falls into the catch, as a failed lookup.
  */
 export async function readSeenFigures(db: Database, userId: string, limit = 50): Promise<SeenFigures> {
   try {
     const { rows } = await db.query(
       `SELECT q->>'image_url' AS image, q->>'question' AS text
          FROM (SELECT questions_data FROM assessments
-                WHERE user_id::text = $1 AND jsonb_typeof(questions_data) = 'array'
+                WHERE user_id = $1::uuid AND jsonb_typeof(questions_data) = 'array'
                 ORDER BY created_at DESC LIMIT $2) a,
               jsonb_array_elements(a.questions_data) q
         WHERE q->>'image_url' IS NOT NULL`,
