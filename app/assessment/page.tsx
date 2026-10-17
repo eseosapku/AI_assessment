@@ -200,10 +200,13 @@ function sanitizeSvg(svg: string): string {
     .replace(/javascript:/gi, '')
 }
 
-function DiagramSvg({ svg }: { svg: string }) {
+function DiagramSvg({ svg, fit = false }: { svg: string; fit?: boolean }) {
   return (
     <div
-      className="flex flex-col items-center my-4"
+      // `fit`: inside a fixed-height figure frame the diagram fills the frame and the SVG scales to it
+      // (its viewBox keeps the shape). Centred in an auto-height box instead, a tall diagram overflowed
+      // the frame upward, out of reach of its scrollbar, and a viewBox-only SVG collapsed to nothing.
+      className={fit ? 'h-full w-full [&_svg]:block [&_svg]:h-full [&_svg]:w-full' : 'flex flex-col items-center my-4'}
       dangerouslySetInnerHTML={{ __html: sanitizeSvg(svg) }}
     />
   )
@@ -2479,8 +2482,8 @@ function AssessmentPageClient() {
               {currentFigure.figureGroup && <FigureGroupLabel group={currentFigure.figureGroup} />}
               {currentFigure.image_url && <ExamFigure src={currentFigure.image_url} alt={currentFigure.image_alt} credit={currentFigure.image_credit} frame="aside" />}
               {currentFigure.diagram_svg && (
-                <div className="flex h-[60vh] items-center justify-center overflow-auto rounded-2xl border border-ss-line bg-ss-panel p-3 [&_svg]:max-h-full [&_svg]:max-w-full">
-                  <DiagramSvg svg={currentFigure.diagram_svg} />
+                <div className="h-[60vh] overflow-auto rounded-2xl border border-ss-line bg-ss-panel p-3">
+                  <DiagramSvg svg={currentFigure.diagram_svg} fit />
                 </div>
               )}
             </aside>
@@ -2544,8 +2547,8 @@ function AssessmentPageClient() {
                   </>
                 )}
                 {question.diagram_svg && (
-                  <div className="mb-6 flex h-[30vh] items-center justify-center overflow-auto rounded-2xl border border-ss-line bg-ss-panel p-4 [&_svg]:max-h-full [&_svg]:max-w-full">
-                    <DiagramSvg svg={question.diagram_svg} />
+                  <div className="mb-6 h-[30vh] overflow-auto rounded-2xl border border-ss-line bg-ss-panel p-4">
+                    <DiagramSvg svg={question.diagram_svg} fit />
                   </div>
                 )}
               </div>
