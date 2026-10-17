@@ -2467,7 +2467,7 @@ function AssessmentPageClient() {
           on an ESL paper. Below lg there is no room for two, so the stacked
           box stays and is collapsible. */}
       {/* Bottom padding clears the navigation bar pinned below. */}
-      <div className="flex-1 flex items-start justify-center px-4 pt-4 pb-28 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8">
+      <div className="flex-1 flex items-start justify-center px-4 pt-4 pb-28 sm:px-6 sm:pt-6 lg:px-8 lg:pt-8 [@media(max-height:500px)]:pb-16">
         <div
           className={
             wideLayout
@@ -2777,8 +2777,8 @@ function AssessmentPageClient() {
               height of each figure and question, and sideways when the layout changed. Fixed, not sticky:
               sticky only pins once the page is taller than the screen, and a short question is not. */}
           <div
-            className="fixed inset-x-0 bottom-0 z-20 border-t border-ss-line bg-white/90 px-4 pt-3 backdrop-blur-xl dark:bg-[#1c1c1e]/90 sm:px-6 lg:px-8"
-            style={{ paddingBottom: 'max(0.75rem, env(safe-area-inset-bottom))' }}
+            // Slimmer on a short screen (a phone held sideways), where every row of height counts.
+            className="fixed inset-x-0 bottom-0 z-20 border-t border-ss-line bg-white/90 px-4 pt-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-xl dark:bg-[#1c1c1e]/90 sm:px-6 lg:px-8 [@media(max-height:500px)]:pt-1.5 [@media(max-height:500px)]:pb-[max(0.375rem,env(safe-area-inset-bottom))]"
           >
           <div className={`mx-auto flex w-full items-center justify-between gap-2 ${wideLayout ? 'max-w-7xl' : 'max-w-3xl'}`}>
             <motion.button
@@ -2786,7 +2786,7 @@ function AssessmentPageClient() {
               disabled={currentQuestion === 0}
               whileHover={{ scale: currentQuestion === 0 ? 1 : 1.05 }}
               whileTap={{ scale: currentQuestion === 0 ? 1 : 0.95 }}
-              className="btn-secondary flex items-center gap-1 sm:gap-2 disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3"
+              className="btn-secondary flex items-center gap-1 sm:gap-2 disabled:opacity-60 disabled:cursor-not-allowed text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3 [@media(max-height:500px)]:py-1.5"
             >
               <ChevronLeft className="w-4 h-4 sm:w-5 sm:h-5" />
               <span className="hidden sm:inline">Previous</span>
@@ -2798,7 +2798,7 @@ function AssessmentPageClient() {
                 onClick={() => (blanks.length > 0 ? setShowUnansweredCheck(true) : handleSubmit())}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="btn-primary text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3"
+                className="btn-primary text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3 [@media(max-height:500px)]:py-1.5"
               >
                 <span className="hidden sm:inline">Submit Assessment</span>
                 <span className="sm:hidden">Submit</span>
@@ -2808,7 +2808,7 @@ function AssessmentPageClient() {
                 onClick={() => setCurrentQuestion(Math.min(assessment.questions.length - 1, currentQuestion + 1))}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="btn-primary flex items-center gap-1 sm:gap-2 text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3"
+                className="btn-primary flex items-center gap-1 sm:gap-2 text-sm sm:text-base px-3 sm:px-6 py-2 sm:py-3 [@media(max-height:500px)]:py-1.5"
               >
                 <span>Next</span>
                 <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5" />
