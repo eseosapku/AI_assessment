@@ -1040,22 +1040,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "Figure labels the collimator between source and patient; only the option about narrowing the beam is correct, and the key is right (the explanation's claim about the detector converting X-rays to visible light is slightly loose but doesn't affect the answer).",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the diagram. Why is a collimator placed between the X-ray source and the person being scanned?",
-     "options": [
-      "To narrow the X-rays into a thin, well-defined beam",
-      "To convert the X-rays into visible light for the detector",
-      "To increase the energy of each X-ray photon",
-      "To absorb the X-rays completely inside the body"
-     ],
-     "correct_answer": 0,
-     "explanation": "A collimator has a narrow slit that lets through only a thin parallel beam, which reduces scattered radiation and gives a sharper slice image. It does not change photon energy, so the second option is wrong. It does not convert X-rays to visible light, because the detector does that job. It must let the beam pass, not absorb it completely."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The explanation says the detector converts X-rays to visible light, which the figure does not show and which is not true of every detector (CT detectors may be ionisation chambers or solid-state). The question also says 'a collimator placed between the X-ray source and the person', but the figure shows two collimators, one on each side of the person, which makes the wording slightly imprecise.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -29021,22 +29008,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "The right-hand table (x→1) shows f(x) = 5.0, 4.1579, 4.0151, 4.0015, … approaching 4, so option index 1 is correct and unique, and the question is level-appropriate.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the table. The x values 1.5, 1.1, 1.01, 1.001, 1.0001, 1.00001 get closer to 1. What value does f(x) approach?",
-     "options": [
-      "5",
-      "4",
-      "1",
-      "4.157894737"
-     ],
-     "correct_answer": 1,
-     "explanation": "For x = 1.5, 1.1, 1.01 … 1.00001, f(x) goes 5.0, 4.1579, 4.0151, 4.0015, 4.00015, 4.000015, getting closer and closer to 4. So the limit is 4. The value 5 is only the first entry, 1 is the x value, and 4.157894737 is just one value in the list, not the value approached."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The table's x values approach 2 (1.9, 1.99, ... and 2.1, 2.01, ...), not 1, so the question's x values 1.1, 1.01, etc. and the claim that x approaches 1 contradict the figure.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -91271,21 +91245,9 @@
    },
    {
     "kind": "written",
-    "verdict": "ok",
-    "reason": "The bottom edge is labelled CM/MM, the 3 and 8 marks are legible even though the ruler is upside down, 8−3=5 cm is correct, and the mark scheme matches the question and its 2 marks.",
-    "question": {
-     "id": 1,
-     "type": "longform",
-     "question": "Look at the diagram. Which edge of the ruler, top or bottom, measures in centimetres, and what length in centimetres lies between the 3 and 8 marks on that scale?",
-     "marks": 2,
-     "marking_criteria": [
-      "States that the bottom edge is the centimetre scale",
-      "States that the length between 3 and 8 is 5 cm"
-     ],
-     "model_answer": "The bottom edge is the centimetre scale, marked CM and MM. The distance from the 3 mark to the 8 mark is 8 − 3 = 5 cm.",
-     "explanation": "A strong answer names the bottom edge as the centimetre scale, then finds the length between two marks by subtracting the readings: 8 − 3 = 5. Remember to give the unit, cm."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The figure shows the cm scale (labelled MM/CM, numbered 1–15) on the top edge, and the bottom edge is the INCH scale (labelled INCH, numbered 1–6), so the key's claim that the bottom edge is centimetres is wrong.",
+    "kept": false
    }
   ]
  },
@@ -130987,22 +130949,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "The figure shows E at b pointing down-right, a positive test charge feels force along E, and the other three options are clearly wrong.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the diagram. A small positive test charge is placed at point b. Which statement about the force on it is correct?",
-     "options": [
-      "It is pushed along arrow E, down and to the right.",
-      "It is pushed opposite to arrow E, up and to the left.",
-      "It stays at rest because b is not on a field line.",
-      "It moves straight toward the positive charge."
-     ],
-     "correct_answer": 0,
-     "explanation": "The arrow E shows the field direction at b. A positive test charge feels a force in the same direction as the field, so it moves down and to the right. The opposite direction would apply to a negative charge. A charge at b still feels a force because the field exists everywhere around the charges. The force is not straight toward the + charge, because the field is tangent to the curved line."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The figure labels the point as P, not b, and the arrow E points up and to the left (away from P toward the upper right), so the key (down and to the right) contradicts the figure.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -135850,22 +135799,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "The figure shows the woman behind the trolley, holding the handle and moving it forward and away from her, so the force she applies is a push. The other options are clearly wrong, only one answer is correct, the answer is not printed on the figure, and the level suits Senior 1.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the photograph. The woman is moving the empty trolley forward by holding its handle. What force does she apply to the trolley?",
-     "options": [
-      "A push on the trolley",
-      "A pull on the trolley towards her",
-      "A magnetic force on the trolley",
-      "No force, because the trolley is empty"
-     ],
-     "correct_answer": 0,
-     "explanation": "She is behind the trolley and moves it away from her, so her hands push it forward. A pull would bring the trolley towards her. Magnetic force is not involved with a person's hands. An empty trolley still needs a force to start moving and keep moving, so 'no force' is wrong."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The figure does not show which way the trolley is moving. The woman is on the right and the trolley's front is on the left, so she is behind it and pushing, but the photo is a static image with no motion cue. The question also states that she is 'moving the empty trolley forward', which tells the learner the direction. Still, the explanation says the trolley 'moves away from her', which is inferred rather than shown. Her body is turned toward the viewer and her hands grip the handle, so the push is plausible. However, a strict reading counts the premise as partly given in the question and the motion as assumed, so the question is ambiguous.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -139977,21 +139913,9 @@
    },
    {
     "kind": "written",
-    "verdict": "ok",
-    "reason": "The photo shows a bluish-white core and a few orange stars, so the question can be answered from the figure. The question asks for both the comparison and the explanation, so the two mark points match its request. Both are correct physics (Wien's law, peak wavelength shifts shorter with higher temperature) at Senior 6 level.",
-    "question": {
-     "id": 1,
-     "type": "longform",
-     "question": "Look at the photograph. The cluster's core looks bluish-white, while a few stars look orange. State what this colour difference tells you about the stars' surface temperatures and explain why.",
-     "marks": 2,
-     "marking_criteria": [
-      "Blue-white stars are hotter than the orange/red stars (orange stars have cooler surfaces).",
-      "A star's colour depends on its surface temperature: hotter objects emit peak radiation at shorter wavelengths (bluer light), cooler ones at longer wavelengths (redder light)."
-     ],
-     "model_answer": "The bluish-white stars have much hotter surfaces than the orange stars, which are cooler. This is because a hotter star emits its peak radiation at a shorter wavelength, so it looks blue-white, while a cooler star peaks at longer wavelengths and looks orange or red.",
-     "explanation": "A strong answer compares the temperatures correctly (blue-white hotter, orange cooler) and gives the physics reason: the peak wavelength of emitted radiation shifts to shorter wavelengths as surface temperature rises."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The question says a few stars look orange, but the photograph shows almost entirely white and blue stars with no clearly orange ones, so it describes the figure in a way the figure contradicts.",
+    "kept": false
    }
   ]
  },
@@ -145570,22 +145494,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "Only option A correctly explains the damping envelope e^(-0.2t); the others are clearly wrong, and the figure is consistent with the equation and the level.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the graph of θ(t) = e^(-0.2t) sin(3t). Which feature of the equation explains why the oscillations shrink as t increases?",
-     "options": [
-      "The factor e^(-0.2t) decreases toward zero as t increases",
-      "The factor sin(3t) decreases toward zero as t increases",
-      "The coefficient 3 in sin(3t) reduces the amplitude over time",
-      "The curve is multiplied by a constant that is less than 1"
-     ],
-     "correct_answer": 0,
-     "explanation": "The factor e^(-0.2t) has a negative exponent, so it decays toward 0 and acts as a shrinking envelope on the sine wave. sin(3t) only oscillates between -1 and 1 and never decays. The 3 changes the frequency, not the amplitude. A constant factor would scale the curve evenly and would not make it shrink progressively."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The question calls the function θ(t) but the figure labels it y(t) with a y-axis, so it names a symbol the figure does not show, even though option 0 is the correct answer.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -151182,22 +151093,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "The blue disc is plainly outside the cupboard, below its base, and the red disc is the one inside on the shelf. Option index 1 is the only correct choice, the other options are clearly wrong, and the question is at Primary 1 level (positions: inside/outside/below).",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the drawing. Where is the blue disc?",
-     "options": [
-      "Inside the cupboard on the shelf",
-      "Outside the cupboard, below it",
-      "On top of the cupboard",
-      "Behind the cupboard door"
-     ],
-     "correct_answer": 1,
-     "explanation": "The blue disc lies on the floor under the cupboard, so it is outside and below it. The red disc is the one inside on the shelf, so 'inside on the shelf' is wrong. Nothing is on top of the cupboard. The blue disc is not hidden behind the door either."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The figure shows the blue disc on top of the cupboard, so option 3 is correct, but the key marks option index 1 ('Outside the cupboard, below it'), and the explanation wrongly says the blue disc is on the floor and that nothing is on top.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -153595,21 +153493,9 @@
    },
    {
     "kind": "written",
-    "verdict": "ok",
-    "reason": "The figure shows painted wooden blocks, paint pots and matching printed shapes, so a P2 learner can infer the two steps (paint the block, press it on the paper). The two marking points match the 2 marks, and the model answer states the actual answer without asking for anything extra.",
-    "question": {
-     "id": 1,
-     "type": "longform",
-     "question": "Look at the photograph. The paper has printed shapes, and wooden blocks are above it. How were the shapes made on the paper? Give two points.",
-     "marks": 2,
-     "marking_criteria": [
-      "Paint is put on the surface (face) of the wooden block or object.",
-      "The painted block is pressed onto the paper, which leaves its shape (a print)."
-     ],
-     "model_answer": "First, paint is put on the flat side of a wooden block. Then the block is pressed onto the paper, and it leaves its shape printed on the paper.",
-     "explanation": "A strong answer has two steps: first put paint on the block, then press the block on the paper to leave its shape. Look at the blocks and the matching shapes on the paper."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The question says the wooden blocks are \"above\" the paper, but in the photograph they are to the right of it, so it describes the figure wrongly; the blocks also look like foam or painted sponge shapes, not clearly wooden.",
+    "kept": false
    }
   ]
  },
@@ -156240,22 +156126,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "Crumpling directly shows a change of shape, which is the only option the question's wording (crumpled side) points to, and it suits Senior 1 level.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the drawing. The crash has crumpled the side of the left-hand car. Which effect of a force does this show?",
-     "options": [
-      "A force can change the shape of a body",
-      "A force can make a stationary body start to move",
-      "A force can slow down a moving body",
-      "A force can change the direction of a moving body"
-     ],
-     "correct_answer": 0,
-     "explanation": "The side of the left car is crumpled, so the force of the collision changed its shape. The other options are real effects of a force, but the drawing shows damage to the body, not a car starting to move, slowing down or turning. The crumpled side is the clearest effect shown."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The question says the side of the left-hand car is crumpled, but the figure shows the front of the left car crumpled where the right car's front hit it, so it contradicts the figure; the question also gives away the damage, and options B–D could also be argued from a collision.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -156645,22 +156518,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "The photograph shows a cylindrical wire cage around a heater element, and the safety purpose of the guard (option A) is the only correct option, since B, C and D are clearly wrong science at Senior 1 level, so the key and index 0 are right.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the photograph. The electric heater warms people sitting far from it in a room. What is the main reason the wire guard is placed around the heating element?",
-     "options": [
-      "To stop people touching the hot element",
-      "To make the element produce more heat",
-      "To stop heat leaving the heater by radiation",
-      "To keep the electric current inside the heater"
-     ],
-     "correct_answer": 0,
-     "explanation": "The wire guard keeps fingers and objects away from the very hot element, so it protects people from burns. It does not add heat, because the element makes the heat. The wide gaps let radiation pass through, so it does not stop radiation. It does not control the current; the cable and insulation do that."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The question stem says the heater 'warms people sitting far from it in a room', which is not shown in the figure, and the explanation's claim of 'wide gaps' is questionable since the guard bars are closely spaced; otherwise the key (A) is correct, but the extra premise and mismatched explanation make it ambiguous under strict checking.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -166393,22 +166253,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "Middle C to the G in bar 2 is a perfect 5th, which matches the key, and the other options are clearly wrong.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the diagram. What is the interval between the first note C and the first note G in the second bar?",
-     "options": [
-      "A 5th",
-      "A 4th",
-      "A 3rd",
-      "A 6th"
-     ],
-     "correct_answer": 0,
-     "explanation": "Counting C to G including both notes gives C D E F G, five notes, so it is a 5th. A 4th would stop at F. A 3rd would stop at E. A 6th would reach A, which is the note after G."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The wording is ambiguous and contradicts the figure: the second bar contains only G G and no C, so 'the first note C ... in the second bar' misdescribes the notation (the C is in bar 1), though the 5th itself is correct.",
+    "kept": false
    },
    {
     "kind": "short",
@@ -173091,22 +172938,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "Heating arrows under the lower tank and flow arrows show a convection circuit, only option 0 is correct, and the level is appropriate.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the diagram. Why does water flow up the pipe from the heated boiler to the hot water cylinder?",
-     "options": [
-      "Heated water expands, becomes less dense and rises, while cooler denser water sinks down the other pipe.",
-      "Heated water becomes denser than cold water, so it is pushed upward through the pipe.",
-      "Heat travels along the metal pipe by conduction and carries the water upward with it.",
-      "The cold water tank above pushes the water upward by pressure through the pipe."
-     ],
-     "correct_answer": 0,
-     "explanation": "Water heated in the boiler expands and becomes less dense, so it rises through the upper pipe. Cooler, denser water from the cylinder sinks down the lower pipe, forming a convection current. Heated water does not become denser. Conduction does not move water. Pressure from the tank does not push it upward."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The figure has no labels for a boiler or hot water cylinder, and it shows a tap, a cistern with a float valve, a tall pressure vessel and a lower tank, which looks like a mains/cistern supply system. The stem therefore names components the figure does not show, and the convection-circulation answer does not match the diagram.",
+    "kept": false
    },
    {
     "kind": "short",

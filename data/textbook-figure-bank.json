@@ -74913,7 +74913,7 @@
    "page": 12,
    "localPath": "/textbook-images/rwanda/5/page12-embedded-2.jpeg",
    "noun": "drawing",
-   "shows": "A green frog drawn in side view, sitting on its hind legs with a shadow beneath it. It has a large round eye with a yellow iris, a dark circular patch behind the eye, webbed front and back feet, and folded hind legs. There are no labels or printed values.",
+   "shows": "A green frog drawn in side view, facing right and propped on its front legs, with a shadow beneath it. It has a large round eye with a yellow iris, a dark circular patch behind the eye, splayed front toes, and a long hind leg stretched out behind with a webbed foot. There are no labels or printed values.",
    "labels": [],
    "topic": "Classification of Kingdom Animalia",
    "original": ""
@@ -75032,7 +75032,7 @@
    "page": 13,
    "localPath": "/textbook-images/rwanda/5/page13-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of a large tortoise with a high domed shell walking on sandy ground. Its head is raised and its thick, scaly legs are visible. No labels or values are printed.",
+   "shows": "A photograph of a large tortoise with a broad, domed shell resting on sandy ground. Its head is extended forward at the left and its thick, scaly legs are visible. No labels or values are printed.",
    "labels": [],
    "topic": "Classification of Kingdom Animalia",
    "original": ""
@@ -75046,7 +75046,7 @@
    "page": 18,
    "localPath": "/textbook-images/rwanda/5/page18-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A side-view drawing of a white bird's head and neck, facing left, against a green blurred background. It has an orange, flat, broad beak with a rounded tip, a black round eye, and short dark strokes suggesting feathers on the neck. There are no labels.",
+   "shows": "A side-view drawing of a white bird's head and neck, facing right, against a green blurred background. It has an orange, flat, broad beak with a rounded tip, a black round eye, and short dark strokes suggesting feathers on the neck. There are no labels.",
    "labels": [],
    "topic": "Classification of Kingdom Animalia",
    "original": "2. Draw the expected type of feet to match the type of beak in birds. Use a table like the one given below. Table 1.3: Matching birds beaks to feet Bird's beak Bird's feet A. B. C. D. E."
@@ -76514,34 +76514,34 @@
    "page": 79,
    "localPath": "/textbook-images/rwanda/2/page79-embedded-0.png",
    "noun": "diagram",
-   "shows": "The image is upside down (rotated 180°) and shows two panels, (a) and (b), each with a phasor diagram above and a circuit diagram below. In (a), a rectangle has horizontal side V_R along current I, vertical side V_L, and diagonal V at angle θ to I; the circuit is a resistor R in series with an inductor L. In (b), a rectangle has horizontal side V_R along I, vertical side V_C, and diagonal V at angle φ to I; the circuit is a resistor R in series with a capacitor C. Each circuit has the labels V across the whole circuit, V_R across the resistor, and V_L or V_C across the other component, with current I marked.",
+   "shows": "The image is upright and shows two panels, (a) and (b), each with a circuit diagram above and a phasor diagram below. In (a), the circuit is a resistor R in series with an inductor L; the phasor diagram has horizontal side V_R along current I, vertical side V_L, and diagonal V at angle θ to I. In (b), the circuit is a resistor R in series with a capacitor C; the phasor diagram has horizontal side V_R along I, a downward vertical side V_C, and diagonal V at angle φ to I. Each circuit has the labels V across the whole circuit, V_R across the resistor, and V_L or V_C across the other component, with current I marked.",
    "labels": [
-    "(a)",
-    "(b)",
-    "Phasor diagram",
-    "Phasor diagram",
-    "V_R",
-    "V_L",
-    "V",
-    "I",
-    "θ",
-    "V_C",
-    "V_R",
-    "V",
-    "I",
-    "φ",
-    "V",
-    "V_R",
-    "V_L",
-    "I",
     "R",
     "L",
+    "V_R",
+    "V_L",
     "V",
+    "I",
+    "Phasor diagram",
+    "V_L",
+    "V",
+    "θ",
+    "V_R",
+    "I",
+    "(a)",
+    "R",
+    "C",
     "V_R",
     "V_C",
+    "V",
     "I",
-    "R",
-    "C"
+    "Phasor diagram",
+    "V_R",
+    "I",
+    "φ",
+    "V_C",
+    "V",
+    "(b)"
    ],
    "topic": "Complex Numbers",
    "original": ""
@@ -76720,31 +76720,31 @@
    "page": 288,
    "localPath": "/textbook-images/rwanda/2/page288-embedded-0.png",
    "noun": "diagram",
-   "shows": "Two side-by-side graphs of volumes of revolution by the shell method; the picture is upside down (rotated 180°). Left: curves y = g(x) and y = f(x) with a vertical strip between them at x, between a and b on the x-axis. The strip's height is H = g(x) − f(x) and its distance from the axis x = A is R = x − A, with a rotation arrow about x = A. Right: curves x = φ(y) and x = ψ(y) with a horizontal strip at y between c and d on the y-axis. Here H = φ(y) − ψ(y) and R = A − y, with rotation about the line y = A.",
+   "shows": "Two side-by-side graphs of volumes of revolution by the shell method; the picture is shown upright. Left: curves y = f(x) and y = g(x) with a vertical strip between them at x, between a and b on the x-axis. The strip's height is H = g(x) − f(x) and its distance from the axis x = A is R = x − A, with a rotation arrow about x = A. Right: curves x = ψ(y) and x = φ(y) with a horizontal strip at y between c and d on the y-axis. Here H = φ(y) − ψ(y) and R = A − y, with rotation about the line y = A.",
    "labels": [
-    "a",
-    "x",
-    "b",
-    "y = g(x)",
-    "x",
+    "x = A",
+    "y",
     "y = f(x)",
+    "R = x − A",
     "H = g(x) − f(x)",
     "R",
     "H",
-    "R = x − A",
-    "x = A",
+    "a",
+    "x",
+    "b",
+    "x",
+    "y = g(x)",
     "y",
-    "x = φ(y)",
-    "c",
-    "y",
-    "d",
-    "H",
-    "R",
-    "H = φ(y) − ψ(y)",
-    "R = A − y",
-    "y = A",
     "x = ψ(y)",
-    "y"
+    "y = A",
+    "d",
+    "R",
+    "R = A − y",
+    "H",
+    "H = φ(y) − ψ(y)",
+    "y",
+    "c",
+    "x = φ(y)"
    ],
    "topic": "Integration",
    "original": "Figure. 4.6. Region revolved about a vertical line Figure. 4.7. Region revolved about a horizontal line Basing on figure 4.6 and figure 4.7, the volume will equal V = 2π ∫_a^b RH dx if integrating by x and V = 2π ∫_c^d RH dy if integrating"
@@ -80219,7 +80219,7 @@
    "page": 295,
    "localPath": "/textbook-images/rwanda/7/page295-embedded-0.png",
    "noun": "diagram",
-   "shows": "A mirror-image (flipped) diagram of pollen development in an anther. On the left is a stamen with a filament and an anther. In the centre is a cross-section of the anther with four brown pollen sacs and a central filament containing a vascular bundle. One pollen sac is enlarged to show layers from the outside: epidermis, fibrous layer, tapetum, and pollen mother cells (diploid) with pollen inside. At the top, a cell undergoes meiosis to form a tetrad of pollen, which then separates into four pollen grains.",
+   "shows": "A diagram of pollen development in an anther. On the left is a stamen with a filament and an anther. In the centre is a cross-section of the anther with four brown pollen sacs and a central filament containing a vascular bundle. One pollen sac is enlarged to show layers from the outside: epidermis, fibrous layer, tapetum, and pollen mother cells (diploid) with pollen inside. At the bottom, a pollen mother cell undergoes meiosis to form a tetrad of pollen, which then separates into four pollen grains.",
    "labels": [
     "Filament",
     "Anther",
@@ -80250,7 +80250,7 @@
    "page": 296,
    "localPath": "/textbook-images/rwanda/7/page296-embedded-0.png",
    "noun": "diagram",
-   "shows": "A flowchart-style diagram, printed upside down (rotated 180°), of female gamete development in a flowering plant. An ovule with micropyle, integuments, nucellus, and embryo sac (mother cell, 2n) undergoes meiosis to give 4 haploid cells, 3 of which degenerate. The remaining embryo sac (n) undergoes mitosis 3 times to give an embryo sac with 8 haploid nuclei, including the egg cell and polar nuclei. Only the gametes are then shown: the egg cell (n) and two polar nuclei (n).",
+   "shows": "A flowchart-style diagram, printed upright, of female gamete development in a flowering plant. An ovule with micropyle, integuments, nucellus, and embryo sac (mother cell, 2n) undergoes meiosis to give 4 haploid cells, 3 of which degenerate. The remaining embryo sac (n) undergoes mitosis 3 times to give an embryo sac with 8 haploid nuclei, including the egg cell and polar nuclei. Only the gametes are then shown: the egg cell (n) and two polar nuclei (n).",
    "labels": [
     "Wall of ovary",
     "Embryo sac mother cell (megaspore) (2n)",
@@ -80708,7 +80708,7 @@
    "page": 307,
    "localPath": "/textbook-images/rwanda/8/page307-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A close-up photograph of hands using a handheld blood glucose meter. A test strip at the right edge of the meter has a drop of blood on its tip, and a finger is held beside it. The meter's screen displays the number 225. Part of a white towel is visible at the top right.",
+   "shows": "A close-up photograph of hands using a handheld blood glucose meter. A test strip at the right edge of the meter has a drop of blood on its tip, and a finger is held beside it. The meter's screen displays the number 225. A white towel is visible beneath the hands and across the background.",
    "labels": [
     "225"
    ],
@@ -80816,7 +80816,7 @@
    "page": 358,
    "localPath": "/textbook-images/rwanda/8/page358-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A photograph, shown upside down, of two wolves or coyotes with tawny-brown fur on snow, touching their muzzles together face to face. Their legs point upward in the image because it is inverted. There are no labels or printed values.",
+   "shows": "A photograph of two wolves with tawny-brown and gray fur on snow, touching their muzzles together face to face. Their legs point downward to the snow. One wolf on the left bares its teeth. A third wolf stands behind them. There are no labels or printed values.",
    "labels": [],
    "topic": "Behaviour and Responses in Mammals",
    "original": ""
@@ -81170,7 +81170,7 @@
    "page": 16,
    "localPath": "/textbook-images/rwanda/8/page16-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A close-up photograph from above of a nest made of dry grass or straw. It holds six eggs. Five are plain pale pink or cream, and one of those has a few small brown spots. The sixth egg, at the lower left, is clearly different: it is grey-green with dark speckles.",
+   "shows": "A close-up photograph from above of a nest made of dry grass or straw. It holds six eggs. Five are plain pale pink or cream, and one of those has a few small brown spots. The sixth egg, at the lower right, is clearly different: it is grey-green with dark speckles.",
    "labels": [],
    "topic": "Interdependence Between Organisms Within Their Environment",
    "original": ""
@@ -82971,21 +82971,14 @@
    "page": 20,
    "localPath": "/textbook-images/rwanda/55/page20-embedded-1.png",
    "noun": "diagram",
-   "shows": "A diagram of the Rutherford alpha-particle scattering experiment, printed upside down (rotated 180°). On the left a box labelled 'Source of α particles' emits a 'Beam of α particles' toward a 'Thin metal foil' in the centre of a circular 'Screen to detect scattered α particles'. Most particles pass straight through the foil, and 'Some α particles are scattered' at angles.",
+   "shows": "A diagram of the Rutherford alpha-particle scattering experiment, shown upright. On the left a box labelled 'Source of α particles' emits a 'Beam of α particles' toward a 'Thin metal foil' in the centre of a circular 'Screen to detect scattered α particles'. Most particles pass straight through the foil, and 'Some α particles are scattered' at angles.",
    "labels": [
-    "scattered α particles",
-    "Screen to detect",
-    "metal foil",
-    "Thin",
-    "α particles",
-    "Source of",
-    "α particles",
-    "Beam of",
-    "through foil",
-    "pass straight",
-    "Most particles",
-    "are scattered",
-    "Some α particles"
+    "Source of α particles",
+    "Beam of α particles",
+    "Some α particles are scattered",
+    "Most particles pass straight through foil",
+    "Screen to detect scattered α particles",
+    "Thin metal foil"
    ],
    "topic": "Structure of an Atom and Mass Spectrum",
    "original": ""
@@ -83844,7 +83837,7 @@
    "page": 21,
    "localPath": "/textbook-images/rwanda/55/page21-embedded-1.png",
    "noun": "diagram",
-   "shows": "A large grey-blue circle represents an atom. A small blue sphere labelled 'W+' sits at its centre, and about ten small red spheres, each marked with a minus sign, are scattered inside the circle. Straight parallel arrows come in from the left and pass through the atom. The top three and bottom three arrows continue almost straight, and the two arrows nearest the centre bend sharply near the nucleus. One of these deflected arrows leaves toward the upper left, and the other leaves toward the lower right.",
+   "shows": "A large grey-blue circle represents an atom. A small blue sphere labelled 'n+' sits at its centre, and about ten small red spheres, each marked with a minus sign, are scattered inside the circle. Straight parallel arrows come in from the left and pass through the atom. The top three and bottom two arrows continue almost straight, and the two arrows nearest the centre bend sharply near the nucleus. One line leaves toward the upper right, and another points toward the lower left.",
    "labels": [
     "−",
     "−",
@@ -83856,7 +83849,7 @@
     "−",
     "−",
     "−",
-    "+"
+    "n+"
    ],
    "topic": "Structure of an Atom and Mass Spectrum",
    "original": ""
@@ -84691,7 +84684,7 @@
    "page": 488,
    "localPath": "/textbook-images/rwanda/56/page488-embedded-0.png",
    "noun": "diagram",
-   "shows": "Two electrolysis set-ups, Beaker 1 and Beaker 2, each containing 0.5 M CuSO4 solution with a graphite electrode and a copper (Cu) electrode, both connected to a battery. Beaker 1 is connected to a 6V battery and Beaker 2 to a 12V battery. The image is printed upside down.",
+   "shows": "Two electrolysis set-ups, Beaker 1 and Beaker 2, each containing 0.5 M CuSO4 solution with a graphite electrode and a copper (Cu) electrode, both connected to a battery. Beaker 1 is connected to a 6V battery and Beaker 2 to a 12V battery. The image is upright and correctly oriented.",
    "labels": [
     "Beaker 1",
     "CuSO4",
@@ -85177,7 +85170,7 @@
    "page": 482,
    "localPath": "/textbook-images/rwanda/56/page482-embedded-0.png",
    "noun": "diagram",
-   "shows": "The image is upside down (rotated 180°). It shows a beaker containing a shaded solution labelled copper(II) sulphate solution, with two vertical carbon electrodes dipping into it. The left electrode is labelled (anode) and the right electrode is labelled (cathode). Both electrodes are connected by wires to a 6 V battery at the bottom.",
+   "shows": "The image shows a beaker containing a shaded solution labelled copper(II) sulphate solution, with two vertical carbon electrodes dipping into it. The left electrode is labelled (anode) and the right electrode is labelled (cathode). Both electrodes are connected by wires to a 6 V battery at the top.",
    "labels": [
     "solution",
     "copper(II) sulphate",
@@ -85217,7 +85210,7 @@
    "page": 367,
    "localPath": "/textbook-images/rwanda/56/page367-embedded-0.png",
    "noun": "diagram",
-   "shows": "A phase diagram with the axes labelled 'Temperature (°C)' on the top edge and 'Pressure (atm)' on the left side. The image is shown upside down (rotated 180°). Three curves meet at a point labelled T, and one curve continues from T to a dot labelled C. Regions are labelled Y (left), X (middle) and Z (upper right).",
+   "shows": "A phase diagram with the axes labelled 'Temperature (°C)' on the bottom edge and 'Pressure (atm)' on the left side. The image is shown upright. Three curves meet at a point labelled T, and one curve continues from T to a dot labelled C. Regions are labelled Y (left), X (middle) and Z (lower right).",
    "labels": [
     "Temperature (°C)",
     "Pressure (atm)",
@@ -90974,7 +90967,7 @@
    "page": 141,
    "localPath": "/textbook-images/rwanda/62/page141-embedded-0.png",
    "noun": "table",
-   "shows": "The image is rotated 180 degrees. It holds two side-by-side tables of x and f(x) values, used to estimate a limit. Left table, x approaching 2 from above: 2.5→3.4; 2.1→3.857142857; 2.01→3.98507462; 2.001→3.998500750; 2.0001→3.999850007; 2.00001→3.999985000. Right table, x approaching 1 from below: 1.5→5.0; 1.1→4.157894737; 1.01→4.015075377; 1.001→4.001500750; 1.0001→4.000150008; 1.00001→4.000015000. Column headings are x and f(x).",
+   "shows": "The image is upright. It holds two side-by-side tables of x and f(x) values, used to estimate a limit. Left table, x approaching 2 from both sides: 2.5→3.4; 2.1→3.857142857; 2.01→3.985074627; 2.001→3.998500750; 2.0001→3.999850007; 2.00001→3.999985000. Right table, x approaching 2 from below: 1.5→5.0; 1.9→4.157894737; 1.99→4.015075377; 1.999→4.001500750; 1.9999→4.000150008; 1.99999→4.000015000. Column headings are x and f(x).",
    "labels": [
     "x",
     "f(x)",
@@ -90983,7 +90976,7 @@
     "2.1",
     "3.857142857",
     "2.01",
-    "3.98507462",
+    "3.985074627",
     "2.001",
     "3.998500750",
     "2.0001",
@@ -90994,15 +90987,15 @@
     "f(x)",
     "1.5",
     "5.0",
-    "1.1",
+    "1.9",
     "4.157894737",
-    "1.01",
+    "1.99",
     "4.015075377",
-    "1.001",
+    "1.999",
     "4.001500750",
-    "1.0001",
+    "1.9999",
     "4.000150008",
-    "1.00001",
+    "1.99999",
     "4.000015000"
    ],
    "topic": "Unit 8: Limits of polynomial, rational and irrational functions",
@@ -91658,7 +91651,7 @@
    "page": 357,
    "localPath": "/textbook-images/rwanda/64/page357-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of the front page of The New Times, Rwanda's leading daily, rotated sideways. The main headline reads \"RRA surpasses 2015/16 revenue collection target\", with a byline \"By Peterson Tumwebaze\" and a short article beneath it. A smaller headline reads \"BNR governor on the spot over interest rates\". A photo of a man's face is on the left, and a box at the lower right reads \"How to deal with examination failure\". The price line reads \"RWF 700, USHS 1,500, KSHS 100, TBU 1,400\".",
+   "shows": "A photograph of the front page of The New Times, Rwanda's leading daily, held upright. The main headline reads \"RRA surpasses 2015/16 revenue collection target\", with a byline \"By Peterson Tumwebaze\" and a short article beneath it. A smaller headline at the left reads \"BNR governor on the spot over interest rates\". A photo of two men's faces is at the bottom center, and a box at the top right reads \"How to deal with examination failure\". The price line reads \"RWF 700, USHS 1,500, KSHS 100, FBU 1,400\".",
    "labels": [
     "New Times",
     "RWANDA'S LEADING DAILY",
@@ -94161,7 +94154,7 @@
    "page": 96,
    "localPath": "/textbook-images/rwanda/74/page96-embedded-2.jpeg",
    "noun": "table",
-   "shows": "A receipt from Simba Supermarket, KN 5 Rd, Kigali, printed in white on a black background. It lists Fruit and vegetables Frw 200, Coffee Frw 1 000, Total amount Frw 1 200, and VAT included Frw 130.",
+   "shows": "A receipt from Simba Supermarket, KN 5 Rd, Kigali, printed in dark text on a white background. It lists Fruit and vegetables Frw 200, Coffee Frw 1 000, Total amount Frw 1 200, and VAT included Frw 130.",
    "labels": [
     "Simba",
     "SUPERMARKET",
@@ -100720,7 +100713,7 @@
    "page": 12,
    "localPath": "/textbook-images/rwanda/82/page12-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A photograph looking along a row of evenly spaced vertical wooden posts or slats under a horizontal beam, such as a fence or bridge railing. The posts get smaller and closer together toward the far left, and grass and water show in the background. It has no labels.",
+   "shows": "A photograph looking along a row of evenly spaced vertical wooden posts under a horizontal rail, such as a fence beside a path. The posts get smaller and closer together toward the far left, and a paved path, hedge and foliage show in the background. It has no labels.",
    "labels": [],
    "topic": "Still Life and Nature",
    "original": "Figure 1.4. Regular rhythm and perspective Perspective: It refers to the variation in size, co"
@@ -101729,7 +101722,7 @@
    "page": 85,
    "localPath": "/textbook-images/rwanda/93/page85-embedded-6.jpeg",
    "noun": "drawing",
-   "shows": "A blue poster with black-and-white line drawings of items for recycling: a cardboard carton, crossed cutlery (fork, spoon, knife), a cylindrical can, a tub with a lid, a ribbed plastic bottle, a plastic cup, a food tray with a tube, a foam clamshell box and a bottle. The text 'CONTAINERS FOR RECYCLING' is printed at the bottom, and appears upside-down (mirrored vertically).",
+   "shows": "A blue poster with black-and-white line drawings of items for recycling: a ribbed plastic bottle, a plastic cup, a food tray with a tube, a foam clamshell box, a bottle, a cardboard carton, crossed cutlery (fork, spoon, knife), a cylindrical can and a tub. The text 'CONTAINERS FOR RECYCLING' is printed at the top and reads normally.",
    "labels": [
     "CONTAINERS",
     "FOR RECYCLING"
@@ -101788,7 +101781,7 @@
    "page": 23,
    "localPath": "/textbook-images/rwanda/93/page23-embedded-4.jpeg",
    "noun": "diagram",
-   "shows": "A cutaway drawing of a cylindrical dry cell. A dark grey central rod runs down the middle, surrounded by a large yellow region, a thin pink layer and a blue outer casing. Layers of blue, grey and pink lie near the bottom above a red base. Three blank label lines on the right point to the yellow region, the central rod and the outer casing.",
+   "shows": "A cutaway drawing of a cylindrical dry cell. A dark grey central rod runs down the middle, surrounded by a large yellow region, a thin pink layer and a blue outer casing. Layers of grey and blue lie near the top below a red cap. Three blank label lines on the right point to the pink layer, the central rod and the yellow region.",
    "labels": [],
    "topic": "Chemical cells",
    "original": ""
@@ -101971,9 +101964,10 @@
    "page": 241,
    "localPath": "/textbook-images/rwanda/93/page241-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "The top is a photograph of a glass container holding two dark electrodes in solution, wired in series with a lit light bulb in a ceramic socket. The bottom is a diagram of a beaker of blue solution with a left plate marked minus and a right plate marked plus. Positive ions (+) move left toward the negative plate and negative ions (−) move right toward the positive plate. The plates are connected externally through an ammeter and a lit bulb, with the minus terminal on the left and the plus terminal on the right.",
+   "shows": "The top is a diagram of a beaker of blue solution with a left plate marked minus and a right plate marked plus. Positive ions (+) move left toward the negative plate and negative ions (−) move right toward the positive plate. The plates are connected externally through a voltmeter and a lit bulb, with the minus terminal on the left and the plus terminal on the right. The bottom is a photograph of a glass container holding two dark electrodes in solution, wired in series with a lit light bulb in a ceramic socket.",
    "labels": [
     "−",
+    "V",
     "+",
     "−",
     "+"
@@ -101990,7 +101984,7 @@
    "page": 241,
    "localPath": "/textbook-images/rwanda/93/page241-embedded-1.jpeg",
    "noun": "diagram",
-   "shows": "A photograph at the top shows a beaker of solution with two electrodes connected in series with a lit light bulb. Below it, a diagram of a beaker with two electrode plates shows a negative ion (black circle with a minus sign) moving right toward the positive plate and a positive ion (pink circle with a plus sign) moving left toward the negative plate. Two pairs of black and pink joined circles are also in the solution. The left plate is labelled minus and connects through an ammeter to the negative terminal. The right plate is labelled plus and connects through a lit bulb to the positive terminal.",
+   "shows": "A diagram at the top shows a beaker of solution with two electrode plates, a negative ion (black circle with a minus sign) moving right toward the positive plate and a positive ion (pink circle with a plus sign) moving left toward the negative plate. Two pairs of black and pink joined circles are also in the solution. The left plate is labelled minus and connects through a voltmeter to the negative terminal. The right plate is labelled plus and connects through a lit bulb to the positive terminal. Below it, a photograph shows a beaker of solution with two electrodes connected in series with a lit light bulb.",
    "labels": [
     "−",
     "+",
@@ -101998,7 +101992,7 @@
     "+",
     "−",
     "+",
-    "Λ"
+    "V"
    ],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -102178,7 +102172,7 @@
    "page": 239,
    "localPath": "/textbook-images/rwanda/93/page239-embedded-72.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of a conductivity test setup. A clear light bulb hangs in a socket at the left and is wired to a glass beaker at the right that holds a liquid and two vertical electrodes. A metal spoon is held in the lower right, touching the circuit wire, and a hand holds its handle. A white substance is visible in the liquid near the top of the beaker. No labels are printed.",
+   "shows": "A photograph of a conductivity test setup. A clear light bulb sits in a socket at the left and is wired to a glass beaker at the right that holds a liquid and two vertical electrodes. A spoon is held at the upper right, above the beaker, pouring a white substance into the liquid, and a hand holds its handle. A white cloudy substance is visible in the liquid near the bottom of the beaker. No labels are printed.",
    "labels": [],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -102192,7 +102186,7 @@
    "page": 239,
    "localPath": "/textbook-images/rwanda/93/page239-embedded-84.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of a simple conductivity test circuit. A lit clear light bulb in a ceiling-type holder on the left is connected by thin wires to a clear plastic holder with dark clips in the middle. A wire runs from the holder to a pink and yellow cylindrical container at the lower right. The background is blue and nothing is labelled.",
+   "shows": "A photograph of a simple conductivity test circuit. A lit clear light bulb in a base holder on the left is connected by thin wires to a glass beaker with dark clips in the middle. A liquid is being poured into the beaker from a pink and yellow cylindrical container at the upper right. The background is blue and nothing is labelled.",
    "labels": [],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -102448,10 +102442,10 @@
    "page": 85,
    "localPath": "/textbook-images/rwanda/94/page85-embedded-6.jpeg",
    "noun": "drawing",
-   "shows": "A blue panel with black-and-white line drawings of eight containers and a set of cutlery: a cardboard takeout box, a ribbed plastic bottle, a plastic cup, a can, a tub with a lid, a food tray with a straw, a foam clamshell box, and a squeeze bottle. A fork, spoon and knife are crossed in the centre. The text at the bottom reads \"CONTAINERS\" with \"FOR RECYCLING\" above it, and the whole image is upside down or mirrored.",
+   "shows": "A blue panel with black-and-white line drawings of eight containers and a set of cutlery: a ribbed plastic bottle, a plastic cup, a food tray with a straw, a foam clamshell box, a squeeze bottle, a cardboard takeout box, a can, and a tub. A fork, spoon and knife are crossed in the centre. The text at the top reads \"CONTAINERS\" with \"FOR RECYCLING\" below it, and the image is shown the correct way up.",
    "labels": [
-    "FOR RECYCLING",
-    "CONTAINERS"
+    "CONTAINERS",
+    "FOR RECYCLING"
    ],
    "topic": "Effective Ways of Waste Management",
    "original": ""
@@ -102493,7 +102487,7 @@
    "page": 23,
    "localPath": "/textbook-images/rwanda/94/page23-embedded-4.jpeg",
    "noun": "diagram",
-   "shows": "A cutaway drawing of a cylindrical dry cell (battery). It has a blue outer casing, a pink/mauve layer inside it, and a large yellow region filling the interior. A dark grey central rod runs down the middle. Layers of blue and grey-blue discs sit at the bottom above a red base with a small white part. Three label lines on the right point to the yellow region, the central rod and the outer casing, but the label text is blank.",
+   "shows": "A cutaway drawing of a cylindrical dry cell (battery). It has a blue outer casing, a pink/mauve layer inside it, and a large yellow region filling the interior. A dark grey central rod runs down the middle. Layers of grey-blue and blue discs sit at the top below a red cap with a small white part. Three label lines on the right point to the mauve layer, the central rod and the yellow region, but the label text is blank.",
    "labels": [],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -102673,19 +102667,17 @@
    "page": 241,
    "localPath": "/textbook-images/rwanda/94/page241-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "The top is a photograph of a strong electrolyte test. Two dark electrodes stand in a glass jar of solution, wired in series with a glowing light bulb in a ceiling socket. Below it, a diagram of a beaker shows a negative electrode on the left and a positive electrode on the right. Positive ions (+) move left toward the negative electrode and negative ions (−) move right toward the positive electrode. The circuit connects the electrodes through an ammeter symbol (Λ) and a lit bulb, with the terminals marked − on the left and + on the right.",
+   "shows": "The top is a diagram of a beaker showing a negative electrode on the left and a positive electrode on the right. Positive ions (+) move left toward the negative electrode and negative ions (−) move right toward the positive electrode. The circuit connects the electrodes through a voltmeter symbol (V) and a lit bulb, with the terminals marked − on the left and + on the right. Below it, a photograph of a strong electrolyte test shows two dark electrodes standing in a glass jar of solution, wired in series with a glowing light bulb in a socket on the table.",
    "labels": [
+    "−",
+    "V",
     "+",
     "−",
     "+",
-    "−",
     "+",
     "−",
     "+",
-    "−",
-    "Λ",
-    "−",
-    "+"
+    "−"
    ],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -102699,7 +102691,7 @@
    "page": 241,
    "localPath": "/textbook-images/rwanda/94/page241-embedded-1.jpeg",
    "noun": "diagram",
-   "shows": "The top is a photograph of a beaker holding a solution with two electrodes. It is wired in series to a lit light bulb in a ceiling socket. The bottom is a diagram of a beaker with two plates. The left plate is labelled with a minus sign and the right plate with a plus sign. Pairs of grey and pink spheres sit in the solution. A grey sphere marked minus has an arrow pointing toward the right (positive) plate. A pink sphere marked plus has an arrow pointing toward the left (negative) plate. The circuit has an ammeter symbol (Λ) and a lit bulb, with a negative terminal on the left and a positive terminal on the right.",
+   "shows": "The top is a diagram of a beaker with two plates. The left plate is labelled with a minus sign and the right plate with a plus sign. Pairs of grey and pink spheres sit in the solution. A grey sphere marked minus has an arrow pointing toward the right (positive) plate. A pink sphere marked plus has an arrow pointing toward the left (negative) plate. The circuit has a voltmeter symbol (V) and a lit bulb, with a negative terminal on the left and a positive terminal on the right. The bottom is a photograph of a beaker holding a solution with two electrodes. It is wired in series to a lit light bulb in a socket on a tabletop.",
    "labels": [
     "−",
     "+",
@@ -102707,7 +102699,7 @@
     "+",
     "−",
     "+",
-    "Λ"
+    "V"
    ],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -102906,7 +102898,7 @@
    "page": 239,
    "localPath": "/textbook-images/rwanda/94/page239-embedded-72.jpeg",
    "noun": "photograph",
-   "shows": "A conductivity test setup with a clear light bulb in a socket on the left, wired to a glass beaker on the right that holds a liquid and two vertical electrodes. A wire runs from the beaker to a metal spoon at the lower right, held by a hand. There are no printed labels.",
+   "shows": "A conductivity test setup with a clear light bulb in a socket on the left, wired to a glass beaker on the right that holds a liquid and two vertical electrodes. A wire runs from the beaker down the right side, while a spoon at the upper right, held by a hand, pours white solid into the liquid. There are no printed labels.",
    "labels": [],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -102920,7 +102912,7 @@
    "page": 239,
    "localPath": "/textbook-images/rwanda/94/page239-embedded-84.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of a conductivity test circuit. A lit incandescent bulb in a holder at the left is joined by wires to two black clips in a clear plastic holder at the centre. Wires also run from the clips to a pink and yellow container at the lower right. The bulb is glowing. The figure has no printed labels.",
+   "shows": "A photograph of a conductivity test circuit. A lit incandescent bulb in a holder at the left is joined by a wire to a black clip in a clear glass beaker at the centre. A second wire runs from the holder to the other clip. A pink and yellow container at the upper right pours liquid into the beaker. The bulb is glowing. The figure has no printed labels.",
    "labels": [],
    "topic": "Electrolytes and Non-electrolytes",
    "original": ""
@@ -103716,7 +103708,7 @@
    "page": 175,
    "localPath": "/textbook-images/rwanda/96/page175-embedded-2.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white photograph of a stone sculpture of a large seated or kneeling figure holding a small figure against its chest. The large figure has a broad face, a beaded necklace, and spiral patterns carved on its shoulders and arms. The small figure leans against the large one with a hand raised to its face. The tones in the image appear inverted.",
+   "shows": "A black-and-white photograph of a stone sculpture of a large seated or kneeling figure holding a small figure against its chest. The large figure has a broad face, a beaded necklace, and spiral patterns carved on its shoulders and arms. The small figure leans against the large one with a hand raised to its face. The tones in the image appear natural, with a light background and a darker grey sculpture.",
    "labels": [],
    "topic": "The Arts and Society",
    "original": ""
@@ -103730,7 +103722,7 @@
    "page": 178,
    "localPath": "/textbook-images/rwanda/96/page178-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A color-inverted (negative-style) photograph of a seated Buddha statue in a lotus position on a lotus-flower base. The right hand is raised with the palm facing out, the left hand rests in the lap, the eyes are half-closed, the hair is in tight curls with a topknot, and a swastika-like symbol is on the chest. The robe drapes over the shoulders.",
+   "shows": "A black-and-white photograph of a dark bronze seated Buddha statue in a lotus position on a lotus-flower base, against a light gray background. The right hand is raised with the palm facing out, the left hand rests in the lap, the eyes are half-closed, the hair is in tight curls with a topknot, and a swastika-like symbol is on the chest. The robe drapes over the shoulders.",
    "labels": [],
    "topic": "Heritage and Culture",
    "original": "The Buddha is usually seen in either a meditative lotus position or standing. Half-closed eyes symbolise meditation, emphasising looking inwards and"
@@ -104371,7 +104363,7 @@
    "page": 164,
    "localPath": "/textbook-images/rwanda/98/page164-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white photograph with inverted tones showing a long line of many dead fish washed up along a shoreline or lake edge. A single person stands in the far distance, near the top of the image. The ground is flat and open, with a hazy horizon.",
+   "shows": "A black-and-white photograph with normal tones showing a long line of many dead fish washed up along a shoreline or lake edge. A single person stands in the far distance, near the top of the image. The ground is flat and open, with a hazy horizon.",
    "labels": [],
    "topic": "Unit 10: Environment friendly farming for sustainable food production",
    "original": ""
@@ -104385,7 +104377,7 @@
    "page": 165,
    "localPath": "/textbook-images/rwanda/98/page165-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white photograph (tones look inverted) of a wide, flat land surface covered with a dense network of cracks, forming irregular polygon-shaped patches of dried, cracked ground. Hills or mountains and a cloudy sky appear along the distant horizon. There are no labels on the image.",
+   "shows": "A black-and-white photograph of a wide, flat land surface covered with a dense network of cracks, forming irregular polygon-shaped patches of dried, cracked ground. Hills or mountains and a pale sky appear along the distant horizon. There are no labels on the image.",
    "labels": [],
    "topic": "Unit 10: Environment friendly farming for sustainable food production",
    "original": "Fig. 10.5: Desertification of the land surface"
@@ -104399,7 +104391,7 @@
    "page": 209,
    "localPath": "/textbook-images/rwanda/98/page209-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white, inverted-tone photograph of a large dome-shaped thatched house with a pointed top and a bright open doorway at the front. It stands on a low round platform and is surrounded by woven reed fences, with trees and a dark sky behind it. No text appears on the image.",
+   "shows": "A black-and-white photograph of a large dome-shaped thatched house with a pointed top and a dark open doorway at the front. It stands on a low round platform and is surrounded by woven reed fences, with trees and a bright, pale sky behind it. No text appears on the image.",
    "labels": [],
    "topic": "Unit 13: Relationship between tourism and culture",
    "original": ""
@@ -104413,7 +104405,7 @@
    "page": 210,
    "localPath": "/textbook-images/rwanda/98/page210-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white photograph of a woven strip-patterned cloth, similar to kente, made of rectangular panels in a grid. Some panels have a white stepped diamond motif with a small dark cross in the centre and vertical lines above and below, set on a striped background. Other panels are filled with a fine dotted or checked texture. The diamond panels and textured panels alternate.",
+   "shows": "A black-and-white photograph of a woven strip-patterned cloth, similar to kente, made of rectangular panels in a grid. Some panels have a black stepped diamond motif with a small white open square in the centre and vertical black lines above and below, set on a light striped background. Other panels are filled with a fine dotted or checked texture. The diamond panels and textured panels alternate.",
    "labels": [],
    "topic": "Unit 13: Relationship between tourism and culture",
    "original": ""
@@ -104445,7 +104437,7 @@
    "page": 139,
    "localPath": "/textbook-images/rwanda/98/page139-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A white-on-black circular emblem. The ring around it reads \"INTERNATIONAL MONETARY FUND\", with a star on each side. The center holds a shield-shaped panel with two overlapping globes, one showing the Eastern Hemisphere (Europe, Africa and Asia) and the other the Americas. An olive branch lies below the globes.",
+   "shows": "A black-on-white circular emblem. The ring around it reads \"INTERNATIONAL MONETARY FUND\", with a star on each side. The center holds a shield-shaped panel with two overlapping globes, one showing the Eastern Hemisphere (Europe, Africa and Asia) and the other the Americas. An olive branch lies below the globes.",
    "labels": [
     "INTERNATIONAL",
     "MONETARY",
@@ -104463,7 +104455,7 @@
    "page": 178,
    "localPath": "/textbook-images/rwanda/98/page178-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white, color-inverted close-up photograph of honeycomb with rounded hexagonal cells. Several honey bees sit on the comb at the upper right, and the bees' striped abdomens, wings and legs are visible. The image has no labels or printed values.",
+   "shows": "A black-and-white close-up photograph of honeycomb with rounded hexagonal cells. Several honey bees sit on the comb at the right, and the bees' striped abdomens, wings and legs are visible. The image has no labels or printed values.",
    "labels": [],
    "topic": "Unit 11: Uses and application of Mathematics in daily life",
    "original": ""
@@ -104477,7 +104469,7 @@
    "page": 199,
    "localPath": "/textbook-images/rwanda/98/page199-embedded-2.jpeg",
    "noun": "drawing",
-   "shows": "A black outline logo on a grey background: a circular speech bubble with a tail at the lower left, containing a solid black telephone handset. This is the WhatsApp messaging app icon. No text is printed on it.",
+   "shows": "A white outline logo on a grey background: a circular speech bubble with a tail at the lower left, containing a solid white telephone handset. This is the WhatsApp messaging app icon. No text is printed on it.",
    "labels": [],
    "topic": "Unit 5: Communication, international relations and cooperation",
    "original": ""
@@ -106276,7 +106268,7 @@
    "page": 34,
    "localPath": "/textbook-images/rwanda/106/page34-embedded-0.jpeg",
    "noun": "map",
-   "shows": "A hand-drawn white-on-black sketch map of a school compound seen from above, enclosed by a fence, with a kerb and a road along the right side. Inside are a building with an entrance and courtyard, a display garden, a produce garden, a playground, latrines, a tap, a shed, a rubbish pit, a gate with a path leading to the building, power lines crossing from the road to the building, and several trees.",
+   "shows": "A hand-drawn black-on-white sketch map of a school compound seen from above, enclosed by a fence, with a kerb and a road along the right side. Inside are a building with an entrance and courtyard, a display garden, a produce garden, a playground, latrines, a tap, a shed, a rubbish pit, a gate with a path leading to the building, power lines crossing from the road to the building, and several trees.",
    "labels": [
     "rubbish pit",
     "produce garden",
@@ -106446,7 +106438,7 @@
    "page": 165,
    "localPath": "/textbook-images/rwanda/106/page165-embedded-6.png",
    "noun": "diagram",
-   "shows": "A drawing of a U-shaped (sideways) tube apparatus with two glass thermometer-like arms, one at the top and one at the bottom, joined by a dark band on the right side. The top arm ends in a pointed bulb on the left and the bottom arm in a rounded bulb on the left. Each arm is dotted and has a narrowed constriction, and the dark filling runs from each arm around the right-hand bend. Three clamp-like bracket shapes hold the tube, one near each left end and one on the right side. There are no labels or printed values.",
+   "shows": "A drawing of a U-shaped (upright) tube apparatus with two glass thermometer-like arms, one on the left and one on the right, joined by a dark band at the bottom. The left arm ends in a rounded bulb at the top and the right arm in a pointed bulb at the top. Each arm is dotted and has a narrowed constriction, and the dark filling runs from each arm down around the bottom bend. Three clamp-like bracket shapes hold the tube, one near each top end and one at the bottom. There are no labels or printed values.",
    "labels": [],
    "topic": "Weather and climate",
    "original": ""
@@ -134369,7 +134361,7 @@
    "page": 355,
    "localPath": "/textbook-images/rwanda/125/page355-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "Two side-by-side diagrams on a black background, each with two white circles and a dashed segment joining their centres, marked by a curly brace. On the left the circles are externally tangent, and braces mark the whole distance between the centres and each radius along the segment. On the right a smaller circle lies inside a larger one and touches it internally, with braces marking the distance between the centres and a radius. No letters or numbers are printed on the figure.",
+   "shows": "Two side-by-side diagrams on a white background, each with two black circles and a dashed segment joining their centres, marked by a curly brace. On the left the circles are externally tangent, and braces mark the whole distance between the centres and each radius along the segment. On the right a smaller circle lies inside a larger one and touches it internally, with braces marking the distance between the centres and a radius. No letters or numbers are printed on the figure.",
    "labels": [],
    "topic": "Points, Straight Lines, Planes and Sphere in 3D",
    "original": ""
@@ -135728,32 +135720,32 @@
    "page": 157,
    "localPath": "/textbook-images/rwanda/127/page157-embedded-0.png",
    "noun": "diagram",
-   "shows": "A rectangular ruler drawn upside down (rotated 180°). The top edge is an inch scale labelled 1 to 6 with the word INCH, divided into smaller fractions of an inch. The bottom edge is a centimetre scale labelled 1 to 15 with MM and CM, with millimetre tick marks.",
+   "shows": "A rectangular ruler drawn upright. The top edge is a centimetre scale labelled 1 to 15 with MM and CM, with millimetre tick marks. The bottom edge is an inch scale labelled 1 to 6 with the word INCH, divided into smaller fractions of an inch.",
    "labels": [
+    "MM",
+    "CM",
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
     "INCH",
     "1",
     "2",
     "3",
     "4",
     "5",
-    "6",
-    "15",
-    "14",
-    "13",
-    "12",
-    "11",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-    "1",
-    "MM",
-    "CM"
+    "6"
    ],
    "topic": "Unit 6: Points, lines and angles",
    "original": ""
@@ -138886,7 +138878,7 @@
    "page": 172,
    "localPath": "/textbook-images/rwanda/140/page172-embedded-4.jpeg",
    "noun": "drawing",
-   "shows": "A hand-drawn wooden chair turned upside down, with its seat facing up in the middle and its legs pointing up. Two crossbars sit between the back legs at the bottom, and a small wheel is at the foot of a leg. The seat corners and the places where the legs meet the seat look like right angles. There are no labels.",
+   "shows": "A hand-drawn wooden chair standing upright, with its seat facing up in the middle and its legs pointing down. Two crossbars sit in the chair back at the top, and there is no wheel at the foot of a leg. The seat corners and the places where the legs meet the seat look like right angles. There are no labels.",
    "labels": [],
    "topic": "Right angle, square and rectangle",
    "original": "Look at the objects. Show all right angles. Table Cupboard Chair"
@@ -138970,9 +138962,9 @@
    "page": 155,
    "localPath": "/textbook-images/rwanda/140/page155-embedded-6.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of one side of a round silver-coloured coin. The large number 20 is at the top. Below it is an emblem inside a circular border, showing a shield with a sun and a bunch of grapes, with a ribbon of small text above it. Text runs around the edge of the coin.",
+   "shows": "A photograph of one side of a round silver-coloured coin. The large number 50 is at the bottom. Above it is an emblem inside a circular border, showing a shield with a sun, a tree and a branch, with a ribbon of small text above it. Text runs around the edge of the coin.",
    "labels": [
-    "20"
+    "50"
    ],
    "topic": "Rwandan currency from 1 frw up to 100 frw",
    "original": ""
@@ -139070,7 +139062,7 @@
    "page": 173,
    "localPath": "/textbook-images/rwanda/140/page173-embedded-1.jpeg",
    "noun": "drawing",
-   "shows": "A hand-painted drawing of three books stacked one above another, seen at a slant. The top book has a red cover, the middle book a green cover, and the bottom book a yellow cover. Each book has white pages showing along its edge. There are no labels or numbers.",
+   "shows": "A hand-painted drawing of three books stacked one above another, seen at a slant. The top book has a yellow cover, the middle book a green cover, and the bottom book a red cover. Each book has white pages showing along its edge. There are no labels or numbers.",
    "labels": [],
    "topic": "Directions, location of objects and lines",
    "original": ""
@@ -140570,7 +140562,7 @@
    "page": 226,
    "localPath": "/textbook-images/rwanda/145/page226-embedded-9.jpeg",
    "noun": "drawing",
-   "shows": "A smiling girl in a blue dress holds two long sticks joined at one end, with the joint in her right hand near her body. She holds the other ends apart to form an angle that opens wider than a right angle, so it is obtuse. There are no labels or numbers.",
+   "shows": "A smiling girl in a blue dress holds two long sticks joined at one end, with the joint held out in front of her between her hands. She holds one stick in each hand to form an angle that opens wider than a right angle, so it is obtuse. There are no labels or numbers.",
    "labels": [],
    "topic": "Types of Lines and Angles",
    "original": "Activity 10. 2.5 Look at the picture and"
@@ -140727,7 +140719,7 @@
    "page": 69,
    "localPath": "/textbook-images/rwanda/145/page69-embedded-4.png",
    "noun": "diagram",
-   "shows": "A place-value chart with three columns labelled Hundreds, Tens and Ones, and the labels appear upside down. The Hundreds column has 3 green hundred-blocks, and one of them is crossed out with a red X. The Tens column has several blue ten-rods, all crossed out with red X marks. The Ones column has 4 small blue unit cubes, and 2 of them are crossed out with red X marks.",
+   "shows": "A place-value chart with three columns labelled Hundreds, Tens and Ones, and the labels read upright. The Hundreds column has 3 green hundred-blocks, and one of them is crossed out with a red X. The Tens column has several blue ten-rods, most crossed out with red X marks and the rightmost one left uncrossed. The Ones column has 5 small blue unit cubes, and 2 of them are crossed out with red X marks.",
    "labels": [
     "Hundreds",
     "Tens",
@@ -145472,7 +145464,7 @@
    "page": 120,
    "localPath": "/textbook-images/rwanda/157/page120-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A colored drawing of a reddish-brown hen standing and facing right. It has a red comb and wattle, a small yellow beak, and grayish-pink legs and feet. There are no labels.",
+   "shows": "A colored drawing of a reddish-brown hen standing and facing left. It has a red comb and wattle, a small yellow beak, and grayish-pink legs and feet. There are no labels.",
    "labels": [],
    "topic": "Rabbits and Chickens Management",
    "original": ""
@@ -148050,7 +148042,7 @@
    "page": 202,
    "localPath": "/textbook-images/rwanda/162/page202-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "Two green plastic cups are shown upside down next to a loose tangle of string and a spool of light green kite string. The cups are labelled \"Plastic cups\" and the spool is labelled \"Kite string\". The whole picture is rotated upside down.",
+   "shows": "Two green plastic cups are shown upright next to a loose tangle of string and a spool of light green kite string. The cups are labelled \"Plastic cups\" and the spool is labelled \"Kite string\". The whole picture is in its normal orientation.",
    "labels": [
     "Kite string",
     "Plastic cups"
@@ -150713,21 +150705,8 @@
    "page": 182,
    "localPath": "/textbook-images/rwanda/165/page182-embedded-1.jpeg",
    "noun": "diagram",
-   "shows": "A hand-drawn ruler with two scales. The top edge has a scale from 10 to 120 labelled \"AM\" at the left, with numbers every 10 (10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120). The bottom edge is a centimetre scale labelled \"cm\" at the right, numbered 1 to 14 running right to left. Both scales have small tick marks, and the writing appears upside down or mirrored.",
+   "shows": "A hand-drawn ruler with two scales. The top edge is a centimetre scale labelled \"cm\" at the left, numbered 1 to 14 running left to right. The bottom edge is a scale from 10 to 120 labelled \"AM\" at the right, with numbers every 10 running right to left (10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120). Both scales have small tick marks, and the writing on the lower scale appears upside down or mirrored.",
    "labels": [
-    "AM",
-    "10",
-    "20",
-    "30",
-    "40",
-    "50",
-    "60",
-    "70",
-    "80",
-    "90",
-    "100",
-    "110",
-    "120",
     "cm",
     "1",
     "2",
@@ -150742,7 +150721,20 @@
     "11",
     "12",
     "13",
-    "14"
+    "14",
+    "AM",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "100",
+    "110",
+    "120"
    ],
    "topic": "Construction of Polygons and Nets for Cuboids and Prisms",
    "original": ""
@@ -150756,21 +150748,8 @@
    "page": 184,
    "localPath": "/textbook-images/rwanda/165/page184-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "A hand-drawn ruler with two scales. The top edge is marked in mm from 10 to 120 in steps of 10, with the label \"AM\" at the left. The bottom edge is marked in cm from 0 to 14, and its numbers appear mirrored.",
+   "shows": "A hand-drawn ruler with two scales. The top edge is marked in cm from 1 to 14, with the label \"CM\" at the left. The bottom edge is marked in mm from 10 to 120 in steps of 10, with the label \"MM\" at the right, and its numbers appear upside down and mirrored.",
    "labels": [
-    "AM",
-    "10",
-    "20",
-    "30",
-    "40",
-    "50",
-    "60",
-    "70",
-    "80",
-    "90",
-    "100",
-    "110",
-    "120",
     "CM",
     "1",
     "2",
@@ -150784,7 +150763,20 @@
     "10",
     "12",
     "13",
-    "14"
+    "14",
+    "MM",
+    "10",
+    "20",
+    "30",
+    "40",
+    "50",
+    "60",
+    "70",
+    "80",
+    "90",
+    "100",
+    "110",
+    "120"
    ],
    "topic": "Construction of Polygons and Nets for Cuboids and Prisms",
    "original": ""
@@ -151174,7 +151166,7 @@
    "page": 18,
    "localPath": "/textbook-images/rwanda/166/page18-embedded-2.jpeg",
    "noun": "drawing",
-   "shows": "A crayon-style drawing of two buildings against a yellow-orange sky with an orange sun at the upper right. On the left is a tall, narrow, cream-coloured building with a green roof, six blue windows in three rows of two, and a brown door at the bottom. On the right is a much smaller house with a green gabled roof, an orange wall with yellow swirl and zigzag patterns, and one blue window. Green grass shows behind and beside the buildings.",
+   "shows": "A crayon-style drawing of two buildings against a yellow-orange sky with an orange sun at the upper left. On the right is a tall, narrow, cream-coloured building with a green roof, six blue windows in three rows of two, and a brown door at the bottom. On the left is a much smaller house with a green gabled roof, an orange wall with yellow swirl and zigzag patterns, and one blue window. Green grass shows behind and beside the buildings.",
    "labels": [],
    "topic": "Introduction to Composition Arrangement",
    "original": ""
@@ -153046,7 +153038,7 @@
    "page": 55,
    "localPath": "/textbook-images/rwanda/171/page55-embedded-0.png",
    "noun": "diagram",
-   "shows": "The image is upside down. It shows a pendulum drawn in five positions, each a dark circular bob on a line (thread) fixed at one pivot point on a black rectangular support. The thread is solid at the extreme position on the right and dashed for the other positions. The right-hand bob is labelled \"v = 0 m/s Maximum height\", and the middle bob is labelled \"v is max Minimum Height\". The length of the thread is labelled L.",
+   "shows": "The image is upright. It shows a pendulum drawn in five positions, each a dark circular bob on a line (thread) fixed at one pivot point on a black rectangular support. The thread is solid at the extreme position on the right and dashed for the other positions. The right-hand bob is labelled \"Maximum height v = 0 m/s\", and the middle bob is labelled \"Minimum Height v is max\". The length of the thread is labelled L.",
    "labels": [
     "v is max",
     "Minimum",
@@ -153195,7 +153187,7 @@
    "page": 182,
    "localPath": "/textbook-images/rwanda/171/page182-embedded-0.png",
    "noun": "diagram",
-   "shows": "The figure is upside down. It shows a 10 kg object at the top (height 0) and a dashed box at the bottom (12 m), joined by a dashed arrow. Five levels are marked 0, 3 m, 6 m, 9 m and 12 m, and each has a box of energy values. At 0: EK = 1200 J, Ep = 0, ET = 1200 J. At 3 m: EK = 900 J, Ep = 300 J, ET = 1200 J. At 6 m: EK = 600 J, Ep = 600 J, ET = 1200 J. At 9 m: EK = 300 J, Ep = 900 J, ET = 1200 J. At 12 m: EK = 0, Ep = 1200 J, ET = 1200 J.",
+   "shows": "The figure is upright. It shows a dashed box at the top (12 m) and a 10 kg object at the bottom (height 0), joined by a dashed arrow pointing down. Five levels are marked 0, 3 m, 6 m, 9 m and 12 m, and each has a box of energy values. At 0: EK = 1200 J, Ep = 0, ET = 1200 J. At 3 m: EK = 900 J, Ep = 300 J, ET = 1200 J. At 6 m: EK = 600 J, Ep = 600 J, ET = 1200 J. At 9 m: EK = 300 J, Ep = 900 J, ET = 1200 J. At 12 m: EK = 0, Ep = 1200 J, ET = 1200 J.",
    "labels": [
     "0",
     "10 kg",
@@ -154814,7 +154806,7 @@
    "page": 128,
    "localPath": "/textbook-images/rwanda/172/page128-embedded-1.png",
    "noun": "diagram",
-   "shows": "A white-on-black drawing of a coast. On the left is land with a house and two trees, and palm-like trees bend in the wind near the shore. The sea is on the lower right, and a sun with rays is at the upper right. A long arrow runs from the sun's side toward the land at the top. A lower arrow runs from the sea toward the land and then curves upward. A second curved arrow rises over the land. Together they show air moving from sea to land and then rising. There are no text labels.",
+   "shows": "A black-on-white drawing of a coast. On the left is land with a house and two trees, and palm-like trees bend in the wind near the shore. The sea is on the lower right, and a sun with rays is at the upper right. A long arrow runs from the sun's side toward the land at the top. A lower arrow runs from the sea toward the land. Two curved arrows rise over the land at the upper left. Together they show air moving from sea to land and then rising. There are no text labels.",
    "labels": [],
    "topic": "Heat Transfer and Quantity of heat",
    "original": ""
@@ -154828,7 +154820,7 @@
    "page": 128,
    "localPath": "/textbook-images/rwanda/172/page128-embedded-2.png",
    "noun": "diagram",
-   "shows": "A white-on-black drawing of a coast with land on the left (a house, trees, grass bending in the wind) and sea on the right, with clouds and a crescent moon in the sky. Large arrows show air movement: one arrow curves down toward the land from the sky, one runs from the land out over the sea at a high level, and one runs from the land's edge out over the sea at a low level. There are no printed labels.",
+   "shows": "A black-on-white drawing of a coast with land on the left (a house, trees, grass bending in the wind) and sea on the right, with clouds and a crescent moon in the sky. Large arrows show air movement: two arrows curve down toward the land from the sky, one runs from the land out over the sea at a high level, and one runs from the land's edge out over the sea at a low level. There are no printed labels.",
    "labels": [],
    "topic": "Environmental phenomena and related physical concept",
    "original": ""
@@ -154842,7 +154834,7 @@
    "page": 145,
    "localPath": "/textbook-images/rwanda/172/page145-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white photograph of railway tracks seen from above, with the rails curving and branching at a junction. Where the rail ends meet, they overlap, and the figure sits under the caption 'Fig. 5.32: Overlapping joints'. No labels are printed on the image itself.",
+   "shows": "A black-and-white photograph of railway tracks seen from above at an angle, with the rails curving and branching at a switch or junction with a rack rail section. The rails diverge and cross over one another near the center. The image itself carries no caption or labels.",
    "labels": [],
    "topic": "Thermal expansion",
    "original": "To demonstrate causes of expansion and contraction Fig. 5.32: Overlapping joints"
@@ -155028,7 +155020,7 @@
    "page": 123,
    "localPath": "/textbook-images/rwanda/172/page123-embedded-2.png",
    "noun": "drawing",
-   "shows": "A drawing of apparatus on a round base with a power cord. A vertical stand holds a lit light bulb inside a cone. Above the bulb is a circular disc cut into six curved blades, and a large cylindrical container surrounds it all. Curved arrows show air entering at the bottom left and leaving at the top right. No text labels are printed.",
+   "shows": "A drawing of apparatus on a round base with a power cord. A vertical stand holds a lit light bulb inside a cone. Above the bulb is a circular lid cut into six curved blades, and a large cylindrical container surrounds it all. Curved arrows show air entering at the bottom left and leaving at the top right. No text labels are printed.",
    "labels": [],
    "topic": "Heat Transfer and Quantity of heat",
    "original": ""
@@ -156176,12 +156168,12 @@
    "page": 326,
    "localPath": "/textbook-images/rwanda/173/page326-embedded-2.png",
    "noun": "diagram",
-   "shows": "Electric field lines of two unlike charges: a positive charge (+) on the left and a negative charge (−) on the right, with curved lines running from the positive to the negative charge and some lines curving outward on the far sides. A point labelled b lies below and to the left of the positive charge, with an arrow from it pointing down and to the right, labelled E. The figure is captioned (g).",
+   "shows": "Electric field lines of two unlike charges: a positive charge (+) on the left and a negative charge (−) on the right, with curved lines running from the positive to the negative charge and some lines curving outward on the far sides. A point labelled P lies above and to the left of the positive charge, with an arrow from it pointing up and to the right, labelled E. The figure is captioned (a).",
    "labels": [
-    "(g)",
+    "(a)",
     "+",
     "−",
-    "b",
+    "P",
     "E"
    ],
    "topic": "Unit 10: Effects of electric and potential fields",
@@ -157067,7 +157059,7 @@
    "page": 77,
    "localPath": "/textbook-images/rwanda/174/page77-embedded-1.png",
    "noun": "diagram",
-   "shows": "A cutaway diagram of a microwave oven with a roast chicken on a plate inside the cooking chamber, a door with a handle, a keypad, and a digital display reading 11:00. Inside the casing are a transformer-like block, a power cable at the right, a rectangular waveguide, and a purple fan-like stirrer at the bottom. Six leader lines point to parts (chicken, door, chamber, stirrer, waveguide, power supply/magnetron area), but none have printed labels.",
+   "shows": "A cutaway diagram of a microwave oven with a roast chicken on a plate inside the cooking chamber, a door with a handle, a keypad, and a digital display reading 11:00. Inside the casing are a transformer-like block, a power cable at the right, a rectangular waveguide, and a purple fan-like stirrer at the top. Seven leader lines point to parts (chicken, door, chamber, stirrer, waveguide, power supply/magnetron area, power cable), but none have printed labels.",
    "labels": [
     "11:00"
    ],
@@ -157132,7 +157124,7 @@
    "page": 288,
    "localPath": "/textbook-images/rwanda/174/page288-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "A large pale yellow oval holds the core network. It contains three green MSC boxes joined by lines in a triangle, four tan BSC boxes each linked to an MSC, a blue HLR cylinder, a dark green SMSC box and a yellow SCP cylinder. A box labelled PSTN sits above the oval and is joined to it by a line. Around the oval are five clusters of grey hexagonal cells with antenna masts, which stand for the cell coverage areas served by the BSCs. The whole figure appears mirrored or upside-down.",
+   "shows": "A large pale yellow oval holds the core network. It contains three green MSC boxes joined by lines in a triangle, four tan BSC boxes each linked to an MSC, a blue HLR cylinder, a dark green SMSC box and a yellow SCP cylinder. A box labelled PSTN sits below the oval and is joined to it by a line. Around the oval are five clusters of grey hexagonal cells with antenna masts, which stand for the cell coverage areas served by the BSCs. The text reads normally and the figure is shown the right way up.",
    "labels": [
     "PSTN",
     "BSC",
@@ -157979,41 +157971,41 @@
    "page": 168,
    "localPath": "/textbook-images/rwanda/176/page168-embedded-0.png",
    "noun": "diagram",
-   "shows": "A four-panel diagram titled \"Classical Conditioning\" that appears upside-down (flipped vertically). Each panel shows a dog's head and a stimulus. Panel 1, Before Conditioning: food (unconditioned stimulus) gives the response salivation (unconditioned response). Panel 2, Before Conditioning: a bell (neutral stimulus) gives no salivation (no conditioned response). Panel 3, During Conditioning: bell + food gives salivation (unconditioned response). Panel 4, After Conditioning: the bell (conditioned stimulus) gives salivation (conditioned response).",
+   "shows": "A four-panel diagram titled \"Classical Conditioning\" in its normal upright orientation. Each panel shows a dog's head and a stimulus. Panel 1, Before Conditioning: food (unconditioned stimulus) gives the response salivation (unconditioned response). Panel 2, Before Conditioning: a bell (neutral stimulus) gives no salivation (no conditioned response). Panel 3, During Conditioning: bell + food gives salivation (unconditioned response). Panel 4, After Conditioning: the bell (conditioned stimulus) gives salivation (conditioned response).",
    "labels": [
     "Classical Conditioning",
+    "1. Before Conditioning",
+    "Food",
+    "Unconditioned",
+    "Stimulus",
+    "RESPONSE",
+    "Salivation",
+    "Unconditioned",
+    "Response",
+    "2. Before Conditioning",
+    "Bell",
+    "Neutral",
+    "Stimulus",
+    "RESPONSE",
+    "No Salivation",
+    "No Conditioned",
+    "Response",
     "3. During Conditioning",
     "Bell",
     "+",
     "Food",
     "RESPONSE",
+    "Salivation",
     "Unconditioned",
     "Response",
-    "Salivation",
     "4. After Conditioning",
+    "Bell",
     "Conditioned",
     "Stimulus",
-    "Bell",
     "RESPONSE",
+    "Salivation",
     "Conditioned",
-    "Response",
-    "Salivation",
-    "1. Before Conditioning",
-    "Unconditioned",
-    "Stimulus",
-    "Food",
-    "RESPONSE",
-    "Unconditioned",
-    "Response",
-    "Salivation",
-    "2. Before Conditioning",
-    "Neutral",
-    "Stimulus",
-    "Bell",
-    "RESPONSE",
-    "No Conditioned",
-    "Response",
-    "No Salivation"
+    "Response"
    ],
    "topic": "Unit 6: Types of Behavioral Learning",
    "original": "158 Figure 6: Steps of traditional conditioning Source: https://www.wattsburg.org/Unit5Learning.aspx a. Conditioned, unconditioned and neutral stimulus Without any prior conditioning or learning, an unconditioned stimulus (UCS or US) can in"
@@ -158174,16 +158166,16 @@
    "page": 171,
    "localPath": "/textbook-images/rwanda/176/page171-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "A drawing of a Skinner box (operant conditioning chamber) seen from below, so the image and its text are mirrored and upside down. A white rat is inside the box near a lever on the wall. Above the box are a food cup, a dispenser tube, a pellet dispenser, and an electric grid on the floor. The grid has a wire labelled 'To shock generator'. Two signal lights and a speaker sit on the front wall.",
+   "shows": "A drawing of a Skinner box (operant conditioning chamber) seen from the front and slightly above, with the image and its text reading normally. A white rat is inside the box near a lever on the wall. To the left of the box are a pellet dispenser, a dispenser tube and a food cup, and an electric grid forms the floor. A wire from the grid is labelled 'To shock generator'. Two signal lights and a speaker sit on the back wall.",
    "labels": [
+    "Pellet dispenser",
+    "Dispenser tube",
     "Food cup",
     "Electric grid",
     "To shock generator",
-    "Dispenser tube",
     "Lever",
     "Signal lights",
-    "Speaker",
-    "Pellet dispenser"
+    "Speaker"
    ],
    "topic": "Unit 6: Types of Behavioral Learning",
    "original": ""
@@ -158464,7 +158456,7 @@
    "page": 244,
    "localPath": "/textbook-images/rwanda/180/page244-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A white-on-black drawing of a man carrying a bag labelled CEMENT up a sloped ramp onto a raised level platform. A pickup truck stands at the top of the ramp on the platform. Three bags labelled CEMENT are stacked on the ground at the bottom left. No measurements or values are given.",
+   "shows": "A black-on-white drawing of a man carrying a bag labelled CEMENT up a sloped ramp onto a raised level platform. A pickup truck stands at the top of the ramp on the platform. Three bags labelled CEMENT are stacked on the ground at the bottom left. No measurements or values are given.",
    "labels": [
     "CEMENT",
     "CEMENT",
@@ -158754,7 +158746,7 @@
    "page": 149,
    "localPath": "/textbook-images/rwanda/180/page149-embedded-1.jpeg",
    "noun": "drawing",
-   "shows": "Two girls in short-sleeved shirts and skirts stand on separate skateboards, facing each other on a flat board or surface. Each stretches out one arm and their palms touch in the middle. The image is white line art on a black background, with no labels.",
+   "shows": "Two girls in short-sleeved shirts and skirts stand on separate skateboards, facing each other on a flat surface. Each stretches out one arm and their palms touch in the middle. The image is black line art on a white background, with no labels.",
    "labels": [],
    "topic": "Newton's laws of motion (I)",
    "original": ""
@@ -158917,7 +158909,7 @@
    "page": 375,
    "localPath": "/textbook-images/rwanda/180/page375-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A photograph with inverted (negative) tones of an old metal kettle with a lid and a handle on top. The kettle sits on a flat base connected to an electric cord, which is twisted and lies on a table in front. A spout points to the right, and framed photographs hang on a wall in the background. There are no printed labels.",
+   "shows": "A photograph with normal tones of an old metal kettle with a lid and a handle on top. The kettle sits on a table and is connected to an electric cord on its left side, and the braided cord lies twisted on the table in front. A spout points to the right, and framed photographs hang on a wall in the background. There are no printed labels.",
    "labels": [],
    "topic": "Current Electricity (I)",
    "original": ""
@@ -158968,7 +158960,7 @@
    "page": 23,
    "localPath": "/textbook-images/rwanda/180/page23-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "An inverted-colour photograph of a dial mass balance (capacity 20 kg, graduation 100 g) with a metal pan on top. A tall measuring cylinder marked 20, 40, 60, 80, 100 ml stands in the pan. The dial is numbered 0 to 19 clockwise, and the pointer is at 0.",
+   "shows": "A black-and-white photograph of a dial mass balance (capacity 20 kg, graduation 100 g) with a metal pan on top. A tall measuring cylinder marked 20, 40, 60, 80, 100 ml stands in the pan. The dial is numbered 0 to 19 clockwise, and the pointer is at 0.",
    "labels": [
     "ml",
     "100",
@@ -159028,7 +159020,7 @@
    "page": 105,
    "localPath": "/textbook-images/rwanda/180/page105-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A photograph with inverted (negative) tones shows a smiling woman with curly hair, wearing a sleeveless top and loose trousers, walking while pushing an empty wire shopping trolley. She holds the trolley handle with her hands and the trolley is on four small wheels. There are no labels.",
+   "shows": "A black-and-white photograph with normal tones shows a smiling woman with curly hair, wearing a sleeveless top and loose trousers, walking while pushing an empty wire shopping trolley. She holds the trolley handle with her hands and the trolley is on four small wheels. There are no labels.",
    "labels": [],
    "topic": "Force (I)",
    "original": "3. Now, study the pictures shown in Fig 3.2 and discuss with your class partner what is happening in each of them. (a) (b) (c) (d) Fig. 3.2 : Pushing or pulling objects 4. TWhere a push or a pull is occurring."
@@ -159207,7 +159199,7 @@
    "page": 118,
    "localPath": "/textbook-images/rwanda/180/page118-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A color-inverted black-and-white photograph of a child kicking a ball. The child stands on one leg with the other leg swung forward, and the foot is next to a ball in mid-air to the right. The ground is rough and textured. No labels or values are printed.",
+   "shows": "A black-and-white photograph of a child kicking a ball. The child stands on one leg with the other leg swung forward, and the foot is next to a ball in mid-air to the right. The ground is rough and textured. No labels or values are printed.",
    "labels": [],
    "topic": "Force (I)",
    "original": "Activity 3.11 Materials a ball Steps 1. Kick the ball from its resting position. What do you"
@@ -159340,7 +159332,7 @@
    "page": 374,
    "localPath": "/textbook-images/rwanda/180/page374-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white, colour-inverted photograph of an electric radiant heater. A horizontal cylindrical wire-grill guard encloses a heating element tube, with a handle on top. A power cable with a plug leads away from the heater on the right. The heater stands on a flat surface. No labels or values are printed.",
+   "shows": "A black-and-white photograph of an electric radiant heater. A horizontal cylindrical wire-grill guard encloses a heating element tube, with a handle on top. A power cable with a plug leads away from the heater on the right. The heater stands on a flat surface. No labels or values are printed.",
    "labels": [],
    "topic": "Current Electricity (I)",
    "original": ""
@@ -159354,7 +159346,7 @@
    "page": 309,
    "localPath": "/textbook-images/rwanda/180/page309-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white photograph of iron filings sprinkled around a vertical bar magnet, which appears as a dark rectangle. The filings are densely clustered at the two ends (poles) and form curved lines that loop from one end around to the other, showing the magnetic field pattern. No labels or values are printed.",
+   "shows": "A black-and-white photograph of iron filings sprinkled around a vertical bar magnet, which appears as a light rectangle outlined by dark filings. The filings are densely clustered at the two ends (poles) and form curved lines that loop from one end around to the other, showing the magnetic field pattern. No labels or values are printed.",
    "labels": [],
    "topic": "Magnetism",
    "original": ""
@@ -159368,7 +159360,7 @@
    "page": 118,
    "localPath": "/textbook-images/rwanda/180/page118-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A color-inverted black-and-white photograph of a goalkeeper diving sideways in mid-air in front of a goal net. The goal post is the dark bar along the top, and the net is behind the player. The goalkeeper's body is stretched out horizontally with one arm reaching forward and the legs extended behind.",
+   "shows": "A black-and-white photograph of a goalkeeper diving sideways in mid-air in front of a goal net. The goal crossbar is the light bar along the top, and the net is behind the player. The goalkeeper's body is stretched out horizontally with one arm reaching toward the ball on the right and the legs extended behind to the left.",
    "labels": [],
    "topic": "Force (I)",
    "original": "To demonstrate the effect of a force on the shape of an object To demonstrate the effect of a force on an object at rest or in motion Activity 3.11 Materials a ball Steps 1. Kick the ball from its resting position. What do you"
@@ -160241,11 +160233,11 @@
    "page": 56,
    "localPath": "/textbook-images/rwanda/183/page56-embedded-1.jpeg",
    "noun": "diagram",
-   "shows": "The image is upside down. It shows the Earth's surface (green) with the atmosphere (blue band) around it and a sun at the bottom. Yellow arrows show solar radiation: two go from the sun toward the Earth, some are reflected back to space by the Earth and atmosphere, and some are absorbed by the Earth. Red arrows on the right show infrared radiation emitted by the Earth, going out into the atmosphere and space. One thin red arrow points back toward the Earth. Clouds are drawn in the atmosphere.",
+   "shows": "The image is upright. It shows the Earth's surface (green) with the atmosphere (blue band) around it and a sun at the top. Yellow arrows show solar radiation: three go from the sun toward the Earth, some are reflected back to space by the Earth and atmosphere, and some are absorbed by the Earth. Red arrows on the right show infrared radiation emitted by the Earth, going out into the atmosphere and space. One thin red arrow also points upward in the middle. Clouds are drawn in the atmosphere.",
    "labels": [
     "The sun radiates its energy to the earth",
     "Part of solar radiation is reflected by the earth and atmosphere",
-    "Part of solar radiation is absorbed",
+    "part of solar radiation is absorbed",
     "EARTH",
     "Atmosphere",
     "Infrared radiation is emitted by the Earth"
@@ -160500,7 +160492,7 @@
    "page": 323,
    "localPath": "/textbook-images/rwanda/183/page323-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "A drawing of a CT (tomography) scanner. An X-ray source on the right sends beams through a collimator, then through a person lying down, then through a second collimator to a detector. Arrows show the scanning motion. The detector is connected to a computer, whose video monitor shows a cross-section image of the chest. The whole picture is upside down.",
+   "shows": "A drawing of a CT (tomography) scanner. An X-ray source on the right sends beams through a collimator, then through a person standing upright, then through a second collimator to a detector. Arrows show the scanning motion. The detector is connected to a computer, whose video monitor shows a cross-section image of the chest. The picture is upright.",
    "labels": [
     "X-ray source",
     "Collimator",
@@ -160701,10 +160693,10 @@
    "page": 329,
    "localPath": "/textbook-images/rwanda/183/page329-embedded-0.png",
    "noun": "photograph",
-   "shows": "A Doppler ultrasound image of a blood vessel. The top is a spectral waveform trace with repeated sharp downward spikes, and the image looks upside down. Below it is a grayscale B-mode image of a vessel with a thick black arrow pointing to the vessel and a sloped line (the Doppler beam) crossing it with a small gate marker. Two velocity readings are printed at the top left: 32.3 cm/s and 94.7 cm/s. Small cross markers sit on the trace at the right.",
+   "shows": "A Doppler ultrasound image of a blood vessel. At the top is a grayscale B-mode image of a vessel with a thick black arrow pointing to the vessel and a sloped line (the Doppler beam) crossing it with a small gate marker. Below it is a spectral waveform trace with repeated sharp upward spikes, shown in the correct orientation. Two velocity readings are printed at the bottom left: 94.7 cm/s and 32.3 cm/s. Small cross markers sit on the trace at the right.",
    "labels": [
-    "32.3cm/s",
-    "94.7cm/s"
+    "94.7cm/s",
+    "32.3cm/s"
    ],
    "topic": "Sound Waves",
    "original": ""
@@ -160966,7 +160958,7 @@
    "page": 303,
    "localPath": "/textbook-images/rwanda/183/page303-embedded-0.png",
    "noun": "diagram",
-   "shows": "The figure is printed upside down. On the left, under the label 'Ordinary Light', four wavy blue arrows point in different directions away from a common centre. On the right, under the label 'Laser Light', a pale yellow band holds four parallel, evenly spaced wavy lines with the same wavelength and in step with each other. Each line ends in a red arrow pointing right.",
+   "shows": "The figure is shown upright. On the left, under the label 'Ordinary Light', four wavy blue arrows point in different directions away from a common centre. On the right, under the label 'Laser Light', a pale yellow band holds four parallel, evenly spaced wavy lines with the same wavelength and in step with each other. Each line ends in a red arrow pointing right.",
    "labels": [
     "Ordinary Light",
     "Laser Light"
@@ -161013,7 +161005,7 @@
    "page": 379,
    "localPath": "/textbook-images/rwanda/183/page379-embedded-3.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of a nebula in space with red and pink glowing gas clouds against a dark background filled with many small white and yellow stars. The brightest pink-white area is in the lower centre, with a smaller bright patch near the upper centre. There are no labels or printed values.",
+   "shows": "A photograph of a nebula in space with red and pink glowing gas clouds against a dark background filled with many small white and yellow stars. The brightest pink-white area is in the upper centre, with a smaller bright patch near the lower centre. There are no labels or printed values.",
    "labels": [],
    "topic": "Astronomy, stars and nebulae",
    "original": ""
@@ -164557,7 +164549,7 @@
    "page": 156,
    "localPath": "/textbook-images/rwanda/186/page156-embedded-0.png",
    "noun": "graph",
-   "shows": "The image is a vertically flipped (upside-down, mirrored top to bottom) graph of an exponential curve in a coordinate grid, with the horizontal axis labelled t and the vertical axis labelled P. The curve is labelled P(t) = 15 − 5e^(−6t). It starts at P = 10 when t = 0 and rises toward the horizontal asymptote P = 15 as t increases.",
+   "shows": "The image is a graph of an exponential curve in a coordinate grid, with the horizontal axis labelled t and the vertical axis labelled P. The curve is labelled P(t) = 15 − 5e^(−6t). It starts at P = 10 when t = 0 and rises toward the horizontal asymptote P = 15 as t increases.",
    "labels": [
     "t",
     "0",
@@ -164584,7 +164576,7 @@
    "page": 178,
    "localPath": "/textbook-images/rwanda/186/page178-embedded-1.jpeg",
    "noun": "graph",
-   "shows": "A damped oscillation curve drawn on a grid, with the equation printed as θ(t) = e^(-0.2t) sin(3t). The curve oscillates about the horizontal axis with amplitude shrinking from about 0.9 near t=0 toward zero by t=14. The image appears mirrored (flipped), so the text is reversed and the vertical axis labels (-1, -0.5, 0.5, 1, 1.5) run in an unusual order. The horizontal axis is marked 0, 2, 4, 6, 8, 10, 12, 14.",
+   "shows": "A damped oscillation curve drawn on a grid, with the equation printed as y(t) = e^(-0.2t) sin(3t). The curve oscillates about the horizontal axis with amplitude shrinking from about 0.9 near t=0 toward zero by t=14. The image is shown correctly, so the text reads normally and the vertical axis labels (-1, -0.5, 0.5, 1, 1.5) run in order from bottom to top. The horizontal axis is marked 0, 2, 4, 6, 8, 10, 12, 14.",
    "labels": [
     "-1",
     "-0.5",
@@ -164599,8 +164591,8 @@
     "10",
     "12",
     "14",
-    "θ(t) = e^(-0.2t) sin(3t)",
-    "θ",
+    "y(t) = e^(-0.2t) sin(3t)",
+    "y",
     "t"
    ],
    "topic": "Logarithmic and Exponential Functions",
@@ -165221,7 +165213,7 @@
    "page": 160,
    "localPath": "/textbook-images/rwanda/187/page160-embedded-0.png",
    "noun": "graph",
-   "shows": "The image is a vertically flipped graph (upside down) of an exponential decay curve with the label i(t) = (1/2) e^(-50t). The horizontal axis is t, with marks 0.1, 0.2, 0.3, 0.4, 0.5. The vertical axis is i, with marks 0.1 to 0.6 and -0.1 at the top. The curve starts at 0.5 on the i-axis at t=0 and falls quickly toward 0, then runs along the t-axis.",
+   "shows": "The image is an upright graph of an exponential decay curve with the label i(t) = (1/2) e^(-50t). The horizontal axis is t, with marks 0.1, 0.2, 0.3, 0.4, 0.5. The vertical axis is i, with marks 0.1 to 0.6 and -0.1 at the bottom. The curve starts at 0.5 on the i-axis at t=0 and falls quickly toward 0, then runs along the t-axis.",
    "labels": [
     "t",
     "i",
@@ -166230,7 +166222,7 @@
    "page": 172,
    "localPath": "/textbook-images/rwanda/617/page172-embedded-4.jpeg",
    "noun": "drawing",
-   "shows": "A hand-drawn color sketch of a wooden chair turned upside down, with its seat facing up and its legs pointing up. The backrest, with two horizontal slats, is at the bottom left, and there are small wheels or feet at its base. The seat is a square or rectangle, and the corners of the seat and legs could be examined for right angles. No labels are printed.",
+   "shows": "A hand-drawn color sketch of a wooden chair standing upright, with its seat facing up and its legs pointing down. The backrest, with two horizontal slats, is at the top left, and the legs rest on the ground at the base. The seat is a square or rectangle, and the corners of the seat and legs could be examined for right angles. No labels are printed.",
    "labels": [],
    "topic": "Right angles",
    "original": "Look at the objects. Show all right angles. Table Cupboard Chair"
@@ -166286,9 +166278,9 @@
    "page": 155,
    "localPath": "/textbook-images/rwanda/617/page155-embedded-6.jpeg",
    "noun": "photograph",
-   "shows": "A round metal coin showing the number 20 at the top. Below it is a banner with small text above an emblem or coat of arms with a shield, a sun at the bottom and plant sprigs at the sides. Text runs around the rim of the coin.",
+   "shows": "A round metal coin showing the number 50 at the bottom. Above it is an emblem or coat of arms with a shield, a sun at the top and plant sprigs at the sides, with a banner with small text below the shield. Text runs around the rim of the coin.",
    "labels": [
-    "20"
+    "50"
    ],
    "topic": "Money and currency",
    "original": ""
@@ -167843,7 +167835,7 @@
    "page": 196,
    "localPath": "/textbook-images/rwanda/621/page196-embedded-2.jpeg",
    "noun": "drawing",
-   "shows": "A colored drawing of a tall multi-storey building (a flat) made of red bricks. It has four levels with white horizontal bands between them and windows on each level. Green trees stand beside and behind the upper part of the building. No text is printed on it.",
+   "shows": "A colored drawing of a tall multi-storey building (a flat) made of red bricks. It has four levels with white horizontal bands between them, windows on each level and small balconies. Green trees stand beside the lower part of the building, on the left and right. No text is printed on it.",
    "labels": [],
    "topic": "Measurement: tall and short",
    "original": "The tree is tall The maize is short The flat is tall. The house is ....."
@@ -167871,7 +167863,7 @@
    "page": 197,
    "localPath": "/textbook-images/rwanda/621/page197-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A hand-colored drawing of a wooden table turned upside down. A flat rectangular tabletop is at the bottom, and four rectangular legs point upward from it. Wooden rails join the legs just above the tabletop. It has no labels or numbers.",
+   "shows": "A hand-colored drawing of a wooden table standing upright. A flat rectangular tabletop is at the top, and four rectangular legs point downward from it. Wooden rails join the legs just below the tabletop. It has no labels or numbers.",
    "labels": [],
    "topic": "Objects and shapes",
    "original": "A table is .......... A cupboard is .........."
@@ -167885,7 +167877,7 @@
    "page": 197,
    "localPath": "/textbook-images/rwanda/621/page197-embedded-1.jpeg",
    "noun": "drawing",
-   "shows": "A wooden cupboard with both doors open. A red oval disc sits on the middle shelf inside the cupboard. A blue oval disc lies on the floor below the cupboard, outside it. No labels or values are printed.",
+   "shows": "A wooden cupboard with the right door open and the left door closed. A red oval disc sits on the middle shelf inside the cupboard. A blue oval disc sits on top of the cupboard, outside it. No labels or values are printed.",
    "labels": [],
    "topic": "Position and space",
    "original": "A table is .......... A cupboard is .........."
@@ -168235,7 +168227,7 @@
    "page": 69,
    "localPath": "/textbook-images/rwanda/626/page69-embedded-4.png",
    "noun": "diagram",
-   "shows": "A place value chart with three columns labelled Hundreds, Tens and Ones. The Hundreds column has 3 green hundred-blocks, one of them crossed out with a red X. The Tens column has 5 blue ten-rods, 4 of them crossed out with red marks. The Ones column has 5 blue unit cubes, 2 of them crossed out with red marks. The column labels are printed upside down.",
+   "shows": "A place value chart with three columns labelled Hundreds, Tens and Ones. The Hundreds column has 3 green hundred-blocks, one of them crossed out with a red X. The Tens column has 5 blue ten-rods, 4 of them crossed out with red marks. The Ones column has 5 blue unit cubes, 2 of them crossed out with red marks. The column labels are printed upright.",
    "labels": [
     "Hundreds",
     "Tens",
@@ -168952,7 +168944,7 @@
    "page": 55,
    "localPath": "/textbook-images/rwanda/628/page55-embedded-3.jpeg",
    "noun": "photograph",
-   "shows": "A white sheet of paper covered with stamped paint shapes in red, yellow, green, blue and purple. The shapes include circles, triangles, rectangles, squares with a hole, and curved or irregular shapes. Above the paper on a wooden surface are a green and red wooden block with a round hole, a red triangular block, a jar of purple paint, a small blue-topped yellow block and a tube of yellow acrylic paint.",
+   "shows": "A white sheet of paper covered with stamped paint shapes in red, yellow, green, blue and purple. The shapes include circles, triangles, rectangles, squares with a hole, and curved or irregular shapes. To the right of the paper on a wooden surface are a green and red wooden block with a round hole, a red triangular block, a jar of purple paint, a small blue-topped yellow block and a tube of yellow acrylic paint.",
    "labels": [
     "ACRYLIC PAINT"
    ],
@@ -169720,32 +169712,32 @@
    "page": 157,
    "localPath": "/textbook-images/rwanda/633/page157-embedded-0.png",
    "noun": "diagram",
-   "shows": "A ruler drawn upside down, with an inch scale along the top edge and a centimetre/millimetre scale along the bottom edge. The inch scale is labelled 1 to 6 with the word INCH and is divided into small fractions of an inch. The bottom scale is labelled 1 to 15 with CM and MM, and its numbers are printed upside down. The 15 is on the left and the 1 is on the right.",
+   "shows": "A ruler drawn upright, with a centimetre/millimetre scale along the top edge and an inch scale along the bottom edge. The top scale is labelled 1 to 15 with CM and MM. The 1 is on the left and the 15 is on the right. The inch scale is labelled 1 to 6 with the word INCH and is divided into small fractions of an inch. Its numbers are printed upside down, with the 6 on the left and the 1 on the right.",
    "labels": [
-    "INCH",
-    "1",
-    "2",
-    "3",
-    "4",
-    "5",
-    "6",
-    "15",
-    "14",
-    "13",
-    "12",
-    "11",
-    "10",
-    "9",
-    "8",
-    "7",
-    "6",
-    "5",
-    "4",
-    "3",
-    "2",
-    "1",
+    "MM",
     "CM",
-    "MM"
+    "1",
+    "2",
+    "3",
+    "4",
+    "5",
+    "6",
+    "7",
+    "8",
+    "9",
+    "10",
+    "11",
+    "12",
+    "13",
+    "14",
+    "15",
+    "INCH",
+    "6",
+    "5",
+    "4",
+    "3",
+    "2",
+    "1"
    ],
    "topic": "Measurement of length",
    "original": ""
@@ -170204,7 +170196,7 @@
    "page": 375,
    "localPath": "/textbook-images/rwanda/634/page375-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A color-inverted black-and-white photograph of an electric kettle with a lid, a curved handle on top and a spout on the right. It sits on a base connected to a braided electrical cord that loops across a wooden surface. Framed pictures hang on the wall in the background. There are no labels.",
+   "shows": "A black-and-white photograph of an electric kettle with a lid, a curved handle on top and a spout on the right. It sits on a base connected to a braided electrical cord that loops across a wooden surface. Framed pictures hang on the wall in the background. There are no labels.",
    "labels": [],
    "topic": "Electrical energy and power",
    "original": ""
@@ -170269,7 +170261,7 @@
    "page": 23,
    "localPath": "/textbook-images/rwanda/634/page23-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A spring dial kitchen scale with a metal pan holding a tall graduated measuring cylinder. The dial is marked 0 to 20 in kg, with 'Capacity 20kg' and 'Graduation 100g' printed on it, and the pointer is at 0. The cylinder is marked 20, 40, 60, 80 and 100 ml. The image is shown in inverted, near-black tones.",
+   "shows": "A spring dial kitchen scale with a metal pan holding a tall graduated measuring cylinder. The dial is marked 0 to 20 in kg, with 'Capacity 20kg' and 'Graduation 100g' printed on it, and the pointer is at 0. The cylinder is marked 20, 40, 60, 80 and 100 ml. The image is shown in normal grayscale tones, with a light dial face and dark scale body.",
    "labels": [
     "20",
     "19",
@@ -170429,7 +170421,7 @@
    "page": 39,
    "localPath": "/textbook-images/rwanda/634/page39-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A vernier calliper on a black background. The main scale is numbered 0 to 11 and the sliding vernier scale is numbered 0 to 8, with markings reading '0.02 mm'. White curved arrows point to the zero mark of the main scale and to the zero mark of the vernier scale. The vernier zero sits just past the main scale mark 3. A dashed arrow between the bottom edges of the two jaws shows the distance being measured.",
+   "shows": "A vernier calliper on a white background. The main scale is numbered 0 to 11 and the sliding vernier scale is numbered 0 to 8, with markings reading '0.02 mm'. Black curved arrows point to the zero mark of the main scale and to the zero mark of the vernier scale. The vernier zero sits just past the main scale mark 3. A dashed arrow between the bottom edges of the two jaws shows the distance being measured.",
    "labels": [
     "0",
     "1",
@@ -170599,7 +170591,7 @@
    "page": 374,
    "localPath": "/textbook-images/rwanda/634/page374-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A black-and-white photograph with inverted tones of an electric heater. A cylindrical wire-grid guard surrounds a heating element. The heater sits on a base, with a power cable and plug running from the right side. No labels or values are printed.",
+   "shows": "A black-and-white photograph of an electric heater. A cylindrical wire-grid guard surrounds a heating element. The heater sits on a carpeted floor, with a power cable and plug running from the right side. No labels or values are printed.",
    "labels": [],
    "topic": "Heat transfer",
    "original": ""
@@ -173293,7 +173285,7 @@
    "page": 34,
    "localPath": "/textbook-images/rwanda/638/page34-embedded-0.jpeg",
    "noun": "map",
-   "shows": "A hand-drawn white-on-black sketch map of a school site seen from above, with a fence around it, a kerb and a road on the right. The labelled parts are a rubbish pit, tap, latrines, shed, produce garden, playground, power lines, gate, path, entrance, courtyard and display garden. A building sits in the centre, and trees are drawn around it.",
+   "shows": "A hand-drawn black-on-white sketch map of a school site seen from above, with a fence around it, a kerb and a road on the right. The labelled parts are a rubbish pit, tap, latrines, shed, produce garden, playground, power lines, gate, path, entrance, courtyard and display garden. A building sits in the centre, and trees are drawn around it.",
    "labels": [
     "rubbish pit",
     "produce garden",
@@ -173449,7 +173441,7 @@
    "page": 165,
    "localPath": "/textbook-images/rwanda/638/page165-embedded-6.png",
    "noun": "diagram",
-   "shows": "A drawing of a U-shaped glass tube instrument lying on its side, with a black liquid filling the bottom of the U and part of both arms. The two open arms on the left each end in a bulb: the top one is pointed and the bottom one is rounded. Both arms contain a dotted column with a small constricted section near the black liquid. A concave clamp or collar is drawn on each arm and on the right-hand bend. No scale or text is printed.",
+   "shows": "A drawing of a U-shaped glass tube instrument standing upright, with a black liquid filling the bottom of the U and part of both arms. The two open arms at the top each end in a bulb: the left one is rounded and the right one is pointed. Both arms contain a dotted column with a small constricted section near the black liquid. A concave clamp or collar is drawn on each arm and on the bottom bend. No scale or text is printed.",
    "labels": [],
    "topic": "Weather instruments",
    "original": ""
@@ -174178,7 +174170,7 @@
    "page": 23,
    "localPath": "/textbook-images/rwanda/640/page23-embedded-4.jpeg",
    "noun": "diagram",
-   "shows": "A cutaway drawing of a cylindrical dry cell (battery). A black central rod runs down the middle, surrounded by a large yellow region. A purple thin layer lies around the yellow region, and a blue outer casing surrounds it all. At the bottom are layered blue and green-grey discs and a red base with a small white terminal. Three horizontal pointer lines on the right end in blank space, with no label text, pointing to the yellow region, the black rod and the purple layer.",
+   "shows": "A cutaway drawing of a cylindrical dry cell (battery). A black central rod runs down the middle, surrounded by a large yellow region. A purple thin layer lies around the yellow region, and a blue outer casing surrounds it all. At the top are layered green-grey and blue discs and a red cap with a small white terminal. Three horizontal pointer lines on the right end in blank space, with no label text, pointing to the purple layer, the black rod and the yellow region (from top to bottom).",
    "labels": [],
    "topic": "Chemical cells",
    "original": ""
@@ -174343,7 +174335,7 @@
    "page": 241,
    "localPath": "/textbook-images/rwanda/640/page241-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "The top is a photograph of a strong electrolyte test: a glass beaker with two black electrodes is wired in series with a lit light bulb in a ceiling socket. The bottom is a diagram of the beaker with a negative electrode on the left and a positive electrode on the right. Positive ions (+) move left toward the negative electrode and negative ions (−) move right toward the positive electrode. The negative electrode connects through an ammeter symbol to a bulb symbol and then to the positive terminal, with − at the left end and + at the right end.",
+   "shows": "The top is a diagram of the beaker with a negative electrode on the left and a positive electrode on the right. Positive ions (+) move left toward the negative electrode and negative ions (−) move right toward the positive electrode. The negative electrode connects through a voltmeter symbol to a bulb symbol and then to the positive terminal, with − at the left end and + at the right end. The bottom is a photograph of a strong electrolyte test: a glass beaker with two black electrodes is wired in series with a lit light bulb in a socket on a table.",
    "labels": [
     "−",
     "+",
@@ -174368,7 +174360,7 @@
    "page": 241,
    "localPath": "/textbook-images/rwanda/640/page241-embedded-1.jpeg",
    "noun": "diagram",
-   "shows": "The top is a photograph of a strong electrolyte apparatus: a glass container with two rod electrodes, connected by wires to a lit light bulb in a ceiling socket. The bottom is a diagram of a beaker of solution with two plate electrodes. The left plate is marked − and the right plate is marked +. A negative ion (−) moves toward the right (positive) plate, and a positive ion (+) moves toward the left (negative) plate. The circuit has an ammeter on the negative side and a lit bulb on the positive side, with − and + signs at the ends.",
+   "shows": "The top is a diagram of a beaker of solution with two plate electrodes. The left plate is marked − and the right plate is marked +. A negative ion (−) moves toward the right (positive) plate, and a positive ion (+) moves toward the left (negative) plate. The circuit has a voltmeter on the negative side and a lit bulb on the positive side, with − and + signs at the ends. The bottom is a photograph of a strong electrolyte apparatus: a glass container with two rod electrodes, connected by wires to a lit light bulb in a socket on the table.",
    "labels": [
     "−",
     "+",
@@ -174376,7 +174368,7 @@
     "+",
     "−",
     "+",
-    "Λ"
+    "V"
    ],
    "topic": "Electrolytes and conductivity",
    "original": "These electrolytes have high electrical conductivity (Figure 9.2) because of high concentration of ions in their solution. Extensive current flows Figure 9.2: Strong electrolyte."
@@ -174557,7 +174549,7 @@
    "page": 239,
    "localPath": "/textbook-images/rwanda/640/page239-embedded-72.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of an electrolysis conductivity setup. A clear glass light bulb in a ceramic holder is wired in a circuit to two electrodes clamped in a glass beaker of liquid. A spoon holding white solid is held below the beaker. There are no printed labels.",
+   "shows": "A photograph of an electrolysis conductivity setup. A clear glass light bulb in a ceramic holder is wired in a circuit to two electrodes clamped in a glass beaker of liquid. A spoon holding white solid is held above the beaker. There are no printed labels.",
    "labels": [],
    "topic": "Electrolysis",
    "original": ""
@@ -174571,7 +174563,7 @@
    "page": 239,
    "localPath": "/textbook-images/rwanda/640/page239-embedded-84.jpeg",
    "noun": "photograph",
-   "shows": "A photograph of a conductivity test setup. A lit incandescent bulb in a holder is wired to a clear beaker that holds two dark electrodes clipped to wires. A wire runs from the beaker to a pink and yellow battery pack or cell holder at the bottom right. The background is blue. No labels are printed.",
+   "shows": "A photograph of a conductivity test setup. A lit incandescent bulb in a white holder is wired to a clear beaker that holds two dark electrodes clipped to wires. A pink and yellow container at the top right pours liquid into the beaker, and a wire runs from the beaker along the bottom to the bulb holder. The background is blue. No labels are printed.",
    "labels": [],
    "topic": "Electrolysis",
    "original": ""
@@ -174683,12 +174675,12 @@
    "page": 43,
    "localPath": "/textbook-images/rwanda/641/page43-embedded-0.jpeg",
    "noun": "diagram",
-   "shows": "The image is mirrored. Panel (a) shows a car on a horizontal x-axis moving from point A at time t_i, with velocity v_xi, to point B at time t_f, with velocity v_xf. Panel (b) is a graph of position x (vertical axis, pointing down) against time t (horizontal axis). An orange curve runs from point A at (t_i, x_i) to point B at (t_f, x_f). A light blue line joins A and B, a green tangent line touches the curve at B, and the intervals Δt and Δx are marked with arrows. A label near the tangent reads v_x = Δx/Δt.",
+   "shows": "The image is upright. Panel (a) shows a car on a horizontal x-axis moving from point A at time t_i, with velocity v_xi, to point B at time t_f, with velocity v_xf. Panel (b) is a graph of velocity v_x (vertical axis, pointing up) against time t (horizontal axis). An orange curve runs from point A at (t_i, v_xi) to point B at (t_f, v_xf), rising and then flattening near B. A light blue line joins A and B, a green tangent line touches the curve at B, and the intervals Δt and Δv_x are marked with arrows. A label near the blue line reads a_x = Δv_x/Δt.",
    "labels": [
     "(a)",
     "(b)",
-    "v_xi = 0",
-    "v_xf = 0",
+    "v = v_xi",
+    "v = v_xf",
     "t_i",
     "t_f",
     "x",
@@ -174718,14 +174710,14 @@
    "page": 55,
    "localPath": "/textbook-images/rwanda/641/page55-embedded-0.png",
    "noun": "diagram",
-   "shows": "A simple pendulum drawn upside down (the image is flipped vertically). A black rectangular support sits at the bottom, with a line of length L running from its centre to a dark bob at the far right extreme. Four more bobs are shown along an arc, each joined to the pivot by a dashed line. The right-hand bob is labelled 'Maximum height, v = 0 m/s'. The middle bob, directly above the pivot, is labelled 'Minimum height, v is max'.",
+   "shows": "A simple pendulum drawn upright. A black rectangular support sits at the top, with a line of length L running from its centre to a dark bob at the far right extreme. Four more bobs are shown along an arc, each joined to the pivot by a dashed line. The right-hand bob is labelled 'Maximum height, v = 0 m/s'. The middle bob, directly below the pivot, is labelled 'Minimum height, v is max'.",
    "labels": [
-    "v is max",
-    "Height",
-    "Minimum",
-    "v = 0 m/s",
-    "height",
     "Maximum",
+    "height",
+    "v = 0 m/s",
+    "Minimum",
+    "Height",
+    "v is max",
     "L"
    ],
    "topic": "Energy conservation",
@@ -174865,7 +174857,7 @@
    "page": 182,
    "localPath": "/textbook-images/rwanda/641/page182-embedded-0.png",
    "noun": "diagram",
-   "shows": "The figure is upside down. A 10 kg mass is shown at five levels along a dashed upward arrow. Heights are marked 12 m (bottom, dashed empty box), 9 m, 6 m, 3 m and 0 (top, solid box labelled 10 kg). Each level has a box giving kinetic energy EK, potential energy EP and total energy ET. At 12 m: EK = 0, EP = 1200 J, ET = 1200 J. At 9 m: EK = 300 J, EP = 900 J, ET = 1200 J. At 6 m: EK = 600 J, EP = 600 J, ET = 1200 J. At 3 m: EK = 900 J, EP = 300 J, ET = 1200 J. At 0: EK = 1200 J, EP = 0, ET = 1200 J.",
+   "shows": "A 10 kg mass is shown at five levels along a dashed downward arrow. Heights are marked 12 m (top, dashed empty box), 9 m, 6 m, 3 m and 0 (bottom, solid box labelled 10 kg). Each level has a box giving kinetic energy EK, potential energy EP and total energy ET. At 12 m: EK = 0, EP = 1200 J, ET = 1200 J. At 9 m: EK = 300 J, EP = 900 J, ET = 1200 J. At 6 m: EK = 600 J, EP = 600 J, ET = 1200 J. At 3 m: EK = 900 J, EP = 300 J, ET = 1200 J. At 0: EK = 1200 J, EP = 0, ET = 1200 J.",
    "labels": [
     "0",
     "10 kg",
@@ -176896,7 +176888,7 @@
    "page": 51,
    "localPath": "/textbook-images/rwanda/643/page51-embedded-1.png",
    "noun": "diagram",
-   "shows": "A musical staff in treble clef and 4/4 time with four bars and a final barline. Bar 1 has four quarter notes: E, F sharp, F, G. Bar 2 has four quarter notes: G sharp, G, G, A. Bar 3 has four quarter notes: C sharp, C, C, D. Bar 4 has four quarter notes: F sharp, A, F, G. A whole note C follows in the last bar. The sharp signs sit before the notes in bar 1 (second note), bar 2 (first), bar 3 (first), and bar 4 (first).",
+   "shows": "A musical staff in treble clef and 4/4 time with five bars and a final barline. Bar 1 has four quarter notes: E, F sharp, F, G. Bar 2 has four quarter notes: G sharp, G, G, A. Bar 3 has four quarter notes: C sharp, C, C, D. Bar 4 has four quarter notes: F sharp, A, F, G. Bar 5 has a whole note C. The sharp signs sit before the notes in bar 1 (second note), bar 2 (first), bar 3 (first), and bar 4 (first).",
    "labels": [
     "4/4"
    ],
@@ -178438,10 +178430,10 @@
    "page": 73,
    "localPath": "/textbook-images/rwanda/646/page73-embedded-0.png",
    "noun": "diagram",
-   "shows": "A top-down drawing of a javelin throwing area. Two straight lines spread out in a V shape from the top of the figure down to a curved arc. Below the arc is a narrow rectangle, with a smaller V inside it. A vertical double-headed arrow on the left is labelled 100m and spans the top section. A second double-headed arrow labelled 8m spans the length of the rectangle.",
+   "shows": "A top-down drawing of a javelin throwing area. A narrow rectangle at the top, with a smaller V inside it, ends at a curved arc. Two straight lines spread out in a V shape from the arc down to the bottom of the figure. A vertical double-headed arrow on the right is labelled 8m and spans the length of the rectangle. A second double-headed arrow on the right, labelled 100m, spans the lower section.",
    "labels": [
-    "100m",
-    "8m"
+    "8m",
+    "100m"
    ],
    "topic": "Athletics throwing events",
    "original": ""
@@ -178455,7 +178447,7 @@
    "page": 45,
    "localPath": "/textbook-images/rwanda/646/page45-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A side-view drawing of an athlete in the set position of a sprint start. The body leans forward with one hand reaching down to the ground, the front leg bent and the back leg extended behind. The athlete wears a sleeveless top, light shorts, knee-high socks and trainers. There are no labels.",
+   "shows": "A side-view drawing of an athlete in a crouched, forward-leaning start position, facing left. One hand reaches down toward the ground, the front leg is bent and the back leg extends behind. The athlete wears a sleeveless top, dark shorts, knee-high socks with dark bands below the knees and trainers. There are no labels.",
    "labels": [],
    "topic": "Athletics sprint start",
    "original": ""
@@ -178483,7 +178475,7 @@
    "page": 46,
    "localPath": "/textbook-images/rwanda/646/page46-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "Two sprinters in a relay exchange, drawn in black, white and grey with no printed labels. The front runner leans forward with one arm stretched back and the hand open. The runner behind reaches forward and holds a baton out to that hand.",
+   "shows": "Two sprinters in a relay exchange, drawn in black, white and grey with no printed labels. The front runner, on the left, leans forward with one arm stretched back and the hand open. The runner behind, on the right, reaches forward and holds a baton out to that hand.",
    "labels": [],
    "topic": "Athletics relay",
    "original": ""
@@ -178525,7 +178517,7 @@
    "page": 71,
    "localPath": "/textbook-images/rwanda/646/page71-embedded-1.jpeg",
    "noun": "drawing",
-   "shows": "Three side-by-side drawings of an athlete in a dark singlet at different stages of a discus throw. In the left drawing the athlete holds the disc up near the shoulder with both hands. In the middle drawing the athlete crouches with knees bent and the disc held low in the right hand behind the body. In the right drawing the athlete stands with the disc in the right hand swung back and the left arm across the chest. There are no labels.",
+   "shows": "Three side-by-side drawings of an athlete in a light singlet at different stages of a discus throw. In the left drawing the athlete holds the disc up near the shoulder with both hands. In the middle drawing the athlete crouches with knees bent and the disc held low in one hand behind the body. In the right drawing the athlete stands with the disc in one hand swung back and the other arm across the chest. There are no labels.",
    "labels": [],
    "topic": "Athletics throwing events",
    "original": ""
@@ -178539,7 +178531,7 @@
    "page": 126,
    "localPath": "/textbook-images/rwanda/646/page126-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A three-stage line drawing on a black background shows a young player doing a basketball pass. On the left the player walks forward holding the ball with both hands at chest level. In the middle the player's arms are stretched forward after releasing the ball, and an arrow points right toward the ball in flight. On the right a second player stands with hands raised to catch the ball.",
+   "shows": "A three-stage line drawing on a white background shows a young player doing a basketball pass. On the left the player walks forward holding the ball with both hands at chest level. In the middle the player's arms are stretched forward after releasing the ball, and an arrow points right toward the ball in flight. On the right a second player stands with hands raised to catch the ball.",
    "labels": [],
    "topic": "Basketball passing",
    "original": ""
@@ -178567,7 +178559,7 @@
    "page": 22,
    "localPath": "/textbook-images/rwanda/646/page22-embedded-0.jpeg",
    "noun": "drawing",
-   "shows": "A line drawing of a person in shorts and a short-sleeved top, bending forward at the waist with legs nearly straight. One hand reaches down to touch the shoe or ankle, and the head hangs down. It is white outlines on a black background and has no labels.",
+   "shows": "A line drawing of a person in shorts and a short-sleeved top, bending forward at the waist with legs nearly straight. One hand reaches down to touch the shoe or ankle, and the head hangs down. It is black outlines on a white background and has no labels.",
    "labels": [],
    "topic": "Flexibility stretching",
    "original": ""
@@ -178637,7 +178629,7 @@
    "page": 44,
    "localPath": "/textbook-images/rwanda/646/page44-embedded-1.jpeg",
    "noun": "drawing",
-   "shows": "A black-and-white line drawing of a sprinter in the 'set' position on starting blocks, side view, facing right. Both feet are braced against the blocks, the knees are bent, the hips are raised, and one hand rests on the track at the start line with the arm extended downward. There are no labels.",
+   "shows": "A black-and-white line drawing of a sprinter in the 'set' position on starting blocks, side view, facing left. Both feet are braced against the blocks, the knees are bent, the hips are raised, and one hand rests on the track at the start line with the arm extended downward. There are no labels.",
    "labels": [],
    "topic": "Athletics sprint start",
    "original": ""
@@ -179344,7 +179336,7 @@
    "page": 128,
    "localPath": "/textbook-images/rwanda/647/page128-embedded-2.png",
    "noun": "diagram",
-   "shows": "A white-on-black drawing of a coast with land on the left and sea on the right. A house and trees stand on the land, and grass bends in the wind. Clouds and a crescent moon are in the sky. Arrows show air moving: one arrow curves down onto the land from above, one runs from the land out over the sea at a middle height, and one runs from the shore out over the sea surface. The arrows show a convection current of air between land and sea. There are no printed labels.",
+   "shows": "A black-on-white drawing of a coast with land on the left and sea on the right. A house and trees stand on the land, and grass bends in the wind. Clouds and a crescent moon are in the sky. Arrows show air moving: two arrows curve down onto the land from above, one runs from the land out over the sea at a middle height, and one runs from the shore out over the sea surface. The arrows show a convection current of air between land and sea at night. There are no printed labels.",
    "labels": [],
    "topic": "Heat transfer",
    "original": ""
@@ -182294,7 +182286,7 @@
    "page": 12,
    "localPath": "/textbook-images/rwanda/652/page12-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A photograph taken looking along the underside of a structure, such as a fence or bridge, with evenly spaced vertical posts hanging from a horizontal top beam. The posts get smaller and closer together toward the far end, and green grass and water show beneath and behind them. No text is printed on it.",
+   "shows": "A photograph taken looking along a row of evenly spaced wooden posts rising from the ground, with a horizontal rail across their tops. The posts get smaller and closer together toward the far end, and a paved path runs beside them with green foliage and a hedge behind. No text is printed on it.",
    "labels": [],
    "topic": "Linear perspective",
    "original": ""
@@ -183998,12 +183990,12 @@
    "page": 326,
    "localPath": "/textbook-images/rwanda/654/page326-embedded-2.png",
    "noun": "diagram",
-   "shows": "Electric field lines of an electric dipole: a positive charge (+) on the left and a negative charge (−) on the right, with curved lines running from the positive charge to the negative charge and other lines curving outward around them. A point labelled P (appears as 'b') lies below and to the left of the positive charge, with an arrow labelled E pointing down and to the right from that point. The caption label '(g)' is printed at the top, and the figure appears upside down or mirrored.",
+   "shows": "Electric field lines of an electric dipole: a positive charge (+) on the left and a negative charge (−) on the right, with curved lines running from the positive charge to the negative charge and other lines curving outward around them. A point labelled P lies above and to the left of the positive charge, with an arrow labelled E pointing up and to the right from that point. The caption label '(a)' is printed at the bottom, and the figure is correctly oriented.",
    "labels": [
-    "(g)",
+    "(a)",
     "+",
     "−",
-    "b",
+    "P",
     "E"
    ],
    "topic": "Electric fields",
@@ -223919,7 +223911,7 @@
    "page": 79,
    "localPath": "/textbook-images/cambridge/193/page79-embedded-0.png",
    "noun": "diagram",
-   "shows": "Pseudocode on a black background with a heading 'WHILE'. It sets total = 0, then loops WHILE total < 100: OUTPUT \"Enter a number\", INPUT number, total = total + number. After ENDWHILE it runs OUTPUT total.",
+   "shows": "Pseudocode on a white background with a heading 'WHILE'. It sets total = 0, then loops WHILE total < 100: OUTPUT \"Enter a number\", INPUT number, total = total + number. After ENDWHILE it runs OUTPUT total.",
    "labels": [
     "WHILE",
     "total = 0",
@@ -224107,7 +224099,7 @@
    "page": 491,
    "localPath": "/textbook-images/cambridge/193/page491-embedded-0.png",
    "noun": "diagram",
-   "shows": "White monospaced code on a black background. It is a JavaScript block in SCRIPT tags: firstNumber is set to 9999, secondNumber to 1000, and total is firstNumber + secondNumber. document.write(total) outputs the result. The code ends with the closing tags </SCRIPT>, </BODY> and </HTML>.",
+   "shows": "Black monospaced code on a white background. It is a JavaScript block in SCRIPT tags: firstNumber is set to 9999, secondNumber to 1000, and total is firstNumber + secondNumber. document.write(total) outputs the result. The code ends with the closing tags </SCRIPT>, </BODY> and </HTML>.",
    "labels": [
     "<SCRIPT>",
     "var firstNumber = 9999;",
@@ -224130,7 +224122,7 @@
    "page": 494,
    "localPath": "/textbook-images/cambridge/193/page494-embedded-6.png",
    "noun": "table",
-   "shows": "White monospaced HTML and JavaScript code on a black background, rotated 180 degrees so it appears upside down. Read the right way up, it is an HTML page with a BODY, an h1 heading 'Welcome to my website', and a SCRIPT block. The script declares var number = 0; and defines firstFunction(), which calls alert(number); then declares var newNumber = 10; and calls alert(newNumber);.",
+   "shows": "White monospaced HTML and JavaScript code on a black background, displayed upright and reading normally from left to right. It is an HTML page with a BODY, an h1 heading 'Welcome to my website', and a SCRIPT block. The script declares var number = 0; and defines firstFunction(), which calls alert(number); then declares var newNumber = 10; and calls alert(newNumber);.",
    "labels": [
     "<HTML>",
     "<BODY>",
@@ -224158,7 +224150,7 @@
    "page": 503,
    "localPath": "/textbook-images/cambridge/193/page503-embedded-2.png",
    "noun": "program code",
-   "shows": "HTML and JavaScript code listing in white monospaced text on a black background. The BODY holds an input of type text with onkeydown=\"outputLetter()\", followed by a SCRIPT block defining the function outputLetter(), which calls alert(\"Letter clicked\").",
+   "shows": "HTML and JavaScript code listing in black monospaced text on a white background. The BODY holds an input of type text with onkeydown=\"outputLetter()\", followed by a SCRIPT block defining the function outputLetter(), which calls alert(\"Letter clicked\").",
    "labels": [
     "<HTML>",
     "<BODY>",
@@ -224184,16 +224176,16 @@
    "page": 524,
    "localPath": "/textbook-images/cambridge/193/page524-embedded-1.png",
    "noun": "diagram",
-   "shows": "A block of JavaScript try/catch code, shown upside down (rotated 180 degrees) in white text on a black background. It sets var x = 21, then in a try block throws \"over 20\" if x>20 and throws \"less than 11\" if x<=10. The catch(e) block sets message.innerHTML = e.",
+   "shows": "A block of JavaScript try/catch code, shown upright in black text on a white background. It sets var x = 21, then in a try block throws \"over 20\" if x>20 and throws \"less than 11\" if x<=10. The catch(e) block sets message.innerHTML = e.",
    "labels": [
     "var x = 21;",
     "try{",
     "if(x>20) throw \"over 20\";",
     "if(x<=10) throw \"less than 11\";",
-    "{",
+    "}",
     "catch(e){",
     "message.innerHTML= e;",
-    "{"
+    "}"
    ],
    "topic": "Chapter 19: Programming for the web",
    "original": ""
@@ -239533,7 +239525,7 @@
    "page": 14,
    "localPath": "/textbook-images/cambridge/23/page14-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A light micrograph of several flat, irregularly shaped, pale pink-yellow cells, each with a single dark purple oval nucleus near its centre. Some cells overlap, and the cell at the bottom right is stained more reddish-pink. There are no labels or scale bar.",
+   "shows": "A light micrograph of several flat, irregularly shaped, pale pink-yellow cells, each with a single dark purple oval nucleus near its centre. Some cells overlap, and the cell at the bottom left is stained more reddish-pink. There are no labels or scale bar.",
    "labels": [],
    "topic": "Cell structure",
    "original": "Figure 1.6 Cells from"
@@ -239617,7 +239609,7 @@
    "page": 25,
    "localPath": "/textbook-images/cambridge/23/page25-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A transmission electron micrograph in grey tones showing rough endoplasmic reticulum as many parallel, flattened membrane-bound sacs (cisternae) with small black dots (ribosomes) along their surfaces. A dark, clumpy nucleus lies at the bottom, a round mitochondrion is near the top centre, and free ribosomes are scattered in the cytoplasm. No labels are printed on it.",
+   "shows": "A transmission electron micrograph in grey tones showing rough endoplasmic reticulum as many parallel, flattened membrane-bound sacs (cisternae) with small black dots (ribosomes) along their surfaces. A dark, clumpy nucleus lies at the right, a round mitochondrion is near the left, and free ribosomes are scattered in the cytoplasm. No labels are printed on it.",
    "labels": [],
    "topic": "Cell structure",
    "original": "Figure 1.19 Transmission electron micrograph of rough ER covered with ribosomes (black dots) (× 17 000). Some free ribosomes can also be seen in the cytoplasm on the left. The nuclear envelope has many small por"
@@ -239631,7 +239623,7 @@
    "page": 26,
    "localPath": "/textbook-images/cambridge/23/page26-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A false-colour transmission electron micrograph of a mitochondrion in cytoplasm. The mitochondrion is elongated and coloured yellow-orange with a red-purple outline, and it has many internal folded membranes (cristae). The surrounding cytoplasm is blue and contains membranes, probably endoplasmic reticulum. A rounded tan-coloured structure with a granular interior lies at the bottom, below the mitochondrion. No labels or values are printed.",
+   "shows": "A false-colour transmission electron micrograph of a mitochondrion in cytoplasm. The mitochondrion is elongated and coloured yellow-orange with a red-purple outline, and it has many internal folded membranes (cristae). The surrounding cytoplasm is blue and contains membranes, probably endoplasmic reticulum. A rounded tan-coloured structure with a granular interior lies at the left, beside the mitochondrion. No labels or values are printed.",
    "labels": [],
    "topic": "Cell structure",
    "original": ""
@@ -239715,7 +239707,7 @@
    "page": 31,
    "localPath": "/textbook-images/cambridge/23/page31-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A false-colour transmission electron micrograph of two elongated chloroplasts in green and yellow, each enclosed by an envelope. Inside are stacks of thylakoid membranes (grana) joined by lamellae, and a few dark round lipid droplets. The surrounding cytoplasm has small vesicles, and a cell wall runs diagonally along the bottom. No labels are printed on the image.",
+   "shows": "A false-colour transmission electron micrograph of two elongated chloroplasts in green and yellow, each enclosed by an envelope. Inside are stacks of thylakoid membranes (grana) joined by lamellae, and a few dark round lipid droplets. The surrounding cytoplasm has small vesicles, and a cell wall runs diagonally along the left side. No labels are printed on the image.",
    "labels": [],
    "topic": "Cell structure",
    "original": ""
@@ -240046,7 +240038,7 @@
    "page": 98,
    "localPath": "/textbook-images/cambridge/23/page98-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A false-colour transmission electron micrograph of part of a cell. Several mitochondria are coloured blue, with internal cristae visible as dark lines. The surrounding cytoplasm is orange/yellow and contains stacked Golgi-type membranes and small vesicles, and a green area is at the top right. No labels or scale are printed.",
+   "shows": "A false-colour transmission electron micrograph of part of a cell. Several mitochondria are coloured blue, with internal cristae visible as dark lines. The surrounding cytoplasm is orange/yellow and contains stacked Golgi-type membranes and small vesicles, and a green area is at the bottom left. No labels or scale are printed.",
    "labels": [],
    "topic": "Cell structure",
    "original": ""
@@ -240289,7 +240281,7 @@
    "page": 137,
    "localPath": "/textbook-images/cambridge/23/page137-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A fluorescence micrograph of a leaf showing its venation on a dark blue background. A thick main vein runs diagonally from the upper left to the lower right, with branching smaller veins forming a network. Small bright green dots are concentrated along the smaller veins and in the areas between them. There are no labels or printed values.",
+   "shows": "A fluorescence micrograph of a leaf showing its venation on a dark blue background. A thick main vein runs diagonally from the upper right to the lower left, with branching smaller veins forming a network. Small bright green dots are concentrated along the smaller veins and in the areas between them. There are no labels or printed values.",
    "labels": [],
    "topic": "Transport in plants",
    "original": ""
@@ -240583,7 +240575,7 @@
    "page": 158,
    "localPath": "/textbook-images/cambridge/23/page158-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A light micrograph of a longitudinal section of plant tissue, stained green and yellow. Long, narrow cells run horizontally, and near the bottom there are rounder cells in a row. Two elongated tubes have dark red-brown blobs at their ends, which look like sieve plates with callose. No labels or values are printed.",
+   "shows": "A light micrograph of a longitudinal section of plant tissue, stained green and yellow. Long, narrow cells run vertically, and on the right side there are larger, rounder cells. Two elongated tubes have dark red-brown blobs at their ends, which look like sieve plates with callose. No labels or values are printed.",
    "labels": [],
    "topic": "Transport in plants",
    "original": ""
@@ -240639,7 +240631,7 @@
    "page": 176,
    "localPath": "/textbook-images/cambridge/23/page176-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A false-colour scanning electron micrograph of blood. Several large red biconcave discs (red blood cells) are shown. One rounded blue cell with a surface covered in small projections (a white blood cell) sits in the centre. Many small yellow-green irregular spiky fragments (platelets) lie among them. No labels or values are printed.",
+   "shows": "A false-colour scanning electron micrograph of blood. Several large red biconcave discs (red blood cells) are shown. One rounded blue cell with a surface covered in small projections (a white blood cell) sits left of centre. Many small yellow-green irregular spiky fragments (platelets) lie among them. No labels or values are printed.",
    "labels": [],
    "topic": "Transport in mammals",
    "original": ""
@@ -240800,7 +240792,7 @@
    "page": 198,
    "localPath": "/textbook-images/cambridge/23/page198-embedded-2.jpeg",
    "noun": "photograph",
-   "shows": "A stained light micrograph of part of an airway wall. Folded epithelium with pink-stained cells and dark nuclei lines the top, with a band of smooth muscle beneath it. A large pink plate of cartilage containing small cells in spaces (lacunae) lies below. There are no labels or printed values.",
+   "shows": "A stained light micrograph of part of an airway wall. Folded epithelium with pink-stained cells and dark nuclei lies on the left, with a band of smooth muscle beside it. A large pink plate of cartilage containing small cells in spaces (lacunae) lies on the right. There are no labels or printed values.",
    "labels": [],
    "topic": "Gas exchange and smoking",
    "original": ""
@@ -240842,7 +240834,7 @@
    "page": 202,
    "localPath": "/textbook-images/cambridge/23/page202-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A light micrograph of a stained section of lung tissue. It shows many thin-walled air spaces (alveoli) with pink-red stained walls and red blood cells in the capillaries. On the right is a bronchiole with a folded lining of epithelium and a surrounding wall of tissue with darkly stained nuclei. No labels or values are printed.",
+   "shows": "A light micrograph of a stained section of lung tissue. It shows many thin-walled air spaces (alveoli) with pink-red stained walls and red blood cells in the capillaries. At the bottom is a bronchiole with a folded lining of epithelium and a surrounding wall of tissue with darkly stained nuclei. No labels or values are printed.",
    "labels": [],
    "topic": "Gas exchange and smoking",
    "original": ""
@@ -240856,7 +240848,7 @@
    "page": 202,
    "localPath": "/textbook-images/cambridge/23/page202-embedded-1.jpeg",
    "noun": "photograph",
-   "shows": "A false-colour CT scan of a cross-section through the chest. The image has no labels. The left lung on the image is black with a small amount of coloured tissue, and the right lung on the image is mottled with orange, green, blue and red patches. A large orange area in the centre is the heart and mediastinum, and the spine is at the top centre. The ribs and chest wall form a ring around the lungs.",
+   "shows": "A false-colour CT scan of a cross-section through the chest. The image has no labels. The right lung on the image is black with a small amount of coloured tissue, and the left lung on the image is mottled with orange, green, blue and red patches. A large orange area in the centre is the heart and mediastinum, and the spine is at the bottom centre. The ribs and chest wall form a ring around the lungs.",
    "labels": [],
    "topic": "Gas exchange and smoking",
    "original": ""
@@ -240940,7 +240932,7 @@
    "page": 210,
    "localPath": "/textbook-images/cambridge/23/page210-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A false-colour micrograph of a single rod-shaped bacterium on a dark background. The cell is coloured red and green and has one long, wavy, thin flagellum extending from one end up to the top left. There are no labels, scale bar or printed values.",
+   "shows": "A false-colour micrograph of a single rod-shaped bacterium on a dark background. The cell is coloured red and green and has one long, wavy, thin flagellum extending from one end down to the bottom left. There are no labels, scale bar or printed values.",
    "labels": [],
    "topic": "Infectious diseases",
    "original": ""
@@ -240954,7 +240946,7 @@
    "page": 213,
    "localPath": "/textbook-images/cambridge/23/page213-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A stained blood smear viewed under a microscope. It shows many pale brown-red red blood cells on a pale yellow background. Several cells contain small purple-blue ring-shaped parasites with dark dots, consistent with Plasmodium at the ring stage. One cell at the top right has a ring with a red-purple spot. One cell in the centre holds two or three rings. No labels or scale are printed on it.",
+   "shows": "A stained blood smear viewed under a microscope. It shows many pale brown-red red blood cells on a pale yellow background. Several cells contain small purple-blue ring-shaped parasites with dark dots, consistent with Plasmodium at the ring stage. One cell at the lower right has a ring with a red-purple spot. One cell in the centre holds two or three rings. No labels or scale are printed on it.",
    "labels": [],
    "topic": "Infectious diseases",
    "original": ""
@@ -241024,7 +241016,7 @@
    "page": 237,
    "localPath": "/textbook-images/cambridge/23/page237-embedded-0.jpeg",
    "noun": "photograph",
-   "shows": "A false-colour electron micrograph of a single cell in section. A large nucleus, brown with green patches, sits at the upper left. The rest of the cell is filled with teal cytoplasm containing many concentric layers of membrane, a few darker blue organelles and small black dots. There are no labels or printed values.",
+   "shows": "A false-colour electron micrograph of a single cell in section. A large nucleus, brown with green patches, sits at the top, slightly right of centre. The rest of the cell is filled with teal cytoplasm containing many concentric layers of membrane, a few darker blue organelles and small black dots. There are no labels or printed values.",
    "labels": [],
    "topic": "Immunity",
    "original": ""
@@ -241812,7 +241804,7 @@
    "page": 380,
    "localPath": "/textbook-images/cambridge/23/page380-embedded-4.jpeg",
    "noun": "photograph",
-   "shows": "A light micrograph with a yellow-orange background showing a cell with about a dozen dark, stained chromosomes of different sizes. Most are clustered in a loose vertical group, and one more lies separately near the bottom. No labels or scale bar are printed on it.",
+   "shows": "A light micrograph with a yellow-orange background showing a cell with about a dozen dark, stained chromosomes of different sizes. Most are clustered in a loose group on the left, and one more lies separately to the right. No labels or scale bar are printed on it.",
    "labels": [],
    "topic": "Inherited change",
    "original": "Figure 16.9 Stages of meiosis in an animal cell (locust) (× 950). Interphase (not part of meiosis) is also shown. 16.2 Name the stage of meiosis at which each of the following occurs."
@@ -241840,7 +241832,7 @@
    "page": 380,
    "localPath": "/textbook-images/cambridge/23/page380-embedded-6.jpeg",
    "noun": "photograph",
-   "shows": "A light micrograph with an orange-yellow background showing a single cell with dark, thread-like condensed chromosomes of varying lengths and shapes. They are clustered together in the middle of the cell, and some look like X-shapes or rings. A faint, grainy nucleus is partly visible at the bottom left corner. There are no labels or printed values.",
+   "shows": "A light micrograph with an orange-yellow background showing a single cell with dark, thread-like condensed chromosomes of varying lengths and shapes. They are clustered together in the middle of the cell, and some look like X-shapes or rings. A faint, grainy nucleus is partly visible at the top left corner. There are no labels or printed values.",
    "labels": [],
    "topic": "Inherited change",
    "original": "Figure 16.9 Stages of meiosis in an animal cell (locust) (× 950). Interphase (not part of meiosis) is also shown. 16.2 Name the stage of meiosis at which each of the following occurs."

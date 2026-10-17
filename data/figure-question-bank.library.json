@@ -71758,43 +71758,15 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "The SEM shows xylem vessels with annular/spiral lignified thickening rings, and option A is the only correct function (lignin resists collapse under tension) while B, C and D are clearly wrong for dead, hollow xylem; the question is at A-level, answerable from the figure plus syllabus knowledge, and the explanation is accurate.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the photograph. The vessel walls show closely spaced internal rings. What is the main function of this wall feature in xylem?",
-     "options": [
-      "Lignin thickening that resists collapse under the negative pressure of the transpiration stream",
-      "Sieve plates that allow movement of sucrose between adjacent cells",
-      "Pores that let water leave the vessel quickly by osmosis",
-      "Thin cellulose areas that allow active loading of mineral ions"
-     ],
-     "correct_answer": 0,
-     "explanation": "The rings are lignified thickening that strengthens the wall, so the vessel does not collapse or burst when tension from transpiration pulls on the water column. Sieve plates belong to phloem. Mature xylem is dead and hollow, so it has no osmosis or active loading. Pits, not rings, allow lateral water movement."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The figure is a false-colour SEM of xylem vessels showing stacked ring-like wall thickenings, and the question's stem calls them 'closely spaced internal rings', which fits annular or spiral thickening. The key is correct that lignin thickening resists collapse under tension, and the distractors are wrong. However, the stem says the rings are 'internal' and 'closely spaced' when the image shows stepped, tiered wall layers inside the lumen. These could be read as the vessel's perforated end or telescoped wall layers rather than discrete rings, so the description is not clearly supported by the figure. The question is arguably ambiguous, and a strict check would not pass it.",
+    "kept": false
    },
    {
     "kind": "short",
-    "verdict": "ok",
-    "reason": "The figure shows xylem vessels with ridged, ring-like thickenings, and the expected AS/A Level answer is lignin, which is not printed on the figure or stated in the question. The accepted answers cover the common forms, and the single mark matches a single answer.",
-    "question": {
-     "id": 1,
-     "type": "longform",
-     "question": "Look at the photograph. The ridged rings in the walls of these xylem vessels are made of which substance that strengthens them?",
-     "marks": 1,
-     "short_answer": {
-      "accepted": [
-       "lignin",
-       "Lignin",
-       "lignin (a polymer)",
-       "lignified thickening"
-      ]
-     },
-     "explanation": "The orange ridges are rings of lignin laid down in the xylem vessel walls. Lignin is waterproof and rigid, so it strengthens the vessels and stops them collapsing under the low pressure produced by transpiration pull."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The question says the figure shows \"ridged rings in the walls of these xylem vessels\", but the image is an unlabelled false-colour SEM that does not clearly show ringed thickening. It looks like stacked, stepped walls inside wide pores, so the description does not match the figure. The question also states the structure is xylem, and the explanation's claim that the orange ridges are lignin rings comes from the false colouring, not from anything visible in the image.",
+    "kept": false
    },
    {
     "kind": "written",
@@ -72949,22 +72921,9 @@
   "questions": [
    {
     "kind": "mcq",
-    "verdict": "ok",
-    "reason": "The figure shows a cell with a large nucleus and cytoplasm packed with concentric layers of rough ER, which is the classic appearance of an antibody-secreting plasma cell, and none of the other three options fits; the key (index 0) and explanation are correct and the level is appropriate.",
-    "question": {
-     "id": 1,
-     "type": "mcq",
-     "question": "Look at the photograph. This cell has a large nucleus and extensive concentric membrane layers filling its cytoplasm. Which cell is it most likely to be, and what is its role?",
-     "options": [
-      "Plasma cell, secreting large quantities of antibodies",
-      "Phagocyte, engulfing pathogens by endocytosis",
-      "Memory B cell, remaining dormant after infection",
-      "Helper T cell, releasing cytokines to activate B cells"
-     ],
-     "correct_answer": 0,
-     "explanation": "Abundant concentric rough endoplasmic reticulum shows heavy protein synthesis and secretion, typical of a plasma cell making antibodies. A phagocyte would show lysosomes and a lobed nucleus. A memory B cell is small with little cytoplasm and little RER. A helper T cell also has sparse cytoplasm and little RER."
-    },
-    "kept": true
+    "verdict": "drop",
+    "reason": "Re-checked after the image was corrected to match the book: The figure shows a false-colour EM of a plasma cell with a nucleus and concentric RER, but the question describes the nucleus as 'large' when it occupies only about a quarter of the cell, and the explanation wrongly says a phagocyte has a lobed nucleus (only neutrophils do; macrophages do not), so the science is not reliable.",
+    "kept": false
    },
    {
     "kind": "short",
