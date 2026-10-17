@@ -30,11 +30,11 @@ export default function LongformHintPanel({
           {revealed.map((hint, i) => (
             <li
               key={i}
-              className="flex gap-2 text-sm text-sky-900 dark:text-sky-100 bg-sky-50/80 dark:bg-sky-950/40 border border-sky-100 dark:border-sky-900/50 rounded-xl px-3 py-2.5"
+              className="flex gap-2 text-sm text-ss-ink bg-ss-panel border border-ss-line rounded-xl px-3 py-2.5"
             >
-              <Lightbulb className="w-4 h-4 mt-0.5 flex-shrink-0 text-sky-500" aria-hidden />
+              <Lightbulb className="w-4 h-4 mt-0.5 flex-shrink-0 text-ss-accent" aria-hidden />
               <span>
-                <span className="text-[10px] uppercase tracking-wider text-sky-500 font-semibold mr-1.5">
+                <span className="text-xs uppercase tracking-wider text-ss-accent font-semibold mr-1.5">
                   Hint {i + 1}
                 </span>
                 {hint}
@@ -48,18 +48,18 @@ export default function LongformHintPanel({
         <button
           type="button"
           onClick={onRevealNext}
-          className="inline-flex items-center gap-2 text-sm font-semibold text-sky-600 dark:text-sky-400 hover:text-sky-700 dark:hover:text-sky-300 transition-colors"
+          className="inline-flex items-center gap-2 text-sm font-semibold text-ss-accent hover:text-ss-ink transition-colors"
         >
           <Lightbulb className="w-4 h-4" />
           {revealedCount === 0 ? 'View hint' : 'Show next hint'}
-          <span className="text-xs font-normal text-gray-400">
+          <span className="text-xs font-normal text-ss-slate">
             ({Math.min(revealedCount + 1, hints.length)} of {hints.length})
           </span>
         </button>
       )}
 
       {allRevealed && (
-        <p className="text-xs text-gray-400">All hints revealed ({hints.length})</p>
+        <p className="text-xs text-ss-slate">All hints revealed ({hints.length})</p>
       )}
     </div>
   )
