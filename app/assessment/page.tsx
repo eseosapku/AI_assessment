@@ -709,6 +709,14 @@ function AssessmentPageClient() {
   // Claimed once, when the paper loads — the comparison belongs to this
   // attempt and must not survive into the next one.
   const [retakeOrigin, setRetakeOrigin] = useState<RetakeOrigin | null>(null)
+  // Previous/Next is a bar fixed over the bottom of the screen: a control the browser scrolls into
+  // view on Tab or an arrow key must stop above it, not under it (WCAG 2.2, 2.4.11 Focus Not Obscured).
+  useEffect(() => {
+    const root = document.documentElement
+    const before = root.style.scrollPaddingBottom
+    root.style.scrollPaddingBottom = '7rem'
+    return () => { root.style.scrollPaddingBottom = before }
+  }, [])
   useEffect(() => {
     setRetakeOrigin(takeRetakeOrigin())
   }, [])
