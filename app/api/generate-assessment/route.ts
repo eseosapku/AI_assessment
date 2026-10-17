@@ -28,6 +28,7 @@ import { repairPaper, stripImageKeysFromPaper } from '@/lib/inline-options'
 import { dropDanglingReferences, danglingReference } from '@/lib/dangling-reference'
 import { subjectGuidance } from '@/lib/subject-guidance'
 import { dropUnmarkable } from '@/lib/unmarkable'
+import { stripAppendedOptions } from '@/lib/question-text'
 import { dropUnanswerable } from '@/lib/answerable'
 import { tidyPaper } from '@/lib/paper-tidy'
 import { figureAllowedOnPaper, isExamFigure } from '@/lib/figure-provenance'
@@ -1104,10 +1105,9 @@ Generate all ${count} questions now. IDs: ${startId} to ${startId + count - 1}.`
 function cleanQuestionTexts(questions: any[]): void {
   for (const q of questions) {
     if (!q.question) continue
-    // Remove everything from "(A)" onwards if it looks like appended MCQ options
-    q.question = q.question.replace(/\s*[\(\[]\s*[Aa]\s*[\)\]]\s*[\s\S]*$/, '').trim()
-    // Replace $?$ (LaTeX-wrapped placeholder) with plain ?
-    q.question = q.question.replace(/\$\?\$/g, '?')
+    // Only a real appended A, B, C list comes off: cutting at the first "(a)" turned
+    // "In panel (a), the phasor V is ..." into "In panel" (lib/question-text.ts).
+    q.question = stripAppendedOptions(String(q.question))
   }
 }
 
