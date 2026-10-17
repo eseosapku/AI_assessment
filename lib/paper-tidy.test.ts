@@ -21,6 +21,20 @@ describe('a sentence the stem already said', () => {
     const stem = 'Work out the area of the compound shape.'
     expect(dropRepeatedSentences(stem)).toBe(stem)
   })
+
+  it('never takes the question for a repeat of a short scene sentence that shares a word with it', () => {
+    // Shipped as "Look at the drawing. The grapes dry in the sun." -- no question: "grapes" was the
+    // short sentence's only content word, and the question contains it.
+    const stem = 'Look at the drawing. The grapes dry in the sun. Which change of state happens to the water in the grapes as they dry?'
+    expect(dropRepeatedSentences(stem)).toBe(stem)
+    const stem2 = 'The kettle boils. What happens to the water in the kettle as it boils?'
+    expect(dropRepeatedSentences(stem2)).toBe(stem2)
+  })
+
+  it('removes a question asked twice, keeping the first', () => {
+    const stem = 'Look at the graph. What is the highest temperature on the graph? What is the highest temperature shown on the graph?'
+    expect(dropRepeatedSentences(stem)).toBe('Look at the graph. What is the highest temperature on the graph?')
+  })
 })
 
 describe('part labels inside the sentence', () => {

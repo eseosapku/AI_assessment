@@ -67,6 +67,7 @@ export function dropRepeatedSentences(stem: unknown): string {
 
   const keptText: string[] = []
   const keptWords: Set<string>[] = []
+  const asks = (s: string) => s.endsWith('?')
 
   for (const s of sentences) {
     const words = content(s)
@@ -84,7 +85,14 @@ export function dropRepeatedSentences(stem: unknown): string {
     // same sentence said again. "Sam noticed the graph shows a peak" against
     // "During a lesson, Sam noticed the graph shows a peak" is a subset, and
     // that is precisely the shape the pasted-in scenario takes.
-    const already = keptWords.some((k) => {
+    //
+    // Only against kept sentences that are long enough to say something: a short scene sentence
+    // ("The grapes dry in the sun.", one content word) is in every later sentence that mentions
+    // grapes, and the question itself was dropped as its repeat. And a question is removed only
+    // as a repeat of another question -- the demand is the one sentence a stem cannot lose.
+    const already = keptWords.some((k, i) => {
+      if (k.size < 3) return false
+      if (asks(s) && !asks(keptText[i])) return false
       const [small, large] = k.size <= words.size ? [k, words] : [words, k]
       return [...small].every((w) => large.has(w))
     })
