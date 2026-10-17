@@ -6,7 +6,10 @@ import os
 import re
 import sys
 
+import io
+
 import fitz
+from PIL import Image, ImageOps
 
 # Keep MuPDF repair warnings off stdout so Node can parse JSON metadata.
 fitz.TOOLS.mupdf_display_errors(False)
@@ -15,6 +18,90 @@ FIGURE_RE = re.compile(
     r"\b(figure|fig\.|diagram|illustration|graph|chart|sketch|drawing|photo|picture|map)\b",
     re.I,
 )
+
+# extract_image() returns an image as STORED, and two kinds came out wrong: 404 of the library's
+# 15,103 images are drawn flipped, mirrored or turned by their placement matrix (a phasor diagram
+# reached a quiz upside down), and 343 are stored as ink amounts or a stencil and saved as a
+# negative. Both are put right here, so the saved file looks the way the page shows it.
+_T = Image.Transpose
+_TURN = {
+    "flip_v": _T.FLIP_TOP_BOTTOM,
+    "mirror": _T.FLIP_LEFT_RIGHT,
+    "rot180": _T.ROTATE_180,
+    "rot_cw": _T.ROTATE_270,  # PIL's ROTATE_270 turns 90 degrees clockwise
+    "rot_ccw": _T.ROTATE_90,
+    "transpose": _T.TRANSPOSE,
+    "transverse": _T.TRANSVERSE,
+}
+
+
+def placement_turn(page, xref):
+    """How the page turns the image ('flip_v', 'mirror', ...), or None when it is drawn upright.
+
+    From the first placement, in page coordinates (y down) after the page's own rotation. A
+    matrix that is neither upright nor a quarter turn (a photo set at a slant) is left alone.
+    """
+    try:
+        placed = page.get_image_rects(xref, transform=True)
+    except Exception:
+        return None
+    if not placed:
+        return None
+    m = placed[0][1] * page.rotation_matrix
+    a, b, c, d = m.a, m.b, m.c, m.d
+    tiny = max(abs(a), abs(b), abs(c), abs(d)) * 1e-3
+    if abs(b) <= tiny and abs(c) <= tiny:
+        if a > 0 and d > 0:
+            return None
+        return "flip_v" if a > 0 else "mirror" if d > 0 else "rot180"
+    if abs(a) <= tiny and abs(d) <= tiny:
+        if b > 0:
+            return "rot_cw" if c < 0 else "transpose"
+        return "rot_ccw" if c > 0 else "transverse"
+    return None
+
+
+def stored_as_negative(doc, img, ext):
+    """True for a stencil mask, or a one-ink (Separation / one-colorant DeviceN) image kept as raw JPEG.
+
+    Those samples are amounts of ink, and a JPEG passed through unconverted shows full ink as
+    white. Images MuPDF converts on the way out (PNG) already come out right.
+    """
+    xref, cs_name = img[0], img[5]
+    if doc.xref_get_key(xref, "ImageMask")[1] == "true":
+        return True
+    if cs_name not in ("Separation", "DeviceN") or ext not in ("jpeg", "jpg", "jpx"):
+        return False
+    kind, val = doc.xref_get_key(xref, "ColorSpace")
+    body = doc.xref_object(int(val.split()[0])) if kind == "xref" else val
+    colorants = re.findall(r"/(\w+)", re.split(r"/Device(?:CMYK|RGB|Gray)", body)[0])
+    colorants = [c for c in colorants if c not in ("Separation", "DeviceN")]
+    return len(colorants) == 1
+
+
+def as_shown(data, ext, turn, negative):
+    """The stored bytes re-encoded the way the page shows them."""
+    im = Image.open(io.BytesIO(data))
+    im.load()
+    if im.mode == "CMYK":
+        im = im.convert("RGB")
+    if turn:
+        im = im.transpose(_TURN[turn])
+    if negative:
+        if im.mode in ("1", "P", "I", "F", "I;16"):
+            im = im.convert("L")
+        if im.mode in ("LA", "RGBA"):
+            *colour, alpha = im.split()
+            im = ImageOps.invert(Image.merge("L" if im.mode == "LA" else "RGB", colour))
+            im.putalpha(alpha)
+        else:
+            im = ImageOps.invert(im)
+    buf = io.BytesIO()
+    if ext == "png":
+        im.save(buf, format="PNG")
+    else:
+        im.convert("RGB" if im.mode not in ("RGB", "L") else im.mode).save(buf, format="JPEG", quality=95)
+    return buf.getvalue(), im.size
 
 
 def extract_from_pdf(
@@ -61,6 +148,15 @@ def extract_from_pdf(
                     continue
                 seen_hashes.add(digest)
             ext = info.get("ext") or "png"
+            turn = placement_turn(page, img[0])
+            negative = stored_as_negative(doc, img, ext)
+            if turn or negative:
+                if ext not in ("png", "jpeg", "jpg"):
+                    ext = "png"
+                try:
+                    data, (w, h) = as_shown(data, ext, turn, negative)
+                except Exception:
+                    turn = negative = None
             fname = f"page{page_num}-embedded-{img_idx}.{ext}"
             entry = {
                 "page": page_num,
@@ -73,6 +169,10 @@ def extract_from_pdf(
                 "pageText": snippet,
                 "filename": fname,
             }
+            if turn:
+                entry["orientationFixed"] = turn
+            if negative:
+                entry["inverted"] = True
             if out_dir:
                 os.makedirs(out_dir, exist_ok=True)
                 with open(os.path.join(out_dir, fname), "wb") as f:
