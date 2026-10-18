@@ -14,6 +14,7 @@ import {
 import { useRouter } from 'next/navigation'
 import { useAuth } from './AuthProvider'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+import { completeShortQuiz } from '@/lib/quiz-top-up'
 import { useSubscription } from '@/components/SubscriptionProvider'
 import { isPaymentRequiredResponse } from '@/lib/subscription'
 import { subjectFromTextbookName, filterAliasTextbooks, withDisplaySubjectNames } from '@/lib/textbook-subject'
@@ -548,6 +549,8 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
   const [isLoading, setIsLoading] = useState(false)
   const [isSavingDraft, setIsSavingDraft] = useState(false)
   const [elapsed, setElapsed] = useState(0)
+  /** Questions a follow-up request is adding to a quiz that came back short. */
+  const [toppingUp, setToppingUp] = useState(0)
   const [typicalTime, setTypicalTime] = useState(FALLBACK_TYPICAL_SECONDS)
   const stepPanelRef = useRef<HTMLDivElement | null>(null)
   const [announced, setAnnounced] = useState('')
@@ -922,6 +925,7 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
     setError('')
     setShowSubscribeCta(false)
     setElapsed(0)
+    setToppingUp(0)
     setAnnounced('')
     startTimeRef.current = Date.now()
     // Tracked locally, not from state: the finally block closes over the
@@ -988,6 +992,10 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
           throw new Error(data.error || 'Failed to generate assessment')
         }
       }
+
+      // A quiz that came back short is topped up before it opens (lib/quiz-top-up.ts).
+      data = await completeShortQuiz(data, requestPayload, { signal: controller.signal, onTopUp: setToppingUp })
+      if (controller.signal.aborted) return
 
       await refresh()
 
@@ -1892,7 +1900,9 @@ export default function FlowForm({ onClose, initialSourceMode = 'curriculum' }: 
                   <div className="w-full rounded-xl border border-ss-line bg-ss-chip p-4">
                     <div className="flex items-center gap-2 text-sm font-semibold text-ss-ink">
                       <Loader2 className="w-4 h-4 animate-spin text-ss-accent" />
-                      <span>Writing your quiz</span>
+                      <span aria-live="polite">
+                        {toppingUp > 0 ? `Adding ${toppingUp} more question${toppingUp === 1 ? '' : 's'}` : 'Writing your quiz'}
+                      </span>
                       <span className="ml-auto font-mono tabular-nums text-ss-slate">{elapsed}s</span>
                     </div>
                     <div

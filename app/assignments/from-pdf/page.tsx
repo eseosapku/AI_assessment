@@ -10,6 +10,7 @@ import {
   type SchoolClassRow,
 } from '@/lib/school-class-options'
 import { createAiJob, triggerAiJobExecution, waitForAiJob } from '@/lib/client-ai-jobs'
+import { completeShortQuiz } from '@/lib/quiz-top-up'
 
 
 interface ClassOption {
@@ -272,6 +273,9 @@ export default function PdfAssignmentPage() {
                 data = JSON.parse(genText)
                 if (!genRes.ok) throw new Error(data.error || 'Failed to generate assessment')
             }
+
+            // Topped up first if it came back short (lib/quiz-top-up.ts).
+            data = await completeShortQuiz(data, generationPayload)
 
             setStage('Saving draft')
             const draftRes = await fetch('/api/assignments/create', {

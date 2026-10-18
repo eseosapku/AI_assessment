@@ -9,6 +9,7 @@ import { KnowledgeWall, type UnlinkedResults } from '@/components/studylab/Knowl
 import { pickRequestedSubject, type WallTile } from '@/lib/studylab/wall'
 import type { CountryCode } from '@/lib/countries'
 import ProductTour from '@/components/studio/ProductTour'
+import { completeShortQuiz } from '@/lib/quiz-top-up'
 
 // ── status styling ────────────────────────────────────────────────────────────
 const STATUS_META: Record<MasteryStatus, { label: string; dot: string; ring: string; text: string; fill: string; accent: string }> = {
@@ -411,23 +412,24 @@ export default function GapMap({
     try {
       const topicIds = [d.topic_id!]
       const subtopicIds = typeof d.subtopic_id === 'number' && d.subtopic_id > 0 ? [d.subtopic_id] : []
+      const quizPayload = {
+        user_id: userId,
+        className: userClass ?? undefined,
+        subject: d.subject ?? undefined,
+        textbook_id: d.textbook_id,
+        topic_ids: topicIds,
+        subtopic_ids: subtopicIds,
+        topics: [d.label],
+        count: 10,
+        style: 'Test Style (Textbooks)',
+        questionType: 'mcq',
+        difficultyLevel: 'intermediate',
+        curriculum: d.curriculum_slug ?? (userCountry === 'NG' ? 'nigeria' : 'cambridge'),
+      }
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: userId,
-          className: userClass ?? undefined,
-          subject: d.subject ?? undefined,
-          textbook_id: d.textbook_id,
-          topic_ids: topicIds,
-          subtopic_ids: subtopicIds,
-          topics: [d.label],
-          count: 10,
-          style: 'Test Style (Textbooks)',
-          questionType: 'mcq',
-          difficultyLevel: 'intermediate',
-          curriculum: d.curriculum_slug ?? (userCountry === 'NG' ? 'nigeria' : 'cambridge'),
-        }),
+        body: JSON.stringify(quizPayload),
       })
       const text = await res.text()
       if (!text) throw new Error('Server returned an empty response.')
@@ -435,7 +437,8 @@ export default function GapMap({
       if (!res.ok) {
         throw new Error(data.error || 'Failed to generate quiz')
       }
-      sessionStorage.setItem('currentAssessment', JSON.stringify(data))
+      // Topped up first if it came back short (lib/quiz-top-up.ts).
+      sessionStorage.setItem('currentAssessment', JSON.stringify(await completeShortQuiz(data, quizPayload)))
       sessionStorage.setItem('gapMapReturn', '1')
       router.push('/assessment')
     } catch (err: any) {

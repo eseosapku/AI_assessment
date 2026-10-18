@@ -14,6 +14,7 @@ import { allExamPrepResources } from '@/lib/exam-prep-resources'
 import { useAuth } from '@/components/AuthProvider'
 import { useSubscription } from '@/components/SubscriptionProvider'
 import { isPaymentRequiredResponse } from '@/lib/subscription'
+import { completeShortQuiz } from '@/lib/quiz-top-up'
 import {
   buildableSubjects,
   checkpointSubject,
@@ -332,71 +333,72 @@ export default function ExamPrepForm() {
       // ideas — and it is also just what a paper plan is.
       const checkpointBrief = cpBrief
 
+      const examPayload = {
+        user_id: user?.id,
+        subject,
+        topics: promptTopics,
+        // A Checkpoint paper's length is a consequence of its marks, not a
+        // number anybody picked. Fifty marks spent on one-mark multiple
+        // choice and two- and three-mark written answers comes to this many
+        // questions, and that is the only reason it is this many.
+        count: exam === 'checkpoint' && cpPaper ? cpPaper.slots.length : count,
+        style: exam === 'checkpoint'
+          ? `Cambridge ${programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ${cpSubject?.code}/${component} practice`
+          : exam === 'waec' ? 'WASSCE practice' : 'JAMB UTME practice',
+        className: exam === 'checkpoint'
+          ? `Stage ${stageOf(programme)}`
+          : exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
+        grade: exam === 'checkpoint' ? stageOf(programme) : undefined,
+        // customTime, not estimatedTime: the route reads only the former,
+        // so Cambridge's published duration was being dropped and the paper
+        // timed at whatever the question count implied — 2h25 on a
+        // 45-minute component.
+        customTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
+        // Splits generation by kind, so no batch decides which are short.
+        shortCount: exam === 'checkpoint' ? cpShortCount : undefined,
+        // A reading paper is written against a text generated before any of
+        // its questions. Without this flag the generator writes comprehension
+        // questions about a passage nobody ever wrote.
+        needsPassage: exam === 'checkpoint' ? cpNeedsPassage : undefined,
+        // One request per numbered question, each told its own parts.
+        paperSlots: exam === 'checkpoint' && cpPaper
+          ? cpPaper.slots.map((s) => ({ q: s.questionNumber, part: s.part, marks: s.marks, format: s.format, strand: s.strand, focus: s.focus }))
+          : undefined,
+        curriculum: exam,
+        difficultyLevel: difficulty,
+        questionType: qType,
+        textbook_id: paper?.id ?? undefined,
+        examPrepContext: exam === 'checkpoint'
+          ? checkpointBrief
+          : examPrepContext(
+          exam,
+          subject,
+          promptTopics,
+          [
+            jambCombo ? `Target course: ${jambCombo.course} (${jambCombo.faculty}). UTME subjects: ${jambCombo.subjects.join(', ')}` : '',
+            paper
+              ? `Primary source: ${paper.year} ${paper.diet} synced past-question bank. Adapt real past questions; preserve official exam style and difficulty.`
+              : 'No synced past paper for this subject — generate syllabus-aligned practice questions only.',
+            topics.length > 0 && paper
+              ? `Focus on: ${topics.join('; ')}. Use the past paper first; if it does not contain enough questions for these areas, add new syllabus-aligned questions in the same ${exam.toUpperCase()} style to reach the requested count.`
+              : paper
+                ? 'Draw from across the full past paper — vary topics and question styles.'
+                : '',
+            exam === 'waec' && qType !== 'mcq'
+              ? 'Include WASSCE Paper 2 style theory: structured answers, definitions, explanations, and worked problems. Describe any diagram in words when needed.'
+              : '',
+            exam === 'jamb' && paper
+              ? 'Where the source references figures or diagrams, describe them clearly in the question stem so they are answerable without a separate image.'
+              : '',
+          ].filter(Boolean).join(' '),
+        ),
+      }
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          user_id: user?.id,
-          subject,
-          topics: promptTopics,
-          // A Checkpoint paper's length is a consequence of its marks, not a
-          // number anybody picked. Fifty marks spent on one-mark multiple
-          // choice and two- and three-mark written answers comes to this many
-          // questions, and that is the only reason it is this many.
-          count: exam === 'checkpoint' && cpPaper ? cpPaper.slots.length : count,
-          style: exam === 'checkpoint'
-            ? `Cambridge ${programme === 'primary' ? 'Primary' : 'Lower Secondary'} Checkpoint ${cpSubject?.code}/${component} practice`
-            : exam === 'waec' ? 'WASSCE practice' : 'JAMB UTME practice',
-          className: exam === 'checkpoint'
-            ? `Stage ${stageOf(programme)}`
-            : exam === 'waec' ? 'SS3 WASSCE' : 'UTME Candidate',
-          grade: exam === 'checkpoint' ? stageOf(programme) : undefined,
-          // customTime, not estimatedTime: the route reads only the former,
-          // so Cambridge's published duration was being dropped and the paper
-          // timed at whatever the question count implied — 2h25 on a
-          // 45-minute component.
-          customTime: exam === 'checkpoint' ? cpPaper?.minutes ?? undefined : undefined,
-          // Splits generation by kind, so no batch decides which are short.
-          shortCount: exam === 'checkpoint' ? cpShortCount : undefined,
-          // A reading paper is written against a text generated before any of
-          // its questions. Without this flag the generator writes comprehension
-          // questions about a passage nobody ever wrote.
-          needsPassage: exam === 'checkpoint' ? cpNeedsPassage : undefined,
-          // One request per numbered question, each told its own parts.
-          paperSlots: exam === 'checkpoint' && cpPaper
-            ? cpPaper.slots.map((s) => ({ q: s.questionNumber, part: s.part, marks: s.marks, format: s.format, strand: s.strand, focus: s.focus }))
-            : undefined,
-          curriculum: exam,
-          difficultyLevel: difficulty,
-          questionType: qType,
-          textbook_id: paper?.id ?? undefined,
-          examPrepContext: exam === 'checkpoint'
-            ? checkpointBrief
-            : examPrepContext(
-            exam,
-            subject,
-            promptTopics,
-            [
-              jambCombo ? `Target course: ${jambCombo.course} (${jambCombo.faculty}). UTME subjects: ${jambCombo.subjects.join(', ')}` : '',
-              paper
-                ? `Primary source: ${paper.year} ${paper.diet} synced past-question bank. Adapt real past questions; preserve official exam style and difficulty.`
-                : 'No synced past paper for this subject — generate syllabus-aligned practice questions only.',
-              topics.length > 0 && paper
-                ? `Focus on: ${topics.join('; ')}. Use the past paper first; if it does not contain enough questions for these areas, add new syllabus-aligned questions in the same ${exam.toUpperCase()} style to reach the requested count.`
-                : paper
-                  ? 'Draw from across the full past paper — vary topics and question styles.'
-                  : '',
-              exam === 'waec' && qType !== 'mcq'
-                ? 'Include WASSCE Paper 2 style theory: structured answers, definitions, explanations, and worked problems. Describe any diagram in words when needed.'
-                : '',
-              exam === 'jamb' && paper
-                ? 'Where the source references figures or diagrams, describe them clearly in the question stem so they are answerable without a separate image.'
-                : '',
-            ].filter(Boolean).join(' '),
-          ),
-        }),
+        body: JSON.stringify(examPayload),
       })
-      const json = await res.json()
+      let json = await res.json()
       if (!res.ok) {
         if (isPaymentRequiredResponse(res.status, json)) {
           await refresh()
@@ -405,6 +407,9 @@ export default function ExamPrepForm() {
         }
         throw new Error(json?.error || 'Failed to generate assessment')
       }
+      // A WAEC or JAMB quiz that came back short is topped up before it opens (lib/quiz-top-up.ts);
+      // a Checkpoint paper fills itself.
+      json = await completeShortQuiz(json, examPayload)
       // Tag before storing, and carry which paper this was. Both have to survive
       // into the result screen: without the strand tags there is nothing to
       // report, and without the paper's identity the report cannot say which

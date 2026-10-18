@@ -24,6 +24,7 @@ import { NextStepCard } from '@/components/studio/NextStepCard'
 import { chooseNextStep } from '@/lib/study-loop'
 import { subjectLabel, subjectLabelText } from '@/lib/subject-label'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
+import { completeShortQuiz } from '@/lib/quiz-top-up'
 
 const RESUME_ASSESSMENT_KEY = 'resumeAssessment'
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i
@@ -171,27 +172,29 @@ export default function StudioHome() {
         if (!target || !user?.id) return
         setStartingStep(true)
         try {
+          const quizPayload = {
+            user_id: user.id,
+            subject: target.subjectName,
+            topics: [target.topicName || target.label].filter(Boolean),
+            topic_ids: target.topic_id ? [target.topic_id] : [],
+            subtopic_ids: target.subtopic_id ? [target.subtopic_id] : [],
+            textbook_id: target.textbook_id ?? null,
+            className: user?.class ?? '',
+            count: 10,
+            difficultyLevel: 'intermediate',
+            questionType: 'mcq',
+            style: 'Test Style (Textbooks)',
+            subjectDomainHint: target.subjectName,
+          }
           const res = await fetch('/api/generate-assessment', {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-              user_id: user.id,
-              subject: target.subjectName,
-              topics: [target.topicName || target.label].filter(Boolean),
-              topic_ids: target.topic_id ? [target.topic_id] : [],
-              subtopic_ids: target.subtopic_id ? [target.subtopic_id] : [],
-              textbook_id: target.textbook_id ?? null,
-              className: user?.class ?? '',
-              count: 10,
-              difficultyLevel: 'intermediate',
-              questionType: 'mcq',
-              style: 'Test Style (Textbooks)',
-              subjectDomainHint: target.subjectName,
-            }),
+            body: JSON.stringify(quizPayload),
           })
           const data = await res.json()
           if (!res.ok) throw new Error(data?.error || 'Could not build the retake')
-          sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(data))
+          // Topped up first if it came back short (lib/quiz-top-up.ts).
+          sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(await completeShortQuiz(data, quizPayload)))
           router.push('/assessment')
         } catch (err) {
           console.error('Retake failed:', err)

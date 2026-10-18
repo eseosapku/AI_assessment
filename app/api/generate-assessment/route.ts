@@ -51,7 +51,9 @@ import { questionIsAboveStage, beyondStage } from '@/lib/grade-vocabulary'
 import { styleExamplesFor, questionCopiesAStyle } from '@/lib/paper-styles'
 import { splitIntoParagraphs } from '@/lib/passage-paragraphs'
 import { liftSharedScenarios, carryLeadInToParts, stripPassageEcho, stripPassageSetup, restatesPassage, stripFigureEcho, isPointerOnly } from '@/lib/shared-scenario'
-import { dropRepeatedDemands, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
+import { dropRepeatedDemands, sameDemand, stripDeadPointer, stripPrintedMarks, stripEmptyAnswerInstruction } from '@/lib/demand-variety'
+import { parseTopUp, topUpAllowed, TOP_UP_MAX_MISSING } from '@/lib/quiz-top-up'
+import { leastCoveredSections, pointShares, sectionShares, type BookSection } from '@/lib/section-shares'
 import { toBritish } from '@/lib/british-spelling'
 import { allowsArithmeticForSelection, isLikelyOffTopicMathQuestion } from '@/lib/off-topic-arithmetic'
 import { normaliseWrittenType } from '@/lib/written-type'
@@ -630,6 +632,10 @@ function buildPrompt(opts: {
   assignedFigure?: { description: string; category: string }
   /** What the learner's book teaches in these chapters at this stage (lib/topic-briefs.ts). */
   scopeBrief?: string
+  /** This batch's share of those points, when other batches write the rest (lib/section-shares.ts). */
+  batchFocus?: string[]
+  /** The paper already asks about those points: a follow-up or a retry needs a new angle on them. */
+  batchFocusCovered?: boolean
 }): { prompt: string; estimatedTime: number } {
   const {
     subject, topics, count, startId = 1, style, curriculumName, curriculumBlock, questionType,
@@ -951,7 +957,10 @@ ${gradeAgeNote ? `\n${gradeAgeNote}\n` : ''}
 ${difficultyInstruction ? `**${difficultyInstruction}**` : ''}
 
 **Task:** ${questionInstruction}
-${opts.scopeBrief ? `
+${opts.batchFocus?.length ? `
+**THIS BATCH'S SHARE OF THE BOOK:** other batches are writing the rest of this quiz at the same time, from the book's other points, so a question about anything else will repeat theirs and be thrown away. Write every question about one of these points, in the chapter shown:
+${opts.batchFocus.map((p) => `- ${p}`).join('\n')}${opts.batchFocusCovered ? '\nThe paper already has the plain question on each of these points (listed at the end). Ask something it does not: the point applied to an everyday situation, what happens if one thing changes, or two cases to compare -- still only what this stage is taught.' : ''}
+` : ''}${opts.scopeBrief ? `
 ${opts.scopeBrief}
 ` : ''}
 ${topicAlignment}
@@ -1295,13 +1304,41 @@ export async function POST(request: NextRequest) {
 
     const userId = String(user_id ?? '').trim()
 
+    // A follow-up for a quiz that came back short (lib/quiz-top-up.ts). It is appended to that quiz
+    // and not counted again, so it must belong to a quiz this learner has just been given.
+    const topUp = parseTopUp(body?.topUp)
+    let topUpOffset = 0
+    if (topUp) {
+      let row: any
+      if (/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(topUp.assessmentId)) {
+        try {
+          row = (await db.query(
+            `SELECT user_id, created_at, CASE WHEN jsonb_typeof(questions_data) = 'array' THEN jsonb_array_length(questions_data) ELSE 0 END AS n
+             FROM assessments WHERE id = $1::uuid`,
+            [topUp.assessmentId],
+          )).rows[0]
+        } catch (err) {
+          console.error('Top-up lookup failed:', err)
+        }
+      }
+      if (!topUpAllowed(row, userId, Number(count) || 0)) {
+        return NextResponse.json({ error: 'This quiz can no longer be topped up.' }, { status: 400 })
+      }
+      topUpOffset = Number(row.n) || 0
+      console.log(`Top-up: ${count} more for a quiz of ${topUpOffset}`)
+    }
+    // What a follow-up must not ask again: the paper's questions, as the model is told and as the
+    // duplicate checks compare, and its figures, which no picker below may offer twice.
+    const priorOnPaper: any[] = (topUp?.have ?? []).map((question) => ({ question }))
+    const onPaperImages = new Set(topUp?.images ?? [])
+
     // One id for the whole generation, so every model attempt this request
     // makes — including the fallbacks — groups into a single billable unit in
     // the usage ledger.
     const usageRequestId = randomUUID()
     const usageUserId = userId || null
 
-    if (userId) {
+    if (userId && !topUp) {
       const gate = await assertSubscriptionAccess(userId, 'assessment')
       if (!gate.allowed) {
         return NextResponse.json(subscriptionPaywallBody(gate), { status: 402 })
@@ -1665,6 +1702,7 @@ ${commandBlock}`
         console.error('Library vision catalog build failed:', visionErr)
       }
     }
+    if (onPaperImages.size) visualCatalog = visualCatalog.filter((c) => !onPaperImages.has(c.localPath))
 
     // Self-directed quizzes name themselves after the topic ("The French
     // Revolution") so the student recognises them in their history — but that
@@ -1744,7 +1782,7 @@ ${commandBlock}`
           .filter((f) => {
             const sameLevel = !Number.isFinite(textbookId) || f.textbookIds.includes(textbookId)
               || stageOfBook(f.textbookName) === (Number(grade) || null)
-            return sameLevel && hasVetted(f.id, figureKinds)
+            return sameLevel && hasVetted(f.id, figureKinds) && !onPaperImages.has(f.localPath)
           }),
         // Unseen first, then seen ones with a question not yet asked with
         // them; none that would repeat a pair.
@@ -1768,7 +1806,7 @@ ${commandBlock}`
         : libraryFigures({ topicIds: libraryTopics })
       // Each comes with the question it will ask, so no wording is asked twice on the paper.
       const picked = pickLibraryFigures({
-        library: library.figures, questions: library.questions, kinds: figureKinds,
+        library: library.figures.filter((f) => !onPaperImages.has(f.localPath)), questions: library.questions, kinds: figureKinds,
         room: figureShare - bankFigures.length, startAt: bankFigures.length, seen: seenFigures, seed: Date.now(),
       })
       quizFigures = [...bankFigures, ...picked]
@@ -1818,12 +1856,12 @@ ${commandBlock}`
     // walked the whole chain and was reported as "the provided model
     // identifier is invalid"). The fix never reached this copy.
 
-    function buildBedrockBody(modelId: string, prompt: string, maxTokens: number): string {
+    function buildBedrockBody(modelId: string, prompt: string, maxTokens: number, temperature = 0.2): string {
       const m = stripPrefix(modelId)
       if (m.startsWith('amazon.nova')) {
         return JSON.stringify({
           messages: [{ role: 'user', content: [{ text: prompt }] }],
-          inferenceConfig: { maxTokens, temperature: 0.2 },
+          inferenceConfig: { maxTokens, temperature },
         })
       }
       if (m.startsWith('meta.llama')) {
@@ -1845,7 +1883,7 @@ ${commandBlock}`
       return body?.choices?.[0]?.message?.content ?? body?.choices?.[0]?.text ?? body?.outputs?.[0]?.text ?? ''
     }
 
-    async function callBedrock(prompt: string, maxTokens: number): Promise<string> {
+    async function callBedrock(prompt: string, maxTokens: number, temperature?: number): Promise<string> {
       const preferredFromEnv =
         process.env.AWS_GENERATION_MODEL_ID ||
         process.env.AWS_BEDROCK_MODEL_ID ||
@@ -1898,7 +1936,7 @@ ${commandBlock}`
               modelId,
               contentType: 'application/json',
               accept: 'application/json',
-              body: buildBedrockBody(modelId, prompt, maxTokens),
+              body: buildBedrockBody(modelId, prompt, maxTokens, temperature),
             })
             // Every attempt is recorded, including the ones that fail over to
             // the next model id — a fallback that burned tokens still cost
@@ -2017,7 +2055,7 @@ ${commandBlock}`
      * Maths "the nth term of the sequence 3, 7, 11, 15" at Q9 and again at
      * Q29. Set by the fill loops, empty for the blueprint's own batches.
      */
-    let alreadyOnPaper: any[] = []
+    let alreadyOnPaper: any[] = [...priorOnPaper]
     /**
      * With `topics`, only the questions already asked on those topics.
      *
@@ -2072,7 +2110,10 @@ ${commandBlock}`
        * the marks are stamped either way.
        */
       strictShape = true,
+      batchFocus?: string[],
     ): Promise<any[]> {
+      // On a follow-up or a retry the paper already asks the plain question on every point.
+      const batchFocusCovered = Boolean(batchFocus?.length) && alreadyOnPaper.length > 0
       // Request a 40% surplus so even if the model runs short we hit the target count.
       // The surplus is stripped after deduplication.
       // No surplus when the parts are named: asking for extra parts of a
@@ -2424,6 +2465,8 @@ ${commandBlock}`
         figureAppetite: isCheckpoint ? 'exam-paper' : 'default', paperPass, questionParts,
         assignedFigure: assignedFigure ? { description: assignedFigure.description, category: assignedFigure.category } : undefined,
         scopeBrief: scopeBrief || undefined,
+        batchFocus,
+        batchFocusCovered,
       })
       // Nova Lite hard limit is 5120 output tokens. Cap at 4800 to leave JSON-framing headroom.
       // ~300-350 tokens per MCQ question (question + options + explanation).
@@ -2434,7 +2477,11 @@ ${commandBlock}`
       // questions are simply missing -- sixteen of thirty-four in one run.
       const perQuestion = questionParts?.length ? 900 : 300
       const maxTokens = Math.min(4200, Math.max(1800, requestCount * perQuestion))
-      const text = await callBedrock(prompt + avoidBlock(), maxTokens)
+      // 0.7, as dee6315b meant in April "for question variety" -- it raised every model but Nova,
+      // the one in use. At 0.2 parallel batches wrote the same questions: a follow-up's three
+      // batches, each given different sections, wrote "Which of the following is not a planet in
+      // our solar system?" four times among 24 questions and kept none of them.
+      const text = await callBedrock(prompt + avoidBlock(), maxTokens, 0.7)
 
       if (isRefusal(text)) throw new Error(`Model refused to generate content. Try a different AI model.`)
       const parsed = parseJsonRobust(fixLatexInRawJson(text))
@@ -2575,8 +2622,12 @@ ${commandBlock}`
       /** One question about one textbook figure, in its own short prompt. */
       textbookFigure?: TextbookFigure
       figureKind?: FigureQuestionKind
+      /** Its share of the chapter briefs' points (lib/section-shares.ts). */
+      batchFocus?: string[]
     }
     const batches: Batch[] = []
+    /** The book's sections under the chosen chapters, for the batches and the retry passes (lib/section-shares.ts). */
+    let bookSections: BookSection[] = []
 
     // An exam paper is generated ONE NUMBERED QUESTION AT A TIME, each with
     // its own focused prompt (lib/exam-paper-prompt.ts).
@@ -2733,17 +2784,51 @@ ${commandBlock}`
         batches.push({ count: Math.min(BATCH_SIZE, count - i), startId: i + 1, paperPass: 'extended' })
       }
     } else if (batches.length === 0) {
-      const plain = count - quizFigures.length
+      // A follow-up writes twice what it needs, in separate batches, and is trimmed to its count
+      // below: it is small, its first pass takes about six seconds, and what it writes is checked
+      // against a whole paper of questions already asked.
+      const plain = topUp ? Math.min(2 * (count - quizFigures.length), TOP_UP_MAX_MISSING) : count - quizFigures.length
       // Each batch its own share of the chapters. Handed all seven, four
       // parallel batches each wrote "which of these numbers is irrational",
       // and a 20-question Stage 9 quiz lost a quarter of itself to repeats.
       const nPlain = Math.ceil(plain / BATCH_SIZE)
       const spread = !isCheckpoint && promptTopics.length > 1 && nPlain > 1
+      // Finer still where the book has sections: chapters alone left two batches on one chapter
+      // writing the same questions (lib/section-shares.ts). A follow-up starts with the sections
+      // its paper covers least, and one too small to split takes those alone. Not where the
+      // learner picked sections, which already are this.
+      if (!isCheckpoint && !resolvedSubtopics.length && topicIds.length) {
+        try {
+          const { rows } = await db.query(
+            `SELECT t.topic, s.subtopic AS section FROM subtopics s JOIN topics t ON t.topic_id = s.topic_id
+             WHERE s.topic_id = ANY($1::int[]) ORDER BY s.topic_id, s.subtopic_id`,
+            [topicIds],
+          )
+          bookSections = rows as BookSection[]
+        } catch (err) {
+          console.error('Sections lookup for batches failed:', err)
+        }
+      }
+      const priorStems = priorOnPaper.map((q) => String(q.question))
+      // Where the book's chapters have briefs, their points are the share; sections otherwise.
+      const pointFoci: string[][] = chapterBriefs.length && (nPlain > 1 || topUp) ? pointShares(chapterBriefs, nPlain, priorStems) : []
+      const sectionFoci: string[][] = pointFoci.length ? []
+        : nPlain > 1 ? sectionShares(bookSections, nPlain, priorStems)
+        : topUp && bookSections.length ? [leastCoveredSections(bookSections, priorStems)]
+        : []
+      if (pointFoci.length) console.log(`Batch foci: ${pointFoci.flat().length} point(s) over ${nPlain} batch(es)`)
+      else if (sectionFoci.length) console.log(`Batch foci: ${new Set(sectionFoci.flat()).size} section(s) over ${nPlain} batch(es)`)
+      const chaptersOf = (points: string[]) => [...new Set(points.map((p) => (p.match(/^\(([^)]*)\)/) ?? [])[1]).filter(Boolean) as string[])]
       for (let i = 0, k = 0; i < plain; i += BATCH_SIZE, k++) {
-        const share = spread
+        const share = pointFoci.length ? chaptersOf(pointFoci[k])
+          : sectionFoci.length ? sectionFoci[k]
+          : spread
           ? promptTopics.filter((_, t) => t % nPlain === k % nPlain).concat(promptTopics.length < nPlain ? [promptTopics[k % promptTopics.length]] : [])
           : undefined
-        batches.push({ count: Math.min(BATCH_SIZE, plain - i), startId: i + 1, batchTopics: share?.length ? [...new Set(share)] : undefined })
+        batches.push({
+          count: Math.min(BATCH_SIZE, plain - i), startId: i + 1, batchTopics: share?.length ? [...new Set(share)] : undefined,
+          batchFocus: pointFoci[k],
+        })
       }
       // The quiz's own type, so a multiple-choice quiz stays multiple choice.
       const kinds: FigureQuestionKind[] = questionType === 'longform' ? ['short', 'written']
@@ -3124,7 +3209,7 @@ ${commandBlock}`
               // this way.
               if (b.textbookFigure) return await generateTextbookFigureQuestion(b.textbookFigure, b.startId, b.figureKind ?? 'mcq')
               try {
-                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint, true)
+                return await tryGenerateBatch(b.count, b.startId, b.paperPass, b.questionParts, b.batchTopics, b.assignedFigure, b.strandHint, true, b.batchFocus)
               } catch (first) {
                 if (!b.questionParts) throw first
                 // Lenient: take the question even if its shape is wrong. The
@@ -3178,6 +3263,15 @@ ${commandBlock}`
      * short and the learner be told "Failed to generate 17 questions".
      */
     const offPassageReserve: any[] = []
+
+    // A follow-up's question that asks what the paper already asks in other words -- the
+    // repeated-demand rule, run against the questions the learner already has.
+    const notOnPaperAlready = (questions: any[]): any[] => {
+      if (!priorOnPaper.length) return questions
+      const kept = questions.filter((q) => !priorOnPaper.some((p) => sameDemand(p.question, q?.question)))
+      if (kept.length < questions.length) console.log(`Top-up: removed ${questions.length - kept.length} question(s) the paper already asks`)
+      return kept
+    }
 
     const makeShippable = (questions: any[]): any[] => {
       // Provisional marks, before any guard reads them.
@@ -3464,11 +3558,14 @@ ${commandBlock}`
         console.log(`Dropped ${markable.dropped} question(s) with nothing to mark against`)
       }
 
-      return cleanQuestionPaper(markable.kept as any[])
+      return notOnPaperAlready(cleanQuestionPaper(markable.kept as any[]))
     }
 
     if (!isCheckpoint) console.log(`Timing: first pass ${allQuestions.length} question(s) by ${Math.round((Date.now() - requestStarted) / 1000)}s`)
-    allQuestions = makeShippable(deduplicateAndFix(allQuestions))
+    allQuestions = makeShippable(deduplicateAndFix(
+      allQuestions,
+      priorOnPaper.length ? new Set(priorOnPaper.map((q) => normalizeQuestionKey(q.question))) : undefined,
+    ))
 
     /**
      * A careful second reader for every Checkpoint question. See
@@ -3796,7 +3893,7 @@ ${commandBlock}`
         if (isCheckpoint && slotPlan.length > 0) {
           // A Checkpoint paper is filled the way it was built. See
           // `checkpointFill`.
-          alreadyOnPaper = [...allQuestions]
+          alreadyOnPaper = [...priorOnPaper, ...allQuestions]
           retryQs = await checkpointFill(missing, allQuestions)
         } else if (usePassageFlow && generatedPassages.length > 0) {
           const retryPassageCount = Math.min(missing, passageQuestionTarget)
@@ -3827,14 +3924,22 @@ ${commandBlock}`
           // buys truncation against Nova Lite's output limit rather than
           // more questions.
           const ask = missing <= BATCH_SIZE ? Math.min(BATCH_SIZE, missing + 2) : missing
-          alreadyOnPaper = [...allQuestions]
+          alreadyOnPaper = [...priorOnPaper, ...allQuestions]
+          // Somewhere the paper has not been: re-sent with the chapter names, a retry wrote the
+          // questions it was told were already asked.
+          const paperStems = [...priorOnPaper, ...allQuestions].map((q: any) => String(q?.question ?? ''))
+          const retryFocus = !isCheckpoint && chapterBriefs.length ? pointShares(chapterBriefs, 1, paperStems)[0] : undefined
           retryQs = await tryGenerateBatch(
             ask, allQuestions.length + 1, undefined, undefined,
-            isCheckpoint ? leastCoveredTopics(allQuestions).slice(0, 4) : undefined,
+            isCheckpoint ? leastCoveredTopics(allQuestions).slice(0, 4)
+              : retryFocus?.length ? [...new Set(retryFocus.map((p) => (p.match(/^\(([^)]*)\)/) ?? [])[1]).filter(Boolean) as string[])]
+              : bookSections.length ? leastCoveredSections(bookSections, paperStems)
+              : undefined,
+            undefined, undefined, true, retryFocus,
           )
         }
         const seenKeys = new Set(
-          allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
+          [...priorOnPaper, ...allQuestions].map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
         )
         allQuestions.push(...deduplicateAndFix(retryQs, seenKeys))
         // Re-clean the combined set: a replacement can duplicate or contradict
@@ -3874,7 +3979,7 @@ ${commandBlock}`
         console.warn(`Still short by ${missing} — plain pass ${pass + 1}, short answers only`)
         const before = allQuestions.length
         try {
-          alreadyOnPaper = [...allQuestions]
+          alreadyOnPaper = [...priorOnPaper, ...allQuestions]
           // The same focused fill as the retry passes when there is a
           // blueprint to fill from; the old plain ask only without one.
           const plain = slotPlan.length > 0
@@ -3884,7 +3989,7 @@ ${commandBlock}`
                 leastCoveredTopics(allQuestions).slice(0, 4),
               )
           const seenKeys = new Set(
-            allQuestions.map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
+            [...priorOnPaper, ...allQuestions].map((q) => normalizeQuestionKey(String(q?.question || ''))).filter(Boolean),
           )
           allQuestions.push(...deduplicateAndFix(plain, seenKeys))
           allQuestions = makeShippable(allQuestions)
@@ -3934,7 +4039,8 @@ ${commandBlock}`
     // reason: a Grade 1 "Shapes" quiz was refused at 7 of 8 after every pass,
     // because a topic that narrow has only so many different questions, and
     // the learner was sent back to wait for the same result.
-    const shortTolerance = shortfallTolerance(count, { checkpoint: isCheckpoint, outOfTime })
+    // A follow-up adds what it can: one question more is better than none.
+    const shortTolerance = topUp ? Math.max(0, count - 1) : shortfallTolerance(count, { checkpoint: isCheckpoint, outOfTime })
     if (allQuestions.length < count && allQuestions.length >= count - shortTolerance) {
       console.warn(`Shipping ${allQuestions.length} of ${count}: short by ${count - allQuestions.length} after every pass`)
     } else if (allQuestions.length < count) {
@@ -3998,7 +4104,8 @@ ${commandBlock}`
       )
     }
     // Final re-number after trim
-    allQuestions.forEach((q: any, i: number) => { q.id = i + 1 })
+    // A follow-up's questions continue the quiz's numbering.
+    allQuestions.forEach((q: any, i: number) => { q.id = topUpOffset + i + 1 })
 
     // A Checkpoint paper is worth exactly what its cover says.
     //
@@ -4167,7 +4274,7 @@ ${commandBlock}`
       // positions in the paper. Renumber ids to match the new positions.
       if (attached > 0) {
         assessmentData.questions = groupQuestionsByFigure(assessmentData.questions)
-        assessmentData.questions.forEach((q: any, i: number) => { q.id = i + 1 })
+        assessmentData.questions.forEach((q: any, i: number) => { q.id = topUpOffset + i + 1 })
       }
     }
 
@@ -4311,6 +4418,26 @@ ${commandBlock}`
 
     let dbAssessment: any = null
     let dbError: unknown = null
+
+    if (topUp) {
+      // Onto the quiz the learner already has, so its history, results and Gap Map see the whole
+      // paper; not a new quiz, and not counted as one.
+      try {
+        await db.query(
+          'UPDATE assessments SET questions_data = questions_data || $2::jsonb WHERE id = $1::uuid',
+          [topUp.assessmentId, jsonbParam(assessmentData.questions)],
+        )
+      } catch (err) {
+        console.error('Top-up save error:', err)
+      }
+      return NextResponse.json({
+        ...assessmentData,
+        assessment_id: topUp.assessmentId,
+        topUp: true,
+        subject: promptSubject,
+        questionType,
+      })
+    }
 
     try {
       const insertResult = await db.query(

@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react'
 import { ArrowRight, Calendar, RotateCcw, Sparkles } from 'lucide-react'
 import { subjectArt } from '@/lib/studio/subjectArt'
 import { subjectLabelText } from '@/lib/subject-label'
+import { completeShortQuiz } from '@/lib/quiz-top-up'
 
 interface Assessment {
   id: string
@@ -71,14 +72,16 @@ export default function AssessmentCard({ assessment }: { assessment: Assessment 
     if (!repeatParams || building) return
     setBuilding(true)
     try {
+      const quizPayload = { ...repeatParams, style: 'Test Style (Textbooks)' }
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...repeatParams, style: 'Test Style (Textbooks)' }),
+        body: JSON.stringify(quizPayload),
       })
       const data = await res.json()
       if (!res.ok) throw new Error(data?.error || 'Could not build the quiz')
-      sessionStorage.setItem('currentAssessment', JSON.stringify(data))
+      // Topped up first if it came back short (lib/quiz-top-up.ts).
+      sessionStorage.setItem('currentAssessment', JSON.stringify(await completeShortQuiz(data, quizPayload)))
       router.push('/assessment')
     } catch (err) {
       console.error('Quiz again failed:', err)

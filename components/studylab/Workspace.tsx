@@ -27,6 +27,7 @@ import { measuredBefore, type LessonRun } from '@/lib/studylab/lessonRun'
 import { useAuth } from '@/components/AuthProvider'
 import { friendlyTutorError } from '@/lib/studylab/tutorErrors'
 import { CURRENT_ASSESSMENT_KEY } from '@/lib/assessment-retake'
+import { completeShortQuiz } from '@/lib/quiz-top-up'
 
 // React Flow is client-only; load without SSR.
 const StudyCanvas = dynamic(() => import('./StudyCanvas'), {
@@ -811,44 +812,45 @@ export default function Workspace({ id }: { id: string }) {
     if (provingIt) return
     setProvingIt(true)
     try {
+      // The lesson's own book and topic, as the Gap Map's "Quiz me" sends
+      // them. With the title alone the score landed in a "Mastering ..."
+      // group of its own and never moved the tile the student came from.
+      const quizPayload =
+        space?.textbook_id && space?.topic_id
+          ? {
+              user_id: user?.id,
+              className: user?.class ?? undefined,
+              subject: space.subject || space.title,
+              textbook_id: space.textbook_id,
+              topic_ids: [space.topic_id],
+              subtopic_ids: space.subtopic_id ? [space.subtopic_id] : [],
+              topics: [space.focus?.subtopic_name || space.focus?.topic_name || space.title].filter(Boolean),
+              count: 10,
+              style: 'Test Style (Textbooks)',
+              questionType: 'mcq',
+              difficultyLevel: 'intermediate',
+            }
+          : {
+              user_id: user?.id,
+              subject: space?.title || space?.subject || 'Study session',
+              subjectDomainHint: space?.subject || undefined,
+              topics: [space?.title || space?.subject].filter(Boolean),
+              count: 10,
+              style: 'Test Style (Textbooks)',
+              questionType: 'mcq',
+              difficultyLevel: 'intermediate',
+            }
       const res = await fetch('/api/generate-assessment', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // The lesson's own book and topic, as the Gap Map's "Quiz me" sends
-        // them. With the title alone the score landed in a "Mastering ..."
-        // group of its own and never moved the tile the student came from.
-        body: JSON.stringify(
-          space?.textbook_id && space?.topic_id
-            ? {
-                user_id: user?.id,
-                className: user?.class ?? undefined,
-                subject: space.subject || space.title,
-                textbook_id: space.textbook_id,
-                topic_ids: [space.topic_id],
-                subtopic_ids: space.subtopic_id ? [space.subtopic_id] : [],
-                topics: [space.focus?.subtopic_name || space.focus?.topic_name || space.title].filter(Boolean),
-                count: 10,
-                style: 'Test Style (Textbooks)',
-                questionType: 'mcq',
-                difficultyLevel: 'intermediate',
-              }
-            : {
-                user_id: user?.id,
-                subject: space?.title || space?.subject || 'Study session',
-                subjectDomainHint: space?.subject || undefined,
-                topics: [space?.title || space?.subject].filter(Boolean),
-                count: 10,
-                style: 'Test Style (Textbooks)',
-                questionType: 'mcq',
-                difficultyLevel: 'intermediate',
-              },
-        ),
+        body: JSON.stringify(quizPayload),
       })
       const text = await res.text()
       if (!text) throw new Error('Server returned an empty response.')
       const data = JSON.parse(text)
       if (!res.ok) throw new Error(data?.error || 'Could not build a quiz.')
-      sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(data))
+      // Topped up first if it came back short (lib/quiz-top-up.ts).
+      sessionStorage.setItem(CURRENT_ASSESSMENT_KEY, JSON.stringify(await completeShortQuiz(data, quizPayload)))
       // Same tab: the quiz is the next step, not a side trip.
       window.location.href = '/assessment'
     } catch {
