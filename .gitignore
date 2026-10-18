@@ -60,3 +60,8 @@ data/audit/redraw.txt
 # Python caches (scripts/figgen)
 __pycache__/
 .pytest_cache/
+
+# Served from S3/CloudFront (NEXT_PUBLIC_FIGURE_BASE_URL); local copies stay on disk, untracked.
+# A pipeline that adds images here must upload them to the bucket too.
+public/textbook-images/
+public/exam-images/
