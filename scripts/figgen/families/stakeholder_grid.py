@@ -8,7 +8,8 @@ Which of four stakeholders the firm should treat by a named strategy (exactly on
 stakeholder has the most power (one plainly highest; the most interested is offered); and the strategy for a lettered
 stakeholder (the four strategies as options), or how many stakeholders the firm should treat by a strategy. Points
 sit two squares or more from the split lines, so no point is on a border, and the positions belong to the case, so
-the figure decides every key.
+the figure decides every key. Each stakeholder's power suits it: shareholders, the government and the district
+council have high power, competitors low, and only they or a lending bank hold the most power over the plan.
 """
 from __future__ import annotations
 
@@ -34,7 +35,13 @@ FIRMS = [("Rusizi Cement", "build a second factory near Lake Kivu"), ("Kivu Lake
          ("Inzozi Bakery", "open twenty kiosks in Kigali"), ("Gishwati Furniture", "import its timber instead of buying locally")]
 STAKEHOLDERS = ["Shareholders", "Employees", "Customers", "Suppliers", "Local community", "District council",
                 "Bank (lender)", "Trade union", "Competitors", "Environmental group", "Government"]
-SPOTS = [1, 2, 3, 7, 8, 9]
+SPOTS = [1, 2, 3, 7, 8, 9]  # interest
+POWERS = [2, 3, 7, 8]  # power: clear of the quarter names along the top and bottom edges
+# Power that suits the stakeholder (P4 blind review: competitors had the most power over a firm's own plan).
+HIGH_POWER = {"Shareholders", "Government", "District council"}
+LOW_POWER = {"Competitors"}
+MOST_POWER = HIGH_POWER | {"Bank (lender)"}  # who may hold the most power over the plan
+HIGH_INTEREST = {"Shareholders"}
 STRATEGIES = ["Manage closely", "Keep satisfied", "Keep informed", "Monitor"]
 AS_VERB = {"Manage closely": "manage closely", "Keep satisfied": "keep satisfied", "Keep informed": "keep informed",
            "Monitor": "monitor"}
@@ -53,9 +60,14 @@ def sample(rng: random.Random) -> dict:
     while True:
         k = rng.randint(6, 7)
         names = rng.sample(STAKEHOLDERS, k)
-        cells = rng.sample([(x, y) for x in SPOTS for y in SPOTS], k)
+        cells = rng.sample([(x, y) for x in SPOTS for y in POWERS], k)
         powers = sorted((y for _, y in cells), reverse=True)
         if powers[0] == powers[1]:
+            continue
+        fits = all((y > 5 or n not in HIGH_POWER) and (y < 5 or n not in LOW_POWER) and (x > 5 or n not in HIGH_INTEREST)
+                   for n, (x, y) in zip(names, cells))
+        top = names[[y for _, y in cells].index(powers[0])]
+        if not fits or top not in MOST_POWER:
             continue
         strats = [strategy(x, y) for x, y in cells]
         if len(set(strats)) < 3:
@@ -73,8 +85,10 @@ def draw(p: dict):
     ax.add_patch(Rectangle((0, 0), 10, 10, fill=False, edgecolor=INK, linewidth=1.4))
     ax.plot([5, 5], [0, 10], color=INK, linewidth=1.3, linestyle=(0, (5, 3)))
     ax.plot([0, 10], [5, 5], color=INK, linewidth=1.3, linestyle=(0, (5, 3)))
-    for (x, y), text in (((2.5, 5.55), "Keep satisfied"), ((7.5, 5.55), "Manage closely"),
-                         ((2.5, 4.45), "Monitor"), ((7.5, 4.45), "Keep informed")):
+    # Each quarter's name sits at its outer edge, well away from the split lines (P4 blind review: names beside the
+    # middle line were read as belonging to the quarter across it).
+    for (x, y), text in (((2.5, 9.4), "Keep satisfied"), ((7.5, 9.4), "Manage closely"),
+                         ((2.5, 0.6), "Monitor"), ((7.5, 0.6), "Keep informed")):
         ax.text(x, y, text, ha="center", va="center", fontsize=10.5, fontweight="bold", color="#333333",
                 bbox={"boxstyle": "round,pad=0.25", "facecolor": "#fff6cc", "edgecolor": "#b8a650", "linewidth": 0.8})
     for letter, _, x, y in p["points"]:

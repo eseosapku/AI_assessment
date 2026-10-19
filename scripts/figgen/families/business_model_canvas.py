@@ -5,8 +5,8 @@ Partners, Key Activities over Key Resources, Value Propositions, Customer Relati
 Segments, and Cost Structure beside Revenue Streams along the bottom, each costed in francs a month. Each block shows two
 short notes; one or two notes, lettered P and Q, wait below the canvas to be placed.
 
-Which block a lettered note belongs in (the key from the fixed bank NOTES, three notes a block, every note in one
-block only; the wrong options are the blocks most often confused with it, chosen so the key is never the central
+Which block a lettered note belongs in (the key from the fixed bank NOTES: only a block's first note, which fits that
+block alone, is ever placed; the wrong options are blocks plainly wrong for it, chosen so the key is never the central
 option); which revenue stream brings in the most money (one plainly largest); and the monthly profit, total revenue
 less total costs, with the formula in the stem. A placed note never leaves its block empty, so no gap gives a key away.
 """
@@ -32,16 +32,24 @@ AVOID = r"business organisation|e-commerce|market research|forms of business"
 
 BLOCKS = ["Key Partners", "Key Activities", "Key Resources", "Value Propositions", "Customer Relationships", "Channels",
           "Customer Segments"]
-# The blocks a note is most often wrongly put in.
-CONFUSED = {
-    "Key Partners": ["Key Resources", "Key Activities", "Customer Segments"],
-    "Key Activities": ["Key Resources", "Key Partners", "Value Propositions"],
-    "Key Resources": ["Key Activities", "Key Partners", "Value Propositions"],
-    "Value Propositions": ["Customer Relationships", "Customer Segments", "Key Activities"],
-    "Customer Relationships": ["Channels", "Customer Segments", "Value Propositions"],
-    "Channels": ["Customer Relationships", "Customer Segments", "Key Activities"],
-    "Customer Segments": ["Customer Relationships", "Channels", "Value Propositions"],
+# The wrong blocks offered for a note: blocks that are plainly wrong for it by the canvas's definitions (a supplier is
+# no channel or customer group; a machine is no relationship; a place where customers buy is no activity), never the
+# neighbouring blocks a note could be argued
+# into (P4 blind review: Value Propositions against Customer Segments, Channels against Key Activities, Customer
+# Relationships against Value Propositions all had two defensible keys).
+FAR = {
+    "Key Partners": ["Key Activities", "Channels", "Customer Segments"],
+    "Key Activities": ["Key Partners", "Channels", "Customer Segments"],
+    "Key Resources": ["Customer Relationships", "Channels", "Customer Segments"],
+    "Value Propositions": ["Key Partners", "Key Resources", "Cost Structure"],
+    "Customer Relationships": ["Key Partners", "Key Resources", "Cost Structure"],
+    "Channels": ["Key Partners", "Key Activities", "Cost Structure"],
+    "Customer Segments": ["Key Partners", "Key Activities", "Key Resources"],
 }
+# Three notes a block. The FIRST note of each block is the one that may wait below the canvas to be placed: it fits
+# that block alone by the canvas's definitions (a supplier, an activity the firm does, a thing it owns, a benefit to
+# the customer, a way it keeps customers, a way it reaches and sells to them, a group of customers). The other two only
+# fill the canvas.
 NOTES = {
     "bakery": {
         "firm": "Inzozi Bakery", "place": "Huye",
@@ -50,10 +58,10 @@ NOTES = {
                              "Gas company that refills our cylinders"],
             "Key Activities": ["Baking bread every night", "Decorating wedding cakes", "Cleaning the ovens each week"],
             "Key Resources": ["Two gas ovens", "Five skilled bakers", "Secret recipe for honey bread"],
-            "Value Propositions": ["Bread fresh by 6 a.m.", "Cakes made to order", "Low prices for students"],
-            "Customer Relationships": ["Loyalty card: tenth loaf free", "WhatsApp group for regular buyers",
+            "Value Propositions": ["Bread still warm at 6 a.m.", "Cakes made to order", "Soft bread that stays fresh"],
+            "Customer Relationships": ["Loyalty card for regular customers", "WhatsApp group for regular buyers",
                                        "Owner greets customers by name"],
-            "Channels": ["Bakery shop in Huye town", "Delivery to kiosks", "Orders taken by phone"],
+            "Channels": ["Shop in Huye town where customers buy bread", "Delivers to kiosks", "Takes orders by phone"],
             "Customer Segments": ["University students", "Families near the bakery", "Hotels and restaurants"],
         },
         "costs": [("Flour and sugar", 300000, 900000), ("Wages", 300000, 700000), ("Gas and electricity", 80000, 200000),
@@ -63,13 +71,13 @@ NOTES = {
     "juice": {
         "firm": "Umucyo Juice", "place": "Rwamagana",
         "blocks": {
-            "Key Partners": ["Pineapple farmers' cooperative", "Bottle supplier in Kigali", "Bank that lent money for machines"],
-            "Key Activities": ["Pressing and bottling juice", "Testing every batch", "Advertising on local radio"],
+            "Key Partners": ["Bottle supplier in Kigali", "Pineapple farmers' cooperative", "Bank that lent money for machines"],
+            "Key Activities": ["Pressing and bottling juice", "Testing every batch", "Cleaning the machines daily"],
             "Key Resources": ["Juice-pressing machine", "Cold store room", "Food-safety certificate"],
             "Value Propositions": ["No added sugar", "Juice from local fruit", "Small bottles at a low price"],
-            "Customer Relationships": ["Free tasting days in shops", "Customer phone line",
-                                       "Discount for schools that order weekly"],
-            "Channels": ["Supermarkets in Kigali", "Own kiosk at the bus park", "Van deliveries to schools"],
+            "Customer Relationships": ["Thank-you gifts for loyal schools", "Free tasting days in shops",
+                                       "Phone line for customer complaints"],
+            "Channels": ["Kiosk at the bus park where customers buy juice", "Supermarkets in Kigali", "Van deliveries to schools"],
             "Customer Segments": ["Health-conscious adults", "Schoolchildren", "Restaurants"],
         },
         "costs": [("Fruit", 200000, 700000), ("Bottles and labels", 150000, 400000), ("Wages", 300000, 700000),
@@ -79,14 +87,15 @@ NOTES = {
     "tours": {
         "firm": "Akagera Tours", "place": "Musanze",
         "blocks": {
-            "Key Partners": ["Hotels that host our guests", "Car hire company", "Village dance groups"],
+            "Key Partners": ["Car hire company that rents us extra cars", "Hotels that host our guests",
+                             "Village dance groups"],
             "Key Activities": ["Guiding hikes to the caves", "Planning each trip", "Servicing the vehicles"],
             "Key Resources": ["Two four-wheel-drive vehicles", "Guides who speak four languages", "Licence to run tours"],
-            "Value Propositions": ["Safe trips with expert guides", "One price includes meals",
-                                   "Quiet places few tourists see"],
-            "Customer Relationships": ["Personal guide for each group", "Thank-you email after each trip",
+            "Value Propositions": ["Trips to quiet places few tourists see", "Safe trips with expert guides",
+                                   "One price includes meals"],
+            "Customer Relationships": ["Thank-you email after each trip", "Personal guide for each group",
                                        "Reviews answered within a day"],
-            "Channels": ["Website with online booking", "Travel agents in Kigali", "Stand at the airport"],
+            "Channels": ["Website where tourists book and pay", "Travel agents in Kigali", "Stand at the airport"],
             "Customer Segments": ["Foreign tourists", "Rwandan families on holiday", "University study groups"],
         },
         "costs": [("Fuel", 150000, 500000), ("Guides' wages", 300000, 800000), ("Park fees", 200000, 600000),
@@ -100,10 +109,11 @@ NOTES = {
             "Key Activities": ["Measuring and sewing clothes", "Designing new styles", "Buying fabric each week"],
             "Key Resources": ["Six sewing machines", "Skilled tailors", "Pattern book of designs"],
             "Value Propositions": ["Clothes ready in three days", "Made-to-measure fit", "Modern styles in African fabric"],
-            "Customer Relationships": ["Free repairs for a month", "Fitting session for each customer",
+            "Customer Relationships": ["Birthday discount for regular customers", "Free repairs for a month",
                                        "Text message when clothes are ready"],
-            "Channels": ["Shop at Kimironko market", "Online page with photos", "Stall at the weekend market"],
-            "Customer Segments": ["Schools needing uniforms", "Office workers", "Brides and wedding guests"],
+            "Channels": ["Shop at Kimironko market where customers order clothes", "Online page with photos",
+                         "Stall at the weekend market"],
+            "Customer Segments": ["Office workers", "Schools needing uniforms", "Brides and wedding guests"],
         },
         "costs": [("Fabric and thread", 200000, 600000), ("Wages", 250000, 600000), ("Rent", 80000, 200000),
                   ("Electricity", 30000, 90000)],
@@ -122,11 +132,13 @@ def sample(rng: random.Random) -> dict:
     away = rng.sample(BLOCKS, rng.choice([1, 1, 2]))
     notes, outside = [], []
     for block in BLOCKS:
-        three = list(t["blocks"][block])
-        rng.shuffle(three)
-        notes += [[block, n] for n in three[:2]]
-        if block in away:
-            outside.append([block, three[2]])
+        clear, *rest = t["blocks"][block]
+        if block in away:  # the clear note waits outside; the other two stay in the block
+            outside.append([block, clear])
+            shown = rest
+        else:
+            shown = rng.sample([clear] + rest, 2)
+        notes += [[block, n] for n in shown]
     rng.shuffle(outside)
     outside = [["PQ"[i], b, n] for i, (b, n) in enumerate(outside)]
     while True:
@@ -208,7 +220,7 @@ def questions(p: dict, rng: random.Random) -> list:
     letter, block, _ = p["outside"][0]
     qs = [
         mcq(f"{who} {rng.choice(VERBS)} this business model canvas for {firm} {rng.choice(SETTINGS)}. "
-            f"In which block of the canvas should note {letter} go?", block, CONFUSED[block], rng),
+            f"In which block of the canvas should note {letter} go?", block, FAR[block], rng),
         mcq(f"Which revenue stream on the canvas for {firm} brings in the most money each month?", best,
             [n for n in rev if n != best], rng),
         short(f"Monthly profit = total revenue − total costs. What monthly profit does the canvas for {firm} show, "
@@ -217,5 +229,5 @@ def questions(p: dict, rng: random.Random) -> list:
     if len(p["outside"]) > 1:
         letter, block, _ = p["outside"][1]
         qs.append(mcq(f"On the canvas for {firm}, which block should note {letter} be written in?", block,
-                      CONFUSED[block], rng))
+                      FAR[block], rng))
     return qs

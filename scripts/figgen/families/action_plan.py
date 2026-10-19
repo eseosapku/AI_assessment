@@ -5,8 +5,9 @@ runs in weeks 3 and 4. Lower Secondary goals are a student's (saving for a bicyc
 garden); Upper Secondary goals start a small business or prepare for the national exam.
 
 Which step ends last (one step plainly last; the step that starts last and the longest step are offered); for how
-many weeks two named steps overlap (always at least one); and the week the last step ends and the goal is reached, or
-how many steps are under way in a stated week.
+many weeks two named steps overlap (always at least one); and the week the last step ends, or how many steps are under
+way in a stated week. The week the last step ends is asked as just that: the goal's deadline may be a week or two
+later, and a stem that said "reach the goal" had two answers (P4 blind review).
 """
 from __future__ import annotations
 
@@ -154,7 +155,7 @@ def questions(p: dict, rng: random.Random) -> list:
     ]
     if rng.random() < 0.5:
         end = span[last][1]
-        qs.append(short(f"In which week will {name} finish the last step and reach the goal?", end,
+        qs.append(short(f"In which week does the last step of {name}'s plan end?", end,
                         [f"Week {end}", f"week {end}"]))
     else:
         wk = rng.choice([w for w in range(1, span[last][1] + 1) if any(s <= w <= e for s, e in span.values())])

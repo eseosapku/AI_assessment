@@ -303,6 +303,7 @@ def test_spreadsheet_chart():
                         row = [r[0] for r in after].index(got.group(1)) + 2
                         assert q.answer == str(row), s
                         assert [r[0] for r in rows].index(got.group(1)) + 2 != row, s  # the student moves
+                        assert row != 2, s  # and is not the A2 student the other question asks for
             else:
                 field, op, v = p["rule"]
                 col = {"Class": 1, "Mark": 2}[field]
@@ -377,16 +378,17 @@ def test_spreadsheet_chart_shows_its_table():
 # --- data_processing_cycle --------------------------------------------------------------------------------
 
 def stage_of(text: str) -> str:
-    """This file's own reading of a happening: what a system takes in, gives out, keeps, or works out."""
+    """This file's own reading of a happening by the key printed in the figure: input is typed in, scanned or read
+    in; output is printed, shown on a screen or sent; storage is saved; processing calculates, counts, sorts or
+    checks. Exactly one of the four must fit, or the happening is arguable."""
     t = text.lower()
-    if re.search(r"scanned|typed in|types the|taps|read by", t):
-        return "input"
-    if re.search(r"printed|shown on the screen|is sent|are sent", t):
-        return "output"
-    if re.search(r"saved|kept|changed to", t):
-        return "storage"
-    assert re.search(r"counts|works out|worked out|calculated|sorted|checks|added up", t), text
-    return "processing"
+    fits = {"input": re.search(r"scanned|typed in|types in|taps|read in", t),
+            "output": re.search(r"printed|shown on the screen|is sent|are sent", t),
+            "storage": re.search(r"saved", t),
+            "processing": re.search(r"counts|calculates|adds up|checks|sorts", t)}
+    hits = [k for k, v in fits.items() if v]
+    assert len(hits) == 1, (text, hits)
+    return hits[0]
 
 
 def step_of(text: str) -> str:
@@ -406,28 +408,38 @@ def test_data_processing_cycle():
         seen[p["sub"]] += 1
         items = placed(m, p)
         if p["sub"] == "ipos":
+            heads = {t.lower(): pos for t, pos, fs, fw, gid in items if t in ("INPUT", "PROCESSING", "OUTPUT", "STORAGE")}
+            assert len(heads) == 4, s
+            # each box's content (a happening, or "?"), named by the stage heading nearest it
+            contents = [(t.replace("\n", " "), pos) for t, pos, fs, fw, gid in items if fs == 10.5 and t not in ("save", "read")]
+            contents += [(t, pos) for t, pos, fs, fw, gid in items if t == "?"]
+            assert len(contents) == 4, s
+            box_stage = {pos: min(heads, key=lambda h: math.dist(heads[h], pos)) for _, pos in contents}
+            assert sorted(box_stage.values()) == sorted(heads), s
             letters = {t: pos for t, pos, fs, fw, gid in items if len(t) == 1 and t in "ABCD" and fs == 12}
-            assert len(letters) == 4, s
-            xs = sorted(letters, key=lambda k: letters[k][0])
-            low = min(letters, key=lambda k: letters[k][1])
-            where = {"input": xs[0], "output": xs[-1], "storage": low}
-            where["processing"] = next(k for k in letters if k not in where.values())
-            boxes = [(t, pos) for t, pos, fs, fw, gid in items if fs == 10.5]
-            for t, pos in boxes:  # each drawn happening stands in its own stage's box
-                near = min(letters, key=lambda k: (letters[k][0] + 1.5 - pos[0]) ** 2 + (letters[k][1] - 0.7 - pos[1]) ** 2)
-                assert where[stage_of(t.replace("\n", " "))] == near, (s, t)
-            blank_pos = next(pos for t, pos, fs, fw, gid in items if t == "?")
-            blank = min(letters, key=lambda k: (letters[k][0] + 1.5 - blank_pos[0]) ** 2 + (letters[k][1] - 0.7 - blank_pos[1]) ** 2)
-            stage = next(st for st, k in where.items() if k == blank)
+            letter_stage = {k: box_stage[min(box_stage, key=lambda b: math.dist(b, lp))] for k, lp in letters.items()}
+            assert letter_stage == {"A": "input", "B": "processing", "C": "output", "D": "storage"}, s  # in flow order
+            blank = None
+            for t, pos in contents:
+                if t == "?":
+                    blank = box_stage[pos]
+                else:
+                    assert stage_of(t) == box_stage[pos], (s, t)  # each drawn happening sits under its own heading
+            cards = {t: pos for t, pos, fs, fw, gid in items if len(t) == 1 and t in "PQRS" and fs == 12}
+            texts10 = [(t.replace("\n", " "), pos) for t, pos, fs, fw, gid in items if fs == 10]
+            card_text = {k: min(texts10, key=lambda tp: math.dist(tp[1], cp))[0] for k, cp in cards.items()}
+            assert len(set(card_text.values())) == 4, s
             for q in qs:
-                got = re.search(r"Which letter shows the (input|processing|output|storage) stage\?", q.stem)
+                got = re.search(r"which card belongs in the blank (\w+) box\?", q.stem)
                 if got:
-                    assert picked(q) == where[got.group(1)] and got.group(1) != stage, s
-                if "is blank" in q.stem:
-                    assert f"Box {blank} " in q.stem, s
-                    assert stage_of(picked(q)) == stage, (s, picked(q))
-                    assert all(stage_of(o) != stage for o in q.options if o != picked(q)), (s, q.options)
-                    assert all(o not in [t.replace("\n", " ") for t, _ in boxes] for o in q.options), s
+                    assert got.group(1).lower() == blank, s
+                    fit = [k for k in "PQRS" if stage_of(card_text[k]) == blank]
+                    assert fit == [picked(q)] and sorted(q.options) == list("PQRS"), (s, fit)  # exactly one correct
+                got = re.search(r"does card ([PQRS]) belong in\?", q.stem)
+                if got:
+                    st = stage_of(card_text[got.group(1)])
+                    fit = [k for k, v in letter_stage.items() if v == st]
+                    assert fit == [picked(q)] and st != blank, (s, fit)  # exactly one box, and not the blank one
         else:
             rows = [(t, pos) for t, pos, fs, fw, gid in items if fs == 10.5 and abs(pos[0] - 0.85) < 0.01]
             marks = {t: pos for t, pos, fs, fw, gid in items if t in ("P", "Q", "R") and fs == 11.5}
@@ -798,6 +810,29 @@ def test_os_boot():
                 if "How many commands" in q.stem:
                     assert q.answer == str(len(prompts)) and len(prompts) >= 2, s
     assert min(seen.values()) >= 60 and len(seen) == 6, seen
+
+
+def test_os_boot_icon_names_stand_clear_of_the_taskbar():
+    """P4 blind review: the lowest icon's name ran onto the taskbar's edge, and a reader doubted the count."""
+    from matplotlib.patches import Rectangle
+    m = fam("os_boot")
+    names = ("Documents", "Recycle Bin", "Browser", "Calculator", "Paint", "Music", "Photos", "Games")
+    n = 0
+    for s in range(1, 200):
+        p = m.sample(random.Random(s))
+        if p["sub"] != "screens":
+            continue
+        n += 1
+        fig = m.draw(p)
+        ax = fig.axes[0]
+        boxes = drawn_texts(fig)
+        bar = next(pa for pa in ax.patches if isinstance(pa, Rectangle) and abs(pa.get_height() - 0.4) < 1e-9)
+        top = ax.transData.transform((0, bar.get_y() + bar.get_height()))[1]
+        for t, b in boxes:
+            if t.get_text() in names:
+                assert b.y0 > top + 2, (s, t.get_text())
+        plt.close(fig)
+    assert n >= 30, n
 
 
 # --- shared checks ---------------------------------------------------------------------------------------

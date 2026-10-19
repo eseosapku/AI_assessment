@@ -130,6 +130,39 @@ def labels_clear_of_lines(fig, skip=()):
                         (word, ln.get_gid(), round(x), round(y))
 
 
+def names_sit_by_their_own_lines(fig, names: dict):
+    """Each curve's name (text -> the gid of its line) lies by its own line: every other named line, the other curves
+    and the price lines, at least half as far again from it, in pixels (P4 review: "MSC" sat midway between two lines,
+    and "D domestic" by the world-price line). Dotted guides to the axes carry no gid and no name to mistake."""
+    import math
+    fig.canvas.draw()
+    r = fig.canvas.get_renderer()
+    ax = fig.axes[0]
+    found = 0
+    for t in ax.texts:
+        gid = names.get(" ".join(t.get_text().split()))
+        if not gid:
+            continue
+        found += 1
+        box = t.get_window_extent(r)
+        gaps = {}
+        for i, ln in enumerate(ax.lines):
+            pts = ln.get_transform().transform(ln.get_xydata())
+            if len(pts) < 2 or ln.get_gid() is None:
+                continue  # a point's dot, or a dotted guide
+            best = math.inf
+            for (x0, y0), (x1, y1) in zip(pts, pts[1:]):
+                n = max(2, int(math.hypot(x1 - x0, y1 - y0) / 1.5))
+                for k in range(n + 1):
+                    x, y = x0 + (x1 - x0) * k / n, y0 + (y1 - y0) * k / n
+                    best = min(best, math.hypot(max(box.x0 - x, 0, x - box.x1), max(box.y0 - y, 0, y - box.y1)))
+            key = ln.get_gid() if ln.get_gid() == gid else f"other {i}"
+            gaps[key] = min(best, gaps.get(key, math.inf))
+        mine = gaps.pop(gid)
+        assert min(gaps.values()) >= 1.5 * mine, (t.get_text(), mine, sorted(gaps.items(), key=lambda kv: kv[1])[:2])
+    assert found == len(names), (found, names)
+
+
 # --- shared --------------------------------------------------------------------------------------------
 
 @pytest.mark.parametrize("fid", NEW)
@@ -267,14 +300,17 @@ def test_externality_diagram():
         # overproduced with an external cost, underproduced with an external benefit
         assert (qs_ < qm) == kind.startswith("neg") and abs(qs_ - qm) >= 2, (s, kind, qm, qs_)
         pts = {k: tuple(v) for k, v in p["points"].items()}
-        assert sorted(pts) == list("ABCD") and set(pts.values()) == {(int(x), int(y)) for x, y in roles.values()}, (s, pts)
+        # letters no curve's name uses: no point D beside "D = MPB" (P4 review)
+        assert sorted(pts) == list("WXYZ") and set(pts.values()) == {(int(x), int(y)) for x, y in roles.values()}, (s, pts)
         letter = {v: k for k, v in pts.items()}
         per_unit = p["e"] * dp
+        effect = f"an external {'cost' if kind.startswith('neg') else 'benefit'} of "                  f"{'production' if kind.endswith('prod') else 'consumption'}"
         loss = Fraction(abs(qs_ - qm) * dq * per_unit, 2)
         assert loss.denominator == 1
         fig = m.draw(p) if s <= DRAWN else None
         asked = 0
         for q in qs:
+            assert effect in q.stem, (s, kind, q.stem)  # the stem names the externality the curves show
             if "left to itself" in q.stem:
                 asked += 1
                 key_is(q, qm * dq)
@@ -284,7 +320,7 @@ def test_externality_diagram():
             elif q.kind == "mcq":
                 asked += 1
                 assert "socially optimal" in q.stem and len(q.options) == 4
-                assert sorted(o[-1] for o in q.options) == list("ABCD")
+                assert sorted(o[-1] for o in q.options) == list("WXYZ")
                 assert picked(q) == f"Point {letter[(int(qs_), int(ps))]}", (s, q.options)
             elif re.search(r"external (cost|benefit) of each unit", q.stem):
                 asked += 1
@@ -293,7 +329,7 @@ def test_externality_diagram():
                 key_is(q, per_unit)
             elif "welfare loss" in q.stem:
                 asked += 1
-                corners = re.search(r"points ([A-D]), ([A-D]) and ([A-D])", q.stem).groups()
+                corners = re.search(r"points ([W-Z]), ([W-Z]) and ([W-Z])", q.stem).groups()
                 assert "½ × base × height" in q.stem
                 area = shoelace([pts[c] for c in corners]) * dq * dp
                 assert area == loss, (s, corners, area, loss)
@@ -312,9 +348,11 @@ def test_externality_diagram():
                 for x, y in roles.values():
                     if y == p0 + slope * x:
                         assert passes(ax, gid, x * dq, y * dp, dp * 0.01), (s, gid, x, y)
-            names = {"D = MPB = MSB", "S = MPC", "MSC"} if kind.endswith("prod") else {"S = MPC = MSC", "D = MPB", "MSB"}
-            assert names <= set(words), (s, words)
+            names = ({"D = MPB = MSB": "MPB", "S = MPC": "MPC", "MSC": "MSC"} if kind.endswith("prod") else
+                     {"S = MPC = MSC": "MPC", "D = MPB": "MPB", "MSB": "MSB"})
+            assert set(names) <= {" ".join(w.split()) for w in words}, (s, words)
             labels_clear_of_lines(fig)
+            names_sit_by_their_own_lines(fig, names)
             plt.close(fig)
     assert set(kinds) == {"neg_prod", "pos_prod", "neg_cons", "pos_cons"} and min(kinds.values()) > 150, kinds
 
@@ -373,6 +411,7 @@ def test_tariff_diagram():
                 assert passes(ax, gid, x * dq, y * dp, dp * 0.01), (s, gid, x, y)
             assert passes(ax, "world", dq, pw * dp, dp * 0.01) and passes(ax, "tariff", dq, (pw + t) * dp, dp * 0.01)
             labels_clear_of_lines(fig)
+            names_sit_by_their_own_lines(fig, {"D domestic": "D", "S domestic": "S"})
             plt.close(fig)
     assert set(bands) == {"UP", "AL"} and min(bands.values()) > 250, bands
 

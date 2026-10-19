@@ -783,74 +783,146 @@ def test_memory_allocation_shows_what_it_asks():
 
 # --- gis_layers ------------------------------------------------------------------------------------------------------
 
-def shoelace(poly):
-    return abs(sum(poly[i][0] * poly[i - 1][1] - poly[i - 1][0] * poly[i][1] for i in range(len(poly)))) / 2
-
-
-def gap_to_edges(poly, pt):
+def squares_inside(poly):
+    """The polygon's area counted as whole 1 km grid squares: those whose middles lie inside it."""
     from matplotlib.path import Path
-    best = 1e9
+    path = Path(poly)
+    return sum(path.contains_point((x + 0.5, y + 0.5)) for x in range(10) for y in range(7))
+
+
+def grid_points(path):
+    """Every grid crossing on a road, walked one kilometre at a time."""
+    out = [tuple(path[0])]
+    for a, b in zip(path, path[1:]):
+        dx, dy = (b[0] > a[0]) - (b[0] < a[0]), (b[1] > a[1]) - (b[1] < a[1])
+        x, y = a
+        while (x, y) != tuple(b):
+            x, y = x + dx, y + dy
+            out.append((x, y))
+    return out
+
+
+def outline_steps(poly):
+    """The 1 km edges of a polygon's outline."""
+    steps = set()
     for i in range(len(poly)):
-        (x1, y1), (x2, y2) = poly[i - 1], poly[i]
-        dx, dy = x2 - x1, y2 - y1
-        t = max(0, min(1, ((pt[0] - x1) * dx + (pt[1] - y1) * dy) / (dx * dx + dy * dy)))
-        best = min(best, ((pt[0] - x1 - t * dx) ** 2 + (pt[1] - y1 - t * dy) ** 2) ** 0.5)
-    return best, Path(poly).contains_point(pt)
+        pts = grid_points([poly[i - 1], poly[i]])
+        steps |= {frozenset((pts[k], pts[k + 1])) for k in range(len(pts) - 1)}
+    return steps
 
 
 def test_gis_layers():
+    from matplotlib.path import Path
     m = fam("gis_layers")
     for s in SEEDS:
         p, qs = run(m, s)
         polys = p["polygons"]
         assert sorted(pg["fid"] for pg in polys) == list(range(len(polys)))
         assert len({pg["use"] for pg in polys}) == len(polys)
-        for sc in p["schools"]:
+        for pg in polys:  # whole squares: integer corners, edges along the grid
+            pts = pg["poly"]
+            assert all(isinstance(v, int) for xy in pts for v in xy)
+            assert all(a[0] == b[0] or a[1] == b[1] for a, b in zip(pts, pts[1:] + pts[:1]))
+        for i, a in enumerate(polys):  # areas kept 1 km apart
+            for b in polys[i + 1:]:
+                ax0, ay0 = min(v[0] for v in a["poly"]), min(v[1] for v in a["poly"])
+                ax1, ay1 = max(v[0] for v in a["poly"]), max(v[1] for v in a["poly"])
+                bx0, by0 = min(v[0] for v in b["poly"]), min(v[1] for v in b["poly"])
+                bx1, by1 = max(v[0] for v in b["poly"]), max(v[1] for v in b["poly"])
+                assert ax1 + 1 <= bx0 or bx1 + 1 <= ax0 or ay1 + 1 <= by0 or by1 + 1 <= ay0, s
+        # each named road: one polyline along the grid, off the map's edge, never near the other road or on an outline
+        roads = p["roads"]
+        assert len(roads) == 2 and roads[0]["name"] != roads[1]["name"]
+        for r in roads:
+            pts = r["path"]
+            assert 2 <= len(pts) <= 4 and all(a[0] == b[0] or a[1] == b[1] for a, b in zip(pts, pts[1:]))
+            assert all(1 <= x <= 9 and 1 <= y <= 6 for x, y in pts)
+            walk = grid_points(pts)
+            assert len(set(walk)) == len(walk)  # never doubles back over itself
             for pg in polys:
-                assert gap_to_edges(pg["poly"], sc)[0] >= 0.3 - 1e-9
+                assert not ({frozenset(e) for e in zip(walk, walk[1:])} & outline_steps(pg["poly"])), (s, r["name"])
+        a, b = (grid_points(r["path"]) for r in roads)
+        assert min(((x1 - x2) ** 2 + (y1 - y2) ** 2) ** 0.5 for x1, y1 in a for x2, y2 in b) >= 2, s
         kinds = Counter(k for k, _ in p["letters"].values())
-        assert kinds == {"point": 1, "line": 1, "polygon": 2}
+        assert kinds == {"point": 1, "line": 1, "polygon": 2} and "N" not in p["letters"]
+        lettered_school = [i for k, i in p["letters"].values() if k == "point"][0]
+        assert not any(Path(pg["poly"]).contains_point(p["schools"][lettered_school]) for pg in polys)
         for q in qs:
-            got = re.search(r"holds the feature lettered ([KLMN])", q.stem)
+            got = re.search(r"holds the feature lettered ([JKLM])", q.stem)
             if got:
                 kind = p["letters"][got.group(1)][0]
                 assert picked(q) == f"{kind} layer" and sorted(q.options) == ["line layer", "point layer", "polygon layer"]
             got = re.search(r"inside the ([\w -]+) polygon", q.stem)
             if got:
                 pg = next(x for x in polys if x["use"].lower() == got.group(1))
-                n = sum(gap_to_edges(pg["poly"], sc)[1] for sc in p["schools"])
+                n = sum(Path(pg["poly"]).contains_point(sc) for sc in p["schools"])
                 assert int(q.answer) == n and 1 <= n <= 3 and len(p["schools"]) - n >= 2
-            got = re.search(r"describes the polygon lettered ([KLMN])", q.stem)
+            got = re.search(r"describes the polygon lettered ([JKLM])", q.stem)
             if got:
                 kind, i = p["letters"][got.group(1)]
                 assert kind == "polygon" and picked(q) == str(polys[i]["fid"])
-            got = re.search(r"how long is ([\w ]+ Road) on this map", q.stem)
+            got = re.search(r"how long is ([\w ]+ Road) from one end to the other", q.stem)
             if got:
-                road = next(r for r in p["roads"] if r["name"] == got.group(1))
-                pts = road["path"]
-                assert all(a[0] == b[0] or a[1] == b[1] for a, b in zip(pts, pts[1:]))  # along the grid
-                assert int(q.answer) == sum(abs(a[0] - b[0]) + abs(a[1] - b[1]) for a, b in zip(pts, pts[1:]))
+                road = next(r for r in roads if r["name"] == got.group(1))
+                assert int(q.answer) == len(grid_points(road["path"])) - 1
 
 
-def test_gis_layers_draws_its_table_letters_and_clear_leaders():
+def test_gis_layers_draws_its_table_letters_scale_and_roads_clearly():
+    from matplotlib.patches import Rectangle
+    from matplotlib.path import Path
     m = fam("gis_layers")
     for s in DRAWN:
         p = m.sample(random.Random(s))
         fig = m.draw(p)
         ax = fig.axes[0]
-        gids = {t.get_gid(): t.get_text() for t in ax.texts}
+        texts_ = {t.get_gid(): t for t in ax.texts if t.get_gid()}
+        gids = {g: t.get_text() for g, t in texts_.items()}
         for pg in p["polygons"]:
             assert gids[f"row:{pg['fid']}:Land use"] == pg["use"]
-            assert gids[f"row:{pg['fid']}:Area (ha)"] == str(round(shoelace(pg["poly"]) * 100))
+            assert gids[f"row:{pg['fid']}:Area (ha)"] == str(squares_inside(pg["poly"]) * 100)  # its squares x 100 ha
             assert gids[f"legend:{pg['use']}"] == pg["use"]
-        for letter in p["letters"]:
+        # the scale bar: a number under every division, each 1 km apart as the grid's kilometres are
+        km = (texts_["gridx:2"].get_position()[0] - texts_["gridx:0"].get_position()[0]) / 2
+        xs = [texts_[f"scale:{k}"].get_position()[0] for k in range(5)]
+        assert [gids[f"scale:{k}"] for k in range(5)] == ["0", "1", "2", "3", "4"]
+        assert all(abs((b - a) - km) < 1e-9 for a, b in zip(xs, xs[1:]))
+        blocks = sorted(r.get_x() for r in ax.patches if isinstance(r, Rectangle) and abs(r.get_width() - km) < 1e-9
+                        and abs(r.get_height() - 0.1) < 1e-9)
+        assert [round(b, 9) for b in blocks] == [round(x, 9) for x in xs[:4]]  # each label under a division
+        assert texts_["scale:unit"].get_position()[0] > xs[-1]
+        # letters: J to M; a circled letter's leader ends on its school or road; a boxed letter sits inside its area
+        leaders = {ln.get_gid()[7:]: ln for ln in ax.lines if (ln.get_gid() or "").startswith("leader:")}
+        map_x0 = texts_["gridx:0"].get_position()[0]
+        to_km = lambda x, y: ((x - map_x0) / km, (y - m.MY) / km)  # noqa: E731
+        for letter, (kind, i) in p["letters"].items():
             assert gids[f"letter:{letter}"] == letter
+            if kind == "polygon":
+                assert letter not in leaders
+                assert Path(p["polygons"][i]["poly"]).contains_point(to_km(*texts_[f"letter:{letter}"].get_position()))
+                continue
+            fx, fy = to_km(*leaders[letter].get_xydata()[0])
+            if kind == "point":
+                sx, sy = p["schools"][i]
+                assert ((fx - sx) ** 2 + (fy - sy) ** 2) ** 0.5 < 0.4, (s, letter)
+            else:
+                pts = p["roads"][i]["path"]
+                assert any(min(a[0], b[0]) - 1e-6 <= fx <= max(a[0], b[0]) + 1e-6 and
+                           min(a[1], b[1]) - 1e-6 <= fy <= max(a[1], b[1]) + 1e-6 for a, b in zip(pts, pts[1:])), s
+        # each road in its own colour, keyed in the legend, its name beside its own road
         for k, r in enumerate(p["roads"]):
-            assert gids[f"roadname:{k}"] == r["name"]
+            assert gids[f"roadname:{k}"] == r["name"] and gids[f"legendroad:{k}"] == r["name"]
+            nx, ny = to_km(*texts_[f"roadname:{k}"].get_position())
+
+            def near(path):
+                return min(abs(ny - a[1]) + max(0, min(a[0], b[0]) - nx, nx - max(a[0], b[0]))
+                           for a, b in zip(path, path[1:]) if a[1] == b[1])
+            assert near(r["path"]) < 0.5 and near(r["path"]) < near(p["roads"][1 - k]["path"]), s
+        colours = {k: ln.get_color() for ln in ax.lines for k in (0, 1) if ln.get_gid() == f"road:{k}"}
+        assert colours[0] != colours[1]
         boxes = drawn_texts(fig)
         for ln in ax.lines:
             gid = ln.get_gid() or ""
-            if gid.startswith(("leader:", "road:", "river")):
+            if gid.startswith(("leader:", "road:", "roadend:", "river")):
                 for t, box in boxes:
                     if gid.startswith("leader:") and t.get_gid() == f"letter:{gid[7:]}":
                         continue

@@ -179,7 +179,8 @@ def _sample_sort(rng: random.Random, band: str) -> dict:
             way = rng.choice(["up", "down"])
             p = {"band": band, "sub": "sort", "mode": "sort", "rows": rows, "by": by, "way": way}
             after = sort_rows(p)
-            moved = [r[0] for i, r in enumerate(after) if rows[i][0] != r[0]]
+            # the student asked about moves, and is not the one who ends in A2: the two questions ask different facts
+            moved = [r[0] for i, r in enumerate(after) if rows[i][0] != r[0] and i > 0]
             if after[0][0] == rows[0][0] or not moved:
                 continue
             p["ask"] = rng.choice(moved)

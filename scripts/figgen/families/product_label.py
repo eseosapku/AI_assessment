@@ -109,17 +109,24 @@ def sample(rng: random.Random) -> dict:
         return {**base, "kind": "label", "mass": mass, "price": price, "mfd": mfd, "exp": exp,
                 "batch": f"B{rng.randint(1000, 9999)}", "ingredients": ingredients,
                 "po_box": rng.randint(100, 4999), "letters": letters}
+    shortest = max(3, s_lo)
     while True:
+        # Every pack is made within a window shorter than the shortest shelf life, so all were made before the first
+        # expires, and so before either date a question asks about (P4 review: a pack made after the shelf check).
+        start = rng.randint(_day([2024, 1, 1]), _day([2025, 12, 28]))
         packs = []
         for L in "PQRS":
-            mfd = [rng.choice(YEARS), rng.randint(1, 12), rng.randint(1, 28)]
-            packs.append([L, f"B{rng.randint(1000, 9999)}", mfd, _add_months(mfd, rng.randint(max(3, s_lo), s_hi))])
+            mfd = _from_day(start + rng.randint(0, 28 * shortest - 15))
+            mfd[2] = min(mfd[2], 28)  # a day every month has, so the expiry falls on the same day
+            packs.append([L, f"B{rng.randint(1000, 9999)}", mfd, _add_months(mfd, rng.randint(shortest, s_hi))])
         ends = sorted(_day(x[3]) for x in packs)
         if len({x[1] for x in packs}) < 4 or min(b - a for a, b in zip(ends, ends[1:])) < 10:
             continue
         first = _from_day(rng.randint(ends[0] + 1, ends[1] - 1))
         k = rng.choice([2, 3])
         second = _from_day(rng.randint(ends[k - 1] + 1, ends[k] - 1))
+        if max(_day(x[2]) for x in packs) > _day(first):
+            continue
         return {**base, "kind": "shelf", "packs": packs, "check": first, "check2": second}
 
 

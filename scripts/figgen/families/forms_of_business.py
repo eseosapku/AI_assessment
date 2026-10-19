@@ -1,18 +1,21 @@
 """Forms of business (LS, UP; AS Level "Business structure" by name): a table of four to six invented businesses in a
-Rwandan town with the facts that decide their legal form -- what each does, its number of owners, whether the owners'
-liability for its debts is limited, whether it sells shares to the public, and how its owners vote. The forms are
-never printed: a student decides them from the facts, as a case study asks.
+Rwandan town with the facts that decide their legal form -- what each does, who owns it (owners, shareholders or
+members, and how many), whether the owners' liability for its debts is limited, whether it sells shares to the public,
+and how its owners vote. The forms are never printed: a student decides them from the facts, as a case study asks.
 
-The facts follow one fixed table (FORMS) that a Business Studies teacher would agree with: a sole proprietorship has
-one owner and unlimited liability; a partnership two to twenty owners and unlimited liability; a private limited
-company limited liability, shares not sold to the public and one vote per share; a public limited company the same
-but with shares sold to the public and over a thousand owners; a cooperative limited liability and one vote per
-owner (member), whatever its shares.
+The facts follow one fixed table (FORMS) that a Business Studies teacher would agree with, and each form has its own
+set of facts, so every business's form follows from its row alone: a sole proprietorship has one owner who decides
+alone, with unlimited liability; a partnership two to six owners who decide together, with unlimited liability; a
+private limited company shareholders, limited liability, no shares sold to the public and one vote per share; a public
+limited company the same but with shares sold to the public and over a thousand shareholders; a cooperative members,
+limited liability and one vote per member (P4 blind review: a cooperative whose owners were "owners" with "one vote
+per owner" was read as a private company).
 
-Which business is a named form (an MCQ of the table's businesses; the asked form appears once); how many owners the
-partnership has, or how many businesses are limited companies (private or public); and which two businesses share a
-form (exactly one form appears twice; the options are a balanced square of pairs, each sharing one business with two
-others, so the key is never the central option). Business names share no word, so no option stands out by its words,
+Which business is a named form (an MCQ of the table's businesses; the asked form appears once, so exactly one option
+is right); how many owners, shareholders or members another form has, or how many businesses have limited liability
+(the table's own words, so cooperatives count); and which two businesses share a form (exactly one form appears
+twice; the options are a balanced square of pairs, each sharing one business with two others, so the key is never the
+central option and no other pair shares a form). Business names share no word, so no option stands out by its words,
 and a business's trade says nothing of its form.
 """
 from __future__ import annotations
@@ -36,13 +39,13 @@ NEEDS = (r"forms? of (business|enterprise)|business (units|organi[sz]ation|struc
 # Listed without sections, sharing business formation, but teaching bookkeeping or taxes.
 AVOID = r"bookkeeping|taxes"
 
-# form: (owners low, owners high, step, liability, shares sold to the public, voting)
+# form: (owners low, owners high, step, what the owners are called, liability, shares sold to the public, voting)
 FORMS = {
-    "sole": (1, 1, 1, "Unlimited", "No", "The one owner decides"),
-    "partnership": (2, 6, 1, "Unlimited", "No", "As the owners' agreement says"),
-    "ltd": (3, 40, 1, "Limited", "No", "One vote per share"),
-    "plc": (1200, 9000, 100, "Limited", "Yes", "One vote per share"),
-    "coop": (25, 300, 1, "Limited", "No", "One vote per owner"),
+    "sole": (1, 1, 1, "owner", "Unlimited", "No", "The owner decides alone"),
+    "partnership": (2, 6, 1, "owners", "Unlimited", "No", "The owners decide together"),
+    "ltd": (3, 40, 1, "shareholders", "Limited", "No", "One vote per share"),
+    "plc": (1200, 9000, 100, "shareholders", "Limited", "Yes", "One vote per share"),
+    "coop": (25, 300, 1, "members", "Limited", "No", "One vote per member"),
 }
 FORM_TEXT = {"sole": "a sole proprietorship (sole trader)", "partnership": "a partnership",
              "ltd": "a private limited company", "plc": "a public limited company", "coop": "a cooperative"}
@@ -65,12 +68,7 @@ def fr(n: int) -> str:
 
 
 def form_of(row: list) -> str:
-    _, _, owners, liability, public, votes = row
-    if liability == "Unlimited":
-        return "sole" if owners == 1 else "partnership"
-    if public == "Yes":
-        return "plc"
-    return "coop" if votes == "One vote per owner" else "ltd"
+    return next(f for f, facts in FORMS.items() if list(facts[3:]) == row[3:] and facts[0] <= row[2] <= facts[1])
 
 
 def _owners(rng: random.Random, form: str) -> int:
@@ -95,15 +93,14 @@ def sample(rng: random.Random) -> dict:
             if f == "sole" or (f, n) not in used:
                 break
         used.add((f, n))
-        _, _, _, liability, public, votes = FORMS[f]
-        rows.append([f"{first} {trade}", activity, n, liability, public, votes])
+        rows.append([f"{first} {trade}", activity, n, *FORMS[f][3:]])
     ask = rng.choice([f for f in forms if forms.count(f) == 1])
     return {"band": band, "town": rng.choice(TOWNS), "rows": rows, "ask": ask}
 
 
-HEAD = ["Business", "What it does", "Number of\nowners", "Owners' liability\nfor its debts", "Shares sold to\nthe public?",
+HEAD = ["Business", "What it does", "Owned by", "Owners' liability\nfor its debts", "Shares sold to\nthe public?",
         "Voting at owners'\nmeetings"]
-WIDTHS = [2.3, 3.2, 1.3, 1.9, 1.6, 2.7]
+WIDTHS = [2.3, 3.2, 2.0, 1.9, 1.6, 2.5]
 
 
 def draw(p: dict):
@@ -118,10 +115,10 @@ def draw(p: dict):
         ax.add_patch(Rectangle((x, -hh), w, hh, facecolor="#d9dee3", edgecolor=INK, linewidth=0.9))
         ax.text(x + w / 2, -hh / 2, h, ha="center", va="center", fontsize=9.5, fontweight="bold")
         x += w
-    for r, (name, activity, owners, liability, public, votes) in enumerate(rows):
+    for r, (name, activity, owners, word, liability, public, votes) in enumerate(rows):
         y = -hh - (r + 1) * rh
         x = 0.0
-        for c, (w, v) in enumerate(zip(WIDTHS, (name, activity, fr(owners), liability, public, votes))):
+        for c, (w, v) in enumerate(zip(WIDTHS, (name, activity, f"{fr(owners)} {word}", liability, public, votes))):
             ax.add_patch(Rectangle((x, y), w, rh, facecolor="white", edgecolor="#888888", linewidth=0.7))
             left = c in (0, 1, 5)
             ax.text(x + 0.12 if left else x + w / 2, y + rh / 2, v, ha="left" if left else "center", va="center",
@@ -163,15 +160,17 @@ def questions(p: dict, rng: random.Random) -> list:
     rng.shuffle(rest)
     wrong = (near + rest)[:3]
     tally = {f: list(forms.values()).count(f) for f in set(forms.values())}
-    if tally.get("partnership") == 1 and rng.random() < 0.5:
-        n = next(r[2] for r in rows if forms[r[0]] == "partnership")
-        second = short(f"How many owners does the partnership in the table of {town} businesses have?", n,
-                       [f"{n} owners", f"{n} partners", f"{n} people"])
+    other = [f for f in tally if tally[f] == 1 and f not in (ask, "sole")]
+    if other and rng.random() < 0.6:
+        f = rng.choice(other)
+        row = next(r for r in rows if forms[r[0]] == f)
+        n, word = row[2], row[3]
+        second = short(f"How many {word} does the {FORM_TEXT[f][2:]} in the table of {town} businesses have?", n,
+                       [f"{fr(n)} {word}", f"{n} {word}", f"{n:,}"])
     else:
-        n = sum(1 for f in forms.values() if f in ("ltd", "plc"))
-        forms_ok = [f"{n} businesses", f"{n} companies"] if n != 1 else ["1 business", "1 company"]
-        second = short(f"How many of the {town} businesses in the table are limited companies, private or public?", n,
-                       forms_ok + (["none"] if n == 0 else []))
+        n = sum(1 for r in rows if r[4] == "Limited")
+        second = short(f"How many of the {town} businesses in the table have limited liability for their debts?", n,
+                       [f"{n} businesses"] if n != 1 else ["1 business"])
     a, b = [n for n in names if tally[forms[n]] == 2]
     pair, others = _pairs(rng, names, a, b)
     return [

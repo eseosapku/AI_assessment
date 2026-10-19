@@ -16,6 +16,7 @@ from __future__ import annotations
 import random
 
 from ..core import INK, NAMES, money, new_figure, short
+from . import _curve_names as names
 from . import _micro as g
 from .econ_tables import frw
 
@@ -59,6 +60,8 @@ def sample(rng: random.Random) -> dict:
         q3, q4 = q1 + t // d, q2 - t // b
         if c < 0 or q4 - q3 < 2 or pw + t > PY - 4:
             continue
+        if max(b, d) == 2 and (pw + t >= 12 or a > 32):
+            continue  # steep curves crossing a high tariff line leave their names no room by either end
         dq, dp = rng.choice(GOODS[good][3]), rng.choice(GOODS[good][4])
         if band == "AL" and (t * dp * dq * ((q3 - q1) + (q2 - q4))) % 2:
             continue  # the deadweight loss in whole francs
@@ -87,18 +90,24 @@ def draw(p: dict):
     g.grid(ax, QX, PY, dq, dp, f"Quantity ({plural} per {period})", f"Price (Frw per {per})",
            xevery=2 if QX * dq >= 1000 else 1)
     board = g.Board(ax, QX, PY, dq, dp)
-    ends = [("D domestic", board.line(a, -b, "D"), -b), ("S domestic", board.line(c, d, "S"), d)]
+    board.line(a, -b, "D")
+    board.line(c, d, "S")
+    flat = []  # the two price lines, which a curve's name could be taken for
     for gid, price, style in (("world", pw, "-."), ("tariff", pw + t, "--")):
         ax.plot([0, QX * dq], [price * dp] * 2, color=INK, linestyle=style, linewidth=1.5, gid=gid)
-        board.path([(i / 10, price) for i in range(10 * QX + 1)])
+        flat.append([(i / 10, price) for i in range(10 * QX + 1)])
+        board.path(flat[-1])
     q1, q2, q3, q4 = _quantities(p)
     for q, price in ((q1, pw), (q2, pw), (q3, pw + t), (q4, pw + t)):
         g.dotted(ax, [(q, 0), (q, price)], dq, dp)
-        board.path([(q, i / 10) for i in range(10 * price + 1)])
+        board.path([(q, i / 10) for i in range(10 * price + 1)])  # names keep clear of the dotted guides too
         ax.plot([q * dq], [price * dp], "o", color=INK, markersize=4.5, zorder=4)
         board.block(q - 0.15, q + 0.15, price - 0.2, price + 0.2)
-    for name, end, slope in ends:
-        board.end_label(name, end, slope, size=10)
+    # each curve's name at its own end, plainly nearer it than the other curve and the world-price lines (P4 review:
+    # "D domestic" sat by the world-price line)
+    dem, sup = names.points(a, -b, QX, PY), names.points(c, d, QX, PY)
+    names.name_at_end(board, "D domestic", a, -b, [sup] + flat, wrapped="D\ndomestic")
+    names.name_at_end(board, "S domestic", c, d, [dem] + flat, wrapped="S\ndomestic")
     _price_label(board, "World price\n+ tariff", pw + t)
     _price_label(board, "World price", pw)
     ax.set_title(f"The market for {p['good']} in an open economy", fontsize=11)

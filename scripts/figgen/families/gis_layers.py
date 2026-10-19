@@ -1,22 +1,28 @@
 """GIS layers (LS): an invented Rwandan district's map built from three layers, drawn as a GIS book draws them -- a point
 layer (schools), a line layer (roads and a river) and a polygon layer (land use) stacked one above another, and beside
-them the combined map on a 1 km grid with a scale bar, a north arrow and a legend, and under it the land-use layer's
-attribute table (FID, land use, area in hectares, each area the polygon's own in whole grid squares x 100 ha).
+them the combined map on a 1 km grid with a scale bar in 1 km blocks, a north arrow and a legend, and under it the
+land-use layer's attribute table (FID, land use, area in hectares: each polygon is made of whole grid squares, and
+its area is its squares x 100 ha).
 
-Four features are lettered on the map: a school, a road and two land-use polygons. Asks which layer type a lettered
-feature belongs to (point, line or polygon), how many schools lie inside a named land-use polygon (found by its
-legend colour), which row (FID) of the attribute table describes a lettered polygon, and how long a named road is by
-the scale bar (roads run along the grid, so their length is whole kilometres).
+Each named road is its own line in its own colour, keyed in the legend, with a bar across each end; the two roads never
+touch or come within 2 km of each other, and each name sits beside its own road in that road's colour. Land-use
+polygons are kept 1 km apart. Four features are lettered (J, K, L, M; never N, the north arrow's letter): a school and
+a road by a circled letter on a leader line ending in a dot on the feature, and two land-use areas by a boxed letter
+inside the area; the legend says which is which.
 
-Schools sit at the middle of grid squares, at least 0.3 km from every polygon edge, so inside and outside are never
-close calls. Every key is worked from the params.
+Asks which layer type a lettered feature belongs to (point, line or polygon), how many schools lie inside a named
+land-use polygon (found by its legend colour), which row (FID) of the attribute table describes a lettered polygon,
+and how long a named road is from one end to the other (it runs along the grid, so its length is whole kilometres).
+
+Schools sit at the middle of grid squares, so every school is 0.5 km from any polygon edge. Every key is worked from
+the params.
 """
 from __future__ import annotations
 
 import math
 import random
 
-from matplotlib.patches import Circle, Polygon, Rectangle
+from matplotlib.patches import Circle, FancyBboxPatch, Polygon, Rectangle
 
 from ..core import INK, NAMES, count, mcq, new_figure, short
 
@@ -35,14 +41,18 @@ DISTRICTS = ["Isoko", "Umucyo", "Amahoro", "Urumuri", "Imena"]
 LANDUSE = {"Forest": "#7fae7a", "Farmland": "#f1df9a", "Wetland": "#a9cfe0", "Built-up area": "#c9c9c9",
            "Tea plantation": "#b9d98a"}
 ROADS = ["Market Road", "School Road", "Hill Road", "Lake Road"]
+ROAD_COLOURS = [("#b8322a", "#9c2a23"), ("#e0861a", "#a85f0a")]  # (line, name): red and orange
 LAYERS = {"point": "point layer", "line": "line layer", "polygon": "polygon layer"}
+LETTERS = ["J", "K", "L", "M"]
 
 
-def _rect_poly(x0: int, y0: int, w: int, h: int, cut: bool) -> list[list[float]]:
-    if not cut:
+def _poly(x0: int, y0: int, w: int, h: int, notch: list | None) -> list[list[int]]:
+    """A rectangle of whole grid squares, or one with a whole-square block cut from its top-right corner."""
+    if not notch:
         return [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0, y0 + h]]
-    # the top-left corner cut on a 2:1 slant, so no square's middle lies on the cut
-    return [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h], [x0 + 2, y0 + h], [x0, y0 + h - 1]]
+    nw, nh = notch
+    return [[x0, y0], [x0 + w, y0], [x0 + w, y0 + h - nh], [x0 + w - nw, y0 + h - nh], [x0 + w - nw, y0 + h],
+            [x0, y0 + h]]
 
 
 def area(poly: list) -> float:
@@ -58,23 +68,25 @@ def contains(poly: list, pt: list) -> bool:
     return inside
 
 
-def edge_gap(poly: list, pt: list) -> float:
-    def seg(a, b):
-        ax_, ay, bx, by = *a, *b
-        dx, dy = bx - ax_, by - ay
-        t = max(0.0, min(1.0, ((pt[0] - ax_) * dx + (pt[1] - ay) * dy) / (dx * dx + dy * dy)))
-        return math.hypot(pt[0] - ax_ - t * dx, pt[1] - ay - t * dy)
-    return min(seg(a, b) for a, b in zip(poly, poly[1:] + poly[:1]))
-
-
 def road_length(path: list) -> int:
     return sum(abs(b[0] - a[0]) + abs(b[1] - a[1]) for a, b in zip(path, path[1:]))
 
 
-def unit_steps(path: list) -> set:
-    """The 1 km grid edges a road runs along."""
-    out = set()
+def lattice(path: list) -> list[tuple[int, int]]:
+    """Every grid crossing a road passes through."""
+    out = []
     for a, b in zip(path, path[1:]):
+        n = abs(b[0] - a[0]) + abs(b[1] - a[1])
+        for k in range(n + 1):
+            out.append((a[0] + (b[0] - a[0]) * k // n, a[1] + (b[1] - a[1]) * k // n))
+    return out
+
+
+def unit_steps(path: list, closed: bool = False) -> set:
+    """The 1 km grid edges a road (or, closed, a polygon's outline) runs along."""
+    out = set()
+    pts = path + path[:1] if closed else path
+    for a, b in zip(pts, pts[1:]):
         if a[0] == b[0]:
             out |= {(a[0], y, "v") for y in range(min(a[1], b[1]), max(a[1], b[1]))}
         else:
@@ -82,74 +94,106 @@ def unit_steps(path: list) -> set:
     return out
 
 
-def _share(roads: list) -> bool:
-    """Two roads running along the same stretch of grid read as one."""
-    return bool(unit_steps(roads[0]["path"]) & unit_steps(roads[1]["path"]))
-
-
-def _overlap(a: list, b: list) -> bool:
+def _gap(a: list, b: list) -> bool:
+    """Two rectangles at least 1 km apart."""
     ax0, ay0, aw, ah = a
     bx0, by0, bw, bh = b
-    return ax0 < bx0 + bw and bx0 < ax0 + aw and ay0 < by0 + bh and by0 < ay0 + ah
+    return not (ax0 - 1 < bx0 + bw and bx0 < ax0 + aw + 1 and ay0 - 1 < by0 + bh and by0 < ay0 + ah + 1)
 
 
-def sample(rng: random.Random) -> dict:
+def _road(rng: random.Random) -> list[list[int]]:
+    """A road along the grid, off the map's edge: a long east-west stretch, then one or two bends."""
+    for _ in range(100):
+        x0, y0 = rng.randint(1, 5), rng.randint(1, 6)
+        x1 = x0 + rng.randint(3, 6)
+        if x1 > 9:
+            continue
+        path = [[x0, y0], [x1, y0]]
+        if rng.random() < 0.8:
+            y1 = rng.choice([y for y in range(1, 7) if abs(y - y0) >= 2])
+            path.append([x1, y1])
+            if rng.random() < 0.4:
+                x2 = rng.choice([x for x in range(1, 10) if abs(x - x1) >= 2])
+                path.append([x2, y1])
+        if rng.random() < 0.5:
+            path.reverse()
+        return path
+    return [[2, 2], [6, 2]]
+
+
+def _areas(rng: random.Random) -> tuple[list, list, list, list, list]:
+    """Land-use polygons 1 km apart and schools in square middles, with an area holding one to three schools and a
+    school outside every area."""
     while True:
         kinds = rng.sample(sorted(LANDUSE), rng.choice([3, 4]))
+        big = len(kinds) == 3
         rects: list[list[int]] = []
-        tries = 0
-        while len(rects) < len(kinds) and tries < 200:
-            tries += 1
-            w, h = rng.randint(3, 5), rng.randint(2, 4)
+        for _ in range(200):
+            w, h = rng.randint(2, 4 if big else 3), rng.randint(2, 3 if big else 2)
             r = [rng.randint(0, W - w), rng.randint(0, H - h), w, h]
-            if not any(_overlap(r, q) for q in rects):
+            if all(_gap(r, q) for q in rects):
                 rects.append(r)
+                if len(rects) == len(kinds):
+                    break
         if len(rects) < len(kinds):
             continue
-        polys = [_rect_poly(*r, cut=rng.random() < 0.4 and r[2] >= 3 and r[3] >= 2) for r in rects]
-        cells = [[x + 0.5, y + 0.5] for x in range(W) for y in range(H)]
+        polys = [_poly(*r, [rng.randint(1, r[2] - 1), 1] if r[2] >= 3 and rng.random() < 0.4 else None) for r in rects]
+        cells = [[x + 0.5, y + 0.5] for x in range(1, W - 1) for y in range(1, H - 1)]
         rng.shuffle(cells)
         schools: list[list[float]] = []
         want = rng.randint(6, 8)
         for c in cells:
             if len(schools) == want:
                 break
-            if all(edge_gap(pl, c) >= 0.3 for pl in polys) and all(math.dist(c, s) >= 1.4 for s in schools) \
-                    and 0.5 < c[0] < W - 0.5 and 0.5 < c[1] < H - 0.5:
+            if all(math.dist(c, s) >= 1.4 for s in schools):
                 schools.append(c)
-        if len(schools) < 6:
-            continue
         inside = [sum(contains(pl, s) for s in schools) for pl in polys]
         countable = [i for i, n in enumerate(inside) if 1 <= n <= 3]
-        if not countable:
+        outside = [i for i, s in enumerate(schools) if not any(contains(pl, s) for pl in polys)]
+        if countable and outside:
+            return kinds, polys, schools, countable, outside
+
+
+def _roads(rng: random.Random, polys: list) -> list | None:
+    """Two roads of different lengths, at least 2 km apart, neither running along an area's outline."""
+    edges = set().union(*(unit_steps(pl, closed=True) for pl in polys))
+    for _ in range(300):
+        paths = [_road(rng), _road(rng)]
+        lengths = [road_length(x) for x in paths]
+        if lengths[0] == lengths[1] or not all(4 <= n <= 11 for n in lengths):
             continue
-        roads = []
-        for name in rng.sample(ROADS, 2):
-            xa, xb = sorted(rng.sample(range(0, W + 1), 2))
-            ya, yb = rng.sample(range(1, H), 2)
-            path = [[xa, ya], [xb, ya], [xb, yb]] if rng.random() < 0.5 else [[xa, ya], [xa, yb], [xb, yb]]
-            roads.append({"name": name, "path": path})
-        lengths = [road_length(r["path"]) for r in roads]
-        if lengths[0] == lengths[1] or not all(4 <= n <= 12 for n in lengths) or _share(roads):
+        if min(math.dist(a, b) for a in lattice(paths[0]) for b in lattice(paths[1])) < 2:
             continue
-        letters = rng.sample(["K", "L", "M", "N"], 4)
-        lettered_polys = rng.sample(range(len(polys)), 2)
-        school_i = rng.randrange(len(schools))
-        road_i = rng.randrange(2)
+        if any(unit_steps(x) & edges for x in paths):  # a road along an area's outline reads as its border
+            continue
+        return paths
+    return None
+
+
+def sample(rng: random.Random) -> dict:
+    while True:
+        kinds, polys, schools, countable, outside = _areas(rng)
+        paths = _roads(rng, polys)
+        if paths is None:
+            continue
+        names = rng.sample(ROADS, 2)
         fids = list(range(len(polys)))
         rng.shuffle(fids)
-        p = {"band": "LS", "district": rng.choice(DISTRICTS),
-             "polygons": [{"use": k, "poly": pl, "fid": f} for k, pl, f in zip(kinds, polys, fids)],
-             "schools": schools, "roads": roads,
-             "river": {"top": rng.choice([1.3, 2.7, 4.4, 6.2, 8.6]), "bottom": rng.choice([1.6, 3.3, 5.7, 7.4, 8.8]),
-                       "wave": rng.choice([0.5, 0.8, 1.1])},
-             "letters": {letters[0]: ["point", school_i], letters[1]: ["line", road_i],
-                         letters[2]: ["polygon", lettered_polys[0]], letters[3]: ["polygon", lettered_polys[1]]},
-             "ask": {"type": rng.choice(letters), "count": rng.choice(countable),
-                     "fid": rng.choice([letters[2], letters[3]]), "road": rng.randrange(2)}}
-        if _place_labels(p) is None:
-            continue
-        return p
+        base = {"band": "LS", "district": rng.choice(DISTRICTS),
+                "polygons": [{"use": k, "poly": pl, "fid": f} for k, pl, f in zip(kinds, polys, fids)],
+                "schools": schools, "roads": [{"name": n, "path": x} for n, x in zip(names, paths)]}
+        for _ in range(12):
+            letters = rng.sample(LETTERS, 4)
+            lettered_polys = rng.sample(range(len(polys)), 2)
+            p = dict(base, **{
+                "river": {"top": rng.choice([1.3, 2.7, 4.4, 6.2, 8.6]), "bottom": rng.choice([1.6, 3.3, 5.7, 7.4, 8.8]),
+                          "wave": rng.choice([0.5, 0.8, 1.1])},
+                "letters": {letters[0]: ["point", rng.choice(outside)], letters[1]: ["line", rng.randrange(2)],
+                            letters[2]: ["polygon", lettered_polys[0]], letters[3]: ["polygon", lettered_polys[1]]},
+                "ask": {"type": rng.choice(letters), "count": rng.choice(countable),
+                        "fid": rng.choice([letters[2], letters[3]]), "road": rng.randrange(2)}})
+            if _place_labels(p) is not None:
+                return p
 
 
 # --- label placement --------------------------------------------------------------------------------------------
@@ -164,16 +208,25 @@ def _river(p: dict, n: int = 60) -> list[tuple[float, float]]:
     return out
 
 
+def _bbox(poly: list) -> tuple[float, float, float, float]:
+    xs, ys = [v[0] for v in poly], [v[1] for v in poly]
+    return min(xs), min(ys), max(xs), max(ys)
+
+
 def _place_labels(p: dict) -> dict | None:
     """Where each letter and road name sits on the map (km): clear of the schools, the roads, the river and each other;
-    None if there is no room."""
+    a circled letter also clear of every land-use area. None if there is no room."""
     taken: list[tuple[float, float, float, float]] = []  # boxes: x0, y0, x1, y1
+    river = _river(p, 140)
 
-    def free(box, own_school=None, own_road=None) -> bool:
+    def free(box, own_school=None, own_road=None, off_polygons=False) -> bool:
         x0, y0, x1, y1 = box
         if x0 < 0.05 or y0 < 0.05 or x1 > W - 0.05 or y1 > H - 0.05:
             return False
         if any(x0 < b[2] and b[0] < x1 and y0 < b[3] and b[1] < y1 for b in taken):
+            return False
+        if off_polygons and any(x0 < b[2] and b[0] < x1 and y0 < b[3] and b[1] < y1
+                                for b in (_bbox(pg["poly"]) for pg in p["polygons"])):
             return False
         for k, s in enumerate(p["schools"]):
             if k != own_school and x0 - 0.25 < s[0] < x1 + 0.25 and y0 - 0.25 < s[1] < y1 + 0.25:
@@ -182,17 +235,16 @@ def _place_labels(p: dict) -> dict | None:
             if k == own_road:
                 continue
             for a, b in zip(r["path"], r["path"][1:]):
-                if a[0] == b[0] and x0 - 0.08 < a[0] < x1 + 0.08 and min(a[1], b[1]) < y1 and y0 < max(a[1], b[1]):
+                if a[0] == b[0] and x0 - 0.12 < a[0] < x1 + 0.12 and min(a[1], b[1]) - 0.12 < y1 and y0 < max(a[1], b[1]) + 0.12:
                     return False
-                if a[1] == b[1] and y0 - 0.08 < a[1] < y1 + 0.08 and min(a[0], b[0]) < x1 and x0 < max(a[0], b[0]):
+                if a[1] == b[1] and y0 - 0.12 < a[1] < y1 + 0.12 and min(a[0], b[0]) - 0.12 < x1 and x0 < max(a[0], b[0]) + 0.12:
                     return False
-        for (rx, ry) in _river(p):
-            if x0 - 0.1 < rx < x1 + 0.1 and y0 - 0.1 < ry < y1 + 0.1:
+        for (rx, ry) in river:
+            if x0 - 0.25 < rx < x1 + 0.25 and y0 - 0.25 < ry < y1 + 0.25:
                 return False
         return True
 
     def clear_leader(x, y, ax_, ay, own_school=None, own_road=None) -> bool:
-        """The leader from the feature to the letter's circle crosses nothing else."""
         for k in range(1, 10):
             t = k / 10
             px, py = ax_ + (x - ax_) * t, ay + (y - ay) * t
@@ -201,8 +253,8 @@ def _place_labels(p: dict) -> dict | None:
         return True
 
     out: dict[str, list[float]] = {}
-    r = 0.3  # a letter's circle, in km
-    for letter, (kind, i) in sorted(p["letters"].items()):
+    r = 0.3  # a letter's circle or box, in km
+    for letter, (kind, i) in sorted(p["letters"].items(), key=lambda kv: kv[1][0] != "polygon"):
         school = road = None
         if kind == "point":
             school = i
@@ -222,13 +274,16 @@ def _place_labels(p: dict) -> dict | None:
                         spots += [(mx, my + 0.85, mx, my), (mx, my - 0.85, mx, my)]
         else:
             poly = p["polygons"][i]["poly"]
-            xs, ys = [v[0] for v in poly], [v[1] for v in poly]
-            spots = [(x + 0.5, y + 0.5, None, None) for x in range(int(min(xs)), int(max(xs)))
-                     for y in range(int(min(ys)), int(max(ys)))
-                     if contains(poly, (x + 0.5, y + 0.5)) and edge_gap(poly, (x + 0.5, y + 0.5)) >= 0.35]
+            x0, y0, x1, y1 = _bbox(poly)
+            spots = [(x + 0.5, y + 0.5, None, None) for x in range(int(x0), int(x1)) for y in range(int(y0), int(y1))
+                     if contains(poly, (x + 0.5, y + 0.5))]
         for (x, y, ax_, ay) in spots:
             box = (x - r, y - r, x + r, y + r)
-            if free(box) and (ax_ is None or clear_leader(x, y, ax_, ay, school, road)):
+            if ax_ is None:
+                ok = free(box)
+            else:
+                ok = free(box, off_polygons=True) and clear_leader(x, y, ax_, ay, school, road)
+            if ok:
                 out[letter] = [x, y] if ax_ is None else [x, y, ax_, ay]
                 taken.append(box)
                 if ax_ is not None:  # road names keep off the leader too
@@ -239,17 +294,16 @@ def _place_labels(p: dict) -> dict | None:
             return None
     for k, road in enumerate(p["roads"]):
         path = road["path"]
-        segs = sorted(zip(path, path[1:]), key=lambda s: -(abs(s[1][0] - s[0][0]) + abs(s[1][1] - s[0][1])))
-        half = len(road["name"]) * 0.085  # half the name's width, in km, at 8.5 pt
+        half = len(road["name"]) * 0.07  # half the name's width, in km, at 8.5 pt
         placed = False
-        for a, b in segs:
+        for a, b in sorted(zip(path, path[1:]), key=lambda s: -abs(s[1][0] - s[0][0])):
             if a[1] != b[1]:
                 continue
-            for t in (0.5, 0.3, 0.7):
+            for t in (0.5, 0.35, 0.65):
                 mx = a[0] + (b[0] - a[0]) * t
                 for dy in (0.3, -0.3):
-                    box = (mx - half, a[1] + dy - 0.17, mx + half, a[1] + dy + 0.17)
-                    if free(box):
+                    box = (mx - half, a[1] + dy - 0.15, mx + half, a[1] + dy + 0.15)
+                    if min(a[0], b[0]) <= mx - half and mx + half <= max(a[0], b[0]) and free(box, own_road=k):
                         out[f"road:{k}"] = [mx, a[1] + dy]
                         taken.append(box)
                         placed = True
@@ -267,6 +321,7 @@ def _place_labels(p: dict) -> dict | None:
 
 S = 0.55  # inches per km on the combined map
 MX, MY = 5.0, 2.3  # the combined map's lower-left corner
+SCALE_KM = 4
 
 
 def _layer(ax, p: dict, which: str, oy: float) -> None:
@@ -280,9 +335,9 @@ def _layer(ax, p: dict, which: str, oy: float) -> None:
             ax.add_patch(Polygon([tf(*v) for v in pg["poly"]], closed=True, facecolor=LANDUSE[pg["use"]], edgecolor=INK,
                                  linewidth=0.6))
     elif which == "line":
-        for r in p["roads"]:
+        for k, r in enumerate(p["roads"]):
             pts = [tf(*v) for v in r["path"]]
-            ax.plot([q[0] for q in pts], [q[1] for q in pts], color=INK, linewidth=1.4)
+            ax.plot([q[0] for q in pts], [q[1] for q in pts], color=ROAD_COLOURS[k][0], linewidth=1.6)
         pts = [tf(*v) for v in _river(p, 30)]
         ax.plot([q[0] for q in pts], [q[1] for q in pts], color="#3b7ea1", linewidth=1.2)
     else:
@@ -320,38 +375,53 @@ def draw(p: dict):
     riv = [m(*v) for v in _river(p)]
     ax.plot([q[0] for q in riv], [q[1] for q in riv], color="#3b7ea1", linewidth=2.0, zorder=3, gid="river")
     for k, r in enumerate(p["roads"]):
+        line, ink = ROAD_COLOURS[k]
         pts = [m(*v) for v in r["path"]]
-        ax.plot([q[0] for q in pts], [q[1] for q in pts], color=INK, linewidth=2.6, zorder=4, solid_capstyle="butt",
-                gid=f"road:{k}")
+        ax.plot([q[0] for q in pts], [q[1] for q in pts], color=line, linewidth=3.2, zorder=4, solid_capstyle="butt",
+                solid_joinstyle="miter", gid=f"road:{k}")
+        for end, nxt in ((r["path"][0], r["path"][1]), (r["path"][-1], r["path"][-2])):  # a bar across each end
+            ex, ey = m(*end)
+            if end[1] == nxt[1]:
+                ax.plot([ex, ex], [ey - 0.09, ey + 0.09], color=line, linewidth=2.2, zorder=4, gid=f"roadend:{k}")
+            else:
+                ax.plot([ex - 0.09, ex + 0.09], [ey, ey], color=line, linewidth=2.2, zorder=4, gid=f"roadend:{k}")
         x, y = m(*spots[f"road:{k}"])
-        ax.text(x, y, r["name"], ha="center", va="center", fontsize=8.5, zorder=6, gid=f"roadname:{k}")
+        ax.text(x, y, r["name"], ha="center", va="center", fontsize=8.5, fontweight="bold", color=ink, zorder=6,
+                gid=f"roadname:{k}")
     for s in p["schools"]:
         x, y = m(*s)
         ax.plot([x], [y], marker="^", color=INK, markersize=8, linestyle="none", zorder=6)
     for letter, (kind, i) in p["letters"].items():
         spot = spots[letter]
         x, y = m(*spot[:2])
-        if len(spot) == 4:  # a leader from the school or the road to its letter
-            fx, fy = m(*spot[2:])
-            d = math.hypot(x - fx, y - fy)
-            ux, uy = (x - fx) / d, (y - fy) / d
-            start = 0.12 if kind == "point" else 0.0
-            ax.plot([fx + ux * start, x - ux * 0.15], [fy + uy * start, y - uy * 0.15], color=INK, linewidth=1.0, zorder=7,
-                    gid=f"leader:{letter}")
+        if kind == "polygon":  # a boxed letter inside the area it names
+            ax.add_patch(FancyBboxPatch((x - 0.12, y - 0.12), 0.24, 0.24, boxstyle="square,pad=0.0", facecolor="white",
+                                        edgecolor=INK, linewidth=1.3, zorder=7))
+            ax.text(x, y, letter, ha="center", va="center", fontsize=9.5, fontweight="bold", zorder=8,
+                    gid=f"letter:{letter}")
+            continue
+        fx, fy = m(*spot[2:])
+        d = math.hypot(x - fx, y - fy)
+        ux, uy = (x - fx) / d, (y - fy) / d
+        start = 0.13 if kind == "point" else 0.0
+        ax.plot([fx + ux * start, x - ux * 0.15], [fy + uy * start, y - uy * 0.15], color=INK, linewidth=0.9, zorder=7,
+                gid=f"leader:{letter}")
+        ax.plot([fx + ux * start], [fy + uy * start], marker="o", color=INK, markersize=3, zorder=7)
         ax.add_patch(Circle((x, y), 0.15, facecolor="white", edgecolor=INK, linewidth=1.1, zorder=7))
         ax.text(x, y, letter, ha="center", va="center", fontsize=9.5, fontweight="bold", zorder=8, gid=f"letter:{letter}")
     # grid numbers
     for x in range(0, W + 1, 2):
-        ax.text(m(x, 0)[0], MY - 0.14, str(x), ha="center", va="center", fontsize=8)
+        ax.text(m(x, 0)[0], MY - 0.14, str(x), ha="center", va="center", fontsize=8, gid=f"gridx:{x}")
     for y in range(0, H + 1):
         ax.text(MX - 0.14, m(0, y)[1], str(y), ha="center", va="center", fontsize=8)
-    # scale bar and north arrow
-    sx, sy = MX, MY - 0.55
-    for k in range(3):
-        ax.add_patch(Rectangle((sx + k * S, sy), S, 0.09, facecolor=INK if k % 2 == 0 else "white", edgecolor=INK,
+    # the scale bar: 1 km blocks, a number under each division
+    sx, sy = MX, MY - 0.6
+    for k in range(SCALE_KM):
+        ax.add_patch(Rectangle((sx + k * S, sy), S, 0.1, facecolor=INK if k % 2 == 0 else "white", edgecolor=INK,
                                linewidth=0.9))
-        ax.text(sx + k * S, sy - 0.15, str(k), ha="center", va="center", fontsize=8.5)
-    ax.text(sx + 3 * S, sy - 0.15, "3 km", ha="center", va="center", fontsize=8.5)
+    for k in range(SCALE_KM + 1):
+        ax.text(sx + k * S, sy - 0.15, str(k), ha="center", va="center", fontsize=8.5, gid=f"scale:{k}")
+    ax.text(sx + SCALE_KM * S + 0.12, sy + 0.05, "km", ha="left", va="center", fontsize=8.5, gid="scale:unit")
     nx, ny = MX + W * S + 0.35, MY + H * S - 0.6
     ax.annotate("", xy=(nx, ny + 0.45), xytext=(nx, ny - 0.1), arrowprops={"arrowstyle": "-|>", "color": INK, "lw": 1.5})
     ax.text(nx, ny + 0.62, "N", ha="center", va="center", fontsize=10.5, fontweight="bold")
@@ -363,31 +433,41 @@ def draw(p: dict):
         yy = ly - 0.35 - j * 0.3
         ax.add_patch(Rectangle((lx, yy - 0.1), 0.35, 0.2, facecolor=colour, edgecolor=INK, linewidth=0.8))
         ax.text(lx + 0.45, yy, name, ha="left", va="center", fontsize=9.5, gid=f"legend:{name}")
-    lx2 = 2.3
-    ax.plot([lx2], [ly - 0.35], marker="^", color=INK, markersize=8, linestyle="none")
-    ax.text(lx2 + 0.2, ly - 0.35, "School", ha="left", va="center", fontsize=9.5)
-    ax.plot([lx2 - 0.15, lx2 + 0.12], [ly - 0.65] * 2, color=INK, linewidth=2.6)
-    ax.text(lx2 + 0.2, ly - 0.65, "Road", ha="left", va="center", fontsize=9.5)
-    ax.plot([lx2 - 0.15, lx2 + 0.12], [ly - 0.95] * 2, color="#3b7ea1", linewidth=2.0)
-    ax.text(lx2 + 0.2, ly - 0.95, "River", ha="left", va="center", fontsize=9.5)
+    lx2 = 2.25
+    rows = [("marker", None, "School")] + [("road", k, r["name"]) for k, r in enumerate(p["roads"])] + \
+           [("river", None, "River")]
+    for j, (what, k, name) in enumerate(rows):
+        yy = ly - 0.35 - j * 0.3
+        if what == "marker":
+            ax.plot([lx2], [yy], marker="^", color=INK, markersize=8, linestyle="none")
+        else:
+            ax.plot([lx2 - 0.17, lx2 + 0.14], [yy, yy], color=ROAD_COLOURS[k][0] if what == "road" else "#3b7ea1",
+                    linewidth=3.2 if what == "road" else 2.0)
+        ax.text(lx2 + 0.25, yy, name, ha="left", va="center", fontsize=9.5,
+                gid=f"legendroad:{k}" if what == "road" else None)
+    ky = ly - 0.35 - max(len(items), len(rows)) * 0.3 - 0.05
+    ax.add_patch(Circle((lx + 0.12, ky), 0.11, facecolor="white", edgecolor=INK, linewidth=1.0))
+    ax.text(lx + 0.35, ky, "A circled letter's line points to a school or a road.", ha="left", va="center", fontsize=9)
+    ax.add_patch(Rectangle((lx + 0.02, ky - 0.42), 0.2, 0.2, facecolor="white", edgecolor=INK, linewidth=1.0))
+    ax.text(lx + 0.35, ky - 0.32, "A boxed letter names the land-use area it is in.", ha="left", va="center", fontsize=9)
     # the attribute table
-    tx, ty = MX + 1.2, MY - 0.95
+    tx, ty = MX + 1.2, MY - 1.05
     ax.text(tx, ty, "Attribute table: land use layer", ha="left", va="center", fontsize=10, fontweight="bold")
     cols = [("FID", 0.6), ("Land use", 1.6), ("Area (ha)", 1.1)]
-    rows = sorted(p["polygons"], key=lambda pg: pg["fid"])
+    trows = sorted(p["polygons"], key=lambda pg: pg["fid"])
     x = tx
     for head, w in cols:
         ax.add_patch(Rectangle((x, ty - 0.48), w, 0.3, facecolor="#d9dee3", edgecolor=INK, linewidth=0.9))
         ax.text(x + w / 2, ty - 0.33, head, ha="center", va="center", fontsize=9.5, fontweight="bold")
         x += w
-    for r, pg in enumerate(rows):
+    for r, pg in enumerate(trows):
         x = tx
         yy = ty - 0.48 - (r + 1) * 0.28
         for (head, w), val in zip(cols, (pg["fid"], pg["use"], int(round(area(pg["poly"]) * 100)))):
             ax.add_patch(Rectangle((x, yy), w, 0.28, facecolor="white", edgecolor=INK, linewidth=0.9))
             ax.text(x + w / 2, yy + 0.14, str(val), ha="center", va="center", fontsize=9.5, gid=f"row:{pg['fid']}:{head}")
             x += w
-    bottom = min(ty - 0.48 - len(rows) * 0.28, ly - 0.35 - len(items) * 0.3) - 0.2
+    bottom = min(ty - 0.48 - len(trows) * 0.28, ky - 0.42) - 0.2
     ax.set_xlim(0, 11.6)
     ax.set_ylim(bottom, top + 0.3)
     fig.set_size_inches(11.6, top + 0.3 - bottom)
@@ -417,6 +497,6 @@ def questions(p: dict, rng: random.Random) -> list:
                   str(target["fid"]), [f for f in fids if f != str(target["fid"])], rng))
     road = p["roads"][ask["road"]]
     km = road_length(road["path"])
-    qs.append(short(f"Using the grid and the scale bar, how long is {road['name']} on this map, in km?", km,
+    qs.append(short(f"Using the grid and the scale bar, how long is {road['name']} from one end to the other, in km?", km,
                     [str(km), f"{km} km", f"{km}km"]))
     return qs

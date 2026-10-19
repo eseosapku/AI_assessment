@@ -75,14 +75,21 @@ FORM_WORDS = {"a sole proprietorship (sole trader)": "sole", "a partnership": "p
               "a private limited company": "ltd", "a public limited company": "plc", "a cooperative": "coop"}
 
 
-def form_of(owners, liability, public, votes):
-    """A business's form from its facts, as a Business Studies teacher decides it."""
+def form_of(owners, word, liability, public, votes):
+    """A business's form from its facts, as a Business Studies teacher decides it; each form has facts of its own."""
     if liability == "Unlimited":
-        return "sole" if owners == 1 else "partnership"
+        assert public == "No"
+        if owners == 1:
+            assert word == "owner" and votes == "The owner decides alone"
+            return "sole"
+        assert word == "owners" and votes == "The owners decide together"
+        return "partnership"
     assert liability == "Limited"
-    if public == "Yes":
-        return "plc"
-    return "coop" if votes == "One vote per owner" else "ltd"
+    if word == "members":
+        assert votes == "One vote per member" and public == "No"
+        return "coop"
+    assert word == "shareholders" and votes == "One vote per share"
+    return "plc" if public == "Yes" else "ltd"
 
 
 def test_forms_of_business():
@@ -96,19 +103,16 @@ def test_forms_of_business():
         names = [r[0] for r in rows]
         words = [w for n in names for w in n.split()]
         assert len(set(words)) == len(words), (s, names)  # no word shared, so no option is central by its words
-        forms = {r[0]: form_of(r[2], r[3], r[4], r[5]) for r in rows}
+        forms = {r[0]: form_of(*r[2:]) for r in rows}
         counts = Counter(forms.values())
         assert sorted(counts.values())[-1] == 2 and list(counts.values()).count(2) == 1, (s, counts)
         pair = [n for n in names if counts[forms[n]] == 2]
         for r in rows:  # the facts agree with each other as the law has them
             f = forms[r[0]]
-            assert (r[2] == 1) == (f == "sole"), (s, r)
             if f == "plc":
                 assert r[2] >= 1000, (s, r)
             if f == "partnership":
                 assert 2 <= r[2] <= 20, (s, r)
-            if f in ("ltd", "plc"):
-                assert r[5] == "One vote per share", (s, r)
         seen = set()
         for q in qs:
             got = re.search(r"Which of the businesses is (.+)\?$", q.stem)
@@ -117,21 +121,27 @@ def test_forms_of_business():
                 assert counts[want] == 1, s
                 assert picked(q) == next(n for n in names if forms[n] == want), (s, q.stem)
                 assert all(o in names for o in q.options)
+                assert sum(forms[o] == want for o in q.options) == 1, (s, q.options)  # exactly one option is right
                 seen.add("which")
-            elif "owners does the partnership" in q.stem:
-                part = [r for r in rows if forms[r[0]] == "partnership"]
-                assert len(part) == 1 and q.answer == str(part[0][2]), s
+            elif got := re.search(r"How many (owners|shareholders|members) does the (.+) in the table", q.stem):
+                want = FORM_WORDS["a " + got.group(2)]
+                row = [r for r in rows if forms[r[0]] == want]
+                assert len(row) == 1 and row[0][3] == got.group(1) and q.answer == str(row[0][2]), s
                 seen.add("owners")
-            elif "limited companies" in q.stem:
-                assert q.answer == str(sum(1 for f in forms.values() if f in ("ltd", "plc"))), s
+            elif "have limited liability" in q.stem:
+                assert q.answer == str(sum(1 for r in rows if r[4] == "Limited")), s
                 seen.add("count")
             elif "same form of business" in q.stem:
                 assert picked(q) == f"{pair[0]} and {pair[1]}", (s, picked(q), pair)
+                right = 0
                 for o in q.options:
                     a, b = o.split(" and ")
                     assert a in names and b in names and names.index(a) < names.index(b)
+                    right += forms[a] == forms[b]
+                assert right == 1, (s, q.options)  # exactly one pair shares a form
                 seen.add("pair")
-            wrong_options_are_wrong(q) if q.kind == "mcq" else None
+            else:
+                pytest.fail(q.stem)
         assert "which" in seen and "pair" in seen and ({"owners", "count"} & seen), (s, seen)
     assert bands["LS"] > 200 and bands["UP"] > 200, bands
 
@@ -141,10 +151,10 @@ def test_forms_of_business_prints_every_fact():
     for s in DRAWN:
         p = m.sample(random.Random(s))
         words = words_of(m, p)
-        for name, activity, owners, liability, public, votes in p["rows"]:
-            for x in (name, activity, fr(owners), liability, votes):
+        for name, activity, owners, word, liability, public, votes in p["rows"]:
+            for x in (name, activity, f"{fr(owners)} {word}", liability, votes):
                 assert x in words, (s, x)
-        assert "Number of owners" in words and "Shares sold to the public?" in words
+        assert "Owned by" in words and "Shares sold to the public?" in words
 
 
 # --- sectors of production ---------------------------------------------------------------------------
@@ -173,6 +183,8 @@ def test_sectors_chain():
             secs = [sector_of(t) for t, _ in stages]
             assert secs == [x for _, x in stages], (s, stages)
             assert secs[0] == "primary" and secs == sorted(secs, key=SECTORS.index), (s, secs)  # a chain runs in order
+            # a loan is no stage of a chain; a tailor reads as a service (P4 blind review)
+            assert not any(re.search(r"\b(bank|loan|lends|tailor)\b", t, re.I) for t, _ in stages), (s, stages)
             letters = "ABCDEF"[:len(stages)]
             for q in qs:
                 got = re.search(r"Which lettered stage is in the (\w+) sector\?", q.stem)
@@ -187,6 +199,8 @@ def test_sectors_chain():
                     assert sorted(q.options) == ["Primary", "Secondary", "Tertiary"]
                 got = re.search(r"How many stages .* are in the (\w+) sector\?", q.stem)
                 if got:
+                    first = re.search(r"in the (\w+) sector\?", qs[0].stem).group(1)
+                    assert got.group(1) != first, s  # the count is never the first question's sector again
                     assert q.answer == str(secs.count(got.group(1))), s
         else:
             (y1, y2), shares = p["years"], p["shares"]
@@ -278,6 +292,9 @@ def test_stakeholder_grid():
         strat = {n: strategy(x, y) for _, n, x, y in pts}
         power = sorted((y for *_, y in pts), reverse=True)
         assert power[0] > power[1], s
+        top = max(pts, key=lambda r: r[3])[1]
+        assert top in ("Shareholders", "Government", "District council", "Bank (lender)"), (s, top)  # plausible power
+        assert all(y < 5 for _, n, _, y in pts if n == "Competitors"), s
         seen = set()
         for q in qs:
             got = re.search(r"Which of these stakeholders should .+ (manage closely|keep satisfied|keep informed|monitor)\?", q.stem)
@@ -321,6 +338,18 @@ BLOCKS = ["Key Partners", "Key Activities", "Key Resources", "Value Propositions
           "Customer Segments", "Cost Structure", "Revenue Streams"]
 
 
+# Blocks a note is easily argued into from its neighbour: never offered as wrong options for each other.
+NEIGHBOURS = {
+    "Key Partners": {"Key Resources"},
+    "Key Activities": {"Key Resources", "Value Propositions", "Customer Relationships"},
+    "Key Resources": {"Key Activities", "Key Partners"},
+    "Value Propositions": {"Customer Segments", "Customer Relationships", "Channels", "Key Activities"},
+    "Customer Relationships": {"Value Propositions", "Channels", "Customer Segments", "Key Activities"},
+    "Channels": {"Customer Relationships", "Key Resources", "Value Propositions", "Customer Segments"},  # the clear note names a place to buy, never an activity
+    "Customer Segments": {"Value Propositions", "Customer Relationships", "Channels"},
+}
+
+
 def test_business_model_canvas():
     m = fam("business_model_canvas")
     bank = m.NOTES
@@ -342,6 +371,7 @@ def test_business_model_canvas():
         for letter, (block, text) in outside.items():
             assert owner[text] == {block}, (s, text)
             assert text not in placed[block], s
+            assert text == bank[p["biz"]]["blocks"][block][0], s  # only a block's one clear note is ever placed
         rev = {n: a for n, a in p["revenue"]}
         cost = sum(a for _, a in p["costs"])
         assert sorted(rev.values())[-1] > sorted(rev.values())[-2], s
@@ -350,8 +380,11 @@ def test_business_model_canvas():
         for q in qs:
             got = re.search(r"should note ([PQ]) (?:go|be written in)\?", q.stem)
             if got:
-                assert picked(q) == outside[got.group(1)][0], s
-                assert set(q.options) <= set(BLOCKS[:7])
+                key = outside[got.group(1)][0]
+                assert picked(q) == key and key in q.options, s  # the right block is always offered
+                assert set(q.options) <= set(BLOCKS) and len(q.options) == 4
+                # no wrong option is a block the note could be argued into (P4 blind review)
+                assert not (set(q.options) - {key}) & NEIGHBOURS[key], (s, key, q.options)
                 seen.add("block")
             if "brings in the most money" in q.stem:
                 assert picked(q) == max(rev, key=rev.get), s
@@ -555,6 +588,25 @@ def test_office_records():
     assert min(kinds.values()) > 250 and len(kinds) == 3, kinds
 
 
+def test_office_records_keep_people_apart():
+    """No one in the question is in the figure, and no visitor shares a name with the staff they visit."""
+    m = fam("office_records")
+    for s in range(1, 300):
+        p, qs = run(m, s)
+        who = qs[0].stem.split()[0]
+        if p["kind"] == "letter":
+            shown = " ".join([p["signer"][0]] + p["inside"])
+        elif p["kind"] == "filing":
+            shown = " ".join(f"{c[2]} {c[1]}" for c in p["cards"])
+        else:
+            shown = " ".join(r[0] for r in p["rows"])
+            staff = {w.strip("()") for r in p["rows"] for w in r[4].split()}
+            visitors = {w for r in p["rows"] for w in r[0].split()}
+            assert not staff & visitors, (s, staff & visitors)
+            shown += " " + " ".join(r[4] for r in p["rows"])
+        assert who not in shown.replace("(", " ").replace(")", " ").split(), (s, who, shown)
+
+
 def test_office_records_prints_what_is_asked():
     m = fam("office_records")
     for s in range(1, 61):
@@ -594,7 +646,8 @@ def test_action_plan():
                 (a0, a1), (b0, b1) = span[got.group(1)], span[got.group(2)]
                 n = min(a1, b1) - max(a0, b0) + 1
                 assert n >= 1 and q.answer == str(n), s
-            if "finish the last step" in q.stem:
+            if "last step of" in q.stem:
+                assert q.stem.endswith("plan end?") and "goal" not in q.stem, s  # one thing asked, not the deadline
                 assert q.answer == str(last), s
             got = re.search(r"under way in week (\d+)\?", q.stem)
             if got:

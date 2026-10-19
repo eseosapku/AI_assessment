@@ -80,8 +80,10 @@ OFFICES = ["Ubumwe Furniture Ltd in Kigali", "the Huye office of Inzozi Bakery",
 ORGS = ["Isange Office Supplies", "Karisimbi Printers", "Ineza Secondary School", "Amahoro Clinic", "Intwari Transport",
         "Ikaze Insurance", "Gishwati Furniture", "Nyungwe Bank", "Urumuri Solar", "Agaciro Accountants"]
 FIRSTS = [n for n in NAMES if n not in SURNAMES]  # a first name that is nobody's surname here
-HOSTS = ["Mr Gasana (Accounts)", "Mrs Mukamana (Manager)", "Ms Uwase (Sales)", "Mr Kalisa (Stores)",
-         "Mrs Teta (Personnel)", "Mr Mugisha (Transport)"]
+# Staff whose names no visitor, card or question shares (P4 blind review: a visitor and a member of staff were both
+# "Teta").
+HOSTS = ["Mr Ruzindana (Accounts)", "Mrs Nyiraneza (Manager)", "Ms Umuhoza (Sales)", "Mr Sebagabo (Stores)",
+         "Mrs Mukeshimana (Personnel)", "Mr Rwigema (Transport)"]
 
 
 def _date(rng: random.Random) -> list[int]:
@@ -381,7 +383,20 @@ def _visitors_questions(p: dict, rng: random.Random, who: str) -> list:
     ]
 
 
+def people(p: dict) -> set[str]:
+    """Every name a figure shows: the person in the questions is never one of them (P4 blind review: the receptionist
+    in the stem was also a visitor in the book)."""
+    if p["kind"] == "letter":
+        shown = [p["signer"][0]] + p["inside"]
+    elif p["kind"] == "filing":
+        shown = [f"{c[2]} {c[1]}" for c in p["cards"]]
+    else:
+        shown = [r[0] for r in p["rows"]] + [r[4] for r in p["rows"]]
+    return {w.strip("(),") for x in shown for w in x.split()}
+
+
 def questions(p: dict, rng: random.Random) -> list:
-    who = rng.choice(NAMES)
+    shown = people(p)
+    who = rng.choice([n for n in NAMES if n not in shown])
     return {"letter": _letter_questions, "filing": _filing_questions,
             "visitors": _visitors_questions}[p["kind"]](p, rng, who)

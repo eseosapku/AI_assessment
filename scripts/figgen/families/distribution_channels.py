@@ -5,7 +5,8 @@ above the chains, and every intermediary's box carries its mark-up %, with the r
 paid plus its mark-up on that price.
 
 The number of intermediaries in a lettered channel, the price a consumer pays through another, and either one
-intermediary's profit per unit in a channel or how much more a consumer pays through one channel than another. Every
+intermediary's mark-up in francs per unit in a channel (never called profit: the figure gives no other costs) or how
+much more a consumer pays through one channel than another. Every
 price along every chain is a whole number of francs, and no two channels give the consumer the same price.
 """
 from __future__ import annotations
@@ -155,8 +156,9 @@ def questions(p: dict, rng: random.Random) -> list:
         buys = start if j == 0 else sells[j - 1]
         gain = int(sells[j] - buys)
         role = chans[i][j][0].lower()
-        third = short(f"In channel {letters[i]}, how much profit does the {role} make on each {unit} it sells, in Frw?",
-                      gain, money(gain))
+        # the figure gives a mark-up, not the intermediary's other costs: ask for the mark-up in francs (P4 review)
+        third = short(f"In channel {letters[i]}, how many francs does the {role} add to the price of each {unit} as its "
+                      f"mark-up?", gain, money(gain))
     else:
         a, b = rng.sample(range(len(chans)), 2)
         if ends[a] < ends[b]:

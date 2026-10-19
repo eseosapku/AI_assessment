@@ -7,7 +7,7 @@ below MPC = S, with D = MPB = MSB), or of consumption (MSB below or above MPB = 
 cost or benefit is the same for every unit, so the social curve runs parallel to its private one, and the gap is a
 whole number of grid steps.
 
-Four lettered points, their letters shuffled: the free-market equilibrium (MPB = MPC), the social optimum
+Four points lettered W to Z (letters no curve's name uses), shuffled: the free-market equilibrium (MPB = MPC), the social optimum
 (MSB = MSC), the point on the social curve at the market output (the third corner of the welfare-loss triangle) and
 the point on the private curve at the socially optimal output. Asks the output the free market produces or the
 socially optimal output, which point is the social optimum, the external cost (or benefit) of each unit, and the
@@ -22,6 +22,7 @@ import random
 from fractions import Fraction
 
 from ..core import INK, NAMES, mcq, money, new_figure, short
+from . import _curve_names as names
 from . import _micro as g
 from .econ_tables import frw
 
@@ -74,6 +75,8 @@ CONTEXTS = {
     ],
 }
 QX, PY = 14, 18
+# Point letters that no curve's name uses (P4 review: a point D beside "D = MPB" was taken for the demand curve).
+LETTERS = "WXYZ"
 
 
 def _lines(p: dict):
@@ -142,7 +145,7 @@ def sample(rng: random.Random) -> dict:
         if _cornered(p):
             continue
         pts = [[int(q), int(v)] for q, v in roles.values()]
-        letters = rng.sample("ABCD", 4)
+        letters = rng.sample(LETTERS, 4)
         p["points"] = {letter: pt for letter, pt in sorted(zip(letters, pts))}
         return p
 
@@ -162,10 +165,8 @@ def draw(p: dict):
     g.grid(ax, QX, PY, dq, dp, f"Quantity of {good} ({plural} per {period})", f"Costs and benefits (Frw per {singular})")
     board = g.Board(ax, QX, PY, dq, dp)
     lines = {"MPB": mpb, "MPC": mpc} | ({"MSC": msc} if kind.endswith("prod") else {"MSB": msb})
-    ends = []
     for gid, (p0, slope) in lines.items():
-        style = "--" if gid.startswith("MS") else "-"
-        ends.append((_names(kind)[gid], board.line(p0, slope, gid, style), slope))
+        board.line(p0, slope, gid, "--" if gid.startswith("MS") else "-")
     # The four points sit on gridline crossings and are read from the grid, as in the market diagram's shift sub-type:
     # dotted guides to the axes from two of them crowded the curves' names off the grid.
     for letter, (q, v) in p["points"].items():
@@ -176,8 +177,12 @@ def draw(p: dict):
         if not board.label(letter, q, v, 11.5, gap=0.12, pad=0.05, others=others,
                            where=[(1, 0), (-1, 0), (0, 1), (0, -1), (1, 1), (1, -1), (-1, 1), (-1, -1)]):
             raise ValueError("no room for a point's letter")
-    for name, end, slope in ends:
-        board.end_label(name, end, slope, size=10)
+    # each name at its own line's end, where that line is plainly the nearest (P4 review: "MSC" sat between two lines)
+    drawn = {gid: names.points(p0, slope, QX, PY) for gid, (p0, slope) in lines.items()}
+    for gid, (p0, slope) in lines.items():
+        name = _names(kind)[gid]
+        names.name_at_end(board, name, p0, slope, [pts for k, pts in drawn.items() if k != gid],
+                          wrapped=name.replace(" = ", "\n= ", 2).replace("\n= ", " = ", 1) if name.count("=") == 2 else None)
     ax.set_title(market[0].upper() + market[1:], fontsize=10.5)
     return fig
 
@@ -203,8 +208,10 @@ def questions(p: dict, rng: random.Random) -> list:
     at = lambda name: letter[(int(roles[name][0]), int(roles[name][1]))]  # noqa: E731
     qm, qs = int(roles["market"][0]), int(roles["social"][0])
     word = "cost" if kind.startswith("neg") else "benefit"
+    effect = f"an external {word} of {'production' if kind.endswith('prod') else 'consumption'}"
     unit = f"{plural} per {period}"
-    opening = f"{who} {rng.choice(VERBS)} this diagram of {market} {rng.choice(SETTINGS)}. {story} "
+    shows = f"The diagram of {market} shows {effect}."
+    opening = f"{who} {rng.choice(VERBS)} this diagram of {market} {rng.choice(SETTINGS)}. It shows {effect}: {story} "
     if p["ask"] == "market":
         first = short(f"{opening}If the market is left to itself, with no government action, what quantity of {good} is "
                       f"bought and sold, in {unit}?", qm * dq, _forms(qm * dq, plural))
@@ -215,11 +222,11 @@ def questions(p: dict, rng: random.Random) -> list:
     corners = sorted(at(n) for n in ("market", "third", "social"))
     return [
         first,
-        mcq(f"In {market}, which point shows the socially optimal level of output?", f"Point {at('social')}",
-            [f"Point {k}" for k in "ABCD" if k != at("social")], rng),
-        short(f"In {market}, what is the external {word} of each unit of {good}, in Frw per {singular}?", per_unit,
+        mcq(f"{shows} Which point shows the socially optimal level of output?", f"Point {at('social')}",
+            [f"Point {k}" for k in LETTERS if k != at("social")], rng),
+        short(f"{shows} What is the external {word} of each unit of {good}, in Frw per {singular}?", per_unit,
               money(per_unit)),
-        short(f"In {market}, the welfare loss from leaving the market to itself is the area of the triangle with corners at "
+        short(f"{shows} The welfare loss from leaving the market to itself is the area of the triangle with corners at "
               f"points {corners[0]}, {corners[1]} and {corners[2]}, and the area of a triangle = ½ × base × height. What "
               f"is the welfare loss, in Frw per {period}?", loss, money(loss)),
     ]

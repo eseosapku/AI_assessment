@@ -208,19 +208,19 @@ def _gui(ax, p, x0, y0, w, h):
     ax.text(x0 + 0.4, y0 + 0.2, "Start", ha="center", va="center", fontsize=10, color="white", fontweight="bold")
     ax.text(x0 + w - 0.15, y0 + 0.2, "09:30", ha="right", va="center", fontsize=10)
     for i, name in enumerate(p["icons"]):
-        col, row = divmod(i, 4)
-        cx, cy = x0 + 0.65 + col * 1.35, y0 + h - 0.55 - row * 0.85
+        col, row = divmod(i, 3)  # three to a column, so no name reaches the taskbar
+        cx, cy = x0 + 0.65 + col * 1.3, y0 + h - 0.55 - row * 0.95
         ax.add_patch(FancyBboxPatch((cx - 0.28, cy - 0.22), 0.56, 0.48, boxstyle="round,pad=0.01,rounding_size=0.06",
                                     facecolor="white", edgecolor=INK, linewidth=0.9))
         _glyph(ax, name, cx, cy + 0.02)
         ax.text(cx, cy - 0.38, name, ha="center", va="center", fontsize=10)
     # a window and the pointer
-    wx, wy = x0 + 2.9, y0 + 1.0
-    ax.add_patch(Rectangle((wx, wy), 2.1, 1.6, facecolor="white", edgecolor=INK, linewidth=1.0))
-    ax.add_patch(Rectangle((wx, wy + 1.32), 2.1, 0.28, facecolor="#5b9bd5", edgecolor=INK, linewidth=1.0))
+    wx, wy = x0 + 3.95, y0 + 0.9
+    ax.add_patch(Rectangle((wx, wy), 1.25, 1.5, facecolor="white", edgecolor=INK, linewidth=1.0))
+    ax.add_patch(Rectangle((wx, wy + 1.22), 1.25, 0.28, facecolor="#5b9bd5", edgecolor=INK, linewidth=1.0))
     for j, s in enumerate(("_", "□", "×")):
-        ax.text(wx + 1.45 + j * 0.24, wy + 1.46, s, ha="center", va="center", fontsize=10, color="white")
-    px, py = wx + 1.4, wy + 0.5
+        ax.text(wx + 0.6 + j * 0.22, wy + 1.36, s, ha="center", va="center", fontsize=10, color="white")
+    px, py = wx + 0.7, wy + 0.85
     ax.add_patch(Polygon([(px, py), (px, py - 0.4), (px + 0.1, py - 0.3), (px + 0.18, py - 0.45), (px + 0.24, py - 0.42),
                           (px + 0.16, py - 0.27), (px + 0.28, py - 0.27)], closed=True, facecolor="white",
                          edgecolor=INK, linewidth=0.9))

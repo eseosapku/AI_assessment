@@ -125,7 +125,9 @@ def test_distribution_channels():
         assert len(c) >= 1, s
         accepts_money(q, int(_selling_prices(p["price"], c)[-1]))
         q = qs[2]
-        got = re.search(r"In channel ([A-D]), how much profit does the (\w+) make on each (\w+)", q.stem)
+        assert "profit" not in q.stem, q.stem  # the figure gives a mark-up, not a profit (P4 review)
+        got = re.search(r"In channel ([A-D]), how many francs does the (\w+) add to the price of each (\w+) as its "
+                        r"mark-up\?$", q.stem)
         if got:
             c = chans[letter[got.group(1)]]
             roles = [r.lower() for r, _ in c]
@@ -195,6 +197,10 @@ def test_product_label():
         else:
             packs = p["packs"]
             assert len(packs) == 4 and [x[0] for x in packs] == ["P", "Q", "R", "S"]
+            # no pack is made after a date the questions ask about (P4 review)
+            for q in qs[:2]:
+                assert all(datetime.date(*x[2]) <= date_in(q.stem) for x in packs), (s, q.stem, packs)
+            assert all(x[2][2] == x[3][2] for x in packs)
             assert len({x[1] for x in packs}) == 4  # batch numbers differ
             exps = [datetime.date(*x[3]) for x in packs]
             assert len(set(exps)) == 4, s
@@ -558,6 +564,34 @@ def test_transport_insurance_prints_its_quotes_and_formulas():
         else:
             assert fr(p["value"]) in words and fr(p["insured"]) in words and fr(p["loss"]) in words
             assert "average clause" in words.lower() and "Premium" in words
+
+
+def test_insurance_cover_cause_and_tense_match_the_journey():
+    """P4 review: "marine cargo insurance" for a lorry journey, sea water on a road, and "the next order" beside a past
+    claim. Road journeys carry goods-in-transit cover and road losses; a voyage carries marine cover and sea losses."""
+    m = fam("transport_insurance")
+    sea_words = re.compile(r"sea|ship|voyage|port\b|container", re.I)
+    seen = Counter()
+    for s in range(1, 400):
+        p, qs = run(m, s)
+        if p["kind"] != "insurance":
+            continue
+        seen[p["cover"]] += 1
+        by_ship = "by ship" in p["journey"]
+        assert by_ship == (p["cover"] == "sea"), (s, p["journey"], p["cover"])
+        if p["cover"] == "road":
+            assert not sea_words.search(p["loss_how"]) and "by lorry" in p["journey"], (s, p["loss_how"])
+        else:
+            assert sea_words.search(p["loss_how"]), (s, p["loss_how"])
+        if s < 60:
+            title = "Marine cargo insurance" if p["cover"] == "sea" else "Goods-in-transit insurance"
+            other = "Goods-in-transit insurance" if p["cover"] == "sea" else "Marine cargo insurance"
+            words = words_of(m, p)
+            assert title in words and other not in words and p["journey"] in words, s
+        for q in qs:
+            assert not re.search(r"\bnext\b|\bmust\b|\bdoes the insurer\b|\binsures\b", q.stem), (s, q.stem)
+        assert " did " in qs[0].stem and " did " in qs[1].stem and " did " in qs[2].stem
+    assert seen["road"] > 40 and seen["sea"] > 40, seen
 
 
 # --- all seven -------------------------------------------------------------------------------------

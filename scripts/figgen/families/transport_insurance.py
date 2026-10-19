@@ -5,10 +5,12 @@ them, for goods moving between Kigali and the ports of Mombasa and Dar es Salaam
   air cargo): cost per tonne, days on the way and the most one shipment can carry. Asks the cheapest way to send a load
   within a deadline in one shipment (never the cheapest of all, which is too slow or too small), the total cost of a
   load by one way, and how many shipments a small carrier needs or how much one way saves on another.
-- insurance: a marine cargo policy schedule: the goods' actual value, the sum insured (less than the value), the
+- insurance: a policy schedule and a past claim: the goods' actual value, the sum insured (less than the value), the
   premium rate and a loss on the way, with premium = premium rate × sum insured and the average clause
-  (compensation = sum insured ÷ actual value × loss) printed. Asks the premium, the compensation, and the part of the
-  loss the trader bears.
+  (compensation = sum insured ÷ actual value × loss) printed. The cover matches the journey (P4 review): goods-in-transit
+  insurance for a road journey between Kigali and a port, marine cargo insurance for one with a sea voyage, and the
+  cause of the loss happens on that journey (no sea water on a road). Asks, in the past tense the claim is told in, the
+  premium paid, the compensation paid, and the part of the loss the trader bore.
 
 The quotes are invented for the exercise and say so; every amount asked is whole francs.
 """
@@ -51,14 +53,25 @@ TRADERS = [
     ("an electronics importer in Kigali", "electronic goods", "in"), ("a textile importer in Kigali", "cloth", "in"),
 ]
 PORTS = ["Mombasa", "Dar es Salaam"]
-# Marine cargo policies: (the insured business, the goods, the loss)
+# Insured traders: (the business, the goods, which way: out to the port or in from it)
 POLICIES = [
-    ("Huye Coffee Exporters", "bags of coffee", "soaked by rain when a lorry's cover tore"),
-    ("Kigali Tea Traders", "chests of tea", "damaged by sea water at the port"),
-    ("Nyabugogo Hardware Importers", "bundles of iron sheets", "bent when a crate fell during loading"),
-    ("Remera Electronics Importers", "boxes of television sets", "broken on a rough stretch of road"),
-    ("Musanze Textile Importers", "bales of cloth", "stolen from a lorry at night"),
+    ("Huye Coffee Exporters", "bags of coffee", "out"),
+    ("Kigali Tea Traders", "chests of tea", "out"),
+    ("Nyabugogo Hardware Importers", "bundles of iron sheets", "in"),
+    ("Remera Electronics Importers", "boxes of television sets", "in"),
+    ("Musanze Textile Importers", "bales of cloth", "in"),
 ]
+# Each cover with the losses that happen on its journey: a road journey has no sea, a voyage has its own perils.
+COVERS = {
+    "road": ("Goods-in-transit insurance", ["damaged by rain when the lorry's cover tore", "damaged when the lorry overturned",
+                                            "stolen from the lorry at night",
+                                            "damaged when part of the load fell during unloading"]),
+    "sea": ("Marine cargo insurance", ["damaged by sea water in a storm during the voyage",
+                                       "damaged when containers shifted in rough seas",
+                                       "damaged by sea water when a container leaked on the ship"]),
+}
+FAR_PORTS = ["Mumbai", "Dubai", "Guangzhou"]  # where imports come from by sea
+MARKETS = ["Rotterdam", "Hamburg", "Dubai"]  # where exports go by sea
 RATIOS = [Fraction(1, 2), Fraction(3, 5), Fraction(2, 3), Fraction(3, 4), Fraction(4, 5), Fraction(9, 10)]
 RATES = [0.5, 1, 1.5, 2, 2.5, 3]
 
@@ -91,7 +104,16 @@ def sample(rng: random.Random) -> dict:
             start, end = _route(way, port)
             return {"band": "UP", "kind": "transport", "trader": trader, "goods": goods, "from": start, "to": end,
                     "modes": modes, "load": load, "deadline": days}
-    who, goods, loss_how = rng.choice(POLICIES)
+    who, goods, way = rng.choice(POLICIES)
+    cover = rng.choice(["road", "sea"])
+    port = rng.choice(PORTS)
+    if cover == "road":
+        journey = f"Kigali to {port} by lorry" if way == "out" else f"{port} to Kigali by lorry"
+    elif way == "out":
+        journey = f"Kigali to {rng.choice(MARKETS)}: by lorry to {port}, then by ship"
+    else:
+        journey = f"{rng.choice(FAR_PORTS)} to Kigali: by ship to {port}, then by lorry"
+    loss_how = rng.choice(COVERS[cover][1])
     while True:
         value = rng.randrange(10_000_000, 60_000_001, 1_000_000)
         ratio = rng.choice(RATIOS)
@@ -107,7 +129,7 @@ def sample(rng: random.Random) -> dict:
         if comp.denominator != 1 or comp == loss or 2 * comp == loss:  # compensation and the trader's share differ
             continue
         return {"band": "UP", "kind": "insurance", "insured_by": who, "goods": goods, "bags": rng.randrange(100, 801, 20),
-                "port": rng.choice(PORTS), "value": value, "insured": insured, "rate": rate, "loss": loss,
+                "cover": cover, "journey": journey, "value": value, "insured": insured, "rate": rate, "loss": loss,
                 "loss_how": loss_how}
 
 
@@ -123,17 +145,18 @@ def draw(p: dict):
                              "Most per shipment\n(tonnes)"], body, ["l", "r", "r", "r"],
                             notes=["Cost of sending = cost per tonne × tonnes sent (rates for this exercise)"])
     body = [["Insured", p["insured_by"]], ["Goods", f"{p['bags']} {p['goods']}"],
-            ["Journey", f"{p['port']} to Kigali by lorry" if "Import" in p["insured_by"] else f"Kigali to {p['port']} by lorry"],
+            ["Journey", p["journey"]],
             ["Actual value of the goods", f"{frw(p['value'])} Frw"], ["Sum insured", f"{frw(p['insured'])} Frw"],
             ["Premium rate", f"{_rate(p['rate'])}% of the sum insured"],
             ["Loss on the journey", f"goods worth {frw(p['loss'])} Frw"], ["Cause", p["loss_how"]]]
-    return titled_table("Marine cargo insurance: policy schedule and claim", ["Item", "Details"], body, ["l", "l"],
+    return titled_table(f"{COVERS[p['cover']][0]}: policy schedule and claim", ["Item", "Details"], body, ["l", "l"],
                         notes=["Premium = premium rate × sum insured",
                                "Average clause: compensation = sum insured ÷ actual value × loss"])
 
 
 VERBS = ["works for", "keeps the books of", "arranges shipping for", "helps", "advises"]
-SETTINGS = ["for the next order", "this month", "before the rainy season", "for a big customer", "for a new contract"]
+# The claim is over: its questions are asked in the past (P4 review: "for the next order" beside a past claim).
+CLAIM_VERBS = ["works for", "keeps the books of", "checks the records of", "advises", "studies a past claim by"]
 
 
 def questions(p: dict, rng: random.Random) -> list:
@@ -171,10 +194,10 @@ def questions(p: dict, rng: random.Random) -> list:
     comp = int(Fraction(p["insured"], p["value"]) * p["loss"])
     firm = p["insured_by"]
     return [
-        short(f"{who} {rng.choice(VERBS)} {firm} and insures its {p['goods']} {rng.choice(SETTINGS)}. What premium must "
-              f"{firm} pay for this policy, in Frw?", premium, money(premium)),
-        short(f"Under the average clause, how much compensation does the insurer pay {firm} for the loss, in Frw?", comp,
+        short(f"{who} {rng.choice(CLAIM_VERBS)} {firm}, which insured {p['bags']} {p['goods']} for the journey shown. "
+              f"What premium did {firm} pay for this policy, in Frw?", premium, money(premium)),
+        short(f"Under the average clause, how much compensation did the insurer pay {firm} for the loss, in Frw?", comp,
               money(comp)),
-        short(f"How much of the loss of {frw(p['loss'])} Frw must {firm} bear itself, in Frw?", p["loss"] - comp,
+        short(f"How much of the loss of {frw(p['loss'])} Frw did {firm} have to bear itself, in Frw?", p["loss"] - comp,
               money(p["loss"] - comp)),
     ]

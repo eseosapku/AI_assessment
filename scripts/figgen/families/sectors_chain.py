@@ -3,9 +3,10 @@
 - chain: a chain of production for a Rwandan product (coffee, milk, cotton, timber, tea, maize, fish) as four to six
   lettered boxes joined by arrows, each saying what happens at that stage ("A sawmill saws the logs into planks"). Each
   stage's sector comes from a fixed table a teacher would agree with: growing, catching and planting are primary;
-  processing and making things (a washing station, a factory, a mill, a tailor) secondary; carrying, selling,
-  insuring and lending tertiary. Which lettered stage is in the secondary or the tertiary sector (only where exactly
-  one stage is), which sector a lettered stage is in, and how many stages are in a sector.
+  processing and making things in a washing station, a factory or a mill secondary; carrying, advertising, selling
+  and insuring tertiary. A bank's loan is no stage of a chain and a tailor was read as a service (P4 blind review), so
+  neither is drawn. Which lettered stage is in the secondary or the tertiary sector (only where exactly one stage is),
+  which sector a lettered stage is in, and how many stages are in the other of the two sectors.
 - chart: the share of workers, or of output, in each sector for an invented country (Country P, Q, R or S; never a
   real one) in two years, as a grouped bar chart on 5% gridlines or as two pie charts with each share printed. The
   share of a sector in a year, the change in a sector's share in percentage points between the years, and which
@@ -43,12 +44,12 @@ CHAINS = {
     "milk": [("Farmers keep cows and milk them", "primary", False),
              ("A dairy pasteurises the milk and makes yoghurt", "secondary", False),
              ("A van delivers the yoghurt to shops", "tertiary", False),
-             ("A bank lends money to the yoghurt maker", "tertiary", True),
+             ("A company advertises the yoghurt on the radio", "tertiary", True),
              ("A shop sells the yoghurt to families", "tertiary", False)],
     "cotton": [("Farmers grow and pick cotton", "primary", False),
-               ("A ginnery takes the seeds out of the cotton", "secondary", True),
+               ("A ginning factory removes the seeds from the cotton", "secondary", True),
                ("A textile mill spins and weaves the cotton into cloth", "secondary", False),
-               ("A tailor sews school uniforms from the cloth", "secondary", False),
+               ("A garment factory sews school uniforms from the cloth", "secondary", False),
                ("A lorry delivers the uniforms to Huye", "tertiary", True),
                ("A market trader sells the uniforms to parents", "tertiary", False)],
     "timber": [("Workers plant trees and cut them down", "primary", False),
@@ -65,7 +66,6 @@ CHAINS = {
               ("A mill grinds the maize into flour", "secondary", False),
               ("A factory makes maize porridge flour with added vitamins", "secondary", True),
               ("A wholesaler buys the flour in bulk", "tertiary", False),
-              ("A bank gives the miller a loan", "tertiary", True),
               ("A kiosk sells the flour in small bags", "tertiary", False)],
     "fish": [("Fishermen catch tilapia in Lake Kivu", "primary", False),
              ("A factory cleans, freezes and packs the fish", "secondary", False),
@@ -232,7 +232,7 @@ def _chain_questions(p: dict, rng: random.Random, who: str) -> list:
     rng.shuffle(wrong)
     ask = rng.choice(letters[1:])
     named = secs[letters.index(ask)].capitalize()
-    tally = rng.choice(["secondary", "tertiary"])
+    tally = "tertiary" if one == "secondary" else "secondary"  # the other sector, so the count is not the first key
     return [
         mcq(f"{who} {rng.choice(VERBS)} this chain of production for {product} {rng.choice(SETTINGS)}. "
             f"Which lettered stage is in the {one} sector?", key, wrong, rng),
